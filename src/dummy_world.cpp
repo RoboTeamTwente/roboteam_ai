@@ -14,6 +14,8 @@ int main(int argc, char **argv)
     RosHandler handler;
     handler.init(&world);
 
+    ROS_INFO("Dummy world ready.");
+
     ros::spin();
 
     return 0;

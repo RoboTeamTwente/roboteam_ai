@@ -1,2 +1,2 @@
-Robot[] robots_ours
-Robot[] robots_opponent
+Robot[] robots_yellow
+Robot[] robots_blue

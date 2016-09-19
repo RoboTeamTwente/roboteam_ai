@@ -9,6 +9,7 @@
 
 class RosHandler {
 
+private:
     ros::NodeHandle n;
     ros::Subscriber vision_sub;
     ros::Publisher world_pub;
@@ -19,5 +20,5 @@ public:
     RosHandler();
     void init(WorldDummy* _world);
 
-    void detectionCallback(const roboteam_vision::DetectionFrame msg);
+    void detection_callback(const roboteam_vision::DetectionFrame msg);
 };
