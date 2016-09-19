@@ -47,6 +47,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
   FILES
+  Robot.msg
   World.msg
 )
 
@@ -125,7 +126,7 @@ file(GLOB dummy_world_SRC
 )
 
 add_executable(dummy_world ${dummy_world_SRC})
-target_link_libraries(dummy_world ${catkin_LIBRARIES} ${PROTOBUF_LIBRARY})
+target_link_libraries(dummy_world ${catkin_LIBRARIES})
 add_dependencies(dummy_world roboteam_world_generate_messages_cpp)
 
 ## Declare a C++ library
