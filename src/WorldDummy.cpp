@@ -12,6 +12,8 @@ void WorldDummy::detection_callback(const roboteam_vision::DetectionFrame msg) {
     std::vector<roboteam_vision::DetectionRobot> yellow = msg.robots_yellow;
     std::vector<roboteam_vision::DetectionRobot> blue = msg.robots_blue;
 
+    std::vector<roboteam_vision::DetectionBall> balls = msg.balls;
+
     for (int i = 0; i < yellow.size(); ++i)
     {
         robots_yellow[i].set_id(i);
@@ -26,19 +28,26 @@ void WorldDummy::detection_callback(const roboteam_vision::DetectionFrame msg) {
         robots_blue[i].rotate_to(blue[i].orientation);
     }
 
+    if (balls.size() > 0) {
+        ball.set_area(balls[0].area);
+        ball.move_to(balls[0].x, balls[0].y, balls[0].z);
+    }
+
 }
 
 
-roboteam_world::World WorldDummy::get_message() {
+roboteam_world::World WorldDummy::as_message() {
     roboteam_world::World msg;
 
     for (RobotMap::iterator it = robots_blue.begin(); it != robots_blue.end(); it++) {
-        msg.robots_blue.push_back(it->second.get_message());
+        msg.robots_blue.push_back(it->second.as_message());
     }
 
     for (RobotMap::iterator it = robots_yellow.begin(); it != robots_yellow.end(); it++) {
-        msg.robots_yellow.push_back(it->second.get_message());
+        msg.robots_yellow.push_back(it->second.as_message());
     }
+
+    msg.ball = ball.as_message();
 
     return msg;
 }

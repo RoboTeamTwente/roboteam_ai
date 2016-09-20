@@ -20,7 +20,7 @@ void RosHandler::init(WorldDummy* _world) {
 void RosHandler::detection_callback(const roboteam_vision::DetectionFrame msg) {
     world->detection_callback(msg);
 
-    roboteam_world::World world_msg = world->get_message();
+    roboteam_world::World world_msg = world->as_message();
 
     world_pub.publish(world_msg);
 }
