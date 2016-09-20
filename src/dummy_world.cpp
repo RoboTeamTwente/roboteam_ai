@@ -1,7 +1,7 @@
 #include "ros/ros.h"
 
-#include "RosHandler.h"
-#include "WorldDummy.h"
+#include "ros_handler.h"
+#include "world_dummy.h"
 
 
 int main(int argc, char **argv)

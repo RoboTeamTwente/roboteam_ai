@@ -4,7 +4,7 @@
 
 #include "roboteam_world/World.h"
 
-#include "WorldDummy.h"
+#include "world_dummy.h"
 
 
 class RosHandler {

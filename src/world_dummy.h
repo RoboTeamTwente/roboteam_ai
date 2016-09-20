@@ -7,8 +7,8 @@
 #include "roboteam_vision/DetectionFrame.h"
 #include "roboteam_world/World.h"
 
-#include "Robot.h"
-#include "Ball.h"
+#include "robot.h"
+#include "ball.h"
 
 
 typedef std::map<uint, rtt::Robot> RobotMap;

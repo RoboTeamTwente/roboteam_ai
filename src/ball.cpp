@@ -1,4 +1,4 @@
-#include "Ball.h"
+#include "ball.h"
 
 namespace rtt {
 
