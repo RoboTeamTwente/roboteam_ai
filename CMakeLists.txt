@@ -128,6 +128,7 @@ file(GLOB dummy_world_SRC
 
 add_executable(dummy_world ${dummy_world_SRC})
 target_link_libraries(dummy_world ${catkin_LIBRARIES})
+add_dependencies(dummy_world roboteam_vision_generate_messages_cpp)
 add_dependencies(dummy_world roboteam_world_generate_messages_cpp)
 
 ## Declare a C++ library
