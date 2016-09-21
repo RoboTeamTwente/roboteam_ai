@@ -12,6 +12,10 @@ namespace rtt {
         float y;
         float z;
 
+        float x_vel;
+        float y_vel;
+        float z_vel;
+
     public:
         Ball();
 

@@ -10,11 +10,11 @@ namespace rtt {
     }
 
 
-    Robot::Robot(uint id, float x, float y, float orientation) {
+    Robot::Robot(uint id, float x, float y, float w) {
         this->id = id;
         this->x = x;
         this->y = y;
-        this->orientation = orientation;
+        this->w = w;
     }
 
 
@@ -29,8 +29,8 @@ namespace rtt {
     };
 
 
-    void Robot::rotate_to(float orientation) {
-        this->orientation = orientation;
+    void Robot::rotate_to(float w) {
+        this->w = w;
     };
 
 
@@ -38,9 +38,14 @@ namespace rtt {
         roboteam_world::Robot msg;
 
         msg.id = id;
+
         msg.x = x;
         msg.y = y;
-        msg.orientation = orientation;
+        msg.w = w;
+
+        msg.x_vel = x_vel;
+        msg.y_vel = y_vel;
+        msg.w_vel = w_vel;
 
         return msg;
     };

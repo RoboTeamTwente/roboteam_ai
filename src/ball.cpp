@@ -23,9 +23,14 @@ namespace rtt {
         roboteam_world::Ball msg;
 
         msg.area = area;
+        
         msg.x = x;
         msg.y = y;
         msg.z = z;
+
+        msg.x_vel;
+        msg.y_vel;
+        msg.z_vel;
 
         return msg;
     }

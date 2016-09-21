@@ -15,6 +15,12 @@ typedef std::map<uint, rtt::Robot> RobotMap;
 
 
 class WorldDummy {
+    /**
+     * WorldDummy
+     * Very naive world manager.
+     * Simply forwards anything it gets from the vision.
+     * It will take the first ball it gets as the actuall ball.
+     */
 
 private:
     RobotMap robots_yellow;
