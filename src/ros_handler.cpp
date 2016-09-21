@@ -6,7 +6,7 @@ RosHandler::RosHandler() {
 }
 
 
-void RosHandler::init(WorldDummy* _world) {
+void RosHandler::init(rtt::WorldBase* _world) {
     world = _world;
 
     // Subscribe to the vision input.

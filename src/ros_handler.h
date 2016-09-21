@@ -4,7 +4,7 @@
 
 #include "roboteam_world/World.h"
 
-#include "world_dummy.h"
+#include "world/world_dummy.h"
 
 
 class RosHandler {
@@ -14,11 +14,11 @@ private:
     ros::Subscriber vision_sub;
     ros::Publisher world_pub;
 
-    WorldDummy* world;
+    rtt::WorldBase* world;
 
 public:
     RosHandler();
-    void init(WorldDummy* _world);
+    void init(rtt::WorldBase* _world);
 
     void detection_callback(const roboteam_vision::DetectionFrame msg);
 };

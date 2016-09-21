@@ -1,7 +1,7 @@
 #include "ros/ros.h"
 
 #include "ros_handler.h"
-#include "world_dummy.h"
+#include "world/world_dummy.h"
 
 
 int main(int argc, char **argv)
@@ -9,7 +9,7 @@ int main(int argc, char **argv)
     // Init ros.
     ros::init(argc, argv, "dummy_world");
 
-    WorldDummy world;
+    rtt::WorldDummy world;
 
     RosHandler handler;
     handler.init(&world);

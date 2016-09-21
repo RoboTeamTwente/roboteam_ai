@@ -124,6 +124,8 @@ include_directories(
 file(GLOB dummy_world_SRC
     "src/*.h"
     "src/*.cpp"
+    "src/world/*.h"
+    "src/world/*.cpp"
 )
 
 add_executable(dummy_world ${dummy_world_SRC})
