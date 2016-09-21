@@ -3,7 +3,7 @@
 #include <map>
 
 #include "roboteam_vision/DetectionFrame.h"
-#include "roboteam_world/World.h"
+#include "roboteam_msgs/World.h"
 
 #include "../robot.h"
 #include "../ball.h"
@@ -33,7 +33,7 @@ namespace rtt {
         WorldDummy() {};
         void detection_callback(const roboteam_vision::DetectionFrame msg);
 
-        roboteam_world::World as_message();
+        roboteam_msgs::World as_message();
     };
 
 }

@@ -19,11 +19,11 @@ namespace rtt {
     }
 
 
-    roboteam_world::Ball Ball::as_message() {
-        roboteam_world::Ball msg;
+    roboteam_msgs::WorldBall Ball::as_message() {
+        roboteam_msgs::WorldBall msg;
 
         msg.area = area;
-        
+
         msg.x = x;
         msg.y = y;
         msg.z = z;

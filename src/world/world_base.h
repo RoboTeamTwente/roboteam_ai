@@ -1,7 +1,7 @@
 #pragma once
 
 #include "roboteam_vision/DetectionFrame.h"
-#include "roboteam_world/World.h"
+#include "roboteam_msgs/World.h"
 
 
 namespace rtt {
@@ -10,7 +10,7 @@ namespace rtt {
 
     public:
         WorldBase() {};
-        virtual roboteam_world::World as_message() { return roboteam_world::World(); };
+        virtual roboteam_msgs::World as_message() { return roboteam_msgs::World(); };
         virtual void detection_callback(const roboteam_vision::DetectionFrame msg) {};
 
     };

@@ -34,8 +34,8 @@ namespace rtt {
     }
 
 
-    roboteam_world::World WorldDummy::as_message() {
-        roboteam_world::World msg;
+    roboteam_msgs::World WorldDummy::as_message() {
+        roboteam_msgs::World msg;
 
         for (RobotMap::iterator it = robots_blue.begin(); it != robots_blue.end(); it++) {
             msg.robots_blue.push_back(it->second.as_message());

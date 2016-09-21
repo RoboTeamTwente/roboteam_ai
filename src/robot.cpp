@@ -34,8 +34,8 @@ namespace rtt {
     };
 
 
-    roboteam_world::Robot Robot::as_message() {
-        roboteam_world::Robot msg;
+    roboteam_msgs::WorldRobot Robot::as_message() {
+        roboteam_msgs::WorldRobot msg;
 
         msg.id = id;
 

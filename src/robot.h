@@ -1,6 +1,6 @@
 #pragma once
 
-#include "roboteam_world/Robot.h"
+#include "roboteam_msgs/WorldRobot.h"
 
 namespace rtt {
 
@@ -25,7 +25,7 @@ namespace rtt {
         void move_to(float x, float y);
         void rotate_to(float w);
 
-        roboteam_world::Robot as_message();
+        roboteam_msgs::WorldRobot as_message();
     };
 
 }

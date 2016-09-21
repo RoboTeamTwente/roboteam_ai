@@ -2,7 +2,7 @@
 
 #include "ros/ros.h"
 
-#include "roboteam_world/World.h"
+#include "roboteam_msgs/World.h"
 
 #include "world/world_dummy.h"
 
