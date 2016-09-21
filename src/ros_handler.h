@@ -2,6 +2,7 @@
 
 #include "ros/ros.h"
 
+#include "roboteam_msgs/DetectionFrame.h"
 #include "roboteam_msgs/World.h"
 
 #include "world/world_dummy.h"
@@ -20,5 +21,5 @@ public:
     RosHandler();
     void init(rtt::WorldBase* _world);
 
-    void detection_callback(const roboteam_vision::DetectionFrame msg);
+    void detection_callback(const roboteam_msgs::DetectionFrame msg);
 };

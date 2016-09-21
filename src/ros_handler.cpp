@@ -17,7 +17,7 @@ void RosHandler::init(rtt::WorldBase* _world) {
 }
 
 
-void RosHandler::detection_callback(const roboteam_vision::DetectionFrame msg) {
+void RosHandler::detection_callback(const roboteam_msgs::DetectionFrame msg) {
     world->detection_callback(msg);
 
     roboteam_msgs::World world_msg = world->as_message();

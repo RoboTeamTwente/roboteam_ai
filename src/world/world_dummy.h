@@ -2,7 +2,7 @@
 
 #include <map>
 
-#include "roboteam_vision/DetectionFrame.h"
+#include "roboteam_msgs/DetectionFrame.h"
 #include "roboteam_msgs/World.h"
 
 #include "../robot.h"
@@ -31,7 +31,7 @@ namespace rtt {
 
     public:
         WorldDummy() {};
-        void detection_callback(const roboteam_vision::DetectionFrame msg);
+        void detection_callback(const roboteam_msgs::DetectionFrame msg);
 
         roboteam_msgs::World as_message();
     };

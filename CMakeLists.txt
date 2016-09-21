@@ -9,7 +9,6 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
 #  message_generation
-  roboteam_vision
   roboteam_msgs
 )
 
@@ -128,5 +127,4 @@ file(GLOB dummy_world_SRC
 
 add_executable(dummy_world ${dummy_world_SRC})
 target_link_libraries(dummy_world ${catkin_LIBRARIES})
-add_dependencies(dummy_world roboteam_vision_generate_messages_cpp)
 add_dependencies(dummy_world roboteam_msgs_generate_messages_cpp)

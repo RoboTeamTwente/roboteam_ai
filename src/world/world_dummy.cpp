@@ -5,12 +5,12 @@
 
 namespace rtt {
 
-    void WorldDummy::detection_callback(const roboteam_vision::DetectionFrame msg) {
+    void WorldDummy::detection_callback(const roboteam_msgs::DetectionFrame msg) {
 
-        std::vector<roboteam_vision::DetectionRobot> yellow = msg.robots_yellow;
-        std::vector<roboteam_vision::DetectionRobot> blue = msg.robots_blue;
+        std::vector<roboteam_msgs::DetectionRobot> yellow = msg.robots_yellow;
+        std::vector<roboteam_msgs::DetectionRobot> blue = msg.robots_blue;
 
-        std::vector<roboteam_vision::DetectionBall> balls = msg.balls;
+        std::vector<roboteam_msgs::DetectionBall> balls = msg.balls;
 
         for (int i = 0; i < yellow.size(); ++i)
         {
