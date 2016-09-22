@@ -13,9 +13,6 @@
 
 namespace rtt {
 
-    typedef std::map<uint, rtt::Robot> RobotMap;
-
-
     class WorldDummy : public WorldBase {
         /**
          * WorldDummy
@@ -25,15 +22,28 @@ namespace rtt {
          */
 
     private:
-        RobotMap robots_yellow;
-        RobotMap robots_blue;
+        std::vector<rtt::Robot> robots_yellow;
+        std::vector<rtt::Robot> robots_blue;
         rtt::Ball ball;
 
     public:
-        WorldDummy() {};
-        void detection_callback(const roboteam_msgs::DetectionFrame msg);
 
-        roboteam_msgs::World as_message();
+        WorldDummy() {};
+
+        /**
+         * Resets the world using the stored configuration.
+         */
+        virtual void reset();
+
+        /**
+         * Converts this world into a ros message.
+         */
+        virtual roboteam_msgs::World as_message();
+
+        /**
+         * To be called when a detectionframe message.
+         */
+        virtual void detection_callback(const roboteam_msgs::DetectionFrame msg);
     };
 
 }

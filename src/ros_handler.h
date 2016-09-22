@@ -2,24 +2,40 @@
 
 #include "ros/ros.h"
 
+#include "std_srvs/Empty.h"
+
 #include "roboteam_msgs/DetectionFrame.h"
 #include "roboteam_msgs/World.h"
 
 #include "world/world_dummy.h"
+#include "world/world_config.h"
 
 
-class RosHandler {
+namespace rtt {
 
-private:
-    ros::NodeHandle n;
-    ros::Subscriber vision_sub;
-    ros::Publisher world_pub;
+    class RosHandler {
 
-    rtt::WorldBase* world;
+    private:
+        ros::NodeHandle nh;
+        ros::Subscriber vision_sub;
+        ros::Publisher world_pub;
+        ros::ServiceServer reset_srv;
 
-public:
-    RosHandler();
-    void init(rtt::WorldBase* _world);
+        rtt::WorldBase* world;
 
-    void detection_callback(const roboteam_msgs::DetectionFrame msg);
-};
+    public:
+        RosHandler();
+        void init(rtt::WorldBase* _world);
+
+        /**
+         * Reads the configuration from the parameter server.
+         * Updates the configuration of the world and calls a reset.
+         */
+        void update_config();
+
+        void detection_callback(const roboteam_msgs::DetectionFrame msg);
+        bool reset_callback(std_srvs::Empty::Request& req,
+                            std_srvs::Empty::Response& res);
+    };
+
+}

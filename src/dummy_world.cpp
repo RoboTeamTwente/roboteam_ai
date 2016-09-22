@@ -11,10 +11,10 @@ int main(int argc, char **argv)
 
     rtt::WorldDummy world;
 
-    RosHandler handler;
+    rtt::RosHandler handler;
     handler.init(&world);
 
-    ROS_INFO("Dummy world ready.");
+    ROS_INFO("---- Dummy world ready. ----");
 
     ros::spin();
 

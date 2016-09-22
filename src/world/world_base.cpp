@@ -3,5 +3,9 @@
 
 namespace rtt {
 
+    void WorldBase::reset(WorldConfig config) {
+        this->config = config;
+        reset();
+    }
 
 }

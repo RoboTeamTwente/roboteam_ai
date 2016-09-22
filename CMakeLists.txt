@@ -12,6 +12,9 @@ find_package(catkin REQUIRED COMPONENTS
   roboteam_msgs
 )
 
+## Enable c++11 support.
+set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+
 ## System dependencies are found with CMake's conventions
 
 
