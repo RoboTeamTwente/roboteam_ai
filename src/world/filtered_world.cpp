@@ -48,6 +48,8 @@ namespace rtt {
      */
     void FilteredWorld::detection_callback(const roboteam_msgs::DetectionFrame msg) {
 
+        ROS_INFO("Message received.");
+
         buffer_detection_frame(msg);
 
         if (is_calculation_needed()) {
@@ -64,6 +66,8 @@ namespace rtt {
      * Adds a received detection frame to the buffers.
      */
     void FilteredWorld::buffer_detection_frame(const roboteam_msgs::DetectionFrame msg) {
+        ROS_INFO("Buffer frame");
+
         int cam_id = msg.camera_id;
 
         if (cam_id < config.num_cams()) {
@@ -71,19 +75,25 @@ namespace rtt {
             // Set this cameras updated flag.
             updated_cams[cam_id] = true;
 
+            ROS_INFO("Blue robots");
+
             for (auto& robot : msg.robots_blue) {
                 int bot_id = robot.robot_id;
 
                 robots_blue_buffer[bot_id].resize(config.num_cams());
-                robots_blue_buffer[bot_id][bot_id] = robot;
+                robots_blue_buffer[bot_id][cam_id] = robot;
             }
+
+            ROS_INFO("Yellow robots");
 
             for (auto& robot : msg.robots_yellow) {
                 int bot_id = robot.robot_id;
 
                 robots_yellow_buffer[bot_id].resize(config.num_cams());
-                robots_yellow_buffer[bot_id][bot_id] = robot;
+                robots_yellow_buffer[bot_id][cam_id] = robot;
             }
+
+            ROS_INFO("----");
 
         }
     }
@@ -107,17 +117,42 @@ namespace rtt {
      */
     void FilteredWorld::merge_frames() {
         // Clear the final vectors.
-        robots_blue_world.clear();
-        robots_yellow_world.clear();
         ball_world = rtt::Ball();
 
-
-        // ---- Merge here ----
-
+        merge_robots(&robots_blue_buffer, &robots_blue_world);
+        merge_robots(&robots_yellow_buffer, &robots_yellow_world);
 
         // Clear the buffers.
         robots_blue_buffer.clear();
         robots_yellow_buffer.clear();
+    }
+
+
+    void FilteredWorld::merge_robots(RobotMultiCamBuffer* robots_buffer, std::vector<rtt::Robot>* robots_output) {
+        robots_output->clear();
+
+        for (auto& robot_buffer : *robots_buffer) {
+            rtt::Robot robot = rtt::Robot();
+
+            robot.set_id(robot_buffer.first);
+
+            float x = 0;
+            for (auto& buf : robot_buffer.second) {
+                x += buf.x;
+            }
+            x = x / robot_buffer.second.size();
+
+
+            float y = 0;
+            for (auto& buf : robot_buffer.second) {
+                y += buf.y;
+            }
+            y = y / robot_buffer.second.size();
+
+            robot.move_to(x, y);
+
+            robots_output->push_back(robot);
+        }
     }
 
 }

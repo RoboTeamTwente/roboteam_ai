@@ -74,6 +74,8 @@ namespace rtt {
          * Merges the frames from all cameras into the final world state.
          */
         void merge_frames();
+
+        void merge_robots(RobotMultiCamBuffer* robots_buffer, std::vector<rtt::Robot>* robots_output);
     };
 
 }
