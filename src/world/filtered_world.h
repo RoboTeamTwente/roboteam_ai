@@ -30,6 +30,8 @@ namespace rtt {
         RobotMultiCamBuffer robots_blue_buffer;
         RobotMultiCamBuffer robots_yellow_buffer;
 
+        roboteam_msgs::DetectionBall ball_buffer;
+
         // Keeps track which cameras have sent a frame since last world calculation.
         std::vector<bool> updated_cams;
 

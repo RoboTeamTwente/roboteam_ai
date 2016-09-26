@@ -55,10 +55,9 @@ namespace rtt {
         if (is_calculation_needed()) {
             ROS_INFO("Calculation needed!");
             updated_cams = std::vector<bool>(config.num_cams(), false);
+
+            merge_frames();
         }
-
-        merge_frames();
-
     }
 
 
@@ -95,9 +94,7 @@ namespace rtt {
 
             // Ball
             if (msg.balls.size() > 0) {
-                roboteam_msgs::DetectionBall ball = msg.balls[0];
-
-                ball_world.move_to(ball.x, ball.y, ball.z);
+                ball_buffer = msg.balls[0];
             }
 
             ROS_INFO("----");
@@ -123,15 +120,15 @@ namespace rtt {
      * Merges the frames from all cameras into the final world state.
      */
     void FilteredWorld::merge_frames() {
-        // Clear the final vectors.
-        ball_world = rtt::Ball();
-
         merge_robots(&robots_blue_buffer, &robots_blue_world);
         merge_robots(&robots_yellow_buffer, &robots_yellow_world);
+
+        ball_world.move_to(ball_buffer.x, ball_buffer.y, ball_buffer.z);
 
         // Clear the buffers.
         robots_blue_buffer.clear();
         robots_yellow_buffer.clear();
+        ball_buffer = roboteam_msgs::DetectionBall();
     }
 
 
