@@ -128,7 +128,6 @@ namespace rtt {
         // Clear the buffers.
         robots_blue_buffer.clear();
         robots_yellow_buffer.clear();
-        ball_buffer = roboteam_msgs::DetectionBall();
     }
 
 
