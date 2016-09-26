@@ -39,12 +39,12 @@ namespace rtt {
 
         msg.id = id;
 
-        msg.x = x;
-        msg.y = y;
+        msg.pos.x = x;
+        msg.pos.y = y;
         msg.w = w;
 
-        msg.x_vel = x_vel;
-        msg.y_vel = y_vel;
+        msg.vel.x = x_vel;
+        msg.vel.y = y_vel;
         msg.w_vel = w_vel;
 
         return msg;

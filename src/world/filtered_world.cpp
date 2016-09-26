@@ -123,7 +123,7 @@ namespace rtt {
         merge_robots(&robots_blue_buffer, &robots_blue_world);
         merge_robots(&robots_yellow_buffer, &robots_yellow_world);
 
-        ball_world.move_to(ball_buffer.x, ball_buffer.y, ball_buffer.z);
+        ball_world.move_to(ball_buffer.pos.x, ball_buffer.pos.y, ball_buffer.z);
 
         // Clear the buffers.
         robots_blue_buffer.clear();
@@ -151,8 +151,8 @@ namespace rtt {
             float y = 0;
             float w = 0;
             for (auto& buf : robot_buffer.second) {
-                x += buf.x;
-                y += buf.y;
+                x += buf.pos.x;
+                y += buf.pos.y;
                 w += buf.orientation;
             }
             x = x / robot_buffer.second.size();

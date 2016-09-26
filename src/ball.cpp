@@ -24,12 +24,12 @@ namespace rtt {
 
         msg.area = area;
 
-        msg.x = x;
-        msg.y = y;
+        msg.pos.x = x;
+        msg.pos.y = y;
         msg.z = z;
 
-        msg.x_vel;
-        msg.y_vel;
+        msg.vel.x;
+        msg.vel.y;
         msg.z_vel;
 
         return msg;
