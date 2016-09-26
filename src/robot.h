@@ -24,6 +24,7 @@ namespace rtt {
         void set_id(uint id);
         void move_to(float x, float y);
         void rotate_to(float w);
+        void set_vel(float x_vel, float y_vel, float w_vel);
 
         roboteam_msgs::WorldRobot as_message();
     };

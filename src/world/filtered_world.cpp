@@ -162,6 +162,8 @@ namespace rtt {
             robot.move_to(x, y);
             robot.rotate_to(w);
 
+            robot.set_vel(0, 0, 0);
+
             robots_output->at(bot_id) = robot;
         }
     }
