@@ -93,6 +93,13 @@ namespace rtt {
                 robots_yellow_buffer[bot_id][cam_id] = robot;
             }
 
+            // Ball
+            if (msg.balls.size() > 0) {
+                roboteam_msgs::DetectionBall ball = msg.balls[0];
+
+                ball_world.move_to(ball.x, ball.y, ball.z);
+            }
+
             ROS_INFO("----");
 
         }
@@ -129,29 +136,37 @@ namespace rtt {
 
 
     void FilteredWorld::merge_robots(RobotMultiCamBuffer* robots_buffer, std::vector<rtt::Robot>* robots_output) {
-        robots_output->clear();
+        //robots_output->clear();
 
         for (auto& robot_buffer : *robots_buffer) {
             rtt::Robot robot = rtt::Robot();
 
-            robot.set_id(robot_buffer.first);
+            int bot_id = robot_buffer.first;
+
+            robot.set_id(bot_id);
+
+            // Resize the vector so that this id fits in.
+            // The vector should probably be changed to a map.
+            if (robots_output->size() <= bot_id) {
+                robots_output->resize(bot_id + 1);
+            }
 
             float x = 0;
+            float y = 0;
+            float w = 0;
             for (auto& buf : robot_buffer.second) {
                 x += buf.x;
+                y += buf.y;
+                w += buf.orientation;
             }
             x = x / robot_buffer.second.size();
-
-
-            float y = 0;
-            for (auto& buf : robot_buffer.second) {
-                y += buf.y;
-            }
             y = y / robot_buffer.second.size();
+            w = w / robot_buffer.second.size();
 
             robot.move_to(x, y);
+            robot.rotate_to(w);
 
-            robots_output->push_back(robot);
+            robots_output->at(bot_id) = robot;
         }
     }
 
