@@ -135,3 +135,13 @@ add_dependencies(dummy_world roboteam_msgs_generate_messages_cpp)
 add_executable(filtered_world src/programs/filtered_world.cpp ${roboteam_world_SRC})
 target_link_libraries(filtered_world ${catkin_LIBRARIES})
 add_dependencies(filtered_world roboteam_msgs_generate_messages_cpp)
+
+###########
+## Tests ##
+###########
+
+catkin_add_gtest(world_test 
+    test/main.cpp 
+	test/SimpleTest.cpp
+)
+target_link_libraries(world_test ${catkin_LIBRARIES})
