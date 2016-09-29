@@ -16,6 +16,10 @@ namespace rtt {
 
         if (msg.camera_id < config.num_cams()) {
 
+            robots_yellow.clear();
+            robots_blue.clear();
+            ball = Ball();
+
             std::vector<roboteam_msgs::DetectionRobot> yellow = msg.robots_yellow;
             std::vector<roboteam_msgs::DetectionRobot> blue = msg.robots_blue;
 
@@ -23,21 +27,28 @@ namespace rtt {
 
             for (int i = 0; i < yellow.size(); ++i)
             {
-                robots_yellow[i].set_id(yellow[i].robot_id);
-                robots_yellow[i].move_to(yellow[i].x, yellow[i].y);
-                robots_yellow[i].rotate_to(yellow[i].orientation);
+                rtt::Robot robot = rtt::Robot();
+
+                robot.set_id(yellow[i].robot_id);
+                robot.move_to(yellow[i].pos.x, yellow[i].pos.y);
+                robot.rotate_to(yellow[i].orientation);
+
+                robots_yellow.push_back(robot);
             }
 
             for (int i = 0; i < blue.size(); ++i)
             {
-                robots_blue[i].set_id(blue[i].robot_id);
-                robots_blue[i].move_to(blue[i].x, blue[i].y);
-                robots_blue[i].rotate_to(blue[i].orientation);
+                rtt::Robot robot = rtt::Robot();
+                robot.set_id(blue[i].robot_id);
+                robot.move_to(blue[i].pos.x, blue[i].pos.y);
+                robot.rotate_to(blue[i].orientation);
+
+                robots_blue.push_back(robot);
             }
 
             if (balls.size() > 0) {
                 ball.set_area(balls[0].area);
-                ball.move_to(balls[0].x, balls[0].y, balls[0].z);
+                ball.move_to(balls[0].pos.x, balls[0].pos.y, balls[0].z);
             }
 
         }

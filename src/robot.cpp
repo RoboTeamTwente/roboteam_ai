@@ -2,7 +2,8 @@
 
 namespace rtt {
 
-    Robot::Robot() {}
+    Robot::Robot() {
+    }
 
 
     Robot::Robot(uint id) {
@@ -33,18 +34,24 @@ namespace rtt {
         this->w = w;
     };
 
+    void Robot::set_vel(float x_vel, float y_vel, float w_vel) {
+        this->x_vel = x_vel;
+        this->y_vel = y_vel;
+        this->w_vel = w_vel;
+    }
+
 
     roboteam_msgs::WorldRobot Robot::as_message() {
         roboteam_msgs::WorldRobot msg;
 
         msg.id = id;
 
-        msg.x = x;
-        msg.y = y;
+        msg.pos.x = x;
+        msg.pos.y = y;
         msg.w = w;
 
-        msg.x_vel = x_vel;
-        msg.y_vel = y_vel;
+        msg.vel.x = x_vel;
+        msg.vel.y = y_vel;
         msg.w_vel = w_vel;
 
         return msg;

@@ -6,7 +6,7 @@ namespace rtt {
      * Creates a default world configuration.
      */
     WorldConfig::WorldConfig() {
-        _num_cams = 2;
+        _num_cams = 1;
     }
 
 }

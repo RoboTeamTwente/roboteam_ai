@@ -43,7 +43,7 @@ namespace rtt {
         virtual roboteam_msgs::World as_message() { return roboteam_msgs::World(); };
 
         /**
-         * To be called when a detectionframe message.
+         * To be called when a detectionframe message is received.
          */
         virtual void detection_callback(const roboteam_msgs::DetectionFrame msg) {};
 

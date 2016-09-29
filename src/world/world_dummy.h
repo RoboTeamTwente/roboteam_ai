@@ -1,7 +1,5 @@
 #pragma once
 
-#include <map>
-
 #include "roboteam_msgs/DetectionFrame.h"
 #include "roboteam_msgs/World.h"
 
@@ -33,17 +31,17 @@ namespace rtt {
         /**
          * Resets the world using the stored configuration.
          */
-        virtual void reset();
+        void reset();
 
         /**
          * Converts this world into a ros message.
          */
-        virtual roboteam_msgs::World as_message();
+        roboteam_msgs::World as_message();
 
         /**
-         * To be called when a detectionframe message.
+         * To be called when a detectionframe message is received.
          */
-        virtual void detection_callback(const roboteam_msgs::DetectionFrame msg);
+        void detection_callback(const roboteam_msgs::DetectionFrame msg);
     };
 
 }
