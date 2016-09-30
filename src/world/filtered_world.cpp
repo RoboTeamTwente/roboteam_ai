@@ -120,8 +120,11 @@ namespace rtt {
      * Merges the frames from all cameras into the final world state.
      */
     void FilteredWorld::merge_frames() {
-        merge_robots(&robots_blue_buffer, &robots_blue_world);
-        merge_robots(&robots_yellow_buffer, &robots_yellow_world);
+        
+        static std::vector<rtt::Robot> old_blue, old_yellow;
+        
+        merge_robots(&robots_blue_buffer, &robots_blue_world, old_blue);
+        merge_robots(&robots_yellow_buffer, &robots_yellow_world, old_yellow);
 
         ball_world.move_to(ball_buffer.pos.x, ball_buffer.pos.y, ball_buffer.z);
 
@@ -131,13 +134,12 @@ namespace rtt {
     }
 
 
-    void FilteredWorld::merge_robots(RobotMultiCamBuffer* robots_buffer, std::vector<rtt::Robot>* robots_output) {
+    void FilteredWorld::merge_robots(RobotMultiCamBuffer* robots_buffer, std::vector<rtt::Robot>* robots_output, std::vector<rtt::Robot>& old_buffer) {
         //robots_output->clear();
-
         for (auto& robot_buffer : *robots_buffer) {
-            rtt::Robot robot = rtt::Robot();
-
             int bot_id = robot_buffer.first;
+
+            rtt:Robot robot;
 
             robot.set_id(bot_id);
 
@@ -150,6 +152,7 @@ namespace rtt {
             float x = 0;
             float y = 0;
             float w = 0;
+            
             for (auto& buf : robot_buffer.second) {
                 x += buf.pos.x;
                 y += buf.pos.y;
@@ -159,12 +162,25 @@ namespace rtt {
             y = y / robot_buffer.second.size();
             w = w / robot_buffer.second.size();
 
+            float dx, dy, dw;
+            
+            if (old_buffer.size() == robots_output->size()) {
+                auto old = old_buffer[bot_id].as_message();
+                dx = x - old.pos.x;
+                dy = y - old.pos.y;
+                dw = w - old.w;
+            } else {
+                old_buffer.clear();
+                old_buffer.resize(robots_output->size());
+            }
+        
             robot.move_to(x, y);
             robot.rotate_to(w);
-
-            robot.set_vel(0, 0, 0);
-
+            
+            robot.set_vel(dx, dy, dw);
+            
             robots_output->at(bot_id) = robot;
+            old_buffer[bot_id] = robot;
         }
     }
 

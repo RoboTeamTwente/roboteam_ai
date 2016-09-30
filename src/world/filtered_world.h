@@ -77,7 +77,7 @@ namespace rtt {
          */
         void merge_frames();
 
-        void merge_robots(RobotMultiCamBuffer* robots_buffer, std::vector<rtt::Robot>* robots_output);
+        void merge_robots(RobotMultiCamBuffer* robots_buffer, std::vector<rtt::Robot>* robots_output, std::vector<rtt::Robot>& old_buffer);
     };
 
 }
