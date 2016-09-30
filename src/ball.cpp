@@ -18,6 +18,18 @@ namespace rtt {
         this->area = area;
     }
 
+    
+    roboteam_utils::Position Ball::get_position() {
+        return roboteam_utils::Position(x, y, z);
+    }
+    
+    roboteam_utils::Position Ball::get_velocity() {
+        return roboteam_utils::Position(x_vel, y_vel, z_vel);
+    }
+    
+    uint Ball::get_area() {
+        return area;
+    }
 
     roboteam_msgs::WorldBall Ball::as_message() {
         roboteam_msgs::WorldBall msg;

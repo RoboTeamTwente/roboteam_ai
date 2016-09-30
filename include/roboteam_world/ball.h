@@ -1,6 +1,7 @@
 #pragma once
 
 #include "roboteam_msgs/WorldBall.h"
+#include "roboteam_utils/Position.h"
 
 
 namespace rtt {
@@ -21,6 +22,11 @@ namespace rtt {
 
         void move_to(float x, float y, float z);
         void set_area(uint area);
+
+        
+        roboteam_utils::Position get_position();
+        roboteam_utils::Position get_velocity();
+        uint get_area();
 
         roboteam_msgs::WorldBall as_message();
     };

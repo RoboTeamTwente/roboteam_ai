@@ -40,6 +40,17 @@ namespace rtt {
         this->w_vel = w_vel;
     }
 
+    roboteam_utils::Position Robot::get_position() {
+        return roboteam_utils::Position(x, y, w);
+    }
+    
+    roboteam_utils::Position Robot::get_velocity() {
+        return roboteam_utils::Position(x_vel, y_vel, w_vel);
+    }
+    
+    uint Robot::get_id() {
+        return id;
+    }
 
     roboteam_msgs::WorldRobot Robot::as_message() {
         roboteam_msgs::WorldRobot msg;
