@@ -71,7 +71,7 @@ namespace rtt {
     void FilteredWorld::buffer_detection_frame(const roboteam_msgs::DetectionFrame msg) {
         ROS_INFO("Buffer frame");
 
-        int cam_id = msg.camera_id;
+        uint cam_id = msg.camera_id;
 
         if (cam_id < config.num_cams()) {
 
@@ -111,7 +111,7 @@ namespace rtt {
      * Returns true when every camera's frame has updated.
      */
     bool FilteredWorld::is_calculation_needed() {
-        for (int i = 0; i < updated_cams.size(); ++i) {
+        for (uint i = 0; i < updated_cams.size(); ++i) {
             if (!updated_cams[i]) {
                 return false;
             }
@@ -140,8 +140,15 @@ namespace rtt {
 
     void FilteredWorld::merge_robots(RobotMultiCamBuffer* robots_buffer, std::vector<rtt::Robot>* robots_output, std::vector<rtt::Robot>& old_buffer) {
         //robots_output->clear();
+        
+        bool skip_velocity = old_buffer.size() == 0;
+        
+        if (skip_velocity) {
+            old_buffer.resize(robots_buffer->size());
+        }
+        
         for (auto& robot_buffer : *robots_buffer) {
-            int bot_id = robot_buffer.first;
+            uint bot_id = robot_buffer.first;
 
             Robot robot;
 
@@ -166,22 +173,19 @@ namespace rtt {
             y = y / robot_buffer.second.size();
             w = w / robot_buffer.second.size();
 
-            float dx, dy, dw;
+            if (!skip_velocity) {
+                float dx, dy, dw;
             
-            if (old_buffer.size() == robots_output->size()) {
                 auto old = old_buffer[bot_id].as_message();
                 dx = x - old.pos.x;
                 dy = y - old.pos.y;
                 dw = w - old.w;
-            } else {
-                old_buffer.clear();
-                old_buffer.resize(robots_output->size());
+            
+                robot.set_vel(dx, dy, dw);
             }
-        
             robot.move_to(x, y);
             robot.rotate_to(w);
             
-            robot.set_vel(dx, dy, dw);
             
             robots_output->at(bot_id) = robot;
             old_buffer[bot_id] = robot;

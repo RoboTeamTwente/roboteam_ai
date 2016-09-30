@@ -45,7 +45,7 @@ TEST(BasicTests, ball) {
     ASSERT_FLOAT_EQ(3.1415, ball.get_position().rot);
 }
 
-TEST(BasicTests, conifg) {
+TEST(BasicTests, config) {
     WorldConfig cfg;
     ASSERT_EQ(1, cfg.num_cams());
     
