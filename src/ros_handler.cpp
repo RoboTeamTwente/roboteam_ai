@@ -40,7 +40,7 @@ namespace rtt {
         ROS_INFO("num_cams: %i", num_cams);
 
         // Reset the world with the new configuration.
-        world->reset(config);
+        world->config_reset(config);
     }
 
 

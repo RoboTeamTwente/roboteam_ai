@@ -20,17 +20,19 @@ namespace rtt {
     class FilteredWorld : public WorldBase {
 
     private:
-        typedef std::map<int, std::vector<roboteam_msgs::DetectionRobot>> RobotMultiCamBuffer;
-
         /**
          * These buffers store for every camera the robots and balls.
          * Accessing goes like this:
          * `robots_blue_buffer[robot_id][camera_id]`
          */
+        typedef std::map<int, std::map<int, roboteam_msgs::DetectionRobot>> RobotMultiCamBuffer;
         RobotMultiCamBuffer robots_blue_buffer;
         RobotMultiCamBuffer robots_yellow_buffer;
 
         roboteam_msgs::DetectionBall ball_buffer;
+
+
+        std::map<int, rtt::Robot> old_blue, old_yellow;
 
         // Keeps track which cameras have sent a frame since last world calculation.
         std::vector<bool> updated_cams;
@@ -50,8 +52,6 @@ namespace rtt {
         * Resets the world using the stored configuration.
         */
         void reset();
-        
-        void reset(WorldConfig);
 
         /**
          * Converts this world into a ros message.
@@ -64,7 +64,7 @@ namespace rtt {
         void detection_callback(const roboteam_msgs::DetectionFrame msg);
 
     private:
-    
+
         // Allows for testing of private methods
         FRIEND_TEST(WorldTests, filtered);
 
@@ -83,7 +83,7 @@ namespace rtt {
          */
         void merge_frames();
 
-        void merge_robots(RobotMultiCamBuffer* robots_buffer, std::vector<rtt::Robot>* robots_output, std::vector<rtt::Robot>& old_buffer);
+        void merge_robots(RobotMultiCamBuffer& robots_buffer, std::vector<rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer);
     };
 
 }

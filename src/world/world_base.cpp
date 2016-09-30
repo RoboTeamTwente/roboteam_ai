@@ -3,7 +3,7 @@
 
 namespace rtt {
 
-    void WorldBase::reset(WorldConfig config) {
+    void WorldBase::config_reset(WorldConfig config) {
         this->config = config;
         reset();
     }

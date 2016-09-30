@@ -124,9 +124,7 @@ include_directories(
 
 # Get all the cpp files to compile.
 file(GLOB roboteam_world_SRC
-    "src/*.h"
     "src/*.cpp"
-    "src/world/*.h"
     "src/world/*.cpp"
 )
 
@@ -142,8 +140,8 @@ add_dependencies(filtered_world roboteam_msgs_generate_messages_cpp)
 ## Tests ##
 ###########
 
-catkin_add_gtest(world_test 
-    test/main.cpp 
+catkin_add_gtest(world_test
+    test/main.cpp
     test/Basics.cpp
     test/Worlds.cpp
 

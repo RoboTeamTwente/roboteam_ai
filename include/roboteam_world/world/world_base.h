@@ -26,7 +26,7 @@ namespace rtt {
         /**
         * First applies the new configuration, then calls `reset()`.
         */
-        void reset(WorldConfig config);
+        void config_reset(WorldConfig config);
 
         /**********************************************************************/
         /** Virtual functions *************************************************/
