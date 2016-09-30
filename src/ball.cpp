@@ -1,9 +1,13 @@
 #include "roboteam_world/ball.h"
+#include <cmath>
 
 namespace rtt {
 
     Ball::Ball() {
-
+        area = 0;
+        x = NAN;
+        y = NAN;
+        z = NAN;
     }
 
 
