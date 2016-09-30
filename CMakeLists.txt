@@ -118,6 +118,7 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  "include"
 )
 
 # Get all the cpp files to compile.
@@ -142,6 +143,6 @@ add_dependencies(filtered_world roboteam_msgs_generate_messages_cpp)
 
 catkin_add_gtest(world_test 
     test/main.cpp 
-	test/SimpleTest.cpp
+    test/Basics.cpp
 )
 target_link_libraries(world_test ${catkin_LIBRARIES})

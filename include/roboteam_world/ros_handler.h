@@ -7,8 +7,8 @@
 #include "roboteam_msgs/DetectionFrame.h"
 #include "roboteam_msgs/World.h"
 
-#include "world/world_dummy.h"
-#include "world/world_config.h"
+#include "roboteam_world/world/world_dummy.h"
+#include "roboteam_world/world/world_config.h"
 
 
 

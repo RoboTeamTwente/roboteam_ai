@@ -1,4 +1,4 @@
-#include "ball.h"
+#include "roboteam_world/ball.h"
 
 namespace rtt {
 

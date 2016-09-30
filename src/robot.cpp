@@ -1,4 +1,4 @@
-#include "robot.h"
+#include "roboteam_world/robot.h"
 
 namespace rtt {
 

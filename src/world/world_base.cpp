@@ -1,4 +1,4 @@
-#include "world_base.h"
+#include "roboteam_world/world/world_base.h"
 
 
 namespace rtt {

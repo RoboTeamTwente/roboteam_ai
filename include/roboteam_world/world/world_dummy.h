@@ -3,10 +3,10 @@
 #include "roboteam_msgs/DetectionFrame.h"
 #include "roboteam_msgs/World.h"
 
-#include "../robot.h"
-#include "../ball.h"
+#include "roboteam_world/robot.h"
+#include "roboteam_world/ball.h"
 
-#include "world_base.h"
+#include "roboteam_world/world/world_base.h"
 
 
 namespace rtt {

@@ -1,7 +1,7 @@
 #include "ros/ros.h"
 
-#include "../ros_handler.h"
-#include "../world/filtered_world.h"
+#include "roboteam_world/ros_handler.h"
+#include "roboteam_world/world/filtered_world.h"
 
 
 int main(int argc, char **argv)

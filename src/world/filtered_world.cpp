@@ -1,4 +1,4 @@
-#include "filtered_world.h"
+#include "roboteam_world/world/filtered_world.h"
 
 
 namespace rtt {
