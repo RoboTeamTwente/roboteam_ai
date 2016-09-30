@@ -1,13 +1,13 @@
 #include "roboteam_world/robot.h"
+#include <cmath>
 
 namespace rtt {
 
-    Robot::Robot() {
+    Robot::Robot() : Robot(-1) {
     }
 
 
-    Robot::Robot(uint id) {
-        this->id = id;
+    Robot::Robot(uint id) : Robot(id, NAN, NAN, NAN) {
     }
 
 
