@@ -1,7 +1,7 @@
 #pragma once
 
 #include <map>
-
+#include <gtest/gtest_prod.h>
 #include "ros/ros.h"
 
 #include "roboteam_msgs/DetectionFrame.h"
@@ -50,6 +50,8 @@ namespace rtt {
         * Resets the world using the stored configuration.
         */
         void reset();
+        
+        void reset(WorldConfig);
 
         /**
          * Converts this world into a ros message.
@@ -62,6 +64,10 @@ namespace rtt {
         void detection_callback(const roboteam_msgs::DetectionFrame msg);
 
     private:
+    
+        // Allows for testing of private methods
+        FRIEND_TEST(WorldTests, filtered);
+
         /**
          * Puts a received detection frame in the associated camera's buffer.
          */

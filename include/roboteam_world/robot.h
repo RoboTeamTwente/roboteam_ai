@@ -3,6 +3,8 @@
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_utils/Position.h"
 
+#define INVALID_ROBOT_ID 99999
+
 namespace rtt {
 
     class Robot {

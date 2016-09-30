@@ -3,7 +3,7 @@
 
 namespace rtt {
 
-    Robot::Robot() : Robot(-1) {
+    Robot::Robot() : Robot(INVALID_ROBOT_ID) {
     }
 
 

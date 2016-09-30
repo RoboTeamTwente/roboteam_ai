@@ -16,7 +16,7 @@ namespace rtt {
         WorldConfig config;
 
     public:
-        WorldBase() {};
+        WorldBase() : config(WorldConfig()) {};
 
         /**
          * Returns the stored config.

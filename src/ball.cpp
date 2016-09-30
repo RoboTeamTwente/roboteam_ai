@@ -4,7 +4,7 @@
 namespace rtt {
 
     Ball::Ball() {
-        area = 0;
+        area = INVALID_AREA;
         x = NAN;
         y = NAN;
         z = NAN;
@@ -44,9 +44,9 @@ namespace rtt {
         msg.pos.y = y;
         msg.z = z;
 
-        msg.vel.x;
-        msg.vel.y;
-        msg.z_vel;
+        msg.vel.x = x_vel;
+        msg.vel.y = y_vel;
+        msg.z_vel = z_vel;
 
         return msg;
     }

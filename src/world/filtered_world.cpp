@@ -4,9 +4,13 @@
 namespace rtt {
 
     FilteredWorld::FilteredWorld() {
-
+        reset(WorldConfig());
     }
-
+    
+    void FilteredWorld::reset(WorldConfig cfg) {
+        config = cfg;
+        reset();
+    }
 
     void FilteredWorld::reset() {
 
@@ -139,7 +143,7 @@ namespace rtt {
         for (auto& robot_buffer : *robots_buffer) {
             int bot_id = robot_buffer.first;
 
-            rtt:Robot robot;
+            Robot robot;
 
             robot.set_id(bot_id);
 
