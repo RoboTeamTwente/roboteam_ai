@@ -1,9 +1,13 @@
-#include "ball.h"
+#include "roboteam_world/ball.h"
+#include <cmath>
 
 namespace rtt {
 
     Ball::Ball() {
-
+        area = INVALID_AREA;
+        x = NAN;
+        y = NAN;
+        z = NAN;
     }
 
 
@@ -18,6 +22,18 @@ namespace rtt {
         this->area = area;
     }
 
+    
+    roboteam_utils::Position Ball::get_position() {
+        return roboteam_utils::Position(x, y, z);
+    }
+    
+    roboteam_utils::Position Ball::get_velocity() {
+        return roboteam_utils::Position(x_vel, y_vel, z_vel);
+    }
+    
+    uint Ball::get_area() {
+        return area;
+    }
 
     roboteam_msgs::WorldBall Ball::as_message() {
         roboteam_msgs::WorldBall msg;
@@ -28,9 +44,9 @@ namespace rtt {
         msg.pos.y = y;
         msg.z = z;
 
-        msg.vel.x;
-        msg.vel.y;
-        msg.z_vel;
+        msg.vel.x = x_vel;
+        msg.vel.y = y_vel;
+        msg.z_vel = z_vel;
 
         return msg;
     }

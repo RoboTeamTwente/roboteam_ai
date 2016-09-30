@@ -1,12 +1,16 @@
-#include "filtered_world.h"
+#include "roboteam_world/world/filtered_world.h"
 
 
 namespace rtt {
 
     FilteredWorld::FilteredWorld() {
-
+        reset(WorldConfig());
     }
-
+    
+    void FilteredWorld::reset(WorldConfig cfg) {
+        config = cfg;
+        reset();
+    }
 
     void FilteredWorld::reset() {
 
@@ -67,7 +71,7 @@ namespace rtt {
     void FilteredWorld::buffer_detection_frame(const roboteam_msgs::DetectionFrame msg) {
         ROS_INFO("Buffer frame");
 
-        int cam_id = msg.camera_id;
+        uint cam_id = msg.camera_id;
 
         if (cam_id < config.num_cams()) {
 
@@ -107,7 +111,7 @@ namespace rtt {
      * Returns true when every camera's frame has updated.
      */
     bool FilteredWorld::is_calculation_needed() {
-        for (int i = 0; i < updated_cams.size(); ++i) {
+        for (uint i = 0; i < updated_cams.size(); ++i) {
             if (!updated_cams[i]) {
                 return false;
             }
@@ -120,8 +124,11 @@ namespace rtt {
      * Merges the frames from all cameras into the final world state.
      */
     void FilteredWorld::merge_frames() {
-        merge_robots(&robots_blue_buffer, &robots_blue_world);
-        merge_robots(&robots_yellow_buffer, &robots_yellow_world);
+        
+        static std::vector<rtt::Robot> old_blue, old_yellow;
+        
+        merge_robots(&robots_blue_buffer, &robots_blue_world, old_blue);
+        merge_robots(&robots_yellow_buffer, &robots_yellow_world, old_yellow);
 
         ball_world.move_to(ball_buffer.pos.x, ball_buffer.pos.y, ball_buffer.z);
 
@@ -131,13 +138,19 @@ namespace rtt {
     }
 
 
-    void FilteredWorld::merge_robots(RobotMultiCamBuffer* robots_buffer, std::vector<rtt::Robot>* robots_output) {
+    void FilteredWorld::merge_robots(RobotMultiCamBuffer* robots_buffer, std::vector<rtt::Robot>* robots_output, std::vector<rtt::Robot>& old_buffer) {
         //robots_output->clear();
-
+        
+        bool skip_velocity = old_buffer.size() == 0;
+        
+        if (skip_velocity) {
+            old_buffer.resize(robots_buffer->size());
+        }
+        
         for (auto& robot_buffer : *robots_buffer) {
-            rtt::Robot robot = rtt::Robot();
+            uint bot_id = robot_buffer.first;
 
-            int bot_id = robot_buffer.first;
+            Robot robot;
 
             robot.set_id(bot_id);
 
@@ -150,6 +163,7 @@ namespace rtt {
             float x = 0;
             float y = 0;
             float w = 0;
+            
             for (auto& buf : robot_buffer.second) {
                 x += buf.pos.x;
                 y += buf.pos.y;
@@ -159,12 +173,22 @@ namespace rtt {
             y = y / robot_buffer.second.size();
             w = w / robot_buffer.second.size();
 
+            if (!skip_velocity) {
+                float dx, dy, dw;
+            
+                auto old = old_buffer[bot_id].as_message();
+                dx = x - old.pos.x;
+                dy = y - old.pos.y;
+                dw = w - old.w;
+            
+                robot.set_vel(dx, dy, dw);
+            }
             robot.move_to(x, y);
             robot.rotate_to(w);
-
-            robot.set_vel(0, 0, 0);
-
+            
+            
             robots_output->at(bot_id) = robot;
+            old_buffer[bot_id] = robot;
         }
     }
 

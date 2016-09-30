@@ -1,13 +1,13 @@
-#include "robot.h"
+#include "roboteam_world/robot.h"
+#include <cmath>
 
 namespace rtt {
 
-    Robot::Robot() {
+    Robot::Robot() : Robot(INVALID_ROBOT_ID) {
     }
 
 
-    Robot::Robot(uint id) {
-        this->id = id;
+    Robot::Robot(uint id) : Robot(id, NAN, NAN, NAN) {
     }
 
 
@@ -40,6 +40,17 @@ namespace rtt {
         this->w_vel = w_vel;
     }
 
+    roboteam_utils::Position Robot::get_position() {
+        return roboteam_utils::Position(x, y, w);
+    }
+    
+    roboteam_utils::Position Robot::get_velocity() {
+        return roboteam_utils::Position(x_vel, y_vel, w_vel);
+    }
+    
+    uint Robot::get_id() {
+        return id;
+    }
 
     roboteam_msgs::WorldRobot Robot::as_message() {
         roboteam_msgs::WorldRobot msg;

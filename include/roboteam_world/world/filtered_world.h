@@ -1,7 +1,7 @@
 #pragma once
 
 #include <map>
-
+#include <gtest/gtest_prod.h>
 #include "ros/ros.h"
 
 #include "roboteam_msgs/DetectionFrame.h"
@@ -9,10 +9,10 @@
 #include "roboteam_msgs/DetectionBall.h"
 #include "roboteam_msgs/World.h"
 
-#include "../robot.h"
-#include "../ball.h"
+#include "roboteam_world/robot.h"
+#include "roboteam_world/ball.h"
 
-#include "world_base.h"
+#include "roboteam_world/world/world_base.h"
 
 
 namespace rtt {
@@ -50,6 +50,8 @@ namespace rtt {
         * Resets the world using the stored configuration.
         */
         void reset();
+        
+        void reset(WorldConfig);
 
         /**
          * Converts this world into a ros message.
@@ -62,6 +64,10 @@ namespace rtt {
         void detection_callback(const roboteam_msgs::DetectionFrame msg);
 
     private:
+    
+        // Allows for testing of private methods
+        FRIEND_TEST(WorldTests, filtered);
+
         /**
          * Puts a received detection frame in the associated camera's buffer.
          */
@@ -77,7 +83,7 @@ namespace rtt {
          */
         void merge_frames();
 
-        void merge_robots(RobotMultiCamBuffer* robots_buffer, std::vector<rtt::Robot>* robots_output);
+        void merge_robots(RobotMultiCamBuffer* robots_buffer, std::vector<rtt::Robot>* robots_output, std::vector<rtt::Robot>& old_buffer);
     };
 
 }

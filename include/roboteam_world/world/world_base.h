@@ -3,7 +3,7 @@
 #include "roboteam_msgs/DetectionFrame.h"
 #include "roboteam_msgs/World.h"
 
-#include "world_config.h"
+#include "roboteam_world/world/world_config.h"
 
 
 namespace rtt {
@@ -16,7 +16,7 @@ namespace rtt {
         WorldConfig config;
 
     public:
-        WorldBase() {};
+        WorldBase() : config(WorldConfig()) {};
 
         /**
          * Returns the stored config.

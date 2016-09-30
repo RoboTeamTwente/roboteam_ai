@@ -10,10 +10,11 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
 #  message_generation
   roboteam_msgs
+  roboteam_utils
 )
 
 ## Enable c++11 support.
-set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-std=c++11 -Wall ${CMAKE_CXX_FLAGS}")
 
 ## System dependencies are found with CMake's conventions
 
@@ -118,6 +119,7 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  "include"
 )
 
 # Get all the cpp files to compile.
@@ -142,6 +144,13 @@ add_dependencies(filtered_world roboteam_msgs_generate_messages_cpp)
 
 catkin_add_gtest(world_test 
     test/main.cpp 
-	test/SimpleTest.cpp
+    test/Basics.cpp
+    test/Worlds.cpp
+
+    src/robot.cpp
+    src/ball.cpp
+    src/world/world_config.cpp
+    src/world/filtered_world.cpp
+    src/world/world_dummy.cpp
 )
 target_link_libraries(world_test ${catkin_LIBRARIES})
