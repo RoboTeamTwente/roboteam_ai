@@ -150,5 +150,6 @@ catkin_add_gtest(world_test
     src/world/world_config.cpp
     src/world/filtered_world.cpp
     src/world/world_dummy.cpp
+    src/world/world_base.cpp
 )
 target_link_libraries(world_test ${catkin_LIBRARIES})
