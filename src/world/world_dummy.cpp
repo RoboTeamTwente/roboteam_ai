@@ -25,7 +25,7 @@ namespace rtt {
 
             std::vector<roboteam_msgs::DetectionBall> balls = msg.balls;
 
-            for (int i = 0; i < yellow.size(); ++i)
+            for (uint i = 0; i < yellow.size(); ++i)
             {
                 rtt::Robot robot = rtt::Robot();
 
@@ -36,7 +36,7 @@ namespace rtt {
                 robots_yellow.push_back(robot);
             }
 
-            for (int i = 0; i < blue.size(); ++i)
+            for (uint i = 0; i < blue.size(); ++i)
             {
                 rtt::Robot robot = rtt::Robot();
                 robot.set_id(blue[i].robot_id);
