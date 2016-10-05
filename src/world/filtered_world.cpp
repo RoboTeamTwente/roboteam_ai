@@ -95,8 +95,14 @@ namespace rtt {
 
     /**
      * Returns true when every camera's frame has updated.
+     * When there are no cameras, this function will always return false.
      */
     bool FilteredWorld::is_calculation_needed() {
+        if (updated_cams.size() == 0) {
+            // No cameras? No use doing a frame merge calculation.
+            return false;
+        }
+
         for (auto& cam : updated_cams) {
             if (!cam.second) {
                 return false;
