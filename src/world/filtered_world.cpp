@@ -4,7 +4,7 @@
 namespace rtt {
 
     FilteredWorld::FilteredWorld() {
-        config_reset(WorldConfig());
+        reset();
     }
 
     void FilteredWorld::reset() {
@@ -21,7 +21,7 @@ namespace rtt {
         robots_blue_buffer = RobotMultiCamBuffer();
         robots_yellow_buffer = RobotMultiCamBuffer();
 
-        updated_cams = std::vector<bool>(config.num_cams(), false);
+        updated_cams = std::map<int, bool>();
     }
 
 
@@ -57,7 +57,11 @@ namespace rtt {
 
         if (is_calculation_needed()) {
             ROS_INFO("Calculation needed!");
-            updated_cams = std::vector<bool>(config.num_cams(), false);
+
+            // Reset the camera update flags.
+            for (auto& cam : updated_cams) {
+                cam.second = false;
+            }
 
             merge_frames();
         }
@@ -74,35 +78,33 @@ namespace rtt {
 
         uint cam_id = msg.camera_id;
 
-        if (cam_id < config.num_cams()) {
+        // Set this cameras updated flag.
+        // If this camera hasn't sent frames before, it is now added to the list of cameras.
+        updated_cams[cam_id] = true;
 
-            // Set this cameras updated flag.
-            updated_cams[cam_id] = true;
+        ROS_INFO("Blue robots");
 
-            ROS_INFO("Blue robots");
+        for (const roboteam_msgs::DetectionRobot robot : msg.robots_blue) {
+            int bot_id = robot.robot_id;
 
-            for (const roboteam_msgs::DetectionRobot robot : msg.robots_blue) {
-                int bot_id = robot.robot_id;
-
-                robots_blue_buffer[bot_id][cam_id] = roboteam_msgs::DetectionRobot(robot);
-            }
-
-            ROS_INFO("Yellow robots");
-
-            for (const roboteam_msgs::DetectionRobot robot : msg.robots_yellow) {
-                int bot_id = robot.robot_id;
-
-                robots_yellow_buffer[bot_id][cam_id] = roboteam_msgs::DetectionRobot(robot);
-            }
-
-            // Ball
-            if (msg.balls.size() > 0) {
-                ball_buffer = msg.balls[0];
-            }
-
-            ROS_INFO("----");
-
+            robots_blue_buffer[bot_id][cam_id] = roboteam_msgs::DetectionRobot(robot);
         }
+
+        ROS_INFO("Yellow robots");
+
+        for (const roboteam_msgs::DetectionRobot robot : msg.robots_yellow) {
+            int bot_id = robot.robot_id;
+
+            robots_yellow_buffer[bot_id][cam_id] = roboteam_msgs::DetectionRobot(robot);
+        }
+
+        // Ball
+        if (msg.balls.size() > 0) {
+            ball_buffer = msg.balls[0];
+        }
+
+        ROS_INFO("----");
+
     }
 
 
@@ -111,8 +113,8 @@ namespace rtt {
      */
     bool FilteredWorld::is_calculation_needed() {
         ROS_INFO("Is calculation needed?");
-        for (uint i = 0; i < updated_cams.size(); ++i) {
-            if (!updated_cams[i]) {
+        for (auto& cam : updated_cams) {
+            if (!cam.second) {
                 return false;
             }
         }

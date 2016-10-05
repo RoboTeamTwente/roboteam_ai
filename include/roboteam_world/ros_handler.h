@@ -8,7 +8,6 @@
 #include "roboteam_msgs/World.h"
 
 #include "roboteam_world/world/world_dummy.h"
-#include "roboteam_world/world/world_config.h"
 
 
 

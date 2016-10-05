@@ -128,11 +128,11 @@ file(GLOB roboteam_world_SRC
     "src/world/*.cpp"
 )
 
-add_executable(dummy_world src/programs/dummy_world.cpp ${roboteam_world_SRC})
+add_executable(dummy_world src/programs/dummy_world_main.cpp ${roboteam_world_SRC})
 target_link_libraries(dummy_world ${catkin_LIBRARIES})
 add_dependencies(dummy_world roboteam_msgs_generate_messages_cpp)
 
-add_executable(filtered_world src/programs/filtered_world.cpp ${roboteam_world_SRC})
+add_executable(filtered_world src/programs/filtered_world_main.cpp ${roboteam_world_SRC})
 target_link_libraries(filtered_world ${catkin_LIBRARIES})
 add_dependencies(filtered_world roboteam_msgs_generate_messages_cpp)
 
@@ -147,7 +147,6 @@ catkin_add_gtest(world_test
 
     src/robot.cpp
     src/ball.cpp
-    src/world/world_config.cpp
     src/world/filtered_world.cpp
     src/world/world_dummy.cpp
     src/world/world_base.cpp

@@ -29,7 +29,7 @@ namespace rtt {
         WorldDummy() {};
 
         /**
-         * Resets the world using the stored configuration.
+         * Resets the world.
          */
         void reset();
 

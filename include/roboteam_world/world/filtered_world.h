@@ -35,7 +35,8 @@ namespace rtt {
         std::map<int, rtt::Robot> old_blue, old_yellow;
 
         // Keeps track which cameras have sent a frame since last world calculation.
-        std::vector<bool> updated_cams;
+        // Also keeps track of which cameras are on-line and sending frames.
+        std::map<int, bool> updated_cams;
 
         /**
          * Final world state being converted to a message when
@@ -49,7 +50,7 @@ namespace rtt {
         FilteredWorld();
 
         /**
-        * Resets the world using the stored configuration.
+        * Resets the world.
         */
         void reset();
 

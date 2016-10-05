@@ -14,43 +14,39 @@ namespace rtt {
 
     void WorldDummy::detection_callback(const roboteam_msgs::DetectionFrame msg) {
 
-        if (msg.camera_id < config.num_cams()) {
+        robots_yellow.clear();
+        robots_blue.clear();
+        ball = Ball();
 
-            robots_yellow.clear();
-            robots_blue.clear();
-            ball = Ball();
+        std::vector<roboteam_msgs::DetectionRobot> yellow = msg.robots_yellow;
+        std::vector<roboteam_msgs::DetectionRobot> blue = msg.robots_blue;
 
-            std::vector<roboteam_msgs::DetectionRobot> yellow = msg.robots_yellow;
-            std::vector<roboteam_msgs::DetectionRobot> blue = msg.robots_blue;
+        std::vector<roboteam_msgs::DetectionBall> balls = msg.balls;
 
-            std::vector<roboteam_msgs::DetectionBall> balls = msg.balls;
+        for (uint i = 0; i < yellow.size(); ++i)
+        {
+            rtt::Robot robot = rtt::Robot();
 
-            for (uint i = 0; i < yellow.size(); ++i)
-            {
-                rtt::Robot robot = rtt::Robot();
+            robot.set_id(yellow[i].robot_id);
+            robot.move_to(yellow[i].pos.x, yellow[i].pos.y);
+            robot.rotate_to(yellow[i].orientation);
 
-                robot.set_id(yellow[i].robot_id);
-                robot.move_to(yellow[i].pos.x, yellow[i].pos.y);
-                robot.rotate_to(yellow[i].orientation);
+            robots_yellow.push_back(robot);
+        }
 
-                robots_yellow.push_back(robot);
-            }
+        for (uint i = 0; i < blue.size(); ++i)
+        {
+            rtt::Robot robot = rtt::Robot();
+            robot.set_id(blue[i].robot_id);
+            robot.move_to(blue[i].pos.x, blue[i].pos.y);
+            robot.rotate_to(blue[i].orientation);
 
-            for (uint i = 0; i < blue.size(); ++i)
-            {
-                rtt::Robot robot = rtt::Robot();
-                robot.set_id(blue[i].robot_id);
-                robot.move_to(blue[i].pos.x, blue[i].pos.y);
-                robot.rotate_to(blue[i].orientation);
+            robots_blue.push_back(robot);
+        }
 
-                robots_blue.push_back(robot);
-            }
-
-            if (balls.size() > 0) {
-                ball.set_area(balls[0].area);
-                ball.move_to(balls[0].pos.x, balls[0].pos.y, balls[0].z);
-            }
-
+        if (balls.size() > 0) {
+            ball.set_area(balls[0].area);
+            ball.move_to(balls[0].pos.x, balls[0].pos.y, balls[0].z);
         }
 
     }
