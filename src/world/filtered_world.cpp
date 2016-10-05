@@ -26,7 +26,6 @@ namespace rtt {
 
 
     roboteam_msgs::World FilteredWorld::as_message() {
-        ROS_INFO("Converting to message");
 
         roboteam_msgs::World msg;
 
@@ -40,8 +39,6 @@ namespace rtt {
 
         msg.ball = ball_world.as_message();
 
-        ROS_INFO("/Converting to message");
-
         return msg;
     }
 
@@ -51,12 +48,9 @@ namespace rtt {
      */
     void FilteredWorld::detection_callback(const roboteam_msgs::DetectionFrame msg) {
 
-        ROS_INFO("Message received.");
-
         buffer_detection_frame(msg);
 
         if (is_calculation_needed()) {
-            ROS_INFO("Calculation needed!");
 
             // Reset the camera update flags.
             for (auto& cam : updated_cams) {
@@ -65,8 +59,6 @@ namespace rtt {
 
             merge_frames();
         }
-
-        ROS_INFO("End callback");
     }
 
 
@@ -74,7 +66,6 @@ namespace rtt {
      * Adds a received detection frame to the buffers.
      */
     void FilteredWorld::buffer_detection_frame(const roboteam_msgs::DetectionFrame msg) {
-        ROS_INFO("Buffer frame");
 
         uint cam_id = msg.camera_id;
 
@@ -82,15 +73,11 @@ namespace rtt {
         // If this camera hasn't sent frames before, it is now added to the list of cameras.
         updated_cams[cam_id] = true;
 
-        ROS_INFO("Blue robots");
-
         for (const roboteam_msgs::DetectionRobot robot : msg.robots_blue) {
             int bot_id = robot.robot_id;
 
             robots_blue_buffer[bot_id][cam_id] = roboteam_msgs::DetectionRobot(robot);
         }
-
-        ROS_INFO("Yellow robots");
 
         for (const roboteam_msgs::DetectionRobot robot : msg.robots_yellow) {
             int bot_id = robot.robot_id;
@@ -103,8 +90,6 @@ namespace rtt {
             ball_buffer = msg.balls[0];
         }
 
-        ROS_INFO("----");
-
     }
 
 
@@ -112,7 +97,6 @@ namespace rtt {
      * Returns true when every camera's frame has updated.
      */
     bool FilteredWorld::is_calculation_needed() {
-        ROS_INFO("Is calculation needed?");
         for (auto& cam : updated_cams) {
             if (!cam.second) {
                 return false;
@@ -126,27 +110,21 @@ namespace rtt {
      * Merges the frames from all cameras into the final world state.
      */
     void FilteredWorld::merge_frames() {
-        ROS_INFO("Merge frames");
 
         merge_robots(robots_blue_buffer, robots_blue_world, old_blue);
         merge_robots(robots_yellow_buffer, robots_yellow_world, old_yellow);
 
-        ROS_INFO("Move ball");
         ball_world.move_to(ball_buffer.pos.x, ball_buffer.pos.y, ball_buffer.z);
 
 
         // Clear the buffers.
         robots_blue_buffer.clear();
         robots_yellow_buffer.clear();
-
-        ROS_INFO("/Merge frames");
     }
 
 
     void FilteredWorld::merge_robots(RobotMultiCamBuffer& robots_buffer, std::vector<rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer) {
         //robots_output->clear();
-
-        ROS_INFO("Merge robots");
 
         bool skip_velocity = old_buffer.size() == 0;
 
@@ -193,8 +171,6 @@ namespace rtt {
             robots_output.at(bot_id) = robot;
             old_buffer[bot_id] = robot;
         }
-
-        ROS_INFO("/Merge robots");
     }
 
 }
