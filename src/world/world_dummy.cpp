@@ -6,20 +6,20 @@
 namespace rtt {
 
     void WorldDummy::reset() {
-        robots_yellow.clear();
-        robots_blue.clear();
+        us.clear();
+        them.clear();
         ball = Ball();
     }
 
 
     void WorldDummy::detection_callback(const roboteam_msgs::DetectionFrame msg) {
 
-        robots_yellow.clear();
-        robots_blue.clear();
+        us.clear();
+        them.clear();
         ball = Ball();
 
-        std::vector<roboteam_msgs::DetectionRobot> yellow = msg.robots_yellow;
-        std::vector<roboteam_msgs::DetectionRobot> blue = msg.robots_blue;
+        std::vector<roboteam_msgs::DetectionRobot> yellow = msg.us;
+        std::vector<roboteam_msgs::DetectionRobot> blue = msg.them;
 
         std::vector<roboteam_msgs::DetectionBall> balls = msg.balls;
 
@@ -31,7 +31,7 @@ namespace rtt {
             robot.move_to(yellow[i].pos.x, yellow[i].pos.y);
             robot.rotate_to(yellow[i].orientation);
 
-            robots_yellow.push_back(robot);
+            us.push_back(robot);
         }
 
         for (uint i = 0; i < blue.size(); ++i)
@@ -41,7 +41,7 @@ namespace rtt {
             robot.move_to(blue[i].pos.x, blue[i].pos.y);
             robot.rotate_to(blue[i].orientation);
 
-            robots_blue.push_back(robot);
+            them.push_back(robot);
         }
 
         if (balls.size() > 0) {
@@ -55,12 +55,12 @@ namespace rtt {
     roboteam_msgs::World WorldDummy::as_message() {
         roboteam_msgs::World msg;
 
-        for (std::vector<rtt::Robot>::iterator it = robots_blue.begin(); it != robots_blue.end(); it++) {
-            msg.robots_blue.push_back(it->as_message());
+        for (std::vector<rtt::Robot>::iterator it = them.begin(); it != them.end(); it++) {
+            msg.them.push_back(it->as_message());
         }
 
-        for (std::vector<rtt::Robot>::iterator it = robots_yellow.begin(); it != robots_yellow.end(); it++) {
-            msg.robots_yellow.push_back(it->as_message());
+        for (std::vector<rtt::Robot>::iterator it = us.begin(); it != us.end(); it++) {
+            msg.us.push_back(it->as_message());
         }
 
         msg.ball = ball.as_message();

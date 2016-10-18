@@ -11,11 +11,11 @@ namespace rtt {
     }
 
 
-    Robot::Robot(uint id, float x, float y, float w) {
+    Robot::Robot(uint id, float x, float y, float angle) {
         this->id = id;
         this->x = x;
         this->y = y;
-        this->w = w;
+        this->angle = angle;
     }
 
 
@@ -30,22 +30,22 @@ namespace rtt {
     };
 
 
-    void Robot::rotate_to(float w) {
-        this->w = w;
+    void Robot::rotate_to(float angle) {
+        this->angle = angle;
     };
 
-    void Robot::set_vel(float x_vel, float y_vel, float w_vel) {
+    void Robot::set_vel(float x_vel, float y_vel, float w) {
         this->x_vel = x_vel;
         this->y_vel = y_vel;
-        this->w_vel = w_vel;
+        this->w = w;
     }
 
     roboteam_utils::Position Robot::get_position() {
-        return roboteam_utils::Position(x, y, w);
+        return roboteam_utils::Position(x, y, angle);
     }
     
     roboteam_utils::Position Robot::get_velocity() {
-        return roboteam_utils::Position(x_vel, y_vel, w_vel);
+        return roboteam_utils::Position(x_vel, y_vel, w);
     }
     
     uint Robot::get_id() {
@@ -59,11 +59,11 @@ namespace rtt {
 
         msg.pos.x = x;
         msg.pos.y = y;
-        msg.w = w;
+        msg.angle = angle;
 
         msg.vel.x = x_vel;
         msg.vel.y = y_vel;
-        msg.w_vel = w_vel;
+        msg.w = w;
 
         return msg;
     };

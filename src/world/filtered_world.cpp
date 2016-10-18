@@ -30,11 +30,11 @@ namespace rtt {
         roboteam_msgs::World msg;
 
         for (rtt::Robot& robot : robots_blue_world) {
-            msg.robots_blue.push_back(robot.as_message());
+            msg.them.push_back(robot.as_message());
         }
 
         for (rtt::Robot& robot : robots_yellow_world) {
-            msg.robots_yellow.push_back(robot.as_message());
+            msg.us.push_back(robot.as_message());
         }
 
         msg.ball = ball_world.as_message();
@@ -73,13 +73,13 @@ namespace rtt {
         // If this camera hasn't sent frames before, it is now added to the list of cameras.
         updated_cams[cam_id] = true;
 
-        for (const roboteam_msgs::DetectionRobot robot : msg.robots_blue) {
+        for (const roboteam_msgs::DetectionRobot robot : msg.them) {
             int bot_id = robot.robot_id;
 
             robots_blue_buffer[bot_id][cam_id] = roboteam_msgs::DetectionRobot(robot);
         }
 
-        for (const roboteam_msgs::DetectionRobot robot : msg.robots_yellow) {
+        for (const roboteam_msgs::DetectionRobot robot : msg.us) {
             int bot_id = robot.robot_id;
 
             robots_yellow_buffer[bot_id][cam_id] = roboteam_msgs::DetectionRobot(robot);

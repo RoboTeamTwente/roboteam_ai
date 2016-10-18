@@ -14,6 +14,8 @@
 
 #include "roboteam_world/world/world_base.h"
 
+// TODO: Make sure the us/them nomenclature also propagates to the buffers
+// TODO: Make sure the us/them stuff is decided by a parameters settable somewhere
 
 namespace rtt {
 

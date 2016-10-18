@@ -13,11 +13,11 @@ namespace rtt {
         uint id;
         float x;
         float y;
-        float w;
+        float angle;
 
         float x_vel;
         float y_vel;
-        float w_vel;
+        float w;
 
     public:
         Robot();

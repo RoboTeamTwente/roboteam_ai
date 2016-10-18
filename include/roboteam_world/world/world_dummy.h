@@ -20,8 +20,8 @@ namespace rtt {
          */
 
     private:
-        std::vector<rtt::Robot> robots_yellow;
-        std::vector<rtt::Robot> robots_blue;
+        std::vector<rtt::Robot> us;
+        std::vector<rtt::Robot> them;
         rtt::Ball ball;
 
     public:
