@@ -18,7 +18,7 @@ void dummy_frame(float ballx, float bally, float botx, float boty, float botw, D
     bot.pos.x = botx;
     bot.pos.y = boty;
     bot.orientation = botw;
-    frame->robots_yellow.push_back(bot);
+    frame->us.push_back(bot);
     DetectionBall ball;
     ball.pos.x = ballx;
     ball.pos.y = bally;
@@ -39,12 +39,12 @@ TEST(WorldTests, filtered) {
     ASSERT_FALSE(world.is_calculation_needed());
     
     World msg = world.as_message();
-    WorldRobot bot = msg.robots_yellow[0];
+    WorldRobot bot = msg.us[0];
     WorldBall ball = msg.ball;
     
     ASSERT_FLOAT_EQ(bot.pos.x, 2.0);
     ASSERT_FLOAT_EQ(bot.pos.y, 2.0);
-    ASSERT_FLOAT_EQ(bot.w, 0.0);
+    ASSERT_FLOAT_EQ(bot.angle, 0.0);
     
     ASSERT_FLOAT_EQ(ball.pos.x, 1.0);
     ASSERT_FLOAT_EQ(ball.pos.y, 1.0);
@@ -52,14 +52,14 @@ TEST(WorldTests, filtered) {
     DetectionRobot dr;
     dr.orientation = 3.1415;
 
-    frame->robots_yellow.push_back(dr);
+    frame->us.push_back(dr);
     world.detection_callback(*frame);
     msg = world.as_message();
-    bot = msg.robots_yellow[0];
+    bot = msg.us[0];
     
     ASSERT_FLOAT_EQ(-2.0, bot.vel.x);
     ASSERT_FLOAT_EQ(-2.0, bot.vel.y);
-    ASSERT_FLOAT_EQ(3.1415, bot.w_vel);
+    ASSERT_FLOAT_EQ(3.1415, bot.w);
     
 }
 
