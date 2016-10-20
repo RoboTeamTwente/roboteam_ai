@@ -17,6 +17,11 @@ namespace rtt {
         this->z = z;
     }
 
+    void Ball::set_velocity(float x_vel, float y_vel) {
+        this->x_vel = x_vel;
+        this->y_vel = y_vel;
+    }
+
 
     void Ball::set_area(uint area) {
         this->area = area;

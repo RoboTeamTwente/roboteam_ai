@@ -1,4 +1,5 @@
 #include "roboteam_world/world/filtered_world.h"
+#include <vector>
 
 
 namespace rtt {
@@ -121,7 +122,9 @@ namespace rtt {
         merge_robots(robots_yellow_buffer, robots_yellow_world, old_yellow);
 
         ball_world.move_to(ball_buffer.pos.x, ball_buffer.pos.y, ball_buffer.z);
-
+        roboteam_msgs::Vector2f speedEstimation = estimateBallSpeed(ball_buffer);
+        ROS_INFO_STREAM(speedEstimation.x << speedEstimation.y);
+        ball_world.set_velocity(speedEstimation.x, speedEstimation.y);
 
         // Clear the buffers.
         robots_blue_buffer.clear();
@@ -177,6 +180,33 @@ namespace rtt {
             robots_output.at(bot_id) = robot;
             old_buffer[bot_id] = robot;
         }
+    }
+
+    roboteam_msgs::Vector2f FilteredWorld::estimateBallSpeed(roboteam_msgs::DetectionBall ball_buffer) {
+        std::vector<roboteam_msgs::DetectionBall>::iterator it;
+        it = old_ball_positions.begin();
+        old_ball_positions.insert(it, ball_buffer);
+
+        int smoothingNumber = 5; // positive integer
+        double timeStep = 1.0/60.0; // seconds
+
+        if (old_ball_positions.size() > (size_t)smoothingNumber) {
+            old_ball_positions.erase(old_ball_positions.end());
+        }
+
+        roboteam_msgs::Vector2f posDiff;
+        for (size_t i = 0; i < (old_ball_positions.size()-1); i++) {
+            roboteam_msgs::Vector2f posOld = old_ball_positions[i+1].pos;
+            roboteam_msgs::Vector2f pos = old_ball_positions[i].pos;
+            posDiff.x += pos.x - posOld.x;
+            posDiff.y += pos.y - posOld.y;
+        }
+
+        roboteam_msgs::Vector2f speedEstimation;
+        speedEstimation.x = posDiff.x / smoothingNumber / timeStep;
+        speedEstimation.y = posDiff.y / smoothingNumber / timeStep;
+
+        return speedEstimation;
     }
 
 }

@@ -32,7 +32,7 @@ namespace rtt {
         RobotMultiCamBuffer robots_yellow_buffer;
 
         roboteam_msgs::DetectionBall ball_buffer;
-
+        std::vector<roboteam_msgs::DetectionBall> old_ball_positions;
 
         std::map<int, rtt::Robot> old_blue, old_yellow;
 
@@ -87,6 +87,7 @@ namespace rtt {
         void merge_frames();
 
         void merge_robots(RobotMultiCamBuffer& robots_buffer, std::vector<rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer);
+        roboteam_msgs::Vector2f estimateBallSpeed(roboteam_msgs::DetectionBall ball_buffer);
     };
 
 }
