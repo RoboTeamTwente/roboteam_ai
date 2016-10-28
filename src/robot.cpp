@@ -40,19 +40,19 @@ namespace rtt {
         this->w = w;
     }
 
-    roboteam_utils::Position Robot::get_position() {
+    roboteam_utils::Position Robot::get_position() const {
         return roboteam_utils::Position(x, y, angle);
     }
     
-    roboteam_utils::Position Robot::get_velocity() {
+    roboteam_utils::Position Robot::get_velocity() const {
         return roboteam_utils::Position(x_vel, y_vel, w);
     }
     
-    uint Robot::get_id() {
+    uint Robot::get_id() const {
         return id;
     }
 
-    roboteam_msgs::WorldRobot Robot::as_message() {
+    roboteam_msgs::WorldRobot Robot::as_message() const {
         roboteam_msgs::WorldRobot msg;
 
         msg.id = id;

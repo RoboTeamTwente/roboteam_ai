@@ -10,9 +10,9 @@
 #include "roboteam_world/ball.h"
 #include "roboteam_utils/Position.h"
 
-#define BALL_ID 1234567654321
+#define BALL_ID 123456789
 
-use Position = roboteam_utils::Position;
+using Position = roboteam_utils::Position;
 
 namespace rtt {
 

@@ -28,19 +28,19 @@ namespace rtt {
     }
 
     
-    roboteam_utils::Position Ball::get_position() {
+    roboteam_utils::Position Ball::get_position() const {
         return roboteam_utils::Position(x, y, z);
     }
     
-    roboteam_utils::Position Ball::get_velocity() {
+    roboteam_utils::Position Ball::get_velocity() const {
         return roboteam_utils::Position(x_vel, y_vel, z_vel);
     }
     
-    uint Ball::get_area() {
+    uint Ball::get_area() const {
         return area;
     }
 
-    roboteam_msgs::WorldBall Ball::as_message() {
+    roboteam_msgs::WorldBall Ball::as_message() const {
         roboteam_msgs::WorldBall msg;
 
         msg.area = area;
