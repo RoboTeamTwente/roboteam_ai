@@ -8,6 +8,7 @@
 #include "roboteam_msgs/DetectionRobot.h"
 #include "roboteam_msgs/DetectionBall.h"
 #include "roboteam_msgs/World.h"
+#include "roboteam_msgs/WorldRobot.h"
 
 #include "roboteam_world/robot.h"
 #include "roboteam_world/ball.h"
@@ -33,6 +34,7 @@ namespace rtt {
 
         roboteam_msgs::DetectionBall ball_buffer;
         std::vector<roboteam_msgs::DetectionBall> old_ball_positions;
+        std::vector<roboteam_msgs::Vector2f> old_robot_positions;
 
         std::map<int, rtt::Robot> old_blue, old_yellow;
 
@@ -87,6 +89,7 @@ namespace rtt {
         void merge_frames();
 
         void merge_robots(RobotMultiCamBuffer& robots_buffer, std::vector<rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer);
+        roboteam_msgs::Vector2f estimateRobotSpeed(roboteam_msgs::Vector2f robotPos);
         roboteam_msgs::Vector2f estimateBallSpeed(roboteam_msgs::DetectionBall ball_buffer);
     };
 
