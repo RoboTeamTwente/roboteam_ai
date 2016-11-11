@@ -52,15 +52,15 @@ namespace rtt {
     }
 
 
-    roboteam_msgs::World WorldDummy::as_message() {
+    roboteam_msgs::World WorldDummy::as_message() const {
         roboteam_msgs::World msg;
 
-        for (std::vector<rtt::Robot>::iterator it = them.begin(); it != them.end(); it++) {
-            msg.them.push_back(it->as_message());
+        for (const auto &robot : them) {
+            msg.them.push_back(robot.as_message());
         }
 
-        for (std::vector<rtt::Robot>::iterator it = us.begin(); it != us.end(); it++) {
-            msg.us.push_back(it->as_message());
+        for (const auto &robot : us) {
+            msg.us.push_back(robot.as_message());
         }
 
         msg.ball = ball.as_message();

@@ -26,15 +26,15 @@ namespace rtt {
     }
 
 
-    roboteam_msgs::World FilteredWorld::as_message() {
+    roboteam_msgs::World FilteredWorld::as_message() const {
 
         roboteam_msgs::World msg;
 
-        for (rtt::Robot& robot : robots_blue_world) {
+        for (const rtt::Robot& robot : robots_blue_world) {
             msg.them.push_back(robot.as_message());
         }
 
-        for (rtt::Robot& robot : robots_yellow_world) {
+        for (const rtt::Robot& robot : robots_yellow_world) {
             msg.us.push_back(robot.as_message());
         }
 
@@ -98,7 +98,7 @@ namespace rtt {
      * Returns true when every camera's frame has updated.
      * When there are no cameras, this function will always return false.
      */
-    bool FilteredWorld::is_calculation_needed() {
+    bool FilteredWorld::is_calculation_needed() const {
         if (updated_cams.size() == 0) {
             // No cameras? No use doing a frame merge calculation.
             return false;
@@ -204,7 +204,7 @@ namespace rtt {
         // ROS_INFO_STREAM("array size: " << old_robot_positions.size());
 
         roboteam_msgs::Vector2f posDiff;
-        
+
         for (size_t i = 0; i < (old_robot_positions.size()-1); i++) {
             roboteam_msgs::Vector2f posOld = old_robot_positions.at(i+1);
             roboteam_msgs::Vector2f pos = old_robot_positions.at(i);
@@ -215,7 +215,7 @@ namespace rtt {
         roboteam_msgs::Vector2f speedEstimation;
         speedEstimation.x = posDiff.x / smoothingNumber / timeStep;
         speedEstimation.y = posDiff.y / smoothingNumber / timeStep;
-        
+
 
         return speedEstimation;
     }

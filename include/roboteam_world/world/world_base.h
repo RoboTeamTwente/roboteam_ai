@@ -15,6 +15,8 @@ namespace rtt {
         /** Virtual functions *************************************************/
         /**********************************************************************/
 
+        virtual ~WorldBase() {};
+
         /**
         * Resets the world.
         */
@@ -23,7 +25,7 @@ namespace rtt {
         /**
          * Converts this world into a ros message.
          */
-        virtual roboteam_msgs::World as_message() { return roboteam_msgs::World(); };
+        virtual roboteam_msgs::World as_message() const { return roboteam_msgs::World(); };
 
         /**
          * To be called when a detectionframe message is received.

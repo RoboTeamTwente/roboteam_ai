@@ -61,7 +61,7 @@ namespace rtt {
         /**
          * Converts this world into a ros message.
          */
-        roboteam_msgs::World as_message();
+        roboteam_msgs::World as_message() const;
 
         /**
          * To be called when a detectionframe message is received.
@@ -81,7 +81,7 @@ namespace rtt {
         /**
          * Returns true when every camera's frame has updated.
          */
-        bool is_calculation_needed();
+        bool is_calculation_needed() const;
 
         /**
          * Merges the frames from all cameras into the final world state.

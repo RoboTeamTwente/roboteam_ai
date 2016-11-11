@@ -36,7 +36,7 @@ namespace rtt {
         /**
          * Converts this world into a ros message.
          */
-        roboteam_msgs::World as_message();
+        roboteam_msgs::World as_message() const;
 
         /**
          * To be called when a detectionframe message is received.
