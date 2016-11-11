@@ -23,23 +23,23 @@ namespace rtt {
 
         std::vector<roboteam_msgs::DetectionBall> balls = msg.balls;
 
-        for (uint i = 0; i < yellow.size(); ++i)
+        for (auto &msg_bot : yellow)
         {
             rtt::Robot robot = rtt::Robot();
 
-            robot.set_id(yellow[i].robot_id);
-            robot.move_to(yellow[i].pos.x, yellow[i].pos.y);
-            robot.rotate_to(yellow[i].orientation);
+            robot.set_id(msg_bot.robot_id);
+            robot.move_to(msg_bot.pos.x, msg_bot.pos.y);
+            robot.rotate_to(msg_bot.orientation);
 
             us.push_back(robot);
         }
 
-        for (uint i = 0; i < blue.size(); ++i)
+        for (auto &msg_bot : blue)
         {
             rtt::Robot robot = rtt::Robot();
-            robot.set_id(blue[i].robot_id);
-            robot.move_to(blue[i].pos.x, blue[i].pos.y);
-            robot.rotate_to(blue[i].orientation);
+            robot.set_id(msg_bot.robot_id);
+            robot.move_to(msg_bot.pos.x, msg_bot.pos.y);
+            robot.rotate_to(msg_bot.orientation);
 
             them.push_back(robot);
         }
