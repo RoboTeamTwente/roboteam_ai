@@ -149,7 +149,6 @@ catkin_add_gtest(world_test
     src/ball.cpp
     src/world/filtered_world.cpp
     src/world/world_dummy.cpp
-    src/world/world_base.cpp
 )
 target_link_libraries(world_test ${catkin_LIBRARIES})
 add_dependencies(world_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

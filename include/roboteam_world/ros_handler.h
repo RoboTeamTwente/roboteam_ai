@@ -21,11 +21,11 @@ namespace rtt {
         ros::Publisher world_pub;
         ros::ServiceServer reset_srv;
 
-        rtt::WorldBase* world;
+        WorldBase* world;
 
     public:
         RosHandler();
-        void init(rtt::WorldBase* _world);
+        void init(WorldBase* _world);
 
         /**
          * Reads the configuration from the parameter server.
