@@ -136,7 +136,7 @@ namespace rtt {
         //robots_output->clear();
 
         bool skip_velocity = old_buffer.size() == 0;
-        ROS_INFO_STREAM("new");
+        // ROS_INFO_STREAM("new");
         for (auto& robot_buffer : robots_buffer) {
             uint bot_id = robot_buffer.first;
 
@@ -176,7 +176,7 @@ namespace rtt {
                     robotPos.x = x;
                     robotPos.y = y;
                     roboteam_msgs::Vector2f estimatedSpeed = estimateRobotSpeed(robotPos);
-                    ROS_INFO_STREAM("x speed: " << estimatedSpeed.x << " y speed: " << estimatedSpeed.y);
+                    // ROS_INFO_STREAM("x speed: " << estimatedSpeed.x << " y speed: " << estimatedSpeed.y);
                     robot.set_vel(estimatedSpeed.x, estimatedSpeed.y, 0);
                 }
             }
