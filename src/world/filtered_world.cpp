@@ -1,6 +1,6 @@
 #include "roboteam_world/world/filtered_world.h"
 #include <vector>
-
+#include "roboteam_utils/Vector2.h"
 
 namespace rtt {
 
@@ -163,22 +163,15 @@ namespace rtt {
             y = y / robot_buffer.second.size();
             w = w / robot_buffer.second.size();
 
-            if (!skip_velocity) {
-                // float dx, dy, dw;
+            if (!skip_velocity) {	
+										
+				roboteam_utils::Vector2 robotPos;
+                robotPos.x = x;
+                robotPos.y = y;
+                roboteam_utils::Vector2 estimatedSpeed = estimateRobotSpeed(bot_id, robotPos);
 
-                // auto old = old_buffer[bot_id].as_message();
-                // dx = x - old.pos.x;
-                // dy = y - old.pos.y;
-                // dw = w - old.w;
-
-                if (bot_id == 0) {
-                    roboteam_msgs::Vector2f robotPos;
-                    robotPos.x = x;
-                    robotPos.y = y;
-                    roboteam_msgs::Vector2f estimatedSpeed = estimateRobotSpeed(robotPos);
-                    // ROS_INFO_STREAM("x speed: " << estimatedSpeed.x << " y speed: " << estimatedSpeed.y);
-                    robot.set_vel(estimatedSpeed.x, estimatedSpeed.y, 0);
-                }
+                robot.set_vel(estimatedSpeed.x, estimatedSpeed.y, 0);
+                
             }
             robot.move_to(x, y);
             robot.rotate_to(w);
@@ -189,30 +182,32 @@ namespace rtt {
         }
     }
 
-    roboteam_msgs::Vector2f FilteredWorld::estimateRobotSpeed(roboteam_msgs::Vector2f robotPos) {
-        std::vector<roboteam_msgs::Vector2f>::iterator it;
-        it = old_robot_positions.begin();
-        old_robot_positions.insert(it, robotPos);
+    roboteam_utils::Vector2 FilteredWorld::estimateRobotSpeed(uint bot_id, roboteam_utils::Vector2 robotPos) {
+
+        std::vector<roboteam_utils::Vector2>::iterator it;
+        it = robots_pos_history[bot_id].begin();
+        robots_pos_history[bot_id].insert(it, robotPos);
 
         int smoothingNumber = 5; // positive integer
         double timeStep = 1.0/60.0; // seconds
-
-        if (old_robot_positions.size() > (size_t)smoothingNumber) {
-            old_robot_positions.erase(old_robot_positions.end());
+		// could be improved by actually measuring the timestep and saving it in the map
+		
+		
+        if (robots_pos_history[bot_id].size() > (size_t)smoothingNumber) {
+            robots_pos_history[bot_id].erase(robots_pos_history[bot_id].end());
         }
 
-        // ROS_INFO_STREAM("array size: " << old_robot_positions.size());
 
-        roboteam_msgs::Vector2f posDiff;
+        roboteam_utils::Vector2 posDiff;
 
-        for (size_t i = 0; i < (old_robot_positions.size()-1); i++) {
-            roboteam_msgs::Vector2f posOld = old_robot_positions.at(i+1);
-            roboteam_msgs::Vector2f pos = old_robot_positions.at(i);
+        for (size_t i = 0; i < (robots_pos_history[bot_id].size()-1); i++) {
+            roboteam_msgs::Vector2f posOld = robots_pos_history[bot_id].at(i+1);
+            roboteam_msgs::Vector2f pos = robots_pos_history[bot_id].at(i);
             posDiff.x += pos.x - posOld.x;
             posDiff.y += pos.y - posOld.y;
         }
 
-        roboteam_msgs::Vector2f speedEstimation;
+        roboteam_utils::Vector2 speedEstimation;
         speedEstimation.x = posDiff.x / smoothingNumber / timeStep;
         speedEstimation.y = posDiff.y / smoothingNumber / timeStep;
 
