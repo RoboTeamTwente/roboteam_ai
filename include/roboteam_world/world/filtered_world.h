@@ -97,8 +97,6 @@ namespace rtt {
         void merge_frames(double timestamp);
 
         void merge_robots(RobotMultiCamBuffer& robots_buffer, std::vector<rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer, double timestamp, bool our_team);
-        roboteam_utils::Vector2 estimateRobotSpeed(uint bot_id, roboteam_utils::Vector2 robotPos);
-        roboteam_msgs::Vector2f estimateBallSpeed(roboteam_msgs::DetectionBall ball_buffer);
     };
 
 }

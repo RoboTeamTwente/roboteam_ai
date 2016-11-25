@@ -129,12 +129,12 @@ namespace rtt {
         // roboteam_msgs::Vector2f speedEstimation = estimateBallSpeed(ball_buffer);
         // ball_world.set_velocity(speedEstimation.x, speedEstimation.y);
         predictor.update(ball_world, timestamp);
-        boost::optional<roboteam_utils::Vector2> ballVel = predictor.computeBallVelocity();
+        boost::optional<Position> ballVel = predictor.computeBallVelocity();
         if (ballVel) {
-            roboteam_utils::Vector2 vel = *ballVel;
+            Position vel = *ballVel;
             ball_world.set_velocity(vel.x, vel.y);
         }
-        roboteam_msgs::WorldBall ball = ball_world.as_message();
+        // roboteam_msgs::WorldBall ball = ball_world.as_message();
 
         // Clear the buffers.
         robots_blue_buffer.clear();
@@ -143,18 +143,12 @@ namespace rtt {
 
 
     void FilteredWorld::merge_robots(RobotMultiCamBuffer& robots_buffer, std::vector<rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer, double timestamp, bool our_team) {
-        //robots_output->clear();
-
-        bool skip_velocity = old_buffer.size() == 0;
-        // ROS_INFO_STREAM("new");
         for (auto& robot_buffer : robots_buffer) {
             uint bot_id = robot_buffer.first;
 
             Robot robot;
             robot.set_id(bot_id);
             
-            
-
             // Resize the vector so that this id fits in.
             // The vector should probably be changed to a map.
             if (robots_output.size() <= bot_id) {
@@ -174,92 +168,18 @@ namespace rtt {
             y = y / robot_buffer.second.size();
             w = w / robot_buffer.second.size();
 
-            if (!skip_velocity) {	
-										
-				roboteam_utils::Vector2 robotPos;
-                robotPos.x = x;
-                robotPos.y = y;
-                roboteam_utils::Vector2 estimatedSpeed = estimateRobotSpeed(bot_id, robotPos);
-
-                // robot.set_vel(estimatedSpeed.x, estimatedSpeed.y, 0);
-                
-            }
-
             robot.move_to(x, y);
             robot.rotate_to(w);
 
             predictor.update(robot, our_team, timestamp);
-            boost::optional<roboteam_utils::Vector2> robotVel = predictor.computeRobotVelocity(bot_id, our_team);
+            boost::optional<Position> robotVel = predictor.computeRobotVelocity(bot_id, our_team);
             if (robotVel) {
-                roboteam_utils::Vector2 vel = *robotVel;
+                Position vel = *robotVel;
                 robot.set_vel(vel.x, vel.y, 0.0);
-                // ROS_INFO_STREAM("robotVel: " << vel.x << " " << vel.y);
             }
-
 
             robots_output.at(bot_id) = robot;
             old_buffer[bot_id] = robot;
         }
     }
-
-    roboteam_utils::Vector2 FilteredWorld::estimateRobotSpeed(uint bot_id, roboteam_utils::Vector2 robotPos) {
-
-        std::vector<roboteam_utils::Vector2>::iterator it;
-        it = robots_pos_history[bot_id].begin();
-        robots_pos_history[bot_id].insert(it, robotPos);
-
-        int smoothingNumber = 5; // positive integer
-        double timeStep = 1.0/60.0; // seconds
-		// could be improved by actually measuring the timestep and saving it in the map
-		
-		
-        if (robots_pos_history[bot_id].size() > (size_t)smoothingNumber) {
-            robots_pos_history[bot_id].erase(robots_pos_history[bot_id].end());
-        }
-
-
-        roboteam_utils::Vector2 posDiff;
-
-        for (size_t i = 0; i < (robots_pos_history[bot_id].size()-1); i++) {
-            roboteam_msgs::Vector2f posOld = robots_pos_history[bot_id].at(i+1);
-            roboteam_msgs::Vector2f pos = robots_pos_history[bot_id].at(i);
-            posDiff.x += pos.x - posOld.x;
-            posDiff.y += pos.y - posOld.y;
-        }
-
-        roboteam_utils::Vector2 speedEstimation;
-        speedEstimation.x = posDiff.x / smoothingNumber / timeStep;
-        speedEstimation.y = posDiff.y / smoothingNumber / timeStep;
-
-
-        return speedEstimation;
-    }
-
-    roboteam_msgs::Vector2f FilteredWorld::estimateBallSpeed(roboteam_msgs::DetectionBall ball_buffer) {
-        std::vector<roboteam_msgs::DetectionBall>::iterator it;
-        it = old_ball_positions.begin();
-        old_ball_positions.insert(it, ball_buffer);
-
-        int smoothingNumber = 5; // positive integer
-        double timeStep = 1.0/60.0; // seconds
-
-        if (old_ball_positions.size() > (size_t)smoothingNumber) {
-            old_ball_positions.erase(old_ball_positions.end());
-        }
-
-        roboteam_msgs::Vector2f posDiff;
-        for (size_t i = 0; i < (old_ball_positions.size()-1); i++) {
-            roboteam_msgs::Vector2f posOld = old_ball_positions[i+1].pos;
-            roboteam_msgs::Vector2f pos = old_ball_positions[i].pos;
-            posDiff.x += pos.x - posOld.x;
-            posDiff.y += pos.y - posOld.y;
-        }
-
-        roboteam_msgs::Vector2f speedEstimation;
-        speedEstimation.x = posDiff.x / smoothingNumber / timeStep;
-        speedEstimation.y = posDiff.y / smoothingNumber / timeStep;
-
-        return speedEstimation;
-    }
-
 }

@@ -18,7 +18,7 @@ namespace rtt {
 
 const int NUM_ROBOTS = 10;
 
-typedef uint32_t id;
+// typedef uint32_t id;
 typedef std::array<std::vector<std::pair<double, Robot>>, NUM_ROBOTS> RobotBuffer;
 typedef std::vector<std::pair<double, Ball>> BallBuffer;
 
@@ -35,11 +35,9 @@ class Predictor {
     Predictor(double memory_time = 2.0 /*seconds*/) : memory_time(memory_time) {}
     void update(const Robot& bot, bool our_team, double timestamp);
     void update(const Ball& ball, double timestamp);
-    boost::optional<roboteam_utils::Vector2> computeBallVelocity();
-    boost::optional<roboteam_utils::Vector2> computeRobotVelocity(uint id, bool our_team);
-    // boost::optional<Position> last_pos(const Robot& bot) const;
-    // boost::optional<Position> last_pos(const Ball& ball) const;
-    boost::optional<Position> lookahead(const id bot_id, double dt) const;
+    boost::optional<Position> computeBallVelocity();
+    boost::optional<Position> computeRobotVelocity(uint id, bool our_team);
+    boost::optional<Position> lookahead(const uint bot_id, bool our_team, double dt) const;
     boost::optional<Position> lookahead_ball(double dt) const;
 };
     
