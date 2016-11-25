@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <array>
 #include <map>
 #include <inttypes.h>
 #include <utility>
@@ -16,22 +16,29 @@ using Position = roboteam_utils::Position;
 
 namespace rtt {
 
+const int NUM_ROBOTS = 10;
+
 typedef uint32_t id;
-typedef boost::variant<Robot, Ball> Entity;
-typedef std::map<id, std::vector<std::pair<double, Entity>>> Buffer;
+typedef std::array<std::vector<std::pair<double, Robot>>, NUM_ROBOTS> RobotBuffer;
+typedef std::vector<std::pair<double, Ball>> BallBuffer;
 
 class Predictor {
     private:
-    Buffer buf;
+    RobotBuffer ourTeamBuf;
+    RobotBuffer theirTeamBuf;
+    BallBuffer ballBuf;
     double memory_time;
-    void discard_old_data(double current_time);
+    void discard_old_robot_data(double current_time);
+    void discard_old_ball_data(double current_time);
     
     public:
     Predictor(double memory_time = 2.0 /*seconds*/) : memory_time(memory_time) {}
-    void update(const Robot& bot, double timestamp);
+    void update(const Robot& bot, bool our_team, double timestamp);
     void update(const Ball& ball, double timestamp);
-    boost::optional<Position> last_pos(const Robot& bot) const;
-    boost::optional<Position> last_pos(const Ball& ball) const;
+    boost::optional<roboteam_utils::Vector2> computeBallVelocity();
+    boost::optional<roboteam_utils::Vector2> computeRobotVelocity(uint id, bool our_team);
+    // boost::optional<Position> last_pos(const Robot& bot) const;
+    // boost::optional<Position> last_pos(const Ball& ball) const;
     boost::optional<Position> lookahead(const id bot_id, double dt) const;
     boost::optional<Position> lookahead_ball(double dt) const;
 };

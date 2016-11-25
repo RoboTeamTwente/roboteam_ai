@@ -11,6 +11,7 @@ namespace rtt {
 
     private:
         uint id;
+        // bool our_team;
         float x;
         float y;
         float angle;

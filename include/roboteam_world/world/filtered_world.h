@@ -14,6 +14,7 @@
 
 #include "roboteam_world/robot.h"
 #include "roboteam_world/ball.h"
+#include "roboteam_world/predictor.h"
 
 #include "roboteam_world/world/world_base.h"
 
@@ -25,6 +26,8 @@ namespace rtt {
     class FilteredWorld : public WorldBase {
 
     private:
+
+        ros::NodeHandle nh;
         /**
          * These buffers store for every camera the robots and balls.
          * Accessing goes like this:
@@ -53,8 +56,10 @@ namespace rtt {
         std::vector<rtt::Robot> robots_blue_world;
         rtt::Ball ball_world;
 
+        Predictor predictor;
+
     public:
-        FilteredWorld();
+        FilteredWorld(Predictor predictor);
 
         /**
         * Resets the world.
@@ -89,9 +94,9 @@ namespace rtt {
         /**
          * Merges the frames from all cameras into the final world state.
          */
-        void merge_frames();
+        void merge_frames(double timestamp);
 
-        void merge_robots(RobotMultiCamBuffer& robots_buffer, std::vector<rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer);
+        void merge_robots(RobotMultiCamBuffer& robots_buffer, std::vector<rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer, double timestamp, bool our_team);
         roboteam_utils::Vector2 estimateRobotSpeed(uint bot_id, roboteam_utils::Vector2 robotPos);
         roboteam_msgs::Vector2f estimateBallSpeed(roboteam_msgs::DetectionBall ball_buffer);
     };

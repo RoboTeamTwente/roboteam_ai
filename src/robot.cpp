@@ -21,6 +21,7 @@ namespace rtt {
 
     void Robot::set_id(uint id) {
         this->id = id;
+        // this->our_team = our_team;
     };
 
 

@@ -4,8 +4,9 @@
 
 namespace rtt {
 
-    FilteredWorld::FilteredWorld() {
+    FilteredWorld::FilteredWorld(Predictor predictor) {
         reset();
+        this->predictor = predictor;
     }
 
     void FilteredWorld::reset() {
@@ -58,8 +59,9 @@ namespace rtt {
                 cam.second = false;
             }
 
-            merge_frames();
+            merge_frames(msg.t_capture);
         }
+        
     }
 
 
@@ -90,7 +92,6 @@ namespace rtt {
         if (msg.balls.size() > 0) {
             ball_buffer = msg.balls[0];
         }
-
     }
 
 
@@ -116,15 +117,24 @@ namespace rtt {
     /**
      * Merges the frames from all cameras into the final world state.
      */
-    void FilteredWorld::merge_frames() {
+    void FilteredWorld::merge_frames(double timestamp) {
 
-        merge_robots(robots_blue_buffer, robots_blue_world, old_blue);
-        merge_robots(robots_yellow_buffer, robots_yellow_world, old_yellow);
+        std::string s;
+        nh.getParam("our_color", s);
+        bool isBlueOurTeam = s == "blue";
+        merge_robots(robots_blue_buffer, robots_blue_world, old_blue, timestamp, isBlueOurTeam);
+        merge_robots(robots_yellow_buffer, robots_yellow_world, old_yellow, timestamp, !isBlueOurTeam);
 
         ball_world.move_to(ball_buffer.pos.x, ball_buffer.pos.y, ball_buffer.z);
-        roboteam_msgs::Vector2f speedEstimation = estimateBallSpeed(ball_buffer);
-        // ROS_INFO_STREAM(speedEstimation.x << " " << speedEstimation.y);
-        ball_world.set_velocity(speedEstimation.x, speedEstimation.y);
+        // roboteam_msgs::Vector2f speedEstimation = estimateBallSpeed(ball_buffer);
+        // ball_world.set_velocity(speedEstimation.x, speedEstimation.y);
+        predictor.update(ball_world, timestamp);
+        boost::optional<roboteam_utils::Vector2> ballVel = predictor.computeBallVelocity();
+        if (ballVel) {
+            roboteam_utils::Vector2 vel = *ballVel;
+            ball_world.set_velocity(vel.x, vel.y);
+        }
+        roboteam_msgs::WorldBall ball = ball_world.as_message();
 
         // Clear the buffers.
         robots_blue_buffer.clear();
@@ -132,7 +142,7 @@ namespace rtt {
     }
 
 
-    void FilteredWorld::merge_robots(RobotMultiCamBuffer& robots_buffer, std::vector<rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer) {
+    void FilteredWorld::merge_robots(RobotMultiCamBuffer& robots_buffer, std::vector<rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer, double timestamp, bool our_team) {
         //robots_output->clear();
 
         bool skip_velocity = old_buffer.size() == 0;
@@ -141,8 +151,9 @@ namespace rtt {
             uint bot_id = robot_buffer.first;
 
             Robot robot;
-
             robot.set_id(bot_id);
+            
+            
 
             // Resize the vector so that this id fits in.
             // The vector should probably be changed to a map.
@@ -170,11 +181,20 @@ namespace rtt {
                 robotPos.y = y;
                 roboteam_utils::Vector2 estimatedSpeed = estimateRobotSpeed(bot_id, robotPos);
 
-                robot.set_vel(estimatedSpeed.x, estimatedSpeed.y, 0);
+                // robot.set_vel(estimatedSpeed.x, estimatedSpeed.y, 0);
                 
             }
+
             robot.move_to(x, y);
             robot.rotate_to(w);
+
+            predictor.update(robot, our_team, timestamp);
+            boost::optional<roboteam_utils::Vector2> robotVel = predictor.computeRobotVelocity(bot_id, our_team);
+            if (robotVel) {
+                roboteam_utils::Vector2 vel = *robotVel;
+                robot.set_vel(vel.x, vel.y, 0.0);
+                // ROS_INFO_STREAM("robotVel: " << vel.x << " " << vel.y);
+            }
 
 
             robots_output.at(bot_id) = robot;
