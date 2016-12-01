@@ -8,32 +8,45 @@
 #include "roboteam_msgs/DetectionRobot.h"
 #include "roboteam_msgs/DetectionBall.h"
 #include "roboteam_msgs/World.h"
+#include "roboteam_msgs/WorldRobot.h"
+
+#include "roboteam_utils/Vector2.h"
 
 #include "roboteam_world/robot.h"
 #include "roboteam_world/ball.h"
+#include "roboteam_world/predictor.h"
 
 #include "roboteam_world/world/world_base.h"
 
+// TODO: Make sure the us/them nomenclature also propagates to the buffers
+// TODO: Make sure the us/them stuff is decided by a parameters settable somewhere
 
 namespace rtt {
 
     class FilteredWorld : public WorldBase {
 
     private:
-        typedef std::map<int, std::vector<roboteam_msgs::DetectionRobot>> RobotMultiCamBuffer;
 
+        ros::NodeHandle nh;
         /**
          * These buffers store for every camera the robots and balls.
          * Accessing goes like this:
          * `robots_blue_buffer[robot_id][camera_id]`
          */
+        typedef std::map<int, std::map<int, roboteam_msgs::DetectionRobot>> RobotMultiCamBuffer;
         RobotMultiCamBuffer robots_blue_buffer;
         RobotMultiCamBuffer robots_yellow_buffer;
 
         roboteam_msgs::DetectionBall ball_buffer;
+        std::vector<roboteam_msgs::DetectionBall> old_ball_positions;
+        std::vector<roboteam_msgs::Vector2f> old_robot_positions;
+		std::map<int, std::vector<roboteam_utils::Vector2>> robots_pos_history;
+		
+        std::map<int, rtt::Robot> old_blue, old_yellow;
 
         // Keeps track which cameras have sent a frame since last world calculation.
-        std::vector<bool> updated_cams;
+        // Also keeps track of which cameras are on-line and sending frames.
+        std::map<int, bool> updated_cams;
 
         /**
          * Final world state being converted to a message when
@@ -43,20 +56,20 @@ namespace rtt {
         std::vector<rtt::Robot> robots_blue_world;
         rtt::Ball ball_world;
 
+        Predictor predictor;
+
     public:
-        FilteredWorld();
+        FilteredWorld(Predictor predictor);
 
         /**
-        * Resets the world using the stored configuration.
+        * Resets the world.
         */
         void reset();
-        
-        void reset(WorldConfig);
 
         /**
          * Converts this world into a ros message.
          */
-        roboteam_msgs::World as_message();
+        roboteam_msgs::World as_message() const;
 
         /**
          * To be called when a detectionframe message is received.
@@ -64,7 +77,7 @@ namespace rtt {
         void detection_callback(const roboteam_msgs::DetectionFrame msg);
 
     private:
-    
+
         // Allows for testing of private methods
         FRIEND_TEST(WorldTests, filtered);
 
@@ -76,14 +89,14 @@ namespace rtt {
         /**
          * Returns true when every camera's frame has updated.
          */
-        bool is_calculation_needed();
+        bool is_calculation_needed() const;
 
         /**
          * Merges the frames from all cameras into the final world state.
          */
-        void merge_frames();
+        void merge_frames(double timestamp);
 
-        void merge_robots(RobotMultiCamBuffer* robots_buffer, std::vector<rtt::Robot>* robots_output, std::vector<rtt::Robot>& old_buffer);
+        void merge_robots(RobotMultiCamBuffer& robots_buffer, std::vector<rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer, double timestamp, bool our_team);
     };
 
 }

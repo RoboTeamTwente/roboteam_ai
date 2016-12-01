@@ -11,13 +11,14 @@ namespace rtt {
 
     private:
         uint id;
+        // bool our_team;
         float x;
         float y;
-        float w;
+        float angle;
 
         float x_vel;
         float y_vel;
-        float w_vel;
+        float w;
 
     public:
         Robot();
@@ -29,11 +30,11 @@ namespace rtt {
         void rotate_to(float w);
         void set_vel(float x_vel, float y_vel, float w_vel);
 
-        roboteam_utils::Position get_position();
-        roboteam_utils::Position get_velocity();
-        uint get_id();
+        roboteam_utils::Position get_position() const;
+        roboteam_utils::Position get_velocity() const;
+        uint get_id() const;
 
-       roboteam_msgs::WorldRobot as_message();
+       roboteam_msgs::WorldRobot as_message() const;
     };
 
 }

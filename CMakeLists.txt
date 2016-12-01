@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(roboteam_world)
 
+# Needed for the documentation generator.
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -124,33 +127,31 @@ include_directories(
 
 # Get all the cpp files to compile.
 file(GLOB roboteam_world_SRC
-    "src/*.h"
     "src/*.cpp"
-    "src/world/*.h"
     "src/world/*.cpp"
 )
 
-add_executable(dummy_world src/programs/dummy_world.cpp ${roboteam_world_SRC})
+add_executable(dummy_world src/programs/dummy_world_main.cpp ${roboteam_world_SRC})
 target_link_libraries(dummy_world ${catkin_LIBRARIES})
-add_dependencies(dummy_world roboteam_msgs_generate_messages_cpp)
+add_dependencies(dummy_world ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-add_executable(filtered_world src/programs/filtered_world.cpp ${roboteam_world_SRC})
+add_executable(filtered_world src/programs/filtered_world_main.cpp ${roboteam_world_SRC})
 target_link_libraries(filtered_world ${catkin_LIBRARIES})
-add_dependencies(filtered_world roboteam_msgs_generate_messages_cpp)
+add_dependencies(filtered_world ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ###########
 ## Tests ##
 ###########
 
-catkin_add_gtest(world_test 
-    test/main.cpp 
+catkin_add_gtest(world_test
+    test/main.cpp
     test/Basics.cpp
     test/Worlds.cpp
 
     src/robot.cpp
     src/ball.cpp
-    src/world/world_config.cpp
     src/world/filtered_world.cpp
     src/world/world_dummy.cpp
 )
 target_link_libraries(world_test ${catkin_LIBRARIES})
+add_dependencies(world_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

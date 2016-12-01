@@ -22,14 +22,14 @@ namespace rtt {
         Ball();
 
         void move_to(float x, float y, float z);
+        void set_velocity(float x_vel, float y_vel);
         void set_area(uint area);
 
-        
-        roboteam_utils::Position get_position();
-        roboteam_utils::Position get_velocity();
-        uint get_area();
+        roboteam_utils::Position get_position() const;
+        roboteam_utils::Position get_velocity() const;
+        uint get_area() const;
 
-        roboteam_msgs::WorldBall as_message();
+        roboteam_msgs::WorldBall as_message() const;
     };
 
 }

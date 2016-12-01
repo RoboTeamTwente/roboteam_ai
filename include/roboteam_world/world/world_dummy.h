@@ -20,8 +20,8 @@ namespace rtt {
          */
 
     private:
-        std::vector<rtt::Robot> robots_yellow;
-        std::vector<rtt::Robot> robots_blue;
+        std::vector<rtt::Robot> us;
+        std::vector<rtt::Robot> them;
         rtt::Ball ball;
 
     public:
@@ -29,14 +29,14 @@ namespace rtt {
         WorldDummy() {};
 
         /**
-         * Resets the world using the stored configuration.
+         * Resets the world.
          */
         void reset();
 
         /**
          * Converts this world into a ros message.
          */
-        roboteam_msgs::World as_message();
+        roboteam_msgs::World as_message() const;
 
         /**
          * To be called when a detectionframe message is received.

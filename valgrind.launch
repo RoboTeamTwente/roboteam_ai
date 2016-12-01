@@ -1,0 +1,3 @@
+<launch>
+  <node name="filtered_world" pkg="roboteam_world" type="filtered_world" launch-prefix="valgrind --leak-check=yes"/>
+</launch>

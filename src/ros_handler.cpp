@@ -19,28 +19,6 @@ namespace rtt {
 
         // Advertise the reset service.
         reset_srv = nh.advertiseService("world_reset", &RosHandler::reset_callback, this);
-
-        // Initialize parameters.
-        update_config();
-    }
-
-
-    void RosHandler::update_config() {
-        WorldConfig config = world->get_config();
-
-        ROS_INFO("---- World configuration ----");
-
-        int num_cams;
-        if (nh.getParam("w_num_cams", num_cams)) {
-            config.set_num_cams(num_cams);
-        } else {
-            num_cams = config.num_cams();
-            nh.setParam("w_num_cams", num_cams);
-        }
-        ROS_INFO("num_cams: %i", num_cams);
-
-        // Reset the world with the new configuration.
-        world->reset(config);
     }
 
 
@@ -57,7 +35,7 @@ namespace rtt {
             std_srvs::Empty::Request& req,
             std_srvs::Empty::Response& res) {
 
-        update_config();
+        world->reset();
 
         return true;
     }

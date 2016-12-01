@@ -11,16 +11,17 @@ namespace rtt {
     }
 
 
-    Robot::Robot(uint id, float x, float y, float w) {
+    Robot::Robot(uint id, float x, float y, float angle) {
         this->id = id;
         this->x = x;
         this->y = y;
-        this->w = w;
+        this->angle = angle;
     }
 
 
     void Robot::set_id(uint id) {
         this->id = id;
+        // this->our_team = our_team;
     };
 
 
@@ -30,40 +31,40 @@ namespace rtt {
     };
 
 
-    void Robot::rotate_to(float w) {
-        this->w = w;
+    void Robot::rotate_to(float angle) {
+        this->angle = angle;
     };
 
-    void Robot::set_vel(float x_vel, float y_vel, float w_vel) {
+    void Robot::set_vel(float x_vel, float y_vel, float w) {
         this->x_vel = x_vel;
         this->y_vel = y_vel;
-        this->w_vel = w_vel;
+        this->w = w;
     }
 
-    roboteam_utils::Position Robot::get_position() {
-        return roboteam_utils::Position(x, y, w);
+    roboteam_utils::Position Robot::get_position() const {
+        return roboteam_utils::Position(x, y, angle);
     }
     
-    roboteam_utils::Position Robot::get_velocity() {
-        return roboteam_utils::Position(x_vel, y_vel, w_vel);
+    roboteam_utils::Position Robot::get_velocity() const {
+        return roboteam_utils::Position(x_vel, y_vel, w);
     }
     
-    uint Robot::get_id() {
+    uint Robot::get_id() const {
         return id;
     }
 
-    roboteam_msgs::WorldRobot Robot::as_message() {
+    roboteam_msgs::WorldRobot Robot::as_message() const {
         roboteam_msgs::WorldRobot msg;
 
         msg.id = id;
 
         msg.pos.x = x;
         msg.pos.y = y;
-        msg.w = w;
+        msg.angle = angle;
 
         msg.vel.x = x_vel;
         msg.vel.y = y_vel;
-        msg.w_vel = w_vel;
+        msg.w = w;
 
         return msg;
     };
