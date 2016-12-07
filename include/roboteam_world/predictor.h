@@ -16,7 +16,7 @@ using Position = roboteam_utils::Position;
 
 namespace rtt {
 
-const int NUM_ROBOTS = 10;
+const int NUM_ROBOTS = 15;
 
 // typedef uint32_t id;
 typedef std::array<std::vector<std::pair<double, Robot>>, NUM_ROBOTS> RobotBuffer;
@@ -30,7 +30,7 @@ class Predictor {
     double memory_time;
     void discard_old_robot_data(double current_time);
     void discard_old_ball_data(double current_time);
-    
+
     public:
     Predictor(double memory_time = 2.0 /*seconds*/) : memory_time(memory_time) {}
     void update(const Robot& bot, bool our_team, double timestamp);
@@ -40,5 +40,5 @@ class Predictor {
     boost::optional<Position> lookahead(const uint bot_id, bool our_team, double dt) const;
     boost::optional<Position> lookahead_ball(double dt) const;
 };
-    
+
 }

@@ -2,7 +2,7 @@
 #include "ros/ros.h"
 
 namespace rtt {
-        
+
 void Predictor::discard_old_robot_data(double current_time) {
     for (auto it = ourTeamBuf.begin(); it != ourTeamBuf.end(); it++) {
         for (auto it2 = it->begin(); it2 != it->end();) {
@@ -24,7 +24,7 @@ void Predictor::discard_old_robot_data(double current_time) {
             }
         }
     }
-}   
+}
 
 void Predictor::discard_old_ball_data(double current_time) {
     for (auto it = ballBuf.begin(); it != ballBuf.end();) {
@@ -35,8 +35,8 @@ void Predictor::discard_old_ball_data(double current_time) {
             it++;
         }
     }
-}    
-    
+}
+
 void Predictor::update(const Robot& bot, bool our_team, double timestamp) {
     if (our_team) {
         ourTeamBuf.at(bot.get_id()).push_back({timestamp, bot});
@@ -49,7 +49,7 @@ void Predictor::update(const Robot& bot, bool our_team, double timestamp) {
 void Predictor::update(const Ball& ball, double timestamp) {
     ballBuf.push_back({timestamp, ball});
     discard_old_ball_data(timestamp);
-}    
+}
 
 boost::optional<Position> Predictor::computeBallVelocity() {
     Position posDiff(0.0, 0.0, 0.0);
@@ -66,7 +66,7 @@ boost::optional<Position> Predictor::computeBallVelocity() {
         Position ballVel = posDiff.scale(1.0/(ballBuf.size()-1));;
         return boost::optional<Position>(ballVel);
     }
-    return boost::none;    
+    return boost::none;
 }
 
 boost::optional<Position> Predictor::computeRobotVelocity(uint id, bool our_team) {
@@ -80,7 +80,7 @@ boost::optional<Position> Predictor::computeRobotVelocity(uint id, bool our_team
                 Position oldRobotPos = oldRobot.get_position();
                 Position newerRobotPos = newerRobot.get_position();
                 double timeDiff = ourTeamBuf.at(id).at(i+1).first - ourTeamBuf.at(id).at(i).first;
-                
+
                 posDiff = posDiff + (newerRobotPos - oldRobotPos).scale(1.0/timeDiff);
             }
             Position robotVel = posDiff.scale(1.0/(ourTeamBuf.at(id).size()-1));
@@ -89,7 +89,7 @@ boost::optional<Position> Predictor::computeRobotVelocity(uint id, bool our_team
             }
             return boost::optional<Position>(robotVel);
         }
-        return boost::none;  
+        return boost::none;
     } else {
         Position posDiff(0.0, 0.0, 0.0);
         size_t bufferSize = theirTeamBuf.at(id).size();
@@ -105,8 +105,8 @@ boost::optional<Position> Predictor::computeRobotVelocity(uint id, bool our_team
             Position robotVel = posDiff.scale(1.0/(theirTeamBuf.at(id).size()-1));
             return boost::optional<Position>(robotVel);
         }
-        return boost::none; 
-    }  
+        return boost::none;
+    }
 }
 
 boost::optional<Position> Predictor::lookahead(const uint bot_id, bool our_team, double seconds) const {
