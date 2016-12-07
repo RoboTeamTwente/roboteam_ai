@@ -11,6 +11,7 @@
 #include "roboteam_msgs/WorldRobot.h"
 
 #include "roboteam_utils/Vector2.h"
+#include "roboteam_utils/constants.h"
 
 #include "roboteam_world/robot.h"
 #include "roboteam_world/ball.h"

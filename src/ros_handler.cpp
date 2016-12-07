@@ -1,5 +1,5 @@
 #include "roboteam_world/ros_handler.h"
-
+#include "roboteam_utils/constants.h"
 
 namespace rtt {
 
@@ -12,13 +12,13 @@ namespace rtt {
         world = _world;
 
         // Subscribe to the vision input.
-        vision_sub = nh.subscribe("vision_detection", 1000, &RosHandler::detection_callback, this);
+        vision_sub = nh.subscribe(TOPIC_DETECTION, 1000, &RosHandler::detection_callback, this);
 
         // Advertise the world output.
-        world_pub = nh.advertise<roboteam_msgs::World>("world_state", 1000);
+        world_pub = nh.advertise<roboteam_msgs::World>(TOPIC_WOLRD_STATE, 1000);
 
         // Advertise the reset service.
-        reset_srv = nh.advertiseService("world_reset", &RosHandler::reset_callback, this);
+        reset_srv = nh.advertiseService(SERVICE_WORLD_RESET, &RosHandler::reset_callback, this);
     }
 
 
