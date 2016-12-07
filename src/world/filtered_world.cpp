@@ -61,7 +61,7 @@ namespace rtt {
 
             merge_frames(msg.t_capture);
         }
-        
+
     }
 
 
@@ -148,7 +148,7 @@ namespace rtt {
 
             Robot robot;
             robot.set_id(bot_id);
-            
+
             // Resize the vector so that this id fits in.
             // The vector should probably be changed to a map.
             if (robots_output.size() <= bot_id) {
