@@ -2,7 +2,6 @@
 
 #include <iostream>
 
-
 namespace rtt {
 
     void WorldDummy::reset() {

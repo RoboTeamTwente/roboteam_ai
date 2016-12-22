@@ -129,6 +129,7 @@ include_directories(
 file(GLOB roboteam_world_SRC
     "src/*.cpp"
     "src/world/*.cpp"
+    "src/tracker/*.cpp"
 )
 
 add_executable(dummy_world src/programs/dummy_world_main.cpp ${roboteam_world_SRC})

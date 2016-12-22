@@ -24,6 +24,7 @@ namespace rtt {
         robots_yellow_buffer = RobotMultiCamBuffer();
 
         updated_cams = std::map<int, bool>();
+        
     }
 
 
@@ -135,7 +136,7 @@ namespace rtt {
             ball_world.set_velocity(vel.x, vel.y);
         }
         // roboteam_msgs::WorldBall ball = ball_world.as_message();
-
+        
         // Clear the buffers.
         robots_blue_buffer.clear();
         robots_yellow_buffer.clear();
