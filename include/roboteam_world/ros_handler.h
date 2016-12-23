@@ -44,6 +44,7 @@ namespace rtt {
                             
         bool tracker_callback(roboteam_msgs::Tracker::Request& req,
                               roboteam_msgs::Tracker::Response& res);
+        TrackerResult* track(const std::string& type, const RobotID& id) const;
     };
 
 }

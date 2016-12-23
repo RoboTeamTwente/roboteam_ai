@@ -70,4 +70,8 @@ namespace rtt {
         return true;
     }
 
+    TrackerResult* RosHandler::track(const std::string& type, const RobotID& id) const {
+        const TrackerModule* module = tracker.get_module(type);
+        return module == nullptr ? nullptr : new TrackerResult(module->calculate_for(id));
+    }
 }
