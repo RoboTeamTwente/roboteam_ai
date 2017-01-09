@@ -33,6 +33,7 @@ namespace rtt {
         roboteam_msgs::World world_msg = world->as_message();
 
         world_pub.publish(world_msg);
+        tracker.update(world_msg);
     }
 
 
@@ -74,4 +75,5 @@ namespace rtt {
         const TrackerModule* module = tracker.get_module(type);
         return module == nullptr ? nullptr : new TrackerResult(module->calculate_for(id));
     }
+
 }

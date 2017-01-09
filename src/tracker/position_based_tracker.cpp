@@ -1,5 +1,6 @@
 #include "roboteam_world/tracker/position_based_tracker.h"
 #include "roboteam_msgs/WorldRobot.h"
+#include <stdio.h>
 
 namespace rtt {
     
@@ -17,7 +18,7 @@ unsigned long PositionBasedTracker::get_sample_count() const {
 }
 
 void PositionBasedTracker::add_sample(const RobotID& id, const Position& pos) {
-    samples[id][counter] = pos;
+    samples[id][counter] = {pos, ros::Time::now()};
 }
 
 TrackerResult PositionBasedTracker::calculate_for(const RobotID& id) const {

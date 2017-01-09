@@ -16,6 +16,7 @@ void OpponentTracker::update(const World& world) {
 }
 
 bool OpponentTracker::add_module(TrackerModule* module) {
+    if (!module) return false;
     if (std::find(modules.begin(), modules.end(), module) != modules.end()) {
         return false;
     }
@@ -53,6 +54,7 @@ bool OpponentTracker::remove_module(const std::string& name) {
     for (TrackerModule* module : modules) {
         if (module->name() == name) {
             modules.remove(module);
+            delete module;
             return true;
         }
     }

@@ -11,8 +11,9 @@ Position* AccelerationTracker::calculate(const RobotID& id) const {
     Position accumulator;
     Position last_pos;
     Position last_vel;
+    ros::Duration duration = samples.at(id)[max_idx - 1].second - samples.at(id)[0].second;
     for (unsigned int i = 0; i < max_idx; i++) {
-        Position pos = samples.at(id)[i];
+        Position pos = samples.at(id)[i].first;
         if (i > 0) {
             Position vel = pos - last_pos;
             if (i > 1) {
@@ -22,7 +23,7 @@ Position* AccelerationTracker::calculate(const RobotID& id) const {
         }
         last_pos = pos;
     }
-    return new Position(accumulator * (1.0/(double) max_idx));
+    return new Position(accumulator * (1.0/(double) max_idx) * (1.0/duration.toSec()));
 }    
     
 }

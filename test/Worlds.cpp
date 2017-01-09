@@ -26,7 +26,10 @@ void dummy_frame(float ballx, float bally, float botx, float boty, float botw, D
 }
 
 TEST(WorldTests, filtered) {
-    FilteredWorld world;
+    int zero = 0;
+    ros::init(zero, nullptr, "world_test");
+    Predictor pred;
+    FilteredWorld world(pred);
     
     ASSERT_FALSE(world.is_calculation_needed());
     DetectionFrame* frame = new DetectionFrame();

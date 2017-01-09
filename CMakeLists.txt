@@ -17,7 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 ## Enable c++11 support.
-set(CMAKE_CXX_FLAGS "-std=c++11 -Wall ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -g ${CMAKE_CXX_FLAGS}")
 
 ## System dependencies are found with CMake's conventions
 
@@ -148,11 +148,18 @@ catkin_add_gtest(world_test
     test/main.cpp
     test/Basics.cpp
     test/Worlds.cpp
+    test/Tracker.cpp
 
     src/robot.cpp
     src/ball.cpp
     src/world/filtered_world.cpp
     src/world/world_dummy.cpp
+    src/tracker/opponent_tracker.cpp
+    src/tracker/position_based_tracker.cpp
+    src/tracker/speed_tracker.cpp
+    src/tracker/acceleration_tracker.cpp
+    src/predictor.cpp
+    src/ros_handler.cpp
 )
 target_link_libraries(world_test ${catkin_LIBRARIES})
 add_dependencies(world_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

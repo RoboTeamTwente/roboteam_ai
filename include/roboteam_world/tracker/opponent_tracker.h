@@ -19,7 +19,10 @@ using Position = roboteam_utils::Position;
 using Vector2 = roboteam_utils::Vector2;
 using World = roboteam_msgs::World;
 typedef unsigned int RobotID;    
-    
+
+/**
+ * The result value of a Tracker. Only one of these will actually be set.
+ */    
 typedef union TrackedValue {
     long long_val;
     double double_val;
@@ -29,8 +32,20 @@ typedef union TrackedValue {
     ~TrackedValue() {}
 } TrackedValue; 
     
+/**
+ * The possible result types of a Tracker. Used to identify which field of a TrackedValue is set.
+ */
 enum class TrackedValueType { LONG, DOUBLE, STRING, BOOL, VEC3 };     
     
+    
+/**
+ * @class TrackerResult
+ * @author Dennis
+ * @date 09/01/17
+ * @file opponent_tracker.h
+ * @brief The result of a tracking operation. Contains a success flag, result type, and result value.
+ * If the value of success is false, the other two fields should not be used.
+ */
 typedef struct TrackerResult {
     bool success;
     TrackedValue value;
@@ -49,11 +64,35 @@ typedef struct TrackerResult {
     ~TrackerResult(){}
 } TrackerResult; 
     
+/**
+ * @class TrackerModule
+ * @author Dennis
+ * @date 09/01/17
+ * @file opponent_tracker.h
+ * @brief Abstract base class for trackers.
+ */
 class TrackerModule {
 public:
     virtual ~TrackerModule() {}
+    
+    /**
+     * @brief Updates this tracker with a new world state.
+     * @param world The current world state.
+     */
     virtual void update(const World& world) = 0;
+    
+    /**
+     * @brief Get a unique name for this module.
+     * @return  The name.
+     */
     virtual const std::string name() const = 0;
+    
+    /**
+     * @brief Retrieve the most current tracking result for a certain robot, if possible.
+     * @param id The robot to track.
+     * @return A TrackerResult with the most recent data, or one which has the success flag set to false
+     * if it is not (currently) possible to calculate a result for this robot.
+     */
     virtual TrackerResult calculate_for(const RobotID& id) const = 0;
     
     bool operator==(const TrackerModule& other) const {
@@ -61,18 +100,68 @@ public:
     }
 };    
     
+/**
+ * @class OpponentTracker
+ * @author Dennis
+ * @date 09/01/17
+ * @file opponent_tracker.h
+ * @brief Main tracker class. Aggregates TrackerModules and updates them.
+ */
 class OpponentTracker {
     
 public:
     ~OpponentTracker();
+    
+    /**
+     * @brief Tick all registered TrackerModules with the current world state.
+     * @param world The current world state.
+     */
     void update(const World& world);
     
+    /**
+     * @brief Add a new TrackerModule if one with the same name does not already exist.
+     * Managing the module's lifecycle becomes the OpponentTracker's responsibility - the
+     * caller should not delete it.
+     * @param module The TrackerModule to add.
+     * @return Whether or not the module was actually added.
+     */
     bool add_module(TrackerModule* module);
+    
+    /**
+     * @brief Checks whether a module is registered in this OpponentTracker.
+     * @param module The module to check.
+     * @return True if the module is registered.
+     */
     bool has_module(const TrackerModule& module) const;
+    
+    /**
+     * @brief Checks whether a module with a given name is registered in this OpponentTracker.
+     * @param name The name to check.
+     * @return True if a registered module has the given name.
+     */
     bool has_module(const std::string& name) const;
+    
+    /**
+     * @brief Unregisters a module. If successful, that module will be deleted.
+     * @param module The module to remove.
+     * @return True if the module was registered and has been deleted. False if 
+     * the module was not registered before.
+     */
     bool remove_module(const TrackerModule& module);
+    
+    /**
+     * @brief Unregisters a module by name. If successful, that module will be deleted.
+     * @param name The name of the module to remove.
+     * @return True if a module with the given name was registers and has now been deleted.
+     * False if no module with that name was found.
+     */
     bool remove_module(const std::string& name);
     
+    /**
+     * @brief Type-safe way of retrieving a registered module by name.
+     * @param name The name of the module to get.
+     * @return A const pointer to the module if one with the right name is registered, nullptr otherwise.
+     */
     template <class T>
     typename std::enable_if<std::is_base_of<TrackerModule, T>::value, const T*>::type get_module_safe(const std::string& name) const {
         for (const TrackerModule* module : modules) {
@@ -83,6 +172,11 @@ public:
         return nullptr;
     }
     
+    /**
+     * @brief Gets a registered module by name.
+     * @param name The name of the module to get.
+     * @return A const pointer to the module if one with the right name is registered, nullptr otherwise.
+     */
     const TrackerModule* get_module(const std::string& name) const;
     
     
