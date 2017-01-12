@@ -5,6 +5,7 @@
 #include <list>
 #include <type_traits>
 #include <array>
+#include <boost/variant.hpp>
 #include "roboteam_world/robot.h"
 #include "roboteam_world/ball.h"
 #include "roboteam_utils/Position.h"
@@ -21,17 +22,10 @@ using World = roboteam_msgs::World;
 typedef unsigned int RobotID;    
 
 /**
- * The result value of a Tracker. Only one of these will actually be set.
+ * The result value of a Tracker.
  */    
-typedef union TrackedValue {
-    long long_val;
-    double double_val;
-    std::string string_val;
-    bool bool_val;
-    Position pos_val;
-    ~TrackedValue() {}
-} TrackedValue; 
-    
+typedef boost::variant<long, double, std::string, bool, Position> TrackedValue;
+
 /**
  * The possible result types of a Tracker. Used to identify which field of a TrackedValue is set.
  */
@@ -54,11 +48,11 @@ typedef struct TrackerResult {
     TrackerResult() : success(false), value{false}, type(TrackedValueType::BOOL) {}
     TrackerResult(const TrackerResult& tr) : success(tr.success), value{false}, type(tr.type) {
         switch (type) {
-            case TrackedValueType::LONG: value.long_val = tr.value.long_val; break;
-            case TrackedValueType::DOUBLE: value.double_val = tr.value.double_val; break;
-            case TrackedValueType::STRING: value.string_val = tr.value.string_val; break;
-            case TrackedValueType::BOOL: value.bool_val = tr.value.bool_val; break;
-            case TrackedValueType::VEC3: value.pos_val = tr.value.pos_val; break;
+            case TrackedValueType::LONG: value = boost::get<long>(tr.value); break;
+            case TrackedValueType::DOUBLE: value = boost::get<double>(tr.value); break;
+            case TrackedValueType::STRING: value = boost::get<std::string>(tr.value); break;
+            case TrackedValueType::BOOL: value = boost::get<bool>(tr.value); break;
+            case TrackedValueType::VEC3: value = boost::get<Position>(tr.value); break;
         }
     }
     ~TrackerResult(){}
@@ -95,9 +89,16 @@ public:
      */
     virtual TrackerResult calculate_for(const RobotID& id) const = 0;
     
-    bool operator==(const TrackerModule& other) const {
-        return name() == other.name();
-    }
+    bool operator==(const TrackerModule& other) const;
+    
+    /**
+     * @brief Checks whether this module wants to be updated right now.
+     * The intent is that modules performing expensive operations may not
+     * want to update every tick in order to save CPU time.
+     * @return Whether or not this module should be updated now.
+     */
+    virtual bool want_update();
+    
 };    
     
 /**

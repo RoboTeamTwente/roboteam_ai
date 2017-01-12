@@ -1,6 +1,7 @@
 #pragma once
 
-#include "opponent_tracker.h"
+#include "roboteam_world/tracker/opponent_tracker.h"
+#include "roboteam_world/tracker/tracker_utils.h"
 #include <utility>
 
 namespace rtt {
@@ -22,7 +23,7 @@ class PositionBasedTracker : public TrackerModule {
 public:    
     PositionBasedTracker() : counter(0), total_samples(0) {}
     virtual ~PositionBasedTracker() {}
-    virtual void update(const World& world) override;
+    virtual void update(const World& world);
     virtual TrackerResult calculate_for(const RobotID& id) const final override;
     
     /**

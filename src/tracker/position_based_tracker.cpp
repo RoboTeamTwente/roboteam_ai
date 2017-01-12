@@ -26,11 +26,11 @@ TrackerResult PositionBasedTracker::calculate_for(const RobotID& id) const {
     res.type = TrackedValueType::VEC3;
     Position* pos = calculate(id);
     if (pos) {
-        res.value.pos_val = *pos;
+        res.value = *pos;
         res.success = true;
         delete pos;
     } else {
-        res.value.pos_val = Position();
+        res.value = Position();
         res.success = false;
     }
     return res;

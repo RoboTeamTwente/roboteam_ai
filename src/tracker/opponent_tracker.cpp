@@ -11,7 +11,9 @@ OpponentTracker::~OpponentTracker() {
     
 void OpponentTracker::update(const World& world) {
     for (TrackerModule* module : modules) {
-        module->update(world);
+        if (module->want_update()) {
+            module->update(world);
+        }
     }
 }
 
@@ -44,6 +46,14 @@ const TrackerModule* OpponentTracker::get_module(const std::string& name) const 
         }
     }
     return nullptr;
+}
+
+bool TrackerModule::operator==(const TrackerModule& other) const {
+    return name() == other.name();
+}
+
+bool TrackerModule::want_update() {
+    return true;
 }
 
 bool OpponentTracker::remove_module(const TrackerModule& module) {

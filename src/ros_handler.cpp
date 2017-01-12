@@ -57,14 +57,15 @@ namespace rtt {
         TrackerResult track_result = module->calculate_for(req.id);
         res.success = track_result.success;
         switch (track_result.type) {
-            case TrackedValueType::LONG: res.long_val = track_result.value.long_val; break;
-            case TrackedValueType::DOUBLE: res.double_val = track_result.value.double_val; break;
-            case TrackedValueType::BOOL: res.bool_val = track_result.value.bool_val; break;
-            case TrackedValueType::STRING: res.string_val = track_result.value.string_val; break;
-            case TrackedValueType::VEC3: 
-                res.vector_val.x = track_result.value.pos_val.x;
-                res.vector_val.y = track_result.value.pos_val.y;
-                res.vector_val.z = track_result.value.pos_val.rot; 
+            case TrackedValueType::LONG: res.long_val = boost::get<long>(track_result.value); break;
+            case TrackedValueType::DOUBLE: res.double_val = boost::get<double>(track_result.value); break;
+            case TrackedValueType::BOOL: res.bool_val = boost::get<bool>(track_result.value); break;
+            case TrackedValueType::STRING: res.string_val = boost::get<std::string>(track_result.value); break;
+            case TrackedValueType::VEC3:
+                Position pos = boost::get<Position>(track_result.value);
+                res.vector_val.x = pos.x;
+                res.vector_val.y = pos.y;
+                res.vector_val.z = pos.rot; 
                 break;
         }
         
