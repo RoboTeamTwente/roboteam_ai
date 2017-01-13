@@ -37,15 +37,13 @@ void BackgroundTrackerBase::update(const World& world) {
     }
 }
 
-void BackgroundTrackerBase::_calculate_in_background(boost::promise<TrackerResult>& p, const RobotID& id) {
+TrackerResult BackgroundTrackerBase::_calculate_in_background(const RobotID& id) {
     lock l(mutex);
-    p.set_value(calculate_for(id));
+    return calculate_for(id);
 }
 
-boost::unique_future<TrackerResult> BackgroundTrackerBase::calculate_in_background(const RobotID& id) {
-    boost::promise<TrackerResult> promise;
-    boost::thread t([&]() { _calculate_in_background(promise, id); });
-    return promise.get_future();
+std::future<TrackerResult> BackgroundTrackerBase::calculate_in_background(const RobotID& id) {
+    return std::async(std::launch::async, &BackgroundTrackerBase::_calculate_in_background, this, id);
 }
 
 void BackgroundTrackerBase::dispatcher() {

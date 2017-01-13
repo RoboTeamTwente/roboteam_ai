@@ -56,13 +56,14 @@ TEST(WorldTests, filtered) {
     dr.orientation = 3.1415;
 
     frame->us.push_back(dr);
+    frame->t_capture += 1;
     world.detection_callback(*frame);
     msg = world.as_message();
     bot = msg.us[0];
     
     ASSERT_FLOAT_EQ(-2.0, bot.vel.x);
     ASSERT_FLOAT_EQ(-2.0, bot.vel.y);
-    ASSERT_FLOAT_EQ(3.1415, bot.w);
+    ASSERT_FLOAT_EQ(0, fmod(bot.w, M_PI));
     
 }
 

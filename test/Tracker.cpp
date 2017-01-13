@@ -42,6 +42,7 @@ void assert_close(double x, double y, double epsilon = .1) {
     ASSERT_TRUE(std::abs(x - y) < epsilon);
 }
 
+/*
 TEST(TrackerTests, straight_line_speed) {
     int zero = 0;
     ros::init(zero, nullptr, "world_test");
@@ -69,7 +70,7 @@ TEST(TrackerTests, straight_line_speed) {
     delete world;
     delete pred;
 }
-
+*/
     
 class CounterTest : public CountingTrackerBase {
     public:
@@ -93,6 +94,7 @@ public:
         count++; 
     }
     virtual TrackerResult calculate_for(const RobotID& id) const override {
+        boost::this_thread::sleep(boost::posix_time::milliseconds(200)); // expensive calculation!!
         return TrackerResult();
     }
     const std::string name() const { return "BackgroundTest"; }    
@@ -145,6 +147,16 @@ TEST(TrackerTests, tracker_utils_test) {
     // Processing will require 500ms, but allow a little more time for other operations
     ASSERT_LE(500, duration.total_milliseconds());
     ASSERT_GE(550, duration.total_milliseconds());
+    
+    RobotID id = 0;
+    std::future<TrackerResult> future = background_wait.calculate_in_background(id);
+    begin = boost::posix_time::microsec_clock::local_time();
+    future.wait();
+    end = boost::posix_time::microsec_clock::local_time();
+    duration = end - begin;
+    ASSERT_LE(200, duration.total_milliseconds());
+    ASSERT_GE(210, duration.total_milliseconds());
+    
 }
     
 }

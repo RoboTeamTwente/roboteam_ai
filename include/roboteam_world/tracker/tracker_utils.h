@@ -1,9 +1,9 @@
 #pragma once
 
 #include "roboteam_world/tracker/opponent_tracker.h"
-#include <boost/thread/thread.hpp>
+#include <boost/thread.hpp>
 #include <boost/thread/mutex.hpp>
-#include <boost/thread/future.hpp>
+#include <future>
 #include <boost/optional.hpp>
 #include <boost/interprocess/sync/scoped_lock.hpp>
 #include <boost/interprocess/sync/lock_options.hpp>
@@ -76,7 +76,7 @@ public:
      * @param id The robot to track.
      * @return A future which will at some point contain the result of calculate_for(id).
      */
-    boost::unique_future<TrackerResult> calculate_in_background(const RobotID& id);
+    std::future<TrackerResult> calculate_in_background(const RobotID& id);
 protected:    
     /**
      * @brief Performs the actual update of the module's internal state.
@@ -104,7 +104,7 @@ private:
     const bool allow_skip;
 
     void dispatcher();
-    void _calculate_in_background(boost::promise<TrackerResult>& p, const RobotID& id);
+    TrackerResult _calculate_in_background(const RobotID& id);
 };
     
 }
