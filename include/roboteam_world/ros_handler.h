@@ -9,7 +9,7 @@
 #include "roboteam_msgs/Tracker.h"
 
 #include "roboteam_world/world/world_dummy.h"
-#include "roboteam_world/tracker/opponent_tracker.h"
+#include "roboteam_world/tracker/tracker.h"
 #include "roboteam_world/tracker/acceleration_tracker.h"
 #include "roboteam_world/tracker/speed_tracker.h"
 
@@ -26,7 +26,7 @@ namespace rtt {
         ros::ServiceServer tracker_srv;
 
         WorldBase* world;
-        OpponentTracker tracker;
+        Tracker tracker;
 
     public:
         RosHandler();

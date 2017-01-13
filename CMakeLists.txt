@@ -13,7 +13,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
 #  message_generation
   roboteam_msgs
-  roboteam_utils
 )
 
 ## Enable c++11 support.
@@ -111,6 +110,7 @@ catkin_package(
   CATKIN_DEPENDS
   message_runtime
   DEPENDS
+  roboteam_utils
 )
 
 ###########
@@ -154,7 +154,7 @@ catkin_add_gtest(world_test
     src/ball.cpp
     src/world/filtered_world.cpp
     src/world/world_dummy.cpp
-    src/tracker/opponent_tracker.cpp
+    src/tracker/tracker.cpp
     src/tracker/position_based_tracker.cpp
     src/tracker/speed_tracker.cpp
     src/tracker/acceleration_tracker.cpp

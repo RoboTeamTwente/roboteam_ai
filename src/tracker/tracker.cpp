@@ -1,15 +1,15 @@
-#include "roboteam_world/tracker/opponent_tracker.h"
+#include "roboteam_world/tracker/tracker.h"
 #include <algorithm>
 
 namespace rtt {
     
-OpponentTracker::~OpponentTracker() {
+Tracker::~Tracker() {
     for (auto module : modules) {
         delete module;
     }
 }    
     
-void OpponentTracker::update(const World& world) {
+void Tracker::update(const World& world) {
     for (TrackerModule* module : modules) {
         if (module->want_update()) {
             module->update(world);
@@ -17,7 +17,7 @@ void OpponentTracker::update(const World& world) {
     }
 }
 
-bool OpponentTracker::add_module(TrackerModule* module) {
+bool Tracker::add_module(TrackerModule* module) {
     if (!module) return false;
     if (std::find(modules.begin(), modules.end(), module) != modules.end()) {
         return false;
@@ -26,11 +26,11 @@ bool OpponentTracker::add_module(TrackerModule* module) {
     return true;
 }
 
-bool OpponentTracker::has_module(const TrackerModule& module) const {
+bool Tracker::has_module(const TrackerModule& module) const {
     return has_module(module.name());
 }
 
-bool OpponentTracker::has_module(const std::string& name) const {
+bool Tracker::has_module(const std::string& name) const {
     for (const TrackerModule* module : modules) {
         if (module->name() == name) {
             return true;
@@ -39,7 +39,7 @@ bool OpponentTracker::has_module(const std::string& name) const {
     return false;
 }
 
-const TrackerModule* OpponentTracker::get_module(const std::string& name) const {
+const TrackerModule* Tracker::get_module(const std::string& name) const {
     for (const TrackerModule* module : modules) {
         if (name == module->name()) {
             return module;
@@ -56,11 +56,11 @@ bool TrackerModule::want_update() {
     return true;
 }
 
-bool OpponentTracker::remove_module(const TrackerModule& module) {
+bool Tracker::remove_module(const TrackerModule& module) {
     return remove_module(module.name());
 }
 
-bool OpponentTracker::remove_module(const std::string& name) {
+bool Tracker::remove_module(const std::string& name) {
     for (TrackerModule* module : modules) {
         if (module->name() == name) {
             modules.remove(module);

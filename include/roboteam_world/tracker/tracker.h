@@ -108,10 +108,10 @@ public:
  * @file opponent_tracker.h
  * @brief Main tracker class. Aggregates TrackerModules and updates them.
  */
-class OpponentTracker {
+class Tracker {
     
 public:
-    ~OpponentTracker();
+    ~Tracker();
     
     /**
      * @brief Tick all registered TrackerModules with the current world state.

@@ -2,7 +2,7 @@
 #include "roboteam_msgs/DetectionFrame.h"
 #include "roboteam_msgs/DetectionBall.h"
 #include "roboteam_msgs/DetectionRobot.h"
-#include "roboteam_world/tracker/opponent_tracker.h"
+#include "roboteam_world/tracker/tracker.h"
 #include "roboteam_world/tracker/tracker_utils.h"
 #include "roboteam_world/predictor.h"
 #include "roboteam_world/ros_handler.h"

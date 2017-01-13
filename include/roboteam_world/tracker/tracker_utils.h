@@ -1,6 +1,6 @@
 #pragma once
 
-#include "roboteam_world/tracker/opponent_tracker.h"
+#include "roboteam_world/tracker/tracker.h"
 #include <boost/thread.hpp>
 #include <boost/thread/mutex.hpp>
 #include <future>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "roboteam_world/tracker/opponent_tracker.h"
+#include "roboteam_world/tracker/tracker.h"
 #include "roboteam_world/tracker/tracker_utils.h"
 #include <utility>
 
