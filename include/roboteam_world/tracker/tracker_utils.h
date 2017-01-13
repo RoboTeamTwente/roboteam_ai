@@ -8,6 +8,8 @@
 #include <boost/interprocess/sync/scoped_lock.hpp>
 #include <boost/interprocess/sync/lock_options.hpp>
 
+#define BG_TRACKER_WAIT_FOR_FINAL_UPDATE true
+
 namespace rtt {
     
 typedef boost::interprocess::scoped_lock<boost::mutex> lock;    
@@ -76,7 +78,7 @@ public:
      * @param id The robot to track.
      * @return A future which will at some point contain the result of calculate_for(id).
      */
-    std::future<TrackerResult> calculate_in_background(const RobotID& id);
+    std::future<TrackerResult> calculate_in_background(const TeamRobot& bot);
 protected:    
     /**
      * @brief Performs the actual update of the module's internal state.
@@ -104,7 +106,7 @@ private:
     const bool allow_skip;
 
     void dispatcher();
-    TrackerResult _calculate_in_background(const RobotID& id);
+    TrackerResult _calculate_in_background(const TeamRobot& bot);
 };
     
 }

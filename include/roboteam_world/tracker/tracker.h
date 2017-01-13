@@ -10,6 +10,7 @@
 #include "roboteam_world/ball.h"
 #include "roboteam_utils/Position.h"
 #include "roboteam_utils/constants.h"
+#include "roboteam_utils/TeamRobot.h"
 #include "roboteam_msgs/World.h"
 #include "roboteam_msgs/Vector3f.h"
 #include "ros/ros.h"
@@ -87,7 +88,7 @@ public:
      * @return A TrackerResult with the most recent data, or one which has the success flag set to false
      * if it is not (currently) possible to calculate a result for this robot.
      */
-    virtual TrackerResult calculate_for(const RobotID& id) const = 0;
+    virtual TrackerResult calculate_for(const TeamRobot& bot) const = 0;
     
     bool operator==(const TrackerModule& other) const;
     

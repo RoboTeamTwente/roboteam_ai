@@ -7,7 +7,11 @@ namespace rtt {
 void PositionBasedTracker::update(const World& world) {
     std::vector<roboteam_msgs::WorldRobot> bots = world.them;
     for (const roboteam_msgs::WorldRobot& bot : bots) {
-        add_sample(bot.id, Position(bot.pos.x, bot.pos.y, bot.angle));
+        add_sample({bot.id, false}, Position(bot.pos.x, bot.pos.y, bot.angle));
+    }
+    bots = world.us;
+    for (const roboteam_msgs::WorldRobot& bot : bots) {
+        add_sample({bot.id, true}, Position(bot.pos.x, bot.pos.y, bot.angle));
     }
     counter = (counter + 1) % num_samples;
     total_samples++;
@@ -17,14 +21,14 @@ unsigned long PositionBasedTracker::get_sample_count() const {
     return total_samples;
 }
 
-void PositionBasedTracker::add_sample(const RobotID& id, const Position& pos) {
-    samples[id][counter] = {pos, ros::Time::now()};
+void PositionBasedTracker::add_sample(const TeamRobot& bot, const Position& pos) {
+    samples[bot][counter] = {pos, ros::Time::now()};
 }
 
-TrackerResult PositionBasedTracker::calculate_for(const RobotID& id) const {
+TrackerResult PositionBasedTracker::calculate_for(const TeamRobot& bot) const {
     TrackerResult res;
     res.type = TrackedValueType::VEC3;
-    Position* pos = calculate(id);
+    Position* pos = calculate(bot);
     if (pos) {
         res.value = *pos;
         res.success = true;

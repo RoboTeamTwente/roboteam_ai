@@ -21,11 +21,14 @@ BackgroundTrackerBase::~BackgroundTrackerBase() {
 }
 
 void BackgroundTrackerBase::update(const World& world) {
+    if (should_stop) return;
     if (allow_skip) {
         // Skip update if the previous one is still running
         lock l(mutex, boost::interprocess::try_to_lock);
-        latest_world = boost::optional<const World&>(world);
-        has_new = true;
+        if (l.owns()) {
+            latest_world = boost::optional<const World&>(world);
+            has_new = true;
+        }
     } else {
         // Block for previous update to end if it's still running
         while (has_new) {
@@ -37,24 +40,20 @@ void BackgroundTrackerBase::update(const World& world) {
     }
 }
 
-TrackerResult BackgroundTrackerBase::_calculate_in_background(const RobotID& id) {
+TrackerResult BackgroundTrackerBase::_calculate_in_background(const TeamRobot& bot) {
     lock l(mutex);
-    return calculate_for(id);
+    return calculate_for(bot);
 }
 
-std::future<TrackerResult> BackgroundTrackerBase::calculate_in_background(const RobotID& id) {
-    return std::async(std::launch::async, &BackgroundTrackerBase::_calculate_in_background, this, id);
+std::future<TrackerResult> BackgroundTrackerBase::calculate_in_background(const TeamRobot& bot) {
+    return std::async(std::launch::async, &BackgroundTrackerBase::_calculate_in_background, this, bot);
 }
 
 void BackgroundTrackerBase::dispatcher() {
-    while (!should_stop) {
+    while (!should_stop || (BG_TRACKER_WAIT_FOR_FINAL_UPDATE && has_new)) {
         if (has_new && want_update()) {
             lock l(mutex);
-            if (l.owns()) {
-                update_impl(*latest_world);
-            } else {
-                boost::this_thread::sleep(boost::posix_time::milliseconds(1));
-            }
+            update_impl(*latest_world);
             has_new = false;
         }
     }

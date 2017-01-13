@@ -53,7 +53,7 @@ namespace rtt {
          * Note that even if a TrackerResult is returned, that does not mean the calculation
          * succeeded. Always check the success flag.
          */
-        TrackerResult* track(const std::string& type, const RobotID& id) const;
+        TrackerResult* track(const std::string& type, const TeamRobot& bot) const;
     };
 
 }

@@ -6,14 +6,14 @@ const std::string AccelerationTracker::name() const {
     return TRACKER_TYPE_ACCEL;
 }    
 
-Position* AccelerationTracker::calculate(const RobotID& id) const {
+Position* AccelerationTracker::calculate(const TeamRobot& bot) const {
     unsigned int max_idx = std::min((const unsigned int) get_sample_count(), num_samples);
     Position accumulator;
     Position last_pos;
     Position last_vel;
-    ros::Duration duration = samples.at(id)[max_idx - 1].second - samples.at(id)[0].second;
+    ros::Duration duration = samples.at(bot)[max_idx - 1].second - samples.at(bot)[0].second;
     for (unsigned int i = 0; i < max_idx; i++) {
-        Position pos = samples.at(id)[i].first;
+        Position pos = samples.at(bot)[i].first;
         if (i > 0) {
             Position vel = pos - last_pos;
             if (i > 1) {

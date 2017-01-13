@@ -54,7 +54,7 @@ namespace rtt {
             return false;
         }
         
-        TrackerResult track_result = module->calculate_for(req.id);
+        TrackerResult track_result = module->calculate_for({req.id, req.our_team});
         res.success = track_result.success;
         switch (track_result.type) {
             case TrackedValueType::LONG: res.long_val = boost::get<long>(track_result.value); break;
@@ -72,9 +72,9 @@ namespace rtt {
         return true;
     }
 
-    TrackerResult* RosHandler::track(const std::string& type, const RobotID& id) const {
+    TrackerResult* RosHandler::track(const std::string& type, const TeamRobot& bot) const {
         const TrackerModule* module = tracker.get_module(type);
-        return module == nullptr ? nullptr : new TrackerResult(module->calculate_for(id));
+        return module == nullptr ? nullptr : new TrackerResult(module->calculate_for(bot));
     }
 
 }

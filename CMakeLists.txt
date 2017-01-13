@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
 #  message_generation
   roboteam_msgs
+  roboteam_utils
 )
 
 ## Enable c++11 support.
@@ -110,7 +111,6 @@ catkin_package(
   CATKIN_DEPENDS
   message_runtime
   DEPENDS
-  roboteam_utils
 )
 
 ###########
