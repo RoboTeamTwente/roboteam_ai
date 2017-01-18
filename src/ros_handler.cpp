@@ -15,7 +15,7 @@ namespace rtt {
         vision_sub = nh.subscribe(TOPIC_DETECTION, 1000, &RosHandler::detection_callback, this);
 
         // Advertise the world output.
-        world_pub = nh.advertise<roboteam_msgs::World>(TOPIC_WOLRD_STATE, 1000);
+        world_pub = nh.advertise<roboteam_msgs::World>(TOPIC_WORLD_STATE, 1000);
 
         // Advertise the reset service.
         reset_srv = nh.advertiseService(SERVICE_WORLD_RESET, &RosHandler::reset_callback, this);
