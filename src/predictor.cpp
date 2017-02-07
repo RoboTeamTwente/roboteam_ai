@@ -63,7 +63,13 @@ boost::optional<Position> Predictor::computeBallVelocity() {
             double timeDiff = ballBuf.at(i+1).first - ballBuf.at(i).first;
             posDiff = posDiff + (newerBallPos - oldBallPos).scale(1.0/timeDiff);
         }
-        Position ballVel = posDiff.scale(1.0/(ballBuf.size()-1));;
+
+        Position ballVel = posDiff.scale(1.0/(ballBuf.size()-1));
+        double ballSpeed = sqrt(ballVel.x*ballVel.x + ballVel.y*ballVel.y);
+        // if (ballSpeed > 0.1) {
+            // ROS_INFO_STREAM("ballSpeed: " << ballSpeed);
+        // }
+        
         return boost::optional<Position>(ballVel);
     }
     return boost::none;
@@ -84,9 +90,7 @@ boost::optional<Position> Predictor::computeRobotVelocity(uint id, bool our_team
                 posDiff = posDiff + (newerRobotPos - oldRobotPos).scale(1.0/timeDiff);
             }
             Position robotVel = posDiff.scale(1.0/(ourTeamBuf.at(id).size()-1));
-            if (id == 1) {
-                ROS_INFO_STREAM("robotVel: " << robotVel.x << " " << robotVel.y << " " << robotVel.rot);
-            }
+
             return boost::optional<Position>(robotVel);
         }
         return boost::none;
@@ -103,6 +107,7 @@ boost::optional<Position> Predictor::computeRobotVelocity(uint id, bool our_team
                 posDiff = posDiff + (newerRobotPos - oldBallPos).scale(1/timeDiff);
             }
             Position robotVel = posDiff.scale(1.0/(theirTeamBuf.at(id).size()-1));
+            
             return boost::optional<Position>(robotVel);
         }
         return boost::none;

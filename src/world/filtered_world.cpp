@@ -60,7 +60,9 @@ namespace rtt {
                 cam.second = false;
             }
 
-            merge_frames(msg.t_capture);
+            double time_now = ros::Time::now().toSec();
+
+            merge_frames(time_now);
         }
 
     }
