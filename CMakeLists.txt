@@ -75,6 +75,9 @@ add_dependencies(roboteam_world_srcs
     ${${PROJECT_NAME}_EXPORTED_TARGETS}
     ${catkin_EXPORTED_TARGETS}
     )
+target_link_libraries(roboteam_world_srcs 
+    ${catkin_LIBRARIES}
+    )
 
 #################
 ## Dummy world ##
