@@ -24,7 +24,7 @@ namespace rtt {
         robots_yellow_buffer = RobotMultiCamBuffer();
 
         updated_cams = std::map<int, bool>();
-        
+
     }
 
 
@@ -32,12 +32,12 @@ namespace rtt {
 
         roboteam_msgs::World msg;
 
-        for (const rtt::Robot& robot : robots_blue_world) {
-            msg.them.push_back(robot.as_message());
+        for (auto& robot : robots_blue_world) {
+            msg.them.push_back(robot.second.as_message());
         }
 
-        for (const rtt::Robot& robot : robots_yellow_world) {
-            msg.us.push_back(robot.as_message());
+        for (auto& robot : robots_yellow_world) {
+            msg.us.push_back(robot.second.as_message());
         }
 
         msg.ball = ball_world.as_message();
@@ -138,25 +138,19 @@ namespace rtt {
             ball_world.set_velocity(vel.x, vel.y);
         }
         // roboteam_msgs::WorldBall ball = ball_world.as_message();
-        
+
         // Clear the buffers.
         robots_blue_buffer.clear();
         robots_yellow_buffer.clear();
     }
 
 
-    void FilteredWorld::merge_robots(RobotMultiCamBuffer& robots_buffer, std::vector<rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer, double timestamp, bool our_team) {
+    void FilteredWorld::merge_robots(RobotMultiCamBuffer& robots_buffer, std::map<int, rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer, double timestamp, bool our_team) {
         for (auto& robot_buffer : robots_buffer) {
             uint bot_id = robot_buffer.first;
 
             Robot robot;
             robot.set_id(bot_id);
-
-            // Resize the vector so that this id fits in.
-            // The vector should probably be changed to a map.
-            if (robots_output.size() <= bot_id) {
-                robots_output.resize(bot_id + 1);
-            }
 
             float x = 0;
             float y = 0;
@@ -181,8 +175,28 @@ namespace rtt {
                 robot.set_vel(vel.x, vel.y, 0.0);
             }
 
-            robots_output.at(bot_id) = robot;
+            // Update the last detection time.
+            robot.update_last_detection_time(timestamp);
+
+            robots_output[bot_id] = robot;
             old_buffer[bot_id] = robot;
+        }
+
+        // Remove old robots.
+        std::map<int, rtt::Robot>::iterator botIter = robots_output.begin();
+
+        while (botIter != robots_output.end()) {
+            // Remove robots that are not detected for 0.25 seconds.
+            // TODO: Make a ros param for this?
+            if (botIter->second.is_detection_old(timestamp, 0.25)) {
+                botIter = robots_output.erase(botIter);
+                ROS_INFO("Removing bot: %i. Too old.", botIter->second.get_id());
+            } else if (botIter->second.is_detection_from_future(timestamp)) {
+                botIter = robots_output.erase(botIter);
+                ROS_INFO("Removing bot: %i. It's from the future?", botIter->second.get_id());
+            } else {
+                ++botIter;
+            }
         }
     }
 }

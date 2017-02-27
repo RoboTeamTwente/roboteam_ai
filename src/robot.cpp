@@ -41,14 +41,26 @@ namespace rtt {
         this->w = w;
     }
 
+    void Robot::update_last_detection_time(double time) {
+        last_detection_time = time;
+    }
+
+    bool Robot::is_detection_old(double time, double threshold) {
+        return (time - last_detection_time > threshold);
+    }
+
+    bool Robot::is_detection_from_future(double time) {
+        return (time < last_detection_time);
+    }
+
     roboteam_utils::Position Robot::get_position() const {
         return roboteam_utils::Position(x, y, angle);
     }
-    
+
     roboteam_utils::Position Robot::get_velocity() const {
         return roboteam_utils::Position(x_vel, y_vel, w);
     }
-    
+
     uint Robot::get_id() const {
         return id;
     }
