@@ -25,8 +25,8 @@ namespace rtt {
         void set_velocity(float x_vel, float y_vel);
         void set_area(uint area);
 
-        roboteam_utils::Position get_position() const;
-        roboteam_utils::Position get_velocity() const;
+        Position get_position() const;
+        Position get_velocity() const;
         uint get_area() const;
 
         roboteam_msgs::WorldBall as_message() const;

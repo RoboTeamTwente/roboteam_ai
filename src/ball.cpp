@@ -28,12 +28,12 @@ namespace rtt {
     }
 
     
-    roboteam_utils::Position Ball::get_position() const {
-        return roboteam_utils::Position(x, y, z);
+    Position Ball::get_position() const {
+        return Position(x, y, z);
     }
     
-    roboteam_utils::Position Ball::get_velocity() const {
-        return roboteam_utils::Position(x_vel, y_vel, z_vel);
+    Position Ball::get_velocity() const {
+        return Position(x_vel, y_vel, z_vel);
     }
     
     uint Ball::get_area() const {

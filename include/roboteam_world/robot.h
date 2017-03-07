@@ -35,8 +35,8 @@ namespace rtt {
         bool is_detection_old(double time, double threshold);
         bool is_detection_from_future(double time);
 
-        roboteam_utils::Position get_position() const;
-        roboteam_utils::Position get_velocity() const;
+        Position get_position() const;
+        Position get_velocity() const;
         uint get_id() const;
 
        roboteam_msgs::WorldRobot as_message() const;

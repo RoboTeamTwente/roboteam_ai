@@ -41,7 +41,7 @@ namespace rtt {
         roboteam_msgs::DetectionBall ball_buffer;
         std::vector<roboteam_msgs::DetectionBall> old_ball_positions;
         std::vector<roboteam_msgs::Vector2f> old_robot_positions;
-		std::map<int, std::vector<roboteam_utils::Vector2>> robots_pos_history;
+		std::map<int, std::vector<Vector2>> robots_pos_history;
 
         std::map<int, rtt::Robot> old_blue, old_yellow;
 

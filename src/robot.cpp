@@ -53,12 +53,12 @@ namespace rtt {
         return (time < last_detection_time);
     }
 
-    roboteam_utils::Position Robot::get_position() const {
-        return roboteam_utils::Position(x, y, angle);
+    Position Robot::get_position() const {
+        return Position(x, y, angle);
     }
 
-    roboteam_utils::Position Robot::get_velocity() const {
-        return roboteam_utils::Position(x_vel, y_vel, w);
+    Position Robot::get_velocity() const {
+        return Position(x_vel, y_vel, w);
     }
 
     uint Robot::get_id() const {

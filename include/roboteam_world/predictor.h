@@ -12,7 +12,7 @@
 
 #define BALL_ID 123456789
 
-using Position = roboteam_utils::Position;
+using Position = Position;
 
 namespace rtt {
 
