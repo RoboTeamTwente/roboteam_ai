@@ -12,8 +12,6 @@
 
 #define BALL_ID 123456789
 
-using Position = Position;
-
 namespace rtt {
 
 const int NUM_ROBOTS = 15;
