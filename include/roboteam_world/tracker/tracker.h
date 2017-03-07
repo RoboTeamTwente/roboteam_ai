@@ -17,8 +17,8 @@
 
 namespace rtt {
 
-using Position = roboteam_utils::Position;
-using Vector2 = roboteam_utils::Vector2;
+using Position = Position;
+using Vector2 = Vector2;
 using World = roboteam_msgs::World;
 typedef unsigned int RobotID;    
 

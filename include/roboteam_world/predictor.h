@@ -12,8 +12,6 @@
 
 #define BALL_ID 123456789
 
-using Position = roboteam_utils::Position;
-
 namespace rtt {
 
 const int NUM_ROBOTS = 15;
