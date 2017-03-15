@@ -93,8 +93,36 @@ namespace rtt {
         }
 
         // Ball
+        // Find the ball with the smallest distance from the previous position
+        // TODO: Something with speed and extrapolation in case the ball disappears?
         if (msg.balls.size() > 0) {
-            ball_buffer = msg.balls[0];
+            framesWithoutBall[cam_id] = 0;
+
+            Vector2 previousBallPos = ball_buffer[cam_id].pos;
+
+            roboteam_msgs::DetectionBall closestBall = msg.balls[0];
+            double closestDist2 = Vector2(closestBall.pos).dist2(previousBallPos);
+
+            for (auto const & ball : msg.balls) {
+                Vector2 ballPos(ball.pos);
+                
+                double dist2 = Vector2(ball.pos).dist2(previousBallPos);
+                if (dist2 < closestDist2) {
+                    closestBall = ball;
+                    closestDist2 = dist2;
+                }
+            }
+
+            ball_buffer[cam_id] = closestBall; // msg.balls[0];
+        } else {
+            // Else, if the ball has not been seen for 5 frames,
+            // remove this entry from the buffer. This way old ball
+            // positions are not taken into account.
+            framesWithoutBall[cam_id]++;
+
+            if (framesWithoutBall[cam_id] >= 5) {
+                ball_buffer.erase(cam_id);
+            }
         }
     }
 
@@ -122,14 +150,31 @@ namespace rtt {
      * Merges the frames from all cameras into the final world state.
      */
     void FilteredWorld::merge_frames(double timestamp) {
-
         std::string s;
         get_PARAM_OUR_COLOR(s);
         bool isBlueOurTeam = s == "blue";
         merge_robots(robots_blue_buffer, robots_blue_world, old_blue, timestamp, isBlueOurTeam);
         merge_robots(robots_yellow_buffer, robots_yellow_world, old_yellow, timestamp, !isBlueOurTeam);
 
-        ball_world.move_to(ball_buffer.pos.x, ball_buffer.pos.y, ball_buffer.z);
+        // Take the ball from the camera that's closest to the previous position of the ball
+        if (ball_buffer.size() > 0) {
+            Vector2 currentBallPos(ball_world.get_position().x, ball_world.get_position().y);
+
+            roboteam_msgs::DetectionBall closestBall = ball_buffer.begin()->second;
+            double closestDist2 = Vector2(closestBall.pos).dist2(currentBallPos);
+
+            for (auto const & ballEntry : ball_buffer) {
+                double dist2 = Vector2(ballEntry.second.pos).dist2(currentBallPos);
+
+                if (dist2 < closestDist2) {
+                    closestBall = ballEntry.second;
+                    closestDist2 = dist2;
+                }
+            }
+            
+            ball_world.move_to(closestBall.pos.x, closestBall.pos.y, closestBall.z);
+        }
+
         // roboteam_msgs::Vector2f speedEstimation = estimateBallSpeed(ball_buffer);
         // ball_world.set_velocity(speedEstimation.x, speedEstimation.y);
         predictor.update(ball_world, timestamp);
