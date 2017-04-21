@@ -30,7 +30,7 @@ class Predictor {
     void discard_old_ball_data(double current_time);
 
     public:
-    Predictor(double memory_time = 2.0 /*seconds*/) : memory_time(memory_time) {}
+    Predictor(double memory_time = 0.1 /*seconds*/) : memory_time(memory_time) {}
     void update(const Robot& bot, bool our_team, double timestamp);
     void update(const Ball& ball, double timestamp);
     boost::optional<Position> computeBallVelocity();
