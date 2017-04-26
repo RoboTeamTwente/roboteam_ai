@@ -232,9 +232,9 @@ namespace rtt {
         std::map<int, rtt::Robot>::iterator botIter = robots_output.begin();
 
         while (botIter != robots_output.end()) {
-            // Remove robots that are not detected for 0.25 seconds.
+            // Remove robots that are not detected for 3 seconds.
             // TODO: Make a ros param for this?
-            if (botIter->second.is_detection_old(timestamp, 0.25)) {
+            if (botIter->second.is_detection_old(timestamp, 3)) {
                 botIter = robots_output.erase(botIter);
                 ROS_INFO("Removing bot: %i. Too old.", botIter->second.get_id());
             } else if (botIter->second.is_detection_from_future(timestamp)) {
