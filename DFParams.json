@@ -1,0 +1,19 @@
+[
+
+{
+  "module": "Distance",
+  "params": {
+    "defaultDivisor": -3.7,
+    "maxWidth": 9.0
+  }
+},
+
+{
+  "module": "Orientation",
+  "params": {
+    "defaultDivisor": 1.7,
+    "scalar": 3.0
+  }
+}
+
+]
