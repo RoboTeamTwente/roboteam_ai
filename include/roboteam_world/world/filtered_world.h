@@ -18,6 +18,7 @@
 #include "roboteam_world/predictor.h"
 
 #include "roboteam_world/world/world_base.h"
+#include "roboteam_world/danger_finder/DangerFinder.h"
 
 // TODO: Make sure the us/them nomenclature also propagates to the buffers
 // TODO: Make sure the us/them stuff is decided by a parameters settable somewhere
@@ -80,6 +81,7 @@ namespace rtt {
         void detection_callback(const roboteam_msgs::DetectionFrame msg);
 
     private:
+        DangerData danger;
 
         // Allows for testing of private methods
         FRIEND_TEST(WorldTests, filtered);
@@ -100,6 +102,7 @@ namespace rtt {
         void merge_frames(double timestamp);
 
         void merge_robots(RobotMultiCamBuffer& robots_buffer, std::map<int, rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer, double timestamp, bool our_team);
+
     };
 
 }

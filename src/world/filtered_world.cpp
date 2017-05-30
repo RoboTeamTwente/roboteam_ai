@@ -27,6 +27,14 @@ namespace rtt {
 
     }
 
+    inline roboteam_msgs::WorldRobot botWithId(int id, const std::vector<roboteam_msgs::WorldRobot>& bots) {
+    	for (const auto& bot : bots) {
+    		if (bot.id == id) {
+    			return bot;
+    		}
+    	}
+    	throw std::logic_error("FilteredWorld::botWithId: Bot not found...");
+    }
 
     roboteam_msgs::World FilteredWorld::as_message() const {
 
@@ -41,6 +49,13 @@ namespace rtt {
         }
 
         msg.ball = ball_world.as_message();
+
+        for (int i = 0; i < danger.dangerList.size(); i++) {
+        	int id = danger.dangerList.at(i);
+        	msg.dangerList.push_back(botWithId(id, msg.them));
+        	msg.dangerScores.push_back(danger.scores.at(id));
+        	msg.dangerFlags.push_back(danger.flags.at(id));
+        }
 
         return msg;
     }
@@ -65,6 +80,8 @@ namespace rtt {
 
             merge_frames(time_now);
         }
+
+        danger = df::DangerFinder::instance().getMostRecentData();
 
     }
 

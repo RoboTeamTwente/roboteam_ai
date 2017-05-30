@@ -10,6 +10,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  roslib
   std_msgs
   roboteam_msgs
   roboteam_utils
@@ -70,7 +71,16 @@ add_library(roboteam_world_srcs
     # src/world
     src/world/filtered_world.cpp
     src/world/world_dummy.cpp
+
+    # src/danger_finder
+    src/danger_finder/DangerData.cpp
+    src/danger_finder/DangerFinder.cpp
+    src/danger_finder/DangerModule.cpp
+    src/danger_finder/DangerFinderConfig.cpp
+    src/danger_finder/DistanceModule.cpp
+    src/danger_finder/OrientationModule.cpp
     )
+
 add_dependencies(roboteam_world_srcs
     ${${PROJECT_NAME}_EXPORTED_TARGETS}
     ${catkin_EXPORTED_TARGETS}
