@@ -3,6 +3,7 @@
 #include "roboteam_utils/LastWorld.h"
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_msgs/World.h"
+#include "boost/optional.hpp"
 #include "DangerFinderConfig.h"
 
 namespace rtt {
@@ -59,6 +60,7 @@ public:
 	 * time this function is called.
 	 */
 	static DangerFinderConfig cfg();
+	static boost::optional<DangerModule*> buildModule(std::string name);
 	virtual ~DangerModule() {}
 
 	/**
@@ -80,6 +82,18 @@ protected:
 private:
 	std::string name;
 };
+
+std::map<std::string, DangerModule*(*)()>& moduleRepo();
+template<typename M> class ModuleRegisterer {
+public:
+	ModuleRegisterer(std::string name, DangerModule*(*factory)()) {
+		moduleRepo()[name] = factory;
+		std::cout << "Registering " << name << "\n";
+	}
+};
+#define REGISTER_MODULE(name, type)\
+	static DangerModule* type ## Factory() { static type* module = new type; return module; }\
+	static ModuleRegisterer<type> type ## Registerer(name, &type ## Factory);
 
 }
 }

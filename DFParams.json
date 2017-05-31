@@ -1,33 +1,35 @@
 [
-
-{
-  "module": "Distance",
-  "params": {
-    "defaultDivisor": -3.7,
-    "maxWidth": 9.0
+  {
+    "module": "Distance",
+    "enabled": true,
+    "params": {
+      "defaultDivisor": -3.7,
+      "maxWidth": 9.0
+    }
+  },
+ 
+  {
+    "module": "Orientation",
+    "enabled": true,
+    "params": {
+      "defaultDivisor": 1.7,
+      "scalar": 3.0
+    }
+  },
+  
+  {
+    "module": "Free",
+    "enabled": true,
+    "params": {
+      "standingFreeDanger": 2.0
+    }
+  },
+  
+  {
+    "module": "CanShoot",
+    "enabled": true,
+    "params": {
+      "canShootDanger": 999
+    }
   }
-},
-
-{
-  "module": "Orientation",
-  "params": {
-    "defaultDivisor": 1.7,
-    "scalar": 3.0
-  }
-},
-
-{
-  "module": "Free",
-  "params": {
-    "standingFreeDanger": 2.0
-  }
-},
-
-{
-  "module": "CanShoot",
-  "params": {
-    "canShootDanger": 999
-  }
-}
-
 ]

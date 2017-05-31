@@ -5,6 +5,8 @@
 namespace rtt {
 namespace df {
 
+REGISTER_MODULE("Orientation", OrientationModule)
+
 OrientationModule::OrientationModule(double factor) : DangerModule("Orientation"), factor(factor) {}
 
 PartialResult OrientationModule::calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) {

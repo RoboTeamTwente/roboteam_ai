@@ -75,7 +75,7 @@ public:
 	 */
 	static void ensureRunning(int iterationsPerSecond = 20);
 private:
-	const static std::vector<df::DangerModule*> modules();
+	static std::vector<df::DangerModule*> modules();
 	std::thread runner;
 	std::mutex  mutex;
 	volatile bool stopping;

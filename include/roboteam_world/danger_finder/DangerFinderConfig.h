@@ -42,8 +42,18 @@ public:
 	 */
 	SubConfig getConfigFor(std::string moduleName) const;
 
+	/**
+	 * \function reload
+	 * \brief Reloads the configuration from the DF_CONFIG_PARAM_FILE.
+	 * \return Whether or not the loading was successful. The configuration should
+	 * not be used if it was not successfully loaded.
+	 */
+	bool reload();
+
+	std::vector<std::string> getActiveModules() const;
 private:
 	std::map<std::string, SubConfig> configs;
+	std::vector<std::string> activeModules;
 };
 
 }

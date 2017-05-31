@@ -25,8 +25,20 @@ DangerFinderConfig DangerModule::cfg() {
 	return d;
 }
 
+boost::optional<DangerModule*> DangerModule::buildModule(std::string name) {
+	if (moduleRepo().find(name) != moduleRepo().end()) {
+		return moduleRepo().at(name)();
+	}
+	return boost::none;
+}
+
 DangerFinderConfig::SubConfig DangerModule::myConfig() {
 	return cfg().getConfigFor(name);
+}
+
+std::map<std::string, DangerModule*(*)()>& moduleRepo() {
+	static std::map<std::string, DangerModule*(*)()> repo;
+	return repo;
 }
 
 }

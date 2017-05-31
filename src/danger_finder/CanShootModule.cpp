@@ -6,9 +6,11 @@
 namespace rtt {
 namespace df {
 
+REGISTER_MODULE("CanShoot", CanShootModule)
+
 CanShootModule::CanShootModule() : DangerModule("CanShoot") {}
 
-PartialResult CanShootModule::calculate(const roboteam_msgs::WorldRobot& bot, const World& world) {
+PartialResult CanShootModule::calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) {
 	Vector2 botPos(bot.pos);
 	Vector2 goalPos = LastWorld::get_our_goal_center();
 

@@ -29,7 +29,7 @@ namespace rtt {
 
     inline roboteam_msgs::WorldRobot botWithId(int id, const std::vector<roboteam_msgs::WorldRobot>& bots) {
     	for (const auto& bot : bots) {
-    		if (bot.id == id) {
+    		if (bot.id == (unsigned) id) {
     			return bot;
     		}
     	}
@@ -50,7 +50,7 @@ namespace rtt {
 
         msg.ball = ball_world.as_message();
 
-        for (int i = 0; i < danger.dangerList.size(); i++) {
+        for (unsigned i = 0; i < danger.dangerList.size(); i++) {
         	int id = danger.dangerList.at(i);
         	msg.dangerList.push_back(botWithId(id, msg.them));
         	msg.dangerScores.push_back(danger.scores.at(id));

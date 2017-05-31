@@ -4,6 +4,8 @@
 namespace rtt {
 namespace df {
 
+REGISTER_MODULE("Distance", DistanceModule)
+
 DistanceModule::DistanceModule(double factor) : DangerModule("Distance"), factor(factor) {}
 
 inline Vector2 getGoalCenter() {

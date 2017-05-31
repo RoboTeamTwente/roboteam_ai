@@ -7,26 +7,32 @@ namespace rtt {
 namespace df {
 
 DangerFinderConfig::DangerFinderConfig() {
+	reload();
+}
+
+DangerFinderConfig::SubConfig DangerFinderConfig::getConfigFor(std::string moduleName) const {
+	return configs.at(moduleName);
+}
+
+bool DangerFinderConfig::reload() {
 	nlohmann::json json;
 	std::ifstream fileStream(DF_CONFIG_PARAM_FILE);
 	ROS_INFO("Reading...");
 	if (fileStream.fail()) {
 		ROS_ERROR_STREAM("DangerFinderConfig: Failed to read parameter file:" << DF_CONFIG_PARAM_FILE);
-		return;
+		return false;
 	}
-
-	json << fileStream;
-
-	if (!json.is_array()) {
+		json << fileStream;
+		if (!json.is_array()) {
 		ROS_ERROR_STREAM("DangerFinderConfig: Root element of " << DF_CONFIG_PARAM_FILE << " is not an array!");
-		return;
+		return false;
 	}
-
 	for (const nlohmann::json& sub : json) {
+		ROS_INFO_STREAM("Reading JSON for module " << sub["module"]);
 		if (!sub.is_object()) {
 			ROS_ERROR_STREAM("DangerFinderConfig: An element of the root array in "
 					<< DF_CONFIG_PARAM_FILE << " is not an object!");
-			return;
+			return false;
 		}
 		SubConfig cfg;
 		cfg.name = sub["module"];
@@ -50,11 +56,15 @@ DangerFinderConfig::DangerFinderConfig() {
 			}
 		}
 		configs[cfg.name] = cfg;
+		if (sub.value("enabled", false)) {
+			activeModules.push_back(cfg.name);
+		}
 	}
+	return true;
 }
 
-DangerFinderConfig::SubConfig DangerFinderConfig::getConfigFor(std::string moduleName) const {
-	return configs.at(moduleName);
+std::vector<std::string> DangerFinderConfig::getActiveModules() const {
+	return activeModules;
 }
 
 }

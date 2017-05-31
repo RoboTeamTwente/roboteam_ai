@@ -14,17 +14,29 @@ boost::optional<roboteam_msgs::WorldRobot> getWorldBot(int id, bool ourTeam) {
 	auto world = LastWorld::get();
 	std::vector<roboteam_msgs::WorldRobot> vec = ourTeam ? world.us : world.them;
 	for (const auto& bot : vec) {
-		if (bot.id == id) return bot;
+		if (bot.id == (unsigned) id) return bot;
 	}
 	return boost::none;
 }
 
-const std::vector<df::DangerModule*> DangerFinder::modules() {
-	const static std::vector<df::DangerModule*> vec = {
-			new df::DistanceModule(),
-			new df::OrientationModule()
-		};
-	return vec;
+std::vector<df::DangerModule*> DangerFinder::modules() {
+	static std::vector<df::DangerModule*>* vec = nullptr;
+	if (vec == nullptr) {
+		ROS_INFO("Building modules...");
+		vec = new std::vector<df::DangerModule*>;
+		auto config = DangerModule::cfg();
+		for (std::string moduleName : config.getActiveModules()) {
+			ROS_INFO_STREAM("Module activated: " << moduleName);
+			boost::optional<df::DangerModule*> optMod = DangerModule::buildModule(moduleName);
+			if (!optMod) {
+				ROS_WARN_STREAM("DangerFinder: Module with name '" << moduleName
+						<< "' listed in the config file, but not registered");
+			} else {
+				vec->push_back(*optMod);
+			}
+		}
+	}
+	return *vec;
 };
 
 DangerFinder::DangerFinder() : stopping(false), running(false), ranOnce(false) {}

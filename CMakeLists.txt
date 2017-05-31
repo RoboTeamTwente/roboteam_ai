@@ -17,7 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 ## Enable c++11 support.
-set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -g ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -g ${CMAKE_CXX_FLAGS} -O0")
 
 ###################################
 ## catkin specific configuration ##
@@ -79,6 +79,8 @@ add_library(roboteam_world_srcs
     src/danger_finder/DangerFinderConfig.cpp
     src/danger_finder/DistanceModule.cpp
     src/danger_finder/OrientationModule.cpp
+    src/danger_finder/FreeModule.cpp
+    src/danger_finder/CanShootModule.cpp
     )
 
 add_dependencies(roboteam_world_srcs
