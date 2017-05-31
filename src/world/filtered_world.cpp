@@ -251,7 +251,7 @@ namespace rtt {
         while (botIter != robots_output.end()) {
             // Remove robots that are not detected for 3 seconds.
             // TODO: Make a ros param for this?
-            if (botIter->second.is_detection_old(timestamp, 3)) {
+            if (botIter->second.is_detection_old(timestamp, 0.1)) {
                 botIter = robots_output.erase(botIter);
                 ROS_INFO("Removing bot: %i. Too old.", botIter->second.get_id());
             } else if (botIter->second.is_detection_from_future(timestamp)) {
