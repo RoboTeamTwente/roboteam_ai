@@ -14,6 +14,20 @@
     "defaultDivisor": 1.7,
     "scalar": 3.0
   }
+},
+
+{
+  "module": "Free",
+  "params": {
+    "standingFreeDanger": 2.0
+  }
+},
+
+{
+  "module": "CanShoot",
+  "params": {
+    "canShootDanger": 999
+  }
 }
 
 ]
