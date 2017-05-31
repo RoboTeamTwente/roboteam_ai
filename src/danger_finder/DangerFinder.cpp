@@ -30,31 +30,8 @@ const std::vector<df::DangerModule*> DangerFinder::modules() {
 DangerFinder::DangerFinder() : stopping(false), running(false), ranOnce(false) {}
 
 DangerFinder& DangerFinder::instance() {
-	static ros::NodeHandle nh;
 	static DangerFinder local_df;
-	static ros::ServiceServer srv =
-		nh.advertiseService("dangerFinder", &DangerFinder::serviceCallback, &local_df);
 	return local_df;
-}
-
-bool DangerFinder::serviceCallback(Request& req, Response& res) {
-	try {
-		DangerData data = req.immediate ? instance().calculateDataNow() : instance().getMostRecentData();
-		if (req.singleRank >= 0) {
-			res.dangerList[0] = *getWorldBot(data.dangerList.at(req.singleRank), false);
-			res.scores[0] = data.scores.at(req.singleRank);
-			res.flags[0] = data.flags.at(req.singleRank);
-		} else {
-			for (int i = 0; i < data.dangerList.size(); i++) {
-				res.dangerList[i] = *getWorldBot(data.dangerList.at(i), false);
-				res.scores[i] = data.scores.at(i);
-				res.flags[i] = data.flags.at(i);
-			}
-		}
-	} catch (...) {
-		return false;
-	}
-	return true;
 }
 
 void DangerFinder::ensureRunning(int itsPerSecond) {

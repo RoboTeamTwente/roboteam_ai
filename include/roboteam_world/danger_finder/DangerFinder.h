@@ -14,9 +14,6 @@
 
 namespace rtt {
 
-typedef roboteam_msgs::DangerFinder::Request Request;
-typedef roboteam_msgs::DangerFinder::Response Response;
-
 namespace df {
 
 /**
@@ -77,10 +74,8 @@ public:
 	 * Does nothing if the thread has started already.
 	 */
 	static void ensureRunning(int iterationsPerSecond = 20);
-	bool serviceCallback(Request& req, Response& res);
 private:
 	const static std::vector<df::DangerModule*> modules();
-	static ros::NodeHandle* nh;
 	std::thread runner;
 	std::mutex  mutex;
 	volatile bool stopping;
