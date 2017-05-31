@@ -53,6 +53,11 @@ PartialResult operator+(PartialResult a, PartialResult b);
  */
 class DangerModule {
 public:
+	/**
+	 * \function cfg
+	 * \brief Get the static configuration data. The configuration file will be parsed the first
+	 * time this function is called.
+	 */
 	static DangerFinderConfig cfg();
 	virtual ~DangerModule() {}
 
