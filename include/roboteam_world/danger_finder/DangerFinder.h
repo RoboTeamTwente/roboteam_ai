@@ -7,7 +7,6 @@
 #include "DangerModule.h"
 #include "boost/optional.hpp"
 #include "roboteam_msgs/WorldRobot.h"
-#include "roboteam_msgs/DangerFinder.h"
 #include "roboteam_world/world/world_base.h"
 #include "roboteam_world/danger_finder/DangerData.h"
 #include "ros/ros.h"
