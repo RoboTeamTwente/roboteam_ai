@@ -55,13 +55,16 @@ boost::optional<Position> Predictor::computeBallVelocity() {
     Position posDiff(0.0, 0.0, 0.0);
     size_t bufferSize = ballBuf.size();
     if (bufferSize >= 2) {
-        for (size_t i = 0; i < (ballBuf.size()-1); i++) {
+        // for (size_t i = 0; i < (ballBuf.size()-1); i++) {
+        for (size_t i = 0; i < 1; i++) {
             Ball oldBall = boost::get<Ball>(ballBuf.at(i).second);
             Ball newerBall = boost::get<Ball>(ballBuf.at(i+1).second);
             Position oldBallPos = oldBall.get_position();
             Position newerBallPos = newerBall.get_position();
             double timeDiff = ballBuf.at(i+1).first - ballBuf.at(i).first;
-            posDiff = posDiff + (newerBallPos - oldBallPos).scale(1.0/timeDiff);
+            Position thisPosDiff = newerBallPos - oldBallPos;
+            // ROS_INFO_STREAM("thisPosDiff: " << sqrt(thisPosDiff.x*thisPosDiff.x + thisPosDiff.y*thisPosDiff.y));
+            posDiff = posDiff + thisPosDiff.scale(1.0/timeDiff);
         }
 
         Position ballVel = posDiff.scale(1.0/(ballBuf.size()-1));

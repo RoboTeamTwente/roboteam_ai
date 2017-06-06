@@ -3,7 +3,7 @@
     "module": "Distance",
     "enabled": true,
     "params": {
-      "defaultDivisor": -3.7,
+      "defaultDivisor": -1.7,
       "maxWidth": 9.0
     }
   },
