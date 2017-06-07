@@ -27,13 +27,14 @@ namespace rtt {
 
     }
 
-    inline roboteam_msgs::WorldRobot botWithId(int id, const std::vector<roboteam_msgs::WorldRobot>& bots) {
+    inline boost::optional<roboteam_msgs::WorldRobot> botWithId(int id, const std::vector<roboteam_msgs::WorldRobot>& bots) {
     	for (const auto& bot : bots) {
     		if (bot.id == (unsigned) id) {
     			return bot;
     		}
     	}
-    	throw std::logic_error("FilteredWorld::botWithId: Bot not found...");
+    	ROS_WARN("FilteredWorld::botWithId: Bot not found: %d", id);
+    	return boost::none;
     }
 
     std::mutex dangerMutex;
@@ -56,9 +57,12 @@ namespace rtt {
         if (df::DangerFinder::instance().hasCalculated()) {
         	for (unsigned i = 0; i < danger.dangerList.size(); i++) {
         		int id = danger.dangerList.at(i);
-        		msg.dangerList.push_back(botWithId(id, msg.them));
-        		msg.dangerScores.push_back(danger.scores.at(id));
-        		msg.dangerFlags.push_back(danger.flags.at(id));
+        		auto bot = botWithId(id, msg.them);
+        		if (bot) {
+        			msg.dangerList.push_back(*bot);
+        			msg.dangerScores.push_back(danger.scores.at(id));
+        			msg.dangerFlags.push_back(danger.flags.at(id));
+        		}
         	}
         }
 
