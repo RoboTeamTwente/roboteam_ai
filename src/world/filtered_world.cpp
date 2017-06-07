@@ -36,6 +36,8 @@ namespace rtt {
     	throw std::logic_error("FilteredWorld::botWithId: Bot not found...");
     }
 
+    std::mutex dangerMutex;
+
     roboteam_msgs::World FilteredWorld::as_message() const {
 
         roboteam_msgs::World msg;
@@ -50,11 +52,14 @@ namespace rtt {
 
         msg.ball = ball_world.as_message();
 
-        for (unsigned i = 0; i < danger.dangerList.size(); i++) {
-        	int id = danger.dangerList.at(i);
-        	msg.dangerList.push_back(botWithId(id, msg.them));
-        	msg.dangerScores.push_back(danger.scores.at(id));
-        	msg.dangerFlags.push_back(danger.flags.at(id));
+        std::lock_guard<std::mutex> lock(dangerMutex);
+        if (df::DangerFinder::instance().hasCalculated()) {
+        	for (unsigned i = 0; i < danger.dangerList.size(); i++) {
+        		int id = danger.dangerList.at(i);
+        		msg.dangerList.push_back(botWithId(id, msg.them));
+        		msg.dangerScores.push_back(danger.scores.at(id));
+        		msg.dangerFlags.push_back(danger.flags.at(id));
+        	}
         }
 
         return msg;
@@ -81,6 +86,7 @@ namespace rtt {
             merge_frames(time_now);
         }
 
+        std::lock_guard<std::mutex> lock(dangerMutex);
         danger = df::DangerFinder::instance().getMostRecentData();
 
     }

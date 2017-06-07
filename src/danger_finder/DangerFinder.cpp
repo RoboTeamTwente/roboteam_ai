@@ -85,6 +85,10 @@ void DangerFinder::calculate() {
 		data.dangerList.push_back(bot.id);
 	}
 	std::sort(data.dangerList.begin(), data.dangerList.end(), [data](const int& a, const int& b) {
+		if (data.scores.find(a) == data.scores.end() || data.scores.find(b) == data.scores.end()) {
+			ROS_WARN("DangerFinder::calculate: An element of dangerList was not a key in data.scores; sorting failed.");
+			return false;
+		}
 		return data.scores.at(a) > data.scores.at(b);
 	});
 	DEBUG("Danger list: [ ");
@@ -92,15 +96,8 @@ void DangerFinder::calculate() {
 		DEBUG("%d ", i);
 	}
 	DEBUGLN("]\n");
-
-	while (!mutex.try_lock()) {}
-	try {
-		mostRecentData = data;
-	} catch (...) {
-		mutex.unlock();
-		throw;
-	}
-	mutex.unlock();
+	std::lock_guard<std::mutex> lock(mutex);
+	mostRecentData = data;
 	ranOnce = true;
 }
 
@@ -120,20 +117,18 @@ DangerData DangerFinder::getMostRecentData() {
 		calculate();
 	}
 	DangerData t;
-	while (!mutex.try_lock()) {}
-	try {
-		t = mostRecentData;
-	} catch (...) {
-		mutex.unlock();
-		throw;
-	}
-	mutex.unlock();
+	std::lock_guard<std::mutex> lock(mutex);
+	t = mostRecentData;
 	return t;
 }
 
 DangerData DangerFinder::calculateDataNow() {
 	calculate();
 	return getMostRecentData();
+}
+
+bool DangerFinder::hasCalculated() const {
+	return ranOnce;
 }
 
 }
