@@ -32,4 +32,12 @@
       "canShootDanger": 999
     }
   }
+
+  {
+    "module": "HasBall",
+    "enabled": true,
+    "params": {
+      "hasBallDanger": 3.0
+    }
+  }
 ]
