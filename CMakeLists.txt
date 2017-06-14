@@ -81,6 +81,7 @@ add_library(roboteam_world_srcs
     src/danger_finder/OrientationModule.cpp
     src/danger_finder/FreeModule.cpp
     src/danger_finder/CanShootModule.cpp
+    src/danger_finder/HasBallModule.cpp
     )
 
 add_dependencies(roboteam_world_srcs

@@ -126,9 +126,12 @@ void DangerFinder::drawDanger(DangerData data) {
 		const auto bot = findBot(id, worldMsg);
 		double myScore = data.scores.at(id);
 		double relScore = (myScore - minScore) / (maxScore - minScore);
+		int redness = 255 * relScore;
+		int greenness = 255 - (255 * relScore);
+		int blueness = 50 * relScore;
 		std::ostringstream ss;
 		ss << "Bot" << id << "DangerLine";
-		draw.setColor(255, 0, 0);
+		draw.setColor(redness, greenness, blueness);
 		draw.drawLine(ss.str(), {bot.pos.x - .09, bot.pos.y + .11}, {relScore * .18, 0});
 	}
 }
