@@ -21,7 +21,7 @@
     "module": "Free",
     "enabled": true,
     "params": {
-      "standingFreeDanger": 2.0
+      "standingFreeDanger": 0.0
     }
   },
   

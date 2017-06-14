@@ -55,8 +55,8 @@ boost::optional<Position> Predictor::computeBallVelocity() {
     Position posDiff(0.0, 0.0, 0.0);
     size_t bufferSize = ballBuf.size();
     if (bufferSize >= 2) {
-        // for (size_t i = 0; i < (ballBuf.size()-1); i++) {
-        for (size_t i = 0; i < 1; i++) {
+        for (size_t i = 0; i < (ballBuf.size()-1); i++) {
+        // for (size_t i = 0; i < 1; i++) {
             Ball oldBall = boost::get<Ball>(ballBuf.at(i).second);
             Ball newerBall = boost::get<Ball>(ballBuf.at(i+1).second);
             Position oldBallPos = oldBall.get_position();
