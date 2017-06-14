@@ -84,6 +84,7 @@ private:
 	DangerData mostRecentData;
 
 	void calculate();
+	void drawDanger(DangerData);
 	void loop(unsigned delayMillis);
 	DangerFinder();
 };

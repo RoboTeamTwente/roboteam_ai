@@ -13,7 +13,7 @@ PartialResult FreeModule::calculate(const roboteam_msgs::WorldRobot& bot, const 
 	Vector2 ballPos(world.ball.pos);
 	Vector2 botPos(bot.pos);
 	const auto obstacles = getObstaclesBetweenPoints(botPos, ballPos);
-	if (obstacles.size() > 0) {
+	if (obstacles.size() == 0) {
 		return { myConfig().doubles["standingFreeDanger"], DANGER_FREE };
 	}
 	return PartialResult();

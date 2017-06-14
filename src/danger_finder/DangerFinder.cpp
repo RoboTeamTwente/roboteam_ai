@@ -2,7 +2,9 @@
 #include "ros/ros.h"
 #include "roboteam_world/danger_finder/DistanceModule.h"
 #include "roboteam_world/danger_finder/OrientationModule.h"
+#include "roboteam_utils/Draw.h"
 #include <boost/optional.hpp>
+#include <sstream>
 
 namespace rtt {
 
@@ -96,9 +98,42 @@ void DangerFinder::calculate() {
 		DEBUG("%d ", i);
 	}
 	DEBUGLN("]\n");
+	drawDanger(data);
 	std::lock_guard<std::mutex> lock(mutex);
 	mostRecentData = data;
 	ranOnce = true;
+}
+
+roboteam_msgs::WorldRobot findBot(int id, const roboteam_msgs::World& world) {
+	for (const auto& bot : world.them) {
+		if (bot.id == id) {
+			return bot;
+		}
+	}
+	throw new std::invalid_argument("DangerFinder.cpp:findBot - bot not found");
+}
+
+void DangerFinder::drawDanger(DangerData data) {
+	static Draw draw;
+	double minScore = 9999999, maxScore = -9999999;
+	for (const auto& pair : data.scores) {
+		double score = pair.second;
+		if (score > maxScore) maxScore = score;
+		if (score < minScore) minScore = score;
+	}
+	const auto worldMsg = world->as_message();
+	for (int id : data.dangerList) {
+		const auto bot = findBot(id, worldMsg);
+		double myScore = data.scores.at(id);
+		double relScore = (myScore - minScore) / (maxScore - minScore);
+		int redness = 255 * relScore;
+		int greenness = 255 - (255 * relScore);
+		int blueness = 50 * relScore;
+		std::ostringstream ss;
+		ss << "Bot" << id << "DangerLine";
+		draw.setColor(redness, greenness, blueness);
+		draw.drawLine(ss.str(), {bot.pos.x - .09, bot.pos.y + .11}, {relScore * .18, 0});
+	}
 }
 
 bool DangerFinder::isRunning() const {
