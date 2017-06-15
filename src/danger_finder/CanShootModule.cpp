@@ -24,9 +24,6 @@ bool facingGoal(Position pos) {
     longVec = longVec.rotate(pos.rot);
     longVec = longVec + pos.location();
     Vector2 isect = goalSection.intersection({pos.x, pos.y, longVec.x, longVec.y});
-    ROS_INFO("goal: (%f, %f) -> (%f, %f), pos: (%f, %f), long: (%f, %f) isect: (%f, %f)",
-    		goalSection.a.x, goalSection.a.y, goalSection.b.x, goalSection.b.y,
-			pos.x, pos.y, longVec.x, longVec.y, isect.x, isect.y);
     return goalSection.pointOnLine(isect);
 }
 
