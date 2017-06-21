@@ -37,7 +37,7 @@
     "module": "HasBall",
     "enabled": true,
     "params": {
-      "hasBallDanger": 3.0
+      "hasBallDanger": 100.0
     }
   }
 ]
