@@ -7,6 +7,7 @@ namespace rtt {
 
     }
 
+    bool cool_bool = false;
 
     void RosHandler::init(rtt::WorldBase* _world) {
         world = _world;
@@ -15,7 +16,7 @@ namespace rtt {
         vision_sub = nh.subscribe(TOPIC_DETECTION, 1000, &RosHandler::detection_callback, this);
 
         // Advertise the world output.
-        world_pub = nh.advertise<roboteam_msgs::World>(TOPIC_WORLD_STATE, 1000);
+        world_pub = nh.advertise<roboteam_msgs::World>(TOPIC_WORLD_STATE, 1);
 
         // Advertise the reset service.
         reset_srv = nh.advertiseService(SERVICE_WORLD_RESET, &RosHandler::reset_callback, this);
@@ -30,12 +31,21 @@ namespace rtt {
     void RosHandler::detection_callback(const roboteam_msgs::DetectionFrame msg) {
         world->detection_callback(msg);
 
-        roboteam_msgs::World world_msg = world->as_message();
+        if (FilteredWorld* fworld = dynamic_cast<FilteredWorld*>(world)) {
+            // Filtered world! Special case that shit
+            if (auto worldOpt = fworld->consumeMsg()) {
+                world_pub.publish(*worldOpt);
+                tracker.update(*worldOpt);
+            }
+        } else {
+            // Generic world approach
+            // Where you can never be sure if this message is the new one
+            roboteam_msgs::World world_msg = world->as_message();
 
-        world_pub.publish(world_msg);
-        tracker.update(world_msg);
+            world_pub.publish(world_msg);
+            tracker.update(world_msg);
+        }
     }
-
 
     bool RosHandler::reset_callback(
             std_srvs::Empty::Request& req,
