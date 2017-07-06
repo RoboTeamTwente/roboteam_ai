@@ -9,6 +9,7 @@
 #include "roboteam_msgs/Tracker.h"
 
 #include "roboteam_world/world/world_dummy.h"
+#include "roboteam_world/world/filtered_world.h"
 #include "roboteam_world/tracker/tracker.h"
 #include "roboteam_world/tracker/acceleration_tracker.h"
 #include "roboteam_world/tracker/speed_tracker.h"

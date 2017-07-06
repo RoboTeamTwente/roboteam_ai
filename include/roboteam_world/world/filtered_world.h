@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <boost/optional.hpp>
 #include <gtest/gtest_prod.h>
 #include "ros/ros.h"
 
@@ -62,6 +63,8 @@ namespace rtt {
 
         Predictor predictor;
 
+        bool fresh;
+
     public:
         FilteredWorld(Predictor predictor);
 
@@ -79,6 +82,23 @@ namespace rtt {
          * To be called when a detectionframe message is received.
          */
         void detection_callback(const roboteam_msgs::DetectionFrame msg);
+
+
+        /**
+         * If a new frame is available will return true
+         */
+        bool isFresh();
+
+        /**
+         * Can set fresh to false if the new frame is consumed.
+         */
+        void setFresh(bool newFresh);
+
+        /**
+         * Calls as_message and sets fresh to false. If isFresh() is false
+         * returns boost::none.
+         */
+        boost::optional<roboteam_msgs::World> consumeMsg();
 
     private:
         DangerData danger;

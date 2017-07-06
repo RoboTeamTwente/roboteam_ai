@@ -4,7 +4,8 @@
 
 namespace rtt {
 
-    FilteredWorld::FilteredWorld(Predictor predictor) {
+    FilteredWorld::FilteredWorld(Predictor predictor) :
+            fresh{false} {
         reset();
         this->predictor = predictor;
     }
@@ -69,7 +70,6 @@ namespace rtt {
         return msg;
     }
 
-
     /**
      * To be called when a detectionframe message is received.
      */
@@ -89,11 +89,30 @@ namespace rtt {
             double time_now = ros::Time::now().toSec();
 
             merge_frames(time_now);
+
+            fresh = true;
         }
 
         std::lock_guard<std::mutex> lock(dangerMutex);
         danger = df::DangerFinder::instance().getMostRecentData();
 
+    }
+
+    bool FilteredWorld::isFresh() {
+        return fresh;
+    }
+
+    void FilteredWorld::setFresh(bool newFresh) {
+        fresh = newFresh;
+    }
+
+    boost::optional<roboteam_msgs::World> FilteredWorld::consumeMsg() {
+        if (isFresh()) {
+            setFresh(false);
+            return as_message();
+        }
+
+        return boost::none;
     }
 
 
