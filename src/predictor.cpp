@@ -68,7 +68,7 @@ boost::optional<Position> Predictor::computeBallVelocity() {
         }
 
         Position ballVel = posDiff.scale(1.0/(ballBuf.size()-1));
-        double ballSpeed = sqrt(ballVel.x*ballVel.x + ballVel.y*ballVel.y);
+        // double ballSpeed = sqrt(ballVel.x*ballVel.x + ballVel.y*ballVel.y);
         // if (ballSpeed > 0.1) {
             // ROS_INFO_STREAM("ballSpeed: " << ballSpeed);
         // }
