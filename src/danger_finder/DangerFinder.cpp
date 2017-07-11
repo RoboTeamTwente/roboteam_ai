@@ -106,7 +106,7 @@ void DangerFinder::calculate() {
 
 roboteam_msgs::WorldRobot findBot(int id, const roboteam_msgs::World& world) {
 	for (const auto& bot : world.them) {
-		if (bot.id == id) {
+		if (bot.id == (unsigned) id) {
 			return bot;
 		}
 	}
@@ -127,8 +127,8 @@ void DangerFinder::drawDanger(DangerData data) {
 		double myScore = data.scores.at(id);
 		double relScore = (myScore - minScore) / (maxScore - minScore);
 		int redness = 255 * relScore;
-		int greenness = 255 - (255 * relScore);
-		int blueness = 50 * relScore;
+		int greenness = 50 * relScore;
+		int blueness = 255 - (255 * relScore);
 		std::ostringstream ss;
 		ss << "Bot" << id << "DangerLine";
 		draw.setColor(redness, greenness, blueness);

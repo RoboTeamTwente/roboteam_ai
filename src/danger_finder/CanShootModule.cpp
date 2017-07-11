@@ -33,7 +33,7 @@ PartialResult CanShootModule::calculate(const roboteam_msgs::WorldRobot& bot, co
 
 	auto obstacles = getObstaclesBetweenPoints(botPos, goalPos);
 	if (obstacles.size() == 0 && bot_has_ball(bot, world.ball) && facingGoal({bot.pos.x, bot.pos.y, bot.angle})) {
-		return { myConfig().ints["canShootDanger"], DANGER_CAN_SHOOT };
+		return { (double) myConfig().ints["canShootDanger"], DANGER_CAN_SHOOT };
 	}
 	return PartialResult();
 }

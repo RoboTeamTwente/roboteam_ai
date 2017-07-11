@@ -9,7 +9,7 @@ boost::optional<roboteam_msgs::WorldRobot> getWorldBot(int id, bool ourTeam) {
 	auto world = LastWorld::get();
 	std::vector<roboteam_msgs::WorldRobot> vec = ourTeam ? world.us : world.them;
 	for (const auto& bot : vec) {
-		if (bot.id == id) return bot;
+		if (bot.id == (unsigned) id) return bot;
 	}
 	return boost::none;
 }

@@ -10,7 +10,7 @@ HasBallModule::HasBallModule() : DangerModule("HasBall") {}
 
 PartialResult HasBallModule::calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) {
 	bool hasBall = bot_has_ball(bot, world.ball);
-	return { hasBall ? myConfig().doubles["hasBallDanger"] : 0, hasBall ? DANGER_HAS_BALL : 0 };
+	return { hasBall ? myConfig().doubles["hasBallDanger"] : 0, hasBall ? DANGER_HAS_BALL : DANGER_NONE };
 }
 
 }

@@ -5,9 +5,9 @@
 #include "roboteam_world/predictor.h"
 #include "roboteam_world/danger_finder/DangerFinder.h"
 
-
 int main(int argc, char **argv)
 {
+
     // Init ros.
     ros::init(argc, argv, "filtered_world");
 
