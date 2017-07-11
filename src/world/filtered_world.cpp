@@ -75,6 +75,7 @@ namespace rtt {
      */
     void FilteredWorld::detection_callback(const roboteam_msgs::DetectionFrame msg) {
 
+        
         buffer_detection_frame(msg);
 
         if (is_calculation_needed()) {
@@ -141,6 +142,8 @@ namespace rtt {
         // Ball
         // Find the ball with the smallest distance from the previous position
         // TODO: Something with speed and extrapolation in case the ball disappears?
+
+
         if (msg.balls.size() > 0) {
             framesWithoutBall[cam_id] = 0;
 
