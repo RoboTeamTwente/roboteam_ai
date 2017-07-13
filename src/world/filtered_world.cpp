@@ -267,7 +267,7 @@ namespace rtt {
             boost::optional<Position> robotVel = predictor.computeRobotVelocity(bot_id, our_team);
             if (robotVel) {
                 Position vel = *robotVel;
-                robot.set_vel(vel.x, vel.y, 0.0);
+                robot.set_vel(vel.x, vel.y, vel.rot);
             }
 
             // Update the last detection time.
