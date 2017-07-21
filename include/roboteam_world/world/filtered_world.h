@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <boost/optional.hpp>
 #include <gtest/gtest_prod.h>
 #include "ros/ros.h"
 
@@ -11,12 +12,14 @@
 #include "roboteam_msgs/WorldRobot.h"
 
 #include "roboteam_utils/Vector2.h"
+#include "roboteam_utils/constants.h"
 
 #include "roboteam_world/robot.h"
 #include "roboteam_world/ball.h"
 #include "roboteam_world/predictor.h"
 
 #include "roboteam_world/world/world_base.h"
+#include "roboteam_world/danger_finder/DangerFinder.h"
 
 // TODO: Make sure the us/them nomenclature also propagates to the buffers
 // TODO: Make sure the us/them stuff is decided by a parameters settable somewhere
@@ -37,11 +40,13 @@ namespace rtt {
         RobotMultiCamBuffer robots_blue_buffer;
         RobotMultiCamBuffer robots_yellow_buffer;
 
-        roboteam_msgs::DetectionBall ball_buffer;
+        std::map<int, roboteam_msgs::DetectionBall> ball_buffer;
+        std::map<int, int> framesWithoutBall;
+
         std::vector<roboteam_msgs::DetectionBall> old_ball_positions;
         std::vector<roboteam_msgs::Vector2f> old_robot_positions;
-		std::map<int, std::vector<roboteam_utils::Vector2>> robots_pos_history;
-		
+		std::map<int, std::vector<Vector2>> robots_pos_history;
+
         std::map<int, rtt::Robot> old_blue, old_yellow;
 
         // Keeps track which cameras have sent a frame since last world calculation.
@@ -52,11 +57,13 @@ namespace rtt {
          * Final world state being converted to a message when
          * `as_message()` is called.
          */
-        std::vector<rtt::Robot> robots_yellow_world;
-        std::vector<rtt::Robot> robots_blue_world;
+        std::map<int, rtt::Robot> robots_yellow_world;
+        std::map<int, rtt::Robot> robots_blue_world;
         rtt::Ball ball_world;
 
         Predictor predictor;
+
+        bool fresh;
 
     public:
         FilteredWorld(Predictor predictor);
@@ -76,7 +83,25 @@ namespace rtt {
          */
         void detection_callback(const roboteam_msgs::DetectionFrame msg);
 
+
+        /**
+         * If a new frame is available will return true
+         */
+        bool isFresh();
+
+        /**
+         * Can set fresh to false if the new frame is consumed.
+         */
+        void setFresh(bool newFresh);
+
+        /**
+         * Calls as_message and sets fresh to false. If isFresh() is false
+         * returns boost::none.
+         */
+        boost::optional<roboteam_msgs::World> consumeMsg();
+
     private:
+        DangerData danger;
 
         // Allows for testing of private methods
         FRIEND_TEST(WorldTests, filtered);
@@ -96,7 +121,8 @@ namespace rtt {
          */
         void merge_frames(double timestamp);
 
-        void merge_robots(RobotMultiCamBuffer& robots_buffer, std::vector<rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer, double timestamp, bool our_team);
+        void merge_robots(RobotMultiCamBuffer& robots_buffer, std::map<int, rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer, double timestamp, bool our_team);
+
     };
 
 }
