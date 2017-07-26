@@ -122,18 +122,26 @@ void DangerFinder::drawDanger(DangerData data) {
 		if (score < minScore) minScore = score;
 	}
 	const auto worldMsg = world->as_message();
-	for (int id : data.dangerList) {
-		const auto bot = findBot(id, worldMsg);
-		double myScore = data.scores.at(id);
-		double relScore = (myScore - minScore) / (maxScore - minScore);
-		int redness = 255 * relScore;
-		int greenness = 50 * relScore;
-		int blueness = 255 - (255 * relScore);
-		std::ostringstream ss;
-		ss << "Bot" << id << "DangerLine";
-		draw.setColor(redness, greenness, blueness);
-		draw.drawLine(ss.str(), {bot.pos.x - .09, bot.pos.y + .11}, {relScore * .18, 0});
-	}
+
+    try {
+        for (int id : data.dangerList) {
+            const auto bot = findBot(id, worldMsg);
+            double myScore = data.scores.at(id);
+            double relScore = (myScore - minScore) / (maxScore - minScore);
+            int redness = 255 * relScore;
+            int greenness = 50 * relScore;
+            int blueness = 255 - (255 * relScore);
+            std::ostringstream ss;
+            ss << "Bot" << id << "DangerLine";
+            draw.setColor(redness, greenness, blueness);
+            draw.drawLine(ss.str(), {bot.pos.x - .09, bot.pos.y + .11}, {relScore * .18, 0});
+        }
+    } catch (std::invalid_argument const & e) {
+        ROS_ERROR( "Error in DangerFinder at line %d: %s. Result: drawing of danger bars in RQT will be incorrect. This is a bug!"
+                 , __LINE__
+                 , e.what()
+                 );
+    }
 }
 
 bool DangerFinder::isRunning() const {
