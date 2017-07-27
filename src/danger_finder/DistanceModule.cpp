@@ -26,17 +26,11 @@ PartialResult DistanceModule::calculate(const roboteam_msgs::WorldRobot& bot, co
 	double last = lastDistances[bot.id];
 	DangerFlag flag;
 	lastDistances[bot.id] = dist;
-
-	double score = (dist - myConfig().doubles["maxWidth"]) / factor;
-
 	if (last != 0.0 && last < dist) {
 		flag =  DANGER_CLOSING;
-		// score += 2.0;
 	}
 	flag =  DANGER_NONE;
-
-
-	return {score, flag};
+	return {(dist - myConfig().doubles["maxWidth"]) / factor, flag};
 }
 
 
