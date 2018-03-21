@@ -250,15 +250,19 @@ namespace rtt {
             float x = 0;
             float y = 0;
             float w = 0;
+            Vector2 u(0,0);
 
             for (auto& buf : robot_buffer.second) {
                 x += buf.second.pos.x;
                 y += buf.second.pos.y;
-                w += buf.second.orientation;
+                // w += buf.second.orientation;
+                // We cant take the arithmic mean of angles here. We have to convert to unit vectors first. (https://en.wikipedia.org/wiki/Mean_of_circular_quantities)
+                u = u + Vector2(1,0).rotate(buf.second.orientation);
             }
             x = x / robot_buffer.second.size();
             y = y / robot_buffer.second.size();
-            w = w / robot_buffer.second.size();
+            // w = w / robot_buffer.second.size();
+            w = u.angle();
 
             robot.move_to(x, y);
             robot.rotate_to(w);
