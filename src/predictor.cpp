@@ -53,26 +53,29 @@ void Predictor::update(const Ball& ball, double timestamp) {
 }
 
 boost::optional<Position> Predictor::computeBallVelocity() {
-    Position posDiff(0.0, 0.0, 0.0);
+    // Position posDiff(0.0, 0.0, 0.0);
     size_t bufferSize = ballBuf.size();
     if (bufferSize >= 2) {
-        for (size_t i = 0; i < (ballBuf.size()-1); i++) {
-        // for (size_t i = 0; i < 1; i++) {
-            Ball oldBall = boost::get<Ball>(ballBuf.at(i).second);
-            Ball newerBall = boost::get<Ball>(ballBuf.at(i+1).second);
-            Position oldBallPos = oldBall.get_position();
-            Position newerBallPos = newerBall.get_position();
-            double timeDiff = ballBuf.at(i+1).first - ballBuf.at(i).first;
-            Position thisPosDiff = newerBallPos - oldBallPos;
-            // ROS_INFO_STREAM("thisPosDiff: " << sqrt(thisPosDiff.x*thisPosDiff.x + thisPosDiff.y*thisPosDiff.y));
-            posDiff = posDiff + thisPosDiff.scale(1.0/timeDiff);
-        }
-
-        Position ballVel = posDiff.scale(1.0/(ballBuf.size()-1));
-        // double ballSpeed = sqrt(ballVel.x*ballVel.x + ballVel.y*ballVel.y);
-        // if (ballSpeed > 0.1) {
-            // ROS_INFO_STREAM("ballSpeed: " << ballSpeed);
+        // for (size_t i = 0; i < (ballBuf.size()-1); i++) {
+        // // for (size_t i = 0; i < 1; i++) {
+        //     Ball oldBall = boost::get<Ball>(ballBuf.at(i).second);
+        //     Ball newerBall = boost::get<Ball>(ballBuf.at(i+1).second);
+        //     Position oldBallPos = oldBall.get_position();
+        //     Position newerBallPos = newerBall.get_position();
+        //     double timeDiff = ballBuf.at(i+1).first - ballBuf.at(i).first;
+        //     Position thisPosDiff = newerBallPos - oldBallPos;
+        //     posDiff = posDiff + thisPosDiff.scale(1.0/timeDiff);
         // }
+
+        // Take only the first and last entry in the buffer for computing average velocity
+        Ball oldBall = boost::get<Ball>(ballBuf.at(0).second);
+        Ball newerBall = boost::get<Ball>(ballBuf.at(bufferSize-1).second);
+        Position oldBallPos = oldBall.get_position();
+        Position newerBallPos = newerBall.get_position();
+
+        Position posDiff = newerBallPos - oldBallPos;
+        double timeDiff = ballBuf.at(bufferSize-1).first - ballBuf.at(0).first;
+        Position ballVel = posDiff.scale(1.0/timeDiff);
         
         return boost::optional<Position>(ballVel);
     }
