@@ -1,5 +1,6 @@
 #include "roboteam_world/predictor.h"
 #include "ros/ros.h"
+#include "roboteam_utils/Math.h"
 
 namespace rtt {
 
@@ -80,37 +81,38 @@ boost::optional<Position> Predictor::computeBallVelocity() {
 
 boost::optional<Position> Predictor::computeRobotVelocity(uint id, bool our_team) {
     if (our_team) {
-        Position posDiff(0.0, 0.0, 0.0);
         size_t bufferSize = ourTeamBuf.at(id).size();
         if (bufferSize >= 2) {
-            for (size_t i = 0; i < (ourTeamBuf.at(id).size()-1); i++) {
-                Robot oldRobot = boost::get<Robot>(ourTeamBuf.at(id).at(i).second);
-                Robot newerRobot = boost::get<Robot>(ourTeamBuf.at(id).at(i+1).second);
-                Position oldRobotPos = oldRobot.get_position();
-                Position newerRobotPos = newerRobot.get_position();
-                double timeDiff = ourTeamBuf.at(id).at(i+1).first - ourTeamBuf.at(id).at(i).first;
+            // Take only the first and last entry in the buffer for computing average velocity
+            Robot oldRobot = boost::get<Robot>(ourTeamBuf.at(id).at(0).second);
+            Robot newerRobot = boost::get<Robot>(ourTeamBuf.at(id).at(bufferSize-1).second);
+            Position oldRobotPos = oldRobot.get_position();
+            Position newerRobotPos = newerRobot.get_position();
 
-                posDiff = posDiff + (newerRobotPos - oldRobotPos).scale(1.0/timeDiff);
-            }
-            Position robotVel = posDiff.scale(1.0/(ourTeamBuf.at(id).size()-1));
+            Position posDiff = newerRobotPos - oldRobotPos;
+            posDiff.rot = cleanAngle(posDiff.rot); // for where my angle flips from pi to -pi
+            double timeDiff = ourTeamBuf.at(id).at(bufferSize-1).first - ourTeamBuf.at(id).at(0).first;
+
+            Position robotVel = posDiff.scale(1.0/timeDiff);
 
             return boost::optional<Position>(robotVel);
         }
         return boost::none;
     } else {
-        Position posDiff(0.0, 0.0, 0.0);
         size_t bufferSize = theirTeamBuf.at(id).size();
         if (bufferSize >= 2) {
-            for (size_t i = 0; i < (theirTeamBuf.at(id).size()-1); i++) {
-                Robot oldRobot = boost::get<Robot>(theirTeamBuf.at(id).at(i).second);
-                Robot newerRobot = boost::get<Robot>(theirTeamBuf.at(id).at(i+1).second);
-                Position oldBallPos = oldRobot.get_position();
-                Position newerRobotPos = newerRobot.get_position();
-                double timeDiff = theirTeamBuf.at(id).at(i+1).first - theirTeamBuf.at(id).at(i).first;
-                posDiff = posDiff + (newerRobotPos - oldBallPos).scale(1/timeDiff);
-            }
-            Position robotVel = posDiff.scale(1.0/(theirTeamBuf.at(id).size()-1));
-            
+            // Take only the first and last entry in the buffer for computing average velocity
+            Robot oldRobot = boost::get<Robot>(theirTeamBuf.at(id).at(0).second);
+            Robot newerRobot = boost::get<Robot>(theirTeamBuf.at(id).at(bufferSize-1).second);
+            Position oldRobotPos = oldRobot.get_position();
+            Position newerRobotPos = newerRobot.get_position();
+
+            Position posDiff = newerRobotPos - oldRobotPos;
+            posDiff.rot = cleanAngle(posDiff.rot); // for where my angle flips from pi to -pi
+            double timeDiff = theirTeamBuf.at(id).at(bufferSize-1).first - theirTeamBuf.at(id).at(0).first;
+
+            Position robotVel = posDiff.scale(1.0/timeDiff);
+
             return boost::optional<Position>(robotVel);
         }
         return boost::none;
