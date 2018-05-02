@@ -39,5 +39,11 @@
     "params": {
       "hasBallDanger": 100.0
     }
+  },
+
+  {
+    "module": "WillReceiveBall",
+    "enabled": true,
+    "params": {}
   }
 ]

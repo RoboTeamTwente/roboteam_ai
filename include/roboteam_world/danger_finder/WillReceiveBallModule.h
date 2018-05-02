@@ -1,16 +1,15 @@
-//
-// Created by emiel on 24-4-18.
-//
+#pragma once
 
-#ifndef ROBOTEAM_WORLD_WILLRECEIVEBALLMODULE_H
-#define ROBOTEAM_WORLD_WILLRECEIVEBALLMODULE_H
+#include "roboteam_world/danger_finder/DangerModule.h"
 
+namespace rtt {
+    namespace df {
 
+        class WillReceiveBallModule : public DangerModule {
+        public:
+            WillReceiveBallModule();
+            PartialResult calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) override;
+        };
 
-class WillReceiveBallModule {
-
-};
-
-
-
-#endif //ROBOTEAM_WORLD_WILLRECEIVEBALLMODULE_H
+    }
+}
