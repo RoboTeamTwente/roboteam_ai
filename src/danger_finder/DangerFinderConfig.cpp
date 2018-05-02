@@ -17,20 +17,20 @@ DangerFinderConfig::SubConfig DangerFinderConfig::getConfigFor(std::string modul
 bool DangerFinderConfig::reload() {
 	nlohmann::json json;
 	std::ifstream fileStream(DF_CONFIG_PARAM_FILE);
-	ROS_INFO("Reading...");
+	ROS_INFO_NAMED("DangerFinder.config", "Reading config file...");
 	if (fileStream.fail()) {
-		ROS_ERROR_STREAM("DangerFinderConfig: Failed to read parameter file:" << DF_CONFIG_PARAM_FILE);
+		ROS_ERROR_STREAM_NAMED("DangerFinder.config", "Failed to read parameter file:" << DF_CONFIG_PARAM_FILE);
 		return false;
 	}
-		json << fileStream;
-		if (!json.is_array()) {
-		ROS_ERROR_STREAM("DangerFinderConfig: Root element of " << DF_CONFIG_PARAM_FILE << " is not an array!");
+	json << fileStream;
+	if (!json.is_array()) {
+		ROS_ERROR_STREAM_NAMED("DangerFinder.config", "Root element of " << DF_CONFIG_PARAM_FILE << " is not an array!");
 		return false;
 	}
 	for (const nlohmann::json& sub : json) {
 		ROS_INFO_STREAM("Reading JSON for module " << sub["module"]);
 		if (!sub.is_object()) {
-			ROS_ERROR_STREAM("DangerFinderConfig: An element of the root array in "
+			ROS_ERROR_STREAM_NAMED("DangerFinder.config", "An element of the root array in "
 					<< DF_CONFIG_PARAM_FILE << " is not an object!");
 			return false;
 		}
@@ -52,7 +52,7 @@ bool DangerFinderConfig::reload() {
 				cfg.strings[it.key()] = it.value();
 				break;
 			default:
-				ROS_WARN_STREAM("Unknown parameter type in subconfig " << cfg.name << ": " << it.key());
+				ROS_WARN_STREAM_NAMED("DangerFinder.config", "Unknown parameter type in subconfig " << cfg.name << ": " << it.key());
 			}
 		}
 		configs[cfg.name] = cfg;

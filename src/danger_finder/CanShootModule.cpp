@@ -16,6 +16,7 @@ CanShootModule::CanShootModule() : DangerModule("CanShoot") {}
 
 bool facingGoal(Position pos) {
 	auto geom = LastWorld::get_field();
+
     Section goalSection {
     	-geom.field_length / 2,  geom.goal_width / 2,
 		-geom.field_length / 2, -geom.goal_width / 2
@@ -32,7 +33,10 @@ PartialResult CanShootModule::calculate(const roboteam_msgs::WorldRobot& bot, co
 	Vector2 goalPos = LastWorld::get_our_goal_center();
 
 	auto obstacles = getObstaclesBetweenPoints(botPos, goalPos);
-	if (obstacles.size() == 0 && bot_has_ball(bot, world.ball) && facingGoal({bot.pos.x, bot.pos.y, bot.angle})) {
+
+	bool canShoot = obstacles.size() == 0 && bot_has_ball(bot, world.ball) && facingGoal({bot.pos.x, bot.pos.y, bot.angle});
+
+	if (canShoot) {
 		return { (double) myConfig().ints["canShootDanger"], DANGER_CAN_SHOOT };
 	}
 	return PartialResult();

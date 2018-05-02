@@ -1,0 +1,16 @@
+//
+// Created by emiel on 24-4-18.
+//
+
+#ifndef ROBOTEAM_WORLD_WILLRECEIVEBALLMODULE_H
+#define ROBOTEAM_WORLD_WILLRECEIVEBALLMODULE_H
+
+
+
+class WillReceiveBallModule {
+
+};
+
+
+
+#endif //ROBOTEAM_WORLD_WILLRECEIVEBALLMODULE_H

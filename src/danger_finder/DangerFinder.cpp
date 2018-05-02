@@ -28,10 +28,10 @@ std::vector<df::DangerModule*> DangerFinder::modules() {
 		vec = new std::vector<df::DangerModule*>;
 		auto config = DangerModule::cfg();
 		for (std::string moduleName : config.getActiveModules()) {
-			ROS_INFO_STREAM("Module activated: " << moduleName);
+			ROS_INFO_STREAM_NAMED("DangerFinder", "Module activated: " << moduleName);
 			boost::optional<df::DangerModule*> optMod = DangerModule::buildModule(moduleName);
 			if (!optMod) {
-				ROS_WARN_STREAM("DangerFinder: Module with name '" << moduleName
+				ROS_WARN_STREAM_NAMED("DangerFinder", "Module with name '" << moduleName
 						<< "' listed in the config file, but not registered");
 			} else {
 				vec->push_back(*optMod);
@@ -55,6 +55,7 @@ void DangerFinder::ensureRunning(int itsPerSecond) {
 }
 
 void DangerFinder::start(int iterationsPerSecond) {
+	ROS_INFO_STREAM_NAMED("DangerFinder", "Starting at " << iterationsPerSecond << " iterations per second");
 	unsigned delay = (unsigned) (1000 / iterationsPerSecond);
 	runner = std::thread(&DangerFinder::loop, this, delay);
 	runner.detach();
@@ -74,14 +75,14 @@ void DangerFinder::calculate() {
 	DangerData data;
 	const auto worldMsg = world->as_message();
 	for (const auto& bot : worldMsg.them) {
-		DEBUGLN("Calculating danger for bot %d", bot.id);
+//		ROS_DEBUG_NAMED("DangerFinder", "Calculating danger for bot %d", bot.id);
 		df::PartialResult pr;
 		for (auto& module : modules()) {
 			auto t = module->calculate(bot);
-			DEBUGLN("Module %s: Score=%f Flags=0x%02X", module->getName().c_str(), t.score, t.flags);
+//			ROS_DEBUG_NAMED("DangerFinder", "Module %s: Score=%f Flags=0x%02X", module->getName().c_str(), t.score, t.flags);
 			pr += t;
 		}
-		DEBUGLN("Results: Score=%f, Flags=0x%02X\n", pr.score, pr.flags);
+//		ROS_DEBUG_NAMED("DangerFinder", "Results: Score=%f, Flags=0x%02X\n", pr.score, pr.flags);
 		data.flags[bot.id] = pr.flags;
 		data.scores[bot.id] = pr.score;
 		data.dangerList.push_back(bot.id);
@@ -93,11 +94,13 @@ void DangerFinder::calculate() {
 		}
 		return data.scores.at(a) > data.scores.at(b);
 	});
-	DEBUG("Danger list: [ ");
-	for (int i : data.dangerList) {
-		DEBUG("%d ", i);
-	}
-	DEBUGLN("]\n");
+
+//	ROS_DEBUG_NAMED("DangerFinder", "Danger list: [ ");
+//	for (int i : data.dangerList) {
+//		ROS_DEBUG_NAMED("DangerFinder", "%d ", i);
+//	}
+//	ROS_DEBUG_NAMED("DangerFinder", "]\n");
+
 	drawDanger(data);
 	std::lock_guard<std::mutex> lock(mutex);
 	mostRecentData = data;
