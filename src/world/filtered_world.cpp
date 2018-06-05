@@ -207,6 +207,8 @@ namespace rtt {
 
         // Take the ball from the camera that's closest to the previous position of the ball
         if (ball_buffer.size() > 0) {
+            ball_world.set_visible(true);
+
             Vector2 currentBallPos(ball_world.get_position().x, ball_world.get_position().y);
 
             roboteam_msgs::DetectionBall closestBall = ball_buffer.begin()->second;
@@ -222,6 +224,8 @@ namespace rtt {
             }
             
             ball_world.move_to(closestBall.pos.x, closestBall.pos.y, closestBall.z);
+        } else {
+            ball_world.set_visible(false);
         }
 
         // roboteam_msgs::Vector2f speedEstimation = estimateBallSpeed(ball_buffer);
@@ -285,7 +289,7 @@ namespace rtt {
         std::map<int, rtt::Robot>::iterator botIter = robots_output.begin();
 
         while (botIter != robots_output.end()) {
-            // Remove robots that are not detected for 3 seconds.
+            // Remove robots that are not detected for 0.1 seconds.
             // TODO: Make a ros param for this?
             if (botIter->second.is_detection_old(timestamp, 0.1)) {
                 botIter = robots_output.erase(botIter);

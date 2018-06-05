@@ -27,6 +27,9 @@ namespace rtt {
         this->area = area;
     }
 
+    void Ball::set_visible(bool visible) {
+        this->visible = visible;
+    }
     
     Position Ball::get_position() const {
         return Position(x, y, z);
@@ -52,6 +55,8 @@ namespace rtt {
         msg.vel.x = x_vel;
         msg.vel.y = y_vel;
         msg.z_vel = z_vel;
+
+        msg.visible = visible;
 
         return msg;
     }
