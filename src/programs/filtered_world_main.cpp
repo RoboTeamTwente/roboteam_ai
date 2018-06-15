@@ -14,7 +14,7 @@ int main(int argc, char **argv)
     // Create subscribers for world & geom messages
     rtt::WorldAndGeomCallbackCreator cb;
 
-    double memory_time = 0.5;
+    double memory_time = 0.1;
     rtt::Predictor predictor(memory_time);
 
     rtt::FilteredWorld world(predictor);

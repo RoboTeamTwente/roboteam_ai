@@ -145,7 +145,6 @@ namespace rtt {
 
 
         if (msg.balls.size() > 0) {
-            framesWithoutBall[cam_id] = 0;
 
             Vector2 previousBallPos = ball_buffer[cam_id].pos;
 
@@ -164,14 +163,7 @@ namespace rtt {
 
             ball_buffer[cam_id] = closestBall; // msg.balls[0];
         } else {
-            // Else, if the ball has not been seen for 5 frames,
-            // remove this entry from the buffer. This way old ball
-            // positions are not taken into account.
-            framesWithoutBall[cam_id]++;
-
-            if (framesWithoutBall[cam_id] >= 5) {
-                ball_buffer.erase(cam_id);
-            }
+            ball_buffer.erase(cam_id);
         }
     }
 
