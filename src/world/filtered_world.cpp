@@ -4,8 +4,7 @@
 
 namespace rtt {
 
-    FilteredWorld::FilteredWorld(Predictor predictor) :
-            fresh{false} {
+    FilteredWorld::FilteredWorld(Predictor predictor) : fresh{false} {
         reset();
         this->predictor = predictor;
     }
@@ -284,11 +283,11 @@ namespace rtt {
             // Remove robots that are not detected for 0.1 seconds.
             // TODO: Make a ros param for this?
             if (botIter->second.is_detection_old(timestamp, 0.1)) {
-                botIter = robots_output.erase(botIter);
                 ROS_INFO("Removing bot: %i. Too old.", botIter->second.get_id());
-            } else if (botIter->second.is_detection_from_future(timestamp)) {
                 botIter = robots_output.erase(botIter);
+            } else if (botIter->second.is_detection_from_future(timestamp)) {
                 ROS_INFO("Removing bot: %i. It's from the future?", botIter->second.get_id());
+                botIter = robots_output.erase(botIter);
             } else {
                 ++botIter;
             }
