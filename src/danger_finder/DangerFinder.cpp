@@ -101,7 +101,7 @@ void DangerFinder::calculate() {
 //	}
 //	ROS_DEBUG_NAMED("DangerFinder", "]\n");
 
-	drawDanger(data);
+//	drawDanger(data);
 	std::lock_guard<std::mutex> lock(mutex);
 	mostRecentData = data;
 	ranOnce = true;
