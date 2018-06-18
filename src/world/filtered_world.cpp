@@ -126,6 +126,12 @@ namespace rtt {
         // If this camera hasn't sent frames before, it is now added to the list of cameras.
         updated_cams[cam_id] = true;
 
+        //TODO: hacked in ignoring cams here for half field play
+        /*if (cam_id == 1 || cam_id == 2) {
+            ball_buffer.erase(cam_id);
+            return;
+        }*/
+
         for (const roboteam_msgs::DetectionRobot robot : msg.them) {
             int bot_id = robot.robot_id;
 
@@ -143,7 +149,7 @@ namespace rtt {
         // TODO: Something with speed and extrapolation in case the ball disappears?
 
 
-        if (msg.balls.size() > 0) {
+        if (msg.balls.size() > 0 /*&& (cam_id == 0 || cam_id == 3)*/) { //TODO: hacked in ignoring cams here for half field play
 
             Vector2 previousBallPos = ball_buffer[cam_id].pos;
 
@@ -280,9 +286,9 @@ namespace rtt {
         std::map<int, rtt::Robot>::iterator botIter = robots_output.begin();
 
         while (botIter != robots_output.end()) {
-            // Remove robots that are not detected for 0.1 seconds.
+            // Remove robots that are not detected for 0.5 seconds.
             // TODO: Make a ros param for this?
-            if (botIter->second.is_detection_old(timestamp, 0.1)) {
+            if (botIter->second.is_detection_old(timestamp, 0.5)) {
                 ROS_INFO("Removing bot: %i. Too old.", botIter->second.get_id());
                 botIter = robots_output.erase(botIter);
             } else if (botIter->second.is_detection_from_future(timestamp)) {
