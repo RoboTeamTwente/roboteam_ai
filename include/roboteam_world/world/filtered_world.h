@@ -66,10 +66,11 @@ namespace rtt {
         bool fresh;
 
     public:
-        FilteredWorld(Predictor predictor);
+        explicit FilteredWorld(Predictor predictor);
 
         /**
         * Resets the world.
+         *
         */
         void reset();
 

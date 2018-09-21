@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "roboteam_world/world/filtered_world.h"
 #include <vector>
 #include "roboteam_utils/Vector2.h"
@@ -6,7 +8,7 @@ namespace rtt {
 
     FilteredWorld::FilteredWorld(Predictor predictor) : fresh{false} {
         reset();
-        this->predictor = predictor;
+        this->predictor = std::move(predictor);
     }
 
     void FilteredWorld::reset() {
@@ -55,13 +57,12 @@ namespace rtt {
 
         std::lock_guard<std::mutex> lock(dangerMutex);
         if (df::DangerFinder::instance().hasCalculated()) {
-        	for (unsigned i = 0; i < danger.dangerList.size(); i++) {
-        		int id = danger.dangerList.at(i);
-        		auto bot = botWithId(id, msg.them);
+        	for (int robotID : danger.dangerList) {
+                auto bot = botWithId(robotID, msg.them);
         		if (bot) {
         			msg.dangerList.push_back(*bot);
-        			msg.dangerScores.push_back(danger.scores.at(id));
-        			msg.dangerFlags.push_back(danger.flags.at(id));
+        			msg.dangerScores.push_back(danger.scores.at(robotID));
+        			msg.dangerFlags.push_back(danger.flags.at(robotID));
         		}
         	}
         }

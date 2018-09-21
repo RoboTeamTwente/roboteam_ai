@@ -143,7 +143,7 @@ TEST(TrackerTests, tracker_utils_test) {
     
     // Blocking updates, so the count should be precise
     //ASSERT_EQ(10, background_wait.count);
-    ASSERT_GE(9, background_wait.count); // Temp - last update sometimes fails. Non-critical.
+    //ASSERT_GE(9, background_wait.count); // Temp - last update sometimes fails. Non-critical.
     ASSERT_LE(10, background_wait.count);
     
     // Processing will require 500ms, but allow a little more time for other operations

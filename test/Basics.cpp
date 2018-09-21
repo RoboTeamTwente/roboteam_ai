@@ -6,26 +6,26 @@
 namespace rtt {
 
 TEST(BasicTests, robot) {
-	Robot rob;
-    ASSERT_EQ(INVALID_ROBOT_ID, rob.get_id());
-    ASSERT_TRUE(std::isnan(rob.get_position().x));
-    ASSERT_TRUE(std::isnan(rob.get_position().y));
-    ASSERT_TRUE(std::isnan(rob.get_position().rot));
+	Robot robot;
+    ASSERT_EQ(INVALID_ROBOT_ID, robot.get_id());
+    ASSERT_TRUE(std::isnan(robot.get_position().x));
+    ASSERT_TRUE(std::isnan(robot.get_position().y));
+    ASSERT_TRUE(std::isnan(robot.get_position().rot));
 
-    rob.set_id(42);
-    ASSERT_EQ(42, rob.get_id());
+    robot.set_id(42);
+    ASSERT_EQ(42, robot.get_id());
 
-    rob.move_to(3.14, 100.1);
-    ASSERT_FLOAT_EQ(3.14, rob.get_position().x);
-    ASSERT_FLOAT_EQ(100.1, rob.get_position().y);
+    robot.move_to(3.14, 100.1);
+    ASSERT_FLOAT_EQ(3.14, robot.get_position().x);
+    ASSERT_FLOAT_EQ(100.1, robot.get_position().y);
 
-    rob.rotate_to(4.5);
-    ASSERT_FLOAT_EQ(4.5, rob.get_position().rot);
+    robot.rotate_to(4.5);
+    ASSERT_FLOAT_EQ(4.5, robot.get_position().rot);
 
-    rob.set_vel(1.0, 2.0, -3.1415);
-    ASSERT_FLOAT_EQ(1.0, rob.get_velocity().x);
-    ASSERT_FLOAT_EQ(2.0, rob.get_velocity().y);
-    ASSERT_FLOAT_EQ(-3.1415, rob.get_velocity().rot);
+    robot.set_vel(1.0, 2.0, static_cast<float>(-3.1415));
+    ASSERT_FLOAT_EQ(1.0, robot.get_velocity().x);
+    ASSERT_FLOAT_EQ(2.0, robot.get_velocity().y);
+    ASSERT_FLOAT_EQ(-3.1415, robot.get_velocity().rot);
 }
 
 TEST(BasicTests, ball) {

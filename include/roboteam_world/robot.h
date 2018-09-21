@@ -24,7 +24,7 @@ namespace rtt {
 
     public:
         Robot();
-        Robot(uint id);
+        explicit Robot(uint id);
         Robot(uint id, float x, float y, float w);
 
         void set_id(uint id);

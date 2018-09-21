@@ -3,19 +3,14 @@
 
 namespace rtt {
 
-    RosHandler::RosHandler() {
-
-    }
-
-    bool cool_bool = false;
-
+    /// Initiate the world ros_handler
     void RosHandler::init(rtt::WorldBase* _world) {
         world = _world;
 
-        // Subscribe to the vision input.
+        // Subscribe to the vision_detection input. ROS
         vision_sub = nh.subscribe(TOPIC_DETECTION, 1000, &RosHandler::detection_callback, this);
 
-        // Advertise the world output.
+        // Advertise the world output. ROS
         world_pub = nh.advertise<roboteam_msgs::World>(TOPIC_WORLD_STATE, 1);
 
         // Advertise the reset service.
@@ -27,11 +22,11 @@ namespace rtt {
         tracker.add_module(new AccelerationTracker());
     }
 
-
+    /// Callback function for /vision_detection in ros_handler
     void RosHandler::detection_callback(const roboteam_msgs::DetectionFrame msg) {
         world->detection_callback(msg);
 
-        if (FilteredWorld* fworld = dynamic_cast<FilteredWorld*>(world)) {
+        if (auto * fworld = dynamic_cast<FilteredWorld*>(world)) {
             // Filtered world! Special case that shit
             if (auto worldOpt = fworld->consumeMsg()) {
                 world_pub.publish(*worldOpt);

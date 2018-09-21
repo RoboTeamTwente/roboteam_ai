@@ -31,7 +31,7 @@ namespace rtt {
         Position get_position() const;
         Position get_velocity() const;
         uint get_area() const;
-
+        /// Create a message with the ball data
         roboteam_msgs::WorldBall as_message() const;
     };
 

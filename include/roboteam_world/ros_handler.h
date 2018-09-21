@@ -30,7 +30,7 @@ namespace rtt {
         Tracker tracker;
 
     public:
-        RosHandler();
+        RosHandler() = default;
         void init(WorldBase* _world);
 
         /**

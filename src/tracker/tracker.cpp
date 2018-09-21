@@ -56,19 +56,22 @@ bool TrackerModule::want_update() {
     return true;
 }
 
-bool Tracker::remove_module(const TrackerModule& module) {
-    return remove_module(module.name());
-}
 
-bool Tracker::remove_module(const std::string& name) {
-    for (TrackerModule* module : modules) {
-        if (module->name() == name) {
-            modules.remove(module);
-            delete module;
-            return true;
-        }
-    }
-    return false;
-}
+//TODO: they are never used see why not
+//
+//bool Tracker::remove_module(const TrackerModule& module) {
+//    return remove_module(module.name());
+//}
+//
+//bool Tracker::remove_module(const std::string& name) {
+//    for (TrackerModule* module : modules) {
+//        if (module->name() == name) {
+//            modules.remove(module);
+//            delete module;
+//            return true;
+//        }
+//    }
+//    return false;
+//}
 
 }

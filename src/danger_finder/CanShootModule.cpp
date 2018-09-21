@@ -14,18 +14,20 @@ REGISTER_MODULE("CanShoot", CanShootModule)
 
 CanShootModule::CanShootModule() : DangerModule("CanShoot") {}
 
-bool facingGoal(Position pos) {
-	auto geom = LastWorld::get_field();
+bool facingGoal(Position position) {
+	// get the last world_state
+	auto lastWorldField = LastWorld::get_field();
 
     Section goalSection {
-    	-geom.field_length / 2,  geom.goal_width / 2,
-		-geom.field_length / 2, -geom.goal_width / 2
+    	-lastWorldField.field_length / 2,  lastWorldField.goal_width / 2,
+		-lastWorldField.field_length / 2, -lastWorldField.goal_width / 2
     };
+
     Vector2 longVec { 100, 0 };
-    longVec = longVec.rotate(pos.rot);
-    longVec = longVec + pos.location();
-    Vector2 isect = goalSection.intersection({pos.x, pos.y, longVec.x, longVec.y});
-    return goalSection.pointOnLine(isect);
+    longVec = longVec.rotate(position.rot);
+    longVec = longVec + position.location();
+    Vector2 intersection = goalSection.intersection({position.x, position.y, longVec.x, longVec.y});
+    return goalSection.pointOnLine(intersection);
 }
 
 PartialResult CanShootModule::calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) {
