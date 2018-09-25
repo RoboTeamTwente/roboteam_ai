@@ -27,7 +27,7 @@ std::vector<df::DangerModule*> DangerFinder::modules() {
 		ROS_INFO("Building modules...");
 		vec = new std::vector<df::DangerModule*>;
 		auto config = DangerModule::cfg();
-		for (std::string moduleName : config.getActiveModules()) {
+		for (const std::string &moduleName : config.getActiveModules()) {
 			ROS_INFO_STREAM_NAMED("DangerFinder", "Module activated: " << moduleName);
 			boost::optional<df::DangerModule*> optMod = DangerModule::buildModule(moduleName);
 			if (!optMod) {

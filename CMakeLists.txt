@@ -131,9 +131,9 @@ add_dependencies(filtered_world
 
 catkin_add_gtest(world_test
     test/main.cpp
-    test/Basics.cpp
-    test/Worlds.cpp
-    test/Tracker.cpp
+        test/BasicTest.cpp
+        test/WorldTest.cpp
+        test/TrackerTest.cpp
 )
 target_link_libraries(world_test
     roboteam_world_srcs

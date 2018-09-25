@@ -72,17 +72,17 @@ namespace rtt {
         * Resets the world.
          *
         */
-        void reset();
+        void reset() override;
 
         /**
          * Converts this world into a ros message.
          */
-        roboteam_msgs::World as_message() const;
+        roboteam_msgs::World as_message() const override;
 
         /**
          * To be called when a detectionframe message is received.
          */
-        void detection_callback(const roboteam_msgs::DetectionFrame msg);
+        void detection_callback(roboteam_msgs::DetectionFrame msg) override;
 
 
         /**
@@ -110,7 +110,7 @@ namespace rtt {
         /**
          * Puts a received detection frame in the associated camera's buffer.
          */
-        void buffer_detection_frame(const roboteam_msgs::DetectionFrame msg);
+        void buffer_detection_frame(roboteam_msgs::DetectionFrame msg);
 
         /**
          * Returns true when every camera's frame has updated.

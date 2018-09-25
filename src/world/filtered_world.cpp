@@ -17,6 +17,7 @@ namespace rtt {
         robots_blue_buffer.clear();
         robots_yellow_buffer.clear();
 
+        // These are used for the final world state
         robots_blue_world.clear();
         robots_yellow_world.clear();
         ball_world = rtt::Ball();
@@ -41,33 +42,36 @@ namespace rtt {
 
     std::mutex dangerMutex;
 
+    /// Create a message that has the world in it
     roboteam_msgs::World FilteredWorld::as_message() const {
 
-        roboteam_msgs::World msg;
+        roboteam_msgs::World returnMsg;
 
         for (auto& robot : robots_blue_world) {
-            msg.them.push_back(robot.second.as_message());
+            returnMsg.them.push_back(robot.second.as_message());
         }
 
         for (auto& robot : robots_yellow_world) {
-            msg.us.push_back(robot.second.as_message());
+            returnMsg.us.push_back(robot.second.as_message());
         }
 
-        msg.ball = ball_world.as_message();
+        returnMsg.ball = ball_world.as_message();
+
+        //TODO : remove danger stuff from here
 
         std::lock_guard<std::mutex> lock(dangerMutex);
         if (df::DangerFinder::instance().hasCalculated()) {
         	for (int robotID : danger.dangerList) {
-                auto bot = botWithId(robotID, msg.them);
+                auto bot = botWithId(robotID, returnMsg.them);
         		if (bot) {
-        			msg.dangerList.push_back(*bot);
-        			msg.dangerScores.push_back(danger.scores.at(robotID));
-        			msg.dangerFlags.push_back(danger.flags.at(robotID));
+        			returnMsg.dangerList.push_back(*bot);
+        			returnMsg.dangerScores.push_back(danger.scores.at(robotID));
+        			returnMsg.dangerFlags.push_back(danger.flags.at(robotID));
         		}
         	}
         }
 
-        return msg;
+        return returnMsg;
     }
 
     /**
@@ -179,12 +183,13 @@ namespace rtt {
      * When there are no cameras, this function will always return false.
      */
     bool FilteredWorld::is_calculation_needed() const {
-        if (updated_cams.size() == 0) {
+        if (updated_cams.empty()) {
             // No cameras? No use doing a frame merge calculation.
             return false;
         }
 
         for (auto& cam : updated_cams) {
+            // there cannot be a third camera without a second camera
             if (!cam.second) {
                 return false;
             }
