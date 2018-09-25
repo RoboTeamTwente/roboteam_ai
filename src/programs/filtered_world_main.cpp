@@ -22,6 +22,7 @@ int main(int argc, char **argv)
     rtt::RosHandler handler;
     handler.init(&world);
 
+    // TODO: remove
     rtt::df::DangerFinder::world = &world;
     rtt::df::DangerFinder::instance().start();
 
