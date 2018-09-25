@@ -82,7 +82,6 @@ private:
 	volatile bool running;
 	bool ranOnce;
 	DangerData mostRecentData;
-
 	void calculate();
 	void drawDanger(DangerData);
 	void loop(unsigned delayMillis);

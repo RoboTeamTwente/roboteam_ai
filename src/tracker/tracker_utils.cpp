@@ -4,6 +4,7 @@
 namespace rtt {
     
 bool CountingTrackerBase::want_update() {
+    // returns true if counter is divisible by update frequency
     return counter++ % update_frequency == 0;
 }  
 

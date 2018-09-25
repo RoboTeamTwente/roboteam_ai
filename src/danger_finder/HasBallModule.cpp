@@ -1,4 +1,4 @@
-#include "roboteam_world/danger_finder/HasBallModule.h"
+    #include "roboteam_world/danger_finder/HasBallModule.h"
 #include "roboteam_utils/world_analysis.h"
 
 namespace rtt {
