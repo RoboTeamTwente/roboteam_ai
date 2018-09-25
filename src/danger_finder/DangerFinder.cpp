@@ -71,6 +71,8 @@ void DangerFinder::loop(unsigned delayMillis) {
 	}
 }
 
+
+/// Calculates the danger for all their robots.
 void DangerFinder::calculate() {
 	DangerData data;
 	const auto worldMsg = world->as_message();
@@ -107,6 +109,7 @@ void DangerFinder::calculate() {
 	ranOnce = true;
 }
 
+
 roboteam_msgs::WorldRobot findBot(int id, const roboteam_msgs::World& world) {
 	for (const auto& bot : world.them) {
 		if (bot.id == (unsigned) id) {
@@ -116,6 +119,7 @@ roboteam_msgs::WorldRobot findBot(int id, const roboteam_msgs::World& world) {
 	throw new std::invalid_argument("DangerFinder.cpp:findBot - bot not found");
 }
 
+/// Draws the danger of a robot in RQT
 void DangerFinder::drawDanger(DangerData data) {
 	static Draw draw;
 	double minScore = 9999999, maxScore = -9999999;

@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 namespace rtt {
-    
+
 void PositionBasedTracker::update(const World& world) {
     std::vector<roboteam_msgs::WorldRobot> bots = world.them;
     for (const roboteam_msgs::WorldRobot& bot : bots) {

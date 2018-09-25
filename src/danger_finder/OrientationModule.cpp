@@ -16,8 +16,8 @@ PartialResult OrientationModule::calculate(const roboteam_msgs::WorldRobot& bot,
 	double targetAngle = toGoal.angle();
 	double angleDiff = fabs(targetAngle - bot.angle);
 	double x = (angleDiff - M_PI) / factor;
+	//return the square of the angle difference (scaled)
 	return {x*x / myConfig().doubles["scalar"], DANGER_NONE};
 }
-
 }
 }
