@@ -8,22 +8,22 @@
 
 #include "ros/ros.h"
 #include "roboteam_msgs/World.h"
-#include "roboteam_msgs/RoleFeedback.h"
 #include "roboteam_utils/constants.h"
+#include "roboteam_utils/LastWorld.h"
 #include <iostream>
 
-class IO_Node {
- public:
-  IO_Node() = default;
-  virtual void publishAll();
-  virtual void getWorldState();
+class IOManager {
+ private:
+  roboteam_msgs::World world;
 
  protected:
   ros::NodeHandle nodeHandle;
-  ros::NodeHandle debugHandle;
-
-  void IO_Node::subscribeToWorldState();
   void handleWorldState(const roboteam_msgs::WorldConstPtr &str);
+
+ public:
+  IOManager() =default;
+  void subscribeToWorldState();
+  const roboteam_msgs::World &getWorldState();
 };
 
 #endif //PROJECT_ROS_HANDLER_H

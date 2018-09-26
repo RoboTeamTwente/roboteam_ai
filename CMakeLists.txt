@@ -25,7 +25,7 @@ add_dependencies(bt
         )
 
 # StrategyNode
-add_executable(StrategyNode roboteam_ai/src/StrategyNode.cpp roboteam_ai/src/io/IO_Node.h roboteam_ai/src/io/IO_Node.cpp roboteam_ai/src/StrategyNode.cpp roboteam_ai/src/io/Strategy_IO_Node.cpp roboteam_ai/src/io/Strategy_IO_Node.h roboteam_ai/src/io/Role_IO_Node.cpp roboteam_ai/src/io/Role_IO_Node.h)
+add_executable(StrategyNode roboteam_ai/src/StrategyNode.cpp roboteam_ai/src/io/IOManager.h roboteam_ai/src/io/IOManager.cpp roboteam_ai/src/StrategyNode.cpp roboteam_ai/src/io/StrategyIOManager.cpp roboteam_ai/src/io/StrategyIOManager.h roboteam_ai/src/io/RoleIOManager.cpp roboteam_ai/src/io/RoleIOManager.h)
 
 add_dependencies(StrategyNode ${catkin_EXPORTED_TARGETS})
 target_link_libraries(StrategyNode ${catkin_LIBRARIES} bt)
