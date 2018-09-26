@@ -204,7 +204,7 @@ namespace rtt {
             rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer, double timestamp, bool our_team) {
 
         for (auto& robot_buffer : robots_buffer) {
-            uint bot_id = (uint) robot_buffer.first;
+            auto bot_id = (uint) robot_buffer.first;
 
             Robot robot;
             robot.set_id(bot_id);
