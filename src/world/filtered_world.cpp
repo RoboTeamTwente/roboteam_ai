@@ -202,7 +202,7 @@ namespace rtt {
     /// Merges the robots from different frames
     void FilteredWorld::merge_robots(RobotMultiCamBuffer& robots_buffer, std::map<int,
             rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer, double timestamp, bool our_team) {
-
+        //For every robot buffer
         for (auto& robot_buffer : robots_buffer) {
             auto bot_id = (uint) robot_buffer.first;
 
@@ -213,7 +213,7 @@ namespace rtt {
             float y = 0;
             float w = 0;
             Vector2 u(0,0);
-
+            // Loops over the detection robot detected by the different camera and takes the mean position
             for (auto& buf : robot_buffer.second) {
                 x += buf.second.pos.x;
                 y += buf.second.pos.y;
@@ -227,10 +227,13 @@ namespace rtt {
             // w = w / robot_buffer.second.size();
             w = static_cast<float>(u.angle());
 
+            // Assign the robot position and rotation to the mean position calculated above
             robot.move_to(x, y);
             robot.rotate_to(w);
 
+            // Send an update and discard old data for buffers used for calculations
             predictor.update(robot, our_team, timestamp);
+            // compute velocity of the robot and update if received
             boost::optional<Position> robotVel = predictor.computeRobotVelocity(bot_id, our_team);
             if (robotVel) {
                 Position vel = *robotVel;
@@ -240,9 +243,9 @@ namespace rtt {
                               static_cast<float>  (vel.rot) );
             }
 
-            // Update the last detection time.
+            // Update the last detection time used in calculations.
             robot.update_last_detection_time(timestamp);
-
+            // add the updated robot to robot_output and old_buffer.
             robots_output[bot_id] = robot;
             old_buffer[bot_id] = robot;
         }
