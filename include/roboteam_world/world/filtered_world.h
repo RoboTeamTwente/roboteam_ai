@@ -50,7 +50,7 @@ namespace rtt {
 
         // Keeps track which cameras have sent a frame since last world calculation.
         // Also keeps track of which cameras are on-line and sending frames.
-        std::map<int, bool> updated_cams;
+        std::map<int, bool> world_cams;
 
         /**
          * Final world state being converted to a message when

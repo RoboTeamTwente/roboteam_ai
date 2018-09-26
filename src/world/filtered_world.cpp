@@ -6,6 +6,14 @@
 
 namespace rtt {
 
+    /** NOTES:
+     *
+     *  Baris:
+     *      I removed a lot of old hacks and unused functions that were commented out. If things break
+     *      It might be useful to get back on git and find the hacks old teams used.
+     *
+     */
+
     FilteredWorld::FilteredWorld(Predictor predictor) : fresh{false} {
         reset();
         this->predictor = std::move(predictor);
@@ -13,7 +21,7 @@ namespace rtt {
 
     void FilteredWorld::reset() {
 
-        // Reset all vectors.
+        // Clear the input buffers
         robots_blue_buffer.clear();
         robots_yellow_buffer.clear();
 
@@ -26,20 +34,9 @@ namespace rtt {
         robots_blue_buffer = RobotMultiCamBuffer();
         robots_yellow_buffer = RobotMultiCamBuffer();
 
-        updated_cams = std::map<int, bool>();
+        world_cams = std::map<int, bool>();
 
     }
-
-//    inline boost::optional<roboteam_msgs::WorldRobot> botWithId(int id, const std::vector<roboteam_msgs::WorldRobot>& bots) {
-//    	for (const auto& bot : bots) {
-//    		if (bot.id == (unsigned) id) {
-//    			return bot;
-//    		}
-//    	}
-//    	ROS_WARN("FilteredWorld::botWithId: Bot not found: %d", id);
-//    	return boost::none;
-//    }
-
 
     /// Create a message that has the world in it
     roboteam_msgs::World FilteredWorld::as_message() const {
@@ -56,28 +53,23 @@ namespace rtt {
 
         returnMsg.ball = ball_world.as_message();
 
-
         return returnMsg;
     }
 
-    /**
-     * To be called when a detectionframe message is received.
-     */
+
+    /// To be called when a detection_frame message is received.
+
     void FilteredWorld::detection_callback(const roboteam_msgs::DetectionFrame msg) {
 
-        
         buffer_detection_frame(msg);
 
         if (is_calculation_needed()) {
-
             // Reset the camera update flags.
-            for (auto& cam : updated_cams) {
+            for (auto& cam : world_cams) {
                 cam.second = false;
             }
-
             // double time_grsim = msg.t_capture;
             double time_now = ros::Time::now().toSec();
-
             merge_frames(time_now);
 
             fresh = true;
@@ -85,42 +77,29 @@ namespace rtt {
 
 
     }
-
-    bool FilteredWorld::isFresh() {
-        return fresh;
-    }
-
-    void FilteredWorld::setFresh(bool newFresh) {
-        fresh = newFresh;
-    }
-
+    /// Consume a message if it is fresh
     boost::optional<roboteam_msgs::World> FilteredWorld::consumeMsg() {
         if (isFresh()) {
             setFresh(false);
             return as_message();
         }
-
         return boost::none;
     }
 
 
-    /**
-     * Adds a received detection frame to the buffers.
-     */
+    /// Adds a received detection frame to the buffers.
+    /// might break if there is a half field play not sure => rework only playing with cam 0 and 3 or something
+    /// (Baris September)
     void FilteredWorld::buffer_detection_frame(const roboteam_msgs::DetectionFrame msg) {
 
-        uint cam_id = msg.camera_id;
+        auto cam_id = msg.camera_id;
 
         // Set this cameras updated flag.
         // If this camera hasn't sent frames before, it is now added to the list of cameras.
-        updated_cams[cam_id] = true;
+        world_cams[cam_id] = true;
 
-        //TODO: hacked in ignoring cams here for half field play
-        /*if (cam_id == 1 || cam_id == 2) {
-            ball_buffer.erase(cam_id);
-            return;
-        }*/
-
+        // ==== Robots ====
+        // Add the robot data
         for (const roboteam_msgs::DetectionRobot robot : msg.them) {
             int bot_id = robot.robot_id;
 
@@ -133,12 +112,9 @@ namespace rtt {
             robots_yellow_buffer[bot_id][cam_id] = roboteam_msgs::DetectionRobot(robot);
         }
 
-        // Ball
+        // ==== Ball ====
         // Find the ball with the smallest distance from the previous position
-        // TODO: Something with speed and extrapolation in case the ball disappears?
-
-
-        if (msg.balls.size() > 0 /*&& (cam_id == 0 || cam_id == 3)*/) { //TODO: hacked in ignoring cams here for half field play
+        if (! msg.balls.empty()) {
 
             Vector2 previousBallPos = ball_buffer[cam_id].pos;
 
@@ -146,8 +122,7 @@ namespace rtt {
             double closestDist2 = Vector2(closestBall.pos).dist2(previousBallPos);
 
             for (auto const & ball : msg.balls) {
-                Vector2 ballPos(ball.pos);
-                
+
                 double dist2 = Vector2(ball.pos).dist2(previousBallPos);
                 if (dist2 < closestDist2) {
                     closestBall = ball;
@@ -162,28 +137,30 @@ namespace rtt {
     }
 
 
-    /**
-     * Returns true when every camera's frame has updated.
-     * When there are no cameras, this function will always return false.
-     */
+    /// Returns true when every camera's frame has updated.
+    /// When there are no cameras, this function will always return false.
     bool FilteredWorld::is_calculation_needed() const {
-        if (updated_cams.empty()) {
+        if (world_cams.empty()) {
             // No cameras? No use doing a frame merge calculation.
             return false;
         }
+        for (auto& cam : world_cams) {
 
-        for (auto& cam : updated_cams) {
-            // there cannot be a third camera without a second camera
             if (!cam.second) {
+                // there is only one camera
                 return false;
             }
         }
         return true;
     }
 
-
     /**
-     * Merges the frames from all cameras into the final world state.
+     * Merges the frames multiple cameras gives into a world state.
+     *
+     * Merges the robots using FilteredWorld::merge_robots
+     * Picks the best option for the ball.
+     * Clears the buffers for the frames afterwards.
+     *
      */
     void FilteredWorld::merge_frames(double timestamp) {
         std::string s;
@@ -193,9 +170,9 @@ namespace rtt {
         merge_robots(robots_yellow_buffer, robots_yellow_world, old_yellow, timestamp, !isBlueOurTeam);
 
         // Take the ball from the camera that's closest to the previous position of the ball
-        if (ball_buffer.size() > 0) {
-            ball_world.set_visible(true);
+        if (! ball_buffer.empty()) {
 
+            ball_world.set_visible(true);
             Vector2 currentBallPos(ball_world.get_position().x, ball_world.get_position().y);
 
             roboteam_msgs::DetectionBall closestBall = ball_buffer.begin()->second;
@@ -209,21 +186,19 @@ namespace rtt {
                     closestDist2 = dist2;
                 }
             }
-            
             ball_world.move_to(closestBall.pos.x, closestBall.pos.y, closestBall.z);
         } else {
             ball_world.set_visible(false);
         }
 
-        // roboteam_msgs::Vector2f speedEstimation = estimateBallSpeed(ball_buffer);
-        // ball_world.set_velocity(speedEstimation.x, speedEstimation.y);
+        // Update the predictor and get a speed vector for the ball
         predictor.update(ball_world, timestamp);
         boost::optional<Position> ballVel = predictor.computeBallVelocity();
+
         if (ballVel) {
             Position vel = *ballVel;
-            ball_world.set_velocity(vel.x, vel.y);
+            ball_world.set_velocity(static_cast<float>(vel.x), static_cast<float>(vel.y));
         }
-        // roboteam_msgs::WorldBall ball = ball_world.as_message();
 
         // Clear the buffers.
         robots_blue_buffer.clear();
@@ -231,9 +206,11 @@ namespace rtt {
     }
 
 
-    void FilteredWorld::merge_robots(RobotMultiCamBuffer& robots_buffer, std::map<int, rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer, double timestamp, bool our_team) {
+    void FilteredWorld::merge_robots(RobotMultiCamBuffer& robots_buffer, std::map<int,
+            rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer, double timestamp, bool our_team) {
+
         for (auto& robot_buffer : robots_buffer) {
-            uint bot_id = robot_buffer.first;
+            uint bot_id = (uint) robot_buffer.first;
 
             Robot robot;
             robot.set_id(bot_id);
@@ -253,7 +230,7 @@ namespace rtt {
             x = x / robot_buffer.second.size();
             y = y / robot_buffer.second.size();
             // w = w / robot_buffer.second.size();
-            w = u.angle();
+            w = static_cast<float>(u.angle());
 
             robot.move_to(x, y);
             robot.rotate_to(w);
@@ -262,7 +239,10 @@ namespace rtt {
             boost::optional<Position> robotVel = predictor.computeRobotVelocity(bot_id, our_team);
             if (robotVel) {
                 Position vel = *robotVel;
-                robot.set_vel(vel.x, vel.y, vel.rot);
+
+                robot.set_vel(static_cast<float>  (vel.x),
+                              static_cast<float>  (vel.y),
+                              static_cast<float>  (vel.rot) );
             }
 
             // Update the last detection time.
@@ -273,7 +253,7 @@ namespace rtt {
         }
 
         // Remove old robots.
-        std::map<int, rtt::Robot>::iterator botIter = robots_output.begin();
+        auto botIter = robots_output.begin();
 
         while (botIter != robots_output.end()) {
             // Remove robots that are not detected for 0.5 seconds.
@@ -288,5 +268,12 @@ namespace rtt {
                 ++botIter;
             }
         }
+    }
+    bool FilteredWorld::isFresh() {
+        return fresh;
+    }
+
+    void FilteredWorld::setFresh(bool newFresh) {
+        fresh = newFresh;
     }
 }

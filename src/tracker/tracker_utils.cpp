@@ -51,6 +51,7 @@ std::future<TrackerResult> BackgroundTrackerBase::calculate_in_background(const 
 }
 
 void BackgroundTrackerBase::dispatcher() {
+    ROS_DEBUG("tracker dispacther");
     while (!should_stop || (BG_TRACKER_WAIT_FOR_FINAL_UPDATE && has_new)) {
         if (has_new && want_update()) {
             lock l(mutex);
@@ -61,6 +62,8 @@ void BackgroundTrackerBase::dispatcher() {
 }  
     
 void BackgroundTrackerBase::start() {
+    ROS_DEBUG("tracker start");
+
     lock l(mutex);
     if (!should_stop) {
         runner.detach();
@@ -73,6 +76,8 @@ void BackgroundTrackerBase::start() {
 }    
 
 void BackgroundTrackerBase::stop() {
+    ROS_DEBUG("tracker stop");
+
     lock l(mutex);
     if (!should_stop) {
         should_stop = true;
