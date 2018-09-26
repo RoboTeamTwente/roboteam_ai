@@ -1,0 +1,16 @@
+#add_subdirectory(conditions)
+#add_subdirectory(skills)
+#add_subdirectory(tactics)
+#add_subdirectory(utils)
+#add_subdirectory(trees)
+#add_subdirectory(treegen)
+#add_subdirectory(analysis)
+#add_subdirectory(rules)
+add_subdirectory(bt)
+
+set(JSON_FILES ${JSON_FILES} PARENT_SCOPE)
+set(JSON_PROJECTS ${JSON_PROJECTS} PARENT_SCOPE)
+
+set(CONDITION_SOURCES ${CONDITION_SOURCES} PARENT_SCOPE)
+set(TACTIC_SOURCES ${TACTIC_SOURCES} PARENT_SCOPE)
+set(SKILL_SOURCES ${SKILL_SOURCES} PARENT_SCOPE)

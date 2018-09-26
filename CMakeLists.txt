@@ -1,0 +1,31 @@
+cmake_minimum_required(VERSION 3.1)
+project(roboteam_ai)
+
+find_package(catkin REQUIRED COMPONENTS
+        roboteam_msgs
+        roboteam_utils
+        roboteam_world
+        roscpp
+        std_msgs
+        actionlib_msgs
+        actionlib
+        uuid_msgs
+        unique_id
+        )
+
+catkin_package()
+
+include_directories(${catkin_INCLUDE_DIRS})
+
+add_subdirectory(roboteam_ai/src)
+
+add_dependencies(bt
+        ${${PROJECT_NAME}_EXPORTED_TARGETS}
+        ${catkin_EXPORTED_TARGETS}
+        )
+
+# StrategyNode
+add_executable(StrategyNode roboteam_ai/src/StrategyNode.cpp roboteam_ai/src/io/IO_Node.h roboteam_ai/src/io/IO_Node.cpp roboteam_ai/src/StrategyNode.cpp roboteam_ai/src/io/Strategy_IO_Node.cpp roboteam_ai/src/io/Strategy_IO_Node.h roboteam_ai/src/io/Role_IO_Node.cpp roboteam_ai/src/io/Role_IO_Node.h)
+
+add_dependencies(StrategyNode ${catkin_EXPORTED_TARGETS})
+target_link_libraries(StrategyNode ${catkin_LIBRARIES} bt)
