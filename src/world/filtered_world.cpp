@@ -30,17 +30,16 @@ namespace rtt {
 
     }
 
-    inline boost::optional<roboteam_msgs::WorldRobot> botWithId(int id, const std::vector<roboteam_msgs::WorldRobot>& bots) {
-    	for (const auto& bot : bots) {
-    		if (bot.id == (unsigned) id) {
-    			return bot;
-    		}
-    	}
-    	ROS_WARN("FilteredWorld::botWithId: Bot not found: %d", id);
-    	return boost::none;
-    }
+//    inline boost::optional<roboteam_msgs::WorldRobot> botWithId(int id, const std::vector<roboteam_msgs::WorldRobot>& bots) {
+//    	for (const auto& bot : bots) {
+//    		if (bot.id == (unsigned) id) {
+//    			return bot;
+//    		}
+//    	}
+//    	ROS_WARN("FilteredWorld::botWithId: Bot not found: %d", id);
+//    	return boost::none;
+//    }
 
-    std::mutex dangerMutex;
 
     /// Create a message that has the world in it
     roboteam_msgs::World FilteredWorld::as_message() const {
@@ -57,19 +56,6 @@ namespace rtt {
 
         returnMsg.ball = ball_world.as_message();
 
-        //TODO : remove danger stuff from here
-
-        std::lock_guard<std::mutex> lock(dangerMutex);
-        if (df::DangerFinder::instance().hasCalculated()) {
-        	for (int robotID : danger.dangerList) {
-                auto bot = botWithId(robotID, returnMsg.them);
-        		if (bot) {
-        			returnMsg.dangerList.push_back(*bot);
-        			returnMsg.dangerScores.push_back(danger.scores.at(robotID));
-        			returnMsg.dangerFlags.push_back(danger.flags.at(robotID));
-        		}
-        	}
-        }
 
         return returnMsg;
     }
@@ -97,8 +83,6 @@ namespace rtt {
             fresh = true;
         }
 
-        std::lock_guard<std::mutex> lock(dangerMutex);
-        danger = df::DangerFinder::instance().getMostRecentData();
 
     }
 

@@ -111,6 +111,10 @@ boost::optional<Position> Predictor::computeRobotVelocity(uint id, bool our_team
     }
 }
 
+
+
+// TODO : make use
+
 boost::optional<Position> Predictor::lookahead(const uint bot_id, bool our_team, double seconds) const {
     Robot robot;
     if (our_team) {

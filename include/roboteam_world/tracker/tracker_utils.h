@@ -85,14 +85,14 @@ protected:
      * @param latest_world The most recent world state.
      */
     virtual void update_impl(const World& latest_world) = 0;
-    
-    /**
+
+    virtual /**
      * @brief Starts the background thread, or restarts it. If the background thread is
      * already running, this method has no effect.
      */
     void start();
-    
-    /**
+
+    virtual /**
      * @brief Stops the background thread. Any calculation currently being processed will
      * be allowed to finish. If the thread is not running, this method has no effect.
      */

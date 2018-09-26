@@ -3,7 +3,7 @@
 #include "roboteam_world/ros_handler.h"
 #include "roboteam_world/world/filtered_world.h"
 #include "roboteam_world/predictor.h"
-#include "roboteam_world/danger_finder/DangerFinder.h"
+#include "roboteam_utils/LastWorld.h"
 
 int main(int argc, char **argv)
 {
@@ -21,10 +21,6 @@ int main(int argc, char **argv)
 
     rtt::RosHandler handler;
     handler.init(&world);
-
-    // TODO: remove
-    rtt::df::DangerFinder::world = &world;
-    rtt::df::DangerFinder::instance().start();
 
     ROS_INFO("---- Filtered world ready. ----");
 

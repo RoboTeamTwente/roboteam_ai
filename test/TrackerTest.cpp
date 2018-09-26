@@ -85,10 +85,10 @@ class CounterTest : public CountingTrackerBase {
 
 class BackgroundTest : public BackgroundTrackerBase {
 public:
-    BackgroundTest(bool allow_skip) : BackgroundTrackerBase(allow_skip), count(0) {}
+    explicit BackgroundTest(bool allow_skip) : BackgroundTrackerBase(allow_skip), count(0) {}
     volatile int count;
-    void start() { BackgroundTrackerBase::start(); }
-    void stop() { BackgroundTrackerBase::stop(); }
+    void start() override { BackgroundTrackerBase::start(); }
+    void stop()  { BackgroundTrackerBase::stop(); }
     void update_impl(const World& world) override { 
         boost::this_thread::sleep(boost::posix_time::milliseconds(50)); // expensive calculation!!
         count++; 

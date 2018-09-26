@@ -19,7 +19,6 @@
 #include "roboteam_world/predictor.h"
 
 #include "roboteam_world/world/world_base.h"
-#include "roboteam_world/danger_finder/DangerFinder.h"
 
 // TODO: Make sure the us/them nomenclature also propagates to the buffers
 // TODO: Make sure the us/them stuff is decided by a parameters settable somewhere
@@ -102,7 +101,6 @@ namespace rtt {
         boost::optional<roboteam_msgs::World> consumeMsg();
 
     private:
-        DangerData danger;
 
         // Allows for testing of private methods
         FRIEND_TEST(WorldTests, filtered);

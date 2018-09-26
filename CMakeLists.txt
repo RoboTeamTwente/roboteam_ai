@@ -72,17 +72,6 @@ add_library(roboteam_world_srcs
     src/world/filtered_world.cpp
     src/world/world_dummy.cpp
 
-    # src/danger_finder
-    src/danger_finder/DangerData.cpp
-    src/danger_finder/DangerFinder.cpp
-    src/danger_finder/DangerModule.cpp
-    src/danger_finder/DangerFinderConfig.cpp
-    src/danger_finder/DistanceModule.cpp
-    src/danger_finder/OrientationModule.cpp
-    src/danger_finder/FreeModule.cpp
-    src/danger_finder/CanShootModule.cpp
-    src/danger_finder/HasBallModule.cpp
-    src/danger_finder/WillReceiveBallModule.cpp
     )
 
 add_dependencies(roboteam_world_srcs
