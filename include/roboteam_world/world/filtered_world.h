@@ -40,11 +40,6 @@ namespace rtt {
         RobotMultiCamBuffer robots_yellow_buffer;
 
         std::map<int, roboteam_msgs::DetectionBall> ball_buffer;
-        std::map<int, int> framesWithoutBall;
-
-        std::vector<roboteam_msgs::DetectionBall> old_ball_positions;
-        std::vector<roboteam_msgs::Vector2f> old_robot_positions;
-		std::map<int, std::vector<Vector2>> robots_pos_history;
 
         std::map<int, rtt::Robot> old_blue, old_yellow;
 

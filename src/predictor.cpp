@@ -4,7 +4,6 @@
 
 namespace rtt {
 
-
 void Predictor::discard_old_robot_data(double current_time) {
     for (auto &robotInBuffer : ourTeamBuffer) {
         for (auto robotData = robotInBuffer.begin(); robotData != robotInBuffer.end();) {
@@ -110,8 +109,6 @@ boost::optional<Position> Predictor::computeRobotVelocity(uint id, bool our_team
         return boost::none;
     }
 }
-
-
 
 // TODO : make use
 

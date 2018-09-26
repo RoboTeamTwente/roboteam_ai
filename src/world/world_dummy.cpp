@@ -10,7 +10,6 @@ namespace rtt {
         ball = Ball();
     }
 
-
     void WorldDummy::detection_callback(const roboteam_msgs::DetectionFrame msg) {
 
         us.clear();

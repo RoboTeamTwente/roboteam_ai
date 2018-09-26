@@ -3,13 +3,13 @@
 
 namespace rtt {
 
+    /// Create a ball with NAN parameters
     Ball::Ball() {
         area = INVALID_AREA;
         x = NAN;
         y = NAN;
         z = NAN;
     }
-
 
     void Ball::move_to(float x, float y, float z) {
         this->x = x;
@@ -22,7 +22,6 @@ namespace rtt {
         this->y_vel = y_vel;
     }
 
-
     void Ball::set_area(uint area) {
         this->area = area;
     }
@@ -32,11 +31,11 @@ namespace rtt {
     }
     
     Position Ball::get_position() const {
-        return Position(x, y, z);
+        return {x, y, z};
     }
     
     Position Ball::get_velocity() const {
-        return Position(x_vel, y_vel, z_vel);
+        return {x_vel, y_vel, z_vel};
     }
     
     uint Ball::get_area() const {
@@ -44,19 +43,16 @@ namespace rtt {
     }
 
     roboteam_msgs::WorldBall Ball::as_message() const {
+
         roboteam_msgs::WorldBall msg;
-
         msg.area = area;
-
         msg.pos.x = x;
         msg.pos.y = y;
         msg.z = z;
-
         msg.vel.x = x_vel;
         msg.vel.y = y_vel;
         msg.z_vel = z_vel;
-
-        msg.visible = visible;
+        msg.visible = static_cast<unsigned char> (visible);
 
         return msg;
     }
