@@ -19,6 +19,7 @@ namespace rtt {
         this->predictor = std::move(predictor);
     }
 
+    /// Reset the world, clear all the buffers and states
     void FilteredWorld::reset() {
 
         // Clear the input buffers
@@ -34,6 +35,7 @@ namespace rtt {
         robots_blue_buffer = RobotMultiCamBuffer();
         robots_yellow_buffer = RobotMultiCamBuffer();
 
+        // The cameras
         world_cams = std::map<int, bool>();
 
     }
@@ -52,13 +54,10 @@ namespace rtt {
         }
 
         returnMsg.ball = ball_world.as_message();
-
         return returnMsg;
     }
 
-
     /// To be called when a detection_frame message is received.
-
     void FilteredWorld::detection_callback(const roboteam_msgs::DetectionFrame msg) {
 
         buffer_detection_frame(msg);
@@ -74,8 +73,6 @@ namespace rtt {
 
             fresh = true;
         }
-
-
     }
     /// Consume a message if it is fresh
     boost::optional<roboteam_msgs::World> FilteredWorld::consumeMsg() {
@@ -85,7 +82,6 @@ namespace rtt {
         }
         return boost::none;
     }
-
 
     /// Adds a received detection frame to the buffers.
     /// might break if there is a half field play not sure => rework only playing with cam 0 and 3 or something
@@ -105,7 +101,6 @@ namespace rtt {
 
             robots_blue_buffer[bot_id][cam_id] = roboteam_msgs::DetectionRobot(robot);
         }
-
         for (const roboteam_msgs::DetectionRobot robot : msg.us) {
             int bot_id = robot.robot_id;
 
@@ -117,7 +112,6 @@ namespace rtt {
         if (! msg.balls.empty()) {
 
             Vector2 previousBallPos = ball_buffer[cam_id].pos;
-
             roboteam_msgs::DetectionBall closestBall = msg.balls[0];
             double closestDist2 = Vector2(closestBall.pos).dist2(previousBallPos);
 
@@ -205,7 +199,7 @@ namespace rtt {
         robots_yellow_buffer.clear();
     }
 
-
+    /// Merges the robots from different frames
     void FilteredWorld::merge_robots(RobotMultiCamBuffer& robots_buffer, std::map<int,
             rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer, double timestamp, bool our_team) {
 
@@ -224,7 +218,8 @@ namespace rtt {
                 x += buf.second.pos.x;
                 y += buf.second.pos.y;
                 // w += buf.second.orientation;
-                // We cant take the arithmic mean of angles here. We have to convert to unit vectors first. (https://en.wikipedia.org/wiki/Mean_of_circular_quantities)
+                // We cant take the arithmetic mean of angles here. We have to convert to unit vectors first.
+                // (https://en.wikipedia.org/wiki/Mean_of_circular_quantities)
                 u = u + Vector2(1,0).rotate(buf.second.orientation);
             }
             x = x / robot_buffer.second.size();
@@ -257,7 +252,6 @@ namespace rtt {
 
         while (botIter != robots_output.end()) {
             // Remove robots that are not detected for 0.5 seconds.
-            // TODO: Make a ros param for this?
             if (botIter->second.is_detection_old(timestamp, 0.5)) {
                 ROS_INFO("Removing bot: %i. Too old.", botIter->second.get_id());
                 botIter = robots_output.erase(botIter);
