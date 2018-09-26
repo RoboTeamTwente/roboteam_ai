@@ -1,6 +1,7 @@
-//
-// Created by mrlukasbos on 24-9-18.
-//
+/*
+ * Receives and handles the world state.
+ * RoboTeamTwente, september 2018
+ */
 
 #ifndef ROBOTEAM_AI_ROLE_IO_NODE_H
 #define ROBOTEAM_AI_ROLE_IO_NODE_H

@@ -1,8 +1,3 @@
-//
-// Created by mrlukasbos on 24-9-18.
-//
-// Subscribes to world
-
 #include <roboteam_msgs/RoleFeedback.h>
 #include "RoleIOManager.h"
 

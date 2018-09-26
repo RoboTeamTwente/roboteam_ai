@@ -1,7 +1,3 @@
-//
-// Created by mrlukasbos on 24-9-18.
-//
-
 #include "StrategyIOManager.h"
 
 void StrategyIOManager::subscribeToRoleFeedback() {

@@ -1,7 +1,15 @@
-//
-// Created by mrlukasbos on 21-9-18.
-//
-// Start a strategy node
+/*
+ * Creates an instance of StrategyNode
+ * The strategynode decides which strategy to use based upon the following game parameters:
+ *  1) The world state, which contains:
+ *    a) The refcommands
+ *    b) The location of all robots (both us and them)
+ *    c) the field geometry
+ *
+ *  2) A danger list which is generated based upon the world state
+ *
+ * RoboTeamTwente, september 2018
+ */
 
 #include "ros/ros.h"
 #include "io/StrategyIOManager.h"
@@ -22,11 +30,5 @@ int main(int argc, char *argv[]) {
 
     rate.sleep();
   }
-
-  // Terminate if needed
-//  if (strategy->getStatus()==bt::Node::Status::Running) {
-//    strategy->Terminate(bt::Node::Status::Running);
-//  }
-
   return 0;
 }
