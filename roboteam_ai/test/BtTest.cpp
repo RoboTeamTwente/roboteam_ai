@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "roboteam_tactics/bt.hpp"
+#include "../src/bt/bt.hpp"
 
 namespace {
 std::vector<std::string> traces;

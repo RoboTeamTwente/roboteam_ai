@@ -13,7 +13,6 @@ namespace bt {
 class Sequence : public Composite {
  public:
   Status Update() override;
-
   std::string node_name() override;
 
   using Ptr = std::shared_ptr<Sequence>;

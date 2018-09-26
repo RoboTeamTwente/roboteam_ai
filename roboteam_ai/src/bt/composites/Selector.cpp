@@ -1,4 +1,4 @@
-#include "roboteam_tactics/bt/composites/Selector.hpp"
+#include "Selector.hpp"
 
 namespace bt {
 

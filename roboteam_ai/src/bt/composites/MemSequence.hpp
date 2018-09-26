@@ -14,9 +14,7 @@ namespace bt {
 class MemSequence : public Composite {
  public:
   size_t index;
-
   void Initialize() override;
-
   Status Update() override;
 
   std::string node_name() override;

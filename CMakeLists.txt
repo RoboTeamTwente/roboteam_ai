@@ -29,3 +29,17 @@ add_executable(StrategyNode roboteam_ai/src/StrategyNode.cpp roboteam_ai/src/io/
 
 add_dependencies(StrategyNode ${catkin_EXPORTED_TARGETS})
 target_link_libraries(StrategyNode ${catkin_LIBRARIES} bt)
+
+
+#############
+## Testing ##
+#############
+catkin_add_gtest(bt_test
+        roboteam_ai/test/main.cpp
+        roboteam_ai/test/BtTest.cpp
+        )
+
+target_link_libraries(bt_test
+        ${catkin_LIBRARIES}
+        bt
+        )

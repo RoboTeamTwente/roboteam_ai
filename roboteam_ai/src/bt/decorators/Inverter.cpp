@@ -1,4 +1,4 @@
-#include "roboteam_tactics/bt/decorators/Inverter.hpp"
+#include "Inverter.hpp"
 
 namespace bt {
 

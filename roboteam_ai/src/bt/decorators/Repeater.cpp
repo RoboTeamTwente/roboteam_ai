@@ -1,5 +1,5 @@
 
-#include "roboteam_tactics/bt/decorators/Repeater.hpp"
+#include "Repeater.hpp"
 
 namespace bt {
 

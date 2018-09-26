@@ -1,4 +1,4 @@
-#include "roboteam_tactics/bt/decorators/Failer.hpp"
+#include "Failer.hpp"
 
 namespace bt {
 

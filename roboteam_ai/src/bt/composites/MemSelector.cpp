@@ -1,3 +1,5 @@
+#include "MemSelector.hpp"
+
 namespace bt {
 void MemSelector::Initialize() {
   index = 0;

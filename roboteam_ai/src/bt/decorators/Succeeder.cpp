@@ -1,4 +1,4 @@
-#include "roboteam_tactics/bt/decorators/Succeeder.hpp"
+#include "Succeeder.hpp"
 
 namespace bt {
 

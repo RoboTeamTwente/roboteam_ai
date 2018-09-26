@@ -1,4 +1,4 @@
-#include "roboteam_tactics/bt/composites/Sequence.hpp"
+#include "Sequence.hpp"
 
 namespace bt {
 
