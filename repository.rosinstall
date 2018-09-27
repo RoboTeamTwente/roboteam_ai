@@ -1,4 +1,2 @@
-- git:
-    local-name: roboteam_utils
-    uri: 'https://github.com/RoboTeamTwente/roboteam_utils.git'
-    version: master
+- git: {local-name: roboteam_utils, uri: 'https://github.com/RoboTeamTwente/roboteam_utils.git'}
+- git: {local-name: roboteam_msgs, uri: 'https://github.com/RoboTeamTwente/roboteam_msgs.git'}
