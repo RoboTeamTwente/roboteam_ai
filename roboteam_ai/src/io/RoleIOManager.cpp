@@ -1,6 +1,11 @@
 #include <roboteam_msgs/RoleFeedback.h>
 #include "RoleIOManager.h"
 
+RoleIOManager::RoleIOManager() {
+  this->subscribeToWorldState();
+  this->subscribeToRoleDirective();
+}
+
 void RoleIOManager::subscribeToRoleDirective() {
   nodeHandle.subscribe<roboteam_msgs::RoleDirective>(rtt::TOPIC_ROLE_DIRECTIVE, 1, &RoleIOManager::handleRoleDirective, this);
 }

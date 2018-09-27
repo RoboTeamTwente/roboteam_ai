@@ -15,7 +15,7 @@ class RoleIOManager : public IOManager {
   void handleRoleDirective(const roboteam_msgs::RoleDirectiveConstPtr &roleDirective);
 
  public:
-  RoleIOManager() = default;
+  RoleIOManager();
   void subscribeToRoleDirective();
   roboteam_msgs::RoleDirective &getRoleDirective();
 

@@ -1,5 +1,10 @@
 #include "StrategyIOManager.h"
 
+StrategyIOManager::StrategyIOManager() {
+  this->subscribeToWorldState();
+  this->subscribeToRoleFeedback();
+}
+
 void StrategyIOManager::subscribeToRoleFeedback() {
   nodeHandle.subscribe<roboteam_msgs::RoleFeedback>(rtt::TOPIC_ROLE_FEEDBACK, 1, &StrategyIOManager::handleRobotFeedback, this);
 }
