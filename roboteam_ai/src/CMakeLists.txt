@@ -6,7 +6,6 @@
 #add_subdirectory(treegen)
 #add_subdirectory(analysis)
 #add_subdirectory(rules)
-add_subdirectory(danger_finder)
 add_subdirectory(bt)
 
 set(JSON_FILES ${JSON_FILES} PARENT_SCOPE)
