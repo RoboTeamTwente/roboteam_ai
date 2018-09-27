@@ -68,7 +68,8 @@ namespace rtt {
                 cam.second = false;
             }
             // double time_grsim = msg.t_capture;
-            double time_now = ros::Time::now().toSec();
+            //double time_now = ros::Time::now().toSec();
+            double time_now=msg.t_capture;
             merge_frames(time_now);
 
             fresh = true;

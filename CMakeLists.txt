@@ -115,7 +115,9 @@ catkin_add_gtest(world_test
     test/main.cpp
         test/BasicTest.cpp
         test/WorldTest.cpp
-)
+        src/filtered_world/filtered_world.cpp
+
+        )
 target_link_libraries(world_test
     roboteam_world_srcs
     ${catkin_LIBRARIES}
