@@ -71,7 +71,8 @@ TEST(WorldTests, filtered) {
 
     int zero = 0;
     ros::init(zero, nullptr, "world_test");
-    Predictor predictor;
+    double memory_time = 0.1;
+    Predictor predictor(memory_time);
     FilteredWorld world(predictor);
 
 //

@@ -7,6 +7,7 @@ namespace rtt {
     void RosHandler::init(rtt::WorldBase* _world) {
         world = _world;
 
+        // TODO: sub to geometry
         // Subscribe to the vision_detection input. ROS
         vision_sub = nh.subscribe(TOPIC_DETECTION, 1000, &RosHandler::detection_callback, this);
 
