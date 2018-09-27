@@ -65,5 +65,4 @@ TEST(WorldTests, filtered) {
     ASSERT_FLOAT_EQ(0, fmod(bot.w, M_PI));
 
     }
-
 }

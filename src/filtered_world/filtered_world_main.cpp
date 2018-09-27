@@ -11,6 +11,7 @@ int main(int argc, char **argv)
     // Init ros.
     ros::init(argc, argv, "filtered_world");
 
+    //TODO: Fix this geometry hack; initializing a class to subscribe to a ROS topic is bad
     // Create subscribers for world & geom messages
     rtt::WorldAndGeomCallbackCreator cb;
 

@@ -42,6 +42,14 @@ TEST(BasicTests, ball) {
     ASSERT_FLOAT_EQ(1.0, ball.get_position().x);
     ASSERT_FLOAT_EQ(-2.0, ball.get_position().y);
     ASSERT_FLOAT_EQ(3.1415, ball.get_position().rot);
-}
 
+    ball.set_velocity(1.2,3.4);
+    ASSERT_FLOAT_EQ(1.2,ball.get_velocity().x);
+    ASSERT_FLOAT_EQ(3.4,ball.get_velocity().y);
+
+    ball.set_visible(false);
+    auto y=ball.as_message();
+    ASSERT_EQ(false,ball.as_message().visible);
+
+}
 }

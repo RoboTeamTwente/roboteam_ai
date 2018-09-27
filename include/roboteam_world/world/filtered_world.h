@@ -28,7 +28,7 @@ namespace rtt {
     class FilteredWorld : public WorldBase {
 
     private:
-
+        //TODO: NOdehandle is not used right now?
         ros::NodeHandle nh;
         /**
          * These buffers store for every camera the robots and balls.
@@ -78,7 +78,7 @@ namespace rtt {
          */
         void detection_callback(roboteam_msgs::DetectionFrame msg) override;
 
-
+        //TODO: Make isFresh() and setFresh() private? They are not used publicly as far as I can tell.
         /**
          * If a new frame is available will return true
          */
