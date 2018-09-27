@@ -61,13 +61,6 @@ add_library(roboteam_world_srcs
     src/robot.cpp
     src/ros_handler.cpp
 
-    # src/tracker
-    src/tracker/acceleration_tracker.cpp
-    src/tracker/position_based_tracker.cpp
-    src/tracker/speed_tracker.cpp
-    src/tracker/tracker.cpp
-    src/tracker/tracker_utils.cpp
-
     # src/world
     src/world/filtered_world.cpp
     src/world/world_dummy.cpp
@@ -122,7 +115,6 @@ catkin_add_gtest(world_test
     test/main.cpp
         test/BasicTest.cpp
         test/WorldTest.cpp
-        test/TrackerTest.cpp
 )
 target_link_libraries(world_test
     roboteam_world_srcs
