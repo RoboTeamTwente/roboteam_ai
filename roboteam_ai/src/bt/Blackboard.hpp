@@ -17,7 +17,6 @@ class Blackboard {
   Blackboard &operator=(const Blackboard &) = default;
   Blackboard &operator=(Blackboard &&) = default;
   virtual ~Blackboard() = default;
-
   Blackboard(const roboteam_msgs::Blackboard &msg);
 
   void SetBool(std::string key, bool value);

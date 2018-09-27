@@ -4,7 +4,6 @@
 #include <string>
 
 namespace bt {
-
 /*
     The MemSequence composite ticks each child node in order, and remembers what child it prevously tried to tick.
     If a child fails or runs, the sequence returns the same status.
