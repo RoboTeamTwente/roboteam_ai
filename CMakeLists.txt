@@ -56,14 +56,14 @@ include_directories(
 
 add_library(roboteam_world_srcs 
     # src/
-    src/predictor.cpp
-    src/ball.cpp	
-    src/robot.cpp
-    src/ros_handler.cpp
+        src/utils/predictor.cpp
+        src/utils/ball.cpp
+        src/utils/robot.cpp
+        src/ros_handler.cpp
 
     # src/world
-    src/world/filtered_world.cpp
-    src/world/world_dummy.cpp
+        src/filtered_world/filtered_world.cpp
+        src/dummy_world/world_dummy.cpp
 
     )
 
@@ -80,7 +80,7 @@ target_link_libraries(roboteam_world_srcs
 #################
 
 add_executable(dummy_world
-    src/programs/dummy_world_main.cpp
+        src/dummy_world/dummy_world_main.cpp
     )
 target_link_libraries(dummy_world 
     roboteam_world_srcs
@@ -95,8 +95,8 @@ add_dependencies(dummy_world
 ## Filtered world ##
 ####################
 
-add_executable(filtered_world 
-    src/programs/filtered_world_main.cpp 
+add_executable(filtered_world
+        src/filtered_world/filtered_world_main.cpp
     )
 target_link_libraries(filtered_world
     roboteam_world_srcs
