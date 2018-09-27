@@ -6,6 +6,7 @@
 #add_subdirectory(treegen)
 #add_subdirectory(analysis)
 #add_subdirectory(rules)
+add_subdirectory(danger_finder)
 add_subdirectory(bt)
 
 set(JSON_FILES ${JSON_FILES} PARENT_SCOPE)
@@ -14,3 +15,5 @@ set(JSON_PROJECTS ${JSON_PROJECTS} PARENT_SCOPE)
 set(CONDITION_SOURCES ${CONDITION_SOURCES} PARENT_SCOPE)
 set(TACTIC_SOURCES ${TACTIC_SOURCES} PARENT_SCOPE)
 set(SKILL_SOURCES ${SKILL_SOURCES} PARENT_SCOPE)
+
+

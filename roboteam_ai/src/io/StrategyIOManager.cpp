@@ -16,5 +16,3 @@ void StrategyIOManager::handleRobotFeedback(const roboteam_msgs::RoleFeedbackCon
 roboteam_msgs::RoleFeedback &StrategyIOManager::getRoleFeedback() {
   return roleFeedback;
 }
-
-

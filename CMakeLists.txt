@@ -16,17 +16,20 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package()
 
 include_directories(${catkin_INCLUDE_DIRS})
-
 add_subdirectory(roboteam_ai/src)
-
-add_dependencies(bt
-        ${${PROJECT_NAME}_EXPORTED_TARGETS}
-        ${catkin_EXPORTED_TARGETS}
-        )
+add_dependencies(bt ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 # StrategyNode
-add_executable(StrategyNode roboteam_ai/src/StrategyNode.cpp roboteam_ai/src/io/IOManager.h roboteam_ai/src/io/IOManager.cpp roboteam_ai/src/StrategyNode.cpp roboteam_ai/src/io/StrategyIOManager.cpp roboteam_ai/src/io/StrategyIOManager.h roboteam_ai/src/io/RoleIOManager.cpp roboteam_ai/src/io/RoleIOManager.h)
-
+add_executable(StrategyNode
+        roboteam_ai/src/StrategyNode.cpp
+        roboteam_ai/src/io/IOManager.h
+        roboteam_ai/src/io/IOManager.cpp
+        roboteam_ai/src/StrategyNode.cpp
+        roboteam_ai/src/io/StrategyIOManager.cpp
+        roboteam_ai/src/io/StrategyIOManager.h
+        roboteam_ai/src/io/RoleIOManager.cpp
+        roboteam_ai/src/io/RoleIOManager.h
+        ${DANGER_FINDER_SOURCES})
 add_dependencies(StrategyNode ${catkin_EXPORTED_TARGETS})
 target_link_libraries(StrategyNode ${catkin_LIBRARIES} bt)
 
@@ -41,5 +44,6 @@ catkin_add_gtest(bt_test
 
 target_link_libraries(bt_test
         ${catkin_LIBRARIES}
+        ${DANGER_FINDER_SOURCES}
         bt
         )
