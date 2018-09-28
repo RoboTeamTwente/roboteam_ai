@@ -25,6 +25,8 @@ void dummy_frame(float ballx, float bally, float botx, float boty, float botw, D
     frame->balls.push_back(ball);
 }
 
+
+//TODO: Expand testing to multiple robots for both colours
 TEST(WorldTests, filtered) {
     int zero = 0;
     ros::init(zero, nullptr, "world_test");
@@ -39,7 +41,10 @@ TEST(WorldTests, filtered) {
 
     world.reset();
     world.detection_callback(*frame);
+    ASSERT_TRUE(world.isFresh());
     ASSERT_FALSE(world.is_calculation_needed());
+    world.consumeMsg();
+    ASSERT_FALSE(world.isFresh());
 
     World msg = world.as_message();
     WorldRobot bot = msg.us[0];
