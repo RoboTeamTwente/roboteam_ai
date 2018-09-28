@@ -49,28 +49,28 @@ catkin_package()
 
 include_directories(${catkin_INCLUDE_DIRS})
 add_subdirectory( ${PROJECT_SOURCE_DIR}/roboteam_ai/src)
-add_dependencies(bt ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(ai_bt ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 # StrategyNode
-add_executable(StrategyNode
+add_executable(AIStrategyNode
         roboteam_ai/src/StrategyNode.cpp
         ${IO_SOURCES} ${DANGER_FINDER_SOURCES}
         )
-add_dependencies(StrategyNode ${catkin_EXPORTED_TARGETS})
-target_link_libraries(StrategyNode ${catkin_LIBRARIES} bt)
+add_dependencies(AIStrategyNode ${catkin_EXPORTED_TARGETS})
+target_link_libraries(AIStrategyNode ${catkin_LIBRARIES} bt)
 
 #############
 ## Testing ##
 #############
-catkin_add_gtest(bt_test
+catkin_add_gtest(ai_bt_test
         roboteam_ai/test/main.cpp
         roboteam_ai/test/BtTest.cpp
         )
 
-target_link_libraries(bt_test
+target_link_libraries(ai_bt_test
         ${catkin_LIBRARIES}
         ${DANGER_FINDER_SOURCES}
-        bt
+        ai_bt
         )
 
 
