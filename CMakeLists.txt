@@ -15,51 +15,49 @@ find_package(catkin REQUIRED COMPONENTS
 
 
 set(DANGER_FINDER_SOURCES
-        roboteam_ai/src/danger_finder/CanShootModule.cpp
-        roboteam_ai/src/danger_finder/CanShootModule.h
-        roboteam_ai/src/danger_finder/DangerData.cpp
-        roboteam_ai/src/danger_finder/DangerData.h
-        roboteam_ai/src/danger_finder/DangerFinder.cpp
-        roboteam_ai/src/danger_finder/DangerFinder.h
-        roboteam_ai/src/danger_finder/DangerFinderConfig.cpp
-        roboteam_ai/src/danger_finder/DangerFinderConfig.h
-        roboteam_ai/src/danger_finder/DangerModule.cpp
-        roboteam_ai/src/danger_finder/DangerModule.h
-        roboteam_ai/src/danger_finder/DistanceModule.cpp
-        roboteam_ai/src/danger_finder/DistanceModule.h
-        roboteam_ai/src/danger_finder/FreeModule.cpp
-        roboteam_ai/src/danger_finder/FreeModule.h
-        roboteam_ai/src/danger_finder/HasBallModule.cpp
-        roboteam_ai/src/danger_finder/HasBallModule.h
-        roboteam_ai/src/danger_finder/OrientationModule.cpp
-        roboteam_ai/src/danger_finder/OrientationModule.h
-        roboteam_ai/src/danger_finder/WillReceiveBallModule.cpp
-        roboteam_ai/src/danger_finder/WillReceiveBallModule.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/modules/CanShootModule.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/modules/CanShootModule.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/DangerData.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/DangerData.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/DangerFinder.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/DangerFinder.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/DangerFinderConfig.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/DangerFinderConfig.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/modules/DangerModule.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/modules/DangerModule.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/modules/DistanceModule.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/modules/DistanceModule.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/modules/FreeModule.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/modules/FreeModule.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/modules/HasBallModule.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/modules/HasBallModule.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/modules/OrientationModule.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/modules/OrientationModule.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/modules/WillReceiveBallModule.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/danger_finder/modules/WillReceiveBallModule.h
         )
 
-
 set(IO_SOURCES
-        roboteam_ai/src/io/IOManager.h
-        roboteam_ai/src/io/IOManager.cpp
-        roboteam_ai/src/io/StrategyIOManager.cpp
-        roboteam_ai/src/io/StrategyIOManager.h
-        roboteam_ai/src/io/RoleIOManager.cpp
-        roboteam_ai/src/io/RoleIOManager.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/IOManager.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/IOManager.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/StrategyIOManager.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/StrategyIOManager.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/RoleIOManager.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/RoleIOManager.h)
 
 catkin_package()
 
 include_directories(${catkin_INCLUDE_DIRS})
-add_subdirectory(roboteam_ai/src)
+add_subdirectory( ${PROJECT_SOURCE_DIR}/roboteam_ai/src)
 add_dependencies(bt ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 # StrategyNode
 add_executable(StrategyNode
         roboteam_ai/src/StrategyNode.cpp
-        ${IO_SOURCES}
-        ${DANGER_FINDER_SOURCES})
+        ${IO_SOURCES} ${DANGER_FINDER_SOURCES}
+        )
 add_dependencies(StrategyNode ${catkin_EXPORTED_TARGETS})
 target_link_libraries(StrategyNode ${catkin_LIBRARIES} bt)
-
 
 #############
 ## Testing ##

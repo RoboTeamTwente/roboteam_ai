@@ -1,9 +1,10 @@
-#include "roboteam_world/danger_finder/OrientationModule.h"
+#include "OrientationModule.h"
 #include "roboteam_msgs/GeometryFieldSize.h"
 #include "roboteam_utils/Position.h"
 
 namespace rtt {
-namespace df {
+namespace ai {
+namespace dangerfinder {
 
 REGISTER_MODULE("Orientation", OrientationModule)
 
@@ -19,5 +20,6 @@ PartialResult OrientationModule::calculate(const roboteam_msgs::WorldRobot& bot,
 	return {x*x / myConfig().doubles["scalar"], DANGER_NONE};
 }
 
-}
-}
+} // dangerfinder
+} // ai
+} // rtt

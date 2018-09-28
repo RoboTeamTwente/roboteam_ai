@@ -1,9 +1,10 @@
-#include "roboteam_world/danger_finder/FreeModule.h"
+#include "FreeModule.h"
 #include "roboteam_utils/world_analysis.h"
 #include "roboteam_utils/Vector2.h"
 
 namespace rtt {
-namespace df {
+namespace ai {
+namespace dangerfinder {
 
 REGISTER_MODULE("Free", FreeModule)
 
@@ -19,5 +20,6 @@ PartialResult FreeModule::calculate(const roboteam_msgs::WorldRobot& bot, const 
 	return PartialResult();
 }
 
-}
-}
+} // dangerfinder
+} // ai
+} // rtt

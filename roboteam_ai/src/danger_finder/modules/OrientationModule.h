@@ -3,7 +3,8 @@
 #include "DangerModule.h"
 
 namespace rtt {
-namespace df {
+namespace ai {
+namespace dangerfinder {
 
 /**
  * \class OrientationModule
@@ -17,5 +18,6 @@ private:
 	const double factor;
 };
 
-}
-}
+} // dangerfinder
+} // ai
+} // rtt

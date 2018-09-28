@@ -1,20 +1,22 @@
-#include "roboteam_world/danger_finder/HasBallModule.h"
+#include "HasBallModule.h"
 #include "roboteam_utils/world_analysis.h"
 
 namespace rtt {
-    namespace df {
+namespace ai {
+namespace dangerfinder {
 
-        REGISTER_MODULE("HasBall", HasBallModule);
+REGISTER_MODULE("HasBall", HasBallModule);
 
-        HasBallModule::HasBallModule() : DangerModule("HasBall") {}
+HasBallModule::HasBallModule() : DangerModule("HasBall") {}
 
-        PartialResult HasBallModule::calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) {
+PartialResult HasBallModule::calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) {
 
-            bool hasBall = bot_has_ball(bot, world.ball);
+    bool hasBall = bot_has_ball(bot, world.ball);
 
-            return { hasBall ? myConfig().doubles["hasBallDanger"] : 0,
-                     hasBall ? DANGER_HAS_BALL : DANGER_NONE };
-        }
-
-    }
+    return { hasBall ? myConfig().doubles["hasBallDanger"] : 0,
+             hasBall ? DANGER_HAS_BALL : DANGER_NONE };
 }
+
+} // dangerfinder
+} // ai
+} // rtt

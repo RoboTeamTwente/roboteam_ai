@@ -1,10 +1,11 @@
-#include "roboteam_world/danger_finder/DangerFinderConfig.h"
+#include "DangerFinderConfig.h"
 #include "roboteam_utils/json.hpp"
 #include "ros/ros.h"
 #include <fstream>
 
 namespace rtt {
-namespace df {
+namespace ai {
+namespace dangerfinder {
 
 DangerFinderConfig::DangerFinderConfig() {
 	reload();
@@ -67,5 +68,6 @@ std::vector<std::string> DangerFinderConfig::getActiveModules() const {
 	return activeModules;
 }
 
-}
-}
+} // dangerfinder
+} // ai
+} // rtt

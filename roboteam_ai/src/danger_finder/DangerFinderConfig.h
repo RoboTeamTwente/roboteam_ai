@@ -5,7 +5,8 @@
 #include "ros/package.h"
 
 namespace rtt {
-namespace df {
+namespace ai {
+namespace dangerfinder {
 
 /**
  * This is the path to the parameter JSON file. DangerFinder will not work if this file
@@ -56,5 +57,6 @@ private:
 	std::vector<std::string> activeModules;
 };
 
-}
-}
+} // dangerfinder
+} // ai
+} // rtt

@@ -4,7 +4,8 @@
 #include <map>
 
 namespace rtt {
-namespace df {
+namespace ai {
+namespace dangerfinder {
 
 /**
  * \class DistanceModule
@@ -20,5 +21,6 @@ private:
 	std::map<int, double> lastDistances;
 };
 
-}
-}
+} // dangerfinder
+} // ai
+} // rtt

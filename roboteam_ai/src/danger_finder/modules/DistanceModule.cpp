@@ -1,8 +1,9 @@
-#include "roboteam_world/danger_finder/DistanceModule.h"
+#include "DistanceModule.h"
 #include "roboteam_msgs/GeometryFieldSize.h"
 
 namespace rtt {
-namespace df {
+namespace ai {
+namespace dangerfinder {
 
 REGISTER_MODULE("Distance", DistanceModule)
 
@@ -36,6 +37,6 @@ PartialResult DistanceModule::calculate(const roboteam_msgs::WorldRobot& bot, co
 	return {(dist - myConfig().doubles["maxWidth"]) / factor, flag};
 }
 
-
-}
-}
+} // dangerfinder
+} // ai
+} // rtt

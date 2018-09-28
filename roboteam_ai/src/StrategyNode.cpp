@@ -13,13 +13,36 @@
 
 #include "ros/ros.h"
 #include "io/StrategyIOManager.h"
+#include "danger_finder/DangerFinder.h"
+
+namespace df = rtt::ai::dangerfinder;
 
 int main(int argc, char *argv[]) {
   ros::init(argc, argv, "StrategyNode");
 
+
+  df::DangerData danger;
+  std::mutex dangerMutex;
+
   StrategyIOManager strategyIOManager;
-  strategyIOManager.subscribeToWorldState();
-  strategyIOManager.subscribeToRoleFeedback();
+
+
+  // this must be called whenever a world message has been received...
+  std::lock_guard<std::mutex> lock(dangerMutex);
+  danger = df::DangerFinder::instance().getMostRecentData();
+
+//  if (df::DangerFinder::instance().hasCalculated()) {
+//    for (unsigned i = 0; i < danger.dangerList.size(); i++) {
+//      int id = danger.dangerList.at(i);
+//      auto bot = botWithId(id, msg.them);
+//      if (bot) {
+//        msg.dangerList.push_back(*bot);
+//        msg.dangerScores.push_back(danger.scores.at(id));
+//        msg.dangerFlags.push_back(danger.flags.at(id));
+//      }
+//    }
+//  }
+
 
   ros::Rate rate(10);
   while (ros::ok()) {

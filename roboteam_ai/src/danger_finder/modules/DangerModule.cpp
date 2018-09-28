@@ -1,7 +1,8 @@
-#include "roboteam_world/danger_finder/DangerModule.h"
+#include "DangerModule.h"
 
 namespace rtt {
-namespace df {
+namespace ai {
+namespace dangerfinder {
 
 PartialResult::PartialResult() : score(0), flags(0) {}
 PartialResult::PartialResult(double score, DangerFlag flags) : score(score), flags(flags) {}
@@ -41,5 +42,6 @@ std::map<std::string, DangerModule*(*)()>& moduleRepo() {
 	return repo;
 }
 
-}
-}
+} // dangerfinder
+} // ai
+} // rtt

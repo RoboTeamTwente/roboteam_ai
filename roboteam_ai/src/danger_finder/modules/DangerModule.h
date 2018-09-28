@@ -4,13 +4,13 @@
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_msgs/World.h"
 #include "boost/optional.hpp"
-#include "DangerFinderConfig.h"
+#include "../DangerFinderConfig.h"
 
 namespace rtt {
+namespace ai {
+namespace dangerfinder {
 
 typedef unsigned char DangerFlag;
-
-namespace df {
 
 #define DANGER_FINDER_DEBUG false
 #define DEBUG(fmt, ...) {\
@@ -84,18 +84,24 @@ private:
 	std::string name;
 };
 
+namespace df {
+
 std::map<std::string, DangerModule*(*)()>& moduleRepo();
 
 template<typename M> class ModuleRegisterer {
-public:
-	ModuleRegisterer(std::string name, DangerModule*(*factory)()) {
-		moduleRepo()[name] = factory;
-		std::cout << "Registering " << name << "\n";
-	}
+ public:
+  ModuleRegisterer(std::string name, DangerModule*(*factory)()) {
+	  moduleRepo()[name] = factory;
+	  std::cout << "Registering " << name << "\n";
+  }
 };
+
 #define REGISTER_MODULE(name, type)\
 	static DangerModule* type ## Factory() { static type* module = new type; return module; }\
 	static ModuleRegisterer<type> type ## Registerer(name, &type ## Factory);
 
 }
-}
+
+} // dangerfinder
+} // ai
+} // rtt
