@@ -159,7 +159,8 @@ DangerData DangerFinder::calculateDataNow() {
   return getMostRecentData();
 }
 
-bool DangerFinder::hasCalculated() const {
+bool DangerFinder::hasCalculated() {
+  std::lock_guard<std::mutex> lock(mutex);
   return ranOnce;
 }
 

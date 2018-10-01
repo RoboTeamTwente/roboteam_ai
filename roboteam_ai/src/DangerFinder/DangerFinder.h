@@ -61,14 +61,14 @@ class DangerFinder {
    */
   bool isRunning() const;
 
-  bool hasCalculated() const;
+  bool hasCalculated();
 
   /**
    * \function instance
    * \brief Gets the singleton instance.
    */
 
-    static DangerFinder &instance();
+  static DangerFinder &instance();
     /**
    * \function instance
    * \brief Starts the background thread if it hasn't been started yet.
