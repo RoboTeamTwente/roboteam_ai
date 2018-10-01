@@ -51,7 +51,7 @@ struct PartialResult {
 PartialResult operator+(PartialResult a, PartialResult b);
 
 /**
- * \class DangerModue
+ * \class DangerModule
  * \brief A module to be used in the DangerFinder.
  */
 class DangerModule {
@@ -92,7 +92,7 @@ template<typename M> class ModuleRegisterer {
  public:
   ModuleRegisterer(std::string name, DangerModule*(*factory)()) {
 	  moduleRepo()[name] = factory;
-	  std::cout << "Registering " << name << "\n";
+	  std::cout << "[DangerFinder] Registering module" << name << "\n";
   }
 };
 

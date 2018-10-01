@@ -10,7 +10,7 @@ StrategyIOManager::StrategyIOManager() {
 }
 
 void StrategyIOManager::subscribeToRoleFeedback() {
-  nodeHandle.subscribe<roboteam_msgs::RoleFeedback>(rtt::TOPIC_ROLE_FEEDBACK, 1, &StrategyIOManager::handleRobotFeedback, this);
+  roleFeedbackSubscriber = nodeHandle.subscribe<roboteam_msgs::RoleFeedback>(rtt::TOPIC_ROLE_FEEDBACK, 1, &StrategyIOManager::handleRobotFeedback, this);
 }
 
 void StrategyIOManager::handleRobotFeedback(const roboteam_msgs::RoleFeedbackConstPtr &rolefeedback) {
