@@ -17,6 +17,7 @@ class StrategyIOManager : public IOManager {
  private:
   roboteam_msgs::RoleFeedback roleFeedback;
   void handleRobotFeedback(const roboteam_msgs::RoleFeedbackConstPtr &rolefeedback);
+  ros::Subscriber roleFeedbackSubscriber;
  public:
   StrategyIOManager();
   void subscribeToRoleFeedback();

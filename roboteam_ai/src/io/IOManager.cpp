@@ -9,8 +9,7 @@ namespace ai {
 namespace io {
 
 void IOManager::subscribeToWorldState() {
-  // previously also ros::TransportHints().tcpNoDelay() has been used as argument.
-  nodeHandle.subscribe<roboteam_msgs::World>(rtt::TOPIC_WORLD_STATE, 1, &IOManager::handleWorldState, this);
+  worldSubscriber = nodeHandle.subscribe<roboteam_msgs::World>(rtt::TOPIC_WORLD_STATE, 1, &IOManager::handleWorldState, this);
 }
 
 void IOManager::handleWorldState(const roboteam_msgs::WorldConstPtr& world) {

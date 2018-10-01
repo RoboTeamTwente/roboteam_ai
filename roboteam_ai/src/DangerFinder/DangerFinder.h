@@ -22,7 +22,7 @@ namespace dangerfinder {
  */
 class DangerFinder {
  public:
-  static rtt::WorldBase *world;
+  static roboteam_msgs::World * worldMsg;
 
   // It's a singleton; don't copy it.
   DangerFinder(const DangerFinder &) = delete;
@@ -33,14 +33,14 @@ class DangerFinder {
    * \brief Gets the most recent results of the DangerFinder thread.
    * If the background thread has not been started it, this starts it.
    */
-  rtt::ai::dangerfinder::DangerData getMostRecentData();
+  DangerData getMostRecentData();
 
   /**
    * \function calculateDataNow
    * \brief Performs an immediate update of the DangerData.
    * The returned data is also stored as the 'most recent'.
    */
-  rtt::ai::dangerfinder::DangerData calculateDataNow();
+  DangerData calculateDataNow();
 
   /**
    * \function start
@@ -67,23 +67,23 @@ class DangerFinder {
    * \function instance
    * \brief Gets the singleton instance.
    */
-  static DangerFinder &instance();
 
-  /**
+    static DangerFinder &instance();
+    /**
    * \function instance
    * \brief Starts the background thread if it hasn't been started yet.
    * Does nothing if the thread has started already.
    */
   static void ensureRunning(int iterationsPerSecond = 20);
  private:
-  static std::vector<rtt::ai::dangerfinder::DangerModule *> modules();
+  void loadModules();
   std::thread runner;
   std::mutex mutex;
   volatile bool stopping;
   volatile bool running;
   bool ranOnce;
   DangerData mostRecentData;
-
+  std::vector<DangerModule *> modules;
   void calculate();
   void drawDanger(DangerData);
   void loop(unsigned delayMillis);

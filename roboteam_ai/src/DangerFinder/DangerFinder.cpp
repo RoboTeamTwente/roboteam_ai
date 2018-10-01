@@ -10,15 +10,10 @@ namespace rtt {
 namespace ai {
 namespace dangerfinder {
 
-WorldBase *DangerFinder::world = nullptr;
+roboteam_msgs::World * DangerFinder::worldMsg = nullptr;
 
-
-
-std::vector<DangerModule *> DangerFinder::modules() {
-  static std::vector<DangerModule *> *vec = nullptr;
-  if (vec==nullptr) {
+void DangerFinder::loadModules() {
     ROS_INFO("Building modules...");
-    vec = new std::vector<DangerModule *>;
     auto config = DangerModule::cfg();
     for (std::string moduleName : config.getActiveModules()) {
       ROS_INFO_STREAM_NAMED("DangerFinder", "Module activated: " << moduleName);
@@ -27,14 +22,13 @@ std::vector<DangerModule *> DangerFinder::modules() {
         ROS_WARN_STREAM_NAMED("DangerFinder", "Module with name '" << moduleName
                                                                    << "' listed in the config file, but not registered");
       } else {
-        vec->push_back(*optMod);
+        modules.push_back(*optMod);
       }
     }
-  }
-  return *vec;
 };
 
-DangerFinder::DangerFinder() : stopping(false), running(false), ranOnce(false) {}
+DangerFinder::DangerFinder() : stopping(false), running(false), ranOnce(false) {
+}
 
 DangerFinder &DangerFinder::instance() {
   static DangerFinder local_df;
@@ -48,6 +42,7 @@ void DangerFinder::ensureRunning(int itsPerSecond) {
 }
 
 void DangerFinder::start(int iterationsPerSecond) {
+  loadModules();
   ROS_INFO_STREAM_NAMED("DangerFinder", "Starting at " << iterationsPerSecond << " iterations per second");
   unsigned delay = (unsigned) (1000/iterationsPerSecond);
   runner = std::thread(&DangerFinder::loop, this, delay);
@@ -66,11 +61,10 @@ void DangerFinder::loop(unsigned delayMillis) {
 
 void DangerFinder::calculate() {
   DangerData data;
-  const auto worldMsg = world->as_message();
-  for (const auto &bot : worldMsg.them) {
+  for (const auto &bot : worldMsg->them) {
 //		ROS_DEBUG_NAMED("DangerFinder", "Calculating danger for bot %d", bot.id);
     PartialResult pr;
-    for (auto &module : modules()) {
+    for (auto &module : modules) {
       auto t = module->calculate(bot);
 //			ROS_DEBUG_NAMED("DangerFinder", "Module %s: Score=%f Flags=0x%02X", module->getName().c_str(), t.score, t.flags);
       pr += t;
@@ -117,11 +111,9 @@ void DangerFinder::drawDanger(DangerData data) {
     if (score > maxScore) maxScore = score;
     if (score < minScore) minScore = score;
   }
-  const auto worldMsg = world->as_message();
-
   try {
     for (int id : data.dangerList) {
-      const auto bot = findBot(id, worldMsg);
+      const auto bot = findBot(id, *worldMsg);
       double myScore = data.scores.at(id);
       double relScore = (myScore - minScore)/(maxScore - minScore);
       int redness = 255*relScore;

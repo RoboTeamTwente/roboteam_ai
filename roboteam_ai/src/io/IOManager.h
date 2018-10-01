@@ -19,10 +19,10 @@ namespace io {
 class IOManager {
  private:
   roboteam_msgs::World world;
-
+  ros::Subscriber worldSubscriber;
  protected:
   ros::NodeHandle nodeHandle;
-  void handleWorldState(const roboteam_msgs::WorldConstPtr &str);
+  void handleWorldState(const roboteam_msgs::WorldConstPtr &world);
 
  public:
   IOManager() =default;
