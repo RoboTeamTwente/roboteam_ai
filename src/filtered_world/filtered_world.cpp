@@ -71,7 +71,7 @@ namespace rtt {
             //double time_now = ros::Time::now().toSec();
             double time_now=msg.t_capture;
             merge_frames(time_now);
-
+            timeLastUpdated=time_now;
             fresh = true;
         }
     }
@@ -109,16 +109,18 @@ namespace rtt {
         }
 
         // ==== Ball ====
-        // Find the ball with the smallest distance from the previous position
-        if (! msg.balls.empty()) {
+        // Find the ball with the smallest distance from the previous position +velocity * time between the two frames
 
-            Vector2 previousBallPos = ball_buffer[cam_id].pos;
+        if (! msg.balls.empty()) {
+            Position previousBallPos = ball_world.get_position();
+            Position previousBallVel = ball_world.get_velocity();
             roboteam_msgs::DetectionBall closestBall = msg.balls[0];
-            double closestDist2 = Vector2(closestBall.pos).dist2(previousBallPos);
+            Position predictedPosition= previousBallPos+previousBallVel*(msg.t_capture-timeLastUpdated);
+            double closestDist2 = Vector2(closestBall.pos).dist2(Vector2(predictedPosition.x,predictedPosition.y));
 
             for (auto const & ball : msg.balls) {
 
-                double dist2 = Vector2(ball.pos).dist2(previousBallPos);
+                double dist2 = Vector2(ball.pos).dist2(Vector2(predictedPosition.x,predictedPosition.y));
                 if (dist2 < closestDist2) {
                     closestBall = ball;
                     closestDist2 = dist2;
@@ -126,7 +128,8 @@ namespace rtt {
             }
 
             ball_buffer[cam_id] = closestBall; // msg.balls[0];
-        } else {
+        }
+        else {
             ball_buffer.erase(cam_id);
         }
     }
@@ -164,29 +167,42 @@ namespace rtt {
         merge_robots(robots_blue_buffer, robots_blue_world, old_blue, timestamp, isBlueOurTeam);
         merge_robots(robots_yellow_buffer, robots_yellow_world, old_yellow, timestamp, !isBlueOurTeam);
 
-        // Take the ball from the camera that's closest to the previous position of the ball
-        if (! ball_buffer.empty()) {
+        // Take the ball from the camera that detects the ball closest to the last position.
+//        if (! ball_buffer.empty()) {
+//
+//            ball_world.set_visible(true);
+//            Vector2 currentBallPos(ball_world.get_position().x, ball_world.get_position().y);
+//
+//            roboteam_msgs::DetectionBall closestBall = ball_buffer.begin()->second;
+//            double closestDist2 = Vector2(closestBall.pos).dist2(currentBallPos);
+//
+//            for (auto const & ballEntry : ball_buffer) {
+//                double dist2 = Vector2(ballEntry.second.pos).dist2(currentBallPos);
+//
+//                if (dist2 < closestDist2) {
+//                    closestBall = ballEntry.second;
+//                    closestDist2 = dist2;
+//                }
+//            }
+//            ball_world.move_to(closestBall.pos.x, closestBall.pos.y, closestBall.z);
+//        }
+//        else {
+//            ball_world.set_visible(false);
+//        }
 
+        //New:
+        if (!ball_buffer_new.empty()) {
             ball_world.set_visible(true);
-            Vector2 currentBallPos(ball_world.get_position().x, ball_world.get_position().y);
+            // some magic to determine which balls are chosen
 
-            roboteam_msgs::DetectionBall closestBall = ball_buffer.begin()->second;
-            double closestDist2 = Vector2(closestBall.pos).dist2(currentBallPos);
-
-            for (auto const & ballEntry : ball_buffer) {
-                double dist2 = Vector2(ballEntry.second.pos).dist2(currentBallPos);
-
-                if (dist2 < closestDist2) {
-                    closestBall = ballEntry.second;
-                    closestDist2 = dist2;
-                }
-            }
-            ball_world.move_to(closestBall.pos.x, closestBall.pos.y, closestBall.z);
-        } else {
+            ball_world.move_to(ball_buffer_new[0].pos.x, ball_buffer_new[0].pos.y, ball_buffer_new[0].z);
+        }
+        else {
             ball_world.set_visible(false);
         }
 
         // Update the predictor and get a speed vector for the ball
+        // Pushes the Reference of ball to predictor. This is why we can update velocity later.
         predictor.update(ball_world, timestamp);
         boost::optional<Position> ballVel = predictor.computeBallVelocity();
 
@@ -198,6 +214,7 @@ namespace rtt {
         // Clear the buffers.
         robots_blue_buffer.clear();
         robots_yellow_buffer.clear();
+        ball_buffer_new.clear();
     }
 
     /// Merges the robots from different frames

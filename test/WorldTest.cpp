@@ -70,4 +70,34 @@ TEST(WorldTests, filtered) {
     ASSERT_FLOAT_EQ(0, fmod(bot.w, M_PI));
 
     }
+
+    TEST(WorldTests, BallRobust){
+        int zero = 0;
+        ros::init(zero, nullptr, "world_test");
+        Predictor pred(1.0);
+        FilteredWorld world(pred);
+        auto * frame = new DetectionFrame();
+        dummy_frame(0.0, 0.0, 0.0, 0.0, 0.0, frame);
+        dummy_frame(2.0, 2.0, 1.0, 1.0, 0.0, frame);
+        frame->t_capture=0;
+        world.detection_callback(*frame);
+
+        auto * frame2 = new DetectionFrame();
+        dummy_frame(1.0, 1.0, 2.0, 2.0, 0.0, frame2);
+        dummy_frame(0.0, 0.0, 0.0, 0.0, 0.0, frame2);
+        frame2->t_capture=1;
+        world.detection_callback(*frame2);
+
+        World msg=world.as_message();
+        WorldRobot botOne=msg.us[0];
+        WorldRobot botTwo=msg.us[1];
+        WorldBall ball=msg.ball;
+        //ASSERT_EQ()
+
+
+        // 2 balls, one moving from 0.0 -> 1.0 and one moving from 2.0 -> 0.0
+        // 2 robots, one moving from 0.0-> 2.0 and one moving from 1.0 -> 0.0
+
+
+}
 }
