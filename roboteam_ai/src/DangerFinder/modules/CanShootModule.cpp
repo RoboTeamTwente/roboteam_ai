@@ -11,7 +11,7 @@ namespace rtt {
 namespace ai {
 namespace dangerfinder {
 
-df::REGISTER_MODULE("CanShoot", CanShootModule)
+REGISTER_MODULE("CanShoot", CanShootModule)
 
 CanShootModule::CanShootModule() : DangerModule("CanShoot") {}
 

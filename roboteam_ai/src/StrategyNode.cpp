@@ -13,9 +13,10 @@
 
 #include "ros/ros.h"
 #include "io/StrategyIOManager.h"
-#include "danger_finder/DangerFinder.h"
+#include "DangerFinder/DangerFinder.h"
 
 namespace df = rtt::ai::dangerfinder;
+namespace io = rtt::ai::io;
 
 int main(int argc, char *argv[]) {
   ros::init(argc, argv, "StrategyNode");
@@ -24,7 +25,7 @@ int main(int argc, char *argv[]) {
   df::DangerData danger;
   std::mutex dangerMutex;
 
-  StrategyIOManager strategyIOManager;
+  io::StrategyIOManager strategyIOManager;
 
 
   // this must be called whenever a world message has been received...

@@ -1,5 +1,9 @@
 #include "StrategyIOManager.h"
 
+namespace rtt {
+namespace ai {
+namespace io {
+
 StrategyIOManager::StrategyIOManager() {
   this->subscribeToWorldState();
   this->subscribeToRoleFeedback();
@@ -16,3 +20,7 @@ void StrategyIOManager::handleRobotFeedback(const roboteam_msgs::RoleFeedbackCon
 roboteam_msgs::RoleFeedback &StrategyIOManager::getRoleFeedback() {
   return roleFeedback;
 }
+
+} // io
+} // ai
+} // rtt

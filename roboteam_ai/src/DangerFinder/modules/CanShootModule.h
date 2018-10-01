@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ROBOTEAM_AI_CAN_SHOOT_MODULE_H
+#define ROBOTEAM_AI_CAN_SHOOT_MODULE_H
 
 #include "DangerModule.h"
 
@@ -21,3 +22,5 @@ public:
 } // dangerfinder
 } // ai
 } // rtt
+
+#endif //ROBOTEAM_AI_CAN_SHOOT_MODULE_H

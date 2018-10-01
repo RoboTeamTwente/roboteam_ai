@@ -2,8 +2,6 @@
 
 #include "DangerModule.h"
 
-
-
 namespace rtt {
 namespace ai {
 namespace dangerfinder {

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ROBOTEAM_AI_DANGER_MODULE_H
+#define ROBOTEAM_AI_DANGER_MODULE_H
 
 #include "roboteam_utils/LastWorld.h"
 #include "roboteam_msgs/WorldRobot.h"
@@ -84,7 +85,6 @@ private:
 	std::string name;
 };
 
-namespace df {
 
 std::map<std::string, DangerModule*(*)()>& moduleRepo();
 
@@ -100,8 +100,9 @@ template<typename M> class ModuleRegisterer {
 	static DangerModule* type ## Factory() { static type* module = new type; return module; }\
 	static ModuleRegisterer<type> type ## Registerer(name, &type ## Factory);
 
-}
 
 } // dangerfinder
 } // ai
 } // rtt
+
+#endif // ROBOTEAM_AI_DANGER_MODULE_H

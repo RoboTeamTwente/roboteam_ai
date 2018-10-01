@@ -12,14 +12,7 @@ namespace dangerfinder {
 
 WorldBase *DangerFinder::world = nullptr;
 
-boost::optional<roboteam_msgs::WorldRobot> getWorldBot(int id, bool ourTeam) {
-  auto world = LastWorld::get();
-  std::vector<roboteam_msgs::WorldRobot> vec = ourTeam ? world.us : world.them;
-  for (const auto &bot : vec) {
-    if (bot.id==(unsigned) id) return bot;
-  }
-  return boost::none;
-}
+
 
 std::vector<DangerModule *> DangerFinder::modules() {
   static std::vector<DangerModule *> *vec = nullptr;

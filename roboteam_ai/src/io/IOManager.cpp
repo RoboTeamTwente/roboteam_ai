@@ -4,6 +4,10 @@
 
 #include "IOManager.h"
 
+namespace rtt {
+namespace ai {
+namespace io {
+
 void IOManager::subscribeToWorldState() {
   // previously also ros::TransportHints().tcpNoDelay() has been used as argument.
   nodeHandle.subscribe<roboteam_msgs::World>(rtt::TOPIC_WORLD_STATE, 1, &IOManager::handleWorldState, this);
@@ -17,7 +21,9 @@ const roboteam_msgs::World& IOManager::getWorldState() {
   return this->world;
 }
 
-
+} // io
+} // ai
+} // rtt
 
 
 

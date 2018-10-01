@@ -33,14 +33,14 @@ class DangerFinder {
    * \brief Gets the most recent results of the DangerFinder thread.
    * If the background thread has not been started it, this starts it.
    */
-  rtt::DangerData getMostRecentData();
+  rtt::ai::dangerfinder::DangerData getMostRecentData();
 
   /**
    * \function calculateDataNow
    * \brief Performs an immediate update of the DangerData.
    * The returned data is also stored as the 'most recent'.
    */
-  rtt::DangerData calculateDataNow();
+  rtt::ai::dangerfinder::DangerData calculateDataNow();
 
   /**
    * \function start
@@ -76,7 +76,7 @@ class DangerFinder {
    */
   static void ensureRunning(int iterationsPerSecond = 20);
  private:
-  static std::vector<df::DangerModule *> modules();
+  static std::vector<rtt::ai::dangerfinder::DangerModule *> modules();
   std::thread runner;
   std::mutex mutex;
   volatile bool stopping;
