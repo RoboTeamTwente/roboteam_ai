@@ -41,8 +41,6 @@ namespace rtt {
 
         std::map<int, roboteam_msgs::DetectionBall> ball_buffer;
 
-        std::map<int, roboteam_msgs::DetectionBall> ball_buffer_new;
-
         std::map<int, rtt::Robot> old_blue, old_yellow;
 
         // Keeps track which cameras have sent a frame since last world calculation.

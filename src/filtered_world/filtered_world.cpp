@@ -94,6 +94,7 @@ namespace rtt {
         // Set this cameras updated flag.
         // If this camera hasn't sent frames before, it is now added to the list of cameras.
         world_cams[cam_id] = true;
+        timeFrameCaptured[cam_id]=msg.t_capture;
 
         // ==== Robots ====
         // Add the robot data
@@ -167,35 +168,34 @@ namespace rtt {
         merge_robots(robots_blue_buffer, robots_blue_world, old_blue, timestamp, isBlueOurTeam);
         merge_robots(robots_yellow_buffer, robots_yellow_world, old_yellow, timestamp, !isBlueOurTeam);
 
-        // Take the ball from the camera that detects the ball closest to the last position.
-//        if (! ball_buffer.empty()) {
-//
-//            ball_world.set_visible(true);
-//            Vector2 currentBallPos(ball_world.get_position().x, ball_world.get_position().y);
-//
-//            roboteam_msgs::DetectionBall closestBall = ball_buffer.begin()->second;
-//            double closestDist2 = Vector2(closestBall.pos).dist2(currentBallPos);
-//
-//            for (auto const & ballEntry : ball_buffer) {
-//                double dist2 = Vector2(ballEntry.second.pos).dist2(currentBallPos);
-//
-//                if (dist2 < closestDist2) {
-//                    closestBall = ballEntry.second;
-//                    closestDist2 = dist2;
-//                }
-//            }
-//            ball_world.move_to(closestBall.pos.x, closestBall.pos.y, closestBall.z);
-//        }
-//        else {
-//            ball_world.set_visible(false);
-//        }
-
-        //New:
-        if (!ball_buffer_new.empty()) {
+        // Take the ball from the camera where extrapolation with respect to the world is closest to
+        // the extrapolation of the last world state's velocity and position
+        if (!ball_buffer.empty()) {
             ball_world.set_visible(true);
-            // some magic to determine which balls are chosen
 
-            ball_world.move_to(ball_buffer_new[0].pos.x, ball_buffer_new[0].pos.y, ball_buffer_new[0].z);
+            // extrapolation of the last world's state velocity and position
+            Position previousBallPos = ball_world.get_position();
+            Position previousBallVel = ball_world.get_velocity();
+            Position predictedPosition = previousBallPos+ previousBallVel*(timestamp-timeLastUpdated);
+
+            // First extrapolation
+            roboteam_msgs::DetectionBall closestBall=ball_buffer.begin()->second;
+            int best_camera=ball_buffer.begin()->first;
+            // Initial extrapolation. Does the same as below
+            Position Extrapolation=previousBallPos+(Position(closestBall.pos)-previousBallPos)*(1/(timeFrameCaptured[best_camera]-timeLastUpdated))*(timestamp-timeLastUpdated);
+            double closestDist2= Vector2(Extrapolation.x,Extrapolation.y).dist2(Vector2(predictedPosition.x,predictedPosition.y));
+
+            for (auto const & detectedBall : ball_buffer){
+                // Extrapolate from detectionframe's capture time to current time.
+                Position detectedBallPos=Position(detectedBall.second.pos);
+                Extrapolation= previousBallPos+ (detectedBallPos-previousBallPos)*(1/(timeFrameCaptured[detectedBall.first]-timeLastUpdated))*(timestamp-timeLastUpdated);
+                double dist2 = Vector2(Extrapolation.x,Extrapolation.y).dist2(Vector2(predictedPosition.x,predictedPosition.y));
+                if (dist2 < closestDist2) {
+                    best_camera=detectedBall.first;
+                    closestDist2 = dist2;
+                }
+            }
+            ball_world.move_to(ball_buffer[best_camera].pos.x,ball_buffer[best_camera].pos.y,ball_buffer[best_camera].z);
         }
         else {
             ball_world.set_visible(false);
@@ -214,7 +214,6 @@ namespace rtt {
         // Clear the buffers.
         robots_blue_buffer.clear();
         robots_yellow_buffer.clear();
-        ball_buffer_new.clear();
     }
 
     /// Merges the robots from different frames
