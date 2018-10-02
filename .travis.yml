@@ -14,10 +14,9 @@ branches:
   - develop
   - melodic-devel
 
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install -y protobuf-c-compiler protobuf-compiler python-protobuf libprotobuf-dev build-essential cmake
 install:
+- sudo apt-get update
+- sudo apt-get install -y protobuf-c-compiler protobuf-compiler python-protobuf libprotobuf-dev build-essential cmake
 - git clone https://github.com/ros-industrial/industrial_ci.git .ci_config
 
 script:
