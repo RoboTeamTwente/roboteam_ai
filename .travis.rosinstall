@@ -1,6 +1,5 @@
-- git: {local-name: ros/std_msgs, uri: https://github.com/ros/std_msgs.git}
-- git: {local-name: industrial_ci, uri: https://github.com/ros-industrial/industrial_ci.git}
-
+- git: {local-name: ros/std_msgs, uri: 'https://github.com/ros/std_msgs.git'}
+- git: {local-name: industrial_ci, uri: 'https://github.com/ros-industrial/industrial_ci.git'}
 - git: {local-name: ros_comm, uri: 'https://github.com/ros/ros_comm.git'}
 - git: {local-name: roboteam_utils, uri: 'https://github.com/RoboTeamTwente/roboteam_utils.git'}
 - git: {local-name: roboteam_msgs, uri: 'https://github.com/RoboTeamTwente/roboteam_msgs.git'}
