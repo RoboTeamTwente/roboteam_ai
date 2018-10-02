@@ -14,12 +14,10 @@ branches:
   - develop
   - melodic-devel
 
-before_install:
-- sudo apt-get update
-- sudo apt-get install -y build-essential cmake
-- ./install-protobuf.sh
-
 install:
+- wget https://protobuf.googlecode.com/files/protobuf-2.4.1.tar.gz
+- tar -xzvf protobuf-2.4.1.tar.gz
+- pushd protobuf-2.4.1 && ./configure --prefix=/usr && make && sudo make install && popd
 - git clone https://github.com/ros-industrial/industrial_ci.git .ci_config
 
 script:
