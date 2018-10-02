@@ -88,7 +88,7 @@ TEST(WorldTests, filtered) {
     TEST(WorldTests, BallRobust){
         int zero = 0;
         ros::init(zero, nullptr, "world_test");
-        Predictor pred(1.0);
+        Predictor pred(10);
         FilteredWorld world(pred);
 
         // Testing ball prediction.
@@ -118,13 +118,83 @@ TEST(WorldTests, filtered) {
         ASSERT_FLOAT_EQ(ball.vel.y,0.0);
 
         auto * frame4= new DetectionFrame();
+        dummy_bot(0.0,0.0,0.0,frame4);
         frame4->t_capture=3;
         world.detection_callback(*frame4);
 
+        auto * frame5 = new DetectionFrame();
+        dummy_bot(1.0,0.0,0.0, frame5);
+        frame5->t_capture=4;
+        world.detection_callback(*frame5);
 
-        // 2 balls, one moving from 0.0 -> 1.0 and one moving from 2.0 -> 0.0
-        // 2 robots, one moving from 0.0-> 2.0 and one moving from 1.0 -> 0.0
+        auto * frame6 = new DetectionFrame();
 
+        // It simply picks the last one that was pushed if Robot ID's are the same. Practically never happens during a Match
+        dummy_bot(1.9,0.0,0.0,frame6);
+        dummy_bot(2.5,0.0,0.0,frame6);
+        frame6->t_capture=5;
+        world.detection_callback(*frame6);
 
+        msg=world.as_message();
+        WorldRobot bot=msg.us[0];
+
+}
+TEST(WorldTests,BallRobustMerge){
+    // Tests whether the merging of frames happens correctly
+
+    // Two camera's alternating. Ball moves from id 0 to id 1
+        int zero = 0;
+        ros::init(zero, nullptr, "world_test");
+        Predictor pred(10);
+        FilteredWorld world(pred);
+
+        auto * frame = new DetectionFrame();
+        dummy_ball(0.0,0.0,frame);
+        frame->t_capture=0;
+        frame->camera_id=0;
+        world.detection_callback(*frame);
+
+        auto * frame2 = new DetectionFrame();
+        frame2->t_capture=1;
+        frame2->camera_id=1;
+        world.detection_callback(*frame2);
+
+        auto * frame3 = new DetectionFrame();
+        dummy_ball(2.0,0.0,frame3);
+        frame3->t_capture=2;
+        frame3->camera_id=0;
+        world.detection_callback(*frame3);
+
+        World msg=world.as_message();
+        WorldBall ball=msg.ball;
+        ASSERT_FLOAT_EQ(ball.vel.x,1.0);
+        ASSERT_FLOAT_EQ(ball.vel.y,0.0);
+
+        auto * frame4 = new DetectionFrame();
+        frame4->t_capture=3;
+        frame4->camera_id=1;
+        world.detection_callback(*frame4);
+
+        auto * frame5 = new DetectionFrame();
+        dummy_ball(4.0,0.0,frame5);
+        frame5->t_capture=4;
+        frame5->camera_id=0;
+        world.detection_callback(*frame5);
+
+        auto * frame6 = new DetectionFrame();
+        dummy_ball(5.15,0.0,frame6);
+        frame6->t_capture=5;
+        frame6->camera_id=1;
+        world.detection_callback(*frame6);
+
+        auto * frame7 = new DetectionFrame();
+        dummy_ball(10,0.0,frame7);
+        frame7->t_capture=6;
+        frame7->camera_id=0;
+        world.detection_callback(*frame7);
+
+        msg=world.as_message();
+        ball=msg.ball;
+        ASSERT_FLOAT_EQ(ball.vel.x,1.05);
 }
 }

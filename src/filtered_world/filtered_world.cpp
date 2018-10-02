@@ -194,6 +194,7 @@ namespace rtt {
                 if (dist2 < closestDist2) {
                     //best_camera=detectedBall.first;
                     closestBall=detectedBall.second;
+                    closestBall.pos=Vector2(Extrapolation.x,Extrapolation.y);
                     closestDist2 = dist2;
                 }
             }
