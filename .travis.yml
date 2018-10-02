@@ -1,18 +1,23 @@
 sudo: required
-
-language: cpp
-
+dist: trusty
 services:
 - docker
-
+language: generic
+python:
+- "2.7"
+compiler:
+- gcc
 env:
-  global:
-  - toolset_branch: master
-  - server_type: travis
-  - ros_release_name: melodic
-  - ubuntu_version_name: bionic
-  - used_modules: check_cache,check_build,code_style_check,check_deb_make,codecov_tool
-  - remote_shell_script: 'https://raw.githubusercontent.com/shadow-robot/sr-build-tools/$toolset_branch/bin/sr-run-ci-build.sh'
-
+  matrix:
+  - ROS_DISTRO=kinetic ROS_REPO=ros-shadow-fixed UPSTREAM_WORKSPACE=debian OS_NAME=ubuntu OS_CODE_NAME=xenial
+  - ROS_DISTRO=melodic ROS_REPO=ros-shadow-fixed UPSTREAM_WORKSPACE=debian OS_NAME=ubuntu OS_CODE_NAME=bionic
+branches:
+  only:
+  - master
+  - develop
+  - kinetic-devel
+  - melodic-devel
+install:
+- git clone https://github.com/ros-industrial/industrial_ci.git .ci_config
 script:
-- curl -s "$( echo "$remote_shell_script" | sed 's/#/%23/g' )" | bash -x /dev/stdin "$toolset_branch" $server_type $used_modules
+- source .ci_config/travis.sh
