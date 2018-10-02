@@ -15,6 +15,10 @@ branches:
   - master
   - develop
   - melodic-devel
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y protobuf-c-compiler protobuf-compiler python-protobuf
 install:
 - git clone https://github.com/ros-industrial/industrial_ci.git .ci_config
 
