@@ -34,7 +34,6 @@ namespace rtt {
         void update_last_detection_time(double time);
         bool is_detection_old(double time, double threshold);
         bool is_detection_from_future(double time);
-
         Position get_position() const;
         Position get_velocity() const;
         uint get_id() const;

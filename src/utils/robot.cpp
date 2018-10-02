@@ -52,7 +52,6 @@ namespace rtt {
     bool Robot::is_detection_from_future(double time) {
         return (time < last_detection_time);
     }
-
     /// Returns a Position with {x, y, angle}
     Position Robot::get_position() const {
         return {x, y, angle};

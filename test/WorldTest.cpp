@@ -251,7 +251,8 @@ TEST(WorldTests,RobotMerge){
 
         msg=world.as_message();
         bot=msg.us[0];
-        ASSERT_FLOAT_EQ(bot.pos.x,(5.15+10)/2); // Old. Simply merge together the Robot position and make that the new position.
+        //ASSERT_FLOAT_EQ(bot.pos.x,(5.15+10)/2); // Old. Simply merge together the Robot position and make that the new position.
+        ASSERT_FLOAT_EQ(bot.pos.x,10); //New, works for now because we have no fail save checking and take the latest frame.
 }
 }
 

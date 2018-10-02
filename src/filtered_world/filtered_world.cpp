@@ -188,7 +188,7 @@ namespace rtt {
             for (auto const & detectedBall : ball_buffer){
                 // Extrapolate from detectionframe's capture time to current time.
                 Position detectedBallPos=Position(detectedBall.second.pos);
-                Extrapolation= previousBallPos+ (detectedBallPos-previousBallPos)*(1/(timeFrameCaptured[detectedBall.first]-timeLastUpdated))*(timestamp-timeLastUpdated);
+                Extrapolation= previousBallPos + (detectedBallPos-previousBallPos)*(1/(timeFrameCaptured[detectedBall.first]-timeLastUpdated))*(timestamp-timeLastUpdated);
                 double dist2 = Vector2(Extrapolation.x,Extrapolation.y).dist2(Vector2(predictedPosition.x,predictedPosition.y));
                 // Pick the Extrapolation which works best
                 if (dist2 < closestDist2) {
@@ -231,26 +231,39 @@ namespace rtt {
             Robot robot;
             robot.set_id(bot_id);
 
-            float x = 0;
-            float y = 0;
-            float w = 0;
-            Vector2 u(0,0);
-            // Loops over the detection robot detected by the different camera and takes the mean position
-            for (auto& buf : robot_buffer.second) {
-                x += buf.second.pos.x;
-                y += buf.second.pos.y;
-                // w += buf.second.orientation;
-                // We cant take the arithmetic mean of angles here. We have to convert to unit vectors first.
-                // (https://en.wikipedia.org/wiki/Mean_of_circular_quantities)
-                u = u + Vector2(1,0).rotate(buf.second.orientation);
-            }
-            x = x / robot_buffer.second.size();
-            y = y / robot_buffer.second.size();
-            // w = w / robot_buffer.second.size();
-            w = static_cast<float>(u.angle());
 
-            // Assign the robot position and rotation to the mean position calculated above
-            robot.move_to(x, y);
+            // Places the robot to the extrapolation of the last frame we saw it in. (assumes good camera calibration)
+            //TODO: A position is 'bad' if the internal velocity of the robot is exceedingly large. This is hard to implement for different scenario's
+            //TODO: Rotation is now fixed to last. Could still be extrapolated.
+            //TODO: Catch case if time measurement is off.
+            Vector2 previousPosition;
+            //If the robot was on last world, get the previous position. If not, initialize it to position(0,0)
+            if (robots_output.find(bot_id)!=robots_output.end()) {
+                previousPosition = Vector2(robots_output[bot_id].get_position().x,
+                                                   robots_output[bot_id].get_position().y);
+            }
+            else {
+                previousPosition=Vector2(0,0);
+            }
+
+            float w =0;
+            Vector2 Extrapolation;
+            //float previousw=robot.get_position().rot;
+            //Vector2 previousVelocity = Vector2(robot.get_velocity().x,robot.get_velocity().y);
+            //Vector2 predictedPosition= previousPosition+previousVelocity*(timestamp-timeLastUpdated);
+
+            double last_frame=timeLastUpdated;
+            for (auto& buf : robot_buffer.second){
+                if(timeFrameCaptured[buf.first]>last_frame){
+                    last_frame=timeFrameCaptured[buf.first];
+                    Vector2 bufPosition = buf.second.pos;
+                    Vector2 bufVelocity = (bufPosition-previousPosition)/(timeFrameCaptured[buf.first]-timeLastUpdated);
+                    Extrapolation= previousPosition+bufVelocity*(timestamp-timeLastUpdated);
+                    w=buf.second.orientation;
+                }
+            }
+            // Assign the robot position and rotation to the extrapolation calculated.
+            robot.move_to((float)Extrapolation.x, (float)Extrapolation.y);
             robot.rotate_to(w);
 
             // Send an update and discard old data for buffers used for calculations
@@ -277,7 +290,7 @@ namespace rtt {
 
         while (botIter != robots_output.end()) {
             // Remove robots that are not detected for 0.5 seconds.
-            if (botIter->second.is_detection_old(timestamp, 0.5)) {
+            if (botIter->second.is_detection_old(timestamp, 20)) {
                 ROS_INFO("Removing bot: %i. Too old.", botIter->second.get_id());
                 botIter = robots_output.erase(botIter);
             } else if (botIter->second.is_detection_from_future(timestamp)) {
