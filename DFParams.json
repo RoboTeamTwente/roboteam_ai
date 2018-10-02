@@ -1,0 +1,49 @@
+[
+  {
+    "module": "Distance",
+    "enabled": true,
+    "params": {
+      "defaultDivisor": -1.7,
+      "maxWidth": 9.0
+    }
+  },
+ 
+  {
+    "module": "Orientation",
+    "enabled": true,
+    "params": {
+      "defaultDivisor": 1.7,
+      "scalar": 3.0
+    }
+  },
+  
+  {
+    "module": "Free",
+    "enabled": true,
+    "params": {
+      "standingFreeDanger": 0.0
+    }
+  },
+  
+  {
+    "module": "CanShoot",
+    "enabled": true,
+    "params": {
+      "canShootDanger": 999
+    }
+  },
+
+  {
+    "module": "HasBall",
+    "enabled": true,
+    "params": {
+      "hasBallDanger": 100.0
+    }
+  },
+
+  {
+    "module": "WillReceiveBall",
+    "enabled": true,
+    "params": {}
+  }
+]

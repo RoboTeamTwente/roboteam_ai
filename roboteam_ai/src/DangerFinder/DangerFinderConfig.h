@@ -12,7 +12,7 @@ namespace dangerfinder {
  * This is the path to the parameter JSON file. DangerFinder will not work if this file
  * cannot be found or parsed.
  */
-#define DF_CONFIG_PARAM_FILE ros::package::getPath("roboteam_world") + "/DFParams.json"
+#define DF_CONFIG_PARAM_FILE ros::package::getPath("roboteam_ai") + "/DFParams.json"
 
 /**
  * \class DangerFinderConfig

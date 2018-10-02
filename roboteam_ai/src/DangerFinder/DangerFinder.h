@@ -22,7 +22,7 @@ namespace dangerfinder {
  */
 class DangerFinder {
  public:
-  static roboteam_msgs::World * worldMsg;
+  static roboteam_msgs::World *worldMsg;
 
   // It's a singleton; don't copy it.
   DangerFinder(const DangerFinder &) = delete;
@@ -69,11 +69,11 @@ class DangerFinder {
    */
 
   static DangerFinder &instance();
-    /**
-   * \function instance
-   * \brief Starts the background thread if it hasn't been started yet.
-   * Does nothing if the thread has started already.
-   */
+  /**
+ * \function instance
+ * \brief Starts the background thread if it hasn't been started yet.
+ * Does nothing if the thread has started already.
+ */
   static void ensureRunning(int iterationsPerSecond = 20);
  private:
   void loadModules();
@@ -89,7 +89,6 @@ class DangerFinder {
   void loop(unsigned delayMillis);
   DangerFinder();
 };
-
 } // dangerfinder
 } // ai
 } // rtt
