@@ -190,12 +190,16 @@ namespace rtt {
                 Position detectedBallPos=Position(detectedBall.second.pos);
                 Extrapolation= previousBallPos+ (detectedBallPos-previousBallPos)*(1/(timeFrameCaptured[detectedBall.first]-timeLastUpdated))*(timestamp-timeLastUpdated);
                 double dist2 = Vector2(Extrapolation.x,Extrapolation.y).dist2(Vector2(predictedPosition.x,predictedPosition.y));
+                // Pick the Extrapolation which works best
                 if (dist2 < closestDist2) {
-                    best_camera=detectedBall.first;
+                    //best_camera=detectedBall.first;
+                    closestBall=detectedBall.second;
                     closestDist2 = dist2;
                 }
             }
-            ball_world.move_to(ball_buffer[best_camera].pos.x,ball_buffer[best_camera].pos.y,ball_buffer[best_camera].z);
+            // Move the ball to the one that has best extrapolation
+            //ball_world.move_to(ball_buffer[best_camera].pos.x,ball_buffer[best_camera].pos.y,ball_buffer[best_camera].z);
+            ball_world.move_to(closestBall.pos.x,closestBall.pos.y,closestBall.z);
         }
         else {
             ball_world.set_visible(false);

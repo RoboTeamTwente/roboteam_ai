@@ -25,6 +25,20 @@ void dummy_frame(float ballx, float bally, float botx, float boty, float botw, D
     frame->balls.push_back(ball);
 }
 
+void dummy_ball(float ballx, float bally, DetectionFrame* frame){
+    DetectionBall ball;
+    ball.pos.x=ballx;
+    ball.pos.y=bally;
+    frame->balls.push_back(ball);
+}
+void dummy_bot(float botx, float boty, float botw, DetectionFrame* frame){
+    DetectionRobot bot;
+    bot.pos.x = botx;
+    bot.pos.y = boty;
+    bot.orientation = botw;
+    frame->us.push_back(bot);
+}
+
 
 //TODO: Expand testing to multiple robots for both colours
 TEST(WorldTests, filtered) {
@@ -76,23 +90,36 @@ TEST(WorldTests, filtered) {
         ros::init(zero, nullptr, "world_test");
         Predictor pred(1.0);
         FilteredWorld world(pred);
+
+        // Testing ball prediction.
+        //First two frames to set the velocity and position of the ball
         auto * frame = new DetectionFrame();
-        dummy_frame(0.0, 0.0, 0.0, 0.0, 0.0, frame);
-        dummy_frame(2.0, 2.0, 1.0, 1.0, 0.0, frame);
+        dummy_ball(0.0,0.0,frame);
         frame->t_capture=0;
         world.detection_callback(*frame);
 
         auto * frame2 = new DetectionFrame();
-        dummy_frame(1.0, 1.0, 2.0, 2.0, 0.0, frame2);
-        dummy_frame(0.0, 0.0, 0.0, 0.0, 0.0, frame2);
+        dummy_ball(1.0,0.0,frame2);
         frame2->t_capture=1;
         world.detection_callback(*frame2);
 
+        // Third frame has two noise balls in it. It should go for dummy_ball closest to expected position (at 2.0)
+        auto * frame3 = new DetectionFrame();
+        dummy_ball(2.0,0.0,frame3);
+        dummy_ball(1.1,0.0,frame3);
+        dummy_ball(-2.0,2.2,frame3);
+        frame3->t_capture=2;
+        world.detection_callback(*frame3);
+
         World msg=world.as_message();
-        WorldRobot botOne=msg.us[0];
-        WorldRobot botTwo=msg.us[1];
         WorldBall ball=msg.ball;
-        //ASSERT_EQ()
+
+        ASSERT_FLOAT_EQ(ball.vel.x,1.0);
+        ASSERT_FLOAT_EQ(ball.vel.y,0.0);
+
+        auto * frame4= new DetectionFrame();
+        frame4->t_capture=3;
+        world.detection_callback(*frame4);
 
 
         // 2 balls, one moving from 0.0 -> 1.0 and one moving from 2.0 -> 0.0
