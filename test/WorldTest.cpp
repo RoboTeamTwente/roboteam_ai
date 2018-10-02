@@ -197,4 +197,62 @@ TEST(WorldTests,BallRobustMerge){
         ball=msg.ball;
         ASSERT_FLOAT_EQ(ball.vel.x,1.05);
 }
+TEST(WorldTests,RobotMerge){
+        // Similar to above, but for Robots merging
+        int zero = 0;
+        ros::init(zero, nullptr, "world_test");
+        Predictor pred(10);
+        FilteredWorld world(pred);
+
+        auto * frame = new DetectionFrame();
+        dummy_bot(0.0,0.0,0.0,frame);
+        frame->t_capture=0;
+        frame->camera_id=0;
+        world.detection_callback(*frame);
+
+        auto * frame2 = new DetectionFrame();
+        frame2->t_capture=1;
+        frame2->camera_id=1;
+        world.detection_callback(*frame2);
+
+        auto * frame3 = new DetectionFrame();
+        dummy_bot(2.0,0.0,0.0,frame3);
+        frame3->t_capture=2;
+        frame3->camera_id=0;
+        world.detection_callback(*frame3);
+
+        World msg=world.as_message();
+        WorldRobot bot=msg.us[0];
+        ASSERT_FLOAT_EQ(bot.vel.x,1.0);
+        ASSERT_FLOAT_EQ(bot.vel.y,0.0);
+
+        auto * frame4 = new DetectionFrame();
+        frame4->t_capture=3;
+        frame4->camera_id=1;
+        world.detection_callback(*frame4);
+
+        auto * frame5 = new DetectionFrame();
+        dummy_bot(4.0,0.0,0.0,frame5);
+        frame5->t_capture=4;
+        frame5->camera_id=0;
+        world.detection_callback(*frame5);
+
+        auto * frame6 = new DetectionFrame();
+        dummy_bot(5.15,0.0,0.0,frame6);
+        frame6->t_capture=5;
+        frame6->camera_id=1;
+        world.detection_callback(*frame6);
+
+        auto * frame7 = new DetectionFrame();
+        dummy_bot(10,0.0,0.0,frame7);
+        frame7->t_capture=6;
+        frame7->camera_id=0;
+        world.detection_callback(*frame7);
+
+        msg=world.as_message();
+        bot=msg.us[0];
+        ASSERT_FLOAT_EQ(bot.pos.x,(5.15+10)/2); // Old. Simply merge together the Robot position and make that the new position.
 }
+}
+
+
