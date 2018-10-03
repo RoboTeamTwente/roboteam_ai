@@ -1,8 +1,8 @@
 sudo: required
-dist: trusty
+dist: xenial
 services:
 - docker
-language: generic
+language: cpp
 python:
 - "2.7"
 env:
@@ -14,11 +14,10 @@ branches:
   - develop
   - melodic-devel
 
+before-install:
+- sudo apt-get install -y libprotobuf-dev protobuf-compiler ros-melodic-unique-identifier
+
 install:
-- sudo apt-get install -y protobuf-c-compiler protobuf-compiler python-protobuf libprotobuf-dev
-- wget https://github.com/protocolbuffers/protobuf/releases/download/v3.6.1/protobuf-all-3.6.1.tar.gz
-- tar -xzvf protobuf-all-3.6.1.tar.gz
-- pushd protobuf-3.6.1 && ./configure --prefix=/usr && make && sudo make install && popd
 - git clone https://github.com/ros-industrial/industrial_ci.git .ci_config
 
 script:
