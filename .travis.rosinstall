@@ -1,3 +1,3 @@
-- git: {local-name: roboteam_utils, uri: 'https://github.com/RoboTeamTwente/roboteam_utils.git', version: remove_constants_generator}
+- git: {local-name: roboteam_utils, uri: 'https://github.com/RoboTeamTwente/roboteam_utils.git', version: feature/remove_constants_generator}
 - git: {local-name: roboteam_msgs, uri: 'https://github.com/RoboTeamTwente/roboteam_msgs.git'}
 - git: {local-name: roboteam_world, uri: 'https://github.com/RoboTeamTwente/roboteam_world.git'}
