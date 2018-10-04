@@ -11,6 +11,9 @@
 #include <fstream>
 #include <string>
 #include <gtest/gtest_prod.h>
+#include "vector"
+#include <map>
+
 
 using json = nlohmann::json;
 
@@ -21,13 +24,13 @@ class TreeInterpreter {
         FRIEND_TEST(Tree, JsonTest);
 
         bt::BehaviorTree buildTreeFromJson(json json);
-        json readJson(std::string fileName);
-
+        std::vector<json> readJsons(std::string fileName);
+        std::vector<json> parseSmallJsons(json json);
 
     protected:
 
     public:
-        bt::BehaviorTree getTree(std::string name);
+        std::map<std::string, bt::BehaviorTree> getTrees(std::string name);
         static TreeInterpreter& getInstance();
 
 

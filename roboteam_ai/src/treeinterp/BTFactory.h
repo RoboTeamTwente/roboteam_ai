@@ -12,11 +12,15 @@
 #include <string>
 #include <gtest/gtest_prod.h>
 #include <map>
+#include "TreeInterpreter.h"
 
 
 class BTFactory {
 
+    TreeInterpreter interpreter;
+
     public:
+        void init();
         static BTFactory& getFactory();
         std::map<std::string,  bt::BehaviorTree> getProject(std::string projectName);
         void updateProject(std::string projectName);

@@ -14,7 +14,7 @@ TEST(Tree, JsonTest) {
     TreeInterpreter interpreter = TreeInterpreter::getInstance();
 
     // Read the test JSON
-    json testing = interpreter.readJson("test");
+    json testing = interpreter.readJsons("test");
 
     ASSERT_EQ("granny", testing["name"]);
     ASSERT_EQ("nanny", testing["child"]["name"]);
