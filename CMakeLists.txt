@@ -50,6 +50,7 @@ catkin_add_gtest(bt_test
         roboteam_ai/test/main.cpp
         roboteam_ai/test/BtTest.cpp
         roboteam_ai/test/JsonTest.cpp
+        roboteam_ai/test/BTFactoryTest.cpp
         ${JSON_SOURCES}
 
         )

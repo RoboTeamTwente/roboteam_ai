@@ -33,8 +33,6 @@ class TreeInterpreter {
         std::map<std::string, bt::BehaviorTree> getTrees(std::string name);
         static TreeInterpreter& getInstance();
 
-
-
 };
 
 
