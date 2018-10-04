@@ -6,6 +6,7 @@ namespace io {
 
 StrategyIOManager::StrategyIOManager() {
   this->subscribeToWorldState();
+  this->subscribeToGeometryData();
   this->subscribeToRoleFeedback();
 }
 

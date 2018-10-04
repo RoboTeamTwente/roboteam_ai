@@ -7,6 +7,7 @@ namespace io {
 
 RoleIOManager::RoleIOManager() {
   this->subscribeToWorldState();
+  this->subscribeToGeometryData();
   this->subscribeToRoleDirective();
 }
 
