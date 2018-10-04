@@ -18,7 +18,6 @@
 namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;
 
-roboteam_msgs::World worldMsg;
 
 int main(int argc, char *argv[]) {
   ros::init(argc, argv, "StrategyNode");
@@ -27,20 +26,21 @@ int main(int argc, char *argv[]) {
   io::StrategyIOManager strategyIOManager;
   ros::Rate rate(10);
 
+  roboteam_msgs::World worldMsg;
+  roboteam_msgs::GeometryData geometryMsg;
+
   df::DangerFinder::worldMsg = &worldMsg;
-
-
   df::DangerFinder::instance().start();
-
 
   while (ros::ok()) {
     ros::spinOnce();
     // give the dangerfinder a reference to worldstate
     worldMsg = strategyIOManager.getWorldState();
+    geometryMsg = strategyIOManager.getGeometryData();
 
     // hack all data in like old times
     rtt::LastWorld::set(worldMsg);
-
+    rtt::LastWorld::set_field(geometryMsg.field);
 
     danger = df::DangerFinder::instance().getMostRecentData();
     if (df::DangerFinder::instance().hasCalculated()) {
