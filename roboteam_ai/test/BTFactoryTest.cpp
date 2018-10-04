@@ -8,17 +8,9 @@
 
 
 
-TEST(Tree, JsonTest) {
+TEST(BT, BTTest) {
 
-    // Get the instance of the interpreter
-    TreeInterpreter interpreter = TreeInterpreter::getInstance();
-
-    // Read the test JSON
-    json testing = interpreter.readJsons("test");
-
-    ASSERT_EQ("granny", testing["name"]);
-    ASSERT_EQ("nanny", testing["child"]["name"]);
-    ASSERT_EQ("minnie", testing["child"]["child"]["name"]);
+// TODO: make test
 
 }
 
