@@ -12,57 +12,41 @@ namespace rtt {
 namespace ai {
 namespace dangerfinder {
 
+// Declare static variable
 roboteam_msgs::World * DangerFinder::worldMsg = nullptr;
 
-/*
- * \class DangerFinder
- * \brief Utility which continuously (in a background thread) monitors the world state and
- * keeps track of which opponents pose the greatest threat.
- */
+// Utility which continuously (in a background thread) monitors the world state and
+// keeps track of which opponents pose the greatest threat.
 DangerFinder::DangerFinder() : stopping(false), running(false), ranOnce(false) { }
 
-/*
- * \function loadModules
- * \Load modules to calculate dangerscores
- */
-
-void DangerFinder::loadModules() {
-  CanShootModule canShootModule(999);
-  modules.push_back(&canShootModule);
-
-  DistanceModule distanceModule(-1.7/9.0); // factor / max width
-  modules.push_back(&distanceModule);
-
-  FreeModule freeModule(0.0);
-  modules.push_back(&freeModule);
-
-  HasBallModule hasBallModule(100);
-  modules.push_back(&hasBallModule);
-
-  OrientationModule orientationModule(1.7, 3.0, 1);
-  modules.push_back(&orientationModule);
-}
-
+// Gets the singleton instance.
 DangerFinder &DangerFinder::instance() {
   static DangerFinder local_df;
   return local_df;
 }
 
-void DangerFinder::ensureRunning(int itsPerSecond) {
+// Starts the background thread if it hasn't been started yet. Does nothing if the thread has started already.
+// \param iterationsPerSecond The amount of iterations the background thread should try to run per second.
+void DangerFinder::ensureRunning(int iterationsPerSecond) {
   if (!instance().running) {
-    instance().start(itsPerSecond);
+    instance().start(iterationsPerSecond);
   }
 }
 
+// Starts the background worker thread.
+// \param iterationsPerSecond The amount of iterations the background thread should try to run per second.
 void DangerFinder::start(int iterationsPerSecond) {
   loadModules();
   ROS_INFO_STREAM_NAMED("DangerFinder", "Starting at " << iterationsPerSecond << " iterations per second");
-  unsigned delay = (unsigned) (1000/iterationsPerSecond);
+  auto delay = (unsigned) (1000/iterationsPerSecond);
   runner = std::thread(&DangerFinder::loop, this, delay);
   runner.detach();
   running = true;
 }
 
+// Run the calculation loop
+// \params delayMillis: the amount of milliseconds to delay before calculating another thread
+// TODO this is slower than desired FPS if calculations take long
 void DangerFinder::loop(unsigned delayMillis) {
   std::chrono::milliseconds delay(delayMillis);
 
@@ -72,6 +56,7 @@ void DangerFinder::loop(unsigned delayMillis) {
   }
 }
 
+// calculate all danger scores and store them in mostRecentData
 void DangerFinder::calculate() {
   DangerData data;
   for (const auto &bot : worldMsg->them) {
@@ -97,30 +82,16 @@ void DangerFinder::calculate() {
   ranOnce = true;
 }
 
-roboteam_msgs::WorldRobot findBot(int id, const roboteam_msgs::World &world) {
-  for (const auto &bot : world.them) {
-    if (bot.id==(unsigned) id) {
-      return bot;
-    }
-  }
-  throw new std::invalid_argument("DangerFinder.cpp:findBot - bot not found");
-}
 
-bool DangerFinder::isRunning() const {
-  return running;
-}
-
+// Stops the background worker thread.
 void DangerFinder::stop() {
   stopping = true;
   runner.join();
   running = false;
 }
 
-/**
- * \function getMostRecentData
- * \brief Gets the most recent results of the DangerFinder thread.
- * If the background thread has not been started it, this starts it.
- */
+// Gets the most recent results of the DangerFinder thread.
+// If the background thread has not been started it, this starts it.
 DangerData DangerFinder::getMostRecentData() {
   ensureRunning();
   if (!ranOnce) {
@@ -132,14 +103,28 @@ DangerData DangerFinder::getMostRecentData() {
   return t;
 }
 
-DangerData DangerFinder::calculateDataNow() {
-  calculate();
-  return getMostRecentData();
-}
-
+// return true if there is a calculated result
 bool DangerFinder::hasCalculated() {
   std::lock_guard<std::mutex> lock(mutex);
   return ranOnce;
+}
+
+// Load modules to determine dangerscores
+void DangerFinder::loadModules() {
+  CanShootModule canShootModule(999);
+  modules.push_back(&canShootModule);
+
+  DistanceModule distanceModule(-1.7/9.0); // factor / max width
+  modules.push_back(&distanceModule);
+
+  FreeModule freeModule(0.0);
+  modules.push_back(&freeModule);
+
+  HasBallModule hasBallModule(100);
+  modules.push_back(&hasBallModule);
+
+  OrientationModule orientationModule(1.7, 3.0, 1);
+  modules.push_back(&orientationModule);
 }
 
 } // dangerfinder

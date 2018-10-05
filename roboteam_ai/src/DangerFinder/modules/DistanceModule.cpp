@@ -8,21 +8,13 @@ namespace dangerfinder {
 DistanceModule::DistanceModule(double danger) : DangerModule(danger) { }
 
 inline Vector2 getGoalCenter() {
-	// static auto geom = LastWorld::get_field();
-	auto goalPos = LastWorld::get_our_goal_center();
-	return goalPos;
-	// return Vector2(geom.field_length / 2, 0);
+	return Vector2(World::get_field().field_length /2, 0);
 }
 
 PartialResult DistanceModule::calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) {
 	double dist = Vector2(bot.pos).dist(getGoalCenter());
-	// auto goalPos = LastWorld::get_our_goal_center(); 
-
-	// std::cout << "goalCenter: " << goalPos.x << " " << goalPos.y << "\n";
-	// std::cout << "robot " << bot.id 
-		// << " pos: " << bot.pos.x << " " << bot.pos.y
-		// << " dist: " << dist << "\n";
 	double last = lastDistances[bot.id];
+
 	DangerFlag flag;
 	lastDistances[bot.id] = dist;
 
@@ -31,8 +23,7 @@ PartialResult DistanceModule::calculate(const roboteam_msgs::WorldRobot& bot, co
 	} else {
         flag = DANGER_NONE;
     }
-
-	return {danger, flag};
+	return { danger, flag };
 }
 
 } // dangerfinder

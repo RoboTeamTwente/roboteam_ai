@@ -1,10 +1,8 @@
 #ifndef ROBOTEAM_AI_DANGER_MODULE_H
 #define ROBOTEAM_AI_DANGER_MODULE_H
 
-#include "roboteam_utils/LastWorld.h"
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_msgs/World.h"
-#include "boost/optional.hpp"
 #include "../PartialResult.h"
 #include "../../utilities/World.h"
 
@@ -27,7 +25,7 @@ public:
    */
 	virtual PartialResult calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world = rtt::ai::World::get_world()) = 0;
 protected:
-	DangerModule(double danger);
+	explicit DangerModule(double danger);
 	double danger = 0;
 };
 

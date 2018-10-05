@@ -14,57 +14,19 @@ namespace rtt {
 namespace ai {
 namespace dangerfinder {
 
-
 class DangerFinder {
  public:
   static roboteam_msgs::World *worldMsg;
-
-  // It's a singleton; don't copy it.
-  DangerFinder(const DangerFinder &) = delete;
+  DangerFinder(const DangerFinder &) = delete;  // It's a singleton; don't copy it.
   void operator=(const DangerFinder &) = delete;
-
-
   DangerData getMostRecentData();
-
-  /**
-   * \function calculateDataNow
-   * \brief Performs an immediate update of the DangerData.
-   * The returned data is also stored as the 'most recent'.
-   */
   DangerData calculateDataNow();
-
-  /**
-   * \function start
-   * \brief Starts the background worker thread.
-   * \param iterationsPerSecond The amount of iterations the background thread should try to run per second.
-   */
   void start(int iterationsPerSecond = 20);
-
-  /**
-   * \function stop
-   * \brief Stops the background worker thread.
-   */
   void stop();
-
-  /**
-   * \function isRunning
-   * \brief Checks whether the background thread is running.
-   */
   bool isRunning() const;
-
   bool hasCalculated();
-
-  /**
-   * \function instance
-   * \brief Gets the singleton instance.
-   */
-
   static DangerFinder &instance();
-  /**
- * \function instance
- * \brief Starts the background thread if it hasn't been started yet.
- * Does nothing if the thread has started already.
- */
+
   static void ensureRunning(int iterationsPerSecond = 20);
  private:
   void loadModules();
@@ -76,7 +38,6 @@ class DangerFinder {
   DangerData mostRecentData;
   std::vector<DangerModule *> modules;
   void calculate();
-  void drawDanger(DangerData);
   void loop(unsigned delayMillis);
   DangerFinder();
 };
