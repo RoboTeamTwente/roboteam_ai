@@ -7,7 +7,6 @@
 #include "modules/DangerModule.h"
 #include "boost/optional.hpp"
 #include "roboteam_msgs/WorldRobot.h"
-#include "roboteam_world/world/world_base.h"
 #include "DangerData.h"
 #include "ros/ros.h"
 
@@ -15,11 +14,7 @@ namespace rtt {
 namespace ai {
 namespace dangerfinder {
 
-/**
- * \class DangerFinder
- * \brief Utility which continuously (in a background thread) monitors the world state and
- * keeps track of which opponents pose the greatest threat.
- */
+
 class DangerFinder {
  public:
   static roboteam_msgs::World *worldMsg;
@@ -28,11 +23,7 @@ class DangerFinder {
   DangerFinder(const DangerFinder &) = delete;
   void operator=(const DangerFinder &) = delete;
 
-  /**
-   * \function getMostRecentData
-   * \brief Gets the most recent results of the DangerFinder thread.
-   * If the background thread has not been started it, this starts it.
-   */
+
   DangerData getMostRecentData();
 
   /**

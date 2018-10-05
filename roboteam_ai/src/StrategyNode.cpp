@@ -1,23 +1,10 @@
-/*
- * Creates an instance of StrategyNode
- * The strategynode decides which strategy to use based upon the following game parameters:
- *  1) The world state, which contains:
- *    a) The refcommands
- *    b) The location of all robots (both us and them)
- *    c) the field geometry
- *
- *  2) A danger list which is generated based upon the world state
- *
- * RoboTeamTwente, september 2018
- */
-
 #include "ros/ros.h"
 #include "io/StrategyIOManager.h"
 #include "DangerFinder/DangerFinder.h"
 
 namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;
-
+namespace ai = rtt::ai;
 
 int main(int argc, char *argv[]) {
   ros::init(argc, argv, "StrategyNode");

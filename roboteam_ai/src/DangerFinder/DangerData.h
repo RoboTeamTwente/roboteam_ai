@@ -16,7 +16,7 @@ typedef unsigned char DangerFlag;
  * \brief Stores the output of DangerFinder
  */
 struct DangerData {
-  std::vector<int> dangerList;        //< A list of robot IDs, sorted from most to least dangerous
+  std::vector<int> dangerList;        // A list of robot IDs, sorted from most to least dangerous
   std::map<int, double> scores;
   std::map<int, DangerFlag> flags;
 
