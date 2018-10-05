@@ -5,9 +5,7 @@ namespace rtt {
 namespace ai {
 namespace dangerfinder {
 
-REGISTER_MODULE("Distance", DistanceModule)
-
-DistanceModule::DistanceModule(double factor) : DangerModule("Distance"), factor(factor) {}
+DistanceModule::DistanceModule(double danger) : danger(danger) { }
 
 inline Vector2 getGoalCenter() {
 	// static auto geom = LastWorld::get_field();
@@ -34,7 +32,7 @@ PartialResult DistanceModule::calculate(const roboteam_msgs::WorldRobot& bot, co
         flag = DANGER_NONE;
     }
 
-	return {(dist - myConfig().doubles["maxWidth"]) / factor, flag};
+	return {danger, flag};
 }
 
 } // dangerfinder

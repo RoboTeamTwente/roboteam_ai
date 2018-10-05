@@ -2,6 +2,10 @@
 #include "ros/ros.h"
 #include "modules/DistanceModule.h"
 #include "modules/OrientationModule.h"
+#include "modules/CanShootModule.h"
+#include "modules/FreeModule.h"
+#include "modules/WillReceiveBallModule.h"
+#include "modules/HasBallModule.h"
 #include <boost/optional.hpp>
 #include <sstream>
 
@@ -17,22 +21,25 @@ roboteam_msgs::World * DangerFinder::worldMsg = nullptr;
  * keeps track of which opponents pose the greatest threat.
  */
 DangerFinder::DangerFinder() : stopping(false), running(false), ranOnce(false) {
-}
 
-void DangerFinder::loadModules() {
-  ROS_INFO("Building modules...");
-  auto config = DangerModule::cfg();
-  for (std::string moduleName : config.getActiveModules()) {
-    ROS_INFO_STREAM_NAMED("DangerFinder", "Module activated: " << moduleName);
-    boost::optional<DangerModule *> optMod = DangerModule::buildModule(moduleName);
-    if (!optMod) {
-      ROS_WARN_STREAM_NAMED("DangerFinder", "Module with name '" << moduleName
-                                                                 << "' listed in the config file, but not registered");
-    } else {
-      modules.push_back(*optMod);
-    }
-  }
-};
+  CanShootModule canShootModule(999);
+  modules.push_back(&canShootModule);
+
+  DistanceModule distanceModule(-1.7/9.0); // factor / max width
+  modules.push_back(&distanceModule);
+
+  FreeModule freeModule(0.0);
+  modules.push_back(&freeModule);
+
+  HasBallModule hasBallModule(100);
+  modules.push_back(&hasBallModule);
+
+  OrientationModule orientationModule(1.7, 3.0, 1);
+  modules.push_back(&orientationModule);
+
+  WillReceiveBallModule willReceiveBallModule;
+  modules.push_back(&willReceiveBallModule);
+}
 
 DangerFinder &DangerFinder::instance() {
   static DangerFinder local_df;
@@ -82,7 +89,7 @@ void DangerFinder::calculate() {
     }
     return data.scores.at(a) > data.scores.at(b);
   });
-  
+
   std::lock_guard<std::mutex> lock(mutex);
   mostRecentData = data;
   ranOnce = true;

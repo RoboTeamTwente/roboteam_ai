@@ -5,15 +5,13 @@ namespace rtt {
 namespace ai {
 namespace dangerfinder {
 
-REGISTER_MODULE("HasBall", HasBallModule);
-
-HasBallModule::HasBallModule() : DangerModule("HasBall") {}
+HasBallModule::HasBallModule(double danger) : danger(danger) {}
 
 PartialResult HasBallModule::calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) {
 
     bool hasBall = bot_has_ball(bot, world.ball);
 
-    return { hasBall ? myConfig().doubles["hasBallDanger"] : 0,
+    return { hasBall ? danger : 0,
              hasBall ? DANGER_HAS_BALL : DANGER_NONE };
 }
 

@@ -5,7 +5,6 @@
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_msgs/World.h"
 #include "boost/optional.hpp"
-#include "../DangerFinderConfig.h"
 
 namespace rtt {
 namespace ai {
@@ -61,7 +60,6 @@ public:
 	 * \brief Get the static configuration data. The configuration file will be parsed the first
 	 * time this function is called.
 	 */
-	static DangerFinderConfig cfg();
 	static boost::optional<DangerModule*> buildModule(std::string name);
 	virtual ~DangerModule() {}
 
@@ -72,17 +70,9 @@ public:
 	 * can be provided through flags.
 	 */
 	virtual PartialResult calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world = LastWorld::get()) = 0;
-
-	/*
-	 * \function getName
-	 * \brief Gets the (constant) name of this module, for logging/debugging purposes.
-	 */
-	std::string getName() const;
 protected:
-	DangerModule(std::string name);
-	DangerFinderConfig::SubConfig myConfig();
-private:
-	std::string name;
+	DangerModule() = default;
+	double danger;
 };
 
 

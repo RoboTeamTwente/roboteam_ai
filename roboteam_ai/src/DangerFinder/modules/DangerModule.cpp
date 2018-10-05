@@ -17,31 +17,6 @@ PartialResult operator+(PartialResult a, PartialResult b) {
 	return { a.score + b.score, (DangerFlag)(a.flags | b.flags) };
 }
 
-DangerModule::DangerModule(std::string name) : name(name) {}
-
-std::string DangerModule::getName() const { return name; }
-
-DangerFinderConfig DangerModule::cfg() {
-	static DangerFinderConfig d;
-	return d;
-}
-
-boost::optional<DangerModule*> DangerModule::buildModule(std::string name) {
-	if (moduleRepo().find(name) != moduleRepo().end()) {
-		return moduleRepo().at(name)();
-	}
-	return boost::none;
-}
-
-DangerFinderConfig::SubConfig DangerModule::myConfig() {
-	return cfg().getConfigFor(name);
-}
-
-std::map<std::string, DangerModule*(*)()>& moduleRepo() {
-	static std::map<std::string, DangerModule*(*)()> repo;
-	return repo;
-}
-
 } // dangerfinder
 } // ai
 } // rtt

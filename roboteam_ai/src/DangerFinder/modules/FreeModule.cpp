@@ -6,18 +6,16 @@ namespace rtt {
 namespace ai {
 namespace dangerfinder {
 
-REGISTER_MODULE("Free", FreeModule)
-
-FreeModule::FreeModule() : DangerModule("Free") {}
+FreeModule::FreeModule(double danger) : danger(danger) { }
 
 PartialResult FreeModule::calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) {
 	Vector2 ballPos(world.ball.pos);
 	Vector2 botPos(bot.pos);
 	const auto obstacles = getObstaclesBetweenPoints(botPos, ballPos);
-	if (obstacles.size() == 0) {
-		return { myConfig().doubles["standingFreeDanger"], DANGER_FREE };
+	if (obstacles.empty()) {
+		return { danger, DANGER_FREE };
 	}
-	return PartialResult();
+	return {};
 }
 
 } // dangerfinder

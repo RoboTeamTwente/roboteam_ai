@@ -13,8 +13,10 @@ namespace dangerfinder {
  */
 
 class CanShootModule : public DangerModule {
+ private:
+  double canShootDangerScore;
 public:
-	CanShootModule();
+	CanShootModule(double canShootDangerScore);
 	PartialResult calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) override;
 };
 

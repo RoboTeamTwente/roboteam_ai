@@ -3,20 +3,19 @@
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Position.h"
 #include "roboteam_utils/Section.h"
-#include "roboteam_utils/LastWorld.h"
 #include "roboteam_utils/Math.h"
 #include "roboteam_msgs/GeometryFieldSize.h"
+#include "../../utilities/World.h"
 
 namespace rtt {
 namespace ai {
 namespace dangerfinder {
 
-REGISTER_MODULE("CanShoot", CanShootModule)
-
-CanShootModule::CanShootModule() : DangerModule("CanShoot") {}
+CanShootModule::CanShootModule(double danger)
+: danger(danger) {}
 
 bool facingGoal(rtt::Position pos) {
-	auto geom = rtt::LastWorld::get_field();
+	auto geom = rtt::ai::World::get_field();
 
     rtt::Section goalSection {
     	-geom.field_length / 2,  geom.goal_width / 2,
@@ -40,9 +39,9 @@ PartialResult CanShootModule::calculate(const roboteam_msgs::WorldRobot& bot, co
 	bool faceGoal = facingGoal({bot.pos.x, bot.pos.y, bot.angle});
 
 	if (!hasObstacles && hasBall && faceGoal) {
-		return { (double) myConfig().ints["canShootDanger"], DANGER_CAN_SHOOT };
+		return { danger, DANGER_CAN_SHOOT };
 	}
-	return PartialResult();
+	return {};
 }
 
 

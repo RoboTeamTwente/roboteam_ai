@@ -21,9 +21,7 @@ set(DANGER_FINDER_SOURCES
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/DangerData.h
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/DangerFinder.cpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/DangerFinder.h
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/DangerFinderConfig.cpp
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/DangerFinderConfig.h
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/DangerModule.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/DangerModule.cpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/DangerModule.h
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/DistanceModule.cpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/DistanceModule.h
@@ -75,6 +73,8 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/main.cpp
         roboteam_ai/test/BtTest.cpp
         roboteam_ai/test/WorldTest.cpp
+        roboteam_ai/test/DangerFinderTest.cpp
+        ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         )
 

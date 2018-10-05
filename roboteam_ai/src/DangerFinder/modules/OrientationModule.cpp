@@ -6,9 +6,7 @@ namespace rtt {
 namespace ai {
 namespace dangerfinder {
 
-REGISTER_MODULE("Orientation", OrientationModule)
-
-OrientationModule::OrientationModule(double factor) : DangerModule("Orientation"), factor(factor) {}
+OrientationModule::OrientationModule(double factor, double scalar, double danger) : factor(factor), scalar(scalar), danger(danger) {}
 
 PartialResult OrientationModule::calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) {
 	static auto geom = LastWorld::get_field();

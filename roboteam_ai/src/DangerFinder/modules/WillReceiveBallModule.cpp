@@ -9,12 +9,6 @@ namespace rtt {
 namespace ai {
 namespace dangerfinder {
 
-REGISTER_MODULE("WillReceiveBall", WillReceiveBallModule);
-
-WillReceiveBallModule::WillReceiveBallModule() : DangerModule("WillReceiveBall"){
-
-}
-
 PartialResult WillReceiveBallModule::calculate(
         const roboteam_msgs::WorldRobot &bot,
         const roboteam_msgs::World &world
