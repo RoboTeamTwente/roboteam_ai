@@ -3,14 +3,14 @@
 //
 
 #include <gtest/gtest.h>
-#include "../src/treeinterp/TreeInterpreter.h"
-#include "../src/treeinterp/json.h"
-
 
 
 TEST(BT, BTTest) {
 
-// TODO: make test
+    // Read the
+
+
+
 
 }
 

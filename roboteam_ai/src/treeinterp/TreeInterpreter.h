@@ -23,9 +23,9 @@ class TreeInterpreter {
     private:
         FRIEND_TEST(Tree, JsonTest);
 
-        bt::BehaviorTree buildTreeFromJson(json json);
-        std::vector<json> readJsons(std::string fileName);
-        std::vector<json> parseSmallJsons(json json);
+        bt::BehaviorTree buildTreeFromJSON(json json);
+        json readJSON(std::string fileName);
+        std::vector<json> parseSmallJSONs(json json);
 
     protected:
 

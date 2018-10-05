@@ -19,44 +19,54 @@ TreeInterpreter &TreeInterpreter::getInstance() {
     return instance;
 }
 
-/// Build a BehaviorTree from a JSON object
-bt::BehaviorTree TreeInterpreter::buildTreeFromJson(json json) {
-    return bt::BehaviorTree();
-}
-
 /// Returns a BehaviorTree from a given name
 std::map<std::string, bt::BehaviorTree> TreeInterpreter::getTrees(std::string name) {
     std::map<std::string, bt::BehaviorTree> result;
 
     // Read a project from file
-    std::vector<json> project = readJsons(std::move(name));
+    std::vector<json> project = readJSON(std::move(name));
 
     // Loop over all the trees in the project JSON and put them in the map
     // TODO: fix the names for the trees
     for (const json &tree : project) {
-        bt::BehaviorTree currentTree = buildTreeFromJson(tree);
+        bt::BehaviorTree currentTree = buildTreeFromJSON(tree);
         result.insert(std::pair<std::string, bt::BehaviorTree>("temp_name", currentTree));
     }
     return result;
 }
 
+
 /// Read JSON from a file
-std::vector<json> TreeInterpreter::readJsons(std::string fileName) {
+json TreeInterpreter::readJSON(std::string fileName) {
 
     // TODO: make relative path
     std::ifstream ifs("/home/baris/roboteamtwente/workspace/src/roboteam_ai/roboteam_ai/src/treeinterp/jsons/" + fileName + ".json");
     json bigJSON = json::parse(ifs);
-    std::vector<json> smallJsons = parseSmallJsons(bigJSON);
-    return smallJsons;
+    return bigJSON;
 }
 
 /// Parse from the project JSON small tree JSONs
-std::vector<json> TreeInterpreter::parseSmallJsons(json input) {
+std::vector<json> TreeInterpreter::parseSmallJSONs(json input) {
 
     std::vector<json> result;
 
-    //TODO: break the big JSON into smaller JSONs
+    // First check if it is indeed a project
+    if(input["data"]["scope"] == "project"){
+        auto trees = input["data"]["trees"];
+
+        // Loop and add all of the tress to the vector
+        for (const json &current : trees) {
+            result.push_back(current);
+        }
+    } else {
+        std::cerr << "MURDER ME" << std::endl;
+    }
 
     return result;
+}
+
+/// Build a BehaviorTree from a JSON object
+bt::BehaviorTree TreeInterpreter::buildTreeFromJSON(json json) {
+    return bt::BehaviorTree();
 }
 
