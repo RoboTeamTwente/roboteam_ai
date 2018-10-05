@@ -4,7 +4,6 @@
 #include "modules/OrientationModule.h"
 #include "modules/CanShootModule.h"
 #include "modules/FreeModule.h"
-#include "modules/WillReceiveBallModule.h"
 #include "modules/HasBallModule.h"
 #include <boost/optional.hpp>
 #include <sstream>
@@ -20,8 +19,14 @@ roboteam_msgs::World * DangerFinder::worldMsg = nullptr;
  * \brief Utility which continuously (in a background thread) monitors the world state and
  * keeps track of which opponents pose the greatest threat.
  */
-DangerFinder::DangerFinder() : stopping(false), running(false), ranOnce(false) {
+DangerFinder::DangerFinder() : stopping(false), running(false), ranOnce(false) { }
 
+/*
+ * \function loadModules
+ * \Load modules to calculate dangerscores
+ */
+
+void DangerFinder::loadModules() {
   CanShootModule canShootModule(999);
   modules.push_back(&canShootModule);
 
@@ -36,9 +41,6 @@ DangerFinder::DangerFinder() : stopping(false), running(false), ranOnce(false) {
 
   OrientationModule orientationModule(1.7, 3.0, 1);
   modules.push_back(&orientationModule);
-
-  WillReceiveBallModule willReceiveBallModule;
-  modules.push_back(&willReceiveBallModule);
 }
 
 DangerFinder &DangerFinder::instance() {

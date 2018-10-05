@@ -11,8 +11,7 @@ namespace rtt {
 namespace ai {
 namespace dangerfinder {
 
-CanShootModule::CanShootModule(double danger)
-: danger(danger) {}
+CanShootModule::CanShootModule(double danger) : DangerModule(danger) {}
 
 bool facingGoal(rtt::Position pos) {
 	auto geom = rtt::ai::World::get_field();

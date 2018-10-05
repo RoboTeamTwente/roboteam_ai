@@ -5,7 +5,7 @@ namespace rtt {
 namespace ai {
 namespace dangerfinder {
 
-DistanceModule::DistanceModule(double danger) : danger(danger) { }
+DistanceModule::DistanceModule(double danger) : DangerModule(danger) { }
 
 inline Vector2 getGoalCenter() {
 	// static auto geom = LastWorld::get_field();

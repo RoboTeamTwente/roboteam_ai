@@ -6,7 +6,7 @@ namespace rtt {
 namespace ai {
 namespace dangerfinder {
 
-OrientationModule::OrientationModule(double factor, double scalar, double danger) : factor(factor), scalar(scalar), danger(danger) {}
+OrientationModule::OrientationModule(double factor, double scalar, double danger) : factor(factor), scalar(scalar), DangerModule(danger) {}
 
 PartialResult OrientationModule::calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) {
 	static auto geom = LastWorld::get_field();
@@ -15,7 +15,7 @@ PartialResult OrientationModule::calculate(const roboteam_msgs::WorldRobot& bot,
 	double targetAngle = toGoal.angle();
 	double angleDiff = fabs(targetAngle - bot.angle);
 	double x = (angleDiff - M_PI) / factor;
-	return {x*x / myConfig().doubles["scalar"], DANGER_NONE};
+	return { (x*x/scalar), DANGER_NONE};
 }
 
 } // dangerfinder

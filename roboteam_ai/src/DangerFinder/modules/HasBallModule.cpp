@@ -5,7 +5,7 @@ namespace rtt {
 namespace ai {
 namespace dangerfinder {
 
-HasBallModule::HasBallModule(double danger) : danger(danger) {}
+HasBallModule::HasBallModule(double danger) : DangerModule(danger) {}
 
 PartialResult HasBallModule::calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) {
 
