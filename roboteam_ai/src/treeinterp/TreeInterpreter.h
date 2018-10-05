@@ -32,7 +32,8 @@ class TreeInterpreter {
     protected:
 
     public:
-        std::map<std::string, bt::BehaviorTree> getTrees(std::string name);
+        std::map<std::string, bt::BehaviorTree> getProject(std::string name);
+        bt::BehaviorTree getTree(std::string projectName, std::string name);
         static TreeInterpreter& getInstance();
 
 };

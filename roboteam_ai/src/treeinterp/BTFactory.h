@@ -15,11 +15,15 @@
 #include "TreeInterpreter.h"
 
 
+
 class BTFactory {
 
+    // TODO: have the names of all the project before here
     TreeInterpreter interpreter;
 
     public:
+        static std::map<std::string, std::map<std::string, bt::BehaviorTree>> treeRepo;
+
         void init();
         static BTFactory& getFactory();
         std::map<std::string,  bt::BehaviorTree> getProject(std::string projectName);

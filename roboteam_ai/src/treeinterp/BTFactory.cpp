@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by baris on 04/10/18.
 //
@@ -11,19 +13,29 @@ std::map<std::string, bt::BehaviorTree> BTFactory::getProject(std::string projec
 
 /// Update an entire project
 void BTFactory::updateProject(std::string projectName) {
-    // TODO: re-read the JSON project
+
+    auto project = interpreter.getProject(projectName);
+    BTFactory::treeRepo[projectName] = project;
 
 }
 
 /// Update one tree from a project
 void BTFactory::updateTree(std::string projectName, std::string treeName) {
-    //TODO: only update the tree
+    auto tree = interpreter.getTree(projectName, treeName);
+
+    BTFactory::treeRepo[projectName][treeName] = tree;
+
+
 }
 
 /// Returns the Behaviour Tree Factory Singelton
 BTFactory &BTFactory::getFactory() {
     static BTFactory instance;
     return instance;
+}
+
+std::map<std::string, std::map<std::string, bt::BehaviorTree>> getTreeRepo() {
+    return BTFactory::treeRepo;
 }
 
 /// Initiate the BTFactory

@@ -19,7 +19,7 @@ TreeInterpreter &TreeInterpreter::getInstance() {
 }
 
 /// Returns a BehaviorTree from a given name
-std::map<std::string, bt::BehaviorTree> TreeInterpreter::getTrees(std::string name) {
+std::map<std::string, bt::BehaviorTree> TreeInterpreter::getProject(std::string name) {
     std::map<std::string, bt::BehaviorTree> result;
 
     // Read a project from file
@@ -33,6 +33,16 @@ std::map<std::string, bt::BehaviorTree> TreeInterpreter::getTrees(std::string na
     }
     return result;
 }
+
+
+bt::BehaviorTree TreeInterpreter::getTree(std::string projectName, std::string name) {
+
+    // TODO: get the project and only parse and build one tree
+
+    // return
+
+}
+
 
 
 /// Read JSON from a file
@@ -66,25 +76,6 @@ std::vector<json> TreeInterpreter::parseSmallJSONs(json input) {
 
 /// Build a BehaviorTree from a JSON object
 bt::BehaviorTree TreeInterpreter::buildTreeFromJSON(json jsonTree) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
