@@ -14,6 +14,7 @@ namespace dangerfinder {
  */
 class DistanceModule final : public DangerModule {
 public:
+    explicit DistanceModule() = default;
 	explicit DistanceModule(double danger);
 	PartialResult calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) override;
 private:

@@ -12,12 +12,10 @@ namespace rtt {
 namespace ai {
 namespace dangerfinder {
 
-// Declare static variable
-roboteam_msgs::World * DangerFinder::worldMsg = nullptr;
-
 // Utility which continuously (in a background thread) monitors the world state and
 // keeps track of which opponents pose the greatest threat.
-DangerFinder::DangerFinder() : stopping(false), running(false), ranOnce(false) { }
+DangerFinder::DangerFinder() : stopping(false), running(false), ranOnce(false) {
+}
 
 // Gets the singleton instance.
 DangerFinder &DangerFinder::instance() {
@@ -59,11 +57,11 @@ void DangerFinder::loop(unsigned delayMillis) {
 // calculate all danger scores and store them in mostRecentData
 void DangerFinder::calculate() {
   DangerData data;
-  for (const auto &bot : worldMsg->them) {
+  for (const auto &bot : rtt::ai::World::get_world().them) {
     PartialResult pr;
-    for (auto &module : modules) {
-      auto t = module->calculate(bot);
-      pr += t;
+    for (auto &dangerModule : dangerModules) {
+      PartialResult result = dangerModule->calculate(bot);
+      pr += result;
     }
     data.flags[bot.id] = pr.flags;
     data.scores[bot.id] = pr.score;
@@ -82,7 +80,6 @@ void DangerFinder::calculate() {
   ranOnce = true;
 }
 
-
 // Stops the background worker thread.
 void DangerFinder::stop() {
   stopping = true;
@@ -91,7 +88,6 @@ void DangerFinder::stop() {
 }
 
 // Gets the most recent results of the DangerFinder thread.
-// If the background thread has not been started it, this starts it.
 DangerData DangerFinder::getMostRecentData() {
   ensureRunning();
   if (!ranOnce) {
@@ -111,20 +107,17 @@ bool DangerFinder::hasCalculated() {
 
 // Load modules to determine dangerscores
 void DangerFinder::loadModules() {
-  CanShootModule canShootModule(999);
-  modules.push_back(&canShootModule);
+  canShootModule = CanShootModule(999);
+  distanceModule = DistanceModule(-1.7/9.0); // factor / max width
+  freeModule = FreeModule(0.0);
+  hasBallModule = HasBallModule(100);
+  orientationModule = OrientationModule (1.7, 3.0, 1);
 
-  DistanceModule distanceModule(-1.7/9.0); // factor / max width
-  modules.push_back(&distanceModule);
-
-  FreeModule freeModule(0.0);
-  modules.push_back(&freeModule);
-
-  HasBallModule hasBallModule(100);
-  modules.push_back(&hasBallModule);
-
-  OrientationModule orientationModule(1.7, 3.0, 1);
-  modules.push_back(&orientationModule);
+  dangerModules.push_back(&canShootModule);
+  dangerModules.push_back(&distanceModule);
+  dangerModules.push_back(&freeModule);
+  dangerModules.push_back(&hasBallModule);
+  dangerModules.push_back(&orientationModule);
 }
 
 } // dangerfinder

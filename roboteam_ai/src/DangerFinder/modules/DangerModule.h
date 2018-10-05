@@ -24,7 +24,10 @@ public:
    * can be provided through flags.
    */
 	virtual PartialResult calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world = rtt::ai::World::get_world()) = 0;
-protected:
+  std::string name = "naam";
+
+ protected:
+    explicit DangerModule() = default;
 	explicit DangerModule(double danger);
 	double danger = 0;
 };

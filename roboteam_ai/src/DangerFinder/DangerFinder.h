@@ -9,6 +9,11 @@
 #include "roboteam_msgs/WorldRobot.h"
 #include "DangerData.h"
 #include "ros/ros.h"
+#include "modules/CanShootModule.h"
+#include "modules/DistanceModule.h"
+#include "modules/FreeModule.h"
+#include "modules/HasBallModule.h"
+#include "modules/OrientationModule.h"
 
 namespace rtt {
 namespace ai {
@@ -16,17 +21,14 @@ namespace dangerfinder {
 
 class DangerFinder {
  public:
-  static roboteam_msgs::World *worldMsg;
+  static roboteam_msgs::World * worldMsg;
   DangerFinder(const DangerFinder &) = delete;  // It's a singleton; don't copy it.
   void operator=(const DangerFinder &) = delete;
   DangerData getMostRecentData();
-  DangerData calculateDataNow();
   void start(int iterationsPerSecond = 20);
   void stop();
-  bool isRunning() const;
   bool hasCalculated();
   static DangerFinder &instance();
-
   static void ensureRunning(int iterationsPerSecond = 20);
  private:
   void loadModules();
@@ -36,10 +38,16 @@ class DangerFinder {
   volatile bool running;
   bool ranOnce;
   DangerData mostRecentData;
-  std::vector<DangerModule *> modules;
+  std::vector<DangerModule *> dangerModules;
   void calculate();
   void loop(unsigned delayMillis);
   DangerFinder();
+
+  CanShootModule canShootModule;
+  DistanceModule distanceModule; // factor / max width
+  FreeModule freeModule;
+  HasBallModule hasBallModule;
+  OrientationModule orientationModule;
 };
 } // dangerfinder
 } // ai

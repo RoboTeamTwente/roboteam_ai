@@ -16,18 +16,15 @@ int main(int argc, char *argv[]) {
   roboteam_msgs::World worldMsg;
   roboteam_msgs::GeometryData geometryMsg;
 
-  df::DangerFinder::worldMsg = &worldMsg;
   df::DangerFinder::instance().start();
 
   while (ros::ok()) {
     ros::spinOnce();
-    // give the dangerfinder a reference to worldstate
+
     worldMsg = strategyIOManager.getWorldState();
     geometryMsg = strategyIOManager.getGeometryData();
-
-    // hack all data in like old times
-    rtt::LastWorld::set(worldMsg);
-    rtt::LastWorld::set_field(geometryMsg.field);
+    ai::World::set_world(worldMsg);
+    ai::World::set_field(geometryMsg.field);
 
     danger = df::DangerFinder::instance().getMostRecentData();
     if (df::DangerFinder::instance().hasCalculated()) {

@@ -14,6 +14,7 @@ class OrientationModule final : public DangerModule {
  private:
 
 public:
+  	explicit OrientationModule() = default;
 	OrientationModule(double factor, double scalar, double danger);
 	PartialResult calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) override;
 private:

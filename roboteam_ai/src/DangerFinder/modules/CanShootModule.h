@@ -13,6 +13,7 @@ namespace dangerfinder {
  */
 class CanShootModule : public DangerModule {
 public:
+    explicit CanShootModule() = default;
 	explicit CanShootModule(double danger);
 	PartialResult calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) override;
 };

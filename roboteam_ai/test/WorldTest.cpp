@@ -16,8 +16,8 @@ TEST(WorldTest, it_sets_and_gets_the_world) {
   worldMsg.ball = ball;
 
   rtt::ai::World::set_world(worldMsg);
-  EXPECT_EQ(rtt::ai::World::get_world().ball.z, 42);
-  EXPECT_EQ(rtt::ai::World::get_world().ball.z_vel, 100);
+  ASSERT_EQ(rtt::ai::World::get_world().ball.z, 42);
+  ASSERT_EQ(rtt::ai::World::get_world().ball.z_vel, 100);
 }
 
 TEST(WorldTest, it_gets_and_sets_the_field) {
@@ -25,5 +25,5 @@ TEST(WorldTest, it_gets_and_sets_the_field) {
   field.boundary_width = 42;
 
   rtt::ai::World::set_field(field);
-  EXPECT_EQ(rtt::ai::World::get_field().boundary_width, 42);
+  ASSERT_EQ(rtt::ai::World::get_field().boundary_width, 42);
 }
