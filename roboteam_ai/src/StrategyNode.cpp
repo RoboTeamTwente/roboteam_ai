@@ -28,16 +28,12 @@ int main(int argc, char *argv[]) {
 
     danger = df::DangerFinder::instance().getMostRecentData();
     if (df::DangerFinder::instance().hasCalculated()) {
-      std::cout << "[ ";
-      for (unsigned i = 0; i < danger.scores.size(); i++) {
-        std::cout << danger.scores.at(i) << ", ";
-      }
-      std::cout << "] " << std::endl;
-      std::cout << "[ ";
-      for (unsigned i = 0; i < danger.flags.size(); i++) {
-        std::cout << std::to_string(danger.flags.at(i)) << ", ";
-      }
-      std::cout << "] " << std::endl;
+
+//      std::cout << "[ ";
+//      for (unsigned i = 0; i < danger.flags.size(); i++) {
+//        std::cout << std::to_string(danger.flags.at(i)) << ", ";
+//      }
+//      std::cout << "] " << std::endl;
 
     }
 

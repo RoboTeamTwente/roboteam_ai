@@ -7,6 +7,7 @@
 #include "modules/HasBallModule.h"
 #include <boost/optional.hpp>
 #include <sstream>
+#include <bitset>
 
 namespace rtt {
 namespace ai {
@@ -67,6 +68,7 @@ void DangerFinder::calculate() {
     data.scores[bot.id] = pr.score;
     data.dangerList.push_back(bot.id);
   }
+
   std::sort(data.dangerList.begin(), data.dangerList.end(), [data](const int &a, const int &b) {
     if (data.scores.find(a)==data.scores.end() || data.scores.find(b)==data.scores.end()) {
       ROS_WARN("DangerFinder::calculate: An element of dangerList was not a key in data.scores; sorting failed.");
