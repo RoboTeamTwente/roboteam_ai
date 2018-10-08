@@ -82,9 +82,26 @@ void DangerFinder::calculate() {
 
 // Stops the background worker thread.
 void DangerFinder::stop() {
-  stopping = true;
-  runner.join();
-  running = false;
+
+  if(running) {
+    ROS_INFO_STREAM_NAMED("DangerFinder", "Stopping dangerfinder");
+    dangerModules.clear();
+    stopping = true;
+    runner.join();
+    running = false;
+  } else {
+    ROS_INFO_STREAM_NAMED("DangerFinder", "Could not stop dangerfinder since it was not running in the first place.");
+  }
+}
+
+// immediately calculate and return results
+DangerData DangerFinder::calculateDataNow() {
+  ensureRunning();
+  calculate();
+  DangerData t;
+  std::lock_guard<std::mutex> lock(mutex);
+  t = mostRecentData;
+  return t;
 }
 
 // Gets the most recent results of the DangerFinder thread.

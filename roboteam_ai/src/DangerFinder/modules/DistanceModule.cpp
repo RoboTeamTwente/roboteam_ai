@@ -23,7 +23,7 @@ PartialResult DistanceModule::calculate(const roboteam_msgs::WorldRobot& bot, co
 	} else {
         flag = DANGER_NONE;
     }
-	return { danger, flag };
+	return { dist - danger, flag };
 }
 
 } // dangerfinder

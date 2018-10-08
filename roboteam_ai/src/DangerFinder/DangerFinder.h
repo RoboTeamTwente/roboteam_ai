@@ -21,15 +21,16 @@ namespace dangerfinder {
 
 class DangerFinder {
  public:
-  static roboteam_msgs::World * worldMsg;
   DangerFinder(const DangerFinder &) = delete;  // It's a singleton; don't copy it.
   void operator=(const DangerFinder &) = delete;
   DangerData getMostRecentData();
+  DangerData calculateDataNow();
   void start(int iterationsPerSecond = 20);
   void stop();
   bool hasCalculated();
   static DangerFinder &instance();
   static void ensureRunning(int iterationsPerSecond = 20);
+
  private:
   void loadModules();
   std::thread runner;
@@ -42,7 +43,6 @@ class DangerFinder {
   void calculate();
   void loop(unsigned delayMillis);
   DangerFinder();
-
   CanShootModule canShootModule;
   DistanceModule distanceModule; // factor / max width
   FreeModule freeModule;
