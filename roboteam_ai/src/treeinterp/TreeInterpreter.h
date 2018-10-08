@@ -12,6 +12,8 @@
 #include <string>
 #include <gtest/gtest_prod.h>
 #include "vector"
+#include "../bt/composites/MemSequence.hpp"
+#include "../bt/Leaf.hpp"
 #include <map>
 #include <unistd.h>
 
@@ -26,12 +28,11 @@ class TreeInterpreter {
         FRIEND_TEST(Tree, JsonTest);
 
         bt::BehaviorTree buildTreeFromJSON(json jsonTree);
-        bt::Node buildNode(json json);
+        bt::Node::Ptr buildNode(json json);
         json readJSON(std::string fileName);
         std::vector<json> parseSmallJSONs(json json);
         bool isLeaf(json json);
-        json findNode(json json, std::string IDString);
-        bool multipleChildren(json json);
+        bt::MemSequence::Ptr makeNonLeafNode(std::string name);
 
     protected:
 

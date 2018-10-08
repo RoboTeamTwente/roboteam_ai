@@ -11,6 +11,7 @@
 
 
 #include "TreeInterpreter.h"
+#include "../bt/composites/MemSequence.hpp"
 
 /// Return a TreeInterpreter singleton
 TreeInterpreter &TreeInterpreter::getInstance() {
@@ -43,13 +44,13 @@ bt::BehaviorTree TreeInterpreter::getTree(std::string projectName, std::string n
 
 }
 
-
-
 /// Read JSON from a file
 json TreeInterpreter::readJSON(std::string fileName) {
 
     // TODO: make relative path
-    std::ifstream ifs("/home/baris/roboteamtwente/workspace/src/roboteam_ai/roboteam_ai/src/treeinterp/jsons/" + fileName + ".json");
+    std::ifstream ifs(
+            "/home/baris/roboteamtwente/workspace/src/roboteam_ai/roboteam_ai/src/treeinterp/jsons/" + fileName +
+            ".json");
     json bigJSON = json::parse(ifs);
     return bigJSON;
 }
@@ -60,7 +61,7 @@ std::vector<json> TreeInterpreter::parseSmallJSONs(json input) {
     std::vector<json> result;
 
     // First check if it is indeed a project
-    if(input["data"]["scope"] == "project"){
+    if (input["data"]["scope"] == "project") {
         auto trees = input["data"]["trees"];
 
         // Loop and add all of the tress to the vector
@@ -76,59 +77,64 @@ std::vector<json> TreeInterpreter::parseSmallJSONs(json input) {
 
 /// Build a BehaviorTree from a JSON object
 bt::BehaviorTree TreeInterpreter::buildTreeFromJSON(json jsonTree) {
-    auto nodes = jsonTree["nodes"];
-    std::string root = jsonTree["root"];
 
-//    Build a node from the root and then make a BT with it
+    // ID of the root
+    std::string rootID = jsonTree["root"];
+    auto rootNode = TreeInterpreter::buildNode(jsonTree[rootID]);
 
-//    bt::Node::Ptr rootNode = TreeInterpreter::buildNode();
-
+    // Build the tree from the root
+    bt::BehaviorTree behaviorTree(rootNode);
+    return behaviorTree;
 }
 
-bt::Node TreeInterpreter::buildNode(json nodeJSON) {
+/// Builds nodes recursively from json objects
+bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON) {
 
     // See if it is leaf
 
-        // Then:
-            // Make a leaf out of it and then return it
+    // Then:
+    //  Make a leaf out of it and then return it
 
-        // Else:
-            // Create a Node(?) object
-            // Call addChild on that node with a recursive call to this function
-            // and for every child it has
-            // Ex: node->addChild(buildNode(nodeJSON["<aChild>"]))
-            // Return this Node
+    // Else:
+    //  Create a Node(?) object
+    //  Call addChild on that node with a recursive call to this function
+    //  and for every child it has
+    //  Ex: node->addChild(buildNode(nodeJSON["<aChild>"]))
+    //  Return this Node
 
+    if (TreeInterpreter::isLeaf(nodeJSON)) {
+        // TODO: make leaf and return it
+        // ?? WTF types and classes are impossible
+        // Copy Pasta example: bt::Leaf::Ptr counterA = std::make_shared<Counter>("A", 2);
+        return bt::Leaf::Ptr();
+    }
 
+    auto node = makeNonLeafNode("Fix Me"); // TODO: Fix
 
-
-
-
-
-
-
-
-
-
-    //    return bt::Node();
+    // has only one child
+    if (!nodeJSON["children"]) {
+        // recursive call
+        node->AddChild(TreeInterpreter::buildNode(nodeJSON["child"]));
+        return node;
+    }
+    // has multiple children
+    for (const auto &child : nodeJSON["children"]) {
+        // recursive call
+        node->AddChild(TreeInterpreter::buildNode(child));
+    }
+    return node;
 }
 
-
+bt::MemSequence::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
+    // TODO: find a good way to make a Composite or Decorator here
+    bt::MemSequence::Ptr memSeq = std::make_shared<bt::MemSequence>();
+    return memSeq;
+}
 
 bool TreeInterpreter::isLeaf(json jsonTree) {
     return !(jsonTree["child"] || jsonTree["children"]);
 }
 
-json TreeInterpreter::findNode(json jsonTree, std::string IDString) {
 
-    return jsonTree[IDString];
-}
-
-bool TreeInterpreter::multipleChildren(json json) {
-    if (json["children"]) {
-        return true;
-    }
-    return false;
-}
 
 
