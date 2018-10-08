@@ -6,6 +6,7 @@
 namespace bt {
 
 Leaf::Leaf() {}
+
 Leaf::Leaf(Blackboard::Ptr blackboard) : blackboard(blackboard) {}
 
 Leaf::~Leaf() {}

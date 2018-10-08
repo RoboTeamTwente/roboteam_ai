@@ -3,7 +3,6 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
-
 #include "roboteam_msgs/Blackboard.h"
 
 namespace bt {

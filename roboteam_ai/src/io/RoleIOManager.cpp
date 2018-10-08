@@ -1,8 +1,18 @@
 #include <roboteam_msgs/RoleFeedback.h>
 #include "RoleIOManager.h"
 
+namespace rtt {
+namespace ai {
+namespace io {
+
+RoleIOManager::RoleIOManager() {
+  this->subscribeToWorldState();
+  this->subscribeToGeometryData();
+  this->subscribeToRoleDirective();
+}
+
 void RoleIOManager::subscribeToRoleDirective() {
-  nodeHandle.subscribe<roboteam_msgs::RoleDirective>(rtt::TOPIC_ROLE_DIRECTIVE, 1, &RoleIOManager::handleRoleDirective, this);
+  roleDirectiveSubscriber = nodeHandle.subscribe<roboteam_msgs::RoleDirective>(rtt::TOPIC_ROLE_DIRECTIVE, 1, &RoleIOManager::handleRoleDirective, this);
 }
 
 void RoleIOManager::handleRoleDirective(const roboteam_msgs::RoleDirectiveConstPtr &roleDirective) {
@@ -12,3 +22,7 @@ void RoleIOManager::handleRoleDirective(const roboteam_msgs::RoleDirectiveConstP
 roboteam_msgs::RoleDirective &RoleIOManager::getRoleDirective() {
   return this->roleDirective;
 }
+
+} // io
+} // ai
+} // rtt

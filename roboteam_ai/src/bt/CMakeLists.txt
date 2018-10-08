@@ -39,10 +39,10 @@ set(BT_SOURCES
         Node.cpp
         )
 
-add_library(bt
+add_library(ai_bt
         ${BT_SOURCES}
         )
-add_dependencies(bt
+add_dependencies(ai_bt
         ${${PROJECT_NAME}_EXPORTED_TARGETS}
         ${catkin_EXPORTED_TARGETS}
         )
