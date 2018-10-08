@@ -13,6 +13,13 @@ find_package(catkin REQUIRED COMPONENTS
         uuid_msgs
         unique_id
         )
+set(JSON_SOURCES
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/json.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/TreeInterpreter.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/TreeInterpreter.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/BTFactory.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/BTFactory.h
+        )
 
 set(DANGER_FINDER_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/CanShootModule.cpp
@@ -51,6 +58,7 @@ set(UTILS_SOURCES
 
 catkin_package()
 
+
 include_directories(${catkin_INCLUDE_DIRS})
 add_subdirectory( ${PROJECT_SOURCE_DIR}/roboteam_ai/src)
 
@@ -62,6 +70,7 @@ add_executable(AIStrategyNode
         ${DANGER_FINDER_SOURCES}
         ${IO_SOURCES}
         ${UTILS_SOURCES}
+        ${JSON_SOURCES}
         )
 add_dependencies(AIStrategyNode ${catkin_EXPORTED_TARGETS})
 target_link_libraries(AIStrategyNode ${catkin_LIBRARIES} ai_bt)
@@ -72,10 +81,13 @@ target_link_libraries(AIStrategyNode ${catkin_LIBRARIES} ai_bt)
 catkin_add_gtest(ai_tests
         roboteam_ai/test/main.cpp
         roboteam_ai/test/BtTest.cpp
+        roboteam_ai/test/JsonTest.cpp
+        roboteam_ai/test/BTFactoryTest.cpp
         roboteam_ai/test/WorldTest.cpp
         roboteam_ai/test/DangerFinderTest.cpp
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
+        ${JSON_SOURCES}
         )
 
 target_link_libraries(ai_tests
