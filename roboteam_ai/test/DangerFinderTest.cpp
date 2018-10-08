@@ -100,7 +100,9 @@ TEST(DangerFinderTest, it_stays_within_limits) {
 
   // set the field to the world
   rtt::ai::World::set_field(fieldMsg);
-  for (int i = 0; i < 100; i++) {
+  for (int i = 0; i < 1000; i++) {
+
+    roboteam_msgs::World worldMsg;
     // set robots at random locations
     int amountOfRobots = 11;
     for (int i = 0; i < amountOfRobots; i++) {
