@@ -14,10 +14,10 @@ namespace dangerfinder {
  */
 class DistanceModule final : public DangerModule {
 public:
-	DistanceModule(double factor = cfg().getConfigFor("Distance").doubles["defaultDivisor"]);
+    explicit DistanceModule() = default;
+	explicit DistanceModule(double danger);
 	PartialResult calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) override;
 private:
-	const double factor;
 	std::map<int, double> lastDistances;
 };
 

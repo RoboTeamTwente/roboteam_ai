@@ -16,14 +16,9 @@ typedef unsigned char DangerFlag;
  * \brief Stores the output of DangerFinder
  */
 struct DangerData {
-  std::vector<int> dangerList;        //< A list of robot IDs, sorted from most to least dangerous
+  std::vector<int> dangerList; // A list of robot IDs, sorted from most to least dangerous
   std::map<int, double> scores;
   std::map<int, DangerFlag> flags;
-
-  /**
-   * \function getByDangerRank
-   * \brief Gets a WorldRobot at the specified rank in this DangerData's dangerList, if it exists.
-   */
   boost::optional<roboteam_msgs::WorldRobot> getByDangerRank(unsigned rank);
 };
 

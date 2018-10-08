@@ -8,7 +8,8 @@ namespace dangerfinder {
 
 class HasBallModule : public DangerModule {
 public:
-	HasBallModule();
+    explicit HasBallModule() = default;
+	explicit HasBallModule(double danger);
 	PartialResult calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) override;
 };
 

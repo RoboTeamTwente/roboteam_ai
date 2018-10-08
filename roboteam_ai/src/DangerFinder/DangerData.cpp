@@ -1,14 +1,15 @@
 #include "DangerData.h"
-#include "roboteam_utils/LastWorld.h"
 #include "roboteam_msgs/World.h"
 #include "ros/ros.h"
+#include "../utilities/World.h"
 
 namespace rtt {
 namespace ai {
 namespace dangerfinder {
 
 boost::optional<roboteam_msgs::WorldRobot> getWorldBot(int id, bool ourTeam) {
-  auto world = LastWorld::get();
+  auto world = rtt::ai::World::get_world();
+
   std::vector<roboteam_msgs::WorldRobot> vec = ourTeam ? world.us : world.them;
   for (const auto &bot : vec) {
     if (bot.id==(unsigned) id) return bot;
@@ -16,6 +17,10 @@ boost::optional<roboteam_msgs::WorldRobot> getWorldBot(int id, bool ourTeam) {
   return boost::none;
 }
 
+/*
+ * \function getByDangerRank
+ * \brief Gets a WorldRobot at the specified rank in this DangerData's dangerList, if it exists.
+ */
 boost::optional<roboteam_msgs::WorldRobot> DangerData::getByDangerRank(unsigned rank) {
   if (rank >= dangerList.size())
     return boost::none;
