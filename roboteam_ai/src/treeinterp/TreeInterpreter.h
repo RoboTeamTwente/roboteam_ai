@@ -38,7 +38,7 @@ class TreeInterpreter {
 
     public:
         std::map<std::string, bt::BehaviorTree> getProject(std::string name);
-        bt::BehaviorTree getTree(std::string projectName, std::string name);
+        bt::BehaviorTree getTreeWithID(std::string projectName, std::string ID);
         static TreeInterpreter& getInstance();
 
 };

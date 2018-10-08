@@ -24,7 +24,7 @@ void BTFactory::updateProject(std::string projectName) {
 
 /// Update one tree from a project
 void BTFactory::updateTree(std::string projectName, std::string treeName) {
-    auto tree = interpreter.getTree(projectName, treeName);
+    auto tree = interpreter.getTreeWithID(projectName, treeName);
 
     treeRepo[projectName][treeName] = tree;
 

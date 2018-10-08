@@ -2,6 +2,8 @@
 
 #include <utility>
 
+#include <utility>
+
 //
 // Created by baris on 01/10/18.
 //
@@ -24,21 +26,28 @@ std::map<std::string, bt::BehaviorTree> TreeInterpreter::getProject(std::string 
     std::map<std::string, bt::BehaviorTree> result;
 
     // Read a project from file
-    std::vector<json> project = readJSON(std::move(name));
+    auto project = readJSON(std::move(name));
 
     // Loop over all the trees in the project JSON and put them in the map
     // TODO: fix the names for the trees
-    for (const json &tree : project) {
+    for (const json &tree : project["trees"]) {
         bt::BehaviorTree currentTree = buildTreeFromJSON(tree);
         result.insert(std::pair<std::string, bt::BehaviorTree>("temp_name", currentTree));
     }
     return result;
 }
 
+/// Returns one BehaviorTree in a project
+bt::BehaviorTree TreeInterpreter::getTreeWithID(std::string projectName, std::string ID) {
 
-bt::BehaviorTree TreeInterpreter::getTree(std::string projectName, std::string name) {
+    // Read a project from file
+    auto project = readJSON(std::move(projectName));
 
-    // TODO: get the project and only parse and build one tree
+    for (auto tree : project["trees"]) {
+        if (tree["id"] == ID) {
+            return buildTreeFromJSON(tree);
+        }
+    }
 
     // return
 
