@@ -26,8 +26,12 @@ class TreeInterpreter {
         FRIEND_TEST(Tree, JsonTest);
 
         bt::BehaviorTree buildTreeFromJSON(json jsonTree);
+        bt::Node buildNode(json json);
         json readJSON(std::string fileName);
         std::vector<json> parseSmallJSONs(json json);
+        bool isLeaf(json json);
+        json findNode(json json, std::string IDString);
+        bool multipleChildren(json json);
 
     protected:
 

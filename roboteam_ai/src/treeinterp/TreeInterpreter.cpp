@@ -76,9 +76,59 @@ std::vector<json> TreeInterpreter::parseSmallJSONs(json input) {
 
 /// Build a BehaviorTree from a JSON object
 bt::BehaviorTree TreeInterpreter::buildTreeFromJSON(json jsonTree) {
+    auto nodes = jsonTree["nodes"];
+    std::string root = jsonTree["root"];
 
+//    Build a node from the root and then make a BT with it
 
+//    bt::Node::Ptr rootNode = TreeInterpreter::buildNode();
 
-    return bt::BehaviorTree();
 }
+
+bt::Node TreeInterpreter::buildNode(json nodeJSON) {
+
+    // See if it is leaf
+
+        // Then:
+            // Make a leaf out of it and then return it
+
+        // Else:
+            // Create a Node(?) object
+            // Call addChild on that node with a recursive call to this function
+            // and for every child it has
+            // Ex: node->addChild(buildNode(nodeJSON["<aChild>"]))
+            // Return this Node
+
+
+
+
+
+
+
+
+
+
+
+
+    //    return bt::Node();
+}
+
+
+
+bool TreeInterpreter::isLeaf(json jsonTree) {
+    return !(jsonTree["child"] || jsonTree["children"]);
+}
+
+json TreeInterpreter::findNode(json jsonTree, std::string IDString) {
+
+    return jsonTree[IDString];
+}
+
+bool TreeInterpreter::multipleChildren(json json) {
+    if (json["children"]) {
+        return true;
+    }
+    return false;
+}
+
 

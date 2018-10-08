@@ -1,0 +1,44 @@
+{
+  "name": "sample",
+  "description": "Sample for the BT builder google tests and general understanding",
+  "data": {
+    "version": "0.3.0",
+    "scope": "project",
+    "selectedTree": "sAmPleNamE",
+    "trees": [
+      {
+        "version": "0.3.0",
+        "scope": "tree",
+        "id": "sAmPleNamE",
+        "title": "ASimpleTree",
+        "description": "",
+        "root": "12345",
+        "properties": {},
+        "nodes": {
+          "someID": {
+            "id": "someID",
+            "name": "SimpleDefender",
+            "title": "SimpleDefender_A",
+            "description": "",
+            "properties": {
+              "stayAwayFromBall": "maybe"
+            },
+            "display": {}
+          },
+          "12345": {
+            "id": "12345",
+            "name": "Repeat",
+            "title": "Repeat",
+            "description": "",
+            "properties": {},
+            "display": {
+              "x": -48,
+              "y": 0
+            },
+            "child": "someID"
+          }
+        }
+      }
+    ]
+  }
+}

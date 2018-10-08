@@ -6,6 +6,9 @@
 
 #include "BTFactory.h"
 
+/// This is where all the BTs are kept
+static std::map<std::string, std::map<std::string, bt::BehaviorTree>> treeRepo;
+
 /// Return a map of tree names and trees that belong to one project
 std::map<std::string, bt::BehaviorTree> BTFactory::getProject(std::string projectName) {
     return std::map<std::string, bt::BehaviorTree>();
@@ -15,7 +18,7 @@ std::map<std::string, bt::BehaviorTree> BTFactory::getProject(std::string projec
 void BTFactory::updateProject(std::string projectName) {
 
     auto project = interpreter.getProject(projectName);
-    BTFactory::treeRepo[projectName] = project;
+    treeRepo[projectName] = project;
 
 }
 
@@ -23,7 +26,7 @@ void BTFactory::updateProject(std::string projectName) {
 void BTFactory::updateTree(std::string projectName, std::string treeName) {
     auto tree = interpreter.getTree(projectName, treeName);
 
-    BTFactory::treeRepo[projectName][treeName] = tree;
+    treeRepo[projectName][treeName] = tree;
 
 
 }
@@ -35,7 +38,7 @@ BTFactory &BTFactory::getFactory() {
 }
 
 std::map<std::string, std::map<std::string, bt::BehaviorTree>> getTreeRepo() {
-    return BTFactory::treeRepo;
+    return treeRepo;
 }
 
 /// Initiate the BTFactory
