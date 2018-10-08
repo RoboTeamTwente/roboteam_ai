@@ -30,6 +30,25 @@ public:
 	double danger = 0;
 };
 
+<<<<<<< HEAD
+=======
+
+std::map<std::string, DangerModule*(*)()>& moduleRepo();
+
+template<typename M> class ModuleRegisterer {
+ public:
+  ModuleRegisterer(std::string name, DangerModule*(*factory)()) {
+	  moduleRepo()[name] = factory;
+	  std::cout << "[DangerFinder] Registering module" << name << "\n";
+  }
+};
+
+#define REGISTER_MODULE(name, type)\
+	static DangerModule* type ## Factory() { static type* module = new type; return module; }\
+	static ModuleRegisterer<type> type ## Registerer(name, &type ## Factory);
+
+
+>>>>>>> master
 } // dangerfinder
 } // ai
 } // rtt
