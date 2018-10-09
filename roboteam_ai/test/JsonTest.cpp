@@ -17,8 +17,10 @@ TEST(Tree, JsonTest) {
     // Get the instance of the interpreter
     TreeInterpreter interpreter = TreeInterpreter::getInstance();
 
+    JsonReader jsonReader;
+
     // Read the test JSON
-    json testing = interpreter.readJSON("test");
+    json testing = jsonReader.readJSON("test");
     std::string typeTesting = typeid(testing).name();
 
     // See if the dummy JSON is correct
@@ -27,7 +29,7 @@ TEST(Tree, JsonTest) {
     ASSERT_EQ("minnie", testing["child"]["child"]["name"]);
 
     // Read an actual project JSON check type
-    json bigJson = interpreter.readJSON("bigjson");
+    json bigJson = jsonReader.readJSON("bigjson");
     ASSERT_EQ(bigJson["name"], "rtt_jim");
     std::string typeBigJson = typeid(bigJson).name();
     ASSERT_EQ(typeBigJson, typeTesting);
@@ -59,6 +61,7 @@ TEST(Tree, JsonTest) {
 
     // Compare the manual and the automated
     ASSERT_EQ(trees, newTrees);
+    
 
 }
 
