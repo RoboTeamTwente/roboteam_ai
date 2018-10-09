@@ -48,8 +48,7 @@ set(IO_SOURCES
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/StrategyIOManager.cpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/StrategyIOManager.h
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/RoleIOManager.cpp
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/RoleIOManager.h
-    )
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/RoleIOManager.h)
 
 set(UTILS_SOURCES
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
@@ -74,6 +73,14 @@ add_executable(AIStrategyNode
         )
 add_dependencies(AIStrategyNode ${catkin_EXPORTED_TARGETS})
 target_link_libraries(AIStrategyNode ${catkin_LIBRARIES} ai_bt)
+
+add_executable(AIRoleNode
+        roboteam_ai/src/RoleNode.cpp
+        ${IO_SOURCES}
+        )
+
+add_dependencies(AIRoleNode ${catkin_EXPORTED_TARGETS})
+target_link_libraries(AIRoleNode ${catkin_LIBRARIES} ai_bt)
 
 #############
 ## Testing ##
