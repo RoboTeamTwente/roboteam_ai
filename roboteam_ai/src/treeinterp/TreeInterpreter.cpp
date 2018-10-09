@@ -58,7 +58,7 @@ json TreeInterpreter::readJSON(std::string fileName) {
 
     // TODO: make relative path
     std::ifstream ifs(
-            "/home/baris/roboteamtwente/workspace/src/roboteam_ai/roboteam_ai/src/treeinterp/jsons/" + fileName +
+            "/home/mrlukasbos/roboteamtwente/workspace/src/roboteam_ai/roboteam_ai/src/treeinterp/jsons/" + fileName +
             ".json");
     json bigJSON = json::parse(ifs);
     return bigJSON;
