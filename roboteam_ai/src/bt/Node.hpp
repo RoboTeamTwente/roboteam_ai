@@ -24,7 +24,7 @@ class Node {
   virtual Status Update() = 0;
   virtual void Initialize();
   virtual void Terminate(Status s);
-
+  virtual void AddChilld(bt::Node::Ptr);
   virtual Status Tick();
 
   bool IsSuccess() const;

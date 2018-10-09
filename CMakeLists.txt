@@ -21,7 +21,7 @@ set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/BTFactory.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/JsonReader.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/JsonReader.h
-        )
+        roboteam_ai/src/treeinterp/BTImport.h)
 
 
 set(DANGER_FINDER_SOURCES

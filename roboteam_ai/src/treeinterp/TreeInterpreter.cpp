@@ -8,7 +8,6 @@
 
 
 #include "TreeInterpreter.h"
-#include "../bt/composites/MemSequence.hpp"
 
 /// Return a TreeInterpreter singleton
 TreeInterpreter& TreeInterpreter::getInstance() {
@@ -101,7 +100,7 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON) {
         return bt::Leaf::Ptr();
     }
 
-    auto node = makeNonLeafNode("Fix Me"); // TODO: Fix
+    auto node = makeNonLeafNode(nodeJSON["name"]); // TODO: Fix
 
     // has only one child
     if (! nodeJSON["children"]) {
@@ -117,10 +116,50 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON) {
     return node;
 }
 
-bt::MemSequence::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
-    // TODO: find a good way to make a Composite or Decorator here
-    bt::MemSequence::Ptr memSeq = std::make_shared<bt::MemSequence>();
-    return memSeq;
+bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
+
+    // C++ doesnt like switches with strings :(
+
+    bt::Node::Ptr node;
+
+    if (name == "MemSelector") {
+        node = std::make_shared<bt::MemSelector>();
+    }
+    else if (name == "MemSequence") {
+        node = std::make_shared<bt::MemSequence>();
+    }
+    else if (name == "ParallelSequence") {
+        node = std::make_shared<bt::ParallelSequence>();
+    }
+    else if (name == "Selector") {
+        node = std::make_shared<bt::Selector>();
+    }
+    else if (name == "Sequence") {
+        node = std::make_shared<bt::Sequence>();
+    }
+    else if (name == "Failer") {
+        node = std::make_shared<bt::Failer>();
+    }
+    else if (name == "Inverter") {
+        node = std::make_shared<bt::Inverter>();
+    }
+    else if (name == "Repeater") {
+        node = std::make_shared<bt::Repeater>();
+    }
+    else if (name == "Succeeder") {
+        node = std::make_shared<bt::Succeeder>();
+    }
+    else if (name == "UntilFail") {
+        node = std::make_shared<bt::UntilFail>();
+    }
+    else if (name == "UntilSuccess") {
+        node = std::make_shared<bt::UntilSuccess>();
+    }
+    else {
+        std::cerr << "Node name with: " + name << std::endl;
+    }
+    return node;
+
 }
 
 bool TreeInterpreter::isLeaf(json jsonTree) {

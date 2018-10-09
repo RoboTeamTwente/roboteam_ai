@@ -6,16 +6,14 @@
 #define ROBOTEAM_AI_JSONREADER_H
 
 #include "json.h"
-#include "../bt/BehaviorTree.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <gtest/gtest_prod.h>
 #include "vector"
-#include "../bt/composites/MemSequence.hpp"
-#include "../bt/Leaf.hpp"
 #include <map>
 #include <unistd.h>
+#include "BTImport.h"
 
 using json = nlohmann::json;
 

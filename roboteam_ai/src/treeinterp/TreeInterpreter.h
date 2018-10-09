@@ -6,17 +6,16 @@
 #define ROBOTEAM_AI_TREEINTERPRETER_H
 
 #include "json.h"
-#include "../bt/BehaviorTree.hpp"
 #include "JsonReader.h"
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <gtest/gtest_prod.h>
 #include "vector"
-#include "../bt/composites/MemSequence.hpp"
-#include "../bt/Leaf.hpp"
 #include <map>
 #include <unistd.h>
+#include "BTImport.h"
+
 
 #define GetCurrentDir getcwd
 
@@ -37,7 +36,9 @@ private:
 
     bool isLeaf(json json);
 
-    bt::MemSequence::Ptr makeNonLeafNode(std::string name);
+    bt::Node::Ptr makeNonLeafNode(std::string name);
+
+
 
 protected:
 
