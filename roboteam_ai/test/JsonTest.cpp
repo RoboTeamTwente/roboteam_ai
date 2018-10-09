@@ -19,6 +19,13 @@ TEST(Tree, JsonTest) {
 
     JsonReader jsonReader;
 
+    // Test file path utils
+    std::vector<std::string> right1 = {"a", "b"};
+    std::vector<std::string> left1 = jsonReader.split("a|b", '|');
+    ASSERT_EQ(left1, right1);
+
+    // Note: cant really test getFilePath without putting brain power into it.
+
     // Read the test JSON
     json testing = jsonReader.readJSON("test");
     std::string typeTesting = typeid(testing).name();

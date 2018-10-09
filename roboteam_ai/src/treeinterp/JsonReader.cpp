@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by baris on 09/10/18.
 //
@@ -8,7 +10,7 @@
 #define GetCurrentDir getcwd
 
 
-
+/// Returns the filespath from /home/ to the given json name
 std::string JsonReader::getFilePath(std::string name) {
 
     char cCurrentPath[FILENAME_MAX];
@@ -26,11 +28,12 @@ std::string JsonReader::getFilePath(std::string name) {
         }
         smallPath.append(word + "/");
     }
-    std::cout << smallPath << std::endl;
     // should be at /home/[user]/roboteamtwente/workspace/src/roboteam_ai/ ish right now
     smallPath.append("roboteam_ai/src/treeinterp/jsons/" + name + ".json");
     return smallPath;
 }
+
+/// Splits a string with the given char into a vector
 std::vector<std::string> JsonReader::split(std::string s, char c) {
     std::vector<std::string> v;
     std::string::size_type i = 0;
@@ -46,6 +49,8 @@ std::vector<std::string> JsonReader::split(std::string s, char c) {
     }
     return v;
 }
+
+/// Returns JSON object from a file name
 json JsonReader::readJSON(std::string fileName) {
     std::string filePath = JsonReader::getFilePath(std::move(fileName));
     std::ifstream ifs(filePath);
