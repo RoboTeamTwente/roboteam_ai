@@ -20,9 +20,7 @@ namespace io {
 class IOManager {
  private:
   roboteam_msgs::World world;
-<<<<<<< HEAD
   roboteam_msgs::GeometryData geometry;
-
   ros::Subscriber worldSubscriber;
   ros::Subscriber geometrySubscriber;
 
@@ -30,12 +28,6 @@ class IOManager {
   ros::NodeHandle nodeHandle;
   void handleWorldState(const roboteam_msgs::WorldConstPtr &world);
   void handleGeometryData(const roboteam_msgs::GeometryDataConstPtr &geometry);
-=======
-  ros::Subscriber worldSubscriber;
- protected:
-  ros::NodeHandle nodeHandle;
-  void handleWorldState(const roboteam_msgs::WorldConstPtr &world);
->>>>>>> master
 
  public:
   IOManager() =default;

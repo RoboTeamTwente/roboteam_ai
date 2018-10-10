@@ -147,7 +147,6 @@ TEST(DangerFinderTest, it_stays_within_limits) {
       ASSERT_LE(danger.scores.at(j), 1300);
     }
   }
-
 }
 
 // checks if most_recent_data equals the data that is calculated immediately
