@@ -56,6 +56,9 @@ void Node::append_status(std::string fmt, ...) {
 
   status_desc += std::string(buf);
 }
+void Node::AddChild(bt::Node::Ptr) {
+
+}
 
 std::string statusToString(bt::Node::Status status) {
   if (status==bt::Node::Status::Success) {

@@ -5,92 +5,96 @@
 #include "../src/bt/bt.hpp"
 
 namespace {
-    std::vector<std::string> traces;
+std::vector<std::string> traces;
 
-    class Tracer : public bt::Leaf {
-    public:
-        std::string id;
+class Tracer : public bt::Leaf {
+public:
+    std::string id;
 
-        explicit Tracer(std::string id) : id{std::move(id)} {}
+    explicit Tracer(std::string id)
+            :id{std::move(id)} { }
 
-        void Initialize() override {
-            traces.push_back("Initialize: " + id);
-            Initialize_();
-        }
+    void Initialize() override {
+        traces.push_back("Initialize: " + id);
+        Initialize_();
+    }
 
-        Status Update() override {
-            traces.push_back("Update: " + id);
-            return Update_();
-        }
+    Status Update() override {
+        traces.push_back("Update: " + id);
+        return Update_();
+    }
 
-        void Terminate(Status s) override {
-            traces.push_back("Terminate: " + id);
-            Terminate_(s);
-        }
+    void Terminate(Status s) override {
+        traces.push_back("Terminate: " + id);
+        Terminate_(s);
+    }
 
-        // Spoofed functions
-        virtual void Initialize_() {}
+    // Spoofed functions
+    virtual void Initialize_() { }
 
-        virtual Status Update_() { return Status::Success; }
+    virtual Status Update_() { return Status::Success; }
 
-        virtual void Terminate_(Status) {}
-    };
+    virtual void Terminate_(Status) { }
+};
 
-    class Once : public Tracer {
-    public:
-        explicit Once(const std::string &id) : Tracer("Once-" + id) {}
-    };
+class Once : public Tracer {
+public:
+    explicit Once(const std::string& id)
+            :Tracer("Once-" + id) { }
+};
 
-    class Runner : public Tracer {
-    public:
-        explicit Runner(const std::string &id) : Tracer("Runner-" + id) {}
+class Runner : public Tracer {
+public:
+    explicit Runner(const std::string& id)
+            :Tracer("Runner-" + id) { }
 
-        Status Update_() override {
-            return Status::Running;
-        }
+    Status Update_() override {
+        return Status::Running;
+    }
 
-        void Terminate_(Status s) override {
-            if (s == Status::Running || s == Status::Invalid) {
-                setStatus(Status::Failure);
-            }
-        }
-    };
-
-    class Counter : public Tracer {
-    public:
-        int max;
-        int runningCount;
-
-        Counter(const std::string &id, int max) : Tracer("Counter-" + id), max{max}, runningCount{0} {}
-
-        void Initialize_() override {
-            runningCount = 0;
-        }
-
-        Status Update_() override {
-            runningCount++;
-
-            if (runningCount == max) {
-                return Status::Success;
-            }
-
-            return Status::Running;
-        }
-
-        void Terminate_(Status s) override {
-            if (s == Status::Running || s == Status::Invalid) {
-                setStatus(Status::Failure);
-            }
-        }
-
-    };
-
-    void printTrace() {
-        std::cout << "Trace: \n";
-        for (const auto &trace : traces) {
-            std::cout << "\t" << trace << "\n";
+    void Terminate_(Status s) override {
+        if (s == Status::Running || s == Status::Invalid) {
+            setStatus(Status::Failure);
         }
     }
+};
+
+class Counter : public Tracer {
+public:
+    int max;
+    int runningCount;
+
+    Counter(const std::string& id, int max)
+            :Tracer("Counter-" + id), max{max}, runningCount{0} { }
+
+    void Initialize_() override {
+        runningCount = 0;
+    }
+
+    Status Update_() override {
+        runningCount ++;
+
+        if (runningCount == max) {
+            return Status::Success;
+        }
+
+        return Status::Running;
+    }
+
+    void Terminate_(Status s) override {
+        if (s == Status::Running || s == Status::Invalid) {
+            setStatus(Status::Failure);
+        }
+    }
+
+};
+
+void printTrace() {
+    std::cout << "Trace: \n";
+    for (const auto& trace : traces) {
+        std::cout << "\t" << trace << "\n";
+    }
+}
 } // anonymous namespace
 
 // This is an abomination

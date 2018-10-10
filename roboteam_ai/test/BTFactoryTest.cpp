@@ -9,6 +9,17 @@
 #include "../src/bt/Leaf.hpp"
 
 
+
+#include <stdio.h>  /* defines FILENAME_MAX */
+#ifdef WINDOWS
+#include <direct.h>
+    #define GetCurrentDir _getcwd
+#else
+#include <unistd.h>
+#define GetCurrentDir getcwd
+#endif
+
+
 TEST(BT, BTTest) {
 
     // ===Let's build a BT manually!===
@@ -16,10 +27,7 @@ TEST(BT, BTTest) {
     // This will be the tree
     bt::BehaviorTree manualTree;
 
-    bt::Sequence rootSeq;
-
-    // Add root to the tree
-
+    // TODO: test the functions of BTFactory once they can be implemented
 
 }
 

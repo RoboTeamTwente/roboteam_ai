@@ -13,7 +13,7 @@ set(BT_SOURCES
         composites/Sequence.hpp
         composites/Sequence.cpp
         decorators/Failer.hpp
-        decorators/Failer.hpp
+        decorators/Failer.cpp
         decorators/Inverter.hpp
         decorators/Inverter.cpp
         decorators/Repeater.hpp
