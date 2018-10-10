@@ -21,7 +21,7 @@ class JsonReader {
 
 private:
 
-    FRIEND_TEST(Tree, JsonTest);
+    FRIEND_TEST(JsonBasics, JsonTest);
 
     std::string getFilePath(std::string name);
 

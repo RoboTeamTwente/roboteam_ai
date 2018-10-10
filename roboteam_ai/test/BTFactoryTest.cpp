@@ -27,21 +27,7 @@ TEST(BT, BTTest) {
     // This will be the tree
     bt::BehaviorTree manualTree;
 
-    bt::Sequence rootSeq;
-
-    char cCurrentPath[FILENAME_MAX];
-
-    if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath)))
-    {
-        std::cerr << "gh" << std::endl;
-    }
-
-    cCurrentPath[sizeof(cCurrentPath) - 1] = '\0'; /* not really required */
-
-    printf ("The current working directory is %s", cCurrentPath);
-
-    // Add root to the tree
-
+    // TODO: test the functions of BTFactory once they can be implemented
 
 }
 

@@ -12,7 +12,7 @@ void print(const std::string &s) {
     std::cout << s << std::endl;
 }
 
-TEST(Tree, JsonTest) {
+TEST(JsonBasics, JsonTest) {
 
     // Get the instance of the interpreter
     TreeInterpreter interpreter = TreeInterpreter::getInstance();
@@ -68,9 +68,20 @@ TEST(Tree, JsonTest) {
 
     // Compare the manual and the automated
     ASSERT_EQ(trees, newTrees);
-    
 
 }
+
+TEST(TreeTest, JsonTest) {
+
+    // TODO: implement these tests after conditions and skills are moved to this repository and they are put into the btBUILDER
+
+    // Make node manually and with the function compare them
+    // Make leaf manually and with function(name) and compare them
+    // Build the sample.json tree manually and with the functions and compare them
+    // Build the project bigjson.json and check a lot of things/see if things fail
+
+}
+
 
 
 

@@ -122,6 +122,8 @@ bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
 
     bt::Node::Ptr node;
 
+    // TODO: check the namings from the bt module and fix/add them here
+
     if (name == "MemSelector") {
         node = std::make_shared<bt::MemSelector>();
     }

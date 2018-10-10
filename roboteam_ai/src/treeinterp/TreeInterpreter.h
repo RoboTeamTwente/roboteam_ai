@@ -26,7 +26,9 @@ class TreeInterpreter {
 private:
     JsonReader jsonReader;
 
-    FRIEND_TEST(Tree, JsonTest);
+    FRIEND_TEST(JsonBasics, JsonTest);
+    FRIEND_TEST(TreeTest, JsonTest);
+
 
     bt::BehaviorTree buildTreeFromJSON(json jsonTree);
 
