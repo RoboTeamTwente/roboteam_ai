@@ -20,11 +20,11 @@ class Node {
   };
 
   virtual ~Node();
-
+  using Ptr = std::shared_ptr<Node>;
   virtual Status Update() = 0;
   virtual void Initialize();
   virtual void Terminate(Status s);
-  virtual void AddChilld(bt::Node::Ptr);
+  virtual void AddChild(bt::Node::Ptr);
   virtual Status Tick();
 
   bool IsSuccess() const;
@@ -34,7 +34,7 @@ class Node {
   Status getStatus() const;
   void setStatus(Status s);
 
-  using Ptr = std::shared_ptr<Node>;
+
 
   bt::Blackboard::Ptr private_bb = std::make_shared<bt::Blackboard>();
 
