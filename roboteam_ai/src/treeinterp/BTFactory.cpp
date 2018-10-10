@@ -16,10 +16,8 @@ std::map<std::string, bt::BehaviorTree> BTFactory::getProject(std::string projec
 
 /// Update an entire project
 void BTFactory::updateProject(std::string projectName) {
-
     auto project = interpreter.getProject(projectName);
     treeRepo[projectName] = project;
-
 }
 
 /// Update one tree from a project

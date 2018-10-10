@@ -54,6 +54,7 @@ set(IO_SOURCES
 set(UTILS_SOURCES
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Condition.h
     )
 
 catkin_package()

@@ -1,6 +1,3 @@
-# compile all files in bt directory
-# file(GLOB BT_SOURCES *.cpp *.hpp)
-
 set(BT_SOURCES
         composites/MemSelector.hpp
         composites/MemSelector.cpp
