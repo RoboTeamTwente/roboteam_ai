@@ -21,7 +21,6 @@ class IOManager {
  private:
   roboteam_msgs::World world;
   roboteam_msgs::GeometryData geometry;
-
   ros::Subscriber worldSubscriber;
   ros::Subscriber geometrySubscriber;
 
