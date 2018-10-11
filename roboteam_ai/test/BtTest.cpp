@@ -86,9 +86,6 @@ namespace {
     };
 } // anonymous namespace
 
-// This is an abomination
-std::string bt::Node::status_desc;
-
 // Behavior Tree with one leaf //
 TEST(BehaviorTreeTest, BehaviorTreeWithOneLeaf) {
     {
@@ -324,7 +321,6 @@ TEST(BehaviorTreeTest, decorators) {
   child = std::make_unique<Counter>("D", 1);
   succeeder.SetChild(child);
   ASSERT_EQ(succeeder.Update(), bt::Node::Status::Success);
-
 
   bt::Inverter inverter;
   ASSERT_EQ(inverter.node_name(), "Inverter");

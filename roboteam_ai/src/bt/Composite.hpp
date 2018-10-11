@@ -10,8 +10,6 @@ class Composite : public Node {
 
   virtual void AddChild(Node::Ptr child);
   bool HasNoChildren() const;
-  int GetIndex() const;
-
   void Terminate(Status s) override;
 
  protected:
