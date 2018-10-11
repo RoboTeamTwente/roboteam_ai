@@ -11,13 +11,13 @@ namespace rtt {
 namespace ai {
 
 /**
- * \class Condition
- * \brief Base class for conditions.
+ * \class Skill
+ * \brief Base class for all skills. Provides no additional functionality.
  */
- class Condition : public bt::Leaf {
- public:
-  Condition(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
-  virtual Status Update();
+ class Skill : public bt::Leaf {
+public:
+    Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+    Status Update();
 };
 
 } // ai

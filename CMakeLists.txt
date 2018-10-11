@@ -13,34 +13,35 @@ find_package(catkin REQUIRED COMPONENTS
         uuid_msgs
         unique_id
         )
+
 set(JSON_SOURCES
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/json.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/TreeInterpreter.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/TreeInterpreter.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/BTFactory.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/BTFactory.h
-        )
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/json.h
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/TreeInterpreter.h
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/TreeInterpreter.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/BTFactory.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/BTFactory.h
+    )
 
 set(DANGER_FINDER_SOURCES
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/CanShootModule.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/CanShootModule.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/DangerData.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/DangerData.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/DangerFinder.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/DangerFinder.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/PartialResult.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/PartialResult.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/DangerModule.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/DangerModule.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/DistanceModule.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/DistanceModule.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/FreeModule.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/FreeModule.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/HasBallModule.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/HasBallModule.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/OrientationModule.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/OrientationModule.h
-        )
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/CanShootModule.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/CanShootModule.h
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/DangerData.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/DangerData.h
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/DangerFinder.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/DangerFinder.h
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/PartialResult.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/PartialResult.h
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/DangerModule.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/DangerModule.h
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/DistanceModule.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/DistanceModule.h
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/FreeModule.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/FreeModule.h
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/HasBallModule.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/HasBallModule.h
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/OrientationModule.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/OrientationModule.h
+    )
 
 set(IO_SOURCES
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/IOManager.h
@@ -55,11 +56,12 @@ set(UTILS_SOURCES
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Condition.h
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Condition.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Skill.h
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Skill.cpp
     )
 
 catkin_package()
-
-
 include_directories(${catkin_INCLUDE_DIRS})
 add_subdirectory( ${PROJECT_SOURCE_DIR}/roboteam_ai/src)
 
@@ -73,6 +75,7 @@ add_executable(AIStrategyNode
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
         )
+
 add_dependencies(AIStrategyNode ${catkin_EXPORTED_TARGETS})
 target_link_libraries(AIStrategyNode ${catkin_LIBRARIES} ai_bt)
 
@@ -95,5 +98,3 @@ target_link_libraries(ai_tests
         ${catkin_LIBRARIES}
         ai_bt
         )
-
-
