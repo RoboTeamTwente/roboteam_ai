@@ -15,7 +15,7 @@ TreeInterpreter& TreeInterpreter::getInstance() {
     return instance;
 }
 
-/// Returns a BehaviorTree from a given name
+/// Returns a BehaviorTree from a given name TESTED
 std::map<std::string, bt::BehaviorTree> TreeInterpreter::getProject(std::string name) {
     std::map<std::string, bt::BehaviorTree> result;
 
@@ -95,9 +95,13 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON) {
 
     if (TreeInterpreter::isLeaf(nodeJSON)) {
         // TODO: make leaf and return it
+        // TODO put properties
         // ?? WTF types and classes are impossible
         // Copy Pasta example: bt::Leaf::Ptr counterA = std::make_shared<Counter>("A", 2);
-        return bt::Leaf::Ptr();
+        bt::Leaf::Ptr leaf;
+        leaf = TreeInterpreter::makeLeafNode(nodeJSON["title"]);
+        // leaf->setFiled("string") TODO
+        return leaf;
     }
 
     auto node = makeNonLeafNode(nodeJSON["name"]); // TODO: Fix
@@ -166,6 +170,16 @@ bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
 
 bool TreeInterpreter::isLeaf(json jsonTree) {
     return ! (jsonTree["child"] || jsonTree["children"]);
+}
+
+bt::Leaf::Ptr TreeInterpreter::makeLeafNode(std::string name) {
+    bt::Leaf::Ptr leaf;
+    if (name == "Dummy") {
+        // TODO: after importing the leaf subclasses make a switch here
+        // leaf = make_some_condition_or_something()
+    }
+
+    return leaf;
 }
 
 

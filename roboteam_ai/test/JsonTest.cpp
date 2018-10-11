@@ -69,6 +69,13 @@ TEST(JsonBasics, JsonTest) {
     // Compare the manual and the automated
     ASSERT_EQ(trees, newTrees);
 
+
+    // ===== Test the reader functions ====
+
+    auto tree2 = interpreter.getTreeWithID("bigjson", "2d276c37-4ffc-4209-bc32-9fd2405a2ad6"); // TODO: name files with the project names
+
+
+
 }
 
 TEST(TreeTest, JsonTest) {

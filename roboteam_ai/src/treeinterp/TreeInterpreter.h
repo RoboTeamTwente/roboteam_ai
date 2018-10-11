@@ -40,6 +40,8 @@ private:
 
     bt::Node::Ptr makeNonLeafNode(std::string name);
 
+    bt::Leaf::Ptr makeLeafNode(std::string name);
+
 
 
 protected:
