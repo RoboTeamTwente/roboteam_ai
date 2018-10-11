@@ -104,7 +104,8 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON) {
         return leaf;
     }
 
-    auto node = makeNonLeafNode(nodeJSON["name"]); // TODO: Fix
+    // Not a leaf
+    auto node = makeNonLeafNode(nodeJSON["name"]);
 
     // has only one child
     if (! nodeJSON["children"]) {
