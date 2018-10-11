@@ -1,7 +1,3 @@
-//
-// Created by mrlukasbos on 10-10-18.
-//
-
 #ifndef ROBOTEAM_AI_CONDITION_H
 #define ROBOTEAM_AI_CONDITION_H
 
@@ -16,8 +12,8 @@ namespace ai {
  */
  class Condition : public bt::Leaf {
  public:
-  Condition(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
-  virtual Status Update();
+  explicit Condition(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
+  Status Update() override;
 };
 
 } // ai

@@ -11,6 +11,8 @@ class Leaf : public Node {
   Leaf();
   virtual ~Leaf() = default;
   Leaf(Blackboard::Ptr blackboard);
+  Leaf(std::string name, Blackboard::Ptr blackboard);
+
   void SetBlackboard(Blackboard::Ptr blackboard);
   virtual Status Update() = 0;
 

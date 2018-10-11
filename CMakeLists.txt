@@ -59,7 +59,7 @@ set(UTILS_SOURCES
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Condition.cpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Skill.h
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Skill.cpp
-    )
+        )
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})

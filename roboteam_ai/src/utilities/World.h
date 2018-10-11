@@ -1,7 +1,3 @@
-//
-// Created by mrlukasbos on 5-10-18.
-//
-
 #ifndef ROBOTEAM_AI_WORLD_H
 #define ROBOTEAM_AI_WORLD_H
 

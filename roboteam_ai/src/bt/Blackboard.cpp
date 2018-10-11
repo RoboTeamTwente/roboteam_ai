@@ -1,7 +1,6 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
-
 #include "roboteam_msgs/StringEntry.h"
 #include "roboteam_msgs/BoolEntry.h"
 #include "roboteam_msgs/Int32Entry.h"
@@ -107,20 +106,20 @@ roboteam_msgs::Blackboard Blackboard::toMsg() {
 }
 
 void Blackboard::fromMsg(const roboteam_msgs::Blackboard &msg) {
-  for (const roboteam_msgs::BoolEntry be : msg.bools) {
-    SetBool(be.name, be.value);
+  for (const roboteam_msgs::BoolEntry &booleanEntry : msg.bools) {
+    SetBool(booleanEntry.name, booleanEntry.value);
   }
 
-  for (const roboteam_msgs::StringEntry se : msg.strings) {
-    SetString(se.name, se.value);
+  for (const roboteam_msgs::StringEntry &stringEntry : msg.strings) {
+    SetString(stringEntry.name, stringEntry.value);
   }
 
-  for (const roboteam_msgs::Int32Entry ie : msg.ints) {
-    SetInt(ie.name, ie.value);
+  for (const roboteam_msgs::Int32Entry &intEntry : msg.ints) {
+    SetInt(intEntry.name, intEntry.value);
   }
 
-  for (const roboteam_msgs::Float64Entry de : msg.doubles) {
-    SetDouble(de.name, de.value);
+  for (const roboteam_msgs::Float64Entry &doubleEntry : msg.doubles) {
+    SetDouble(doubleEntry.name, doubleEntry.value);
   }
 }
 
@@ -146,10 +145,9 @@ const std::unordered_map<std::string, std::string> Blackboard::getStrings() {
 
 std::string Blackboard::toString() {
   std::stringstream ss;
-
   ss << std::endl;
 
-  if (bools.size() > 0) {
+  if (!bools.empty()) {
     ss << "  BOOLS  ";
     for (auto i : bools) {
       ss << " | " << i.first << " = " << i.second;
@@ -157,7 +155,7 @@ std::string Blackboard::toString() {
     ss << std::endl;
   }
 
-  if (ints.size() > 0) {
+  if (!ints.empty()) {
     ss << "  INTS   ";
     for (auto i : ints) {
       ss << " | " << i.first << " = " << i.second;
@@ -165,7 +163,7 @@ std::string Blackboard::toString() {
     ss << std::endl;
   }
 
-  if (floats.size() > 0) {
+  if (!floats.empty()) {
     ss << "  FLOATS ";
     for (auto i : floats) {
       ss << " | " << i.first << " = " << i.second;
@@ -173,7 +171,7 @@ std::string Blackboard::toString() {
     ss << std::endl;
   }
 
-  if (doubles.size() > 0) {
+  if (!doubles.empty()) {
     ss << "  DOUBLES";
     for (auto i : doubles) {
       ss << " | " << i.first << " = " << i.second;
@@ -181,7 +179,7 @@ std::string Blackboard::toString() {
     ss << std::endl;
   }
 
-  if (strings.size() > 0) {
+  if (!strings.empty()) {
     ss << "  STRINGS";
     for (auto i : strings) {
       ss << " | " << i.first << " = " << i.second;
@@ -195,37 +193,22 @@ std::string Blackboard::toString() {
 std::string Blackboard::toTestX() {
   std::stringstream ss;
 
-  if (bools.size() > 0) {
     for (auto i : bools) {
       ss << " bool:" << i.first << "=" << i.second;
     }
-  }
-
-  if (ints.size() > 0) {
     for (auto i : ints) {
       ss << " int:" << i.first << "=" << i.second;
     }
-  }
-
-  if (floats.size() > 0) {
     for (auto i : floats) {
       ss << " double:" << i.first << "=" << i.second;
     }
-  }
-
-  if (doubles.size() > 0) {
     for (auto i : doubles) {
       ss << " double:" << i.first << "=" << i.second;
     }
-  }
-
-  if (strings.size() > 0) {
     for (auto i : strings) {
       ss << " string:" << i.first << "=" << i.second;
     }
-  }
-
   return ss.str();
 }
 
-}
+} // bt

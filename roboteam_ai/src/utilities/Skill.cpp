@@ -1,6 +1,3 @@
-//
-// Created by mrlukasbos on 10-10-18.
-//
 #include "Skill.h"
 
 namespace rtt {

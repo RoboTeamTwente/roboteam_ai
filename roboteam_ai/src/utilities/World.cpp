@@ -1,7 +1,3 @@
-//
-// Created by mrlukasbos on 5-10-18.
-//
-
 #include "World.h"
 
 namespace rtt {
