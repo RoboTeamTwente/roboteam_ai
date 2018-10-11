@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.1)
 project(roboteam_ai)
 
+SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -O0 -Wall -fprofile-arcs -ftest-coverage --coverage")
+
+SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
+
 find_package(catkin REQUIRED COMPONENTS
         roboteam_msgs
         roboteam_utils
@@ -93,6 +97,12 @@ catkin_add_gtest(ai_tests
 target_link_libraries(ai_tests
         ${catkin_LIBRARIES}
         ai_bt
+        gcov
         )
+
+include(CodeCoverage)
+setup_target_for_coverage_gcovr_html(${PROJECT_NAME}_coverage ${PROJECT_TEST_NAME} coverage)
+
+
 
 
