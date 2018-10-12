@@ -18,6 +18,7 @@
 #endif
 
 
+
 TEST(BT, BTTest) {
 
     // ===Let's build a BT manually!===
@@ -25,6 +26,12 @@ TEST(BT, BTTest) {
     // This  will be the tree
     bt::BehaviorTree manualTree;
     // TODO: test the functions of BTFactory once they can be implemented
+
+}
+
+TEST(BT,SimpleFactoryTest){
+    BTFactory dummyFactory;
+    dummyFactory.init();
 
 }
 
