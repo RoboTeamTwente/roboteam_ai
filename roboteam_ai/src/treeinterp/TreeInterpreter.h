@@ -32,7 +32,7 @@ private:
 
     bt::BehaviorTree buildTreeFromJSON(json jsonTree);
 
-    bt::Node::Ptr buildNode(json json);
+    bt::Node::Ptr buildNode(json node, json tree);
 
     std::vector<json> parseSmallJSONs(json json);
 

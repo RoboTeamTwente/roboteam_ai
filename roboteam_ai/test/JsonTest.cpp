@@ -74,14 +74,18 @@ TEST(JsonBasics, JsonTest) {
 
     // ===== Test the reader functions ====
 
-    //auto tree2 = interpreter.getTreeWithID("bigjson", "2d276c37-4ffc-4209-bc32-9fd2405a2ad6"); // TODO: name files with the project names
+    auto btTesting = interpreter.getTreeWithID("bigjson", "2d276c37-4ffc-4209-bc32-9fd2405a2ad6"); // TODO: name files with the project names
+
+    auto rootBTTesting = btTesting.GetRoot();
+
+    
+
+    ASSERT_TRUE(true);
 
 
 
 }
-bool JsonReader::checkIfKeyExists(std::string key, json json) {
-    return (json.find(key) != json.end());
-}
+
 
 TEST(TreeTest, JsonTest) {
 
