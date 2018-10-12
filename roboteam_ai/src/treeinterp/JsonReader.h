@@ -35,6 +35,14 @@ public:
 
     JsonReader() = default;
 
+    void printJson(const json& j) {
+        std::string dump = j.dump();
+        std::cout << "JSON print out:\n: " + dump << std::endl;
+    }
+
+    bool checkIfKeyExists(std::string key, json json);
+
+
 };
 
 #endif //ROBOTEAM_AI_JSONREADER_H
