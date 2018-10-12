@@ -74,7 +74,7 @@ TEST(JsonBasics, JsonTest) {
 
     // ===== Test the reader functions ====
 
-    auto btTesting = interpreter.getTreeWithID("bigjson", "2d276c37-4ffc-4209-bc32-9fd2405a2ad6"); // TODO: name files with the project names
+    auto btTesting = interpreter.getTreeWithID("bigjson", "d16f9751-a781-4fee-8570-7d88a207aef0"); // TODO: name files with the project names
 
     auto rootBTTesting = btTesting.GetRoot();
 

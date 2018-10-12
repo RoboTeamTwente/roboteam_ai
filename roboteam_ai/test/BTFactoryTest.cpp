@@ -32,20 +32,15 @@ TEST(BT, BTTest) {
 TEST(BT,SimpleFactoryTest){
     BTFactory dummyFactory=BTFactory::getFactory();
 
-    //Clear the original list as initialized to make sure test cases work properly:
-    BTFactory::projectNames.clear();
-    BTFactory::treeRepo.clear();
-
     //Define file to test with and update the project to match it.
     std::string testCaseA="bigjson";
-    dummyFactory.updateProject("bigjson");
+    dummyFactory.updateProject(testCaseA);
 
     // Get the tree of that project.
     std::map<std::string, bt::BehaviorTree> treeMapA=dummyFactory.getProject(testCaseA);
 
     //initialize the BTFactory. This SHOULD work.
-    dummyFactory.init();
-
+    //dummyFactory.init();
 }
 
 

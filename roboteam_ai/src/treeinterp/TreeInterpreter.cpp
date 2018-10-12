@@ -24,9 +24,10 @@ std::map<std::string, bt::BehaviorTree> TreeInterpreter::getProject(std::string 
 
     // Loop over all the trees in the project JSON and put them in the map
     // TODO: fix the names for the trees
-    for (const json& tree : project["trees"]) {
+    for (const json& tree : project["data"]["trees"]) {
+        std::string treeID=tree["id"];
         bt::BehaviorTree currentTree = buildTreeFromJSON(tree);
-        result.insert(std::pair<std::string, bt::BehaviorTree>("temp_name", currentTree));
+        result.insert(std::pair<std::string, bt::BehaviorTree>(treeID, currentTree));
     }
     return result;
 }
@@ -138,7 +139,7 @@ bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
 
     // TODO: check the namings from the bt module and fix/add them here
 
-    if (name == "MemSelector") {
+    if (name == "MemSelector" || name=="Selector" || name == "Priority") {
         node = std::make_shared<bt::MemSelector>();
     }
     else if (name == "MemSequence") {
@@ -168,7 +169,7 @@ bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
     else if (name == "UntilFail") {
         node = std::make_shared<bt::UntilFail>();
     }
-    else if (name == "UntilSuccess") {
+    else if (name == "UntilSuccess" || name == "RepeatUntilSuccess") {
         node = std::make_shared<bt::UntilSuccess>();
     }
     else {
