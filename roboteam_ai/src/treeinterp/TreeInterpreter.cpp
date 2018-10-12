@@ -99,6 +99,7 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree) {
     //  Ex: node->addChild(buildNode(nodeJSON["<aChild>"]))
     //  Return this Node
 
+    jsonReader.printJson(nodeJSON);
     if (TreeInterpreter::isLeaf(nodeJSON)) {
         // TODO: make leaf and return it
         // TODO put properties
@@ -126,7 +127,7 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree) {
     for (std::string currentChildID : nodeJSON["children"]) {
         // recursive call
         auto currentChild = tree["nodes"][currentChildID];
-        node->AddChild(TreeInterpreter::buildNode(currentChildID, tree));
+        node->AddChild(TreeInterpreter::buildNode(currentChild, tree));
     }
     return node;
 }
