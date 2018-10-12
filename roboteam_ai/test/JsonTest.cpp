@@ -5,6 +5,8 @@
 #include <gtest/gtest.h>
 #include "../src/treeinterp/TreeInterpreter.h"
 #include "../src/treeinterp/json.h"
+#include "../src/treeinterp/JsonReader.h"
+
 #include <typeinfo>
 
 
@@ -76,6 +78,9 @@ TEST(JsonBasics, JsonTest) {
 
 
 
+}
+bool JsonReader::checkIfKeyExists(std::string key, json json) {
+    return (json.find(key) != json.end());
 }
 
 TEST(TreeTest, JsonTest) {
