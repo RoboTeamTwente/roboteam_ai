@@ -18,6 +18,4 @@ class Sequence : public Composite {
   using Ptr = std::shared_ptr<Sequence>;
 };
 
-Sequence::Ptr MakeSequence();
-
-}
+} // bt

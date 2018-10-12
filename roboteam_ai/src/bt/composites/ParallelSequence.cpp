@@ -49,8 +49,4 @@ bt::Node::Status ParallelSequence::Update() {
 
 std::string ParallelSequence::node_name() { return "ParallelSequence"; }
 
-ParallelSequence::Ptr MakeParallelSequence() {
-  return std::make_shared<ParallelSequence>();
-}
-
 }

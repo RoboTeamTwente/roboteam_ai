@@ -8,8 +8,8 @@ class Decorator : public Node {
  public:
   virtual ~Decorator();
 
-  void SetChild(Node::Ptr child);
-  bool HasNoChild() const;
+  virtual void SetChild(Node::Ptr child);
+  virtual bool HasNoChild() const;
 
   void Terminate(Status s) override;
 
