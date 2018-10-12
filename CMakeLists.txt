@@ -101,7 +101,6 @@ target_link_libraries(ai_tests
         )
 
 include(CodeCoverage)
-setup_target_for_coverage_gcovr_html(${PROJECT_NAME}_coverage ${PROJECT_TEST_NAME} coverage)
 
 
 
