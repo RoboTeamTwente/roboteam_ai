@@ -54,7 +54,7 @@ std::vector<json> TreeInterpreter::parseSmallJSONs(json input) {
     if (input["data"]["scope"] == "project") {
         auto trees = input["data"]["trees"];
 
-        // Loop and add all of the tress to the vector
+        // Loop and add all of the trees to the vector
         for (const json& current : trees) {
             result.push_back(current);
         }

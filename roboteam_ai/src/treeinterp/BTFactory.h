@@ -23,14 +23,14 @@ class BTFactory {
     TreeInterpreter interpreter;
 
     public:
-
         void init();
         static BTFactory& getFactory();
         std::map<std::string,  bt::BehaviorTree> getProject(std::string projectName);
         void updateProject(std::string projectName);
         void updateTree(std::string projectName, std::string treeName);
+        std::map<std::string, std::map<std::string, bt::BehaviorTree>> getTreeRepo();
     private:
-
+        void initialProjectNames();
     protected:
 
 };

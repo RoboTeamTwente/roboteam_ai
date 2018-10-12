@@ -8,8 +8,6 @@
 #include "../src/bt/composites/Sequence.hpp"
 #include "../src/bt/Leaf.hpp"
 
-
-
 #include <stdio.h>  /* defines FILENAME_MAX */
 #ifdef WINDOWS
 #include <direct.h>
@@ -24,9 +22,8 @@ TEST(BT, BTTest) {
 
     // ===Let's build a BT manually!===
 
-    // This will be the tree
+    // This  will be the tree
     bt::BehaviorTree manualTree;
-
     // TODO: test the functions of BTFactory once they can be implemented
 
 }
