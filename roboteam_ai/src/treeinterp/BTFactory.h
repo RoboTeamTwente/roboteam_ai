@@ -21,11 +21,7 @@ class BTFactory {
 
     // TODO: have the names of all the project before here
     TreeInterpreter interpreter;
-    ///This is a list of all the projects we want to read in /roboteam_ai/src/treeinterp/jsons
-    static std::vector<std::string> projectNames;
 
-    /// This is where all the BTs are kept
-    static std::map<std::string, std::map<std::string, bt::BehaviorTree>> treeRepo;
     public:
         void init();
         static BTFactory& getFactory();

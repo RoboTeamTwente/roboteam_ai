@@ -6,7 +6,11 @@
 
 #include "BTFactory.h"
 
+///This is a list of all the projects we want to read in /roboteam_ai/src/treeinterp/jsons
+static std::vector<std::string> projectNames;
 
+/// This is where all the BTs are kept
+static std::map<std::string, std::map<std::string, bt::BehaviorTree>> treeRepo;
 
 /// Return a map of tree names and trees that belong to one project TODO
 std::map<std::string, bt::BehaviorTree> BTFactory::getProject(std::string projectName) {

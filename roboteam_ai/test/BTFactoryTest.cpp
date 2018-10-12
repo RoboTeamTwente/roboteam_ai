@@ -32,7 +32,6 @@ TEST(BT, BTTest) {
 TEST(BT,SimpleFactoryTest){
     BTFactory dummyFactory;
     dummyFactory.init();
-
 }
 
 
