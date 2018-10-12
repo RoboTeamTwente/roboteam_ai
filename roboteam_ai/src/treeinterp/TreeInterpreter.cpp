@@ -76,7 +76,7 @@ bt::BehaviorTree TreeInterpreter::buildTreeFromJSON(json jsonTree) {
     // ID of the root
     std::string rootID = jsonTree["root"];
 
-    auto rootNode = TreeInterpreter::buildNode(jsonTree["nodes"][rootID]);
+    auto rootNode = TreeInterpreter::buildNode(jsonTree["nodes"][rootID], jsonTree);
 
     // Build the tree from the root
     bt::BehaviorTree behaviorTree(rootNode);
@@ -84,7 +84,7 @@ bt::BehaviorTree TreeInterpreter::buildTreeFromJSON(json jsonTree) {
 }
 
 /// Builds nodes recursively from json objects
-bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON) {
+bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree) {
 
     // See if it is leaf
 
@@ -98,7 +98,6 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON) {
     //  Ex: node->addChild(buildNode(nodeJSON["<aChild>"]))
     //  Return this Node
 
-    jsonReader.printJson(nodeJSON);
     if (TreeInterpreter::isLeaf(nodeJSON)) {
         // TODO: make leaf and return it
         // TODO put properties
@@ -114,15 +113,19 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON) {
     auto node = makeNonLeafNode(nodeJSON["name"]);
 
     // has only one child
-    if (! jsonReader.checkIfKeyExists("child", nodeJSON)) {
+    if (jsonReader.checkIfKeyExists("child", nodeJSON)) {
         // recursive call
-        node->AddChild(TreeInterpreter::buildNode(nodeJSON["child"]));
+        // Find the child node in the json
+        std::string childID = nodeJSON["child"];
+        auto child = tree["nodes"][childID];
+        node->AddChild(TreeInterpreter::buildNode(child, tree));
         return node;
     }
     // has multiple children
-    for (const auto& child : nodeJSON["children"]) {
+    for (std::string currentChildID : nodeJSON["children"]) {
         // recursive call
-        node->AddChild(TreeInterpreter::buildNode(child));
+        auto currentChild = tree["nodes"][currentChildID];
+        node->AddChild(TreeInterpreter::buildNode(currentChildID, tree));
     }
     return node;
 }
@@ -177,7 +180,6 @@ bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
 
 /// Returns if there is any element in a json called "child" or "children"
 bool TreeInterpreter::isLeaf(json jsonTree) {
-    jsonReader.printJson(jsonTree);
     bool hasChild = jsonReader.checkIfKeyExists("child", jsonTree);
     bool hasChildren = jsonReader.checkIfKeyExists("children", jsonTree);
     return !(hasChild || hasChildren);

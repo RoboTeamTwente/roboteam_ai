@@ -57,3 +57,6 @@ json JsonReader::readJSON(std::string fileName) {
     json bigJSON = json::parse(ifs);
     return bigJSON;
 }
+bool JsonReader::checkIfKeyExists(std::string key, json json) {
+    return (json.find(key) != json.end());
+}
