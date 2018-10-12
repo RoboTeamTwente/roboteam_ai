@@ -27,6 +27,7 @@ std::map<std::string, bt::BehaviorTree> TreeInterpreter::getProject(std::string 
     for (const json& tree : project["data"]["trees"]) {
         std::string treeID=tree["id"];
         bt::BehaviorTree currentTree = buildTreeFromJSON(tree);
+        std::cout << "Build tree with id: " << treeID<<std::endl;
         result.insert(std::pair<std::string, bt::BehaviorTree>(treeID, currentTree));
     }
     return result;
@@ -99,7 +100,7 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree) {
     //  Ex: node->addChild(buildNode(nodeJSON["<aChild>"]))
     //  Return this Node
 
-    jsonReader.printJson(nodeJSON);
+    //jsonReader.printJson(nodeJSON);
     if (TreeInterpreter::isLeaf(nodeJSON)) {
         // TODO: make leaf and return it
         // TODO put properties
@@ -140,7 +141,8 @@ bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
 
     // TODO: check the namings from the bt module and fix/add them here
 
-    if (name == "MemSelector" || name=="Selector" || name == "Priority") {
+    // Some of the naming is archaic, but we need it here.
+    if (name == "MemSelector" || name=="Selector" || name == "Priority" || name == "MemPriority") {
         node = std::make_shared<bt::MemSelector>();
     }
     else if (name == "MemSequence") {
@@ -152,7 +154,7 @@ bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
     else if (name == "Selector") {
         node = std::make_shared<bt::Selector>();
     }
-    else if (name == "Sequence") {
+    else if (name == "Sequence" || name=="ParallelTactic" || name == "ParallelSequence" || name == "ParallelTactic") {
         node = std::make_shared<bt::Sequence>();
     }
     else if (name == "Failer") {
