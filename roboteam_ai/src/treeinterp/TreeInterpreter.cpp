@@ -15,7 +15,7 @@ TreeInterpreter& TreeInterpreter::getInstance() {
     return instance;
 }
 
-/// Returns a BehaviorTree from a given name
+/// Returns a BehaviorTree from a given name TESTED
 std::map<std::string, bt::BehaviorTree> TreeInterpreter::getProject(std::string name) {
     std::map<std::string, bt::BehaviorTree> result;
 
@@ -24,9 +24,11 @@ std::map<std::string, bt::BehaviorTree> TreeInterpreter::getProject(std::string 
 
     // Loop over all the trees in the project JSON and put them in the map
     // TODO: fix the names for the trees
-    for (const json& tree : project["trees"]) {
+    for (const json& tree : project["data"]["trees"]) {
+        std::string treeID=tree["id"];
         bt::BehaviorTree currentTree = buildTreeFromJSON(tree);
-        result.insert(std::pair<std::string, bt::BehaviorTree>("temp_name", currentTree));
+        std::cout << "Build tree with id: " << treeID<<std::endl;
+        result.insert(std::pair<std::string, bt::BehaviorTree>(treeID, currentTree));
     }
     return result;
 }
@@ -37,8 +39,12 @@ bt::BehaviorTree TreeInterpreter::getTreeWithID(std::string projectName, std::st
     // Read a project from file
     auto project = jsonReader.readJSON(std::move(projectName));
 
-    for (auto tree : project["trees"]) {
+    auto trees = project["data"]["trees"];
+    for (json tree : trees) {
+//      jsonReader.printJson(tree);
+      //  std::cout << tree["title"] << std::endl;
         if (tree["id"] == ID) {
+           // jsonReader.printJson(tree);
             return buildTreeFromJSON(tree);
         }
     }
@@ -54,7 +60,7 @@ std::vector<json> TreeInterpreter::parseSmallJSONs(json input) {
     if (input["data"]["scope"] == "project") {
         auto trees = input["data"]["trees"];
 
-        // Loop and add all of the tress to the vector
+        // Loop and add all of the trees to the vector
         for (const json& current : trees) {
             result.push_back(current);
         }
@@ -71,7 +77,8 @@ bt::BehaviorTree TreeInterpreter::buildTreeFromJSON(json jsonTree) {
 
     // ID of the root
     std::string rootID = jsonTree["root"];
-    auto rootNode = TreeInterpreter::buildNode(jsonTree[rootID]);
+
+    auto rootNode = TreeInterpreter::buildNode(jsonTree["nodes"][rootID], jsonTree);
 
     // Build the tree from the root
     bt::BehaviorTree behaviorTree(rootNode);
@@ -79,7 +86,7 @@ bt::BehaviorTree TreeInterpreter::buildTreeFromJSON(json jsonTree) {
 }
 
 /// Builds nodes recursively from json objects
-bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON) {
+bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree) {
 
     // See if it is leaf
 
@@ -93,25 +100,35 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON) {
     //  Ex: node->addChild(buildNode(nodeJSON["<aChild>"]))
     //  Return this Node
 
+    //jsonReader.printJson(nodeJSON);
     if (TreeInterpreter::isLeaf(nodeJSON)) {
         // TODO: make leaf and return it
+        // TODO put properties
         // ?? WTF types and classes are impossible
         // Copy Pasta example: bt::Leaf::Ptr counterA = std::make_shared<Counter>("A", 2);
-        return bt::Leaf::Ptr();
+        bt::Leaf::Ptr leaf;
+        leaf = TreeInterpreter::makeLeafNode(nodeJSON["title"]);
+        // leaf->setFiled("string") TODO
+        return leaf;
     }
 
-    auto node = makeNonLeafNode(nodeJSON["name"]); // TODO: Fix
+    // Not a leaf
+    auto node = makeNonLeafNode(nodeJSON["name"]);
 
     // has only one child
-    if (! nodeJSON["children"]) {
+    if (jsonReader.checkIfKeyExists("child", nodeJSON)) {
         // recursive call
-        node->AddChild(TreeInterpreter::buildNode(nodeJSON["child"]));
+        // Find the child node in the json
+        std::string childID = nodeJSON["child"];
+        auto child = tree["nodes"][childID];
+        node->AddChild(TreeInterpreter::buildNode(child, tree));
         return node;
     }
     // has multiple children
-    for (const auto& child : nodeJSON["children"]) {
+    for (std::string currentChildID : nodeJSON["children"]) {
         // recursive call
-        node->AddChild(TreeInterpreter::buildNode(child));
+        auto currentChild = tree["nodes"][currentChildID];
+        node->AddChild(TreeInterpreter::buildNode(currentChild, tree));
     }
     return node;
 }
@@ -124,7 +141,8 @@ bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
 
     // TODO: check the namings from the bt module and fix/add them here
 
-    if (name == "MemSelector") {
+    // Some of the naming is archaic, but we need it here.
+    if (name == "MemSelector" || name=="Selector" || name == "Priority" || name == "MemPriority") {
         node = std::make_shared<bt::MemSelector>();
     }
     else if (name == "MemSequence") {
@@ -136,7 +154,7 @@ bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
     else if (name == "Selector") {
         node = std::make_shared<bt::Selector>();
     }
-    else if (name == "Sequence") {
+    else if (name == "Sequence" || name=="ParallelTactic" || name == "ParallelSequence" || name == "ParallelTactic") {
         node = std::make_shared<bt::Sequence>();
     }
     else if (name == "Failer") {
@@ -145,7 +163,7 @@ bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
     else if (name == "Inverter") {
         node = std::make_shared<bt::Inverter>();
     }
-    else if (name == "Repeater") {
+    else if (name == "Repeat") {
         node = std::make_shared<bt::Repeater>();
     }
     else if (name == "Succeeder") {
@@ -154,7 +172,7 @@ bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
     else if (name == "UntilFail") {
         node = std::make_shared<bt::UntilFail>();
     }
-    else if (name == "UntilSuccess") {
+    else if (name == "UntilSuccess" || name == "RepeatUntilSuccess") {
         node = std::make_shared<bt::UntilSuccess>();
     }
     else {
@@ -164,10 +182,23 @@ bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
 
 }
 
+/// Returns if there is any element in a json called "child" or "children"
 bool TreeInterpreter::isLeaf(json jsonTree) {
-    return ! (jsonTree["child"] || jsonTree["children"]);
+    bool hasChild = jsonReader.checkIfKeyExists("child", jsonTree);
+    bool hasChildren = jsonReader.checkIfKeyExists("children", jsonTree);
+    return !(hasChild || hasChildren);
 }
 
+/// Make a leaf node depending on the name of the node
+bt::Leaf::Ptr TreeInterpreter::makeLeafNode(std::string name) {
+    bt::Leaf::Ptr leaf;
+    if (name == "Dummy") {
+        // TODO: after importing the leaf subclasses make a switch here
+        // leaf = make_some_condition_or_something()
+    }
+
+    return leaf;
+}
 
 
 

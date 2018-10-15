@@ -32,13 +32,15 @@ private:
 
     bt::BehaviorTree buildTreeFromJSON(json jsonTree);
 
-    bt::Node::Ptr buildNode(json json);
+    bt::Node::Ptr buildNode(json node, json tree);
 
     std::vector<json> parseSmallJSONs(json json);
 
     bool isLeaf(json json);
 
     bt::Node::Ptr makeNonLeafNode(std::string name);
+
+    bt::Leaf::Ptr makeLeafNode(std::string name);
 
 
 
