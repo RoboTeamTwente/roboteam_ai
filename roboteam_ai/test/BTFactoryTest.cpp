@@ -40,7 +40,7 @@ TEST(BT,SimpleFactoryTest){
     std::map<std::string, bt::BehaviorTree> treeMapA=dummyFactory.getProject(testCaseA);
 
     //initialize the BTFactory. This SHOULD work.
-    //dummyFactory.init();
+    dummyFactory.init();
 }
 
 
