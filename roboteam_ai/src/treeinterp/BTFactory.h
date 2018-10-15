@@ -6,13 +6,14 @@
 #define ROBOTEAM_AI_BTFACTORY_H
 
 #include "json.h"
-#include "../bt/BehaviorTree.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <gtest/gtest_prod.h>
 #include <map>
 #include "TreeInterpreter.h"
+#include "BTImport.h"
+
 
 
 

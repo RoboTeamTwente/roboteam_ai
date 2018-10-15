@@ -5,85 +5,89 @@
 #include "../src/bt/bt.hpp"
 
 namespace {
-    std::vector<std::string> traces;
+std::vector<std::string> traces;
 
-    class Tracer : public bt::Leaf {
-    public:
-        std::string id;
+class Tracer : public bt::Leaf {
+public:
+    std::string id;
 
-        explicit Tracer(std::string id) : id{std::move(id)} {}
+    explicit Tracer(std::string id)
+            :id{std::move(id)} { }
 
-        void Initialize() override {
-            traces.push_back("Initialize: " + id);
-            Initialize_();
+    void Initialize() override {
+        traces.push_back("Initialize: " + id);
+        Initialize_();
+    }
+
+    Status Update() override {
+        traces.push_back("Update: " + id);
+        return Update_();
+    }
+
+    void Terminate(Status s) override {
+        traces.push_back("Terminate: " + id);
+        Terminate_(s);
+    }
+
+    // Spoofed functions
+    virtual void Initialize_() { }
+
+    virtual Status Update_() { return status; }
+
+    virtual void Terminate_(Status) { }
+};
+
+class Once : public Tracer {
+public:
+    explicit Once(const std::string& id)
+            :Tracer("Once-" + id) { }
+};
+
+class Runner : public Tracer {
+public:
+    explicit Runner(const std::string& id)
+            :Tracer("Runner-" + id) { }
+
+    Status Update_() override {
+        return Status::Running;
+    }
+
+    void Terminate_(Status s) override {
+        if (s == Status::Running || s == Status::Invalid) {
+            setStatus(Status::Failure);
+        }
+    }
+};
+
+class Counter : public Tracer {
+public:
+    int max;
+    int runningCount;
+
+    Counter(const std::string& id, int max)
+            :Tracer("Counter-" + id), max{max}, runningCount{0} { }
+
+    void Initialize_() override {
+        runningCount = 0;
+    }
+
+    Status Update_() override {
+        runningCount ++;
+
+        if (runningCount == max) {
+            return Status::Success;
         }
 
-        Status Update() override {
-            traces.push_back("Update: " + id);
-            return Update_();
+        return Status::Running;
+    }
+
+    void Terminate_(Status s) override {
+        if (s == Status::Running || s == Status::Invalid) {
+            setStatus(Status::Failure);
         }
+    }
+ };
 
-        void Terminate(Status s) override {
-            traces.push_back("Terminate: " + id);
-            Terminate_(s);
-        }
-
-        // Spoofed functions
-        virtual void Initialize_() {}
-
-        virtual Status Update_() { return status; }
-
-        virtual void Terminate_(Status) {}
-    };
-
-    class Once : public Tracer {
-    public:
-        explicit Once(const std::string &id) : Tracer("Once-" + id) {}
-    };
-
-    class Runner : public Tracer {
-    public:
-        explicit Runner(const std::string &id) : Tracer("Runner-" + id) {}
-
-        Status Update_() override {
-            return Status::Running;
-        }
-
-        void Terminate_(Status s) override {
-            if (s == Status::Running || s == Status::Invalid) {
-                setStatus(Status::Failure);
-            }
-        }
-    };
-
-    class Counter : public Tracer {
-    public:
-        int max;
-        int runningCount;
-
-        Counter(const std::string &id, int max) : Tracer("Counter-" + id), max{max}, runningCount{0} {}
-
-        void Initialize_() override {
-            runningCount = 0;
-        }
-
-        Status Update_() override {
-            runningCount++;
-
-            if (runningCount == max) {
-                return Status::Success;
-            }
-
-            return Status::Running;
-        }
-
-        void Terminate_(Status s) override {
-            if (s == Status::Running || s == Status::Invalid) {
-                setStatus(Status::Failure);
-            }
-        }
-
-    };
 } // anonymous namespace
 
 // Behavior Tree with one leaf //
