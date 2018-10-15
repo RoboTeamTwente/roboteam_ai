@@ -100,10 +100,8 @@ void DangerFinder::stop() {
 DangerData DangerFinder::calculateDataNow() {
   ensureRunning();
   calculate();
-  DangerData t;
   std::lock_guard<std::mutex> lock(mutex);
-  t = mostRecentData;
-  return t;
+  return mostRecentData;
 }
 
 // Gets the most recent results of the DangerFinder thread.
@@ -112,10 +110,8 @@ DangerData DangerFinder::getMostRecentData() {
   if (!ranOnce) {
     calculate();
   }
-  DangerData t;
   std::lock_guard<std::mutex> lock(mutex);
-  t = mostRecentData;
-  return t;
+  return mostRecentData;
 }
 
 // return true if there is a calculated result
