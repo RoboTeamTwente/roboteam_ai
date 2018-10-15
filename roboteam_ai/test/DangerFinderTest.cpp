@@ -167,3 +167,31 @@ TEST(DangerFinderTest, most_recent_data_is_correct) {
   EXPECT_EQ(danger.scores, danger2.scores);
   EXPECT_EQ(danger.flags, danger2.flags);
 }
+
+// checks the + operator on partialresult
+// the scores are added together and the flags are OR'd
+TEST(DangerFinderTest, partial_results_can_be_added_together) {
+ PartialResult pr1;
+ PartialResult pr2;
+ PartialResult pr3;
+
+ pr1.score = 3;
+ pr1.flags = 0b11001100;
+ pr2.score = 4;
+ pr2.flags = 0b00110011;
+
+ pr3 = pr1 + pr2;
+
+ ASSERT_EQ(pr3.score, 7);
+ ASSERT_EQ(pr3.flags, 0b11111111);
+
+  pr1.score = -3;
+  pr1.flags = 0b00000000;
+  pr2.score = 4;
+  pr2.flags = 0b00110011;
+
+  pr3 = pr1 + pr2;
+
+  ASSERT_EQ(pr3.score, 1);
+  ASSERT_EQ(pr3.flags, 0b00110011);
+}
