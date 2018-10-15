@@ -323,13 +323,13 @@ TEST(BehaviorTreeTest, decorators) {
   bt::Succeeder succeeder;
   ASSERT_EQ(succeeder.node_name(), "Succeeder");
   child = std::make_unique<Counter>("D", 1);
-  succeeder.SetChild(child);
+  succeeder.AddChild(child);
   ASSERT_EQ(succeeder.Update(), bt::Node::Status::Success);
 
   bt::Inverter inverter;
   ASSERT_EQ(inverter.node_name(), "Inverter");
   child = std::make_unique<Counter>("D", 1);
-  inverter.SetChild(child);
+  inverter.AddChild(child);
   ASSERT_EQ(inverter.Update(), bt::Node::Status::Failure);
 
   child = std::make_shared<Once>("D");

@@ -71,8 +71,11 @@ TEST(BTBlackboardTest, blackboard) {
   ASSERT_EQ(bb.getDoubles(), bb2.getDoubles());
   ASSERT_EQ(bb.getBools(), bb2.getBools());
 
-  bb.toTestX();
-  bb.toString();
+  ASSERT_EQ(bb.toTestX(), bb2.toTestX());
+  ASSERT_EQ(bb.toString(), bb2.toString());
+
+  ASSERT_EQ(bb.toTestX(), " bool:b_a=1 bool:b_b=0 int:i_a=1000 int:i_b=-1000 int:i_c=0 string:s_a=roboteamtwente string:s_b=is string:s_c=awesome string:s_d=!!!!11!!!!");
+  ASSERT_EQ(bb.toString(), "\n  BOOLS   | b_a = 1 | b_b = 0\n  INTS    | i_a = 1000 | i_b = -1000 | i_c = 0\n  STRINGS | s_a = roboteamtwente | s_b = is | s_c = awesome | s_d = !!!!11!!!!\n");
 }
 
 
