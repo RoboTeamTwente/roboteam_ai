@@ -142,8 +142,6 @@ TEST(BT,UpdateDuringRuntime){
     pathReader.editJSON(testProjectA,testTreeA,fieldToEdit,originalA);
     pathReader.editJSON(testProjectA,testTreeB,fieldToEdit,originalB);
 
-
-
 }
 
 

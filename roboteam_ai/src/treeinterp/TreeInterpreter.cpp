@@ -27,7 +27,7 @@ std::map<std::string, bt::BehaviorTree> TreeInterpreter::getProject(std::string 
     for (const json& tree : project["data"]["trees"]) {
         std::string treeID=tree["id"];
         bt::BehaviorTree currentTree = buildTreeFromJSON(tree);
-        std::cout << "Build tree with id: " << treeID<<std::endl;
+        //std::cout << "Build tree with id: " << treeID<<std::endl;
         result.insert(std::pair<std::string, bt::BehaviorTree>(treeID, currentTree));
     }
     return result;
