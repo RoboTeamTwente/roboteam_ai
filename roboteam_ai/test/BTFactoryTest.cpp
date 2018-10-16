@@ -30,12 +30,12 @@ TEST (BT,JsonEditor){
     JsonReader pathReader;
 
     pathReader.editJSON(testProject,testTree,"description","TESTING");
-    pathReader.editJSON(testProject,testTree,"description","");
     json readJson =pathReader.readJSON(testProject);
 
     ASSERT_EQ(readJson["data"]["trees"][0]["description"],"TESTING");
-    pathReader.editJSON(testProject,testProject,"description","A");
+    pathReader.editJSON(testProject,testTree,"description","A");
 
+    readJson=pathReader.readJSON(testProject);
     ASSERT_EQ(readJson["data"]["trees"][0]["description"],"A");
 }
 
