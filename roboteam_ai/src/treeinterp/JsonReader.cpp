@@ -61,8 +61,18 @@ bool JsonReader::checkIfKeyExists(std::string key, json json) {
     return (json.find(key) != json.end());
 }
 
-/// Prints a json object
-void JsonReader::printJson(const json& j) {
-    std::string dump = j.dump();
-    std::cout << "JSON print out:\n: " + dump << std::endl;
+void JsonReader::editJSON(std::string fileName, std::string treeID, std::string field, std::string newValue) {
+    // read json file
+    json fileJson=readJSON(fileName);
+    // edit json file
+    for (json& tree :fileJson["data"]["trees"]){
+        if (tree["id"]==treeID){
+            tree[field]=newValue;
+            break;
+        }
+    }
+    //write it back to the same place
+    std::ofstream ofs(JsonReader::getFilePath(fileName));
+    ofs << fileJson;
+    ofs.close();
 }
