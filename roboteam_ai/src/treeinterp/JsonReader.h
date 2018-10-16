@@ -14,6 +14,14 @@
 #include <map>
 #include <unistd.h>
 #include "BTImport.h"
+#include <stdio.h>  /* defines FILENAME_MAX */
+#ifdef WINDOWS
+#include <direct.h>
+    #define GetCurrentDir _getcwd
+#else
+#include <unistd.h>
+#define GetCurrentDir getcwd
+#endif
 
 using json = nlohmann::json;
 
@@ -35,11 +43,7 @@ public:
 
     JsonReader() = default;
 
-    void printJson(const json& j) {
-        std::string dump = j.dump();
-        std::cout << "JSON print out:\n: " + dump << std::endl;
-    }
-
+    void printJson(const json& j);
     bool checkIfKeyExists(std::string key, json json);
 
 

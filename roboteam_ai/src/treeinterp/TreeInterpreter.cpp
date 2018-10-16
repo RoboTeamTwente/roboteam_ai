@@ -117,17 +117,17 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree) {
 
     // has only one child
     if (jsonReader.checkIfKeyExists("child", nodeJSON)) {
-        // recursive call
         // Find the child node in the json
         std::string childID = nodeJSON["child"];
         auto child = tree["nodes"][childID];
+        // recursive call
         node->AddChild(TreeInterpreter::buildNode(child, tree));
         return node;
     }
     // has multiple children
     for (std::string currentChildID : nodeJSON["children"]) {
-        // recursive call
         auto currentChild = tree["nodes"][currentChildID];
+        // recursive call
         node->AddChild(TreeInterpreter::buildNode(currentChild, tree));
     }
     return node;

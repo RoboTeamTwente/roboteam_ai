@@ -78,11 +78,7 @@ TEST(JsonBasics, JsonTest) {
 
     auto rootBTTesting = btTesting.GetRoot();
 
-    
-
     ASSERT_TRUE(true);
-
-
 
 }
 

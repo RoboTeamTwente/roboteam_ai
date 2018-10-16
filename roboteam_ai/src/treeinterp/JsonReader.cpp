@@ -5,12 +5,10 @@
 //
 
 #include "JsonReader.h"
-#include <unistd.h>
 
-#define GetCurrentDir getcwd
+#define GetCurrentDir getcwd // Needed for the path finding
 
-
-/// Returns the filespath from /home/ to the given json name
+/// Returns the file path from /home/ to the given json name
 std::string JsonReader::getFilePath(std::string name) {
 
     char cCurrentPath[FILENAME_MAX];
@@ -57,6 +55,14 @@ json JsonReader::readJSON(std::string fileName) {
     json bigJSON = json::parse(ifs);
     return bigJSON;
 }
+
+/// Checks if a key exists in a json object
 bool JsonReader::checkIfKeyExists(std::string key, json json) {
     return (json.find(key) != json.end());
+}
+
+/// Prints a json object
+void JsonReader::printJson(const json& j) {
+    std::string dump = j.dump();
+    std::cout << "JSON print out:\n: " + dump << std::endl;
 }
