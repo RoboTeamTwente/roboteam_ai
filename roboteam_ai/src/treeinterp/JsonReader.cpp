@@ -60,3 +60,19 @@ json JsonReader::readJSON(std::string fileName) {
 bool JsonReader::checkIfKeyExists(std::string key, json json) {
     return (json.find(key) != json.end());
 }
+
+void JsonReader::editJSON(std::string fileName, std::string treeID, std::string field, std::string newValue) {
+    // read json file
+    json fileJson=readJSON(fileName);
+    // edit json file
+    for (json& tree :fileJson["data"]["trees"]){
+        if (tree["id"]==treeID){
+            tree[field]=newValue;
+            break;
+        }
+    }
+    //write it back to the same place
+    std::ofstream ofs(JsonReader::getFilePath(fileName));
+    ofs << fileJson;
+    ofs.close();
+}
