@@ -59,7 +59,13 @@ set(UTILS_SOURCES
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Condition.cpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Skill.h
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Skill.cpp
-        )
+    )
+
+set(CONDITIONS_SOURCES
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.hpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.cpp
+    )
+
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
@@ -74,6 +80,7 @@ add_executable(AIStrategyNode
         ${IO_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
+        ${CONDITIONS_SOURCES}
         )
 
 add_dependencies(AIStrategyNode ${catkin_EXPORTED_TARGETS})
@@ -89,6 +96,7 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/BTFactoryTest.cpp
         roboteam_ai/test/WorldTest.cpp
         roboteam_ai/test/DangerFinderTest.cpp
+        roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
