@@ -4,7 +4,7 @@ namespace bt {
 
 Decorator::~Decorator() {}
 
-void Decorator::SetChild(Node::Ptr child) {
+void Decorator::AddChild(Node::Ptr child) {
   this->child = child;
 }
 

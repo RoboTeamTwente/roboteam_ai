@@ -1,5 +1,4 @@
 #include <string>
-#include <unordered_map>
 #include <memory>
 #include "roboteam_msgs/StringEntry.h"
 #include "roboteam_msgs/BoolEntry.h"
@@ -123,23 +122,23 @@ void Blackboard::fromMsg(const roboteam_msgs::Blackboard &msg) {
   }
 }
 
-const std::unordered_map<std::string, bool> Blackboard::getBools() {
+const std::map<std::string, bool> Blackboard::getBools() {
   return bools;
 }
 
-const std::unordered_map<std::string, int> Blackboard::getInts() {
+const std::map<std::string, int> Blackboard::getInts() {
   return ints;
 }
 
-const std::unordered_map<std::string, float> Blackboard::getFloats() {
+const std::map<std::string, float> Blackboard::getFloats() {
   return floats;
 }
 
-const std::unordered_map<std::string, double> Blackboard::getDoubles() {
+const std::map<std::string, double> Blackboard::getDoubles() {
   return doubles;
 }
 
-const std::unordered_map<std::string, std::string> Blackboard::getStrings() {
+const std::map<std::string, std::string> Blackboard::getStrings() {
   return strings;
 }
 
@@ -193,21 +192,26 @@ std::string Blackboard::toString() {
 std::string Blackboard::toTestX() {
   std::stringstream ss;
 
-    for (auto i : bools) {
-      ss << " bool:" << i.first << "=" << i.second;
-    }
-    for (auto i : ints) {
-      ss << " int:" << i.first << "=" << i.second;
-    }
-    for (auto i : floats) {
-      ss << " double:" << i.first << "=" << i.second;
-    }
-    for (auto i : doubles) {
-      ss << " double:" << i.first << "=" << i.second;
-    }
-    for (auto i : strings) {
-      ss << " string:" << i.first << "=" << i.second;
-    }
+  for (auto i : bools) {
+    ss << " bool:" << i.first << "=" << i.second;
+  }
+
+  for (auto i : ints) {
+    ss << " int:" << i.first << "=" << i.second;
+  }
+
+  // TODO check if floats or doubles are both needed
+  for (auto i : floats) {
+    ss << " double:" << i.first << "=" << i.second;
+  }
+
+  for (auto i : doubles) {
+    ss << " double:" << i.first << "=" << i.second;
+  }
+
+  for (auto i : strings) {
+    ss << " string:" << i.first << "=" << i.second;
+  }
   return ss.str();
 }
 

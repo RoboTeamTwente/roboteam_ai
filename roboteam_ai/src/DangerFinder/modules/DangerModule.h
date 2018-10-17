@@ -29,7 +29,6 @@ public:
 	explicit DangerModule(double danger);
 	double danger = 0;
 };
-
 } // dangerfinder
 } // ai
 } // rtt

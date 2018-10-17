@@ -22,7 +22,4 @@ class MemSelector : public Composite {
 
   std::string node_name() override;
 };
-
-MemSelector::Ptr MakeMemSelector();
-
-}
+} // bt

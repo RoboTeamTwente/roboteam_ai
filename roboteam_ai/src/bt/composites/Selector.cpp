@@ -21,8 +21,4 @@ std::string Selector::node_name() {
   return "Selector";
 }
 
-Selector::Ptr MakeSelector() {
-  return std::make_shared<Selector>();
-}
-
-}
+} // bt

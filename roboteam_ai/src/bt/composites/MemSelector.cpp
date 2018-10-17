@@ -33,7 +33,4 @@ std::string MemSelector::node_name() {
   return "MemSelector";
 }
 
-MemSelector::Ptr MakeMemSelector() {
-  return std::make_shared<MemSelector>();
-}
-}
+} //bt
