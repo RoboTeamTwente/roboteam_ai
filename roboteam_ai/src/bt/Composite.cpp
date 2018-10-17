@@ -12,10 +12,6 @@ bool Composite::HasNoChildren() const {
   return children.empty();
 }
 
-int Composite::GetIndex() const {
-  return index;
-}
-
 void Composite::Terminate(Status s) {
   for (auto child : children) {
     if (child->getStatus()==Status::Running) {

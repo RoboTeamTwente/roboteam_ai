@@ -34,8 +34,4 @@ std::string MemSequence::node_name() {
   return "MemSequence";
 }
 
-MemSequence::Ptr MakeMemSequence() {
-  return std::make_shared<MemSequence>();
-}
-
 } // bt

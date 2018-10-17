@@ -6,42 +6,53 @@
 #define ROBOTEAM_AI_TREEINTERPRETER_H
 
 #include "json.h"
-#include "../bt/BehaviorTree.hpp"
+#include "JsonReader.h"
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <gtest/gtest_prod.h>
 #include "vector"
-#include "../bt/composites/MemSequence.hpp"
-#include "../bt/Leaf.hpp"
 #include <map>
 #include <unistd.h>
+#include "BTImport.h"
 
 
+#define GetCurrentDir getcwd
 
 using json = nlohmann::json;
 
 class TreeInterpreter {
 
+private:
+    JsonReader jsonReader;
 
-    private:
-        FRIEND_TEST(Tree, JsonTest);
+    FRIEND_TEST(JsonBasics, JsonTest);
+    FRIEND_TEST(TreeTest, JsonTest);
 
-        bt::BehaviorTree buildTreeFromJSON(json jsonTree);
-        bt::Node::Ptr buildNode(json json);
-        json readJSON(std::string fileName);
-        std::vector<json> parseSmallJSONs(json json);
-        bool isLeaf(json json);
-        bt::MemSequence::Ptr makeNonLeafNode(std::string name);
 
-    protected:
+    bt::BehaviorTree buildTreeFromJSON(json jsonTree);
 
-    public:
-        std::map<std::string, bt::BehaviorTree> getProject(std::string name);
-        bt::BehaviorTree getTreeWithID(std::string projectName, std::string ID);
-        static TreeInterpreter& getInstance();
+    bt::Node::Ptr buildNode(json node, json tree);
+
+    std::vector<json> parseSmallJSONs(json json);
+
+    bool isLeaf(json json);
+
+    bt::Node::Ptr makeNonLeafNode(std::string name);
+
+    bt::Leaf::Ptr makeLeafNode(std::string name);
+
+
+
+protected:
+
+public:
+    std::map<std::string, bt::BehaviorTree> getProject(std::string name);
+
+    bt::BehaviorTree getTreeWithID(std::string projectName, std::string ID);
+
+    static TreeInterpreter& getInstance();
 
 };
-
 
 #endif //ROBOTEAM_AI_TREEINTERPRETER_H

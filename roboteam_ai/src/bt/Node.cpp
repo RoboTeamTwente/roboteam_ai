@@ -5,6 +5,8 @@
 
 namespace bt {
 
+std::string Node::status_desc;
+
 Node::~Node() {
 
 }
@@ -55,6 +57,9 @@ void Node::append_status(std::string fmt, ...) {
   va_end(varargs);
 
   status_desc += std::string(buf);
+}
+void Node::AddChild(bt::Node::Ptr) {
+
 }
 
 std::string statusToString(bt::Node::Status status) {

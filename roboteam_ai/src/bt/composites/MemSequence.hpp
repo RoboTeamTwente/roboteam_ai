@@ -20,7 +20,4 @@ class MemSequence : public Composite {
 
   using Ptr = std::shared_ptr<MemSequence>;
 };
-
-MemSequence::Ptr MakeMemSequence();
-
-}
+} // bt

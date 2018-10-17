@@ -5,6 +5,8 @@
 #include <gtest/gtest.h>
 #include "../src/treeinterp/TreeInterpreter.h"
 #include "../src/treeinterp/json.h"
+#include "../src/treeinterp/JsonReader.h"
+
 #include <typeinfo>
 
 
@@ -12,13 +14,22 @@ void print(const std::string &s) {
     std::cout << s << std::endl;
 }
 
-TEST(Tree, JsonTest) {
+TEST(JsonBasics, JsonTest) {
 
     // Get the instance of the interpreter
     TreeInterpreter interpreter = TreeInterpreter::getInstance();
 
+    JsonReader jsonReader;
+
+    // Test file path utils
+    std::vector<std::string> right1 = {"a", "b"};
+    std::vector<std::string> left1 = jsonReader.split("a|b", '|');
+    ASSERT_EQ(left1, right1);
+
+    // Note: cant really test getFilePath without putting brain power into it.
+
     // Read the test JSON
-    json testing = interpreter.readJSON("test");
+    json testing = jsonReader.readJSON("test");
     std::string typeTesting = typeid(testing).name();
 
     // See if the dummy JSON is correct
@@ -27,7 +38,7 @@ TEST(Tree, JsonTest) {
     ASSERT_EQ("minnie", testing["child"]["child"]["name"]);
 
     // Read an actual project JSON check type
-    json bigJson = interpreter.readJSON("bigjson");
+    json bigJson = jsonReader.readJSON("bigjson");
     ASSERT_EQ(bigJson["name"], "rtt_jim");
     std::string typeBigJson = typeid(bigJson).name();
     ASSERT_EQ(typeBigJson, typeTesting);
@@ -60,7 +71,29 @@ TEST(Tree, JsonTest) {
     // Compare the manual and the automated
     ASSERT_EQ(trees, newTrees);
 
+
+    // ===== Test the reader functions ====
+
+    auto btTesting = interpreter.getTreeWithID("bigjson", "d16f9751-a781-4fee-8570-7d88a207aef0"); // TODO: name files with the project names
+
+    auto rootBTTesting = btTesting.GetRoot();
+
+    ASSERT_TRUE(true);
+
 }
+
+
+TEST(TreeTest, JsonTest) {
+
+    // TODO: implement these tests after conditions and skills are moved to this repository and they are put into the btBUILDER
+
+    // Make node manually and with the function compare them
+    // Make leaf manually and with function(name) and compare them
+    // Build the sample.json tree manually and with the functions and compare them
+    // Build the project bigjson.json and check a lot of things/see if things fail
+
+}
+
 
 
 

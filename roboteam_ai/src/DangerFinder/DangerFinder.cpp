@@ -39,7 +39,6 @@ void DangerFinder::start(int iterationsPerSecond) {
   ROS_INFO_STREAM_NAMED("DangerFinder", "Starting at " << iterationsPerSecond << " iterations per second");
   auto delay = (unsigned) (1000/iterationsPerSecond);
   runner = std::thread(&DangerFinder::loop, this, delay);
-  runner.detach();
   running = true;
 }
 
