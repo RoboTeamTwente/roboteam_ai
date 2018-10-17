@@ -10,7 +10,7 @@
 std::map<std::string, std::map<std::string, bt::BehaviorTree>> BTFactory::treeRepo;
 std::vector<std::string> BTFactory::projectNames;
 
-/// Return a map of tree names and trees that belong to one project TODO
+/// Return a map of tree names and trees that belong to one project
 std::map<std::string, bt::BehaviorTree> BTFactory::getProject(std::string projectName) {
     return treeRepo[projectName];
 }
@@ -53,11 +53,10 @@ void BTFactory::init() {
     for (const std::string &projectName : projectNames){
         updateProject(projectName);
     }
-
-    // TODO: turn all of the jsons into BTs
-
 }
 
+
+//TODO: add any trees you wish to load initially in the jsons folder here!!!
 /// Inserts the initial projectNames into the vector
 void BTFactory::initialProjectNames() {
     std::string initialNames[] = {
@@ -66,3 +65,25 @@ void BTFactory::initialProjectNames() {
             };
     projectNames.insert(projectNames.end(),std::begin(initialNames),std::end(initialNames));
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

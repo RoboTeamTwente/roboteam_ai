@@ -27,7 +27,7 @@ std::map<std::string, bt::BehaviorTree> TreeInterpreter::getProject(std::string 
     for (const json& tree : project["data"]["trees"]) {
         std::string treeID=tree["id"];
         bt::BehaviorTree currentTree = buildTreeFromJSON(tree);
-        std::cout << "Build tree with id: " << treeID<<std::endl;
+        //std::cout << "Build tree with id: " << treeID<<std::endl;
         result.insert(std::pair<std::string, bt::BehaviorTree>(treeID, currentTree));
     }
     return result;
@@ -117,17 +117,17 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree) {
 
     // has only one child
     if (jsonReader.checkIfKeyExists("child", nodeJSON)) {
-        // recursive call
         // Find the child node in the json
         std::string childID = nodeJSON["child"];
         auto child = tree["nodes"][childID];
+        // recursive call
         node->AddChild(TreeInterpreter::buildNode(child, tree));
         return node;
     }
     // has multiple children
     for (std::string currentChildID : nodeJSON["children"]) {
-        // recursive call
         auto currentChild = tree["nodes"][currentChildID];
+        // recursive call
         node->AddChild(TreeInterpreter::buildNode(currentChild, tree));
     }
     return node;

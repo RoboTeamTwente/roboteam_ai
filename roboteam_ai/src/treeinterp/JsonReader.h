@@ -14,6 +14,14 @@
 #include <map>
 #include <unistd.h>
 #include "BTImport.h"
+#include <stdio.h>  /* defines FILENAME_MAX */
+#ifdef WINDOWS
+#include <direct.h>
+    #define GetCurrentDir _getcwd
+#else
+#include <unistd.h>
+#define GetCurrentDir getcwd
+#endif
 
 using json = nlohmann::json;
 
@@ -22,6 +30,8 @@ class JsonReader {
 private:
 
     FRIEND_TEST(JsonBasics, JsonTest);
+
+    FRIEND_TEST(BT, FactoryTest);
 
     std::string getFilePath(std::string name);
 
@@ -35,14 +45,10 @@ public:
 
     JsonReader() = default;
 
-    void printJson(const json& j) {
-        std::string dump = j.dump();
-        std::cout << "JSON print out:\n: " + dump << std::endl;
-    }
-
+    void printJson(const json& j);
     bool checkIfKeyExists(std::string key, json json);
 
-
+    void editJSON(std::string fileName, std::string tree, std::string field, std::string newValue);
 };
 
 #endif //ROBOTEAM_AI_JSONREADER_H
