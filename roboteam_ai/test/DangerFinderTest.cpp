@@ -53,11 +53,13 @@ TEST(DangerFinderTest, it_has_correct_danger_flags) {
   roboteam_msgs::World worldMsg;
   setFieldtoWorld();
 
+  ASSERT_FALSE(df::DangerFinder::instance().hasCalculated());
   // there is nothing between enemy robot and the ball
   worldMsg.ball = getBall(0, 0);
   worldMsg.them.push_back(getRobot(0, 400));
   danger = calculateDangerForWorld(worldMsg);
 
+  ASSERT_TRUE(df::DangerFinder::instance().hasCalculated());
   ASSERT_EQ(danger.flags.size(), 1);
   ASSERT_EQ(std::bitset<8>(danger.flags.at(0)), std::bitset<8>(0b00000001)); // the robotflag ISFREE should be triggered
 
@@ -73,6 +75,8 @@ TEST(DangerFinderTest, it_has_correct_danger_flags) {
   danger = calculateDangerForWorld(worldMsg);
   ASSERT_EQ(danger.flags.size(), 1);
   ASSERT_EQ(std::bitset<8>(danger.flags.at(0)), std::bitset<8>(0b00000010));
+
+  df::DangerFinder::instance().stop();
 }
 
 // Creates an amount of robots in the world and looks if it contains useful dangerdata
@@ -96,7 +100,6 @@ TEST(DangerFinderTest, it_logs_dangerdata) {
     for (int i = 1; i < danger.scores.size(); i++) {
       ASSERT_EQ(danger.scores.at(i-1), danger.scores.at(i));
     }
-    int oldDangerScore = (int) danger.scores.at(0);
 
     // add a ball to the field
     worldMsg.ball = getBall(0, 0);
@@ -106,8 +109,6 @@ TEST(DangerFinderTest, it_logs_dangerdata) {
     for (int i = 1; i < danger.scores.size(); i++) {
       ASSERT_EQ(danger.scores.at(i-1), danger.scores.at(i));
     }
-    // the presence of the ball should change dangerscores
-    ASSERT_NE(danger.scores.at(0), oldDangerScore);
 
     // move one robot forward with the ball
     // and point him towards the goal
@@ -120,6 +121,8 @@ TEST(DangerFinderTest, it_logs_dangerdata) {
     // his dangerscore should be sky high (because of canshoot)
     // the canshoot module adds a score of 999, so it should be at least that value.
     ASSERT_GE(danger.scores[danger.getByDangerRank(0)->id], 999);
+
+    df::DangerFinder::instance().stop();
 }
 
 // creates a lot of random positions in the field and checks if dangerscores stay within bounds
@@ -166,4 +169,35 @@ TEST(DangerFinderTest, most_recent_data_is_correct) {
   df::DangerData danger2 = df::DangerFinder::instance().getMostRecentData();
   EXPECT_EQ(danger.scores, danger2.scores);
   EXPECT_EQ(danger.flags, danger2.flags);
+  df::DangerFinder::instance().stop();
+
+}
+
+// checks the + operator on partialresult
+// the scores are added together and the flags are OR'd
+TEST(DangerFinderTest, partial_results_can_be_added_together) {
+ PartialResult pr1;
+ PartialResult pr2;
+ PartialResult pr3;
+
+ pr1.score = 3;
+ pr1.flags = 0b11001100;
+ pr2.score = 4;
+ pr2.flags = 0b00110011;
+
+ pr3 = pr1 + pr2;
+
+ ASSERT_EQ(pr3.score, 7);
+ ASSERT_EQ(pr3.flags, 0b11111111);
+
+  pr1.score = -3;
+  pr1.flags = 0b00000000;
+  pr2.score = 4;
+  pr2.flags = 0b00110011;
+
+  pr3 = pr1 + pr2;
+
+  ASSERT_EQ(pr3.score, 1);
+  ASSERT_EQ(pr3.flags, 0b00110011);
+  df::DangerFinder::instance().stop();
 }

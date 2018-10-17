@@ -18,7 +18,4 @@ class Selector : public Composite {
 
   using Ptr = std::shared_ptr<Selector>;
 };
-
-Selector::Ptr MakeSelector();
-
-}
+} // bt

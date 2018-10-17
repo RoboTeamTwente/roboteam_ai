@@ -5,6 +5,8 @@
 
 namespace bt {
 
+std::string Node::status_desc;
+
 Node::~Node() {
 
 }

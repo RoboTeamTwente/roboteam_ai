@@ -23,6 +23,4 @@ class ParallelSequence : public Composite {
   int minFail = 0;
 };
 
-ParallelSequence::Ptr MakeParallelSequence();
-
-}
+} // bt

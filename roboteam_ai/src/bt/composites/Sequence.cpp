@@ -25,8 +25,4 @@ std::string Sequence::node_name() {
   return "Sequence";
 }
 
-Sequence::Ptr MakeSequence() {
-  return std::make_shared<Sequence>();
-}
-
-}
+} // bt

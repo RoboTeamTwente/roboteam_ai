@@ -44,21 +44,21 @@ class Blackboard {
 
   void fromMsg(const roboteam_msgs::Blackboard &msg);
 
-  const std::unordered_map<std::string, bool> getBools();
-  const std::unordered_map<std::string, int> getInts();
-  const std::unordered_map<std::string, float> getFloats();
-  const std::unordered_map<std::string, double> getDoubles();
-  const std::unordered_map<std::string, std::string> getStrings();
+  const std::map<std::string, bool> getBools();
+  const std::map<std::string, int> getInts();
+  const std::map<std::string, float> getFloats();
+  const std::map<std::string, double> getDoubles();
+  const std::map<std::string, std::string> getStrings();
 
   std::string toString();
   std::string toTestX();
 
  protected:
-  std::unordered_map<std::string, bool> bools;
-  std::unordered_map<std::string, int> ints;
-  std::unordered_map<std::string, float> floats;
-  std::unordered_map<std::string, double> doubles;
-  std::unordered_map<std::string, std::string> strings;
+  std::map<std::string, bool> bools;
+  std::map<std::string, int> ints;
+  std::map<std::string, float> floats;
+  std::map<std::string, double> doubles;
+  std::map<std::string, std::string> strings;
 
 };
 
