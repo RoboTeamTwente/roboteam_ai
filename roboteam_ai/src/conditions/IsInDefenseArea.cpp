@@ -2,7 +2,6 @@
 // Created by rolf on 17-10-18.
 //
 
-//TODO: Implement BB variables
 //TODO: Implement getWorldBot() (see tactics utils/utils.cpp)
 #include "IsInDefenseArea.hpp"
 
@@ -24,8 +23,6 @@ namespace ai {
                 yBottomBound = field.left_penalty_line.end.y;
                 yTopBound = field.left_penalty_line.begin.y;
             }
-            // yTopBound = field.top_left_penalty_stretch.begin.y;
-            // yBottomBound = field.bottom_left_penalty_stretch.begin.y;
             if (point.x < (xBound + margin) && point.y<(yTopBound + margin) && point.y>(yBottomBound - margin)) {
                 return true;
             } else return false;
@@ -52,10 +49,9 @@ namespace ai {
     IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboard) : Condition(name, blackboard) {}
 
     bt::Node::Status IsInDefenseArea::Update() {
-
         bool ourDefenseArea;
-        if (HasBool("ourDefenseArea")) {
-            ourDefenseArea = GetBool("ourDefenseArea");
+        if (blackboard->HasBool("ourDefenseArea")) {
+            ourDefenseArea = blackboard->GetBool("ourDefenseArea");
         } else {
             ourDefenseArea = true;
         }
@@ -64,15 +60,15 @@ namespace ai {
         Vector2 ballPos(world.ball.pos);
 
         double margin = 0.0;
-        if (HasDouble("margin")) {
-            margin = GetDouble("margin");
+        if (blackboard->HasDouble("margin")) {
+            margin = blackboard->GetDouble("margin");
         }
 
         Vector2 point = ballPos;
 
         // If robot pos should be checked instead of ball pos, get my position and use that as the point.
-        if (HasBool("robot") && GetBool("robot")) {
-            int robotID = GetInt("ROBOT_ID");
+        if (blackboard->HasBool("robot") && blackboard->GetBool("robot")) {
+            int robotID = blackboard->GetInt("ROBOT_ID");
             boost::optional<roboteam_msgs::WorldRobot> findBot = getWorldBot(robotID);
             roboteam_msgs::WorldRobot me;
             if (findBot) {
