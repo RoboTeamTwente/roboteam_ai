@@ -7,6 +7,7 @@
 #include "../src/utilities/World.h"
 #include "roboteam_msgs/World.h"
 #include "roboteam_msgs/WorldRobot.h"
+#include "../src/utilities/Field.h"
 #include <random>
 #include <bitset>
 
@@ -24,7 +25,7 @@ void setFieldtoWorld() {
   fieldMsg.goal_depth = 20;
 
   // set the field to the world
-  rtt::ai::World::set_field(fieldMsg);
+  rtt::ai::Field::set_field(fieldMsg);
 }
 
 // return a robot at a given location

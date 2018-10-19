@@ -6,6 +6,7 @@
 #include "roboteam_utils/Math.h"
 #include "roboteam_msgs/GeometryFieldSize.h"
 #include "../../utilities/World.h"
+#include "../../utilities/Field.h"
 
 namespace rtt {
 namespace ai {
@@ -14,7 +15,7 @@ namespace dangerfinder {
 CanShootModule::CanShootModule(double danger) : DangerModule(danger) {}
 
 bool facingGoal(rtt::Position pos) {
-	auto geom = rtt::ai::World::get_field();
+	auto geom = rtt::ai::Field::get_field();
 
     rtt::Section goalSection {
     	-geom.field_length / 2,  geom.goal_width / 2,
