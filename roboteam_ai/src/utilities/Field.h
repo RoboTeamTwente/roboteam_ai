@@ -23,7 +23,7 @@ class Field {
   static void set_field(roboteam_msgs::GeometryFieldSize field);
   static Vector2 get_our_goal_center();
   static Vector2 get_their_goal_center();
-  bool pointIsInDefenceArea(Vector2 point);
+  static bool pointIsInDefenceArea(Vector2 point, bool isOurDefenceArea = true, float margin = 0.0);
 };
 
 } // ai

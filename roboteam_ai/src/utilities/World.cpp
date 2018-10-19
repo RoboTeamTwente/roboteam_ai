@@ -14,7 +14,7 @@ void World::set_world(roboteam_msgs::World world) {
   World::world = world;
 }
 
-boost::optional<roboteam_msgs::WorldRobot> World::getWorldBot(unsigned int id, bool robotIsOurTeam) {
+boost::optional<roboteam_msgs::WorldRobot> World::getRobotForId(unsigned int id, bool robotIsOurTeam) {
   const std::vector<roboteam_msgs::WorldRobot>& robots = robotIsOurTeam ? world.us : world.them;
   for (const auto& bot : robots) {
     if (bot.id == id) {
