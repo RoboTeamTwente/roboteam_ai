@@ -24,5 +24,8 @@ boost::optional<roboteam_msgs::WorldRobot> World::getRobotForId(unsigned int id,
   return boost::none;
 }
 
+roboteam_msgs::WorldBall World::getBall() {
+  return world.ball;
+}
 } // ai
 } // rtt

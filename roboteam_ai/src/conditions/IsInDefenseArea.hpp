@@ -12,7 +12,7 @@
 #include "roboteam_utils/Vector2.h"
 #include "../utilities/World.h"
 #include "Condition.h"
-
+//TODO: Fix node_name() to be correct.
 namespace rtt {
 namespace ai {
     bool isWithinDefenseArea(bool ourDefenseArea, Vector2 point);
@@ -34,7 +34,7 @@ namespace ai {
     class IsInDefenseArea : public ai::Condition{
 public:
     IsInDefenseArea(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
-    Status Update();
+    Status Update() override;
 };
 }// ai
 }// rtt
