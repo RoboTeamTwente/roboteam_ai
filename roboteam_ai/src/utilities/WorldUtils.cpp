@@ -43,6 +43,5 @@ namespace ai{
         return boost::none;
     }
 
-
 }
 }

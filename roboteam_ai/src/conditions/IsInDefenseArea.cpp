@@ -1,8 +1,6 @@
 //
 // Created by rolf on 17-10-18.
 //
-
-//TODO: Implement getWorldBot() (see tactics utils/utils.cpp)
 #include "IsInDefenseArea.hpp"
 
 namespace rtt{
