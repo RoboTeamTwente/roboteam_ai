@@ -1,9 +1,9 @@
 //
-// Created by rolf on 17-10-18.
+// Created by Rolf on 17-10-18.
 //
 #include "IsInDefenseArea.hpp"
 
-namespace rtt{
+namespace rtt {
 namespace ai {
   IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboard) : Condition(name, blackboard) {}
 
@@ -17,20 +17,19 @@ namespace ai {
     //        ourDefenseArea = true;
     //    }
     //
-    //    roboteam_msgs::World world = World::get_world();
-    //    Vector2 ballPos(world.ball.pos);
-    //
     //    double margin = 0.0;
     //    if (blackboard->HasDouble("margin")) {
     //        margin = blackboard->GetDouble("margin");
     //    }
 
+    roboteam_msgs::World world = World::get_world();
+    Vector2 ballPos(world.ball.pos);
     Vector2 point = ballPos;
 
     // If robot pos should be checked instead of ball pos, get my position and use that as the point.
     if (blackboard->HasBool("robot") && blackboard->GetBool("robot")) {
         int robotID = blackboard->GetInt("ROBOT_ID");
-        boost::optional<roboteam_msgs::WorldRobot> findBot = World::getWorldBot(robotID, true);
+        boost::optional<roboteam_msgs::WorldRobot> findBot = World::getRobotForId(robotID, true);
         roboteam_msgs::WorldRobot me;
         if (findBot) {
             me = *findBot;

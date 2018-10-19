@@ -26,34 +26,23 @@ Vector2 Field::get_their_goal_center() {
 }
 
 bool Field::pointIsInDefenceArea(Vector2 point, bool isOurDefenceArea, float margin) {
-  double xBound;
+  auto penaltyLine = isOurDefenceArea ? field.left_penalty_line : field.right_penalty_line;
   double yTopBound;
   double yBottomBound;
-  if (isOurDefenceArea) {
-    xBound = field.left_penalty_line.begin.x;
-    if (field.left_penalty_line.begin.y < field.left_penalty_line.end.y) {
-      yBottomBound = field.left_penalty_line.begin.y;
-      yTopBound = field.left_penalty_line.end.y;
-    } else {
-      yBottomBound = field.left_penalty_line.end.y;
-      yTopBound = field.left_penalty_line.begin.y;
-    }
-    if (point.x < (xBound + margin) && point.y<(yTopBound + margin) && point.y>(yBottomBound - margin)) {
-      return true;
-    } else return false;
-  } else { // their defense area
-    xBound = field.right_penalty_line.begin.x;
-    if (field.right_penalty_line.begin.y < field.right_penalty_line.end.y) {
-      yBottomBound = field.right_penalty_line.begin.y;
-      yTopBound = field.right_penalty_line.end.y;
-    } else {
-      yBottomBound = field.right_penalty_line.end.y;
-      yTopBound = field.right_penalty_line.begin.y;
-    }
-    if (point.x > (xBound - margin) && point.y<(yTopBound + margin) && point.y>(yBottomBound - margin)) {
-      return true;
-    } else return false;
+  double xBound = penaltyLine.begin.x;
+  if (penaltyLine.begin.y < penaltyLine.end.y) {
+    yBottomBound = penaltyLine.begin.y;
+    yTopBound = penaltyLine.end.y;
+  } else {
+    yBottomBound = penaltyLine.end.y;
+    yTopBound = penaltyLine.begin.y;
   }
+  bool yIsWithinDefenceArea = point.y < (yTopBound + margin) && point.y > (yBottomBound - margin);
+  bool xIsWithinOurDefenceArea = point.x < (xBound + margin);
+  bool xIsWithinTheirDefenceArea = point.x > (xBound - margin);
+
+  return yIsWithinDefenceArea && ((isOurDefenceArea && xIsWithinOurDefenceArea)
+  || (!isOurDefenceArea && xIsWithinTheirDefenceArea));
 }
 
 } // ai
