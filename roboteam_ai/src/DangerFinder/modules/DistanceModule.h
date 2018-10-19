@@ -2,6 +2,7 @@
 
 #include "DangerModule.h"
 #include <map>
+#include "../../utilities/Field.h"
 
 namespace rtt {
 namespace ai {

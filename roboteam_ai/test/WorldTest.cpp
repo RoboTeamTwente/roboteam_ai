@@ -20,10 +20,4 @@ TEST(WorldTest, it_sets_and_gets_the_world) {
   ASSERT_EQ(rtt::ai::World::get_world().ball.z_vel, 100);
 }
 
-TEST(WorldTest, it_gets_and_sets_the_field) {
-  roboteam_msgs::GeometryFieldSize field;
-  field.boundary_width = 42;
 
-  rtt::ai::World::set_field(field);
-  ASSERT_EQ(rtt::ai::World::get_field().boundary_width, 42);
-}

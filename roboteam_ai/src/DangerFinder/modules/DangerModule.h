@@ -5,6 +5,7 @@
 #include "roboteam_msgs/World.h"
 #include "../PartialResult.h"
 #include "../../utilities/World.h"
+#include "../../utilities/Field.h"
 
 namespace rtt {
 namespace ai {

@@ -1,3 +1,14 @@
+/*
+ * World.h
+ * This class maintains the world object, which is a message that contains:
+ *    - the location of our robots (us)
+ *    - the locations of their robots (them)
+ *    - the location of the ball
+ *  This class also provides helper functions
+ *    - Getting robots for ID
+ *    - Getting robots by team
+ */
+
 #ifndef ROBOTEAM_AI_WORLD_H
 #define ROBOTEAM_AI_WORLD_H
 
@@ -5,6 +16,7 @@
 #include "roboteam_utils/constants.h"
 #include "roboteam_msgs/World.h"
 #include "roboteam_msgs/GeometryData.h"
+#include <boost/optional.hpp>
 
 namespace rtt {
 namespace ai {
@@ -12,16 +24,12 @@ namespace ai {
 class World {
  private:
   static roboteam_msgs::World world;
-  static roboteam_msgs::GeometryFieldSize field;
 
  public:
-  // getters and setters for the world
+  static boost::optional<roboteam_msgs::WorldRobot> getWorldBot(unsigned int id, bool ourTeam);
   static const roboteam_msgs::World& get_world();
   static void set_world(roboteam_msgs::World world);
-  static const roboteam_msgs::GeometryFieldSize get_field();
-  static void set_field(roboteam_msgs::GeometryFieldSize field);
 };
-
 
 } // ai
 } // rtt

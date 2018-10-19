@@ -4,34 +4,36 @@
 
 #ifndef ROBOTEAM_AI_ISINDEFENSEAREA_HPP
 #define ROBOTEAM_AI_ISINDEFENSEAREA_HPP
+
 #include "roboteam_msgs/World.h"
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_msgs/GeometryFieldSize.h"
-
 #include  <boost/optional.hpp>
 #include "roboteam_utils/Vector2.h"
-
-
 #include "../utilities/World.h"
-#include "../utilities/Condition.h"
-#include "../utilities/WorldUtils.hpp"
-#include "ros/ros.h"
-namespace rtt{
-namespace ai{
+#include "Condition.h"
+
+namespace rtt {
+namespace ai {
     bool isWithinDefenseArea(bool ourDefenseArea, Vector2 point);
     bool isWithinDefenseArea(bool ourDefenseArea, Vector2 point, double margin);
 /**
  * \class IsInDefenseArea
- * \brief Checks if a ball or robot is in one of the defense area's.
+ * \brief Checks if a ball or robot is in one of the defense area's
+ * Params:
+ *   - ourDefenseArea:
+ *       Type: Bool
+ *       Descr: Whether to check our defense area, or the opponents'
+ *   - robot:
+ *       Type: Bool
+ *       Descr: Whether this condition applies to the ball or the robot
+ *   - margin:
+ *       Type: Double
  */
-class IsInDefenseArea : public ai::Condition{
+
+    class IsInDefenseArea : public ai::Condition{
 public:
     IsInDefenseArea(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
-    /**
-     * @brief Checks if a ball or robot is in one of the defense area's. Uses the blackboard variable 'ourDefenseArea' for side, and 'margin' for the safety margin used.
-     * If 'robot' is set to true and 'ROBOT_ID' is set, then it checks if that robot with specific ID is in the defense area instead. Otherwise, it defaults to the Ball.
-     * @return Status::Failure if it is not true, Status::Succes if it is true
-     */
     Status Update();
 };
 }// ai
