@@ -5,7 +5,7 @@
 #include <memory>
 
 namespace bt {
-
+//TODO: implement node_name() functionality? Can perhaps also be done elsewhere
 class Leaf : public Node {
  public:
   Leaf();
@@ -15,6 +15,8 @@ class Leaf : public Node {
 
   void SetBlackboard(Blackboard::Ptr blackboard);
   virtual Status Update() = 0;
+
+  const std::string name;
 
  protected:
   Blackboard::Ptr blackboard;

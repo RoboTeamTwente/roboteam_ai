@@ -8,7 +8,7 @@ namespace dangerfinder {
 DistanceModule::DistanceModule(double danger) : DangerModule(danger) { }
 
 inline Vector2 getGoalCenter() {
-	return Vector2(World::get_field().field_length /2, 0);
+	return Vector2(Field::get_field().field_length /2, 0);
 }
 
 PartialResult DistanceModule::calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) {

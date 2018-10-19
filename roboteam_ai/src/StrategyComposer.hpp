@@ -13,7 +13,7 @@
 #include "roboteam_tactics/treegen/LeafRegister.h"
 #include "roboteam_tactics/Parts.h"
 
-#include "../bt/bt.hpp"
+#include "bt/bt.hpp"
 #include "roboteam_utils/LastRef.h"
 
 #include "RefStateSwitch.hpp"

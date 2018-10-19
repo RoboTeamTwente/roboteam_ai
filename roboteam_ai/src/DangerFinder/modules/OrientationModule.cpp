@@ -9,7 +9,7 @@ namespace dangerfinder {
 OrientationModule::OrientationModule(double factor, double scalar, double danger) : factor(factor), scalar(scalar), DangerModule(danger) {}
 
 PartialResult OrientationModule::calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) {
-	static auto geom = rtt::ai::World::get_field();
+	static auto geom = rtt::ai::Field::get_field();
 	Vector2 goalCenter(-geom.field_length / 2, 0);
 	Vector2 toGoal = (goalCenter - Vector2(bot.pos));
 	double targetAngle = toGoal.angle();
