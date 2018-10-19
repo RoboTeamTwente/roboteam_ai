@@ -4,8 +4,10 @@
 #include <gtest/gtest.h>
 #include "../../src/conditions/IsInDefenseArea.hpp"
 //TODO: Write tests.
+
 TEST(DetectsInOurDefenseArea,IsInDefenseAreaTest){
-    //Test our defense Area
+    // Test our defense Area
+
 }
 
 TEST(DetectsInTheirDefenseArea,IsInDefenseAreaTest){

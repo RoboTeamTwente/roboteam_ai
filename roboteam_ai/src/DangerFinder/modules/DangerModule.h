@@ -17,7 +17,6 @@ namespace dangerfinder {
  */
 class DangerModule {
 public:
-
     /**
    * \function calculate
    * \brief Performs the calculation for this module for a specific robot.
