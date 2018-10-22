@@ -14,11 +14,7 @@ void World::set_world(roboteam_msgs::World world) {
   World::world = world;
 }
 
-const roboteam_msgs::World &ai::World::getWorld() {
-    return world;
-}
-
-boost::optional<roboteam_msgs::WorldRobot> World::getRobotForId(unsigned int id, bool robotIsOurTeam) {
+boost::optional<roboteam_msgs::WorldRobot> World::getRobotForId(int id, bool robotIsOurTeam) {
   const std::vector<roboteam_msgs::WorldRobot>& robots = robotIsOurTeam ? world.us : world.them;
   for (const auto& bot : robots) {
     if (bot.id == id) {
@@ -31,22 +27,5 @@ boost::optional<roboteam_msgs::WorldRobot> World::getRobotForId(unsigned int id,
 roboteam_msgs::WorldBall World::getBall() {
   return world.ball;
 }
-
-boost::optional<int> World::get_robot_closest_to_point(std::vector<roboteam_msgs::WorldRobot> robots, const Vector2& point) {
-  int closest_robot = -1;
-  double closest_robot_ds = std::numeric_limits<double>::max();
-
-  for (roboteam_msgs::WorldRobot worldRobot : robots) {
-    Vector2 pos(worldRobot.pos);
-
-    if ((pos - point).length() < closest_robot_ds) {
-      closest_robot = worldRobot.id;
-      closest_robot_ds = (pos - point).length();
-    }
-  }
-
-  return closest_robot == -1 ? boost::none : boost::optional<int>(closest_robot);
-}
-
 } // ai
 } // rtt

@@ -121,6 +121,7 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree) {
         std::string childID = nodeJSON["child"];
         auto child = tree["nodes"][childID];
         // recursive call
+
         node->AddChild(TreeInterpreter::buildNode(child, tree));
         return node;
     }
