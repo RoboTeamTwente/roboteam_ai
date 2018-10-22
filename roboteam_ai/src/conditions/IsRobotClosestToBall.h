@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_ISROBOTCLOSETSTOBALL_H
 #define ROBOTEAM_AI_ISROBOTCLOSETSTOBALL_H
 
-#include "../utilities/Condition.h"
+#include "Condition.h"
 #include "roboteam_msgs/World.h"
 #include "roboteam_utils/LastWorld.h"
 #include  <boost/optional.hpp>

@@ -105,6 +105,12 @@ set(UTILS_SOURCES
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AimAt.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AimAt.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateAroundPoint.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateAroundPoint.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPos.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPos.cpp
         )
 
 set(CONDITIONS_SOURCES
@@ -161,6 +167,8 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/BTBlackBoardTest.cpp
         roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
         roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
