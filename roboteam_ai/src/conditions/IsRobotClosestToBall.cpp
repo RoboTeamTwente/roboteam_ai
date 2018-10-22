@@ -8,24 +8,29 @@
 
 namespace rtt {
 namespace ai{
+
+    IsRobotClosestToBall::IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(name, blackboard) {
+
+    }
+
     bt::Node::Status IsRobotClosestToBall::Update() {
-        roboteam_msgs::World world = LastWorld::get();
+        roboteam_msgs::World world = World::getWorld();
         int robotID = blackboard->GetInt("ROBOT_ID");
         Vector2 ballPos(world.ball.pos);
-        std::vector<roboteam_msgs::WorldRobot> robots world.us;
-
+        std::vector<roboteam_msgs::WorldRobot> robots = world.us;
         boost::optional<int> robotClosestToBallPtr;
+
+        boost::optional<int> robotClosestToBall;
         if (blackboard->HasDouble("secondsAhead")) {
             double t_ahead = blackboard->GetDouble("secondsAhead");
             Vector2 ballVel(world.ball.vel);
             ballPos = ballPos + ballVel.scale(t_ahead);
-            robotClosestToBallPtr = get_robot_closest_to_point(robots, ballPos)
-        } else {
-            robotClosestToBallPtr = get_robot_closest_to_point(robots, ballPos)
         }
 
+        robotClosestToBallPtr = World::get_robot_closest_to_point(robots, ballPos);
+
         if (robotClosestToBallPtr) {
-            int robotClosestToBall = *robotClosestToBallPtr;
+            robotClosestToBall = *robotClosestToBallPtr;
             if (robotID == robotClosestToBall) {
                 return Status::Success;
             } else {

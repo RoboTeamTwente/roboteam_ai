@@ -159,6 +159,7 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/BTBlackBoardTest.cpp
         roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
         roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/IsRobotClosestToBallTest.cpp
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
@@ -167,13 +168,13 @@ catkin_add_gtest(ai_tests
         ${SKILLS_SOURCES}
         )
 
-target_compile_options(ai_tests PUBLIC --coverage)
+#target_compile_options(ai_tests PUBLIC --coverage)
 
 target_link_libraries(ai_tests
         ${catkin_LIBRARIES}
-        gcov
+#        gcov
         )
 
-include(CodeCoverage)
-APPEND_COVERAGE_COMPILER_FLAGS()
-SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage EXECUTABLE ai_tests )
+#include(CodeCoverage)
+#APPEND_COVERAGE_COMPILER_FLAGS()
+#SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage EXECUTABLE ai_tests )
