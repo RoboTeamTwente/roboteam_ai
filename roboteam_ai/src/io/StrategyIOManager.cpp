@@ -9,6 +9,9 @@ StrategyIOManager::StrategyIOManager() {
   this->subscribeToWorldState();
   this->subscribeToGeometryData();
   this->subscribeToRoleFeedback();
+
+  // set up advertisement to publish roledirectives
+  roleDirectivePublisher = nodeHandle.advertise<roboteam_msgs::RoleDirective>(rtt::TOPIC_ROLE_DIRECTIVE, 1000);
 }
 
 void StrategyIOManager::subscribeToRoleFeedback() {
@@ -24,8 +27,7 @@ roboteam_msgs::RoleFeedback &StrategyIOManager::getRoleFeedback() {
 }
 
 void StrategyIOManager::publishRoleDirective(roboteam_msgs::RoleDirective roledirective) {
-  roleDirectivePublisher = nodeHandle.advertise<roboteam_msgs::RoleDirective>(rtt::TOPIC_ROLE_DIRECTIVE, 1000);
-
+  roleDirectivePublisher.publish(roledirective);
 }
 
 } // io

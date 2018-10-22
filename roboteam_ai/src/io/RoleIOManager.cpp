@@ -8,6 +8,9 @@ RoleIOManager::RoleIOManager() {
   this->subscribeToWorldState();
   this->subscribeToGeometryData();
   this->subscribeToRoleDirective();
+
+  // set up advertisement to publish robotcommands
+  robotCommandPublisher = nodeHandle.advertise<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 1000);
 }
 
 void RoleIOManager::subscribeToRoleDirective() {
@@ -23,7 +26,7 @@ roboteam_msgs::RoleDirective &RoleIOManager::getRoleDirective() {
 }
 
 void RoleIOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
-  robotCommandPublisher = nodeHandle.advertise<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 1000);
+  robotCommandPublisher.publish(cmd);
 }
 
 } // io

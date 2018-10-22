@@ -26,7 +26,6 @@ class RoleIOManager : public IOManager {
   void subscribeToRoleDirective();
   roboteam_msgs::RoleDirective &getRoleDirective();
   void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
-
 };
 
 } // io
