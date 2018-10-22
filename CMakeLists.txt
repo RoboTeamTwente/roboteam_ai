@@ -117,7 +117,9 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanReachPoint.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanReachPoint.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.cpp)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.cpp roboteam_ai/test/ConditionTests/IsInZoneTest.cpp)
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})

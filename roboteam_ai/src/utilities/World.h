@@ -26,7 +26,7 @@ class World {
   static roboteam_msgs::World world;
  public:
   static roboteam_msgs::WorldBall getBall();
-  static boost::optional<roboteam_msgs::WorldRobot> getRobotForId(unsigned int id, bool ourTeam);
+  static boost::optional<roboteam_msgs::WorldRobot> getRobotForId(int id, bool ourTeam);
   static const roboteam_msgs::World& get_world();
   static void set_world(roboteam_msgs::World world);
 };

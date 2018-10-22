@@ -45,7 +45,6 @@ public:
 
     JsonReader() = default;
 
-    void printJson(const json& j);
     bool checkIfKeyExists(std::string key, json json);
 
     void editJSON(std::string fileName, std::string tree, std::string field, std::string newValue);
