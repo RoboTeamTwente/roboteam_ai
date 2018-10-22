@@ -2,6 +2,7 @@
 #define ROBOTEAM_AI_CONDITION_H
 
 #include "../bt/Leaf.hpp"
+#include <ros/ros.h>
 
 namespace rtt {
 namespace ai {
