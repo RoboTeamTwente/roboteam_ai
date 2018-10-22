@@ -6,8 +6,7 @@
 
 namespace rtt {
 namespace ai {
-IsInZone::IsInZone(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(name, blackboard) {
+IsInZone::IsInZone(std::string name, bt::Blackboard::Ptr blackboard) :Condition(name, blackboard) {
 
 }
 
