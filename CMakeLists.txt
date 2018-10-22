@@ -114,6 +114,8 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.cpp
         #${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsRobotClosestToBall.cpp
         #${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsRobotClosestToBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanReachPoint.hpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanReachPoint.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.cpp)
 
