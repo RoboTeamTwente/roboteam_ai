@@ -2,11 +2,8 @@
 // Created by rolf on 19-10-18.
 //
 #include <gtest/gtest.h>
-#include "../../src/bt/bt.hpp"
 #include "../../src/conditions/IHaveBall.hpp"
-#include "roboteam_msgs/World.h"
-#include "../../src/utilities/World.h"
-#include "roboteam_msgs/WorldRobot.h"
+
 
 TEST(BallTest,IHaveBallTest) {
     auto BB = std::make_shared<bt::Blackboard>();
@@ -47,6 +44,5 @@ TEST(BallTest,IHaveBallTest) {
     worldMsg.ball.pos.y=0;
     rtt::ai::World::set_world(worldMsg);
     ASSERT_EQ(node.Update(),bt::Node::Status::Failure);
-
 
 }
