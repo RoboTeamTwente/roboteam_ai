@@ -24,6 +24,22 @@ boost::optional<roboteam_msgs::WorldRobot> World::getRobotForId(int id, bool rob
   return boost::none;
 }
 
+boost::optional<int> World::get_robot_closest_to_point(std::vector<roboteam_msgs::WorldRobot> robots, const Vector2& point) {
+    int closest_robot = -1;
+    double closest_robot_ds = std::numeric_limits<double>::max();
+
+    for (roboteam_msgs::WorldRobot worldRobot : robots) {
+        Vector2 pos(worldRobot.pos);
+
+        if ((pos - point).length() < closest_robot_ds) {
+            closest_robot = worldRobot.id;
+            closest_robot_ds = (pos - point).length();
+        }
+    }
+
+    return closest_robot == -1 ? boost::none : boost::optional<int>(closest_robot);
+}
+
 roboteam_msgs::WorldBall World::getBall() {
   return world.ball;
 }
