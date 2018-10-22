@@ -12,7 +12,7 @@
 
 namespace rtt{
 namespace ai{
-    bool bot_has_ball(boost::optional<const roboteam_msgs::WorldRobot>& bot, const roboteam_msgs::WorldBall& ball);
+    bool bot_has_ball(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::WorldBall& ball);
     /**
      * @class IHaveBall
      * @brief

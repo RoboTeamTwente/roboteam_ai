@@ -9,13 +9,12 @@
 #include "roboteam_msgs/WorldRobot.h"
 
 TEST(BallTest,IHaveBallTest) {
-    bt::Blackboard BB;
-    BB.SetInt("ROBOT_ID", 2);
-    BB.SetBool("our_team", false);
-    auto BBpointer = std::make_shared<bt::Blackboard>(BB);
-    rtt::ai::IHaveBall Node("Test", BBpointer);
+    auto BB = std::make_shared<bt::Blackboard>();
+    BB->SetInt("ROBOT_ID",2);
+    BB->SetBool("our_team",false);
+    rtt::ai::IHaveBall node("Test", BB);
     //First test should fail as the robot is not set in the world state yet.
-    ASSERT_EQ(Node.Update(),bt::Node::Status::Failure);
+    ASSERT_EQ(node.Update(),bt::Node::Status::Failure);
 
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
@@ -27,17 +26,27 @@ TEST(BallTest,IHaveBallTest) {
     worldMsg.ball.pos.x=0.1;
     worldMsg.ball.pos.y=0.0;
     rtt::ai::World::set_world(worldMsg);
-    ASSERT_EQ(Node.Update(),bt::Node::Status::Success);
+    ASSERT_EQ(node.Update(),bt::Node::Status::Success);
 
     worldMsg.ball.pos.x=0.2;
     rtt::ai::World::set_world(worldMsg);
-    ASSERT_EQ(Node.Update(),bt::Node::Status::Failure);
+    ASSERT_EQ(node.Update(),bt::Node::Status::Failure);
 
     //Test if angle checking works
     worldMsg.ball.pos.x=0;
     worldMsg.ball.pos.y=0.1;
     rtt::ai::World::set_world(worldMsg);
-    ASSERT_EQ(Node.Update(),bt::Node::Status::Failure);
+    ASSERT_EQ(node.Update(),bt::Node::Status::Failure);
+
+    worldMsg.ball.pos.x=0;
+    worldMsg.ball.pos.y=-0.1;
+    rtt::ai::World::set_world(worldMsg);
+    ASSERT_EQ(node.Update(),bt::Node::Status::Failure);
+
+    worldMsg.ball.pos.x=-0.1;
+    worldMsg.ball.pos.y=0;
+    rtt::ai::World::set_world(worldMsg);
+    ASSERT_EQ(node.Update(),bt::Node::Status::Failure);
 
 
 }
