@@ -44,7 +44,12 @@ bool RobotDealer::getKeeperAvailable() {
 
 /// Makes a robot not available
 bool RobotDealer::claimRobot(int id) {
-    // Lock the robots
+
+    if (! RobotDealer::validateID(id)) {
+        return false;
+    }
+
+    // Lock the robot
     std::lock_guard<std::mutex> ownerLock(robotOwnersLock);
 
     ROS_DEBUG_NAMED(ROS_LOG_NAME, "claimRobot with id: %i", id);
@@ -71,6 +76,11 @@ bool RobotDealer::claimRobot(int id) {
 
 /// Claims one robot for a tactic
 bool RobotDealer::claimRobotForTactic(int id, std::string const &playName) {
+
+    if (! RobotDealer::validateID(id)) {
+        return false;
+    }
+
     bool success = claimRobot(id);
 
     if (success) {
@@ -99,6 +109,11 @@ std::map<std::string, std::set<int>> const &RobotDealer::getRobotOwnerList() {
 
 /// Releases a robot from being used
 bool RobotDealer::releaseRobot(int id) {
+
+    if (! RobotDealer::validateID(id)) {
+        return false;
+    }
+
     ROS_DEBUG_NAMED(ROS_LOG_NAME, "Releasing robot %i", id);
 
     if (id == keeper) {
@@ -132,7 +147,7 @@ bool RobotDealer::claimRobots(std::vector<int> ids) {
     return allClaimed;
 }
 
-/// Relase multiple robots
+/// Releases multiple robots
 bool RobotDealer::releaseRobots(std::vector<int> ids) {
     bool allReleased = true;
     for (int id : ids) {
@@ -143,6 +158,10 @@ bool RobotDealer::releaseRobots(std::vector<int> ids) {
 
 /// Removes a robot from the robots owners list
 void RobotDealer::removeRobotFromOwnerList(int id) {
+
+    if (! RobotDealer::validateID(id)) {
+        return;
+    }
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
     boost::optional<std::string> tacticToRemove;
@@ -188,9 +207,17 @@ void RobotDealer::haltOverride() {
     ROS_WARN("Overriding claims for all robots because of HALT");
     takenRobots.clear();
 }
-bool RobotDealer::checkLegalID(int ID) {
-    return true; // TODO see what is a legal ID and put ot here
+
+/// Checks if a robot ID is legal
+bool RobotDealer::validateID(int ID) {
+    if (ID < 0 || ID > 10000) {
+        ROS_ERROR("Illegal robot ID");
+        return false;
+    }
+    return true;
 }
+
+/// Checks if a robot is free
 bool RobotDealer::isRobotFree(int ID) {
     return ! (takenRobots.find(ID) != takenRobots.end());
 }

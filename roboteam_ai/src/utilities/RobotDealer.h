@@ -66,7 +66,7 @@ private:
 
     static void removeRobotFromOwnerList(int id);
 
-    static bool checkLegalID(int ID);
+    static bool validateID(int ID);
 
     static bool isRobotFree(int ID);
 
