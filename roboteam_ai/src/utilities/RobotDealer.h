@@ -58,8 +58,6 @@ private:
 
     static std::mutex takenRobotsLock;
 
-    static void printRobotDistribution();
-
     friend class HaltTactic;
 
     static void haltOverride();

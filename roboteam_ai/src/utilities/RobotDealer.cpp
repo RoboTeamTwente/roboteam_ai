@@ -190,17 +190,6 @@ void RobotDealer::removeRobotFromOwnerList(int id) {
     }
 }
 
-void RobotDealer::printRobotDistribution() {
-    std::lock_guard<std::mutex> lock(robotOwnersLock);
-    std::cout << "[RobotDistribution]\n";
-    for (auto const &entry : robotOwners) {
-        std::cout << entry.first << ":\n";
-        for (auto const &id : entry.second) {
-            std::cout << "\t- " << id << "\n";
-        }
-    }
-}
-
 /// Make all of the robots free in case of HALT
 void RobotDealer::haltOverride() {
     std::lock_guard<std::mutex> lock(robotOwnersLock);
