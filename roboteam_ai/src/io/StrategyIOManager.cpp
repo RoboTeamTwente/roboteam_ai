@@ -26,10 +26,6 @@ roboteam_msgs::RoleFeedback &StrategyIOManager::getRoleFeedback() {
   return roleFeedback;
 }
 
-void StrategyIOManager::publishRoleDirective(roboteam_msgs::RoleDirective roledirective) {
-  roleDirectivePublisher.publish(roledirective);
-}
-
 } // io
 } // ai
 } // rtt

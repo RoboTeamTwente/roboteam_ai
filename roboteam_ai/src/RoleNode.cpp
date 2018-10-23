@@ -8,7 +8,6 @@ roboteam_msgs::World worldMsg;
 
 int main(int argc, char *argv[]) {
   ros::init(argc, argv, "RoleNode");
-
   io::RoleIOManager roleIOManager;
   ros::Rate rate(10);
 

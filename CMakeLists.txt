@@ -96,12 +96,14 @@ set(IO_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/RoleIOManager.h)
 
 set(UTILS_SOURCES
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
         )
 
+# DO NOT COMPILE SKILLS SOURCES IN STRATEGYNODE
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.cpp
@@ -111,8 +113,6 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateAroundPoint.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPos.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPos.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PlaceBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PlaceBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Kick.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Kick.cpp
         )
@@ -125,7 +125,8 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.cpp roboteam_ai/test/ConditionTests/IsInZoneTest.cpp)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.cpp
+        )
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
@@ -133,6 +134,7 @@ include_directories(${catkin_INCLUDE_DIRS})
 add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 # StrategyNode
+# don't compile the skills in this
 add_executable(AIStrategyNode
         roboteam_ai/src/StrategyNode.cpp
         ${DANGER_FINDER_SOURCES}
@@ -141,7 +143,6 @@ add_executable(AIStrategyNode
         ${JSON_SOURCES}
         ${BT_SOURCES}
         ${CONDITIONS_SOURCES}
-        ${SKILLS_SOURCES}
         )
 
 add_dependencies(AIStrategyNode ${catkin_EXPORTED_TARGETS})
@@ -150,6 +151,7 @@ target_link_libraries(AIStrategyNode ${catkin_LIBRARIES})
 add_executable(AIRoleNode
         roboteam_ai/src/RoleNode.cpp
         ${IO_SOURCES}
+        ${SKILLS_SOURCES}
         )
 
 add_dependencies(AIRoleNode ${catkin_EXPORTED_TARGETS})

@@ -25,10 +25,6 @@ roboteam_msgs::RoleDirective &RoleIOManager::getRoleDirective() {
   return this->roleDirective;
 }
 
-void RoleIOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
-  robotCommandPublisher.publish(cmd);
-}
-
 } // io
 } // ai
 } // rtt

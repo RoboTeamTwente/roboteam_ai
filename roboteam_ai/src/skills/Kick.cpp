@@ -7,11 +7,14 @@
 #include <boost/optional.hpp>
 #include "Kick.h"
 #include "../utilities/World.h"
+#include "../utilities/Constants.h"
+#include "../io/RoleIOManager.h"
 
 namespace rtt {
 namespace ai {
 
 bt::Node::Status Kick::Update() {
+
   int robotID = blackboard->GetInt("ROBOT_ID");
   boost::optional<roboteam_msgs::WorldRobot> robotPointer = World::getRobotForId(robotID, true);
   roboteam_msgs::WorldRobot robot;
@@ -22,13 +25,7 @@ bt::Node::Status Kick::Update() {
     return Status::Failure;
   }
 
-  double kickVel;
-  if (blackboard->HasDouble("kickVel")) {
-    kickVel = blackboard->GetDouble("kickVel");
-  } else {
-    kickVel = 5.0;
-  }
-
+  double kickVel = blackboard->HasDouble("kickVel") ? blackboard->GetDouble("kickVel") : DEFAULT_KICK_POWER;
 
   roboteam_msgs::RobotCommand command;
   command.id = robotID;
@@ -40,6 +37,7 @@ bt::Node::Status Kick::Update() {
   command.y_vel = 0.0;
   command.w = 0.0;
 
+  io::robotCommandPublisher.publish(command);
   return Status::Running;
 }
 
