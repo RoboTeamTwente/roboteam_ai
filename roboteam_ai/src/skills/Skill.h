@@ -2,11 +2,7 @@
 #define ROBOTEAM_AI_CONDITION_H
 
 #include "../bt/Leaf.hpp"
-<<<<<<< HEAD
 #include "ros/ros.h"
-=======
-#include <ros/ros.h>
->>>>>>> Skills
 
 namespace rtt {
 namespace ai {
