@@ -52,7 +52,9 @@ private:
 
     static std::atomic<bool> isKeeperAvailable;
 
-    static std::mutex mutex;
+    static std::mutex robotOwnersLock;
+
+    static std::mutex takenRobotsLock;
 
     static void printRobotDistribution();
 

@@ -18,8 +18,9 @@ std::map<std::string, std::set<int>> RobotDealer::robotOwners;
 std::atomic<int> RobotDealer::keeper;
 std::atomic<bool> RobotDealer::isKeeperAvailable(true);
 
-// The lock
-std::mutex RobotDealer::mutex;
+// The locks
+std::mutex RobotDealer::robotOwnersLock;
+std::mutex RobotDealer::takenRobotsLock;
 
 /// Returns a list of claimed robots
 std::vector<int> RobotDealer::getClaimedRobots() {
@@ -44,7 +45,7 @@ bool RobotDealer::getKeeperAvailable() {
 /// Makes a robot not available
 bool RobotDealer::claimRobot(int id) {
     // Lock the robots
-    std::lock_guard<std::mutex> lock(mutex);
+    std::lock_guard<std::mutex> ownerLock(robotOwnersLock);
 
     ROS_DEBUG_NAMED(ROS_LOG_NAME, "claimRobot with id: %i", id);
 
@@ -58,6 +59,7 @@ bool RobotDealer::claimRobot(int id) {
         return true;
     }
     if (RobotDealer::isRobotFree(id)) {
+        std::lock_guard<std::mutex> takenLock(takenRobotsLock);
         takenRobots.insert(id);
         return true;
     }
@@ -72,13 +74,14 @@ bool RobotDealer::claimRobotForTactic(int id, std::string const &playName) {
     bool success = claimRobot(id);
 
     if (success) {
-        std::lock_guard<std::mutex> lock(mutex);
+        std::lock_guard<std::mutex> lock(robotOwnersLock);
         robotOwners[playName].insert(id);
     }
 
     return success;
 }
 
+/// Claims multiple robots at once for a tactic
 bool RobotDealer::claimRobotForTactic(std::vector<int> ids, std::string const &playName) {
     bool allClaimed = true;
     for (auto const id : ids) {
@@ -88,14 +91,16 @@ bool RobotDealer::claimRobotForTactic(std::vector<int> ids, std::string const &p
     return allClaimed;
 }
 
+/// Returns the map of the robots owned and the tactics that own them
 std::map<std::string, std::set<int>> const &RobotDealer::getRobotOwnerList() {
+    std::lock_guard<std::mutex> lock(robotOwnersLock);
     return robotOwners;
 }
 
+/// Releases a robot from being used
 bool RobotDealer::releaseRobot(int id) {
     ROS_DEBUG_NAMED(ROS_LOG_NAME, "Releasing robot %i", id);
 
-    removeRobotFromOwnerList(id);
 
     if (id == keeper) {
         if (isKeeperAvailable) {
@@ -103,17 +108,21 @@ bool RobotDealer::releaseRobot(int id) {
             return false;
         }
 
+        removeRobotFromOwnerList(id);
         isKeeperAvailable = true;
         return true;
     }
 
-    if (takenRobots.find(id) == takenRobots.end()) {
+    if (RobotDealer::isRobotFree(id)) {
         ROS_ERROR_NAMED(ROS_LOG_NAME, "Tried to release an unclaimed robot: %d!", id);
         return false;
     }
 
-    // available_robots.insert(id);
+    std::lock_guard<std::mutex> takenLock(takenRobotsLock);
     takenRobots.erase(id);
+
+
+    removeRobotFromOwnerList(id);
     return true;
 }
 
@@ -135,7 +144,7 @@ bool RobotDealer::releaseRobots(std::vector<int> ids) {
 
 void RobotDealer::removeRobotFromOwnerList(int id) {
 
-    std::lock_guard<std::mutex> lock(mutex);
+    std::lock_guard<std::mutex> lock(robotOwnersLock);
     boost::optional<std::string> playToRemove;
 
     // For each robot set list...
@@ -164,7 +173,7 @@ void RobotDealer::removeRobotFromOwnerList(int id) {
 }
 
 void RobotDealer::printRobotDistribution() {
-    std::lock_guard<std::mutex> lock(mutex);
+    std::lock_guard<std::mutex> lock(robotOwnersLock);
     std::cout << "[RobotDistribution]\n";
     for (auto const &entry : robotOwners) {
         std::cout << entry.first << ":\n";
@@ -176,7 +185,7 @@ void RobotDealer::printRobotDistribution() {
 
 /// Make all of the robots free in case of HALT
 void RobotDealer::haltOverride() {
-    std::lock_guard<std::mutex> lock(mutex);
+    std::lock_guard<std::mutex> lock(robotOwnersLock);
     ROS_WARN("Overriding claims for all robots because of HALT");
     takenRobots.clear();
 }
