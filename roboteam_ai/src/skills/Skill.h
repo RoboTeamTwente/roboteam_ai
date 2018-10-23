@@ -4,6 +4,9 @@
 #include "../bt/Leaf.hpp"
 #include "ros/ros.h"
 #include "roboteam_msgs/WorldRobot.h"
+#include "../io/RoleIOManager.h"
+#include "../utilities/Constants.h"
+#include <roboteam_msgs/RobotCommand.h>
 
 namespace rtt {
 namespace ai {
