@@ -11,8 +11,11 @@ namespace rtt {
 namespace ai {
 
 class Kick : public Skill {
+ private:
+  int amountOfCycles;
  public:
   Status Update() override;
+  void Initialize() override;
 };
 
 } // ai

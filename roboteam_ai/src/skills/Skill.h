@@ -3,6 +3,7 @@
 
 #include "../bt/Leaf.hpp"
 #include "ros/ros.h"
+#include "roboteam_msgs/WorldRobot.h"
 
 namespace rtt {
 namespace ai {
@@ -12,7 +13,9 @@ namespace ai {
  * \brief Base class for all skills. Provides no additional functionality.
  */
  class Skill : public bt::Leaf {
-public:
+  protected:
+   roboteam_msgs::WorldRobot robot;
+  public:
     explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
     Status Update() override;
 };
