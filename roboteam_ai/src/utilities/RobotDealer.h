@@ -10,7 +10,7 @@
 #include <vector>
 #include <map>
 #include <ros/ros.h>
-
+#include <gtest/gtest_prod.h>
 #include <boost/optional.hpp>
 #include <mutex>
 
@@ -43,6 +43,8 @@ public:
     static bool releaseRobots(std::vector<int> ids);
 
 private:
+
+    FRIEND_TEST(RobotDealerTest, RobotDealerTest);
 
     static std::set<int> takenRobots;
 

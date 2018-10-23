@@ -1,5 +1,6 @@
 //
 // Created by rolf on 10-10-18.
+// Edited by baris on 23/10/18.
 //
 
 #include <gtest/gtest.h>
@@ -8,8 +9,8 @@
 
 namespace ai = rtt::ai;
 
-TEST(claims_and_releases_robots,RobotDealerTest) {
-    //Create a RobotDealer instance and test names;
+TEST(RobotDealerTest, RobotDealerTest) {
+    // Create a RobotDealer instance and test names;
     std::string tacticA = "Tactic A";
     std::string tacticB = "Tactic B";
     std::string keeperTactic = "Keeper Tactic";
@@ -40,13 +41,11 @@ TEST(claims_and_releases_robots,RobotDealerTest) {
     ASSERT_FALSE(ai::RobotDealer::getKeeperAvailable());
     ASSERT_EQ(4, ai::RobotDealer::getKeeper());
 
-    //ASSERT_FALSE(ai::RobotDealer::claim_robot(3)); // This should throw an error for trying to claiming an already claimed robot
     ASSERT_TRUE(ai::RobotDealer::releaseRobot(3));
-    //ASSERT_FALSE(ai::RobotDealer::release_robot(3)); // This should throw an error for trying to release a robot already released
 
-    std::map<std::string, std::set<int>> ownerlist = ai::RobotDealer::getRobotOwnerList();
-    ASSERT_EQ(ownerlist[tacticB].find(3), ownerlist[tacticB].end());
-    ASSERT_NE(ownerlist[tacticB].find(2), ownerlist[tacticB].end());
+    std::map<std::string, std::set<int>> ownerList = ai::RobotDealer::getRobotOwnerList();
+    ASSERT_EQ(ownerList[tacticB].find(3), ownerList[tacticB].end());
+    ASSERT_NE(ownerList[tacticB].find(2), ownerList[tacticB].end());
 
     //release robots 2 and 3
     ASSERT_TRUE(ai::RobotDealer::claimRobotForTactic(3,tacticB));
@@ -56,5 +55,12 @@ TEST(claims_and_releases_robots,RobotDealerTest) {
     // release keeper
     ai::RobotDealer::releaseRobot(4);
     ASSERT_TRUE(ai::RobotDealer::getKeeperAvailable());
+
+    std::string newTactic = "aha a tactic";
+    int newRobot = 5;
+
+    ai::RobotDealer::claimRobotForTactic(newRobot, newTactic);
+    ownerList = ai::RobotDealer::getRobotOwnerList();
+    ai::RobotDealer::releaseRobot(newRobot);
 
 }

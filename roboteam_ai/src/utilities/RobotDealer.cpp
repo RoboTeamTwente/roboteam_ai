@@ -101,13 +101,11 @@ std::map<std::string, std::set<int>> const &RobotDealer::getRobotOwnerList() {
 bool RobotDealer::releaseRobot(int id) {
     ROS_DEBUG_NAMED(ROS_LOG_NAME, "Releasing robot %i", id);
 
-
     if (id == keeper) {
         if (isKeeperAvailable) {
             ROS_ERROR("Goalkeeper was not claimed!");
             return false;
         }
-
         removeRobotFromOwnerList(id);
         isKeeperAvailable = true;
         return true;
@@ -121,11 +119,11 @@ bool RobotDealer::releaseRobot(int id) {
     std::lock_guard<std::mutex> takenLock(takenRobotsLock);
     takenRobots.erase(id);
 
-
     removeRobotFromOwnerList(id);
     return true;
 }
 
+/// Claim multiple robots
 bool RobotDealer::claimRobots(std::vector<int> ids) {
     bool allClaimed = true;
     for (int id : ids) {
@@ -134,6 +132,7 @@ bool RobotDealer::claimRobots(std::vector<int> ids) {
     return allClaimed;
 }
 
+/// Relase multiple robots
 bool RobotDealer::releaseRobots(std::vector<int> ids) {
     bool allReleased = true;
     for (int id : ids) {
@@ -142,10 +141,11 @@ bool RobotDealer::releaseRobots(std::vector<int> ids) {
     return allReleased;
 }
 
+/// Removes a robot from the robots owners list
 void RobotDealer::removeRobotFromOwnerList(int id) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
-    boost::optional<std::string> playToRemove;
+    boost::optional<std::string> tacticToRemove;
 
     // For each robot set list...
     for (auto &entry : robotOwners) {
@@ -159,16 +159,15 @@ void RobotDealer::removeRobotFromOwnerList(int id) {
 
             // And if the set is then empty, mark it for removal from the map
             if (robotSet.empty()) {
-                playToRemove = entry.first;
+                tacticToRemove = entry.first;
             }
 
             break;
         }
     }
-
     // If there was a set empty after removal, remove it from the map
-    if (playToRemove) {
-        robotOwners.erase(*playToRemove);
+    if (tacticToRemove) {
+        robotOwners.erase(*tacticToRemove);
     }
 }
 
