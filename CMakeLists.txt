@@ -142,6 +142,7 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/WorldTest.cpp
         roboteam_ai/test/DangerFinderTest.cpp
         roboteam_ai/test/BTBlackBoardTest.cpp
+        roboteam_ai/test/RobotDealerTest.cpp
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}

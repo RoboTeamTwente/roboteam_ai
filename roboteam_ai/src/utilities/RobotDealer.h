@@ -32,11 +32,11 @@ public:
 
     static bool claimRobotForTactic(int id, std::string const &playName);
 
-    static bool claimRobotsForTactic(std::vector<int> ids, std::string const &playName);
+    static bool claimRobotForTactic(std::vector<int> ids, std::string const &playName);
 
     static std::map<std::string, std::set<int>> const &getRobotOwnerList();
 
-    static bool releaseRobots(int id);
+    static bool releaseRobot(int id);
 
     static bool claimRobots(std::vector<int> ids);
 

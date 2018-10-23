@@ -79,7 +79,7 @@ bool RobotDealer::claimRobotForTactic(int id, std::string const &playName) {
     return success;
 }
 
-bool RobotDealer::claimRobotsForTactic(std::vector<int> ids, std::string const &playName) {
+bool RobotDealer::claimRobotForTactic(std::vector<int> ids, std::string const &playName) {
     bool allClaimed = true;
     for (auto const id : ids) {
         // Check if all of the assignments are successful
@@ -92,7 +92,7 @@ std::map<std::string, std::set<int>> const &RobotDealer::getRobotOwnerList() {
     return robotOwners;
 }
 
-bool RobotDealer::releaseRobots(int id) {
+bool RobotDealer::releaseRobot(int id) {
     ROS_DEBUG_NAMED(ROS_LOG_NAME, "Releasing robot %i", id);
 
     removeRobotFromOwnerList(id);
@@ -128,7 +128,7 @@ bool RobotDealer::claimRobots(std::vector<int> ids) {
 bool RobotDealer::releaseRobots(std::vector<int> ids) {
     bool allReleased = true;
     for (int id : ids) {
-        allReleased &= releaseRobots(id);
+        allReleased &= releaseRobot(id);
     }
     return allReleased;
 }
