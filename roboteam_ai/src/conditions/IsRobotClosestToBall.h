@@ -5,7 +5,11 @@
 #ifndef ROBOTEAM_AI_ISROBOTCLOSETSTOBALL_H
 #define ROBOTEAM_AI_ISROBOTCLOSETSTOBALL_H
 
+<<<<<<< HEAD
 #include "Condition.h"
+=======
+#include "../conditions/Condition.h"
+>>>>>>> Skills
 #include "roboteam_msgs/World.h"
 #include "roboteam_utils/LastWorld.h"
 #include  <boost/optional.hpp>

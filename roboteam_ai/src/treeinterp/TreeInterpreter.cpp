@@ -66,7 +66,7 @@ std::vector<json> TreeInterpreter::parseSmallJSONs(json input) {
         }
     }
     else {
-        std::cerr << "MURDER ME" << std::endl;
+        std::cerr << "The JSON tree is not a project!" << std::endl;
     }
 
     return result;

@@ -5,7 +5,6 @@
 #ifndef ROBOTEAM_AI_STRATEGYCOMPOSER_HPP
 #define ROBOTEAM_AI_STRATEGYCOMPOSER_HPP
 
-
 #include <boost/optional.hpp>
 #include <map>
 #include <string>

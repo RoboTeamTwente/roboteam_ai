@@ -111,6 +111,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateAroundPoint.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPos.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPos.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PlaceBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PlaceBall.cpp
         )
 
 set(CONDITIONS_SOURCES
@@ -118,8 +120,6 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IHaveBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsRobotClosestToBall.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsRobotClosestToBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.h

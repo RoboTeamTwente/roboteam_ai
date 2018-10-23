@@ -6,7 +6,6 @@
 namespace rtt{
 namespace ai{
 
-    //TODO: Fix global namespacing
     bool bot_has_ball(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::WorldBall& ball){
         Vector2 ball_vec(ball.pos), bot_vec(bot.pos);
         Vector2 ball_norm = (ball_vec - bot_vec);
