@@ -22,7 +22,6 @@ namespace ai {
    void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
   public:
     explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-    Status Update() override;
 };
 
 } // ai
