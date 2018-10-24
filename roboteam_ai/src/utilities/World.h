@@ -30,6 +30,7 @@ class World {
   static const roboteam_msgs::World& get_world();
   static void set_world(roboteam_msgs::World world);
   static boost::optional<int> get_robot_closest_to_point(std::vector<roboteam_msgs::WorldRobot> robots, const Vector2& point);
+  static bool bot_has_ball(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::WorldBall& ball);
 };
 
 } // ai
