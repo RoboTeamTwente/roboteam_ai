@@ -103,6 +103,8 @@ set(UTILS_SOURCES
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.cpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RefStateManager.hpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RefStateManager.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
         )
 
 catkin_package()
@@ -144,6 +146,7 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/WorldTest.cpp
         roboteam_ai/test/DangerFinderTest.cpp
         roboteam_ai/test/BTBlackBoardTest.cpp
+        roboteam_ai/test/RobotDealerTest.cpp
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}

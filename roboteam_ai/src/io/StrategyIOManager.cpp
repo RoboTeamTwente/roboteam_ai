@@ -1,3 +1,4 @@
+#include <roboteam_msgs/RoleDirective.h>
 #include "StrategyIOManager.h"
 
 namespace rtt {
@@ -9,6 +10,10 @@ StrategyIOManager::StrategyIOManager() {
   this->subscribeToGeometryData();
   this->subscribeToRoleFeedback();
   this->subscribeToRefereeData();
+
+  // set up advertisement to publish roledirectives
+  roleDirectivePublisher = nodeHandle.advertise<roboteam_msgs::RoleDirective>(rtt::TOPIC_ROLE_DIRECTIVE, 1000);
+
 }
 
 void StrategyIOManager::subscribeToRoleFeedback() {
@@ -21,6 +26,10 @@ void StrategyIOManager::handleRobotFeedback(const roboteam_msgs::RoleFeedbackCon
 
 roboteam_msgs::RoleFeedback &StrategyIOManager::getRoleFeedback() {
   return roleFeedback;
+}
+
+void StrategyIOManager::publishRoleDirective(roboteam_msgs::RoleDirective roledirective) {
+  roleDirectivePublisher.publish(roledirective);
 }
 
 } // io
