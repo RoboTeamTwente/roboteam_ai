@@ -176,9 +176,9 @@ catkin_add_gtest(ai_tests
 
 target_link_libraries(ai_tests
         ${catkin_LIBRARIES}
-#        gcov
+        gcov
         )
 
-#include(CodeCoverage)
-#APPEND_COVERAGE_COMPILER_FLAGS()
-#SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage EXECUTABLE ai_tests )
+include(CodeCoverage)
+APPEND_COVERAGE_COMPILER_FLAGS()
+SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage EXECUTABLE ai_tests )
