@@ -47,7 +47,34 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
 
     // Test should fail since robot 2 is no longer closest to the ball
     ASSERT_EQ(Node.Update(), bt::Node::Status::Failure);
+}
 
-    //TODO: Add tests for secondsAhead
+TEST(secondsAhead, IsRobotClosestToBallTest) {
+    bt::Blackboard BB;
+    BB.SetInt("ROBOT_ID", 2);
+    BB.SetDouble("secondsAhead", 3.0);
+    auto BBpointer = std::make_shared<bt::Blackboard>(BB);
+    rtt::ai::IsRobotClosestToBall Node("Test", BBpointer);
 
+    roboteam_msgs::World worldMsg;
+    roboteam_msgs::WorldRobot robot;
+    roboteam_msgs::WorldRobot robot2;
+
+    robot.id=2;
+    robot.pos.x=0;
+    robot.pos.y=0;
+    worldMsg.us.push_back(robot);
+
+    robot2.id=3;
+    robot2.pos.x=1;
+    robot2.pos.y=1;
+    worldMsg.us.push_back(robot2);
+
+    worldMsg.ball.pos.x=2.0;
+    worldMsg.ball.pos.y=2.0;
+    worldMsg.ball.vel.x = -1;
+    worldMsg.ball.vel.y = -1;
+    rtt::ai::World::set_world(worldMsg);
+
+    ASSERT_EQ(Node.Update(), bt::Node::Status::Success);
 }
