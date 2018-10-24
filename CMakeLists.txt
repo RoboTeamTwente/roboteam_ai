@@ -174,6 +174,8 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
         roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
         roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
+        roboteam_ai/test/SkillTests/KickTest.cpp
+
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
