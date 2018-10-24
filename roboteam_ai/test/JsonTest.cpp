@@ -9,11 +9,6 @@
 
 #include <typeinfo>
 
-
-void print(const std::string &s) {
-    std::cout << s << std::endl;
-}
-
 TEST(JsonBasics, JsonTest) {
 
     // Get the instance of the interpreter

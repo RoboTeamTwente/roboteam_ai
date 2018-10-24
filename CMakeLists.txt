@@ -140,6 +140,7 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/WorldTest.cpp
         roboteam_ai/test/DangerFinderTest.cpp
         roboteam_ai/test/BTBlackBoardTest.cpp
+        roboteam_ai/test/IOTest.cpp
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
@@ -156,7 +157,3 @@ target_link_libraries(ai_tests
 include(CodeCoverage)
 APPEND_COVERAGE_COMPILER_FLAGS()
 SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage EXECUTABLE ai_tests )
-
-
-
-
