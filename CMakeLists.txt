@@ -119,7 +119,9 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.cpp roboteam_ai/test/ConditionTests/IsInZoneTest.cpp)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/TheyHaveBall.cpp
+        )
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
@@ -164,6 +166,8 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
         roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
         roboteam_ai/test/ConditionTests/IsRobotClosestToBallTest.cpp
+        roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
+        roboteam_ai/test/ConditionTests/TheyHaveBallTest.cpp
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
