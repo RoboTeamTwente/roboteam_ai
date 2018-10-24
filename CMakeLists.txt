@@ -130,7 +130,6 @@ include_directories(${catkin_INCLUDE_DIRS})
 add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 # StrategyNode
-# don't compile the skills in this
 add_executable(AIStrategyNode
         roboteam_ai/src/StrategyNode.cpp
         ${DANGER_FINDER_SOURCES}
@@ -138,6 +137,7 @@ add_executable(AIStrategyNode
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
         ${BT_SOURCES}
+        ${SKILLS_SOURCES}
         ${CONDITIONS_SOURCES}
         )
 
@@ -146,12 +146,17 @@ target_link_libraries(AIStrategyNode ${catkin_LIBRARIES})
 
 add_executable(AIRoleNode
         roboteam_ai/src/RoleNode.cpp
+        ${DANGER_FINDER_SOURCES}
         ${IO_SOURCES}
+        ${UTILS_SOURCES}
+        ${JSON_SOURCES}
+        ${BT_SOURCES}
         ${SKILLS_SOURCES}
+        ${CONDITIONS_SOURCES}
         )
 
 add_dependencies(AIRoleNode ${catkin_EXPORTED_TARGETS})
-target_link_libraries(AIRoleNode ${catkin_LIBRARIES} ai_bt)
+target_link_libraries(AIRoleNode ${catkin_LIBRARIES})
 
 #############
 ## Testing ##
@@ -173,6 +178,7 @@ catkin_add_gtest(ai_tests
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
         ${BT_SOURCES}
+        ${IO_SOURCES}
         ${CONDITIONS_SOURCES}
         ${SKILLS_SOURCES}
         )

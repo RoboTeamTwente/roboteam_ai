@@ -14,8 +14,6 @@ void Chip::sendKickCommand(double kickVel) {
   command.chipper = (unsigned char) true;
   command.chipper_forced = (unsigned char) true;
   command.kicker_vel = (float) kickVel;
-
-  io::robotCommandPublisher.publish(command);
 }
 
 } // ai

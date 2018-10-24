@@ -12,7 +12,7 @@ void Kick::Initialize() {
 }
 
 bt::Node::Status Kick::Update() {
-  // Gail if we did not succeed after a number of cycles
+  // Fail if we did not succeed after a number of cycles
   amountOfCycles++;
   if (amountOfCycles > MAX_KICK_CYCLES) {
     return Status::Failure;
@@ -22,7 +22,7 @@ bt::Node::Status Kick::Update() {
   double kickVel = blackboard->HasDouble("kickVel") ? blackboard->GetDouble("kickVel") : DEFAULT_KICK_POWER;
 
   // Send the robotCommand.
-  sendKickCommand();
+  sendKickCommand(kickVel);
 
   return Status::Running;
 }
@@ -35,7 +35,6 @@ void Kick::sendKickCommand(double kickVel) {
   command.kicker_forced = (unsigned char) true;
   command.kicker_vel = (float) kickVel;
 
-  io::robotCommandPublisher.publish(command);
 }
 
 } // ai

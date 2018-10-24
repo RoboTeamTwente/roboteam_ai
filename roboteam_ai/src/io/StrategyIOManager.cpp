@@ -6,10 +6,6 @@ namespace ai {
 namespace io {
 
 StrategyIOManager::StrategyIOManager() {
-  this->subscribeToWorldState();
-  this->subscribeToGeometryData();
-  this->subscribeToRoleFeedback();
-
   // set up advertisement to publish roledirectives
   roleDirectivePublisher = nodeHandle.advertise<roboteam_msgs::RoleDirective>(rtt::TOPIC_ROLE_DIRECTIVE, 1000);
 }
@@ -24,6 +20,10 @@ void StrategyIOManager::handleRobotFeedback(const roboteam_msgs::RoleFeedbackCon
 
 roboteam_msgs::RoleFeedback &StrategyIOManager::getRoleFeedback() {
   return roleFeedback;
+}
+
+void StrategyIOManager::publishRoleDirective(roboteam_msgs::RoleDirective roleDirective) {
+  roleDirectivePublisher.publish(roleDirective);
 }
 
 } // io
