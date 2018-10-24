@@ -42,11 +42,18 @@ public:
 
     static bool releaseRobots(std::vector<int> ids);
 
+    static void haltOverride();
+
+
 private:
 
     FRIEND_TEST(RobotDealerTest, RobotDealerTest);
 
     static std::set<int> takenRobots;
+
+    static void emptyTakenRobots();
+
+    static void emptyRobotOwners();
 
     static std::map<std::string, std::set<int>> robotOwners;
 
@@ -59,8 +66,6 @@ private:
     static std::mutex takenRobotsLock;
 
     friend class HaltTactic;
-
-    static void haltOverride();
 
     static void removeRobotFromOwnerList(int id);
 

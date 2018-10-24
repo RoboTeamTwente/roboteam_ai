@@ -192,9 +192,8 @@ void RobotDealer::removeRobotFromOwnerList(int id) {
 
 /// Make all of the robots free in case of HALT
 void RobotDealer::haltOverride() {
-    std::lock_guard<std::mutex> lock(robotOwnersLock);
-    ROS_WARN("Overriding claims for all robots because of HALT");
-    takenRobots.clear();
+    RobotDealer::emptyRobotOwners();
+    RobotDealer::emptyTakenRobots();
 }
 
 /// Checks if a robot ID is legal
@@ -209,6 +208,18 @@ bool RobotDealer::validateID(int ID) {
 /// Checks if a robot is free
 bool RobotDealer::isRobotFree(int ID) {
     return ! (takenRobots.find(ID) != takenRobots.end());
+}
+
+/// Clears the takenRobots
+void RobotDealer::emptyTakenRobots() {
+    std::lock_guard<std::mutex> lock(takenRobotsLock);
+    takenRobots.clear();
+}
+
+/// Clears the robotOwners
+void RobotDealer::emptyRobotOwners() {
+    std::lock_guard<std::mutex> lock(robotOwnersLock);
+    robotOwners.clear();
 }
 
 } // ai

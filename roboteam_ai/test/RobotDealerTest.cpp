@@ -61,6 +61,16 @@ TEST(RobotDealerTest, RobotDealerTest) {
 
     ai::RobotDealer::claimRobotForTactic(newRobot, newTactic);
     ownerList = ai::RobotDealer::getRobotOwnerList();
+    claimedBots = ai::RobotDealer::getClaimedRobots();
     ai::RobotDealer::releaseRobot(newRobot);
+
+    ai::RobotDealer::haltOverride();
+
+    ownerList = ai::RobotDealer::getRobotOwnerList();
+    claimedBots = ai::RobotDealer::getClaimedRobots();
+
+    ASSERT_TRUE(ownerList.empty());
+
+
 
 }
