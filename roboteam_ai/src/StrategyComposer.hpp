@@ -5,7 +5,6 @@
 #ifndef ROBOTEAM_AI_STRATEGYCOMPOSER_HPP
 #define ROBOTEAM_AI_STRATEGYCOMPOSER_HPP
 
-
 #include <boost/optional.hpp>
 #include <map>
 #include <string>
@@ -13,7 +12,7 @@
 #include "roboteam_tactics/treegen/LeafRegister.h"
 #include "roboteam_tactics/Parts.h"
 
-#include "../bt/bt.hpp"
+#include "bt/bt.hpp"
 #include "roboteam_utils/LastRef.h"
 
 #include "RefStateSwitch.hpp"

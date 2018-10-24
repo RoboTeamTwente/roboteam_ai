@@ -9,8 +9,10 @@ Leaf::Leaf() {}
 
 Leaf::Leaf(Blackboard::Ptr blackboard) : blackboard(blackboard) {}
 
-Leaf::~Leaf() {}
-
+Leaf::Leaf(std::string name, Blackboard::Ptr blackboard) :
+blackboard{blackboard},
+name{name}
+{}
 void Leaf::SetBlackboard(Blackboard::Ptr blackboard) {
   this->blackboard = blackboard;
 }

@@ -1,4 +1,3 @@
-#include <roboteam_msgs/RoleFeedback.h>
 #include "RoleIOManager.h"
 
 namespace rtt {
@@ -6,9 +5,8 @@ namespace ai {
 namespace io {
 
 RoleIOManager::RoleIOManager() {
-  this->subscribeToWorldState();
-  this->subscribeToGeometryData();
-  this->subscribeToRoleDirective();
+  // set up advertisement to publish robotcommands
+  robotCommandPublisher = nodeHandle.advertise<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 1000);
 }
 
 void RoleIOManager::subscribeToRoleDirective() {
@@ -21,6 +19,10 @@ void RoleIOManager::handleRoleDirective(const roboteam_msgs::RoleDirectiveConstP
 
 roboteam_msgs::RoleDirective &RoleIOManager::getRoleDirective() {
   return this->roleDirective;
+}
+
+void RoleIOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
+  robotCommandPublisher.publish(cmd);
 }
 
 } // io

@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.1)
 project(roboteam_ai)
 
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
-
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 
 find_package(catkin REQUIRED COMPONENTS
@@ -17,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
         uuid_msgs
         unique_id
         )
+
 set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/json.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/TreeInterpreter.h
@@ -26,7 +26,6 @@ set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/JsonReader.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/JsonReader.h
         roboteam_ai/src/treeinterp/BTImport.h)
-
 
 set(DANGER_FINDER_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/CanShootModule.cpp
@@ -73,7 +72,7 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/decorators/UntilFail.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/decorators/UntilSuccess.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/decorators/UntilSuccess.cpp
-                                          
+
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/BehaviorTree.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/BehaviorTree.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Blackboard.hpp
@@ -89,23 +88,44 @@ set(BT_SOURCES
         )
 
 set(IO_SOURCES
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/IOManager.h
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/IOManager.cpp
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/StrategyIOManager.cpp
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/StrategyIOManager.h
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/RoleIOManager.cpp
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/RoleIOManager.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/IOManager.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/IOManager.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/StrategyIOManager.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/StrategyIOManager.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/RoleIOManager.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/RoleIOManager.h)
 
 set(UTILS_SOURCES
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
-    )
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
+        )
+
+# DO NOT COMPILE SKILLS SOURCES IN STRATEGYNODE
+set(SKILLS_SOURCES
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Kick.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Kick.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Chip.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Chip.cpp
+        )
+
+set(CONDITIONS_SOURCES
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IHaveBall.hpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IHaveBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.hpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.cpp
+        )
 
 catkin_package()
-
-
 include_directories(${catkin_INCLUDE_DIRS})
-add_subdirectory( ${PROJECT_SOURCE_DIR}/roboteam_ai/src)
 
 add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
@@ -117,17 +137,26 @@ add_executable(AIStrategyNode
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
         ${BT_SOURCES}
+        ${SKILLS_SOURCES}
+        ${CONDITIONS_SOURCES}
         )
+
 add_dependencies(AIStrategyNode ${catkin_EXPORTED_TARGETS})
 target_link_libraries(AIStrategyNode ${catkin_LIBRARIES})
 
 add_executable(AIRoleNode
         roboteam_ai/src/RoleNode.cpp
+        ${DANGER_FINDER_SOURCES}
         ${IO_SOURCES}
+        ${UTILS_SOURCES}
+        ${JSON_SOURCES}
+        ${BT_SOURCES}
+        ${SKILLS_SOURCES}
+        ${CONDITIONS_SOURCES}
         )
 
 add_dependencies(AIRoleNode ${catkin_EXPORTED_TARGETS})
-target_link_libraries(AIRoleNode ${catkin_LIBRARIES} ai_bt)
+target_link_libraries(AIRoleNode ${catkin_LIBRARIES})
 
 #############
 ## Testing ##
@@ -138,13 +167,22 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/JsonTest.cpp
         roboteam_ai/test/BTFactoryTest.cpp
         roboteam_ai/test/WorldTest.cpp
+        roboteam_ai/test/FieldTest.cpp
         roboteam_ai/test/DangerFinderTest.cpp
         roboteam_ai/test/BTBlackBoardTest.cpp
         roboteam_ai/test/IOTest.cpp
+        roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
+        roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
+        roboteam_ai/test/SkillTests/KickTest.cpp
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
         ${BT_SOURCES}
+        ${IO_SOURCES}
+        ${CONDITIONS_SOURCES}
+        ${SKILLS_SOURCES}
         )
 
 target_compile_options(ai_tests PUBLIC --coverage)

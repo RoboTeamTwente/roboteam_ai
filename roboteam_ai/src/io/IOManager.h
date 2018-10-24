@@ -1,8 +1,12 @@
 //
 // Created by mrlukasbos on 19-9-18.
 //
-// Listen to rostopic World_state
 
+/*
+ * Important note
+ *
+ *
+ */
 #ifndef ROBOTEAM_AI_IO_MANAGER_H
 #define ROBOTEAM_AI_IO_MANAGER_H
 
@@ -30,7 +34,7 @@ class IOManager {
   void handleGeometryData(const roboteam_msgs::GeometryDataConstPtr &geometry);
 
  public:
-  IOManager() =default;
+  IOManager() = default;
   void subscribeToWorldState();
   void subscribeToGeometryData();
   const roboteam_msgs::World &getWorldState();

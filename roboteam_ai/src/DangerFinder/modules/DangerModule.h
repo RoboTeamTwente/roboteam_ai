@@ -5,6 +5,7 @@
 #include "roboteam_msgs/World.h"
 #include "../PartialResult.h"
 #include "../../utilities/World.h"
+#include "../../utilities/Field.h"
 
 namespace rtt {
 namespace ai {
@@ -16,7 +17,6 @@ namespace dangerfinder {
  */
 class DangerModule {
 public:
-
     /**
    * \function calculate
    * \brief Performs the calculation for this module for a specific robot.

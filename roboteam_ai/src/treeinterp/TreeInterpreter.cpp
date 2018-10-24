@@ -66,7 +66,7 @@ std::vector<json> TreeInterpreter::parseSmallJSONs(json input) {
         }
     }
     else {
-        std::cerr << "MURDER ME" << std::endl;
+        std::cerr << "The JSON tree is not a project!" << std::endl;
     }
 
     return result;
@@ -121,6 +121,7 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree) {
         std::string childID = nodeJSON["child"];
         auto child = tree["nodes"][childID];
         // recursive call
+
         node->AddChild(TreeInterpreter::buildNode(child, tree));
         return node;
     }
