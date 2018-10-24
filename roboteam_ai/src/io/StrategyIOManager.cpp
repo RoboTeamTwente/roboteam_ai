@@ -8,6 +8,7 @@ StrategyIOManager::StrategyIOManager() {
   this->subscribeToWorldState();
   this->subscribeToGeometryData();
   this->subscribeToRoleFeedback();
+  this->subscribeToRefereeData();
 }
 
 void StrategyIOManager::subscribeToRoleFeedback() {

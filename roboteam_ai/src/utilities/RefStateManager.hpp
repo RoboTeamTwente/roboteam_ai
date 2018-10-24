@@ -5,7 +5,6 @@
 #ifndef ROBOTEAM_AI_REFSTATEMANAGER_HPP
 #define ROBOTEAM_AI_REFSTATEMANAGER_HPP
 
-#include
 namespace rtt{
 namespace ai{
 

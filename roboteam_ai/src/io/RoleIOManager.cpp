@@ -9,6 +9,7 @@ RoleIOManager::RoleIOManager() {
   this->subscribeToWorldState();
   this->subscribeToGeometryData();
   this->subscribeToRoleDirective();
+  this->subscribeToRefereeData();
 }
 
 void RoleIOManager::subscribeToRoleDirective() {
