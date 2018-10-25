@@ -67,11 +67,13 @@ void GoToPos::sendMoveCommand(Vector2 pos) {
         ROS_ERROR("Target position is not correct GoToPos");
         return;
     }
+    // TODO: get correct kp from 20-sim model
+    float proportionalGain = 3; //Proportional gain, kp
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     // TODO: fix this with Control people
-    command.x_vel = 1;
-    command.y_vel = 1;
+    command.x_vel = static_cast<float>(proportionalGain * (robot.pos.x - pos.x));
+    command.y_vel = static_cast<float>(proportionalGain * (robot.pos.y - pos.y));
     publishRobotCommand(command);
 }
 
