@@ -105,6 +105,8 @@ set(UTILS_SOURCES
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RefStateManager.cpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyMapper.hpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyMapper.cpp
         )
 
 catkin_package()

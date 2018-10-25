@@ -8,6 +8,7 @@
 #include "Referee.hpp"
 #include "World.h"
 #include "RobotDealer.h"
+#include "boost/optional.hpp"
 namespace rtt{
 namespace ai{
 
@@ -26,8 +27,7 @@ public:
     std::string node_name() override;
 
     bt::Node::Ptr getCurrentChild();
-    bt::Node::Ptr getPreviousChild();
-    boost::optional<std::string> getCurrentStrategyTreeName() const;
+    std::string getCurrentStrategyTreeName() const;
     boost::optional<RefGameState> getCurrentRefState() const;
     bool hasStartedNewStrategy() const;
 

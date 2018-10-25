@@ -3,6 +3,7 @@
 //
 
 #include "RefStateManager.hpp"
+#include "StrategyMapper.hpp"
 
 namespace rtt {
 namespace ai {
@@ -184,20 +185,15 @@ namespace ai {
             return *currentCmd;
         }
     }
-
-    boost::optional <std::string> RefStateManager::getCurrentStrategyTreeName() const {
-        /*if (auto refStateOpt = getCurrentRefState()) {
-            auto const it = StrategyComposer::MAPPING.find(*refStateOpt);
-            if (it != StrategyComposer::MAPPING.end()) {
-                return it->second;
+    //TODO: fix this implementation for warnning/debug purposes.
+    std::string RefStateManager::getCurrentStrategyTreeName() const {
+        if (auto refStateOpt = getCurrentRefState()) {
+            auto const it = StrategyMapper::MAPPING.find(*refStateOpt);
+            if (it != StrategyMapper::MAPPING.end()) {
+                return *it->second;
             }
         }
-
-        // This is not an error, because if there is a none in the
-        // strategy composer then it should just run the
-        // normal play in that case
-         */
-        return boost::none;
+        return "Current strategy not found?";
     }
 
     bt::Node::Ptr RefStateManager::getCurrentChild() {

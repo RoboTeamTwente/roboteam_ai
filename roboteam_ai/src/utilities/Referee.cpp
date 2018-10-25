@@ -125,7 +125,7 @@ boost::optional<int> fromRefState(RefGameState refState) {
 roboteam_msgs::RefereeData Referee::lastRef;
 boost::optional<RefGameState> Referee::previousRefCommand;
 boost::optional<RefGameState> Referee::currentRefCommand;
-std::map<std::string,int> timeLeft;
+std::map<std::string,int> Referee::timeLeft;
 
 roboteam_msgs::RefereeData Referee::get(){
     return Referee::lastRef;
