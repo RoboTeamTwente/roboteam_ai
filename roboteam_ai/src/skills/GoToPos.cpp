@@ -1,14 +1,17 @@
 //
 // Created by baris on 24/10/18.
 //
+
 #include "GoToPos.h"
+
+
 namespace rtt{
 namespace ai {
 
 /// Init the GoToPos skill
 void GoToPos::Initialize() {
 
-    if(blackboard->HasFloat("X") && blackboard->HasInt("Y")) {
+    if(blackboard->HasInt("X") && blackboard->HasInt("Y")) {
         Vector2 posVector(blackboard->GetInt("X"), blackboard->GetInt("Y")); //TODO: look into putting vectors in BB
         targetPos = posVector;
         sendMoveCommand(targetPos);
@@ -64,12 +67,12 @@ void GoToPos::sendMoveCommand(Vector2 pos) {
         ROS_ERROR("Target position is not correct GoToPos");
         return;
     }
-    roboteam_msgs::RobotCommand cmd;
-    cmd.id = robot.id;
+    roboteam_msgs::RobotCommand command;
+    command.id = robot.id;
     // TODO: fix this with Control people
-    cmd.x_vel = 1;
-    cmd.y_vel = 1;
-    publishRobotCommand(cmd);
+    command.x_vel = 1;
+    command.y_vel = 1;
+    publishRobotCommand(command);
 }
 
 /// Check the progress the robot made and alter the currentProgress
