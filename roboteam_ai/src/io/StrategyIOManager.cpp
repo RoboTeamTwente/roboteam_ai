@@ -7,7 +7,7 @@ namespace io {
 
 StrategyIOManager::StrategyIOManager() {
   // set up advertisement to publish roledirectives
-  roleDirectivePublisher = nodeHandle.advertise<roboteam_msgs::RoleDirective>(rtt::TOPIC_ROLE_DIRECTIVE, 1000);
+  roleDirectivePublisher = nodeHandle.advertise<roboteam_msgs::RoleDirective>(rtt::TOPIC_ROLE_DIRECTIVE, 100);
 }
 
 void StrategyIOManager::subscribeToRoleFeedback() {

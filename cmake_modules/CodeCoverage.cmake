@@ -66,7 +66,7 @@
 #      make my_coverage_target
 #
 
-set(COVERAGE_LCOV_EXCLUDES '*/googletest/*' '*/boost/*' '/usr/*' '/opt/*' '*/roboteam_msgs/*' '*/roboteam_utils/*')
+set(COVERAGE_LCOV_EXCLUDES '*/googletest/*' '*/boost/*' '/usr/*' '/opt/*' '*/roboteam_msgs/*' '*/roboteam_utils/*' '*/json.h')
 
 include(CMakeParseArguments)
 
