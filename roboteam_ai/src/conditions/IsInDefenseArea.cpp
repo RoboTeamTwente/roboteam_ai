@@ -5,22 +5,23 @@
 
 namespace rtt {
 namespace ai {
-  IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboard) : Condition(name, blackboard) {}
+  IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboard) : Condition(name, blackboard) {
+
+  }
 
   bt::Node::Status IsInDefenseArea::Update() {
 
-    // ** these lines will be removed when the new blackboard system is finished.  **
-    //    bool ourDefenseArea;
-    //    if (blackboard->HasBool("ourDefenseArea")) {
-    //        ourDefenseArea = blackboard->GetBool("ourDefenseArea");
-    //    } else {
-    //        ourDefenseArea = true;
-    //    }
-    //
-    //    double margin = 0.0;
-    //    if (blackboard->HasDouble("margin")) {
-    //        margin = blackboard->GetDouble("margin");
-    //    }
+    bool ourDefenseArea;
+    if (blackboard->HasBool("ourDefenseArea")) {
+        ourDefenseArea = blackboard->GetBool("ourDefenseArea");
+    } else {
+        ourDefenseArea = true;
+    }
+
+    double margin = 0.0;
+    if (blackboard->HasDouble("margin")) {
+        margin = blackboard->GetDouble("margin");
+    }
 
     roboteam_msgs::World world = World::get_world();
     Vector2 ballPos(world.ball.pos);
@@ -39,7 +40,7 @@ namespace ai {
         }
     }
 
-    if (Field::pointIsInDefenceArea(point)) {
+    if (Field::pointIsInDefenceArea(point, ourDefenseArea, margin)) {
         return Status::Success;
     }
     return Status::Failure;
