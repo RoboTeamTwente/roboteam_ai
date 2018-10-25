@@ -101,9 +101,10 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
-        )
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
+    )
 
-# DO NOT COMPILE SKILLS SOURCES IN STRATEGYNODE
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.cpp
@@ -176,6 +177,7 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
         roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
         roboteam_ai/test/SkillTests/KickTest.cpp
+        roboteam_ai/test/RobotDealerTest.cpp
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}

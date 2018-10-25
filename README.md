@@ -6,7 +6,7 @@ Currently WIP
 
 ### dependencies
 Coverage:
-``` sudo apt-get install gcov gcovr lcov ```
+``` sudo apt-get install gcovr lcov ```
 
 ### doxygen support
 To generate documentation:
