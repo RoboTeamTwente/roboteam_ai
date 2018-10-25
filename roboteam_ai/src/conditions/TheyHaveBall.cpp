@@ -21,6 +21,7 @@ namespace ai{
         for(auto &robot : robots) {
             if(World::bot_has_ball(robot, World::getBall())) {
                 theyHaveBall = true;
+                break;
             }
         }
 
