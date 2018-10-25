@@ -61,6 +61,8 @@ const std::map < int ,std::string > refstagelookup = {
             {12,"PENALTY_SHOOTOUT"},
             {13,"POST_GAME"}
     };
+
+//Do not touch this unless you want to open pandora's box.
  std::vector<RefGameState> const ALL_REFSTATES = {
             RefGameState::HALT,
             RefGameState::STOP,

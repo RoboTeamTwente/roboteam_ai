@@ -113,7 +113,7 @@ boost::optional<RefGameState> toRefState(int refStateInt) {
 boost::optional<int> fromRefState(RefGameState refState) {
         int rawRefState = static_cast<int>(refState);
 
-        if (rawRefState >= 0 && rawRefState < 17) {
+        if (rawRefState >= 0 && rawRefState <= 17) {
             return rawRefState;
         }
 
