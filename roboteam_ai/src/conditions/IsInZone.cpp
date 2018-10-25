@@ -46,15 +46,15 @@ bt::Node::Status IsInZone::Update() {
             // zone 1: is as seen from the goal -> left rear
         case 1:zone_x1 = - 4.5;
             zone_x2 = - 1.5;
-            zone_y1 = 3.0;
-            zone_y2 = 0.0;
+            zone_y1 = 0.0;
+            zone_y2 = 3.0;
             break;
 
             // zone 2: is as seen from the goal -> right rear
         case 2:zone_x1 = - 4.5;
             zone_x2 = - 1.5;
-            zone_y1 = 0.0;
-            zone_y2 = - 3.0;
+            zone_y1 = -3.0;
+            zone_y2 = 0.0;
             break;
 
             // zone 3: all field except area close to opponents goal
@@ -79,15 +79,8 @@ bt::Node::Status IsInZone::Update() {
             zone_y2 = field.field_width/2 - 0.35;
             break;
 
-            // TODO: find out why is this what it is
-        case 6:zone_x1 = - 4.8;
-            zone_x2 = - 4.0;
-            zone_y1 = - 1.5;
-            zone_y2 = 1.5;
-            break;
-
         default:ROS_WARN_STREAM("Not valid zone Int " << blackboard->GetInt("zone"));
-            break;
+            return Status::Invalid;
         }
     }
 
