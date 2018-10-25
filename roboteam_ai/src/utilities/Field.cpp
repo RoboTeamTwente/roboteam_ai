@@ -25,7 +25,7 @@ Vector2 Field::get_their_goal_center() {
   return Vector2(field.field_length / 2, 0);
 }
 
-bool Field::pointIsInDefenceArea(Vector2 point, bool isOurDefenceArea, float margin) {
+bool Field::pointIsInDefenceArea(Vector2 point, bool isOurDefenceArea, double margin) {
   auto penaltyLine = isOurDefenceArea ? field.left_penalty_line : field.right_penalty_line;
   double yTopBound;
   double yBottomBound;
