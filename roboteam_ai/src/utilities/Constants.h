@@ -7,8 +7,8 @@
 
 #define DEFAULT_KICK_POWER 5.0
 #define MAX_KICK_CYCLES 20
-#define MAX_ANGULAR_VELOCITY 1.0;
-
+#define MAX_ANGULAR_VELOCITY 2.0;
+#define PI 3.14159
 
 
 

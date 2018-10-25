@@ -64,12 +64,12 @@ void GoToPos::sendMoveCommand(Vector2 pos) {
         ROS_ERROR("Target position is not correct GoToPos");
         return;
     }
-    roboteam_msgs::RobotCommand cmd;
-    cmd.id = robot.id;
+    roboteam_msgs::RobotCommand command;
+    command.id = robot.id;
     // TODO: fix this with Control people
-    cmd.x_vel = 1;
-    cmd.y_vel = 1;
-    publishRobotCommand(cmd);
+    command.x_vel = 1;
+    command.y_vel = 1;
+    publishRobotCommand(command);
 }
 
 /// Check the progress the robot made and alter the currentProgress
