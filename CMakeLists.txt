@@ -111,6 +111,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Kick.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Chip.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Chip.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Rotate.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Rotate.cpp
         )
 
 set(CONDITIONS_SOURCES
