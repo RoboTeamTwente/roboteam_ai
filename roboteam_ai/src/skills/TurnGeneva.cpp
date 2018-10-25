@@ -33,7 +33,7 @@ namespace rtt {
             // TODO the robot does not kick while turning, do we want to add that to the computer code as well
             command.geneva_state = genevaState;
 
-            io::robotCommandPublisher.publish(command);
+            publishRobotCommand(command);
         }
 
     } // ai
