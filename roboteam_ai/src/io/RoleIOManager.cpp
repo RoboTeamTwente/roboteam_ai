@@ -6,7 +6,7 @@ namespace io {
 
 RoleIOManager::RoleIOManager() {
   // set up advertisement to publish robotcommands
-  robotCommandPublisher = nodeHandle.advertise<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 1000);
+  robotCommandPublisher = nodeHandle.advertise<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 100);
 }
 
 void RoleIOManager::subscribeToRoleDirective() {
