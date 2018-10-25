@@ -7,7 +7,9 @@
 namespace rtt {
 namespace ai {
 
-void Kick::Initialize() {
+Kick::Kick(std::string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) { }
+
+  void Kick::Initialize() {
   amountOfCycles = 0;
 }
 
@@ -35,8 +37,9 @@ void Kick::sendKickCommand(double kickVel) {
   command.kicker_forced = (unsigned char) true;
   command.kicker_vel = (float) kickVel;
 
-  io::robotCommandPublisher.publish(command);
+  publishRobotCommand(command);
 }
+
 
 } // ai
 } // rtt0

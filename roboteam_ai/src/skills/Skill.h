@@ -18,9 +18,10 @@ namespace ai {
  class Skill : public bt::Leaf {
   protected:
    roboteam_msgs::WorldRobot robot;
+   io::RoleIOManager roleIOManager;
+   void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
   public:
     explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-    Status Update() override;
 };
 
 } // ai

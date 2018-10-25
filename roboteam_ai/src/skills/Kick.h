@@ -18,6 +18,7 @@ class Kick : public Skill {
  protected:
   virtual void sendKickCommand(double kickVel);
  public:
+  explicit Kick(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
   Status Update() override;
   void Initialize() override;
 };

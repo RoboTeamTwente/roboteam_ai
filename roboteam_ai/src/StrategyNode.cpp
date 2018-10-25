@@ -11,8 +11,12 @@ roboteam_msgs::World worldMsg;
 int main(int argc, char *argv[]) {
   ros::init(argc, argv, "StrategyNode");
 
-  df::DangerData danger;
   io::StrategyIOManager strategyIOManager;
+  strategyIOManager.subscribeToGeometryData();
+  strategyIOManager.subscribeToWorldState();
+  strategyIOManager.subscribeToRoleFeedback();
+
+  df::DangerData danger;
   ros::Rate rate(10);
 
   roboteam_msgs::World worldMsg;

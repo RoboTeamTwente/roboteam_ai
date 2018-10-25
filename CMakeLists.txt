@@ -101,9 +101,10 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
-        )
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
+    )
 
-# DO NOT COMPILE SKILLS SOURCES IN STRATEGYNODE
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.cpp
@@ -113,6 +114,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Chip.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Rotate.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Rotate.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPos.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPos.cpp
         )
 
 set(CONDITIONS_SOURCES
@@ -132,7 +135,6 @@ include_directories(${catkin_INCLUDE_DIRS})
 add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 # StrategyNode
-# don't compile the skills in this
 add_executable(AIStrategyNode
         roboteam_ai/src/StrategyNode.cpp
         ${DANGER_FINDER_SOURCES}
@@ -140,6 +142,7 @@ add_executable(AIStrategyNode
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
         ${BT_SOURCES}
+        ${SKILLS_SOURCES}
         ${CONDITIONS_SOURCES}
         )
 
@@ -148,12 +151,17 @@ target_link_libraries(AIStrategyNode ${catkin_LIBRARIES})
 
 add_executable(AIRoleNode
         roboteam_ai/src/RoleNode.cpp
+        ${DANGER_FINDER_SOURCES}
         ${IO_SOURCES}
+        ${UTILS_SOURCES}
+        ${JSON_SOURCES}
+        ${BT_SOURCES}
         ${SKILLS_SOURCES}
+        ${CONDITIONS_SOURCES}
         )
 
 add_dependencies(AIRoleNode ${catkin_EXPORTED_TARGETS})
-target_link_libraries(AIRoleNode ${catkin_LIBRARIES} ai_bt)
+target_link_libraries(AIRoleNode ${catkin_LIBRARIES})
 
 #############
 ## Testing ##
@@ -167,14 +175,18 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/FieldTest.cpp
         roboteam_ai/test/DangerFinderTest.cpp
         roboteam_ai/test/BTBlackBoardTest.cpp
+        roboteam_ai/test/IOTest.cpp
         roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
         roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
         roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
         roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
+        roboteam_ai/test/SkillTests/KickTest.cpp
+        roboteam_ai/test/RobotDealerTest.cpp
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
         ${BT_SOURCES}
+        ${IO_SOURCES}
         ${CONDITIONS_SOURCES}
         ${SKILLS_SOURCES}
         )
