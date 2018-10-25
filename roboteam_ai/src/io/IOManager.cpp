@@ -15,7 +15,7 @@ void IOManager::subscribeToWorldState() {
 void IOManager::subscribeToGeometryData() {
   geometrySubscriber = nodeHandle.subscribe<roboteam_msgs::GeometryData>(rtt::TOPIC_GEOMETRY, 1, &IOManager::handleGeometryData, this);
 }
-
+//This constant TOPIC_REFEREE was not used by the previous team, so if stuff goes wrong check if you are reading the correct topic.
 void IOManager::subscribeToRefereeData() {
   refereeSubscriber=nodeHandle.subscribe<roboteam_msgs::RefereeData>(rtt::TOPIC_REFEREE, 1, &IOManager::handleRefereeData,this);
 }

@@ -105,14 +105,14 @@ private:
     static roboteam_msgs::RefereeData lastRef;
     static std::map<std::string,int> timeLeft; //tracks per stage what the last timeLeft was we received for it.
 
-    boost::optional<RefGameState> getFirstState(boost::optional<RefGameState> previousCmdOpt, RefGameState currentCmd);
-
 public:
-        boost::optional<RefGameState> getFirstState();
-        RefGameState getExtendedState();
-        bool isTwoState(boost::optional<RefGameState> previousCmdOpt, RefGameState currentCmd);
+        static boost::optional<RefGameState> getFirstState(boost::optional<RefGameState> previousCmdOpt, RefGameState currentCmd);
+        static boost::optional<RefGameState> getFirstState();
+        static RefGameState getExtendedState();
+        static bool isTwoState(boost::optional<RefGameState> previousCmdOpt, RefGameState currentCmd);
 
         static roboteam_msgs::RefereeData get();
+        static RefGameState getState();
         /**
          * \brief Sets the refstate.
          *        Only to be used when a new refstate has been received.
@@ -120,7 +120,6 @@ public:
         static void set(roboteam_msgs::RefereeData refCommand);
 
         static bool hasReceivedFirstCommand();
-        static RefGameState getState();
 
         static boost::optional<RefGameState> getCurrentRefCommand();
         static boost::optional<RefGameState> getPreviousRefCommand();
