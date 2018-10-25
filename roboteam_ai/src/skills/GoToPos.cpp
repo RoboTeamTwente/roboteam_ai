@@ -1,14 +1,17 @@
 //
 // Created by baris on 24/10/18.
 //
+
 #include "GoToPos.h"
+
+
 namespace rtt{
 namespace ai {
 
 /// Init the GoToPos skill
 void GoToPos::Initialize() {
 
-    if(blackboard->HasFloat("X") && blackboard->HasInt("Y")) {
+    if(blackboard->HasInt("X") && blackboard->HasInt("Y")) {
         Vector2 posVector(blackboard->GetInt("X"), blackboard->GetInt("Y")); //TODO: look into putting vectors in BB
         targetPos = posVector;
         sendMoveCommand(targetPos);
