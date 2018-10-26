@@ -90,7 +90,7 @@ namespace ai {
             lastKnownKeeper = refData.us.goalie;
             RobotDealer::setKeeper(
                     lastKnownKeeper); // This is also done in StrategyNode, but its needs to be done before this Terminate call
-            // Node question: Why do we need to call the status here again? That information is already known internally and gives more overhead.
+            // Node question: Why do we need to call the status here again?
             getCurrentChild()->Terminate(getCurrentChild()->getStatus());
             needToInitialize = true;
         }
@@ -124,8 +124,6 @@ namespace ai {
         // If the current tree is finished, set needToInitialize and finishedOnce
         if (currentStatus == Status::Failure || currentStatus == Status::Success) {
             ROS_DEBUG_STREAM_NAMED("RefStateManager", "Current tree finished : " << getCurrentStrategyTreeName());
-            getCurrentChild()->Terminate(
-                    currentStatus); // Emiel : Doesn't the tree already terminate on its own? (TODO : Check Node.tick() implementation to confirm)
             needToInitialize = true;
             finishedOnce = true;
         }
@@ -185,7 +183,6 @@ namespace ai {
             return *currentCmd;
         }
     }
-    //TODO: fix this implementation for warnning/debug purposes.
     std::string RefStateManager::getCurrentStrategyTreeName() const {
         if (auto refStateOpt = getCurrentRefState()) {
             auto const it = StrategyMapper::MAPPING.find(*refStateOpt);
@@ -193,7 +190,7 @@ namespace ai {
                 return *it->second;
             }
         }
-        return "Current strategy not found?";
+        return "Current strategy not found? Check if a RefState was sent and if all trees were set correctly.";
     }
 
     bt::Node::Ptr RefStateManager::getCurrentChild() {

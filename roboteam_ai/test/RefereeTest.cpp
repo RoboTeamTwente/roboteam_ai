@@ -6,7 +6,7 @@
 
 //Assumes that ALL_REFSTATES is correct. If not, a lot more tests and things should break.
 //Tests whether the mapping to and from string and to and from integer is correct and consistent
-TEST(MapsAreCorrect,Referee){
+TEST(Referee,MapsAreCorrect){
     for (rtt::ai::RefGameState state : rtt::ai::ALL_REFSTATES){
         std::string strState= rtt::ai::refStateToString(state);
         boost::optional<rtt::ai::RefGameState> derivedState=rtt::ai::stringToRefState(strState);
@@ -32,7 +32,7 @@ TEST(MapsAreCorrect,Referee){
     }
 }
 
-TEST(TwoStateSwitch, Referee){
+TEST(Referee,TwoStateSwitch){
     //Test isTwoState (and the mapping)
     EXPECT_TRUE(rtt::ai::Referee::isTwoState(rtt::ai::RefGameState::PREPARE_KICKOFF_US, rtt::ai::RefGameState::NORMAL_START));
     EXPECT_TRUE(rtt::ai::Referee::isTwoState(rtt::ai::RefGameState::PREPARE_KICKOFF_THEM, rtt::ai::RefGameState::NORMAL_START));
@@ -58,7 +58,7 @@ TEST(TwoStateSwitch, Referee){
 
 }
 
-TEST(GettingAndSetting,Referee){
+TEST(Referee,GettingAndSetting){
     namespace r=rtt::ai;
 
     EXPECT_FALSE(r::Referee::hasReceivedFirstCommand());
