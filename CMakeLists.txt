@@ -17,6 +17,8 @@ find_package(catkin REQUIRED COMPONENTS
         unique_id
         )
 
+### SOURCES BEGIN ###
+
 set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/json.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/TreeInterpreter.h
@@ -131,6 +133,24 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.cpp
         )
 
+### SOURCES END ###
+
+### TEST SOURCES BEGIN ###
+
+set(SKILL_TESTS
+        roboteam_ai/test/SkillTests/KickTest.cpp
+        roboteam_ai/test/SkillTests/GoToPosTest.cpp
+        )
+
+set(CONDITION_TESTS
+        roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
+        roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
+        )
+
+### TEST SOURCES END ###
+
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
 
@@ -178,12 +198,9 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/DangerFinderTest.cpp
         roboteam_ai/test/BTBlackBoardTest.cpp
         roboteam_ai/test/IOTest.cpp
-        roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
-        roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
-        roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
-        roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
-        roboteam_ai/test/SkillTests/KickTest.cpp
         roboteam_ai/test/RobotDealerTest.cpp
+        ${SKILL_TESTS}
+        ${CONDITION_TESTS}
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
