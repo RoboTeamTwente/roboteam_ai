@@ -7,13 +7,15 @@
 namespace rtt {
 namespace ai {
 
+Rotate::Rotate() : Skill(name, blackboard) { }
+
 void Rotate::Initialize() {
     if (blackboard->HasBool("Rotate_To_Object")) {
         if (blackboard->GetBool("Rotate_To_Object")) {  // Rotate towards an object
 
             if (blackboard->HasInt("Rotate_Object")) {
                 targetObject = blackboard->GetInt("Rotate_Object");
-                bool rotateToObject = true;
+                rotateToObject = true;
             }
             else {
                 ROS_ERROR("No good Rotate_Object set in BB, Rotation");
@@ -26,7 +28,7 @@ void Rotate::Initialize() {
 
             if (blackboard->HasFloat("Rotate_Angle")) {
                 targetRotation = blackboard->GetFloat("Rotate_Angle");
-                bool rotateToObject = false;
+                rotateToObject = false;
             }
             else {
                 ROS_ERROR("No good Rotate_Angle set in BB, Rotation");

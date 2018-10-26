@@ -17,8 +17,10 @@ namespace ai {
 
         class Rotate : public Skill {
         public:
+
             using worldBall = roboteam_msgs::WorldBall;
             using worldRobot = roboteam_msgs::WorldRobot;
+            explicit Rotate();
 
             Status Update() override;
 
