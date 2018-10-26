@@ -246,5 +246,12 @@ bool Referee::isTwoState(boost::optional<RefGameState> previousCmdOpt, RefGameSt
         std::pair<int,int> output(Referee::get().us.score,Referee::get().them.score);
         return output;
     }
+    void Referee::Reset(){
+        currentRefCommand=boost::none;
+        previousRefCommand=boost::none;
+        timeLeft.clear();
+        roboteam_msgs::RefereeData empty;
+        lastRef=empty;
+    }
 }
 }

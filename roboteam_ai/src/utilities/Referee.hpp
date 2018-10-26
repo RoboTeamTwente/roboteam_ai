@@ -126,10 +126,8 @@ public:
         static boost::optional<RefGameState> getCurrentRefCommand();
         static boost::optional<RefGameState> getPreviousRefCommand();
 
-        static bool waitForFirstRefCommand();
-
         static int getTimeLeft(std::string gameStage);
-
+        static void Reset();
         /// \brief returns OUR_SCORE, THEIR_SCORE
         static std::pair<int,int> currentScore();
 

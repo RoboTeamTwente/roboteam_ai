@@ -206,6 +206,7 @@ namespace ai {
         }
 
         if (auto targetStateOpt = getCurrentRefState()) {
+            RefGameState state=*targetStateOpt;
             auto stateIt = refStateStrategies.find(*targetStateOpt);
             if (stateIt != refStateStrategies.end()) {
                 return stateIt->second;
