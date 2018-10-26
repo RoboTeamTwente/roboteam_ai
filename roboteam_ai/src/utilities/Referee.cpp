@@ -168,23 +168,6 @@ boost::optional<RefGameState> Referee::getPreviousRefCommand() {
         return previousRefCommand;
     }
 
-bool Referee::waitForFirstRefCommand() {
-        ros::Rate fps60(60);
-
-        while (!(hasReceivedFirstCommand())) {
-            fps60.sleep();
-            ros::spinOnce();
-
-            ROS_INFO_THROTTLE(1, "Waiting for first ref command...");
-
-            if (!ros::ok()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
 bool Referee::hasReceivedFirstCommand() {
         return !!currentRefCommand;
     }
