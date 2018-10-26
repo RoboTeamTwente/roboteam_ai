@@ -18,7 +18,7 @@ void GoToPos::Initialize() {
         targetPos = posVector;
         sendMoveCommand(targetPos);
         currentProgress = Progression::ON_THE_WAY;
-        robot.id = static_cast<unsigned int>(blackboard->GetInt("RobotID")); // TODO: talk to Lukas about passing around robot ID
+        robot.id = static_cast<unsigned int>(blackboard->GetInt("ROBOT_ID")); // TODO: talk to Lukas about passing around robot ID
     } else {
         ROS_ERROR("No good X and Y set in BB, GoToPos");
         currentProgress = Progression::FAIL;
@@ -78,6 +78,7 @@ void GoToPos::sendMoveCommand(Vector2 pos) {
     command.x_vel = static_cast<float>(proportionalGain * (robot.pos.x - pos.x));
     command.y_vel = static_cast<float>(proportionalGain * (robot.pos.y - pos.y));
     publishRobotCommand(command);
+    commandSend = true;
 }
 
 /// Check the progress the robot made and alter the currentProgress

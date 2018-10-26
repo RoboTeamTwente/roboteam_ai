@@ -36,13 +36,9 @@ TEST(GoTOPos, GoTOPosTest) {
     ros::spinOnce();
 
     std::vector<roboteam_msgs::RobotCommand> cmds = commands;
-    // This is to see if Initialize() and Update() each send one move command to the robot
-    EXPECT_EQ(commands.size(), 2);
+    EXPECT_EQ(commands.size(), 1);
     EXPECT_TRUE(commands.at(0).x_vel);
     EXPECT_TRUE(commands.at(0).y_vel);
-
-    EXPECT_EQ(commands.at(1).x_vel, commands.at(0).x_vel);
-    EXPECT_EQ(commands.at(1).y_vel, commands.at(0).y_vel);
 
 
 
