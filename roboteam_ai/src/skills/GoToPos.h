@@ -12,20 +12,21 @@ namespace rtt {
 namespace ai {
 
 class GoToPos : Skill {
-    using status = bt::Node::Status;
+        using status = bt::Node::Status;
+    public:
+        Status Update() override;
+        void Initialize() override;
+        explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
 
-    Status Update() override;
-    void Initialize() override;
+    private:
 
-private:
-
-    enum Progression { ON_THE_WAY, DONE, FAIL };
-    Progression currentProgress;
-    Vector2 targetPos;
-    bool checkTargetPos(Vector2 pos);
-    void sendMoveCommand(Vector2 pos);
-    Progression checkProgression();
-    bool commandSend;
+        enum Progression { ON_THE_WAY, DONE, FAIL };
+        Progression currentProgress;
+        Vector2 targetPos;
+        bool checkTargetPos(Vector2 pos);
+        void sendMoveCommand(Vector2 pos);
+        Progression checkProgression();
+        bool commandSend;
 
 };
 } // ai

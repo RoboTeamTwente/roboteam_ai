@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by baris on 24/10/18.
 //
@@ -11,11 +13,12 @@ namespace ai {
 /// Init the GoToPos skill
 void GoToPos::Initialize() {
 
-    if(blackboard->HasInt("X") && blackboard->HasInt("Y")) {
+    if(blackboard->HasInt("X") && blackboard->HasInt("Y") && blackboard->HasInt("ROBOT_ID")) {
         Vector2 posVector(blackboard->GetInt("X"), blackboard->GetInt("Y")); //TODO: look into putting vectors in BB
         targetPos = posVector;
         sendMoveCommand(targetPos);
         currentProgress = Progression::ON_THE_WAY;
+        robot.id = static_cast<unsigned int>(blackboard->GetInt("ROBOT_ID")); // TODO: talk to Lukas about passing around robot ID
     } else {
         ROS_ERROR("No good X and Y set in BB, GoToPos");
         currentProgress = Progression::FAIL;
@@ -75,6 +78,7 @@ void GoToPos::sendMoveCommand(Vector2 pos) {
     command.x_vel = static_cast<float>(proportionalGain * (robot.pos.x - pos.x));
     command.y_vel = static_cast<float>(proportionalGain * (robot.pos.y - pos.y));
     publishRobotCommand(command);
+    commandSend = true;
 }
 
 /// Check the progress the robot made and alter the currentProgress
@@ -91,6 +95,10 @@ GoToPos::Progression GoToPos::checkProgression() {
     }
 
     return FAIL;
+}
+GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
+        :Skill(name, blackboard) {
+
 }
 } // ai
 } // rtt
