@@ -4,11 +4,6 @@
 
 #include <gtest/gtest.h>
 #include "../src/DangerFinder/DangerFinder.h"
-#include "../src/utilities/World.h"
-#include "roboteam_msgs/World.h"
-#include "roboteam_msgs/WorldRobot.h"
-#include "../src/utilities/Field.h"
-#include <random>
 #include <bitset>
 
 namespace df = rtt::ai::dangerfinder;

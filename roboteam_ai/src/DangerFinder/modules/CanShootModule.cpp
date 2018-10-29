@@ -1,12 +1,7 @@
 #include "CanShootModule.h"
 #include "roboteam_utils/world_analysis.h"
-#include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Position.h"
 #include "roboteam_utils/Section.h"
-#include "roboteam_utils/Math.h"
-#include "roboteam_msgs/GeometryFieldSize.h"
-#include "../../utilities/World.h"
-#include "../../utilities/Field.h"
 
 namespace rtt {
     namespace ai {

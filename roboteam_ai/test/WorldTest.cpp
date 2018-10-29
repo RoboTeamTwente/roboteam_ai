@@ -4,8 +4,6 @@
 
 #include <gtest/gtest.h>
 #include "../src/utilities/World.h"
-#include "roboteam_msgs/World.h"
-#include "roboteam_msgs/WorldRobot.h"
 
 TEST(WorldTest, it_sets_and_gets_the_world) {
     roboteam_msgs::World worldMsg;

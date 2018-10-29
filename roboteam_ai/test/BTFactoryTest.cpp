@@ -4,10 +4,6 @@
 
 #include <gtest/gtest.h>
 #include "../src/treeinterp/BTFactory.h"
-#include "../src/bt/Composite.hpp"
-#include "../src/bt/composites/Sequence.hpp"
-#include "../src/bt/Leaf.hpp"
-#include "../src/treeinterp/JsonReader.h"
 
 
 TEST(BT, BTTest) {

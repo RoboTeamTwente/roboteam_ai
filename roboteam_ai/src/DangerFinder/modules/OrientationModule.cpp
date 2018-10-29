@@ -1,6 +1,4 @@
 #include "OrientationModule.h"
-#include "roboteam_msgs/GeometryFieldSize.h"
-#include "roboteam_utils/Position.h"
 
 namespace rtt {
     namespace ai {

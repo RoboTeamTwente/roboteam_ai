@@ -1,6 +1,5 @@
 #include "FreeModule.h"
 #include "roboteam_utils/world_analysis.h"
-#include "roboteam_utils/Vector2.h"
 
 namespace rtt {
     namespace ai {

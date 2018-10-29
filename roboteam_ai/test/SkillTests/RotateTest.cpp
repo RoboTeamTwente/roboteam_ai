@@ -11,8 +11,6 @@
 #include "../../src/io/RoleIOManager.h"
 #include "../../src/skills/Rotate.h"
 #include <gtest/gtest.h>
-#include <roboteam_utils/constants.h>
-#include <roboteam_msgs/RobotCommand.h>
 
 // anonymous namespace needed to prevent ROS callback function name clashes
 namespace {

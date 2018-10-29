@@ -5,7 +5,6 @@
 #include <gtest/gtest.h>
 #include "../src/io/StrategyIOManager.h"
 #include "../src/io/RoleIOManager.h"
-#include "../src/bt/Leaf.hpp"
 
 // anonymous namespace needed to prevent ROS callback function name clashes
 namespace {

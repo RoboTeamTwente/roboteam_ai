@@ -4,10 +4,6 @@
 
 #include <gtest/gtest.h>
 #include "../src/treeinterp/TreeInterpreter.h"
-#include "../src/treeinterp/json.h"
-#include "../src/treeinterp/JsonReader.h"
-
-#include <typeinfo>
 
 TEST(JsonBasics, JsonTest) {
 

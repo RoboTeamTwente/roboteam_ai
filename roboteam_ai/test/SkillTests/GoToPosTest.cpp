@@ -4,7 +4,6 @@
 
 #include <gtest/gtest.h>
 #include "../../src/skills/GoToPos.h"
-#include "ros/ros.h"
 
 // Empty namespace for ROS errors
 namespace {

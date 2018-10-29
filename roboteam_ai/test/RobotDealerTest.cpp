@@ -5,7 +5,6 @@
 
 #include <gtest/gtest.h>
 #include "../src/utilities/RobotDealer.h"
-#include <string>
 
 namespace ai = rtt::ai;
 

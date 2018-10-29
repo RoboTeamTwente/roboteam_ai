@@ -7,8 +7,6 @@
 #include "../../src/skills/Kick.h"
 #include "../../src/skills/Chip.h"
 #include <gtest/gtest.h>
-#include <roboteam_utils/constants.h>
-#include <roboteam_msgs/RobotCommand.h>
 
 // anonymous namespace needed to prevent ROS callback function name clashes
 namespace {

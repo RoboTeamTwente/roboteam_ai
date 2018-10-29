@@ -4,9 +4,6 @@
 #include <gtest/gtest.h>
 #include "../../src/bt/bt.hpp"
 #include "../../src/conditions/IHaveBall.hpp"
-#include "roboteam_msgs/World.h"
-#include "../../src/utilities/World.h"
-#include "roboteam_msgs/WorldRobot.h"
 
 TEST(BallTest, IHaveBallTest) {
     auto BB = std::make_shared<bt::Blackboard>();

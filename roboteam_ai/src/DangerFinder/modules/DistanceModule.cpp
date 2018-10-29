@@ -1,5 +1,4 @@
 #include "DistanceModule.h"
-#include "roboteam_msgs/GeometryFieldSize.h"
 
 namespace rtt {
     namespace ai {

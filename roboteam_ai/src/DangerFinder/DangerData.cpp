@@ -1,7 +1,6 @@
 #include "DangerData.h"
 #include "roboteam_msgs/World.h"
 #include "ros/ros.h"
-#include "../utilities/World.h"
 
 namespace rtt {
     namespace ai {

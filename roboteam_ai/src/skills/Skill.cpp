@@ -1,5 +1,4 @@
 #include "Skill.h"
-#include "../io/StrategyIOManager.h"
 
 namespace rtt {
     namespace ai {

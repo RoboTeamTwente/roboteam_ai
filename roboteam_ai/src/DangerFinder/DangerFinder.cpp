@@ -1,12 +1,4 @@
 #include "DangerFinder.h"
-#include "ros/ros.h"
-#include "modules/DistanceModule.h"
-#include "modules/OrientationModule.h"
-#include "modules/CanShootModule.h"
-#include "modules/FreeModule.h"
-#include "modules/HasBallModule.h"
-#include <boost/optional.hpp>
-#include <sstream>
 #include <bitset>
 
 namespace rtt {
