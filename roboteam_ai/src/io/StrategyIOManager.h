@@ -15,16 +15,21 @@ namespace ai {
 namespace io {
 
 class StrategyIOManager : public IOManager {
- private:
-  roboteam_msgs::RoleFeedback roleFeedback;
-  void handleRobotFeedback(const roboteam_msgs::RoleFeedbackConstPtr &rolefeedback);
-  ros::Subscriber roleFeedbackSubscriber;
-  ros::Publisher roleDirectivePublisher;
- public:
-  StrategyIOManager();
-  void subscribeToRoleFeedback();
-  roboteam_msgs::RoleFeedback &getRoleFeedback();
-  void publishRoleDirective(roboteam_msgs::RoleDirective roleDirective);
+    private:
+        roboteam_msgs::RoleFeedback roleFeedback;
+
+        void handleRobotFeedback(const roboteam_msgs::RoleFeedbackConstPtr &rolefeedback);
+
+        ros::Subscriber roleFeedbackSubscriber;
+        ros::Publisher roleDirectivePublisher;
+    public:
+        StrategyIOManager();
+
+        void subscribeToRoleFeedback();
+
+        roboteam_msgs::RoleFeedback &getRoleFeedback();
+
+        void publishRoleDirective(roboteam_msgs::RoleDirective roleDirective);
 };
 
 } // io

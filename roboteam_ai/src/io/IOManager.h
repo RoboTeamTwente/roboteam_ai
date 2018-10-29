@@ -1,8 +1,12 @@
 //
 // Created by mrlukasbos on 19-9-18.
 //
-// Listen to rostopic World_state
 
+/*
+ * Important note
+ *
+ *
+ */
 #ifndef ROBOTEAM_AI_IO_MANAGER_H
 #define ROBOTEAM_AI_IO_MANAGER_H
 

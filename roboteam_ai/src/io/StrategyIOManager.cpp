@@ -12,24 +12,25 @@ StrategyIOManager::StrategyIOManager() {
   this->subscribeToRefereeData();
 
   // set up advertisement to publish roledirectives
-  roleDirectivePublisher = nodeHandle.advertise<roboteam_msgs::RoleDirective>(rtt::TOPIC_ROLE_DIRECTIVE, 1000);
-
+  roleDirectivePublisher = nodeHandle.advertise<roboteam_msgs::RoleDirective>(rtt::TOPIC_ROLE_DIRECTIVE, 100);
 }
 
 void StrategyIOManager::subscribeToRoleFeedback() {
-  roleFeedbackSubscriber = nodeHandle.subscribe<roboteam_msgs::RoleFeedback>(rtt::TOPIC_ROLE_FEEDBACK, 1, &StrategyIOManager::handleRobotFeedback, this);
+    roleFeedbackSubscriber = nodeHandle.subscribe<roboteam_msgs::RoleFeedback>(rtt::TOPIC_ROLE_FEEDBACK, 1,
+            &StrategyIOManager::handleRobotFeedback,
+            this);
 }
 
 void StrategyIOManager::handleRobotFeedback(const roboteam_msgs::RoleFeedbackConstPtr &rolefeedback) {
-  this->roleFeedback = *rolefeedback;
+    this->roleFeedback = *rolefeedback;
 }
 
 roboteam_msgs::RoleFeedback &StrategyIOManager::getRoleFeedback() {
-  return roleFeedback;
+    return roleFeedback;
 }
 
-void StrategyIOManager::publishRoleDirective(roboteam_msgs::RoleDirective roledirective) {
-  roleDirectivePublisher.publish(roledirective);
+void StrategyIOManager::publishRoleDirective(roboteam_msgs::RoleDirective roleDirective) {
+    roleDirectivePublisher.publish(roleDirective);
 }
 
 } // io

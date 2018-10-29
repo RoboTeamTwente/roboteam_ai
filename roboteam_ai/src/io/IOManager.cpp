@@ -9,23 +9,26 @@ namespace ai {
 namespace io {
 
 void IOManager::subscribeToWorldState() {
-  worldSubscriber = nodeHandle.subscribe<roboteam_msgs::World>(rtt::TOPIC_WORLD_STATE, 1, &IOManager::handleWorldState, this);
+    worldSubscriber = nodeHandle.subscribe<roboteam_msgs::World>(rtt::TOPIC_WORLD_STATE, 1,
+            &IOManager::handleWorldState, this);
 }
 
 void IOManager::subscribeToGeometryData() {
-  geometrySubscriber = nodeHandle.subscribe<roboteam_msgs::GeometryData>(rtt::TOPIC_GEOMETRY, 1, &IOManager::handleGeometryData, this);
+    geometrySubscriber = nodeHandle.subscribe<roboteam_msgs::GeometryData>(rtt::TOPIC_GEOMETRY, 1,
+            &IOManager::handleGeometryData,
+            this);
 }
-//This constant TOPIC_REFEREE was not used by the previous team, so if stuff goes wrong check if you are reading the correct topic.
+//This constant TOPIC_REFEREE was not used consistently by the previous team, so if stuff goes wrong check if you are reading the correct topic.
 void IOManager::subscribeToRefereeData() {
   refereeSubscriber=nodeHandle.subscribe<roboteam_msgs::RefereeData>(rtt::TOPIC_REFEREE, 1, &IOManager::handleRefereeData,this);
 }
 
-void IOManager::handleWorldState(const roboteam_msgs::WorldConstPtr& world) {
-  this->world = * world;
+void IOManager::handleWorldState(const roboteam_msgs::WorldConstPtr &world) {
+    this->world = *world;
 }
 
 void IOManager::handleGeometryData(const roboteam_msgs::GeometryDataConstPtr &geometry) {
-  this->geometry = * geometry;
+    this->geometry = *geometry;
 }
 
 void IOManager::handleRefereeData(const roboteam_msgs::RefereeDataConstPtr &refData) {
@@ -36,8 +39,8 @@ const roboteam_msgs::World& IOManager::getWorldState() {
   return this->world;
 }
 
-const roboteam_msgs::GeometryData& IOManager::getGeometryData() {
-  return this->geometry;
+const roboteam_msgs::GeometryData &IOManager::getGeometryData() {
+    return this->geometry;
 }
 
 const roboteam_msgs::RefereeData& IOManager::getRefereeData() {

@@ -10,40 +10,51 @@
 namespace bt {
 
 class Node {
- public:
-  // When this is updated, updated the tostring method below too!
-  enum class Status {
-    Invalid,
-    Success,
-    Failure,
-    Running,
-  };
+    public:
+        // When this is updated, updated the tostring method below too!
+        enum class Status {
+                Invalid,
+                Success,
+                Failure,
+                Running
+        };
 
-  virtual ~Node();
-  using Ptr = std::shared_ptr<Node>;
-  virtual Status Update() = 0;
-  virtual void Initialize();
-  virtual void Terminate(Status s);
-  virtual void AddChild(bt::Node::Ptr);
-  virtual Status Tick();
+        virtual ~Node();
 
-  bool IsSuccess() const;
-  bool IsFailure() const;
-  bool IsRunning() const;
-  bool IsTerminated() const;
-  Status getStatus() const;
-  void setStatus(Status s);
+        using Ptr = std::shared_ptr<Node>;
 
+        virtual Status Update() = 0;
 
+        virtual void Initialize();
 
-  bt::Blackboard::Ptr private_bb = std::make_shared<bt::Blackboard>();
+        virtual void Terminate(Status s);
 
-  virtual std::string node_name();
-  static std::string status_desc;
+        virtual void AddChild(bt::Node::Ptr);
 
- protected:
-  Status status = Status::Invalid;
-  static void append_status(std::string fmt, ...);
+        virtual Status Tick();
+
+        bool IsSuccess() const;
+
+        bool IsFailure() const;
+
+        bool IsRunning() const;
+
+        bool IsTerminated() const;
+
+        Status getStatus() const;
+
+        void setStatus(Status s);
+
+        bt::Blackboard::Ptr private_bb = std::make_shared<bt::Blackboard>();
+
+        virtual std::string node_name();
+
+        static std::string status_desc;
+
+    protected:
+        Status status = Status::Invalid;
+
+        static void append_status(std::string fmt, ...);
 };
 
 using Nodes = std::vector<Node::Ptr>;
