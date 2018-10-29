@@ -4,6 +4,7 @@
 #include <map>
 #include "boost/optional.hpp"
 #include "roboteam_msgs/WorldRobot.h"
+#include "../../src/utilities/World.h"
 
 namespace rtt {
 namespace ai {
