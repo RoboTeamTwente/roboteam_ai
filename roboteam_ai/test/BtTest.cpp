@@ -238,6 +238,8 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
     bt.Tick();
 
     ASSERT_TRUE(parSeq->IsSuccess());
+    ASSERT_FALSE(parSeq->IsFailure());
+
   }
 
   {
@@ -451,4 +453,25 @@ TEST(BehaviorTreeTest, it_sets_blackboards) {
 
   ASSERT_TRUE(tree.GetSharedBlackboard()->HasDouble("A1"));
   ASSERT_EQ(tree.GetSharedBlackboard()->GetDouble("A1"), 55);
+}
+
+TEST(BehaviorTreeTest, it_terminates_nodes) {
+  bt::Succeeder succeeder;
+  succeeder.AddChild(std::make_unique<Counter>(bt::Node::Status::Failure, "D", 2));
+  succeeder.Terminate(bt::Node::Status::Success);
+  ASSERT_EQ(succeeder.getStatus(), bt::Node::Status::Invalid);
+
+  bt::Succeeder succeeder2;
+  succeeder2.AddChild(std::make_unique<Counter>(bt::Node::Status::Failure, "D", 2));
+  succeeder2.Update();
+
+  succeeder2.Terminate(bt::Node::Status::Running);
+  ASSERT_EQ(succeeder2.getStatus(), bt::Node::Status::Failure);
+
+  bt::Succeeder succeeder3;
+  succeeder3.AddChild(std::make_unique<Counter>(bt::Node::Status::Failure, "D", 2));
+  succeeder3.Update();
+
+  succeeder3.Terminate(bt::Node::Status::Failure);
+  ASSERT_EQ(succeeder3.getStatus(), bt::Node::Status::Invalid);
 }

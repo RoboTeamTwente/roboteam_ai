@@ -16,7 +16,7 @@ class Node {
     Invalid,
     Success,
     Failure,
-    Running,
+    Running
   };
 
   virtual ~Node();
