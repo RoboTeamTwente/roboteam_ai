@@ -14,14 +14,15 @@
 #include "Condition.h"
 //TODO: Fix node_name() to be correct.
 namespace rtt {
-namespace ai {
+    namespace ai {
 
-class IsInDefenseArea : public ai::Condition{
-  public:
-    explicit IsInDefenseArea(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
-    Status Update() override;
-};
+        class IsInDefenseArea : public ai::Condition {
+        public:
+            explicit IsInDefenseArea(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
 
-}// ai
+            Status Update() override;
+        };
+
+    }// ai
 }// rtt
 #endif //ROBOTEAM_AI_ISINDEFENSEAREA_HPP

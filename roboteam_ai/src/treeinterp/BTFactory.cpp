@@ -48,7 +48,7 @@ void BTFactory::init() {
     initialProjectNames();
 
     // Updates all the projects in the projectNames vector and adds them to treeRepo
-    for (const std::string &projectName : projectNames){
+    for (const std::string &projectName : projectNames) {
         updateProject(projectName);
     }
 }
@@ -60,8 +60,8 @@ void BTFactory::initialProjectNames() {
     std::string initialNames[] = {
             "bigjson",
             "sample"
-            };
-    projectNames.insert(projectNames.end(),std::begin(initialNames),std::end(initialNames));
+    };
+    projectNames.insert(projectNames.end(), std::begin(initialNames), std::end(initialNames));
 }
 
 

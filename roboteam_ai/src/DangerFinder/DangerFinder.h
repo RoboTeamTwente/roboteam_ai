@@ -16,39 +16,51 @@
 #include "modules/OrientationModule.h"
 
 namespace rtt {
-namespace ai {
-namespace dangerfinder {
+    namespace ai {
+        namespace dangerfinder {
 
-class DangerFinder {
- public:
-  DangerFinder(const DangerFinder &) = delete;  // It's a singleton; don't copy it.
-  void operator=(const DangerFinder &) = delete;
-  DangerData getMostRecentData();
-  DangerData calculateDataNow();
-  void start(int iterationsPerSecond = 20);
-  void stop();
-  bool hasCalculated();
-  static DangerFinder &instance();
-  static void ensureRunning(int iterationsPerSecond = 20);
+            class DangerFinder {
+            public:
+                DangerFinder(const DangerFinder &) = delete;  // It's a singleton; don't copy it.
+                void operator=(const DangerFinder &) = delete;
 
- private:
-  void loadModules();
-  std::thread runner;
-  std::mutex mutex;
-  volatile bool stopping;
-  volatile bool running;
-  bool ranOnce;
-  DangerData mostRecentData;
-  std::vector<DangerModule *> dangerModules;
-  void calculate();
-  void loop(unsigned delayMillis);
-  DangerFinder();
-  CanShootModule canShootModule;
-  DistanceModule distanceModule; // factor / max width
-  FreeModule freeModule;
-  HasBallModule hasBallModule;
-  OrientationModule orientationModule;
-};
-} // dangerfinder
-} // ai
+                DangerData getMostRecentData();
+
+                DangerData calculateDataNow();
+
+                void start(int iterationsPerSecond = 20);
+
+                void stop();
+
+                bool hasCalculated();
+
+                static DangerFinder &instance();
+
+                static void ensureRunning(int iterationsPerSecond = 20);
+
+            private:
+                void loadModules();
+
+                std::thread runner;
+                std::mutex mutex;
+                volatile bool stopping;
+                volatile bool running;
+                bool ranOnce;
+                DangerData mostRecentData;
+                std::vector<DangerModule *> dangerModules;
+
+                void calculate();
+
+                void loop(unsigned delayMillis);
+
+                DangerFinder();
+
+                CanShootModule canShootModule;
+                DistanceModule distanceModule; // factor / max width
+                FreeModule freeModule;
+                HasBallModule hasBallModule;
+                OrientationModule orientationModule;
+            };
+        } // dangerfinder
+    } // ai
 } // rtt

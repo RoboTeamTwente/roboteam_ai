@@ -5,11 +5,11 @@
 #include "../../src/conditions/IsInDefenseArea.hpp"
 //TODO: Write tests.
 
-TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest){
+TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest) {
     // Test our defense Area
 
 }
 
-TEST(DetectsInTheirDefenseArea,IsInDefenseAreaTest){
+TEST(DetectsInTheirDefenseArea, IsInDefenseAreaTest) {
 
 }
