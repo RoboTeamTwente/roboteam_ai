@@ -7,10 +7,15 @@
 namespace rtt {
 namespace ai {
 
-Rotate::Rotate() : Skill(name, blackboard) { }
+Rotate::Rotate(string name, bt::Blackboard::Ptr blackboard)
+    : Skill(name, blackboard) { }
 
 void Rotate::Initialize() {
-    if (blackboard->HasBool("Rotate_To_Object")) {
+
+
+    if (blackboard->HasBool("Rotate_To_Object") && blackboard->HasInt("ROBOT_ID")) {
+        robot.id = (unsigned int)(blackboard->HasInt("ROBOT_ID"));
+
         if (blackboard->GetBool("Rotate_To_Object")) {  // Rotate towards an object
 
             if (blackboard->HasInt("Rotate_Object")) {
@@ -100,7 +105,8 @@ void Rotate::Initialize() {
             break;
         }
         }
-        targetRotation = objectPos.angle();
+        Vector2 deltaPos = {objectPos.x - robot.pos.x, objectPos.y - robot.pos.y};
+        targetRotation = deltaPos.angle();
 
     }
 }
@@ -114,7 +120,9 @@ bt::Node::Status Rotate::Update() {
 
     double robotAngle = robot.angle;
     double angleDifference = robotAngle - targetRotation;
-    if (angleDifference < 0) angleDifference += 2*PI;
+
+    while (angleDifference < 0) angleDifference += 2*PI;
+    while (angleDifference > 2*PI) angleDifference -= 2*PI;
 
     double angularVelocity;
     double angularErrorMargin = 0.10; // within this margin, give succes.
@@ -124,7 +132,7 @@ bt::Node::Status Rotate::Update() {
     }
 
     if (angleDifference > PI) { angularVelocity = MAX_ANGULAR_VELOCITY; }
-    else { angularVelocity = - MAX_ANGULAR_VELOCITY; }
+    else { angularVelocity = -MAX_ANGULAR_VELOCITY; }
 
     // Send the robotCommand.
     sendRotationCommand(angularVelocity);

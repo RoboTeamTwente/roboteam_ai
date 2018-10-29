@@ -61,7 +61,7 @@ TEST(KickTest, It_sends_proper_robotcommands) {
   EXPECT_EQ(kick2.Update(), bt::Leaf::Status::Failure);
 }
 
-TEST(KickTest, it_chips) {
+TEST(KickTest, It_chips) {
   ros::Rate rate(1);
   commands.clear(); // ensure the vector is empty.
   EXPECT_TRUE(commands.empty());

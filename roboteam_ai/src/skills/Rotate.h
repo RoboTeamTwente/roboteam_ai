@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_ROTATEAROUNDPOINT_H
 
 #include "Skill.h"
+#include <boost/optional.hpp>
 #include "roboteam_utils/Vector2.h"
 #include "../utilities/World.h"
 #include "../utilities/Field.h"
@@ -20,7 +21,7 @@ namespace ai {
 
             using worldBall = roboteam_msgs::WorldBall;
             using worldRobot = roboteam_msgs::WorldRobot;
-            explicit Rotate();
+            explicit Rotate(string name, bt::Blackboard::Ptr blackboard);
 
             Status Update() override;
 

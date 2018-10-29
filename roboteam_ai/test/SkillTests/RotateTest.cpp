@@ -49,14 +49,16 @@ std::vector<roboteam_msgs::RobotCommand> commands;
 void robotCommandCallback(const roboteam_msgs::RobotCommandConstPtr &cmd) {
     commands.push_back(*cmd);
 }
-//TODO: FIX TEST \o/
-TEST(RotateTest, it_rotates) {
+
+//TODO: FIX TEST \o/ FIX BLACKBOARDS / ROBOT ID / segmentation faults :o
+TEST(RotateTest, It_rotates) {
 
     roboteam_msgs::World worldMsg;
     setFieldtoWorld();
 
-    worldMsg.ball = getBall(-100, 0);
-    worldMsg.us.push_back(getRobot(10, 200, (float)PI/8,1));
+    worldMsg.ball = getBall(100, 100);
+    worldMsg.us.push_back(getRobot(-100,-100, (float)(0.625*PI), 1));
+    rtt::ai::World::set_world(worldMsg);
 
 
     ros::Rate rate(1);
@@ -67,11 +69,12 @@ TEST(RotateTest, it_rotates) {
 
     auto bb = std::make_shared<bt::Blackboard>();
 
+    bb->SetInt("ROBOT_ID", 1);
     bb->SetBool("Rotate_To_Object",true);
     bb->SetInt("Rotate_Object",100);        // Rotate to ball
-    bb->SetFloat("Rotate_Angle", (float)PI/2);
+    bb->SetFloat("Rotate_Angle", (float)(PI*0.5));
 
-    rtt::ai::Rotate rotateOne;
+    rtt::ai::Rotate rotateOne("test1",bb);
     rotateOne.Initialize();
     bt::Node::Status statusOne = rotateOne.Update();
     EXPECT_EQ(statusOne, bt::Node::Status::Running);
@@ -79,35 +82,35 @@ TEST(RotateTest, it_rotates) {
     rate.sleep();
     ros::spinOnce();
 
-    EXPECT_EQ(commands.at(0).w, -MAX_ANGULAR_VELOCITY);
+    EXPECT_EQ(commands.at(0).w, MAX_ANGULAR_VELOCITY);
 
-    commands.clear(); // ensure the vector is empty.
+    //commands.clear(); // ensure the vector is empty.
 
     bb->SetBool("Rotate_To_Object",true);
-    bb->SetInt("Rotate_Object",101);        // Rotate to center of the enemy goal
+    bb->SetInt("Rotate_Object",102);        // Rotate to center of the enemy goal
 
-    rtt::ai::Rotate rotateTwo;
+    rtt::ai::Rotate rotateTwo("test2",bb);
     rotateTwo.Initialize();
-    rotateTwo.Update();
+    bt::Node::Status statusTwo = rotateOne.Update();
+    EXPECT_EQ(statusTwo, bt::Node::Status::Running);
 
     rate.sleep();
     ros::spinOnce();
 
-    EXPECT_EQ(commands.at(0).w, MAX_ANGULAR_VELOCITY);
-
-    commands.clear();
+    EXPECT_EQ(commands.at(1).w, MAX_ANGULAR_VELOCITY);
 
     bb->SetBool("Rotate_To_Object",false);
-    bb->SetFloat("Rotate_Angle", (float)PI/4);
+    bb->SetFloat("Rotate_Angle", (float)-PI);
 
-    rtt::ai::Rotate rotateThree;
+    rtt::ai::Rotate rotateThree("test3",bb);
     rotateThree.Initialize();
-    rotateThree.Update();
+    bt::Node::Status statusThree = rotateOne.Update();
+    EXPECT_EQ(statusThree, bt::Node::Status::Running);
 
     rate.sleep();
     ros::spinOnce();
 
-    EXPECT_EQ(commands.at(0).w, MAX_ANGULAR_VELOCITY);
+    EXPECT_EQ(commands.at(2).w, MAX_ANGULAR_VELOCITY);
 }
 
 }

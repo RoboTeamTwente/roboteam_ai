@@ -140,6 +140,7 @@ set(CONDITIONS_SOURCES
 set(SKILL_TESTS
         roboteam_ai/test/SkillTests/KickTest.cpp
         roboteam_ai/test/SkillTests/GoToPosTest.cpp
+        roboteam_ai/test/SkillTests/RotateTest.cpp
         )
 
 set(CONDITION_TESTS
@@ -198,11 +199,6 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/DangerFinderTest.cpp
         roboteam_ai/test/BTBlackBoardTest.cpp
         roboteam_ai/test/IOTest.cpp
-        roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
-        roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
-        roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
-        roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
-        roboteam_ai/test/SkillTests/KickTest.cpp
         roboteam_ai/test/RobotDealerTest.cpp
         ${SKILL_TESTS}
         ${CONDITION_TESTS}
