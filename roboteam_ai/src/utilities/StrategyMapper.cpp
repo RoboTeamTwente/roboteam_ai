@@ -31,8 +31,8 @@ namespace rtt {
                 // States that direct to normal Play                                 //
                 ///////////////////////////////////////////////////////////////////////
 
-                {RefGameState::NORMAL_START,         "rtt_jim/NormalPlay"s},
-                {RefGameState::FORCED_START,         "rtt_jim/NormalPlay"s},
+                {RefGameState::NORMAL_START,         "bigjson/NormalPlay"s},
+                {RefGameState::FORCED_START,         "bigjson/009472f6-0d76-4db6-8161-a536bf497f89"s},
 
                 ////////////////////////////////////////////////////
                 // Ref states that have a specific implementation //
@@ -75,6 +75,7 @@ namespace rtt {
                 {RefGameState::DEFEND_PENALTY,       "rtt_emiel/PreparePenaltyThemStrategy"s},
                 {RefGameState::DO_PENALTY,           "rtt_jim/TakePenalty"s},
         };
+        //TODO: change this? this is unintuitive behavior
         std::shared_ptr<bt::BehaviorTree> StrategyMapper::getMainStrategy() {
             if (!initialized) init();
             return mainStrategy;
@@ -85,7 +86,8 @@ namespace rtt {
 
             // Construct RefStateManager and global BB
             std::shared_ptr<RefStateManager> rsm=std::make_shared<RefStateManager>();
-            bt::Blackboard::Ptr bb=std::make_shared<bt::Blackboard>(bt::Blackboard());//TODO: Create Global blackboard? Check usage in code.
+            bt::Blackboard::Ptr bb=std::make_shared<bt::Blackboard>(bt::Blackboard());//TODO: Create Global blackboard? @baris
+
 
             // Set the default tree name. Any tree that is not set will default to this.
             std::string defName;
@@ -109,7 +111,7 @@ namespace rtt {
                 }
                 else{ROS_WARN_STREAM_NAMED("StrategyMapper","Could find the default project but not the default tree in the treeRepo");}
             } else{ROS_WARN_STREAM_NAMED("StrategyMapper","Could not find the default project in the treeRepo"); }
-            //
+
             for (auto refState : ALL_REFSTATES) {
                 auto stratNameOpt=MAPPING.at(refState); //name of desired strategy
                 // if it is unset use default
@@ -118,24 +120,26 @@ namespace rtt {
                     rsm->AddStrategy(refState,defTree);
                 }
                 else{
-                    //I know this is ugly. Is there a better way?
+                    //This feels ugly. Is there a better way?
                     auto stratName=*stratNameOpt;
                     std::pair<std::string,std::string> stratSplitName=splitString(stratName);
                     std::string stratProjectName=stratSplitName.first;
                     std::string stratTreeName=stratSplitName.second;
 
                     //try to find the desired strategy. If we find it, add it to the RefStateManager
-                    //TODO: also default trees we cannot find in the treeRepo, and not just in the map?
+                    //TODO: also default the trees we cannot find in the treeRepo to NORMAL_START?
                     if (BTFactory::treeRepo.find(stratProjectName)!=BTFactory::treeRepo.end()){
                         if (BTFactory::treeRepo[stratProjectName].find(stratTreeName)!=BTFactory::treeRepo[stratProjectName].end()){
-                            // We find the node and add it to the refStateManager
-                            auto node = std::make_shared<bt::BehaviorTree>(BTFactory::treeRepo[stratProjectName][stratTreeName]);
+                            // print first (for debugging purposes)
                             std::string refStateStr=refStateToString(refState);
                             refStateStr.resize(20, ' ');
                             ROS_INFO_STREAM_NAMED("StrategyMapper","AddStrategy : " << refStateStr << " ->" << stratName);
+
+                            // We find the node and add it to the refStateManager
+                            auto node = std::make_shared<bt::BehaviorTree>(BTFactory::treeRepo[stratProjectName][stratTreeName]);
                             rsm->AddStrategy(refState,node);
                         }
-                        else{ROS_WARN_STREAM_NAMED("StrategyMapper","The project: "<< stratProjectName << "does not contain the tree: "<<stratTreeName<<"in the treeRepo.");}
+                        else{ROS_WARN_STREAM_NAMED("StrategyMapper","The project: "<< stratProjectName << " does not contain the tree: "<<stratTreeName<<" in the treeRepo.");}
                     }
                     else{ROS_WARN_STREAM_NAMED("StrategyMapper","Could not find the project: "<< stratProjectName<<" in the treeRepo. Using default strategy"); }
                 }
@@ -146,11 +150,12 @@ namespace rtt {
             initialized=true;
             ROS_INFO_STREAM_NAMED("StrategyMapper", "StrategyMapper Initialized!");
         }
+        //Splits a string formatted abcd/efgh into strings abcd and efgh. Takes the first /
         std::pair<std::string,std::string> StrategyMapper::splitString(std::string fullString) {
             std::string c="/";
             std::string::size_type j = fullString.find(c);
             std::string projectName=fullString.substr(0,j);
-            std::string treeName=fullString.substr(j+1,projectName.length());
+            std::string treeName=fullString.substr(j+1,fullString.length());
             return std::pair<std::string,std::string>(projectName,treeName);
         }
     }

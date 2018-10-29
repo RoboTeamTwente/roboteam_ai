@@ -24,12 +24,12 @@ namespace rtt{
     }
 }
 namespace r=rtt::ai;
-// You should see the following warnings when running this test. If not, something is going wrong!
+// You should see the following warnings when running this test. If not, something is probably going wrong!
 //[ WARN][ros.roboteam_ai.RefStateManager]: Have not yet received a ref command, so not executing any strategy tree.
 //[ INFO][ros.roboteam_ai.RefStateManager]: Botcount changed from 4294967295 to 0
 //[ INFO][ros.roboteam_ai.RefStateManager]: RefState switch detected : PREPARE_KICKOFF_US -> NORMAL_START | DO_KICKOFF : rtt_bob/KickoffWithChipStrategy
 //[ WARN][ros.roboteam_ai.RefStateManager]: Keeper ID changed from 0 to 1
-
+//[ INFO][ros.roboteam_ai.RefStateManager]: Botcount changed from 0 to 1
 TEST(RefStateManager,refstatemanagertest){
     roboteam_msgs::World world;
     rtt::ai::World::set_world(world);
@@ -77,4 +77,10 @@ TEST(RefStateManager,refstatemanagertest){
     rootThreePtr->setStatusTest(bt::Node::Status::Success);
     EXPECT_EQ(rsm->Update(), bt::Node::Status::Running);
     EXPECT_EQ(rsm->Update(), bt::Node::Status::Running);
-}
+
+    //Change the world count
+    roboteam_msgs::WorldRobot bot;
+    world.us.push_back(bot);
+    rtt::ai::World::set_world(world);
+    EXPECT_EQ(rsm->Update(),bt::Node::Status::Running);
+    }

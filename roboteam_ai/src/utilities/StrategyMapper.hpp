@@ -8,6 +8,7 @@
 #include "Referee.hpp"
 #include "../../src/bt/bt.hpp"
 #include "../../src/treeinterp/BTFactory.h"
+
 namespace rtt {
 namespace ai {
 /// \brief Maps the trees in BTFactory to the RefStateManager and checks if this all goes correctly.
@@ -20,7 +21,6 @@ private:
 public:
     StrategyMapper()=delete;
     static std::shared_ptr<bt::BehaviorTree> getMainStrategy();
-
     // SET THIS IN THE CPP!!
     static const std::map<RefGameState, boost::optional<std::string>> MAPPING;
 
