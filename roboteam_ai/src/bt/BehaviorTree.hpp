@@ -6,27 +6,33 @@
 namespace bt {
 
 class BehaviorTree : public Node {
- public:
-  BehaviorTree();
-  BehaviorTree(const Node::Ptr &rootNode);
-  BehaviorTree(const Blackboard::Ptr &shared);
+    public:
+        BehaviorTree();
 
-  ~BehaviorTree();
+        BehaviorTree(const Node::Ptr &rootNode);
 
-  Status Update() override;
+        BehaviorTree(const Blackboard::Ptr &shared);
 
-  void Terminate(Status s) override;
+        ~BehaviorTree();
 
-  void SetRoot(const Node::Ptr &node);
-  Node::Ptr GetRoot();
-  Blackboard::Ptr GetBlackboard() const;
-  Blackboard::Ptr GetSharedBlackboard() const;
-  void SetSharedBlackboard(const Blackboard::Ptr &shared);
+        Status Update() override;
 
- private:
-  Node::Ptr root = nullptr;
-  Blackboard::Ptr blackboard = nullptr;
-  Blackboard::Ptr sharedBlackboard = nullptr;
+        void Terminate(Status s) override;
+
+        void SetRoot(const Node::Ptr &node);
+
+        Node::Ptr GetRoot();
+
+        Blackboard::Ptr GetBlackboard() const;
+
+        Blackboard::Ptr GetSharedBlackboard() const;
+
+        void SetSharedBlackboard(const Blackboard::Ptr &shared);
+
+    private:
+        Node::Ptr root = nullptr;
+        Blackboard::Ptr blackboard = nullptr;
+        Blackboard::Ptr sharedBlackboard = nullptr;
 
 };
 

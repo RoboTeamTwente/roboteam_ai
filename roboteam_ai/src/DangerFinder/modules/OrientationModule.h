@@ -11,16 +11,20 @@ namespace dangerfinder {
  * \brief DangerModule which assigns higher scores to robots which are oriented towards our goal.
  */
 class OrientationModule final : public DangerModule {
- private:
+    private:
 
-public:
-  	explicit OrientationModule() = default;
-	OrientationModule(double factor, double scalar, double danger);
-	PartialResult calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) override;
-private:
-	double factor;
-    double scalar;
-    double danger;
+    public:
+        explicit OrientationModule() = default;
+
+        OrientationModule(double factor, double scalar, double danger);
+
+        PartialResult
+        calculate(const roboteam_msgs::WorldRobot &bot, const roboteam_msgs::World &world) override;
+
+    private:
+        double factor;
+        double scalar;
+        double danger;
 
 };
 

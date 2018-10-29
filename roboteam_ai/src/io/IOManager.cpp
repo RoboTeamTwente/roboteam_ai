@@ -9,27 +9,30 @@ namespace ai {
 namespace io {
 
 void IOManager::subscribeToWorldState() {
-  worldSubscriber = nodeHandle.subscribe<roboteam_msgs::World>(rtt::TOPIC_WORLD_STATE, 1, &IOManager::handleWorldState, this);
+    worldSubscriber = nodeHandle.subscribe<roboteam_msgs::World>(rtt::TOPIC_WORLD_STATE, 1,
+            &IOManager::handleWorldState, this);
 }
 
 void IOManager::subscribeToGeometryData() {
-  geometrySubscriber = nodeHandle.subscribe<roboteam_msgs::GeometryData>(rtt::TOPIC_GEOMETRY, 1, &IOManager::handleGeometryData, this);
+    geometrySubscriber = nodeHandle.subscribe<roboteam_msgs::GeometryData>(rtt::TOPIC_GEOMETRY, 1,
+            &IOManager::handleGeometryData,
+            this);
 }
 
-void IOManager::handleWorldState(const roboteam_msgs::WorldConstPtr& world) {
-  this->world = * world;
+void IOManager::handleWorldState(const roboteam_msgs::WorldConstPtr &world) {
+    this->world = *world;
 }
 
 void IOManager::handleGeometryData(const roboteam_msgs::GeometryDataConstPtr &geometry) {
-  this->geometry = * geometry;
+    this->geometry = *geometry;
 }
 
-const roboteam_msgs::World& IOManager::getWorldState() {
-  return this->world;
+const roboteam_msgs::World &IOManager::getWorldState() {
+    return this->world;
 }
 
-const roboteam_msgs::GeometryData& IOManager::getGeometryData() {
-  return this->geometry;
+const roboteam_msgs::GeometryData &IOManager::getGeometryData() {
+    return this->geometry;
 }
 
 } // io

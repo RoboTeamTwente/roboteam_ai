@@ -8,33 +8,37 @@ namespace ai = rtt::ai;
 
 roboteam_msgs::World worldMsg;
 
-int main(int argc, char *argv[]) {
-  ros::init(argc, argv, "StrategyNode");
+int main(int argc, char* argv[]) {
+    ros::init(argc, argv, "StrategyNode");
 
-  df::DangerData danger;
-  io::StrategyIOManager strategyIOManager;
-  ros::Rate rate(10);
+    io::StrategyIOManager strategyIOManager;
+    strategyIOManager.subscribeToGeometryData();
+    strategyIOManager.subscribeToWorldState();
+    strategyIOManager.subscribeToRoleFeedback();
 
-  roboteam_msgs::World worldMsg;
-  roboteam_msgs::GeometryData geometryMsg;
+    df::DangerData danger;
+    ros::Rate rate(10);
 
-  df::DangerFinder::instance().start();
+    roboteam_msgs::World worldMsg;
+    roboteam_msgs::GeometryData geometryMsg;
 
-  while (ros::ok()) {
-    ros::spinOnce();
+    df::DangerFinder::instance().start();
 
-    worldMsg = strategyIOManager.getWorldState();
-    geometryMsg = strategyIOManager.getGeometryData();
-    ai::World::set_world(worldMsg);
-    ai::World::set_field(geometryMsg.field);
+    while (ros::ok()) {
+        ros::spinOnce();
 
-    danger = df::DangerFinder::instance().getMostRecentData();
-    if (df::DangerFinder::instance().hasCalculated()) {
-      // do something with dangerdata.
+        worldMsg = strategyIOManager.getWorldState();
+        geometryMsg = strategyIOManager.getGeometryData();
+        ai::World::set_world(worldMsg);
+        ai::Field::set_field(geometryMsg.field);
+
+        danger = df::DangerFinder::instance().getMostRecentData();
+        if (df::DangerFinder::instance().hasCalculated()) {
+            // do something with dangerdata.
+        }
+
+        strategyIOManager.getRoleFeedback();
+        rate.sleep();
     }
-
-    strategyIOManager.getRoleFeedback();
-    rate.sleep();
-  }
-  return 0;
+    return 0;
 }

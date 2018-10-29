@@ -12,10 +12,13 @@ namespace dangerfinder {
  * If so, it gives it a massive danger score and sets the DANGER_CAN_SHOOT flag.
  */
 class CanShootModule : public DangerModule {
-public:
-    explicit CanShootModule() = default;
-	explicit CanShootModule(double danger);
-	PartialResult calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world) override;
+    public:
+        explicit CanShootModule() = default;
+
+        explicit CanShootModule(double danger);
+
+        PartialResult
+        calculate(const roboteam_msgs::WorldRobot &bot, const roboteam_msgs::World &world) override;
 };
 
 } // dangerfinder
