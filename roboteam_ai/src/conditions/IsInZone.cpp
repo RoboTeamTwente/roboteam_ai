@@ -6,7 +6,7 @@
 
 namespace rtt {
 namespace ai {
-IsInZone::IsInZone(std::string name, bt::Blackboard::Ptr blackboard) :Condition(name, blackboard) {
+IsInZone::IsInZone(std::string name, bt::Blackboard::Ptr blackboard) : Condition(name, blackboard) {
 
 }
 
@@ -91,6 +91,7 @@ bt::Node::Status IsInZone::Update() {
         }
     }
 
+    // TODO: BB names
     // Set zone according to points given in blackboard if they are a thing
     if (blackboard->HasDouble("x1")) { zone_x1 = blackboard->GetDouble("x1"); }
     if (blackboard->HasDouble("x2")) { zone_x2 = blackboard->GetDouble("x2"); }

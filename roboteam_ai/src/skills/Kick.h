@@ -14,7 +14,7 @@ namespace ai {
 
 class Kick : public Skill {
  private:
-  int amountOfCycles;
+  int amountOfCycles{};
  protected:
   virtual void sendKickCommand(double kickVel);
  public:
