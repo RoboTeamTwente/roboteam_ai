@@ -4,19 +4,17 @@
 
 namespace bt {
 
-    class Composite : public Node {
-    public:
-        virtual ~Composite();
+class Composite : public Node {
+ public:
+  virtual ~Composite();
 
-        void AddChild(Node::Ptr child) override;
+    void AddChild(Node::Ptr child) override;
+  bool HasNoChildren() const;
+  void Terminate(Status s) override;
 
-        bool HasNoChildren() const;
-
-        void Terminate(Status s) override;
-
-    protected:
-        Nodes children;
-        size_t index = 0;
-    };
+ protected:
+  Nodes children;
+  size_t index = 0;
+};
 
 }

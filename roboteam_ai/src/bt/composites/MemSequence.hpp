@@ -10,16 +10,14 @@ namespace bt {
     In the next tick, it will try to run each child in order again.
     If all children succeeds, only then does the sequence succeed.
 */
-    class MemSequence : public Composite {
-    public:
-        size_t index;
+class MemSequence : public Composite {
+ public:
+  size_t index;
+  void Initialize() override;
+  Status Update() override;
 
-        void Initialize() override;
+  std::string node_name() override;
 
-        Status Update() override;
-
-        std::string node_name() override;
-
-        using Ptr = std::shared_ptr<MemSequence>;
-    };
+  using Ptr = std::shared_ptr<MemSequence>;
+};
 } // bt

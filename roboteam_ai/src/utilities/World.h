@@ -19,22 +19,19 @@
 #include <boost/optional.hpp>
 
 namespace rtt {
-    namespace ai {
+namespace ai {
 
-        class World {
-        private:
-            static roboteam_msgs::World world;
-        public:
-            static roboteam_msgs::WorldBall getBall();
+class World {
+ private:
+  static roboteam_msgs::World world;
+ public:
+  static roboteam_msgs::WorldBall getBall();
+  static boost::optional<roboteam_msgs::WorldRobot> getRobotForId(int id, bool ourTeam);
+  static const roboteam_msgs::World& get_world();
+  static void set_world(roboteam_msgs::World world);
+};
 
-            static boost::optional<roboteam_msgs::WorldRobot> getRobotForId(int id, bool ourTeam);
-
-            static const roboteam_msgs::World &get_world();
-
-            static void set_world(roboteam_msgs::World world);
-        };
-
-    } // ai
+} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_WORLD_H

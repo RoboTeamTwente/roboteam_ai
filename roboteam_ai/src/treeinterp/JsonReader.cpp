@@ -12,7 +12,7 @@
 std::string JsonReader::getFilePath(std::string name) {
 
     char cCurrentPath[FILENAME_MAX];
-    if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath))) {
+    if (! GetCurrentDir(cCurrentPath, sizeof(cCurrentPath))) {
         std::cerr << "gh" << std::endl;
     }
 
@@ -20,7 +20,7 @@ std::string JsonReader::getFilePath(std::string name) {
     std::string fullPath = cCurrentPath;
     auto splitTed = JsonReader::split(fullPath, '/');
     std::string smallPath;
-    for (const auto &word : splitTed) {
+    for (const auto& word : splitTed) {
         if (smallPath.find("roboteam_ai") != std::string::npos) {
             break;
         }
@@ -39,7 +39,7 @@ std::vector<std::string> JsonReader::split(std::string s, char c) {
 
     while (j != std::string::npos) {
         v.push_back(s.substr(i, j - i));
-        i = ++j;
+        i = ++ j;
         j = s.find(c, j);
 
         if (j == std::string::npos)
@@ -63,11 +63,11 @@ bool JsonReader::checkIfKeyExists(std::string key, json json) {
 
 void JsonReader::editJSON(std::string fileName, std::string treeID, std::string field, std::string newValue) {
     // read json file
-    json fileJson = readJSON(fileName);
+    json fileJson=readJSON(fileName);
     // edit json file
-    for (json &tree :fileJson["data"]["trees"]) {
-        if (tree["id"] == treeID) {
-            tree[field] = newValue;
+    for (json& tree :fileJson["data"]["trees"]){
+        if (tree["id"]==treeID){
+            tree[field]=newValue;
             break;
         }
     }

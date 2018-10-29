@@ -27,7 +27,6 @@ private:
     JsonReader jsonReader;
 
     FRIEND_TEST(JsonBasics, JsonTest);
-
     FRIEND_TEST(TreeTest, JsonTest);
 
 
@@ -44,6 +43,7 @@ private:
     bt::Leaf::Ptr makeLeafNode(std::string name);
 
 
+
 protected:
 
 public:
@@ -51,7 +51,7 @@ public:
 
     bt::BehaviorTree getTreeWithID(std::string projectName, std::string ID);
 
-    static TreeInterpreter &getInstance();
+    static TreeInterpreter& getInstance();
 
 };
 

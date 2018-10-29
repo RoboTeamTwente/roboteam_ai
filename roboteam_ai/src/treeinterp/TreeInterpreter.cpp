@@ -10,7 +10,7 @@
 #include "TreeInterpreter.h"
 
 /// Return a TreeInterpreter singleton
-TreeInterpreter &TreeInterpreter::getInstance() {
+TreeInterpreter& TreeInterpreter::getInstance() {
     static TreeInterpreter instance;
     return instance;
 }
@@ -24,8 +24,8 @@ std::map<std::string, bt::BehaviorTree> TreeInterpreter::getProject(std::string 
 
     // Loop over all the trees in the project JSON and put them in the map
     // TODO: fix the names for the trees
-    for (const json &tree : project["data"]["trees"]) {
-        std::string treeID = tree["id"];
+    for (const json& tree : project["data"]["trees"]) {
+        std::string treeID=tree["id"];
         bt::BehaviorTree currentTree = buildTreeFromJSON(tree);
         //std::cout << "Build tree with id: " << treeID<<std::endl;
         result.insert(std::pair<std::string, bt::BehaviorTree>(treeID, currentTree));
@@ -42,16 +42,15 @@ bt::BehaviorTree TreeInterpreter::getTreeWithID(std::string projectName, std::st
     auto trees = project["data"]["trees"];
     for (json tree : trees) {
 //      jsonReader.printJson(tree);
-        //  std::cout << tree["title"] << std::endl;
+      //  std::cout << tree["title"] << std::endl;
         if (tree["id"] == ID) {
-            // jsonReader.printJson(tree);
+           // jsonReader.printJson(tree);
             return buildTreeFromJSON(tree);
         }
     }
     // return
     std::cerr << "No Tree with that ID" << std::endl;
 }
-
 /// Parse from the project JSON small tree JSONs
 std::vector<json> TreeInterpreter::parseSmallJSONs(json input) {
 
@@ -62,10 +61,11 @@ std::vector<json> TreeInterpreter::parseSmallJSONs(json input) {
         auto trees = input["data"]["trees"];
 
         // Loop and add all of the trees to the vector
-        for (const json &current : trees) {
+        for (const json& current : trees) {
             result.push_back(current);
         }
-    } else {
+    }
+    else {
         std::cerr << "The JSON tree is not a project!" << std::endl;
     }
 
@@ -143,30 +143,40 @@ bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
     // TODO: check the namings from the bt module and fix/add them here
 
     // Some of the naming is archaic, but we need it here.
-    if (name == "MemSelector" || name == "Selector" || name == "Priority" || name == "MemPriority") {
+    if (name == "MemSelector" || name=="Selector" || name == "Priority" || name == "MemPriority") {
         node = std::make_shared<bt::MemSelector>();
-    } else if (name == "MemSequence") {
+    }
+    else if (name == "MemSequence") {
         node = std::make_shared<bt::MemSequence>();
-    } else if (name == "ParallelSequence") {
+    }
+    else if (name == "ParallelSequence") {
         node = std::make_shared<bt::ParallelSequence>();
-    } else if (name == "Selector") {
+    }
+    else if (name == "Selector") {
         node = std::make_shared<bt::Selector>();
-    } else if (name == "Sequence" || name == "ParallelTactic" || name == "ParallelSequence" ||
-               name == "ParallelTactic") {
+    }
+    else if (name == "Sequence" || name=="ParallelTactic" || name == "ParallelSequence" || name == "ParallelTactic") {
         node = std::make_shared<bt::Sequence>();
-    } else if (name == "Failer") {
+    }
+    else if (name == "Failer") {
         node = std::make_shared<bt::Failer>();
-    } else if (name == "Inverter") {
+    }
+    else if (name == "Inverter") {
         node = std::make_shared<bt::Inverter>();
-    } else if (name == "Repeat") {
+    }
+    else if (name == "Repeat") {
         node = std::make_shared<bt::Repeater>();
-    } else if (name == "Succeeder") {
+    }
+    else if (name == "Succeeder") {
         node = std::make_shared<bt::Succeeder>();
-    } else if (name == "UntilFail") {
+    }
+    else if (name == "UntilFail") {
         node = std::make_shared<bt::UntilFail>();
-    } else if (name == "UntilSuccess" || name == "RepeatUntilSuccess") {
+    }
+    else if (name == "UntilSuccess" || name == "RepeatUntilSuccess") {
         node = std::make_shared<bt::UntilSuccess>();
-    } else {
+    }
+    else {
         std::cerr << "Node name with: " + name << std::endl;
     }
     return node;

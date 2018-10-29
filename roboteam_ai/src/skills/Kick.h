@@ -10,23 +10,20 @@
 #include "../utilities/World.h"
 
 namespace rtt {
-    namespace ai {
+namespace ai {
 
-        class Kick : public Skill {
-        private:
-            int amountOfCycles;
-        protected:
-            virtual void sendKickCommand(double kickVel);
+class Kick : public Skill {
+ private:
+  int amountOfCycles;
+ protected:
+  virtual void sendKickCommand(double kickVel);
+ public:
+  explicit Kick(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
+  Status Update() override;
+  void Initialize() override;
+};
 
-        public:
-            explicit Kick(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
-
-            Status Update() override;
-
-            void Initialize() override;
-        };
-
-    } // ai
+} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_SHOOT_H

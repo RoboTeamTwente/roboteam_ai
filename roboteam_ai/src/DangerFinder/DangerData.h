@@ -6,23 +6,22 @@
 #include "roboteam_msgs/WorldRobot.h"
 
 namespace rtt {
-    namespace ai {
-        namespace dangerfinder {
+namespace ai {
+namespace dangerfinder {
 
-            typedef unsigned char DangerFlag;
+typedef unsigned char DangerFlag;
 
 /**
  * \struct DangerData
  * \brief Stores the output of DangerFinder
  */
-            struct DangerData {
-                std::vector<int> dangerList; // A list of robot IDs, sorted from most to least dangerous
-                std::map<int, double> scores;
-                std::map<int, DangerFlag> flags;
+struct DangerData {
+  std::vector<int> dangerList; // A list of robot IDs, sorted from most to least dangerous
+  std::map<int, double> scores;
+  std::map<int, DangerFlag> flags;
+  boost::optional<roboteam_msgs::WorldRobot> getByDangerRank(unsigned rank);
+};
 
-                boost::optional<roboteam_msgs::WorldRobot> getByDangerRank(unsigned rank);
-            };
-
-        } // dangerfinder
-    } // ai
+} // dangerfinder
+} // ai
 } // rtt

@@ -17,19 +17,17 @@
 #include "roboteam_utils/LastWorld.h"
 
 namespace rtt {
-    namespace ai {
+namespace ai {
 
-        class IsInZone : public Condition {
-        public:
-            explicit IsInZone(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
-
-            Status Update() override;
-
-        private:
+class IsInZone : public Condition {
+public:
+    explicit IsInZone(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
+    Status Update() override;
+private:
 //    ros::NodeHandle n; //TODO: look into this
-        };
+};
 
-    } // ai
+} // ai
 } //rtt
 
 #endif //ROBOTEAM_AI_ISINZONE_H

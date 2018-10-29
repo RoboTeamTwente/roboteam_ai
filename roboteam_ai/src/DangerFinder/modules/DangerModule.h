@@ -8,33 +8,29 @@
 #include "../../utilities/Field.h"
 
 namespace rtt {
-    namespace ai {
-        namespace dangerfinder {
+namespace ai {
+namespace dangerfinder {
 
 /**
  * \class DangerModule
  * \brief A module to be used in the DangerFinder.
  */
-            class DangerModule {
-            public:
-                /**
-               * \function calculate
-               * \brief Performs the calculation for this module for a specific robot.
-               * The score should indicate how threatening the robot is, and extra information
-               * can be provided through flags.
-               */
-                virtual PartialResult calculate(const roboteam_msgs::WorldRobot &bot,
-                                                const roboteam_msgs::World &world = rtt::ai::World::get_world()) = 0;
-
-            protected:
-                explicit DangerModule() = default;
-
-                explicit DangerModule(double danger);
-
-                double danger = 0;
-            };
-        } // dangerfinder
-    } // ai
+class DangerModule {
+public:
+    /**
+   * \function calculate
+   * \brief Performs the calculation for this module for a specific robot.
+   * The score should indicate how threatening the robot is, and extra information
+   * can be provided through flags.
+   */
+	virtual PartialResult calculate(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::World& world = rtt::ai::World::get_world()) = 0;
+ protected:
+    explicit DangerModule() = default;
+	explicit DangerModule(double danger);
+	double danger = 0;
+};
+} // dangerfinder
+} // ai
 } // rtt
 
 #endif // ROBOTEAM_AI_DANGER_MODULE_H

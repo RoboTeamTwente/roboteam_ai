@@ -12,29 +12,24 @@
 #include <roboteam_msgs/RoleFeedback.h>
 
 namespace rtt {
-    namespace ai {
-        namespace io {
+namespace ai {
+namespace io {
 
-            class RoleIOManager : public IOManager {
-            private:
-                roboteam_msgs::RoleDirective roleDirective;
+class RoleIOManager : public IOManager {
+ private:
+  roboteam_msgs::RoleDirective roleDirective;
+  void handleRoleDirective(const roboteam_msgs::RoleDirectiveConstPtr &roleDirective);
+  ros::Subscriber roleDirectiveSubscriber;
+  ros::Publisher robotCommandPublisher;
+ public:
+  RoleIOManager();
+  void subscribeToRoleDirective();
+  roboteam_msgs::RoleDirective &getRoleDirective();
+  void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
+};
 
-                void handleRoleDirective(const roboteam_msgs::RoleDirectiveConstPtr &roleDirective);
-
-                ros::Subscriber roleDirectiveSubscriber;
-                ros::Publisher robotCommandPublisher;
-            public:
-                RoleIOManager();
-
-                void subscribeToRoleDirective();
-
-                roboteam_msgs::RoleDirective &getRoleDirective();
-
-                void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
-            };
-
-        } // io
-    } // ai
+} // io
+} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_ROLE_IO_NODE_H

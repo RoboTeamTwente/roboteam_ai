@@ -10,16 +10,16 @@ namespace bt {
     In the next tick, it will try to run each child in order again.
     If all children fails, only then does the selector fail.
 */
-    class MemSelector : public Composite {
-    public:
-        size_t index;
+class MemSelector : public Composite {
+ public:
+  size_t index;
 
-        void Initialize() override;
+  void Initialize() override;
 
-        Status Update() override;
+  Status Update() override;
 
-        using Ptr = std::shared_ptr<MemSelector>;
+  using Ptr = std::shared_ptr<MemSelector>;
 
-        std::string node_name() override;
-    };
+  std::string node_name() override;
+};
 } // bt
