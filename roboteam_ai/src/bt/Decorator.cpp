@@ -2,25 +2,25 @@
 
 namespace bt {
 
-Decorator::~Decorator() {}
+    Decorator::~Decorator() {}
 
-void Decorator::AddChild(Node::Ptr child) {
-  this->child = child;
-}
+    void Decorator::AddChild(Node::Ptr child) {
+        this->child = child;
+    }
 
-bool Decorator::HasNoChild() const {
-  return child==nullptr;
-}
+    bool Decorator::HasNoChild() const {
+        return child == nullptr;
+    }
 
-void Decorator::Terminate(Status s) {
-  if (child->getStatus()==Status::Running) {
-    child->Terminate(child->getStatus());
-  }
+    void Decorator::Terminate(Status s) {
+        if (child->getStatus() == Status::Running) {
+            child->Terminate(child->getStatus());
+        }
 
-  if (s==Status::Running) {
-    setStatus(Status::Failure);
-  }
-}
+        if (s == Status::Running) {
+            setStatus(Status::Failure);
+        }
+    }
 
 } // bt
 

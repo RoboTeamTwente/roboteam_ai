@@ -9,45 +9,57 @@
 
 namespace bt {
 
-class Node {
- public:
-  // When this is updated, updated the tostring method below too!
-  enum class Status {
-    Invalid,
-    Success,
-    Failure,
-    Running
-  };
+    class Node {
+    public:
+        // When this is updated, updated the tostring method below too!
+        enum class Status {
+            Invalid,
+            Success,
+            Failure,
+            Running
+        };
 
-  virtual ~Node();
-  using Ptr = std::shared_ptr<Node>;
-  virtual Status Update() = 0;
-  virtual void Initialize();
-  virtual void Terminate(Status s);
-  virtual void AddChild(bt::Node::Ptr);
-  virtual Status Tick();
+        virtual ~Node();
 
-  bool IsSuccess() const;
-  bool IsFailure() const;
-  bool IsRunning() const;
-  bool IsTerminated() const;
-  Status getStatus() const;
-  void setStatus(Status s);
+        using Ptr = std::shared_ptr<Node>;
+
+        virtual Status Update() = 0;
+
+        virtual void Initialize();
+
+        virtual void Terminate(Status s);
+
+        virtual void AddChild(bt::Node::Ptr);
+
+        virtual Status Tick();
+
+        bool IsSuccess() const;
+
+        bool IsFailure() const;
+
+        bool IsRunning() const;
+
+        bool IsTerminated() const;
+
+        Status getStatus() const;
+
+        void setStatus(Status s);
 
 
+        bt::Blackboard::Ptr private_bb = std::make_shared<bt::Blackboard>();
 
-  bt::Blackboard::Ptr private_bb = std::make_shared<bt::Blackboard>();
+        virtual std::string node_name();
 
-  virtual std::string node_name();
-  static std::string status_desc;
+        static std::string status_desc;
 
- protected:
-  Status status = Status::Invalid;
-  static void append_status(std::string fmt, ...);
-};
+    protected:
+        Status status = Status::Invalid;
 
-using Nodes = std::vector<Node::Ptr>;
+        static void append_status(std::string fmt, ...);
+    };
 
-std::string statusToString(bt::Node::Status status);
+    using Nodes = std::vector<Node::Ptr>;
+
+    std::string statusToString(bt::Node::Status status);
 
 } // bt

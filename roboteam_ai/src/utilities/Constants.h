@@ -12,7 +12,6 @@
 #define PI 3.14159
 
 
-
 #define MAX_GENEVA_CYCLES 20
 #define DEFAULT_GENEVA_STATE 0
 

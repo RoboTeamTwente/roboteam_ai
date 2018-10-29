@@ -14,12 +14,13 @@ namespace rtt {
         bt::Node::Status TurnGeneva::Update() {
 
             amountOfCycles++;
-            if(amountOfCycles > MAX_GENEVA_CYCLES) {
+            if (amountOfCycles > MAX_GENEVA_CYCLES) {
                 return Status::Failure;
             }
 
             // Get genevaState from blackboard, otherwise it is a default value.
-            int genevaState = blackboard->HasInt("genevaState") ? blackboard->GetInt("genevaState") : DEFAULT_GENEVA_STATE;
+            int genevaState = blackboard->HasInt("genevaState") ? blackboard->GetInt("genevaState")
+                                                                : DEFAULT_GENEVA_STATE;
 
             // Send the robotCommand.
             sendGenevaCommand(genevaState);

@@ -9,22 +9,24 @@
 #include <roboteam_msgs/RobotCommand.h>
 
 namespace rtt {
-namespace ai {
+    namespace ai {
 
 /**
  * \class Skill
  * \brief Base class for all skills. Provides no additional functionality.
  */
- class Skill : public bt::Leaf {
-  protected:
-   roboteam_msgs::WorldRobot robot;
-   io::RoleIOManager roleIOManager;
-   void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
-  public:
-    explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-};
+        class Skill : public bt::Leaf {
+        protected:
+            roboteam_msgs::WorldRobot robot;
+            io::RoleIOManager roleIOManager;
 
-} // ai
+            void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
+
+        public:
+            explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+        };
+
+    } // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_CONDITION_H

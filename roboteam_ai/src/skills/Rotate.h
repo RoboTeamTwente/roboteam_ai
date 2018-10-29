@@ -12,15 +12,15 @@
 #include "../utilities/Field.h"
 
 
-
 namespace rtt {
-namespace ai {
+    namespace ai {
 
         class Rotate : public Skill {
         public:
 
             using worldBall = roboteam_msgs::WorldBall;
             using worldRobot = roboteam_msgs::WorldRobot;
+
             explicit Rotate(string name, bt::Blackboard::Ptr blackboard);
 
             Status Update() override;
@@ -39,7 +39,7 @@ namespace ai {
             virtual void sendRotationCommand(double angularVelocity);
         };
 
-} // ai
+    } // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_ROTATEAROUNDPOINT_H

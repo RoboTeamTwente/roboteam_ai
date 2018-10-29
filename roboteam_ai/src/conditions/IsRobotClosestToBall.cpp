@@ -7,7 +7,7 @@
 #include "IsRobotClosestToBall.h"
 
 namespace rtt {
-namespace ai{
+    namespace ai {
 //    bt::Node::Status IsRobotClosestToBall::Update() {
 //        roboteam_msgs::World world = LastWorld::get();
 //        int robotID = blackboard->GetInt("ROBOT_ID");
@@ -35,5 +35,5 @@ namespace ai{
 //            return Status::Failure;
 //        }
 //    }
-}
+    }
 }
