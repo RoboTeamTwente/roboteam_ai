@@ -5,7 +5,7 @@
 #include <gtest/gtest.h>
 #include <ros/ros.h>
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
 
     // create a ROS node for the tests

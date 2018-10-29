@@ -16,42 +16,39 @@
 #include <unistd.h>
 #include "BTImport.h"
 
-
 #define GetCurrentDir getcwd
 
 using json = nlohmann::json;
 
 class TreeInterpreter {
 
-private:
-    JsonReader jsonReader;
+    private:
+        JsonReader jsonReader;
 
-    FRIEND_TEST(JsonBasics, JsonTest);
+        FRIEND_TEST(JsonBasics, JsonTest);
 
-    FRIEND_TEST(TreeTest, JsonTest);
+        FRIEND_TEST(TreeTest, JsonTest);
 
+        bt::BehaviorTree buildTreeFromJSON(json jsonTree);
 
-    bt::BehaviorTree buildTreeFromJSON(json jsonTree);
+        bt::Node::Ptr buildNode(json node, json tree);
 
-    bt::Node::Ptr buildNode(json node, json tree);
+        std::vector<json> parseSmallJSONs(json json);
 
-    std::vector<json> parseSmallJSONs(json json);
+        bool isLeaf(json json);
 
-    bool isLeaf(json json);
+        bt::Node::Ptr makeNonLeafNode(std::string name);
 
-    bt::Node::Ptr makeNonLeafNode(std::string name);
+        bt::Leaf::Ptr makeLeafNode(std::string name);
 
-    bt::Leaf::Ptr makeLeafNode(std::string name);
+    protected:
 
+    public:
+        std::map<std::string, bt::BehaviorTree> getProject(std::string name);
 
-protected:
+        bt::BehaviorTree getTreeWithID(std::string projectName, std::string ID);
 
-public:
-    std::map<std::string, bt::BehaviorTree> getProject(std::string name);
-
-    bt::BehaviorTree getTreeWithID(std::string projectName, std::string ID);
-
-    static TreeInterpreter &getInstance();
+        static TreeInterpreter &getInstance();
 
 };
 

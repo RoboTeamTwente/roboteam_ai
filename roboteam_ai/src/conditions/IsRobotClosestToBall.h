@@ -19,19 +19,19 @@
 #include  <boost/optional.hpp>
 
 namespace rtt {
-    namespace ai {
+namespace ai {
 
-        class IsRobotClosestToBall : public rtt::ai::Condition {
-        public:
-            IsRobotClosestToBall();
+class IsRobotClosestToBall : public rtt::ai::Condition {
+    public:
+        IsRobotClosestToBall();
 
-            Status Update();
+        Status Update();
 
-        private:
-            ros::NodeHandle n;
-        };
+    private:
+        ros::NodeHandle n;
+};
 
-    }
+}
 }
 
 #endif //ROBOTEAM_AI_ISROBOTCLOSETSTOBALL_H

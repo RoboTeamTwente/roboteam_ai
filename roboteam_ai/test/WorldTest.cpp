@@ -41,7 +41,7 @@ TEST(WorldTest, it_gets_the_robot_ID) {
     robots.push_back(robot2);
     worldMsg.us = robots;
     rtt::ai::World::set_world(worldMsg);
-    ASSERT_TRUE(!rtt::ai::World::getRobotForId(1, true));
+    ASSERT_TRUE(! rtt::ai::World::getRobotForId(1, true));
 
     auto robot1return = rtt::ai::World::getRobotForId(0, true).get();
     auto robot2return = rtt::ai::World::getRobotForId(2, true).get();

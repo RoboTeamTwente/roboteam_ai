@@ -7,7 +7,7 @@ namespace bt {
 /*
     The Repeater decorator repeats infinitely or to a limit until the child returns success.
 */
-    class Repeater : public Decorator {
+class Repeater : public Decorator {
     public:
         // TODO: constructor can be updated, ask Bob
         Repeater(int limit = 0);
@@ -21,6 +21,6 @@ namespace bt {
     protected:
         int limit;
         int counter = 0;
-    };
+};
 
 }

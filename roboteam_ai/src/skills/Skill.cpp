@@ -1,15 +1,15 @@
 #include "Skill.h"
 
 namespace rtt {
-    namespace ai {
+namespace ai {
 
-        Skill::Skill(std::string name, bt::Blackboard::Ptr blackboard)
-                : bt::Leaf(name, blackboard) {
-        }
+Skill::Skill(std::string name, bt::Blackboard::Ptr blackboard)
+        :bt::Leaf(name, blackboard) {
+}
 
-        void Skill::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
-            roleIOManager.publishRobotCommand(cmd);
-        }
+void Skill::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
+    roleIOManager.publishRobotCommand(cmd);
+}
 
-    } // ai
+} // ai
 } // rtt

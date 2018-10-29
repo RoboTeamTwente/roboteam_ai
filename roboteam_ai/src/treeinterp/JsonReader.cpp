@@ -12,7 +12,7 @@
 std::string JsonReader::getFilePath(std::string name) {
 
     char cCurrentPath[FILENAME_MAX];
-    if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath))) {
+    if (! GetCurrentDir(cCurrentPath, sizeof(cCurrentPath))) {
         std::cerr << "gh" << std::endl;
     }
 
@@ -39,7 +39,7 @@ std::vector<std::string> JsonReader::split(std::string s, char c) {
 
     while (j != std::string::npos) {
         v.push_back(s.substr(i, j - i));
-        i = ++j;
+        i = ++ j;
         j = s.find(c, j);
 
         if (j == std::string::npos)

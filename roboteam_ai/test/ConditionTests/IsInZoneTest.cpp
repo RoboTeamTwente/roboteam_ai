@@ -27,5 +27,4 @@ TEST(IsInZoneTest, IsInZoneTest) {
 
     ASSERT_EQ(node.Update(), bt::Node::Status::Success);
 
-
 }

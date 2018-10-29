@@ -4,7 +4,7 @@
 
 namespace bt {
 
-    class Decorator : public Node {
+class Decorator : public Node {
     public:
         virtual ~Decorator();
 
@@ -16,6 +16,6 @@ namespace bt {
 
     protected:
         Node::Ptr child = nullptr;
-    };
+};
 
 } // bt

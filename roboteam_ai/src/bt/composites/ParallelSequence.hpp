@@ -4,7 +4,7 @@
 
 namespace bt {
 
-    class ParallelSequence : public Composite {
+class ParallelSequence : public Composite {
     public:
         ParallelSequence(bool successOnAll = true, bool failOnAll = true);
 
@@ -22,6 +22,6 @@ namespace bt {
         bool failOnAll = true;
         int minSuccess = 0;
         int minFail = 0;
-    };
+};
 
 } // bt

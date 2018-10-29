@@ -22,42 +22,42 @@ namespace rtt {
 /**
  * \brief The value which indicates that a referee state has no special treatment in the strategy
  */
-    extern const std::string UNSET;
+extern const std::string UNSET;
 
 /**
  * \class StrategyComposer
  * \brief Builds a single, static, horribly ugly Strategy tree by combining ones meant for different referee states.
  */
-    class StrategyComposer {
+class StrategyComposer {
     private:
         StrategyComposer() = delete;
 
-        static std::shared_ptr <bt::BehaviorTree> mainStrategy;
+        static std::shared_ptr<bt::BehaviorTree> mainStrategy;
 
         static void init();
 
         static bool initialized;
 
         class Forwarder final : public bt::Leaf {
-        public:
-            Forwarder(bt::Blackboard::Ptr bb, bt::Node::Ptr target);
+            public:
+                Forwarder(bt::Blackboard::Ptr bb, bt::Node::Ptr target);
 
-            bt::Node::Status Update() override;
+                bt::Node::Status Update() override;
 
-            void Initialize() override;
+                void Initialize() override;
 
-            void Terminate(bt::Node::Status status) override;
+                void Terminate(bt::Node::Status status) override;
 
-        private:
-            bt::Node::Ptr target;
+            private:
+                bt::Node::Ptr target;
         };
 
     public:
-        static std::shared_ptr <bt::BehaviorTree> getMainStrategy();
+        static std::shared_ptr<bt::BehaviorTree> getMainStrategy();
 
         // SET THIS IN StrategyComposer.cpp !!
-        static const std::map <RefState, boost::optional<std::string>> MAPPING;
-    };
+        static const std::map<RefState, boost::optional<std::string>> MAPPING;
+};
 
 }
 

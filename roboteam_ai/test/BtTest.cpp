@@ -2,14 +2,14 @@
 #include "../src/bt/bt.hpp"
 
 namespace {
-    std::vector<std::string> traces;
+std::vector<std::string> traces;
 
-    class Tracer : public bt::Leaf {
+class Tracer : public bt::Leaf {
     public:
         std::string id;
 
         explicit Tracer(std::string id)
-                : id{std::move(id)} {}
+                :id{std::move(id)} { }
 
         void Initialize() override {
             traces.push_back("Initialize: " + id);
@@ -27,23 +27,23 @@ namespace {
         }
 
         // Spoofed functions
-        virtual void Initialize_() {}
+        virtual void Initialize_() { }
 
         virtual Status Update_() { return status; }
 
-        virtual void Terminate_(Status) {}
-    };
+        virtual void Terminate_(Status) { }
+};
 
-    class Once : public Tracer {
+class Once : public Tracer {
     public:
         explicit Once(const std::string &id)
-                : Tracer("Once-" + id) {}
-    };
+                :Tracer("Once-" + id) { }
+};
 
-    class Runner : public Tracer {
+class Runner : public Tracer {
     public:
         explicit Runner(const std::string &id)
-                : Tracer("Runner-" + id) {}
+                :Tracer("Runner-" + id) { }
 
         Status Update_() override {
             return Status::Running;
@@ -54,16 +54,16 @@ namespace {
                 setStatus(Status::Failure);
             }
         }
-    };
+};
 
-    class Counter : public Tracer {
+class Counter : public Tracer {
     public:
         int max;
         int runningCount;
         Status statusToReturn;
 
         Counter(Status statusToReturn, const std::string &id, int max)
-                : Tracer("Counter-" + id), max{max}, runningCount{0} {
+                :Tracer("Counter-" + id), max{max}, runningCount{0} {
             this->statusToReturn = statusToReturn;
         }
 
@@ -72,7 +72,7 @@ namespace {
         }
 
         Status Update_() override {
-            runningCount++;
+            runningCount ++;
 
             if (runningCount == max) {
                 return statusToReturn;
@@ -86,7 +86,7 @@ namespace {
                 setStatus(Status::Failure);
             }
         }
-    };
+};
 
 } // anonymous namespace
 
@@ -372,7 +372,6 @@ TEST(BehaviorTreeTest, selectorComposites) {
     ASSERT_EQ(memSelector.Update(), bt::Node::Status::Running);
     ASSERT_EQ(memSelector.Update(), bt::Node::Status::Success);
 }
-
 
 TEST(BehaviorTreeTest, decorators) {
     bt::Leaf::Ptr child = std::make_shared<Counter>(bt::Node::Status::Success, "A", 1);

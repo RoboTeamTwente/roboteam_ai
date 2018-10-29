@@ -4,9 +4,11 @@
 
 #include "PartialResult.h"
 
-PartialResult::PartialResult() : score(0), flags(0) {}
+PartialResult::PartialResult()
+        :score(0), flags(0) { }
 
-PartialResult::PartialResult(double score, DangerFlag flags) : score(score), flags(flags) {}
+PartialResult::PartialResult(double score, DangerFlag flags)
+        :score(score), flags(flags) { }
 
 PartialResult &PartialResult::operator+=(const PartialResult &b) {
     score += b.score;

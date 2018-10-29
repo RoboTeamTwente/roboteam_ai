@@ -30,7 +30,7 @@ TEST(BTBlackboardTest, blackboard) {
     bbmsg.bools.push_back(getBoolEntry("b_b", false));
 
     bbmsg.ints.push_back(getIntEntry("i_a", 1000));
-    bbmsg.ints.push_back(getIntEntry("i_b", -1000));
+    bbmsg.ints.push_back(getIntEntry("i_b", - 1000));
     bbmsg.ints.push_back(getIntEntry("i_c", 0));
 
     bbmsg.strings.push_back(getStringEntry("s_a", "roboteamtwente"));
@@ -54,7 +54,7 @@ TEST(BTBlackboardTest, blackboard) {
     ASSERT_EQ(bb.GetString("s_d"), "!!!!11!!!!");
 
     ASSERT_EQ(bb.GetInt("i_a"), 1000);
-    ASSERT_EQ(bb.GetInt("i_b"), -1000);
+    ASSERT_EQ(bb.GetInt("i_b"), - 1000);
     ASSERT_EQ(bb.GetInt("i_c"), 0);
 
     ASSERT_EQ(bb.HasBool("b_a"), true);
@@ -75,9 +75,9 @@ TEST(BTBlackboardTest, blackboard) {
     ASSERT_EQ(bb.toString(), bb2.toString());
 
     ASSERT_EQ(bb.toTestX(),
-              " bool:b_a=1 bool:b_b=0 int:i_a=1000 int:i_b=-1000 int:i_c=0 string:s_a=roboteamtwente string:s_b=is string:s_c=awesome string:s_d=!!!!11!!!!");
+            " bool:b_a=1 bool:b_b=0 int:i_a=1000 int:i_b=-1000 int:i_c=0 string:s_a=roboteamtwente string:s_b=is string:s_c=awesome string:s_d=!!!!11!!!!");
     ASSERT_EQ(bb.toString(),
-              "\n  BOOLS   | b_a = 1 | b_b = 0\n  INTS    | i_a = 1000 | i_b = -1000 | i_c = 0\n  STRINGS | s_a = roboteamtwente | s_b = is | s_c = awesome | s_d = !!!!11!!!!\n");
+            "\n  BOOLS   | b_a = 1 | b_b = 0\n  INTS    | i_a = 1000 | i_b = -1000 | i_c = 0\n  STRINGS | s_a = roboteamtwente | s_b = is | s_c = awesome | s_d = !!!!11!!!!\n");
 }
 
 

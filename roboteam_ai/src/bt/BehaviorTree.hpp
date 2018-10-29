@@ -5,7 +5,7 @@
 
 namespace bt {
 
-    class BehaviorTree : public Node {
+class BehaviorTree : public Node {
     public:
         BehaviorTree();
 
@@ -34,6 +34,6 @@ namespace bt {
         Blackboard::Ptr blackboard = nullptr;
         Blackboard::Ptr sharedBlackboard = nullptr;
 
-    };
+};
 
 } // bt

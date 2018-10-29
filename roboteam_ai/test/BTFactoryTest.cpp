@@ -5,7 +5,6 @@
 #include <gtest/gtest.h>
 #include "../src/treeinterp/BTFactory.h"
 
-
 TEST(BT, BTTest) {
 
     // ===Let's build a BT manually!===

@@ -7,38 +7,37 @@
 
 // Empty namespace for ROS errors
 namespace {
-    std::vector<roboteam_msgs::RobotCommand> commands;
+std::vector<roboteam_msgs::RobotCommand> commands;
 
-    void robotCommandCallback(const roboteam_msgs::RobotCommandConstPtr &cmd) {
-        commands.push_back(*cmd);
-    }
+void robotCommandCallback(const roboteam_msgs::RobotCommandConstPtr &cmd) {
+    commands.push_back(*cmd);
+}
 
-    TEST(GoTOPos, GoTOPosTest) {
+TEST(GoTOPos, GoTOPosTest) {
 
-        ros::Rate rate(1);
-        commands.clear();
-        EXPECT_TRUE(commands.empty());
-        ros::NodeHandle nh;
-        ros::Subscriber sub = nh.subscribe<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 0, &robotCommandCallback);
+    ros::Rate rate(1);
+    commands.clear();
+    EXPECT_TRUE(commands.empty());
+    ros::NodeHandle nh;
+    ros::Subscriber sub = nh.subscribe<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 0, &robotCommandCallback);
 
-        auto bb = std::make_shared<bt::Blackboard>();
-        bb->SetInt("ROBOT_ID", 1);
-        bb->SetInt("X", 5);
-        bb->SetInt("Y", 6);
-        rtt::ai::GoToPos goToPos("test1", bb);
-        goToPos.Initialize();
+    auto bb = std::make_shared<bt::Blackboard>();
+    bb->SetInt("ROBOT_ID", 1);
+    bb->SetInt("X", 5);
+    bb->SetInt("Y", 6);
+    rtt::ai::GoToPos goToPos("test1", bb);
+    goToPos.Initialize();
 
-        EXPECT_EQ(goToPos.Update(), bt::Leaf::Status::Running);
+    EXPECT_EQ(goToPos.Update(), bt::Leaf::Status::Running);
 
-        // Wait a little bit
-        rate.sleep();
-        ros::spinOnce();
+    // Wait a little bit
+    rate.sleep();
+    ros::spinOnce();
 
-        std::vector<roboteam_msgs::RobotCommand> cmds = commands;
-        EXPECT_EQ(commands.size(), 1);
-        EXPECT_TRUE(commands.at(0).x_vel);
-        EXPECT_TRUE(commands.at(0).y_vel);
+    std::vector<roboteam_msgs::RobotCommand> cmds = commands;
+    EXPECT_EQ(commands.size(), 1);
+    EXPECT_TRUE(commands.at(0).x_vel);
+    EXPECT_TRUE(commands.at(0).y_vel);
 
-
-    }
+}
 }

@@ -4,7 +4,7 @@
 
 namespace bt {
 
-    class Composite : public Node {
+class Composite : public Node {
     public:
         virtual ~Composite();
 
@@ -17,6 +17,6 @@ namespace bt {
     protected:
         Nodes children;
         size_t index = 0;
-    };
+};
 
 }

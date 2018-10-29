@@ -14,36 +14,33 @@
 #include "TreeInterpreter.h"
 #include "BTImport.h"
 
-
 class BTFactory {
 
-    // TODO: have the names of all the project before here
-    TreeInterpreter interpreter;
+        // TODO: have the names of all the project before here
+        TreeInterpreter interpreter;
 
-public:
-    void init();
+    public:
+        void init();
 
-    static BTFactory &getFactory();
+        static BTFactory &getFactory();
 
-    std::map<std::string, bt::BehaviorTree> getProject(std::string projectName);
+        std::map<std::string, bt::BehaviorTree> getProject(std::string projectName);
 
-    void updateProject(std::string projectName);
+        void updateProject(std::string projectName);
 
-    void updateTree(std::string projectName, std::string treeName);
+        void updateTree(std::string projectName, std::string treeName);
 
-    std::map<std::string, std::map<std::string, bt::BehaviorTree>> getTreeRepo();
+        std::map<std::string, std::map<std::string, bt::BehaviorTree>> getTreeRepo();
 
+        /// This is where all the BTs are kept
+        static std::map<std::string, std::map<std::string, bt::BehaviorTree>> treeRepo;
+        ///This is a list of all the projects we want to read in /roboteam_ai/src/treeinterp/jsons
+        static std::vector<std::string> projectNames;
+    private:
+        void initialProjectNames();
 
-    /// This is where all the BTs are kept
-    static std::map<std::string, std::map<std::string, bt::BehaviorTree>> treeRepo;
-    ///This is a list of all the projects we want to read in /roboteam_ai/src/treeinterp/jsons
-    static std::vector<std::string> projectNames;
-private:
-    void initialProjectNames();
-
-protected:
+    protected:
 
 };
-
 
 #endif //ROBOTEAM_AI_BTFACTORY_H

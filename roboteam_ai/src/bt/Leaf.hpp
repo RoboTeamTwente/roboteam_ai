@@ -6,7 +6,7 @@
 
 namespace bt {
 //TODO: implement node_name() functionality? Can perhaps also be done elsewhere
-    class Leaf : public Node {
+class Leaf : public Node {
     public:
         Leaf();
 
@@ -24,6 +24,6 @@ namespace bt {
 
     protected:
         Blackboard::Ptr blackboard;
-    };
+};
 
 }

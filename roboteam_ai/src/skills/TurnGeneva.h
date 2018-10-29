@@ -10,21 +10,21 @@
 #include "../utilities/World.h"
 
 namespace rtt {
-    namespace ai {
+namespace ai {
 
-        class TurnGeneva : public Skill {
-        private:
-            int amountOfCycles;
-        protected:
-            void sendGenevaCommand(int genevaState);
+class TurnGeneva : public Skill {
+    private:
+        int amountOfCycles;
+    protected:
+        void sendGenevaCommand(int genevaState);
 
-        public:
-            Status Update() override;
+    public:
+        Status Update() override;
 
-            void Initialize() override;
-        };
+        void Initialize() override;
+};
 
-    } // ai
+} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_TURNGENEVA_H

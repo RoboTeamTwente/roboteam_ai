@@ -6,7 +6,6 @@
 
 #include "BTFactory.h"
 
-
 std::map<std::string, std::map<std::string, bt::BehaviorTree>> BTFactory::treeRepo;
 std::vector<std::string> BTFactory::projectNames;
 
@@ -26,7 +25,6 @@ void BTFactory::updateTree(std::string projectName, std::string treeName) {
 
     auto tree = interpreter.getTreeWithID(projectName, treeName);
     treeRepo[projectName][treeName] = tree;
-
 
 }
 
@@ -52,7 +50,6 @@ void BTFactory::init() {
         updateProject(projectName);
     }
 }
-
 
 //TODO: add any trees you wish to load initially in the jsons folder here!!!
 /// Inserts the initial projectNames into the vector

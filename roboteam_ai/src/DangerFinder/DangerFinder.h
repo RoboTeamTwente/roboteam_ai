@@ -16,51 +16,51 @@
 #include "modules/OrientationModule.h"
 
 namespace rtt {
-    namespace ai {
-        namespace dangerfinder {
+namespace ai {
+namespace dangerfinder {
 
-            class DangerFinder {
-            public:
-                DangerFinder(const DangerFinder &) = delete;  // It's a singleton; don't copy it.
-                void operator=(const DangerFinder &) = delete;
+class DangerFinder {
+    public:
+        DangerFinder(const DangerFinder &) = delete;  // It's a singleton; don't copy it.
+        void operator=(const DangerFinder &) = delete;
 
-                DangerData getMostRecentData();
+        DangerData getMostRecentData();
 
-                DangerData calculateDataNow();
+        DangerData calculateDataNow();
 
-                void start(int iterationsPerSecond = 20);
+        void start(int iterationsPerSecond = 20);
 
-                void stop();
+        void stop();
 
-                bool hasCalculated();
+        bool hasCalculated();
 
-                static DangerFinder &instance();
+        static DangerFinder &instance();
 
-                static void ensureRunning(int iterationsPerSecond = 20);
+        static void ensureRunning(int iterationsPerSecond = 20);
 
-            private:
-                void loadModules();
+    private:
+        void loadModules();
 
-                std::thread runner;
-                std::mutex mutex;
-                volatile bool stopping;
-                volatile bool running;
-                bool ranOnce;
-                DangerData mostRecentData;
-                std::vector<DangerModule *> dangerModules;
+        std::thread runner;
+        std::mutex mutex;
+        volatile bool stopping;
+        volatile bool running;
+        bool ranOnce;
+        DangerData mostRecentData;
+        std::vector<DangerModule*> dangerModules;
 
-                void calculate();
+        void calculate();
 
-                void loop(unsigned delayMillis);
+        void loop(unsigned delayMillis);
 
-                DangerFinder();
+        DangerFinder();
 
-                CanShootModule canShootModule;
-                DistanceModule distanceModule; // factor / max width
-                FreeModule freeModule;
-                HasBallModule hasBallModule;
-                OrientationModule orientationModule;
-            };
-        } // dangerfinder
-    } // ai
+        CanShootModule canShootModule;
+        DistanceModule distanceModule; // factor / max width
+        FreeModule freeModule;
+        HasBallModule hasBallModule;
+        OrientationModule orientationModule;
+};
+} // dangerfinder
+} // ai
 } // rtt

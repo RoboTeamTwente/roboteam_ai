@@ -7,7 +7,7 @@
 
 namespace bt {
 
-    class Blackboard {
+class Blackboard {
     public:
         // Default constructors enabled
         Blackboard() = default;
@@ -81,6 +81,6 @@ namespace bt {
         std::map<std::string, double> doubles;
         std::map<std::string, std::string> strings;
 
-    };
+};
 
 } // bt

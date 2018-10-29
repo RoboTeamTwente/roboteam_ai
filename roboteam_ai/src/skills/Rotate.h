@@ -11,35 +11,34 @@
 #include "../utilities/World.h"
 #include "../utilities/Field.h"
 
-
 namespace rtt {
-    namespace ai {
+namespace ai {
 
-        class Rotate : public Skill {
-        public:
+class Rotate : public Skill {
+    public:
 
-            using worldBall = roboteam_msgs::WorldBall;
-            using worldRobot = roboteam_msgs::WorldRobot;
+        using worldBall = roboteam_msgs::WorldBall;
+        using worldRobot = roboteam_msgs::WorldRobot;
 
-            explicit Rotate(string name, bt::Blackboard::Ptr blackboard);
+        explicit Rotate(string name, bt::Blackboard::Ptr blackboard);
 
-            Status Update() override;
+        Status Update() override;
 
-            void Initialize() override;
+        void Initialize() override;
 
-        private:
-            enum Progression {
-                ROTATING, DONE, FAIL
-            };
-            Progression currentProgress;
-            double targetRotation;
-            int targetObject;
-            bool rotateToObject;
-        protected:
-            virtual void sendRotationCommand(double angularVelocity);
+    private:
+        enum Progression {
+          ROTATING, DONE, FAIL
         };
+        Progression currentProgress;
+        double targetRotation;
+        int targetObject;
+        bool rotateToObject;
+    protected:
+        virtual void sendRotationCommand(double angularVelocity);
+};
 
-    } // ai
+} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_ROTATEAROUNDPOINT_H

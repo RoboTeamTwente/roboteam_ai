@@ -346,15 +346,15 @@ struct make_index_sequence
 typename make_index_sequence < N - N / 2 >::type > {
 };
 
-template<> struct make_index_sequence<0> : index_sequence<> {};
-template<> struct make_index_sequence<1> : index_sequence<0> {};
+template<> struct make_index_sequence<0> : index_sequence<> { };
+template<> struct make_index_sequence<1> : index_sequence<0> { };
 
 template<typename... Ts>
 using index_sequence_for = make_index_sequence<sizeof...(Ts)>;
 
 // dispatch utility (taken from ranges-v3)
-template<unsigned N> struct priority_tag : priority_tag < N - 1 > {};
-template<> struct priority_tag<0> {};
+template<unsigned N> struct priority_tag : priority_tag < N - 1 > { };
+template<> struct priority_tag<0> { };
 
 // taken from ranges-v3
 template<typename T>
@@ -3800,10 +3800,10 @@ bool next_unget = false;
 std::size_t chars_read = 0;
 
 /// raw input token string (for error messages)
-std::vector<char> token_string {};
+std::vector<char> token_string { };
 
 /// buffer for variable-length tokens (numbers, strings)
-string_t token_buffer {};
+string_t token_buffer { };
 
 /// a description of occurred lexer errors
 const char* error_message = "";
@@ -5330,9 +5330,9 @@ template<typename BasicJsonType> struct internal_iterator
 typename BasicJsonType::object_t::iterator object_iterator {
 };
 /// iterator for JSON arrays
-typename BasicJsonType::array_t::iterator array_iterator {};
+typename BasicJsonType::array_t::iterator array_iterator { };
 /// generic iterator for all other types
-primitive_iterator_t primitive_iterator {};
+primitive_iterator_t primitive_iterator { };
 };
 }
 }
@@ -10791,7 +10791,7 @@ private:
 output_adapter_t<char> o = nullptr;
 
 /// a (hopefully) large enough character buffer
-std::array<char, 64> number_buffer{{}};
+std::array<char, 64> number_buffer{{ }};
 
 /// the locale
 const std::lconv* loc = nullptr;
@@ -10801,7 +10801,7 @@ const char thousands_sep = '\0';
 const char decimal_point = '\0';
 
 /// string buffer
-std::array<char, 512> string_buffer{{}};
+std::array<char, 512> string_buffer{{ }};
 
 /// the indentation character
 const char indent_char;
@@ -13481,7 +13481,7 @@ other.assert_invariant();
 
 // invalidate payload
 other.m_type = value_t::null;
-other.m_value = {};
+other.m_value = { };
 
 assert_invariant();
 }
@@ -17942,7 +17942,6 @@ return "number";
 }
 }
 
-
 private:
 //////////////////////
 // member variables //
@@ -17952,7 +17951,7 @@ private:
 value_t m_type = value_t::null;
 
 /// the value of the current element
-json_value m_value = {};
+json_value m_value = { };
 
 //////////////////////////////////////////
 // binary serialization/deserialization //
@@ -19522,6 +19521,5 @@ JSON_HAS_CPP_17
 #undef NLOHMANN_BASIC_JSON_TPL_DECLARATION
 #undef
 NLOHMANN_BASIC_JSON_TPL
-
 
 #endif

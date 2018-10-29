@@ -58,7 +58,7 @@ TEST(DangerFinderTest, it_has_correct_danger_flags) {
     ASSERT_TRUE(df::DangerFinder::instance().hasCalculated());
     ASSERT_EQ(danger.flags.size(), 1);
     ASSERT_EQ(std::bitset<8>(danger.flags.at(0)),
-              std::bitset<8>(0b00000001)); // the robotflag ISFREE should be triggered
+            std::bitset<8>(0b00000001)); // the robotflag ISFREE should be triggered
 
     // now put one of our robots between them and the ball
     worldMsg.us.push_back(getRobot(0, 200));
@@ -83,7 +83,7 @@ TEST(DangerFinderTest, it_logs_dangerdata) {
 
     int amountOfRobots = 11;
     // set some robots (at exactly the same location for testing purposes)
-    for (int i = 0; i < amountOfRobots; i++) {
+    for (int i = 0; i < amountOfRobots; i ++) {
         worldMsg.us.push_back(getRobot(100, 200, i));
         worldMsg.them.push_back(getRobot(100, 200, i));
     }
@@ -94,7 +94,7 @@ TEST(DangerFinderTest, it_logs_dangerdata) {
     ASSERT_EQ(danger.scores.size(), amountOfRobots);
     ASSERT_EQ(danger.flags.size(), amountOfRobots);
     // there is no other data set for the robots so their danger scores should be equal
-    for (int i = 1; i < danger.scores.size(); i++) {
+    for (int i = 1; i < danger.scores.size(); i ++) {
         ASSERT_EQ(danger.scores.at(i - 1), danger.scores.at(i));
     }
 
@@ -103,14 +103,14 @@ TEST(DangerFinderTest, it_logs_dangerdata) {
     danger = calculateDangerForWorld(worldMsg);
 
     // there is still no different data set for the robots so their danger scores should be equal
-    for (int i = 1; i < danger.scores.size(); i++) {
+    for (int i = 1; i < danger.scores.size(); i ++) {
         ASSERT_EQ(danger.scores.at(i - 1), danger.scores.at(i));
     }
 
     // move one robot forward with the ball
     // and point him towards the goal
     worldMsg.them.at(0).pos = rtt::Vector2(200, 0);
-    worldMsg.them.at(0).angle = 28 * M_PI;
+    worldMsg.them.at(0).angle = 28*M_PI;
     worldMsg.ball.pos = rtt::Vector2(250, 0);
 
     danger = calculateDangerForWorld(worldMsg);
@@ -125,16 +125,16 @@ TEST(DangerFinderTest, it_logs_dangerdata) {
 // creates a lot of random positions in the field and checks if dangerscores stay within bounds
 TEST(DangerFinderTest, it_stays_within_limits) {
     setFieldtoWorld();
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 1000; i ++) {
         roboteam_msgs::World tempWorldMsg;
         // set robots at random locations
         int amountOfRobots = 11;
-        for (int i = 0; i < amountOfRobots; i++) {
+        for (int i = 0; i < amountOfRobots; i ++) {
             // set robots at random locations in the field
-            int halfFieldLength = (int) fieldMsg.field_length / 2;
-            int halfFieldWidth = (int) fieldMsg.field_width / 2;
-            int randomX = rand() % (halfFieldLength * 2 + 1) + halfFieldLength;
-            int randomY = rand() % (halfFieldWidth * 2 + 1) + halfFieldWidth;
+            int halfFieldLength = (int) fieldMsg.field_length/2;
+            int halfFieldWidth = (int) fieldMsg.field_width/2;
+            int randomX = rand()%(halfFieldLength*2 + 1) + halfFieldLength;
+            int randomY = rand()%(halfFieldWidth*2 + 1) + halfFieldWidth;
 
             tempWorldMsg.us.push_back(getRobot(randomX, randomY, i));
             tempWorldMsg.them.push_back(getRobot(randomX, randomY, i));
@@ -142,7 +142,7 @@ TEST(DangerFinderTest, it_stays_within_limits) {
         danger = calculateDangerForWorld(tempWorldMsg);
 
         // values can never be smaller than 0 and never greater than 1300
-        for (int j = 0; j < danger.scores.size(); j++) {
+        for (int j = 0; j < danger.scores.size(); j ++) {
             ASSERT_GE(danger.scores.at(j), 0);
             ASSERT_LE(danger.scores.at(j), 1300);
         }
@@ -156,7 +156,7 @@ TEST(DangerFinderTest, most_recent_data_is_correct) {
 
     int amountOfRobots = 11;
     // set some robots (at exactly the same location for testing purposes)
-    for (int i = 0; i < amountOfRobots; i++) {
+    for (int i = 0; i < amountOfRobots; i ++) {
         worldMsg.us.push_back(getRobot(100, 200, i));
         worldMsg.them.push_back(getRobot(100, 200, i));
     }
@@ -187,7 +187,7 @@ TEST(DangerFinderTest, partial_results_can_be_added_together) {
     ASSERT_EQ(pr3.score, 7);
     ASSERT_EQ(pr3.flags, 0b11111111);
 
-    pr1.score = -3;
+    pr1.score = - 3;
     pr1.flags = 0b00000000;
     pr2.score = 4;
     pr2.flags = 0b00110011;
