@@ -20,8 +20,8 @@ bt::Node::Status IsInZone::Update() {
     Vector2 point = ballPos;
 
     // If we are looking for a robot we should change point
-    if (blackboard->HasBool("robot") && blackboard->GetBool("robot")) {
-        int robotID = blackboard->GetInt("ROBOT_ID");
+    if (properties->hasBool("robot") && properties->getBool("robot")) {
+        int robotID = properties->getInt("ROBOT_ID");
         auto findBot = World::getRobotForId(robotID, true);//TODO: change the bool, was this way in the old code
 
         if (findBot) {
@@ -40,9 +40,9 @@ bt::Node::Status IsInZone::Update() {
     double zone_y2 = 0.0;
 
     //Check for zone number and set zone accordingly
-    if (blackboard->HasInt("zone")) {
+    if (properties->hasInt("zone")) {
 
-        switch (blackboard->GetInt("zone")) {
+        switch (properties->getInt("zone")) {
 
             // zone 1: is as seen from the goal -> left rear
         case 1:zone_x1 = - 4.5;
@@ -87,17 +87,17 @@ bt::Node::Status IsInZone::Update() {
             zone_y2 = 1.5;
             break;
 
-        default:ROS_WARN_STREAM("Not valid zone Int " << blackboard->GetInt("zone"));
+        default:ROS_WARN_STREAM("Not valid zone Int " << properties->getInt("zone"));
             break;
         }
     }
 
     // TODO: BB names
     // Set zone according to points given in blackboard if they are a thing
-    if (blackboard->HasDouble("x1")) { zone_x1 = blackboard->GetDouble("x1"); }
-    if (blackboard->HasDouble("x2")) { zone_x2 = blackboard->GetDouble("x2"); }
-    if (blackboard->HasDouble("y1")) { zone_y1 = blackboard->GetDouble("y1"); }
-    if (blackboard->HasDouble("y2")) { zone_y2 = blackboard->GetDouble("y2"); }
+    if (properties->hasDouble("x1")) { zone_x1 = properties->getDouble("x1"); }
+    if (properties->hasDouble("x2")) { zone_x2 = properties->getDouble("x2"); }
+    if (properties->hasDouble("y1")) { zone_y1 = properties->getDouble("y1"); }
+    if (properties->hasDouble("y2")) { zone_y2 = properties->getDouble("y2"); }
 
     // The condition that decides the status
     if (point.x > zone_x1 && point.x < zone_x2 && point.y > zone_y1 && point.y < zone_y2) {

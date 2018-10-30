@@ -31,7 +31,7 @@ class TreeInterpreter {
 
         bt::BehaviorTree buildTreeFromJSON(json jsonTree);
 
-        bt::Node::Ptr buildNode(json node, json tree);
+        bt::Node::Ptr buildNode(json node, json tree, bt::Blackboard::Ptr globalBlackBoard);
 
         std::vector<json> parseSmallJSONs(json json);
 

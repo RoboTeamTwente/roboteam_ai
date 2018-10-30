@@ -23,16 +23,12 @@ class BehaviorTree : public Node {
 
         Node::Ptr GetRoot();
 
-        Blackboard::Ptr GetBlackboard() const;
-
-        Blackboard::Ptr GetSharedBlackboard() const;
-
-        void SetSharedBlackboard(const Blackboard::Ptr &shared);
+        void SetGlobalBlackboard(const Blackboard::Ptr &globalBB);
 
     private:
         Node::Ptr root = nullptr;
-        Blackboard::Ptr blackboard = nullptr;
-        Blackboard::Ptr sharedBlackboard = nullptr;
+        Blackboard::Ptr globalBB = nullptr;
+
 
 };
 

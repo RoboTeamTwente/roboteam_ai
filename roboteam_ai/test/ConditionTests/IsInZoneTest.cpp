@@ -23,7 +23,7 @@ TEST(IsInZoneTest, IsInZoneTest) {
     worldMsg.ball.pos.y = 0.0;
     rtt::ai::World::set_world(worldMsg);
 
-    blackBoard->SetInt("zone", 3);
+    blackBoard->setInt("zone", 3);
 
     ASSERT_EQ(node.Update(), bt::Node::Status::Success);
 

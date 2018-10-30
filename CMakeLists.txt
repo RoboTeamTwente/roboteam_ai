@@ -79,6 +79,7 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/BehaviorTree.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Blackboard.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Blackboard.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Blackboard.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Composite.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Composite.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Decorator.hpp

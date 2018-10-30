@@ -1,9 +1,9 @@
 #pragma once
 
 #include <string>
-#include <unordered_map>
 #include <memory>
-#include "roboteam_msgs/Blackboard.h"
+#include <map>
+#include "roboteam_utils/Vector2.h"
 
 namespace bt {
 
@@ -16,70 +16,47 @@ class Blackboard {
 
         Blackboard(Blackboard &&) = default;
 
+        using Ptr = std::shared_ptr<Blackboard>;
+
         Blackboard &operator=(const Blackboard &) = default;
 
         Blackboard &operator=(Blackboard &&) = default;
 
         virtual ~Blackboard() = default;
 
-        Blackboard(const roboteam_msgs::Blackboard &msg);
+        void setBool(std::string key, bool value);
+        bool getBool(std::string key);
+        bool hasBool(std::string key) const;
 
-        void SetBool(std::string key, bool value);
+        void setInt(std::string key, int value);
+        int getInt(std::string key);
+        bool hasInt(std::string key) const;
 
-        bool GetBool(std::string key);
+        void setFloat(std::string key, float value);
+        float getFloat(std::string key);
+        bool hasFloat(std::string key) const;
 
-        bool HasBool(std::string key) const;
+        void setDouble(std::string key, double value);
+        double getDouble(std::string key);
+        bool hasDouble(std::string key) const;
 
-        void SetInt(std::string key, int value);
+        void setString(std::string key, std::string value);
+        std::string getString(std::string key);
+        bool hasString(std::string key) const;
 
-        int GetInt(std::string key);
-
-        bool HasInt(std::string key) const;
-
-        void SetFloat(std::string key, float value);
-
-        float GetFloat(std::string key);
-
-        bool HasFloat(std::string key) const;
-
-        void SetDouble(std::string key, double value);
-
-        double GetDouble(std::string key);
-
-        bool HasDouble(std::string key) const;
-
-        void SetString(std::string key, std::string value);
-
-        std::string GetString(std::string key);
-
-        bool HasString(std::string key) const;
-
-        using Ptr = std::shared_ptr<Blackboard>;
-
-        roboteam_msgs::Blackboard toMsg();
-
-        void fromMsg(const roboteam_msgs::Blackboard &msg);
-
-        const std::map<std::string, bool> getBools();
-
-        const std::map<std::string, int> getInts();
-
-        const std::map<std::string, float> getFloats();
-
-        const std::map<std::string, double> getDoubles();
-
-        const std::map<std::string, std::string> getStrings();
-
-        std::string toString();
-
-        std::string toTestX();
+        rtt::Vector2 getVector(std::string key);
+        void setVector(std::string key, rtt::Vector2 value);
+        bool hasVector(std::string key) const;
 
     protected:
-        std::map<std::string, bool> bools;
+
         std::map<std::string, int> ints;
         std::map<std::string, float> floats;
-        std::map<std::string, double> doubles;
+        std::map<std::string, bool> bools;
         std::map<std::string, std::string> strings;
+        std::map<std::string, rtt::Vector2> vectors;
+        std::map<std::string, double> doubles;
+
 
 };
 

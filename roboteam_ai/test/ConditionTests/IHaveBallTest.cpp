@@ -7,8 +7,8 @@
 
 TEST(BallTest, IHaveBallTest) {
     auto BB = std::make_shared<bt::Blackboard>();
-    BB->SetInt("ROBOT_ID", 2);
-    BB->SetBool("our_team", false);
+    BB->setInt("ROBOT_ID", 2);
+    BB->setBool("our_team", false);
     rtt::ai::IHaveBall node("Test", BB);
     //First test should fail as the robot is not set in the world state yet.
     ASSERT_EQ(node.Update(), bt::Node::Status::Failure);
