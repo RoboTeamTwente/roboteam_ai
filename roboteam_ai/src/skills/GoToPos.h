@@ -11,7 +11,7 @@
 namespace rtt {
 namespace ai {
 
-class GoToPos : Skill {
+class GoToPos : public Skill {
         using status = bt::Node::Status;
     public:
         Status Update() override;
