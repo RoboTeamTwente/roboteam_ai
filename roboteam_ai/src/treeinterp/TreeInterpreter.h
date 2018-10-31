@@ -39,7 +39,9 @@ class TreeInterpreter {
 
         bt::Node::Ptr makeNonLeafNode(std::string name);
 
-        bt::Leaf::Ptr makeLeafNode(std::string name);
+        bt::Leaf::Ptr makeLeafNode(json jsonLeaf);
+
+        bt::Blackboard::Ptr parseProperties(json properties);
 
     protected:
 
