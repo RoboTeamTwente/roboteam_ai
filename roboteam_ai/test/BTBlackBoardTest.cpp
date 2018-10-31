@@ -1,83 +1,87 @@
-//#include <gtest/gtest.h>
-//#include "../src/bt/bt.hpp"
-//
-//roboteam_msgs::BoolEntry getBoolEntry(std::string name, bool value) {
-//    roboteam_msgs::BoolEntry be;
-//    be.name = name;
-//    be.value = value;
-//    return be;
-//}
-//
-//roboteam_msgs::Int32Entry getIntEntry(std::string name, int value) {
-//    roboteam_msgs::Int32Entry ie;
-//    ie.name = name;
-//    ie.value = value;
-//    return ie;
-//}
-//
-//roboteam_msgs::StringEntry getStringEntry(std::string name, std::string value) {
-//    roboteam_msgs::StringEntry se;
-//    se.name = name;
-//    se.value = value;
-//    return se;
-//}
-//
-//TEST(BTBlackboardTest, blackboard) {
-//
-//    roboteam_msgs::Blackboard bbmsg;
-//
-//    bbmsg.bools.push_back(getBoolEntry("b_a", true));
-//    bbmsg.bools.push_back(getBoolEntry("b_b", false));
-//
-//    bbmsg.ints.push_back(getIntEntry("i_a", 1000));
-//    bbmsg.ints.push_back(getIntEntry("i_b", - 1000));
-//    bbmsg.ints.push_back(getIntEntry("i_c", 0));
-//
-//    bbmsg.strings.push_back(getStringEntry("s_a", "roboteamtwente"));
-//    bbmsg.strings.push_back(getStringEntry("s_b", "is"));
-//    bbmsg.strings.push_back(getStringEntry("s_c", "awesome"));
-//    bbmsg.strings.push_back(getStringEntry("s_d", "!!!!11!!!!"));
-//
-//    bt::Blackboard bb(bbmsg);
-//
-//    ASSERT_EQ(bb.getBools().size(), 2);
-//    ASSERT_EQ(bb.getDoubles().size(), 0);
-//    ASSERT_EQ(bb.getInts().size(), 3);
-//    ASSERT_EQ(bb.getStrings().size(), 4);
-//
-//    ASSERT_EQ(bb.getBool("b_a"), true);
-//    ASSERT_EQ(bb.getBool("b_b"), false);
-//
-//    ASSERT_EQ(bb.getString("s_a"), "roboteamtwente");
-//    ASSERT_EQ(bb.getString("s_b"), "is");
-//    ASSERT_EQ(bb.getString("s_c"), "awesome");
-//    ASSERT_EQ(bb.getString("s_d"), "!!!!11!!!!");
-//
-//    ASSERT_EQ(bb.getInt("i_a"), 1000);
-//    ASSERT_EQ(bb.getInt("i_b"), - 1000);
-//    ASSERT_EQ(bb.getInt("i_c"), 0);
-//
-//    ASSERT_EQ(bb.hasBool("b_a"), true);
-//    ASSERT_EQ(bb.hasBool("b_d"), false);
-//    ASSERT_EQ(bb.hasBool("i_a"), false);
-//    ASSERT_EQ(bb.hasInt("i_a"), true);
-//    ASSERT_EQ(bb.hasInt("b_a"), false);
-//    ASSERT_EQ(bb.hasString("roboteamTwente"), false);
-//    ASSERT_EQ(bb.hasString("s_d"), true);
-//
-//    bt::Blackboard bb2(bb.toMsg());
-//    ASSERT_EQ(bb.getStrings(), bb2.getStrings());
-//    ASSERT_EQ(bb.getInts(), bb2.getInts());
-//    ASSERT_EQ(bb.getDoubles(), bb2.getDoubles());
-//    ASSERT_EQ(bb.getBools(), bb2.getBools());
-//
-//    ASSERT_EQ(bb.toTestX(), bb2.toTestX());
-//    ASSERT_EQ(bb.toString(), bb2.toString());
-//
-//    ASSERT_EQ(bb.toTestX(),
-//            " bool:b_a=1 bool:b_b=0 int:i_a=1000 int:i_b=-1000 int:i_c=0 string:s_a=roboteamtwente string:s_b=is string:s_c=awesome string:s_d=!!!!11!!!!");
-//    ASSERT_EQ(bb.toString(),
-//            "\n  BOOLS   | b_a = 1 | b_b = 0\n  INTS    | i_a = 1000 | i_b = -1000 | i_c = 0\n  STRINGS | s_a = roboteamtwente | s_b = is | s_c = awesome | s_d = !!!!11!!!!\n");
-//}
-//
-//
+#include <utility>
+
+#include <utility>
+
+#include <gtest/gtest.h>
+#include <gtest/gtest_prod.h>
+
+#include <roboteam_msgs/BoolEntry.h>
+#include <roboteam_msgs/Int32Entry.h>
+#include <roboteam_msgs/StringEntry.h>
+
+#include "../src/bt/bt.hpp"
+
+
+TEST(BTBlackBoardTest, Blackboard) {
+
+    bt::Blackboard bbmsg;
+
+    bbmsg.setBool("bool_a", true);
+    bbmsg.setBool("bool_b", false);
+
+    bbmsg.setInt("int_a", -1);
+    bbmsg.setInt("int_b", 0);
+    bbmsg.setInt("int_c", 999999);
+
+    bbmsg.setDouble("double_a", 1);
+    bbmsg.setDouble("double_b", -3.141592653589793);
+    bbmsg.setDouble("double_c", 1048576.201248);
+
+    bbmsg.setString("string_a", "RoboTeam Twente");
+    bbmsg.setString("string_b", "is");
+    bbmsg.setString("string_c", "awesome");
+    bbmsg.setString("string_d", "!o!");
+
+    bbmsg.setVector("vector2_a", {1,1});
+    bbmsg.setVector("vector2_b", {-1.6180339887,3.162277660168});
+    bbmsg.setVector("vector2_c", {42.0,-42});
+
+    bt::Blackboard bb = bbmsg;
+
+    ASSERT_EQ(bb.getBool("bool_a"), true);
+    ASSERT_EQ(bb.getBool("bool_b"), false);
+
+    ASSERT_EQ(bb.getInt("int_a"), -1);
+    ASSERT_EQ(bb.getInt("int_b"), 0);
+    ASSERT_EQ(bb.getInt("int_c"), 999999);
+
+    ASSERT_EQ(bb.getDouble("double_a"), 1);
+    ASSERT_EQ(bb.getDouble("double_b"), -3.141592653589793);
+    ASSERT_EQ(bb.getDouble("double_c"), 1048576.201248);
+
+    ASSERT_EQ(bb.getString("string_a"), "RoboTeam Twente");
+    ASSERT_EQ(bb.getString("string_b"), "is");
+    ASSERT_EQ(bb.getString("string_c"), "awesome");
+    ASSERT_EQ(bb.getString("string_d"), "!o!");
+
+    ASSERT_EQ(bb.getVector("vector2_a").x, 1);
+    ASSERT_EQ(bb.getVector("vector2_a").y, 1);
+    ASSERT_EQ(bb.getVector("vector2_b").x, -1.6180339887);
+    ASSERT_EQ(bb.getVector("vector2_b").y, 3.162277660168);
+    ASSERT_EQ(bb.getVector("vector2_c").x, 42.0);
+    ASSERT_EQ(bb.getVector("vector2_c").y, -42);
+
+    ASSERT_EQ(bb.hasBool("bool_a"), true);
+    ASSERT_EQ(bb.hasBool("bool_d"), false);
+    ASSERT_EQ(bb.hasBool("int_a"), false);
+    ASSERT_EQ(bb.hasInt("int_a"), true);
+    ASSERT_EQ(bb.hasInt("bool_a"), false);
+
+    ASSERT_EQ(bb.hasString("roboteam Twente"), false);
+    ASSERT_EQ(bb.hasString("awesome"), false);
+    ASSERT_EQ(bb.hasString("sting_b"), false);
+
+    bbmsg.setVector("vector2_c", {0,0});
+    bbmsg.setString("string_b", "is");
+
+    bt::Blackboard bb2 = bbmsg;
+
+    ASSERT_EQ(bb2.getVector("vector2_c").x, 0);
+    ASSERT_EQ(bb2.getString("string_b"), "is");
+
+    ASSERT_EQ(bb.getString("string_a"), bb2.getString("string_a"));
+    ASSERT_EQ(bb.getDouble("double_b"), bb2.getDouble("double_b"));
+
+}
+
+

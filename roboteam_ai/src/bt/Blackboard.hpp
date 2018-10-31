@@ -4,10 +4,15 @@
 #include <memory>
 #include <map>
 #include "roboteam_utils/Vector2.h"
+#include <gtest/gtest.h>
+#include <gtest/gtest_prod.h>
 
 namespace bt {
 
 class Blackboard {
+
+    FRIEND_TEST(BTBlackBoardTest, Blackboard);
+
     public:
         // Default constructors enabled
         Blackboard() = default;

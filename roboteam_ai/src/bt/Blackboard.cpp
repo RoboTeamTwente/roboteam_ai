@@ -7,6 +7,7 @@
 #include "roboteam_msgs/Blackboard.h"
 #include "Blackboard.hpp"
 
+
 namespace bt {
 
 void Blackboard::setBool(std::string key, bool value) {

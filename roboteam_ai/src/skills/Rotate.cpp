@@ -118,17 +118,17 @@ bt::Node::Status Rotate::Update() {
     double robotAngle = robot.angle;
     double angleDifference = robotAngle - targetRotation;
 
-    while (angleDifference < 0) angleDifference += 2*PI;
-    while (angleDifference > 2*PI) angleDifference -= 2*PI;
+    while (angleDifference < 0) angleDifference += 2*M_PI;
+    while (angleDifference > 2*M_PI) angleDifference -= 2*M_PI;
 
     double angularVelocity;
     double angularErrorMargin = 0.10; // within this margin, give succes.
 
-    if (angleDifference < angularErrorMargin || angleDifference > 2*PI - angularErrorMargin) {
+    if (angleDifference < angularErrorMargin || angleDifference > 2*M_PI - angularErrorMargin) {
         return Status::Success;
     }
 
-    if (angleDifference > PI) { angularVelocity = MAX_ANGULAR_VELOCITY; }
+    if (angleDifference > M_PI) { angularVelocity = MAX_ANGULAR_VELOCITY; }
     else { angularVelocity = - MAX_ANGULAR_VELOCITY; }
 
     // Send the robotCommand.
