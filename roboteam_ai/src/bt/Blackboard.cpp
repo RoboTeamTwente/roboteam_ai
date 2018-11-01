@@ -85,17 +85,17 @@ bool Blackboard::hasString(std::string key) const {
     return strings.find(key) != strings.end();
 }
 
-rtt::Vector2 Blackboard::getVector(std::string key) {
+rtt::Vector2 Blackboard::getVector2(std::string key) {
     if (vectors.find(key) == vectors.end()) {
         vectors[key] = rtt::Vector2(0, 0);
     }
     return vectors[key];
 }
-void Blackboard::setVector(std::string key, rtt::Vector2 value) {
+void Blackboard::setVector2(std::string key, rtt::Vector2 value) {
     vectors[key] = value;
 
 }
-bool Blackboard::hasVector(std::string key) const {
+bool Blackboard::hasVector2(std::string key) const {
     return vectors.find(key) != vectors.end();
 }
 
