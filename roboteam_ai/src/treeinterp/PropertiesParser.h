@@ -9,16 +9,25 @@
 #include "roboteam_utils/Vector2.h"
 #include "../bt/Blackboard.hpp"
 #include "json.h"
+
 class PropertiesParser {
         using json = nlohmann::json;
 
     private:
-        bool isInt(std::string keyName);
+
+        char vectorStartChar = '{', vectorEndChar = '}', dot = '.', comma = ',', space = ' ';
+
+        int checkVarTypeOfString(std::string keyName, json someJson, std::vector<double> &vec);
+
+        int getNumberFromString(std::string strKey, char charKey[100], int &it, double &number);
+
+
+
         enum class Type {
                 Int,
                 String,
                 Double,
-                Vector,
+                Vector2,
                 Bool
         };
 
