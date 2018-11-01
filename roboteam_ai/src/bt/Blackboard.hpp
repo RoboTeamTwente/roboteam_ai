@@ -44,9 +44,9 @@ class Blackboard {
         std::string getString(std::string key);
         bool hasString(std::string key) const;
 
-        rtt::Vector2 getVector(std::string key);
-        void setVector(std::string key, rtt::Vector2 value);
-        bool hasVector(std::string key) const;
+        rtt::Vector2 getVector2(std::string key);
+        void setVector2(std::string key, rtt::Vector2 value);
+        bool hasVector2(std::string key) const;
 
     protected:
 

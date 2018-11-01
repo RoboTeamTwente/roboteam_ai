@@ -15,6 +15,7 @@
 #include <map>
 #include <unistd.h>
 #include "BTImport.h"
+#include "PropertiesParser.h"
 
 #define GetCurrentDir getcwd
 
@@ -24,6 +25,8 @@ class TreeInterpreter {
 
     private:
         JsonReader jsonReader;
+
+        PropertiesParser propertyParser;
 
         FRIEND_TEST(JsonBasics, JsonTest);
 

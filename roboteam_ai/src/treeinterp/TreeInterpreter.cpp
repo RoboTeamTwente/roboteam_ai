@@ -109,13 +109,11 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
     //jsonReader.printJson(nodeJSON);
     if (TreeInterpreter::isLeaf(nodeJSON)) {
         // TODO: make leaf and return it
-        // TODO put properties
         // ?? WTF types and classes are impossible
         // Copy Pasta example: bt::Leaf::Ptr counterA = std::make_shared<Counter>("A", 2);
         bt::Leaf::Ptr leaf;
         leaf = TreeInterpreter::makeLeafNode(nodeJSON);
         leaf->globalBB = globalBlackBoard;
-        // leaf->setFiled("string") TODO
         return leaf;
     }
 
@@ -207,7 +205,7 @@ bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
         // TODO: after importing the leaf subclasses make a switch here
         // leaf = make_some_condition_or_something()
     } else if (true) {
-        bt::Blackboard::Ptr properties; // TODO parse properties
+        bt::Blackboard::Ptr properties = propertyParser.parse(jsonLeaf);
         skill = std::make_shared<rtt::ai::GoToPos>("goToPos", properties);
     }
 
