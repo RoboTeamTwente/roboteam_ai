@@ -204,7 +204,7 @@ bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
     if (name == "Dummy") {
         // TODO: after importing the leaf subclasses make a switch here
         // leaf = make_some_condition_or_something()
-    } else if (true) {
+    } else if ("GoToPos") {
         bt::Blackboard::Ptr properties = propertyParser.parse(jsonLeaf);
         skill = std::make_shared<rtt::ai::GoToPos>("goToPos", properties);
     }
