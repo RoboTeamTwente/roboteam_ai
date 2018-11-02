@@ -15,21 +15,23 @@ class PropertiesParser {
 
     private:
 
+        enum type {
+          Int,
+          String,
+          Double,
+          Vector,
+          Bool_True,
+          Bool_False
+        };
+
         char vectorStartChar = '{', vectorEndChar = '}', dot = '.', comma = ',', space = ' ';
 
-        int checkVarTypeOfString(std::string keyName, json someJson, std::vector<double> &vec);
+        type checkVarTypeOfString(std::string keyName, json someJson, std::vector<double> &vec);
 
-        int getNumberFromString(std::string strKey, char charKey[100], int &it, double &number);
+        type getNumberFromString(std::string strKey, char charKey[100], int &it, double &number);
 
 
 
-        enum class Type {
-                Int,
-                String,
-                Double,
-                Vector2,
-                Bool
-        };
 
     public:
         bt::Blackboard::Ptr parse(json someJson);
