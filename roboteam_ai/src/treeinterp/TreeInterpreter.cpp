@@ -83,7 +83,7 @@ bt::BehaviorTree TreeInterpreter::buildTreeFromJSON(json jsonTree) {
 
     // Build the tree from the root
     bt::BehaviorTree behaviorTree;
-    bt::Blackboard::Ptr globalBB = std::make_shared<bt::Blackboard>();
+    bt::Blackboard::Ptr globalBB = propertyParser.parse(jsonTree);
     behaviorTree.setProperties(globalBB);
 
     auto rootNode = TreeInterpreter::buildNode(jsonTree["nodes"][rootID], jsonTree, globalBB);
@@ -137,6 +137,7 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
         // recursive call
         node->AddChild(TreeInterpreter::buildNode(currentChild, tree, globalBlackBoard));
     }
+    node->properties = propertyParser.parse(nodeJSON);
     return node;
 }
 
