@@ -66,33 +66,32 @@ PropertiesParser::type PropertiesParser::checkVarTypeOfString(std::string keyNam
     }
     if (strKey == "true") return Bool_True;
     else if (strKey == "false") return Bool_False;
-    else if (charKey[0] == vectorStartChar && charKey[size - 1] == vectorEndChar && (std::isdigit(strKey[1]))) {
+    else if (charKey[0] == vectorStartChar && charKey[size - 1] == vectorEndChar) {
         // we are dealing with a vector
-        double number;
 
+        while (charKey[it] == space) it++;                  // skip spaces and move to the first character after "{" in the string
+        if (!std::isdigit(strKey[it])) return String;       // check if the first character is a digit (0, 1, ... , 9)
+
+        double number;                                      // get the variable type and the value of the next unit in the vector
         varType = getNumberFromString(strKey, charKey, ++ it, number);
-        if (varType == String) return varType;
+        if (varType == String) return String;
         vec.push_back(number);
         it ++;
         while (charKey[it] == comma || charKey[it] == space) {
+            it ++;
             while (charKey[it] == space) it ++;
             varType = getNumberFromString(strKey, charKey, it, number);
-            if (varType == String) return varType;
+            if (varType == String) return String;
             vec.push_back(number);
             it ++;
         }
-        if (charKey[it] != vectorEndChar) {
-            varType = String;
-            return varType;
-        }
-        varType = Vector;
-        return varType;
+        // last check to see if we are at the end of the string
+        if (charKey[it] != vectorEndChar && it != size - 1) return String;
+        else return Vector;
     }
     else {
         double number;
         varType = getNumberFromString(strKey, charKey, it, number);
-        if (varType == String) return varType;
-        vec.push_back(number);
         return varType;
     }
 }
@@ -106,10 +105,9 @@ PropertiesParser::type PropertiesParser::getNumberFromString(std::string strKey,
             sum = 10*sum + (int) (charKey[it] - '0');
             it ++;
         }
-        if (charKey[it] == dot && it < strKey.size()) {
+        if (charKey[it] == dot) {
             double multiplier = 1.0;
-            it ++;
-            if (std::isdigit(strKey[it])) {
+            if (std::isdigit(strKey[++ it])) {
                 while (std::isdigit(strKey[it])) {
                     multiplier *= 0.1;
                     sum += (double) (charKey[it] - '0')*multiplier;
