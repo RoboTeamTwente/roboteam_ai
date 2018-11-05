@@ -22,9 +22,9 @@ TEST(GoTOPos, GoTOPosTest) {
     ros::Subscriber sub = nh.subscribe<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 0, &robotCommandCallback);
 
     auto bb = std::make_shared<bt::Blackboard>();
-    bb->SetInt("ROBOT_ID", 1);
-    bb->SetInt("X", 5);
-    bb->SetInt("Y", 6);
+    bb->setInt("ROBOT_ID", 1);
+    bb->setInt("X", 5);
+    bb->setInt("Y", 6);
     rtt::ai::GoToPos goToPos("test1", bb);
     goToPos.Initialize();
 

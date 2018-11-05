@@ -22,7 +22,7 @@ bt::Node::Status Kick::Update() {
     }
 
     // Get kickVelocity from blackboard, otherwise it is a default value.
-    double kickVel = blackboard->HasDouble("kickVel") ? blackboard->GetDouble("kickVel") : DEFAULT_KICK_POWER;
+    double kickVel = properties->hasDouble("kickVel") ? properties->getDouble("kickVel") : DEFAULT_KICK_POWER;
 
     // Send the robotCommand.
     sendKickCommand(kickVel);

@@ -1,4 +1,5 @@
 #include <memory>
+#include <iostream>
 
 #include "Blackboard.hpp"
 #include "Node.hpp"
@@ -65,6 +66,14 @@ void Node::append_status(std::string fmt, ...) {
 }
 
 void Node::AddChild(bt::Node::Ptr) {
+
+}
+void Node::setProperties(bt::Blackboard::Ptr blackboard) {
+    properties = blackboard;
+
+}
+Node::Node() {
+    globalBB = std::make_shared<Blackboard>();
 
 }
 

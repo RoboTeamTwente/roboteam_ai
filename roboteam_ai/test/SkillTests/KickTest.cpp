@@ -24,7 +24,7 @@ TEST(KickTest, It_sends_proper_robotcommands) {
     ros::Subscriber sub = nh.subscribe<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 0, &robotCommandCallback);
 
     auto bb = std::make_shared<bt::Blackboard>();
-    bb->SetInt("ROBOT_ID", 1);
+    bb->setInt("ROBOT_ID", 1);
     rtt::ai::Kick kick("test", bb);
     kick.Initialize();
 
@@ -40,7 +40,7 @@ TEST(KickTest, It_sends_proper_robotcommands) {
     EXPECT_TRUE(commands.at(0).kicker_forced);
     EXPECT_EQ(commands.at(0).kicker_vel, DEFAULT_KICK_POWER);
 
-    bb->SetDouble("kickVel", 2);
+    bb->setDouble("kickVel", 2);
     rtt::ai::Kick kick2("test", bb);
     kick2.Initialize();
 
@@ -67,7 +67,7 @@ TEST(KickTest, It_chips) {
     ros::Subscriber sub = nh.subscribe<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 0, &robotCommandCallback);
 
     auto bb = std::make_shared<bt::Blackboard>();
-    bb->SetInt("ROBOT_ID", 1);
+    bb->setInt("ROBOT_ID", 1);
     rtt::ai::Chip chip("test", bb);
     chip.Initialize();
 

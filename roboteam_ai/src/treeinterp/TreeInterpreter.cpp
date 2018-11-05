@@ -8,6 +8,7 @@
 
 
 #include "TreeInterpreter.h"
+#include "../skills/GoToPos.h"
 
 /// Return a TreeInterpreter singleton
 TreeInterpreter &TreeInterpreter::getInstance() {
@@ -79,59 +80,56 @@ bt::BehaviorTree TreeInterpreter::buildTreeFromJSON(json jsonTree) {
     // ID of the root
     std::string rootID = jsonTree["root"];
 
-    auto rootNode = TreeInterpreter::buildNode(jsonTree["nodes"][rootID], jsonTree);
 
     // Build the tree from the root
-    bt::BehaviorTree behaviorTree(rootNode);
+    bt::BehaviorTree behaviorTree;
+    bt::Blackboard::Ptr globalBB = propertyParser.parse(jsonTree);
+    behaviorTree.setProperties(globalBB);
+
+    auto rootNode = TreeInterpreter::buildNode(jsonTree["nodes"][rootID], jsonTree, globalBB);
+    behaviorTree.SetRoot(rootNode);
     return behaviorTree;
 }
 
 /// Builds nodes recursively from json objects
-bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree) {
+bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboard::Ptr globalBlackBoard) {
 
-    // See if it is leaf
-
-    // Then:
-    //  Make a leaf out of it and then return it
-
-    // Else:
-    //  Create a Node(?) object
-    //  Call addChild on that node with a recursive call to this function
-    //  and for every child it has
-    //  Ex: node->addChild(buildNode(nodeJSON["<aChild>"]))
-    //  Return this Node
-
-    //jsonReader.printJson(nodeJSON);
+    // Dealing with a leaf, the properties are set internally
     if (TreeInterpreter::isLeaf(nodeJSON)) {
-        // TODO: make leaf and return it
-        // TODO put properties
-        // ?? WTF types and classes are impossible
-        // Copy Pasta example: bt::Leaf::Ptr counterA = std::make_shared<Counter>("A", 2);
+
         bt::Leaf::Ptr leaf;
-        leaf = TreeInterpreter::makeLeafNode(nodeJSON["title"]);
-        // leaf->setFiled("string") TODO
+        leaf = TreeInterpreter::makeLeafNode(nodeJSON);
+        leaf->globalBB = globalBlackBoard;
         return leaf;
     }
 
     // Not a leaf
     auto node = makeNonLeafNode(nodeJSON["name"]);
 
-    // has only one child
+    // GlobalBB and properties
+    node->globalBB = globalBlackBoard;
+    node->properties = propertyParser.parse(nodeJSON);
+
+    // One child
+
     if (jsonReader.checkIfKeyExists("child", nodeJSON)) {
-        // Find the child node in the json
         std::string childID = nodeJSON["child"];
         auto child = tree["nodes"][childID];
-        // recursive call
 
-        node->AddChild(TreeInterpreter::buildNode(child, tree));
-        return node;
+        node->AddChild(TreeInterpreter::buildNode(child, tree, globalBlackBoard));
     }
-    // has multiple children
-    for (std::string currentChildID : nodeJSON["children"]) {
-        auto currentChild = tree["nodes"][currentChildID];
-        // recursive call
-        node->AddChild(TreeInterpreter::buildNode(currentChild, tree));
+
+    // Multiple children
+    else {
+
+        for (std::string currentChildID : nodeJSON["children"]) {
+            auto currentChild = tree["nodes"][currentChildID];
+
+            node->AddChild(TreeInterpreter::buildNode(currentChild, tree, globalBlackBoard));
+        }
     }
+
+
     return node;
 }
 
@@ -193,14 +191,26 @@ bool TreeInterpreter::isLeaf(json jsonTree) {
 }
 
 /// Make a leaf node depending on the name of the node
-bt::Leaf::Ptr TreeInterpreter::makeLeafNode(std::string name) {
-    bt::Leaf::Ptr leaf;
+bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
+    rtt::ai::Skill::Ptr skill;
+    std::string name = jsonLeaf["title"];
+    bt::Blackboard::Ptr properties = propertyParser.parse(jsonLeaf);
+
     if (name == "Dummy") {
         // TODO: after importing the leaf subclasses make a switch here
         // leaf = make_some_condition_or_something()
     }
+    else if ("GoToPos") {
+        skill = std::make_shared<rtt::ai::GoToPos>("goToPos", properties);
+    }
+    else {
+        skill = std::make_shared<rtt::ai::GoToPos>("name", properties);
+    }
 
-    return leaf;
+    return skill;
+
+}
+bt::Blackboard::Ptr TreeInterpreter::parseProperties(json properties) {
 }
 
 

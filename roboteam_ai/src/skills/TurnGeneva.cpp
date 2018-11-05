@@ -19,7 +19,7 @@ bt::Node::Status TurnGeneva::Update() {
     }
 
     // Get genevaState from blackboard, otherwise it is a default value.
-    int genevaState = blackboard->HasInt("genevaState") ? blackboard->GetInt("genevaState")
+    int genevaState = properties->hasInt("genevaState") ? properties->getInt("genevaState")
                                                         : DEFAULT_GENEVA_STATE;
 
     // Send the robotCommand.

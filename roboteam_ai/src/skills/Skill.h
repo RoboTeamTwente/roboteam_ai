@@ -24,6 +24,7 @@ class Skill : public bt::Leaf {
 
     public:
         explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+
 };
 
 } // ai

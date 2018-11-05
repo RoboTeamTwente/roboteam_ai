@@ -21,6 +21,8 @@ class Node {
 
         virtual ~Node();
 
+        Node();
+
         using Ptr = std::shared_ptr<Node>;
 
         virtual Status Update() = 0;
@@ -45,11 +47,15 @@ class Node {
 
         void setStatus(Status s);
 
-        bt::Blackboard::Ptr private_bb = std::make_shared<bt::Blackboard>();
+        bt::Blackboard::Ptr properties = std::make_shared<bt::Blackboard>();
+
+        bt::Blackboard::Ptr globalBB;
 
         virtual std::string node_name();
 
         static std::string status_desc;
+
+        void setProperties(bt::Blackboard::Ptr blackboard);
 
     protected:
         Status status = Status::Invalid;
