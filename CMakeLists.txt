@@ -203,6 +203,7 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/BTBlackBoardTest.cpp
         roboteam_ai/test/IOTest.cpp
         roboteam_ai/test/RobotDealerTest.cpp
+        roboteam_ai/test/PropertiesParserTest.cpp
         ${SKILL_TESTS}
         ${CONDITION_TESTS}
         ${DANGER_FINDER_SOURCES}

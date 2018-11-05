@@ -24,11 +24,11 @@ class PropertiesParser {
           Bool_False
         };
 
-        char vectorStartChar = '{', vectorEndChar = '}', dot = '.', comma = ',', space = ' ';
+        char vectorStartChar = '{', vectorEndChar = '}', dot = '.', comma = ',', space = ' ', minus = '-';
 
         type checkVarTypeOfString(std::string keyName, json someJson, std::vector<double> &vec);
 
-        type getNumberFromString(std::string strKey, char charKey[100], int &it, double &number);
+        type getNumberFromString(std::string strKey, std::vector<char> charKey, int &it, double &number);
 
 
 
