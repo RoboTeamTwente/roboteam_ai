@@ -94,23 +94,9 @@ bt::BehaviorTree TreeInterpreter::buildTreeFromJSON(json jsonTree) {
 /// Builds nodes recursively from json objects
 bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboard::Ptr globalBlackBoard) {
 
-    // See if it is leaf
-
-    // Then:
-    //  Make a leaf out of it and then return it
-
-    // Else:
-    //  Create a Node(?) object
-    //  Call addChild on that node with a recursive call to this function
-    //  and for every child it has
-    //  Ex: node->addChild(buildNode(nodeJSON["<aChild>"]))
-    //  Return this Node
-
-    //jsonReader.printJson(nodeJSON);
+    // Dealing with a leaf, the properties are set internally
     if (TreeInterpreter::isLeaf(nodeJSON)) {
-        // TODO: make leaf and return it
-        // ?? WTF types and classes are impossible
-        // Copy Pasta example: bt::Leaf::Ptr counterA = std::make_shared<Counter>("A", 2);
+
         bt::Leaf::Ptr leaf;
         leaf = TreeInterpreter::makeLeafNode(nodeJSON);
         leaf->globalBB = globalBlackBoard;
@@ -119,25 +105,31 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
 
     // Not a leaf
     auto node = makeNonLeafNode(nodeJSON["name"]);
-    node->globalBB = globalBlackBoard;
 
-    // has only one child
+    // GlobalBB and properties
+    node->globalBB = globalBlackBoard;
+    node->properties = propertyParser.parse(nodeJSON);
+
+    // One child
+
     if (jsonReader.checkIfKeyExists("child", nodeJSON)) {
-        // Find the child node in the json
         std::string childID = nodeJSON["child"];
         auto child = tree["nodes"][childID];
-        // recursive call
 
         node->AddChild(TreeInterpreter::buildNode(child, tree, globalBlackBoard));
-        return node;
     }
-    // has multiple children
-    for (std::string currentChildID : nodeJSON["children"]) {
-        auto currentChild = tree["nodes"][currentChildID];
-        // recursive call
-        node->AddChild(TreeInterpreter::buildNode(currentChild, tree, globalBlackBoard));
+
+    // Multiple children
+    else {
+
+        for (std::string currentChildID : nodeJSON["children"]) {
+            auto currentChild = tree["nodes"][currentChildID];
+
+            node->AddChild(TreeInterpreter::buildNode(currentChild, tree, globalBlackBoard));
+        }
     }
-    node->properties = propertyParser.parse(nodeJSON);
+
+
     return node;
 }
 
@@ -202,12 +194,17 @@ bool TreeInterpreter::isLeaf(json jsonTree) {
 bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
     rtt::ai::Skill::Ptr skill;
     std::string name = jsonLeaf["title"];
+    bt::Blackboard::Ptr properties = propertyParser.parse(jsonLeaf);
+
     if (name == "Dummy") {
         // TODO: after importing the leaf subclasses make a switch here
         // leaf = make_some_condition_or_something()
-    } else if ("GoToPos") {
-        bt::Blackboard::Ptr properties = propertyParser.parse(jsonLeaf);
+    }
+    else if ("GoToPos") {
         skill = std::make_shared<rtt::ai::GoToPos>("goToPos", properties);
+    }
+    else {
+        skill = std::make_shared<rtt::ai::GoToPos>("name", properties);
     }
 
     return skill;

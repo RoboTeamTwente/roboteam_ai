@@ -10,7 +10,14 @@
 #include <vector>
 
 bt::Blackboard::Ptr PropertiesParser::parse(PropertiesParser::json jsonLeaf) {
+
     bt::Blackboard::Ptr BB = std::make_shared<bt::Blackboard>();
+
+
+    if (! jsonReader.checkIfKeyExists("properties", jsonLeaf)) {
+        return BB;
+    }
+
     for (auto property = jsonLeaf["properties"].begin(); property != jsonLeaf["properties"].end(); ++property) {
 
         std::vector<double> vec;
