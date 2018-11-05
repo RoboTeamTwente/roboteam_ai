@@ -6,19 +6,25 @@ namespace io = rtt::ai::io;
 
 roboteam_msgs::World worldMsg;
 
-int main(int argc, char *argv[]) {
-  ros::init(argc, argv, "RoleNode");
+int main(int argc, char* argv[]) {
+    ros::init(argc, argv, "RoleNode");
 
-  io::RoleIOManager roleIOManager;
-  ros::Rate rate(10);
+    // create a nodehandle and prepare subscriptions
+    io::RoleIOManager roleIOManager;
 
-  while (ros::ok()) {
-    ros::spinOnce();
-    worldMsg = roleIOManager.getWorldState();
-    roleIOManager.getRoleDirective();
+    //
+    roleIOManager.subscribeToWorldState();
+    roleIOManager.subscribeToGeometryData();
+    roleIOManager.subscribeToRoleDirective();
 
+    ros::Rate rate(10);
 
-    rate.sleep();
-  }
-  return 0;
+    while (ros::ok()) {
+        ros::spinOnce();
+        worldMsg = roleIOManager.getWorldState();
+        roleIOManager.getRoleDirective();
+
+        rate.sleep();
+    }
+    return 0;
 }

@@ -4,15 +4,6 @@
 
 #include <gtest/gtest.h>
 #include "../src/treeinterp/TreeInterpreter.h"
-#include "../src/treeinterp/json.h"
-#include "../src/treeinterp/JsonReader.h"
-
-#include <typeinfo>
-
-
-void print(const std::string &s) {
-    std::cout << s << std::endl;
-}
 
 TEST(JsonBasics, JsonTest) {
 
@@ -74,14 +65,14 @@ TEST(JsonBasics, JsonTest) {
 
     // ===== Test the reader functions ====
 
-    auto btTesting = interpreter.getTreeWithID("bigjson", "d16f9751-a781-4fee-8570-7d88a207aef0"); // TODO: name files with the project names
+    auto btTesting = interpreter.getTreeWithID("bigjson",
+            "d16f9751-a781-4fee-8570-7d88a207aef0"); // TODO: name files with the project names
 
     auto rootBTTesting = btTesting.GetRoot();
 
     ASSERT_TRUE(true);
 
 }
-
 
 TEST(TreeTest, JsonTest) {
 

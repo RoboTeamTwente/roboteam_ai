@@ -5,7 +5,6 @@
 
 #include <gtest/gtest.h>
 #include "../src/utilities/RobotDealer.h"
-#include <string>
 
 namespace ai = rtt::ai;
 
@@ -49,10 +48,23 @@ TEST(RobotDealerTest, RobotDealerTest) {
     ASSERT_EQ(ownerList[tacticB].find(3), ownerList[tacticB].end());
     ASSERT_NE(ownerList[tacticB].find(2), ownerList[tacticB].end());
 
+    ASSERT_TRUE(ai::RobotDealer::claimRobotForTactic(3, tacticB));
+
+    // a robot with an invalid id cannot be claimed for a tactic
+    ASSERT_FALSE(ai::RobotDealer::claimRobotForTactic(30000, tacticB));
+
+    // robot 3 cannot be claimed because it was already claimed
+    ASSERT_FALSE(ai::RobotDealer::claimRobot(3));
+
     //release robots 2 and 3
-    ASSERT_TRUE(ai::RobotDealer::claimRobotForTactic(3,tacticB));
     ASSERT_TRUE(ai::RobotDealer::releaseRobots(robot_ids));
-    ASSERT_EQ(1,ai::RobotDealer::getClaimedRobots().size());
+    ASSERT_EQ(1, ai::RobotDealer::getClaimedRobots().size());
+
+    // the keeper could not be taken because it was already claimed.
+    ASSERT_FALSE(ai::RobotDealer::claimRobot(4));
+
+    // a robot with an unknown id cannot be claimed
+    ASSERT_FALSE(ai::RobotDealer::claimRobot(400000));
 
     // release keeper
     ai::RobotDealer::releaseRobot(4);
@@ -87,6 +99,5 @@ TEST(RobotDealerTest, RobotDealerTest) {
     std::vector<int> robots{7, 8, 9};
     ASSERT_TRUE(ai::RobotDealer::claimRobots(robots));
     ASSERT_FALSE(ai::RobotDealer::claimRobots(robots));
-
 
 }

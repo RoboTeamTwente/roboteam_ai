@@ -18,60 +18,59 @@ namespace rtt {
 namespace ai {
 
 class RobotDealer {
-public:
+    public:
 
-    static std::vector<int> getClaimedRobots();
+        static std::vector<int> getClaimedRobots();
 
-    static void setKeeper(int id);
+        static void setKeeper(int id);
 
-    static int getKeeper();
+        static int getKeeper();
 
-    static bool getKeeperAvailable();
+        static bool getKeeperAvailable();
 
-    static bool claimRobot(int id);
+        static bool claimRobot(int id);
 
-    static bool claimRobotForTactic(int id, std::string const &playName);
+        static bool claimRobotForTactic(int id, std::string const &playName);
 
-    static bool claimRobotForTactic(std::vector<int> ids, std::string const &playName);
+        static bool claimRobotForTactic(std::vector<int> ids, std::string const &playName);
 
-    static std::map<std::string, std::set<int>> const &getRobotOwnerList();
+        static std::map<std::string, std::set<int>> const &getRobotOwnerList();
 
-    static bool releaseRobot(int id);
+        static bool releaseRobot(int id);
 
-    static bool claimRobots(std::vector<int> ids);
+        static bool claimRobots(std::vector<int> ids);
 
-    static bool releaseRobots(std::vector<int> ids);
+        static bool releaseRobots(std::vector<int> ids);
 
-    static void haltOverride();
+        static void haltOverride();
 
+    private:
 
-private:
+        FRIEND_TEST(RobotDealerTest, RobotDealerTest);
 
-    FRIEND_TEST(RobotDealerTest, RobotDealerTest);
+        static std::set<int> takenRobots;
 
-    static std::set<int> takenRobots;
+        static void emptyTakenRobots();
 
-    static void emptyTakenRobots();
+        static void emptyRobotOwners();
 
-    static void emptyRobotOwners();
+        static std::map<std::string, std::set<int>> robotOwners;
 
-    static std::map<std::string, std::set<int>> robotOwners;
+        static std::atomic<int> keeper;
 
-    static std::atomic<int> keeper;
+        static std::atomic<bool> isKeeperAvailable;
 
-    static std::atomic<bool> isKeeperAvailable;
+        static std::mutex robotOwnersLock;
 
-    static std::mutex robotOwnersLock;
+        static std::mutex takenRobotsLock;
 
-    static std::mutex takenRobotsLock;
+        friend class HaltTactic;
 
-    friend class HaltTactic;
+        static void removeRobotFromOwnerList(int id);
 
-    static void removeRobotFromOwnerList(int id);
+        static bool validateID(int ID);
 
-    static bool validateID(int ID);
-
-    static bool isRobotFree(int ID);
+        static bool isRobotFree(int ID);
 
 };
 

@@ -8,22 +8,29 @@
 
 #include "IOManager.h"
 #include "roboteam_msgs/RoleDirective.h"
+#include "roboteam_msgs/RobotCommand.h"
+#include <roboteam_msgs/RoleFeedback.h>
 
 namespace rtt {
 namespace ai {
 namespace io {
 
 class RoleIOManager : public IOManager {
- private:
-  roboteam_msgs::RoleDirective roleDirective;
-  void handleRoleDirective(const roboteam_msgs::RoleDirectiveConstPtr &roleDirective);
-  ros::Subscriber roleDirectiveSubscriber;
+    private:
+        roboteam_msgs::RoleDirective roleDirective;
 
- public:
-  RoleIOManager();
-  void subscribeToRoleDirective();
-  roboteam_msgs::RoleDirective &getRoleDirective();
+        void handleRoleDirective(const roboteam_msgs::RoleDirectiveConstPtr &roleDirective);
 
+        ros::Subscriber roleDirectiveSubscriber;
+        ros::Publisher robotCommandPublisher;
+    public:
+        RoleIOManager();
+
+        void subscribeToRoleDirective();
+
+        roboteam_msgs::RoleDirective &getRoleDirective();
+
+        void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
 };
 
 } // io

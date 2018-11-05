@@ -20,7 +20,7 @@ std::string JsonReader::getFilePath(std::string name) {
     std::string fullPath = cCurrentPath;
     auto splitTed = JsonReader::split(fullPath, '/');
     std::string smallPath;
-    for (const auto& word : splitTed) {
+    for (const auto &word : splitTed) {
         if (smallPath.find("roboteam_ai") != std::string::npos) {
             break;
         }
@@ -63,11 +63,11 @@ bool JsonReader::checkIfKeyExists(std::string key, json json) {
 
 void JsonReader::editJSON(std::string fileName, std::string treeID, std::string field, std::string newValue) {
     // read json file
-    json fileJson=readJSON(fileName);
+    json fileJson = readJSON(fileName);
     // edit json file
-    for (json& tree :fileJson["data"]["trees"]){
-        if (tree["id"]==treeID){
-            tree[field]=newValue;
+    for (json &tree :fileJson["data"]["trees"]) {
+        if (tree["id"] == treeID) {
+            tree[field] = newValue;
             break;
         }
     }

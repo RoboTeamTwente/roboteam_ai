@@ -4,6 +4,7 @@
 #include <map>
 #include "boost/optional.hpp"
 #include "roboteam_msgs/WorldRobot.h"
+#include "../../src/utilities/World.h"
 
 namespace rtt {
 namespace ai {
@@ -19,6 +20,7 @@ struct DangerData {
   std::vector<int> dangerList; // A list of robot IDs, sorted from most to least dangerous
   std::map<int, double> scores;
   std::map<int, DangerFlag> flags;
+
   boost::optional<roboteam_msgs::WorldRobot> getByDangerRank(unsigned rank);
 };
 
