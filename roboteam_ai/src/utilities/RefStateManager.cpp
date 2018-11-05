@@ -2,8 +2,10 @@
 // Created by rolf on 23-10-18.
 //
 
+// The RefStateManager class. Update() gets the latest refereecommand and selects the right tree.
+// Trees are added through the addStrategy function(), which is called in StrategyMapper
 #include "RefStateManager.hpp"
-#include "StrategyMapper.hpp"
+
 
 namespace rtt {
 namespace ai {

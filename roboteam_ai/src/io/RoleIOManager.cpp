@@ -5,11 +5,6 @@ namespace ai {
 namespace io {
 
 RoleIOManager::RoleIOManager() {
-  this->subscribeToWorldState();
-  this->subscribeToGeometryData();
-  this->subscribeToRoleDirective();
-  this->subscribeToRefereeData();
-
     // set up advertisement to publish robotcommands
     robotCommandPublisher = nodeHandle.advertise<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 100);
 }

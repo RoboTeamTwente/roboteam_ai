@@ -18,7 +18,7 @@ void IOManager::subscribeToGeometryData() {
             &IOManager::handleGeometryData,
             this);
 }
-//This constant TOPIC_REFEREE was not used consistently by the previous team, so if stuff goes wrong check if you are reading the correct topic.
+//TODO: This constant TOPIC_REFEREE was not used consistently by the previous team, so if stuff goes wrong check if you are reading the correct topic.
 void IOManager::subscribeToRefereeData() {
   refereeSubscriber=nodeHandle.subscribe<roboteam_msgs::RefereeData>(rtt::TOPIC_REFEREE, 1, &IOManager::handleRefereeData,this);
 }

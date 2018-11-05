@@ -9,6 +9,8 @@
 #include "World.h"
 #include "RobotDealer.h"
 #include "boost/optional.hpp"
+#include "StrategyMapper.hpp"
+
 namespace rtt{
 namespace ai{
 
@@ -19,18 +21,14 @@ namespace ai{
 class RefStateManager : public bt::Composite{
 public:
     RefStateManager();
-
     bt::Node::Status Update() override;
-
     void Terminate(Status s) override;
-
     std::string node_name() override;
 
     bt::Node::Ptr getCurrentChild();
     std::string getCurrentStrategyTreeName() const;
     boost::optional<RefGameState> getCurrentRefState() const;
     bool hasStartedNewStrategy() const;
-
     void AddStrategy(RefGameState refState, Node::Ptr child);
 
 private:
@@ -44,6 +42,6 @@ private:
 
     std::map<RefGameState, Node::Ptr> refStateStrategies;
 };
-}
-}
+}//ai
+}//rtt
 #endif //ROBOTEAM_AI_REFSTATEMANAGER_HPP

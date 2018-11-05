@@ -14,16 +14,9 @@ namespace rtt {
 /*
  * This is a mapping of Ref states to the appropriate strategies.
  * Any ref states that are not set, will fall back to the NORMAL_START strategy.
- * If the NORMAL_START strategy is not set, bad things will happen.
- *
- * ////////////////////////////////
- * // Don't forget the s suffix! //
- * ////////////////////////////////
  *
  * Your JSON file should always be named as projectName/TreeName within this mapping.
- * The filename itself should be equal to the projectName, exist in the folder treeinterp/jsons.
- * E.g. rtt_jim/NormalPlay. Should be in the path "treeinterp/jsons/rtt_jim.json", and the json should contain a tree called "NormalPlay".
- * DO NOT put it in other folders, or use more than one "/" or stuff will break.
+ * The filename itself should be equal to the projectName, and should exist in the folder treeinterp/jsons.
  */
         using namespace std::string_literals;
         const std::map<RefGameState, boost::optional<std::string>> StrategyMapper::MAPPING = {
@@ -158,5 +151,5 @@ namespace rtt {
             std::string treeName=fullString.substr(j+1,fullString.length());
             return std::pair<std::string,std::string>(projectName,treeName);
         }
-    }
-}
+    }//ai
+}//rtt

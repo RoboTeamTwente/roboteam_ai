@@ -132,6 +132,6 @@ public:
         static std::pair<int,int> currentScore();
 
 };
-}
-}
+}//ai
+}//rtt
 #endif //ROBOTEAM_AI_REFEREE_HPP
