@@ -66,9 +66,10 @@ PropertiesParser::type PropertiesParser::checkVarTypeOfString(std::string keyNam
 
     // Convert to individual characters
     std::vector<char> charKey;
-    for (int i = 0; i < strKey.size(); i ++) {
-        charKey.push_back(strKey[i]);
+    for (char i : strKey) {
+        charKey.push_back(i);
     }
+
     if (strKey == "true") return Bool_True;
     else if (strKey == "false") return Bool_False;
     else if (charKey.front() == vectorStartChar && charKey.back() == vectorEndChar) {
