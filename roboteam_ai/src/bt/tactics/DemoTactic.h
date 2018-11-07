@@ -10,6 +10,8 @@ namespace bt {
 
 class DemoTactic : public Tactic {
 
+    private:
+
         DemoTactic(std::string name, Blackboard::Ptr blackboard);
 
         std::string name;
@@ -30,8 +32,11 @@ class DemoTactic : public Tactic {
 
         void AddChild(bt::Node::Ptr newChild);
 
+        bool askForRandomRobots(int numberOfRobots);
+
 
 };
-}
+
+} // bt
 
 #endif //ROBOTEAM_AI_TACTICNODE_H

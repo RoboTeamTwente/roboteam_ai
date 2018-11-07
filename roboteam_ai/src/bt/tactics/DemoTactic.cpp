@@ -5,7 +5,7 @@
 #include "DemoTactic.h"
 #include "../../utilities/World.h"
 
-namespace bt{
+namespace bt {
 
 DemoTactic::DemoTactic(std::string name, Blackboard::Ptr blackboard) {
 
@@ -20,9 +20,10 @@ void DemoTactic::setName(std::string newName) {
 void DemoTactic::Initialize() {
 
     int numberOfRobots = 1;
+    askForRandomRobots(numberOfRobots);
 
     auto world = rtt::ai::World::get_world();
-    int ID =  world.us.begin()->id;
+    int ID = world.us.begin()->id;
 
     RobotDealer::claimRobotForTactic(ID, "testTactic"); // TODO add a role
 
@@ -36,4 +37,21 @@ Node::Status DemoTactic::Update() {
 void DemoTactic::AddChild(bt::Node::Ptr newChild) {
     this->child = newChild;
 }
+
+bool DemoTactic::askForRandomRobots(int numberOfRobots) {
+    for (int i = 0; i < numberOfRobots; i++) {
+        RobotDealer::claimRobot();
+    }
 }
+
+} // bt
+
+
+
+
+
+
+
+
+
+
