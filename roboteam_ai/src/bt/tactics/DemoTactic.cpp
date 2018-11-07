@@ -1,7 +1,9 @@
+
 //
 // Created by baris on 05/11/18.
 //
 
+#include <utility>
 #include "DemoTactic.h"
 #include "../../utilities/World.h"
 
@@ -9,13 +11,12 @@ namespace bt {
 
 DemoTactic::DemoTactic(std::string name, Blackboard::Ptr blackboard) {
 
-    globalBB = blackboard;
-    setName(name);
+    globalBB = std::move(blackboard);
+    setName(std::move(name));
 }
 
 void DemoTactic::setName(std::string newName) {
-    name = newName;
-
+    name = std::move(newName);
 }
 
 void DemoTactic::Initialize() {

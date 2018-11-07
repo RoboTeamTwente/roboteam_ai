@@ -37,6 +37,8 @@ class RobotDealer {
 
         static int claimRobotClosestToBall();
 
+        static int claimRobotClosestToPoint(Vector2 pos);
+
         static bool claimRobotForTactic(int id, std::string const &playName, std::string const &roleName);
 
         static bool claimRobotForTactic(std::set<int> ids, std::string const &playName, std::string const &roleName);

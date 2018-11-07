@@ -112,6 +112,12 @@ int RobotDealer::claimRobotClosestToBall() {
     return - 1;
 }
 
+int RobotDealer::claimRobotClosestToPoint(Vector2 pos) {
+    //TODO: make this.
+    return -1;
+}
+
+
 /// Claims one robot for a tactic
 bool RobotDealer::claimRobotForTactic(int id, std::string const &playName, std::string const &roleName) {
 
