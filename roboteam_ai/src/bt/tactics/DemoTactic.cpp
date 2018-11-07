@@ -24,7 +24,7 @@ void DemoTactic::Initialize() {
     auto world = rtt::ai::World::get_world();
     int ID =  world.us.begin()->id;
 
-    RobotDealer::claimRobotForTactic(ID, "testTactic"); // TODO add a role
+    RobotDealer::claimRobotForTactic(ID, "testTactic", "testRole"); // TODO add a role
 
 
 
