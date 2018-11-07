@@ -6,4 +6,15 @@
 
 namespace bt{
 
+void Role::Initialize() {
+    Node::Initialize();
+}
+Node::Status Role::Update() {
+    return Status::Invalid;
+}
+void Role::AddChild(Node::Ptr newChild) {
+    this->child = newChild;
+
+}
+
 }

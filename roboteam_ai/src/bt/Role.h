@@ -14,9 +14,13 @@ class Role : public Node {
 
         Node::Ptr child = nullptr;
 
+        std::string name;
 
+        void Initialize() override;
 
+        Status Update() override;
 
+        void AddChild(Node::Ptr newChild) override;
 
 };
 }
