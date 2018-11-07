@@ -12,10 +12,18 @@ namespace rtt {
 namespace ai {
 namespace io {
 
-IOManager::IOManager() {
+IOManager::IOManager(bool subscribe, bool advertise) {
+    if (subscribe) {
+        // subscribe to all topics
+        this->subscribeToWorldState();
+        this->subscribeToGeometryData();
+        this->subscribeToRoleFeedback();
+    }
 
-    // set up advertisement to publish robotcommands
-    robotCommandPublisher = nodeHandle.advertise<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 100);
+    if (advertise) {
+        // set up advertisement to publish robotcommands
+        robotCommandPublisher = nodeHandle.advertise<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 100);
+    }
 }
 
 void IOManager::subscribeToWorldState() {

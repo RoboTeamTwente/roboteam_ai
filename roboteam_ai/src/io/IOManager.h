@@ -30,7 +30,7 @@ class IOManager {
         void handleRobotFeedback(const roboteam_msgs::RoleFeedbackConstPtr &rolefeedback);
 
     public:
-        IOManager();
+        IOManager(bool subscribe = false, bool advertise = false);
         void subscribeToWorldState();
         void subscribeToGeometryData();
         void subscribeToRoleFeedback();
