@@ -52,6 +52,15 @@ void IOManager::subscribeToRoleFeedback() {
             this
             );
 }
+void IOManager::subscribeToRefereeData() {
+    //TODO: This constant TOPIC_REFEREE was not used consistently by the previous team, so if stuff goes wrong check if you are reading the correct topic.
+    refereeSubscriber = nodeHandle.subscribe<roboteam_msgs::RefereeData>(
+            rtt::TOPIC_REFEREE,
+            1,
+            &IOManager::handleRefereeData,
+            this
+            );
+}
 
 void IOManager::handleWorldState(const roboteam_msgs::WorldConstPtr &world) {
     this->world = *world;
@@ -69,12 +78,20 @@ const roboteam_msgs::World &IOManager::getWorldState() {
     return this->world;
 }
 
+void IOManager::handleRefereeData(const roboteam_msgs::RefereeDataConstPtr &refData) {
+  this->refData = * refData;
+}
+
 const roboteam_msgs::GeometryData &IOManager::getGeometryData() {
     return this->geometry;
 }
 
 const roboteam_msgs::RoleFeedback &IOManager::getRoleFeedback() {
     return this->roleFeedback;
+}
+
+const roboteam_msgs::RefereeData& IOManager::getRefereeData() {
+  return this->refData;
 }
 
 void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
