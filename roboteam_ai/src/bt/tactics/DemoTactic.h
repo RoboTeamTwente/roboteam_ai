@@ -30,8 +30,6 @@ class DemoTactic : public Tactic {
 
         Node::Ptr child = nullptr;
 
-        void AddChild(bt::Node::Ptr newChild);
-
         std::set<int> askForRandomRobot(int numberOfRobots);
 
 

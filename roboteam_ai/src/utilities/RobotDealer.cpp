@@ -24,7 +24,11 @@ std::mutex RobotDealer::takenRobotsLock;
 
 /// Returns a list of claimed robots
 std::set<int> RobotDealer::getClaimedRobots() {
-    return std::set<int>(takenRobots.begin(), takenRobots.end());
+    std::set<int> ids = std::set<int>(takenRobots.begin(), takenRobots.end());
+    if (! isKeeperAvailable) {
+        ids.insert(keeper);
+    }
+    return ids;
 }
 
 std::set<int> RobotDealer::getAvailableRobots() {
@@ -95,15 +99,17 @@ bool RobotDealer::claimRobot(int id) {
 int RobotDealer::claimRandomRobot() {
 
     std::set<int> availableIDs = getAvailableRobots();
-    if (!availableIDs.empty()) {
+    if (! availableIDs.empty()) {
         int randomID = *availableIDs.begin();
         int id = claimRobot(randomID);
         return id;
-    } else return -1;
+    }
+    else return - 1;
 }
 
 int RobotDealer::claimRobotClosestToBall() {
     //TODO: make this.
+    return - 1;
 }
 
 /// Claims one robot for a tactic
@@ -130,6 +136,21 @@ bool RobotDealer::claimRobotForTactic(std::set<int> ids, std::string const &play
     return allClaimed;
 }
 
+int RobotDealer::findRobotForRole(std::string const &roleName) {
+
+    for (auto &entry : robotOwners) {
+        // Get the set
+        auto &robotSet = entry.second;
+        // Check if the robot is in there
+        for (auto &robotPair : robotSet) {
+            if (robotPair.second == roleName) {
+                return robotPair.first;
+            }
+        }
+    }
+    return - 1;
+}
+
 /// Returns the map of the robots owned and the tactics that own them
 std::map<std::string, std::set<std::pair<int, std::string>>> const &RobotDealer::getRobotOwnerList() {
     std::lock_guard<std::mutex> lock(robotOwnersLock);
@@ -141,11 +162,11 @@ bool RobotDealer::releaseKeeper() {
         ROS_ERROR("Goalkeeper was not claimed!");
         return false;
     }
-    else {
-        removeRobotFromOwnerList(keeper);
-        isKeeperAvailable = true;
-        return true;
-    }
+    keeper = -1;
+    removeRobotFromOwnerList(keeper);
+    isKeeperAvailable = true;
+    return true;
+
 }
 
 /// Releases a robot from being used
