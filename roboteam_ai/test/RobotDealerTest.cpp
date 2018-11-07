@@ -40,7 +40,11 @@ TEST(RobotDealerTest, RobotDealerTest) {
 
     //claim bot 1 for tactic A. NOTE that the keeper id is initialized as bot 0, so if you try to claim bot 0 it FAILS.
     //getClaimedRobots() does NOT count the keeper.
+
+    ASSERT_EQ(ai::RobotDealer::findRobotForRole(roleA), -1);
     ASSERT_TRUE(ai::RobotDealer::claimRobotForTactic(1, tacticA, roleA));
+    ASSERT_EQ(ai::RobotDealer::findRobotForRole(roleA), 1);
+
     std::set<int> claimedBots = ai::RobotDealer::getClaimedRobots();
     ASSERT_EQ(1, ai::RobotDealer::getClaimedRobots().size());
 
@@ -54,11 +58,13 @@ TEST(RobotDealerTest, RobotDealerTest) {
     ASSERT_EQ(3, claimedBots.size());
 
     //set Keeper ID to 4
-    ASSERT_FALSE(ai::RobotDealer::releaseKeeper());
-    ai::RobotDealer::claimKeeper(4);
+
 
     // Claim the keeper and check if it is correct.
+    ASSERT_FALSE(ai::RobotDealer::releaseKeeper());
+    ai::RobotDealer::claimKeeper(4);
     ai::RobotDealer::claimRobotForTactic(4, keeperTactic, roleK);
+
     claimedBots = ai::RobotDealer::getClaimedRobots();
     ASSERT_FALSE(ai::RobotDealer::getKeeperAvailable());
     ASSERT_EQ(4, ai::RobotDealer::getKeeper());
@@ -90,7 +96,7 @@ TEST(RobotDealerTest, RobotDealerTest) {
     ASSERT_FALSE(ai::RobotDealer::claimRobot(400000));
 
     // release keeper
-    ASSERT_TRUE(!ai::RobotDealer::getKeeperAvailable());
+    ASSERT_TRUE(ai::RobotDealer::getKeeperAvailable());
     ai::RobotDealer::releaseRobot(4);
     ASSERT_TRUE(ai::RobotDealer::getKeeperAvailable());
 

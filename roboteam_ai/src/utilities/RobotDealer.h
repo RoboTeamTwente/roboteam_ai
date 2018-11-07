@@ -41,6 +41,8 @@ class RobotDealer {
 
         static bool claimRobotForTactic(std::set<int> ids, std::string const &playName, std::string const &roleName);
 
+        static int findRobotForRole(std::string const &roleName);
+
         static std::map<std::string, std::set<std::pair<int, std::string>>> const &getRobotOwnerList();
 
         static bool releaseKeeper();
