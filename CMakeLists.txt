@@ -27,6 +27,8 @@ set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/BTFactory.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/JsonReader.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/JsonReader.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/PropertiesParser.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/PropertiesParser.h
         roboteam_ai/src/treeinterp/BTImport.h)
 
 set(DANGER_FINDER_SOURCES
@@ -78,6 +80,7 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/BehaviorTree.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/BehaviorTree.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Blackboard.hpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Blackboard.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Blackboard.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Composite.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Composite.cpp
@@ -211,6 +214,7 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/RefereeTest.cpp
         roboteam_ai/test/RefStateManagerTest.cpp
         roboteam_ai/test/StrategyMapperTest.cpp
+        roboteam_ai/test/PropertiesParserTest.cpp
         ${SKILL_TESTS}
         ${CONDITION_TESTS}
 

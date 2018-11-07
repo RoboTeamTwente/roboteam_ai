@@ -12,13 +12,13 @@ Rotate::Rotate(string name, bt::Blackboard::Ptr blackboard)
 
 void Rotate::Initialize() {
 
-    if (blackboard->HasBool("Rotate_To_Object") && blackboard->HasInt("ROBOT_ID")) {
-        robot.id = (unsigned int) (blackboard->HasInt("ROBOT_ID"));
+    if (properties->hasBool("Rotate_To_Object") && properties->hasInt("ROBOT_ID")) {
+        robot.id = (unsigned int) (properties->hasInt("ROBOT_ID"));
 
-        if (blackboard->GetBool("Rotate_To_Object")) {  // Rotate towards an object
+        if (properties->getBool("Rotate_To_Object")) {  // Rotate towards an object
 
-            if (blackboard->HasInt("Rotate_Object")) {
-                targetObject = blackboard->GetInt("Rotate_Object");
+            if (properties->hasInt("Rotate_Object")) {
+                targetObject = properties->getInt("Rotate_Object");
                 rotateToObject = true;
             }
             else {
@@ -30,8 +30,8 @@ void Rotate::Initialize() {
         }
         else {                                        // Rotate to an angle
 
-            if (blackboard->HasFloat("Rotate_Angle")) {
-                targetRotation = blackboard->GetFloat("Rotate_Angle");
+            if (properties->hasFloat("Rotate_Angle")) {
+                targetRotation = properties->getFloat("Rotate_Angle");
                 rotateToObject = false;
             }
             else {
@@ -118,17 +118,17 @@ bt::Node::Status Rotate::Update() {
     double robotAngle = robot.angle;
     double angleDifference = robotAngle - targetRotation;
 
-    while (angleDifference < 0) angleDifference += 2*PI;
-    while (angleDifference > 2*PI) angleDifference -= 2*PI;
+    while (angleDifference < 0) angleDifference += 2*M_PI;
+    while (angleDifference > 2*M_PI) angleDifference -= 2*M_PI;
 
     double angularVelocity;
     double angularErrorMargin = 0.10; // within this margin, give succes.
 
-    if (angleDifference < angularErrorMargin || angleDifference > 2*PI - angularErrorMargin) {
+    if (angleDifference < angularErrorMargin || angleDifference > 2*M_PI - angularErrorMargin) {
         return Status::Success;
     }
 
-    if (angleDifference > PI) { angularVelocity = MAX_ANGULAR_VELOCITY; }
+    if (angleDifference > M_PI) { angularVelocity = MAX_ANGULAR_VELOCITY; }
     else { angularVelocity = - MAX_ANGULAR_VELOCITY; }
 
     // Send the robotCommand.

@@ -66,10 +66,10 @@ TEST(RotateTest, It_rotates) {
 
     auto bb = std::make_shared<bt::Blackboard>();
 
-    bb->SetInt("ROBOT_ID", 1);
-    bb->SetBool("Rotate_To_Object", true);
-    bb->SetInt("Rotate_Object", 100);        // Rotate to ball
-    bb->SetFloat("Rotate_Angle", (float) (PI*0.5));
+    bb->setInt("ROBOT_ID", 1);
+    bb->setBool("Rotate_To_Object", true);
+    bb->setInt("Rotate_Object", 100);        // Rotate to ball
+    bb->setFloat("Rotate_Angle", (float) (PI*0.5));
 
     rtt::ai::Rotate rotateOne("test1", bb);
     rotateOne.Initialize();
@@ -83,8 +83,8 @@ TEST(RotateTest, It_rotates) {
 
     //commands.clear(); // ensure the vector is empty.
 
-    bb->SetBool("Rotate_To_Object", true);
-    bb->SetInt("Rotate_Object", 102);        // Rotate to center of the enemy goal
+    bb->setBool("Rotate_To_Object", true);
+    bb->setInt("Rotate_Object", 102);        // Rotate to center of the enemy goal
 
     rtt::ai::Rotate rotateTwo("test2", bb);
     rotateTwo.Initialize();
@@ -96,8 +96,8 @@ TEST(RotateTest, It_rotates) {
 
     EXPECT_EQ(commands.at(1).w, MAX_ANGULAR_VELOCITY);
 
-    bb->SetBool("Rotate_To_Object", false);
-    bb->SetFloat("Rotate_Angle", (float) - PI);
+    bb->setBool("Rotate_To_Object", false);
+    bb->setFloat("Rotate_Angle", (float) - PI);
 
     rtt::ai::Rotate rotateThree("test3", bb);
     rotateThree.Initialize();

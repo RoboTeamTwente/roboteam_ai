@@ -33,12 +33,14 @@ TEST(RobotDealerTest, RobotDealerTest) {
 
     //set Keeper ID to 4
     ai::RobotDealer::setKeeper(4);
+    ASSERT_FALSE(ai::RobotDealer::releaseRobot(4));
 
     // Claim the keeper and check if it is correct.
     ai::RobotDealer::claimRobotForTactic(4, keeperTactic);
     claimedBots = ai::RobotDealer::getClaimedRobots();
     ASSERT_FALSE(ai::RobotDealer::getKeeperAvailable());
     ASSERT_EQ(4, ai::RobotDealer::getKeeper());
+    ASSERT_FALSE(ai::RobotDealer::claimRobot(4));
 
     ASSERT_TRUE(ai::RobotDealer::releaseRobot(3));
 
@@ -74,6 +76,9 @@ TEST(RobotDealerTest, RobotDealerTest) {
     ai::RobotDealer::claimRobotForTactic(newRobot, newTactic);
     ownerList = ai::RobotDealer::getRobotOwnerList();
     claimedBots = ai::RobotDealer::getClaimedRobots();
+
+    ASSERT_FALSE(ai::RobotDealer::claimRobotForTactic(5, newTactic));
+
     ai::RobotDealer::releaseRobot(newRobot);
 
     ai::RobotDealer::haltOverride();
@@ -83,6 +88,16 @@ TEST(RobotDealerTest, RobotDealerTest) {
 
     ASSERT_TRUE(ownerList.empty());
 
-    ASSERT_TRUE(ai::RobotDealer::claimRobots(robot_ids));
-    ASSERT_EQ(ai::RobotDealer::getClaimedRobots().size(), 2);
+    // test for invalid robot ids
+    ASSERT_FALSE(ai::RobotDealer::claimRobotForTactic(-1, newTactic));
+    ASSERT_FALSE(ai::RobotDealer::releaseRobot(-1));
+
+    // test for unclaimed robots
+    ASSERT_FALSE(ai::RobotDealer::releaseRobot(6));
+
+    // test for multiple robots
+    std::vector<int> robots{7, 8, 9};
+    ASSERT_TRUE(ai::RobotDealer::claimRobots(robots));
+    ASSERT_FALSE(ai::RobotDealer::claimRobots(robots));
+
 }

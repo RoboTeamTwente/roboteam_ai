@@ -3,19 +3,19 @@
 
 namespace bt {
 
-BehaviorTree::BehaviorTree()
-        :blackboard(std::make_shared<Blackboard>()) {
-
+BehaviorTree::BehaviorTree() {
+    globalBB = std::make_shared<Blackboard>();
 }
 
 BehaviorTree::BehaviorTree(const Node::Ptr &rootNode)
         :BehaviorTree() {
     root = rootNode;
+    this->root->globalBB = globalBB;
 }
 
 BehaviorTree::BehaviorTree(const Blackboard::Ptr &shared)
         :BehaviorTree() {
-    sharedBlackboard = shared;
+    globalBB = shared;
 }
 
 BehaviorTree::~BehaviorTree() {
@@ -38,22 +38,15 @@ void BehaviorTree::Terminate(Status s) {
 
 void BehaviorTree::SetRoot(const Node::Ptr &node) {
     root = node;
+    node->globalBB = globalBB;
 }
 
 Node::Ptr BehaviorTree::GetRoot() {
     return root;
 }
 
-Blackboard::Ptr BehaviorTree::GetBlackboard() const {
-    return blackboard;
-}
-
-Blackboard::Ptr BehaviorTree::GetSharedBlackboard() const {
-    return sharedBlackboard;
-}
-
-void BehaviorTree::SetSharedBlackboard(const Blackboard::Ptr &shared) {
-    sharedBlackboard = shared;
+void BehaviorTree::SetGlobalBlackboard(const Blackboard::Ptr &global) {
+    globalBB = global;
 }
 
 }

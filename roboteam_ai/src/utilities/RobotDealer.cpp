@@ -77,10 +77,6 @@ bool RobotDealer::claimRobot(int id) {
 /// Claims one robot for a tactic
 bool RobotDealer::claimRobotForTactic(int id, std::string const &playName) {
 
-    if (! RobotDealer::validateID(id)) {
-        return false;
-    }
-
     bool success = claimRobot(id);
 
     if (success) {
@@ -158,10 +154,6 @@ bool RobotDealer::releaseRobots(std::vector<int> ids) {
 
 /// Removes a robot from the robots owners list
 void RobotDealer::removeRobotFromOwnerList(int id) {
-
-    if (! RobotDealer::validateID(id)) {
-        return;
-    }
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
     boost::optional<std::string> tacticToRemove;

@@ -15,6 +15,7 @@
 #include <map>
 #include <unistd.h>
 #include "BTImport.h"
+#include "PropertiesParser.h"
 
 #define GetCurrentDir getcwd
 
@@ -25,13 +26,15 @@ class TreeInterpreter {
     private:
         JsonReader jsonReader;
 
+        PropertiesParser propertyParser;
+
         FRIEND_TEST(JsonBasics, JsonTest);
 
         FRIEND_TEST(TreeTest, JsonTest);
 
         bt::BehaviorTree buildTreeFromJSON(json jsonTree);
 
-        bt::Node::Ptr buildNode(json node, json tree);
+        bt::Node::Ptr buildNode(json node, json tree, bt::Blackboard::Ptr globalBlackBoard);
 
         std::vector<json> parseSmallJSONs(json json);
 
@@ -39,7 +42,9 @@ class TreeInterpreter {
 
         bt::Node::Ptr makeNonLeafNode(std::string name);
 
-        bt::Leaf::Ptr makeLeafNode(std::string name);
+        bt::Leaf::Ptr makeLeafNode(json jsonLeaf);
+
+        bt::Blackboard::Ptr parseProperties(json properties);
 
     protected:
 
