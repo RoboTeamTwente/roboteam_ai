@@ -32,7 +32,7 @@ class DemoTactic : public Tactic {
 
         void AddChild(bt::Node::Ptr newChild);
 
-        bool askForRandomRobots(int numberOfRobots);
+        std::set<int> askForRandomRobot(int numberOfRobots);
 
 
 };

@@ -23,6 +23,8 @@ class RobotDealer {
 
         static std::set<int> getClaimedRobots();
 
+        static std::set<int> getAvailableRobots();
+
         static bool claimKeeper(int id);
 
         static int getKeeper();
@@ -30,6 +32,10 @@ class RobotDealer {
         static bool getKeeperAvailable();
 
         static bool claimRobot(int id);
+
+        static int claimRandomRobot();
+
+        static int claimRobotClosestToBall();
 
         static bool claimRobotForTactic(int id, std::string const &playName, std::string const &roleName);
 
@@ -73,7 +79,7 @@ class RobotDealer {
 
         static bool validateID(int id);
 
-        static bool isRobotFree(int id);
+        static bool isRobotAvailable(int id);
 
 };
 

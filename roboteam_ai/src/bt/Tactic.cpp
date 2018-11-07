@@ -8,6 +8,7 @@ namespace bt {
 
 
 void bt::Tactic::Initialize() {
+    //Should always be overwritten
     askForRobots();
 }
 

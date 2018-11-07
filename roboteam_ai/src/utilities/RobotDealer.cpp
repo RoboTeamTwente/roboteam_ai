@@ -27,6 +27,20 @@ std::set<int> RobotDealer::getClaimedRobots() {
     return std::set<int>(takenRobots.begin(), takenRobots.end());
 }
 
+std::set<int> RobotDealer::getAvailableRobots() {
+    auto worldUs = World::get_world().us;
+    std::set<int> takenIDs = getClaimedRobots();
+    std::set<int> availableIDs;
+
+    for (auto &robot : worldUs) {
+        auto id = robot.id;
+        if (takenIDs.find(id) == takenIDs.end()) {
+            availableIDs.insert(id);
+        }
+    }
+    return availableIDs;
+}
+
 /// Set the keeper to an ID
 bool RobotDealer::claimKeeper(int id) {
     if (isKeeperAvailable) {
@@ -67,7 +81,7 @@ bool RobotDealer::claimRobot(int id) {
         return claimKeeper(id);
     }
 
-    if (RobotDealer::isRobotFree(id)) {
+    if (RobotDealer::isRobotAvailable(id)) {
         std::lock_guard<std::mutex> takenLock(takenRobotsLock);
         takenRobots.insert(id);
         return true;
@@ -76,6 +90,20 @@ bool RobotDealer::claimRobot(int id) {
         ROS_ERROR("Robot %d is already claimed!", id);
         return false;
     }
+}
+
+int RobotDealer::claimRandomRobot() {
+
+    std::set<int> availableIDs = getAvailableRobots();
+    if (!availableIDs.empty()) {
+        int randomID = *availableIDs.begin();
+        int id = claimRobot(randomID);
+        return id;
+    } else return -1;
+}
+
+int RobotDealer::claimRobotClosestToBall() {
+    //TODO: make this.
 }
 
 /// Claims one robot for a tactic
@@ -130,7 +158,7 @@ bool RobotDealer::releaseRobot(int id) {
 
     ROS_DEBUG_NAMED(ROS_LOG_NAME, "Releasing robot %i", id);
 
-    if (RobotDealer::isRobotFree(id)) {
+    if (RobotDealer::isRobotAvailable(id)) {
         ROS_ERROR_NAMED(ROS_LOG_NAME, "Tried to release an unclaimed robot: %d!", id);
         return false;
     }
@@ -197,7 +225,7 @@ bool RobotDealer::validateID(int id) {
 }
 
 /// Checks if a robot is free
-bool RobotDealer::isRobotFree(int id) {
+bool RobotDealer::isRobotAvailable(int id) {
     return takenRobots.find(id) == takenRobots.end();
 }
 

@@ -15,33 +15,34 @@ DemoTactic::DemoTactic(std::string name, Blackboard::Ptr blackboard) {
 
 void DemoTactic::setName(std::string newName) {
     name = newName;
-
 }
+
 void DemoTactic::Initialize() {
 
-    int numberOfRobots = 1;
-    askForRandomRobots(numberOfRobots);
-
-    auto world = rtt::ai::World::get_world();
-    int ID = world.us.begin()->id;
-
-    RobotDealer::claimRobotForTactic(ID, "testTactic"); // TODO add a role
-
-
-
-
+    while (!claimedRobots) {
+        int numberOfRobots = 1;
+        std::set<int> ids;
+        ids = DemoTactic::askForRandomRobot(numberOfRobots);
+        int id = *ids.begin();  // only one robot...
+        if (id != -1) {
+            claimedRobots = RobotDealer::claimRobotForTactic(id, "testTactic", "testRole");
+            robotIDs.insert(id);
+        }
+    }
 }
 Node::Status DemoTactic::Update() {
-    return Status::Invalid;
-}
-void DemoTactic::AddChild(bt::Node::Ptr newChild) {
-    this->child = newChild;
+
 }
 
-bool DemoTactic::askForRandomRobots(int numberOfRobots) {
+
+std::set<int> DemoTactic::askForRandomRobot(int numberOfRobots) {
+    std::set<int> ids;
     for (int i = 0; i < numberOfRobots; i++) {
-        RobotDealer::claimRobot();
+        ids.insert(RobotDealer::claimRandomRobot());
     }
+    if (ids.find(-1) == ids.end()) {
+        return ids;
+    } else return {-1};
 }
 
 } // bt
