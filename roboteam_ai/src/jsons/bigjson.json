@@ -1,0 +1,224 @@
+{
+  "name": "rtt_jim",
+  "description": "",
+  "data": {
+    "version": "0.3.0",
+    "scope": "project",
+    "selectedTree": "c36e1971-6e3e-4700-9347-29f52168371b",
+    "trees": [
+      {
+        "version": "0.3.0",
+        "scope": "tree",
+        "id": "2d276c37-4ffc-4209-bc32-9fd2405a2ad6",
+        "title": "DefenderRoleStop",
+        "description": "",
+        "root": "5462f6e1-8a5d-4d2e-82c4-8739ac16ca04",
+        "properties": {},
+        "nodes": {
+          "f541478e-e705-46e7-8801-155dd28bf4eb": {
+            "id": "f541478e-e705-46e7-8801-155dd28bf4eb",
+            "name": "SimpleDefender",
+            "title": "SimpleDefender_A",
+            "description": "",
+            "properties": {
+              "stayAwayFromBall": "true"
+            }
+          },
+          "5462f6e1-8a5d-4d2e-82c4-8739ac16ca04": {
+            "id": "5462f6e1-8a5d-4d2e-82c4-8739ac16ca04",
+            "name": "Repeat",
+            "title": "Repeat",
+            "description": "",
+            "properties": {},
+            "child": "f541478e-e705-46e7-8801-155dd28bf4eb"
+          }
+        }
+      },
+      {
+        "version": "0.3.0",
+        "scope": "tree",
+        "id": "77bc7cab-fe50-4754-9cd4-b80ef75cecf1",
+        "title": "StandReadyRole",
+        "description": "",
+        "root": "d62c82fd-8358-4a4a-b54b-80792cd14694",
+        "properties": {},
+        "nodes": {
+          "d62c82fd-8358-4a4a-b54b-80792cd14694": {
+            "id": "d62c82fd-8358-4a4a-b54b-80792cd14694",
+            "name": "GoToPos",
+            "title": "GoToPos_A",
+            "description": "",
+            "properties": {}
+          }
+        }
+      },
+      {
+        "version": "0.3.0",
+        "scope": "tree",
+        "id": "d16f9751-a781-4fee-8570-7d88a207aef0",
+        "title": "GetBallRole",
+        "description": "",
+        "root": "05290a9f-6795-431d-8999-140af520edef",
+        "properties": {},
+        "nodes": {
+          "8b94d141-c6b4-456e-9ef0-8ec6dca7bad2": {
+            "id": "8b94d141-c6b4-456e-9ef0-8ec6dca7bad2",
+            "name": "GetBall",
+            "title": "GetBall_A",
+            "description": "",
+            "properties": {
+              "passOn": "true"
+            }
+          },
+          "05290a9f-6795-431d-8999-140af520edef": {
+            "id": "05290a9f-6795-431d-8999-140af520edef",
+            "name": "RepeatUntilSuccess",
+            "title": "rus",
+            "description": "",
+            "properties": {
+              "maxLoop": "-1"
+            },
+            "child": "28b9ae61-7734-4492-8a43-12ed385249b2"
+          },
+          "28b9ae61-7734-4492-8a43-12ed385249b2": {
+            "id": "28b9ae61-7734-4492-8a43-12ed385249b2",
+            "name": "Priority",
+            "title": "Priority",
+            "description": "",
+            "properties": {},
+            "children": [
+              "e9176d77-9e49-4440-b230-5dc866dc2da8",
+              "8b94d141-c6b4-456e-9ef0-8ec6dca7bad2"
+            ]
+          },
+          "6463d5c5-5dd5-4695-86d6-16057863d148": {
+            "id": "6463d5c5-5dd5-4695-86d6-16057863d148",
+            "name": "IsInDefenseArea",
+            "title": "IsInDefenseArea_A",
+            "description": "",
+            "properties": {
+              "ourDefenseArea": "true"
+            }
+          },
+          "e9176d77-9e49-4440-b230-5dc866dc2da8": {
+            "id": "e9176d77-9e49-4440-b230-5dc866dc2da8",
+            "name": "Sequence",
+            "title": "Sequence",
+            "description": "",
+            "properties": {},
+            "children": [
+              "6463d5c5-5dd5-4695-86d6-16057863d148",
+              "511c9ecf-7ceb-4aa1-8188-d497e2758fb3"
+            ]
+          },
+          "511c9ecf-7ceb-4aa1-8188-d497e2758fb3": {
+            "id": "511c9ecf-7ceb-4aa1-8188-d497e2758fb3",
+            "name": "ReceiveBall",
+            "title": "ReceiveBall_A",
+            "description": "",
+            "properties": {
+              "computePoint": "true",
+              "computePointCloseToX": "1.01",
+              "computePointCloseToY": "0.01"
+            }
+          }
+        }
+      },
+      {
+        "version": "0.3.0",
+        "scope": "tree",
+        "id": "0e36b5c1-8af5-45f3-932e-a4ca551ec19b",
+        "title": "StrikerRole",
+        "description": "",
+        "root": "14c4261d-f7be-4ff6-a343-2fb074f72e02",
+        "properties": {},
+        "nodes": {
+          "e1e8d3a5-9003-46c6-8af2-8bba6e02c620": {
+            "id": "e1e8d3a5-9003-46c6-8af2-8bba6e02c620",
+            "name": "ReceiveBall",
+            "title": "ReceiveBall_A",
+            "description": "",
+            "properties": {}
+          },
+          "14c4261d-f7be-4ff6-a343-2fb074f72e02": {
+            "id": "14c4261d-f7be-4ff6-a343-2fb074f72e02",
+            "name": "MemSequence",
+            "title": "MemSequence",
+            "description": "",
+            "properties": {},
+            "children": [
+              "e1e8d3a5-9003-46c6-8af2-8bba6e02c620",
+              "c2b01a50-07d8-4a2f-9e9f-dd17dd1ff034"
+            ]
+          },
+          "c2b01a50-07d8-4a2f-9e9f-dd17dd1ff034": {
+            "id": "c2b01a50-07d8-4a2f-9e9f-dd17dd1ff034",
+            "name": "GetBall",
+            "title": "GetBall_A",
+            "description": "",
+            "properties": {
+              "aimAt": "theirgoal",
+              "passOn": "true"
+            }
+          },
+          "b57df485-20c1-4008-8b12-b6ad1947408c": {
+            "id": "b57df485-20c1-4008-8b12-b6ad1947408c",
+            "name": "Kick",
+            "title": "Kick_A",
+            "description": "",
+            "properties": {}
+          }
+        }
+      },
+      {
+        "version": "0.3.0",
+        "scope": "tree",
+        "id": "d5a2adc5-afb1-47b6-807e-fae2bd316fc0",
+        "title": "SimpleAttStrat",
+        "description": "",
+        "root": "5d8f0071-29fc-4206-88cb-1131426b9826",
+        "properties": {},
+        "nodes": {
+          "c71736f3-954a-45cf-b746-ad591562d7e8": {
+            "id": "c71736f3-954a-45cf-b746-ad591562d7e8",
+            "name": "Jim_MultipleStrikersPlay",
+            "title": "Jim_MultipleStrikersPlay_A",
+            "description": "",
+            "properties": {}
+          },
+          "615dcab1-1105-4e49-8563-7953ea8e3553": {
+            "id": "615dcab1-1105-4e49-8563-7953ea8e3553",
+            "name": "ParallelTactic",
+            "title": "ParallelTactic_A",
+            "description": "",
+            "properties": {
+              "minFail": "1",
+              "minSuccess": "2"
+            },
+            "children": [
+              "9da80cb5-7779-4d5b-9a70-cca6f3db62ee",
+              "c71736f3-954a-45cf-b746-ad591562d7e8"
+            ]
+          },
+          "9da80cb5-7779-4d5b-9a70-cca6f3db62ee": {
+            "id": "9da80cb5-7779-4d5b-9a70-cca6f3db62ee",
+            "name": "Jim_GetBallPlay",
+            "title": "Jim_GetBallPlay_A",
+            "description": "",
+            "properties": {}
+          },
+          "5d8f0071-29fc-4206-88cb-1131426b9826": {
+            "id": "5d8f0071-29fc-4206-88cb-1131426b9826",
+            "name": "Repeat",
+            "title": "Repeat",
+            "description": "",
+            "properties": {},
+            "child": "615dcab1-1105-4e49-8563-7953ea8e3553"
+          }
+        }
+      }
+    ]
+  }
+}
+
+
