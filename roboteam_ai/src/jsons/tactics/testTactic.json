@@ -1,0 +1,40 @@
+{
+  "description": "This is a test tactic jason",
+  "name": "TestTactic",
+  "data": {
+    "scope": "TacticRepo",
+    "trees": [
+      {
+        "description": "The testing tree",
+        "scope": "tree",
+        "properties": {},
+        "root": "111",
+        "title": "testTree",
+        "nodes": {
+          "111": {
+            "child": "222",
+            "description": "",
+            "display": {
+              "x": -48,
+              "y": 0
+            },
+            "id": "111",
+            "name": "Repeat",
+            "properties": {},
+            "title": "Repeat"
+          },
+          "222": {
+            "description": "",
+            "display": {},
+            "id": "222",
+            "name": "GoToPos",
+            "properties": {
+              "goToBall": "true"
+            },
+            "title": "GoToPos"
+          }
+        }
+      }
+    ]
+  }
+}
