@@ -4,7 +4,6 @@
 
 #include "StrategyComposer.hpp"
 //TODO: implement new factories/tree interpreter.
-namespace b = boost;
 
 namespace rtt {
 
@@ -24,7 +23,7 @@ using namespace std::string_literals;
  * ////////////////////////////////
  *
  */
-const std::map<RefState, b::optional<std::string>> StrategyComposer::MAPPING = {
+const std::map<RefState, boost::optional<std::string>> StrategyComposer::MAPPING = {
         ///////////////////////////////////////////////////////////////////////
         // Explicitly unused states that should redirect towards normal play //
         ///////////////////////////////////////////////////////////////////////
