@@ -12,6 +12,8 @@ class Role : public Node {
 
         int ROBOT_ID = -1;
 
+        Node::Ptr child = nullptr;
+
 
 
 
