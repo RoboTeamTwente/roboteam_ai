@@ -44,8 +44,6 @@ class TreeInterpreter {
 
         bt::Leaf::Ptr makeLeafNode(json jsonLeaf);
 
-        bt::Blackboard::Ptr parseProperties(json properties);
-
     protected:
 
     public:

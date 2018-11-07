@@ -15,6 +15,7 @@ DemoTactic::DemoTactic(std::string name, Blackboard::Ptr blackboard) {
 
 void DemoTactic::setName(std::string newName) {
     name = newName;
+
 }
 
 void DemoTactic::Initialize() {

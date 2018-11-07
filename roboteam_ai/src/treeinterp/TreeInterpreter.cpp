@@ -20,7 +20,6 @@ TreeInterpreter &TreeInterpreter::getInstance() {
 std::map<std::string, bt::BehaviorTree> TreeInterpreter::getProject(std::string name) {
     std::map<std::string, bt::BehaviorTree> result;
 
-    // Read a project from file
     auto project = jsonReader.readJSON(std::move(name));
 
     // Loop over all the trees in the project JSON and put them in the map
@@ -28,7 +27,6 @@ std::map<std::string, bt::BehaviorTree> TreeInterpreter::getProject(std::string 
     for (const json &tree : project["data"]["trees"]) {
         std::string treeID = tree["id"];
         bt::BehaviorTree currentTree = buildTreeFromJSON(tree);
-        //std::cout << "Build tree with id: " << treeID<<std::endl;
         result.insert(std::pair<std::string, bt::BehaviorTree>(treeID, currentTree));
     }
     return result;
@@ -52,6 +50,12 @@ bt::BehaviorTree TreeInterpreter::getTreeWithID(std::string projectName, std::st
     // return
     std::cerr << "No Tree with that ID" << std::endl;
 }
+
+
+
+
+
+
 
 /// Parse from the project JSON small tree JSONs
 std::vector<json> TreeInterpreter::parseSmallJSONs(json input) {
@@ -133,6 +137,7 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
     return node;
 }
 
+/// Makes a non leaf node
 bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
 
     // C++ doesnt like switches with strings :(
@@ -210,8 +215,7 @@ bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
     return skill;
 
 }
-bt::Blackboard::Ptr TreeInterpreter::parseProperties(json properties) {
-}
+
 
 
 

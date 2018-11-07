@@ -43,12 +43,14 @@ void BTFactory::init() {
     interpreter = TreeInterpreter::getInstance();
 
     // Update the projectNames Vector with all the projectFiles we want.
-    initialProjectNames();
+//    initialProjectNames();
+//
+//    // Updates all the projects in the projectNames vector and adds them to strategyRepo
+//    for (const std::string &projectName : strategyNames) {
+//        updateProject(projectName);
+//    }
 
-    // Updates all the projects in the projectNames vector and adds them to strategyRepo
-    for (const std::string &projectName : strategyNames) {
-        updateProject(projectName);
-    }
+
 }
 
 //TODO: add any trees you wish to load initially in the jsons folder here!!!
