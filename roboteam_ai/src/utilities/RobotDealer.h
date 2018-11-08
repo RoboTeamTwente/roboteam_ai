@@ -37,11 +37,17 @@ class RobotDealer {
 
         static int claimRobotClosestToBall();
 
-        static bool claimRobotForTactic(int id, std::string const &playName, std::string const &roleName);
+        static int claimRobotClosestToPoint(Vector2 pos);
 
-        static bool claimRobotForTactic(std::set<int> ids, std::string const &playName, std::string const &roleName);
+        static bool claimRobotForTactic(std::pair<int, std::string>const &idNamePair , std::string const &tacticName);
 
-        static int findRobotForRole(std::string const &roleName);
+        static bool claimRobotForTactic(std::set<std::pair<int, std::string>>const &roleSet, 
+                std::string const &tacticName);
+
+
+            static int findRobotForRole(std::string const &roleName);
+       
+        static int findRobotForRole(std::string const &tacticName, std::string const &roleName);
 
         static std::map<std::string, std::set<std::pair<int, std::string>>> const &getRobotOwnerList();
 

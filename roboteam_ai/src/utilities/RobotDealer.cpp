@@ -112,42 +112,58 @@ int RobotDealer::claimRobotClosestToBall() {
     return - 1;
 }
 
+int RobotDealer::claimRobotClosestToPoint(Vector2 pos) {
+    //TODO: make this.
+    return - 1;
+}
+
 /// Claims one robot for a tactic
-bool RobotDealer::claimRobotForTactic(int id, std::string const &playName, std::string const &roleName) {
-
-    bool success = claimRobot(id);
-
-    if (success) {
+bool RobotDealer::claimRobotForTactic(std::pair<int, std::string>const &idNamePair , std::string const &tacticName) {
+    
+    auto id = idNamePair.first;
+    auto roleName = idNamePair.second;
+    
+    bool successClaimed = claimRobot(id);
+    if (successClaimed) {
         std::lock_guard<std::mutex> lock(robotOwnersLock);
         std::pair<int, std::string> robotRole = {id, roleName};
-        robotOwners[playName].insert(robotRole);
+        robotOwners[tacticName].insert(robotRole);
     }
 
-    return success;
+    return successClaimed;
 }
 
 /// Claims multiple robots at once for a tactic
-bool RobotDealer::claimRobotForTactic(std::set<int> ids, std::string const &playName, std::string const &roleName) {
+bool RobotDealer::claimRobotForTactic(std::set<std::pair<int, std::string>>const &roleSet, std::string const &tacticName) {
+
     bool allClaimed = true;
-    for (auto const id : ids) {
-        // Check if all of the assignments are successful
-        allClaimed &= claimRobotForTactic(id, playName, roleName);
+    for (auto const &idNamePair : roleSet) {
+        //auto id = idNamePair.first;
+        //auto roleName = idNamePair.second;
+        allClaimed &= claimRobotForTactic(idNamePair, tacticName);
     }
     return allClaimed;
 }
 
 int RobotDealer::findRobotForRole(std::string const &roleName) {
 
-    for (auto &entry : robotOwners) {
-        // Get the set
-        auto &robotSet = entry.second;
-        // Check if the robot is in there
-        for (auto &robotPair : robotSet) {
-            if (robotPair.second == roleName) {
-                return robotPair.first;
-            }
+    for (auto &tacticSet : robotOwners) {
+        auto robotID = findRobotForRole(tacticSet.first, roleName);
+        if (robotID != - 1) return robotID;
+    }
+    return - 1;
+}
+
+int RobotDealer::findRobotForRole(std::string const &tacticName, std::string const &roleName) {
+
+    auto tacticSet = robotOwners[tacticName];
+    // Check if the robot is in there
+    for (auto &robotPair : tacticSet) {
+        if (robotPair.second == roleName) {
+            return robotPair.first;
         }
     }
+
     return - 1;
 }
 
@@ -162,7 +178,7 @@ bool RobotDealer::releaseKeeper() {
         ROS_ERROR("Goalkeeper was not claimed!");
         return false;
     }
-    keeper = -1;
+    keeper = - 1;
     removeRobotFromOwnerList(keeper);
     isKeeperAvailable = true;
     return true;
