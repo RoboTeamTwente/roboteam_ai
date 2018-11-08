@@ -9,6 +9,7 @@
 
 #include "TreeInterpreter.h"
 #include "../skills/GoToPos.h"
+#include "../bt/tactics/DemoTactic.h"
 
 /// Return a TreeInterpreter singleton
 TreeInterpreter &TreeInterpreter::getInstance() {
@@ -17,17 +18,15 @@ TreeInterpreter &TreeInterpreter::getInstance() {
 }
 
 /// Returns a BehaviorTree from a given name TESTED
-std::map<std::string, bt::BehaviorTree> TreeInterpreter::getTree(std::string name) {
+std::map<std::string, bt::BehaviorTree> TreeInterpreter::getTrees(std::string name) {
     std::map<std::string, bt::BehaviorTree> result;
 
     auto project = jsonReader.readJSON(std::move(name));
 
-    // Loop over all the trees in the project JSON and put them in the map
-    // TODO: fix the names for the trees
     for (const json &tree : project["data"]["trees"]) {
-        std::string treeID = tree["id"];
+        std::string treeName = tree["title"];
         bt::BehaviorTree currentTree = buildTreeFromJSON(tree);
-        result.insert(std::pair<std::string, bt::BehaviorTree>(treeID, currentTree));
+        result.insert(std::pair<std::string, bt::BehaviorTree>(treeName, currentTree));
     }
     return result;
 }
@@ -85,7 +84,11 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
 
     // See if it is a tactic node. They should only be at big strategy trees
     if (nodeJSON["title"] == "Tactic") {
-        return tactics.find(nodeJSON["name"])->second;
+        auto properties = propertyParser.parse(nodeJSON);
+        auto node = tacticSwitch(nodeJSON["name"], properties);
+        node->AddChild(tactics.find(nodeJSON["name"])->second);
+        return node;
+
     }
 
     // Not a leaf
@@ -140,8 +143,7 @@ bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
     else if (name == "Selector") {
         node = std::make_shared<bt::Selector>();
     }
-    else if (name == "Sequence" || name == "ParallelTactic" || name == "ParallelSequence" ||
-            name == "ParallelTactic") {
+    else if (name == "Sequence" || name == "ParallelTactic") { // TODO: parallel here?
         node = std::make_shared<bt::Sequence>();
     }
     else if (name == "Failer") {
@@ -197,7 +199,7 @@ bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
 
 }
 std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fileName, bt::Blackboard::Ptr globalBB) {
-    json tacticJson = jsonReader.readJSON("tactics/fileName");
+    json tacticJson = jsonReader.readJSON("tactics/" + fileName);
     std::map<std::string, bt::Node::Ptr> resultMap;
     for (auto tactic : tacticJson["trees"]) {
         std::string rootID = tactic["root"];
@@ -206,6 +208,15 @@ std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fi
         tactics.insert(std::pair<std::string, bt::Node::Ptr>(tactic["title"], buildingNode));
     }
     return resultMap;
+}
+bt::Node::Ptr TreeInterpreter::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
+    if (name == "DemoTactic") {
+        auto node = std::make_shared<bt::DemoTactic>("name", properties);
+        return node;
+    }
+    auto node = std::make_shared<bt::DemoTactic>("name", properties);
+    return node;
+    // TODO: populate
 }
 
 

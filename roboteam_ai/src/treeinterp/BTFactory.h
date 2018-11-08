@@ -26,21 +26,23 @@ class BTFactory {
 
         static BTFactory &getFactory();
 
-        std::map<std::string, bt::BehaviorTree> getProject(std::string projectName);
-
         void updateProject(std::string projectName);
 
         bt::BehaviorTree getTree(std::string treeName);
 
         void updateTree(std::string projectName, std::string treeName);
 
-        std::map<std::string, std::map<std::string, bt::BehaviorTree>> getTreeRepo();
-
         static std::map<std::string, bt::BehaviorTree> strategyRepo;
 
         static std::map<std::string, bt::Node::Ptr> tacticsRepo;
 
+        bool isIsInitiated() const;
+
+        void setIsInitiated(bool isInitiated);
+
     protected:
+//       static bool isInitiated;
+
 
 };
 

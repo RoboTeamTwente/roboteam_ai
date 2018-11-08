@@ -46,11 +46,13 @@ class TreeInterpreter {
 
         std::map<std::string, bt::Node::Ptr> tactics;
 
+        bt::Node::Ptr tacticSwitch(std::string, bt::Blackboard::Ptr properties);
+
 
     protected:
 
     public:
-        std::map<std::string, bt::BehaviorTree> getTree(std::string name);
+        std::map<std::string, bt::BehaviorTree> getTrees(std::string name);
 
         std::map<std::string, bt::Node::Ptr> makeTactics(std::string fileName, bt::Blackboard::Ptr globalBB);
 

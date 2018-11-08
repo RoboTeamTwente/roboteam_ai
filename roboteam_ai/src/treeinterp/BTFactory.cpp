@@ -1,4 +1,6 @@
 #include <utility>
+
+#include <utility>
 #include <boost/filesystem.hpp>
 //
 // Created by baris on 04/10/18.
@@ -6,21 +8,24 @@
 
 #include "BTFactory.h"
 
-std::map<std::string, std::map<std::string, bt::BehaviorTree>> BTFactory::strategyRepo;
-
+static bool isInitiated = false;
 
 /// Update an entire project
 void BTFactory::updateProject(std::string projectName) {
-    auto project = interpreter.getTree(projectName);
-    strategyRepo[projectName] = project;
+    auto trees = interpreter.getTrees(std::move(projectName));
+    for (auto tree : trees) {
+        strategyRepo.find(tree.first)->second = tree.second;
+    }
 }
 
 /// Update one tree from a project
 void BTFactory::updateTree(std::string projectName, std::string treeName) {
-
-    auto tree = interpreter.getTreeWithID(projectName, treeName);
-    strategyRepo[projectName][treeName] = tree;
-
+    auto trees = interpreter.getTrees(std::move(projectName));
+    for (auto tree : trees) {
+        if (tree.first == treeName) {
+            strategyRepo.find(treeName)->second = tree.second;
+        }
+    }
 }
 
 /// Returns the Behaviour Tree Factory Singleton
@@ -34,8 +39,11 @@ void BTFactory::init() {
     interpreter = TreeInterpreter::getInstance();
 
     // Interpret all the tactics and put them in tactics repo as Node::Ptr
-    // TODO loop the actual folder
-    tacticsRepo = interpreter.makeTactics("testTactic");
+    // TODO: find a solution for BB passing
+    auto BB = std::make_shared<bt::Blackboard>();
+    // TODO: automate
+    tacticsRepo = interpreter.makeTactics("testTactic", BB);
+    strategyRepo = interpreter.getTrees("strategies/testStrategy");
 
 
 
@@ -46,6 +54,12 @@ bt::BehaviorTree BTFactory::getTree(std::string treeName) {
     }
     ROS_ERROR("No Strategy by that name");
     return strategyRepo.end()->second;
+}
+bool BTFactory::isIsInitiated() const {
+    return isInitiated;
+}
+void BTFactory::setIsInitiated(bool newBool) {
+    isInitiated = newBool;
 }
 
 
