@@ -34,7 +34,12 @@ int main(int argc, char* argv[]) {
         ai::World::set_world(worldMsg);
         ai::Field::set_field(geometryMsg.field);
 
-        strategy = TreeInterpreter::getInstance().getTreeWithID("ai_project", "id of the tree");
+        auto factory = BTFactory::getFactory();
+
+        factory.init();
+        
+        strategy = factory.getTree("DemoStrategy");
+
         bt::Node::Status status = strategy.Tick();
 
         if (status != bt::Node::Status::Running) {
