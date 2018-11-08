@@ -46,6 +46,8 @@ class TreeInterpreter {
 
         std::map<std::string, bt::Node::Ptr> tactics;
 
+        bt::Node::Ptr tacticSwitch(std::string, bt::Blackboard::Ptr properties);
+
 
     protected:
 

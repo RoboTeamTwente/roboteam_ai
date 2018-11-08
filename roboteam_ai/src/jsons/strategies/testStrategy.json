@@ -8,20 +8,11 @@
         "description": "The testing strategy tree",
         "scope": "tree",
         "properties": {},
-        "root": "aaa",
+        "root": "bbb",
         "title": "DemoStrategy",
         "nodes": {
-          "aaa": {
-            "child": "bbb",
-            "title": "Strat",
-            "name": "Strat",
-            "properties": {
-              "name": "testStrat"
-            },
-            "description": "start of a Strat"
-          },
           "bbb": {
-            "child": "TestTactic",
+            "child": "ccc",
             "description": "",
             "id": "bbb",
             "name": "ParallelSequence",
