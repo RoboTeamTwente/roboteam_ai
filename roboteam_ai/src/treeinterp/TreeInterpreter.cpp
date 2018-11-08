@@ -22,8 +22,6 @@ std::map<std::string, bt::BehaviorTree> TreeInterpreter::getTrees(std::string na
 
     auto project = jsonReader.readJSON(std::move(name));
 
-    // Loop over all the trees in the project JSON and put them in the map
-    // TODO: fix the names for the trees
     for (const json &tree : project["data"]["trees"]) {
         std::string treeName = tree["title"];
         bt::BehaviorTree currentTree = buildTreeFromJSON(tree);
