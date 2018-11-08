@@ -5,7 +5,7 @@
     "scope": "TacticRepo",
     "trees": [
       {
-        "description": "The testing tree",
+        "description": "The testing tactic tree",
         "scope": "tree",
         "properties": {},
         "root": "000",
