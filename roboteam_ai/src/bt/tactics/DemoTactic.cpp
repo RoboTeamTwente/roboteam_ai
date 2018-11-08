@@ -22,12 +22,12 @@ void DemoTactic::setName(std::string newName) {
 void DemoTactic::Initialize() {
 
     while (!claimedRobots) {
-        int numberOfRobots = 1;
         std::set<int> ids;
-        ids = DemoTactic::askForRandomRobot(numberOfRobots);
-        int id = *ids.begin();  // only one robot...
-        if (id != -1) {
-            claimedRobots = RobotDealer::claimRobotForTactic(id, "testTactic", "testRole");
+        ids = RobotDealer::getAvailableRobots();
+        if (!ids.empty()) {
+            auto id = *ids.begin();  // only one robot...
+            std::pair<int, std::string> idName = {id, "testRole"};
+            claimedRobots = RobotDealer::claimRobotForTactic(idName, "testTactic");
             robotIDs.insert(id);
         }
     }
@@ -47,17 +47,6 @@ Node::Status DemoTactic::Update() {
         // If the status was anything but success/invalid, keep running
         return Status::Running;
     }
-}
-
-
-std::set<int> DemoTactic::askForRandomRobot(int numberOfRobots) {
-    std::set<int> ids;
-    for (int i = 0; i < numberOfRobots; i++) {
-        ids.insert(RobotDealer::claimRandomRobot());
-    }
-    if (ids.find(-1) == ids.end()) {
-        return ids;
-    } else return {-1};
 }
 
 } // bt
