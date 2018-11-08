@@ -37,7 +37,6 @@ int main(int argc, char* argv[]) {
         auto factory = BTFactory::getFactory();
 
         factory.init();
-        
         strategy = factory.getTree("DemoStrategy");
 
         bt::Node::Status status = strategy.Tick();
