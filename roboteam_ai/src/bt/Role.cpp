@@ -6,4 +6,16 @@
 
 namespace bt{
 
+void Role::Initialize() {
+    // Get the robot ID for this Role
+
+}
+Node::Status Role::Update() {
+    return Status::Invalid;
+}
+void Role::AddChild(Node::Ptr newChild) {
+    this->child = newChild;
+
+}
+
 }

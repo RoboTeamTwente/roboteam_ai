@@ -44,6 +44,10 @@ class TreeInterpreter {
 
         bt::Leaf::Ptr makeLeafNode(json jsonLeaf);
 
+        std::map<std::string, bt::Node::Ptr> makeTactics(std::string fileName, bt::Blackboard::Ptr globalBB);
+
+        std::map<std::string, bt::Node::Ptr> tactics;
+
     protected:
 
     public:
@@ -52,6 +56,7 @@ class TreeInterpreter {
         bt::BehaviorTree getTreeWithID(std::string projectName, std::string ID);
 
         static TreeInterpreter &getInstance();
+
 
 };
 

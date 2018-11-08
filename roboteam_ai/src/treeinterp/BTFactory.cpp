@@ -7,7 +7,6 @@
 #include "BTFactory.h"
 
 std::map<std::string, std::map<std::string, bt::BehaviorTree>> BTFactory::strategyRepo;
-std::vector<std::string> BTFactory::strategyNames;
 
 /// Return a map of tree names and trees that belong to one project
 std::map<std::string, bt::BehaviorTree> BTFactory::getProject(std::string projectName) {
@@ -42,26 +41,14 @@ std::map<std::string, std::map<std::string, bt::BehaviorTree>> BTFactory::getTre
 void BTFactory::init() {
     interpreter = TreeInterpreter::getInstance();
 
-    // Update the projectNames Vector with all the projectFiles we want.
-//    initialProjectNames();
-//
-//    // Updates all the projects in the projectNames vector and adds them to strategyRepo
-//    for (const std::string &projectName : strategyNames) {
-//        updateProject(projectName);
-//    }
+    // Interpret all the tactics and put them in tactics repo as Node::Ptr
+    // TODO loop the actual folder
+
+
 
 
 }
 
-//TODO: add any trees you wish to load initially in the jsons folder here!!!
-/// Inserts the initial projectNames into the vector
-void BTFactory::initialProjectNames() {
-    std::string initialNames[] = {
-            "bigjson",
-            "sample"
-    };
-    strategyNames.insert(strategyNames.end(), std::begin(initialNames), std::end(initialNames));
-}
 
 
 

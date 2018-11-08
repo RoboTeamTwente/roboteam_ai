@@ -101,20 +101,25 @@ set(BT_SOURCES
 set(IO_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/IOManager.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/IOManager.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/StrategyIOManager.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/StrategyIOManager.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/RoleIOManager.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/RoleIOManager.h)
+        )
 
 set(UTILS_SOURCES
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
-    )
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.hpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RefStateManager.hpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RefStateManager.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyMapper.hpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyMapper.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.h
+    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
+        )
 
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
@@ -167,8 +172,8 @@ include_directories(${catkin_INCLUDE_DIRS})
 add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 # StrategyNode
-add_executable(AIStrategyNode
-        roboteam_ai/src/StrategyNode.cpp
+add_executable(Roboteam_AI
+        roboteam_ai/src/roboteam_ai.cpp
         ${DANGER_FINDER_SOURCES}
         ${IO_SOURCES}
         ${UTILS_SOURCES}
@@ -178,22 +183,8 @@ add_executable(AIStrategyNode
         ${CONDITIONS_SOURCES}
         )
 
-add_dependencies(AIStrategyNode ${catkin_EXPORTED_TARGETS})
-target_link_libraries(AIStrategyNode ${catkin_LIBRARIES})
-
-add_executable(AIRoleNode
-        roboteam_ai/src/RoleNode.cpp
-        ${DANGER_FINDER_SOURCES}
-        ${IO_SOURCES}
-        ${UTILS_SOURCES}
-        ${JSON_SOURCES}
-        ${BT_SOURCES}
-        ${SKILLS_SOURCES}
-        ${CONDITIONS_SOURCES}
-        )
-
-add_dependencies(AIRoleNode ${catkin_EXPORTED_TARGETS})
-target_link_libraries(AIRoleNode ${catkin_LIBRARIES})
+add_dependencies(Roboteam_AI ${catkin_EXPORTED_TARGETS})
+target_link_libraries(Roboteam_AI ${catkin_LIBRARIES})
 
 #############
 ## Testing ##
@@ -209,9 +200,13 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/BTBlackBoardTest.cpp
         roboteam_ai/test/IOTest.cpp
         roboteam_ai/test/RobotDealerTest.cpp
+        roboteam_ai/test/RefereeTest.cpp
+        roboteam_ai/test/RefStateManagerTest.cpp
+        roboteam_ai/test/StrategyMapperTest.cpp
         roboteam_ai/test/PropertiesParserTest.cpp
         ${SKILL_TESTS}
         ${CONDITION_TESTS}
+
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}

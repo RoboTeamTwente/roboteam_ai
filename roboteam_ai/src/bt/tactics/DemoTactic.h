@@ -22,7 +22,6 @@ class DemoTactic : public Tactic {
 
         Node::Status Update();
 
-        using RobotDealer = rtt::ai::RobotDealer;
 
         bool claimedRobots = false;
 

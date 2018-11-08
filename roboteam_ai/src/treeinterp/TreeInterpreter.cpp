@@ -47,14 +47,10 @@ bt::BehaviorTree TreeInterpreter::getTreeWithID(std::string projectName, std::st
             return buildTreeFromJSON(tree);
         }
     }
-    // return
+
     std::cerr << "No Tree with that ID" << std::endl;
+    return bt::BehaviorTree();
 }
-
-
-
-
-
 
 
 /// Parse from the project JSON small tree JSONs
@@ -105,6 +101,11 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
         leaf = TreeInterpreter::makeLeafNode(nodeJSON);
         leaf->globalBB = globalBlackBoard;
         return leaf;
+    }
+
+    // See if it is a tactic node
+    if (nodeJSON["title"] == "Tactic") {
+        return tactics.find(nodeJSON["name"])->second;
     }
 
     // Not a leaf
@@ -214,6 +215,17 @@ bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
 
     return skill;
 
+}
+std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fileName, bt::Blackboard::Ptr globalBB) {
+    json tacticJson = jsonReader.readJSON("tactics/fileName");
+    std::map<std::string, bt::Node::Ptr> resultMap;
+    for (auto tactic : tacticJson["trees"]) {
+        std::string rootID = tactic["root"];
+        auto buildingNode = TreeInterpreter::buildNode(tactic["nodes"][rootID], tactic, globalBB);
+        resultMap.insert(std::pair<std::string, bt::Node::Ptr>(tactic["title"], buildingNode));
+        tactics.insert(std::pair<std::string, bt::Node::Ptr>(tactic["title"], buildingNode));
+    }
+    return resultMap;
 }
 
 
