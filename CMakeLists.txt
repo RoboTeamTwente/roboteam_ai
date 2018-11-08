@@ -90,6 +90,12 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Leaf.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Node.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Node.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DemoTactic.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DemoTactic.h
         )
 
 set(IO_SOURCES

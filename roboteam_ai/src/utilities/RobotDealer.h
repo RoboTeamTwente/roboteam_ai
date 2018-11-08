@@ -13,6 +13,7 @@
 #include <gtest/gtest_prod.h>
 #include <boost/optional.hpp>
 #include <mutex>
+#include "World.h"
 
 namespace rtt {
 namespace ai {
@@ -20,9 +21,11 @@ namespace ai {
 class RobotDealer {
     public:
 
-        static std::vector<int> getClaimedRobots();
+        static std::set<int> getClaimedRobots();
 
-        static void setKeeper(int id);
+        static std::set<int> getAvailableRobots();
+
+        static bool claimKeeper(int id);
 
         static int getKeeper();
 
@@ -30,17 +33,23 @@ class RobotDealer {
 
         static bool claimRobot(int id);
 
-        static bool claimRobotForTactic(int id, std::string const &playName);
+        static int claimRandomRobot();
 
-        static bool claimRobotForTactic(std::vector<int> ids, std::string const &playName);
+        static int claimRobotClosestToBall();
 
-        static std::map<std::string, std::set<int>> const &getRobotOwnerList();
+        static bool claimRobotForTactic(int id, std::string const &playName, std::string const &roleName);
+
+        static bool claimRobotForTactic(std::set<int> ids, std::string const &playName, std::string const &roleName);
+
+        static std::map<std::string, std::set<std::pair<int, std::string>>> const &getRobotOwnerList();
+
+        static bool releaseKeeper();
 
         static bool releaseRobot(int id);
 
-        static bool claimRobots(std::vector<int> ids);
+        static bool claimRobot(std::set<int> ids);
 
-        static bool releaseRobots(std::vector<int> ids);
+        static bool releaseRobot(std::set<int> ids);
 
         static void haltOverride();
 
@@ -54,7 +63,7 @@ class RobotDealer {
 
         static void emptyRobotOwners();
 
-        static std::map<std::string, std::set<int>> robotOwners;
+        static std::map<std::string, std::set<std::pair<int, std::string>>> robotOwners;
 
         static std::atomic<int> keeper;
 
@@ -68,9 +77,9 @@ class RobotDealer {
 
         static void removeRobotFromOwnerList(int id);
 
-        static bool validateID(int ID);
+        static bool validateID(int id);
 
-        static bool isRobotFree(int ID);
+        static bool isRobotAvailable(int id);
 
 };
 
