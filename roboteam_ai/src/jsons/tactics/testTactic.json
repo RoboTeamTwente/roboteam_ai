@@ -9,7 +9,7 @@
         "scope": "tree",
         "properties": {},
         "root": "000",
-        "title": "testTree",
+        "title": "DemoTactic",
         "nodes": {
           "000": {
             "child": "111",
