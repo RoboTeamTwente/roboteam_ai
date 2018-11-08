@@ -8,14 +8,10 @@
 
 std::map<std::string, std::map<std::string, bt::BehaviorTree>> BTFactory::strategyRepo;
 
-/// Return a map of tree names and trees that belong to one project
-std::map<std::string, bt::BehaviorTree> BTFactory::getProject(std::string projectName) {
-    return strategyRepo[projectName];
-}
 
 /// Update an entire project
 void BTFactory::updateProject(std::string projectName) {
-    auto project = interpreter.getProject(projectName);
+    auto project = interpreter.getTree(projectName);
     strategyRepo[projectName] = project;
 }
 
@@ -33,20 +29,23 @@ BTFactory &BTFactory::getFactory() {
     return instance;
 }
 
-std::map<std::string, std::map<std::string, bt::BehaviorTree>> BTFactory::getTreeRepo() {
-    return strategyRepo;
-}
-
 /// Initiate the BTFactory
 void BTFactory::init() {
     interpreter = TreeInterpreter::getInstance();
 
     // Interpret all the tactics and put them in tactics repo as Node::Ptr
     // TODO loop the actual folder
+    tacticsRepo = interpreter.makeTactics("testTactic");
 
 
 
-
+}
+bt::BehaviorTree BTFactory::getTree(std::string treeName) {
+    if (strategyRepo.find(treeName) != strategyRepo.end()) {
+        return strategyRepo.find(treeName)->second;
+    }
+    ROS_ERROR("No Strategy by that name");
+    return strategyRepo.end()->second;
 }
 
 

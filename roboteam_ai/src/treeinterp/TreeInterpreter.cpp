@@ -17,7 +17,7 @@ TreeInterpreter &TreeInterpreter::getInstance() {
 }
 
 /// Returns a BehaviorTree from a given name TESTED
-std::map<std::string, bt::BehaviorTree> TreeInterpreter::getProject(std::string name) {
+std::map<std::string, bt::BehaviorTree> TreeInterpreter::getTree(std::string name) {
     std::map<std::string, bt::BehaviorTree> result;
 
     auto project = jsonReader.readJSON(std::move(name));
@@ -30,26 +30,6 @@ std::map<std::string, bt::BehaviorTree> TreeInterpreter::getProject(std::string 
         result.insert(std::pair<std::string, bt::BehaviorTree>(treeID, currentTree));
     }
     return result;
-}
-
-/// Returns one BehaviorTree in a project
-bt::BehaviorTree TreeInterpreter::getTreeWithID(std::string projectName, std::string ID) {
-
-    // Read a project from file
-    auto project = jsonReader.readJSON(std::move(projectName));
-
-    auto trees = project["data"]["trees"];
-    for (json tree : trees) {
-//      jsonReader.printJson(tree);
-        //  std::cout << tree["title"] << std::endl;
-        if (tree["id"] == ID) {
-            // jsonReader.printJson(tree);
-            return buildTreeFromJSON(tree);
-        }
-    }
-
-    std::cerr << "No Tree with that ID" << std::endl;
-    return bt::BehaviorTree();
 }
 
 
@@ -103,7 +83,7 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
         return leaf;
     }
 
-    // See if it is a tactic node
+    // See if it is a tactic node. They should only be at big strategy trees
     if (nodeJSON["title"] == "Tactic") {
         return tactics.find(nodeJSON["name"])->second;
     }
@@ -227,6 +207,7 @@ std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fi
     }
     return resultMap;
 }
+
 
 
 
