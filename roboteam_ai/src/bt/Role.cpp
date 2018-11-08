@@ -7,7 +7,8 @@
 namespace bt{
 
 void Role::Initialize() {
-    Node::Initialize();
+    // Get the robot ID for this Role
+
 }
 Node::Status Role::Update() {
     return Status::Invalid;
