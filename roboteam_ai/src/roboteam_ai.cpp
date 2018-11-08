@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
         ai::Field::set_field(geometryMsg.field);
 
         strategy = TreeInterpreter::getInstance().getTreeWithID("ai_project", "id of the tree");
-        bt::Node::Status status = strategy.Update();
+        bt::Node::Status status = strategy.Tick();
 
         if (status != bt::Node::Status::Running) {
             auto statusStr = bt::statusToString(status);

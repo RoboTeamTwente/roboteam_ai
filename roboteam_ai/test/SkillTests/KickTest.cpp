@@ -3,7 +3,6 @@
 // check if the commands are on the robotcommands channel.
 
 #include "ros/ros.h"
-#include "../../src/io/RoleIOManager.h"
 #include "../../src/skills/Kick.h"
 #include "../../src/skills/Chip.h"
 #include <gtest/gtest.h>

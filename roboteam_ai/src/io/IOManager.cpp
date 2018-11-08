@@ -18,6 +18,7 @@ IOManager::IOManager(bool subscribe, bool advertise) {
         this->subscribeToWorldState();
         this->subscribeToGeometryData();
         this->subscribeToRoleFeedback();
+        this->subscribeToRefereeData();
     }
 
     if (advertise) {

@@ -31,6 +31,7 @@ void DemoTactic::Initialize() {
         }
     }
 }
+
 Node::Status DemoTactic::Update() {
 
 }
