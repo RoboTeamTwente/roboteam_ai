@@ -10,6 +10,7 @@
 #include "TreeInterpreter.h"
 #include "../skills/GoToPos.h"
 #include "../bt/tactics/DemoTactic.h"
+#include "../bt/Role.h"
 
 /// Return a TreeInterpreter singleton
 TreeInterpreter &TreeInterpreter::getInstance() {
@@ -81,22 +82,23 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
         leaf->globalBB = globalBlackBoard;
         return leaf;
     }
+    // It might be a Role
+    bt::Node::Ptr node;
+    if (nodeJSON["title"] == "Role") {
+        bt::Node::Ptr node_ = std::make_shared<bt::Role>();
+        node_->globalBB = globalBlackBoard;
+        node_->properties = propertyParser.parse(nodeJSON);
+        node = node_;
+    } else {
+        bt::Node::Ptr node_ = makeNonLeafNode(nodeJSON["name"]);
+        node_->globalBB = globalBlackBoard;
+        node_->properties = propertyParser.parse(nodeJSON);
+        node = node_;
+    };
 
-    // See if it is a tactic node. They should only be at big strategy trees
-    if (nodeJSON["title"] == "Tactic") {
-        auto properties = propertyParser.parse(nodeJSON);
-        auto node = tacticSwitch(nodeJSON["name"], properties);
-        node->AddChild(tactics.find(nodeJSON["name"])->second);
-        return node;
-
-    }
-
-    // Not a leaf
-    auto node = makeNonLeafNode(nodeJSON["name"]);
 
     // GlobalBB and properties
-    node->globalBB = globalBlackBoard;
-    node->properties = propertyParser.parse(nodeJSON);
+
 
     // One child
 
@@ -180,6 +182,14 @@ bool TreeInterpreter::isLeaf(json jsonTree) {
 
 /// Make a leaf node depending on the name of the node
 bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
+
+    if (jsonLeaf["title"] == "Tactic") {
+        auto properties = propertyParser.parse(jsonLeaf);
+        auto node = tacticSwitch(jsonLeaf["name"], properties);
+        node->AddChild(tactics.find(jsonLeaf["name"])->second);
+        return node;
+
+    }
     rtt::ai::Skill::Ptr skill;
     std::string name = jsonLeaf["title"];
     bt::Blackboard::Ptr properties = propertyParser.parse(jsonLeaf);
@@ -188,11 +198,11 @@ bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
         // TODO: after importing the leaf subclasses make a switch here
         // leaf = make_some_condition_or_something()
     }
-    else if ("GoToPos") {
-        skill = std::make_shared<rtt::ai::GoToPos>("goToPos", properties);
+    else if (name == "GoToPos") {
+        skill = std::make_shared<rtt::ai::GoToPos>(name, properties);
     }
     else {
-        skill = std::make_shared<rtt::ai::GoToPos>("name", properties);
+        skill = std::make_shared<rtt::ai::GoToPos>(name, properties);
     }
 
     return skill;
@@ -201,7 +211,7 @@ bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
 std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fileName, bt::Blackboard::Ptr globalBB) {
     json tacticJson = jsonReader.readJSON("tactics/" + fileName);
     std::map<std::string, bt::Node::Ptr> resultMap;
-    for (auto tactic : tacticJson["trees"]) {
+    for (auto tactic : tacticJson["data"]["trees"]) {
         std::string rootID = tactic["root"];
         auto buildingNode = TreeInterpreter::buildNode(tactic["nodes"][rootID], tactic, globalBB);
         resultMap.insert(std::pair<std::string, bt::Node::Ptr>(tactic["title"], buildingNode));
@@ -211,7 +221,8 @@ std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fi
 }
 bt::Node::Ptr TreeInterpreter::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
     if (name == "DemoTactic") {
-        auto node = std::make_shared<bt::DemoTactic>("name", properties);
+        auto node = std::make_shared<bt::DemoTactic>("DemoTactic", properties);
+        node->AddChild(tactics.find("DemoTactic")->second);
         return node;
     }
     auto node = std::make_shared<bt::DemoTactic>("name", properties);

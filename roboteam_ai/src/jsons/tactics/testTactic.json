@@ -38,7 +38,9 @@
             "id": "222",
             "name": "GoToPos",
             "properties": {
-              "goToBall": "true"
+              "goToBall": "true",
+              "X" : "12",
+              "Y" : "66"
             },
             "title": "GoToPos"
           }
