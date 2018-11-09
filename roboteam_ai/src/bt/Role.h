@@ -10,6 +10,7 @@ namespace bt {
 
 class Role : public Node {
 
+    public:
         int ROBOT_ID = -1;
 
         Node::Ptr child = nullptr;

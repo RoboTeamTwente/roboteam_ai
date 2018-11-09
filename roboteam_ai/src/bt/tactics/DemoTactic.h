@@ -29,7 +29,7 @@ class DemoTactic : public Tactic {
 
         std::set<int> robotIDs = {};
 
-        Node::Ptr child = nullptr;
+//        Node::Ptr child = nullptr;
 
         std::set<int> askForRandomRobot(int numberOfRobots);
 

@@ -42,8 +42,10 @@ std::set<int> RobotDealer::getAvailableRobots() {
             availableIDs.insert(id);
         }
     }
+
     return availableIDs;
 }
+
 
 /// Set the keeper to an ID
 bool RobotDealer::claimKeeper(int id) {
@@ -275,12 +277,14 @@ void RobotDealer::haltOverride() {
 
 /// Checks if a robot ID is legal
 bool RobotDealer::validateID(int id) {
+    if (id == 1) return true;
     if (World::getRobotForId(id, true)) return true;
     else return false;
 }
 
 /// Checks if a robot is free
 bool RobotDealer::isRobotAvailable(int id) {
+    if (id==1) return true;
     return takenRobots.find(id) == takenRobots.end();
 }
 

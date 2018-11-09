@@ -15,16 +15,20 @@
             "child": "ccc",
             "description": "",
             "id": "bbb",
-            "name": "ParallelSequence",
-            "properties": {},
-            "title": "ParallelSequence"
+            "name": "Repeat",
+            "properties": {
+              "testparsec": "testparsec"
+            },
+            "title": "Repeat"
           },
           "ccc": {
             "description": "",
             "id": "ccc",
             "title": "Tactic",
             "name": "DemoTactic",
-            "properties": {}
+            "properties": {
+              "testdemotac": "testdemotac"
+            }
 
           }
 

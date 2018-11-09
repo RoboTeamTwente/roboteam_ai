@@ -213,7 +213,7 @@ std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fi
     std::map<std::string, bt::Node::Ptr> resultMap;
     for (auto tactic : tacticJson["data"]["trees"]) {
         std::string rootID = tactic["root"];
-        auto buildingNode = TreeInterpreter::buildNode(tactic["nodes"][rootID], tactic, globalBB);
+        bt::Node::Ptr buildingNode = TreeInterpreter::buildNode(tactic["nodes"][rootID], tactic, globalBB);
         resultMap.insert(std::pair<std::string, bt::Node::Ptr>(tactic["title"], buildingNode));
         tactics.insert(std::pair<std::string, bt::Node::Ptr>(tactic["title"], buildingNode));
     }
