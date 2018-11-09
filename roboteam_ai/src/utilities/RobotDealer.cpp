@@ -108,8 +108,25 @@ int RobotDealer::claimRandomRobot() {
 }
 
 int RobotDealer::claimRobotClosestToBall() {
-    //TODO: make this.
-    return - 1;
+    auto worldBall = World::getBall();
+    Vector2 ball = worldBall.pos;
+    auto worldUs = World::get_world().us;
+    double minDistanceSquared = 1000000000.1;
+    double distanceSquared, dx, dy;
+    int id = - 1;
+    for (auto &robot : worldUs) {
+        dx = (robot.pos.x - ball.x);
+        dy = (robot.pos.y - ball.y);
+        distanceSquared = dx*dx + dy*dy;
+        if (distanceSquared < minDistanceSquared) {
+            minDistanceSquared = distanceSquared;
+            id = robot.id;
+        }
+    }
+    if (id != -1) {
+        claimRobot(id);
+    }
+    return id;
 }
 
 int RobotDealer::claimRobotClosestToPoint(Vector2 pos) {
@@ -118,11 +135,11 @@ int RobotDealer::claimRobotClosestToPoint(Vector2 pos) {
 }
 
 /// Claims one robot for a tactic
-bool RobotDealer::claimRobotForTactic(std::pair<int, std::string>const &idNamePair , std::string const &tacticName) {
-    
+bool RobotDealer::claimRobotForTactic(std::pair<int, std::string> const &idNamePair, std::string const &tacticName) {
+
     auto id = idNamePair.first;
     auto roleName = idNamePair.second;
-    
+
     bool successClaimed = claimRobot(id);
     if (successClaimed) {
         std::lock_guard<std::mutex> lock(robotOwnersLock);
@@ -134,7 +151,8 @@ bool RobotDealer::claimRobotForTactic(std::pair<int, std::string>const &idNamePa
 }
 
 /// Claims multiple robots at once for a tactic
-bool RobotDealer::claimRobotForTactic(std::set<std::pair<int, std::string>>const &roleSet, std::string const &tacticName) {
+bool RobotDealer::claimRobotForTactic(std::set<std::pair<int, std::string>> const &roleSet,
+        std::string const &tacticName) {
 
     bool allClaimed = true;
     for (auto const &idNamePair : roleSet) {
