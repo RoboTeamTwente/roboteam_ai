@@ -9,6 +9,10 @@
 #include "BTFactory.h"
 
 static bool isInitiated = false;
+std::map<std::string, bt::BehaviorTree> BTFactory::strategyRepo;
+std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
+
+
 
 /// Update an entire project
 void BTFactory::updateProject(std::string projectName) {
