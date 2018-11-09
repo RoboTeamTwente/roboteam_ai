@@ -56,7 +56,7 @@ TEST(DangerFinderTest, it_has_correct_danger_flags) {
     danger = calculateDangerForWorld(worldMsg);
 
     ASSERT_TRUE(df::DangerFinder::instance().hasCalculated());
-    ASSERT_EQ(danger.flags.size(), 1);
+    ASSERT_EQ(danger.flags.size(), (unsigned int) 1);
     ASSERT_EQ(std::bitset<8>(danger.flags.at(0)),
             std::bitset<8>(0b00000001)); // the robotflag ISFREE should be triggered
 
@@ -94,7 +94,7 @@ TEST(DangerFinderTest, it_logs_dangerdata) {
     ASSERT_EQ(danger.scores.size(), amountOfRobots);
     ASSERT_EQ(danger.flags.size(), amountOfRobots);
     // there is no other data set for the robots so their danger scores should be equal
-    for (int i = 1; i < danger.scores.size(); i ++) {
+    for (unsigned int i = 1; i < danger.scores.size(); i ++) {
         ASSERT_EQ(danger.scores.at(i - 1), danger.scores.at(i));
     }
 
@@ -103,7 +103,7 @@ TEST(DangerFinderTest, it_logs_dangerdata) {
     danger = calculateDangerForWorld(worldMsg);
 
     // there is still no different data set for the robots so their danger scores should be equal
-    for (int i = 1; i < danger.scores.size(); i ++) {
+    for (unsigned int i = 1; i < danger.scores.size(); i ++) {
         ASSERT_EQ(danger.scores.at(i - 1), danger.scores.at(i));
     }
 
@@ -142,7 +142,7 @@ TEST(DangerFinderTest, it_stays_within_limits) {
         danger = calculateDangerForWorld(tempWorldMsg);
 
         // values can never be smaller than 0 and never greater than 1300
-        for (int j = 0; j < danger.scores.size(); j ++) {
+        for (unsigned int j = 0; j < danger.scores.size(); j ++) {
             ASSERT_GE(danger.scores.at(j), 0);
             ASSERT_LE(danger.scores.at(j), 1300);
         }
