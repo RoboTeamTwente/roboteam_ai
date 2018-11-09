@@ -55,12 +55,15 @@ bt::BehaviorTree BTFactory::getTree(std::string treeName) {
     ROS_ERROR("No Strategy by that name");
     return strategyRepo.end()->second;
 }
+
 bool BTFactory::isIsInitiated() const {
     return isInitiated;
 }
+
 void BTFactory::setIsInitiated(bool newBool) {
     isInitiated = newBool;
 }
+
 
 
 

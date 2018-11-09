@@ -34,7 +34,7 @@ private:
     bool finishedOnce;
     bool needToInitialize;
     bool startedNewStrategy;
-    unsigned lastKnownBotCount;
+    unsigned int lastKnownBotCount;
     int lastKnownKeeper = 0;
 
     std::map<RefGameState, Node::Ptr> refStateStrategies;

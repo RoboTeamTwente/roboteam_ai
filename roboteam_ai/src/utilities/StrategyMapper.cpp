@@ -68,11 +68,13 @@ const std::map<RefGameState, boost::optional<std::string>> StrategyMapper::MAPPI
         {RefGameState::DEFEND_PENALTY, "rtt_emiel/PreparePenaltyThemStrategy"s},
         {RefGameState::DO_PENALTY, "rtt_jim/TakePenalty"s},
 };
+
 //TODO: change this? this is unintuitive behavior
 std::shared_ptr<bt::BehaviorTree> StrategyMapper::getMainStrategy() {
     if (! initialized) init();
     return mainStrategy;
 }
+
 void StrategyMapper::init() {
     if (initialized) return;
     ROS_INFO_NAMED("StrategyMapper", "Initializing StrategyMapper..");
@@ -99,7 +101,12 @@ void StrategyMapper::init() {
     std::pair<std::string, std::string> splitName = splitString(defName);
     std::string projectName = splitName.first;
     std::string treeName = splitName.second;
-    if (BTFactory::treeRepo.find(projectName) != BTFactory::treeRepo.end()) {
+
+    auto factory = BTFactory::getFactory();
+    auto strategy = factory.getTree(treeName);
+
+
+    if (factory.treeRepo.find(projectName) != BTFactory::treeRepo.end()) {
         if (BTFactory::treeRepo[projectName].find(treeName) != BTFactory::treeRepo[projectName].end()) {
             defTree = std::make_shared<bt::BehaviorTree>(
                     BTFactory::treeRepo[projectName][treeName]); //Does this actually construct a pointer to the object in the map?
@@ -125,6 +132,8 @@ void StrategyMapper::init() {
             std::pair<std::string, std::string> stratSplitName = splitString(stratName);
             std::string stratProjectName = stratSplitName.first;
             std::string stratTreeName = stratSplitName.second;
+
+            auto factory = BTFactory::getFactory();
 
             //try to find the desired strategy. If we find it, add it to the RefStateManager
             //TODO: also default the trees we cannot find in the treeRepo to NORMAL_START?
