@@ -2,7 +2,8 @@
 #include "DangerFinder/DangerFinder.h"
 #include "io/IOManager.h"
 #include "treeinterp/TreeInterpreter.h"
-#include "utilities/RefStateManager.hpp"
+#include "utilities/Referee.hpp"
+#include "utilities/StrategyManager.h"
 
 namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;
@@ -18,6 +19,7 @@ int main(int argc, char* argv[]) {
     io::IOManager IOManager(true);
     roboteam_msgs::World worldMsg;
     roboteam_msgs::GeometryData geometryMsg;
+    roboteam_msgs::RefereeData refereeMsg;
 
     bt::BehaviorTree strategy;
 
@@ -31,13 +33,18 @@ int main(int argc, char* argv[]) {
         // make ROS worldstate and geometry data globally accessible
         worldMsg = IOManager.getWorldState();
         geometryMsg = IOManager.getGeometryData();
+        refereeMsg = IOManager.getRefereeData();
         ai::World::set_world(worldMsg);
         ai::Field::set_field(geometryMsg.field);
+        ai::Referee::setRefereeData(refereeMsg);
 
         auto factory = BTFactory::getFactory();
 
+        rtt::ai::StrategyManager strategyManager;
+        std::string strategyName = strategyManager.getCurrentStrategyName();
+
         factory.init();
-        strategy = factory.getTree("DemoStrategy");
+        strategy = factory.getTree(strategyName);
 
         bt::Node::Status status = strategy.Tick();
 
