@@ -13,7 +13,6 @@ class DemoTactic : public Tactic {
     public:
         DemoTactic(std::string name, Blackboard::Ptr blackboard);
 
-    private:
 
 
 
