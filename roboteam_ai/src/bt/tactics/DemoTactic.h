@@ -10,9 +10,12 @@ namespace bt {
 
 class DemoTactic : public Tactic {
 
+    public:
+        DemoTactic(std::string name, Blackboard::Ptr blackboard);
+
     private:
 
-        DemoTactic(std::string name, Blackboard::Ptr blackboard);
+
 
         std::string name;
 
