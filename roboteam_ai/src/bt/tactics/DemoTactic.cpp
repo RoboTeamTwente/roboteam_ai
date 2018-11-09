@@ -34,7 +34,6 @@ void DemoTactic::Initialize() {
 }
 
 Node::Status DemoTactic::Update() {
-    Node::append_status("[DemoTactic untill success: executing child of type %s]", child->node_name().c_str());
     auto status = child->Tick();
 
     if (status == Status::Success) {

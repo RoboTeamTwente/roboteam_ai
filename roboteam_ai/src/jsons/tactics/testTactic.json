@@ -29,7 +29,9 @@
             },
             "id": "111",
             "name": "Repeat",
-            "properties": {},
+            "properties": {
+              "testRepeat": "testRepeat"
+            },
             "title": "Repeat"
           },
           "222": {

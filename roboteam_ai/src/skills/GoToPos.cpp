@@ -12,17 +12,16 @@ namespace ai {
 /// Init the GoToPos skill
 void GoToPos::Initialize() {
 
-    if (properties->hasInt("X") && properties->hasInt("Y") && properties->hasInt("ROBOT_ID")) {
+    if (properties->hasInt("X") && properties->hasInt("Y")) {
         Vector2 posVector(properties->getInt("X"),
                 properties->getInt("Y")); //TODO: look into putting vectors in BB
         targetPos = posVector;
         sendMoveCommand(targetPos);
         currentProgress = Progression::ON_THE_WAY;
-        robot.id = static_cast<unsigned int>(properties->getInt(
-                "ROBOT_ID"));
+        robot.id = (unsigned int)RobotDealer::findRobotForRole("testRole");
     }
     else {
-        ROS_ERROR("No good X and Y set in BB, GoToPos");
+        ROS_ERROR("No good X, Y or ROBOT_ID set in BB, GoToPos");
         currentProgress = Progression::FAIL;
     }
 
@@ -78,6 +77,7 @@ void GoToPos::sendMoveCommand(Vector2 pos) {
     command.y_vel = static_cast<float>(proportionalGain*(robot.pos.y - pos.y));
     publishRobotCommand(command);
     commandSend = true;
+    std::cout << "                  xvel: " << command.x_vel << ", yvel: " << command.y_vel << std::endl;
 }
 
 /// Check the progress the robot made and alter the currentProgress
