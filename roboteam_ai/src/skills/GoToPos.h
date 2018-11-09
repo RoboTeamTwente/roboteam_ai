@@ -22,6 +22,9 @@ class GoToPos : public Skill {
 
     private:
 
+        roboteam_msgs::WorldRobot robot;
+
+
         enum Progression {
           ON_THE_WAY, DONE, FAIL
         };

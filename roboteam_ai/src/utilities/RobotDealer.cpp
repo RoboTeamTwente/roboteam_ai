@@ -42,7 +42,7 @@ std::set<int> RobotDealer::getAvailableRobots() {
             availableIDs.insert(id);
         }
     }
-    availableIDs.insert(1);
+
     return availableIDs;
 }
 

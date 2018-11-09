@@ -69,7 +69,7 @@ void GoToPos::sendMoveCommand(Vector2 pos) {
         return;
     }
     // TODO: get correct kp from 20-sim model
-    float proportionalGain = 3; //Proportional gain, kp
+    float proportionalGain = .03; //Proportional gain, kp
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     // TODO: fix this with Control people

@@ -25,7 +25,7 @@ class DemoTactic : public Tactic {
         Node::Status Update();
 
 
-        bool claimedRobots;
+        bool claimedRobots = false;
 
         std::set<int> robotIDs = {};
 
