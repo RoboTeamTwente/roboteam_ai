@@ -28,6 +28,12 @@ class Node {
 
         virtual Status Update() = 0;
 
+        Status NodeUpdate();
+
+        void NodeInitialize();
+
+        void NodeTerminate(Status s);
+
         virtual void Initialize();
 
         virtual void Terminate(Status s);
@@ -47,6 +53,8 @@ class Node {
         Status getStatus() const;
 
         void setStatus(Status s);
+
+
 
         using RobotDealer = rtt::ai::RobotDealer;
 
