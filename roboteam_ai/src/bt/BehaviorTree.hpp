@@ -13,6 +13,9 @@ class BehaviorTree : public Node {
 
         BehaviorTree(const Blackboard::Ptr &shared);
 
+        std::string node_name() override;
+
+
         ~BehaviorTree();
 
         Status Update() override;
