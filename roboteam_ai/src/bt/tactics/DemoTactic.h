@@ -21,8 +21,8 @@ class DemoTactic : public Tactic {
         void setName(std::string newName);
 
         void Initialize();
-
         Node::Status Update();
+        
 
 
         bool claimedRobots = false;
@@ -31,7 +31,6 @@ class DemoTactic : public Tactic {
 
 //        Node::Ptr child = nullptr;
 
-        std::set<int> askForRandomRobot(int numberOfRobots);
 
 
 };
