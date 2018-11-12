@@ -22,7 +22,7 @@ class BehaviorTree : public Node {
 
         void Terminate(Status s) override;
 
-        void SetRoot(const Node::Ptr &node);
+        void SetRoot(const Node::Ptr &node) override;
 
         Node::Ptr GetRoot();
 

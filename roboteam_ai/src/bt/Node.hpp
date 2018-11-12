@@ -75,6 +75,8 @@ class Node {
 
         virtual std::string node_name();
 
+        void SetRoot(Node::Ptr node);
+
         static std::string status_desc;
 
         void setProperties(bt::Blackboard::Ptr blackboard);

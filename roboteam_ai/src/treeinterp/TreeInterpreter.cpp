@@ -19,15 +19,15 @@ TreeInterpreter &TreeInterpreter::getInstance() {
 }
 
 /// Returns a BehaviorTree from a given name TESTED
-std::map<std::string, bt::BehaviorTree> TreeInterpreter::getTrees(std::string name) {
-    std::map<std::string, bt::BehaviorTree> result;
+std::map<std::string, bt::BehaviorTree::Ptr> TreeInterpreter::getTrees(std::string name) {
+    std::map<std::string, bt::BehaviorTree::Ptr> result;
 
     auto project = jsonReader.readJSON(std::move(name));
 
     for (const json &tree : project["data"]["trees"]) {
         std::string treeName = tree["title"];
-        bt::BehaviorTree currentTree = buildTreeFromJSON(tree);
-        result.insert(std::pair<std::string, bt::BehaviorTree>(treeName, currentTree));
+        bt::BehaviorTree::Ptr currentTree = buildTreeFromJSON(tree);
+        result.insert(std::pair<std::string, bt::BehaviorTree::Ptr>(treeName, currentTree));
     }
     return result;
 }
@@ -55,19 +55,19 @@ std::vector<json> TreeInterpreter::parseSmallJSONs(json input) {
 }
 
 /// Build a BehaviorTree from a JSON object
-bt::BehaviorTree TreeInterpreter::buildTreeFromJSON(json jsonTree) {
+bt::BehaviorTree::Ptr TreeInterpreter::buildTreeFromJSON(json jsonTree) {
 
     // ID of the root
     std::string rootID = jsonTree["root"];
 
 
     // Build the tree from the root
-    bt::BehaviorTree behaviorTree;
+    bt::BehaviorTree::Ptr behaviorTree;
     bt::Blackboard::Ptr globalBB = propertyParser.parse(jsonTree);
-    behaviorTree.setProperties(globalBB);
+    behaviorTree->setProperties(globalBB);
 
     auto rootNode = TreeInterpreter::buildNode(jsonTree["nodes"][rootID], jsonTree, globalBB);
-    behaviorTree.SetRoot(rootNode);
+    behaviorTree->SetRoot(rootNode);
     return behaviorTree;
 }
 

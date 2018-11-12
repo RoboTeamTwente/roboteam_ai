@@ -52,7 +52,7 @@ void BTFactory::init() {
 
 
 }
-bt::BehaviorTree BTFactory::getTree(std::string treeName) {
+bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     if (strategyRepo.find(treeName) != strategyRepo.end()) {
         return strategyRepo.find(treeName)->second;
     }

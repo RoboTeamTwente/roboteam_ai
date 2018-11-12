@@ -82,6 +82,9 @@ Node::Status Node::NodeUpdate() {
 
     return status;
 }
+void Node::SetRoot(Node::Ptr node) {
+
+}
 
 void Node::NodeInitialize() {
     std::cout << "Node Initialize:  " << node_name() << std::endl;

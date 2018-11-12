@@ -32,7 +32,7 @@ class TreeInterpreter {
 
         FRIEND_TEST(TreeTest, JsonTest);
 
-        bt::BehaviorTree buildTreeFromJSON(json jsonTree);
+        bt::BehaviorTree::Ptr buildTreeFromJSON(json jsonTree);
 
         bt::Node::Ptr buildNode(json node, json tree, bt::Blackboard::Ptr globalBlackBoard);
 
@@ -52,7 +52,7 @@ class TreeInterpreter {
     protected:
 
     public:
-        std::map<std::string, bt::BehaviorTree> getTrees(std::string name);
+        std::map<std::string, bt::BehaviorTree::Ptr> getTrees(std::string name);
 
         std::map<std::string, bt::Node::Ptr> makeTactics(std::string fileName, bt::Blackboard::Ptr globalBB);
 
