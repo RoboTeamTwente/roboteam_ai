@@ -27,13 +27,13 @@ void Node::Terminate(Status s) {
 
 Node::Status Node::Tick() {
     if (status != Status::Running) {
-        Initialize();
+        NodeInitialize();
     }
 
-    status = Update();
+    status = NodeUpdate();
 
     if (status != Status::Running) {
-        Terminate(status);
+        NodeTerminate(status);
     }
 
     return status;
@@ -74,6 +74,22 @@ void Node::setProperties(bt::Blackboard::Ptr blackboard) {
 }
 Node::Node() {
     globalBB = std::make_shared<Blackboard>();
+
+}
+Node::Status Node::NodeUpdate() {
+    std::cout << "Node Update:  " << node_name() << std::endl;
+    auto status = Update();
+    return status;
+}
+
+void Node::NodeInitialize() {
+    std::cout << "Node Initialize:  " << node_name() << std::endl;
+    Initialize();
+
+}
+void Node::NodeTerminate(Status s) {
+    std::cout << "Node Terminate:  " << node_name() << std::endl;
+    Terminate(s);
 
 }
 
