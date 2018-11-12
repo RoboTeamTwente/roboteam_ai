@@ -62,7 +62,7 @@ bt::BehaviorTree::Ptr TreeInterpreter::buildTreeFromJSON(json jsonTree) {
 
 
     // Build the tree from the root
-    bt::BehaviorTree::Ptr behaviorTree;
+    bt::BehaviorTree::Ptr behaviorTree = std::make_shared<bt::BehaviorTree>();
     bt::Blackboard::Ptr globalBB = propertyParser.parse(jsonTree);
     behaviorTree->setProperties(globalBB);
 
