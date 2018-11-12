@@ -22,7 +22,7 @@ class DemoTactic : public Tactic {
 
         void Initialize();
         Node::Status Update();
-        
+
 
 
         bool claimedRobots = false;

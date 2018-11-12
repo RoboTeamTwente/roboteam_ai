@@ -20,6 +20,19 @@ class Node {
                 Running
         };
 
+        std::string status_print(Status s) {
+            switch (s) {
+            case Status::Invalid:
+                return " Status : Invalid";
+            case Status::Success:
+                return " Status : Success";
+            case Status::Failure:
+                return " Status : Failure";
+            case Status::Running:
+                return " Status : Running";
+            }
+        }
+
         virtual ~Node();
 
         Node();
@@ -53,8 +66,6 @@ class Node {
         Status getStatus() const;
 
         void setStatus(Status s);
-
-
 
         using RobotDealer = rtt::ai::RobotDealer;
 

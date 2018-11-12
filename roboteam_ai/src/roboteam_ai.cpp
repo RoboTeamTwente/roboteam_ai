@@ -25,6 +25,10 @@ int main(int argc, char* argv[]) {
     // set the framerate to 50 Hz
     ros::Rate rate(50);
 
+    auto factory = BTFactory::getFactory();
+
+    factory.init();
+
     while (ros::ok()) {
         ros::spinOnce();
 
@@ -36,11 +40,7 @@ int main(int argc, char* argv[]) {
 
         if (ai::World::didReceiveFirstWorld) {
 
-            auto factory = BTFactory::getFactory();
-
-            factory.init();
             strategy = factory.getTree("DemoStrategy");
-
             bt::Node::Status status = strategy.Tick();
 
             if (status != bt::Node::Status::Running) {

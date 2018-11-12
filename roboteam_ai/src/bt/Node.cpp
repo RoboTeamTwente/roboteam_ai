@@ -77,8 +77,9 @@ Node::Node() {
 
 }
 Node::Status Node::NodeUpdate() {
-    std::cout << "Node Update:  " << node_name() << std::endl;
     auto status = Update();
+    std::cout << "Node Update:  " << node_name() << status_print(status) << std::endl;
+
     return status;
 }
 
