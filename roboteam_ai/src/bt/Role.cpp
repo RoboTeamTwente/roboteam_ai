@@ -4,7 +4,7 @@
 
 #include "Role.h"
 
-namespace bt{
+namespace bt {
 
 void Role::Initialize() {
     // Get the robot ID for this Role
@@ -27,5 +27,8 @@ void Role::AddChild(Node::Ptr newChild) {
     this->child = newChild;
 
 }
+std::string Role::node_name() {
+    return name;
 
+}
 }

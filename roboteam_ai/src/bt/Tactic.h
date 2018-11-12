@@ -23,8 +23,9 @@ class Tactic : public Node {
         void Terminate(Status s) override;
 
         Node::Ptr child = nullptr;
+        std::string node_name() override;
 
-        std::string name;
+        std::string name = "Tactic";
 
         int numberOfRobots = 0;
 };

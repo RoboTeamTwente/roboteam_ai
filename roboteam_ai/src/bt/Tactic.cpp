@@ -33,5 +33,8 @@ Node::Status Tactic::Update() {
     //Should always be overwritten
     return Status::Invalid;
 }
+std::string Tactic::node_name() {
+    return name;
+}
 
 }
