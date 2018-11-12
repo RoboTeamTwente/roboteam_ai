@@ -75,7 +75,6 @@ class Node {
 
         virtual std::string node_name();
 
-        void SetRoot(Node::Ptr node);
 
         static std::string status_desc;
 
