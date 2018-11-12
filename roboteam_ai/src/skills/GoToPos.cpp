@@ -101,7 +101,9 @@ GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
 
 }
-
+std::string GoToPos::node_name() {
+    return "GoToPos";
+}
 
 } // ai
 } // rtt

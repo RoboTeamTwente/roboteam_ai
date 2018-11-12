@@ -20,6 +20,8 @@ class GoToPos : public Skill {
 
         explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
 
+        std::string node_name() override;
+
     private:
 
         roboteam_msgs::WorldRobot robot;
