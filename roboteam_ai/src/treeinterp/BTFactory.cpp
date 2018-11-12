@@ -9,7 +9,7 @@
 #include "BTFactory.h"
 
 static bool isInitiated = false;
-std::map<std::string, bt::BehaviorTree> BTFactory::strategyRepo;
+std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
 std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
 
 
