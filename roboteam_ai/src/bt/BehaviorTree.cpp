@@ -48,5 +48,8 @@ Node::Ptr BehaviorTree::GetRoot() {
 void BehaviorTree::SetGlobalBlackboard(const Blackboard::Ptr &global) {
     globalBB = global;
 }
+std::string BehaviorTree::node_name() {
+    return "Behaviour Tree";
+}
 
 }
