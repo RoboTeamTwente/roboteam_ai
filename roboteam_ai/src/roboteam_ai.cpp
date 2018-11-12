@@ -34,18 +34,21 @@ int main(int argc, char* argv[]) {
         ai::World::set_world(worldMsg);
         ai::Field::set_field(geometryMsg.field);
 
-        auto factory = BTFactory::getFactory();
+        if (ai::World::didReceiveFirstWorld) {
 
-        factory.init();
-        strategy = factory.getTree("DemoStrategy");
+            auto factory = BTFactory::getFactory();
 
-        bt::Node::Status status = strategy.Tick();
+            factory.init();
+            strategy = factory.getTree("DemoStrategy");
 
-        if (status != bt::Node::Status::Running) {
-            auto statusStr = bt::statusToString(status);
-            // return failure, success or invalid
-            ROS_DEBUG_STREAM_NAMED("Roboteam_ai", "Strategy result: " << statusStr.c_str() << "Shutting down...\n");
-            break;
+            bt::Node::Status status = strategy.Tick();
+
+            if (status != bt::Node::Status::Running) {
+                auto statusStr = bt::statusToString(status);
+                // return failure, success or invalid
+                ROS_DEBUG_STREAM_NAMED("Roboteam_ai", "Strategy result: " << statusStr.c_str() << "Shutting down...\n");
+                break;
+            }
         }
         rate.sleep();
     }
