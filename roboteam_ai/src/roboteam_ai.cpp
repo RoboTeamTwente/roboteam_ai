@@ -38,6 +38,8 @@ int main(int argc, char* argv[]) {
         ai::World::set_world(worldMsg);
         ai::Field::set_field(geometryMsg.field);
 
+        if (!ai::World::didReceiveFirstWorld) continue;
+
 
         strategy = factory.getTree("DemoStrategy");
 

@@ -9,8 +9,6 @@ namespace bt {
 */
 class Repeater : public Decorator {
     public:
-        // TODO: constructor can be updated, ask Bob
-        Repeater(int limit = 0);
 
         void Initialize() override;
 

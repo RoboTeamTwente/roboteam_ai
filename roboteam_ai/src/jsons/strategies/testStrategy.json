@@ -17,7 +17,8 @@
             "id": "bbb",
             "name": "Repeat",
             "properties": {
-              "testparsec": "testparsec"
+              "testparsec": "testparsec",
+              "limit": "0"
             },
             "title": "Repeat"
           },
