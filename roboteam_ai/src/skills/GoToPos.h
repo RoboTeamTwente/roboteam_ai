@@ -17,12 +17,14 @@ class GoToPos : public Skill {
         Status Update() override;
 
         void Initialize() override;
-
+        void Terminate(status s) override;
         explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
 
         std::string node_name() override;
 
     private:
+
+        bool goToBall;
 
         roboteam_msgs::WorldRobot robot;
         int robotID;

@@ -83,31 +83,35 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
         leaf->globalBB = globalBlackBoard;
         return leaf;
     }
-    // It might be a Role
+
     bt::Node::Ptr node;
+
+    // It might be a Role
     if (nodeJSON["title"] == "Role") {
-        bt::Role::Ptr node_ = std::make_shared<bt::Role>(nodeJSON["name"]);
-        node_->globalBB = globalBlackBoard;
-        node_->properties = propertyParser.parse(nodeJSON);
-        node = node_;
+        bt::Role::Ptr tempNode = std::make_shared<bt::Role>(nodeJSON["name"]);
+        tempNode->globalBB = globalBlackBoard;
+        tempNode->properties = propertyParser.parse(nodeJSON);
+        node = tempNode;
     } else {
-        bt::Node::Ptr node_ = makeNonLeafNode(nodeJSON["name"]);
-        node_->globalBB = globalBlackBoard;
-        node_->properties = propertyParser.parse(nodeJSON);
-        node = node_;
+        bt::Node::Ptr tempNode = makeNonLeafNode(nodeJSON["name"]);
+        tempNode->globalBB = globalBlackBoard;
+        tempNode->properties = propertyParser.parse(nodeJSON);
+        node = tempNode;
     };
 
+    buildTree(nodeJSON, tree, globalBlackBoard, node);
 
-    // GlobalBB and properties
-
+    return node;
+}
+void TreeInterpreter::buildTree(const json &nodeJSON, const json &tree, const bt::Blackboard::Ptr &globalBlackBoard,
+        bt::Node::Ptr &node) {
 
     // One child
-
     if (jsonReader.checkIfKeyExists("child", nodeJSON)) {
         std::string childID = nodeJSON["child"];
         auto child = tree["nodes"][childID];
 
-        node->AddChild(TreeInterpreter::buildNode(child, tree, globalBlackBoard));
+        node->AddChild(buildNode(child, tree, globalBlackBoard));
     }
 
     // Multiple children
@@ -116,12 +120,9 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
         for (std::string currentChildID : nodeJSON["children"]) {
             auto currentChild = tree["nodes"][currentChildID];
 
-            node->AddChild(TreeInterpreter::buildNode(currentChild, tree, globalBlackBoard));
+            node->AddChild(buildNode(currentChild, tree, globalBlackBoard));
         }
     }
-
-
-    return node;
 }
 
 /// Makes a non leaf node
