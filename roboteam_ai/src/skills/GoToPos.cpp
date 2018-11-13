@@ -14,33 +14,56 @@ void GoToPos::Initialize() {
 
     if (properties->hasString("ROLE")) {
         std::string roleName = properties->getString("ROLE");
+        robotID = (unsigned int) RobotDealer::findRobotForRole(roleName);
+        if (World::getRobotForId(robotID, true)) {
+            robot = World::getRobotForId(robotID, true).get();
+        } else {
+            ROS_ERROR("GoToPos Initialize -> robot does not exist in world");
+            currentProgress = Progression::INVALID;
+            return;
+        }
+    } else {
+        ROS_ERROR("GoToPos Initialize -> ROLE INVALID!!");
+        currentProgress = Progression::INVALID;
+        return;
+    }
+    bool goToBall;
+    if (properties->hasBool("goToBall")) {
+        goToBall = properties->getBool("goToBall");
+    } else goToBall = false;
+    if (goToBall) {
+        auto ball = World::getBall();
+        targetPos = ball.pos;
+    } else {
         if (properties->hasVector2("Position")) {
             Vector2 posVector = properties->getVector2("Position");
             targetPos = posVector;
             currentProgress = Progression::ON_THE_WAY;
-            robotID = (unsigned int) RobotDealer::findRobotForRole(roleName);
 
         }
-
         else {
-            ROS_ERROR("No good X, Y or ROBOT_ID set in BB, GoToPos");
+            ROS_ERROR("GoToPos Initialize -> No good X, Y or ROBOT_ID set in BB, GoToPos");
             currentProgress = Progression::FAIL;
         }
-    } else {
-        ROS_ERROR("ROLE INVALID!!");
-        currentProgress = Progression::INVALID;
     }
-    robot = World::getRobotForId(robotID, true).get();
+
 }
 
 /// Get an update on the skill
 bt::Node::Status GoToPos::Update() {
 
-    robot = World::getRobotForId(robotID, true).get();
+    if (World::getRobotForId(robotID, true)) {
+        robot = World::getRobotForId(robotID, true).get();
+    } else {
+        ROS_ERROR("GoToPos Update -> robot does not exist in world");
+        currentProgress = Progression::INVALID;
+    }
 
     // See if the progress is a failure
     if (currentProgress == Progression::FAIL) {
         return status::Failure;
+    } else if (currentProgress == Progression::INVALID) {
+        return status::Invalid;
     }
 
     // Send a move command
@@ -121,7 +144,7 @@ double GoToPos::getAngularVelocity() {
     while (angleDifference < 0) angleDifference += 2*M_PI;
     while (angleDifference > 2*M_PI) angleDifference -= 2*M_PI;
 
-    double angularErrorMargin = 0.10;
+    double angularErrorMargin = 0.01;
     if (angleDifference < angularErrorMargin || angleDifference > 2*M_PI - angularErrorMargin) {
         return 0.0;
     }
