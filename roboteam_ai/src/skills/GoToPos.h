@@ -25,17 +25,19 @@ class GoToPos : public Skill {
     private:
 
         roboteam_msgs::WorldRobot robot;
+        int robotID;
 
+        double getAngularVelocity();
 
         enum Progression {
-          ON_THE_WAY, DONE, FAIL
+          ON_THE_WAY, DONE, FAIL, INVALID
         };
         Progression currentProgress;
         Vector2 targetPos;
 
         bool checkTargetPos(Vector2 pos);
 
-        void sendMoveCommand(Vector2 pos);
+        void sendMoveCommand();
 
         Progression checkProgression();
 

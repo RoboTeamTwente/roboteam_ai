@@ -26,7 +26,7 @@ void DemoTactic::Initialize() {
         ids = RobotDealer::getAvailableRobots();
         if (!ids.empty()) {
             auto id = *ids.begin();  // only one robot..
-            std::string roleName = "testRole";//jsonthingy
+            std::string roleName = "testRole";
             std::pair<int, std::string> idName = {id, roleName};
             claimedRobots = RobotDealer::claimRobotForTactic(idName, "testTactic");
             robotIDs.insert(id);

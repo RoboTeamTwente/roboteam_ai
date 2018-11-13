@@ -28,7 +28,8 @@
             "id": "111",
             "name": "Repeat",
             "properties": {
-              "testRepeat": "testRepeat"
+              "testRepeat": "testRepeat",
+              "limit": "0"
             },
             "title": "Repeat"
           },
@@ -39,8 +40,7 @@
             "name": "GoToPos",
             "properties": {
               "goToBall": "true",
-              "X" : "12",
-              "Y" : "66"
+              "Position": "{ 0.0, 0.0 }"
             },
             "title": "GoToPos"
           }
