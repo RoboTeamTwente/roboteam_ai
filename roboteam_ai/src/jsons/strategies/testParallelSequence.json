@@ -1,0 +1,39 @@
+{
+  "description": "This is a strategy to test the parallel sequence composite",
+  "name": "ParallelSequenceStrategy",
+  "data": {
+    "scope": "StrategyRepo",
+    "trees": [
+      {
+        "description": "The testing strategy tree",
+        "scope": "tree",
+        "properties": {},
+        "root": "bbb",
+        "title": "DemoStrategy",
+        "nodes": {
+          "bbb": {
+            "child": "ccc",
+            "description": "",
+            "id": "bbb",
+            "name": "Repeat",
+            "properties": {
+              "testparsec": "testparsec"
+            },
+            "title": "Repeat"
+          },
+          "ccc": {
+            "description": "",
+            "id": "ccc",
+            "title": "Tactic",
+            "name": "PS_Tactic"
+          }
+
+        }
+      }
+    ]
+  }
+
+
+
+
+}
