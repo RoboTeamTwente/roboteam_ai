@@ -21,7 +21,7 @@ void GoToPos::Initialize() {
             robotID = (unsigned int) RobotDealer::findRobotForRole(roleName);
 
         }
-        
+
         else {
             ROS_ERROR("No good X, Y or ROBOT_ID set in BB, GoToPos");
             currentProgress = Progression::FAIL;
