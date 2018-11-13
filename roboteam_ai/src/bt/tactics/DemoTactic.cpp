@@ -48,9 +48,9 @@ Node::Status DemoTactic::Update() {
         return Status::Running;
     }
 }
-
-
-
+std::string DemoTactic::node_name() {
+    return "Demo Tactic";
+}
 
 } // bt
 
