@@ -25,13 +25,11 @@ class RobotDealer {
 
         static std::set<int> getAvailableRobots();
 
-        static bool claimKeeper(int id);
+        static bool isRobotAvailable(int id);
 
-        static int getKeeper();
+        static int findRobotForRole(std::string const &roleName);
 
-        static bool getKeeperAvailable();
-
-        static bool claimRobot(int id);
+        static int findRobotForRole(std::string const &roleName, std::string const &tacticName);
 
         static int claimRandomRobot();
 
@@ -41,29 +39,33 @@ class RobotDealer {
 
         static bool claimRobotForTactic(std::pair<int, std::string>const &idNamePair , std::string const &tacticName);
 
-        static bool claimRobotForTactic(std::set<std::pair<int, std::string>>const &roleSet, 
+        static bool claimRobotForTactic(std::set<std::pair<int, std::string>>const &roleSet,
                 std::string const &tacticName);
-
-
-            static int findRobotForRole(std::string const &roleName);
-       
-        static int findRobotForRole(std::string const &tacticName, std::string const &roleName);
-
-        static std::map<std::string, std::set<std::pair<int, std::string>>> const &getRobotOwnerList();
-
-        static bool releaseKeeper();
 
         static bool releaseRobot(int id);
 
-        static bool claimRobot(std::set<int> ids);
-
         static bool releaseRobot(std::set<int> ids);
+
+        static int getKeeperID();
+
+        static bool claimKeeper(int id);
+
+        static bool releaseKeeper();
+
+        static bool isKeeperAvailable();
+
+        static std::map<std::string, std::set<std::pair<int, std::string>>> const &getRobotOwnerList();
 
         static void haltOverride();
 
     private:
 
         FRIEND_TEST(RobotDealerTest, RobotDealerTest);
+
+
+        static bool claimRobot(int id);
+
+        static bool claimRobot(std::set<int> ids);
 
         static std::set<int> takenRobots;
 
@@ -75,19 +77,15 @@ class RobotDealer {
 
         static std::atomic<int> keeper;
 
-        static std::atomic<bool> isKeeperAvailable;
+        static std::atomic<bool> keeperAvailable;
 
         static std::mutex robotOwnersLock;
 
         static std::mutex takenRobotsLock;
 
-        friend class HaltTactic;
-
         static void removeRobotFromOwnerList(int id);
 
         static bool validateID(int id);
-
-        static bool isRobotAvailable(int id);
 
 };
 
