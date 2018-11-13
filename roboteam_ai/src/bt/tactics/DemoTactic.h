@@ -23,7 +23,7 @@ class DemoTactic : public Tactic {
         void Initialize();
         Node::Status Update();
 
-
+        std::string node_name() override;
 
         bool claimedRobots = false;
 

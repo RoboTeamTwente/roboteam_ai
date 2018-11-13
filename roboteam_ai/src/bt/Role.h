@@ -11,6 +11,8 @@ namespace bt {
 class Role : public Node {
 
     public:
+        Role(std::string name);
+
         int ROBOT_ID = -1;
 
         Node::Ptr child = nullptr;

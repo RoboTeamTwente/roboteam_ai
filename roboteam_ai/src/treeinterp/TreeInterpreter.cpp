@@ -85,7 +85,7 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
     // It might be a Role
     bt::Node::Ptr node;
     if (nodeJSON["title"] == "Role") {
-        bt::Node::Ptr node_ = std::make_shared<bt::Role>();
+        bt::Role::Ptr node_ = std::make_shared<bt::Role>(nodeJSON["name"]);
         node_->globalBB = globalBlackBoard;
         node_->properties = propertyParser.parse(nodeJSON);
         node = node_;

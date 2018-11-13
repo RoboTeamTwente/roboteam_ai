@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by baris on 07/11/18.
 //
@@ -29,6 +31,11 @@ void Role::AddChild(Node::Ptr newChild) {
 }
 std::string Role::node_name() {
     return name;
+
+}
+Role::Role(std::string name) {
+    this->name = std::move(name);
+    globalBB = std::make_shared<Blackboard>();
 
 }
 }
