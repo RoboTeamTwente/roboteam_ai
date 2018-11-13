@@ -10,6 +10,7 @@
 #include "TreeInterpreter.h"
 #include "../skills/GoToPos.h"
 #include "../bt/tactics/DemoTactic.h"
+#include "../bt/tactics/ParallelSequenceTest.h"
 #include "../bt/Role.h"
 
 /// Return a TreeInterpreter singleton
@@ -223,6 +224,10 @@ bt::Node::Ptr TreeInterpreter::tacticSwitch(std::string name, bt::Blackboard::Pt
     if (name == "DemoTactic") {
         auto node = std::make_shared<bt::DemoTactic>("DemoTactic", properties);
         node->AddChild(tactics.find("DemoTactic")->second);
+        return node;
+    } else if (name == "ParallelSequenceTactic") {
+        auto node = std::make_shared<bt::ParallelSequenceTactic>("ParallelSequenceTactic", properties);
+        node->AddChild(tactics.find("ParallelSequenceTactic")->second);
         return node;
     }
     auto node = std::make_shared<bt::DemoTactic>("name", properties);

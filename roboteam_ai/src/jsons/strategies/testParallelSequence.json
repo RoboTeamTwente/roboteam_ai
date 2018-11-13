@@ -25,7 +25,7 @@
             "description": "",
             "id": "ccc",
             "title": "Tactic",
-            "name": "TestParallelSequenceTactic"
+            "name": "ParallelSequenceTactic"
           }
 
         }
