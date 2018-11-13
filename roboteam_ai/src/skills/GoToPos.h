@@ -12,22 +12,12 @@ namespace rtt {
 namespace ai {
 
 class GoToPos : public Skill {
-        using status = bt::Node::Status;
-    public:
-        Status Update() override;
-
-        void Initialize() override;
-        void Terminate(status s) override;
-        explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
-
-        std::string node_name() override;
-
     private:
+        using status = bt::Node::Status;
 
         bool goToBall;
 
         roboteam_msgs::WorldRobot robot;
-        int robotID;
 
         double getAngularVelocity();
 
@@ -35,6 +25,8 @@ class GoToPos : public Skill {
           ON_THE_WAY, DONE, FAIL, INVALID
         };
         Progression currentProgress;
+
+        Vector2 deltaPos;
         Vector2 targetPos;
 
         bool checkTargetPos(Vector2 pos);
@@ -44,6 +36,15 @@ class GoToPos : public Skill {
         Progression checkProgression();
 
         bool commandSend;
+
+    public:
+        Status Update() override;
+
+        void Initialize() override;
+        void Terminate(status s) override;
+        explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
+
+        std::string node_name() override;
 
 };
 } // ai

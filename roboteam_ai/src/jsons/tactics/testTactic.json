@@ -19,24 +19,25 @@
             "description": "Start of a Role"
           },
           "111": {
-            "child": "222",
+            "children": ["201","301"],
             "description": "",
             "display": {
               "x": -48,
               "y": 0
             },
             "id": "111",
-            "name": "UntilSuccess",
+            "name": "Sequence",
             "properties": {
+              "ROLE": "testRole",
               "testRepeat": "testRepeat",
               "limit": "0"
             },
             "title": "Repeat"
           },
-          "222": {
+          "201": {
             "description": "",
             "display": {},
-            "id": "222",
+            "id": "201",
             "name": "GoToPos",
             "properties": {
               "ROLE": "testRole",
@@ -44,6 +45,17 @@
               "Position": "{ 0.0, 0.0 }"
             },
             "title": "GoToPos"
+          },
+          "301": {
+            "description": "",
+            "display": {},
+            "id": "301",
+            "name": "Kick",
+            "properties": {
+              "goToBall": "false",
+              "ROLE": "testRole"
+            },
+            "title": "Kick"
           }
         }
       }

@@ -8,9 +8,13 @@
 
 
 #include "TreeInterpreter.h"
-#include "../skills/GoToPos.h"
 #include "../bt/tactics/DemoTactic.h"
 #include "../bt/Role.h"
+
+// all skills..
+#include "../skills/GoToPos.h"
+#include "../skills/Kick.h"
+
 
 /// Return a TreeInterpreter singleton
 TreeInterpreter &TreeInterpreter::getInstance() {
@@ -201,6 +205,9 @@ bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
     }
     else if (name == "GoToPos") {
         skill = std::make_shared<rtt::ai::GoToPos>(name, properties);
+    }
+    else if (name == "Kick") {
+        skill = std::make_shared<rtt::ai::Kick>(name, properties);
     }
     else {
         skill = std::make_shared<rtt::ai::GoToPos>(name, properties);

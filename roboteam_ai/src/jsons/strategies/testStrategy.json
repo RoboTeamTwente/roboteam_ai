@@ -15,7 +15,7 @@
             "child": "ccc",
             "description": "",
             "id": "bbb",
-            "name": "UntilSuccess",
+            "name": "Repeat",
             "properties": {
               "testparsec": "testparsec",
               "limit": "0"

@@ -11,6 +11,23 @@ Kick::Kick(std::string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) { }
 
 void Kick::Initialize() {
+    if (properties->hasString("ROLE")) {
+        std::string roleName = properties->getString("ROLE");
+        robot.id = (unsigned int) RobotDealer::findRobotForRole(roleName);
+        if (World::getRobotForId(robot.id, true)) {
+            robot = World::getRobotForId(robot.id, true).get();
+        }
+        else {
+            ROS_ERROR("GoToPos Initialize -> robot does not exist in world");
+            currentProgress = Progression::INVALID;
+            return;
+        }
+    }
+    else {
+        ROS_ERROR("GoToPos Initialize -> ROLE INVALID!!");
+        currentProgress = Progression::INVALID;
+        return;
+    }
     amountOfCycles = 0;
 }
 
@@ -26,8 +43,21 @@ bt::Node::Status Kick::Update() {
 
     // Send the robotCommand.
     sendKickCommand(kickVel);
-
+    std::cerr << "        kicking..." << std::endl;
     return Status::Running;
+}
+
+void Kick::Terminate(status s) {
+//
+//    roboteam_msgs::RobotCommand command;
+//    command.id = robot.id;
+//    // TODO check if we can avoid the casting to unsigned char without warnings
+//    command.kicker = (unsigned char) false;
+//    command.kicker_forced = (unsigned char) false;
+//    command.kicker_vel = (float) 0.0f;
+//
+//    publishRobotCommand(command);
+
 }
 
 void Kick::sendKickCommand(double kickVel) {
