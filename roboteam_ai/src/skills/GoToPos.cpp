@@ -17,24 +17,29 @@ void GoToPos::Initialize() {
         robotID = (unsigned int) RobotDealer::findRobotForRole(roleName);
         if (World::getRobotForId(robotID, true)) {
             robot = World::getRobotForId(robotID, true).get();
-        } else {
+        }
+        else {
             ROS_ERROR("GoToPos Initialize -> robot does not exist in world");
             currentProgress = Progression::INVALID;
             return;
         }
-    } else {
+    }
+    else {
         ROS_ERROR("GoToPos Initialize -> ROLE INVALID!!");
         currentProgress = Progression::INVALID;
         return;
     }
-    bool goToBall;
+
     if (properties->hasBool("goToBall")) {
         goToBall = properties->getBool("goToBall");
-    } else goToBall = false;
+    }
+    else goToBall = false;
+
     if (goToBall) {
         auto ball = World::getBall();
         targetPos = ball.pos;
-    } else {
+    }
+    else {
         if (properties->hasVector2("Position")) {
             Vector2 posVector = properties->getVector2("Position");
             targetPos = posVector;
@@ -54,15 +59,22 @@ bt::Node::Status GoToPos::Update() {
 
     if (World::getRobotForId(robotID, true)) {
         robot = World::getRobotForId(robotID, true).get();
-    } else {
+    }
+    else {
         ROS_ERROR("GoToPos Update -> robot does not exist in world");
         currentProgress = Progression::INVALID;
+    }
+
+    if (goToBall) {
+        auto ball = World::getBall();
+        targetPos = ball.pos;
     }
 
     // See if the progress is a failure
     if (currentProgress == Progression::FAIL) {
         return status::Failure;
-    } else if (currentProgress == Progression::INVALID) {
+    }
+    else if (currentProgress == Progression::INVALID) {
         return status::Invalid;
     }
 
@@ -76,9 +88,9 @@ bt::Node::Status GoToPos::Update() {
 
         // Return the progression in terms of status
     case ON_THE_WAY:return status::Running;
-    case DONE:      return status::Success;
-    case FAIL:      return status::Failure;
-    case INVALID:   return status::Invalid;
+    case DONE: return status::Success;
+    case FAIL: return status::Failure;
+    case INVALID: return status::Invalid;
     }
 
     return status::Failure;
@@ -103,7 +115,7 @@ void GoToPos::sendMoveCommand() {
     auto angle = (float) getAngularVelocity();
     command.w = angle;
 
-    command.x_vel = 1;
+    command.x_vel = 2;
     command.y_vel = 0;
 
     publishRobotCommand(command);
@@ -118,13 +130,10 @@ GoToPos::Progression GoToPos::checkProgression() {
     double dx = targetPos.x - robot.pos.x;
     double dy = targetPos.y - robot.pos.y;
     double deltaPos = (dx*dx) + (dy*dy);
-    double maxMargin = 0.1;                        // max offset or something.
+    double maxMargin = 1.0;                        // max offset or something.
 
-    if (abs(deltaPos) >= maxMargin) {
-        return ON_THE_WAY;
-    }
-    else
-        return DONE;
+    if (abs(deltaPos) >= maxMargin) return ON_THE_WAY;
+    else return DONE;
 }
 
 GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
@@ -140,17 +149,37 @@ double GoToPos::getAngularVelocity() {
     Vector2 deltaPos = {targetPos.x - robot.pos.x, targetPos.y - robot.pos.y};
     auto targetAngle = (float) deltaPos.angle();
 
-    float angleDifference = targetAngle - currentAngle;
-    while (angleDifference < 0) angleDifference += 2*M_PI;
-    while (angleDifference > 2*M_PI) angleDifference -= 2*M_PI;
+    float angleDiff = targetAngle - currentAngle;
+    while (angleDiff < 0) angleDiff += 2*M_PI;
+    while (angleDiff > 2*M_PI) angleDiff -= 2*M_PI;
 
-    double angularErrorMargin = 0.01;
-    if (angleDifference < angularErrorMargin || angleDifference > 2*M_PI - angularErrorMargin) {
-        return 0.0;
+    double angularErrorMargin = 0.5;
+    int direction = 1;
+    if (angleDiff > M_PI) {
+        angleDiff = (float) (2.0*M_PI - angleDiff);
+        direction = - 1;
+    }
+    if (angleDiff < angularErrorMargin) {
+        return direction*MAX_ANGULAR_VELOCITY*0.2;
+    }
+    else {
+        return direction*MAX_ANGULAR_VELOCITY; // (angleDiff + 1.0);
     }
 
-    if (angleDifference > M_PI) return - MAX_ANGULAR_VELOCITY;
-    else return MAX_ANGULAR_VELOCITY;
+}
+
+void GoToPos::Terminate(status s) {
+
+    roboteam_msgs::RobotCommand command;
+    command.id = robot.id;
+    command.use_angle = 1;
+    command.w = 0;
+
+    command.x_vel = 0;
+    command.y_vel = 0;
+
+    publishRobotCommand(command);
+    commandSend = true;
 
 }
 

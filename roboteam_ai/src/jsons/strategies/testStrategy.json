@@ -15,12 +15,12 @@
             "child": "ccc",
             "description": "",
             "id": "bbb",
-            "name": "Repeat",
+            "name": "UntilSuccess",
             "properties": {
               "testparsec": "testparsec",
               "limit": "0"
-            },
-            "title": "Repeat"
+            }
+
           },
           "ccc": {
             "description": "",

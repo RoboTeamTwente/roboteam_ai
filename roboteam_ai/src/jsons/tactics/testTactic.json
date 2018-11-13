@@ -26,7 +26,7 @@
               "y": 0
             },
             "id": "111",
-            "name": "Repeat",
+            "name": "UntilSuccess",
             "properties": {
               "testRepeat": "testRepeat",
               "limit": "0"
