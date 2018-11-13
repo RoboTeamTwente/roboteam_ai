@@ -48,6 +48,8 @@ class TreeInterpreter {
 
         bt::Node::Ptr tacticSwitch(std::string, bt::Blackboard::Ptr properties);
 
+        void buildTree(const json &nodeJSON, const json &tree, const bt::Blackboard::Ptr &globalBlackBoard,
+                bt::Node::Ptr &node);
 
     protected:
 
@@ -57,7 +59,6 @@ class TreeInterpreter {
         std::map<std::string, bt::Node::Ptr> makeTactics(std::string fileName, bt::Blackboard::Ptr globalBB);
 
         static TreeInterpreter &getInstance();
-
 
 };
 
