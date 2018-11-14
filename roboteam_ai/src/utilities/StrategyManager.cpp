@@ -7,23 +7,29 @@
 namespace rtt {
 namespace ai {
 
-std::string StrategyManager::getCurrentStrategyName() {
-    roboteam_msgs::RefereeCommand currentRefCmd = Referee::getRefereeData().command;
+std::string StrategyManager::getCurrentStrategyName(roboteam_msgs::RefereeCommand currentRefCmd) {
 
-    RefGameState commandFromMostRecentReferee = static_cast<RefGameState>(currentRefCmd.command);
-    StrategyMap strategy = strategyMaps.at(currentRefCmd.command);
+    auto commandFromMostRecentReferee = static_cast<RefGameState>(currentRefCmd.command);
+    StrategyMap strategy = getStrategyMapForRefGameState(commandFromMostRecentReferee);
     StrategyMap nextStrategy;
 
     // if the command has a followUpCommand and the ref says normalPlay we need to run the followupcommand
     if (currentStrategyMap.followUpCommandId != RefGameState::UNDEFINED
             && commandFromMostRecentReferee == RefGameState::NORMAL_START) {
-        nextStrategy = strategyMaps.at(static_cast<unsigned long>(currentStrategyMap.followUpCommandId));
+        nextStrategy = getStrategyMapForRefGameState(currentStrategyMap.followUpCommandId);
     } else {
-        nextStrategy = strategyMaps.at(currentRefCmd.command);
+        nextStrategy = getStrategyMapForRefGameState(commandFromMostRecentReferee);
     }
 
     currentStrategyMap = nextStrategy;
     return nextStrategy.strategyName;
+}
+
+/// Use an iterator and a lambda to efficiently get the Node for a specified id
+StrategyMap StrategyManager::getStrategyMapForRefGameState(RefGameState commandId) {
+    return * std::find_if(strategyMaps.begin(), strategyMaps.end(), [commandId](StrategyMap map) {
+      return map.commandId == commandId;
+    });
 }
 
 } // ai

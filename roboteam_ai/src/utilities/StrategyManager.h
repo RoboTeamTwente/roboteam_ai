@@ -27,9 +27,10 @@ struct StrategyMap {
 class StrategyManager {
 public:
     explicit StrategyManager() = default;
-    std::string getCurrentStrategyName();
+    std::string getCurrentStrategyName(roboteam_msgs::RefereeCommand currentRefCmd);
 private:
-        StrategyMap currentStrategyMap;
+    StrategyMap currentStrategyMap;
+    StrategyMap getStrategyMapForRefGameState(RefGameState commandId);
     const std::vector<StrategyMap> strategyMaps = {
         {RefGameState::NORMAL_START,         "bigjson/NormalPlay"s},
         {RefGameState::FORCED_START,         "bigjson/009472f6-0d76-4db6-8161-a536bf497f89"s},
@@ -48,10 +49,10 @@ private:
         {RefGameState::PREPARE_PENALTY_US,   "rtt_emiel/PreparePenaltyUsStrategy"s, RefGameState::DEFEND_PENALTY},
         {RefGameState::PREPARE_PENALTY_THEM, "rtt_emiel/PreparePenaltyThemStrategy"s, RefGameState::DO_PENALTY},
 
-        {RefGameState::DIRECT_FREE_US,       "rtt_jim/NormalPlay"s, RefGameState::NORMAL_START},
-        {RefGameState::DIRECT_FREE_THEM,     "rtt_anouk/PrepareDirectThem"s, RefGameState::NORMAL_START},
-        {RefGameState::INDIRECT_FREE_US,     "rtt_emiel/IndirectUsStrategy"s, RefGameState::NORMAL_START},
-        {RefGameState::INDIRECT_FREE_THEM,   "rtt_anouk/PrepareDirectThem"s, RefGameState::NORMAL_START},
+        {RefGameState::DIRECT_FREE_US,       "rtt_jim/NormalPlay"s},
+        {RefGameState::DIRECT_FREE_THEM,     "rtt_anouk/PrepareDirectThem"s},
+        {RefGameState::INDIRECT_FREE_US,     "rtt_emiel/IndirectUsStrategy"s},
+        {RefGameState::INDIRECT_FREE_THEM,   "rtt_anouk/PrepareDirectThem"s},
 
         // these are called after PREPARE_
         // these custom strategies need special attention

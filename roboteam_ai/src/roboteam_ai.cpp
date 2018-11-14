@@ -4,6 +4,7 @@
 #include "treeinterp/TreeInterpreter.h"
 #include "utilities/Referee.hpp"
 #include "utilities/StrategyManager.h"
+#include "treeinterp/BTFactory.h"
 
 namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;
