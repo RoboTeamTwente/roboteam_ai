@@ -141,7 +141,8 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.cpp
-        roboteam_ai/src/utilities/StrategyManager.cpp roboteam_ai/src/utilities/StrategyManager.h)
+        roboteam_ai/src/utilities/StrategyManager.cpp
+        roboteam_ai/src/utilities/StrategyManager.h)
 
 ### SOURCES END ###
 
@@ -196,9 +197,9 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/BTBlackBoardTest.cpp
         roboteam_ai/test/IOTest.cpp
         roboteam_ai/test/RobotDealerTest.cpp
-        roboteam_ai/test/RefereeTest.cpp
-        roboteam_ai/test/RefStateManagerTest.cpp
-        roboteam_ai/test/StrategyMapperTest.cpp
+        # roboteam_ai/test/RefereeTest.cpp
+        # roboteam_ai/test/RefStateManagerTest.cpp
+        # roboteam_ai/test/StrategyMapperTest.cpp
         roboteam_ai/test/PropertiesParserTest.cpp
         ${SKILL_TESTS}
         ${CONDITION_TESTS}
