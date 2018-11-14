@@ -21,11 +21,15 @@ int main(int argc, char* argv[]) {
     roboteam_msgs::GeometryData geometryMsg;
     roboteam_msgs::RefereeData refereeMsg;
 
-    bt::BehaviorTree strategy;
+    bt::BehaviorTree::Ptr strategy;
 
     // start looping
     // set the framerate to 50 Hz
     ros::Rate rate(50);
+
+    auto factory = BTFactory::getFactory();
+
+    factory.init();
 
     while (ros::ok()) {
         ros::spinOnce();
@@ -38,15 +42,10 @@ int main(int argc, char* argv[]) {
         ai::Field::set_field(geometryMsg.field);
         ai::Referee::setRefereeData(refereeMsg);
 
-        auto factory = BTFactory::getFactory();
+        if (!ai::World::didReceiveFirstWorld) continue;
+        strategy = factory.getTree("ParallelSequenceStrategy");
 
-        rtt::ai::StrategyManager strategyManager;
-        std::string strategyName = strategyManager.getCurrentStrategyName();
-
-        factory.init();
-        strategy = factory.getTree(strategyName);
-
-        bt::Node::Status status = strategy.Tick();
+        bt::Node::Status status = strategy->Tick();
 
         if (status != bt::Node::Status::Running) {
             auto statusStr = bt::statusToString(status);
@@ -58,8 +57,8 @@ int main(int argc, char* argv[]) {
     }
 
     // Terminate if needed
-    if (strategy.getStatus() == bt::Node::Status::Running) {
-        strategy.Terminate(bt::Node::Status::Running);
+    if (strategy->getStatus() == bt::Node::Status::Running) {
+        strategy->Terminate(bt::Node::Status::Running);
     }
 
     return 0;

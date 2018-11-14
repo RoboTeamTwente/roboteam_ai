@@ -1,6 +1,6 @@
 {
-  "description": "This is a test strategy jason with only one tactic ",
-  "name": "TestStrategy",
+  "description": "This is a strategy to test the parallel sequence composite",
+  "name": "ParallelSequenceStrategy",
   "data": {
     "scope": "StrategyRepo",
     "trees": [
@@ -9,28 +9,23 @@
         "scope": "tree",
         "properties": {},
         "root": "bbb",
-        "title": "DemoStrategy",
+        "title": "ParallelSequenceStrategy",
         "nodes": {
           "bbb": {
             "child": "ccc",
             "description": "",
             "id": "bbb",
-            "name": "UntilSuccess",
+            "name": "Repeat",
+            "title": "Repeat",
             "properties": {
-              "testparsec": "testparsec",
               "limit": "0"
             }
-
           },
           "ccc": {
             "description": "",
             "id": "ccc",
             "title": "Tactic",
-            "name": "DemoTactic",
-            "properties": {
-              "testdemotac": "testdemotac"
-            }
-
+            "name": "ParallelSequenceTactic"
           }
 
         }

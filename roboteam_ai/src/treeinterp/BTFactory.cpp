@@ -9,7 +9,7 @@
 #include "BTFactory.h"
 
 static bool isInitiated = false;
-std::map<std::string, bt::BehaviorTree> BTFactory::strategyRepo;
+std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
 std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
 
 
@@ -46,25 +46,28 @@ void BTFactory::init() {
     // TODO: find a solution for BB passing
     auto BB = std::make_shared<bt::Blackboard>();
     // TODO: automate
-    tacticsRepo = interpreter.makeTactics("testTactic", BB);
-    strategyRepo = interpreter.getTrees("strategies/testStrategy");
+    tacticsRepo = interpreter.makeTactics("testParallelTactic", BB);
+    strategyRepo = interpreter.getTrees("strategies/testParallelSequence");
 
 
 
 }
-bt::BehaviorTree BTFactory::getTree(std::string treeName) {
+bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     if (strategyRepo.find(treeName) != strategyRepo.end()) {
         return strategyRepo.find(treeName)->second;
     }
     ROS_ERROR("No Strategy by that name");
     return strategyRepo.end()->second;
 }
+
 bool BTFactory::isIsInitiated() const {
     return isInitiated;
 }
+
 void BTFactory::setIsInitiated(bool newBool) {
     isInitiated = newBool;
 }
+
 
 
 

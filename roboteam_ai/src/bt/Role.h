@@ -10,17 +10,22 @@ namespace bt {
 
 class Role : public Node {
 
+    public:
+        Role(std::string name);
+
         int ROBOT_ID = -1;
 
         Node::Ptr child = nullptr;
 
-        std::string name;
+        std::string name = "Role";
 
         void Initialize() override;
 
         Status Update() override;
 
         void AddChild(Node::Ptr newChild) override;
+
+        std::string node_name() override;
 
 };
 }

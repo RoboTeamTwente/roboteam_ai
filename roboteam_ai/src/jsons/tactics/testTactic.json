@@ -14,10 +14,8 @@
           "000": {
             "child": "111",
             "title": "Role",
-            "name": "Role",
-            "properties": {
-              "name" : "testRole"
-            },
+            "name": "testRole",
+            "properties": {},
             "description": "Start of a Role"
           },
           "111": {
@@ -28,8 +26,11 @@
               "y": 0
             },
             "id": "111",
-            "name": "Repeat",
-            "properties": {},
+            "name": "UntilSuccess",
+            "properties": {
+              "testRepeat": "testRepeat",
+              "limit": "0"
+            },
             "title": "Repeat"
           },
           "222": {
@@ -38,7 +39,10 @@
             "id": "222",
             "name": "GoToPos",
             "properties": {
-              "goToBall": "true"
+              "ROLE": "testRole",
+              "goToBall": "true",
+              "Position": "{ 5.0, 5.0 }",
+              "ROLE": "ROLE"
             },
             "title": "GoToPos"
           }

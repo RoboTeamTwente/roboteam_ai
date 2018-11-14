@@ -25,8 +25,9 @@ void DemoTactic::Initialize() {
         std::set<int> ids;
         ids = RobotDealer::getAvailableRobots();
         if (!ids.empty()) {
-            auto id = *ids.begin();  // only one robot...
-            std::pair<int, std::string> idName = {id, "testRole"};
+            auto id = *ids.begin();  // only one robot..
+            std::string roleName = "testRole";
+            std::pair<int, std::string> idName = {id, roleName};
             claimedRobots = RobotDealer::claimRobotForTactic(idName, "testTactic");
             robotIDs.insert(id);
         }
@@ -34,7 +35,6 @@ void DemoTactic::Initialize() {
 }
 
 Node::Status DemoTactic::Update() {
-    Node::append_status("[DemoTactic untill success: executing child of type %s]", child->node_name().c_str());
     auto status = child->Tick();
 
     if (status == Status::Success) {
@@ -47,6 +47,9 @@ Node::Status DemoTactic::Update() {
         // If the status was anything but success/invalid, keep running
         return Status::Running;
     }
+}
+std::string DemoTactic::node_name() {
+    return "Demo Tactic";
 }
 
 } // bt

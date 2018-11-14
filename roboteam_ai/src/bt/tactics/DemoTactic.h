@@ -13,7 +13,6 @@ class DemoTactic : public Tactic {
     public:
         DemoTactic(std::string name, Blackboard::Ptr blackboard);
 
-    private:
 
 
 
@@ -22,17 +21,16 @@ class DemoTactic : public Tactic {
         void setName(std::string newName);
 
         void Initialize();
-
         Node::Status Update();
 
+        std::string node_name() override;
 
         bool claimedRobots = false;
 
         std::set<int> robotIDs = {};
 
-        Node::Ptr child = nullptr;
+//        Node::Ptr child = nullptr;
 
-        std::set<int> askForRandomRobot(int numberOfRobots);
 
 
 };

@@ -10,6 +10,8 @@
 #include "TreeInterpreter.h"
 #include "../skills/GoToPos.h"
 #include "../bt/tactics/DemoTactic.h"
+#include "../bt/tactics/ParallelSequenceTest.h"
+#include "../bt/Role.h"
 
 /// Return a TreeInterpreter singleton
 TreeInterpreter &TreeInterpreter::getInstance() {
@@ -18,15 +20,15 @@ TreeInterpreter &TreeInterpreter::getInstance() {
 }
 
 /// Returns a BehaviorTree from a given name TESTED
-std::map<std::string, bt::BehaviorTree> TreeInterpreter::getTrees(std::string name) {
-    std::map<std::string, bt::BehaviorTree> result;
+std::map<std::string, bt::BehaviorTree::Ptr> TreeInterpreter::getTrees(std::string name) {
+    std::map<std::string, bt::BehaviorTree::Ptr> result;
 
     auto project = jsonReader.readJSON(std::move(name));
 
     for (const json &tree : project["data"]["trees"]) {
         std::string treeName = tree["title"];
-        bt::BehaviorTree currentTree = buildTreeFromJSON(tree);
-        result.insert(std::pair<std::string, bt::BehaviorTree>(treeName, currentTree));
+        bt::BehaviorTree::Ptr currentTree = buildTreeFromJSON(tree);
+        result.insert(std::pair<std::string, bt::BehaviorTree::Ptr>(treeName, currentTree));
     }
     return result;
 }
@@ -54,19 +56,19 @@ std::vector<json> TreeInterpreter::parseSmallJSONs(json input) {
 }
 
 /// Build a BehaviorTree from a JSON object
-bt::BehaviorTree TreeInterpreter::buildTreeFromJSON(json jsonTree) {
+bt::BehaviorTree::Ptr TreeInterpreter::buildTreeFromJSON(json jsonTree) {
 
     // ID of the root
     std::string rootID = jsonTree["root"];
 
 
     // Build the tree from the root
-    bt::BehaviorTree behaviorTree;
+    bt::BehaviorTree::Ptr behaviorTree = std::make_shared<bt::BehaviorTree>();
     bt::Blackboard::Ptr globalBB = propertyParser.parse(jsonTree);
-    behaviorTree.setProperties(globalBB);
+    behaviorTree->setProperties(globalBB);
 
     auto rootNode = TreeInterpreter::buildNode(jsonTree["nodes"][rootID], jsonTree, globalBB);
-    behaviorTree.SetRoot(rootNode);
+    behaviorTree->SetRoot(rootNode);
     return behaviorTree;
 }
 
@@ -82,29 +84,34 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
         return leaf;
     }
 
-    // See if it is a tactic node. They should only be at big strategy trees
-    if (nodeJSON["title"] == "Tactic") {
-        auto properties = propertyParser.parse(nodeJSON);
-        auto node = tacticSwitch(nodeJSON["name"], properties);
-        node->AddChild(tactics.find(nodeJSON["name"])->second);
-        return node;
+    bt::Node::Ptr node;
 
-    }
+    // It might be a Role
+    if (nodeJSON["title"] == "Role") {
+        bt::Role::Ptr tempNode = std::make_shared<bt::Role>(nodeJSON["name"]);
+        tempNode->globalBB = globalBlackBoard;
+        tempNode->properties = propertyParser.parse(nodeJSON);
+        node = tempNode;
+    } else {
+        bt::Node::Ptr tempNode = makeNonLeafNode(nodeJSON["name"]);
+        tempNode->globalBB = globalBlackBoard;
+        tempNode->properties = propertyParser.parse(nodeJSON);
+        node = tempNode;
+    };
 
-    // Not a leaf
-    auto node = makeNonLeafNode(nodeJSON["name"]);
+    buildTree(nodeJSON, tree, globalBlackBoard, node);
 
-    // GlobalBB and properties
-    node->globalBB = globalBlackBoard;
-    node->properties = propertyParser.parse(nodeJSON);
+    return node;
+}
+void TreeInterpreter::buildTree(const json &nodeJSON, const json &tree, const bt::Blackboard::Ptr &globalBlackBoard,
+        bt::Node::Ptr &node) {
 
     // One child
-
     if (jsonReader.checkIfKeyExists("child", nodeJSON)) {
         std::string childID = nodeJSON["child"];
         auto child = tree["nodes"][childID];
 
-        node->AddChild(TreeInterpreter::buildNode(child, tree, globalBlackBoard));
+        node->AddChild(buildNode(child, tree, globalBlackBoard));
     }
 
     // Multiple children
@@ -113,12 +120,9 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
         for (std::string currentChildID : nodeJSON["children"]) {
             auto currentChild = tree["nodes"][currentChildID];
 
-            node->AddChild(TreeInterpreter::buildNode(currentChild, tree, globalBlackBoard));
+            node->AddChild(buildNode(currentChild, tree, globalBlackBoard));
         }
     }
-
-
-    return node;
 }
 
 /// Makes a non leaf node
@@ -180,6 +184,14 @@ bool TreeInterpreter::isLeaf(json jsonTree) {
 
 /// Make a leaf node depending on the name of the node
 bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
+
+    if (jsonLeaf["title"] == "Tactic") {
+        auto properties = propertyParser.parse(jsonLeaf);
+        auto node = tacticSwitch(jsonLeaf["name"], properties);
+        node->AddChild(tactics.find(jsonLeaf["name"])->second);
+        return node;
+
+    }
     rtt::ai::Skill::Ptr skill;
     std::string name = jsonLeaf["title"];
     bt::Blackboard::Ptr properties = propertyParser.parse(jsonLeaf);
@@ -188,11 +200,11 @@ bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
         // TODO: after importing the leaf subclasses make a switch here
         // leaf = make_some_condition_or_something()
     }
-    else if ("GoToPos") {
-        skill = std::make_shared<rtt::ai::GoToPos>("goToPos", properties);
+    else if (name == "GoToPos") {
+        skill = std::make_shared<rtt::ai::GoToPos>(name, properties);
     }
     else {
-        skill = std::make_shared<rtt::ai::GoToPos>("name", properties);
+        skill = std::make_shared<rtt::ai::GoToPos>(name, properties);
     }
 
     return skill;
@@ -201,9 +213,9 @@ bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
 std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fileName, bt::Blackboard::Ptr globalBB) {
     json tacticJson = jsonReader.readJSON("tactics/" + fileName);
     std::map<std::string, bt::Node::Ptr> resultMap;
-    for (auto tactic : tacticJson["trees"]) {
+    for (auto tactic : tacticJson["data"]["trees"]) {
         std::string rootID = tactic["root"];
-        auto buildingNode = TreeInterpreter::buildNode(tactic["nodes"][rootID], tactic, globalBB);
+        bt::Node::Ptr buildingNode = TreeInterpreter::buildNode(tactic["nodes"][rootID], tactic, globalBB);
         resultMap.insert(std::pair<std::string, bt::Node::Ptr>(tactic["title"], buildingNode));
         tactics.insert(std::pair<std::string, bt::Node::Ptr>(tactic["title"], buildingNode));
     }
@@ -211,7 +223,12 @@ std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fi
 }
 bt::Node::Ptr TreeInterpreter::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
     if (name == "DemoTactic") {
-        auto node = std::make_shared<bt::DemoTactic>("name", properties);
+        auto node = std::make_shared<bt::DemoTactic>("DemoTactic", properties);
+        node->AddChild(tactics.find("DemoTactic")->second);
+        return node;
+    } else if (name == "ParallelSequenceTactic") {
+        auto node = std::make_shared<bt::ParallelSequenceTactic>("ParallelSequenceTactic", properties);
+        node->AddChild(tactics.find("ParallelSequenceTactic")->second);
         return node;
     }
     auto node = std::make_shared<bt::DemoTactic>("name", properties);

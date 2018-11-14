@@ -20,6 +20,19 @@ class Node {
                 Running
         };
 
+        std::string status_print(Status s) {
+            switch (s) {
+            case Status::Invalid:
+                return " Status : Invalid";
+            case Status::Success:
+                return " Status : Success";
+            case Status::Failure:
+                return " Status : Failure";
+            case Status::Running:
+                return " Status : Running";
+            }
+        }
+
         virtual ~Node();
 
         Node();
@@ -27,6 +40,12 @@ class Node {
         using Ptr = std::shared_ptr<Node>;
 
         virtual Status Update() = 0;
+
+        Status NodeUpdate();
+
+        void NodeInitialize();
+
+        void NodeTerminate(Status s);
 
         virtual void Initialize();
 
@@ -55,6 +74,7 @@ class Node {
         bt::Blackboard::Ptr globalBB;
 
         virtual std::string node_name();
+
 
         static std::string status_desc;
 

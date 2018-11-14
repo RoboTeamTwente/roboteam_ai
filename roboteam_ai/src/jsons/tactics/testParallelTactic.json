@@ -1,0 +1,173 @@
+{
+  "description": "This is a test tactic jason with only one role",
+  "name": "ParallelSequenceTactic",
+  "data": {
+    "scope": "TacticRepo",
+    "trees": [
+      {
+        "description": "The testing tactic tree",
+        "scope": "tree",
+        "properties": {},
+        "root": "999",
+        "title": "ParallelSequenceTactic",
+        "nodes": {
+          "999": {
+            "children": ["100", "200", "300", "400", "500"],
+            "id": "999",
+            "name": "ParallelSequence"
+          },
+          "100": {
+            "child": "101",
+            "title": "Role",
+            "name": "role1",
+            "properties": {},
+            "description": "Start of a Role"
+          },
+          "101": {
+            "child": "102",
+            "description": "",
+            "id": "101",
+            "name": "Repeat",
+            "title": "Repeat",
+            "properties": {
+              "testRepeat": "testRepeat",
+              "limit": "0"
+            }
+          },
+          "102": {
+            "description": "",
+            "display": {},
+            "id": "102",
+            "name": "GoToPos",
+            "properties": {
+              "goToBall": "true",
+              "Position": "{ 0.0, 0.0 }",
+              "ROLE": "role1"
+            },
+            "title": "GoToPos"
+          },
+          "200": {
+            "child": "201",
+            "title": "Role",
+            "name": "role2",
+            "properties": {},
+            "description": "Start of a Role"
+          },
+          "201": {
+            "child": "202",
+            "description": "",
+            "id": "201",
+            "name": "Repeat",
+            "title": "Repeat",
+            "properties": {
+              "testRepeat": "testRepeat",
+              "limit": "0"
+            }
+          },
+          "202": {
+            "description": "",
+            "display": {},
+            "id": "202",
+            "name": "GoToPos",
+            "properties": {
+              "goToBall": "true",
+              "Position": "{ 3.0, 3.0 }",
+              "ROLE": "role2"
+            },
+            "title": "GoToPos"
+          },
+          "300": {
+            "child": "301",
+            "title": "Role",
+            "name": "role3",
+            "properties": {},
+            "description": "Start of a Role"
+          },
+          "301": {
+            "child": "302",
+            "description": "",
+            "id": "301",
+            "name": "Repeat",
+            "title": "Repeat",
+            "properties": {
+              "testRepeat": "testRepeat",
+              "limit": "0"
+            }
+          },
+          "302": {
+            "description": "",
+            "display": {},
+            "id": "302",
+            "name": "GoToPos",
+            "properties": {
+              "goToBall": "true",
+              "Position": "{ 3.0, 3.0 }",
+              "ROLE": "role3"
+            },
+            "title": "GoToPos"
+          },
+          "400": {
+            "child": "401",
+            "title": "Role",
+            "name": "role4",
+            "properties": {},
+            "description": "Start of a Role"
+          },
+          "401": {
+            "child": "402",
+            "description": "",
+            "id": "401",
+            "name": "Repeat",
+            "title": "Repeat",
+            "properties": {
+              "testRepeat": "testRepeat",
+              "limit": "0"
+            }
+          },
+          "402": {
+            "description": "",
+            "display": {},
+            "id": "402",
+            "name": "GoToPos",
+            "properties": {
+              "goToBall": "true",
+              "Position": "{ 3.0, 3.0 }",
+              "ROLE": "role4"
+            },
+            "title": "GoToPos"
+          },
+          "500": {
+            "child": "501",
+            "title": "Role",
+            "name": "role5",
+            "properties": {},
+            "description": "Start of a Role"
+          },
+          "501": {
+            "child": "502",
+            "description": "",
+            "id": "501",
+            "name": "Repeat",
+            "title": "Repeat",
+            "properties": {
+              "testRepeat": "testRepeat",
+              "limit": "0"
+            }
+          },
+          "502": {
+            "description": "",
+            "display": {},
+            "id": "502",
+            "name": "GoToPos",
+            "properties": {
+              "goToBall": "true",
+              "Position": "{ 3.0, 3.0 }",
+              "ROLE": "role5"
+            },
+            "title": "GoToPos"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -9,6 +9,9 @@
 namespace bt {
 
 class Tactic : public Node {
+    public:
+        void AddChild(Node::Ptr newChild) override;
+
 
         void Initialize() override;
 
@@ -16,13 +19,13 @@ class Tactic : public Node {
 
         void askForRobots();
 
-        void AddChild(Node::Ptr newChild) override;
 
         void Terminate(Status s) override;
 
         Node::Ptr child = nullptr;
+        std::string node_name() override;
 
-        std::string name;
+        std::string name = "Tactic";
 
         int numberOfRobots = 0;
 };
