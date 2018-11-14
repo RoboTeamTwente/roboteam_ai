@@ -4,6 +4,7 @@
 
 #ifndef ROBOTEAM_AI_REFSTATEMANAGER_HPP
 #define ROBOTEAM_AI_REFSTATEMANAGER_HPP
+
 #include "../../src/bt/bt.hpp"
 #include "Referee.hpp"
 #include "World.h"
@@ -11,14 +12,10 @@
 #include "boost/optional.hpp"
 #include "StrategyMapper.hpp"
 
-namespace rtt{
-namespace ai{
+namespace rtt {
+namespace ai {
 
-/**
- * \class RefStateSwitch
- * \brief Top-level node which selects the correct strategy tree to use based on the current ref state.
- */
-class RefStateManager : public bt::Composite{
+class RefStateManager : public bt::Composite {
 public:
     RefStateManager();
     bt::Node::Status Update() override;
@@ -37,11 +34,13 @@ private:
     bool finishedOnce;
     bool needToInitialize;
     bool startedNewStrategy;
-    unsigned lastKnownBotCount;
+    unsigned int lastKnownBotCount;
     int lastKnownKeeper = 0;
 
     std::map<RefGameState, Node::Ptr> refStateStrategies;
 };
+
 }//ai
 }//rtt
+
 #endif //ROBOTEAM_AI_REFSTATEMANAGER_HPP

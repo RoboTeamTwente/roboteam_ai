@@ -90,27 +90,32 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Leaf.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Node.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Node.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DemoTactic.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DemoTactic.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/ParallelSequenceTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/ParallelSequenceTest.h
         )
 
 set(IO_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/IOManager.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/IOManager.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/StrategyIOManager.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/StrategyIOManager.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/RoleIOManager.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/RoleIOManager.h)
+        )
 
 set(UTILS_SOURCES
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.hpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.cpp
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RefStateManager.hpp
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RefStateManager.cpp
+#    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RefStateManager.hpp
+#    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RefStateManager.cpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyMapper.hpp
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyMapper.cpp
+#    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyMapper.hpp
+#    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyMapper.cpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
@@ -169,8 +174,8 @@ include_directories(${catkin_INCLUDE_DIRS})
 add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 # StrategyNode
-add_executable(AIStrategyNode
-        roboteam_ai/src/StrategyNode.cpp
+add_executable(Roboteam_AI
+        roboteam_ai/src/roboteam_ai.cpp
         ${DANGER_FINDER_SOURCES}
         ${IO_SOURCES}
         ${UTILS_SOURCES}
@@ -180,22 +185,8 @@ add_executable(AIStrategyNode
         ${CONDITIONS_SOURCES}
         )
 
-add_dependencies(AIStrategyNode ${catkin_EXPORTED_TARGETS})
-target_link_libraries(AIStrategyNode ${catkin_LIBRARIES})
-
-add_executable(AIRoleNode
-        roboteam_ai/src/RoleNode.cpp
-        ${DANGER_FINDER_SOURCES}
-        ${IO_SOURCES}
-        ${UTILS_SOURCES}
-        ${JSON_SOURCES}
-        ${BT_SOURCES}
-        ${SKILLS_SOURCES}
-        ${CONDITIONS_SOURCES}
-        )
-
-add_dependencies(AIRoleNode ${catkin_EXPORTED_TARGETS})
-target_link_libraries(AIRoleNode ${catkin_LIBRARIES})
+add_dependencies(Roboteam_AI ${catkin_EXPORTED_TARGETS})
+target_link_libraries(Roboteam_AI ${catkin_LIBRARIES})
 
 #############
 ## Testing ##

@@ -5,12 +5,16 @@ namespace ai {
 
 // define the static variables
 roboteam_msgs::World World::world;
+bool World::didReceiveFirstWorld = false;
 
 const roboteam_msgs::World &World::get_world() {
     return World::world;
 }
 
 void World::set_world(roboteam_msgs::World world) {
+    if (!world.us.empty()) {
+        didReceiveFirstWorld = true;
+    }
     World::world = world;
 }
 

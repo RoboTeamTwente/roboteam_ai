@@ -1,0 +1,53 @@
+{
+  "description": "This is a test tactic jason with only one role",
+  "name": "TestTactic",
+  "data": {
+    "scope": "TacticRepo",
+    "trees": [
+      {
+        "description": "The testing tactic tree",
+        "scope": "tree",
+        "properties": {},
+        "root": "000",
+        "title": "DemoTactic",
+        "nodes": {
+          "000": {
+            "child": "111",
+            "title": "Role",
+            "name": "testRole",
+            "properties": {},
+            "description": "Start of a Role"
+          },
+          "111": {
+            "child": "222",
+            "description": "",
+            "display": {
+              "x": -48,
+              "y": 0
+            },
+            "id": "111",
+            "name": "UntilSuccess",
+            "properties": {
+              "testRepeat": "testRepeat",
+              "limit": "0"
+            },
+            "title": "Repeat"
+          },
+          "222": {
+            "description": "",
+            "display": {},
+            "id": "222",
+            "name": "GoToPos",
+            "properties": {
+              "ROLE": "testRole",
+              "goToBall": "true",
+              "Position": "{ 5.0, 5.0 }",
+              "ROLE": "ROLE"
+            },
+            "title": "GoToPos"
+          }
+        }
+      }
+    ]
+  }
+}

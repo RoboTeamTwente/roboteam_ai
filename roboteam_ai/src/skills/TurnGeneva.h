@@ -17,10 +17,8 @@ class TurnGeneva : public Skill {
         int amountOfCycles;
     protected:
         void sendGenevaCommand(int genevaState);
-
     public:
         Status Update() override;
-
         void Initialize() override;
 };
 

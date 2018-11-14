@@ -27,7 +27,7 @@ std::string JsonReader::getFilePath(std::string name) {
         smallPath.append(word + "/");
     }
     // should be at /home/[user]/roboteamtwente/workspace/src/roboteam_ai/ ish right now
-    smallPath.append("roboteam_ai/src/treeinterp/jsons/" + name + ".json");
+    smallPath.append("roboteam_ai/src/jsons/" + name + ".json");
     return smallPath;
 }
 

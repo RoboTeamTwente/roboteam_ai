@@ -4,7 +4,7 @@
 #include "../bt/Leaf.hpp"
 #include "ros/ros.h"
 #include "roboteam_msgs/WorldRobot.h"
-#include "../io/RoleIOManager.h"
+#include "../io/IOManager.h"
 #include "../utilities/Constants.h"
 #include <roboteam_msgs/RobotCommand.h>
 
@@ -18,7 +18,7 @@ namespace ai {
 class Skill : public bt::Leaf {
     protected:
         roboteam_msgs::WorldRobot robot;
-        io::RoleIOManager roleIOManager;
+        io::IOManager ioManager;
 
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
 

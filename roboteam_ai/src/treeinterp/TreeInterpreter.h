@@ -32,7 +32,7 @@ class TreeInterpreter {
 
         FRIEND_TEST(TreeTest, JsonTest);
 
-        bt::BehaviorTree buildTreeFromJSON(json jsonTree);
+        bt::BehaviorTree::Ptr buildTreeFromJSON(json jsonTree);
 
         bt::Node::Ptr buildNode(json node, json tree, bt::Blackboard::Ptr globalBlackBoard);
 
@@ -44,14 +44,19 @@ class TreeInterpreter {
 
         bt::Leaf::Ptr makeLeafNode(json jsonLeaf);
 
-        bt::Blackboard::Ptr parseProperties(json properties);
+        std::map<std::string, bt::Node::Ptr> tactics;
+
+        bt::Node::Ptr tacticSwitch(std::string, bt::Blackboard::Ptr properties);
+
+        void buildTree(const json &nodeJSON, const json &tree, const bt::Blackboard::Ptr &globalBlackBoard,
+                bt::Node::Ptr &node);
 
     protected:
 
     public:
-        std::map<std::string, bt::BehaviorTree> getProject(std::string name);
+        std::map<std::string, bt::BehaviorTree::Ptr> getTrees(std::string name);
 
-        bt::BehaviorTree getTreeWithID(std::string projectName, std::string ID);
+        std::map<std::string, bt::Node::Ptr> makeTactics(std::string fileName, bt::Blackboard::Ptr globalBB);
 
         static TreeInterpreter &getInstance();
 

@@ -90,7 +90,7 @@ namespace ai {
             ROS_WARN_STREAM_NAMED("RefStateManager",
                                   "Keeper ID changed from " << lastKnownKeeper << " to " << refData.us.goalie);
             lastKnownKeeper = refData.us.goalie;
-            RobotDealer::setKeeper(
+            RobotDealer::claimKeeper(
                     lastKnownKeeper); // This is also done in StrategyNode, but its needs to be done before this Terminate call
             // Node question: Why do we need to call the status here again?
             getCurrentChild()->Terminate(getCurrentChild()->getStatus());

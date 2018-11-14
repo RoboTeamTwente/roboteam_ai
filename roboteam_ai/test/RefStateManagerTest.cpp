@@ -3,25 +3,27 @@
 //
 #include "gtest/gtest.h"
 #include "../src/utilities/RefStateManager.hpp"
-namespace rtt{
-    namespace ai{
-        namespace RSMTest{
-        class TestLeaf :public bt::Leaf{
-        private:
-            bt::Node::Status statusTest;
-        public:
-            TestLeaf(){
-                this->statusTest=bt::Node::Status::Running;
-            }
-            Status Update() override{
-                return statusTest;
-            }
-            void setStatusTest(Status statusTest){
-                this->statusTest=statusTest;
-            }
-        };
+namespace rtt {
+namespace ai {
+namespace RSMTest {
+
+class TestLeaf : public bt::Leaf {
+    private:
+        bt::Node::Status statusTest;
+    public:
+        TestLeaf() {
+            this->statusTest = bt::Node::Status::Running;
         }
-    }
+        Status Update() override {
+            return statusTest;
+        }
+        void setStatusTest(Status statusTest) {
+            this->statusTest = statusTest;
+        }
+};
+
+}
+}
 }
 namespace r=rtt::ai;
 // You should see the following warnings when running this test. If not, something is probably going wrong!
@@ -30,7 +32,7 @@ namespace r=rtt::ai;
 //[ INFO][ros.roboteam_ai.RefStateManager]: RefState switch detected : PREPARE_KICKOFF_US -> NORMAL_START | DO_KICKOFF : rtt_bob/KickoffWithChipStrategy
 //[ WARN][ros.roboteam_ai.RefStateManager]: Keeper ID changed from 0 to 1
 //[ INFO][ros.roboteam_ai.RefStateManager]: Botcount changed from 0 to 1
-TEST(RefStateManager,refstatemanagertest){
+TEST(RefStateManager, refstatemanagertest) {
     roboteam_msgs::World world;
     rtt::ai::World::set_world(world);
     rtt::ai::Referee::Reset();
@@ -39,7 +41,6 @@ TEST(RefStateManager,refstatemanagertest){
     std::shared_ptr<r::RefStateManager> rsm = std::make_shared<r::RefStateManager>();
     ASSERT_EQ(rsm->node_name(), "RefStateManager");
     EXPECT_EQ(rsm->Update(), bt::Node::Status::Running);
-
 
     rtt::ai::RSMTest::TestLeaf root;
     std::shared_ptr<rtt::ai::RSMTest::TestLeaf> rootPtr = std::make_shared<rtt::ai::RSMTest::TestLeaf>(root);
@@ -51,7 +52,6 @@ TEST(RefStateManager,refstatemanagertest){
     bt::BehaviorTree treeB(rootTwoPtr);
     std::shared_ptr<bt::BehaviorTree> treeBPtr = std::make_shared<bt::BehaviorTree>(treeB);
 
-
     rtt::ai::RSMTest::TestLeaf rootThree;
     std::shared_ptr<rtt::ai::RSMTest::TestLeaf> rootThreePtr = std::make_shared<rtt::ai::RSMTest::TestLeaf>(rootThree);
     bt::BehaviorTree treeC(rootThreePtr);
@@ -62,7 +62,7 @@ TEST(RefStateManager,refstatemanagertest){
     rsm->AddStrategy(r::RefGameState::DO_KICKOFF, treeCPtr);
 
     EXPECT_EQ(rsm->getCurrentStrategyTreeName(),
-              "Current strategy not found? Check if a RefState was sent and if all trees were set correctly."); // This function is for debug purposes but it is nice to test if it works
+            "Current strategy not found? Check if a RefState was sent and if all trees were set correctly."); // This function is for debug purposes but it is nice to test if it works
 
     roboteam_msgs::RefereeData msg, msgTwo;
     msg.command.command = 4;//PREPARE_KICKOFF_US
@@ -82,5 +82,5 @@ TEST(RefStateManager,refstatemanagertest){
     roboteam_msgs::WorldRobot bot;
     world.us.push_back(bot);
     rtt::ai::World::set_world(world);
-    EXPECT_EQ(rsm->Update(),bt::Node::Status::Running);
-    }
+    EXPECT_EQ(rsm->Update(), bt::Node::Status::Running);
+}

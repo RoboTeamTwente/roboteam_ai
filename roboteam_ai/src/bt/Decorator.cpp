@@ -9,7 +9,7 @@ void Decorator::AddChild(Node::Ptr child) {
 }
 
 bool Decorator::HasNoChild() const {
-    return child == nullptr;
+        return child == nullptr;
 }
 
 void Decorator::Terminate(Status s) {

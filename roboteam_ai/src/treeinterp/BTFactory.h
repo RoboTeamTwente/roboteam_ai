@@ -22,26 +22,27 @@ class BTFactory {
     public:
         void init();
 
-        static BTFactory &getFactory();
+        JsonReader jsonReader;
 
-        std::map<std::string, bt::BehaviorTree> getProject(std::string projectName);
+        static BTFactory &getFactory();
 
         void updateProject(std::string projectName);
 
+        bt::BehaviorTree::Ptr getTree(std::string treeName);
+
         void updateTree(std::string projectName, std::string treeName);
 
+        static std::map<std::string, bt::BehaviorTree::Ptr> strategyRepo;
 
-        std::map<std::string, std::map<std::string, bt::BehaviorTree>> getTreeRepo();
+        static std::map<std::string, bt::Node::Ptr> tacticsRepo;
 
-        /// This is where all the BTs are kept
-        static std::map<std::string, std::map<std::string, bt::BehaviorTree>> treeRepo;
-        ///This is a list of all the projects we want to read in /roboteam_ai/src/treeinterp/jsons
+        bool isIsInitiated() const;
 
-        static std::vector<std::string> projectNames;
-    private:
-        void initialProjectNames();
+        void setIsInitiated(bool isInitiated);
 
     protected:
+//       static bool isInitiated;
+
 
 };
 
