@@ -130,9 +130,8 @@ void GoToPos::sendMoveCommand() {
     command.use_angle = 1;
     auto angularVel = (float) getAngularVelocity();
     command.w = angularVel;
-    if (angularVel > 2) command.x_vel = 1/(abs(command.w)+1);
-    else command.x_vel = 4/(abs(command.w)+1);
 
+    command.x_vel = 1.5;// abs(angularVel)/(abs(angularVel)-1);
     command.y_vel = 0;
     publishRobotCommand(command);
     commandSend = true;
@@ -175,8 +174,8 @@ double GoToPos::getAngularVelocity() {
         angleDiff = (float) (2.0*M_PI - angleDiff);
         direction = - 1;                //  clockwise rotation
     }
-
-    return direction*(angleDiff)*MAX_ANGULAR_VELOCITY;
+    if (angleDiff>1)angleDiff=1;
+    return direction*(angleDiff*angleDiff)*MAX_ANGULAR_VELOCITY;
 
 
 
