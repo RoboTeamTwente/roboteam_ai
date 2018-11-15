@@ -79,11 +79,10 @@ bt::Node::Status GoToPos::Update() {
         return status::Invalid;
     }
 
-    // Send a move command
-    sendMoveCommand();
-
     // Now check the progress we made
     currentProgress = checkProgression();
+    // Send a move command
+    sendMoveCommand();
 
     switch (currentProgress) {
 

@@ -46,8 +46,8 @@ void BTFactory::init() {
     // TODO: find a solution for BB passing
     auto BB = std::make_shared<bt::Blackboard>();
     // TODO: automate
-    tacticsRepo = interpreter.makeTactics("testParallelTactic", BB);
-    strategyRepo = interpreter.getTrees("strategies/testParallelSequence");
+    tacticsRepo = interpreter.makeTactics("testTactic", BB);
+    strategyRepo = interpreter.getTrees("strategies/testStrategy");
 
 
 
