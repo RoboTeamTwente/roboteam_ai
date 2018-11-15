@@ -8,6 +8,7 @@
 #include "Skill.h"
 #include "roboteam_utils/Vector2.h"
 
+
 namespace rtt {
 namespace ai {
 
@@ -16,7 +17,7 @@ class GoToPos : public Skill {
         using status = bt::Node::Status;
 
         bool goToBall;
-
+        bool goBehindBall;
         roboteam_msgs::WorldRobot robot;
 
         double getAngularVelocity();

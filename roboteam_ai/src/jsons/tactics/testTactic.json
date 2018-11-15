@@ -19,7 +19,7 @@
             "description": "Start of a Role"
           },
           "111": {
-            "children": ["201","301"],
+            "children": ["201","301", "401"],
             "description": "",
             "display": {
               "x": -48,
@@ -41,21 +41,33 @@
             "name": "GoToPos",
             "properties": {
               "ROLE": "testRole",
-              "goToBall": "true",
+              "goBehindBall": "true",
               "Position": "{ 0.0, 0.0 }"
             },
             "title": "GoToPos"
           },
-          "301": {
+          "401": {
             "description": "",
             "display": {},
-            "id": "301",
+            "id": "401",
             "name": "Kick",
             "properties": {
               "goToBall": "false",
               "ROLE": "testRole"
             },
             "title": "Kick"
+          },
+          "301": {
+            "description": "",
+            "display": {},
+            "id": "301",
+            "name": "GoToPos",
+            "properties": {
+              "ROLE": "testRole",
+              "goToBall": "true",
+              "Position": "{ 0.0, 0.0 }"
+            },
+            "title": "GoToPos"
           }
         }
       }

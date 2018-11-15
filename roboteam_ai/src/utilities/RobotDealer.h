@@ -14,6 +14,7 @@
 #include <boost/optional.hpp>
 #include <mutex>
 #include "World.h"
+#include "Field.h"
 
 namespace rtt {
 namespace ai {

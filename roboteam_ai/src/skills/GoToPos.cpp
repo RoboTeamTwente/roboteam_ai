@@ -29,27 +29,18 @@ void GoToPos::Initialize() {
         currentProgress = Progression::INVALID;
         return;
     }
+//  ____________________________________________________
 
-    if (properties->hasBool("goToBall")) {
-        goToBall = properties->getBool("goToBall");
-    }
-    else goToBall = false;
+    goToBall = properties->getBool("goToBall");
+    goBehindBall = properties->getBool("goBehindBall");
 
-    if (goToBall) {
-        auto ball = World::getBall();
-        targetPos = ball.pos;
+    if (properties->hasVector2("Position")) {
+        Vector2 posVector = properties->getVector2("Position");
+        targetPos = posVector;
     }
     else {
-        if (properties->hasVector2("Position")) {
-            Vector2 posVector = properties->getVector2("Position");
-            targetPos = posVector;
-            currentProgress = Progression::ON_THE_WAY;
-
-        }
-        else {
-            ROS_ERROR("GoToPos Initialize -> No good X or Y set in properties");
-            currentProgress = Progression::FAIL;
-        }
+        ROS_ERROR("GoToPos Initialize -> No good X or Y set in properties");
+        currentProgress = Progression::INVALID;
     }
 
 }
@@ -59,6 +50,7 @@ bt::Node::Status GoToPos::Update() {
 
     if (World::getRobotForId(robot.id, true)) {
         robot = World::getRobotForId(robot.id, true).get();
+
     }
     else {
         ROS_ERROR("GoToPos Update -> robot does not exist in world");
@@ -68,6 +60,13 @@ bt::Node::Status GoToPos::Update() {
     if (goToBall) {
         auto ball = World::getBall();
         targetPos = ball.pos;
+    }
+    if (goBehindBall) {
+        auto ball = World::getBall();
+        auto enemyGoal = Field::get_their_goal_center();
+        auto ballToEnemyGoal = enemyGoal - ball.pos;
+        auto normalizedBTEG = ballToEnemyGoal.normalize();
+        targetPos = {ball.pos.x - normalizedBTEG.x, ball.pos.y - normalizedBTEG.y};
     }
 
 
@@ -129,16 +128,16 @@ void GoToPos::sendMoveCommand() {
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     command.use_angle = 1;
-    auto angle = (float) getAngularVelocity();
-    command.w = angle;
+    auto angularVel = (float) getAngularVelocity();
+    command.w = angularVel;
+    if (angularVel > 2) command.x_vel = 1/(abs(command.w)+1);
+    else command.x_vel = 4/(abs(command.w)+1);
 
-    if (deltaPos.length() < 1.5f) command.x_vel = (float)deltaPos.length() + 1.5f;
-    else command.x_vel = 2;
     command.y_vel = 0;
-
     publishRobotCommand(command);
     commandSend = true;
-    std::cerr << "                  xvel: " << command.x_vel << ", yvel: " << command.y_vel << ", w_vel: " << command.w
+    std::cerr << "                  id: " << command.id << ", xvel: " << command.x_vel << ", yvel: " << command.y_vel
+              << ", w_vel: " << command.w
               << std::endl;
 }
 
@@ -148,7 +147,8 @@ GoToPos::Progression GoToPos::checkProgression() {
     double dx = targetPos.x - robot.pos.x;
     double dy = targetPos.y - robot.pos.y;
     deltaPos = {dx, dy};
-    double maxMargin = 0.2;                        // max offset or something.
+
+    double maxMargin = 0.3;                        // max offset or something.
 
     if (deltaPos.length() >= maxMargin) return ON_THE_WAY;
     else return DONE;
@@ -164,26 +164,21 @@ std::string GoToPos::node_name() {
 double GoToPos::getAngularVelocity() {
 
     auto currentAngle = robot.angle;
+    double direction = 1;               // counter clockwise rotation
 
     auto targetAngle = (float) deltaPos.angle();
 
     float angleDiff = targetAngle - currentAngle;
     while (angleDiff < 0) angleDiff += 2*M_PI;
     while (angleDiff > 2*M_PI) angleDiff -= 2*M_PI;
-
-    double angularErrorMargin = 0.5;
-    int direction = 1;
     if (angleDiff > M_PI) {
         angleDiff = (float) (2.0*M_PI - angleDiff);
-        direction = - 1;
+        direction = - 1;                //  clockwise rotation
     }
-    if (deltaPos.length() < 1) direction *= 2;
-    if (angleDiff < angularErrorMargin) {
-        return direction*MAX_ANGULAR_VELOCITY*0.2;
-    }
-    else {
-        return direction*MAX_ANGULAR_VELOCITY; // (angleDiff + 1.0);
-    }
+
+    return direction*(angleDiff)*MAX_ANGULAR_VELOCITY;
+
+
 
 }
 
