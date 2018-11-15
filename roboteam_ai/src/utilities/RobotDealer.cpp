@@ -16,7 +16,7 @@ std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::robotO
 // Keeper and it's availability
 // They are atomic for future compatibility
 std::atomic<int> RobotDealer::keeper;
-std::atomic<bool> RobotDealer::keeperAvailable(true);
+std::atomic<bool> RobotDealer::isKeeperAvailable(true);
 
 // The locks
 std::mutex RobotDealer::robotOwnersLock;
@@ -25,7 +25,7 @@ std::mutex RobotDealer::takenRobotsLock;
 /// Returns a list of claimed robots
 std::set<int> RobotDealer::getClaimedRobots() {
     std::set<int> ids = std::set<int>(takenRobots.begin(), takenRobots.end());
-    if (!keeperAvailable) {
+    if (! isKeeperAvailable) {
         ids.insert(keeper);
     }
     return ids;
@@ -49,9 +49,9 @@ std::set<int> RobotDealer::getAvailableRobots() {
 
 /// Set the keeper to an ID
 bool RobotDealer::claimKeeper(int id) {
-    if (keeperAvailable) {
+    if (isKeeperAvailable) {
         keeper = id;
-        keeperAvailable = false;
+        isKeeperAvailable = false;
         return true;
     }
     else {
@@ -61,13 +61,13 @@ bool RobotDealer::claimKeeper(int id) {
 }
 
 /// Returns the ID of the keeper
-int RobotDealer::getKeeperID() {
+int RobotDealer::getKeeper() {
     return keeper;
 }
 
 /// Checks if the keeper is available (taken)
-bool RobotDealer::isKeeperAvailable() {
-    return keeperAvailable;
+bool RobotDealer::getKeeperAvailable() {
+    return isKeeperAvailable;
 }
 
 /// Makes a robot not available
@@ -167,14 +167,14 @@ bool RobotDealer::claimRobotForTactic(std::set<std::pair<int, std::string>> cons
 
 int RobotDealer::findRobotForRole(std::string const &roleName) {
 
-    for (auto &tactic : robotOwners) {
-        auto robotID = findRobotForRole(roleName, tactic.first);
+    for (auto &tacticSet : robotOwners) {
+        auto robotID = findRobotForRole(tacticSet.first, roleName);
         if (robotID != - 1) return robotID;
     }
     return - 1;
 }
 
-int RobotDealer::findRobotForRole(std::string const &roleName, std::string const &tacticName) {
+int RobotDealer::findRobotForRole(std::string const &tacticName, std::string const &roleName) {
 
     auto tacticSet = robotOwners[tacticName];
     // Check if the robot is in there
@@ -183,6 +183,7 @@ int RobotDealer::findRobotForRole(std::string const &roleName, std::string const
             return robotPair.first;
         }
     }
+
     return - 1;
 }
 
@@ -199,20 +200,9 @@ bool RobotDealer::releaseKeeper() {
     }
     keeper = - 1;
     removeRobotFromOwnerList(keeper);
-    keeperAvailable = true;
+    isKeeperAvailable = true;
     return true;
 
-}
-
-
-
-/// Claim multiple robots
-bool RobotDealer::claimRobot(std::set<int> ids) {
-    bool allClaimed = true;
-    for (int id : ids) {
-        allClaimed &= claimRobot(id);
-    }
-    return allClaimed;
 }
 
 /// Releases a robot from being used
@@ -235,6 +225,15 @@ bool RobotDealer::releaseRobot(int id) {
     return true;
 }
 
+/// Claim multiple robots
+bool RobotDealer::claimRobot(std::set<int> ids) {
+    bool allClaimed = true;
+    for (int id : ids) {
+        allClaimed &= claimRobot(id);
+    }
+    return allClaimed;
+}
+
 /// Releases multiple robots
 bool RobotDealer::releaseRobot(std::set<int> ids) {
     bool allReleased = true;
@@ -248,17 +247,20 @@ bool RobotDealer::releaseRobot(std::set<int> ids) {
 void RobotDealer::removeRobotFromOwnerList(int id) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
-    // For each tactic...
-    for (auto &tactic : robotOwners) {
+    boost::optional<std::string> tacticToRemove;
+
+    // For each robot set list...
+
+    for (auto &entry : robotOwners) {
         // Get the set
-        auto &robotSet = tactic.second;
+        auto &robotSet = entry.second;
         // Check if the robot is in there
         for (auto &robotPair : robotSet) {
             if (robotPair.first == id) {
                 robotSet.erase(robotPair);
 
                 if (robotSet.empty()) {
-                    boost::optional<std::string> tacticToRemove = tactic.first;
+                    tacticToRemove = entry.first;
                     robotOwners.erase(*tacticToRemove);
                     return;
                 }
@@ -275,12 +277,14 @@ void RobotDealer::haltOverride() {
 
 /// Checks if a robot ID is legal
 bool RobotDealer::validateID(int id) {
+    if (id == 1) return true;
     if (World::getRobotForId(id, true)) return true;
     else return false;
 }
 
 /// Checks if a robot is free
 bool RobotDealer::isRobotAvailable(int id) {
+    if (id==1) return true;
     return takenRobots.find(id) == takenRobots.end();
 }
 

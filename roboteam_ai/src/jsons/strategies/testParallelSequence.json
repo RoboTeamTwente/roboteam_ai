@@ -9,23 +9,23 @@
         "scope": "tree",
         "properties": {},
         "root": "bbb",
-        "title": "DemoStrategy",
+        "title": "ParallelSequenceStrategy",
         "nodes": {
           "bbb": {
             "child": "ccc",
             "description": "",
             "id": "bbb",
             "name": "Repeat",
+            "title": "Repeat",
             "properties": {
-              "testparsec": "testparsec"
-            },
-            "title": "Repeat"
+              "limit": "0"
+            }
           },
           "ccc": {
             "description": "",
             "id": "ccc",
             "title": "Tactic",
-            "name": "PS_Tactic"
+            "name": "ParallelSequenceTactic"
           }
 
         }

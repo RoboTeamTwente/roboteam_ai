@@ -30,7 +30,6 @@ int main(int argc, char* argv[]) {
     factory.init();
 
     while (ros::ok()) {
-        rate.sleep();
         ros::spinOnce();
 
         // make ROS worldstate and geometry data globally accessible
@@ -41,7 +40,8 @@ int main(int argc, char* argv[]) {
 
         if (!ai::World::didReceiveFirstWorld) continue;
 
-        strategy = factory.getTree("DemoStrategy");
+
+        strategy = factory.getTree("ParallelSequenceStrategy");
 
         bt::Node::Status status = strategy->Tick();
 
@@ -51,6 +51,7 @@ int main(int argc, char* argv[]) {
             ROS_DEBUG_STREAM_NAMED("Roboteam_ai", "Strategy result: " << statusStr.c_str() << "Shutting down...\n");
             break;
         }
+        rate.sleep();
     }
 
     // Terminate if needed

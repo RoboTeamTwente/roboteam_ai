@@ -96,6 +96,8 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DemoTactic.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DemoTactic.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/ParallelSequenceTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/ParallelSequenceTest.h
         )
 
 set(IO_SOURCES

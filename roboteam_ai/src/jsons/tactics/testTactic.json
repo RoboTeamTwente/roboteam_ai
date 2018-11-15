@@ -65,7 +65,8 @@
             "properties": {
               "ROLE": "testRole",
               "goToBall": "true",
-              "Position": "{ 0.0, 0.0 }"
+              "Position": "{ 5.0, 5.0 }",
+              "ROLE": "ROLE"
             },
             "title": "GoToPos"
           }
