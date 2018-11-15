@@ -160,10 +160,10 @@ double GoToPos::getAngularVelocity() {
         direction = - 1;
     }
     if (angleDiff < angularErrorMargin) {
-        return direction*MAX_ANGULAR_VELOCITY*0.2;
+        return direction*Constants::MAX_ANGULAR_VELOCITY()*0.2;
     }
     else {
-        return direction*MAX_ANGULAR_VELOCITY; // (angleDiff + 1.0);
+        return direction*Constants::MAX_ANGULAR_VELOCITY(); // (angleDiff + 1.0);
     }
 
 }
