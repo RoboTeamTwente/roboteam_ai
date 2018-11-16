@@ -72,18 +72,6 @@ TEST(BTBlackBoardTest, Blackboard) {
 
     ASSERT_EQ(bbmsg->getVector2("vector2_c").x, 0);
     ASSERT_EQ(bbmsg->getString("string_b"), "is");
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 
