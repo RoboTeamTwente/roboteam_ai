@@ -2,18 +2,6 @@
 #include "../src/treeinterp/BTFactory.h"
 #include "../src/bt/tactics/DemoTactic.h"
 
-TEST(BT, BTTest) {
-    // ===Let's build a BT manually!===
-    // This  will be the tree
-    bt::BehaviorTree manualTree;
-    bt::Blackboard::Ptr bb;
-    bb->setString("testdemotac", "testdemotac");
-    bt::Repeater::Ptr repeater;
-    bt::DemoTactic::Ptr demoTactic = std::make_shared<bt::DemoTactic>("DemoTactic", bb);
-    repeater->AddChild(demoTactic);
-    manualTree.AddChild(repeater);
-}
-
 TEST (BT, JsonEditor) {
     BTFactory dummyFactory = BTFactory::getFactory();
     std::string testProject = "sample";
