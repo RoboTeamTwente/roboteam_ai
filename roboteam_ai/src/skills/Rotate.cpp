@@ -3,6 +3,7 @@
 //
 
 #include "Rotate.h"
+#include "math.h"
 
 namespace rtt {
 namespace ai {
@@ -95,24 +96,25 @@ bt::Node::Status Rotate::Update() {
             }
         }
     }
-
-    double direction = 1;               // counter clockwise rotation
-    double minW = 0.5;
-
-    deltaAngle = targetAngle - robot.angle;
-    while (deltaAngle < 0) deltaAngle += 2*M_PI;
-    while (deltaAngle > 2*M_PI) deltaAngle -= 2*M_PI;
-    if (deltaAngle > M_PI) {
-        deltaAngle = (float) (2*M_PI - deltaAngle);
-        direction = - 1;                //  clockwise rotation
-    }
-    if (deltaAngle > 1)deltaAngle = 1;
+//
+//    double direction = 1;               // counter clockwise rotation
+//    double minW = 0.5;
+//
+//    deltaAngle = targetAngle - robot.angle;
+//    while (deltaAngle < 0) deltaAngle += 2*M_PI;
+//    while (deltaAngle > 2*M_PI) deltaAngle -= 2*M_PI;
+//    if (deltaAngle > M_PI) {
+//        deltaAngle = (float) (2*M_PI - deltaAngle);
+//        direction = - 1;                //  clockwise rotation
+//    }
+//    if (deltaAngle > 1)deltaAngle = 1;
+//    auto angularVel = (float) (direction*(minW + (deltaAngle*deltaAngle*deltaAngle*MAX_ANGULAR_VELOCITY)));
 
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     command.use_angle = 1;
-    auto angularVel = (float) (direction*(minW + (deltaAngle*deltaAngle*deltaAngle*MAX_ANGULAR_VELOCITY)));
-    command.w = angularVel;
+
+    command.w = (float)getAngularVelocity(robot.angle, targetAngle);
     publishRobotCommand(command);
     std::cerr << "Rotate command -> id: " << command.id << ", w_vel: " << command.w << std::endl;
     currentProgress = checkProgression();
@@ -146,6 +148,22 @@ Rotate::Progression Rotate::checkProgression() {
     else return DONE;
 }
 
+double Rotate::getAngularVelocity(double robotAngle, double targetAngle) {
+
+    double direction = 1;               // counter clockwise rotation
+    double rotFactor = 8;
+
+    double angleDiff = targetAngle - robotAngle;
+    while (angleDiff < 0) angleDiff += 2*M_PI;
+    while (angleDiff > 2*M_PI) angleDiff -= 2*M_PI;
+    if (angleDiff > M_PI) {
+        angleDiff = 2.0*M_PI - angleDiff;
+        direction = - 1;                //  clockwise rotation
+    }
+    if (angleDiff>1)angleDiff=1;
+    return direction*(std::pow(rotFactor, angleDiff-1)*MAX_ANGULAR_VELOCITY-1/rotFactor);
+
+}
 
 } // ai
 } // rtt
