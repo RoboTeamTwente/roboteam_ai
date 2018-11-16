@@ -3,6 +3,7 @@
 //
 
 #include "GoToPos.h"
+#include "Rotate.h"
 
 namespace rtt {
 namespace ai {
@@ -22,13 +23,13 @@ void GoToPos::Initialize() {
         }
         else {
             ROS_ERROR("GoToPos Initialize -> robot does not exist in world");
-            currentProgress = Progression::INVALID;
+            currentProgress = Progression::FAIL;
             return;
         }
     }
     else {
         ROS_ERROR("GoToPos Initialize -> ROLE INVALID!!");
-        currentProgress = Progression::INVALID;
+        currentProgress = Progression::FAIL;
         return;
     }
 //  ____________________________________________________
@@ -41,7 +42,7 @@ void GoToPos::Initialize() {
     }
     else {
         ROS_ERROR("GoToPos Initialize -> No good X or Y set in properties");
-        currentProgress = Progression::INVALID;
+        currentProgress = Progression::FAIL;
     }
 
 }
@@ -125,7 +126,8 @@ void GoToPos::sendMoveCommand() {
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     command.use_angle = 1;
-    auto angularVel = (float) getAngularVelocity();
+
+    auto angularVel = (float)Rotate::getAngularVelocity(robot.angle, deltaPos.angle());
     command.w = angularVel;
 
     command.x_vel = 1.5;// abs(angularVel)/(abs(angularVel)-1);
@@ -158,6 +160,7 @@ std::string GoToPos::node_name() {
 double GoToPos::getAngularVelocity() {
 
     double direction = 1;               // counter clockwise rotation
+    double minW = 0.5;
 
     auto targetAngle = (float) deltaPos.angle();
 
@@ -169,7 +172,7 @@ double GoToPos::getAngularVelocity() {
         direction = - 1;                //  clockwise rotation
     }
     if (angleDiff>1)angleDiff=1;
-    return direction*(angleDiff*angleDiff)*MAX_ANGULAR_VELOCITY;
+    return direction*(minW + angleDiff*angleDiff*angleDiff)*MAX_ANGULAR_VELOCITY;
 
 
 

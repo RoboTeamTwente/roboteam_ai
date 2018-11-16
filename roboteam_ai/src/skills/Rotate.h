@@ -39,6 +39,7 @@ class Rotate : public Skill {
         Status Update() override;
         void Terminate(status s) override;
 
+        static double getAngularVelocity(double robotAngle, double targetAngle);
         std::string node_name() override;
 
 
