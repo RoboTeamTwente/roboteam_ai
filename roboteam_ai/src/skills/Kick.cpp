@@ -17,12 +17,12 @@ void Kick::Initialize() {
 bt::Node::Status Kick::Update() {
     // Fail if we did not succeed after a number of cycles
     amountOfCycles ++;
-    if (amountOfCycles > MAX_KICK_CYCLES) {
+    if (amountOfCycles > constants::MAX_KICK_CYCLES) {
         return Status::Failure;
     }
 
     // Get kickVelocity from blackboard, otherwise it is a default value.
-    double kickVel = properties->hasDouble("kickVel") ? properties->getDouble("kickVel") : DEFAULT_KICK_POWER;
+    double kickVel = properties->hasDouble("kickVel") ? properties->getDouble("kickVel") : constants::DEFAULT_KICK_POWER;
 
     // Send the robotCommand.
     sendKickCommand(kickVel);
