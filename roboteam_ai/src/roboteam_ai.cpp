@@ -64,11 +64,13 @@ int main(int argc, char* argv[]) {
             // return failure, success or invalid
             ROS_DEBUG_STREAM_NAMED("Roboteam_ai", "Strategy result: " << statusStr.c_str() << "Shutting down...\n");
             if (status == Status::Success) {
-                std::cerr << "===================================== TREE CHANGE =====================================================" << std::endl;
+                std::cerr << "=============================================================================== TREE CHANGE ===================================================================================" << std::endl;
                 currentTree = "ParallelSequenceStrategy"; // TODO give new tree name
                 continue;
             } else if (status == Status::Failure) {
                 std::cerr << "fail...." << std::endl;
+            } else {
+                std::cerr << "else" << std::endl;
             }
         }
         rate.sleep();
