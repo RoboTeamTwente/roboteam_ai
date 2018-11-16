@@ -150,7 +150,6 @@ TEST(RobotDealerTest, RobotDealerTest) {
     ai::RobotDealer::haltOverride();    //nuke
 
     //TODO: make these functions/make these tests
-    ASSERT_EQ(-1, ai::RobotDealer::claimRobotClosestToBall());
     ASSERT_EQ(-1, ai::RobotDealer::claimRobotClosestToPoint({0,0}));
 
     std::string tac42 = "yes";

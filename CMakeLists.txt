@@ -110,13 +110,9 @@ set(UTILS_SOURCES
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.hpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.cpp
-#    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RefStateManager.hpp
-#    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RefStateManager.cpp
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
-#    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyMapper.hpp
-#    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyMapper.cpp
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
     ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.h
@@ -147,7 +143,8 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.cpp
-        )
+        roboteam_ai/src/utilities/StrategyManager.cpp
+        roboteam_ai/src/utilities/StrategyManager.h)
 
 ### SOURCES END ###
 
@@ -203,8 +200,7 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/IOTest.cpp
         roboteam_ai/test/RobotDealerTest.cpp
         roboteam_ai/test/RefereeTest.cpp
-        roboteam_ai/test/RefStateManagerTest.cpp
-        roboteam_ai/test/StrategyMapperTest.cpp
+        roboteam_ai/test/StrategyManagerTest.cpp
         roboteam_ai/test/PropertiesParserTest.cpp
         ${SKILL_TESTS}
         ${CONDITION_TESTS}

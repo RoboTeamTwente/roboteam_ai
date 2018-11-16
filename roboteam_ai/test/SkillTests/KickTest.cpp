@@ -34,7 +34,7 @@ TEST(KickTest, It_sends_proper_robotcommands) {
     ros::spinOnce();
 
     std::vector<roboteam_msgs::RobotCommand> cmds = commands;
-    EXPECT_EQ(commands.size(), 1);
+    EXPECT_EQ((signed int) commands.size(), 1);
     EXPECT_TRUE(commands.at(0).kicker);
     EXPECT_TRUE(commands.at(0).kicker_forced);
     EXPECT_EQ(commands.at(0).kicker_vel, DEFAULT_KICK_POWER);
