@@ -8,7 +8,6 @@
 #include "Skill.h"
 #include "roboteam_utils/Vector2.h"
 
-
 namespace rtt {
 namespace ai {
 
@@ -20,12 +19,11 @@ class GoToPos : public Skill {
         bool goBehindBall;
         roboteam_msgs::WorldRobot robot;
 
-        double getAngularVelocity();
-
         enum Progression {
           ON_THE_WAY, DONE, FAIL, INVALID
         };
         Progression currentProgress;
+        Progression checkProgression();
 
         Vector2 deltaPos;
         Vector2 targetPos;
@@ -34,16 +32,17 @@ class GoToPos : public Skill {
 
         void sendMoveCommand();
 
-        Progression checkProgression();
+
+        double getAngularVelocity();
 
         bool commandSend;
 
     public:
-        Status Update() override;
+        explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
 
         void Initialize() override;
+        Status Update() override;
         void Terminate(status s) override;
-        explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
 
         std::string node_name() override;
 

@@ -1,17 +1,19 @@
 //
-// Created by baris on 05/11/18.
+// Created by thijs on 15-11-18.
 //
 #include "../Tactic.h"
 #include "../../../src/utilities/RobotDealer.h"
 
-#ifndef ROBOTEAM_AI_TACTICNODE_H
-#define ROBOTEAM_AI_TACTICNODE_H
+#ifndef ROBOTEAM_AI_VICTORYDANCETACTIC_H
+#define ROBOTEAM_AI_VICTORYDANCETACTIC_H
+
+
 namespace bt {
 
-class DemoTactic : public Tactic {
+class VictoryDanceTactic : public Tactic {
 
     public:
-        DemoTactic(std::string name, Blackboard::Ptr blackboard);
+        VictoryDanceTactic(std::string name, Blackboard::Ptr blackboard);
 
         std::string name;
 
@@ -32,6 +34,5 @@ class DemoTactic : public Tactic {
 
 };
 
+#endif //ROBOTEAM_AI_VICTORYDANCETACTIC_H
 } // bt
-
-#endif //ROBOTEAM_AI_TACTICNODE_H

@@ -6,36 +6,42 @@
 #define ROBOTEAM_AI_ROTATEAROUNDPOINT_H
 
 #include "Skill.h"
-#include <boost/optional.hpp>
 #include "roboteam_utils/Vector2.h"
-#include "../utilities/World.h"
-#include "../utilities/Field.h"
 
 namespace rtt {
 namespace ai {
 
 class Rotate : public Skill {
-    public:
-
-        using worldBall = roboteam_msgs::WorldBall;
-        using worldRobot = roboteam_msgs::WorldRobot;
-
-        explicit Rotate(string name, bt::Blackboard::Ptr blackboard);
-
-        Status Update() override;
-
-        void Initialize() override;
-
     private:
+        using status = bt::Node::Status;
+
+        bool rotateToBall;
+        int rotateToRobotID;
+        bool rotateToEnemyGoal;
+        bool rotateToOurGoal;
+        bool robotIsEnemy = false;
+        roboteam_msgs::WorldRobot robot;
+
+
         enum Progression {
-          ROTATING, DONE, FAIL
+          ROTATING, DONE, FAIL, INVALID
         };
         Progression currentProgress;
-        double targetRotation;
-        int targetObject;
-        bool rotateToObject;
-    protected:
-        virtual void sendRotationCommand(double angularVelocity);
+        Progression checkProgression();
+
+        double deltaAngle;
+        double targetAngle;
+
+    public:
+        explicit Rotate(string name, bt::Blackboard::Ptr blackboard);
+
+        void Initialize() override;
+        Status Update() override;
+        void Terminate(status s) override;
+
+        std::string node_name() override;
+
+
 };
 
 } // ai

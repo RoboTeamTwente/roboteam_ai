@@ -29,6 +29,8 @@ set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/JsonReader.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/PropertiesParser.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/PropertiesParser.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/Switches.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/Switches.h
         roboteam_ai/src/treeinterp/BTImport.h)
 
 set(DANGER_FINDER_SOURCES
@@ -98,6 +100,8 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DemoTactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/ParallelSequenceTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/ParallelSequenceTest.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/VictoryDanceTactic.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/VictoryDanceTactic.h
         )
 
 set(IO_SOURCES

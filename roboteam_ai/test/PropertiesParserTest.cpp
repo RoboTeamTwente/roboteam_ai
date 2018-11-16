@@ -25,8 +25,10 @@ TEST(PropertiesParserTest, ParseCorrectVars) {
     ASSERT_EQ(bb->getBool("bool_b"), false);
     ASSERT_EQ(bb->getVector2("vector_a").x, 43.0);
     ASSERT_EQ(bb->getVector2("vector_a").y, 41);
-    ASSERT_EQ(bb->getVector2("vector_b").x, 6.8);
+    ASSERT_EQ(bb->getVector2("vector_b").x, -6.8);
     ASSERT_EQ(bb->getVector2("vector_b").y, 3.2);
+    ASSERT_EQ(bb->getVector2("vector_c").x, -1.0);
+    ASSERT_EQ(bb->getVector2("vector_c").y, -2);
     ASSERT_EQ(bb->getString("string_a"), "some string");
     ASSERT_EQ(bb->getString("not_a_bool"), " true ");
     ASSERT_EQ(bb->getString("not_an_int"), " 155 3");

@@ -51,7 +51,8 @@ int main(int argc, char* argv[]) {
         // std::string strategyName = strategyManager.getCurrentStrategyName();
         // strategy = factory.getTree(strategyName);
 
-        strategy = factory.getTree("DemoStrategy");
+        strategy = factory.getTree("victoryDanceStrategy");
+
         bt::Node::Status status = strategy->Tick();
 
         if (status != bt::Node::Status::Running) {

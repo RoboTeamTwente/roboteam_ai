@@ -22,26 +22,13 @@ class BTFactory {
     public:
         void init();
 
-        JsonReader jsonReader;
-
         static BTFactory &getFactory();
 
-        void updateProject(std::string projectName);
-
         bt::BehaviorTree::Ptr getTree(std::string treeName);
-
-        void updateTree(std::string projectName, std::string treeName);
 
         static std::map<std::string, bt::BehaviorTree::Ptr> strategyRepo;
 
         static std::map<std::string, bt::Node::Ptr> tacticsRepo;
-
-        bool isIsInitiated() const;
-
-        void setIsInitiated(bool isInitiated);
-
-    protected:
-//       static bool isInitiated;
 
 
 };

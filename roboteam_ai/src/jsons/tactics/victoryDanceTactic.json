@@ -1,0 +1,81 @@
+{
+  "description": "OVERWINNING DANS",
+  "name": "victoryDanceTactic",
+  "data": {
+    "scope": "TacticRepo",
+    "trees": [
+      {
+        "description": "Victory dance.. no description needed",
+        "scope": "tree",
+        "properties": {},
+        "root": "999",
+        "title": "VictoryDanceTactic",
+        "nodes": {
+          "999": {
+            "child": "100",
+            "id": "999",
+            "name": "ParallelSequence"
+          },
+          "100": {
+            "child": "101",
+            "title": "Role",
+            "name": "victory1",
+            "properties": {
+              "ROLE": "victory1"
+            },
+            "description": "robot 1"
+          },
+          "101": {
+            "children": ["102", "103", "104", "105"],
+            "id": "101",
+            "title": "MemSequence",
+            "name": "MemSequence",
+            "properties": {},
+            "description": "order of doing stuff"
+          },
+          "102": {
+            "description": "go to starting position",
+            "id": "102",
+            "name": "GoToPos",
+            "title": "GoToPos",
+            "properties": {
+              "ROLE": "victory1",
+              "Position": "{0, 1}"
+            }
+          },
+          "103": {
+            "description": "half-Circle?",
+            "id": "103",
+            "name": "Rotate",
+            "title": "Rotate",
+            "properties": {
+              "ROLE": "victory1",
+              "Angle": "3.1"
+            }
+          },
+          "104": {
+            "description": "go to starting position",
+            "id": "104",
+            "name": "GoToPos",
+            "title": "GoToPos",
+            "properties": {
+              "ROLE": "victory1",
+              "Position": "{-1, 1}"
+            }
+          },
+          "105": {
+            "description": "go to starting position",
+            "id": "105",
+            "name": "GoToPos",
+            "title": "GoToPos",
+            "properties": {
+              "ROLE": "victory1",
+              "Position": "{0, -1}"
+            }
+          }
+
+        }
+      }
+    ]
+  }
+}

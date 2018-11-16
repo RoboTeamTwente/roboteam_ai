@@ -1,32 +1,31 @@
 {
-  "description": "This is a test strategy jason with only one tactic ",
-  "name": "TestStrategy",
+  "description": "OVERWINNING DANS",
+  "name": "VictoryDanceStrategy",
   "data": {
     "scope": "StrategyRepo",
     "trees": [
       {
-        "description": "The testing strategy tree",
+        "description": "victory dance <3",
         "scope": "tree",
         "properties": {},
         "root": "bbb",
-        "title": "DemoStrategy",
+        "title": "victoryDanceStrategy",
         "nodes": {
           "bbb": {
             "child": "ccc",
             "description": "",
             "id": "bbb",
-            "name": "Repeat",
-            "properties": {}
+            "name": "UntilSuccess",
+            "title": "UntilSucces",
+            "properties": {
+              "limit": "0"
+            }
           },
           "ccc": {
             "description": "",
             "id": "ccc",
             "title": "Tactic",
-            "name": "DemoTactic",
-            "properties": {
-              "testdemotac": "testdemotac"
-            }
-
+            "name": "VictoryDanceTactic"
           }
 
         }
