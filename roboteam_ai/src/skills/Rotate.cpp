@@ -128,8 +128,8 @@ bt::Node::Status Rotate::Update() {
         return Status::Success;
     }
 
-    if (angleDifference > M_PI) { angularVelocity = Constants::MAX_ANGULAR_VELOCITY(); }
-    else { angularVelocity = - Constants::MAX_ANGULAR_VELOCITY(); }
+    if (angleDifference > M_PI) { angularVelocity = constants::MAX_ANGULAR_VELOCITY; }
+    else { angularVelocity = - constants::MAX_ANGULAR_VELOCITY; }
 
     // Send the robotCommand.
     sendRotationCommand(angularVelocity);
