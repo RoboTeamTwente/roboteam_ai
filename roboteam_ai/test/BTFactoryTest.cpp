@@ -1,79 +1,66 @@
-////
-//// Created by baris on 02/10/18.
-////
-//
-//#include <gtest/gtest.h>
-//#include "../src/treeinterp/BTFactory.h"
-//
-//TEST(BT, BTTest) {
-//
-//    // ===Let's build a BT manually!===
-//
-//    // This  will be the tree
-//    bt::BehaviorTree manualTree;
-//    // TODO: test the functions of BTFactory once they can be implemented
-//
-//}
-//
-//TEST (BT, JsonEditor) {
-//    BTFactory dummyFactory = BTFactory::getFactory();
-//    std::string testProject = "sample";
-//    std::string testTree = "sAmPleNamE";
-//    JsonReader pathReader;
-//
-//    pathReader.editJSON(testProject, testTree, "description", "TESTING");
-//    json readJson = pathReader.readJSON(testProject);
-//
-//    ASSERT_EQ(readJson["data"]["trees"][0]["description"], "TESTING");
-//    pathReader.editJSON(testProject, testTree, "description", "A");
-//
-//    readJson = pathReader.readJSON(testProject);
-//    ASSERT_EQ(readJson["data"]["trees"][0]["description"], "A");
-//
-//    pathReader.editJSON(testProject, testTree, "description", "");
-//    readJson = pathReader.readJSON(testProject);
-//    ASSERT_EQ(readJson["data"]["trees"][0]["description"], "");
-//}
-//
-//// Warning: tests depend on functioning of JsonTest and BTtests!!
-//TEST(BT, BasicFactoryTest) {
-//
-//    BTFactory dummyFactory = BTFactory::getFactory();
-//
-//    //Define file to test with and update the project to match it.
-//    std::string testProjectA = "bigjson";
-//    std::string testTreeA = "2d276c37-4ffc-4209-bc32-9fd2405a2ad6";
-//    std::string testTreeB = "77bc7cab-fe50-4754-9cd4-b80ef75cecf1";
-//    int testProjectSize = 5; // The amount of trees in the project
-//    //try updating a single Tree
-//    dummyFactory.updateTree(testProjectA, testTreeA);
-//
-//    // Get the tree of that project
-//    std::map<std::string, bt::BehaviorTree> treeMapA = dummyFactory.getProject(testProjectA);
-//
-//    // CHeck if it only updated one Tree and the right Tree
-//    ASSERT_EQ(treeMapA.size(), 1);
-//    ASSERT_EQ(treeMapA.find(testTreeA)->first, testTreeA);
-//    ASSERT_NE(treeMapA.find(testTreeA), treeMapA.end());
-//    ASSERT_EQ(treeMapA.find(testTreeB), treeMapA.end());
-//
-//    treeMapA.clear();
-//
-//    //try updating the whole project (automatically updates all trees with their ID's)
-//    dummyFactory.updateProject(testProjectA);
-//
-//    // get the tree again:
-//    treeMapA = dummyFactory.getProject(testProjectA);
-//
-//
-//    // Check if all the trees are updated
-//    ASSERT_EQ(treeMapA.size(), testProjectSize);
-//    ASSERT_NE(treeMapA.find(testTreeA), treeMapA.end());
-//    ASSERT_NE(treeMapA.find(testTreeB), treeMapA.end());
-//    ASSERT_EQ(treeMapA.find(testTreeA)->first, testTreeA);
-//    ASSERT_EQ(treeMapA.find(testTreeB)->first, testTreeB);
-//
-//}
-//
-//
-//
+#include <gtest/gtest.h>
+#include "../src/treeinterp/BTFactory.h"
+#include "../src/bt/tactics/DemoTactic.h"
+
+TEST(BT, BTTest) {
+    // ===Let's build a BT manually!===
+    // This  will be the tree
+    bt::BehaviorTree manualTree;
+    bt::Blackboard::Ptr bb;
+    bb->setString("testdemotac", "testdemotac");
+    bt::Repeater::Ptr repeater;
+    bt::DemoTactic::Ptr demoTactic = std::make_shared<bt::DemoTactic>("DemoTactic", bb);
+    repeater->AddChild(demoTactic);
+    manualTree.AddChild(repeater);
+}
+
+TEST (BT, JsonEditor) {
+    BTFactory dummyFactory = BTFactory::getFactory();
+    std::string testProject = "sample";
+    std::string testTree = "sAmPleNamE";
+    JsonReader pathReader;
+
+    pathReader.editJSON(testProject, testTree, "description", "TESTING");
+    json readJson = pathReader.readJSON(testProject);
+
+    ASSERT_EQ(readJson["data"]["trees"][0]["description"], "TESTING");
+    pathReader.editJSON(testProject, testTree, "description", "A");
+
+    readJson = pathReader.readJSON(testProject);
+    ASSERT_EQ(readJson["data"]["trees"][0]["description"], "A");
+
+    pathReader.editJSON(testProject, testTree, "description", "");
+    readJson = pathReader.readJSON(testProject);
+    ASSERT_EQ(readJson["data"]["trees"][0]["description"], "");
+}
+
+
+// Warning: tests depend on functioning of JsonTest and BTtests!!
+TEST(BT, BasicFactoryTest) {
+    BTFactory dummyFactory = BTFactory::getFactory();
+    dummyFactory.init();
+//    bt::BehaviorTree::Ptr strategyTree = dummyFactory.getTree("DemoStrategy");
+//    ASSERT_EQ(strategyTree->GetRoot()->node_name(), "Repeater");
+//    ASSERT_EQ(strategyTree->GetRoot()->getChildren().size(), 1);
+//    bt::Node::Ptr hopefullyARepeater = strategyTree->GetRoot();
+//    ASSERT_EQ(hopefullyARepeater->getChildren().size(), 1);
+//    bt::Node::Ptr hopefullyADemoTactic = hopefullyARepeater->getChildren().at(0);
+//    ASSERT_EQ(hopefullyADemoTactic->getChildren().size(), 1);
+//    ASSERT_EQ(hopefullyADemoTactic->node_name(), "DemoTactic");
+
+    std::string trace = "";
+
+    bt::BehaviorTree::Ptr strategyTree = dummyFactory.getTree("DemoStrategy");
+    bt::Node::Ptr node = strategyTree->GetRoot();
+
+    // add the first node
+    trace += node->node_name() + "-";
+
+    // loop recursively through nodes
+    // we assume that there is only one child
+    while (!node->getChildren().empty()) {
+        node = node->getChildren().at(0);
+        trace += node->node_name() + "-";
+    }
+    ASSERT_EQ(trace, "Repeater-Demo Tactic-testRole-MemSequence-GoToPos-");
+}

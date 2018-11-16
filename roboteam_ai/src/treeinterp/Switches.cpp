@@ -84,7 +84,6 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 
     if (name == "DemoTactic") {
         node = std::make_shared<bt::DemoTactic>("DemoTactic", properties);
-
     }
     else if (name == "ParallelSequenceTactic") {
         node = std::make_shared<bt::ParallelSequenceTactic>("ParallelSequenceTactic", properties);

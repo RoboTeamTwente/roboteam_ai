@@ -22,6 +22,9 @@ void Decorator::Terminate(Status s) {
     }
 }
 
+std::vector<Node::Ptr> Decorator::getChildren() {
+    return std::vector<Node::Ptr>{child};
+}
 } // bt
 
 
