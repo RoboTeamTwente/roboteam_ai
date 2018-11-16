@@ -44,6 +44,13 @@ int main(int argc, char* argv[]) {
         ai::Referee::setRefereeData(refereeMsg);
 
         if (!ai::World::didReceiveFirstWorld) continue;
+
+
+        // for refereedata:
+        // ai::StrategyManager strategyManager;
+        // std::string strategyName = strategyManager.getCurrentStrategyName();
+        // strategy = factory.getTree(strategyName);
+
         strategy = factory.getTree("DemoStrategy");
         bt::Node::Status status = strategy->Tick();
 
