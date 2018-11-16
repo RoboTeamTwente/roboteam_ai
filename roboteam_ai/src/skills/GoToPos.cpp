@@ -127,7 +127,7 @@ void GoToPos::sendMoveCommand() {
     command.id = robot.id;
     command.use_angle = 1;
 
-    auto angularVel = (float)Rotate::getAngularVelocity(robot.angle, deltaPos.angle());
+    auto angularVel = (float)Control::calculateAngularVelocity(robot.angle, deltaPos.angle());
     command.w = angularVel;
 
     command.x_vel = 1.5;// abs(angularVel)/(abs(angularVel)-1);
@@ -157,26 +157,6 @@ std::string GoToPos::node_name() {
     return "GoToPos";
 }
 
-double GoToPos::getAngularVelocity() {
-
-    double direction = 1;               // counter clockwise rotation
-    double minW = 0.5;
-
-    auto targetAngle = (float) deltaPos.angle();
-
-    float angleDiff = targetAngle - robot.angle;
-    while (angleDiff < 0) angleDiff += 2*M_PI;
-    while (angleDiff > 2*M_PI) angleDiff -= 2*M_PI;
-    if (angleDiff > M_PI) {
-        angleDiff = (float) (2.0*M_PI - angleDiff);
-        direction = - 1;                //  clockwise rotation
-    }
-    if (angleDiff>1)angleDiff=1;
-    return direction*(minW + angleDiff*angleDiff*angleDiff)*MAX_ANGULAR_VELOCITY;
-
-
-
-}
 
 } // ai
 } // rtt

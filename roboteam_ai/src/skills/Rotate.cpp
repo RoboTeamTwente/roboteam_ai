@@ -114,22 +114,22 @@ bt::Node::Status Rotate::Update() {
     command.id = robot.id;
     command.use_angle = 1;
 
-    command.w = (float)getAngularVelocity(robot.angle, targetAngle);
+    command.w = (float) Control::calculateAngularVelocity(robot.angle, targetAngle);
     publishRobotCommand(command);
     std::cerr << "Rotate command -> id: " << command.id << ", w_vel: " << command.w << std::endl;
     currentProgress = checkProgression();
 
     switch (currentProgress) {
-    case ROTATING: return status::Running;
-    case DONE: return status::Success;
-    case FAIL: return status::Failure;
-    case INVALID: return status::Invalid;
+    case ROTATING: return Status::Running;
+    case DONE: return Status::Success;
+    case FAIL: return Status::Failure;
+    case INVALID: return Status::Invalid;
     }
 
-    return status::Failure;
+    return Status::Failure;
 }
 
-void Rotate::Terminate(status s) {
+void Rotate::Terminate(Status s) {
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     command.use_angle = 1;
@@ -148,22 +148,6 @@ Rotate::Progression Rotate::checkProgression() {
     else return DONE;
 }
 
-double Rotate::getAngularVelocity(double robotAngle, double targetAngle) {
-
-    double direction = 1;               // counter clockwise rotation
-    double rotFactor = 8;
-
-    double angleDiff = targetAngle - robotAngle;
-    while (angleDiff < 0) angleDiff += 2*M_PI;
-    while (angleDiff > 2*M_PI) angleDiff -= 2*M_PI;
-    if (angleDiff > M_PI) {
-        angleDiff = 2.0*M_PI - angleDiff;
-        direction = - 1;                //  clockwise rotation
-    }
-    if (angleDiff>1)angleDiff=1;
-    return direction*(std::pow(rotFactor, angleDiff-1)*MAX_ANGULAR_VELOCITY-1/rotFactor);
-
-}
 
 } // ai
 } // rtt
