@@ -6,11 +6,11 @@
 #include "../bt/Node.hpp"
 #include "../bt/tactics/DemoTactic.h"
 #include "../bt/tactics/ParallelSequenceTest.h"
+#include "../bt/tactics/VictoryDanceTactic.h"
 
+std::vector<std::string> Switches::tacticNames = {"testTactic", "testParallelTactic", "victoryDanceTactic"};
 
-std::vector<std::string> Switches::tacticNames = {"testTactic", "testParallelTactic"};
-
-std::vector<std::string> Switches::strategyNames = {"testStrategy", "testParallelSequence"};
+std::vector<std::string> Switches::strategyNames = {"testStrategy", "testParallelSequence", "victoryDanceStrategy"};
 
 
 
@@ -84,6 +84,9 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
     }
     else if (name == "ParallelSequenceTactic") {
         node = std::make_shared<bt::ParallelSequenceTactic>("ParallelSequenceTactic", properties);
+    }
+    else if (name == "VictoryDanceTactic") {
+        node = std::make_shared<bt::VictoryDanceTactic>("VictoryDanceTactic", properties);
     }
 
     return node;

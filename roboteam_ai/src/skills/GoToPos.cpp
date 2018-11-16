@@ -1,5 +1,3 @@
-#include <utility>
-
 //
 // Created by baris on 24/10/18.
 //
@@ -8,6 +6,10 @@
 
 namespace rtt {
 namespace ai {
+
+GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
+        :Skill(name, blackboard) {
+}
 
 /// Init the GoToPos skill
 void GoToPos::Initialize() {
@@ -35,8 +37,7 @@ void GoToPos::Initialize() {
     goBehindBall = properties->getBool("goBehindBall");
 
     if (properties->hasVector2("Position")) {
-        Vector2 posVector = properties->getVector2("Position");
-        targetPos = posVector;
+        targetPos = properties->getVector2("Position");
     }
     else {
         ROS_ERROR("GoToPos Initialize -> No good X or Y set in properties");
@@ -50,18 +51,15 @@ bt::Node::Status GoToPos::Update() {
 
     if (World::getRobotForId(robot.id, true)) {
         robot = World::getRobotForId(robot.id, true).get();
-
-    }
-    else {
+    } else {
         ROS_ERROR("GoToPos Update -> robot does not exist in world");
-        currentProgress = Progression::INVALID;
+        currentProgress = Progression::FAIL;
     }
 
     if (goToBall) {
         auto ball = World::getBall();
         targetPos = ball.pos;
-    }
-    if (goBehindBall) {
+    } else if (goBehindBall) {
         auto ball = World::getBall();
         auto enemyGoal = Field::get_their_goal_center();
         auto ballToEnemyGoal = enemyGoal - ball.pos;
@@ -134,7 +132,7 @@ void GoToPos::sendMoveCommand() {
     command.y_vel = 0;
     publishRobotCommand(command);
     commandSend = true;
-    std::cerr << "                  id: " << command.id << ", xvel: " << command.x_vel << ", yvel: " << command.y_vel
+    std::cerr << "GoToPos command -> id: " << command.id << ", xvel: " << command.x_vel << ", yvel: " << command.y_vel
               << ", w_vel: " << command.w
               << std::endl;
 }
@@ -146,27 +144,24 @@ GoToPos::Progression GoToPos::checkProgression() {
     double dy = targetPos.y - robot.pos.y;
     deltaPos = {dx, dy};
 
-    double maxMargin = 0.3;                        // max offset or something.
+    double maxMargin = 0.2;                        // max offset or something.
 
     if (deltaPos.length() >= maxMargin) return ON_THE_WAY;
     else return DONE;
 }
 
-GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
 
-}
 std::string GoToPos::node_name() {
     return "GoToPos";
 }
+
 double GoToPos::getAngularVelocity() {
 
-    auto currentAngle = robot.angle;
     double direction = 1;               // counter clockwise rotation
 
     auto targetAngle = (float) deltaPos.angle();
 
-    float angleDiff = targetAngle - currentAngle;
+    float angleDiff = targetAngle - robot.angle;
     while (angleDiff < 0) angleDiff += 2*M_PI;
     while (angleDiff > 2*M_PI) angleDiff -= 2*M_PI;
     if (angleDiff > M_PI) {

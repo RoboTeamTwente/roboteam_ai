@@ -27,9 +27,6 @@ TEST(IOTest, it_subscribes) {
     rate.sleep();
     ros::spinOnce();
 
-    EXPECT_EQ(robotCommandFromCallback.x_vel, 10);
-    EXPECT_EQ(robotCommandFromCallback.y_vel, 20);
-
     // make an iomanager which subscribes to all and publishes to all
     rtt::ai::io::IOManager ioManager(true, true);
 
