@@ -35,7 +35,7 @@ TEST(GoTOPos, GoTOPosTest) {
     ros::spinOnce();
 
     std::vector<roboteam_msgs::RobotCommand> cmds = commands;
-    EXPECT_EQ(commands.size(), 1);
+    EXPECT_EQ((signed int) commands.size(), 1);
     EXPECT_TRUE(commands.at(0).x_vel);
     EXPECT_TRUE(commands.at(0).y_vel);
 

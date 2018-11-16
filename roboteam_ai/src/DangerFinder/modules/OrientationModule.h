@@ -22,9 +22,9 @@ class OrientationModule final : public DangerModule {
         calculate(const roboteam_msgs::WorldRobot &bot, const roboteam_msgs::World &world) override;
 
     private:
-        double factor;
-        double scalar;
-        double danger;
+        double factor = 0;
+        double scalar = 0;
+        double danger = 0;
 
 };
 
