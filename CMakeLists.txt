@@ -152,7 +152,7 @@ set(CONDITIONS_SOURCES
 
 set(SKILL_TESTS
         roboteam_ai/test/SkillTests/KickTest.cpp
-        roboteam_ai/test/SkillTests/GoToPosTest.cpp
+        # roboteam_ai/test/SkillTests/GoToPosTest.cpp
         roboteam_ai/test/SkillTests/RotateTest.cpp
         )
 
