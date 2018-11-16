@@ -142,7 +142,6 @@ std::string Rotate::node_name() {
 Rotate::Progression Rotate::checkProgression() {
 
     double errorMargin = 0.05;
-    std::cerr << "deltaAngle: " << deltaAngle << std::endl;
     if (deltaAngle > errorMargin) return ROTATING;
     else return DONE;
 }
