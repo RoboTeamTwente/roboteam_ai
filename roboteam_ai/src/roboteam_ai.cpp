@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
 
         if (!ai::World::didReceiveFirstWorld) continue;
 
-        strategy = factory.getTree("DemoStrategy");
+        strategy = factory.getTree("victoryDanceStrategy");
 
         bt::Node::Status status = strategy->Tick();
 

@@ -8,14 +8,18 @@
 
 
 #include "TreeInterpreter.h"
-#include "../bt/tactics/DemoTactic.h"
-#include "../bt/tactics/ParallelSequenceTest.h"
+
 #include "../bt/Role.h"
 
 // all skills..
 #include "../skills/GoToPos.h"
 #include "../skills/Kick.h"
+#include "../skills/Rotate.h"
 
+// all tactics..
+#include "../bt/tactics/DemoTactic.h"
+#include "../bt/tactics/ParallelSequenceTest.h"
+#include "../bt/tactics/VictoryDanceTactic.h"
 
 /// Return a TreeInterpreter singleton
 TreeInterpreter &TreeInterpreter::getInstance() {
@@ -210,6 +214,9 @@ bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
     else if (name == "Kick") {
         skill = std::make_shared<rtt::ai::Kick>(name, properties);
     }
+    else if (name == "Rotate") {
+        skill = std::make_shared<rtt::ai::Rotate>(name, properties);
+    }
     else {
         skill = std::make_shared<rtt::ai::GoToPos>(name, properties);
     }
@@ -236,6 +243,11 @@ bt::Node::Ptr TreeInterpreter::tacticSwitch(std::string name, bt::Blackboard::Pt
     } else if (name == "ParallelSequenceTactic") {
         auto node = std::make_shared<bt::ParallelSequenceTactic>("ParallelSequenceTactic", properties);
         node->AddChild(tactics.find("ParallelSequenceTactic")->second);
+        return node;
+    }
+    else if (name == "VictoryDanceTactic") {
+        auto node = std::make_shared<bt::VictoryDanceTactic>("VictoryDanceTactic", properties);
+        node->AddChild(tactics.find("VictoryDanceTactic")->second);
         return node;
     }
     auto node = std::make_shared<bt::DemoTactic>("name", properties);

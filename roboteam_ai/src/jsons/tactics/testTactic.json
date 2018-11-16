@@ -39,13 +39,13 @@
             "display": {},
             "id": "201",
             "name": "GoToPos",
+            "title": "GoToPos",
             "properties": {
               "ROLE": "testRole",
               "goBehindBall": "true",
               "goToBall": "false",
               "Position": "{ 0.0, 0.0 }"
-            },
-            "title": "GoToPos"
+            }
           },
           "401": {
             "description": "",
