@@ -2,7 +2,6 @@
 
 #include "Node.hpp"
 #include "Blackboard.hpp"
-
 namespace bt {
 
 class BehaviorTree : public Node {
@@ -32,6 +31,7 @@ class BehaviorTree : public Node {
         void SetGlobalBlackboard(const Blackboard::Ptr &globalBB);
 
     private:
+
         Node::Ptr root = nullptr;
         Blackboard::Ptr globalBB = nullptr;
 
