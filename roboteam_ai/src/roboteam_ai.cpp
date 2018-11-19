@@ -12,6 +12,8 @@ namespace ai = rtt::ai;
 
 roboteam_msgs::World worldMsg;
 
+using Status = bt::Node::Status;
+
 int main(int argc, char* argv[]) {
     // Init ROS node
     ros::init(argc, argv, "StrategyNode");
@@ -32,6 +34,8 @@ int main(int argc, char* argv[]) {
 
     factory.init();
 
+    std::string currentTree = "victoryDanceStrategy";
+
     while (ros::ok()) {
         ros::spinOnce();
 
@@ -51,22 +55,30 @@ int main(int argc, char* argv[]) {
         // std::string strategyName = strategyManager.getCurrentStrategyName();
         // strategy = factory.getTree(strategyName);
 
-        strategy = factory.getTree("victoryDanceStrategy");
+        strategy = factory.getTree(currentTree);
 
-        bt::Node::Status status = strategy->Tick();
+        Status status = strategy->Tick();
 
-        if (status != bt::Node::Status::Running) {
-            auto statusStr = bt::statusToString(status);
+        if (status != Status::Running) {
+            std::string statusStr = bt::statusToString(status);
             // return failure, success or invalid
             ROS_DEBUG_STREAM_NAMED("Roboteam_ai", "Strategy result: " << statusStr.c_str() << "Shutting down...\n");
-            break;
+            if (status == Status::Success) {
+                std::cerr << "=============================================================================== TREE CHANGE ===================================================================================" << std::endl;
+                currentTree = "ParallelSequenceStrategy"; // TODO give new tree name
+                continue;
+            } else if (status == Status::Failure) {
+                std::cerr << "fail...." << std::endl;
+            } else {
+                std::cerr << "else" << std::endl;
+            }
         }
         rate.sleep();
     }
 
     // Terminate if needed
-    if (strategy->getStatus() == bt::Node::Status::Running) {
-        strategy->Terminate(bt::Node::Status::Running);
+    if (strategy->getStatus() == Status::Running) {
+        strategy->Terminate(Status::Running);
     }
 
     return 0;

@@ -13,7 +13,6 @@ namespace ai {
 
 class Rotate : public Skill {
     private:
-        using status = bt::Node::Status;
 
         bool rotateToBall;
         int rotateToRobotID;
@@ -37,7 +36,7 @@ class Rotate : public Skill {
 
         void Initialize() override;
         Status Update() override;
-        void Terminate(status s) override;
+        void Terminate(Status s) override;
 
         std::string node_name() override;
 

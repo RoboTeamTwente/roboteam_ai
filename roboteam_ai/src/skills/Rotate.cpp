@@ -3,6 +3,7 @@
 //
 
 #include "Rotate.h"
+#include "math.h"
 
 namespace rtt {
 namespace ai {
@@ -95,39 +96,40 @@ bt::Node::Status Rotate::Update() {
             }
         }
     }
-
-    double direction = 1;               // counter clockwise rotation
-    double minW = 0.5;
-
-    deltaAngle = targetAngle - robot.angle;
-    while (deltaAngle < 0) deltaAngle += 2*M_PI;
-    while (deltaAngle > 2*M_PI) deltaAngle -= 2*M_PI;
-    if (deltaAngle > M_PI) {
-        deltaAngle = (float) (2*M_PI - deltaAngle);
-        direction = - 1;                //  clockwise rotation
-    }
-    if (deltaAngle > 1)deltaAngle = 1;
+//
+//    double direction = 1;               // counter clockwise rotation
+//    double minW = 0.5;
+//
+//    deltaAngle = targetAngle - robot.angle;
+//    while (deltaAngle < 0) deltaAngle += 2*M_PI;
+//    while (deltaAngle > 2*M_PI) deltaAngle -= 2*M_PI;
+//    if (deltaAngle > M_PI) {
+//        deltaAngle = (float) (2*M_PI - deltaAngle);
+//        direction = - 1;                //  clockwise rotation
+//    }
+//    if (deltaAngle > 1)deltaAngle = 1;
+//    auto angularVel = (float) (direction*(minW + (deltaAngle*deltaAngle*deltaAngle*MAX_ANGULAR_VELOCITY)));
 
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     command.use_angle = 1;
-    auto angularVel = (float) (direction*(minW + (deltaAngle*deltaAngle*deltaAngle*MAX_ANGULAR_VELOCITY)));
-    command.w = angularVel;
+
+    command.w = (float) Control::calculateAngularVelocity(robot.angle, targetAngle);
     publishRobotCommand(command);
     std::cerr << "Rotate command -> id: " << command.id << ", w_vel: " << command.w << std::endl;
     currentProgress = checkProgression();
 
     switch (currentProgress) {
-    case ROTATING: return status::Running;
-    case DONE: return status::Success;
-    case FAIL: return status::Failure;
-    case INVALID: return status::Invalid;
+    case ROTATING: return Status::Running;
+    case DONE: return Status::Success;
+    case FAIL: return Status::Failure;
+    case INVALID: return Status::Invalid;
     }
 
-    return status::Failure;
+    return Status::Failure;
 }
 
-void Rotate::Terminate(status s) {
+void Rotate::Terminate(Status s) {
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     command.use_angle = 1;

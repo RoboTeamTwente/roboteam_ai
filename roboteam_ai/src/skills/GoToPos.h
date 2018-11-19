@@ -32,9 +32,6 @@ class GoToPos : public Skill {
 
         void sendMoveCommand();
 
-
-        double getAngularVelocity();
-
         bool commandSend;
 
     public:

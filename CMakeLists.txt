@@ -167,6 +167,10 @@ set(CONDITION_TESTS
         roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
         )
 
+set(CONTROL_SOURCES
+        roboteam_ai/src/control/ControlUtils.cpp
+        roboteam_ai/src/control/ControlUtils.h)
+
 ### TEST SOURCES END ###
 
 catkin_package()
@@ -184,6 +188,7 @@ add_executable(Roboteam_AI
         ${BT_SOURCES}
         ${SKILLS_SOURCES}
         ${CONDITIONS_SOURCES}
+        ${CONTROL_SOURCES}
         )
 
 add_dependencies(Roboteam_AI ${catkin_EXPORTED_TARGETS})
@@ -216,6 +221,7 @@ catkin_add_gtest(ai_tests
         ${IO_SOURCES}
         ${CONDITIONS_SOURCES}
         ${SKILLS_SOURCES}
+        ${CONTROL_SOURCES}
         )
 
 target_compile_options(ai_tests PUBLIC --coverage)

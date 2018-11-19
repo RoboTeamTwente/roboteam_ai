@@ -7,6 +7,7 @@
 #include "../bt/tactics/DemoTactic.h"
 #include "../bt/tactics/ParallelSequenceTest.h"
 #include "../bt/tactics/VictoryDanceTactic.h"
+#include "../skills/Rotate.h"
 
 std::vector<std::string> Switches::tacticNames = {"testTactic", "testParallelTactic", "victoryDanceTactic"};
 
@@ -66,6 +67,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     }
     else if (name == "Kick") {
         node = std::make_shared<rtt::ai::Kick>(name, properties);
+    }
+    else if (name == "Rotate") {
+        node = std::make_shared<rtt::ai::Rotate>(name, properties);
     }
     else {
         node = std::make_shared<rtt::ai::GoToPos>(name, properties);

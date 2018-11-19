@@ -8,7 +8,7 @@
 #define DEFAULT_ROBOT_ID 1
 #define DEFAULT_KICK_POWER 5.0      // max kick power = 100
 #define MAX_KICK_CYCLES 20
-#define MAX_ANGULAR_VELOCITY 12.0    // rad per second??
+#define MAX_ANGULAR_VELOCITY 10.0    // rad per second??
 #define PI 3.14159
 
 #define MAX_GENEVA_CYCLES 20
