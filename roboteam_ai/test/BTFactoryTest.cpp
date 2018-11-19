@@ -27,15 +27,6 @@ TEST (BT, JsonEditor) {
 TEST(BT, BasicFactoryTest) {
     BTFactory dummyFactory = BTFactory::getFactory();
     dummyFactory.init();
-//    bt::BehaviorTree::Ptr strategyTree = dummyFactory.getTree("DemoStrategy");
-//    ASSERT_EQ(strategyTree->GetRoot()->node_name(), "Repeater");
-//    ASSERT_EQ(strategyTree->GetRoot()->getChildren().size(), 1);
-//    bt::Node::Ptr hopefullyARepeater = strategyTree->GetRoot();
-//    ASSERT_EQ(hopefullyARepeater->getChildren().size(), 1);
-//    bt::Node::Ptr hopefullyADemoTactic = hopefullyARepeater->getChildren().at(0);
-//    ASSERT_EQ(hopefullyADemoTactic->getChildren().size(), 1);
-//    ASSERT_EQ(hopefullyADemoTactic->node_name(), "DemoTactic");
-
     std::string trace = "";
 
     bt::BehaviorTree::Ptr strategyTree = dummyFactory.getTree("DemoStrategy");
