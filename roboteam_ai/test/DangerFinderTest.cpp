@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "../src/DangerFinder/DangerFinder.h"
+#include "../src/dangerfinder/DangerFinder.h"
 #include <bitset>
 
 namespace df = rtt::ai::dangerfinder;
@@ -64,13 +64,13 @@ TEST(DangerFinderTest, it_has_correct_danger_flags) {
     worldMsg.us.push_back(getRobot(0, 200));
     danger = calculateDangerForWorld(worldMsg);
 
-    ASSERT_EQ(danger.flags.size(), 1);
+    ASSERT_EQ(danger.flags.size(), (unsigned int) 1);
     ASSERT_EQ(std::bitset<8>(danger.flags.at(0)), std::bitset<8>(0b00000000));
 
     // the robot should now also be closing in on our goal
     worldMsg.them.push_back(getRobot(0, 500));
     danger = calculateDangerForWorld(worldMsg);
-    ASSERT_EQ(danger.flags.size(), 1);
+    ASSERT_EQ((signed) danger.flags.size(), 1);
     ASSERT_EQ(std::bitset<8>(danger.flags.at(0)), std::bitset<8>(0b00000010));
 
     df::DangerFinder::instance().stop();
@@ -90,11 +90,11 @@ TEST(DangerFinderTest, it_logs_dangerdata) {
     danger = calculateDangerForWorld(worldMsg);
 
     // All robots of the enemy should have dangerscores
-    ASSERT_EQ(danger.dangerList.size(), amountOfRobots);
-    ASSERT_EQ(danger.scores.size(), amountOfRobots);
-    ASSERT_EQ(danger.flags.size(), amountOfRobots);
+    ASSERT_EQ((signed) danger.dangerList.size(), amountOfRobots);
+    ASSERT_EQ((signed) danger.scores.size(), amountOfRobots);
+    ASSERT_EQ((signed) danger.flags.size(), amountOfRobots);
     // there is no other data set for the robots so their danger scores should be equal
-    for (unsigned int i = 1; i < danger.scores.size(); i ++) {
+    for (int i = 1; i < (signed) danger.scores.size(); i ++) {
         ASSERT_EQ(danger.scores.at(i - 1), danger.scores.at(i));
     }
 
@@ -103,7 +103,7 @@ TEST(DangerFinderTest, it_logs_dangerdata) {
     danger = calculateDangerForWorld(worldMsg);
 
     // there is still no different data set for the robots so their danger scores should be equal
-    for (unsigned int i = 1; i < danger.scores.size(); i ++) {
+    for (int i = 1; i < (signed) danger.scores.size(); i ++) {
         ASSERT_EQ(danger.scores.at(i - 1), danger.scores.at(i));
     }
 

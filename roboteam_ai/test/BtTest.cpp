@@ -358,7 +358,7 @@ TEST(BehaviorTreeTest, selectorComposites) {
     ASSERT_EQ(memSelector.getStatus(), bt::Node::Status::Invalid);
     memSelector.index = 22;
     memSelector.Initialize();
-    ASSERT_EQ(memSelector.index, 0);
+    ASSERT_EQ(memSelector.index, (unsigned int) 0);
 
     // return success if no children
     ASSERT_EQ(memSelector.Update(), bt::Node::Status::Success);

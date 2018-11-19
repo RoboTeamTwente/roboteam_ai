@@ -36,8 +36,8 @@ TEST(RobotDealerTest, RobotDealerTest) {
     std::string roleK = "holdTheDoor";
 
     // Initially no Robot should be claimed
-    ASSERT_EQ(0, ai::RobotDealer::getClaimedRobots().size());
-    ASSERT_EQ(amountOfRobots, ai::RobotDealer::getAvailableRobots().size());
+    ASSERT_EQ(0, (signed) ai::RobotDealer::getClaimedRobots().size());
+    ASSERT_EQ(amountOfRobots, (signed) ai::RobotDealer::getAvailableRobots().size());
 
     int id = ai::RobotDealer::claimRandomRobot();
     ASSERT_EQ(id, *ai::RobotDealer::getClaimedRobots().begin());
@@ -49,7 +49,7 @@ TEST(RobotDealerTest, RobotDealerTest) {
     ASSERT_EQ(ai::RobotDealer::findRobotForRole(roleA), 1);
 
     std::set<int> claimedBots = ai::RobotDealer::getClaimedRobots();
-    ASSERT_EQ(1, ai::RobotDealer::getClaimedRobots().size());
+    ASSERT_EQ(1, (signed) ai::RobotDealer::getClaimedRobots().size());
 
     // bots 2 and 3 for tactic B
     std::pair<int, std::string> idNameB2 = {2, roleA};
@@ -60,9 +60,6 @@ TEST(RobotDealerTest, RobotDealerTest) {
 
     claimedBots = ai::RobotDealer::getClaimedRobots();
     ASSERT_EQ(3, claimedBots.size());
-
-    //set Keeper ID to 4
-
 
     // Claim the keeper and check if it is correct.
     ASSERT_FALSE(ai::RobotDealer::releaseKeeper());

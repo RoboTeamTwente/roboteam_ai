@@ -50,7 +50,7 @@ TEST(KickTest, It_sends_proper_robotcommands) {
     rate.sleep();
     ros::spinOnce();
 
-    EXPECT_EQ(commands.size(), 2);
+    EXPECT_EQ(commands.size(), (unsigned int) 2);
     EXPECT_EQ(commands.at(1).kicker_vel, 2);
 
     for (int i = 0; i < rtt::ai::constants::MAX_KICK_CYCLES - 1; i ++) {
@@ -78,7 +78,7 @@ TEST(KickTest, It_chips) {
     ros::spinOnce();
 
     std::vector<roboteam_msgs::RobotCommand> cmds = commands;
-    EXPECT_EQ(commands.size(), 1);
+    EXPECT_EQ((signed) commands.size(), 1);
     EXPECT_TRUE(commands.at(0).chipper);
     EXPECT_TRUE(commands.at(0).chipper_forced);
     EXPECT_EQ(commands.at(0).chipper_vel, rtt::ai::constants::DEFAULT_KICK_POWER);
