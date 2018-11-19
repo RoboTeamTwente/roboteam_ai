@@ -26,7 +26,7 @@ void ParallelSequenceTactic::Initialize() {
             if (!ids.empty()) {
                 auto id = *ids.begin();  // only one robot..
                 std::pair<int, std::string> idName = {id, roleName};
-                claimedRobots = RobotDealer::claimRobotForTactic(idName, "ParallelSequenceTactic");
+                claimedRobots = RobotDealer::claimRobotForTactic(RobotDealer::ROBOT_TYPE::CLOSEST_TO_BALL, roleName, "ParallelSequenceTactic");
                 robotIDs.insert(id);
             }
         }

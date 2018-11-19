@@ -2,7 +2,6 @@
 // Created by baris on 05/11/18.
 //
 #include "../Tactic.h"
-#include "../../../src/utilities/RobotDealer.h"
 
 #ifndef ROBOTEAM_AI_TACTICNODE_H
 #define ROBOTEAM_AI_TACTICNODE_H

@@ -3,7 +3,6 @@
 //
 
 #include "../Tactic.h"
-#include "../../../src/utilities/RobotDealer.h"
 
 #ifndef ROBOTEAM_AI_PARALLELSEQUENCETEST_H
 #define ROBOTEAM_AI_PARALLELSEQUENCETEST_H

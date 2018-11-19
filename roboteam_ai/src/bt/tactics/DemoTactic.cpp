@@ -28,7 +28,7 @@ void DemoTactic::Initialize() {
             auto id = *ids.begin();  // only one robot..
             std::string roleName = "testRole";
             std::pair<int, std::string> idName = {id, roleName};
-            claimedRobots = RobotDealer::claimRobotForTactic(idName, "testTactic");
+            claimedRobots = RobotDealer::claimRobotForTactic(RobotDealer::ROBOT_TYPE::CLOSEST_TO_BALL, roleName, "testTactic");
             robotIDs.insert(id);
         }
     }

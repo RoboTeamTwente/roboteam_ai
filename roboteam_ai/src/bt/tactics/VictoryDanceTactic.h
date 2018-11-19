@@ -2,7 +2,6 @@
 // Created by thijs on 15-11-18.
 //
 #include "../Tactic.h"
-#include "../../../src/utilities/RobotDealer.h"
 
 #ifndef ROBOTEAM_AI_VICTORYDANCETACTIC_H
 #define ROBOTEAM_AI_VICTORYDANCETACTIC_H

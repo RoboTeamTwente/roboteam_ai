@@ -27,7 +27,7 @@ void VictoryDanceTactic::Initialize() {
             if (!ids.empty()) {
                 auto id = *ids.begin();  // only one robot..
                 std::pair<int, std::string> idName = {id, roleName};
-                claimedRobots = RobotDealer::claimRobotForTactic(idName, "victoryDanceTactic");
+                claimedRobots = RobotDealer::claimRobotForTactic(RobotDealer::ROBOT_TYPE::RANDOM, roleName, "victoryDanceTactic");
                 robotIDs.insert(id);
             }
         }
