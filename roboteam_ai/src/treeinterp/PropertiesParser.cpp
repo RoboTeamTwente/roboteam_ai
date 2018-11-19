@@ -92,7 +92,7 @@ PropertiesParser::type PropertiesParser::checkVarTypeOfString(std::string keyNam
         }
         // last check to see if we are at the end of the string
         while (charKey[it] == space) it++;
-        if (charKey[it] != vectorEndChar || it != charKey.size()-1) return String;
+        if (charKey[it] != vectorEndChar || it != (signed) charKey.size()-1) return String;
         else return Vector;
     }
     else {
@@ -112,7 +112,7 @@ PropertiesParser::type PropertiesParser::getNumberFromString(std::string strKey,
             while(charKey[++it] == space);
             negNum = true;
         }
-        while (std::isdigit(strKey[it]) && it < strKey.size()) {
+        while (std::isdigit(strKey[it]) && it < (signed) strKey.size()) {
 
             sum = 10*sum + (int) (charKey[it] - '0');
             it ++;

@@ -26,7 +26,7 @@ boost::optional<roboteam_msgs::WorldRobot> DangerData::getByDangerRank(unsigned 
     auto opt = getWorldBot(id, false);
     if (! opt) {
         ROS_WARN(
-                "DangerFinder: Opponent bot %d was in the dangerList, but could not be found by getWorldBot.",
+                "dangerfinder: Opponent bot %d was in the dangerList, but could not be found by getWorldBot.",
                 id);
     }
     return opt;
