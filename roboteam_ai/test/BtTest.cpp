@@ -436,23 +436,28 @@ TEST(BehaviorTreeTest, StatusToString) {
     ASSERT_EQ(bt::statusToString(bt::Node::Status::Running), "Running");
 }
 
-//TEST(BehaviorTreeTest,it_sets_blackboards) {
-//    bt::Blackboard::Ptr bb = std::make_shared<bt::Blackboard>();
-//    bb->setDouble("A1", 12);
-//
-//    bt::BehaviorTree tree(bb);
-//
-//    ASSERT_TRUE(tree.globalBB->hasDouble("A1"));
-//    ASSERT_EQ(tree.globalBB->getDouble("A1"), 12);
-//
-//    bt::Blackboard::Ptr bb2 = std::make_shared<bt::Blackboard>();
-//    bb2->setDouble("A1", 55);
-//
-//    tree.SetGlobalBlackboard(bb2);
-//
-//    ASSERT_TRUE(tree.globalBB->hasDouble("A1"));
-//    ASSERT_EQ(tree.globalBB->getDouble("A1"), 55);
-//}
+//TODO: fix that this goes out of the namespace. Currently is hard to do because the FRIEND_TEST is within the namespace in BehaviorTree.hpp
+namespace bt {
+TEST(BehaviorTreeTest, it_sets_blackboards) {
+    bt::Blackboard::Ptr bb = std::make_shared<bt::Blackboard>();
+    bb->setDouble("A1", 12);
+
+    bt::BehaviorTree tree(bb);
+
+    ASSERT_TRUE(tree.globalBB->hasDouble("A1"));
+    ASSERT_EQ(tree.globalBB->getDouble("A1"), 12);
+
+    bt::Blackboard::Ptr bb2 = std::make_shared<bt::Blackboard>();
+    bb2->setDouble("A1", 55);
+
+    tree.SetGlobalBlackboard(bb2);
+
+    ASSERT_TRUE(tree.globalBB->hasDouble("A1"));
+    ASSERT_EQ(tree.globalBB->getDouble("A1"), 55);
+}
+}
+
+
 
 TEST(BehaviorTreeTest, it_terminates_nodes) {
     bt::Succeeder succeeder;
