@@ -2,18 +2,6 @@
 #include "../src/treeinterp/BTFactory.h"
 #include "../src/bt/tactics/DemoTactic.h"
 
-TEST(BT, BTTest) {
-    // ===Let's build a BT manually!===
-    // This  will be the tree
-    bt::BehaviorTree manualTree;
-    bt::Blackboard::Ptr bb;
-    bb->setString("testdemotac", "testdemotac");
-    bt::Repeater::Ptr repeater;
-    bt::DemoTactic::Ptr demoTactic = std::make_shared<bt::DemoTactic>("DemoTactic", bb);
-    repeater->AddChild(demoTactic);
-    manualTree.AddChild(repeater);
-}
-
 TEST (BT, JsonEditor) {
     BTFactory dummyFactory = BTFactory::getFactory();
     std::string testProject = "sample";
@@ -39,15 +27,6 @@ TEST (BT, JsonEditor) {
 TEST(BT, BasicFactoryTest) {
     BTFactory dummyFactory = BTFactory::getFactory();
     dummyFactory.init();
-//    bt::BehaviorTree::Ptr strategyTree = dummyFactory.getTree("DemoStrategy");
-//    ASSERT_EQ(strategyTree->GetRoot()->node_name(), "Repeater");
-//    ASSERT_EQ(strategyTree->GetRoot()->getChildren().size(), 1);
-//    bt::Node::Ptr hopefullyARepeater = strategyTree->GetRoot();
-//    ASSERT_EQ(hopefullyARepeater->getChildren().size(), 1);
-//    bt::Node::Ptr hopefullyADemoTactic = hopefullyARepeater->getChildren().at(0);
-//    ASSERT_EQ(hopefullyADemoTactic->getChildren().size(), 1);
-//    ASSERT_EQ(hopefullyADemoTactic->node_name(), "DemoTactic");
-
     std::string trace = "";
 
     bt::BehaviorTree::Ptr strategyTree = dummyFactory.getTree("DemoStrategy");
