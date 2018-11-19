@@ -156,7 +156,5 @@ GoToPos::Progression GoToPos::checkProgression() {
 std::string GoToPos::node_name() {
     return "GoToPos";
 }
-
-
 } // ai
 } // rtt
