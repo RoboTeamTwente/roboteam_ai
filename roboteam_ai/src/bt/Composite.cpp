@@ -24,4 +24,8 @@ void Composite::Terminate(Status s) {
     }
 }
 
+std::vector<Node::Ptr> Composite::getChildren() {
+    return children;
 }
+
+} // bt

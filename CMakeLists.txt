@@ -31,7 +31,7 @@ set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/PropertiesParser.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/Switches.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/Switches.h
-        roboteam_ai/src/treeinterp/BTImport.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/BTImport.h)
 
 set(DANGER_FINDER_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/DangerFinder/modules/CanShootModule.cpp
@@ -110,17 +110,17 @@ set(IO_SOURCES
         )
 
 set(UTILS_SOURCES
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.hpp
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.hpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.h
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
         )
 
 set(SKILLS_SOURCES
@@ -156,8 +156,6 @@ set(CONDITIONS_SOURCES
 
 set(SKILL_TESTS
         roboteam_ai/test/SkillTests/KickTest.cpp
-        # roboteam_ai/test/SkillTests/GoToPosTest.cpp
-        roboteam_ai/test/SkillTests/RotateTest.cpp
         )
 
 set(CONDITION_TESTS

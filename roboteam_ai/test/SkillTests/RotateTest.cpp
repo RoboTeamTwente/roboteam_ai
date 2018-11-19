@@ -26,7 +26,7 @@ void setFieldtoWorld() {
     rtt::ai::Field::set_field(fieldMsg);
 }
 
-roboteam_msgs::WorldRobot getRobot(int x, int y, float angle, int id = 0) {
+roboteam_msgs::WorldRobot setRobot(int x, int y, float angle, int id = 0) {
     roboteam_msgs::WorldRobot robot;
     robot.pos = rtt::Vector2(x, y);
     robot.id = (unsigned int) id;
@@ -35,7 +35,7 @@ roboteam_msgs::WorldRobot getRobot(int x, int y, float angle, int id = 0) {
 }
 
 // return a ball at a given location
-roboteam_msgs::WorldBall getBall(int x, int y) {
+roboteam_msgs::WorldBall setBall(int x, int y) {
     roboteam_msgs::WorldBall ball;
     ball.pos = rtt::Vector2(x, y);
     return ball;
@@ -53,8 +53,8 @@ TEST(RotateTest, It_rotates) {
     roboteam_msgs::World worldMsg;
     setFieldtoWorld();
 
-    worldMsg.ball = getBall(100, 100);
-    worldMsg.us.push_back(getRobot(- 100, - 100, (float) (0.625*PI), 1));
+    worldMsg.ball = setBall(100, 100);
+    worldMsg.us.push_back(setRobot(- 100, - 100, (float) (0.625*PI), 1));
     rtt::ai::World::set_world(worldMsg);
 
     ros::Rate rate(1);

@@ -1,16 +1,7 @@
-//
-// Created by baris on 02/10/18.
-//
 
 #include <gtest/gtest.h>
 #include "../src/treeinterp/BTFactory.h"
-
-TEST(BT, BTTest) {
-    // ===Let's build a BT manually!===
-    // This  will be the tree
-    bt::BehaviorTree manualTree;
-    // TODO: test the functions of BTFactory once they can be implemented
-}
+#include "../src/bt/tactics/DemoTactic.h"
 
 TEST (BT, JsonEditor) {
     BTFactory dummyFactory = BTFactory::getFactory();
@@ -35,35 +26,21 @@ TEST (BT, JsonEditor) {
 
 // Warning: tests depend on functioning of JsonTest and BTtests!!
 TEST(BT, BasicFactoryTest) {
-
     BTFactory dummyFactory = BTFactory::getFactory();
+    dummyFactory.init();
+    std::string trace = "";
 
-    //Define file to test with and update the project to match it.
-    std::string testProjectA = "TestStrategy";
-    std::string testTreeA = "2d276c37-4ffc-4209-bc32-9fd2405a2ad6";
-    std::string testTreeB = "77bc7cab-fe50-4754-9cd4-b80ef75cecf1";
-    int testProjectSize = 5; // The amount of trees in the project
+    bt::BehaviorTree::Ptr strategyTree = dummyFactory.getTree("DemoStrategy");
+    bt::Node::Ptr node = strategyTree->GetRoot();
 
-    //try updating a single Tree
-    dummyFactory.updateTree(testProjectA, testTreeA);
+    // add the first node
+    trace += node->node_name() + "-";
 
-    // Get the tree of that project
-    bt::BehaviorTree::Ptr tree = dummyFactory.getTree(testProjectA);
-    ASSERT_EQ(dummyFactory.strategyRepo.size(), 1);
-    ASSERT_EQ(dummyFactory.strategyRepo.begin()->first, testTreeA);
-
-
-    //try updating the whole project (automatically updates all trees with their ID's)
-    dummyFactory.updateProject(testProjectA);
-
-    // Check if all the trees are updated
-    ASSERT_EQ(dummyFactory.strategyRepo.size(), testProjectSize);
-//    ASSERT_NE(treeMapA.find(testTreeA), treeMapA.end());
-//    ASSERT_NE(treeMapA.find(testTreeB), treeMapA.end());
-//    ASSERT_EQ(treeMapA.find(testTreeA)->first, testTreeA);
-//    ASSERT_EQ(treeMapA.find(testTreeB)->first, testTreeB);
-
+    // loop recursively through nodes
+    // we assume that there is only one child
+    while (!node->getChildren().empty()) {
+        node = node->getChildren().at(0);
+        trace += node->node_name() + "-";
+    }
+    ASSERT_EQ(trace, "Repeater-Demo Tactic-testRole-MemSequence-GoToPos-");
 }
-
-
-

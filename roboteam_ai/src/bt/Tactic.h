@@ -12,13 +12,13 @@ class Tactic : public Node {
     public:
         void AddChild(Node::Ptr newChild) override;
 
+        std::vector<Node::Ptr> getChildren() override;
 
         void Initialize() override;
 
         Status Update() override;
 
         void askForRobots();
-
 
         void Terminate(Status s) override;
 

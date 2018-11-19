@@ -37,4 +37,8 @@ std::string Tactic::node_name() {
     return name;
 }
 
+std::vector<Node::Ptr> Tactic::getChildren() {
+    return std::vector<Node::Ptr>{child};
+}
+
 }
