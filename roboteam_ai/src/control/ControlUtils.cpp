@@ -6,8 +6,8 @@
 
 #include "ControlUtils.h"
 #include "../utilities/Constants.h"
-namespace control {
 
+namespace control {
 double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAngle) {
     double direction = 1;               // counter clockwise rotation
     double rotFactor = 8;
