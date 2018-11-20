@@ -18,17 +18,17 @@ bt::Node::Status HasBall::Update() {
 
     if (properties->hasString("ROLE")) {
         std::string roleName = properties->getString("ROLE");
-        robot.id = (unsigned int) RobotDealer::findRobotForRole(roleName);
+        robot.id = (unsigned int) dealer::findRobotForRole(roleName);
         if (World::getRobotForId(robot.id, true)) {
             robot = World::getRobotForId(robot.id, true).get();
         }
         else {
-            ROS_ERROR("HasBall Update -> robot does not exist in world");
+            //ROS_ERROR("HasBall Update -> robot does not exist in world");
             return Status::Failure;
         }
     }
     else {
-        ROS_ERROR("HasBall Update -> ROLE INVALID!!");
+      //  ROS_ERROR("HasBall Update -> ROLE INVALID!!");
         return Status::Failure;
     }
 
