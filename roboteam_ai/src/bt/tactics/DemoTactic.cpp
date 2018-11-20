@@ -21,16 +21,9 @@ void DemoTactic::setName(std::string newName) {
 
 void DemoTactic::Initialize() {
 
+    std::string roleName = "testRole";
     while (!claimedRobots) {
-        std::set<int> ids;
-        ids = RobotDealer::getAvailableRobots();
-        if (!ids.empty()) {
-            auto id = *ids.begin();  // only one robot..
-            std::string roleName = "testRole";
-            std::pair<int, std::string> idName = {id, roleName};
-            claimedRobots = RobotDealer::claimRobotForTactic(RobotDealer::ROBOT_TYPE::CLOSEST_TO_BALL, roleName, "testTactic");
-            robotIDs.insert(id);
-        }
+        claimedRobots = dealer::claimRobotForTactic(robot::random, roleName, "testTactic");
     }
 }
 

@@ -8,7 +8,7 @@
 
 namespace bt {
 
-VictoryDanceTactic::VictoryDanceTactic(std::string name, bt::Blackboard::Ptr blackboard){
+VictoryDanceTactic::VictoryDanceTactic(std::string name, bt::Blackboard::Ptr blackboard) {
     globalBB = std::move(blackboard);
     setName(std::move(name));
 }
@@ -20,18 +20,11 @@ void VictoryDanceTactic::setName(std::string newName) {
 void VictoryDanceTactic::Initialize() {
 
     std::vector<std::string> roleNames = {"victory1"};
-    for (auto &roleName : roleNames) {
-        while (!claimedRobots) {
-            std::set<int> ids;
-            ids = RobotDealer::getAvailableRobots();
-            if (!ids.empty()) {
-                auto id = *ids.begin();  // only one robot..
-                std::pair<int, std::string> idName = {id, roleName};
-                claimedRobots = RobotDealer::claimRobotForTactic(RobotDealer::ROBOT_TYPE::RANDOM, roleName, "victoryDanceTactic");
-                robotIDs.insert(id);
-            }
+    while (!claimedRobots) {
+        claimedRobots = true;
+        for (auto &roleName : roleNames) {
+            claimedRobots &= dealer::claimRobotForTactic(robot::random, roleName, "victoryDanceTactic");
         }
-        claimedRobots = false;
     }
 }
 

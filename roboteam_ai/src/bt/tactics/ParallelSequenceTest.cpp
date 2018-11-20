@@ -6,8 +6,8 @@
 #include "../../utilities/World.h"
 #include <utility>
 
-namespace bt{
-ParallelSequenceTactic::ParallelSequenceTactic(std::string name, bt::Blackboard::Ptr blackboard){
+namespace bt {
+ParallelSequenceTactic::ParallelSequenceTactic(std::string name, bt::Blackboard::Ptr blackboard) {
     globalBB = std::move(blackboard);
     setName(std::move(name));
 }
@@ -19,18 +19,11 @@ void ParallelSequenceTactic::setName(std::string newName) {
 void ParallelSequenceTactic::Initialize() {
 
     std::vector<std::string> roleNames = {"role1", "role2", "role3", "role4", "role5"};
-    for (auto &roleName : roleNames) {
-        while (!claimedRobots) {
-            std::set<int> ids;
-            ids = RobotDealer::getAvailableRobots();
-            if (!ids.empty()) {
-                auto id = *ids.begin();  // only one robot..
-                std::pair<int, std::string> idName = {id, roleName};
-                claimedRobots = RobotDealer::claimRobotForTactic(RobotDealer::ROBOT_TYPE::CLOSEST_TO_BALL, roleName, "ParallelSequenceTactic");
-                robotIDs.insert(id);
-            }
+    while (!claimedRobots) {
+        claimedRobots = true;
+        for (auto &roleName : roleNames) {
+            claimedRobots &= dealer::claimRobotForTactic(robot::random, roleName, "ParallelSequenceTactic");
         }
-        claimedRobots = false;
     }
 }
 

@@ -3,7 +3,7 @@
 //
 #include "RobotDealer.h"
 
-namespace RobotDealer {
+namespace robotDealer {
 
 std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::robotOwners;
 
@@ -68,22 +68,33 @@ void RobotDealer::updateFromWorld() {
 
 }
 
-int RobotDealer::claimRobotForTactic(RobotDealer::ROBOT_TYPE feature, std::string roleName, std::string tacticName) {
+bool RobotDealer::claimRobotForTactic(RobotDealer::RobotType feature, std::string roleName, std::string tacticName) {
 
-    std::lock_guard<std::mutex> lock(robotOwnersLock);
 
     switch (feature) {
         // TODO add more things and the actual logic
-    case CLOSEST_TO_BALL:return 0;
 
-    case FAR_FROM_BALL:return 1;
+    case closeToBall:return true;
 
-    case READY_TO_DEFEND:return 1;
+    case farFromBall:return true;
 
-    case RANDOM: return 1;
+    case readyToDefend:return true;
 
-    default:return 3;
+    case random:
+
+        auto all = RobotDealer::getAvailableRobots();
+        if (!all.empty()) {
+            int ID = *all.begin();
+            std::lock_guard<std::mutex> lock(robotOwnersLock);
+            RobotDealer::addRobotToOwnerList(ID, tacticName, roleName);
+            return true;
+        } else {
+            return false;
+        }
     }
+
+    std::cerr << "At the end of the switch in RobotDealer for some reason. Should never happen" << std::endl;
+    return false;
 
 }
 std::set<int> RobotDealer::getRobots() {
@@ -101,6 +112,8 @@ std::set<int> RobotDealer::getRobots() {
     return res;
 }
 std::set<int> RobotDealer::getAvailableRobots() {
+
+    RobotDealer::updateFromWorld();
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 

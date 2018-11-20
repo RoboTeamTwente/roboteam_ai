@@ -67,7 +67,7 @@ class Node {
 
         void setStatus(Status s);
 
-        using RobotDealer = RobotDealer::RobotDealer;
+        using dealer = robotDealer::RobotDealer;
 
         bt::Blackboard::Ptr properties = std::make_shared<bt::Blackboard>();
 

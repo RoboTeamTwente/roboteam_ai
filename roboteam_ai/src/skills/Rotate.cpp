@@ -17,7 +17,7 @@ void Rotate::Initialize() {
 
     if (properties->hasString("ROLE")) {
         std::string roleName = properties->getString("ROLE");
-        robot.id = (unsigned int) RobotDealer::findRobotForRole(roleName);
+        robot.id = (unsigned int) dealer::findRobotForRole(roleName);
         if (World::getRobotForId(robot.id, true)) {
             robot = World::getRobotForId(robot.id, true).get();
         }

@@ -12,7 +12,7 @@
 #include "World.h"
 #include "Field.h"
 
-namespace RobotDealer {
+namespace robotDealer {
 class RobotDealer {
 
     private:
@@ -33,15 +33,15 @@ class RobotDealer {
 
     public:
 
-       enum ROBOT_TYPE {
-         CLOSEST_TO_BALL,
-         FAR_FROM_BALL,
-         READY_TO_DEFEND,
-         RANDOM
+       enum RobotType {
+         closeToBall,
+         farFromBall,
+         readyToDefend,
+         random
 
        };
 
-       static int claimRobotForTactic(ROBOT_TYPE feature, std::string roleName, std::string tacticName);
+       static bool claimRobotForTactic(RobotType feature, std::string roleName, std::string tacticName);
 
        static std::set<int> getAvailableRobots();
 
