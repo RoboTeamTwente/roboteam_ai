@@ -4,6 +4,10 @@ project(roboteam_ai)
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 
+find_package(SDL2)
+find_package(SDL2TTF)
+include_directories(${SDL2_INCLUDE_DIR} ${SDL2TTF_INCLUDE_DIR})
+
 find_package(catkin REQUIRED COMPONENTS
         roboteam_msgs
         roboteam_utils
@@ -187,10 +191,10 @@ add_executable(Roboteam_AI
         ${SKILLS_SOURCES}
         ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
-        )
+        roboteam_ai/src/interface/Interface.cpp roboteam_ai/src/interface/Interface.h)
 
 add_dependencies(Roboteam_AI ${catkin_EXPORTED_TARGETS})
-target_link_libraries(Roboteam_AI ${catkin_LIBRARIES})
+target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY})
 
 #############
 ## Testing ##
@@ -227,6 +231,8 @@ target_compile_options(ai_tests PUBLIC --coverage)
 target_link_libraries(ai_tests
         ${catkin_LIBRARIES}
         gcov
+        ${SDL2_LIBRARY}
+        ${SDL2TTF_LIBRARY}
         )
 
 include(CodeCoverage)

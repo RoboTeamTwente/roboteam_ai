@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_CONSTANTS_H
 //TODO: add units to the below things, check with control/robothub.
 
+#include <SDL_pixels.h>
 namespace rtt {
 namespace ai {
 namespace constants {
@@ -22,6 +23,17 @@ const int DEFAULT_GENEVA_STATE = 0;
 //Other/multiple usage
 const int DEFAULT_ROBOT_ID = 1;
 const double MAX_ANGULAR_VELOCITY = 4.0; // rad per second??
+
+// Interface
+const int WINDOW_POS_X = 100;
+const int WINDOW_POS_Y = 100;
+const int WINDOW_SIZE_X = 600;
+const int WINDOW_SIZE_Y = 400;
+
+const SDL_Color FIELD_COLOR {120, 255, 120, 255}; // light green
+const SDL_Color FIELD_LINE_COLOR { 255, 255, 255, 255 }; // White
+const SDL_Color ROBOT_THEM_COLOR { 0, 0, 255, 255 }; // Blue
+const SDL_Color ROBOT_US_COLOR { 255, 255, 0, 255 }; // Yellow
 
 } // constants
 } // ai

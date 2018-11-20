@@ -2,8 +2,10 @@
 #include "dangerfinder/DangerFinder.h"
 #include "io/IOManager.h"
 #include "utilities/Referee.hpp"
+#include "interface/Interface.h"
 #include "utilities/StrategyManager.h"
 #include "treeinterp/BTFactory.h"
+#include "interface/Interface.h"
 
 namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;
@@ -30,8 +32,11 @@ int main(int argc, char* argv[]) {
     auto factory = BTFactory::getFactory();
 
     factory.init();
-
     std::string currentTree = "victoryDanceStrategy";
+    
+    // interface
+    rtt::ai::interface::Interface gui;
+    bool drawInterface = true;
 
     while (ros::ok()) {
         ros::spinOnce();
@@ -73,6 +78,7 @@ int main(int argc, char* argv[]) {
                 std::cerr << "else" << std::endl;
             }
         }
+        if (drawInterface) gui.drawFrame();
         rate.sleep();
     }
 
