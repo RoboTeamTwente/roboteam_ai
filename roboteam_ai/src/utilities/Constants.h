@@ -27,10 +27,10 @@ const double MAX_ANGULAR_VELOCITY = 4.0; // rad per second??
 // Interface
 const int WINDOW_POS_X = 100;
 const int WINDOW_POS_Y = 100;
-const int WINDOW_SIZE_X = 600;
-const int WINDOW_SIZE_Y = 400;
+const int WINDOW_SIZE_X = 800;
+const int WINDOW_SIZE_Y = 600;
 const int ROBOT_DRAWING_SIZE = 10;
-
+const int WINDOW_FIELD_MARGIN = 3;
 const SDL_Color FIELD_COLOR {50, 50, 50, 255}; // gray
 const SDL_Color FIELD_LINE_COLOR { 255, 255, 255, 255 }; // White
 const SDL_Color ROBOT_US_COLOR { 0, 0, 255, 255 }; // Blue

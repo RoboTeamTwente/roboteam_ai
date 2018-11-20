@@ -57,9 +57,9 @@ void Interface::drawField() {
 
     roboteam_msgs::GeometryFieldSize field = Field::get_field();
 
-    fieldmargin = field.boundary_width;
-    factor.x = c::WINDOW_SIZE_X / field.field_length - (2 * field.boundary_width);
-    factor.y = c::WINDOW_SIZE_Y / field.field_width - (2 * field.boundary_width);
+    fieldmargin = c::WINDOW_FIELD_MARGIN + field.boundary_width;
+    factor.x = c::WINDOW_SIZE_X / field.field_length - (2 * fieldmargin);
+    factor.y = c::WINDOW_SIZE_Y / field.field_width - (2 * fieldmargin);
 
     // draw field lines
     for (auto line : Field::get_field().field_lines) {
@@ -70,11 +70,11 @@ void Interface::drawField() {
 void Interface::drawRobots() {
     // draw us
     for (roboteam_msgs::WorldRobot robot : World::get_world().us) {
-        drawRobot(robot.id, robot.pos, c::ROBOT_US_COLOR);
+        drawRobot(robot, c::ROBOT_US_COLOR);
     }
 
     for (roboteam_msgs::WorldRobot robot : World::get_world().them) {
-        drawRobot(robot.id, robot.pos, c::ROBOT_THEM_COLOR);
+        drawRobot(robot, c::ROBOT_THEM_COLOR);
     }
 }
 
@@ -112,9 +112,15 @@ Vector2 Interface::toScreenPosition(Vector2 fieldPos) {
     (fieldPos.y * factor.y * -1) + c::WINDOW_SIZE_Y/2 + fieldmargin};
 }
 
-void Interface::drawRobot(int id, Vector2 position, SDL_Color color) {
-    drawRect(position, c::ROBOT_DRAWING_SIZE, c::ROBOT_DRAWING_SIZE, color);
-    drawText(std::to_string(id), toScreenPosition(position).x, toScreenPosition(position).y - 20);
+void Interface::drawRobot(roboteam_msgs::WorldRobot robot, SDL_Color color) {
+    drawRect(robot.pos, c::ROBOT_DRAWING_SIZE, c::ROBOT_DRAWING_SIZE, color);
+    drawText(std::to_string(robot.id), toScreenPosition(robot.pos).x, toScreenPosition(robot.pos).y - 20);
+
+    Vector2 angleDestPoint;
+    angleDestPoint.x = robot.pos.x + cos(robot.angle);
+    angleDestPoint.y = robot.pos.y + sin(robot.angle);
+    drawLine(robot.pos, angleDestPoint, color);
+
 }
 
 
@@ -122,8 +128,8 @@ void Interface::drawRect(Vector2 position, int w, int h, SDL_Color color) {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     Vector2 pos = toScreenPosition(position);
     SDL_Rect rect;
-    rect.x = static_cast<int>(pos.x);
-    rect.y = static_cast<int>(pos.y);
+    rect.x = static_cast<int>(pos.x - w/2);
+    rect.y = static_cast<int>(pos.y - h/2);
     rect.w = w;
     rect.h = h;
 
