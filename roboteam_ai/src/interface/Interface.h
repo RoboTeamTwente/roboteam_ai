@@ -30,11 +30,14 @@ class Interface {
         void drawBall();
         void drawText(std::string text, int x, int y);
         void drawLine(Vector2 p1, Vector2 p2, SDL_Color color);
+        void drawRect(Vector2 position, int w, int h, SDL_Color color);
+        void drawRobot(int id,  Vector2 position, SDL_Color color);
 
         SDL_Renderer *renderer = nullptr;
         SDL_Window* window = nullptr;
         TTF_Font * font = nullptr;
-        rtt::Vector2 factor;
+        Vector2 factor;
+        Vector2 toScreenPosition(Vector2 fieldPos);
 };
 
 } // interface

@@ -1,6 +1,8 @@
-//
-// Created by mrlukasbos on 20-11-18.
-//
+/*
+ * SDL coordinates are different from field coordinates.
+ * So, use the draw[whatever] functions to draw stuff.
+ * these functions automatically translate the axes for you.
+ */
 
 #include "Interface.h"
 
@@ -13,11 +15,8 @@ namespace c = rtt::ai::constants;
 Interface::Interface() : renderer(nullptr) {
     // set up window
     window = SDL_CreateWindow("RTT AI Interface",
-            c::WINDOW_POS_X,
-            c::WINDOW_POS_Y,
-            c::WINDOW_SIZE_X,
-            c::WINDOW_SIZE_Y,
-            0);
+            c::WINDOW_POS_X, c::WINDOW_POS_Y, c::WINDOW_SIZE_X, c::WINDOW_SIZE_Y, 0);
+
     if (window == nullptr) {
         std::cout << "Failed to create window : " << SDL_GetError();
     }
@@ -35,14 +34,12 @@ Interface::Interface() : renderer(nullptr) {
     font = TTF_OpenFont("/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf",16);
     drawText("No world state has been received yet", 20, 20);
     SDL_RenderPresent(renderer);
-
 }
 
 Interface::~Interface() {
     TTF_CloseFont(font);
     TTF_Quit();
 }
-
 
 void Interface::drawFrame() {
     drawField();
@@ -70,50 +67,29 @@ void Interface::drawField() {
 void Interface::drawRobots() {
     // draw us
     for (roboteam_msgs::WorldRobot robot : World::get_world().us) {
-        SDL_SetRenderDrawColor(renderer, c::ROBOT_US_COLOR.r, c::ROBOT_US_COLOR.g, c::ROBOT_US_COLOR.b, c::ROBOT_US_COLOR.a);
-
-        SDL_Rect rect;
-        rect.x = static_cast<int>(robot.pos.x * factor.x) + c::WINDOW_SIZE_X/2;;
-        rect.y = static_cast<int>(robot.pos.y * factor.y * -1) + c::WINDOW_SIZE_Y/2;;
-        rect.w = c::ROBOT_DRAWING_SIZE;
-        rect.h = c::ROBOT_DRAWING_SIZE;
-
-        drawText(std::to_string(robot.id), rect.x, rect.y - 20);
-        SDL_RenderFillRect(renderer, &rect);
+        drawRobot(robot.id, robot.pos, c::ROBOT_US_COLOR);
     }
 
-    // draw them
     for (roboteam_msgs::WorldRobot robot : World::get_world().them) {
-        SDL_SetRenderDrawColor(renderer, c::ROBOT_THEM_COLOR.r, c::ROBOT_THEM_COLOR.g, c::ROBOT_THEM_COLOR.b, c::ROBOT_THEM_COLOR.a);
-
-        SDL_Rect rect;
-        rect.x = static_cast<int>(robot.pos.x * factor.x) + c::WINDOW_SIZE_X/2;
-        rect.y = static_cast<int>(robot.pos.y * factor.y * -1)+ c::WINDOW_SIZE_Y/2;
-        rect.w = c::ROBOT_DRAWING_SIZE;
-        rect.h = c::ROBOT_DRAWING_SIZE;
-        drawText(std::to_string(robot.id), rect.x, rect.y - 20);
-        SDL_RenderFillRect(renderer, &rect);
+        drawRobot(robot.id, robot.pos, c::ROBOT_THEM_COLOR);
     }
 }
 
 void Interface::drawBall() {
-    SDL_SetRenderDrawColor(renderer, c::BALL_COLOR.r, c::BALL_COLOR.g, c::BALL_COLOR.b, c::BALL_COLOR.a);
-
-    SDL_Rect rect;
-    rect.x = static_cast<int>(World::get_world().ball.pos.x * factor.x) + c::WINDOW_SIZE_X/2;;
-    rect.y = static_cast<int>(World::get_world().ball.pos.y * factor.y * -1) + c::WINDOW_SIZE_Y/2;;
-    rect.w = 10;
-    rect.h = 10;
-    SDL_RenderFillRect(renderer, &rect);
+    drawRect(World::get_world().ball.pos, 10, 10, c::BALL_COLOR);
 }
 
 void Interface::drawLine(Vector2 p1, Vector2 p2, SDL_Color color) {
+
+    Vector2 p1_draw = toScreenPosition(p1);
+    Vector2 p2_draw = toScreenPosition(p2);
+
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderDrawLine(renderer,
-        static_cast<int>(p1.x * factor.x)+ c::WINDOW_SIZE_X/2,
-        static_cast<int>(p1.y * factor.y * -1)+ c::WINDOW_SIZE_Y/2,
-        static_cast<int>(p2.x * factor.x)+ c::WINDOW_SIZE_X/2,
-        static_cast<int>(p2.y * factor.y * -1)+ c::WINDOW_SIZE_Y/2
+        static_cast<int>(p1_draw.x),
+        static_cast<int>(p1_draw.y),
+        static_cast<int>(p2_draw.x),
+        static_cast<int>(p2_draw.y)
         );
 }
 
@@ -125,6 +101,30 @@ void Interface::drawText(std::string text, int x, int y) {
     SDL_Rect textRect{x, y, surfaceMessage->w, surfaceMessage->h};
     SDL_RenderCopy(renderer, message, nullptr, &textRect);
     SDL_DestroyTexture(message);
+}
+
+// convert field coordinates to screen coordinates
+Vector2 Interface::toScreenPosition(Vector2 fieldPos) {
+    return {(fieldPos.x * factor.x) + c::WINDOW_SIZE_X/2, (fieldPos.y * factor.y * -1) + c::WINDOW_SIZE_Y/2};
+}
+
+void Interface::drawRobot(int id, Vector2 position, SDL_Color color) {
+    drawRect(position, c::ROBOT_DRAWING_SIZE, c::ROBOT_DRAWING_SIZE, color);
+    drawText(std::to_string(id), toScreenPosition(position).x, toScreenPosition(position).y - 20);
+}
+
+
+void Interface::drawRect(Vector2 position, int w, int h, SDL_Color color) {
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    Vector2 pos = toScreenPosition(position);
+    SDL_Rect rect;
+    rect.x = static_cast<int>(pos.x);
+    rect.y = static_cast<int>(pos.y);
+    rect.w = w;
+    rect.h = h;
+
+    SDL_RenderFillRect(renderer, &rect);
+
 }
 
 } // interface
