@@ -2,7 +2,6 @@
 // Created by thijs on 15-11-18.
 //
 #include "../Tactic.h"
-#include "../../../src/utilities/RobotDealer.h"
 
 #ifndef ROBOTEAM_AI_VICTORYDANCETACTIC_H
 #define ROBOTEAM_AI_VICTORYDANCETACTIC_H
@@ -24,9 +23,9 @@ class VictoryDanceTactic : public Tactic {
 
         std::string node_name() override;
 
-        bool claimedRobots = false;
+        int claimedRobots = 0;
 
-        std::set<int> robotIDs = {};
+        std::set<int> robotIDs;
 
 //        Node::Ptr child = nullptr;
 
