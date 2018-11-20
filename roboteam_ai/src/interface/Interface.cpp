@@ -55,8 +55,11 @@ void Interface::drawField() {
     SDL_SetRenderDrawColor(renderer, c::FIELD_COLOR.r, c::FIELD_COLOR.g, c::FIELD_COLOR.b, c::FIELD_COLOR.a);
     SDL_RenderClear(renderer);
 
-    factor.x = c::WINDOW_SIZE_X / Field::get_field().field_length;
-    factor.y = c::WINDOW_SIZE_Y / Field::get_field().field_width;
+    roboteam_msgs::GeometryFieldSize field = Field::get_field();
+
+    fieldmargin = field.boundary_width;
+    factor.x = c::WINDOW_SIZE_X / field.field_length - (2 * field.boundary_width);
+    factor.y = c::WINDOW_SIZE_Y / field.field_width - (2 * field.boundary_width);
 
     // draw field lines
     for (auto line : Field::get_field().field_lines) {
@@ -105,7 +108,8 @@ void Interface::drawText(std::string text, int x, int y) {
 
 // convert field coordinates to screen coordinates
 Vector2 Interface::toScreenPosition(Vector2 fieldPos) {
-    return {(fieldPos.x * factor.x) + c::WINDOW_SIZE_X/2, (fieldPos.y * factor.y * -1) + c::WINDOW_SIZE_Y/2};
+    return {(fieldPos.x * factor.x) + c::WINDOW_SIZE_X/2 + fieldmargin,
+    (fieldPos.y * factor.y * -1) + c::WINDOW_SIZE_Y/2 + fieldmargin};
 }
 
 void Interface::drawRobot(int id, Vector2 position, SDL_Color color) {

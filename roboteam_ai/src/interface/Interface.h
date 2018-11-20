@@ -37,6 +37,7 @@ class Interface {
         SDL_Window* window = nullptr;
         TTF_Font * font = nullptr;
         Vector2 factor;
+        int fieldmargin;
         Vector2 toScreenPosition(Vector2 fieldPos);
 };
 
