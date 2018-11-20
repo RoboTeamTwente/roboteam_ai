@@ -29,6 +29,7 @@ class RobotDealer {
 
         static std::set<int> getRobots();
 
+        static int getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 &position);
 
 
     public:
@@ -51,7 +52,7 @@ class RobotDealer {
 
        static void removeTactic(std::string tacticName);
 
-       static std::vector<int> findRobotsForTactic(std::string tacticName);
+       static std::set<int> findRobotsForTactic(std::string tacticName);
 
        static int findRobotForRole(std::string roleName);
 

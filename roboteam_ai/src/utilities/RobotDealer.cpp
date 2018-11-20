@@ -54,7 +54,6 @@ void RobotDealer::addRobotToOwnerList(int ID, std::string tacticName, std::strin
 /// Look at the world and see if there are more robots than on the map and if so put them as free
 void RobotDealer::updateFromWorld() {
 
-
     auto worldUs = rtt::ai::World::get_world().us;
     std::set<int> robots;
     for (auto robot : worldUs) {
@@ -72,66 +71,52 @@ void RobotDealer::updateFromWorld() {
 
 int RobotDealer::claimRobotForTactic(RobotDealer::RobotType feature, std::string roleName, std::string tacticName) {
 
-    switch (feature) {
-        // TODO add more things and the actual logic
+    std::set<int> ids = RobotDealer::getAvailableRobots();
+    int id = - 1;
 
-    case closeToBall: {
+    if (! ids.empty()) {
 
-        auto all = RobotDealer::getAvailableRobots();
-        if (!all.empty()) {
+        switch (feature) {
+        default: return - 1;
+            // TODO add more cases
+        case closeToBall: {
+
             rtt::Vector2 ball = rtt::ai::World::getBall().pos;
-            int closestID = -1;
-            double distance = 100000000.0;
-            for (auto &id : all) {
-                rtt::Vector2 robot = rtt::ai::World::getRobotForId(id, true).get().pos;
-                double dBallRobot = (robot - ball).length();
-                if (dBallRobot < distance) {
-                    closestID = id;
-                    distance = dBallRobot;
-                }
-            }
-            return closestID;
+            id = getRobotClosestToPoint(ids, ball);
+            break;
         }
 
-        return -1;
-    }
+        case readyToDefend: {
 
-    case farFromBall:return -1;
-
-    case readyToDefend:return -1;
-
-    case random: {
-
-        auto all = RobotDealer::getAvailableRobots();
-        if (! all.empty()) {
-            int ID = *all.begin();
-            std::lock_guard<std::mutex> lock(robotOwnersLock);
-            RobotDealer::addRobotToOwnerList(ID, std::move(tacticName), std::move(roleName));
-            return ID;
+            break;
         }
-        else {
-            return -1;
-        }
-    }
-    default:
-        return -1;
-    }
 
+        case random: {
+            id = *ids.begin();
+            break;
+        }
+
+        }
+        std::lock_guard<std::mutex> lock(robotOwnersLock);
+        RobotDealer::addRobotToOwnerList(id, std::move(tacticName), std::move(roleName));
+        return id;
+    }
+    return - 1;
 }
 
 std::set<int> RobotDealer::getRobots() {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
-    std::set<int> res;
+    std::set<int> ids;
 
     for (auto tactic : robotOwners) {
         auto set = tactic.second;
         for (auto pair : set) {
-            res.insert(pair.first);
+            ids.insert(pair.first);
         }
     }
-    return res;
+    return ids;
 }
 std::set<int> RobotDealer::getAvailableRobots() {
 
@@ -140,11 +125,11 @@ std::set<int> RobotDealer::getAvailableRobots() {
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
     auto set = robotOwners["free"];
-    std::set<int> res;
+    std::set<int> ids;
     for (auto pair : set) {
-        res.insert(pair.first);
+        ids.insert(pair.first);
     }
-    return res;
+    return ids;
 }
 std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::getClaimedRobots() {
     return robotOwners;
@@ -179,20 +164,21 @@ void RobotDealer::removeTactic(std::string tacticName) {
     }
     std::cerr << "Cannot remove tactic the tactic does not exist" << std::endl;
 }
-std::vector<int> RobotDealer::findRobotsForTactic(std::string tacticName) {
+std::set<int> RobotDealer::findRobotsForTactic(std::string tacticName) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
-    std::vector<int> res;
+    std::set<int> ids;
     for (auto tactic : robotOwners) {
         if (tactic.first == tacticName) {
             for (auto pair : tactic.second) {
-                res.push_back(pair.first);
+                ids.insert(pair.first);
             }
         }
     }
-    return res;
+    return ids;
 }
+
 int RobotDealer::findRobotForRole(std::string roleName) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
@@ -208,4 +194,22 @@ int RobotDealer::findRobotForRole(std::string roleName) {
     std::cerr << "Cannot find a robot with that Role Name" << std::endl;
     return - 1;
 }
+
+int RobotDealer::getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 &position) {
+    if (! ids.empty()) {
+        int closestID = - 1;
+        double distance = 100000000.0;
+        for (auto &id : ids) {
+            rtt::Vector2 robot = rtt::ai::World::getRobotForId((unsigned int) id, true).get().pos;
+            double dBallRobot = (robot - position).length();
+            if (dBallRobot < distance) {
+                closestID = id;
+                distance = dBallRobot;
+            }
+        }
+        return closestID;
+    }
+    else return - 1;
+}
+
 } // RobotDealer
