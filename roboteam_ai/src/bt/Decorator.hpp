@@ -10,6 +10,8 @@ class Decorator : public Node {
 
         void AddChild(Node::Ptr child) override;
 
+        std::vector<Node::Ptr> getChildren() override;
+
         bool HasNoChild() const;
 
         void Terminate(Status s) override;

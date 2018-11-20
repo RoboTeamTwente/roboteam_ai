@@ -2,10 +2,10 @@
 
 #include "Node.hpp"
 #include "Blackboard.hpp"
-
 namespace bt {
 
 class BehaviorTree : public Node {
+        FRIEND_TEST(BehaviorTreeTest,it_sets_blackboards);
     public:
 
         using Ptr = std::shared_ptr<BehaviorTree>;
@@ -32,6 +32,7 @@ class BehaviorTree : public Node {
         void SetGlobalBlackboard(const Blackboard::Ptr &globalBB);
 
     private:
+
         Node::Ptr root = nullptr;
         Blackboard::Ptr globalBB = nullptr;
 

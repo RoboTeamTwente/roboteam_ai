@@ -68,14 +68,20 @@ void Node::append_status(std::string fmt, ...) {
 void Node::AddChild(bt::Node::Ptr) {
 
 }
+
+// testing purpose
+std::vector<Node::Ptr> Node::getChildren() {
+    return std::vector<Node::Ptr>{};
+}
+
 void Node::setProperties(bt::Blackboard::Ptr blackboard) {
     properties = blackboard;
 
 }
 Node::Node() {
     globalBB = std::make_shared<Blackboard>();
-
 }
+
 Node::Status Node::NodeUpdate() {
     auto status = Update();
     //std::cout << "Node Update:  " << node_name() << status_print(status) << std::endl;

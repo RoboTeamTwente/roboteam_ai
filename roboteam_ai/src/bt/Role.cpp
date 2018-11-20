@@ -38,4 +38,9 @@ Role::Role(std::string name) {
     globalBB = std::make_shared<Blackboard>();
 
 }
+
+std::vector<Node::Ptr> Role::getChildren() {
+    return std::vector<Node::Ptr>{child};
+}
+
 }

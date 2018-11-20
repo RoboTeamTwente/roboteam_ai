@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ROBOTEAM_AI_DANGERDATA_H
+#define ROBOTEAM_AI_DANGERDATA_H
 
 #include <vector>
 #include <map>
@@ -27,3 +28,5 @@ struct DangerData {
 } // dangerfinder
 } // ai
 } // rtt
+
+#endif // ROBOTEAM_AI_DANGERDATA_H

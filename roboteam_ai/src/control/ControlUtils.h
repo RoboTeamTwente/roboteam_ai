@@ -6,12 +6,9 @@
 #define ROBOTEAM_AI_CONTROLUTILS_H
 
 namespace control {
-
 class ControlUtils {
     public:
-
         static double calculateAngularVelocity(double robotAngle, double targetAngle);
-
 };
 }
 

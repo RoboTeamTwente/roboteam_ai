@@ -1,7 +1,3 @@
-//
-// Created by baris on 02/10/18.
-//
-
 #include <gtest/gtest.h>
 #include "../src/treeinterp/TreeInterpreter.h"
 
@@ -50,17 +46,6 @@ TEST(JsonBasics, JsonTest) {
     for (const json &current : trees) {
         ASSERT_EQ(current["scope"], "tree");
     }
-
-    // Test the actual function that does this
-    auto newTrees = interpreter.parseSmallJSONs(bigJson);
-
-    // See if all of them are trees
-    for (const json &current : newTrees) {
-        ASSERT_EQ(current["scope"], "tree");
-    }
-
-    // Compare the manual and the automated
-    ASSERT_EQ(trees, newTrees);
 }
 
 TEST(TreeTest, JsonTest) {

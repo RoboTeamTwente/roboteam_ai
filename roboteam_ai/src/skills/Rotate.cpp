@@ -148,6 +148,5 @@ Rotate::Progression Rotate::checkProgression() {
     else return DONE;
 }
 
-
 } // ai
 } // rtt

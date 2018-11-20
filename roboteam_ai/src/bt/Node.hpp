@@ -53,6 +53,8 @@ class Node {
 
         virtual void AddChild(bt::Node::Ptr);
 
+        virtual std::vector<Node::Ptr> getChildren();
+
         virtual Status Tick();
 
         bool IsSuccess() const;

@@ -29,7 +29,7 @@ void DangerFinder::ensureRunning(int iterationsPerSecond) {
 // \param iterationsPerSecond The amount of iterations the background thread should try to run per second.
 void DangerFinder::start(int iterationsPerSecond) {
     loadModules();
-    ROS_INFO_STREAM_NAMED("DangerFinder",
+    ROS_INFO_STREAM_NAMED("dangerfinder",
             "Starting at " << iterationsPerSecond << " iterations per second");
     auto delay = (unsigned) (1000/iterationsPerSecond);
     runner = std::thread(&DangerFinder::loop, this, delay);
@@ -65,7 +65,7 @@ void DangerFinder::calculate() {
     std::sort(data.dangerList.begin(), data.dangerList.end(), [data](const int &a, const int &b) {
       if (data.scores.find(a) == data.scores.end() || data.scores.find(b) == data.scores.end()) {
           ROS_WARN(
-                  "DangerFinder::calculate: An element of dangerList was not a key in data.scores; sorting failed.");
+                  "dangerfinder::calculate: An element of dangerList was not a key in data.scores; sorting failed.");
           return false;
       }
       return data.scores.at(a) > data.scores.at(b);
@@ -80,14 +80,14 @@ void DangerFinder::calculate() {
 void DangerFinder::stop() {
 
     if (running) {
-        ROS_INFO_STREAM_NAMED("DangerFinder", "Stopping dangerfinder");
+        ROS_INFO_STREAM_NAMED("dangerfinder", "Stopping dangerfinder");
         dangerModules.clear();
         stopping = true;
         runner.join();
         running = false;
     }
     else {
-        ROS_INFO_STREAM_NAMED("DangerFinder",
+        ROS_INFO_STREAM_NAMED("dangerfinder",
                 "Could not stop dangerfinder since it was not running in the first place.");
     }
 }
@@ -100,7 +100,7 @@ DangerData DangerFinder::calculateDataNow() {
     return mostRecentData;
 }
 
-// Gets the most recent results of the DangerFinder thread.
+// Gets the most recent results of the dangerfinder thread.
 DangerData DangerFinder::getMostRecentData() {
     ensureRunning();
     if (! ranOnce) {

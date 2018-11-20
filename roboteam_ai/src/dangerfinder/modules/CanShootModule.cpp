@@ -7,8 +7,7 @@ namespace rtt {
 namespace ai {
 namespace dangerfinder {
 
-CanShootModule::CanShootModule(double danger)
-        :DangerModule(danger) { }
+CanShootModule::CanShootModule(double danger) : DangerModule(danger) { }
 
 bool facingGoal(rtt::Position pos) {
     auto geom = rtt::ai::Field::get_field();
@@ -24,8 +23,7 @@ bool facingGoal(rtt::Position pos) {
     return goalSection.pointOnLine(isect);
 }
 
-PartialResult
-CanShootModule::calculate(const roboteam_msgs::WorldRobot &bot, const roboteam_msgs::World &world) {
+PartialResult CanShootModule::calculate(const roboteam_msgs::WorldRobot &bot, const roboteam_msgs::World &world) {
     rtt::Vector2 botPos(bot.pos);
     rtt::Vector2 goalPos = rtt::LastWorld::get_our_goal_center();
 

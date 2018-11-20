@@ -1,14 +1,9 @@
 //
 // Created by mrlukasbos on 5-10-18.
-//
+// Used internally to accumulate data.
 
 #ifndef ROBOTEAM_AI_PARTIALRESULT_H
 #define ROBOTEAM_AI_PARTIALRESULT_H
-
-/**
-* \struct PartialResult
-* \brief Used internally to accumulate data.
-*/
 
 typedef unsigned char DangerFlag;
 
@@ -23,22 +18,11 @@ constexpr DangerFlag DANGER_IS_GOALIE = 0b00100000; //< The robot is probably th
 struct PartialResult {
   double score;
   DangerFlag flags;
-
   PartialResult();
-
   PartialResult(double score, DangerFlag flags);
-
-  /**
-   * \function operator+=
-   * \brief Sums the scores, ORs the flags.
-   */
   PartialResult &operator+=(const PartialResult &b);
 };
 
-/**
- * \function operator+
- * \brief Combines two PartialResults by summing their scores and combining their flags.
- */
 PartialResult operator+(PartialResult a, PartialResult b);
 
 #endif //ROBOTEAM_AI_PARTIALRESULT_H

@@ -6,8 +6,8 @@
 
 #include "ControlUtils.h"
 #include "../utilities/Constants.h"
-namespace control {
 
+namespace control {
 double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAngle) {
     double direction = 1;               // counter clockwise rotation
     double rotFactor = 8;
@@ -20,6 +20,6 @@ double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAn
         direction = - 1;                //  clockwise rotation
     }
     if (angleDiff > 1)angleDiff = 1;
-    return direction*(std::pow(rotFactor, angleDiff - 1)*MAX_ANGULAR_VELOCITY - 1/rotFactor);
+    return direction*(std::pow(rotFactor, angleDiff - 1)*rtt::ai::constants::MAX_ANGULAR_VELOCITY - 1/rotFactor);
 }
 }

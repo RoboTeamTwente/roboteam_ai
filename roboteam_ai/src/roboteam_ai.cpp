@@ -1,5 +1,5 @@
 #include "ros/ros.h"
-#include "DangerFinder/DangerFinder.h"
+#include "dangerfinder/DangerFinder.h"
 #include "io/IOManager.h"
 #include "treeinterp/TreeInterpreter.h"
 #include "utilities/Referee.hpp"
@@ -48,7 +48,6 @@ int main(int argc, char* argv[]) {
         ai::Referee::setRefereeData(refereeMsg);
 
         if (!ai::World::didReceiveFirstWorld) continue;
-
 
         // for refereedata:
         // ai::StrategyManager strategyManager;
