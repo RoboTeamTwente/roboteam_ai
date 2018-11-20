@@ -49,7 +49,7 @@ Node::Status DemoTactic::Update() {
     }
 }
 
-void DemoTactic::Terminate() {
+void DemoTactic::Terminate(Status s) {
 
 }
 
