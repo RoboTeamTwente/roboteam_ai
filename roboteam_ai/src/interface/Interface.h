@@ -13,7 +13,7 @@
 #include "../utilities/Constants.h"
 #include "../utilities/Field.h"
 #include "../utilities/World.h"
-
+#include <exception>
 
 namespace rtt {
 namespace ai {
@@ -24,18 +24,17 @@ class Interface {
         explicit Interface();
         ~Interface();
         void drawFrame();
-        void clearFrame();
     private:
         void drawField();
         void drawRobots();
+        void drawBall();
+        void drawText(std::string text, int x, int y);
         void drawLine(Vector2 p1, Vector2 p2, SDL_Color color);
 
         SDL_Renderer *renderer = nullptr;
         SDL_Window* window = nullptr;
         TTF_Font * font = nullptr;
-
         rtt::Vector2 factor;
-
 };
 
 } // interface

@@ -33,13 +33,22 @@ int main(int argc, char* argv[]) {
 
     factory.init();
     std::string currentTree = "victoryDanceStrategy";
-    
+
     // interface
     rtt::ai::interface::Interface gui;
     bool drawInterface = true;
 
     while (ros::ok()) {
         ros::spinOnce();
+
+        if (drawInterface) {
+            SDL_Event event;
+            while(SDL_PollEvent(&event) != 0) {
+                if (event.type == SDL_QUIT) {
+                    return 0;
+                }
+            }
+        }
 
         // make ROS worldstate and geometry data globally accessible
         worldMsg = IOManager.getWorldState();
@@ -48,6 +57,8 @@ int main(int argc, char* argv[]) {
         ai::World::set_world(worldMsg);
         ai::Field::set_field(geometryMsg.field);
         ai::Referee::setRefereeData(refereeMsg);
+
+
 
         if (!ai::World::didReceiveFirstWorld) continue;
 
@@ -78,7 +89,9 @@ int main(int argc, char* argv[]) {
                 std::cerr << "else" << std::endl;
             }
         }
-        if (drawInterface) gui.drawFrame();
+        if (drawInterface) {
+            gui.drawFrame();
+        }
         rate.sleep();
     }
 

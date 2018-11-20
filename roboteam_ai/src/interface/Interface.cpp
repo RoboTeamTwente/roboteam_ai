@@ -32,7 +32,9 @@ Interface::Interface() : renderer(nullptr) {
     if (TTF_Init() < 0) {
         std::cout << "TTF library could not be initialized!!";
     }
-    font = TTF_OpenFont("/usr/share/fonts/truetype/freefont/FreeMono.ttf",14);
+    font = TTF_OpenFont("/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf",16);
+    drawText("No world state has been received yet", 20, 20);
+    SDL_RenderPresent(renderer);
 
 }
 
@@ -45,13 +47,10 @@ Interface::~Interface() {
 void Interface::drawFrame() {
     drawField();
     drawRobots();
+    drawBall();
 
     // render to screen
     SDL_RenderPresent(renderer);
-}
-
-void Interface::clearFrame() {
-    SDL_RenderClear(renderer);
 }
 
 void Interface::drawField() {
@@ -75,9 +74,11 @@ void Interface::drawRobots() {
 
         SDL_Rect rect;
         rect.x = static_cast<int>(robot.pos.x * factor.x) + c::WINDOW_SIZE_X/2;;
-        rect.y = static_cast<int>(robot.pos.y * factor.y) + c::WINDOW_SIZE_Y/2;;
-        rect.w = 10;
-        rect.h = 10;
+        rect.y = static_cast<int>(robot.pos.y * factor.y * -1) + c::WINDOW_SIZE_Y/2;;
+        rect.w = c::ROBOT_DRAWING_SIZE;
+        rect.h = c::ROBOT_DRAWING_SIZE;
+
+        drawText(std::to_string(robot.id), rect.x, rect.y - 20);
         SDL_RenderFillRect(renderer, &rect);
     }
 
@@ -87,24 +88,44 @@ void Interface::drawRobots() {
 
         SDL_Rect rect;
         rect.x = static_cast<int>(robot.pos.x * factor.x) + c::WINDOW_SIZE_X/2;
-        rect.y = static_cast<int>(robot.pos.y * factor.y)+ c::WINDOW_SIZE_Y/2;
-        rect.w = 10;
-        rect.h = 10;
+        rect.y = static_cast<int>(robot.pos.y * factor.y * -1)+ c::WINDOW_SIZE_Y/2;
+        rect.w = c::ROBOT_DRAWING_SIZE;
+        rect.h = c::ROBOT_DRAWING_SIZE;
+        drawText(std::to_string(robot.id), rect.x, rect.y - 20);
         SDL_RenderFillRect(renderer, &rect);
-
     }
+}
+
+void Interface::drawBall() {
+    SDL_SetRenderDrawColor(renderer, c::BALL_COLOR.r, c::BALL_COLOR.g, c::BALL_COLOR.b, c::BALL_COLOR.a);
+
+    SDL_Rect rect;
+    rect.x = static_cast<int>(World::get_world().ball.pos.x * factor.x) + c::WINDOW_SIZE_X/2;;
+    rect.y = static_cast<int>(World::get_world().ball.pos.y * factor.y * -1) + c::WINDOW_SIZE_Y/2;;
+    rect.w = 10;
+    rect.h = 10;
+    SDL_RenderFillRect(renderer, &rect);
 }
 
 void Interface::drawLine(Vector2 p1, Vector2 p2, SDL_Color color) {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderDrawLine(renderer,
         static_cast<int>(p1.x * factor.x)+ c::WINDOW_SIZE_X/2,
-        static_cast<int>(p1.y * factor.y)+ c::WINDOW_SIZE_Y/2,
+        static_cast<int>(p1.y * factor.y * -1)+ c::WINDOW_SIZE_Y/2,
         static_cast<int>(p2.x * factor.x)+ c::WINDOW_SIZE_X/2,
-        static_cast<int>(p2.y * factor.y)+ c::WINDOW_SIZE_Y/2
+        static_cast<int>(p2.y * factor.y * -1)+ c::WINDOW_SIZE_Y/2
         );
 }
 
+void Interface::drawText(std::string text, int x, int y) {
+    SDL_Color textColor = c::TEXT_COLOR;
+    SDL_Surface* surfaceMessage = TTF_RenderText_Blended(font, text.c_str(), textColor);
+    SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+    SDL_FreeSurface(surfaceMessage);
+    SDL_Rect textRect{x, y, surfaceMessage->w, surfaceMessage->h};
+    SDL_RenderCopy(renderer, message, nullptr, &textRect);
+    SDL_DestroyTexture(message);
+}
 
 } // interface
 } // ai
