@@ -20,11 +20,10 @@ void VictoryDanceTactic::setName(std::string newName) {
 void VictoryDanceTactic::Initialize() {
 
     std::vector<std::string> roleNames = {"victory1"};
-    while (!claimedRobots) {
-        claimedRobots = true;
-        for (auto &roleName : roleNames) {
-            claimedRobots &= dealer::claimRobotForTactic(robot::random, roleName, "victoryDanceTactic");
-        }
+    while (claimedRobots < roleNames.size()) {
+        robotIDs.insert(dealer::claimRobotForTactic(robot::random, roleNames[claimedRobots], "ParallelSequenceTactic"));
+        if (robotIDs.find(-1) == robotIDs.end()) claimedRobots++;
+        else robotIDs.erase(-1);
     }
 }
 

@@ -23,9 +23,9 @@ class VictoryDanceTactic : public Tactic {
 
         std::string node_name() override;
 
-        bool claimedRobots = false;
+        int claimedRobots = 0;
 
-        std::set<int> robotIDs = {};
+        std::set<int> robotIDs;
 
 //        Node::Ptr child = nullptr;
 

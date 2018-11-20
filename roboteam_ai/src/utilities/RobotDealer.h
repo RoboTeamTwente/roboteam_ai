@@ -41,7 +41,7 @@ class RobotDealer {
 
        };
 
-       static bool claimRobotForTactic(RobotType feature, std::string roleName, std::string tacticName);
+       static int claimRobotForTactic(RobotType feature, std::string roleName, std::string tacticName);
 
        static std::set<int> getAvailableRobots();
 
