@@ -3,13 +3,16 @@
 //
 
 #include "GoToPos.h"
-#include "Rotate.h"
 
 namespace rtt {
 namespace ai {
 
 GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
+}
+
+std::string GoToPos::node_name() {
+    return "GoToPos";
 }
 
 /// Init the GoToPos skill
@@ -54,7 +57,6 @@ bt::Node::Status GoToPos::Update() {
         robot = World::getRobotForId(robot.id, true).get();
     } else {
         ROS_ERROR("GoToPos Update -> robot does not exist in world");
-        currentProgress = Progression::FAIL;
     }
 
     if (goToBall) {
@@ -106,8 +108,6 @@ void GoToPos::Terminate(status s) {
     command.y_vel = 0;
 
     publishRobotCommand(command);
-    commandSend = true;
-
 }
 
 /// Check if the vector is a valid one
@@ -152,10 +152,6 @@ GoToPos::Progression GoToPos::checkProgression() {
     else return DONE;
 }
 
-
-std::string GoToPos::node_name() {
-    return "GoToPos";
-}
 
 
 } // ai

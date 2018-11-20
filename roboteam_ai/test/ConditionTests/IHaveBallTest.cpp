@@ -3,13 +3,13 @@
 //
 #include <gtest/gtest.h>
 #include "../../src/bt/bt.hpp"
-#include "../../src/conditions/IHaveBall.hpp"
+#include "../../src/conditions/HasBall.hpp"
 
 TEST(BallTest, IHaveBallTest) {
     auto BB = std::make_shared<bt::Blackboard>();
     BB->setInt("ROBOT_ID", 2);
     BB->setBool("our_team", false);
-    rtt::ai::IHaveBall node("Test", BB);
+    rtt::ai::HasBall node("Test", BB);
     //First test should fail as the robot is not set in the world state yet.
     ASSERT_EQ(node.Update(), bt::Node::Status::Failure);
 

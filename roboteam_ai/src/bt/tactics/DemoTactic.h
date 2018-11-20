@@ -19,6 +19,7 @@ class DemoTactic : public Tactic {
 
         void Initialize() override;
         Node::Status Update() override;
+        void Terminate(Status s) override;
 
         std::string node_name() override;
 

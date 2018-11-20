@@ -15,7 +15,7 @@ class Composite : public Node {
         void Terminate(Status s) override;
 
     protected:
-        Nodes children;
+        std::vector<Node::Ptr> children;
         size_t index = 0;
 };
 

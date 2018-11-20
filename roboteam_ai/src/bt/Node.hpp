@@ -75,7 +75,6 @@ class Node {
 
         virtual std::string node_name();
 
-
         static std::string status_desc;
 
         void setProperties(bt::Blackboard::Ptr blackboard);
@@ -85,8 +84,6 @@ class Node {
 
         static void append_status(std::string fmt, ...);
 };
-
-using Nodes = std::vector<Node::Ptr>;
 
 std::string statusToString(bt::Node::Status status);
 

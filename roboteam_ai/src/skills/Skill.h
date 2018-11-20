@@ -3,11 +3,14 @@
 
 #include "../bt/Leaf.hpp"
 #include "ros/ros.h"
-#include "roboteam_msgs/WorldRobot.h"
 #include "../io/IOManager.h"
-#include "../utilities/Constants.h"
+#include "roboteam_msgs/WorldRobot.h"
 #include <roboteam_msgs/RobotCommand.h>
 #include "../../src/control/ControlUtils.h"
+#include "../utilities/Constants.h"
+#include "roboteam_utils/Vector2.h"
+
+
 
 namespace rtt {
 namespace ai {

@@ -48,9 +48,15 @@ Node::Status DemoTactic::Update() {
         return Status::Running;
     }
 }
+
+void DemoTactic::Terminate() {
+
+}
+
 std::string DemoTactic::node_name() {
     return "Demo Tactic";
 }
+
 
 } // bt
 

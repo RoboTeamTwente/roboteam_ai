@@ -6,7 +6,6 @@
 #define ROBOTEAM_AI_GOTOPOS_H
 
 #include "Skill.h"
-#include "roboteam_utils/Vector2.h"
 
 namespace rtt {
 namespace ai {
@@ -14,10 +13,10 @@ namespace ai {
 class GoToPos : public Skill {
     private:
         using status = bt::Node::Status;
+        roboteam_msgs::WorldRobot robot;
 
         bool goToBall;
         bool goBehindBall;
-        roboteam_msgs::WorldRobot robot;
 
         enum Progression {
           ON_THE_WAY, DONE, FAIL, INVALID
@@ -36,12 +35,12 @@ class GoToPos : public Skill {
 
     public:
         explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
+        std::string node_name() override;
 
         void Initialize() override;
         Status Update() override;
         void Terminate(status s) override;
 
-        std::string node_name() override;
 
 };
 } // ai

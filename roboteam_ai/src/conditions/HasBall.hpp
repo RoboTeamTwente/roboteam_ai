@@ -12,15 +12,24 @@
 
 namespace rtt {
 namespace ai {
-bool bot_has_ball(const roboteam_msgs::WorldRobot &bot, const roboteam_msgs::WorldBall &ball);
+
 
 /**
  * @class IHaveBall
  * @brief
  */
-class IHaveBall : public Condition {
+class HasBall : public Condition {
+
+    private:
+
+        using status = bt::Node::Status;
+        roboteam_msgs::WorldRobot robot;
+
+        bool botHasBall(Vector2 ballPos);
+
     public:
-        IHaveBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+
+        explicit HasBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
 
         /**
          * @brief checks if a robot with specific ID given through blackboards has a ball. Uses BB parameters "me/ROBOT_ID" and "our_team"
@@ -29,6 +38,8 @@ class IHaveBall : public Condition {
         Status Update() override;
 
         std::string node_name() override { return "IHaveBall"; }
+
+
 
 };
 

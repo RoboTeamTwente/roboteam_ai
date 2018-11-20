@@ -3,6 +3,7 @@
 //
 
 #include "Node.hpp"
+
 #ifndef ROBOTEAM_AI_ROLE_H
 #define ROBOTEAM_AI_ROLE_H
 
@@ -12,8 +13,6 @@ class Role : public Node {
 
     public:
         Role(std::string name);
-
-        int ROBOT_ID = -1;
 
         Node::Ptr child = nullptr;
 

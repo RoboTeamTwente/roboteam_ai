@@ -1,8 +1,6 @@
 #pragma once
 
 #include "Node.hpp"
-#include "Blackboard.hpp"
-#include <memory>
 
 namespace bt {
 //TODO: implement node_name() functionality? Can perhaps also be done elsewhere

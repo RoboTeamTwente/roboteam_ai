@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.1)
+
+        cmake_minimum_required(VERSION 3.1)
 project(roboteam_ai)
 
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
@@ -18,6 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
         )
 
 ### SOURCES BEGIN ###
+
 
 set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/json.h
@@ -110,17 +112,17 @@ set(IO_SOURCES
         )
 
 set(UTILS_SOURCES
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.hpp
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.hpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.h
-    ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
         )
 
 set(SKILLS_SOURCES
@@ -136,11 +138,14 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TurnGeneva.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TurnGeneva.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefaultSkill.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefaultSkill.cpp
+
         )
 
 set(CONDITIONS_SOURCES
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IHaveBall.hpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IHaveBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.h
