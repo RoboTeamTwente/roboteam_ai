@@ -1,7 +1,6 @@
 #include "ros/ros.h"
 #include "dangerfinder/DangerFinder.h"
 #include "io/IOManager.h"
-#include "treeinterp/TreeInterpreter.h"
 #include "utilities/Referee.hpp"
 #include "utilities/StrategyManager.h"
 #include "treeinterp/BTFactory.h"
@@ -9,9 +8,6 @@
 namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
-
-roboteam_msgs::World worldMsg;
-
 using Status = bt::Node::Status;
 
 int main(int argc, char* argv[]) {
@@ -20,6 +16,7 @@ int main(int argc, char* argv[]) {
 
     // init IOManager and subscribe to all topics immediately
     io::IOManager IOManager(true);
+
     roboteam_msgs::World worldMsg;
     roboteam_msgs::GeometryData geometryMsg;
     roboteam_msgs::RefereeData refereeMsg;
@@ -48,6 +45,10 @@ int main(int argc, char* argv[]) {
         ai::Referee::setRefereeData(refereeMsg);
 
         if (!ai::World::didReceiveFirstWorld) continue;
+
+        if (df::DangerFinder::instance().hasCalculated()) {
+            df::DangerData dangerData = df::DangerFinder::instance().getMostRecentData();
+        }
 
         // for refereedata:
         // ai::StrategyManager strategyManager;
