@@ -26,9 +26,9 @@ TEST(GoTOPos, GoTOPosTest) {
     bb->setInt("X", 5);
     bb->setInt("Y", 6);
     rtt::ai::GoToPos goToPos("test1", bb);
-    goToPos.Initialize();
+    goToPos.initialize();
 
-    EXPECT_EQ(goToPos.Update(), bt::Leaf::Status::Running);
+    EXPECT_EQ(goToPos.update(), bt::Leaf::Status::Running);
 
     // Wait a little bit
     rate.sleep();
