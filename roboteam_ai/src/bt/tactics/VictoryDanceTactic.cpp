@@ -21,7 +21,7 @@ void VictoryDanceTactic::initialize() {
 
     std::vector<std::string> roleNames = {"victory1"};
     while (claimedRobots < roleNames.size()) {
-        robotIDs.insert(dealer::claimRobotForTactic(robot::random, roleNames[claimedRobots], "ParallelSequenceTactic"));
+        robotIDs.insert(dealer::claimRobotForTactic(robot::random, "ParallelSequenceTactic", roleNames[claimedRobots]));
         if (robotIDs.find(-1) == robotIDs.end()) claimedRobots++;
         else robotIDs.erase(-1);
     }

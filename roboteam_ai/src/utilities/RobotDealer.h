@@ -33,6 +33,8 @@ class RobotDealer {
 
         static int getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 position);
 
+        static void unFreeRobot(int ID);
+
 
     public:
 
@@ -45,7 +47,7 @@ class RobotDealer {
 
        };
 
-       static int claimRobotForTactic(RobotType feature, std::string roleName, std::string tacticName);
+       static int claimRobotForTactic(RobotType feature, std::string tacticName, std::string roleName);
 
        static std::set<int> getAvailableRobots();
 
