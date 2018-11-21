@@ -103,7 +103,6 @@ bt::Node::Status Rotate::update() {
 
     command.w = (float) Control::calculateAngularVelocity(robot.angle, targetAngle);
     publishRobotCommand(command);
-    std::cerr << "Rotate command -> id: " << command.id << ", w_vel: " << command.w << std::endl;
     currentProgress = checkProgression();
 
     switch (currentProgress) {
