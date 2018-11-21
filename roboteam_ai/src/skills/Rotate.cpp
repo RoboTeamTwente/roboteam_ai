@@ -13,11 +13,11 @@ Rotate::Rotate(string name, bt::Blackboard::Ptr blackboard)
 }
 
 /// Init the Rotate skill
-void Rotate::Initialize() {
+void Rotate::initialize() {
 
     if (properties->hasString("ROLE")) {
         std::string roleName = properties->getString("ROLE");
-        robot.id = (unsigned int) RobotDealer::findRobotForRole(roleName);
+        robot.id = (unsigned int) dealer::findRobotForRole(roleName);
         if (World::getRobotForId(robot.id, true)) {
             robot = World::getRobotForId(robot.id, true).get();
         }
@@ -51,7 +51,7 @@ void Rotate::Initialize() {
 
 }
 
-bt::Node::Status Rotate::Update() {
+bt::Node::Status Rotate::update() {
 
     if (World::getRobotForId(robot.id, true)) {
         robot = World::getRobotForId(robot.id, true).get();
@@ -96,19 +96,6 @@ bt::Node::Status Rotate::Update() {
             }
         }
     }
-//
-//    double direction = 1;               // counter clockwise rotation
-//    double minW = 0.5;
-//
-//    deltaAngle = targetAngle - robot.angle;
-//    while (deltaAngle < 0) deltaAngle += 2*M_PI;
-//    while (deltaAngle > 2*M_PI) deltaAngle -= 2*M_PI;
-//    if (deltaAngle > M_PI) {
-//        deltaAngle = (float) (2*M_PI - deltaAngle);
-//        direction = - 1;                //  clockwise rotation
-//    }
-//    if (deltaAngle > 1)deltaAngle = 1;
-//    auto angularVel = (float) (direction*(minW + (deltaAngle*deltaAngle*deltaAngle*MAX_ANGULAR_VELOCITY)));
 
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
@@ -116,7 +103,6 @@ bt::Node::Status Rotate::Update() {
 
     command.w = (float) Control::calculateAngularVelocity(robot.angle, targetAngle);
     publishRobotCommand(command);
-    std::cerr << "Rotate command -> id: " << command.id << ", w_vel: " << command.w << std::endl;
     currentProgress = checkProgression();
 
     switch (currentProgress) {
@@ -129,7 +115,7 @@ bt::Node::Status Rotate::Update() {
     return Status::Failure;
 }
 
-void Rotate::Terminate(Status s) {
+void Rotate::terminate(Status s) {
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     command.use_angle = 1;

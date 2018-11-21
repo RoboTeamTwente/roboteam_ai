@@ -19,23 +19,21 @@ void DemoTactic::setName(std::string newName) {
     name = std::move(newName);
 }
 
-void DemoTactic::Initialize() {
+void DemoTactic::initialize() {
+    std::vector<std::string> roleNames = {"testRole"};
 
-    while (!claimedRobots) {
-        std::set<int> ids;
-        ids = RobotDealer::getAvailableRobots();
-        if (!ids.empty()) {
-            auto id = *ids.begin();  // only one robot..
-            std::string roleName = "testRole";
-            std::pair<int, std::string> idName = {id, roleName};
-            claimedRobots = RobotDealer::claimRobotForTactic(idName, "testTactic");
-            robotIDs.insert(id);
+    while (claimedRobots < roleNames.size()) {
+        robotIDs.insert(dealer::claimRobotForTactic(robot::random, "ParallelSequenceTactic", roleNames[claimedRobots]));
+        if (robotIDs.find(- 1) == robotIDs.end()) {
+            claimedRobots ++;
+        } else {
+            robotIDs.erase(- 1);
         }
     }
 }
 
-Node::Status DemoTactic::Update() {
-    auto status = child->Tick();
+Node::Status DemoTactic::update() {
+    auto status = child->tick();
 
     if (status == Status::Success) {
         return Status::Success;
@@ -48,9 +46,15 @@ Node::Status DemoTactic::Update() {
         return Status::Running;
     }
 }
+
+void DemoTactic::terminate(Status s) {
+
+}
+
 std::string DemoTactic::node_name() {
     return "Demo Tactic";
 }
+
 
 } // bt
 

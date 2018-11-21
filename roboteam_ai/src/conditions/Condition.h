@@ -16,7 +16,7 @@ class Condition : public bt::Leaf {
     public:
         explicit Condition(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
 
-        Status Update() override;
+        Status update() override;
 };
 
 } // ai

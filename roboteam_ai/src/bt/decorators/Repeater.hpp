@@ -10,9 +10,9 @@ namespace bt {
 class Repeater : public Decorator {
     public:
 
-        void Initialize() override;
+        void initialize() override;
 
-        Status Update() override;
+        Status update() override;
 
         std::string node_name() override;
 

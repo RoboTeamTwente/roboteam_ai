@@ -8,7 +8,7 @@ ParallelSequence::ParallelSequence(bool successOnAll, bool failOnAll)
 ParallelSequence::ParallelSequence(int minSuccess, int minFail)
         :minSuccess(minSuccess), minFail(minFail) { }
 
-bt::Node::Status ParallelSequence::Update() {
+bt::Node::Status ParallelSequence::update() {
     int minimumSuccess = minSuccess;
     int minimumFail = minFail;
 
@@ -32,7 +32,7 @@ bt::Node::Status ParallelSequence::Update() {
     int totalFail = 0;
     for (auto &child : children) {
         Node::append_status("[Parallel: executing child of type %s]", child->node_name().c_str());
-        auto status = child->Tick();
+        auto status = child->tick();
         if (status == Status::Success) {
             totalSuccess ++;
         }

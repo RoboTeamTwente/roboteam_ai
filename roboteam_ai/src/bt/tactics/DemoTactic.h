@@ -2,7 +2,6 @@
 // Created by baris on 05/11/18.
 //
 #include "../Tactic.h"
-#include "../../../src/utilities/RobotDealer.h"
 
 #ifndef ROBOTEAM_AI_TACTICNODE_H
 #define ROBOTEAM_AI_TACTICNODE_H
@@ -17,12 +16,13 @@ class DemoTactic : public Tactic {
 
         void setName(std::string newName);
 
-        void Initialize() override;
-        Node::Status Update() override;
+        void initialize() override;
+        Node::Status update() override;
+        void terminate(Status s) override;
 
         std::string node_name() override;
 
-        bool claimedRobots = false;
+        int claimedRobots = 0;
 
         std::set<int> robotIDs = {};
 

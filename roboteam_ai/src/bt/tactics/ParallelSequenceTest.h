@@ -3,7 +3,6 @@
 //
 
 #include "../Tactic.h"
-#include "../../../src/utilities/RobotDealer.h"
 
 #ifndef ROBOTEAM_AI_PARALLELSEQUENCETEST_H
 #define ROBOTEAM_AI_PARALLELSEQUENCETEST_H
@@ -11,16 +10,17 @@
 namespace bt {
 
 class ParallelSequenceTactic : public Tactic {
+    private:
 
-public:
-    ParallelSequenceTactic(std::string name, Blackboard::Ptr blackboard);
-    std::string name;
-    void setName(std::string newName);
-    void Initialize();
-    Node::Status Update();
-    std::string node_name() override;
-    bool claimedRobots = false;
-    std::set<int> robotIDs = {};
+    public:
+        ParallelSequenceTactic(std::string name, Blackboard::Ptr blackboard);
+        std::string name;
+        void setName(std::string newName);
+        void initialize() override;
+        Node::Status update() override;
+        std::string node_name() override;
+        int claimedRobots = 0;
+        std::set<int> robotIDs;
 };
 
 } //bt

@@ -16,7 +16,7 @@ class Tracer : public bt::Leaf {
             Initialize_();
         }
 
-        Status Update() override {
+        Status update() override {
             traces.push_back("Update: " + id);
             return Update_();
         }
@@ -98,7 +98,7 @@ TEST(BehaviorTreeTest, BehaviorTreeWithOneLeaf) {
         bt::BehaviorTree bt(once);
 
         traces.clear();
-        bt.Tick();
+        bt.tick();
 
         std::vector<std::string> expectedTrace = {
                 "Initialize: Once-A",
@@ -114,10 +114,10 @@ TEST(BehaviorTreeTest, BehaviorTreeWithOneLeaf) {
         bt::BehaviorTree bt(runner);
 
         traces.clear();
-        bt.Tick();
-        bt.Tick();
-        bt.Tick();
-        bt.Terminate(bt.getStatus());
+        bt.tick();
+        bt.tick();
+        bt.tick();
+        bt.terminate(bt.getStatus());
 
         std::vector<std::string> expectedTrace = {
                 "Initialize: Runner-A",
@@ -135,9 +135,9 @@ TEST(BehaviorTreeTest, BehaviorTreeWithOneLeaf) {
         bt::BehaviorTree bt(counter);
 
         traces.clear();
-        bt.Tick();
-        bt.Tick();
-        bt.Tick();
+        bt.tick();
+        bt.tick();
+        bt.tick();
 
         std::vector<std::string> expectedTrace = {
                 "Initialize: Counter-A",
@@ -155,10 +155,10 @@ TEST(BehaviorTreeTest, BehaviorTreeWithOneLeaf) {
         bt::BehaviorTree bt(counter);
 
         traces.clear();
-        bt.Tick();
-        bt.Tick();
-        bt.Tick();
-        bt.Terminate(bt.getStatus());
+        bt.tick();
+        bt.tick();
+        bt.tick();
+        bt.terminate(bt.getStatus());
 
         std::vector<std::string> expectedTrace = {
                 "Initialize: Counter-A",
@@ -182,16 +182,16 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
 
         // return success when no children
         ASSERT_EQ(memSeq->node_name(), "MemSequence");
-        ASSERT_EQ(memSeq->Update(), bt::Node::Status::Success);
+        ASSERT_EQ(memSeq->update(), bt::Node::Status::Success);
 
-        memSeq->AddChild(counterA);
-        memSeq->AddChild(counterB);
+        memSeq->addChild(counterA);
+        memSeq->addChild(counterB);
         bt::BehaviorTree bt(memSeq);
 
         traces.clear();
-        bt.Tick();
-        bt.Tick();
-        bt.Tick();
+        bt.tick();
+        bt.tick();
+        bt.tick();
 
         std::vector<std::string> expectedTrace = {
                 "Initialize: Counter-A",
@@ -219,23 +219,23 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
         // return success when no children
         ASSERT_EQ(parSeq->node_name(), "ParallelSequence");
 
-        parSeq->AddChild(counterA);
-        parSeq->AddChild(counterB);
-        parSeq->AddChild(counterC);
-        parSeq->AddChild(counterD);
+        parSeq->addChild(counterA);
+        parSeq->addChild(counterB);
+        parSeq->addChild(counterC);
+        parSeq->addChild(counterD);
 
         bt::BehaviorTree bt;
         bt.SetRoot(parSeq);
 
         traces.clear();
-        bt.Tick();
-        bt.Tick();
+        bt.tick();
+        bt.tick();
 
         //after two ticks it should still be running
         ASSERT_TRUE(parSeq->IsRunning());
 
-        bt.Tick();
-        bt.Tick();
+        bt.tick();
+        bt.tick();
 
         ASSERT_TRUE(parSeq->IsSuccess());
         ASSERT_FALSE(parSeq->IsFailure());
@@ -252,16 +252,16 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
         // return success when no children
         ASSERT_EQ(parSeq->node_name(), "ParallelSequence");
 
-        parSeq->AddChild(counterA);
-        parSeq->AddChild(counterB);
-        parSeq->AddChild(counterC);
+        parSeq->addChild(counterA);
+        parSeq->addChild(counterB);
+        parSeq->addChild(counterC);
 
         bt::BehaviorTree bt;
         bt.SetRoot(parSeq);
 
-        bt.Tick();
+        bt.tick();
         ASSERT_TRUE(parSeq->IsRunning());
-        bt.Tick();
+        bt.tick();
         ASSERT_TRUE(parSeq->IsSuccess());
     }
 
@@ -272,17 +272,17 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
 
         // return success when no children
         ASSERT_EQ(seq->node_name(), "Sequence");
-        ASSERT_EQ(seq->Update(), bt::Node::Status::Success);
+        ASSERT_EQ(seq->update(), bt::Node::Status::Success);
 
-        seq->AddChild(counterA);
-        seq->AddChild(counterB);
+        seq->addChild(counterA);
+        seq->addChild(counterB);
         bt::BehaviorTree bt(seq);
 
         traces.clear();
-        bt.Tick();
-        bt.Tick();
-        bt.Tick();
-        bt.Tick();
+        bt.tick();
+        bt.tick();
+        bt.tick();
+        bt.tick();
 
         std::vector<std::string> expectedTrace = {
                 "Initialize: Counter-A",
@@ -306,15 +306,15 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
         bt::Leaf::Ptr counterA = std::make_shared<Counter>(bt::Node::Status::Success, "A", 2);
         bt::Leaf::Ptr counterB = std::make_shared<Counter>(bt::Node::Status::Success, "B", 2);
         bt::Sequence::Ptr seq = std::make_shared<bt::Sequence>();
-        seq->AddChild(counterA);
-        seq->AddChild(counterB);
+        seq->addChild(counterA);
+        seq->addChild(counterB);
         bt::BehaviorTree bt(seq);
 
         traces.clear();
-        bt.Tick();
-        bt.Tick();
-        bt.Tick();
-        bt.Terminate(bt.getStatus());
+        bt.tick();
+        bt.tick();
+        bt.tick();
+        bt.terminate(bt.getStatus());
 
         std::vector<std::string> expectedTrace = {
                 "Initialize: Counter-A",
@@ -341,15 +341,15 @@ TEST(BehaviorTreeTest, selectorComposites) {
     // it should be invalid when initialized
     ASSERT_EQ(selector.getStatus(), bt::Node::Status::Invalid);
     // it should fail after the first update with no children
-    ASSERT_EQ(selector.Update(), bt::Node::Status::Failure);
+    ASSERT_EQ(selector.update(), bt::Node::Status::Failure);
 
     bt::Leaf::Ptr counterA = std::make_shared<Counter>(bt::Node::Status::Success, "A", 2);
     bt::Leaf::Ptr counterB = std::make_shared<Counter>(bt::Node::Status::Success, "B", 1);
-    selector.AddChild(counterA);
-    selector.AddChild(counterB);
+    selector.addChild(counterA);
+    selector.addChild(counterB);
 
-    ASSERT_EQ(selector.Update(), bt::Node::Status::Running);
-    ASSERT_EQ(selector.Update(), bt::Node::Status::Success);
+    ASSERT_EQ(selector.update(), bt::Node::Status::Running);
+    ASSERT_EQ(selector.update(), bt::Node::Status::Success);
 
     // memSelector
     bt::MemSelector memSelector;
@@ -357,20 +357,20 @@ TEST(BehaviorTreeTest, selectorComposites) {
 
     ASSERT_EQ(memSelector.getStatus(), bt::Node::Status::Invalid);
     memSelector.index = 22;
-    memSelector.Initialize();
+    memSelector.initialize();
     ASSERT_EQ(memSelector.index, (unsigned int) 0);
 
     // return success if no children
-    ASSERT_EQ(memSelector.Update(), bt::Node::Status::Success);
+    ASSERT_EQ(memSelector.update(), bt::Node::Status::Success);
 
     // add two children to memSelector
     bt::Leaf::Ptr counterC = std::make_shared<Counter>(bt::Node::Status::Success, "C", 2);
     bt::Leaf::Ptr counterD = std::make_shared<Counter>(bt::Node::Status::Success, "D", 1);
-    memSelector.AddChild(counterC);
-    memSelector.AddChild(counterD);
+    memSelector.addChild(counterC);
+    memSelector.addChild(counterD);
 
-    ASSERT_EQ(memSelector.Update(), bt::Node::Status::Running);
-    ASSERT_EQ(memSelector.Update(), bt::Node::Status::Success);
+    ASSERT_EQ(memSelector.update(), bt::Node::Status::Running);
+    ASSERT_EQ(memSelector.update(), bt::Node::Status::Success);
 }
 
 TEST(BehaviorTreeTest, decorators) {
@@ -379,54 +379,54 @@ TEST(BehaviorTreeTest, decorators) {
     bt::Succeeder succeeder;
     ASSERT_EQ(succeeder.node_name(), "Succeeder");
     child = std::make_unique<Counter>(bt::Node::Status::Success, "D", 1);
-    succeeder.AddChild(child);
-    ASSERT_EQ(succeeder.Update(), bt::Node::Status::Success);
+    succeeder.addChild(child);
+    ASSERT_EQ(succeeder.update(), bt::Node::Status::Success);
 
     bt::Failer failer;
     ASSERT_EQ(failer.node_name(), "Failer");
     child = std::make_unique<Counter>(bt::Node::Status::Success, "D", 1);
-    failer.AddChild(child);
-    ASSERT_EQ(failer.Update(), bt::Node::Status::Failure);
+    failer.addChild(child);
+    ASSERT_EQ(failer.update(), bt::Node::Status::Failure);
 
     bt::Inverter inverter;
     ASSERT_EQ(inverter.node_name(), "Inverter");
     child = std::make_unique<Counter>(bt::Node::Status::Success, "D", 1);
-    inverter.AddChild(child);
-    ASSERT_EQ(inverter.Update(), bt::Node::Status::Failure);
+    inverter.addChild(child);
+    ASSERT_EQ(inverter.update(), bt::Node::Status::Failure);
 
     bt::Inverter inverter2;
     child = std::make_unique<Counter>(bt::Node::Status::Failure, "D", 1);
-    inverter2.AddChild(child);
-    ASSERT_EQ(inverter2.Update(), bt::Node::Status::Success);
+    inverter2.addChild(child);
+    ASSERT_EQ(inverter2.update(), bt::Node::Status::Success);
 
     bt::Repeater repeater;
     ASSERT_EQ(repeater.node_name(), "Repeater");
     child = std::make_unique<Counter>(bt::Node::Status::Success, "D", 1);
     child->setStatus(bt::Node::Status::Failure);
-    repeater.AddChild(child);
-    repeater.Initialize();
-    ASSERT_EQ(repeater.Update(), bt::Node::Status::Running);
+    repeater.addChild(child);
+    repeater.initialize();
+    ASSERT_EQ(repeater.update(), bt::Node::Status::Running);
 
     bt::UntilFail untilFailer;
     ASSERT_EQ(untilFailer.node_name(), "UntilFail");
 
     child = std::make_unique<Counter>(bt::Node::Status::Success, "D", 1);
-    untilFailer.AddChild(child);
-    ASSERT_EQ(untilFailer.Update(), bt::Node::Status::Running);
+    untilFailer.addChild(child);
+    ASSERT_EQ(untilFailer.update(), bt::Node::Status::Running);
 
     bt::UntilFail untilFailer2;
     child = std::make_unique<Counter>(bt::Node::Status::Failure, "D", 1);
-    untilFailer2.AddChild(child);
-    ASSERT_EQ(untilFailer2.Update(), bt::Node::Status::Success);
+    untilFailer2.addChild(child);
+    ASSERT_EQ(untilFailer2.update(), bt::Node::Status::Success);
 
     bt::UntilSuccess untilSucceeder;
     ASSERT_EQ(untilSucceeder.node_name(), "UntilSuccess");
 
     child = std::make_unique<Counter>(bt::Node::Status::Success, "D", 2);
     child->setStatus(bt::Node::Status::Failure);
-    untilSucceeder.AddChild(child);
-    ASSERT_EQ(untilSucceeder.Update(), bt::Node::Status::Running);
-    ASSERT_EQ(untilSucceeder.Update(), bt::Node::Status::Success);
+    untilSucceeder.addChild(child);
+    ASSERT_EQ(untilSucceeder.update(), bt::Node::Status::Running);
+    ASSERT_EQ(untilSucceeder.update(), bt::Node::Status::Success);
 }
 
 TEST(BehaviorTreeTest, StatusToString) {
@@ -461,21 +461,21 @@ TEST(BehaviorTreeTest, it_sets_blackboards) {
 
 TEST(BehaviorTreeTest, it_terminates_nodes) {
     bt::Succeeder succeeder;
-    succeeder.AddChild(std::make_unique<Counter>(bt::Node::Status::Failure, "D", 2));
-    succeeder.Terminate(bt::Node::Status::Success);
+    succeeder.addChild(std::make_unique<Counter>(bt::Node::Status::Failure, "D", 2));
+    succeeder.terminate(bt::Node::Status::Success);
     ASSERT_EQ(succeeder.getStatus(), bt::Node::Status::Invalid);
 
     bt::Succeeder succeeder2;
-    succeeder2.AddChild(std::make_unique<Counter>(bt::Node::Status::Failure, "D", 2));
-    succeeder2.Update();
+    succeeder2.addChild(std::make_unique<Counter>(bt::Node::Status::Failure, "D", 2));
+    succeeder2.update();
 
-    succeeder2.Terminate(bt::Node::Status::Running);
+    succeeder2.terminate(bt::Node::Status::Running);
     ASSERT_EQ(succeeder2.getStatus(), bt::Node::Status::Failure);
 
     bt::Succeeder succeeder3;
-    succeeder3.AddChild(std::make_unique<Counter>(bt::Node::Status::Failure, "D", 2));
-    succeeder3.Update();
+    succeeder3.addChild(std::make_unique<Counter>(bt::Node::Status::Failure, "D", 2));
+    succeeder3.update();
 
-    succeeder3.Terminate(bt::Node::Status::Failure);
+    succeeder3.terminate(bt::Node::Status::Failure);
     ASSERT_EQ(succeeder3.getStatus(), bt::Node::Status::Invalid);
 }

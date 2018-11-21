@@ -8,12 +8,12 @@
 
 namespace bt {
 
-void Role::Initialize() {
+void Role::initialize() {
     // Get the robot ID for this Role
 
 }
-Node::Status Role::Update() {
-    auto status = child->Tick();
+Node::Status Role::update() {
+    auto status = child->tick();
     if (status == Status::Success) {
         return Status::Success;
     }
@@ -25,7 +25,7 @@ Node::Status Role::Update() {
         return Status::Running;
     }
 }
-void Role::AddChild(Node::Ptr newChild) {
+void Role::addChild(Node::Ptr newChild) {
     this->child = newChild;
 
 }

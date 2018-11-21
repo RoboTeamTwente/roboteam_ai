@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.1)
+
+        cmake_minimum_required(VERSION 3.1)
 project(roboteam_ai)
 
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
@@ -22,6 +23,7 @@ find_package(catkin REQUIRED COMPONENTS
         )
 
 ### SOURCES BEGIN ###
+
 
 set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/json.h
@@ -96,10 +98,14 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Leaf.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Node.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Node.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.h
+
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.h
+        )
+
+set(TACTIC_SOURCES
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DemoTactic.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DemoTactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/ParallelSequenceTest.cpp
@@ -140,11 +146,14 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TurnGeneva.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TurnGeneva.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefaultSkill.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefaultSkill.cpp
+
         )
 
 set(CONDITIONS_SOURCES
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IHaveBall.hpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IHaveBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.h
@@ -191,7 +200,9 @@ add_executable(Roboteam_AI
         ${SKILLS_SOURCES}
         ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
-        roboteam_ai/src/interface/Interface.cpp roboteam_ai/src/interface/Interface.h)
+        ${TACTIC_SOURCES}
+        roboteam_ai/src/interface/Interface.cpp
+        roboteam_ai/src/interface/Interface.h)
 
 add_dependencies(Roboteam_AI ${catkin_EXPORTED_TARGETS})
 target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY})
@@ -209,7 +220,7 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/DangerFinderTest.cpp
         roboteam_ai/test/BTBlackBoardTest.cpp
         roboteam_ai/test/IOTest.cpp
-        roboteam_ai/test/RobotDealerTest.cpp
+        #roboteam_ai/test/RobotDealerTest.cpp
         roboteam_ai/test/RefereeTest.cpp
         roboteam_ai/test/StrategyManagerTest.cpp
         roboteam_ai/test/PropertiesParserTest.cpp
@@ -224,6 +235,7 @@ catkin_add_gtest(ai_tests
         ${CONDITIONS_SOURCES}
         ${SKILLS_SOURCES}
         ${CONTROL_SOURCES}
+        ${TACTIC_SOURCES}
         )
 
 target_compile_options(ai_tests PUBLIC --coverage)

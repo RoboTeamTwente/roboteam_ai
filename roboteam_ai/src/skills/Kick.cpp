@@ -10,10 +10,10 @@ namespace ai {
 Kick::Kick(std::string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) { }
 
-void Kick::Initialize() {
+void Kick::initialize() {
     if (properties->hasString("ROLE")) {
         std::string roleName = properties->getString("ROLE");
-        robot.id = (unsigned int) RobotDealer::findRobotForRole(roleName);
+        robot.id = (unsigned int) dealer::findRobotForRole(roleName);
         if (World::getRobotForId(robot.id, true)) {
             robot = World::getRobotForId(robot.id, true).get();
         }
@@ -31,7 +31,7 @@ void Kick::Initialize() {
     amountOfCycles = 0;
 }
 
-bt::Node::Status Kick::Update() {
+bt::Node::Status Kick::update() {
     // Fail if we did not succeed after a number of cycles
     amountOfCycles ++;
     if (amountOfCycles > constants::MAX_KICK_CYCLES) {
@@ -47,7 +47,7 @@ bt::Node::Status Kick::Update() {
     return Status::Running;
 }
 
-void Kick::Terminate(status s) {
+void Kick::terminate(status s) {
 //
 //    roboteam_msgs::RobotCommand command;
 //    command.id = robot.id;

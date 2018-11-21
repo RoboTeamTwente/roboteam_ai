@@ -8,13 +8,13 @@ class Decorator : public Node {
     public:
         virtual ~Decorator();
 
-        void AddChild(Node::Ptr child) override;
+        void addChild(Node::Ptr child) override;
 
         std::vector<Node::Ptr> getChildren() override;
 
         bool HasNoChild() const;
 
-        void Terminate(Status s) override;
+        void terminate(Status s) override;
 
     protected:
         Node::Ptr child = nullptr;

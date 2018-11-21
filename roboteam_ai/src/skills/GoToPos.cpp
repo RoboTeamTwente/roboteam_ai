@@ -3,7 +3,6 @@
 //
 
 #include "GoToPos.h"
-#include "Rotate.h"
 
 namespace rtt {
 namespace ai {
@@ -12,12 +11,16 @@ GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
 }
 
+std::string GoToPos::node_name() {
+    return "GoToPos";
+}
+
 /// Init the GoToPos skill
-void GoToPos::Initialize() {
+void GoToPos::initialize() {
 
     if (properties->hasString("ROLE")) {
         std::string roleName = properties->getString("ROLE");
-        robot.id = (unsigned int) RobotDealer::findRobotForRole(roleName);
+        robot.id = (unsigned int) dealer::findRobotForRole(roleName);
         if (World::getRobotForId(robot.id, true)) {
             robot = World::getRobotForId(robot.id, true).get();
         }
@@ -48,13 +51,12 @@ void GoToPos::Initialize() {
 }
 
 /// Get an update on the skill
-bt::Node::Status GoToPos::Update() {
+bt::Node::Status GoToPos::update() {
 
     if (World::getRobotForId(robot.id, true)) {
         robot = World::getRobotForId(robot.id, true).get();
     } else {
         ROS_ERROR("GoToPos Update -> robot does not exist in world");
-        currentProgress = Progression::FAIL;
     }
 
     if (goToBall) {
@@ -95,7 +97,7 @@ bt::Node::Status GoToPos::Update() {
     return status::Failure;
 }
 
-void GoToPos::Terminate(status s) {
+void GoToPos::terminate(status s) {
 
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
@@ -106,8 +108,6 @@ void GoToPos::Terminate(status s) {
     command.y_vel = 0;
 
     publishRobotCommand(command);
-    commandSend = true;
-
 }
 
 /// Check if the vector is a valid one
@@ -133,10 +133,7 @@ void GoToPos::sendMoveCommand() {
     command.x_vel = 1.5;// abs(angularVel)/(abs(angularVel)-1);
     command.y_vel = 0;
     publishRobotCommand(command);
-    commandSend = true;
-    std::cerr << "GoToPos command -> id: " << command.id << ", xvel: " << command.x_vel << ", yvel: " << command.y_vel
-              << ", w_vel: " << command.w
-              << std::endl;
+    //commandSend = true;
 }
 
 /// Check the progress the robot made and alter the currentProgress
@@ -153,8 +150,6 @@ GoToPos::Progression GoToPos::checkProgression() {
 }
 
 
-std::string GoToPos::node_name() {
-    return "GoToPos";
-}
+
 } // ai
 } // rtt

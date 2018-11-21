@@ -22,13 +22,13 @@ BTFactory &BTFactory::getFactory() {
 void BTFactory::init() {
     interpreter = TreeInterpreter::getInstance();
 
-    for (const auto &tacticName : Switches::tacticNames) {
+    for (const auto &tacticName : Switches::tacticJsonFileNames) {
         auto BB = std::make_shared<bt::Blackboard>(); //TODO maybe make the BB somewhere else that makes sense
         auto tempMap = interpreter.makeTactics(tacticName, BB);
         for (auto &it : tempMap) tacticsRepo[it.first] = it.second; // may break
     }
 
-    for (const auto &strategyName : Switches::strategyNames) {
+    for (const auto &strategyName : Switches::strategyJsonFileNames) {
         auto tempMap = interpreter.getTrees("strategies/" + strategyName);
         for (auto &it : tempMap) strategyRepo[it.first] = it.second; // may break
     }

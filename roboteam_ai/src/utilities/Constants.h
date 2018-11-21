@@ -22,7 +22,7 @@ const int DEFAULT_GENEVA_STATE = 0;
 
 //Other/multiple usage
 const int DEFAULT_ROBOT_ID = 1;
-const double MAX_ANGULAR_VELOCITY = 4.0; // rad per second??
+const double MAX_ANGULAR_VELOCITY = 6.0; // rad per second??
 
 // Interface
 const int WINDOW_POS_X = 100;

@@ -84,7 +84,7 @@ TEST(RotateTest, It_rotates) {
     bb->setInt("Rotate_Object", 102);        // Rotate to center of the enemy goal
 
     rtt::ai::Rotate rotateTwo("test2", bb);
-    rotateTwo.Initialize();
+    rotateTwo.initialize();
     bt::Node::Status statusTwo = rotateOne.Update();
     EXPECT_EQ(statusTwo, bt::Node::Status::Running);
 
@@ -97,8 +97,8 @@ TEST(RotateTest, It_rotates) {
     bb->setFloat("Rotate_Angle", (float) - rtt::ai::constants::PI);
 
     rtt::ai::Rotate rotateThree("test3", bb);
-    rotateThree.Initialize();
-    bt::Node::Status statusThree = rotateOne.Update();
+    rotateThree.initialize();
+    bt::Node::Status statusThree = rotateOne.update();
     EXPECT_EQ(statusThree, bt::Node::Status::Running);
 
     rate.sleep();

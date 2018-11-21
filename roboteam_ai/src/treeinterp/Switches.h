@@ -12,9 +12,9 @@ class Switches {
 
     public:
 
-        static std::vector<std::string> tacticNames;
+        static std::vector<std::string> tacticJsonFileNames;
 
-        static std::vector<std::string> strategyNames;
+        static std::vector<std::string> strategyJsonFileNames;
 
         static bt::Node::Ptr nonLeafSwitch(std::string name);
 
