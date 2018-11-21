@@ -47,7 +47,11 @@ int main(int argc, char* argv[]) {
         ai::Field::set_field(geometryMsg.field);
         ai::Referee::setRefereeData(refereeMsg);
 
-        if (!ai::World::didReceiveFirstWorld) continue;
+        if (!ai::World::didReceiveFirstWorld) {
+            ROS_ERROR("No first world");
+            ros::Duration(0.2).sleep();
+            continue;
+        }
 
         // for refereedata:
         // ai::StrategyManager strategyManager;
