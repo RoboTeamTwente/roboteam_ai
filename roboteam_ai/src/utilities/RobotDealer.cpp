@@ -72,35 +72,43 @@ void RobotDealer::updateFromWorld() {
 int RobotDealer::claimRobotForTactic(RobotDealer::RobotType feature, std::string roleName, std::string tacticName) {
 
     std::set<int> ids = RobotDealer::getAvailableRobots();
-    int id = - 1;
-
+    int id;
     if (! ids.empty()) {
 
         switch (feature) {
-        default: return - 1;
-            // TODO add more cases
-        case closeToBall: {
 
-            rtt::Vector2 ball = rtt::ai::World::getBall().pos;
-            id = getRobotClosestToPoint(ids, ball);
-            break;
-        }
+            default:
+                return - 1;
 
-        case readyToDefend: {
+            case closeToBall: {
+                rtt::Vector2 ball = rtt::ai::World::getBall().pos;
+                id = getRobotClosestToPoint(ids, ball);
+                break;
+            }
 
-            break;
-        }
+            case readyToDefend: {
+                rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
+                id = getRobotClosestToPoint(ids, ourGoal);
+                break;
+            }
 
-        case random: {
-            id = *ids.begin();
-            break;
-        }
+            case readyToAttack: {
+                rtt::Vector2 theirGoal = rtt::ai::Field::get_their_goal_center();
+                id = getRobotClosestToPoint(ids, theirGoal);
+                break;
+            }
+
+            case random: {
+                id = *ids.begin();
+                break;
+            }
 
         }
         std::lock_guard<std::mutex> lock(robotOwnersLock);
         RobotDealer::addRobotToOwnerList(id, std::move(tacticName), std::move(roleName));
         return id;
     }
+    ROS_INFO_STREAM("Found no free robots in robot dealer");
     return - 1;
 }
 
@@ -195,7 +203,7 @@ int RobotDealer::findRobotForRole(std::string roleName) {
     return - 1;
 }
 
-int RobotDealer::getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 &position) {
+int RobotDealer::getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 position) {
     if (! ids.empty()) {
         int closestID = - 1;
         double distance = 100000000.0;
