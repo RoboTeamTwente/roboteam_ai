@@ -9,12 +9,23 @@
 #include "../bt/tactics/VictoryDanceTactic.h"
 #include "../skills/Rotate.h"
 
-std::vector<std::string> Switches::tacticNames = {"testTactic", "testParallelTactic", "victoryDanceTactic"};
+/**
+ * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
+ * of the json trees you added
+ *
+ * Then depending on the type of node you made you need to add them to the switches below with the names that are
+ * specified in the json trees. These are usually the same name as the classes you make for that tactic.
+ */
 
-std::vector<std::string> Switches::strategyNames = {"testStrategy", "testParallelSequence", "victoryDanceStrategy"};
+
+std::vector<std::string> Switches::tacticJsonFileNames = {"testTactic", "testParallelTactic", "victoryDanceTactic"};
+
+std::vector<std::string> Switches::strategyJsonFileNames = {"testStrategy", "testParallelSequence", "victoryDanceStrategy"};
 
 
 
+/// If you are touching this either you know what you are doing or you are making a mistake,
+/// have a look around with the names and see if what you made is on the same level as these are
 bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
 
     bt::Node::Ptr node;
@@ -58,6 +69,7 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
     return node;
 }
 
+/// If you made a skill or a condition this is where you put them to use
 bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr properties) {
 
     bt::Node::Ptr node;
@@ -78,6 +90,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     return node;
 }
 
+/// If you made a tactic node for a new tactic this is where you add that
 bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
 
     bt::Node::Ptr node;
