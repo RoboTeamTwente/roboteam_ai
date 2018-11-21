@@ -31,6 +31,7 @@ class RobotDealer {
 
         static int getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 &position);
 
+        static int getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 &point1, rtt::Vector2 &point2, bool inBetweenPoints);
 
     public:
 
@@ -38,6 +39,7 @@ class RobotDealer {
          closeToBall,
          farFromBall,
          readyToDefend,
+         betweenBallAndOurGoal,
          random
 
        };
