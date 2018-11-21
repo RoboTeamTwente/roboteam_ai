@@ -90,13 +90,13 @@ int RobotDealer::claimRobotForTactic(RobotDealer::RobotType feature, std::string
             id = getRobotClosestToLine(ids, ball, ourGoal, true);
             break;
         }
-            case readyToDefend: {
+            case closeToOurGoal: {
                 rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
                 id = getRobotClosestToPoint(ids, ourGoal);
                 break;
             }
 
-            case readyToAttack: {
+            case closeToTheirGoal: {
                 rtt::Vector2 theirGoal = rtt::ai::Field::get_their_goal_center();
                 id = getRobotClosestToPoint(ids, theirGoal);
                 break;
@@ -222,7 +222,7 @@ int RobotDealer::getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 positio
     return closestID;
 }
 
-int RobotDealer::getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 &point1, rtt::Vector2 &point2,
+int RobotDealer::getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 point1, rtt::Vector2 point2,
         bool inBetweenPoints) {
 
     // https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
@@ -244,9 +244,9 @@ int RobotDealer::getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 &point1,
             // if it is more, change the distance dRobotToLine to the distance to point 1 or 2
             // instead of the distance to the line
 
-            double len1R = ((rtt::Vector2) point1 - robotPos).length();
-            double len2R = ((rtt::Vector2) point1 - robotPos).length();
-            double len12 = ((rtt::Vector2) point1 - robotPos).length();
+            double len1R = (point1 - robotPos).length();
+            double len2R = (point1 - robotPos).length();
+            double len12 = (point1 - robotPos).length();
             if (len1R < len2R) {
                 double pythagoras = len1R*len1R + len12*len12 - len2R*len2R;
                 if (pythagoras < 0) dRobotToLine = len1R;

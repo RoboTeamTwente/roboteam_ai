@@ -35,16 +35,16 @@ class RobotDealer {
 
         static void unFreeRobot(int ID);
 
-        static int getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 &point1, rtt::Vector2 &point2, bool inBetweenPoints);
+        static int getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 point1, rtt::Vector2 point2, bool inBetweenPoints);
 
     public:
 
        enum RobotType {
          closeToBall,
          farFromBall,
-         readyToDefend,
+         closeToOurGoal,
          betweenBallAndOurGoal,
-         readyToAttack,
+         closeToTheirGoal,
          random
 
        };
