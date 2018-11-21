@@ -218,6 +218,8 @@ int RobotDealer::getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 positio
     }
     else return - 1;
 }
+
+/// When robot be free this bad boy anti free
 void RobotDealer::unFreeRobot(int ID) {
 
     if(robotOwners["free"].find({ID, "free"}) != robotOwners["free"].end()) {
