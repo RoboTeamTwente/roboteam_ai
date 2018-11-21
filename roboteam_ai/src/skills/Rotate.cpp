@@ -13,7 +13,7 @@ Rotate::Rotate(string name, bt::Blackboard::Ptr blackboard)
 }
 
 /// Init the Rotate skill
-void Rotate::Initialize() {
+void Rotate::initialize() {
 
     if (properties->hasString("ROLE")) {
         std::string roleName = properties->getString("ROLE");
@@ -51,7 +51,7 @@ void Rotate::Initialize() {
 
 }
 
-bt::Node::Status Rotate::Update() {
+bt::Node::Status Rotate::update() {
 
     if (World::getRobotForId(robot.id, true)) {
         robot = World::getRobotForId(robot.id, true).get();
@@ -116,7 +116,7 @@ bt::Node::Status Rotate::Update() {
     return Status::Failure;
 }
 
-void Rotate::Terminate(Status s) {
+void Rotate::terminate(Status s) {
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     command.use_angle = 1;

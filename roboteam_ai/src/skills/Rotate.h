@@ -34,9 +34,9 @@ class Rotate : public Skill {
     public:
         explicit Rotate(string name, bt::Blackboard::Ptr blackboard);
 
-        void Initialize() override;
-        Status Update() override;
-        void Terminate(Status s) override;
+        void initialize() override;
+        Status update() override;
+        void terminate(Status s) override;
 
         std::string node_name() override;
 

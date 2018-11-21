@@ -9,7 +9,7 @@ IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboar
         :Condition(name,
         blackboard) { }
 
-bt::Node::Status IsInDefenseArea::Update() {
+bt::Node::Status IsInDefenseArea::update() {
     bool ourDefenseArea = properties->hasBool("ourDefenseArea") ? properties->getBool("ourDefenseArea") : true;
     double margin = properties->hasDouble("margin") ? properties->getDouble("margin") : 0.0;
 

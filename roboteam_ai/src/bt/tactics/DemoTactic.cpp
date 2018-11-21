@@ -19,7 +19,7 @@ void DemoTactic::setName(std::string newName) {
     name = std::move(newName);
 }
 
-void DemoTactic::Initialize() {
+void DemoTactic::initialize() {
 
     std::string roleName = "testRole";
     while (!claimedRobots) {
@@ -27,8 +27,8 @@ void DemoTactic::Initialize() {
     }
 }
 
-Node::Status DemoTactic::Update() {
-    auto status = child->Tick();
+Node::Status DemoTactic::update() {
+    auto status = child->tick();
 
     if (status == Status::Success) {
         return Status::Success;
@@ -42,7 +42,7 @@ Node::Status DemoTactic::Update() {
     }
 }
 
-void DemoTactic::Terminate(Status s) {
+void DemoTactic::terminate(Status s) {
 
 }
 

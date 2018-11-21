@@ -1,11 +1,11 @@
 #include "MemSelector.hpp"
 
 namespace bt {
-void MemSelector::Initialize() {
+void MemSelector::initialize() {
     index = 0;
 }
 
-Node::Status MemSelector::Update() {
+Node::Status MemSelector::update() {
     if (HasNoChildren()) {
         return Status::Success;
     }
@@ -14,7 +14,7 @@ Node::Status MemSelector::Update() {
     while (index < children.size()) {
         auto &child = children.at(index);
         Node::append_status("[MemSelector: executing child of type %s]", child->node_name().c_str());
-        auto status = child->Tick();
+        auto status = child->tick();
 
         // If the child succeeds, or keeps running, do the same.
         if (status != Status::Failure) {

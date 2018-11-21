@@ -12,11 +12,11 @@ Node::~Node() {
 
 }
 
-void Node::Initialize() {
+void Node::initialize() {
 
 }
 
-void Node::Terminate(Status s) {
+void Node::terminate(Status s) {
     // If we're terminating while we're still running,
     // consider the node failed. If it already failed
     // or succeeded, leave it like that.
@@ -25,7 +25,7 @@ void Node::Terminate(Status s) {
     }
 }
 
-Node::Status Node::Tick() {
+Node::Status Node::tick() {
     if (status != Status::Running) {
         NodeInitialize();
     }
@@ -65,7 +65,7 @@ void Node::append_status(std::string fmt, ...) {
     status_desc += std::string(buf);
 }
 
-void Node::AddChild(bt::Node::Ptr) {
+void Node::addChild(bt::Node::Ptr) {
 
 }
 
@@ -83,7 +83,7 @@ Node::Node() {
 }
 
 Node::Status Node::NodeUpdate() {
-    auto status = Update();
+    auto status = update();
     //std::cout << "Node Update:  " << node_name() << status_print(status) << std::endl;
 
     return status;
@@ -92,12 +92,12 @@ Node::Status Node::NodeUpdate() {
 
 void Node::NodeInitialize() {
     std::cout << "Node Initialize:  " << node_name() << std::endl;
-    Initialize();
+    initialize();
 
 }
 void Node::NodeTerminate(Status s) {
     std::cout << "Node Terminate:  " << node_name() << std::endl;
-    Terminate(s);
+    terminate(s);
 
 }
 

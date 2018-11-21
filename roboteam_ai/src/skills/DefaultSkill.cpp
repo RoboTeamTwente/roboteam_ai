@@ -18,7 +18,7 @@ std::string DefaultSkill::node_name() {
 }
 
 /// Called when the Skill is Initialized
-void DefaultSkill::Initialize() {
+void DefaultSkill::initialize() {
 
     if (properties->hasString("ROLE")) {
         std::string roleName = properties->getString("ROLE");
@@ -42,7 +42,7 @@ void DefaultSkill::Initialize() {
 }
 
 /// Called when the Skill is Updated
-DefaultSkill::Status DefaultSkill::Update() {
+DefaultSkill::Status DefaultSkill::update() {
 
     if (World::getRobotForId(robot.id, true)) {
         robot = World::getRobotForId(robot.id, true).get();
@@ -60,7 +60,7 @@ DefaultSkill::Status DefaultSkill::Update() {
 }
 
 /// Called when the Skill is Terminated
-void DefaultSkill::Terminate(Status s) {
+void DefaultSkill::terminate(Status s) {
 
 }
 

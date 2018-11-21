@@ -37,9 +37,9 @@ class GoToPos : public Skill {
         explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
         std::string node_name() override;
 
-        void Initialize() override;
-        Status Update() override;
-        void Terminate(status s) override;
+        void initialize() override;
+        Status update() override;
+        void terminate(status s) override;
 
 
 };

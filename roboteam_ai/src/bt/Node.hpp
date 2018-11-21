@@ -39,7 +39,7 @@ class Node {
 
         using Ptr = std::shared_ptr<Node>;
 
-        virtual Status Update() = 0;
+        virtual Status update() = 0;
 
         Status NodeUpdate();
 
@@ -47,15 +47,15 @@ class Node {
 
         void NodeTerminate(Status s);
 
-        virtual void Initialize();
+        virtual void initialize();
 
-        virtual void Terminate(Status s);
+        virtual void terminate(Status s);
 
-        virtual void AddChild(bt::Node::Ptr);
+        virtual void addChild(bt::Node::Ptr);
 
         virtual std::vector<Node::Ptr> getChildren();
 
-        virtual Status Tick();
+        virtual Status tick();
 
         bool IsSuccess() const;
 

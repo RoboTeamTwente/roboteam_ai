@@ -18,8 +18,8 @@ class VictoryDanceTactic : public Tactic {
 
         void setName(std::string newName);
 
-        void Initialize() override;
-        Node::Status Update() override;
+        void initialize() override;
+        Node::Status update() override;
 
         std::string node_name() override;
 

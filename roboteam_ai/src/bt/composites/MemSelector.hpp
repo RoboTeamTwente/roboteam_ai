@@ -14,9 +14,9 @@ class MemSelector : public Composite {
     public:
         size_t index;
 
-        void Initialize() override;
+        void initialize() override;
 
-        Status Update() override;
+        Status update() override;
 
         using Ptr = std::shared_ptr<MemSelector>;
 

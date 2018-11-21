@@ -18,11 +18,11 @@ class Role : public Node {
 
         std::string name = "Role";
 
-        void Initialize() override;
+        void initialize() override;
 
-        Status Update() override;
+        Status update() override;
 
-        void AddChild(Node::Ptr newChild) override;
+        void addChild(Node::Ptr newChild) override;
 
         std::vector<Node::Ptr> getChildren() override;
 

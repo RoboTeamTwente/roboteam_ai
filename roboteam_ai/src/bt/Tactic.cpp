@@ -7,19 +7,19 @@
 namespace bt {
 
 
-void bt::Tactic::Initialize() {
+void bt::Tactic::initialize() {
     //Should always be overwritten
     askForRobots();
 }
 
-void Tactic::AddChild(Node::Ptr newChild) {
+void Tactic::addChild(Node::Ptr newChild) {
     this->child = newChild;
 }
 
-void Tactic::Terminate(Node::Status s) {
+void Tactic::terminate(Node::Status s) {
 
     if (child->getStatus() == Status::Running) {
-        child->Terminate(child->getStatus());
+        child->terminate(child->getStatus());
     }
 
     if (s == Status::Running) {
@@ -29,7 +29,7 @@ void Tactic::Terminate(Node::Status s) {
 void Tactic::askForRobots() {
 
 }
-Node::Status Tactic::Update() {
+Node::Status Tactic::update() {
     //Should always be overwritten
     return Status::Invalid;
 }

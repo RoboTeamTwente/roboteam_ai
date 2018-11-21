@@ -16,7 +16,7 @@ std::string GoToPos::node_name() {
 }
 
 /// Init the GoToPos skill
-void GoToPos::Initialize() {
+void GoToPos::initialize() {
 
     if (properties->hasString("ROLE")) {
         std::string roleName = properties->getString("ROLE");
@@ -51,7 +51,7 @@ void GoToPos::Initialize() {
 }
 
 /// Get an update on the skill
-bt::Node::Status GoToPos::Update() {
+bt::Node::Status GoToPos::update() {
 
     if (World::getRobotForId(robot.id, true)) {
         robot = World::getRobotForId(robot.id, true).get();
@@ -97,7 +97,7 @@ bt::Node::Status GoToPos::Update() {
     return status::Failure;
 }
 
-void GoToPos::Terminate(status s) {
+void GoToPos::terminate(status s) {
 
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;

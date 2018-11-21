@@ -11,7 +11,7 @@ IsInZone::IsInZone(std::string name, bt::Blackboard::Ptr blackboard)
 
 }
 
-bt::Node::Status IsInZone::Update() {
+bt::Node::Status IsInZone::update() {
     auto world = World::get_world();
     auto field = Field::get_field();
 

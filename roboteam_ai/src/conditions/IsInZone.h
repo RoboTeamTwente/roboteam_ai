@@ -23,7 +23,7 @@ class IsInZone : public Condition {
     public:
         explicit IsInZone(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
 
-        Status Update() override;
+        Status update() override;
 
     private:
 //    ros::NodeHandle n; //TODO: look into this

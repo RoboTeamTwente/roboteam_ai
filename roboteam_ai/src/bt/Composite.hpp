@@ -8,13 +8,13 @@ class Composite : public Node {
     public:
         virtual ~Composite();
 
-        void AddChild(Node::Ptr child) override;
+        void addChild(Node::Ptr child) override;
 
         std::vector<Node::Ptr> getChildren() override;
 
         bool HasNoChildren() const;
 
-        void Terminate(Status s) override;
+        void terminate(Status s) override;
 
     protected:
         std::vector<Node::Ptr> children;

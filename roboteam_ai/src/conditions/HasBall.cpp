@@ -14,7 +14,7 @@ HasBall::HasBall(std::string name, bt::Blackboard::Ptr blackboard)
 
 }
 
-bt::Node::Status HasBall::Update() {
+bt::Node::Status HasBall::update() {
 
     if (properties->hasString("ROLE")) {
         std::string roleName = properties->getString("ROLE");

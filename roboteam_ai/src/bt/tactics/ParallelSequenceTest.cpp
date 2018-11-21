@@ -16,7 +16,7 @@ void ParallelSequenceTactic::setName(std::string newName) {
     name = std::move(newName);
 }
 
-void ParallelSequenceTactic::Initialize() {
+void ParallelSequenceTactic::initialize() {
 
     std::vector<std::string> roleNames = {"role1", "role2", "role3", "role4", "role5"};
     while (claimedRobots < roleNames.size()) {
@@ -26,8 +26,8 @@ void ParallelSequenceTactic::Initialize() {
     }
 }
 
-Node::Status ParallelSequenceTactic::Update() {
-    auto status = child->Tick();
+Node::Status ParallelSequenceTactic::update() {
+    auto status = child->tick();
 
     if (status == Status::Success) {
         return Status::Success;

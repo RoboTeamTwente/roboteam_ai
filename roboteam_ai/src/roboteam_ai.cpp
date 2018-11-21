@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
 
         strategy = factory.getTree(currentTree);
 
-        Status status = strategy->Tick();
+        Status status = strategy->tick();
 
         if (status != Status::Running) {
             std::string statusStr = bt::statusToString(status);
@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
 
     // Terminate if needed
     if (strategy->getStatus() == Status::Running) {
-        strategy->Terminate(Status::Running);
+        strategy->terminate(Status::Running);
     }
 
     return 0;

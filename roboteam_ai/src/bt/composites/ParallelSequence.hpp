@@ -10,7 +10,7 @@ class ParallelSequence : public Composite {
 
         ParallelSequence(int minSuccess, int minFail);
 
-        Status Update() override;
+        Status update() override;
 
         std::string node_name() override;
 

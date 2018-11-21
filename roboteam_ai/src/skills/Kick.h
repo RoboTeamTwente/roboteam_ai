@@ -28,11 +28,11 @@ class Kick : public Skill {
     public:
         explicit Kick(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
 
-        Status Update() override;
+        Status update() override;
 
-        void Initialize() override;
+        void initialize() override;
 
-        void Terminate(status s) override;
+        void terminate(status s) override;
 };
 
 } // ai

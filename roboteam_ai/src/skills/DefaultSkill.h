@@ -24,9 +24,9 @@ class DefaultSkill : public Skill {
         explicit DefaultSkill(string name, bt::Blackboard::Ptr blackboard);
         std::string node_name() override;
 
-        void Initialize() override;
-        Status Update() override;
-        void Terminate(Status s) override;
+        void initialize() override;
+        Status update() override;
+        void terminate(Status s) override;
 
 
 

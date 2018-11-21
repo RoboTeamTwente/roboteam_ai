@@ -81,7 +81,7 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
         std::string childID = nodeJSON["child"];
         auto child = tree["nodes"][childID];
 
-        node->AddChild(buildNode(child, tree, globalBlackBoard));
+        node->addChild(buildNode(child, tree, globalBlackBoard));
     }
 
         // Multiple children
@@ -90,7 +90,7 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
         for (std::string currentChildID : nodeJSON["children"]) {
             auto currentChild = tree["nodes"][currentChildID];
 
-            node->AddChild(buildNode(currentChild, tree, globalBlackBoard));
+            node->addChild(buildNode(currentChild, tree, globalBlackBoard));
         }
     }
     return node;
@@ -118,7 +118,7 @@ bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
     if (jsonLeaf["title"] == "Tactic") {
         auto properties = propertyParser.parse(jsonLeaf);
         auto node = tacticSwitch(jsonLeaf["name"], properties);
-        node->AddChild(tactics.find(jsonLeaf["name"])->second);
+        node->addChild(tactics.find(jsonLeaf["name"])->second);
         return node;
 
     }
@@ -152,7 +152,7 @@ std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fi
 bt::Node::Ptr TreeInterpreter::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
 
     bt::Node::Ptr node = Switches::tacticSwitch(name, std::move(properties));
-    node->AddChild(tactics.find(name)->second);
+    node->addChild(tactics.find(name)->second);
     return node;
 }
 

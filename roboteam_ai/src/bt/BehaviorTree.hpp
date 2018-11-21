@@ -21,9 +21,9 @@ class BehaviorTree : public Node {
 
         ~BehaviorTree();
 
-        Status Update() override;
+        Status update() override;
 
-        void Terminate(Status s) override;
+        void terminate(Status s) override;
 
         void SetRoot(const Node::Ptr &node);
 

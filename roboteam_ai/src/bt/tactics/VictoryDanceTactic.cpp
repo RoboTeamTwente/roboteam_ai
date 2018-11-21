@@ -17,7 +17,7 @@ void VictoryDanceTactic::setName(std::string newName) {
     name = std::move(newName);
 }
 
-void VictoryDanceTactic::Initialize() {
+void VictoryDanceTactic::initialize() {
 
     std::vector<std::string> roleNames = {"victory1"};
     while (claimedRobots < roleNames.size()) {
@@ -27,8 +27,8 @@ void VictoryDanceTactic::Initialize() {
     }
 }
 
-Node::Status VictoryDanceTactic::Update() {
-    auto status = child->Tick();
+Node::Status VictoryDanceTactic::update() {
+    auto status = child->tick();
 
     if (status == Status::Success) {
         return Status::Success;

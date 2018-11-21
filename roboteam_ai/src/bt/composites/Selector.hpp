@@ -12,7 +12,7 @@ namespace bt {
 */
 class Selector : public Composite {
     public:
-        Status Update() override;
+        Status update() override;
 
         std::string node_name() override;
 

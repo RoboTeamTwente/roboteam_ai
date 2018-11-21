@@ -10,7 +10,7 @@ namespace bt {
 */
 class Inverter : public Decorator {
     public:
-        Status Update() override;
+        Status update() override;
 
         std::string node_name() override;
 };
