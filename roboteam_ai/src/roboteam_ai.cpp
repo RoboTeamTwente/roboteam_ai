@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
         ai::Field::set_field(geometryMsg.field);
         ai::Referee::setRefereeData(refereeMsg);
 
-        if (!ai::World::didReceiveFirstWorld) {
+        if (! ai::World::didReceiveFirstWorld) {
             ROS_ERROR("No first world");
             ros::Duration(0.2).sleep();
             continue;
@@ -62,19 +62,25 @@ int main(int argc, char* argv[]) {
 
         Status status = strategy->tick();
 
-        if (status != Status::Running) {
-            std::string statusStr = bt::statusToString(status);
-            // return failure, success or invalid
-            ROS_DEBUG_STREAM_NAMED("Roboteam_ai", "Strategy result: " << statusStr.c_str() << "Shutting down...\n");
-            if (status == Status::Success) {
-                std::cerr << "================================== TREE CHANGE ===========================" << std::endl;
+        switch (status) {
+
+            case Status::Running:
+                break;
+
+            case Status::Success:
+                ROS_INFO_STREAM_ONCE("Status returned: Success");
+                ROS_INFO_STREAM_ONCE(" === TREE CHANGE === ");
                 currentTree = "ParallelSequenceStrategy";
-                continue;
-            } else if (status == Status::Failure) {
-                std::cerr << "fail...." << std::endl;
-            } else {
-                std::cerr << "else" << std::endl;
-            }
+                break;
+
+            case Status::Failure:
+                ROS_INFO_STREAM_ONCE("Status returned: Failure");
+                break;
+
+            case Status::Invalid:
+                ROS_INFO_STREAM_ONCE("Status returned: Invalid");
+                break;
+
         }
         rate.sleep();
     }
