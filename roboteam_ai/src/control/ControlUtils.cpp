@@ -2,10 +2,8 @@
 // Created by baris on 16/11/18.
 //
 
-#include "math.h"
 
 #include "ControlUtils.h"
-#include "../utilities/Constants.h"
 
 namespace control {
 double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAngle) {

@@ -133,10 +133,7 @@ void GoToPos::sendMoveCommand() {
     command.x_vel = 1.5;// abs(angularVel)/(abs(angularVel)-1);
     command.y_vel = 0;
     publishRobotCommand(command);
-    commandSend = true;
-    std::cerr << "GoToPos command -> id: " << command.id << ", xvel: " << command.x_vel << ", yvel: " << command.y_vel
-              << ", w_vel: " << command.w
-              << std::endl;
+    //commandSend = true;
 }
 
 /// Check the progress the robot made and alter the currentProgress

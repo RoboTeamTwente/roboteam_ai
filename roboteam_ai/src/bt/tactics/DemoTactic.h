@@ -22,7 +22,7 @@ class DemoTactic : public Tactic {
 
         std::string node_name() override;
 
-        bool claimedRobots = false;
+        int claimedRobots = 0;
 
         std::set<int> robotIDs = {};
 

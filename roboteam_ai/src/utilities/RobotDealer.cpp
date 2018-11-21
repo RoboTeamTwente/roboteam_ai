@@ -14,28 +14,29 @@ std::mutex RobotDealer::robotOwnersLock;
 /// For internal use
 /// Removes a robot with an ID from the map and if the tactic then is empty it removes the tactic
 void RobotDealer::removeRobotFromOwnerList(int ID) {
-    // For each robot set list...
-    for (auto &entry : robotOwners) {
-        // Get the set
-        auto robotSet = entry.second;
-        // Check if the robot is in there
-        for (auto &robotPair : robotSet) {
+    // For each tactic
+    for (auto &tactic : robotOwners) {
+        // Set of robots
+        for (auto &robotPair : tactic.second) {
             if (robotPair.first == ID) {
-                robotSet.erase(robotPair);
+                tactic.second.erase(robotPair);
                 // If there are no more robots in the tactic
-                if (robotSet.empty()) {
-                    std::string tacticToRemove = entry.first;
+                if (tactic.second.empty()) {
+                    std::string tacticToRemove = tactic.first;
                     robotOwners.erase(tacticToRemove);
                 }
-                return;
+                addRobotToOwnerList(ID, "free", "free");
+                return; // TODO: test this function because it did not work before
             }
         }
     }
+
+
 }
 
 /// For internal use
 /// Adds a robot to the map with a role and tactic
-void RobotDealer::addRobotToOwnerList(int ID, std::string tacticName, std::string roleName) {
+void RobotDealer::addRobotToOwnerList(int ID, std::string roleName, std::string tacticName) {
     // If tactic does not exist
     if (robotOwners.find(tacticName) == robotOwners.end()) {
         std::set<std::pair<int, std::string>> set = {{ID, roleName}};
@@ -69,18 +70,19 @@ void RobotDealer::updateFromWorld() {
 int RobotDealer::claimRobotForTactic(RobotDealer::RobotType feature, std::string roleName, std::string tacticName) {
 
     std::set<int> ids = RobotDealer::getAvailableRobots();
-
+    int id;
     if (! ids.empty()) {
-        int id;
-        switch (feature) {
-        default: return - 1;
-            // TODO add more cases
-        case closeToBall: {
 
-            rtt::Vector2 ball = rtt::ai::World::getBall().pos;
-            id = getRobotClosestToPoint(ids, ball);
-            break;
-        }
+        switch (feature) {
+
+            default:
+                return - 1;
+
+            case closeToBall: {
+                rtt::Vector2 ball = rtt::ai::World::getBall().pos;
+                id = getRobotClosestToPoint(ids, ball);
+                break;
+            }
 
         case betweenBallAndOurGoal: {
             rtt::Vector2 ball = rtt::ai::World::getBall().pos;
@@ -88,18 +90,31 @@ int RobotDealer::claimRobotForTactic(RobotDealer::RobotType feature, std::string
             id = getRobotClosestToLine(ids, ball, ourGoal, true);
             break;
         }
+            case readyToDefend: {
+                rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
+                id = getRobotClosestToPoint(ids, ourGoal);
+                break;
+            }
 
-        case random: {
-            id = *ids.begin();
-            break;
-        }
+            case readyToAttack: {
+                rtt::Vector2 theirGoal = rtt::ai::Field::get_their_goal_center();
+                id = getRobotClosestToPoint(ids, theirGoal);
+                break;
+            }
+
+            case random: {
+                id = *ids.begin();
+                break;
+            }
 
         }
         std::lock_guard<std::mutex> lock(robotOwnersLock);
+        RobotDealer::unFreeRobot(id);
         RobotDealer::addRobotToOwnerList(id, std::move(tacticName), std::move(roleName));
         return id;
     }
-    else return - 1;
+    ROS_INFO_STREAM("Found no free robots in robot dealer");
+    return - 1;
 }
 
 std::set<int> RobotDealer::getRobots() {
@@ -249,6 +264,17 @@ int RobotDealer::getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 &point1,
 
     }
     return closestID;
+}
+
+/// When robot be free this bad boy anti free
+void RobotDealer::unFreeRobot(int ID) {
+
+    if(robotOwners["free"].find({ID, "free"}) != robotOwners["free"].end()) {
+        robotOwners["free"].erase({ID, "free"});
+    } else {
+        ROS_ERROR("Cannot un free an anti free robot");
+    }
+
 }
 
 } // RobotDealer

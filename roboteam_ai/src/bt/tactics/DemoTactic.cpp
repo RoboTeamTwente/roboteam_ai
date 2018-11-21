@@ -20,10 +20,15 @@ void DemoTactic::setName(std::string newName) {
 }
 
 void DemoTactic::initialize() {
+    std::vector<std::string> roleNames = {"testRole"};
 
-    std::string roleName = "testRole";
-    while (!claimedRobots) {
-        claimedRobots = dealer::claimRobotForTactic(robot::random, roleName, "testTactic");
+    while (claimedRobots < roleNames.size()) {
+        robotIDs.insert(dealer::claimRobotForTactic(robot::random, "ParallelSequenceTactic", roleNames[claimedRobots]));
+        if (robotIDs.find(- 1) == robotIDs.end()) {
+            claimedRobots ++;
+        } else {
+            robotIDs.erase(- 1);
+        }
     }
 }
 
