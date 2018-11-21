@@ -68,17 +68,17 @@ int main(int argc, char* argv[]) {
                 break;
 
             case Status::Success:
-                ROS_INFO_STREAM_ONCE("Status returned: Success");
-                ROS_INFO_STREAM_ONCE(" === TREE CHANGE === ");
+                ROS_INFO_STREAM("Status returned: Success");
+                ROS_INFO_STREAM(" === TREE CHANGE === ");
                 currentTree = "ParallelSequenceStrategy";
                 break;
 
             case Status::Failure:
-                ROS_INFO_STREAM_ONCE("Status returned: Failure");
+                ROS_INFO_STREAM("Status returned: Failure");
                 break;
 
             case Status::Invalid:
-                ROS_INFO_STREAM_ONCE("Status returned: Invalid");
+                ROS_INFO_STREAM("Status returned: Invalid");
                 break;
 
         }
