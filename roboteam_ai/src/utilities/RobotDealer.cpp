@@ -44,10 +44,7 @@ void RobotDealer::addRobotToOwnerList(int ID, std::string tacticName, std::strin
     }
 
     // Seems tactic does exist
-    for (auto &entry : robotOwners) {
-        // Get the set
-        entry.second.insert({ID, roleName});
-    }
+    robotOwners[tacticName].insert({ID, roleName});
 
 }
 /// For internal use
