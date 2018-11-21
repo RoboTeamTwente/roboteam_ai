@@ -5,6 +5,7 @@
  */
 
 #include "Interface.h"
+#include "../utilities/RobotDealer.h"
 
 namespace rtt {
 namespace ai {
@@ -31,7 +32,7 @@ Interface::Interface() : renderer(nullptr) {
     if (TTF_Init() < 0) {
         std::cout << "TTF library could not be initialized!!";
     }
-    font = TTF_OpenFont("/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf",16);
+    font = TTF_OpenFont("/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf",14);
     drawText("No world state has been received yet", 20, 20);
     SDL_RenderPresent(renderer);
 }
@@ -42,7 +43,12 @@ Interface::~Interface() {
 }
 
 void Interface::drawFrame() {
-    drawField();
+    roboteam_msgs::GeometryFieldSize field = Field::get_field();
+    fieldmargin = c::WINDOW_FIELD_MARGIN + field.boundary_width;
+    factor.x = c::WINDOW_SIZE_X / field.field_length - (2 * fieldmargin);
+    factor.y = c::WINDOW_SIZE_Y / field.field_width - (2 * fieldmargin);
+
+    drawField(field);
     drawRobots();
     drawBall();
 
@@ -50,16 +56,9 @@ void Interface::drawFrame() {
     SDL_RenderPresent(renderer);
 }
 
-void Interface::drawField() {
-    // set background
+void Interface::drawField(roboteam_msgs::GeometryFieldSize field) {
     SDL_SetRenderDrawColor(renderer, c::FIELD_COLOR.r, c::FIELD_COLOR.g, c::FIELD_COLOR.b, c::FIELD_COLOR.a);
     SDL_RenderClear(renderer);
-
-    roboteam_msgs::GeometryFieldSize field = Field::get_field();
-
-    fieldmargin = c::WINDOW_FIELD_MARGIN + field.boundary_width;
-    factor.x = c::WINDOW_SIZE_X / field.field_length - (2 * fieldmargin);
-    factor.y = c::WINDOW_SIZE_Y / field.field_width - (2 * fieldmargin);
 
     // draw field lines
     for (auto line : Field::get_field().field_lines) {
@@ -70,11 +69,11 @@ void Interface::drawField() {
 void Interface::drawRobots() {
     // draw us
     for (roboteam_msgs::WorldRobot robot : World::get_world().us) {
-        drawRobot(robot, c::ROBOT_US_COLOR);
+        drawRobot(robot, true);
     }
 
     for (roboteam_msgs::WorldRobot robot : World::get_world().them) {
-        drawRobot(robot, c::ROBOT_THEM_COLOR);
+        drawRobot(robot, false);
     }
 }
 
@@ -96,14 +95,15 @@ void Interface::drawLine(Vector2 p1, Vector2 p2, SDL_Color color) {
         );
 }
 
-void Interface::drawText(std::string text, int x, int y) {
-    SDL_Color textColor = c::TEXT_COLOR;
-    SDL_Surface* surfaceMessage = TTF_RenderText_Blended(font, text.c_str(), textColor);
-    SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
-    SDL_FreeSurface(surfaceMessage);
-    SDL_Rect textRect{x, y, surfaceMessage->w, surfaceMessage->h};
-    SDL_RenderCopy(renderer, message, nullptr, &textRect);
-    SDL_DestroyTexture(message);
+void Interface::drawText(std::string text, int x, int y, SDL_Color textColor) {
+    if (text != "") {
+        SDL_Surface* surfaceMessage = TTF_RenderText_Blended(font, text.c_str(), textColor);
+        SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+        SDL_FreeSurface(surfaceMessage);
+        SDL_Rect textRect{x, y, surfaceMessage->w, surfaceMessage->h};
+        SDL_RenderCopy(renderer, message, nullptr, &textRect);
+        SDL_DestroyTexture(message);
+    }
 }
 
 // convert field coordinates to screen coordinates
@@ -112,17 +112,41 @@ Vector2 Interface::toScreenPosition(Vector2 fieldPos) {
     (fieldPos.y * factor.y * -1) + c::WINDOW_SIZE_Y/2 + fieldmargin};
 }
 
-void Interface::drawRobot(roboteam_msgs::WorldRobot robot, SDL_Color color) {
+void Interface::drawRobot(roboteam_msgs::WorldRobot robot, bool ourTeam) {
+    std::map<std::string, std::set<std::pair<int, std::string>>> list = RobotDealer::getRobotOwnerList();
+    SDL_Color color = ourTeam ? c::ROBOT_US_COLOR : c::ROBOT_THEM_COLOR;
+
+    if (ourTeam) {
+        std::string roleName = "";
+        std::string tacticName = "";
+        for (auto &robotowner : list) {
+            std::string tactic = robotowner.first;
+            std::set<std::pair<int, std::string>> robots = robotowner.second;
+            for (auto &ownedRobot : robots) {
+                if (ownedRobot.first == robot.id) {
+                    roleName = ownedRobot.second;
+                    tacticName = tactic;
+                    drawRect(robot.pos, c::ROBOT_DRAWING_SIZE+4, c::ROBOT_DRAWING_SIZE+4, c::TEXT_COLOR);
+                    drawText(tacticName, toScreenPosition(robot.pos).x, toScreenPosition(robot.pos).y - 40, color);
+                    drawText(roleName, toScreenPosition(robot.pos).x, toScreenPosition(robot.pos).y - 60, color);
+                }
+            }
+        }
+    }
+
     drawRect(robot.pos, c::ROBOT_DRAWING_SIZE, c::ROBOT_DRAWING_SIZE, color);
     drawText(std::to_string(robot.id), toScreenPosition(robot.pos).x, toScreenPosition(robot.pos).y - 20);
+
+    Vector2 velocityDestPoint;
+    velocityDestPoint.x = robot.pos.x + robot.vel.x;
+    velocityDestPoint.y = robot.pos.y + robot.vel.y;
+    drawLine(robot.pos, velocityDestPoint, c::TEXT_COLOR);
 
     Vector2 angleDestPoint;
     angleDestPoint.x = robot.pos.x + cos(robot.angle);
     angleDestPoint.y = robot.pos.y + sin(robot.angle);
     drawLine(robot.pos, angleDestPoint, color);
-
 }
-
 
 void Interface::drawRect(Vector2 position, int w, int h, SDL_Color color) {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
@@ -134,7 +158,6 @@ void Interface::drawRect(Vector2 position, int w, int h, SDL_Color color) {
     rect.h = h;
 
     SDL_RenderFillRect(renderer, &rect);
-
 }
 
 } // interface

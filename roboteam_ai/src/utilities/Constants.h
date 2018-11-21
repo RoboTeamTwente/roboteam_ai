@@ -33,7 +33,7 @@ const int ROBOT_DRAWING_SIZE = 10;
 const int WINDOW_FIELD_MARGIN = 3;
 const SDL_Color FIELD_COLOR {50, 50, 50, 255}; // gray
 const SDL_Color FIELD_LINE_COLOR { 255, 255, 255, 255 }; // White
-const SDL_Color ROBOT_US_COLOR { 0, 0, 255, 255 }; // Blue
+const SDL_Color ROBOT_US_COLOR { 150, 150, 255, 255 }; // Blue
 const SDL_Color ROBOT_THEM_COLOR { 255, 255, 0, 255 }; // Yellow
 const SDL_Color BALL_COLOR { 255, 120, 50, 255 }; // Orange
 const SDL_Color TEXT_COLOR { 255, 255, 255, 255 }; // White
