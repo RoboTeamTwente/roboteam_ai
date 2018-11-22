@@ -3,11 +3,7 @@
 //
 
 #include "Switches.h"
-#include "../bt/Node.hpp"
-#include "../bt/tactics/DemoTactic.h"
-#include "../bt/tactics/ParallelSequenceTest.h"
-#include "../bt/tactics/VictoryDanceTactic.h"
-#include "../skills/Rotate.h"
+
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -18,9 +14,9 @@
  */
 
 
-std::vector<std::string> Switches::tacticJsonFileNames = {"testTactic", "testParallelTactic", "victoryDanceTactic"};
+std::vector<std::string> Switches::tacticJsonFileNames = {"testTactic", "testParallelTactic", "victoryDanceTactic","grsimTestTactic"};
 
-std::vector<std::string> Switches::strategyJsonFileNames = {"testStrategy", "testParallelSequence", "victoryDanceStrategy"};
+std::vector<std::string> Switches::strategyJsonFileNames = {"testStrategy", "testParallelSequence", "victoryDanceStrategy","grsimTest"};
 
 
 
@@ -83,7 +79,11 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "Rotate") {
         node = std::make_shared<rtt::ai::Rotate>(name, properties);
     }
+    else if (name == "RotateToAngle"){
+        node = std::make_shared<rtt::ai::RotateToAngle>(name,properties);
+    }
     else {
+        std::cout<< "Defaulting to Go To Pos!! careful"<<std::endl;
         node = std::make_shared<rtt::ai::GoToPos>(name, properties);
     }
 
@@ -104,6 +104,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
     else if (name == "VictoryDanceTactic") {
         node = std::make_shared<bt::VictoryDanceTactic>("VictoryDanceTactic", properties);
     }
-
+    else if (name =="grsimTestTactic") {
+        node= std::make_shared<bt::grsimTestTactic>("grsimTestTactic",properties);   }
     return node;
 }

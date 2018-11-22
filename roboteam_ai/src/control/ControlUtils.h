@@ -9,6 +9,7 @@ namespace control {
 class ControlUtils {
     public:
         static double calculateAngularVelocity(double robotAngle, double targetAngle);
+        static double constrainAngle(double angle);
 };
 }
 
