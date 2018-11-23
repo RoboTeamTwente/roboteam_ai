@@ -23,7 +23,7 @@ void DemoTactic::initialize() {
     std::vector<std::string> roleNames = {"testRole"};
 
     while (claimedRobots < roleNames.size()) {
-        robotIDs.insert(dealer::claimRobotForTactic(robot::random, "ParallelSequenceTactic", roleNames[claimedRobots]));
+        robotIDs.insert(dealer::claimRobotForTactic(robot::random, "DemoTactic", roleNames[claimedRobots]));
         if (robotIDs.find(- 1) == robotIDs.end()) {
             claimedRobots ++;
         } else {

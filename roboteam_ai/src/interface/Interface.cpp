@@ -113,21 +113,37 @@ Vector2 Interface::toScreenPosition(Vector2 fieldPos) {
 }
 
 void Interface::drawRobot(roboteam_msgs::WorldRobot robot, bool ourTeam) {
-    std::map<std::string, std::set<std::pair<int, std::string>>> list = RobotDealer::getRobotOwnerList();
+    std::map<std::string, std::set<std::pair<int, std::string>>> list = robotDealer::RobotDealer::getClaimedRobots();
     SDL_Color color = ourTeam ? c::ROBOT_US_COLOR : c::ROBOT_THEM_COLOR;
 
     if (ourTeam) {
         std::string roleName = "";
-        std::string tacticName = "";
         for (auto &robotowner : list) {
             std::string tactic = robotowner.first;
             std::set<std::pair<int, std::string>> robots = robotowner.second;
             for (auto &ownedRobot : robots) {
                 if (ownedRobot.first == robot.id) {
                     roleName = ownedRobot.second;
-                    tacticName = tactic;
-                    drawRect(robot.pos, c::ROBOT_DRAWING_SIZE+4, c::ROBOT_DRAWING_SIZE+4, c::TEXT_COLOR);
-                    drawText(tacticName, toScreenPosition(robot.pos).x, toScreenPosition(robot.pos).y - 40, color);
+
+                    bool tacticExists = false;
+                    SDL_Color c;
+                    for (auto tac : tacticColors) {
+                        if (tac.first == tactic) {
+                            c = tac.second;
+                            tacticExists = true;
+                            break;
+                        }
+                    }
+
+                    if (!tacticExists) {
+                        SDL_Color newColor = c::TACTIC_COLORS[tacticCount];
+                        tacticCount = (tacticCount + 1) % sizeof(c::TACTIC_COLORS);
+                        tacticColors.push_back({tactic, newColor});
+                        c = newColor;
+                    }
+
+                    drawRect(robot.pos, c::ROBOT_DRAWING_SIZE+4, c::ROBOT_DRAWING_SIZE+4, c);
+                    drawText(tactic, toScreenPosition(robot.pos).x, toScreenPosition(robot.pos).y - 40, color);
                     drawText(roleName, toScreenPosition(robot.pos).x, toScreenPosition(robot.pos).y - 60, color);
                 }
             }

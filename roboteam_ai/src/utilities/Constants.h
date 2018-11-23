@@ -38,6 +38,13 @@ const SDL_Color ROBOT_THEM_COLOR { 255, 255, 0, 255 }; // Yellow
 const SDL_Color BALL_COLOR { 255, 120, 50, 255 }; // Orange
 const SDL_Color TEXT_COLOR { 255, 255, 255, 255 }; // White
 
+const SDL_Color TACTIC_1 { 255, 0, 255, 255 };
+const SDL_Color TACTIC_2 { 0, 255, 255, 255 };
+const SDL_Color TACTIC_3 { 255, 255, 0, 255 };
+const SDL_Color TACTIC_4 { 255, 120, 180, 255 };
+const SDL_Color TACTIC_5 { 255, 100, 255, 255 };
+const SDL_Color TACTIC_COLORS[] = {TACTIC_1, TACTIC_2, TACTIC_3, TACTIC_4, TACTIC_5};
+
 } // constants
 } // ai
 } // rtt

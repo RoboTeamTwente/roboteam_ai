@@ -41,6 +41,10 @@ class Interface {
         Vector2 factor;
         int fieldmargin;
         Vector2 toScreenPosition(Vector2 fieldPos);
+
+        // map colors to tactic to visualize which robots work together
+        std::vector<std::pair<std::string, SDL_Color>> tacticColors;
+        int tacticCount = 0; // increases when a new tactic is used
 };
 
 } // interface
