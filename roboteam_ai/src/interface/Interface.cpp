@@ -16,7 +16,7 @@ namespace c = rtt::ai::constants;
 Interface::Interface() : renderer(nullptr) {
     // set up window
     window = SDL_CreateWindow("RTT AI Interface",
-            c::WINDOW_POS_X, c::WINDOW_POS_Y, c::WINDOW_SIZE_X, c::WINDOW_SIZE_Y, 0);
+            c::WINDOW_POS_X, c::WINDOW_POS_Y, c::WINDOW_SIZE_X+300, c::WINDOW_SIZE_Y, 0);
 
     if (window == nullptr) {
         std::cout << "Failed to create window : " << SDL_GetError();
@@ -51,6 +51,7 @@ void Interface::drawFrame() {
     drawField(field);
     drawRobots();
     drawBall();
+    drawSideBar();
 
     // render to screen
     SDL_RenderPresent(renderer);
@@ -174,6 +175,25 @@ void Interface::drawRect(Vector2 position, int w, int h, SDL_Color color) {
     rect.h = h;
 
     SDL_RenderFillRect(renderer, &rect);
+}
+
+void Interface::handleMouseClick(SDL_Event event) {
+    for (roboteam_msgs::WorldRobot robot : World::get_world().us) {
+
+        Vector2 robotPos = toScreenPosition(robot.pos);
+        if ((event.button.x > (robotPos.x - c::ROBOT_DRAWING_SIZE/2))
+            && (event.button.x < (robotPos.x + c::ROBOT_DRAWING_SIZE/2))
+            && (event.button.y < (robotPos.y + c::ROBOT_DRAWING_SIZE/2))
+            && (event.button.y < (robotPos.y + c::ROBOT_DRAWING_SIZE/2))) {
+            currentlySelectedRobot = std::make_shared<roboteam_msgs::WorldRobot>(robot);
+        }
+    }
+}
+
+void Interface::drawSideBar() {
+    if (currentlySelectedRobot) {
+        drawText(std::to_string(currentlySelectedRobot->id), c::WINDOW_SIZE_X + 20, 30);
+    }
 }
 
 } // interface

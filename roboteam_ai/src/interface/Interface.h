@@ -26,6 +26,7 @@ class Interface {
         explicit Interface();
         ~Interface();
         void drawFrame();
+        void handleMouseClick(SDL_Event event);
     private:
         void drawField(roboteam_msgs::GeometryFieldSize field);
         void drawRobots();
@@ -34,6 +35,9 @@ class Interface {
         void drawLine(Vector2 p1, Vector2 p2, SDL_Color color);
         void drawRect(Vector2 position, int w, int h, SDL_Color color);
         void drawRobot(roboteam_msgs::WorldRobot robot, bool ourTeam);
+        void drawSideBar();
+
+        std::shared_ptr<roboteam_msgs::WorldRobot> currentlySelectedRobot = nullptr;
 
         SDL_Renderer *renderer = nullptr;
         SDL_Window* window = nullptr;

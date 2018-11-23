@@ -49,6 +49,8 @@ int main(int argc, char* argv[]) {
             while(SDL_PollEvent(&event) != 0) {
                 if (event.type == SDL_QUIT) {
                     return 0;
+                } else if (event.type == SDL_MOUSEBUTTONDOWN) {
+                    gui.handleMouseClick(event);
                 }
             }
         }
