@@ -4,6 +4,11 @@
 #include "BTImport.h"
 #include "../skills/GoToPos.h"
 #include "../skills/Kick.h"
+#include "../bt/Node.hpp"
+#include "../bt/tactics/DemoTactic.h"
+#include "../bt/tactics/ParallelSequenceTest.h"
+#include "../bt/tactics/VictoryDanceTactic.h"
+#include "../skills/Rotate.h"
 
 #ifndef ROBOTEAM_AI_SWITCHES_H
 #define ROBOTEAM_AI_SWITCHES_H

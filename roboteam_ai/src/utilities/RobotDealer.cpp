@@ -190,6 +190,7 @@ std::set<int> RobotDealer::findRobotsForTactic(std::string tacticName) {
     return ids;
 }
 
+//  TODO: might want to add a tactic name here for confusion
 int RobotDealer::findRobotForRole(std::string roleName) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);

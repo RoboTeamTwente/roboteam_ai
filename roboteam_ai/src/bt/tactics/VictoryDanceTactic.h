@@ -34,5 +34,5 @@ class VictoryDanceTactic : public Tactic {
 
 };
 
-#endif //ROBOTEAM_AI_VICTORYDANCETACTIC_H
 } // bt
+#endif //ROBOTEAM_AI_VICTORYDANCETACTIC_H
