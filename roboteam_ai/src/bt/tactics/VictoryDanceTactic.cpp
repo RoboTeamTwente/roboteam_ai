@@ -3,8 +3,6 @@
 //
 
 #include "VictoryDanceTactic.h"
-#include "../../utilities/World.h"
-#include <utility>
 
 namespace bt {
 

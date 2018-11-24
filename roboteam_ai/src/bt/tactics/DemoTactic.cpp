@@ -5,7 +5,6 @@
 
 #include <utility>
 #include "DemoTactic.h"
-#include "../../utilities/World.h"
 
 namespace bt {
 

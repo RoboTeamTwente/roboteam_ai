@@ -6,6 +6,10 @@
 #define ROBOTEAM_AI_TACTIC_H
 
 #include "Node.hpp"
+#include "../utilities/World.h"
+
+
+
 namespace bt {
 
 class Tactic : public Node {

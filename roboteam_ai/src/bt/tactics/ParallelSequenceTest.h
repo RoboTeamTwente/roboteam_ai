@@ -3,8 +3,6 @@
 //
 
 #include "../Tactic.h"
-#include "../../utilities/World.h"
-#include <utility>
 
 #ifndef ROBOTEAM_AI_PARALLELSEQUENCETEST_H
 #define ROBOTEAM_AI_PARALLELSEQUENCETEST_H
