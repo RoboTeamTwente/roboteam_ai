@@ -3,8 +3,7 @@
 //
 
 #include "ParallelSequenceTest.h"
-#include "../../utilities/World.h"
-#include <utility>
+
 
 namespace bt {
 ParallelSequenceTactic::ParallelSequenceTactic(std::string name, bt::Blackboard::Ptr blackboard) {
@@ -43,6 +42,19 @@ Node::Status ParallelSequenceTactic::update() {
         return Status::Running;
     }
 }
+
+void ParallelSequenceTactic::terminate(Status s) {
+    dealer::removeTactic("ParallelSequenceTactic");
+
+    if (child->getStatus() == Status::Running) {
+        child->terminate(child->getStatus());
+    }
+
+    if (s == Status::Running) {
+        setStatus(Status::Failure);
+    }
+}
+
 
 std::string ParallelSequenceTactic::node_name() {
     return "Parallel sequence tactic";

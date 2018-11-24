@@ -15,8 +15,8 @@
             "child": "ccc",
             "description": "",
             "id": "bbb",
-            "name": "Repeat",
-            "title": "Repeat",
+            "name": "UntilSuccess",
+            "title": "UntilSuccess",
             "properties": {
               "limit": "0"
             }

@@ -3,6 +3,8 @@
 //
 
 #include "../Tactic.h"
+#include "../../utilities/World.h"
+#include <utility>
 
 #ifndef ROBOTEAM_AI_PARALLELSEQUENCETEST_H
 #define ROBOTEAM_AI_PARALLELSEQUENCETEST_H
@@ -18,6 +20,7 @@ class ParallelSequenceTactic : public Tactic {
         void setName(std::string newName);
         void initialize() override;
         Node::Status update() override;
+        void terminate(Status s) override;
         std::string node_name() override;
         int claimedRobots = 0;
         std::set<int> robotIDs;

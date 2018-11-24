@@ -27,11 +27,9 @@
             "child": "102",
             "description": "",
             "id": "101",
-            "name": "Repeat",
-            "title": "Repeat",
+            "name": "UntilSuccess",
+            "title": "UntilSuccess",
             "properties": {
-              "testRepeat": "testRepeat",
-              "limit": "0"
             }
           },
           "102": {
@@ -57,10 +55,9 @@
             "child": "202",
             "description": "",
             "id": "201",
-            "name": "Repeat",
-            "title": "Repeat",
+            "name": "UntilSuccess",
+            "title": "UntilSuccess",
             "properties": {
-              "testRepeat": "testRepeat",
               "limit": "0"
             }
           },
@@ -87,8 +84,8 @@
             "child": "302",
             "description": "",
             "id": "301",
-            "name": "Repeat",
-            "title": "Repeat",
+            "name": "UntilSuccess",
+            "title": "UntilSuccess",
             "properties": {
               "testRepeat": "testRepeat",
               "limit": "0"
@@ -117,8 +114,8 @@
             "child": "402",
             "description": "",
             "id": "401",
-            "name": "Repeat",
-            "title": "Repeat",
+            "name": "UntilSuccess",
+            "title": "UntilSuccess",
             "properties": {
               "testRepeat": "testRepeat",
               "limit": "0"
@@ -147,8 +144,8 @@
             "child": "502",
             "description": "",
             "id": "501",
-            "name": "Repeat",
-            "title": "Repeat",
+            "name": "UntilSuccess",
+            "title": "UntilSuccess",
             "properties": {
               "testRepeat": "testRepeat",
               "limit": "0"
