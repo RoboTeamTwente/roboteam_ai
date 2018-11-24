@@ -17,7 +17,7 @@ class Tactic : public Node {
         void addChild(Node::Ptr newChild) override;
 
         std::vector<Node::Ptr> getChildren() override;
-        using robot = dealer::RobotDealer::RobotType;
+        using robotType = dealer::RobotDealer::RobotType;
 
         void initialize() override;
 
