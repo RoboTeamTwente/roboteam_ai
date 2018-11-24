@@ -3,11 +3,7 @@
 //
 
 #include "Switches.h"
-#include "../bt/Node.hpp"
-#include "../bt/tactics/DemoTactic.h"
-#include "../bt/tactics/ParallelSequenceTest.h"
-#include "../bt/tactics/VictoryDanceTactic.h"
-#include "../skills/Rotate.h"
+
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES

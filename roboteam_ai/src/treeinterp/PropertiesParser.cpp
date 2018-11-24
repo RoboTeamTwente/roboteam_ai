@@ -2,12 +2,8 @@
 // Created by baris on 31/10/18.
 //
 
-#include <utility>
 #include "PropertiesParser.h"
-#include "../bt/Blackboard.hpp"
-#include <math.h>
-#include <string>
-#include <vector>
+
 
 bt::Blackboard::Ptr PropertiesParser::parse(PropertiesParser::json jsonLeaf) {
 
