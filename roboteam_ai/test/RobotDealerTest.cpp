@@ -14,7 +14,9 @@ TEST(RobotDealerTest, RobotDealerTest) {
 
     ASSERT_TRUE(dealer::getAvailableRobots().empty() != 0);
 
-    auto robot1 = dealer::claimRobotForTactic(robot::random, )
+    auto robot1 = dealer::claimRobotForTactic(robot::random, "testing1", "role1");
+
+    ASSERT_TRUE(robot1 == dealer::findRobotForRole("role1"));
 
 
 }
