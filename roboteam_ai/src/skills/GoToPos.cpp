@@ -80,6 +80,8 @@ bt::Node::Status GoToPos::update() {
         return status::Invalid;
     }
 
+//  ____________________________________________________________________________________________________________________
+
     // Now check the progress we made
     currentProgress = checkProgression();
     // Send a move command
@@ -118,10 +120,12 @@ bool GoToPos::checkTargetPos(Vector2 pos) {
 
 /// Send a move robot command with a vector
 void GoToPos::sendMoveCommand() {
+
     if (! checkTargetPos(targetPos)) {
         ROS_ERROR("Target position is not correct GoToPos");
         return;
     }
+
     // TODO: get correct kp from 20-sim model
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
@@ -143,7 +147,7 @@ GoToPos::Progression GoToPos::checkProgression() {
     double dy = targetPos.y - robot.pos.y;
     deltaPos = {dx, dy};
 
-    double maxMargin = 0.2;                        // max offset or something.
+    double maxMargin = 0.1;                        // max offset or something.
 
     if (deltaPos.length() >= maxMargin) return ON_THE_WAY;
     else return DONE;

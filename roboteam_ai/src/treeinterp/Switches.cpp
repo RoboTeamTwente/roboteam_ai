@@ -3,11 +3,28 @@
 //
 
 #include "Switches.h"
-#include "../bt/Node.hpp"
+
+//  ______________________
+//  |                    |
+//  |   INCLUDE TACTICS  |
+//  |____________________|
+//
+
 #include "../bt/tactics/DemoTactic.h"
 #include "../bt/tactics/ParallelSequenceTest.h"
 #include "../bt/tactics/VictoryDanceTactic.h"
+
+
+//  ______________________
+//  |                    |
+//  |   INCLUDE SKILLS   |
+//  |____________________|
+//
+
 #include "../skills/Rotate.h"
+#include "../skills/GoToPosLuTh.h"
+#include "../skills/GoToPos.h"
+#include "../skills/Kick.h"
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -83,7 +100,11 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "Rotate") {
         node = std::make_shared<rtt::ai::Rotate>(name, properties);
     }
+    else if (name == "GoToPosLuTh") {
+        node = std::make_shared<rtt::ai::GoToPosLuTh>(name, properties);
+    }
     else {
+        ROS_ERROR("ERROR: Leaf not found!! using GoToPos..");
         node = std::make_shared<rtt::ai::GoToPos>(name, properties);
     }
 

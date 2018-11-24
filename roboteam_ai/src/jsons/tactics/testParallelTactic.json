@@ -12,7 +12,7 @@
         "title": "ParallelSequenceTactic",
         "nodes": {
           "999": {
-            "children": ["100", "200", "300", "400", "500"],
+            "child": "100",
             "id": "999",
             "name": "ParallelSequence"
           },
@@ -27,8 +27,8 @@
             "child": "102",
             "description": "",
             "id": "101",
-            "name": "UntilSuccess",
-            "title": "UntilSuccess",
+            "name": "Repeat",
+            "title": "Repeat",
             "properties": {
             }
           },
@@ -36,13 +36,13 @@
             "description": "",
             "display": {},
             "id": "102",
-            "name": "GoToPos",
+            "name": "GoToPosLuTh",
             "properties": {
               "goToBall": "true",
               "Position": "{ 0.0, 0.0 }",
               "ROLE": "role1"
             },
-            "title": "GoToPos"
+            "title": "GoToPosLuTh"
           },
           "200": {
             "child": "201",
