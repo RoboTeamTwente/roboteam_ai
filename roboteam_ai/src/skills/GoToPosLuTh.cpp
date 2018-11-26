@@ -191,6 +191,8 @@ bool GoToPosLuTh::calculateNumericDirection(float &x_vel, float &y_vel, float &a
     auto world = World::get_world();
     auto us = world.us;
     auto them = world.them;
+    std::cout << me.vel.x << std::endl;
+    std::cout << me.vel.y << std::endl;
 
     while (std::abs((me.pos - me.targetPos).length()) > maxError) {
 
@@ -233,9 +235,8 @@ bool GoToPosLuTh::calculateNumericDirection(float &x_vel, float &y_vel, float &a
     ros::Time end = ros::Time::now();
     double timeTaken = (end-begin).toSec();
     std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
-    for (auto &p : me.posData) {
-        std::cout << "position: { " << p.x << ", " << p.y << " }" << std::endl;
-    }
+
+    interface.drawFrame(me.posData);
 
     return false;
 }
