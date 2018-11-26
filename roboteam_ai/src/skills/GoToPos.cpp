@@ -147,7 +147,7 @@ GoToPos::Progression GoToPos::checkProgression() {
     double dy = targetPos.y - robot.pos.y;
     deltaPos = {dx, dy};
 
-    double maxMargin = 0.1;                        // max offset or something.
+    double maxMargin = 0.3;                        // max offset or something.
 
     if (deltaPos.length() >= maxMargin) return ON_THE_WAY;
     else return DONE;

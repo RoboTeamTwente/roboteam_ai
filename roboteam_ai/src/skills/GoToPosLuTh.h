@@ -3,6 +3,7 @@
 //
 #include "Skill.h"
 #include <cmath>
+#include "../interface/Interface.h"
 
 #ifndef ROBOTEAM_AI_GOTOPOSLUTH_H
 #define ROBOTEAM_AI_GOTOPOSLUTH_H
@@ -12,6 +13,7 @@ namespace ai {
 class GoToPosLuTh : public Skill {
 
     private:
+        interface::Interface interface;
 
         using Status = bt::Node::Status;
         roboteam_msgs::WorldRobot robot;

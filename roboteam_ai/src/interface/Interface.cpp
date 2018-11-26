@@ -5,7 +5,6 @@
  */
 
 #include "Interface.h"
-#include "../utilities/RobotDealer.h"
 
 namespace rtt {
 namespace ai {
@@ -57,6 +56,25 @@ void Interface::drawFrame() {
     SDL_RenderPresent(renderer);
 }
 
+void Interface::drawFrame(std::vector<Vector2> &rects) {
+    roboteam_msgs::GeometryFieldSize field = Field::get_field();
+    fieldmargin = c::WINDOW_FIELD_MARGIN + field.boundary_width;
+    factor.x = c::WINDOW_SIZE_X / field.field_length - (2 * fieldmargin);
+    factor.y = c::WINDOW_SIZE_Y / field.field_width - (2 * fieldmargin);
+
+    drawField(field);
+    drawRobots();
+    drawBall();
+    drawSideBar();
+
+    for (auto &p : rects) {
+        drawRect(p, 3, 3, {255,255,0});
+        //std::cout << "position: { " << p.x << ", " << p.y << " }" << std::endl;
+    }
+
+    // render to screen
+    SDL_RenderPresent(renderer);
+}
 void Interface::drawField(roboteam_msgs::GeometryFieldSize field) {
     SDL_SetRenderDrawColor(renderer, c::FIELD_COLOR.r, c::FIELD_COLOR.g, c::FIELD_COLOR.b, c::FIELD_COLOR.a);
     SDL_RenderClear(renderer);

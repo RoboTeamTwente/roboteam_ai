@@ -15,6 +15,7 @@
 #include "../utilities/World.h"
 #include <exception>
 #include <cmath>
+#include "../utilities/RobotDealer.h"
 
 
 namespace rtt {
@@ -26,14 +27,16 @@ class Interface {
         explicit Interface();
         ~Interface();
         void drawFrame();
+        void drawFrame(std::vector<Vector2> &rects);
         void handleMouseClick(SDL_Event event);
+        void drawRect(Vector2 position, int w, int h, SDL_Color color);
+
     private:
         void drawField(roboteam_msgs::GeometryFieldSize field);
         void drawRobots();
         void drawBall();
         void drawText(std::string text, int x, int y, SDL_Color textColor = constants::TEXT_COLOR);
         void drawLine(Vector2 p1, Vector2 p2, SDL_Color color);
-        void drawRect(Vector2 position, int w, int h, SDL_Color color);
         void drawRobot(roboteam_msgs::WorldRobot robot, bool ourTeam);
         void drawSideBar();
 
