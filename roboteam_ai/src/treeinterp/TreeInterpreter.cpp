@@ -94,7 +94,7 @@ bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
 
 /// Returns if there is any element in a json called "child" or "children"
 bool TreeInterpreter::isLeaf(json jsonTree) {
-    bool hasChild = jsonReader.checkIfKeyExists("child", jsonTree);
+    bool hasChild = jsonReader.checkIfKeyExists("child", jsonTree); // legacy
     bool hasChildren = jsonReader.checkIfKeyExists("children", jsonTree);
     return ! (hasChild || hasChildren);
 }

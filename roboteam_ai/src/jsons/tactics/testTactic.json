@@ -12,7 +12,7 @@
         "title": "DemoTactic",
         "nodes": {
           "000": {
-            "child": "111",
+            "children": ["111"],
             "title": "Role",
             "name": "testRole",
             "properties": {},

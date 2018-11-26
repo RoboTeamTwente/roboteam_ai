@@ -12,12 +12,12 @@
         "title": "VictoryDanceTactic",
         "nodes": {
           "999": {
-            "child": "100",
+            "children": ["100"],
             "id": "999",
             "name": "ParallelSequence"
           },
           "100": {
-            "child": "101",
+            "children": ["101"],
             "title": "Role",
             "name": "victory1",
             "properties": {
