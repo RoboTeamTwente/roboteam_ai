@@ -6,6 +6,7 @@
 #include <utility>
 #include "DemoTactic.h"
 
+
 namespace bt {
 
 DemoTactic::DemoTactic(std::string name, Blackboard::Ptr blackboard) {

@@ -1,14 +1,16 @@
 #include "ros/ros.h"
 #include "dangerfinder/DangerFinder.h"
 #include "io/IOManager.h"
-#include "treeinterp/TreeInterpreter.h"
 #include "utilities/Referee.hpp"
+#include "interface/Interface.h"
 #include "utilities/StrategyManager.h"
 #include "treeinterp/BTFactory.h"
+#include "interface/Interface.h"
 
 namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
+
 
 using Status = bt::Node::Status;
 
@@ -18,6 +20,7 @@ int main(int argc, char* argv[]) {
 
     // init IOManager and subscribe to all topics immediately
     io::IOManager IOManager(true);
+
     roboteam_msgs::World worldMsg;
     roboteam_msgs::GeometryData geometryMsg;
     roboteam_msgs::RefereeData refereeMsg;
@@ -34,10 +37,24 @@ int main(int argc, char* argv[]) {
 
     // Start running this tree first
     std::string currentTree = "victoryDanceStrategy";
+    bool drawInterface = true;
+    rtt::ai::interface::Interface gui;
 
     // Main loop
     while (ros::ok()) {
         ros::spinOnce();
+
+        if (drawInterface) {
+            SDL_Event event;
+            while(SDL_PollEvent(&event) != 0) {
+                if (event.type == SDL_QUIT) {
+                    return 0;
+                } else if (event.type == SDL_MOUSEBUTTONDOWN) {
+                    gui.handleMouseClick(event);
+                }
+            }
+        }
+
 
         // make ROS world_state and geometry data globally accessible
         worldMsg = IOManager.getWorldState();
@@ -47,6 +64,13 @@ int main(int argc, char* argv[]) {
         ai::Field::set_field(geometryMsg.field);
         ai::Referee::setRefereeData(refereeMsg);
 
+        if (!ai::World::didReceiveFirstWorld) continue;
+
+        if (df::DangerFinder::instance().hasCalculated()) {
+            df::DangerData dangerData = df::DangerFinder::instance().getMostRecentData();
+        }
+
+        // for refereedata:
         if (! ai::World::didReceiveFirstWorld) {
             ROS_ERROR("No first world");
             ros::Duration(0.2).sleep();
@@ -81,6 +105,9 @@ int main(int argc, char* argv[]) {
                 ROS_INFO_STREAM("Status returned: Invalid");
                 break;
 
+        }
+        if (drawInterface) {
+            gui.drawFrame();
         }
         rate.sleep();
     }
