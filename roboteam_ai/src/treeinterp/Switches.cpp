@@ -4,28 +4,6 @@
 
 #include "Switches.h"
 
-//  ______________________
-//  |                    |
-//  |   INCLUDE TACTICS  |
-//  |____________________|
-//
-
-#include "../bt/tactics/DemoTactic.h"
-#include "../bt/tactics/ParallelSequenceTest.h"
-#include "../bt/tactics/VictoryDanceTactic.h"
-
-
-//  ______________________
-//  |                    |
-//  |   INCLUDE SKILLS   |
-//  |____________________|
-//
-
-#include "../skills/Rotate.h"
-#include "../skills/GoToPosLuTh.h"
-#include "../skills/GoToPos.h"
-#include "../skills/Kick.h"
-
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
  * of the json trees you added

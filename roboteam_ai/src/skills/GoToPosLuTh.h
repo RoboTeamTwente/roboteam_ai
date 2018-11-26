@@ -28,7 +28,7 @@ class GoToPosLuTh : public Skill {
 
         bool checkTargetPos(Vector2 pos);
         void sendMoveCommand();
-        double calculateNumericDirection();
+        bool calculateNumericDirection(float &x_vel, float &y_vel, float &angle);
     public:
 
         explicit GoToPosLuTh(string name, bt::Blackboard::Ptr blackboard);

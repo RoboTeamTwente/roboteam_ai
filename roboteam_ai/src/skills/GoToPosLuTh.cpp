@@ -117,18 +117,18 @@ void GoToPosLuTh::sendMoveCommand() {
         ROS_ERROR("Target position is not correct GoToPosLuTh");
         return;
     }
-
-    double targetAngle = calculateNumericDirection();
+    float xVel, yVel, angle;
+    bool collision = calculateNumericDirection(xVel, yVel, angle);
 
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     command.use_angle = 1;
 
-    if (targetAngle != 10.0f) {
+    if (!collision) {
 
         command.x_vel = 1.5;
         command.y_vel = 0;
-        auto angularVel = (float)Control::calculateAngularVelocity(robot.angle, targetAngle);
+        auto angularVel = (float)Control::calculateAngularVelocity(robot.angle, angle);
         command.w = angularVel;
     } else {
 
@@ -151,18 +151,22 @@ GoToPosLuTh::Progression GoToPosLuTh::checkProgression() {
     else return DONE;
 }
 
-double GoToPosLuTh::calculateNumericDirection() {
+bool GoToPosLuTh::calculateNumericDirection(float &x_vel, float &y_vel, float &angle) {
+
+    ros::Time begin = ros::Time::now();
+
 
     struct numRobot {
       int id;                   //Robot id
       double angle;
-      Vector2 pos;              //Current x,y position in m
-      Vector2 targetPos;        //Target position in m
-      Vector2 vel;              //Current x,y velocity in ms-1
-      Vector2 targetVel;        //Target velocity in ms-1
-      double maxVel = 2.0;      //Maximum velocity in ms-1
-      Vector2 acc;              //Current x,y acceleration in ms-2
-      double maxAcc = 1.0;      //Maximum acceleration in ms-2
+      Vector2 pos;                  //Current x,y position in m
+      Vector2 targetPos;            //Target position in m
+      Vector2 vel;                  //Current x,y velocity in ms-1
+      Vector2 targetVel;            //Target velocity in ms-1
+      double maxVel = 2.0;          //Maximum velocity in ms-1
+      Vector2 acc;                  //Current x,y acceleration in ms-2
+      double maxAcc = 0.7;          //Maximum acceleration in ms-2
+      std::vector<Vector2> posData; //Save the position data for visualization
 
       Vector2 getDirection() {
           return (targetPos-pos).normalize();
@@ -181,7 +185,7 @@ double GoToPosLuTh::calculateNumericDirection() {
     me.angle = robot.angle;
 
     double maxError = 0.1;
-    const double dt = 0.002;
+    const double dt = 0.005;
     double t = 0;
 
     auto world = World::get_world();
@@ -191,6 +195,8 @@ double GoToPosLuTh::calculateNumericDirection() {
     while (std::abs((me.pos - me.targetPos).length()) > maxError) {
 
         t = t + dt;
+
+        me.posData.push_back(me.pos);
 
         me.targetVel = me.getDirection()*me.maxVel;
         me.acc = (me.targetVel - me.vel).normalize() * me.maxAcc;
@@ -205,7 +211,7 @@ double GoToPosLuTh::calculateNumericDirection() {
 
                 if (me.isCollision(ourBot.pos)) {
                     std::cerr << "me : " << me.id << " - potential collision with our robot with id : " << ourBot.id << std::endl;
-                    return 10.0f;
+                    return true;
                 }
             }
         }
@@ -215,15 +221,26 @@ double GoToPosLuTh::calculateNumericDirection() {
 
             if (me.isCollision(theirBot.pos)) {
                 std::cerr << "me : " << me.id << " - potential collision with their robot with id : " << theirBot.id << std::endl;
-                return 10.0f;
+                return true;
             }
         }
     }
-    std::cout << "travel time : " << t << std::endl;
+    std::cout << "robot travel time : " << t << std::endl;
 
-    double targetAngle = (targetPos - robot.pos).angle();
-    return targetAngle;
+    auto targetAngle = static_cast<float>((targetPos - robot.pos).angle());
+    angle = targetAngle;
+
+    ros::Time end = ros::Time::now();
+    double timeTaken = (end-begin).toSec();
+    std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
+    for (auto &p : me.posData) {
+        std::cout << "position: { " << p.x << ", " << p.y << " }" << std::endl;
+    }
+
+    return false;
 }
+
+
 
 
 } // ai
