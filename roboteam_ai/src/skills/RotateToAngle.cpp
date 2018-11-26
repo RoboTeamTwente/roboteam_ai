@@ -63,7 +63,7 @@ RotateToAngle::Status RotateToAngle::update() {
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     command.use_angle = useAngle;
-    command.w=(float)targetAngle; // Angles in grSIM are inverted or something?
+    command.w=(float)targetAngle;
     std::cerr << "Rotate command -> id: " << command.id << ", theta: " << command.w << std::endl;
     std::cerr << "Robot Angle: " << robot.angle<<std::endl;
 //__________________________________________________________________________________________________________
@@ -90,7 +90,7 @@ void RotateToAngle::terminate(Status s) {
 }
 
 RotateToAngle::Progression RotateToAngle::checkProgression() {
-    double errorMargin = M_PI*0.01;
+    double errorMargin = M_PI*0.03;
     if (deltaAngle > errorMargin) return ROTATING;
     else return DONE;
 }

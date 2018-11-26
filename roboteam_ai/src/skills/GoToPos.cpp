@@ -79,11 +79,14 @@ bt::Node::Status GoToPos::update() {
     else if (currentProgress == Progression::INVALID) {
         return status::Invalid;
     }
+    double dx = targetPos.x - robot.pos.x;
+    double dy = targetPos.y - robot.pos.y;
+    deltaPos = {dx, dy};
 
     // Now check the progress we made
     currentProgress = checkProgression();
     // Send a move command
-    sendMoveCommand();
+    sendMoveCommand2();
 
     switch (currentProgress) {
 
@@ -101,7 +104,7 @@ void GoToPos::terminate(status s) {
 
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
-    command.use_angle = 1;
+    command.use_angle = 0;
     command.w = 0;
 
     command.x_vel = 0;
@@ -125,7 +128,7 @@ void GoToPos::sendMoveCommand() {
     // TODO: get correct kp from 20-sim model
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
-    command.use_angle = 1;
+    command.use_angle = 0;
 
     auto angularVel = (float)Control::calculateAngularVelocity(robot.angle, deltaPos.angle());
     command.w = angularVel;
@@ -139,15 +142,31 @@ void GoToPos::sendMoveCommand() {
               << std::endl;
 }
 
-/// Check the progress the robot made and alter the currentProgress
+/// Send a move robot command with a vector
+void GoToPos::sendMoveCommand2() {
+    if (! checkTargetPos(targetPos)) {
+        ROS_ERROR("Target position is not correct GoToPos");
+        return;
+    }
+    // TODO: get correct kp from 20-sim model
+    roboteam_msgs::RobotCommand command;
+    command.id = robot.id;
+    command.use_angle = 1;
+
+    command.w=deltaPos.angle()*16;
+    Vector2 deltaPosUnit=deltaPos.normalize();
+
+    command.x_vel = (float) deltaPosUnit.x*2;// abs(angularVel)/(abs(angularVel)-1);
+    command.y_vel = (float) deltaPosUnit.y*2;
+    publishRobotCommand(command);
+    commandSend = true;
+    std::cerr << "GoToPos command -> id: " << command.id << ", xvel: " << command.x_vel << ", yvel: " << command.y_vel
+              << ", w_vel: " << command.w
+              << std::endl;
+}
+/// Check the progress the robot made a9nd alter the currentProgress
 GoToPos::Progression GoToPos::checkProgression() {
-
-    double dx = targetPos.x - robot.pos.x;
-    double dy = targetPos.y - robot.pos.y;
-    deltaPos = {dx, dy};
-
-    double maxMargin = 0.2;                        // max offset or something.
-
+    double maxMargin = 0.15;                        // max offset or something.
     if (deltaPos.length() >= maxMargin) return ON_THE_WAY;
     else return DONE;
 }
