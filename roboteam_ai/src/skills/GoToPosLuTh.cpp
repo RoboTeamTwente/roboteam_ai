@@ -117,24 +117,25 @@ void GoToPosLuTh::sendMoveCommand() {
         ROS_ERROR("Target position is not correct GoToPosLuTh");
         return;
     }
-    float xVel, yVel, angle;
+    float xVel = 0, yVel = 0, angle = 0;
     bool collision = calculateNumericDirection(xVel, yVel, angle);
 
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     command.use_angle = 1;
 
+    auto angularVel = (float)Control::calculateAngularVelocity(robot.angle, angle);
+
     if (!collision) {
 
         command.x_vel = 1.5;
         command.y_vel = 0;
-        auto angularVel = (float)Control::calculateAngularVelocity(robot.angle, angle);
         command.w = angularVel;
     } else {
 
-        command.w = 0.0f;
         command.x_vel = 0;
         command.y_vel = 0;
+        command.w = angularVel;
     }
     publishRobotCommand(command);
 }
@@ -165,7 +166,7 @@ bool GoToPosLuTh::calculateNumericDirection(float &x_vel, float &y_vel, float &a
       Vector2 targetVel;            //Target velocity in ms-1
       double maxVel = 2.0;          //Maximum velocity in ms-1
       Vector2 acc;                  //Current x,y acceleration in ms-2
-      double maxAcc = 0.7;          //Maximum acceleration in ms-2
+      double maxAcc = 1.5;          //Maximum acceleration in ms-2
       std::vector<Vector2> posData; //Save the position data for visualization
 
       Vector2 getDirection() {
@@ -184,6 +185,8 @@ bool GoToPosLuTh::calculateNumericDirection(float &x_vel, float &y_vel, float &a
     me.targetPos = targetPos;
     me.angle = robot.angle;
 
+    if (me.vel.length() > 10.0) return false;
+
     double maxError = 0.1;
     const double dt = 0.005;
     double t = 0;
@@ -195,8 +198,6 @@ bool GoToPosLuTh::calculateNumericDirection(float &x_vel, float &y_vel, float &a
     std::cout << me.vel.y << std::endl;
 
     while (std::abs((me.pos - me.targetPos).length()) > maxError) {
-
-        t = t + dt;
 
         me.posData.push_back(me.pos);
 
@@ -212,9 +213,15 @@ bool GoToPosLuTh::calculateNumericDirection(float &x_vel, float &y_vel, float &a
                 ourBot.pos.y = ourBot.pos.y + ourBot.vel.y*(float) dt;
 
                 if (me.isCollision(ourBot.pos)) {
-                    std::cerr << "me : " << me.id << " - potential collision with our robot with id : " << ourBot.id << std::endl;
-                    return true;
-                }
+                    if (t == 0) {
+                        angle = (float)(me.pos - ourBot.pos).angle();
+                        return false;
+                    } else {
+                        std::cerr << "me : " << me.id << " - potential collision with our robot with id : " << ourBot.id
+                                  << std::endl;
+                        return true;
+                    }
+               }
             }
         }
         for (auto &theirBot : world.them) {
@@ -222,10 +229,18 @@ bool GoToPosLuTh::calculateNumericDirection(float &x_vel, float &y_vel, float &a
             theirBot.pos.y = theirBot.pos.y + theirBot.vel.y*(float) dt;
 
             if (me.isCollision(theirBot.pos)) {
-                std::cerr << "me : " << me.id << " - potential collision with their robot with id : " << theirBot.id << std::endl;
-                return true;
+                if (t == 0) {
+                    angle = (float) (me.pos - theirBot.pos).angle();
+                    return false;
+                } else {
+                    std::cerr << "me : " << me.id << " - potential collision with their robot with id : " << theirBot.id
+                              << std::endl;
+                    return true;
+                }
             }
         }
+
+        t = t + dt;
     }
     std::cout << "robot travel time : " << t << std::endl;
 
