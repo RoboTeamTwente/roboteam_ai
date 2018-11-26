@@ -1,10 +1,8 @@
-
 //
 // Created by baris on 01/10/18.
 //
 
 #include "TreeInterpreter.h"
-
 
 /// Return a TreeInterpreter singleton
 TreeInterpreter &TreeInterpreter::getInstance() {
@@ -12,7 +10,7 @@ TreeInterpreter &TreeInterpreter::getInstance() {
     return instance;
 }
 
-/// Returns a BehaviorTree from a given name TESTED
+/// Returns a BehaviorTree from a given name
 std::map<std::string, bt::BehaviorTree::Ptr> TreeInterpreter::getTrees(std::string name) {
     std::map<std::string, bt::BehaviorTree::Ptr> result;
 
@@ -31,7 +29,6 @@ bt::BehaviorTree::Ptr TreeInterpreter::buildTreeFromJSON(json jsonTree) {
 
     // ID of the root
     std::string rootID = jsonTree["root"];
-
 
     // Build the tree from the root
     bt::BehaviorTree::Ptr behaviorTree = std::make_shared<bt::BehaviorTree>();
@@ -55,37 +52,33 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
         return leaf;
     }
 
+    // Return object
     bt::Node::Ptr node;
 
-    // It might be a Role
+    // It might be a Role (Special Case)
     if (nodeJSON["title"] == "Role") {
         bt::Role::Ptr tempNode = std::make_shared<bt::Role>(nodeJSON["name"]);
         tempNode->globalBB = globalBlackBoard;
         tempNode->properties = propertyParser.parse(nodeJSON);
         node = tempNode;
-    } else {
+        // Build and actual normal node
+    }
+    else {
         bt::Node::Ptr tempNode = makeNonLeafNode(nodeJSON["name"]);
         tempNode->globalBB = globalBlackBoard;
         tempNode->properties = propertyParser.parse(nodeJSON);
         node = tempNode;
     };
 
-    // One child
-    if (jsonReader.checkIfKeyExists("child", nodeJSON)) {
-        std::string childID = nodeJSON["child"];
-        auto child = tree["nodes"][childID];
-
-        node->addChild(buildNode(child, tree, globalBlackBoard));
+    if(! jsonReader.checkIfKeyExists("children", nodeJSON)) {
+        ROS_ERROR("Well this is a non leaf node without children and this should never happen. Like really never");
     }
 
-        // Multiple children
-    else {
+    // Get the children in the node
+    for (std::string currentChildID : nodeJSON["children"]) {
+        auto currentChild = tree["nodes"][currentChildID];
 
-        for (std::string currentChildID : nodeJSON["children"]) {
-            auto currentChild = tree["nodes"][currentChildID];
-
-            node->addChild(buildNode(currentChild, tree, globalBlackBoard));
-        }
+        node->addChild(buildNode(currentChild, tree, globalBlackBoard));
     }
     return node;
 }
@@ -120,7 +113,6 @@ bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
 
     rtt::ai::Skill::Ptr skill = Switches::leafSwitch(jsonLeaf["title"], properties);
 
-
     return skill;
 
 }
@@ -141,7 +133,6 @@ std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fi
     }
     return resultMap;
 }
-
 
 bt::Node::Ptr TreeInterpreter::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
 
