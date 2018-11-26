@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_CONSTANTS_H
 //TODO: add units to the below things, check with control/robothub.
 
+#include <SDL_pixels.h>
 namespace rtt {
 namespace ai {
 namespace constants {
@@ -22,6 +23,27 @@ const int DEFAULT_GENEVA_STATE = 0;
 //Other/multiple usage
 const int DEFAULT_ROBOT_ID = 1;
 const double MAX_ANGULAR_VELOCITY = 6.0; // rad per second??
+
+// Interface
+const int WINDOW_POS_X = 100;
+const int WINDOW_POS_Y = 100;
+const int WINDOW_SIZE_X = 800;
+const int WINDOW_SIZE_Y = 600;
+const int ROBOT_DRAWING_SIZE = 10;
+const int WINDOW_FIELD_MARGIN = 3;
+const SDL_Color FIELD_COLOR {50, 50, 50, 255}; // gray
+const SDL_Color FIELD_LINE_COLOR { 255, 255, 255, 255 }; // White
+const SDL_Color ROBOT_US_COLOR { 150, 150, 255, 255 }; // Blue
+const SDL_Color ROBOT_THEM_COLOR { 255, 255, 0, 255 }; // Yellow
+const SDL_Color BALL_COLOR { 255, 120, 50, 255 }; // Orange
+const SDL_Color TEXT_COLOR { 255, 255, 255, 255 }; // White
+
+const SDL_Color TACTIC_1 { 255, 0, 255, 255 };
+const SDL_Color TACTIC_2 { 0, 255, 255, 255 };
+const SDL_Color TACTIC_3 { 255, 255, 0, 255 };
+const SDL_Color TACTIC_4 { 255, 120, 180, 255 };
+const SDL_Color TACTIC_5 { 255, 100, 255, 255 };
+const SDL_Color TACTIC_COLORS[] = {TACTIC_1, TACTIC_2, TACTIC_3, TACTIC_4, TACTIC_5};
 
 } // constants
 } // ai

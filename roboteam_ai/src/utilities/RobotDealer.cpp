@@ -14,28 +14,28 @@ std::mutex RobotDealer::robotOwnersLock;
 /// For internal use
 /// Removes a robot with an ID from the map and if the tactic then is empty it removes the tactic
 void RobotDealer::removeRobotFromOwnerList(int ID) {
-    // For each robot set list...
-    for (auto &entry : robotOwners) {
-        // Get the set
-        auto robotSet = entry.second;
-        // Check if the robot is in there
-        for (auto &robotPair : robotSet) {
+    // For each tactic
+    for (auto &tactic : robotOwners) {
+        // Set of robots
+        for (auto &robotPair : tactic.second) {
             if (robotPair.first == ID) {
-                robotSet.erase(robotPair);
+                tactic.second.erase(robotPair);
                 // If there are no more robots in the tactic
-                if (robotSet.empty()) {
-                    std::string tacticToRemove = entry.first;
+                if (tactic.second.empty()) {
+                    std::string tacticToRemove = tactic.first;
                     robotOwners.erase(tacticToRemove);
                 }
-                return;
+                addRobotToOwnerList(ID, "free", "free");
+                return; // TODO: test this function because it did not work before
             }
         }
     }
+
 }
 
 /// For internal use
 /// Adds a robot to the map with a role and tactic
-void RobotDealer::addRobotToOwnerList(int ID, std::string tacticName, std::string roleName) {
+void RobotDealer::addRobotToOwnerList(int ID, std::string roleName, std::string tacticName) {
     // If tactic does not exist
     if (robotOwners.find(tacticName) == robotOwners.end()) {
         std::set<std::pair<int, std::string>> set = {{ID, roleName}};
@@ -44,10 +44,7 @@ void RobotDealer::addRobotToOwnerList(int ID, std::string tacticName, std::strin
     }
 
     // Seems tactic does exist
-    for (auto &entry : robotOwners) {
-        // Get the set
-        entry.second.insert({ID, roleName});
-    }
+    robotOwners[tacticName].insert({ID, roleName});
 
 }
 /// For internal use
@@ -72,22 +69,34 @@ void RobotDealer::updateFromWorld() {
 int RobotDealer::claimRobotForTactic(RobotDealer::RobotType feature, std::string roleName, std::string tacticName) {
 
     std::set<int> ids = RobotDealer::getAvailableRobots();
-    int id = - 1;
-
+    int id;
     if (! ids.empty()) {
 
         switch (feature) {
-        default: return - 1;
-            // TODO add more cases
-        case closeToBall: {
 
+        default:return - 1;
+
+        case closeToBall: {
             rtt::Vector2 ball = rtt::ai::World::getBall().pos;
             id = getRobotClosestToPoint(ids, ball);
             break;
         }
 
-        case readyToDefend: {
+        case betweenBallAndOurGoal: {
+            rtt::Vector2 ball = rtt::ai::World::getBall().pos;
+            rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
+            id = getRobotClosestToLine(ids, ball, ourGoal, true);
+            break;
+        }
+        case closeToOurGoal: {
+            rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
+            id = getRobotClosestToPoint(ids, ourGoal);
+            break;
+        }
 
+        case closeToTheirGoal: {
+            rtt::Vector2 theirGoal = rtt::ai::Field::get_their_goal_center();
+            id = getRobotClosestToPoint(ids, theirGoal);
             break;
         }
 
@@ -98,9 +107,11 @@ int RobotDealer::claimRobotForTactic(RobotDealer::RobotType feature, std::string
 
         }
         std::lock_guard<std::mutex> lock(robotOwnersLock);
+        RobotDealer::unFreeRobot(id);
         RobotDealer::addRobotToOwnerList(id, std::move(tacticName), std::move(roleName));
         return id;
     }
+    ROS_INFO_STREAM("Found no free robots in robot dealer");
     return - 1;
 }
 
@@ -179,6 +190,7 @@ std::set<int> RobotDealer::findRobotsForTactic(std::string tacticName) {
     return ids;
 }
 
+//  TODO: might want to add a tactic name here for confusion
 int RobotDealer::findRobotForRole(std::string roleName) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
@@ -195,21 +207,74 @@ int RobotDealer::findRobotForRole(std::string roleName) {
     return - 1;
 }
 
-int RobotDealer::getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 &position) {
-    if (! ids.empty()) {
-        int closestID = - 1;
-        double distance = 100000000.0;
-        for (auto &id : ids) {
-            rtt::Vector2 robot = rtt::ai::World::getRobotForId((unsigned int) id, true).get().pos;
-            double dBallRobot = (robot - position).length();
-            if (dBallRobot < distance) {
-                closestID = id;
-                distance = dBallRobot;
+int RobotDealer::getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 position) {
+    int closestID = - 1;
+    double distance = 100000000.0;
+    for (auto &id : ids) {
+        rtt::Vector2 robotPos = rtt::ai::World::getRobotForId((unsigned int) id, true).get().pos;
+        double dRobotToPoint = (robotPos - position).length();
+        if (dRobotToPoint < distance) {
+            closestID = id;
+            distance = dRobotToPoint;
+        }
+    }
+    return closestID;
+}
+
+int RobotDealer::getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 point1, rtt::Vector2 point2,
+        bool inBetweenPoints) {
+
+    // https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
+    int closestID = - 1;
+    double distance = 100000000.0;
+    for (auto &id : ids) {
+        rtt::Vector2 robotPos = rtt::ai::World::getRobotForId((unsigned int) id, true).get().pos;
+        double deltaY = point2.y - point1.y;
+        double deltaX = point2.x - point1.x;
+        double numerator = abs(deltaY*robotPos.x - deltaX*robotPos.y + point2.x*point1.y - point2.y*point1.x);
+        double denominator = sqrt(deltaY*deltaY + deltaX*deltaX);
+        double dRobotToLine = numerator/denominator;
+        if (dRobotToLine > distance) continue;
+
+        if (inBetweenPoints) {
+            // if we want to check in between the points ...
+            // for variables len**: R = robot, 1 = point 1, 2 = point 2
+            // check if the angle is more than or less than 90 degrees by using pythagoras (in)equality
+            // if it is more, change the distance dRobotToLine to the distance to point 1 or 2
+            // instead of the distance to the line
+
+            double len1R = (point1 - robotPos).length();
+            double len2R = (point1 - robotPos).length();
+            double len12 = (point1 - robotPos).length();
+            if (len1R < len2R) {
+                double pythagoras = len1R*len1R + len12*len12 - len2R*len2R;
+                if (pythagoras < 0) dRobotToLine = len1R;
+                if (dRobotToLine >= distance) continue;
+            }
+            else {
+                double pythagoras = len2R*len2R + len12*len12 - len1R*len1R;
+                if (pythagoras < 0) dRobotToLine = len2R;
+                if (len2R >= distance) continue;
             }
         }
-        return closestID;
+
+        closestID = id;
+        distance = dRobotToLine;
+
     }
-    else return - 1;
+    return closestID;
+}
+
+/// When robot be free this bad boy anti free
+void RobotDealer::unFreeRobot(int ID) {
+
+    if (robotOwners["free"].find({ID, "free"}) != robotOwners["free"].end()) {
+        robotOwners["free"].erase({ID, "free"});
+    }
+    else {
+        ROS_ERROR("Cannot un free an anti free robot");
+    }
+
 }
 
 } // RobotDealer

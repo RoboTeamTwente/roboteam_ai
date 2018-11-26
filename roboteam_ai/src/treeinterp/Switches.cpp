@@ -79,11 +79,14 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "Rotate") {
         node = std::make_shared<rtt::ai::Rotate>(name, properties);
     }
+    else if (name == "GoToPosLuTh") {
+        node = std::make_shared<rtt::ai::GoToPosLuTh>(name, properties);
+    }
     else if (name == "RotateToAngle"){
         node = std::make_shared<rtt::ai::RotateToAngle>(name,properties);
     }
     else {
-        std::cout<< "Defaulting to Go To Pos!! careful"<<std::endl;
+        ROS_ERROR("ERROR: Leaf not found!! using GoToPos..");
         node = std::make_shared<rtt::ai::GoToPos>(name, properties);
     }
 

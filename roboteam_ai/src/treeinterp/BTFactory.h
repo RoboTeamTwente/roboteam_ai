@@ -13,6 +13,8 @@
 #include <map>
 #include "TreeInterpreter.h"
 #include "BTImport.h"
+#include "Switches.h"
+
 
 class BTFactory {
 

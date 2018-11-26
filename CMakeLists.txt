@@ -5,6 +5,10 @@ project(roboteam_ai)
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 
+find_package(SDL2)
+find_package(SDL2TTF)
+include_directories(${SDL2_INCLUDE_DIR} ${SDL2TTF_INCLUDE_DIR})
+
 find_package(catkin REQUIRED COMPONENTS
         roboteam_msgs
         roboteam_utils
@@ -94,10 +98,14 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Leaf.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Node.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Node.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.h
+
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.h
+        )
+
+set(TACTIC_SOURCES
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DemoTactic.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DemoTactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/ParallelSequenceTest.cpp
@@ -119,8 +127,6 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
         )
@@ -128,6 +134,8 @@ set(UTILS_SOURCES
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefaultSkill.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefaultSkill.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Kick.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Kick.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Chip.h
@@ -138,11 +146,12 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TurnGeneva.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TurnGeneva.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefaultSkill.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefaultSkill.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.h
+        )
 
-        roboteam_ai/src/skills/RotateToAngle.cpp
-        roboteam_ai/src/skills/RotateToAngle.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
@@ -193,10 +202,12 @@ add_executable(Roboteam_AI
         ${SKILLS_SOURCES}
         ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
-        )
+        ${TACTIC_SOURCES}
+        roboteam_ai/src/interface/Interface.cpp
+        roboteam_ai/src/interface/Interface.h)
 
 add_dependencies(Roboteam_AI ${catkin_EXPORTED_TARGETS})
-target_link_libraries(Roboteam_AI ${catkin_LIBRARIES})
+target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY})
 
 #############
 ## Testing ##
@@ -211,7 +222,7 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/DangerFinderTest.cpp
         roboteam_ai/test/BTBlackBoardTest.cpp
         roboteam_ai/test/IOTest.cpp
-        #roboteam_ai/test/RobotDealerTest.cpp
+        roboteam_ai/test/RobotDealerTest.cpp
         roboteam_ai/test/RefereeTest.cpp
         roboteam_ai/test/StrategyManagerTest.cpp
         roboteam_ai/test/PropertiesParserTest.cpp
@@ -226,6 +237,7 @@ catkin_add_gtest(ai_tests
         ${CONDITIONS_SOURCES}
         ${SKILLS_SOURCES}
         ${CONTROL_SOURCES}
+        ${TACTIC_SOURCES}
         )
 
 target_compile_options(ai_tests PUBLIC --coverage)
@@ -233,6 +245,8 @@ target_compile_options(ai_tests PUBLIC --coverage)
 target_link_libraries(ai_tests
         ${catkin_LIBRARIES}
         gcov
+        ${SDL2_LIBRARY}
+        ${SDL2TTF_LIBRARY}
         )
 
 include(CodeCoverage)

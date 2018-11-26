@@ -37,7 +37,7 @@ void DefaultSkill::initialize() {
     }
 //  ____________________________________________________________________________________________________________________
 
-    variable1 = properties->getBool("variable1");
+    variable1 = properties->getBool("goToBall");
 
 }
 

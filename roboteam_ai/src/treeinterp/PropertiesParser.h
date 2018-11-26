@@ -10,6 +10,10 @@
 #include "../bt/Blackboard.hpp"
 #include "json.h"
 #include "JsonReader.h"
+#include "../bt/Blackboard.hpp"
+#include <math.h>
+#include <string>
+#include <vector>
 
 class PropertiesParser {
         using json = nlohmann::json;

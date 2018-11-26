@@ -11,27 +11,27 @@ class Tracer : public bt::Leaf {
         explicit Tracer(std::string id)
                 :id{std::move(id)} { }
 
-        void Initialize() override {
+        void initialize() override {
             traces.push_back("Initialize: " + id);
-            Initialize_();
+            initialize_();
         }
 
         Status update() override {
             traces.push_back("Update: " + id);
-            return Update_();
+            return update_();
         }
 
-        void Terminate(Status s) override {
+        void terminate(Status s) override {
             traces.push_back("Terminate: " + id);
-            Terminate_(s);
+            terminate_(s);
         }
 
         // Spoofed functions
-        virtual void Initialize_() { }
+        virtual void initialize_() { }
 
-        virtual Status Update_() { return status; }
+        virtual Status update_() { return status; }
 
-        virtual void Terminate_(Status) { }
+        virtual void terminate_(Status) { }
 };
 
 class Once : public Tracer {
@@ -45,11 +45,11 @@ class Runner : public Tracer {
         explicit Runner(const std::string &id)
                 :Tracer("Runner-" + id) { }
 
-        Status Update_() override {
+        Status update_() override {
             return Status::Running;
         }
 
-        void Terminate_(Status s) override {
+        void terminate_(Status s) override {
             if (s == Status::Running || s == Status::Invalid) {
                 setStatus(Status::Failure);
             }
@@ -67,11 +67,11 @@ class Counter : public Tracer {
             this->statusToReturn = statusToReturn;
         }
 
-        void Initialize_() override {
+        void initialize_() override {
             runningCount = 0;
         }
 
-        Status Update_() override {
+        Status update_() override {
             runningCount ++;
 
             if (runningCount == max) {
@@ -81,7 +81,7 @@ class Counter : public Tracer {
             return Status::Running;
         }
 
-        void Terminate_(Status s) override {
+        void terminate_(Status s) override {
             if (s == Status::Running || s == Status::Invalid) {
                 setStatus(Status::Failure);
             }

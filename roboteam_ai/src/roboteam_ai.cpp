@@ -1,16 +1,16 @@
 #include "ros/ros.h"
 #include "dangerfinder/DangerFinder.h"
 #include "io/IOManager.h"
-#include "treeinterp/TreeInterpreter.h"
 #include "utilities/Referee.hpp"
+#include "interface/Interface.h"
 #include "utilities/StrategyManager.h"
 #include "treeinterp/BTFactory.h"
+#include "interface/Interface.h"
 
 namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
 
-roboteam_msgs::World worldMsg;
 
 using Status = bt::Node::Status;
 
@@ -20,6 +20,7 @@ int main(int argc, char* argv[]) {
 
     // init IOManager and subscribe to all topics immediately
     io::IOManager IOManager(true);
+
     roboteam_msgs::World worldMsg;
     roboteam_msgs::GeometryData geometryMsg;
     roboteam_msgs::RefereeData refereeMsg;
@@ -27,19 +28,35 @@ int main(int argc, char* argv[]) {
     bt::BehaviorTree::Ptr strategy;
 
     // start looping
-    // set the framerate to 50 Hz
+    // set the frame rate to 50 Hz
     ros::Rate rate(50);
 
+    // Where we keep our trees
     auto factory = BTFactory::getFactory();
-
     factory.init();
 
-    std::string currentTree = "grsimTest";
+    // Start running this tree first
+    std::string currentTree = "victoryDanceStrategy";
+    bool drawInterface = true;
+    rtt::ai::interface::Interface gui;
 
+    // Main loop
     while (ros::ok()) {
         ros::spinOnce();
 
-        // make ROS worldstate and geometry data globally accessible
+        if (drawInterface) {
+            SDL_Event event;
+            while(SDL_PollEvent(&event) != 0) {
+                if (event.type == SDL_QUIT) {
+                    return 0;
+                } else if (event.type == SDL_MOUSEBUTTONDOWN) {
+                    gui.handleMouseClick(event);
+                }
+            }
+        }
+
+
+        // make ROS world_state and geometry data globally accessible
         worldMsg = IOManager.getWorldState();
         geometryMsg = IOManager.getGeometryData();
         refereeMsg = IOManager.getRefereeData();
@@ -47,13 +64,20 @@ int main(int argc, char* argv[]) {
         ai::Field::set_field(geometryMsg.field);
         ai::Referee::setRefereeData(refereeMsg);
 
-        if (!ai::World::didReceiveFirstWorld) {
+        if (!ai::World::didReceiveFirstWorld) continue;
+
+        if (df::DangerFinder::instance().hasCalculated()) {
+            df::DangerData dangerData = df::DangerFinder::instance().getMostRecentData();
+        }
+
+        // for refereedata:
+        if (! ai::World::didReceiveFirstWorld) {
             ROS_ERROR("No first world");
             ros::Duration(0.2).sleep();
             continue;
         }
 
-        // for refereedata:
+        // for referee_data:
         // ai::StrategyManager strategyManager;
         // std::string strategyName = strategyManager.getCurrentStrategyName();
         // strategy = factory.getTree(strategyName);
@@ -62,19 +86,28 @@ int main(int argc, char* argv[]) {
 
         Status status = strategy->tick();
 
-        if (status != Status::Running) {
-            std::string statusStr = bt::statusToString(status);
-            // return failure, success or invalid
-            ROS_DEBUG_STREAM_NAMED("Roboteam_ai", "Strategy result: " << statusStr.c_str() << "Shutting down...\n");
-            if (status == Status::Success) {
-                std::cerr << "=============================================================================== TREE CHANGE ===================================================================================" << std::endl;
-                currentTree = "ParallelSequenceStrategy"; // TODO give new tree name
-                continue;
-            } else if (status == Status::Failure) {
-                std::cerr << "fail...." << std::endl;
-            } else {
-                std::cerr << "else" << std::endl;
-            }
+        switch (status) {
+
+            case Status::Running:
+                break;
+
+            case Status::Success:
+                ROS_INFO_STREAM("Status returned: Success");
+                ROS_INFO_STREAM(" === TREE CHANGE === ");
+                currentTree = "ParallelSequenceStrategy";
+                break;
+
+            case Status::Failure:
+                ROS_INFO_STREAM("Status returned: Failure");
+                break;
+
+            case Status::Invalid:
+                ROS_INFO_STREAM("Status returned: Invalid");
+                break;
+
+        }
+        if (drawInterface) {
+            gui.drawFrame();
         }
         rate.sleep();
     }

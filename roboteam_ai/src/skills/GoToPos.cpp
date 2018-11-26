@@ -104,8 +104,8 @@ void GoToPos::terminate(status s) {
 
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
-    command.use_angle = 0;
-    command.w = 0;
+    command.use_angle = 1;
+    command.w = deltaPos.angle();
 
     command.x_vel = 0;
     command.y_vel = 0;
@@ -121,10 +121,12 @@ bool GoToPos::checkTargetPos(Vector2 pos) {
 
 /// Send a move robot command with a vector
 void GoToPos::sendMoveCommand() {
+
     if (! checkTargetPos(targetPos)) {
         ROS_ERROR("Target position is not correct GoToPos");
         return;
     }
+
     // TODO: get correct kp from 20-sim model
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
@@ -136,10 +138,7 @@ void GoToPos::sendMoveCommand() {
     command.x_vel = 1.5;// abs(angularVel)/(abs(angularVel)-1);
     command.y_vel = 0;
     publishRobotCommand(command);
-    commandSend = true;
-    std::cerr << "GoToPos command -> id: " << command.id << ", xvel: " << command.x_vel << ", yvel: " << command.y_vel
-              << ", w_vel: " << command.w
-              << std::endl;
+    //commandSend = true;
 }
 
 /// Send a move robot command with a vector
@@ -153,16 +152,13 @@ void GoToPos::sendMoveCommand2() {
     command.id = robot.id;
     command.use_angle = 1;
 
-    command.w=deltaPos.angle()*16;
+    command.w=deltaPos.angle();
     Vector2 deltaPosUnit=deltaPos.normalize();
 
     command.x_vel = (float) deltaPosUnit.x*2;// abs(angularVel)/(abs(angularVel)-1);
     command.y_vel = (float) deltaPosUnit.y*2;
     publishRobotCommand(command);
     commandSend = true;
-    std::cerr << "GoToPos command -> id: " << command.id << ", xvel: " << command.x_vel << ", yvel: " << command.y_vel
-              << ", w_vel: " << command.w
-              << std::endl;
 }
 /// Check the progress the robot made a9nd alter the currentProgress
 GoToPos::Progression GoToPos::checkProgression() {

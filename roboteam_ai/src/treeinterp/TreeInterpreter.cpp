@@ -1,16 +1,10 @@
-#include <utility>
-
-#include <utility>
 
 //
 // Created by baris on 01/10/18.
 //
 
 #include "TreeInterpreter.h"
-#include "../bt/tactics/DemoTactic.h"
-#include "../bt/tactics/ParallelSequenceTest.h"
-#include "../bt/Role.h"
-#include "Switches.h"
+
 
 /// Return a TreeInterpreter singleton
 TreeInterpreter &TreeInterpreter::getInstance() {

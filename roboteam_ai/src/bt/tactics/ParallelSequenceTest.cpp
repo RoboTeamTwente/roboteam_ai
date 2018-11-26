@@ -3,8 +3,7 @@
 //
 
 #include "ParallelSequenceTest.h"
-#include "../../utilities/World.h"
-#include <utility>
+
 
 namespace bt {
 ParallelSequenceTactic::ParallelSequenceTactic(std::string name, bt::Blackboard::Ptr blackboard) {
@@ -20,9 +19,12 @@ void ParallelSequenceTactic::initialize() {
 
     std::vector<std::string> roleNames = {"role1", "role2", "role3", "role4", "role5"};
     while (claimedRobots < roleNames.size()) {
-        robotIDs.insert(dealer::claimRobotForTactic(robot::random, roleNames[claimedRobots], "ParallelSequenceTactic"));
-        if (robotIDs.find(-1) == robotIDs.end()) claimedRobots++;
-        else robotIDs.erase(-1);
+        robotIDs.insert(dealer::claimRobotForTactic(robotType::random, "ParallelSequenceTactic", roleNames[claimedRobots]));
+        if (robotIDs.find(- 1) == robotIDs.end()) {
+            claimedRobots ++;
+        } else {
+            robotIDs.erase(- 1);
+        }
     }
 }
 
@@ -40,6 +42,19 @@ Node::Status ParallelSequenceTactic::update() {
         return Status::Running;
     }
 }
+
+void ParallelSequenceTactic::terminate(Status s) {
+    dealer::removeTactic("ParallelSequenceTactic");
+
+    if (child->getStatus() == Status::Running) {
+        child->terminate(child->getStatus());
+    }
+
+    if (s == Status::Running) {
+        setStatus(Status::Failure);
+    }
+}
+
 
 std::string ParallelSequenceTactic::node_name() {
     return "Parallel sequence tactic";

@@ -11,6 +11,8 @@
 #include <vector>
 #include "World.h"
 #include "Field.h"
+#include "ros/ros.h"
+
 
 namespace robotDealer {
 class RobotDealer {
@@ -29,20 +31,25 @@ class RobotDealer {
 
         static std::set<int> getRobots();
 
-        static int getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 &position);
+        static int getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 position);
 
+        static void unFreeRobot(int ID);
+
+        static int getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 point1, rtt::Vector2 point2, bool inBetweenPoints);
 
     public:
 
        enum RobotType {
          closeToBall,
          farFromBall,
-         readyToDefend,
+         closeToOurGoal,
+         betweenBallAndOurGoal,
+         closeToTheirGoal,
          random
 
        };
 
-       static int claimRobotForTactic(RobotType feature, std::string roleName, std::string tacticName);
+       static int claimRobotForTactic(RobotType feature, std::string tacticName, std::string roleName);
 
        static std::set<int> getAvailableRobots();
 

@@ -2,15 +2,13 @@
 // Created by baris on 16/11/18.
 //
 
-#include "math.h"
 
 #include "ControlUtils.h"
-#include "../utilities/Constants.h"
 
 namespace control {
 double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAngle) {
     double direction = 1;               // counter clockwise rotation
-    double rotFactor = 8;
+    double rotFactor = 8;               // how SLOW the robot rotates when it is near its destination angle
 
     double angleDiff = targetAngle - robotAngle;
     while (angleDiff < 0) angleDiff += 2*M_PI;

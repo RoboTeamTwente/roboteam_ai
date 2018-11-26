@@ -5,6 +5,9 @@
 #ifndef ROBOTEAM_AI_CONTROLUTILS_H
 #define ROBOTEAM_AI_CONTROLUTILS_H
 
+#include "../utilities/Constants.h"
+#include "math.h"
+
 namespace control {
 class ControlUtils {
     public:
