@@ -128,8 +128,8 @@ void GoToPosLuTh::sendMoveCommand() {
 
     if (!collision) {
 
-        command.x_vel = 1.5;
-        command.y_vel = 0;
+        command.x_vel = xVel;
+        command.y_vel = yVel;
         command.w = angularVel;
     } else {
 
@@ -152,22 +152,23 @@ GoToPosLuTh::Progression GoToPosLuTh::checkProgression() {
     else return DONE;
 }
 
-bool GoToPosLuTh::calculateNumericDirection(float &x_vel, float &y_vel, float &angle) {
+bool GoToPosLuTh::calculateNumericDirection(float &xVel, float &yVel, float &angle) {
 
     ros::Time begin = ros::Time::now();
 
 
     struct numRobot {
-      int id;                   //Robot id
+      int id;                       //Robot id
       double angle;
       Vector2 pos;                  //Current x,y position in m
       Vector2 targetPos;            //Target position in m
       Vector2 vel;                  //Current x,y velocity in ms-1
       Vector2 targetVel;            //Target velocity in ms-1
-      double maxVel = 2.0;          //Maximum velocity in ms-1
+      double maxVel = 3.0;          //Maximum velocity in ms-1
       Vector2 acc;                  //Current x,y acceleration in ms-2
-      double maxAcc = 1.5;          //Maximum acceleration in ms-2
+      double maxAcc = 2.5;          //Maximum acceleration in ms-2
       std::vector<Vector2> posData; //Save the position data for visualization
+      std::vector<Vector2> velData; //Save the velocity data for stuff and things
 
       Vector2 getDirection() {
           return (targetPos-pos).normalize();
@@ -187,9 +188,9 @@ bool GoToPosLuTh::calculateNumericDirection(float &x_vel, float &y_vel, float &a
 
     if (me.vel.length() > 10.0) return false;
 
-    double maxError = 0.1;
-    const double dt = 0.005;
-    double t = 0;
+    float maxError = 0.1;
+    const float dt = 0.05;
+    float t = 0;
 
     auto world = World::get_world();
     auto us = world.us;
@@ -199,18 +200,24 @@ bool GoToPosLuTh::calculateNumericDirection(float &x_vel, float &y_vel, float &a
 
     while (std::abs((me.pos - me.targetPos).length()) > maxError) {
 
+        me.velData.push_back(me.vel);
         me.posData.push_back(me.pos);
 
         me.targetVel = me.getDirection()*me.maxVel;
-        me.acc = (me.targetVel - me.vel).normalize() * me.maxAcc;
+        me.acc = (me.targetVel - me.vel).normalize()*me.maxAcc;
+
+        auto dAngle = static_cast<float>(me.vel.angle() - me.getDirection().angle());
+        if (std::abs(dAngle) >  M_PI_2) {
+            me.acc = (me.acc.normalize() - me.vel.normalize())*me.maxAcc;
+        }
 
         me.pos = me.pos + me.vel*dt;
         me.vel = me.vel + me.acc*dt;
 
         for (auto &ourBot : world.us) {
             if (ourBot.id != me.id) {
-                ourBot.pos.x = ourBot.pos.x + ourBot.vel.x*(float) dt;
-                ourBot.pos.y = ourBot.pos.y + ourBot.vel.y*(float) dt;
+                ourBot.pos.x = ourBot.pos.x + ourBot.vel.x*dt;
+                ourBot.pos.y = ourBot.pos.y + ourBot.vel.y*dt;
 
                 if (me.isCollision(ourBot.pos)) {
                     if (t == 0) {
@@ -225,8 +232,8 @@ bool GoToPosLuTh::calculateNumericDirection(float &x_vel, float &y_vel, float &a
             }
         }
         for (auto &theirBot : world.them) {
-            theirBot.pos.x = theirBot.pos.x + theirBot.vel.x*(float) dt;
-            theirBot.pos.y = theirBot.pos.y + theirBot.vel.y*(float) dt;
+            theirBot.pos.x = theirBot.pos.x + theirBot.vel.x*dt;
+            theirBot.pos.y = theirBot.pos.y + theirBot.vel.y*dt;
 
             if (me.isCollision(theirBot.pos)) {
                 if (t == 0) {
@@ -244,8 +251,23 @@ bool GoToPosLuTh::calculateNumericDirection(float &x_vel, float &y_vel, float &a
     }
     std::cout << "robot travel time : " << t << std::endl;
 
-    auto targetAngle = static_cast<float>((targetPos - robot.pos).angle());
-    angle = targetAngle;
+    //auto targetAngle = static_cast<float>((targetPos - robot.pos).angle());
+
+    int maxDTimesX = 3;
+    int dTimesX;
+    if (me.posData.size() > maxDTimesX) {
+        dTimesX = maxDTimesX;
+    } else {
+        dTimesX = static_cast<int>(me.posData.size()-1);
+    }
+    auto absXVel = static_cast<float>(me.velData[dTimesX].x);
+    auto absYVel = static_cast<float>(me.velData[dTimesX].y);
+
+    xVel = absXVel*cos(robot.angle) + absYVel*sin(robot.angle);
+    yVel = absXVel*sin(robot.angle) + absYVel*cos(robot.angle);
+    angle = (float)(me.posData[dTimesX] - me.posData[dTimesX - 1]).angle();
+
+
 
     ros::Time end = ros::Time::now();
     double timeTaken = (end-begin).toSec();
