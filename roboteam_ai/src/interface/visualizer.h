@@ -15,12 +15,7 @@ class Widget : public QWidget
         explicit Widget(QWidget *parent = nullptr);
 
     protected:
-        void paintEvent(QPaintEvent *event) {
-            QPainter painter(this);
-            painter.setPen(QPen(Qt::white, 12, Qt::DashDotLine, Qt::RoundCap));
-            painter.drawLine(0, 0, 200, 200);
-        }
-
+        void paintEvent(QPaintEvent *event);
     signals:
 
     public slots:
