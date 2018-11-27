@@ -167,13 +167,17 @@ void RobotDealer::removeTactic(std::string tacticName) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
+
     for (auto tactic : robotOwners) {
         if (tactic.first == tacticName) {
+            for(auto robotPair : tactic.second) {
+                removeRobotFromOwnerList(robotPair.first);
+            }
             robotOwners.erase(tacticName);
             return;
         }
     }
-    std::cerr << "Cannot remove tactic the tactic does not exist" << std::endl;
+    std::cerr << "Cannot remove tactic the tactic does not exist:  " << tacticName <<  std::endl;
 }
 std::set<int> RobotDealer::findRobotsForTactic(std::string tacticName) {
 
@@ -203,7 +207,7 @@ int RobotDealer::findRobotForRole(std::string roleName) {
             }
         }
     }
-    std::cerr << "Cannot find a robot with that Role Name" << std::endl;
+    std::cerr << "Cannot find a robot with that Role Name:   " << roleName << std::endl;
     return - 1;
 }
 
