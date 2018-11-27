@@ -44,7 +44,7 @@ Interface::~Interface() {
 
 void Interface::drawFrame() {
     roboteam_msgs::GeometryFieldSize field = Field::get_field();
-    fieldmargin = c::WINDOW_FIELD_MARGIN + field.boundary_width;
+    fieldmargin = static_cast<int>(c::WINDOW_FIELD_MARGIN + field.boundary_width);
     factor.x = c::WINDOW_SIZE_X / field.field_length - (2 * fieldmargin);
     factor.y = c::WINDOW_SIZE_Y / field.field_width - (2 * fieldmargin);
 
@@ -109,8 +109,8 @@ void Interface::drawText(std::string text, int x, int y, SDL_Color textColor) {
 
 // convert field coordinates to screen coordinates
 Vector2 Interface::toScreenPosition(Vector2 fieldPos) {
-    return {(fieldPos.x * factor.x) + c::WINDOW_SIZE_X/2 + fieldmargin,
-    (fieldPos.y * factor.y * -1) + c::WINDOW_SIZE_Y/2 + fieldmargin};
+    return {(fieldPos.x * factor.x) + static_cast<float>(c::WINDOW_SIZE_X/2 + fieldmargin),
+    (fieldPos.y * factor.y * -1) + static_cast<float>(c::WINDOW_SIZE_Y/2 + fieldmargin)};
 }
 
 void Interface::drawRobot(roboteam_msgs::WorldRobot robot, bool ourTeam) {
@@ -118,7 +118,7 @@ void Interface::drawRobot(roboteam_msgs::WorldRobot robot, bool ourTeam) {
     SDL_Color color = ourTeam ? c::ROBOT_US_COLOR : c::ROBOT_THEM_COLOR;
 
     if (ourTeam) {
-        std::string roleName = "";
+        std::string roleName = "nothing";
         for (auto &robotowner : list) {
             std::string tactic = robotowner.first;
             std::set<std::pair<int, std::string>> robots = robotowner.second;

@@ -5,6 +5,20 @@ project(roboteam_ai)
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 
+
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed
+set(CMAKE_AUTOMOC ON)
+# Create code from a list of Qt designer ui files
+set(CMAKE_AUTOUIC ON)
+
+# Find the QtWidgets library
+find_package(Qt5Widgets CONFIG REQUIRED)
+
+
+
+
 find_package(SDL2)
 find_package(SDL2TTF)
 include_directories(${SDL2_INCLUDE_DIR} ${SDL2TTF_INCLUDE_DIR})
@@ -205,7 +219,7 @@ add_executable(Roboteam_AI
         roboteam_ai/src/interface/Interface.h)
 
 add_dependencies(Roboteam_AI ${catkin_EXPORTED_TARGETS})
-target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY})
+target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY} Qt5::Widgets)
 
 #############
 ## Testing ##

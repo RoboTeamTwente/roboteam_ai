@@ -15,7 +15,7 @@
 #include "../utilities/World.h"
 #include <exception>
 #include <cmath>
-
+#include <iostream>
 
 namespace rtt {
 namespace ai {
