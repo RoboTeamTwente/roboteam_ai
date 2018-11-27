@@ -12,19 +12,19 @@
         "title": "ParallelSequenceTactic",
         "nodes": {
           "999": {
-            "child": "100",
+            "children": ["100"],
             "id": "999",
             "name": "ParallelSequence"
           },
           "100": {
-            "child": "101",
+            "children": ["101"],
             "title": "Role",
             "name": "role1",
             "properties": {},
             "description": "Start of a Role"
           },
           "101": {
-            "child": "102",
+            "children": ["102"],
             "description": "",
             "id": "101",
             "name": "Repeat",
@@ -45,14 +45,14 @@
             "title": "GoToPosLuTh"
           },
           "200": {
-            "child": "201",
+            "children": ["201"],
             "title": "Role",
             "name": "role2",
             "properties": {},
             "description": "Start of a Role"
           },
           "201": {
-            "child": "202",
+            "children": ["202"],
             "description": "",
             "id": "201",
             "name": "UntilSuccess",
@@ -74,14 +74,14 @@
             "title": "GoToPos"
           },
           "300": {
-            "child": "301",
+            "children": ["301"],
             "title": "Role",
             "name": "role3",
             "properties": {},
             "description": "Start of a Role"
           },
           "301": {
-            "child": "302",
+            "children": ["302"],
             "description": "",
             "id": "301",
             "name": "UntilSuccess",
@@ -104,14 +104,14 @@
             "title": "GoToPos"
           },
           "400": {
-            "child": "401",
+            "children": ["401"],
             "title": "Role",
             "name": "role4",
             "properties": {},
             "description": "Start of a Role"
           },
           "401": {
-            "child": "402",
+            "children": ["402"],
             "description": "",
             "id": "401",
             "name": "UntilSuccess",
@@ -134,14 +134,14 @@
             "title": "GoToPos"
           },
           "500": {
-            "child": "501",
+            "children": ["501"],
             "title": "Role",
             "name": "role5",
             "properties": {},
             "description": "Start of a Role"
           },
           "501": {
-            "child": "502",
+            "children": ["502"],
             "description": "",
             "id": "501",
             "name": "UntilSuccess",

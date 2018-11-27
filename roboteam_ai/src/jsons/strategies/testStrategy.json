@@ -12,7 +12,7 @@
         "title": "DemoStrategy",
         "nodes": {
           "bbb": {
-            "child": "ccc",
+            "children": ["ccc"],
             "description": "",
             "id": "bbb",
             "name": "Repeat",
