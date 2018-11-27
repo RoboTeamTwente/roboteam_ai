@@ -6,14 +6,13 @@
 #include "treeinterp/BTFactory.h"
 #include "interface/Interface.h"
 #include "interface/mainWindow.h"
+#include "interface/widget.h"
 
 #include <QApplication>
-
 
 namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
-
 
 using Status = bt::Node::Status;
 
@@ -22,6 +21,9 @@ int main(int argc, char* argv[]) {
     QApplication a(argc, argv);
     ui::MainWindow w;
     w.show();
+
+    Widget wi;
+    wi.show();
 
     // Init ROS node
     ros::init(argc, argv, "StrategyNode");
@@ -47,6 +49,9 @@ int main(int argc, char* argv[]) {
     std::string currentTree = "victoryDanceStrategy";
     bool drawInterface = true;
     rtt::ai::interface::Interface gui;
+
+    a.exec();
+
 
     // Main loop
     while (ros::ok()) {
@@ -117,6 +122,7 @@ int main(int argc, char* argv[]) {
         if (drawInterface) {
             gui.drawFrame();
         }
+
         rate.sleep();
     }
 
@@ -125,5 +131,5 @@ int main(int argc, char* argv[]) {
         strategy->terminate(Status::Running);
     }
 
-    return a.exec();
+    return 0;
 }
