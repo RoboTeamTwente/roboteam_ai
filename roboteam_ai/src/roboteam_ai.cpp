@@ -2,10 +2,13 @@
 #include "dangerfinder/DangerFinder.h"
 #include "io/IOManager.h"
 #include "utilities/Referee.hpp"
-#include "interface/Interface.h"
 #include "utilities/StrategyManager.h"
 #include "treeinterp/BTFactory.h"
 #include "interface/Interface.h"
+#include "interface/mainWindow.h"
+
+#include <QApplication>
+
 
 namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;
@@ -15,6 +18,11 @@ namespace ai = rtt::ai;
 using Status = bt::Node::Status;
 
 int main(int argc, char* argv[]) {
+
+    QApplication a(argc, argv);
+    ui::MainWindow w;
+    w.show();
+
     // Init ROS node
     ros::init(argc, argv, "StrategyNode");
 
@@ -117,5 +125,5 @@ int main(int argc, char* argv[]) {
         strategy->terminate(Status::Running);
     }
 
-    return 0;
+    return a.exec();
 }
