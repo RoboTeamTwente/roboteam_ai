@@ -6,7 +6,7 @@
 #include "treeinterp/BTFactory.h"
 #include "interface/Interface.h"
 #include "interface/mainWindow.h"
-#include "roboteam_ai/src/interface/visualizer.h"
+#include "roboteam_ai/src/interface/widget.h"
 
 #include <QApplication>
 

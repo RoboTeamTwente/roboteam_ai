@@ -195,7 +195,7 @@ set(CONDITION_TESTS
 set(CONTROL_SOURCES
         roboteam_ai/src/control/ControlUtils.cpp
         roboteam_ai/src/control/ControlUtils.h roboteam_ai/src/interface/mainWindow.cpp roboteam_ai/src/interface/mainWindow.h
-        roboteam_ai/src/interface/mainwindow.ui roboteam_ai/src/interface/widget.cpp roboteam_ai/src/interface/visualizer.h)
+        roboteam_ai/src/interface/mainwindow.ui roboteam_ai/src/interface/widget.cpp roboteam_ai/src/interface/widget.h)
 
 ### TEST SOURCES END ###
 

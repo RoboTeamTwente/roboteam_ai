@@ -2,13 +2,46 @@
 // Created by mrlukasbos on 27-11-18.
 //
 
-#include "visualizer.h"
+#include "widget.h"
 
-Widget::Widget(QWidget *parent) : QWidget(parent) {
+namespace c = rtt::ai::constants;
+
+Widget::Widget(QWidget *parent) : QWidget(parent) { }
+
+void Widget::paintEvent(QPaintEvent* event) {
+    roboteam_msgs::GeometryFieldSize field = rtt::ai::Field::get_field();
+    fieldmargin = static_cast<int>(c::WINDOW_FIELD_MARGIN + field.boundary_width);
+    factor.x = c::WINDOW_SIZE_X / field.field_length - (2 * fieldmargin);
+    factor.y = c::WINDOW_SIZE_Y / field.field_width - (2 * fieldmargin);
+
+    drawFieldLines();
+    drawFieldArcs();
+}
+
+void Widget::drawFieldLines() {
+    QPainter painter(this);
+    for (auto line : rtt::ai::Field::get_field().field_lines) {
+        rtt::Vector2 start = toScreenPosition(line.begin);
+        rtt::Vector2 end = toScreenPosition(line.end);
+        painter.drawLine(start.x, start.y, end.x, end.y);
+    }
+}
+
+void Widget::drawFieldArcs() {
+    QPainter painter(this);
+    for (auto arc : rtt::ai::Field::get_field().field_arcs) {
+        rtt::Vector2 center = toScreenPosition(arc.center);
+        QPointF qcenter(center.x, center.y);
+        painter.drawEllipse(qcenter, 50, 50);
+    }
+}
+
+void Widget::drawRobots() {
 
 }
-void Widget::paintEvent(QPaintEvent* event) {
-    QPainter painter(this);
-    painter.setPen(QPen(Qt::white, 12, Qt::DashDotLine, Qt::RoundCap));
-    painter.drawLine(0, 0, 200, 200);
+
+// convert field coordinates to screen coordinates
+rtt::Vector2 Widget::toScreenPosition(rtt::Vector2 fieldPos) {
+    return {(fieldPos.x * factor.x) + static_cast<float>(c::WINDOW_SIZE_X/2 + fieldmargin),
+            (fieldPos.y * factor.y * -1) + static_cast<float>(c::WINDOW_SIZE_Y/2 + fieldmargin)};
 }
