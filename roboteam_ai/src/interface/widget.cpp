@@ -16,6 +16,9 @@ void Widget::paintEvent(QPaintEvent* event) {
 
     drawFieldLines();
     drawFieldArcs();
+    drawBall();
+    drawRobots();
+
 }
 
 void Widget::drawFieldLines() {
@@ -36,8 +39,24 @@ void Widget::drawFieldArcs() {
     }
 }
 
-void Widget::drawRobots() {
+void Widget::drawBall() {
+    QPainter painter(this);
+    rtt::Vector2 ballPosition = toScreenPosition(rtt::ai::World::get_world().ball.pos);
+    QPointF qballPosition(ballPosition.x, ballPosition.y);
+    painter.setBrush(Qt::red);
+    painter.drawEllipse(qballPosition, 5, 5);
+}
 
+void Widget::drawRobots() {
+    QPainter painter(this);
+
+    // draw us
+    for (roboteam_msgs::WorldRobot robot : rtt::ai::World::get_world().us) {
+        rtt::Vector2 robotposition = toScreenPosition(robot.pos);
+        QPointF qrobotPosition(robotposition.x, robotposition.y);
+        painter.setBrush(Qt::black);
+        painter.drawEllipse(qrobotPosition, 7, 7);
+    }
 }
 
 // convert field coordinates to screen coordinates

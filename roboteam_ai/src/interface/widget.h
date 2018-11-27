@@ -20,6 +20,7 @@ class Widget : public QWidget {
     protected:
         void paintEvent(QPaintEvent* event);
     signals:
+
     public slots:
 
     private:

@@ -15,7 +15,7 @@ namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
 
 using Status = bt::Node::Status;
-
+Widget * widget;
 
 void runBehaviourTrees() {
     // init IOManager and subscribe to all topics immediately
@@ -90,6 +90,8 @@ void runBehaviourTrees() {
             break;
 
         }
+
+        if (widget) widget->update();
         rate.sleep();
     }
 
@@ -111,7 +113,9 @@ int main(int argc, char* argv[]) {
     QApplication a(argc, argv);
     ui::MainWindow w;
     w.show();
+
     Widget wi;
+    widget = &wi;
     wi.show();
 
     return a.exec();
