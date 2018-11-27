@@ -53,7 +53,8 @@ GoToPosLuTh::Status GoToPosLuTh::update() {
 
     if (World::getRobotForId(robot.id, true)) {
         robot = World::getRobotForId(robot.id, true).get();
-    } else {
+    }
+    else {
         ROS_ERROR("GoToPosLuTh Update -> robot does not exist in world");
     }
 //  ____________________________________________________________________________________________________________________
@@ -104,8 +105,6 @@ void GoToPosLuTh::terminate(Status s) {
     publishRobotCommand(command);
 }
 
-
-
 bool GoToPosLuTh::checkTargetPos(Vector2 pos) {
     // TODO: actually check
     return true;
@@ -117,26 +116,31 @@ void GoToPosLuTh::sendMoveCommand() {
         ROS_ERROR("Target position is not correct GoToPosLuTh");
         return;
     }
+    numRobot me;
     float xVel = 0, yVel = 0, angle = 0;
-    bool collision = calculateNumericDirection(xVel, yVel, angle);
+    bool collision = calculateNumericDirection(me, xVel, yVel, angle);
+
+    interface.drawFrame(me.posData);
 
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     command.use_angle = 1;
 
-    auto angularVel = (float)Control::calculateAngularVelocity(robot.angle, angle);
+    auto angularVel = (float) Control::calculateAngularVelocity(robot.angle, angle);
 
-    if (!collision) {
+    if (! collision) {
 
         command.x_vel = xVel;
         command.y_vel = yVel;
         command.w = angularVel;
-    } else {
+    }
+    else {
 
         command.x_vel = 0;
         command.y_vel = 0;
         command.w = angularVel;
     }
+
     publishRobotCommand(command);
 }
 
@@ -152,134 +156,157 @@ GoToPosLuTh::Progression GoToPosLuTh::checkProgression() {
     else return DONE;
 }
 
-bool GoToPosLuTh::calculateNumericDirection(float &xVel, float &yVel, float &angle) {
+bool GoToPosLuTh::calculateNumericDirection(numRobot &me, float &xVel, float &yVel, float &angle) {
 
     ros::Time begin = ros::Time::now();
-
-
-    struct numRobot {
-      int id;                       //Robot id
-      double angle;
-      Vector2 pos;                  //Current x,y position in m
-      Vector2 targetPos;            //Target position in m
-      Vector2 vel;                  //Current x,y velocity in ms-1
-      Vector2 targetVel;            //Target velocity in ms-1
-      double maxVel = 3.0;          //Maximum velocity in ms-1
-      Vector2 acc;                  //Current x,y acceleration in ms-2
-      double maxAcc = 2.5;          //Maximum acceleration in ms-2
-      std::vector<Vector2> posData; //Save the position data for visualization
-      std::vector<Vector2> velData; //Save the velocity data for stuff and things
-
-      Vector2 getDirection() {
-          return (targetPos-pos).normalize();
-      }
-
-      bool isCollision(Vector2 const &otherPos) {
-          double minDistance = 0.2;
-          return (std::abs((otherPos - pos).length()) < minDistance);
-      }
-    };
-    numRobot me;
     me.id = robot.id;
     me.pos = robot.pos;
     me.vel = robot.vel;
     me.targetPos = targetPos;
     me.angle = robot.angle;
-
+    int startIndex = 0;
     if (me.vel.length() > 10.0) return false;
 
-    float maxError = 0.1;
-    const float dt = 0.05;
-    float t = 0;
+    tracePath(me, startIndex, me.targetPos, false);
+//  ____________________________________________________________________________________________________________________
 
-    auto world = World::get_world();
-    auto us = world.us;
-    auto them = world.them;
-    std::cout << me.vel.x << std::endl;
-    std::cout << me.vel.y << std::endl;
+    std::cout << "robot travel time : " << me.t << std::endl;
 
-    while (std::abs((me.pos - me.targetPos).length()) > maxError) {
-
-        me.velData.push_back(me.vel);
-        me.posData.push_back(me.pos);
-
-        me.targetVel = me.getDirection()*me.maxVel;
-        me.acc = (me.targetVel - me.vel).normalize()*me.maxAcc;
-
-        auto dAngle = static_cast<float>(me.vel.angle() - me.getDirection().angle());
-        if (std::abs(dAngle) >  M_PI_2) {
-            me.acc = (me.acc.normalize() - me.vel.normalize())*me.maxAcc;
-        }
-
-        me.pos = me.pos + me.vel*dt;
-        me.vel = me.vel + me.acc*dt;
-
-        for (auto &ourBot : world.us) {
-            if (ourBot.id != me.id) {
-                ourBot.pos.x = ourBot.pos.x + ourBot.vel.x*dt;
-                ourBot.pos.y = ourBot.pos.y + ourBot.vel.y*dt;
-
-                if (me.isCollision(ourBot.pos)) {
-                    if (t == 0) {
-                        angle = (float)(me.pos - ourBot.pos).angle();
-                        return false;
-                    } else {
-                        std::cerr << "me : " << me.id << " - potential collision with our robot with id : " << ourBot.id
-                                  << std::endl;
-                        return true;
-                    }
-               }
-            }
-        }
-        for (auto &theirBot : world.them) {
-            theirBot.pos.x = theirBot.pos.x + theirBot.vel.x*dt;
-            theirBot.pos.y = theirBot.pos.y + theirBot.vel.y*dt;
-
-            if (me.isCollision(theirBot.pos)) {
-                if (t == 0) {
-                    angle = (float) (me.pos - theirBot.pos).angle();
-                    return false;
-                } else {
-                    std::cerr << "me : " << me.id << " - potential collision with their robot with id : " << theirBot.id
-                              << std::endl;
-                    return true;
-                }
-            }
-        }
-
-        t = t + dt;
-    }
-    std::cout << "robot travel time : " << t << std::endl;
-
-    //auto targetAngle = static_cast<float>((targetPos - robot.pos).angle());
-
-    int maxDTimesX = 3;
+    int maxDTimesX = (int) (round(0.1/me.dt));
     int dTimesX;
-    if (me.posData.size() > maxDTimesX) {
+    if (me.posData.empty()) {
+        xVel = 0;
+        yVel = 0;
+        angle = robot.angle;
+        return false;
+    }
+    else if (me.posData.size() > maxDTimesX) {
         dTimesX = maxDTimesX;
-    } else {
-        dTimesX = static_cast<int>(me.posData.size()-1);
+    }
+    else {
+        dTimesX = static_cast<int>(me.posData.size() - 1);
     }
     auto absXVel = static_cast<float>(me.velData[dTimesX].x);
     auto absYVel = static_cast<float>(me.velData[dTimesX].y);
 
-    xVel = absXVel*cos(robot.angle) + absYVel*sin(robot.angle);
-    yVel = absXVel*sin(robot.angle) + absYVel*cos(robot.angle);
-    angle = (float)(me.posData[dTimesX] - me.posData[dTimesX - 1]).angle();
-
-
+    xVel = absXVel;
+    yVel = absYVel;
+    angle = 0;
 
     ros::Time end = ros::Time::now();
-    double timeTaken = (end-begin).toSec();
+    double timeTaken = (end - begin).toSec();
     std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
-
-    interface.drawFrame(me.posData);
 
     return false;
 }
 
+bool GoToPosLuTh::tracePath(numRobot &me, int &startIndex, Vector2 &targetPos, bool semiPath) {
+    auto world = World::get_world();
+    auto us = world.us;
+    auto them = world.them;
+    while (! me.isCollision(targetPos)) {
 
+        me.velData.push_back(me.vel);
+        me.posData.push_back(me.pos);
+        if (semiPath) {
+            me.targetVel = me.getDirection(targetPos)*me.maxVel;
+        }
+        else {
+            me.targetVel = me.getDirection()*me.maxVel;
+        }
+        me.acc = (me.targetVel - me.vel).normalize()*me.maxAcc;
 
+        auto dAngle = static_cast<float>(me.vel.angle() - me.getDirection().angle());
+        if (std::abs(dAngle) > M_PI_2) {
+            me.acc = (me.acc.normalize() - me.vel.normalize())*me.maxAcc;
+        }
+
+        me.pos = me.pos + me.vel*me.dt;
+        me.vel = me.vel + me.acc*me.dt;
+
+        for (auto &ourBot : world.us) {
+            if (ourBot.id != me.id) {
+                ourBot.pos.x = ourBot.pos.x + ourBot.vel.x*me.dt;
+                ourBot.pos.y = ourBot.pos.y + ourBot.vel.y*me.dt;
+
+                if (me.isCollision(ourBot.pos)) {
+                    if (semiPath) {
+                        return false;
+                    }
+                    else {
+                        avoidObject(me, startIndex);
+
+                    }
+                }
+            }
+        }
+        for (auto &theirBot : world.them) {
+            theirBot.pos.x = theirBot.pos.x + theirBot.vel.x*me.dt;
+            theirBot.pos.y = theirBot.pos.y + theirBot.vel.y*me.dt;
+
+            if (me.isCollision(theirBot.pos)) {
+                if (semiPath) {
+                    return false;
+                }
+                else {
+                    avoidObject(me, startIndex);
+                }
+
+            }
+        }
+
+        me.t += me.dt;
+    }
+    return true;
+}
+
+void GoToPosLuTh::avoidObject(numRobot &me, int &startIndex) {
+
+    auto nDataPoints = static_cast<int>(me.posData.size());
+    if (nDataPoints > 2) {
+        Vector2 collisionPoint = me.pos;
+        Vector2 startPos = me.posData[startIndex];
+        Vector2 startVel = me.velData[startIndex];
+
+        std::vector<std::vector<Vector2>> allPosData;
+        std::vector<std::vector<Vector2>> allVelData;
+
+        for (int tt = - 5; tt < 6; tt ++) {
+
+            std::vector<Vector2> newPosData(me.posData.begin(), me.posData.begin() + startIndex);
+            me.posData = newPosData;
+            std::vector<Vector2> newVelData(me.velData.begin(), me.velData.begin() + startIndex);
+            me.velData = newVelData;
+            me.pos = startPos;
+            me.vel = startVel;
+
+            Vector2 delta = (collisionPoint - startPos);
+            Vector2 sideLength = {sin(tt*M_PI / 8)*delta.x, sin(tt*M_PI / 8)*delta.y};
+            Vector2 target = collisionPoint + sideLength;
+            if (tracePath(me, startIndex, target, true)) {
+                allPosData.push_back(me.posData);
+                allVelData.push_back(me.velData);
+            }
+        }
+        unsigned long size = 1000000;
+        int bestIndex = 0;
+        for (int i = 0; i < allPosData.size()-1; i++) {
+            auto &posData = allPosData[i];
+            if (posData.size() < size) {
+                size = posData.size();
+                bestIndex = i;
+            }
+        }
+        me.posData = allPosData[bestIndex];
+        me.velData = allVelData[bestIndex];
+        me.pos = me.posData.back();
+        me.vel = me.velData.back();
+        return;
+    }
+    else {
+        return;
+    }
+}
 
 } // ai
 } // rtt
