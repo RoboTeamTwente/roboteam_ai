@@ -112,12 +112,11 @@ int main(int argc, char* argv[]) {
     // initialize the interface
     QApplication a(argc, argv);
     ui::MainWindow w;
-    w.show();
 
     Widget wi;
     widget = &wi;
     wi.show();
-
-    return a.exec();
+    w.show();
+  return a.exec();
 }
 

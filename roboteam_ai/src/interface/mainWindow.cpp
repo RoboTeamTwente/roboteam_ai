@@ -14,4 +14,12 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+void MainWindow::on_pushButton_clicked() {
+std::cout << "========================================== WOWWERAIOWUERPIOAWUERPIWER" << std::endl;
+}
+void MainWindow::on_pushButton_2_clicked() {
+    std::cout << " WOWWERAIOWUERPIOAWUERPIWER" << std::endl;
+
+}
+
 } // ui
