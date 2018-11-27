@@ -25,13 +25,19 @@ class Widget : public QWidget {
 
     private:
 
-        rtt::Vector2 factor;
+        float factor;
         int fieldmargin;
+        void drawBackground();
         void drawFieldLines();
         void drawFieldArcs();
         void drawRobots();
+        void drawRobot(roboteam_msgs::WorldRobot robot, bool ourTeam);
         void drawBall();
         rtt::Vector2 toScreenPosition(rtt::Vector2 fieldPos);
+
+        // map colors to tactic to visualize which robots work together
+        std::vector<std::pair<std::string, SDL_Color>> tacticColors;
+        int tacticCount = 0; // increases when a new tactic is used
 };
 
 #endif //ROBOTEAM_AI_WIDGET_H
