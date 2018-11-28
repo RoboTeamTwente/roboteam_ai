@@ -3,23 +3,25 @@
 //
 
 #include "Dribble.h"
-
+#include "../control/ControlUtils.h"
 namespace rtt{
 namespace ai{
 Dribble::Dribble(string name, bt::Blackboard::Ptr blackboard) :Skill(name, blackboard){}
 
+namespace c=rtt::ai::constants;
 Dribble::Progression Dribble::checkProgression() { }
 
 bool Dribble::robotHasBall(){
     //The ball is in an area defined by a cone from the robot centre, or from a rectangle in front of the dribbler
-    Vector2 posdif=robot.pos-ball.pos;
-    if (posdif.length()<rtt::ai::constants
+    Vector2 RobotPos=Vector2(robot.pos.x,robot.pos.y);
+    Vector2 BallPos=Vector2(ball.pos.x,ball.pos.y);
+    Vector2 dribbleLeft=RobotPos+Vector2(c::ROBOT_RADIUS,0).rotate(robot.angle-c::DRIBBLER_ANGLE_OFFSET);
+    Vector2 dribbleRight=RobotPos+Vector2(c::ROBOT_RADIUS,0).rotate(robot.angle+c::DRIBBLER_ANGLE_OFFSET);
+    if (control::ControlUtils::pointInTriangle(BallPos,RobotPos,dribbleLeft,dribbleRight)){
+        return true;
     }
-    else if {
-
-    }
-    else
-        return false;
+    // else check the rectangle in front of the robot.
+    else return control::ControlUtils::pointInRectangle(BallPos,dribbleLeft,dribbleRight,dribbleRight+Vector2(c::MAX_BALL_RANGE,0).rotate(robot.angle),dribbleLeft+Vector2(c::MAX_BALL_RANGE,0).rotate(robot.angle));
 }
 void Dribble::initialize() {
     if (properties->hasString("ROLE")) {
