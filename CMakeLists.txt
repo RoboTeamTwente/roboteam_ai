@@ -148,7 +148,7 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TurnGeneva.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.cpp
-        )
+        roboteam_ai/src/skills/Dribble.cpp roboteam_ai/src/skills/Dribble.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp

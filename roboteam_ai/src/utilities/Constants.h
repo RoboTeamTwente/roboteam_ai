@@ -20,6 +20,9 @@ const int MAX_KICK_CYCLES = 20;
 const int MAX_GENEVA_CYCLES = 20;
 const int DEFAULT_GENEVA_STATE = 0;
 
+const double ROBOT_DRIBBLER_DISTANCE=0.09; //Distance from centre of robot to one of the ends of the dribbler (estimated for now, needs to be tested)
+const double ROBOT_Angle
+
 //Other/multiple usage
 const int DEFAULT_ROBOT_ID = 1;
 const double MAX_ANGULAR_VELOCITY = 6.0; // rad per second??
