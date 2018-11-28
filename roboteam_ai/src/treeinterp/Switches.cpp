@@ -18,8 +18,6 @@ std::vector<std::string> Switches::tacticJsonFileNames = {"testTactic", "testPar
 
 std::vector<std::string> Switches::strategyJsonFileNames = {"testStrategy", "testParallelSequence", "victoryDanceStrategy","grsimTest"};
 
-
-
 /// If you are touching this either you know what you are doing or you are making a mistake,
 /// have a look around with the names and see if what you made is on the same level as these are
 bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
@@ -104,8 +102,8 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
     else if (name == "ParallelSequenceTactic") {
         node = std::make_shared<bt::ParallelSequenceTactic>("ParallelSequenceTactic", properties);
     }
-    else if (name == "VictoryDanceTactic") {
-        node = std::make_shared<bt::VictoryDanceTactic>("VictoryDanceTactic", properties);
+    else if (name == "victoryDanceTactic") {
+        node = std::make_shared<bt::VictoryDanceTactic>("victoryDanceTactic", properties);
     }
     else if (name =="grsimTestTactic") {
         node= std::make_shared<bt::grsimTestTactic>("grsimTestTactic",properties);   }
