@@ -68,7 +68,7 @@ void Interface::drawFrame(std::vector<Vector2> &rects) {
     drawSideBar();
 
     for (auto &p : rects) {
-        drawRect(p, 3, 3, {255,255,0});
+        drawRect(p, 3, 3, {0,255,0});
         //std::cout << "position: { " << p.x << ", " << p.y << " }" << std::endl;
     }
 

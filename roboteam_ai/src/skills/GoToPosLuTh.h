@@ -43,8 +43,10 @@ class GoToPosLuTh : public Skill {
               return (std::abs((otherPos - pos).length()) < minDistance);
           }
         };
-        bool tracePath(numRobot &me, int &startIndex, Vector2 &targetPos, bool semiPath);
-        void avoidObject(numRobot &me, int &startIndex);
+        bool tracePath(numRobot &me, int &startIndex, Vector2 target, bool semiPath);
+        bool avoidObject(numRobot &me, int &startIndex);
+
+        std::vector<Vector2> displayData;
 
         interface::Interface interface;
 
