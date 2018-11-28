@@ -25,12 +25,20 @@ const int DEFAULT_ROBOT_ID = 1;
 const double MAX_ANGULAR_VELOCITY = 6.0; // rad per second??
 
 // Interface
-const int WINDOW_POS_X = 100;
-const int WINDOW_POS_Y = 100;
-const int WINDOW_SIZE_X = 800;
-const int WINDOW_SIZE_Y = 600;
 const int ROBOT_DRAWING_SIZE = 10;
 const int WINDOW_FIELD_MARGIN = 3;
+
+// Settings
+const bool STD_SHOW_ROLES = true;
+const bool STD_SHOW_TACTICS = true;
+const bool STD_SHOW_TACTICS_COLORS = true;
+const bool STD_SHOW_US = true;
+const bool STD_SHOW_THEM = true;
+const bool STD_SHOW_FIELDLINES = true;
+const bool STD_SHOW_VORONOI = false;
+const bool STD_SHOW_PATHS_ALL = false;
+const bool STD_SHOW_PATHS_CURRENT = false;
+
 const SDL_Color FIELD_COLOR {50, 50, 50, 255}; // gray
 const SDL_Color FIELD_LINE_COLOR { 255, 255, 255, 255 }; // White
 const SDL_Color ROBOT_US_COLOR { 150, 150, 255, 255 }; // Blue

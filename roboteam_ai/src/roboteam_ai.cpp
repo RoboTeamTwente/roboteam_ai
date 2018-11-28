@@ -13,9 +13,10 @@
 namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
+namespace ui = rtt::ai::interface;
 
 using Status = bt::Node::Status;
-Widget * widget;
+ui::Widget * widget;
 
 void runBehaviourTrees() {
     // init IOManager and subscribe to all topics immediately
@@ -113,8 +114,17 @@ int main(int argc, char* argv[]) {
     QApplication a(argc, argv);
     ui::MainWindow w;
 
-    Widget wi;
+    ui::Widget wi;
     widget = &wi;
+
+    // http://doc.qt.io/qt-5/signalsandslots.html
+    // Here we connect the callback function of the mainwindow (which happens i.e. on button click)
+    // to a 'listener' function from a different widget
+    // it's like the listener function is called immediately.
+    // This feels like black magic but it's actually quite pretty.
+    QObject::connect(&w, &ui::MainWindow::rolescheckboxClicked, widget, &ui::Widget::setShowRoles);
+    QObject::connect(&w, &ui::MainWindow::toggleTacticsCheckboxClicked, widget, &ui::Widget::setShowTactics);
+
     wi.show();
     w.show();
   return a.exec();

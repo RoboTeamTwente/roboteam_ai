@@ -7,6 +7,10 @@
 
 namespace c = rtt::ai::constants;
 
+namespace rtt {
+namespace ai {
+namespace interface {
+
 Widget::Widget(QWidget *parent) : QWidget(parent) { }
 
 void Widget::paintEvent(QPaintEvent* event) {
@@ -16,11 +20,17 @@ void Widget::paintEvent(QPaintEvent* event) {
     float heightFactor = this->size().height() / field.field_width - (2 * fieldmargin);
 
     factor = std::min(widthFactor, heightFactor);
+
     drawBackground();
-    drawFieldLines();
-    drawFieldArcs();
-    drawBall();
-    drawRobots();
+    if (rtt::ai::World::didReceiveFirstWorld) {
+        drawFieldLines();
+        drawFieldArcs();
+        drawBall();
+        drawRobots();
+    } else {
+        QPainter painter(this);
+        painter.drawText(24,24, "Waiting for incoming World State");
+    }
 }
 
 void Widget::drawBackground() {
@@ -120,9 +130,13 @@ void Widget::drawRobot(roboteam_msgs::WorldRobot robot, bool ourTeam) {
 
                    // drawRect(robot.pos, c::ROBOT_DRAWING_SIZE+4, c::ROBOT_DRAWING_SIZE+4, c);
                     rtt::Vector2 pos = toScreenPosition(robot.pos);
-                    painter.drawText(pos.x, pos.y - 20, QString::fromStdString(tactic));
-                    painter.drawText(pos.x, pos.y - 40, QString::fromStdString(roleName));
 
+                    if (this->showTactics) {
+                        painter.drawText(pos.x, pos.y - 20, QString::fromStdString(tactic));
+                    }
+                    if (this->showRoles) {
+                        painter.drawText(pos.x, pos.y - 40, QString::fromStdString(roleName));
+                    }
                 }
             }
         }
@@ -133,3 +147,18 @@ void Widget::drawRobot(roboteam_msgs::WorldRobot robot, bool ourTeam) {
     painter.drawEllipse(qrobotPosition, 7, 7);
 }
 
+void Widget::setShowRoles(bool showRoles) {
+  this->showRoles = showRoles;
+}
+
+void Widget::setShowTactics(bool showTactics) {
+    Widget::showTactics = showTactics;
+}
+
+void Widget::setShowTacticColors(bool showTacticColors) {
+    Widget::showTacticColors = showTacticColors;
+}
+
+} // interface
+} // ai
+} // rtt

@@ -63,23 +63,37 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBox">
+       <widget class="QCheckBox" name="toggleRolesCheckbox">
         <property name="text">
-         <string>CheckBox</string>
+         <string>Roles</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBox_2">
+       <widget class="QCheckBox" name="toggleTacticsCheckbox">
         <property name="text">
-         <string>CheckBox</string>
+         <string>Tactics</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QCheckBox" name="checkBox_3">
         <property name="text">
-         <string>CheckBox</string>
+         <string>TacticColors</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_4">
+        <property name="text">
+         <string>TacticColors</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_5">
+        <property name="text">
+         <string>TacticColors</string>
         </property>
        </widget>
       </item>

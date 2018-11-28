@@ -12,19 +12,30 @@
 #include "../utilities/Field.h"
 #include "../utilities/World.h"
 
+namespace rtt {
+namespace ai {
+namespace interface {
+
 class Widget : public QWidget {
     Q_OBJECT
     public:
         explicit Widget(QWidget* parent = nullptr);
+
+        bool showRoles = constants::STD_SHOW_ROLES;
+        bool showTactics = constants::STD_SHOW_TACTICS;
+        bool showTacticColors = constants::STD_SHOW_TACTICS_COLORS;
+
+        void setShowTactics(bool showTactics);
+        void setShowTacticColors(bool showTacticColors);
 
     protected:
         void paintEvent(QPaintEvent* event);
     signals:
 
     public slots:
+        void setShowRoles(bool showRoles);
 
     private:
-
         float factor;
         int fieldmargin;
         void drawBackground();
@@ -39,5 +50,9 @@ class Widget : public QWidget {
         std::vector<std::pair<std::string, SDL_Color>> tacticColors;
         int tacticCount = 0; // increases when a new tactic is used
 };
+
+} // interface
+} // ai
+} // rtt
 
 #endif //ROBOTEAM_AI_WIDGET_H

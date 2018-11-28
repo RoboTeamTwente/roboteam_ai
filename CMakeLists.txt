@@ -215,9 +215,7 @@ add_executable(Roboteam_AI
         ${SKILLS_SOURCES}
         ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
-        ${TACTIC_SOURCES}
-        roboteam_ai/src/interface/Interface.cpp
-        roboteam_ai/src/interface/Interface.h)
+        ${TACTIC_SOURCES})
 
 add_dependencies(Roboteam_AI ${catkin_EXPORTED_TARGETS})
 target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY} Qt5::Widgets)
