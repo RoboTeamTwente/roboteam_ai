@@ -20,4 +20,11 @@ double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAn
     if (angleDiff > 1)angleDiff = 1;
     return direction*(std::pow(rotFactor, angleDiff - 1)*rtt::ai::constants::MAX_ANGULAR_VELOCITY - 1/rotFactor);
 }
+double ControlUtils::constrainAngle(double angle) {
+    angle= fmod(angle+M_PI,2*M_PI);
+    if (angle<0)
+        angle+=2*M_PI;
+    return angle-M_PI;
+
+}
 }
