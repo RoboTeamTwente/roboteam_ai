@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_CONSTANTS_H
 #define ROBOTEAM_AI_CONSTANTS_H
 //TODO: add units to the below things, check with control/robothub.
-
+#include "math.h"
 #include <SDL_pixels.h>
 namespace rtt {
 namespace ai {
@@ -20,8 +20,8 @@ const int MAX_KICK_CYCLES = 20;
 const int MAX_GENEVA_CYCLES = 20;
 const int DEFAULT_GENEVA_STATE = 0;
 
-const double ROBOT_DRIBBLER_DISTANCE=0.09; //Distance from centre of robot to one of the ends of the dribbler (estimated for now, needs to be tested)
-const double ROBOT_Angle
+const double ROBOT_DRIBBLER_DISTANCE=0.089; //Distance from centre of robot to one of the ends of the dribbler (estimated for now, needs to be tested)
+const double ROBOT_ANGLE_OFFSET=asin(0.059/0.089);
 
 //Other/multiple usage
 const int DEFAULT_ROBOT_ID = 1;
