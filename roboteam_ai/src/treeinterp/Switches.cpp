@@ -4,6 +4,7 @@
 
 #include "Switches.h"
 
+
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
  * of the json trees you added
@@ -13,11 +14,9 @@
  */
 
 
-std::vector<std::string> Switches::tacticJsonFileNames = {"testTactic", "testParallelTactic", "victoryDanceTactic"};
+std::vector<std::string> Switches::tacticJsonFileNames = {"testTactic", "testParallelTactic", "victoryDanceTactic","grsimTestTactic"};
 
-std::vector<std::string> Switches::strategyJsonFileNames = {"testStrategy", "testParallelSequence", "victoryDanceStrategy"};
-
-
+std::vector<std::string> Switches::strategyJsonFileNames = {"testStrategy", "testParallelSequence", "victoryDanceStrategy","grsimTest"};
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
 /// have a look around with the names and see if what you made is on the same level as these are
@@ -81,6 +80,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "GoToPosLuTh") {
         node = std::make_shared<rtt::ai::GoToPosLuTh>(name, properties);
     }
+    else if (name == "RotateToAngle"){
+        node = std::make_shared<rtt::ai::RotateToAngle>(name,properties);
+    }
     else {
         ROS_ERROR("ERROR: Leaf not found!! using GoToPos..");
         node = std::make_shared<rtt::ai::GoToPos>(name, properties);
@@ -100,9 +102,10 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
     else if (name == "ParallelSequenceTactic") {
         node = std::make_shared<bt::ParallelSequenceTactic>("ParallelSequenceTactic", properties);
     }
-    else if (name == "VictoryDanceTactic") {
-        node = std::make_shared<bt::VictoryDanceTactic>("VictoryDanceTactic", properties);
+    else if (name == "victoryDanceTactic") {
+        node = std::make_shared<bt::VictoryDanceTactic>("victoryDanceTactic", properties);
     }
-
+    else if (name =="grsimTestTactic") {
+        node= std::make_shared<bt::grsimTestTactic>("grsimTestTactic",properties);   }
     return node;
 }

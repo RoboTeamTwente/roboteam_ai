@@ -14,7 +14,7 @@
 #include "../bt/tactics/DemoTactic.h"
 #include "../bt/tactics/ParallelSequenceTest.h"
 #include "../bt/tactics/VictoryDanceTactic.h"
-
+#include "../bt/tactics/grsimTestTactic.h"
 
 //  ______________________
 //  |                    |
@@ -24,6 +24,7 @@
 
 #include "../skills/Rotate.h"
 #include "../skills/GoToPosLuTh.h"
+#include "../skills/RotateToAngle.h"
 #include "../skills/GoToPos.h"
 #include "../skills/Kick.h"
 

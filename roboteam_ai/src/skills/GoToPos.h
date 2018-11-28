@@ -30,7 +30,7 @@ class GoToPos : public Skill {
         bool checkTargetPos(Vector2 pos);
 
         void sendMoveCommand();
-
+        void sendMoveCommand2();
         bool commandSend;
 
     public:

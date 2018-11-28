@@ -1,18 +1,18 @@
 {
-  "description": "This is a strategy to test the parallel sequence composite",
-  "name": "ParallelSequenceStrategy",
+  "description": "testing angle stuff",
+  "name": "grsimTest",
   "data": {
     "scope": "StrategyRepo",
     "trees": [
       {
-        "description": "The testing strategy tree",
+        "description": "grsim angle Test",
         "scope": "tree",
         "properties": {},
         "root": "bbb",
-        "title": "ParallelSequenceStrategy",
+        "title": "grsimTest",
         "nodes": {
           "bbb": {
-            "children": ["ccc"],
+            "child": "ccc",
             "description": "",
             "id": "bbb",
             "name": "UntilSuccess",
@@ -25,7 +25,7 @@
             "description": "",
             "id": "ccc",
             "title": "Tactic",
-            "name": "ParallelSequenceTactic"
+            "name": "grsimTestTactic"
           }
 
         }
