@@ -131,11 +131,16 @@ void Widget::drawRobot(roboteam_msgs::WorldRobot robot, bool ourTeam) {
                    // drawRect(robot.pos, c::ROBOT_DRAWING_SIZE+4, c::ROBOT_DRAWING_SIZE+4, c);
                     rtt::Vector2 pos = toScreenPosition(robot.pos);
 
+
+                    int ypos = pos.y;
                     if (this->showTactics) {
-                        painter.drawText(pos.x, pos.y - 20, QString::fromStdString(tactic));
+                        painter.drawText(pos.x, ypos+=20, QString::fromStdString(tactic));
                     }
                     if (this->showRoles) {
-                        painter.drawText(pos.x, pos.y - 40, QString::fromStdString(roleName));
+                        painter.drawText(pos.x, ypos+=20, QString::fromStdString(roleName));
+                    }
+                    if (this->showIds) {
+                        painter.drawText(pos.x, ypos+=20, QString::fromStdString(std::to_string(robot.id)));
                     }
                 }
             }

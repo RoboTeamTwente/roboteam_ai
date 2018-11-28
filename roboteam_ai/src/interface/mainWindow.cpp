@@ -26,10 +26,6 @@ void MainWindow::on_pushButton_clicked() {
     emit btnclicked(click);
 }
 
-void MainWindow::on_pushButton_2_clicked() {
-
-}
-
 void MainWindow::on_toggleRolesCheckbox_clicked(bool checked) {
     emit rolescheckboxClicked(checked);
 }

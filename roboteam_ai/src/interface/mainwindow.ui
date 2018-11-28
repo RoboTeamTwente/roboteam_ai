@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>277</width>
-    <height>566</height>
+    <width>272</width>
+    <height>679</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -42,37 +42,94 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
+       <widget class="QLCDNumber" name="lcdNumber"/>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_4">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Referee commands</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QListView" name="listView"/>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Functions</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLineEdit" name="lineEdit"/>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButton">
+          <property name="text">
+           <string>...</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
        <widget class="QPushButton" name="pushButton">
         <property name="text">
-         <string>PushButton</string>
+         <string>Load</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_2">
         <property name="text">
-         <string>PushButton</string>
+         <string>Restart</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QLabel" name="label">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+          <underline>false</underline>
+          <kerning>true</kerning>
+         </font>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
         <property name="text">
-         <string>PushButton</string>
+         <string>World Visualization</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QCheckBox" name="toggleRolesCheckbox">
         <property name="text">
-         <string>Roles</string>
+         <string>Rolenames</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QCheckBox" name="toggleTacticsCheckbox">
         <property name="text">
-         <string>Tactics</string>
+         <string>Tacticnames</string>
         </property>
        </widget>
       </item>
@@ -86,14 +143,41 @@
       <item>
        <widget class="QCheckBox" name="checkBox_4">
         <property name="text">
-         <string>TacticColors</string>
+         <string>Velocities</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QCheckBox" name="checkBox_5">
         <property name="text">
-         <string>TacticColors</string>
+         <string>Angles</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Algorithm Visualization</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox">
+        <property name="text">
+         <string>Voronoi</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_2">
+        <property name="text">
+         <string>Paths</string>
         </property>
        </widget>
       </item>
@@ -119,7 +203,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>277</width>
+     <width>272</width>
      <height>22</height>
     </rect>
    </property>

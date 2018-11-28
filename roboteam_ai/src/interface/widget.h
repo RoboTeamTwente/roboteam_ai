@@ -24,6 +24,7 @@ class Widget : public QWidget {
         bool showRoles = constants::STD_SHOW_ROLES;
         bool showTactics = constants::STD_SHOW_TACTICS;
         bool showTacticColors = constants::STD_SHOW_TACTICS_COLORS;
+        bool showIds = constants::STD_SHOW_IDS;
 
         void setShowTactics(bool showTactics);
         void setShowTacticColors(bool showTacticColors);
@@ -37,7 +38,7 @@ class Widget : public QWidget {
 
     private:
         float factor;
-        int fieldmargin;
+        int fieldmargin = constants::WINDOW_FIELD_MARGIN;
         void drawBackground();
         void drawFieldLines();
         void drawFieldArcs();

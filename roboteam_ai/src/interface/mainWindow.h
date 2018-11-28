@@ -21,7 +21,6 @@ class MainWindow : public QMainWindow {
 
     private slots:
         void on_pushButton_clicked();
-        void on_pushButton_2_clicked();
         void on_toggleRolesCheckbox_clicked(bool checked);
         void on_toggleTacticsCheckbox_clicked(bool checked);
 

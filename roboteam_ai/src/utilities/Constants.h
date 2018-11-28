@@ -26,12 +26,16 @@ const double MAX_ANGULAR_VELOCITY = 6.0; // rad per second??
 
 // Interface
 const int ROBOT_DRAWING_SIZE = 10;
-const int WINDOW_FIELD_MARGIN = 3;
+const int WINDOW_FIELD_MARGIN = 5;
 
 // Settings
 const bool STD_SHOW_ROLES = true;
 const bool STD_SHOW_TACTICS = true;
 const bool STD_SHOW_TACTICS_COLORS = true;
+const bool STD_SHOW_IDS = true;
+const bool STD_SHOW_VELOCITIES = true;
+const bool STD_SHOW_ANGLES = true;
+
 const bool STD_SHOW_US = true;
 const bool STD_SHOW_THEM = true;
 const bool STD_SHOW_FIELDLINES = true;
