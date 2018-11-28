@@ -135,8 +135,8 @@ void GoToPosLuTh::sendMoveCommand() {
     command.id = robot.id;
     command.use_angle = 1;
 
-    auto angularVel = (float) Control::calculateAngularVelocity(robot.angle, angle);
-
+    //auto angularVel = (float) Control::calculateAngularVelocity(robot.angle, angle);
+    float angularVel=0;
     if (! collision) {
 
         command.x_vel = xVel;

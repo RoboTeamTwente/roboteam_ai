@@ -33,7 +33,7 @@
           },
           "zkl7lwhnxjxlmiay": {
             "id": "zkl7lwhnxjxlmiay",
-            "title": "GoToPos",
+            "title": "GoToPosLuTh",
             "properties": {
               "ROLE": "victor1",
               "Position": "{0, 1}"
@@ -57,7 +57,7 @@
           },
           "ef4fg5gehb3r9ucvk": {
             "id": "ef4fg5gehb3r9ucvk",
-            "title": "GoToPos",
+            "title": "GoToPosLuTh",
             "properties": {
               "ROLE": "victor1",
               "Position": "{-1, 1}"
@@ -69,7 +69,7 @@
           },
           "54gq9n20d9yoi7c": {
             "id": "54gq9n20d9yoi7c",
-            "title": "GoToPos",
+            "title": "GoToPosLuTh",
             "properties": {
               "ROLE": "victor1",
               "Position": "{0, -1}"
