@@ -14,9 +14,9 @@
  */
 
 
-std::vector<std::string> Switches::tacticJsonFileNames = {"testTactic", "testParallelTactic", "victoryDanceTactic","grsimTestTactic"};
+std::vector<std::string> Switches::tacticJsonFileNames = {"victoryDanceTactic"};
 
-std::vector<std::string> Switches::strategyJsonFileNames = {"testStrategy", "testParallelSequence", "victoryDanceStrategy","grsimTest"};
+std::vector<std::string> Switches::strategyJsonFileNames = {"victoryDanceStrategy"};
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
 /// have a look around with the names and see if what you made is on the same level as these are
