@@ -14,7 +14,7 @@ void grsimTestTactic::setName(std::string newName) {
 void grsimTestTactic::initialize() {
     std::vector<std::string> roleNames = {"grsim1"};
     while (claimedRobots < roleNames.size()) {
-        robotIDs.insert(dealer::claimRobotForTactic(robot::random, roleNames[claimedRobots], "grsimTestTactic"));
+        robotIDs.insert(dealer::claimRobotForTactic(robotType::random, roleNames[claimedRobots], "grsimTestTactic"));
         if (robotIDs.find(-1) == robotIDs.end()) claimedRobots++;
         else robotIDs.erase(-1);
     }
