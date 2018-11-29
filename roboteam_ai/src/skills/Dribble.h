@@ -25,8 +25,13 @@ class Dribble : public Skill{
         Progression checkProgression();
 
         bool forwardDirection;
-        Vector2 targetPos;
+        double stoppingTime;// seconds
+        bool stopOn;
+        Vector2 targetPos,deltaPos;
         bool robotHasBall();
+
+        void sendMoveCommand();
+        void sendStopCommand();
     public:
         explicit Dribble(string name, bt::Blackboard::Ptr blackboard);
         std::string node_name() override;
