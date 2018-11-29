@@ -119,7 +119,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
     bt::Node::Ptr node;
 
     if (name == "VerySpecialTacticThatWouldRequireSpecialClass") {
-        node = std::make_shared<bt::DefaultTactic>("VerySpecialTacticThatWouldRequireSpecialClass", properties);
+        node = std::make_shared<bt::VictoryDanceTactic>("VerySpecialTacticThatWouldRequireSpecialClass", properties);
     }
     else if (tactics.find(name) != tactics.end()) {
         node = std::make_shared<bt::DefaultTactic>(name, properties, tactics[name]);
