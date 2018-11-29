@@ -7,13 +7,15 @@
 
 #include "Skill.h"
 #include "../utilities/Constants.h"
-namespace rtt{
-namespace ai{
+#include "../control/ControlUtils.h"
+#include <time.h>
+namespace rtt {
+namespace ai {
 
 ///Dribbles the ball from start position to an end position in a straight line, used for ball placement.
 /// Assumes we already have the ball when skill is initialized.
 /// Stops at the end to ensure the ball does not spin away.
-class Dribble : public Skill{
+class Dribble : public Skill {
     private:
         using status = bt::Node::Status;
         roboteam_msgs::WorldRobot robot;
@@ -27,7 +29,8 @@ class Dribble : public Skill{
         bool forwardDirection;
         double stoppingTime;// seconds
         bool stopOn;
-        Vector2 targetPos,deltaPos;
+        clock_t startingTime;
+        Vector2 targetPos, deltaPos;
         bool robotHasBall();
 
         void sendMoveCommand();

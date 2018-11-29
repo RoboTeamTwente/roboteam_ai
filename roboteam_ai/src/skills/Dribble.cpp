@@ -3,7 +3,6 @@
 //
 
 #include "Dribble.h"
-#include "../control/ControlUtils.h"
 namespace rtt{
 namespace ai{
 Dribble::Dribble(string name, bt::Blackboard::Ptr blackboard) :Skill(name, blackboard){}
@@ -12,12 +11,24 @@ namespace c=rtt::ai::constants;
 Dribble::Progression Dribble::checkProgression() {
     if (currentProgress==ON_THE_WAY){
         if(!robotHasBall()){return FAIL;}
-        if(deltaPos.length()<=c::DRIBBLE_POSDIF){return STOPPED;}
+        if(deltaPos.length()<=c::DRIBBLE_POSDIF){
+            stopOn=true;
+            startingTime=clock();
+            return STOPPED;}
         else {return ON_THE_WAY;}
     }
-    if(currentProgress==STOPPED) {
+    else if(currentProgress==STOPPED) {
         if (! robotHasBall()) { return FAIL; }
-        if (! stopOn) { return DONE; }
+        if (! stopOn &&(( (float)(clock()-startingTime)/CLOCKS_PER_SEC)>stoppingTime)) {stopOn=false; return DONE; }
+    }
+    else if(currentProgress==DONE){
+        return DONE;
+    }
+    else if(currentProgress==FAIL){
+        return FAIL;
+    }
+    else if(currentProgress==INVALID) {
+        return INVALID;
     }
 }
 
@@ -121,8 +132,8 @@ void Dribble::sendMoveCommand() {
     }
 
     command.dribbler=1;
-    command.x_vel=(float)deltaPos.normalize().x*c::DRIBBLE_SPEED;
-    command.y_vel=(float)deltaPos.normalize().y*c::DRIBBLE_SPEED;
+    command.x_vel=(float) deltaPos.normalize().x*c::DRIBBLE_SPEED;
+    command.y_vel=(float) deltaPos.normalize().y*c::DRIBBLE_SPEED;
     publishRobotCommand(command);
 
 
