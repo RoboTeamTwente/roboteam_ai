@@ -7,7 +7,7 @@ Condition::Condition(std::string name, bt::Blackboard::Ptr blackboard)
         :bt::Leaf(name, blackboard) { }
 
 bt::Node::Status Condition::update() {
-    return Status::Invalid;
+    return Status::Failure;
 }
 
 } // ai

@@ -23,7 +23,7 @@ class Rotate : public Skill {
 
 
         enum Progression {
-          ROTATING, DONE, FAIL, INVALID
+          ROTATING, DONE, FAIL
         };
         Progression currentProgress;
         Progression checkProgression();

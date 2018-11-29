@@ -108,8 +108,8 @@ std::string statusToString(bt::Node::Status status) {
     else if (status == bt::Node::Status::Failure) {
         return "Failure";
     }
-    else if (status == bt::Node::Status::Invalid) {
-        return "Invalid";
+    else if (status == bt::Node::Status::Waiting) {
+        return "Waiting";
     }
     else if (status == bt::Node::Status::Running) {
         return "Running";

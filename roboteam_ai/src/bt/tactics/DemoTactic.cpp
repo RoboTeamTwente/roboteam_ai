@@ -38,7 +38,7 @@ Node::Status DemoTactic::update() {
     if (status == Status::Success) {
         return Status::Success;
     }
-    else if (status == Status::Invalid) {
+    else if (status == Status::Waiting) {
         return Status::Failure;
     }
     else /* if (status == Status::Failure || status == Status::Running) */ {

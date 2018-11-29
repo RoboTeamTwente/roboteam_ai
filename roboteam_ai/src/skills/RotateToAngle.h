@@ -15,7 +15,7 @@ class RotateToAngle: public Skill {
         double targetAngle,deltaAngle;
         bool useAngle;
         enum Progression {
-          ROTATING, DONE, FAIL, INVALID
+          ROTATING, DONE, FAIL
         };
         Progression currentProgress;
         Progression checkProgression();

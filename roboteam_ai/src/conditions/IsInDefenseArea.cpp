@@ -27,7 +27,7 @@ bt::Node::Status IsInDefenseArea::update() {
             point = me.pos;
         }
         else {
-            return Status::Invalid;
+            return Status::Failure;
         }
     }
 

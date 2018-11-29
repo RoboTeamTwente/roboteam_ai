@@ -24,9 +24,6 @@ Node::Status grsimTestTactic::update(){
     if (status == Status::Success) {
         return Status::Success;
     }
-    else if (status == Status::Invalid) {
-        return Status::Failure;
-    }
     else /* if (status == Status::Failure || status == Status::Running) */ {
         // If the status was anything but success/invalid, keep running
         return Status::Running;
