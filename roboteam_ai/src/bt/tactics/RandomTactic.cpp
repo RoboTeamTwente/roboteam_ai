@@ -2,7 +2,7 @@
 // Created by thijs on 29-11-18.
 //
 
-#include "randomTactic.h"
+#include "RandomTactic.h"
 
 
 namespace bt {
@@ -18,7 +18,7 @@ void RandomTactic::setName(std::string newName) {
 }
 
 void RandomTactic::initialize() {
-    std::vector<std::string> roleNames = {"testRole"};
+    std::vector<std::string> roleNames = {"random1","random2","random3","random4","random5","random6","random7","random8"};
 
     while (claimedRobots < roleNames.size()) {
         robotIDs.insert(dealer::claimRobotForTactic(robotType::random, name, roleNames[claimedRobots]));

@@ -14,9 +14,14 @@
  */
 
 
-std::vector<std::string> Switches::tacticJsonFileNames = {"victoryDanceTactic"};
+std::vector<std::string> Switches::tacticJsonFileNames =
+        {"victoryDanceTactic",
+         "randomTactic"};
 
-std::vector<std::string> Switches::strategyJsonFileNames = {"victoryDanceStrategy"};
+std::vector<std::string> Switches::strategyJsonFileNames =
+        {"victoryDanceStrategy",
+         "randomStrategy"};
+
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
 /// have a look around with the names and see if what you made is on the same level as these are
@@ -46,6 +51,9 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
         node = std::make_shared<bt::Inverter>();
     }
     else if (name == "Repeat") {
+        node = std::make_shared<bt::Repeater>();
+    }
+    else if (name == "Repeater") {
         node = std::make_shared<bt::Repeater>();
     }
     else if (name == "Succeeder") {
@@ -106,7 +114,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
         node = std::make_shared<bt::VictoryDanceTactic>("victoryDanceTactic", properties);
     }
     else if (name == "randomTactic") {
-        node = std::make_shared<bt::VictoryDanceTactic>("randomTactic", properties);
+        node = std::make_shared<bt::RandomTactic>("randomTactic", properties);
     }
     return node;
 }

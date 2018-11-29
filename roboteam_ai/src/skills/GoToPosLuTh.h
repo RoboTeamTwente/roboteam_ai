@@ -27,7 +27,7 @@ class GoToPosLuTh : public Skill {
           std::vector<Vector2> posData; //Save the position data for visualization
           std::vector<Vector2> velData; //Save the velocity data for stuff and things
           float t = 0;
-          const float dt = 0.1;
+          const float dt = 0.05;
           int totalCalculations = 0;
           Vector2 getDirection() {
               return (targetPos - pos).normalize();
@@ -51,12 +51,16 @@ class GoToPosLuTh : public Skill {
 
         std::vector<Vector2> displayData;
 
+#define INTERFACE
+#ifdef INTERFACE
         interface::Interface interface;
-
+#endif
         using Status = bt::Node::Status;
         roboteam_msgs::WorldRobot robot;
 
+        bool drawInterface;
         bool goToBall;
+        bool random;
 
         enum Progression {
           ON_THE_WAY, DONE, FAIL
