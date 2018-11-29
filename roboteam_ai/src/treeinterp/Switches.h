@@ -34,6 +34,7 @@
 #define ROBOTEAM_AI_SWITCHES_H
 
 class Switches {
+        using robotType = robotDealer::RobotDealer::RobotType;
 
     public:
 
