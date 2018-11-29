@@ -10,18 +10,13 @@ namespace bt {
 
 class DefaultTactic : public Tactic {
 
-        // ------ EDIT ------
 
-        std::vector<std::string> roleNames = {"this", "that", "these", "those"};
-
-
-        // ------ DO NOT EDIT-----
 
     public:
 
         std::string name;
 
-        int robotsNeeded = static_cast<int>(roleNames.size());
+        int robotsNeeded = static_cast<int>(robots.size());
 
         int claimedRobots = 0;
 

@@ -58,8 +58,8 @@ void bt::DefaultTactic::terminate(bt::Node::Status s) {
 
 void bt::DefaultTactic::claimRobots() {
 
-    for (const auto &role : roleNames) {
-        robotIDs.insert(dealer::claimRobotForTactic(robotType::random, name, role));
+    for (const auto &role : robots) {
+        robotIDs.insert(dealer::claimRobotForTactic(role.second, name, role.first));
         if (robotIDs.find(- 1) == robotIDs.end()) claimedRobots ++;
         else robotIDs.erase(- 1);
     }
