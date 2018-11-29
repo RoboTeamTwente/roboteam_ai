@@ -164,6 +164,24 @@ void Widget::setShowTacticColors(bool showTacticColors) {
     Widget::showTacticColors = showTacticColors;
 }
 
+void Widget::mousePressEvent(QMouseEvent *event) {
+    if (event->button() == Qt::LeftButton) {
+        Vector2 pos;
+        pos.x = event->pos().x();
+        pos.y = event->pos().y();
+
+        for (roboteam_msgs::WorldRobot robot : rtt::ai::World::get_world().us) {
+            if (pos.dist(toScreenPosition(robot.pos)) < 10) {
+                this->selectedRobot = robot;
+            }
+        }
+    }
+}
+
+const roboteam_msgs::WorldRobot &Widget::getSelectedRobot() const {
+    return selectedRobot;
+}
+
 } // interface
 } // ai
 } // rtt

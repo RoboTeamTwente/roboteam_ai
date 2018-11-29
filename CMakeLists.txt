@@ -220,7 +220,7 @@ add_executable(Roboteam_AI
         ${TACTIC_SOURCES})
 
 add_dependencies(Roboteam_AI ${catkin_EXPORTED_TARGETS})
-target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY} Qt5::Widgets)
+target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY} Qt5::Widgets Qt5::Gui)
 
 #############
 ## Testing ##

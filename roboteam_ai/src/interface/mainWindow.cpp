@@ -2,46 +2,61 @@
 // Created by mrlukasbos on 27-11-18.
 //
 
+#include <roboteam_ai/src/utilities/Constants.h>
 #include "mainWindow.h"
-#include "QHBoxLayout"
-#include "QPushButton"
 
 
 namespace rtt {
 namespace ai {
 namespace interface {
 
-MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
-
+MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent) {
     setMinimumWidth(800);
     setMinimumHeight(600);
 
-    auto * horizontalLayout = new QHBoxLayout;
-    auto * verticalLayout = new QVBoxLayout;
+    visualizer = std::make_shared<Widget>(this);
+    horizontalLayout = std::make_shared<QHBoxLayout>();
+    verticalLayout = std::make_shared<QVBoxLayout>();
 
-    QPushButton * button1 = new QPushButton("button1");
-    QPushButton * button2 = new QPushButton("button2");
+    // button for X
+    button1 = std::make_shared<QPushButton>("button1");
+    verticalLayout->addWidget(button1.get());
 
-    QSpacerItem * vSpacer = new QSpacerItem(0,10, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // button for Y
+    button2 = std::make_shared<QPushButton>("button2");
+    verticalLayout->addWidget(button2.get());
 
-    // main layout
-    horizontalLayout->addWidget(&wi, 2);
+    // checkbox for toggling Role text
+    cb_rolenames = std::make_shared<QCheckBox>("show rolenames");
+    cb_rolenames->setChecked(constants::STD_SHOW_ROLES);
+    verticalLayout->addWidget(cb_rolenames.get());
+    QObject::connect(cb_rolenames.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowRoles(bool)));
 
-    // secondary layout (sidebar)
-    verticalLayout->addWidget(button1);
-    verticalLayout->addWidget(button2);
-    verticalLayout->addItem(vSpacer);
+    // checkbox for toggling Tactics text
+    cb_tacticnames = std::make_shared<QCheckBox>("show tacticnames");
+    cb_tacticnames->setChecked(constants::STD_SHOW_TACTICS);
+    verticalLayout->addWidget(cb_tacticnames.get());
+    QObject::connect(cb_tacticnames.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowTactics(bool)));
 
-    horizontalLayout->addLayout(verticalLayout, 1);
 
+
+    // Spacer to nicely align buttons at the top
+    vSpacer = std::make_shared<QSpacerItem>(0,10, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    verticalLayout->addItem(vSpacer.get());
+
+    // main layout: left the visualizer and right the vertical layout
+
+    horizontalLayout->addWidget(visualizer.get(), 2);
+    horizontalLayout->addLayout(verticalLayout.get(), 1);
 
     // apply layout
     setCentralWidget(new QWidget);
-    centralWidget()->setLayout(horizontalLayout);
+    centralWidget()->setLayout(horizontalLayout.get());
 }
 
 void MainWindow::updateWidget() {
-    wi.update();
+    visualizer->update();
+    button1->setText(QString::number(visualizer->getSelectedRobot().id));
 }
 
 }

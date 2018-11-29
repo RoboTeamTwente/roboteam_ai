@@ -11,6 +11,7 @@
 #include "../utilities/Constants.h"
 #include "../utilities/Field.h"
 #include "../utilities/World.h"
+#include <QMouseEvent>
 
 namespace rtt {
 namespace ai {
@@ -26,16 +27,18 @@ class Widget : public QWidget {
         bool showTacticColors = constants::STD_SHOW_TACTICS_COLORS;
         bool showIds = constants::STD_SHOW_IDS;
 
-        void setShowTactics(bool showTactics);
-        void setShowTacticColors(bool showTacticColors);
-
-    protected:
+protected:
         void paintEvent(QPaintEvent* event);
+        void mousePressEvent(QMouseEvent * event);
+
+
     signals:
 
     public slots:
-        void setShowRoles(bool showRoles);
 
+    void setShowRoles(bool showRoles);
+    void setShowTactics(bool showTactics);
+    void setShowTacticColors(bool showTacticColors);
     private:
         float factor;
         int fieldmargin = constants::WINDOW_FIELD_MARGIN;
@@ -50,6 +53,10 @@ class Widget : public QWidget {
         // map colors to tactic to visualize which robots work together
         std::vector<std::pair<std::string, SDL_Color>> tacticColors;
         int tacticCount = 0; // increases when a new tactic is used
+
+        roboteam_msgs::WorldRobot selectedRobot;
+public:
+    const roboteam_msgs::WorldRobot &getSelectedRobot() const;
 };
 
 } // interface
