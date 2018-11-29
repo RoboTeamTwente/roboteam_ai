@@ -43,6 +43,7 @@ bool Dribble::robotHasBall(){
     }
     // else check the rectangle in front of the robot.
     else return control::ControlUtils::pointInRectangle(BallPos,dribbleLeft,dribbleRight,dribbleRight+Vector2(c::MAX_BALL_RANGE,0).rotate(robot.angle),dribbleLeft+Vector2(c::MAX_BALL_RANGE,0).rotate(robot.angle));
+
 }
 void Dribble::initialize() {
     if (properties->hasString("ROLE")) {
@@ -83,7 +84,6 @@ void Dribble::initialize() {
         return;
     }
     currentProgress=Progression::ON_THE_WAY;
-
 }
 
 Dribble::status Dribble::update() {
@@ -130,13 +130,10 @@ void Dribble::sendMoveCommand() {
     else{
         command.w=(float)deltaPos.rotate(M_PI).angle();
     }
-
     command.dribbler=1;
     command.x_vel=(float) deltaPos.normalize().x*c::DRIBBLE_SPEED;
     command.y_vel=(float) deltaPos.normalize().y*c::DRIBBLE_SPEED;
     publishRobotCommand(command);
-
-
 }
 void Dribble::sendStopCommand() {
     roboteam_msgs::RobotCommand command;
