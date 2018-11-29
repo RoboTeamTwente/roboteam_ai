@@ -135,8 +135,8 @@ void GoToPosLuTh::sendMoveCommand() {
     command.id = robot.id;
     command.use_angle = 1;
 
-    //auto angularVel = (float) Control::calculateAngularVelocity(robot.angle, angle);
-    float angularVel=0;
+    auto angularVel = (float) Control::calculateAngularVelocity(robot.angle, angle);
+    //float angularVel=0;
     if (! collision) {
 
         command.x_vel = xVel;
@@ -144,10 +144,18 @@ void GoToPosLuTh::sendMoveCommand() {
         command.w = angularVel;
     }
     else {
-
-        command.x_vel = 0;
-        command.y_vel = 0;
-        command.w = angularVel;
+        me.pos = robot.pos;
+        auto world = World::get_world();
+        Vector2 closestBot = getClosestRobotPos(world, me);
+        if (me.isCollision(closestBot)) {
+            Vector2 delta = closestBot - me.pos;
+            command.x_vel = static_cast<float>(-delta.normalize().x*me.maxVel);
+            command.y_vel = static_cast<float>(-delta.normalize().y*me.maxVel);
+        } else if (me.velData.size() > 10) {
+            command.x_vel = static_cast<float>(me.velData[2].x);
+            command.y_vel = static_cast<float>(me.velData[2].y);
+            command.w = angularVel;
+        }
     }
 
     publishRobotCommand(command);
@@ -176,10 +184,7 @@ bool GoToPosLuTh::calculateNumericDirection(numRobot &me, float &xVel, float &yV
     if (me.vel.length() > 10.0) return false;
 
     if (! tracePath(me, startIndex, targetPos, false)) {
-        xVel = 0;
-        yVel = 0;
-        angle = robot.angle;
-        return false;
+        return true;
     }
 //  ____________________________________________________________________________________________________________________
 
@@ -188,10 +193,7 @@ bool GoToPosLuTh::calculateNumericDirection(numRobot &me, float &xVel, float &yV
     int maxDTimesX = (int) (round(0.1/me.dt));
     int dTimesX;
     if (me.posData.empty()) {
-        xVel = 0;
-        yVel = 0;
-        angle = robot.angle;
-        return false;
+        return true;
     }
     else if (me.posData.size() > maxDTimesX) {
         dTimesX = maxDTimesX;
@@ -211,9 +213,9 @@ bool GoToPosLuTh::calculateNumericDirection(numRobot &me, float &xVel, float &yV
 
 bool GoToPosLuTh::tracePath(numRobot &me, int &startIndex, Vector2 target, bool semiPath) {
     auto world = World::get_world();
-    auto us = world.us;
-    auto them = world.them;
     while (! me.isCollision(target)) {
+
+        me.t = me.posData.size()*me.dt;
         // get the target velocity towards the direction we want to go
         if (semiPath) {
             me.targetVel = me.getDirection(target)*me.maxVel;
@@ -238,66 +240,31 @@ bool GoToPosLuTh::tracePath(numRobot &me, int &startIndex, Vector2 target, bool 
         me.velData.push_back(me.vel);
         me.posData.push_back(me.pos);
 
-        // check collisions with our robots
-        for (auto &ourBot : world.us) {
-
-            // can't collide with ourselves..
-            if (ourBot.id != me.id) {
-
-                Vector2 ourPos = {ourBot.pos.x + ourBot.vel.x*me.t, ourBot.pos.y + ourBot.vel.y*me.t};
-
-                // if we have a collision
-                if (me.isCollision(ourPos)) {
-                    // in calculating a part of the path we do not want to collide
-                    if (semiPath) {
-                        return false;
-                    }
-                        // if we are in the main loop try to find an alternative path
-                    else {
-                            if (! avoidObject(me, startIndex)) {
-                                return false;
-                            }
-                            else {
-                                startIndex = static_cast<int>(me.posData.size());
-                            }
-
-                    }
-                }
+        Vector2 closestBot = getClosestRobotPos(world, me);
+        if (me.isCollision(closestBot)) {
+            // in calculating a part of the path we do not want to collide
+            if (semiPath) {
+                return false;
             }
-        }
-        // check collisions with their robots
-        for (auto &theirBot : world.them) {
-
-            Vector2 theirPos = {theirBot.pos.x + theirBot.vel.x*me.t, theirBot.pos.y + theirBot.vel.y*me.t};
-            // if we have a collision
-            if (me.isCollision(theirPos)) {
-                // in calculating a part of the path we do not want to collide
-                if (semiPath) {
+                // if we are in the main loop try to find an alternative path
+            else {
+                if (! avoidObject(me, startIndex, true)) {
                     return false;
                 }
-                    // if we are in the main loop try to find an alternative path
-                else {
-                        if (! avoidObject(me, startIndex)) {
-                            return false;
-                        }
-                        else {
-                            startIndex = static_cast<int>(me.posData.size());
-                        }
 
-                }
             }
         }
-        if (me.posData.size() > 100/me.dt) {
+
+        if (++ me.totalCalculations > 100000) {
             return false;
         }
-        me.t = me.posData.size() * me.dt;
     }
 
     // yay, we finished the path! - hopefully..
     return true;
 }
 
-bool GoToPosLuTh::avoidObject(numRobot &me, int &startIndex) {
+bool GoToPosLuTh::avoidObject(numRobot &me, int &startIndex, bool firstTry) {
     std::vector<Vector2> oldPosData = me.posData;
     std::vector<Vector2> oldVelData = me.velData;
     //std::cout << "  1: " << startSize << std::endl;
@@ -315,42 +282,64 @@ bool GoToPosLuTh::avoidObject(numRobot &me, int &startIndex) {
             me.posData = newPosData;
             std::vector<Vector2> newVelData(me.velData.begin(), me.velData.begin() + startIndex);
             me.velData = newVelData;
-            me.t = me.posData.size()*me.dt;
             //std::cout << "      2: " << me.posData.size() << std::endl;
 
             me.pos = startPos;
             me.vel = startVel;
+            if (firstTry) {
+                Vector2 delta = (collisionPoint - startPos);
+                if (delta.length() < 2.0) {
+                    Vector2 quarter = {0.25, 0.25};
+                    delta = delta + delta.normalize()*quarter;
+                }
+                Vector2 sideLength = {tt*delta.y/nTries, - tt*delta.x/nTries};
+                Vector2 target = startPos + delta + sideLength;
 
-            Vector2 delta = (collisionPoint - startPos);
-            Vector2 sideLength = {tt*delta.y/nTries, - tt*delta.x/nTries};
-            Vector2 target = collisionPoint + sideLength;
+                displayData.push_back(target);
 
-            displayData.push_back(target);
+                if (tracePath(me, startIndex, target, true)) {
+                    if (me.posData.size() > startIndex + 2) {
+                        allPosData.push_back(me.posData);
+                        allVelData.push_back(me.velData);
+                        displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
+                    }
+                }
+            }
+            else {
+                Vector2 half = {0.5, 0.5};
+                Vector2 delta = (collisionPoint - startPos);
+                Vector2 middle = half*(collisionPoint + startPos);
+                Vector2 target = middle + delta.rotate(tt * M_PI/(nTries*1.0));
+                displayData.push_back(target);
 
-            if (tracePath(me, startIndex, target, true)) {
-                if (me.posData.size() > startIndex + 2) {
-                    allPosData.push_back(me.posData);
-                    allVelData.push_back(me.velData);
-                    displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
+                if (tracePath(me, startIndex, target, true)) {
+
+                    if (me.posData.size() > startIndex + 2) {
+                        allPosData.push_back(me.posData);
+                        allVelData.push_back(me.velData);
+                    }
 
                 }
+                displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
+
             }
         }
         if (! allPosData.empty()) {
-            //std::cout << "found this many paths: " << allPosData.size() << std::endl;
             double distance = 0;
             int bestIndex = 0;
+            auto world = World::get_world();
             for (int i = 0; i < allPosData.size() - 1; i ++) {
                 auto &posData = allPosData[i];
-                double testDistance = (collisionPoint - posData.back()).length();
-                if (testDistance > distance) {
-                    distance = testDistance;
+                Vector2 closestBot = getClosestRobotPos(world, me);
+                //double distToTarget = (me.targetPos - posData.back()).length();
+                double distToRobot = (closestBot - posData.back()).length();
+                if (distToRobot < distance) {
+                    distance = distToRobot;
                     bestIndex = i;
                 }
             }
             me.posData = allPosData[bestIndex];
             me.velData = allVelData[bestIndex];
-            //std::cout << "final size of posData: " << me.posData.size() << std::endl;
 
             if (me.posData.size() < startIndex + 2) {
                 me.posData = oldPosData;
@@ -359,12 +348,12 @@ bool GoToPosLuTh::avoidObject(numRobot &me, int &startIndex) {
             }
             me.pos = me.posData.back();
             me.vel = me.velData.back();
+            startIndex = static_cast<int>(me.posData.size());
             return true;
         }
         else {
-            me.posData = oldPosData;
-            me.velData = oldVelData;
-            return false;
+            return avoidObject(me, startIndex, false);
+
         }
     }
     else {
@@ -372,6 +361,31 @@ bool GoToPosLuTh::avoidObject(numRobot &me, int &startIndex) {
         me.velData = oldVelData;
         return false;
     }
+}
+
+Vector2 GoToPosLuTh::getClosestRobotPos(const roboteam_msgs::World &world, numRobot &me) {
+    Vector2 closestPos;
+    double distance = 99999999;
+    for (auto &bot : world.us) {
+        if (bot.id != me.id) {
+            Vector2 botPos = {bot.pos.x + bot.vel.x*me.t, bot.pos.y + bot.vel.y*me.t};
+            double deltaPos = (me.pos - botPos).length();
+            if (deltaPos < distance) {
+                closestPos = bot.pos;
+                distance = deltaPos;
+            }
+        }
+    }
+    for (auto &bot : world.them) {
+        Vector2 botPos = {bot.pos.x + bot.vel.x*me.t, bot.pos.y + bot.vel.y*me.t};
+        double deltaPos = (me.pos - botPos).length();
+        if (deltaPos < distance) {
+            closestPos = bot.pos;
+            distance = deltaPos;
+        }
+
+    }
+    return closestPos;
 }
 
 } // ai

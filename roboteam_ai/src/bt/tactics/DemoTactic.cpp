@@ -59,7 +59,7 @@ void DemoTactic::terminate(Status s) {
 }
 
 std::string DemoTactic::node_name() {
-    return "Demo Tactic";
+    return "DemoTactic";
 }
 
 

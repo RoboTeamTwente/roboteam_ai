@@ -14,7 +14,6 @@
 #include "../bt/tactics/DemoTactic.h"
 #include "../bt/tactics/ParallelSequenceTest.h"
 #include "../bt/tactics/VictoryDanceTactic.h"
-#include "../bt/tactics/grsimTestTactic.h"
 
 //  ______________________
 //  |                    |
