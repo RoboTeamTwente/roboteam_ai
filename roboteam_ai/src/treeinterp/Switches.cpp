@@ -105,7 +105,8 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
     else if (name == "victoryDanceTactic") {
         node = std::make_shared<bt::VictoryDanceTactic>("victoryDanceTactic", properties);
     }
-    else if (name =="grsimTestTactic") {
-        node= std::make_shared<bt::grsimTestTactic>("grsimTestTactic",properties);   }
+    else if (name == "randomTactic") {
+        node = std::make_shared<bt::VictoryDanceTactic>("randomTactic", properties);
+    }
     return node;
 }
