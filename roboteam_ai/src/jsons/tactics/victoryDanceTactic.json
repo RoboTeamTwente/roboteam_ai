@@ -21,10 +21,7 @@
             "id": "2l2bvdnfqt3vg",
             "title": "MemSequence",
             "children": [
-              "zkl7lwhnxjxlmiay",
-              "qggd848t8b7kxxk0",
-              "ef4fg5gehb3r9ucvk",
-              "54gq9n20d9yoi7c"
+              "zkl7lwhnxjxlmiay"
             ],
             "location": {
               "x": 418.0,
@@ -36,6 +33,7 @@
             "title": "GoToPosLuTh",
             "properties": {
               "ROLE": "victor1",
+              "goToBall": "true",
               "Position": "{0, 1}"
             },
             "location": {

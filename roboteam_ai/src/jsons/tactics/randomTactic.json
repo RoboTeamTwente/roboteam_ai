@@ -1,0 +1,179 @@
+{
+  "name": "randomTactic",
+  "data": {
+    "trees": [
+      {
+        "title": "randomTactic",
+        "root": "hl85r5zhvsn3l",
+        "nodes": {
+          "1i1drf5y074etjc": {
+            "id": "1i1drf5y074etjc",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "px03hjth315mg4cl6"
+            ]
+          },
+          "px03hjth315mg4cl6": {
+            "id": "px03hjth315mg4cl6",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "",
+              "Position": "{0,0}",
+              "goToBall": "false",
+              "random": "true"
+            }
+          },
+          "fznkqcdlljrvdgkwa": {
+            "id": "fznkqcdlljrvdgkwa",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "3heqh3idxalxbd42"
+            ]
+          },
+          "3heqh3idxalxbd42": {
+            "id": "3heqh3idxalxbd42",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "",
+              "Position": "{0,0}",
+              "goToBall": "false",
+              "random": "true"
+            }
+          },
+          "vr9wcvnaycd5tpu0": {
+            "id": "vr9wcvnaycd5tpu0",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "yqr9wz7f5o53u"
+            ]
+          },
+          "yqr9wz7f5o53u": {
+            "id": "yqr9wz7f5o53u",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "",
+              "Position": "{0,0}",
+              "goToBall": "false",
+              "random": "true"
+            }
+          },
+          "bv8jb577etwo1lpq": {
+            "id": "bv8jb577etwo1lpq",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "3a6c4k7orndcyo38"
+            ]
+          },
+          "3a6c4k7orndcyo38": {
+            "id": "3a6c4k7orndcyo38",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "",
+              "Position": "{0,0}",
+              "goToBall": "false",
+              "random": "true"
+            }
+          },
+          "rpprilh9mb2vh4bah": {
+            "id": "rpprilh9mb2vh4bah",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "kp197pfjx70r5dq"
+            ]
+          },
+          "kp197pfjx70r5dq": {
+            "id": "kp197pfjx70r5dq",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "",
+              "Position": "{0,0}",
+              "goToBall": "false",
+              "random": "true"
+            }
+          },
+          "48dklri6em5n2ut": {
+            "id": "48dklri6em5n2ut",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "qj6f8at9n9llw4"
+            ]
+          },
+          "qj6f8at9n9llw4": {
+            "id": "qj6f8at9n9llw4",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "",
+              "Position": "{0,0}",
+              "goToBall": "false",
+              "random": "true"
+            }
+          },
+          "eqjsajdkfat6ae96": {
+            "id": "eqjsajdkfat6ae96",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "cyrypyzuacso5"
+            ]
+          },
+          "cyrypyzuacso5": {
+            "id": "cyrypyzuacso5",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "",
+              "Position": "{0,0}",
+              "goToBall": "false",
+              "random": "true"
+            }
+          },
+          "8lqt1adid0r5s9s5": {
+            "id": "8lqt1adid0r5s9s5",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "jaf572hrf5zhqcm"
+            ]
+          },
+          "jaf572hrf5zhqcm": {
+            "id": "jaf572hrf5zhqcm",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "",
+              "Position": "{0,0}",
+              "goToBall": "false",
+              "random": "true"
+            }
+          },
+          "hl85r5zhvsn3l": {
+            "id": "hl85r5zhvsn3l",
+            "title": "ParallelSequence",
+            "children": [
+              "1i1drf5y074etjc",
+              "fznkqcdlljrvdgkwa",
+              "vr9wcvnaycd5tpu0",
+              "bv8jb577etwo1lpq",
+              "rpprilh9mb2vh4bah",
+              "48dklri6em5n2ut",
+              "eqjsajdkfat6ae96",
+              "8lqt1adid0r5s9s5"
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

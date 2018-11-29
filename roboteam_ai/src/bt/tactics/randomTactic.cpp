@@ -1,29 +1,27 @@
-
 //
-// Created by baris on 05/11/18.
+// Created by thijs on 29-11-18.
 //
 
-#include <utility>
-#include "DemoTactic.h"
+#include "randomTactic.h"
 
 
 namespace bt {
 
-DemoTactic::DemoTactic(std::string name, Blackboard::Ptr blackboard) {
+RandomTactic::RandomTactic(std::string name, Blackboard::Ptr blackboard) {
 
     globalBB = std::move(blackboard);
     setName(std::move(name));
 }
 
-void DemoTactic::setName(std::string newName) {
+void RandomTactic::setName(std::string newName) {
     name = std::move(newName);
 }
 
-void DemoTactic::initialize() {
+void RandomTactic::initialize() {
     std::vector<std::string> roleNames = {"testRole"};
 
     while (claimedRobots < roleNames.size()) {
-        robotIDs.insert(dealer::claimRobotForTactic(robotType::random, "DemoTactic", roleNames[claimedRobots]));
+        robotIDs.insert(dealer::claimRobotForTactic(robotType::random, name, roleNames[claimedRobots]));
         if (robotIDs.find(- 1) == robotIDs.end()) {
             claimedRobots ++;
         } else {
@@ -32,7 +30,7 @@ void DemoTactic::initialize() {
     }
 }
 
-Node::Status DemoTactic::update() {
+Node::Status RandomTactic::update() {
     auto status = child->tick();
 
     if (status == Status::Success) {
@@ -47,8 +45,8 @@ Node::Status DemoTactic::update() {
     }
 }
 
-void DemoTactic::terminate(Status s) {
-    dealer::removeTactic("DemoTactic");
+void RandomTactic::terminate(Status s) {
+    dealer::removeTactic(name);
     if (child->getStatus() == Status::Running) {
         child->terminate(child->getStatus());
     }
@@ -58,8 +56,8 @@ void DemoTactic::terminate(Status s) {
     }
 }
 
-std::string DemoTactic::node_name() {
-    return "DemoTactic";
+std::string RandomTactic::node_name() {
+    return name;
 }
 
 
