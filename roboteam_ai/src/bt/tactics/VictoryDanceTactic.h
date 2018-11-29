@@ -20,6 +20,7 @@ class VictoryDanceTactic : public Tactic {
 
         void initialize() override;
         Node::Status update() override;
+        void terminate(Status s) override;
 
         std::string node_name() override;
 
@@ -33,5 +34,5 @@ class VictoryDanceTactic : public Tactic {
 
 };
 
-#endif //ROBOTEAM_AI_VICTORYDANCETACTIC_H
 } // bt
+#endif //ROBOTEAM_AI_VICTORYDANCETACTIC_H

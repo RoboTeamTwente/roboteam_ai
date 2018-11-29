@@ -31,7 +31,6 @@ void RobotDealer::removeRobotFromOwnerList(int ID) {
         }
     }
 
-
 }
 
 /// For internal use
@@ -75,14 +74,13 @@ int RobotDealer::claimRobotForTactic(RobotDealer::RobotType feature, std::string
 
         switch (feature) {
 
-            default:
-                return - 1;
+        default:return - 1;
 
-            case closeToBall: {
-                rtt::Vector2 ball = rtt::ai::World::getBall().pos;
-                id = getRobotClosestToPoint(ids, ball);
-                break;
-            }
+        case closeToBall: {
+            rtt::Vector2 ball = rtt::ai::World::getBall().pos;
+            id = getRobotClosestToPoint(ids, ball);
+            break;
+        }
 
         case betweenBallAndOurGoal: {
             rtt::Vector2 ball = rtt::ai::World::getBall().pos;
@@ -90,22 +88,22 @@ int RobotDealer::claimRobotForTactic(RobotDealer::RobotType feature, std::string
             id = getRobotClosestToLine(ids, ball, ourGoal, true);
             break;
         }
-            case closeToOurGoal: {
-                rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
-                id = getRobotClosestToPoint(ids, ourGoal);
-                break;
-            }
+        case closeToOurGoal: {
+            rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
+            id = getRobotClosestToPoint(ids, ourGoal);
+            break;
+        }
 
-            case closeToTheirGoal: {
-                rtt::Vector2 theirGoal = rtt::ai::Field::get_their_goal_center();
-                id = getRobotClosestToPoint(ids, theirGoal);
-                break;
-            }
+        case closeToTheirGoal: {
+            rtt::Vector2 theirGoal = rtt::ai::Field::get_their_goal_center();
+            id = getRobotClosestToPoint(ids, theirGoal);
+            break;
+        }
 
-            case random: {
-                id = *ids.begin();
-                break;
-            }
+        case random: {
+            id = *ids.begin();
+            break;
+        }
 
         }
         std::lock_guard<std::mutex> lock(robotOwnersLock);
@@ -169,13 +167,17 @@ void RobotDealer::removeTactic(std::string tacticName) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
+
     for (auto tactic : robotOwners) {
         if (tactic.first == tacticName) {
+            for(auto robotPair : tactic.second) {
+                removeRobotFromOwnerList(robotPair.first);
+            }
             robotOwners.erase(tacticName);
             return;
         }
     }
-    std::cerr << "Cannot remove tactic the tactic does not exist" << std::endl;
+    std::cerr << "Cannot remove tactic the tactic does not exist:  " << tacticName <<  std::endl;
 }
 std::set<int> RobotDealer::findRobotsForTactic(std::string tacticName) {
 
@@ -192,6 +194,7 @@ std::set<int> RobotDealer::findRobotsForTactic(std::string tacticName) {
     return ids;
 }
 
+//  TODO: might want to add a tactic name here for confusion
 int RobotDealer::findRobotForRole(std::string roleName) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
@@ -204,7 +207,7 @@ int RobotDealer::findRobotForRole(std::string roleName) {
             }
         }
     }
-    std::cerr << "Cannot find a robot with that Role Name" << std::endl;
+    std::cerr << "Cannot find a robot with that Role Name:   " << roleName << std::endl;
     return - 1;
 }
 
@@ -269,9 +272,10 @@ int RobotDealer::getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 point1, 
 /// When robot be free this bad boy anti free
 void RobotDealer::unFreeRobot(int ID) {
 
-    if(robotOwners["free"].find({ID, "free"}) != robotOwners["free"].end()) {
+    if (robotOwners["free"].find({ID, "free"}) != robotOwners["free"].end()) {
         robotOwners["free"].erase({ID, "free"});
-    } else {
+    }
+    else {
         ROS_ERROR("Cannot un free an anti free robot");
     }
 

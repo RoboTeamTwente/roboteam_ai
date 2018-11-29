@@ -5,7 +5,7 @@
 
 #include <utility>
 #include "DemoTactic.h"
-#include "../../utilities/World.h"
+
 
 namespace bt {
 
@@ -23,7 +23,7 @@ void DemoTactic::initialize() {
     std::vector<std::string> roleNames = {"testRole"};
 
     while (claimedRobots < roleNames.size()) {
-        robotIDs.insert(dealer::claimRobotForTactic(robot::random, "DemoTactic", roleNames[claimedRobots]));
+        robotIDs.insert(dealer::claimRobotForTactic(robotType::random, "DemoTactic", roleNames[claimedRobots]));
         if (robotIDs.find(- 1) == robotIDs.end()) {
             claimedRobots ++;
         } else {
@@ -48,7 +48,14 @@ Node::Status DemoTactic::update() {
 }
 
 void DemoTactic::terminate(Status s) {
+    dealer::removeTactic("DemoTactic");
+    if (child->getStatus() == Status::Running) {
+        child->terminate(child->getStatus());
+    }
 
+    if (s == Status::Running) {
+        setStatus(Status::Failure);
+    }
 }
 
 std::string DemoTactic::node_name() {

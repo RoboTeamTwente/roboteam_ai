@@ -33,7 +33,7 @@ void IOManager::subscribeToWorldState() {
             1,
             &IOManager::handleWorldState,
             this
-            );
+    );
 }
 
 void IOManager::subscribeToGeometryData() {
@@ -42,7 +42,7 @@ void IOManager::subscribeToGeometryData() {
             1,
             &IOManager::handleGeometryData,
             this
-            );
+    );
 }
 
 void IOManager::subscribeToRoleFeedback() {
@@ -51,7 +51,7 @@ void IOManager::subscribeToRoleFeedback() {
             1,
             &IOManager::handleRobotFeedback,
             this
-            );
+    );
 }
 void IOManager::subscribeToRefereeData() {
     //TODO: This constant TOPIC_REFEREE was not used consistently by the previous team, so if stuff goes wrong check if you are reading the correct topic.
@@ -60,7 +60,7 @@ void IOManager::subscribeToRefereeData() {
             1,
             &IOManager::handleRefereeData,
             this
-            );
+    );
 }
 
 void IOManager::handleWorldState(const roboteam_msgs::WorldConstPtr &world) {
@@ -80,7 +80,7 @@ const roboteam_msgs::World &IOManager::getWorldState() {
 }
 
 void IOManager::handleRefereeData(const roboteam_msgs::RefereeDataConstPtr &refData) {
-  this->refData = * refData;
+    this->refData = *refData;
 }
 
 const roboteam_msgs::GeometryData &IOManager::getGeometryData() {
@@ -91,8 +91,8 @@ const roboteam_msgs::RoleFeedback &IOManager::getRoleFeedback() {
     return this->roleFeedback;
 }
 
-const roboteam_msgs::RefereeData& IOManager::getRefereeData() {
-  return this->refData;
+const roboteam_msgs::RefereeData &IOManager::getRefereeData() {
+    return this->refData;
 }
 
 void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {

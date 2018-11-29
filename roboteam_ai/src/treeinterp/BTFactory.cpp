@@ -7,7 +7,6 @@
 //
 
 #include "BTFactory.h"
-#include "Switches.h"
 
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
 std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;

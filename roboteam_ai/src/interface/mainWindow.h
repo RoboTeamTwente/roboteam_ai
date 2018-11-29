@@ -5,9 +5,10 @@
 #ifndef ROBOTEAM_AI_MAINWINDOW_H
 #define ROBOTEAM_AI_MAINWINDOW_H
 
-#include "ui_mainwindow.h"
 #include <QMainWindow>
 #include "../utilities/Constants.h"
+#include <iostream>
+#include "widget.h"
 
 namespace rtt {
 namespace ai {
@@ -17,12 +18,9 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
     public:
         explicit MainWindow(QWidget* parent = 0);
-        ~MainWindow() override;
+    void updateWidget();
 
     private slots:
-        void on_pushButton_clicked();
-        void on_toggleRolesCheckbox_clicked(bool checked);
-        void on_toggleTacticsCheckbox_clicked(bool checked);
 
     signals:
         void btnclicked(bool click);
@@ -30,7 +28,8 @@ class MainWindow : public QMainWindow {
         void toggleTacticsCheckboxClicked(bool click);
     private:
         bool click = false;
-        Ui::MainWindow* ui;
+    Widget wi;
+
 };
 
 } // interface

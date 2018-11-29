@@ -2,8 +2,33 @@
 // Created by baris on 15/11/18.
 //
 #include "BTImport.h"
+#include "../bt/Node.hpp"
+
+
+//  ______________________
+//  |                    |
+//  |   INCLUDE TACTICS  |
+//  |____________________|
+//
+
+#include "../bt/tactics/DemoTactic.h"
+#include "../bt/tactics/ParallelSequenceTest.h"
+#include "../bt/tactics/VictoryDanceTactic.h"
+#include "../bt/tactics/grsimTestTactic.h"
+
+//  ______________________
+//  |                    |
+//  |   INCLUDE SKILLS   |
+//  |____________________|
+//
+
+#include "../skills/Rotate.h"
+#include "../skills/GoToPosLuTh.h"
+#include "../skills/RotateToAngle.h"
 #include "../skills/GoToPos.h"
 #include "../skills/Kick.h"
+
+
 
 #ifndef ROBOTEAM_AI_SWITCHES_H
 #define ROBOTEAM_AI_SWITCHES_H

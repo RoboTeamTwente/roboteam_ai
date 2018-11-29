@@ -126,7 +126,7 @@ set(TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/ParallelSequenceTest.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/VictoryDanceTactic.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/VictoryDanceTactic.h
-        )
+        roboteam_ai/src/bt/tactics/grsimTestTactic.cpp roboteam_ai/src/bt/tactics/grsimTestTactic.h)
 
 set(IO_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/IOManager.h
@@ -141,8 +141,6 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
         )
@@ -150,6 +148,8 @@ set(UTILS_SOURCES
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefaultSkill.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefaultSkill.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Kick.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Kick.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Chip.h
@@ -160,10 +160,12 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TurnGeneva.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TurnGeneva.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefaultSkill.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefaultSkill.cpp
-
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.h
         )
+
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
@@ -195,7 +197,7 @@ set(CONDITION_TESTS
 set(CONTROL_SOURCES
         roboteam_ai/src/control/ControlUtils.cpp
         roboteam_ai/src/control/ControlUtils.h roboteam_ai/src/interface/mainWindow.cpp roboteam_ai/src/interface/mainWindow.h
-        roboteam_ai/src/interface/mainwindow.ui roboteam_ai/src/interface/widget.cpp roboteam_ai/src/interface/widget.h)
+        roboteam_ai/src/interface/widget.cpp roboteam_ai/src/interface/widget.h)
 
 ### TEST SOURCES END ###
 
@@ -233,7 +235,7 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/DangerFinderTest.cpp
         roboteam_ai/test/BTBlackBoardTest.cpp
         roboteam_ai/test/IOTest.cpp
-        #roboteam_ai/test/RobotDealerTest.cpp
+        roboteam_ai/test/RobotDealerTest.cpp
         roboteam_ai/test/RefereeTest.cpp
         roboteam_ai/test/StrategyManagerTest.cpp
         roboteam_ai/test/PropertiesParserTest.cpp

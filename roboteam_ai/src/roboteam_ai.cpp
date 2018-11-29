@@ -4,7 +4,6 @@
 #include "utilities/Referee.hpp"
 #include "utilities/StrategyManager.h"
 #include "treeinterp/BTFactory.h"
-#include "interface/Interface.h"
 #include "interface/mainWindow.h"
 #include "roboteam_ai/src/interface/widget.h"
 
@@ -16,7 +15,7 @@ namespace ai = rtt::ai;
 namespace ui = rtt::ai::interface;
 
 using Status = bt::Node::Status;
-ui::Widget * widget;
+ui::MainWindow * window;
 
 void runBehaviourTrees() {
     // init IOManager and subscribe to all topics immediately
@@ -75,12 +74,11 @@ void runBehaviourTrees() {
 
         case Status::Running:
             break;
-
-        case Status::Success:
-            ROS_INFO_STREAM("Status returned: Success");
-            ROS_INFO_STREAM(" === TREE CHANGE === ");
-            currentTree = "ParallelSequenceStrategy";
-            break;
+            case Status::Success:
+                ROS_INFO_STREAM("Status returned: Success");
+                ROS_INFO_STREAM(" === TREE CHANGE === ");
+                currentTree = "victoryDanceStrategy";
+                break;
 
         case Status::Failure:
             ROS_INFO_STREAM("Status returned: Failure");
@@ -92,7 +90,7 @@ void runBehaviourTrees() {
 
         }
 
-        if (widget) widget->update();
+        if (window) window->updateWidget();
         rate.sleep();
     }
 
@@ -113,20 +111,10 @@ int main(int argc, char* argv[]) {
     // initialize the interface
     QApplication a(argc, argv);
     ui::MainWindow w;
+    window = &w;
 
-    ui::Widget wi;
-    widget = &wi;
-
-    // http://doc.qt.io/qt-5/signalsandslots.html
-    // Here we connect the callback function of the mainwindow (which happens i.e. on button click)
-    // to a 'listener' function from a different widget
-    // it's like the listener function is called immediately.
-    // This feels like black magic but it's actually quite pretty.
-    QObject::connect(&w, &ui::MainWindow::rolescheckboxClicked, widget, &ui::Widget::setShowRoles);
-    QObject::connect(&w, &ui::MainWindow::toggleTacticsCheckboxClicked, widget, &ui::Widget::setShowTactics);
-
-    wi.show();
     w.show();
+
   return a.exec();
 }
 

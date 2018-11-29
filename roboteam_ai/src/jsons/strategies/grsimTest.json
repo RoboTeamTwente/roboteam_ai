@@ -1,32 +1,31 @@
 {
-  "description": "This is a test strategy jason with only one tactic ",
-  "name": "TestStrategy",
+  "description": "testing angle stuff",
+  "name": "grsimTest",
   "data": {
     "scope": "StrategyRepo",
     "trees": [
       {
-        "description": "The testing strategy tree",
+        "description": "grsim angle Test",
         "scope": "tree",
         "properties": {},
         "root": "bbb",
-        "title": "DemoStrategy",
+        "title": "grsimTest",
         "nodes": {
           "bbb": {
             "child": "ccc",
             "description": "",
             "id": "bbb",
-            "name": "Repeat",
-            "properties": {}
+            "name": "UntilSuccess",
+            "title": "UntilSuccess",
+            "properties": {
+              "limit": "0"
+            }
           },
           "ccc": {
             "description": "",
             "id": "ccc",
             "title": "Tactic",
-            "name": "DemoTactic",
-            "properties": {
-              "testdemotac": "testdemotac"
-            }
-
+            "name": "grsimTestTactic"
           }
 
         }
