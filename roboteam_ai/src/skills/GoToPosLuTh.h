@@ -59,7 +59,7 @@ class GoToPosLuTh : public Skill {
         bool goToBall;
 
         enum Progression {
-          ON_THE_WAY, DONE, FAIL, INVALID
+          ON_THE_WAY, DONE, FAIL
         };
         Progression currentProgress;
         Progression checkProgression();

@@ -69,9 +69,7 @@ GoToPosLuTh::Status GoToPosLuTh::update() {
     if (currentProgress == Progression::FAIL) {
         return Status::Failure;
     }
-    else if (currentProgress == Progression::INVALID) {
-        return Status::Invalid;
-    }
+
 
 //  ____________________________________________________________________________________________________________________
 
@@ -86,7 +84,6 @@ GoToPosLuTh::Status GoToPosLuTh::update() {
     case ON_THE_WAY:return Status::Running;
     case DONE: return Status::Success;
     case FAIL: return Status::Failure;
-    case INVALID: return Status::Invalid;
     }
 
     return Status::Failure;

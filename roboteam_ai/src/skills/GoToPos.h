@@ -19,7 +19,7 @@ class GoToPos : public Skill {
         bool goBehindBall;
 
         enum Progression {
-          ON_THE_WAY, DONE, FAIL, INVALID
+          ON_THE_WAY, DONE, FAIL
         };
         Progression currentProgress;
         Progression checkProgression();

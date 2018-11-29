@@ -19,13 +19,13 @@ void Kick::initialize() {
         }
         else {
             ROS_ERROR("GoToPos Initialize -> robot does not exist in world");
-            currentProgress = Progression::INVALID;
+            currentProgress = Progression::FAIL;
             return;
         }
     }
     else {
         ROS_ERROR("GoToPos Initialize -> ROLE INVALID!!");
-        currentProgress = Progression::INVALID;
+        currentProgress = Progression::FAIL;
         return;
     }
     amountOfCycles = 0;

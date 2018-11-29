@@ -101,8 +101,8 @@ int main(int argc, char* argv[]) {
                 ROS_INFO_STREAM("Status returned: Failure");
                 break;
 
-            case Status::Invalid:
-                ROS_INFO_STREAM("Status returned: Invalid");
+            case Status::Waiting:
+                ROS_INFO_STREAM("Status returned: Waiting");
                 break;
 
         }
