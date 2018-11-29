@@ -3,6 +3,9 @@
 //
 
 #include "GoToPosLuTh.h"
+#include <random>  //random numbers..
+#include <cstdlib>
+#include <time.h>
 
 namespace rtt {
 namespace ai {
@@ -37,7 +40,9 @@ void GoToPosLuTh::initialize() {
     }
 //  ____________________________________________________________________________________________________________________
 
+    drawInterface = properties->getBool("drawInterface");
     goToBall = properties->getBool("goToBall");
+    random = properties->getBool("random");
 
     if (properties->hasVector2("Position")) {
         targetPos = properties->getVector2("Position");
@@ -50,8 +55,9 @@ void GoToPosLuTh::initialize() {
 
 /// Called when the Skill is Updated
 GoToPosLuTh::Status GoToPosLuTh::update() {
+#ifdef INTERFACE
     displayData.clear();
-
+#endif
     if (World::getRobotForId(robot.id, true)) {
         robot = World::getRobotForId(robot.id, true).get();
     }
@@ -63,6 +69,21 @@ GoToPosLuTh::Status GoToPosLuTh::update() {
     if (goToBall) {
         auto ball = World::getBall();
         targetPos = ball.pos;
+    } else if (random) {
+        const roboteam_msgs::GeometryFieldSize &field = Field::get_field();
+        const double &length = field.field_length;
+        const double &width = field.field_width;
+        time_t timer;
+        struct tm y2k = {0};
+        double seconds;
+        y2k.tm_hour = 0;   y2k.tm_min = 0; y2k.tm_sec = 0;
+        y2k.tm_year = 100; y2k.tm_mon = 0; y2k.tm_mday = 1;
+        seconds = difftime(timer,mktime(&y2k));
+        int randomX = std::rand();
+        int randomY = std::rand();
+
+        random = false;
+        targetPos = {randomX*2.32830644e-10*length - length*0.5, randomY*2.32830644e-10*width - width*0.5};
     }
 
     // See if the progress is a failure
@@ -114,20 +135,21 @@ void GoToPosLuTh::sendMoveCommand() {
         ROS_ERROR("Target position is not correct GoToPosLuTh");
         return;
     }
-    numRobot me;
-    float xVel = 0, yVel = 0, angle = 0;
 
     ros::Time begin = ros::Time::now();
 
+    numRobot me;
+    float xVel = 0, yVel = 0, angle = 0;
     bool collision = calculateNumericDirection(me, xVel, yVel, angle);
 
     ros::Time end = ros::Time::now();
     double timeTaken = (end - begin).toSec();
     std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
 
+#ifdef INTERFACE
     displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
-    interface.drawFrame(displayData);
-
+        interface.drawFrame(displayData);
+#endif
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     command.use_angle = 1;
@@ -252,7 +274,7 @@ bool GoToPosLuTh::tracePath(numRobot &me, int &startIndex, Vector2 target, bool 
             }
         }
 
-        if (++ me.totalCalculations > 100000) {
+        if (++ me.totalCalculations > 5000) {
             return false;
         }
     }
@@ -272,7 +294,7 @@ bool GoToPosLuTh::avoidObject(numRobot &me, int &startIndex, bool firstTry) {
 
         std::vector<std::vector<Vector2>> allPosData;
         std::vector<std::vector<Vector2>> allVelData;
-        int nTries = 20;
+        int nTries = 10;
         for (int tt = 1 - nTries; tt < nTries; tt ++) {
 
             std::vector<Vector2> newPosData(me.posData.begin(), me.posData.begin() + startIndex);
@@ -292,13 +314,16 @@ bool GoToPosLuTh::avoidObject(numRobot &me, int &startIndex, bool firstTry) {
                 Vector2 sideLength = {tt*delta.y/nTries, - tt*delta.x/nTries};
                 Vector2 target = startPos + delta + sideLength;
 
-                displayData.push_back(target);
-
+#ifdef INTERFACE
+                    displayData.push_back(target);
+#endif
                 if (tracePath(me, startIndex, target, true)) {
                     if (me.posData.size() > startIndex + 2) {
                         allPosData.push_back(me.posData);
                         allVelData.push_back(me.velData);
+#ifdef INTERFACE
                         displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
+#endif
                     }
                 }
             }
@@ -307,8 +332,9 @@ bool GoToPosLuTh::avoidObject(numRobot &me, int &startIndex, bool firstTry) {
                 Vector2 delta = (collisionPoint - startPos);
                 Vector2 middle = half*(collisionPoint + startPos);
                 Vector2 target = middle + delta.rotate(tt * M_PI/(nTries*1.0));
+#ifdef INTERFACE
                 displayData.push_back(target);
-
+#endif
                 if (tracePath(me, startIndex, target, true)) {
 
                     if (me.posData.size() > startIndex + 2) {
@@ -317,8 +343,10 @@ bool GoToPosLuTh::avoidObject(numRobot &me, int &startIndex, bool firstTry) {
                     }
 
                 }
-                displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
 
+#ifdef INTERFACE
+displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
+#endif
             }
         }
         if (! allPosData.empty()) {

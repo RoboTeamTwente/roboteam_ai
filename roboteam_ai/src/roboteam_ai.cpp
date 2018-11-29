@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
     factory.init();
 
     // Start running this tree first
-    std::string currentTree = "victoryDanceStrategy";
+    std::string currentTree = "randomStrategy";
     bool drawInterface = true;
     rtt::ai::interface::Interface gui;
 
@@ -94,7 +94,7 @@ int main(int argc, char* argv[]) {
             case Status::Success:
                 ROS_INFO_STREAM("Status returned: Success");
                 ROS_INFO_STREAM(" === TREE CHANGE === ");
-                currentTree = "victoryDanceStrategy";
+                currentTree = "randomStrategy";
                 break;
 
             case Status::Failure:

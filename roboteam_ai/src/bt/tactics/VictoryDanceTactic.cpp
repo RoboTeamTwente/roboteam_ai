@@ -19,7 +19,7 @@ void VictoryDanceTactic::initialize() {
 
     std::vector<std::string> roleNames = {"victor1"};
     while (claimedRobots < roleNames.size()) {
-        robotIDs.insert(dealer::claimRobotForTactic(robotType::random, "victoryDanceTactic", roleNames[claimedRobots]));
+        robotIDs.insert(dealer::claimRobotForTactic(robotType::random, name, roleNames[claimedRobots]));
         if (robotIDs.find(-1) == robotIDs.end()) claimedRobots++;
         else robotIDs.erase(-1);
     }
@@ -40,7 +40,7 @@ Node::Status VictoryDanceTactic::update() {
 
 void VictoryDanceTactic::terminate(Status s) {
 
-    dealer::removeTactic("victoryDanceTactic");
+    dealer::removeTactic(name);
 
     child->terminate(child->getStatus());
 
