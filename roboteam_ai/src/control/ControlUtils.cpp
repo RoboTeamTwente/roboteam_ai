@@ -30,16 +30,13 @@ bool ControlUtils::pointInTriangle(Vec PointToCheck, Vec TP1, Vec TP2, Vec TP3) 
 }
 
 double ControlUtils::TriangleArea(Vec A, Vec B, Vec C) {
-    return abs((A.x*(B.y - C.y) + B.x*(C.y - A.y) + C.x*(A.y - B.y))/2.0);
+    return abs((A.x*(B.y - C.y) + B.x*(C.y - A.y) + C.x*(A.y - B.y))*0.5);
 }
-//https://www.geeksforgeeks.org/check-whether-given-point-lies-inside-rectangle-not/
 ///Square points must be connected! (e.g. SP1 is connected to SP2 and SP4)
 bool ControlUtils::pointInRectangle(Vec PointToCheck, Vec SP1, Vec SP2, Vec SP3, Vec SP4) {
-    double A = TriangleArea(SP1, SP2, SP3) + TriangleArea(SP1, SP4, SP3);
-    double A1 = TriangleArea(PointToCheck, SP1, SP2);
-    double A2 = TriangleArea(PointToCheck, SP2, SP3);
-    double A3 = TriangleArea(PointToCheck, SP3, SP4);
-    double A4 = TriangleArea(PointToCheck, SP1, SP4);
-    return (A == A1 + A2 + A3 + A4);
+    if(pointInTriangle(PointToCheck,SP1,SP2,SP3)){
+        return true;
+    }
+    else return pointInTriangle(PointToCheck,SP4,SP1,SP2);
 }
 }//control

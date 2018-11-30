@@ -23,7 +23,7 @@ const int DEFAULT_GENEVA_STATE = 0;
 const double FRONT_LENGTH=0.118;
 const double ROBOT_RADIUS=0.089; // TODO: Need to test if world_state agrees with this definition of the centre of the robot
 const double DRIBBLER_ANGLE_OFFSET=asin(FRONT_LENGTH/2/ROBOT_RADIUS);
-const double MAX_BALL_RANGE=0.03; // Could maybe be even less? TODO: needs to be tested.
+const double MAX_BALL_RANGE=0.3; // Could maybe be even less? TODO: needs to be tested.
 const double DRIBBLE_POSDIF=0.03;
 const float  DRIBBLE_SPEED=1.0;
 
