@@ -23,7 +23,7 @@ void Rotate::initialize() {
         }
         else {
             ROS_ERROR("Rotate Initialize -> robot does not exist in world");
-            currentProgress = Progression::INVALID;
+            currentProgress = Progression::FAIL;
             return;
         }
     }
@@ -58,7 +58,7 @@ bt::Node::Status Rotate::update() {
     }
     else {
         ROS_ERROR("Rotate Update -> robot does not exist in world");
-        currentProgress = Progression::INVALID;
+        currentProgress = Progression::FAIL;
     }
 
     if (rotateToBall) {
@@ -109,7 +109,6 @@ bt::Node::Status Rotate::update() {
     case ROTATING: return Status::Running;
     case DONE: return Status::Success;
     case FAIL: return Status::Failure;
-    case INVALID: return Status::Invalid;
     }
 
     return Status::Failure;

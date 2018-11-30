@@ -14,7 +14,7 @@
 #include "../bt/tactics/DemoTactic.h"
 #include "../bt/tactics/ParallelSequenceTest.h"
 #include "../bt/tactics/VictoryDanceTactic.h"
-#include "../bt/tactics/grsimTestTactic.h"
+#include "../bt/tactics/RandomTactic.h"
 
 //  ______________________
 //  |                    |
@@ -34,6 +34,7 @@
 #define ROBOTEAM_AI_SWITCHES_H
 
 class Switches {
+        using robotType = robotDealer::RobotDealer::RobotType;
 
     public:
 

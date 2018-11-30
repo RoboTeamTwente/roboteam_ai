@@ -96,9 +96,8 @@ rtt::Vector2 Widget::toScreenPosition(rtt::Vector2 fieldPos) {
 // draw a single robot
 void Widget::drawRobot(roboteam_msgs::WorldRobot robot, bool ourTeam) {
     QPainter painter(this);
-    rtt::Vector2 robotposition = toScreenPosition(robot.pos);
-    QPointF qrobotPosition(robotposition.x, robotposition.y);
     Vector2 robotpos = toScreenPosition(robot.pos);
+    QPointF qrobotPosition(robotpos.x, robotpos.y);
     QColor robotColor = ourTeam ? Qt::yellow : Qt::blue;
 
     if (showAngles) {
@@ -214,7 +213,6 @@ void Widget::setShowAngles(bool showAngles) {
 void Widget::setShowVelocities(bool showVelocities) {
     Widget::showVelocities = showVelocities;
 }
-
 
 } // interface
 } // ai

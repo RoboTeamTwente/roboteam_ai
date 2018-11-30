@@ -31,9 +31,10 @@ void runBehaviourTrees() {
     factory.init();
 
     // Start running this tree first
-    std::string currentTree = "victoryDanceStrategy";
-
     ros::Rate rate(50);
+    std::string currentTree = "randomStrategy";
+    bool drawInterface = true;
+   // rtt::ai::interface::Interface gui;
 
     // Main loop
     while (ros::ok()) {
@@ -76,17 +77,15 @@ void runBehaviourTrees() {
             case Status::Success:
                 ROS_INFO_STREAM("Status returned: Success");
                 ROS_INFO_STREAM(" === TREE CHANGE === ");
-                currentTree = "victoryDanceStrategy";
+                currentTree = "randomStrategy";
                 break;
 
         case Status::Failure:
             ROS_INFO_STREAM("Status returned: Failure");
             break;
-
-        case Status::Invalid:
-            ROS_INFO_STREAM("Status returned: Invalid");
-            break;
-
+            case Status::Waiting:
+                ROS_INFO_STREAM("Status returned: Waiting");
+                break;
         }
 
         if (window) window->updateWidget();

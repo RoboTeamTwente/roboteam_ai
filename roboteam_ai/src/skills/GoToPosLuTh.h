@@ -28,7 +28,7 @@ class GoToPosLuTh : public Skill {
           std::vector<Vector2> velData; //Save the velocity data for stuff and things
           float t = 0;
           const float dt = 0.05;
-
+          int totalCalculations = 0;
           Vector2 getDirection() {
               return (targetPos - pos).normalize();
           }
@@ -40,23 +40,29 @@ class GoToPosLuTh : public Skill {
 
           bool isCollision(Vector2 const &otherPos) {
               double minDistance = 0.2;
+              if (vel.length() > maxVel*0.5) {
+                  minDistance *= 1.5;
+              }
               return (std::abs((otherPos - pos).length()) < minDistance);
           }
         };
         bool tracePath(numRobot &me, int &startIndex, Vector2 target, bool semiPath);
-        bool avoidObject(numRobot &me, int &startIndex);
+        bool avoidObject(numRobot &me, int &startIndex, bool firstTry);
 
         std::vector<Vector2> displayData;
 
-      //  interface::Interface interface;
-
+#ifdef INTERFACE
+        interface::Interface interface;
+#endif
         using Status = bt::Node::Status;
         roboteam_msgs::WorldRobot robot;
 
+        bool drawInterface;
         bool goToBall;
+        bool random;
 
         enum Progression {
-          ON_THE_WAY, DONE, FAIL, INVALID
+          ON_THE_WAY, DONE, FAIL
         };
         Progression currentProgress;
         Progression checkProgression();
@@ -65,7 +71,8 @@ class GoToPosLuTh : public Skill {
 
         bool checkTargetPos(Vector2 pos);
         void sendMoveCommand();
-        bool calculateNumericDirection(numRobot &me, float &x_vel, float &y_vel, float &angle);
+        bool calculateNumericDirection(numRobot &me, float &xVel, float &yVel, float &angle);
+        Vector2 getClosestRobotPos(const roboteam_msgs::World &world, numRobot &me);
     public:
 
         explicit GoToPosLuTh(string name, bt::Blackboard::Ptr blackboard);

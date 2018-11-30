@@ -21,10 +21,7 @@
             "id": "2l2bvdnfqt3vg",
             "title": "MemSequence",
             "children": [
-              "zkl7lwhnxjxlmiay",
-              "qggd848t8b7kxxk0",
-              "ef4fg5gehb3r9ucvk",
-              "54gq9n20d9yoi7c"
+              "zkl7lwhnxjxlmiay"
             ],
             "location": {
               "x": 418.0,
@@ -33,9 +30,10 @@
           },
           "zkl7lwhnxjxlmiay": {
             "id": "zkl7lwhnxjxlmiay",
-            "title": "GoToPos",
+            "title": "GoToPosLuTh",
             "properties": {
               "ROLE": "victor1",
+              "goToBall": "true",
               "Position": "{0, 1}"
             },
             "location": {
@@ -57,7 +55,7 @@
           },
           "ef4fg5gehb3r9ucvk": {
             "id": "ef4fg5gehb3r9ucvk",
-            "title": "GoToPos",
+            "title": "GoToPosLuTh",
             "properties": {
               "ROLE": "victor1",
               "Position": "{-1, 1}"
@@ -69,7 +67,7 @@
           },
           "54gq9n20d9yoi7c": {
             "id": "54gq9n20d9yoi7c",
-            "title": "GoToPos",
+            "title": "GoToPosLuTh",
             "properties": {
               "ROLE": "victor1",
               "Position": "{0, -1}"

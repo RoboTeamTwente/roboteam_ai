@@ -25,7 +25,7 @@ void RotateToAngle::initialize() {
         }
         else {
             ROS_ERROR("RotateToAngle Initialize -> robot does not exist in world");
-            currentProgress = Progression::INVALID;
+            currentProgress = Progression::FAIL;
             return;
         }
     }
@@ -57,7 +57,7 @@ RotateToAngle::Status RotateToAngle::update() {
         robot = World::getRobotForId(robot.id, true).get();
     } else {
         ROS_ERROR("RotateToAngle Update -> robot does not exist in world");
-        currentProgress = Progression::INVALID;
+        currentProgress = Progression::FAIL;
     }
 //  ____________________________________________________________________________________________________________________
     roboteam_msgs::RobotCommand command;
@@ -74,7 +74,6 @@ RotateToAngle::Status RotateToAngle::update() {
     case ROTATING: {publishRobotCommand(command); return Status::Running;}
     case DONE: return Status::Success;
     case FAIL: return Status::Failure;
-    case INVALID: return Status::Invalid;
     }
 
     return Status::Failure;

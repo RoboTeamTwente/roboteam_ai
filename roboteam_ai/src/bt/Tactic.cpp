@@ -31,7 +31,7 @@ void Tactic::askForRobots() {
 }
 Node::Status Tactic::update() {
     //Should always be overwritten
-    return Status::Invalid;
+    return Status::Waiting;
 }
 std::string Tactic::node_name() {
     return name;

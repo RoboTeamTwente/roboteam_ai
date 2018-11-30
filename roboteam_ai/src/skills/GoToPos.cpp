@@ -76,9 +76,6 @@ bt::Node::Status GoToPos::update() {
     if (currentProgress == Progression::FAIL) {
         return status::Failure;
     }
-    else if (currentProgress == Progression::INVALID) {
-        return status::Invalid;
-    }
     double dx = targetPos.x - robot.pos.x;
     double dy = targetPos.y - robot.pos.y;
     deltaPos = {dx, dy};
@@ -94,7 +91,6 @@ bt::Node::Status GoToPos::update() {
     case ON_THE_WAY:return status::Running;
     case DONE: return status::Success;
     case FAIL: return status::Failure;
-    case INVALID: return status::Invalid;
     }
 
     return status::Failure;

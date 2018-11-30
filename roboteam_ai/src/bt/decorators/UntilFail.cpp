@@ -9,7 +9,7 @@ Node::Status UntilFail::update() {
     if (status == Status::Failure) {
         return Status::Success;
     }
-    else if (status == Status::Invalid) {
+    else if (status == Status::Waiting) {
         return Status::Failure;
     }
     else /* if (status == Status::Running || status == Status::Success) */ {
