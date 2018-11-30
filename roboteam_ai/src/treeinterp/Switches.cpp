@@ -81,6 +81,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "GoToPosLuTh") {
         node = std::make_shared<rtt::ai::GoToPosLuTh>(name, properties);
     }
+    else if (name == "Dribble"){
+        node = std::make_shared<rtt::ai::Dribble>(name,properties);
+    }
     else {
         ROS_ERROR("ERROR: Leaf not found!! using GoToPos..");
         node = std::make_shared<rtt::ai::GoToPos>(name, properties);

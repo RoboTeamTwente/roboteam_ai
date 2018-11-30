@@ -8,7 +8,8 @@
 #include "Skill.h"
 #include "../utilities/Constants.h"
 #include "../control/ControlUtils.h"
-#include <time.h>
+
+#include "../interface/Interface.h"
 namespace rtt {
 namespace ai {
 
@@ -17,6 +18,7 @@ namespace ai {
 /// Stops at the end to ensure the ball does not spin away.
 class Dribble : public Skill {
     private:
+        interface::Interface interface;
         using status = bt::Node::Status;
         roboteam_msgs::WorldRobot robot;
         roboteam_msgs::WorldBall ball;
@@ -27,10 +29,10 @@ class Dribble : public Skill {
         Progression checkProgression();
 
         bool forwardDirection;
-        double stoppingTime;// seconds
-        bool stopOn;
-        clock_t startingTime;
+        int maxTicks;// seconds
+        int count;
         Vector2 targetPos, deltaPos;
+        float stoppingAngle;
         bool robotHasBall();
 
         void sendMoveCommand();
