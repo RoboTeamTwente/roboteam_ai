@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_CONSTANTS_H
 //TODO: add units to the below things, check with control/robothub.
 
-#include <SDL_pixels.h>
+#include <QColor>
 namespace rtt {
 namespace ai {
 namespace constants {
@@ -43,19 +43,19 @@ const bool STD_SHOW_VORONOI = false;
 const bool STD_SHOW_PATHS_ALL = false;
 const bool STD_SHOW_PATHS_CURRENT = false;
 
-const SDL_Color FIELD_COLOR {50, 50, 50, 255}; // gray
-const SDL_Color FIELD_LINE_COLOR { 255, 255, 255, 255 }; // White
-const SDL_Color ROBOT_US_COLOR { 150, 150, 255, 255 }; // Blue
-const SDL_Color ROBOT_THEM_COLOR { 255, 255, 0, 255 }; // Yellow
-const SDL_Color BALL_COLOR { 255, 120, 50, 255 }; // Orange
-const SDL_Color TEXT_COLOR { 255, 255, 255, 255 }; // White
+const QColor FIELD_COLOR {50, 50, 50, 255}; // gray
+const QColor FIELD_LINE_COLOR { 255, 255, 255, 255 }; // White
+const QColor ROBOT_US_COLOR { 150, 150, 255, 255 }; // Blue
+const QColor ROBOT_THEM_COLOR { 255, 255, 0, 255 }; // Yellow
+const QColor BALL_COLOR { 255, 120, 50, 255 }; // Orange
+const QColor TEXT_COLOR { 255, 255, 255, 255 }; // White
 
-const SDL_Color TACTIC_1 { 255, 0, 255, 255 };
-const SDL_Color TACTIC_2 { 0, 255, 255, 255 };
-const SDL_Color TACTIC_3 { 255, 255, 0, 255 };
-const SDL_Color TACTIC_4 { 255, 120, 180, 255 };
-const SDL_Color TACTIC_5 { 255, 100, 255, 255 };
-const SDL_Color TACTIC_COLORS[] = {TACTIC_1, TACTIC_2, TACTIC_3, TACTIC_4, TACTIC_5};
+const QColor TACTIC_1 { 255, 0, 255, 255 };
+const QColor TACTIC_2 { 0, 255, 255, 255 };
+const QColor TACTIC_3 { 255, 255, 0, 255 };
+const QColor TACTIC_4 { 255, 120, 180, 255 };
+const QColor TACTIC_5 { 255, 100, 255, 255 };
+const QColor TACTIC_COLORS[] = {TACTIC_1, TACTIC_2, TACTIC_3, TACTIC_4, TACTIC_5};
 
 } // constants
 } // ai

@@ -5,7 +5,6 @@
 #include <roboteam_ai/src/utilities/Constants.h>
 #include "mainWindow.h"
 
-
 namespace rtt {
 namespace ai {
 namespace interface {
@@ -22,10 +21,6 @@ MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent) {
     button1 = std::make_shared<QPushButton>("button1");
     verticalLayout->addWidget(button1.get());
 
-    // button for Y
-    button2 = std::make_shared<QPushButton>("button2");
-    verticalLayout->addWidget(button2.get());
-
     // checkbox for toggling Role text
     cb_rolenames = std::make_shared<QCheckBox>("show rolenames");
     cb_rolenames->setChecked(constants::STD_SHOW_ROLES);
@@ -38,16 +33,19 @@ MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent) {
     verticalLayout->addWidget(cb_tacticnames.get());
     QObject::connect(cb_tacticnames.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowTactics(bool)));
 
-
+    // checkbox for toggling Tactics colors
+    cb_tacticcolors = std::make_shared<QCheckBox>("show tacticColors");
+    cb_tacticcolors->setChecked(constants::STD_SHOW_TACTICS_COLORS);
+    verticalLayout->addWidget(cb_tacticcolors.get());
+    QObject::connect(cb_tacticcolors.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowTacticColors(bool)));
 
     // Spacer to nicely align buttons at the top
     vSpacer = std::make_shared<QSpacerItem>(0,10, QSizePolicy::Expanding, QSizePolicy::Expanding);
     verticalLayout->addItem(vSpacer.get());
 
     // main layout: left the visualizer and right the vertical layout
-
-    horizontalLayout->addWidget(visualizer.get(), 2);
-    horizontalLayout->addLayout(verticalLayout.get(), 1);
+    horizontalLayout->addWidget(visualizer.get(), 2); // width stretch 2/3
+    horizontalLayout->addLayout(verticalLayout.get(), 1); // width stretch 1/3
 
     // apply layout
     setCentralWidget(new QWidget);

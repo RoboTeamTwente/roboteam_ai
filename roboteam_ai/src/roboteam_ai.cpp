@@ -6,7 +6,6 @@
 #include "treeinterp/BTFactory.h"
 #include "interface/mainWindow.h"
 #include "roboteam_ai/src/interface/widget.h"
-
 #include <QApplication>
 
 namespace df = rtt::ai::dangerfinder;

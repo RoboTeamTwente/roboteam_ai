@@ -28,10 +28,9 @@ private:
     std::shared_ptr<QHBoxLayout> horizontalLayout;
     std::shared_ptr<QVBoxLayout> verticalLayout;
     std::shared_ptr<QPushButton> button1;
-    std::shared_ptr<QPushButton> button2;
-    std::shared_ptr<QCheckBox> cb_ids;
     std::shared_ptr<QCheckBox> cb_rolenames;
     std::shared_ptr<QCheckBox> cb_tacticnames;
+    std::shared_ptr<QCheckBox> cb_tacticcolors;
     std::shared_ptr<QSpacerItem> vSpacer;
 };
 

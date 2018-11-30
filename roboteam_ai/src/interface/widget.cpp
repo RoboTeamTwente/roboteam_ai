@@ -13,18 +13,12 @@ namespace interface {
 
 Widget::Widget(QWidget *parent) : QWidget(parent) { }
 
+/// The update loop of the field widget. Invoked by widget->update();
 void Widget::paintEvent(QPaintEvent* event) {
-    roboteam_msgs::GeometryFieldSize field = rtt::ai::Field::get_field();
-    fieldmargin = static_cast<int>(c::WINDOW_FIELD_MARGIN + field.boundary_width);
-    float widthFactor = this->size().width() / field.field_length - (2 * fieldmargin);
-    float heightFactor = this->size().height() / field.field_width - (2 * fieldmargin);
-
-    factor = std::min(widthFactor, heightFactor);
-
-    drawBackground();
+    calculateFieldSizeFactor();
     if (rtt::ai::World::didReceiveFirstWorld) {
+        drawBackground();
         drawFieldLines();
-        drawFieldArcs();
         drawBall();
         drawRobots();
     } else {
@@ -33,32 +27,43 @@ void Widget::paintEvent(QPaintEvent* event) {
     }
 }
 
+/// Calculates the factor variable which is used for mapping field coordinates with screen coordinates.
+void Widget::calculateFieldSizeFactor() {
+    roboteam_msgs::GeometryFieldSize field = rtt::ai::Field::get_field();
+    fieldmargin = static_cast<int>(c::WINDOW_FIELD_MARGIN + field.boundary_width);
+    float widthFactor = this->size().width() / field.field_length - (2 * fieldmargin);
+    float heightFactor = this->size().height() / field.field_width - (2 * fieldmargin);
+    factor = std::min(widthFactor, heightFactor);
+}
+
+/// draws background of the field
 void Widget::drawBackground() {
     QPainter painter(this);
     painter.setBrush(Qt::darkGreen);
     painter.drawRect(0,0, this->size().width(), this->size().height());
 }
 
+// draws the field lines
 void Widget::drawFieldLines() {
     QPainter painter(this);
-    for (auto line : rtt::ai::Field::get_field().field_lines) {
+    painter.setPen(Qt::white);
+
+    // draw lines
+    for (auto &line : rtt::ai::Field::get_field().field_lines) {
         rtt::Vector2 start = toScreenPosition(line.begin);
         rtt::Vector2 end = toScreenPosition(line.end);
-        painter.setPen(Qt::white);
         painter.drawLine(start.x, start.y, end.x, end.y);
     }
-}
 
-void Widget::drawFieldArcs() {
-    QPainter painter(this);
-    for (auto arc : rtt::ai::Field::get_field().field_arcs) {
+    // draw the circle in the middle
+    for (auto &arc : rtt::ai::Field::get_field().field_arcs) {
         rtt::Vector2 center = toScreenPosition(arc.center);
         QPointF qcenter(center.x, center.y);
-        painter.setPen(Qt::white);
         painter.drawEllipse(qcenter, 50, 50);
     }
 }
 
+// draw the ball on the screen
 void Widget::drawBall() {
     QPainter painter(this);
     rtt::Vector2 ballPosition = toScreenPosition(rtt::ai::World::get_world().ball.pos);
@@ -68,6 +73,7 @@ void Widget::drawBall() {
     painter.drawEllipse(qballPosition, 5, 5);
 }
 
+// draw the robots
 void Widget::drawRobots() {
 
     // draw us
@@ -87,83 +93,72 @@ rtt::Vector2 Widget::toScreenPosition(rtt::Vector2 fieldPos) {
             (fieldPos.y * factor * -1) + static_cast<float>(this->size().height()/2 + fieldmargin)};
 }
 
+// draw a single robot
 void Widget::drawRobot(roboteam_msgs::WorldRobot robot, bool ourTeam) {
     QPainter painter(this);
-
-    std::map<std::string, std::set<std::pair<int, std::string>>> list = robotDealer::RobotDealer::getClaimedRobots();
-
-
     rtt::Vector2 robotposition = toScreenPosition(robot.pos);
     QPointF qrobotPosition(robotposition.x, robotposition.y);
 
     if (ourTeam) {
-        painter.setBrush(Qt::yellow);
-    } else {
-        painter.setBrush(Qt::blue);
-    }
+        std::map<std::string, std::set<std::pair<int, std::string>>> list = robotDealer::RobotDealer::getClaimedRobots();
 
-    if (ourTeam) {
         std::string roleName;
+        std::string tacticName;
         for (auto &robotowner : list) {
-            std::string tactic = robotowner.first;
             std::set<std::pair<int, std::string>> robots = robotowner.second;
             for (auto &ownedRobot : robots) {
                 if (ownedRobot.first == robot.id) {
+                    tacticName = robotowner.first;
                     roleName = ownedRobot.second;
-
-                    bool tacticExists = false;
-                    SDL_Color c;
-                    for (auto tac : tacticColors) {
-                        if (tac.first == tactic) {
-                            c = tac.second;
-                            tacticExists = true;
-                            break;
-                        }
-                    }
-
-                    if (!tacticExists) {
-                        SDL_Color newColor = c::TACTIC_COLORS[tacticCount];
-                        tacticCount = (tacticCount + 1) % sizeof(c::TACTIC_COLORS);
-                        tacticColors.push_back({tactic, newColor});
-                        c = newColor;
-                    }
-
-                   // drawRect(robot.pos, c::ROBOT_DRAWING_SIZE+4, c::ROBOT_DRAWING_SIZE+4, c);
-                    rtt::Vector2 pos = toScreenPosition(robot.pos);
-
-
-                    int ypos = pos.y;
-                    if (this->showTactics) {
-                        painter.drawText(pos.x, ypos+=20, QString::fromStdString(tactic));
-                    }
-                    if (this->showRoles) {
-                        painter.drawText(pos.x, ypos+=20, QString::fromStdString(roleName));
-                    }
-                    if (this->showIds) {
-                        painter.drawText(pos.x, ypos+=20, QString::fromStdString(std::to_string(robot.id)));
-                    }
                 }
             }
         }
+
+        if (showTacticColors) {
+            bool tacticExists = false;
+            QColor c;
+            for (auto tac : tacticColors) {
+                if (tac.first == tacticName) {
+                    c = tac.second;
+                    tacticExists = true;
+                    break;
+                }
+            }
+
+            if (!tacticExists) {
+                QColor newColor = c::TACTIC_COLORS[tacticCount];
+                tacticCount = (tacticCount + 1) % sizeof(c::TACTIC_COLORS);
+                tacticColors.push_back({tacticName, newColor});
+                c = newColor;
+            }
+
+            QPen pen;
+            pen.setWidth(3);
+            pen.setBrush(c);
+            painter.setPen(pen);
+        } else {
+            painter.setPen(Qt::transparent);
+        };
+
+        if (robot.id == selectedRobot.id) {
+            painter.setBrush(Qt::magenta);
+        } else {
+            painter.setBrush(Qt::yellow);
+        }
+        painter.drawEllipse(qrobotPosition, 10, 10);
+
+        // draw text
+        painter.setPen(Qt::black);
+        rtt::Vector2 pos = toScreenPosition(robot.pos);
+        int ypos = pos.y;
+        painter.drawText(pos.x-3, ypos+5, QString::fromStdString(std::to_string(robot.id)));
+        if (this->showTactics) painter.drawText(pos.x, ypos+=20, QString::fromStdString(tacticName));
+        if (this->showRoles) painter.drawText(pos.x, ypos+=20, QString::fromStdString(roleName));
     }
-
-    // no stroke
-    painter.setPen(Qt::NoPen);
-    painter.drawEllipse(qrobotPosition, 7, 7);
 }
 
-void Widget::setShowRoles(bool showRoles) {
-  this->showRoles = showRoles;
-}
 
-void Widget::setShowTactics(bool showTactics) {
-    Widget::showTactics = showTactics;
-}
-
-void Widget::setShowTacticColors(bool showTacticColors) {
-    Widget::showTacticColors = showTacticColors;
-}
-
+// Handle mousePressEvents
 void Widget::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         Vector2 pos;
@@ -178,9 +173,23 @@ void Widget::mousePressEvent(QMouseEvent *event) {
     }
 }
 
+void Widget::setShowRoles(bool showRoles) {
+    this->showRoles = showRoles;
+}
+
+void Widget::setShowTactics(bool showTactics) {
+    Widget::showTactics = showTactics;
+}
+
+void Widget::setShowTacticColors(bool showTacticColors) {
+    Widget::showTacticColors = showTacticColors;
+}
+
 const roboteam_msgs::WorldRobot &Widget::getSelectedRobot() const {
     return selectedRobot;
 }
+
+
 
 } // interface
 } // ai

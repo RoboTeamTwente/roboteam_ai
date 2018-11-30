@@ -196,8 +196,16 @@ set(CONDITION_TESTS
 
 set(CONTROL_SOURCES
         roboteam_ai/src/control/ControlUtils.cpp
-        roboteam_ai/src/control/ControlUtils.h roboteam_ai/src/interface/mainWindow.cpp roboteam_ai/src/interface/mainWindow.h
-        roboteam_ai/src/interface/widget.cpp roboteam_ai/src/interface/widget.h)
+        roboteam_ai/src/control/ControlUtils.h )
+
+set(INTERFACE_SOURCES
+        roboteam_ai/src/interface/mainWindow.cpp
+        roboteam_ai/src/interface/mainWindow.h
+        roboteam_ai/src/interface/widget.cpp
+        roboteam_ai/src/interface/widget.h
+        roboteam_ai/src/interface/Robot.h
+        roboteam_ai/src/interface/Robot.cpp
+        )
 
 ### TEST SOURCES END ###
 
@@ -217,7 +225,8 @@ add_executable(Roboteam_AI
         ${SKILLS_SOURCES}
         ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
-        ${TACTIC_SOURCES})
+        ${TACTIC_SOURCES}
+        ${INTERFACE_SOURCES})
 
 add_dependencies(Roboteam_AI ${catkin_EXPORTED_TARGETS})
 target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY} Qt5::Widgets Qt5::Gui)
