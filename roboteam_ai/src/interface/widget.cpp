@@ -98,6 +98,24 @@ void Widget::drawRobot(roboteam_msgs::WorldRobot robot, bool ourTeam) {
     QPainter painter(this);
     rtt::Vector2 robotposition = toScreenPosition(robot.pos);
     QPointF qrobotPosition(robotposition.x, robotposition.y);
+    Vector2 robotpos = toScreenPosition(robot.pos);
+    QColor robotColor = ourTeam ? Qt::yellow : Qt::blue;
+
+    if (showAngles) {
+        Vector2 angle = toScreenPosition({robot.pos.x + cos(robot.angle) / 3, robot.pos.y + sin(robot.angle) / 3});
+        QPen pen;
+        pen.setWidth(4);
+        pen.setBrush(robotColor);
+        painter.setPen(pen);
+        painter.drawLine(robotpos.x, robotpos.y, angle.x, angle.y);
+    }
+
+    if (showVelocities) {
+        Vector2 vel = toScreenPosition({robot.pos.x + robot.vel.x, robot.pos.y + robot.vel.y});
+        painter.setPen(Qt::white);
+        painter.drawLine(robotpos.x, robotpos.y, vel.x, vel.y);
+    }
+
 
     if (ourTeam) {
         std::map<std::string, std::set<std::pair<int, std::string>>> list = robotDealer::RobotDealer::getClaimedRobots();
@@ -155,19 +173,6 @@ void Widget::drawRobot(roboteam_msgs::WorldRobot robot, bool ourTeam) {
         if (this->showTactics) painter.drawText(pos.x, ypos+=20, QString::fromStdString(tacticName));
         if (this->showRoles) painter.drawText(pos.x, ypos+=20, QString::fromStdString(roleName));
     }
-
-    QPen pen;
-    pen.setWidth(5);
-    pen.setBrush(Qt::black);
-    painter.setPen(pen);
-
-
-    Vector2 robotpos = toScreenPosition(robot.pos);
-    Vector2 vel = toScreenPosition({robot.pos.x + robot.vel.x, robot.pos.y + robot.vel.y});
-    Vector2 angle = toScreenPosition({robot.pos.x + cos(robot.angle), robot.pos.y + sin(robot.angle)});
-
-    painter.drawLine(robotpos.x, robotpos.y, vel.x, vel.y);
-    painter.drawLine(robotpos.x, robotpos.y, angle.x, angle.y);
 }
 
 
@@ -202,6 +207,13 @@ const roboteam_msgs::WorldRobot &Widget::getSelectedRobot() const {
     return selectedRobot;
 }
 
+void Widget::setShowAngles(bool showAngles) {
+    Widget::showAngles = showAngles;
+}
+
+void Widget::setShowVelocities(bool showVelocities) {
+    Widget::showVelocities = showVelocities;
+}
 
 
 } // interface

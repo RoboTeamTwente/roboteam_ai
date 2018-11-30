@@ -39,6 +39,19 @@ MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent) {
     verticalLayout->addWidget(cb_tacticcolors.get());
     QObject::connect(cb_tacticcolors.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowTacticColors(bool)));
 
+
+    // checkbox for toggling angle indicators
+    cb_angles = std::make_shared<QCheckBox>("show angles");
+    cb_angles->setChecked(constants::STD_SHOW_ANGLES);
+    verticalLayout->addWidget(cb_angles.get());
+    QObject::connect(cb_angles.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowAngles(bool)));
+
+    // checkbox for toggling velocity indicators
+    cb_velocities = std::make_shared<QCheckBox>("show velocities");
+    cb_velocities->setChecked(constants::STD_SHOW_VELOCITIES);
+    verticalLayout->addWidget(cb_velocities.get());
+    QObject::connect(cb_velocities.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowVelocities(bool)));
+
     // Spacer to nicely align buttons at the top
     vSpacer = std::make_shared<QSpacerItem>(0,10, QSizePolicy::Expanding, QSizePolicy::Expanding);
     verticalLayout->addItem(vSpacer.get());

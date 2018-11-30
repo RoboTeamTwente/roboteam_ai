@@ -29,10 +29,9 @@ const int ROBOT_DRAWING_SIZE = 10;
 const int WINDOW_FIELD_MARGIN = 5;
 
 // Settings
-const bool STD_SHOW_ROLES = true;
-const bool STD_SHOW_TACTICS = true;
+const bool STD_SHOW_ROLES = false;
+const bool STD_SHOW_TACTICS = false;
 const bool STD_SHOW_TACTICS_COLORS = true;
-const bool STD_SHOW_IDS = true;
 const bool STD_SHOW_VELOCITIES = true;
 const bool STD_SHOW_ANGLES = true;
 

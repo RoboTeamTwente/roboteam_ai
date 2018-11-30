@@ -26,6 +26,8 @@ public slots:
     void setShowRoles(bool showRoles);
     void setShowTactics(bool showTactics);
     void setShowTacticColors(bool showTacticColors);
+    void setShowAngles(bool showAngles);
+    void setShowVelocities(bool showVelocities);
 protected:
     void paintEvent(QPaintEvent* event) override;
     void mousePressEvent(QMouseEvent * event) override;
@@ -46,7 +48,9 @@ private:
     bool showRoles = constants::STD_SHOW_ROLES;
     bool showTactics = constants::STD_SHOW_TACTICS;
     bool showTacticColors = constants::STD_SHOW_TACTICS_COLORS;
-    bool showIds = constants::STD_SHOW_IDS;
+private:
+    bool showAngles = constants::STD_SHOW_ANGLES;
+    bool showVelocities = constants::STD_SHOW_VELOCITIES;
 };
 
 } // interface
