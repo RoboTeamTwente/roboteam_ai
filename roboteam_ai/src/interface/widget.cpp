@@ -155,6 +155,19 @@ void Widget::drawRobot(roboteam_msgs::WorldRobot robot, bool ourTeam) {
         if (this->showTactics) painter.drawText(pos.x, ypos+=20, QString::fromStdString(tacticName));
         if (this->showRoles) painter.drawText(pos.x, ypos+=20, QString::fromStdString(roleName));
     }
+
+    QPen pen;
+    pen.setWidth(5);
+    pen.setBrush(Qt::black);
+    painter.setPen(pen);
+
+
+    Vector2 robotpos = toScreenPosition(robot.pos);
+    Vector2 vel = toScreenPosition({robot.pos.x + robot.vel.x, robot.pos.y + robot.vel.y});
+    Vector2 angle = toScreenPosition({robot.pos.x + cos(robot.angle), robot.pos.y + sin(robot.angle)});
+
+    painter.drawLine(robotpos.x, robotpos.y, vel.x, vel.y);
+    painter.drawLine(robotpos.x, robotpos.y, angle.x, angle.y);
 }
 
 
