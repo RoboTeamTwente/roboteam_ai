@@ -21,10 +21,7 @@
             "id": "2l2bvdnfqt3vg",
             "title": "MemSequence",
             "children": [
-              "zkl7lwhnxjxlmiay",
-              "qggd848t8b7kxxk0",
-              "ef4fg5gehb3r9ucvk",
-              "54gq9n20d9yoi7c"
+              "zkl7lwhnxjxlmiay"
             ],
             "location": {
               "x": 418.0,
@@ -33,10 +30,12 @@
           },
           "zkl7lwhnxjxlmiay": {
             "id": "zkl7lwhnxjxlmiay",
-            "title": "GoToPos",
+            "title": "Dribble",
             "properties": {
               "ROLE": "victor1",
-              "Position": "{0, 1}"
+              "Position": "{-2,-2}",
+              "maxTicks":"1000",
+              "forwardDirection":"false"
             },
             "location": {
               "x": 271.0,
