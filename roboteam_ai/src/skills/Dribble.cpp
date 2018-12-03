@@ -114,7 +114,8 @@ void Dribble::initialize() {
     }
     currentProgress = Progression::ON_THE_WAY;
     count=0;
-    stoppingAngle=robot.angle;//to Prevent SegFaults
+
+    stoppingAngle=robot.angle; // default to the current angle
 }
 
 Dribble::status Dribble::update() {
