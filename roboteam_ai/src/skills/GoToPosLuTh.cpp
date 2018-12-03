@@ -35,7 +35,7 @@ void GoToPosLuTh::initialize() {
         }
     }
     else {
-        ROS_ERROR("GoToPosLuTh Initialize -> ROLE INVALID!!");
+        ROS_ERROR("GoToPosLuTh Initialize -> ROLE WAITING!!");
         return;
     }
 //  ____________________________________________________________________________________________________________________

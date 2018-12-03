@@ -28,7 +28,7 @@ void Rotate::initialize() {
         }
     }
     else {
-        ROS_ERROR("Rotate Initialize -> ROLE INVALID!!");
+        ROS_ERROR("Rotate Initialize -> ROLE WAITING!!");
         currentProgress = Progression::FAIL;
         return;
     }
