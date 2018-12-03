@@ -94,7 +94,7 @@ int main(int argc, char* argv[]) {
             case Status::Success:
                 ROS_INFO_STREAM("Status returned: Success");
                 ROS_INFO_STREAM(" === TREE CHANGE === ");
-                currentTree = "randomStrategy";
+                currentTree = "victoryDanceStrategy";
                 break;
 
             case Status::Failure:
