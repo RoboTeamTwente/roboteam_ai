@@ -112,6 +112,10 @@ set(TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/ParallelSequenceTest.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/VictoryDanceTactic.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/VictoryDanceTactic.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/RandomTactic.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/RandomTactic.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DefaultTactic.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DefaultTactic.h
         )
 
 set(IO_SOURCES
@@ -148,7 +152,11 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TurnGeneva.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.cpp
-        roboteam_ai/src/skills/Dribble.cpp roboteam_ai/src/skills/Dribble.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Dribble.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Dribble.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.h
+        )
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp

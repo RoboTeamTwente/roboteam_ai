@@ -29,7 +29,7 @@ bt::Node::Status IsInZone::update() {
         }
         else {
             ROS_WARN_STREAM("IsInZone: robot with this ID not found, ID: " << robotID);
-            return Status::Invalid;
+            return Status::Failure;
         }
     }
 

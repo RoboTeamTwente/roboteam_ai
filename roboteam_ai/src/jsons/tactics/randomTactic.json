@@ -1,0 +1,216 @@
+{
+  "name": "randomTactic",
+  "data": {
+    "trees": [
+      {
+        "title": "randomTactic",
+        "root": "qncs746k4lbevc7",
+        "nodes": {
+          "qncs746k4lbevc7": {
+            "id": "qncs746k4lbevc7",
+            "title": "ParallelSequence",
+            "children": [
+              "6mv52y86d9x05iuh1",
+              "pizlt5yolsq4c8",
+              "tc7mt1l0vxzi9jtc",
+              "092a8wygpo5j203uy",
+              "3fxg8xl8qialp4qjk",
+              "lejnlu1npry9o",
+              "dvselul5ysqqrvb"
+            ]
+          },
+          "6qq4x9siwtgkdal8s": {
+            "id": "6qq4x9siwtgkdal8s",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "lp7com3s2gaocio"
+            ]
+          },
+          "lp7com3s2gaocio": {
+            "id": "lp7com3s2gaocio",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "random1",
+              "Position": "{0,0}",
+              "goToPos": "false",
+              "random": "true"
+            }
+          },
+          "6mv52y86d9x05iuh1": {
+            "id": "6mv52y86d9x05iuh1",
+            "title": "Role",
+            "children": [
+              "6qq4x9siwtgkdal8s"
+            ],
+            "name": "random1"
+          },
+          "xkzlrop3e2bg2gp37": {
+            "id": "xkzlrop3e2bg2gp37",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "q0bpm5pyw2shj16y3"
+            ]
+          },
+          "q0bpm5pyw2shj16y3": {
+            "id": "q0bpm5pyw2shj16y3",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "random2",
+              "Position": "{0,0}",
+              "goToPos": "false",
+              "random": "true"
+            }
+          },
+          "pizlt5yolsq4c8": {
+            "id": "pizlt5yolsq4c8",
+            "title": "Role",
+            "children": [
+              "xkzlrop3e2bg2gp37"
+            ],
+            "name": "random2"
+          },
+          "fhd61z548hnzh": {
+            "id": "fhd61z548hnzh",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "2ppaa2s273mnc"
+            ]
+          },
+          "2ppaa2s273mnc": {
+            "id": "2ppaa2s273mnc",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "random3",
+              "Position": "{0,0}",
+              "goToPos": "false",
+              "random": "true"
+            }
+          },
+          "tc7mt1l0vxzi9jtc": {
+            "id": "tc7mt1l0vxzi9jtc",
+            "title": "Role",
+            "children": [
+              "fhd61z548hnzh"
+            ],
+            "name": "random3"
+          },
+          "3n6xu3bj2n1ycm": {
+            "id": "3n6xu3bj2n1ycm",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "icl9cacrkujoge"
+            ]
+          },
+          "icl9cacrkujoge": {
+            "id": "icl9cacrkujoge",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "random4",
+              "Position": "{0,0}",
+              "goToPos": "false",
+              "random": "true"
+            }
+          },
+          "092a8wygpo5j203uy": {
+            "id": "092a8wygpo5j203uy",
+            "title": "Role",
+            "children": [
+              "3n6xu3bj2n1ycm"
+            ],
+            "name": "random4"
+          },
+          "9me510ph9vo2i": {
+            "id": "9me510ph9vo2i",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "qeg3nchclut9rks0"
+            ]
+          },
+          "qeg3nchclut9rks0": {
+            "id": "qeg3nchclut9rks0",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "random5",
+              "Position": "{0,0}",
+              "goToPos": "false",
+              "random": "true"
+            }
+          },
+          "3fxg8xl8qialp4qjk": {
+            "id": "3fxg8xl8qialp4qjk",
+            "title": "Role",
+            "children": [
+              "9me510ph9vo2i"
+            ],
+            "name": "random5"
+          },
+          "9g47c14iuatrbb1w": {
+            "id": "9g47c14iuatrbb1w",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "a5gl9qin6g61ev54y"
+            ]
+          },
+          "a5gl9qin6g61ev54y": {
+            "id": "a5gl9qin6g61ev54y",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "random6",
+              "Position": "{0,0}",
+              "goToPos": "false",
+              "random": "true"
+            }
+          },
+          "lejnlu1npry9o": {
+            "id": "lejnlu1npry9o",
+            "title": "Role",
+            "children": [
+              "9g47c14iuatrbb1w"
+            ],
+            "name": "random6"
+          },
+
+          "n2qn7t6um3brmzy6": {
+            "id": "n2qn7t6um3brmzy6",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "qgrmqnwohwsf08"
+            ]
+          },
+          "qgrmqnwohwsf08": {
+            "id": "qgrmqnwohwsf08",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "random7",
+              "Position": "{0,0}",
+              "goToPos": "false",
+              "random": "true"
+            }
+          },
+          "dvselul5ysqqrvb": {
+            "id": "dvselul5ysqqrvb",
+            "title": "Role",
+            "children": [
+              "n2qn7t6um3brmzy6"
+            ],
+            "name": "random7"
+          }
+        }
+      }
+    ]
+  }
+}

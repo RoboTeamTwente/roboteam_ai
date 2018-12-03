@@ -3,6 +3,7 @@
 //
 
 #include "Switches.h"
+#include "../bt/tactics/DefaultTactic.h"
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -13,10 +14,13 @@
  */
 
 
-std::vector<std::string> Switches::tacticJsonFileNames = {"victoryDanceTactic"};
+std::vector<std::string> Switches::tacticJsonFileNames =
+        {"victoryDanceTactic",
+         "randomTactic"};
 
-std::vector<std::string> Switches::strategyJsonFileNames = {"victoryDanceStrategy"};
-
+std::vector<std::string> Switches::strategyJsonFileNames =
+        {"victoryDanceStrategy",
+         "randomStrategy"};
 
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
@@ -47,6 +51,9 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
         node = std::make_shared<bt::Inverter>();
     }
     else if (name == "Repeat") {
+        node = std::make_shared<bt::Repeater>();
+    }
+    else if (name == "Repeater") {
         node = std::make_shared<bt::Repeater>();
     }
     else if (name == "Succeeder") {
@@ -84,6 +91,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "Dribble"){
         node = std::make_shared<rtt::ai::Dribble>(name,properties);
     }
+    else if (name == "RotateToAngle") {
+        node = std::make_shared<rtt::ai::RotateToAngle>(name, properties);
+    }
     else {
         ROS_ERROR("ERROR: Leaf not found!! using GoToPos..");
         node = std::make_shared<rtt::ai::GoToPos>(name, properties);
@@ -95,17 +105,38 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
 /// If you made a tactic node for a new tactic this is where you add that
 bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
 
+    std::map<std::string, std::map<std::string, robotType>> tactics = {
+            {"randomTactic", {
+                    {"random1", robotType::random},
+                    {"random2", robotType::random},
+                    {"random3", robotType::random},
+                    {"random4", robotType::random},
+                    {"random5", robotType::random},
+                    {"random6", robotType::random},
+                    {"random7", robotType::random},
+            }
+            },
+
+            {"ExampleTactic2", {
+                    {"exampleRole12", robotType::random},
+                    {"exampleRole21", robotType::random}
+            }
+            }
+    };
+
     bt::Node::Ptr node;
 
-    if (name == "DemoTactic") {
-        node = std::make_shared<bt::DemoTactic>("DemoTactic", properties);
+    if (name == "VerySpecialTacticThatWouldRequireSpecialClass") {
+        node = std::make_shared<bt::VictoryDanceTactic>("VerySpecialTacticThatWouldRequireSpecialClass", properties);
     }
-    else if (name == "ParallelSequenceTactic") {
-        node = std::make_shared<bt::ParallelSequenceTactic>("ParallelSequenceTactic", properties);
+    else if (tactics.find(name) != tactics.end()) {
+        node = std::make_shared<bt::DefaultTactic>(name, properties, tactics[name]);
     }
     else if (name == "victoryDanceTactic") {
         node = std::make_shared<bt::VictoryDanceTactic>("victoryDanceTactic", properties);
     }
-
+    else if (name == "randomTactic") {
+        node = std::make_shared<bt::RandomTactic>("randomTactic", properties);
+    }
     return node;
 }

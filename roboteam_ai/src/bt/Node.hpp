@@ -14,7 +14,7 @@ class Node {
     public:
         // When this is updated, updated the tostring method below too!
         enum class Status {
-                Invalid,
+                Waiting,
                 Success,
                 Failure,
                 Running
@@ -22,8 +22,8 @@ class Node {
 
         std::string status_print(Status s) {
             switch (s) {
-            case Status::Invalid:
-                return " Status : Invalid";
+            case Status::Waiting:
+                return " Status : Waiting";
             case Status::Success:
                 return " Status : Success";
             case Status::Failure:
@@ -82,7 +82,7 @@ class Node {
         void setProperties(bt::Blackboard::Ptr blackboard);
 
     protected:
-        Status status = Status::Invalid;
+        Status status = Status::Waiting;
 
         static void append_status(std::string fmt, ...);
 };

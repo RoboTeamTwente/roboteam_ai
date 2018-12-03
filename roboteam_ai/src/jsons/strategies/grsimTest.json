@@ -1,0 +1,39 @@
+{
+  "description": "testing angle stuff",
+  "name": "grsimTest",
+  "data": {
+    "scope": "StrategyRepo",
+    "trees": [
+      {
+        "description": "grsim angle Test",
+        "scope": "tree",
+        "properties": {},
+        "root": "bbb",
+        "title": "grsimTest",
+        "nodes": {
+          "bbb": {
+            "child": "ccc",
+            "description": "",
+            "id": "bbb",
+            "name": "UntilSuccess",
+            "title": "UntilSuccess",
+            "properties": {
+              "limit": "0"
+            }
+          },
+          "ccc": {
+            "description": "",
+            "id": "ccc",
+            "title": "Tactic",
+            "name": "grsimTestTactic"
+          }
+
+        }
+      }
+    ]
+  }
+
+
+
+
+}

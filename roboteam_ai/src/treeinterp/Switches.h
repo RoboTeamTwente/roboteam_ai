@@ -14,7 +14,7 @@
 #include "../bt/tactics/DemoTactic.h"
 #include "../bt/tactics/ParallelSequenceTest.h"
 #include "../bt/tactics/VictoryDanceTactic.h"
-
+#include "../bt/tactics/RandomTactic.h"
 
 //  ______________________
 //  |                    |
@@ -24,6 +24,7 @@
 
 #include "../skills/Rotate.h"
 #include "../skills/GoToPosLuTh.h"
+#include "../skills/RotateToAngle.h"
 #include "../skills/GoToPos.h"
 #include "../skills/Kick.h"
 #include "../skills/Dribble.h"
@@ -34,6 +35,7 @@
 #define ROBOTEAM_AI_SWITCHES_H
 
 class Switches {
+        using robotType = robotDealer::RobotDealer::RobotType;
 
     public:
 

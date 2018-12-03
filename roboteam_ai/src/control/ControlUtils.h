@@ -17,6 +17,7 @@ class ControlUtils {
         static double TriangleArea(Vec A,Vec B,Vec C);
         static bool pointInTriangle(Vec PointToCheck,Vec TP1, Vec TP2, Vec TP3);
         static bool pointInRectangle(Vec PointToCheck,Vec SP1, Vec SP2, Vec SP3,Vec SP4);
+        static double constrainAngle(double angle);
 };
 
 }

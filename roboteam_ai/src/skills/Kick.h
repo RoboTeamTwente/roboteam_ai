@@ -19,7 +19,7 @@ class Kick : public Skill {
     protected:
         virtual void sendKickCommand(double kickVel);
         enum Progression {
-          KICKING, DONE, FAIL, INVALID
+          KICKING, DONE, FAIL
         };
         Progression currentProgress;
 

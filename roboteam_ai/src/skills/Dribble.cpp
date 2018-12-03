@@ -42,8 +42,8 @@ Dribble::Progression Dribble::checkProgression() {
     else if (currentProgress == FAIL) {
         return FAIL;
     }
-    else if (currentProgress == INVALID) {
-        return INVALID;
+    else if (currentProgress == WAITING) {
+        return WAITING;
     }
 
 }
@@ -82,7 +82,7 @@ void Dribble::initialize() {
         }
     }
     else {
-        ROS_ERROR("Dribble Initialize -> ROLE INVALID!!");
+        ROS_ERROR("Dribble Initialize -> ROLE WAITING!!");
         currentProgress = Progression::FAIL;
         return;
     }
@@ -129,8 +129,8 @@ Dribble::status Dribble::update() {
     if (currentProgress == Progression::FAIL) {
         return status::Failure;
     }
-    else if (currentProgress == Progression::INVALID) {
-        return status::Invalid;
+    else if (currentProgress == Progression::WAITING) {
+        return status::Waiting;
     }
 
     deltaPos = targetPos - Vector2(ball.pos.x, ball.pos.y);
@@ -148,7 +148,7 @@ Dribble::status Dribble::update() {
     case STOPPED: return status::Running;
     case DONE: return status::Success;
     case FAIL: return status::Failure;
-    default: return status::Invalid;
+    default: return status::Waiting;
     }
 }
 void Dribble::terminate(Dribble::status s) {

@@ -39,4 +39,11 @@ bool ControlUtils::pointInRectangle(Vec PointToCheck, Vec SP1, Vec SP2, Vec SP3,
     }
     else return pointInTriangle(PointToCheck,SP4,SP1,SP2);
 }
+double ControlUtils::constrainAngle(double angle) {
+    angle= fmod(angle+M_PI,2*M_PI);
+    if (angle<0)
+        angle+=2*M_PI;
+    return angle-M_PI;
+
+}
 }//control
