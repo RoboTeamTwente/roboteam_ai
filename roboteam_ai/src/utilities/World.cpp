@@ -28,6 +28,7 @@ boost::optional<roboteam_msgs::WorldRobot> World::getRobotForId(unsigned int id,
     return boost::none;
 }
 
+//TODO: check if ball is on the last measured ball position?
 roboteam_msgs::WorldBall World::getBall() {
     return world.ball;
 }

@@ -24,7 +24,7 @@ void Kick::initialize() {
         }
     }
     else {
-        ROS_ERROR("GoToPos Initialize -> ROLE INVALID!!");
+        ROS_ERROR("GoToPos Initialize -> ROLE WAITING!!");
         currentProgress = Progression::FAIL;
         return;
     }

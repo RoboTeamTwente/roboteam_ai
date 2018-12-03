@@ -26,7 +26,7 @@ bt::Node::Status HasBall::update() {
         }
     }
     else {
-        ROS_ERROR("HasBall Update -> ROLE INVALID!!");
+        ROS_ERROR("HasBall Update -> ROLE WAITING!!");
         return Status::Failure;
     }
 
