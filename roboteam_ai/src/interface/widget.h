@@ -22,33 +22,43 @@ Q_OBJECT
 public:
     explicit Widget(QWidget* parent = nullptr);
     const roboteam_msgs::WorldRobot &getSelectedRobot() const;
+
 public slots:
     void setShowRoles(bool showRoles);
     void setShowTactics(bool showTactics);
     void setShowTacticColors(bool showTacticColors);
     void setShowAngles(bool showAngles);
     void setShowVelocities(bool showVelocities);
+
 protected:
     void paintEvent(QPaintEvent* event) override;
     void mousePressEvent(QMouseEvent * event) override;
+
 private:
     float factor;
     int fieldmargin = constants::WINDOW_FIELD_MARGIN;
-    void drawBackground();
-    void drawFieldLines();
-    void drawRobots();
-    void drawRobot(roboteam_msgs::WorldRobot robot, bool ourTeam);
-    void drawBall();
-    void calculateFieldSizeFactor();
+    void drawBackground(QPainter & painter);
+    void drawFieldLines(QPainter & painter);
+    void drawRobots(QPainter & painter);
+    void drawRobot(QPainter & painter, roboteam_msgs::WorldRobot robot, bool ourTeam);
+    void drawBall(QPainter & painter);
+    void drawTacticColorForRobot(QPainter & painter, roboteam_msgs::WorldRobot robot);
+
+    // utitlity functions
+    std::string getTacticNameForRobot(roboteam_msgs::WorldRobot robot);
+    std::string getRoleNameForRobot(roboteam_msgs::WorldRobot robot);
     rtt::Vector2 toScreenPosition(rtt::Vector2 fieldPos);
+    void calculateFieldSizeFactor();
+
+    // interface variables
     std::vector<std::pair<std::string, QColor>> tacticColors; // map colors to tactic to visualize which robots work together
     int tacticCount = 0; // increases when a new tactic is used
     roboteam_msgs::WorldRobot selectedRobot;
 
+    // toggles
     bool showRoles = constants::STD_SHOW_ROLES;
     bool showTactics = constants::STD_SHOW_TACTICS;
     bool showTacticColors = constants::STD_SHOW_TACTICS_COLORS;
-private:
     bool showAngles = constants::STD_SHOW_ANGLES;
     bool showVelocities = constants::STD_SHOW_VELOCITIES;
 };

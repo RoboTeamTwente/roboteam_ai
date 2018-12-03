@@ -207,8 +207,6 @@ set(INTERFACE_SOURCES
         roboteam_ai/src/interface/mainWindow.h
         roboteam_ai/src/interface/widget.cpp
         roboteam_ai/src/interface/widget.h
-        roboteam_ai/src/interface/Robot.h
-        roboteam_ai/src/interface/Robot.cpp
         )
 
 ### TEST SOURCES END ###

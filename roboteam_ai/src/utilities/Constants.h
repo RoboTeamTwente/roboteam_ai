@@ -25,7 +25,9 @@ const int DEFAULT_ROBOT_ID = 1;
 const double MAX_ANGULAR_VELOCITY = 6.0; // rad per second??
 
 // Interface
-const int ROBOT_DRAWING_SIZE = 10;
+const int ROBOT_DRAWING_SIZE = 8;
+const int BALL_DRAWING_SIZE = 5;
+const int TACTIC_COLOR_DRAWING_SIZE = 10;
 const int WINDOW_FIELD_MARGIN = 5;
 
 // Settings
@@ -34,20 +36,17 @@ const bool STD_SHOW_TACTICS = false;
 const bool STD_SHOW_TACTICS_COLORS = true;
 const bool STD_SHOW_VELOCITIES = true;
 const bool STD_SHOW_ANGLES = true;
-
-const bool STD_SHOW_US = true;
-const bool STD_SHOW_THEM = true;
-const bool STD_SHOW_FIELDLINES = true;
 const bool STD_SHOW_VORONOI = false;
 const bool STD_SHOW_PATHS_ALL = false;
 const bool STD_SHOW_PATHS_CURRENT = false;
 
 const QColor FIELD_COLOR {50, 50, 50, 255}; // gray
-const QColor FIELD_LINE_COLOR { 255, 255, 255, 255 }; // White
+const QColor FIELD_LINE_COLOR = Qt::white;
 const QColor ROBOT_US_COLOR { 150, 150, 255, 255 }; // Blue
 const QColor ROBOT_THEM_COLOR { 255, 255, 0, 255 }; // Yellow
 const QColor BALL_COLOR { 255, 120, 50, 255 }; // Orange
-const QColor TEXT_COLOR { 255, 255, 255, 255 }; // White
+const QColor TEXT_COLOR = Qt::white;
+const QColor SELECTED_ROBOT_COLOR = Qt::magenta;
 
 const QColor TACTIC_1 { 255, 0, 255, 255 };
 const QColor TACTIC_2 { 0, 255, 255, 255 };
