@@ -21,7 +21,8 @@
             "id": "2l2bvdnfqt3vg",
             "title": "MemSequence",
             "children": [
-              "zkl7lwhnxjxlmiay"
+              "zkl7lwhnxjxlmiay",
+              "qggd848t8b7kxxk0"
             ],
             "location": {
               "x": 418.0,
@@ -34,7 +35,7 @@
             "properties": {
               "ROLE": "victor1",
               "Position": "{-2,-2}",
-              "maxTicks":"1000",
+              "maxTicks":"100",
               "forwardDirection":"false"
             },
             "location": {
@@ -44,11 +45,13 @@
           },
           "qggd848t8b7kxxk0": {
             "id": "qggd848t8b7kxxk0",
-            "title": "Rotate",
+            "title": "Dribble",
             "properties": {
-              "ROLE": "victor1",
-              "Angle": "0.1"
-            },
+            "ROLE": "victor1",
+            "Position": "{0,-1}",
+            "maxTicks":"100",
+            "forwardDirection":"true"
+          },
             "location": {
               "x": 413.0,
               "y": 262.0

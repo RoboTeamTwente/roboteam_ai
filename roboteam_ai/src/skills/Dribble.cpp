@@ -27,7 +27,7 @@ Dribble::Progression Dribble::checkProgression() {
     }
     else if (currentProgress == STOPPED) {
         count++;
-        ROS_WARN_STREAM("Ticks #:" << count<<"/"<<maxTicks);
+        //ROS_WARN_STREAM("Stopped ticks #:" << count<<"/"<<maxTicks);
         if (! robotHasBall()) {
             return FAIL;
         }
@@ -87,7 +87,10 @@ void Dribble::initialize() {
         return;
     }
     //TODO: add failchecking if ball does not exist.
+
     ball = World::getBall();
+
+    //if false, robot will dribble to the position backwards with the ball.
     forwardDirection = properties->getBool("forwardDirection");
 
     if (properties->hasVector2("Position")) {
@@ -111,7 +114,7 @@ void Dribble::initialize() {
     }
     currentProgress = Progression::ON_THE_WAY;
     count=0;
-    stoppingAngle=0;//to Prevent SegFaults
+    stoppingAngle=robot.angle;//to Prevent SegFaults
 }
 
 Dribble::status Dribble::update() {
