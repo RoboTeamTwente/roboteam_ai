@@ -17,10 +17,10 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
-class Widget : public QWidget {
+class Visualizer : public QWidget {
 Q_OBJECT
 public:
-    explicit Widget(QWidget* parent = nullptr);
+    explicit Visualizer(QWidget* parent = nullptr);
     const roboteam_msgs::WorldRobot &getSelectedRobot() const;
 
 public slots:

@@ -24,7 +24,7 @@ public:
     explicit MainWindow(QWidget * parent = nullptr);
     void updateWidget();
 private:
-    std::shared_ptr<Widget> visualizer;
+    std::shared_ptr<Visualizer> visualizer;
     std::shared_ptr<QHBoxLayout> horizontalLayout;
     std::shared_ptr<QVBoxLayout> verticalLayout;
     std::shared_ptr<QPushButton> button1;

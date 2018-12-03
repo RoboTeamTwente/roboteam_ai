@@ -58,7 +58,6 @@ bool Dribble::robotHasBall() {
     std::vector<Vector2> drawPos = {RobotPos, dribbleLeft, dribbleRight,
                                     dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot.angle),
                                     dribbleRight + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot.angle)};
-    interface.drawFrame(drawPos);
     if (control::ControlUtils::pointInTriangle(BallPos, RobotPos, dribbleLeft, dribbleRight)) {
         return true;
     }
@@ -179,7 +178,6 @@ void Dribble::sendMoveCommand() {
         command.w = (float) deltaPos.rotate(M_PI).angle();
     }
     std::vector<Vector2> dposvec={deltaPos};
-    interface.drawFrame(dposvec);
     command.dribbler = 1;
     command.x_vel = (float) deltaPos.normalize().x*c::DRIBBLE_SPEED;
     command.y_vel = (float) deltaPos.normalize().y*c::DRIBBLE_SPEED;

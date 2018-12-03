@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent) {
     setMinimumWidth(800);
     setMinimumHeight(600);
 
-    visualizer = std::make_shared<Widget>(this);
+    visualizer = std::make_shared<Visualizer>(this);
     horizontalLayout = std::make_shared<QHBoxLayout>();
     verticalLayout = std::make_shared<QVBoxLayout>();
 
