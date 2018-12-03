@@ -50,10 +50,6 @@ class GoToPosLuTh : public Skill {
         bool avoidObject(numRobot &me, int &startIndex, bool firstTry);
 
         std::vector<Vector2> displayData;
-
-#ifdef INTERFACE
-        interface::Interface interface;
-#endif
         using Status = bt::Node::Status;
         roboteam_msgs::WorldRobot robot;
 

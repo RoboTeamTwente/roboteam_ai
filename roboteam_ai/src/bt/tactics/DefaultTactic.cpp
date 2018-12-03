@@ -14,6 +14,7 @@ bt::Node::Status bt::DefaultTactic::update() {
         status = Status::Waiting;
     }
     else {
+        std::cout << "                                            "<<robotsNeeded <<std::endl;
         auto status = child->tick();
 
         if (status == Status::Success) {
@@ -36,6 +37,7 @@ bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboar
     robots = std::move(robots_);
     globalBB = std::move(blackboard);
     setName(std::move(name));
+    robotsNeeded = static_cast<int>(robots.size());
 }
 void bt::DefaultTactic::setName(std::string newName) {
     name = std::move(newName);

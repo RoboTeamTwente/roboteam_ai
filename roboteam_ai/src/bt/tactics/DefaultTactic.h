@@ -16,7 +16,7 @@ class DefaultTactic : public Tactic {
 
         std::string name;
 
-        int robotsNeeded = static_cast<int>(robots.size());
+        int robotsNeeded = -1;
 
         int claimedRobots = 0;
 

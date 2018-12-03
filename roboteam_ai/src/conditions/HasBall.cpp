@@ -7,8 +7,6 @@
 namespace rtt {
 namespace ai {
 
-
-
 HasBall::HasBall(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(name, blackboard) {
 
@@ -23,25 +21,21 @@ bt::Node::Status HasBall::update() {
             robot = World::getRobotForId(robot.id, true).get();
         }
         else {
-            //ROS_ERROR("HasBall Update -> robot does not exist in world");
+            ROS_ERROR("HasBall Update -> robot does not exist in world");
             return Status::Failure;
         }
     }
     else {
-      //  ROS_ERROR("HasBall Update -> ROLE INVALID!!");
+        ROS_ERROR("HasBall Update -> ROLE WAITING!!");
         return Status::Failure;
     }
 
 //  ____________________________________________________________________________________________________________________
 
     auto ball = World::getBall();
-    bool hasBall = botHasBall(ball.pos);
-
-
-//  ____________________________________________________________________________________________________________________
-
-    if (hasBall) return Status::Success;
+    if (botHasBall(ball.pos)) return Status::Success;
     else return Status::Failure;
+
 }
 
 bool HasBall::botHasBall(Vector2 ballPos) {

@@ -5,33 +5,38 @@
 
 namespace rtt {
 namespace ai {
+
 IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(name,
-        blackboard) { }
+        :Condition(name, blackboard) {
+
+}
 
 bt::Node::Status IsInDefenseArea::update() {
-    bool ourDefenseArea = properties->hasBool("ourDefenseArea") ? properties->getBool("ourDefenseArea") : true;
-    double margin = properties->hasDouble("margin") ? properties->getDouble("margin") : 0.0;
 
-    roboteam_msgs::World world = World::get_world();
-    Vector2 ballPos(world.ball.pos);
-    Vector2 point = ballPos;
 
-    // If robot pos should be checked instead of ball pos, get my position and use that as the point.
-    if (properties->hasBool("robot") && properties->getBool("robot")) {
-        int robotID = properties->getInt("ROBOT_ID");
-        boost::optional<roboteam_msgs::WorldRobot> findBot = World::getRobotForId(robotID, true);
-        roboteam_msgs::WorldRobot me;
-        if (findBot) {
-            me = *findBot;
-            point = me.pos;
+    if (properties->hasString("ROLE")) {
+        std::string roleName = properties->getString("ROLE");
+        robot.id = (unsigned int) dealer::findRobotForRole(roleName);
+        if (World::getRobotForId(robot.id, true)) {
+            robot = World::getRobotForId(robot.id, true).get();
         }
         else {
+            ROS_ERROR("HasBall Update -> robot does not exist in world");
             return Status::Failure;
         }
     }
+    else {
+        ROS_ERROR("HasBall Update -> ROLE WAITING!!");
+        return Status::Failure;
+    }
 
-    if (Field::pointIsInDefenceArea(point, ourDefenseArea, margin)) {
+    ourDefenseArea = properties->getBool("ourDefenseArea");
+    if (properties->hasDouble("margin")) margin = static_cast<float>(properties->getDouble("margin"));
+    else margin = 0.0f;
+
+    roboteam_msgs::World world = World::get_world();
+
+    if (Field::pointIsInDefenceArea(robot.pos, ourDefenseArea, margin)) {
         return Status::Success;
     }
     return Status::Failure;

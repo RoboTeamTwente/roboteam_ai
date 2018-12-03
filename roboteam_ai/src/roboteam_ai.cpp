@@ -33,8 +33,6 @@ void runBehaviourTrees() {
     // Start running this tree first
     ros::Rate rate(50);
     std::string currentTree = "randomStrategy";
-    bool drawInterface = true;
-   // rtt::ai::interface::Interface gui;
 
     // Main loop
     while (ros::ok()) {
@@ -77,7 +75,7 @@ void runBehaviourTrees() {
             case Status::Success:
                 ROS_INFO_STREAM("Status returned: Success");
                 ROS_INFO_STREAM(" === TREE CHANGE === ");
-                currentTree = "randomStrategy";
+                currentTree = "victoryDanceStrategy";
                 break;
 
         case Status::Failure:
@@ -110,9 +108,8 @@ int main(int argc, char* argv[]) {
     QApplication a(argc, argv);
     ui::MainWindow w;
     window = &w;
-
     w.show();
 
-  return a.exec();
+    return a.exec();
 }
 

@@ -88,6 +88,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "GoToPosLuTh") {
         node = std::make_shared<rtt::ai::GoToPosLuTh>(name, properties);
     }
+    else if (name == "Dribble"){
+        node = std::make_shared<rtt::ai::Dribble>(name,properties);
+    }
     else if (name == "RotateToAngle") {
         node = std::make_shared<rtt::ai::RotateToAngle>(name, properties);
     }
@@ -111,7 +114,6 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"random5", robotType::random},
                     {"random6", robotType::random},
                     {"random7", robotType::random},
-                    {"random8", robotType::random}
             }
             },
 

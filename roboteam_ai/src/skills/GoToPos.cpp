@@ -31,7 +31,7 @@ void GoToPos::initialize() {
         }
     }
     else {
-        ROS_ERROR("GoToPos Initialize -> ROLE INVALID!!");
+        ROS_ERROR("GoToPos Initialize -> ROLE WAITING!!");
         currentProgress = Progression::FAIL;
         return;
     }
@@ -101,7 +101,7 @@ void GoToPos::terminate(status s) {
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     command.use_angle = 1;
-    command.w = deltaPos.angle();
+    command.w = static_cast<float>(deltaPos.angle());
 
     command.x_vel = 0;
     command.y_vel = 0;
@@ -148,7 +148,7 @@ void GoToPos::sendMoveCommand2() {
     command.id = robot.id;
     command.use_angle = 1;
 
-    command.w=deltaPos.angle();
+    command.w= static_cast<float>(deltaPos.angle());
     Vector2 deltaPosUnit=deltaPos.normalize();
 
     command.x_vel = (float) deltaPosUnit.x*2;// abs(angularVel)/(abs(angularVel)-1);
@@ -156,6 +156,7 @@ void GoToPos::sendMoveCommand2() {
     publishRobotCommand(command);
     commandSend = true;
 }
+
 /// Check the progress the robot made a9nd alter the currentProgress
 GoToPos::Progression GoToPos::checkProgression() {
     double maxMargin = 0.15;                        // max offset or something.
