@@ -9,7 +9,7 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
-MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent) {
+    MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent) {
     setMinimumWidth(800);
     setMinimumHeight(600);
 
@@ -39,7 +39,6 @@ MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent) {
     verticalLayout->addWidget(cb_tacticcolors.get());
     QObject::connect(cb_tacticcolors.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowTacticColors(bool)));
 
-
     // checkbox for toggling angle indicators
     cb_angles = std::make_shared<QCheckBox>("show angles");
     cb_angles->setChecked(constants::STD_SHOW_ANGLES);
@@ -51,6 +50,18 @@ MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent) {
     cb_velocities->setChecked(constants::STD_SHOW_VELOCITIES);
     verticalLayout->addWidget(cb_velocities.get());
     QObject::connect(cb_velocities.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowVelocities(bool)));
+
+    // checkbox for toggling velocity indicators
+    cb_path = std::make_shared<QCheckBox>("show path for current robot");
+    cb_path->setChecked(constants::STD_SHOW_PATHS_CURRENT);
+    verticalLayout->addWidget(cb_path.get());
+    QObject::connect(cb_path.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowPath(bool)));
+
+    // checkbox for toggling velocity indicators
+    cb_path_all = std::make_shared<QCheckBox>("show path for all robots");
+    cb_path_all->setChecked(constants::STD_SHOW_PATHS_ALL);
+    verticalLayout->addWidget(cb_path_all.get());
+    QObject::connect(cb_path_all.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowPathAll(bool)));
 
     // Spacer to nicely align buttons at the top
     vSpacer = std::make_shared<QSpacerItem>(0,10, QSizePolicy::Expanding, QSizePolicy::Expanding);
