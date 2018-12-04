@@ -25,7 +25,7 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawBall(painter);
         drawRobots(painter);
 
-        if (showPath) drawDataPoints(painter, Drawer::getGoToPosLuThPoints());
+        if (showPath) drawDataPoints(painter, Drawer::getGoToPosLuThPoints(selectedRobot.id));
     } else {
         painter.drawText(24,24, "Waiting for incoming World State");
     }
@@ -184,12 +184,14 @@ void Visualizer::drawTacticColorForRobot(QPainter & painter, roboteam_msgs::Worl
 }
 
 void Visualizer::drawDataPoints(QPainter & painter, std::vector<Vector2> points, int pointSize, QColor color) {
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(color);
+    if (!points.empty()) {
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(color);
 
-    for (Vector2 point : points) {
-        Vector2 pointOnScreen = toScreenPosition(point);
-        painter.drawEllipse(pointOnScreen.x, pointOnScreen.y, pointSize, pointSize);
+        for (Vector2 point : points) {
+            Vector2 pointOnScreen = toScreenPosition(point);
+            painter.drawEllipse(pointOnScreen.x, pointOnScreen.y, pointSize, pointSize);
+        }
     }
 }
 

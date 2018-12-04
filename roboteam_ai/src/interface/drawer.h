@@ -17,11 +17,11 @@ class Drawer {
 public:
     explicit Drawer() = default;
 
-    static void setGoToPosLuThPoints(std::vector<Vector2> points);
-    static const std::vector<Vector2> &getGoToPosLuThPoints();
+    static void setGoToPosLuThPoints(int id, std::vector<Vector2> points);
+    static const std::vector<Vector2> &getGoToPosLuThPoints(int id);
 
 private:
-    static std::vector<Vector2> GoToPosLuThPoints;
+    static std::map<int, std::vector<Vector2>> GoToPosLuThPoints;
 };
 
 } // interface

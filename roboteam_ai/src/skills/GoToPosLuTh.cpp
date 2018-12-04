@@ -147,7 +147,7 @@ void GoToPosLuTh::sendMoveCommand() {
     std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
 
     displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
-    interface::Drawer::setGoToPosLuThPoints(displayData);
+    interface::Drawer::setGoToPosLuThPoints(robot.id, displayData);
 
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
