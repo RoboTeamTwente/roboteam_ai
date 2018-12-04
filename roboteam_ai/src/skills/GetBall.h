@@ -20,13 +20,16 @@ class GetBall : public Skill {
         enum Progression {
           TURNING, APPROACHING, DRIBBLING, SUCCESS, FAIL
         };
+
+        Progression currentProgress;
+        void checkProgression();
+
         bool robothasBall();
         void sendTurnCommand();
         void sendApproachCommand();
         void sendDribblingCommand();
-        Progression currentProgress;
-        Progression checkProgression();
 
+        int count;
         Vector2 deltaPos;
     public:
         explicit GetBall(string name, bt::Blackboard::Ptr blackboard);

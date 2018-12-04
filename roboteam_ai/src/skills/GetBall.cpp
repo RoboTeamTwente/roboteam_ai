@@ -2,7 +2,7 @@
 // Created by rolf on 04/12/18.
 //
 
-#include "getBall.h"
+#include "GetBall.h"
 namespace c=rtt::ai::constants;
 
 namespace rtt {
@@ -18,11 +18,46 @@ std::string GetBall::node_name() {
 }
 
 
-
-GetBall::Progression GetBall::checkProgression() {
+// Essentially a state transition diagram.
+void GetBall::checkProgression() {
+    if (deltaPos.length()>c::MAX_GETBALL_RANGE){
+        currentProgress=FAIL;
+        return;
+    }
     double angleDif=Control::angleDifference(robot.angle,deltaPos.angle());
     if (currentProgress==TURNING){
-        if (angleDif<c::)
+        if (angleDif<c::ANGLE_SENS){
+            currentProgress=APPROACHING;
+            return;
+        }
+    }
+    else if (currentProgress==APPROACHING){
+        if (angleDif>=c::ANGLE_SENS){
+            currentProgress=TURNING;
+            return;
+        }
+        if (!robothasBall()){
+            return;
+        }
+        else{
+            currentProgress=DRIBBLING;
+            return;
+        }
+    }
+    else if (currentProgress==DRIBBLING){
+        if (!robothasBall()){
+            currentProgress=APPROACHING;
+            count=0;
+            return;
+        }
+        count++;
+        if (count>c::POSSES_BALL_CYCLES){
+            currentProgress=SUCCESS;
+            return;
+        }
+    }
+    else if (currentProgress==FAIL||currentProgress==SUCCESS){
+        return;
     }
 }
 void GetBall::initialize() {
@@ -42,6 +77,8 @@ void GetBall::initialize() {
         ROS_ERROR("GetBall Initialize -> ROLE WAITING!!");
         return;
     }
+    currentProgress=TURNING;
+    count=0;
 }
 GetBall::Status GetBall::update() {
 
@@ -52,8 +89,9 @@ GetBall::Status GetBall::update() {
         ROS_ERROR("GetBall Update -> robot does not exist in world");
     }
     ball = World::getBall(); //TODO: sanity checking if ball is actually there
-    deltaPos = Vector2(robot.pos.x,robot.pos.y) - Vector2(ball.pos.x, ball.pos.y);
-    currentProgress=checkProgression();
+    deltaPos = Vector2(ball.pos.x, ball.pos.y)-Vector2(robot.pos.x,robot.pos.y) ;
+    checkProgression();
+
     if (currentProgress==TURNING){
         sendTurnCommand();
     }
@@ -93,9 +131,38 @@ bool GetBall::robothasBall() {
                 dribbleRight + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot.angle),
                 dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot.angle));
 }
-void GetBall::sendTurnCommand() { }
-void GetBall::sendApproachCommand(){ }
-void GetBall::sendDribblingCommand() { }
+void GetBall::sendTurnCommand() {
+    roboteam_msgs::RobotCommand command;
+    command.id = robot.id;
+    command.use_angle = 1;
+    command.dribbler=0;
+    command.x_vel=0;
+    command.y_vel=0;
+    command.w=(float) deltaPos.angle();
+    publishRobotCommand(command);
+
+}
+void GetBall::sendApproachCommand(){
+    roboteam_msgs::RobotCommand command;
+    command.id = robot.id;
+    command.use_angle = 1;
+    command.dribbler  = 1;
+    command.x_vel = (float) deltaPos.normalize().x*c::GETBALL_SPEED;
+    command.y_vel = (float) deltaPos.normalize().y*c::GETBALL_SPEED;
+    command.w=(float) deltaPos.angle();
+    publishRobotCommand(command);
+
+}
+void GetBall::sendDribblingCommand() {
+    roboteam_msgs::RobotCommand command;
+    command.id = robot.id;
+    command.use_angle = 1;
+    command.dribbler  = 1;
+    command.x_vel = 0;
+    command.y_vel = 0;
+    command.w=(float) deltaPos.angle();
+    publishRobotCommand(command);
+}
 
 }//rtt
 }//ai
