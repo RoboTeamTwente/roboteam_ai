@@ -9,7 +9,7 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
-MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent) {
+    MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent) {
     setMinimumWidth(800);
     setMinimumHeight(600);
 
@@ -38,7 +38,6 @@ MainWindow::MainWindow(QWidget * parent) : QMainWindow(parent) {
     cb_tacticcolors->setChecked(constants::STD_SHOW_TACTICS_COLORS);
     verticalLayout->addWidget(cb_tacticcolors.get());
     QObject::connect(cb_tacticcolors.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowTacticColors(bool)));
-
 
     // checkbox for toggling angle indicators
     cb_angles = std::make_shared<QCheckBox>("show angles");

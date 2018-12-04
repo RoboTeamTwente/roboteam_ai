@@ -6,6 +6,7 @@
 #include <random>  //random numbers..
 #include <cstdlib>
 #include <time.h>
+#include "../interface/drawer.h"
 
 namespace rtt {
 namespace ai {
@@ -55,6 +56,8 @@ void GoToPosLuTh::initialize() {
 
 /// Called when the Skill is Updated
 GoToPosLuTh::Status GoToPosLuTh::update() {
+    displayData.clear();
+
     if (World::getRobotForId(robot.id, true)) {
         robot = World::getRobotForId(robot.id, true).get();
     }
@@ -142,6 +145,9 @@ void GoToPosLuTh::sendMoveCommand() {
     ros::Time end = ros::Time::now();
     double timeTaken = (end - begin).toSec();
     std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
+
+    displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
+    interface::Drawer::setGoToPosLuThPoints(displayData);
 
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
@@ -307,10 +313,14 @@ bool GoToPosLuTh::avoidObject(numRobot &me, int &startIndex, bool firstTry) {
                 Vector2 sideLength = {tt*delta.y/nTries, - tt*delta.x/nTries};
                 Vector2 target = startPos + delta + sideLength;
 
+                displayData.push_back(target);
+
                 if (tracePath(me, startIndex, target, true)) {
                     if (me.posData.size() > startIndex + 2) {
                         allPosData.push_back(me.posData);
                         allVelData.push_back(me.velData);
+
+                        displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
                     }
                 }
             }
@@ -320,6 +330,8 @@ bool GoToPosLuTh::avoidObject(numRobot &me, int &startIndex, bool firstTry) {
                 Vector2 middle = half*(collisionPoint + startPos);
                 Vector2 target = middle + delta.rotate(tt * M_PI/(nTries*1.0));
 
+                displayData.push_back(target);
+
                 if (tracePath(me, startIndex, target, true)) {
 
                     if (me.posData.size() > startIndex + 2) {
@@ -328,6 +340,7 @@ bool GoToPosLuTh::avoidObject(numRobot &me, int &startIndex, bool firstTry) {
                     }
 
                 }
+                displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
             }
         }
         if (! allPosData.empty()) {
