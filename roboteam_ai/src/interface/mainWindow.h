@@ -15,6 +15,7 @@
 #include "QHBoxLayout"
 #include "QPushButton"
 #include <QTreeWidget>
+#include "QColor"
 #include "../bt/Node.hpp"
 
 namespace rtt {

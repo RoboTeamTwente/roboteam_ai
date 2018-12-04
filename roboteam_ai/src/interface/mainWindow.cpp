@@ -4,6 +4,7 @@
 
 #include <roboteam_ai/src/utilities/Constants.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
+#include <roboteam_ai/src/bt/Node.hpp>
 #include "mainWindow.h"
 
 namespace rtt {
@@ -66,7 +67,7 @@ namespace interface {
 
     // Spacer to nicely align buttons at the top
     vSpacer = std::make_shared<QSpacerItem>(0,10, QSizePolicy::Expanding, QSizePolicy::Expanding);
-    verticalLayout->addItem(vSpacer.get());
+   // verticalLayout->addItem(vSpacer.get());
 
     treeWidget = std::make_shared<QTreeWidget>();
     treeWidget->setColumnCount(2);
@@ -99,13 +100,13 @@ void MainWindow::updateWidget() {
 
 
     if (!didLoad) {
-        bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree("SimpleStrategy");
+        bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree("randomStrategy");
 
         auto treeItemRoot = new QTreeWidgetItem(treeWidget.get());
-        treeItemRoot->setText(0, QString::fromStdString(tree->node_name()));
-        treeItemRoot->setText(1, QString::fromStdString(statusToString(tree->getStatus())));
+        treeItemRoot->setText(0, QString::fromStdString(tree->GetRoot()->node_name()));
+        treeItemRoot->setText(1, QString::fromStdString(statusToString(tree->GetRoot()->getStatus())));
 
-        addRootItem(tree, treeItemRoot);
+        addRootItem(tree->GetRoot(), treeItemRoot);
 
         treeWidget->expandAll();
         treeWidget->update();
@@ -114,14 +115,35 @@ void MainWindow::updateWidget() {
 }
 
 void MainWindow::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem * QParent) {
-    auto treeItemchild = new QTreeWidgetItem(QParent);
-    treeItemchild->setText(0, QString::fromStdString(parent->node_name()));
-    treeItemchild->setText(1, QString::fromStdString(statusToString(parent->getStatus())));
-
     for(auto const &child : parent->getChildren()) {
+        auto treeItemchild = new QTreeWidgetItem(QParent);
+        treeItemchild->setText(0, QString::fromStdString(child->node_name()));
+        treeItemchild->setText(1, QString::fromStdString(statusToString(child->getStatus())));
 
+        QColor color;
 
+        switch (child->getStatus()) {
+            case bt::Node::Status::Failure:
+                color = Qt::red;
+                break;
+            case bt::Node::Status::Running:
+                color = Qt::green;
+                break;
+            case bt::Node::Status::Success:
+                color = Qt::darkGreen;
+                break;
+            case bt::Node::Status::Waiting:
+                color = Qt::yellow;
+                break;
+            default:
+                break;
+        }
+
+        treeItemchild->setBackgroundColor(1, color);
+        QParent->addChild(treeItemchild);
         addRootItem(child, treeItemchild);
+
+
     }
 }
 
