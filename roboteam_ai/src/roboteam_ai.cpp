@@ -33,7 +33,7 @@ void runBehaviourTrees() {
 
     // Start running this tree first
     ros::Rate rate(50);
-    std::string currentTree = "DanceStrategy";
+    std::string currentTree = "SimpleStrategy";
 
     // Main loop
     while (ros::ok()) {

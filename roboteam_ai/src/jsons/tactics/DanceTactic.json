@@ -35,7 +35,7 @@
           },
           "nd08yhtft7fpoq0y": {
             "id": "nd08yhtft7fpoq0y",
-            "title": "GoToPosLuTh",
+            "title": "GoToPos",
             "isRole": false,
             "properties": {
               "ROLE": "right",
@@ -46,7 +46,7 @@
           },
           "iyu2m4zp749erg": {
             "id": "iyu2m4zp749erg",
-            "title": "GoToPosLuTh",
+            "title": "GoToPos",
             "isRole": false,
             "properties": {
               "ROLE": "right",
@@ -65,7 +65,7 @@
           },
           "rcy4xtq36m43he2l": {
             "id": "rcy4xtq36m43he2l",
-            "title": "GoToPosLuTh",
+            "title": "GoToPos",
             "isRole": false,
             "properties": {
               "ROLE": "right",
@@ -103,7 +103,7 @@
           },
           "ehyz9hdhjtljnf82": {
             "id": "ehyz9hdhjtljnf82",
-            "title": "GoToPosLuTh",
+            "title": "GoToPos",
             "isRole": false,
             "properties": {
               "ROLE": "letf",
@@ -114,7 +114,7 @@
           },
           "spbk2om0c1oakiahv": {
             "id": "spbk2om0c1oakiahv",
-            "title": "GoToPosLuTh",
+            "title": "GoToPos",
             "isRole": false,
             "properties": {
               "ROLE": "letf",
@@ -133,7 +133,7 @@
           },
           "4v8ilnaoxb0lhg": {
             "id": "4v8ilnaoxb0lhg",
-            "title": "GoToPosLuTh",
+            "title": "GoToPos",
             "isRole": false,
             "properties": {
               "ROLE": "letf",

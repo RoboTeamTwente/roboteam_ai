@@ -15,7 +15,7 @@
           },
           "vqi8gtyanb03p": {
             "id": "vqi8gtyanb03p",
-            "title": "MemSequence",
+            "title": "ParallelSequence",
             "children": [
               "l1gclbu2hny6o",
               "1965zgri576puzl"
@@ -48,7 +48,7 @@
           },
           "x2y5d945xeo6r9k": {
             "id": "x2y5d945xeo6r9k",
-            "title": "GoToPosLuTh",
+            "title": "GoToPos",
             "isRole": false,
             "properties": {
               "ROLE": "Vright",
@@ -59,7 +59,7 @@
           },
           "zp7h1vtxl1un29scf": {
             "id": "zp7h1vtxl1un29scf",
-            "title": "GoToPosLuTh",
+            "title": "GoToPos",
             "isRole": false,
             "properties": {
               "ROLE": "Vright",
@@ -95,22 +95,22 @@
           },
           "sazplvbgxtw1l78": {
             "id": "sazplvbgxtw1l78",
-            "title": "GoToPosLuTh",
+            "title": "GoToPos",
             "isRole": false,
             "properties": {
               "ROLE": "retarded",
-              "Position": "{2, 5}",
+              "Position": "{-0.5, 0}",
               "goToBall": "false",
               "random": "false"
             }
           },
           "eztukmqv4ynnk": {
             "id": "eztukmqv4ynnk",
-            "title": "GoToPosLuTh",
+            "title": "GoToPos",
             "isRole": false,
             "properties": {
               "ROLE": "retarded",
-              "Position": "{1, 3}",
+              "Position": "{-0.5, -3}",
               "goToBall": "false",
               "random": "false"
             }
