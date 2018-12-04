@@ -46,4 +46,25 @@ double ControlUtils::constrainAngle(double angle) {
     return angle-M_PI;
 
 }
+
+//http://www.randygaul.net/2014/07/23/distance-point-to-line-segment/
+double ControlUtils::distanceToLine(Vec PointToCheck, Vec LineStart,Vec LineEnd){
+    Vec n=LineEnd-LineStart;
+    Vec pa=LineStart-PointToCheck;
+    Vec c=n * (n.dot(pa)/n.dot(n));
+    Vec d= pa-c;
+    return d.length();
+}
+
+//Computes the absolute difference between 2 angles (the shortest orientation direction)
+///both angles must go from[-pi,pi]!!
+double ControlUtils::angleDifference(double A1, double A2){
+    double angleDif=A1-A2;
+    if  (angleDif<-M_PI){
+        angleDif+=2*M_PI;
+    }else if (angleDif>M_PI){
+        angleDif-=2*M_PI;
+    }
+    return abs(angleDif);
+}
 }//control

@@ -16,6 +16,15 @@ GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard)
 std::string GetBall::node_name() {
     return "GetBall";
 }
+
+
+
+GetBall::Progression GetBall::checkProgression() {
+    double angleDif=Control::angleDifference(robot.angle,deltaPos.angle());
+    if (currentProgress==TURNING){
+        if (angleDif<c::)
+    }
+}
 void GetBall::initialize() {
 
     if (properties->hasString("ROLE")) {
@@ -64,7 +73,7 @@ GetBall::Status GetBall::update() {
 
 }
 void GetBall::terminate(Status s) {
-
+    sendDribblingCommand();
 }
 bool GetBall::robothasBall() {
     //The ball is in an area defined by a cone from the robot centre, or from a rectangle in front of the dribbler
@@ -80,13 +89,13 @@ bool GetBall::robothasBall() {
         return true;
     }
         // else check the rectangle in front of the robot.
-    else
-        return control::ControlUtils::pointInRectangle(BallPos, dribbleLeft, dribbleRight,
+    else return control::ControlUtils::pointInRectangle(BallPos, dribbleLeft, dribbleRight,
                 dribbleRight + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot.angle),
                 dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot.angle));
 }
 void GetBall::sendTurnCommand() { }
 void GetBall::sendApproachCommand(){ }
+void GetBall::sendDribblingCommand() { }
 
 }//rtt
 }//ai
