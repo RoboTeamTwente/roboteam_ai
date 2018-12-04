@@ -21,14 +21,15 @@ class GoToPosLuTh : public Skill {
           Vector2 targetPos;            //Target position in m
           Vector2 vel;                  //Current x,y velocity in ms-1
           Vector2 targetVel;            //Target velocity in ms-1
-          double maxVel = 3.0;          //Maximum velocity in ms-1
+          double maxVel = 1.5;          //Maximum velocity in ms-1
           Vector2 acc;                  //Current x,y acceleration in ms-2
           double maxAcc = 2.5;          //Maximum acceleration in ms-2
-          std::vector<Vector2> posData; //Save the position data for visualization
-          std::vector<Vector2> velData; //Save the velocity data for stuff and things
+          std::vector<Vector2> posData; //Save the position data
+          std::vector<Vector2> velData; //Save the velocity data
           float t = 0;
           const float dt = 0.05;
           int totalCalculations = 0;
+
           Vector2 getDirection() {
               return (targetPos - pos).normalize();
           }
@@ -37,8 +38,7 @@ class GoToPosLuTh : public Skill {
               return (target - pos).normalize();
           }
 
-
-          bool isCollision(Vector2 const &otherPos) {
+          bool isCollision(Vector2 &otherPos) {
               double minDistance = 0.2;
               if (vel.length() > maxVel*0.5) {
                   minDistance *= 1.5;

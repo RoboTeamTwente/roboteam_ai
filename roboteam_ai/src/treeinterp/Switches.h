@@ -15,6 +15,7 @@
 #include "../bt/tactics/ParallelSequenceTest.h"
 #include "../bt/tactics/VictoryDanceTactic.h"
 #include "../bt/tactics/RandomTactic.h"
+#include "../bt/tactics/DefaultTactic.h"
 
 //  ______________________
 //  |                    |
@@ -28,6 +29,13 @@
 #include "../skills/GoToPos.h"
 #include "../skills/Kick.h"
 
+//  ______________________
+//  |                    |
+//  | INCLUDE CONDITIONS |
+//  |____________________|
+//
+
+#include "../conditions/HasBall.hpp"
 
 
 #ifndef ROBOTEAM_AI_SWITCHES_H

@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
     factory.init();
 
     // Start running this tree first
-    std::string currentTree = "randomStrategy";
+    std::string currentTree = "GetBallTestStrategy";
     bool drawInterface = true;
     rtt::ai::interface::Interface gui;
 

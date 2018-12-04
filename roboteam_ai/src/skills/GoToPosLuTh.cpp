@@ -83,7 +83,7 @@ GoToPosLuTh::Status GoToPosLuTh::update() {
         int randomY = std::rand();
 
         random = false;
-        targetPos = {randomX*2.32830644e-10*length - length*0.5, randomY*2.32830644e-10*width - width*0.5};
+        targetPos = {randomX*2.32830644e-10*length*2 - length*0.5, randomY*2.32830644e-10*width*2 - width*0.5};
     }
 
     // See if the progress is a failure
@@ -286,7 +286,6 @@ bool GoToPosLuTh::tracePath(numRobot &me, int &startIndex, Vector2 target, bool 
 bool GoToPosLuTh::avoidObject(numRobot &me, int &startIndex, bool firstTry) {
     std::vector<Vector2> oldPosData = me.posData;
     std::vector<Vector2> oldVelData = me.velData;
-    //std::cout << "  1: " << startSize << std::endl;
     if (me.posData.size() - startIndex > 2) {
         Vector2 collisionPoint = me.pos;
         Vector2 startPos = me.posData[startIndex];
@@ -301,7 +300,6 @@ bool GoToPosLuTh::avoidObject(numRobot &me, int &startIndex, bool firstTry) {
             me.posData = newPosData;
             std::vector<Vector2> newVelData(me.velData.begin(), me.velData.begin() + startIndex);
             me.velData = newVelData;
-            //std::cout << "      2: " << me.posData.size() << std::endl;
 
             me.pos = startPos;
             me.vel = startVel;

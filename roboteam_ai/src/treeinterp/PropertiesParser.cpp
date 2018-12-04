@@ -57,6 +57,10 @@ PropertiesParser::type PropertiesParser::checkVarTypeOfString(std::string keyNam
         std::vector<double> &vec) {
 
     std::string strKey = (std::string) jsonLeaf["properties"][keyName];
+    if (strKey.empty()) {
+        ROS_ERROR("PARSING EMPTY STRING!! this could give errors");
+        return String;
+    }
     int it = 0;
     type varType;
 
