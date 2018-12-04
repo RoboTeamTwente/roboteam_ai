@@ -51,6 +51,12 @@ namespace interface {
     verticalLayout->addWidget(cb_velocities.get());
     QObject::connect(cb_velocities.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowVelocities(bool)));
 
+    // checkbox for toggling velocity indicators
+    cb_path = std::make_shared<QCheckBox>("show path");
+    cb_path->setChecked(constants::STD_SHOW_PATHS_ALL);
+    verticalLayout->addWidget(cb_path.get());
+    QObject::connect(cb_path.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowPath(bool)));
+
     // Spacer to nicely align buttons at the top
     vSpacer = std::make_shared<QSpacerItem>(0,10, QSizePolicy::Expanding, QSizePolicy::Expanding);
     verticalLayout->addItem(vSpacer.get());

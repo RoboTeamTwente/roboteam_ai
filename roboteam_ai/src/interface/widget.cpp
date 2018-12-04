@@ -25,7 +25,7 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawBall(painter);
         drawRobots(painter);
 
-        drawDataPoints(painter, Drawer::getGoToPosLuThPoints());
+        if (showPath) drawDataPoints(painter, Drawer::getGoToPosLuThPoints());
     } else {
         painter.drawText(24,24, "Waiting for incoming World State");
     }
@@ -241,6 +241,10 @@ void Visualizer::setShowAngles(bool showAngles) {
 
 void Visualizer::setShowVelocities(bool showVelocities) {
     Visualizer::showVelocities = showVelocities;
+}
+
+void Visualizer::setShowPath(bool showPath) {
+    Visualizer::showPath = showPath;
 }
 
 

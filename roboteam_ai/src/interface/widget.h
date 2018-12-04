@@ -29,7 +29,7 @@ public slots:
     void setShowTacticColors(bool showTacticColors);
     void setShowAngles(bool showAngles);
     void setShowVelocities(bool showVelocities);
-
+    void setShowPath(bool showPath);
 protected:
     void paintEvent(QPaintEvent* event) override;
     void mousePressEvent(QMouseEvent * event) override;
@@ -62,6 +62,7 @@ private:
     bool showTacticColors = constants::STD_SHOW_TACTICS_COLORS;
     bool showAngles = constants::STD_SHOW_ANGLES;
     bool showVelocities = constants::STD_SHOW_VELOCITIES;
+    bool showPath = constants::STD_SHOW_PATHS_ALL;
 };
 
 } // interface
