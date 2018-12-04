@@ -5,6 +5,20 @@ project(roboteam_ai)
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 
+
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed
+set(CMAKE_AUTOMOC ON)
+# Create code from a list of Qt designer ui files
+set(CMAKE_AUTOUIC ON)
+
+# Find the QtWidgets library
+find_package(Qt5Widgets CONFIG REQUIRED)
+
+
+
+
 find_package(SDL2)
 find_package(SDL2TTF)
 include_directories(${SDL2_INCLUDE_DIR} ${SDL2TTF_INCLUDE_DIR})
@@ -152,10 +166,11 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TurnGeneva.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Dribble.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Dribble.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.h
         )
-
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
@@ -186,7 +201,14 @@ set(CONDITION_TESTS
 
 set(CONTROL_SOURCES
         roboteam_ai/src/control/ControlUtils.cpp
-        roboteam_ai/src/control/ControlUtils.h)
+        roboteam_ai/src/control/ControlUtils.h )
+
+set(INTERFACE_SOURCES
+        roboteam_ai/src/interface/mainWindow.cpp
+        roboteam_ai/src/interface/mainWindow.h
+        roboteam_ai/src/interface/widget.cpp
+        roboteam_ai/src/interface/widget.h
+        )
 
 ### TEST SOURCES END ###
 
@@ -207,11 +229,10 @@ add_executable(Roboteam_AI
         ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}
-        roboteam_ai/src/interface/Interface.cpp
-        roboteam_ai/src/interface/Interface.h)
+        ${INTERFACE_SOURCES})
 
 add_dependencies(Roboteam_AI ${catkin_EXPORTED_TARGETS})
-target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY})
+target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY} Qt5::Widgets Qt5::Gui)
 
 #############
 ## Testing ##

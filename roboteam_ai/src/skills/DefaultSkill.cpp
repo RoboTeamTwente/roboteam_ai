@@ -32,7 +32,7 @@ void DefaultSkill::initialize() {
         }
     }
     else {
-        ROS_ERROR("DefaultSkill Initialize -> ROLE INVALID!!");
+        ROS_ERROR("DefaultSkill Initialize -> ROLE WAITING!!");
         return;
     }
 //  ____________________________________________________________________________________________________________________

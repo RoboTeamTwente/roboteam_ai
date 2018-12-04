@@ -35,7 +35,7 @@ void GoToPosLuTh::initialize() {
         }
     }
     else {
-        ROS_ERROR("GoToPosLuTh Initialize -> ROLE INVALID!!");
+        ROS_ERROR("GoToPosLuTh Initialize -> ROLE WAITING!!");
         return;
     }
 //  ____________________________________________________________________________________________________________________
@@ -55,9 +55,6 @@ void GoToPosLuTh::initialize() {
 
 /// Called when the Skill is Updated
 GoToPosLuTh::Status GoToPosLuTh::update() {
-#ifdef INTERFACE
-    displayData.clear();
-#endif
     if (World::getRobotForId(robot.id, true)) {
         robot = World::getRobotForId(robot.id, true).get();
     }
@@ -146,10 +143,6 @@ void GoToPosLuTh::sendMoveCommand() {
     double timeTaken = (end - begin).toSec();
     std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
 
-#ifdef INTERFACE
-    displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
-        interface.drawFrame(displayData);
-#endif
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     command.use_angle = 1;
@@ -312,16 +305,10 @@ bool GoToPosLuTh::avoidObject(numRobot &me, int &startIndex, bool firstTry) {
                 Vector2 sideLength = {tt*delta.y/nTries, - tt*delta.x/nTries};
                 Vector2 target = startPos + delta + sideLength;
 
-#ifdef INTERFACE
-                    displayData.push_back(target);
-#endif
                 if (tracePath(me, startIndex, target, true)) {
                     if (me.posData.size() > startIndex + 2) {
                         allPosData.push_back(me.posData);
                         allVelData.push_back(me.velData);
-#ifdef INTERFACE
-                        displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
-#endif
                     }
                 }
             }
@@ -330,9 +317,7 @@ bool GoToPosLuTh::avoidObject(numRobot &me, int &startIndex, bool firstTry) {
                 Vector2 delta = (collisionPoint - startPos);
                 Vector2 middle = half*(collisionPoint + startPos);
                 Vector2 target = middle + delta.rotate(tt * M_PI/(nTries*1.0));
-#ifdef INTERFACE
-                displayData.push_back(target);
-#endif
+
                 if (tracePath(me, startIndex, target, true)) {
 
                     if (me.posData.size() > startIndex + 2) {
@@ -341,10 +326,6 @@ bool GoToPosLuTh::avoidObject(numRobot &me, int &startIndex, bool firstTry) {
                     }
 
                 }
-
-#ifdef INTERFACE
-displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
-#endif
             }
         }
         if (! allPosData.empty()) {

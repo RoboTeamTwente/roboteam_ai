@@ -2,22 +2,21 @@
 #include "dangerfinder/DangerFinder.h"
 #include "io/IOManager.h"
 #include "utilities/Referee.hpp"
-#include "interface/Interface.h"
 #include "utilities/StrategyManager.h"
 #include "treeinterp/BTFactory.h"
-#include "interface/Interface.h"
+#include "interface/mainWindow.h"
+#include "roboteam_ai/src/interface/widget.h"
+#include <QApplication>
 
 namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
-
+namespace ui = rtt::ai::interface;
 
 using Status = bt::Node::Status;
+ui::MainWindow * window;
 
-int main(int argc, char* argv[]) {
-    // Init ROS node
-    ros::init(argc, argv, "StrategyNode");
-
+void runBehaviourTrees() {
     // init IOManager and subscribe to all topics immediately
     io::IOManager IOManager(true);
 
@@ -27,34 +26,17 @@ int main(int argc, char* argv[]) {
 
     bt::BehaviorTree::Ptr strategy;
 
-    // start looping
-    // set the frame rate to 50 Hz
-    ros::Rate rate(50);
-
     // Where we keep our trees
     auto factory = BTFactory::getFactory();
     factory.init();
 
     // Start running this tree first
-    std::string currentTree = "GetBallTestStrategy";
-    bool drawInterface = true;
-    rtt::ai::interface::Interface gui;
+    ros::Rate rate(50);
+    std::string currentTree = "randomStrategy";
 
     // Main loop
     while (ros::ok()) {
         ros::spinOnce();
-
-        if (drawInterface) {
-            SDL_Event event;
-            while(SDL_PollEvent(&event) != 0) {
-                if (event.type == SDL_QUIT) {
-                    return 0;
-                } else if (event.type == SDL_MOUSEBUTTONDOWN) {
-                    gui.handleMouseClick(event);
-                }
-            }
-        }
-
 
         // make ROS world_state and geometry data globally accessible
         worldMsg = IOManager.getWorldState();
@@ -88,27 +70,23 @@ int main(int argc, char* argv[]) {
 
         switch (status) {
 
-            case Status::Running:
-                break;
-
+        case Status::Running:
+            break;
             case Status::Success:
                 ROS_INFO_STREAM("Status returned: Success");
                 ROS_INFO_STREAM(" === TREE CHANGE === ");
-                currentTree = "randomStrategy";
+                currentTree = "victoryDanceStrategy";
                 break;
 
-            case Status::Failure:
-                ROS_INFO_STREAM("Status returned: Failure");
-                break;
-
+        case Status::Failure:
+            ROS_INFO_STREAM("Status returned: Failure");
+            break;
             case Status::Waiting:
                 ROS_INFO_STREAM("Status returned: Waiting");
                 break;
+        }
 
-        }
-        if (drawInterface) {
-            gui.drawFrame();
-        }
+        if (window) window->updateWidget();
         rate.sleep();
     }
 
@@ -116,6 +94,22 @@ int main(int argc, char* argv[]) {
     if (strategy->getStatus() == Status::Running) {
         strategy->terminate(Status::Running);
     }
-
-    return 0;
 }
+
+
+int main(int argc, char* argv[]) {
+    // Init ROS node in main thread
+    ros::init(argc, argv, "StrategyNode");
+
+    // start the ros loop in seperate thread
+    std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
+
+    // initialize the interface
+    QApplication a(argc, argv);
+    ui::MainWindow w;
+    window = &w;
+    w.show();
+
+    return a.exec();
+}
+

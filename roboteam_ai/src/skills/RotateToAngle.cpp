@@ -30,7 +30,7 @@ void RotateToAngle::initialize() {
         }
     }
     else {
-        ROS_ERROR("RotateToAngle Initialize -> ROLE INVALID!!");
+        ROS_ERROR("RotateToAngle Initialize -> ROLE WAITING!!");
         currentProgress = Progression::FAIL;
         return;
     }

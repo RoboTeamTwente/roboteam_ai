@@ -28,6 +28,7 @@
 #include "../skills/RotateToAngle.h"
 #include "../skills/GoToPos.h"
 #include "../skills/Kick.h"
+#include "../skills/Dribble.h"
 
 //  ______________________
 //  |                    |

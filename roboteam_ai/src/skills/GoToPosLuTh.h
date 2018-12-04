@@ -3,7 +3,7 @@
 //
 #include "Skill.h"
 #include <cmath>
-#include "../interface/Interface.h"
+// #include "../interface/Interface.h"
 
 #ifndef ROBOTEAM_AI_GOTOPOSLUTH_H
 #define ROBOTEAM_AI_GOTOPOSLUTH_H
@@ -50,12 +50,6 @@ class GoToPosLuTh : public Skill {
         bool avoidObject(numRobot &me, int &startIndex, bool firstTry);
 
         std::vector<Vector2> displayData;
-
-#define INTERFACE
-
-#ifdef INTERFACE
-        interface::Interface interface;
-#endif
         using Status = bt::Node::Status;
         roboteam_msgs::WorldRobot robot;
 
