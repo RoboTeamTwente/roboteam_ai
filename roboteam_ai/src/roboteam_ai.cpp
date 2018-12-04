@@ -14,7 +14,7 @@ namespace ai = rtt::ai;
 namespace ui = rtt::ai::interface;
 
 using Status = bt::Node::Status;
-ui::MainWindow * window;
+std::shared_ptr<ui::MainWindow> window;
 
 void runBehaviourTrees() {
     // init IOManager and subscribe to all topics immediately
@@ -107,7 +107,7 @@ int main(int argc, char* argv[]) {
     // initialize the interface
     QApplication a(argc, argv);
     ui::MainWindow w;
-    window = &w;
+    window = std::make_shared<ui::MainWindow>(&w);
     w.show();
 
     return a.exec();
