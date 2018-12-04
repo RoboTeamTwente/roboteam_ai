@@ -3,7 +3,7 @@
 //
 
 #include "Switches.h"
-#include "../bt/tactics/DefaultTactic.h"
+
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -16,11 +16,13 @@
 
 std::vector<std::string> Switches::tacticJsonFileNames =
         {"victoryDanceTactic",
-         "randomTactic"};
+         "randomTactic",
+         "GetBallTestTactic"};
 
 std::vector<std::string> Switches::strategyJsonFileNames =
         {"victoryDanceStrategy",
-         "randomStrategy"};
+         "randomStrategy",
+         "GetBallTestStrategy"};
 
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
@@ -94,6 +96,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "RotateToAngle") {
         node = std::make_shared<rtt::ai::RotateToAngle>(name, properties);
     }
+    else if (name == "HasBall") {
+        node = std::make_shared<rtt::ai::HasBall>(name, properties);
+    }
     else {
         ROS_ERROR("ERROR: Leaf not found!! using GoToPos..");
         node = std::make_shared<rtt::ai::GoToPos>(name, properties);
@@ -120,6 +125,12 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             {"ExampleTactic2", {
                     {"exampleRole12", robotType::random},
                     {"exampleRole21", robotType::random}
+            }
+
+            },
+
+            {"GetBallTestTactic", {
+                    {"FAKOFF", robotType::random},
             }
             }
     };

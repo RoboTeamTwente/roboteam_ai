@@ -17,7 +17,7 @@ class HasBall : public Condition {
 
     private:
 
-        using status = bt::Node::Status;
+        using Status = bt::Node::Status;
         roboteam_msgs::WorldRobot robot;
 
         bool botHasBall(Vector2 ballPos);
@@ -31,7 +31,7 @@ class HasBall : public Condition {
          * @return Returns status::success if a robot has a ball, status::failure otherwise.
          */
         Status update() override;
-        std::string node_name() override { return "IHaveBall"; }
+        std::string node_name() override { return "HasBall"; }
 
 };
 

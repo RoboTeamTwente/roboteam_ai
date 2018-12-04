@@ -1,5 +1,5 @@
-#ifndef ROBOTEAM_AI_CONDITION_H
-#define ROBOTEAM_AI_CONDITION_H
+#ifndef ROBOTEAM_AI_SKILL_H
+#define ROBOTEAM_AI_SKILL_H
 
 #include "../bt/Leaf.hpp"
 #include "ros/ros.h"
@@ -30,7 +30,6 @@ class Skill : public bt::Leaf {
         using Control = control::ControlUtils;
         using Status = bt::Node::Status;
 
-
         explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
 
 };
@@ -38,4 +37,4 @@ class Skill : public bt::Leaf {
 } // ai
 } // rtt
 
-#endif //ROBOTEAM_AI_CONDITION_H
+#endif //ROBOTEAM_AI_SKILL_H
