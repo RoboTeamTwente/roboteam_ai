@@ -14,7 +14,6 @@ bt::Node::Status bt::DefaultTactic::update() {
         status = Status::Waiting;
     }
     else {
-        std::cout << "                                            "<<robotsNeeded <<std::endl;
         auto status = child->tick();
 
         if (status == Status::Success) {

@@ -123,13 +123,6 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
 
-            {"ExampleTactic2", {
-                    {"exampleRole12", robotType::random},
-                    {"exampleRole21", robotType::random}
-            }
-
-            },
-
             {"GetBallTestTactic", {
                     {"FAKOFF", robotType::random},
             }
