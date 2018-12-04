@@ -6,17 +6,28 @@
 #define ROBOTEAM_AI_GETBALL_H
 
 #include "Skill.h"
+#include "../utilities/Constants.h"
+#include "../control/ControlUtils.h"
+
 namespace rtt {
 namespace ai {
 class GetBall : public Skill {
     private:
         using status=bt::Node::Status;
         roboteam_msgs::WorldRobot robot;
+        roboteam_msgs::WorldBall ball;
+
         enum Progression {
-          FARTOBALL, CLOSETOBALL, SUCCESS, FAIL
+          TURNING, APPROACHING, DRIBBLING, SUCCESS, FAIL
         };
+        bool robothasBall();
+        void sendTurnCommand();
+        void sendApproachCommand();
+        void sendDribblingCommand();
         Progression currentProgress;
         Progression checkProgression();
+
+        Vector2 deltaPos;
     public:
         explicit GetBall(string name, bt::Blackboard::Ptr blackboard);
         std::string node_name() override;
