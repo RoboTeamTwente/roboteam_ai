@@ -10,9 +10,12 @@
 #include <iostream>
 #include <memory>
 #include <QtWidgets/QCheckBox>
+#include <QComboBox>
 #include "widget.h"
 #include "QHBoxLayout"
 #include "QPushButton"
+#include <QTreeWidget>
+#include "../bt/Node.hpp"
 
 namespace rtt {
 namespace ai {
@@ -27,7 +30,8 @@ private:
     std::shared_ptr<Visualizer> visualizer;
     std::shared_ptr<QHBoxLayout> horizontalLayout;
     std::shared_ptr<QVBoxLayout> verticalLayout;
-    std::shared_ptr<QPushButton> button1;
+    std::shared_ptr<QTreeWidget> treeWidget;
+    std::shared_ptr<QComboBox> select_robot;
     std::shared_ptr<QCheckBox> cb_rolenames;
     std::shared_ptr<QCheckBox> cb_tacticnames;
     std::shared_ptr<QCheckBox> cb_tacticcolors;
@@ -36,6 +40,9 @@ private:
     std::shared_ptr<QCheckBox> cb_path_all;
     std::shared_ptr<QCheckBox> cb_velocities;
     std::shared_ptr<QSpacerItem> vSpacer;
+
+    bool didLoad = false;
+    void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem * QParent);
 };
 
 } // interface

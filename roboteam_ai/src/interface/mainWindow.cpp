@@ -3,6 +3,7 @@
 //
 
 #include <roboteam_ai/src/utilities/Constants.h>
+#include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include "mainWindow.h"
 
 namespace rtt {
@@ -18,8 +19,8 @@ namespace interface {
     verticalLayout = std::make_shared<QVBoxLayout>();
 
     // button for X
-    button1 = std::make_shared<QPushButton>("button1");
-    verticalLayout->addWidget(button1.get());
+    select_robot = std::make_shared<QComboBox>();
+    verticalLayout->addWidget(select_robot.get());
 
     // checkbox for toggling Role text
     cb_rolenames = std::make_shared<QCheckBox>("show rolenames");
@@ -67,6 +68,15 @@ namespace interface {
     vSpacer = std::make_shared<QSpacerItem>(0,10, QSizePolicy::Expanding, QSizePolicy::Expanding);
     verticalLayout->addItem(vSpacer.get());
 
+    treeWidget = std::make_shared<QTreeWidget>();
+    treeWidget->setColumnCount(2);
+
+
+
+    verticalLayout->addWidget(treeWidget.get());
+
+
+
     // main layout: left the visualizer and right the vertical layout
     horizontalLayout->addWidget(visualizer.get(), 2); // width stretch 2/3
     horizontalLayout->addLayout(verticalLayout.get(), 1); // width stretch 1/3
@@ -78,7 +88,41 @@ namespace interface {
 
 void MainWindow::updateWidget() {
     visualizer->update();
-    button1->setText(QString::number(visualizer->getSelectedRobot().id));
+   // select_robot->setText(QString::number(visualizer->getSelectedRobot().id));
+
+   if (select_robot->count() != World::get_world().us.size()) {
+       select_robot->clear();
+       for (roboteam_msgs::WorldRobot robot : World::get_world().us) {
+           select_robot->addItem(QString::number(robot.id));
+       }
+   }
+
+
+    if (!didLoad) {
+        bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree("SimpleStrategy");
+
+        auto treeItemRoot = new QTreeWidgetItem(treeWidget.get());
+        treeItemRoot->setText(0, QString::fromStdString(tree->node_name()));
+        treeItemRoot->setText(1, QString::fromStdString(statusToString(tree->getStatus())));
+
+        addRootItem(tree, treeItemRoot);
+
+        treeWidget->expandAll();
+        treeWidget->update();
+        didLoad = true;
+    }
+}
+
+void MainWindow::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem * QParent) {
+    auto treeItemchild = new QTreeWidgetItem(QParent);
+    treeItemchild->setText(0, QString::fromStdString(parent->node_name()));
+    treeItemchild->setText(1, QString::fromStdString(statusToString(parent->getStatus())));
+
+    for(auto const &child : parent->getChildren()) {
+
+
+        addRootItem(child, treeItemchild);
+    }
 }
 
 }
