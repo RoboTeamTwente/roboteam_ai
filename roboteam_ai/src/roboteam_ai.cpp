@@ -106,9 +106,8 @@ int main(int argc, char* argv[]) {
 
     // initialize the interface
     QApplication a(argc, argv);
-    ui::MainWindow w;
-    window = std::make_shared<ui::MainWindow>(&w);
-    w.show();
+    window = std::make_shared<ui::MainWindow>();
+    window->show();
 
     return a.exec();
 }
