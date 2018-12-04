@@ -1,0 +1,25 @@
+{
+  "name": "GetBallTestStrategy",
+  "data": {
+    "trees": [
+      {
+        "title": "GetBallTestStrategy",
+        "root": "jmhtc8qjlxzza1gxl",
+        "nodes": {
+          "jmhtc8qjlxzza1gxl": {
+            "id": "jmhtc8qjlxzza1gxl",
+            "title": "UntilSuccess",
+            "children": [
+              "di5q8zlfe422mbn"
+            ]
+          },
+          "di5q8zlfe422mbn": {
+            "id": "di5q8zlfe422mbn",
+            "title": "Tactic",
+            "name": "GetBallTestTactic"
+          }
+        }
+      }
+    ]
+  }
+}
