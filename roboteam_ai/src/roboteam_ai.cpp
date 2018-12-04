@@ -14,7 +14,7 @@ namespace ai = rtt::ai;
 namespace ui = rtt::ai::interface;
 
 using Status = bt::Node::Status;
-ui::MainWindow * window;
+ui::MainWindow* window;
 
 void runBehaviourTrees() {
     // init IOManager and subscribe to all topics immediately
@@ -32,7 +32,7 @@ void runBehaviourTrees() {
 
     // Start running this tree first
     ros::Rate rate(50);
-    std::string currentTree = "randomStrategy";
+    std::string currentTree = "GetBallTestStrategy";
 
     // Main loop
     while (ros::ok()) {
@@ -46,7 +46,7 @@ void runBehaviourTrees() {
         ai::Field::set_field(geometryMsg.field);
         ai::Referee::setRefereeData(refereeMsg);
 
-        if (!ai::World::didReceiveFirstWorld) continue;
+        if (! ai::World::didReceiveFirstWorld) continue;
 
         if (df::DangerFinder::instance().hasCalculated()) {
             df::DangerData dangerData = df::DangerFinder::instance().getMostRecentData();
@@ -70,17 +70,17 @@ void runBehaviourTrees() {
 
         switch (status) {
 
-        case Status::Running:
-            break;
+            case Status::Running:
+                break;
             case Status::Success:
                 ROS_INFO_STREAM("Status returned: Success");
                 ROS_INFO_STREAM(" === TREE CHANGE === ");
                 currentTree = "victoryDanceStrategy";
                 break;
 
-        case Status::Failure:
-            ROS_INFO_STREAM("Status returned: Failure");
-            break;
+            case Status::Failure:
+                ROS_INFO_STREAM("Status returned: Failure");
+                break;
             case Status::Waiting:
                 ROS_INFO_STREAM("Status returned: Waiting");
                 break;
@@ -95,7 +95,6 @@ void runBehaviourTrees() {
         strategy->terminate(Status::Running);
     }
 }
-
 
 int main(int argc, char* argv[]) {
     // Init ROS node in main thread
