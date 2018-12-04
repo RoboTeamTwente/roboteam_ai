@@ -112,7 +112,7 @@ void GoToPosLuTh::terminate(Status s) {
 
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
-    command.use_angle = 1;
+    command.use_angle = 0;
     command.w = 0;
 
     command.x_vel = 0;

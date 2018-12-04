@@ -4,7 +4,6 @@
 
 #include "Switches.h"
 
-
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
  * of the json trees you added
@@ -17,13 +16,15 @@
 std::vector<std::string> Switches::tacticJsonFileNames =
         {"victoryDanceTactic",
          "randomTactic",
-         "GetBallTestTactic"};
+         "GetBallTestTactic",
+         "DanceTactic",
+         "DanceTactic2"};
 
 std::vector<std::string> Switches::strategyJsonFileNames =
         {"victoryDanceStrategy",
          "randomStrategy",
-         "GetBallTestStrategy"};
-
+         "GetBallTestStrategy",
+         "DanceStrategy"};
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
 /// have a look around with the names and see if what you made is on the same level as these are
@@ -90,8 +91,8 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "GoToPosLuTh") {
         node = std::make_shared<rtt::ai::GoToPosLuTh>(name, properties);
     }
-    else if (name == "Dribble"){
-        node = std::make_shared<rtt::ai::Dribble>(name,properties);
+    else if (name == "Dribble") {
+        node = std::make_shared<rtt::ai::Dribble>(name, properties);
     }
     else if (name == "RotateToAngle") {
         node = std::make_shared<rtt::ai::RotateToAngle>(name, properties);
@@ -131,6 +132,16 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 
             {"GetBallTestTactic", {
                     {"FAKOFF", robotType::random},
+            }
+            },
+            {"DanceTactic2", {
+                    {"retarded", robotType::random},
+                    {"Vright", robotType::random},
+            }
+            },
+            {"DanceTactic", {
+                    {"right", robotType::random},
+                    {"letf", robotType::random},
             }
             }
     };
