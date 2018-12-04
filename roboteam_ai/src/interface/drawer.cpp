@@ -18,8 +18,12 @@ void Drawer::setGoToPosLuThPoints(int id, std::vector<rtt::Vector2> points) {
      Drawer::GoToPosLuThPoints.insert(pair);
 }
 
-const std::vector<Vector2> &Drawer::getGoToPosLuThPoints(int id) {
-    return GoToPosLuThPoints[id];
+std::vector<Vector2> Drawer::getGoToPosLuThPoints(int id) {
+
+    if (GoToPosLuThPoints.find(id) != GoToPosLuThPoints.end()) {
+        return GoToPosLuThPoints[id];
+    }
+    return {};
 }
 
 }

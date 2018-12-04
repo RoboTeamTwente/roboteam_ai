@@ -52,10 +52,16 @@ namespace interface {
     QObject::connect(cb_velocities.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowVelocities(bool)));
 
     // checkbox for toggling velocity indicators
-    cb_path = std::make_shared<QCheckBox>("show path");
-    cb_path->setChecked(constants::STD_SHOW_PATHS_ALL);
+    cb_path = std::make_shared<QCheckBox>("show path for current robot");
+    cb_path->setChecked(constants::STD_SHOW_PATHS_CURRENT);
     verticalLayout->addWidget(cb_path.get());
     QObject::connect(cb_path.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowPath(bool)));
+
+    // checkbox for toggling velocity indicators
+    cb_path_all = std::make_shared<QCheckBox>("show path for all robots");
+    cb_path_all->setChecked(constants::STD_SHOW_PATHS_ALL);
+    verticalLayout->addWidget(cb_path_all.get());
+    QObject::connect(cb_path_all.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowPathAll(bool)));
 
     // Spacer to nicely align buttons at the top
     vSpacer = std::make_shared<QSpacerItem>(0,10, QSizePolicy::Expanding, QSizePolicy::Expanding);

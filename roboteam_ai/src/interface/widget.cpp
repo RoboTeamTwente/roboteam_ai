@@ -26,6 +26,7 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawRobots(painter);
 
         if (showPath) drawDataPoints(painter, Drawer::getGoToPosLuThPoints(selectedRobot.id));
+
     } else {
         painter.drawText(24,24, "Waiting for incoming World State");
     }
@@ -99,6 +100,10 @@ void Visualizer::drawRobot(QPainter & painter, roboteam_msgs::WorldRobot robot, 
     Vector2 robotpos = toScreenPosition(robot.pos);
     QPointF qrobotPosition(robotpos.x, robotpos.y);
     QColor robotColor = ourTeam ? c::ROBOT_US_COLOR : c::ROBOT_THEM_COLOR;
+
+    if (showAllPaths) {
+        drawDataPoints(painter, Drawer::getGoToPosLuThPoints(robot.id), 2, Qt::gray);
+    }
 
     if (showAngles) {
         Vector2 angle = toScreenPosition({robot.pos.x + cos(robot.angle) / 3, robot.pos.y + sin(robot.angle) / 3});
@@ -249,6 +254,9 @@ void Visualizer::setShowPath(bool showPath) {
     Visualizer::showPath = showPath;
 }
 
+void Visualizer::setShowPathAll(bool showPaths) {
+    Visualizer::showAllPaths = showPaths;
+}
 
 } // interface
 } // ai

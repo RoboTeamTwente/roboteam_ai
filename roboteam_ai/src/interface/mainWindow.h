@@ -33,6 +33,7 @@ private:
     std::shared_ptr<QCheckBox> cb_tacticcolors;
     std::shared_ptr<QCheckBox> cb_angles;
     std::shared_ptr<QCheckBox> cb_path;
+    std::shared_ptr<QCheckBox> cb_path_all;
     std::shared_ptr<QCheckBox> cb_velocities;
     std::shared_ptr<QSpacerItem> vSpacer;
 };
