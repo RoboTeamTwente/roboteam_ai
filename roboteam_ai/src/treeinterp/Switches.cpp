@@ -19,13 +19,15 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "randomTactic",
          "GetBallTestTactic",
          "DanceTactic",
-         "DanceTactic2"};
+         "DanceTactic2",
+         "SimpleTactic"};
 
 std::vector<std::string> Switches::strategyJsonFileNames =
         {"victoryDanceStrategy",
          "randomStrategy",
          "GetBallTestStrategy",
-         "DanceStrategy"};
+         "DanceStrategy",
+         "SimpleStrategy"};
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
 /// have a look around with the names and see if what you made is on the same level as these are
@@ -139,6 +141,10 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             {"DanceTactic", {
                     {"right", robotType::random},
                     {"letf", robotType::random},
+            }
+            },
+            {"SimpleTactic", {
+                    {"simpleStupidRobot", robotType::random},
             }
             }
     };
