@@ -2,6 +2,7 @@
 // Created by baris on 15/11/18.
 //
 
+#include <roboteam_ai/src/skills/GoToPosLuTh.h>
 #include "Switches.h"
 
 /**
@@ -87,6 +88,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     }
     else if (name == "Rotate") {
         node = std::make_shared<rtt::ai::Rotate>(name, properties);
+    }
+    else if (name == "GoToPosLuTh_OLD") {
+        node = std::make_shared<rtt::ai::GoToPosLuTh_OLD>(name, properties);
     }
     else if (name == "GoToPosLuTh") {
         node = std::make_shared<rtt::ai::GoToPosLuTh>(name, properties);

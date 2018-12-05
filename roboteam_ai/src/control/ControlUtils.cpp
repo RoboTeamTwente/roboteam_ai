@@ -6,6 +6,7 @@
 #include "ControlUtils.h"
 
 namespace control {
+
 double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAngle) {
     double direction = 1;               // counter clockwise rotation
     double rotFactor = 8;               // how SLOW the robot rotates when it is near its destination angle
@@ -21,7 +22,7 @@ double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAn
     return direction*(std::pow(rotFactor, angleDiff - 1)*rtt::ai::constants::MAX_ANGULAR_VELOCITY - 1/rotFactor);
 }
 //Efficient implementation, see this: https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
-bool ControlUtils::pointInTriangle(Vec PointToCheck, Vec TP1, Vec TP2, Vec TP3) {
+bool ControlUtils::pointInTriangle(Vector2 PointToCheck, Vector2 TP1, Vector2 TP2, Vector2 TP3) {
     double as_x = PointToCheck.x - TP1.x;
     double as_y = PointToCheck.y - TP1.y;
     bool s_ab = (TP2.x - TP1.x)*as_y - (TP2.y - TP1.y)*as_x > 0;
@@ -29,21 +30,61 @@ bool ControlUtils::pointInTriangle(Vec PointToCheck, Vec TP1, Vec TP2, Vec TP3) 
     return ((TP3.x - TP2.x)*(PointToCheck.y - TP2.y) - (TP3.y - TP2.y)*(PointToCheck.x - TP2.x) > 0 == s_ab);
 }
 
-double ControlUtils::TriangleArea(Vec A, Vec B, Vec C) {
+double ControlUtils::TriangleArea(Vector2 A, Vector2 B, Vector2 C) {
     return abs((A.x*(B.y - C.y) + B.x*(C.y - A.y) + C.x*(A.y - B.y))*0.5);
 }
 ///Square points must be connected! (e.g. SP1 is connected to SP2 and SP4)
-bool ControlUtils::pointInRectangle(Vec PointToCheck, Vec SP1, Vec SP2, Vec SP3, Vec SP4) {
-    if(pointInTriangle(PointToCheck,SP1,SP2,SP3)){
+bool ControlUtils::pointInRectangle(Vector2 PointToCheck, Vector2 SP1, Vector2 SP2, Vector2 SP3, Vector2 SP4) {
+    if (pointInTriangle(PointToCheck, SP1, SP2, SP3)) {
         return true;
     }
-    else return pointInTriangle(PointToCheck,SP4,SP1,SP2);
+    else return pointInTriangle(PointToCheck, SP4, SP1, SP2);
 }
 double ControlUtils::constrainAngle(double angle) {
-    angle= fmod(angle+M_PI,2*M_PI);
-    if (angle<0)
-        angle+=2*M_PI;
-    return angle-M_PI;
+    angle = fmod(angle + M_PI, 2*M_PI);
+    if (angle < 0)
+        angle += 2*M_PI;
+    return angle - M_PI;
 
 }
-}//control
+rtt::Vector2 ControlUtils::getClosestRobot(rtt::Vector2 &pos, int &id, bool ourTeam, float &t) {
+    auto world = rtt::ai::World::get_world();
+    rtt::Vector2 closestPos = {420,420};
+    double distance = 99999999;
+    for (auto &bot : world.us) {
+        if (! (ourTeam && id == bot.id) ) {
+            rtt::Vector2 botPos = {bot.pos.x + bot.vel.x*t, bot.pos.y + bot.vel.y*t};
+            double deltaPos = (pos - botPos).length();
+            if (deltaPos < distance) {
+                closestPos = bot.pos;
+                distance = deltaPos;
+            }
+
+        }
+
+    }
+    for (auto &bot : world.them) {
+        if (! (!ourTeam && id == bot.id)) {
+            rtt::Vector2 botPos = {bot.pos.x + bot.vel.x*t, bot.pos.y + bot.vel.y*t};
+            double deltaPos = (pos - botPos).length();
+            if (deltaPos < distance) {
+                closestPos = bot.pos;
+                distance = deltaPos;
+            }
+        }
+    }
+    return closestPos;
+}
+
+rtt::Vector2 ControlUtils::getClosestRobot(rtt::Vector2 &pos, int &id, bool ourTeam) {
+    float t = 0.0f;
+    return getClosestRobot(pos, id, ourTeam, t);
+}
+
+rtt::Vector2 ControlUtils::getClosestRobot(rtt::Vector2 &pos) {
+    float t = 0.0f;
+    int id = -1;
+    return getClosestRobot(pos, id, true, t);
+}
+
+} // control

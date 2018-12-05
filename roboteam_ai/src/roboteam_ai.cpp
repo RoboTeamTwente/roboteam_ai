@@ -33,7 +33,7 @@ void runBehaviourTrees() {
 
     // Start running this tree first
     ros::Rate rate(50);
-    std::string currentTree = "DanceStrategy";
+    std::string currentTree = "GetBallTestStrategy";
 
     // Main loop
     while (ros::ok()) {
@@ -76,7 +76,7 @@ void runBehaviourTrees() {
             case Status::Success:
                 ROS_INFO_STREAM("Status returned: Success");
                 ROS_INFO_STREAM(" === TREE CHANGE === ");
-                currentTree = "victoryDanceStrategy";
+                currentTree = "GetBallTestStrategy";
                 break;
 
             case Status::Failure:

@@ -24,6 +24,7 @@
 //
 
 #include "../skills/Rotate.h"
+#include "../skills/GoToPosLuTh_OLD.h"
 #include "../skills/GoToPosLuTh.h"
 #include "../skills/RotateToAngle.h"
 #include "../skills/GoToPos.h"
