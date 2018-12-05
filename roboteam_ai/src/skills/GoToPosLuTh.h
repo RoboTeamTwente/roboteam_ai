@@ -51,7 +51,7 @@ class GoToPosLuTh : public Skill {
 
         std::vector<Vector2> displayData;
 
-#define INTERFACE
+//#define INTERFACE
 
 #ifdef INTERFACE
         interface::Interface interface;

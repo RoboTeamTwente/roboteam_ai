@@ -18,7 +18,6 @@ namespace ai {
 /// Stops at the end to ensure the ball does not spin away.
 class Dribble : public Skill {
     private:
-        interface::Interface interface;
         using status = bt::Node::Status;
         roboteam_msgs::WorldRobot robot;
         roboteam_msgs::WorldBall ball;
