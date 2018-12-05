@@ -145,7 +145,7 @@ void GoToPosLuTh::sendMoveCommand() {
 
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
-    command.use_angle = 1;
+    command.use_angle = 0;
 
     auto angularVel = (float) Control::calculateAngularVelocity(robot.angle, angle);
     //float angularVel=0;

@@ -49,7 +49,7 @@ const bool STD_SHOW_VORONOI = false;
 const bool STD_SHOW_PATHS_ALL = false;
 const bool STD_SHOW_PATHS_CURRENT = false;
 
-const QColor FIELD_COLOR {50, 50, 50, 255}; // gray
+const QColor FIELD_COLOR = Qt::darkGreen;
 const QColor FIELD_LINE_COLOR = Qt::white;
 const QColor ROBOT_US_COLOR { 150, 150, 255, 255 }; // Blue
 const QColor ROBOT_THEM_COLOR { 255, 255, 0, 255 }; // Yellow

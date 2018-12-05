@@ -82,21 +82,21 @@ namespace interface {
     setCentralWidget(new QWidget);
     centralWidget()->setLayout(horizontalLayout.get());
 
-            bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree("GetBallTestStrategy"); // TODO notify tree change and reload the widget
-            auto treeItemRoot = new QTreeWidgetItem(treeWidget.get());
-            treeItemRoot->setText(0, QString::fromStdString(tree->GetRoot()->node_name()));
-            treeItemRoot->setText(1, QString::fromStdString(statusToString(tree->GetRoot()->getStatus())));
-            addRootItem(tree->GetRoot(), treeItemRoot);
-            treeWidget->expandAll();
-            treeWidget->update();
+    bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree("GetBallTestStrategy"); // TODO notify tree change and reload the widget
+    auto treeItemRoot = new QTreeWidgetItem(treeWidget.get());
+    treeItemRoot->setText(0, QString::fromStdString(tree->GetRoot()->node_name()));
+    treeItemRoot->setText(1, QString::fromStdString(statusToString(tree->GetRoot()->getStatus())));
+    treeItemRoot->setBackgroundColor(1, getColorForStatus(tree->GetRoot()->getStatus()));
 
-    QTimer *timer = new QTimer(this);
+    addRootItem(tree->GetRoot(), treeItemRoot);
+    treeWidget->expandAll();
+    treeWidget->update();
+
+    // start the UI update cycle
+    auto *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateWidget()));
     timer->start(20); // 50fps
-
-        QTimer *timer2 = new QTimer(this);
-        connect(timer2, SIGNAL(timeout()), this, SLOT(updateWidget()));
-        timer2->start(20); // 50fps
 }
 
 void MainWindow::updateWidget() {
@@ -106,17 +106,17 @@ void MainWindow::updateWidget() {
         QTreeWidgetItem *widgetItem = *iter;
         if (treeItemMapping.find(widgetItem) != treeItemMapping.end()) {
             bt::Node::Ptr item = treeItemMapping.at(widgetItem);
-
-            if (widgetItem->text(1) != QString::fromStdString(statusToString(item->getStatus()))) {
-                widgetItem->setText(1, QString::fromStdString(statusToString(item->getStatus())));
+            QString status = QString::fromStdString(statusToString(item->getStatus()));
+            if (widgetItem->text(1) != status) {
+                widgetItem->setText(1, status);
                 widgetItem->setBackgroundColor(1, getColorForStatus(item->getStatus()));
             }
         }
-
         ++iter;
     }
 }
 
+/// Use recursion to iterate through the children of each node
 void MainWindow::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem * QParent) {
     for(auto const &child : parent->getChildren()) {
         auto treeItemchild = new QTreeWidgetItem(QParent);
@@ -132,21 +132,21 @@ void MainWindow::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem * QParent) {
     }
 }
 
-    QColor MainWindow::getColorForStatus(bt::Node::Status status) {
-        switch (status) {
-            case bt::Node::Status::Failure:
-                return Qt::red;
-            case bt::Node::Status::Running:
-                return Qt::green;
-            case bt::Node::Status::Success:
-                return Qt::darkGreen;
-            case bt::Node::Status::Waiting:
-                return Qt::yellow;
-            default:
-                return Qt::white;
-        }
-        return Qt::white;
+/// returns a color for a given node status
+QColor MainWindow::getColorForStatus(bt::Node::Status status) {
+    switch (status) {
+        case bt::Node::Status::Failure:
+            return Qt::red;
+        case bt::Node::Status::Running:
+            return {"#99ff99"}; // light green
+        case bt::Node::Status::Success:
+            return {"#339933"}; // dark green
+        case bt::Node::Status::Waiting:
+            return Qt::gray;
+        default:
+            return Qt::white;
     }
+}
 
 }
 }
