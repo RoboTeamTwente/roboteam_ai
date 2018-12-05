@@ -76,6 +76,9 @@ bool Pass::sendPassCommand() {
 
     return false;
 }
+int Pass::getRobotToPass() {
+    return 0;
+}
 
 }
 }
