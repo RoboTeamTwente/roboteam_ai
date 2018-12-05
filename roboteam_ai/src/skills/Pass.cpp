@@ -76,8 +76,35 @@ bool Pass::sendPassCommand() {
 
     return false;
 }
+
+// beun beun beun
 int Pass::getRobotToPass() {
-    return 0;
+
+    if (defensive) {
+        auto world = World::get_world();
+        auto us = world.us;
+        int safelyness = 3;
+        while (safelyness >= 0) {
+            for (auto friendly : us) {
+                if (control::ControlUtils::hasClearVision(robot.id, friendly.id, world, safelyness)) {
+                    return friendly.id;
+                }
+            }
+            safelyness--;
+        }
+    } else {
+        std::string roleName = properties->getString("ROLE");
+        std::string tacticName = dealer::getTacticNameForRole(roleName);
+        auto tacticMates = dealer::findRobotsForTactic(tacticName);
+        for (auto r : tacticMates) {
+            if (r != robot.id) {
+                if (control::ControlUtils::hasClearVision(robot.id, r, World::get_world(), 2)) {
+                    return r;
+                }
+            }
+        }
+    }
+    return -1;
 }
 
 }
