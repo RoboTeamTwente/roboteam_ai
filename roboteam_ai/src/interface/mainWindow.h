@@ -37,6 +37,8 @@ private:
     std::shared_ptr<QVBoxLayout> verticalLayout;
     std::shared_ptr<QTreeWidget> treeWidget;
     std::shared_ptr<QComboBox> select_robot;
+    std::shared_ptr<QComboBox> select_strategy;
+    std::shared_ptr<QCheckBox> cb_referee;
     std::shared_ptr<QCheckBox> cb_rolenames;
     std::shared_ptr<QCheckBox> cb_tacticnames;
     std::shared_ptr<QCheckBox> cb_tacticcolors;
@@ -47,6 +49,7 @@ private:
     // std::shared_ptr<QSpacerItem> vSpacer;
 
     bool didLoad = false;
+    int amountOfRobots = 0;
     void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem * QParent);
 
     std::map<QTreeWidgetItem *, bt::Node::Ptr> treeItemMapping;

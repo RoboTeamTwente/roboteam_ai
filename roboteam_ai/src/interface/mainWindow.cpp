@@ -23,7 +23,28 @@ namespace interface {
     select_robot = std::make_shared<QComboBox>();
     verticalLayout->addWidget(select_robot.get());
 
+    QObject::connect(select_robot.get(), SIGNAL(currentIndexChanged(int)), visualizer.get(), SLOT(selectRobot(int)));
+
     // checkbox for toggling Role text
+    cb_referee = std::make_shared<QCheckBox>("Use referee");
+    cb_referee->setChecked(constants::STD_SHOW_ROLES);
+    verticalLayout->addWidget(cb_referee.get());
+    QObject::connect(cb_referee.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowRoles(bool)));
+
+    select_strategy = std::make_shared<QComboBox>();
+    verticalLayout->addWidget(select_strategy.get());
+
+    for (std::string const &strategyName : Switches::strategyJsonFileNames) {
+        select_strategy->addItem(QString::fromStdString(strategyName));
+    }
+
+    // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+    QObject::connect(select_strategy.get(), QOverload<const QString &>::of(&QComboBox::currentIndexChanged), [=](const QString &strategyName){
+        BTFactory::getFactory().setCurrentTree(strategyName.toStdString());
+        didLoad =false;
+    });
+
+        // checkbox for toggling Role text
     cb_rolenames = std::make_shared<QCheckBox>("show rolenames");
     cb_rolenames->setChecked(constants::STD_SHOW_ROLES);
     verticalLayout->addWidget(cb_rolenames.get());
@@ -82,16 +103,6 @@ namespace interface {
     setCentralWidget(new QWidget);
     centralWidget()->setLayout(horizontalLayout.get());
 
-    bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree("GetBallTestStrategy"); // TODO notify tree change and reload the widget
-    auto treeItemRoot = new QTreeWidgetItem(treeWidget.get());
-    treeItemRoot->setText(0, QString::fromStdString(tree->GetRoot()->node_name()));
-    treeItemRoot->setText(1, QString::fromStdString(statusToString(tree->GetRoot()->getStatus())));
-    treeItemRoot->setBackgroundColor(1, getColorForStatus(tree->GetRoot()->getStatus()));
-
-    addRootItem(tree->GetRoot(), treeItemRoot);
-    treeWidget->expandAll();
-    treeWidget->update();
-
     // start the UI update cycle
     auto *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -114,6 +125,30 @@ void MainWindow::updateWidget() {
         }
         ++iter;
     }
+
+    if (!didLoad) {
+        treeWidget->clear();
+        bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree(
+                BTFactory::getFactory().getCurrentTree()); // TODO notify tree change and reload the widget
+        auto treeItemRoot = new QTreeWidgetItem(treeWidget.get());
+        treeItemRoot->setText(0, QString::fromStdString(tree->GetRoot()->node_name()));
+        treeItemRoot->setText(1, QString::fromStdString(statusToString(tree->GetRoot()->getStatus())));
+        treeItemRoot->setBackgroundColor(1, getColorForStatus(tree->GetRoot()->getStatus()));
+
+        addRootItem(tree->GetRoot(), treeItemRoot);
+        treeWidget->expandAll();
+        treeWidget->update();
+        didLoad = true;
+    }
+
+    if (amountOfRobots != World::get_world().us.size()) {
+        select_robot->clear();
+        for (auto robot : World::get_world().us) {
+            select_robot->addItem(QString::number(robot.id));
+        }
+        amountOfRobots = World::get_world().us.size();
+    }
+
 }
 
 /// Use recursion to iterate through the children of each node
