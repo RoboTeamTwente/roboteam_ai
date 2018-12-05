@@ -138,7 +138,6 @@ void GoToPosLuTh::sendMoveCommand() {
 
     ros::Time end = ros::Time::now();
     double timeTaken = (end - begin).toSec();
-    std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
 
     displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
     interface::Drawer::setGoToPosLuThPoints(robot.id, displayData);
@@ -199,8 +198,6 @@ bool GoToPosLuTh::calculateNumericDirection(numRobot &me, float &xVel, float &yV
         return true;
     }
 //  ____________________________________________________________________________________________________________________
-
-    std::cout << "robot travel time : " << me.t << std::endl;
 
     int maxDTimesX = (int) (round(0.1/me.dt));
     int dTimesX;

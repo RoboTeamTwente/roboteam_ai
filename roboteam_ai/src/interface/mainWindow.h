@@ -30,7 +30,7 @@ public:
     explicit MainWindow(QWidget * parent = nullptr);
 
 public slots:
-    void updateWidget();
+    void updateWidgets();
 private:
     std::shared_ptr<Visualizer> visualizer;
     std::shared_ptr<QHBoxLayout> horizontalLayout;
@@ -46,9 +46,11 @@ private:
     std::shared_ptr<QCheckBox> cb_path;
     std::shared_ptr<QCheckBox> cb_path_all;
     std::shared_ptr<QCheckBox> cb_velocities;
-    // std::shared_ptr<QSpacerItem> vSpacer;
 
-    bool didLoad = false;
+    void configureCheckBox(std::shared_ptr<QCheckBox> checkbox, std::shared_ptr<QLayout> layout,
+            const QObject *receiver, const char * method, bool defaultState = false);
+
+    bool hasCorrectTree = false;
     int amountOfRobots = 0;
     void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem * QParent);
 
