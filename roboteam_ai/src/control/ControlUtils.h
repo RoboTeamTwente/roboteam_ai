@@ -8,16 +8,21 @@
 #include "../utilities/Constants.h"
 #include "roboteam_utils/Vector2.h"
 #include "math.h"
+#include "../utilities/World.h"
 
-typedef rtt::Vector2 Vec;
+
+typedef rtt::Vector2 Vector2;
 namespace control {
 class ControlUtils {
     public:
         static double calculateAngularVelocity(double robotAngle, double targetAngle);
-        static double TriangleArea(Vec A,Vec B,Vec C);
-        static bool pointInTriangle(Vec PointToCheck,Vec TP1, Vec TP2, Vec TP3);
-        static bool pointInRectangle(Vec PointToCheck,Vec SP1, Vec SP2, Vec SP3,Vec SP4);
+        static double TriangleArea(Vector2 A,Vector2 B,Vector2 C);
+        static bool pointInTriangle(Vector2 PointToCheck,Vector2 TP1, Vector2 TP2, Vector2 TP3);
+        static bool pointInRectangle(Vector2 PointToCheck,Vector2 SP1, Vector2 SP2, Vector2 SP3,Vector2 SP4);
         static double constrainAngle(double angle);
+        static rtt::Vector2 getClosestRobot(rtt::Vector2 &pos, int &id, bool ourTeam, float &t);
+        static rtt::Vector2 getClosestRobot(rtt::Vector2 &pos, int &id, bool ourTeam);
+        static rtt::Vector2 getClosestRobot(rtt::Vector2 &pos);
 };
 
 }

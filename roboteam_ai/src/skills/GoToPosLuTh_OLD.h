@@ -1,28 +1,22 @@
 //
-// Created by thijs on 04-12-18.
+// Created by thijs on 19-11-18.
 //
+
 #include "Skill.h"
 #include <cmath>
-#include <queue>
-#include <random>  //random numbers..
-#include <cstdlib>
-#include <time.h>
-#include "../interface/drawer.h"
 
-// #include "../interface/Interface.h"
-
-#ifndef ROBOTEAM_AI_GOTOPOSLUTH_H
-#define ROBOTEAM_AI_GOTOPOSLUTH_H
+#ifndef ROBOTEAM_AI_GOTOPOSLUTH_OLD_H
+#define ROBOTEAM_AI_GOTOPOSLUTH_OLD_H
 
 namespace rtt {
 namespace ai {
-class GoToPosLuTh : public Skill {
+class GoToPosLuTh_OLD : public Skill {
 
     private:
 
-        struct NumRobot {
+        struct numRobot {
           int id;                       //Robot id
-          double angle;
+          double angle;                 //Current angle
           Vector2 pos;                  //Current x,y position in m
           Vector2 targetPos;            //Target position in m
           Vector2 vel;                  //Current x,y velocity in ms-1
@@ -46,19 +40,14 @@ class GoToPosLuTh : public Skill {
 
           bool isCollision(Vector2 &otherPos) {
               double minDistance = 0.2;
-              return isCollision(otherPos, minDistance);
-          }
-
-          bool isCollision(Vector2 &otherPos, double minDistance) {
+              if (vel.length() > maxVel*0.5) {
+                  minDistance *= 1.5;
+              }
               return (std::abs((otherPos - pos).length()) < minDistance);
           }
-
         };
-
-        using NumRobotPtr = std::shared_ptr<NumRobot>;
-
-        bool tracePath(NumRobot &numRobot, Vector2 &target);
-        bool avoidObject(NumRobot &me, int &startIndex, bool firstTry);
+        bool tracePath(numRobot &me, int &startIndex, Vector2 target, bool semiPath);
+        bool avoidObject(numRobot &me, int &startIndex, bool firstTry);
 
         std::vector<Vector2> displayData;
         using Status = bt::Node::Status;
@@ -78,17 +67,17 @@ class GoToPosLuTh : public Skill {
 
         bool checkTargetPos(Vector2 pos);
         void sendMoveCommand();
-        bool calculateNumericDirection(NumRobot &me, roboteam_msgs::RobotCommand &command);
+        bool calculateNumericDirection(numRobot &me, roboteam_msgs::RobotCommand &command);
+        Vector2 getClosestRobotPos(const roboteam_msgs::World &world, numRobot &me);
     public:
 
-        explicit GoToPosLuTh(string name, bt::Blackboard::Ptr blackboard);
+        explicit GoToPosLuTh_OLD(string name, bt::Blackboard::Ptr blackboard);
         std::string node_name() override;
 
         void initialize() override;
         Status update() override;
         void terminate(Status s) override;
 
-        bool calculateNextPoint(NumRobotPtr shared_ptr);
 };
 } // ai
 } // rtt
