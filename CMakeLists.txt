@@ -170,7 +170,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Dribble.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.h
-        )
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
