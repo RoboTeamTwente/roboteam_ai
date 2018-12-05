@@ -66,51 +66,54 @@ namespace interface {
     QObject::connect(cb_path_all.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowPathAll(bool)));
 
     // Spacer to nicely align buttons at the top
-    vSpacer = std::make_shared<QSpacerItem>(0,10, QSizePolicy::Expanding, QSizePolicy::Expanding);
-   // verticalLayout->addItem(vSpacer.get());
+    // vSpacer = std::make_shared<QSpacerItem>(0,10, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // verticalLayout->addItem(vSpacer.get());
 
     treeWidget = std::make_shared<QTreeWidget>();
     treeWidget->setColumnCount(2);
 
-
-
     verticalLayout->addWidget(treeWidget.get());
 
-
-
     // main layout: left the visualizer and right the vertical layout
-    horizontalLayout->addWidget(visualizer.get(), 2); // width stretch 2/3
-    horizontalLayout->addLayout(verticalLayout.get(), 1); // width stretch 1/3
+    horizontalLayout->addWidget(visualizer.get(), 3); // width stretch 3/5
+    horizontalLayout->addLayout(verticalLayout.get(), 2); // width stretch 2/5
 
     // apply layout
     setCentralWidget(new QWidget);
     centralWidget()->setLayout(horizontalLayout.get());
+
+            bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree("GetBallTestStrategy"); // TODO notify tree change and reload the widget
+            auto treeItemRoot = new QTreeWidgetItem(treeWidget.get());
+            treeItemRoot->setText(0, QString::fromStdString(tree->GetRoot()->node_name()));
+            treeItemRoot->setText(1, QString::fromStdString(statusToString(tree->GetRoot()->getStatus())));
+            addRootItem(tree->GetRoot(), treeItemRoot);
+            treeWidget->expandAll();
+            treeWidget->update();
+
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    timer->start(20); // 50fps
+
+        QTimer *timer2 = new QTimer(this);
+        connect(timer2, SIGNAL(timeout()), this, SLOT(updateWidget()));
+        timer2->start(20); // 50fps
 }
 
 void MainWindow::updateWidget() {
-    visualizer->update();
-   // select_robot->setText(QString::number(visualizer->getSelectedRobot().id));
+    QTreeWidgetItemIterator iter(treeWidget.get(), QTreeWidgetItemIterator::All);
 
-   if (select_robot->count() != World::get_world().us.size()) {
-       select_robot->clear();
-       for (roboteam_msgs::WorldRobot robot : World::get_world().us) {
-           select_robot->addItem(QString::number(robot.id));
-       }
-   }
+    while (*iter) {
+        QTreeWidgetItem *widgetItem = *iter;
+        if (treeItemMapping.find(widgetItem) != treeItemMapping.end()) {
+            bt::Node::Ptr item = treeItemMapping.at(widgetItem);
 
+            if (widgetItem->text(1) != QString::fromStdString(statusToString(item->getStatus()))) {
+                widgetItem->setText(1, QString::fromStdString(statusToString(item->getStatus())));
+                widgetItem->setBackgroundColor(1, getColorForStatus(item->getStatus()));
+            }
+        }
 
-    if (!didLoad) {
-        bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree("randomStrategy");
-
-        auto treeItemRoot = new QTreeWidgetItem(treeWidget.get());
-        treeItemRoot->setText(0, QString::fromStdString(tree->GetRoot()->node_name()));
-        treeItemRoot->setText(1, QString::fromStdString(statusToString(tree->GetRoot()->getStatus())));
-
-        addRootItem(tree->GetRoot(), treeItemRoot);
-
-        treeWidget->expandAll();
-        treeWidget->update();
-        didLoad = true;
+        ++iter;
     }
 }
 
@@ -120,32 +123,30 @@ void MainWindow::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem * QParent) {
         treeItemchild->setText(0, QString::fromStdString(child->node_name()));
         treeItemchild->setText(1, QString::fromStdString(statusToString(child->getStatus())));
 
-        QColor color;
+        std::pair<QTreeWidgetItem *, bt::Node::Ptr> pair{treeItemchild, child};
+        treeItemMapping.insert(pair);
 
-        switch (child->getStatus()) {
-            case bt::Node::Status::Failure:
-                color = Qt::red;
-                break;
-            case bt::Node::Status::Running:
-                color = Qt::green;
-                break;
-            case bt::Node::Status::Success:
-                color = Qt::darkGreen;
-                break;
-            case bt::Node::Status::Waiting:
-                color = Qt::yellow;
-                break;
-            default:
-                break;
-        }
-
-        treeItemchild->setBackgroundColor(1, color);
+        treeItemchild->setBackgroundColor(1, getColorForStatus(child->getStatus()));
         QParent->addChild(treeItemchild);
         addRootItem(child, treeItemchild);
-
-
     }
 }
+
+    QColor MainWindow::getColorForStatus(bt::Node::Status status) {
+        switch (status) {
+            case bt::Node::Status::Failure:
+                return Qt::red;
+            case bt::Node::Status::Running:
+                return Qt::green;
+            case bt::Node::Status::Success:
+                return Qt::darkGreen;
+            case bt::Node::Status::Waiting:
+                return Qt::yellow;
+            default:
+                return Qt::white;
+        }
+        return Qt::white;
+    }
 
 }
 }

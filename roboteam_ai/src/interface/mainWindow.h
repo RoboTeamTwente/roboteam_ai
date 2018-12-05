@@ -17,6 +17,8 @@
 #include <QTreeWidget>
 #include "QColor"
 #include "../bt/Node.hpp"
+#include "QTreeWidgetItemIterator"
+#include <QtGui>
 
 namespace rtt {
 namespace ai {
@@ -26,6 +28,8 @@ class MainWindow : public QMainWindow {
 Q_OBJECT
 public:
     explicit MainWindow(QWidget * parent = nullptr);
+
+public slots:
     void updateWidget();
 private:
     std::shared_ptr<Visualizer> visualizer;
@@ -40,10 +44,14 @@ private:
     std::shared_ptr<QCheckBox> cb_path;
     std::shared_ptr<QCheckBox> cb_path_all;
     std::shared_ptr<QCheckBox> cb_velocities;
-    std::shared_ptr<QSpacerItem> vSpacer;
+    // std::shared_ptr<QSpacerItem> vSpacer;
 
     bool didLoad = false;
     void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem * QParent);
+
+    std::map<QTreeWidgetItem *, bt::Node::Ptr> treeItemMapping;
+    QColor getColorForStatus(bt::Node::Status status);
+    int frame = 0;
 };
 
 } // interface
