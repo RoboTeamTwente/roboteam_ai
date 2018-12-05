@@ -258,6 +258,14 @@ void Visualizer::setShowPathAll(bool showPaths) {
     Visualizer::showAllPaths = showPaths;
 }
 
+void Visualizer::selectRobot(int robotId) {
+    for (roboteam_msgs::WorldRobot robot : rtt::ai::World::get_world().us) {
+        if (robot.id == robotId) {
+            this->selectedRobot = robot;
+        }
+    }
+}
+
 } // interface
 } // ai
 } // rtt

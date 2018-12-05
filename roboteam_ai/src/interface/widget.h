@@ -31,6 +31,7 @@ public slots:
     void setShowVelocities(bool showVelocities);
     void setShowPath(bool showPath);
     void setShowPathAll(bool showPaths);
+    void selectRobot(int robotId);
 protected:
     void paintEvent(QPaintEvent* event) override;
     void mousePressEvent(QMouseEvent * event) override;
