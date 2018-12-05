@@ -136,10 +136,8 @@ void GoToPosLuTh::sendMoveCommand() {
 
     ros::Time end = ros::Time::now();
     double timeTaken = (end - begin).toSec();
-    std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
 
     interface::Drawer::setGoToPosLuThPoints(robot.id, displayData);
-
     publishRobotCommand(command);
 }
 
@@ -163,7 +161,6 @@ bool GoToPosLuTh::calculateNumericDirection(NumRobot &me, roboteam_msgs::RobotCo
     me.targetPos = targetPos;
     me.angle = robot.angle;
     if (me.vel.length() > 10.0) return false;
-
     tracePath(me, targetPos);
 
     return true;
@@ -224,52 +221,3 @@ bool GoToPosLuTh::calculateNextPoint(GoToPosLuTh::NumRobotPtr me) {
 
 } // ai
 } // rtt
-
-
-
-//
-//    while (! me.isCollision(target)) {
-//
-//        me.t = me.posData.size()*me.dt;
-//        // get the target velocity towards the direction we want to go
-//
-//        me.targetVel = me.getDirection(target)*me.maxVel;
-//
-//        // change acceleration towards the target velocity
-//        me.acc = (me.targetVel - me.vel).normalize()*me.maxAcc;
-//        // if the current velocity is away (>90 degrees) from the target
-//        auto dAngle = static_cast<float>(me.vel.angle() - me.getDirection().angle());
-//        if (std::abs(dAngle) > M_PI_2) {
-//            me.acc = (me.acc.normalize() - me.vel.normalize())*me.maxAcc;
-//        }
-//
-//        // change my current velocity and position following a numeric euler model
-//        me.pos = me.pos + me.vel*me.dt;
-//        me.vel = me.vel + me.acc*me.dt;
-//
-//        // save position and velocity-data
-//        me.velData.push_back(me.vel);
-//        me.posData.push_back(me.pos);
-//
-//        Vector2 closestBot = Control::getClosestRobot(me.pos, me.t);
-//        if (me.isCollision(closestBot)) {
-//            // in calculating a part of the path we do not want to collide
-//            if (semiPath) {
-//                return false;
-//            }
-//                // if we are in the main loop try to find an alternative path
-//            else {
-//                if (! avoidObject(me, startIndex, true)) {
-//                    return false;
-//                }
-//
-//            }
-//        }
-//
-//        if (++ me.totalCalculations > 5000) {
-//            return false;
-//        }
-//    }
-//
-//    // yay, we finished the path! - hopefully..
-//    return true;

@@ -10,13 +10,11 @@
 namespace bt {
 
 class Blackboard {
-
     FRIEND_TEST(BTBlackBoardTest, Blackboard);
 
     public:
         // Default constructors enabled
         Blackboard() = default;
-
         Blackboard(const Blackboard &) = default;
 
         Blackboard(Blackboard &&) = default;

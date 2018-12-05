@@ -47,7 +47,7 @@ void bt::DefaultTactic::initialize() {
 }
 
 void bt::DefaultTactic::terminate(bt::Node::Status s) {
-    dealer::removeTactic("victoryDanceTactic");
+    dealer::removeTactic(name);
 
     child->terminate(child->getStatus());
 

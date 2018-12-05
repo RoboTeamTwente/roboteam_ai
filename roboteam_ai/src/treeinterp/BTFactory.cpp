@@ -10,6 +10,7 @@
 
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
 std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
+std::string BTFactory::currentTree;
 
 /// Returns the Behaviour Tree Factory Singleton
 BTFactory &BTFactory::getFactory() {
@@ -40,6 +41,27 @@ bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     }
     ROS_ERROR("No Strategy by that name");
     return strategyRepo.end()->second;
+}
+
+std::string BTFactory::getCurrentTree() {
+    return currentTree;
+}
+
+void BTFactory::setCurrentTree(const std::string & newTree) {
+
+    // only change if it is a different tree
+    if (newTree != BTFactory::currentTree) {
+//        auto tree = BTFactory::getFactory().getTree(BTFactory::currentTree);
+//        if (tree) { // terminate tree if needed
+//            tree->GetRoot()->terminate(tree->GetRoot()->getStatus());
+//        }
+
+    for (auto tacticRobotsPair : robotDealer::RobotDealer::getClaimedRobots()) {
+        robotDealer::RobotDealer::removeTactic(tacticRobotsPair.first);
+    }
+
+BTFactory::currentTree = newTree;
+    }
 }
 
 

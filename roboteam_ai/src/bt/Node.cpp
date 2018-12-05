@@ -99,6 +99,8 @@ void Node::NodeTerminate(Status s) {
     std::cout << "Node Terminate:  " << node_name() << std::endl;
     terminate(s);
 
+
+
 }
 
 std::string statusToString(bt::Node::Status status) {
