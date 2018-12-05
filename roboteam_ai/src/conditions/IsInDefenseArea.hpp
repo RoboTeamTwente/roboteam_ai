@@ -12,17 +12,27 @@
 #include "roboteam_utils/Vector2.h"
 #include "../utilities/World.h"
 #include "Condition.h"
-//TODO: Fix node_name() to be correct.
+
 namespace rtt {
 namespace ai {
 
 class IsInDefenseArea : public ai::Condition {
+    private:
+
+        using status = bt::Node::Status;
+        roboteam_msgs::WorldRobot robot;
+
+        bool ourDefenseArea;
+        float margin;
     public:
         explicit IsInDefenseArea(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
 
-        Status Update() override;
+        Status update() override;
+        std::string node_name() override { return "IHaveBall"; }
+
 };
 
 }// ai
 }// rtt
+
 #endif //ROBOTEAM_AI_ISINDEFENSEAREA_HPP

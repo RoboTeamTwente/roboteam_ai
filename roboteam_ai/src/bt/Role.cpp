@@ -8,16 +8,16 @@
 
 namespace bt {
 
-void Role::Initialize() {
+void Role::initialize() {
     // Get the robot ID for this Role
 
 }
-Node::Status Role::Update() {
-    auto status = child->Tick();
+Node::Status Role::update() {
+    auto status = child->tick();
     if (status == Status::Success) {
         return Status::Success;
     }
-    else if (status == Status::Invalid) {
+    else if (status == Status::Waiting) {
         return Status::Failure;
     }
     else /* if (status == Status::Failure || status == Status::Running) */ {
@@ -25,7 +25,7 @@ Node::Status Role::Update() {
         return Status::Running;
     }
 }
-void Role::AddChild(Node::Ptr newChild) {
+void Role::addChild(Node::Ptr newChild) {
     this->child = newChild;
 
 }
@@ -38,4 +38,9 @@ Role::Role(std::string name) {
     globalBB = std::make_shared<Blackboard>();
 
 }
+
+std::vector<Node::Ptr> Role::getChildren() {
+    return std::vector<Node::Ptr>{child};
+}
+
 }

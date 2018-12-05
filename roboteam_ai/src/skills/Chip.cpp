@@ -8,7 +8,7 @@ namespace rtt {
 namespace ai {
 
 Chip::Chip(std::string name, bt::Blackboard::Ptr blackboard)
-        :Kick(name, blackboard) { }
+        : Kick(name, blackboard) { }
 
 void Chip::sendKickCommand(double kickVel) {
     roboteam_msgs::RobotCommand command;
@@ -20,6 +20,5 @@ void Chip::sendKickCommand(double kickVel) {
 
     publishRobotCommand(command);
 }
-
 } // ai
 } // rtt

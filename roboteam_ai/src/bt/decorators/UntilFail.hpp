@@ -9,7 +9,7 @@ namespace bt {
 */
 class UntilFail : public Decorator {
     public:
-        Status Update() override;
+        Status update() override;
 
         std::string node_name() override;
 };

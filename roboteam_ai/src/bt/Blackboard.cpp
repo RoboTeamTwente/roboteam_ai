@@ -1,3 +1,5 @@
+#include <utility>
+
 #include <string>
 #include <memory>
 #include "roboteam_msgs/StringEntry.h"
@@ -31,7 +33,7 @@ void Blackboard::setInt(std::string key, int value) {
 
 int Blackboard::getInt(std::string key) {
     if (ints.find(key) == ints.end()) {
-        ints[key] = 0;
+        ints[key] = -1;
     }
     return ints[key];
 }
@@ -71,7 +73,7 @@ bool Blackboard::hasDouble(std::string key) const {
 }
 
 void Blackboard::setString(std::string key, std::string value) {
-    strings[key] = value;
+    strings[key] = std::move(value);
 }
 
 std::string Blackboard::getString(std::string key) {

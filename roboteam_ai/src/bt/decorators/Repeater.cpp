@@ -4,17 +4,17 @@
 namespace bt {
 
 
-void Repeater::Initialize() {
+void Repeater::initialize() {
     counter = 0;
     if (properties->hasInt("limit")) limit = properties->getInt("limit");
     else limit = 0;
 }
 
-Node::Status Repeater::Update() {
+Node::Status Repeater::update() {
 
     while (limit >= 0 && (limit != counter++ || limit == 0)) {
         Node::append_status("[Repeater: executing child of type %s]", child->node_name().c_str());
-        child->Tick();
+        child->tick();
 
         return Status::Running;
     }

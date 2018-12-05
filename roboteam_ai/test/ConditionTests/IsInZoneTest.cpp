@@ -10,7 +10,7 @@ TEST(IsInZoneTest, IsInZoneTest) {
     auto blackBoard = std::make_shared<bt::Blackboard>();
     rtt::ai::IsInZone node("Test", blackBoard);
 
-    ASSERT_EQ(node.Update(), bt::Node::Status::Failure);
+    ASSERT_EQ(node.update(), bt::Node::Status::Failure);
 
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
@@ -25,6 +25,6 @@ TEST(IsInZoneTest, IsInZoneTest) {
 
     blackBoard->setInt("zone", 3);
 
-    ASSERT_EQ(node.Update(), bt::Node::Status::Success);
+    ASSERT_EQ(node.update(), bt::Node::Status::Success);
 
 }

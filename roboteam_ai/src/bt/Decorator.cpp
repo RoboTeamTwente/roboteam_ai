@@ -4,7 +4,7 @@ namespace bt {
 
 Decorator::~Decorator() { }
 
-void Decorator::AddChild(Node::Ptr child) {
+void Decorator::addChild(Node::Ptr child) {
     this->child = child;
 }
 
@@ -12,9 +12,9 @@ bool Decorator::HasNoChild() const {
         return child == nullptr;
 }
 
-void Decorator::Terminate(Status s) {
+void Decorator::terminate(Status s) {
     if (child->getStatus() == Status::Running) {
-        child->Terminate(child->getStatus());
+        child->terminate(child->getStatus());
     }
 
     if (s == Status::Running) {
@@ -22,6 +22,9 @@ void Decorator::Terminate(Status s) {
     }
 }
 
+std::vector<Node::Ptr> Decorator::getChildren() {
+    return std::vector<Node::Ptr>{child};
+}
 } // bt
 
 

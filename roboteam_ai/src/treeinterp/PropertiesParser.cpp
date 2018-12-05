@@ -2,12 +2,8 @@
 // Created by baris on 31/10/18.
 //
 
-#include <utility>
 #include "PropertiesParser.h"
-#include "../bt/Blackboard.hpp"
-#include <math.h>
-#include <string>
-#include <vector>
+
 
 bt::Blackboard::Ptr PropertiesParser::parse(PropertiesParser::json jsonLeaf) {
 
@@ -61,6 +57,10 @@ PropertiesParser::type PropertiesParser::checkVarTypeOfString(std::string keyNam
         std::vector<double> &vec) {
 
     std::string strKey = (std::string) jsonLeaf["properties"][keyName];
+    if (strKey.empty()) {
+        ROS_ERROR("PARSING EMPTY STRING!! this could give errors");
+        return String;
+    }
     int it = 0;
     type varType;
 
@@ -76,7 +76,7 @@ PropertiesParser::type PropertiesParser::checkVarTypeOfString(std::string keyNam
         // we are dealing with a vector
         it++;
         while (charKey[it] == space) it++;                  // skip spaces and move to the first character after "{" in the string
-        if (!std::isdigit(strKey[it])) return String;       // check if the first character is a digit (0, 1, ... , 9)
+        if (!(std::isdigit(strKey[it]) || (charKey[it] == minus))) return String;       // check if the first character is a digit (0, 1, ... , 9)
 
         double number;                                      // get the variable type and the value of the next unit in the vector
         varType = getNumberFromString(strKey, charKey, it, number);
@@ -92,7 +92,7 @@ PropertiesParser::type PropertiesParser::checkVarTypeOfString(std::string keyNam
         }
         // last check to see if we are at the end of the string
         while (charKey[it] == space) it++;
-        if (charKey[it] != vectorEndChar || it != charKey.size()-1) return String;
+        if (charKey[it] != vectorEndChar || it != (signed) charKey.size()-1) return String;
         else return Vector;
     }
     else {
@@ -112,7 +112,7 @@ PropertiesParser::type PropertiesParser::getNumberFromString(std::string strKey,
             while(charKey[++it] == space);
             negNum = true;
         }
-        while (std::isdigit(strKey[it]) && it < strKey.size()) {
+        while (std::isdigit(strKey[it]) && it < (signed) strKey.size()) {
 
             sum = 10*sum + (int) (charKey[it] - '0');
             it ++;

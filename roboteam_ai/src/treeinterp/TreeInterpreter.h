@@ -16,6 +16,10 @@
 #include <unistd.h>
 #include "BTImport.h"
 #include "PropertiesParser.h"
+#include "../bt/tactics/DemoTactic.h"
+#include "../bt/tactics/ParallelSequenceTest.h"
+#include "../bt/Role.h"
+#include "Switches.h"
 
 #define GetCurrentDir getcwd
 
@@ -28,6 +32,8 @@ class TreeInterpreter {
 
         PropertiesParser propertyParser;
 
+        std::map<std::string, bt::Node::Ptr> tactics;
+
         FRIEND_TEST(JsonBasics, JsonTest);
 
         FRIEND_TEST(TreeTest, JsonTest);
@@ -36,20 +42,13 @@ class TreeInterpreter {
 
         bt::Node::Ptr buildNode(json node, json tree, bt::Blackboard::Ptr globalBlackBoard);
 
-        std::vector<json> parseSmallJSONs(json json);
-
         bool isLeaf(json json);
 
         bt::Node::Ptr makeNonLeafNode(std::string name);
 
         bt::Leaf::Ptr makeLeafNode(json jsonLeaf);
 
-        std::map<std::string, bt::Node::Ptr> tactics;
-
         bt::Node::Ptr tacticSwitch(std::string, bt::Blackboard::Ptr properties);
-
-        void buildTree(const json &nodeJSON, const json &tree, const bt::Blackboard::Ptr &globalBlackBoard,
-                bt::Node::Ptr &node);
 
     protected:
 

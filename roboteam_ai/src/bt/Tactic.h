@@ -6,21 +6,24 @@
 #define ROBOTEAM_AI_TACTIC_H
 
 #include "Node.hpp"
+#include "../utilities/World.h"
+
 namespace bt {
 
 class Tactic : public Node {
     public:
-        void AddChild(Node::Ptr newChild) override;
+        void addChild(Node::Ptr newChild) override;
 
+        std::vector<Node::Ptr> getChildren() override;
+        using robotType = robotDealer::RobotDealer::RobotType;
 
-        void Initialize() override;
+        void initialize() override;
 
-        Status Update() override;
+        Status update() override;
 
         void askForRobots();
 
-
-        void Terminate(Status s) override;
+        void terminate(Status s) override;
 
         Node::Ptr child = nullptr;
         std::string node_name() override;

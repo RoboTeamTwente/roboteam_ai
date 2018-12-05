@@ -4,7 +4,7 @@ namespace bt {
 
 Composite::~Composite() { }
 
-void Composite::AddChild(Node::Ptr child) {
+void Composite::addChild(Node::Ptr child) {
     children.push_back(child);
 }
 
@@ -12,10 +12,10 @@ bool Composite::HasNoChildren() const {
     return children.empty();
 }
 
-void Composite::Terminate(Status s) {
+void Composite::terminate(Status s) {
     for (auto child : children) {
         if (child->getStatus() == Status::Running) {
-            child->Terminate(child->getStatus());
+            child->terminate(child->getStatus());
         }
     }
 
@@ -24,4 +24,8 @@ void Composite::Terminate(Status s) {
     }
 }
 
+std::vector<Node::Ptr> Composite::getChildren() {
+    return children;
 }
+
+} // bt

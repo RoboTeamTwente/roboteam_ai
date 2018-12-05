@@ -1,97 +1,70 @@
 //
-// Created by baris on 23/10/18.
+// Created by baris on 16/11/18.
 //
 
-#ifndef ROBOTEAM_AI_ROBOTDEALER_HPP
-#define ROBOTEAM_AI_ROBOTDEALER_HPP
+#ifndef ROBOTEAM_AI_ROBOTDEALER_H
+#define ROBOTEAM_AI_ROBOTDEALER_H
 
-#include <set>
-#include <string>
-#include <vector>
 #include <map>
-#include <ros/ros.h>
-#include <gtest/gtest_prod.h>
-#include <boost/optional.hpp>
+#include <set>
 #include <mutex>
+#include <vector>
 #include "World.h"
+#include "Field.h"
+#include "ros/ros.h"
 
-namespace rtt {
-namespace ai {
 
+namespace robotDealer {
 class RobotDealer {
-    public:
-
-        static std::set<int> getClaimedRobots();
-
-        static std::set<int> getAvailableRobots();
-
-        static bool claimKeeper(int id);
-
-        static int getKeeper();
-
-        static bool getKeeperAvailable();
-
-        static bool claimRobot(int id);
-
-        static int claimRandomRobot();
-
-        static int claimRobotClosestToBall();
-
-        static int claimRobotClosestToPoint(Vector2 pos);
-
-        static bool claimRobotForTactic(std::pair<int, std::string>const &idNamePair , std::string const &tacticName);
-
-        static bool claimRobotForTactic(std::set<std::pair<int, std::string>>const &roleSet, 
-                std::string const &tacticName);
-
-
-            static int findRobotForRole(std::string const &roleName);
-       
-        static int findRobotForRole(std::string const &tacticName, std::string const &roleName);
-
-        static std::map<std::string, std::set<std::pair<int, std::string>>> const &getRobotOwnerList();
-
-        static bool releaseKeeper();
-
-        static bool releaseRobot(int id);
-
-        static bool claimRobot(std::set<int> ids);
-
-        static bool releaseRobot(std::set<int> ids);
-
-        static void haltOverride();
 
     private:
 
-        FRIEND_TEST(RobotDealerTest, RobotDealerTest);
-
-        static std::set<int> takenRobots;
-
-        static void emptyTakenRobots();
-
-        static void emptyRobotOwners();
-
         static std::map<std::string, std::set<std::pair<int, std::string>>> robotOwners;
-
-        static std::atomic<int> keeper;
-
-        static std::atomic<bool> isKeeperAvailable;
 
         static std::mutex robotOwnersLock;
 
-        static std::mutex takenRobotsLock;
+        static void removeRobotFromOwnerList(int ID);
 
-        friend class HaltTactic;
+        static void addRobotToOwnerList(int ID, std::string tacticName, std::string roleName);
 
-        static void removeRobotFromOwnerList(int id);
+        static void updateFromWorld();
 
-        static bool validateID(int id);
+        static std::set<int> getRobots();
 
-        static bool isRobotAvailable(int id);
+        static int getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 position);
+
+        static void unFreeRobot(int ID);
+
+        static int getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 point1, rtt::Vector2 point2, bool inBetweenPoints);
+
+    public:
+
+       enum RobotType {
+         closeToBall,
+         farFromBall,
+         closeToOurGoal,
+         betweenBallAndOurGoal,
+         closeToTheirGoal,
+         random
+
+       };
+
+       static int claimRobotForTactic(RobotType feature, std::string tacticName, std::string roleName);
+
+       static std::set<int> getAvailableRobots();
+
+       static std::map<std::string, std::set<std::pair<int, std::string>>> getClaimedRobots();
+
+       static void releaseRobotForRole(std::string roleName);
+
+       static void removeTactic(std::string tacticName);
+
+       static std::set<int> findRobotsForTactic(std::string tacticName);
+
+       static int findRobotForRole(std::string roleName);
+
+
 
 };
-
-} // ai
-} // rtt
-
-#endif //ROBOTEAM_AI_ROBOTDEALER_HPP
+}
+#endif //ROBOTEAM_AI_ROBOTDEALER_H

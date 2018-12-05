@@ -6,7 +6,7 @@
 #include <cstdarg>
 
 #include "Blackboard.hpp"
-#include "../../src/utilities/RobotDealer.h"
+#include "../utilities/RobotDealer.h"
 
 namespace bt {
 
@@ -14,7 +14,7 @@ class Node {
     public:
         // When this is updated, updated the tostring method below too!
         enum class Status {
-                Invalid,
+                Waiting,
                 Success,
                 Failure,
                 Running
@@ -22,8 +22,8 @@ class Node {
 
         std::string status_print(Status s) {
             switch (s) {
-            case Status::Invalid:
-                return " Status : Invalid";
+            case Status::Waiting:
+                return " Status : Waiting";
             case Status::Success:
                 return " Status : Success";
             case Status::Failure:
@@ -39,7 +39,7 @@ class Node {
 
         using Ptr = std::shared_ptr<Node>;
 
-        virtual Status Update() = 0;
+        virtual Status update() = 0;
 
         Status NodeUpdate();
 
@@ -47,13 +47,15 @@ class Node {
 
         void NodeTerminate(Status s);
 
-        virtual void Initialize();
+        virtual void initialize();
 
-        virtual void Terminate(Status s);
+        virtual void terminate(Status s);
 
-        virtual void AddChild(bt::Node::Ptr);
+        virtual void addChild(bt::Node::Ptr);
 
-        virtual Status Tick();
+        virtual std::vector<Node::Ptr> getChildren();
+
+        virtual Status tick();
 
         bool IsSuccess() const;
 
@@ -67,7 +69,7 @@ class Node {
 
         void setStatus(Status s);
 
-        using RobotDealer = rtt::ai::RobotDealer;
+        using dealer = robotDealer::RobotDealer;
 
         bt::Blackboard::Ptr properties = std::make_shared<bt::Blackboard>();
 
@@ -75,18 +77,15 @@ class Node {
 
         virtual std::string node_name();
 
-
         static std::string status_desc;
 
         void setProperties(bt::Blackboard::Ptr blackboard);
 
     protected:
-        Status status = Status::Invalid;
+        Status status = Status::Waiting;
 
         static void append_status(std::string fmt, ...);
 };
-
-using Nodes = std::vector<Node::Ptr>;
 
 std::string statusToString(bt::Node::Status status);
 

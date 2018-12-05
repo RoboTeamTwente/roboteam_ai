@@ -5,7 +5,7 @@
 
 #include <utility>
 #include "DemoTactic.h"
-#include "../../utilities/World.h"
+
 
 namespace bt {
 
@@ -19,28 +19,26 @@ void DemoTactic::setName(std::string newName) {
     name = std::move(newName);
 }
 
-void DemoTactic::Initialize() {
+void DemoTactic::initialize() {
+    std::vector<std::string> roleNames = {"testRole"};
 
-    while (!claimedRobots) {
-        std::set<int> ids;
-        ids = RobotDealer::getAvailableRobots();
-        if (!ids.empty()) {
-            auto id = *ids.begin();  // only one robot..
-            std::string roleName = "testRole";
-            std::pair<int, std::string> idName = {id, roleName};
-            claimedRobots = RobotDealer::claimRobotForTactic(idName, "testTactic");
-            robotIDs.insert(id);
+    while (claimedRobots < roleNames.size()) {
+        robotIDs.insert(dealer::claimRobotForTactic(robotType::random, "DemoTactic", roleNames[claimedRobots]));
+        if (robotIDs.find(- 1) == robotIDs.end()) {
+            claimedRobots ++;
+        } else {
+            robotIDs.erase(- 1);
         }
     }
 }
 
-Node::Status DemoTactic::Update() {
-    auto status = child->Tick();
+Node::Status DemoTactic::update() {
+    auto status = child->tick();
 
     if (status == Status::Success) {
         return Status::Success;
     }
-    else if (status == Status::Invalid) {
+    else if (status == Status::Waiting) {
         return Status::Failure;
     }
     else /* if (status == Status::Failure || status == Status::Running) */ {
@@ -48,9 +46,22 @@ Node::Status DemoTactic::Update() {
         return Status::Running;
     }
 }
-std::string DemoTactic::node_name() {
-    return "Demo Tactic";
+
+void DemoTactic::terminate(Status s) {
+    dealer::removeTactic("DemoTactic");
+    if (child->getStatus() == Status::Running) {
+        child->terminate(child->getStatus());
+    }
+
+    if (s == Status::Running) {
+        setStatus(Status::Failure);
+    }
 }
+
+std::string DemoTactic::node_name() {
+    return "DemoTactic";
+}
+
 
 } // bt
 

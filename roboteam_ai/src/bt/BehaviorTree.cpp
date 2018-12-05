@@ -22,13 +22,13 @@ BehaviorTree::~BehaviorTree() {
 
 }
 
-Node::Status BehaviorTree::Update() {
-    return root->Tick();
+Node::Status BehaviorTree::update() {
+    return root->tick();
 }
 
-void BehaviorTree::Terminate(Status s) {
+void BehaviorTree::terminate(Status s) {
     if (root->getStatus() == Status::Running) {
-        root->Terminate(root->getStatus());
+        root->terminate(root->getStatus());
     }
 
     if (s == Node::Status::Running) {

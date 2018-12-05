@@ -1,0 +1,98 @@
+{
+  "name": "BallPlacementUsTactic",
+  "data": {
+    "trees": [
+      {
+        "title": "BallPlacementUsTactic",
+        "root": "bzjlygc2zeqjantvs",
+        "nodes": {
+          "bzjlygc2zeqjantvs": {
+            "id": "bzjlygc2zeqjantvs",
+            "title": "ParallelSequence",
+            "children": [
+              "rges6sjlxmi99r"
+            ],
+            "location": {
+              "x": 469.0,
+              "y": 191.0
+            }
+          },
+          "2l2bvdnfqt3vg": {
+            "id": "2l2bvdnfqt3vg",
+            "title": "MemSequence",
+            "children": [
+              "zkl7lwhnxjxlmiay",
+              "qggd848t8b7kxxk0",
+              "ef4fg5gehb3r9ucvk",
+              "54gq9n20d9yoi7c"
+            ],
+            "location": {
+              "x": 418.0,
+              "y": 133.0
+            }
+          },
+          "zkl7lwhnxjxlmiay": {
+            "id": "zkl7lwhnxjxlmiay",
+            "title": "GoToPos",
+            "properties": {
+              "ROLE": "victor1",
+              "Position": "{0, 1}"
+            },
+            "location": {
+              "x": 271.0,
+              "y": 268.0
+            }
+          },
+          "qggd848t8b7kxxk0": {
+            "id": "qggd848t8b7kxxk0",
+            "title": "Rotate",
+            "properties": {
+              "ROLE": "victor1",
+              "Angle": "0.1"
+            },
+            "location": {
+              "x": 413.0,
+              "y": 262.0
+            }
+          },
+          "ef4fg5gehb3r9ucvk": {
+            "id": "ef4fg5gehb3r9ucvk",
+            "title": "GoToPos",
+            "properties": {
+              "ROLE": "victor1",
+              "Position": "{-1, 1}"
+            },
+            "location": {
+              "x": 595.0,
+              "y": 274.0
+            }
+          },
+          "54gq9n20d9yoi7c": {
+            "id": "54gq9n20d9yoi7c",
+            "title": "GoToPos",
+            "properties": {
+              "ROLE": "victor1",
+              "Position": "{0, -1}"
+            },
+            "location": {
+              "x": 742.0,
+              "y": 273.0
+            }
+          },
+          "rges6sjlxmi99r": {
+            "id": "rges6sjlxmi99r",
+            "title": "Role",
+            "children": [
+              "2l2bvdnfqt3vg"
+            ],
+            "name": "victor1",
+            "location": {
+              "x": 448.0,
+              "y": 287.0
+            }
+          }
+        }
+      }
+    ]
+  }
+}

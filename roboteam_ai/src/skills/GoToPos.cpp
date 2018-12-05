@@ -1,5 +1,3 @@
-
-
 //
 // Created by baris on 24/10/18.
 //
@@ -9,80 +7,83 @@
 namespace rtt {
 namespace ai {
 
+GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
+        :Skill(name, blackboard) {
+}
+
+std::string GoToPos::node_name() {
+    return "GoToPos";
+}
+
 /// Init the GoToPos skill
-void GoToPos::Initialize() {
+void GoToPos::initialize() {
 
     if (properties->hasString("ROLE")) {
         std::string roleName = properties->getString("ROLE");
-        robotID = (unsigned int) RobotDealer::findRobotForRole(roleName);
-        if (World::getRobotForId(robotID, true)) {
-            robot = World::getRobotForId(robotID, true).get();
+        robot.id = (unsigned int) dealer::findRobotForRole(roleName);
+        if (World::getRobotForId(robot.id, true)) {
+            robot = World::getRobotForId(robot.id, true).get();
         }
         else {
             ROS_ERROR("GoToPos Initialize -> robot does not exist in world");
-            currentProgress = Progression::INVALID;
+            currentProgress = Progression::FAIL;
             return;
         }
     }
     else {
-        ROS_ERROR("GoToPos Initialize -> ROLE INVALID!!");
-        currentProgress = Progression::INVALID;
+        ROS_ERROR("GoToPos Initialize -> ROLE WAITING!!");
+        currentProgress = Progression::FAIL;
         return;
     }
+//  ____________________________________________________
 
-    if (properties->hasBool("goToBall")) {
-        goToBall = properties->getBool("goToBall");
-    }
-    else goToBall = false;
+    goToBall = properties->getBool("goToBall");
+    goBehindBall = properties->getBool("goBehindBall");
 
-    if (goToBall) {
-        auto ball = World::getBall();
-        targetPos = ball.pos;
+    if (properties->hasVector2("Position")) {
+        targetPos = properties->getVector2("Position");
     }
     else {
-        if (properties->hasVector2("Position")) {
-            Vector2 posVector = properties->getVector2("Position");
-            targetPos = posVector;
-            currentProgress = Progression::ON_THE_WAY;
-
-        }
-        else {
-            ROS_ERROR("GoToPos Initialize -> No good X, Y or ROBOT_ID set in BB, GoToPos");
-            currentProgress = Progression::FAIL;
-        }
+        ROS_ERROR("GoToPos Initialize -> No good X or Y set in properties");
+        currentProgress = Progression::FAIL;
     }
 
 }
 
 /// Get an update on the skill
-bt::Node::Status GoToPos::Update() {
+bt::Node::Status GoToPos::update() {
 
-    if (World::getRobotForId(robotID, true)) {
-        robot = World::getRobotForId(robotID, true).get();
-    }
-    else {
+    if (World::getRobotForId(robot.id, true)) {
+        robot = World::getRobotForId(robot.id, true).get();
+    } else {
         ROS_ERROR("GoToPos Update -> robot does not exist in world");
-        currentProgress = Progression::INVALID;
     }
 
     if (goToBall) {
         auto ball = World::getBall();
         targetPos = ball.pos;
+    } else if (goBehindBall) {
+        auto ball = World::getBall();
+        auto enemyGoal = Field::get_their_goal_center();
+        auto ballToEnemyGoal = enemyGoal - ball.pos;
+        auto normalizedBTEG = ballToEnemyGoal.normalize();
+        targetPos = {ball.pos.x - normalizedBTEG.x, ball.pos.y - normalizedBTEG.y};
     }
+
+
 
     // See if the progress is a failure
     if (currentProgress == Progression::FAIL) {
         return status::Failure;
     }
-    else if (currentProgress == Progression::INVALID) {
-        return status::Invalid;
-    }
-
-    // Send a move command
-    sendMoveCommand();
+    double dx = targetPos.x - robot.pos.x;
+    double dy = targetPos.y - robot.pos.y;
+    deltaPos = {dx, dy};
 
     // Now check the progress we made
     currentProgress = checkProgression();
+    // Send a move command
+    sendMoveCommand2();
 
     switch (currentProgress) {
 
@@ -90,10 +91,22 @@ bt::Node::Status GoToPos::Update() {
     case ON_THE_WAY:return status::Running;
     case DONE: return status::Success;
     case FAIL: return status::Failure;
-    case INVALID: return status::Invalid;
     }
 
     return status::Failure;
+}
+
+void GoToPos::terminate(status s) {
+
+    roboteam_msgs::RobotCommand command;
+    command.id = robot.id;
+    command.use_angle = 1;
+    command.w = static_cast<float>(deltaPos.angle());
+
+    command.x_vel = 0;
+    command.y_vel = 0;
+
+    publishRobotCommand(command);
 }
 
 /// Check if the vector is a valid one
@@ -104,6 +117,28 @@ bool GoToPos::checkTargetPos(Vector2 pos) {
 
 /// Send a move robot command with a vector
 void GoToPos::sendMoveCommand() {
+
+    if (! checkTargetPos(targetPos)) {
+        ROS_ERROR("Target position is not correct GoToPos");
+        return;
+    }
+
+    // TODO: get correct kp from 20-sim model
+    roboteam_msgs::RobotCommand command;
+    command.id = robot.id;
+    command.use_angle = 0;
+
+    auto angularVel = (float)Control::calculateAngularVelocity(robot.angle, deltaPos.angle());
+    command.w = angularVel;
+
+    command.x_vel = 1.5;// abs(angularVel)/(abs(angularVel)-1);
+    command.y_vel = 0;
+    publishRobotCommand(command);
+    //commandSend = true;
+}
+
+/// Send a move robot command with a vector
+void GoToPos::sendMoveCommand2() {
     if (! checkTargetPos(targetPos)) {
         ROS_ERROR("Target position is not correct GoToPos");
         return;
@@ -112,76 +147,24 @@ void GoToPos::sendMoveCommand() {
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     command.use_angle = 1;
-    auto angle = (float) getAngularVelocity();
-    command.w = angle;
 
-    command.x_vel = 2;
-    command.y_vel = 0;
+    command.w= static_cast<float>(deltaPos.angle());
+    Vector2 deltaPosUnit=deltaPos.normalize();
 
+    command.x_vel = (float) deltaPosUnit.x*2;// abs(angularVel)/(abs(angularVel)-1);
+    command.y_vel = (float) deltaPosUnit.y*2;
     publishRobotCommand(command);
     commandSend = true;
-    std::cerr << "                  xvel: " << command.x_vel << ", yvel: " << command.y_vel << ", w_vel: " << command.w
-              << std::endl;
 }
 
-/// Check the progress the robot made and alter the currentProgress
+/// Check the progress the robot made a9nd alter the currentProgress
 GoToPos::Progression GoToPos::checkProgression() {
-
-    double dx = targetPos.x - robot.pos.x;
-    double dy = targetPos.y - robot.pos.y;
-    double deltaPos = (dx*dx) + (dy*dy);
-    double maxMargin = 1.0;                        // max offset or something.
-
-    if (abs(deltaPos) >= maxMargin) return ON_THE_WAY;
+    double maxMargin = 0.15;                        // max offset or something.
+    if (deltaPos.length() >= maxMargin) return ON_THE_WAY;
     else return DONE;
 }
 
-GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
 
-}
-std::string GoToPos::node_name() {
-    return "GoToPos";
-}
-double GoToPos::getAngularVelocity() {
-
-    auto currentAngle = robot.angle;
-    Vector2 deltaPos = {targetPos.x - robot.pos.x, targetPos.y - robot.pos.y};
-    auto targetAngle = (float) deltaPos.angle();
-
-    float angleDiff = targetAngle - currentAngle;
-    while (angleDiff < 0) angleDiff += 2*M_PI;
-    while (angleDiff > 2*M_PI) angleDiff -= 2*M_PI;
-
-    double angularErrorMargin = 0.5;
-    int direction = 1;
-    if (angleDiff > M_PI) {
-        angleDiff = (float) (2.0*M_PI - angleDiff);
-        direction = - 1;
-    }
-    if (angleDiff < angularErrorMargin) {
-        return direction*constants::MAX_ANGULAR_VELOCITY*0.2;
-    }
-    else {
-        return direction*constants::MAX_ANGULAR_VELOCITY; // (angleDiff + 1.0);
-    }
-
-}
-
-void GoToPos::Terminate(status s) {
-
-    roboteam_msgs::RobotCommand command;
-    command.id = robot.id;
-    command.use_angle = 1;
-    command.w = 0;
-
-    command.x_vel = 0;
-    command.y_vel = 0;
-
-    publishRobotCommand(command);
-    commandSend = true;
-
-}
 
 } // ai
 } // rtt

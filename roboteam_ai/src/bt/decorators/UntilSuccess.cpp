@@ -2,14 +2,14 @@
 
 namespace bt {
 
-Node::Status UntilSuccess::Update() {
+Node::Status UntilSuccess::update() {
     Node::append_status("[UntilSuccess: executing child of type %s]", child->node_name().c_str());
-    auto status = child->Tick();
+    auto status = child->tick();
 
     if (status == Status::Success) {
         return Status::Success;
     }
-    else if (status == Status::Invalid) {
+    else if (status == Status::Waiting) {
         return Status::Failure;
     }
     else /* if (status == Status::Failure || status == Status::Running) */ {

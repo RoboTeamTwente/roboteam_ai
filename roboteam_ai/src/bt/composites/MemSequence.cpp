@@ -3,11 +3,11 @@
 
 namespace bt {
 
-void MemSequence::Initialize() {
+void MemSequence::initialize() {
     index = 0;
 }
 
-bt::Node::Status MemSequence::Update() {
+bt::Node::Status MemSequence::update() {
     if (HasNoChildren()) {
         return Status::Success;
     }
@@ -17,7 +17,7 @@ bt::Node::Status MemSequence::Update() {
         auto &child = children.at(index);
 
         Node::append_status("[MemSequence: executing child of type %s]", child->node_name().c_str());
-        auto status = child->Tick();
+        auto status = child->tick();
 
         // If the child fails, or keeps running, do the same.
         if (status != Status::Success) {

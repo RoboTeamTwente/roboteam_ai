@@ -3,6 +3,7 @@
 //
 
 #include "Node.hpp"
+
 #ifndef ROBOTEAM_AI_ROLE_H
 #define ROBOTEAM_AI_ROLE_H
 
@@ -13,17 +14,17 @@ class Role : public Node {
     public:
         Role(std::string name);
 
-        int ROBOT_ID = -1;
-
         Node::Ptr child = nullptr;
 
         std::string name = "Role";
 
-        void Initialize() override;
+        void initialize() override;
 
-        Status Update() override;
+        Status update() override;
 
-        void AddChild(Node::Ptr newChild) override;
+        void addChild(Node::Ptr newChild) override;
+
+        std::vector<Node::Ptr> getChildren() override;
 
         std::string node_name() override;
 

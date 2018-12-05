@@ -3,146 +3,134 @@
 //
 
 #include "Rotate.h"
+#include "math.h"
 
 namespace rtt {
 namespace ai {
 
 Rotate::Rotate(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) { }
+        :Skill(name, blackboard) {
+}
 
-void Rotate::Initialize() {
+/// Init the Rotate skill
+void Rotate::initialize() {
 
-    if (properties->hasBool("Rotate_To_Object") && properties->hasInt("ROBOT_ID")) {
-        robot.id = (unsigned int) (properties->hasInt("ROBOT_ID"));
-
-        if (properties->getBool("Rotate_To_Object")) {  // Rotate towards an object
-
-            if (properties->hasInt("Rotate_Object")) {
-                targetObject = properties->getInt("Rotate_Object");
-                rotateToObject = true;
-            }
-            else {
-                ROS_ERROR("No good Rotate_Object set in BB, Rotation");
-                currentProgress = Progression::FAIL;
-                return;
-            }
-
+    if (properties->hasString("ROLE")) {
+        std::string roleName = properties->getString("ROLE");
+        robot.id = (unsigned int) dealer::findRobotForRole(roleName);
+        if (World::getRobotForId(robot.id, true)) {
+            robot = World::getRobotForId(robot.id, true).get();
         }
-        else {                                        // Rotate to an angle
-
-            if (properties->hasFloat("Rotate_Angle")) {
-                targetRotation = properties->getFloat("Rotate_Angle");
-                rotateToObject = false;
-            }
-            else {
-                ROS_ERROR("No good Rotate_Angle set in BB, Rotation");
-                currentProgress = Progression::FAIL;
-                return;
-            }
-
+        else {
+            ROS_ERROR("Rotate Initialize -> robot does not exist in world");
+            currentProgress = Progression::FAIL;
+            return;
         }
     }
     else {
-        ROS_ERROR("No good Rotate_To_Object set in BB, Rotation");
+        ROS_ERROR("Rotate Initialize -> ROLE WAITING!!");
         currentProgress = Progression::FAIL;
         return;
     }
 
-    if (rotateToObject) {
+//  ____________________________________________________
 
-        Vector2 objectPos;
+    rotateToBall = properties->getBool("rotateToBall");
+    rotateToOurGoal = properties->getBool("rotateToOurGoal");
+    rotateToEnemyGoal = properties->getBool("rotateToEnemyGoal");
+    rotateToRobotID = properties->getInt("rotateToRobotID");
+    robotIsEnemy = properties->getBool("robotIsEnemy");
 
-        switch (targetObject) {
-        case 100: { // ball
-
-            worldBall ball = World::getBall();
-            objectPos.x = ball.pos.x;
-            objectPos.y = ball.pos.y;
-
-            break;
-        }
-        case 101: { // opponent goal
-            objectPos = Field::get_their_goal_center();
-
-            break;
-        }
-        case 102: { // our goal
-            objectPos = Field::get_our_goal_center();
-
-            break;
-        }
-        default: {  // id<50 == id our team, id>50 == (id-50) opponent team
-
-
-            worldRobot otherRobot;
-
-            if (targetObject >= 0 && targetObject < 50) {
-                if (! World::getRobotForId(targetObject, true)) {
-                    ROS_ERROR("Robot id invalid");
-                    currentProgress = Progression::FAIL;
-                    return;
-                }
-                otherRobot = World::getRobotForId(targetObject, true).get();
-            }
-            else if (targetObject < 100) {
-                if (! World::getRobotForId(targetObject - 50, true)) {
-                    ROS_ERROR("Robot id invalid");
-                    currentProgress = Progression::FAIL;
-                    return;
-                }
-                otherRobot = World::getRobotForId((targetObject - 50), true).get();
-            }
-            else {
-                ROS_ERROR("Rotate_Object not known in BB, Rotation");
-                currentProgress = Progression::FAIL;
-                return;
-
-            }
-            objectPos = otherRobot.pos;
-
-            break;
-        }
-        }
-        Vector2 deltaPos = {objectPos.x - robot.pos.x, objectPos.y - robot.pos.y};
-        targetRotation = deltaPos.angle();
-
+    if (properties->hasDouble("Angle")) {
+        targetAngle = properties->getDouble("Angle");
     }
+    else {
+        ROS_ERROR("Rotate Initialize -> No good angle set in properties");
+        currentProgress = Progression::FAIL;
+    }
+
 }
 
-bt::Node::Status Rotate::Update() {
+bt::Node::Status Rotate::update() {
 
-    if (currentProgress == Progression::FAIL) {
-        return Status::Failure;
+    if (World::getRobotForId(robot.id, true)) {
+        robot = World::getRobotForId(robot.id, true).get();
+    }
+    else {
+        ROS_ERROR("Rotate Update -> robot does not exist in world");
+        currentProgress = Progression::FAIL;
     }
 
-    double robotAngle = robot.angle;
-    double angleDifference = robotAngle - targetRotation;
+    if (rotateToBall) {
+        auto ball = World::getBall();
+        Vector2 deltaPos = {ball.pos.x - robot.pos.x, ball.pos.y - robot.pos.y};
+        targetAngle = deltaPos.angle();
 
-    while (angleDifference < 0) angleDifference += 2*M_PI;
-    while (angleDifference > 2*M_PI) angleDifference -= 2*M_PI;
+    }
+    else if (rotateToEnemyGoal) {
+        auto enemyGoal = Field::get_their_goal_center();
+        Vector2 deltaPos = {enemyGoal.x - robot.pos.x, enemyGoal.y - robot.pos.y};
+        targetAngle = deltaPos.angle();
 
-    double angularVelocity;
-    double angularErrorMargin = 0.10; // within this margin, give succes.
+    }
+    else if (rotateToEnemyGoal) {
+        auto ourGoal = Field::get_their_goal_center();
+        Vector2 deltaPos = {ourGoal.x - robot.pos.x, ourGoal.y - robot.pos.y};
+        targetAngle = deltaPos.angle();
 
-    if (angleDifference < angularErrorMargin || angleDifference > 2*M_PI - angularErrorMargin) {
-        return Status::Success;
+    }
+    else if (rotateToRobotID != - 1) {
+        if (robotIsEnemy) {
+            if (World::getRobotForId(rotateToRobotID, false)) {
+                auto otherRobot = World::getRobotForId(rotateToRobotID, false).get();
+                Vector2 deltaPos = {otherRobot.pos.x - robot.pos.x, otherRobot.pos.y - robot.pos.y};
+                targetAngle = deltaPos.angle();
+
+            }
+        }
+        else {
+            if (World::getRobotForId(rotateToRobotID, true)) {
+                auto otherRobot = World::getRobotForId(rotateToRobotID, true).get();
+                Vector2 deltaPos = {otherRobot.pos.x - robot.pos.x, otherRobot.pos.y - robot.pos.y};
+                targetAngle = deltaPos.angle();
+            }
+        }
     }
 
-    if (angleDifference > M_PI) { angularVelocity = constants::MAX_ANGULAR_VELOCITY; }
-    else { angularVelocity = - constants::MAX_ANGULAR_VELOCITY; }
-
-    // Send the robotCommand.
-    sendRotationCommand(angularVelocity);
-    return Status::Running;
-}
-
-void Rotate::sendRotationCommand(double angularVelocity) {
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
-    command.w = (float) angularVelocity;
-    command.dribbler = (unsigned char) false;
+    command.use_angle = 1;
 
+    command.w = (float) Control::calculateAngularVelocity(robot.angle, targetAngle);
     publishRobotCommand(command);
+    currentProgress = checkProgression();
+
+    switch (currentProgress) {
+    case ROTATING: return Status::Running;
+    case DONE: return Status::Success;
+    case FAIL: return Status::Failure;
+    }
+
+    return Status::Failure;
+}
+
+void Rotate::terminate(Status s) {
+    roboteam_msgs::RobotCommand command;
+    command.id = robot.id;
+    command.use_angle = 1;
+    command.w = 0.0f;
+    publishRobotCommand(command);
+}
+
+std::string Rotate::node_name() {
+    return "Rotate";
+}
+
+Rotate::Progression Rotate::checkProgression() {
+
+    double errorMargin = 0.05;
+    if (deltaAngle > errorMargin) return ROTATING;
+    else return DONE;
 }
 
 } // ai

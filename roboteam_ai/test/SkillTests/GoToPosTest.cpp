@@ -26,16 +26,16 @@ TEST(GoTOPos, GoTOPosTest) {
     bb->setInt("X", 5);
     bb->setInt("Y", 6);
     rtt::ai::GoToPos goToPos("test1", bb);
-    goToPos.Initialize();
+    goToPos.initialize();
 
-    EXPECT_EQ(goToPos.Update(), bt::Leaf::Status::Running);
+    EXPECT_EQ(goToPos.update(), bt::Leaf::Status::Running);
 
     // Wait a little bit
     rate.sleep();
     ros::spinOnce();
 
     std::vector<roboteam_msgs::RobotCommand> cmds = commands;
-    EXPECT_EQ(commands.size(), 1);
+    EXPECT_EQ((signed int) commands.size(), 1);
     EXPECT_TRUE(commands.at(0).x_vel);
     EXPECT_TRUE(commands.at(0).y_vel);
 
