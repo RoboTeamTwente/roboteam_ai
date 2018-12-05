@@ -71,6 +71,7 @@ bool Pass::sendPassCommand() {
 
     /*
      * Try to pass tp the given robot. If it is not possible at the moment return false
+     * TODO talk to control people
      */
 
 
