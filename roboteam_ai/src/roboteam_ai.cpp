@@ -33,7 +33,8 @@ void runBehaviourTrees() {
 
     // Start running this tree first
     ros::Rate rate(50);
-    std::string currentTree = "GetBallTestStrategy";
+
+    factory.setCurrentTree("GetBallTestStrategy");
 
     // Main loop
     while (ros::ok()) {
@@ -65,18 +66,18 @@ void runBehaviourTrees() {
         // std::string strategyName = strategyManager.getCurrentStrategyName();
         // strategy = factory.getTree(strategyName);
 
-        strategy = factory.getTree(currentTree);
+        strategy = factory.getTree(factory.getCurrentTree());
 
         Status status = strategy->tick();
 
         switch (status) {
-
             case Status::Running:
                 break;
             case Status::Success:
                 ROS_INFO_STREAM("Status returned: Success");
                 ROS_INFO_STREAM(" === TREE CHANGE === ");
-                currentTree = "GetBallTestStrategy";
+
+                factory.setCurrentTree("victoryDanceStrategy");
                 break;
 
             case Status::Failure:
@@ -87,7 +88,6 @@ void runBehaviourTrees() {
                 break;
         }
 
-        if (window) window->updateWidget();
         rate.sleep();
     }
 

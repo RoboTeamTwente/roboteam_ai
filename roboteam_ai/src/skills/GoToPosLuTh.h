@@ -19,10 +19,12 @@ namespace ai {
 class GoToPosLuTh : public Skill {
 
     private:
-
+        struct NumRobot;
+        using NumRobotPtr = std::shared_ptr<NumRobot>;
         struct NumRobot {
+
           int id;                       //Robot id
-          double angle;
+          unsigned long startIndex = 0;
           Vector2 pos;                  //Current x,y position in m
           Vector2 targetPos;            //Target position in m
           Vector2 vel;                  //Current x,y velocity in ms-1
@@ -53,12 +55,18 @@ class GoToPosLuTh : public Skill {
               return (std::abs((otherPos - pos).length()) < minDistance);
           }
 
+          struct CustomCompare {
+            bool operator()(NumRobotPtr lhs, NumRobotPtr rhs)
+            {
+                return lhs->posData.size() < rhs->posData.size();
+            }
+          };
+
         };
 
-        using NumRobotPtr = std::shared_ptr<NumRobot>;
+        std::priority_queue< NumRobotPtr, std::vector<NumRobotPtr>, NumRobot::CustomCompare > robotQueue;
 
-        bool tracePath(NumRobot &numRobot, Vector2 &target);
-        bool avoidObject(NumRobot &me, int &startIndex, bool firstTry);
+        bool tracePath(NumRobot &numRobot, Vector2 target);
 
         std::vector<Vector2> displayData;
         using Status = bt::Node::Status;
@@ -79,6 +87,7 @@ class GoToPosLuTh : public Skill {
         bool checkTargetPos(Vector2 pos);
         void sendMoveCommand();
         bool calculateNumericDirection(NumRobot &me, roboteam_msgs::RobotCommand &command);
+        void drawCross(Vector2 &pos);
     public:
 
         explicit GoToPosLuTh(string name, bt::Blackboard::Ptr blackboard);
@@ -88,7 +97,7 @@ class GoToPosLuTh : public Skill {
         Status update() override;
         void terminate(Status s) override;
 
-        bool calculateNextPoint(NumRobotPtr shared_ptr);
+        bool calculateNextPoint(NumRobotPtr me, Vector2 &target);
 };
 } // ai
 } // rtt

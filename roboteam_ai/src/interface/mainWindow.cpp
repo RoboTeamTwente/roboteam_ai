@@ -3,6 +3,8 @@
 //
 
 #include <roboteam_ai/src/utilities/Constants.h>
+#include <roboteam_ai/src/treeinterp/BTFactory.h>
+#include <roboteam_ai/src/bt/Node.hpp>
 #include "mainWindow.h"
 
 namespace rtt {
@@ -17,70 +19,159 @@ namespace interface {
     horizontalLayout = std::make_shared<QHBoxLayout>();
     verticalLayout = std::make_shared<QVBoxLayout>();
 
-    // button for X
-    button1 = std::make_shared<QPushButton>("button1");
-    verticalLayout->addWidget(button1.get());
 
-    // checkbox for toggling Role text
+    // selectionbox for selecting a robot from a dropdown
+    select_robot = std::make_shared<QComboBox>();
+    verticalLayout->addWidget(select_robot.get());
+    QObject::connect(select_robot.get(), SIGNAL(currentIndexChanged(int)), visualizer.get(), SLOT(selectRobot(int)));
+    // TODO this might not work properly on robocup where different IDs can be used
+
+
+    // functions to select strategies
+    cb_referee = std::make_shared<QCheckBox>("Use referee");
+    configureCheckBox(cb_referee, verticalLayout, visualizer.get(), SLOT(setShowRoles(bool)), constants::STD_SHOW_ROLES);
+
+    select_strategy = std::make_shared<QComboBox>();
+    verticalLayout->addWidget(select_strategy.get());
+    for (std::string const &strategyName : Switches::strategyJsonFileNames) {
+        select_strategy->addItem(QString::fromStdString(strategyName));
+    }
+
+    QObject::connect(select_strategy.get(), QOverload<const QString &>::of(&QComboBox::currentIndexChanged), [=](const QString &strategyName){
+        // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+        BTFactory::getFactory().setCurrentTree(strategyName.toStdString());
+        hasCorrectTree = false;
+    });
+
+
+    // Checkboxes for the visualization
     cb_rolenames = std::make_shared<QCheckBox>("show rolenames");
-    cb_rolenames->setChecked(constants::STD_SHOW_ROLES);
-    verticalLayout->addWidget(cb_rolenames.get());
-    QObject::connect(cb_rolenames.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowRoles(bool)));
+    configureCheckBox(cb_rolenames, verticalLayout, visualizer.get(), SLOT(setShowRoles(bool)), constants::STD_SHOW_ROLES);
 
-    // checkbox for toggling Tactics text
     cb_tacticnames = std::make_shared<QCheckBox>("show tacticnames");
-    cb_tacticnames->setChecked(constants::STD_SHOW_TACTICS);
-    verticalLayout->addWidget(cb_tacticnames.get());
-    QObject::connect(cb_tacticnames.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowTactics(bool)));
+    configureCheckBox(cb_tacticnames, verticalLayout, visualizer.get(), SLOT(setShowTactics(bool)), constants::STD_SHOW_TACTICS);
 
-    // checkbox for toggling Tactics colors
     cb_tacticcolors = std::make_shared<QCheckBox>("show tacticColors");
-    cb_tacticcolors->setChecked(constants::STD_SHOW_TACTICS_COLORS);
-    verticalLayout->addWidget(cb_tacticcolors.get());
-    QObject::connect(cb_tacticcolors.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowTacticColors(bool)));
+    configureCheckBox(cb_tacticcolors, verticalLayout, visualizer.get(), SLOT(setShowTacticColors(bool)), constants::STD_SHOW_TACTICS_COLORS);
 
-    // checkbox for toggling angle indicators
     cb_angles = std::make_shared<QCheckBox>("show angles");
-    cb_angles->setChecked(constants::STD_SHOW_ANGLES);
-    verticalLayout->addWidget(cb_angles.get());
-    QObject::connect(cb_angles.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowAngles(bool)));
+    configureCheckBox(cb_angles, verticalLayout, visualizer.get(), SLOT(setShowAngles(bool)), constants::STD_SHOW_ANGLES);
 
-    // checkbox for toggling velocity indicators
     cb_velocities = std::make_shared<QCheckBox>("show velocities");
-    cb_velocities->setChecked(constants::STD_SHOW_VELOCITIES);
-    verticalLayout->addWidget(cb_velocities.get());
-    QObject::connect(cb_velocities.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowVelocities(bool)));
+    configureCheckBox(cb_velocities, verticalLayout, visualizer.get(), SLOT(setShowVelocities(bool)), constants::STD_SHOW_VELOCITIES);
 
-    // checkbox for toggling velocity indicators
     cb_path = std::make_shared<QCheckBox>("show path for current robot");
-    cb_path->setChecked(constants::STD_SHOW_PATHS_CURRENT);
-    verticalLayout->addWidget(cb_path.get());
-    QObject::connect(cb_path.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowPath(bool)));
+    configureCheckBox(cb_path, verticalLayout, visualizer.get(), SLOT(setShowPath(bool)), constants::STD_SHOW_PATHS_CURRENT);
 
-    // checkbox for toggling velocity indicators
     cb_path_all = std::make_shared<QCheckBox>("show path for all robots");
-    cb_path_all->setChecked(constants::STD_SHOW_PATHS_ALL);
-    verticalLayout->addWidget(cb_path_all.get());
-    QObject::connect(cb_path_all.get(), SIGNAL(clicked(bool)), visualizer.get(), SLOT(setShowPathAll(bool)));
+    configureCheckBox(cb_path_all, verticalLayout, visualizer.get(), SLOT(setShowPathAll(bool)), constants::STD_SHOW_PATHS_ALL);
 
-    // Spacer to nicely align buttons at the top
-    vSpacer = std::make_shared<QSpacerItem>(0,10, QSizePolicy::Expanding, QSizePolicy::Expanding);
-    verticalLayout->addItem(vSpacer.get());
+
+    // set up tree widget
+    treeWidget = std::make_shared<QTreeWidget>();
+    treeWidget->setColumnCount(2);
+    treeWidget->setColumnWidth(0, 100);
+
+    verticalLayout->addWidget(treeWidget.get());
 
     // main layout: left the visualizer and right the vertical layout
-    horizontalLayout->addWidget(visualizer.get(), 2); // width stretch 2/3
-    horizontalLayout->addLayout(verticalLayout.get(), 1); // width stretch 1/3
+    horizontalLayout->addWidget(visualizer.get(), 3); // width stretch 3/5
+    horizontalLayout->addLayout(verticalLayout.get(), 2); // width stretch 2/5
 
     // apply layout
     setCentralWidget(new QWidget);
     centralWidget()->setLayout(horizontalLayout.get());
+
+    // start the UI update cycles
+    auto *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateWidgets()));
+    timer->start(20); // 50fps
 }
 
-void MainWindow::updateWidget() {
-    visualizer->update();
-    button1->setText(QString::number(visualizer->getSelectedRobot().id));
+// some widgets need to be updated regularly
+void MainWindow::updateWidgets() {
+    // Iterate through all treeWidget items to update the status if needed
+    QTreeWidgetItemIterator iter(treeWidget.get(), QTreeWidgetItemIterator::All);
+    while (*iter) {
+        QTreeWidgetItem *widgetItem = *iter;
+        if (treeItemMapping.find(widgetItem) != treeItemMapping.end()) {
+            bt::Node::Ptr item = treeItemMapping.at(widgetItem);
+            QString status = QString::fromStdString(statusToString(item->getStatus()));
+            if (widgetItem->text(1) != status) {
+                widgetItem->setText(1, status);
+                widgetItem->setBackgroundColor(1, getColorForStatus(item->getStatus()));
+            }
+        }
+        ++iter;
+    }
+
+    // if the tree did change, clear the treewidget and rebuild it
+    if (!hasCorrectTree && BTFactory::getFactory().isInitialized()) {
+        treeWidget->clear();
+        bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree(BTFactory::getFactory().getCurrentTree());
+        auto treeItemRoot = new QTreeWidgetItem(treeWidget.get());
+        treeItemRoot->setText(0, QString::fromStdString(tree->GetRoot()->node_name()));
+        treeItemRoot->setText(1, QString::fromStdString(statusToString(tree->GetRoot()->getStatus())));
+        treeItemRoot->setBackgroundColor(1, getColorForStatus(tree->GetRoot()->getStatus()));
+
+        addRootItem(tree->GetRoot(), treeItemRoot);
+        treeWidget->expandAll();
+        treeWidget->update();
+        hasCorrectTree = true;
+    }
+
+    // if the amount of robots in the world size is not consistent with our knowledge, refresh the select box
+    if (amountOfRobots != World::get_world().us.size()) {
+        select_robot->clear();
+        for (auto robot : World::get_world().us) {
+            select_robot->addItem(QString::number(robot.id));
+        }
+        amountOfRobots = static_cast<int>(World::get_world().us.size());
+    }
 }
 
+/// Use recursion to iterate through the children of each node
+void MainWindow::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem * QParent) {
+    for(auto const &child : parent->getChildren()) {
+        auto treeItemchild = new QTreeWidgetItem(QParent);
+        treeItemchild->setText(0, QString::fromStdString(child->node_name()));
+        treeItemchild->setText(1, QString::fromStdString(statusToString(child->getStatus())));
+
+        std::pair<QTreeWidgetItem *, bt::Node::Ptr> pair{treeItemchild, child};
+        treeItemMapping.insert(pair);
+
+        treeItemchild->setBackgroundColor(1, getColorForStatus(child->getStatus()));
+        QParent->addChild(treeItemchild);
+        addRootItem(child, treeItemchild);
+    }
 }
+
+/// returns a color for a given node status
+QColor MainWindow::getColorForStatus(bt::Node::Status status) {
+    switch (status) {
+        case bt::Node::Status::Failure:
+            return Qt::red;
+        case bt::Node::Status::Running:
+            return {"#99ff99"}; // light green
+        case bt::Node::Status::Success:
+            return {"#339933"}; // dark green
+        case bt::Node::Status::Waiting:
+            return Qt::gray;
+        default:
+            return Qt::white;
+    }
 }
+
+/// Set up the checkbox properties for a given checkbox
+void MainWindow::configureCheckBox(std::shared_ptr<QCheckBox> checkbox, std::shared_ptr<QLayout> layout,
+                                   const QObject *receiver, const char * method,
+                                   bool defaultState) {
+    checkbox->setChecked(defaultState);
+    layout->addWidget(checkbox.get());
+    QObject::connect(checkbox.get(), SIGNAL(clicked(bool)), receiver, method);
+}
+
 } // interface
+} // ai
+} // rtt

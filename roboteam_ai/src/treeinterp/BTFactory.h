@@ -21,7 +21,11 @@ class BTFactory {
         // TODO: have the names of all the project before here
         TreeInterpreter interpreter;
 
-    public:
+        static std::string currentTree;
+
+        static bool initialized;
+
+public:
         void init();
 
         static BTFactory &getFactory();
@@ -32,7 +36,11 @@ class BTFactory {
 
         static std::map<std::string, bt::Node::Ptr> tacticsRepo;
 
+        static std::string getCurrentTree();
 
+        static void setCurrentTree(const std::string &currentTree);
+
+        static bool isInitialized();
 };
 
 #endif //ROBOTEAM_AI_BTFACTORY_H

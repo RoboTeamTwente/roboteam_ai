@@ -10,8 +10,8 @@
 #include "math.h"
 #include "../utilities/World.h"
 
-
 typedef rtt::Vector2 Vector2;
+
 namespace control {
 class ControlUtils {
     public:
