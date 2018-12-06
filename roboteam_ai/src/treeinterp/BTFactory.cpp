@@ -11,6 +11,7 @@
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
 std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
 std::string BTFactory::currentTree;
+bool BTFactory::initialized = false;
 
 /// Returns the Behaviour Tree Factory Singleton
 BTFactory &BTFactory::getFactory() {
@@ -33,7 +34,7 @@ void BTFactory::init() {
         for (auto &it : tempMap) strategyRepo[it.first] = it.second; // may break
     }
 
-
+    initialized = true;
 }
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     if (strategyRepo.find(treeName) != strategyRepo.end()) {
@@ -60,8 +61,12 @@ void BTFactory::setCurrentTree(const std::string & newTree) {
         robotDealer::RobotDealer::removeTactic(tacticRobotsPair.first);
     }
 
-BTFactory::currentTree = newTree;
+    BTFactory::currentTree = newTree;
     }
+}
+
+bool BTFactory::isInitialized() {
+    return BTFactory::initialized;
 }
 
 

@@ -107,7 +107,7 @@ void MainWindow::updateWidgets() {
     }
 
     // if the tree did change, clear the treewidget and rebuild it
-    if (!hasCorrectTree) {
+    if (!hasCorrectTree && BTFactory::getFactory().isInitialized()) {
         treeWidget->clear();
         bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree(BTFactory::getFactory().getCurrentTree());
         auto treeItemRoot = new QTreeWidgetItem(treeWidget.get());

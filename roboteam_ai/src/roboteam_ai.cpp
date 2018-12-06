@@ -71,7 +71,6 @@ void runBehaviourTrees() {
         Status status = strategy->tick();
 
         switch (status) {
-
             case Status::Running:
                 break;
             case Status::Success:
