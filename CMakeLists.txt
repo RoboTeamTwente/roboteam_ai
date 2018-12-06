@@ -174,7 +174,7 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.h
-        roboteam_ai/src/bt/tactics/HaltTactic.cpp roboteam_ai/src/bt/tactics/HaltTactic.h)
+        roboteam_ai/src/bt/tactics/HaltTactic.cpp roboteam_ai/src/bt/tactics/HaltTactic.h roboteam_ai/src/skills/Halt.cpp roboteam_ai/src/skills/Halt.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
