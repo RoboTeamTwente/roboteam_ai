@@ -48,12 +48,25 @@ double ControlUtils::constrainAngle(double angle) {
 }
 
 //http://www.randygaul.net/2014/07/23/distance-point-to-line-segment/
+//EXTENDS THE LINE!! does not take into account end and beginningpoint
 double ControlUtils::distanceToLine(Vec PointToCheck, Vec LineStart,Vec LineEnd){
     Vec n=LineEnd-LineStart;
     Vec pa=LineStart-PointToCheck;
     Vec c=n * (n.dot(pa)/n.dot(n));
     Vec d= pa-c;
     return d.length();
+}
+double ControlUtils::distanceToLineWithEnds(Vec PointToCheck, Vec LineStart, Vec LineEnd) {
+    Vec n=LineEnd-LineStart;
+    Vec pa=LineStart-PointToCheck;
+    Vec c=n * (n.dot(pa)/n.dot(n));
+    Vec d= pa-c;
+    Vec A=(PointToCheck-LineStart).project(LineStart,LineEnd);
+    Vec B=(PointToCheck-LineEnd).project(LineEnd,LineStart);
+    if((A.length()+B.length())>n.length()){
+        return fmin(pa.length(),(LineEnd-PointToCheck).length());
+    }
+    else return d.length();
 }
 
 //Computes the absolute difference between 2 angles (the shortest orientation direction)

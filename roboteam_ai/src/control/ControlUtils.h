@@ -19,6 +19,7 @@ class ControlUtils {
         static bool pointInRectangle(Vec PointToCheck,Vec SP1, Vec SP2, Vec SP3,Vec SP4);
         static double constrainAngle(double angle);
         static double distanceToLine(Vec PointToCheck, Vec LineStart, Vec LineEnd);
+        static double distanceToLineWithEnds(Vec PointToCheck, Vec LineStart, Vec LineEnd);
         static double angleDifference(double A1, double A2);
 };
 
