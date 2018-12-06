@@ -133,11 +133,13 @@ void GoToPosLuTh::sendMoveCommand() {
     roboteam_msgs::RobotCommand command;
     command.id = robot.id;
     calculateNumericDirection(me, command);
-
+    robotQueue = {};
     ros::Time end = ros::Time::now();
     double timeTaken = (end - begin).toSec();
+    std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
 
     interface::Drawer::setGoToPosLuThPoints(robot.id, displayData);
+
     publishRobotCommand(command);
 }
 
@@ -159,37 +161,76 @@ bool GoToPosLuTh::calculateNumericDirection(NumRobot &me, roboteam_msgs::RobotCo
     me.pos = robot.pos;
     me.vel = robot.vel;
     me.targetPos = targetPos;
-    me.angle = robot.angle;
+    me.posData.push_back(me.pos);
+    me.velData.push_back(me.vel);
     if (me.vel.length() > 10.0) return false;
+
     tracePath(me, targetPos);
 
     return true;
 }
 
-bool GoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 &target) {
+bool GoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
 
-    std::queue<NumRobotPtr> robotQueue;
     NumRobotPtr numRobotPtr = std::make_shared<NumRobot>(numRobot);
     robotQueue.push(numRobotPtr);
     while (! robotQueue.empty()) {
+        std::cerr << "thingy: " << robotQueue.size() << std::endl;
 
-        NumRobotPtr me = robotQueue.front();
-        bool noCollision = calculateNextPoint(me);
+        NumRobotPtr me = robotQueue.top();
+        std::cerr << "size:       " << me->posData.size() << std::endl;
+
+        bool noCollision = calculateNextPoint(me, me->targetPos);
+        if (me->isCollision(target)) return true;
+        if (me->isCollision(me->targetPos)) me->targetPos = target;
+
         if (noCollision) robotQueue.push(me);
         else {
-            return false;
+            float minTimeToCollision = 0.1;
+            if (me->posData.size() - me->startIndex < minTimeToCollision/me->dt) {
+                return false;
+            }
+
+            Vector2 collisionPos = me->pos;
+            Vector2 startPos = me->posData[me->startIndex];
+            Vector2 deltaPos = collisionPos - startPos;
+            std::vector<Vector2> newTargets;
+            int maxI = 4;
+
+            for (int i = - maxI; i < maxI; i ++) {
+                auto angle = (double) abs(i)*i*M_PI/(maxI*maxI);
+                Vector2 newTarget = startPos + deltaPos.rotate(angle);
+                NumRobot newMe;
+                std::vector<Vector2> _posData(me->posData.begin(), me->posData.begin() + me->startIndex);
+                newMe.posData = _posData;
+                newMe.pos = me->posData[me->startIndex];
+                std::vector<Vector2> _velData(me->velData.begin(), me->velData.begin() + me->startIndex);
+                newMe.velData = _velData;
+                newMe.vel = me->velData[me->startIndex];
+
+                newMe.id = me->id;
+                newMe.totalCalculations = me->totalCalculations;
+                drawCross(newTarget);
+
+                newMe.startIndex = newMe.posData.size();
+                newMe.targetPos = newTarget;
+                NumRobotPtr newNumRobotPtr = std::make_shared<NumRobot>(newMe);
+                robotQueue.push(newNumRobotPtr);
+
+            }
+
         }
-        if (me->isCollision(target)) return true;
 
         robotQueue.pop();
     }
+    return false;
 }
 
-bool GoToPosLuTh::calculateNextPoint(GoToPosLuTh::NumRobotPtr me) {
+bool GoToPosLuTh::calculateNextPoint(GoToPosLuTh::NumRobotPtr me, Vector2 &target) {
     me->t = me->posData.size()*me->dt;
     // get the target velocity towards the direction we want to go
 
-    me->targetVel = me->getDirection(me->targetPos)*me->maxVel;
+    me->targetVel = me->getDirection(target)*me->maxVel;
 
     // change acceleration towards the target velocity
     me->acc = (me->targetVel - me->vel).normalize()*me->maxAcc;
@@ -213,11 +254,19 @@ bool GoToPosLuTh::calculateNextPoint(GoToPosLuTh::NumRobotPtr me) {
         return false;
     }
 
-    if (++ me->totalCalculations > 5000) {
-        return false;
+    return ++ (me->totalCalculations) < 5000;
+}
+
+void GoToPosLuTh::drawCross(Vector2 &pos) {
+    double dist = 0.01f;
+    for (int i = - 7; i < 8; i ++) {
+        for (int j = - 1; j < 2; j += 2) {
+            Vector2 data = pos + (Vector2) {dist*i, dist*j*i};
+            displayData.push_back(data);
+        }
     }
-    return true;
 }
 
 } // ai
 } // rtt
+
