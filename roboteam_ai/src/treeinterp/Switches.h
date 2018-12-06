@@ -23,13 +23,15 @@
 //  |____________________|
 //
 
-#include "../skills/Rotate.h"
-#include "../skills/GoToPosLuTh_OLD.h"
+#include "../skills/Chip.h"
+#include "../skills/Dribble.h"
 #include "../skills/GoToPosLuTh.h"
+#include "../skills/GoToPosLuTh_OLD.h"
+#include "../skills/Kick.h"
+#include "../skills/Rotate.h"
 #include "../skills/RotateToAngle.h"
 #include "../skills/GoToPos.h"
-#include "../skills/Kick.h"
-#include "../skills/Dribble.h"
+
 
 //  ______________________
 //  |                    |
