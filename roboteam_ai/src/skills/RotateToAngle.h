@@ -4,14 +4,14 @@
 
 #ifndef ROBOTEAM_AI_ROTATETOANGLE_H
 #define ROBOTEAM_AI_ROTATETOANGLE_H
-#include "Skill.h"
-namespace rtt{
-namespace ai{
-class RotateToAngle: public Skill {
-    private:
 
-        using Status = bt::Node::Status;
-        roboteam_msgs::WorldRobot robot;
+#include "Skill.h"
+
+namespace rtt {
+namespace ai {
+
+class RotateToAngle: public Skill {
+        private:
         double targetAngle,deltaAngle;
         bool useAngle;
         enum Progression {
@@ -20,15 +20,13 @@ class RotateToAngle: public Skill {
         Progression currentProgress;
         Progression checkProgression();
 
-    public:
+public:
         explicit RotateToAngle(string name, bt::Blackboard::Ptr blackboard);
         std::string node_name() override;
 
         void initialize() override;
         Status update() override;
         void terminate(Status s) override;
-
-
 };
 }//ai
 }//rtt

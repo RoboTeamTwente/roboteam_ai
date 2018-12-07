@@ -51,7 +51,6 @@ class GoToPosLuTh_OLD : public Skill {
 
         std::vector<Vector2> displayData;
         using Status = bt::Node::Status;
-        roboteam_msgs::WorldRobot robot;
 
         bool drawInterface;
         bool goToBall;

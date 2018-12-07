@@ -23,16 +23,10 @@ class Kick : public Skill {
         };
         Progression currentProgress;
 
-        roboteam_msgs::WorldRobot robot;
-
     public:
         explicit Kick(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
-
         Status update() override;
-
         void initialize() override;
-
-        void terminate(status s) override;
 };
 
 } // ai
