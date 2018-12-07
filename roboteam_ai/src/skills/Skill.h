@@ -25,7 +25,7 @@ class Skill : public bt::Leaf {
         roboteam_msgs::WorldRobot robot;
         io::IOManager ioManager;
 
-        using coach = coach::Coach;
+        using ch = coach::Coach;
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
 
     public:

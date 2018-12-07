@@ -53,10 +53,10 @@ Pass::Status Pass::update() {
 
     if (robotToPass == -1) {
         if (defensive) {
-            robotToPass = coach::pickDefensivePassTarget(robot.id);
+            robotToPass = ch::pickDefensivePassTarget(robot.id);
         }
         else{
-            robotToPass = coach::pickOffensivePassTarget(robot.id, properties->getString("ROLE"));
+            robotToPass = ch::pickOffensivePassTarget(robot.id, properties->getString("ROLE"));
         }
         return Status::Running;
     }
