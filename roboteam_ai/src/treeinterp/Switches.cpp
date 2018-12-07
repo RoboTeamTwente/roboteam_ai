@@ -128,7 +128,6 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"random7", robotType::random},
             }
             },
-
             {"GetBallTestTactic", {
                     {"FAKOFF", robotType::random},
             }

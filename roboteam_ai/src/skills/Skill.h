@@ -8,6 +8,7 @@
 #include <roboteam_msgs/RobotCommand.h>
 #include "../../src/control/ControlUtils.h"
 #include "../utilities/Constants.h"
+#include "../utilities/Coach.h"
 #include "roboteam_utils/Vector2.h"
 
 
@@ -24,6 +25,7 @@ class Skill : public bt::Leaf {
         roboteam_msgs::WorldRobot robot;
         io::IOManager ioManager;
 
+        using coach = coach::Coach;
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
 
     public:
