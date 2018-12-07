@@ -138,7 +138,7 @@ void GoToPosLuTh::sendMoveCommand() {
     double timeTaken = (end - begin).toSec();
     std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
 
-    interface::Drawer::setGoToPosLuThPoints(robot.id, displayData);
+    //interface::Drawer::setGoToPosLuThPoints(robot.id, displayData);
 
     publishRobotCommand(command);
 }
