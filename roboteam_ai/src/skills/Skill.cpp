@@ -21,10 +21,10 @@ std::shared_ptr<roboteam_msgs::WorldRobot> Skill::getRobotFromProperties(bt::Bla
         if (World::getRobotForId(robotId, true)) {
             robot = World::getRobotForId(robotId, true);
         } else {
-            ROS_ERROR("%s Initialize -> robot does not exist in world", node_name().c_str());
+            ROS_ERROR("%s Initialize -> robot %i does not exist in world", node_name().c_str(), robotId);
         }
     } else {
-        ROS_ERROR("%s Initialize -> ROLE WAITING!!", node_name().c_str());
+        ROS_ERROR("%s Initialize robot %i -> ROLE WAITING!!", node_name().c_str(), robotId);
     }
     return nullptr;
 }
@@ -33,7 +33,7 @@ void Skill::updateRobot() {
     if (World::getRobotForId(robotId, true)) {
         robot = World::getRobotForId(robotId, true);
     } else {
-        ROS_ERROR("%s Update -> robot does not exist in world", node_name().c_str());
+        ROS_ERROR("%s Update -> robot %i does not exist in world", node_name().c_str(), robotId);
     }
 }
 
