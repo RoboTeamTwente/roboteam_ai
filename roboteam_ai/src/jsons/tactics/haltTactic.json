@@ -16,14 +16,14 @@
               "hcbpj1ratfies"
             ],
             "id": "shhy3fdjhtwhz5v6",
-            "name": "3",
+            "name": "halt3",
             "title": "Role"
           },
           "woiq1xef6ff05ja": {
             "id": "woiq1xef6ff05ja",
             "title": "Halt",
             "properties": {
-              "ROLE": "2"
+              "ROLE": "halt2"
             },
             "isRole": false
           },
@@ -31,7 +31,7 @@
             "id": "vs83e15d1us1n",
             "title": "Halt",
             "properties": {
-              "ROLE": "4"
+              "ROLE": "halt4"
             },
             "isRole": false
           },
@@ -56,14 +56,14 @@
               "pt7q4ritq044b"
             ],
             "id": "zcrhopj7fh478skn0",
-            "name": "0",
+            "name": "halt0",
             "title": "Role"
           },
           "ug0xiilk8std43s": {
             "id": "ug0xiilk8std43s",
             "title": "Halt",
             "properties": {
-              "ROLE": "1"
+              "ROLE": "halt1"
             },
             "isRole": false
           },
@@ -72,14 +72,14 @@
               "t0umcms5t9a2a0"
             ],
             "id": "xhoblepykmi4esas",
-            "name": "7",
+            "name": "halt7",
             "title": "Role"
           },
           "6sulnksvovxni8": {
             "id": "6sulnksvovxni8",
             "title": "Halt",
             "properties": {
-              "ROLE": "6"
+              "ROLE": "halt6"
             },
             "isRole": false
           },
@@ -96,7 +96,7 @@
               "acoqi81eh2nsmtp7s"
             ],
             "id": "c8who5fcyxniqfz2",
-            "name": "4",
+            "name": "halt4",
             "title": "Role"
           },
           "1zw071jcsqsoio6pg": {
@@ -111,7 +111,7 @@
             "id": "ney3zbkls1roh0m0",
             "title": "Halt",
             "properties": {
-              "ROLE": "0"
+              "ROLE": "halt0"
             },
             "isRole": false
           },
@@ -128,14 +128,14 @@
               "iyb7v4o13oz1h0"
             ],
             "id": "sikfq7mg1lpbhgyt",
-            "name": "2",
+            "name": "halt2",
             "title": "Role"
           },
           "giztftddywi7t1": {
             "id": "giztftddywi7t1",
             "title": "Halt",
             "properties": {
-              "ROLE": "7"
+              "ROLE": "halt7"
             },
             "isRole": false
           },
@@ -143,7 +143,7 @@
             "id": "a71dd9dteyaj1a",
             "title": "Halt",
             "properties": {
-              "ROLE": "3"
+              "ROLE": "halt3"
             },
             "isRole": false
           },
@@ -152,7 +152,7 @@
               "tr9dnipl52dgtg5h"
             ],
             "id": "jkymb18i2jf915",
-            "name": "1",
+            "name": "halt1",
             "title": "Role"
           },
           "5au3uo7vz3etqdcjo": {
@@ -174,7 +174,7 @@
               "ccesy7q1da3dif9"
             ],
             "id": "d33po25p6prfsg",
-            "name": "6",
+            "name": "halt6",
             "title": "Role"
           },
           "pt7q4ritq044b": {
@@ -189,7 +189,7 @@
             "id": "3g2l5suaaukg12f7",
             "title": "Halt",
             "properties": {
-              "ROLE": "5"
+              "ROLE": "halt5"
             },
             "isRole": false
           },
@@ -206,7 +206,7 @@
               "1zw071jcsqsoio6pg"
             ],
             "id": "rqph64mxgmylohb",
-            "name": "5",
+            "name": "halt5",
             "title": "Role"
           }
         },

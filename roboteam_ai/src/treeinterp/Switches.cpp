@@ -134,14 +134,15 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
              }
             },
              {"haltTactic", {
-                 {"1", robotType::random},
-                 {"2", robotType::random},
-                 {"3", robotType::random},
-                 {"4", robotType::random},
-                 {"5", robotType::random},
-                 {"6", robotType::random},
-                 {"7", robotType::random},
-                 {"8", robotType::random}}
+                    {"halt0", robotType::random},
+                    {"halt1", robotType::random},
+                    {"halt2", robotType::random},
+                    {"halt3", robotType::random},
+                    {"halt4", robotType::random},
+                    {"halt5", robotType::random},
+                    {"halt6", robotType::random},
+                    {"halt7", robotType::random}
+            }
             },
 
             {"GetBallTestTactic", {
@@ -177,9 +178,6 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
     }
     else if (name == "randomTactic") {
         node = std::make_shared<bt::RandomTactic>("randomTactic", properties);
-    }
-    else if (name == "haltTactic") {
-        node = std::make_shared<bt::HaltTactic>("haltTactic", properties);
     }
     return node;
 }
