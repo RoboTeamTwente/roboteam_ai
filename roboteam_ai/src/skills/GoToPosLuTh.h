@@ -88,15 +88,13 @@ class GoToPosLuTh : public Skill {
         void sendMoveCommand();
         bool calculateNumericDirection(NumRobot &me, roboteam_msgs::RobotCommand &command);
         void drawCross(Vector2 &pos);
-    public:
 
+    public:
         explicit GoToPosLuTh(string name, bt::Blackboard::Ptr blackboard);
         std::string node_name() override;
-
         void initialize() override;
         Status update() override;
         void terminate(Status s) override;
-
         bool calculateNextPoint(NumRobotPtr me, Vector2 &target);
 };
 } // ai
