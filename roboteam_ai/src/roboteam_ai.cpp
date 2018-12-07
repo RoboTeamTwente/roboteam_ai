@@ -7,6 +7,7 @@
 #include "interface/mainWindow.h"
 #include "roboteam_ai/src/interface/widget.h"
 #include <QApplication>
+#include <chrono>
 
 namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;
@@ -68,7 +69,10 @@ void runBehaviourTrees() {
 
         strategy = factory.getTree(BTFactory::getCurrentTree());
 
+
+        std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
         Status status = strategy->tick();
+        std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
 
         switch (status) {
             case Status::Running:

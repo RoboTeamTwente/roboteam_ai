@@ -11,6 +11,8 @@
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
 std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
 std::string BTFactory::currentTree;
+std::string BTFactory::keeperTree;
+int keeperID;
 bool BTFactory::initialized = false;
 
 /// Returns the Behaviour Tree Factory Singleton
@@ -50,14 +52,9 @@ std::string BTFactory::getCurrentTree() {
 
 void BTFactory::setCurrentTree(const std::string & newTree) {
 
-    // only change if it is a different tree
     if (newTree != BTFactory::currentTree) {
-//        auto tree = BTFactory::getFactory().getTree(BTFactory::currentTree);
-//        if (tree) { // terminate tree if needed
-//            tree->GetRoot()->terminate(tree->GetRoot()->getStatus());
-//        }
 
-    for (auto tacticRobotsPair : robotDealer::RobotDealer::getClaimedRobots()) {
+    for (const auto &tacticRobotsPair : robotDealer::RobotDealer::getClaimedRobots()) {
         robotDealer::RobotDealer::removeTactic(tacticRobotsPair.first);
     }
 
@@ -67,6 +64,17 @@ void BTFactory::setCurrentTree(const std::string & newTree) {
 
 bool BTFactory::isInitialized() {
     return BTFactory::initialized;
+}
+std::string BTFactory::getKeeperTree() {
+    return keeperTree;
+}
+void BTFactory::setKeeperTree(const std::string &keeperTree_) {
+
+    keeperTree = keeperTree_;
+
+}
+int BTFactory::setKeeper(int newID) {
+    BTFactory::keeperID = newID;
 }
 
 

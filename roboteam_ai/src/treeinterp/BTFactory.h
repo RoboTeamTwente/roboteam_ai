@@ -23,6 +23,10 @@ class BTFactory {
 
         static std::string currentTree;
 
+        static std::string keeperTree;
+
+        static int keeperID;
+
         static bool initialized;
 
 public:
@@ -38,7 +42,13 @@ public:
 
         static std::string getCurrentTree();
 
+        static std::string getKeeperTree();
+
         static void setCurrentTree(const std::string &currentTree);
+
+        static void setKeeperTree(const std::string &keeperTree);
+
+        static int setKeeper(int newID);
 
         static bool isInitialized();
 };
