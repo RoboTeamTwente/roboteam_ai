@@ -16,6 +16,7 @@
 #include "../bt/tactics/VictoryDanceTactic.h"
 #include "../bt/tactics/RandomTactic.h"
 #include "../bt/tactics/DefaultTactic.h"
+#include "../bt/tactics/HaltTactic.h"
 
 //  ______________________
 //  |                    |
@@ -27,6 +28,7 @@
 #include "../skills/Dribble.h"
 #include "../skills/GoToPosLuTh.h"
 #include "../skills/GoToPosLuTh_OLD.h"
+#include "../skills/Halt.h"
 #include "../skills/Kick.h"
 #include "../skills/Rotate.h"
 #include "../skills/RotateToAngle.h"

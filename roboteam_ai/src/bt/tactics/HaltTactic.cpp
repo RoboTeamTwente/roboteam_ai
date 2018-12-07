@@ -32,8 +32,8 @@ void HaltTactic::setName(std::string newName) {
 }
 
 void HaltTactic::initialize() {
-    std::vector<std::string> roleNames = {"random1", "random2", "random3", "random4",
-                                          "random5", "random6", "random7", "random8"};
+    std::vector<std::string> roleNames = {"1", "2", "3", "4",
+                                          "5", "6", "7", "8"};
     while (claimedRobots < roleNames.size()) {
         robotIDs.insert(dealer::claimRobotForTactic(robotType::random, name, roleNames[claimedRobots]));
         if (robotIDs.find(-1) == robotIDs.end()) {
