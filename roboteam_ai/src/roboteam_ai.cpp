@@ -34,7 +34,7 @@ void runBehaviourTrees() {
     // Start running this tree first
     ros::Rate rate(50);
 
-    factory.setCurrentTree("haltStrategy");
+    BTFactory::setCurrentTree("haltStrategy");
 
     // Main loop
     while (ros::ok()) {
@@ -54,7 +54,7 @@ void runBehaviourTrees() {
             df::DangerData dangerData = df::DangerFinder::instance().getMostRecentData();
         }
 
-        // for refereedata:
+        // for referee_data:
         if (! ai::World::didReceiveFirstWorld) {
             ROS_ERROR("No first world");
             ros::Duration(0.2).sleep();
@@ -66,7 +66,7 @@ void runBehaviourTrees() {
         // std::string strategyName = strategyManager.getCurrentStrategyName();
         // strategy = factory.getTree(strategyName);
 
-        strategy = factory.getTree(factory.getCurrentTree());
+        strategy = factory.getTree(BTFactory::getCurrentTree());
 
         Status status = strategy->tick();
 
@@ -77,7 +77,7 @@ void runBehaviourTrees() {
                 ROS_INFO_STREAM("Status returned: Success");
                 ROS_INFO_STREAM(" === TREE CHANGE === ");
 
-                factory.setCurrentTree("haltStrategy");
+                BTFactory::setCurrentTree("haltStrategy");
                 break;
 
             case Status::Failure:
