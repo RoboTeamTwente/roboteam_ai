@@ -49,22 +49,23 @@ double ControlUtils::constrainAngle(double angle) {
 }
 rtt::Vector2 ControlUtils::getClosestRobot(rtt::Vector2 &pos, int &id, bool ourTeam, float &t) {
     auto world = rtt::ai::World::get_world();
-    rtt::Vector2 closestPos = {420,420};
+    rtt::Vector2 closestPos = {420, 420};
     double distance = 99999999;
 
     for (auto &bot : world.us) {
-        if (! (ourTeam &&  id == bot.id) ) {
+        if (! (ourTeam && id == bot.id)) {
             rtt::Vector2 botPos = {bot.pos.x + bot.vel.x*t, bot.pos.y + bot.vel.y*t};
             double deltaPos = (pos - botPos).length();
             if (deltaPos < distance) {
                 closestPos = bot.pos;
                 distance = deltaPos;
             }
+
         }
 
     }
     for (auto &bot : world.them) {
-        if (! (!ourTeam && id == bot.id)) {
+        if (! (! ourTeam && id == bot.id)) {
             rtt::Vector2 botPos = {bot.pos.x + bot.vel.x*t, bot.pos.y + bot.vel.y*t};
             double deltaPos = (pos - botPos).length();
             if (deltaPos < distance) {
@@ -83,8 +84,51 @@ rtt::Vector2 ControlUtils::getClosestRobot(rtt::Vector2 &pos, int &id, bool ourT
 
 rtt::Vector2 ControlUtils::getClosestRobot(rtt::Vector2 &pos) {
     float t = 0.0f;
-    int id = -1;
+    int id = - 1;
     return getClosestRobot(pos, id, true, t);
 }
+//http://www.randygaul.net/2014/07/23/distance-point-to-line-segment/
+double ControlUtils::distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vector2 LineEnd) {
+    Vector2 n = LineEnd - LineStart;
+    Vector2 pa = LineStart - PointToCheck;
+    Vector2 c = n*(n.dot(pa)/n.dot(n));
+    Vector2 d = pa - c;
+    return d.length();
+}
 
+/// See if a robot has a clear vision towards another robot
+bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::World world, int safelyness) {
+    double minDistance = rtt::ai::constants::ROBOT_RADIUS * (3 * safelyness); // TODO: calibrate Rolf approved
+    Vector2 fromPos;
+    Vector2 towardsPos;
+
+    for (auto friendly : world.us) {
+        if (friendly.id == fromID) {
+            fromPos = friendly.pos;
+        }
+        else if (friendly.id == towardsID) {
+            towardsPos = friendly.pos;
+        }
+    }
+
+    for (auto enemy : world.them) {
+        if (distanceToLineWithEnds(enemy.pos, fromPos, towardsPos) < minDistance) {
+            return false;
+        }
+    }
+
+    return true;
+}
+double ControlUtils::distanceToLineWithEnds(Vector2 pointToCheck, Vector2 lineStart, Vector2 lineEnd) {
+    Vector2 n = lineEnd - lineStart;
+    Vector2 pa = lineStart - pointToCheck;
+    Vector2 c = n*(n.dot(pa)/n.dot(n));
+    Vector2 d = pa - c;
+    Vector2 A = (pointToCheck - lineStart).project(lineStart, lineEnd);
+    Vector2 B = (pointToCheck - lineEnd).project(lineEnd, lineStart);
+    if ((A.length() + B.length()) > n.length()) {
+        return fmin(pa.length(), (lineEnd - pointToCheck).length());
+    }
+    else return d.length();
+}
 } // control

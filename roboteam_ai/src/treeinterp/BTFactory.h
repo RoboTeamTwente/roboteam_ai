@@ -23,6 +23,8 @@ class BTFactory {
 
         static std::string currentTree;
 
+        static bool initialized;
+
 public:
         void init();
 
@@ -37,6 +39,8 @@ public:
         static std::string getCurrentTree();
 
         static void setCurrentTree(const std::string &currentTree);
+
+        static bool isInitialized();
 };
 
 #endif //ROBOTEAM_AI_BTFACTORY_H

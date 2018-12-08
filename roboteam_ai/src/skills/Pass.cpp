@@ -52,7 +52,12 @@ Pass::Status Pass::update() {
 
 
     if (robotToPass == -1) {
-        robotToPass = getRobotToPass();
+        if (defensive) {
+            robotToPass = coach::pickDefensivePassTarget(robot.id);
+        }
+        else{
+            robotToPass = coach::pickOffensivePassTarget(robot.id, properties->getString("ROLE"));
+        }
         return Status::Running;
     }
     if (sendPassCommand()) {
@@ -71,14 +76,13 @@ bool Pass::sendPassCommand() {
 
     /*
      * Try to pass tp the given robot. If it is not possible at the moment return false
+     * TODO talk to control people
      */
 
 
     return false;
 }
-int Pass::getRobotToPass() {
-    return 0;
-}
+
 
 }
 }

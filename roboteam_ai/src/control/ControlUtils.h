@@ -10,8 +10,8 @@
 #include "math.h"
 #include "../utilities/World.h"
 
-
 typedef rtt::Vector2 Vector2;
+
 namespace control {
 class ControlUtils {
     public:
@@ -23,6 +23,9 @@ class ControlUtils {
         static rtt::Vector2 getClosestRobot(rtt::Vector2 &pos, int &id, bool ourTeam, float &t);
         static rtt::Vector2 getClosestRobot(rtt::Vector2 &pos, int &id, bool ourTeam);
         static rtt::Vector2 getClosestRobot(rtt::Vector2 &pos);
+        static double distanceToLine(Vector2 PointToCheck, Vector2 LineStart,Vector2 LineEnd);
+        static double distanceToLineWithEnds(Vector2 pointToCheck, Vector2 lineStart,Vector2 lineEnd);
+        static bool hasClearVision(int from, int towards, roboteam_msgs::World world, int safelyness);
 };
 
 }

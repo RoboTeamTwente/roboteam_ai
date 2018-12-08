@@ -20,14 +20,16 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "GetBallTestTactic",
          "DanceTactic",
          "DanceTactic2",
-         "SimpleTactic"};
+         "SimpleTactic",
+         "haltTactic"};
 
 std::vector<std::string> Switches::strategyJsonFileNames =
         {"victoryDanceStrategy",
          "randomStrategy",
          "GetBallTestStrategy",
          "DanceStrategy",
-         "SimpleStrategy"};
+         "SimpleStrategy",
+         "haltStrategy"};
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
 /// have a look around with the names and see if what you made is on the same level as these are
@@ -88,6 +90,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "Kick") {
         node = std::make_shared<rtt::ai::Kick>(name, properties);
     }
+    else if (name == "Halt") {
+        node = std::make_shared<rtt::ai::Halt>(name, properties);
+    }
     else if (name == "Rotate") {
         node = std::make_shared<rtt::ai::Rotate>(name, properties);
     }
@@ -119,34 +124,44 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 
     std::map<std::string, std::map<std::string, robotType>> tactics = {
             {"randomTactic", {
-                    {"random1", robotType::random},
-                    {"random2", robotType::random},
-                    {"random3", robotType::random},
-                    {"random4", robotType::random},
-                    {"random5", robotType::random},
-                    {"random6", robotType::random},
-                    {"random7", robotType::random},
+                 {"random1", robotType::random},
+                 {"random2", robotType::random},
+                 {"random3", robotType::random},
+                 {"random4", robotType::random},
+                 {"random5", robotType::random},
+                 {"random6", robotType::random},
+                 {"random7", robotType::random}
+             }
+            },
+             {"haltTactic", {
+                    {"halt0", robotType::random},
+                    {"halt1", robotType::random},
+                    {"halt2", robotType::random},
+                    {"halt3", robotType::random},
+                    {"halt4", robotType::random},
+                    {"halt5", robotType::random},
+                    {"halt6", robotType::random},
+                    {"halt7", robotType::random}
             }
             },
-
             {"GetBallTestTactic", {
-                    {"FAKOFF", robotType::random},
+                {"FAKOFF", robotType::random}
             }
             },
             {"DanceTactic2", {
-                    {"retarded", robotType::random},
-                    {"Vright", robotType::random},
+                {"retarded", robotType::random},
+                {"Vright", robotType::random}
             }
             },
             {"DanceTactic", {
-                    {"right", robotType::random},
-                    {"letf", robotType::random},
+                {"right", robotType::random},
+                {"letf", robotType::random}
             }
             },
             {"SimpleTactic", {
-                    {"simpleStupidRobot", robotType::random},
+                {"simpleStupidRobot", robotType::random}
             }
-            }
+        }
     };
 
     bt::Node::Ptr node;

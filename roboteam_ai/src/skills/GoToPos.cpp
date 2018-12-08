@@ -23,8 +23,7 @@ void GoToPos::initialize() {
         robot.id = (unsigned int) dealer::findRobotForRole(roleName);
         if (World::getRobotForId(robot.id, true)) {
             robot = World::getRobotForId(robot.id, true).get();
-        }
-        else {
+        } else {
             ROS_ERROR("GoToPos Initialize -> robot does not exist in world");
             currentProgress = Progression::FAIL;
             return;
