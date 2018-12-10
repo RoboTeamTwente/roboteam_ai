@@ -99,14 +99,8 @@ void MainWindow::updateWidgets() {
             bt::Node::Ptr item = treeItemMapping.at(widgetItem);
             QString status = QString::fromStdString(statusToString(item->getStatus()));
            if (widgetItem->text(1) != status) {
-            //widgetItem->setText(0, QString::fromStdString(item->node_name()));
-            widgetItem->setText(1, status);
-            widgetItem->setBackgroundColor(1, getColorForStatus(item->getStatus()));
-
-            if (item->node_name() == "Repeater" && item->getStatus() == bt::Node::Status::Success) {
-                std::cout << "what~!" << std::endl;
-            }
-
+                widgetItem->setText(1, status);
+                widgetItem->setBackgroundColor(1, getColorForStatus(item->getStatus()));
             }
         }
         ++iter;
