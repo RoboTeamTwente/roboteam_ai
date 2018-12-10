@@ -48,7 +48,6 @@ void runBehaviourTrees() {
         ai::Field::set_field(geometryMsg.field);
         ai::Referee::setRefereeData(refereeMsg);
 
-        if (! ai::World::didReceiveFirstWorld) continue;
 
         if (df::DangerFinder::instance().hasCalculated()) {
             df::DangerData dangerData = df::DangerFinder::instance().getMostRecentData();
