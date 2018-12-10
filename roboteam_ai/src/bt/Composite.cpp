@@ -2,8 +2,6 @@
 
 namespace bt {
 
-Composite::~Composite() { }
-
 void Composite::addChild(Node::Ptr child) {
     children.push_back(child);
 }

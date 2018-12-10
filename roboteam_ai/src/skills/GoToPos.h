@@ -13,7 +13,6 @@ namespace ai {
 class GoToPos : public Skill {
     private:
         using status = bt::Node::Status;
-        roboteam_msgs::WorldRobot robot;
 
         bool goToBall;
         bool goBehindBall;

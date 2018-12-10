@@ -19,13 +19,11 @@ namespace interface {
     horizontalLayout = std::make_shared<QHBoxLayout>();
     verticalLayout = std::make_shared<QVBoxLayout>();
 
-
     // selectionbox for selecting a robot from a dropdown
     select_robot = std::make_shared<QComboBox>();
     verticalLayout->addWidget(select_robot.get());
     QObject::connect(select_robot.get(), SIGNAL(currentIndexChanged(int)), visualizer.get(), SLOT(selectRobot(int)));
     // TODO this might not work properly on robocup where different IDs can be used
-
 
     // functions to select strategies
     cb_referee = std::make_shared<QCheckBox>("Use referee");
@@ -70,7 +68,7 @@ namespace interface {
     // set up tree widget
     treeWidget = std::make_shared<QTreeWidget>();
     treeWidget->setColumnCount(2);
-    treeWidget->setColumnWidth(0, 100);
+    treeWidget->setColumnWidth(0, 250);
 
     verticalLayout->addWidget(treeWidget.get());
 
@@ -98,7 +96,7 @@ void MainWindow::updateWidgets() {
         if (treeItemMapping.find(widgetItem) != treeItemMapping.end()) {
             bt::Node::Ptr item = treeItemMapping.at(widgetItem);
             QString status = QString::fromStdString(statusToString(item->getStatus()));
-            if (widgetItem->text(1) != status) {
+           if (widgetItem->text(1) != status) {
                 widgetItem->setText(1, status);
                 widgetItem->setBackgroundColor(1, getColorForStatus(item->getStatus()));
             }
@@ -108,6 +106,7 @@ void MainWindow::updateWidgets() {
 
     // if the tree did change, clear the treewidget and rebuild it
     if (!hasCorrectTree && BTFactory::getFactory().isInitialized()) {
+        treeItemMapping.clear();
         treeWidget->clear();
         bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree(BTFactory::getFactory().getCurrentTree());
         auto treeItemRoot = new QTreeWidgetItem(treeWidget.get());

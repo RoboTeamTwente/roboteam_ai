@@ -108,8 +108,6 @@ class GoToPosLuTh : public Skill {
         bool tracePath(NumRobot &numRobot, Vector2 target);
 
         std::vector<Vector2> displayData;
-        using Status = bt::Node::Status;
-        roboteam_msgs::WorldRobot robot;
 
         bool drawInterface;
         bool goToBall;

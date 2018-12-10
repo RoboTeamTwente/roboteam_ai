@@ -6,12 +6,6 @@
 
 namespace bt {
 
-std::string Node::status_desc;
-
-Node::~Node() {
-
-}
-
 void Node::initialize() {
 
 }
@@ -30,7 +24,7 @@ Node::Status Node::tick() {
         NodeInitialize();
     }
 
-    status = NodeUpdate();
+    setStatus(NodeUpdate());
 
     if (status != Status::Running) {
         NodeTerminate(status);
@@ -53,16 +47,6 @@ void Node::setStatus(Status s) { status = s; }
 
 std::string Node::node_name() {
     return "<ERROR>";
-}
-
-void Node::append_status(std::string fmt, ...) {
-    char buf[1024];
-    va_list varargs;
-    va_start(varargs, fmt);
-    vsnprintf(buf, 1024, fmt.c_str(), varargs);
-    va_end(varargs);
-
-    status_desc += std::string(buf);
 }
 
 void Node::addChild(bt::Node::Ptr) {

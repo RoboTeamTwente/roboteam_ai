@@ -154,8 +154,6 @@ set(UTILS_SOURCES
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefaultSkill.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefaultSkill.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Kick.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Kick.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Chip.h

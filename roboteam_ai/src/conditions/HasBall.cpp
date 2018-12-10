@@ -18,7 +18,7 @@ bt::Node::Status HasBall::update() {
         std::string roleName = properties->getString("ROLE");
         robot.id = (unsigned int) dealer::findRobotForRole(roleName);
         if (World::getRobotForId(robot.id, true)) {
-            robot = World::getRobotForId(robot.id, true).get();
+            robot = * World::getRobotForId(robot.id, true);
         }
         else {
             ROS_ERROR("HasBall Update -> robot does not exist in world");

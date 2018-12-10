@@ -44,7 +44,7 @@
             "isRole": false,
             "properties": {
               "ROLE": "simpleStupidRobot",
-              "Position": "{-1, -1}",
+              "Position": "{-0.4, -0.4}",
               "goToBall": "false",
               "random": "false"
             }
@@ -55,7 +55,7 @@
             "isRole": false,
             "properties": {
               "ROLE": "simpleStupidRobot",
-              "Position": "{1, 1}",
+              "Position": "{0, 0}",
               "goToBall": "false",
               "random": "false"
             }

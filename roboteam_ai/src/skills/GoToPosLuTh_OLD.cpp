@@ -23,23 +23,7 @@ std::string GoToPosLuTh_OLD::node_name() {
 
 /// Called when the Skill is Initialized
 void GoToPosLuTh_OLD::initialize() {
-
-    if (properties->hasString("ROLE")) {
-        std::string roleName = properties->getString("ROLE");
-        robot.id = (unsigned int) dealer::findRobotForRole(roleName);
-        if (World::getRobotForId(robot.id, true)) {
-            robot = World::getRobotForId(robot.id, true).get();
-        }
-        else {
-            ROS_ERROR("GoToPosLuTh_OLD Initialize -> robot does not exist in world");
-            return;
-        }
-    }
-    else {
-        ROS_ERROR("GoToPosLuTh_OLD Initialize -> ROLE WAITING!!");
-        return;
-    }
-//  ____________________________________________________________________________________________________________________
+    getRobotFromProperties(properties);
 
     drawInterface = properties->getBool("drawInterface");
     goToBall = properties->getBool("goToBall");
@@ -57,14 +41,7 @@ void GoToPosLuTh_OLD::initialize() {
 /// Called when the Skill is Updated
 GoToPosLuTh_OLD::Status GoToPosLuTh_OLD::update() {
     displayData.clear();
-
-    if (World::getRobotForId(robot.id, true)) {
-        robot = World::getRobotForId(robot.id, true).get();
-    }
-    else {
-        ROS_ERROR("GoToPosLuTh_OLD Update -> robot does not exist in world");
-    }
-//  ____________________________________________________________________________________________________________________
+    updateRobot();
 
     if (goToBall) {
         auto ball = World::getBall();
@@ -119,7 +96,7 @@ GoToPosLuTh_OLD::Status GoToPosLuTh_OLD::update() {
 void GoToPosLuTh_OLD::terminate(Status s) {
 
     roboteam_msgs::RobotCommand command;
-    command.id = robot.id;
+    command.id = robot->id;
     command.use_angle = 0;
     command.w = 0;
 
@@ -145,23 +122,21 @@ void GoToPosLuTh_OLD::sendMoveCommand() {
 
     numRobot me;
     roboteam_msgs::RobotCommand command;
-    command.id = robot.id;
+    command.id = robot->id;
     calculateNumericDirection(me, command);
 
     ros::Time end = ros::Time::now();
     double timeTaken = (end - begin).toSec();
-    //std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
+    std::cout << "calculation: " << timeTaken * 1000 << " ms" << std::endl;
 
     displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
-    //interface::Drawer::setGoToPosLuThPoints(robot.id, displayData);
-
     publishRobotCommand(command);
 }
 
 GoToPosLuTh_OLD::Progression GoToPosLuTh_OLD::checkProgression() {
 
-    double dx = targetPos.x - robot.pos.x;
-    double dy = targetPos.y - robot.pos.y;
+    double dx = targetPos.x - robot->pos.x;
+    double dy = targetPos.y - robot->pos.y;
     Vector2 deltaPos = {dx, dy};
 
     double maxMargin = 0.3;                        // max offset or something.
@@ -172,11 +147,11 @@ GoToPosLuTh_OLD::Progression GoToPosLuTh_OLD::checkProgression() {
 
 bool GoToPosLuTh_OLD::calculateNumericDirection(numRobot &me, roboteam_msgs::RobotCommand &command) {
 
-    me.id = robot.id;
-    me.pos = robot.pos;
-    me.vel = robot.vel;
+    me.id = robot->id;
+    me.pos = robot->pos;
+    me.vel = robot->vel;
     me.targetPos = targetPos;
-    me.angle = robot.angle;
+    me.angle = robot->angle;
     int startIndex = 0;
     if (me.vel.length() > 10.0) return false;
 
@@ -197,7 +172,7 @@ bool GoToPosLuTh_OLD::calculateNumericDirection(numRobot &me, roboteam_msgs::Rob
         command.w = angularVel;
 
 
-        me.pos = robot.pos;
+        me.pos = robot->pos;
         auto world = World::get_world();
         Vector2 closestBot = getClosestRobotPos(world, me);
         if (me.isCollision(closestBot)) {
