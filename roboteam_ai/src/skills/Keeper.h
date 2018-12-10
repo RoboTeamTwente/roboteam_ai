@@ -16,6 +16,7 @@ class Keeper : public Skill {
         Vector2 computeBlockPoint(Vector2 defendPos);
         Vector2 goalPos;
         double goalwidth;
+        void sendMoveCommand(Vector2 pos);
     public:
         explicit Keeper(string name, bt::Blackboard::Ptr blackboard);
         std::string node_name() override;

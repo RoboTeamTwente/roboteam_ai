@@ -33,7 +33,7 @@
 #include "../skills/Rotate.h"
 #include "../skills/RotateToAngle.h"
 #include "../skills/GoToPos.h"
-
+#include "../skills/Keeper.h"
 
 //  ______________________
 //  |                    |
