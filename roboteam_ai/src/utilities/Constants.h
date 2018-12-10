@@ -33,6 +33,10 @@ const float  DRIBBLE_SPEED=0.5;
 const int DEFAULT_ROBOT_ID = 1;
 const double MAX_ANGULAR_VELOCITY = 6.0; // rad per second??
 
+//Keeper
+const double KEEPER_POST_MARGIN=0.08;//m
+const double KEEPER_CENTREGOAL_MARGIN=0.06;//m
+
 // Interface
 const int ROBOT_DRAWING_SIZE = 8;
 const int BALL_DRAWING_SIZE = 5;
