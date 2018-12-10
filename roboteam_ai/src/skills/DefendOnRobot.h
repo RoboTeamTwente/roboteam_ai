@@ -21,6 +21,7 @@ protected:
         IDLE, DONE, FAIL
     };
     Progression currentProgress;
+    roboteam_msgs::WorldRobot robot2;
 public:
     explicit DefendOnRobot(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
 
@@ -28,7 +29,7 @@ public:
 
     Status update() override;
 
-    Vector2 calculateBestPosition(roboteam_msgs::WorldRobot robot, roboteam_msgs::WorldRobot robot2);
+    Vector2 calculateBestPosition(roboteam_msgs::WorldRobot robot);
 };
 } // ai
 } // rtt

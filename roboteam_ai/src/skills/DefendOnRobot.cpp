@@ -19,7 +19,9 @@ bt::Node::Status DefendOnRobot::update() {
     return Status::Running;
 }
 
-Vector2 DefendOnRobot::calculateBestPosition(roboteam_msgs::WorldRobot robot1, roboteam_msgs::WorldRobot robot2) {
+Vector2 DefendOnRobot::calculateBestPosition(roboteam_msgs::WorldRobot robot1) {
+    int opponentID = coach::pickOpponentToCover(0);
+
     float robotAngle1 = robot1.angle;
     float robotAngle2 = robot2.angle;
 
