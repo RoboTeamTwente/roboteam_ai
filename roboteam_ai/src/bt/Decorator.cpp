@@ -2,8 +2,6 @@
 
 namespace bt {
 
-Decorator::~Decorator() { }
-
 void Decorator::addChild(Node::Ptr child) {
     this->child = child;
 }
