@@ -46,6 +46,7 @@ private:
     void drawBall(QPainter & painter);
     void drawTacticColorForRobot(QPainter & painter, roboteam_msgs::WorldRobot robot);
     void drawDataPoints(QPainter & painter, std::vector<Vector2> points, int pointSize = 3, QColor color = Qt::green);
+    void drawDataPoints(QPainter & painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize = 3);
 
     // utitlity functions
     std::string getTacticNameForRobot(roboteam_msgs::WorldRobot robot);

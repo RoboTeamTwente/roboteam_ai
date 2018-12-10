@@ -74,36 +74,37 @@ int RobotDealer::claimRobotForTactic(RobotDealer::RobotType feature, std::string
 
         switch (feature) {
 
-        default:return - 1;
+            default:
+                return - 1;
 
-        case closeToBall: {
-            rtt::Vector2 ball = rtt::ai::World::getBall().pos;
-            id = getRobotClosestToPoint(ids, ball);
-            break;
-        }
+            case closeToBall: {
+                rtt::Vector2 ball = rtt::ai::World::getBall().pos;
+                id = getRobotClosestToPoint(ids, ball);
+                break;
+            }
 
-        case betweenBallAndOurGoal: {
-            rtt::Vector2 ball = rtt::ai::World::getBall().pos;
-            rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
-            id = getRobotClosestToLine(ids, ball, ourGoal, true);
-            break;
-        }
-        case closeToOurGoal: {
-            rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
-            id = getRobotClosestToPoint(ids, ourGoal);
-            break;
-        }
+            case betweenBallAndOurGoal: {
+                rtt::Vector2 ball = rtt::ai::World::getBall().pos;
+                rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
+                id = getRobotClosestToLine(ids, ball, ourGoal, true);
+                break;
+            }
+            case closeToOurGoal: {
+                rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
+                id = getRobotClosestToPoint(ids, ourGoal);
+                break;
+            }
 
-        case closeToTheirGoal: {
-            rtt::Vector2 theirGoal = rtt::ai::Field::get_their_goal_center();
-            id = getRobotClosestToPoint(ids, theirGoal);
-            break;
-        }
+            case closeToTheirGoal: {
+                rtt::Vector2 theirGoal = rtt::ai::Field::get_their_goal_center();
+                id = getRobotClosestToPoint(ids, theirGoal);
+                break;
+            }
 
-        case random: {
-            id = *ids.begin();
-            break;
-        }
+            case random: {
+                id = *ids.begin();
+                break;
+            }
 
         }
         std::lock_guard<std::mutex> lock(robotOwnersLock);
@@ -167,17 +168,16 @@ void RobotDealer::removeTactic(std::string tacticName) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
-
     for (auto tactic : robotOwners) {
         if (tactic.first == tacticName) {
-            for(auto robotPair : tactic.second) {
+            for (auto robotPair : tactic.second) {
                 removeRobotFromOwnerList(robotPair.first);
             }
             robotOwners.erase(tacticName);
             return;
         }
     }
-    std::cerr << "Cannot remove tactic the tactic does not exist:  " << tacticName <<  std::endl;
+    std::cerr << "Cannot remove tactic the tactic does not exist:  " << tacticName << std::endl;
 }
 std::set<int> RobotDealer::findRobotsForTactic(std::string tacticName) {
 
@@ -281,4 +281,51 @@ void RobotDealer::unFreeRobot(int ID) {
 
 }
 
+
+// std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::robotOwners;
+// map (string, set(pair(int, string)))
+
+std::string RobotDealer::getTacticNameForRole(std::string role) {
+
+    std::lock_guard<std::mutex> lock(robotOwnersLock);
+
+    for (const auto &tactic : robotOwners) {
+        for (const auto &pair : tactic.second) {
+            if (pair.second == role) {
+                return tactic.first;
+            }
+        }
+    }
+    ROS_ERROR("No robot with that role");
+    return "";
+
+}
+
 } // RobotDealer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
