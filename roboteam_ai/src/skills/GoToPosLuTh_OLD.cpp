@@ -150,7 +150,7 @@ void GoToPosLuTh_OLD::sendMoveCommand() {
 
     ros::Time end = ros::Time::now();
     double timeTaken = (end - begin).toSec();
-    std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
+    //std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
 
     displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
     //interface::Drawer::setGoToPosLuThPoints(robot.id, displayData);

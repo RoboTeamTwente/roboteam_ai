@@ -10,6 +10,7 @@
 
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
 std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
+std::map<std::string, bt::Node::Ptr>BTFactory::keeperRepo;
 std::string BTFactory::currentTree;
 std::string BTFactory::keeperTree;
 int keeperID;
@@ -73,8 +74,8 @@ void BTFactory::setKeeperTree(const std::string &keeperTree_) {
     keeperTree = keeperTree_;
 
 }
-int BTFactory::setKeeper(int newID) {
-    BTFactory::keeperID = newID;
+void BTFactory::setKeeper(int newID) {
+    keeperID = newID;
 }
 
 

@@ -136,7 +136,7 @@ void GoToPosLuTh::sendMoveCommand() {
     robotQueue = {};
     ros::Time end = ros::Time::now();
     double timeTaken = (end - begin).toSec();
-    std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
+    //std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
 
     std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
     for (auto displayAll : displayData) {
