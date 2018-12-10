@@ -147,13 +147,13 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Coach.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Coach.cpp
         )
 
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefaultSkill.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefaultSkill.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Kick.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Kick.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Chip.h
@@ -176,6 +176,10 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/HaltTactic.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/HaltTactic.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.h
         )
 
 set(CONDITIONS_SOURCES
@@ -187,8 +191,8 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.cpp
-        roboteam_ai/src/utilities/StrategyManager.cpp
-        roboteam_ai/src/utilities/StrategyManager.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.h)
 
 ### SOURCES END ###
 
@@ -223,7 +227,7 @@ include_directories(${catkin_INCLUDE_DIRS})
 
 add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-# StrategyNode
+# Main Executable
 add_executable(Roboteam_AI
         roboteam_ai/src/roboteam_ai.cpp
         ${DANGER_FINDER_SOURCES}

@@ -6,8 +6,6 @@ namespace bt {
 
 class Composite : public Node {
     public:
-        virtual ~Composite();
-
         void addChild(Node::Ptr child) override;
 
         std::vector<Node::Ptr> getChildren() override;

@@ -6,8 +6,6 @@ namespace bt {
 
 class Decorator : public Node {
     public:
-        virtual ~Decorator();
-
         void addChild(Node::Ptr child) override;
 
         std::vector<Node::Ptr> getChildren() override;

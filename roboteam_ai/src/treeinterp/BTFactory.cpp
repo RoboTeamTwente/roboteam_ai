@@ -10,7 +10,10 @@
 
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
 std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
+std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::keeperRepo;
 std::string BTFactory::currentTree;
+std::string BTFactory::keeperTree;
+int BTFactory::keeperID;
 bool BTFactory::initialized = false;
 
 /// Returns the Behaviour Tree Factory Singleton
@@ -34,6 +37,11 @@ void BTFactory::init() {
         for (auto &it : tempMap) strategyRepo[it.first] = it.second; // may break
     }
 
+//    for (const auto &strategyNameKeeper : Switches::keeperJsonFiles) {
+//        auto tempMap = interpreter.getTrees("keeper/" + strategyNameKeeper);
+//        for (auto &it : tempMap) keeperRepo[it.first] = it.second; // may break
+//    }
+
     initialized = true;
 }
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
@@ -48,25 +56,32 @@ std::string BTFactory::getCurrentTree() {
     return currentTree;
 }
 
-void BTFactory::setCurrentTree(const std::string & newTree) {
+void BTFactory::setCurrentTree(const std::string &newTree) {
 
-    // only change if it is a different tree
     if (newTree != BTFactory::currentTree) {
-//        auto tree = BTFactory::getFactory().getTree(BTFactory::currentTree);
-//        if (tree) { // terminate tree if needed
-//            tree->GetRoot()->terminate(tree->GetRoot()->getStatus());
-//        }
 
-    for (auto tacticRobotsPair : robotDealer::RobotDealer::getClaimedRobots()) {
-        robotDealer::RobotDealer::removeTactic(tacticRobotsPair.first);
-    }
+        for (const auto &tacticRobotsPair : robotDealer::RobotDealer::getClaimedRobots()) {
+            robotDealer::RobotDealer::removeTactic(tacticRobotsPair.first);
+        }
 
-    BTFactory::currentTree = newTree;
+        BTFactory::currentTree = newTree;
     }
 }
 
 bool BTFactory::isInitialized() {
     return BTFactory::initialized;
+}
+
+void BTFactory::setKeeperTree(const std::string &keeperTree_) {
+
+    keeperTree = keeperTree_;
+
+}
+void BTFactory::setKeeper(int newID) {
+    BTFactory::keeperID = newID;
+}
+bt::BehaviorTree::Ptr BTFactory::getKeeperTree() {
+    return keeperRepo[keeperTree];
 }
 
 

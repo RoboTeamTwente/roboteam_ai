@@ -16,6 +16,7 @@
 #include "../bt/tactics/VictoryDanceTactic.h"
 #include "../bt/tactics/RandomTactic.h"
 #include "../bt/tactics/DefaultTactic.h"
+#include "../bt/tactics/HaltTactic.h"
 
 //  ______________________
 //  |                    |
@@ -23,13 +24,16 @@
 //  |____________________|
 //
 
-#include "../skills/Rotate.h"
-#include "../skills/GoToPosLuTh_OLD.h"
+#include "../skills/Chip.h"
+#include "../skills/Dribble.h"
 #include "../skills/GoToPosLuTh.h"
+#include "../skills/GoToPosLuTh_OLD.h"
+#include "../skills/Halt.h"
+#include "../skills/Kick.h"
+#include "../skills/Rotate.h"
 #include "../skills/RotateToAngle.h"
 #include "../skills/GoToPos.h"
-#include "../skills/Kick.h"
-#include "../skills/Dribble.h"
+
 
 //  ______________________
 //  |                    |
@@ -51,6 +55,8 @@ class Switches {
         static std::vector<std::string> tacticJsonFileNames;
 
         static std::vector<std::string> strategyJsonFileNames;
+
+        static std::vector<std::string> keeperJsonFiles;
 
         static bt::Node::Ptr nonLeafSwitch(std::string name);
 

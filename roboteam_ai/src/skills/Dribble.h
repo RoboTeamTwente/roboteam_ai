@@ -18,7 +18,6 @@ namespace ai {
 class Dribble : public Skill {
     private:
         using status = bt::Node::Status;
-        roboteam_msgs::WorldRobot robot;
         roboteam_msgs::WorldBall ball;
         enum Progression {
           ON_THE_WAY, STOPPED, DONE, FAIL, WAITING

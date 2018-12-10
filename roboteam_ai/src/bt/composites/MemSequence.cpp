@@ -16,7 +16,6 @@ bt::Node::Status MemSequence::update() {
     while (index < children.size()) {
         auto &child = children.at(index);
 
-        Node::append_status("[MemSequence: executing child of type %s]", child->node_name().c_str());
         auto status = child->tick();
 
         // If the child fails, or keeps running, do the same.

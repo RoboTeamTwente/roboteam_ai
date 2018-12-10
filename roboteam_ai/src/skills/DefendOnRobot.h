@@ -8,7 +8,6 @@
 
 #include "Skill.h"
 #include <boost/optional.hpp>
-#include "../utilities/World.h"
 
 namespace rtt {
 namespace ai {
@@ -18,7 +17,6 @@ private:
     using status = bt::Node::Status;
     int amountOfCycles{};
 protected:
-    roboteam_msgs::WorldRobot robot;
     enum Progression {
         IDLE, DONE, FAIL
     };

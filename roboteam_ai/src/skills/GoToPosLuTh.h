@@ -2,11 +2,12 @@
 // Created by thijs on 04-12-18.
 //
 #include "Skill.h"
-#include <cmath>
 #include <queue>
 #include <random>  //random numbers..
 #include <cstdlib>
 #include <time.h>
+#include <cmath>
+
 #include "../interface/drawer.h"
 
 // #include "../interface/Interface.h"
@@ -23,10 +24,11 @@ class GoToPosLuTh : public Skill {
         using NumRobotPtr = std::shared_ptr<NumRobot>;
         struct NumRobot {
 
-          int id;                       //Robot id
+          int id = 0;                       //Robot id
           unsigned long startIndex = 0;
           Vector2 pos;                  //Current x,y position in m
           Vector2 targetPos;            //Target position in m
+          Vector2 finalTargetPos;
           Vector2 vel;                  //Current x,y velocity in ms-1
           Vector2 targetVel;            //Target velocity in ms-1
           double maxVel = 1.5;          //Maximum velocity in ms-1
@@ -35,8 +37,9 @@ class GoToPosLuTh : public Skill {
           std::vector<Vector2> posData; //Save the position data
           std::vector<Vector2> velData; //Save the velocity data
           float t = 0;
-          const float dt = 0.05;
+          const float dt = 0.05f;
           int totalCalculations = 0;
+          int collisions = 0;
 
           Vector2 getDirection() {
               return (targetPos - pos).normalize();
@@ -55,10 +58,46 @@ class GoToPosLuTh : public Skill {
               return (std::abs((otherPos - pos).length()) < minDistance);
           }
 
+          std::vector<Vector2> getNewTargets(Vector2 &collisionPos, Vector2 &startPos) {
+              std::vector<Vector2> newTargets;
+
+              Vector2 deltaPos = collisionPos - startPos;
+              int maxI = 4; //(int) ceil(8.0f/(me->collisions + 1));
+              for (int i = 1 - maxI; i < maxI; i++) {
+                  auto angle = (double) abs(i)*i*M_PI/(maxI*maxI);
+                  Vector2 newDeltaPos = deltaPos.rotate(angle)*(1 + M_PI - abs(angle))/(M_PI);
+                  Vector2 newTarget = (collisionPos + startPos)*0.5 + newDeltaPos*0.5;
+                  newTargets.push_back(newTarget);
+              }
+              return newTargets;
+          }
+
+          NumRobotPtr getNewNumRobot(NumRobotPtr me, Vector2 &newTarget) {
+              NumRobot newMe;
+
+              std::vector<Vector2> _posData(me->posData.begin(), me->posData.begin() + me->startIndex + 1);
+              newMe.posData = _posData;
+              newMe.pos = newMe.posData.back();//me->posData[me->startIndex];
+              std::vector<Vector2> _velData(me->velData.begin(), me->velData.begin() + me->startIndex + 1);
+              newMe.velData = _velData;
+              newMe.vel = newMe.velData.back();//me->velData[me->startIndex];
+
+              newMe.id = me->id;
+              newMe.totalCalculations = me->totalCalculations;
+              newMe.collisions = me->collisions + 1;
+              newMe.startIndex = newMe.posData.size();
+              newMe.targetPos = newTarget;
+              newMe.finalTargetPos = targetPos;
+
+              return std::make_shared<NumRobot>(newMe);
+
+          }
+
           struct CustomCompare {
             bool operator()(NumRobotPtr lhs, NumRobotPtr rhs)
             {
-                return lhs->posData.size() < rhs->posData.size();
+                if (lhs->collisions < rhs->collisions) return false;
+                else return abs((lhs->pos - lhs->finalTargetPos).length()) > abs((rhs->pos - rhs->finalTargetPos).length());
             }
           };
 
@@ -69,8 +108,6 @@ class GoToPosLuTh : public Skill {
         bool tracePath(NumRobot &numRobot, Vector2 target);
 
         std::vector<Vector2> displayData;
-        using Status = bt::Node::Status;
-        roboteam_msgs::WorldRobot robot;
 
         bool drawInterface;
         bool goToBall;
@@ -97,7 +134,7 @@ class GoToPosLuTh : public Skill {
         Status update() override;
         void terminate(Status s) override;
 
-        bool calculateNextPoint(NumRobotPtr me, Vector2 &target);
+        bool calculateNextPoint(NumRobotPtr me);
 };
 } // ai
 } // rtt

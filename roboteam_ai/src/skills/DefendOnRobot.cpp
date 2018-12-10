@@ -11,30 +11,11 @@ DefendOnRobot::DefendOnRobot(std::string name, bt::Blackboard::Ptr blackboard)
     :Skill(name, blackboard) { }
 
 void DefendOnRobot::initialize() {
-    if (properties->hasString("ROLE")) {
-        std::string roleName = properties->getString("ROLE");
-        robot.id = (unsigned int) dealer::findRobotForRole(roleName);
-        if (World::getRobotForId(robot.id, true)) {
-            robot = World::getRobotForId(robot.id, true).get();
-        } else {}
-        //ROS_ERROR("DefendOnRobot -> robot does not exist in world");
-        currentProgress = Progression::FAIL;
-        return;
-    } else {
-        //ROS_ERROR("DefendOnRobot -> ROLE WAITING!!");
-        currentProgress = Progression::FAIL;
-        return;
-    }
-    amountOfCycles = 0;
+    robot = getRobotFromProperties(properties);
 }
 
 bt::Node::Status DefendOnRobot::update() {
-    // Fail if we did not succeed after a number of cycles
-    amountOfCycles ++;
-    if (amountOfCycles > 30) {
-        return Status::Failure;
-    }
-
+    updateRobot();
     return Status::Running;
 }
 

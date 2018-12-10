@@ -14,10 +14,7 @@ namespace ai {
 class Chip : public Kick {
     public:
         explicit Chip(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
-
         void sendKickCommand(double kickVel) override;
-
-
 };
 
 } // ai

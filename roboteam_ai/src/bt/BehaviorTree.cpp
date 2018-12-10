@@ -18,10 +18,6 @@ BehaviorTree::BehaviorTree(const Blackboard::Ptr &shared)
     globalBB = shared;
 }
 
-BehaviorTree::~BehaviorTree() {
-
-}
-
 Node::Status BehaviorTree::update() {
     return root->tick();
 }
