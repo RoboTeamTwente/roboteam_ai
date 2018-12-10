@@ -4,7 +4,6 @@
 
 #include <roboteam_ai/src/utilities/Constants.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
-#include <roboteam_ai/src/bt/Node.hpp>
 #include "mainWindow.h"
 
 namespace rtt {

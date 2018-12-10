@@ -3,7 +3,6 @@
 //
 
 #include "Rotate.h"
-#include "math.h"
 
 namespace rtt {
 namespace ai {
