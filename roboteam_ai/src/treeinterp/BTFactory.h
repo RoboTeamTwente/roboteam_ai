@@ -25,7 +25,7 @@ class BTFactory {
 
         static std::string keeperTree;
 
-//        static int keeperID;
+        static int keeperID;
 
         static bool initialized;
 
@@ -40,11 +40,11 @@ public:
 
         static std::map<std::string, bt::Node::Ptr> tacticsRepo;
 
-        static std::map<std::string, bt::Node::Ptr> keeperRepo;
+        static std::map<std::string, bt::BehaviorTree::Ptr> keeperRepo;
 
         static std::string getCurrentTree();
 
-        static std::string getKeeperTree();
+        static bt::BehaviorTree::Ptr getKeeperTree();
 
         static void setCurrentTree(const std::string &currentTree);
 
