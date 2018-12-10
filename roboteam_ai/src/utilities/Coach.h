@@ -8,7 +8,7 @@
 #include <roboteam_utils/LastWorld.h>
 #include "RobotDealer.h"
 #include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/dangerfinder/DangerData.h>
+#include <roboteam_ai/src/dangerfinder/DangerFinder.h>
 
 namespace rtt {
 namespace ai {

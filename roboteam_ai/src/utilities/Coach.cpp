@@ -42,12 +42,15 @@ int Coach::pickDefensivePassTarget(int selfID) {
 }
 
 int Coach::pickOpponentToCover(int selfID) {
-    int opponentID = 0;
-    if(defencePairs.find(opponentID) == defencePairs.end()) {
-        defencePairs.insert({opponentID, selfID});
-        return opponentID;
-    }
 
+    dangerfinder::DangerData DangerData = dangerfinder::DangerFinder::instance().getMostRecentData();
+    std::vector<int> dangerList = DangerData.dangerList;
+    for(int& opponentID : dangerList) {
+        if(defencePairs.find(opponentID) == defencePairs.end()) {
+            defencePairs.insert({opponentID, selfID});
+            return opponentID;
+        }
+    }
 
     return -1;
 }
