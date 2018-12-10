@@ -20,13 +20,13 @@ void Keeper::initialize() {
     double diff = constants::KEEPER_POST_MARGIN - constants::KEEPER_CENTREGOAL_MARGIN;
 
     double radius = diff*0.5 + goalwidth*goalwidth/(8*diff);
-    double angle = abs(asin(goalwidth/2/radius));
+    double angle = asin(goalwidth/2/radius);
     Vector2 center = Vector2(goalPos.x + constants::KEEPER_CENTREGOAL_MARGIN + radius, 0);
     if (diff>0) {
         blockCircle = Arc(center, radius, M_PI - angle, angle - M_PI);
     }
     else {
-        blockCircle = Arc(center, radius,angle-M_PI,M_PI-angle); //Arc c
+        blockCircle = Arc(center, radius,angle,-angle); //we take the radius from the other side so we have to also flip the arc (yes, confusing)
     }
 
 }
@@ -74,17 +74,6 @@ Vector2 Keeper::computeBlockPoint(Vector2 defendPos) {
     std::pair<boost::optional<Vector2>, boost::optional<Vector2>> intersections = blockCircle.intersectionWithLine(
             blockLineStart, defendPos);
     Vector2 blockPos,posA,posB;
-
-    std::vector<std::pair<Vector2, QColor>> drawVec;
-
-    if (intersections.first){
-        std::pair<Vector2, QColor> drawPoint(*intersections.first, Qt::white);
-        drawVec.push_back(drawPoint);
-    }
-    if (intersections.second){
-        std::pair<Vector2, QColor> drawPoint(*intersections.second, Qt::white);
-        drawVec.push_back(drawPoint);
-    }
     // go stand on the intersection of the lines. Pick the one that is closest to (0,0) if there are multiple
     if (intersections.first&&intersections.second){
         posA=*intersections.first;
@@ -104,7 +93,6 @@ Vector2 Keeper::computeBlockPoint(Vector2 defendPos) {
         blockPos = Vector2(goalPos.x + constants::KEEPER_POST_MARGIN, goalwidth/2
                 *signum(defendPos.y)); // Go stand at one of the poles depending on the side the defendPos is on.
     }
-    interface::Drawer::setGoToPosLuThPoints(robot->id, drawVec);
     return blockPos;
 }
 }
