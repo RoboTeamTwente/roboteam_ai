@@ -1,7 +1,6 @@
 //
 // Created by baris on 6-12-18.
 //
-#include <roboteam_ai/src/control/ControlUtils.h>
 #include "Coach.h"
 
 namespace rtt {

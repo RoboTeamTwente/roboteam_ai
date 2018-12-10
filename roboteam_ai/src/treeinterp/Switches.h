@@ -56,6 +56,8 @@ class Switches {
 
         static std::vector<std::string> strategyJsonFileNames;
 
+        static std::vector<std::string> keeperJsonFiles;
+
         static bt::Node::Ptr nonLeafSwitch(std::string name);
 
         static bt::Node::Ptr leafSwitch(std::string name, bt::Blackboard::Ptr properties);

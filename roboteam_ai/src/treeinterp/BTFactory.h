@@ -23,6 +23,10 @@ class BTFactory {
 
         static std::string currentTree;
 
+        static std::string keeperTree;
+
+        static int keeperID;
+
         static bool initialized;
 
 public:
@@ -36,9 +40,17 @@ public:
 
         static std::map<std::string, bt::Node::Ptr> tacticsRepo;
 
+        static std::map<std::string, bt::BehaviorTree::Ptr> keeperRepo;
+
         static std::string getCurrentTree();
 
+        static bt::BehaviorTree::Ptr getKeeperTree();
+
         static void setCurrentTree(const std::string &currentTree);
+
+        static void setKeeperTree(const std::string &keeperTree);
+
+        static void setKeeper(int newID);
 
         static bool isInitialized();
 };

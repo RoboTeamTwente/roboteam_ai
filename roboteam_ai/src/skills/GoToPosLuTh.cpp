@@ -115,7 +115,7 @@ void GoToPosLuTh::sendMoveCommand() {
     robotQueue = {};
     ros::Time end = ros::Time::now();
     double timeTaken = (end - begin).toSec();
-    std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
+    //std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
 
     std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
     for (auto displayAll : displayData) {
@@ -125,11 +125,15 @@ void GoToPosLuTh::sendMoveCommand() {
         displayColorData.emplace_back(displayMe, Qt::red);
     }
     interface::Drawer::setGoToPosLuThPoints(robot->id, displayColorData);
-    if (true) {
+
+    command.use_angle = 1;
+
+//#define NOCOMMAND
+#ifdef NOCOMMAND
         command.x_vel = 0.0f;
         command.y_vel = 0.0f;
         command.w = 0.0f;
-    }
+#endif
     publishRobotCommand(command);
 }
 

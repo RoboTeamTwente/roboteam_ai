@@ -7,6 +7,7 @@
 #include "interface/mainWindow.h"
 #include "roboteam_ai/src/interface/widget.h"
 #include <QApplication>
+#include <chrono>
 
 namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;
@@ -34,7 +35,7 @@ void runBehaviourTrees() {
     // Start running this tree first
     ros::Rate rate(50);
 
-    factory.setCurrentTree("haltStrategy");
+    BTFactory::setCurrentTree("haltStrategy");
 
     // Main loop
     while (ros::ok()) {
@@ -48,13 +49,12 @@ void runBehaviourTrees() {
         ai::Field::set_field(geometryMsg.field);
         ai::Referee::setRefereeData(refereeMsg);
 
-        if (! ai::World::didReceiveFirstWorld) continue;
 
         if (df::DangerFinder::instance().hasCalculated()) {
             df::DangerData dangerData = df::DangerFinder::instance().getMostRecentData();
         }
 
-        // for refereedata:
+        // for referee_data:
         if (! ai::World::didReceiveFirstWorld) {
             ROS_ERROR("No first world");
             ros::Duration(0.2).sleep();
@@ -66,9 +66,15 @@ void runBehaviourTrees() {
         // std::string strategyName = strategyManager.getCurrentStrategyName();
         // strategy = factory.getTree(strategyName);
 
-        strategy = factory.getTree(factory.getCurrentTree());
+        strategy = factory.getTree(BTFactory::getCurrentTree());
 
+
+        std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
         Status status = strategy->tick();
+        std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+
+        std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+        std::cout << "Tick took:  " << time_span.count()*1000 << " ms." << std::endl;
 
         switch (status) {
             case Status::Running:
@@ -77,7 +83,7 @@ void runBehaviourTrees() {
                 ROS_INFO_STREAM("Status returned: Success");
                 ROS_INFO_STREAM(" === TREE CHANGE === ");
 
-                factory.setCurrentTree("haltStrategy");
+                BTFactory::setCurrentTree("haltStrategy");
                 break;
 
             case Status::Failure:
