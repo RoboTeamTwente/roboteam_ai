@@ -14,10 +14,10 @@ int Coach::pickOffensivePassTarget(int selfID, std::string roleName) {
     auto tacticMates = dealer::findRobotsForTactic(tacticName);
 
     // Pick a free one TODO make better
-    for (auto r : tacticMates) {
-        if (r != selfID) {
-            if (control::ControlUtils::hasClearVision(selfID, r, World::get_world(), 2)) {
-                return r;
+    for (auto bot : tacticMates) {
+        if (bot != selfID) {
+            if (control::ControlUtils::hasClearVision(selfID, bot, World::get_world(), 2)) {
+                return bot;
             }
         }
     }
