@@ -8,6 +8,7 @@
 #include <QtGui/QColor>
 #include <roboteam_utils/Vector2.h>
 #include <iostream>
+#include <mutex>
 
 namespace rtt {
 namespace ai {
@@ -21,7 +22,8 @@ public:
     static std::vector<std::pair<Vector2,QColor>> getGoToPosLuThPoints(int id);
 
 private:
-        static std::map<int, std::vector<std::pair<Vector2, QColor>>> GoToPosLuThPoints;
+    static std::mutex mutex;
+    static std::map<int, std::vector<std::pair<Vector2, QColor>>> GoToPosLuThPoints;
 };
 
 } // interface
