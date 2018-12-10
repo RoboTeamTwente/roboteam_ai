@@ -33,7 +33,7 @@ class Node {
             }
         }
 
-        virtual ~Node();
+        virtual ~Node() = default;
 
         Node();
 
@@ -76,8 +76,6 @@ class Node {
         bt::Blackboard::Ptr globalBB;
 
         virtual std::string node_name();
-
-        static std::string status_desc;
 
         void setProperties(bt::Blackboard::Ptr blackboard);
 

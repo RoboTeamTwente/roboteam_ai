@@ -98,9 +98,15 @@ void MainWindow::updateWidgets() {
         if (treeItemMapping.find(widgetItem) != treeItemMapping.end()) {
             bt::Node::Ptr item = treeItemMapping.at(widgetItem);
             QString status = QString::fromStdString(statusToString(item->getStatus()));
-            if (widgetItem->text(1) != status) {
-                widgetItem->setText(1, status);
-                widgetItem->setBackgroundColor(1, getColorForStatus(item->getStatus()));
+           if (widgetItem->text(1) != status) {
+            //widgetItem->setText(0, QString::fromStdString(item->node_name()));
+            widgetItem->setText(1, status);
+            widgetItem->setBackgroundColor(1, getColorForStatus(item->getStatus()));
+
+            if (item->node_name() == "Repeater" && item->getStatus() == bt::Node::Status::Success) {
+                std::cout << "what~!" << std::endl;
+            }
+
             }
         }
         ++iter;
@@ -108,6 +114,7 @@ void MainWindow::updateWidgets() {
 
     // if the tree did change, clear the treewidget and rebuild it
     if (!hasCorrectTree && BTFactory::getFactory().isInitialized()) {
+        treeItemMapping.clear();
         treeWidget->clear();
         bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree(BTFactory::getFactory().getCurrentTree());
         auto treeItemRoot = new QTreeWidgetItem(treeWidget.get());
