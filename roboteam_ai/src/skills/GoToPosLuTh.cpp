@@ -138,8 +138,19 @@ void GoToPosLuTh::sendMoveCommand() {
     double timeTaken = (end - begin).toSec();
     std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
 
-    interface::Drawer::setGoToPosLuThPoints(robot.id, displayData);
-
+    std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
+    for (auto displayAll : displayData) {
+        displayColorData.emplace_back(displayAll, Qt::green);
+    }
+    for (auto displayMe : me.posData) {
+        displayColorData.emplace_back(displayMe, Qt::red);
+    }
+    interface::Drawer::setGoToPosLuThPoints(robot.id, displayColorData);
+    if (true) {
+        command.x_vel = 0.0f;
+        command.y_vel = 0.0f;
+        command.w = 0.0f;
+    }
     publishRobotCommand(command);
 }
 
@@ -161,13 +172,37 @@ bool GoToPosLuTh::calculateNumericDirection(NumRobot &me, roboteam_msgs::RobotCo
     me.pos = robot.pos;
     me.vel = robot.vel;
     me.targetPos = targetPos;
+    me.finalTargetPos = targetPos;
     me.posData.push_back(me.pos);
     me.velData.push_back(me.vel);
     if (me.vel.length() > 10.0) return false;
+    me.t = me.posData.size()*me.dt;
 
+    Vector2 closestBot = Control::getClosestRobot(me.pos, me.id, true, me.t);
+    if (me.isCollision(closestBot, 0.4f)) {
+        return false;
+    }
     tracePath(me, targetPos);
 
-    return true;
+    if (me.velData.size() > 10) {
+        if (abs(me.velData[2].angle() - me.velData[10].angle()) < 0.05f) {
+            command.x_vel = static_cast<float>((me.velData[2].normalize()*me.maxVel).x);
+            command.y_vel = static_cast<float>((me.velData[2].normalize()*me.maxVel).y);
+            command.w = static_cast<float>(me.velData[2].angle());
+            return true;
+        } else {
+            command.x_vel = static_cast<float>((me.velData[10].normalize()*me.maxVel).x);
+            command.y_vel = static_cast<float>((me.velData[10].normalize()*me.maxVel).y);
+            command.w = static_cast<float>(me.velData[10].angle());
+        }
+    }
+    else {
+
+        command.x_vel = 0.0f;
+        command.y_vel = 0.0f;
+        command.w = 0.0f;
+        return false;
+    }
 }
 
 bool GoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
@@ -175,48 +210,39 @@ bool GoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
     NumRobotPtr numRobotPtr = std::make_shared<NumRobot>(numRobot);
     robotQueue.push(numRobotPtr);
     while (! robotQueue.empty()) {
-        std::cerr << "thingy: " << robotQueue.size() << std::endl;
-
         NumRobotPtr me = robotQueue.top();
-        std::cerr << "size:       " << me->posData.size() << std::endl;
+        if (me->isCollision(target)) {
+            numRobot.posData = me->posData;
+            numRobot.velData = me->velData;
+            return true;
+        }
+        else if (me->isCollision(me->targetPos)) {
+            me->startIndex = me->posData.size();
+            me->targetPos = target;
+        }
 
-        bool noCollision = calculateNextPoint(me, me->targetPos);
-        if (me->isCollision(target)) return true;
-        if (me->isCollision(me->targetPos)) me->targetPos = target;
+        if (calculateNextPoint(me)) robotQueue.push(me);
+        else {      //Collision!! calculate new points
 
-        if (noCollision) robotQueue.push(me);
-        else {
-            float minTimeToCollision = 0.1;
-            if (me->posData.size() - me->startIndex < minTimeToCollision/me->dt) {
-                return false;
+            auto minPoints = static_cast<int>(ceil(1.0f/(me->dt)));
+            auto newDataPoints = static_cast<int>(me->posData.size() - me->startIndex);
+
+            if (me->posData.empty() || me->velData.empty()) {
+                // no data.. something went wrong somewhere. just continue as if nothing happend. :)
+                continue;
             }
-
+            else if (newDataPoints > minPoints) {
+                // set the starting point 1.0f seconds (or closer) before the collision
+                me->startIndex = me->posData.size() - minPoints;
+            }
             Vector2 collisionPos = me->pos;
             Vector2 startPos = me->posData[me->startIndex];
-            Vector2 deltaPos = collisionPos - startPos;
-            std::vector<Vector2> newTargets;
-            int maxI = 4;
+            std::vector<Vector2> newTargets = me->getNewTargets(collisionPos, startPos);
 
-            for (int i = - maxI; i < maxI; i ++) {
-                auto angle = (double) abs(i)*i*M_PI/(maxI*maxI);
-                Vector2 newTarget = startPos + deltaPos.rotate(angle);
-                NumRobot newMe;
-                std::vector<Vector2> _posData(me->posData.begin(), me->posData.begin() + me->startIndex);
-                newMe.posData = _posData;
-                newMe.pos = me->posData[me->startIndex];
-                std::vector<Vector2> _velData(me->velData.begin(), me->velData.begin() + me->startIndex);
-                newMe.velData = _velData;
-                newMe.vel = me->velData[me->startIndex];
-
-                newMe.id = me->id;
-                newMe.totalCalculations = me->totalCalculations;
+            for (auto newTarget : newTargets) {
                 drawCross(newTarget);
-
-                newMe.startIndex = newMe.posData.size();
-                newMe.targetPos = newTarget;
-                NumRobotPtr newNumRobotPtr = std::make_shared<NumRobot>(newMe);
+                NumRobotPtr newNumRobotPtr = me->getNewNumRobot(me, newTarget);
                 robotQueue.push(newNumRobotPtr);
-
             }
 
         }
@@ -226,11 +252,16 @@ bool GoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
     return false;
 }
 
-bool GoToPosLuTh::calculateNextPoint(GoToPosLuTh::NumRobotPtr me, Vector2 &target) {
-    me->t = me->posData.size()*me->dt;
-    // get the target velocity towards the direction we want to go
+bool GoToPosLuTh::calculateNextPoint(GoToPosLuTh::NumRobotPtr me) {
 
-    me->targetVel = me->getDirection(target)*me->maxVel;
+    me->t = me->posData.size()*me->dt;
+    Vector2 closestBot = Control::getClosestRobot(me->pos, me->id, true, me->t);
+    if (me->isCollision(closestBot)) {
+        return false;
+    }
+
+    // get the target velocity towards the direction we want to go
+    me->targetVel = me->getDirection(me->targetPos)*me->maxVel;
 
     // change acceleration towards the target velocity
     me->acc = (me->targetVel - me->vel).normalize()*me->maxAcc;
@@ -248,17 +279,15 @@ bool GoToPosLuTh::calculateNextPoint(GoToPosLuTh::NumRobotPtr me, Vector2 &targe
     me->velData.push_back(me->vel);
     me->posData.push_back(me->pos);
     displayData.push_back(me->pos);
-
-    Vector2 closestBot = Control::getClosestRobot(me->pos, me->id, true, me->t);
-    if (me->isCollision(closestBot)) {
-        return false;
+    if (++ (me->totalCalculations) > 500) {
+        std::cout << "careful: too many calculations!!: " << me->totalCalculations << std::endl;
     }
 
-    return ++ (me->totalCalculations) < 5000;
+    return true;
 }
 
 void GoToPosLuTh::drawCross(Vector2 &pos) {
-    double dist = 0.01f;
+    float dist = 0.0075f;
     for (int i = - 7; i < 8; i ++) {
         for (int j = - 1; j < 2; j += 2) {
             Vector2 data = pos + (Vector2) {dist*i, dist*j*i};
@@ -269,4 +298,3 @@ void GoToPosLuTh::drawCross(Vector2 &pos) {
 
 } // ai
 } // rtt
-

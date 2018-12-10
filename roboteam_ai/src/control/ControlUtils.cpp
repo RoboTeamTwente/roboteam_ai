@@ -51,6 +51,7 @@ rtt::Vector2 ControlUtils::getClosestRobot(rtt::Vector2 &pos, int &id, bool ourT
     auto world = rtt::ai::World::get_world();
     rtt::Vector2 closestPos = {420, 420};
     double distance = 99999999;
+
     for (auto &bot : world.us) {
         if (! (ourTeam && id == bot.id)) {
             rtt::Vector2 botPos = {bot.pos.x + bot.vel.x*t, bot.pos.y + bot.vel.y*t};
