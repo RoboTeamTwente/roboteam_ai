@@ -13,34 +13,24 @@ namespace ai {
 
 class Rotate : public Skill {
     private:
-
         bool rotateToBall;
         int rotateToRobotID;
         bool rotateToEnemyGoal;
         bool rotateToOurGoal;
         bool robotIsEnemy = false;
-        roboteam_msgs::WorldRobot robot;
-
-
         enum Progression {
           ROTATING, DONE, FAIL
         };
         Progression currentProgress;
         Progression checkProgression();
-
         double deltaAngle;
         double targetAngle;
-
     public:
         explicit Rotate(string name, bt::Blackboard::Ptr blackboard);
-
         void initialize() override;
         Status update() override;
         void terminate(Status s) override;
-
         std::string node_name() override;
-
-
 };
 
 } // ai

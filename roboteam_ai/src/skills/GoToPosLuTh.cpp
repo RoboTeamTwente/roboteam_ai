@@ -19,23 +19,7 @@ std::string GoToPosLuTh::node_name() {
 
 /// Called when the Skill is Initialized
 void GoToPosLuTh::initialize() {
-
-    if (properties->hasString("ROLE")) {
-        std::string roleName = properties->getString("ROLE");
-        robot.id = (unsigned int) dealer::findRobotForRole(roleName);
-        if (World::getRobotForId(robot.id, true)) {
-            robot = World::getRobotForId(robot.id, true).get();
-        }
-        else {
-            ROS_ERROR("GoToPosLuTh Initialize -> robot does not exist in world");
-            return;
-        }
-    }
-    else {
-        ROS_ERROR("GoToPosLuTh Initialize -> ROLE WAITING!!");
-        return;
-    }
-//  ____________________________________________________________________________________________________________________
+    robot = getRobotFromProperties(properties);
 
     drawInterface = properties->getBool("drawInterface");
     goToBall = properties->getBool("goToBall");
@@ -54,12 +38,7 @@ void GoToPosLuTh::initialize() {
 GoToPosLuTh::Status GoToPosLuTh::update() {
     displayData.clear();
 
-    if (World::getRobotForId(robot.id, true)) {
-        robot = World::getRobotForId(robot.id, true).get();
-    }
-    else {
-        ROS_ERROR("GoToPosLuTh Update -> robot does not exist in world");
-    }
+    updateRobot();
 //  ____________________________________________________________________________________________________________________
 
     if (goToBall) {
@@ -105,7 +84,7 @@ GoToPosLuTh::Status GoToPosLuTh::update() {
 void GoToPosLuTh::terminate(Status s) {
 
     roboteam_msgs::RobotCommand command;
-    command.id = robot.id;
+    command.id = robot->id;
     command.use_angle = 0;
     command.w = 0;
 
@@ -131,7 +110,7 @@ void GoToPosLuTh::sendMoveCommand() {
 
     NumRobot me;
     roboteam_msgs::RobotCommand command;
-    command.id = robot.id;
+    command.id = robot->id;
     calculateNumericDirection(me, command);
     robotQueue = {};
     ros::Time end = ros::Time::now();
@@ -160,8 +139,8 @@ void GoToPosLuTh::sendMoveCommand() {
 
 GoToPosLuTh::Progression GoToPosLuTh::checkProgression() {
 
-    double dx = targetPos.x - robot.pos.x;
-    double dy = targetPos.y - robot.pos.y;
+    double dx = targetPos.x - robot->pos.x;
+    double dy = targetPos.y - robot->pos.y;
     Vector2 deltaPos = {dx, dy};
 
     double maxMargin = 0.3;                        // max offset or something.
@@ -172,9 +151,9 @@ GoToPosLuTh::Progression GoToPosLuTh::checkProgression() {
 
 bool GoToPosLuTh::calculateNumericDirection(NumRobot &me, roboteam_msgs::RobotCommand &command) {
 
-    me.id = robot.id;
-    me.pos = robot.pos;
-    me.vel = robot.vel;
+    me.id = robot->id;
+    me.pos = robot->pos;
+    me.vel = robot->vel;
     me.targetPos = targetPos;
     me.finalTargetPos = targetPos;
     me.posData.push_back(me.pos);

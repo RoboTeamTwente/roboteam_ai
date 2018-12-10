@@ -6,7 +6,6 @@
 
 namespace bt {
 
-
 void bt::Tactic::initialize() {
     //Should always be overwritten
     askForRobots();

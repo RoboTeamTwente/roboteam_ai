@@ -17,23 +17,7 @@ std::string Pass::node_name() {
 
 /// Called when the Skill is Initialized
 void Pass::initialize() {
-
-    if (properties->hasString("ROLE")) {
-        std::string roleName = properties->getString("ROLE");
-        robot.id = (unsigned int) dealer::findRobotForRole(roleName);
-        if (World::getRobotForId(robot.id, true)) {
-            robot = World::getRobotForId(robot.id, true).get();
-        }
-        else {
-            ROS_ERROR("Pass Initialize -> robot does not exist in world");
-            return;
-        }
-    }
-    else {
-        ROS_ERROR("Pass Initialize -> ROLE WAITING!!");
-        return;
-    }
-//  ____________________________________________________________________________________________________________________
+    robot = getRobotFromProperties(properties);
 
     defensive = properties->getBool("defensive");
     robotToPass = -1;
@@ -41,22 +25,13 @@ void Pass::initialize() {
 
 /// Called when the Skill is Updated
 Pass::Status Pass::update() {
-
-    if (World::getRobotForId(robot.id, true)) {
-        robot = World::getRobotForId(robot.id, true).get();
-    }
-    else {
-        ROS_ERROR("Pass Update -> robot does not exist in world");
-    }
-//  ____________________________________________________________________________________________________________________
-
+    updateRobot();
 
     if (robotToPass == -1) {
         if (defensive) {
-            robotToPass = coach::pickDefensivePassTarget(robot.id);
-        }
-        else{
-            robotToPass = coach::pickOffensivePassTarget(robot.id, properties->getString("ROLE"));
+            robotToPass = coach::pickDefensivePassTarget(robot->id);
+        } else{
+            robotToPass = coach::pickOffensivePassTarget(robot->id, properties->getString("ROLE"));
         }
         return Status::Running;
     }
@@ -64,14 +39,10 @@ Pass::Status Pass::update() {
         return Status::Success;
     }
 
-//  ____________________________________________________________________________________________________________________
     return Status::Running;
 }
 
-/// Called when the Skill is Terminated
-void Pass::terminate(Status s) {
 
-}
 bool Pass::sendPassCommand() {
 
     /*
