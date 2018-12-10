@@ -124,7 +124,7 @@ void GoToPosLuTh::sendMoveCommand() {
     for (auto displayMe : me.posData) {
         displayColorData.emplace_back(displayMe, Qt::red);
     }
-    interface::Drawer::setGoToPosLuThPoints(robot.id, displayColorData);
+    interface::Drawer::setGoToPosLuThPoints(robot->id, displayColorData);
 
     command.use_angle = 1;
 
