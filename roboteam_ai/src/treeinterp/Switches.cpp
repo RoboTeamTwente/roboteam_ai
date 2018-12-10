@@ -31,6 +31,9 @@ std::vector<std::string> Switches::strategyJsonFileNames =
          "SimpleStrategy",
          "haltStrategy"};
 
+std::vector<std::string> Switches::keeperJsonFiles =
+        {"emptyForNow"};
+
 /// If you are touching this either you know what you are doing or you are making a mistake,
 /// have a look around with the names and see if what you made is on the same level as these are
 bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
@@ -124,16 +127,16 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 
     std::map<std::string, std::map<std::string, robotType>> tactics = {
             {"randomTactic", {
-                 {"random1", robotType::random},
-                 {"random2", robotType::random},
-                 {"random3", robotType::random},
-                 {"random4", robotType::random},
-                 {"random5", robotType::random},
-                 {"random6", robotType::random},
-                 {"random7", robotType::random}
-             }
+                    {"random1", robotType::random},
+                    {"random2", robotType::random},
+                    {"random3", robotType::random},
+                    {"random4", robotType::random},
+                    {"random5", robotType::random},
+                    {"random6", robotType::random},
+                    {"random7", robotType::random}
+            }
             },
-             {"haltTactic", {
+            {"haltTactic", {
                     {"halt0", robotType::random},
                     {"halt1", robotType::random},
                     {"halt2", robotType::random},
@@ -145,23 +148,23 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
             {"GetBallTestTactic", {
-                {"FAKOFF", robotType::random}
+                    {"FAKOFF", robotType::random}
             }
             },
             {"DanceTactic2", {
-                {"retarded", robotType::random},
-                {"Vright", robotType::random}
+                    {"retarded", robotType::random},
+                    {"Vright", robotType::random}
             }
             },
             {"DanceTactic", {
-                {"right", robotType::random},
-                {"letf", robotType::random}
+                    {"right", robotType::random},
+                    {"letf", robotType::random}
             }
             },
             {"SimpleTactic", {
-                {"simpleStupidRobot", robotType::random}
+                    {"simpleStupidRobot", robotType::random}
             }
-        }
+            }
     };
 
     bt::Node::Ptr node;
