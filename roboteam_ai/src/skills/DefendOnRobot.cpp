@@ -19,24 +19,27 @@ bt::Node::Status DefendOnRobot::update() {
     return Status::Running;
 }
 
-Vector2 DefendOnRobot::calculateBestPosition(roboteam_msgs::WorldRobot robot1) {
-    int opponentID = coach::pickOpponentToCover(0);
+Vector2 DefendOnRobot::calculateBestPosition() {
+    unsigned int opponentID1 = coach::whichRobotHasBall(false);
+    unsigned int opponentID2 = coach::pickOpponentToCover(robot->id);
+    std::shared_ptr<roboteam_msgs::WorldRobot> robot1 = World::getRobotForId(opponentID1, false);
+    std::shared_ptr<roboteam_msgs::WorldRobot> robot2 = World::getRobotForId(opponentID2, false);
 
-    float robotAngle1 = robot1.angle;
-    float robotAngle2 = robot2.angle;
+    float robotAngle1 = robot1->angle;
+    float robotAngle2 = robot2->angle;
 
-    float angleBetweenRobots = atan((robot2.pos.y - robot1.pos.y) / (robot2.pos.x - robot1.pos.x));
+    float angleBetweenRobots = atan((robot2->pos.y - robot1->pos.y) / (robot2->pos.x - robot1->pos.x));
 
     float angle1 = (angleBetweenRobots - robotAngle1) / 2;
     double angle2 = (M_PI + robotAngle2 - angleBetweenRobots) / 2;
 
-    double distanceBetweenRobots = sqrt(pow(robot1.pos.x - robot2.pos.x, 2) + pow(robot2.pos.y - robot1.pos.y, 2));
+    double distanceBetweenRobots = sqrt(pow(robot1->pos.x - robot2->pos.x, 2) + pow(robot2->pos.y - robot1->pos.y, 2));
     double length = distanceBetweenRobots * sin(angle2) / sin(M_PI - angle1 - angle2);
 
     double xLength = length * cos(angle1);
     double yLength = length * sin(angle1);
 
-    Vector2 newPosition = {robot1.pos.x + xLength, robot1.pos.y + yLength};
+    Vector2 newPosition = {robot1->pos.x + xLength, robot1->pos.y + yLength};
     return newPosition;
 }
 }

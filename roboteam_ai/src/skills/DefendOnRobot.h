@@ -8,6 +8,7 @@
 
 #include "Skill.h"
 #include <boost/optional.hpp>
+#include <roboteam_ai/src/conditions/HasBall.hpp>
 
 namespace rtt {
 namespace ai {
@@ -21,15 +22,11 @@ protected:
         IDLE, DONE, FAIL
     };
     Progression currentProgress;
-    roboteam_msgs::WorldRobot robot2;
 public:
     explicit DefendOnRobot(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
-
     void initialize() override;
-
     Status update() override;
-
-    Vector2 calculateBestPosition(roboteam_msgs::WorldRobot robot);
+    Vector2 calculateBestPosition();
 };
 } // ai
 } // rtt
