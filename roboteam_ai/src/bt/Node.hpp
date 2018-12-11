@@ -42,10 +42,10 @@ class Node {
         virtual Status update() = 0;
 
         Status NodeUpdate();
-
         void NodeInitialize();
 
-        void NodeTerminate(Status s);
+
+    void NodeTerminate(Status s);
 
         virtual void initialize();
 

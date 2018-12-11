@@ -16,7 +16,6 @@
 #include "roboteam_utils/constants.h"
 #include "roboteam_msgs/World.h"
 #include "roboteam_msgs/GeometryData.h"
-#include <boost/optional.hpp>
 
 namespace rtt {
 namespace ai {

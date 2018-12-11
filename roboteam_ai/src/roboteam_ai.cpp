@@ -5,9 +5,7 @@
 #include "utilities/StrategyManager.h"
 #include "treeinterp/BTFactory.h"
 #include "interface/mainWindow.h"
-#include "roboteam_ai/src/interface/widget.h"
 #include <QApplication>
-#include <chrono>
 
 namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;

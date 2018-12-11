@@ -3,10 +3,6 @@
 #include <string>
 #include <memory>
 #include "roboteam_msgs/StringEntry.h"
-#include "roboteam_msgs/BoolEntry.h"
-#include "roboteam_msgs/Int32Entry.h"
-#include "roboteam_msgs/Float64Entry.h"
-#include "roboteam_msgs/Blackboard.h"
 #include "Blackboard.hpp"
 
 
