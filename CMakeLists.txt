@@ -209,7 +209,9 @@ set(CONDITION_TESTS
 
 set(CONTROL_SOURCES
         roboteam_ai/src/control/ControlUtils.cpp
-        roboteam_ai/src/control/ControlUtils.h )
+        roboteam_ai/src/control/ControlUtils.h
+        roboteam_ai/src/control/PID.cpp
+        roboteam_ai/src/control/PID.h)
 
 set(INTERFACE_SOURCES
         roboteam_ai/src/interface/mainWindow.cpp
