@@ -13,24 +13,7 @@ HasBall::HasBall(std::string name, bt::Blackboard::Ptr blackboard)
 }
 
 bt::Node::Status HasBall::update() {
-
-    if (properties->hasString("ROLE")) {
-        std::string roleName = properties->getString("ROLE");
-        robot.id = (unsigned int) dealer::findRobotForRole(roleName);
-        if (World::getRobotForId(robot.id, true)) {
-            robot = * World::getRobotForId(robot.id, true);
-        }
-        else {
-            ROS_ERROR("HasBall Update -> robot does not exist in world");
-            return Status::Failure;
-        }
-    }
-    else {
-        ROS_ERROR("HasBall Update -> ROLE WAITING!!");
-        return Status::Failure;
-    }
-
-//  ____________________________________________________________________________________________________________________
+    robot = getRobotFromProperties(properties);
 
     auto ball = World::getBall();
     if (botHasBall(ball.pos)) return Status::Success;

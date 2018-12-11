@@ -12,23 +12,7 @@ IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboar
 }
 
 bt::Node::Status IsInDefenseArea::update() {
-
-
-    if (properties->hasString("ROLE")) {
-        std::string roleName = properties->getString("ROLE");
-        robot.id = (unsigned int) dealer::findRobotForRole(roleName);
-        if (World::getRobotForId(robot.id, true)) {
-            robot = * World::getRobotForId(robot.id, true);
-        }
-        else {
-            ROS_ERROR("HasBall Update -> robot does not exist in world");
-            return Status::Failure;
-        }
-    }
-    else {
-        ROS_ERROR("HasBall Update -> ROLE WAITING!!");
-        return Status::Failure;
-    }
+    robot = getRobotFromProperties(properties);
 
     ourDefenseArea = properties->getBool("ourDefenseArea");
     if (properties->hasDouble("margin")) margin = static_cast<float>(properties->getDouble("margin"));

@@ -216,7 +216,7 @@ set(INTERFACE_SOURCES
         roboteam_ai/src/interface/mainWindow.h
         roboteam_ai/src/interface/widget.cpp
         roboteam_ai/src/interface/widget.h
-        roboteam_ai/src/interface/drawer.cpp roboteam_ai/src/interface/drawer.h)
+        roboteam_ai/src/interface/drawer.cpp roboteam_ai/src/interface/drawer.h roboteam_ai/src/conditions/CanSeeGoal.cpp roboteam_ai/src/conditions/CanSeeGoal.h)
 
 ### TEST SOURCES END ###
 

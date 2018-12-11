@@ -22,14 +22,10 @@ namespace ai {
  */
 class Skill : public bt::Leaf {
     protected:
-        std::shared_ptr<roboteam_msgs::WorldRobot> robot;
         io::IOManager ioManager;
         using coach = coach::Coach;
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
-        std::shared_ptr<roboteam_msgs::WorldRobot> getRobotFromProperties(bt::Blackboard::Ptr properties);
-        void updateRobot();
         void terminate(Status s) override;
-        int robotId = -1;
 public:
         using Control = control::ControlUtils;
         using Status = bt::Node::Status;
