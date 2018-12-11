@@ -23,6 +23,7 @@ void GoToPosLuTh::initialize() {
 
     drawInterface = properties->getBool("drawInterface");
     goToBall = properties->getBool("goToBall");
+    passiveDefend = properties->getBool("passiveDefend");
     random = properties->getBool("random");
 
     if (properties->hasVector2("Position")) {
@@ -44,6 +45,9 @@ GoToPosLuTh::Status GoToPosLuTh::update() {
     if (goToBall) {
         auto ball = World::getBall();
         targetPos = ball.pos;
+    }
+    if (passiveDefend) {
+        targetPos = coach::calculateBestPosition(robot->id);
     }
     else if (random) {
         const roboteam_msgs::GeometryFieldSize &field = Field::get_field();

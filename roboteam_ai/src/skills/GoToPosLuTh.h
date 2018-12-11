@@ -9,6 +9,8 @@
 #include <cmath>
 
 #include "../interface/drawer.h"
+#include <roboteam_ai/src/skills/DefendOnRobot.h>
+// #include <roboteam_ai/src/utilities/Coach.h>
 
 // #include "../interface/Interface.h"
 
@@ -111,6 +113,7 @@ class GoToPosLuTh : public Skill {
 
         bool drawInterface;
         bool goToBall;
+        bool passiveDefend;
         bool random;
 
         enum Progression {
