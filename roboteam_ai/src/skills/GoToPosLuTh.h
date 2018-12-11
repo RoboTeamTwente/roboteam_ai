@@ -33,7 +33,7 @@ class GoToPosLuTh : public Skill {
           Vector2 finalTargetPos;
           Vector2 vel;                  //Current x,y velocity in ms-1
           Vector2 targetVel;            //Target velocity in ms-1
-          double maxVel = 1.5;          //Maximum velocity in ms-1
+          double maxVel = 2.5;          //Maximum velocity in ms-1
           Vector2 acc;                  //Current x,y acceleration in ms-2
           double maxAcc = 2.5;          //Maximum acceleration in ms-2
           std::vector<Vector2> posData; //Save the position data
@@ -52,7 +52,7 @@ class GoToPosLuTh : public Skill {
           }
 
           bool isCollision(Vector2 &otherPos) {
-              double minDistance = 0.2;
+              double minDistance = 0.3;
               return isCollision(otherPos, minDistance);
           }
 
@@ -60,15 +60,28 @@ class GoToPosLuTh : public Skill {
               return (std::abs((otherPos - pos).length()) < minDistance);
           }
 
-          std::vector<Vector2> getNewTargets(Vector2 &collisionPos, Vector2 &startPos) {
+          std::vector<Vector2> getNewTargetsOLD(Vector2 &collisionPos, Vector2 &startPos) {
               std::vector<Vector2> newTargets;
 
               Vector2 deltaPos = collisionPos - startPos;
               int maxI = 4; //(int) ceil(8.0f/(me->collisions + 1));
-              for (int i = 1 - maxI; i < maxI; i++) {
+              for (int i = 1 - maxI; i < maxI; i ++) {
                   auto angle = (double) abs(i)*i*M_PI/(maxI*maxI);
                   Vector2 newDeltaPos = deltaPos.rotate(angle)*(1 + M_PI - abs(angle))/(M_PI);
                   Vector2 newTarget = (collisionPos + startPos)*0.5 + newDeltaPos*0.5;
+                  newTargets.push_back(newTarget);
+              }
+              return newTargets;
+          }
+
+          std::vector<Vector2> getNewTargets(Vector2 &collisionPos, Vector2 &startPos) {
+              std::vector<Vector2> newTargets;
+
+              Vector2 deltaPos = collisionPos - startPos;
+
+              std::vector<double> angles = {-M_PI*0.0625, M_PI*0.0625};
+              for (double angle : angles) {
+                  Vector2 newTarget = startPos + deltaPos.rotate(angle);
                   newTargets.push_back(newTarget);
               }
               return newTargets;
@@ -96,20 +109,22 @@ class GoToPosLuTh : public Skill {
           }
 
           struct CustomCompare {
-            bool operator()(NumRobotPtr lhs, NumRobotPtr rhs)
-            {
+            bool operator()(NumRobotPtr lhs, NumRobotPtr rhs) {
                 if (lhs->collisions < rhs->collisions) return false;
-                else return abs((lhs->pos - lhs->finalTargetPos).length()) > abs((rhs->pos - rhs->finalTargetPos).length());
+                else
+                    return abs((lhs->pos - lhs->finalTargetPos).length())
+                            > abs((rhs->pos - rhs->finalTargetPos).length());
             }
           };
 
         };
 
-        std::priority_queue< NumRobotPtr, std::vector<NumRobotPtr>, NumRobot::CustomCompare > robotQueue;
+        std::priority_queue<NumRobotPtr, std::vector<NumRobotPtr>, NumRobot::CustomCompare> robotQueue;
 
         bool tracePath(NumRobot &numRobot, Vector2 target);
 
         std::vector<Vector2> displayData;
+        double errorMargin = 0.3;
 
         bool drawInterface;
         bool goToBall;

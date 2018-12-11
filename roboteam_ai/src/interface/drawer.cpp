@@ -28,6 +28,7 @@ std::vector<std::pair<Vector2, QColor>> Drawer::getGoToPosLuThPoints(int id) {
         return GoToPosLuThPoints.at(id);
     }
     return {};
+
 }
 
 } // interface
