@@ -168,9 +168,9 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
              }
                     },
             {"SimpleDefendTactic", {
-                 {"simpleDefender1", robotType::random},
-                 {"simpleDefender2", robotType::random},
-                 {"simpleDefender3", robotType::random}
+                 {"simpleDefender1", robotType::closeToOurGoal},
+                 {"simpleDefender2", robotType::closeToOurGoal},
+                 {"simpleDefender3", robotType::closeToOurGoal}
             }
             }
 
