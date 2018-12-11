@@ -3,6 +3,7 @@
 //
 
 #include <roboteam_ai/src/interface/drawer.h>
+#include <roboteam_ai/src/control/PID.h>
 #include "Keeper.h"
 namespace rtt {
 namespace ai {
@@ -28,7 +29,8 @@ void Keeper::initialize() {
     else {
         blockCircle = Arc(center, radius,angle,-angle); //we take the radius from the other side so we have to also flip the arc (yes, confusing)
     }
-
+    pid.setParams(3.3,0.0,100.0,10,0.0,0.0); //magic numbers galore, from the old team.
+    pid.initialize(constants::tickRate);
 }
 Keeper::Status Keeper::update() {
     updateRobot();
@@ -56,8 +58,9 @@ void Keeper::terminate(Status s) {
 }
 
 void Keeper::sendMoveCommand(Vector2 pos) {
-    double gain=3.0;
-    Vector2 delta = (pos - robot->pos)*gain; //TODO: add proper position control.
+//    double gain=3.0;
+//    Vector2 delta = (pos - robot->pos)*gain; //TODO: add proper position control.
+    Vector2 delta=pid.posControl(robot->pos,pos);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;

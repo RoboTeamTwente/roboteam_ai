@@ -31,5 +31,9 @@ Vector2 PID::posControl(Vector2 myPos, Vector2 targetPos, Vector2 myVel) {
     Vector2 D=myVel*dGainPos;
     return P+I+D;
 }
+void PID::initialize(double tickTime) {
+    timeDif=tickTime;
+    prevPosErr=Vector2(0.0,0.0);
+}
 
 }

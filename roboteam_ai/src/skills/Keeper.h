@@ -7,6 +7,7 @@
 #include "Skill.h"
 #include "roboteam_utils/Arc.h"
 #include "roboteam_utils/Math.h"
+#include "../control/PID.h"
 
 namespace rtt{
 namespace ai{
@@ -17,6 +18,7 @@ class Keeper : public Skill {
         Vector2 goalPos;
         double goalwidth;
         void sendMoveCommand(Vector2 pos);
+        control::PID pid;
     public:
         explicit Keeper(string name, bt::Blackboard::Ptr blackboard);
         std::string node_name() override;
