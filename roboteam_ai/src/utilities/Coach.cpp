@@ -42,17 +42,74 @@ int Coach::pickDefensivePassTarget(int selfID) {
 }
 
 int Coach::pickOpponentToCover(int selfID) {
-
     dangerfinder::DangerData DangerData = dangerfinder::DangerFinder::instance().getMostRecentData();
     std::vector<int> dangerList = DangerData.dangerList;
-    for(int& opponentID : dangerList) {
-        if(defencePairs.find(opponentID) == defencePairs.end()) {
+    for(int & opponentID : dangerList) {
+        if(defencePairs.find(opponentID) == defencePairs.end() && !doesRobotHaveBall(
+                static_cast<unsigned int>(opponentID), false)) {
             defencePairs.insert({opponentID, selfID});
+            return opponentID;
+        } else if (defencePairs[opponentID] == selfID) {
             return opponentID;
         }
     }
 
     return -1;
+}
+
+unsigned int Coach::whichRobotHasBall(bool isOurTeam) {
+    roboteam_msgs::World world = World::get_world();
+    std::vector<roboteam_msgs::WorldRobot> robots;
+    if (isOurTeam) {
+        robots = world.us;
+    } else {
+        robots = world.them;
+    }
+
+    for (auto& robot:robots) {
+        if (doesRobotHaveBall(robot.id, isOurTeam)) {
+            return robot.id;
+        }
+    }
+    return -1;
+}
+
+int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
+    auto robot = World::getRobotForId(robotID, isOurTeam);
+    Vector2 ballPos = World::get_world().ball.pos;
+
+    Vector2 deltaPos = (ballPos - robot->pos);
+    double dist = deltaPos.length();
+    double angle = deltaPos.angle();
+    return ( (dist < 0.15) && (fabs(angle - robot->angle) < 0.4) );
+}
+
+Vector2 Coach::calculateBestPosition(int selfID) {
+    int opponentID1 = Coach::whichRobotHasBall(false);
+    if (opponentID1 == -1) {
+        return Vector2 {0, 0};
+    }
+    auto opponentID2 = static_cast<unsigned int>(Coach::pickOpponentToCover(selfID));
+
+    std::shared_ptr<roboteam_msgs::WorldRobot> robot1 = World::getRobotForId(opponentID1, false);
+    std::shared_ptr<roboteam_msgs::WorldRobot> robot2 = World::getRobotForId(opponentID2, false);
+
+    float robotAngle1 = robot1.get()->angle;
+    float robotAngle2 = robot2.get()->angle;
+
+    float angleBetweenRobots = atan((robot2->pos.y - robot1->pos.y) / (robot2->pos.x - robot1->pos.x));
+
+    float angle1 = (angleBetweenRobots - robotAngle1) / 2;
+    double angle2 = (M_PI + robotAngle2 - angleBetweenRobots) / 2;
+
+    double distanceBetweenRobots = sqrt(pow(robot1->pos.x - robot2->pos.x, 2) + pow(robot2->pos.y - robot1->pos.y, 2));
+    double length = distanceBetweenRobots * sin(angle2) / sin(M_PI - angle1 - angle2);
+
+    double xLength = length * cos(angle1);
+    double yLength = length * sin(angle1);
+
+    Vector2 newPosition = {robot1->pos.x + xLength, robot1->pos.y + yLength};
+    return newPosition;
 }
 
 }

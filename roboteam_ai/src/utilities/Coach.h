@@ -22,6 +22,9 @@ public:
     static int pickOffensivePassTarget(int selfID, std::string roleName);
     static int pickDefensivePassTarget(int selfID);
     static int pickOpponentToCover(int selfID);
+    static int doesRobotHaveBall(unsigned int robotID, bool isOurTeam);
+    static unsigned int whichRobotHasBall(bool isOurTeam);
+    static Vector2 calculateBestPosition(int selfID);
 };
 
 }
