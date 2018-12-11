@@ -82,10 +82,19 @@ int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
     Vector2 deltaPos = (ballPos - robot->pos);
     double dist = deltaPos.length();
     double angle = deltaPos.angle();
-    return ( (dist < 0.15) && (fabs(angle - robot->angle) < 0.4) );
+    double robotAngle = robot->angle;
+
+    if (angle < 0) {
+        angle += 2 * M_PI;
+    }
+    if (robotAngle < 0) {
+        robotAngle += 2 * M_PI;
+    }
+
+    return ( (dist < 0.25) && (fabs(angle - robotAngle) < 0.4) );
 }
 
-Vector2 Coach::calculateBestPosition(int selfID) {
+Vector2 Coach::calculatePassiveDefenderLocation(int selfID) {
     int opponentID1 = Coach::whichRobotHasBall(false);
     if (opponentID1 == -1) {
         return Vector2 {0, -5};
@@ -101,7 +110,7 @@ Vector2 Coach::calculateBestPosition(int selfID) {
     float robotAngle1 = robot1.get()->angle;
     float robotAngle2 = robot2.get()->angle;
 
-    float angleBetweenRobots = atan((robot2->pos.y - robot1->pos.y) / (robot2->pos.x - robot1->pos.x));
+    float angleBetweenRobots = atan((robot2->pos.y - robot1->pos.y) / (robot1->pos.x - robot2->pos.x));
 
     double angle1;
     if (robotAngle1 >= 0) {
@@ -120,7 +129,7 @@ Vector2 Coach::calculateBestPosition(int selfID) {
     double xLength = length * cos(angle1);
     double yLength = length * sin(angle1);
 
-    Vector2 newPosition = {robot1->pos.x + xLength, robot1->pos.y + yLength};
+    Vector2 newPosition = {robot1->pos.x - xLength, robot1->pos.y + yLength};
     return newPosition;
 }
 

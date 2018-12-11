@@ -84,7 +84,7 @@ void runBehaviourTrees() {
                 if (BTFactory::getCurrentTree() == "SimpleStrategy") {
                     BTFactory::setCurrentTree("haltStrategy");
                 } else {
-                    BTFactory::setCurrentTree("SimpleStrategy");
+                    BTFactory::setCurrentTree("SimpleDefendStrategy");
                 }
                 break;
 

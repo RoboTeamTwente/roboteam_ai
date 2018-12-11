@@ -24,7 +24,7 @@ public:
     static int pickOpponentToCover(int selfID);
     static int doesRobotHaveBall(unsigned int robotID, bool isOurTeam);
     static int whichRobotHasBall(bool isOurTeam);
-    static Vector2 calculateBestPosition(int selfID);
+    static Vector2 calculatePassiveDefenderLocation(int selfID);
 };
 
 }
