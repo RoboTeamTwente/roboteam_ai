@@ -45,10 +45,11 @@ int Coach::pickOpponentToCover(int selfID) {
     dangerfinder::DangerData DangerData = dangerfinder::DangerFinder::instance().getMostRecentData();
     std::vector<int> dangerList = DangerData.dangerList;
     for(int & opponentID : dangerList) {
-        if(defencePairs.find(opponentID) == defencePairs.end() && !doesRobotHaveBall(
-                static_cast<unsigned int>(opponentID), false)) {
-            defencePairs.insert({opponentID, selfID});
-            return opponentID;
+        if(defencePairs.find(opponentID) == defencePairs.end()) {
+            if(!doesRobotHaveBall(opponentID, false)) {
+                defencePairs.insert({opponentID, selfID});
+                return opponentID;
+            }
         } else if (defencePairs[opponentID] == selfID) {
             return opponentID;
         }
@@ -57,7 +58,7 @@ int Coach::pickOpponentToCover(int selfID) {
     return -1;
 }
 
-unsigned int Coach::whichRobotHasBall(bool isOurTeam) {
+int Coach::whichRobotHasBall(bool isOurTeam) {
     roboteam_msgs::World world = World::get_world();
     std::vector<roboteam_msgs::WorldRobot> robots;
     if (isOurTeam) {
@@ -87,12 +88,15 @@ int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
 Vector2 Coach::calculateBestPosition(int selfID) {
     int opponentID1 = Coach::whichRobotHasBall(false);
     if (opponentID1 == -1) {
-        return Vector2 {0, 0};
+        return Vector2 {0, -5};
     }
-    auto opponentID2 = static_cast<unsigned int>(Coach::pickOpponentToCover(selfID));
+    auto opponentID2 = Coach::pickOpponentToCover(selfID);
+    if (opponentID2 == -1) {
+        return Vector2 {0, -5};
+    }
 
-    std::shared_ptr<roboteam_msgs::WorldRobot> robot1 = World::getRobotForId(opponentID1, false);
-    std::shared_ptr<roboteam_msgs::WorldRobot> robot2 = World::getRobotForId(opponentID2, false);
+    std::shared_ptr<roboteam_msgs::WorldRobot> robot1 = World::getRobotForId(static_cast<unsigned int>(opponentID1), false);
+    std::shared_ptr<roboteam_msgs::WorldRobot> robot2 = World::getRobotForId(static_cast<unsigned int>(opponentID2), false);
 
     float robotAngle1 = robot1.get()->angle;
     float robotAngle2 = robot2.get()->angle;
