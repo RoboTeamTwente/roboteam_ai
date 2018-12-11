@@ -35,7 +35,7 @@ void runBehaviourTrees() {
     // Start running this tree first
     ros::Rate rate(50);
 
-    BTFactory::setCurrentTree("haltStrategy");
+    BTFactory::setCurrentTree("SimpleDefendStrategy");
 
     // Main loop
     while (ros::ok()) {

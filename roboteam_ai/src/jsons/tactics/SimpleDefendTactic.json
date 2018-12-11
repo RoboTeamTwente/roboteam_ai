@@ -1,1 +1,145 @@
-{"data": {"trees": [{"nodes": {"wboia1dwocub1y": {"children": ["2pgugknwsuabqk", "beqw6ofwahix43", "vepmfnuojamrc3"], "id": "wboia1dwocub1y", "title": "ParallelSequence"}, "p5oshbs4arei0gb": {"id": "p5oshbs4arei0gb", "title": "GoToPosLuTh", "properties": {"Position": "{0,0}", "goToBall": "false", "random": "false", "ROLE": "simpleDefender2", "passiveDefend": "true"}, "isRole": false}, "brkxkfqsr7o3k": {"id": "brkxkfqsr7o3k", "title": "GoToPosLuTh", "properties": {"Position": "{0,0}", "goToBall": "false", "random": "false", "ROLE": "simpleDefender3", "passiveDefend": "true"}, "isRole": false}, "2pgugknwsuabqk": {"children": ["tfa7clnppyn0pq"], "id": "2pgugknwsuabqk", "name": "simpleDefender1", "title": "Role"}, "vepmfnuojamrc3": {"children": ["brkxkfqsr7o3k"], "id": "vepmfnuojamrc3", "name": "simpleDefender3", "title": "Role"}, "tfa7clnppyn0pq": {"id": "tfa7clnppyn0pq", "title": "GoToPosLuTh", "properties": {"Position": "{0,0}", "goToBall": "false", "random": "false", "ROLE": "simpleDefender1", "passiveDefend": "true"}, "isRole": false}, "beqw6ofwahix43": {"children": ["p5oshbs4arei0gb"], "id": "beqw6ofwahix43", "name": "simpleDefender2", "title": "Role"}}, "root": "wboia1dwocub1y", "title": "SimpleDefendTactic"}]}, "name": "SimpleDefendTactic"}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "wboia1dwocub1y": {
+            "children": [
+              "tv20syezi92o6r",
+              "xwc2lqsvfqft7x4",
+              "4u995oznfgj8z"
+            ],
+            "id": "wboia1dwocub1y",
+            "title": "ParallelSequence"
+          },
+          "vtlbx0uxrcl7uzi": {
+            "id": "vtlbx0uxrcl7uzi",
+            "title": "GoToPosLuTh",
+            "properties": {
+              "Position": "{0, 0}",
+              "goToBall": "false",
+              "random": "false",
+              "ROLE": "simpleDefender1",
+              "passiveDefend": "true"
+            },
+            "isRole": false
+          },
+          "tv20syezi92o6r": {
+            "children": [
+              "h0t4xxlpbgpcy"
+            ],
+            "id": "tv20syezi92o6r",
+            "name": "simpleDefender1",
+            "title": "Role"
+          },
+          "vfbcpciohjx6spk": {
+            "id": "vfbcpciohjx6spk",
+            "title": "GoToPosLuTh",
+            "properties": {
+              "Position": "{0,0}",
+              "goToBall": "false",
+              "random": "false",
+              "ROLE": "simpleDefender1",
+              "passiveDefend": "true"
+            },
+            "isRole": false
+          },
+          "ezh1hs0xkeux13": {
+            "id": "ezh1hs0xkeux13",
+            "title": "GoToPosLuTh",
+            "properties": {
+              "Position": "{0,0}",
+              "goToBall": "false",
+              "random": "false",
+              "ROLE": "simpleDefender2",
+              "passiveDefend": "true"
+            },
+            "isRole": false
+          },
+          "596kdqxkp9r0n": {
+            "id": "596kdqxkp9r0n",
+            "title": "Sequence",
+            "isRole": false,
+            "children": [
+              "ezh1hs0xkeux13",
+              "f8kffnte4d1s00"
+            ]
+          },
+          "qidx3gannbmndsy8": {
+            "id": "qidx3gannbmndsy8",
+            "title": "GoToPosLuTh",
+            "properties": {
+              "Position": "{0, 0}",
+              "goToBall": "false",
+              "random": "false",
+              "ROLE": "simpleDefender3",
+              "passiveDefend": "true"
+            },
+            "isRole": false
+          },
+          "4u995oznfgj8z": {
+            "children": [
+              "fv2ts0i6g0nhojd"
+            ],
+            "id": "4u995oznfgj8z",
+            "name": "simpleDefender3",
+            "title": "Role"
+          },
+          "wc74djs8gb8ao": {
+            "id": "wc74djs8gb8ao",
+            "title": "GoToPosLuTh",
+            "properties": {
+              "Position": "{0,0}",
+              "goToBall": "false",
+              "random": "false",
+              "ROLE": "simpleDefender3",
+              "passiveDefend": "true"
+            },
+            "isRole": false
+          },
+          "xwc2lqsvfqft7x4": {
+            "children": [
+              "596kdqxkp9r0n"
+            ],
+            "id": "xwc2lqsvfqft7x4",
+            "name": "simpleDefender2",
+            "title": "Role"
+          },
+          "f8kffnte4d1s00": {
+            "id": "f8kffnte4d1s00",
+            "title": "GoToPosLuTh",
+            "properties": {
+              "Position": "{0, 0}",
+              "goToBall": "false",
+              "random": "false",
+              "ROLE": "simpleDefender2",
+              "passiveDefend": "true"
+            },
+            "isRole": false
+          },
+          "h0t4xxlpbgpcy": {
+            "id": "h0t4xxlpbgpcy",
+            "title": "Sequence",
+            "isRole": false,
+            "children": [
+              "vfbcpciohjx6spk",
+              "vtlbx0uxrcl7uzi"
+            ]
+          },
+          "fv2ts0i6g0nhojd": {
+            "id": "fv2ts0i6g0nhojd",
+            "title": "Sequence",
+            "isRole": false,
+            "children": [
+              "wc74djs8gb8ao",
+              "qidx3gannbmndsy8"
+            ]
+          }
+        },
+        "root": "wboia1dwocub1y",
+        "title": "SimpleDefendTactic"
+      }
+    ]
+  },
+  "name": "SimpleDefendTactic"
+}
