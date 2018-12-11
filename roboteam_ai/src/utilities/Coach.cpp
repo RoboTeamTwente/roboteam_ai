@@ -103,8 +103,16 @@ Vector2 Coach::calculateBestPosition(int selfID) {
 
     float angleBetweenRobots = atan((robot2->pos.y - robot1->pos.y) / (robot2->pos.x - robot1->pos.x));
 
-    float angle1 = (angleBetweenRobots - robotAngle1) / 2;
-    double angle2 = (M_PI + robotAngle2 - angleBetweenRobots) / 2;
+    double angle1;
+    if (robotAngle1 >= 0) {
+        angle1 = (angleBetweenRobots - (M_PI - robotAngle1)) / 2;
+    } else {
+        angle1 = (angleBetweenRobots + (M_PI - robotAngle1)) / 2;
+    }
+    double angle2 = (-robotAngle2 - angleBetweenRobots) / 2;
+    if (robotAngle2 > 0) {
+        angle2 += M_PI;
+    }
 
     double distanceBetweenRobots = sqrt(pow(robot1->pos.x - robot2->pos.x, 2) + pow(robot2->pos.y - robot1->pos.y, 2));
     double length = distanceBetweenRobots * sin(angle2) / sin(M_PI - angle1 - angle2);
