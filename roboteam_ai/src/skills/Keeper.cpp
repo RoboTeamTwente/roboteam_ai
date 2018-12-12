@@ -29,16 +29,26 @@ void Keeper::initialize() {
     else {
         blockCircle = Arc(center, radius,angle,-angle); //we take the radius from the other side so we have to also flip the arc (yes, confusing)
     }
-    pid.setParams(2.0,0.0,0.75,10,0.0,0.0); //magic numbers galore, from the old team.
-    pid.initialize(1/constants::tickRate);
+    pid.setParams(4.0,0.0,0.75,10,0.0,0.0); //magic numbers galore, from the old team.
+    finePid.setParams(1.0,0.0,0.0,0,0.0,0.0);
+    pid.initialize(1.0/constants::tickRate);
 }
 Keeper::Status Keeper::update() {
     updateRobot();
     if (robot) {
         Vector2 ballPos = World::getBall().pos;
         Vector2 blockPoint = computeBlockPoint(ballPos);
-
-        sendMoveCommand(blockPoint);
+        //double dist=control::ControlUtils::distanceToLine(robot->pos,ballPos,blockPoint);
+        double dist=(blockPoint-(Vector2(robot->pos))).length();
+        if (dist<constants::KEEPER_POSDIF) {
+            sendStopCommand();
+        }
+        else if(dist<2*constants::ROBOT_RADIUS){
+            sendFineMoveCommand(blockPoint);
+        }
+        else{
+            sendMoveCommand(blockPoint);
+        }
         return Status::Running;
     }
     else {
@@ -66,6 +76,34 @@ void Keeper::sendMoveCommand(Vector2 pos) {
     cmd.id = robot->id;
     cmd.x_vel = static_cast<float>(delta.x);
     cmd.y_vel = static_cast<float>(delta.y);
+    cmd.w = static_cast<float>(M_PI_2);
+    publishRobotCommand(cmd);
+    std::cout<<"Rough"<<std::endl;
+}
+
+void Keeper::sendFineMoveCommand(Vector2 pos) {
+//    double gain=3.0;
+//    Vector2 delta = (pos - robot->pos)*gain; //TODO: add proper position control.
+    Vector2 delta=finePid.posControl(robot->pos,pos);
+    roboteam_msgs::RobotCommand cmd;
+    cmd.use_angle = 1;
+    cmd.id = robot->id;
+    cmd.x_vel = static_cast<float>(delta.x);
+    cmd.y_vel = static_cast<float>(delta.y);
+    cmd.w = static_cast<float>(M_PI_2);
+    publishRobotCommand(cmd);
+    std::cout<<"Fine"<<std::endl;
+
+}
+
+void Keeper::sendStopCommand() {
+//    double gain=3.0;
+//    Vector2 delta = (pos - robot->pos)*gain; //TODO: add proper position control.
+    roboteam_msgs::RobotCommand cmd;
+    cmd.use_angle = 1;
+    cmd.id = robot->id;
+    cmd.x_vel = static_cast<float>(0.0);
+    cmd.y_vel = static_cast<float>(0.0);
     cmd.w = static_cast<float>(M_PI_2);
     publishRobotCommand(cmd);
 }
@@ -98,5 +136,6 @@ Vector2 Keeper::computeBlockPoint(Vector2 defendPos) {
     }
     return blockPos;
 }
+
 }
 }

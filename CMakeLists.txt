@@ -190,7 +190,7 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.h roboteam_ai/src/conditions/BallKickedToOurGoal.cpp roboteam_ai/src/conditions/BallKickedToOurGoal.h)
 
 ### SOURCES END ###
 

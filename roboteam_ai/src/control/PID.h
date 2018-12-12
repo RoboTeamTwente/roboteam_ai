@@ -23,6 +23,7 @@ class PID {
 
         Vector2 prevPosErr;
         double timeDif;
+        Vector2 I;
 
 };
 

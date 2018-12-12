@@ -38,7 +38,11 @@ const double MAX_ANGULAR_VELOCITY = 6.0; // rad per second??
 //Keeper
 const double KEEPER_POST_MARGIN=0.08;//m
 const double KEEPER_CENTREGOAL_MARGIN=0.3;//m
+const double KEEPER_POSDIF=0.04;
 
+//ballkickedtoGoal
+const double BALL_TO_GOAL_MARGIN=ROBOT_RADIUS;//Margin at which a ball is still detected as 'kicked at goal'
+const double BALL_TO_GOAL_TIME=1.5;//seconds
 // Interface
 const int ROBOT_DRAWING_SIZE = 8;
 const int BALL_DRAWING_SIZE = 5;

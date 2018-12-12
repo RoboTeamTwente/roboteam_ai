@@ -18,7 +18,9 @@ class Keeper : public Skill {
         Vector2 goalPos;
         double goalwidth;
         void sendMoveCommand(Vector2 pos);
-        control::PID pid;
+        void sendFineMoveCommand(Vector2 pos);
+        void sendStopCommand();
+        control::PID pid,finePid;
     public:
         explicit Keeper(string name, bt::Blackboard::Ptr blackboard);
         std::string node_name() override;
