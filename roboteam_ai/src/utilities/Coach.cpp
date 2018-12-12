@@ -43,12 +43,9 @@ int Coach::pickHarassmentTarget(int selfID) {
     auto world = World::get_world();
     auto them = world.them;
     dangerfinder::DangerData dangerData = dangerfinder::DangerFinder::instance().getMostRecentData();
+    std::vector<int> dangerList = dangerData.dangerList; // A list of robot IDs, sorted from most to least dangerous
 
-
-
-
-
-    return -1;
+    return *dangerList.begin();
 }
 
 int Coach::whichRobotHasBall(bool isOurTeam) {
