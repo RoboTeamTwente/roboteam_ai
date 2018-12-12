@@ -29,8 +29,8 @@ void Keeper::initialize() {
     else {
         blockCircle = Arc(center, radius,angle,-angle); //we take the radius from the other side so we have to also flip the arc (yes, confusing)
     }
-    pid.setParams(3.3,0.0,100.0,10,0.0,0.0); //magic numbers galore, from the old team.
-    pid.initialize(constants::tickRate);
+    pid.setParams(2.0,0.0,0.75,10,0.0,0.0); //magic numbers galore, from the old team.
+    pid.initialize(1/constants::tickRate);
 }
 Keeper::Status Keeper::update() {
     updateRobot();
