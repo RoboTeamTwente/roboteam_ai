@@ -1,6 +1,7 @@
 //
 // Created by baris on 6-12-18.
 //
+
 #include "Coach.h"
 
 namespace rtt {
@@ -37,6 +38,53 @@ int Coach::pickDefensivePassTarget(int selfID) {
         safelyness --;
     }
     return - 1;
+}
+int Coach::pickHarassmentTarget(int selfID) {
+    auto world = World::get_world();
+    auto them = world.them;
+    dangerfinder::DangerData dangerData = dangerfinder::DangerFinder::instance().getMostRecentData();
+
+
+
+
+
+    return -1;
+}
+
+int Coach::whichRobotHasBall(bool isOurTeam) {
+    roboteam_msgs::World world = World::get_world();
+    std::vector<roboteam_msgs::WorldRobot> robots;
+    if (isOurTeam) {
+        robots = world.us;
+    } else {
+        robots = world.them;
+    }
+
+    for (auto& robot:robots) {
+        if (doesRobotHaveBall(robot.id, isOurTeam)) {
+            return robot.id;
+        }
+    }
+    return -1;
+}
+
+int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
+    auto robot = World::getRobotForId(robotID, isOurTeam);
+    Vector2 ballPos = World::get_world().ball.pos;
+
+    Vector2 deltaPos = (ballPos - robot->pos);
+    double dist = deltaPos.length();
+    double angle = deltaPos.angle();
+    double robotAngle = robot->angle;
+
+    if (angle < 0) {
+        angle += 2 * M_PI;
+    }
+    if (robotAngle < 0) {
+        robotAngle += 2 * M_PI;
+    }
+
+    return ( (dist < 0.25) && (fabs(angle - robotAngle) < 0.4) );
 }
 
 }

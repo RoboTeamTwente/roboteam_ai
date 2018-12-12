@@ -178,7 +178,7 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/HaltTactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.h
-        )
+        roboteam_ai/src/skills/Harass.cpp roboteam_ai/src/skills/Harass.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
@@ -192,6 +192,19 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.h)
 
+set(CONTROL_SOURCES
+        roboteam_ai/src/control/ControlUtils.cpp
+        roboteam_ai/src/control/ControlUtils.h
+        roboteam_ai/src/control/ControlGoToPos.cpp
+        roboteam_ai/src/control/ControlGoToPos.h
+        )
+
+set(INTERFACE_SOURCES
+        roboteam_ai/src/interface/mainWindow.cpp
+        roboteam_ai/src/interface/mainWindow.h
+        roboteam_ai/src/interface/widget.cpp
+        roboteam_ai/src/interface/widget.h
+        roboteam_ai/src/interface/drawer.cpp roboteam_ai/src/interface/drawer.h)
 ### SOURCES END ###
 
 ### TEST SOURCES BEGIN ###
@@ -207,16 +220,6 @@ set(CONDITION_TESTS
         roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
         )
 
-set(CONTROL_SOURCES
-        roboteam_ai/src/control/ControlUtils.cpp
-        roboteam_ai/src/control/ControlUtils.h )
-
-set(INTERFACE_SOURCES
-        roboteam_ai/src/interface/mainWindow.cpp
-        roboteam_ai/src/interface/mainWindow.h
-        roboteam_ai/src/interface/widget.cpp
-        roboteam_ai/src/interface/widget.h
-        roboteam_ai/src/interface/drawer.cpp roboteam_ai/src/interface/drawer.h)
 
 ### TEST SOURCES END ###
 
