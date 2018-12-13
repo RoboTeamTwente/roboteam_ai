@@ -26,14 +26,31 @@
             "title": "Repeater",
             "isRole": false,
             "children": [
-              "222"
+              "s6xx3lzfgjtnbuirz"
             ]
           },
-
-          "222": {
-            "id": "222",
-            "title": "Harass",
-            "name": "Harass",
+          "s6xx3lzfgjtnbuirz": {
+            "id": "s6xx3lzfgjtnbuirz",
+            "title": "Keeper",
+            "isRole": false,
+            "properties":{
+              "ROLE": "simpleStupidRobot"
+            }
+          },
+          "pn4tuzpp7sxc8ihtg": {
+            "id": "pn4tuzpp7sxc8ihtg",
+            "title": "GoToPos",
+            "isRole": false,
+            "properties": {
+              "ROLE": "simpleStupidRobot",
+              "Position": "{-1, -1}",
+              "goToBall": "false",
+              "random": "false"
+            }
+          },
+          "mbwjryus4cyn3y9v": {
+            "id": "mbwjryus4cyn3y9v",
+            "title": "GoToPos",
             "isRole": false,
             "properties": {
               "ROLE": "simpleStupidRobot",

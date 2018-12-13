@@ -12,6 +12,8 @@
 namespace rtt {
 namespace ai {
 namespace constants {
+//
+const int tickRate=50;// Rate at which we tick our behavior Trees
 
 //Mathematical constants
 const double PI = 3.14159; // TODO: Why do we need this when we have M_PI from math.h? Conflicting usages? Global PI definition is very needed.
@@ -33,6 +35,19 @@ const float  DRIBBLE_SPEED=0.5;
 const int DEFAULT_ROBOT_ID = 1;
 const double MAX_ANGULAR_VELOCITY = 6.0; // rad per second??
 
+//Keeper
+const double KEEPER_POST_MARGIN=0.08;//m
+const double KEEPER_CENTREGOAL_MARGIN=0.3;//m
+const double KEEPER_POSDIF=0.04;
+
+//ballkickedtoGoal
+const double BALL_TO_GOAL_MARGIN=ROBOT_RADIUS;//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
+const double BALL_TO_GOAL_TIME=1.5;//seconds
+
+//Intercept
+const double MAX_INTERCEPT_TIME=2.0;//seconds. Intercept terminates  after this time.
+const double BALL_DEFLECTION_ANGLE=30.0/180.0*M_PI;//angle at which a ball is considered 'deflected'
+const double INTERCEPT_POSDIF=0.04;//m
 // Interface
 const int ROBOT_DRAWING_SIZE = 8;
 const int BALL_DRAWING_SIZE = 5;

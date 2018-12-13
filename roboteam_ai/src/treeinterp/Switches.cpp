@@ -35,6 +35,7 @@
 #include "../skills/Rotate.h"
 #include "../skills/RotateToAngle.h"
 #include "../skills/GoToPos.h"
+#include "../skills/Keeper.h"
 
 
 //  ______________________
@@ -165,6 +166,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "CanSeeGoal") {
         node = std::make_shared<rtt::ai::CanSeeGoal>(name, properties);
     }
+    else if (name == "Keeper") {
+        node = std::make_shared<rtt::ai::Keeper>(name, properties);
+    }
     else if (name == "DefendOnRobot") {
         node = std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
     }
@@ -217,7 +221,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
             {"SimpleTactic", {
                      {"simpleStupidRobot", robotType::random}
-             }
+            }
                     },
             {"SimpleDefendTactic", {
                  {"simpleDefender1", robotType::closeToOurGoal},
