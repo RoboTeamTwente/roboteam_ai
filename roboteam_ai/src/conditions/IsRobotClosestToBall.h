@@ -15,7 +15,7 @@ namespace ai {
 
 class IsRobotClosestToBall : public rtt::ai::Condition {
     public:
-        IsRobotClosestToBall();
+        IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
 
         Status Update();
 

@@ -18,7 +18,6 @@ class HasBall : public Condition {
     private:
 
         using Status = bt::Node::Status;
-        roboteam_msgs::WorldRobot robot;
 
         bool botHasBall(Vector2 ballPos);
 

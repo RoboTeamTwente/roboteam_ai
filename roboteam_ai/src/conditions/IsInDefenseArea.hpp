@@ -19,7 +19,7 @@ class IsInDefenseArea : public ai::Condition {
     private:
 
         using status = bt::Node::Status;
-        roboteam_msgs::WorldRobot robot;
+
 
         bool ourDefenseArea;
         float margin;
