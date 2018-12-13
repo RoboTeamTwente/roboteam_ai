@@ -110,15 +110,15 @@ class ControlGoToPosLuTh {
 
           }
 
-          void clear(NumRobot &me) {
+          void clear() {
               NumRobot newMe;
-              me.id = newMe.id;
-              me.startIndex = newMe.startIndex;
-              me.maxVel = newMe.maxVel;
-              me.maxAcc = newMe.maxAcc;
-              me.t = newMe.t;
-              me.totalCalculations = newMe.totalCalculations;
-              me.collisions = newMe.collisions;
+              id = newMe.id;
+              startIndex = newMe.startIndex;
+              maxVel = newMe.maxVel;
+              maxAcc = newMe.maxAcc;
+              t = newMe.t;
+              totalCalculations = newMe.totalCalculations;
+              collisions = newMe.collisions;
           }
 
           struct CustomCompare {
