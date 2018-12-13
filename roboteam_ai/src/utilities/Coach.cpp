@@ -47,7 +47,6 @@ int Coach::pickOpponentToCover(int selfID) {
     for(int & opponentID : dangerList) {
         if(defencePairs.find(opponentID) == defencePairs.end()) {
             if(!doesRobotHaveBall(opponentID, false)) {
-                defencePairs.insert({opponentID, selfID});
                 return opponentID;
             }
         } else if (defencePairs[opponentID] == selfID) {
@@ -92,45 +91,6 @@ int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
     }
 
     return ( (dist < 0.25) && (fabs(angle - robotAngle) < 0.4) );
-}
-
-Vector2 Coach::calculatePassiveDefenderLocation(int selfID) {
-    int opponentID1 = Coach::whichRobotHasBall(false);
-    if (opponentID1 == -1) {
-        return Vector2 {0, -5};
-    }
-    auto opponentID2 = Coach::pickOpponentToCover(selfID);
-    if (opponentID2 == -1) {
-        return Vector2 {0, -5};
-    }
-
-    std::shared_ptr<roboteam_msgs::WorldRobot> robot1 = World::getRobotForId(static_cast<unsigned int>(opponentID1), false);
-    std::shared_ptr<roboteam_msgs::WorldRobot> robot2 = World::getRobotForId(static_cast<unsigned int>(opponentID2), false);
-
-    float robotAngle1 = robot1.get()->angle;
-    float robotAngle2 = robot2.get()->angle;
-
-    float angleBetweenRobots = atan((robot2->pos.y - robot1->pos.y) / (robot1->pos.x - robot2->pos.x));
-
-    double angle1;
-    if (robotAngle1 >= 0) {
-        angle1 = (angleBetweenRobots - (M_PI - robotAngle1)) / 2;
-    } else {
-        angle1 = (angleBetweenRobots + (M_PI - robotAngle1)) / 2;
-    }
-    double angle2 = (-robotAngle2 - angleBetweenRobots) / 2;
-    if (robotAngle2 > 0) {
-        angle2 += M_PI;
-    }
-
-    double distanceBetweenRobots = sqrt(pow(robot1->pos.x - robot2->pos.x, 2) + pow(robot2->pos.y - robot1->pos.y, 2));
-    double length = distanceBetweenRobots * sin(angle2) / sin(M_PI - angle1 - angle2);
-
-    double xLength = length * cos(angle1);
-    double yLength = length * sin(angle1);
-
-    Vector2 newPosition = {robot1->pos.x - xLength, robot1->pos.y + yLength};
-    return newPosition;
 }
 
 }

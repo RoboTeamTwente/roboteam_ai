@@ -15,9 +15,8 @@ namespace ai {
 namespace coach {
 
 class Coach {
-private:
-   static std::map<int, int> defencePairs;
 public:
+    static std::map<int, int> defencePairs;
     using dealer = robotDealer::RobotDealer;
     static int pickOffensivePassTarget(int selfID, std::string roleName);
     static int pickDefensivePassTarget(int selfID);
