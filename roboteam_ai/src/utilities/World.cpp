@@ -33,5 +33,12 @@ roboteam_msgs::WorldBall World::getBall() {
     return world.ball;
 }
 
+std::vector<roboteam_msgs::WorldRobot> World::getAllRobots() {
+    std::vector<roboteam_msgs::WorldRobot> allRobots;
+    allRobots.insert(allRobots.end(), world.us.begin(), world.us.end());
+    allRobots.insert(allRobots.end(), world.them.begin(), world.them.end());
+    return allRobots;
+}
+
 } // ai
 } // rtt

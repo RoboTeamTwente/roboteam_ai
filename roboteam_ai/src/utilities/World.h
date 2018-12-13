@@ -31,6 +31,8 @@ class World {
         static const roboteam_msgs::World &get_world();
 
         static void set_world(roboteam_msgs::World world);
+
+        static std::vector<roboteam_msgs::WorldRobot> getAllRobots();
 };
 
 } // ai

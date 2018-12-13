@@ -18,6 +18,6 @@ public:
     std::string node_name() override { return "HasBall"; }
 };
 
-}
-}
+} // ai
+} // rtt
 #endif //ROBOTEAM_AI_CANSEEGOAL_H

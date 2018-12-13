@@ -20,7 +20,7 @@ bt::Node::Status IsInDefenseArea::update() {
 
     roboteam_msgs::World world = World::get_world();
 
-    if (Field::pointIsInDefenceArea(robot.pos, ourDefenseArea, margin)) {
+    if (Field::pointIsInDefenceArea(robot->pos, ourDefenseArea, margin)) {
         return Status::Success;
     }
     return Status::Failure;

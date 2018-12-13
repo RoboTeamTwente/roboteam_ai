@@ -119,6 +119,7 @@ bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::Worl
 
     return true;
 }
+
 double ControlUtils::distanceToLineWithEnds(Vector2 pointToCheck, Vector2 lineStart, Vector2 lineEnd) {
     Vector2 n = lineEnd - lineStart;
     Vector2 pa = lineStart - pointToCheck;
