@@ -60,5 +60,13 @@ bool World::bot_has_ball(const roboteam_msgs::WorldRobot& bot, const roboteam_ms
     // Within 15 cm and .4 radians (of center of dribbler)
     return dist <= .15 && fabs(angle - bot.angle) <= .4;
 }
+
+std::vector<roboteam_msgs::WorldRobot> World::getAllRobots() {
+    std::vector<roboteam_msgs::WorldRobot> allRobots;
+    allRobots.insert(allRobots.end(), world.us.begin(), world.us.end());
+    allRobots.insert(allRobots.end(), world.them.begin(), world.them.end());
+    return allRobots;
+}
+
 } // ai
 } // rtt

@@ -31,6 +31,7 @@ class World {
   static void set_world(roboteam_msgs::World world);
   static std::shared_ptr<int> get_robot_closest_to_point(std::vector<roboteam_msgs::WorldRobot> robots, const Vector2& point);
   static bool bot_has_ball(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::WorldBall& ball);
+  static std::vector<roboteam_msgs::WorldRobot> getAllRobots();
 };
 
 } // ai

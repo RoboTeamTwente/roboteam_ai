@@ -20,6 +20,7 @@
 #include "../bt/tactics/ParallelSequenceTest.h"
 #include "../bt/Role.h"
 #include "Switches.h"
+#include "../skills/Skill.h"
 
 #define GetCurrentDir getcwd
 
