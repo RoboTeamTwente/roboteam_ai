@@ -37,7 +37,8 @@ Skill::Status Harass::update() {
     if (harassBallOwner && coach::doesRobotHaveBall(harassmentTarget, false)) {
         return Status::Success;
     }
-
+    // TODO make something that will make harassment stop if something happens else we assume that there is a tree
+    //  change because some sort of special event happened
     return Status::Running;
 }
 

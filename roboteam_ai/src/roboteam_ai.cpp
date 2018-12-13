@@ -107,7 +107,7 @@ int main(int argc, char* argv[]) {
     // Init ROS node in main thread
     ros::init(argc, argv, "StrategyNode");
 
-    // start the ros loop in seperate thread
+    // start the ros loop in separate thread
     std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
 
     // initialize the interface
