@@ -19,6 +19,8 @@ void Harass::initialize() {
 
 Skill::Status Harass::update() {
 
+    updateRobot();
+
     if (harassmentTarget == - 1) {
         pickHarassmentTarget();
     }
@@ -37,9 +39,11 @@ Skill::Status Harass::update() {
     }
 
     std::cout << "call gotopos with target pos" << targetPos << std::endl;
-    goToPos.goToPos(robot, targetPos, goType::luTh);
+    std::cout << "call gotopos with robot pos           " << robot->pos << std::endl;
 
-    if (harassBallOwner && coach::doesRobotHaveBall(harassmentTarget, false)) {
+    goToPos.goToPos(robot, targetPos, goType::basic);
+
+    if (harassBallOwner && !coach::doesRobotHaveBall(harassmentTarget, false)) {
         return Status::Success;
     }
     // TODO make something that will make harassment stop if something happens else we assume that there is a tree
