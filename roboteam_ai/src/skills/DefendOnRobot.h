@@ -33,8 +33,8 @@ class DefendOnRobot : public Skill {
         void terminate(Status s) override;
         Status update() override;
         Vector2 calculateLocation();
-        std::shared_ptr<roboteam_msgs::WorldRobot> robot1;
-        std::shared_ptr<roboteam_msgs::WorldRobot> robot2;
+        std::shared_ptr<roboteam_msgs::WorldRobot> opponentWithBall;
+        std::shared_ptr<roboteam_msgs::WorldRobot> opponentToCover;
 };
 } // ai
 } // rtt
