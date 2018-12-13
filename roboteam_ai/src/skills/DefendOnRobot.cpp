@@ -12,19 +12,16 @@ DefendOnRobot::DefendOnRobot(std::string name, bt::Blackboard::Ptr blackboard)
 
 void DefendOnRobot::initialize() {
     robot = getRobotFromProperties(properties);
-    int opponentID1 = coach::Coach::whichRobotHasBall(false);
-    if (opponentID1 == -1) {
+    opponentWithBallID = coach::Coach::whichRobotHasBall(false);
+    if (opponentWithBallID == -1) {
         currentProgress = FAIL;
-    } else {
-        opponentWithBall = World::getRobotForId(static_cast<unsigned int>(opponentID1), false);
     }
 
-    int opponentID2 = coach::Coach::pickOpponentToCover(robot->id);
-    if (opponentID2 == -1) {
+    opponentToCoverID = coach::Coach::pickOpponentToCover(robot->id);
+    if (opponentToCoverID == -1) {
         currentProgress = FAIL;
     } else {
-        opponentToCover = World::getRobotForId(static_cast<unsigned int>(opponentID2), false);
-        coach::Coach::defencePairs.insert({opponentToCover->id, robot->id});
+        coach::Coach::defencePairs.insert({opponentToCoverID, robot->id});
     }
 }
 
@@ -33,6 +30,9 @@ void DefendOnRobot::terminate(Skill::Status s) {
 }
 
 bt::Node::Status DefendOnRobot::update() {
+    opponentWithBall = World::getRobotForId(static_cast<unsigned int>(opponentWithBallID), false);
+    opponentToCover = World::getRobotForId(static_cast<unsigned int>(opponentToCoverID), false);
+
     if (opponentWithBall && opponentToCover) {
         updateRobot();
         if (!coach::Coach::doesRobotHaveBall(opponentWithBall->id, false)) {
@@ -44,6 +44,8 @@ bt::Node::Status DefendOnRobot::update() {
         goToPos.goToPos(robot, targetPos, goType::basic);
 
         return Status::Running;
+    } else {
+        return Status::Failure;
     }
 }
 
