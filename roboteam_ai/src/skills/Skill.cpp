@@ -13,6 +13,9 @@ void Skill::terminate(Status s) { }
 void Skill::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
     ioManager.publishRobotCommand(cmd);
 }
+std::string Skill::node_name() {
+    return name;
+}
 
 } // ai
 } // rtt

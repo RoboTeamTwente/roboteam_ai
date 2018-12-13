@@ -46,9 +46,8 @@ GoToPosLuTh::Status GoToPosLuTh::update() {
         auto ball = World::getBall();
         targetPos = ball.pos;
     }
-    if (passiveDefend) {
-        targetPos = coach::calculatePassiveDefenderLocation(robot->id);
-    }
+
+
     else if (random) {
         const roboteam_msgs::GeometryFieldSize &field = Field::get_field();
         const double &length = field.field_length;

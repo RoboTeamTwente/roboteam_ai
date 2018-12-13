@@ -22,6 +22,7 @@ namespace ai {
  */
 class Skill : public bt::Leaf {
     protected:
+
         io::IOManager ioManager;
         using coach = coach::Coach;
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
@@ -30,7 +31,7 @@ public:
         using Control = control::ControlUtils;
         using Status = bt::Node::Status;
         explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-
+        std::string node_name() override;
 };
 
 } // ai

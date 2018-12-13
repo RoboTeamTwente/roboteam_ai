@@ -38,7 +38,7 @@ bt::Node::Status DefendOnRobot::update() {
     }
 
     Vector2 targetPos = calculateLocation();
-    control::ControlGoToPos::goToPos(robot, targetPos, goType::luTh);
+    goToPos.goToPos(robot, targetPos, goType::luTh);
 
     return Status::Running;
 }
