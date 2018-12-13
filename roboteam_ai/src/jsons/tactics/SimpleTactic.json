@@ -26,20 +26,39 @@
             "title": "Repeater",
             "isRole": false,
             "children": [
-              "222"
+              "s6xx3lzfgjtnbuirz"
             ]
           },
-
-          "222": {
-            "id": "222",
-            "title": "Harass",
-            "name": "Harass",
+          "s6xx3lzfgjtnbuirz": {
+            "id": "s6xx3lzfgjtnbuirz",
+            "title": "MemSequence",
+            "isRole": false,
+            "children": [
+              "pn4tuzpp7sxc8ihtg",
+              "mbwjryus4cyn3y9v"
+            ]
+          },
+          "pn4tuzpp7sxc8ihtg": {
+            "id": "pn4tuzpp7sxc8ihtg",
+            "title": "GoToPos",
             "isRole": false,
             "properties": {
               "ROLE": "simpleStupidRobot",
-              "harassBallOwner": "kfgv"
+              "Position": "{-1, -1}",
+              "goToBall": "false",
+              "random": "false"
             }
-
+          },
+          "mbwjryus4cyn3y9v": {
+            "id": "mbwjryus4cyn3y9v",
+            "title": "GoToPos",
+            "isRole": false,
+            "properties": {
+              "ROLE": "simpleStupidRobot",
+              "Position": "{1, 1}",
+              "goToBall": "false",
+              "random": "false"
+            }
           }
         }
       }

@@ -17,7 +17,6 @@ GoToPosLuTh_OLD::GoToPosLuTh_OLD(string name, bt::Blackboard::Ptr blackboard)
 std::string GoToPosLuTh_OLD::node_name() {
     return "GoToPosLuTh_OLD";
 }
-
 /// Called when the Skill is Initialized
 void GoToPosLuTh_OLD::initialize() {
     getRobotFromProperties(properties);

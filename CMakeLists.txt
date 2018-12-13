@@ -172,6 +172,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/HaltTactic.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/HaltTactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.cpp
@@ -266,7 +268,7 @@ target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} ${SDL2_LIBRARY} ${SDL2TTF_
 #############
 catkin_add_gtest(ai_tests
         roboteam_ai/test/main.cpp
-        roboteam_ai/test/BtTest.cpp
+        #roboteam_ai/test/BtTest.cpp
         roboteam_ai/test/JsonTest.cpp
         roboteam_ai/test/BTFactoryTest.cpp
         roboteam_ai/test/WorldTest.cpp
@@ -279,6 +281,7 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/StrategyManagerTest.cpp
         roboteam_ai/test/PropertiesParserTest.cpp
         ${SKILL_TESTS}
+        roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
         ${CONDITION_TESTS}
         roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
         roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
@@ -305,6 +308,7 @@ target_link_libraries(ai_tests
         gcov
         ${SDL2_LIBRARY}
         ${SDL2TTF_LIBRARY}
+        Qt5::Widgets Qt5::Gui
         )
 
 include(CodeCoverage)

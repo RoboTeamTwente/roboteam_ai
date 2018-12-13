@@ -8,6 +8,8 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
+    std::map<int, int> Coach::defencePairs;
+
 int Coach::pickOffensivePassTarget(int selfID, std::string roleName) {
 
     // Get the other robots in that tactic
@@ -82,6 +84,22 @@ int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
     }
 
     return ( (dist < 0.25) && (fabs(angle - robotAngle) < 0.4) );
+}
+
+int Coach::pickOpponentToCover(int selfID) {
+    dangerfinder::DangerData DangerData = dangerfinder::DangerFinder::instance().getMostRecentData();
+    std::vector<int> dangerList = DangerData.dangerList;
+    for(int & opponentID : dangerList) {
+        if(defencePairs.find(opponentID) == defencePairs.end()) {
+            if(!doesRobotHaveBall(opponentID, false)) {
+                return opponentID;
+            }
+        } else if (defencePairs[opponentID] == selfID) {
+            return opponentID;
+        }
+    }
+
+    return -1;
 }
 
 }
