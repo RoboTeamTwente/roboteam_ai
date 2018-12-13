@@ -1,49 +1,6 @@
 //
 // Created by baris on 15/11/18.
 //
-#include "BTImport.h"
-#include "../bt/Node.hpp"
-
-
-//  ______________________
-//  |                    |
-//  |   INCLUDE TACTICS  |
-//  |____________________|
-//
-
-#include "../bt/tactics/DemoTactic.h"
-#include "../bt/tactics/ParallelSequenceTest.h"
-#include "../bt/tactics/VictoryDanceTactic.h"
-#include "../bt/tactics/RandomTactic.h"
-#include "../bt/tactics/DefaultTactic.h"
-#include "../bt/tactics/HaltTactic.h"
-
-//  ______________________
-//  |                    |
-//  |   INCLUDE SKILLS   |
-//  |____________________|
-//
-
-#include "../skills/Chip.h"
-#include "../skills/Dribble.h"
-#include "../skills/GoToPosLuTh.h"
-#include "../skills/GoToPosLuTh_OLD.h"
-#include "../skills/Halt.h"
-#include "../skills/Kick.h"
-#include "../skills/Rotate.h"
-#include "../skills/RotateToAngle.h"
-#include "../skills/GoToPos.h"
-
-
-//  ______________________
-//  |                    |
-//  | INCLUDE CONDITIONS |
-//  |____________________|
-//
-
-#include "../conditions/HasBall.hpp"
-
-
 #ifndef ROBOTEAM_AI_SWITCHES_H
 #define ROBOTEAM_AI_SWITCHES_H
 

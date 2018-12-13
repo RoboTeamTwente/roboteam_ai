@@ -2,11 +2,8 @@
 #include <utility>
 
 #include <gtest/gtest.h>
-#include <gtest/gtest_prod.h>
 
 #include <roboteam_msgs/BoolEntry.h>
-#include <roboteam_msgs/Int32Entry.h>
-#include <roboteam_msgs/StringEntry.h>
 #include "../src/bt/bt.hpp"
 
 

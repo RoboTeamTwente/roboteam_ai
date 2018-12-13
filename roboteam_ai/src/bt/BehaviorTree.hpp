@@ -12,14 +12,11 @@ class BehaviorTree : public Node {
 
         BehaviorTree();
 
-        BehaviorTree(const Node::Ptr &rootNode);
+        explicit BehaviorTree(const Node::Ptr &rootNode);
 
-        BehaviorTree(const Blackboard::Ptr &shared);
+        explicit BehaviorTree(const Blackboard::Ptr &shared);
 
         std::string node_name() override;
-
-
-        ~BehaviorTree();
 
         Status update() override;
 

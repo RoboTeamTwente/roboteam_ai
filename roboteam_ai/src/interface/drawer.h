@@ -17,7 +17,6 @@ namespace interface {
 class Drawer {
 public:
     explicit Drawer() = default;
-
     static void setGoToPosLuThPoints(int id, std::vector<std::pair<Vector2, QColor>> points);
     static std::vector<std::pair<Vector2,QColor>> getGoToPosLuThPoints(int id);
 

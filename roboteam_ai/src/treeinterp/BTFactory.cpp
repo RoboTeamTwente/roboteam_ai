@@ -1,6 +1,5 @@
 #include <utility>
 
-#include <utility>
 #include <boost/filesystem.hpp>
 //
 // Created by baris on 04/10/18.
@@ -37,10 +36,10 @@ void BTFactory::init() {
         for (auto &it : tempMap) strategyRepo[it.first] = it.second; // may break
     }
 
-//    for (const auto &strategyNameKeeper : Switches::keeperJsonFiles) {
-//        auto tempMap = interpreter.getTrees("keeper/" + strategyNameKeeper);
-//        for (auto &it : tempMap) keeperRepo[it.first] = it.second; // may break
-//    }
+    for (const auto &strategyNameKeeper : Switches::keeperJsonFiles) {
+        auto tempMap = interpreter.getTrees("keeper/" + strategyNameKeeper);
+        for (auto &it : tempMap) keeperRepo[it.first] = it.second; // may break
+    }
 
     initialized = true;
 }

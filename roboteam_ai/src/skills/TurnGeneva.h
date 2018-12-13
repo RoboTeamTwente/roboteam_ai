@@ -6,7 +6,6 @@
 #define ROBOTEAM_AI_TURNGENEVA_H
 
 #include "Skill.h"
-#include <boost/optional.hpp>
 #include "../utilities/World.h"
 
 namespace rtt {

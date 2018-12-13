@@ -8,7 +8,6 @@
 #define ROBOTEAM_AI_REFEREE_HPP
 
 #include "roboteam_msgs/RefereeData.h"
-#include "boost/optional.hpp"
 #include "ros/ros.h"
 
 namespace rtt {

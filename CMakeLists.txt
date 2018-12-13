@@ -1,5 +1,4 @@
-
-        cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.1)
 project(roboteam_ai)
 
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
@@ -37,7 +36,6 @@ find_package(catkin REQUIRED COMPONENTS
         )
 
 ### SOURCES BEGIN ###
-
 
 set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/json.h
@@ -178,20 +176,49 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/HaltTactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.h
-        )
+        roboteam_ai/src/skills/Harass.cpp
+        roboteam_ai/src/skills/Harass.h
+        roboteam_ai/src/skills/ShootAtGoal.cpp
+        roboteam_ai/src/skills/ShootAtGoal.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsRobotClosestToBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsRobotClosestToBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanReachPoint.hpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanReachPoint.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/TheyHaveBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/TheyHaveBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/WeHaveBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/WeHaveBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsOnOurSide.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsOnOurSide.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanSeeGoal.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanSeeGoal.h
+        )
 
+set(CONTROL_SOURCES
+        roboteam_ai/src/control/ControlUtils.cpp
+        roboteam_ai/src/control/ControlUtils.h
+        roboteam_ai/src/control/ControlGoToPos.cpp
+        roboteam_ai/src/control/ControlGoToPos.h
+        )
+
+set(INTERFACE_SOURCES
+        roboteam_ai/src/interface/mainWindow.cpp
+        roboteam_ai/src/interface/mainWindow.h
+        roboteam_ai/src/interface/widget.cpp
+        roboteam_ai/src/interface/widget.h
+        roboteam_ai/src/interface/drawer.cpp roboteam_ai/src/interface/drawer.h)
 ### SOURCES END ###
 
 ### TEST SOURCES BEGIN ###
@@ -207,21 +234,6 @@ set(CONDITION_TESTS
         roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
         )
 
-set(CONTROL_SOURCES
-        roboteam_ai/src/control/ControlUtils.cpp
-        roboteam_ai/src/control/ControlUtils.h
-        roboteam_ai/src/control/ControlGoToPos.cpp
-        roboteam_ai/src/control/ControlGoToPos.h
-        roboteam_ai/src/control/controlGoToPos/ControlGoToPosLuTh.cpp
-        roboteam_ai/src/control/controlGoToPos/ControlGoToPosLuTh.h
-        )
-
-set(INTERFACE_SOURCES
-        roboteam_ai/src/interface/mainWindow.cpp
-        roboteam_ai/src/interface/mainWindow.h
-        roboteam_ai/src/interface/widget.cpp
-        roboteam_ai/src/interface/widget.h
-        roboteam_ai/src/interface/drawer.cpp roboteam_ai/src/interface/drawer.h)
 
 ### TEST SOURCES END ###
 
@@ -266,7 +278,13 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/PropertiesParserTest.cpp
         ${SKILL_TESTS}
         ${CONDITION_TESTS}
-
+        roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
+        roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/IsRobotClosestToBallTest.cpp
+        roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
+        roboteam_ai/test/ConditionTests/TheyHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/WeHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/IsOnOurSideTest.cpp
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
