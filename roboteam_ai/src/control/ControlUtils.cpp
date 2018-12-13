@@ -3,6 +3,7 @@
 //
 
 
+#include <roboteam_ai/src/utilities/Field.h>
 #include "ControlUtils.h"
 
 namespace control {
@@ -131,5 +132,72 @@ double ControlUtils::distanceToLineWithEnds(Vector2 pointToCheck, Vector2 lineSt
         return fmin(pa.length(), (lineEnd - pointToCheck).length());
     }
     else return d.length();
+}
+
+//https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
+
+// Given three colinear points p, q, r, the function checks if
+// point q lies on line segment 'pr'
+bool ControlUtils::onLineSegment(Vector2 p, Vector2 q, Vector2 r){
+    return q.x <= fmax(p.x, r.x) && q.x >= fmin(p.x, r.x) &&
+        q.y <= fmax(p.y, r.y) && q.y >= fmin(p.y, r.y);
+
+}
+// To find orientation of ordered triplet (p, q, r).
+// The function returns following values
+// 0 --> p, q and r are colinear
+// 1 --> Clockwise
+// 2 --> Counterclockwise
+int ControlUtils::lineOrientation(Vector2 p, Vector2 q, Vector2 r) {
+    // See https://www.geeksforgeeks.org/orientation-3-ordered-points/
+    // for details of below formula.
+    double val = (q.y - p.y) * (r.x - q.x) -
+            (q.x - p.x) * (r.y - q.y);
+
+    if (val == 0) return 0;  // colinear
+
+    return (val > 0)? 1: 2; // clock or counterclock wise
+}
+bool ControlUtils::lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd,Vector2 lineBStart,Vector2 lineBEnd){
+    int o1 = lineOrientation(lineAStart, lineAEnd, lineBStart);
+    int o2 = lineOrientation(lineAStart, lineAEnd, lineBEnd);
+    int o3 = lineOrientation(lineBStart, lineBEnd, lineAStart);
+    int o4 = lineOrientation(lineBStart, lineBEnd, lineAEnd);
+
+    // General case
+    if (o1 != o2 && o3 != o4)
+        return true;
+
+    // Special Cases
+    // p1, q1 and p2 are colinear and p2 lies on segment p1q1
+    if (o1 == 0 && onLineSegment(lineAStart, lineBStart, lineAEnd)) return true;
+
+    // p1, q1 and q2 are colinear and q2 lies on segment p1q1
+    if (o2 == 0 && onLineSegment(lineAStart, lineBEnd, lineAEnd)) return true;
+
+    // p2, q2 and p1 are colinear and p1 lies on segment p2q2
+    if (o3 == 0 && onLineSegment(lineBStart, lineAStart, lineBEnd)) return true;
+
+    // p2, q2 and q1 are colinear and q1 lies on segment p2q2
+    if (o4 == 0 && onLineSegment(lineBStart, lineAEnd, lineBEnd)) return true;
+
+    return false; // Doesn't fall in any of the above cases
+
+}
+rtt::Arc ControlUtils::createKeeperArc() {
+    double goalwidth=rtt::ai::Field::get_field().goal_width;
+    Vector2 goalPos=rtt::ai::Field::get_our_goal_center();
+    double diff = rtt::ai::constants::KEEPER_POST_MARGIN - rtt::ai::constants::KEEPER_CENTREGOAL_MARGIN;
+
+    double radius = diff*0.5 + goalwidth*goalwidth/(8*diff); //Pythagoras' theorem.
+    double angle = asin(goalwidth/2/radius); // maximum angle (at which we hit the posts)
+    Vector2 center = Vector2(goalPos.x + rtt::ai::constants::KEEPER_CENTREGOAL_MARGIN + radius, 0);
+    if (diff > 0) {
+        return rtt::Arc(center, radius, M_PI - angle, angle - M_PI);
+    }
+    else {
+        return rtt::Arc(center, radius, angle,
+                - angle); //we take the radius from the other side so we have to also flip the arc (yes, confusing)
+    }
 }
 } // control
