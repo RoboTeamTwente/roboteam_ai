@@ -178,10 +178,10 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/HaltTactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.h
-        roboteam_ai/src/skills/Harass.cpp
-        roboteam_ai/src/skills/Harass.h
-        roboteam_ai/src/skills/ShootAtGoal.cpp
-        roboteam_ai/src/skills/ShootAtGoal.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Harass.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Harass.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootAtGoal.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootAtGoal.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp

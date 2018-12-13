@@ -20,13 +20,9 @@
           },
           "g66jbj0tfno8bn": {
             "id": "g66jbj0tfno8bn",
-            "title": "GoToPosLuTh",
+            "title": "DefendOnRobot",
             "properties": {
-              "Position": "{0,0}",
-              "goToBall": "false",
-              "random": "false",
-              "ROLE": "simpleDefender2",
-              "passiveDefend": "true"
+              "ROLE": "simpleDefender2"
             },
             "isRole": false
           },
@@ -62,25 +58,17 @@
           },
           "w6pg7vqplnfp1": {
             "id": "w6pg7vqplnfp1",
-            "title": "GoToPosLuTh",
+            "title": "DefendOnRobot",
             "properties": {
-              "Position": "{0,0}",
-              "goToBall": "false",
-              "random": "false",
-              "ROLE": "simpleDefender1",
-              "passiveDefend": "true"
+              "ROLE": "simpleDefender1"
             },
             "isRole": false
           },
           "famylflsnyo3xj05k": {
             "id": "famylflsnyo3xj05k",
-            "title": "GoToPosLuTh",
+            "title": "DefendOnRobot",
             "properties": {
-              "Position": "{0,0}",
-              "goToBall": "false",
-              "random": "false",
-              "ROLE": "simpleDefender3",
-              "passiveDefend": "true"
+              "ROLE": "simpleDefender3"
             },
             "isRole": false
           },

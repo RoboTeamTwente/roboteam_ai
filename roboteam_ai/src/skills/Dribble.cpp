@@ -136,19 +136,20 @@ Dribble::status Dribble::update() {
     }
 }
 void Dribble::terminate(Dribble::status s) {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
-    if (forwardDirection) {
-        command.w = (float) deltaPos.angle();
+    if (robot) {
+        roboteam_msgs::RobotCommand command;
+        command.id = robot->id;
+        command.use_angle = 1;
+        if (forwardDirection) {
+            command.w = (float) deltaPos.angle();
+        } else {
+            command.w = (float) deltaPos.rotate(M_PI).angle();
+        }
+        command.dribbler = 0;
+        command.x_vel = 0;
+        command.y_vel = 0;
+        publishRobotCommand(command);
     }
-    else {
-        command.w = (float) deltaPos.rotate(M_PI).angle();
-    }
-    command.dribbler = 0;
-    command.x_vel = 0;
-    command.y_vel = 0;
-    publishRobotCommand(command);
 }
 
 void Dribble::sendMoveCommand() {
