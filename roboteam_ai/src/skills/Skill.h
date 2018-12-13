@@ -22,8 +22,7 @@ namespace ai {
  */
 class Skill : public bt::Leaf {
     protected:
-        using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
-        // RobotPtr robot;
+
         io::IOManager ioManager;
         using coach = coach::Coach;
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
