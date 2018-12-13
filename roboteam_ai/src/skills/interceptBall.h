@@ -15,7 +15,7 @@ class InterceptBall :public Skill {
         };
         Progression currentProgression;
         void checkProgression();
-        bool keeper;
+
         roboteam_msgs::WorldBall ball;
         void sendInterceptCommand();
         void sendFineInterceptCommand();
@@ -27,9 +27,11 @@ class InterceptBall :public Skill {
         Vector2 ballStartPos,ballStartVel,ballEndPos,interceptPos;
         Vector2 deltaPos;
         int tickCount,maxTicks;
-        Vector2 computeInterceptPoint();
+        Vector2 computeInterceptPoint(Vector2 startBall, Vector2 endBall);
         control::PID pid,finePid;
 
+        bool keeper;
+        bool ballToGoal();
     public:
         explicit InterceptBall(string name, bt::Blackboard::Ptr blackboard);
         std::string node_name() override;

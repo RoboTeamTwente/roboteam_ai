@@ -23,9 +23,9 @@ void InterceptBall::initialize() {
     ballStartPos = ball.pos;
     ballStartVel = ball.vel;
     ballEndPos = Vector2(ball.pos) + Vector2(ball.vel)*constants::MAX_INTERCEPT_TIME;
-    if (robot) { interceptPos = computeInterceptPoint(); }
+    if (robot) { interceptPos = computeInterceptPoint(ballStartPos,ballEndPos); }
     else currentProgression = BALLMISSED;
-    pid.setParams(4.0, 0.0, 0.75, 10, 0.0, 0.0); //magic numbers galore, from the old team.
+    pid.setParams(4.0, 0.0, 0.75, 10, 0.0, 0.0); //TODO:magic numbers galore, from the old team. Move to new control library?
     finePid.setParams(1.0, 0.0, 0.0, 0, 0.0, 0.0);
     pid.initialize(1.0/constants::tickRate);
     finePid.initialize(1.0/constants::tickRate);
@@ -33,9 +33,14 @@ void InterceptBall::initialize() {
 InterceptBall::Status InterceptBall::update() {
     updateRobot();
     ball = World::getBall();
+    //The keeper dynamically updates the intercept position as he needs to be responsive and cover the whole goal and this would help against curveballs e.g.
+    if (keeper){
+        interceptPos = computeInterceptPoint(ball.pos, Vector2(ball.pos) + Vector2(ball.vel)*constants::MAX_INTERCEPT_TIME);
+    }
     deltaPos = interceptPos - robot->pos;
     if (robot) {
         checkProgression();
+
         switch (currentProgression) {
         case INTERCEPTING: sendInterceptCommand();
             break;
@@ -60,7 +65,11 @@ void InterceptBall::checkProgression() {
         return;
     }
     //Check if the ball was deflected
-    if (ballDeflected()) {
+    if (keeper&&!ballToGoal()){
+        currentProgression=BALLDEFLECTED;
+        return;
+    }
+    else if (!keeper&&ballDeflected()) {
         currentProgression = BALLDEFLECTED;
         return;
     }
@@ -90,7 +99,7 @@ void InterceptBall::checkProgression() {
             return;
         }
         else {
-            currentProgression=CLOSETOPOINT;
+            currentProgression = CLOSETOPOINT;
             return;
         }// Stay here until either ball misses or is deflected;
     case BALLDEFLECTED: return;
@@ -102,12 +111,12 @@ void InterceptBall::terminate(rtt::ai::Skill::Status s) {
     sendStopCommand();
 }
 
-Vector2 InterceptBall::computeInterceptPoint() {
+Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
     Vector2 interceptionPoint;
     if (keeper) {
         Arc keeperCircle = control::ControlUtils::createKeeperArc();
         std::pair<boost::optional<Vector2>, boost::optional<Vector2>> intersections = keeperCircle.intersectionWithLine(
-                ballStartPos, ballEndPos);
+                startBall, endBall);
         if (intersections.first && intersections.second) {
             double dist1 = (Vector2(robot->pos) - *intersections.first).length();
             double dist2 = (Vector2(robot->pos) - *intersections.second).length();
@@ -123,13 +132,13 @@ Vector2 InterceptBall::computeInterceptPoint() {
             interceptionPoint = *intersections.second;
         }
         else { // if the Line does not intercept it usually means the ball is coming from one of the corners-ish to the keeper
-            interceptionPoint = Vector2(robot->pos).project(ballStartPos,
-                    ballEndPos); // For now we pick the closest point to the (predicted) line of the ball
+            interceptionPoint = Vector2(robot->pos).project(startBall,
+                    endBall); // For now we pick the closest point to the (predicted) line of the ball
         }
     }
     else {
-        interceptionPoint = Vector2(robot->pos).project(ballStartPos,
-                ballEndPos); // For now we pick the closest point to the (predicted) line of the ball for any 'regular' interception
+        interceptionPoint = Vector2(robot->pos).project(startBall,
+                endBall); // For now we pick the closest point to the (predicted) line of the ball for any 'regular' interception
     }
     return interceptionPoint;
 }
@@ -142,8 +151,7 @@ bool InterceptBall::missBall() {
     // We check if the ball ever comes into the rectangle behind the robot that it should 'cover off'
     Vector2 rectSide = ballStartVel.rotate(M_PI_2).stretchToLength(rectHalfLength);
     Vector2 startCentre = ballStartPos + ballStartVel.stretchToLength(interceptDist + constants::ROBOT_RADIUS);
-    Vector2 endCentre = ballStartPos + (ballEndPos - ballStartPos)
-            *2; //Take a sufficiently large area to check in, twice the original length should be fine.
+    Vector2 endCentre = ballStartPos + (ballEndPos - ballStartPos)*2; //twice the predicted length to be sure
     return control::ControlUtils::pointInRectangle(ball.pos, startCentre - rectSide, startCentre + rectSide,
             endCentre + rectSide, endCentre - rectSide);
 }
@@ -190,7 +198,6 @@ void InterceptBall::sendFineInterceptCommand() {
     cmd.w = static_cast<float>(M_PI_2); //TODO: Fix angles
     publishRobotCommand(cmd);
 }
-
 void InterceptBall::sendInterceptCommand() {
     Vector2 delta = finePid.posControl(robot->pos, interceptPos);
     roboteam_msgs::RobotCommand cmd;
@@ -201,6 +208,16 @@ void InterceptBall::sendInterceptCommand() {
     cmd.w = static_cast<float>(M_PI_2);// TODO: Fix angles
     publishRobotCommand(cmd);
 
+}
+bool InterceptBall::ballToGoal(){
+    Vector2 goalCentre=Field::get_our_goal_center();
+    double goalWidth=Field::get_field().goal_width;
+    double margin=constants::BALL_TO_GOAL_MARGIN;
+    Vector2 lowerPost=goalCentre+Vector2(0.0,-(goalWidth+margin));
+    Vector2 upperPost=goalCentre+Vector2(0.0,goalWidth+margin);
+    Vector2 ballPos=ball.pos;
+    Vector2 ballPredPos=Vector2(ball.pos)+Vector2(ball.vel)*constants::MAX_INTERCEPT_TIME;
+    return control::ControlUtils::lineSegmentsIntersect(lowerPost,upperPost,ballPos,ballPredPos);
 }
 }//ai
 }//rtt

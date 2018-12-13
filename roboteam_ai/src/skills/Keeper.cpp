@@ -19,7 +19,8 @@ void Keeper::initialize() {
 
     //Create arc for keeper to drive on
     blockCircle=control::ControlUtils::createKeeperArc();
-    pid.setParams(4.0, 0.0, 0.75, 10, 0.0, 0.0); //magic numbers galore, from the old team.
+    //TODO::magic numbers galore, from the old team. move to new control library
+    pid.setParams(4.0, 0.0, 0.75, 10, 0.0, 0.0);
     finePid.setParams(1.0, 0.0, 0.0, 0, 0.0, 0.0);
     pid.initialize(1.0/constants::tickRate);
     finePid.initialize(1.0/constants::tickRate);
