@@ -16,6 +16,7 @@ class Harass : public Skill {
     public:
         void initialize() override;
         Status update() override;
+        void terminate(Status s) override;
 
     private:
         int harassmentTarget = - 1;

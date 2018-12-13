@@ -51,6 +51,9 @@ void Harass::pickHarassmentTarget() {
     }
 
 }
+void Harass::terminate(Skill::Status s) {
+    // TODO?
+}
 
 }
 }
