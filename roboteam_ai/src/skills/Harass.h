@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_HARASS_H
 
 #include "Skill.h"
-
+#include <roboteam_ai/src/control/ControlGoToPos.h>
 
 namespace rtt {
 namespace ai {
@@ -14,16 +14,15 @@ namespace ai {
 class Harass : public Skill {
 
     public:
-       void initialize() override;
-       Status update() override;
-
+        void initialize() override;
+        Status update() override;
 
     private:
-       int harassmentTarget = -1;
-       void pickHarassmentTarget();
-       bool harassBallOwner = false;
-
-
+        int harassmentTarget = - 1;
+        void pickHarassmentTarget();
+        bool harassBallOwner = false;
+        control::ControlGoToPos goToPos;
+        using goType = control::ControlGoToPos::GoToType;
 
 };
 
