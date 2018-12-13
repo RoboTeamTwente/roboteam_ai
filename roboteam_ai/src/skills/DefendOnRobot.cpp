@@ -8,10 +8,9 @@ namespace rtt{
 namespace ai{
 
 DefendOnRobot::DefendOnRobot(std::string name, bt::Blackboard::Ptr blackboard)
-    :Skill(name, blackboard) { }
+    :Skill(std::move(name), std::move(blackboard)) { }
 
-void DefendOnRobot::initialize() {
-    robot = getRobotFromProperties(properties);
+void DefendOnRobot::onInitialize() {
     opponentWithBallID = coach::Coach::whichRobotHasBall(false);
     if (opponentWithBallID == -1) {
         currentProgress = FAIL;
@@ -25,11 +24,11 @@ void DefendOnRobot::initialize() {
     }
 }
 
-void DefendOnRobot::terminate(Skill::Status s) {
+void DefendOnRobot::onTerminate(Skill::Status s) {
     coach::Coach::defencePairs.erase(robot->id);
 }
 
-bt::Node::Status DefendOnRobot::update() {
+bt::Node::Status DefendOnRobot::onUpdate() {
     opponentWithBall = World::getRobotForId(static_cast<unsigned int>(opponentWithBallID), false);
     opponentToCover = World::getRobotForId(static_cast<unsigned int>(opponentToCoverID), false);
 

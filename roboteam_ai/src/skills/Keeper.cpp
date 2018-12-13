@@ -8,11 +8,9 @@
 namespace rtt {
 namespace ai {
 Keeper::Keeper(rtt::string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) { }
-std::string Keeper::node_name() { return "Keeper"; }
+        :Skill(std::move(name), std::move(blackboard)) { }
 
-void Keeper::initialize() {
-    robot = getRobotFromProperties(properties);
+void Keeper::onInitialize() {
 
     goalPos = Field::get_our_goal_center();
     goalwidth = Field::get_field().goal_width;
@@ -25,9 +23,7 @@ void Keeper::initialize() {
     pid.initialize(1.0/constants::tickRate);
     finePid.initialize(1.0/constants::tickRate);
 }
-Keeper::Status Keeper::update() {
-    updateRobot();
-    if (robot) {
+Keeper::Status Keeper::onUpdate() {
         Vector2 ballPos = World::getBall().pos;
         Vector2 blockPoint = computeBlockPoint(ballPos);
         //double dist=control::ControlUtils::distanceToLine(robot->pos,ballPos,blockPoint);
@@ -42,13 +38,9 @@ Keeper::Status Keeper::update() {
             sendMoveCommand(blockPoint);
         }
         return Status::Running;
-    }
-    else {
-        return Status::Failure;
-    }
 }
 
-void Keeper::terminate(Status s) {
+void Keeper::onTerminate(Status s) {
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robotId;
@@ -56,7 +48,6 @@ void Keeper::terminate(Status s) {
     cmd.y_vel = 0;
     cmd.w = static_cast<float>(M_PI_2);
     publishRobotCommand(cmd);
-
 }
 
 void Keeper::sendMoveCommand(Vector2 pos) {

@@ -35,10 +35,9 @@ class InterceptBall :public Skill {
         bool ballInGoal();
     public:
         explicit InterceptBall(string name, bt::Blackboard::Ptr blackboard);
-        std::string node_name() override;
-        Status update() override;
-        void initialize() override;
-        void terminate(Status s) override;
+        Status onUpdate() override;
+        void onInitialize() override;
+        void onTerminate(Status s) override;
 
 };
 

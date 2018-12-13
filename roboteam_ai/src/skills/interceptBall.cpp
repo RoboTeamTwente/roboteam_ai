@@ -6,13 +6,10 @@
 namespace rtt {
 namespace ai {
 InterceptBall::InterceptBall(rtt::string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) { };
-std::string InterceptBall::node_name() { return "InterceptBall"; }
+        :Skill(std::move(name), std::move(blackboard)) { };
 
 //TODO: make prediction for the Robot if it can even intercept the ball at all from the initialization state.
-void InterceptBall::initialize() {
-    robot = getRobotFromProperties(properties);
-
+void InterceptBall::onInitialize() {
     keeper = properties->getBool("Keeper");
 
     currentProgression = INTERCEPTING;
@@ -30,28 +27,23 @@ void InterceptBall::initialize() {
     pid.initialize(1.0/constants::tickRate);
     finePid.initialize(1.0/constants::tickRate);
 }
-InterceptBall::Status InterceptBall::update() {
-    updateRobot();
+InterceptBall::Status InterceptBall::onUpdate() {
     ball = World::getBall();
     //The keeper dynamically updates the intercept position as he needs to be responsive and cover the whole goal and this would help against curveballs e.g.
-    if (robot) {
-        if (keeper){
-            interceptPos = computeInterceptPoint(ball.pos, Vector2(ball.pos) + Vector2(ball.vel)*constants::MAX_INTERCEPT_TIME);
-        }
-        deltaPos = interceptPos - robot->pos;
-        checkProgression();
-        tickCount ++;
-        switch (currentProgression) {
-        case INTERCEPTING: sendInterceptCommand();return Status::Running;
-        case CLOSETOPOINT: sendFineInterceptCommand();return Status::Running;
-        case OVERSHOOT: sendInterceptCommand();return Status::Running;
-        case INPOSITION:sendStopCommand();return Status::Running;
-        case BALLDEFLECTED: return Status::Success;
-        case BALLMISSED: return Status::Failure;
-        }
-
+    if (keeper){
+        interceptPos = computeInterceptPoint(ball.pos, Vector2(ball.pos) + Vector2(ball.vel)*constants::MAX_INTERCEPT_TIME);
     }
-    else return Status::Failure;
+    deltaPos = interceptPos - robot->pos;
+    checkProgression();
+    tickCount ++;
+    switch (currentProgression) {
+    case INTERCEPTING: sendInterceptCommand();return Status::Running;
+    case CLOSETOPOINT: sendFineInterceptCommand();return Status::Running;
+    case OVERSHOOT: sendInterceptCommand();return Status::Running;
+    case INPOSITION:sendStopCommand();return Status::Running;
+    case BALLDEFLECTED: return Status::Success;
+    case BALLMISSED: return Status::Failure;
+    }
 }
 
 void InterceptBall::checkProgression() {
@@ -113,7 +105,7 @@ void InterceptBall::checkProgression() {
     }
 
 };
-void InterceptBall::terminate(rtt::ai::Skill::Status s) {
+void InterceptBall::onTerminate(rtt::ai::Skill::Status s) {
     sendStopCommand();
 }
 
