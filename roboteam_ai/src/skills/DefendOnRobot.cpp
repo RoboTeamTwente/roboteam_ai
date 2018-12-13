@@ -4,14 +4,13 @@
 
 #include "DefendOnRobot.h"
 
-namespace rtt{
-namespace ai{
+namespace rtt {
+namespace ai {
 
 DefendOnRobot::DefendOnRobot(std::string name, bt::Blackboard::Ptr blackboard)
-    :Skill(name, blackboard) { }
+    :Skill(std::move(name), std::move(blackboard)) { }
 
-void DefendOnRobot::initialize() {
-    robot = getRobotFromProperties(properties);
+void DefendOnRobot::onInitialize() {
     int opponentID1 = coach::Coach::whichRobotHasBall(false);
     if (opponentID1 == -1) {
         currentProgress = FAIL;
@@ -28,11 +27,7 @@ void DefendOnRobot::initialize() {
     }
 }
 
-void DefendOnRobot::terminate(Skill::Status s) {
-    coach::Coach::defencePairs.erase(robot->id);
-}
-
-bt::Node::Status DefendOnRobot::update() {
+bt::Node::Status DefendOnRobot::onUpdate() {
     if(!coach::Coach::doesRobotHaveBall(robot1->id, false)) {
         return Status::Success;
     }
@@ -41,6 +36,10 @@ bt::Node::Status DefendOnRobot::update() {
     goToPos.goToPos(robot, targetPos, goType::luTh);
 
     return Status::Running;
+}
+
+void DefendOnRobot::onTerminate(Skill::Status s) {
+    coach::Coach::defencePairs.erase(robot->id);
 }
 
 Vector2 DefendOnRobot::calculateLocation() {
@@ -70,5 +69,5 @@ Vector2 DefendOnRobot::calculateLocation() {
     return newPosition;
 }
 
-}
-}
+} // ai
+} // rtt

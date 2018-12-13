@@ -7,25 +7,17 @@ namespace rtt {
 namespace ai {
 
 Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
-}
-
-/// Return name of the skill
-std::string Pass::node_name() {
-    return "Pass";
+        :Skill(std::move(name), std::move(blackboard)) {
 }
 
 /// Called when the Skill is Initialized
-void Pass::initialize() {
-    robot = getRobotFromProperties(properties);
-
+void Pass::onInitialize() {
     defensive = properties->getBool("defensive");
     robotToPass = -1;
 }
 
 /// Called when the Skill is Updated
-Pass::Status Pass::update() {
-    updateRobot();
+Pass::Status Pass::onUpdate() {
 
     if (robotToPass == -1) {
         if (defensive) {
@@ -55,5 +47,5 @@ bool Pass::sendPassCommand() {
 }
 
 
-}
-}
+} // ai
+} // rtt

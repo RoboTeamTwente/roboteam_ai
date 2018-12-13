@@ -17,8 +17,8 @@ class TurnGeneva : public Skill {
     protected:
         void sendGenevaCommand(int genevaState);
     public:
-        Status update() override;
-        void initialize() override;
+        Status onUpdate() override;
+        void onInitialize() override;
 };
 
 } // ai

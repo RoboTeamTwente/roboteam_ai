@@ -13,17 +13,12 @@ namespace ai {
 class Pass : public Skill {
     private:
         bool defensive;
-        int getRobotToPass();
         int robotToPass;
         bool sendPassCommand();
-
     public:
-
         explicit Pass(string name, bt::Blackboard::Ptr blackboard);
-        std::string node_name() override;
-        void initialize() override;
-        Status update() override;
-
+        void onInitialize() override;
+        Status onUpdate() override;
 };
 } // ai
 } // rtt

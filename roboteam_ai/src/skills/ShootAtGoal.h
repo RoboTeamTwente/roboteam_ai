@@ -14,9 +14,8 @@ namespace ai {
 class ShootAtGoal : public Skill {
 
     public:
-        void initialize() override;
-        Status update() override;
-        void terminate(Status s) override;
+        void onInitialize() override;
+        Status onUpdate() override;
     private:
         bool onlyGeneva = false;
         bool neverGeneva = false;
@@ -24,7 +23,6 @@ class ShootAtGoal : public Skill {
         enum Progression {
           READY, DONE, ORIENTATE, TURN_GENEVA,
         };
-
 
 };
 }

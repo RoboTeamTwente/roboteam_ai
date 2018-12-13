@@ -8,13 +8,11 @@ namespace rtt {
 namespace ai {
 
 Rotate::Rotate(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
+        :Skill(std::move(name), std::move(blackboard)) {
 }
 
 /// Init the Rotate skill
-void Rotate::initialize() {
-    robot = getRobotFromProperties(properties);
-
+void Rotate::onInitialize() {
     rotateToBall = properties->getBool("rotateToBall");
     rotateToOurGoal = properties->getBool("rotateToOurGoal");
     rotateToEnemyGoal = properties->getBool("rotateToEnemyGoal");
@@ -31,8 +29,7 @@ void Rotate::initialize() {
 
 }
 
-bt::Node::Status Rotate::update() {
-    updateRobot();
+bt::Node::Status Rotate::onUpdate() {
 
     if (rotateToBall) {
         auto ball = World::getBall();
@@ -87,7 +84,7 @@ bt::Node::Status Rotate::update() {
     return Status::Failure;
 }
 
-void Rotate::terminate(Status s) {
+void Rotate::onTerminate(Status s) {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = 1;
@@ -95,12 +92,7 @@ void Rotate::terminate(Status s) {
     publishRobotCommand(command);
 }
 
-std::string Rotate::node_name() {
-    return "Rotate";
-}
-
 Rotate::Progression Rotate::checkProgression() {
-
     double errorMargin = 0.05;
     if (deltaAngle > errorMargin) return ROTATING;
     else return DONE;

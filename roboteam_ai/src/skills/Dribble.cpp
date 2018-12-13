@@ -67,14 +67,7 @@ bool Dribble::robotHasBall() {
                 dribbleRight + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle),
                 dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle));
 }
-void Dribble::initialize() {
-
-    robot = getRobotFromProperties(properties);
-    if (!robot) {
-        currentProgress = Progression::FAIL;
-        return;
-    }
-
+void Dribble::onInitialize() {
     ball = World::getBall();
 
     //if false, robot will dribble to the position backwards with the ball.
@@ -105,8 +98,7 @@ void Dribble::initialize() {
     stoppingAngle=robot->angle; // default to the current angle
 }
 
-Dribble::status Dribble::update() {
-    updateRobot();
+Dribble::status Dribble::onUpdate() {
 
     ball = World::getBall(); //TODO: sanity checking if ball is actually there?
 
@@ -135,21 +127,19 @@ Dribble::status Dribble::update() {
     default: return status::Waiting;
     }
 }
-void Dribble::terminate(Dribble::status s) {
-    if (robot) {
-        roboteam_msgs::RobotCommand command;
-        command.id = robot->id;
-        command.use_angle = 1;
-        if (forwardDirection) {
-            command.w = (float) deltaPos.angle();
-        } else {
-            command.w = (float) deltaPos.rotate(M_PI).angle();
-        }
-        command.dribbler = 0;
-        command.x_vel = 0;
-        command.y_vel = 0;
-        publishRobotCommand(command);
+void Dribble::onTerminate(status s) {
+    roboteam_msgs::RobotCommand command;
+    command.id = robot->id;
+    command.use_angle = 1;
+    if (forwardDirection) {
+        command.w = (float) deltaPos.angle();
+    } else {
+        command.w = (float) deltaPos.rotate(M_PI).angle();
     }
+    command.dribbler = 0;
+    command.x_vel = 0;
+    command.y_vel = 0;
+    publishRobotCommand(command);
 }
 
 void Dribble::sendMoveCommand() {
@@ -178,7 +168,6 @@ void Dribble::sendStopCommand() {
     command.y_vel = 0;
     publishRobotCommand(command);
 }
-std::string Dribble::node_name() { return "Dribble"; }
 
 } // ai
 } // rtt
