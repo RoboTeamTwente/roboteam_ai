@@ -8,8 +8,8 @@
 
 namespace control {
 
-ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &targetPos) {
-
+ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
+    targetPos = target;
     Command command;
 
 //    if (! checkTargetPos(targetPos)) {
@@ -31,7 +31,7 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
             if (me.isCollision(closestBot)) {
                 recalculate = true;
                 NumRobot newMe;
-                me.clear(me);
+                me.clear();
                 break;
             }
             if (me.isCollision(pos, distance)) {
@@ -44,9 +44,9 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
     else {
         recalculate = true;
     }
+    recalculate = true; // TODO thijs crap, pls fix
     if (recalculate) {
-        NumRobot newMe;
-
+        me.clear();
         bool nicePath = calculateNumericDirection(robot, me, command);
         robotQueue = {};
 
