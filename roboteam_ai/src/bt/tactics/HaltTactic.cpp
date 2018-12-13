@@ -3,7 +3,6 @@
 //
 
 #include "HaltTactic.h"
-#include <utility>
 
 namespace bt {
 

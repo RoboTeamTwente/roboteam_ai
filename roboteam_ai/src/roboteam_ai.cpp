@@ -5,7 +5,6 @@
 #include "utilities/StrategyManager.h"
 #include "treeinterp/BTFactory.h"
 #include "interface/mainWindow.h"
-#include "roboteam_ai/src/interface/widget.h"
 #include <QApplication>
 #include <chrono>
 
@@ -74,7 +73,7 @@ void runBehaviourTrees() {
         std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
 
         std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-        std::cout << "Tick took:  " << time_span.count()*1000 << " ms." << std::endl;
+   //     std::cout << "Tick took:  " << time_span.count()*1000 << " ms." << std::endl;
 
         switch (status) {
             case Status::Running:
@@ -83,7 +82,11 @@ void runBehaviourTrees() {
                 ROS_INFO_STREAM("Status returned: Success");
                 ROS_INFO_STREAM(" === TREE CHANGE === ");
 
-                BTFactory::setCurrentTree("SimpleStrategy");
+                if (BTFactory::getCurrentTree() == "SimpleStrategy") {
+                    BTFactory::setCurrentTree("haltStrategy");
+                } else {
+                    BTFactory::setCurrentTree("SimpleStrategy");
+                }
                 break;
 
             case Status::Failure:

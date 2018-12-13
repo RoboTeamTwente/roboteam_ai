@@ -14,9 +14,6 @@ namespace ai {
  * \brief Base class for conditions.
  */
 class Condition : public bt::Leaf {
-    protected:
-        roboteam_msgs::WorldRobot robot;
-
     public:
         using Control = control::ControlUtils;
         using Status = bt::Node::Status;

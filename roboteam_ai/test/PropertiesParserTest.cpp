@@ -4,7 +4,6 @@
 
 #include <utility>
 #include <gtest/gtest.h>
-#include <gtest/gtest_prod.h>
 #include "../src/treeinterp/json.h"
 #include "../src/treeinterp/TreeInterpreter.h"
 

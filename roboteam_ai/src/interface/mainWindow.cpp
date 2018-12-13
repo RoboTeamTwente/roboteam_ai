@@ -4,7 +4,6 @@
 
 #include <roboteam_ai/src/utilities/Constants.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
-#include <roboteam_ai/src/bt/Node.hpp>
 #include "mainWindow.h"
 
 namespace rtt {
@@ -102,6 +101,13 @@ void MainWindow::updateWidgets() {
             }
         }
         ++iter;
+    }
+
+    // initiate a redraw when the actual tree and the tree in the widget are not the same
+    std::string currentTree = BTFactory::getFactory().getCurrentTree();
+    if (QString::fromStdString(currentTree) != select_strategy->currentText()) {
+        hasCorrectTree = false;
+        select_strategy->setCurrentText(QString::fromStdString(currentTree));
     }
 
     // if the tree did change, clear the treewidget and rebuild it

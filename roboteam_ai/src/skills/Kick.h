@@ -6,7 +6,6 @@
 #define ROBOTEAM_AI_SHOOT_H
 
 #include "Skill.h"
-#include <boost/optional.hpp>
 #include "../utilities/World.h"
 
 namespace rtt {

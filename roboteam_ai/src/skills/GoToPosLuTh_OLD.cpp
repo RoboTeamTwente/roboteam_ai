@@ -4,9 +4,6 @@
 
 #include "GoToPosLuTh_OLD.h"
 #include <random>  //random numbers..
-#include <cstdlib>
-#include <time.h>
-#include "../interface/drawer.h"
 
 namespace rtt {
 namespace ai {

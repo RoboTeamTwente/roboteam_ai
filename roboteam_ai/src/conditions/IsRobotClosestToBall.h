@@ -7,19 +7,15 @@
 
 
 #include "../conditions/Condition.h"
-
-
-
 #include "roboteam_msgs/World.h"
 #include "roboteam_utils/LastWorld.h"
-#include  <boost/optional.hpp>
 
 namespace rtt {
 namespace ai {
 
 class IsRobotClosestToBall : public rtt::ai::Condition {
     public:
-        IsRobotClosestToBall();
+        IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
 
         Status Update();
 
