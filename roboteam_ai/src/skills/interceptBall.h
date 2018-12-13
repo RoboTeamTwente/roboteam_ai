@@ -21,7 +21,7 @@ class InterceptBall :public Skill {
         void sendFineInterceptCommand();
         void sendStopCommand();
 
-        bool missBall();
+        bool missBall(Vector2 startBall,Vector2 endBall,Vector2 ballVel);
         bool ballDeflected();
 
         Vector2 ballStartPos,ballStartVel,ballEndPos,interceptPos;
@@ -32,6 +32,7 @@ class InterceptBall :public Skill {
 
         bool keeper;
         bool ballToGoal();
+        bool ballInGoal();
     public:
         explicit InterceptBall(string name, bt::Blackboard::Ptr blackboard);
         std::string node_name() override;

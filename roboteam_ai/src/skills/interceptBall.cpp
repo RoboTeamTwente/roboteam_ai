@@ -40,39 +40,45 @@ InterceptBall::Status InterceptBall::update() {
     deltaPos = interceptPos - robot->pos;
     if (robot) {
         checkProgression();
-
+        tickCount ++;
         switch (currentProgression) {
-        case INTERCEPTING: sendInterceptCommand();
-            break;
-        case CLOSETOPOINT: sendFineInterceptCommand();
-            break;
-        case OVERSHOOT: sendInterceptCommand();
-            break;
-        case INPOSITION:sendStopCommand();
-            break;
+        case INTERCEPTING: sendInterceptCommand();return Status::Running;
+        case CLOSETOPOINT: sendFineInterceptCommand();return Status::Running;
+        case OVERSHOOT: sendInterceptCommand();return Status::Running;
+        case INPOSITION:sendStopCommand();return Status::Running;
         case BALLDEFLECTED: return Status::Success;
         case BALLMISSED: return Status::Failure;
         }
-        tickCount ++;
+
     }
     else return Status::Failure;
 }
 
 void InterceptBall::checkProgression() {
-    //check if we missed the ball
-    if (missBall() || tickCount > maxTicks) {
-        currentProgression = BALLMISSED;
-        return;
+    if(keeper){
+        if (ballInGoal()){
+            currentProgression=BALLMISSED;
+        }
+        //Check if the ball was deflected
+        if(!ballToGoal()){
+            currentProgression=BALLDEFLECTED;
+            return;
+        }
+        //
     }
-    //Check if the ball was deflected
-    if (keeper&&!ballToGoal()){
-        currentProgression=BALLDEFLECTED;
-        return;
+    else{
+        //check if we missed the ball
+        if (missBall(ballStartPos,ballEndPos,ballStartVel) || tickCount > maxTicks) {
+            currentProgression = BALLMISSED;
+            return;
+        }
+        //check if ball is deflected
+        else if (ballDeflected()) {
+            currentProgression = BALLDEFLECTED;
+            return;
+        }
     }
-    else if (!keeper&&ballDeflected()) {
-        currentProgression = BALLDEFLECTED;
-        return;
-    }
+
 
     double dist = deltaPos.length();
     //Update the state of the robot
@@ -143,15 +149,15 @@ Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall)
     return interceptionPoint;
 }
 // Checks if the Robot already missed the Ball
-bool InterceptBall::missBall() {
-    double interceptDist = (interceptPos - ballStartPos).length();
+bool InterceptBall::missBall(Vector2 startBall,Vector2 endBall,Vector2 ballVel) {
+    double interceptDist = (interceptPos - startBall).length();
     double angleDev = tan(constants::ROBOT_RADIUS/interceptDist);
     double rectHalfLength = atan(angleDev)
             *(interceptDist + constants::ROBOT_RADIUS);// Half of the rectangle covered by the robot behind the robot.
     // We check if the ball ever comes into the rectangle behind the robot that it should 'cover off'
-    Vector2 rectSide = ballStartVel.rotate(M_PI_2).stretchToLength(rectHalfLength);
-    Vector2 startCentre = ballStartPos + ballStartVel.stretchToLength(interceptDist + constants::ROBOT_RADIUS);
-    Vector2 endCentre = ballStartPos + (ballEndPos - ballStartPos)*2; //twice the predicted length to be sure
+    Vector2 rectSide = ballVel.rotate(M_PI_2).stretchToLength(rectHalfLength);
+    Vector2 startCentre = startBall + ballVel.stretchToLength(interceptDist + constants::ROBOT_RADIUS);
+    Vector2 endCentre = startBall + (endBall - startBall)*2; //twice the predicted length to be sure
     return control::ControlUtils::pointInRectangle(ball.pos, startCentre - rectSide, startCentre + rectSide,
             endCentre + rectSide, endCentre - rectSide);
 }
@@ -218,6 +224,14 @@ bool InterceptBall::ballToGoal(){
     Vector2 ballPos=ball.pos;
     Vector2 ballPredPos=Vector2(ball.pos)+Vector2(ball.vel)*constants::MAX_INTERCEPT_TIME;
     return control::ControlUtils::lineSegmentsIntersect(lowerPost,upperPost,ballPos,ballPredPos);
+}
+bool InterceptBall::ballInGoal(){
+    Vector2 goalCentre=Field::get_our_goal_center();
+    double goalWidth=Field::get_field().goal_width;
+    Vector2 lowerPost=goalCentre+Vector2(0.0,-(goalWidth));
+    Vector2 upperPost=goalCentre+Vector2(0.0,goalWidth);
+    Vector2 depth=Vector2(-Field::get_field().goal_depth,0.0);
+    return control::ControlUtils::pointInRectangle(ball.pos,lowerPost,lowerPost+depth,upperPost+depth,upperPost);
 }
 }//ai
 }//rtt
