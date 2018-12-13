@@ -146,14 +146,12 @@ class GoToPosLuTh : public Skill {
         bool calculateNextPoint(NumRobotPtr me);
 
     public:
-
         explicit GoToPosLuTh(string name, bt::Blackboard::Ptr blackboard);
         std::string node_name() override;
 
         void initialize() override;
         Status update() override;
         void terminate(Status s) override;
-
 };
 } // ai
 } // rtt
