@@ -9,6 +9,7 @@ namespace bt {
 Leaf::Leaf(std::string name, Blackboard::Ptr blackboard) {
     setProperties(blackboard);
     setName(name);
+    robot = std::make_shared<roboteam_msgs::WorldRobot>();
 
 }
 void Leaf::setName(std::string newName) {

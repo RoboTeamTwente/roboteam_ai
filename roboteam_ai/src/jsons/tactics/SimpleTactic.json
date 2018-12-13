@@ -26,7 +26,7 @@
             "title": "Repeater",
             "isRole": false,
             "children": [
-              "s6xx3lzfgjtnbuirz"
+              "222"
             ]
           },
           "s6xx3lzfgjtnbuirz": {
@@ -54,10 +54,9 @@
             "isRole": false,
             "properties": {
               "ROLE": "simpleStupidRobot",
-              "Position": "{1, 1}",
-              "goToBall": "false",
-              "random": "false"
+              "harassBallOwner": "kfgv"
             }
+
           }
         }
       }
