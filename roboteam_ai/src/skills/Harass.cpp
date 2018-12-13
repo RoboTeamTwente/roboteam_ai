@@ -31,7 +31,8 @@ Skill::Status Harass::update() {
         targetPos = i;
     }
 
-
+    control::ControlGoToPos goToPos;
+    goToPos.goToPos(robot, targetPos, goType::luTh);
     //goToPos.goToPos(robot, targetPos, goType::basic);// TODO this might just spasm instead of going anywhere
 
     if (harassBallOwner && coach::doesRobotHaveBall(harassmentTarget, false)) {

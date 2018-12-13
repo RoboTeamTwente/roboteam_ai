@@ -211,6 +211,8 @@ set(CONTROL_SOURCES
         roboteam_ai/src/control/ControlUtils.h
         roboteam_ai/src/control/ControlGoToPos.cpp
         roboteam_ai/src/control/ControlGoToPos.h
+        roboteam_ai/src/control/controlGoToPos/ControlGoToPosLuTh.h
+        roboteam_ai/src/control/controlGoToPos/ControlGoToPosLuTh.cpp
         )
 
 set(INTERFACE_SOURCES
