@@ -42,6 +42,8 @@ GoToPosLuTh::Status GoToPosLuTh::update() {
     updateRobot();
 //  ____________________________________________________________________________________________________________________
 
+    if (!robot) return Status::Failure;
+
     if (goToBall) {
         auto ball = World::getBall();
         targetPos = ball.pos;
@@ -84,16 +86,17 @@ GoToPosLuTh::Status GoToPosLuTh::update() {
 
 /// Called when the Skill is Terminated
 void GoToPosLuTh::terminate(Status s) {
+    if (robot) {
+        roboteam_msgs::RobotCommand command;
+        command.id = robot->id;
+        command.use_angle = 0;
+        command.w = 0;
 
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 0;
-    command.w = 0;
+        command.x_vel = 0;
+        command.y_vel = 0;
 
-    command.x_vel = 0;
-    command.y_vel = 0;
-
-    publishRobotCommand(command);
+        publishRobotCommand(command);
+    }
 }
 
 bool GoToPosLuTh::checkTargetPos(Vector2 pos) {
