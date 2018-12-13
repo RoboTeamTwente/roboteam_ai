@@ -31,6 +31,7 @@
 #include "../skills/GoToPosLuTh_OLD.h"
 #include "../skills/Halt.h"
 #include "../skills/Kick.h"
+#include "../skills/Harass.h"
 #include "../skills/Rotate.h"
 #include "../skills/RotateToAngle.h"
 #include "../skills/GoToPos.h"
@@ -134,6 +135,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     }
     else if (name == "Kick") {
         node = std::make_shared<rtt::ai::Kick>(name, properties);
+    }
+    else if (name == "Harass") {
+        node = std::make_shared<rtt::ai::Harass>(name, properties);
     }
     else if (name == "Halt") {
         node = std::make_shared<rtt::ai::Halt>(name, properties);

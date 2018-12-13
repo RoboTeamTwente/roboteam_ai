@@ -31,6 +31,7 @@ public:
         using Control = control::ControlUtils;
         using Status = bt::Node::Status;
         explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+        std::string node_name() override;
 };
 
 } // ai

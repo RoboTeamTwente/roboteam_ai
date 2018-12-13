@@ -1,7 +1,3 @@
-#include <utility>
-
-
-
 //
 // Created by thijs on 10-12-18.
 //
@@ -14,6 +10,7 @@ namespace control {
 void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position) {
     GoToType goToType = basic;
     ControlGoToPos::goToPos(std::move(robot), position, goToType);
+
 }
 
 void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goToType) {
@@ -23,6 +20,7 @@ void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goToTyp
     //        ControlGoToPos::goToPosLowLevel(robot, position);
     //        return;
     //    }
+
 
     switch (goToType) {
     case noPreference: {
@@ -99,7 +97,6 @@ void ControlGoToPos::goToPosBezier(RobotPtr robot, Vector2 &targetPos) {
 }
 
 void ControlGoToPos::publishRobotCommand(roboteam_msgs::RobotCommand &command) {
-    rtt::ai::io::IOManager ioManager;
     ioManager.publishRobotCommand(command);
 }
 
@@ -110,6 +107,10 @@ double ControlGoToPos::distanceToTarget(RobotPtr robot, Vector2 &targetPos) {
     Vector2 deltaPos = {dx, dy};
     return deltaPos.length();
 
+}
+ControlGoToPos::ControlGoToPos() {
+    rtt::ai::io::IOManager temp(false, true);
+    ioManager = temp;
 }
 
 } // control

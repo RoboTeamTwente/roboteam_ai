@@ -14,9 +14,11 @@ namespace ai {
 class Harass : public Skill {
 
     public:
+        explicit Harass(string name, bt::Blackboard::Ptr blackboard);
         void initialize() override;
         Status update() override;
         void terminate(Status s) override;
+        std::string node_name() override;
 
     private:
         int harassmentTarget = - 1;

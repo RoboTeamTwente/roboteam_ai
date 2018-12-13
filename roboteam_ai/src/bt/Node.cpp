@@ -46,7 +46,7 @@ Node::Status Node::getStatus() const { return status; }
 void Node::setStatus(Status s) { status = s; }
 
 std::string Node::node_name() {
-    return "<ERROR>";
+    return "Node name undefined node.cpp";
 }
 
 void Node::addChild(bt::Node::Ptr) {

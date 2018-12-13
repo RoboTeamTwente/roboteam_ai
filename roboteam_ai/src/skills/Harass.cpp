@@ -6,6 +6,11 @@
 namespace rtt {
 namespace ai {
 
+Harass::Harass(std::string name, bt::Blackboard::Ptr blackboard)
+        :Skill(name, blackboard) {
+
+}
+
 void Harass::initialize() {
     robot = getRobotFromProperties(properties);
     harassBallOwner = properties->getBool("harassBallOwner");
@@ -23,17 +28,15 @@ Skill::Status Harass::update() {
     Vector2 enemyPos = enemyBot->pos;
 
     if (harassBallOwner) {
-        Vector2 vec(ballPos.x - enemyBot->pos.x, ballPos.y - enemyBot->pos.y);
-        targetPos = enemyPos + vec;
+        Vector2 vec = {ballPos - enemyPos};
+        targetPos = ballPos + vec;
     }
     else {
-        Vector2 i(enemyPos.x + 0.15, enemyPos.y + 0.15);
+        Vector2 i(enemyPos.x + 0.35, enemyPos.y + 0.35);
         targetPos = i;
     }
 
-    control::ControlGoToPos goToPos;
     goToPos.goToPos(robot, targetPos, goType::luTh);
-    //goToPos.goToPos(robot, targetPos, goType::basic);// TODO this might just spasm instead of going anywhere
 
     if (harassBallOwner && coach::doesRobotHaveBall(harassmentTarget, false)) {
         return Status::Success;
@@ -44,16 +47,21 @@ Skill::Status Harass::update() {
 }
 
 void Harass::pickHarassmentTarget() {
-    if (harassBallOwner) {
-        harassmentTarget = coach::whichRobotHasBall(false);
-    }
-    else {
-        harassmentTarget = coach::pickHarassmentTarget(robot->id);
-    }
+//    if (harassBallOwner) {
+//        harassmentTarget = coach::whichRobotHasBall(false);
+//    }
+//    else {
+//        harassmentTarget = coach::pickHarassmentTarget(robot->id);
+//    }
+
+    harassmentTarget = 0;
 
 }
 void Harass::terminate(Skill::Status s) {
     // TODO?
+}
+std::string Harass::node_name() {
+    return name;
 }
 
 }

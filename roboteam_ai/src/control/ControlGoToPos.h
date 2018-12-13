@@ -27,10 +27,13 @@
 namespace control {
 
 class ControlGoToPos {
+    public:
+        ControlGoToPos();
     private:
         using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
         using Vector2 = rtt::Vector2;
         using Command = roboteam_msgs::RobotCommand;
+        rtt::ai::io::IOManager ioManager;
 
 
         void goToPosLuTh(RobotPtr robot, Vector2 &targetPos);
