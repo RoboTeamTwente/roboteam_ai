@@ -23,6 +23,7 @@ void GoToPosLuTh::initialize() {
 
     drawInterface = properties->getBool("drawInterface");
     goToBall = properties->getBool("goToBall");
+    passiveDefend = properties->getBool("passiveDefend");
     random = properties->getBool("random");
 
     if (properties->hasVector2("Position")) {
@@ -45,6 +46,9 @@ GoToPosLuTh::Status GoToPosLuTh::update() {
         auto ball = World::getBall();
         targetPos = ball.pos;
     }
+    if (passiveDefend) {
+        targetPos = coach::calculatePassiveDefenderLocation(robot->id);
+    }
     else if (random) {
         const roboteam_msgs::GeometryFieldSize &field = Field::get_field();
         const double &length = field.field_length;
@@ -53,7 +57,6 @@ GoToPosLuTh::Status GoToPosLuTh::update() {
         int randomY = std::rand();
         targetPos = {randomX*2.32830644e-10*length*2 - length*0.5, randomY*2.32830644e-10*width*2 - width*0.5};
         random = false;
-
     }
 
     // See if the progress is a failure
@@ -99,6 +102,20 @@ bool GoToPosLuTh::checkTargetPos(Vector2 pos) {
     return true;
 }
 
+GoToPosLuTh::Progression GoToPosLuTh::checkProgression() {
+
+    double dx = targetPos.x - robot->pos.x;
+    double dy = targetPos.y - robot->pos.y;
+    Vector2 deltaPos = {dx, dy};
+
+    if (deltaPos.length() > errorMargin) {
+        return ON_THE_WAY;
+    }
+    else {
+        return DONE;
+    }
+}
+
 void GoToPosLuTh::sendMoveCommand() {
 
     if (! checkTargetPos(targetPos)) {
@@ -111,22 +128,41 @@ void GoToPosLuTh::sendMoveCommand() {
     NumRobot me;
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
-    calculateNumericDirection(me, command);
+    bool nicePath = calculateNumericDirection(me, command);
     robotQueue = {};
-    ros::Time end = ros::Time::now();
-    double timeTaken = (end - begin).toSec();
+
+    //ros::Time end = ros::Time::now();
+    //double timeTaken = (end - begin).toSec();
     //std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
 
     std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
+
     for (auto displayAll : displayData) {
         displayColorData.emplace_back(displayAll, Qt::green);
     }
     for (auto displayMe : me.posData) {
         displayColorData.emplace_back(displayMe, Qt::red);
     }
+    displayData = {};
+    drawCross(targetPos);
+    for (auto displayTarget : displayData) {
+        displayColorData.emplace_back(displayTarget, Qt::blue);
+    }
     interface::Drawer::setGoToPosLuThPoints(robot->id, displayColorData);
 
-    command.use_angle = 1;
+    if (nicePath) {
+        command.use_angle = 0;
+        command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle, 0));
+        publishRobotCommand(command);
+        return;
+    }
+
+    command.use_angle = 0;
+
+    Vector2 dir = (targetPos - robot->pos).normalize();
+    command.x_vel = static_cast<float>(dir.x * 2.0f);
+    command.y_vel = static_cast<float>(dir.y * 2.0f);
+    command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle, 0));
 
 //#define NOCOMMAND
 #ifdef NOCOMMAND
@@ -135,19 +171,9 @@ void GoToPosLuTh::sendMoveCommand() {
         command.w = 0.0f;
 #endif
     publishRobotCommand(command);
+
 }
 
-GoToPosLuTh::Progression GoToPosLuTh::checkProgression() {
-
-    double dx = targetPos.x - robot->pos.x;
-    double dy = targetPos.y - robot->pos.y;
-    Vector2 deltaPos = {dx, dy};
-
-    double maxMargin = 0.3;                        // max offset or something.
-
-    if (deltaPos.length() >= maxMargin) return ON_THE_WAY;
-    else return DONE;
-}
 
 bool GoToPosLuTh::calculateNumericDirection(NumRobot &me, roboteam_msgs::RobotCommand &command) {
 
@@ -162,37 +188,34 @@ bool GoToPosLuTh::calculateNumericDirection(NumRobot &me, roboteam_msgs::RobotCo
     me.t = me.posData.size()*me.dt;
 
     Vector2 closestBot = Control::getClosestRobot(me.pos, me.id, true, me.t);
-    if (me.isCollision(closestBot, 0.4f)) {
-        return false;
-    }
-    tracePath(me, targetPos);
+    if (me.isCollision(closestBot, 0.4f)) return false;
+
+    bool noCollision = tracePath(me, targetPos);
+    if (!noCollision) return false;
 
     if (me.velData.size() > 10) {
-        if (abs(me.velData[2].angle() - me.velData[10].angle()) < 0.05f) {
-            command.x_vel = static_cast<float>((me.velData[2].normalize()*me.maxVel).x);
-            command.y_vel = static_cast<float>((me.velData[2].normalize()*me.maxVel).y);
-            command.w = static_cast<float>(me.velData[2].angle());
-            return true;
-        } else {
+        if (abs(me.velData[2].angle() - me.velData[10].angle()) < 0.07f) {
             command.x_vel = static_cast<float>((me.velData[10].normalize()*me.maxVel).x);
             command.y_vel = static_cast<float>((me.velData[10].normalize()*me.maxVel).y);
             command.w = static_cast<float>(me.velData[10].angle());
+            return true;
         }
     }
-    else {
-
-        command.x_vel = 0.0f;
-        command.y_vel = 0.0f;
-        command.w = 0.0f;
-        return false;
-    }
+    return false;
 }
 
 bool GoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
+    ros::Time begin = ros::Time::now();
 
     NumRobotPtr numRobotPtr = std::make_shared<NumRobot>(numRobot);
     robotQueue.push(numRobotPtr);
     while (! robotQueue.empty()) {
+        ros::Time now = ros::Time::now();
+
+        if ((now-begin).toSec()*1000 > 3) { // time > 3ms
+            break;
+        }
+
         NumRobotPtr me = robotQueue.top();
         if (me->isCollision(target)) {
             numRobot.posData = me->posData;
@@ -262,10 +285,6 @@ bool GoToPosLuTh::calculateNextPoint(GoToPosLuTh::NumRobotPtr me) {
     me->velData.push_back(me->vel);
     me->posData.push_back(me->pos);
     displayData.push_back(me->pos);
-    if (++ (me->totalCalculations) > 500) {
-        std::cout << "careful: too many calculations!!: " << me->totalCalculations << std::endl;
-    }
-
     return true;
 }
 

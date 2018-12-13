@@ -5,9 +5,7 @@
 #include "utilities/StrategyManager.h"
 #include "treeinterp/BTFactory.h"
 #include "interface/mainWindow.h"
-#include "roboteam_ai/src/interface/widget.h"
 #include <QApplication>
-#include <chrono>
 
 namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;
@@ -35,7 +33,7 @@ void runBehaviourTrees() {
     // Start running this tree first
     ros::Rate rate(50);
 
-    BTFactory::setCurrentTree("haltStrategy");
+    BTFactory::setCurrentTree("SimpleDefendStrategy");
 
     // Main loop
     while (ros::ok()) {
@@ -55,7 +53,7 @@ void runBehaviourTrees() {
         }
 
         // for referee_data:
-        if (! ai::World::didReceiveFirstWorld) {
+        if (!ai::World::didReceiveFirstWorld) {
             ROS_ERROR("No first world");
             ros::Duration(0.2).sleep();
             continue;
@@ -74,7 +72,7 @@ void runBehaviourTrees() {
         std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
 
         std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-        std::cout << "Tick took:  " << time_span.count()*1000 << " ms." << std::endl;
+   //     std::cout << "Tick took:  " << time_span.count()*1000 << " ms." << std::endl;
 
         switch (status) {
             case Status::Running:
@@ -83,7 +81,11 @@ void runBehaviourTrees() {
                 ROS_INFO_STREAM("Status returned: Success");
                 ROS_INFO_STREAM(" === TREE CHANGE === ");
 
-                BTFactory::setCurrentTree("haltStrategy");
+                if (BTFactory::getCurrentTree() == "SimpleStrategy") {
+                    BTFactory::setCurrentTree("haltStrategy");
+                } else {
+                    BTFactory::setCurrentTree("SimpleDefendStrategy");
+                }
                 break;
 
             case Status::Failure:

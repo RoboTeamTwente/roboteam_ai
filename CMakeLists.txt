@@ -1,5 +1,4 @@
-
-        cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.1)
 project(roboteam_ai)
 
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
@@ -37,7 +36,6 @@ find_package(catkin REQUIRED COMPONENTS
         )
 
 ### SOURCES BEGIN ###
-
 
 set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/json.h
@@ -174,6 +172,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/HaltTactic.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/HaltTactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.cpp
@@ -185,12 +185,19 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsRobotClosestToBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsRobotClosestToBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanReachPoint.hpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanReachPoint.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/TheyHaveBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/WeHaveBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsOnOurSide.cpp)
 
 ### SOURCES END ###
 
@@ -216,7 +223,7 @@ set(INTERFACE_SOURCES
         roboteam_ai/src/interface/mainWindow.h
         roboteam_ai/src/interface/widget.cpp
         roboteam_ai/src/interface/widget.h
-        roboteam_ai/src/interface/drawer.cpp roboteam_ai/src/interface/drawer.h)
+        roboteam_ai/src/interface/drawer.cpp roboteam_ai/src/interface/drawer.h roboteam_ai/src/conditions/CanSeeGoal.cpp roboteam_ai/src/conditions/CanSeeGoal.h)
 
 ### TEST SOURCES END ###
 
@@ -247,7 +254,7 @@ target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} ${SDL2_LIBRARY} ${SDL2TTF_
 #############
 catkin_add_gtest(ai_tests
         roboteam_ai/test/main.cpp
-        roboteam_ai/test/BtTest.cpp
+        #roboteam_ai/test/BtTest.cpp
         roboteam_ai/test/JsonTest.cpp
         roboteam_ai/test/BTFactoryTest.cpp
         roboteam_ai/test/WorldTest.cpp
@@ -260,8 +267,15 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/StrategyManagerTest.cpp
         roboteam_ai/test/PropertiesParserTest.cpp
         ${SKILL_TESTS}
+        roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
         ${CONDITION_TESTS}
-
+        roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
+        roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/IsRobotClosestToBallTest.cpp
+        roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
+        roboteam_ai/test/ConditionTests/TheyHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/WeHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/IsOnOurSideTest.cpp
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
@@ -280,6 +294,7 @@ target_link_libraries(ai_tests
         gcov
         ${SDL2_LIBRARY}
         ${SDL2TTF_LIBRARY}
+        Qt5::Widgets Qt5::Gui
         )
 
 include(CodeCoverage)

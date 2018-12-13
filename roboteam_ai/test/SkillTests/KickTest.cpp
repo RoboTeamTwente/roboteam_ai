@@ -5,8 +5,6 @@
 #include "ros/ros.h"
 #include "../../src/skills/Kick.h"
 #include "../../src/skills/Chip.h"
-#include "../../src/utilities/Constants.h"
-#include <gtest/gtest.h>
 
 // anonymous namespace needed to prevent ROS callback function name clashes
 namespace {
