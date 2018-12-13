@@ -22,6 +22,7 @@ void Keeper::initialize() {
     pid.setParams(4.0, 0.0, 0.75, 10, 0.0, 0.0); //magic numbers galore, from the old team.
     finePid.setParams(1.0, 0.0, 0.0, 0, 0.0, 0.0);
     pid.initialize(1.0/constants::tickRate);
+    finePid.initialize(1.0/constants::tickRate);
 }
 Keeper::Status Keeper::update() {
     updateRobot();
@@ -66,7 +67,6 @@ void Keeper::sendMoveCommand(Vector2 pos) {
     cmd.y_vel = static_cast<float>(delta.y);
     cmd.w = static_cast<float>(M_PI_2);
     publishRobotCommand(cmd);
-    std::cout << "Rough" << std::endl;
 }
 
 void Keeper::sendFineMoveCommand(Vector2 pos) {
@@ -78,7 +78,6 @@ void Keeper::sendFineMoveCommand(Vector2 pos) {
     cmd.y_vel = static_cast<float>(delta.y);
     cmd.w = static_cast<float>(M_PI_2);
     publishRobotCommand(cmd);
-    std::cout << "Fine" << std::endl;
 
 }
 

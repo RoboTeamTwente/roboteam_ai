@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_INTERCEPTBALL_H
 #define ROBOTEAM_AI_INTERCEPTBALL_H
 #include "Skill.h"
+#include "../control/PID.h"
 namespace rtt{
 namespace ai{
 class InterceptBall :public Skill {
@@ -24,8 +25,10 @@ class InterceptBall :public Skill {
         bool ballDeflected();
 
         Vector2 ballStartPos,ballStartVel,ballEndPos,interceptPos;
+        Vector2 deltaPos;
         int tickCount,maxTicks;
         Vector2 computeInterceptPoint();
+        control::PID pid,finePid;
 
     public:
         explicit InterceptBall(string name, bt::Blackboard::Ptr blackboard);
