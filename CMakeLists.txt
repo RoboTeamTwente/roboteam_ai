@@ -178,7 +178,7 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/HaltTactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.h
-        roboteam_ai/src/skills/Keeper.cpp roboteam_ai/src/skills/Keeper.h)
+        roboteam_ai/src/skills/Keeper.cpp roboteam_ai/src/skills/Keeper.h roboteam_ai/src/skills/interceptBall.cpp roboteam_ai/src/skills/interceptBall.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
@@ -197,7 +197,9 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/TheyHaveBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/WeHaveBall.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsOnOurSide.cpp)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsOnOurSide.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallKickedToOurGoal.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallKickedToOurGoal.h)
 
 ### SOURCES END ###
 
@@ -216,7 +218,9 @@ set(CONDITION_TESTS
 
 set(CONTROL_SOURCES
         roboteam_ai/src/control/ControlUtils.cpp
-        roboteam_ai/src/control/ControlUtils.h )
+        roboteam_ai/src/control/ControlUtils.h
+        roboteam_ai/src/control/PID.cpp
+        roboteam_ai/src/control/PID.h)
 
 set(INTERFACE_SOURCES
         roboteam_ai/src/interface/mainWindow.cpp

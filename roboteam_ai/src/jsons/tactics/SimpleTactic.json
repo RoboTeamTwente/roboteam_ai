@@ -31,12 +31,11 @@
           },
           "s6xx3lzfgjtnbuirz": {
             "id": "s6xx3lzfgjtnbuirz",
-            "title": "MemSequence",
+            "title": "Keeper",
             "isRole": false,
-            "children": [
-              "pn4tuzpp7sxc8ihtg",
-              "mbwjryus4cyn3y9v"
-            ]
+            "properties":{
+              "ROLE": "simpleStupidRobot"
+            }
           },
           "pn4tuzpp7sxc8ihtg": {
             "id": "pn4tuzpp7sxc8ihtg",

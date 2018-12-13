@@ -34,6 +34,7 @@
 #include "../skills/Rotate.h"
 #include "../skills/RotateToAngle.h"
 #include "../skills/GoToPos.h"
+#include "../skills/Keeper.h"
 
 
 //  ______________________
@@ -160,6 +161,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     }
     else if (name == "CanSeeGoal") {
         node = std::make_shared<rtt::ai::CanSeeGoal>(name, properties);
+    }
+    else if (name == "Keeper"){
+        node = std::make_shared<rtt::ai::Keeper>(name,properties);
     }
     else {
         ROS_ERROR("ERROR: Leaf not found!! using GoToPos..");
