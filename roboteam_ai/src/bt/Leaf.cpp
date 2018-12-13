@@ -20,7 +20,7 @@ std::shared_ptr<roboteam_msgs::WorldRobot> Leaf::getRobotFromProperties(bt::Blac
         std::string roleName = properties->getString("ROLE");
         robotId = (unsigned int) dealer::findRobotForRole(roleName);
         if (rtt::ai::World::getRobotForId(robotId, true)) {
-            robot = rtt::ai::World::getRobotForId(robotId, true);
+            return rtt::ai::World::getRobotForId(robotId, true);
         } else {
             ROS_ERROR("%s Initialize -> robot %i does not exist in world", node_name().c_str(), robotId);
         }
