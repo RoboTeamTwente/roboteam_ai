@@ -9,7 +9,7 @@
 #include "roboteam_utils/Vector2.h"
 #include "math.h"
 #include "../utilities/World.h"
-
+#include "roboteam_utils/Arc.h"
 typedef rtt::Vector2 Vector2;
 
 namespace control {
@@ -29,6 +29,7 @@ class ControlUtils {
         static bool onLineSegment(Vector2 p, Vector2 q, Vector2 r);
         static int lineOrientation(Vector2 p, Vector2 q, Vector2 r);
         static bool lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd,Vector2 lineBStart,Vector2 lineBEnd);
+        static rtt::Arc createKeeperArc();
 };
 
 }

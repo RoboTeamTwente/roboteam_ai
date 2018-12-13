@@ -41,8 +41,12 @@ const double KEEPER_CENTREGOAL_MARGIN=0.3;//m
 const double KEEPER_POSDIF=0.04;
 
 //ballkickedtoGoal
-const double BALL_TO_GOAL_MARGIN=ROBOT_RADIUS;//Margin at which a ball is still detected as 'kicked at goal'
+const double BALL_TO_GOAL_MARGIN=ROBOT_RADIUS;//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
 const double BALL_TO_GOAL_TIME=1.5;//seconds
+
+//Intercept
+const double MAX_INTERCEPT_TIME=2.0;//seconds. Intercept terminates  after this time.
+
 // Interface
 const int ROBOT_DRAWING_SIZE = 8;
 const int BALL_DRAWING_SIZE = 5;

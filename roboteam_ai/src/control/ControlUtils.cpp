@@ -3,6 +3,7 @@
 //
 
 
+#include <roboteam_ai/src/utilities/Field.h>
 #include "ControlUtils.h"
 
 namespace control {
@@ -181,5 +182,21 @@ bool ControlUtils::lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd,Ve
 
     return false; // Doesn't fall in any of the above cases
 
+}
+rtt::Arc ControlUtils::createKeeperArc() {
+    double goalwidth=rtt::ai::Field::get_field().goal_width;
+    Vector2 goalPos=rtt::ai::Field::get_our_goal_center();
+    double diff = rtt::ai::constants::KEEPER_POST_MARGIN - rtt::ai::constants::KEEPER_CENTREGOAL_MARGIN;
+
+    double radius = diff*0.5 + goalwidth*goalwidth/(8*diff); //Pythagoras' theorem.
+    double angle = asin(goalwidth/2/radius); // maximum angle (at which we hit the posts)
+    Vector2 center = Vector2(goalPos.x + rtt::ai::constants::KEEPER_CENTREGOAL_MARGIN + radius, 0);
+    if (diff > 0) {
+        return rtt::Arc(center, radius, M_PI - angle, angle - M_PI);
+    }
+    else {
+        return rtt::Arc(center, radius, angle,
+                - angle); //we take the radius from the other side so we have to also flip the arc (yes, confusing)
+    }
 }
 } // control

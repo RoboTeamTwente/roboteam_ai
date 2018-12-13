@@ -18,19 +18,9 @@ void Keeper::initialize() {
     goalwidth = Field::get_field().goal_width;
 
     //Create arc for keeper to drive on
-    double diff = constants::KEEPER_POST_MARGIN - constants::KEEPER_CENTREGOAL_MARGIN;
-
-    double radius = diff*0.5 + goalwidth*goalwidth/(8*diff);
-    double angle = asin(goalwidth/2/radius);
-    Vector2 center = Vector2(goalPos.x + constants::KEEPER_CENTREGOAL_MARGIN + radius, 0);
-    if (diff>0) {
-        blockCircle = Arc(center, radius, M_PI - angle, angle - M_PI);
-    }
-    else {
-        blockCircle = Arc(center, radius,angle,-angle); //we take the radius from the other side so we have to also flip the arc (yes, confusing)
-    }
-    pid.setParams(4.0,0.0,0.75,10,0.0,0.0); //magic numbers galore, from the old team.
-    finePid.setParams(1.0,0.0,0.0,0,0.0,0.0);
+    blockCircle=control::ControlUtils::createKeeperArc();
+    pid.setParams(4.0, 0.0, 0.75, 10, 0.0, 0.0); //magic numbers galore, from the old team.
+    finePid.setParams(1.0, 0.0, 0.0, 0, 0.0, 0.0);
     pid.initialize(1.0/constants::tickRate);
 }
 Keeper::Status Keeper::update() {
@@ -39,14 +29,14 @@ Keeper::Status Keeper::update() {
         Vector2 ballPos = World::getBall().pos;
         Vector2 blockPoint = computeBlockPoint(ballPos);
         //double dist=control::ControlUtils::distanceToLine(robot->pos,ballPos,blockPoint);
-        double dist=(blockPoint-(Vector2(robot->pos))).length();
-        if (dist<constants::KEEPER_POSDIF) {
+        double dist = (blockPoint - (Vector2(robot->pos))).length();
+        if (dist < constants::KEEPER_POSDIF) {
             sendStopCommand();
         }
-        else if(dist<2*constants::ROBOT_RADIUS){
+        else if (dist < 2*constants::ROBOT_RADIUS) {
             sendFineMoveCommand(blockPoint);
         }
-        else{
+        else {
             sendMoveCommand(blockPoint);
         }
         return Status::Running;
@@ -68,9 +58,7 @@ void Keeper::terminate(Status s) {
 }
 
 void Keeper::sendMoveCommand(Vector2 pos) {
-//    double gain=3.0;
-//    Vector2 delta = (pos - robot->pos)*gain; //TODO: add proper position control.
-    Vector2 delta=pid.posControl(robot->pos,pos);
+    Vector2 delta = pid.posControl(robot->pos, pos);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
@@ -78,13 +66,11 @@ void Keeper::sendMoveCommand(Vector2 pos) {
     cmd.y_vel = static_cast<float>(delta.y);
     cmd.w = static_cast<float>(M_PI_2);
     publishRobotCommand(cmd);
-    std::cout<<"Rough"<<std::endl;
+    std::cout << "Rough" << std::endl;
 }
 
 void Keeper::sendFineMoveCommand(Vector2 pos) {
-//    double gain=3.0;
-//    Vector2 delta = (pos - robot->pos)*gain; //TODO: add proper position control.
-    Vector2 delta=finePid.posControl(robot->pos,pos);
+    Vector2 delta = finePid.posControl(robot->pos, pos);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
@@ -92,13 +78,11 @@ void Keeper::sendFineMoveCommand(Vector2 pos) {
     cmd.y_vel = static_cast<float>(delta.y);
     cmd.w = static_cast<float>(M_PI_2);
     publishRobotCommand(cmd);
-    std::cout<<"Fine"<<std::endl;
+    std::cout << "Fine" << std::endl;
 
 }
 
 void Keeper::sendStopCommand() {
-//    double gain=3.0;
-//    Vector2 delta = (pos - robot->pos)*gain; //TODO: add proper position control.
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
@@ -114,15 +98,15 @@ Vector2 Keeper::computeBlockPoint(Vector2 defendPos) {
     Vector2 blockLineStart = defendPos + (u1 + u2).stretchToLength(dist);
     std::pair<boost::optional<Vector2>, boost::optional<Vector2>> intersections = blockCircle.intersectionWithLine(
             blockLineStart, defendPos);
-    Vector2 blockPos,posA,posB;
+    Vector2 blockPos, posA, posB;
     // go stand on the intersection of the lines. Pick the one that is closest to (0,0) if there are multiple
-    if (intersections.first&&intersections.second){
-        posA=*intersections.first;
-        posB=*intersections.second;
-        if (posA.length()<posB.length()){
-            blockPos=posA;
+    if (intersections.first && intersections.second) {
+        posA = *intersections.first;
+        posB = *intersections.second;
+        if (posA.length() < posB.length()) {
+            blockPos = posA;
         }
-        else blockPos=posB;
+        else blockPos = posB;
     }
     else if (intersections.first) {
         blockPos = *intersections.first;

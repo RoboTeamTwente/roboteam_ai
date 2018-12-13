@@ -19,7 +19,7 @@ std::shared_ptr<roboteam_msgs::WorldRobot> Skill::getRobotFromProperties(bt::Bla
         std::string roleName = properties->getString("ROLE");
         robotId = (unsigned int) dealer::findRobotForRole(roleName);
         if (World::getRobotForId(robotId, true)) {
-            robot = World::getRobotForId(robotId, true);
+            return World::getRobotForId(robotId, true);
         } else {
             ROS_ERROR("%s Initialize -> robot %i does not exist in world", node_name().c_str(), robotId);
         }
