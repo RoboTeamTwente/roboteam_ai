@@ -15,14 +15,14 @@ namespace ai{
 
     bt::Node::Status IsRobotClosestToBall::Update() {
         roboteam_msgs::World world = World::get_world();
-        int robotID = blackboard->GetInt("ROBOT_ID");
+        int robotID = properties->getInt("ROBOT_ID");
         Vector2 ballPos(world.ball.pos);
         std::vector<roboteam_msgs::WorldRobot> robots = world.us;
-        boost::optional<int> robotClosestToBallPtr;
+        std::shared_ptr<int> robotClosestToBallPtr;
 
-        boost::optional<int> robotClosestToBall;
-        if (blackboard->HasDouble("secondsAhead")) {
-            double t_ahead = blackboard->GetDouble("secondsAhead");
+        int robotClosestToBall;
+        if (properties->hasDouble("secondsAhead")) {
+            double t_ahead = properties->getDouble("secondsAhead");
             Vector2 ballVel(world.ball.vel);
             ballPos = ballPos + ballVel.scale(t_ahead);
         }

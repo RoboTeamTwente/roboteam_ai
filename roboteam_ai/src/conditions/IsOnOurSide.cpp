@@ -12,7 +12,7 @@ IsOnOurSide::IsOnOurSide(std::string name, bt::Blackboard::Ptr blackboard) : Con
 
 }
 
-bt::Node::Status IsOnOurSide::Update() {
+bt::Node::Status IsOnOurSide::update() {
     roboteam_msgs::World world = World::get_world();
     roboteam_msgs::GeometryFieldSize field = rtt::ai::Field::get_field();
 
@@ -27,15 +27,15 @@ bt::Node::Status IsOnOurSide::Update() {
     Vector2 point = ballPos;
 
     // If we are looking for a robot we should change point
-    if (blackboard->HasBool("robot") && blackboard->GetBool("robot")) {
-        int robotID = blackboard->GetInt("ROBOT_ID");
+    if (properties->hasBool("robot") && properties->getBool("robot")) {
+        int robotID = properties->getInt("ROBOT_ID");
         auto findBot = World::getRobotForId(robotID, true);//TODO: change the bool, was this way in the old code
 
         if (findBot) {
             point = (*findBot).pos;
         }
         else {
-            return Status::Invalid;
+            return Status::Waiting;
         }
     }
 

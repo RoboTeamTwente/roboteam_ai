@@ -28,7 +28,7 @@ std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotForId(unsigned int id,
     return nullptr;
 }
 
-boost::optional<int> World::get_robot_closest_to_point(std::vector<roboteam_msgs::WorldRobot> robots, const Vector2& point) {
+std::shared_ptr<int> World::get_robot_closest_to_point(std::vector<roboteam_msgs::WorldRobot> robots, const Vector2& point) {
     int closest_robot = -1;
     double closest_robot_ds = std::numeric_limits<double>::max();
 
@@ -41,7 +41,7 @@ boost::optional<int> World::get_robot_closest_to_point(std::vector<roboteam_msgs
         }
     }
 
-    return closest_robot == -1 ? boost::none : boost::optional<int>(closest_robot);
+    return closest_robot == -1 ? nullptr : std::make_shared<int>(closest_robot);
 }
 
 roboteam_msgs::WorldBall World::getBall() {

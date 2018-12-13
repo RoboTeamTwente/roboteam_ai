@@ -13,7 +13,7 @@ namespace ai{
 
     }
 
-    bt::Node::Status TheyHaveBall::Update() {
+    bt::Node::Status TheyHaveBall::update() {
         roboteam_msgs::World world = World::get_world();
         std::vector<roboteam_msgs::WorldRobot> robots = world.them;
 

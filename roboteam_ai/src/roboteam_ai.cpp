@@ -53,7 +53,7 @@ void runBehaviourTrees() {
         }
 
         // for referee_data:
-        if (! ai::World::didReceiveFirstWorld) {
+        if (!ai::World::didReceiveFirstWorld) {
             ROS_ERROR("No first world");
             ros::Duration(0.2).sleep();
             continue;

@@ -17,7 +17,7 @@ class WeHaveBall : public Condition {
 public:
     WeHaveBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
 
-    Status Update() override;
+    Status update() override;
     std::string node_name() override { return "WeHaveBall";}
 
 };

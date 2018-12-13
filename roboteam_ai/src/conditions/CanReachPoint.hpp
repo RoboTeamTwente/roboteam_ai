@@ -32,7 +32,7 @@ namespace ai{
     public:
         CanReachPoint(std::string name, bt::Blackboard::Ptr blackboard);
         double estimateTimeToPoint(Vector2 currentPos, Vector2 currentVel, Vector2 targetPos);
-        Status Update() override;
+        Status update() override;
         std::string node_name() override{ return "CanReachPoint"; }
     private:
         //See to do in CPP file. Move these to some sorts of constants file.

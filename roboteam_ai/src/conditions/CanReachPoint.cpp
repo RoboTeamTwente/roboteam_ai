@@ -35,10 +35,10 @@ namespace ai{
         ROS_INFO_STREAM("currentPos x:"<<currentPos.x<<" y:"<<currentPos.y<<"; targetPos x"<<targetPos.x<<" y:"<<targetPos.y<<" length:"<<posDiff.length());
         return posDiff.length()/averageVel;
     }
-    bt::Node::Status CanReachPoint::Update() {
-        int ROBOT_ID = blackboard->GetInt("ROBOT_ID");
-        double xGoal = blackboard->GetDouble("xGoal");
-        double yGoal = blackboard->GetDouble("yGoal");
+    bt::Node::Status CanReachPoint::update() {
+        int ROBOT_ID = properties->getInt("ROBOT_ID");
+        double xGoal = properties->getDouble("xGoal");
+        double yGoal = properties->getDouble("yGoal");
 
         // Wait for the first world message
         roboteam_msgs::World world = World::get_world();
@@ -52,7 +52,7 @@ namespace ai{
         Vector2 currentVel(World::getRobotForId(ROBOT_ID,our_team)->vel);
         Vector2 targetPos(xGoal, yGoal);
 
-        if(blackboard->HasString("whichTeam") && blackboard->GetString("whichTeam")=="them"){
+        if(properties->hasString("whichTeam") && properties->getString("whichTeam")=="them"){
             currentPos=world.them.at(ROBOT_ID).pos;
             currentVel=world.them.at(ROBOT_ID).vel;
             ROS_INFO_STREAM("using their team");
@@ -66,7 +66,7 @@ namespace ai{
             // ROS_INFO_STREAM("hmm, distance too short");
             return Status::Failure;
         } else {
-            double timeLimit = blackboard->GetDouble("timeLimit");
+            double timeLimit = properties->getDouble("timeLimit");
             if (estimatedTimeToPoint < timeLimit) {
                 // ROS_INFO_STREAM("can reach point within time");
                 return Status::Success;
