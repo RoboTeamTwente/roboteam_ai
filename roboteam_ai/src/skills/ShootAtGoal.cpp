@@ -8,6 +8,10 @@ namespace ai {
 
 void ShootAtGoal::initialize() {
     robot = getRobotFromProperties(properties);
+    onlyGeneva = properties->getBool("onlyGeneva");
+
+    onlyGeneva = properties->getBool("onlyGeneva");
+    neverGeneva = properties->getBool("neverGeneva");
 }
 
 

@@ -85,7 +85,7 @@ class GoToPosLuTh : public Skill {
               return newTargets;
           }
 
-          NumRobotPtr getNewNumRobot(NumRobotPtr me, Vector2 &newTarget) {
+          NumRobotPtr getNewNumRobot(const NumRobotPtr &me, Vector2 &newTarget) {
               NumRobot newMe;
 
               std::vector<Vector2> _posData(me->posData.begin(), me->posData.begin() + me->startIndex + 1);
@@ -107,7 +107,7 @@ class GoToPosLuTh : public Skill {
           }
 
           struct CustomCompare {
-            bool operator()(NumRobotPtr lhs, NumRobotPtr rhs) {
+            bool operator()(const NumRobotPtr &lhs, const NumRobotPtr &rhs) {
                 if (lhs->collisions < rhs->collisions) return false;
                 else
                     return abs((lhs->pos - lhs->finalTargetPos).length())

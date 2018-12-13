@@ -21,6 +21,9 @@ class ShootAtGoal : public Skill {
         bool onlyGeneva = false;
         bool neverGeneva = false;
 
+        enum Progression {
+          READY, DONE, ORIENTATE, TURN_GENEVA,
+        };
 
 
 };
