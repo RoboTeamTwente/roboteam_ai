@@ -5,16 +5,15 @@
 
 namespace bt {
 
-Leaf::Leaf() {}
 
-Leaf::Leaf(Blackboard::Ptr blackboard) : blackboard(blackboard) {}
+Leaf::Leaf(std::string name, Blackboard::Ptr blackboard) {
+    setProperties(blackboard);
+    setName(name);
 
-Leaf::Leaf(std::string name, Blackboard::Ptr blackboard) :
-blackboard{blackboard},
-name{name}
-{}
-void Leaf::SetBlackboard(Blackboard::Ptr blackboard) {
-  this->blackboard = blackboard;
+}
+void Leaf::setName(std::string newName) {
+    name = std::move(newName);
+
 }
 
 }

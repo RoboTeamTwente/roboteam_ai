@@ -1,4 +1,5 @@
 #include <utility>
+
 #include <boost/filesystem.hpp>
 //
 // Created by baris on 04/10/18.
@@ -6,29 +7,13 @@
 
 #include "BTFactory.h"
 
-
-std::map<std::string, std::map<std::string, bt::BehaviorTree>> BTFactory::treeRepo;
-std::vector<std::string> BTFactory::projectNames;
-
-/// Return a map of tree names and trees that belong to one project
-std::map<std::string, bt::BehaviorTree> BTFactory::getProject(std::string projectName) {
-    return treeRepo[projectName];
-}
-
-/// Update an entire project
-void BTFactory::updateProject(std::string projectName) {
-    auto project = interpreter.getProject(projectName);
-    treeRepo[projectName] = project;
-}
-
-/// Update one tree from a project
-void BTFactory::updateTree(std::string projectName, std::string treeName) {
-
-    auto tree = interpreter.getTreeWithID(projectName, treeName);
-    treeRepo[projectName][treeName] = tree;
-
-
-}
+std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
+std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
+std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::keeperRepo;
+std::string BTFactory::currentTree;
+std::string BTFactory::keeperTree;
+int BTFactory::keeperID;
+bool BTFactory::initialized = false;
 
 /// Returns the Behaviour Tree Factory Singleton
 BTFactory &BTFactory::getFactory() {
@@ -36,33 +21,69 @@ BTFactory &BTFactory::getFactory() {
     return instance;
 }
 
-std::map<std::string, std::map<std::string, bt::BehaviorTree>> BTFactory::getTreeRepo() {
-    return treeRepo;
-}
-
 /// Initiate the BTFactory
 void BTFactory::init() {
     interpreter = TreeInterpreter::getInstance();
 
-    // Update the projectNames Vector with all the projectFiles we want.
-    initialProjectNames();
+    for (const auto &tacticName : Switches::tacticJsonFileNames) {
+        auto BB = std::make_shared<bt::Blackboard>(); //TODO maybe make the BB somewhere else that makes sense
+        auto tempMap = interpreter.makeTactics(tacticName, BB);
+        for (auto &it : tempMap) tacticsRepo[it.first] = it.second; // may break
+    }
 
-    // Updates all the projects in the projectNames vector and adds them to treeRepo
-    for (const std::string &projectName : projectNames){
-        updateProject(projectName);
+    for (const auto &strategyName : Switches::strategyJsonFileNames) {
+        auto tempMap = interpreter.getTrees("strategies/" + strategyName);
+        for (auto &it : tempMap) strategyRepo[it.first] = it.second; // may break
+    }
+
+//    for (const auto &strategyNameKeeper : Switches::keeperJsonFiles) {
+//        auto tempMap = interpreter.getTrees("keeper/" + strategyNameKeeper);
+//        for (auto &it : tempMap) keeperRepo[it.first] = it.second; // may break
+//    }
+
+    initialized = true;
+}
+bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
+    if (strategyRepo.find(treeName) != strategyRepo.end()) {
+        return strategyRepo.find(treeName)->second;
+    }
+    ROS_ERROR("No Strategy by that name");
+    return strategyRepo.end()->second;
+}
+
+std::string BTFactory::getCurrentTree() {
+    return currentTree;
+}
+
+void BTFactory::setCurrentTree(const std::string &newTree) {
+
+    if (newTree != BTFactory::currentTree) {
+
+        for (const auto &tacticRobotsPair : robotDealer::RobotDealer::getClaimedRobots()) {
+            robotDealer::RobotDealer::removeTactic(tacticRobotsPair.first);
+        }
+
+        BTFactory::currentTree = newTree;
     }
 }
 
-
-//TODO: add any trees you wish to load initially in the jsons folder here!!!
-/// Inserts the initial projectNames into the vector
-void BTFactory::initialProjectNames() {
-    std::string initialNames[] = {
-            "bigjson",
-            "sample"
-            };
-    projectNames.insert(projectNames.end(),std::begin(initialNames),std::end(initialNames));
+bool BTFactory::isInitialized() {
+    return BTFactory::initialized;
 }
+
+void BTFactory::setKeeperTree(const std::string &keeperTree_) {
+
+    keeperTree = keeperTree_;
+
+}
+void BTFactory::setKeeper(int newID) {
+    BTFactory::keeperID = newID;
+}
+bt::BehaviorTree::Ptr BTFactory::getKeeperTree() {
+    return keeperRepo[keeperTree];
+}
+
+
 
 
 

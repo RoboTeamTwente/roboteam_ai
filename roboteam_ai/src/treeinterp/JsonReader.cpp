@@ -1,5 +1,3 @@
-#include <utility>
-
 //
 // Created by baris on 09/10/18.
 //
@@ -20,14 +18,14 @@ std::string JsonReader::getFilePath(std::string name) {
     std::string fullPath = cCurrentPath;
     auto splitTed = JsonReader::split(fullPath, '/');
     std::string smallPath;
-    for (const auto& word : splitTed) {
+    for (const auto &word : splitTed) {
         if (smallPath.find("roboteam_ai") != std::string::npos) {
             break;
         }
         smallPath.append(word + "/");
     }
     // should be at /home/[user]/roboteamtwente/workspace/src/roboteam_ai/ ish right now
-    smallPath.append("roboteam_ai/src/treeinterp/jsons/" + name + ".json");
+    smallPath.append("roboteam_ai/src/jsons/" + name + ".json");
     return smallPath;
 }
 
@@ -63,11 +61,11 @@ bool JsonReader::checkIfKeyExists(std::string key, json json) {
 
 void JsonReader::editJSON(std::string fileName, std::string treeID, std::string field, std::string newValue) {
     // read json file
-    json fileJson=readJSON(fileName);
+    json fileJson = readJSON(fileName);
     // edit json file
-    for (json& tree :fileJson["data"]["trees"]){
-        if (tree["id"]==treeID){
-            tree[field]=newValue;
+    for (json &tree :fileJson["data"]["trees"]) {
+        if (tree["id"] == treeID) {
+            tree[field] = newValue;
             break;
         }
     }

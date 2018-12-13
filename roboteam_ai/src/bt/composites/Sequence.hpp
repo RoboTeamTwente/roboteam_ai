@@ -11,11 +11,12 @@ namespace bt {
     If all children succeeds, only then does the sequence succeed.
 */
 class Sequence : public Composite {
- public:
-  Status Update() override;
-  std::string node_name() override;
+    public:
+        Status update() override;
 
-  using Ptr = std::shared_ptr<Sequence>;
+        std::string node_name() override;
+
+        using Ptr = std::shared_ptr<Sequence>;
 };
 
 } // bt

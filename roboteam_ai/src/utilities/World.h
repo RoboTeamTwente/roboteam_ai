@@ -16,7 +16,6 @@
 #include "roboteam_utils/constants.h"
 #include "roboteam_msgs/World.h"
 #include "roboteam_msgs/GeometryData.h"
-#include <boost/optional.hpp>
 
 namespace rtt {
 namespace ai {
@@ -26,10 +25,10 @@ class World {
   static roboteam_msgs::World world;
  public:
   static roboteam_msgs::WorldBall getBall();
-  static boost::optional<roboteam_msgs::WorldRobot> getRobotForId(int id, bool ourTeam);
+  static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotForId(int id, bool ourTeam);
   static const roboteam_msgs::World& get_world();
   static void set_world(roboteam_msgs::World world);
-  static boost::optional<int> get_robot_closest_to_point(std::vector<roboteam_msgs::WorldRobot> robots, const Vector2& point);
+  static std::shared_ptr<int> get_robot_closest_to_point(std::vector<roboteam_msgs::WorldRobot> robots, const Vector2& point);
   static bool bot_has_ball(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::WorldBall& ball);
 };
 

@@ -3,54 +3,49 @@
 
 namespace bt {
 
-BehaviorTree::BehaviorTree() : blackboard(std::make_shared<Blackboard>()) {
-
+BehaviorTree::BehaviorTree() {
+    globalBB = std::make_shared<Blackboard>();
 }
 
-BehaviorTree::BehaviorTree(const Node::Ptr &rootNode) : BehaviorTree() {
-  root = rootNode;
+BehaviorTree::BehaviorTree(const Node::Ptr &rootNode)
+        :BehaviorTree() {
+    root = rootNode;
+    this->root->globalBB = globalBB;
 }
 
-BehaviorTree::BehaviorTree(const Blackboard::Ptr &shared) : BehaviorTree() {
-  sharedBlackboard = shared;
+BehaviorTree::BehaviorTree(const Blackboard::Ptr &shared)
+        :BehaviorTree() {
+    globalBB = shared;
 }
 
-BehaviorTree::~BehaviorTree() {
-
+Node::Status BehaviorTree::update() {
+    return root->tick();
 }
 
-Node::Status BehaviorTree::Update() {
-  return root->Tick();
-}
+void BehaviorTree::terminate(Status s) {
+    if (root->getStatus() == Status::Running) {
+        root->terminate(root->getStatus());
+    }
 
-void BehaviorTree::Terminate(Status s) {
-  if (root->getStatus()==Status::Running) {
-    root->Terminate(root->getStatus());
-  }
-
-  if (s==Node::Status::Running) {
-    setStatus(Node::Status::Failure);
-  }
+    if (s == Node::Status::Running) {
+        setStatus(Node::Status::Failure);
+    }
 }
 
 void BehaviorTree::SetRoot(const Node::Ptr &node) {
-  root = node;
+    root = node;
+    node->globalBB = globalBB;
 }
 
 Node::Ptr BehaviorTree::GetRoot() {
-  return root;
+    return root;
 }
 
-Blackboard::Ptr BehaviorTree::GetBlackboard() const {
-  return blackboard;
+void BehaviorTree::SetGlobalBlackboard(const Blackboard::Ptr &global) {
+    globalBB = global;
 }
-
-Blackboard::Ptr BehaviorTree::GetSharedBlackboard() const {
-  return sharedBlackboard;
-}
-
-void BehaviorTree::SetSharedBlackboard(const Blackboard::Ptr &shared) {
-  sharedBlackboard = shared;
+std::string BehaviorTree::node_name() {
+    return "Behaviour Tree";
 }
 
 }

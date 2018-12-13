@@ -8,7 +8,6 @@
 #include "roboteam_msgs/World.h"
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_msgs/GeometryFieldSize.h"
-#include  <boost/optional.hpp>
 #include "roboteam_utils/Vector2.h"
 #include "../utilities/World.h"
 #include "Condition.h"
@@ -16,13 +15,23 @@
 namespace rtt {
 namespace ai {
 
-class IsInDefenseArea : public ai::Condition{
-  public:
-    IsInDefenseArea(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
-    Status Update() override;
-    std::string node_name() override { return "IsInDefenseArea";}
+class IsInDefenseArea : public ai::Condition {
+    private:
+
+        using status = bt::Node::Status;
+        roboteam_msgs::WorldRobot robot;
+
+        bool ourDefenseArea;
+        float margin;
+    public:
+        explicit IsInDefenseArea(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
+
+        Status update() override;
+        std::string node_name() override { return "IHaveBall"; }
+
 };
 
 }// ai
 }// rtt
+
 #endif //ROBOTEAM_AI_ISINDEFENSEAREA_HPP

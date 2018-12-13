@@ -1,0 +1,36 @@
+{
+  "name": "victoryDanceStrategy",
+  "data": {
+    "trees": [
+      {
+        "title": "victoryDanceStrategy",
+        "root": "n1i4ow0hgxe08h",
+        "nodes": {
+          "n1i4ow0hgxe08h": {
+            "id": "n1i4ow0hgxe08h",
+            "title": "UntilSuccess",
+            "children": [
+              "z2rslwkp0siwihnt"
+            ],
+            "properties": {
+              " limit": "0"
+            },
+            "location": {
+              "x": 466.0,
+              "y": 180.0
+            }
+          },
+          "z2rslwkp0siwihnt": {
+            "id": "z2rslwkp0siwihnt",
+            "title": "Tactic",
+            "name": "victoryDanceTactic",
+            "location": {
+              "x": 491.0,
+              "y": 290.0
+            }
+          }
+        }
+      }
+    ]
+  }
+}

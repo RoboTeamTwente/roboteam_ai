@@ -20,10 +20,12 @@ namespace rtt {
 namespace ai {
 
 class IsInZone : public Condition {
-public:
-    explicit IsInZone(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
-    Status Update() override;
-private:
+    public:
+        explicit IsInZone(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
+
+        Status update() override;
+
+    private:
 //    ros::NodeHandle n; //TODO: look into this
 };
 

@@ -2,26 +2,28 @@
 
 namespace bt {
 
-Composite::~Composite() {}
-
-void Composite::AddChild(Node::Ptr child) {
-  children.push_back(child);
+void Composite::addChild(Node::Ptr child) {
+    children.push_back(child);
 }
 
 bool Composite::HasNoChildren() const {
-  return children.empty();
+    return children.empty();
 }
 
-void Composite::Terminate(Status s) {
-  for (auto child : children) {
-    if (child->getStatus()==Status::Running) {
-      child->Terminate(child->getStatus());
+void Composite::terminate(Status s) {
+    for (auto child : children) {
+        if (child->getStatus() == Status::Running) {
+            child->terminate(child->getStatus());
+        }
     }
-  }
 
-  if (s==Status::Running) {
-    setStatus(Status::Failure);
-  }
+    if (s == Status::Running) {
+        setStatus(Status::Failure);
+    }
 }
 
+std::vector<Node::Ptr> Composite::getChildren() {
+    return children;
 }
+
+} // bt

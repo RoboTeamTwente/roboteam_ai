@@ -5,22 +5,23 @@
 namespace bt {
 
 class ParallelSequence : public Composite {
- public:
-  ParallelSequence(bool successOnAll = true, bool failOnAll = true);
-  ParallelSequence(int minSuccess, int minFail);
+    public:
+        ParallelSequence(bool successOnAll = true, bool failOnAll = true);
 
-  Status Update() override;
+        ParallelSequence(int minSuccess, int minFail);
 
-  std::string node_name() override;
+        Status update() override;
 
-  using Ptr = std::shared_ptr<ParallelSequence>;
+        std::string node_name() override;
 
- private:
-  bool useSuccessFailPolicy = false;
-  bool successOnAll = true;
-  bool failOnAll = true;
-  int minSuccess = 0;
-  int minFail = 0;
+        using Ptr = std::shared_ptr<ParallelSequence>;
+
+    private:
+        bool useSuccessFailPolicy = false;
+        bool successOnAll = true;
+        bool failOnAll = true;
+        int minSuccess = 0;
+        int minFail = 0;
 };
 
 } // bt

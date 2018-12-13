@@ -15,11 +15,14 @@
 #include <unistd.h>
 #include "BTImport.h"
 #include <stdio.h>  /* defines FILENAME_MAX */
+
 #ifdef WINDOWS
 #include <direct.h>
-    #define GetCurrentDir _getcwd
+#define GetCurrentDir _getcwd
 #else
+
 #include <unistd.h>
+
 #define GetCurrentDir getcwd
 #endif
 
@@ -27,27 +30,27 @@ using json = nlohmann::json;
 
 class JsonReader {
 
-private:
+    private:
 
-    FRIEND_TEST(JsonBasics, JsonTest);
+        FRIEND_TEST(JsonBasics, JsonTest);
 
-    FRIEND_TEST(BT, FactoryTest);
+        FRIEND_TEST(BT, FactoryTest);
 
-    std::string getFilePath(std::string name);
+        std::string getFilePath(std::string name);
 
-    std::vector<std::string> split(std::string s, char c);
+        std::vector<std::string> split(std::string s, char c);
 
-protected:
+    protected:
 
-public:
+    public:
 
-    json readJSON(std::string fileName);
+        json readJSON(std::string fileName);
 
-    JsonReader() = default;
+        JsonReader() = default;
 
-    bool checkIfKeyExists(std::string key, json json);
+        bool checkIfKeyExists(std::string key, json json);
 
-    void editJSON(std::string fileName, std::string tree, std::string field, std::string newValue);
+        void editJSON(std::string fileName, std::string tree, std::string field, std::string newValue);
 };
 
 #endif //ROBOTEAM_AI_JSONREADER_H

@@ -4,10 +4,37 @@ namespace rtt {
 namespace ai {
 
 Skill::Skill(std::string name, bt::Blackboard::Ptr blackboard)
-    : bt::Leaf(name, blackboard) {}
+        :bt::Leaf(name, blackboard), ioManager(false, true) {
+    robot = std::make_shared<roboteam_msgs::WorldRobot>();
+}
 
-bt::Node::Status Skill::Update() {
-  return Status::Invalid;
+void Skill::terminate(Status s) { }
+
+void Skill::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
+    ioManager.publishRobotCommand(cmd);
+}
+
+std::shared_ptr<roboteam_msgs::WorldRobot> Skill::getRobotFromProperties(bt::Blackboard::Ptr properties) {
+    if (properties->hasString("ROLE")) {
+        std::string roleName = properties->getString("ROLE");
+        robotId = (unsigned int) dealer::findRobotForRole(roleName);
+        if (World::getRobotForId(robotId, true)) {
+            robot = World::getRobotForId(robotId, true);
+        } else {
+            ROS_ERROR("%s Initialize -> robot %i does not exist in world", node_name().c_str(), robotId);
+        }
+    } else {
+        ROS_ERROR("%s Initialize robot %i -> ROLE WAITING!!", node_name().c_str(), robotId);
+    }
+    return nullptr;
+}
+
+void Skill::updateRobot() {
+    if (World::getRobotForId(robotId, true)) {
+        robot = World::getRobotForId(robotId, true);
+    } else {
+        ROS_ERROR("%s Update -> robot %i does not exist in world", node_name().c_str(), robotId);
+    }
 }
 
 } // ai

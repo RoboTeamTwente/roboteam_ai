@@ -15,7 +15,11 @@
 #include <map>
 #include <unistd.h>
 #include "BTImport.h"
-
+#include "PropertiesParser.h"
+#include "../bt/tactics/DemoTactic.h"
+#include "../bt/tactics/ParallelSequenceTest.h"
+#include "../bt/Role.h"
+#include "Switches.h"
 
 #define GetCurrentDir getcwd
 
@@ -23,35 +27,37 @@ using json = nlohmann::json;
 
 class TreeInterpreter {
 
-private:
-    JsonReader jsonReader;
+    private:
+        JsonReader jsonReader;
 
-    FRIEND_TEST(JsonBasics, JsonTest);
-    FRIEND_TEST(TreeTest, JsonTest);
+        PropertiesParser propertyParser;
 
+        std::map<std::string, bt::Node::Ptr> tactics;
 
-    bt::BehaviorTree buildTreeFromJSON(json jsonTree);
+        FRIEND_TEST(JsonBasics, JsonTest);
 
-    bt::Node::Ptr buildNode(json node, json tree);
+        FRIEND_TEST(TreeTest, JsonTest);
 
-    std::vector<json> parseSmallJSONs(json json);
+        bt::BehaviorTree::Ptr buildTreeFromJSON(json jsonTree);
 
-    bool isLeaf(json json);
+        bt::Node::Ptr buildNode(json node, json tree, bt::Blackboard::Ptr globalBlackBoard);
 
-    bt::Node::Ptr makeNonLeafNode(std::string name);
+        bool isLeaf(json json);
 
-    bt::Leaf::Ptr makeLeafNode(std::string name);
+        bt::Node::Ptr makeNonLeafNode(std::string name);
 
+        bt::Leaf::Ptr makeLeafNode(json jsonLeaf);
 
+        bt::Node::Ptr tacticSwitch(std::string, bt::Blackboard::Ptr properties);
 
-protected:
+    protected:
 
-public:
-    std::map<std::string, bt::BehaviorTree> getProject(std::string name);
+    public:
+        std::map<std::string, bt::BehaviorTree::Ptr> getTrees(std::string name);
 
-    bt::BehaviorTree getTreeWithID(std::string projectName, std::string ID);
+        std::map<std::string, bt::Node::Ptr> makeTactics(std::string fileName, bt::Blackboard::Ptr globalBB);
 
-    static TreeInterpreter& getInstance();
+        static TreeInterpreter &getInstance();
 
 };
 

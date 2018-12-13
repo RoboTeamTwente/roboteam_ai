@@ -5,23 +5,27 @@ namespace ai {
 
 // define the static variables
 roboteam_msgs::World World::world;
+bool World::didReceiveFirstWorld = false;
 
 const roboteam_msgs::World &World::get_world() {
-  return World::world;
+    return World::world;
 }
 
 void World::set_world(roboteam_msgs::World world) {
-  World::world = world;
+    if (!world.us.empty()) {
+        didReceiveFirstWorld = true;
+    }
+    World::world = world;
 }
 
-boost::optional<roboteam_msgs::WorldRobot> World::getRobotForId(int id, bool robotIsOurTeam) {
-  const std::vector<roboteam_msgs::WorldRobot>& robots = robotIsOurTeam ? world.us : world.them;
-  for (const auto& bot : robots) {
-    if (bot.id == id) {
-      return boost::optional<roboteam_msgs::WorldRobot>(bot);
+std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotForId(unsigned int id, bool robotIsOurTeam) {
+    const std::vector<roboteam_msgs::WorldRobot> &robots = robotIsOurTeam ? world.us : world.them;
+    for (const auto &bot : robots) {
+        if (bot.id == id) {
+            return std::make_shared<roboteam_msgs::WorldRobot>(bot);
+        }
     }
-  }
-  return boost::none;
+    return nullptr;
 }
 
 boost::optional<int> World::get_robot_closest_to_point(std::vector<roboteam_msgs::WorldRobot> robots, const Vector2& point) {
@@ -41,7 +45,7 @@ boost::optional<int> World::get_robot_closest_to_point(std::vector<roboteam_msgs
 }
 
 roboteam_msgs::WorldBall World::getBall() {
-  return world.ball;
+    return world.ball;
 }
 
 bool World::bot_has_ball(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::WorldBall& ball){

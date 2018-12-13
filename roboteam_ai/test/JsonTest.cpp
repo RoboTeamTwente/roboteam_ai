@@ -1,18 +1,5 @@
-//
-// Created by baris on 02/10/18.
-//
-
 #include <gtest/gtest.h>
 #include "../src/treeinterp/TreeInterpreter.h"
-#include "../src/treeinterp/json.h"
-#include "../src/treeinterp/JsonReader.h"
-
-#include <typeinfo>
-
-
-void print(const std::string &s) {
-    std::cout << s << std::endl;
-}
 
 TEST(JsonBasics, JsonTest) {
 
@@ -59,29 +46,7 @@ TEST(JsonBasics, JsonTest) {
     for (const json &current : trees) {
         ASSERT_EQ(current["scope"], "tree");
     }
-
-    // Test the actual function that does this
-    auto newTrees = interpreter.parseSmallJSONs(bigJson);
-
-    // See if all of them are trees
-    for (const json &current : newTrees) {
-        ASSERT_EQ(current["scope"], "tree");
-    }
-
-    // Compare the manual and the automated
-    ASSERT_EQ(trees, newTrees);
-
-
-    // ===== Test the reader functions ====
-
-    auto btTesting = interpreter.getTreeWithID("bigjson", "d16f9751-a781-4fee-8570-7d88a207aef0"); // TODO: name files with the project names
-
-    auto rootBTTesting = btTesting.GetRoot();
-
-    ASSERT_TRUE(true);
-
 }
-
 
 TEST(TreeTest, JsonTest) {
 

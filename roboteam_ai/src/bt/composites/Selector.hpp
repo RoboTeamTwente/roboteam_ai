@@ -11,11 +11,11 @@ namespace bt {
     If all children fails, only then does the selector fail.
 */
 class Selector : public Composite {
- public:
-  Status Update() override;
+    public:
+        Status update() override;
 
-  std::string node_name() override;
+        std::string node_name() override;
 
-  using Ptr = std::shared_ptr<Selector>;
+        using Ptr = std::shared_ptr<Selector>;
 };
 } // bt
