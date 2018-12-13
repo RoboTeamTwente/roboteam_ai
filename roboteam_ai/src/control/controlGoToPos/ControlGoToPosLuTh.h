@@ -1,30 +1,34 @@
 //
-// Created by thijs on 04-12-18.
+// Created by thijs on 12-12-18.
 //
-#include "Skill.h"
 #include <queue>
-#include <random>  //random numbers..
 #include <cstdlib>
 #include <time.h>
 #include <cmath>
+#include "../../interface/drawer.h"
+#include <roboteam_utils/Vector2.h>
+#include <roboteam_msgs/WorldRobot.h>
+#include <roboteam_msgs/RobotCommand.h>
+#include <roboteam_ai/src/control/ControlUtils.h>
+#include "ros/ros.h"
 
-#include "../interface/drawer.h"
+#ifndef ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H
+#define ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H
 
-// #include "../interface/Interface.h"
+namespace control {
 
-#ifndef ROBOTEAM_AI_GOTOPOSLUTH_H
-#define ROBOTEAM_AI_GOTOPOSLUTH_H
+class ControlGoToPosLuTh {
 
-namespace rtt {
-namespace ai {
-class GoToPosLuTh : public Skill {
+   private:
+        using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
+        using Vector2 = rtt::Vector2;
+        using Command = roboteam_msgs::RobotCommand;
 
-    private:
         struct NumRobot;
         using NumRobotPtr = std::shared_ptr<NumRobot>;
         struct NumRobot {
 
-          int id = 0;                       //Robot id
+          int id = -1;                       //Robot id
           unsigned long startIndex = 0;
           Vector2 pos;                  //Current x,y position in m
           Vector2 targetPos;            //Target position in m
@@ -106,6 +110,17 @@ class GoToPosLuTh : public Skill {
 
           }
 
+          void clear(NumRobot &me) {
+              NumRobot newMe;
+              me.id = newMe.id;
+              me.startIndex = newMe.startIndex;
+              me.maxVel = newMe.maxVel;
+              me.maxAcc = newMe.maxAcc;
+              me.t = newMe.t;
+              me.totalCalculations = newMe.totalCalculations;
+              me.collisions = newMe.collisions;
+          }
+
           struct CustomCompare {
             bool operator()(NumRobotPtr lhs, NumRobotPtr rhs) {
                 if (lhs->collisions < rhs->collisions) return false;
@@ -117,43 +132,25 @@ class GoToPosLuTh : public Skill {
 
         };
 
-        std::priority_queue<NumRobotPtr, std::vector<NumRobotPtr>, NumRobot::CustomCompare> robotQueue;
 
-        bool tracePath(NumRobot &numRobot, Vector2 target);
+        std::priority_queue<NumRobotPtr, std::vector<NumRobotPtr>, NumRobot::CustomCompare> robotQueue;
+        NumRobot me;
 
         std::vector<Vector2> displayData;
         double errorMargin = 0.3;
 
-        bool drawInterface;
-        bool goToBall;
-        bool random;
-
-        enum Progression {
-          ON_THE_WAY, DONE, FAIL
-        };
-        Progression currentProgress;
-        Progression checkProgression();
-
         Vector2 targetPos;
 
-        bool checkTargetPos(Vector2 pos);
-        void sendMoveCommand();
-        bool calculateNumericDirection(NumRobot &me, roboteam_msgs::RobotCommand &command);
+        bool tracePath(NumRobot &numRobot, Vector2 target);
+        bool calculateNumericDirection(RobotPtr robot, NumRobot &me, roboteam_msgs::RobotCommand &command);
         void drawCross(Vector2 &pos);
         bool calculateNextPoint(NumRobotPtr me);
 
     public:
 
-        explicit GoToPosLuTh(string name, bt::Blackboard::Ptr blackboard);
-        std::string node_name() override;
-
-        void initialize() override;
-        Status update() override;
-        void terminate(Status s) override;
-
+        Command goToPos(RobotPtr robot, Vector2 &targetPos);
 };
-} // ai
-} // rtt
 
+} // control
 
-#endif //ROBOTEAM_AI_GOTOPOSLUTH_H
+#endif //ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H

@@ -11,7 +11,15 @@
 #include "../io/IOManager.h"
 #include "../../src/control/ControlUtils.h"
 #include "../utilities/Constants.h"
-#include "../skills/Skill.h"
+
+//  ______________________
+//  |                    |
+//  |  INCLUDE GoToPos   |
+//  |____________________|
+//
+
+#include "controlGoToPos/ControlGoToPosLuTh.h"
+
 
 #ifndef ROBOTEAM_AI_CONTROLGOTOPOS_H
 #define ROBOTEAM_AI_CONTROLGOTOPOS_H
@@ -19,8 +27,35 @@
 namespace control {
 
 class ControlGoToPos {
-    public:
+    private:
         using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
+        using Vector2 = rtt::Vector2;
+        using Command = roboteam_msgs::RobotCommand;
+
+
+        void goToPosLuTh(RobotPtr robot, Vector2 &targetPos);
+        ControlGoToPosLuTh luth;
+
+        void goToPosLowLevel(RobotPtr robot, Vector2 &targetPos);
+        //ControlGoToPosLowLevel lowlevel;
+
+        void goToPosHighLevel(RobotPtr robot, Vector2 &targetPos);
+        //ControlGoToPosHighLevel highlevel;
+
+        void goToPosBezier(RobotPtr robot, Vector2 &targetPos);
+        //ControlGoToPosBezier bezier;
+
+        void goToPosForce(RobotPtr robot, Vector2 &targetPos);
+        //ControlGoToPosForce force;
+
+        void goToPosBasic(RobotPtr robot, Vector2 &targetPos);
+        //ControlGoToPosBasic basic;
+
+        void publishRobotCommand(Command &command);
+        double errorMargin = 0.3;
+        double distanceToTarget(RobotPtr robot, Vector2 &targetPos);
+
+    public:
 
         enum GoToType {
           noPreference,
@@ -32,16 +67,8 @@ class ControlGoToPos {
           bezier,
         };
 
-        static void goToPos(RobotPtr robot, rtt::Vector2 &position);
-        static void goToPos(RobotPtr robot, rtt::Vector2 &position, GoToType goToType);
-    private:
-        static void goToPosLuTh(RobotPtr robot, rtt::Vector2 &targetPos);
-        static void goToPosLowLevel(RobotPtr robot, rtt::Vector2 &targetPos);
-        static void goToPosHighLevel(RobotPtr robot, rtt::Vector2 &targetPos);
-        static void goToPosBezier(RobotPtr robot, rtt::Vector2 &targetPos);
-        static void goToPosForce(RobotPtr robot, rtt::Vector2 &targetPos);
-        static void goToPosBasic(RobotPtr robot, rtt::Vector2 &targetPos);
-        static void publishRobotCommand(roboteam_msgs::RobotCommand &command);
+        void goToPos(RobotPtr robot, Vector2 &position);
+        void goToPos(RobotPtr robot, Vector2 &position, GoToType goToType);
 
 };
 
