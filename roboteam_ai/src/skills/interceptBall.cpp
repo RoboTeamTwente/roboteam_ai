@@ -34,11 +34,11 @@ InterceptBall::Status InterceptBall::update() {
     updateRobot();
     ball = World::getBall();
     //The keeper dynamically updates the intercept position as he needs to be responsive and cover the whole goal and this would help against curveballs e.g.
-    if (keeper){
-        interceptPos = computeInterceptPoint(ball.pos, Vector2(ball.pos) + Vector2(ball.vel)*constants::MAX_INTERCEPT_TIME);
-    }
-    deltaPos = interceptPos - robot->pos;
     if (robot) {
+        if (keeper){
+            interceptPos = computeInterceptPoint(ball.pos, Vector2(ball.pos) + Vector2(ball.vel)*constants::MAX_INTERCEPT_TIME);
+        }
+        deltaPos = interceptPos - robot->pos;
         checkProgression();
         tickCount ++;
         switch (currentProgression) {
