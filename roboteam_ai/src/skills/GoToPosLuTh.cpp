@@ -134,7 +134,7 @@ void GoToPosLuTh::sendMoveCommand() {
     interface::Drawer::setGoToPosLuThPoints(robot->id, displayColorData);
 
     if (nicePath) {
-        command.use_angle = 0;
+        command.use_angle = 1;
         command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle, 0));
         publishRobotCommand(command);
         return;
