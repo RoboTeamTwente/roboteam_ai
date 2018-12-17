@@ -73,12 +73,12 @@ Node::Status Node::NodeUpdate() {
 
 
 void Node::NodeInitialize() {
-    std::cout << "Node Initialize:  " << node_name() << std::endl;
+    //std::cout << "Node Initialize:  " << node_name() << std::endl;
     initialize();
 }
 
 void Node::NodeTerminate(Status s) {
-    std::cout << "Node Terminate:  " << node_name() << std::endl;
+    //std::cout << "Node Terminate:  " << node_name() << std::endl;
     terminate(s);
 }
 

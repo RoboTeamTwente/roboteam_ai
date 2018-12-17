@@ -37,15 +37,27 @@ Pass::Status Pass::onUpdate() {
 
 bool Pass::sendPassCommand() {
 
-    /*
-     * Try to pass tp the given robot. If it is not possible at the moment return false
-     * TODO talk to control people
-     */
+    if (getReadyToPass()) {
+        // TODO send the magik kick command
+        return true;
+    }
+
+    return false;
+}
+bool Pass::getReadyToPass() {
+
+    // Probably stop?
+
+    // Turn to the angle
+
+    // return true when the angle and velocity looks fine
+
+    // Make money !
+
 
 
     return false;
 }
-
 
 } // ai
 } // rtt
