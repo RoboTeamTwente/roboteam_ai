@@ -98,15 +98,15 @@ void Dribble::onInitialize() {
     stoppingAngle=robot->angle; // default to the current angle
 }
 
-Dribble::status Dribble::onUpdate() {
+Dribble::Status Dribble::onUpdate() {
 
     ball = World::getBall(); //TODO: sanity checking if ball is actually there?
 
     if (currentProgress == Progression::FAIL) {
-        return status::Failure;
+        return Status::Failure;
     }
     else if (currentProgress == Progression::WAITING) {
-        return status::Waiting;
+        return Status::Waiting;
     }
 
     deltaPos = targetPos - Vector2(ball.pos.x, ball.pos.y);
@@ -120,14 +120,14 @@ Dribble::status Dribble::onUpdate() {
     }
 
     switch (currentProgress) {
-    case ON_THE_WAY: return status::Running;
-    case STOPPED: return status::Running;
-    case DONE: return status::Success;
-    case FAIL: return status::Failure;
-    default: return status::Waiting;
+    case ON_THE_WAY: return Status::Running;
+    case STOPPED: return Status::Running;
+    case DONE: return Status::Success;
+    case FAIL: return Status::Failure;
+    default: return Status::Waiting;
     }
 }
-void Dribble::onTerminate(status s) {
+void Dribble::onTerminate(Status s) {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = 1;

@@ -36,7 +36,7 @@ class Dribble : public Skill {
     public:
         explicit Dribble(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;
-        status onUpdate() override;
+        Status onUpdate() override;
         void onTerminate(Status s) override;
 };
 }//ai
