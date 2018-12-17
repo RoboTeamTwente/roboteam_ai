@@ -12,11 +12,14 @@
 namespace rtt {
 namespace ai {
 namespace constants {
-//
+//Other/multiple usage
+const int DEFAULT_ROBOT_ID = 1;
+const double MAX_ANGULAR_VELOCITY = 6.0; // rad per second??
+const double ROBOT_RADIUS=0.089; // TODO: Need to test if world_state agrees with this definition of the centre of the robot
+const double FRONT_LENGTH=0.118; // length of the front (flat) part of the robot
+const double DRIBBLER_ANGLE_OFFSET=asin(FRONT_LENGTH/2/ROBOT_RADIUS); // if the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET points to the left and DRIBBLER_ANGLE_OFFSET to the right.
+const double BALL_RADIUS=0.0215;
 const int tickRate=50;// Rate at which we tick our behavior Trees
-
-//Mathematical constants
-const double PI = 3.14159; // TODO: Why do we need this when we have M_PI from math.h? Conflicting usages? Global PI definition is very needed.
 
 //skills
 const double DEFAULT_KICK_POWER = 5.0; // max kick power = 100
@@ -24,16 +27,16 @@ const int MAX_KICK_CYCLES = 20;
 const int MAX_GENEVA_CYCLES = 20;
 const int DEFAULT_GENEVA_STATE = 0;
 
-const double FRONT_LENGTH=0.118;
-const double ROBOT_RADIUS=0.089; // TODO: Need to test if world_state agrees with this definition of the centre of the robot
-const double DRIBBLER_ANGLE_OFFSET=asin(FRONT_LENGTH/2/ROBOT_RADIUS);
-const double MAX_BALL_RANGE=0.3; // Could maybe be even less? TODO: needs to be tested.
+//dribble
+const double MAX_BALL_RANGE=0.15; // Could maybe be even less? TODO: needs to be tested.
 const double DRIBBLE_POSDIF=0.03;
-const float  DRIBBLE_SPEED=0.5;
-
-//Other/multiple usage
-const int DEFAULT_ROBOT_ID = 1;
-const double MAX_ANGULAR_VELOCITY = 6.0; // rad per second??
+const float  DRIBBLE_SPEED=0.6;
+//getBallcc
+const double COLLISION_RADIUS=0.18;
+const double ANGLE_SENS=0.05*M_PI;
+const double MAX_GETBALL_RANGE=0.3;
+const int POSSES_BALL_CYCLES=100;
+const double GETBALL_SPEED=.5;
 
 //Keeper
 const double KEEPER_POST_MARGIN=0.08;//m
