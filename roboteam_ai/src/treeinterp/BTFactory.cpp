@@ -10,7 +10,7 @@
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
 std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
 std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::keeperRepo;
-std::string BTFactory::currentTree;
+std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
 int BTFactory::keeperID;
 bool BTFactory::initialized = false;
@@ -59,9 +59,11 @@ void BTFactory::setCurrentTree(const std::string &newTree) {
 
     if (newTree != BTFactory::currentTree) {
 
-        for (const auto &tacticRobotsPair : robotDealer::RobotDealer::getClaimedRobots()) {
-            robotDealer::RobotDealer::removeTactic(tacticRobotsPair.first);
+        if (BTFactory::currentTree == "NaN") {
+            BTFactory::currentTree = newTree;
+            return;
         }
+        BTFactory::getFactory().getTree(currentTree)->terminate(bt::Node::Status::Running);
 
         BTFactory::currentTree = newTree;
     }

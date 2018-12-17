@@ -67,12 +67,12 @@ void runBehaviourTrees() {
 
         strategy = factory.getTree(BTFactory::getCurrentTree());
 
-
-        std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+//
+//        std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
         Status status = strategy->tick();
-        std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
-
-        std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+//        std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+//
+//        std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
    //     std::cout << "Tick took:  " << time_span.count()*1000 << " ms." << std::endl;
 
         switch (status) {
@@ -82,11 +82,6 @@ void runBehaviourTrees() {
                 ROS_INFO_STREAM("Status returned: Success");
                 ROS_INFO_STREAM(" === TREE CHANGE === ");
 
-                if (BTFactory::getCurrentTree() == "SimpleStrategy") {
-                    BTFactory::setCurrentTree("haltStrategy");
-                } else {
-                    BTFactory::setCurrentTree("SimpleDefendStrategy");
-                }
                 break;
 
             case Status::Failure:
