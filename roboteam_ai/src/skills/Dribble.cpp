@@ -46,6 +46,7 @@ Dribble::Progression Dribble::checkProgression() {
         return WAITING;
     }
 
+    return FAIL;
 }
 
 bool Dribble::robotHasBall() {

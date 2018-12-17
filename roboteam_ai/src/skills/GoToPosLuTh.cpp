@@ -106,7 +106,7 @@ void GoToPosLuTh::sendMoveCommand() {
         return;
     }
 
-    ros::Time begin = ros::Time::now();
+    //ros::Time begin = ros::Time::now();
 
     NumRobot me;
     roboteam_msgs::RobotCommand command;

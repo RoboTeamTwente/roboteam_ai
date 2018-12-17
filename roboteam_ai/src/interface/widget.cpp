@@ -221,7 +221,7 @@ std::string Visualizer::getTacticNameForRobot(roboteam_msgs::WorldRobot robot) {
     for (auto &robotowner : robotDealer::RobotDealer::getClaimedRobots()) {
         std::set<std::pair<int, std::string>> robots = robotowner.second;
         for (auto &ownedRobot : robots) {
-            if (ownedRobot.first == robot.id) {
+            if (ownedRobot.first == static_cast<int>(robot.id)) {
                 return robotowner.first;
             }
         }
@@ -233,7 +233,7 @@ std::string Visualizer::getRoleNameForRobot(roboteam_msgs::WorldRobot robot) {
     for (auto &robotowner : robotDealer::RobotDealer::getClaimedRobots()) {
         std::set<std::pair<int, std::string>> robots = robotowner.second;
         for (auto &ownedRobot : robots) {
-            if (ownedRobot.first == robot.id) {
+            if (ownedRobot.first == static_cast<int>(robot.id)) {
                 return ownedRobot.second;
             }
         }
@@ -277,7 +277,7 @@ void Visualizer::setShowPathAll(bool showPaths) {
 
 void Visualizer::selectRobot(int robotId) {
     for (roboteam_msgs::WorldRobot robot : rtt::ai::World::get_world().us) {
-        if (robot.id == robotId) {
+        if (static_cast<int>(robot.id) == robotId) {
             this->selectedRobot = robot;
         }
     }
