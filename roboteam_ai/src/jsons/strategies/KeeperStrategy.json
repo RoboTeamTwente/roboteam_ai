@@ -1,0 +1,18 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "cqk5go5kip55ex": {
+            "id": "cqk5go5kip55ex",
+            "name": "KeeperTactic",
+            "title": "Tactic"
+          }
+        },
+        "root": "cqk5go5kip55ex",
+        "title": "KeeperStrategy"
+      }
+    ]
+  },
+  "name": "KeeperStrategy"
+}

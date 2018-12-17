@@ -25,5 +25,6 @@ bt::Node::Status BallKickedToOurGoal::update() {
         return Status::Failure;
     }
 }
+std::string BallKickedToOurGoal::node_name() {return "BallKickedToOurGoal";}
 }//ai
 }//rtt
