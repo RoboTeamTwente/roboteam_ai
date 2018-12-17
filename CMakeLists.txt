@@ -217,6 +217,10 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/controlGoToPos/ControlGoToPosLuTh.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlGoToPos.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlGoToPos.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlRotate.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlRotate.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlKick.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlKick.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PID.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PID.h
         )
