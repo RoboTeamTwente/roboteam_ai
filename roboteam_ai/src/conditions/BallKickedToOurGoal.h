@@ -4,8 +4,10 @@
 
 #ifndef ROBOTEAM_AI_BALLKICKEDTOOURGOAL_H
 #define ROBOTEAM_AI_BALLKICKEDTOOURGOAL_H
+
 #include "Condition.h"
 #include "../control/ControlUtils.h"
+
 namespace rtt{
 namespace ai{
 class BallKickedToOurGoal : public Condition  {

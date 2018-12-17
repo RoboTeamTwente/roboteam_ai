@@ -4,10 +4,9 @@
 
 #ifndef ROBOTEAM_AI_KEEPER_H
 #define ROBOTEAM_AI_KEEPER_H
+
 #include "Skill.h"
-#include "roboteam_utils/Arc.h"
-#include "roboteam_utils/Math.h"
-#include "../control/PID.h"
+
 
 namespace rtt{
 namespace ai{

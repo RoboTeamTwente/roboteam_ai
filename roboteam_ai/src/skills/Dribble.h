@@ -17,7 +17,6 @@ namespace ai {
 /// Stops at the end to ensure the ball does not spin away.
 class Dribble : public Skill {
     private:
-        using status = bt::Node::Status;
         roboteam_msgs::WorldBall ball;
         enum Progression {
           ON_THE_WAY, STOPPED, DONE, FAIL, WAITING

@@ -5,6 +5,7 @@
 #include "BallKickedToOurGoal.h"
 namespace rtt {
 namespace ai {
+
 BallKickedToOurGoal::BallKickedToOurGoal(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(name, blackboard) { };
 bt::Node::Status BallKickedToOurGoal::update() {
