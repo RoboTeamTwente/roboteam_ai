@@ -82,11 +82,6 @@ void runBehaviourTrees() {
                 ROS_INFO_STREAM("Status returned: Success");
                 ROS_INFO_STREAM(" === TREE CHANGE === ");
 
-                if (BTFactory::getCurrentTree() == "SimpleStrategy") {
-                    BTFactory::setCurrentTree("haltStrategy");
-                } else {
-                    BTFactory::setCurrentTree("SimpleDefendStrategy");
-                }
                 break;
 
             case Status::Failure:
