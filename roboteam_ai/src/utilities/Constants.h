@@ -30,13 +30,13 @@ const int DEFAULT_GENEVA_STATE = 0;
 //dribble
 const double MAX_BALL_RANGE=0.15; // Could maybe be even less? TODO: needs to be tested.
 const double DRIBBLE_POSDIF=0.03;
-const float  DRIBBLE_SPEED=0.3;
-//getBall
+const float  DRIBBLE_SPEED=0.6;
+//getBallcc
 const double COLLISION_RADIUS=0.18;
 const double ANGLE_SENS=0.05*M_PI;
 const double MAX_GETBALL_RANGE=0.3;
 const int POSSES_BALL_CYCLES=100;
-const double GETBALL_SPEED=0.3;
+const double GETBALL_SPEED=.5;
 
 //Keeper
 const double KEEPER_POST_MARGIN=0.08;//m
