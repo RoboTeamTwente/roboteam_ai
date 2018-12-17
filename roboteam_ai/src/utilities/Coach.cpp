@@ -8,7 +8,7 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
-    std::map<int, int> Coach::defencePairs;
+std::map<int, int> Coach::defencePairs;
 
 int Coach::pickOffensivePassTarget(int selfID, std::string roleName) {
 
@@ -31,7 +31,7 @@ int Coach::pickDefensivePassTarget(int selfID) {
     auto world = World::get_world();
     auto us = world.us;
     int safelyness = 3;
-    while (safelyness >= 0) {
+    while (safelyness > 0) {
         for (auto friendly : us) {
             if (control::ControlUtils::hasClearVision(selfID, friendly.id, world, safelyness)) {
                 return friendly.id;
@@ -91,7 +91,7 @@ int Coach::pickOpponentToCover(int selfID) {
     std::vector<int> dangerList = DangerData.dangerList;
     for(int & opponentID : dangerList) {
         if(defencePairs.find(opponentID) == defencePairs.end()) {
-            if(!doesRobotHaveBall(opponentID, false)) {
+            if(!doesRobotHaveBall(static_cast<unsigned int>(opponentID), false)) {
                 return opponentID;
             }
         } else if (defencePairs[opponentID] == selfID) {

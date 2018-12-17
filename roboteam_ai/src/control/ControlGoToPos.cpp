@@ -33,7 +33,6 @@ void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goToTyp
         ControlGoToPos::goToPosForce(std::move(robot), position);
         break;
     }
-
     case luTh: {
         ControlGoToPos::goToPosLuTh(std::move(robot), position);
         break;
