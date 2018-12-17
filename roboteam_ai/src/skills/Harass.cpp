@@ -20,7 +20,9 @@ void Harass::initialize() {
 Skill::Status Harass::update() {
 
     updateRobot();
-
+    if (!robot) {
+        return Status::Failure;
+    }
     if (harassmentTarget == - 1) {
         pickHarassmentTarget();
     }
