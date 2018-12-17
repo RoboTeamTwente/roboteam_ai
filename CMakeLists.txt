@@ -165,6 +165,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Dribble.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GetBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GetBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.cpp
@@ -296,6 +298,7 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/RefereeTest.cpp
         roboteam_ai/test/StrategyManagerTest.cpp
         roboteam_ai/test/PropertiesParserTest.cpp
+        roboteam_ai/test/ControUtilsTest.cpp
         ${SKILL_TESTS}
         roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
         ${CONDITION_TESTS}

@@ -36,6 +36,7 @@
 #include "../skills/RotateToAngle.h"
 #include "../skills/GoToPos.h"
 #include "../skills/Keeper.h"
+#include "../skills/GetBall.h"
 
 
 //  ______________________
@@ -159,6 +160,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     }
     else if (name == "RotateToAngle") {
         node = std::make_shared<rtt::ai::RotateToAngle>(name, properties);
+    }
+    else if (name == "GetBall") {
+        node = std::make_shared<rtt::ai::GetBall>(name, properties);
     }
     else if (name == "HasBall") {
         node = std::make_shared<rtt::ai::HasBall>(name, properties);

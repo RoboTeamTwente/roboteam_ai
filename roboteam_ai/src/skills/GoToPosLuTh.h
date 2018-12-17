@@ -121,8 +121,8 @@ class GoToPosLuTh : public Skill {
 
         std::priority_queue<NumRobotPtr, std::vector<NumRobotPtr>, NumRobot::CustomCompare> robotQueue;
 
-        bool tracePath(NumRobot &numRobot, Vector2 target);
 
+        bool tracePath(NumRobot &numRobot, Vector2 target);
         std::vector<Vector2> displayData;
         double errorMargin = 0.3;
 
