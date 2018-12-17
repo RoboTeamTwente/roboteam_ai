@@ -2,6 +2,12 @@
 // Created by thijs on 10-12-18.
 //
 
+
+
+#ifndef ROBOTEAM_AI_CONTROLGOTOPOS_H
+#define ROBOTEAM_AI_CONTROLGOTOPOS_H
+
+
 #include <roboteam_utils/Vector2.h>
 #include <roboteam_msgs/WorldRobot.h>
 #include <roboteam_msgs/RobotCommand.h>
@@ -19,10 +25,6 @@
 //
 
 #include "controlGoToPos/ControlGoToPosLuTh.h"
-
-
-#ifndef ROBOTEAM_AI_CONTROLGOTOPOS_H
-#define ROBOTEAM_AI_CONTROLGOTOPOS_H
 
 namespace control {
 

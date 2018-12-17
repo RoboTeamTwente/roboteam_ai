@@ -6,22 +6,17 @@
 namespace rtt {
 namespace ai {
 
-void ShootAtGoal::initialize() {
+void ShootAtGoal::onInitialize() {
     robot = getRobotFromProperties(properties);
     onlyGeneva = properties->getBool("onlyGeneva");
 
-    onlyGeneva = properties->getBool("onlyGeneva");
+    // onlyGeneva = properties->getBool("onlyGeneva");
     neverGeneva = properties->getBool("neverGeneva");
 }
 
-
-Skill::Status ShootAtGoal::update() {
+Skill::Status ShootAtGoal::onUpdate() {
     return Status::Success;
 }
 
-
-void ShootAtGoal::terminate(Skill::Status s) {
-    Skill::terminate(s);
-}
 }
 }

@@ -7,17 +7,14 @@ namespace rtt {
 namespace ai {
 
 Harass::Harass(std::string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
+        :Skill(name, blackboard) { }
 
-}
-
-void Harass::initialize() {
-    robot = getRobotFromProperties(properties);
+void Harass::onInitialize() {
     harassBallOwner = properties->getBool("harassBallOwner");
     pickHarassmentTarget();
 }
 
-Skill::Status Harass::update() {
+Skill::Status Harass::onUpdate() {
 
     updateRobot();
     if (!robot) {
@@ -64,12 +61,6 @@ void Harass::pickHarassmentTarget() {
     harassmentTarget = 0;
 
 }
-void Harass::terminate(Skill::Status s) {
-    // TODO?
-}
-std::string Harass::node_name() {
-    return name;
-}
 
-}
-}
+} // ai
+} // rtt

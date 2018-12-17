@@ -22,11 +22,9 @@ class RotateToAngle: public Skill {
 
 public:
         explicit RotateToAngle(string name, bt::Blackboard::Ptr blackboard);
-        std::string node_name() override;
-
-        void initialize() override;
-        Status update() override;
-        void terminate(Status s) override;
+        void onInitialize() override;
+        Status onUpdate() override;
+        void onTerminate(Status s) override;
 };
 }//ai
 }//rtt

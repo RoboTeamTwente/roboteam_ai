@@ -36,11 +36,9 @@ class Dribble : public Skill {
         void sendStopCommand();
     public:
         explicit Dribble(string name, bt::Blackboard::Ptr blackboard);
-        std::string node_name() override;
-
-        void initialize() override;
-        status update() override;
-        void terminate(status s) override;
+        void onInitialize() override;
+        status onUpdate() override;
+        void onTerminate(Status s) override;
 };
 }//ai
 }//rtt

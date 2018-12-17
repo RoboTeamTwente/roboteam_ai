@@ -15,18 +15,14 @@ class Harass : public Skill {
 
     public:
         explicit Harass(string name, bt::Blackboard::Ptr blackboard);
-        void initialize() override;
-        Status update() override;
-        void terminate(Status s) override;
-        std::string node_name() override;
-
+        void onInitialize() override;
+        Status onUpdate() override;
     private:
         int harassmentTarget = - 1;
         void pickHarassmentTarget();
         bool harassBallOwner = false;
         control::ControlGoToPos goToPos;
         using goType = control::ControlGoToPos::GoToType;
-
 };
 
 }

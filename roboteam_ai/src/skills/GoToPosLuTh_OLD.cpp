@@ -13,14 +13,8 @@ GoToPosLuTh_OLD::GoToPosLuTh_OLD(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
 }
 
-/// Return name of GoToPosLuTh
-std::string GoToPosLuTh_OLD::node_name() {
-    return "GoToPosLuTh_OLD";
-}
 /// Called when the Skill is Initialized
-void GoToPosLuTh_OLD::initialize() {
-    getRobotFromProperties(properties);
-
+void GoToPosLuTh_OLD::onInitialize() {
     drawInterface = properties->getBool("drawInterface");
     goToBall = properties->getBool("goToBall");
     random = properties->getBool("random");
@@ -35,9 +29,8 @@ void GoToPosLuTh_OLD::initialize() {
 }
 
 /// Called when the Skill is Updated
-GoToPosLuTh_OLD::Status GoToPosLuTh_OLD::update() {
+GoToPosLuTh_OLD::Status GoToPosLuTh_OLD::onUpdate() {
     displayData.clear();
-    updateRobot();
 
     if (goToBall) {
         auto ball = World::getBall();
@@ -89,8 +82,7 @@ GoToPosLuTh_OLD::Status GoToPosLuTh_OLD::update() {
 }
 
 /// Called when the Skill is Terminated
-void GoToPosLuTh_OLD::terminate(Status s) {
-
+void GoToPosLuTh_OLD::onTerminate(Status s) {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = 0;

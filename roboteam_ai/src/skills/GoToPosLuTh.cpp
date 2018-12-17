@@ -9,18 +9,11 @@ namespace ai {
 
 /// GoToPosLuTh: obstacle avoidance following Lukas & Thijs principles
 GoToPosLuTh::GoToPosLuTh(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
-}
-
-/// Return name of GoToPosLuTh
-std::string GoToPosLuTh::node_name() {
-    return "GoToPosLuTh";
+        :Skill(std::move(name), std::move(blackboard)) {
 }
 
 /// Called when the Skill is Initialized
-void GoToPosLuTh::initialize() {
-    robot = getRobotFromProperties(properties);
-
+void GoToPosLuTh::onInitialize() {
     drawInterface = properties->getBool("drawInterface");
     goToBall = properties->getBool("goToBall");
     passiveDefend = properties->getBool("passiveDefend");
@@ -36,21 +29,13 @@ void GoToPosLuTh::initialize() {
 }
 
 /// Called when the Skill is Updated
-GoToPosLuTh::Status GoToPosLuTh::update() {
+GoToPosLuTh::Status GoToPosLuTh::onUpdate() {
     displayData.clear();
-
-    updateRobot();
-//  ____________________________________________________________________________________________________________________
-
-    if (!robot) return Status::Failure;
 
     if (goToBall) {
         auto ball = World::getBall();
         targetPos = ball.pos;
-    }
-
-
-    else if (random) {
+    } else if (random) {
         const roboteam_msgs::GeometryFieldSize &field = Field::get_field();
         const double &length = field.field_length;
         const double &width = field.field_width;
@@ -85,18 +70,14 @@ GoToPosLuTh::Status GoToPosLuTh::update() {
 }
 
 /// Called when the Skill is Terminated
-void GoToPosLuTh::terminate(Status s) {
-    if (robot) {
-        roboteam_msgs::RobotCommand command;
-        command.id = robot->id;
-        command.use_angle = 0;
-        command.w = 0;
-
-        command.x_vel = 0;
-        command.y_vel = 0;
-
-        publishRobotCommand(command);
-    }
+void GoToPosLuTh::onTerminate(Status s) {
+    roboteam_msgs::RobotCommand command;
+    command.id = robot->id;
+    command.use_angle = 0;
+    command.w = 0;
+    command.x_vel = 0;
+    command.y_vel = 0;
+    publishRobotCommand(command);
 }
 
 bool GoToPosLuTh::checkTargetPos(Vector2 pos) {
@@ -153,7 +134,7 @@ void GoToPosLuTh::sendMoveCommand() {
     interface::Drawer::setGoToPosLuThPoints(robot->id, displayColorData);
 
     if (nicePath) {
-        command.use_angle = 0;
+        command.use_angle = 1;
         command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle, 0));
         publishRobotCommand(command);
         return;

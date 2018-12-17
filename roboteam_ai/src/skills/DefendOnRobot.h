@@ -29,12 +29,14 @@ class DefendOnRobot : public Skill {
         Progression currentProgress;
     public:
         explicit DefendOnRobot(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
-        void initialize() override;
-        void terminate(Status s) override;
-        Status update() override;
+        void onInitialize() override;
+        void onTerminate(Status s) override;
+        Status onUpdate() override;
         Vector2 calculateLocation();
-        std::shared_ptr<roboteam_msgs::WorldRobot> robot1;
-        std::shared_ptr<roboteam_msgs::WorldRobot> robot2;
+        int opponentWithBallID;
+        int opponentToCoverID;
+        std::shared_ptr<roboteam_msgs::WorldRobot> opponentWithBall;
+        std::shared_ptr<roboteam_msgs::WorldRobot> opponentToCover;
 };
 } // ai
 } // rtt

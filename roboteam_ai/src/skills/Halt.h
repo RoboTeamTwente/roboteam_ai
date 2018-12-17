@@ -13,13 +13,10 @@ namespace ai {
 class Halt : public Skill {
 public:
     explicit Halt(string name, bt::Blackboard::Ptr blackboard);
-    std::string node_name() override;
-    Status update() override;
-    void initialize() override;
+    Status onUpdate() override;
 };
 
-}
-}
-
+} // ai
+} // rtt
 
 #endif //ROBOTEAM_AI_HALT_H

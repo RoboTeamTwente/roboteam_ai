@@ -6,22 +6,9 @@
 namespace rtt{
 namespace ai{
 RotateToAngle::RotateToAngle(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
-}
+        :Skill(std::move(name), std::move(blackboard)) { }
 
-/// Return name of the skill
-std::string RotateToAngle::node_name() {
-    return "RotateToAngle";
-}
-
-/// Called when the Skill is Initialized
-void RotateToAngle::initialize() {
-    robot = getRobotFromProperties(properties);
-    if (!robot) {
-        currentProgress = Progression::FAIL;
-        return;
-    }
-
+void RotateToAngle::onInitialize() {
     if (properties->hasDouble("Angle")) {
         targetAngle = properties->getDouble("Angle");
     }
@@ -37,9 +24,7 @@ void RotateToAngle::initialize() {
 }
 
 /// Called when the Skill is Updated
-RotateToAngle::Status RotateToAngle::update() {
-    updateRobot();
-
+RotateToAngle::Status RotateToAngle::onUpdate() {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = useAngle;
@@ -59,8 +44,7 @@ RotateToAngle::Status RotateToAngle::update() {
     return Status::Failure;
 }
 
-/// Called when the Skill is Terminated
-void RotateToAngle::terminate(Status s) {
+void RotateToAngle::onTerminate(Status s) {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = useAngle;
@@ -74,5 +58,5 @@ RotateToAngle::Progression RotateToAngle::checkProgression() {
     else return DONE;
 }
 
-}
-}
+} // ai
+} // rtt
