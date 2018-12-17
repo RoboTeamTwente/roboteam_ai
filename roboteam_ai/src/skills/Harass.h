@@ -6,7 +6,6 @@
 #define ROBOTEAM_AI_HARASS_H
 
 #include "Skill.h"
-#include <roboteam_ai/src/control/ControlGoToPos.h>
 
 namespace rtt {
 namespace ai {
@@ -22,7 +21,6 @@ class Harass : public Skill {
         void pickHarassmentTarget();
         bool harassBallOwner = false;
         control::ControlGoToPos goToPos;
-        using goType = control::ControlGoToPos::GoToType;
 };
 
 }

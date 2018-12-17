@@ -27,8 +27,8 @@ bool ControlUtils::pointInTriangle(Vector2 PointToCheck, Vector2 TP1, Vector2 TP
     double as_x = PointToCheck.x - TP1.x;
     double as_y = PointToCheck.y - TP1.y;
     bool s_ab = (TP2.x - TP1.x)*as_y - (TP2.y - TP1.y)*as_x > 0;
-    if ((TP3.x - TP1.x)*as_y - (TP3.y - TP1.y)*as_x > 0 == s_ab) return false;
-    return ((TP3.x - TP2.x)*(PointToCheck.y - TP2.y) - (TP3.y - TP2.y)*(PointToCheck.x - TP2.x) > 0 == s_ab);
+    if ((((TP3.x - TP1.x)*as_y - (TP3.y - TP1.y)*as_x) > 0) == s_ab) return false;
+    return ((((TP3.x - TP2.x)*(PointToCheck.y - TP2.y) - (TP3.y - TP2.y)*(PointToCheck.x - TP2.x)) > 0) == s_ab);
 }
 
 double ControlUtils::TriangleArea(Vector2 A, Vector2 B, Vector2 C) {
@@ -54,7 +54,7 @@ rtt::Vector2 ControlUtils::getClosestRobot(Vector2 &pos, int &id, bool ourTeam, 
     double distance = 99999999;
 
     for (auto &bot : world.us) {
-        if (! (ourTeam && id == bot.id)) {
+        if (! (ourTeam && id == static_cast<int>(bot.id))) {
             Vector2 botPos = {bot.pos.x + bot.vel.x*t, bot.pos.y + bot.vel.y*t};
             double deltaPos = (pos - botPos).length();
             if (deltaPos < distance) {
@@ -66,7 +66,7 @@ rtt::Vector2 ControlUtils::getClosestRobot(Vector2 &pos, int &id, bool ourTeam, 
 
     }
     for (auto &bot : world.them) {
-        if (! (! ourTeam && id == bot.id)) {
+        if (! (! ourTeam && id == static_cast<int>(bot.id))) {
             Vector2 botPos = {bot.pos.x + bot.vel.x*t, bot.pos.y + bot.vel.y*t};
             double deltaPos = (pos - botPos).length();
             if (deltaPos < distance) {
@@ -105,10 +105,10 @@ bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::Worl
     Vector2 towardsPos;
 
     for (auto friendly : world.us) {
-        if (friendly.id == fromID) {
+        if (static_cast<int>(friendly.id) == fromID) {
             fromPos = friendly.pos;
         }
-        else if (friendly.id == towardsID) {
+        else if (static_cast<int>(friendly.id) == towardsID) {
             towardsPos = friendly.pos;
         }
     }

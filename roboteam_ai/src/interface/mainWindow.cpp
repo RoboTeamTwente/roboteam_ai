@@ -127,7 +127,7 @@ void MainWindow::updateWidgets() {
     }
 
     // if the amount of robots in the world size is not consistent with our knowledge, refresh the select box
-    if (amountOfRobots != World::get_world().us.size()) {
+    if (amountOfRobots != static_cast<int>(World::get_world().us.size())) {
         select_robot->clear();
         for (auto robot : World::get_world().us) {
             select_robot->addItem(QString::number(robot.id));

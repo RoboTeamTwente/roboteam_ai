@@ -38,6 +38,7 @@
 #include "../skills/Keeper.h"
 #include "../skills/GetBall.h"
 
+#include "../skills/Attack.h"
 
 //  ______________________
 //  |                    |
@@ -176,6 +177,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "DefendOnRobot") {
         node = std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
     }
+    else if (name == "Attack") {
+        node = std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
+    }
     else {
         ROS_ERROR("ERROR: Leaf not found!! using GoToPos..");
         node = std::make_shared<rtt::ai::GoToPos>(name, properties);
@@ -224,13 +228,17 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
             {"SimpleTactic", {
-                     {"simpleStupidRobot", robotType::random}
+                    {"simpleStupidRobot", robotType::random}
             }
-                    },
+            },
             {"SimpleDefendTactic", {
-                 {"simpleDefender1", robotType::closeToOurGoal},
-                 {"simpleDefender2", robotType::closeToOurGoal},
-                 {"simpleDefender3", robotType::closeToOurGoal}
+                    {"simpleDefender1", robotType::closeToOurGoal},
+                    {"simpleDefender2", robotType::closeToOurGoal},
+                    {"simpleDefender3", robotType::closeToOurGoal}
+            }
+            },
+            {"Attactic", {
+                    {"atak", robotType::closeToBall},
             }
             }
 

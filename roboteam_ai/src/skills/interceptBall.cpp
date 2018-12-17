@@ -44,6 +44,8 @@ InterceptBall::Status InterceptBall::onUpdate() {
     case BALLDEFLECTED: return Status::Success;
     case BALLMISSED: return Status::Failure;
     }
+
+    return Status::Failure;
 }
 
 void InterceptBall::checkProgression() {

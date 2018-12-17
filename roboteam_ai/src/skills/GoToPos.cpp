@@ -46,7 +46,7 @@ bt::Node::Status GoToPos::onUpdate() {
 
     // See if the progress is a failure
     if (currentProgress == Progression::FAIL) {
-        return status::Failure;
+        return Status::Failure;
     }
     double dx = targetPos.x - robot->pos.x;
     double dy = targetPos.y - robot->pos.y;
@@ -59,16 +59,16 @@ bt::Node::Status GoToPos::onUpdate() {
 
     switch (currentProgress) {
 
-        // Return the progression in terms of status
-    case ON_THE_WAY:return status::Running;
-    case DONE: return status::Success;
-    case FAIL: return status::Failure;
+        // Return the progression in terms of Status
+    case ON_THE_WAY:return Status::Running;
+    case DONE: return Status::Success;
+    case FAIL: return Status::Failure;
     }
 
-    return status::Failure;
+    return Status::Failure;
 }
 
-void GoToPos::onTerminate(status s) {
+void GoToPos::onTerminate(Status s) {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = 1;

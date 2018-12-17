@@ -10,8 +10,12 @@
 #include "../utilities/Constants.h"
 #include "../utilities/Coach.h"
 #include "roboteam_utils/Vector2.h"
-
-
+#include <roboteam_ai/src/conditions/HasBall.hpp>
+#include <roboteam_ai/src/utilities/Coach.h>
+#include <roboteam_ai/src/control/ControlGoToPos.h>
+#include "../control/PID.h"
+#include "roboteam_utils/Arc.h"
+#include "roboteam_utils/Math.h"
 
 namespace rtt {
 namespace ai {
@@ -24,6 +28,7 @@ class Skill : public bt::Leaf {
     protected:
         io::IOManager ioManager;
         using coach = coach::Coach;
+        using goType = control::ControlGoToPos::GoToType;
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
 public:
         using Control = control::ControlUtils;
