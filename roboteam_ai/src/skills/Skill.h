@@ -6,7 +6,7 @@
 #include "../io/IOManager.h"
 #include "roboteam_msgs/WorldRobot.h"
 #include <roboteam_msgs/RobotCommand.h>
-#include "../../src/control/ControlUtils.h"
+#include "../control/ControlUtils.h"
 #include "../utilities/Constants.h"
 #include "../utilities/Coach.h"
 #include "roboteam_utils/Vector2.h"
@@ -19,6 +19,7 @@
 
 namespace rtt {
 namespace ai {
+namespace c = rtt::ai::constants;
 
 /**
  * \class Skill
@@ -27,10 +28,12 @@ namespace ai {
 class Skill : public bt::Leaf {
     protected:
         io::IOManager ioManager;
+
         using coach = coach::Coach;
         using goType = control::ControlGoToPos::GoToType;
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
-public:
+    public:
+
         using Control = control::ControlUtils;
         using Status = bt::Node::Status;
         explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
@@ -41,7 +44,7 @@ public:
 
         virtual void onInitialize() { };
         virtual Status onUpdate() = 0;
-        virtual void onTerminate(Status s) {};
+        virtual void onTerminate(Status s) { };
 };
 
 } // ai

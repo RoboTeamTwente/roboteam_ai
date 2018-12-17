@@ -3,7 +3,7 @@
 //
 
 #include "GetBall.h"
-namespace c=rtt::ai::constants;
+
 
 namespace rtt {
 namespace ai {
@@ -32,7 +32,7 @@ void GetBall::checkProgression() {
             currentProgress=TURNING;
             return;
         }
-        if (!robothasBall()){
+        if (! robotHasBall()){
             return;
         }
         else{
@@ -41,7 +41,7 @@ void GetBall::checkProgression() {
         }
     }
     else if (currentProgress==DRIBBLING){
-        if (!robothasBall()){
+        if (! robotHasBall()){
             currentProgress=APPROACHING;
             count=0;
             return;
@@ -75,18 +75,20 @@ GetBall::Status GetBall::onUpdate() {
         sendDribblingCommand();
     }
     switch (currentProgress){
-    case TURNING: return status::Running;
-    case APPROACHING: return status::Running;
-    case DRIBBLING: return status::Running;
-    case SUCCESS: return status::Success;
-    case FAIL: return status::Failure;
+    case TURNING: return Status::Running;
+    case APPROACHING: return Status::Running;
+    case DRIBBLING: return Status::Running;
+    case SUCCESS: return Status::Success;
+    case FAIL: return Status::Failure;
     }
 
+    return Status::Failure;
 }
+
 void GetBall::onTerminate(Status s) {
     sendDribblingCommand();
 }
-bool GetBall::robothasBall() {
+bool GetBall::robotHasBall() {
     //The ball is in an area defined by a cone from the robot centre, or from a rectangle in front of the dribbler
     Vector2 RobotPos = Vector2(robot->pos.x, robot->pos.y);
     Vector2 BallPos = Vector2(ball.pos.x, ball.pos.y);
