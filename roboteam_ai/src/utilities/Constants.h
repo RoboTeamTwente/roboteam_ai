@@ -13,7 +13,7 @@ namespace rtt {
 namespace ai {
 namespace constants {
 //
-const int tickRate=50;// Rate at which we tick our behavior Trees
+const int tickRate=9001;// Rate at which we tick our behavior Trees
 
 //Mathematical constants
 const double PI = 3.14159; // TODO: Why do we need this when we have M_PI from math.h? Conflicting usages? Global PI definition is very needed.
