@@ -5,8 +5,10 @@
 #ifndef ROBOTEAM_AI_CONSTANTS_H
 #define ROBOTEAM_AI_CONSTANTS_H
 //TODO: add units to the below things, check with control/robothub.
+
+#include <QColor>
 #include "math.h"
-#include <SDL_pixels.h>
+
 namespace rtt {
 namespace ai {
 namespace constants {
@@ -17,6 +19,8 @@ const double ROBOT_RADIUS=0.089; // TODO: Need to test if world_state agrees wit
 const double FRONT_LENGTH=0.118; // length of the front (flat) part of the robot
 const double DRIBBLER_ANGLE_OFFSET=asin(FRONT_LENGTH/2/ROBOT_RADIUS); // if the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET points to the left and DRIBBLER_ANGLE_OFFSET to the right.
 const double BALL_RADIUS=0.0215;
+const int tickRate=50;// Rate at which we tick our behavior Trees
+
 //skills
 const double DEFAULT_KICK_POWER = 5.0; // max kick power = 100
 const int MAX_KICK_CYCLES = 20;
@@ -34,26 +38,49 @@ const double MAX_GETBALL_RANGE=0.3;
 const int POSSES_BALL_CYCLES=100;
 const double GETBALL_SPEED=0.3;
 
-// Interface
-const int WINDOW_POS_X = 100;
-const int WINDOW_POS_Y = 100;
-const int WINDOW_SIZE_X = 800;
-const int WINDOW_SIZE_Y = 600;
-const int ROBOT_DRAWING_SIZE = 10;
-const int WINDOW_FIELD_MARGIN = 3;
-const SDL_Color FIELD_COLOR {50, 50, 50, 255}; // gray
-const SDL_Color FIELD_LINE_COLOR { 255, 255, 255, 255 }; // White
-const SDL_Color ROBOT_US_COLOR { 150, 150, 255, 255 }; // Blue
-const SDL_Color ROBOT_THEM_COLOR { 255, 255, 0, 255 }; // Yellow
-const SDL_Color BALL_COLOR { 255, 120, 50, 255 }; // Orange
-const SDL_Color TEXT_COLOR { 255, 255, 255, 255 }; // White
+//Keeper
+const double KEEPER_POST_MARGIN=0.08;//m
+const double KEEPER_CENTREGOAL_MARGIN=0.3;//m
+const double KEEPER_POSDIF=0.04;
 
-const SDL_Color TACTIC_1 { 255, 0, 255, 255 };
-const SDL_Color TACTIC_2 { 0, 255, 255, 255 };
-const SDL_Color TACTIC_3 { 255, 255, 0, 255 };
-const SDL_Color TACTIC_4 { 255, 120, 180, 255 };
-const SDL_Color TACTIC_5 { 255, 100, 255, 255 };
-const SDL_Color TACTIC_COLORS[] = {TACTIC_1, TACTIC_2, TACTIC_3, TACTIC_4, TACTIC_5};
+//ballkickedtoGoal
+const double BALL_TO_GOAL_MARGIN=ROBOT_RADIUS;//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
+const double BALL_TO_GOAL_TIME=1.5;//seconds
+
+//Intercept
+const double MAX_INTERCEPT_TIME=2.0;//seconds. Intercept terminates  after this time.
+const double BALL_DEFLECTION_ANGLE=30.0/180.0*M_PI;//angle at which a ball is considered 'deflected'
+const double INTERCEPT_POSDIF=0.04;//m
+// Interface
+const int ROBOT_DRAWING_SIZE = 8;
+const int BALL_DRAWING_SIZE = 5;
+const int TACTIC_COLOR_DRAWING_SIZE = 10;
+const int WINDOW_FIELD_MARGIN = 5;
+
+// Settings
+const bool STD_SHOW_ROLES = false;
+const bool STD_SHOW_TACTICS = false;
+const bool STD_SHOW_TACTICS_COLORS = true;
+const bool STD_SHOW_VELOCITIES = true;
+const bool STD_SHOW_ANGLES = true;
+const bool STD_SHOW_VORONOI = false;
+const bool STD_SHOW_PATHS_ALL = false;
+const bool STD_SHOW_PATHS_CURRENT = false;
+
+const QColor FIELD_COLOR{30, 30, 30, 255};
+const QColor FIELD_LINE_COLOR = Qt::white;
+const QColor ROBOT_US_COLOR { 150, 150, 255, 255 }; // Blue
+const QColor ROBOT_THEM_COLOR { 255, 255, 0, 255 }; // Yellow
+const QColor BALL_COLOR { 255, 120, 50, 255 }; // Orange
+const QColor TEXT_COLOR = Qt::white;
+const QColor SELECTED_ROBOT_COLOR = Qt::magenta;
+
+const QColor TACTIC_1 { 255, 0, 255, 255 };
+const QColor TACTIC_2 { 0, 255, 255, 255 };
+const QColor TACTIC_3 { 255, 255, 0, 255 };
+const QColor TACTIC_4 { 255, 120, 180, 255 };
+const QColor TACTIC_5 { 255, 100, 255, 255 };
+const QColor TACTIC_COLORS[] = {TACTIC_1, TACTIC_2, TACTIC_3, TACTIC_4, TACTIC_5};
 
 } // constants
 } // ai

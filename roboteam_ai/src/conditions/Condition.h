@@ -4,6 +4,7 @@
 #include "../bt/Leaf.hpp"
 #include "../utilities/Field.h"
 #include "../utilities/World.h"
+#include "../control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {
@@ -14,9 +15,11 @@ namespace ai {
  */
 class Condition : public bt::Leaf {
     public:
-        explicit Condition(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
+        using Control = control::ControlUtils;
+        using Status = bt::Node::Status;
 
-        Status update() override;
+        explicit Condition(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+
 };
 
 } // ai

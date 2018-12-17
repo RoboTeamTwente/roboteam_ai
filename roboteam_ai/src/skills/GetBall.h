@@ -11,10 +11,10 @@
 
 namespace rtt {
 namespace ai {
+
 class GetBall : public Skill {
     private:
         using status=bt::Node::Status;
-        roboteam_msgs::WorldRobot robot;
         roboteam_msgs::WorldBall ball;
 
         enum Progression {
@@ -33,11 +33,9 @@ class GetBall : public Skill {
         Vector2 deltaPos;
     public:
         explicit GetBall(string name, bt::Blackboard::Ptr blackboard);
-        std::string node_name() override;
-
-        void initialize() override;
-        status update() override;
-        void terminate(status s) override;
+        void onInitialize() override;
+        status onUpdate() override;
+        void onTerminate(status s) override;
 
 };
 }

@@ -13,10 +13,6 @@ namespace ai {
 GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
 }
-std::string GetBall::node_name() {
-    return "GetBall";
-}
-
 
 // Essentially a state transition diagram.
 void GetBall::checkProgression() {
@@ -24,7 +20,7 @@ void GetBall::checkProgression() {
         currentProgress=FAIL;
         return;
     }
-    double angleDif=Control::angleDifference(robot.angle,deltaPos.angle());
+    double angleDif=Control::angleDifference(robot->angle,deltaPos.angle());
     if (currentProgress==TURNING){
         if (angleDif<c::ANGLE_SENS){
             currentProgress=APPROACHING;
@@ -60,36 +56,13 @@ void GetBall::checkProgression() {
         return;
     }
 }
-void GetBall::initialize() {
-
-    if (properties->hasString("ROLE")) {
-        std::string roleName = properties->getString("ROLE");
-        robot.id = (unsigned int) dealer::findRobotForRole(roleName);
-        if (World::getRobotForId(robot.id, true)) {
-            robot = World::getRobotForId(robot.id, true).get();
-        }
-        else {
-            ROS_ERROR("GetBall Initialize -> robot does not exist in world");
-            return;
-        }
-    }
-    else {
-        ROS_ERROR("GetBall Initialize -> ROLE WAITING!!");
-        return;
-    }
+void GetBall::onInitialize() {
     currentProgress=TURNING;
     count=0;
 }
-GetBall::Status GetBall::update() {
-
-    if (World::getRobotForId(robot.id, true)) {
-        robot = World::getRobotForId(robot.id, true).get();
-    }
-    else {
-        ROS_ERROR("GetBall Update -> robot does not exist in world");
-    }
+GetBall::Status GetBall::onUpdate() {
     ball = World::getBall(); //TODO: sanity checking if ball is actually there
-    deltaPos = Vector2(ball.pos.x, ball.pos.y)-Vector2(robot.pos.x,robot.pos.y) ;
+    deltaPos = Vector2(ball.pos.x, ball.pos.y)-Vector2(robot->pos.x,robot->pos.y) ;
     checkProgression();
 
     if (currentProgress==TURNING){
@@ -110,30 +83,30 @@ GetBall::Status GetBall::update() {
     }
 
 }
-void GetBall::terminate(Status s) {
+void GetBall::onTerminate(Status s) {
     sendDribblingCommand();
 }
 bool GetBall::robothasBall() {
     //The ball is in an area defined by a cone from the robot centre, or from a rectangle in front of the dribbler
-    Vector2 RobotPos = Vector2(robot.pos.x, robot.pos.y);
+    Vector2 RobotPos = Vector2(robot->pos.x, robot->pos.y);
     Vector2 BallPos = Vector2(ball.pos.x, ball.pos.y);
-    Vector2 dribbleLeft = RobotPos + Vector2(c::ROBOT_RADIUS, 0).rotate(robot.angle - c::DRIBBLER_ANGLE_OFFSET);
-    Vector2 dribbleRight = RobotPos + Vector2(c::ROBOT_RADIUS, 0).rotate(robot.angle + c::DRIBBLER_ANGLE_OFFSET);
+    Vector2 dribbleLeft = RobotPos + Vector2(c::ROBOT_RADIUS, 0).rotate(robot->angle - c::DRIBBLER_ANGLE_OFFSET);
+    Vector2 dribbleRight = RobotPos + Vector2(c::ROBOT_RADIUS, 0).rotate(robot->angle + c::DRIBBLER_ANGLE_OFFSET);
 
     std::vector<Vector2> drawPos = {RobotPos, dribbleLeft, dribbleRight,
-                                    dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot.angle),
-                                    dribbleRight + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot.angle)};
+                                    dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle),
+                                    dribbleRight + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle)};
     if (control::ControlUtils::pointInTriangle(BallPos, RobotPos, dribbleLeft, dribbleRight)) {
         return true;
     }
         // else check the rectangle in front of the robot.
     else return control::ControlUtils::pointInRectangle(BallPos, dribbleLeft, dribbleRight,
-                dribbleRight + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot.angle),
-                dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot.angle));
+                dribbleRight + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle),
+                dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle));
 }
 void GetBall::sendTurnCommand() {
     roboteam_msgs::RobotCommand command;
-    command.id = robot.id;
+    command.id = robot->id;
     command.use_angle = 1;
     command.dribbler=0;
     command.x_vel=0;
@@ -144,7 +117,7 @@ void GetBall::sendTurnCommand() {
 }
 void GetBall::sendApproachCommand(){
     roboteam_msgs::RobotCommand command;
-    command.id = robot.id;
+    command.id = robot->id;
     command.use_angle = 1;
     command.dribbler  = 1;
     command.x_vel = (float) deltaPos.normalize().x*c::GETBALL_SPEED;
@@ -155,7 +128,7 @@ void GetBall::sendApproachCommand(){
 }
 void GetBall::sendDribblingCommand() {
     roboteam_msgs::RobotCommand command;
-    command.id = robot.id;
+    command.id = robot->id;
     command.use_angle = 1;
     command.dribbler  = 1;
     command.x_vel = 0;

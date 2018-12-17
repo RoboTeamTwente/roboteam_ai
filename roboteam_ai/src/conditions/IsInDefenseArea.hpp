@@ -8,7 +8,6 @@
 #include "roboteam_msgs/World.h"
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_msgs/GeometryFieldSize.h"
-#include  <boost/optional.hpp>
 #include "roboteam_utils/Vector2.h"
 #include "../utilities/World.h"
 #include "Condition.h"
@@ -20,7 +19,7 @@ class IsInDefenseArea : public ai::Condition {
     private:
 
         using status = bt::Node::Status;
-        roboteam_msgs::WorldRobot robot;
+
 
         bool ourDefenseArea;
         float margin;
