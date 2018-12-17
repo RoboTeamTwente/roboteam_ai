@@ -1,0 +1,25 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "h3ynlc26cycp3yd9": {
+            "id": "h3ynlc26cycp3yd9",
+            "name": "haltTactic",
+            "title": "Tactic"
+          },
+          "cfoewmtw7qt482w": {
+            "children": [
+              "h3ynlc26cycp3yd9"
+            ],
+            "id": "cfoewmtw7qt482w",
+            "title": "UntilSuccess"
+          }
+        },
+        "root": "cfoewmtw7qt482w",
+        "title": "haltStrategy"
+      }
+    ]
+  },
+  "name": "haltStrategy"
+}

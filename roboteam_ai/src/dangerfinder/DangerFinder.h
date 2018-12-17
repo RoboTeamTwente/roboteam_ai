@@ -6,7 +6,6 @@
 #include <vector>
 #include <map>
 #include "modules/DangerModule.h"
-#include "boost/optional.hpp"
 #include "roboteam_msgs/WorldRobot.h"
 #include "DangerData.h"
 #include "ros/ros.h"

@@ -6,7 +6,6 @@
 #define ROBOTEAM_AI_SHOOT_H
 
 #include "Skill.h"
-#include <boost/optional.hpp>
 #include "../utilities/World.h"
 
 namespace rtt {
@@ -23,16 +22,10 @@ class Kick : public Skill {
         };
         Progression currentProgress;
 
-        roboteam_msgs::WorldRobot robot;
-
     public:
         explicit Kick(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
-
-        Status update() override;
-
-        void initialize() override;
-
-        void terminate(status s) override;
+        Status onUpdate() override;
+        void onInitialize() override;
 };
 
 } // ai

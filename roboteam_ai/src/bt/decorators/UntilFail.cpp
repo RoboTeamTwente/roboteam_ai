@@ -3,7 +3,6 @@
 namespace bt {
 
 Node::Status UntilFail::update() {
-    Node::append_status("[UntilFail: executing child of type %s]", child->node_name().c_str());
     auto status = child->tick();
 
     if (status == Status::Failure) {

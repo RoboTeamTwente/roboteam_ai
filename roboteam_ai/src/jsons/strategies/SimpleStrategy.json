@@ -1,1 +1,25 @@
-{"name": "SimpleStrategy", "data": {"trees": [{"title": "SimpleStrategy", "root": "5zso41laje7z7o", "nodes": {"5zso41laje7z7o": {"id": "5zso41laje7z7o", "title": "UntilSuccess", "children": ["0oqaxqrlvkf7hxr"]}, "0oqaxqrlvkf7hxr": {"id": "0oqaxqrlvkf7hxr", "title": "Tactic", "name": "SimpleTactic"}}}]}}
+{
+  "name": "SimpleStrategy",
+  "data": {
+    "trees": [
+      {
+        "title": "SimpleStrategy",
+        "root": "5zso41laje7z7o",
+        "nodes": {
+          "5zso41laje7z7o": {
+            "id": "5zso41laje7z7o",
+            "title": "UntilSuccess",
+            "children": [
+              "0oqaxqrlvkf7hxr"
+            ]
+          },
+          "0oqaxqrlvkf7hxr": {
+            "id": "0oqaxqrlvkf7hxr",
+            "title": "Tactic",
+            "name": "SimpleTactic"
+          }
+        }
+      }
+    ]
+  }
+}

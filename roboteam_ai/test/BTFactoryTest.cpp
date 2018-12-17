@@ -1,7 +1,6 @@
 
 #include <gtest/gtest.h>
 #include "../src/treeinterp/BTFactory.h"
-#include "../src/bt/tactics/DemoTactic.h"
 
 TEST (BT, JsonEditor) {
     BTFactory dummyFactory = BTFactory::getFactory();

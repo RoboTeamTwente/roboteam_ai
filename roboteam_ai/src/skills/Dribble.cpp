@@ -50,43 +50,24 @@ Dribble::Progression Dribble::checkProgression() {
 
 bool Dribble::robotHasBall() {
     //The ball is in an area defined by a cone from the robot centre, or from a rectangle in front of the dribbler
-    Vector2 RobotPos = Vector2(robot.pos.x, robot.pos.y);
+    Vector2 RobotPos = Vector2(robot->pos.x, robot->pos.y);
     Vector2 BallPos = Vector2(ball.pos.x, ball.pos.y);
-    Vector2 dribbleLeft = RobotPos + Vector2(c::ROBOT_RADIUS, 0).rotate(robot.angle - c::DRIBBLER_ANGLE_OFFSET);
-    Vector2 dribbleRight = RobotPos + Vector2(c::ROBOT_RADIUS, 0).rotate(robot.angle + c::DRIBBLER_ANGLE_OFFSET);
+    Vector2 dribbleLeft = RobotPos + Vector2(c::ROBOT_RADIUS, 0).rotate(robot->angle - c::DRIBBLER_ANGLE_OFFSET);
+    Vector2 dribbleRight = RobotPos + Vector2(c::ROBOT_RADIUS, 0).rotate(robot->angle + c::DRIBBLER_ANGLE_OFFSET);
 
     std::vector<Vector2> drawPos = {RobotPos, dribbleLeft, dribbleRight,
-                                    dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot.angle),
-                                    dribbleRight + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot.angle)};
+                                    dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle),
+                                    dribbleRight + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle)};
     if (control::ControlUtils::pointInTriangle(BallPos, RobotPos, dribbleLeft, dribbleRight)) {
         return true;
     }
         // else check the rectangle in front of the robot.
     else
         return control::ControlUtils::pointInRectangle(BallPos, dribbleLeft, dribbleRight,
-                dribbleRight + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot.angle),
-                dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot.angle));
+                dribbleRight + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle),
+                dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle));
 }
-void Dribble::initialize() {
-    if (properties->hasString("ROLE")) {
-        std::string roleName = properties->getString("ROLE");
-        robot.id = (unsigned int) dealer::findRobotForRole(roleName);
-        if (World::getRobotForId(robot.id, true)) {
-            robot = World::getRobotForId(robot.id, true).get();
-        }
-        else {
-            ROS_ERROR("Dribble Initialize -> robot does not exist in world");
-            currentProgress = Progression::FAIL;
-            return;
-        }
-    }
-    else {
-        ROS_ERROR("Dribble Initialize -> ROLE WAITING!!");
-        currentProgress = Progression::FAIL;
-        return;
-    }
-    //TODO: add failchecking if ball does not exist.
-
+void Dribble::onInitialize() {
     ball = World::getBall();
 
     //if false, robot will dribble to the position backwards with the ball.
@@ -114,16 +95,11 @@ void Dribble::initialize() {
     currentProgress = Progression::ON_THE_WAY;
     count=0;
 
-    stoppingAngle=robot.angle; // default to the current angle
+    stoppingAngle=robot->angle; // default to the current angle
 }
 
-Dribble::status Dribble::update() {
-    if (World::getRobotForId(robot.id, true)) {
-        robot = World::getRobotForId(robot.id, true).get();
-    }
-    else {
-        ROS_ERROR("Dribble Update -> robot does not exist in world");
-    }
+Dribble::status Dribble::onUpdate() {
+
     ball = World::getBall(); //TODO: sanity checking if ball is actually there?
 
     if (currentProgress == Progression::FAIL) {
@@ -151,14 +127,13 @@ Dribble::status Dribble::update() {
     default: return status::Waiting;
     }
 }
-void Dribble::terminate(Dribble::status s) {
+void Dribble::onTerminate(status s) {
     roboteam_msgs::RobotCommand command;
-    command.id = robot.id;
+    command.id = robot->id;
     command.use_angle = 1;
     if (forwardDirection) {
         command.w = (float) deltaPos.angle();
-    }
-    else {
+    } else {
         command.w = (float) deltaPos.rotate(M_PI).angle();
     }
     command.dribbler = 0;
@@ -169,7 +144,7 @@ void Dribble::terminate(Dribble::status s) {
 
 void Dribble::sendMoveCommand() {
     roboteam_msgs::RobotCommand command;
-    command.id = robot.id;
+    command.id = robot->id;
     command.use_angle = 1;
     if (forwardDirection) {
         command.w = (float) deltaPos.angle();
@@ -185,7 +160,7 @@ void Dribble::sendMoveCommand() {
 }
 void Dribble::sendStopCommand() {
     roboteam_msgs::RobotCommand command;
-    command.id = robot.id;
+    command.id = robot->id;
     command.use_angle = 1;
     command.w=stoppingAngle;
     command.dribbler = 0;
@@ -193,7 +168,6 @@ void Dribble::sendStopCommand() {
     command.y_vel = 0;
     publishRobotCommand(command);
 }
-std::string Dribble::node_name() { return "Dribble"; }
 
-}
-}
+} // ai
+} // rtt

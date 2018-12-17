@@ -6,34 +6,9 @@
 namespace rtt{
 namespace ai{
 RotateToAngle::RotateToAngle(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
-}
+        :Skill(std::move(name), std::move(blackboard)) { }
 
-/// Return name of the skill
-std::string RotateToAngle::node_name() {
-    return "RotateToAngle";
-}
-
-/// Called when the Skill is Initialized
-void RotateToAngle::initialize() {
-
-    if (properties->hasString("ROLE")) {
-        std::string roleName = properties->getString("ROLE");
-        robot.id = (unsigned int) dealer::findRobotForRole(roleName);
-        if (World::getRobotForId(robot.id, true)) {
-            robot = World::getRobotForId(robot.id, true).get();
-        }
-        else {
-            ROS_ERROR("RotateToAngle Initialize -> robot does not exist in world");
-            currentProgress = Progression::FAIL;
-            return;
-        }
-    }
-    else {
-        ROS_ERROR("RotateToAngle Initialize -> ROLE WAITING!!");
-        currentProgress = Progression::FAIL;
-        return;
-    }
+void RotateToAngle::onInitialize() {
     if (properties->hasDouble("Angle")) {
         targetAngle = properties->getDouble("Angle");
     }
@@ -46,43 +21,32 @@ void RotateToAngle::initialize() {
     else{
         ROS_ERROR("No use_angle identifier set in properties!");
     }
-
-//  ____________________________________________________________________________________________________________________
 }
 
 /// Called when the Skill is Updated
-RotateToAngle::Status RotateToAngle::update() {
-
-    if (World::getRobotForId(robot.id, true)) {
-        robot = World::getRobotForId(robot.id, true).get();
-    } else {
-        ROS_ERROR("RotateToAngle Update -> robot does not exist in world");
-        currentProgress = Progression::FAIL;
-    }
-//  ____________________________________________________________________________________________________________________
+RotateToAngle::Status RotateToAngle::onUpdate() {
     roboteam_msgs::RobotCommand command;
-    command.id = robot.id;
+    command.id = robot->id;
     command.use_angle = useAngle;
     command.w=(float)targetAngle;
     std::cerr << "Rotate command -> id: " << command.id << ", theta: " << command.w << std::endl;
-    std::cerr << "Robot Angle: " << robot.angle<<std::endl;
+    std::cerr << "Robot Angle: " << robot->angle<<std::endl;
 //__________________________________________________________________________________________________________
-    deltaAngle=fabs(Control::constrainAngle(targetAngle-robot.angle));
+    deltaAngle=fabs(Control::constrainAngle(targetAngle-robot->angle));
     currentProgress=checkProgression();
 
     switch (currentProgress) {
-    case ROTATING: {publishRobotCommand(command); return Status::Running;}
-    case DONE: return Status::Success;
-    case FAIL: return Status::Failure;
+        case ROTATING: {publishRobotCommand(command); return Status::Running;}
+        case DONE: return Status::Success;
+        case FAIL: return Status::Failure;
     }
 
     return Status::Failure;
 }
 
-/// Called when the Skill is Terminated
-void RotateToAngle::terminate(Status s) {
+void RotateToAngle::onTerminate(Status s) {
     roboteam_msgs::RobotCommand command;
-    command.id = robot.id;
+    command.id = robot->id;
     command.use_angle = useAngle;
     command.w = targetAngle;
     publishRobotCommand(command);
@@ -94,5 +58,5 @@ RotateToAngle::Progression RotateToAngle::checkProgression() {
     else return DONE;
 }
 
-}
-}
+} // ai
+} // rtt

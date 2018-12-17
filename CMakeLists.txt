@@ -1,5 +1,4 @@
-
-        cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.1)
 project(roboteam_ai)
 
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
@@ -15,9 +14,6 @@ set(CMAKE_AUTOUIC ON)
 
 # Find the QtWidgets library
 find_package(Qt5Widgets CONFIG REQUIRED)
-
-
-
 
 find_package(SDL2)
 find_package(SDL2TTF)
@@ -37,7 +33,6 @@ find_package(catkin REQUIRED COMPONENTS
         )
 
 ### SOURCES BEGIN ###
-
 
 set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/json.h
@@ -147,13 +142,13 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Coach.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Coach.cpp
         )
 
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefaultSkill.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefaultSkill.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Kick.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Kick.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Chip.h
@@ -164,26 +159,74 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TurnGeneva.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TurnGeneva.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh_OLD.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh_OLD.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Dribble.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Dribble.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.h
-        )
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/HaltTactic.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/HaltTactic.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Harass.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Harass.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Keeper.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Keeper.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/interceptBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/interceptBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootAtGoal.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootAtGoal.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsRobotClosestToBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsRobotClosestToBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanReachPoint.hpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanReachPoint.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInZone.cpp
-        roboteam_ai/src/utilities/StrategyManager.cpp
-        roboteam_ai/src/utilities/StrategyManager.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/TheyHaveBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/TheyHaveBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/WeHaveBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/WeHaveBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsOnOurSide.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsOnOurSide.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallKickedToOurGoal.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallKickedToOurGoal.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanSeeGoal.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanSeeGoal.h)
 
+set(CONTROL_SOURCES
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/controlGoToPos/ControlGoToPosLuTh.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/controlGoToPos/ControlGoToPosLuTh.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlGoToPos.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlGoToPos.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PID.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PID.h
+        )
+
+set(INTERFACE_SOURCES
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/mainWindow.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/mainWindow.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widget.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widget.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/drawer.cpp roboteam_ai/src/interface/drawer.h)
 ### SOURCES END ###
 
 ### TEST SOURCES BEGIN ###
@@ -193,22 +236,20 @@ set(SKILL_TESTS
         )
 
 set(CONDITION_TESTS
-        roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
-        roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
-        roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
-        roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
         )
-
-set(CONTROL_SOURCES
-        roboteam_ai/src/control/ControlUtils.cpp
-        roboteam_ai/src/control/ControlUtils.h )
-
 set(INTERFACE_SOURCES
-        roboteam_ai/src/interface/mainWindow.cpp
-        roboteam_ai/src/interface/mainWindow.h
-        roboteam_ai/src/interface/widget.cpp
-        roboteam_ai/src/interface/widget.h
-        roboteam_ai/src/interface/drawer.cpp roboteam_ai/src/interface/drawer.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/mainWindow.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/mainWindow.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widget.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widget.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/drawer.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/drawer.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanSeeGoal.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanSeeGoal.h)
 
 ### TEST SOURCES END ###
 
@@ -217,7 +258,7 @@ include_directories(${catkin_INCLUDE_DIRS})
 
 add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-# StrategyNode
+# Main Executable
 add_executable(Roboteam_AI
         roboteam_ai/src/roboteam_ai.cpp
         ${DANGER_FINDER_SOURCES}
@@ -239,7 +280,7 @@ target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} ${SDL2_LIBRARY} ${SDL2TTF_
 #############
 catkin_add_gtest(ai_tests
         roboteam_ai/test/main.cpp
-        roboteam_ai/test/BtTest.cpp
+        #roboteam_ai/test/BtTest.cpp
         roboteam_ai/test/JsonTest.cpp
         roboteam_ai/test/BTFactoryTest.cpp
         roboteam_ai/test/WorldTest.cpp
@@ -252,8 +293,15 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/StrategyManagerTest.cpp
         roboteam_ai/test/PropertiesParserTest.cpp
         ${SKILL_TESTS}
+        roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
         ${CONDITION_TESTS}
-
+        roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
+        roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/IsRobotClosestToBallTest.cpp
+        roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
+        roboteam_ai/test/ConditionTests/TheyHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/WeHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/IsOnOurSideTest.cpp
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
@@ -272,6 +320,7 @@ target_link_libraries(ai_tests
         gcov
         ${SDL2_LIBRARY}
         ${SDL2TTF_LIBRARY}
+        Qt5::Widgets Qt5::Gui
         )
 
 include(CodeCoverage)

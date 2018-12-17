@@ -1,12 +1,9 @@
-#include <utility>
-
 //
 // Created by baris on 29-11-18.
 //
 
 #include "DefaultTactic.h"
 
-// ------ EDIT -----
 
 bt::Node::Status bt::DefaultTactic::update() {
     if (claimedRobots != robotsNeeded) {
@@ -28,8 +25,6 @@ bt::Node::Status bt::DefaultTactic::update() {
 }
 
 
-// ---- DO NOT EDIT ----
-
 bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboard,
         std::map<std::string, robotType> robots_) {
 
@@ -47,7 +42,7 @@ void bt::DefaultTactic::initialize() {
 }
 
 void bt::DefaultTactic::terminate(bt::Node::Status s) {
-    dealer::removeTactic("victoryDanceTactic");
+    dealer::removeTactic(name);
 
     child->terminate(child->getStatus());
 

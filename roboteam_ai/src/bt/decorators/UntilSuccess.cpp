@@ -3,7 +3,6 @@
 namespace bt {
 
 Node::Status UntilSuccess::update() {
-    Node::append_status("[UntilSuccess: executing child of type %s]", child->node_name().c_str());
     auto status = child->tick();
 
     if (status == Status::Success) {

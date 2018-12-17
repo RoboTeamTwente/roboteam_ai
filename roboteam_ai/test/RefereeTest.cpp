@@ -5,7 +5,6 @@
 #include <roboteam_msgs/RefereeData.h>
 #include "../src/utilities/Referee.hpp"
 #include "gtest/gtest.h"
-#include "ros/ros.h"
 
 TEST(RefereeTest, it_gets_and_sets_the_ref) {
     roboteam_msgs::RefereeData refereeData;

@@ -1,47 +1,12 @@
 //
 // Created by baris on 15/11/18.
 //
-#include "BTImport.h"
-#include "../bt/Node.hpp"
-
-
-//  ______________________
-//  |                    |
-//  |   INCLUDE TACTICS  |
-//  |____________________|
-//
-
-#include "../bt/tactics/DemoTactic.h"
-#include "../bt/tactics/ParallelSequenceTest.h"
-#include "../bt/tactics/VictoryDanceTactic.h"
-#include "../bt/tactics/RandomTactic.h"
-#include "../bt/tactics/DefaultTactic.h"
-
-//  ______________________
-//  |                    |
-//  |   INCLUDE SKILLS   |
-//  |____________________|
-//
-
-#include "../skills/Rotate.h"
-#include "../skills/GoToPosLuTh.h"
-#include "../skills/RotateToAngle.h"
-#include "../skills/GoToPos.h"
-#include "../skills/Kick.h"
-#include "../skills/Dribble.h"
-
-//  ______________________
-//  |                    |
-//  | INCLUDE CONDITIONS |
-//  |____________________|
-//
-
-#include "../conditions/HasBall.hpp"
-
 
 #ifndef ROBOTEAM_AI_SWITCHES_H
 #define ROBOTEAM_AI_SWITCHES_H
-
+#include <iostream>
+#include "../utilities/RobotDealer.h"
+#include "../bt/bt.hpp"
 class Switches {
         using robotType = robotDealer::RobotDealer::RobotType;
 
@@ -51,12 +16,13 @@ class Switches {
 
         static std::vector<std::string> strategyJsonFileNames;
 
+        static std::vector<std::string> keeperJsonFiles;
+
         static bt::Node::Ptr nonLeafSwitch(std::string name);
 
         static bt::Node::Ptr leafSwitch(std::string name, bt::Blackboard::Ptr properties);
 
         static bt::Node::Ptr tacticSwitch(std::string name, bt::Blackboard::Ptr properties);
-
 
 };
 

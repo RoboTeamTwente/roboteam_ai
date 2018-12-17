@@ -31,7 +31,6 @@ bt::Node::Status ParallelSequence::update() {
     int totalSuccess = 0;
     int totalFail = 0;
     for (auto &child : children) {
-        Node::append_status("[Parallel: executing child of type %s]", child->node_name().c_str());
         auto status = child->tick();
         if (status == Status::Success) {
             totalSuccess ++;

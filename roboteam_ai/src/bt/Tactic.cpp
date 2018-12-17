@@ -6,7 +6,6 @@
 
 namespace bt {
 
-
 void bt::Tactic::initialize() {
     //Should always be overwritten
     askForRobots();
@@ -33,6 +32,7 @@ Node::Status Tactic::update() {
     //Should always be overwritten
     return Status::Waiting;
 }
+
 std::string Tactic::node_name() {
     return name;
 }

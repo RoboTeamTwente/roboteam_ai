@@ -2,6 +2,51 @@
 // Created by baris on 15/11/18.
 //
 
+#include "BTImport.h"
+#include "../bt/Node.hpp"
+
+
+//  ______________________
+//  |                    |
+//  |   INCLUDE TACTICS  |
+//  |____________________|
+//
+
+#include "../bt/tactics/DemoTactic.h"
+#include "../bt/tactics/ParallelSequenceTest.h"
+#include "../bt/tactics/VictoryDanceTactic.h"
+#include "../bt/tactics/RandomTactic.h"
+#include "../bt/tactics/DefaultTactic.h"
+#include "../bt/tactics/HaltTactic.h"
+
+//  ______________________
+//  |                    |
+//  |   INCLUDE SKILLS   |
+//  |____________________|
+//
+
+#include "../skills/Chip.h"
+#include "../skills/Dribble.h"
+#include "../skills/GoToPosLuTh.h"
+#include "../skills/GoToPosLuTh_OLD.h"
+#include "../skills/Halt.h"
+#include "../skills/Kick.h"
+#include "../skills/Harass.h"
+#include "../skills/Rotate.h"
+#include "../skills/RotateToAngle.h"
+#include "../skills/GoToPos.h"
+#include "../skills/Keeper.h"
+
+
+//  ______________________
+//  |                    |
+//  | INCLUDE CONDITIONS |
+//  |____________________|
+//
+
+#include "../conditions/HasBall.hpp"
+#include "../conditions/CanSeeGoal.h"
+#include <roboteam_ai/src/skills/GoToPosLuTh.h>
 #include "Switches.h"
 
 /**
@@ -19,14 +64,21 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "GetBallTestTactic",
          "DanceTactic",
          "DanceTactic2",
-         "SimpleTactic"};
+         "SimpleTactic",
+         "haltTactic",
+         "SimpleDefendTactic"};
 
 std::vector<std::string> Switches::strategyJsonFileNames =
         {"victoryDanceStrategy",
          "randomStrategy",
          "GetBallTestStrategy",
          "DanceStrategy",
-         "SimpleStrategy"};
+         "SimpleStrategy",
+         "haltStrategy",
+         "SimpleDefendStrategy"};
+
+std::vector<std::string> Switches::keeperJsonFiles =
+        {};
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
 /// have a look around with the names and see if what you made is on the same level as these are
@@ -87,8 +139,17 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "Kick") {
         node = std::make_shared<rtt::ai::Kick>(name, properties);
     }
+    else if (name == "Harass") {
+        node = std::make_shared<rtt::ai::Harass>(name, properties);
+    }
+    else if (name == "Halt") {
+        node = std::make_shared<rtt::ai::Halt>(name, properties);
+    }
     else if (name == "Rotate") {
         node = std::make_shared<rtt::ai::Rotate>(name, properties);
+    }
+    else if (name == "GoToPosLuTh_OLD") {
+        node = std::make_shared<rtt::ai::GoToPosLuTh_OLD>(name, properties);
     }
     else if (name == "GoToPosLuTh") {
         node = std::make_shared<rtt::ai::GoToPosLuTh>(name, properties);
@@ -101,6 +162,15 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     }
     else if (name == "HasBall") {
         node = std::make_shared<rtt::ai::HasBall>(name, properties);
+    }
+    else if (name == "CanSeeGoal") {
+        node = std::make_shared<rtt::ai::CanSeeGoal>(name, properties);
+    }
+    else if (name == "Keeper") {
+        node = std::make_shared<rtt::ai::Keeper>(name, properties);
+    }
+    else if (name == "DefendOnRobot") {
+        node = std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
     }
     else {
         ROS_ERROR("ERROR: Leaf not found!! using GoToPos..");
@@ -121,28 +191,45 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"random4", robotType::random},
                     {"random5", robotType::random},
                     {"random6", robotType::random},
-                    {"random7", robotType::random},
+                    {"random7", robotType::random}
             }
             },
-
+            {"haltTactic", {
+                    {"halt0", robotType::random},
+                    {"halt1", robotType::random},
+                    {"halt2", robotType::random},
+                    {"halt3", robotType::random},
+                    {"halt4", robotType::random},
+                    {"halt5", robotType::random},
+                    {"halt6", robotType::random},
+                    {"halt7", robotType::random}
+            }
+            },
             {"GetBallTestTactic", {
-                    {"FAKOFF", robotType::random},
+                    {"FAKOFF", robotType::random}
             }
             },
             {"DanceTactic2", {
                     {"retarded", robotType::random},
-                    {"Vright", robotType::random},
+                    {"Vright", robotType::random}
             }
             },
             {"DanceTactic", {
                     {"right", robotType::random},
-                    {"letf", robotType::random},
+                    {"letf", robotType::random}
             }
             },
             {"SimpleTactic", {
-                    {"simpleStupidRobot", robotType::random},
+                     {"simpleStupidRobot", robotType::random}
+            }
+                    },
+            {"SimpleDefendTactic", {
+                 {"simpleDefender1", robotType::closeToOurGoal},
+                 {"simpleDefender2", robotType::closeToOurGoal},
+                 {"simpleDefender3", robotType::closeToOurGoal}
             }
             }
+
     };
 
     bt::Node::Ptr node;
