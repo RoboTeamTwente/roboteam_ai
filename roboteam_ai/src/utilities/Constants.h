@@ -23,6 +23,7 @@ const int tickRate=50;// Rate at which we tick our behavior Trees
 
 //skills
 const double DEFAULT_KICK_POWER = 5.0; // max kick power = 100
+const double MAX_KICK_POWER = 8.0; //TODO: CHECK
 const int MAX_KICK_CYCLES = 20;
 const int MAX_GENEVA_CYCLES = 20;
 const int DEFAULT_GENEVA_STATE = 0;
