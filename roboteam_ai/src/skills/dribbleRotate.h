@@ -12,8 +12,9 @@ class DribbleRotate : public Skill{
         enum Progression{
           ROTATING,DONE,FAIL
         };
+        Progression currentProgression;
         void checkProgression();
-        double targetAngle;
+        double startAngle,targetAngle,incrementAngle;
     public:
         explicit DribbleRotate(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;

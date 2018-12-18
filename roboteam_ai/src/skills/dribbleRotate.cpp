@@ -13,10 +13,29 @@ void DribbleRotate::onInitialize() {
     if (properties->hasDouble("Angle")){
         targetAngle=properties->getDouble("Angle");
     }
-
+    else {
+        ROS_ERROR(" dribbleRotate Initialize -> No good angle set in properties");
+        currentProgression= FAIL;
+    }
+    startAngle=robot->w;
+    incrementAngle=control::ControlUtils::constrainAngle(targetAngle-startAngle);
 }
 DribbleRotate::Status DribbleRotate::onUpdate() { }
-void DribbleRotate::onTerminate(Status s) { }
-
+void DribbleRotate::onTerminate(Status s) {
+    if (s==Status::Success) {
+        roboteam_msgs::RobotCommand command;
+        command.id = robot->id;
+        command.use_angle = 1;
+        command.w = static_cast<float>(targetAngle);
+        publishRobotCommand(command);
+    }
+}
+void DribbleRotate::sendMoveCommand() {
+    roboteam_msgs::RobotCommand command;
+    command.id = robot->id;
+    command.use_angle = 1;
+    command.w = static_cast<float>(targetAngle);
+    publishRobotCommand(command);
+}
 }
 }
