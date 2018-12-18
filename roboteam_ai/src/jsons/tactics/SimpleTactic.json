@@ -33,7 +33,7 @@
             "id": "s6xx3lzfgjtnbuirz",
             "title": "Keeper",
             "isRole": false,
-            "properties":{
+            "properties": {
               "ROLE": "simpleStupidRobot"
             }
           },
@@ -56,7 +56,6 @@
               "ROLE": "simpleStupidRobot",
               "harassBallOwner": "kfgv"
             }
-
           }
         }
       }

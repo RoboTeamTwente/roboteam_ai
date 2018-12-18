@@ -25,6 +25,7 @@
 //
 
 #include "controlGoToPos/ControlGoToPosLuTh.h"
+#include "controlGoToPos/ControlGoToPosBallControl.h"
 
 namespace control {
 
@@ -37,24 +38,26 @@ class ControlGoToPos {
         using Command = roboteam_msgs::RobotCommand;
         rtt::ai::io::IOManager ioManager;
 
+        void goToPosBallControl(RobotPtr robot, Vector2 &targetPos);
+        ControlGoToPosBallControl gtpBallcontrol;
 
         void goToPosLuTh(RobotPtr robot, Vector2 &targetPos);
-        ControlGoToPosLuTh luth;
+        ControlGoToPosLuTh gtpLuth;
 
         void goToPosLowLevel(RobotPtr robot, Vector2 &targetPos);
-        //ControlGoToPosLowLevel lowlevel;
+        //ControlGoToPosLowLevel gtpLowlevel;
 
         void goToPosHighLevel(RobotPtr robot, Vector2 &targetPos);
-        //ControlGoToPosHighLevel highlevel;
+        //ControlGoToPosHighLevel gtpHighlevel;
 
         void goToPosBezier(RobotPtr robot, Vector2 &targetPos);
-        //ControlGoToPosBezier bezier;
+        //ControlGoToPosBezier gtpBezier;
 
         void goToPosForce(RobotPtr robot, Vector2 &targetPos);
-        //ControlGoToPosForce force;
+        //ControlGoToPosForce gtpForce;
 
         void goToPosBasic(RobotPtr robot, Vector2 &targetPos);
-        //ControlGoToPosBasic basic;
+        //ControlGoToPosBasic gtpBasic;
 
         void publishRobotCommand(Command &command);
         double errorMargin = 0.3;
@@ -64,6 +67,7 @@ class ControlGoToPos {
 
         enum GoToType {
           noPreference,
+          ballControl,
           basic,
           lowLevel,
           highLevel,

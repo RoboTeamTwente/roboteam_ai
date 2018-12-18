@@ -40,21 +40,11 @@ GoToPosLuTh_OLD::Status GoToPosLuTh_OLD::onUpdate() {
         const roboteam_msgs::GeometryFieldSize &field = Field::get_field();
         const double &length = field.field_length;
         const double &width = field.field_width;
-        time_t timer;
-        struct tm y2k = {0};
-        double seconds;
-        y2k.tm_hour = 0;
-        y2k.tm_min = 0;
-        y2k.tm_sec = 0;
-        y2k.tm_year = 100;
-        y2k.tm_mon = 0;
-        y2k.tm_mday = 1;
-        seconds = difftime(timer, mktime(&y2k));
         int randomX = std::rand();
         int randomY = std::rand();
 
         random = false;
-        targetPos = {randomX*2.32830644e-10*length*2 - length*0.5, randomY*2.32830644e-10*width*2 - width*0.5};
+        targetPos = {randomX*4.65661288e-10*length - length*0.5, randomY*4.65661288 - 10*width - width*0.5};
     }
 
     // See if the progress is a failure
@@ -73,9 +63,12 @@ GoToPosLuTh_OLD::Status GoToPosLuTh_OLD::onUpdate() {
     switch (currentProgress) {
 
         // Return the progression in terms of status
-    case ON_THE_WAY:return Status::Running;
-    case DONE: return Status::Success;
-    case FAIL: return Status::Failure;
+        case ON_THE_WAY:
+            return Status::Running;
+        case DONE:
+            return Status::Success;
+        case FAIL:
+            return Status::Failure;
     }
 
     return Status::Failure;
@@ -115,7 +108,7 @@ void GoToPosLuTh_OLD::sendMoveCommand() {
 
     ros::Time end = ros::Time::now();
     double timeTaken = (end - begin).toSec();
-    std::cout << "calculation: " << timeTaken * 1000 << " ms" << std::endl;
+    std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
 
     displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
     publishRobotCommand(command);
@@ -159,7 +152,6 @@ bool GoToPosLuTh_OLD::calculateNumericDirection(numRobot &me, roboteam_msgs::Rob
 #endif
         command.w = angularVel;
 
-
         me.pos = robot->pos;
         auto world = World::get_world();
         Vector2 closestBot = getClosestRobotPos(world, me);
@@ -172,8 +164,8 @@ bool GoToPosLuTh_OLD::calculateNumericDirection(numRobot &me, roboteam_msgs::Rob
             command.x_vel = static_cast<float>(me.velData[2].x);
             command.y_vel = static_cast<float>(me.velData[2].y);
         }
-        command.x_vel *= -1;
-        command.y_vel *= -1;
+        command.x_vel *= - 1;
+        command.y_vel *= - 1;
         return true;
     }
 //  ____________________________________________________________________________________________________________________
@@ -186,7 +178,7 @@ bool GoToPosLuTh_OLD::calculateNumericDirection(numRobot &me, roboteam_msgs::Rob
     if (me.posData.empty()) {
         return true;
     }
-    else if (me.posData.size() > maxDTimesX) {
+    else if (static_cast<int>(me.posData.size()) > maxDTimesX) {
         dTimesX = maxDTimesX;
     }
     else {
@@ -195,8 +187,8 @@ bool GoToPosLuTh_OLD::calculateNumericDirection(numRobot &me, roboteam_msgs::Rob
     auto absXVel = static_cast<float>(me.velData[dTimesX].x);
     auto absYVel = static_cast<float>(me.velData[dTimesX].y);
 
-    command.x_vel = -absXVel;
-    command.y_vel = -absYVel;
+    command.x_vel = - absXVel;
+    command.y_vel = - absYVel;
     return false;
 }
 
@@ -285,7 +277,7 @@ bool GoToPosLuTh_OLD::avoidObject(numRobot &me, int &startIndex, bool firstTry) 
                 displayData.push_back(target);
 
                 if (tracePath(me, startIndex, target, true)) {
-                    if (me.posData.size() > startIndex + 2) {
+                    if (static_cast<int>(me.posData.size()) > startIndex + 2) {
                         allPosData.push_back(me.posData);
                         allVelData.push_back(me.velData);
 
@@ -303,7 +295,7 @@ bool GoToPosLuTh_OLD::avoidObject(numRobot &me, int &startIndex, bool firstTry) 
 
                 if (tracePath(me, startIndex, target, true)) {
 
-                    if (me.posData.size() > startIndex + 2) {
+                    if (static_cast<int>(me.posData.size()) > startIndex + 2) {
                         allPosData.push_back(me.posData);
                         allVelData.push_back(me.velData);
                     }
@@ -316,7 +308,7 @@ bool GoToPosLuTh_OLD::avoidObject(numRobot &me, int &startIndex, bool firstTry) 
             double distance = 0;
             int bestIndex = 0;
             auto world = World::get_world();
-            for (int i = 0; i < allPosData.size() - 1; i ++) {
+            for (int i = 0; i < static_cast<int>(allPosData.size()) - 1; i ++) {
                 auto &posData = allPosData[i];
                 Vector2 closestBot = getClosestRobotPos(world, me);
                 //double distToTarget = (me.targetPos - posData.back()).length();
@@ -329,7 +321,7 @@ bool GoToPosLuTh_OLD::avoidObject(numRobot &me, int &startIndex, bool firstTry) 
             me.posData = allPosData[bestIndex];
             me.velData = allVelData[bestIndex];
 
-            if (me.posData.size() < startIndex + 2) {
+            if (static_cast<int>(me.posData.size()) < startIndex + 2) {
                 me.posData = oldPosData;
                 me.velData = oldVelData;
                 return false;
@@ -355,7 +347,7 @@ Vector2 GoToPosLuTh_OLD::getClosestRobotPos(const roboteam_msgs::World &world, n
     Vector2 closestPos;
     double distance = 99999999;
     for (auto &bot : world.us) {
-        if (bot.id != me.id) {
+        if (static_cast<int>(bot.id) != me.id) {
             Vector2 botPos = {bot.pos.x + bot.vel.x*me.t, bot.pos.y + bot.vel.y*me.t};
             double deltaPos = (me.pos - botPos).length();
             if (deltaPos < distance) {

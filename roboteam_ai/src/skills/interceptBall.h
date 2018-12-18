@@ -4,14 +4,16 @@
 
 #ifndef ROBOTEAM_AI_INTERCEPTBALL_H
 #define ROBOTEAM_AI_INTERCEPTBALL_H
+
 #include "Skill.h"
-#include "../control/PID.h"
-namespace rtt{
-namespace ai{
-class InterceptBall :public Skill {
+
+namespace rtt {
+namespace ai {
+
+class InterceptBall : public Skill {
     private:
-        enum Progression{
-        INTERCEPTING, CLOSETOPOINT,OVERSHOOT, INPOSITION, BALLDEFLECTED,BALLMISSED
+        enum Progression {
+          INTERCEPTING, CLOSETOPOINT, OVERSHOOT, INPOSITION, BALLDEFLECTED, BALLMISSED
         };
         Progression currentProgression;
         void checkProgression();
@@ -21,14 +23,14 @@ class InterceptBall :public Skill {
         void sendFineInterceptCommand();
         void sendStopCommand();
 
-        bool missBall(Vector2 startBall,Vector2 endBall,Vector2 ballVel);
+        bool missBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel);
         bool ballDeflected();
 
-        Vector2 ballStartPos,ballStartVel,ballEndPos,interceptPos;
+        Vector2 ballStartPos, ballStartVel, ballEndPos, interceptPos;
         Vector2 deltaPos;
-        int tickCount,maxTicks;
+        int tickCount, maxTicks;
         Vector2 computeInterceptPoint(Vector2 startBall, Vector2 endBall);
-        control::PID pid,finePid;
+        control::PID pid, finePid;
 
         bool keeper;
         bool ballToGoal();
@@ -43,6 +45,5 @@ class InterceptBall :public Skill {
 
 }
 }
-
 
 #endif //ROBOTEAM_AI_INTERCEPTBALL_H

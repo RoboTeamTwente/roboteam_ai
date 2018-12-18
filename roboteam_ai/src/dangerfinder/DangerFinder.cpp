@@ -7,7 +7,8 @@ namespace dangerfinder {
 
 // Utility which continuously (in a background thread) monitors the world state and
 // keeps track of which opponents pose the greatest threat.
-DangerFinder::DangerFinder() : stopping(false), running(false), ranOnce(false) { }
+DangerFinder::DangerFinder()
+        :stopping(false), running(false), ranOnce(false) { }
 
 // Gets the singleton instance.
 DangerFinder &DangerFinder::instance() {

@@ -4,13 +4,11 @@
 
 #ifndef ROBOTEAM_AI_KEEPER_H
 #define ROBOTEAM_AI_KEEPER_H
-#include "Skill.h"
-#include "roboteam_utils/Arc.h"
-#include "roboteam_utils/Math.h"
-#include "../control/PID.h"
 
-namespace rtt{
-namespace ai{
+#include "Skill.h"
+
+namespace rtt {
+namespace ai {
 class Keeper : public Skill {
     private:
         Arc blockCircle;
@@ -20,7 +18,7 @@ class Keeper : public Skill {
         void sendMoveCommand(Vector2 pos);
         void sendFineMoveCommand(Vector2 pos);
         void sendStopCommand();
-        control::PID pid,finePid;
+        control::PID pid, finePid;
     public:
         explicit Keeper(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;
@@ -29,6 +27,5 @@ class Keeper : public Skill {
 };
 }
 }
-
 
 #endif //ROBOTEAM_AI_KEEPER_H

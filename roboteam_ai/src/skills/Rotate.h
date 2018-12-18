@@ -6,7 +6,6 @@
 #define ROBOTEAM_AI_ROTATEAROUNDPOINT_H
 
 #include "Skill.h"
-#include "roboteam_utils/Vector2.h"
 
 namespace rtt {
 namespace ai {

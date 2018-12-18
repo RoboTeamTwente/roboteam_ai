@@ -22,7 +22,7 @@ void DemoTactic::setName(std::string newName) {
 void DemoTactic::initialize() {
     std::vector<std::string> roleNames = {"testRole"};
 
-    while (claimedRobots < roleNames.size()) {
+    while (claimedRobots < static_cast<int>(roleNames.size())) {
         robotIDs.insert(dealer::claimRobotForTactic(robotType::random, "DemoTactic", roleNames[claimedRobots]));
         if (robotIDs.find(- 1) == robotIDs.end()) {
             claimedRobots ++;

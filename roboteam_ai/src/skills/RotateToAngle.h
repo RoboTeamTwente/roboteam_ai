@@ -10,9 +10,9 @@
 namespace rtt {
 namespace ai {
 
-class RotateToAngle: public Skill {
-        private:
-        double targetAngle,deltaAngle;
+class RotateToAngle : public Skill {
+    private:
+        double targetAngle, deltaAngle;
         bool useAngle;
         enum Progression {
           ROTATING, DONE, FAIL
@@ -20,7 +20,7 @@ class RotateToAngle: public Skill {
         Progression currentProgress;
         Progression checkProgression();
 
-public:
+    public:
         explicit RotateToAngle(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;
         Status onUpdate() override;

@@ -1,0 +1,25 @@
+{
+  "name": "AttackStrategy",
+  "data": {
+    "trees": [
+      {
+        "title": "AttackStrategy",
+        "root": "ydjw9of7ndf88",
+        "nodes": {
+          "ydjw9of7ndf88": {
+            "id": "ydjw9of7ndf88",
+            "title": "UntilSuccess",
+            "children": [
+              "jnzwvf620oa6hp7c"
+            ]
+          },
+          "jnzwvf620oa6hp7c": {
+            "id": "jnzwvf620oa6hp7c",
+            "title": "Tactic",
+            "name": "Attactic"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -8,7 +8,7 @@ namespace rtt {
 namespace ai {
 
 Halt::Halt(string name, bt::Blackboard::Ptr blackboard)
-: Skill(std::move(name), std::move(blackboard)) { }
+        :Skill(std::move(name), std::move(blackboard)) { }
 
 Halt::Status Halt::onUpdate() {
     // send empty cmd

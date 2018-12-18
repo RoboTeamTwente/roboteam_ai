@@ -13,7 +13,6 @@
 #include "Field.h"
 #include "ros/ros.h"
 
-
 namespace robotDealer {
 class RobotDealer {
 
@@ -35,37 +34,40 @@ class RobotDealer {
 
         static void unFreeRobot(int ID);
 
-        static int getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 point1, rtt::Vector2 point2, bool inBetweenPoints);
+        static int getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 point1, rtt::Vector2 point2,
+                bool inBetweenPoints);
 
     public:
 
-       enum RobotType {
-         closeToBall,
-         farFromBall,
-         closeToOurGoal,
-         betweenBallAndOurGoal,
-         closeToTheirGoal,
-         random
+        enum RobotType {
+          closeToBall,
+          farFromBall,
+          closeToOurGoal,
+          betweenBallAndOurGoal,
+          closeToTheirGoal,
+          random
 
-       };
+        };
 
-       static int claimRobotForTactic(RobotType feature, std::string tacticName, std::string roleName);
+        static int claimRobotForTactic(RobotType feature, std::string tacticName, std::string roleName);
 
-       static std::set<int> getAvailableRobots();
+        static std::set<int> getAvailableRobots();
 
-       static std::map<std::string, std::set<std::pair<int, std::string>>> getClaimedRobots();
+        static std::map<std::string, std::set<std::pair<int, std::string>>> getClaimedRobots();
 
-       static void releaseRobotForRole(std::string roleName);
+        static void releaseRobotForRole(std::string roleName);
 
-       static void removeTactic(std::string tacticName);
+        static void removeTactic(std::string tacticName);
 
-       static std::set<int> findRobotsForTactic(std::string tacticName);
+        static std::set<int> findRobotsForTactic(std::string tacticName);
 
-       static int findRobotForRole(std::string roleName);
+        static int findRobotForRole(std::string roleName);
 
-       static std::string getTacticNameForRole(std::string role);
+        static std::string getTacticNameForId(int ID);
 
+        static std::string getRoleNameForId(int ID);
 
+        static std::string getTacticNameForRole(std::string role);
 
 };
 }

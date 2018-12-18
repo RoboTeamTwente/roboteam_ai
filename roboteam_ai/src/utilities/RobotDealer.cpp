@@ -302,6 +302,36 @@ std::string RobotDealer::getTacticNameForRole(std::string role) {
 
 }
 
+std::string RobotDealer::getTacticNameForId(int ID) {
+    std::lock_guard<std::mutex> lock(robotOwnersLock);
+
+    for (const auto &tactic : robotOwners) {
+        for (const auto &pair : tactic.second) {
+            if (pair.first == ID) {
+                return tactic.first;
+            }
+        }
+    }
+    ROS_ERROR("No robot with that ID  getTacticNameForId");
+    return "";
+}
+
+std::string RobotDealer::getRoleNameForId(int ID) {
+
+    std::lock_guard<std::mutex> lock(robotOwnersLock);
+
+    for (const auto &tactic : robotOwners) {
+        for (const auto &pair : tactic.second) {
+            if (pair.first == ID) {
+                return pair.second;
+            }
+        }
+    }
+    ROS_ERROR("No robot with that ID  getRoleNameForId");
+    return "";
+
+}
+
 } // RobotDealer
 
 

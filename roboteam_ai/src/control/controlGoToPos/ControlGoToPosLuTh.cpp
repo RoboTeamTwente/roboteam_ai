@@ -22,9 +22,9 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
     command.id = robot->id;
     if (! me.posData.empty()) {
         recalculate = false;
-        int currentIndex = 0;
+        //int currentIndex = 0;
         double distance = 999999;
-        for (int i = 0; i < me.posData.size(); i ++) {
+        for (int i = 0; i < static_cast<int>(me.posData.size()); i ++) {
             auto &pos = me.posData[i];
             me.t = me.posData.size()*me.dt;
             Vector2 closestBot = ControlUtils::getClosestRobot(pos, me.id, true, me.t);
@@ -35,8 +35,8 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
                 break;
             }
             if (me.isCollision(pos, distance)) {
-                currentIndex = i;
-                distance = ((Vector2)robot->pos - pos).length();
+                //currentIndex = i;
+                distance = ((Vector2) robot->pos - pos).length();
             }
         }
 
@@ -44,7 +44,7 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
     else {
         recalculate = true;
     }
-    recalculate = true; // TODO thijs crap, pls fix
+    //recalculate = true; // TODO thijs crap, pls fix
     if (recalculate) {
         me.clear();
         bool nicePath = calculateNumericDirection(robot, me, command);
@@ -93,6 +93,8 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
         }
 
     }
+    return command;
+
 }
 
 bool ControlGoToPosLuTh::calculateNumericDirection(RobotPtr robot, NumRobot &me,

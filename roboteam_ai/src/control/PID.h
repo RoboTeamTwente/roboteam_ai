@@ -5,10 +5,11 @@
 #ifndef ROBOTEAM_AI_PID_H
 #define ROBOTEAM_AI_PID_H
 #include "ControlUtils.h"
-namespace control{
+namespace control {
 class PID {
     public:
-        void setParams(double pGainPos,double iGainPos,double dGainPos,double pGainRot,double iGainRot,double dGainRot);
+        void setParams(double pGainPos, double iGainPos, double dGainPos, double pGainRot, double iGainRot,
+                double dGainRot);
         void initialize(double timeDif);
         Vector2 posControl(Vector2 myPos, Vector2 targetPos);
         Vector2 posControl(Vector2 myPos, Vector2 targetPos, Vector2 myVel);
@@ -28,7 +29,5 @@ class PID {
 };
 
 }
-
-
 
 #endif //ROBOTEAM_AI_PID_H

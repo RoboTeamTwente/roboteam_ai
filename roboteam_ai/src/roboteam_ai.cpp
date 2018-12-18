@@ -6,7 +6,6 @@
 #include "treeinterp/BTFactory.h"
 #include "interface/mainWindow.h"
 #include <QApplication>
-#include <chrono>
 
 namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;
@@ -48,7 +47,6 @@ void runBehaviourTrees() {
         ai::Field::set_field(geometryMsg.field);
         ai::Referee::setRefereeData(refereeMsg);
 
-
         if (df::DangerFinder::instance().hasCalculated()) {
             df::DangerData dangerData = df::DangerFinder::instance().getMostRecentData();
         }
@@ -73,7 +71,7 @@ void runBehaviourTrees() {
 //        std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
 //
 //        std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-   //     std::cout << "Tick took:  " << time_span.count()*1000 << " ms." << std::endl;
+//        std::cout << "Tick took:  " << time_span.count()*1000 << " ms." << std::endl;
 
         switch (status) {
             case Status::Running:

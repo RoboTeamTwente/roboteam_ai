@@ -35,7 +35,8 @@ GoToPosLuTh::Status GoToPosLuTh::onUpdate() {
     if (goToBall) {
         auto ball = World::getBall();
         targetPos = ball.pos;
-    } else if (random) {
+    }
+    else if (random) {
         const roboteam_msgs::GeometryFieldSize &field = Field::get_field();
         const double &length = field.field_length;
         const double &width = field.field_width;
@@ -61,9 +62,12 @@ GoToPosLuTh::Status GoToPosLuTh::onUpdate() {
     switch (currentProgress) {
 
         // Return the progression in terms of status
-    case ON_THE_WAY:return Status::Running;
-    case DONE: return Status::Success;
-    case FAIL: return Status::Failure;
+        case ON_THE_WAY:
+            return Status::Running;
+        case DONE:
+            return Status::Success;
+        case FAIL:
+            return Status::Failure;
     }
 
     return Status::Failure;
@@ -106,7 +110,7 @@ void GoToPosLuTh::sendMoveCommand() {
         return;
     }
 
-    ros::Time begin = ros::Time::now();
+    //ros::Time begin = ros::Time::now();
 
     NumRobot me;
     roboteam_msgs::RobotCommand command;
@@ -143,20 +147,19 @@ void GoToPosLuTh::sendMoveCommand() {
     command.use_angle = 0;
 
     Vector2 dir = (targetPos - robot->pos).normalize();
-    command.x_vel = static_cast<float>(dir.x * 2.0f);
-    command.y_vel = static_cast<float>(dir.y * 2.0f);
+    command.x_vel = static_cast<float>(dir.x*2.0f);
+    command.y_vel = static_cast<float>(dir.y*2.0f);
     command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle, 0));
 
 //#define NOCOMMAND
 #ifdef NOCOMMAND
-        command.x_vel = 0.0f;
-        command.y_vel = 0.0f;
-        command.w = 0.0f;
+    command.x_vel = 0.0f;
+    command.y_vel = 0.0f;
+    command.w = 0.0f;
 #endif
     publishRobotCommand(command);
 
 }
-
 
 bool GoToPosLuTh::calculateNumericDirection(NumRobot &me, roboteam_msgs::RobotCommand &command) {
 
@@ -174,7 +177,7 @@ bool GoToPosLuTh::calculateNumericDirection(NumRobot &me, roboteam_msgs::RobotCo
     if (me.isCollision(closestBot, 0.4f)) return false;
 
     bool noCollision = tracePath(me, targetPos);
-    if (!noCollision) return false;
+    if (! noCollision) return false;
 
     if (me.velData.size() > 10) {
         if (abs(me.velData[2].angle() - me.velData[10].angle()) < 0.07f) {
@@ -195,7 +198,7 @@ bool GoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
     while (! robotQueue.empty()) {
         ros::Time now = ros::Time::now();
 
-        if ((now-begin).toSec()*1000 > 3) { // time > 3ms
+        if ((now - begin).toSec()*1000 > 3) { // time > 3ms
             break;
         }
 

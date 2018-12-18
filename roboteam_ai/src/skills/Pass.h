@@ -15,6 +15,7 @@ class Pass : public Skill {
         bool defensive;
         int robotToPass;
         bool sendPassCommand();
+        bool getReadyToPass();
     public:
         explicit Pass(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;

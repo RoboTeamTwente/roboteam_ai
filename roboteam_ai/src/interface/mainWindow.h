@@ -28,9 +28,9 @@ namespace ai {
 namespace interface {
 
 class MainWindow : public QMainWindow {
-Q_OBJECT
-public:
-    explicit MainWindow(QWidget * parent = nullptr);
+    Q_OBJECT
+    public:
+        explicit MainWindow(QWidget* parent = nullptr);
 
 public slots:
     void updateWidgets();
@@ -54,16 +54,13 @@ private:
     std::shared_ptr<QCheckBox> cb_velocities;
 
     void configureCheckBox(std::shared_ptr<QCheckBox> checkbox, std::shared_ptr<QLayout> layout,
-            const QObject *receiver, const char * method, bool defaultState = false);
+                const QObject* receiver, const char* method, bool defaultState = false);
 
     bool hasCorrectTree = false;
     void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem * QParent);
     std::map<QTreeWidgetItem *, bt::Node::Ptr> treeItemMapping;
-
     QGroupBox * createRobotGroupItem(roboteam_msgs::WorldRobot robot);
     QColor getColorForStatus(bt::Node::Status status);
-    int frame = 0;
-
     void clearLayout(QLayout *layout);
 
 };
