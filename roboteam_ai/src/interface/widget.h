@@ -21,7 +21,7 @@ class Visualizer : public QWidget {
     Q_OBJECT
     public:
         explicit Visualizer(QWidget* parent = nullptr);
-        const roboteam_msgs::WorldRobot &getSelectedRobot() const;
+        const  std::vector<roboteam_msgs::WorldRobot> &getSelectedRobots() const;
 
     public slots:
         void setShowRoles(bool showRoles);
@@ -31,7 +31,7 @@ class Visualizer : public QWidget {
         void setShowVelocities(bool showVelocities);
         void setShowPath(bool showPath);
         void setShowPathAll(bool showPaths);
-        void selectRobot(int robotId);
+        void toggleSelectedRobot(int robotId);
     protected:
         void paintEvent(QPaintEvent* event) override;
         void mousePressEvent(QMouseEvent* event) override;
@@ -48,7 +48,7 @@ class Visualizer : public QWidget {
         void drawDataPoints(QPainter &painter, std::vector<Vector2> points, int pointSize = 3,
                 QColor color = Qt::green);
         void drawDataPoints(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize = 3);
-
+        bool robotIsSelected(roboteam_msgs::WorldRobot robot);
         // utitlity functions
         std::string getTacticNameForRobot(roboteam_msgs::WorldRobot robot);
         std::string getRoleNameForRobot(roboteam_msgs::WorldRobot robot);
@@ -59,7 +59,8 @@ class Visualizer : public QWidget {
         std::vector<std::pair<std::string,
                               QColor>> tacticColors; // map colors to tactic to visualize which robots work together
         int tacticCount = 0; // increases when a new tactic is used
-        roboteam_msgs::WorldRobot selectedRobot;
+
+        std::vector<roboteam_msgs::WorldRobot> selectedRobots;
 
         // toggles
         bool showRoles = constants::STD_SHOW_ROLES;
@@ -69,6 +70,7 @@ class Visualizer : public QWidget {
         bool showVelocities = constants::STD_SHOW_VELOCITIES;
         bool showPath = constants::STD_SHOW_PATHS_CURRENT;
         bool showAllPaths = constants::STD_SHOW_PATHS_ALL;
+
 };
 
 } // interface
