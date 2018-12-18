@@ -199,9 +199,9 @@ int RobotDealer::findRobotForRole(std::string roleName) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
-    for (auto tactic : robotOwners) {
+    for (const auto &tactic : robotOwners) {
         auto set = tactic.second;
-        for (auto pair : set) {
+        for (const auto &pair : set) {
             if (pair.second == roleName) {
                 return pair.first;
             }

@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget* parent)
     QObject::connect(select_strategy.get(), QOverload<const QString &>::of(&QComboBox::currentIndexChanged),
             [=](const QString &strategyName) {
               // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-              BTFactory::getFactory().setCurrentTree(strategyName.toStdString());
+              BTFactory::setCurrentTree(strategyName.toStdString());
               hasCorrectTree = false;
             });
 
