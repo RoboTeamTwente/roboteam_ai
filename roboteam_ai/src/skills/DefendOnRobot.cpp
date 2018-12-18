@@ -8,46 +8,56 @@ namespace rtt{
 namespace ai{
 
 DefendOnRobot::DefendOnRobot(std::string name, bt::Blackboard::Ptr blackboard)
-    :Skill(name, blackboard) { }
+    :Skill(std::move(name), std::move(blackboard)) { }
 
-void DefendOnRobot::initialize() {
-    robot = getRobotFromProperties(properties);
-    int opponentID1 = coach::Coach::whichRobotHasBall(false);
-    if (opponentID1 == -1) {
+void DefendOnRobot::onInitialize() {
+    opponentWithBallID = coach::Coach::whichRobotHasBall(false);
+    if (opponentWithBallID == -1) {
         currentProgress = FAIL;
-    } else {
-        robot1 = World::getRobotForId(static_cast<unsigned int>(opponentID1), false);
     }
 
-    int opponentID2 = coach::Coach::pickOpponentToCover(robot->id);
-    if (opponentID2 == -1) {
+    opponentToCoverID = coach::Coach::pickOpponentToCover(robot->id);
+    if (opponentToCoverID == -1) {
         currentProgress = FAIL;
     } else {
-        robot2 = World::getRobotForId(static_cast<unsigned int>(opponentID2), false);
-        coach::Coach::defencePairs.insert({robot2->id, robot->id});
+        coach::Coach::defencePairs.insert({opponentToCoverID, robot->id});
     }
 }
 
-void DefendOnRobot::terminate(Skill::Status s) {
+void DefendOnRobot::onTerminate(Skill::Status s) {
     coach::Coach::defencePairs.erase(robot->id);
 }
 
-bt::Node::Status DefendOnRobot::update() {
-    if(!coach::Coach::doesRobotHaveBall(robot1->id, false)) {
-        return Status::Success;
+bt::Node::Status DefendOnRobot::onUpdate() {
+    opponentWithBall = World::getRobotForId(static_cast<unsigned int>(opponentWithBallID), false);
+    opponentToCover = World::getRobotForId(static_cast<unsigned int>(opponentToCoverID), false);
+
+    if (opponentWithBall && opponentToCover) {
+        updateRobot();
+        if (!coach::Coach::doesRobotHaveBall(opponentWithBall->id, false)) {
+            return Status::Success;
+        }
+
+        Vector2 targetPos = calculateLocation();
+        std::cout << targetPos << std::endl;
+        goToPos.goToPos(robot, targetPos, goType::luTh);
+
+        return Status::Running;
+    } else {
+        return Status::Failure;
     }
-
-    Vector2 targetPos = calculateLocation();
-    control::ControlGoToPos::goToPos(robot, targetPos, goType::luTh);
-
-    return Status::Running;
 }
 
 Vector2 DefendOnRobot::calculateLocation() {
-    float robotAngle1 = robot1.get()->angle;
-    float robotAngle2 = robot2.get()->angle;
+    float robotAngle1 = opponentWithBall.get()->angle;
+    float robotAngle2 = opponentToCover.get()->angle;
 
-    float angleBetweenRobots = atan((robot2->pos.y - robot1->pos.y) / (robot1->pos.x - robot2->pos.x));
+    if (opponentWithBall->pos.x > opponentToCover->pos.x) {
+        angleBetweenRobots = atan((opponentToCover->pos.y - opponentWithBall->pos.y) /
+                                        (opponentWithBall->pos.x - opponentToCover->pos.x));
+    } else {
+        angleBetweenRobots = static_cast<float>(((Vector2)opponentToCover->pos - opponentWithBall->pos).angle());
+    }
 
     double angle1;
     if (robotAngle1 >= 0) {
@@ -60,13 +70,13 @@ Vector2 DefendOnRobot::calculateLocation() {
         angle2 += M_PI;
     }
 
-    double distanceBetweenRobots = sqrt(pow(robot1->pos.x - robot2->pos.x, 2) + pow(robot2->pos.y - robot1->pos.y, 2));
+    double distanceBetweenRobots = sqrt(pow(opponentWithBall->pos.x - opponentToCover->pos.x, 2) + pow(opponentToCover->pos.y - opponentWithBall->pos.y, 2));
     double length = distanceBetweenRobots * sin(angle2) / sin(M_PI - angle1 - angle2);
 
     double xLength = length * cos(angle1);
     double yLength = length * sin(angle1);
 
-    Vector2 newPosition = {robot1->pos.x - xLength, robot1->pos.y + yLength};
+    Vector2 newPosition = {opponentWithBall->pos.x - xLength, opponentWithBall->pos.y + yLength};
     return newPosition;
 }
 
