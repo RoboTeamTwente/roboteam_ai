@@ -21,7 +21,7 @@ const double DRIBBLER_ANGLE_OFFSET = asin(FRONT_LENGTH/2
         /ROBOT_RADIUS); // if the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET points to the left and DRIBBLER_ANGLE_OFFSET to the right.
 const double BALL_RADIUS = 0.0215;
 
-const int tickRate = 9001;// Rate at which we tick our behavior Trees
+const int tickRate = 60;// Rate at which we tick our behavior Trees
 
 //skills
 const double DEFAULT_KICK_POWER = 5.0; // max kick power = 100
