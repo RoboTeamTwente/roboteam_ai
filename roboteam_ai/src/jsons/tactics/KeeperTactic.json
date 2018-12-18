@@ -1,0 +1,71 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "hunlgvcx3k9i4rs": {
+            "children": [
+              "8l8n0k6hgpqvptw"
+            ],
+            "id": "hunlgvcx3k9i4rs",
+            "name": "keeper",
+            "title": "Role"
+          },
+          "xnl2083j9gmsls1k": {
+            "id": "xnl2083j9gmsls1k",
+            "title": "MemSequence",
+            "isRole": false,
+            "children": [
+              "thjlovbpqret7nk",
+              "kdtdjzv9cs4r3fxt"
+            ]
+          },
+          "thjlovbpqret7nk": {
+            "id": "thjlovbpqret7nk",
+            "title": "BallKickedToOurGoal",
+            "properties": {
+              "ROLE": "keeper"
+            },
+            "isRole": false
+          },
+          "o67tz1fkw3sv2zx95": {
+            "id": "o67tz1fkw3sv2zx95",
+            "title": "Selector",
+            "isRole": false,
+            "children": [
+              "xnl2083j9gmsls1k",
+              "go8rfyzza66q5v"
+            ]
+          },
+          "8l8n0k6hgpqvptw": {
+            "id": "8l8n0k6hgpqvptw",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "o67tz1fkw3sv2zx95"
+            ]
+          },
+          "kdtdjzv9cs4r3fxt": {
+            "id": "kdtdjzv9cs4r3fxt",
+            "title": "InterceptBall",
+            "properties": {
+              "ROLE": "keeper"
+            },
+            "isRole": false
+          },
+          "go8rfyzza66q5v": {
+            "id": "go8rfyzza66q5v",
+            "title": "Keeper",
+            "properties": {
+              "ROLE": "keeper"
+            },
+            "isRole": false
+          }
+        },
+        "root": "hunlgvcx3k9i4rs",
+        "title": "KeeperTactic"
+      }
+    ]
+  },
+  "name": "KeeperTactic"
+}
