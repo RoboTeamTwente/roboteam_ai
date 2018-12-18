@@ -16,7 +16,7 @@ void Keeper::onInitialize() {
     goalwidth = Field::get_field().goal_width;
 
     //Create arc for keeper to drive on
-    blockCircle=control::ControlUtils::createKeeperArc();
+    blockCircle = control::ControlUtils::createKeeperArc();
     //TODO::magic numbers galore, from the old team. move to new control library
     pid.setParams(4.0, 0.0, 0.75, 10, 0.0, 0.0);
     finePid.setParams(1.0, 0.0, 0.0, 0, 0.0, 0.0);
@@ -24,20 +24,20 @@ void Keeper::onInitialize() {
     finePid.initialize(1.0/constants::tickRate);
 }
 Keeper::Status Keeper::onUpdate() {
-        Vector2 ballPos = World::getBall().pos;
-        Vector2 blockPoint = computeBlockPoint(ballPos);
-        //double dist=control::ControlUtils::distanceToLine(robot->pos,ballPos,blockPoint);
-        double dist = (blockPoint - (Vector2(robot->pos))).length();
-        if (dist < constants::KEEPER_POSDIF) {
-            sendStopCommand();
-        }
-        else if (dist < 2*constants::ROBOT_RADIUS) {
-            sendFineMoveCommand(blockPoint);
-        }
-        else {
-            sendMoveCommand(blockPoint);
-        }
-        return Status::Running;
+    Vector2 ballPos = World::getBall().pos;
+    Vector2 blockPoint = computeBlockPoint(ballPos);
+    //double dist=control::ControlUtils::distanceToLine(robot->pos,ballPos,blockPoint);
+    double dist = (blockPoint - (Vector2(robot->pos))).length();
+    if (dist < constants::KEEPER_POSDIF) {
+        sendStopCommand();
+    }
+    else if (dist < 2*constants::ROBOT_RADIUS) {
+        sendFineMoveCommand(blockPoint);
+    }
+    else {
+        sendMoveCommand(blockPoint);
+    }
+    return Status::Running;
 }
 
 void Keeper::onTerminate(Status s) {

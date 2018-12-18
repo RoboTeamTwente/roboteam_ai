@@ -11,9 +11,9 @@ namespace rtt {
 namespace ai {
 
 class Halt : public Skill {
-public:
-    explicit Halt(string name, bt::Blackboard::Ptr blackboard);
-    Status onUpdate() override;
+    public:
+        explicit Halt(string name, bt::Blackboard::Ptr blackboard);
+        Status onUpdate() override;
 };
 
 } // ai

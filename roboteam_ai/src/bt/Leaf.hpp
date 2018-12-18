@@ -11,11 +11,11 @@ class Leaf : public Node {
         void setName(std::string);
         std::string name;
 
-protected:
-    std::shared_ptr<roboteam_msgs::WorldRobot> getRobotFromProperties(bt::Blackboard::Ptr properties);
-    void updateRobot();
-    std::shared_ptr<roboteam_msgs::WorldRobot> robot;
-    int robotId = -1;
+    protected:
+        std::shared_ptr<roboteam_msgs::WorldRobot> getRobotFromProperties(bt::Blackboard::Ptr properties);
+        void updateRobot();
+        std::shared_ptr<roboteam_msgs::WorldRobot> robot;
+        int robotId = - 1;
 };
 
 }

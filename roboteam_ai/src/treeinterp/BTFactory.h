@@ -15,7 +15,6 @@
 #include "BTImport.h"
 #include "Switches.h"
 
-
 class BTFactory {
 
         // TODO: have the names of all the project before here
@@ -29,7 +28,7 @@ class BTFactory {
 
         static bool initialized;
 
-public:
+    public:
         void init();
 
         static BTFactory &getFactory();

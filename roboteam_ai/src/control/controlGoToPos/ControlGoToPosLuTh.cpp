@@ -36,7 +36,7 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
             }
             if (me.isCollision(pos, distance)) {
                 //currentIndex = i;
-                distance = ((Vector2)robot->pos - pos).length();
+                distance = ((Vector2) robot->pos - pos).length();
             }
         }
 

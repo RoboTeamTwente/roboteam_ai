@@ -4,7 +4,6 @@
 
 #include "GetBall.h"
 
-
 namespace rtt {
 namespace ai {
 
@@ -16,70 +15,75 @@ GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard)
 
 // Essentially a state transition diagram.
 void GetBall::checkProgression() {
-    if (deltaPos.length()>c::MAX_GETBALL_RANGE){
-        currentProgress=FAIL;
+    if (deltaPos.length() > c::MAX_GETBALL_RANGE) {
+        currentProgress = FAIL;
         return;
     }
-    double angleDif=Control::angleDifference(robot->angle,deltaPos.angle());
-    if (currentProgress==TURNING){
-        if (angleDif<c::ANGLE_SENS){
-            currentProgress=APPROACHING;
+    double angleDif = Control::angleDifference(robot->angle, deltaPos.angle());
+    if (currentProgress == TURNING) {
+        if (angleDif < c::ANGLE_SENS) {
+            currentProgress = APPROACHING;
             return;
         }
     }
-    else if (currentProgress==APPROACHING){
-        if (angleDif>=c::ANGLE_SENS){
-            currentProgress=TURNING;
+    else if (currentProgress == APPROACHING) {
+        if (angleDif >= c::ANGLE_SENS) {
+            currentProgress = TURNING;
             return;
         }
-        if (! robotHasBall()){
+        if (! robotHasBall()) {
             return;
         }
-        else{
-            currentProgress=DRIBBLING;
-            return;
-        }
-    }
-    else if (currentProgress==DRIBBLING){
-        if (! robotHasBall()){
-            currentProgress=APPROACHING;
-            count=0;
-            return;
-        }
-        count++;
-        if (count>c::POSSES_BALL_CYCLES){
-            currentProgress=SUCCESS;
+        else {
+            currentProgress = DRIBBLING;
             return;
         }
     }
-    else if (currentProgress==FAIL||currentProgress==SUCCESS){
+    else if (currentProgress == DRIBBLING) {
+        if (! robotHasBall()) {
+            currentProgress = APPROACHING;
+            count = 0;
+            return;
+        }
+        count ++;
+        if (count > c::POSSES_BALL_CYCLES) {
+            currentProgress = SUCCESS;
+            return;
+        }
+    }
+    else if (currentProgress == FAIL || currentProgress == SUCCESS) {
         return;
     }
 }
 void GetBall::onInitialize() {
-    currentProgress=TURNING;
-    count=0;
+    currentProgress = TURNING;
+    count = 0;
 }
 GetBall::Status GetBall::onUpdate() {
     ball = World::getBall(); //TODO: sanity checking if ball is actually there
-    deltaPos = Vector2(ball.pos.x, ball.pos.y)-Vector2(robot->pos.x,robot->pos.y) ;
+    deltaPos = Vector2(ball.pos.x, ball.pos.y) - Vector2(robot->pos.x, robot->pos.y);
     checkProgression();
 
-    if (currentProgress==TURNING){
+    if (currentProgress == TURNING) {
         sendTurnCommand();
     }
-    else if (currentProgress== APPROACHING){
+    else if (currentProgress == APPROACHING) {
         sendApproachCommand();
     }
-    else if (currentProgress== DRIBBLING){
+    else if (currentProgress == DRIBBLING) {
         sendDribblingCommand();
     }
-    switch (currentProgress){
-    case TURNING: return Status::Running;
-    case APPROACHING: return Status::Running;
-    case DRIBBLING: return Status::Running;
-    case SUCCESS: return Status::Success;
-    case FAIL: return Status::Failure;
+    switch (currentProgress) {
+        case TURNING:
+            return Status::Running;
+        case APPROACHING:
+            return Status::Running;
+        case DRIBBLING:
+            return Status::Running;
+        case SUCCESS:
+            return Status::Success;
+        case FAIL:
+            return Status::Failure;
     }
 
     return Status::Failure;
@@ -102,7 +106,8 @@ bool GetBall::robotHasBall() {
         return true;
     }
         // else check the rectangle in front of the robot.
-    else return control::ControlUtils::pointInRectangle(BallPos, dribbleLeft, dribbleRight,
+    else
+        return control::ControlUtils::pointInRectangle(BallPos, dribbleLeft, dribbleRight,
                 dribbleRight + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle),
                 dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle));
 }
@@ -110,21 +115,21 @@ void GetBall::sendTurnCommand() {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = 1;
-    command.dribbler=0;
-    command.x_vel=0;
-    command.y_vel=0;
-    command.w=(float) deltaPos.angle();
+    command.dribbler = 0;
+    command.x_vel = 0;
+    command.y_vel = 0;
+    command.w = (float) deltaPos.angle();
     publishRobotCommand(command);
 
 }
-void GetBall::sendApproachCommand(){
+void GetBall::sendApproachCommand() {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = 1;
-    command.dribbler  = 1;
+    command.dribbler = 1;
     command.x_vel = (float) deltaPos.normalize().x*c::GETBALL_SPEED;
     command.y_vel = (float) deltaPos.normalize().y*c::GETBALL_SPEED;
-    command.w=(float) deltaPos.angle();
+    command.w = (float) deltaPos.angle();
     publishRobotCommand(command);
 
 }
@@ -132,10 +137,10 @@ void GetBall::sendDribblingCommand() {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = 1;
-    command.dribbler  = 1;
+    command.dribbler = 1;
     command.x_vel = 0;
     command.y_vel = 0;
-    command.w=(float) deltaPos.angle();
+    command.w = (float) deltaPos.angle();
     publishRobotCommand(command);
 }
 

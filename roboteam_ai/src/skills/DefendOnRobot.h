@@ -7,7 +7,6 @@
 
 #include "Skill.h"
 
-
 namespace rtt {
 namespace ai {
 

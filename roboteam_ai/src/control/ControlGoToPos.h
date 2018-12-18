@@ -7,7 +7,6 @@
 #ifndef ROBOTEAM_AI_CONTROLGOTOPOS_H
 #define ROBOTEAM_AI_CONTROLGOTOPOS_H
 
-
 #include <roboteam_utils/Vector2.h>
 #include <roboteam_msgs/WorldRobot.h>
 #include <roboteam_msgs/RobotCommand.h>
@@ -36,7 +35,6 @@ class ControlGoToPos {
         using Vector2 = rtt::Vector2;
         using Command = roboteam_msgs::RobotCommand;
         rtt::ai::io::IOManager ioManager;
-
 
         void goToPosLuTh(RobotPtr robot, Vector2 &targetPos);
         ControlGoToPosLuTh luth;

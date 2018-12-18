@@ -76,9 +76,12 @@ bt::Node::Status Rotate::onUpdate() {
     currentProgress = checkProgression();
 
     switch (currentProgress) {
-    case ROTATING: return Status::Running;
-    case DONE: return Status::Success;
-    case FAIL: return Status::Failure;
+        case ROTATING:
+            return Status::Running;
+        case DONE:
+            return Status::Success;
+        case FAIL:
+            return Status::Failure;
     }
 
     return Status::Failure;

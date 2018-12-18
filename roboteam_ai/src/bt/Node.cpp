@@ -71,7 +71,6 @@ Node::Status Node::NodeUpdate() {
     return status;
 }
 
-
 void Node::NodeInitialize() {
     //std::cout << "Node Initialize:  " << node_name() << std::endl;
     initialize();

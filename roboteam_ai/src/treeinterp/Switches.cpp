@@ -3,7 +3,6 @@
 //
 
 #include "BTImport.h"
-#include "../bt/Node.hpp"
 
 
 //  ______________________
@@ -30,7 +29,6 @@
 #include "../skills/GoToPosLuTh.h"
 #include "../skills/GoToPosLuTh_OLD.h"
 #include "../skills/Halt.h"
-#include "../skills/Kick.h"
 #include "../skills/Harass.h"
 #include "../skills/Rotate.h"
 #include "../skills/RotateToAngle.h"
@@ -46,9 +44,7 @@
 //  |____________________|
 //
 
-#include "../conditions/HasBall.hpp"
 #include "../conditions/CanSeeGoal.h"
-#include <roboteam_ai/src/skills/GoToPosLuTh.h>
 #include "Switches.h"
 
 /**

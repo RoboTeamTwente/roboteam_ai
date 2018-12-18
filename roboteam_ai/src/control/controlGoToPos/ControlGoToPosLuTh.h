@@ -19,7 +19,7 @@ namespace control {
 
 class ControlGoToPosLuTh {
 
-   private:
+    private:
         using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
         using Vector2 = rtt::Vector2;
         using Command = roboteam_msgs::RobotCommand;
@@ -28,7 +28,7 @@ class ControlGoToPosLuTh {
         using NumRobotPtr = std::shared_ptr<NumRobot>;
         struct NumRobot {
 
-          int id = -1;                       //Robot id
+          int id = - 1;                       //Robot id
           unsigned long startIndex = 0;
           Vector2 pos;                  //Current x,y position in m
           Vector2 targetPos;            //Target position in m
@@ -81,7 +81,7 @@ class ControlGoToPosLuTh {
 
               Vector2 deltaPos = collisionPos - startPos;
 
-              std::vector<double> angles = {-M_PI*0.0625, M_PI*0.0625};
+              std::vector<double> angles = {- M_PI*0.0625, M_PI*0.0625};
               for (double angle : angles) {
                   Vector2 newTarget = startPos + deltaPos.rotate(angle);
                   newTargets.push_back(newTarget);
@@ -131,7 +131,6 @@ class ControlGoToPosLuTh {
           };
 
         };
-
 
         std::priority_queue<NumRobotPtr, std::vector<NumRobotPtr>, NumRobot::CustomCompare> robotQueue;
         NumRobot me;

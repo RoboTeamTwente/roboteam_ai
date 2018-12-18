@@ -44,7 +44,7 @@ GoToPosLuTh_OLD::Status GoToPosLuTh_OLD::onUpdate() {
         int randomY = std::rand();
 
         random = false;
-        targetPos = {randomX*4.65661288e-10*length - length*0.5, randomY*4.65661288-10*width - width*0.5};
+        targetPos = {randomX*4.65661288e-10*length - length*0.5, randomY*4.65661288 - 10*width - width*0.5};
     }
 
     // See if the progress is a failure
@@ -63,9 +63,12 @@ GoToPosLuTh_OLD::Status GoToPosLuTh_OLD::onUpdate() {
     switch (currentProgress) {
 
         // Return the progression in terms of status
-    case ON_THE_WAY:return Status::Running;
-    case DONE: return Status::Success;
-    case FAIL: return Status::Failure;
+        case ON_THE_WAY:
+            return Status::Running;
+        case DONE:
+            return Status::Success;
+        case FAIL:
+            return Status::Failure;
     }
 
     return Status::Failure;
@@ -105,7 +108,7 @@ void GoToPosLuTh_OLD::sendMoveCommand() {
 
     ros::Time end = ros::Time::now();
     double timeTaken = (end - begin).toSec();
-    std::cout << "calculation: " << timeTaken * 1000 << " ms" << std::endl;
+    std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
 
     displayData.insert(displayData.end(), me.posData.begin(), me.posData.end());
     publishRobotCommand(command);
@@ -149,7 +152,6 @@ bool GoToPosLuTh_OLD::calculateNumericDirection(numRobot &me, roboteam_msgs::Rob
 #endif
         command.w = angularVel;
 
-
         me.pos = robot->pos;
         auto world = World::get_world();
         Vector2 closestBot = getClosestRobotPos(world, me);
@@ -162,8 +164,8 @@ bool GoToPosLuTh_OLD::calculateNumericDirection(numRobot &me, roboteam_msgs::Rob
             command.x_vel = static_cast<float>(me.velData[2].x);
             command.y_vel = static_cast<float>(me.velData[2].y);
         }
-        command.x_vel *= -1;
-        command.y_vel *= -1;
+        command.x_vel *= - 1;
+        command.y_vel *= - 1;
         return true;
     }
 //  ____________________________________________________________________________________________________________________
@@ -185,8 +187,8 @@ bool GoToPosLuTh_OLD::calculateNumericDirection(numRobot &me, roboteam_msgs::Rob
     auto absXVel = static_cast<float>(me.velData[dTimesX].x);
     auto absYVel = static_cast<float>(me.velData[dTimesX].y);
 
-    command.x_vel = -absXVel;
-    command.y_vel = -absYVel;
+    command.x_vel = - absXVel;
+    command.y_vel = - absYVel;
     return false;
 }
 

@@ -23,32 +23,32 @@ void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goToTyp
 
 
     switch (goToType) {
-    case noPreference: {
-        break;
-    }
-    case basic: {
-        ControlGoToPos::goToPosBasic(std::move(robot), position);
-    }
-    case force: {
-        ControlGoToPos::goToPosForce(std::move(robot), position);
-        break;
-    }
-    case luTh: {
-        ControlGoToPos::goToPosLuTh(std::move(robot), position);
-        break;
-    }
-    case lowLevel: {
-        ControlGoToPos::goToPosLowLevel(std::move(robot), position);
-        break;
-    }
-    case highLevel: {
-        ControlGoToPos::goToPosHighLevel(std::move(robot), position);
-        break;
-    }
-    case bezier: {
-        ControlGoToPos::goToPosBezier(std::move(robot), position);
-        break;
-    }
+        case noPreference: {
+            break;
+        }
+        case basic: {
+            ControlGoToPos::goToPosBasic(std::move(robot), position);
+        }
+        case force: {
+            ControlGoToPos::goToPosForce(std::move(robot), position);
+            break;
+        }
+        case luTh: {
+            ControlGoToPos::goToPosLuTh(std::move(robot), position);
+            break;
+        }
+        case lowLevel: {
+            ControlGoToPos::goToPosLowLevel(std::move(robot), position);
+            break;
+        }
+        case highLevel: {
+            ControlGoToPos::goToPosHighLevel(std::move(robot), position);
+            break;
+        }
+        case bezier: {
+            ControlGoToPos::goToPosBezier(std::move(robot), position);
+            break;
+        }
     }
 }
 

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 project(roboteam_ai)
 
-SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 
 
@@ -332,4 +332,4 @@ target_link_libraries(ai_tests
 
 include(CodeCoverage)
 APPEND_COVERAGE_COMPILER_FLAGS()
-SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage EXECUTABLE ai_tests )
+SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage EXECUTABLE ai_tests)

@@ -15,7 +15,7 @@ namespace io {
 IOManager::IOManager(bool subscribe, bool advertise) {
 
     std::cout << "creating IOManager that can " << (subscribe ? "subscribe" : "t subscribe")
-    << " and " << (advertise ? "advertise" : "'t advertise") << std::endl;
+              << " and " << (advertise ? "advertise" : "'t advertise") << std::endl;
 
     if (subscribe) {
         // subscribe to all topics

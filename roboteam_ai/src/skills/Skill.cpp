@@ -18,18 +18,18 @@ std::string Skill::node_name() {
 
 Skill::Status Skill::update() {
     updateRobot();
-    if (!robot) return Status::Failure;
+    if (! robot) return Status::Failure;
     return onUpdate();
 }
 
 void Skill::initialize() {
     robot = getRobotFromProperties(properties);
-    if (!robot) return;
+    if (! robot) return;
     onInitialize();
 }
 
 void Skill::terminate(Status s) {
-    if (!robot) return;
+    if (! robot) return;
     onTerminate(s);
 }
 

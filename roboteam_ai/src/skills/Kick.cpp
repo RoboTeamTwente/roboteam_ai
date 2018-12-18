@@ -22,7 +22,8 @@ bt::Node::Status Kick::onUpdate() {
     }
 
     // Get kickVelocity from blackboard, otherwise it is a default value.
-    double kickVel = properties->hasDouble("kickVel") ? properties->getDouble("kickVel") : constants::DEFAULT_KICK_POWER;
+    double kickVel = properties->hasDouble("kickVel") ? properties->getDouble("kickVel")
+                                                      : constants::DEFAULT_KICK_POWER;
     sendKickCommand(kickVel);
     return Status::Running;
 }
