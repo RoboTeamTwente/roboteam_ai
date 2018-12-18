@@ -30,7 +30,7 @@ class Skill : public bt::Leaf {
         io::IOManager ioManager;
 
         using coach = coach::Coach;
-        using goType = control::ControlGoToPos::GoToType;
+        using goToType = control::ControlGoToPos::GoToType;
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
     public:
 

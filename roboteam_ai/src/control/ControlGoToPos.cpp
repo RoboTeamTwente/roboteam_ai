@@ -10,7 +10,6 @@ namespace control {
 void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position) {
     GoToType goToType = basic;
     ControlGoToPos::goToPos(std::move(robot), position, goToType);
-
 }
 
 void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goToType) {
@@ -24,6 +23,11 @@ void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goToTyp
 
     switch (goToType) {
     case noPreference: {
+        ControlGoToPos::goToPos(robot, position);
+        break;
+    }
+    case ballControl: {
+        ControlGoToPos::goToPosBallControl(robot, position);
         break;
     }
     case basic: {
@@ -51,6 +55,11 @@ void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goToTyp
     }
     }
 }
+void ControlGoToPos::goToPosBallControl(RobotPtr robot, Vector2 &targetPos) {
+    Command command = gtpBallcontrol.goToPos(std::move(robot), targetPos);
+    publishRobotCommand(command);
+}
+
 
 void ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
 
@@ -80,7 +89,7 @@ void ControlGoToPos::goToPosForce(RobotPtr robot, Vector2 &targetPos) {
 }
 
 void ControlGoToPos::goToPosLuTh(RobotPtr robot, Vector2 &targetPos) {
-    Command command = luth.goToPos(std::move(robot), targetPos);
+    Command command = gtpLuth.goToPos(std::move(robot), targetPos);
     publishRobotCommand(command);
 
 }
