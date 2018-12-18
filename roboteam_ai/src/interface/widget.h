@@ -22,6 +22,7 @@ class Visualizer : public QWidget {
     public:
         explicit Visualizer(QWidget* parent = nullptr);
         const  std::vector<roboteam_msgs::WorldRobot> &getSelectedRobots() const;
+        bool robotIsSelected(roboteam_msgs::WorldRobot robot);
 
     public slots:
         void setShowRoles(bool showRoles);
@@ -48,7 +49,6 @@ class Visualizer : public QWidget {
         void drawDataPoints(QPainter &painter, std::vector<Vector2> points, int pointSize = 3,
                 QColor color = Qt::green);
         void drawDataPoints(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize = 3);
-        bool robotIsSelected(roboteam_msgs::WorldRobot robot);
         // utitlity functions
         std::string getTacticNameForRobot(roboteam_msgs::WorldRobot robot);
         std::string getRoleNameForRobot(roboteam_msgs::WorldRobot robot);

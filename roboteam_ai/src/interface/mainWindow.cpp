@@ -194,8 +194,11 @@ void MainWindow::configureCheckBox(std::shared_ptr<QCheckBox> checkbox, std::sha
 QGroupBox * MainWindow::createRobotGroupItem(roboteam_msgs::WorldRobot robot) {
     QGroupBox *groupBox = new QGroupBox("Robot " +  QString::number(robot.id));
 
-    // groupBox->setCheckable(true);
-    // groupBox->setChecked(true);
+    groupBox->setCheckable(true);
+    groupBox->setChecked(visualizer->robotIsSelected(robot));
+    QObject::connect(groupBox, &QGroupBox::toggled, [=](const bool &value) {
+        visualizer->toggleSelectedRobot(robot.id);
+    });
 
     auto * vbox = new QVBoxLayout;
 
