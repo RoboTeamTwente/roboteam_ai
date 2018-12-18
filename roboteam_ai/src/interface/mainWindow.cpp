@@ -223,19 +223,19 @@ QVBoxLayout * MainWindow::createRobotGroupItem(roboteam_msgs::WorldRobot robot) 
 
     auto * vbox = new QVBoxLayout;
 
-    auto velLabel = new QLabel("u: (" + QString::number(robot.vel.x, 'G', 3) + ", " + QString::number(robot.vel.y, 'G', 3) + ") m/s");
+    auto velLabel = new QLabel("vel: (x = " + QString::number(robot.vel.x, 'G', 3) + ", y = " + QString::number(robot.vel.y, 'g', 3) + ") m/s");
     velLabel->setFixedWidth(250);
     vbox->addWidget(velLabel);
 
-    auto angleLabel = new QLabel("a: " + QString::number(robot.angle, 'G', 3) + " radians");
+    auto angleLabel = new QLabel("angle: " + QString::number(robot.angle, 'g', 3) + " radians");
     angleLabel->setFixedWidth(250);
     vbox->addWidget(angleLabel);
 
-    auto posLabel = new QLabel("p: (" + QString::number(robot.pos.x, 'G', 3) + ", " + QString::number(robot.pos.y, 'G', 3) + ")");
+    auto posLabel = new QLabel("pos: (x = " + QString::number(robot.pos.x, 'g', 3) + ", y = " + QString::number(robot.pos.y, 'g', 3) + ")");
     posLabel->setFixedWidth(250);
     vbox->addWidget(posLabel);
 
-    auto wLabel = new QLabel("w: " + QString::number(robot.w, 'G', 3));
+    auto wLabel = new QLabel("w: " + QString::number(robot.w, 'g', 3)  + "rad/s");
     wLabel->setFixedWidth(250);
     vbox->addWidget(wLabel);
 
