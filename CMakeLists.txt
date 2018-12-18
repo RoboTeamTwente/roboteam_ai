@@ -287,18 +287,18 @@ target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} ${SDL2_LIBRARY} ${SDL2TTF_
 catkin_add_gtest(ai_tests
         roboteam_ai/test/main.cpp
         #roboteam_ai/test/BtTest.cpp
-        roboteam_ai/test/JsonTest.cpp
-        roboteam_ai/test/BTFactoryTest.cpp
-        roboteam_ai/test/WorldTest.cpp
+        #roboteam_ai/test/JsonTest.cpp
+        #roboteam_ai/test/BTFactoryTest.cpp
+        #roboteam_ai/test/WorldTest.cpp
         roboteam_ai/test/FieldTest.cpp
-        roboteam_ai/test/DangerFinderTest.cpp
+        #roboteam_ai/test/DangerFinderTest.cpp
         roboteam_ai/test/BTBlackBoardTest.cpp
         roboteam_ai/test/IOTest.cpp
         roboteam_ai/test/RobotDealerTest.cpp
         roboteam_ai/test/RefereeTest.cpp
         roboteam_ai/test/StrategyManagerTest.cpp
         roboteam_ai/test/PropertiesParserTest.cpp
-        roboteam_ai/test/ControUtilsTest.cpp
+        #roboteam_ai/test/ControUtilsTest.cpp
         ${SKILL_TESTS}
         roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
         ${CONDITION_TESTS}

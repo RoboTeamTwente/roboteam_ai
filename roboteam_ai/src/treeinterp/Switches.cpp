@@ -48,6 +48,7 @@
 #include "../conditions/HasBall.hpp"
 #include "../conditions/CanSeeGoal.h"
 #include <roboteam_ai/src/skills/GoToPosLuTh.h>
+#include <roboteam_ai/src/conditions/TheyHaveBall.h>
 #include "Switches.h"
 
 /**
@@ -166,6 +167,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     }
     else if (name == "HasBall") {
         node = std::make_shared<rtt::ai::HasBall>(name, properties);
+    }
+    else if (name == "TheyHaveBall") {
+        node = std::make_shared<rtt::ai::TheyHaveBall>(name, properties);
     }
     else if (name == "CanSeeGoal") {
         node = std::make_shared<rtt::ai::CanSeeGoal>(name, properties);
