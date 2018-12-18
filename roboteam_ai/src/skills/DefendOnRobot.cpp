@@ -40,7 +40,7 @@ bt::Node::Status DefendOnRobot::onUpdate() {
 
         Vector2 targetPos = calculateLocation();
         std::cout << targetPos << std::endl;
-        goToPos.goToPos(robot, targetPos, goType::luTh);
+        goToPos.goToPos(robot, targetPos, goType::basic);
 
         return Status::Running;
     } else {
@@ -52,12 +52,7 @@ Vector2 DefendOnRobot::calculateLocation() {
     float robotAngle1 = opponentWithBall.get()->angle;
     float robotAngle2 = opponentToCover.get()->angle;
 
-    if (opponentWithBall->pos.x > opponentToCover->pos.x) {
-        angleBetweenRobots = atan((opponentToCover->pos.y - opponentWithBall->pos.y) /
-                                        (opponentWithBall->pos.x - opponentToCover->pos.x));
-    } else {
-        angleBetweenRobots = static_cast<float>(((Vector2)opponentToCover->pos - opponentWithBall->pos).angle());
-    }
+    float angleBetweenRobots = atan((opponentToCover->pos.y - opponentWithBall->pos.y) / (opponentWithBall->pos.x - opponentToCover->pos.x));
 
     double angle1;
     if (robotAngle1 >= 0) {

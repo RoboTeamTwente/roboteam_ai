@@ -70,7 +70,7 @@ TEST(RotateTest, It_rotates) {
 
     rtt::ai::Rotate rotateOne("test1", bb);
     rotateOne.Initialize();
-    bt::Node::Status statusOne = rotateOne.Update();
+    bt::Node::Status statusOne = rotateOne.update();
     EXPECT_EQ(statusOne, bt::Node::Status::Running);
 
     rate.sleep();
@@ -85,7 +85,7 @@ TEST(RotateTest, It_rotates) {
 
     rtt::ai::Rotate rotateTwo("test2", bb);
     rotateTwo.initialize();
-    bt::Node::Status statusTwo = rotateOne.Update();
+    bt::Node::Status statusTwo = rotateOne.update();
     EXPECT_EQ(statusTwo, bt::Node::Status::Running);
 
     rate.sleep();

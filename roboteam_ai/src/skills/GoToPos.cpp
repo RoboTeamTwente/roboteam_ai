@@ -11,12 +11,8 @@ GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
 }
 
-std::string GoToPos::node_name() {
-    return "GoToPos";
-}
-
 /// Init the GoToPos skill
-void GoToPos::initialize() {
+void GoToPos::onInitialize() {
     robot = getRobotFromProperties(properties);
 
     goToBall = properties->getBool("goToBall");
@@ -33,7 +29,7 @@ void GoToPos::initialize() {
 }
 
 /// Get an update on the skill
-bt::Node::Status GoToPos::update() {
+bt::Node::Status GoToPos::onUpdate() {
     updateRobot();
     if (!robot) return Status::Running;
 
@@ -72,9 +68,7 @@ bt::Node::Status GoToPos::update() {
     return status::Failure;
 }
 
-void GoToPos::terminate(status s) {
-    if (!robot) return;
-
+void GoToPos::onTerminate(status s) {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = 1;

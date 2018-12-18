@@ -46,12 +46,10 @@ Node::Status Node::getStatus() const { return status; }
 void Node::setStatus(Status s) { status = s; }
 
 std::string Node::node_name() {
-    return "<ERROR>";
+    return "Node name undefined node.cpp";
 }
 
-void Node::addChild(bt::Node::Ptr) {
-
-}
+void Node::addChild(bt::Node::Ptr) { }
 
 // testing purpose
 std::vector<Node::Ptr> Node::getChildren() {
@@ -75,16 +73,13 @@ Node::Status Node::NodeUpdate() {
 
 
 void Node::NodeInitialize() {
-    std::cout << "Node Initialize:  " << node_name() << std::endl;
+    //std::cout << "Node Initialize:  " << node_name() << std::endl;
     initialize();
-
 }
+
 void Node::NodeTerminate(Status s) {
-    std::cout << "Node Terminate:  " << node_name() << std::endl;
+    //std::cout << "Node Terminate:  " << node_name() << std::endl;
     terminate(s);
-
-
-
 }
 
 std::string statusToString(bt::Node::Status status) {

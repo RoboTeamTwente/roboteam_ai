@@ -25,11 +25,18 @@ class Skill : public bt::Leaf {
         io::IOManager ioManager;
         using coach = coach::Coach;
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
-        void terminate(Status s) override;
 public:
         using Control = control::ControlUtils;
         using Status = bt::Node::Status;
         explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+        std::string node_name() override;
+        void initialize() override;
+        Status update() override;
+        void terminate(Status s) override;
+
+        virtual void onInitialize() { };
+        virtual Status onUpdate() = 0;
+        virtual void onTerminate(Status s) {};
 };
 
 } // ai

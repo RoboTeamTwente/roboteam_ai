@@ -21,7 +21,7 @@ class DefendOnRobot : public Skill {
 
         control::ControlGoToPos goToPos;
 
-        float angleBetweenRobots;
+        int amountOfCycles{};
     protected:
         enum Progression {
           IDLE, DONE, FAIL

@@ -10,7 +10,7 @@
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
 std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
 std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::keeperRepo;
-std::string BTFactory::currentTree;
+std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
 int BTFactory::keeperID;
 bool BTFactory::initialized = false;
@@ -36,10 +36,10 @@ void BTFactory::init() {
         for (auto &it : tempMap) strategyRepo[it.first] = it.second; // may break
     }
 
-//    for (const auto &strategyNameKeeper : Switches::keeperJsonFiles) {
-//        auto tempMap = interpreter.getTrees("keeper/" + strategyNameKeeper);
-//        for (auto &it : tempMap) keeperRepo[it.first] = it.second; // may break
-//    }
+    for (const auto &strategyNameKeeper : Switches::keeperJsonFiles) {
+        auto tempMap = interpreter.getTrees("keeper/" + strategyNameKeeper);
+        for (auto &it : tempMap) keeperRepo[it.first] = it.second; // may break
+    }
 
     initialized = true;
 }
@@ -59,9 +59,11 @@ void BTFactory::setCurrentTree(const std::string &newTree) {
 
     if (newTree != BTFactory::currentTree) {
 
-        for (const auto &tacticRobotsPair : robotDealer::RobotDealer::getClaimedRobots()) {
-            robotDealer::RobotDealer::removeTactic(tacticRobotsPair.first);
+        if (BTFactory::currentTree == "NaN") {
+            BTFactory::currentTree = newTree;
+            return;
         }
+        BTFactory::getFactory().getTree(currentTree)->terminate(bt::Node::Status::Running);
 
         BTFactory::currentTree = newTree;
     }

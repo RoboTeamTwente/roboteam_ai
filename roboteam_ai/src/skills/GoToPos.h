@@ -34,13 +34,9 @@ class GoToPos : public Skill {
 
     public:
         explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
-        std::string node_name() override;
-
-        void initialize() override;
-        Status update() override;
-        void terminate(status s) override;
-
-
+        void onInitialize() override;
+        Status onUpdate() override;
+        void onTerminate(status s) override;
 };
 } // ai
 } // rtt

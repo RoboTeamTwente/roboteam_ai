@@ -17,15 +17,6 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
 //        return ;
 //    }
 
-    double distance;
-    distance = ((Vector2)robot->pos - targetPos).length();
-    if (distance < 0.3) {
-        command.id = robot->id;
-        command.x_vel = 0.0;
-        command.y_vel = 0.0;
-        return command;
-    }
-
     //ros::Time begin = ros::Time::now();
     bool recalculate;
     command.id = robot->id;
@@ -55,8 +46,8 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
     }
     recalculate = true; // TODO thijs crap, pls fix
     if (recalculate) {
-        NumRobot meToo;
-        bool nicePath = calculateNumericDirection(robot, meToo, command);
+        me.clear();
+        bool nicePath = calculateNumericDirection(robot, me, command);
         robotQueue = {};
 
         //ros::Time end = ros::Time::now();
@@ -76,7 +67,7 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
         for (auto displayTarget : displayData) {
             displayColorData.emplace_back(displayTarget, Qt::blue);
         }
-        //rtt::ai::interface::Drawer::setGoToPosLuThPoints(robot->id, displayColorData);
+        rtt::ai::interface::Drawer::setGoToPosLuThPoints(robot->id, displayColorData);
 
         if (nicePath) {
             command.use_angle = 0;
@@ -147,7 +138,7 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
         }
 
         NumRobotPtr me = robotQueue.top();
-        if (me->isCollision(target, 0.4)) {
+        if (me->isCollision(target)) {
             numRobot.posData = me->posData;
             numRobot.velData = me->velData;
             return true;

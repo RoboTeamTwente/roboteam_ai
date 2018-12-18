@@ -45,8 +45,8 @@ TEST(WorldTest, it_gets_the_robot_ID) {
 
     auto robot1return = rtt::ai::World::getRobotForId(0, true).get();
     auto robot2return = rtt::ai::World::getRobotForId(2, true).get();
-    ASSERT_FLOAT_EQ(robot1return.angle, 0.3);
-    ASSERT_FLOAT_EQ(robot2return.angle, 0.4);
-    ASSERT_EQ(rtt::ai::World::getRobotForId(0, false), boost::none);
+    ASSERT_FLOAT_EQ(robot1return->angle, 0.3);
+    ASSERT_FLOAT_EQ(robot2return->angle, 0.4);
+    ASSERT_EQ(rtt::ai::World::getRobotForId(0, false), nullptr);
 
 }

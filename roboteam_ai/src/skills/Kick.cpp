@@ -8,18 +8,13 @@ namespace rtt {
 namespace ai {
 
 Kick::Kick(std::string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) { }
+        :Skill(std::move(name), std::move(blackboard)) { }
 
-void Kick::initialize() {
-    robot = getRobotFromProperties(properties);
-    if (!robot)  {
-        currentProgress = Progression::FAIL;
-        return;
-    }
+void Kick::onInitialize() {
     amountOfCycles = 0;
 }
 
-bt::Node::Status Kick::update() {
+bt::Node::Status Kick::onUpdate() {
     // Fail if we did not succeed after a number of cycles
     amountOfCycles ++;
     if (amountOfCycles > constants::MAX_KICK_CYCLES) {

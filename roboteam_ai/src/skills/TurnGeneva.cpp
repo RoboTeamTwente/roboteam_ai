@@ -7,11 +7,11 @@
 namespace rtt {
 namespace ai {
 
-void TurnGeneva::initialize() {
+void TurnGeneva::onInitialize() {
     amountOfCycles = 0;
 }
 
-bt::Node::Status TurnGeneva::update() {
+bt::Node::Status TurnGeneva::onUpdate() {
 
     amountOfCycles ++;
     if (amountOfCycles > constants::MAX_GENEVA_CYCLES) {

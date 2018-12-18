@@ -87,7 +87,7 @@ class GoToPosLuTh : public Skill {
               return newTargets;
           }
 
-          NumRobotPtr getNewNumRobot(NumRobotPtr me, Vector2 &newTarget) {
+          NumRobotPtr getNewNumRobot(const NumRobotPtr &me, Vector2 &newTarget) {
               NumRobot newMe;
 
               std::vector<Vector2> _posData(me->posData.begin(), me->posData.begin() + me->startIndex + 1);
@@ -109,7 +109,7 @@ class GoToPosLuTh : public Skill {
           }
 
           struct CustomCompare {
-            bool operator()(NumRobotPtr lhs, NumRobotPtr rhs) {
+            bool operator()(const NumRobotPtr &lhs, const NumRobotPtr &rhs) {
                 if (lhs->collisions < rhs->collisions) return false;
                 else
                     return abs((lhs->pos - lhs->finalTargetPos).length())
@@ -121,8 +121,8 @@ class GoToPosLuTh : public Skill {
 
         std::priority_queue<NumRobotPtr, std::vector<NumRobotPtr>, NumRobot::CustomCompare> robotQueue;
 
-        bool tracePath(NumRobot &numRobot, Vector2 target);
 
+        bool tracePath(NumRobot &numRobot, Vector2 target);
         std::vector<Vector2> displayData;
         double errorMargin = 0.3;
 
@@ -143,16 +143,13 @@ class GoToPosLuTh : public Skill {
         void sendMoveCommand();
         bool calculateNumericDirection(NumRobot &me, roboteam_msgs::RobotCommand &command);
         void drawCross(Vector2 &pos);
-    public:
-
-        explicit GoToPosLuTh(string name, bt::Blackboard::Ptr blackboard);
-        std::string node_name() override;
-
-        void initialize() override;
-        Status update() override;
-        void terminate(Status s) override;
-
         bool calculateNextPoint(NumRobotPtr me);
+
+    public:
+        explicit GoToPosLuTh(string name, bt::Blackboard::Ptr blackboard);
+        void onInitialize() override;
+        Status onUpdate() override;
+        void onTerminate(Status s) override;
 };
 } // ai
 } // rtt

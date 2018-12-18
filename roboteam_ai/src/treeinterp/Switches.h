@@ -4,6 +4,9 @@
 #ifndef ROBOTEAM_AI_SWITCHES_H
 #define ROBOTEAM_AI_SWITCHES_H
 
+#include <iostream>
+#include "../utilities/RobotDealer.h"
+#include "../bt/bt.hpp"
 class Switches {
         using robotType = robotDealer::RobotDealer::RobotType;
 
@@ -20,7 +23,6 @@ class Switches {
         static bt::Node::Ptr leafSwitch(std::string name, bt::Blackboard::Ptr properties);
 
         static bt::Node::Ptr tacticSwitch(std::string name, bt::Blackboard::Ptr properties);
-
 
 };
 

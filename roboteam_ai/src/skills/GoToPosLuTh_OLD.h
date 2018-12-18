@@ -69,15 +69,12 @@ class GoToPosLuTh_OLD : public Skill {
         bool calculateNumericDirection(numRobot &me, roboteam_msgs::RobotCommand &command);
         Vector2 getClosestRobotPos(const roboteam_msgs::World &world, numRobot &me);
     public:
-
         explicit GoToPosLuTh_OLD(string name, bt::Blackboard::Ptr blackboard);
-        std::string node_name() override;
-
-        void initialize() override;
-        Status update() override;
-        void terminate(Status s) override;
-
+        void onInitialize() override;
+        Status onUpdate() override;
+        void onTerminate(Status s) override;
 };
+
 } // ai
 } // rtt
 

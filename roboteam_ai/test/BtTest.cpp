@@ -50,7 +50,7 @@ class Runner : public Tracer {
         }
 
         void terminate_(Status s) override {
-            if (s == Status::Running || s == Status::Invalid) {
+            if (s == Status::Running || s == Status::Waiting) {
                 setStatus(Status::Failure);
             }
         }
@@ -82,7 +82,7 @@ class Counter : public Tracer {
         }
 
         void terminate_(Status s) override {
-            if (s == Status::Running || s == Status::Invalid) {
+            if (s == Status::Running || s == Status::Waiting) {
                 setStatus(Status::Failure);
             }
         }
@@ -338,8 +338,8 @@ TEST(BehaviorTreeTest, selectorComposites) {
     // selector
     bt::Selector selector;
     ASSERT_EQ(selector.node_name(), "Selector");
-    // it should be invalid when initialized
-    ASSERT_EQ(selector.getStatus(), bt::Node::Status::Invalid);
+    // it should be Failure when initialized
+    ASSERT_EQ(selector.getStatus(), bt::Node::Status::Waiting);
     // it should fail after the first update with no children
     ASSERT_EQ(selector.update(), bt::Node::Status::Failure);
 
@@ -355,7 +355,7 @@ TEST(BehaviorTreeTest, selectorComposites) {
     bt::MemSelector memSelector;
     ASSERT_EQ(memSelector.node_name(), "MemSelector");
 
-    ASSERT_EQ(memSelector.getStatus(), bt::Node::Status::Invalid);
+    ASSERT_EQ(memSelector.getStatus(), bt::Node::Status::Waiting);
     memSelector.index = 22;
     memSelector.initialize();
     ASSERT_EQ(memSelector.index, (unsigned int) 0);
@@ -431,7 +431,7 @@ TEST(BehaviorTreeTest, decorators) {
 
 TEST(BehaviorTreeTest, StatusToString) {
     ASSERT_EQ(bt::statusToString(bt::Node::Status::Failure), "Failure");
-    ASSERT_EQ(bt::statusToString(bt::Node::Status::Invalid), "Invalid");
+    ASSERT_EQ(bt::statusToString(bt::Node::Status::Waiting), "Waiting");
     ASSERT_EQ(bt::statusToString(bt::Node::Status::Success), "Success");
     ASSERT_EQ(bt::statusToString(bt::Node::Status::Running), "Running");
 }
@@ -463,7 +463,7 @@ TEST(BehaviorTreeTest, it_terminates_nodes) {
     bt::Succeeder succeeder;
     succeeder.addChild(std::make_unique<Counter>(bt::Node::Status::Failure, "D", 2));
     succeeder.terminate(bt::Node::Status::Success);
-    ASSERT_EQ(succeeder.getStatus(), bt::Node::Status::Invalid);
+    ASSERT_EQ(succeeder.getStatus(), bt::Node::Status::Waiting);
 
     bt::Succeeder succeeder2;
     succeeder2.addChild(std::make_unique<Counter>(bt::Node::Status::Failure, "D", 2));
@@ -477,5 +477,5 @@ TEST(BehaviorTreeTest, it_terminates_nodes) {
     succeeder3.update();
 
     succeeder3.terminate(bt::Node::Status::Failure);
-    ASSERT_EQ(succeeder3.getStatus(), bt::Node::Status::Invalid);
+    ASSERT_EQ(succeeder3.getStatus(), bt::Node::Status::Waiting);
 }
