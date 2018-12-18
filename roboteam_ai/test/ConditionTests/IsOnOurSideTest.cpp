@@ -9,12 +9,12 @@
 
 TEST(DetectsBallOnOurSide, IsOnOurSideTest) {
     bt::Blackboard BB;
-    BB.SetBool("robot", false);
+    BB.setBool("robot", false);
 
     auto blackBoard = std::make_shared<bt::Blackboard>(BB);
     rtt::ai::IsOnOurSide node("Test", blackBoard);
 
-    ASSERT_EQ(node.Update(),bt::Node::Status::Failure);
+    ASSERT_EQ(node.update(),bt::Node::Status::Failure);
 
     roboteam_msgs::World worldMsg;
 
@@ -30,23 +30,23 @@ TEST(DetectsBallOnOurSide, IsOnOurSideTest) {
 
     rtt::ai::World::set_world(worldMsg);
 
-    ASSERT_EQ(node.Update(), bt::Node::Status::Success);
+    ASSERT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.ball.pos.x = 1.0;
     rtt::ai::World::set_world(worldMsg);
 
-    ASSERT_EQ(node.Update(), bt::Node::Status::Failure);
+    ASSERT_EQ(node.update(), bt::Node::Status::Failure);
 }
 
 TEST(DetectsRobotOnOurSide, IsOnOurSideTest) {
     bt::Blackboard BB;
-    BB.SetInt("ROBOT_ID", 2);
-    BB.SetBool("robot", true);
+    BB.setInt("ROBOT_ID", 2);
+    BB.setBool("robot", true);
 
     auto blackBoard = std::make_shared<bt::Blackboard>(BB);
     rtt::ai::IsOnOurSide node("Test", blackBoard);
 
-    ASSERT_EQ(node.Update(),bt::Node::Status::Invalid);
+    ASSERT_EQ(node.update(),bt::Node::Status::Failure);
 
     roboteam_msgs::World worldMsg;
 
@@ -66,10 +66,10 @@ TEST(DetectsRobotOnOurSide, IsOnOurSideTest) {
 
     rtt::ai::World::set_world(worldMsg);
 
-    ASSERT_EQ(node.Update(), bt::Node::Status::Success);
+    ASSERT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.us[0].pos.x = 1.0;
     rtt::ai::World::set_world(worldMsg);
 
-    ASSERT_EQ(node.Update(), bt::Node::Status::Failure);
+    ASSERT_EQ(node.update(), bt::Node::Status::Failure);
 }

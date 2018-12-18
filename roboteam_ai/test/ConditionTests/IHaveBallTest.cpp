@@ -43,7 +43,7 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.pos.x = - 0.1;
     worldMsg.ball.pos.y = 0;
     rtt::ai::World::set_world(worldMsg);
-    ASSERT_EQ(node.Update(),bt::Node::Status::Failure);
+    ASSERT_EQ(node.update(),bt::Node::Status::Failure);
 
 
 }
