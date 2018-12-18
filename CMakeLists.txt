@@ -225,6 +225,8 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlKick.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PID.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PID.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.h
         )
 
 set(INTERFACE_SOURCES

@@ -4,6 +4,7 @@
 
 #include <roboteam_ai/src/interface/drawer.h>
 #include <roboteam_ai/src/control/PID.h>
+#include <roboteam_ai/src/control/Controller.h>
 #include "Keeper.h"
 namespace rtt {
 namespace ai {
@@ -18,11 +19,13 @@ void Keeper::onInitialize() {
     //Create arc for keeper to drive on
     blockCircle=control::ControlUtils::createKeeperArc();
     //TODO::magic numbers galore, from the old team. move to new control library
-    pid.setParams(4.0, 0.0, 0.75, 10, 0.0, 0.0);
-    finePid.setParams(1.0, 0.0, 0.0, 0, 0.0, 0.0);
-    pid.initialize(1.0/constants::tickRate);
-    finePid.initialize(1.0/constants::tickRate);
+    double timediff = 1.0/constants::tickRate;
+    pidx.setPID(4.0, 0.0, 0.75, timediff);
+    pidy.setPID(4.0, 0.0, 0.75, timediff);
+    finePidx.setPID(4.0, 0.0, 0.75, timediff);
+    finePidy.setPID(4.0, 0.0, 0.75, timediff);
 }
+
 Keeper::Status Keeper::onUpdate() {
         Vector2 ballPos = World::getBall().pos;
         Vector2 blockPoint = computeBlockPoint(ballPos);
@@ -51,7 +54,10 @@ void Keeper::onTerminate(Status s) {
 }
 
 void Keeper::sendMoveCommand(Vector2 pos) {
-    Vector2 delta = pid.posControl(robot->pos, pos);
+    Vector2 error = pos - robot->pos;
+    Vector2 delta;
+    delta.x = pidx.controlPID(error.x);
+    delta.y = pidy.controlPID(error.y);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
@@ -62,7 +68,10 @@ void Keeper::sendMoveCommand(Vector2 pos) {
 }
 
 void Keeper::sendFineMoveCommand(Vector2 pos) {
-    Vector2 delta = finePid.posControl(robot->pos, pos);
+    Vector2 error = pos - robot->pos;
+    Vector2 delta;
+    delta.x = finePidx.controlPID(error.x);
+    delta.y = finePidy.controlPID(error.y);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
