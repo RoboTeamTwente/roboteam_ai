@@ -144,6 +144,7 @@ std::set<int> RobotDealer::getAvailableRobots() {
     return ids;
 }
 std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::getClaimedRobots() {
+    std::lock_guard<std::mutex> lock(robotOwnersLock);
     return robotOwners;
 }
 

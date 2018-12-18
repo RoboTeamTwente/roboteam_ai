@@ -19,6 +19,9 @@
 #include "../bt/Node.hpp"
 #include "QTreeWidgetItemIterator"
 #include <QtGui>
+#include <QRadioButton>
+#include <QGroupBox>
+#include <QLabel>
 
 namespace rtt {
 namespace ai {
@@ -31,12 +34,15 @@ public:
 
 public slots:
     void updateWidgets();
+    void updateRobotsWidget();
 private:
     std::shared_ptr<Visualizer> visualizer;
     std::shared_ptr<QHBoxLayout> horizontalLayout;
+    std::shared_ptr<QHBoxLayout> robotsLayout;
+
+    std::shared_ptr<QVBoxLayout> mainLayout;
     std::shared_ptr<QVBoxLayout> verticalLayout;
     std::shared_ptr<QTreeWidget> treeWidget;
-    std::shared_ptr<QComboBox> select_robot;
     std::shared_ptr<QComboBox> select_strategy;
     std::shared_ptr<QCheckBox> cb_referee;
     std::shared_ptr<QCheckBox> cb_rolenames;
@@ -51,12 +57,15 @@ private:
             const QObject *receiver, const char * method, bool defaultState = false);
 
     bool hasCorrectTree = false;
-    int amountOfRobots = 0;
     void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem * QParent);
-
     std::map<QTreeWidgetItem *, bt::Node::Ptr> treeItemMapping;
+
+    QGroupBox * createRobotGroupItem(roboteam_msgs::WorldRobot robot);
     QColor getColorForStatus(bt::Node::Status status);
     int frame = 0;
+
+    void clearLayout(QLayout *layout);
+
 };
 
 } // interface

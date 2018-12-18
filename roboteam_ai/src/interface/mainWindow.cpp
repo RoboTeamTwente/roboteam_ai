@@ -15,14 +15,10 @@ namespace interface {
     setMinimumHeight(600);
 
     visualizer = std::make_shared<Visualizer>(this);
+    mainLayout = std::make_shared<QVBoxLayout>();
     horizontalLayout = std::make_shared<QHBoxLayout>();
     verticalLayout = std::make_shared<QVBoxLayout>();
-
-    // selectionbox for selecting a robot from a dropdown
-    select_robot = std::make_shared<QComboBox>();
-    verticalLayout->addWidget(select_robot.get());
-    QObject::connect(select_robot.get(), SIGNAL(currentIndexChanged(int)), visualizer.get(), SLOT(selectRobot(int)));
-    // TODO this might not work properly on robocup where different IDs can be used
+    robotsLayout = std::make_shared<QHBoxLayout>();
 
     // functions to select strategies
     cb_referee = std::make_shared<QCheckBox>("Use referee");
@@ -39,7 +35,6 @@ namespace interface {
         BTFactory::getFactory().setCurrentTree(strategyName.toStdString());
         hasCorrectTree = false;
     });
-
 
     // Checkboxes for the visualization
     cb_rolenames = std::make_shared<QCheckBox>("show rolenames");
@@ -75,15 +70,24 @@ namespace interface {
     horizontalLayout->addWidget(visualizer.get(), 3); // width stretch 3/5
     horizontalLayout->addLayout(verticalLayout.get(), 2); // width stretch 2/5
 
+    mainLayout->addLayout(horizontalLayout.get(), 5); // height stretch 5/6
+    mainLayout->addLayout(robotsLayout.get(), 1); // height stretch 1/6
+
+
     // apply layout
     setCentralWidget(new QWidget);
-    centralWidget()->setLayout(horizontalLayout.get());
+    centralWidget()->setLayout(mainLayout.get());
 
     // start the UI update cycles
     auto *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     connect(timer, SIGNAL(timeout()), this, SLOT(updateWidgets()));
     timer->start(20); // 50fps
+
+    // start the UI update cycles
+    auto * robotsTimer = new QTimer(this);
+    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget()));
+    robotsTimer->start(100); // 10fps
 }
 
 // some widgets need to be updated regularly
@@ -126,15 +130,19 @@ void MainWindow::updateWidgets() {
         hasCorrectTree = true;
     }
 
-    // if the amount of robots in the world size is not consistent with our knowledge, refresh the select box
-    if (amountOfRobots != World::get_world().us.size()) {
-        select_robot->clear();
-        for (auto robot : World::get_world().us) {
-            select_robot->addItem(QString::number(robot.id));
-        }
-        amountOfRobots = static_cast<int>(World::get_world().us.size());
-    }
+        // if the tree did change, clear the treewidget and rebuild it
+
 }
+
+void MainWindow::updateRobotsWidget() {
+        clearLayout(robotsLayout.get());
+
+        for (int i = 0; i < World::get_world().us.size(); i++) {
+           robotsLayout->addWidget(createRobotGroupItem(World::get_world().us.at(i)), 1);
+        }
+
+    }
+
 
 /// Use recursion to iterate through the children of each node
 void MainWindow::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem * QParent) {
@@ -176,6 +184,50 @@ void MainWindow::configureCheckBox(std::shared_ptr<QCheckBox> checkbox, std::sha
     layout->addWidget(checkbox.get());
     QObject::connect(checkbox.get(), SIGNAL(clicked(bool)), receiver, method);
 }
+
+
+QGroupBox * MainWindow::createRobotGroupItem(roboteam_msgs::WorldRobot robot) {
+    QGroupBox *groupBox = new QGroupBox("Robot " +  QString::number(robot.id));
+
+    // groupBox->setCheckable(true);
+    // groupBox->setChecked(true);
+
+    auto * vbox = new QVBoxLayout;
+
+    auto velLabel = new QLabel("u: (" + QString::number(robot.vel.x, 'G', 3) + ", " + QString::number(robot.vel.y, 'G', 3) + ") m/s");
+    velLabel->setFixedWidth(250);
+    vbox->addWidget(velLabel);
+
+    auto angleLabel = new QLabel("a: " + QString::number(robot.angle, 'G', 3) + " radians");
+    angleLabel->setFixedWidth(250);
+    vbox->addWidget(angleLabel);
+
+    auto posLabel = new QLabel("p: (" + QString::number(robot.pos.x, 'G', 3) + ", " + QString::number(robot.pos.y, 'G', 3) + ")");
+    posLabel->setFixedWidth(250);
+    vbox->addWidget(posLabel);
+
+    auto wLabel = new QLabel("w: " + QString::number(robot.w, 'G', 3));
+    wLabel->setFixedWidth(250);
+    vbox->addWidget(wLabel);
+
+    groupBox->setLayout(vbox);
+    return groupBox;
+}
+
+void MainWindow::clearLayout(QLayout *layout) {
+    QLayoutItem *item;
+    while((item = layout->takeAt(0))) {
+    if (item->layout()) {
+        clearLayout(item->layout());
+        delete item->layout();
+    }
+    if (item->widget()) {
+        delete item->widget();
+    }
+        delete item;
+    }
+}
+
 
 } // interface
 } // ai
