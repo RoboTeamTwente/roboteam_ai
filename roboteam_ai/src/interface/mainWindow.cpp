@@ -97,7 +97,7 @@ MainWindow::MainWindow(QWidget* parent)
     // start the UI update cycles
     auto * robotsTimer = new QTimer(this);
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget()));
-    robotsTimer->start(100); // 10fps
+    robotsTimer->start(200); // 5fps
 }
 
 // some widgets need to be updated regularly
@@ -142,9 +142,36 @@ void MainWindow::updateWidgets() {
 }
 
 void MainWindow::updateRobotsWidget() {
-    clearLayout(robotsLayout.get());
-    for (int i = 0; i < World::get_world().us.size(); i++) {
-       robotsLayout->addWidget(createRobotGroupItem(World::get_world().us.at(i)), 1);
+
+    auto us = World::get_world().us;
+
+    // reload the widgets completely if a robot is added or removed
+    // or if the amount of selected robots is not accurate
+    if (robotsLayout->count() != us.size() || amountOfSelectedRobots != visualizer->getSelectedRobots().size()) {
+        amountOfSelectedRobots = visualizer->getSelectedRobots().size();
+        clearLayout(robotsLayout.get());
+
+        for (auto robot : us) {
+            QGroupBox * groupBox = new QGroupBox("Robot " + QString::number(robot.id));
+            groupBox->setCheckable(true);
+            groupBox->setChecked(visualizer->robotIsSelected(robot));
+            QObject::connect(groupBox, &QGroupBox::clicked, [=]() {
+                visualizer->toggleSelectedRobot(robot.id);
+            });
+            groupBox->setLayout(createRobotGroupItem(robot));
+            robotsLayout->addWidget(groupBox, 1);
+        }
+    } else {
+        for (int i = 0; i < us.size(); i++) {
+            if (robotsLayout->itemAt(i)) {
+                auto robotwidget = robotsLayout->itemAt(i)->widget();
+                clearLayout(robotwidget->layout());
+                delete robotwidget->layout();
+                if (!robotwidget->layout()) {
+                    robotwidget->setLayout(createRobotGroupItem(us.at(i)));
+                }
+            }
+        }
     }
 }
 
@@ -191,14 +218,8 @@ void MainWindow::configureCheckBox(std::shared_ptr<QCheckBox> checkbox, std::sha
 }
 
 
-QGroupBox * MainWindow::createRobotGroupItem(roboteam_msgs::WorldRobot robot) {
-    QGroupBox *groupBox = new QGroupBox("Robot " +  QString::number(robot.id));
+QVBoxLayout * MainWindow::createRobotGroupItem(roboteam_msgs::WorldRobot robot) {
 
-    groupBox->setCheckable(true);
-    groupBox->setChecked(visualizer->robotIsSelected(robot));
-    QObject::connect(groupBox, &QGroupBox::toggled, [=](const bool &value) {
-        visualizer->toggleSelectedRobot(robot.id);
-    });
 
     auto * vbox = new QVBoxLayout;
 
@@ -218,8 +239,7 @@ QGroupBox * MainWindow::createRobotGroupItem(roboteam_msgs::WorldRobot robot) {
     wLabel->setFixedWidth(250);
     vbox->addWidget(wLabel);
 
-    groupBox->setLayout(vbox);
-    return groupBox;
+    return vbox;
 }
 
 void MainWindow::clearLayout(QLayout *layout) {

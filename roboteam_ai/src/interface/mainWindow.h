@@ -59,9 +59,10 @@ private:
     bool hasCorrectTree = false;
     void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem * QParent);
     std::map<QTreeWidgetItem *, bt::Node::Ptr> treeItemMapping;
-    QGroupBox * createRobotGroupItem(roboteam_msgs::WorldRobot robot);
+    QVBoxLayout * createRobotGroupItem(roboteam_msgs::WorldRobot robot);
     QColor getColorForStatus(bt::Node::Status status);
     void clearLayout(QLayout *layout);
+    int amountOfSelectedRobots = 0;
 
 };
 
