@@ -100,7 +100,7 @@ double ControlUtils::distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vec
 
 /// See if a robot has a clear vision towards another robot
 bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::World world, int safelyness) {
-    double minDistance = rtt::ai::constants::ROBOT_RADIUS * (3 * safelyness); // TODO: calibrate Rolf approved
+    double minDistance = rtt::ai::constants::ROBOT_RADIUS*(3*safelyness); // TODO: calibrate Rolf approved
     Vector2 fromPos;
     Vector2 towardsPos;
 
@@ -139,9 +139,9 @@ double ControlUtils::distanceToLineWithEnds(Vector2 pointToCheck, Vector2 lineSt
 
 // Given three colinear points p, q, r, the function checks if
 // point q lies on line segment 'pr'
-bool ControlUtils::onLineSegment(Vector2 p, Vector2 q, Vector2 r){
+bool ControlUtils::onLineSegment(Vector2 p, Vector2 q, Vector2 r) {
     return q.x <= fmax(p.x, r.x) && q.x >= fmin(p.x, r.x) &&
-        q.y <= fmax(p.y, r.y) && q.y >= fmin(p.y, r.y);
+            q.y <= fmax(p.y, r.y) && q.y >= fmin(p.y, r.y);
 
 }
 // To find orientation of ordered triplet (p, q, r).
@@ -152,14 +152,14 @@ bool ControlUtils::onLineSegment(Vector2 p, Vector2 q, Vector2 r){
 int ControlUtils::lineOrientation(Vector2 p, Vector2 q, Vector2 r) {
     // See https://www.geeksforgeeks.org/orientation-3-ordered-points/
     // for details of below formula.
-    double val = (q.y - p.y) * (r.x - q.x) -
-            (q.x - p.x) * (r.y - q.y);
+    double val = (q.y - p.y)*(r.x - q.x) -
+            (q.x - p.x)*(r.y - q.y);
 
     if (val == 0) return 0;  // colinear
 
-    return (val > 0)? 1: 2; // clock or counterclock wise
+    return (val > 0) ? 1 : 2; // clock or counterclock wise
 }
-bool ControlUtils::lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd,Vector2 lineBStart,Vector2 lineBEnd){
+bool ControlUtils::lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd, Vector2 lineBStart, Vector2 lineBEnd) {
     int o1 = lineOrientation(lineAStart, lineAEnd, lineBStart);
     int o2 = lineOrientation(lineAStart, lineAEnd, lineBEnd);
     int o3 = lineOrientation(lineBStart, lineBEnd, lineAStart);
@@ -186,8 +186,8 @@ bool ControlUtils::lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd,Ve
 
 }
 rtt::Arc ControlUtils::createKeeperArc() {
-    double goalwidth=rtt::ai::Field::get_field().goal_width;
-    Vector2 goalPos=rtt::ai::Field::get_our_goal_center();
+    double goalwidth = rtt::ai::Field::get_field().goal_width;
+    Vector2 goalPos = rtt::ai::Field::get_our_goal_center();
     double diff = rtt::ai::constants::KEEPER_POST_MARGIN - rtt::ai::constants::KEEPER_CENTREGOAL_MARGIN;
 
     double radius = diff*0.5 + goalwidth*goalwidth/(8*diff); //Pythagoras' theorem.
@@ -202,15 +202,15 @@ rtt::Arc ControlUtils::createKeeperArc() {
     }
 }
 
-
 //Computes the absolute difference between 2 angles (the shortest orientation direction)
 ///both angles must go from[-pi,pi]!!
-double ControlUtils::angleDifference(double A1, double A2){
-    double angleDif=A1-A2;
-    if  (angleDif<-M_PI){
-        angleDif+=2*M_PI;
-    }else if (angleDif>M_PI){
-        angleDif-=2*M_PI;
+double ControlUtils::angleDifference(double A1, double A2) {
+    double angleDif = A1 - A2;
+    if (angleDif < - M_PI) {
+        angleDif += 2*M_PI;
+    }
+    else if (angleDif > M_PI) {
+        angleDif -= 2*M_PI;
     }
     return abs(angleDif);
 }

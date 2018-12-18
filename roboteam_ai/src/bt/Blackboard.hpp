@@ -10,7 +10,7 @@
 namespace bt {
 
 class Blackboard {
-    FRIEND_TEST(BTBlackBoardTest, Blackboard);
+        FRIEND_TEST(BTBlackBoardTest, Blackboard);
 
     public:
         // Default constructors enabled
@@ -59,7 +59,6 @@ class Blackboard {
         std::map<std::string, std::string> strings;
         std::map<std::string, rtt::Vector2> vectors;
         std::map<std::string, double> doubles;
-
 
 };
 

@@ -11,11 +11,11 @@ namespace rtt {
 namespace ai {
 
 class CanSeeGoal : public Condition {
-public:
-    explicit CanSeeGoal(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-    using Status = bt::Node::Status;
-    Status update() override;
-    std::string node_name() override { return "HasBall"; }
+    public:
+        explicit CanSeeGoal(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+        using Status = bt::Node::Status;
+        Status update() override;
+        std::string node_name() override { return "HasBall"; }
 };
 
 } // ai

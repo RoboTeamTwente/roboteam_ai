@@ -4,9 +4,7 @@
 #ifndef ROBOTEAM_AI_SHOOTATGOAL_H
 #define ROBOTEAM_AI_SHOOTATGOAL_H
 
-
 #include "Skill.h"
-
 
 namespace rtt {
 namespace ai {

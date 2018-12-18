@@ -18,16 +18,15 @@
 namespace control {
 
 class ControlRotate {
-public:
-    ControlRotate();
+    public:
+        ControlRotate();
 
-private:
-    using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
-    void rotateToBall();
-    void rotateToRobot();
+    private:
+        using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
+        void rotateToBall();
+        void rotateToRobot();
 };
 
 }
-
 
 #endif //ROBOTEAM_AI_CONTROLROTATE_H

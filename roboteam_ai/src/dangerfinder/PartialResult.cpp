@@ -10,7 +10,6 @@ PartialResult::PartialResult()
 PartialResult::PartialResult(double score, DangerFlag flags)
         :score(score), flags(flags) { }
 
-
 /**
 * \function operator+=
 * \brief Sums the scores, ORs the flags.
