@@ -27,7 +27,9 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawRobots(painter);
 
         if (showPath) {
-            drawDataPoints(painter, Drawer::getGoToPosLuThPoints(selectedRobot.id));
+            for (auto robot : selectedRobots) {
+                drawDataPoints(painter, Drawer::getGoToPosLuThPoints(robot.id));
+            }
         }
 
     }
@@ -144,7 +146,7 @@ void Visualizer::drawRobot(QPainter &painter, roboteam_msgs::WorldRobot robot, b
     }
 
     // draw the robots
-    QColor color = (robot.id == selectedRobot.id && ourTeam) ? c::SELECTED_ROBOT_COLOR : robotColor;
+    QColor color = (robotIsSelected(robot) && ourTeam) ? c::SELECTED_ROBOT_COLOR : robotColor;
     painter.setBrush(color);
     painter.setPen(Qt::transparent);
     painter.drawEllipse(qrobotPosition, c::ROBOT_DRAWING_SIZE, c::ROBOT_DRAWING_SIZE);
@@ -163,7 +165,7 @@ void Visualizer::mousePressEvent(QMouseEvent* event) {
 
         for (roboteam_msgs::WorldRobot robot : rtt::ai::World::get_world().us) {
             if (pos.dist(toScreenPosition(robot.pos)) < 10) {
-                this->selectedRobot = robot;
+                this->toggleSelectedRobot(robot.id);
             }
         }
     }
@@ -219,27 +221,12 @@ void Visualizer::drawDataPoints(QPainter &painter, std::vector<std::pair<Vector2
 }
 
 std::string Visualizer::getTacticNameForRobot(roboteam_msgs::WorldRobot robot) {
-    for (auto &robotowner : robotDealer::RobotDealer::getClaimedRobots()) {
-        std::set<std::pair<int, std::string>> robots = robotowner.second;
-        for (auto &ownedRobot : robots) {
-            if (ownedRobot.first == static_cast<int>(robot.id)) {
-                return robotowner.first;
-            }
-        }
-    }
-    return "";
+   return robotDealer::RobotDealer::getTacticNameForId(robot.id);
 }
 
 std::string Visualizer::getRoleNameForRobot(roboteam_msgs::WorldRobot robot) {
-    for (auto &robotowner : robotDealer::RobotDealer::getClaimedRobots()) {
-        std::set<std::pair<int, std::string>> robots = robotowner.second;
-        for (auto &ownedRobot : robots) {
-            if (ownedRobot.first == static_cast<int>(robot.id)) {
-                return ownedRobot.second;
-            }
-        }
-    }
-    return "";
+    return robotDealer::RobotDealer::getRoleNameForId(robot.id);
+
 }
 
 void Visualizer::setShowRoles(bool showRoles) {
@@ -254,8 +241,8 @@ void Visualizer::setShowTacticColors(bool showTacticColors) {
     Visualizer::showTacticColors = showTacticColors;
 }
 
-const roboteam_msgs::WorldRobot &Visualizer::getSelectedRobot() const {
-    return selectedRobot;
+const std::vector<roboteam_msgs::WorldRobot> &Visualizer::getSelectedRobots() const {
+    return selectedRobots;
 }
 
 void Visualizer::setShowAngles(bool showAngles) {
@@ -274,12 +261,32 @@ void Visualizer::setShowPathAll(bool showPaths) {
     Visualizer::showAllPaths = showPaths;
 }
 
-void Visualizer::selectRobot(int robotId) {
-    for (roboteam_msgs::WorldRobot robot : rtt::ai::World::get_world().us) {
-        if (static_cast<int>(robot.id) == robotId) {
-            this->selectedRobot = robot;
+void Visualizer::toggleSelectedRobot(int robotId) {
+    bool robotWasAlreadySelected = false;
+
+    for (int i = 0; i < selectedRobots.size(); i++) {
+        if (selectedRobots.at(i).id == robotId) {
+            robotWasAlreadySelected = true;
+            this->selectedRobots.erase(selectedRobots.begin() + i);
         }
     }
+
+    if (!robotWasAlreadySelected) {
+        for (roboteam_msgs::WorldRobot robot : rtt::ai::World::get_world().us) {
+            if (static_cast<int>(robot.id) == robotId) {
+                robotWasAlreadySelected = false;
+                this->selectedRobots.push_back(robot);
+            }
+        }
+    }
+
+}
+
+bool Visualizer::robotIsSelected(roboteam_msgs::WorldRobot robotToCheck) {
+    for (auto robot : selectedRobots) {
+        if (robot.id == robotToCheck.id) return true;
+    }
+    return false;
 }
 
 } // interface
