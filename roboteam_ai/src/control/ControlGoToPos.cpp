@@ -60,17 +60,23 @@ void ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
 //        ROS_ERROR("Target position is not correct GoToPos");
 //        return;
 //    }
-    double dx = targetPos.x - robot->pos.x;
-    double dy = targetPos.y - robot->pos.y;
-    Vector2 deltaPos = {dx, dy};
+    static bool setPID = false;
+    if (setPID != true){
+        double timediff = 1.0/rtt::ai::constants::tickRate;
+        pidPos.setPD(3, 1.5, timediff);
+        setPID = true;
+    }
+    Vector2 error;
+    error.x = targetPos.x - robot->pos.x;
+    error.y = targetPos.y - robot->pos.y;
+    Vector2 delta;
+    delta = pidPos.controlPR2(error, robot->vel);
     Command command;
     command.id = robot->id;
     command.use_angle = 1;
-    command.w = static_cast<float>(deltaPos.angle());
-    Vector2 deltaPosUnit = deltaPos.normalize();
-
-    command.x_vel = (float) deltaPosUnit.x*2;
-    command.y_vel = (float) deltaPosUnit.y*2;
+    command.w = static_cast<float>(delta.angle());
+    command.x_vel = static_cast<float>(delta.x);
+    command.y_vel = static_cast<float>(delta.y);
     publishRobotCommand(command);
 }
 
