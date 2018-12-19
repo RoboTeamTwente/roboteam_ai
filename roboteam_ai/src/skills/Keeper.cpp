@@ -20,8 +20,8 @@ void Keeper::onInitialize() {
     blockCircle=control::ControlUtils::createKeeperArc();
     //TODO::magic numbers galore, from the old team. move to new control library
     double timediff = 1.0/constants::tickRate;
-    pidx.setP(2, timediff);
-    pidy.setP(2, timediff);
+    pidx.setPD(3, 1.5, timediff);
+    pidy.setPD(3, 1.5,timediff);
 }
 
 Keeper::Status Keeper::onUpdate() {
@@ -34,21 +34,6 @@ Keeper::Status Keeper::onUpdate() {
             sendStopCommand();
         }
         else {
-            if (dist > 30*constants::ROBOT_RADIUS and state != 2) {
-                pidx.setP(2);
-                pidy.setP(2);
-                state = 2;
-            }
-            else if(dist > 6*constants::ROBOT_RADIUS and state != 1) {
-                pidx.setP(1);
-                pidy.setP(1);
-                state = 1;
-            }
-            else if (state != 0) {
-                pidx.setP(2);
-                pidy.setP(2);
-                state = 0;
-            }
             sendMoveCommand(blockPoint);
         }
         return Status::Running;
@@ -65,13 +50,10 @@ void Keeper::onTerminate(Status s) {
 }
 
 void Keeper::sendMoveCommand(Vector2 pos) {
-    Vector2 targetpos;
-    targetpos.x = 0;
-    targetpos.y = 0;
     Vector2 error = pos - robot->pos;
     Vector2 delta;
-    delta.x = pidx.controlP(error.x);
-    delta.y = pidy.controlP(error.y);
+    delta.x = pidx.controlPR(error.x, robot->vel.x);
+    delta.y = pidy.controlPR(error.y, robot->vel.y);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;

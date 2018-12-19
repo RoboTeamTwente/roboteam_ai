@@ -176,4 +176,28 @@ namespace control {
         return value_P + value_I + value_D;
     }
 
+    double Controller::controlR(double rate){
+        double value_R = this->kD*rate*-1;
+        return value_R;
+    }
+
+    double Controller::controlPR(double err, double rate){
+        double value_P = this->controlP(err);
+        double value_R = this->controlR(rate);
+        return value_P + value_R;
+    }
+
+    double Controller::controlIR(double err, double rate){
+        double value_I = this->controlI(err);
+        double value_R = this->controlR(rate);
+        return value_I + value_R;
+    }
+
+    double Controller::controlPIR(double err, double rate){
+        double value_P = this->controlP(err);
+        double value_I = this->controlI(err);
+        double value_R = this->controlD(rate);
+        return value_P + value_I + value_R;
+    }
+
 }

@@ -50,6 +50,12 @@ namespace control {
         double controlID(double err);
         double controlPID(double err);
 
+        //To fill in your own measured velocity
+        double controlR(double rate);
+        double controlPR(double err, double rate);
+        double controlIR(double err, double rate);
+        double controlPIR(double err, double rate);
+
     };
 
 }
