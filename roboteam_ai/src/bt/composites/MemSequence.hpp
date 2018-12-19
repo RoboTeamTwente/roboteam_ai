@@ -11,16 +11,15 @@ namespace bt {
     If all children succeeds, only then does the sequence succeed.
 */
 class MemSequence : public Composite {
- public:
-  size_t index;
-  void Initialize() override;
-  Status Update() override;
+    public:
+        size_t index;
 
-  std::string node_name() override;
+        void initialize() override;
 
-  using Ptr = std::shared_ptr<MemSequence>;
+        Status update() override;
+
+        std::string node_name() override;
+
+        using Ptr = std::shared_ptr<MemSequence>;
 };
-
-MemSequence::Ptr MakeMemSequence();
-
-}
+} // bt

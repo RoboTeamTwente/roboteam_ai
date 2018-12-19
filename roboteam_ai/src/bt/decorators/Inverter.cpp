@@ -2,21 +2,21 @@
 
 namespace bt {
 
-Node::Status Inverter::Update() {
-  Node::append_status("[Inverter: executing child of type %s]", child->node_name().c_str());
-  auto s = child->Tick();
+Node::Status Inverter::update() {
+    auto s = child->tick();
 
-  if (s==Status::Success) {
-    return Status::Failure;
-  } else if (s==Status::Failure) {
-    return Status::Success;
-  }
+    if (s == Status::Success) {
+        return Status::Failure;
+    }
+    else if (s == Status::Failure) {
+        return Status::Success;
+    }
 
-  return s;
+    return s;
 }
 
 std::string Inverter::node_name() {
-  return "Inverter";
+    return "Inverter";
 }
 
 }

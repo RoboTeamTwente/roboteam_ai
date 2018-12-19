@@ -8,10 +8,10 @@ namespace bt {
     The UntilSuccess decorator repeats until the child returns success and then returns success.
 */
 class UntilSuccess : public Decorator {
- public:
-  Status Update() override;
+    public:
+        Status update() override;
 
-  std::string node_name() override;
+        std::string node_name() override;
 };
 
 }

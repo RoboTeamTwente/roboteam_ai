@@ -1,0 +1,64 @@
+{
+  "name": "SimpleTactic",
+  "data": {
+    "trees": [
+      {
+        "title": "SimpleTactic",
+        "root": "8ooq5jgh46hte",
+        "nodes": {
+          "8ooq5jgh46hte": {
+            "id": "8ooq5jgh46hte",
+            "title": "UntilSuccess",
+            "children": [
+              "z4kgtalx92ah4uw"
+            ]
+          },
+          "z4kgtalx92ah4uw": {
+            "id": "z4kgtalx92ah4uw",
+            "title": "Role",
+            "name": "simpleStupidRobot",
+            "children": [
+              "6d3fke44my0fhn3r2"
+            ]
+          },
+          "6d3fke44my0fhn3r2": {
+            "id": "6d3fke44my0fhn3r2",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "s6xx3lzfgjtnbuirz"
+            ]
+          },
+          "s6xx3lzfgjtnbuirz": {
+            "id": "s6xx3lzfgjtnbuirz",
+            "title": "Keeper",
+            "isRole": false,
+            "properties": {
+              "ROLE": "simpleStupidRobot"
+            }
+          },
+          "pn4tuzpp7sxc8ihtg": {
+            "id": "pn4tuzpp7sxc8ihtg",
+            "title": "GoToPos",
+            "isRole": false,
+            "properties": {
+              "ROLE": "simpleStupidRobot",
+              "Position": "{-1, -1}",
+              "goToBall": "false",
+              "random": "false"
+            }
+          },
+          "mbwjryus4cyn3y9v": {
+            "id": "mbwjryus4cyn3y9v",
+            "title": "GoToPos",
+            "isRole": false,
+            "properties": {
+              "ROLE": "simpleStupidRobot",
+              "harassBallOwner": "kfgv"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

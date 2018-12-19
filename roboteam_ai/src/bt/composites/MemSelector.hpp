@@ -11,18 +11,15 @@ namespace bt {
     If all children fails, only then does the selector fail.
 */
 class MemSelector : public Composite {
- public:
-  size_t index;
+    public:
+        size_t index;
 
-  void Initialize() override;
+        void initialize() override;
 
-  Status Update() override;
+        Status update() override;
 
-  using Ptr = std::shared_ptr<MemSelector>;
+        using Ptr = std::shared_ptr<MemSelector>;
 
-  std::string node_name() override;
+        std::string node_name() override;
 };
-
-MemSelector::Ptr MakeMemSelector();
-
-}
+} // bt

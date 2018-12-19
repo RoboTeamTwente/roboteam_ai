@@ -1,22 +1,21 @@
 #pragma once
 
 #include "Node.hpp"
-#include "Blackboard.hpp"
-#include <memory>
 
 namespace bt {
 
 class Leaf : public Node {
- public:
-  Leaf();
-  virtual ~Leaf();
-  Leaf(Blackboard::Ptr blackboard);
-  void SetBlackboard(Blackboard::Ptr blackboard);
+    public:
+        Leaf() = default;
+        Leaf(std::string name, Blackboard::Ptr blackboard);
+        void setName(std::string);
+        std::string name;
 
-  virtual Status Update() = 0;
-
- protected:
-  Blackboard::Ptr blackboard;
+    protected:
+        std::shared_ptr<roboteam_msgs::WorldRobot> getRobotFromProperties(bt::Blackboard::Ptr properties);
+        void updateRobot();
+        std::shared_ptr<roboteam_msgs::WorldRobot> robot;
+        int robotId = - 1;
 };
 
 }

@@ -9,9 +9,10 @@ namespace bt {
     If the child runs, the Inverter returns the status that it is running too.
 */
 class Inverter : public Decorator {
- public:
-  Status Update() override;
-  std::string node_name() override;
+    public:
+        Status update() override;
+
+        std::string node_name() override;
 };
 
 }

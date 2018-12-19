@@ -1,64 +1,64 @@
 #pragma once
 
 #include <string>
-#include <unordered_map>
 #include <memory>
-#include "roboteam_msgs/Blackboard.h"
+#include <map>
+#include "roboteam_utils/Vector2.h"
+#include <gtest/gtest.h>
+#include <gtest/gtest_prod.h>
 
 namespace bt {
 
 class Blackboard {
- public:
-  // Default constructors enabled
-  Blackboard() = default;
-  Blackboard(const Blackboard &) = default;
-  Blackboard(Blackboard &&) = default;
-  Blackboard &operator=(const Blackboard &) = default;
-  Blackboard &operator=(Blackboard &&) = default;
-  virtual ~Blackboard() = default;
-  Blackboard(const roboteam_msgs::Blackboard &msg);
+        FRIEND_TEST(BTBlackBoardTest, Blackboard);
 
-  void SetBool(std::string key, bool value);
-  bool GetBool(std::string key);
-  bool HasBool(std::string key) const;
+    public:
+        // Default constructors enabled
+        Blackboard() = default;
+        Blackboard(const Blackboard &) = default;
 
-  void SetInt(std::string key, int value);
-  int GetInt(std::string key);
-  bool HasInt(std::string key) const;
+        Blackboard(Blackboard &&) = default;
 
-  void SetFloat(std::string key, float value);
-  float GetFloat(std::string key);
-  bool HasFloat(std::string key) const;
+        using Ptr = std::shared_ptr<Blackboard>;
 
-  void SetDouble(std::string key, double value);
-  double GetDouble(std::string key);
-  bool HasDouble(std::string key) const;
+        Blackboard &operator=(const Blackboard &) = default;
 
-  void SetString(std::string key, std::string value);
-  std::string GetString(std::string key);
-  bool HasString(std::string key) const;
+        Blackboard &operator=(Blackboard &&) = default;
 
-  using Ptr = std::shared_ptr<Blackboard>;
+        virtual ~Blackboard() = default;
 
-  roboteam_msgs::Blackboard toMsg();
+        void setBool(std::string key, bool value);
+        bool getBool(std::string key);
+        bool hasBool(std::string key) const;
 
-  void fromMsg(const roboteam_msgs::Blackboard &msg);
+        void setInt(std::string key, int value);
+        int getInt(std::string key);
+        bool hasInt(std::string key) const;
 
-  const std::unordered_map<std::string, bool> getBools();
-  const std::unordered_map<std::string, int> getInts();
-  const std::unordered_map<std::string, float> getFloats();
-  const std::unordered_map<std::string, double> getDoubles();
-  const std::unordered_map<std::string, std::string> getStrings();
+        void setFloat(std::string key, float value);
+        float getFloat(std::string key);
+        bool hasFloat(std::string key) const;
 
-  std::string toString();
-  std::string toTestX();
+        void setDouble(std::string key, double value);
+        double getDouble(std::string key);
+        bool hasDouble(std::string key) const;
 
- protected:
-  std::unordered_map<std::string, bool> bools;
-  std::unordered_map<std::string, int> ints;
-  std::unordered_map<std::string, float> floats;
-  std::unordered_map<std::string, double> doubles;
-  std::unordered_map<std::string, std::string> strings;
+        void setString(std::string key, std::string value);
+        std::string getString(std::string key);
+        bool hasString(std::string key) const;
+
+        rtt::Vector2 getVector2(std::string key);
+        void setVector2(std::string key, rtt::Vector2 value);
+        bool hasVector2(std::string key) const;
+
+    protected:
+
+        std::map<std::string, int> ints;
+        std::map<std::string, float> floats;
+        std::map<std::string, bool> bools;
+        std::map<std::string, std::string> strings;
+        std::map<std::string, rtt::Vector2> vectors;
+        std::map<std::string, double> doubles;
 
 };
 

@@ -5,16 +5,17 @@
 namespace bt {
 
 class Decorator : public Node {
- public:
-  virtual ~Decorator();
+    public:
+        void addChild(Node::Ptr child) override;
 
-  void SetChild(Node::Ptr child);
-  bool HasNoChild() const;
+        std::vector<Node::Ptr> getChildren() override;
 
-  void Terminate(Status s) override;
+        bool HasNoChild() const;
 
- protected:
-  Node::Ptr child = nullptr;
+        void terminate(Status s) override;
+
+    protected:
+        Node::Ptr child = nullptr;
 };
 
 } // bt

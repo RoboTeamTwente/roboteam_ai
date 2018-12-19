@@ -6,47 +6,83 @@
 #include <cstdarg>
 
 #include "Blackboard.hpp"
+#include "../utilities/RobotDealer.h"
 
 namespace bt {
 
 class Node {
- public:
-  // When this is updated, updated the tostring method below too!
-  enum class Status {
-    Invalid,
-    Success,
-    Failure,
-    Running,
-  };
+    public:
+        // When this is updated, updated the tostring method below too!
+        enum class Status {
+                Waiting,
+                Success,
+                Failure,
+                Running
+        };
 
-  virtual ~Node();
+        std::string status_print(Status s) {
+            switch (s) {
+                case Status::Waiting:
+                    return " Status : Waiting";
+                case Status::Success:
+                    return " Status : Success";
+                case Status::Failure:
+                    return " Status : Failure";
+                case Status::Running:
+                    return " Status : Running";
+            }
+        }
 
-  virtual Status Update() = 0;
-  virtual void Initialize();
-  virtual void Terminate(Status s);
+        virtual ~Node() = default;
 
-  virtual Status Tick();
+        Node();
 
-  bool IsSuccess() const;
-  bool IsFailure() const;
-  bool IsRunning() const;
-  bool IsTerminated() const;
-  Status getStatus() const;
-  void setStatus(Status s);
+        using Ptr = std::shared_ptr<Node>;
 
-  using Ptr = std::shared_ptr<Node>;
+        virtual Status update() = 0;
 
-  bt::Blackboard::Ptr private_bb = std::make_shared<bt::Blackboard>();
+        Status NodeUpdate();
+        void NodeInitialize();
 
-  virtual std::string node_name();
-  static std::string status_desc;
+        void NodeTerminate(Status s);
 
- protected:
-  Status status = Status::Invalid;
-  static void append_status(std::string fmt, ...);
+        virtual void initialize();
+
+        virtual void terminate(Status s);
+
+        virtual void addChild(bt::Node::Ptr);
+
+        virtual std::vector<Node::Ptr> getChildren();
+
+        virtual Status tick();
+
+        bool IsSuccess() const;
+
+        bool IsFailure() const;
+
+        bool IsRunning() const;
+
+        bool IsTerminated() const;
+
+        Status getStatus() const;
+
+        void setStatus(Status s);
+
+        using dealer = robotDealer::RobotDealer;
+
+        bt::Blackboard::Ptr properties = std::make_shared<bt::Blackboard>();
+
+        bt::Blackboard::Ptr globalBB;
+
+        virtual std::string node_name();
+
+        void setProperties(bt::Blackboard::Ptr blackboard);
+
+    protected:
+        Status status = Status::Waiting;
+
+        static void append_status(std::string fmt, ...);
 };
-
-using Nodes = std::vector<Node::Ptr>;
 
 std::string statusToString(bt::Node::Status status);
 

@@ -5,18 +5,18 @@
 namespace bt {
 
 class Composite : public Node {
- public:
-  virtual ~Composite();
+    public:
+        void addChild(Node::Ptr child) override;
 
-  virtual void AddChild(Node::Ptr child);
-  bool HasNoChildren() const;
-  int GetIndex() const;
+        std::vector<Node::Ptr> getChildren() override;
 
-  void Terminate(Status s) override;
+        bool HasNoChildren() const;
 
- protected:
-  Nodes children;
-  size_t index = 0;
+        void terminate(Status s) override;
+
+    protected:
+        std::vector<Node::Ptr> children;
+        size_t index = 0;
 };
 
 }

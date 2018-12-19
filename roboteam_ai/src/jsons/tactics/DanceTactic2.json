@@ -1,0 +1,122 @@
+{
+  "name": "DanceTactic2",
+  "data": {
+    "trees": [
+      {
+        "title": "DanceTactic2",
+        "root": "dn83glofvu629wh",
+        "nodes": {
+          "dn83glofvu629wh": {
+            "id": "dn83glofvu629wh",
+            "title": "Repeater",
+            "children": [
+              "vqi8gtyanb03p"
+            ]
+          },
+          "vqi8gtyanb03p": {
+            "id": "vqi8gtyanb03p",
+            "title": "ParallelSequence",
+            "children": [
+              "l1gclbu2hny6o",
+              "1965zgri576puzl"
+            ]
+          },
+          "l1gclbu2hny6o": {
+            "id": "l1gclbu2hny6o",
+            "title": "Role",
+            "name": "Vright",
+            "children": [
+              "t3bfqymzy02mq"
+            ]
+          },
+          "t3bfqymzy02mq": {
+            "id": "t3bfqymzy02mq",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "t4rug7nddwjcst"
+            ]
+          },
+          "t4rug7nddwjcst": {
+            "id": "t4rug7nddwjcst",
+            "title": "MemSequence",
+            "isRole": false,
+            "children": [
+              "x2y5d945xeo6r9k",
+              "zp7h1vtxl1un29scf"
+            ]
+          },
+          "x2y5d945xeo6r9k": {
+            "id": "x2y5d945xeo6r9k",
+            "title": "GoToPos",
+            "isRole": false,
+            "properties": {
+              "ROLE": "Vright",
+              "Position": "{0.5, 0}",
+              "goToBall": "false",
+              "random": "false"
+            }
+          },
+          "zp7h1vtxl1un29scf": {
+            "id": "zp7h1vtxl1un29scf",
+            "title": "GoToPos",
+            "isRole": false,
+            "properties": {
+              "ROLE": "Vright",
+              "Position": "{0.5, -3}",
+              "goToBall": "false",
+              "random": "false"
+            }
+          },
+          "1965zgri576puzl": {
+            "id": "1965zgri576puzl",
+            "title": "Role",
+            "name": "retarded",
+            "children": [
+              "b72n10w62sifwjbr"
+            ]
+          },
+          "b72n10w62sifwjbr": {
+            "id": "b72n10w62sifwjbr",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "ojjs0ibdlfyezfoww"
+            ]
+          },
+          "ojjs0ibdlfyezfoww": {
+            "id": "ojjs0ibdlfyezfoww",
+            "title": "MemSequence",
+            "isRole": false,
+            "children": [
+              "sazplvbgxtw1l78",
+              "eztukmqv4ynnk"
+            ]
+          },
+          "sazplvbgxtw1l78": {
+            "id": "sazplvbgxtw1l78",
+            "title": "GoToPos",
+            "isRole": false,
+            "properties": {
+              "ROLE": "retarded",
+              "Position": "{-0.5, 0}",
+              "goToBall": "false",
+              "random": "false"
+            }
+          },
+          "eztukmqv4ynnk": {
+            "id": "eztukmqv4ynnk",
+            "title": "GoToPos",
+            "isRole": false,
+            "properties": {
+              "ROLE": "retarded",
+              "Position": "{-0.5, -3}",
+              "goToBall": "false",
+              "random": "false"
+            }
+          }
+        }
+      }
+    ]
+  }
+}
