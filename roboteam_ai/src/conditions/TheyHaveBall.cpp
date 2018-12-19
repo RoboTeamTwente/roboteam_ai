@@ -19,7 +19,7 @@ namespace ai{
 
         bool theyHaveBall = false;
         for(auto &robot : robots) {
-            if(World::bot_has_ball(robot, World::getBall())) {
+            if(coach::Coach::doesRobotHaveBall(robot.id, false)) {
                 theyHaveBall = true;
                 break;
             }

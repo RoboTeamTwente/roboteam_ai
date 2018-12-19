@@ -52,7 +52,12 @@ Vector2 DefendOnRobot::calculateLocation() {
     float robotAngle1 = opponentWithBall.get()->angle;
     float robotAngle2 = opponentToCover.get()->angle;
 
-    float angleBetweenRobots = atan((opponentToCover->pos.y - opponentWithBall->pos.y) / (opponentWithBall->pos.x - opponentToCover->pos.x));
+    if (opponentWithBall->pos.x > opponentToCover->pos.x) {
+        angleBetweenRobots = atan((opponentToCover->pos.y - opponentWithBall->pos.y) /
+                                        (opponentWithBall->pos.x - opponentToCover->pos.x));
+    } else {
+        angleBetweenRobots = ((Vector2)opponentWithBall->pos - opponentToCover->pos).angle();
+    }
 
     double angle1;
     if (robotAngle1 >= 0) {

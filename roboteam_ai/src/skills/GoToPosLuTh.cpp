@@ -131,7 +131,7 @@ void GoToPosLuTh::sendMoveCommand() {
     for (auto displayTarget : displayData) {
         displayColorData.emplace_back(displayTarget, Qt::blue);
     }
-    interface::Drawer::setGoToPosLuThPoints(robot->id, displayColorData);
+    //interface::Drawer::setGoToPosLuThPoints(robot->id, displayColorData);
 
     if (nicePath) {
         command.use_angle = 1;

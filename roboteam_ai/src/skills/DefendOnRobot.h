@@ -20,6 +20,7 @@ class DefendOnRobot : public Skill {
         using goType = control::ControlGoToPos::GoToType;
 
         control::ControlGoToPos goToPos;
+        double angleBetweenRobots;
 
         int amountOfCycles{};
     protected:
