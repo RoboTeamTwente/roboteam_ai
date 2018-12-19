@@ -22,7 +22,6 @@ include_directories(${SDL2_INCLUDE_DIR} ${SDL2TTF_INCLUDE_DIR})
 find_package(catkin REQUIRED COMPONENTS
         roboteam_msgs
         roboteam_utils
-        roboteam_world
         roscpp
         roslib
         std_msgs
