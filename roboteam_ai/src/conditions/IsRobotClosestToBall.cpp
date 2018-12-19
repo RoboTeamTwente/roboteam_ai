@@ -15,7 +15,6 @@ namespace ai{
 
     bt::Node::Status IsRobotClosestToBall::update() {
         roboteam_msgs::World world = World::get_world();
-        int robotID = properties->getInt("ROBOT_ID");
         Vector2 ballPos(world.ball.pos);
         std::vector<roboteam_msgs::WorldRobot> robots = world.us;
         std::shared_ptr<int> robotClosestToBallPtr;
@@ -31,7 +30,7 @@ namespace ai{
 
         if (robotClosestToBallPtr) {
             robotClosestToBall = *robotClosestToBallPtr;
-            if (robotID == robotClosestToBall) {
+            if (robot->id == robotClosestToBall) {
                 return Status::Success;
             } else {
                 return Status::Failure;
