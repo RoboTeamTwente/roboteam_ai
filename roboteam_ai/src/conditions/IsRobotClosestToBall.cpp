@@ -13,7 +13,7 @@ namespace ai{
 
     }
 
-    bt::Node::Status IsRobotClosestToBall::Update() {
+    bt::Node::Status IsRobotClosestToBall::update() {
         roboteam_msgs::World world = World::get_world();
         int robotID = properties->getInt("ROBOT_ID");
         Vector2 ballPos(world.ball.pos);

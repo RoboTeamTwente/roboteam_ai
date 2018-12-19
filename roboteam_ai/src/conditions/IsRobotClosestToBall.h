@@ -13,11 +13,12 @@
 namespace rtt {
 namespace ai {
 
-class IsRobotClosestToBall : public rtt::ai::Condition {
+class IsRobotClosestToBall : public Condition {
     public:
         IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
 
-        Status Update();
+        Status update() override;
+        std::string node_name() override { return "IsRobotClosestToBall";}
 
     private:
         ros::NodeHandle n;

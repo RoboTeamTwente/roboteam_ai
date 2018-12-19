@@ -8,9 +8,9 @@
 
 TEST(DetectsInOurDefenseArea,IsInDefenseAreaTest){
     bt::Blackboard BB;
-    BB.SetBool("robot", true);
-    BB.SetInt("ROBOT_ID", 2);
-    BB.SetDouble("margin", 0.2);
+    BB.setBool("robot", true);
+    BB.setInt("ROBOT_ID", 2);
+    BB.setDouble("margin", 0.2);
     auto BBpointer = std::make_shared<bt::Blackboard>(BB);
     rtt::ai::IsInDefenseArea node("Test", BBpointer);
 
@@ -19,7 +19,7 @@ TEST(DetectsInOurDefenseArea,IsInDefenseAreaTest){
 
     rtt::ai::World::set_world(worldMsg);
 
-    ASSERT_EQ(node.Update(), bt::Node::Status::Invalid);
+    ASSERT_EQ(node.update(), bt::Node::Status::Failure);
 
     roboteam_msgs::GeometryFieldSize field;
     field.left_penalty_line.begin.x = -1.0;
@@ -38,27 +38,27 @@ TEST(DetectsInOurDefenseArea,IsInDefenseAreaTest){
     rtt::ai::World::set_world(worldMsg);
 
     // Should succeed since robot is in our defence area
-    ASSERT_EQ(node.Update(), bt::Node::Status::Success);
+    ASSERT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.us[0].pos.x = -0.7;
     rtt::ai::World::set_world(worldMsg);
 
     // Should fail since robot is not in out defence area
-    ASSERT_EQ(node.Update(), bt::Node::Status::Failure);
+    ASSERT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.us[0].pos.x = -0.9;
     rtt::ai::World::set_world(worldMsg);
 
     // Should succeed since robot is within the margin of our defence area
-    ASSERT_EQ(node.Update(), bt::Node::Status::Success);
+    ASSERT_EQ(node.update(), bt::Node::Status::Success);
 }
 
 TEST(DetectsInTheirDefenseArea,IsInDefenseAreaTest){
     bt::Blackboard BB;
-    BB.SetBool("robot", true);
-    BB.SetInt("ROBOT_ID", 2);
-    BB.SetDouble("margin", 0.2);
-    BB.SetBool("ourDefenseArea", false);
+    BB.setBool("robot", true);
+    BB.setInt("ROBOT_ID", 2);
+    BB.setDouble("margin", 0.2);
+    BB.setBool("ourDefenseArea", false);
     auto BBpointer = std::make_shared<bt::Blackboard>(BB);
     rtt::ai::IsInDefenseArea node("Test", BBpointer);
 
@@ -67,7 +67,7 @@ TEST(DetectsInTheirDefenseArea,IsInDefenseAreaTest){
 
     rtt::ai::World::set_world(worldMsg);
 
-    ASSERT_EQ(node.Update(), bt::Node::Status::Invalid);
+    ASSERT_EQ(node.update(), bt::Node::Status::Failure);
 
     roboteam_msgs::GeometryFieldSize field;
     field.right_penalty_line.begin.x = 1.0;
@@ -86,25 +86,25 @@ TEST(DetectsInTheirDefenseArea,IsInDefenseAreaTest){
     rtt::ai::World::set_world(worldMsg);
 
     // Should succeed since robot is in their defence area
-    ASSERT_EQ(node.Update(), bt::Node::Status::Success);
+    ASSERT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.us[0].pos.x = 0.7;
     rtt::ai::World::set_world(worldMsg);
 
     // Should fail since robot is not in their defence area
-    ASSERT_EQ(node.Update(), bt::Node::Status::Failure);
+    ASSERT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.us[0].pos.x = 0.9;
     rtt::ai::World::set_world(worldMsg);
 
     // Should succeed since robot is within the margin of their defence area
-    ASSERT_EQ(node.Update(), bt::Node::Status::Success);
+    ASSERT_EQ(node.update(), bt::Node::Status::Success);
 }
 
 TEST(DetectsBallInOurDefenceArea, IsInDefenceAreaTest) {
     bt::Blackboard BB;
-    BB.SetBool("robot", false);
-    BB.SetDouble("margin", 0.2);
+    BB.setBool("robot", false);
+    BB.setDouble("margin", 0.2);
     auto BBpointer = std::make_shared<bt::Blackboard>(BB);
     rtt::ai::IsInDefenseArea node("Test", BBpointer);
 
@@ -112,7 +112,7 @@ TEST(DetectsBallInOurDefenceArea, IsInDefenceAreaTest) {
 
     rtt::ai::World::set_world(worldMsg);
 
-    //ASSERT_EQ(node.Update(), bt::Node::Status::Invalid);
+    //ASSERT_EQ(node.update(), bt::Node::Status::Failure);
 
     roboteam_msgs::GeometryFieldSize field;
     field.left_penalty_line.begin.x = -1.0;
@@ -129,17 +129,17 @@ TEST(DetectsBallInOurDefenceArea, IsInDefenceAreaTest) {
     rtt::ai::World::set_world(worldMsg);
 
     // Should succeed since robot is in our defence area
-    ASSERT_EQ(node.Update(), bt::Node::Status::Success);
+    ASSERT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.ball.pos.x = -0.7;
     rtt::ai::World::set_world(worldMsg);
 
     // Should fail since robot is not in out defence area
-    ASSERT_EQ(node.Update(), bt::Node::Status::Failure);
+    ASSERT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = -0.9;
     rtt::ai::World::set_world(worldMsg);
 
     // Should succeed since robot is within the margin of our defence area
-    ASSERT_EQ(node.Update(), bt::Node::Status::Success);
+    ASSERT_EQ(node.update(), bt::Node::Status::Success);
 }
