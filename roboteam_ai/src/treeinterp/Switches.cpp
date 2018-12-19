@@ -49,6 +49,7 @@
 #include "../conditions/CanSeeGoal.h"
 #include <roboteam_ai/src/skills/GoToPosLuTh.h>
 #include <roboteam_ai/src/conditions/TheyHaveBall.h>
+#include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
 #include "Switches.h"
 
 /**
@@ -179,6 +180,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     }
     else if (name == "DefendOnRobot") {
         node = std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
+    }
+    else if (name == "IsRobotClosestToBall") {
+        node = std::make_shared<rtt::ai::IsRobotClosestToBall>(name, properties);
     }
     else {
         ROS_ERROR("ERROR: Leaf not found!! using GoToPos..");
