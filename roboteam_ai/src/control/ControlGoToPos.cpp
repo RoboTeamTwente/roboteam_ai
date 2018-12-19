@@ -60,7 +60,6 @@ void ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
 //        ROS_ERROR("Target position is not correct GoToPos");
 //        return;
 //    }
-
     double dx = targetPos.x - robot->pos.x;
     double dy = targetPos.y - robot->pos.y;
     Vector2 deltaPos = {dx, dy};

@@ -11,7 +11,9 @@ namespace control {
         this->kD = 0;
         this->timeDiff = 0.0001; //10000HZ
         this->initial_I = 0;
+        this->initial_I2 = 0;
         this->prev_error = 0;
+        this->prev_error2 = 0;
     }
 
     Controller::Controller(double P, double I, double D) {
@@ -19,7 +21,9 @@ namespace control {
         this->kI = I;
         this->kD = D;
         this->initial_I = 0;
+        this->initial_I2 = 0;
         this->prev_error = 0;
+        this->prev_error2 = 0;
     }
 
     Controller::Controller(double P, double I, double D, double time) {
@@ -32,10 +36,12 @@ namespace control {
             this->timeDiff = 0.001; //the time difference cannot be 0, we divide by this, now it's at 1000HZ
         }
         this->initial_I = 0;
+        this->initial_I2 = 0;
         this->prev_error = 0;
+        this->prev_error2 = 0;
     }
 
-    Controller::Controller(double P, double I, double D, double time, double initial, double prev) {
+    Controller::Controller(double P, double I, double D, double time, double initial, double initial2, double prev, double prev2) {
         this->kP = P;
         this->kI = I;
         this->kD = D;
@@ -45,7 +51,9 @@ namespace control {
             this->timeDiff = 0.001; //the time difference cannot be 0, we divide by this, now it's at 1000HZ
         }
         this->initial_I = initial;
+        this->initial_I2 = initial2;
         this->prev_error = prev;
+        this->prev_error2 = prev2;
     }
 
     void Controller::setP(double P){
@@ -198,6 +206,80 @@ namespace control {
         double value_I = this->controlI(err);
         double value_R = this->controlD(rate);
         return value_P + value_I + value_R;
+    }
+
+    Vector2 Controller::controlP2(Vector2 err){
+        Vector2 value_P2;
+        value_P2.x = this->controlP(err.x);
+        value_P2.y = this->controlP(err.y);
+        return value_P2;
+    }
+
+    Vector2 Controller::controlI2(Vector2 err) {
+        Vector2 value_I2;
+        value_I2.x = this->controlI(err.x);
+        this->initial_I2 += err.y * this->timeDiff;
+        value_I2.y = this->kI * this->initial_I2;
+        return value_I2;
+    }
+
+    Vector2 Controller::controlD2(Vector2 err){
+        Vector2 value_D2;
+        value_D2.x = this->controlD(err.x);
+        double rateErr2 = (err.y - this->prev_error2)/this->timeDiff;
+        value_D2.y = this->kD * rateErr2;
+        this->prev_error2 = err.y;
+        return value_D2;
+    }
+
+    Vector2 Controller::controlPI2(Vector2 err){
+        Vector2 value_P2 = this->controlP2(err);
+        Vector2 value_I2 = this->controlI2(err);
+        return value_P2 + value_I2;
+    }
+
+    Vector2 Controller::controlPD2(Vector2 err){
+        Vector2 value_P2 = this->controlP2(err);
+        Vector2 value_D2 = this->controlD2(err);
+        return value_P2 + value_D2;
+    }
+
+    Vector2 Controller::controlID2(Vector2 err){
+        Vector2 value_I2 = this->controlI2(err);
+        Vector2 value_D2 = this->controlD2(err);
+        return value_I2 + value_D2;
+    }
+
+    Vector2 Controller::controlPID2(Vector2 err){
+        Vector2 value_P2 = this->controlP2(err);
+        Vector2 value_I2 = this->controlI2(err);
+        Vector2 value_D2 = this->controlD2(err);
+        return value_P2 + value_I2 + value_D2;
+    }
+
+    //To fill in your own measured velocity
+    Vector2 Controller::controlR2(Vector2 rate){
+        Vector2 value_R2;
+        value_R2.x = this->kD*rate.x*-1;
+        value_R2.y = this->kD*rate.y*-1;
+        return value_R2;
+    }
+
+    Vector2 Controller::controlPR2(Vector2 err, Vector2 rate){
+        Vector2 value_P2 = this->controlP2(err);
+        Vector2 value_R2 = this->controlD2(rate);
+        return value_P2 + value_R2;}
+
+    Vector2 Controller::controlIR2(Vector2 err, Vector2 rate){
+        Vector2 value_I2 = this->controlI2(err);
+        Vector2 value_R2 = this->controlD2(rate);
+        return value_I2 + value_R2;}
+
+    Vector2 Controller::controlPIR2(Vector2 err, Vector2 rate){
+        Vector2 value_P2 = this->controlP2(err);
+        Vector2 value_I2 = this->controlI2(err);
+        Vector2 value_R2 = this->controlD2(rate);
+        return value_P2 + value_I2 + value_R2;
     }
 
 }
