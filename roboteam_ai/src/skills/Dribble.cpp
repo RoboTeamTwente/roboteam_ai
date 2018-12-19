@@ -5,6 +5,7 @@
 #include "Dribble.h"
 namespace rtt {
 namespace ai {
+
 Dribble::Dribble(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) { }
 
@@ -14,7 +15,7 @@ Dribble::Progression Dribble::checkProgression() {
         if (! robotHasBall()) {
             return FAIL;
         }
-        if (deltaPos.length() <= c::DRIBBLE_POSDIF) {
+        if (deltaPos.length() <= constants::DRIBBLE_POSDIF) {
             if (forwardDirection) {
                 stoppingAngle = (float) deltaPos.angle();
             }
@@ -51,10 +52,10 @@ Dribble::Progression Dribble::checkProgression() {
 
 bool Dribble::robotHasBall() {
     //The ball is in an area defined by a cone from the robot centre, or from a rectangle in front of the dribbler
-    Vector2 RobotPos = Vector2(robot->pos.x, robot->pos.y);
-    Vector2 BallPos = Vector2(ball.pos.x, ball.pos.y);
-    Vector2 dribbleLeft = RobotPos + Vector2(c::ROBOT_RADIUS, 0).rotate(robot->angle - c::DRIBBLER_ANGLE_OFFSET);
-    Vector2 dribbleRight = RobotPos + Vector2(c::ROBOT_RADIUS, 0).rotate(robot->angle + c::DRIBBLER_ANGLE_OFFSET);
+    Vector2 RobotPos = robot->pos;
+    Vector2 BallPos = ball.pos;
+    Vector2 dribbleLeft = RobotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robot->angle - constants::DRIBBLER_ANGLE_OFFSET);
+    Vector2 dribbleRight = RobotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robot->angle + constants::DRIBBLER_ANGLE_OFFSET);
 
     std::vector<Vector2> drawPos = {RobotPos, dribbleLeft, dribbleRight,
                                     dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle),
@@ -121,16 +122,11 @@ Dribble::Status Dribble::onUpdate() {
     }
 
     switch (currentProgress) {
-        case ON_THE_WAY:
-            return Status::Running;
-        case STOPPED:
-            return Status::Running;
-        case DONE:
-            return Status::Success;
-        case FAIL:
-            return Status::Failure;
-        default:
-            return Status::Waiting;
+    case ON_THE_WAY:return Status::Running;
+    case STOPPED:return Status::Running;
+    case DONE:return Status::Success;
+    case FAIL:return Status::Failure;
+    default:return Status::Waiting;
     }
 }
 void Dribble::onTerminate(Status s) {

@@ -8,6 +8,10 @@
 
 namespace control {
 
+void ControlGoToPosLuTh::clear() {
+    me.clear();
+}
+
 ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
     targetPos = target;
     Command command;
@@ -50,10 +54,9 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
     else {
         recalculate = true;
     }
-    //recalculate = true; // TODO thijs crap, pls fix
     if (recalculate) {
+        clear();
         startTime = ros::Time::now();
-        me.clear();
         bool nicePath = calculateNumericDirection(robot, me, command);
         robotQueue = {};
 
@@ -79,37 +82,47 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
             rtt::ai::interface::Drawer::setGoToPosLuThPoints(robot->id, displayColorData);
         }
 
-        // send command
-        if (nicePath) {
-
-            auto toStep = static_cast<int>(round(0.5/me.dt));
-
-            if (me.velData.size() > toStep) {
-                command.use_angle = 1;
-                command.x_vel = static_cast<float>((me.velData[toStep].normalize()*me.maxVel).x);
-                command.y_vel = static_cast<float>((me.velData[toStep].normalize()*me.maxVel).y);
-                command.w = static_cast<float>(me.velData[toStep].angle());
-            }
-
-//            command.use_angle = 0;
-//            command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle, 0));
-        }
-        else {
+        if (!nicePath) {
             command.use_angle = 0;
-
             Vector2 dir = (targetPos - robot->pos).normalize();
             command.x_vel = static_cast<float>(dir.x*2.0f);
             command.y_vel = static_cast<float>(dir.y*2.0f);
             command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle, 0));
+
+
         }
+//
+//        // send command
+//        if (nicePath) {
+//
+//            auto toStep = static_cast<int>(round(0.5/me.dt));
+//
+//            if (me.velData.size() > toStep) {
+//                command.use_angle = 1;
+//                command.x_vel = static_cast<float>((me.velData[toStep].normalize()*me.maxVel).x);
+//                command.y_vel = static_cast<float>((me.velData[toStep].normalize()*me.maxVel).y);
+//                command.w = static_cast<float>(me.velData[toStep].angle());
+//            }
+//
+////            command.use_angle = 0;
+////            command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle, 0));
+//        }
+//        else {
+//            command.use_angle = 0;
+//
+//            Vector2 dir = (targetPos - robot->pos).normalize();
+//            command.x_vel = static_cast<float>(dir.x*2.0f);
+//            command.y_vel = static_cast<float>(dir.y*2.0f);
+//            command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle, 0));
+//        }
 
     }
-    else {
 
-        double time = (ros::Time::now() - startTime).toSec();
-        auto toStep = static_cast<int>(round(time/me.dt));
-        int minStep = 10;
-        //not PID
+    double time = (ros::Time::now() - startTime).toSec();
+    auto toStep = static_cast<int>(round(time/me.dt));
+    int minStep = 10;
+    if (toStep < minStep) toStep = minStep;
+    //not PID
 //        if (me.velData.size() > toStep && me.velData.size() > minStep) {
 //            command.use_angle = 1;
 //            command.x_vel = static_cast<float>((me.velData[toStep].normalize()*me.maxVel).x);
@@ -117,32 +130,33 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
 //            command.w = static_cast<float>(me.velData[toStep].angle());
 //        }
 
-        //PID
-        if (me.posData.size() < minStep) {
-            me.clear();
-            command.x_vel = 0;
-            command.y_vel = 0;
-            command.w = 0;
-        }
-        else {
-            auto size = static_cast<int>(me.posData.size() - 1);
-            while (size < toStep --);
-
-            PID pid;
-            if (! pidInit) {
-                pidInit = true;
-                pid.initialize(1.0/rtt::ai::constants::tickRate);
-                pid.setParams(3.0, 0.1, 0.1, 0.0, 0.0, 0.0);
-            }
-            Vector2 pidPos = me.posData[toStep];
-            Vector2 vel = pid.posControl(robot->pos, pidPos, robot->vel);
-            command.x_vel = static_cast<float>(vel.x);
-            command.y_vel = static_cast<float>(vel.y);
-            command.w = static_cast<float>(me.posData[toStep].angle());
-
-            command.use_angle = 1;
-        }
+    //PID
+    if (me.posData.size() < minStep) {
+        me.clear();
+        command.x_vel = 0;
+        command.y_vel = 0;
+        command.w = 0;
     }
+    else {
+        auto size = static_cast<int>(me.posData.size() - 1);
+        while (size < toStep --);
+
+        if (! pidInit) {
+            pidInit = true;
+            pid.initialize(1.0/rtt::ai::constants::tickRate);
+            pid.setParams(3.0, 0.05, 0.2, 0.0, 0.0, 0.0);
+        }
+        Vector2 pidPos = me.posData[toStep];
+        Vector2 vel = pid.posControl(robot->pos, pidPos, robot->vel);
+        if (vel.length() > 3.0) vel = vel.normalize()*3.0;
+        command.x_vel = static_cast<float>(vel.x);
+        command.y_vel = static_cast<float>(vel.y);
+        command.use_angle = 0;
+        command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle,
+                0));//static_cast<float>((me.velData[toStep - 1]).angle());
+
+    }
+
     return command;
 
 }
@@ -178,7 +192,7 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
         ros::Time now = ros::Time::now();
 
         if ((now - begin).toSec()*1000 > 3) { // time > 3ms
-            break;
+            return false;
         }
 
         NumRobotPtr me = robotQueue.top();

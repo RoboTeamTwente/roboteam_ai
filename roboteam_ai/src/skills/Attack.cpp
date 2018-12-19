@@ -22,28 +22,32 @@ bt::Node::Status Attack::onUpdate() {
     updateRobot();
     if (! robot) return Status::Running;
 
-    if (newRandom && newPos) {
-        const roboteam_msgs::GeometryFieldSize &field = Field::get_field();
-        const double &length = field.field_length;
-        const double &width = field.field_width;
-        int randomX = std::rand();
-        int randomY = std::rand();
-        targetPos = {randomX*2.32830644e-10*length*2 - length*0.5, randomY*2.32830644e-10*width*2 - width*0.5};
+        if (newRandom && newPos) {
+            const roboteam_msgs::GeometryFieldSize &field = Field::get_field();
+            const double &length = field.field_length;
+            const double &width = field.field_width;
+            int randomX = std::rand();
+            int randomY = std::rand();
+            targetPos = {randomX*2.32830644e-10*length*2 - length*0.5, randomY*2.32830644e-10*width*2 - width*0.5};
 
-        newPos = false;
-        newRandom = false;
-    } else if (!newRandom && newPos) {
-        auto ball = World::getBall();
-        targetPos = ball.pos;
+            newPos = false;
+            newRandom = false;
+        }
+        else if (! newRandom && newPos) {
+            auto ball = World::getBall();
+            targetPos = ball.pos;
 
-        newPos = false;
-        newRandom = true;
-    }
+            newPos = false;
+            newRandom = true;
+        }
+
     goToPos.goToPos(robot, targetPos, goToType::luTh);
 
     deltaPos = targetPos - (Vector2)robot->pos;
-    if (abs(deltaPos.length()) < 0.5) {
+    if (abs(deltaPos.length()) < 0.5 && --counter < 1) {
         newPos = true;
+        counter = 100;
+        goToPos.clear(goToType::luTh);
     }
 
     return Status::Running;

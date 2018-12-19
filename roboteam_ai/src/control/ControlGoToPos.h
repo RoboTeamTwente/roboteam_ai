@@ -30,8 +30,7 @@
 namespace control {
 
 class ControlGoToPos {
-    public:
-        ControlGoToPos();
+
     private:
         using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
         using Vector2 = rtt::Vector2;
@@ -64,6 +63,7 @@ class ControlGoToPos {
         double distanceToTarget(RobotPtr robot, Vector2 &targetPos);
 
     public:
+        ControlGoToPos();
 
         enum GoToType {
           noPreference,
@@ -76,6 +76,7 @@ class ControlGoToPos {
           bezier,
         };
 
+        void clear(GoToType goToType);
         void goToPos(RobotPtr robot, Vector2 &position);
         void goToPos(RobotPtr robot, Vector2 &position, GoToType goToType);
 

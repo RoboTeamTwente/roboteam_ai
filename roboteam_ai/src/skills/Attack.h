@@ -14,6 +14,7 @@ class Attack : public Skill {
     private:
         bool newRandom = false;
         bool newPos = true;
+        int counter = 0;
 
         control::ControlGoToPos goToPos;
 

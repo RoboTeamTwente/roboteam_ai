@@ -7,6 +7,22 @@
 
 namespace control {
 
+void ControlGoToPos::clear(GoToType goToType) {
+    switch (goToType) {
+    case noPreference:break;
+    case ballControl:break;
+    case basic:break;
+    case lowLevel:break;
+    case highLevel:break;
+    case force:break;
+    case luTh: {
+        gtpLuth.clear();
+        break;
+    }
+    case bezier:break;
+    }
+}
+
 void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position) {
     GoToType goToType = basic;
     ControlGoToPos::goToPos(std::move(robot), position, goToType);

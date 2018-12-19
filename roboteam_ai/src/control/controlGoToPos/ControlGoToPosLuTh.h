@@ -141,14 +141,17 @@ class ControlGoToPosLuTh {
 
         Vector2 targetPos;
         ros::Time startTime;
+
+        PID pid;
         bool pidInit = false;
+
         bool tracePath(NumRobot &numRobot, Vector2 target);
         bool calculateNumericDirection(RobotPtr robot, NumRobot &me, roboteam_msgs::RobotCommand &command);
         void drawCross(Vector2 &pos);
         bool calculateNextPoint(NumRobotPtr me);
         int robotIndex;
     public:
-
+        void clear();
         Command goToPos(RobotPtr robot, Vector2 &targetPos);
 };
 

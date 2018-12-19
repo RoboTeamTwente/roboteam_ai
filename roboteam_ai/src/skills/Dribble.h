@@ -19,7 +19,11 @@ class Dribble : public Skill {
     private:
         roboteam_msgs::WorldBall ball;
         enum Progression {
-          ON_THE_WAY, STOPPED, DONE, FAIL, WAITING
+          ON_THE_WAY,
+          STOPPED,
+          DONE,
+          FAIL,
+          WAITING
         };
         Progression currentProgress;
         Progression checkProgression();

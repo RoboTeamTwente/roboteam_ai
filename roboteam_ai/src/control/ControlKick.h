@@ -5,7 +5,8 @@
 #ifndef ROBOTEAM_AI_CONTROLKICK_H
 #define ROBOTEAM_AI_CONTROLKICK_H
 
-#include <roboteam_msgs/RobotCommand.h>
+#include "controlGoToPos/goToPosInclude.h"
+#include "../io/IOManager.h"
 
 namespace control {
 
