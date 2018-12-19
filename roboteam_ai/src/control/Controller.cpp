@@ -72,81 +72,96 @@ namespace control {
         this->prev_error = prev;
     }
 
+    void Controller::setP(double P, double time){
+        this->setP(P);
+        this->setTimeDiff(time);
+    }
+
+    void Controller::setI(double I, double time){
+        this->setI(I);
+        this->setTimeDiff(time);
+    }
+
+    void Controller::setD(double D, double time){
+        this->setD(D);
+        this->setTimeDiff(time);
+    }
+
     void Controller::setPI(double P, double I){
-        Controller::setP(P);
-        Controller::setI(I);
+        this->setP(P);
+        this->setI(I);
     }
 
     void Controller::setPD(double P, double D){
-        Controller::setP(P);
-        Controller::setD(D);
+        this->setP(P);
+        this->setD(D);
     }
 
     void Controller::setPI(double P, double I, double time){
-        Controller::setP(P);
-        Controller::setI(I);
-        Controller::setTimeDiff(time);
+        this->setP(P);
+        this->setI(I);
+        this->setTimeDiff(time);
     }
 
     void Controller::setPD(double P, double D, double time){
-        Controller::setP(P);
-        Controller::setD(D);
-        Controller::setTimeDiff(time);
+        this->setP(P);
+        this->setD(D);
+        this->setTimeDiff(time);
     }
 
     void Controller::setPID(double P, double I, double D){
-        Controller::setP(P);
-        Controller::setI(I);
-        Controller::setD(D);
+        this->setP(P);
+        this->setI(I);
+        this->setD(D);
     }
 
     void Controller::setPID(double P, double I, double D, double time){
-        Controller::setP(P);
-        Controller::setI(I);
-        Controller::setD(D);
-        Controller::setTimeDiff(time);
+        this->setP(P);
+        this->setI(I);
+        this->setD(D);
+        this->setTimeDiff(time);
     }
 
     double Controller::controlP(double err) {
-        double value_P = kP * err;
+        double value_P = this->kP * err;
         return value_P;
     }
 
     double Controller::controlI(double err) {
-        this->initial_I += err * timeDiff;
-        double value_I = kI * initial_I;
+        this->initial_I += err * this->timeDiff;
+        double value_I = this->kI * this->initial_I;
         return value_I;
     }
 
     double Controller::controlD(double err) {
-        double rateErr = (err - prev_error)/timeDiff;
-        double value_D = kD * rateErr;
+        double rateErr = (err - this->prev_error)/this->timeDiff;
+        double value_D = this->kD * rateErr;
         this->prev_error = err;
         return value_D;
     }
 
     double Controller::controlPI(double err) {
-        double value_P = Controller::controlP(err);
-        double value_I = Controller::controlI(err);
+        double value_P = this->controlP(err);
+        double value_I = this->controlI(err);
         return value_P + value_I;
     }
 
     double Controller::controlPD(double err) {
-        double value_P = Controller::controlP(err);
-        double value_D = Controller::controlD(err);
+        double value_P = this->controlP(err);
+        double value_D = this->controlD(err);
         return value_P + value_D;
     }
 
     double Controller::controlID(double err) {
-        double value_I = Controller::controlI(err);
-        double value_D = Controller::controlD(err);
+        double value_I = this->controlI(err);
+        double value_D = this->controlD(err);
         return value_I + value_D;
     }
 
     double Controller::controlPID(double err) {
-        double value_P = Controller::controlP(err);
-        double value_I = Controller::controlI(err);
-        double value_D = Controller::controlD(err);
+        double value_P = this->controlP(err);
+        double value_I = this->controlI(err);
+        double value_D = this->controlD(err);
         return value_P + value_I + value_D;
     }
 

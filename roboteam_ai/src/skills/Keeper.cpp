@@ -20,10 +20,8 @@ void Keeper::onInitialize() {
     blockCircle=control::ControlUtils::createKeeperArc();
     //TODO::magic numbers galore, from the old team. move to new control library
     double timediff = 1.0/constants::tickRate;
-    pidx.setPID(4.0, 0.0, 0.75, timediff);
-    pidy.setPID(4.0, 0.0, 0.75, timediff);
-    finePidx.setPID(4.0, 0.0, 0.75, timediff);
-    finePidy.setPID(4.0, 0.0, 0.75, timediff);
+    pidx.setP(2, timediff);
+    pidy.setP(2, timediff);
 }
 
 Keeper::Status Keeper::onUpdate() {
@@ -31,13 +29,26 @@ Keeper::Status Keeper::onUpdate() {
         Vector2 blockPoint = computeBlockPoint(ballPos);
         //double dist=control::ControlUtils::distanceToLine(robot->pos,ballPos,blockPoint);
         double dist = (blockPoint - (Vector2(robot->pos))).length();
+        static int state = 0;
         if (dist < constants::KEEPER_POSDIF) {
             sendStopCommand();
         }
-        else if (dist < 2*constants::ROBOT_RADIUS) {
-            sendFineMoveCommand(blockPoint);
-        }
         else {
+            if (dist > 30*constants::ROBOT_RADIUS and state != 2) {
+                pidx.setP(2);
+                pidy.setP(2);
+                state = 2;
+            }
+            else if(dist > 6*constants::ROBOT_RADIUS and state != 1) {
+                pidx.setP(1);
+                pidy.setP(1);
+                state = 1;
+            }
+            else if (state != 0) {
+                pidx.setP(3);
+                pidy.setP(3);
+                state = 0;
+            }
             sendMoveCommand(blockPoint);
         }
         return Status::Running;
@@ -56,8 +67,8 @@ void Keeper::onTerminate(Status s) {
 void Keeper::sendMoveCommand(Vector2 pos) {
     Vector2 error = pos - robot->pos;
     Vector2 delta;
-    delta.x = pidx.controlPID(error.x);
-    delta.y = pidy.controlPID(error.y);
+    delta.x = pidx.controlP(error.x);
+    delta.y = pidy.controlP(error.y);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
@@ -65,21 +76,6 @@ void Keeper::sendMoveCommand(Vector2 pos) {
     cmd.y_vel = static_cast<float>(delta.y);
     cmd.w = static_cast<float>(M_PI_2);
     publishRobotCommand(cmd);
-}
-
-void Keeper::sendFineMoveCommand(Vector2 pos) {
-    Vector2 error = pos - robot->pos;
-    Vector2 delta;
-    delta.x = finePidx.controlPID(error.x);
-    delta.y = finePidy.controlPID(error.y);
-    roboteam_msgs::RobotCommand cmd;
-    cmd.use_angle = 1;
-    cmd.id = robot->id;
-    cmd.x_vel = static_cast<float>(delta.x);
-    cmd.y_vel = static_cast<float>(delta.y);
-    cmd.w = static_cast<float>(M_PI_2);
-    publishRobotCommand(cmd);
-
 }
 
 void Keeper::sendStopCommand() {

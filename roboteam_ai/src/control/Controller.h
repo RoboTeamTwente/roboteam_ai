@@ -29,6 +29,10 @@ namespace control {
         void setTimeDiff(double time);
         void setPrevErr(double prev);
 
+
+        void setP(double P, double time);
+        void setI(double I, double time);
+        void setD(double D, double time);
         void setPI(double P, double I);
         void setPI(double P, double I, double time);
         void setPD(double P, double D);
