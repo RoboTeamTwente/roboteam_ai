@@ -37,6 +37,8 @@ namespace control {
         void setPI(double P, double I, double time);
         void setPD(double P, double D);
         void setPD(double P, double D, double time);
+        void setID(double I, double D);
+        void setID(double I, double D, double time);
         void setPID(double P, double I, double D);
         void setPID(double P, double I, double D, double time);
 

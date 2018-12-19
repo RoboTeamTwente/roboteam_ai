@@ -45,8 +45,8 @@ Keeper::Status Keeper::onUpdate() {
                 state = 1;
             }
             else if (state != 0) {
-                pidx.setP(3);
-                pidy.setP(3);
+                pidx.setP(2);
+                pidy.setP(2);
                 state = 0;
             }
             sendMoveCommand(blockPoint);
@@ -65,6 +65,9 @@ void Keeper::onTerminate(Status s) {
 }
 
 void Keeper::sendMoveCommand(Vector2 pos) {
+    Vector2 targetpos;
+    targetpos.x = 0;
+    targetpos.y = 0;
     Vector2 error = pos - robot->pos;
     Vector2 delta;
     delta.x = pidx.controlP(error.x);
@@ -74,7 +77,7 @@ void Keeper::sendMoveCommand(Vector2 pos) {
     cmd.id = robot->id;
     cmd.x_vel = static_cast<float>(delta.x);
     cmd.y_vel = static_cast<float>(delta.y);
-    cmd.w = static_cast<float>(M_PI_2);
+    cmd.w = static_cast<float>(0);
     publishRobotCommand(cmd);
 }
 
@@ -84,7 +87,7 @@ void Keeper::sendStopCommand() {
     cmd.id = robot->id;
     cmd.x_vel = static_cast<float>(0.0);
     cmd.y_vel = static_cast<float>(0.0);
-    cmd.w = static_cast<float>(M_PI_2);
+    cmd.w = static_cast<float>(0);
     publishRobotCommand(cmd);
 }
 Vector2 Keeper::computeBlockPoint(Vector2 defendPos) {

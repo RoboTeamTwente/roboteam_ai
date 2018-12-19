@@ -9,7 +9,7 @@ namespace control {
         this->kP = 0;
         this->kI = 0;
         this->kD = 0;
-        this->timeDiff = 0.001; //1000HZ
+        this->timeDiff = 0.0001; //10000HZ
         this->initial_I = 0;
         this->prev_error = 0;
     }
@@ -105,6 +105,17 @@ namespace control {
 
     void Controller::setPD(double P, double D, double time){
         this->setP(P);
+        this->setD(D);
+        this->setTimeDiff(time);
+    }
+
+    void Controller::setID(double I, double D){
+        this->setI(I);
+        this->setD(D);
+    }
+
+    void Controller::setID(double I, double D, double time){
+        this->setI(I);
         this->setD(D);
         this->setTimeDiff(time);
     }
