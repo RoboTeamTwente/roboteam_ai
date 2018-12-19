@@ -14,6 +14,7 @@ addons:
     - cmake
     - libprotobuf-dev
     - protobuf-compiler
+    - qt5-default
 branches:
   only:
   - master
