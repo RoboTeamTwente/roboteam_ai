@@ -82,31 +82,15 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
             rtt::ai::interface::Drawer::setGoToPosLuThPoints(robot->id, displayColorData);
         }
 
-        if (!nicePath) {
+        if (! nicePath) {
             command.use_angle = 0;
             Vector2 dir = (targetPos - robot->pos).normalize();
             command.x_vel = static_cast<float>(dir.x*2.0f);
             command.y_vel = static_cast<float>(dir.y*2.0f);
             command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle, 0));
 
-
         }
-//
-//        // send command
-//        if (nicePath) {
-//
-//            auto toStep = static_cast<int>(round(0.5/me.dt));
-//
-//            if (me.velData.size() > toStep) {
-//                command.use_angle = 1;
-//                command.x_vel = static_cast<float>((me.velData[toStep].normalize()*me.maxVel).x);
-//                command.y_vel = static_cast<float>((me.velData[toStep].normalize()*me.maxVel).y);
-//                command.w = static_cast<float>(me.velData[toStep].angle());
-//            }
-//
-////            command.use_angle = 0;
-////            command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle, 0));
-//        }
+
 //        else {
 //            command.use_angle = 0;
 //
@@ -118,24 +102,20 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
 
     }
 
+    //PID
     double time = (ros::Time::now() - startTime).toSec();
     auto toStep = static_cast<int>(round(time/me.dt));
     int minStep = 10;
     if (toStep < minStep) toStep = minStep;
-    //not PID
-//        if (me.velData.size() > toStep && me.velData.size() > minStep) {
-//            command.use_angle = 1;
-//            command.x_vel = static_cast<float>((me.velData[toStep].normalize()*me.maxVel).x);
-//            command.y_vel = static_cast<float>((me.velData[toStep].normalize()*me.maxVel).y);
-//            command.w = static_cast<float>(me.velData[toStep].angle());
-//        }
 
-    //PID
     if (me.posData.size() < minStep) {
         me.clear();
-        command.x_vel = 0;
-        command.y_vel = 0;
-        command.w = 0;
+        command.use_angle = 0;
+
+        Vector2 dir = (targetPos - robot->pos).normalize();
+        command.x_vel = static_cast<float>(dir.x*2.0f);
+        command.y_vel = static_cast<float>(dir.y*2.0f);
+        command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle, 0));
     }
     else {
         auto size = static_cast<int>(me.posData.size() - 1);
@@ -146,14 +126,15 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
             pid.initialize(1.0/rtt::ai::constants::tickRate);
             pid.setParams(3.0, 0.05, 0.2, 0.0, 0.0, 0.0);
         }
+
         Vector2 pidPos = me.posData[toStep];
         Vector2 vel = pid.posControl(robot->pos, pidPos, robot->vel);
-        if (vel.length() > 3.0) vel = vel.normalize()*3.0;
+        if (vel.length() > 3.0)
+            vel = vel.normalize()*3.0;
         command.x_vel = static_cast<float>(vel.x);
         command.y_vel = static_cast<float>(vel.y);
         command.use_angle = 0;
-        command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle,
-                0));//static_cast<float>((me.velData[toStep - 1]).angle());
+        command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle, 0));
 
     }
 
@@ -178,9 +159,8 @@ bool ControlGoToPosLuTh::calculateNumericDirection(RobotPtr robot, NumRobot &me,
     if (me.isCollision(closestBot, 0.4f)) return false;
 
     bool noCollision = tracePath(me, targetPos);
-    if (! noCollision) return false;
+    return noCollision;
 
-    return true;
 }
 
 bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
@@ -191,7 +171,7 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
     while (! robotQueue.empty()) {
         ros::Time now = ros::Time::now();
 
-        if ((now - begin).toSec()*1000 > 3) { // time > 3ms
+        if ((now - begin).toSec()*1000 > 30) { // time > 3ms
             return false;
         }
 
@@ -210,7 +190,7 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
         else {      //Collision!! calculate new points
 
             auto minPoints = static_cast<int>(ceil(1.0f/(me->dt)));
-            auto newDataPoints = static_cast<int>(me->posData.size() - me->startIndex);
+            auto newDataPoints = static_cast<int>(me->posData.size()- 1 - me->startIndex);
 
             if (me->posData.empty() || me->velData.empty()) {
                 // no data.. something went wrong somewhere. just continue as if nothing happend. :)
@@ -220,12 +200,13 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
                 // set the starting point 1.0f seconds (or closer) before the collision
                 me->startIndex = me->posData.size() - minPoints;
             }
+            if (me->startIndex == 0 && me->posData.size() > 1) me->startIndex = 1;
             Vector2 collisionPos = me->pos;
             Vector2 startPos = me->posData[me->startIndex];
-            std::vector<Vector2> newTargets = me->getNewTargets(collisionPos, startPos);
+            std::vector<std::pair<NumRobot::newDirections, Vector2>> newTargets = me->getNewTargets(collisionPos, startPos);
 
-            for (auto newTarget : newTargets) {
-                drawCross(newTarget);
+            for (auto &newTarget : newTargets) {
+                drawCross(newTarget.second);
                 NumRobotPtr newNumRobotPtr = me->getNewNumRobot(me, newTarget);
                 robotQueue.push(newNumRobotPtr);
             }

@@ -30,12 +30,19 @@ class ControlGoToPosLuTh {
           double maxVel = 2.5;          //Maximum velocity in ms-1
           Vector2 acc;                  //Current x,y acceleration in ms-2
           double maxAcc = 2.5;          //Maximum acceleration in ms-2
-          std::vector<Vector2> posData; //Save the position data
-          std::vector<Vector2> velData; //Save the velocity data
+          std::vector<Vector2> posData = {{}}; //Save the position data
+          std::vector<Vector2> velData = {{}}; //Save the velocity data
           float t = 0;
           const float dt = 0.05f;
           int totalCalculations = 0;
           int collisions = 0;
+
+          enum newDirections {
+            goLeft,
+            goMiddle,
+            goRight
+          };
+          newDirections newDir = goMiddle;
 
           Vector2 getDirection() {
               return (targetPos - pos).normalize();
@@ -68,48 +75,69 @@ class ControlGoToPosLuTh {
               return newTargets;
           }
 
-          std::vector<Vector2> getNewTargets(Vector2 &collisionPos, Vector2 &startPos) {
-              std::vector<Vector2> newTargets;
+          std::vector<std::pair<newDirections, Vector2>> getNewTargets(Vector2 &collisionPos, Vector2 &startPos) {
+              std::vector<std::pair<newDirections, Vector2>> newTargets;
 
               Vector2 deltaPos = collisionPos - startPos;
+              std::vector<double> angles;
+              switch (newDir) {
+              case goLeft: {
+                  angles = { - 3*M_PI*0.0625, - 2*M_PI*0.0625, - M_PI*0.0625};
+                  break;
+              }
+              case goMiddle: {
+                  angles = {- M_PI*0.0625, M_PI*0.0625};
+                  break;
+              }
+              case goRight: {
+                  angles = {M_PI*0.0625, 2*M_PI*0.0625, 4*M_PI*0.0625};
+                  break;
+              }
+              }
 
-              std::vector<double> angles = {- M_PI*0.0625, M_PI*0.0625};
               for (double angle : angles) {
+
+                  if (angle < 0) newDir = goLeft;
+                  else if (angle > 0) newDir = goRight;
+                  else newDir = goMiddle;
+
                   Vector2 newTarget = startPos + deltaPos.rotate(angle);
-                  newTargets.push_back(newTarget);
+                  newTargets.push_back({newDir, newTarget});
               }
               return newTargets;
           }
 
-          NumRobotPtr getNewNumRobot(NumRobotPtr me, Vector2 &newTarget) {
+          NumRobotPtr getNewNumRobot(NumRobotPtr me, std::pair<newDirections, Vector2> &newTarget) {
               NumRobot newMe;
 
-              std::vector<Vector2> _posData(me->posData.begin(), me->posData.begin() + me->startIndex + 1);
+              std::vector<Vector2> _posData(me->posData.begin(), me->posData.begin() + me->startIndex);
               newMe.posData = _posData;
               newMe.pos = newMe.posData.back();//me->posData[me->startIndex];
-              std::vector<Vector2> _velData(me->velData.begin(), me->velData.begin() + me->startIndex + 1);
+              std::vector<Vector2> _velData(me->velData.begin(), me->velData.begin() + me->startIndex);
               newMe.velData = _velData;
               newMe.vel = newMe.velData.back();//me->velData[me->startIndex];
 
               newMe.id = me->id;
               newMe.totalCalculations = me->totalCalculations;
               newMe.collisions = me->collisions + 1;
-              newMe.startIndex = newMe.posData.size();
-              newMe.targetPos = newTarget;
-              newMe.finalTargetPos = targetPos;
-
+              newMe.startIndex = newMe.posData.size() - 1;
+              newMe.targetPos = newTarget.second;
+              newMe.newDir = newTarget.first;
+              newMe.finalTargetPos = me->finalTargetPos;
+              if (newMe.pos.length() < 0.1) {
+                  std::cout << "errorr??" << std::endl;
+              }
               return std::make_shared<NumRobot>(newMe);
-
           }
 
           void clear() {
-              posData = {{}};
-              velData = {{}};
-              pos = {0,0};
-              vel = {0,0};
-              acc = {0,0};
-              finalTargetPos = {0,0};
-              targetPos = {0,0};
+              posData.clear();
+              velData.clear();
+              pos = {0, 0};
+              vel = {0, 0};
+              acc = {0, 0};
+              finalTargetPos = {0, 0};
+              targetPos = {0, 0};
 
               NumRobot newMe;
 
