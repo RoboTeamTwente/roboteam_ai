@@ -12,6 +12,12 @@
 namespace rtt {
 namespace ai {
 namespace constants {
+const double MAX_VEL_CMD=8.191;
+const int GENEVA_LEFT=0;//TODO: Might be reversed, please check
+const int GENEVA_RIGHT=5;
+const int MAX_ID=15;
+const double MAX_ANGULAR_VEL_CMD=16*M_PI;
+
 //Other/multiple usage
 const int DEFAULT_ROBOT_ID = 1;
 const double MAX_ANGULAR_VELOCITY = 6.0; // rad per second??
