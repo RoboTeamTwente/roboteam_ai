@@ -18,7 +18,7 @@ bool Skill::verifyRobotCommand(roboteam_msgs::RobotCommand cmd) {
     else {
         output&= (cmd.w<=constants::MAX_ANGULAR_VEL_CMD&&cmd.w>=-constants::MAX_ANGULAR_VEL_CMD);
     }
-    
+
     return output;
 }
 void Skill::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
