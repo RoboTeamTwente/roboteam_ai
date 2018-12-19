@@ -103,7 +103,16 @@ class ControlGoToPosLuTh {
           }
 
           void clear() {
+              posData = {{}};
+              velData = {{}};
+              pos = {0,0};
+              vel = {0,0};
+              acc = {0,0};
+              finalTargetPos = {0,0};
+              targetPos = {0,0};
+
               NumRobot newMe;
+
               id = newMe.id;
               startIndex = newMe.startIndex;
               maxVel = newMe.maxVel;
@@ -131,12 +140,13 @@ class ControlGoToPosLuTh {
         double errorMargin = 0.3;
 
         Vector2 targetPos;
-
+        ros::Time startTime;
+        bool pidInit = false;
         bool tracePath(NumRobot &numRobot, Vector2 target);
         bool calculateNumericDirection(RobotPtr robot, NumRobot &me, roboteam_msgs::RobotCommand &command);
         void drawCross(Vector2 &pos);
         bool calculateNextPoint(NumRobotPtr me);
-
+        int robotIndex;
     public:
 
         Command goToPos(RobotPtr robot, Vector2 &targetPos);

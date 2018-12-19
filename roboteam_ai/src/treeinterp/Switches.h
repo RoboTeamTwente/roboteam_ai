@@ -4,9 +4,11 @@
 #ifndef ROBOTEAM_AI_SWITCHES_H
 #define ROBOTEAM_AI_SWITCHES_H
 
+#include "BTImport.h"
 #include <iostream>
 #include "../utilities/RobotDealer.h"
 #include "../bt/bt.hpp"
+
 class Switches {
         using robotType = robotDealer::RobotDealer::RobotType;
 

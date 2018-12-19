@@ -2,7 +2,7 @@
 // Created by baris on 15/11/18.
 //
 
-#include "BTImport.h"
+#include "Switches.h"
 
 
 //  ______________________
@@ -35,7 +35,6 @@
 #include "../skills/GoToPos.h"
 #include "../skills/Keeper.h"
 #include "../skills/GetBall.h"
-
 #include "../skills/Attack.h"
 
 //  ______________________
@@ -45,7 +44,6 @@
 //
 
 #include "../conditions/CanSeeGoal.h"
-#include "Switches.h"
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -64,7 +62,8 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "DanceTactic2",
          "SimpleTactic",
          "haltTactic",
-         "SimpleDefendTactic"};
+         "SimpleDefendTactic",
+         "Attactic"};
 
 std::vector<std::string> Switches::strategyJsonFileNames =
         {"victoryDanceStrategy",
@@ -73,7 +72,8 @@ std::vector<std::string> Switches::strategyJsonFileNames =
          "DanceStrategy",
          "SimpleStrategy",
          "haltStrategy",
-         "SimpleDefendStrategy"};
+         "SimpleDefendStrategy",
+         "AttackStrategy"};
 
 std::vector<std::string> Switches::keeperJsonFiles =
         {};
@@ -174,7 +174,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
         node = std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
     }
     else if (name == "Attack") {
-        node = std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
+        node = std::make_shared<rtt::ai::Attack>(name, properties);
     }
     else {
         ROS_ERROR("ERROR: Leaf not found!! using GoToPos..");

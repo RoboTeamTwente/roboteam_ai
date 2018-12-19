@@ -103,7 +103,7 @@ GoToPosLuTh::Progression GoToPosLuTh::checkProgression() {
     }
 }
 
-void GoToPosLuTh::sendMoveCommand() {
+void GoToPosLuTh::sendMoveCommand() {   
 
     if (! checkTargetPos(targetPos)) {
         ROS_ERROR("Target position is not correct GoToPosLuTh");
