@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_CONTROLLER_H
 
 #include "ControlUtils.h"
+#include "../utilities/Constants.h"
 
 namespace control {
 

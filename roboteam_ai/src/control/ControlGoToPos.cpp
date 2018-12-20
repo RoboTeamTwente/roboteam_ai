@@ -61,9 +61,8 @@ void ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
 //        return;
 //    }
     static bool setPID = false;
-    if (setPID != true){
-        double timediff = 1.0/rtt::ai::constants::tickRate;
-        pidPos.setPD(3, 1.5, timediff);
+    if (!setPID){
+        pidPos.setPD(3, 1.5);
         setPID = true;
     }
     Vector2 error;
