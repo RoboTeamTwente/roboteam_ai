@@ -37,7 +37,7 @@ bt::Node::Status Attack::onUpdate() {
             targetPos = ball.pos;
         }
 
-    goToPos.goToPos(robot, targetPos, goToType::luTh);
+    goToPos.goToPos(robot, targetPos, goToType::basic);
 
     deltaPos = targetPos - (Vector2)robot->pos;
     if (abs(deltaPos.length()) < 0.5 && --counter < 1) {

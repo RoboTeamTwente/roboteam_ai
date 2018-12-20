@@ -86,7 +86,7 @@ void ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
 //        ROS_ERROR("Target position is not correct GoToPos");
 //        return;
 //    }
-    static Controller pidBasic(1, 0, 0);
+    static Controller pidBasic(3, 0, 1.5);
     Vector2 error;
     error.x = targetPos.x - robot->pos.x;
     error.y = targetPos.y - robot->pos.y;
