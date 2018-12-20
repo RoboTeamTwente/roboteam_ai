@@ -40,7 +40,7 @@ bt::Node::Status DefendOnRobot::onUpdate() {
 
         Vector2 targetPos = calculateLocation();
 
-        //TODO: Remove temporary hack
+        //TODO: Remove temporary hack (fix GoToPos)
         Vector2 robotPos = robot->pos;
         if ((robotPos - targetPos).length() < 0.2) {
             roboteam_msgs::RobotCommand command;
@@ -50,6 +50,7 @@ bt::Node::Status DefendOnRobot::onUpdate() {
             return Status::Running;
         }
 
+        std::cout << "Robot:" << robot->id << "TargetPos:" << targetPos << std::endl;
         goToPos.goToPos(robot, targetPos, goType::luTh);
 
         return Status::Running;
@@ -86,7 +87,12 @@ Vector2 DefendOnRobot::calculateLocation() {
     double xLength = length * cos(angle1);
     double yLength = length * sin(angle1);
 
-    Vector2 newPosition = {opponentWithBall->pos.x - xLength, opponentWithBall->pos.y + yLength};
+    if (opponentWithBall->pos.x > opponentToCover->pos.x) {
+        newPosition = {opponentWithBall->pos.x - xLength, opponentWithBall->pos.y + yLength};
+    } else {
+        newPosition = {opponentWithBall->pos.x - xLength, opponentWithBall->pos.y + yLength};
+    }
+
     return newPosition;
 }
 
