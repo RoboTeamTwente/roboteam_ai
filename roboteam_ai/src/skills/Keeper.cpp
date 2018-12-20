@@ -19,7 +19,7 @@ void Keeper::onInitialize() {
     //Create arc for keeper to drive on
     blockCircle=control::ControlUtils::createKeeperArc();
     //TODO::magic numbers galore, from the old team. move to new control library
-    pid.setPD(1, 0);
+    pid.setPID(1, 0, 0);
 }
 
 Keeper::Status Keeper::onUpdate() {
@@ -48,7 +48,7 @@ void Keeper::onTerminate(Status s) {
 
 void Keeper::sendMoveCommand(Vector2 pos) {
     Vector2 error = pos - robot->pos;
-    Vector2 delta = pid.controlPR2(error, robot->vel);
+    Vector2 delta = pid.controlPIR2(error, robot->vel);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;

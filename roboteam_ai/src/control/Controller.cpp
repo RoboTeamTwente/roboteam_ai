@@ -96,39 +96,6 @@ namespace control {
         this->setTimeDiff(time);
     }
 
-    void Controller::setPI(double P, double I){
-        this->setP(P);
-        this->setI(I);
-    }
-
-    void Controller::setPD(double P, double D){
-        this->setP(P);
-        this->setD(D);
-    }
-
-    void Controller::setPI(double P, double I, double time){
-        this->setP(P);
-        this->setI(I);
-        this->setTimeDiff(time);
-    }
-
-    void Controller::setPD(double P, double D, double time){
-        this->setP(P);
-        this->setD(D);
-        this->setTimeDiff(time);
-    }
-
-    void Controller::setID(double I, double D){
-        this->setI(I);
-        this->setD(D);
-    }
-
-    void Controller::setID(double I, double D, double time){
-        this->setI(I);
-        this->setD(D);
-        this->setTimeDiff(time);
-    }
-
     void Controller::setPID(double P, double I, double D){
         this->setP(P);
         this->setI(I);
@@ -160,24 +127,6 @@ namespace control {
         return value_D;
     }
 
-    double Controller::controlPI(double err) {
-        double value_P = this->controlP(err);
-        double value_I = this->controlI(err);
-        return value_P + value_I;
-    }
-
-    double Controller::controlPD(double err) {
-        double value_P = this->controlP(err);
-        double value_D = this->controlD(err);
-        return value_P + value_D;
-    }
-
-    double Controller::controlID(double err) {
-        double value_I = this->controlI(err);
-        double value_D = this->controlD(err);
-        return value_I + value_D;
-    }
-
     double Controller::controlPID(double err) {
         double value_P = this->controlP(err);
         double value_I = this->controlI(err);
@@ -188,18 +137,6 @@ namespace control {
     double Controller::controlR(double rate){
         double value_R = this->kD*rate*-1;
         return value_R;
-    }
-
-    double Controller::controlPR(double err, double rate){
-        double value_P = this->controlP(err);
-        double value_R = this->controlR(rate);
-        return value_P + value_R;
-    }
-
-    double Controller::controlIR(double err, double rate){
-        double value_I = this->controlI(err);
-        double value_R = this->controlR(rate);
-        return value_I + value_R;
     }
 
     double Controller::controlPIR(double err, double rate){
@@ -233,24 +170,6 @@ namespace control {
         return value_D2;
     }
 
-    Vector2 Controller::controlPI2(Vector2 err){
-        Vector2 value_P2 = this->controlP2(err);
-        Vector2 value_I2 = this->controlI2(err);
-        return value_P2 + value_I2;
-    }
-
-    Vector2 Controller::controlPD2(Vector2 err){
-        Vector2 value_P2 = this->controlP2(err);
-        Vector2 value_D2 = this->controlD2(err);
-        return value_P2 + value_D2;
-    }
-
-    Vector2 Controller::controlID2(Vector2 err){
-        Vector2 value_I2 = this->controlI2(err);
-        Vector2 value_D2 = this->controlD2(err);
-        return value_I2 + value_D2;
-    }
-
     Vector2 Controller::controlPID2(Vector2 err){
         Vector2 value_P2 = this->controlP2(err);
         Vector2 value_I2 = this->controlI2(err);
@@ -265,16 +184,6 @@ namespace control {
         value_R2.y = this->kD*rate.y*-1;
         return value_R2;
     }
-
-    Vector2 Controller::controlPR2(Vector2 err, Vector2 rate){
-        Vector2 value_P2 = this->controlP2(err);
-        Vector2 value_R2 = this->controlR2(rate);
-        return value_P2 + value_R2;}
-
-    Vector2 Controller::controlIR2(Vector2 err, Vector2 rate){
-        Vector2 value_I2 = this->controlI2(err);
-        Vector2 value_R2 = this->controlD2(rate);
-        return value_I2 + value_R2;}
 
     Vector2 Controller::controlPIR2(Vector2 err, Vector2 rate){
         Vector2 value_P2 = this->controlP2(err);
