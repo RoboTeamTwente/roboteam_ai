@@ -62,14 +62,13 @@ void ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
 //    }
     static bool setPID = false;
     if (!setPID){
-        pidPos.setPD(3, 1.5);
+        pidPos.setPD(1, 0);
         setPID = true;
     }
     Vector2 error;
     error.x = targetPos.x - robot->pos.x;
     error.y = targetPos.y - robot->pos.y;
-    Vector2 delta;
-    delta = pidPos.controlPR2(error, robot->vel);
+    Vector2 delta = pidPos.controlPR2(error, robot->vel);
     Command command;
     command.id = robot->id;
     command.use_angle = 1;

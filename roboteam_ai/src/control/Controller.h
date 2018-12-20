@@ -19,7 +19,7 @@ namespace control {
         double initial_I;
         double initial_I2; //only used in the case of 2 input variables
         double prev_error;
-        double prev_error2;
+        double prev_error2; //only used in the case of 2 input variables
 
     public:
         Controller();
@@ -30,8 +30,8 @@ namespace control {
         void setP(double P);
         void setI(double I);
         void setD(double D);
-        void setInitial(double initial);
         void setTimeDiff(double time);
+        void setInitial(double initial);
         void setPrevErr(double prev);
 
         void setP(double P, double time);
