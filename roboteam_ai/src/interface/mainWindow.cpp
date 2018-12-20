@@ -32,6 +32,18 @@ MainWindow::MainWindow(QWidget* parent)
         select_strategy->addItem(QString::fromStdString(strategyName));
     }
 
+    toggleColorBtn = std::make_shared<QPushButton>("Color");
+    QObject::connect(toggleColorBtn.get(), SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
+    verticalLayout->addWidget(toggleColorBtn.get());
+
+
+    toggleSideBtn = std::make_shared<QPushButton>("Side");
+    QObject::connect(toggleSideBtn.get(), SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
+
+
+    verticalLayout->addWidget(toggleSideBtn.get());
+
+
     QObject::connect(select_strategy.get(), QOverload<const QString &>::of(&QComboBox::currentIndexChanged),
             [=](const QString &strategyName) {
               // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
@@ -254,6 +266,25 @@ void MainWindow::clearLayout(QLayout *layout) {
     }
         delete item;
     }
+}
+
+
+void MainWindow::toggleOurColorParam() {
+    ros::NodeHandle nh;
+    std::string ourColorParam, newParam;
+    nh.getParam("our_color", ourColorParam);
+    newParam = ourColorParam == "yellow" ? "blue" : "yellow";
+    nh.setParam("our_color", newParam);
+    toggleColorBtn->setText(QString::fromStdString(newParam));
+}
+
+void MainWindow::toggleOurSideParam() {
+    ros::NodeHandle nh;
+    std::string ourSideParam, newParam;
+    nh.getParam("our_side", ourSideParam);
+    newParam = ourSideParam == "right" ? "left" : "right";
+    nh.setParam("our_side", newParam);
+    toggleSideBtn->setText(QString::fromStdString(newParam));
 }
 
 
