@@ -214,5 +214,15 @@ double ControlUtils::angleDifference(double A1, double A2){
     }
     return abs(angleDif);
 }
+
+Vector2 ControlUtils::VelocityLimiter(Vector2 vel) {
+    if (vel.length()>rtt::ai::constants::MAX_VEL){
+        std::cout<<"Velocity command length: " <<vel.length();
+        vel=vel.stretchToLength(rtt::ai::constants::MAX_VEL);
+        std::cout<<"Limiting velocity... "<<vel.length()<<std::endl;
+        return vel;
+    }
+    else return vel;
+}
 }//control
 
