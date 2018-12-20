@@ -69,12 +69,12 @@ namespace control {
         this->kD = D;
     }
 
-    void Controller::setInitial(double initial){
-        this->initial_I = initial;
-    }
-
     void Controller::setTimeDiff(double time){
         this->timeDiff = time;
+    }
+
+    void Controller::setInitial(double initial){
+        this->initial_I = initial;
     }
 
     void Controller::setPrevErr(double prev){
@@ -268,7 +268,7 @@ namespace control {
 
     Vector2 Controller::controlPR2(Vector2 err, Vector2 rate){
         Vector2 value_P2 = this->controlP2(err);
-        Vector2 value_R2 = this->controlD2(rate);
+        Vector2 value_R2 = this->controlR2(rate);
         return value_P2 + value_R2;}
 
     Vector2 Controller::controlIR2(Vector2 err, Vector2 rate){
