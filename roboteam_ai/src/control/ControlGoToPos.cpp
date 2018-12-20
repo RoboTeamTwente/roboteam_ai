@@ -90,6 +90,16 @@ void ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
     Vector2 error;
     error.x = targetPos.x - robot->pos.x;
     error.y = targetPos.y - robot->pos.y;
+    double dist = error.length();
+    static bool far = true;
+    if (dist>rtt::ai::constants::ROBOT_RADIUS and !far) {
+        pidBasic.setD(1.5);
+        far = true;
+    }
+    else {
+        pidBasic.setD(0);
+        far = false;
+    }
     Vector2 delta = pidBasic.controlPIR2(error, robot->vel);
     Command command;
     command.id = robot->id;
