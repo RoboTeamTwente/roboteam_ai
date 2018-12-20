@@ -50,6 +50,8 @@
 #include <roboteam_ai/src/conditions/TheyHaveBall.h>
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
+#include <roboteam_ai/src/skills/InterceptBall.h>
+#include "Switches.h"
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -70,7 +72,8 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "haltTactic",
          "Attactic",
          "SimpleDefendTactic",
-         "KeeperTactic"};
+         "KeeperTactic",
+         "KeeperTestTactic"};
 
 std::vector<std::string> Switches::strategyJsonFileNames =
         {"victoryDanceStrategy",
@@ -261,6 +264,11 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
             {"KeeperTactic", {
                         {"keeper", robotType::random}
+            }
+            },
+            {"KeeperTestTactic", {
+                    {"keeper", robotType::random},
+                    {"Attacker", robotType::random}
             }
             }
     };

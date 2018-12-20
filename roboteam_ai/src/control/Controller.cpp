@@ -9,7 +9,7 @@ namespace control {
         this->kP = 0;
         this->kI = 0;
         this->kD = 0;
-        this->timeDiff = 1.0/rtt::ai::constants::tickRate;
+        this->timeDiff = 1.0/rtt::ai::constants::tickRate; //10000HZ
         this->initial_I = 0;
         this->initial_I2 = 0;
         this->prev_error = 0;
