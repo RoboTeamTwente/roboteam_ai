@@ -6,7 +6,6 @@
 #include "treeinterp/BTFactory.h"
 #include "interface/mainWindow.h"
 #include <QApplication>
-#include <chrono>
 
 namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;
@@ -47,7 +46,6 @@ void runBehaviourTrees() {
         ai::World::set_world(worldMsg);
         ai::Field::set_field(geometryMsg.field);
         ai::Referee::setRefereeData(refereeMsg);
-
 
         if (df::DangerFinder::instance().hasCalculated()) {
             df::DangerData dangerData = df::DangerFinder::instance().getMostRecentData();

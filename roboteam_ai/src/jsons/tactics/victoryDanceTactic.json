@@ -36,8 +36,8 @@
             "title": "GoToPos",
             "properties": {
               "ROLE": "victor1",
-              "Position":"{0,0}",
-              "goToBall":"true"
+              "Position": "{0,0}",
+              "goToBall": "true"
             },
             "location": {
               "x": 271.0,
@@ -61,8 +61,8 @@
             "properties": {
               "ROLE": "victor1",
               "Position": "{0,-1}",
-              "maxTicks":"100",
-              "forwardDirection":"false"
+              "maxTicks": "100",
+              "forwardDirection": "false"
             },
             "location": {
               "x": 595.0,

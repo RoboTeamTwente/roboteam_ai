@@ -20,7 +20,6 @@ class IsInDefenseArea : public ai::Condition {
 
         using status = bt::Node::Status;
 
-
         bool ourDefenseArea;
         float margin;
     public:

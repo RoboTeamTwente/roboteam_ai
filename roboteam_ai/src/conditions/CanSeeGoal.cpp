@@ -8,11 +8,11 @@ namespace rtt {
 namespace ai {
 
 CanSeeGoal::CanSeeGoal(std::string name, bt::Blackboard::Ptr blackboard)
-    : Condition(std::move(name), std::move(blackboard)) { }
+        :Condition(std::move(name), std::move(blackboard)) { }
 
 CanSeeGoal::Status CanSeeGoal::update() {
     robot = getRobotFromProperties(properties);
-    if (!robot) return Status::Waiting;
+    if (! robot) return Status::Waiting;
     int offset = 200;
     Vector2 goalLocation = Field::get_their_goal_center();
     Vector2 myLocation = robot->pos;
@@ -23,7 +23,7 @@ CanSeeGoal::Status CanSeeGoal::update() {
         bool isFurtherThanPoint = myLocation.dist(obstacle.pos) > myLocation.dist(goalLocation);
         bool tooCloseToLine = distanceToLine < offset;
 
-        if (!isFurtherThanPoint && tooCloseToLine) {
+        if (! isFurtherThanPoint && tooCloseToLine) {
             return Status::Failure;
         }
     }

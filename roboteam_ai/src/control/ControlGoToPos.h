@@ -26,35 +26,38 @@
 //
 
 #include "controlGoToPos/ControlGoToPosLuTh.h"
+#include "controlGoToPos/ControlGoToPosBallControl.h"
 
 namespace control {
 
 class ControlGoToPos {
-    public:
-        ControlGoToPos();
+
     private:
         using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
         using Vector2 = rtt::Vector2;
         using Command = roboteam_msgs::RobotCommand;
         rtt::ai::io::IOManager ioManager;
 
+        void goToPosBallControl(RobotPtr robot, Vector2 &targetPos);
+        ControlGoToPosBallControl gtpBallcontrol;
 
         void goToPosLuTh(RobotPtr robot, Vector2 &targetPos);
-        ControlGoToPosLuTh luth;
+        ControlGoToPosLuTh gtpLuth;
 
         void goToPosLowLevel(RobotPtr robot, Vector2 &targetPos);
-        //ControlGoToPosLowLevel lowlevel;
+        //ControlGoToPosLowLevel gtpLowlevel;
 
         void goToPosHighLevel(RobotPtr robot, Vector2 &targetPos);
-        //ControlGoToPosHighLevel highlevel;
+        //ControlGoToPosHighLevel gtpHighlevel;
 
         void goToPosBezier(RobotPtr robot, Vector2 &targetPos);
-        //ControlGoToPosBezier bezier;
+        //ControlGoToPosBezier gtpBezier;
 
         void goToPosForce(RobotPtr robot, Vector2 &targetPos);
-        //ControlGoToPosForce force;
+        //ControlGoToPosForce gtpForce;
 
         void goToPosBasic(RobotPtr robot, Vector2 &targetPos);
+        //ControlGoToPosBasic gtpBasic;
         Controller pidPos;
         //ControlGoToPosBasic basic;
 
@@ -63,9 +66,11 @@ class ControlGoToPos {
         double distanceToTarget(RobotPtr robot, Vector2 &targetPos);
 
     public:
+        ControlGoToPos();
 
         enum GoToType {
           noPreference,
+          ballControl,
           basic,
           lowLevel,
           highLevel,
@@ -74,6 +79,7 @@ class ControlGoToPos {
           bezier,
         };
 
+        void clear(GoToType goToType);
         void goToPos(RobotPtr robot, Vector2 &position);
         void goToPos(RobotPtr robot, Vector2 &position, GoToType goToType);
 

@@ -457,8 +457,6 @@ TEST(BehaviorTreeTest, it_sets_blackboards) {
 }
 }
 
-
-
 TEST(BehaviorTreeTest, it_terminates_nodes) {
     bt::Succeeder succeeder;
     succeeder.addChild(std::make_unique<Counter>(bt::Node::Status::Failure, "D", 2));

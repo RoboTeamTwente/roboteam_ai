@@ -5,7 +5,7 @@
 namespace bt {
 
 class BehaviorTree : public Node {
-        FRIEND_TEST(BehaviorTreeTest,it_sets_blackboards);
+        FRIEND_TEST(BehaviorTreeTest, it_sets_blackboards);
     public:
 
         using Ptr = std::shared_ptr<BehaviorTree>;
@@ -32,7 +32,6 @@ class BehaviorTree : public Node {
 
         Node::Ptr root = nullptr;
         Blackboard::Ptr globalBB = nullptr;
-
 
 };
 

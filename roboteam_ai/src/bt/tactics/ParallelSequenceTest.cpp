@@ -18,7 +18,7 @@ void ParallelSequenceTactic::setName(std::string newName) {
 void ParallelSequenceTactic::initialize() {
 
     std::vector<std::string> roleNames = {"role1", "role2", "role3", "role4", "role5"};
-    while (claimedRobots < roleNames.size()) {
+    while (claimedRobots < static_cast<int>(roleNames.size())) {
         robotIDs.insert(dealer::claimRobotForTactic(robotType::random, "ParallelSequenceTactic", roleNames[claimedRobots]));
         if (robotIDs.find(- 1) == robotIDs.end()) {
             claimedRobots ++;

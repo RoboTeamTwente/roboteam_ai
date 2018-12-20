@@ -6,15 +6,12 @@
 #define ROBOTEAM_AI_GETBALL_H
 
 #include "Skill.h"
-#include "../utilities/Constants.h"
-#include "../control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {
 
 class GetBall : public Skill {
     private:
-        using status=bt::Node::Status;
         roboteam_msgs::WorldBall ball;
 
         enum Progression {
@@ -24,7 +21,7 @@ class GetBall : public Skill {
         Progression currentProgress;
         void checkProgression();
 
-        bool robothasBall();
+        bool robotHasBall();
         void sendTurnCommand();
         void sendApproachCommand();
         void sendDribblingCommand();
@@ -34,8 +31,8 @@ class GetBall : public Skill {
     public:
         explicit GetBall(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;
-        status onUpdate() override;
-        void onTerminate(status s) override;
+        Status onUpdate() override;
+        void onTerminate(Status s) override;
 
 };
 }

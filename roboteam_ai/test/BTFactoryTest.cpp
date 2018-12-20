@@ -37,7 +37,7 @@ TEST(BT, BasicFactoryTest) {
 
     // loop recursively through nodes
     // we assume that there is only one child
-    while (!node->getChildren().empty()) {
+    while (! node->getChildren().empty()) {
         node = node->getChildren().at(0);
         trace += node->node_name() + "-";
     }

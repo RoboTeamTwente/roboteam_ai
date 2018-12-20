@@ -3,12 +3,12 @@
 //
 
 #include "IsOnOurSide.h"
-#include "../utilities/Field.h"
 
-namespace rtt{
-namespace ai{
+namespace rtt {
+namespace ai {
 
-IsOnOurSide::IsOnOurSide(std::string name, bt::Blackboard::Ptr blackboard) : Condition(name, blackboard) {
+IsOnOurSide::IsOnOurSide(std::string name, bt::Blackboard::Ptr blackboard)
+        :Condition(name, blackboard) {
 
 }
 
@@ -17,10 +17,10 @@ bt::Node::Status IsOnOurSide::update() {
     roboteam_msgs::GeometryFieldSize field = rtt::ai::Field::get_field();
 
     double zone_x1, zone_x2, zone_y1, zone_y2;
-    zone_x1 = -field.field_length / 2;
+    zone_x1 = - field.field_length/2;
     zone_x2 = 0;
-    zone_y1 = -field.field_width / 2;
-    zone_y2 = field.field_length / 2;
+    zone_y1 = - field.field_width/2;
+    zone_y2 = field.field_length/2;
 
     // We assume that we are looking for a ball by default
     Vector2 ballPos(world.ball.pos.x, world.ball.pos.y);

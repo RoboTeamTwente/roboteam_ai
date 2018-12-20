@@ -12,7 +12,6 @@ namespace ai {
 
 class GoToPos : public Skill {
     private:
-        using status = bt::Node::Status;
 
         bool goToBall;
         bool goBehindBall;
@@ -36,7 +35,7 @@ class GoToPos : public Skill {
         explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;
         Status onUpdate() override;
-        void onTerminate(status s) override;
+        void onTerminate(Status s) override;
 };
 } // ai
 } // rtt
