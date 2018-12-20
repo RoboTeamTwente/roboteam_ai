@@ -90,7 +90,7 @@ Vector2 DefendOnRobot::calculateLocation() {
     if (opponentWithBall->pos.x > opponentToCover->pos.x) {
         newPosition = {opponentWithBall->pos.x - xLength, opponentWithBall->pos.y + yLength};
     } else {
-        newPosition = {opponentWithBall->pos.x - xLength, opponentWithBall->pos.y + yLength};
+        newPosition = {opponentWithBall->pos.x - xLength, opponentWithBall->pos.y - yLength};
     }
 
     return newPosition;
