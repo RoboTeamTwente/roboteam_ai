@@ -12,6 +12,7 @@
 namespace rtt {
 namespace ai {
 namespace constants {
+// Max values we can send through robothub
 const double MAX_VEL_CMD=8.191;
 const int GENEVA_LEFT=0;//TODO: Might be reversed, please check
 const int GENEVA_RIGHT=5;

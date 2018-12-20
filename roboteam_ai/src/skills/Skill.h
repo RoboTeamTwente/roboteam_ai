@@ -21,9 +21,7 @@ namespace ai {
  * \brief Base class for all skills. Provides no additional functionality.
  */
 class Skill : public bt::Leaf {
-private:
-    bool verifyRobotCommand(roboteam_msgs::RobotCommand cmd);
-    protected:
+protected:
         io::IOManager ioManager;
         using coach = coach::Coach;
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
