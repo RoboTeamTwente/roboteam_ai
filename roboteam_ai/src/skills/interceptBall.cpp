@@ -3,8 +3,10 @@
 //
 
 #include "interceptBall.h"
+
 namespace rtt {
 namespace ai {
+
 InterceptBall::InterceptBall(rtt::string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { };
 
@@ -20,10 +22,9 @@ void InterceptBall::onInitialize() {
     ballStartPos = ball.pos;
     ballStartVel = ball.vel;
     ballEndPos = Vector2(ball.pos) + Vector2(ball.vel)*constants::MAX_INTERCEPT_TIME;
-    if (robot) { interceptPos = computeInterceptPoint(ballStartPos, ballEndPos); }
+    if (robot) interceptPos = computeInterceptPoint(ballStartPos, ballEndPos);
     else currentProgression = BALLMISSED;
-    pid.setParams(4.0, 0.0, 0.75, 10, 0.0,
-            0.0); //TODO:magic numbers galore, from the old team. Move to new control library?
+    pid.setParams(4.0, 0.0, 0.75, 10, 0.0, 0.0); //TODO: magic numbers galore, from the old team. Move to new control library?
     finePid.setParams(1.0, 0.0, 0.0, 0, 0.0, 0.0);
     pid.initialize(1.0/constants::tickRate);
     finePid.initialize(1.0/constants::tickRate);
