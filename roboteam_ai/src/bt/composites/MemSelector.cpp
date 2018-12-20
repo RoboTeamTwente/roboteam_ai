@@ -1,6 +1,14 @@
+/*
+ *    The Selector composite ticks each child node in order, and remembers what child it previously tried to tick.
+ *    If a child succeeds or runs, the sequence returns the same status.
+ *    In the next tick, it will try to run each child in order again.
+ *    If all children fails, only then does the selector fail.
+ */
+
 #include "MemSelector.hpp"
 
 namespace bt {
+
 void MemSelector::initialize() {
     index = 0;
 }
@@ -24,12 +32,6 @@ Node::Status MemSelector::update() {
     }
 
     return Status::Failure;
-}
-
-using Ptr = std::shared_ptr<MemSelector>;
-
-std::string MemSelector::node_name() {
-    return "MemSelector";
 }
 
 } //bt

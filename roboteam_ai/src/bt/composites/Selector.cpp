@@ -1,3 +1,10 @@
+/*
+ *    The Selector composite ticks each child node in order.
+ *    If a child succeeds or runs, the sequence returns the same status.
+ *    In the next tick, it will try to run each child in order again.
+ *    If all children fails, only then does the selector fail.
+ */
+
 #include "Selector.hpp"
 
 namespace bt {
@@ -14,10 +21,6 @@ Node::Status Selector::update() {
     }
 
     return Status::Failure;
-}
-
-std::string Selector::node_name() {
-    return "Selector";
 }
 
 } // bt
