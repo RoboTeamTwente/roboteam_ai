@@ -16,7 +16,6 @@
 #include "../bt/tactics/VictoryDanceTactic.h"
 #include "../bt/tactics/RandomTactic.h"
 #include "../bt/tactics/DefaultTactic.h"
-#include "../bt/tactics/HaltTactic.h"
 
 //  ______________________
 //  |                    |
