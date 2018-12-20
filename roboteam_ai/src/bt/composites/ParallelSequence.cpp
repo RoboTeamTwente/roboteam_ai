@@ -50,6 +50,5 @@ bt::Node::Status ParallelSequence::update() {
     return Status::Running;
 }
 
-std::string ParallelSequence::node_name() { return "ParallelSequence"; }
 
 }
