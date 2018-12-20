@@ -2,7 +2,7 @@
 // Created by rolf on 12/12/18.
 //
 
-#include "interceptBall.h"
+#include "InterceptBall.h"
 namespace rtt {
 namespace ai {
 InterceptBall::InterceptBall(rtt::string name, bt::Blackboard::Ptr blackboard)
