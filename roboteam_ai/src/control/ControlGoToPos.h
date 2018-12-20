@@ -58,7 +58,6 @@ class ControlGoToPos {
 
         void goToPosBasic(RobotPtr robot, Vector2 &targetPos);
         //ControlGoToPosBasic gtpBasic;
-        Controller pidPos;
         //ControlGoToPosBasic basic;
 
         void publishRobotCommand(Command &command);

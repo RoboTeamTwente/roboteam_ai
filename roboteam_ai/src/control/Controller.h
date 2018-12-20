@@ -20,14 +20,6 @@ namespace control {
         double initial_I2; //only used in the case of 2 input variables
         double prev_error;
         double prev_error2; //only used in the case of 2 input variables
-        double controlP(double err);
-        double controlI(double err);
-        double controlD(double err);
-        double controlR(double rate);
-        Vector2 controlP2(Vector2 err);
-        Vector2 controlI2(Vector2 err);
-        Vector2 controlD2(Vector2 err);
-        Vector2 controlR2(Vector2 rate);
 
     public:
         Controller();
@@ -49,7 +41,15 @@ namespace control {
         void setD(double D, double time);
         void setPID(double P, double I, double D, double time);
 
-        //controller
+        //controllers
+        double controlP(double err);
+        double controlI(double err);
+        double controlD(double err);
+        double controlR(double rate);
+        Vector2 controlP2(Vector2 err);
+        Vector2 controlI2(Vector2 err);
+        Vector2 controlD2(Vector2 err);
+        Vector2 controlR2(Vector2 rate);
         double controlPID(double err);
 
         //To fill in your own measured velocity
