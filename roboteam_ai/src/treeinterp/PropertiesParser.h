@@ -36,12 +36,8 @@ class PropertiesParser {
 
         type getNumberFromString(std::string strKey, std::vector<char> charKey, int &it, double &number);
 
-
-
-
     public:
         bt::Blackboard::Ptr parse(json someJson);
-
 
 };
 

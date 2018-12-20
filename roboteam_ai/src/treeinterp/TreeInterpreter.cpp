@@ -70,7 +70,7 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
         node = tempNode;
     };
 
-    if(! jsonReader.checkIfKeyExists("children", nodeJSON)) {
+    if (! jsonReader.checkIfKeyExists("children", nodeJSON)) {
         ROS_ERROR("Well this is a non leaf node without children and this should never happen. Like really never");
     }
 

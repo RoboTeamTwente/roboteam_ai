@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 project(roboteam_ai)
 
-SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 
 
@@ -173,8 +173,6 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/HaltTactic.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/HaltTactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Harass.cpp
@@ -184,7 +182,12 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootAtGoal.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootAtGoal.h roboteam_ai/src/skills/dribbleRotate.cpp roboteam_ai/src/skills/dribbleRotate.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootAtGoal.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Attack.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Attack.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/dribbleRotate.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/dribbleRotate.h
+        )
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
@@ -210,13 +213,17 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallKickedToOurGoal.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallKickedToOurGoal.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanSeeGoal.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanSeeGoal.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanSeeGoal.h
+        )
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/controlGoToPos/ControlGoToPosLuTh.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/controlGoToPos/ControlGoToPosLuTh.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/controlGoToPos/ControlGoToPosBallControl.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/controlGoToPos/ControlGoToPosBallControl.cpp
+
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlGoToPos.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlGoToPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlRotate.h
@@ -334,4 +341,4 @@ target_link_libraries(ai_tests
 
 include(CodeCoverage)
 APPEND_COVERAGE_COMPILER_FLAGS()
-SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage EXECUTABLE ai_tests )
+SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage EXECUTABLE ai_tests)

@@ -10,12 +10,12 @@
 namespace rtt {
 namespace ai {
 
-    class IsOnOurSide : public ai::Condition{
+class IsOnOurSide : public ai::Condition {
     public:
         IsOnOurSide(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
         Status update() override;
-        std::string node_name() override { return "IsOnOurSide";}
-    };
+        std::string node_name() override { return "IsOnOurSide"; }
+};
 
 }// ai
 }// rtt

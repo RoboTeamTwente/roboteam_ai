@@ -15,7 +15,7 @@ HasBall::HasBall(std::string name, bt::Blackboard::Ptr blackboard)
 bt::Node::Status HasBall::update() {
     robot = getRobotFromProperties(properties);
 
-    if (!robot) return Status::Failure;
+    if (! robot) return Status::Failure;
 
     auto ball = World::getBall();
     if (botHasBall(ball.pos)) return Status::Success;
@@ -32,7 +32,7 @@ bool HasBall::botHasBall(Vector2 ballPos) {
 
     //TODO: TEST if this is from centre of dribbler of robot in practice. What does
     // Within 15 cm and .4 radians (of center of dribbler)
-    return ( (dist < 0.15) && (fabs(angle - robot->angle) < 0.4) );
+    return ((dist < 0.15) && (fabs(angle - robot->angle) < 0.4));
 }
 
 } // ai

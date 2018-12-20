@@ -18,7 +18,7 @@ void VictoryDanceTactic::setName(std::string newName) {
 void VictoryDanceTactic::initialize() {
 
     std::vector<std::string> roleNames = {"victor1"};
-    while (claimedRobots < roleNames.size()) {
+    while (claimedRobots < static_cast<int>(roleNames.size())) {
         robotIDs.insert(dealer::claimRobotForTactic(robotType::random, name, roleNames[claimedRobots]));
         if (robotIDs.find(-1) == robotIDs.end()) claimedRobots++;
         else robotIDs.erase(-1);

@@ -18,7 +18,7 @@ void Drawer::setGoToPosLuThPoints(int id, std::vector<std::pair<rtt::Vector2, QC
     std::pair<int, std::vector<std::pair<rtt::Vector2, QColor>>> pair{id, std::move(points)};
 
     GoToPosLuThPoints.erase(id);
-    Drawer::GoToPosLuThPoints.insert(pair);
+    GoToPosLuThPoints.insert(pair);
 }
 
 std::vector<std::pair<Vector2, QColor>> Drawer::getGoToPosLuThPoints(int id) {

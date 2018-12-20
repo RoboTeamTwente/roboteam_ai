@@ -2,8 +2,7 @@
 // Created by baris on 15/11/18.
 //
 
-#include "BTImport.h"
-#include "../bt/Node.hpp"
+#include "Switches.h"
 
 
 //  ______________________
@@ -37,7 +36,9 @@
 #include "../skills/GoToPos.h"
 #include "../skills/Keeper.h"
 #include "../skills/GetBall.h"
-
+#include "../skills/Attack.h"
+#include <roboteam_ai/src/skills/interceptBall.h>
+#include <roboteam_ai/src/skills/GoToPosLuTh.h>
 
 //  ______________________
 //  |                    |
@@ -47,12 +48,9 @@
 
 #include "../conditions/HasBall.hpp"
 #include "../conditions/CanSeeGoal.h"
-#include <roboteam_ai/src/skills/GoToPosLuTh.h>
 #include <roboteam_ai/src/conditions/TheyHaveBall.h>
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
-#include <roboteam_ai/src/skills/InterceptBall.h>
-#include "Switches.h"
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -71,6 +69,7 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "DanceTactic2",
          "SimpleTactic",
          "haltTactic",
+         "Attactic",
          "SimpleDefendTactic",
          "KeeperTactic"};
 
@@ -82,6 +81,7 @@ std::vector<std::string> Switches::strategyJsonFileNames =
          "SimpleStrategy",
          "haltStrategy",
          "SimpleDefendStrategy",
+         "AttackStrategy",
          "KeeperStrategy"};
 
 std::vector<std::string> Switches::keeperJsonFiles =
@@ -194,6 +194,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "InterceptBall"){
         node = std::make_shared<rtt::ai::InterceptBall>(name,properties);
     }
+    else if (name == "Attack") {
+        node = std::make_shared<rtt::ai::Attack>(name, properties);
+    }
     else {
         ROS_ERROR("ERROR: Leaf not found!! using GoToPos..");
         std::cout<<name<<std::endl;
@@ -243,13 +246,18 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
             {"SimpleTactic", {
-                     {"simpleStupidRobot", robotType::random}
+                    {"simpleStupidRobot", robotType::random}
             }
-                    },
+            },
             {"SimpleDefendTactic", {
-                 {"simpleDefender1", robotType::closeToOurGoal},
-                 {"simpleDefender2", robotType::closeToOurGoal},
-                 {"simpleDefender3", robotType::closeToOurGoal}
+                    {"simpleDefender1", robotType::closeToOurGoal},
+                    {"simpleDefender2", robotType::closeToOurGoal},
+                    {"simpleDefender3", robotType::closeToOurGoal}
+            }
+            },
+            {"Attactic", {
+                    {"atak", robotType::random}
+                    //{"atak", robotType::closeToBall},
             }
             },
             {"KeeperTactic", {

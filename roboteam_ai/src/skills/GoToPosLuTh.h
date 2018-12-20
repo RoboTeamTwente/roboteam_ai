@@ -79,7 +79,7 @@ class GoToPosLuTh : public Skill {
 
               Vector2 deltaPos = collisionPos - startPos;
 
-              std::vector<double> angles = {-M_PI*0.0625, M_PI*0.0625};
+              std::vector<double> angles = {- M_PI*0.0625, M_PI*0.0625};
               for (double angle : angles) {
                   Vector2 newTarget = startPos + deltaPos.rotate(angle);
                   newTargets.push_back(newTarget);
@@ -120,7 +120,6 @@ class GoToPosLuTh : public Skill {
         };
 
         std::priority_queue<NumRobotPtr, std::vector<NumRobotPtr>, NumRobot::CustomCompare> robotQueue;
-
 
         bool tracePath(NumRobot &numRobot, Vector2 target);
         std::vector<Vector2> displayData;

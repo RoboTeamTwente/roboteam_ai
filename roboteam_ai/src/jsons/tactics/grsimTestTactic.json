@@ -26,12 +26,15 @@
             "description": "robot 1"
           },
           "101": {
-          "children": ["102", "103"],
-          "id": "101",
-          "title": "MemSequence",
-          "name": "MemSequence",
-          "properties": {},
-          "description": "order of doing stuff"
+            "children": [
+              "102",
+              "103"
+            ],
+            "id": "101",
+            "title": "MemSequence",
+            "name": "MemSequence",
+            "properties": {},
+            "description": "order of doing stuff"
           },
           "102": {
             "description": "rotate to the desired angle",
@@ -52,7 +55,7 @@
             "properties": {
               "ROLE": "grsim1",
               "Angle": "1.57",
-              "RobotControl":"true"
+              "RobotControl": "true"
             }
           }
         }

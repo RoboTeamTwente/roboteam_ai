@@ -4,18 +4,19 @@
 
 #include "TheyHaveBall.h"
 
-namespace rtt{
-namespace ai{
+namespace rtt {
+namespace ai {
 
-    //TODO: Fix global namespacing
+//TODO: Fix global namespacing
 
-    TheyHaveBall::TheyHaveBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(name, blackboard) {
+TheyHaveBall::TheyHaveBall(std::string name, bt::Blackboard::Ptr blackboard)
+        :Condition(name, blackboard) {
 
-    }
+}
 
-    bt::Node::Status TheyHaveBall::update() {
-        roboteam_msgs::World world = World::get_world();
-        std::vector<roboteam_msgs::WorldRobot> robots = world.them;
+bt::Node::Status TheyHaveBall::update() {
+    roboteam_msgs::World world = World::get_world();
+    std::vector<roboteam_msgs::WorldRobot> robots = world.them;
 
         bool theyHaveBall = false;
         for(auto &robot : robots) {
@@ -25,12 +26,13 @@ namespace ai{
             }
         }
 
-        if(theyHaveBall) {
-            return bt::Node::Status::Success;
-        } else {
-            return bt::Node::Status::Failure;
-        }
+    if (theyHaveBall) {
+        return bt::Node::Status::Success;
     }
+    else {
+        return bt::Node::Status::Failure;
+    }
+}
 
 }
 }

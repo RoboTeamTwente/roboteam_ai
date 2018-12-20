@@ -3,8 +3,8 @@
 //
 
 #include "RotateToAngle.h"
-namespace rtt{
-namespace ai{
+namespace rtt {
+namespace ai {
 RotateToAngle::RotateToAngle(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
@@ -12,13 +12,13 @@ void RotateToAngle::onInitialize() {
     if (properties->hasDouble("Angle")) {
         targetAngle = properties->getDouble("Angle");
     }
-    else{
+    else {
         ROS_ERROR("No angle set in properties!");
     }
-    if (properties->hasBool("RobotControl")){
-        useAngle=properties->getBool("RobotControl");
+    if (properties->hasBool("RobotControl")) {
+        useAngle = properties->getBool("RobotControl");
     }
-    else{
+    else {
         ROS_ERROR("No use_angle identifier set in properties!");
     }
 }
@@ -28,17 +28,22 @@ RotateToAngle::Status RotateToAngle::onUpdate() {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = useAngle;
-    command.w=(float)targetAngle;
+    command.w = (float) targetAngle;
     std::cerr << "Rotate command -> id: " << command.id << ", theta: " << command.w << std::endl;
-    std::cerr << "Robot Angle: " << robot->angle<<std::endl;
+    std::cerr << "Robot Angle: " << robot->angle << std::endl;
 //__________________________________________________________________________________________________________
-    deltaAngle=fabs(Control::constrainAngle(targetAngle-robot->angle));
-    currentProgress=checkProgression();
+    deltaAngle = fabs(Control::constrainAngle(targetAngle - robot->angle));
+    currentProgress = checkProgression();
 
     switch (currentProgress) {
-        case ROTATING: {publishRobotCommand(command); return Status::Running;}
-        case DONE: return Status::Success;
-        case FAIL: return Status::Failure;
+        case ROTATING: {
+            publishRobotCommand(command);
+            return Status::Running;
+        }
+        case DONE:
+            return Status::Success;
+        case FAIL:
+            return Status::Failure;
     }
 
     return Status::Failure;

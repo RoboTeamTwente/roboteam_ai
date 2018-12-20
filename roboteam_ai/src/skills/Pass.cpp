@@ -13,16 +13,17 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
 /// Called when the Skill is Initialized
 void Pass::onInitialize() {
     defensive = properties->getBool("defensive");
-    robotToPass = -1;
+    robotToPass = - 1;
 }
 
 /// Called when the Skill is Updated
 Pass::Status Pass::onUpdate() {
 
-    if (robotToPass == -1) {
+    if (robotToPass == - 1) {
         if (defensive) {
             robotToPass = coach::pickDefensivePassTarget(robot->id);
-        } else{
+        }
+        else {
             robotToPass = coach::pickOffensivePassTarget(robot->id, properties->getString("ROLE"));
         }
         return Status::Running;
@@ -33,7 +34,6 @@ Pass::Status Pass::onUpdate() {
 
     return Status::Running;
 }
-
 
 bool Pass::sendPassCommand() {
 

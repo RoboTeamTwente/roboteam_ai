@@ -18,5 +18,4 @@ TEST(RobotDealerTest, RobotDealerTest) {
 
     ASSERT_TRUE(robot1 == dealer::findRobotForRole("role1"));
 
-
 }

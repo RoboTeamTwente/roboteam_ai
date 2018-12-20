@@ -15,14 +15,14 @@ namespace ai {
 namespace interface {
 
 class Drawer {
-public:
-    explicit Drawer() = default;
-    static void setGoToPosLuThPoints(int id, std::vector<std::pair<Vector2, QColor>> points);
-    static std::vector<std::pair<Vector2,QColor>> getGoToPosLuThPoints(int id);
+    public:
+        explicit Drawer() = default;
+        static void setGoToPosLuThPoints(int id, std::vector<std::pair<Vector2, QColor>> points);
+        static std::vector<std::pair<Vector2, QColor>> getGoToPosLuThPoints(int id);
 
-private:
-    static std::mutex mutex;
-    static std::map<int, std::vector<std::pair<Vector2, QColor>>> GoToPosLuThPoints;
+    private:
+        static std::mutex mutex;
+        static std::map<int, std::vector<std::pair<Vector2, QColor>>> GoToPosLuThPoints;
 };
 
 } // interface
