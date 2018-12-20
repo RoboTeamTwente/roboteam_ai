@@ -167,7 +167,7 @@ class ControlGoToPosLuTh {
         std::vector<Vector2> displayData;
         double errorMargin = 0.3;
 
-        Vector2 targetPos;
+        Vector2 targetPos = {0,0};
         ros::Time startTime;
 
         PID pid;

@@ -13,21 +13,15 @@ void ControlGoToPosLuTh::clear() {
 }
 
 ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
-    targetPos = target;
     Command command;
-
-
-//    if (! checkTargetPos(targetPos)) {
-//        ROS_ERROR("Target position is not correct GoToPosLuTh");
-//        return ;
-//    }
-
-    //ros::Time begin = ros::Time::now();
-    bool recalculate;
     command.id = robot->id;
-    if (! me.posData.empty()) {
+
+    bool recalculate = false;
+
+    if (abs((target - targetPos).length()) > 0.3) recalculate = true;
+    else if (! me.posData.empty()) {
+
         auto robotPos = static_cast<Vector2>(robot->pos);
-        recalculate = false;
         int currentIndex = 0;
         double distance = 999999;
         for (int i = 0; i < static_cast<int>(me.posData.size()); i ++) {
@@ -43,20 +37,17 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
                 distance = (robotPos - me.pos).length();
             }
         }
-        if (distance < 0.2) {
-            robotIndex = currentIndex;
-        }
-        else {
-            recalculate = true;
-        }
+        if (distance < 0.25) robotIndex = currentIndex;
+        else recalculate = true;
+    }
+    else recalculate = true;
 
-    }
-    else {
-        recalculate = true;
-    }
+    // Calculate new path
     if (recalculate) {
         clear();
         startTime = ros::Time::now();
+
+        targetPos = target;
         bool nicePath = calculateNumericDirection(robot, me, command);
         robotQueue = {};
 
@@ -190,7 +181,7 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
         else {      //Collision!! calculate new points
 
             auto minPoints = static_cast<int>(ceil(1.0f/(me->dt)));
-            auto newDataPoints = static_cast<int>(me->posData.size()- 1 - me->startIndex);
+            auto newDataPoints = static_cast<int>(me->posData.size() - 1 - me->startIndex);
 
             if (me->posData.empty() || me->velData.empty()) {
                 // no data.. something went wrong somewhere. just continue as if nothing happend. :)
@@ -203,7 +194,8 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
             if (me->startIndex == 0 && me->posData.size() > 1) me->startIndex = 1;
             Vector2 collisionPos = me->pos;
             Vector2 startPos = me->posData[me->startIndex];
-            std::vector<std::pair<NumRobot::newDirections, Vector2>> newTargets = me->getNewTargets(collisionPos, startPos);
+            std::vector<std::pair<NumRobot::newDirections, Vector2>> newTargets = me->getNewTargets(collisionPos,
+                    startPos);
 
             for (auto &newTarget : newTargets) {
                 drawCross(newTarget.second);
