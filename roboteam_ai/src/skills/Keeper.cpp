@@ -19,8 +19,7 @@ void Keeper::onInitialize() {
     //Create arc for keeper to drive on
     blockCircle=control::ControlUtils::createKeeperArc();
     //TODO::magic numbers galore, from the old team. move to new control library
-    double timediff = 1.0/constants::tickRate;
-    pid.setPD(3, 1.5, timediff);
+    pid.setPD(3, 1.5);
 }
 
 Keeper::Status Keeper::onUpdate() {

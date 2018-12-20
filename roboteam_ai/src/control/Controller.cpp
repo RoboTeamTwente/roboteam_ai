@@ -9,7 +9,7 @@ namespace control {
         this->kP = 0;
         this->kI = 0;
         this->kD = 0;
-        this->timeDiff = 0.0001; //10000HZ
+        this->timeDiff = 1.0/rtt::ai::constants::tickRate;
         this->initial_I = 0;
         this->initial_I2 = 0;
         this->prev_error = 0;
@@ -20,6 +20,7 @@ namespace control {
         this->kP = P;
         this->kI = I;
         this->kD = D;
+        this->timeDiff = 1.0/rtt::ai::constants::tickRate;
         this->initial_I = 0;
         this->initial_I2 = 0;
         this->prev_error = 0;
@@ -33,7 +34,7 @@ namespace control {
         if (time != 0) {
             this->timeDiff = time;
         } else {
-            this->timeDiff = 0.001; //the time difference cannot be 0, we divide by this, now it's at 1000HZ
+            this->timeDiff = 1.0/rtt::ai::constants::tickRate; //the time difference cannot be 0, we divide by this
         }
         this->initial_I = 0;
         this->initial_I2 = 0;
@@ -48,7 +49,7 @@ namespace control {
         if (time != 0) {
             this->timeDiff = time;
         } else {
-            this->timeDiff = 0.001; //the time difference cannot be 0, we divide by this, now it's at 1000HZ
+            this->timeDiff = 1.0/rtt::ai::constants::tickRate; //the time difference cannot be 0, we divide by this
         }
         this->initial_I = initial;
         this->initial_I2 = initial2;
