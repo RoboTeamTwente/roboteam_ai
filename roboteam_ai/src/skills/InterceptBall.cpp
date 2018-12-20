@@ -31,8 +31,8 @@ void InterceptBall::onInitialize() {
         currentProgression = BALLMISSED;
         backwards=false;
     }
-    pid.setPD(3,0.2,1.0/constants::tickRate); //TODO:magic numbers galore, from the old team. Move to new control library?
-    finePid.setP(3.0, 1.0/constants::tickRate);
+    pid.setPID(3,0.0,0.2,1.0/constants::tickRate); //TODO:magic numbers galore, from the old team. Move to new control library?
+    finePid.setPID(3.0,0.0,0.0, 1.0/constants::tickRate);
 }
 InterceptBall::Status InterceptBall::onUpdate() {
     ball = World::getBall();
@@ -207,7 +207,7 @@ void InterceptBall::sendStopCommand() {
 }
 void InterceptBall::sendFineInterceptCommand() {
     Vector2 error= interceptPos-robot->pos;
-    Vector2 delta = pid.controlPR2(error,robot->vel);
+    Vector2 delta = pid.controlPIR2(error,robot->vel);
     Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
@@ -218,7 +218,7 @@ void InterceptBall::sendFineInterceptCommand() {
     publishRobotCommand(cmd);
 }
 void InterceptBall::sendInterceptCommand() {
-    Vector2 delta = finePid.controlP2(interceptPos-robot->pos);
+    Vector2 delta = finePid.controlPID2(interceptPos-robot->pos);
     Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;

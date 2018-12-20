@@ -20,8 +20,8 @@ void Keeper::onInitialize() {
     blockCircle=control::ControlUtils::createKeeperArc();
     //TODO::magic numbers galore, from the old team. move to new control library
     double timediff = 1.0/constants::tickRate;
-    pid.setPD(3, 0.2, timediff);
-    finePid.setPD(1,0,timediff);
+    pid.setPID(3,0.0, 0.2, timediff);
+    finePid.setPID(1.0,0.0,0.0,timediff);
 }
 
 Keeper::Status Keeper::onUpdate() {
@@ -53,7 +53,7 @@ void Keeper::onTerminate(Status s) {
 
 void Keeper::sendMoveCommand(Vector2 pos) {
     Vector2 error = pos - robot->pos;
-    Vector2 delta = pid.controlPR2(error, robot->vel);
+    Vector2 delta = pid.controlPIR2(error, robot->vel);
     Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
@@ -65,7 +65,7 @@ void Keeper::sendMoveCommand(Vector2 pos) {
 }
 void Keeper::sendFineMoveCommand(Vector2 pos) {
     Vector2 error = pos - robot->pos;
-    Vector2 delta = finePid.controlPR2(error, robot->vel);
+    Vector2 delta = finePid.controlPIR2(error, robot->vel);
     Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
