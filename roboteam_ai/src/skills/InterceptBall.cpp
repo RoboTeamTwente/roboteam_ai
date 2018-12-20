@@ -20,10 +20,17 @@ void InterceptBall::onInitialize() {
     ballStartPos = ball.pos;
     ballStartVel = ball.vel;
     ballEndPos = Vector2(ball.pos) + Vector2(ball.vel)*constants::MAX_INTERCEPT_TIME;
-    if (robot) { interceptPos = computeInterceptPoint(ballStartPos,ballEndPos); }
-    else currentProgression = BALLMISSED;
+    if (robot) {
+        interceptPos = computeInterceptPoint(ballStartPos,ballEndPos);
+        deltaPos=interceptPos-robot->pos;
+        backwards=control::ControlUtils::angleDifference(robot->angle,deltaPos.angle())>M_PI_2;
+    }
+    else {
+        currentProgression = BALLMISSED;
+        backwards=false;
+    }
     pid.setPD(3,0.2,1.0/constants::tickRate); //TODO:magic numbers galore, from the old team. Move to new control library?
-    finePid.setP(1.0, 1.0/constants::tickRate);
+    finePid.setP(3.0, 1.0/constants::tickRate);
 }
 InterceptBall::Status InterceptBall::onUpdate() {
     ball = World::getBall();
@@ -74,7 +81,7 @@ void InterceptBall::checkProgression() {
     //Update the state of the robot
     switch (currentProgression) {
     case INTERCEPTING:
-        if (dist < 2*constants::ROBOT_RADIUS) {
+        if (dist < constants::ROBOT_RADIUS) {
             currentProgression = CLOSETOPOINT;
         };//If robot is close, switch to closetoPoint
         return;
@@ -82,12 +89,12 @@ void InterceptBall::checkProgression() {
         if (dist < constants::INTERCEPT_POSDIF) {
             currentProgression = INPOSITION;
         }//If Robot overshoots, switch to overshoot, if in Position, go there
-        else if (dist >= 2*constants::ROBOT_RADIUS) {
+        else if (dist >= constants::ROBOT_RADIUS) {
             currentProgression = OVERSHOOT;
         }
         return;
     case OVERSHOOT:
-        if (dist < 2*constants::ROBOT_RADIUS) {
+        if (dist <constants::ROBOT_RADIUS) {
             currentProgression = CLOSETOPOINT;
         };// Go back to closetopoint
     case INPOSITION:
@@ -204,7 +211,12 @@ void InterceptBall::sendInterceptCommand() {
     cmd.id = robot->id;
     cmd.x_vel = static_cast<float>(deltaLim.x);
     cmd.y_vel = static_cast<float>(deltaLim.y);
-    cmd.w = static_cast<float>(deltaLim.angle());
+    if (backwards) {
+        cmd.w = static_cast<float>(deltaLim.rotate(M_PI).angle());
+    }
+    else{
+        cmd.w= static_cast<float>(deltaLim.angle());
+    }
     publishRobotCommand(cmd);
 
 }

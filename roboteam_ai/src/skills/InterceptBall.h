@@ -29,6 +29,7 @@ class InterceptBall :public Skill {
         int tickCount,maxTicks;
         Vector2 computeInterceptPoint(Vector2 startBall, Vector2 endBall);
         control::Controller pid,finePid;
+        bool backwards;
 
         bool keeper;
         bool ballToGoal();
