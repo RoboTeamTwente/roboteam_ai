@@ -55,7 +55,7 @@ void Keeper::sendMoveCommand(Vector2 pos) {
     cmd.id = robot->id;
     cmd.x_vel = static_cast<float>(delta.x);
     cmd.y_vel = static_cast<float>(delta.y);
-    cmd.w = static_cast<float>(0);
+    cmd.w = static_cast<float>(M_PI_2);
     publishRobotCommand(cmd);
 }
 
