@@ -4,14 +4,10 @@
 
 namespace bt {
 
-/**
-    The UntilFail decorator repeats until the child returns fail and then returns success.
-*/
 class UntilFail : public Decorator {
-    public:
-        Status update() override;
-
-        std::string node_name() override;
+public:
+    Status update() override;
+    std::string node_name() override { return "UntilFail"; };
 };
 
 } // bt
