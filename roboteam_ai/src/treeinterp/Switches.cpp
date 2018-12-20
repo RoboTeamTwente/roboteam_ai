@@ -16,7 +16,6 @@
 #include "../bt/tactics/VictoryDanceTactic.h"
 #include "../bt/tactics/RandomTactic.h"
 #include "../bt/tactics/DefaultTactic.h"
-#include "../bt/tactics/HaltTactic.h"
 
 //  ______________________
 //  |                    |
@@ -37,7 +36,7 @@
 #include "../skills/Keeper.h"
 #include "../skills/GetBall.h"
 #include "../skills/Attack.h"
-#include <roboteam_ai/src/skills/interceptBall.h>
+#include <roboteam_ai/src/skills/InterceptBall.h>
 #include <roboteam_ai/src/skills/GoToPosLuTh.h>
 
 //  ______________________
