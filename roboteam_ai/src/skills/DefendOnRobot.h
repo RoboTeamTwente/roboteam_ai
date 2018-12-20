@@ -13,6 +13,7 @@ namespace ai {
 class DefendOnRobot : public Skill {
     private:
         control::ControlGoToPos goToPos;
+        double angleBetweenRobots;
 
         int amountOfCycles{};
     protected:

@@ -16,6 +16,7 @@
 #include "ros/ros.h"
 #include "../io/IOManager.h"
 #include "../../src/control/ControlUtils.h"
+#include "../../src/control/Controller.h"
 #include "../utilities/Constants.h"
 
 //  ______________________
@@ -57,6 +58,8 @@ class ControlGoToPos {
 
         void goToPosBasic(RobotPtr robot, Vector2 &targetPos);
         //ControlGoToPosBasic gtpBasic;
+        Controller pidPos;
+        //ControlGoToPosBasic basic;
 
         void publishRobotCommand(Command &command);
         double errorMargin = 0.3;

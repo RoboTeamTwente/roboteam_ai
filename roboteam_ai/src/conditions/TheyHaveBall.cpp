@@ -18,13 +18,13 @@ bt::Node::Status TheyHaveBall::update() {
     roboteam_msgs::World world = World::get_world();
     std::vector<roboteam_msgs::WorldRobot> robots = world.them;
 
-    bool theyHaveBall = false;
-    for (auto &robot : robots) {
-        if (World::bot_has_ball(robot, World::getBall())) {
-            theyHaveBall = true;
-            break;
+        bool theyHaveBall = false;
+        for(auto &robot : robots) {
+            if(coach::Coach::doesRobotHaveBall(robot.id, false)) {
+                theyHaveBall = true;
+                break;
+            }
         }
-    }
 
     if (theyHaveBall) {
         return bt::Node::Status::Success;

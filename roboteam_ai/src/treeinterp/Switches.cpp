@@ -29,6 +29,7 @@
 #include "../skills/GoToPosLuTh.h"
 #include "../skills/GoToPosLuTh_OLD.h"
 #include "../skills/Halt.h"
+#include "../skills/Kick.h"
 #include "../skills/Harass.h"
 #include "../skills/Rotate.h"
 #include "../skills/RotateToAngle.h"
@@ -36,6 +37,8 @@
 #include "../skills/Keeper.h"
 #include "../skills/GetBall.h"
 #include "../skills/Attack.h"
+#include <roboteam_ai/src/skills/interceptBall.h>
+#include <roboteam_ai/src/skills/GoToPosLuTh.h>
 
 //  ______________________
 //  |                    |
@@ -43,7 +46,12 @@
 //  |____________________|
 //
 
+#include "../conditions/HasBall.hpp"
 #include "../conditions/CanSeeGoal.h"
+#include <roboteam_ai/src/conditions/TheyHaveBall.h>
+#include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
+#include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
+#include "Switches.h"
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -62,8 +70,9 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "DanceTactic2",
          "SimpleTactic",
          "haltTactic",
+         "Attactic",
          "SimpleDefendTactic",
-         "Attactic"};
+         "KeeperTactic"};
 
 std::vector<std::string> Switches::strategyJsonFileNames =
         {"victoryDanceStrategy",
@@ -73,7 +82,8 @@ std::vector<std::string> Switches::strategyJsonFileNames =
          "SimpleStrategy",
          "haltStrategy",
          "SimpleDefendStrategy",
-         "AttackStrategy"};
+         "AttackStrategy",
+         "KeeperStrategy"};
 
 std::vector<std::string> Switches::keeperJsonFiles =
         {};
@@ -84,7 +94,7 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
 
     bt::Node::Ptr node;
 
-    if (name == "MemSelector" || name == "Selector" || name == "Priority" || name == "MemPriority") {
+    if (name == "MemSelector") {
         node = std::make_shared<bt::MemSelector>();
     }
     else if (name == "MemSequence") {
@@ -96,7 +106,7 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
     else if (name == "Selector") {
         node = std::make_shared<bt::Selector>();
     }
-    else if (name == "Sequence" || name == "ParallelTactic") { // TODO: parallel here?
+    else if (name == "Sequence") { // TODO: parallel here?
         node = std::make_shared<bt::Sequence>();
     }
     else if (name == "Failer") {
@@ -117,7 +127,7 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
     else if (name == "UntilFail") {
         node = std::make_shared<bt::UntilFail>();
     }
-    else if (name == "UntilSuccess" || name == "RepeatUntilSuccess") {
+    else if (name == "UntilSuccess" ) {
         node = std::make_shared<bt::UntilSuccess>();
     }
     else {
@@ -164,14 +174,26 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "HasBall") {
         node = std::make_shared<rtt::ai::HasBall>(name, properties);
     }
+    else if (name == "TheyHaveBall") {
+        node = std::make_shared<rtt::ai::TheyHaveBall>(name, properties);
+    }
     else if (name == "CanSeeGoal") {
         node = std::make_shared<rtt::ai::CanSeeGoal>(name, properties);
     }
     else if (name == "Keeper") {
         node = std::make_shared<rtt::ai::Keeper>(name, properties);
     }
+    else if (name == "BallKickedToOurGoal"){
+        node = std::make_shared<rtt::ai::BallKickedToOurGoal>(name,properties);
+    }
     else if (name == "DefendOnRobot") {
         node = std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
+    }
+    else if (name == "IsRobotClosestToBall") {
+        node = std::make_shared<rtt::ai::IsRobotClosestToBall>(name, properties);
+    }
+    else if (name == "InterceptBall"){
+        node = std::make_shared<rtt::ai::InterceptBall>(name,properties);
     }
     else if (name == "Attack") {
         node = std::make_shared<rtt::ai::Attack>(name, properties);
@@ -237,8 +259,11 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"atak", robotType::random}
                     //{"atak", robotType::closeToBall},
             }
+            },
+            {"KeeperTactic", {
+                        {"keeper", robotType::random}
             }
-
+            }
     };
 
     bt::Node::Ptr node;

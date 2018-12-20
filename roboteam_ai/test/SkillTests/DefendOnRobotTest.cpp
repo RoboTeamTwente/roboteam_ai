@@ -21,23 +21,23 @@ TEST(DefendOnRobotTest, PositiveTest) {
     robot2.pos.y = 3.0;
     robot2.angle = static_cast<float>(-0.25 * M_PI);
 
-    Vector2 newPosition = DefendOnRobot.calculateBestPosition(robot1, robot2);
+    Vector2 newPosition = DefendOnRobot.calculateLocation();
     ASSERT_TRUE(newPosition.x > 0 && newPosition.x < 4);
     ASSERT_TRUE(newPosition.y > 0 && newPosition.y < 3);
 
     robot2.angle = static_cast<float>(0.25 * M_PI);
-    newPosition = DefendOnRobot.calculateBestPosition(robot1, robot2);
+    newPosition = DefendOnRobot.calculateLocation();
     ASSERT_TRUE(newPosition.x > 3);
     ASSERT_TRUE(newPosition.y > 0);
 
     robot1.angle = static_cast<float>(-0.25 * M_PI);
-    newPosition = DefendOnRobot.calculateBestPosition(robot1, robot2);
+    newPosition = DefendOnRobot.calculateLocation();
     std::cout << newPosition << std::endl;
     ASSERT_TRUE(newPosition.x > 3);
     ASSERT_TRUE(newPosition.y > 3);
 
     robot2.angle = static_cast<float>(-0.25 * M_PI);
-    newPosition = DefendOnRobot.calculateBestPosition(robot1, robot2);
+    newPosition = DefendOnRobot.calculateLocation();
     std::cout << newPosition << std::endl;
     ASSERT_TRUE(newPosition.x < 3);
     ASSERT_TRUE(newPosition.y < 3);
@@ -58,17 +58,17 @@ TEST(DefendOnRobotTest, NegativeTest) {
     robot2.pos.y = static_cast<float>(-3.0);
     robot2.angle = static_cast<float>(0.25 * M_PI);
 
-    Vector2 newPosition = DefendOnRobot.calculateBestPosition(robot1, robot2);
+    Vector2 newPosition = DefendOnRobot.calculateLocation();
     ASSERT_TRUE(newPosition.x > 0 && newPosition.x < 4);
     ASSERT_TRUE(newPosition.y < 0 && newPosition.y > -3);
 
     robot2.angle = static_cast<float>(-0.25 * M_PI);
-    newPosition = DefendOnRobot.calculateBestPosition(robot1, robot2);
+    newPosition = DefendOnRobot.calculateLocation();
     ASSERT_TRUE(newPosition.x > 3);
     ASSERT_TRUE(newPosition.y < 0);
 
     robot1.angle = static_cast<float>(-0.25 * M_PI);
-    newPosition = DefendOnRobot.calculateBestPosition(robot1, robot2);
+    newPosition = DefendOnRobot.calculateLocation();
     std::cout << newPosition << std::endl;
     ASSERT_TRUE(newPosition.x > 3);
     ASSERT_TRUE(newPosition.y == 0);

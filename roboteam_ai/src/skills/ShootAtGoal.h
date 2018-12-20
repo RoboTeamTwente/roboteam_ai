@@ -4,7 +4,9 @@
 #ifndef ROBOTEAM_AI_SHOOTATGOAL_H
 #define ROBOTEAM_AI_SHOOTATGOAL_H
 
+
 #include "Skill.h"
+#include <roboteam_ai/src/control/ControlKick.h>
 
 namespace rtt {
 namespace ai {
@@ -15,13 +17,14 @@ class ShootAtGoal : public Skill {
         void onInitialize() override;
         Status onUpdate() override;
     private:
-        bool onlyGeneva = false;
-        bool neverGeneva = false;
-
+        using Command = roboteam_msgs::RobotCommand;
         enum Progression {
-          READY, DONE, ORIENTATE, TURN_GENEVA,
+          READY, DONE, ROTATING, TURN_GENEVA,
         };
 
+        Progression currentProgress = ROTATING;
+
+        control::ControlKick controlKick;
 };
 }
 }

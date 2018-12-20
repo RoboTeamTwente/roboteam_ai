@@ -338,7 +338,7 @@ TEST(BehaviorTreeTest, selectorComposites) {
     // selector
     bt::Selector selector;
     ASSERT_EQ(selector.node_name(), "Selector");
-    // it should be invalid when initialized
+    // it should be Failure when initialized
     ASSERT_EQ(selector.getStatus(), bt::Node::Status::Waiting);
     // it should fail after the first update with no children
     ASSERT_EQ(selector.update(), bt::Node::Status::Failure);
