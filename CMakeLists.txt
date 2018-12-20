@@ -181,8 +181,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Harass.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Keeper.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Keeper.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/interceptBall.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/interceptBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootAtGoal.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootAtGoal.h roboteam_ai/src/skills/dribbleRotate.cpp roboteam_ai/src/skills/dribbleRotate.h)
 

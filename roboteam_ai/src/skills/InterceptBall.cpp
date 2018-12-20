@@ -2,7 +2,7 @@
 // Created by rolf on 12/12/18.
 //
 
-#include "interceptBall.h"
+#include "InterceptBall.h"
 namespace rtt {
 namespace ai {
 InterceptBall::InterceptBall(rtt::string name, bt::Blackboard::Ptr blackboard)
@@ -22,10 +22,8 @@ void InterceptBall::onInitialize() {
     ballEndPos = Vector2(ball.pos) + Vector2(ball.vel)*constants::MAX_INTERCEPT_TIME;
     if (robot) { interceptPos = computeInterceptPoint(ballStartPos,ballEndPos); }
     else currentProgression = BALLMISSED;
-    pid.setParams(4.0, 0.0, 0.75, 10, 0.0, 0.0); //TODO:magic numbers galore, from the old team. Move to new control library?
-    finePid.setParams(1.0, 0.0, 0.0, 0, 0.0, 0.0);
-    pid.initialize(1.0/constants::tickRate);
-    finePid.initialize(1.0/constants::tickRate);
+    pid.setPD(3,0.2,1.0/constants::tickRate); //TODO:magic numbers galore, from the old team. Move to new control library?
+    finePid.setP(1.0, 1.0/constants::tickRate);
 }
 InterceptBall::Status InterceptBall::onUpdate() {
     ball = World::getBall();
@@ -183,27 +181,30 @@ void InterceptBall::sendStopCommand() {
     cmd.id = robotId;
     cmd.x_vel = 0;
     cmd.y_vel = 0;
-    cmd.w = static_cast<float>(M_PI_2);// TODO: CHange this to rotate towards the ball
+    cmd.w = static_cast<float>((Vector2(ball.pos)-Vector2(robot->pos)).angle()); //Rotates towards the ball
     publishRobotCommand(cmd);
 }
 void InterceptBall::sendFineInterceptCommand() {
-    Vector2 delta = pid.posControl(robot->pos, interceptPos);
+    Vector2 error= interceptPos-robot->pos;
+    Vector2 delta = pid.controlPR2(error,robot->vel);
+    Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
-    cmd.x_vel = static_cast<float>(delta.x);
-    cmd.y_vel = static_cast<float>(delta.y);
-    cmd.w = static_cast<float>(M_PI_2); //TODO: Fix angles
+    cmd.x_vel = static_cast<float>(deltaLim.x);
+    cmd.y_vel = static_cast<float>(deltaLim.y);
+    cmd.w = static_cast<float>((Vector2(ball.pos)-Vector2(robot->pos)).angle()); //Rotates towards the ball
     publishRobotCommand(cmd);
 }
 void InterceptBall::sendInterceptCommand() {
-    Vector2 delta = finePid.posControl(robot->pos, interceptPos);
+    Vector2 delta = finePid.controlP2(interceptPos-robot->pos);
+    Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
-    cmd.x_vel = static_cast<float>(delta.x);
-    cmd.y_vel = static_cast<float>(delta.y);
-    cmd.w = static_cast<float>(M_PI_2);// TODO: Fix angles
+    cmd.x_vel = static_cast<float>(deltaLim.x);
+    cmd.y_vel = static_cast<float>(deltaLim.y);
+    cmd.w = static_cast<float>(deltaLim.angle());
     publishRobotCommand(cmd);
 
 }

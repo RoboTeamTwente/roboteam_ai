@@ -21,6 +21,7 @@ void Keeper::onInitialize() {
     //TODO::magic numbers galore, from the old team. move to new control library
     double timediff = 1.0/constants::tickRate;
     pid.setPD(3, 0.2, timediff);
+    finePid.setPD(1,0,timediff);
 }
 
 Keeper::Status Keeper::onUpdate() {
@@ -30,6 +31,9 @@ Keeper::Status Keeper::onUpdate() {
         double dist = (blockPoint - (Vector2(robot->pos))).length();
         if (dist < constants::KEEPER_POSDIF) {
             sendStopCommand();
+        }
+        else if (dist <2*constants::ROBOT_RADIUS){
+            sendFineMoveCommand(blockPoint);
         }
         else {
             sendMoveCommand(blockPoint);
@@ -50,6 +54,18 @@ void Keeper::onTerminate(Status s) {
 void Keeper::sendMoveCommand(Vector2 pos) {
     Vector2 error = pos - robot->pos;
     Vector2 delta = pid.controlPR2(error, robot->vel);
+    Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
+    roboteam_msgs::RobotCommand cmd;
+    cmd.use_angle = 1;
+    cmd.id = robot->id;
+    cmd.x_vel = static_cast<float>(deltaLim.x);
+    cmd.y_vel = static_cast<float>(deltaLim.y);
+    cmd.w = static_cast<float>(M_PI_2);
+    publishRobotCommand(cmd);
+}
+void Keeper::sendFineMoveCommand(Vector2 pos) {
+    Vector2 error = pos - robot->pos;
+    Vector2 delta = finePid.controlPR2(error, robot->vel);
     Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
