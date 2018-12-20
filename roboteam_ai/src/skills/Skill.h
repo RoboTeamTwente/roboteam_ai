@@ -26,7 +26,7 @@ namespace c = rtt::ai::constants;
  * \brief Base class for all skills. Provides no additional functionality.
  */
 class Skill : public bt::Leaf {
-    protected:
+protected:
         io::IOManager ioManager;
 
         using coach = coach::Coach;
