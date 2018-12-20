@@ -16,6 +16,7 @@
 #include "ros/ros.h"
 #include "../io/IOManager.h"
 #include "../../src/control/ControlUtils.h"
+#include "../../src/control/Controller.h"
 #include "../utilities/Constants.h"
 
 //  ______________________
@@ -54,6 +55,7 @@ class ControlGoToPos {
         //ControlGoToPosForce force;
 
         void goToPosBasic(RobotPtr robot, Vector2 &targetPos);
+        Controller pidPos;
         //ControlGoToPosBasic basic;
 
         void publishRobotCommand(Command &command);

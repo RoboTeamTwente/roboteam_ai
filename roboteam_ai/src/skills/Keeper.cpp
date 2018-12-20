@@ -19,9 +19,7 @@ void Keeper::onInitialize() {
     //Create arc for keeper to drive on
     blockCircle=control::ControlUtils::createKeeperArc();
     //TODO::magic numbers galore, from the old team. move to new control library
-    double timediff = 1.0/constants::tickRate;
-    pidx.setPD(3, 1.5, timediff);
-    pidy.setPD(3, 1.5,timediff);
+    pid.setPD(3, 1.5);
 }
 
 Keeper::Status Keeper::onUpdate() {
@@ -29,7 +27,6 @@ Keeper::Status Keeper::onUpdate() {
         Vector2 blockPoint = computeBlockPoint(ballPos);
         //double dist=control::ControlUtils::distanceToLine(robot->pos,ballPos,blockPoint);
         double dist = (blockPoint - (Vector2(robot->pos))).length();
-        static int state = 0;
         if (dist < constants::KEEPER_POSDIF) {
             sendStopCommand();
         }
@@ -52,14 +49,13 @@ void Keeper::onTerminate(Status s) {
 void Keeper::sendMoveCommand(Vector2 pos) {
     Vector2 error = pos - robot->pos;
     Vector2 delta;
-    delta.x = pidx.controlPR(error.x, robot->vel.x);
-    delta.y = pidy.controlPR(error.y, robot->vel.y);
+    delta = pid.controlPR2(error, robot->vel);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
     cmd.x_vel = static_cast<float>(delta.x);
     cmd.y_vel = static_cast<float>(delta.y);
-    cmd.w = static_cast<float>(0);
+    cmd.w = static_cast<float>(M_PI_2);
     publishRobotCommand(cmd);
 }
 
