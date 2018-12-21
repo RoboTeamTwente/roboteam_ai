@@ -21,8 +21,6 @@ class Attack : public Skill {
         Vector2 deltaPos;
         Vector2 targetPos;
 
-
-
     public:
         explicit Attack(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;

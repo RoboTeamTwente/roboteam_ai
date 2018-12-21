@@ -7,7 +7,9 @@
 #ifndef ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H
 #define ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H
 
-namespace control {
+namespace rtt{
+    namespace ai {
+        namespace control {
 
 class ControlGoToPosLuTh {
 
@@ -82,7 +84,7 @@ class ControlGoToPosLuTh {
               std::vector<double> angles;
               switch (newDir) {
               case goLeft: {
-                  angles = { - 3*M_PI*0.0625, - 2*M_PI*0.0625, - M_PI*0.0625};
+                  angles = { - 4*M_PI*0.0625, - 2*M_PI*0.0625, - M_PI*0.0625};
                   break;
               }
               case goMiddle: {
@@ -183,6 +185,8 @@ class ControlGoToPosLuTh {
         Command goToPos(RobotPtr robot, Vector2 &targetPos);
 };
 
-} // control
+        } // control
+    } // ai
+} // rtt
 
 #endif //ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H

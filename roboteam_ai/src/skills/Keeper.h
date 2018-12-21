@@ -21,7 +21,7 @@ class Keeper : public Skill {
         void sendMoveCommand(Vector2 pos);
         void sendFineMoveCommand(Vector2 pos);
         void sendStopCommand();
-        control::Controller pid;
+        control::Controller pid,finePid;
     public:
         explicit Keeper(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;

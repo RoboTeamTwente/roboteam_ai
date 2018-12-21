@@ -5,7 +5,9 @@
 #ifndef ROBOTEAM_AI_PID_H
 #define ROBOTEAM_AI_PID_H
 #include "ControlUtils.h"
-namespace control {
+namespace rtt{
+    namespace ai {
+        namespace control {
 class PID {
     public:
         void setParams(double pGainPos, double iGainPos, double dGainPos, double pGainRot, double iGainRot,
@@ -28,6 +30,8 @@ class PID {
 
 };
 
-}
+        } // control
+    } // ai
+} // rtt
 
 #endif //ROBOTEAM_AI_PID_H

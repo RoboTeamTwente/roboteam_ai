@@ -26,11 +26,11 @@ namespace c = rtt::ai::constants;
  * \brief Base class for all skills. Provides no additional functionality.
  */
 class Skill : public bt::Leaf {
-    protected:
+protected:
         io::IOManager ioManager;
 
         using coach = coach::Coach;
-        using goToType = control::ControlGoToPos::GoToType;
+        using GoToType = control::ControlGoToPos::GoToType;
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
     public:
 
