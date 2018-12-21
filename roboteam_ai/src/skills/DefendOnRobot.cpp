@@ -39,16 +39,16 @@ bt::Node::Status DefendOnRobot::onUpdate() {
         }
 
         Vector2 targetPos = calculateLocation();
-
-        //TODO: Remove temporary hack (fix GoToPos)
-        Vector2 robotPos = robot->pos;
-        if ((robotPos - targetPos).length() < 0.2) {
-            roboteam_msgs::RobotCommand command;
-            command.id = robot->id;
-            command.x_vel = command.y_vel = 0;
-            publishRobotCommand(command);
-            return Status::Running;
-        }
+//
+//        //TODO: Remove temporary hack (fix GoToPos)
+//        Vector2 robotPos = robot->pos;
+//        if ((robotPos - targetPos).length() < 0.2) {
+//            roboteam_msgs::RobotCommand command;
+//            command.id = robot->id;
+//            command.x_vel = command.y_vel = 0;
+//            publishRobotCommand(command);
+//            return Status::Running;
+//        }
 
         std::cout << "Robot:" << robot->id << "TargetPos:" << targetPos << std::endl;
         goToPos.goToPos(robot, targetPos, goToType::luTh);
