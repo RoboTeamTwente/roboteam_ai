@@ -26,7 +26,7 @@
 #include "../skills/Chip.h"
 #include "../skills/Dribble.h"
 #include "../skills/GoToPosLuTh.h"
-#include "../skills/GoToPosLuTh_OLD.h"
+#include "roboteam_ai/src/skills/SkillGoToPos.h"
 #include "../skills/Halt.h"
 #include "../skills/Kick.h"
 #include "../skills/Harass.h"
@@ -157,8 +157,8 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "Rotate") {
         node = std::make_shared<rtt::ai::Rotate>(name, properties);
     }
-    else if (name == "GoToPosLuTh_OLD") {
-        node = std::make_shared<rtt::ai::GoToPosLuTh_OLD>(name, properties);
+    else if (name == "SkillGoToPos") {
+        node = std::make_shared<rtt::ai::SkillGoToPos>(name, properties);
     }
     else if (name == "GoToPosLuTh") {
         node = std::make_shared<rtt::ai::GoToPosLuTh>(name, properties);

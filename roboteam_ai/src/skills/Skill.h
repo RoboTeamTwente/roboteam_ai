@@ -30,7 +30,7 @@ protected:
         io::IOManager ioManager;
 
         using coach = coach::Coach;
-        using goToType = control::ControlGoToPos::GoToType;
+        using GoToType = control::ControlGoToPos::GoToType;
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
     public:
 
