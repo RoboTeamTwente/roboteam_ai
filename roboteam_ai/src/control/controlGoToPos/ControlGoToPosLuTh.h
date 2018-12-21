@@ -82,7 +82,7 @@ class ControlGoToPosLuTh {
               std::vector<double> angles;
               switch (newDir) {
               case goLeft: {
-                  angles = { - 3*M_PI*0.0625, - 2*M_PI*0.0625, - M_PI*0.0625};
+                  angles = { - 4*M_PI*0.0625, - 2*M_PI*0.0625, - M_PI*0.0625};
                   break;
               }
               case goMiddle: {

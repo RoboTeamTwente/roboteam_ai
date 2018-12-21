@@ -115,7 +115,7 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
         if (! pidInit) {
             pidInit = true;
             pid.initialize(1.0/rtt::ai::constants::tickRate);
-            pid.setParams(3.0, 0.05, 0.2, 0.0, 0.0, 0.0);
+            pid.setParams(3.0, 0.0, 0.2, 0.0, 0.0, 0.0);
         }
 
         Vector2 pidPos = me.posData[toStep];
@@ -162,7 +162,7 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
     while (! robotQueue.empty()) {
         ros::Time now = ros::Time::now();
 
-        if ((now - begin).toSec()*1000 > 30) { // time > 3ms
+        if ((now - begin).toSec()*1000 > 70) { // time > 3ms
             return false;
         }
 
