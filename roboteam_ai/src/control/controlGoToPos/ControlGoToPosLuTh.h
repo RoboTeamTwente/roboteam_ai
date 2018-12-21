@@ -7,7 +7,9 @@
 #ifndef ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H
 #define ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H
 
-namespace control {
+namespace rtt{
+    namespace ai {
+        namespace control {
 
 class ControlGoToPosLuTh {
 
@@ -183,6 +185,8 @@ class ControlGoToPosLuTh {
         Command goToPos(RobotPtr robot, Vector2 &targetPos);
 };
 
-} // control
+        } // control
+    } // ai
+} // rtt
 
 #endif //ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H

@@ -4,7 +4,8 @@
 
 
 #include "ControlGoToPos.h"
-
+namespace rtt {
+    namespace ai {
         namespace control {
 
 
@@ -107,10 +108,10 @@
                     far = false;
                 }
                 Vector2 delta = pidBasic.controlPIR2(error, robot->vel);
-                if (delta.x < 0.01){
+                if (delta.x < 0.01) {
                     delta.x = 0;
                 }
-                if (delta.y < 0.01){
+                if (delta.y < 0.01) {
                     delta.y = 0;
                 }
 
@@ -164,3 +165,5 @@
             }
 
         } // control
+    } // ai
+} // rtt

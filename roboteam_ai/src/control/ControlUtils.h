@@ -12,7 +12,9 @@
 #include "roboteam_utils/Arc.h"
 typedef rtt::Vector2 Vector2;
 
-namespace control {
+namespace rtt{
+    namespace ai {
+        namespace control {
 class ControlUtils {
     public:
         static double calculateAngularVelocity(double robotAngle, double targetAngle);
@@ -35,6 +37,8 @@ class ControlUtils {
         static Vector2 VelocityLimiter(Vector2 vel);
 };
 
-}
+} // control
+} // ai
+} // rtt
 
 #endif //ROBOTEAM_AI_CONTROLUTILS_H

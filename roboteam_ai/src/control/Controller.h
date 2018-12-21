@@ -7,6 +7,9 @@
 
 #include "ControlUtils.h"
 #include "../utilities/Constants.h"
+
+namespace rtt{
+    namespace ai {
         namespace control {
 
             class Controller {
@@ -62,6 +65,8 @@
                 Vector2 controlPIR2(Vector2 err, Vector2 rate);
             };
 
-        }
+        } // control
+    } // ai
+} // rtt
 
 #endif //ROBOTEAM_AI_CONTROLLER_H

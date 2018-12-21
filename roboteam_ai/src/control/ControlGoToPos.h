@@ -28,6 +28,8 @@
 #include "controlGoToPos/ControlGoToPosLuTh.h"
 #include "controlGoToPos/ControlGoToPosBallControl.h"
 
+namespace rtt{
+    namespace ai {
         namespace control {
 
             class ControlGoToPos {
@@ -91,4 +93,7 @@
             };
 
         } // control
+    } // ai
+} // rtt
+
 #endif //ROBOTEAM_AI_CONTROLGOTOPOS_H

@@ -15,7 +15,9 @@
 #include "../../src/control/ControlUtils.h"
 #include "../utilities/Constants.h"
 
-namespace control {
+namespace rtt{
+    namespace ai {
+        namespace control {
 
 class ControlRotate {
     public:
@@ -27,6 +29,8 @@ class ControlRotate {
         void rotateToRobot();
 };
 
-}
+        } // control
+    } // ai
+} // rtt
 
 #endif //ROBOTEAM_AI_CONTROLROTATE_H

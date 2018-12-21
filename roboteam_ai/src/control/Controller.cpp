@@ -3,6 +3,9 @@
 //
 
 #include "Controller.h"
+
+namespace rtt{
+    namespace ai {
         namespace control {
             Controller::Controller() {
                 this->kP = 0;
@@ -194,4 +197,6 @@
                 return value_P2 + value_I2 + value_R2;
             }
 
-        }
+        } // control
+    } // ai
+} // rtt

@@ -6,7 +6,9 @@
 
 #include "ControlGoToPosLuTh.h"
 
-namespace control {
+namespace rtt{
+    namespace ai {
+        namespace control {
 
 void ControlGoToPosLuTh::clear() {
     me.clear();
@@ -250,4 +252,7 @@ void ControlGoToPosLuTh::drawCross(Vector2 &pos) {
     }
 }
 
-} // control
+        } // control
+    } // ai
+} // rtt
+
