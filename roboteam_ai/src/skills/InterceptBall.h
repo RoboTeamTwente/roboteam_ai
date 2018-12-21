@@ -6,11 +6,12 @@
 #define ROBOTEAM_AI_INTERCEPTBALL_H
 
 #include "Skill.h"
+#include "../control/Controller.h"
 
 namespace rtt {
 namespace ai {
 
-class InterceptBall : public Skill {
+class InterceptBall :public Skill {
     private:
         enum Progression {
           INTERCEPTING, CLOSETOPOINT, OVERSHOOT, INPOSITION, BALLDEFLECTED, BALLMISSED
@@ -30,7 +31,8 @@ class InterceptBall : public Skill {
         Vector2 deltaPos;
         int tickCount, maxTicks;
         Vector2 computeInterceptPoint(Vector2 startBall, Vector2 endBall);
-        control::PID pid, finePid;
+        control::Controller pid,finePid;
+        bool backwards;
 
         bool keeper;
         bool ballToGoal();

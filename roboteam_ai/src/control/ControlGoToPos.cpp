@@ -7,6 +7,7 @@
 
 namespace control {
 
+
 void ControlGoToPos::clear(GoToType goToType) {
     switch (goToType) {
     case noPreference:break;
@@ -85,15 +86,21 @@ void ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
 //        ROS_ERROR("Target position is not correct GoToPos");
 //        return;
 //    }
-    static bool setPID = false;
-    if (!setPID){
-        pidPos.setPD(1, 0);
-        setPID = true;
-    }
+    static Controller pidBasic(3, 0, 1.5);
     Vector2 error;
     error.x = targetPos.x - robot->pos.x;
     error.y = targetPos.y - robot->pos.y;
-    Vector2 delta = pidPos.controlPR2(error, robot->vel);
+    double dist = error.length();
+    static bool far = true;
+    if (dist>rtt::ai::constants::ROBOT_RADIUS and !far) {
+        pidBasic.setD(1.5);
+        far = true;
+    }
+    else {
+        pidBasic.setD(0);
+        far = false;
+    }
+    Vector2 delta = pidBasic.controlPIR2(error, robot->vel);
     Command command;
     command.id = robot->id;
     command.use_angle = 1;
@@ -133,7 +140,6 @@ double ControlGoToPos::distanceToTarget(RobotPtr robot, Vector2 &targetPos) {
     double dy = targetPos.y - robot->pos.y;
     Vector2 deltaPos = {dx, dy};
     return deltaPos.length();
-
 }
 ControlGoToPos::ControlGoToPos() {
     rtt::ai::io::IOManager temp(false, true);
