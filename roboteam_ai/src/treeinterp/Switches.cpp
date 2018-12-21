@@ -70,6 +70,7 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "haltTactic",
          "Attactic",
          "SimpleDefendTactic",
+         "SimpleDefendTactic_1",
          "KeeperTactic"};
 
 std::vector<std::string> Switches::strategyJsonFileNames =
@@ -80,6 +81,7 @@ std::vector<std::string> Switches::strategyJsonFileNames =
          "SimpleStrategy",
          "haltStrategy",
          "SimpleDefendStrategy",
+         "SimpleDefendStrategy_1",
          "AttackStrategy",
          "KeeperStrategy"};
 
@@ -252,6 +254,10 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"simpleDefender1", robotType::closeToOurGoal},
                     {"simpleDefender2", robotType::closeToOurGoal},
                     {"simpleDefender3", robotType::closeToOurGoal}
+            }
+            },
+            {"SimpleDefendTactic_1", {
+                {"simpleDefender1", robotType::closeToOurGoal}
             }
             },
             {"Attactic", {
