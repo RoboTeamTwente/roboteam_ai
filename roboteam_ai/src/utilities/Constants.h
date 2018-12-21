@@ -39,9 +39,9 @@ const int MAX_GENEVA_CYCLES = 20;
 const int DEFAULT_GENEVA_STATE = 0;
 
 //dribble
-const double MAX_BALL_RANGE=0.15; // Could maybe be even less? TODO: needs to be tested.
+const double MAX_BALL_RANGE=BALL_RADIUS; // Could maybe be even less? TODO: needs to be tested.
 const double DRIBBLE_POSDIF=0.03;
-const float  DRIBBLE_SPEED=0.6;
+const float  DRIBBLE_SPEED=0.4;
 //getBallcc
 const double COLLISION_RADIUS=0.18;
 const double ANGLE_SENS=0.05*M_PI;

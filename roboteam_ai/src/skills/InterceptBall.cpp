@@ -25,6 +25,7 @@ void InterceptBall::onInitialize() {
     if (robot) {
         interceptPos = computeInterceptPoint(ballStartPos,ballEndPos);
         deltaPos=interceptPos-robot->pos;
+        // Checks if it is faster to go to the interceptPos backwards or forwards (just which is closer to the current orientation)
         backwards=control::ControlUtils::angleDifference(robot->angle,deltaPos.angle())>M_PI_2;
     }
     else {
@@ -36,7 +37,7 @@ void InterceptBall::onInitialize() {
 }
 InterceptBall::Status InterceptBall::onUpdate() {
     ball = World::getBall();
-    //The keeper dynamically updates the intercept position as he needs to be responsive and cover the whole goal and this would help against curveballs e.g.
+    //The keeper dynamically updates the intercept position as he needs to be responsive and cover the whole goal and this would help against curveballs etc.
     if (keeper) {
         interceptPos = computeInterceptPoint(ball.pos,
                 Vector2(ball.pos) + Vector2(ball.vel)*constants::MAX_INTERCEPT_TIME);
@@ -110,7 +111,7 @@ void InterceptBall::checkProgression() {
     case OVERSHOOT:
         if (dist <constants::ROBOT_RADIUS) {
             currentProgression = CLOSETOPOINT;
-        };// Go back to closetopoint
+        };// Go back to closestopoint
     case INPOSITION:
         if (dist < constants::INTERCEPT_POSDIF) {
             return;
@@ -131,7 +132,9 @@ void InterceptBall::onTerminate(rtt::ai::Skill::Status s) {
 Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
     Vector2 interceptionPoint;
     if (keeper) {
-        Arc keeperCircle = control::ControlUtils::createKeeperArc();
+        //This is done in control library as it is needed in intercept too
+        // Depends on two keeper constants
+        Arc keeperCircle = control::ControlUtils::createKeeperArc(); // Arc class is pretty horrible.
         std::pair<boost::optional<Vector2>, boost::optional<Vector2>> intersections = keeperCircle.intersectionWithLine(
                 startBall, endBall);
         if (intersections.first && intersections.second) {
@@ -202,7 +205,8 @@ void InterceptBall::sendStopCommand() {
     cmd.id = robotId;
     cmd.x_vel = 0;
     cmd.y_vel = 0;
-    cmd.w = static_cast<float>((Vector2(ball.pos)-Vector2(robot->pos)).angle()); //Rotates towards the ball
+    //TODO: Perhaps make the desired end orientation a boolean/switch?
+    cmd.w = static_cast<float>((ballStartPos-interceptPos).angle()); //Rotates orthogonal to the line of the ball
     publishRobotCommand(cmd);
 }
 void InterceptBall::sendFineInterceptCommand() {
@@ -234,6 +238,7 @@ void InterceptBall::sendInterceptCommand() {
     publishRobotCommand(cmd);
 
 }
+//Checks if the ball is kicked to Goal. Kind of duplicate to the condition, but this uses an extra saftey margin
 bool InterceptBall::ballToGoal() {
     Vector2 goalCentre = Field::get_our_goal_center();
     double goalWidth = Field::get_field().goal_width;
@@ -244,6 +249,7 @@ bool InterceptBall::ballToGoal() {
     Vector2 ballPredPos = Vector2(ball.pos) + Vector2(ball.vel)*constants::MAX_INTERCEPT_TIME;
     return control::ControlUtils::lineSegmentsIntersect(lowerPost, upperPost, ballPos, ballPredPos);
 }
+// Checks if the ball is in our Goal (e.g. the opponent scored)
 bool InterceptBall::ballInGoal() {
     Vector2 goalCentre = Field::get_our_goal_center();
     double goalWidth = Field::get_field().goal_width;
