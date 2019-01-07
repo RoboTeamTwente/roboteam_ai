@@ -15,6 +15,8 @@ addons:
     - libprotobuf-dev
     - protobuf-compiler
     - qt5-default
+    - qtbase5-dev
+    - qtdeclarative5-dev
 install:
 - git clone https://github.com/ros-industrial/industrial_ci.git .ci_config
 
