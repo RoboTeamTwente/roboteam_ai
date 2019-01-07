@@ -4,6 +4,7 @@
 
 #include <roboteam_ai/src/interface/drawer.h>
 #include <roboteam_ai/src/control/PID.h>
+#include <roboteam_ai/src/control/Controller.h>
 #include "Keeper.h"
 namespace rtt {
 namespace ai {
@@ -16,28 +17,28 @@ void Keeper::onInitialize() {
     goalwidth = Field::get_field().goal_width;
 
     //Create arc for keeper to drive on
-    blockCircle = control::ControlUtils::createKeeperArc();
+    blockCircle=control::ControlUtils::createKeeperArc();
     //TODO::magic numbers galore, from the old team. move to new control library
-    pid.setParams(4.0, 0.0, 0.75, 10, 0.0, 0.0);
-    finePid.setParams(1.0, 0.0, 0.0, 0, 0.0, 0.0);
-    pid.initialize(1.0/constants::tickRate);
-    finePid.initialize(1.0/constants::tickRate);
+    double timediff = 1.0/constants::tickRate;
+    pid.setPID(3,0.0, 0.2, timediff);
+    finePid.setPID(1.0,0.0,0.0,timediff);
 }
+
 Keeper::Status Keeper::onUpdate() {
-    Vector2 ballPos = World::getBall().pos;
-    Vector2 blockPoint = computeBlockPoint(ballPos);
-    //double dist=control::ControlUtils::distanceToLine(robot->pos,ballPos,blockPoint);
-    double dist = (blockPoint - (Vector2(robot->pos))).length();
-    if (dist < constants::KEEPER_POSDIF) {
-        sendStopCommand();
-    }
-    else if (dist < 2*constants::ROBOT_RADIUS) {
-        sendFineMoveCommand(blockPoint);
-    }
-    else {
-        sendMoveCommand(blockPoint);
-    }
-    return Status::Running;
+        Vector2 ballPos = World::getBall().pos;
+        Vector2 blockPoint = computeBlockPoint(ballPos);
+        //double dist=control::ControlUtils::distanceToLine(robot->pos,ballPos,blockPoint);
+        double dist = (blockPoint - (Vector2(robot->pos))).length();
+        if (dist < constants::KEEPER_POSDIF) {
+            sendStopCommand();
+        }
+        else if (dist <2*constants::ROBOT_RADIUS){
+            sendFineMoveCommand(blockPoint);
+        }
+        else {
+            sendMoveCommand(blockPoint);
+        }
+        return Status::Running;
 }
 
 void Keeper::onTerminate(Status s) {
@@ -51,26 +52,28 @@ void Keeper::onTerminate(Status s) {
 }
 
 void Keeper::sendMoveCommand(Vector2 pos) {
-    Vector2 delta = pid.posControl(robot->pos, pos);
+    Vector2 error = pos - robot->pos;
+    Vector2 delta = pid.controlPIR2(error, robot->vel);
+    Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
-    cmd.x_vel = static_cast<float>(delta.x);
-    cmd.y_vel = static_cast<float>(delta.y);
+    cmd.x_vel = static_cast<float>(deltaLim.x);
+    cmd.y_vel = static_cast<float>(deltaLim.y);
     cmd.w = static_cast<float>(M_PI_2);
     publishRobotCommand(cmd);
 }
-
 void Keeper::sendFineMoveCommand(Vector2 pos) {
-    Vector2 delta = finePid.posControl(robot->pos, pos);
+    Vector2 error = pos - robot->pos;
+    Vector2 delta = finePid.controlPIR2(error, robot->vel);
+    Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
-    cmd.x_vel = static_cast<float>(delta.x);
-    cmd.y_vel = static_cast<float>(delta.y);
+    cmd.x_vel = static_cast<float>(deltaLim.x);
+    cmd.y_vel = static_cast<float>(deltaLim.y);
     cmd.w = static_cast<float>(M_PI_2);
     publishRobotCommand(cmd);
-
 }
 
 void Keeper::sendStopCommand() {

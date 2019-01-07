@@ -1,3 +1,7 @@
+/*
+ *   The Succeeder decorator returns success, regardless of what happens to the child.
+ */
+
 #include "Succeeder.hpp"
 
 namespace bt {
@@ -5,10 +9,6 @@ namespace bt {
 Node::Status Succeeder::update() {
     child->tick();
     return Status::Success;
-}
-
-std::string Succeeder::node_name() {
-    return "Succeeder";
 }
 
 } // bt

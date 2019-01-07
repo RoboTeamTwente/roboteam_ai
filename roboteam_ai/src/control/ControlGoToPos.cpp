@@ -5,7 +5,25 @@
 
 #include "ControlGoToPos.h"
 
+namespace rtt {
+namespace ai {
 namespace control {
+
+void ControlGoToPos::clear(GoToType goToType) {
+    switch (goToType) {
+    case noPreference:break;
+    case ballControl:break;
+    case basic:break;
+    case lowLevel:break;
+    case highLevel:break;
+    case force:break;
+    case luTh: {
+        gtpLuth.clear();
+        break;
+    }
+    case bezier:break;
+    }
+}
 
 void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position) {
     GoToType goToType = basic;
@@ -56,10 +74,9 @@ void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goToTyp
     }
 }
 void ControlGoToPos::goToPosBallControl(RobotPtr robot, Vector2 &targetPos) {
-    Command command = gtpBallcontrol.goToPos(std::move(robot), targetPos);
+    Command command = gtpBallControl.goToPos(std::move(robot), targetPos);
     publishRobotCommand(command);
 }
-
 
 void ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
 
@@ -70,17 +87,27 @@ void ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
 //        return;
 //    }
 
-    double dx = targetPos.x - robot->pos.x;
-    double dy = targetPos.y - robot->pos.y;
-    Vector2 deltaPos = {dx, dy};
+    static Controller pidBasic(3, 0.1, 1);
+    Vector2 error;
+    error.x = targetPos.x - robot->pos.x;
+    error.y = targetPos.y - robot->pos.y;
+    double dist = error.length();
+    static bool far = true;
+    if (dist>rtt::ai::constants::ROBOT_RADIUS and !far) {
+        pidBasic.setD(1.5);
+        far = true;
+    }
+    else {
+        pidBasic.setD(0);
+        far = false;
+    }
+    Vector2 delta = pidBasic.controlPIR2(error, robot->vel);
     Command command;
     command.id = robot->id;
     command.use_angle = 1;
-    command.w = static_cast<float>(deltaPos.angle());
-    Vector2 deltaPosUnit = deltaPos.normalize();
-
-    command.x_vel = (float) deltaPosUnit.x*2;
-    command.y_vel = (float) deltaPosUnit.y*2;
+    command.w = static_cast<float>(delta.angle());
+    command.x_vel = static_cast<float>(delta.x);
+    command.y_vel = static_cast<float>(delta.y);
     publishRobotCommand(command);
 }
 
@@ -89,8 +116,12 @@ void ControlGoToPos::goToPosForce(RobotPtr robot, Vector2 &targetPos) {
 }
 
 void ControlGoToPos::goToPosLuTh(RobotPtr robot, Vector2 &targetPos) {
-    Command command = gtpLuth.goToPos(std::move(robot), targetPos);
-    publishRobotCommand(command);
+    if ((static_cast<Vector2>(robot->pos) - targetPos).length() < 0.50) {
+        goToPosBasic(robot, targetPos);
+    } else {
+        Command command = gtpLuth.goToPos(robot, targetPos);
+        publishRobotCommand(command);
+    }
 
 }
 
@@ -114,11 +145,12 @@ double ControlGoToPos::distanceToTarget(RobotPtr robot, Vector2 &targetPos) {
     double dy = targetPos.y - robot->pos.y;
     Vector2 deltaPos = {dx, dy};
     return deltaPos.length();
-
 }
 ControlGoToPos::ControlGoToPos() {
     rtt::ai::io::IOManager temp(false, true);
     ioManager = temp;
 }
 
-} // control
+} //control
+} //ai
+} //rtt

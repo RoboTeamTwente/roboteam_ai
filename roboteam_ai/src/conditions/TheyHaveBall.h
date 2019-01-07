@@ -9,6 +9,7 @@
 #include "roboteam_msgs/WorldBall.h"
 #include "Condition.h"
 #include "../utilities/World.h"
+#include "../utilities/Coach.h"
 
 namespace rtt {
 namespace ai {

@@ -7,5 +7,6 @@ ControlGoToPosBallControl::Command ControlGoToPosBallControl::goToPos(ControlGoT
         Vector2 &target) {
 
     Command command;
+    command.id = robot->id;
     return command;
 }

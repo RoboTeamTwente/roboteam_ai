@@ -158,8 +158,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TurnGeneva.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TurnGeneva.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh_OLD.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh_OLD.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SkillGoToPos.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SkillGoToPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Dribble.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Dribble.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.cpp
@@ -172,20 +172,20 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/HaltTactic.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/HaltTactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Harass.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Harass.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Keeper.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Keeper.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/interceptBall.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/interceptBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootAtGoal.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootAtGoal.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Attack.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Attack.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/dribbleRotate.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/dribbleRotate.h
         )
 
 set(CONDITIONS_SOURCES
@@ -231,6 +231,8 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlKick.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PID.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PID.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.h
         )
 
 set(INTERFACE_SOURCES
@@ -293,18 +295,18 @@ target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} ${SDL2_LIBRARY} ${SDL2TTF_
 catkin_add_gtest(ai_tests
         roboteam_ai/test/main.cpp
         #roboteam_ai/test/BtTest.cpp
-        roboteam_ai/test/JsonTest.cpp
-        roboteam_ai/test/BTFactoryTest.cpp
-        roboteam_ai/test/WorldTest.cpp
+        #roboteam_ai/test/JsonTest.cpp
+        #roboteam_ai/test/BTFactoryTest.cpp
+        #roboteam_ai/test/WorldTest.cpp
         roboteam_ai/test/FieldTest.cpp
-        roboteam_ai/test/DangerFinderTest.cpp
+        #roboteam_ai/test/DangerFinderTest.cpp
         roboteam_ai/test/BTBlackBoardTest.cpp
         roboteam_ai/test/IOTest.cpp
         roboteam_ai/test/RobotDealerTest.cpp
         roboteam_ai/test/RefereeTest.cpp
         roboteam_ai/test/StrategyManagerTest.cpp
         roboteam_ai/test/PropertiesParserTest.cpp
-        roboteam_ai/test/ControUtilsTest.cpp
+        #roboteam_ai/test/ControUtilsTest.cpp
         ${SKILL_TESTS}
         roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
         ${CONDITION_TESTS}

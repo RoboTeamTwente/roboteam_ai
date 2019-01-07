@@ -2,9 +2,11 @@
 // Created by rolf on 12/12/18.
 //
 
-#include "interceptBall.h"
+#include "InterceptBall.h"
+
 namespace rtt {
 namespace ai {
+
 InterceptBall::InterceptBall(rtt::string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { };
 
@@ -20,13 +22,17 @@ void InterceptBall::onInitialize() {
     ballStartPos = ball.pos;
     ballStartVel = ball.vel;
     ballEndPos = Vector2(ball.pos) + Vector2(ball.vel)*constants::MAX_INTERCEPT_TIME;
-    if (robot) { interceptPos = computeInterceptPoint(ballStartPos, ballEndPos); }
-    else currentProgression = BALLMISSED;
-    pid.setParams(4.0, 0.0, 0.75, 10, 0.0,
-            0.0); //TODO:magic numbers galore, from the old team. Move to new control library?
-    finePid.setParams(1.0, 0.0, 0.0, 0, 0.0, 0.0);
-    pid.initialize(1.0/constants::tickRate);
-    finePid.initialize(1.0/constants::tickRate);
+    if (robot) {
+        interceptPos = computeInterceptPoint(ballStartPos,ballEndPos);
+        deltaPos=interceptPos-robot->pos;
+        backwards=control::ControlUtils::angleDifference(robot->angle,deltaPos.angle())>M_PI_2;
+    }
+    else {
+        currentProgression = BALLMISSED;
+        backwards=false;
+    }
+    pid.setPID(3,0.0,0.2,1.0/constants::tickRate); //TODO:magic numbers galore, from the old team. Move to new control library?
+    finePid.setPID(3.0,0.0,0.0, 1.0/constants::tickRate);
 }
 InterceptBall::Status InterceptBall::onUpdate() {
     ball = World::getBall();
@@ -88,35 +94,33 @@ void InterceptBall::checkProgression() {
     double dist = deltaPos.length();
     //Update the state of the robot
     switch (currentProgression) {
-        case INTERCEPTING:
-            if (dist < 2*constants::ROBOT_RADIUS) {
-                currentProgression = CLOSETOPOINT;
-            };//If robot is close, switch to closetoPoint
+    case INTERCEPTING:
+        if (dist < constants::ROBOT_RADIUS) {
+            currentProgression = CLOSETOPOINT;
+        };//If robot is close, switch to closetoPoint
+        return;
+    case CLOSETOPOINT:
+        if (dist < constants::INTERCEPT_POSDIF) {
+            currentProgression = INPOSITION;
+        }//If Robot overshoots, switch to overshoot, if in Position, go there
+        else if (dist >= constants::ROBOT_RADIUS) {
+            currentProgression = OVERSHOOT;
+        }
+        return;
+    case OVERSHOOT:
+        if (dist <constants::ROBOT_RADIUS) {
+            currentProgression = CLOSETOPOINT;
+        };// Go back to closetopoint
+    case INPOSITION:
+        if (dist < constants::INTERCEPT_POSDIF) {
             return;
-        case CLOSETOPOINT:
-            if (dist < constants::INTERCEPT_POSDIF) {
-                currentProgression = INPOSITION;
-            }//If Robot overshoots, switch to overshoot, if in Position, go there
-            else if (dist >= 2*constants::ROBOT_RADIUS) {
-                currentProgression = OVERSHOOT;
-            }
+        }
+        else {
+            currentProgression = CLOSETOPOINT;
             return;
-        case OVERSHOOT:
-            if (dist < 2*constants::ROBOT_RADIUS) {
-                currentProgression = CLOSETOPOINT;
-            };// Go back to closetopoint
-        case INPOSITION:
-            if (dist < constants::INTERCEPT_POSDIF) {
-                return;
-            }
-            else {
-                currentProgression = CLOSETOPOINT;
-                return;
-            }// Stay here until either ball misses or is deflected;
-        case BALLDEFLECTED:
-            return;
-        case BALLMISSED:
-            return;
+        }// Stay here until either ball misses or is deflected;
+    case BALLDEFLECTED: return;
+    case BALLMISSED: return;
     }
 
 };
@@ -198,27 +202,35 @@ void InterceptBall::sendStopCommand() {
     cmd.id = robotId;
     cmd.x_vel = 0;
     cmd.y_vel = 0;
-    cmd.w = static_cast<float>(M_PI_2);// TODO: CHange this to rotate towards the ball
+    cmd.w = static_cast<float>((Vector2(ball.pos)-Vector2(robot->pos)).angle()); //Rotates towards the ball
     publishRobotCommand(cmd);
 }
 void InterceptBall::sendFineInterceptCommand() {
-    Vector2 delta = pid.posControl(robot->pos, interceptPos);
+    Vector2 error= interceptPos-robot->pos;
+    Vector2 delta = pid.controlPIR2(error,robot->vel);
+    Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
-    cmd.x_vel = static_cast<float>(delta.x);
-    cmd.y_vel = static_cast<float>(delta.y);
-    cmd.w = static_cast<float>(M_PI_2); //TODO: Fix angles
+    cmd.x_vel = static_cast<float>(deltaLim.x);
+    cmd.y_vel = static_cast<float>(deltaLim.y);
+    cmd.w = static_cast<float>((Vector2(ball.pos)-Vector2(robot->pos)).angle()); //Rotates towards the ball
     publishRobotCommand(cmd);
 }
 void InterceptBall::sendInterceptCommand() {
-    Vector2 delta = finePid.posControl(robot->pos, interceptPos);
+    Vector2 delta = finePid.controlPID2(interceptPos-robot->pos);
+    Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
-    cmd.x_vel = static_cast<float>(delta.x);
-    cmd.y_vel = static_cast<float>(delta.y);
-    cmd.w = static_cast<float>(M_PI_2);// TODO: Fix angles
+    cmd.x_vel = static_cast<float>(deltaLim.x);
+    cmd.y_vel = static_cast<float>(deltaLim.y);
+    if (backwards) {
+        cmd.w = static_cast<float>(deltaLim.rotate(M_PI).angle());
+    }
+    else{
+        cmd.w= static_cast<float>(deltaLim.angle());
+    }
     publishRobotCommand(cmd);
 
 }

@@ -16,6 +16,7 @@
 #include "ros/ros.h"
 #include "../io/IOManager.h"
 #include "../../src/control/ControlUtils.h"
+#include "../../src/control/Controller.h"
 #include "../utilities/Constants.h"
 
 //  ______________________
@@ -27,11 +28,12 @@
 #include "controlGoToPos/ControlGoToPosLuTh.h"
 #include "controlGoToPos/ControlGoToPosBallControl.h"
 
+namespace rtt {
+namespace ai {
 namespace control {
 
 class ControlGoToPos {
-    public:
-        ControlGoToPos();
+
     private:
         using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
         using Vector2 = rtt::Vector2;
@@ -39,7 +41,7 @@ class ControlGoToPos {
         rtt::ai::io::IOManager ioManager;
 
         void goToPosBallControl(RobotPtr robot, Vector2 &targetPos);
-        ControlGoToPosBallControl gtpBallcontrol;
+        ControlGoToPosBallControl gtpBallControl;
 
         void goToPosLuTh(RobotPtr robot, Vector2 &targetPos);
         ControlGoToPosLuTh gtpLuth;
@@ -58,12 +60,14 @@ class ControlGoToPos {
 
         void goToPosBasic(RobotPtr robot, Vector2 &targetPos);
         //ControlGoToPosBasic gtpBasic;
+        //ControlGoToPosBasic basic;
 
         void publishRobotCommand(Command &command);
         double errorMargin = 0.3;
         double distanceToTarget(RobotPtr robot, Vector2 &targetPos);
 
     public:
+        ControlGoToPos();
 
         enum GoToType {
           noPreference,
@@ -76,11 +80,13 @@ class ControlGoToPos {
           bezier,
         };
 
+        void clear(GoToType goToType);
         void goToPos(RobotPtr robot, Vector2 &position);
         void goToPos(RobotPtr robot, Vector2 &position, GoToType goToType);
 
 };
 
-} // control
-
+} //control
+} //ai
+} //rtt
 #endif //ROBOTEAM_AI_CONTROLGOTOPOS_H

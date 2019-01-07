@@ -1,3 +1,7 @@
+/*
+ * The Failer decorator returns failure, regardless of what happens to the child.
+ */
+
 #include "Failer.hpp"
 
 namespace bt {
@@ -5,10 +9,6 @@ namespace bt {
 Node::Status Failer::update() {
     child->tick();
     return Status::Failure;
-}
-
-std::string Failer::node_name() {
-    return "Failer";
 }
 
 } // bt

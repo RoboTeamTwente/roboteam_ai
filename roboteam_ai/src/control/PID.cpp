@@ -4,7 +4,9 @@
 
 #include "PID.h"
 
-namespace control {
+namespace rtt{
+    namespace ai {
+        namespace control {
 
 void PID::setParams(double pGainP, double iGainP, double dGainP, double pGainR, double iGainR, double dGainR) {
     pGainPos = pGainP;
@@ -38,4 +40,6 @@ void PID::initialize(double tickTime) {
     I = Vector2(0.0, 0.0);
 }
 
-}
+        } // control
+    } // ai
+} // rtt

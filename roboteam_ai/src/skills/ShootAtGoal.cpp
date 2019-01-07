@@ -8,13 +8,25 @@ namespace ai {
 
 void ShootAtGoal::onInitialize() {
     robot = getRobotFromProperties(properties);
-    onlyGeneva = properties->getBool("onlyGeneva");
-
-    // onlyGeneva = properties->getBool("onlyGeneva");
-    neverGeneva = properties->getBool("neverGeneva");
 }
 
 Skill::Status ShootAtGoal::onUpdate() {
+    updateRobot();
+    switch(currentProgress) {
+        case ROTATING: {
+            // TODO: Add in functions
+            // rotateWithBall
+            // OR
+            // getBehindBall
+        }
+        case READY: {
+            controlKick.kick(robot);
+            currentProgress = DONE;
+        }
+        case DONE: return Status::Success;
+        case TURN_GENEVA:break;
+    }
+
     return Status::Success;
 }
 

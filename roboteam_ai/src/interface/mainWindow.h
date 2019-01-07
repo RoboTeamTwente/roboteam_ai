@@ -35,14 +35,17 @@ class MainWindow : public QMainWindow {
 public slots:
     void updateWidgets();
     void updateRobotsWidget();
+    void toggleOurColorParam();
+    void toggleOurSideParam();
 private:
     std::shared_ptr<Visualizer> visualizer;
     std::shared_ptr<QHBoxLayout> horizontalLayout;
     std::shared_ptr<QHBoxLayout> robotsLayout;
-
     std::shared_ptr<QVBoxLayout> mainLayout;
     std::shared_ptr<QVBoxLayout> verticalLayout;
     std::shared_ptr<QTreeWidget> treeWidget;
+    std::shared_ptr<QPushButton> toggleColorBtn;
+    std::shared_ptr<QPushButton> toggleSideBtn;
     std::shared_ptr<QComboBox> select_strategy;
     std::shared_ptr<QCheckBox> cb_referee;
     std::shared_ptr<QCheckBox> cb_rolenames;
