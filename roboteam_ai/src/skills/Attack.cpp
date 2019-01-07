@@ -23,22 +23,25 @@ bt::Node::Status Attack::onUpdate() {
     Vector2 ball = World::getBall().pos;
     Vector2 behindBall = Coach::getPositionBehindBall(0.5);
 
-    if (!Control::pointInTriangle(robot->pos, ball, ball + (behindBall-ball).rotate(M_PI*0.3).scale(1.5),
-            ball + (behindBall-ball).rotate(M_PI*-0.3).scale(1.5))) {
+    if (!Control::pointInTriangle(robot->pos, ball, ball + (behindBall-ball).rotate(M_PI*0.17).scale(1.74),
+            ball + (behindBall-ball).rotate(M_PI*-0.17).scale(1.74))) {
         targetPos = behindBall;
+        goToPos.goToPos(robot, targetPos, GoToType::luTh);
     } else if (!Coach::doesRobotHaveBall(robot->id, true)) {
         targetPos = ball;
+        goToPos.goToPos(robot, targetPos, GoToType::basic);
     } else {
         targetPos = ball;
         unsigned char forced_kick = 1;
         kicker.kick(robot, forced_kick);
+        goToPos.goToPos(robot, targetPos, GoToType::basic);
         roboteam_msgs::RobotCommand command;
         command.id = robot->id;
         command.use_angle = 1;
         command.w = static_cast<float>((ball-behindBall).angle());
         publishRobotCommand(command);
     }
-    goToPos.goToPos(robot, targetPos, GoToType::luTh);
+
 
 
     return Status::Running;
