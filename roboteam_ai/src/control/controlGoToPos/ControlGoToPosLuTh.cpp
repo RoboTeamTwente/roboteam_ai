@@ -115,7 +115,7 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
         }
 
         Vector2 pidPos = me.posData[toStep];
-        Vector2 vel = pid.controlPID(pidPos - robot->pos, robot->vel);
+        Vector2 vel = pid.controlPIR(pidPos - robot->pos, robot->vel);
         if (vel.length() > 3.0)
             vel = vel.normalize()*3.0;
         command.x_vel = static_cast<float>(vel.x);

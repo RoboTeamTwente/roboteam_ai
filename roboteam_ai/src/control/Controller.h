@@ -55,14 +55,14 @@ namespace rtt{
                 double controlPID(double err);
 
                 //To fill in your own measured velocity
-                double controlPID(double err, double rate);
+                double controlPIR(double err, double rate);
 
                 //Same as above but for when we want to control 2 variables with the same k values
                 //basically x and y
                 Vector2 controlPID(Vector2 err);
 
                 //To fill in your own measured velocity
-                Vector2 controlPID(Vector2 err, Vector2 rate);
+                Vector2 controlPIR(Vector2 err, Vector2 rate);
             };
 
         } // control

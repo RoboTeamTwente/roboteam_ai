@@ -144,7 +144,7 @@ namespace rtt{
                 return value_R;
             }
 
-            double Controller::controlPID(double err, double rate) {
+            double Controller::controlPIR(double err, double rate) {
                 double value_P = this->controlP(err);
                 double value_I = this->controlI(err);
                 double value_R = this->controlD(rate);
@@ -190,7 +190,7 @@ namespace rtt{
                 return value_R2;
             }
 
-            Vector2 Controller::controlPID(Vector2 err, Vector2 rate) {
+            Vector2 Controller::controlPIR(Vector2 err, Vector2 rate) {
                 Vector2 value_P2 = this->controlP2(err);
                 Vector2 value_I2 = this->controlI2(err);
                 Vector2 value_R2 = this->controlR2(rate);
