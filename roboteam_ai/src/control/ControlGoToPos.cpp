@@ -87,7 +87,7 @@ void ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
 //        return;
 //    }
 
-    static Controller pidBasic(3, 0.1, 1);
+    static Controller pidBasic(3, 0.1, 0.5);
     Vector2 error;
     error.x = targetPos.x - robot->pos.x;
     error.y = targetPos.y - robot->pos.y;

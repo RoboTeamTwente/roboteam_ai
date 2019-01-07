@@ -32,6 +32,11 @@ bt::Node::Status Attack::onUpdate() {
         targetPos = ball;
         unsigned char forced_kick = 1;
         kicker.kick(robot, forced_kick);
+        roboteam_msgs::RobotCommand command;
+        command.id = robot->id;
+        command.use_angle = 1;
+        command.w = static_cast<float>((ball-behindBall).angle());
+        publishRobotCommand(command);
     }
     goToPos.goToPos(robot, targetPos, GoToType::luTh);
 

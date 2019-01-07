@@ -3,7 +3,6 @@
 //
 
 #include <roboteam_ai/src/interface/drawer.h>
-#include <roboteam_ai/src/control/PID.h>
 #include <roboteam_ai/src/control/Controller.h>
 #include "Keeper.h"
 namespace rtt {
