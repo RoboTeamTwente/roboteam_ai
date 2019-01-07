@@ -11,21 +11,21 @@ DefendOnRobot::DefendOnRobot(std::string name, bt::Blackboard::Ptr blackboard)
     :Skill(std::move(name), std::move(blackboard)) { }
 
 void DefendOnRobot::onInitialize() {
-    opponentWithBallID = coach::Coach::whichRobotHasBall(false);
+    opponentWithBallID = Coach::Coach::whichRobotHasBall(false);
     if (opponentWithBallID == -1) {
         currentProgress = FAIL;
     }
 
-    opponentToCoverID = coach::Coach::pickOpponentToCover(robot->id);
+    opponentToCoverID = Coach::Coach::pickOpponentToCover(robot->id);
     if (opponentToCoverID == -1) {
         currentProgress = FAIL;
     } else {
-        coach::Coach::defencePairs.insert({opponentToCoverID, robot->id});
+        Coach::Coach::defencePairs.insert({opponentToCoverID, robot->id});
     }
 }
 
 void DefendOnRobot::onTerminate(Skill::Status s) {
-    coach::Coach::defencePairs.erase(robot->id);
+    Coach::Coach::defencePairs.erase(robot->id);
 }
 
 bt::Node::Status DefendOnRobot::onUpdate() {
@@ -34,24 +34,14 @@ bt::Node::Status DefendOnRobot::onUpdate() {
 
     if (opponentWithBall && opponentToCover) {
         updateRobot();
-        if (!coach::Coach::doesRobotHaveBall(opponentWithBall->id, false)) {
+        if (!Coach::Coach::doesRobotHaveBall(opponentWithBall->id, false)) {
             return Status::Success;
         }
 
         Vector2 targetPos = calculateLocation();
 
-        //TODO: Remove temporary hack (fix GoToPos)
-        Vector2 robotPos = robot->pos;
-        if ((robotPos - targetPos).length() < 0.2) {
-            roboteam_msgs::RobotCommand command;
-            command.id = robot->id;
-            command.x_vel = command.y_vel = 0;
-            publishRobotCommand(command);
-            return Status::Running;
-        }
-
         std::cout << "Robot:" << robot->id << "TargetPos:" << targetPos << std::endl;
-        goToPos.goToPos(robot, targetPos, goToType::luTh);
+        goToPos.goToPos(robot, targetPos, GoToType::luTh);
 
         return Status::Running;
     } else {

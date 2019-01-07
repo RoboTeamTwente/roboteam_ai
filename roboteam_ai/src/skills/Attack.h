@@ -17,11 +17,9 @@ class Attack : public Skill {
         int counter = 0;
 
         control::ControlGoToPos goToPos;
-
+        control::ControlKick kicker;
         Vector2 deltaPos;
         Vector2 targetPos;
-
-
 
     public:
         explicit Attack(string name, bt::Blackboard::Ptr blackboard);

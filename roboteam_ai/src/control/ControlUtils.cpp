@@ -6,7 +6,9 @@
 #include <roboteam_ai/src/utilities/Field.h>
 #include "ControlUtils.h"
 
-namespace control {
+namespace rtt{
+    namespace ai {
+        namespace control {
 
 double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAngle) {
     double direction = 1;               // counter clockwise rotation
@@ -223,5 +225,7 @@ Vector2 ControlUtils::VelocityLimiter(Vector2 vel) {
     else return vel;
 }
 
-}//control
+} // control
+} // ai
+} // rtt
 

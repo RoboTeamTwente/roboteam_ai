@@ -28,6 +28,8 @@
 #include "controlGoToPos/ControlGoToPosLuTh.h"
 #include "controlGoToPos/ControlGoToPosBallControl.h"
 
+namespace rtt {
+namespace ai {
 namespace control {
 
 class ControlGoToPos {
@@ -39,7 +41,7 @@ class ControlGoToPos {
         rtt::ai::io::IOManager ioManager;
 
         void goToPosBallControl(RobotPtr robot, Vector2 &targetPos);
-        ControlGoToPosBallControl gtpBallcontrol;
+        ControlGoToPosBallControl gtpBallControl;
 
         void goToPosLuTh(RobotPtr robot, Vector2 &targetPos);
         ControlGoToPosLuTh gtpLuth;
@@ -58,7 +60,6 @@ class ControlGoToPos {
 
         void goToPosBasic(RobotPtr robot, Vector2 &targetPos);
         //ControlGoToPosBasic gtpBasic;
-        Controller pidPos;
         //ControlGoToPosBasic basic;
 
         void publishRobotCommand(Command &command);
@@ -85,6 +86,7 @@ class ControlGoToPos {
 
 };
 
-} // control
-
+} //control
+} //ai
+} //rtt
 #endif //ROBOTEAM_AI_CONTROLGOTOPOS_H
