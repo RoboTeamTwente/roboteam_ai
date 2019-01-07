@@ -207,7 +207,7 @@ void InterceptBall::sendStopCommand() {
 }
 void InterceptBall::sendFineInterceptCommand() {
     Vector2 error= interceptPos-robot->pos;
-    Vector2 delta = pid.controlPIR2(error,robot->vel);
+    Vector2 delta = pid.controlPID(error, robot->vel);
     Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
@@ -218,7 +218,7 @@ void InterceptBall::sendFineInterceptCommand() {
     publishRobotCommand(cmd);
 }
 void InterceptBall::sendInterceptCommand() {
-    Vector2 delta = finePid.controlPID2(interceptPos-robot->pos);
+    Vector2 delta = finePid.controlPID(interceptPos - robot->pos);
     Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
