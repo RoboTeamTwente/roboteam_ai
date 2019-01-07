@@ -16,11 +16,6 @@ addons:
     - protobuf-compiler
     - qt5-default
     - qtbase5-dev
-branches:
-  only:
-  - master
-  - develop
-  - melodic-devel
 install:
 - git clone https://github.com/ros-industrial/industrial_ci.git .ci_config
 
