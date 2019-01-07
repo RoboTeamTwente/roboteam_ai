@@ -13,7 +13,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
 # Find the QtWidgets library
-find_package(Qt5Widgets CONFIG REQUIRED)
+find_package(Qt5Widgets REQUIRED)
 
 find_package(SDL2)
 find_package(SDL2TTF)
