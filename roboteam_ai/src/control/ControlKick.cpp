@@ -4,7 +4,9 @@
 
 #include "ControlKick.h"
 
-namespace control {
+namespace rtt{
+    namespace ai {
+        namespace control {
 
 void ControlKick::kick(ControlKick::RobotPtr& robot) {
     if (!robot) return;
@@ -38,4 +40,6 @@ ControlKick::ControlKick() {
     ioManager = temp;
 }
 
-}
+} // control
+} // ai
+} // rtt

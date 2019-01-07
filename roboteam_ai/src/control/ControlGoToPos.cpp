@@ -5,8 +5,9 @@
 
 #include "ControlGoToPos.h"
 
+namespace rtt {
+namespace ai {
 namespace control {
-
 
 void ControlGoToPos::clear(GoToType goToType) {
     switch (goToType) {
@@ -21,7 +22,6 @@ void ControlGoToPos::clear(GoToType goToType) {
         break;
     }
     case bezier:break;
-
     }
 }
 
@@ -33,10 +33,10 @@ void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position) {
 void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goToType) {
 
     // TODO: auto switch to low level? maybe
-//        if (distanceToTarget(robot, position) < errorMargin) {
-//            ControlGoToPos::goToPosLowLevel(robot, position);
-//            return;
-//        }
+    //    if (distanceToTarget(robot, position) < errorMargin) {
+    //        ControlGoToPos::goToPosLowLevel(robot, position);
+    //        return;
+    //    }
 
 
     switch (goToType) {
@@ -77,7 +77,6 @@ void ControlGoToPos::goToPosBallControl(RobotPtr robot, Vector2 &targetPos) {
     Command command = gtpBallControl.goToPos(std::move(robot), targetPos);
     publishRobotCommand(command);
 }
-
 
 void ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
 
@@ -152,4 +151,6 @@ ControlGoToPos::ControlGoToPos() {
     ioManager = temp;
 }
 
-} // control
+} //control
+} //ai
+} //rtt
