@@ -2,8 +2,6 @@
 // Created by robzelluf on 10/18/18.
 //
 
-//TODO: get/make function get_robot_closest_to_point
-
 #include "IsRobotClosestToBall.h"
 
 namespace rtt {

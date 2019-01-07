@@ -2,13 +2,15 @@
 // Created by robzelluf on 12/17/18.
 //
 
-#include <roboteam_ai/src/io/IOManager.h>
 #include "ControlKick.h"
 
-namespace control {
+namespace rtt{
+    namespace ai {
+        namespace control {
 
 void ControlKick::kick(ControlKick::RobotPtr& robot) {
     if (!robot) return;
+    kick(robot, 1, rtt::ai::constants::MAX_KICK_POWER);
 }
 
 void ControlKick::kick(ControlKick::RobotPtr& robot, unsigned char kicker_forced) {
@@ -38,4 +40,6 @@ ControlKick::ControlKick() {
     ioManager = temp;
 }
 
-}
+} // control
+} // ai
+} // rtt

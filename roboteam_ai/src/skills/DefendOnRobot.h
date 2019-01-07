@@ -14,6 +14,7 @@ class DefendOnRobot : public Skill {
     private:
         control::ControlGoToPos goToPos;
         double angleBetweenRobots;
+        Vector2 newPosition;
 
         int amountOfCycles{};
     protected:

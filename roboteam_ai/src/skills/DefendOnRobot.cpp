@@ -11,21 +11,21 @@ DefendOnRobot::DefendOnRobot(std::string name, bt::Blackboard::Ptr blackboard)
     :Skill(std::move(name), std::move(blackboard)) { }
 
 void DefendOnRobot::onInitialize() {
-    opponentWithBallID = coach::Coach::whichRobotHasBall(false);
+    opponentWithBallID = Coach::Coach::whichRobotHasBall(false);
     if (opponentWithBallID == -1) {
         currentProgress = FAIL;
     }
 
-    opponentToCoverID = coach::Coach::pickOpponentToCover(robot->id);
+    opponentToCoverID = Coach::Coach::pickOpponentToCover(robot->id);
     if (opponentToCoverID == -1) {
         currentProgress = FAIL;
     } else {
-        coach::Coach::defencePairs.insert({opponentToCoverID, robot->id});
+        Coach::Coach::defencePairs.insert({opponentToCoverID, robot->id});
     }
 }
 
 void DefendOnRobot::onTerminate(Skill::Status s) {
-    coach::Coach::defencePairs.erase(robot->id);
+    Coach::Coach::defencePairs.erase(robot->id);
 }
 
 bt::Node::Status DefendOnRobot::onUpdate() {
@@ -34,13 +34,14 @@ bt::Node::Status DefendOnRobot::onUpdate() {
 
     if (opponentWithBall && opponentToCover) {
         updateRobot();
-        if (!coach::Coach::doesRobotHaveBall(opponentWithBall->id, false)) {
+        if (!Coach::Coach::doesRobotHaveBall(opponentWithBall->id, false)) {
             return Status::Success;
         }
 
         Vector2 targetPos = calculateLocation();
-        std::cout << targetPos << std::endl;
-        goToPos.goToPos(robot, targetPos, goToType::basic);
+
+        std::cout << "Robot:" << robot->id << "TargetPos:" << targetPos << std::endl;
+        goToPos.goToPos(robot, targetPos, GoToType::luTh);
 
         return Status::Running;
     } else {
@@ -76,7 +77,12 @@ Vector2 DefendOnRobot::calculateLocation() {
     double xLength = length * cos(angle1);
     double yLength = length * sin(angle1);
 
-    Vector2 newPosition = {opponentWithBall->pos.x - xLength, opponentWithBall->pos.y + yLength};
+    if (opponentWithBall->pos.x > opponentToCover->pos.x) {
+        newPosition = {opponentWithBall->pos.x - xLength, opponentWithBall->pos.y + yLength};
+    } else {
+        newPosition = {opponentWithBall->pos.x - xLength, opponentWithBall->pos.y - yLength};
+    }
+
     return newPosition;
 }
 

@@ -12,7 +12,9 @@
 #include "roboteam_utils/Arc.h"
 typedef rtt::Vector2 Vector2;
 
-namespace control {
+namespace rtt{
+    namespace ai {
+        namespace control {
 class ControlUtils {
     public:
         static double calculateAngularVelocity(double robotAngle, double targetAngle);
@@ -32,8 +34,11 @@ class ControlUtils {
         static int lineOrientation(Vector2 p, Vector2 q, Vector2 r);
         static bool lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd, Vector2 lineBStart, Vector2 lineBEnd);
         static rtt::Arc createKeeperArc();
+        static Vector2 VelocityLimiter(Vector2 vel);
 };
 
-}
+} // control
+} // ai
+} // rtt
 
 #endif //ROBOTEAM_AI_CONTROLUTILS_H
