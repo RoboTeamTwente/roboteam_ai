@@ -4,7 +4,6 @@
 
 #include "Attack.h"
 
-
 namespace rtt {
 namespace ai {
 
@@ -21,9 +20,19 @@ void Attack::onInitialize() {
 bt::Node::Status Attack::onUpdate() {
     updateRobot();
     if (! robot) return Status::Running;
+    Vector2 ball = World::getBall().pos;
+    Vector2 behindBall = Coach::getPositionBehindBall(0.5);
 
-
-
+    if (!Control::pointInTriangle(robot->pos, ball, ball + (behindBall-ball).rotate(M_PI*0.3).scale(1.5),
+            ball + (behindBall-ball).rotate(M_PI*-0.3).scale(1.5))) {
+        targetPos = behindBall;
+    } else if (!Coach::doesRobotHaveBall(robot->id, true)) {
+        targetPos = ball;
+    } else {
+        targetPos = ball;
+        unsigned char forced_kick = 1;
+        kicker.kick(robot, forced_kick);
+    }
     goToPos.goToPos(robot, targetPos, GoToType::luTh);
 
 

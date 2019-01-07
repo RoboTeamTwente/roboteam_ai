@@ -82,7 +82,7 @@ class ControlGoToPosLuTh {
               std::vector<double> angles;
               switch (newDir) {
               case goLeft: {
-                  angles = { - 4*M_PI*0.0625, - 2*M_PI*0.0625, - M_PI*0.0625};
+                  angles = {- M_PI*0.0625};
                   break;
               }
               case goMiddle: {
@@ -90,7 +90,7 @@ class ControlGoToPosLuTh {
                   break;
               }
               case goRight: {
-                  angles = {M_PI*0.0625, 2*M_PI*0.0625, 4*M_PI*0.0625};
+                  angles = {M_PI*0.0625};
                   break;
               }
               }
@@ -124,9 +124,6 @@ class ControlGoToPosLuTh {
               newMe.targetPos = newTarget.second;
               newMe.newDir = newTarget.first;
               newMe.finalTargetPos = me->finalTargetPos;
-              if (newMe.pos.length() < 0.1) {
-                  std::cout << "errorr??" << std::endl;
-              }
               return std::make_shared<NumRobot>(newMe);
           }
 
@@ -165,9 +162,9 @@ class ControlGoToPosLuTh {
         NumRobot me;
 
         std::vector<Vector2> displayData;
-        double errorMargin = 0.3;
+        double errorMargin = 0.25;
 
-        Vector2 targetPos = {0,0};
+        Vector2 targetPos = {999.2,999.2};
         ros::Time startTime;
 
         PID pid;

@@ -39,7 +39,7 @@ class ControlGoToPos {
         rtt::ai::io::IOManager ioManager;
 
         void goToPosBallControl(RobotPtr robot, Vector2 &targetPos);
-        ControlGoToPosBallControl gtpBallcontrol;
+        ControlGoToPosBallControl gtpBallControl;
 
         void goToPosLuTh(RobotPtr robot, Vector2 &targetPos);
         ControlGoToPosLuTh gtpLuth;

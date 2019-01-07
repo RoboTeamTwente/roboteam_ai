@@ -21,6 +21,7 @@ void ControlGoToPos::clear(GoToType goToType) {
         break;
     }
     case bezier:break;
+
     }
 }
 
@@ -32,10 +33,10 @@ void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position) {
 void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goToType) {
 
     // TODO: auto switch to low level? maybe
-    //    if (distanceToTarget(robot, position) < errorMargin) {
-    //        ControlGoToPos::goToPosLowLevel(robot, position);
-    //        return;
-    //    }
+//        if (distanceToTarget(robot, position) < errorMargin) {
+//            ControlGoToPos::goToPosLowLevel(robot, position);
+//            return;
+//        }
 
 
     switch (goToType) {
@@ -73,7 +74,7 @@ void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goToTyp
     }
 }
 void ControlGoToPos::goToPosBallControl(RobotPtr robot, Vector2 &targetPos) {
-    Command command = gtpBallcontrol.goToPos(std::move(robot), targetPos);
+    Command command = gtpBallControl.goToPos(std::move(robot), targetPos);
     publishRobotCommand(command);
 }
 
@@ -86,7 +87,8 @@ void ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
 //        ROS_ERROR("Target position is not correct GoToPos");
 //        return;
 //    }
-    static Controller pidBasic(3, 0, 1.5);
+
+    static Controller pidBasic(3, 0.1, 1);
     Vector2 error;
     error.x = targetPos.x - robot->pos.x;
     error.y = targetPos.y - robot->pos.y;
@@ -115,8 +117,12 @@ void ControlGoToPos::goToPosForce(RobotPtr robot, Vector2 &targetPos) {
 }
 
 void ControlGoToPos::goToPosLuTh(RobotPtr robot, Vector2 &targetPos) {
-    Command command = gtpLuth.goToPos(std::move(robot), targetPos);
-    publishRobotCommand(command);
+    if ((static_cast<Vector2>(robot->pos) - targetPos).length() < 0.50) {
+        goToPosBasic(robot, targetPos);
+    } else {
+        Command command = gtpLuth.goToPos(robot, targetPos);
+        publishRobotCommand(command);
+    }
 
 }
 

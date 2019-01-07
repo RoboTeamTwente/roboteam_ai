@@ -17,9 +17,13 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
     command.id = robot->id;
 
     bool recalculate = false;
+    double deltaTarget = (abs((target - targetPos).length()));
+    double deltaPos = (abs((target - robot->pos).length()));
 
-    if (abs((target - targetPos).length()) > 0.3) recalculate = true;
-    else if (! me.posData.empty()) {
+    if (deltaTarget > errorMargin && !(deltaPos < errorMargin*4.0 && deltaTarget < errorMargin*2.0)) {
+            recalculate = true;
+    }
+    else if (me.posData.size() > 4) {
 
         auto robotPos = static_cast<Vector2>(robot->pos);
         int currentIndex = 0;
@@ -81,15 +85,6 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
             command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle, 0));
 
         }
-
-//        else {
-//            command.use_angle = 0;
-//
-//            Vector2 dir = (targetPos - robot->pos).normalize();
-//            command.x_vel = static_cast<float>(dir.x*2.0f);
-//            command.y_vel = static_cast<float>(dir.y*2.0f);
-//            command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle, 0));
-//        }
 
     }
 
@@ -162,7 +157,7 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
     while (! robotQueue.empty()) {
         ros::Time now = ros::Time::now();
 
-        if ((now - begin).toSec()*1000 > 70) { // time > 3ms
+        if ((now - begin).toSec()*1000 > 7) { // time > 3ms
             return false;
         }
 
@@ -175,6 +170,8 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
         else if (me->isCollision(me->targetPos)) {
             me->startIndex = me->posData.size();
             me->targetPos = target;
+            (me->collisions)--;
+            me->newDir = NumRobot::goMiddle;
         }
 
         if (calculateNextPoint(me)) robotQueue.push(me);

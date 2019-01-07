@@ -13,6 +13,7 @@
 #include <roboteam_ai/src/conditions/HasBall.hpp>
 #include <roboteam_ai/src/utilities/Coach.h>
 #include <roboteam_ai/src/control/ControlGoToPos.h>
+#include <roboteam_ai/src/control/ControlKick.h>
 #include "../control/PID.h"
 #include "roboteam_utils/Arc.h"
 #include "roboteam_utils/Math.h"
@@ -29,7 +30,7 @@ class Skill : public bt::Leaf {
 protected:
         io::IOManager ioManager;
 
-        using coach = coach::Coach;
+        using Coach = coach::Coach;
         using GoToType = control::ControlGoToPos::GoToType;
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
     public:
