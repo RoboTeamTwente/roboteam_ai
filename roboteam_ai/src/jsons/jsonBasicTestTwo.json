@@ -37,10 +37,45 @@
         "scope": "tree",
         "title": "ASimpleTree",
         "version": "0.3.0"
+      },
+      {
+        "description": "",
+        "id": "sAmPleNamE2",
+        "nodes": {
+          "12346": {
+            "children": [
+              "someID3"
+            ],
+            "description": "",
+            "display": {
+              "x": -48,
+              "y": 0
+            },
+            "id": "12346",
+            "name": "Repeat",
+            "properties": {},
+            "title": "Repeat"
+          },
+          "someID": {
+            "description": "",
+            "display": {},
+            "id": "someID3",
+            "name": "SimpleDefender",
+            "properties": {
+              "stayAwayFromBall": "maybe"
+            },
+            "title": "SimpleDefender_A"
+          }
+        },
+        "properties": {},
+        "root": "12346",
+        "scope": "tree",
+        "title": "ASimpleTreeV2",
+        "version": "0.3.0"
       }
     ],
     "version": "0.3.0"
   },
   "description": "Sample for the BT builder google tests and general understanding",
-  "name": "sample"
+  "name": "rtt_jsonBasicTestTwo"
 }
