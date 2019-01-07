@@ -112,6 +112,17 @@ Vector2 Keeper::computeBlockPoint(Vector2 defendPos) {
         blockPos = Vector2(goalPos.x + constants::KEEPER_POST_MARGIN, goalwidth/2
                 *signum(defendPos.y)); // Go stand at one of the poles depending on the side the defendPos is on.
     }
+    //Interface visualization:
+    std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
+    std::pair<rtt::Vector2, QColor> A=std::make_pair(blockPos,Qt::red);
+    displayColorData.push_back(A);
+    displayColorData.emplace_back(std::make_pair(blockLineStart,Qt::red));
+    displayColorData.emplace_back(std::make_pair(defendPos,Qt::red));
+    displayColorData.emplace_back(std::make_pair(goalPos + Vector2(0.0, goalwidth*0.5),Qt::green));
+    displayColorData.emplace_back(std::make_pair(goalPos - Vector2(0.0, goalwidth*0.5),Qt::green));
+    displayColorData.emplace_back(std::make_pair(robot->pos,Qt::blue));
+    interface::Drawer::setKeeperPoints(robot->id,displayColorData);
+
     return blockPos;
 }
 

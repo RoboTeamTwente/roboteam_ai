@@ -44,6 +44,16 @@ InterceptBall::Status InterceptBall::onUpdate() {
     }
     deltaPos = interceptPos - robot->pos;
     checkProgression();
+    //interface
+    displayColorData.emplace_back(std::make_pair(interceptPos,Qt::red));
+    displayColorData.emplace_back(std::make_pair(ballStartPos,Qt::red));
+    displayColorData.emplace_back(std::make_pair(ballEndPos,Qt::red));
+    displayColorData.emplace_back(std::make_pair(ball.pos,Qt::green));
+    displayColorData.emplace_back(std::make_pair(Vector2(ball.pos)+ Vector2(ball.vel)*constants::MAX_INTERCEPT_TIME,Qt::green));
+    interface::Drawer::setInterceptPoints(robot->id,displayColorData);
+    displayColorData.clear();
+
+
     tickCount ++;
     switch (currentProgression) {
         case INTERCEPTING:
@@ -69,7 +79,7 @@ InterceptBall::Status InterceptBall::onUpdate() {
 
 void InterceptBall::checkProgression() {
     if (keeper) {
-        if (ballInGoal()) {
+        if (ballInGoal()||missBall(ballStartPos, ballEndPos,ballStartVel)) {
             currentProgression = BALLMISSED;
         }
         //Check if the ball was deflected

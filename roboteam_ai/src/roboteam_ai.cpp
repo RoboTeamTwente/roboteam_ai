@@ -33,7 +33,7 @@ void runBehaviourTrees() {
     // Start running this tree first
     ros::Rate rate(rtt::ai::constants::tickRate); //50 Hz
 
-    BTFactory::setCurrentTree("SimpleDefendStrategy");
+    BTFactory::setCurrentTree("SimpleStrategy");
 
     // Main loop
     while (ros::ok()) {

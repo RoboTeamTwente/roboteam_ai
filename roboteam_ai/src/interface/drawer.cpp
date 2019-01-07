@@ -10,6 +10,9 @@ namespace interface {
 
 // declare static variables
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::GoToPosLuThPoints;
+std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::KeeperPoints;
+std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::InterceptPoints;
+
 std::mutex Drawer::mutex;
 
 void Drawer::setGoToPosLuThPoints(int id, std::vector<std::pair<rtt::Vector2, QColor>> points) {
@@ -31,6 +34,40 @@ std::vector<std::pair<Vector2, QColor>> Drawer::getGoToPosLuThPoints(int id) {
 
 }
 
+void Drawer::setKeeperPoints(int id,std::vector<std::pair<rtt::Vector2, QColor>> points) {
+    std::lock_guard<std::mutex> lock(mutex);
+
+    std::pair<int, std::vector<std::pair<rtt::Vector2, QColor>>> pair{id, std::move(points)};
+
+    KeeperPoints.erase(id);
+    KeeperPoints.insert(pair);
+}
+std::vector<std::pair<Vector2, QColor>> Drawer::getKeeperPoints(int id) {
+    std::lock_guard<std::mutex> lock(mutex);
+
+    if (KeeperPoints.find(id) != KeeperPoints.end()) {
+        return KeeperPoints.at(id);
+    }
+    return {};
+
+}
+void Drawer::setInterceptPoints(int id,std::vector<std::pair<rtt::Vector2, QColor>> points) {
+    std::lock_guard<std::mutex> lock(mutex);
+
+    std::pair<int, std::vector<std::pair<rtt::Vector2, QColor>>> pair{id, std::move(points)};
+
+    InterceptPoints.erase(id);
+    InterceptPoints.insert(pair);
+}
+std::vector<std::pair<Vector2, QColor>> Drawer::getInterceptPoints(int id) {
+    std::lock_guard<std::mutex> lock(mutex);
+
+    if (InterceptPoints.find(id) != InterceptPoints.end()) {
+        return InterceptPoints.at(id);
+    }
+    return {};
+
+}
 } // interface
 } // ai
 } // rtt
