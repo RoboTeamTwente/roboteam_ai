@@ -42,7 +42,6 @@
     <buildtool_depend>catkin</buildtool_depend>
 
     <build_depend>roboteam_msgs</build_depend>
-    <build_depend>roboteam_utils</build_depend>
     <build_depend>roscpp</build_depend>
     <build_depend>std_msgs</build_depend>
     <build_depend>actionlib</build_depend>
@@ -52,7 +51,6 @@
     <build_depend>qtbase5-dev</build_depend>
 
     <run_depend>roboteam_msgs</run_depend>
-    <run_depend>roboteam_utils</run_depend>
     <run_depend>roscpp</run_depend>
     <run_depend>rospy</run_depend>
     <run_depend>rqt_gui</run_depend>
