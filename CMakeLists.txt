@@ -249,8 +249,7 @@ set(INTERFACE_SOURCES
 
 set(SKILL_TESTS
         #Just segfaults:
-        #${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
-
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
 
         #breaks because of RobotDealing:
         #${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/KickTest.cpp
@@ -259,8 +258,6 @@ set(SKILL_TESTS
         )
 
 set(CONDITION_TESTS
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
-        #${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsRobotClosestToBallTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/TheyHaveBallTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/WeHaveBallTest.cpp
@@ -268,7 +265,8 @@ set(CONDITION_TESTS
 
         #breaks because of RobotDealing:
         #${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
-
+        #${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
+        #${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsRobotClosestToBallTest.cpp
         )
 
 ### TEST SOURCES END ###

@@ -33,7 +33,7 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
     worldMsg.ball.pos.y=1.0;
     rtt::ai::World::set_world(worldMsg);
 
-    // Test should succeed because one robot is always closests to the ball
+    // Test should succeed because one robot is always closest to the ball
     ASSERT_EQ(Node.update(), bt::Node::Status::Success);
 
     roboteam_msgs::WorldRobot robot2;
