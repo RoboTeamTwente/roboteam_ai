@@ -23,10 +23,7 @@ find_package(catkin REQUIRED COMPONENTS
         actionlib_msgs
         actionlib
         uuid_msgs
-        unique_id
-        )
-
-### SOURCES BEGIN ###
+        unique_id)
 
 set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/json.h
@@ -60,9 +57,7 @@ set(DANGER_FINDER_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/modules/HasBallModule.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/modules/HasBallModule.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/modules/OrientationModule.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/modules/OrientationModule.h
-        )
-
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/modules/OrientationModule.h)
 
 set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/MemSelector.hpp
@@ -207,8 +202,7 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallKickedToOurGoal.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallKickedToOurGoal.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanSeeGoal.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanSeeGoal.h
-        )
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanSeeGoal.h)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
@@ -217,7 +211,6 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/controlGoToPos/ControlGoToPosLuTh.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/controlGoToPos/ControlGoToPosBallControl.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/controlGoToPos/ControlGoToPosBallControl.cpp
-
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlGoToPos.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlGoToPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlRotate.h
@@ -227,8 +220,7 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PID.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PID.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.h
-        )
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.h)
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/mainWindow.cpp
@@ -236,20 +228,36 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widget.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widget.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/drawer.cpp roboteam_ai/src/interface/drawer.h)
-### SOURCES END ###
 
-### TEST SOURCES BEGIN ###
-
-set(SKILL_TESTS
+set(TEST_SOURCES
         roboteam_ai/test/SkillTests/KickTest.cpp
-        )
-
-set(CONDITION_TESTS
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
-        )
+        roboteam_ai/test/main.cpp
+        #roboteam_ai/test/BtTest.cpp
+        #roboteam_ai/test/JsonTest.cpp
+        #roboteam_ai/test/BTFactoryTest.cpp
+        #roboteam_ai/test/WorldTest.cpp
+        roboteam_ai/test/FieldTest.cpp
+        #roboteam_ai/test/DangerFinderTest.cpp
+        roboteam_ai/test/BTBlackBoardTest.cpp
+        roboteam_ai/test/IOTest.cpp
+        roboteam_ai/test/RobotDealerTest.cpp
+        roboteam_ai/test/RefereeTest.cpp
+        roboteam_ai/test/StrategyManagerTest.cpp
+        roboteam_ai/test/PropertiesParserTest.cpp
+        #roboteam_ai/test/ControUtilsTest.cpp
+        roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
+        roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
+        roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/IsRobotClosestToBallTest.cpp
+        roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
+        roboteam_ai/test/ConditionTests/TheyHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/WeHaveBallTest.cpp
+        roboteam_ai/test/ConditionTests/IsOnOurSideTest.cpp)
+
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/mainWindow.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/mainWindow.h
@@ -260,11 +268,8 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanSeeGoal.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanSeeGoal.h)
 
-### TEST SOURCES END ###
-
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
-
 add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 # Main Executable
@@ -288,30 +293,7 @@ target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} Qt5::Widgets Qt5::Gui)
 ## Testing ##
 #############
 catkin_add_gtest(ai_tests
-        roboteam_ai/test/main.cpp
-        #roboteam_ai/test/BtTest.cpp
-        #roboteam_ai/test/JsonTest.cpp
-        #roboteam_ai/test/BTFactoryTest.cpp
-        #roboteam_ai/test/WorldTest.cpp
-        roboteam_ai/test/FieldTest.cpp
-        #roboteam_ai/test/DangerFinderTest.cpp
-        roboteam_ai/test/BTBlackBoardTest.cpp
-        roboteam_ai/test/IOTest.cpp
-        roboteam_ai/test/RobotDealerTest.cpp
-        roboteam_ai/test/RefereeTest.cpp
-        roboteam_ai/test/StrategyManagerTest.cpp
-        roboteam_ai/test/PropertiesParserTest.cpp
-        #roboteam_ai/test/ControUtilsTest.cpp
-        ${SKILL_TESTS}
-        roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
-        ${CONDITION_TESTS}
-        roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
-        roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
-        roboteam_ai/test/ConditionTests/IsRobotClosestToBallTest.cpp
-        roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
-        roboteam_ai/test/ConditionTests/TheyHaveBallTest.cpp
-        roboteam_ai/test/ConditionTests/WeHaveBallTest.cpp
-        roboteam_ai/test/ConditionTests/IsOnOurSideTest.cpp
+
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
@@ -320,16 +302,14 @@ catkin_add_gtest(ai_tests
         ${CONDITIONS_SOURCES}
         ${SKILLS_SOURCES}
         ${CONTROL_SOURCES}
-        ${TACTIC_SOURCES}
-        )
+        ${TACTIC_SOURCES})
 
 target_compile_options(ai_tests PUBLIC --coverage)
 
 target_link_libraries(ai_tests
         ${catkin_LIBRARIES}
         gcov
-        Qt5::Widgets Qt5::Gui
-        )
+        Qt5::Widgets Qt5::Gui)
 
 include(CodeCoverage)
 APPEND_COVERAGE_COMPILER_FLAGS()
