@@ -7,8 +7,8 @@
 #include "ControlUtils.h"
 
 namespace rtt{
-namespace ai {
-namespace control {
+    namespace ai {
+        namespace control {
 
 double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAngle) {
     double direction = 1;               // counter clockwise rotation
@@ -24,7 +24,6 @@ double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAn
     if (angleDiff > 1)angleDiff = 1;
     return direction*(std::pow(rotFactor, angleDiff - 1)*rtt::ai::constants::MAX_ANGULAR_VELOCITY - 1/rotFactor);
 }
-
 //Efficient implementation, see this: https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
 bool ControlUtils::pointInTriangle(Vector2 PointToCheck, Vector2 TP1, Vector2 TP2, Vector2 TP3) {
     double as_x = PointToCheck.x - TP1.x;
@@ -37,7 +36,6 @@ bool ControlUtils::pointInTriangle(Vector2 PointToCheck, Vector2 TP1, Vector2 TP
 double ControlUtils::TriangleArea(Vector2 A, Vector2 B, Vector2 C) {
     return abs((A.x*(B.y - C.y) + B.x*(C.y - A.y) + C.x*(A.y - B.y))*0.5);
 }
-
 ///Square points must be connected! (e.g. SP1 is connected to SP2 and SP4)
 bool ControlUtils::pointInRectangle(Vector2 PointToCheck, Vector2 SP1, Vector2 SP2, Vector2 SP3, Vector2 SP4) {
     if (pointInTriangle(PointToCheck, SP1, SP2, SP3)) {
@@ -45,7 +43,6 @@ bool ControlUtils::pointInRectangle(Vector2 PointToCheck, Vector2 SP1, Vector2 S
     }
     else return pointInTriangle(PointToCheck, SP4, SP1, SP2);
 }
-
 double ControlUtils::constrainAngle(double angle) {
     angle = fmod(angle + M_PI, 2*M_PI);
     if (angle < 0)
@@ -53,7 +50,6 @@ double ControlUtils::constrainAngle(double angle) {
     return angle - M_PI;
 
 }
-
 rtt::Vector2 ControlUtils::getClosestRobot(Vector2 &pos, int &id, bool ourTeam, float &t) {
     auto world = rtt::ai::World::get_world();
     Vector2 closestPos = {420, 420};
@@ -191,7 +187,6 @@ bool ControlUtils::lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd, V
     return false; // Doesn't fall in any of the above cases
 
 }
-
 rtt::Arc ControlUtils::createKeeperArc() {
     double goalwidth = rtt::ai::Field::get_field().goal_width;
     Vector2 goalPos = rtt::ai::Field::get_our_goal_center();

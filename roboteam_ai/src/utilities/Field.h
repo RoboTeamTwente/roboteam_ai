@@ -8,7 +8,7 @@
 #ifndef ROBOTEAM_AI_FIELD_H
 #define ROBOTEAM_AI_FIELD_H
 
-#include "../utilities/Vector2.h"
+#include <roboteam_utils/Vector2.h>
 #include "roboteam_msgs/GeometryFieldSize.h"
 
 namespace rtt {

@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_COACH_H
 #define ROBOTEAM_AI_COACH_H
 
+#include <roboteam_utils/LastWorld.h>
 #include "RobotDealer.h"
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/dangerfinder/DangerData.h>

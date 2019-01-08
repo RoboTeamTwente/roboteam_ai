@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_PROPERTIESPARSER_H
 
 #include <string>
-#include "../utilities/Vector2.h"
+#include "roboteam_utils/Vector2.h"
 #include "../bt/Blackboard.hpp"
 #include "json.h"
 #include "JsonReader.h"

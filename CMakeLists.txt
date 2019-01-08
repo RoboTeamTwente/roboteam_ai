@@ -18,6 +18,7 @@ find_package(Qt5Widgets REQUIRED)
 
 find_package(catkin REQUIRED COMPONENTS
         roboteam_msgs
+        roboteam_utils
         roscpp
         roslib
         std_msgs
@@ -134,7 +135,7 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Coach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Coach.cpp
-        roboteam_ai/src/utilities/Vector2.cpp roboteam_ai/src/utilities/Vector2.h)
+        )
 
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
