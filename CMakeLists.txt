@@ -247,9 +247,9 @@ set(SKILL_TESTS
         #${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
 
         #breaks because of RobotDealing:
-        #${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/KickTest.cpp
-        #${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/GoToPosTest.cpp
-        #${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/RotateTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/KickTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/GoToPosTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/RotateTest.cpp
         )
 
 set(CONDITION_TESTS
@@ -259,9 +259,9 @@ set(CONDITION_TESTS
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsOnOurSideTest.cpp
 
         #breaks because of RobotDealing:
-        #${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
-        #${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
-        #${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsRobotClosestToBallTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsRobotClosestToBallTest.cpp
         )
 
 catkin_package()
