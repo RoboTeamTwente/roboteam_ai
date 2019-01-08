@@ -311,7 +311,7 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/RefereeTest.cpp
         roboteam_ai/test/StrategyManagerTest.cpp
         roboteam_ai/test/PropertiesParserTest.cpp
-        #roboteam_ai/test/ControUtilsTest.cpp
+        roboteam_ai/test/ControlUtilsTest.cpp
         ${SKILL_TESTS}
         ${CONDITION_TESTS}
 
