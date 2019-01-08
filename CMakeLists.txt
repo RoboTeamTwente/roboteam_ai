@@ -296,7 +296,6 @@ catkin_add_gtest(ai_tests
         ${SKILLS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}
-        ${INTERFACE_SOURCES}
         ${TEST_SOURCES}
         )
 
