@@ -87,10 +87,7 @@ void ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
 //        return;
 //    }
 
-    static Controller pidBasic(3, 0, 0.5);
-    Vector2 error;
-    error.x = targetPos.x - robot->pos.x;
-    error.y = targetPos.y - robot->pos.y;
+    Vector2 error = targetPos - robot->pos;
     double dist = error.length();
     static bool far = true;
     if (dist > rtt::ai::constants::ROBOT_RADIUS and ! far) {
@@ -101,11 +98,14 @@ void ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
         pidBasic.setD(0);
         far = false;
     }
+    //if (dist > rtt::ai::constants::ROBOT_RADIUS) {
+    //    std::cout << "Robot:" << robot->id << "TargetPos:" << dist << std::endl;
+    //}
     Vector2 delta = pidBasic.controlPIR(error, robot->vel);
     Command command;
     command.id = robot->id;
     command.use_angle = 1;
-    command.w = static_cast<float>(delta.angle());
+    command.w = 0;
     command.x_vel = static_cast<float>(delta.x);
     command.y_vel = static_cast<float>(delta.y);
     publishRobotCommand(command);
@@ -145,6 +145,7 @@ double ControlGoToPos::distanceToTarget(RobotPtr robot, Vector2 &targetPos) {
 }
 ControlGoToPos::ControlGoToPos() {
     rtt::ai::io::IOManager temp(false, true);
+    pidBasic.setPID(3, 0, 1.5);
     ioManager = temp;
 }
 

@@ -60,6 +60,7 @@ class ControlGoToPos {
         //ControlGoToPosForce gtpForce;
 
         void goToPosBasic(RobotPtr robot, Vector2 &targetPos);
+        Controller pidBasic;
         //ControlGoToPosBasic gtpBasic;
         //ControlGoToPosBasic basic;
 
