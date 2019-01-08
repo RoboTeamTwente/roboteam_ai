@@ -22,7 +22,7 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
     double deltaTarget = (abs((target - targetPos).length()));
     double deltaPos = (abs((target - robot->pos).length()));
 
-    if (deltaTarget > errorMargin && !(deltaPos < errorMargin*4.0 && deltaTarget < errorMargin*2.0)) {
+    if (deltaTarget > errorMargin && !(deltaPos < errorMargin*4.0 && deltaTarget > errorMargin*2.0)) {
             recalculate = true;
     }
     else if (me.posData.size() > 4) {
@@ -111,12 +111,11 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
 
         if (! pidInit) {
             pidInit = true;
-            pid.initialize(1.0/rtt::ai::constants::tickRate);
-            pid.setParams(3.0, 0.0, 0.2, 0.0, 0.0, 0.0);
+            pid.setPID(3.0, 0, 0.5);
         }
 
         Vector2 pidPos = me.posData[toStep];
-        Vector2 vel = pid.posControl(robot->pos, pidPos, robot->vel);
+        Vector2 vel = pid.controlPIR(pidPos - robot->pos, robot->vel);
         if (vel.length() > 3.0)
             vel = vel.normalize()*3.0;
         command.x_vel = static_cast<float>(vel.x);

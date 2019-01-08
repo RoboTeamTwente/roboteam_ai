@@ -12,8 +12,8 @@
 #include <roboteam_msgs/RobotCommand.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "ros/ros.h"
-#include "../PID.h"
 #include "../../utilities/Constants.h"
+#include <roboteam_ai/src/control/Controller.h>
 
 #ifndef ROBOTEAM_AI_GOTOPOSINCLUDE_H
 #define ROBOTEAM_AI_GOTOPOSINCLUDE_H
