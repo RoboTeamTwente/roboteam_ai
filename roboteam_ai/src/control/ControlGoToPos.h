@@ -12,6 +12,7 @@
 #include <roboteam_msgs/WorldRobot.h>
 #include <roboteam_msgs/RobotCommand.h>
 #include <roboteam_ai/src/io/IOManager.h>
+#include <utility>
 
 #include "ros/ros.h"
 #include "../io/IOManager.h"

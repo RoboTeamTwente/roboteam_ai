@@ -68,6 +68,9 @@ const int BALL_DRAWING_SIZE = 5;
 const int TACTIC_COLOR_DRAWING_SIZE = 10;
 const int WINDOW_FIELD_MARGIN = 5;
 
+const int KEEPER_HELP_DRAW_SIZE=7;
+const int INTERCEPT_DRAW_VECTOR_SIZE=5;
+
 // Settings
 const bool STD_SHOW_ROLES = false;
 const bool STD_SHOW_TACTICS = false;

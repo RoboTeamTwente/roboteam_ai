@@ -3,7 +3,6 @@
 //
 
 #include <roboteam_ai/src/interface/drawer.h>
-#include <roboteam_ai/src/control/PID.h>
 #include <roboteam_ai/src/control/Controller.h>
 #include "Keeper.h"
 namespace rtt {
@@ -53,7 +52,7 @@ void Keeper::onTerminate(Status s) {
 
 void Keeper::sendMoveCommand(Vector2 pos) {
     Vector2 error = pos - robot->pos;
-    Vector2 delta = pid.controlPIR2(error, robot->vel);
+    Vector2 delta = pid.controlPIR(error, robot->vel);
     Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
@@ -65,7 +64,7 @@ void Keeper::sendMoveCommand(Vector2 pos) {
 }
 void Keeper::sendFineMoveCommand(Vector2 pos) {
     Vector2 error = pos - robot->pos;
-    Vector2 delta = finePid.controlPIR2(error, robot->vel);
+    Vector2 delta = finePid.controlPIR(error, robot->vel);
     Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;

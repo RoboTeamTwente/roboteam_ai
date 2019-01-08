@@ -79,7 +79,7 @@ InterceptBall::Status InterceptBall::onUpdate() {
 
 void InterceptBall::checkProgression() {
     if (keeper) {
-        if (ballInGoal()||missBall(ballStartPos, ballEndPos,ballStartVel)) {
+        if (ballInGoal()|| missedBall(ballStartPos, ballEndPos, ballStartVel)) {
             currentProgression = BALLMISSED;
         }
         //Check if the ball was deflected
@@ -91,7 +91,7 @@ void InterceptBall::checkProgression() {
     }
     else {
         //check if we missed the ball
-        if (missBall(ballStartPos, ballEndPos, ballStartVel) || tickCount > maxTicks) {
+        if (missedBall(ballStartPos, ballEndPos, ballStartVel) || tickCount > maxTicks) {
             currentProgression = BALLMISSED;
             return;
         }
@@ -143,8 +143,8 @@ Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall)
     Vector2 interceptionPoint;
     if (keeper) {
         //This is done in control library as it is needed in intercept too
-        // Depends on two keeper constants
-        Arc keeperCircle = control::ControlUtils::createKeeperArc(); // Arc class is pretty horrible.
+        // Depends on two keeper constants in constants!
+        Arc keeperCircle = control::ControlUtils::createKeeperArc();
         std::pair<boost::optional<Vector2>, boost::optional<Vector2>> intersections = keeperCircle.intersectionWithLine(
                 startBall, endBall);
         if (intersections.first && intersections.second) {
@@ -173,7 +173,7 @@ Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall)
     return interceptionPoint;
 }
 // Checks if the Robot already missed the Ball
-bool InterceptBall::missBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel) {
+bool InterceptBall::missedBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel) {
     double interceptDist = (interceptPos - startBall).length();
     double angleDev = tan(constants::ROBOT_RADIUS/interceptDist);
     double rectHalfLength = atan(angleDev)
@@ -210,18 +210,18 @@ bool InterceptBall::ballDeflected() {
     return true;
 }
 void InterceptBall::sendStopCommand() {
-    roboteam_msgs::RobotCommand cmd;
-    cmd.use_angle = 1;
-    cmd.id = robotId;
-    cmd.x_vel = 0;
-    cmd.y_vel = 0;
+    roboteam_msgs::RobotCommand command;
+    command.use_angle = 1;
+    command.id = robotId;
+    command.x_vel = 0;
+    command.y_vel = 0;
     //TODO: Perhaps make the desired end orientation a boolean/switch?
-    cmd.w = static_cast<float>((ballStartPos-interceptPos).angle()); //Rotates orthogonal to the line of the ball
-    publishRobotCommand(cmd);
+    command.w = static_cast<float>((ballStartPos-interceptPos).angle()); //Rotates orthogonal to the line of the ball
+    publishRobotCommand(command);
 }
 void InterceptBall::sendFineInterceptCommand() {
     Vector2 error= interceptPos-robot->pos;
-    Vector2 delta = pid.controlPIR2(error,robot->vel);
+    Vector2 delta = pid.controlPIR(error, robot->vel);
     Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
@@ -232,20 +232,20 @@ void InterceptBall::sendFineInterceptCommand() {
     publishRobotCommand(cmd);
 }
 void InterceptBall::sendInterceptCommand() {
-    Vector2 delta = finePid.controlPID2(interceptPos-robot->pos);
+    Vector2 delta = finePid.controlPID(interceptPos - robot->pos);
     Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
-    roboteam_msgs::RobotCommand cmd;
-    cmd.use_angle = 1;
-    cmd.id = robot->id;
-    cmd.x_vel = static_cast<float>(deltaLim.x);
-    cmd.y_vel = static_cast<float>(deltaLim.y);
+    roboteam_msgs::RobotCommand command;
+    command.use_angle = 1;
+    command.id = robot->id;
+    command.x_vel = static_cast<float>(deltaLim.x);
+    command.y_vel = static_cast<float>(deltaLim.y);
     if (backwards) {
-        cmd.w = static_cast<float>(deltaLim.rotate(M_PI).angle());
+        command.w = static_cast<float>(deltaLim.rotate(M_PI).angle());
     }
     else{
-        cmd.w= static_cast<float>(deltaLim.angle());
+        command.w= static_cast<float>(deltaLim.angle());
     }
-    publishRobotCommand(cmd);
+    publishRobotCommand(command);
 
 }
 //Checks if the ball is kicked to Goal. Kind of duplicate to the condition, but this uses an extra saftey margin

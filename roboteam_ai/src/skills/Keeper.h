@@ -7,7 +7,6 @@
 #include "Skill.h"
 #include "roboteam_utils/Arc.h"
 #include "roboteam_utils/Math.h"
-#include "../control/PID.h"
 #include "../control/Controller.h"
 
 namespace rtt{
