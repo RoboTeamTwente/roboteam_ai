@@ -13,7 +13,7 @@ GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
 }
 
-// Essentially a state transition diagram.
+// Essentially a state transition diagram. Contains much of the logic
 void GetBall::checkProgression() {
     if (deltaPos.length() > c::MAX_GETBALL_RANGE) {
         currentProgress = FAIL;
