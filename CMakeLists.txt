@@ -4,7 +4,6 @@ project(roboteam_ai)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 
-SET(CMAKE_PREFIX_PATH "/usr/include/x86_64-linux-gnu/qt5")
 SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
 
 # Find includes in corresponding build directories
