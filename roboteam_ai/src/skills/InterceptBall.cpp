@@ -121,7 +121,7 @@ void InterceptBall::checkProgression() {
     case OVERSHOOT:
         if (dist <constants::ROBOT_RADIUS) {
             currentProgression = CLOSETOPOINT;
-        };// Go back to closetopoint
+        };// Go back to closestopoint
     case INPOSITION:
         if (dist < constants::INTERCEPT_POSDIF) {
             return;

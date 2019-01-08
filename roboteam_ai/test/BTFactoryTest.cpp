@@ -29,7 +29,7 @@ TEST(BT, BasicFactoryTest) {
     dummyFactory.init();
     std::string trace = "";
 
-    bt::BehaviorTree::Ptr strategyTree = dummyFactory.getTree("DemoStrategy");
+    bt::BehaviorTree::Ptr strategyTree = dummyFactory.getTree("haltStrategy");
     bt::Node::Ptr node = strategyTree->GetRoot();
 
     // add the first node
@@ -41,5 +41,5 @@ TEST(BT, BasicFactoryTest) {
         node = node->getChildren().at(0);
         trace += node->node_name() + "-";
     }
-    ASSERT_EQ(trace, "Repeater-Demo Tactic-testRole-MemSequence-GoToPos-");
+    ASSERT_EQ(trace, "UntilSuccess-haltTactic-ParallelSequence-halt0-UntilSuccess-Halt-");
 }

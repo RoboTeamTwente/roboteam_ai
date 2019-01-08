@@ -13,6 +13,7 @@ std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::GoToPosLuThPoints
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::KeeperPoints;
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::InterceptPoints;
 
+
 std::mutex Drawer::keeperMutex;
 std::mutex Drawer::goToPosMutex;
 std::mutex Drawer::interceptMutex;
