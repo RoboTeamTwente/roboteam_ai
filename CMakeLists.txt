@@ -302,7 +302,7 @@ catkin_add_gtest(ai_tests
         roboteam_ai/test/main.cpp
         roboteam_ai/test/BtTest.cpp
         roboteam_ai/test/JsonTest.cpp
-        #roboteam_ai/test/BTFactoryTest.cpp
+        roboteam_ai/test/BTFactoryTest.cpp
         roboteam_ai/test/WorldTest.cpp
         roboteam_ai/test/FieldTest.cpp
         #roboteam_ai/test/DangerFinderTest.cpp
