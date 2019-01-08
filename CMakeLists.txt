@@ -4,7 +4,6 @@ project(roboteam_ai)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 
-
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Instruct CMake to run moc automatically when needed
@@ -18,7 +17,6 @@ find_package(Qt5Widgets CONFIG REQUIRED)
 find_package(catkin REQUIRED COMPONENTS
         roboteam_msgs
         roboteam_utils
-        roboteam_world
         roscpp
         roslib
         std_msgs
