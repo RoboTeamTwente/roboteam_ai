@@ -99,14 +99,14 @@ void Dribble::onInitialize() {
 }
 
 Dribble::Status Dribble::onUpdate() {
-    if (currentProgress == Progression::FAIL || !ball) {
+    if (currentProgress == Progression::FAIL) {
         return Status::Failure;
     }
     else if (currentProgress == Progression::WAITING) {
         return Status::Waiting;
     }
 
-    deltaPos = targetPos - Vector2(ball->pos.x, ball->pos.y);
+    deltaPos = targetPos - Vector2(ball->pos);
     currentProgress = checkProgression();
 
     if (currentProgress == STOPPED) {

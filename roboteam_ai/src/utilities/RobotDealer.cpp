@@ -79,10 +79,11 @@ int RobotDealer::claimRobotForTactic(RobotDealer::RobotType feature, std::string
 
             case closeToBall: {
                 auto ball = rtt::ai::World::getBall();
-                rtt::Vector2 ballPos = ball->pos;
-                if (! ball) {
-                    ROS_ERROR("Robotdealer CloseToBall - No ball found in field. get robot closests to point (%i, %i) instead",
-                            static_cast<int>(ballPos.x), static_cast<int>(ballPos.y));
+                rtt::Vector2 ballPos;
+                if (ball) {
+                    ballPos = ball->pos;
+                } else {
+                    ROS_ERROR("Robotdealer CloseToBall - No ball found in field. Assuming (%f, %f)", ballPos.x, ballPos.y);
                 }
                 id = getRobotClosestToPoint(ids, ballPos);
                 break;
@@ -90,11 +91,13 @@ int RobotDealer::claimRobotForTactic(RobotDealer::RobotType feature, std::string
 
             case betweenBallAndOurGoal: {
                 auto ball = rtt::ai::World::getBall();
-                rtt::Vector2 ballPos = ball->pos;
 
-                if (! ball) {
-                    ROS_ERROR("Robotdealer CloseToBall - No ball found in field. Assuming ball at (%i, %i).",
-                            static_cast<int>(ballPos.x), static_cast<int>(ballPos.y));
+                rtt::Vector2 ballPos;
+                if (ball) {
+                   ballPos = ball->pos;
+                } else {
+                    ballPos = {0, 0};
+                    ROS_ERROR("Robotdealer CloseToBall - No ball found in field. Assuming ball at (%f, %f).", ballPos.x, ballPos.y);
                 }
 
                 rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
