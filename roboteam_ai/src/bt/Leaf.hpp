@@ -8,7 +8,6 @@ class Leaf : public Node {
     public:
         Leaf() = default;
         Leaf(std::string name, Blackboard::Ptr blackboard);
-        void setName(std::string);
         std::string name;
 
     protected:

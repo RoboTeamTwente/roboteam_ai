@@ -327,7 +327,8 @@ catkin_add_gtest(ai_tests
         ${SKILLS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}
-        )
+        ${INTERFACE_SOURCES}
+)
 
 target_compile_options(ai_tests PUBLIC --coverage)
 
