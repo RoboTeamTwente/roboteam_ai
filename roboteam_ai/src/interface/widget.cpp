@@ -29,7 +29,7 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         if (showPath) {
             for (auto robot : selectedRobots) {
                 drawDataPoints(painter, Drawer::getGoToPosLuThPoints(robot.id));
-                drawDataPoints(painter, Drawer::getKeeperPoints(robot.id),7);
+                drawDataPoints(painter, Drawer::getKeeperPoints(robot.id),constants::KEEPER_HELP_DRAW_SIZE);
                 drawIntercept(painter, Drawer::getInterceptPoints(robot.id));
             }
         }
@@ -292,19 +292,23 @@ bool Visualizer::robotIsSelected(roboteam_msgs::WorldRobot robotToCheck) {
 }
 
 void Visualizer::drawIntercept(QPainter &painter, std::vector<std::pair<rtt::Vector2, QColor>> points) {
-    for (int j = 0; j <5; ++ j) {
-        if (j<1){
-            Vector2 PointZ=toScreenPosition(points[j].first);
-            painter.setPen(points[j].second);
-            painter.drawEllipse(PointZ.x,PointZ.y,8,8);
-        }
-        else{
-            painter.setPen(points[j].second);
-            Vector2 pointA=toScreenPosition(points[j].first);
-            Vector2 pointB=toScreenPosition(points[j+1].first);
-            painter.drawLine(pointA.x,pointA.y,pointB.x,pointB.y);
-            ++ j;
+    if (! points.empty()) {
+        for (int j = 0; j < constants::INTERCEPT_DRAW_VECTOR_SIZE; ++ j) {
+            //first point needs to be drawn as a standalone (is not a line)
+            if (j < 1) {
+                Vector2 PointZ = toScreenPosition(points[j].first);
+                painter.setPen(points[j].second);
+                painter.drawEllipse(PointZ.x, PointZ.y, constants::KEEPER_HELP_DRAW_SIZE,
+                        constants::KEEPER_HELP_DRAW_SIZE);
+            }
+            else {
+                painter.setPen(points[j].second);
+                Vector2 pointA = toScreenPosition(points[j].first);
+                Vector2 pointB = toScreenPosition(points[j + 1].first);
+                painter.drawLine(pointA.x, pointA.y, pointB.x, pointB.y);
+                ++ j;
 
+            }
         }
     }
 }
