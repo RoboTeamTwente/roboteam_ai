@@ -222,13 +222,6 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.h)
 
-set(INTERFACE_SOURCES
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/mainWindow.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/mainWindow.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widget.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widget.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/drawer.cpp roboteam_ai/src/interface/drawer.h)
-
 set(TEST_SOURCES
         roboteam_ai/test/SkillTests/KickTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
@@ -264,9 +257,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widget.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widget.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/drawer.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/drawer.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanSeeGoal.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanSeeGoal.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/drawer.h)
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
