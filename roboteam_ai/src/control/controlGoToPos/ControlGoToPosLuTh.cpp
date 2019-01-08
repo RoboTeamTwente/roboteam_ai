@@ -80,11 +80,9 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
         }
 
         if (! nicePath) {
-            command.use_angle = 0;
             Vector2 dir = (targetPos - robot->pos).normalize();
             command.x_vel = static_cast<float>(dir.x*2.0f);
             command.y_vel = static_cast<float>(dir.y*2.0f);
-            command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle, 0));
 
         }
 
@@ -98,12 +96,10 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
 
     if (me.posData.size() < minStep) {
         me.clear();
-        command.use_angle = 0;
 
         Vector2 dir = (targetPos - robot->pos).normalize();
         command.x_vel = static_cast<float>(dir.x*2.0f);
         command.y_vel = static_cast<float>(dir.y*2.0f);
-        command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle, 0));
     }
     else {
         auto size = static_cast<int>(me.posData.size() - 1);
@@ -120,8 +116,6 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
             vel = vel.normalize()*3.0;
         command.x_vel = static_cast<float>(vel.x);
         command.y_vel = static_cast<float>(vel.y);
-        command.use_angle = 0;
-        command.w = static_cast<float>(control::ControlUtils::calculateAngularVelocity(robot->angle, 0));
 
     }
 

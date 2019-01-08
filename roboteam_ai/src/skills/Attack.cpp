@@ -26,23 +26,29 @@ bt::Node::Status Attack::onUpdate() {
     if (! Control::pointInTriangle(robot->pos, ball-deltaBall, ball + (deltaBall).rotate(M_PI*0.17).scale(2.0),
             ball + (deltaBall).rotate(M_PI*- 0.17).scale(2.0))) {
         targetPos = behindBall;
-        goToPos.goToPos(robot, targetPos, GoToType::luTh);
-        std::cout << "luth\n";
-    }
-    else {
+
         roboteam_msgs::RobotCommand command;
         command.id = robot->id;
         command.use_angle = 1;
-        command.w = static_cast<float>((ball - behindBall).angle());
+        command.w = static_cast<float>((ball - (Vector2)(robot->pos)).angle());
         publishRobotCommand(command);
-        targetPos = ball;
         goToPos.goToPos(robot, targetPos, GoToType::basic);
 
+    }
+    else {
+
+        targetPos = ball;
+
+        roboteam_msgs::RobotCommand command;
+        command.id = robot->id;
+        command.use_angle = 1;
+        command.w = static_cast<float>(((Vector2){-1.0,-1.0} * deltaBall).angle());
+        publishRobotCommand(command);
         if (Coach::doesRobotHaveBall(robot->id, true)) {
             unsigned char forced_kick = 1;
             kicker.kick(robot, forced_kick);
         }
-        std::cout << "basic\n";
+        goToPos.goToPos(robot, targetPos, GoToType::basic);
 
     }
 

@@ -106,8 +106,6 @@ void ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
     Vector2 delta = pidBasic.controlPIR(error, robot->vel);
     Command command;
     command.id = robot->id;
-    command.use_angle = 1;
-    command.w = static_cast<float>(delta.angle());
     command.x_vel = static_cast<float>(delta.x);
     command.y_vel = static_cast<float>(delta.y);
     publishRobotCommand(command);
