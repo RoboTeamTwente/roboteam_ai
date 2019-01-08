@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_CONTROLUTILS_H
 
 #include "../utilities/Constants.h"
-#include "roboteam_utils/Vector2.h"
+#include "../utilities/Vector2.h"
 #include "math.h"
 #include "../utilities/World.h"
 #include "roboteam_utils/Arc.h"

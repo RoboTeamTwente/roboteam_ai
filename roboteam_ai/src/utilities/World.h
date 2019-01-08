@@ -12,8 +12,8 @@
 #ifndef ROBOTEAM_AI_WORLD_H
 #define ROBOTEAM_AI_WORLD_H
 
-#include "roboteam_utils/Vector2.h"
-#include "roboteam_utils/constants.h"
+#include "../utilities/Vector2.h"
+#include "../utilities/Constants.h"
 #include "roboteam_msgs/World.h"
 #include "roboteam_msgs/GeometryData.h"
 
