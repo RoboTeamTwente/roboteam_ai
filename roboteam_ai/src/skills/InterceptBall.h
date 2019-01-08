@@ -24,7 +24,7 @@ class InterceptBall :public Skill {
         void sendFineInterceptCommand();
         void sendStopCommand();
 
-        bool missBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel);
+        bool missedBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel);
         bool ballDeflected();
 
         Vector2 ballStartPos, ballStartVel, ballEndPos, interceptPos;
