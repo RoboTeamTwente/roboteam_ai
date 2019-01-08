@@ -17,7 +17,7 @@ bt::Node::Status BallKickedToOurGoal::update() {
     Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth + margin));
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth + margin);
     Vector2 ballPos = ball->pos;
-    Vector2 ballPredPos = Vector2(ballPos) + Vector2(ballPos)*constants::BALL_TO_GOAL_TIME;
+    Vector2 ballPredPos = Vector2(ballPos) + Vector2(ball->vel)*constants::BALL_TO_GOAL_TIME;
     // Check if the extension of the velocity vector goes through the goal.
     // The line drawn for the ball is the predicted position in 1.5 seconds
     if (control::ControlUtils::lineSegmentsIntersect(lowerPost, upperPost, ballPos, ballPredPos)) {
