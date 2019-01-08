@@ -19,7 +19,6 @@ class InterceptBall :public Skill {
         Progression currentProgression;
         void checkProgression();
 
-        roboteam_msgs::WorldBall ball;
         void sendInterceptCommand();
         void sendFineInterceptCommand();
         void sendStopCommand();

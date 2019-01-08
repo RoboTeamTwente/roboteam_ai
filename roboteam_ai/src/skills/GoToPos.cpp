@@ -8,13 +8,10 @@ namespace rtt {
 namespace ai {
 
 GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
-}
+        :Skill(std::move(name), std::move(blackboard)) { }
 
 /// Init the GoToPos skill
 void GoToPos::onInitialize() {
-    robot = getRobotFromProperties(properties);
-
     goToBall = properties->getBool("goToBall");
     goBehindBall = properties->getBool("goBehindBall");
 
@@ -30,19 +27,17 @@ void GoToPos::onInitialize() {
 
 /// Get an update on the skill
 bt::Node::Status GoToPos::onUpdate() {
-    updateRobot();
     if (! robot) return Status::Running;
+    if (!ball) return Status::Running;
 
     if (goToBall) {
-        auto ball = World::getBall();
-        targetPos = ball.pos;
+        targetPos = ball->pos;
     }
     else if (goBehindBall) {
-        auto ball = World::getBall();
         auto enemyGoal = Field::get_their_goal_center();
-        auto ballToEnemyGoal = enemyGoal - ball.pos;
+        auto ballToEnemyGoal = enemyGoal - ball->pos;
         auto normalizedBTEG = ballToEnemyGoal.normalize();
-        targetPos = {ball.pos.x - normalizedBTEG.x, ball.pos.y - normalizedBTEG.y};
+        targetPos = {ball->pos.x - normalizedBTEG.x, ball->pos.y - normalizedBTEG.y};
     }
 
     // See if the progress is a failure

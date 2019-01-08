@@ -53,7 +53,7 @@ Dribble::Progression Dribble::checkProgression() {
 bool Dribble::robotHasBall() {
     //The ball is in an area defined by a cone from the robot centre, or from a rectangle in front of the dribbler
     Vector2 RobotPos = robot->pos;
-    Vector2 BallPos = ball.pos;
+    Vector2 BallPos = ball->pos;
     Vector2 dribbleLeft = RobotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robot->angle - constants::DRIBBLER_ANGLE_OFFSET);
     Vector2 dribbleRight = RobotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robot->angle + constants::DRIBBLER_ANGLE_OFFSET);
 
@@ -70,8 +70,6 @@ bool Dribble::robotHasBall() {
                 dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle));
 }
 void Dribble::onInitialize() {
-    ball = World::getBall();
-
     //if false, robot will dribble to the position backwards with the ball.
     forwardDirection = properties->getBool("forwardDirection");
 
@@ -101,17 +99,14 @@ void Dribble::onInitialize() {
 }
 
 Dribble::Status Dribble::onUpdate() {
-
-    ball = World::getBall(); //TODO: sanity checking if ball is actually there?
-
-    if (currentProgress == Progression::FAIL) {
+    if (currentProgress == Progression::FAIL || !ball) {
         return Status::Failure;
     }
     else if (currentProgress == Progression::WAITING) {
         return Status::Waiting;
     }
 
-    deltaPos = targetPos - Vector2(ball.pos.x, ball.pos.y);
+    deltaPos = targetPos - Vector2(ball->pos.x, ball->pos.y);
     currentProgress = checkProgression();
 
     if (currentProgress == STOPPED) {
@@ -122,11 +117,11 @@ Dribble::Status Dribble::onUpdate() {
     }
 
     switch (currentProgress) {
-    case ON_THE_WAY:return Status::Running;
-    case STOPPED:return Status::Running;
-    case DONE:return Status::Success;
-    case FAIL:return Status::Failure;
-    default:return Status::Waiting;
+        case ON_THE_WAY: return Status::Running;
+        case STOPPED: return Status::Running;
+        case DONE: return Status::Success;
+        case FAIL: return Status::Failure;
+        default: return Status::Waiting;
     }
 }
 void Dribble::onTerminate(Status s) {

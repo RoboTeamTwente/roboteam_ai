@@ -105,12 +105,13 @@ int Coach::pickOpponentToCover(int selfID) {
 }
 
 Vector2 Coach::getPositionBehindBall(double distanceBehindBall) {
-    auto ball = static_cast<Vector2>(World::getBall().pos);
+    auto ball = World::getBall();
+    auto ballPos = static_cast<Vector2>(ball->pos);
+    if (!ball) { ROS_ERROR("No ball found. assuming ball at position (%f, %f)", ballPos.x, ballPos.y); }
     const Vector2 &goal = Field::get_their_goal_center();
-    
-    return ball + (ball - goal).stretchToLength(distanceBehindBall);
+    return ballPos + (ballPos - goal).stretchToLength(distanceBehindBall);
 }
 
-}
-}
-}
+} // coach
+} // ai
+} // rtt

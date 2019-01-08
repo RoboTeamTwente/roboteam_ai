@@ -15,6 +15,7 @@ class Leaf : public Node {
         std::shared_ptr<roboteam_msgs::WorldRobot> getRobotFromProperties(bt::Blackboard::Ptr properties);
         void updateRobot();
         std::shared_ptr<roboteam_msgs::WorldRobot> robot;
+        std::shared_ptr<roboteam_msgs::WorldBall> ball;
         int robotId = - 1;
 };
 

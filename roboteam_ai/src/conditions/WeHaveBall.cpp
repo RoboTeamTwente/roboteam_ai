@@ -10,9 +10,7 @@ namespace ai {
 //TODO: Fix global namespacing
 
 WeHaveBall::WeHaveBall(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(name, blackboard) {
-
-}
+    : Condition(std::move(name), std::move(blackboard)) { }
 
 bt::Node::Status WeHaveBall::update() {
     roboteam_msgs::World world = World::get_world();
@@ -20,7 +18,7 @@ bt::Node::Status WeHaveBall::update() {
 
     bool WeHaveBall = false;
     for (auto &robot : robots) {
-        if (World::bot_has_ball(robot, World::getBall())) {
+        if (World::bot_has_ball(robot, * World::getBall().get())) {
             WeHaveBall = true;
             break;
         }

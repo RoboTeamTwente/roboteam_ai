@@ -7,29 +7,22 @@
 namespace rtt {
 namespace ai {
 
-Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
-}
-
-/// Init the GoToPos skill
-void Attack::onInitialize() {
-    robot = getRobotFromProperties(properties);
-}
+Attack::Attack(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) { }
 
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {
-    updateRobot();
-    if (! robot) return Status::Running;
-    Vector2 ball = World::getBall().pos;
+    if (!robot || !ball) return Status::Running;
+
+    Vector2 ballPos = ball->pos;
     Vector2 behindBall = Coach::getPositionBehindBall(0.5);
 
-    if (!Control::pointInTriangle(robot->pos, ball, ball + (behindBall-ball).rotate(M_PI*0.3).scale(1.5),
-            ball + (behindBall-ball).rotate(M_PI*-0.3).scale(1.5))) {
+    if (!Control::pointInTriangle(robot->pos, ballPos, ballPos + (behindBall-ballPos).rotate(M_PI*0.3).scale(1.5),
+            ballPos + (behindBall-ballPos).rotate(M_PI*-0.3).scale(1.5))) {
         targetPos = behindBall;
     } else if (!Coach::doesRobotHaveBall(robot->id, true)) {
-        targetPos = ball;
+        targetPos = ballPos;
     } else {
-        targetPos = ball;
+        targetPos = ballPos;
         unsigned char forced_kick = 1;
         kicker.kick(robot, forced_kick);
     }
