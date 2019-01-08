@@ -16,18 +16,29 @@ bt::Node::Status Attack::onUpdate() {
     Vector2 ballPos = ball->pos;
     Vector2 behindBall = Coach::getPositionBehindBall(0.5);
 
-    if (!Control::pointInTriangle(robot->pos, ballPos, ballPos + (behindBall-ballPos).rotate(M_PI*0.3).scale(1.5),
-            ballPos + (behindBall-ballPos).rotate(M_PI*-0.3).scale(1.5))) {
+    Vector2 deltaBall = behindBall - ballPos;
+    if (! Control::pointInTriangle(robot->pos, ballPos-deltaBall, ballPos + (deltaBall).rotate(M_PI*0.17).scale(2.0),
+            ballPos + (deltaBall).rotate(M_PI*- 0.17).scale(2.0))) {
         targetPos = behindBall;
-    } else if (!Coach::doesRobotHaveBall(robot->id, true)) {
-        targetPos = ballPos;
-    } else {
-        targetPos = ballPos;
-        unsigned char forced_kick = 1;
-        kicker.kick(robot, forced_kick);
+        goToPos.goToPos(robot, targetPos, GoToType::luTh);
+        std::cout << "luth\n";
     }
-    goToPos.goToPos(robot, targetPos, GoToType::luTh);
+    else {
+        roboteam_msgs::RobotCommand command;
+        command.id = robot->id;
+        command.use_angle = 1;
+        command.w = static_cast<float>((ballPos - behindBall).angle());
+        publishRobotCommand(command);
+        targetPos = ballPos;
+        goToPos.goToPos(robot, targetPos, GoToType::basic);
 
+        if (Coach::doesRobotHaveBall(robot->id, true)) {
+            unsigned char forced_kick = 1;
+            kicker.kick(robot, forced_kick);
+        }
+        std::cout << "basic\n";
+
+    }
 
     return Status::Running;
 }

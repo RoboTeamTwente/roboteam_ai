@@ -106,7 +106,7 @@ int Coach::pickOpponentToCover(int selfID) {
 
 Vector2 Coach::getPositionBehindBall(double distanceBehindBall) {
     auto ball = World::getBall();
-    auto ballPos = static_cast<Vector2>(ball->pos);
+    const Vector2 &ballPos = static_cast<Vector2>(ball->pos);
     if (!ball) { ROS_ERROR("No ball found. assuming ball at position (%f, %f)", ballPos.x, ballPos.y); }
     const Vector2 &goal = Field::get_their_goal_center();
     return ballPos + (ballPos - goal).stretchToLength(distanceBehindBall);
