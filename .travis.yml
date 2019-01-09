@@ -114,12 +114,12 @@ before_script:
 # non-zero when a test fails (which notifies Travis the build failed).
 script:
   - source /opt/ros/$ROS_DISTRO/setup.bash
+  - source ~/catkin_ws/devel/setup.bash
   - mkdir ~/catkin_ws/src/roboteam_ai/cmake-build-debug
   - cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" ~/catkin_ws/src/roboteam_ai
   - cd ~/catkin_ws/src/roboteam_ai && cmake --build ~/catkin_ws/src/roboteam_ai/cmake-build-debug --target Roboteam_AI -- -j 8
 
   # Run the tests, ensuring the path is set correctly.
-  - source ~/catkin_ws/devel/setup.bash
   - roscore & ./ai_tests
 
 
