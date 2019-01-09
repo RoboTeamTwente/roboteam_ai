@@ -4,6 +4,7 @@
 
 #include <gtest/gtest.h>
 #include "../src/utilities/RobotDealer.h"
+#include "../src/utilities/World.h"
 
 TEST(RobotDealerTest, RobotDealerTest) {
 

@@ -9,9 +9,7 @@
 #include <set>
 #include <mutex>
 #include <vector>
-#include "World.h"
-#include "Field.h"
-#include "ros/ros.h"
+#include "roboteam_utils/Vector2.h"
 
 namespace robotDealer {
 
