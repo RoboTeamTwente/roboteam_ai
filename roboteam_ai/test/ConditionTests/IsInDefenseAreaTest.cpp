@@ -10,6 +10,7 @@ TEST(DetectsInOurDefenseArea,IsInDefenseAreaTest){
     bt::Blackboard BB;
     BB.setBool("robot", true);
     BB.setInt("ROBOT_ID", 2);
+    BB.setString("ROLE","test");
     BB.setDouble("margin", 0.2);
     auto BBpointer = std::make_shared<bt::Blackboard>(BB);
     rtt::ai::IsInDefenseArea node("Test", BBpointer);
@@ -18,7 +19,6 @@ TEST(DetectsInOurDefenseArea,IsInDefenseAreaTest){
     roboteam_msgs::WorldRobot robot;
 
     rtt::ai::World::set_world(worldMsg);
-
     ASSERT_EQ(node.update(), bt::Node::Status::Failure);
 
     roboteam_msgs::GeometryFieldSize field;
@@ -36,7 +36,7 @@ TEST(DetectsInOurDefenseArea,IsInDefenseAreaTest){
 
     worldMsg.us.push_back(robot);
     rtt::ai::World::set_world(worldMsg);
-
+    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotDealer::RobotType::random,"IsInDefenseAreaTest","test");
     // Should succeed since robot is in our defence area
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
@@ -57,6 +57,7 @@ TEST(DetectsInTheirDefenseArea,IsInDefenseAreaTest){
     bt::Blackboard BB;
     BB.setBool("robot", true);
     BB.setInt("ROBOT_ID", 2);
+    BB.setString("ROLE","test");
     BB.setDouble("margin", 0.2);
     BB.setBool("ourDefenseArea", false);
     auto BBpointer = std::make_shared<bt::Blackboard>(BB);
@@ -84,7 +85,7 @@ TEST(DetectsInTheirDefenseArea,IsInDefenseAreaTest){
 
     worldMsg.us.push_back(robot);
     rtt::ai::World::set_world(worldMsg);
-
+    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotDealer::RobotType::random,"IsInDefenseAreaTest","test");
     // Should succeed since robot is in their defence area
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
@@ -105,6 +106,7 @@ TEST(DetectsBallInOurDefenceArea, IsInDefenceAreaTest) {
     bt::Blackboard BB;
     BB.setBool("robot", false);
     BB.setDouble("margin", 0.2);
+    BB.setString("ROLE","test");
     auto BBpointer = std::make_shared<bt::Blackboard>(BB);
     rtt::ai::IsInDefenseArea node("Test", BBpointer);
 
