@@ -97,11 +97,7 @@ void ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
     else {
         pidBasic.setD(0);
         far = false;
-    }
-    //if (dist > rtt::ai::constants::ROBOT_RADIUS) {
-    //    std::cout << "Robot:" << robot->id << "TargetPos:" << dist << std::endl;
-    //}
-    Vector2 delta = pidBasic.controlPIR(error, robot->vel);
+    }Vector2 delta = pidBasic.controlPIR(error, robot->vel);
     Command command;
     command.id = robot->id;
     command.use_angle = 1;
