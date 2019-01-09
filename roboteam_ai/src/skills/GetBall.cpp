@@ -11,7 +11,7 @@ namespace ai {
 //GetBall turns the robot to the ball and softly approaches with dribbler on in an attempt to get the ball.
 GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) { }
 
-// Essentially a state transition diagram.
+// Essentially a state transition diagram. Contains much of the logic
 void GetBall::checkProgression() {
     if (deltaPos.length() > c::MAX_GETBALL_RANGE) {
         currentProgress = FAIL;

@@ -54,7 +54,7 @@ class Visualizer : public QWidget {
         std::string getRoleNameForRobot(roboteam_msgs::WorldRobot robot);
         rtt::Vector2 toScreenPosition(rtt::Vector2 fieldPos);
         void calculateFieldSizeFactor();
-
+        void drawIntercept(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points);
         // interface variables
         std::vector<std::pair<std::string,
                               QColor>> tacticColors; // map colors to tactic to visualize which robots work together

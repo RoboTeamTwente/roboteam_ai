@@ -23,7 +23,7 @@ class InterceptBall :public Skill {
         void sendFineInterceptCommand();
         void sendStopCommand();
 
-        bool missBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel);
+        bool missedBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel);
         bool ballDeflected();
 
         Vector2 ballStartPos, ballStartVel, ballEndPos, interceptPos;
@@ -33,9 +33,14 @@ class InterceptBall :public Skill {
         control::Controller pid,finePid;
         bool backwards;
 
+        // Relevant to keeper only
         bool keeper;
         bool ballToGoal();
         bool ballInGoal();
+
+        //Interface
+        std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
+
     public:
         explicit InterceptBall(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;

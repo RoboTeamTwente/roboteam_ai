@@ -25,6 +25,7 @@ void InterceptBall::onInitialize() {
     if (robot) {
         interceptPos = computeInterceptPoint(ballStartPos,ballEndPos);
         deltaPos=interceptPos-robot->pos;
+        // Checks if it is faster to go to the interceptPos backwards or forwards (just which is closer to the current orientation)
         backwards=control::ControlUtils::angleDifference(robot->angle,deltaPos.angle())>M_PI_2;
     }
     else {
@@ -36,13 +37,23 @@ void InterceptBall::onInitialize() {
 }
 InterceptBall::Status InterceptBall::onUpdate() {
     ball = World::getBall();
-    //The keeper dynamically updates the intercept position as he needs to be responsive and cover the whole goal and this would help against curveballs e.g.
+    //The keeper dynamically updates the intercept position as he needs to be responsive and cover the whole goal and this would help against curveballs etc.
     if (keeper) {
         interceptPos = computeInterceptPoint(ball->pos,
                 Vector2(ball->pos) + Vector2(ball->vel)*constants::MAX_INTERCEPT_TIME);
     }
     deltaPos = interceptPos - robot->pos;
     checkProgression();
+    //interface
+    displayColorData.emplace_back(std::make_pair(interceptPos,Qt::red));
+    displayColorData.emplace_back(std::make_pair(ballStartPos,Qt::red));
+    displayColorData.emplace_back(std::make_pair(ballEndPos,Qt::red));
+    displayColorData.emplace_back(std::make_pair(ball.pos,Qt::green));
+    displayColorData.emplace_back(std::make_pair(Vector2(ball.pos)+ Vector2(ball.vel)*constants::MAX_INTERCEPT_TIME,Qt::green));
+    interface::Drawer::setInterceptPoints(robot->id,displayColorData);
+    displayColorData.clear();
+
+
     tickCount ++;
     switch (currentProgression) {
         case INTERCEPTING:
@@ -68,7 +79,7 @@ InterceptBall::Status InterceptBall::onUpdate() {
 
 void InterceptBall::checkProgression() {
     if (keeper) {
-        if (ballInGoal()) {
+        if (ballInGoal()|| missedBall(ballStartPos, ballEndPos, ballStartVel)) {
             currentProgression = BALLMISSED;
         }
         //Check if the ball was deflected
@@ -80,7 +91,7 @@ void InterceptBall::checkProgression() {
     }
     else {
         //check if we missed the ball
-        if (missBall(ballStartPos, ballEndPos, ballStartVel) || tickCount > maxTicks) {
+        if (missedBall(ballStartPos, ballEndPos, ballStartVel) || tickCount > maxTicks) {
             currentProgression = BALLMISSED;
             return;
         }
@@ -131,6 +142,8 @@ void InterceptBall::onTerminate(rtt::ai::Skill::Status s) {
 Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
     Vector2 interceptionPoint;
     if (keeper) {
+        //This is done in control library as it is needed in intercept too
+        // Depends on two keeper constants in constants!
         Arc keeperCircle = control::ControlUtils::createKeeperArc();
         std::pair<boost::optional<Vector2>, boost::optional<Vector2>> intersections = keeperCircle.intersectionWithLine(
                 startBall, endBall);
@@ -160,7 +173,7 @@ Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall)
     return interceptionPoint;
 }
 // Checks if the Robot already missed the Ball
-bool InterceptBall::missBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel) {
+bool InterceptBall::missedBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel) {
     double interceptDist = (interceptPos - startBall).length();
     double angleDev = tan(constants::ROBOT_RADIUS/interceptDist);
     double rectHalfLength = atan(angleDev)
@@ -197,14 +210,16 @@ bool InterceptBall::ballDeflected() {
     return true;
 }
 void InterceptBall::sendStopCommand() {
-    roboteam_msgs::RobotCommand cmd;
-    cmd.use_angle = 1;
-    cmd.id = robotId;
-    cmd.x_vel = 0;
-    cmd.y_vel = 0;
-    cmd.w = static_cast<float>((Vector2(ball->pos)-Vector2(robot->pos)).angle()); //Rotates towards the ball
-    publishRobotCommand(cmd);
+    roboteam_msgs::RobotCommand command;
+    command.use_angle = 1;
+    command.id = robotId;
+    command.x_vel = 0;
+    command.y_vel = 0;
+    //TODO: Perhaps make the desired end orientation a boolean/switch?
+    command.w = static_cast<float>((ballStartPos-interceptPos).angle()); //Rotates orthogonal to the line of the ball
+    publishRobotCommand(command);
 }
+
 void InterceptBall::sendFineInterceptCommand() {
     Vector2 error= interceptPos-robot->pos;
     Vector2 delta = pid.controlPIR(error, robot->vel);
@@ -220,20 +235,21 @@ void InterceptBall::sendFineInterceptCommand() {
 void InterceptBall::sendInterceptCommand() {
     Vector2 delta = finePid.controlPID(interceptPos - robot->pos);
     Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
-    roboteam_msgs::RobotCommand cmd;
-    cmd.use_angle = 1;
-    cmd.id = robot->id;
-    cmd.x_vel = static_cast<float>(deltaLim.x);
-    cmd.y_vel = static_cast<float>(deltaLim.y);
+    roboteam_msgs::RobotCommand command;
+    command.use_angle = 1;
+    command.id = robot->id;
+    command.x_vel = static_cast<float>(deltaLim.x);
+    command.y_vel = static_cast<float>(deltaLim.y);
     if (backwards) {
-        cmd.w = static_cast<float>(deltaLim.rotate(M_PI).angle());
+        command.w = static_cast<float>(deltaLim.rotate(M_PI).angle());
     }
-    else {
-        cmd.w= static_cast<float>(deltaLim.angle());
+    else{
+        command.w= static_cast<float>(deltaLim.angle());
     }
-    publishRobotCommand(cmd);
+    publishRobotCommand(command);
 
 }
+//Checks if the ball is kicked to Goal. Kind of duplicate to the condition, but this uses an extra saftey margin
 bool InterceptBall::ballToGoal() {
     Vector2 goalCentre = Field::get_our_goal_center();
     double goalWidth = Field::get_field().goal_width;
@@ -244,7 +260,7 @@ bool InterceptBall::ballToGoal() {
     Vector2 ballPredPos = Vector2(ball->pos) + Vector2(ball->vel)*constants::MAX_INTERCEPT_TIME;
     return control::ControlUtils::lineSegmentsIntersect(lowerPost, upperPost, ballPos, ballPredPos);
 }
-
+// Checks if the ball is in our Goal (e.g. the opponent scored)
 bool InterceptBall::ballInGoal() {
     Vector2 goalCentre = Field::get_our_goal_center();
     double goalWidth = Field::get_field().goal_width;
