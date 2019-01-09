@@ -3,7 +3,7 @@
 //
 
 #include "IsRobotClosestToBall.h"
-#include "roboteam_msgs/World.h"
+#include "../utilities/World.h"
 
 namespace rtt {
 namespace ai{

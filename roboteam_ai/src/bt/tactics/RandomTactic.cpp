@@ -3,9 +3,11 @@
 //
 
 #include "RandomTactic.h"
-
+#include "../../utilities/RobotDealer.h"
 
 namespace bt {
+
+using dealer = robotDealer::RobotDealer;
 
 RandomTactic::RandomTactic(std::string name, Blackboard::Ptr blackboard) {
 

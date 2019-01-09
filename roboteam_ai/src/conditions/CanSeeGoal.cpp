@@ -4,12 +4,13 @@
 
 #include "CanSeeGoal.h"
 #include "../control/ControlUtils.h"
+#include "../utilities/Field.h"
 
 namespace rtt {
 namespace ai {
 
 CanSeeGoal::CanSeeGoal(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) { }
+        : Condition(std::move(name), std::move(blackboard)) { }
 
 CanSeeGoal::Status CanSeeGoal::update() {
     robot = getRobotFromProperties(properties);

@@ -8,7 +8,7 @@
 TEST(RobotDealerTest, RobotDealerTest) {
 
     using dealer = robotDealer::RobotDealer;
-    using robot = dealer::RobotDealer::RobotType;
+    using robot = robotDealer::RobotType;
     // Make sure that there is a world and that it is empty
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot1, robot2,robot3;

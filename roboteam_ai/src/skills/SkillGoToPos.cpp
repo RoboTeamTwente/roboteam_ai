@@ -9,7 +9,7 @@ namespace ai {
 
 /// GoToPosLuTh: obstacle avoidance following Lukas & Thijs principles
 SkillGoToPos::SkillGoToPos(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
+        :Skill(std::move(name), std::move(blackboard)) {
 }
 
 /// Called when the Skill is Initialized
@@ -22,19 +22,19 @@ void SkillGoToPos::onInitialize() {
     std::string gTT = properties->getString("goToType");
     if (gTT.empty()) {
         ROS_ERROR("SkillGoToPos::onInitialize -> no goToType set in properties");
-        goToType = GoToType::noPreference;
+        goToType = control::GoToType::noPreference;
     }
-    else if (gTT == "noPreference") goToType = GoToType::noPreference;
-    else if (gTT == "ballControl") goToType = GoToType::ballControl;
-    else if (gTT == "basic") goToType = GoToType::basic;
-    else if (gTT == "lowLevel") goToType = GoToType::lowLevel;
-    else if (gTT == "highLevel") goToType = GoToType::highLevel;
-    else if (gTT == "force") goToType = GoToType::force;
-    else if (gTT == "luTh") goToType = GoToType::luTh;
-    else if (gTT == "bezier") goToType = GoToType::bezier;
+    else if (gTT == "noPreference") goToType = control::GoToType::noPreference;
+    else if (gTT == "ballControl") goToType = control::GoToType::ballControl;
+    else if (gTT == "basic") goToType = control::GoToType::basic;
+    else if (gTT == "lowLevel") goToType = control::GoToType::lowLevel;
+    else if (gTT == "highLevel") goToType = control::GoToType::highLevel;
+    else if (gTT == "force") goToType = control::GoToType::force;
+    else if (gTT == "luTh") goToType = control::GoToType::luTh;
+    else if (gTT == "bezier") goToType = control::GoToType::bezier;
     else {
         ROS_ERROR("SkillGoToPos::onInitialize -> no good goToType set in properties");
-        goToType = GoToType::noPreference;
+        goToType = control::GoToType::noPreference;
     }
 }
 

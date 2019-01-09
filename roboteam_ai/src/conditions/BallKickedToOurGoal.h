@@ -9,10 +9,10 @@
 
 namespace rtt {
 namespace ai {
+
 class BallKickedToOurGoal : public Condition {
     public:
-        explicit BallKickedToOurGoal(std::string name = "BallKickedToOurGoal",
-                bt::Blackboard::Ptr blackboard = nullptr);
+        explicit BallKickedToOurGoal(std::string name = "BallKickedToOurGoal", bt::Blackboard::Ptr blackboard = nullptr);
         Status update() override;
         std::string node_name() override;
 };

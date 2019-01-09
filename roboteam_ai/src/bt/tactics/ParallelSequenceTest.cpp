@@ -3,9 +3,12 @@
 //
 
 #include "ParallelSequenceTest.h"
-
+#include "../../utilities/RobotDealer.h"
 
 namespace bt {
+
+using dealer = robotDealer::RobotDealer;
+
 ParallelSequenceTactic::ParallelSequenceTactic(std::string name, bt::Blackboard::Ptr blackboard) {
     globalBB = std::move(blackboard);
     setName(std::move(name));

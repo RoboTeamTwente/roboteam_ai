@@ -3,6 +3,7 @@
 //
 
 #include "DefendOnRobot.h"
+#include "../utilities/Coach.h"
 
 namespace rtt{
 namespace ai{
@@ -11,21 +12,21 @@ DefendOnRobot::DefendOnRobot(std::string name, bt::Blackboard::Ptr blackboard)
     :Skill(std::move(name), std::move(blackboard)) { }
 
 void DefendOnRobot::onInitialize() {
-    opponentWithBallID = Coach::Coach::whichRobotHasBall(false);
+    opponentWithBallID = coach::Coach::whichRobotHasBall(false);
     if (opponentWithBallID == -1) {
         currentProgress = FAIL;
     }
 
-    opponentToCoverID = Coach::Coach::pickOpponentToCover(robot->id);
+    opponentToCoverID = coach::Coach::pickOpponentToCover(robot->id);
     if (opponentToCoverID == -1) {
         currentProgress = FAIL;
     } else {
-        Coach::Coach::defencePairs.insert({opponentToCoverID, robot->id});
+        coach::Coach::defencePairs.insert({opponentToCoverID, robot->id});
     }
 }
 
 void DefendOnRobot::onTerminate(Skill::Status s) {
-    Coach::Coach::defencePairs.erase(robot->id);
+    coach::Coach::defencePairs.erase(robot->id);
 }
 
 bt::Node::Status DefendOnRobot::onUpdate() {
@@ -34,14 +35,14 @@ bt::Node::Status DefendOnRobot::onUpdate() {
 
     if (opponentWithBall && opponentToCover) {
         updateRobot();
-        if (!Coach::Coach::doesRobotHaveBall(opponentWithBall->id, false)) {
+        if (!coach::Coach::doesRobotHaveBall(opponentWithBall->id, false)) {
             return Status::Success;
         }
 
         Vector2 targetPos = calculateLocation();
 
         std::cout << "Robot:" << robot->id << "TargetPos:" << targetPos << std::endl;
-        goToPos.goToPos(robot, targetPos, GoToType::luTh);
+        goToPos.goToPos(robot, targetPos, control::GoToType::luTh);
 
         return Status::Running;
     } else {
