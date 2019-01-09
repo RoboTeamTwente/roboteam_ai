@@ -3,6 +3,7 @@
 //
 
 #include "CanSeeGoal.h"
+#include "../control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {

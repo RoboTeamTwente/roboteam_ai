@@ -8,9 +8,7 @@ namespace rtt {
 namespace ai {
 
 IsOnOurSide::IsOnOurSide(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(name, blackboard) {
-
-}
+        :Condition(name, blackboard) { }
 
 bt::Node::Status IsOnOurSide::update() {
     roboteam_msgs::World world = World::get_world();

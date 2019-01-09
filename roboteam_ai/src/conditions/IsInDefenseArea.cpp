@@ -2,14 +2,16 @@
 // Created by Rolf on 17-10-18.
 //
 #include "IsInDefenseArea.hpp"
+#include "roboteam_msgs/World.h"
+#include "roboteam_msgs/WorldRobot.h"
+#include "roboteam_msgs/GeometryFieldSize.h"
+#include "roboteam_utils/Vector2.h"
+#include "../utilities/World.h"
 
 namespace rtt {
 namespace ai {
 
-IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(name, blackboard) {
-
-}
+IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboard) : Condition(name, blackboard) { }
 
 bt::Node::Status IsInDefenseArea::update() {
     Vector2 point;
