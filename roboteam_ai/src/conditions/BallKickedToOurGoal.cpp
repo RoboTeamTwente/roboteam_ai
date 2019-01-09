@@ -3,6 +3,8 @@
 //
 
 #include "BallKickedToOurGoal.h"
+#include "../control/ControlUtils.h"
+
 namespace rtt {
 namespace ai {
 
