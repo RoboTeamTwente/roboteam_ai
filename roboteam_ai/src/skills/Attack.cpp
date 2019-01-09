@@ -23,7 +23,7 @@ bt::Node::Status Attack::onUpdate() {
     Vector2 ball = World::getBall().pos;
     Vector2 behindBall = Coach::getPositionBehindBall(0.5);
     Vector2 deltaBall = behindBall - ball;
-    if (! Control::pointInTriangle(robot->pos, ball - deltaBall, ball + (deltaBall).rotate(M_PI*0.17).scale(2.0),
+    if (! Control::pointInTriangle(robot->pos, ball, ball + (deltaBall).rotate(M_PI*0.17).scale(2.0),
             ball + (deltaBall).rotate(M_PI*- 0.17).scale(2.0))) {
         targetPos = behindBall;
 
