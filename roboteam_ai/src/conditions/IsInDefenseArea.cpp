@@ -23,7 +23,6 @@ bt::Node::Status IsInDefenseArea::update() {
         }
     }
     else{
-        //TODO: Fix this once ball PR is merged.
         auto ball=World::getBall();
         if (ball){
             point=ball->pos;
