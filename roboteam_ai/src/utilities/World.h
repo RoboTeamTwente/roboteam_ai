@@ -24,7 +24,7 @@ class World {
     private:
         static roboteam_msgs::World world;
     public:
-        static roboteam_msgs::WorldBall getBall();
+        static std::shared_ptr<roboteam_msgs::WorldBall> getBall();
         static bool didReceiveFirstWorld;
         static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotForId(unsigned int id, bool ourTeam);
         static const roboteam_msgs::World &get_world();

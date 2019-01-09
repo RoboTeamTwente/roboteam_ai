@@ -30,13 +30,15 @@ void Rotate::onInitialize() {
 }
 
 bt::Node::Status Rotate::onUpdate() {
-
     if (rotateToBall) {
-        auto ball = World::getBall();
-        Vector2 deltaPos = {ball.pos.x - robot->pos.x, ball.pos.y - robot->pos.y};
-        targetAngle = deltaPos.angle();
-
+        if (ball) {
+            Vector2 deltaPos = {ball->pos.x-robot->pos.x, ball->pos.y-robot->pos.y};
+            targetAngle = deltaPos.angle();
+        } else {
+            ROS_ERROR("Skills/Rotate Cannot rotate to ball, because there is no ball");
+        }
     }
+
     else if (rotateToEnemyGoal) {
         auto enemyGoal = Field::get_their_goal_center();
         Vector2 deltaPos = {enemyGoal.x - robot->pos.x, enemyGoal.y - robot->pos.y};
@@ -51,16 +53,16 @@ bt::Node::Status Rotate::onUpdate() {
     }
     else if (rotateToRobotID != - 1) {
         if (robotIsEnemy) {
-            if (World::getRobotForId(rotateToRobotID, false)) {
-                auto otherRobot = World::getRobotForId(rotateToRobotID, false).get();
+            if (World::getRobotForId((unsigned) rotateToRobotID, false)) {
+                auto otherRobot = World::getRobotForId((unsigned) rotateToRobotID, false).get();
                 Vector2 deltaPos = {otherRobot->pos.x - robot->pos.x, otherRobot->pos.y - robot->pos.y};
                 targetAngle = deltaPos.angle();
 
             }
         }
         else {
-            if (World::getRobotForId(rotateToRobotID, true)) {
-                auto otherRobot = World::getRobotForId(rotateToRobotID, true).get();
+            if (World::getRobotForId((unsigned) rotateToRobotID, true)) {
+                auto otherRobot = World::getRobotForId((unsigned) rotateToRobotID, true).get();
                 Vector2 deltaPos = {otherRobot->pos.x - robot->pos.x, otherRobot->pos.y - robot->pos.y};
                 targetAngle = deltaPos.angle();
             }
