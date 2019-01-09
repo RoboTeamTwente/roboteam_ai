@@ -239,15 +239,13 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/WeHaveBallTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsOnOurSideTest.cpp
 
-        #breaks because of RobotDealing: (these all fail)
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsRobotClosestToBallTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/KickTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/GoToPosTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/RotateTest.cpp
-
-        #just Segfault: (require grSim for now--> should be refactored!)
+        
         #roboteam_ai/test/RobotDealerTest.cpp
         #{PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
         )
