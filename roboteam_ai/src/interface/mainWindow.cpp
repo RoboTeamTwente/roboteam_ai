@@ -43,8 +43,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     verticalLayout->addWidget(toggleSideBtn.get());
 
-
-    QObject::connect(select_strategy.get(), QOverload<const QString &>::of(&QComboBox::currentIndexChanged),
+    QObject::connect(select_strategy.get(), static_cast<void (QComboBox::*)(const QString)>(&QComboBox::currentIndexChanged),
             [=](const QString &strategyName) {
               // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
               BTFactory::setCurrentTree(strategyName.toStdString());
