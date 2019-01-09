@@ -20,14 +20,13 @@ class IsInDefenseArea : public ai::Condition {
 
         using status = bt::Node::Status;
 
-
         bool ourDefenseArea;
         float margin;
     public:
         explicit IsInDefenseArea(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
 
         Status update() override;
-        std::string node_name() override { return "IHaveBall"; }
+        std::string node_name() override { return "IsInDefenseArea"; }
 
 };
 

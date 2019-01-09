@@ -2,8 +2,7 @@
 // Created by baris on 15/11/18.
 //
 
-#include "BTImport.h"
-#include "../bt/Node.hpp"
+#include "Switches.h"
 
 
 //  ______________________
@@ -17,7 +16,6 @@
 #include "../bt/tactics/VictoryDanceTactic.h"
 #include "../bt/tactics/RandomTactic.h"
 #include "../bt/tactics/DefaultTactic.h"
-#include "../bt/tactics/HaltTactic.h"
 
 //  ______________________
 //  |                    |
@@ -28,15 +26,17 @@
 #include "../skills/Chip.h"
 #include "../skills/Dribble.h"
 #include "../skills/GoToPosLuTh.h"
-#include "../skills/GoToPosLuTh_OLD.h"
+#include "roboteam_ai/src/skills/SkillGoToPos.h"
 #include "../skills/Halt.h"
 #include "../skills/Kick.h"
 #include "../skills/Harass.h"
-#include "../skills/Rotate.h"
 #include "../skills/RotateToAngle.h"
 #include "../skills/GoToPos.h"
 #include "../skills/Keeper.h"
-
+#include "../skills/GetBall.h"
+#include "../skills/Attack.h"
+#include <roboteam_ai/src/skills/InterceptBall.h>
+#include <roboteam_ai/src/skills/GoToPosLuTh.h>
 
 //  ______________________
 //  |                    |
@@ -46,7 +46,10 @@
 
 #include "../conditions/HasBall.hpp"
 #include "../conditions/CanSeeGoal.h"
-#include <roboteam_ai/src/skills/GoToPosLuTh.h>
+#include <roboteam_ai/src/conditions/TheyHaveBall.h>
+#include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
+#include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
+#include <roboteam_ai/src/skills/InterceptBall.h>
 #include "Switches.h"
 
 /**
@@ -66,7 +69,11 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "DanceTactic2",
          "SimpleTactic",
          "haltTactic",
-         "SimpleDefendTactic"};
+         "Attactic",
+         "SimpleDefendTactic",
+         "SimpleDefendTactic_1",
+         "KeeperTactic",
+         "KeeperTestTactic"};
 
 std::vector<std::string> Switches::strategyJsonFileNames =
         {"victoryDanceStrategy",
@@ -75,7 +82,10 @@ std::vector<std::string> Switches::strategyJsonFileNames =
          "DanceStrategy",
          "SimpleStrategy",
          "haltStrategy",
-         "SimpleDefendStrategy"};
+         "SimpleDefendStrategy",
+         "SimpleDefendStrategy_1",
+         "AttackStrategy",
+         "KeeperStrategy"};
 
 std::vector<std::string> Switches::keeperJsonFiles =
         {};
@@ -86,7 +96,7 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
 
     bt::Node::Ptr node;
 
-    if (name == "MemSelector" || name == "Selector" || name == "Priority" || name == "MemPriority") {
+    if (name == "MemSelector") {
         node = std::make_shared<bt::MemSelector>();
     }
     else if (name == "MemSequence") {
@@ -98,7 +108,7 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
     else if (name == "Selector") {
         node = std::make_shared<bt::Selector>();
     }
-    else if (name == "Sequence" || name == "ParallelTactic") { // TODO: parallel here?
+    else if (name == "Sequence") { // TODO: parallel here?
         node = std::make_shared<bt::Sequence>();
     }
     else if (name == "Failer") {
@@ -119,7 +129,7 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
     else if (name == "UntilFail") {
         node = std::make_shared<bt::UntilFail>();
     }
-    else if (name == "UntilSuccess" || name == "RepeatUntilSuccess") {
+    else if (name == "UntilSuccess" ) {
         node = std::make_shared<bt::UntilSuccess>();
     }
     else {
@@ -145,11 +155,8 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "Halt") {
         node = std::make_shared<rtt::ai::Halt>(name, properties);
     }
-    else if (name == "Rotate") {
-        node = std::make_shared<rtt::ai::Rotate>(name, properties);
-    }
-    else if (name == "GoToPosLuTh_OLD") {
-        node = std::make_shared<rtt::ai::GoToPosLuTh_OLD>(name, properties);
+    else if (name == "SkillGoToPos") {
+        node = std::make_shared<rtt::ai::SkillGoToPos>(name, properties);
     }
     else if (name == "GoToPosLuTh") {
         node = std::make_shared<rtt::ai::GoToPosLuTh>(name, properties);
@@ -160,8 +167,14 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "RotateToAngle") {
         node = std::make_shared<rtt::ai::RotateToAngle>(name, properties);
     }
+    else if (name == "GetBall") {
+        node = std::make_shared<rtt::ai::GetBall>(name, properties);
+    }
     else if (name == "HasBall") {
         node = std::make_shared<rtt::ai::HasBall>(name, properties);
+    }
+    else if (name == "TheyHaveBall") {
+        node = std::make_shared<rtt::ai::TheyHaveBall>(name, properties);
     }
     else if (name == "CanSeeGoal") {
         node = std::make_shared<rtt::ai::CanSeeGoal>(name, properties);
@@ -169,11 +182,24 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "Keeper") {
         node = std::make_shared<rtt::ai::Keeper>(name, properties);
     }
+    else if (name == "BallKickedToOurGoal"){
+        node = std::make_shared<rtt::ai::BallKickedToOurGoal>(name,properties);
+    }
     else if (name == "DefendOnRobot") {
         node = std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
     }
+    else if (name == "IsRobotClosestToBall") {
+        node = std::make_shared<rtt::ai::IsRobotClosestToBall>(name, properties);
+    }
+    else if (name == "InterceptBall"){
+        node = std::make_shared<rtt::ai::InterceptBall>(name,properties);
+    }
+    else if (name == "Attack") {
+        node = std::make_shared<rtt::ai::Attack>(name, properties);
+    }
     else {
         ROS_ERROR("ERROR: Leaf not found!! using GoToPos..");
+        std::cout<<name<<std::endl;
         node = std::make_shared<rtt::ai::GoToPos>(name, properties);
     }
 
@@ -220,16 +246,33 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
             {"SimpleTactic", {
-                     {"simpleStupidRobot", robotType::random}
+                    {"simpleStupidRobot", robotType::random}
             }
-                    },
+            },
             {"SimpleDefendTactic", {
-                 {"simpleDefender1", robotType::closeToOurGoal},
-                 {"simpleDefender2", robotType::closeToOurGoal},
-                 {"simpleDefender3", robotType::closeToOurGoal}
+                    {"simpleDefender1", robotType::closeToOurGoal},
+                    {"simpleDefender2", robotType::closeToOurGoal},
+                    {"simpleDefender3", robotType::closeToOurGoal}
+            }
+            },
+            {"SimpleDefendTactic_1", {
+                {"simpleDefender1", robotType::closeToOurGoal}
+            }
+            },
+            {"Attactic", {
+                    {"atak", robotType::random}
+                    //{"atak", robotType::closeToBall},
+            }
+            },
+            {"KeeperTactic", {
+                        {"keeper", robotType::random}
+            }
+            },
+            {"KeeperTestTactic", {
+                    {"keeper", robotType::random},
+                    {"Attacker", robotType::random}
             }
             }
-
     };
 
     bt::Node::Ptr node;

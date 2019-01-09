@@ -5,6 +5,7 @@
 #include "Dribble.h"
 namespace rtt {
 namespace ai {
+
 Dribble::Dribble(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) { }
 
@@ -12,26 +13,26 @@ namespace c=rtt::ai::constants;
 Dribble::Progression Dribble::checkProgression() {
     if (currentProgress == ON_THE_WAY) {
         if (! robotHasBall()) {
-            return FAIL; }
-        if (deltaPos.length() <= c::DRIBBLE_POSDIF) {
-            if (forwardDirection)
-            {
-                stoppingAngle=(float) deltaPos.angle();
+            return FAIL;
+        }
+        if (deltaPos.length() <= constants::DRIBBLE_POSDIF) {
+            if (forwardDirection) {
+                stoppingAngle = (float) deltaPos.angle();
             }
-            else{
-                stoppingAngle=(float) deltaPos.rotate(M_PI).angle();
+            else {
+                stoppingAngle = (float) deltaPos.rotate(M_PI).angle();
             }
             return STOPPED;
         }
         else { return ON_THE_WAY; }
     }
     else if (currentProgress == STOPPED) {
-        count++;
+        count ++;
         //ROS_WARN_STREAM("Stopped ticks #:" << count<<"/"<<maxTicks);
         if (! robotHasBall()) {
             return FAIL;
         }
-        else if (count>=maxTicks) {
+        else if (count >= maxTicks) {
             return DONE;
         }
         else return STOPPED;
@@ -46,14 +47,15 @@ Dribble::Progression Dribble::checkProgression() {
         return WAITING;
     }
 
+    return FAIL;
 }
 
 bool Dribble::robotHasBall() {
     //The ball is in an area defined by a cone from the robot centre, or from a rectangle in front of the dribbler
-    Vector2 RobotPos = Vector2(robot->pos.x, robot->pos.y);
-    Vector2 BallPos = Vector2(ball.pos.x, ball.pos.y);
-    Vector2 dribbleLeft = RobotPos + Vector2(c::ROBOT_RADIUS, 0).rotate(robot->angle - c::DRIBBLER_ANGLE_OFFSET);
-    Vector2 dribbleRight = RobotPos + Vector2(c::ROBOT_RADIUS, 0).rotate(robot->angle + c::DRIBBLER_ANGLE_OFFSET);
+    Vector2 RobotPos = robot->pos;
+    Vector2 BallPos = ball->pos;
+    Vector2 dribbleLeft = RobotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robot->angle - constants::DRIBBLER_ANGLE_OFFSET);
+    Vector2 dribbleRight = RobotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robot->angle + constants::DRIBBLER_ANGLE_OFFSET);
 
     std::vector<Vector2> drawPos = {RobotPos, dribbleLeft, dribbleRight,
                                     dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle),
@@ -68,8 +70,6 @@ bool Dribble::robotHasBall() {
                 dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle));
 }
 void Dribble::onInitialize() {
-    ball = World::getBall();
-
     //if false, robot will dribble to the position backwards with the ball.
     forwardDirection = properties->getBool("forwardDirection");
 
@@ -84,7 +84,7 @@ void Dribble::onInitialize() {
     if (properties->hasInt("maxTicks")) {
         maxTicks = properties->getInt("maxTicks");
     }
-    else{
+    else {
         ROS_ERROR("Dribble Initialize -> No maxTicks set!");
     }
     if (! Dribble::robotHasBall()) {
@@ -93,23 +93,20 @@ void Dribble::onInitialize() {
         return;
     }
     currentProgress = Progression::ON_THE_WAY;
-    count=0;
+    count = 0;
 
-    stoppingAngle=robot->angle; // default to the current angle
+    stoppingAngle = robot->angle; // default to the current angle
 }
 
-Dribble::status Dribble::onUpdate() {
-
-    ball = World::getBall(); //TODO: sanity checking if ball is actually there?
-
+Dribble::Status Dribble::onUpdate() {
     if (currentProgress == Progression::FAIL) {
-        return status::Failure;
+        return Status::Failure;
     }
     else if (currentProgress == Progression::WAITING) {
-        return status::Waiting;
+        return Status::Waiting;
     }
 
-    deltaPos = targetPos - Vector2(ball.pos.x, ball.pos.y);
+    deltaPos = targetPos - Vector2(ball->pos);
     currentProgress = checkProgression();
 
     if (currentProgress == STOPPED) {
@@ -120,20 +117,21 @@ Dribble::status Dribble::onUpdate() {
     }
 
     switch (currentProgress) {
-    case ON_THE_WAY: return status::Running;
-    case STOPPED: return status::Running;
-    case DONE: return status::Success;
-    case FAIL: return status::Failure;
-    default: return status::Waiting;
+        case ON_THE_WAY: return Status::Running;
+        case STOPPED: return Status::Running;
+        case DONE: return Status::Success;
+        case FAIL: return Status::Failure;
+        default: return Status::Waiting;
     }
 }
-void Dribble::onTerminate(status s) {
+void Dribble::onTerminate(Status s) {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = 1;
     if (forwardDirection) {
         command.w = (float) deltaPos.angle();
-    } else {
+    }
+    else {
         command.w = (float) deltaPos.rotate(M_PI).angle();
     }
     command.dribbler = 0;
@@ -152,7 +150,7 @@ void Dribble::sendMoveCommand() {
     else {
         command.w = (float) deltaPos.rotate(M_PI).angle();
     }
-    std::vector<Vector2> dposvec={deltaPos};
+    std::vector<Vector2> dposvec = {deltaPos};
     command.dribbler = 1;
     command.x_vel = (float) deltaPos.normalize().x*c::DRIBBLE_SPEED;
     command.y_vel = (float) deltaPos.normalize().y*c::DRIBBLE_SPEED;
@@ -162,7 +160,7 @@ void Dribble::sendStopCommand() {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = 1;
-    command.w=stoppingAngle;
+    command.w = stoppingAngle;
     command.dribbler = 0;
     command.x_vel = 0;
     command.y_vel = 0;

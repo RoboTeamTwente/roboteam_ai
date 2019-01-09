@@ -1,3 +1,6 @@
+/*
+ * The Repeater decorator repeats infinitely or to a limit until the child returns success.
+ */
 
 #include "Repeater.hpp"
 
@@ -15,10 +18,6 @@ Node::Status Repeater::update() {
         return Status::Running;
     }
     return Status::Success;
-}
-
-std::string Repeater::node_name() {
-    return "Repeater";
 }
 
 } // bt

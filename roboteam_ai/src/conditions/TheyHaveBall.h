@@ -9,14 +9,15 @@
 #include "roboteam_msgs/WorldBall.h"
 #include "Condition.h"
 #include "../utilities/World.h"
+#include "../utilities/Coach.h"
 
-namespace rtt{
-namespace ai{
-    /**
-     * @class IHaveBall
-     * @brief
-     */
-    class TheyHaveBall : public Condition {
+namespace rtt {
+namespace ai {
+/**
+ * @class IHaveBall
+ * @brief
+ */
+class TheyHaveBall : public Condition {
     public:
         TheyHaveBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
         /**
@@ -24,11 +25,10 @@ namespace ai{
          * @return Returns status::success if a robot has a ball, status::failure otherwise.
          */
         Status update() override;
-        std::string node_name() override { return "TheyHaveBall";}
+        std::string node_name() override { return "TheyHaveBall"; }
 
-    };
+};
 }
 }
-
 
 #endif //ROBOTEAM_AI_THEYHAVEBALL_H

@@ -19,24 +19,33 @@
 #include "../bt/Node.hpp"
 #include "QTreeWidgetItemIterator"
 #include <QtGui>
+#include <QRadioButton>
+#include <QGroupBox>
+#include <QLabel>
 
 namespace rtt {
 namespace ai {
 namespace interface {
 
 class MainWindow : public QMainWindow {
-Q_OBJECT
-public:
-    explicit MainWindow(QWidget * parent = nullptr);
+    Q_OBJECT
+    public:
+        explicit MainWindow(QWidget* parent = nullptr);
 
 public slots:
     void updateWidgets();
+    void updateRobotsWidget();
+    void toggleOurColorParam();
+    void toggleOurSideParam();
 private:
     std::shared_ptr<Visualizer> visualizer;
     std::shared_ptr<QHBoxLayout> horizontalLayout;
+    std::shared_ptr<QHBoxLayout> robotsLayout;
+    std::shared_ptr<QVBoxLayout> mainLayout;
     std::shared_ptr<QVBoxLayout> verticalLayout;
     std::shared_ptr<QTreeWidget> treeWidget;
-    std::shared_ptr<QComboBox> select_robot;
+    std::shared_ptr<QPushButton> toggleColorBtn;
+    std::shared_ptr<QPushButton> toggleSideBtn;
     std::shared_ptr<QComboBox> select_strategy;
     std::shared_ptr<QCheckBox> cb_referee;
     std::shared_ptr<QCheckBox> cb_rolenames;
@@ -48,15 +57,16 @@ private:
     std::shared_ptr<QCheckBox> cb_velocities;
 
     void configureCheckBox(std::shared_ptr<QCheckBox> checkbox, std::shared_ptr<QLayout> layout,
-            const QObject *receiver, const char * method, bool defaultState = false);
+                const QObject* receiver, const char* method, bool defaultState = false);
 
     bool hasCorrectTree = false;
-    int amountOfRobots = 0;
     void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem * QParent);
-
     std::map<QTreeWidgetItem *, bt::Node::Ptr> treeItemMapping;
+    QVBoxLayout * createRobotGroupItem(roboteam_msgs::WorldRobot robot);
     QColor getColorForStatus(bt::Node::Status status);
-    int frame = 0;
+    void clearLayout(QLayout *layout);
+    int amountOfSelectedRobots = 0;
+
 };
 
 } // interface

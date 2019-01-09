@@ -17,7 +17,8 @@ std::string StrategyManager::getCurrentStrategyName(roboteam_msgs::RefereeComman
     if (currentStrategyMap.followUpCommandId != RefGameState::UNDEFINED
             && commandFromMostRecentReferee == RefGameState::NORMAL_START) {
         nextStrategy = getStrategyMapForRefGameState(currentStrategyMap.followUpCommandId);
-    } else {
+    }
+    else {
         nextStrategy = getStrategyMapForRefGameState(commandFromMostRecentReferee);
     }
 
@@ -27,7 +28,7 @@ std::string StrategyManager::getCurrentStrategyName(roboteam_msgs::RefereeComman
 
 /// Use an iterator and a lambda to efficiently get the Node for a specified id
 StrategyMap StrategyManager::getStrategyMapForRefGameState(RefGameState commandId) {
-    return * std::find_if(strategyMaps.begin(), strategyMaps.end(), [commandId](StrategyMap map) {
+    return *std::find_if(strategyMaps.begin(), strategyMaps.end(), [commandId](StrategyMap map) {
       return map.commandId == commandId;
     });
 }

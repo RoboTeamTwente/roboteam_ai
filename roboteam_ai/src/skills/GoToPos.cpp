@@ -8,13 +8,10 @@ namespace rtt {
 namespace ai {
 
 GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
-}
+        :Skill(std::move(name), std::move(blackboard)) { }
 
 /// Init the GoToPos skill
 void GoToPos::onInitialize() {
-    robot = getRobotFromProperties(properties);
-
     goToBall = properties->getBool("goToBall");
     goBehindBall = properties->getBool("goBehindBall");
 
@@ -30,23 +27,23 @@ void GoToPos::onInitialize() {
 
 /// Get an update on the skill
 bt::Node::Status GoToPos::onUpdate() {
-    updateRobot();
-    if (!robot) return Status::Running;
-
+    if (! robot) return Status::Running;
+    if (goToBall||goBehindBall) {
+        if (! ball) return Status::Running;
+    }
     if (goToBall) {
-        auto ball = World::getBall();
-        targetPos = ball.pos;
-    } else if (goBehindBall) {
-        auto ball = World::getBall();
+        targetPos = ball->pos;
+    }
+    else if (goBehindBall) {
         auto enemyGoal = Field::get_their_goal_center();
-        auto ballToEnemyGoal = enemyGoal - ball.pos;
+        auto ballToEnemyGoal = enemyGoal - ball->pos;
         auto normalizedBTEG = ballToEnemyGoal.normalize();
-        targetPos = {ball.pos.x - normalizedBTEG.x, ball.pos.y - normalizedBTEG.y};
+        targetPos = {ball->pos.x - normalizedBTEG.x, ball->pos.y - normalizedBTEG.y};
     }
 
     // See if the progress is a failure
     if (currentProgress == Progression::FAIL) {
-        return status::Failure;
+        return Status::Failure;
     }
     double dx = targetPos.x - robot->pos.x;
     double dy = targetPos.y - robot->pos.y;
@@ -59,16 +56,19 @@ bt::Node::Status GoToPos::onUpdate() {
 
     switch (currentProgress) {
 
-        // Return the progression in terms of status
-    case ON_THE_WAY:return status::Running;
-    case DONE: return status::Success;
-    case FAIL: return status::Failure;
+        // Return the progression in terms of Status
+        case ON_THE_WAY:
+            return Status::Running;
+        case DONE:
+            return Status::Success;
+        case FAIL:
+            return Status::Failure;
     }
 
-    return status::Failure;
+    return Status::Failure;
 }
 
-void GoToPos::onTerminate(status s) {
+void GoToPos::onTerminate(Status s) {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = 1;
@@ -99,7 +99,7 @@ void GoToPos::sendMoveCommand() {
     command.id = robot->id;
     command.use_angle = 0;
 
-    auto angularVel = (float)Control::calculateAngularVelocity(robot->angle, deltaPos.angle());
+    auto angularVel = (float) Control::calculateAngularVelocity(robot->angle, deltaPos.angle());
     command.w = angularVel;
 
     command.x_vel = 1.5;// abs(angularVel)/(abs(angularVel)-1);
@@ -119,8 +119,8 @@ void GoToPos::sendMoveCommand2() {
     command.id = robot->id;
     command.use_angle = 1;
 
-    command.w= static_cast<float>(deltaPos.angle());
-    Vector2 deltaPosUnit=deltaPos.normalize();
+    command.w = static_cast<float>(deltaPos.angle());
+    Vector2 deltaPosUnit = deltaPos.normalize();
 
     command.x_vel = (float) deltaPosUnit.x*2;// abs(angularVel)/(abs(angularVel)-1);
     command.y_vel = (float) deltaPosUnit.y*2;

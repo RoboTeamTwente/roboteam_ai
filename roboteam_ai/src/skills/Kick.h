@@ -6,14 +6,12 @@
 #define ROBOTEAM_AI_SHOOT_H
 
 #include "Skill.h"
-#include "../utilities/World.h"
 
 namespace rtt {
 namespace ai {
 
 class Kick : public Skill {
     private:
-        using status = bt::Node::Status;
         int amountOfCycles{};
     protected:
         virtual void sendKickCommand(double kickVel);

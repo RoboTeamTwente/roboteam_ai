@@ -6,7 +6,6 @@
 #define ROBOTEAM_AI_CHIP_H
 
 #include "Kick.h"
-#include "roboteam_msgs/RobotCommand.h"
 
 namespace rtt {
 namespace ai {

@@ -4,14 +4,10 @@
 
 namespace bt {
 
-/*
-    The Failer decorator returns failure, regardless of what happens to the child.
-*/
 class Failer : public Decorator {
-    public:
-        Status update() override;
-
-        std::string node_name() override;
+public:
+    Status update() override;
+    std::string node_name() override { return "Failer"; };
 };
 
 }

@@ -48,16 +48,16 @@ bt::Node::Status IsInZone::update() {
             case 1:
                 zone_x1 = - 4.5;
                 zone_x2 = - 1.5;
-                zone_y1 = 3.0;
-                zone_y2 = 0.0;
+                zone_y1 = 0.0;
+                zone_y2 = 3.0;
                 break;
 
                 // zone 2: is as seen from the goal -> right rear
             case 2:
                 zone_x1 = - 4.5;
                 zone_x2 = - 1.5;
-                zone_y1 = 0.0;
-                zone_y2 = - 3.0;
+                zone_y1 = - 3.0;
+                zone_y2 = 0.0;
                 break;
 
                 // zone 3: all field except area close to opponents goal

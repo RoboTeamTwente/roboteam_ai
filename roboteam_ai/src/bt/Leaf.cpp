@@ -5,14 +5,10 @@
 
 namespace bt {
 
-Leaf::Leaf(std::string name, Blackboard::Ptr blackboard) {
+Leaf::Leaf(std::string name, Blackboard::Ptr blackboard) : name(std::move(name)) {
     setProperties(blackboard);
-    setName(name);
     robot = std::make_shared<roboteam_msgs::WorldRobot>();
-
-}
-void Leaf::setName(std::string newName) {
-    name = std::move(newName);
+    ball = std::make_shared<roboteam_msgs::WorldBall>();
 }
 
 std::shared_ptr<roboteam_msgs::WorldRobot> Leaf::getRobotFromProperties(bt::Blackboard::Ptr properties) {
@@ -21,10 +17,12 @@ std::shared_ptr<roboteam_msgs::WorldRobot> Leaf::getRobotFromProperties(bt::Blac
         robotId = (unsigned int) dealer::findRobotForRole(roleName);
         if (rtt::ai::World::getRobotForId(robotId, true)) {
             return rtt::ai::World::getRobotForId(robotId, true);
-        } else {
+        }
+        else {
             ROS_ERROR("%s Initialize -> robot %i does not exist in world", node_name().c_str(), robotId);
         }
-    } else {
+    }
+    else {
         ROS_ERROR("%s Initialize robot %i -> ROLE WAITING!!", node_name().c_str(), robotId);
     }
     return nullptr;
@@ -33,7 +31,8 @@ std::shared_ptr<roboteam_msgs::WorldRobot> Leaf::getRobotFromProperties(bt::Blac
 void Leaf::updateRobot() {
     if (rtt::ai::World::getRobotForId(robotId, true)) {
         robot = rtt::ai::World::getRobotForId(robotId, true);
-    } else {
+    }
+    else {
         ROS_ERROR("%s Update -> robot %i does not exist in world", node_name().c_str(), robotId);
     }
 }

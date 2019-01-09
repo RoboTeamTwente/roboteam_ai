@@ -63,7 +63,7 @@ void BTFactory::setCurrentTree(const std::string &newTree) {
             BTFactory::currentTree = newTree;
             return;
         }
-        BTFactory::getFactory().getTree(currentTree)->terminate(bt::Node::Status::Running);
+        BTFactory::getFactory().getTree(currentTree)->terminate(bt::Node::Status::Success);
 
         BTFactory::currentTree = newTree;
     }

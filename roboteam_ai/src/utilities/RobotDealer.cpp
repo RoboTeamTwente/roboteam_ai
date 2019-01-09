@@ -78,15 +78,30 @@ int RobotDealer::claimRobotForTactic(RobotDealer::RobotType feature, std::string
                 return - 1;
 
             case closeToBall: {
-                rtt::Vector2 ball = rtt::ai::World::getBall().pos;
-                id = getRobotClosestToPoint(ids, ball);
+                auto ball = rtt::ai::World::getBall();
+                rtt::Vector2 ballPos;
+                if (ball) {
+                    ballPos = ball->pos;
+                } else {
+                    ROS_ERROR("Robotdealer CloseToBall - No ball found in field. Assuming (%f, %f)", ballPos.x, ballPos.y);
+                }
+                id = getRobotClosestToPoint(ids, ballPos);
                 break;
             }
 
             case betweenBallAndOurGoal: {
-                rtt::Vector2 ball = rtt::ai::World::getBall().pos;
+                auto ball = rtt::ai::World::getBall();
+
+                rtt::Vector2 ballPos;
+                if (ball) {
+                   ballPos = ball->pos;
+                } else {
+                    ballPos = {0, 0};
+                    ROS_ERROR("Robotdealer CloseToBall - No ball found in field. Assuming ball at (%f, %f).", ballPos.x, ballPos.y);
+                }
+
                 rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
-                id = getRobotClosestToLine(ids, ball, ourGoal, true);
+                id = getRobotClosestToLine(ids, ballPos, ourGoal, true);
                 break;
             }
             case closeToOurGoal: {
@@ -144,6 +159,7 @@ std::set<int> RobotDealer::getAvailableRobots() {
     return ids;
 }
 std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::getClaimedRobots() {
+    std::lock_guard<std::mutex> lock(robotOwnersLock);
     return robotOwners;
 }
 
@@ -199,9 +215,9 @@ int RobotDealer::findRobotForRole(std::string roleName) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
-    for (auto tactic : robotOwners) {
+    for (const auto &tactic : robotOwners) {
         auto set = tactic.second;
-        for (auto pair : set) {
+        for (const auto &pair : set) {
             if (pair.second == roleName) {
                 return pair.first;
             }
@@ -297,6 +313,36 @@ std::string RobotDealer::getTacticNameForRole(std::string role) {
         }
     }
     ROS_ERROR("No robot with that role");
+    return "";
+
+}
+
+std::string RobotDealer::getTacticNameForId(int ID) {
+    std::lock_guard<std::mutex> lock(robotOwnersLock);
+
+    for (const auto &tactic : robotOwners) {
+        for (const auto &pair : tactic.second) {
+            if (pair.first == ID) {
+                return tactic.first;
+            }
+        }
+    }
+    ROS_ERROR("No robot with that ID  getTacticNameForId");
+    return "";
+}
+
+std::string RobotDealer::getRoleNameForId(int ID) {
+
+    std::lock_guard<std::mutex> lock(robotOwnersLock);
+
+    for (const auto &tactic : robotOwners) {
+        for (const auto &pair : tactic.second) {
+            if (pair.first == ID) {
+                return pair.second;
+            }
+        }
+    }
+    ROS_ERROR("No robot with that ID  getRoleNameForId");
     return "";
 
 }

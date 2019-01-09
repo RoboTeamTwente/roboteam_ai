@@ -1,7 +1,8 @@
 # roboteam_ai
-This repository will replace the roboteam_tactics.
 
-Currently WIP
+[![Build Status](https://travis-ci.com/RoboTeamTwente/roboteam_ai.svg?branch=master)](https://travis-ci.com/RoboTeamTwente/roboteam_ai)
+
+This repository will hold the logic for decision making and high-level robot control for RoboteamTwente.
 
 
 ### dependencies

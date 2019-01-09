@@ -55,16 +55,17 @@ int Coach::whichRobotHasBall(bool isOurTeam) {
     std::vector<roboteam_msgs::WorldRobot> robots;
     if (isOurTeam) {
         robots = world.us;
-    } else {
+    }
+    else {
         robots = world.them;
     }
 
-    for (auto& robot:robots) {
+    for (auto &robot:robots) {
         if (doesRobotHaveBall(robot.id, isOurTeam)) {
             return robot.id;
         }
     }
-    return -1;
+    return - 1;
 }
 
 int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
@@ -77,31 +78,47 @@ int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
     double robotAngle = robot->angle;
 
     if (angle < 0) {
-        angle += 2 * M_PI;
+        angle += 2*M_PI;
     }
     if (robotAngle < 0) {
-        robotAngle += 2 * M_PI;
+        robotAngle += 2*M_PI;
     }
 
-    return ( (dist < 0.25) && (fabs(angle - robotAngle) < 0.4) );
+    return ((dist < 0.25) && (fabs(angle - robotAngle) < 0.4));
 }
 
 int Coach::pickOpponentToCover(int selfID) {
     dangerfinder::DangerData DangerData = dangerfinder::DangerFinder::instance().getMostRecentData();
     std::vector<int> dangerList = DangerData.dangerList;
-    for(int & opponentID : dangerList) {
-        if(defencePairs.find(opponentID) == defencePairs.end()) {
-            if(!doesRobotHaveBall(static_cast<unsigned int>(opponentID), false)) {
+    for (int &opponentID : dangerList) {
+        if (defencePairs.find(opponentID) == defencePairs.end()) {
+            if (! doesRobotHaveBall(static_cast<unsigned int>(opponentID), false)) {
                 return opponentID;
             }
-        } else if (defencePairs[opponentID] == selfID) {
+        }
+        else if (defencePairs[opponentID] == selfID) {
             return opponentID;
         }
     }
 
-    return -1;
+    return - 1;
 }
 
+Vector2 Coach::getPositionBehindBall(double distanceBehindBall) {
+    auto ball = World::getBall();
+    Vector2 ballPos;
+
+    if (ball) {
+        ballPos = static_cast<Vector2>(ball->pos);
+    } else {
+        ballPos = {0, 0};
+        ROS_ERROR("No ball found. assuming ball at position (%f, %f)", ballPos.x, ballPos.y);
+    }
+
+    const Vector2 &goal = Field::get_their_goal_center();
+    return ballPos + (ballPos - goal).stretchToLength(distanceBehindBall);
 }
-}
-}
+
+} // coach
+} // ai
+} // rtt

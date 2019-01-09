@@ -6,26 +6,34 @@
 #include "../io/IOManager.h"
 #include "roboteam_msgs/WorldRobot.h"
 #include <roboteam_msgs/RobotCommand.h>
-#include "../../src/control/ControlUtils.h"
+#include "../control/ControlUtils.h"
 #include "../utilities/Constants.h"
 #include "../utilities/Coach.h"
 #include "roboteam_utils/Vector2.h"
-
-
+#include <roboteam_ai/src/conditions/HasBall.hpp>
+#include <roboteam_ai/src/utilities/Coach.h>
+#include <roboteam_ai/src/control/ControlGoToPos.h>
+#include <roboteam_ai/src/control/ControlKick.h>
+#include "roboteam_utils/Arc.h"
+#include "roboteam_utils/Math.h"
 
 namespace rtt {
 namespace ai {
+namespace c = rtt::ai::constants;
 
 /**
  * \class Skill
  * \brief Base class for all skills. Provides no additional functionality.
  */
 class Skill : public bt::Leaf {
-    protected:
+protected:
         io::IOManager ioManager;
-        using coach = coach::Coach;
+
+        using Coach = coach::Coach;
+        using GoToType = control::ControlGoToPos::GoToType;
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
-public:
+    public:
+
         using Control = control::ControlUtils;
         using Status = bt::Node::Status;
         explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
@@ -36,7 +44,7 @@ public:
 
         virtual void onInitialize() { };
         virtual Status onUpdate() = 0;
-        virtual void onTerminate(Status s) {};
+        virtual void onTerminate(Status s) { };
 };
 
 } // ai

@@ -14,11 +14,11 @@ namespace rtt {
 namespace ai {
 
 class WeHaveBall : public Condition {
-public:
-    WeHaveBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+    public:
+        WeHaveBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
 
-    Status update() override;
-    std::string node_name() override { return "WeHaveBall";}
+        Status update() override;
+        std::string node_name() override { return "WeHaveBall"; }
 
 };
 } //ai

@@ -12,7 +12,7 @@ const roboteam_msgs::World &World::get_world() {
 }
 
 void World::set_world(roboteam_msgs::World world) {
-    if (!world.us.empty()) {
+    if (! world.us.empty()) {
         didReceiveFirstWorld = true;
     }
     World::world = world;
@@ -28,8 +28,9 @@ std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotForId(unsigned int id,
     return nullptr;
 }
 
-std::shared_ptr<int> World::get_robot_closest_to_point(std::vector<roboteam_msgs::WorldRobot> robots, const Vector2& point) {
-    int closest_robot = -1;
+std::shared_ptr<int> World::get_robot_closest_to_point(std::vector<roboteam_msgs::WorldRobot> robots,
+        const Vector2 &point) {
+    int closest_robot = - 1;
     double closest_robot_ds = std::numeric_limits<double>::max();
 
     for (roboteam_msgs::WorldRobot worldRobot : robots) {
@@ -41,14 +42,14 @@ std::shared_ptr<int> World::get_robot_closest_to_point(std::vector<roboteam_msgs
         }
     }
 
-    return closest_robot == -1 ? nullptr : std::make_shared<int>(closest_robot);
+    return closest_robot == - 1 ? nullptr : std::make_shared<int>(closest_robot);
 }
 
-roboteam_msgs::WorldBall World::getBall() {
-    return world.ball;
+std::shared_ptr<roboteam_msgs::WorldBall> World::getBall() {
+    return std::make_shared<roboteam_msgs::WorldBall>(world.ball);
 }
 
-bool World::bot_has_ball(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::WorldBall& ball){
+bool World::bot_has_ball(const roboteam_msgs::WorldRobot &bot, const roboteam_msgs::WorldBall &ball) {
     Vector2 ball_vec(ball.pos), bot_vec(bot.pos);
     Vector2 ball_norm = (ball_vec - bot_vec);
 

@@ -3,7 +3,7 @@
 //
 
 #include <roboteam_ai/src/interface/drawer.h>
-#include <roboteam_ai/src/control/PID.h>
+#include <roboteam_ai/src/control/Controller.h>
 #include "Keeper.h"
 namespace rtt {
 namespace ai {
@@ -18,20 +18,20 @@ void Keeper::onInitialize() {
     //Create arc for keeper to drive on
     blockCircle=control::ControlUtils::createKeeperArc();
     //TODO::magic numbers galore, from the old team. move to new control library
-    pid.setParams(4.0, 0.0, 0.75, 10, 0.0, 0.0);
-    finePid.setParams(1.0, 0.0, 0.0, 0, 0.0, 0.0);
-    pid.initialize(1.0/constants::tickRate);
-    finePid.initialize(1.0/constants::tickRate);
+    double timediff = 1.0/constants::tickRate;
+    pid.setPID(3,0.0, 0.2, timediff);
+    finePid.setPID(1.0,0.0,0.0,timediff);
 }
+
 Keeper::Status Keeper::onUpdate() {
-        Vector2 ballPos = World::getBall().pos;
+        Vector2 ballPos = World::getBall()->pos;
         Vector2 blockPoint = computeBlockPoint(ballPos);
         //double dist=control::ControlUtils::distanceToLine(robot->pos,ballPos,blockPoint);
-        double dist = (blockPoint - (Vector2(robot->pos))).length();
+        double dist = (blockPoint - (Vector2(robot->pos))).length(); //using point distance not line distance.
         if (dist < constants::KEEPER_POSDIF) {
             sendStopCommand();
         }
-        else if (dist < 2*constants::ROBOT_RADIUS) {
+        else if (dist <2*constants::ROBOT_RADIUS){
             sendFineMoveCommand(blockPoint);
         }
         else {
@@ -51,26 +51,28 @@ void Keeper::onTerminate(Status s) {
 }
 
 void Keeper::sendMoveCommand(Vector2 pos) {
-    Vector2 delta = pid.posControl(robot->pos, pos);
+    Vector2 error = pos - robot->pos;
+    Vector2 delta = pid.controlPIR(error, robot->vel);
+    Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
-    cmd.x_vel = static_cast<float>(delta.x);
-    cmd.y_vel = static_cast<float>(delta.y);
+    cmd.x_vel = static_cast<float>(deltaLim.x);
+    cmd.y_vel = static_cast<float>(deltaLim.y);
     cmd.w = static_cast<float>(M_PI_2);
     publishRobotCommand(cmd);
 }
-
 void Keeper::sendFineMoveCommand(Vector2 pos) {
-    Vector2 delta = finePid.posControl(robot->pos, pos);
+    Vector2 error = pos - robot->pos;
+    Vector2 delta = finePid.controlPIR(error, robot->vel);
+    Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
-    cmd.x_vel = static_cast<float>(delta.x);
-    cmd.y_vel = static_cast<float>(delta.y);
+    cmd.x_vel = static_cast<float>(deltaLim.x);
+    cmd.y_vel = static_cast<float>(deltaLim.y);
     cmd.w = static_cast<float>(M_PI_2);
     publishRobotCommand(cmd);
-
 }
 
 void Keeper::sendStopCommand() {
@@ -109,6 +111,17 @@ Vector2 Keeper::computeBlockPoint(Vector2 defendPos) {
         blockPos = Vector2(goalPos.x + constants::KEEPER_POST_MARGIN, goalwidth/2
                 *signum(defendPos.y)); // Go stand at one of the poles depending on the side the defendPos is on.
     }
+    //Interface visualization:
+    std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
+    std::pair<rtt::Vector2, QColor> A=std::make_pair(blockPos,Qt::red);
+    displayColorData.push_back(A);
+    displayColorData.emplace_back(std::make_pair(blockLineStart,Qt::red));
+    displayColorData.emplace_back(std::make_pair(defendPos,Qt::red));
+    displayColorData.emplace_back(std::make_pair(goalPos + Vector2(0.0, goalwidth*0.5),Qt::green));
+    displayColorData.emplace_back(std::make_pair(goalPos - Vector2(0.0, goalwidth*0.5),Qt::green));
+    displayColorData.emplace_back(std::make_pair(robot->pos,Qt::blue));
+    interface::Drawer::setKeeperPoints(robot->id,displayColorData);
+
     return blockPos;
 }
 

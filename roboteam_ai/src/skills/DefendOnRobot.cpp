@@ -11,21 +11,21 @@ DefendOnRobot::DefendOnRobot(std::string name, bt::Blackboard::Ptr blackboard)
     :Skill(std::move(name), std::move(blackboard)) { }
 
 void DefendOnRobot::onInitialize() {
-    opponentWithBallID = coach::Coach::whichRobotHasBall(false);
+    opponentWithBallID = Coach::Coach::whichRobotHasBall(false);
     if (opponentWithBallID == -1) {
         currentProgress = FAIL;
     }
 
-    opponentToCoverID = coach::Coach::pickOpponentToCover(robot->id);
+    opponentToCoverID = Coach::Coach::pickOpponentToCover(robot->id);
     if (opponentToCoverID == -1) {
         currentProgress = FAIL;
     } else {
-        coach::Coach::defencePairs.insert({opponentToCoverID, robot->id});
+        Coach::Coach::defencePairs.insert({opponentToCoverID, robot->id});
     }
 }
 
 void DefendOnRobot::onTerminate(Skill::Status s) {
-    coach::Coach::defencePairs.erase(robot->id);
+    Coach::Coach::defencePairs.erase(robot->id);
 }
 
 bt::Node::Status DefendOnRobot::onUpdate() {
@@ -34,13 +34,14 @@ bt::Node::Status DefendOnRobot::onUpdate() {
 
     if (opponentWithBall && opponentToCover) {
         updateRobot();
-        if (!coach::Coach::doesRobotHaveBall(opponentWithBall->id, false)) {
+        if (!Coach::Coach::doesRobotHaveBall(opponentWithBall->id, false)) {
             return Status::Success;
         }
 
         Vector2 targetPos = calculateLocation();
-        std::cout << targetPos << std::endl;
-        goToPos.goToPos(robot, targetPos, goType::basic);
+
+        std::cout << "Robot:" << robot->id << "TargetPos:" << targetPos << std::endl;
+        goToPos.goToPos(robot, targetPos, GoToType::luTh);
 
         return Status::Running;
     } else {
@@ -52,7 +53,12 @@ Vector2 DefendOnRobot::calculateLocation() {
     float robotAngle1 = opponentWithBall.get()->angle;
     float robotAngle2 = opponentToCover.get()->angle;
 
-    float angleBetweenRobots = atan((opponentToCover->pos.y - opponentWithBall->pos.y) / (opponentWithBall->pos.x - opponentToCover->pos.x));
+    if (opponentWithBall->pos.x > opponentToCover->pos.x) {
+        angleBetweenRobots = atan((opponentToCover->pos.y - opponentWithBall->pos.y) /
+                                        (opponentWithBall->pos.x - opponentToCover->pos.x));
+    } else {
+        angleBetweenRobots = ((Vector2)opponentWithBall->pos - opponentToCover->pos).angle();
+    }
 
     double angle1;
     if (robotAngle1 >= 0) {
@@ -71,7 +77,12 @@ Vector2 DefendOnRobot::calculateLocation() {
     double xLength = length * cos(angle1);
     double yLength = length * sin(angle1);
 
-    Vector2 newPosition = {opponentWithBall->pos.x - xLength, opponentWithBall->pos.y + yLength};
+    if (opponentWithBall->pos.x > opponentToCover->pos.x) {
+        newPosition = {opponentWithBall->pos.x - xLength, opponentWithBall->pos.y + yLength};
+    } else {
+        newPosition = {opponentWithBall->pos.x - xLength, opponentWithBall->pos.y - yLength};
+    }
+
     return newPosition;
 }
 

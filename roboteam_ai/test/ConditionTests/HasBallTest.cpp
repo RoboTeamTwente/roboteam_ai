@@ -8,6 +8,7 @@
 TEST(BallTest, IHaveBallTest) {
     auto BB = std::make_shared<bt::Blackboard>();
     BB->setInt("ROBOT_ID", 2);
+    BB->setString("ROLE","test");
     BB->setBool("our_team", false);
     rtt::ai::HasBall node("Test", BB);
     //First test should fail as the robot is not set in the world state yet.
@@ -19,10 +20,11 @@ TEST(BallTest, IHaveBallTest) {
     robot.id = 2;
     robot.pos.x = 0;
     robot.pos.y = 0;
-    worldMsg.them.push_back(robot);
+    worldMsg.us.push_back(robot);
     worldMsg.ball.pos.x = 0.1;
     worldMsg.ball.pos.y = 0.0;
     rtt::ai::World::set_world(worldMsg);
+    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotDealer::RobotType::random,"IHaveBallTestTactic","test");
     ASSERT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.ball.pos.x = 0.2;
@@ -43,7 +45,7 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.pos.x = - 0.1;
     worldMsg.ball.pos.y = 0;
     rtt::ai::World::set_world(worldMsg);
-    ASSERT_EQ(node.Update(),bt::Node::Status::Failure);
+    ASSERT_EQ(node.update(),bt::Node::Status::Failure);
 
-
+    robotDealer::RobotDealer::removeTactic("IHaveBallTestTactic");
 }

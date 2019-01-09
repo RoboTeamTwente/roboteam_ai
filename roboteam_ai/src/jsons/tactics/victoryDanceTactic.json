@@ -22,7 +22,9 @@
             "title": "MemSequence",
             "children": [
               "zkl7lwhnxjxlmiay",
-              "qggd848t8b7kxxk0"
+              "qggd848t8b7kxxk0",
+              "ef4fg5gehb3r9ucvk",
+              "54gq9n20d9yoi7c"
             ],
             "location": {
               "x": 418.0,
@@ -31,12 +33,11 @@
           },
           "zkl7lwhnxjxlmiay": {
             "id": "zkl7lwhnxjxlmiay",
-            "title": "Dribble",
+            "title": "GoToPos",
             "properties": {
               "ROLE": "victor1",
-              "Position": "{-2,-2}",
-              "maxTicks":"100",
-              "forwardDirection":"false"
+              "Position": "{0,0}",
+              "goToBall": "true"
             },
             "location": {
               "x": 271.0,
@@ -45,13 +46,10 @@
           },
           "qggd848t8b7kxxk0": {
             "id": "qggd848t8b7kxxk0",
-            "title": "Dribble",
+            "title": "GetBall",
             "properties": {
-            "ROLE": "victor1",
-            "Position": "{0,-1}",
-            "maxTicks":"100",
-            "forwardDirection":"true"
-          },
+              "ROLE": "victor1"
+            },
             "location": {
               "x": 413.0,
               "y": 262.0
@@ -59,10 +57,12 @@
           },
           "ef4fg5gehb3r9ucvk": {
             "id": "ef4fg5gehb3r9ucvk",
-            "title": "GoToPosLuTh",
+            "title": "Dribble",
             "properties": {
               "ROLE": "victor1",
-              "Position": "{-1, 1}"
+              "Position": "{0,-1}",
+              "maxTicks": "100",
+              "forwardDirection": "false"
             },
             "location": {
               "x": 595.0,
@@ -71,10 +71,10 @@
           },
           "54gq9n20d9yoi7c": {
             "id": "54gq9n20d9yoi7c",
-            "title": "GoToPosLuTh",
+            "title": "GoToPos",
             "properties": {
               "ROLE": "victor1",
-              "Position": "{0, -1}"
+              "Position": "{1, 1}"
             },
             "location": {
               "x": 742.0,

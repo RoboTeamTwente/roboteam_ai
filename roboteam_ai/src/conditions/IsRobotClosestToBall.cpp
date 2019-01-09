@@ -2,8 +2,6 @@
 // Created by robzelluf on 10/18/18.
 //
 
-//TODO: get/make function get_robot_closest_to_point
-
 #include "IsRobotClosestToBall.h"
 
 namespace rtt {
@@ -13,9 +11,9 @@ namespace ai{
 
     }
 
-    bt::Node::Status IsRobotClosestToBall::Update() {
+    bt::Node::Status IsRobotClosestToBall::update() {
+        robot = getRobotFromProperties(properties);
         roboteam_msgs::World world = World::get_world();
-        int robotID = properties->getInt("ROBOT_ID");
         Vector2 ballPos(world.ball.pos);
         std::vector<roboteam_msgs::WorldRobot> robots = world.us;
         std::shared_ptr<int> robotClosestToBallPtr;
@@ -29,9 +27,9 @@ namespace ai{
 
         robotClosestToBallPtr = World::get_robot_closest_to_point(robots, ballPos);
 
-        if (robotClosestToBallPtr) {
+        if (robotClosestToBallPtr && robot) {
             robotClosestToBall = *robotClosestToBallPtr;
-            if (robotID == robotClosestToBall) {
+            if (robot->id == robotClosestToBall) {
                 return Status::Success;
             } else {
                 return Status::Failure;

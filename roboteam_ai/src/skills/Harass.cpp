@@ -17,14 +17,15 @@ void Harass::onInitialize() {
 Skill::Status Harass::onUpdate() {
 
     updateRobot();
-    if (!robot) {
+    if (! robot) {
         return Status::Failure;
     }
     if (harassmentTarget == - 1) {
         pickHarassmentTarget();
     }
     auto enemyBot = World::getRobotForId(static_cast<unsigned int>(harassmentTarget), false);
-    Vector2 ballPos = World::getBall().pos;
+
+    Vector2 ballPos = ball->pos;
     Vector2 targetPos;
     Vector2 enemyPos = enemyBot->pos;
 
@@ -40,9 +41,9 @@ Skill::Status Harass::onUpdate() {
     std::cout << "call gotopos with target pos" << targetPos << std::endl;
     std::cout << "call gotopos with robot pos           " << robot->pos << std::endl;
 
-    goToPos.goToPos(robot, targetPos, goType::basic);
+    goToPos.goToPos(robot, targetPos, GoToType::basic);
 
-    if (harassBallOwner && !coach::doesRobotHaveBall(harassmentTarget, false)) {
+    if (harassBallOwner && ! Coach::doesRobotHaveBall(harassmentTarget, false)) {
         return Status::Success;
     }
     // TODO make something that will make harassment stop if something happens else we assume that there is a tree
@@ -52,10 +53,10 @@ Skill::Status Harass::onUpdate() {
 
 void Harass::pickHarassmentTarget() {
 //    if (harassBallOwner) {
-//        harassmentTarget = coach::whichRobotHasBall(false);
+//        harassmentTarget = Coach::whichRobotHasBall(false);
 //    }
 //    else {
-//        harassmentTarget = coach::pickHarassmentTarget(robot->id);
+//        harassmentTarget = Coach::pickHarassmentTarget(robot->id);
 //    }
 
     harassmentTarget = 0;
