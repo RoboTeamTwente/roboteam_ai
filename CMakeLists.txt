@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.1)
 project(roboteam_ai)
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
+SET(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
+
+SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -12,7 +14,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
 # Find the QtWidgets library
-find_package(Qt5Widgets CONFIG REQUIRED)
+find_package(Qt5Widgets REQUIRED)
 
 find_package(catkin REQUIRED COMPONENTS
         roboteam_msgs
@@ -287,8 +289,8 @@ catkin_add_gtest(ai_tests
         ${SKILLS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}
-        ${INTERFACE_SOURCES}
         ${TEST_SOURCES}
+        ${INTERFACE_SOURCES}
         )
 
 target_compile_options(ai_tests PUBLIC --coverage)

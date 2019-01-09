@@ -120,7 +120,7 @@ void GoToPosLuTh::sendMoveCommand() {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     bool nicePath = calculateNumericDirection(me, command);
-    robotQueue = {};
+    robotQueue = std::priority_queue<NumRobotPtr, std::vector<NumRobotPtr>, NumRobot::CustomCompare>();
 
     //ros::Time end = ros::Time::now();
     //double timeTaken = (end - begin).toSec();
