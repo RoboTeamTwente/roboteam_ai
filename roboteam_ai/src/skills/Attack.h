@@ -12,12 +12,8 @@ namespace ai {
 
 class Attack : public Skill {
     private:
-        bool newRandom = false;
-        bool newPos = true;
-        int counter = 0;
 
         control::ControlGoToPos goToPos;
-        control::ControlKick kicker;
         Vector2 deltaPos;
         Vector2 targetPos;
 
