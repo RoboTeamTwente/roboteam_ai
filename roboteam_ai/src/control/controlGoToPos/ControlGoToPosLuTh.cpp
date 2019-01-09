@@ -6,24 +6,23 @@
 
 #include "ControlGoToPosLuTh.h"
 
-namespace rtt{
-    namespace ai {
-        namespace control {
+namespace rtt {
+namespace ai {
+namespace control {
 
 void ControlGoToPosLuTh::clear() {
     me.clear();
 }
 
-ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
-    Command command;
-    command.id = robot->id;
+Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
+    Vector2 command;
 
     bool recalculate = false;
     double deltaTarget = (abs((target - targetPos).length()));
     double deltaPos = (abs((target - robot->pos).length()));
 
-    if (deltaTarget > errorMargin && !(deltaPos < errorMargin*4.0 && deltaTarget > errorMargin*2.0)) {
-            recalculate = true;
+    if (deltaTarget > errorMargin && ! (deltaPos < errorMargin*4.0 && deltaTarget > errorMargin*2.0)) {
+        recalculate = true;
     }
     else if (me.posData.size() > 4) {
 
@@ -54,7 +53,7 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
         startTime = ros::Time::now();
 
         targetPos = target;
-        bool nicePath = calculateNumericDirection(robot, me, command);
+        bool nicePath = calculateNumericDirection(robot, me);
         robotQueue = {};
 
         //ros::Time end = ros::Time::now();
@@ -81,8 +80,8 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
 
         if (! nicePath) {
             Vector2 dir = (targetPos - robot->pos).normalize();
-            command.x_vel = static_cast<float>(dir.x*2.0f);
-            command.y_vel = static_cast<float>(dir.y*2.0f);
+            command.x = static_cast<float>(dir.x*2.0f);
+            command.y = static_cast<float>(dir.y*2.0f);
 
         }
 
@@ -98,8 +97,8 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
         me.clear();
 
         Vector2 dir = (targetPos - robot->pos).normalize();
-        command.x_vel = static_cast<float>(dir.x*2.0f);
-        command.y_vel = static_cast<float>(dir.y*2.0f);
+        command.x = static_cast<float>(dir.x*2.0f);
+        command.y = static_cast<float>(dir.y*2.0f);
     }
     else {
         auto size = static_cast<int>(me.posData.size() - 1);
@@ -114,8 +113,8 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
         Vector2 vel = pid.controlPIR(pidPos - robot->pos, robot->vel);
         if (vel.length() > 3.0)
             vel = vel.normalize()*3.0;
-        command.x_vel = static_cast<float>(vel.x);
-        command.y_vel = static_cast<float>(vel.y);
+        command.x = static_cast<float>(vel.x);
+        command.y = static_cast<float>(vel.y);
 
     }
 
@@ -123,8 +122,7 @@ ControlGoToPosLuTh::Command ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 
 
 }
 
-bool ControlGoToPosLuTh::calculateNumericDirection(RobotPtr robot, NumRobot &me,
-        roboteam_msgs::RobotCommand &command) {
+bool ControlGoToPosLuTh::calculateNumericDirection(RobotPtr robot, NumRobot &me) {
 
     me.id = robot->id;
     me.pos = robot->pos;
@@ -165,7 +163,7 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
         else if (me->isCollision(me->targetPos)) {
             me->startIndex = me->posData.size();
             me->targetPos = target;
-            (me->collisions)--;
+            (me->collisions) --;
             me->newDir = NumRobot::goMiddle;
         }
 
@@ -242,7 +240,7 @@ void ControlGoToPosLuTh::drawCross(Vector2 &pos) {
     }
 }
 
-        } // control
-    } // ai
+} // control
+} // ai
 } // rtt
 

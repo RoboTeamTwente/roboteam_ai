@@ -7,16 +7,19 @@
 #ifndef ROBOTEAM_AI_CONTROLGOTOPOSBALLCONTROL_H
 #define ROBOTEAM_AI_CONTROLGOTOPOSBALLCONTROL_H
 
+namespace rtt {
+namespace ai {
+namespace control {
+
 class ControlGoToPosBallControl {
     private:
         using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
-        using Vector2 = rtt::Vector2;
-        using Command = roboteam_msgs::RobotCommand;
-
-
 
     public:
-        Command goToPos(RobotPtr robot, Vector2 &target);
+        Vector2 goToPos(RobotPtr robot, Vector2 &target);
 };
 
+} //control
+} //ai
+} //rtt
 #endif //ROBOTEAM_AI_CONTROLGOTOPOSBALLCONTROL_H

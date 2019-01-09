@@ -23,16 +23,18 @@ bt::Node::Status Attack::onUpdate() {
     Vector2 ball = World::getBall().pos;
     Vector2 behindBall = Coach::getPositionBehindBall(0.5);
     Vector2 deltaBall = behindBall - ball;
-    if (! Control::pointInTriangle(robot->pos, ball-deltaBall, ball + (deltaBall).rotate(M_PI*0.17).scale(2.0),
+    if (! Control::pointInTriangle(robot->pos, ball - deltaBall, ball + (deltaBall).rotate(M_PI*0.17).scale(2.0),
             ball + (deltaBall).rotate(M_PI*- 0.17).scale(2.0))) {
         targetPos = behindBall;
 
         roboteam_msgs::RobotCommand command;
         command.id = robot->id;
         command.use_angle = 1;
-        command.w = static_cast<float>((ball - (Vector2)(robot->pos)).angle());
+        command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
+        Vector2 velocity = goToPos.goToPos(robot, targetPos, GoToType::basic);
+        command.x_vel = static_cast<float>(velocity.x);
+        command.y_vel = static_cast<float>(velocity.y);
         publishRobotCommand(command);
-        goToPos.goToPos(robot, targetPos, GoToType::basic);
 
     }
     else {
@@ -42,14 +44,16 @@ bt::Node::Status Attack::onUpdate() {
         roboteam_msgs::RobotCommand command;
         command.id = robot->id;
         command.use_angle = 1;
-        command.w = static_cast<float>(((Vector2){-1.0,-1.0} * deltaBall).angle());
-        publishRobotCommand(command);
+        command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
         if (Coach::doesRobotHaveBall(robot->id, true)) {
-            unsigned char forced_kick = 1;
-            kicker.kick(robot, forced_kick);
+            command.kicker = 1;
+            command.kicker_vel = static_cast<float>(rtt::ai::constants::MAX_KICK_POWER);
+            command.kicker_forced = 1;
         }
-        goToPos.goToPos(robot, targetPos, GoToType::basic);
-
+        Vector2 velocity = goToPos.goToPos(robot, targetPos, GoToType::basic);
+        command.x_vel = static_cast<float>(velocity.x);
+        command.y_vel = static_cast<float>(velocity.y);
+        publishRobotCommand(command);
     }
 
     return Status::Running;
