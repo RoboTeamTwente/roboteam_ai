@@ -14,19 +14,15 @@ HasBall::HasBall(std::string name, bt::Blackboard::Ptr blackboard)
 
 bt::Node::Status HasBall::update() {
     robot = getRobotFromProperties(properties);
-
-    if (! robot) return Status::Failure;
-
     auto ball = World::getBall();
-    if (botHasBall(ball.pos)) return Status::Success;
-    else return Status::Failure;
 
+    if (! robot || ! ball) return Status::Failure;
+    if (botHasBall(ball->pos)) return Status::Success;
+    else return Status::Failure;
 }
 
 bool HasBall::botHasBall(Vector2 ballPos) {
-
     Vector2 deltaPos = (ballPos - robot->pos);
-
     double dist = deltaPos.length();
     double angle = deltaPos.angle();
 

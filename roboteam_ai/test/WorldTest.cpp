@@ -23,8 +23,8 @@ TEST(WorldTest, it_gets_the_ball) {
 
     worldMsg.ball.z = 42;
     rtt::ai::World::set_world(worldMsg);
-    roboteam_msgs::WorldBall ball = rtt::ai::World::getBall();
-    ASSERT_EQ(ball.z, 42);
+    auto ball = rtt::ai::World::getBall();
+    ASSERT_EQ(ball->z, 42);
 }
 
 TEST(WorldTest, it_gets_the_robot_ID) {

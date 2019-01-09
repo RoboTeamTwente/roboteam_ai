@@ -33,8 +33,12 @@ GoToPosLuTh::Status GoToPosLuTh::onUpdate() {
     displayData.clear();
 
     if (goToBall) {
-        auto ball = World::getBall();
-        targetPos = ball.pos;
+        if (ball) {
+            targetPos = ball->pos;
+        } else {
+            targetPos = {0, 0};
+            ROS_ERROR("GoToPosLuTh: No ball found! assuming (%f, %f)", targetPos.x, targetPos.y);
+        }
     }
     else if (random) {
         const roboteam_msgs::GeometryFieldSize &field = Field::get_field();

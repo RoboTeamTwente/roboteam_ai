@@ -7,24 +7,18 @@
 namespace rtt {
 namespace ai {
 
-Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
-}
-
-/// Init the GoToPos skill
-void Attack::onInitialize() {
-    robot = getRobotFromProperties(properties);
-}
+Attack::Attack(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) { }
 
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {
-    updateRobot();
-    if (! robot) return Status::Running;
-    Vector2 ball = World::getBall().pos;
+    if (!robot || !ball) return Status::Running;
+
+    Vector2 ballPos = ball->pos;
     Vector2 behindBall = Coach::getPositionBehindBall(0.5);
-    Vector2 deltaBall = behindBall - ball;
-    if (! Control::pointInTriangle(robot->pos, ball-deltaBall, ball + (deltaBall).rotate(M_PI*0.17).scale(2.0),
-            ball + (deltaBall).rotate(M_PI*- 0.17).scale(2.0))) {
+
+    Vector2 deltaBall = behindBall - ballPos;
+    if (! Control::pointInTriangle(robot->pos, ballPos-deltaBall, ballPos + (deltaBall).rotate(M_PI*0.17).scale(2.0),
+            ballPos + (deltaBall).rotate(M_PI*- 0.17).scale(2.0))) {
         targetPos = behindBall;
         goToPos.goToPos(robot, targetPos, GoToType::luTh);
         std::cout << "luth\n";
@@ -33,9 +27,9 @@ bt::Node::Status Attack::onUpdate() {
         roboteam_msgs::RobotCommand command;
         command.id = robot->id;
         command.use_angle = 1;
-        command.w = static_cast<float>((ball - behindBall).angle());
+        command.w = static_cast<float>((ballPos - behindBall).angle());
         publishRobotCommand(command);
-        targetPos = ball;
+        targetPos = ballPos;
         goToPos.goToPos(robot, targetPos, GoToType::basic);
 
         if (Coach::doesRobotHaveBall(robot->id, true)) {

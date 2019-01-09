@@ -25,7 +25,13 @@ bt::Node::Status IsInDefenseArea::update() {
     else{
         //TODO: Fix this once ball PR is merged.
         auto ball=World::getBall();
-        point=ball.pos;
+        if (ball){
+            point=ball->pos;
+        }
+        else{
+            return Status::Failure;
+        }
+
     }
     ourDefenseArea = properties->getBool("ourDefenseArea");
     if (properties->hasDouble("margin")) margin = static_cast<float>(properties->getDouble("margin"));
