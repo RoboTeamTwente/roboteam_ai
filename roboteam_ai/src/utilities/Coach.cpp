@@ -3,10 +3,16 @@
 //
 
 #include "Coach.h"
+#include "RobotDealer.h"
+#include <roboteam_ai/src/control/ControlUtils.h>
+#include <roboteam_ai/src/dangerfinder/DangerData.h>
+#include <roboteam_ai/src/dangerfinder/DangerFinder.h>
 
 namespace rtt {
 namespace ai {
 namespace coach {
+
+using dealer = robotDealer::RobotDealer;
 
 std::map<int, int> Coach::defencePairs;
 
