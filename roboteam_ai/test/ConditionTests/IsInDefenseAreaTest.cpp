@@ -129,6 +129,7 @@ TEST(DetectsBallInOurDefenceArea, IsInDefenceAreaTest) {
     roboteam_msgs::World worldMsg;
 
     rtt::ai::World::set_world(worldMsg);
+
     roboteam_msgs::GeometryFieldSize field;
     field.left_penalty_line.begin.x = -1.0f;
     field.left_penalty_line.end.x = -1.0f;
