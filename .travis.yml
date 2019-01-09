@@ -123,7 +123,7 @@ script:
   - catkin_make --pkg roboteam_msgs roboteam_utils
   - cd ~/catkin_ws/src/roboteam_ai
   - mkdir cmake-build-debug && cd cmake-build-debug
-  - cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" .. && cmake --build ~/catkin_ws/src/roboteam_ai/cmake-build-debug --target ai_tests -- -j 8
+  - cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" .. && cmake --build ~/catkin_ws/src/roboteam_ai/cmake-build-debug --target ai_tests -- -j 8
 
   # Run the tests, ensuring the path is set correctly.
   - roscore & cd ~/catkin_ws/src/roboteam_ai/cmake-build-debug/devel/lib/roboteam_ai && ./ai_tests
