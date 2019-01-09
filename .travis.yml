@@ -41,7 +41,12 @@
 
 sudo: required
 cache:
-  - apt
+  directories:
+    - /opt/ros
+    - /usr/share/doc/ros-melodic-ros-base
+    - /usr/share/qt5
+    - catkin_ws/src/roboteam_msgs
+    - catkin_ws/src/roboteam_utils
 
 # Build all valid Ubuntu/ROS combinations available on Travis VMs.
 language: generic
