@@ -28,8 +28,9 @@ void GoToPos::onInitialize() {
 /// Get an update on the skill
 bt::Node::Status GoToPos::onUpdate() {
     if (! robot) return Status::Running;
-    if (!ball) return Status::Running;
-
+    if (goToBall||goBehindBall) {
+        if (! ball) return Status::Running;
+    }
     if (goToBall) {
         targetPos = ball->pos;
     }
