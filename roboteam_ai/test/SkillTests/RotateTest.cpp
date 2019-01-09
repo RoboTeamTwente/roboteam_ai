@@ -52,7 +52,7 @@ TEST(RotateTest, It_rotates) {
     setFieldtoWorld();
 
     worldMsg.ball = setBall(100, 100);
-    worldMsg.us.push_back(setRobot(- 100, - 100, (float) (0.625*rtt::ai::constants::PI), 1));
+    worldMsg.us.push_back(setRobot(- 100, - 100, (float) (0.625*M_PI), 1));
     rtt::ai::World::set_world(worldMsg);
 
     ros::Rate rate(1);
@@ -66,10 +66,10 @@ TEST(RotateTest, It_rotates) {
     bb->setInt("ROBOT_ID", 1);
     bb->setBool("Rotate_To_Object", true);
     bb->setInt("Rotate_Object", 100);        // Rotate to ball
-    bb->setFloat("Rotate_Angle", (float) (rtt::ai::constants::PI*0.5));
+    bb->setFloat("Rotate_Angle", (float) (0.5*M_PI));
 
     rtt::ai::Rotate rotateOne("test1", bb);
-    rotateOne.Initialize();
+    rotateOne.initialize();
     bt::Node::Status statusOne = rotateOne.update();
     EXPECT_EQ(statusOne, bt::Node::Status::Running);
 
@@ -94,7 +94,7 @@ TEST(RotateTest, It_rotates) {
     EXPECT_EQ(commands.at(1).w, rtt::ai::constants::MAX_ANGULAR_VELOCITY);
 
     bb->setBool("Rotate_To_Object", false);
-    bb->setFloat("Rotate_Angle", (float) - rtt::ai::constants::PI);
+    bb->setFloat("Rotate_Angle", (float) - M_PI);
 
     rtt::ai::Rotate rotateThree("test3", bb);
     rotateThree.initialize();

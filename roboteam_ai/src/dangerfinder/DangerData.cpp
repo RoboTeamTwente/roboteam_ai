@@ -16,8 +16,9 @@ std::shared_ptr<roboteam_msgs::WorldRobot> DangerData::getByDangerRank(unsigned 
     auto opt = World::getRobotForId(id, false);
     if (! opt) {
         ROS_WARN("dangerfinder: Opponent bot %d was in the dangerList, but could not be found in the world.", id);
+        return nullptr;
     }
-    return nullptr;
+    return opt;
 }
 
 } // dangerfinder

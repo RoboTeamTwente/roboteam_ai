@@ -221,33 +221,34 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.h)
 
 set(TEST_SOURCES
-        roboteam_ai/test/SkillTests/KickTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
         roboteam_ai/test/main.cpp
-        #roboteam_ai/test/BtTest.cpp
-        #roboteam_ai/test/JsonTest.cpp
-        #roboteam_ai/test/BTFactoryTest.cpp
-        #roboteam_ai/test/WorldTest.cpp
+        roboteam_ai/test/BtTest.cpp
+        roboteam_ai/test/JsonTest.cpp
+        roboteam_ai/test/BTFactoryTest.cpp
+        roboteam_ai/test/WorldTest.cpp
         roboteam_ai/test/FieldTest.cpp
-        #roboteam_ai/test/DangerFinderTest.cpp
+        roboteam_ai/test/DangerFinderTest.cpp
         roboteam_ai/test/BTBlackBoardTest.cpp
         roboteam_ai/test/IOTest.cpp
-        roboteam_ai/test/RobotDealerTest.cpp
         roboteam_ai/test/RefereeTest.cpp
         roboteam_ai/test/StrategyManagerTest.cpp
         roboteam_ai/test/PropertiesParserTest.cpp
-        #roboteam_ai/test/ControUtilsTest.cpp
-        roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
-        roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
-        roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
-        roboteam_ai/test/ConditionTests/IsRobotClosestToBallTest.cpp
-        roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
-        roboteam_ai/test/ConditionTests/TheyHaveBallTest.cpp
-        roboteam_ai/test/ConditionTests/WeHaveBallTest.cpp
-        roboteam_ai/test/ConditionTests/IsOnOurSideTest.cpp)
+        roboteam_ai/test/ControlUtilsTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/TheyHaveBallTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/WeHaveBallTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsOnOurSideTest.cpp
+
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IHaveBallTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsRobotClosestToBallTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/KickTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/GoToPosTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/RotateTest.cpp
+
+        #roboteam_ai/test/RobotDealerTest.cpp
+        #{PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
+        )
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/mainWindow.cpp
@@ -291,7 +292,9 @@ catkin_add_gtest(ai_tests
         ${SKILLS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}
-        ${INTERFACE_SOURCES})
+        ${INTERFACE_SOURCES}
+        ${TEST_SOURCES}
+        )
 
 target_compile_options(ai_tests PUBLIC --coverage)
 
