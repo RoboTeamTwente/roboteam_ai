@@ -24,7 +24,6 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.pos.x = 0.1;
     worldMsg.ball.pos.y = 0.0;
     rtt::ai::World::set_world(worldMsg);
-    auto s=robotDealer::RobotDealer::getClaimedRobots();
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotDealer::RobotType::random,"IHaveBallTestTactic","test");
     ASSERT_EQ(node.update(), bt::Node::Status::Success);
 
@@ -48,5 +47,5 @@ TEST(BallTest, IHaveBallTest) {
     rtt::ai::World::set_world(worldMsg);
     ASSERT_EQ(node.update(),bt::Node::Status::Failure);
 
-
+    robotDealer::RobotDealer::removeTactic("IHaveBallTestTactic");
 }

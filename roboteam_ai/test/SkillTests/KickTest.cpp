@@ -63,6 +63,7 @@ TEST(KickTest, It_sends_proper_robotcommands) {
         EXPECT_EQ(kick2.update(), bt::Leaf::Status::Running);
     }
     EXPECT_EQ(kick2.update(), bt::Leaf::Status::Failure);
+    robotDealer::RobotDealer::removeTactic("KickTest");
 }
 
 TEST(KickTest, It_chips) {
@@ -98,6 +99,7 @@ TEST(KickTest, It_chips) {
     EXPECT_TRUE(commands.at(0).chipper);
     EXPECT_TRUE(commands.at(0).chipper_forced);
     EXPECT_EQ(commands.at(0).chipper_vel, rtt::ai::constants::DEFAULT_KICK_POWER);
+    robotDealer::RobotDealer::removeTactic("KickTest");
 }
 
 }

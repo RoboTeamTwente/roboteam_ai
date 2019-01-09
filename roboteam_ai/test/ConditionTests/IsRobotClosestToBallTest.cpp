@@ -48,6 +48,7 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
 
     // Test should fail since robot 2 is no longer closest to the ball
     ASSERT_EQ(Node.update(), bt::Node::Status::Failure);
+    robotDealer::RobotDealer::removeTactic("IsRobotClosestToBallTestTactic");
 }
 
 TEST(secondsAhead, IsRobotClosestToBallTest) {
@@ -79,4 +80,5 @@ TEST(secondsAhead, IsRobotClosestToBallTest) {
     rtt::ai::World::set_world(worldMsg);
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotDealer::RobotType::random,"IsRobotClosestToBallTestTactic","test");
     ASSERT_EQ(Node.update(), bt::Node::Status::Success);
+    robotDealer::RobotDealer::removeTactic("IsRobotClosestToBallTestTactic");
 }
