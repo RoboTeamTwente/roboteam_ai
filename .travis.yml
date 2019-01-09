@@ -117,7 +117,6 @@ script:
   - cd ~/catkin_ws
   # Run the tests, ensuring the path is set correctly.
   - source devel/setup.bash
-  - catkin_make
-  - catkin_make run_tests_roboteam_ai && catkin_test_results
+  - roscore & catkin_make run_tests_roboteam_ai && catkin_test_results
 
 
