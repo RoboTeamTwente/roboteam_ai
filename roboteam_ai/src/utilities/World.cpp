@@ -45,8 +45,8 @@ std::shared_ptr<int> World::get_robot_closest_to_point(std::vector<roboteam_msgs
     return closest_robot == - 1 ? nullptr : std::make_shared<int>(closest_robot);
 }
 
-roboteam_msgs::WorldBall World::getBall() {
-    return world.ball;
+std::shared_ptr<roboteam_msgs::WorldBall> World::getBall() {
+    return std::make_shared<roboteam_msgs::WorldBall>(world.ball);
 }
 
 bool World::bot_has_ball(const roboteam_msgs::WorldRobot &bot, const roboteam_msgs::WorldBall &ball) {

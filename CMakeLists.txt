@@ -282,7 +282,6 @@ target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} Qt5::Widgets Qt5::Gui)
 ## Testing ##
 #############
 catkin_add_gtest(ai_tests
-
         ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
@@ -291,7 +290,8 @@ catkin_add_gtest(ai_tests
         ${CONDITIONS_SOURCES}
         ${SKILLS_SOURCES}
         ${CONTROL_SOURCES}
-        ${TACTIC_SOURCES})
+        ${TACTIC_SOURCES}
+        ${INTERFACE_SOURCES})
 
 target_compile_options(ai_tests PUBLIC --coverage)
 

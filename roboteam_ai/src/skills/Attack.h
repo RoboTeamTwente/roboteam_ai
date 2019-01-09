@@ -12,10 +12,6 @@ namespace ai {
 
 class Attack : public Skill {
     private:
-        bool newRandom = false;
-        bool newPos = true;
-        int counter = 0;
-
         control::ControlGoToPos goToPos;
         control::ControlKick kicker;
         Vector2 deltaPos;
@@ -23,7 +19,6 @@ class Attack : public Skill {
 
     public:
         explicit Attack(string name, bt::Blackboard::Ptr blackboard);
-        void onInitialize() override;
         Status onUpdate() override;
         void onTerminate(Status s) override;
 };

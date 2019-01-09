@@ -5,14 +5,10 @@
 
 namespace bt {
 
-Leaf::Leaf(std::string name, Blackboard::Ptr blackboard) {
+Leaf::Leaf(std::string name, Blackboard::Ptr blackboard) : name(std::move(name)) {
     setProperties(blackboard);
-    setName(name);
     robot = std::make_shared<roboteam_msgs::WorldRobot>();
-
-}
-void Leaf::setName(std::string newName) {
-    name = std::move(newName);
+    ball = std::make_shared<roboteam_msgs::WorldBall>();
 }
 
 std::shared_ptr<roboteam_msgs::WorldRobot> Leaf::getRobotFromProperties(bt::Blackboard::Ptr properties) {
