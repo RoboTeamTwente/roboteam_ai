@@ -41,7 +41,7 @@
 
 sudo: required
 cache:
-  - apt
+  apt: true
   directories:
     - /opt/ros/$ROS_DISTRO
     - ~/catkin_ws/src/roboteam_msgs
