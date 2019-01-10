@@ -31,7 +31,10 @@ bt::Node::Status Attack::onUpdate() {
         command.id = robot->id;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
-        Vector2 velocity = goToPos.goToPos(robot, targetPos, GoToType::basic);
+        GoToType goToType = GoToType::luTh;
+        if (abs(((Vector2)robot->pos - targetPos).length()) < 1.0) goToType = GoToType::basic;
+        Vector2 velocity = goToPos.goToPos(robot, targetPos, goToType);
+
         command.x_vel = static_cast<float>(velocity.x);
         command.y_vel = static_cast<float>(velocity.y);
         publishRobotCommand(command);
@@ -50,7 +53,16 @@ bt::Node::Status Attack::onUpdate() {
             command.kicker_vel = static_cast<float>(rtt::ai::constants::MAX_KICK_POWER);
             command.kicker_forced = 1;
         }
-        Vector2 velocity = goToPos.goToPos(robot, targetPos, GoToType::basic);
+        Vector2 velocity;
+        if (Field::pointIsInDefenceArea(robot->pos, true, 0.4)) {
+            velocity = ((Vector2)robot->pos - Field::get_our_goal_center()).stretchToLength(robot->vel.x);
+        } else if (Field::pointIsInDefenceArea(robot->pos, false, 0.4)) {
+            velocity = ((Vector2)robot->pos - Field::get_their_goal_center()).stretchToLength(robot->vel.y);
+
+        } else {
+            velocity = goToPos.goToPos(robot, targetPos, GoToType::basic);
+        }
+
         command.x_vel = static_cast<float>(velocity.x);
         command.y_vel = static_cast<float>(velocity.y);
         publishRobotCommand(command);

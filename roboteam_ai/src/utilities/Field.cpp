@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by mrlukasbos on 19-10-18.
 //
@@ -14,7 +16,7 @@ const roboteam_msgs::GeometryFieldSize Field::get_field() {
 }
 
 void Field::set_field(roboteam_msgs::GeometryFieldSize field) {
-    Field::field = field;
+    Field::field = std::move(field);
 }
 
 Vector2 Field::get_our_goal_center() {
