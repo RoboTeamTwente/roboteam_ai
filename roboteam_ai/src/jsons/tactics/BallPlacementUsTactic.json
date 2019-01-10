@@ -45,7 +45,7 @@
           },
           "qggd848t8b7kxxk0": {
             "id": "qggd848t8b7kxxk0",
-            "title": "Rotate",
+            "title": "RotateToAngle",
             "properties": {
               "ROLE": "victor1",
               "Angle": "0.1"

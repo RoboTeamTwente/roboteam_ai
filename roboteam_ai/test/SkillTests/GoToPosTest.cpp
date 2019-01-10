@@ -23,8 +23,16 @@ TEST(GoTOPos, GoTOPosTest) {
 
     auto bb = std::make_shared<bt::Blackboard>();
     bb->setInt("ROBOT_ID", 1);
-    bb->setInt("X", 5);
-    bb->setInt("Y", 6);
+    bb->setString("ROLE","test");
+    bb->setVector2("Position",Vector2(5,6));
+    roboteam_msgs::World worldMsg;
+    roboteam_msgs::WorldRobot robot;
+    robot.id=1;
+    robot.pos.x=0;
+    robot.pos.y=0;
+    worldMsg.us.push_back(robot);
+    rtt::ai::World::set_world(worldMsg);
+    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotDealer::RobotType::random,"GoToPosTest","test");
     rtt::ai::GoToPos goToPos("test1", bb);
     goToPos.initialize();
 
@@ -38,6 +46,7 @@ TEST(GoTOPos, GoTOPosTest) {
     EXPECT_EQ((signed int) commands.size(), 1);
     EXPECT_TRUE(commands.at(0).x_vel);
     EXPECT_TRUE(commands.at(0).y_vel);
+    robotDealer::RobotDealer::removeTactic("GoToPosTest");
 
 }
 }

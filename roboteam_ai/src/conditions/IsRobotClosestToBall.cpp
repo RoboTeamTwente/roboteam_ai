@@ -27,7 +27,7 @@ namespace ai{
 
         robotClosestToBallPtr = World::get_robot_closest_to_point(robots, ballPos);
 
-        if (robotClosestToBallPtr) {
+        if (robotClosestToBallPtr && robot) {
             robotClosestToBall = *robotClosestToBallPtr;
             if (robot->id == robotClosestToBall) {
                 return Status::Success;
