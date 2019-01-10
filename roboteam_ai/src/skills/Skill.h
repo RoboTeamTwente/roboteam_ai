@@ -27,7 +27,7 @@ namespace c = rtt::ai::constants;
  */
 class Skill : public bt::Leaf {
 protected:
-        io::IOManager ioManager;
+        io::IOManager ioManager = io::IOManager(false,true);
 
         using Coach = coach::Coach;
         using GoToType = control::ControlGoToPos::GoToType;

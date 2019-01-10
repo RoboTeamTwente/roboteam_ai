@@ -8,6 +8,18 @@
         "nodes": {
           "ydjw9of7ndf88": {
             "id": "ydjw9of7ndf88",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "abcdefgh314"
+            ],
+            "location": {
+              "x": 385.0,
+              "y": 213.0
+            }
+          },
+          "abcdefgh314": {
+            "id": "abcdefgh314",
             "title": "ParallelSequence",
             "isRole": false,
             "children": [

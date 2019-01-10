@@ -1,3 +1,5 @@
+#include <utility>
+
 #include <memory>
 
 #include "Node.hpp"
@@ -6,8 +8,8 @@
 namespace bt {
 
 Leaf::Leaf(std::string name, Blackboard::Ptr blackboard) {
-    setProperties(blackboard);
-    setName(name);
+    setProperties(std::move(blackboard));
+    setName(std::move(name));
     robot = std::make_shared<roboteam_msgs::WorldRobot>();
 
 }

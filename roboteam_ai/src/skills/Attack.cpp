@@ -26,19 +26,21 @@ bt::Node::Status Attack::onUpdate() {
 
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
-    command.use_angle = 1;
+
 
     GoToType goToType;
 
     if (! Control::pointInTriangle(robot->pos, ball, ball + (deltaBall).rotate(M_PI*0.17).scale(2.0),
             ball + (deltaBall).rotate(M_PI*- 0.17).scale(2.0))) {
         targetPos = behindBall;
+        command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
         goToType = GoToType::luTh;
         if (abs(((Vector2) robot->pos - targetPos).length()) < 1.0) goToType = GoToType::basic;
     }
     else {
         targetPos = ball;
+        command.use_angle = 1;
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
         if (Coach::doesRobotHaveBall(robot->id, true)) {
             command.kicker = 1;
@@ -48,11 +50,11 @@ bt::Node::Status Attack::onUpdate() {
         goToType = GoToType::basic;
     }
     Vector2 velocity;
-    if (Field::pointIsInDefenceArea(robot->pos, true, 0.4)) {
-        velocity = ((Vector2) robot->pos - Field::get_our_goal_center()).stretchToLength(robot->vel.x);
+    if (Field::pointIsInDefenceArea(robot->pos, true, 0.2)) {
+        velocity = ((Vector2) robot->pos - Field::get_our_goal_center()).stretchToLength(2.0);
     }
-    else if (Field::pointIsInDefenceArea(robot->pos, false, 0.4)) {
-        velocity = ((Vector2) robot->pos - Field::get_their_goal_center()).stretchToLength(robot->vel.y);
+    else if (Field::pointIsInDefenceArea(robot->pos, false, 0.2)) {
+        velocity = ((Vector2) robot->pos - Field::get_their_goal_center()).stretchToLength(2.0);
 
     }
     else {
