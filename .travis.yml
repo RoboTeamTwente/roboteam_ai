@@ -43,17 +43,6 @@ sudo: required
 cache:
   ccache: true
   apt: true
-  directories:
-    - /opt/ros/$ROS_DISTRO
-    - ~/catkin_ws/src/roboteam_msgs
-    - ~/catkin_ws/devel/roboteam_msgs
-    - /usr/lib/python2.7
-    - /usr/bin/cmake
-    - /usr/include/google/protobuf
-    - /usr/share/doc/protobuf-compiler
-    - /usr/share/doc/lcov
-    - /usr/include/x86_64-linux-gnu/qt5
-    - /usr/lib/x86_64-linux-gnu/cmake
 
 # Build all valid Ubuntu/ROS combinations available on Travis VMs.
 language: cpp
