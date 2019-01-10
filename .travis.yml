@@ -73,10 +73,7 @@ before_install:
   - sudo apt update
   - sudo apt-get install dpkg
   - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool rubygems ros-kinetic-ros-base cmake libprotobuf-dev protobuf-compiler lcov gcovr
-  - gem install lcoveralls
-  - gem pristine executable-hooks --version 1.5.0
-  - gem pristine gem-wrappers --version 1.4.0
-  - gem pristine nokogiri --version 1.10.0
+  - gem install coveralls-lcov
   - source /opt/ros/$ROS_DISTRO/setup.bash
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
@@ -130,5 +127,5 @@ script:
   # - cd ~/catkin_ws/src/roboteam_ai/cmake-build-debug/devel/lib/roboteam_ai && ./ai_tests --enable-gcov
 
 after_success:
-  - cd ~/catkin_ws/src/roboteam_ai/cmake-build-debug/
-  - lcoveralls --root . --retry-count 5 roboteam_ai_coverage.info
+  - cd ~/catkin_ws/src/roboteam_ai/cmake-build-debug
+  - coveralls-lcov roboteam_ai_coverage.info
