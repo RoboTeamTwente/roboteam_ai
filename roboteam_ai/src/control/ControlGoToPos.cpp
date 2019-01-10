@@ -96,8 +96,7 @@ Vector2 ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
 }
 
 Vector2 ControlGoToPos::goToPosForce(RobotPtr robot, Vector2 &targetPos) {
-    Vector2 a;
-    return a;
+    return {};
 }
 
 Vector2 ControlGoToPos::goToPosLuTh(RobotPtr robot, Vector2 &targetPos) {
@@ -107,18 +106,15 @@ Vector2 ControlGoToPos::goToPosLuTh(RobotPtr robot, Vector2 &targetPos) {
 }
 
 Vector2 ControlGoToPos::goToPosLowLevel(RobotPtr robot, Vector2 &targetPos) {
-    Vector2 a;
-    return a;
+    return {};
 }
 
 Vector2 ControlGoToPos::goToPosHighLevel(RobotPtr robot, Vector2 &targetPos) {
-    Vector2 a;
-    return a;
+    return {};
 }
 
 Vector2 ControlGoToPos::goToPosBezier(RobotPtr robot, Vector2 &targetPos) {
-    Vector2 a;
-    return a;
+    return {};
 }
 
 double ControlGoToPos::distanceToTarget(RobotPtr robot, Vector2 &targetPos) {

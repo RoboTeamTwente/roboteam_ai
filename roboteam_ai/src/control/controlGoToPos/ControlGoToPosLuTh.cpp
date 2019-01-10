@@ -15,7 +15,7 @@ void ControlGoToPosLuTh::clear() {
 }
 
 Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
-    Vector2 command;
+    Vector2 velocityCommand;
 
     bool recalculate = false;
     double deltaTarget = (abs((target - targetPos).length()));
@@ -80,8 +80,8 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
 
         if (! nicePath) {
             Vector2 dir = (targetPos - robot->pos).normalize();
-            command.x = static_cast<float>(dir.x*2.0f);
-            command.y = static_cast<float>(dir.y*2.0f);
+            velocityCommand.x = static_cast<float>(dir.x*2.0f);
+            velocityCommand.y = static_cast<float>(dir.y*2.0f);
 
         }
 
@@ -95,16 +95,10 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
 
     if (me.posData.size() < minStep) {
         me.clear();
-        if (abs(((Vector2) robot->pos - target).length()) < 1.0) {
-            Vector2 dir = (target - robot->pos).normalize();
-            command.x = static_cast<float>(dir.x*2.0f);
-            command.y = static_cast<float>(dir.y*2.0f);
-        }
-        else {
-            //TODO: FIX THIS
-            std::cout << "NO PATH FOUND!" << std::endl;
-            command = {0,0};
-        }
+
+        Vector2 dir = (targetPos - robot->pos).normalize();
+        velocityCommand.x = static_cast<float>(dir.x*2.0f);
+        velocityCommand.y = static_cast<float>(dir.y*2.0f);
     }
     else {
         auto size = static_cast<int>(me.posData.size() - 1);
@@ -119,12 +113,12 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
         Vector2 vel = pid.controlPIR(pidPos - robot->pos, robot->vel);
         if (vel.length() > 3.0)
             vel = vel.normalize()*3.0;
-        command.x = static_cast<float>(vel.x);
-        command.y = static_cast<float>(vel.y);
+        velocityCommand.x = static_cast<float>(vel.x);
+        velocityCommand.y = static_cast<float>(vel.y);
 
     }
 
-    return command;
+    return velocityCommand;
 
 }
 
@@ -156,7 +150,7 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
     while (! robotQueue.empty()) {
         ros::Time now = ros::Time::now();
 
-        if ((now - begin).toSec()*1000 > 7) { // time > 7ms
+        if ((now - begin).toSec()*1000 > 7) { // time > 3ms
             return false;
         }
 
@@ -188,7 +182,6 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
                 me->startIndex = me->posData.size() - minPoints;
             }
             if (me->startIndex == 0 && me->posData.size() > 1) me->startIndex = 1;
-
             Vector2 collisionPos = me->pos;
             Vector2 startPos = me->posData[me->startIndex];
             std::vector<std::pair<NumRobot::newDirections, Vector2>> newTargets = me->getNewTargets(collisionPos,
