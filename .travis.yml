@@ -42,6 +42,8 @@
 sudo: required
 cache:
   - apt
+  directories:
+    - /opt/ros/$ROS_DISTRO
 
 # Build all valid Ubuntu/ROS combinations available on Travis VMs.
 language: generic
@@ -73,6 +75,7 @@ before_install:
   - sudo apt update
   - sudo apt-get install dpkg
   - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-kinetic-ros-base cmake libprotobuf-dev protobuf-compiler lcov gcovr
+  - dpkg -L
   - source /opt/ros/$ROS_DISTRO/setup.bash
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
