@@ -7,16 +7,14 @@
 #ifndef ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H
 #define ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H
 
-namespace rtt{
-    namespace ai {
-        namespace control {
+namespace rtt {
+namespace ai {
+namespace control {
 
 class ControlGoToPosLuTh {
 
     private:
         using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
-        using Vector2 = rtt::Vector2;
-        using Command = roboteam_msgs::RobotCommand;
 
         struct NumRobot;
         using NumRobotPtr = std::shared_ptr<NumRobot>;
@@ -166,24 +164,24 @@ class ControlGoToPosLuTh {
         std::vector<Vector2> displayData;
         double errorMargin = 0.25;
 
-        Vector2 targetPos = {999.2,999.2};
+        Vector2 targetPos = {999.2, 999.2};
         ros::Time startTime;
 
         Controller pid;
         bool pidInit = false;
 
         bool tracePath(NumRobot &numRobot, Vector2 target);
-        bool calculateNumericDirection(RobotPtr robot, NumRobot &me, roboteam_msgs::RobotCommand &command);
+        bool calculateNumericDirection(RobotPtr robot, NumRobot &me);
         void drawCross(Vector2 &pos);
         bool calculateNextPoint(NumRobotPtr me);
         int robotIndex;
     public:
         void clear();
-        Command goToPos(RobotPtr robot, Vector2 &targetPos);
+        Vector2 goToPos(RobotPtr robot, Vector2 &target);
 };
 
-        } // control
-    } // ai
+} // control
+} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H
