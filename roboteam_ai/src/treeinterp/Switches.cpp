@@ -77,7 +77,8 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "KeeperTestTactic"};
 
 std::vector<std::string> Switches::strategyJsonFileNames =
-        {"victoryDanceStrategy",
+        {"DemoTeamTwenteStrategy",
+         "victoryDanceStrategy",
          "randomStrategy",
          "GetBallTestStrategy",
          "DanceStrategy",

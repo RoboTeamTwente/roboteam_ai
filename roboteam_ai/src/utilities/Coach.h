@@ -27,7 +27,7 @@ class Coach {
         static int doesRobotHaveBall(unsigned int robotID, bool isOurTeam);
         static int whichRobotHasBall(bool isOurTeam);
         static int pickHarassmentTarget(int selfID);
-        static Vector2 getPositionBehindBall(double distanceBehindBall);
+        static Vector2 getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal);
         };
 
 }

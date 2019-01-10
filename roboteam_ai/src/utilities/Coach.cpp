@@ -104,10 +104,11 @@ int Coach::pickOpponentToCover(int selfID) {
     return - 1;
 }
 
-Vector2 Coach::getPositionBehindBall(double distanceBehindBall) {
+Vector2 Coach::getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal) {
     const Vector2 &ball = static_cast<Vector2>(World::getBall().pos);
-    const Vector2 &goal = Field::get_their_goal_center();
-    
+    Vector2 goal;
+    if (!ourGoal) goal = Field::get_their_goal_center();
+    else goal = Field::get_our_goal_center();
     return ball + (ball - goal).stretchToLength(distanceBehindBall);
 }
 

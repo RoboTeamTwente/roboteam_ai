@@ -1,0 +1,46 @@
+{
+  "name": "DemoTeamTwenteStrategy",
+  "data": {
+    "trees": [
+      {
+        "title": "DemoTeamTwenteStrategy",
+        "root": "ydjw9of7ndf88",
+        "nodes": {
+          "ydjw9of7ndf88": {
+            "id": "ydjw9of7ndf88",
+            "title": "ParallelSequence",
+            "isRole": false,
+            "children": [
+              "jnzwvf620oa6hp7c",
+              "jkx3g30rh8ovwfb"
+            ],
+            "location": {
+              "x": 385.0,
+              "y": 213.0
+            }
+          },
+          "jnzwvf620oa6hp7c": {
+            "id": "jnzwvf620oa6hp7c",
+            "title": "Tactic",
+            "isRole": false,
+            "name": "Attactic",
+            "location": {
+              "x": 255.0,
+              "y": 371.0
+            }
+          },
+          "jkx3g30rh8ovwfb": {
+            "id": "jkx3g30rh8ovwfb",
+            "title": "Tactic",
+            "isRole": false,
+            "name": "KeeperTactic",
+            "location": {
+              "x": 540.0,
+              "y": 405.0
+            }
+          }
+        }
+      }
+    ]
+  }
+}
