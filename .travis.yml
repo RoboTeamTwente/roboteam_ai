@@ -45,7 +45,6 @@ cache:
   apt: true
   directories:
     - /opt/ros/$ROS_DISTRO
-    - ~/catkin_ws/src/roboteam_msgs
     - ~/catkin_ws/devel/roboteam_msgs
     - /usr/lib/python2.7
     - /usr/include/google/protobuf
