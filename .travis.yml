@@ -74,6 +74,9 @@ before_install:
   - sudo apt-get install dpkg
   - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool rubygems ros-kinetic-ros-base cmake libprotobuf-dev protobuf-compiler lcov gcovr
   - gem install lcoveralls
+  - gem pristine executable-hooks --version 1.5.0
+  - gem pristine gem-wrappers --version 1.4.0
+  - gem pristine nokogiri --version 1.10.0
   - source /opt/ros/$ROS_DISTRO/setup.bash
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
