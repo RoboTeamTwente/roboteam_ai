@@ -124,7 +124,8 @@ script:
   - roscore & cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" .. && cmake --build ~/catkin_ws/src/roboteam_ai/cmake-build-debug --target roboteam_ai_coverage -- -j 8
 
   # Run the tests, ensuring the path is set correctly. This returns success when all tests pass
-  - cd ~/catkin_ws/src/roboteam_ai/cmake-build-debug/devel/lib/roboteam_ai && ./ai_tests
+  # - cd ~/catkin_ws/src/roboteam_ai/cmake-build-debug/devel/lib/roboteam_ai && ./ai_tests
 
 after_success:
+  - cd ~/catkin_ws/src/roboteam_ai/cmake-build-debug/
   - coveralls
