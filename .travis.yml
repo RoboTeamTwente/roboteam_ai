@@ -76,7 +76,7 @@ before_install:
   - sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
   - sudo apt update
   - sudo apt-get install dpkg
-  - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-kinetic-ros-base cmake libprotobuf-dev protobuf-compiler lcov gcovr qtbase5-dev libqt5-core
+  - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-kinetic-ros-base cmake libprotobuf-dev protobuf-compiler lcov gcovr qtbase5-dev
   - dpkg -L python-catkin-pkg
   - dpkg -L python-rosdep
   - dpkg -L python-wstool
