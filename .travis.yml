@@ -41,10 +41,8 @@
 
 sudo: required
 cache:
-  ccache: true
-  apt: true
-  directories:
-    - ~/catkin_ws/devel/roboteam_msgs
+  - ccache
+  - apt
 
 # Build all valid Ubuntu/ROS combinations available on Travis VMs.
 language: generic
