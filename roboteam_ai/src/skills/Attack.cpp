@@ -20,7 +20,7 @@ void Attack::onInitialize() {
 bt::Node::Status Attack::onUpdate() {
     updateRobot();
     if (! robot) return Status::Running;
-    Vector2 ball = World::getBall().pos;
+    Vector2 ball = World::getBall()->pos;
     Vector2 behindBall = Coach::getPositionBehindBall(0.5);
     Vector2 deltaBall = behindBall - ball;
     if (! Control::pointInTriangle(robot->pos, ball, ball + (deltaBall).rotate(M_PI*0.17).scale(2.0),
