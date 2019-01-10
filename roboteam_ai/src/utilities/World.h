@@ -33,6 +33,7 @@ class World {
                 const Vector2 &point);
         static bool bot_has_ball(const roboteam_msgs::WorldRobot &bot, const roboteam_msgs::WorldBall &ball);
         static std::vector<roboteam_msgs::WorldRobot> getAllRobots();
+        static std::vector<roboteam_msgs::WorldRobot> getRobotsForId(std::set<unsigned int> ids, bool robotsAreOurTeam);
 };
 
 } // ai
