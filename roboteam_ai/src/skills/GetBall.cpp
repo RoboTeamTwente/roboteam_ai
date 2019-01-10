@@ -9,11 +9,9 @@ namespace ai {
 
 //TODO: do obstacle checking and return fail if there is an obstacle in the way.
 //GetBall turns the robot to the ball and softly approaches with dribbler on in an attempt to get the ball.
-GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
-}
+GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) { }
 
-// Essentially a state transition diagram.
+// Essentially a state transition diagram. Contains much of the logic
 void GetBall::checkProgression() {
     if (deltaPos.length() > c::MAX_GETBALL_RANGE) {
         currentProgress = FAIL;
@@ -60,8 +58,8 @@ void GetBall::onInitialize() {
     count = 0;
 }
 GetBall::Status GetBall::onUpdate() {
-    ball = World::getBall(); //TODO: sanity checking if ball is actually there
-    deltaPos = Vector2(ball.pos.x, ball.pos.y) - Vector2(robot->pos.x, robot->pos.y);
+    if (!ball) return Status::Running;
+    deltaPos = Vector2(ball->pos) - Vector2(robot->pos);
     checkProgression();
 
     if (currentProgress == TURNING) {
@@ -94,8 +92,8 @@ void GetBall::onTerminate(Status s) {
 }
 bool GetBall::robotHasBall() {
     //The ball is in an area defined by a cone from the robot centre, or from a rectangle in front of the dribbler
-    Vector2 RobotPos = Vector2(robot->pos.x, robot->pos.y);
-    Vector2 BallPos = Vector2(ball.pos.x, ball.pos.y);
+    Vector2 RobotPos = robot->pos;
+    Vector2 BallPos = ball->pos;
     Vector2 dribbleLeft = RobotPos + Vector2(c::ROBOT_RADIUS, 0).rotate(robot->angle - c::DRIBBLER_ANGLE_OFFSET);
     Vector2 dribbleRight = RobotPos + Vector2(c::ROBOT_RADIUS, 0).rotate(robot->angle + c::DRIBBLER_ANGLE_OFFSET);
 

@@ -30,7 +30,6 @@
 #include "../skills/Halt.h"
 #include "../skills/Kick.h"
 #include "../skills/Harass.h"
-#include "../skills/Rotate.h"
 #include "../skills/RotateToAngle.h"
 #include "../skills/GoToPos.h"
 #include "../skills/Keeper.h"
@@ -156,9 +155,6 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     }
     else if (name == "Halt") {
         node = std::make_shared<rtt::ai::Halt>(name, properties);
-    }
-    else if (name == "Rotate") {
-        node = std::make_shared<rtt::ai::Rotate>(name, properties);
     }
     else if (name == "SkillGoToPos") {
         node = std::make_shared<rtt::ai::SkillGoToPos>(name, properties);

@@ -39,9 +39,9 @@ const int MAX_GENEVA_CYCLES = 20;
 const int DEFAULT_GENEVA_STATE = 0;
 
 //dribble
-const double MAX_BALL_RANGE=0.15; // Could maybe be even less? TODO: needs to be tested.
+const double MAX_BALL_RANGE=BALL_RADIUS; // Could maybe be even less? TODO: needs to be tested.
 const double DRIBBLE_POSDIF=0.03;
-const float  DRIBBLE_SPEED=0.6;
+const float  DRIBBLE_SPEED=0.4;
 //getBallcc
 const double COLLISION_RADIUS=0.18;
 const double ANGLE_SENS=0.05*M_PI;
@@ -55,7 +55,7 @@ const double KEEPER_CENTREGOAL_MARGIN=0.3;//m
 const double KEEPER_POSDIF=0.04;
 
 //ballkickedtoGoal
-const double BALL_TO_GOAL_MARGIN=ROBOT_RADIUS;//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
+const double BALL_TO_GOAL_MARGIN=BALL_RADIUS;//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
 const double BALL_TO_GOAL_TIME=1.5;//seconds
 
 //Intercept
@@ -67,6 +67,9 @@ const int ROBOT_DRAWING_SIZE = 8;
 const int BALL_DRAWING_SIZE = 5;
 const int TACTIC_COLOR_DRAWING_SIZE = 10;
 const int WINDOW_FIELD_MARGIN = 5;
+
+const int KEEPER_HELP_DRAW_SIZE=7;
+const int INTERCEPT_DRAW_VECTOR_SIZE=5;
 
 // Settings
 const bool STD_SHOW_ROLES = false;

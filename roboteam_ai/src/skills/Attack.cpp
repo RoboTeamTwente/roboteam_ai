@@ -20,7 +20,7 @@ void Attack::onInitialize() {
 bt::Node::Status Attack::onUpdate() {
     updateRobot();
     if (! robot) return Status::Running;
-    Vector2 ball = World::getBall().pos;
+    Vector2 ball = World::getBall()->pos;
     Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.5, true);
     Vector2 deltaBall = behindBall - ball;
 

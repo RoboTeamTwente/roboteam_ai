@@ -19,10 +19,15 @@ class Drawer {
         explicit Drawer() = default;
         static void setGoToPosLuThPoints(int id, std::vector<std::pair<Vector2, QColor>> points);
         static std::vector<std::pair<Vector2, QColor>> getGoToPosLuThPoints(int id);
-
+        static void setKeeperPoints(int id, std::vector<std::pair<Vector2,QColor>> points);
+        static std::vector<std::pair<Vector2, QColor>> getKeeperPoints(int id);
+        static void setInterceptPoints(int id, std::vector<std::pair<Vector2,QColor>> points);
+        static std::vector<std::pair<Vector2, QColor>> getInterceptPoints(int id);
     private:
-        static std::mutex mutex;
+        static std::mutex goToPosMutex,keeperMutex,interceptMutex;
         static std::map<int, std::vector<std::pair<Vector2, QColor>>> GoToPosLuThPoints;
+        static std::map<int, std::vector<std::pair<Vector2, QColor>>> KeeperPoints;
+        static std::map<int, std::vector<std::pair<Vector2, QColor>>> InterceptPoints;
 };
 
 } // interface

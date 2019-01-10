@@ -12,15 +12,32 @@ IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboar
 }
 
 bt::Node::Status IsInDefenseArea::update() {
-    robot = getRobotFromProperties(properties);
+    Vector2 point;
+    if (properties->getBool("useRobot")) {
+        robot = getRobotFromProperties(properties);
+        if (robot) {
+            point = robot->pos;
+        }
+        else{
+            return Status::Failure;
+        }
+    }
+    else{
+        auto ball=World::getBall();
+        if (ball){
+            point=ball->pos;
+        }
+        else{
+            return Status::Failure;
+        }
 
+    }
     ourDefenseArea = properties->getBool("ourDefenseArea");
     if (properties->hasDouble("margin")) margin = static_cast<float>(properties->getDouble("margin"));
     else margin = 0.0f;
 
     roboteam_msgs::World world = World::get_world();
-
-    if (Field::pointIsInDefenceArea(robot->pos, ourDefenseArea, margin)) {
+    if (Field::pointIsInDefenceArea(point, ourDefenseArea, margin)) {
         return Status::Success;
     }
     return Status::Failure;
