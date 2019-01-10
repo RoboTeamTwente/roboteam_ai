@@ -54,7 +54,7 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
 
         targetPos = target;
         bool nicePath = calculateNumericDirection(robot, me);
-        robotQueue = {};
+        robotQueue = std::priority_queue<NumRobotPtr, std::vector<NumRobotPtr>, NumRobot::CustomCompare>();
 
         //ros::Time end = ros::Time::now();
         //double timeTaken = (end - begin).toSec();
