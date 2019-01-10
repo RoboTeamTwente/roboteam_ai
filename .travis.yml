@@ -128,4 +128,4 @@ script:
 
 after_success:
   - cd ~/catkin_ws/src/roboteam_ai/cmake-build-debug
-  - coveralls-lcov roboteam_ai_coverage.info
+  - coveralls-lcov roboteam_ai_coverage.info.cleaned
