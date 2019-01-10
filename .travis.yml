@@ -73,7 +73,7 @@ before_install:
   - sudo apt update
   - sudo apt-get install dpkg
   - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-kinetic-ros-base cmake libprotobuf-dev protobuf-compiler lcov gcovr
-  - pip install cpp-coveralls
+  - pip install --user cpp-coveralls
   - source /opt/ros/$ROS_DISTRO/setup.bash
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
