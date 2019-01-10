@@ -6,12 +6,17 @@ namespace ai {
 // define the static variables
 roboteam_msgs::World World::world;
 bool World::didReceiveFirstWorld = false;
+std::mutex World::worldMutex;
 
 const roboteam_msgs::World &World::get_world() {
+    std::lock_guard<std::mutex> lock(worldMutex);
+
     return World::world;
 }
 
 void World::set_world(roboteam_msgs::World world) {
+    std::lock_guard<std::mutex> lock(worldMutex);
+
     if (! world.us.empty()) {
         didReceiveFirstWorld = true;
     }
@@ -19,6 +24,8 @@ void World::set_world(roboteam_msgs::World world) {
 }
 
 std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotForId(unsigned int id, bool robotIsOurTeam) {
+    std::lock_guard<std::mutex> lock(worldMutex);
+
     const std::vector<roboteam_msgs::WorldRobot> &robots = robotIsOurTeam ? world.us : world.them;
     for (const auto &bot : robots) {
         if (bot.id == id) {
@@ -30,6 +37,8 @@ std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotForId(unsigned int id,
 
 std::shared_ptr<int> World::get_robot_closest_to_point(std::vector<roboteam_msgs::WorldRobot> robots,
         const Vector2 &point) {
+    std::lock_guard<std::mutex> lock(worldMutex);
+
     int closest_robot = - 1;
     double closest_robot_ds = std::numeric_limits<double>::max();
 
@@ -46,10 +55,14 @@ std::shared_ptr<int> World::get_robot_closest_to_point(std::vector<roboteam_msgs
 }
 
 std::shared_ptr<roboteam_msgs::WorldBall> World::getBall() {
+    std::lock_guard<std::mutex> lock(worldMutex);
+
     return std::make_shared<roboteam_msgs::WorldBall>(world.ball);
 }
 
 bool World::bot_has_ball(const roboteam_msgs::WorldRobot &bot, const roboteam_msgs::WorldBall &ball) {
+    std::lock_guard<std::mutex> lock(worldMutex);
+
     Vector2 ball_vec(ball.pos), bot_vec(bot.pos);
     Vector2 ball_norm = (ball_vec - bot_vec);
 
@@ -63,6 +76,8 @@ bool World::bot_has_ball(const roboteam_msgs::WorldRobot &bot, const roboteam_ms
 }
 
 std::vector<roboteam_msgs::WorldRobot> World::getAllRobots() {
+    std::lock_guard<std::mutex> lock(worldMutex);
+
     std::vector<roboteam_msgs::WorldRobot> allRobots;
     allRobots.insert(allRobots.end(), world.us.begin(), world.us.end());
     allRobots.insert(allRobots.end(), world.them.begin(), world.them.end());
