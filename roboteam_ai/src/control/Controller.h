@@ -7,12 +7,15 @@
 
 #include "ControlUtils.h"
 #include "../utilities/Constants.h"
+#include <gtest/gtest_prod.h>
 
 namespace rtt{
     namespace ai {
         namespace control {
 
             class Controller {
+                FRIEND_TEST(ControllerTest, it_calculates_proper_pid);
+
             private:
                 double kP;
                 double kI;
