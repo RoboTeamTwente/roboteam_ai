@@ -1,3 +1,7 @@
+#include <utility>
+
+#include <utility>
+
 //
 // Created by thijs on 17-12-18.
 //
@@ -8,7 +12,7 @@ namespace rtt {
 namespace ai {
 
 Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
+        :Skill(std::move(name), std::move(blackboard)) {
 }
 
 /// Init the GoToPos skill
@@ -56,8 +60,9 @@ bt::Node::Status Attack::onUpdate() {
     else if (Field::pointIsInDefenceArea(robot->pos, false, 0.2)) {
         velocity = ((Vector2) robot->pos - Field::get_their_goal_center()).stretchToLength(2.0);
 
-    }
-    else {
+    } else if (Field::pointIsInDefenceArea(ball, true) || Field::pointIsInDefenceArea(ball, false)) {
+        velocity = {0, 0};
+    } else {
         velocity = goToPos.goToPos(robot, targetPos, goToType);
     }
     command.x_vel = static_cast<float>(velocity.x);

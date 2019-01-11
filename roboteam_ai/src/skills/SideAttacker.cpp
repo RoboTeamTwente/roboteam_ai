@@ -1,3 +1,7 @@
+#include <utility>
+
+#include <utility>
+
 //
 // Created by thijs on 17-12-18.
 //
@@ -8,20 +12,16 @@ namespace rtt {
 namespace ai {
 
 SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
+        :Skill(std::move(name), std::move(blackboard)) {
 }
 
-/// Init the GoToPos skill
-void SideAttacker::onInitialize() {
-    robot = getRobotFromProperties(properties);
-}
 
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
     updateRobot();
     if (! robot) return Status::Running;
-    Vector2 ball = World::getBall().pos;
-    Vector2 behindBall = Coach::getPositionBehindBall(0.5);
+    Vector2 ball = World::getBall()->pos;
+    Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.5, true);
     Vector2 deltaBall = behindBall - ball;
     if (! Control::pointInTriangle(robot->pos, ball, ball + (deltaBall).rotate(M_PI*0.17).scale(2.0),
             ball + (deltaBall).rotate(M_PI*- 0.17).scale(2.0))) {

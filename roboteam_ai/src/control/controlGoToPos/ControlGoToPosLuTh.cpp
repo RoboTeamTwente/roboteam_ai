@@ -79,6 +79,7 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
         }
 
         if (! nicePath) {
+            std::cout << "No path found in gtpluth! " << std::endl;
             Vector2 dir = (targetPos - robot->pos).normalize();
             velocityCommand.x = static_cast<float>(dir.x*2.0f);
             velocityCommand.y = static_cast<float>(dir.y*2.0f);
@@ -150,7 +151,7 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
     while (! robotQueue.empty()) {
         ros::Time now = ros::Time::now();
 
-        if ((now - begin).toSec()*1000 > 7) { // time > 7ms
+        if ((now - begin).toSec()*1000 > constants::MAX_CALCULATION_TIME) {
             return false;
         }
 
