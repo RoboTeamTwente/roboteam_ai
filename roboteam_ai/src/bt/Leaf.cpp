@@ -2,6 +2,11 @@
 
 #include "Node.hpp"
 #include "Leaf.hpp"
+#include "../utilities/RobotDealer.h"
+#include "../utilities/World.h"
+#include "ros/ros.h"
+
+using dealer = robotDealer::RobotDealer;
 
 namespace bt {
 

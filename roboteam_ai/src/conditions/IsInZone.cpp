@@ -3,13 +3,18 @@
 //
 
 #include "IsInZone.h"
+#include "roboteam_utils/Vector2.h"
+#include "roboteam_msgs/WorldRobot.h"
+#include "roboteam_msgs/WorldBall.h"
+#include "roboteam_msgs/World.h"
+#include "roboteam_msgs/GeometryFieldSize.h"
+#include "../utilities/Field.h"
+#include "../utilities/World.h"
+#include "ros/ros.h"
 
 namespace rtt {
 namespace ai {
-IsInZone::IsInZone(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(name, blackboard) {
-
-}
+IsInZone::IsInZone(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) { }
 
 bt::Node::Status IsInZone::update() {
     auto world = World::get_world();

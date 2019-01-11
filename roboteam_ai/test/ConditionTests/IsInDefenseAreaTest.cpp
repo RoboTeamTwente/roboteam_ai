@@ -3,8 +3,9 @@
 //
 #include <gtest/gtest.h>
 #include "../../src/conditions/IsInDefenseArea.hpp"
-
+#include "../../src/utilities/World.h"
 #include "../../src/utilities/Field.h"
+#include "../../src/utilities/RobotDealer.h"
 
 TEST(DetectsInOurDefenseArea,IsInDefenseAreaTest){
     bt::Blackboard BB;
@@ -43,7 +44,7 @@ TEST(DetectsInOurDefenseArea,IsInDefenseAreaTest){
 
     worldMsg.us.push_back(robot);
     rtt::ai::World::set_world(worldMsg);
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotDealer::RobotType::random,"IsInDefenseAreaTest","test");
+    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"IsInDefenseAreaTest","test");
     // Should succeed since robot is in our defence area
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
@@ -99,7 +100,7 @@ TEST(DetectsInTheirDefenseArea,IsInDefenseAreaTest){
 
     worldMsg.us.push_back(robot);
     rtt::ai::World::set_world(worldMsg);
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotDealer::RobotType::random,"IsInDefenseAreaTest","test");
+    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"IsInDefenseAreaTest","test");
     // Should succeed since robot is in their defence area
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 

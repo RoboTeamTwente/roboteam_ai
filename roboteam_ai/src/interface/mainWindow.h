@@ -6,7 +6,6 @@
 #define ROBOTEAM_AI_MAINWINDOW_H
 
 #include <QMainWindow>
-#include "../utilities/Constants.h"
 #include <iostream>
 #include <memory>
 #include <QtWidgets/QCheckBox>

@@ -1,9 +1,12 @@
-#include <utility>
 
 //
 // Created by baris on 16/11/18.
 //
 #include "RobotDealer.h"
+#include "World.h"
+#include "Field.h"
+#include "ros/ros.h"
+#include <utility>
 
 namespace robotDealer {
 
@@ -66,7 +69,7 @@ void RobotDealer::updateFromWorld() {
 
 }
 
-int RobotDealer::claimRobotForTactic(RobotDealer::RobotType feature, std::string roleName, std::string tacticName) {
+int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, std::string tacticName) {
 
     std::set<int> ids = RobotDealer::getAvailableRobots();
     int id;

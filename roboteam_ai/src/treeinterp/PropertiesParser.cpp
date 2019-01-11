@@ -3,6 +3,7 @@
 //
 
 #include "PropertiesParser.h"
+#include "ros/ros.h"
 
 bt::Blackboard::Ptr PropertiesParser::parse(PropertiesParser::json jsonLeaf) {
 

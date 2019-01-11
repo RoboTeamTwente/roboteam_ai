@@ -3,8 +3,11 @@
 //
 
 #include "VictoryDanceTactic.h"
+#include "../../utilities/RobotDealer.h"
 
 namespace bt {
+
+using dealer = robotDealer::RobotDealer;
 
 VictoryDanceTactic::VictoryDanceTactic(std::string name, bt::Blackboard::Ptr blackboard) {
     globalBB = std::move(blackboard);
