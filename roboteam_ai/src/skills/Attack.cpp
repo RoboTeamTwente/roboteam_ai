@@ -15,14 +15,8 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
 }
 
-/// Init the GoToPos skill
-void Attack::onInitialize() {
-    robot = getRobotFromProperties(properties);
-}
-
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {
-    updateRobot();
     if (! robot) return Status::Running;
     Vector2 ball = World::getBall()->pos;
     Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.5, true);

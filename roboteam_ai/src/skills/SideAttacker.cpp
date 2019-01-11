@@ -18,13 +18,13 @@ SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard)
 
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
-    updateRobot();
     if (! robot) return Status::Running;
     Vector2 ball = World::getBall()->pos;
     Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.5, true);
     Vector2 deltaBall = behindBall - ball;
     if (! Control::pointInTriangle(robot->pos, ball, ball + (deltaBall).rotate(M_PI*0.17).scale(2.0),
             ball + (deltaBall).rotate(M_PI*- 0.17).scale(2.0))) {
+        // if the robot is NOT within a triangle behind the ball..
         targetPos = behindBall;
 
         roboteam_msgs::RobotCommand command;
