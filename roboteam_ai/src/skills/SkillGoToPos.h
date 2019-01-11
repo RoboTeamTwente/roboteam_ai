@@ -2,6 +2,7 @@
 // Created by thijs on 19-11-18.
 //
 
+#include <roboteam_ai/src/control/ControlGoToPos.h>
 #include "Skill.h"
 
 #ifndef ROBOTEAM_AI_GOTOPOSLUTH_OLD_H
@@ -12,8 +13,7 @@ namespace ai {
 class SkillGoToPos : public Skill {
 
     private:
-
-        GoToType goToType;
+        control::GoToType goToType;
         bool goToBall;
         Vector2 targetPos;
         control::ControlGoToPos goToPos;
@@ -23,7 +23,6 @@ class SkillGoToPos : public Skill {
         };
         Progression currentProgress;
         Progression checkProgression();
-
 
     public:
         explicit SkillGoToPos(string name, bt::Blackboard::Ptr blackboard);

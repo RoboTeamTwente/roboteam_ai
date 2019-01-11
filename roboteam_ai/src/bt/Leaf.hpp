@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Node.hpp"
+#include "roboteam_msgs/WorldRobot.h"
+#include "roboteam_msgs/WorldBall.h"
 
 namespace bt {
 

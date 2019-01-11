@@ -3,6 +3,8 @@
 //
 
 #include "GoToPos.h"
+#include "../utilities/Field.h"
+#include "../control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {

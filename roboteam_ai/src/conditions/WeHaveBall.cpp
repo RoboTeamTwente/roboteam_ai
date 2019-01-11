@@ -3,6 +3,9 @@
 //
 
 #include "WeHaveBall.h"
+#include "../utilities/World.h"
+#include "roboteam_msgs/WorldRobot.h"
+#include "roboteam_msgs/WorldBall.h"
 
 namespace rtt {
 namespace ai {

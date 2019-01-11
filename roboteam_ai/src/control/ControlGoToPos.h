@@ -33,6 +33,17 @@ namespace rtt {
 namespace ai {
 namespace control {
 
+enum GoToType {
+    noPreference,
+    ballControl,
+    basic,
+    lowLevel,
+    highLevel,
+    force,
+    luTh,
+    bezier,
+};
+
 class ControlGoToPos {
 
     private:
@@ -66,17 +77,6 @@ class ControlGoToPos {
         Controller pid = Controller(3.0, 0.0, 0.5);
     public:
         ControlGoToPos();
-
-        enum GoToType {
-          noPreference,
-          ballControl,
-          basic,
-          lowLevel,
-          highLevel,
-          force,
-          luTh,
-          bezier,
-        };
 
         void clear(GoToType goToType);
         Vector2 goToPos(RobotPtr robot, Vector2 &position);

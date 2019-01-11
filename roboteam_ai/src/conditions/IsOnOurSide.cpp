@@ -3,14 +3,13 @@
 //
 
 #include "IsOnOurSide.h"
+#include "../utilities/World.h"
+#include "../utilities/Field.h"
 
 namespace rtt {
 namespace ai {
 
-IsOnOurSide::IsOnOurSide(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(name, blackboard) {
-
-}
+IsOnOurSide::IsOnOurSide(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) { }
 
 bt::Node::Status IsOnOurSide::update() {
     roboteam_msgs::World world = World::get_world();

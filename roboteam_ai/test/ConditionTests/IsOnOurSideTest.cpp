@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 #include "../../src/conditions/IsOnOurSide.h"
-
+#include "../../src/utilities/World.h"
 #include "../../src/utilities/Field.h"
 
 TEST(DetectsBallOnOurSide, IsOnOurSideTest) {

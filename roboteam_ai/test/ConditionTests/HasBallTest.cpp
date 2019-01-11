@@ -4,6 +4,8 @@
 #include <gtest/gtest.h>
 #include "../../src/bt/bt.hpp"
 #include "../../src/conditions/HasBall.hpp"
+#include "../../src/utilities/World.h"
+#include "../../src/utilities/RobotDealer.h"
 
 TEST(BallTest, IHaveBallTest) {
     auto BB = std::make_shared<bt::Blackboard>();
@@ -24,7 +26,7 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.pos.x = 0.1;
     worldMsg.ball.pos.y = 0.0;
     rtt::ai::World::set_world(worldMsg);
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotDealer::RobotType::random,"IHaveBallTestTactic","test");
+    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"IHaveBallTestTactic","test");
     ASSERT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.ball.pos.x = 0.2;

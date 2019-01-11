@@ -3,14 +3,14 @@
 //
 
 #include "HasBall.hpp"
+#include "roboteam_msgs/WorldRobot.h"
+#include "roboteam_msgs/WorldBall.h"
+#include "../utilities/World.h"
 
 namespace rtt {
 namespace ai {
 
-HasBall::HasBall(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(name, blackboard) {
-
-}
+HasBall::HasBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(name, blackboard) { }
 
 bt::Node::Status HasBall::update() {
     robot = getRobotFromProperties(properties);
