@@ -118,9 +118,11 @@ before_script:
 script:
   - source /opt/ros/$ROS_DISTRO/setup.bash
   - source ~/catkin_ws/devel/setup.bash
-  - ln -s $(which ccache) /usr/local/bin/gcc
-  - ln -s $(which ccache) /usr/local/bin/g++
-  - ln -s $(which ccache) /usr/local/bin/cc
+  - cp ccache /usr/local/bin/
+  - ln -s ccache /usr/local/bin/gcc
+  - ln -s ccache /usr/local/bin/g++
+  - ln -s ccache /usr/local/bin/cc
+  - ln -s ccache /usr/local/bin/c++
   - catkin_make --pkg roboteam_msgs roboteam_utils
   - cd ~/catkin_ws/src/roboteam_ai
   - mkdir cmake-build-debug && cd cmake-build-debug
