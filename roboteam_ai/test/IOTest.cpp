@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 #include <roboteam_utils/Vector2.h>
 #include "../src/io/IOManager.h"
+#include <roboteam_msgs/RefereeCommand.h>
 
 // anonymous namespace needed to prevent ROS callback function name clashes
 namespace {
@@ -47,7 +48,7 @@ TEST(IOTest, it_subscribes) {
 
     // publish role feedback message
     roboteam_msgs::RefereeData refData;
-    refData.command.command = 3;
+    refData.command.command = roboteam_msgs::RefereeCommand::FORCE_START;
     refPub.publish(refData);
 
     rate.sleep();
@@ -57,21 +58,21 @@ TEST(IOTest, it_subscribes) {
     EXPECT_FLOAT_EQ(ioManager.getWorldState().ball.pos.y, 20.2);
     EXPECT_FLOAT_EQ(ioManager.getGeometryData().field.goal_depth, 30.3);
     EXPECT_EQ(ioManager.getRoleFeedback().status, 'X');
-    EXPECT_EQ(ioManager.getRefereeData().command.command, 3);
+    EXPECT_EQ(ioManager.getRefereeData().command.command, roboteam_msgs::RefereeCommand::FORCE_START);
 
     // publishing
     ros::Subscriber robotCommandSub = nh.subscribe<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 0,
             &robotCommandCallback);
 
     roboteam_msgs::RobotCommand cmd;
-    cmd.x_vel = 10;
-    cmd.y_vel = 20;
+    cmd.x_vel = 10.0;
+    cmd.y_vel = 20.0;
     ioManager.publishRobotCommand(cmd);
 
     rate.sleep();
     ros::spinOnce();
 
-    EXPECT_EQ(robotCommandFromCallback.x_vel, 10);
-    EXPECT_EQ(robotCommandFromCallback.y_vel, 20);
+    EXPECT_FLOAT_EQ(robotCommandFromCallback.x_vel, 10.0);
+    EXPECT_FLOAT_EQ(robotCommandFromCallback.y_vel, 20.0);
 } // end of test
 } // anonymous namespace
