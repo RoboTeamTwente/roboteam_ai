@@ -15,6 +15,8 @@
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_msgs/World.h"
 #include "roboteam_msgs/GeometryData.h"
+#include <mutex>
+#include <thread>
 
 namespace rtt {
 namespace ai {
@@ -22,6 +24,7 @@ namespace ai {
 class World {
     private:
         static roboteam_msgs::World world;
+        static std::mutex worldMutex;
     public:
         static std::shared_ptr<roboteam_msgs::WorldBall> getBall();
         static bool didReceiveFirstWorld;
@@ -32,6 +35,7 @@ class World {
                 const Vector2 &point);
         static bool bot_has_ball(const roboteam_msgs::WorldRobot &bot, const roboteam_msgs::WorldBall &ball);
         static std::vector<roboteam_msgs::WorldRobot> getAllRobots();
+        static std::vector<roboteam_msgs::WorldRobot> getRobotsForId(std::set<unsigned int> ids, bool robotsAreOurTeam);
 };
 
 } // ai

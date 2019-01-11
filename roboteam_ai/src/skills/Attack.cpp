@@ -8,37 +8,52 @@
 namespace rtt {
 namespace ai {
 
-Attack::Attack(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) { }
+Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
+        :Skill(std::move(name), std::move(blackboard)) {
+}
+
+/// Init the GoToPos skill
+void Attack::onInitialize() {
+    robot = getRobotFromProperties(properties);
+}
 
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {
-    if (!robot || !ball) return Status::Running;
-
+    if (! robot) return Status::Running;
     Vector2 ballPos = ball->pos;
     Vector2 behindBall = coach::Coach::getPositionBehindBall(0.5);
-
     Vector2 deltaBall = behindBall - ballPos;
-    if (! Control::pointInTriangle(robot->pos, ballPos-deltaBall, ballPos + (deltaBall).rotate(M_PI*0.17).scale(2.0),
+    if (! Control::pointInTriangle(robot->pos, ballPos, ballPos + (deltaBall).rotate(M_PI*0.17).scale(2.0),
             ballPos + (deltaBall).rotate(M_PI*- 0.17).scale(2.0))) {
         targetPos = behindBall;
-        goToPos.goToPos(robot, targetPos, control::GoToType::luTh);
-        std::cout << "luth\n";
-    }
-    else {
+
         roboteam_msgs::RobotCommand command;
         command.id = robot->id;
         command.use_angle = 1;
-        command.w = static_cast<float>((ballPos - behindBall).angle());
+        command.w = static_cast<float>((ballPos - (Vector2) (robot->pos)).angle());
+        Vector2 velocity = goToPos.goToPos(robot, targetPos, GoToType::basic);
+        command.x_vel = static_cast<float>(velocity.x);
+        command.y_vel = static_cast<float>(velocity.y);
         publishRobotCommand(command);
-        targetPos = ballPos;
-        goToPos.goToPos(robot, targetPos, control::GoToType::basic);
+    }
+    else {
 
-        if (coach::Coach::doesRobotHaveBall(robot->id, true)) {
-            unsigned char forced_kick = 1;
-            kicker.kick(robot, forced_kick);
+        targetPos = ball;
+
+        roboteam_msgs::RobotCommand command;
+        command.id = robot->id;
+        command.use_angle = 1;
+        command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
+        if (Coach::doesRobotHaveBall(robot->id, true)) {
+            command.kicker = 1;
+            command.kicker_vel = static_cast<float>(rtt::ai::constants::MAX_KICK_POWER);
+            command.kicker_forced = 1;
+>>>>>>> origin/development
         }
-        std::cout << "basic\n";
-
+        Vector2 velocity = goToPos.goToPos(robot, targetPos, GoToType::basic);
+        command.x_vel = static_cast<float>(velocity.x);
+        command.y_vel = static_cast<float>(velocity.y);
+        publishRobotCommand(command);
     }
 
     return Status::Running;

@@ -3,10 +3,19 @@
 //
 
 #include "ControlGoToPosBallControl.h"
-ControlGoToPosBallControl::Command ControlGoToPosBallControl::goToPos(ControlGoToPosBallControl::RobotPtr robot,
+
+namespace rtt {
+namespace ai {
+namespace control {
+
+
+Vector2 ControlGoToPosBallControl::goToPos(ControlGoToPosBallControl::RobotPtr robot,
         Vector2 &target) {
 
-    Command command;
-    command.id = robot->id;
-    return command;
+    Vector2 a;
+    return a;
 }
+
+} //control
+} //ai
+} //rtt

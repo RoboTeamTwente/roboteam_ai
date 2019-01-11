@@ -147,7 +147,7 @@ namespace rtt{
             double Controller::controlPIR(double err, double rate) {
                 double value_P = this->controlP(err);
                 double value_I = this->controlI(err);
-                double value_R = this->controlD(rate);
+                double value_R = this->controlR(rate);
                 return value_P + value_I + value_R;
             }
 
