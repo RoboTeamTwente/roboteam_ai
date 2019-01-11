@@ -40,8 +40,12 @@
 ################################################################################
 
 sudo: required
+notifications:
+  email: false
 cache:
-  - apt
+  apt: true
+  directories:
+    - $HOME/.ccache
 
 # Build all valid Ubuntu/ROS combinations available on Travis VMs.
 language: generic
@@ -72,7 +76,7 @@ before_install:
   - sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
   - sudo apt update
   - sudo apt-get install dpkg
-  - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-kinetic-ros-base cmake libprotobuf-dev protobuf-compiler lcov gcovr
+  - sudo apt-get install -y ccache python-catkin-pkg python-rosdep python-wstool ros-kinetic-ros-base cmake libprotobuf-dev protobuf-compiler lcov gcovr qtbase5-dev
   - source /opt/ros/$ROS_DISTRO/setup.bash
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
@@ -115,6 +119,9 @@ before_script:
 script:
   - source /opt/ros/$ROS_DISTRO/setup.bash
   - source ~/catkin_ws/devel/setup.bash
+  - export PATH="/usr/lib/ccache/bin/:$PATH"
+  - export CC="ccache gcc"
+  - export CXX="ccache g++"
   - catkin_make --pkg roboteam_msgs roboteam_utils
   - cd ~/catkin_ws/src/roboteam_ai
   - mkdir cmake-build-debug && cd cmake-build-debug
