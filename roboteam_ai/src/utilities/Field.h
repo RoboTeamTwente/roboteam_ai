@@ -10,6 +10,8 @@
 
 #include <roboteam_utils/Vector2.h>
 #include "roboteam_msgs/GeometryFieldSize.h"
+#include <mutex>
+#include <thread>
 
 namespace rtt {
 namespace ai {
@@ -17,6 +19,7 @@ namespace ai {
 class Field {
     private:
         static roboteam_msgs::GeometryFieldSize field;
+        static std::mutex fieldMutex;
 
     public:
         static const roboteam_msgs::GeometryFieldSize get_field();

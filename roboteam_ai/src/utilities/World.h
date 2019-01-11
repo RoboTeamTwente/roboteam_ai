@@ -16,6 +16,8 @@
 #include "roboteam_utils/constants.h"
 #include "roboteam_msgs/World.h"
 #include "roboteam_msgs/GeometryData.h"
+#include <mutex>
+#include <thread>
 
 namespace rtt {
 namespace ai {
@@ -23,6 +25,7 @@ namespace ai {
 class World {
     private:
         static roboteam_msgs::World world;
+        static std::mutex worldMutex;
     public:
         static std::shared_ptr<roboteam_msgs::WorldBall> getBall();
         static bool didReceiveFirstWorld;
