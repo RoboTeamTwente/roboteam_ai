@@ -1,5 +1,16 @@
 #include "Skill.h"
 
+#include "roboteam_msgs/WorldRobot.h"
+#include "../utilities/Coach.h"
+#include "roboteam_utils/Vector2.h"
+#include <roboteam_ai/src/conditions/HasBall.hpp>
+#include <roboteam_ai/src/utilities/Coach.h>
+#include <roboteam_ai/src/control/ControlGoToPos.h>
+#include <roboteam_ai/src/control/ControlKick.h>
+#include "roboteam_utils/Arc.h"
+#include "roboteam_utils/Math.h"
+
+
 namespace rtt {
 namespace ai {
 

@@ -3,6 +3,8 @@
 //
 
 #include "InterceptBall.h"
+#include "../interface/drawer.h"
+#include "../utilities/Field.h"
 
 namespace rtt {
 namespace ai {

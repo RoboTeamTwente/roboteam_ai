@@ -5,6 +5,9 @@
 #include "ros/ros.h"
 #include "../../src/skills/Kick.h"
 #include "../../src/skills/Chip.h"
+#include "../../src/utilities/World.h"
+#include "../../src/utilities/RobotDealer.h"
+#include "../../src/utilities/Constants.h"
 
 // anonymous namespace needed to prevent ROS callback function name clashes
 namespace {
@@ -32,7 +35,7 @@ TEST(KickTest, It_sends_proper_robotcommands) {
     robot.pos.y=0;
     worldMsg.us.push_back(robot);
     rtt::ai::World::set_world(worldMsg);
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotDealer::RobotType::random,"KickTest","test");
+    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"KickTest","test");
     kick.initialize();
     EXPECT_EQ(kick.update(), bt::Leaf::Status::Running);
 
@@ -84,7 +87,7 @@ TEST(KickTest, It_chips) {
     robot.pos.y=0;
     worldMsg.us.push_back(robot);
     rtt::ai::World::set_world(worldMsg);
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotDealer::RobotType::random,"KickTest","test");
+    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"KickTest","test");
 
     chip.initialize();
 

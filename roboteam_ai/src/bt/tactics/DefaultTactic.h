@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_DEFAULTTACTIC_H
 
 #include "../Tactic.h"
+
 namespace bt {
 
 class DefaultTactic : public Tactic {

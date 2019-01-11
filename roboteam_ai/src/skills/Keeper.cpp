@@ -5,6 +5,8 @@
 #include <roboteam_ai/src/interface/drawer.h>
 #include <roboteam_ai/src/control/Controller.h>
 #include "Keeper.h"
+#include "../utilities/Field.h"
+
 namespace rtt {
 namespace ai {
 Keeper::Keeper(rtt::string name, bt::Blackboard::Ptr blackboard)

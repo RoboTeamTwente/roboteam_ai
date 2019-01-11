@@ -4,6 +4,9 @@
 
 #include <gtest/gtest.h>
 #include "../../src/skills/GoToPos.h"
+#include "roboteam_utils/Vector2.h"
+#include "../../src/utilities/World.h"
+#include "../../src/utilities/RobotDealer.h"
 
 // Empty namespace for ROS errors
 namespace {
@@ -24,7 +27,7 @@ TEST(GoTOPos, GoTOPosTest) {
     auto bb = std::make_shared<bt::Blackboard>();
     bb->setInt("ROBOT_ID", 1);
     bb->setString("ROLE","test");
-    bb->setVector2("Position",Vector2(5,6));
+    bb->setVector2("Position", rtt::Vector2(5,6));
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
     robot.id=1;
@@ -32,7 +35,7 @@ TEST(GoTOPos, GoTOPosTest) {
     robot.pos.y=0;
     worldMsg.us.push_back(robot);
     rtt::ai::World::set_world(worldMsg);
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotDealer::RobotType::random,"GoToPosTest","test");
+    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"GoToPosTest","test");
     rtt::ai::GoToPos goToPos("test1", bb);
     goToPos.initialize();
 

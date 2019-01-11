@@ -3,6 +3,8 @@
 //
 
 #include "RotateToAngle.h"
+#include "../control/ControlUtils.h"
+
 namespace rtt {
 namespace ai {
 RotateToAngle::RotateToAngle(string name, bt::Blackboard::Ptr blackboard)

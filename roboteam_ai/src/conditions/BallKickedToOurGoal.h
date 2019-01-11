@@ -6,19 +6,15 @@
 #define ROBOTEAM_AI_BALLKICKEDTOOURGOAL_H
 
 #include "Condition.h"
-#include "../control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {
+
 class BallKickedToOurGoal : public Condition {
     public:
-        explicit BallKickedToOurGoal(std::string name = "BallKickedToOurGoal",
-                bt::Blackboard::Ptr blackboard = nullptr);
+        explicit BallKickedToOurGoal(std::string name = "BallKickedToOurGoal", bt::Blackboard::Ptr blackboard = nullptr);
         Status update() override;
         std::string node_name() override;
-
-    private:
-
 };
 
 }
