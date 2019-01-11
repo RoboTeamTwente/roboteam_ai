@@ -38,6 +38,18 @@ std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotForId(unsigned int id,
     return nullptr;
 }
 
+// returns robots if they are available
+std::vector<roboteam_msgs::WorldRobot> World::getRobotsForId(std::set<unsigned int> ids, bool robotsAreOurTeam) {
+    std::vector<roboteam_msgs::WorldRobot> robots;
+    for (int id : ids) {
+        auto robot = getRobotForId(id, robotsAreOurTeam);
+        if (robot) {
+            robots.push_back(* robot);
+        }
+    }
+    return robots;
+}
+
 std::shared_ptr<int> World::get_robot_closest_to_point(std::vector<roboteam_msgs::WorldRobot> robots,
         const Vector2 &point) {
 
@@ -85,6 +97,7 @@ std::vector<roboteam_msgs::WorldRobot> World::getAllRobots() {
     allRobots.insert(allRobots.end(), world.them.begin(), world.them.end());
     return allRobots;
 }
+
 
 } // ai
 } // rtt
