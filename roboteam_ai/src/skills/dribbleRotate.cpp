@@ -4,6 +4,8 @@
 // TODO: Test real robot rotation speeds.
 // TODO: Make the robot automatically slow down/speed up if the ball is going to one end of the dribbler. Control?
 #include "dribbleRotate.h"
+#include "../control/ControlUtils.h"
+
 namespace rtt {
 namespace ai {
 DribbleRotate::DribbleRotate(rtt::string name, bt::Blackboard::Ptr blackboard)

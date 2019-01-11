@@ -9,11 +9,20 @@
 #include <set>
 #include <mutex>
 #include <vector>
-#include "World.h"
-#include "Field.h"
-#include "ros/ros.h"
+#include "roboteam_utils/Vector2.h"
 
 namespace robotDealer {
+
+enum RobotType : short {
+    closeToBall,
+    farFromBall,
+    closeToOurGoal,
+    betweenBallAndOurGoal,
+    closeToTheirGoal,
+    random
+
+};
+
 class RobotDealer {
 
     private:
@@ -38,16 +47,6 @@ class RobotDealer {
                 bool inBetweenPoints);
 
     public:
-
-        enum RobotType {
-          closeToBall,
-          farFromBall,
-          closeToOurGoal,
-          betweenBallAndOurGoal,
-          closeToTheirGoal,
-          random
-
-        };
 
         static int claimRobotForTactic(RobotType feature, std::string tacticName, std::string roleName);
 

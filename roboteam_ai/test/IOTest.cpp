@@ -15,9 +15,8 @@ void robotCommandCallback(const roboteam_msgs::RobotCommandConstPtr &cmd) {
 }
 
 TEST(IOTest, it_subscribes) {
-    ros::Rate rate(60);
+    ros::Rate rate(30);
     ros::NodeHandle nh;
-
     // subscribing
     ros::Publisher roleFeedbackPub = nh.advertise<roboteam_msgs::RoleFeedback>(rtt::TOPIC_ROLE_FEEDBACK, 1);
     ros::Publisher worldPub = nh.advertise<roboteam_msgs::World>(rtt::TOPIC_WORLD_STATE, 1);
@@ -57,6 +56,7 @@ TEST(IOTest, it_subscribes) {
     EXPECT_FLOAT_EQ(ioManager.getWorldState().ball.pos.y, 20.2);
     EXPECT_FLOAT_EQ(ioManager.getGeometryData().field.goal_depth, 30.3);
     EXPECT_EQ(ioManager.getRoleFeedback().status, 'X');
+
     EXPECT_EQ(ioManager.getRefereeData().command.command, 3);
 
     // publishing
@@ -73,5 +73,6 @@ TEST(IOTest, it_subscribes) {
 
     EXPECT_EQ(robotCommandFromCallback.x_vel, 10);
     EXPECT_EQ(robotCommandFromCallback.y_vel, 20);
+
 } // end of test
 } // anonymous namespace
