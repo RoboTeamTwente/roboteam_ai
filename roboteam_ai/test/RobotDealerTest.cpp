@@ -44,6 +44,30 @@ TEST(RobotDealerTest, RobotDealerTest) {
     EXPECT_EQ(dealbot3, dealer::findRobotForRole("role3"));
     std::set<int> set = {1, 3};
     EXPECT_EQ(set, dealer::findRobotsForTactic("testing1"));
+    EXPECT_EQ(dealer::getTacticNameForId(1),"testing1");
+    EXPECT_EQ(dealer::getTacticNameForId(2),"free");
+    EXPECT_EQ(dealer::getRoleNameForId(2),"free");
+    EXPECT_EQ(dealer::getTacticNameForRole("role2"),"");
+    dealer::releaseRobotForRole("role1");
+    dealer::releaseRobotForRole("role3");
+
+    //TODO: test if these functionalities actually pick the right robots
+    dealbot1=dealer::claimRobotForTactic(robot::betweenBallAndOurGoal,"testing1","role1");
+    EXPECT_TRUE(dealbot1==dealer::findRobotForRole("role1"));
+    dealer::releaseRobotForRole("role1");
+    dealbot1=dealer::claimRobotForTactic(robot::closeToBall,"testing1","role1");
+    EXPECT_TRUE(dealbot1==dealer::findRobotForRole("role1"));
+    dealer::releaseRobotForRole("role1");
+    dealbot1=dealer::claimRobotForTactic(robot::closeToOurGoal,"testing1","role1");
+    EXPECT_TRUE(dealbot1==dealer::findRobotForRole("role1"));
+    dealer::releaseRobotForRole("role1");
+    dealbot1=dealer::claimRobotForTactic(robot::closeToTheirGoal,"testing1","role1");
+    EXPECT_TRUE(dealbot1==dealer::findRobotForRole("role1"));
+    dealer::releaseRobotForRole("role1");
+    dealbot1=dealer::claimRobotForTactic(robot::farFromBall,"testing1","role1");
+    EXPECT_TRUE(dealbot1==dealer::findRobotForRole("role1"));
+    dealer::releaseRobotForRole("role1");
+
     dealer::removeTactic("testing1");
     EXPECT_EQ(dealer::getAvailableRobots().size(), (unsigned int) 3);
 }
