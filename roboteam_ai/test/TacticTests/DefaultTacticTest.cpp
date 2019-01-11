@@ -7,11 +7,12 @@
 #include <roboteam_ai/src/bt/tactics/DefaultTactic.h>
 #include <roboteam_ai/src/treeinterp/Switches.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
+#include <roboteam_ai/src/utilities/World.h>
 #include "../../src/utilities/RobotDealer.h"
 
 TEST(DefaultTacticTest, it_takes_robots) {
     using dealer = robotDealer::RobotDealer;
-    using robotType = dealer::RobotDealer::RobotType;
+    using robotType = robotDealer::RobotType;
     // Make sure that there is a world and that it is empty
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot1, robot2, robot3, robot4, robot5, robot6, robot7, robot8;
