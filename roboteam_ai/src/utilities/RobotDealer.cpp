@@ -250,7 +250,6 @@ int RobotDealer::getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 point1, 
     // https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
     int closestID = - 1;
     double distance = 100000000.0;
-    //rtt::ai::control::ControlUtils::distanceToLineWithEnds(robotPos,point1,point2);
     for (auto &id : ids) {
         rtt::Vector2 robotPos = rtt::ai::World::getRobotForId((unsigned int) id, true).get()->pos;
         //rtt::ai::control::ControlUtils::distanceToLineWithEnds(robotPos,point1,point2) could be used here, perhaps?
