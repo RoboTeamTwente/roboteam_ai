@@ -31,26 +31,25 @@ bt::Node::Status Attack::onUpdate() {
         command.id = robot->id;
         command.use_angle = 1;
         command.w = static_cast<float>((ballPos - (Vector2) (robot->pos)).angle());
-        Vector2 velocity = goToPos.goToPos(robot, targetPos, GoToType::basic);
+        Vector2 velocity = goToPos.goToPos(robot, targetPos, control::GoToType::basic);
         command.x_vel = static_cast<float>(velocity.x);
         command.y_vel = static_cast<float>(velocity.y);
         publishRobotCommand(command);
     }
     else {
 
-        targetPos = ball;
+        targetPos = ballPos;
 
         roboteam_msgs::RobotCommand command;
         command.id = robot->id;
         command.use_angle = 1;
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
-        if (Coach::doesRobotHaveBall(robot->id, true)) {
+        if (coach::Coach::doesRobotHaveBall(robot->id, true)) {
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::constants::MAX_KICK_POWER);
             command.kicker_forced = 1;
->>>>>>> origin/development
         }
-        Vector2 velocity = goToPos.goToPos(robot, targetPos, GoToType::basic);
+        Vector2 velocity = goToPos.goToPos(robot, targetPos, control::GoToType::basic);
         command.x_vel = static_cast<float>(velocity.x);
         command.y_vel = static_cast<float>(velocity.y);
         publishRobotCommand(command);
