@@ -14,19 +14,22 @@ const roboteam_msgs::World &World::get_world() {
     return World::world;
 }
 
-void World::set_world(roboteam_msgs::World world) {
+void World::set_world(roboteam_msgs::World _world) {
     std::lock_guard<std::mutex> lock(worldMutex);
 
-    if (! world.us.empty()) {
+    if (! _world.us.empty()) {
         didReceiveFirstWorld = true;
     }
-    World::world = world;
+    world = _world;
 }
 
 std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotForId(unsigned int id, bool robotIsOurTeam) {
-    std::lock_guard<std::mutex> lock(worldMutex);
-
-    const std::vector<roboteam_msgs::WorldRobot> &robots = robotIsOurTeam ? world.us : world.them;
+    roboteam_msgs::World _world;
+    {
+        std::lock_guard<std::mutex> lock(worldMutex);
+        _world = world;
+    }
+    const std::vector<roboteam_msgs::WorldRobot> &robots = robotIsOurTeam ? _world.us : _world.them;
     for (const auto &bot : robots) {
         if (bot.id == id) {
             return std::make_shared<roboteam_msgs::WorldRobot>(bot);
@@ -37,7 +40,6 @@ std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotForId(unsigned int id,
 
 std::shared_ptr<int> World::get_robot_closest_to_point(std::vector<roboteam_msgs::WorldRobot> robots,
         const Vector2 &point) {
-    std::lock_guard<std::mutex> lock(worldMutex);
 
     int closest_robot = - 1;
     double closest_robot_ds = std::numeric_limits<double>::max();

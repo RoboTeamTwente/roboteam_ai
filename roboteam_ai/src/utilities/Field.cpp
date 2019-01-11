@@ -33,8 +33,12 @@ Vector2 Field::get_their_goal_center() {
 }
 
 bool Field::pointIsInDefenceArea(Vector2 point, bool isOurDefenceArea, float margin) {
-    std::lock_guard<std::mutex> lock(fieldMutex);
-    auto penaltyLine = isOurDefenceArea ? field.left_penalty_line : field.right_penalty_line;
+    roboteam_msgs::GeometryFieldSize _field;
+    {
+        std::lock_guard<std::mutex> lock(fieldMutex);
+        _field = field;
+    }
+    auto penaltyLine = isOurDefenceArea ? _field.left_penalty_line : _field.right_penalty_line;
     double yTopBound;
     double yBottomBound;
     double xBound = penaltyLine.begin.x;
