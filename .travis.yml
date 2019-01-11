@@ -118,6 +118,7 @@ before_script:
 script:
   - source /opt/ros/$ROS_DISTRO/setup.bash
   - source ~/catkin_ws/devel/setup.bash
+  - export PATH="/usr/lib/ccache/bin/:$PATH"
   - cp ccache /usr/local/bin/
   - ln -s ccache /usr/local/bin/gcc
   - ln -s ccache /usr/local/bin/g++
