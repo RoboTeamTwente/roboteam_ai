@@ -3,6 +3,7 @@
 //
 
 #include "DefendOnRobot.h"
+#include "../utilities/Coach.h"
 
 namespace rtt{
 namespace ai{
@@ -39,8 +40,9 @@ bt::Node::Status DefendOnRobot::onUpdate() {
         }
 
         Vector2 targetPos = calculateLocation();
-        std::cout << targetPos << std::endl;
-        goToPos.goToPos(robot, targetPos, goToType::basic);
+
+        std::cout << "Robot:" << robot->id << "TargetPos:" << targetPos << std::endl;
+        goToPos.goToPos(robot, targetPos, control::GoToType::luTh);
 
         return Status::Running;
     } else {
@@ -76,7 +78,12 @@ Vector2 DefendOnRobot::calculateLocation() {
     double xLength = length * cos(angle1);
     double yLength = length * sin(angle1);
 
-    Vector2 newPosition = {opponentWithBall->pos.x - xLength, opponentWithBall->pos.y + yLength};
+    if (opponentWithBall->pos.x > opponentToCover->pos.x) {
+        newPosition = {opponentWithBall->pos.x - xLength, opponentWithBall->pos.y + yLength};
+    } else {
+        newPosition = {opponentWithBall->pos.x - xLength, opponentWithBall->pos.y - yLength};
+    }
+
     return newPosition;
 }
 

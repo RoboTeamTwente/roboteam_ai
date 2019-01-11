@@ -3,10 +3,16 @@
 //
 
 #include "Coach.h"
+#include "RobotDealer.h"
+#include <roboteam_ai/src/control/ControlUtils.h>
+#include <roboteam_ai/src/dangerfinder/DangerData.h>
+#include <roboteam_ai/src/dangerfinder/DangerFinder.h>
 
 namespace rtt {
 namespace ai {
 namespace coach {
+
+using dealer = robotDealer::RobotDealer;
 
 std::map<int, int> Coach::defencePairs;
 
@@ -102,6 +108,13 @@ int Coach::pickOpponentToCover(int selfID) {
     }
 
     return - 1;
+}
+
+Vector2 Coach::getPositionBehindBall(double distanceBehindBall) {
+    const Vector2 &ball = static_cast<Vector2>(World::getBall()->pos);
+    const Vector2 &goal = Field::get_their_goal_center();
+    
+    return ball + (ball - goal).stretchToLength(distanceBehindBall);
 }
 
 }

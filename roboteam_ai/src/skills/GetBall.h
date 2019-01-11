@@ -12,8 +12,6 @@ namespace ai {
 
 class GetBall : public Skill {
     private:
-        roboteam_msgs::WorldBall ball;
-
         enum Progression {
           TURNING, APPROACHING, DRIBBLING, SUCCESS, FAIL
         };

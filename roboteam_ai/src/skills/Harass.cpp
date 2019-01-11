@@ -1,13 +1,14 @@
 //
 // Created by baris on 12-12-18.
 //
+#include <roboteam_ai/src/utilities/Coach.h>
 #include "Harass.h"
 
 namespace rtt {
 namespace ai {
 
 Harass::Harass(std::string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) { }
+        :Skill(std::move(name), std::move(blackboard)) { }
 
 void Harass::onInitialize() {
     harassBallOwner = properties->getBool("harassBallOwner");
@@ -24,7 +25,8 @@ Skill::Status Harass::onUpdate() {
         pickHarassmentTarget();
     }
     auto enemyBot = World::getRobotForId(static_cast<unsigned int>(harassmentTarget), false);
-    Vector2 ballPos = World::getBall().pos;
+
+    Vector2 ballPos = ball->pos;
     Vector2 targetPos;
     Vector2 enemyPos = enemyBot->pos;
 
@@ -40,9 +42,9 @@ Skill::Status Harass::onUpdate() {
     std::cout << "call gotopos with target pos" << targetPos << std::endl;
     std::cout << "call gotopos with robot pos           " << robot->pos << std::endl;
 
-    goToPos.goToPos(robot, targetPos, goToType::basic);
+    goToPos.goToPos(robot, targetPos, control::GoToType::basic);
 
-    if (harassBallOwner && ! coach::doesRobotHaveBall(harassmentTarget, false)) {
+    if (harassBallOwner && ! coach::Coach::doesRobotHaveBall(harassmentTarget, false)) {
         return Status::Success;
     }
     // TODO make something that will make harassment stop if something happens else we assume that there is a tree
@@ -52,10 +54,10 @@ Skill::Status Harass::onUpdate() {
 
 void Harass::pickHarassmentTarget() {
 //    if (harassBallOwner) {
-//        harassmentTarget = coach::whichRobotHasBall(false);
+//        harassmentTarget = Coach::whichRobotHasBall(false);
 //    }
 //    else {
-//        harassmentTarget = coach::pickHarassmentTarget(robot->id);
+//        harassmentTarget = Coach::pickHarassmentTarget(robot->id);
 //    }
 
     harassmentTarget = 0;

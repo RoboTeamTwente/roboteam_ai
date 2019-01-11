@@ -3,13 +3,18 @@
 //
 
 #include "IsInZone.h"
+#include "roboteam_utils/Vector2.h"
+#include "roboteam_msgs/WorldRobot.h"
+#include "roboteam_msgs/WorldBall.h"
+#include "roboteam_msgs/World.h"
+#include "roboteam_msgs/GeometryFieldSize.h"
+#include "../utilities/Field.h"
+#include "../utilities/World.h"
+#include "ros/ros.h"
 
 namespace rtt {
 namespace ai {
-IsInZone::IsInZone(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(name, blackboard) {
-
-}
+IsInZone::IsInZone(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) { }
 
 bt::Node::Status IsInZone::update() {
     auto world = World::get_world();
@@ -48,16 +53,16 @@ bt::Node::Status IsInZone::update() {
             case 1:
                 zone_x1 = - 4.5;
                 zone_x2 = - 1.5;
-                zone_y1 = 3.0;
-                zone_y2 = 0.0;
+                zone_y1 = 0.0;
+                zone_y2 = 3.0;
                 break;
 
                 // zone 2: is as seen from the goal -> right rear
             case 2:
                 zone_x1 = - 4.5;
                 zone_x2 = - 1.5;
-                zone_y1 = 0.0;
-                zone_y2 = - 3.0;
+                zone_y1 = - 3.0;
+                zone_y2 = 0.0;
                 break;
 
                 // zone 3: all field except area close to opponents goal

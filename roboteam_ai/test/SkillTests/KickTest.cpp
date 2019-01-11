@@ -5,6 +5,9 @@
 #include "ros/ros.h"
 #include "../../src/skills/Kick.h"
 #include "../../src/skills/Chip.h"
+#include "../../src/utilities/World.h"
+#include "../../src/utilities/RobotDealer.h"
+#include "../../src/utilities/Constants.h"
 
 // anonymous namespace needed to prevent ROS callback function name clashes
 namespace {
@@ -15,7 +18,7 @@ void robotCommandCallback(const roboteam_msgs::RobotCommandConstPtr &cmd) {
 }
 
 TEST(KickTest, It_sends_proper_robotcommands) {
-    ros::Rate rate(1);
+    ros::Rate rate(60);
     commands.clear(); // ensure the vector is empty.
     EXPECT_TRUE(commands.empty());
     ros::NodeHandle nh;
@@ -23,9 +26,17 @@ TEST(KickTest, It_sends_proper_robotcommands) {
 
     auto bb = std::make_shared<bt::Blackboard>();
     bb->setInt("ROBOT_ID", 1);
-    rtt::ai::Kick kick("test", bb);
+    bb->setString("ROLE","test");
+    rtt::ai::Kick kick("kicktest", bb);
+    roboteam_msgs::World worldMsg;
+    roboteam_msgs::WorldRobot robot;
+    robot.id=1;
+    robot.pos.x=0;
+    robot.pos.y=0;
+    worldMsg.us.push_back(robot);
+    rtt::ai::World::set_world(worldMsg);
+    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"KickTest","test");
     kick.initialize();
-
     EXPECT_EQ(kick.update(), bt::Leaf::Status::Running);
 
     // wait a little for the message to arrive and then spin
@@ -55,10 +66,11 @@ TEST(KickTest, It_sends_proper_robotcommands) {
         EXPECT_EQ(kick2.update(), bt::Leaf::Status::Running);
     }
     EXPECT_EQ(kick2.update(), bt::Leaf::Status::Failure);
+    robotDealer::RobotDealer::removeTactic("KickTest");
 }
 
 TEST(KickTest, It_chips) {
-    ros::Rate rate(1);
+    ros::Rate rate(60);
     commands.clear(); // ensure the vector is empty.
     EXPECT_TRUE(commands.empty());
     ros::NodeHandle nh;
@@ -66,7 +78,17 @@ TEST(KickTest, It_chips) {
 
     auto bb = std::make_shared<bt::Blackboard>();
     bb->setInt("ROBOT_ID", 1);
-    rtt::ai::Chip chip("test", bb);
+    bb->setString("ROLE","test");
+    rtt::ai::Chip chip("ChipTest", bb);
+    roboteam_msgs::World worldMsg;
+    roboteam_msgs::WorldRobot robot;
+    robot.id=1;
+    robot.pos.x=0;
+    robot.pos.y=0;
+    worldMsg.us.push_back(robot);
+    rtt::ai::World::set_world(worldMsg);
+    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"KickTest","test");
+
     chip.initialize();
 
     EXPECT_EQ(chip.update(), bt::Leaf::Status::Running);
@@ -80,6 +102,7 @@ TEST(KickTest, It_chips) {
     EXPECT_TRUE(commands.at(0).chipper);
     EXPECT_TRUE(commands.at(0).chipper_forced);
     EXPECT_EQ(commands.at(0).chipper_vel, rtt::ai::constants::DEFAULT_KICK_POWER);
+    robotDealer::RobotDealer::removeTactic("KickTest");
 }
 
 }

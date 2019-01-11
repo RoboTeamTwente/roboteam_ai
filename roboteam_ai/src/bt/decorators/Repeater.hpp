@@ -4,21 +4,15 @@
 
 namespace bt {
 
-/*
-    The Repeater decorator repeats infinitely or to a limit until the child returns success.
-*/
 class Repeater : public Decorator {
-    public:
+public:
+    void initialize() override;
+    Status update() override;
+    std::string node_name() override { return "Repeater"; };
 
-        void initialize() override;
-
-        Status update() override;
-
-        std::string node_name() override;
-
-    protected:
-        int limit;
-        int counter = 0;
+protected:
+    int limit = 0;
+    int counter = 0;
 };
 
 }

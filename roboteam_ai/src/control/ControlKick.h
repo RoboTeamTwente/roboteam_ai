@@ -19,7 +19,9 @@
 #include "../../src/control/ControlUtils.h"
 #include "../utilities/Constants.h"
 
-namespace control {
+namespace rtt{
+    namespace ai {
+        namespace control {
 
 class ControlKick {
 public:
@@ -36,6 +38,8 @@ public:
     void kick(RobotPtr& robot, unsigned char kicker_forced, double kicker_vel);
 };
 
-}
+} // control
+} // ai
+} // rtt
 
 #endif //ROBOTEAM_AI_CONTROLKICK_H

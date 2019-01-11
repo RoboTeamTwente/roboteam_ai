@@ -3,6 +3,9 @@
 //
 
 #include "CanReachPoint.hpp"
+#include "ros/ros.h"
+#include "../../src/utilities/World.h"
+
 namespace rtt {
 namespace ai {
 CanReachPoint::CanReachPoint(std::string name, bt::Blackboard::Ptr blackboard)

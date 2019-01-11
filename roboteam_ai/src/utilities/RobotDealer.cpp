@@ -1,9 +1,12 @@
-#include <utility>
 
 //
 // Created by baris on 16/11/18.
 //
 #include "RobotDealer.h"
+#include "World.h"
+#include "Field.h"
+#include "ros/ros.h"
+#include <utility>
 
 namespace robotDealer {
 
@@ -66,7 +69,7 @@ void RobotDealer::updateFromWorld() {
 
 }
 
-int RobotDealer::claimRobotForTactic(RobotDealer::RobotType feature, std::string roleName, std::string tacticName) {
+int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, std::string tacticName) {
 
     std::set<int> ids = RobotDealer::getAvailableRobots();
     int id;
@@ -78,15 +81,30 @@ int RobotDealer::claimRobotForTactic(RobotDealer::RobotType feature, std::string
                 return - 1;
 
             case closeToBall: {
-                rtt::Vector2 ball = rtt::ai::World::getBall().pos;
-                id = getRobotClosestToPoint(ids, ball);
+                auto ball = rtt::ai::World::getBall();
+                rtt::Vector2 ballPos;
+                if (ball) {
+                    ballPos = ball->pos;
+                } else {
+                    ROS_ERROR("Robotdealer CloseToBall - No ball found in field. Assuming (%f, %f)", ballPos.x, ballPos.y);
+                }
+                id = getRobotClosestToPoint(ids, ballPos);
                 break;
             }
 
             case betweenBallAndOurGoal: {
-                rtt::Vector2 ball = rtt::ai::World::getBall().pos;
+                auto ball = rtt::ai::World::getBall();
+
+                rtt::Vector2 ballPos;
+                if (ball) {
+                   ballPos = ball->pos;
+                } else {
+                    ballPos = {0, 0};
+                    ROS_ERROR("Robotdealer CloseToBall - No ball found in field. Assuming ball at (%f, %f).", ballPos.x, ballPos.y);
+                }
+
                 rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
-                id = getRobotClosestToLine(ids, ball, ourGoal, true);
+                id = getRobotClosestToLine(ids, ballPos, ourGoal, true);
                 break;
             }
             case closeToOurGoal: {

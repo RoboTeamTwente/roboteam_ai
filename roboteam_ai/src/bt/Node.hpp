@@ -6,7 +6,6 @@
 #include <cstdarg>
 
 #include "Blackboard.hpp"
-#include "../utilities/RobotDealer.h"
 
 namespace bt {
 
@@ -67,8 +66,6 @@ class Node {
         Status getStatus() const;
 
         void setStatus(Status s);
-
-        using dealer = robotDealer::RobotDealer;
 
         bt::Blackboard::Ptr properties = std::make_shared<bt::Blackboard>();
 

@@ -14,8 +14,8 @@ namespace io {
 
 IOManager::IOManager(bool subscribe, bool advertise) {
 
-    std::cout << "creating IOManager that can " << (subscribe ? "subscribe" : "t subscribe")
-              << " and " << (advertise ? "advertise" : "'t advertise") << std::endl;
+    std::cout << "creating IOManager that can" << (subscribe ? " subscribe" : "'t subscribe")
+              << " and can" << (advertise ? " advertise" : "'t advertise") << std::endl;
 
     if (subscribe) {
         // subscribe to all topics
@@ -36,7 +36,8 @@ void IOManager::subscribeToWorldState() {
             rtt::TOPIC_WORLD_STATE,
             1,
             &IOManager::handleWorldState,
-            this
+            this,
+            ros::TransportHints().reliable().tcpNoDelay()
     );
 }
 
@@ -45,7 +46,8 @@ void IOManager::subscribeToGeometryData() {
             rtt::TOPIC_GEOMETRY,
             1,
             &IOManager::handleGeometryData,
-            this
+            this,
+            ros::TransportHints().reliable().tcpNoDelay()
     );
 }
 
@@ -54,7 +56,8 @@ void IOManager::subscribeToRoleFeedback() {
             rtt::TOPIC_ROLE_FEEDBACK,
             1,
             &IOManager::handleRobotFeedback,
-            this
+            this,
+            ros::TransportHints().reliable().tcpNoDelay()
     );
 }
 void IOManager::subscribeToRefereeData() {
@@ -63,7 +66,8 @@ void IOManager::subscribeToRefereeData() {
             rtt::TOPIC_REFEREE,
             1,
             &IOManager::handleRefereeData,
-            this
+            this,
+            ros::TransportHints().reliable().tcpNoDelay()
     );
 }
 

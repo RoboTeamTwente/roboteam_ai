@@ -3,13 +3,13 @@
 //
 
 #include "Attack.h"
-
+#include "../utilities/Coach.h"
 
 namespace rtt {
 namespace ai {
 
 Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
+        :Skill(std::move(name), std::move(blackboard)) {
 }
 
 /// Init the GoToPos skill
@@ -19,32 +19,40 @@ void Attack::onInitialize() {
 
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {
-    updateRobot();
     if (! robot) return Status::Running;
+    Vector2 ballPos = ball->pos;
+    Vector2 behindBall = coach::Coach::getPositionBehindBall(0.5);
+    Vector2 deltaBall = behindBall - ballPos;
+    if (! Control::pointInTriangle(robot->pos, ballPos, ballPos + (deltaBall).rotate(M_PI*0.17).scale(2.0),
+            ballPos + (deltaBall).rotate(M_PI*- 0.17).scale(2.0))) {
+        targetPos = behindBall;
 
-        if (newRandom && newPos) {
-            const roboteam_msgs::GeometryFieldSize &field = Field::get_field();
-            const double &length = field.field_length;
-            const double &width = field.field_width;
-            int randomX = std::rand();
-            int randomY = std::rand();
-            targetPos = {randomX*2.32830644e-10*length*2 - length*0.5, randomY*2.32830644e-10*width*2 - width*0.5};
+        roboteam_msgs::RobotCommand command;
+        command.id = robot->id;
+        command.use_angle = 1;
+        command.w = static_cast<float>((ballPos - (Vector2) (robot->pos)).angle());
+        Vector2 velocity = goToPos.goToPos(robot, targetPos, control::GoToType::basic);
+        command.x_vel = static_cast<float>(velocity.x);
+        command.y_vel = static_cast<float>(velocity.y);
+        publishRobotCommand(command);
+    }
+    else {
 
-            newPos = false;
+        targetPos = ballPos;
+
+        roboteam_msgs::RobotCommand command;
+        command.id = robot->id;
+        command.use_angle = 1;
+        command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
+        if (coach::Coach::doesRobotHaveBall(robot->id, true)) {
+            command.kicker = 1;
+            command.kicker_vel = static_cast<float>(rtt::ai::constants::MAX_KICK_POWER);
+            command.kicker_forced = 1;
         }
-        else if (! newRandom && newPos) {
-            auto ball = World::getBall();
-            targetPos = ball.pos;
-        }
-
-    goToPos.goToPos(robot, targetPos, goToType::luTh);
-
-    deltaPos = targetPos - (Vector2)robot->pos;
-    if (abs(deltaPos.length()) < 0.5 && --counter < 1) {
-        newPos = true;
-        newRandom = !newRandom;
-        counter = 100;
-        goToPos.clear(goToType::luTh);
+        Vector2 velocity = goToPos.goToPos(robot, targetPos, control::GoToType::basic);
+        command.x_vel = static_cast<float>(velocity.x);
+        command.y_vel = static_cast<float>(velocity.y);
+        publishRobotCommand(command);
     }
 
     return Status::Running;

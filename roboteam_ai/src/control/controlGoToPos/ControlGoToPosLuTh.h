@@ -7,14 +7,14 @@
 #ifndef ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H
 #define ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H
 
+namespace rtt {
+namespace ai {
 namespace control {
 
 class ControlGoToPosLuTh {
 
     private:
         using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
-        using Vector2 = rtt::Vector2;
-        using Command = roboteam_msgs::RobotCommand;
 
         struct NumRobot;
         using NumRobotPtr = std::shared_ptr<NumRobot>;
@@ -82,7 +82,7 @@ class ControlGoToPosLuTh {
               std::vector<double> angles;
               switch (newDir) {
               case goLeft: {
-                  angles = { - 3*M_PI*0.0625, - 2*M_PI*0.0625, - M_PI*0.0625};
+                  angles = {- M_PI*0.0625};
                   break;
               }
               case goMiddle: {
@@ -90,7 +90,7 @@ class ControlGoToPosLuTh {
                   break;
               }
               case goRight: {
-                  angles = {M_PI*0.0625, 2*M_PI*0.0625, 4*M_PI*0.0625};
+                  angles = {M_PI*0.0625};
                   break;
               }
               }
@@ -124,9 +124,6 @@ class ControlGoToPosLuTh {
               newMe.targetPos = newTarget.second;
               newMe.newDir = newTarget.first;
               newMe.finalTargetPos = me->finalTargetPos;
-              if (newMe.pos.length() < 0.1) {
-                  std::cout << "errorr??" << std::endl;
-              }
               return std::make_shared<NumRobot>(newMe);
           }
 
@@ -165,24 +162,26 @@ class ControlGoToPosLuTh {
         NumRobot me;
 
         std::vector<Vector2> displayData;
-        double errorMargin = 0.3;
+        double errorMargin = 0.25;
 
-        Vector2 targetPos = {0,0};
+        Vector2 targetPos = {999.2, 999.2};
         ros::Time startTime;
 
-        PID pid;
+        Controller pid;
         bool pidInit = false;
 
         bool tracePath(NumRobot &numRobot, Vector2 target);
-        bool calculateNumericDirection(RobotPtr robot, NumRobot &me, roboteam_msgs::RobotCommand &command);
+        bool calculateNumericDirection(RobotPtr robot, NumRobot &me);
         void drawCross(Vector2 &pos);
         bool calculateNextPoint(NumRobotPtr me);
         int robotIndex;
     public:
         void clear();
-        Command goToPos(RobotPtr robot, Vector2 &targetPos);
+        Vector2 goToPos(RobotPtr robot, Vector2 &target);
 };
 
 } // control
+} // ai
+} // rtt
 
 #endif //ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H

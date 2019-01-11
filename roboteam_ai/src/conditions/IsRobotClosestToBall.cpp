@@ -2,9 +2,8 @@
 // Created by robzelluf on 10/18/18.
 //
 
-//TODO: get/make function get_robot_closest_to_point
-
 #include "IsRobotClosestToBall.h"
+#include "../utilities/World.h"
 
 namespace rtt {
 namespace ai{
@@ -29,7 +28,7 @@ namespace ai{
 
         robotClosestToBallPtr = World::get_robot_closest_to_point(robots, ballPos);
 
-        if (robotClosestToBallPtr) {
+        if (robotClosestToBallPtr && robot) {
             robotClosestToBall = *robotClosestToBallPtr;
             if (robot->id == robotClosestToBall) {
                 return Status::Success;

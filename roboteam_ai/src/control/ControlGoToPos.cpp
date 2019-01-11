@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by thijs on 10-12-18.
 //
@@ -5,7 +7,11 @@
 
 #include "ControlGoToPos.h"
 
+namespace rtt {
+namespace ai {
 namespace control {
+
+ControlGoToPos::ControlGoToPos() = default;
 
 void ControlGoToPos::clear(GoToType goToType) {
     switch (goToType) {
@@ -23,110 +29,92 @@ void ControlGoToPos::clear(GoToType goToType) {
     }
 }
 
-void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position) {
+Vector2 ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position) {
     GoToType goToType = basic;
-    ControlGoToPos::goToPos(std::move(robot), position, goToType);
+    //TODO: do stuff that determines which gtp to use...
+
+    return ControlGoToPos::goToPos(std::move(robot), position, goToType);
 }
 
-void ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goToType) {
-
-    // TODO: auto switch to low level? maybe
-    //    if (distanceToTarget(robot, position) < errorMargin) {
-    //        ControlGoToPos::goToPosLowLevel(robot, position);
-    //        return;
-    //    }
-
+Vector2 ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goToType) {
 
     switch (goToType) {
-    case noPreference: {
-        ControlGoToPos::goToPos(robot, position);
-        break;
+    case noPreference:
+        return ControlGoToPos::goToPos(robot, position);
+
+    case ballControl:
+        return ControlGoToPos::goToPosBallControl(robot, position);
+
+    case basic:
+        return ControlGoToPos::goToPosBasic(std::move(robot), position);
+
+    case force:
+        return ControlGoToPos::goToPosForce(std::move(robot), position);
+
+
+    case luTh:
+        return ControlGoToPos::goToPosLuTh(std::move(robot), position);
+
+
+    case lowLevel:
+        return ControlGoToPos::goToPosLowLevel(std::move(robot), position);
+
+
+    case highLevel:
+        return ControlGoToPos::goToPosHighLevel(std::move(robot), position);
+
+
+    case bezier:
+        return ControlGoToPos::goToPosBezier(std::move(robot), position);
+
+
     }
-    case ballControl: {
-        ControlGoToPos::goToPosBallControl(robot, position);
-        break;
-    }
-    case basic: {
-        ControlGoToPos::goToPosBasic(std::move(robot), position);
-    }
-    case force: {
-        ControlGoToPos::goToPosForce(std::move(robot), position);
-        break;
-    }
-    case luTh: {
-        ControlGoToPos::goToPosLuTh(std::move(robot), position);
-        break;
-    }
-    case lowLevel: {
-        ControlGoToPos::goToPosLowLevel(std::move(robot), position);
-        break;
-    }
-    case highLevel: {
-        ControlGoToPos::goToPosHighLevel(std::move(robot), position);
-        break;
-    }
-    case bezier: {
-        ControlGoToPos::goToPosBezier(std::move(robot), position);
-        break;
-    }
-    }
+    return goToPos(std::move(robot), position);
 }
-void ControlGoToPos::goToPosBallControl(RobotPtr robot, Vector2 &targetPos) {
-    Command command = gtpBallcontrol.goToPos(std::move(robot), targetPos);
-    publishRobotCommand(command);
+Vector2 ControlGoToPos::goToPosBallControl(RobotPtr robot, Vector2 &targetPos) {
+    return gtpBallControl.goToPos(std::move(robot), targetPos);
 }
 
+Vector2 ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
 
-void ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
+    if (! robot) return {};
 
-    if (! robot) return;
-
-//    if (! checkTargetPos(targetPos)) {
-//        ROS_ERROR("Target position is not correct GoToPos");
-//        return;
-//    }
-    static bool setPID = false;
-    if (setPID != true){
-        double timediff = 1.0/rtt::ai::constants::tickRate;
-        pidPos.setPD(3, 1.5, timediff);
-        setPID = true;
-    }
     Vector2 error;
     error.x = targetPos.x - robot->pos.x;
     error.y = targetPos.y - robot->pos.y;
-    Vector2 delta;
-    delta = pidPos.controlPR2(error, robot->vel);
-    Command command;
-    command.id = robot->id;
-    command.use_angle = 1;
-    command.w = static_cast<float>(delta.angle());
-    command.x_vel = static_cast<float>(delta.x);
-    command.y_vel = static_cast<float>(delta.y);
-    publishRobotCommand(command);
+    double dist = error.length();
+    static bool far = true;
+    if (dist > rtt::ai::constants::ROBOT_RADIUS and ! far) {
+        pid.setD(1.5);
+        far = true;
+    }
+    else {
+        pid.setD(0);
+        far = false;
+    }
+    return pid.controlPIR(error, robot->vel);
 }
 
-void ControlGoToPos::goToPosForce(RobotPtr robot, Vector2 &targetPos) {
-
+Vector2 ControlGoToPos::goToPosForce(RobotPtr robot, Vector2 &targetPos) {
+    return {};
 }
 
-void ControlGoToPos::goToPosLuTh(RobotPtr robot, Vector2 &targetPos) {
-    Command command = gtpLuth.goToPos(std::move(robot), targetPos);
-    publishRobotCommand(command);
+Vector2 ControlGoToPos::goToPosLuTh(RobotPtr robot, Vector2 &targetPos) {
 
-}
-
-void ControlGoToPos::goToPosLowLevel(RobotPtr robot, Vector2 &targetPos) {
-
-}
-void ControlGoToPos::goToPosHighLevel(RobotPtr robot, Vector2 &targetPos) {
-
-}
-void ControlGoToPos::goToPosBezier(RobotPtr robot, Vector2 &targetPos) {
+    return gtpLuth.goToPos(std::move(robot), targetPos);
 
 }
 
-void ControlGoToPos::publishRobotCommand(roboteam_msgs::RobotCommand &command) {
-    ioManager.publishRobotCommand(command);
+Vector2 ControlGoToPos::goToPosLowLevel(RobotPtr robot, Vector2 &targetPos) {
+    return {};
+}
+
+Vector2 ControlGoToPos::goToPosHighLevel(RobotPtr robot, Vector2 &targetPos) {
+    return {};
+}
+
+Vector2 ControlGoToPos::goToPosBezier(RobotPtr robot, Vector2 &targetPos) {
+    return {};
 }
 
 double ControlGoToPos::distanceToTarget(RobotPtr robot, Vector2 &targetPos) {
@@ -135,11 +123,8 @@ double ControlGoToPos::distanceToTarget(RobotPtr robot, Vector2 &targetPos) {
     double dy = targetPos.y - robot->pos.y;
     Vector2 deltaPos = {dx, dy};
     return deltaPos.length();
-
-}
-ControlGoToPos::ControlGoToPos() {
-    rtt::ai::io::IOManager temp(false, true);
-    ioManager = temp;
 }
 
-} // control
+} //control
+} //ai
+} //rtt

@@ -12,6 +12,7 @@
 #include <roboteam_msgs/WorldRobot.h>
 #include <roboteam_msgs/RobotCommand.h>
 #include <roboteam_ai/src/io/IOManager.h>
+#include <utility>
 
 #include "ros/ros.h"
 #include "../io/IOManager.h"
@@ -28,63 +29,63 @@
 #include "controlGoToPos/ControlGoToPosLuTh.h"
 #include "controlGoToPos/ControlGoToPosBallControl.h"
 
+namespace rtt {
+namespace ai {
 namespace control {
+
+enum GoToType {
+    noPreference,
+    ballControl,
+    basic,
+    lowLevel,
+    highLevel,
+    force,
+    luTh,
+    bezier,
+};
 
 class ControlGoToPos {
 
     private:
         using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
-        using Vector2 = rtt::Vector2;
         using Command = roboteam_msgs::RobotCommand;
-        rtt::ai::io::IOManager ioManager;
 
-        void goToPosBallControl(RobotPtr robot, Vector2 &targetPos);
-        ControlGoToPosBallControl gtpBallcontrol;
+        Vector2 goToPosBallControl(RobotPtr robot, Vector2 &targetPos);
+        ControlGoToPosBallControl gtpBallControl;
 
-        void goToPosLuTh(RobotPtr robot, Vector2 &targetPos);
+        Vector2 goToPosLuTh(RobotPtr robot, Vector2 &targetPos);
         ControlGoToPosLuTh gtpLuth;
 
-        void goToPosLowLevel(RobotPtr robot, Vector2 &targetPos);
+        Vector2 goToPosLowLevel(RobotPtr robot, Vector2 &targetPos);
         //ControlGoToPosLowLevel gtpLowlevel;
 
-        void goToPosHighLevel(RobotPtr robot, Vector2 &targetPos);
+        Vector2 goToPosHighLevel(RobotPtr robot, Vector2 &targetPos);
         //ControlGoToPosHighLevel gtpHighlevel;
 
-        void goToPosBezier(RobotPtr robot, Vector2 &targetPos);
+        Vector2 goToPosBezier(RobotPtr robot, Vector2 &targetPos);
         //ControlGoToPosBezier gtpBezier;
 
-        void goToPosForce(RobotPtr robot, Vector2 &targetPos);
+        Vector2 goToPosForce(RobotPtr robot, Vector2 &targetPos);
         //ControlGoToPosForce gtpForce;
 
-        void goToPosBasic(RobotPtr robot, Vector2 &targetPos);
+        Vector2 goToPosBasic(RobotPtr robot, Vector2 &targetPos);
         //ControlGoToPosBasic gtpBasic;
-        Controller pidPos;
-        //ControlGoToPosBasic basic;
 
-        void publishRobotCommand(Command &command);
         double errorMargin = 0.3;
         double distanceToTarget(RobotPtr robot, Vector2 &targetPos);
 
+        Controller pid = Controller(3.0, 0.0, 0.5);
     public:
         ControlGoToPos();
 
-        enum GoToType {
-          noPreference,
-          ballControl,
-          basic,
-          lowLevel,
-          highLevel,
-          force,
-          luTh,
-          bezier,
-        };
-
         void clear(GoToType goToType);
-        void goToPos(RobotPtr robot, Vector2 &position);
-        void goToPos(RobotPtr robot, Vector2 &position, GoToType goToType);
+        Vector2 goToPos(RobotPtr robot, Vector2 &position);
+        Vector2 goToPos(RobotPtr robot, Vector2 &position, GoToType goToType);
 
 };
 
-} // control
+} //control
+} //ai
+} //rtt
 
 #endif //ROBOTEAM_AI_CONTROLGOTOPOS_H
