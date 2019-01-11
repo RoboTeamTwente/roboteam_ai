@@ -119,8 +119,9 @@ script:
   - source /opt/ros/$ROS_DISTRO/setup.bash
   - source ~/catkin_ws/devel/setup.bash
   - export PATH="/usr/lib/ccache/bin/:$PATH"
-  - export CC="ccache gcc"
-  - export CXX="ccache g++"
+  - cp ccache /usr/bin/
+  - ln -s ccache /usr/bin/cc
+  - ln -s ccache /usr/bin/c++
   - catkin_make --pkg roboteam_msgs roboteam_utils
   - cd ~/catkin_ws/src/roboteam_ai
   - mkdir cmake-build-debug && cd cmake-build-debug
