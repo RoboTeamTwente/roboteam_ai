@@ -20,7 +20,6 @@ class Attack : public Skill {
     public:
         explicit Attack(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;
-        void onInitialize() override;
         void onTerminate(Status s) override;
 };
 
