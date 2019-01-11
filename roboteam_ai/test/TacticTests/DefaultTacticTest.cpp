@@ -16,6 +16,7 @@ TEST(DefaultTacticTest, it_takes_robots) {
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot1, robot2, robot3, robot4, robot5, robot6, robot7, robot8;
     rtt::ai::World::set_world(worldMsg);
+    dealer::removeTactic("free"); // This is necessary because previous tests create free robots
     ASSERT_TRUE(dealer::getAvailableRobots().empty());
 
     //fill the world
