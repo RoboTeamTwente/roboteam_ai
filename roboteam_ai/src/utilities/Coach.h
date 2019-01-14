@@ -11,6 +11,7 @@
 #include <roboteam_ai/src/dangerfinder/DangerData.h>
 #include <roboteam_ai/src/dangerfinder/DangerFinder.h>
 #include <roboteam_ai/src/dangerfinder/DangerFinder.h>
+#include "../control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {
@@ -31,7 +32,14 @@ class Coach {
         static Vector2 getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID);
         static Vector2 getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position);
 
-        };
+        static bool isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal, const Vector2 &robotPos);
+        static bool isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID, const Vector2 &robotPosition);
+        static bool isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position, const Vector2 &robotPosition);
+
+        static std::pair<unsigned int, bool> getRobotClosestToBall();
+        static unsigned int getOurRobotClosestToBall();
+        static unsigned int getTheirRobotClosestToBall();
+};
 
 }
 }

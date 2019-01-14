@@ -22,10 +22,9 @@ Pass::Status Pass::onUpdate() {
     bool amIclosest = true;
 
     if (newTarget && amIclosest) {
-        robotToPass = -1;
+        robotToPass = - 1;
         newTarget = false;
     }
-
     if (robotToPass == - 1) {
         if (defensive) {
             robotToPass = Coach::pickDefensivePassTarget(robot->id);
@@ -35,6 +34,7 @@ Pass::Status Pass::onUpdate() {
         }
         return Status::Running;
     }
+
     if (! robot) return Status::Running;
     Vector2 ball = World::getBall()->pos;
     Vector2 behindBall = Coach::getPositionBehindBallToRobot(0.5, true, static_cast<const unsigned int &>(robotToPass));
@@ -45,8 +45,7 @@ Pass::Status Pass::onUpdate() {
 
     GoToType goToType;
 
-    if (! Control::pointInTriangle(robot->pos, ball, ball + (deltaBall).rotate(M_PI*0.17).scale(2.0),
-            ball + (deltaBall).rotate(M_PI*- 0.17).scale(2.0))) {
+    if (! Coach::isRobotBehindBallToRobot(0.5, true, static_cast<const unsigned int &>(robotToPass), robot->pos)) {
         targetPos = behindBall;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
@@ -64,18 +63,16 @@ Pass::Status Pass::onUpdate() {
         }
         goToType = GoToType::basic;
     }
-    Vector2 velocity;
-    if (Field::pointIsInDefenceArea(robot->pos, true, 0.2)) {
-        velocity = ((Vector2) robot->pos - Field::get_our_goal_center()).stretchToLength(2.0);
-    }
-    else if (Field::pointIsInDefenceArea(robot->pos, false, 0.2)) {
-        velocity = ((Vector2) robot->pos - Field::get_their_goal_center()).stretchToLength(2.0);
 
-    } else if (Field::pointIsInDefenceArea(ball, true) || Field::pointIsInDefenceArea(ball, false)) {
+    Vector2 velocity;
+    if (Field::pointIsInDefenceArea(robot->pos, true, 0.2))
+        velocity = ((Vector2) robot->pos - Field::get_our_goal_center()).stretchToLength(2.0);
+    else if (Field::pointIsInDefenceArea(robot->pos, false, 0.2))
+        velocity = ((Vector2) robot->pos - Field::get_their_goal_center()).stretchToLength(2.0);
+    else if (Field::pointIsInDefenceArea(ball, true) || Field::pointIsInDefenceArea(ball, false))
         velocity = {0, 0};
-    } else {
+    else
         velocity = goToPos.goToPos(robot, targetPos, goToType);
-    }
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     publishRobotCommand(command);

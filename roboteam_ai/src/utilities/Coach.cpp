@@ -105,9 +105,7 @@ int Coach::pickOpponentToCover(int selfID) {
 }
 
 Vector2 Coach::getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal) {
-    Vector2 goal;
-    if (!ourGoal) goal = Field::get_their_goal_center();
-    else goal = Field::get_our_goal_center();
+    const Vector2 &goal = (ourGoal ? Field::get_our_goal_center : Field::get_their_goal_center)();
     return getPositionBehindBallToPosition(distanceBehindBall, goal);
 }
 
@@ -125,8 +123,41 @@ Vector2 Coach::getPositionBehindBallToPosition(double distanceBehindBall, const 
     return ball + (ball - position).stretchToLength(distanceBehindBall);
 }
 
-//std::pair<unsigned int, bool> Coach::getRobotClosestToBall()
+bool Coach::isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal, const Vector2 &robotPosition) {
+    const Vector2 &goal = (ourGoal ? Field::get_our_goal_center : Field::get_their_goal_center)();
+    return isRobotBehindBallToPosition(distanceBehindBall, goal, robotPosition);
+}
 
+bool Coach::isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID, const Vector2 &robotPosition) {
+    Vector2 robot;
+    if (World::getRobotForId(robotID, ourRobot))
+        robot = World::getRobotForId(robotID, ourRobot).get()->pos;
+    else
+        return false;
+    return isRobotBehindBallToPosition(distanceBehindBall, robot, robotPosition);
+}
+
+bool Coach::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position,
+        const Vector2 &robotPosition) {
+    const Vector2 &ball = static_cast<Vector2>(World::getBall()->pos);
+    Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, position);
+    Vector2 deltaBall = behindBallPosition - ball;
+
+    return (control::ControlUtils::pointInTriangle(robotPosition, ball, ball + (deltaBall).rotate(M_PI*0.17).scale(2.0),
+            ball + (deltaBall).rotate(M_PI*- 0.17).scale(2.0)));
+}
+
+std::pair<unsigned int, bool> Coach::getRobotClosestToBall() {
+    return {0,false};
+}
+
+unsigned int Coach::getOurRobotClosestToBall() {
+    return 0;
+}
+
+unsigned int Coach::getTheirRobotClosestToBall() {
+    return 0;
+}
 
 } //control
 } //ai
