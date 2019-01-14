@@ -9,6 +9,7 @@
 #include <roboteam_ai/src/dangerfinder/DangerFinder.h>
 #include "io/IOManager.h"
 #include "treeinterp/BTFactory.h"
+#include "ros/ros.h"
 
 namespace df = rtt::ai::dangerfinder;
 
@@ -16,7 +17,7 @@ namespace rtt {
 
 class ApplicationManager {
 private:
-    FRIEND_TEST(ApplicationManagerTest, it_runs_the_main_loop);
+    FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
     rtt::ai::io::IOManager * IOManager;
     roboteam_msgs::World worldMsg;
     roboteam_msgs::GeometryData geometryMsg;
@@ -29,6 +30,7 @@ private:
     void updateDangerfinder();
     void handleRefData();
     void notifyTreeStatus(bt::Node::Status status);
+    void runOneLoopCycle(ros::Rate rate);
 
 public:
     void setup();

@@ -3,7 +3,6 @@
 //
 
 #include "ApplicationManager.h"
-#include "ros/ros.h"
 #include "dangerfinder/DangerFinder.h"
 #include "utilities/Referee.hpp"
 #include "utilities/StrategyManager.h"
@@ -22,39 +21,38 @@ void ApplicationManager::setup() {
 }
 
 void ApplicationManager::loop() {
-    // Start running this tree first
     ros::Rate rate(rtt::ai::constants::tickRate);
-
-    // Main loop
     while (ros::ok()) {
-        ros::spinOnce();
-        this->updateROSData();
-        this->updateDangerfinder();
-
-        if (ai::World::didReceiveFirstWorld) {
-            //this->handleRefData();
-            strategy = factory.getTree(BTFactory::getCurrentTree());
-            Status status = strategy->tick();
-            this->notifyTreeStatus(status);
-            rate.sleep();
-        }
-        else {
-            ROS_ERROR("No first world");
-            ros::Duration(0.2).sleep();
-        }
+        this->runOneLoopCycle(rate);
     }
 }
 
-void ApplicationManager::checkForShutdown()
-{
+
+void ApplicationManager::runOneLoopCycle(ros::Rate rate) {
+    ros::spinOnce();
+    this->updateROSData();
+    this->updateDangerfinder();
+
+    if (ai::World::didReceiveFirstWorld) {
+        //this->handleRefData();
+        strategy = factory.getTree(BTFactory::getCurrentTree());
+        Status status = strategy->tick();
+        this->notifyTreeStatus(status);
+        rate.sleep();
+    } else {
+        ROS_ERROR("No first world");
+        ros::Duration(0.2).sleep();
+    }
+}
+
+void ApplicationManager::checkForShutdown() {
     // Terminate if needed
     if (strategy->getStatus()==Status::Running) {
         strategy->terminate(Status::Running);
     }
 }
 
-void ApplicationManager::updateROSData()
-{
+void ApplicationManager::updateROSData() {
     // make ROS world_state and geometry data globally accessible
     worldMsg = IOManager->getWorldState();
     geometryMsg = IOManager->getGeometryData();
@@ -65,8 +63,7 @@ void ApplicationManager::updateROSData()
     ai::Referee::setRefereeData(refereeMsg);
 }
 
-void ApplicationManager::updateDangerfinder()
-{
+void ApplicationManager::updateDangerfinder() {
     if (df::DangerFinder::instance().hasCalculated()) {
         dangerData = df::DangerFinder::instance().getMostRecentData();
     }

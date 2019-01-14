@@ -3,11 +3,11 @@
 //
 
 #include <gtest/gtest.h>
+#include <roboteam_ai/src/bt/bt.hpp>
 #include "../src/ApplicationManager.h"
 
 namespace rtt {
-TEST(ApplicationManagerTest, it_runs_the_main_loop)
-{
+TEST(ApplicationManagerTest, it_handles_ROS_data) {
     ros::Rate rate(1);
     ros::NodeHandle nh;
 
@@ -24,7 +24,16 @@ TEST(ApplicationManagerTest, it_runs_the_main_loop)
 
     // publish a world message
     roboteam_msgs::World worldMsg;
+    roboteam_msgs::WorldRobot robot, robot1;
+    robot.id = 0;
+    robot.pos = rtt::Vector2(22, 13);
+    robot.angle = 0.3;
+
+    robot1.id = 0;
+    worldMsg.us.push_back(robot1);
     worldMsg.ball.pos = rtt::Vector2(10.1, 20.2);
+    worldMsg.them.push_back(robot);
+
     worldPub.publish(worldMsg);
 
     // publish a geometry message
@@ -46,6 +55,19 @@ TEST(ApplicationManagerTest, it_runs_the_main_loop)
     EXPECT_FLOAT_EQ(app.worldMsg.ball.pos.y, 20.2);
     EXPECT_FLOAT_EQ(app.geometryMsg.field.goal_depth, 30.3);
 
-    ASSERT_EQ(app.factory.getCurrentTree(), "SimpleStrategy");
+    EXPECT_EQ(app.factory.getCurrentTree(), "SimpleStrategy");
+
+//    // handles the dangerfinder
+//    EXPECT_EQ(app.dangerData.scores.size(), 0);
+//    app.updateDangerfinder();
+//    EXPECT_NE(app.dangerData.scores.size(), 0);
+
+    // run a loop
+    // now the strategy should start running!
+    app.runOneLoopCycle(rate);
+    EXPECT_EQ(app.strategy->getStatus(), bt::Node::Status::Running);
+
+
+    df::DangerFinder::instance().stop();
 } // end of test
 } // rtt
