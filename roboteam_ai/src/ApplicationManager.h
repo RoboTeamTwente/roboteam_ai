@@ -5,12 +5,15 @@
 #ifndef ROBOTEAM_AI_APPLICATIONMANAGER_H
 #define ROBOTEAM_AI_APPLICATIONMANAGER_H
 
+#include <roboteam_ai/src/dangerfinder/DangerFinder.h>
 #include "io/IOManager.h"
 #include "treeinterp/BTFactory.h"
 
+namespace df = rtt::ai::dangerfinder;
+
 class ApplicationManager {
 private:
-    // init IOManager and subscribe to all topics immediately
+    FRIEND_TEST(ApplicationManagerTest, it_runs_the_main_loop);
     rtt::ai::io::IOManager IOManager;
     roboteam_msgs::World worldMsg;
     roboteam_msgs::GeometryData geometryMsg;

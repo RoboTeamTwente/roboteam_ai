@@ -8,7 +8,6 @@
 #include "utilities/Referee.hpp"
 #include "utilities/StrategyManager.h"
 
-namespace df = rtt::ai::dangerfinder;
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
 using Status = bt::Node::Status;
