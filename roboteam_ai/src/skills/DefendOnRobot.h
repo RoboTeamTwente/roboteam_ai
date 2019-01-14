@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_DEFENDONROBOT_H
 #define ROBOTEAM_AI_DEFENDONROBOT_H
 
+#include <roboteam_ai/src/control/ControlGoToPos.h>
 #include "Skill.h"
 
 namespace rtt {

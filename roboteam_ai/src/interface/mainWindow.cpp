@@ -2,9 +2,9 @@
 // Created by mrlukasbos on 27-11-18.
 //
 
-#include <roboteam_ai/src/utilities/Constants.h>
-#include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include "mainWindow.h"
+#include "../utilities/Constants.h"
+#include <roboteam_ai/src/treeinterp/BTFactory.h>
 
 namespace rtt {
 namespace ai {

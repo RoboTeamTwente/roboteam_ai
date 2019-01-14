@@ -10,7 +10,7 @@
 #include "../bt/bt.hpp"
 
 class Switches {
-        using robotType = robotDealer::RobotDealer::RobotType;
+        using robotType = robotDealer::RobotType;
 
     public:
 

@@ -3,6 +3,7 @@
 //
 
 #include "TurnGeneva.h"
+#include "../utilities/Constants.h"
 
 namespace rtt {
 namespace ai {

@@ -1,6 +1,5 @@
 #include <memory>
 #include <iostream>
-
 #include "Blackboard.hpp"
 #include "Node.hpp"
 

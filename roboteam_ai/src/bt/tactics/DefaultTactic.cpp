@@ -3,7 +3,9 @@
 //
 
 #include "DefaultTactic.h"
+#include "../../utilities/RobotDealer.h"
 
+using dealer = robotDealer::RobotDealer;
 
 bt::Node::Status bt::DefaultTactic::update() {
     if (claimedRobots != robotsNeeded) {

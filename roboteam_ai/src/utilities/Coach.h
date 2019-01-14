@@ -12,6 +12,9 @@
 #include <roboteam_ai/src/dangerfinder/DangerFinder.h>
 #include <roboteam_ai/src/dangerfinder/DangerFinder.h>
 #include "../control/ControlUtils.h"
+#include <map>
+#include <string>
+#include "roboteam_utils/Vector2.h"
 
 namespace rtt {
 namespace ai {
@@ -21,7 +24,6 @@ class Coach {
 
     public:
         static std::map<int, int> defencePairs;
-        using dealer = robotDealer::RobotDealer;
         static int pickOffensivePassTarget(int selfID, std::string roleName);
         static int pickDefensivePassTarget(int selfID);
         static int pickOpponentToCover(int selfID);

@@ -6,7 +6,10 @@
 #define ROBOTEAM_AI_TACTIC_H
 
 #include "Node.hpp"
-#include "../utilities/World.h"
+
+namespace robotDealer {
+enum RobotType : short;
+}
 
 namespace bt {
 
@@ -15,7 +18,7 @@ class Tactic : public Node {
         void addChild(Node::Ptr newChild) override;
 
         std::vector<Node::Ptr> getChildren() override;
-        using robotType = robotDealer::RobotDealer::RobotType;
+        using robotType = robotDealer::RobotType;
 
         void initialize() override;
 
@@ -29,8 +32,6 @@ class Tactic : public Node {
         std::string node_name() override;
 
         std::string name = "Tactic";
-
-        int numberOfRobots = 0;
 };
 }
 

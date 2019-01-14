@@ -3,6 +3,8 @@
 //
 
 #include "Pass.h"
+#include "../utilities/Coach.h"
+
 namespace rtt {
 namespace ai {
 
@@ -27,10 +29,10 @@ Pass::Status Pass::onUpdate() {
     }
     if (robotToPass == - 1) {
         if (defensive) {
-            robotToPass = Coach::pickDefensivePassTarget(robot->id);
+            robotToPass = coach::Coach::pickDefensivePassTarget(robot->id);
         }
         else {
-            robotToPass = Coach::pickOffensivePassTarget(robot->id, properties->getString("ROLE"));
+            robotToPass = coach::Coach::pickOffensivePassTarget(robot->id, properties->getString("ROLE"));
         }
         return Status::Running;
     }

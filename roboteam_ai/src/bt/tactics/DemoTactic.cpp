@@ -4,10 +4,12 @@
 //
 
 #include <utility>
+#include "../../utilities/RobotDealer.h"
 #include "DemoTactic.h"
 
-
 namespace bt {
+
+using dealer = robotDealer::RobotDealer;
 
 DemoTactic::DemoTactic(std::string name, Blackboard::Ptr blackboard) {
 
