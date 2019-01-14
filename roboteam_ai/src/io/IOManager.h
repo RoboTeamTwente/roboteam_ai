@@ -15,7 +15,8 @@ namespace ai {
 namespace io {
 
 class IOManager {
-    private:
+private:
+
         ros::NodeHandle nodeHandle;
 
         roboteam_msgs::World world;

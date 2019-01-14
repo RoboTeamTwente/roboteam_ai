@@ -23,4 +23,3 @@
 #include "decorators/UntilFail.hpp"
 #include "decorators/UntilSuccess.hpp"
 
-#include "tactics/DemoTactic.h"
