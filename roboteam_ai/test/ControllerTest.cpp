@@ -68,6 +68,17 @@ TEST(ControllerTest, it_calculates_proper_pid) {
     c.setD(5, 6);
     ASSERT_EQ(c.kD, 5);
     ASSERT_EQ(c.timeDiff, 6);
+
+    c = Controller(0,0,0);
+    auto val = c.controlPID({2, 2});
+    ASSERT_EQ(val.x, 0);
+    ASSERT_EQ(val.y, 0);
+
+
+    c = Controller(0,0,0);
+    val = c.controlPIR({2, 2}, {3,3});
+    ASSERT_EQ(val.x, 0);
+    ASSERT_EQ(val.y, 0);
 }
 
 TEST(ControllerTest, it_calculates_proper_pir) {

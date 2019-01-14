@@ -57,10 +57,10 @@ TEST(ApplicationManagerTest, it_handles_ROS_data) {
 
     EXPECT_EQ(app.factory.getCurrentTree(), "SimpleStrategy");
 
-//    // handles the dangerfinder
-//    EXPECT_EQ(app.dangerData.scores.size(), 0);
-//    app.updateDangerfinder();
-//    EXPECT_NE(app.dangerData.scores.size(), 0);
+    // handles the dangerfinder
+    EXPECT_EQ(app.dangerData.scores.size(), 0);
+    app.updateDangerfinder();
+    EXPECT_NE(app.dangerData.scores.size(), 0);
 
     // run a loop
     // now the strategy should start running!
