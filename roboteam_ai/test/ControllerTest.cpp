@@ -8,6 +8,7 @@ namespace rtt {
 namespace ai {
 namespace control {
 
+
 TEST(ControllerTest, it_calculates_proper_pid) {
     Controller c;
     ASSERT_EQ(c.controlPID(100), 0);
@@ -22,6 +23,13 @@ TEST(ControllerTest, it_calculates_proper_pid) {
 
     // clear controller otherwise timeDiff makes the values different
     c = Controller(10, 20, 30);
+    ASSERT_EQ(c.controlPID(12), expectedP + expectedI + expectedD);
+
+    // check if the setters work
+    c = Controller(0, 0, 0);
+    c.setP(10);
+    c.setI(20);
+    c.setD(30);
     ASSERT_EQ(c.controlPID(12), expectedP + expectedI + expectedD);
 }
 
