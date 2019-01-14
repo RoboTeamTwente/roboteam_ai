@@ -9,9 +9,12 @@ namespace ai {
 namespace control {
 
 TEST(ControllerTest, it_calculates_proper_pid) {
+
+    // Empty controller
     Controller c;
     ASSERT_EQ(c.controlPID(100), 0);
 
+    // controller with P, I and D
     c = Controller(10, 20, 30);
     double expectedP = 120;
     ASSERT_EQ(c.controlP(12), expectedP);
@@ -34,6 +37,37 @@ TEST(ControllerTest, it_calculates_proper_pid) {
     c = Controller(0, 0, 0);
     c.setPID(10, 20, 30);
     ASSERT_EQ(c.controlPID(12), expectedP + expectedI + expectedD);
+
+
+    // it sets the timediff to 1/tickRate when time = 0 is given
+    c = Controller(0, 0, 0, 0);
+    ASSERT_EQ(c.timeDiff, 1.0/rtt::ai::constants::tickRate);
+
+    c = Controller(0, 0, 0, 4, 1, 2, 3, 4);
+    ASSERT_EQ(c.timeDiff, 4);
+    ASSERT_EQ(c.initial_I, 1);
+    ASSERT_EQ(c.initial_I2, 2);
+    ASSERT_EQ(c.prev_error, 3);
+    ASSERT_EQ(c.prev_error2, 4);
+
+    c.setTimeDiff(33);
+    ASSERT_EQ(c.timeDiff, 33);
+    c.setInitial(22);
+    ASSERT_EQ(c.initial_I, 22);
+    c.setPrevErr(11);
+    ASSERT_EQ(c.prev_error, 11);
+
+    c.setP(1, 2);
+    ASSERT_EQ(c.kP, 1);
+    ASSERT_EQ(c.timeDiff, 2);
+
+    c.setI(3, 4);
+    ASSERT_EQ(c.kI, 3);
+    ASSERT_EQ(c.timeDiff, 4);
+
+    c.setD(5, 6);
+    ASSERT_EQ(c.kD, 5);
+    ASSERT_EQ(c.timeDiff, 6);
 }
 
 TEST(ControllerTest, it_calculates_proper_pir) {
