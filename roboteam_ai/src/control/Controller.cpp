@@ -21,9 +21,6 @@ Controller::Controller(double P, double I, double D, double time, double initial
                        double prev, double prev2) : kP(P), kI(I), kD(D) {
     if (time != 0) {
         this->timeDiff = time;
-    } else {
-        this->timeDiff =
-                1.0 / rtt::ai::constants::tickRate; //the time difference cannot be 0, we divide by this
     }
     this->initial_I = initial;
     this->initial_I2 = initial2;
