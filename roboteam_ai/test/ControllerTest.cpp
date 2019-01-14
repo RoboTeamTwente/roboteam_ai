@@ -8,7 +8,6 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-
 TEST(ControllerTest, it_calculates_proper_pid) {
     Controller c;
     ASSERT_EQ(c.controlPID(100), 0);
@@ -30,6 +29,10 @@ TEST(ControllerTest, it_calculates_proper_pid) {
     c.setP(10);
     c.setI(20);
     c.setD(30);
+    ASSERT_EQ(c.controlPID(12), expectedP + expectedI + expectedD);
+
+    c = Controller(0, 0, 0);
+    c.setPID(10, 20, 30);
     ASSERT_EQ(c.controlPID(12), expectedP + expectedI + expectedD);
 }
 
