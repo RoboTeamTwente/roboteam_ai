@@ -61,7 +61,12 @@ const double BALL_TO_GOAL_TIME=1.5;//seconds
 //Intercept
 const double MAX_INTERCEPT_TIME=2.0;//seconds. Intercept terminates  after this time.
 const double BALL_DEFLECTION_ANGLE=30.0/180.0*M_PI;//angle at which a ball is considered 'deflected'
-const double INTERCEPT_POSDIF=0.04;//m
+const double INTERCEPT_POSDIF=0.04;//m acceptable deviation
+
+// BallInDefenseAreaAndStill
+// if the ball has velocity lower than this for TIME in defense area, keeper starts getting it
+const double BALL_STILL_TIME=1.0;
+const double BALL_STILL_VEL=0.1;
 // Interface
 const int ROBOT_DRAWING_SIZE = 8;
 const int BALL_DRAWING_SIZE = 5;
