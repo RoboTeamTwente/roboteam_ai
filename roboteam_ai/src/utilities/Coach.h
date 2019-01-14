@@ -38,9 +38,9 @@ class Coach {
         static bool isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID, const Vector2 &robotPosition);
         static bool isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position, const Vector2 &robotPosition);
 
-        static std::pair<unsigned int, bool> getRobotClosestToBall();
-        static unsigned int getOurRobotClosestToBall();
-        static unsigned int getTheirRobotClosestToBall();
+        static std::pair<int, bool> getRobotClosestToBall();
+        static int getOurRobotClosestToBall();
+        static int getTheirRobotClosestToBall();
 };
 
 }

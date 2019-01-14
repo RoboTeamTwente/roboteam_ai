@@ -16,6 +16,7 @@ class Pass : public Skill {
         Vector2 deltaPos;
         Vector2 targetPos;
 
+        bool amIClosest;
         bool newTarget;
         bool defensive;
         int robotToPass;

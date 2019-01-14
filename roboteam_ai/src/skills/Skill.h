@@ -3,9 +3,10 @@
 
 #include "../bt/Leaf.hpp"
 #include <roboteam_msgs/RobotCommand.h>
+#include <roboteam_ai/src/utilities/Coach.h>
 #include "ros/ros.h"
 #include "../io/IOManager.h"
-
+#include "../control/ControlGoToPos.h"
 namespace rtt {
 namespace ai {
 
@@ -13,6 +14,8 @@ namespace ai {
 namespace control {
     class ControlUtils;
 }
+
+
 
 /**
  * \class Skill
@@ -23,7 +26,7 @@ protected:
         io::IOManager ioManager = io::IOManager(false,true);
 
         using Coach = coach::Coach;
-        using GoToType = control::ControlGoToPos::GoToType;
+        using GoToType = control::GoToType;
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
     public:
 
