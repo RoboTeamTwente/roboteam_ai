@@ -6,7 +6,7 @@ namespace ui = rtt::ai::interface;
 std::shared_ptr<ui::MainWindow> window;
 
 void runBehaviourTrees() {
-    ApplicationManager app;
+    rtt::ApplicationManager app;
     app.setup();
     app.loop();
     app.checkForShutdown();

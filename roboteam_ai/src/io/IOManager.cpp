@@ -44,7 +44,7 @@ void IOManager::subscribeToWorldState() {
 void IOManager::subscribeToGeometryData() {
     geometrySubscriber = nodeHandle.subscribe<roboteam_msgs::GeometryData>(
             rtt::TOPIC_GEOMETRY,
-            1,
+            100,
             &IOManager::handleGeometryData,
             this,
             ros::TransportHints().reliable().tcpNoDelay()
@@ -54,7 +54,7 @@ void IOManager::subscribeToGeometryData() {
 void IOManager::subscribeToRoleFeedback() {
     roleFeedbackSubscriber = nodeHandle.subscribe<roboteam_msgs::RoleFeedback>(
             rtt::TOPIC_ROLE_FEEDBACK,
-            1,
+            100,
             &IOManager::handleRobotFeedback,
             this,
             ros::TransportHints().reliable().tcpNoDelay()
@@ -64,7 +64,7 @@ void IOManager::subscribeToRefereeData() {
     //TODO: This constant TOPIC_REFEREE was not used consistently by the previous team, so if stuff goes wrong check if you are reading the correct topic.
     refereeSubscriber = nodeHandle.subscribe<roboteam_msgs::RefereeData>(
             rtt::TOPIC_REFEREE,
-            1,
+            100,
             &IOManager::handleRefereeData,
             this,
             ros::TransportHints().reliable().tcpNoDelay()

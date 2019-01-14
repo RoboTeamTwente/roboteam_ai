@@ -5,16 +5,19 @@
 #ifndef ROBOTEAM_AI_APPLICATIONMANAGER_H
 #define ROBOTEAM_AI_APPLICATIONMANAGER_H
 
+#include <gtest/gtest_prod.h>
 #include <roboteam_ai/src/dangerfinder/DangerFinder.h>
 #include "io/IOManager.h"
 #include "treeinterp/BTFactory.h"
 
 namespace df = rtt::ai::dangerfinder;
 
+namespace rtt {
+
 class ApplicationManager {
 private:
     FRIEND_TEST(ApplicationManagerTest, it_runs_the_main_loop);
-    rtt::ai::io::IOManager IOManager;
+    rtt::ai::io::IOManager * IOManager;
     roboteam_msgs::World worldMsg;
     roboteam_msgs::GeometryData geometryMsg;
     roboteam_msgs::RefereeData refereeMsg;
@@ -32,5 +35,7 @@ public:
     void loop();
     void checkForShutdown();
 };
+
+} // rtt
 
 #endif //ROBOTEAM_AI_APPLICATIONMANAGER_H
