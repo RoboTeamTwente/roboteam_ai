@@ -43,6 +43,10 @@ TEST(ControllerTest, it_calculates_proper_pid) {
     c = Controller(0, 0, 0, 0);
     ASSERT_EQ(c.timeDiff, 1.0/rtt::ai::constants::tickRate);
 
+    // otherwise it sets the timediff
+    c = Controller(0, 0, 0, 8);
+    ASSERT_EQ(c.timeDiff, 8);
+
     c = Controller(0, 0, 0, 4, 1, 2, 3, 4);
     ASSERT_EQ(c.timeDiff, 4);
     ASSERT_EQ(c.initial_I, 1);
