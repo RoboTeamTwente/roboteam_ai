@@ -28,6 +28,9 @@ class Coach {
         static int whichRobotHasBall(bool isOurTeam);
         static int pickHarassmentTarget(int selfID);
         static Vector2 getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal);
+        static Vector2 getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID);
+        static Vector2 getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position);
+
         };
 
 }

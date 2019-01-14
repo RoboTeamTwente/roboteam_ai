@@ -105,13 +105,29 @@ int Coach::pickOpponentToCover(int selfID) {
 }
 
 Vector2 Coach::getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal) {
-    const Vector2 &ball = static_cast<Vector2>(World::getBall()->pos);
     Vector2 goal;
     if (!ourGoal) goal = Field::get_their_goal_center();
     else goal = Field::get_our_goal_center();
-    return ball + (ball - goal).stretchToLength(distanceBehindBall);
+    return getPositionBehindBallToPosition(distanceBehindBall, goal);
 }
 
+Vector2 Coach::getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID) {
+    Vector2 robot;
+    if (World::getRobotForId(robotID, ourRobot))
+        robot = World::getRobotForId(robotID, ourRobot).get()->pos;
+    else
+        return Vector2();
+    return getPositionBehindBallToPosition(distanceBehindBall, robot);
 }
+
+Vector2 Coach::getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position) {
+    const Vector2 &ball = static_cast<Vector2>(World::getBall()->pos);
+    return ball + (ball - position).stretchToLength(distanceBehindBall);
 }
-}
+
+//std::pair<unsigned int, bool> Coach::getRobotClosestToBall()
+
+
+} //control
+} //ai
+} //rtt
