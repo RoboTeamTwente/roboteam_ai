@@ -24,7 +24,12 @@ void GoToPos::onInitialize() {
         ROS_ERROR("GoToPos Initialize -> No good X or Y set in properties");
         currentProgress = Progression::FAIL;
     }
-
+    if (properties->hasDouble("maxVel")){
+        speed=properties->getDouble("maxVel");
+    }
+    else{
+        speed=constants::DEFAULT_MAX_VEL;
+    }
 }
 
 /// Get an update on the skill
@@ -124,15 +129,15 @@ void GoToPos::sendMoveCommand2() {
     command.w = static_cast<float>(deltaPos.angle());
     Vector2 deltaPosUnit = deltaPos.normalize();
 
-    command.x_vel = (float) deltaPosUnit.x*2;// abs(angularVel)/(abs(angularVel)-1);
-    command.y_vel = (float) deltaPosUnit.y*2;
+    command.x_vel = (float) deltaPosUnit.x*speed;// abs(angularVel)/(abs(angularVel)-1);
+    command.y_vel = (float) deltaPosUnit.y*speed;
     publishRobotCommand(command);
     commandSend = true;
 }
 
 /// Check the progress the robot made a9nd alter the currentProgress
 GoToPos::Progression GoToPos::checkProgression() {
-    double maxMargin = 0.15;                        // max offset or something.
+    double maxMargin = 0.25;                        // max offset or something.
     if (deltaPos.length() >= maxMargin) return ON_THE_WAY;
     else return DONE;
 }

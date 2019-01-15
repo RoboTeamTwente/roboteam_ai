@@ -12,8 +12,8 @@ BallInDefenseAreaAndStill::BallInDefenseAreaAndStill(std::string name, bt::Black
         :Condition(std::move(name), std::move(blackboard)) { };
 
 void BallInDefenseAreaAndStill::initialize() {
-    currentTick=0;
-    maxTick= static_cast<int>(floor(constants::BALL_STILL_TIME*constants::tickRate));
+//    currentTick=0;
+//    maxTick= static_cast<int>(floor(constants::BALL_STILL_TIME*constants::tickRate));
     theirDefenceArea=properties->getBool("theirDefenceArea");
 }
 bt::Node::Status BallInDefenseAreaAndStill::update() {
@@ -25,15 +25,11 @@ bt::Node::Status BallInDefenseAreaAndStill::update() {
     else return Status::Failure;
     Vector2 ballVel=ball->vel;
     if (Field::pointIsInDefenceArea(ballPos,!theirDefenceArea)&&(ballVel.length()<constants::BALL_STILL_VEL)){
-        currentTick++;
+        return Status::Success;
     }
     else{
         return Status::Failure;
     }
-    if (currentTick>=maxTick){
-        return Status::Success;
-    }
-    return Status::Running;
 }
 
 std::string BallInDefenseAreaAndStill::node_name() {return "BallInDefenseAreaAndStill";}

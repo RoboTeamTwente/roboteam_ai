@@ -39,7 +39,8 @@ const int MAX_GENEVA_CYCLES = 20;
 const int DEFAULT_GENEVA_STATE = 0;
 
 //dribble
-const double MAX_BALL_RANGE=BALL_RADIUS; // Could maybe be even less? TODO: needs to be tested.
+const double MAX_BALL_RANGE=0.1; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
+const double MAX_BALL_BOUNCE_RANGE=0.3;
 const double DRIBBLE_POSDIF=0.03;
 const float  DRIBBLE_SPEED=0.4;
 //getBallcc
@@ -63,6 +64,7 @@ const double MAX_INTERCEPT_TIME=2.0;//seconds. Intercept terminates  after this 
 const double BALL_DEFLECTION_ANGLE=30.0/180.0*M_PI;//angle at which a ball is considered 'deflected'
 const double INTERCEPT_POSDIF=0.04;//m acceptable deviation
 
+const double DEFAULT_MAX_VEL=2.0;
 // BallInDefenseAreaAndStill
 // if the ball has velocity lower than this for TIME in defense area, keeper starts getting it
 const double BALL_STILL_TIME=1.0;

@@ -1,0 +1,152 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "jww7uxi3r0ic80": {
+            "properties": {
+              "ROLE": "keeper",
+              "maxTime":"5.0"
+            },
+            "title": "GetBall",
+            "id": "jww7uxi3r0ic80"
+          },
+          "t7l47gmmtv3gh": {
+            "title": "UntilSuccess",
+            "children": [
+              "6dl3akttf1yuhx"
+            ],
+            "properties": {
+              "ROLE": "keeper"
+            },
+            "id": "t7l47gmmtv3gh"
+          },
+          "xrgcle92koe6f3": {
+            "id": "xrgcle92koe6f3",
+            "title": "GoToPos",
+            "properties": {
+              "Position": "{-6,0}",
+              "goToBall": "true",
+              "maxVel": "0.5",
+              "ROLE": "keeper"
+            }
+          },
+          "c1p5njbavmnjmdp4": {
+            "title": "Repeater",
+            "children": [
+              "dy8gzwpykcg4yj6q"
+            ],
+            "properties": {
+              "ROLE": "keeper"
+            },
+            "id": "c1p5njbavmnjmdp4"
+          },
+          "vtvajvhq63qmw": {
+            "properties": {
+              "ROLE": "keeper"
+            },
+            "title": "BallInDefenseAreaAndStill",
+            "id": "vtvajvhq63qmw"
+          },
+          "0s6zsu44z804viwek": {
+            "properties": {
+              "ROLE": "keeper"
+            },
+            "title": "InterceptBall",
+            "id": "0s6zsu44z804viwek"
+          },
+          "6dl3akttf1yuhx": {
+            "title": "Sequence",
+            "children": [
+              "testNode",
+              "xrgcle92koe6f3",
+              "jww7uxi3r0ic80",
+              "glxpmmnu2fb21z1mp"
+            ],
+            "properties": {
+              "ROLE": "keeper"
+            },
+            "id": "6dl3akttf1yuhx"
+          },
+          "glxpmmnu2fb21z1mp": {
+            "id": "glxpmmnu2fb21z1mp",
+            "title": "Kick",
+            "properties": {
+              "ROLE": "keeper"
+            }
+          },
+          "1ifqau5vdjmzg": {
+            "properties": {
+              "ROLE": "keeper"
+            },
+            "title": "BallKickedToOurGoal",
+            "id": "1ifqau5vdjmzg"
+          },
+          "01au1jd4zpftwozp": {
+            "properties": {
+              "ROLE": "keeper"
+            },
+            "children": [
+              "c1p5njbavmnjmdp4"
+            ],
+            "id": "01au1jd4zpftwozp",
+            "name": "keeper",
+            "title": "Role"
+          },
+          "df58sa6oda0i5w1jm": {
+            "title": "MemSequence",
+            "children": [
+              "1ifqau5vdjmzg",
+              "0s6zsu44z804viwek"
+            ],
+            "properties": {
+              "ROLE": "keeper"
+            },
+            "id": "df58sa6oda0i5w1jm"
+          },
+          "ui4z4fh124ax7zy": {
+            "id": "ui4z4fh124ax7zy",
+            "title": "Keeper",
+            "properties": {
+              "ROLE": "keeper"
+            }
+          },
+          "asgbted4dxg2xalbc": {
+            "title": "MemSequence",
+            "children": [
+              "vtvajvhq63qmw",
+              "6dl3akttf1yuhx"
+            ],
+            "properties": {
+              "ROLE": "keeper"
+            },
+            "id": "asgbted4dxg2xalbc"
+          },
+          "dy8gzwpykcg4yj6q": {
+            "title": "Selector",
+            "children": [
+              "df58sa6oda0i5w1jm",
+              "asgbted4dxg2xalbc",
+              "ui4z4fh124ax7zy"
+            ],
+            "properties": {
+              "ROLE": "keeper"
+            },
+            "id": "dy8gzwpykcg4yj6q"
+          },
+          "testNode": {
+            "title": "IsInDefenseArea",
+            "properties": {
+              "ROLE": "keeper",
+              "ourDefenseArea": "true"
+            },
+            "id": "testNode"
+          }
+        },
+        "root": "01au1jd4zpftwozp",
+        "title": "KeeperTacticV2"
+      }
+    ]
+  },
+  "name": "KeeperTacticV2"
+}
