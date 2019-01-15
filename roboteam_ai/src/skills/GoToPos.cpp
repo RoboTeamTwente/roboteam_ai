@@ -12,21 +12,6 @@ namespace ai {
 GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
-/// Init the GoToPos skill
-void GoToPos::onInitialize() {
-    goToBall = properties->getBool("goToBall");
-    goBehindBall = properties->getBool("goBehindBall");
-
-    if (properties->hasVector2("Position")) {
-        targetPos = properties->getVector2("Position");
-    }
-    else {
-        ROS_ERROR("GoToPos Initialize -> No good X or Y set in properties");
-        currentProgress = Progression::FAIL;
-    }
-
-}
-
 /// Get an update on the skill
 bt::Node::Status GoToPos::onUpdate() {
     if (! robot) return Status::Running;
