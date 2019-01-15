@@ -53,17 +53,25 @@ TEST(WorldTest, it_gets_the_robot_ID) {
 
 TEST(WorldTest, it_gets_multiple_robot_ids) {
     roboteam_msgs::World worldMsg;
-    roboteam_msgs::WorldRobot robot1, robot2;
+    roboteam_msgs::WorldRobot robot1, robot2, robot3;
 
-    std::vector<roboteam_msgs::WorldRobot> robots;
+    std::vector<roboteam_msgs::WorldRobot> robotsUs;
+    std::vector<roboteam_msgs::WorldRobot> robotsThem;
+
     robot1.id = 0;
     robot1.angle = 0.3;
 
     robot2.id = 2;
     robot2.angle = 0.4;
-    robots.push_back(robot1);
-    robots.push_back(robot2);
-    worldMsg.us = robots;
+
+    robot3.id = 2;
+    robot3.angle = 0.2;
+
+    robotsUs.push_back(robot1);
+    robotsUs.push_back(robot2);
+    robotsThem.push_back(robot3);
+    worldMsg.us = robotsUs;
+    worldMsg.them = robotsThem;
     rtt::ai::World::set_world(worldMsg);
     
     // robot with id 1 should not exist
@@ -89,4 +97,11 @@ TEST(WorldTest, it_gets_multiple_robot_ids) {
     ASSERT_FLOAT_EQ(robot1return.angle, 0.3);
     auto robot2return = rtt::ai::World::getRobotsForId({2}, true).front();
     ASSERT_FLOAT_EQ(robot2return.angle, 0.4);
+
+    // robot 3 is from 'them'
+    auto robot3return = rtt::ai::World::getRobotsForId({2}, false).front();
+    ASSERT_FLOAT_EQ(robot3return.angle, 0.2);
+
+    // the getAllRobots functions should return bot us and them
+    ASSERT_EQ(rtt::ai::World::getAllRobots().size(), 3);
 }
