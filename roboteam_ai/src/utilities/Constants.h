@@ -12,12 +12,15 @@
 namespace rtt {
 namespace ai {
 namespace constants {
+
 // Max values we can send through robothub
 const double MAX_VEL_CMD=8.191;
 const int GENEVA_LEFT=0;//TODO: Might be reversed, please check
 const int GENEVA_RIGHT=5;
 const int MAX_ID_CMD=15;
 const double MAX_ANGULAR_VEL_CMD=16*M_PI;
+const double MIN_ANGLE = -M_PI;
+const double MAX_ANGLE = M_PI;
 
 // Limits as defined in AI itself
 const double MAX_VEL=8.0;
