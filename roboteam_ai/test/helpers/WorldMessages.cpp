@@ -11,6 +11,9 @@
 
 namespace testhelpers {
 
+/*
+ * Generate a random value in the uniform real distribution
+ */
 double getRandomValue(double min, double max) {
     std::random_device rd;
 
@@ -23,13 +26,18 @@ double getRandomValue(double min, double max) {
     return dist(e2);
 }
 
-// get a random field position
+/*
+ * Generate a random position on a field
+ */
 rtt::Vector2 getRandomFieldPosition(roboteam_msgs::GeometryFieldSize field) {
     auto randomX = getRandomValue(-(field.field_width/2), field.field_width/2);
     auto randomY = getRandomValue(-(field.field_length/2), field.field_length/2);
     return {randomX, randomY};
 }
 
+/*
+ * Generate a random velocity which is lower than the maximum velocity
+ */
 rtt::Vector2 getRandomVelocity() {
     rtt::Vector2 vector;
     do {
@@ -40,6 +48,9 @@ rtt::Vector2 getRandomVelocity() {
     return vector;
 }
 
+/*
+ * Generate a robot on a random position
+ */
 roboteam_msgs::WorldRobot generateRandomRobot(int id, roboteam_msgs::GeometryFieldSize field) {
     roboteam_msgs::WorldRobot robot;
     robot.id = (unsigned) id;
@@ -50,6 +61,9 @@ roboteam_msgs::WorldRobot generateRandomRobot(int id, roboteam_msgs::GeometryFie
     return robot;
 }
 
+/*
+ * Generate a ball at a random position
+ */
 roboteam_msgs::WorldBall generateRandomBall(roboteam_msgs::GeometryFieldSize field) {
     roboteam_msgs::WorldBall ball;
     ball.pos = getRandomFieldPosition(std::move(field));
@@ -58,13 +72,20 @@ roboteam_msgs::WorldBall generateRandomBall(roboteam_msgs::GeometryFieldSize fie
     return ball;
 }
 
-// return a position right before a robot
-// so close that we can say that the robot has the ball.
-rtt::Vector2 getLocationRightBeforeRobot(roboteam_msgs::WorldRobot) {
-    //TODO
-    return {};
+/*
+ * return a position right before a robot
+ * so close that we can say that the robot has the ball.
+ */
+rtt::Vector2 getLocationRightBeforeRobot(roboteam_msgs::WorldRobot robot) {
+    rtt::Vector2 angleVector = rtt::Vector2(sin(robot.angle), cos(robot.angle));
+    angleVector = angleVector.stretchToLength(rtt::ai::constants::ROBOT_RADIUS);
+    rtt::Vector2 robotPos = rtt::Vector2(robot.pos);
+    return robotPos + angleVector;
 }
 
+/*
+ * Generate a ball at a given location
+ */
 roboteam_msgs::WorldBall generateBallAtLocation(const rtt::Vector2 &loc) {
     roboteam_msgs::WorldBall ball;
     ball.pos = loc;
@@ -73,6 +94,9 @@ roboteam_msgs::WorldBall generateBallAtLocation(const rtt::Vector2 &loc) {
     return ball;
 }
 
+/*
+ * Generate a certain amount of robots in a field at random positions
+ */
 std::vector<roboteam_msgs::WorldRobot> generateRandomRobots(int amount, const roboteam_msgs::GeometryFieldSize &field) {
     std::vector<roboteam_msgs::WorldRobot> robots;
     for (int i = 0; i<amount; i++) {
@@ -81,7 +105,9 @@ std::vector<roboteam_msgs::WorldRobot> generateRandomRobots(int amount, const ro
     return robots;
 }
 
-// generate a world message with robots for both teams
+/*
+ * Generate a world message for both teams
+ */
 roboteam_msgs::World getWorldMsg(int amountUs, int amountThem, bool withBall, const roboteam_msgs::GeometryFieldSize &field) {
     roboteam_msgs::World msg;
     msg.us = generateRandomRobots(amountUs, field);
@@ -90,6 +116,10 @@ roboteam_msgs::World getWorldMsg(int amountUs, int amountThem, bool withBall, co
     return msg;
 }
 
+/*
+ * Generate a world message for both teams where one of the robots has the ball.
+ * Returns the id of the robot with the ball and and the world message
+ */
 std::pair<roboteam_msgs::World, int> getWorldMsgWhereRobotHasBall(int amountUs, int amountThem, bool weHaveBall, roboteam_msgs::GeometryFieldSize field) {
     // first create a message with both teams and a ball
     roboteam_msgs::World msg = getWorldMsg(amountUs, amountThem, false, field);
