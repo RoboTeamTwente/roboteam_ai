@@ -5,8 +5,20 @@
 #ifndef ROBOTEAM_AI_BASICGOTOPOS_H
 #define ROBOTEAM_AI_BASICGOTOPOS_H
 
-class BasicGoToPos {
+#include "Skill.h"
+
+namespace rtt {
+namespace ai {
+
+
+class BasicGoToPos : public Skill {
+    public:
+        explicit BasicGoToPos(string name, bt::Blackboard::Ptr blackboard);
+        Status onUpdate() override;
+        void onInitialize() override;
 
 };
+}
+}
 
 #endif //ROBOTEAM_AI_BASICGOTOPOS_H
