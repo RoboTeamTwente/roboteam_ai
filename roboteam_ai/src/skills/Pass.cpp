@@ -33,38 +33,42 @@ Pass::Status Pass::onUpdate() {
             robotToPass = coach::Coach::pickOffensivePassTarget(robot->id, properties->getString("ROLE"));
         }
     }
-    else if (! ( (Coach::getOurRobotClosestToBall() == robot->id) && amIClosest)) {
+    else if (! ((Coach::getOurRobotClosestToBall() == robot->id) && amIClosest)) {
         amIClosest = false;
-        robotToPass = -1;
+        robotToPass = - 1;
     }
 
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     Vector2 velocity;
 
-    if (robotToPass != -1) {
+    if (robotToPass != - 1) {
         auto ball = World::getBall();
         Vector2 behindBall = Coach::getPositionBehindBallToRobot(0.5, true,
                 static_cast<const unsigned int &>(robotToPass));
         Vector2 deltaBall = behindBall - ball->pos;
-
 
         GoToType goToType;
 
         if (! Coach::isRobotBehindBallToRobot(0.5, true, static_cast<const unsigned int &>(robotToPass), robot->pos)) {
             targetPos = behindBall;
             command.use_angle = 1;
-            command.w = static_cast<float>(((Vector2)(ball->pos) - ((Vector2)robot->pos)).angle());
+            command.w = static_cast<float>(((Vector2) (ball->pos) - ((Vector2) robot->pos)).angle());
             goToType = GoToType::luTh;
             if (abs(((Vector2) robot->pos - targetPos).length()) < 1.0) goToType = GoToType::basic;
         }
         else {
             targetPos = ball->pos;
             command.use_angle = 1;
-            command.w = static_cast<float>((deltaBall.stretchToLength(-1.0)).angle());
-            if (Coach::doesRobotHaveBall(robot->id, true) && ((Vector2)(ball->vel)).length() < 1.0f) {
+            command.w = static_cast<float>((deltaBall.stretchToLength(- 1.0)).angle());
+            if (Coach::doesRobotHaveBall(robot->id, true) && ((Vector2) (ball->vel)).length() < 1.0f) {
                 command.kicker = 1;
-                command.kicker_vel = static_cast<float>(rtt::ai::constants::MAX_KICK_POWER);
+                double ballDistance = ((Vector2) ball->pos - robotToPass).length();
+                auto kickVel = static_cast<float> (ballDistance > 3.0f ?
+                                                   rtt::ai::constants::MAX_KICK_POWER :
+                                                   rtt::ai::constants::MAX_KICK_POWER*ballDistance/3.0f );
+
+                command.kicker_vel = kickVel;
                 command.kicker_forced = 1;
             }
             goToType = GoToType::basic;
@@ -78,7 +82,8 @@ Pass::Status Pass::onUpdate() {
             velocity = {0, 0};
         else
             velocity = goToPos.goToPos(robot, targetPos, goToType);
-    } else {
+    }
+    else {
         if (((Vector2) (ball->vel)).length() < 0.5f) {
             velocity = {0, 0};
         }
@@ -87,11 +92,11 @@ Pass::Status Pass::onUpdate() {
             Vector2 a2 = (Vector2) (ball->pos) + (Vector2) (ball->vel);
             Vector2 b1 = robot->pos;
             Vector2 b2 = (Vector2) robot->pos + (Vector2) {a2.y, a2.x};
-            targetPos = control::ControlUtils::twoLineIntersection(a1,a2,b1,b2);
+            targetPos = control::ControlUtils::twoLineIntersection(a1, a2, b1, b2);
             velocity = goToPos.goToPos(robot, targetPos, GoToType::basic);
         }
         command.use_angle = 1;
-        command.w = static_cast<float>(( (Vector2) (ball->pos) - (Vector2) (robot->pos)).angle());
+        command.w = static_cast<float>(((Vector2) (ball->pos) - (Vector2) (robot->pos)).angle());
 
     }
 
