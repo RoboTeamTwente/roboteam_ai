@@ -16,8 +16,6 @@
 #include <unistd.h>
 #include "BTImport.h"
 #include "PropertiesParser.h"
-#include "../bt/tactics/DemoTactic.h"
-#include "../bt/tactics/ParallelSequenceTest.h"
 #include "../bt/Role.h"
 #include "Switches.h"
 #include "../skills/Skill.h"

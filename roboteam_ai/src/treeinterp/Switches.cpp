@@ -11,10 +11,7 @@
 //  |____________________|
 //
 
-#include "../bt/tactics/DemoTactic.h"
-#include "../bt/tactics/ParallelSequenceTest.h"
 #include "../bt/tactics/VictoryDanceTactic.h"
-#include "../bt/tactics/RandomTactic.h"
 #include "../bt/tactics/DefaultTactic.h"
 
 //  ______________________
@@ -299,9 +296,6 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
     }
     else if (name == "victoryDanceTactic") {
         node = std::make_shared<bt::VictoryDanceTactic>("victoryDanceTactic", properties);
-    }
-    else if (name == "randomTactic") {
-        node = std::make_shared<bt::RandomTactic>("randomTactic", properties);
     }
     return node;
 }
