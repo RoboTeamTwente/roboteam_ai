@@ -30,7 +30,7 @@ private:
     void updateDangerfinder();
     void handleRefData();
     void notifyTreeStatus(bt::Node::Status status);
-    void runOneLoopCycle(ros::Rate rate);
+    void runOneLoopCycle();
 
 public:
     void setup();
