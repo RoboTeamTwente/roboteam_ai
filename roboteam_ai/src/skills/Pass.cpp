@@ -64,9 +64,9 @@ Pass::Status Pass::onUpdate() {
             if (Coach::doesRobotHaveBall(robot->id, true) && ((Vector2) (ball->vel)).length() < 1.0f) {
                 command.kicker = 1;
                 double ballDistance = ((Vector2) ball->pos - robotToPass).length();
-                auto kickVel = static_cast<float> (ballDistance > 3.0f ?
+                auto kickVel = static_cast<float> (ballDistance > 6.0f ?
                                                    rtt::ai::constants::MAX_KICK_POWER :
-                                                   rtt::ai::constants::MAX_KICK_POWER*ballDistance/3.0f );
+                                                   rtt::ai::constants::MAX_KICK_POWER*ballDistance/9.0f+3.0f );
 
                 command.kicker_vel = kickVel;
                 command.kicker_forced = 1;
@@ -85,7 +85,9 @@ Pass::Status Pass::onUpdate() {
     }
     else {
         if (((Vector2) (ball->vel)).length() < 0.5f) {
-            velocity = {0, 0};
+            Vector2 otherRobot = World::getRobotForId(static_cast<unsigned int>(Coach::getOurRobotClosestToBall()),true).get()->pos;
+            targetPos = otherRobot - (otherRobot-robot->pos).stretchToLength(1.0f);
+            velocity = goToPos.goToPos(robot, targetPos, GoToType::luTh);
         }
         else {
             Vector2 a1 = ball->pos;
