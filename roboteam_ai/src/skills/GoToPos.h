@@ -33,7 +33,6 @@ class GoToPos : public Skill {
 
     public:
         explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
-        void onInitialize() override;
         Status onUpdate() override;
         void onTerminate(Status s) override;
 };

@@ -42,7 +42,7 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
                 distance = (robotPos - me.pos).length();
             }
         }
-        if (distance < 0.25) robotIndex = currentIndex;
+        if (distance < 0.1) robotIndex = currentIndex;
         else recalculate = true;
     }
     else recalculate = true;
@@ -79,9 +79,10 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
         }
 
         if (! nicePath) {
-            Vector2 dir = (targetPos - robot->pos).normalize();
-            velocityCommand.x = static_cast<float>(dir.x*2.0f);
-            velocityCommand.y = static_cast<float>(dir.y*2.0f);
+            std::cout << "heyypou" << std::endl;
+//            Vector2 dir = (targetPos - robot->pos).normalize();
+//            velocityCommand.x = static_cast<float>(dir.x*2.0f);
+//            velocityCommand.y = static_cast<float>(dir.y*2.0f);
 
         }
 
@@ -92,7 +93,12 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
     auto toStep = static_cast<int>(round(time/me.dt));
     int minStep = 10;
     if (toStep < minStep) toStep = minStep;
-
+    if ((targetPos - robot->pos).length() < 1.0f) {
+        Vector2 dir = (targetPos - robot->pos).normalize();
+        velocityCommand.x = static_cast<float>(dir.x*2.0f);
+        velocityCommand.y = static_cast<float>(dir.y*2.0f);
+        return velocityCommand;
+    }
     if (me.posData.size() < minStep) {
         me.clear();
 
@@ -106,11 +112,11 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
 
         if (! pidInit) {
             pidInit = true;
-            pid.setPID(3.0, 0, 0.5);
+            pid.setPID(5.0, 0, 3.0);
         }
 
         Vector2 pidPos = me.posData[toStep];
-        Vector2 vel = pid.controlPIR(pidPos - robot->pos, robot->vel);
+        Vector2 vel =  pid.controlPIR(pidPos - robot->pos, robot->vel);
         if (vel.length() > 3.0)
             vel = vel.normalize()*3.0;
         velocityCommand.x = static_cast<float>(vel.x);
@@ -150,7 +156,7 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
     while (! robotQueue.empty()) {
         ros::Time now = ros::Time::now();
 
-        if ((now - begin).toSec()*1000 > 7) { // time > 3ms
+        if ((now - begin).toSec()*1000 > 30) { // time > 3ms
             return false;
         }
 
