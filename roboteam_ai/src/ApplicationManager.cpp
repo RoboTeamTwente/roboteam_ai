@@ -23,12 +23,13 @@ void ApplicationManager::setup() {
 void ApplicationManager::loop() {
     ros::Rate rate(rtt::ai::constants::tickRate);
     while (ros::ok()) {
-        this->runOneLoopCycle(rate);
+        this->runOneLoopCycle();
+        rate.sleep();
     }
 }
 
 
-void ApplicationManager::runOneLoopCycle(ros::Rate rate) {
+void ApplicationManager::runOneLoopCycle() {
     ros::spinOnce();
     this->updateROSData();
     this->updateDangerfinder();
@@ -38,7 +39,6 @@ void ApplicationManager::runOneLoopCycle(ros::Rate rate) {
         strategy = factory.getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
-        rate.sleep();
     } else {
         ROS_ERROR("No first world");
         ros::Duration(0.2).sleep();
