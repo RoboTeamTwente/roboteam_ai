@@ -42,7 +42,7 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
                 distance = (robotPos - me.pos).length();
             }
         }
-        if (distance < 0.1) robotIndex = currentIndex;
+        if (distance < 0.25) robotIndex = currentIndex;
         else recalculate = true;
     }
     else recalculate = true;
@@ -156,7 +156,7 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
     while (! robotQueue.empty()) {
         ros::Time now = ros::Time::now();
 
-        if ((now - begin).toSec()*1000 > 30) { // time > 3ms
+        if ((now - begin).toSec()*1000 > constants::MAX_CALCULATION_TIME) {
             return false;
         }
 

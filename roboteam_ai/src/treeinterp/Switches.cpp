@@ -32,6 +32,7 @@
 #include "../skills/Keeper.h"
 #include "../skills/GetBall.h"
 #include "../skills/Attack.h"
+#include "../skills/Pass.h"
 #include <roboteam_ai/src/skills/InterceptBall.h>
 #include <roboteam_ai/src/skills/GoToPosLuTh.h>
 
@@ -72,10 +73,12 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "SimpleDefendTactic_1",
          "KeeperTactic",
          "KeeperTestTactic",
+         "PassTactic",
          "QualificationTactic"};
 
 std::vector<std::string> Switches::strategyJsonFileNames =
-        {"victoryDanceStrategy",
+        {"DemoTeamTwenteStrategy",
+         "victoryDanceStrategy",
          "randomStrategy",
          "GetBallTestStrategy",
          "DanceStrategy",
@@ -85,7 +88,8 @@ std::vector<std::string> Switches::strategyJsonFileNames =
          "SimpleDefendStrategy_1",
          "AttackStrategy",
          "KeeperStrategy",
-         "QualificationStrategy"};
+         "QualificationStrategy",
+         "PassStrategy"};
 
 std::vector<std::string> Switches::keeperJsonFiles =
         {};
@@ -200,6 +204,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "BasicGoToPos") {
         node = std::make_shared<rtt::ai::BasicGoToPos>(name, properties);
     }
+    else if (name == "Pass") {
+        node = std::make_shared<rtt::ai::Pass>(name, properties);
+    }
     else {
         ROS_ERROR("ERROR: Leaf not found!! using GoToPos..");
         std::cout<<name<<std::endl;
@@ -269,6 +276,11 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
             {"KeeperTactic", {
                         {"keeper", robotType::random}
+            }
+            },
+            {"PassTactic", {
+                    {"passA", robotType::random},
+                    {"passB", robotType::random}
             }
             },
             {"KeeperTestTactic", {
