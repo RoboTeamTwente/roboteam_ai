@@ -12,10 +12,14 @@ namespace ai {
 
 class Pass : public Skill {
     private:
+        control::ControlGoToPos goToPos;
+        Vector2 deltaPos;
+        Vector2 targetPos;
+
+        bool amIClosest;
+        bool newTarget;
         bool defensive;
         int robotToPass;
-        bool sendPassCommand();
-        bool getReadyToPass();
     public:
         explicit Pass(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;

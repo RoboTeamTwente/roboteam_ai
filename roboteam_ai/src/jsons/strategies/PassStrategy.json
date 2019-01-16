@@ -1,0 +1,25 @@
+{
+  "name": "PassStrategy",
+  "data": {
+    "trees": [
+      {
+        "title": "PassStrategy",
+        "root": "oicvqf320djntgz",
+        "nodes": {
+          "oicvqf320djntgz": {
+            "id": "oicvqf320djntgz",
+            "title": "Repeater",
+            "children": [
+              "dyoeva38mi5n0"
+            ]
+          },
+          "dyoeva38mi5n0": {
+            "id": "dyoeva38mi5n0",
+            "title": "Tactic",
+            "name": "PassTactic"
+          }
+        }
+      }
+    ]
+  }
+}

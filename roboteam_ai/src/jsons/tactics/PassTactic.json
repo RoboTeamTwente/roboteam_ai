@@ -1,0 +1,79 @@
+{
+  "name": "PassTactic",
+  "data": {
+    "trees": [
+      {
+        "title": "PassTactic",
+        "root": "h4cttla0k5jkhh8s",
+        "nodes": {
+          "h4cttla0k5jkhh8s": {
+            "id": "h4cttla0k5jkhh8s",
+            "title": "ParallelSequence",
+            "children": [
+              "n684qa5d2wup8sp",
+              "2c9qj0aoi9sqqz"
+            ]
+          },
+          "n684qa5d2wup8sp": {
+            "id": "n684qa5d2wup8sp",
+            "title": "Role",
+            "name": "passB",
+            "children": [
+              "i6e93bqg1nfny5a"
+            ],
+            "properties": {
+              "ROLE": "passB"
+            }
+          },
+          "i6e93bqg1nfny5a": {
+            "id": "i6e93bqg1nfny5a",
+            "title": "UntilSuccess",
+            "children": [
+              "wveuspgych2gm0"
+            ],
+            "properties": {
+              "ROLE": "passB"
+            }
+          },
+          "wveuspgych2gm0": {
+            "id": "wveuspgych2gm0",
+            "title": "Pass",
+            "properties": {
+              "ROLE": "passB",
+              "defensive": "false"
+            }
+          },
+          "2c9qj0aoi9sqqz": {
+            "id": "2c9qj0aoi9sqqz",
+            "title": "Role",
+            "name": "passA",
+            "children": [
+              "fcxh14zot6wb8nnl"
+            ],
+            "properties": {
+              "ROLE": "passA"
+            }
+          },
+          "fcxh14zot6wb8nnl": {
+            "id": "fcxh14zot6wb8nnl",
+            "title": "UntilSuccess",
+            "children": [
+              "swsmqxoarmf7fo"
+            ],
+            "properties": {
+              "ROLE": "passA"
+            }
+          },
+          "swsmqxoarmf7fo": {
+            "id": "swsmqxoarmf7fo",
+            "title": "Pass",
+            "properties": {
+              "ROLE": "passA",
+              "defensive": "false"
+            }
+          }
+        }
+      }
+    ]
+  }
+}
