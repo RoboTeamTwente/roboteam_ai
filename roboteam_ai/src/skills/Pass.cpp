@@ -73,12 +73,7 @@ Pass::Status Pass::onUpdate() {
             }
             goToType = GoToType::basic;
         }
-
-        if (Field::pointIsInDefenceArea(robot->pos, true, 0.2))
-            velocity = ((Vector2) robot->pos - Field::get_our_goal_center()).stretchToLength(2.0);
-        else if (Field::pointIsInDefenceArea(robot->pos, false, 0.2))
-            velocity = ((Vector2) robot->pos - Field::get_their_goal_center()).stretchToLength(2.0);
-        else if (Field::pointIsInDefenceArea(ball->pos, true) || Field::pointIsInDefenceArea(ball->pos, false))
+        if (Field::pointIsInDefenceArea(ball->pos, true) || Field::pointIsInDefenceArea(ball->pos, false))
             velocity = {0, 0};
         else
             velocity = goToPos.goToPos(robot, targetPos, goToType);
