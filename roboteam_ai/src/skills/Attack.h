@@ -14,15 +14,14 @@ namespace ai {
 
 class Attack : public Skill {
     private:
+
         control::ControlGoToPos goToPos;
-        control::ControlKick kicker;
         Vector2 deltaPos;
         Vector2 targetPos;
 
     public:
         explicit Attack(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;
-        void onInitialize() override;
         void onTerminate(Status s) override;
 };
 

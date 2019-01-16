@@ -64,7 +64,8 @@ TEST(ApplicationManagerTest, it_handles_ROS_data) {
 
     // run a loop
     // now the strategy should start running!
-    app.runOneLoopCycle(rate);
+    app.runOneLoopCycle();
+    rate.sleep();
     EXPECT_EQ(app.strategy->getStatus(), bt::Node::Status::Running);
 
 

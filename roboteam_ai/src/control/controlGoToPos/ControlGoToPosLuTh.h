@@ -97,8 +97,8 @@ class ControlGoToPosLuTh {
 
               for (double angle : angles) {
 
-                  if (angle < 0) newDir = goLeft;
-                  else if (angle > 0) newDir = goRight;
+                  if (angle > 0) newDir = goLeft;
+                  else if (angle < 0) newDir = goRight;
                   else newDir = goMiddle;
 
                   Vector2 newTarget = startPos + deltaPos.rotate(angle);
@@ -149,7 +149,8 @@ class ControlGoToPosLuTh {
 
           struct CustomCompare {
             bool operator()(NumRobotPtr lhs, NumRobotPtr rhs) {
-                if (lhs->collisions < rhs->collisions) return false;
+                if (lhs->collisions > rhs->collisions) return true;
+                else if (lhs->collisions < rhs->collisions) return false;
                 else
                     return abs((lhs->pos - lhs->finalTargetPos).length())
                             > abs((rhs->pos - rhs->finalTargetPos).length());
