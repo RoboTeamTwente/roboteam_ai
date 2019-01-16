@@ -41,7 +41,7 @@ std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotForId(unsigned int id,
 // returns robots if they are available
 std::vector<roboteam_msgs::WorldRobot> World::getRobotsForId(std::set<unsigned int> ids, bool robotsAreOurTeam) {
     std::vector<roboteam_msgs::WorldRobot> robots;
-    for (int id : ids) {
+    for (const unsigned int &id : ids) {
         auto robot = getRobotForId(id, robotsAreOurTeam);
         if (robot) {
             robots.push_back(* robot);
