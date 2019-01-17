@@ -33,7 +33,7 @@ class ControlGoToPosLuTh {
           std::vector<Vector2> posData = {{}}; //Save the position data
           std::vector<Vector2> velData = {{}}; //Save the velocity data
           float t = 0;
-          const float dt = 0.05f;
+          const float dt = 0.03f;
           int totalCalculations = 0;
           int collisions = 0;
 
@@ -80,17 +80,18 @@ class ControlGoToPosLuTh {
 
               Vector2 deltaPos = collisionPos - startPos;
               std::vector<double> angles;
+              double deltaAngle = 0.0625;
               switch (newDir) {
               case goLeft: {
-                  angles = {- M_PI*0.0625};
+                  angles = {- M_PI*deltaAngle};
                   break;
               }
               case goMiddle: {
-                  angles = {- M_PI*0.0625, M_PI*0.0625};
+                  angles = {- M_PI*deltaAngle, M_PI*deltaAngle};
                   break;
               }
               case goRight: {
-                  angles = {M_PI*0.0625};
+                  angles = {M_PI*deltaAngle};
                   break;
               }
               }

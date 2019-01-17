@@ -50,7 +50,7 @@ const int POSSES_BALL_CYCLES=100;
 const double GETBALL_SPEED=.5;
 
 //GoToPos
-const double MAX_CALCULATION_TIME=7.0; //max time in ms
+const double MAX_CALCULATION_TIME=10.0; //max time in ms
 
 //Keeper
 const double KEEPER_POST_MARGIN=0.08;//m

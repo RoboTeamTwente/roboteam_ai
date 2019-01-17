@@ -37,7 +37,7 @@
             "isRole": false,
             "properties": {
               "ROLE": "qualRole",
-              "target": "{2.5,0}"
+              "target": "{1.5,0}"
             }
           },
           "xm1dohkoqeoibxof1": {
@@ -46,7 +46,7 @@
             "isRole": false,
             "properties": {
               "ROLE": "qualRole",
-              "target": "{-2.5,0}"
+              "target": "{-1.5,0}"
             }
           }
         }

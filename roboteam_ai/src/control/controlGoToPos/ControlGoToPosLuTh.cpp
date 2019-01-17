@@ -80,10 +80,7 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
 
         if (! nicePath) {
             std::cout << "heyypou" << std::endl;
-//            Vector2 dir = (targetPos - robot->pos).normalize();
-//            velocityCommand.x = static_cast<float>(dir.x*2.0f);
-//            velocityCommand.y = static_cast<float>(dir.y*2.0f);
-
+            me.clear();
         }
 
     }
@@ -118,7 +115,7 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
         Vector2 pidPos = me.posData[toStep];
         Vector2 vel =  pid.controlPIR(pidPos - robot->pos, robot->vel);
         if (vel.length() > 3.0)
-            vel = vel.normalize()*3.0;
+            vel = vel.stretchToLength(3.0);
         velocityCommand.x = static_cast<float>(vel.x);
         velocityCommand.y = static_cast<float>(vel.y);
 
@@ -167,16 +164,17 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
             return true;
         }
         else if (me->isCollision(me->targetPos)) {
-            me->startIndex = me->posData.size();
+            //me->startIndex = me->posData.size();
             me->targetPos = target;
             (me->collisions) --;
             me->newDir = NumRobot::goMiddle;
         }
 
-        if (calculateNextPoint(me)) robotQueue.push(me);
+        if (calculateNextPoint(me))
+            robotQueue.push(me);
         else {      //Collision!! calculate new points
 
-            auto minPoints = static_cast<int>(ceil(1.0f/(me->dt)));
+            auto minPoints = static_cast<int>(ceil(0.50f/(me->dt)));
             auto newDataPoints = static_cast<int>(me->posData.size() - 1 - me->startIndex);
 
             if (me->posData.empty() || me->velData.empty()) {
@@ -237,7 +235,7 @@ bool ControlGoToPosLuTh::calculateNextPoint(NumRobotPtr me) {
 }
 
 void ControlGoToPosLuTh::drawCross(Vector2 &pos) {
-    float dist = 0.0075f;
+    float dist = 0.004f;
     for (int i = - 7; i < 8; i ++) {
         for (int j = - 1; j < 2; j += 2) {
             Vector2 data = pos + (Vector2) {dist*i, dist*j*i};

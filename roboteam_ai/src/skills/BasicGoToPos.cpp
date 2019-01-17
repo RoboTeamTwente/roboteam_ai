@@ -17,7 +17,6 @@ void BasicGoToPos::onInitialize() {
     targetPos = properties->getVector2("target");
 }
 
-
 Skill::Status BasicGoToPos::onUpdate() {
 
     if (! robot) return Status::Running;
@@ -28,7 +27,7 @@ Skill::Status BasicGoToPos::onUpdate() {
     Vector2 velocity = goToPos.goToPos(robot, targetPos, control::GoToType::luTh);
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
-    command.w = static_cast<float>(0);
+    command.w = 0.0f;//static_cast<float>((targetPos-robot->pos).length());
     publishRobotCommand(command);
 
     double dx = targetPos.x - robot->pos.x;
@@ -42,5 +41,6 @@ Skill::Status BasicGoToPos::onUpdate() {
         return Status::Success;
     }
 }
+
 }
 }
