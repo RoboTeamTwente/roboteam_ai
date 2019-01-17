@@ -6,9 +6,9 @@
 #include <roboteam_ai/src/utilities/Field.h>
 #include "ControlUtils.h"
 
-namespace rtt{
-    namespace ai {
-        namespace control {
+namespace rtt {
+namespace ai {
+namespace control {
 
 double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAngle) {
     double direction = 1;               // counter clockwise rotation
@@ -226,11 +226,23 @@ double ControlUtils::rotateDirection(double currentAngle, double targetAngle){
     else return -1;
 }
 Vector2 ControlUtils::VelocityLimiter(Vector2 vel) {
-    if (vel.length()>rtt::ai::constants::MAX_VEL){
-        vel=vel.stretchToLength(rtt::ai::constants::MAX_VEL);
+    if (vel.length() > rtt::ai::constants::MAX_VEL) {
+        vel = vel.stretchToLength(rtt::ai::constants::MAX_VEL);
         return vel;
     }
     else return vel;
+}
+rtt::Vector2 ControlUtils::twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2) {
+    //https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
+    double denominator = ( (a1.x - a2.x)*(b1.y - b2.y) - (a1.y - b1.y)*(b1.x - b2.x) );
+    if (denominator != 0) {
+        double numerator = ( (a1.x - b1.x)*(b1.y - b2.y) - (a1.y - b1.y)*(b1.x - b2.x) );
+        double t =  numerator / denominator;
+        return (a1 + (Vector2){t, t} * (a2 - a1));
+    }
+    else
+        return Vector2();
+
 }
 
 } // control

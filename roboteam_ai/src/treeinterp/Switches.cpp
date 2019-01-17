@@ -32,6 +32,7 @@
 #include "../skills/Keeper.h"
 #include "../skills/GetBall.h"
 #include "../skills/Attack.h"
+#include "../skills/Pass.h"
 #include <roboteam_ai/src/skills/InterceptBall.h>
 #include <roboteam_ai/src/skills/GoToPosLuTh.h>
 #include <roboteam_ai/src/skills/InterceptBall.h>
@@ -75,10 +76,12 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "SimpleDefendTactic_1",
          "KeeperTacticV2",
          "KeeperTactic",
-         "KeeperTestTactic"};
+         "KeeperTestTactic",
+         "PassTactic"};
 
 std::vector<std::string> Switches::strategyJsonFileNames =
-        {"victoryDanceStrategy",
+        {"DemoTeamTwenteStrategy",
+         "victoryDanceStrategy",
          "randomStrategy",
          "GetBallTestStrategy",
          "DanceStrategy",
@@ -87,7 +90,8 @@ std::vector<std::string> Switches::strategyJsonFileNames =
          "SimpleDefendStrategy",
          "SimpleDefendStrategy_1",
          "AttackStrategy",
-         "KeeperStrategy"};
+         "KeeperStrategy",
+         "PassStrategy"};
 
 std::vector<std::string> Switches::keeperJsonFiles =
         {};
@@ -205,8 +209,11 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "IsInDefenseArea") {
         node = std::make_shared<rtt::ai::IsInDefenseArea>(name, properties);
     }
-    else if (name == "DribbleRotate"){
-        node = std::make_shared<rtt::ai::DribbleRotate>(name,properties);
+    else if (name == "DribbleRotate") {
+        node = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
+    }
+    else if (name == "Pass") {
+        node = std::make_shared<rtt::ai::Pass>(name, properties);
     }
     else {
         ROS_ERROR("ERROR: Leaf not found!! using GoToPos..");
@@ -281,6 +288,11 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
             {"KeeperTactic", {
                     {"keeper", robotType::random}
+            }
+            },
+            {"PassTactic", {
+                    {"passA", robotType::random},
+                    {"passB", robotType::random}
             }
             },
             {"KeeperTestTactic", {

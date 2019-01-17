@@ -3,10 +3,6 @@
 //
 
 #include "Coach.h"
-#include "RobotDealer.h"
-#include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/dangerfinder/DangerData.h>
-#include <roboteam_ai/src/dangerfinder/DangerFinder.h>
 
 namespace rtt {
 namespace ai {
@@ -110,13 +106,118 @@ int Coach::pickOpponentToCover(int selfID) {
     return - 1;
 }
 
-Vector2 Coach::getPositionBehindBall(double distanceBehindBall) {
-    const Vector2 &ball = static_cast<Vector2>(World::getBall()->pos);
-    const Vector2 &goal = Field::get_their_goal_center();
-    
-    return ball + (ball - goal).stretchToLength(distanceBehindBall);
+Vector2 Coach::getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal) {
+    const Vector2 &goal = (ourGoal ? Field::get_our_goal_center : Field::get_their_goal_center)();
+    return getPositionBehindBallToPosition(distanceBehindBall, goal);
 }
 
+Vector2 Coach::getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID) {
+    Vector2 robot;
+    if (World::getRobotForId(robotID, ourRobot))
+        robot = World::getRobotForId(robotID, ourRobot).get()->pos;
+    else
+        return Vector2();
+    return getPositionBehindBallToPosition(distanceBehindBall, robot);
 }
+
+Vector2 Coach::getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position) {
+    const Vector2 &ball = static_cast<Vector2>(World::getBall()->pos);
+    return ball + (ball - position).stretchToLength(distanceBehindBall);
 }
+
+bool Coach::isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal, const Vector2 &robotPosition) {
+    const Vector2 &goal = (ourGoal ? Field::get_our_goal_center : Field::get_their_goal_center)();
+    return isRobotBehindBallToPosition(distanceBehindBall, goal, robotPosition);
 }
+
+bool Coach::isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID,
+        const Vector2 &robotPosition) {
+    Vector2 robot;
+    if (World::getRobotForId(robotID, ourRobot))
+        robot = World::getRobotForId(robotID, ourRobot).get()->pos;
+    else
+        return false;
+    return isRobotBehindBallToPosition(distanceBehindBall, robot, robotPosition);
+}
+
+bool Coach::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position,
+        const Vector2 &robotPosition) {
+    const Vector2 &ball = static_cast<Vector2>(World::getBall()->pos);
+    Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, position);
+    Vector2 deltaBall = behindBallPosition - ball;
+
+    return (control::ControlUtils::pointInTriangle(robotPosition, ball, ball + (deltaBall).rotate(M_PI*0.17).scale(2.0),
+            ball + (deltaBall).rotate(M_PI*- 0.17).scale(2.0)));
+}
+
+std::pair<int, bool> Coach::getRobotClosestToBall() {
+    const roboteam_msgs::World &world = World::get_world();
+    const Vector2 &ball = World::getBall()->pos;
+
+    double distance = 999999;
+    int id = - 1;
+    bool ourRobotIsClosest = true;
+
+    Vector2 deltaPos;
+    double dPLength;
+    for (auto &bot : world.us) {
+        deltaPos = ball - bot.pos;
+        dPLength = abs(deltaPos.length());
+        if (dPLength < distance) {
+            distance = dPLength;
+            id = bot.id;
+        }
+    }
+
+    for (auto &bot : world.them) {
+        deltaPos = ball - bot.pos;
+        dPLength = abs(deltaPos.length());
+        if (dPLength < distance) {
+            distance = dPLength;
+            id = bot.id;
+            ourRobotIsClosest = false;
+        }
+    }
+
+    return {id, ourRobotIsClosest};
+}
+
+int Coach::getOurRobotClosestToBall() {
+    const roboteam_msgs::World &world = World::get_world();
+    const Vector2 &ball = World::getBall()->pos;
+
+    double distance = 999999;
+    int id = - 1;
+
+    for (auto &bot : world.us) {
+        const Vector2 deltaPos = ball - bot.pos;
+        double dPLength = abs(deltaPos.length());
+        if (dPLength < distance) {
+            distance = dPLength;
+            id = bot.id;
+        }
+    }
+    return id;
+}
+
+int Coach::getTheirRobotClosestToBall() {
+    const roboteam_msgs::World &world = World::get_world();
+    const Vector2 &ball = World::getBall()->pos;
+
+    double distance = 999999;
+    int id = - 1;
+
+    for (auto &bot : world.them) {
+        const Vector2 deltaPos = ball - bot.pos;
+        double dPLength = abs(deltaPos.length());
+        if (dPLength < distance) {
+            distance = dPLength;
+            id = bot.id;
+        }
+    }
+    return id;
+}
+
+} //control
+} //ai
+} //rtt
