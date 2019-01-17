@@ -1,5 +1,6 @@
 #include "Defend.h"
 #include "../utilities/Coach.h"
+#include "../control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {
@@ -7,17 +8,27 @@ namespace ai {
 Defend::Defend(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void Defend::onInitialize() {
-
+    coach::Coach::addDefender(robot->id);
 }
 
 
 bt::Node::Status Defend::onUpdate() {
+    control::ControlGoToPos gtp;
+    auto targetLocation = coach::Coach::getDefensivePosition(robot->id);
+    auto velocities = gtp.goToPos(robot, targetLocation, control::GoToType::luTh);
+
+    roboteam_msgs::RobotCommand cmd;
+    cmd.id = robot->id;
+    cmd.x_vel = velocities.y;
+    cmd.y_vel = velocities.x;
+    cmd.use_angle = 1;
+    publishRobotCommand(cmd);
+
     return bt::Node::Status::Running;
 }
 
-
 void Defend::onTerminate(bt::Node::Status s) {
-
+    coach::Coach::removeDefender(robot->id);
 }
 
 } // ai
