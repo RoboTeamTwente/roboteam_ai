@@ -102,6 +102,8 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
     map["ParallelSequence"] = std::make_shared<bt::ParallelSequence>();
     map["Selector"] =         std::make_shared<bt::Selector>();
     map["Sequence"] =         std::make_shared<bt::Sequence>();
+    map["Inverter"] =         std::make_shared<bt::Inverter>();
+
     map["Failer"] =           std::make_shared<bt::Failer>();
     map["Repeat"] =           std::make_shared<bt::Repeater>();
     map["Repeater"] =         std::make_shared<bt::Repeater>();
@@ -109,7 +111,10 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
     map["UntilFail"] =        std::make_shared<bt::UntilFail>();
     map["UntilSuccess"] =     std::make_shared<bt::UntilSuccess>();
 
-    return map[name];
+    if ( map.find(name) != map.end() ) {
+        return map[name];
+    }
+    return bt::Node::Ptr();
 }
 
 
@@ -160,7 +165,10 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["IsRobotClosestToBall"] =   std::make_shared<rtt::ai::IsRobotClosestToBall>(name, properties);
     map["TheyHaveBall"] =           std::make_shared<rtt::ai::TheyHaveBall>(name, properties);
 
-    return map[name];
+    if ( map.find(name) != map.end() ) {
+        return map[name];
+    }
+    return bt::Node::Ptr();
 }
 
 /// If you made a tactic node for a new tactic this is where you add that
