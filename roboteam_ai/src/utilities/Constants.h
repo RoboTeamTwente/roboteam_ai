@@ -27,6 +27,7 @@ const double MAX_ANGULAR_VELOCITY = 6.0; // rad per second??
 const double ROBOT_RADIUS=0.089; // TODO: Need to test if world_state agrees with this definition of the centre of the robot
 const double FRONT_LENGTH=0.118; // length of the front (flat) part of the robot
 const double DRIBBLER_ANGLE_OFFSET=asin(FRONT_LENGTH/2/ROBOT_RADIUS); // if the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET points to the left and DRIBBLER_ANGLE_OFFSET to the right.
+const double CENTRE_TO_FRONT=sin(DRIBBLER_ANGLE_OFFSET)*ROBOT_RADIUS;
 const double BALL_RADIUS=0.0215;
 
 const int tickRate=60 ;// Rate at which we tick our behavior Trees
@@ -66,9 +67,9 @@ const double INTERCEPT_POSDIF=0.04;//m acceptable deviation
 
 const double DEFAULT_MAX_VEL=2.0;
 // BallInDefenseAreaAndStill
-// if the ball has velocity lower than this for TIME in defense area, keeper starts getting it
-const double BALL_STILL_TIME=1.0;
-const double BALL_STILL_VEL=0.1;
+const double BALL_STILL_VEL=0.1;// if the ball has velocity lower than this in defense area, keeper starts getting it
+
+const double DRIBBLE_ROTATE_WAIT_TIME=0.2; // seconds
 // Interface
 const int ROBOT_DRAWING_SIZE = 8;
 const int BALL_DRAWING_SIZE = 5;

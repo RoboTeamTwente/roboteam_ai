@@ -35,6 +35,7 @@
 #include <roboteam_ai/src/skills/InterceptBall.h>
 #include <roboteam_ai/src/skills/GoToPosLuTh.h>
 #include <roboteam_ai/src/skills/InterceptBall.h>
+#include "../skills/DribbleRotate.h"
 
 //  ______________________
 //  |                    |
@@ -203,6 +204,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     }
     else if (name == "IsInDefenseArea") {
         node = std::make_shared<rtt::ai::IsInDefenseArea>(name, properties);
+    }
+    else if (name == "DribbleRotate"){
+        node = std::make_shared<rtt::ai::DribbleRotate>(name,properties);
     }
     else {
         ROS_ERROR("ERROR: Leaf not found!! using GoToPos..");
