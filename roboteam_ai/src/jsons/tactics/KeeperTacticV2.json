@@ -50,7 +50,8 @@
           },
           "0s6zsu44z804viwek": {
             "properties": {
-              "ROLE": "keeper"
+              "ROLE": "keeper",
+              "Keeper": "true"
             },
             "title": "InterceptBall",
             "id": "0s6zsu44z804viwek"
