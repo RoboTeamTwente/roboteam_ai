@@ -24,7 +24,7 @@ Pass::Status Pass::onUpdate() {
     if (! robot)
         return Status::Running;
 
-    if ((Coach::getOurRobotClosestToBall() == robot->id) && ! amIClosest) {
+    if ((Coach::getRobotClosestToBall(true)->id == robot->id) && ! amIClosest) {
         amIClosest = true;
         if (defensive) {
             robotToPass = coach::Coach::pickDefensivePassTarget(robot->id);
@@ -33,7 +33,7 @@ Pass::Status Pass::onUpdate() {
             robotToPass = coach::Coach::pickOffensivePassTarget(robot->id, properties->getString("ROLE"));
         }
     }
-    else if (! ((Coach::getOurRobotClosestToBall() == robot->id) && amIClosest)) {
+    else if (! ((Coach::getRobotClosestToBall(true)->id == robot->id) && amIClosest)) {
         amIClosest = false;
         robotToPass = - 1;
     }
@@ -85,7 +85,7 @@ Pass::Status Pass::onUpdate() {
     }
     else {
         if (((Vector2) (ball->vel)).length() < 0.5f) {
-            Vector2 otherRobot = World::getRobotForId(static_cast<unsigned int>(Coach::getOurRobotClosestToBall()),true).get()->pos;
+            Vector2 otherRobot = Coach::getRobotClosestToBall(true)->pos;
             targetPos = otherRobot - (otherRobot-robot->pos).stretchToLength(1.0f);
             velocity = goToPos.goToPos(robot, targetPos, GoToType::luTh);
         }

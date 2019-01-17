@@ -12,8 +12,6 @@ void Defend::onInitialize() {
 
 
 bt::Node::Status Defend::onUpdate() {
-
-    coach::Coach =
     return bt::Node::Status::Running;
 }
 
