@@ -97,17 +97,17 @@ std::vector<std::string> Switches::keeperJsonFiles =
 bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
     std::map<std::string, bt::Node::Ptr> map;
 
-    map["MemSelector"] =      std::make_shared<bt::MemSelector>(name);
-    map["MemSequence"] =      std::make_shared<bt::MemSequence>(name);
-    map["ParallelSequence"] = std::make_shared<bt::ParallelSequence>(name);
-    map["Selector"] =         std::make_shared<bt::Selector>(name);
-    map["Sequence"] =         std::make_shared<bt::Sequence>(name);
-    map["Failer"] =           std::make_shared<bt::Failer>(name);
-    map["Repeat"] =           std::make_shared<bt::Repeater>(name);
-    map["Repeater"] =         std::make_shared<bt::Repeater>(name);
-    map["Succeeder"] =        std::make_shared<bt::Succeeder>(name);
-    map["UntilFail"] =        std::make_shared<bt::UntilFail>(name);
-    map["UntilSuccess"] =     std::make_shared<bt::UntilSuccess>(name);
+    map["MemSelector"] =      std::make_shared<bt::MemSelector>();
+    map["MemSequence"] =      std::make_shared<bt::MemSequence>();
+    map["ParallelSequence"] = std::make_shared<bt::ParallelSequence>();
+    map["Selector"] =         std::make_shared<bt::Selector>();
+    map["Sequence"] =         std::make_shared<bt::Sequence>();
+    map["Failer"] =           std::make_shared<bt::Failer>();
+    map["Repeat"] =           std::make_shared<bt::Repeater>();
+    map["Repeater"] =         std::make_shared<bt::Repeater>();
+    map["Succeeder"] =        std::make_shared<bt::Succeeder>();
+    map["UntilFail"] =        std::make_shared<bt::UntilFail>();
+    map["UntilSuccess"] =     std::make_shared<bt::UntilSuccess>();
 
     return map[name];
 }
