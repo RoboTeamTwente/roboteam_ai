@@ -48,6 +48,7 @@
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
 #include <roboteam_ai/src/skills/InterceptBall.h>
+#include <roboteam_ai/src/skills/Defend.h>
 #include "Switches.h"
 
 /**
@@ -94,120 +95,72 @@ std::vector<std::string> Switches::keeperJsonFiles =
 /// If you are touching this either you know what you are doing or you are making a mistake,
 /// have a look around with the names and see if what you made is on the same level as these are
 bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
+    std::map<std::string, bt::Node::Ptr> map;
 
-    bt::Node::Ptr node;
+    map["MemSelector"] =      std::make_shared<bt::MemSelector>(name);
+    map["MemSequence"] =      std::make_shared<bt::MemSequence>(name);
+    map["ParallelSequence"] = std::make_shared<bt::ParallelSequence>(name);
+    map["Selector"] =         std::make_shared<bt::Selector>(name);
+    map["Sequence"] =         std::make_shared<bt::Sequence>(name);
+    map["Failer"] =           std::make_shared<bt::Failer>(name);
+    map["Repeat"] =           std::make_shared<bt::Repeater>(name);
+    map["Repeater"] =         std::make_shared<bt::Repeater>(name);
+    map["Succeeder"] =        std::make_shared<bt::Succeeder>(name);
+    map["UntilFail"] =        std::make_shared<bt::UntilFail>(name);
+    map["UntilSuccess"] =     std::make_shared<bt::UntilSuccess>(name);
 
-    if (name == "MemSelector") {
-        node = std::make_shared<bt::MemSelector>();
-    }
-    else if (name == "MemSequence") {
-        node = std::make_shared<bt::MemSequence>();
-    }
-    else if (name == "ParallelSequence") {
-        node = std::make_shared<bt::ParallelSequence>();
-    }
-    else if (name == "Selector") {
-        node = std::make_shared<bt::Selector>();
-    }
-    else if (name == "Sequence") { // TODO: parallel here?
-        node = std::make_shared<bt::Sequence>();
-    }
-    else if (name == "Failer") {
-        node = std::make_shared<bt::Failer>();
-    }
-    else if (name == "Inverter") {
-        node = std::make_shared<bt::Inverter>();
-    }
-    else if (name == "Repeat") {
-        node = std::make_shared<bt::Repeater>();
-    }
-    else if (name == "Repeater") {
-        node = std::make_shared<bt::Repeater>();
-    }
-    else if (name == "Succeeder") {
-        node = std::make_shared<bt::Succeeder>();
-    }
-    else if (name == "UntilFail") {
-        node = std::make_shared<bt::UntilFail>();
-    }
-    else if (name == "UntilSuccess" ) {
-        node = std::make_shared<bt::UntilSuccess>();
-    }
-    else {
-        std::cerr << "Node name with: " + name << std::endl;
-    }
-    return node;
+    return map[name];
 }
+
 
 /// If you made a skill or a condition this is where you put them to use
 bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr properties) {
+    std::map<std::string, bt::Node::Ptr> map;
 
-    bt::Node::Ptr node;
+    // skills (alphabetic order)
 
-    if (name == "GoToPos") {
-        node = std::make_shared<rtt::ai::GoToPos>(name, properties);
-    }
-    else if (name == "Kick") {
-        node = std::make_shared<rtt::ai::Kick>(name, properties);
-    }
-    else if (name == "Harass") {
-        node = std::make_shared<rtt::ai::Harass>(name, properties);
-    }
-    else if (name == "Halt") {
-        node = std::make_shared<rtt::ai::Halt>(name, properties);
-    }
-    else if (name == "SkillGoToPos") {
-        node = std::make_shared<rtt::ai::SkillGoToPos>(name, properties);
-    }
-    else if (name == "GoToPosLuTh") {
-        node = std::make_shared<rtt::ai::GoToPosLuTh>(name, properties);
-    }
-    else if (name == "Dribble") {
-        node = std::make_shared<rtt::ai::Dribble>(name, properties);
-    }
-    else if (name == "RotateToAngle") {
-        node = std::make_shared<rtt::ai::RotateToAngle>(name, properties);
-    }
-    else if (name == "GetBall") {
-        node = std::make_shared<rtt::ai::GetBall>(name, properties);
-    }
-    else if (name == "HasBall") {
-        node = std::make_shared<rtt::ai::HasBall>(name, properties);
-    }
-    else if (name == "TheyHaveBall") {
-        node = std::make_shared<rtt::ai::TheyHaveBall>(name, properties);
-    }
-    else if (name == "CanSeeGoal") {
-        node = std::make_shared<rtt::ai::CanSeeGoal>(name, properties);
-    }
-    else if (name == "Keeper") {
-        node = std::make_shared<rtt::ai::Keeper>(name, properties);
-    }
-    else if (name == "BallKickedToOurGoal"){
-        node = std::make_shared<rtt::ai::BallKickedToOurGoal>(name,properties);
-    }
-    else if (name == "DefendOnRobot") {
-        node = std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
-    }
-    else if (name == "IsRobotClosestToBall") {
-        node = std::make_shared<rtt::ai::IsRobotClosestToBall>(name, properties);
-    }
-    else if (name == "InterceptBall"){
-        node = std::make_shared<rtt::ai::InterceptBall>(name,properties);
-    }
-    else if (name == "Attack") {
-        node = std::make_shared<rtt::ai::Attack>(name, properties);
-    }
-    else if (name == "Pass") {
-        node = std::make_shared<rtt::ai::Pass>(name, properties);
-    }
-    else {
-        ROS_ERROR("ERROR: Leaf not found!! using GoToPos..");
-        std::cout<<name<<std::endl;
-        node = std::make_shared<rtt::ai::GoToPos>(name, properties);
-    }
+    /*
+     * unused skills
+     * chip
+     * dribbleRotate
+     * shootAtGoal
+     * sideAttacker
+     */
 
-    return node;
+    map["Attack"] =                 std::make_shared<rtt::ai::Attack>(name, properties);
+    map["Defend"] =                 std::make_shared<rtt::ai::Defend>(name, properties);
+    map["DefendOnRobot"] =          std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
+    map["Dribble"] =                std::make_shared<rtt::ai::Dribble>(name, properties);
+    map["GetBall"] =                std::make_shared<rtt::ai::GetBall>(name, properties);
+    map["GoToPos"] =                std::make_shared<rtt::ai::GoToPos>(name, properties);
+    map["GoToPosLuTh"] =            std::make_shared<rtt::ai::GoToPosLuTh>(name, properties);
+    map["Halt"] =                   std::make_shared<rtt::ai::Halt>(name, properties);
+    map["Harass"] =                 std::make_shared<rtt::ai::Harass>(name, properties);
+    map["InterceptBall"] =          std::make_shared<rtt::ai::InterceptBall>(name, properties);
+    map["Keeper"] =                 std::make_shared<rtt::ai::Keeper>(name, properties);
+    map["Kick"] =                   std::make_shared<rtt::ai::Kick>(name, properties);
+    map["Pass"] =                   std::make_shared<rtt::ai::Pass>(name, properties);
+    map["RotateToAngle"] =          std::make_shared<rtt::ai::RotateToAngle>(name, properties);
+    map["SkillGoToPos"] =           std::make_shared<rtt::ai::SkillGoToPos>(name, properties);
+
+    // conditions (alphabetic order)
+
+    /*
+     * unused Conditions
+     * CanReachPoint
+     * IsInDefenceArea
+     * IsInZone
+     * IsOnOurSide
+     * WeHaveBall
+     */
+
+    map["BallKickedToOurGoal"] =    std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
+    map["CanSeeGoal"] =             std::make_shared<rtt::ai::CanSeeGoal>(name, properties);
+    map["HasBall"] =                std::make_shared<rtt::ai::HasBall>(name, properties);
+    map["IsRobotClosestToBall"] =   std::make_shared<rtt::ai::IsRobotClosestToBall>(name, properties);
+    map["TheyHaveBall"] =           std::make_shared<rtt::ai::TheyHaveBall>(name, properties);
+
+    return map[name];
 }
 
 /// If you made a tactic node for a new tactic this is where you add that
