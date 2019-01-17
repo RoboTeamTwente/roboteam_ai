@@ -11,7 +11,7 @@ namespace coach {
 using dealer = robotDealer::RobotDealer;
 std::map<int, int> Coach::defencePairs;
 
-std::set<int> Coach::defenders = {};
+std::vector<int> Coach::defenders = {};
 
 int Coach::pickOffensivePassTarget(int selfID, std::string roleName) {
 
@@ -177,32 +177,35 @@ std::pair<int, bool> Coach::getRobotClosestToBall() {
         weAreCloser = false;
     }
 
-    return {closestRobot.id, weAreCloser};
+    return std::make_pair(closestRobot.id, weAreCloser);
 }
 
 
 Vector2 Coach::getDefensivePosition(int robotId) {
-    // take into account the amount of Defenders
-    // update amount of defenders to coach
-
-    // the defense points should be at 1/4 of the field_length
-    // 1 defender: 1/2 X 1/2
-    // 2 defenders: 1/3 X 1/3 X 1/3
-    // 3 defenders: 1/4 X 1/4 X 1/4 X 1/4
-    // etc.
-    // for now it should move along this line
-
-
+    addDefender(robotId);
     auto me = World::getRobotForId(robotId, true);
-    defenders.insert(robotId);
     auto field = Field::get_field();
     double targetLocationY = field.field_length/4;
 
     for (int i = 0; i<defenders.size(); i++) {
-        double targetLocationX = field.field_width/(defenders.size()+1)*i;
+        if (defenders.at(i) == robotId) {
+            return {field.field_width/(defenders.size()+1)*i, targetLocationY};
+        }
     }
+    return {0, targetLocationY};
+}
 
-    return {targetLocationX, targetLocationY};
+void Coach::addDefender(int id) {
+    bool robotIsRegistered = std::find(defenders.begin(), defenders.end(), id) != defenders.end();
+    if (!robotIsRegistered) defenders.push_back(id);
+}
+
+
+void Coach::removeDefender(int id) {
+    auto defender = std::find(defenders.begin(), defenders.end(), id);
+    if (defender != defenders.end()) {
+        defenders.erase(defender);
+    }
 }
 
 } //control

@@ -22,7 +22,7 @@ namespace coach {
 
 class Coach {
     private:
-        static std::set<int> defenders;
+        static std::vector<int> defenders;
 
     public:
         static std::map<int, int> defencePairs;
@@ -43,6 +43,8 @@ class Coach {
         std::pair<int, bool> getRobotClosestToBall();
         std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToBall(bool isOurTeam);
 
+        static void addDefender(int id);
+        static void removeDefender(int id);
         static Vector2 getDefensivePosition(int robotId);
 };
 
