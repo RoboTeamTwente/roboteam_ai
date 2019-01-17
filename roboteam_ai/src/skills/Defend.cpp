@@ -14,14 +14,15 @@ void Defend::onInitialize() {
 
 bt::Node::Status Defend::onUpdate() {
     control::ControlGoToPos gtp;
-    auto targetLocation = coach::Coach::getDefensivePosition(robot->id);
+    Vector2 targetLocation = coach::Coach::getDefensivePosition(robot->id);
     auto velocities = gtp.goToPos(robot, targetLocation, control::GoToType::luTh);
 
     roboteam_msgs::RobotCommand cmd;
     cmd.id = robot->id;
-    cmd.x_vel = velocities.y;
-    cmd.y_vel = velocities.x;
+    cmd.x_vel = velocities.x;
+    cmd.y_vel = velocities.y;
     cmd.use_angle = 1;
+    cmd.w = static_cast<float>((targetLocation - robot->pos).angle());
     publishRobotCommand(cmd);
 
     return bt::Node::Status::Running;

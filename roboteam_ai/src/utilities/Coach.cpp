@@ -185,14 +185,14 @@ Vector2 Coach::getDefensivePosition(int robotId) {
     addDefender(robotId);
     auto me = World::getRobotForId(robotId, true);
     auto field = Field::get_field();
-    double targetLocationY = field.field_length/4;
+    double targetLocationY = field.field_length/4 - (field.field_length/2);
 
     for (int i = 0; i<defenders.size(); i++) {
         if (defenders.at(i) == robotId) {
-            return {field.field_width/(defenders.size()+1)*i, targetLocationY};
+            return {targetLocationY, ((field.field_width/(defenders.size() + 1))*(i+1)) - field.field_width/2 };
         }
     }
-    return {0, targetLocationY};
+    return {targetLocationY, 0};
 }
 
 void Coach::addDefender(int id) {

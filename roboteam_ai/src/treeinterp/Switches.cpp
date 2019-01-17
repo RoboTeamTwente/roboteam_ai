@@ -69,6 +69,7 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "SimpleTactic",
          "haltTactic",
          "Attactic",
+         "TwoDefendersTactic",
          "SimpleDefendTactic",
          "SimpleDefendTactic_1",
          "KeeperTactic",
@@ -83,6 +84,7 @@ std::vector<std::string> Switches::strategyJsonFileNames =
          "DanceStrategy",
          "SimpleStrategy",
          "haltStrategy",
+         "OneVersusThreeStrategy",
          "SimpleDefendStrategy",
          "SimpleDefendStrategy_1",
          "AttackStrategy",
@@ -103,7 +105,6 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
     map["Selector"] =         std::make_shared<bt::Selector>();
     map["Sequence"] =         std::make_shared<bt::Sequence>();
     map["Inverter"] =         std::make_shared<bt::Inverter>();
-
     map["Failer"] =           std::make_shared<bt::Failer>();
     map["Repeat"] =           std::make_shared<bt::Repeater>();
     map["Repeater"] =         std::make_shared<bt::Repeater>();
@@ -214,6 +215,12 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"simpleStupidRobot", robotType::random}
             }
             },
+            {"TwoDefendersTactic", {
+                    {"defender1", robotType::closeToOurGoal},
+                    {"defender2", robotType::closeToOurGoal},
+            }
+            },
+
             {"SimpleDefendTactic", {
                     {"simpleDefender1", robotType::closeToOurGoal},
                     {"simpleDefender2", robotType::closeToOurGoal},
