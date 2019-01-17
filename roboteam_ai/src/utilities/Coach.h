@@ -21,6 +21,8 @@ namespace ai {
 namespace coach {
 
 class Coach {
+    private:
+        static std::set<int> defenders;
 
     public:
         static std::map<int, int> defencePairs;
@@ -38,9 +40,10 @@ class Coach {
         static bool isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID, const Vector2 &robotPosition);
         static bool isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position, const Vector2 &robotPosition);
 
-        static std::pair<int, bool> getRobotClosestToBall();
-        static int getOurRobotClosestToBall();
-        static int getTheirRobotClosestToBall();
+        std::pair<int, bool> getRobotClosestToBall();
+        std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToBall(bool isOurTeam);
+
+        static Vector2 getDefensivePosition(int robotId);
 };
 
 }
