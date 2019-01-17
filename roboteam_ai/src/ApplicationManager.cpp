@@ -17,7 +17,7 @@ void ApplicationManager::setup() {
     IOManager = new io::IOManager(true);
     factory = BTFactory::getFactory();
     factory.init();
-    BTFactory::setCurrentTree("haltStrategy");
+    BTFactory::setCurrentTree("SimpleStrategy");
 }
 
 void ApplicationManager::loop() {
