@@ -254,7 +254,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widget.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/drawer.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/drawer.h
-        )
+        roboteam_ai/src/interface/InterfaceValues.cpp roboteam_ai/src/interface/InterfaceValues.h)
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
