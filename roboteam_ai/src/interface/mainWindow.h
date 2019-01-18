@@ -38,6 +38,7 @@ public slots:
     void toggleOurColorParam();
     void toggleOurSideParam();
     void updatePID_luth();
+    void sendHaltSignal();
 private:
     std::shared_ptr<Visualizer> visualizer;
     std::shared_ptr<QHBoxLayout> horizontalLayout;
@@ -45,6 +46,8 @@ private:
     std::shared_ptr<QVBoxLayout> mainLayout;
     std::shared_ptr<QVBoxLayout> verticalLayout;
     std::shared_ptr<QTreeWidget> treeWidget;
+    std::shared_ptr<QPushButton> haltBtn;
+
     std::shared_ptr<QPushButton> toggleColorBtn;
     std::shared_ptr<QPushButton> toggleSideBtn;
     std::shared_ptr<QComboBox> select_strategy;

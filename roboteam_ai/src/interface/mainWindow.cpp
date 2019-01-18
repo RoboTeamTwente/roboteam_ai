@@ -33,6 +33,10 @@ MainWindow::MainWindow(QWidget* parent)
         select_strategy->addItem(QString::fromStdString(strategyName));
     }
 
+    haltBtn = std::make_shared<QPushButton>("HALT");
+    QObject::connect(haltBtn.get(), SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
+    verticalLayout->addWidget(haltBtn.get());
+
     toggleColorBtn = std::make_shared<QPushButton>("Color");
     QObject::connect(toggleColorBtn.get(), SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
     verticalLayout->addWidget(toggleColorBtn.get());
@@ -321,6 +325,9 @@ void MainWindow::updatePID_luth() {
     InterfaceValues::setLuthP(sb_luth_P->value());
     InterfaceValues::setLuthI(sb_luth_I->value());
     InterfaceValues::setLuthD(sb_luth_D->value());
+}
+void MainWindow::sendHaltSignal() {
+
 }
 
 } // interface
