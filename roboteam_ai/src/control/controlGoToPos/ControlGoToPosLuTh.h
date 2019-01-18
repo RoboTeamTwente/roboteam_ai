@@ -177,6 +177,7 @@ class ControlGoToPosLuTh {
         void drawCross(Vector2 &pos);
         bool calculateNextPoint(NumRobotPtr me);
         int robotIndex;
+        bool useRobotIndex;
     public:
         void clear();
         Vector2 goToPos(RobotPtr robot, Vector2 &target);

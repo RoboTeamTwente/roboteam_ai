@@ -24,10 +24,10 @@ Skill::Status BasicGoToPos::onUpdate() {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = 1;
+    command.w = static_cast<float>((targetPos-robot->pos).angle());
     Vector2 velocity = goToPos.goToPos(robot, targetPos, control::GoToType::luTh);
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
-    command.w = 0.0f;//static_cast<float>((targetPos-robot->pos).length());
     publishRobotCommand(command);
 
     double dx = targetPos.x - robot->pos.x;

@@ -17,6 +17,11 @@ void ControlGoToPosLuTh::clear() {
 Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
     Vector2 velocityCommand;
 
+    if (! pidInit) {
+        pidInit = true;
+        pid.setPID(3.0, 0, 2.0);
+    }
+    useRobotIndex = false;
     bool recalculate = false;
     double deltaTarget = (abs((target - targetPos).length()));
     double deltaPos = (abs((target - robot->pos).length()));
@@ -42,8 +47,13 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
                 distance = (robotPos - me.pos).length();
             }
         }
-        if (distance < 0.25) robotIndex = currentIndex;
-        else recalculate = true;
+        if (distance < 0.25) {
+            useRobotIndex = true;
+            robotIndex = currentIndex;
+        }
+        else {
+            recalculate = true;
+        }
     }
     else recalculate = true;
 
@@ -102,20 +112,24 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
         Vector2 dir = (targetPos - robot->pos).normalize();
         velocityCommand.x = static_cast<float>(dir.x*2.0f);
         velocityCommand.y = static_cast<float>(dir.y*2.0f);
+        // vel = - Coach::getRobotClosest... -pos
     }
     else {
         auto size = static_cast<int>(me.posData.size() - 1);
-        while (size < toStep --);
-
-        if (! pidInit) {
-            pidInit = true;
-            pid.setPID(5.0, 0, 3.0);
+        if (size > toStep) toStep = size;
+        Vector2 pidPos;
+        Vector2 vel;
+        if (useRobotIndex) {
+            if (robotIndex < minStep) robotIndex = minStep;
+            pidPos = me.velData[robotIndex];
+            vel = pid.controlPIR(pidPos, robot->vel);
         }
-
-        Vector2 pidPos = me.posData[toStep];
-        Vector2 vel =  pid.controlPIR(pidPos - robot->pos, robot->vel);
-        if (vel.length() > 3.0)
-            vel = vel.stretchToLength(3.0);
+        else {
+            pidPos = me.posData[toStep];
+            vel = pid.controlPIR(pidPos - robot->pos, robot->vel);
+        }
+//        if (vel.length() > 3.0)
+//            vel = vel.stretchToLength(3.0);
         velocityCommand.x = static_cast<float>(vel.x);
         velocityCommand.y = static_cast<float>(vel.y);
 

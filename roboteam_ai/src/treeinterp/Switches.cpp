@@ -290,6 +290,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
             {"QualificationTactic", {
                     {"qualRole", robotType::random},
+                    {"eloRlauq", robotType::random}
             }
             }
     };
