@@ -216,14 +216,16 @@ double ControlUtils::angleDifference(double A1, double A2) {
     }
     return abs(angleDif);
 }
-double ControlUtils::rotateDirection(double currentAngle, double targetAngle){
+
+//returns the side of rotation that is best from this angle.
+int ControlUtils::rotateDirection(double currentAngle, double targetAngle){
     double angDif=angleDifference(currentAngle,targetAngle);
     double checkForward=constrainAngle(currentAngle+angDif);
     double checkBackward=constrainAngle(currentAngle-angDif);
     if (abs(checkForward-targetAngle)<abs(checkBackward-targetAngle)){
-        return 1;
+        return 1; //forwards
     }
-    else return -1;
+    else return -1;//backwards
 }
 Vector2 ControlUtils::VelocityLimiter(Vector2 vel) {
     if (vel.length() > rtt::ai::constants::MAX_VEL) {

@@ -12,8 +12,6 @@ BallInDefenseAreaAndStill::BallInDefenseAreaAndStill(std::string name, bt::Black
         :Condition(std::move(name), std::move(blackboard)) { };
 
 void BallInDefenseAreaAndStill::initialize() {
-//    currentTick=0;
-//    maxTick= static_cast<int>(floor(constants::BALL_STILL_TIME*constants::tickRate));
     theirDefenceArea=properties->getBool("theirDefenceArea");
 }
 bt::Node::Status BallInDefenseAreaAndStill::update() {

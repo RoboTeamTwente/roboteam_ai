@@ -66,18 +66,18 @@ void GetBall::checkProgression() {
 void GetBall::onInitialize() {
     currentProgress = TURNING;
     count = 0;
-//    double maxTime;
-//    if (properties->hasDouble("maxTime")){
-//    maxTime=properties->getDouble("maxTime");
-//    }
-//    else maxTime=1000;
-//    maxTicks= static_cast<int>(floor(maxTime*constants::tickRate));
+    double maxTime;
+    if (properties->hasDouble("maxTime")){
+    maxTime=properties->getDouble("maxTime");
+    }
+    else maxTime=1000;
+    maxTicks= static_cast<int>(floor(maxTime*constants::tickRate));
 }
 GetBall::Status GetBall::onUpdate() {
     if (!ball) return Status::Running;
     deltaPos = Vector2(ball->pos) - Vector2(robot->pos);
     checkProgression();
-//    currentTick++;
+    currentTick++;
     if (currentProgress == TURNING) {
         sendTurnCommand();
     }

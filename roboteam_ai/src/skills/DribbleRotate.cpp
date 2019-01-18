@@ -22,13 +22,11 @@ void DribbleRotate::checkProgression() {
     }
 }
 void DribbleRotate::onInitialize() {
-    robot=getRobotFromProperties(properties);
     if (properties->hasDouble("maxVel")) {
         maxSpeed = properties->getDouble("maxVel");
     }
     else {
-        maxSpeed = 1.0; //radiants per second.
-        //maxSpeed=constants::MAX_DRIBBLE_ROTATE_SPEED;
+        maxSpeed = constants::DRIBBLE_ROTATE_MAX_SPEED;
     }
     if (properties->hasDouble("Angle")) {
         targetAngle = properties->getDouble("Angle");

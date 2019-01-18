@@ -73,6 +73,7 @@ const double DEFAULT_MAX_VEL=2.0;
 const double BALL_STILL_VEL=0.1;// if the ball has velocity lower than this in defense area, keeper starts getting it
 
 const double DRIBBLE_ROTATE_WAIT_TIME=0.2; // seconds
+const double DRIBBLE_ROTATE_MAX_SPEED=0.25; //rad/s
 // Interface
 const int ROBOT_DRAWING_SIZE = 8;
 const int BALL_DRAWING_SIZE = 5;

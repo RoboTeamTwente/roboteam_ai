@@ -10,8 +10,6 @@ namespace rtt{
 namespace ai{
 class BallInDefenseAreaAndStill : public Condition{
     private:
-        int currentTick;
-        int maxTick;
         bool theirDefenceArea;
 
     public:

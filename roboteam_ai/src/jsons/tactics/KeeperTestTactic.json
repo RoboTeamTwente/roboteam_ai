@@ -53,13 +53,25 @@
             },
             "id": "t7l47gmmtv3gh"
           },
+          "NOPLS": {
+            "title": "MemSequence",
+            "children": [
+              "xrgcle92koe6f3",
+              "DINGDINGDING123"
+            ],
+            "properties": {
+              "ROLE": "keeper"
+            },
+            "id": "NOPLS"
+
+          },
           "xrgcle92koe6f3": {
             "id": "xrgcle92koe6f3",
             "title": "GoToPos",
             "properties": {
               "Position": "{-6,0}",
               "goBehindBall": "true",
-              "distanceBehindBall": "0.25",
+              "distanceBehindBall": "0.15",
               "maxVel": "0.5",
               "ROLE": "keeper"
             }
@@ -180,7 +192,8 @@
             "title": "IsInDefenseArea",
             "properties": {
               "ROLE": "keeper",
-              "ourDefenseArea": "true"
+              "ourDefenseArea": "true",
+              "margin": "0.2"
             },
             "id": "testNode"
           },

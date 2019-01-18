@@ -25,7 +25,7 @@ class ControlUtils {
         static double distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vector2 LineEnd);
         static double distanceToLineWithEnds(Vector2 PointToCheck, Vector2 LineStart, Vector2 LineEnd);
         static double angleDifference(double A1, double A2);
-        static double rotateDirection(double currentAngle, double targetAngle);
+        static int rotateDirection(double currentAngle, double targetAngle);
 
         static rtt::Vector2 getClosestRobot(rtt::Vector2 &pos, int &id, bool ourTeam, float &t);
         static rtt::Vector2 getClosestRobot(rtt::Vector2 &pos, int &id, bool ourTeam);
