@@ -43,6 +43,10 @@ void InterfaceValues::setLuthD(double LuthD) {
     std::lock_guard<std::mutex> lock(PIDMutex);
     InterfaceValues::luthD = LuthD;
 }
+void InterfaceValues::sendHaltCommand() {
+
+// this function triggers when the halt button is clicked!
+}
 
 } // interface
 } // ai

@@ -24,6 +24,7 @@ public:
     static void setLuthI(double luthI);
     static double getLuthD();
     static void setLuthD(double luthD);
+    static void sendHaltCommand();
 };
 
 }

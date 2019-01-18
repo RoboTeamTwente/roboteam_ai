@@ -326,8 +326,9 @@ void MainWindow::updatePID_luth() {
     InterfaceValues::setLuthI(sb_luth_I->value());
     InterfaceValues::setLuthD(sb_luth_D->value());
 }
-void MainWindow::sendHaltSignal() {
 
+void MainWindow::sendHaltSignal() {
+    InterfaceValues::sendHaltCommand();
 }
 
 } // interface
