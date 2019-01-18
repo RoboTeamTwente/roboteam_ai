@@ -19,3 +19,8 @@ TEST(ControlUtils, linedistances) {
     double dist4 = cr::ControlUtils::distanceToLineWithEnds(D, A, E);
     EXPECT_DOUBLE_EQ(dist4, 1.0);
 }
+TEST(ControlUtils,rotateDirection){
+    double ang1=-0.8*M_PI,ang2=0.8*M_PI,ang3=-0.2*M_PI, ang4=0.2*M_PI;
+    cr::ControlUtils::rotateDirection(ang3,ang4);
+    cr::ControlUtils::rotateDirection(ang2,ang4);
+}
