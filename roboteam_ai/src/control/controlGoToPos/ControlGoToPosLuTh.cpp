@@ -1,5 +1,3 @@
-#include <utility>
-
 //
 // Created by thijs on 12-12-18.
 //
@@ -19,7 +17,7 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
 
     if (! pidInit) {
         pidInit = true;
-        pid.setPID(3.0, 0, 2.0);
+        pid.setPID(3.0, 0, 3.0);
     }
     useRobotIndex = false;
     bool recalculate = false;
