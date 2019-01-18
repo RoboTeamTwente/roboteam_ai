@@ -28,9 +28,9 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
             pid.getD() != interface::InterfaceValues::getLuthD()) {
 
         pid.reset();
-        pid.setP(interface::InterfaceValues::getLuthP());
-        pid.setI(interface::InterfaceValues::getLuthI());
-        pid.setD(interface::InterfaceValues::getLuthD());
+        pid.setPID(interface::InterfaceValues::getLuthP(),
+                interface::InterfaceValues::getLuthI(),
+                interface::InterfaceValues::getLuthD());
 
     }
 
