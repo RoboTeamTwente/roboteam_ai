@@ -170,15 +170,13 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootAtGoal.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Attack.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Attack.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/dribbleRotate.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/dribbleRotate.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BasicGoToPos.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BasicGoToPos.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleRotate.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleRotate.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BasicGoToPos.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BasicGoToPos.h
         )
 
-set(CONDITIONS_SOURCES
+        set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.hpp
