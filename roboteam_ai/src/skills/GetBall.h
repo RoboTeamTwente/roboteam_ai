@@ -19,13 +19,14 @@ class GetBall : public Skill {
         Progression currentProgress;
         void checkProgression();
 
-        bool robotHasBall();
+        bool robotHasBall(double frontRange);
         void sendTurnCommand();
         void sendApproachCommand();
         void sendDribblingCommand();
 
         int count;
         Vector2 deltaPos;
+        int currentTick, maxTicks;
     public:
         explicit GetBall(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;
