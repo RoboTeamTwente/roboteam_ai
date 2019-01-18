@@ -25,7 +25,7 @@ void Skill::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
     std::string ourSideParam;
     nh.getParam("our_side",ourSideParam);
     if(ourSideParam=="right"){
-        rotateRobotCommand(cmd);
+        cmd=rotateRobotCommand(cmd);
     }
     ioManager.publishRobotCommand(cmd); // We default to our robots being on the left if parameter is not set
 }
@@ -53,10 +53,12 @@ void Skill::terminate(Status s) {
     onTerminate(s);
 }
 
-void Skill::rotateRobotCommand(roboteam_msgs::RobotCommand &cmd) {
-    cmd.x_vel=-cmd.x_vel;
-    cmd.y_vel=-cmd.y_vel;
-    cmd.w=control::ControlUtils::constrainAngle(cmd.w+M_PI);
+roboteam_msgs::RobotCommand Skill::rotateRobotCommand(roboteam_msgs::RobotCommand &cmd) {
+    roboteam_msgs::RobotCommand output=cmd;
+    output.x_vel=-cmd.x_vel;
+    output.y_vel=-cmd.y_vel;
+    output.w=control::ControlUtils::constrainAngle(cmd.w+M_PI);
+    return output;
 }
 
 } // ai

@@ -23,7 +23,7 @@ namespace control {
  */
 class Skill : public bt::Leaf {
     private:
-        void rotateRobotCommand(roboteam_msgs::RobotCommand &cmd);
+        roboteam_msgs::RobotCommand rotateRobotCommand(roboteam_msgs::RobotCommand &cmd);
 protected:
         io::IOManager ioManager = io::IOManager(false,true);
 
