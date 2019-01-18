@@ -68,6 +68,8 @@ class RobotDealer {
 
         static std::string getTacticNameForRole(std::string role);
 
+        static void halt();
+
 };
 }
 #endif //ROBOTEAM_AI_ROBOTDEALER_H
