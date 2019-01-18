@@ -36,6 +36,7 @@ void ApplicationManager::runOneLoopCycle() {
 
     if (ai::World::didReceiveFirstWorld) {
         if (BTFactory::getCurrentTree() == "NaN") {
+            ROS_INFO("NaN tree probably Halting");
             return;
         }
         //this->handleRefData();
