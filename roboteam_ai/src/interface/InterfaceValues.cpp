@@ -3,6 +3,7 @@
 //
 
 #include <roboteam_ai/src/utilities/Constants.h>
+#include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include "InterfaceValues.h"
 
 namespace rtt {
@@ -44,8 +45,7 @@ void InterfaceValues::setLuthD(double LuthD) {
     InterfaceValues::luthD = LuthD;
 }
 void InterfaceValues::sendHaltCommand() {
-
-// this function triggers when the halt button is clicked!
+BTFactory::halt();
 }
 
 } // interface
