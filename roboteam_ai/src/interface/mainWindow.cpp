@@ -175,14 +175,17 @@ void MainWindow::updateWidgets() {
         treeItemMapping.clear();
         treeWidget->clear();
         bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree(BTFactory::getFactory().getCurrentTree());
-        auto treeItemRoot = new QTreeWidgetItem(treeWidget.get());
-        treeItemRoot->setText(0, QString::fromStdString(tree->GetRoot()->node_name()));
-        treeItemRoot->setText(1, QString::fromStdString(statusToString(tree->GetRoot()->getStatus())));
-        treeItemRoot->setBackgroundColor(1, getColorForStatus(tree->GetRoot()->getStatus()));
 
-        addRootItem(tree->GetRoot(), treeItemRoot);
-        treeWidget->expandAll();
-        treeWidget->update();
+        if (tree && tree->GetRoot()) {
+            auto treeItemRoot = new QTreeWidgetItem(treeWidget.get());
+            treeItemRoot->setText(0, QString::fromStdString(tree->GetRoot()->node_name()));
+            treeItemRoot->setText(1, QString::fromStdString(statusToString(tree->GetRoot()->getStatus())));
+            treeItemRoot->setBackgroundColor(1, getColorForStatus(tree->GetRoot()->getStatus()));
+
+            addRootItem(tree->GetRoot(), treeItemRoot);
+            treeWidget->expandAll();
+            treeWidget->update();
+        }
         hasCorrectTree = true;
     }
 }
