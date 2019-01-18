@@ -9,6 +9,7 @@
 #include <roboteam_ai/src/control/ControlKick.h>
 #include "roboteam_utils/Arc.h"
 #include "roboteam_utils/Math.h"
+#include "../control/ControlUtils.h"
 
 
 namespace rtt {
@@ -20,7 +21,13 @@ Skill::Skill(std::string name, bt::Blackboard::Ptr blackboard) : bt::Leaf(std::m
 
 }
 void Skill::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
-    ioManager.publishRobotCommand(cmd);
+    ros::NodeHandle nh;
+    std::string ourSideParam;
+    nh.getParam("our_side",ourSideParam);
+    if(ourSideParam=="right"){
+        rotateRobotCommand(cmd);
+    }
+    ioManager.publishRobotCommand(cmd); // We default to our robots being on the left if parameter is not set
 }
 
 std::string Skill::node_name() {
@@ -44,6 +51,12 @@ void Skill::initialize() {
 void Skill::terminate(Status s) {
     if (!robot) return;
     onTerminate(s);
+}
+
+void Skill::rotateRobotCommand(roboteam_msgs::RobotCommand &cmd) {
+    cmd.x_vel=-cmd.x_vel;
+    cmd.y_vel=-cmd.y_vel;
+    cmd.w=control::ControlUtils::constrainAngle(cmd.w+M_PI);
 }
 
 } // ai
