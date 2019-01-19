@@ -5,6 +5,7 @@
 #include "mainWindow.h"
 #include "../utilities/Constants.h"
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
+#include "InterfaceValues.h"
 
 namespace rtt {
 namespace ai {
@@ -42,6 +43,36 @@ MainWindow::MainWindow(QWidget* parent)
 
 
     verticalLayout->addWidget(toggleSideBtn.get());
+
+    doubleSpinBoxesGroup = std::make_shared<QGroupBox>("GoToPosLuth PID options");
+    spinBoxLayout = std::make_shared<QHBoxLayout>();
+
+    sb_luth_P = std::make_shared<QDoubleSpinBox>();
+    sb_luth_P->setRange(-20, 20);
+    sb_luth_P->setSingleStep(0.1f);
+    sb_luth_P->setValue(InterfaceValues::getLuthP());
+    QObject::connect(sb_luth_P.get(), SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
+
+    spinBoxLayout->addWidget(sb_luth_P.get());
+
+    sb_luth_I = std::make_shared<QDoubleSpinBox>();
+    sb_luth_I->setRange(-20, 20);
+    sb_luth_I->setSingleStep(0.1f);
+    sb_luth_I->setValue(InterfaceValues::getLuthI());
+    QObject::connect(sb_luth_I.get(), SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
+
+    spinBoxLayout->addWidget(sb_luth_I.get());
+
+    sb_luth_D = std::make_shared<QDoubleSpinBox>();
+    sb_luth_D->setRange(-20, 20);
+    sb_luth_D->setSingleStep(0.1f);
+    sb_luth_D->setValue(InterfaceValues::getLuthD());
+    QObject::connect(sb_luth_D.get(), SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
+
+    spinBoxLayout->addWidget(sb_luth_D.get());
+
+    doubleSpinBoxesGroup->setLayout(spinBoxLayout.get());
+    verticalLayout->addWidget(doubleSpinBoxesGroup.get());
 
     QObject::connect(select_strategy.get(), static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [=](const QString &strategyName) {
@@ -286,6 +317,11 @@ void MainWindow::toggleOurSideParam() {
     toggleSideBtn->setText(QString::fromStdString(newParam));
 }
 
+void MainWindow::updatePID_luth() {
+    InterfaceValues::setLuthP(sb_luth_P->value());
+    InterfaceValues::setLuthI(sb_luth_I->value());
+    InterfaceValues::setLuthD(sb_luth_D->value());
+}
 
 } // interface
 } // ai

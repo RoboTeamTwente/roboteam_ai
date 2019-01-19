@@ -35,6 +35,8 @@
 #include "../skills/Pass.h"
 #include <roboteam_ai/src/skills/InterceptBall.h>
 #include <roboteam_ai/src/skills/GoToPosLuTh.h>
+#include <roboteam_ai/src/skills/InterceptBall.h>
+#include "../skills/DribbleRotate.h"
 
 //  ______________________
 //  |                    |
@@ -47,7 +49,9 @@
 #include <roboteam_ai/src/conditions/TheyHaveBall.h>
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
-#include <roboteam_ai/src/skills/InterceptBall.h>
+#include "../conditions/BallInDefenseAreaAndStill.h"
+#include "../conditions/IsInDefenseArea.hpp"
+
 #include "Switches.h"
 
 /**
@@ -70,6 +74,7 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "Attactic",
          "SimpleDefendTactic",
          "SimpleDefendTactic_1",
+         "KeeperTacticV2",
          "KeeperTactic",
          "KeeperTestTactic",
          "PassTactic"};
@@ -130,7 +135,7 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
     else if (name == "UntilFail") {
         node = std::make_shared<bt::UntilFail>();
     }
-    else if (name == "UntilSuccess" ) {
+    else if (name == "UntilSuccess") {
         node = std::make_shared<bt::UntilSuccess>();
     }
     else {
@@ -183,8 +188,8 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "Keeper") {
         node = std::make_shared<rtt::ai::Keeper>(name, properties);
     }
-    else if (name == "BallKickedToOurGoal"){
-        node = std::make_shared<rtt::ai::BallKickedToOurGoal>(name,properties);
+    else if (name == "BallKickedToOurGoal") {
+        node = std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
     }
     else if (name == "DefendOnRobot") {
         node = std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
@@ -192,18 +197,27 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     else if (name == "IsRobotClosestToBall") {
         node = std::make_shared<rtt::ai::IsRobotClosestToBall>(name, properties);
     }
-    else if (name == "InterceptBall"){
-        node = std::make_shared<rtt::ai::InterceptBall>(name,properties);
+    else if (name == "InterceptBall") {
+        node = std::make_shared<rtt::ai::InterceptBall>(name, properties);
     }
     else if (name == "Attack") {
         node = std::make_shared<rtt::ai::Attack>(name, properties);
+    }
+    else if (name == "BallInDefenseAreaAndStill") {
+        node = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
+    }
+    else if (name == "IsInDefenseArea") {
+        node = std::make_shared<rtt::ai::IsInDefenseArea>(name, properties);
+    }
+    else if (name == "DribbleRotate") {
+        node = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
     }
     else if (name == "Pass") {
         node = std::make_shared<rtt::ai::Pass>(name, properties);
     }
     else {
         ROS_ERROR("ERROR: Leaf not found!! using GoToPos..");
-        std::cout<<name<<std::endl;
+        std::cout << name << std::endl;
         node = std::make_shared<rtt::ai::GoToPos>(name, properties);
     }
 
@@ -260,7 +274,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
             {"SimpleDefendTactic_1", {
-                {"simpleDefender1", robotType::closeToOurGoal}
+                    {"simpleDefender1", robotType::closeToOurGoal}
             }
             },
             {"Attactic", {
@@ -268,8 +282,12 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     //{"atak", robotType::closeToBall},
             }
             },
+            {"KeeperTacticV2", {
+                    {"keeper", robotType::random}
+            }
+            },
             {"KeeperTactic", {
-                        {"keeper", robotType::random}
+                    {"keeper", robotType::random}
             }
             },
             {"PassTactic", {
@@ -279,7 +297,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
             {"KeeperTestTactic", {
                     {"keeper", robotType::random},
-                    {"Attacker", robotType::random}
+                    {"atak", robotType::random}
             }
             }
     };
