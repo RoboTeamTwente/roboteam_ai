@@ -21,6 +21,7 @@
 #include <QRadioButton>
 #include <QGroupBox>
 #include <QLabel>
+#include <QtWidgets/QDoubleSpinBox>
 
 namespace rtt {
 namespace ai {
@@ -36,6 +37,7 @@ public slots:
     void updateRobotsWidget();
     void toggleOurColorParam();
     void toggleOurSideParam();
+    void updatePID_luth();
 private:
     std::shared_ptr<Visualizer> visualizer;
     std::shared_ptr<QHBoxLayout> horizontalLayout;
@@ -54,6 +56,12 @@ private:
     std::shared_ptr<QCheckBox> cb_path;
     std::shared_ptr<QCheckBox> cb_path_all;
     std::shared_ptr<QCheckBox> cb_velocities;
+
+    std::shared_ptr<QGroupBox> doubleSpinBoxesGroup;
+    std::shared_ptr<QHBoxLayout> spinBoxLayout;
+    std::shared_ptr<QDoubleSpinBox> sb_luth_P;
+    std::shared_ptr<QDoubleSpinBox> sb_luth_I;
+    std::shared_ptr<QDoubleSpinBox> sb_luth_D;
 
     void configureCheckBox(std::shared_ptr<QCheckBox> checkbox, std::shared_ptr<QLayout> layout,
                 const QObject* receiver, const char* method, bool defaultState = false);

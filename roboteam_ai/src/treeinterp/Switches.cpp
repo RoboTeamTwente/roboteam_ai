@@ -23,7 +23,7 @@
 #include "../skills/Chip.h"
 #include "../skills/Dribble.h"
 #include "../skills/GoToPosLuTh.h"
-#include "roboteam_ai/src/skills/SkillGoToPos.h"
+#include "../skills/SkillGoToPos.h"
 #include "../skills/Halt.h"
 #include "../skills/Kick.h"
 #include "../skills/Harass.h"
@@ -33,8 +33,10 @@
 #include "../skills/GetBall.h"
 #include "../skills/Attack.h"
 #include "../skills/Pass.h"
-#include <roboteam_ai/src/skills/InterceptBall.h>
-#include <roboteam_ai/src/skills/GoToPosLuTh.h>
+#include "../skills/GoToPosLuTh.h"
+#include "../skills/DribbleRotate.h"
+#include "../skills/InterceptBall.h"
+#include "../skills/Defend.h"
 
 //  ______________________
 //  |                    |
@@ -47,8 +49,9 @@
 #include <roboteam_ai/src/conditions/TheyHaveBall.h>
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
-#include <roboteam_ai/src/skills/InterceptBall.h>
-#include <roboteam_ai/src/skills/Defend.h>
+#include "../conditions/BallInDefenseAreaAndStill.h"
+#include "../conditions/IsInDefenseArea.hpp"
+
 #include "Switches.h"
 
 /**
@@ -72,6 +75,7 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "TwoDefendersTactic",
          "SimpleDefendTactic",
          "SimpleDefendTactic_1",
+         "KeeperTacticV2",
          "KeeperTactic",
          "KeeperTestTactic",
          "PassTactic"};
@@ -228,7 +232,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
             {"SimpleDefendTactic_1", {
-                {"simpleDefender1", robotType::closeToOurGoal}
+                    {"simpleDefender1", robotType::closeToOurGoal}
             }
             },
             {"Attactic", {
@@ -236,8 +240,12 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     //{"atak", robotType::closeToBall},
             }
             },
+            {"KeeperTacticV2", {
+                    {"keeper", robotType::random}
+            }
+            },
             {"KeeperTactic", {
-                        {"keeper", robotType::random}
+                    {"keeper", robotType::random}
             }
             },
             {"PassTactic", {
@@ -247,7 +255,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
             {"KeeperTestTactic", {
                     {"keeper", robotType::random},
-                    {"Attacker", robotType::random}
+                    {"atak", robotType::random}
             }
             }
     };

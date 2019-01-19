@@ -27,6 +27,7 @@ const double MAX_ANGULAR_VELOCITY = 6.0; // rad per second??
 const double ROBOT_RADIUS=0.089; // TODO: Need to test if world_state agrees with this definition of the centre of the robot
 const double FRONT_LENGTH=0.118; // length of the front (flat) part of the robot
 const double DRIBBLER_ANGLE_OFFSET=asin(FRONT_LENGTH/2/ROBOT_RADIUS); // if the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET points to the left and DRIBBLER_ANGLE_OFFSET to the right.
+const double CENTRE_TO_FRONT=sin(DRIBBLER_ANGLE_OFFSET)*ROBOT_RADIUS;
 const double BALL_RADIUS=0.0215;
 
 const int tickRate=60 ;// Rate at which we tick our behavior Trees
@@ -39,7 +40,8 @@ const int MAX_GENEVA_CYCLES = 20;
 const int DEFAULT_GENEVA_STATE = 0;
 
 //dribble
-const double MAX_BALL_RANGE=BALL_RADIUS; // Could maybe be even less? TODO: needs to be tested.
+const double MAX_BALL_RANGE=0.1; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
+const double MAX_BALL_BOUNCE_RANGE=0.3;
 const double DRIBBLE_POSDIF=0.03;
 const float  DRIBBLE_SPEED=0.4;
 //getBallcc
@@ -64,7 +66,14 @@ const double BALL_TO_GOAL_TIME=3;//seconds
 //Intercept
 const double MAX_INTERCEPT_TIME=2.0;//seconds. Intercept terminates  after this time.
 const double BALL_DEFLECTION_ANGLE=30.0/180.0*M_PI;//angle at which a ball is considered 'deflected'
-const double INTERCEPT_POSDIF=0.04;//m
+const double INTERCEPT_POSDIF=0.04;//m acceptable deviation
+
+const double DEFAULT_MAX_VEL=2.0;
+// BallInDefenseAreaAndStill
+const double BALL_STILL_VEL=0.1;// if the ball has velocity lower than this in defense area, keeper starts getting it
+
+const double DRIBBLE_ROTATE_WAIT_TIME=0.2; // seconds
+const double DRIBBLE_ROTATE_MAX_SPEED=0.25; //rad/s
 // Interface
 const int ROBOT_DRAWING_SIZE = 8;
 const int BALL_DRAWING_SIZE = 5;
@@ -99,6 +108,9 @@ const QColor TACTIC_4 { 255, 120, 180, 255 };
 const QColor TACTIC_5 { 255, 100, 255, 255 };
 const QColor TACTIC_COLORS[] = {TACTIC_1, TACTIC_2, TACTIC_3, TACTIC_4, TACTIC_5};
 
+const double standard_luth_P = 3;
+const double standard_luth_I = 0;
+const double standard_luth_D = 3;
 } // constants
 } // ai
 } // rtt
