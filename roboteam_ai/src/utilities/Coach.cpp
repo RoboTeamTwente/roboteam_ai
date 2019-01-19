@@ -218,6 +218,23 @@ int Coach::getTheirRobotClosestToBall() {
     return id;
 }
 
+Vector2 Coach::getRobotClosestToPosition(std::vector<roboteam_msgs::WorldRobot> &robots, Vector2 position, bool includeSamePosition) {
+
+    double distance = 999999;
+    Vector2 pos = {999,999};
+    for (auto &bot : robots) {
+        const Vector2 deltaPos = position - bot.pos;
+        double dPLength = abs(deltaPos.length());
+        if (dPLength < distance) {
+            if (dPLength > 0.05 || includeSamePosition) {
+                distance = dPLength;
+                pos = bot.pos;
+            }
+        }
+    }
+    return pos;
+}
+
 } //control
 } //ai
 } //rtt

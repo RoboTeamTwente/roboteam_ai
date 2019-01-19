@@ -3,6 +3,7 @@
 //
 
 #include "goToPosInclude.h"
+#include <roboteam_ai/src/interface/InterfaceValues.h>
 
 #ifndef ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H
 #define ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H

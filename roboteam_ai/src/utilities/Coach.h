@@ -33,6 +33,8 @@ class Coach {
         static Vector2 getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal);
         static Vector2 getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID);
         static Vector2 getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position);
+        static Vector2 getRobotClosestToPosition(std::vector<roboteam_msgs::WorldRobot> &robots, Vector2 position, bool includeSamePosition);
+
 
         static bool isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal, const Vector2 &robotPos);
         static bool isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID, const Vector2 &robotPosition);
