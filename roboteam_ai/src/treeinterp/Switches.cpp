@@ -65,38 +65,15 @@
 
 
 std::vector<std::string> Switches::tacticJsonFileNames =
-        {"victoryDanceTactic",
-         "randomTactic",
-         "GetBallTestTactic",
-         "DanceTactic",
-         "DanceTactic2",
-         "SimpleTactic",
-         "haltTactic",
-         "Attactic",
-         "TwoDefendersTactic",
-         "SimpleDefendTactic",
-         "SimpleDefendTactic_1",
-         "KeeperTacticV2",
-         "KeeperTactic",
-         "KeeperTestTactic",
-         "PassTactic",
-         "QualificationTactic"};
+        {
+         "QualificationTactic",
+         "haltTactic"};
 
 std::vector<std::string> Switches::strategyJsonFileNames =
-        {"DemoTeamTwenteStrategy",
-         "victoryDanceStrategy",
-         "randomStrategy",
-         "GetBallTestStrategy",
-         "DanceStrategy",
-         "SimpleStrategy",
-         "haltStrategy",
-         "OneVersusThreeStrategy",
-         "SimpleDefendStrategy",
-         "SimpleDefendStrategy_1",
-         "AttackStrategy",
-         "KeeperStrategy",
+        {
          "QualificationStrategy",
-         "PassStrategy"};
+         "haltStrategy"
+         };
 
 std::vector<std::string> Switches::keeperJsonFiles =
         {};
@@ -155,6 +132,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["Pass"] =                   std::make_shared<rtt::ai::Pass>(name, properties);
     map["RotateToAngle"] =          std::make_shared<rtt::ai::RotateToAngle>(name, properties);
     map["SkillGoToPos"] =           std::make_shared<rtt::ai::SkillGoToPos>(name, properties);
+    map["BasicGoToPos"] =           std::make_shared<rtt::ai::BasicGoToPos>(name, properties);
 
     // conditions (alphabetic order)
 
