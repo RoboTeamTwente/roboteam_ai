@@ -35,7 +35,7 @@ class ControlGoToPosLuTh {
           std::vector<Vector2> posData = {{}}; //Save the position data
           std::vector<Vector2> velData = {{}}; //Save the velocity data
           float t = 0;
-          const float dt = 0.03f;
+          const float dt = 0.0175f;
           int totalCalculations = 0;
           int collisions = 0;
           bool careAboutFieldEdge = true;

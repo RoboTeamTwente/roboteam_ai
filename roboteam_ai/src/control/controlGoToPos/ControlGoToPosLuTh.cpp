@@ -53,7 +53,7 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
                 currentIndex = i;
             }
         }
-        if (distance > 0.25) {
+        if (distance > me.defaultCollisionRadius) {
             recalculate = true;
         }
         else {
@@ -157,7 +157,7 @@ bool ControlGoToPosLuTh::calculateNumericDirection(RobotPtr robot, NumRobot &me)
     me.t = me.posData.size()*me.dt;
 
     Vector2 closestBot = ControlUtils::getClosestRobot(me.pos, me.id, true, me.t);
-    if (me.isCollision(closestBot, 0.4f)) return false;
+    if (me.isCollision(closestBot, me.defaultCollisionRadius)) return false;
 
     bool noCollision = tracePath(me, targetPos);
     return noCollision;
@@ -233,7 +233,7 @@ bool ControlGoToPosLuTh::calculateNextPoint(NumRobotPtr me) {
     if (! Field::pointIsInField(me->pos)) {
         if (World::getRobotForId(static_cast<unsigned int>(me->id), true).get()) {
             if (Field::pointIsInField(
-                    World::getRobotForId(static_cast<unsigned int>(me->id), true).get()->pos))
+                    World::getRobotForId(static_cast<unsigned int>(me->id), true).get()->pos, -0.25f))
                 return false;
         }
     }
