@@ -46,7 +46,7 @@
             "isRole": false,
             "properties": {
               "ROLE": "qualRole",
-              "target": "{1.0,-1.0}"
+              "target": "{1.4,-0.85}"
             }
           },
           "xm1dohkoqeoibxof1": {
@@ -55,7 +55,7 @@
             "isRole": false,
             "properties": {
               "ROLE": "qualRole",
-              "target": "{-1.0,1.0}"
+              "target": "{-1.4,0.85}"
             }
           },
           "role2": {
@@ -89,7 +89,7 @@
             "isRole": false,
             "properties": {
               "ROLE": "eloRlauq",
-              "target": "{1.0,1.0}"
+              "target": "{1.4,0.85}"
             }
           },
           "gototheposition2121": {
@@ -98,7 +98,7 @@
             "isRole": false,
             "properties": {
               "ROLE": "eloRlauq",
-              "target": "{-1.0,-1.0}"
+              "target": "{-1.4,-0.85}"
             }
           }
         }

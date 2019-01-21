@@ -121,16 +121,17 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
     else if (static_cast<int>(me.posData.size()) < minStep) {
         me.clear();
 
-        if (closestRobotDir.length() < 0.3) {
+        if (closestRobotDir.length() < me.defaultCollisionRadius) {
             std::cout << "Avoiding Collision ........" << std::endl;
-            velocityCommand = (Vector2) {closestRobotDir.y, closestRobotDir.x}.stretchToLength(1.0f);
+
+            velocityCommand = (Vector2) {-closestRobotDir.y, closestRobotDir.x}.stretchToLength(1.25f);
         }
         else
             velocityCommand = (targetPos - robot->pos).stretchToLength(1.0f);
     }
-    else if (closestRobotDir.length() < 0.3) {
+    else if (closestRobotDir.length() < me.defaultCollisionRadius) {
         std::cout << "Avoiding Collision" << std::endl;
-        velocityCommand = (Vector2) {closestRobotDir.y, closestRobotDir.x}.stretchToLength(1.0f);
+        velocityCommand = (Vector2) {-closestRobotDir.y, closestRobotDir.x}.stretchToLength(1.25f);
     }
     else {
         Vector2 pidPos = me.velData[minStep - 1];
@@ -192,7 +193,7 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
             robotQueue.push(me);
         else {      //Collision!! calculate new points
 
-            auto minPoints = static_cast<int>(ceil(0.50f/(me->dt)));
+            auto minPoints = static_cast<int>(ceil(0.40f/(me->dt)));
             auto newDataPoints = static_cast<int>(me->posData.size() - 1 - me->startIndex);
 
             if (me->posData.empty() || me->velData.empty()) {
@@ -230,9 +231,11 @@ bool ControlGoToPosLuTh::calculateNextPoint(NumRobotPtr me) {
         return false;
     }
     if (! Field::pointIsInField(me->pos)) {
-        if (Field::pointIsInField(
-                World::getRobotForId(static_cast<unsigned int>(me->id), true).get()->pos))
-            return false;
+        if (World::getRobotForId(static_cast<unsigned int>(me->id), true).get()) {
+            if (Field::pointIsInField(
+                    World::getRobotForId(static_cast<unsigned int>(me->id), true).get()->pos))
+                return false;
+        }
     }
 
     // get the target velocity towards the direction we want to go

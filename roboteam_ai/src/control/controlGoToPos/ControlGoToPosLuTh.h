@@ -28,9 +28,10 @@ class ControlGoToPosLuTh {
           Vector2 finalTargetPos;
           Vector2 vel;                  //Current x,y velocity in ms-1
           Vector2 targetVel;            //Target velocity in ms-1
-          double maxVel = 2.5;          //Maximum velocity in ms-1
+          double maxVel = 1.56;          //Maximum velocity in ms-1
           Vector2 acc;                  //Current x,y acceleration in ms-2
-          double maxAcc = 2.5;          //Maximum acceleration in ms-2
+          double maxAcc = 3.03;          //Maximum acceleration in ms-2
+          double defaultCollisionRadius = 0.25;
           std::vector<Vector2> posData = {{}}; //Save the position data
           std::vector<Vector2> velData = {{}}; //Save the velocity data
           float t = 0;
@@ -55,8 +56,7 @@ class ControlGoToPosLuTh {
           }
 
           bool isCollision(Vector2 &otherPos) {
-              double minDistance = 0.3;
-              return isCollision(otherPos, minDistance);
+              return isCollision(otherPos, defaultCollisionRadius);
           }
 
           bool isCollision(Vector2 &otherPos, double minDistance) {
@@ -82,7 +82,7 @@ class ControlGoToPosLuTh {
 
               Vector2 deltaPos = collisionPos - startPos;
               std::vector<double> angles;
-              double deltaAngle = 0.0625;
+              double deltaAngle = 0.055;
               switch (newDir) {
               case goLeft: {
                   angles = {- M_PI*deltaAngle};
