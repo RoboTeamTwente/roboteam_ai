@@ -24,7 +24,7 @@ Pass::Status Pass::onUpdate() {
     if (! robot)
         return Status::Running;
 
-    if ((Coach::getOurRobotClosestToBall() == robot->id) && ! amIClosest) {
+    if ((Coach::getOurRobotClosestToBall() == static_cast<int>(robot->id)) && ! amIClosest) {
         amIClosest = true;
         if (defensive) {
             robotToPass = coach::Coach::pickDefensivePassTarget(robot->id);
@@ -33,7 +33,7 @@ Pass::Status Pass::onUpdate() {
             robotToPass = coach::Coach::pickOffensivePassTarget(robot->id, properties->getString("ROLE"));
         }
     }
-    else if (! ((Coach::getOurRobotClosestToBall() == robot->id) && amIClosest)) {
+    else if (! ((Coach::getOurRobotClosestToBall() == static_cast<int>(robot->id)) && amIClosest)) {
         amIClosest = false;
         robotToPass = - 1;
     }

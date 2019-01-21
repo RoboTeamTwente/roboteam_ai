@@ -1,3 +1,7 @@
+#include <utility>
+
+#include <utility>
+
 //
 // Created by rolf on 14/12/18.
 //
@@ -10,7 +14,8 @@
 namespace rtt {
 namespace ai {
 DribbleRotate::DribbleRotate(rtt::string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) { }
+        :Skill(std::move(name), std::move(blackboard)) { }
+
 void DribbleRotate::checkProgression() {
     if (currentProgression==FAIL||currentProgression==SUCCESS) return;
     double angDif = Control::angleDifference(robot->angle, targetAngle);
@@ -43,7 +48,7 @@ void DribbleRotate::onInitialize() {
     incrementAngle= maxSpeed/constants::tickRate;
     currentProgression=ROTATING;
     currentTick=0;
-    extraTick=constants::DRIBBLE_ROTATE_WAIT_TIME*constants::tickRate;
+    extraTick= static_cast<int>(constants::DRIBBLE_ROTATE_WAIT_TIME*constants::tickRate);
     dir=Control::rotateDirection(startAngle,targetAngle);
     maxTick=(int)floor(Control::angleDifference(startAngle,targetAngle)/maxSpeed*constants::tickRate);
     if (!robotHasBall(constants::MAX_BALL_RANGE)){
@@ -55,18 +60,20 @@ DribbleRotate::Status DribbleRotate::onUpdate() {
     checkProgression();
     switch (currentProgression){
     case ROTATING: sendMoveCommand();
-    return Status::Running;
+        return Status::Running;
     case SUCCESS:
         return Status::Success;
     case FAIL:
         return Status::Failure;
     }
+    return Status::Failure;
 }
+
 void DribbleRotate::onTerminate(Status s) {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = 1;
-    command.dribbler = true;
+    command.dribbler = 1;
     command.w = static_cast<float>(targetAngle);
     publishRobotCommand(command);
 }
@@ -74,8 +81,8 @@ void DribbleRotate::sendMoveCommand() {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = 1;
-    command.dribbler = true;
-    command.w = computeCommandAngle();
+    command.dribbler = 1;
+    command.w = static_cast<float>(computeCommandAngle());
     std::cout << command.w << std::endl;
     currentTick++;
     publishRobotCommand(command);

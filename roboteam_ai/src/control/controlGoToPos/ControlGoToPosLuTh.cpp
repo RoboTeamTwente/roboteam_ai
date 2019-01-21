@@ -117,7 +117,7 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
         velocityCommand.x = static_cast<float>(dir.x);
         velocityCommand.y = static_cast<float>(dir.y);
     }
-    else if (me.posData.size() < minStep) {
+    else if (static_cast<int>(me.posData.size()) < minStep) {
         me.clear();
         auto allBots = World::getAllRobots();
         Vector2 closestRobot = coach::Coach::getRobotClosestToPosition(allBots, robot->pos, false);
@@ -134,7 +134,7 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
         if (useRobotIndex) {
             if (robotIndex < minStep)
                 robotIndex = minStep;
-            if (robotIndex > me.velData.size()-1)
+            if (robotIndex > static_cast<int>(me.velData.size()-1))
                 robotIndex = static_cast<int>(me.velData.size()-1);
             pidPos = me.velData[robotIndex];
             vel = pid.controlPIR(pidPos, robot->vel);
