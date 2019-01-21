@@ -1,0 +1,67 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "w8bwka5xg1sbvbf": {
+            "children": [
+              "cwjjgxm2cz0g8",
+              "nissjhrgrp5wv",
+              "tb0tegf6hejxljz"
+            ],
+            "id": "w8bwka5xg1sbvbf",
+            "title": "MemSequence"
+          },
+          "2ehnnzt5yoaxrzu5r": {
+            "id": "2ehnnzt5yoaxrzu5r",
+            "title": "DefendOnRobot"
+          },
+          "tb0tegf6hejxljz": {
+            "id": "tb0tegf6hejxljz",
+            "title": "InterceptBall"
+          },
+          "7ud0xv6kdsx3yjl0b": {
+            "children": [
+              "w8bwka5xg1sbvbf",
+              "2us5lpx2t4ijrtm",
+              "jguvxi4t58k4zsoei"
+            ],
+            "id": "7ud0xv6kdsx3yjl0b",
+            "title": "Selector"
+          },
+          "jguvxi4t58k4zsoei": {
+            "id": "jguvxi4t58k4zsoei",
+            "title": "Defend"
+          },
+          "3zd7vj6vfbfkv217": {
+            "properties": {},
+            "id": "3zd7vj6vfbfkv217",
+            "title": "IsRobotClosestToBall"
+          },
+          "cwjjgxm2cz0g8": {
+            "id": "cwjjgxm2cz0g8",
+            "title": "BallKickedToOurGoal"
+          },
+          "2us5lpx2t4ijrtm": {
+            "children": [
+              "3zd7vj6vfbfkv217",
+              "2ehnnzt5yoaxrzu5r"
+            ],
+            "id": "2us5lpx2t4ijrtm",
+            "title": "MemSequence"
+          },
+          "nissjhrgrp5wv": {
+            "properties": {
+              "secondsAhead": "1"
+            },
+            "id": "nissjhrgrp5wv",
+            "title": "IsRobotClosestToBall"
+          }
+        },
+        "root": "7ud0xv6kdsx3yjl0b",
+        "title": "DefenderRole"
+      }
+    ]
+  },
+  "name": "DefenderRole"
+}
