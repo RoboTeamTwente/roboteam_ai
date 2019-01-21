@@ -18,7 +18,7 @@
             "title": "Role",
             "name": "simpleStupidRobot",
             "children": [
-              "6d3fke44my0fhn3r2"
+              "s6xx3lzfgjtnbuirz"
             ]
           },
           "6d3fke44my0fhn3r2": {
@@ -31,10 +31,12 @@
           },
           "s6xx3lzfgjtnbuirz": {
             "id": "s6xx3lzfgjtnbuirz",
-            "title": "Keeper",
+            "title": "DribbleRotate",
             "isRole": false,
             "properties": {
-              "ROLE": "simpleStupidRobot"
+              "ROLE": "simpleStupidRobot",
+              "maxVel": "0.1",
+              "RotateToTheirGoal": "true"
             }
           },
           "pn4tuzpp7sxc8ihtg": {

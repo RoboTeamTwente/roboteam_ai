@@ -16,15 +16,20 @@ GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
 void GoToPos::onInitialize() {
     goToBall = properties->getBool("goToBall");
     goBehindBall = properties->getBool("goBehindBall");
-
-    if (properties->hasVector2("Position")) {
+    if (properties->hasVector2("distanceBehindBall"))
+        distanceBehindBall = properties->getDouble("distanceBehindBall");
+    else
+        distanceBehindBall = 0.5;
+    if (properties->hasVector2("Position"))
         targetPos = properties->getVector2("Position");
-    }
     else {
         ROS_ERROR("GoToPos Initialize -> No good X or Y set in properties");
         currentProgress = Progression::FAIL;
     }
-
+    if (properties->hasDouble("maxVel"))
+        speed=properties->getDouble("maxVel");
+    else
+        speed=constants::DEFAULT_MAX_VEL;
 }
 
 /// Get an update on the skill
@@ -38,19 +43,16 @@ bt::Node::Status GoToPos::onUpdate() {
     }
     else if (goBehindBall) {
         auto enemyGoal = Field::get_their_goal_center();
-        auto ballToEnemyGoal = enemyGoal - ball->pos;
-        auto normalizedBTEG = ballToEnemyGoal.normalize();
-        targetPos = {ball->pos.x - normalizedBTEG.x, ball->pos.y - normalizedBTEG.y};
+        Vector2 ballToEnemyGoal = enemyGoal - ball->pos;
+        Vector2 normalizedBTEG = ballToEnemyGoal.stretchToLength(-distanceBehindBall);
+        targetPos = normalizedBTEG + ball->pos;
     }
 
     // See if the progress is a failure
     if (currentProgress == Progression::FAIL) {
         return Status::Failure;
     }
-    double dx = targetPos.x - robot->pos.x;
-    double dy = targetPos.y - robot->pos.y;
-    deltaPos = {dx, dy};
-
+    deltaPos = targetPos-robot->pos;
     // Now check the progress we made
     currentProgress = checkProgression();
     // Send a move command
@@ -124,15 +126,15 @@ void GoToPos::sendMoveCommand2() {
     command.w = static_cast<float>(deltaPos.angle());
     Vector2 deltaPosUnit = deltaPos.normalize();
 
-    command.x_vel = (float) deltaPosUnit.x*2;// abs(angularVel)/(abs(angularVel)-1);
-    command.y_vel = (float) deltaPosUnit.y*2;
+    command.x_vel = static_cast<float>(deltaPosUnit.x*speed);// abs(angularVel)/(abs(angularVel)-1);
+    command.y_vel = static_cast<float>(deltaPosUnit.y*speed);
     publishRobotCommand(command);
     commandSend = true;
 }
 
 /// Check the progress the robot made a9nd alter the currentProgress
 GoToPos::Progression GoToPos::checkProgression() {
-    double maxMargin = 0.15;                        // max offset or something.
+    double maxMargin = 0.2;                        // max offset or something.
     if (deltaPos.length() >= maxMargin) return ON_THE_WAY;
     else return DONE;
 }

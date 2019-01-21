@@ -15,7 +15,8 @@ class GoToPos : public Skill {
 
         bool goToBall;
         bool goBehindBall;
-
+        double distanceBehindBall;
+        double speed;
         enum Progression {
           ON_THE_WAY, DONE, FAIL
         };

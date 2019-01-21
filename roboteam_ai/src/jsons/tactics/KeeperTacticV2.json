@@ -3,42 +3,10 @@
     "trees": [
       {
         "nodes": {
-          "e4ls6a5fuztf9stf": {
-            "children": [
-              "o325jzoqfm4xsuj"
-            ],
-            "id": "e4ls6a5fuztf9stf",
-            "name": "Attacker",
-            "title": "Role"
-          },
-          "o325jzoqfm4xsuj": {
-            "id": "o325jzoqfm4xsuj",
-            "title": "UntilSuccess",
-            "isRole": false,
-            "children": [
-              "izyug0gt7xw2f"
-            ]
-          },
-          "ppfunc8wpxvw63u": {
-            "children": [
-              "e4ls6a5fuztf9stf",
-              "01au1jd4zpftwozp"
-            ],
-            "id": "ppfunc8wpxvw63u",
-            "title": "ParallelSequence"
-          },
-          "izyug0gt7xw2f": {
-            "id": "izyug0gt7xw2f",
-            "title": "Attack",
-            "isRole": false,
-            "properties": {
-              "ROLE": "atak"
-            }
-          },
           "jww7uxi3r0ic80": {
             "properties": {
               "ROLE": "keeper",
-              "maxTime": "5.0"
+              "maxTime":"5.0"
             },
             "title": "GetBall",
             "id": "jww7uxi3r0ic80"
@@ -53,31 +21,8 @@
             },
             "id": "t7l47gmmtv3gh"
           },
-          "NOPLS": {
-            "title": "MemSequence",
-            "children": [
-              "xrgcle92koe6f3",
-              "DINGDINGDING123"
-            ],
-            "properties": {
-              "ROLE": "keeper"
-            },
-            "id": "NOPLS"
-
-          },
           "xrgcle92koe6f3": {
             "id": "xrgcle92koe6f3",
-            "title": "GoToPos",
-            "properties": {
-              "Position": "{-6,0}",
-              "goBehindBall": "true",
-              "distanceBehindBall": "0.15",
-              "maxVel": "0.5",
-              "ROLE": "keeper"
-            }
-          },
-          "DINGDINGDING123": {
-            "id": "DINGDINGDING123",
             "title": "GoToPos",
             "properties": {
               "Position": "{-6,0}",
@@ -192,8 +137,7 @@
             "title": "IsInDefenseArea",
             "properties": {
               "ROLE": "keeper",
-              "ourDefenseArea": "true",
-              "margin": "0.2"
+              "ourDefenseArea": "true"
             },
             "id": "testNode"
           },
@@ -210,7 +154,6 @@
             "title": "MemSequence",
             "children": [
               "xrgcle92koe6f3",
-              "DINGDINGDING123",
               "jww7uxi3r0ic80",
               "testNode2",
               "glxpmmnu2fb21z1mp"
@@ -221,10 +164,10 @@
             "id": "testNode3"
           }
         },
-        "root": "ppfunc8wpxvw63u",
-        "title": "KeeperTestTactic"
+        "root": "01au1jd4zpftwozp",
+        "title": "KeeperTacticV2"
       }
     ]
   },
-  "name": "KeeperTestTactic"
+  "name": "KeeperTacticV2"
 }
