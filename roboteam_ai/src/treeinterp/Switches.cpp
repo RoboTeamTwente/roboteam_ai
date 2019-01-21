@@ -51,7 +51,6 @@
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
 #include "../conditions/BallInDefenseAreaAndStill.h"
 #include "../conditions/IsInDefenseArea.hpp"
-
 #include "Switches.h"
 
 /**
@@ -132,7 +131,6 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     /*
      * unused skills
      * chip
-     * dribbleRotate
      * shootAtGoal
      * sideAttacker
      */
@@ -141,6 +139,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["Defend"] =                 std::make_shared<rtt::ai::Defend>(name, properties);
     map["DefendOnRobot"] =          std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
     map["Dribble"] =                std::make_shared<rtt::ai::Dribble>(name, properties);
+    map["DribbleRotate"] =          std::make_shared<rtt::ai::DribbleRotate>(name, properties);
     map["GetBall"] =                std::make_shared<rtt::ai::GetBall>(name, properties);
     map["GoToPos"] =                std::make_shared<rtt::ai::GoToPos>(name, properties);
     map["GoToPosLuTh"] =            std::make_shared<rtt::ai::GoToPosLuTh>(name, properties);
@@ -158,17 +157,18 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     /*
      * unused Conditions
      * CanReachPoint
-     * IsInDefenceArea
      * IsInZone
      * IsOnOurSide
      * WeHaveBall
      */
 
-    map["BallKickedToOurGoal"] =    std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
-    map["CanSeeGoal"] =             std::make_shared<rtt::ai::CanSeeGoal>(name, properties);
-    map["HasBall"] =                std::make_shared<rtt::ai::HasBall>(name, properties);
-    map["IsRobotClosestToBall"] =   std::make_shared<rtt::ai::IsRobotClosestToBall>(name, properties);
-    map["TheyHaveBall"] =           std::make_shared<rtt::ai::TheyHaveBall>(name, properties);
+    map["BallKickedToOurGoal"] =        std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
+    map["CanSeeGoal"] =                 std::make_shared<rtt::ai::CanSeeGoal>(name, properties);
+    map["HasBall"] =                    std::make_shared<rtt::ai::HasBall>(name, properties);
+    map["IsRobotClosestToBall"] =       std::make_shared<rtt::ai::IsRobotClosestToBall>(name, properties);
+    map["TheyHaveBall"] =               std::make_shared<rtt::ai::TheyHaveBall>(name, properties);
+    map["BallInDefenseAreaAndStill"] =  std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
+    map["IsInDefenseArea"] =            std::make_shared<rtt::ai::IsInDefenseArea>(name, properties);
 
     if ( map.find(name) != map.end() ) {
         return map[name];

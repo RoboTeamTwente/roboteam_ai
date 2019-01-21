@@ -126,7 +126,7 @@ std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fi
 
     for (auto tactic : tacticJson["data"]["trees"]) {
         std::string rootID = tactic["root"];
-
+        std::string name = tactic["title"];
         bt::Node::Ptr buildingNode = TreeInterpreter::buildNode(tactic["nodes"][rootID], tactic, globalBB);
 
         resultMap.insert(std::pair<std::string, bt::Node::Ptr>(tactic["title"], buildingNode));
