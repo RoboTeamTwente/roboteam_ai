@@ -11,7 +11,7 @@ namespace coach {
 using dealer = robotDealer::RobotDealer;
 
 std::map<int, int> Coach::defencePairs;
-
+std::map<std::string,Coach::PassState> Coach::passState;
 int Coach::pickOffensivePassTarget(int selfID, std::string roleName) {
 
     // Get the other robots in that tactic
@@ -233,6 +233,9 @@ Vector2 Coach::getRobotClosestToPosition(std::vector<roboteam_msgs::WorldRobot> 
         }
     }
     return pos;
+}
+Coach::PassState Coach::getPassState(std::string role) {
+    return passState[role];
 }
 
 } //control

@@ -43,6 +43,17 @@ class Coach {
         static std::pair<int, bool> getRobotClosestToBall();
         static int getOurRobotClosestToBall();
         static int getTheirRobotClosestToBall();
+
+        enum PassState {
+          goBehindBall,
+          goToReceiveBall,
+          shoot,
+          receive,
+        };
+        static std::map<std::string,PassState> passState;
+        static PassState getPassState(std::string role);
+
+
 };
 
 }

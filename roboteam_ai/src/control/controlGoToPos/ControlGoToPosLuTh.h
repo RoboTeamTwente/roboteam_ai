@@ -2,7 +2,7 @@
 // Created by thijs on 12-12-18.
 //
 
-#include "goToPosInclude.h"
+#include "GoToPosInclude.h"
 #include <roboteam_ai/src/interface/InterfaceValues.h>
 
 #ifndef ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H
@@ -37,6 +37,7 @@ class ControlGoToPosLuTh {
           const float dt = 0.03f;
           int totalCalculations = 0;
           int collisions = 0;
+          bool careAboutFieldEdge = true;
 
           enum newDirections {
             goLeft,
@@ -114,18 +115,27 @@ class ControlGoToPosLuTh {
 
               std::vector<Vector2> _posData(me->posData.begin(), me->posData.begin() + me->startIndex);
               newMe.posData = _posData;
-              newMe.pos = newMe.posData.back();//me->posData[me->startIndex];
+              if (newMe.posData.size() != 0) {
+                  newMe.startIndex = newMe.posData.size() - 1;
+                  newMe.pos = newMe.posData.back();
+              }
+              else {
+                  newMe.startIndex = 0;
+                  newMe.pos = World::getRobotForId(static_cast<unsigned int>(me->id), true).get()->pos;
+              }
               std::vector<Vector2> _velData(me->velData.begin(), me->velData.begin() + me->startIndex);
               newMe.velData = _velData;
-              newMe.vel = newMe.velData.back();//me->velData[me->startIndex];
+              newMe.vel = newMe.velData.back();
 
               newMe.id = me->id;
               newMe.totalCalculations = me->totalCalculations;
               newMe.collisions = me->collisions + 1;
-              newMe.startIndex = newMe.posData.size() - 1;
+
+
               newMe.targetPos = newTarget.second;
               newMe.newDir = newTarget.first;
               newMe.finalTargetPos = me->finalTargetPos;
+              newMe.careAboutFieldEdge = me->careAboutFieldEdge;
               return std::make_shared<NumRobot>(newMe);
           }
 

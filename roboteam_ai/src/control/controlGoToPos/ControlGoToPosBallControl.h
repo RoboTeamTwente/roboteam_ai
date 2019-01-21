@@ -2,7 +2,7 @@
 // Created by thijs on 18-12-18.
 //
 
-#include "goToPosInclude.h"
+#include "GoToPosInclude.h"
 
 #ifndef ROBOTEAM_AI_CONTROLGOTOPOSBALLCONTROL_H
 #define ROBOTEAM_AI_CONTROLGOTOPOSBALLCONTROL_H

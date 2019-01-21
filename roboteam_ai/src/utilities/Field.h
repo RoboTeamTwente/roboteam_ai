@@ -31,6 +31,7 @@ class Field {
         static Vector2 get_their_goal_center();
 
         static bool pointIsInDefenceArea(Vector2 point, bool isOurDefenceArea = true, float margin = 0.0);
+        static bool pointIsInField(Vector2 point, float margin = 0.0);
 };
 
 } // ai
