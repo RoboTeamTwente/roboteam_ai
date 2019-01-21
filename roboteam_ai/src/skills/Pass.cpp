@@ -24,7 +24,7 @@ Pass::Status Pass::onUpdate() {
     if (! robot)
         return Status::Running;
 
-    if ((Coach::getOurRobotClosestToBall() == static_cast<int>(robot->id)) && ! amIClosest) {
+    if ((Coach::getRobotClosestToBall(true)->id == robot->id) && ! amIClosest) {
         amIClosest = true;
         if (defensive) {
             robotToPass = coach::Coach::pickDefensivePassTarget(robot->id);
@@ -33,7 +33,7 @@ Pass::Status Pass::onUpdate() {
             robotToPass = coach::Coach::pickOffensivePassTarget(robot->id, properties->getString("ROLE"));
         }
     }
-    else if (! ((Coach::getOurRobotClosestToBall() == static_cast<int>(robot->id)) && amIClosest)) {
+    else if (! ((Coach::getRobotClosestToBall(true)->id == robot->id) && amIClosest)) {
         amIClosest = false;
         robotToPass = - 1;
     }
@@ -73,14 +73,19 @@ Pass::Status Pass::onUpdate() {
             }
             goToType = GoToType::basic;
         }
-        if (Field::pointIsInDefenceArea(ball->pos, true) || Field::pointIsInDefenceArea(ball->pos, false))
+
+        if (Field::pointIsInDefenceArea(robot->pos, true, 0.2))
+            velocity = ((Vector2) robot->pos - Field::get_our_goal_center()).stretchToLength(2.0);
+        else if (Field::pointIsInDefenceArea(robot->pos, false, 0.2))
+            velocity = ((Vector2) robot->pos - Field::get_their_goal_center()).stretchToLength(2.0);
+        else if (Field::pointIsInDefenceArea(ball->pos, true) || Field::pointIsInDefenceArea(ball->pos, false))
             velocity = {0, 0};
         else
             velocity = goToPos.goToPos(robot, targetPos, goToType);
     }
     else {
         if (((Vector2) (ball->vel)).length() < 0.5f) {
-            Vector2 otherRobot = World::getRobotForId(static_cast<unsigned int>(Coach::getOurRobotClosestToBall()),true).get()->pos;
+            Vector2 otherRobot = Coach::getRobotClosestToBall(true)->pos;
             targetPos = otherRobot - (otherRobot-robot->pos).stretchToLength(1.0f);
             velocity = goToPos.goToPos(robot, targetPos, GoToType::luTh);
         }

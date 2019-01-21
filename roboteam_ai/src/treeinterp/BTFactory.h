@@ -52,6 +52,8 @@ class BTFactory {
         static void setKeeper(int newID);
 
         static bool isInitialized();
+
+        static void halt();
 };
 
 #endif //ROBOTEAM_AI_BTFACTORY_H

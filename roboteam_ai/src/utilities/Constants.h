@@ -61,7 +61,7 @@ const double KEEPER_POSDIF=0.04;
 
 //ballkickedtoGoal
 const double BALL_TO_GOAL_MARGIN=BALL_RADIUS;//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
-const double BALL_TO_GOAL_TIME=1.5;//seconds
+const double BALL_TO_GOAL_TIME=3;//seconds
 
 //Intercept
 const double MAX_INTERCEPT_TIME=2.0;//seconds. Intercept terminates  after this time.
