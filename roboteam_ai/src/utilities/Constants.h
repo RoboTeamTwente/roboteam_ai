@@ -12,6 +12,9 @@
 namespace rtt {
 namespace ai {
 namespace constants {
+
+const bool SHOW_LONGEST_TICK = true;
+
 // Max values we can send through robothub
 const double MAX_VEL_CMD=8.191;
 const int GENEVA_LEFT=0;//TODO: Might be reversed, please check

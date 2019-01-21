@@ -22,8 +22,27 @@ void ApplicationManager::setup() {
 
 void ApplicationManager::loop() {
     ros::Rate rate(rtt::ai::constants::tickRate);
+    double longestTick = 0.0;
+    double timeTaken;
     while (ros::ok()) {
+        ros::Time begin = ros::Time::now();
+
         this->runOneLoopCycle();
+
+        ros::Time end = ros::Time::now();
+        timeTaken = (end-begin).toNSec();
+
+        if (timeTaken > longestTick) {
+            if (timeTaken > 200000000) {
+                std::cout << "tick took longer than 200ms!!" << std::endl;
+            } else {
+                longestTick = timeTaken;
+                if (rtt::ai::constants::SHOW_LONGEST_TICK) {
+                    std::cout << "longest tick took: " << longestTick*0.000001 << " ms" << std::endl;
+                }
+            }
+        }
+
         rate.sleep();
     }
 }
