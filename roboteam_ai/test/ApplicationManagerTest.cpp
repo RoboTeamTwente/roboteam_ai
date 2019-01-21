@@ -57,8 +57,6 @@ TEST(ApplicationManagerTest, it_handles_ROS_data) {
     EXPECT_FLOAT_EQ(app.worldMsg.ball.pos.y, 20.2);
     EXPECT_FLOAT_EQ(app.geometryMsg.field.goal_depth, 30.3);
 
-    EXPECT_EQ(app.factory.getCurrentTree(), "SimpleStrategy");
-
     // handles the dangerfinder
     EXPECT_EQ(app.dangerData.scores.size(), 0);
     app.updateDangerfinder();
