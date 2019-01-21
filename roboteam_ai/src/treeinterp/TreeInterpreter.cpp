@@ -64,6 +64,7 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
         // Build and actual normal node
     }
     else {
+        auto test = nodeJSON["title"];
         bt::Node::Ptr tempNode = makeNonLeafNode(nodeJSON["title"]);
         tempNode->globalBB = globalBlackBoard;
         tempNode->properties = propertyParser.parse(nodeJSON);

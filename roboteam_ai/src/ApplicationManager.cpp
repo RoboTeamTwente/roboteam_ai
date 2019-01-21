@@ -35,6 +35,10 @@ void ApplicationManager::runOneLoopCycle() {
     this->updateDangerfinder();
 
     if (ai::World::didReceiveFirstWorld) {
+        if (BTFactory::getCurrentTree() == "NaN") {
+            ROS_INFO("NaN tree probably Halting");
+            return;
+        }
         //this->handleRefData();
         strategy = factory.getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();

@@ -21,6 +21,8 @@ namespace ai {
 namespace coach {
 
 class Coach {
+    private:
+        static std::vector<int> defenders;
 
     public:
         static std::map<int, int> defencePairs;
@@ -54,6 +56,11 @@ class Coach {
         static PassState getPassState(std::string role);
 
 
+        static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToBall(bool isOurTeam);
+
+        static void addDefender(int id);
+        static void removeDefender(int id);
+        static Vector2 getDefensivePosition(int robotId);
 };
 
 }

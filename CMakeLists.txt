@@ -174,6 +174,9 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleRotate.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BasicGoToPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BasicGoToPos.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/dribbleRotate.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/dribbleRotate.h
+        roboteam_ai/src/skills/Defend.cpp roboteam_ai/src/skills/Defend.h
         )
 
 set(CONDITIONS_SOURCES

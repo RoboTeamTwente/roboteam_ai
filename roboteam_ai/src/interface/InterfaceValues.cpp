@@ -3,6 +3,7 @@
 //
 
 #include <roboteam_ai/src/utilities/Constants.h>
+#include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include "InterfaceValues.h"
 
 namespace rtt {
@@ -42,6 +43,9 @@ double InterfaceValues::getLuthD() {
 void InterfaceValues::setLuthD(double LuthD) {
     std::lock_guard<std::mutex> lock(PIDMutex);
     InterfaceValues::luthD = LuthD;
+}
+void InterfaceValues::sendHaltCommand() {
+BTFactory::halt();
 }
 
 } // interface
