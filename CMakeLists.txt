@@ -25,7 +25,8 @@ find_package(catkin REQUIRED COMPONENTS
         actionlib_msgs
         actionlib
         uuid_msgs
-        unique_id)
+        unique_id
+        roslaunch)
 
 set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/json.h
@@ -264,6 +265,17 @@ set(INTERFACE_SOURCES
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
 add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+
+# copy all jsons to devel of ROS
+file(GLOB JSONS "${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons/keeper/*.json")
+file(COPY ${JSONS} DESTINATION ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons/keeper)
+
+file(GLOB JSONS "${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons/strategies/*.json")
+file(COPY ${JSONS} DESTINATION ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons/strategies)
+
+file(GLOB JSONS "${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons/tactics/*.json")
+file(COPY ${JSONS} DESTINATION ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons/tactics)
 
 # Main Executable
 add_executable(Roboteam_AI
