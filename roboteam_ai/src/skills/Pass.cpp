@@ -261,7 +261,7 @@ void Pass::shootBall(roboteam_msgs::RobotCommand &command) {
 
         if (Coach::doesRobotHaveBall(robot->id, true, 0.15, 0.2)) {
             command.kicker = 1;
-            command.kicker_vel = static_cast<float>(rtt::ai::constants::MAX_KICK_POWER*0.2f);
+            command.kicker_vel = static_cast<float>(rtt::ai::constants::MAX_KICK_POWER*0.35f);
             command.kicker_forced = 1;
         }
     }
