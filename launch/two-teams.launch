@@ -1,0 +1,41 @@
+<launch>
+    <group ns="yellow">
+        <arg name="legacy_packets" default="false" />
+        <param name="use_legacy_packets" type="boolean" value="$(arg legacy_packets)" />
+        <param name="robot_output_target" type="string" value="grsim" />
+
+        <param name="our_side"  type="str" value="right" />
+        <param name="our_color" type="str" value="yellow" />
+
+        <group ns="grsim">
+            <param name="batching" type="bool" value="true"/>
+        </group>
+
+        <node pkg="roboteam_vision" type="roboteam_vision" name="vision" />
+        <node pkg="roboteam_world" type="filtered_world" name="world" output="screen" />
+        <node pkg="roboteam_robothub" type="roboteam_robothub" name="robothub" />
+        <node name="Roboteam_AI" pkg="roboteam_ai" type="Roboteam_AI" cwd="node" output="screen" />
+
+
+
+    </group>
+
+    <group ns="blue">
+        <arg name="legacy_packets" default="false" />
+        <param name="use_legacy_packets" type="boolean" value="$(arg legacy_packets)" />
+        <param name="robot_output_target" type="string" value="grsim" />
+
+        <param name="our_side"  type="str" value="left" />
+        <param name="our_color" type="str" value="blue" />
+
+        <group ns="grsim">
+            <param name="batching" type="bool" value="true"/>
+        </group>
+
+        <node pkg="roboteam_vision" type="roboteam_vision" name="vision" />
+        <node pkg="roboteam_world" type="filtered_world" name="world" output="screen" />
+        <node pkg="roboteam_robothub" type="roboteam_robothub" name="robothub" />
+        <node name="Roboteam_AI" pkg="roboteam_ai" type="Roboteam_AI" cwd="node" output="screen" />
+
+    </group>
+</launch>
