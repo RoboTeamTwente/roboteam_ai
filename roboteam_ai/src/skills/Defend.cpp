@@ -19,8 +19,8 @@ bt::Node::Status Defend::onUpdate() {
 
     roboteam_msgs::RobotCommand cmd;
     cmd.id = robot->id;
-    cmd.x_vel = velocities.x;
-    cmd.y_vel = velocities.y;
+    cmd.x_vel = static_cast<float>(velocities.x);
+    cmd.y_vel = static_cast<float>(velocities.y);
     cmd.use_angle = 1;
     cmd.w = static_cast<float>((targetLocation - robot->pos).angle());
     publishRobotCommand(cmd);
