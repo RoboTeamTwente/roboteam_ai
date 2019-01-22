@@ -12,6 +12,9 @@
 namespace rtt {
 namespace ai {
 namespace constants {
+
+const bool SHOW_LONGEST_TICK = true;
+
 // Max values we can send through robothub
 const double MAX_VEL_CMD=8.191;
 const int GENEVA_LEFT=0;//TODO: Might be reversed, please check
@@ -52,7 +55,7 @@ const int POSSES_BALL_CYCLES=100;
 const double GETBALL_SPEED=.5;
 
 //GoToPos
-const double MAX_CALCULATION_TIME=7.0; //max time in ms
+const double MAX_CALCULATION_TIME=20.0; //max time in ms
 
 //Keeper
 const double KEEPER_POST_MARGIN=0.08;//m
@@ -61,7 +64,7 @@ const double KEEPER_POSDIF=0.04;
 
 //ballkickedtoGoal
 const double BALL_TO_GOAL_MARGIN=BALL_RADIUS;//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
-const double BALL_TO_GOAL_TIME=1.5;//seconds
+const double BALL_TO_GOAL_TIME=3;//seconds
 
 //Intercept
 const double MAX_INTERCEPT_TIME=2.0;//seconds. Intercept terminates  after this time.
@@ -108,9 +111,9 @@ const QColor TACTIC_4 { 255, 120, 180, 255 };
 const QColor TACTIC_5 { 255, 100, 255, 255 };
 const QColor TACTIC_COLORS[] = {TACTIC_1, TACTIC_2, TACTIC_3, TACTIC_4, TACTIC_5};
 
-const double standard_luth_P = 3;
-const double standard_luth_I = 0;
-const double standard_luth_D = 3;
+const double standard_luth_P = 2.7;
+const double standard_luth_I = 0.1;
+const double standard_luth_D = 3.5;
 } // constants
 } // ai
 } // rtt

@@ -165,6 +165,26 @@ Vector2 Controller::controlPIR(Vector2 err, Vector2 rate) {
     Vector2 value_R2 = this->controlR(rate);
     return value_P2 + value_I2 + value_R2;
 }
+double Controller::getP() {
+    return kP;
+}
+double Controller::getI() {
+    return kI;
+}
+double Controller::getD() {
+    return kD;
+}
+
+void Controller::reset() {
+    kP = 0;
+    kI = 0;
+    kD = 0;
+    timeDiff = 1.0 / rtt::ai::constants::tickRate;
+    initial_I = 0;
+    initial_I2 = 0; //only used in the case of 2 input variables
+    prev_error = 0;
+    prev_error2 = 0; //only used in the case of 2 input variables
+}
 
 } // control
 } // ai
