@@ -46,6 +46,7 @@ class Coach {
         static int getOurRobotClosestToBall();
         static int getTheirRobotClosestToBall();
 
+
         enum PassState {
           goBehindBall,
           goToReceiveBall,
@@ -53,8 +54,8 @@ class Coach {
           receive,
         };
         static std::map<std::string,PassState> passState;
+        static PassState updatePassState(std::string role);
         static PassState getPassState(std::string role);
-
 
         static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToBall(bool isOurTeam);
 

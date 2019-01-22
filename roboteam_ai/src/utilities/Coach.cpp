@@ -23,9 +23,10 @@ int Coach::pickOffensivePassTarget(int selfID, std::string roleName) {
     // Pick a free one TODO make better
     for (auto bot : tacticMates) {
         if (bot != selfID) {
-            if (control::ControlUtils::hasClearVision(selfID, bot, World::get_world(), 2)) {
-                return bot;
-            }
+            return bot;
+//            if (control::ControlUtils::hasClearVision(selfID, bot, World::get_world(), 2)) {
+//                return bot;
+//            }
         }
     }
     return - 1;
@@ -225,9 +226,24 @@ Vector2 Coach::getRobotClosestToPosition(std::vector<roboteam_msgs::WorldRobot> 
     }
     return pos;
 }
+Coach::FSM012 Coach::updatePassState(std::string role) {
+    if () {
+        int id = dealer::findRobotForRole(role);
+        pickOffensivePassTarget(id, role);
+    }
+
+    return passState[role];
+
+}
+
 Coach::PassState Coach::getPassState(std::string role) {
     return passState[role];
 }
+
+
+
+
+
 
 } //control
 } //ai
