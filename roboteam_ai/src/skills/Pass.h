@@ -14,6 +14,7 @@ class Pass : public Skill {
     private:
         double errorMargin = 0.3;
         bool IamNumber1;
+        int otherRobotID;
         double dBehindball = 0.25;
         GoToType goToType;
         std::shared_ptr<roboteam_msgs::WorldRobot> otherRobot;
@@ -31,9 +32,9 @@ class Pass : public Skill {
           S11 = 11,
           S12 = 12
         };
-        FSM012 fsm;
+        FSM012 fsm = S1;
         FSM012 fsmPlusPlus(FSM012 fsm);
-        void receiveBall();
+        void receiveBall(roboteam_msgs::RobotCommand &command, const Vector2 &pos);
         void shootBall(roboteam_msgs::RobotCommand &command);
         void getBall();
         using PassState = Coach::PassState;

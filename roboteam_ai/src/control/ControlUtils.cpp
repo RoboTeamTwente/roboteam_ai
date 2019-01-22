@@ -60,7 +60,7 @@ rtt::Vector2 ControlUtils::getClosestRobot(Vector2 &pos, int &id, bool ourTeam, 
             Vector2 botPos = {bot.pos.x + bot.vel.x*t, bot.pos.y + bot.vel.y*t};
             double deltaPos = (pos - botPos).length();
             if (deltaPos < distance) {
-                closestPos = bot.pos;
+                closestPos = botPos;
                 distance = deltaPos;
             }
 
@@ -72,7 +72,7 @@ rtt::Vector2 ControlUtils::getClosestRobot(Vector2 &pos, int &id, bool ourTeam, 
             Vector2 botPos = {bot.pos.x + bot.vel.x*t, bot.pos.y + bot.vel.y*t};
             double deltaPos = (pos - botPos).length();
             if (deltaPos < distance) {
-                closestPos = bot.pos;
+                closestPos = botPos;
                 distance = deltaPos;
             }
         }

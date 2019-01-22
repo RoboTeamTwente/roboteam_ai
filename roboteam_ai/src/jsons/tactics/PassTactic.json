@@ -46,12 +46,12 @@
           "2c9qj0aoi9sqqz": {
             "id": "2c9qj0aoi9sqqz",
             "title": "Role",
-            "name": "passA",
+            "name": "passOne",
             "children": [
               "fcxh14zot6wb8nnl"
             ],
             "properties": {
-              "ROLE": "passA"
+              "ROLE": "passOne"
             }
           },
           "fcxh14zot6wb8nnl": {
@@ -61,14 +61,14 @@
               "swsmqxoarmf7fo"
             ],
             "properties": {
-              "ROLE": "passA"
+              "ROLE": "passOne"
             }
           },
           "swsmqxoarmf7fo": {
             "id": "swsmqxoarmf7fo",
             "title": "Pass",
             "properties": {
-              "ROLE": "passA",
+              "ROLE": "passOne",
               "defensive": "false"
             }
           }

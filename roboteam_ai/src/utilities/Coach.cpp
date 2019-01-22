@@ -213,7 +213,7 @@ void Coach::removeDefender(int id) {
 Vector2 Coach::getRobotClosestToPosition(std::vector<roboteam_msgs::WorldRobot> &robots, Vector2 position, bool includeSamePosition) {
 
     double distance = 999999;
-    Vector2 pos = {999,999};
+    Vector2 pos = {999, 999};
     for (auto &bot : robots) {
         const Vector2 deltaPos = position - bot.pos;
         double dPLength = abs(deltaPos.length());
@@ -225,25 +225,8 @@ Vector2 Coach::getRobotClosestToPosition(std::vector<roboteam_msgs::WorldRobot> 
         }
     }
     return pos;
-}
-Coach::FSM012 Coach::updatePassState(std::string role) {
-    if () {
-        int id = dealer::findRobotForRole(role);
-        pickOffensivePassTarget(id, role);
-    }
-
-    return passState[role];
 
 }
-
-Coach::PassState Coach::getPassState(std::string role) {
-    return passState[role];
-}
-
-
-
-
-
 
 } //control
 } //ai
