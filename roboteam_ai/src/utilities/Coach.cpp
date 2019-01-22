@@ -74,6 +74,10 @@ int Coach::whichRobotHasBall(bool isOurTeam) {
 }
 
 int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
+    return doesRobotHaveBall(robotID, isOurTeam, 0.25, 0.4);
+}
+
+int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkDist, double checkAngle) {
     auto robot = World::getRobotForId(robotID, isOurTeam);
     Vector2 ballPos = World::get_world().ball.pos;
 
@@ -89,7 +93,7 @@ int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
         robotAngle += 2*M_PI;
     }
 
-    return ((dist < 0.25) && (fabs(angle - robotAngle) < 0.4));
+    return ((dist < checkDist) && (fabs(angle - robotAngle) < checkAngle));
 }
 
 int Coach::pickOpponentToCover(int selfID) {

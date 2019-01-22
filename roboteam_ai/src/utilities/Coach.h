@@ -30,6 +30,8 @@ class Coach {
         static int pickDefensivePassTarget(int selfID);
         static int pickOpponentToCover(int selfID);
         static int doesRobotHaveBall(unsigned int robotID, bool isOurTeam);
+        static int doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double dist, double angle);
+
         static int whichRobotHasBall(bool isOurTeam);
         static int pickHarassmentTarget(int selfID);
         static Vector2 getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal);

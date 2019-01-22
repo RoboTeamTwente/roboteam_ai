@@ -42,9 +42,9 @@ class Pass : public Skill {
         Vector2 deltaPos;
         Vector2 targetPos;
 
-        Vector2 P1 = {- 1.4, 0.95};
-        Vector2 P2 = {- 1.4, - 0.95};
-        Vector2 P3 = {1.4, 0.95};
+        Vector2 P1 = {- 1.1, 0.7};
+        Vector2 P2 = {- 1.1, - 0.7};
+        Vector2 P3 = {1.1, 0.7};
 
         bool amIClosest;
         bool newTarget;

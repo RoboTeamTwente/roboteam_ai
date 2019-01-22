@@ -247,6 +247,22 @@ rtt::Vector2 ControlUtils::twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b
 
 }
 
+Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, float margin) {
+    auto field = Field::get_field();
+    double hFieldLength = field.field_length*0.5;
+    double hFieldWidth = field.field_width*0.5;
+    if (position.x > hFieldLength - margin)
+        position.x = hFieldLength - margin;
+    if (position.x < - hFieldLength + margin)
+        position.x = - hFieldLength + margin;
+    if (position.y > hFieldWidth - margin)
+        position.y = hFieldWidth - margin;
+    if (position.y < - hFieldWidth + margin)
+        position.y = - hFieldWidth + margin;
+    return position;
+}
+
+
 } // control
 } // ai
 } // rtt

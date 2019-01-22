@@ -133,7 +133,7 @@ Pass::Status Pass::onUpdate() {
         break;
     }
     case S8: {
-        if (!IamNumber1)
+        if (! IamNumber1)
             shootBall(command);
         else
             receiveBall(command, P2);
@@ -203,11 +203,14 @@ Pass::Status Pass::onUpdate() {
     }
     }
 
+    targetPos = control::ControlUtils::projectPositionToWithinField(targetPos);
     Vector2 velocity = goToPos.goToPos(robot, targetPos, goToType);
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
-    command.use_angle = 1;
-    command.w = static_cast<float>((targetPos - robot->pos).angle());
+    if (command.use_angle == 0) {
+        command.use_angle = 1;
+        command.w = static_cast<float>((targetPos - robot->pos).angle());
+    }
     publishRobotCommand(command);
 
     return Status::Running;
@@ -222,7 +225,7 @@ void Pass::receiveBall(roboteam_msgs::RobotCommand &command, const Vector2 &pos)
         Vector2 b2 = b1 + (Vector2) {- a2.y, a2.x};
         targetPos = control::ControlUtils::twoLineIntersection(a1, a2, b1, b2);
         command.use_angle = 1;
-        command.w = static_cast<float>(((Vector2)(ball->pos) - robot->pos).angle());
+        command.w = static_cast<float>(((Vector2) (ball->pos) - robot->pos).angle());
     }
     else {
         targetPos = pos;
@@ -239,22 +242,27 @@ void Pass::shootBall(roboteam_msgs::RobotCommand &command) {
     if (! Coach::isRobotBehindBallToGoal(0.5, true, robot->pos)) {
         targetPos = behindBall;
         command.use_angle = 1;
-        command.w = static_cast<float>((ballPos - (Vector2) (robot->pos)).angle());
+        command.w = static_cast<float>(((Vector2) otherRobot->pos - ballPos).angle());
         goToType = GoToType::luTh;
     }
 
-    if (((Vector2) ball->vel).length() < 0.5f)
+    if (((Vector2) ball->vel).length() < 0.5f) {
         targetPos = ball->pos;
+        command.use_angle = 1;
+        command.w = static_cast<float>(((Vector2) otherRobot->pos - ballPos).angle());
+    }
     else
         targetPos = robot->pos;
     if (Coach::doesRobotHaveBall(robot->id, true)) {
-        if (command.use_angle == 0) {
-            command.use_angle = 1;
-            command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
+        command.use_angle = 1;
+        command.w = static_cast<float>(((Vector2) otherRobot->pos - ballPos).angle());
+
+
+        if (Coach::doesRobotHaveBall(robot->id, true, 0.25, 0.2)) {
+            command.kicker = 1;
+            command.kicker_vel = static_cast<float>(rtt::ai::constants::MAX_KICK_POWER*0.5f);
+            command.kicker_forced = 1;
         }
-        command.kicker = 1;
-        command.kicker_vel = static_cast<float>(rtt::ai::constants::MAX_KICK_POWER*0.5f);
-        command.kicker_forced = 1;
     }
     goToType = GoToType::basic;
 }
