@@ -22,6 +22,8 @@ namespace control {
  * \brief Base class for all skills. Provides no additional functionality.
  */
 class Skill : public bt::Leaf {
+    private:
+        roboteam_msgs::RobotCommand rotateRobotCommand(roboteam_msgs::RobotCommand &cmd);
 protected:
         io::IOManager ioManager = io::IOManager(false,true);
 
