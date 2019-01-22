@@ -17,7 +17,8 @@
             ],
             "id": "shhy3fdjhtwhz5v6",
             "name": "halt3",
-            "title": "Role"
+            "title": "Role",
+            "role": "haltRole"
           },
           "woiq1xef6ff05ja": {
             "id": "woiq1xef6ff05ja",
@@ -57,7 +58,8 @@
             ],
             "id": "zcrhopj7fh478skn0",
             "name": "halt0",
-            "title": "Role"
+            "title": "Role",
+            "role": "haltRole"
           },
           "ug0xiilk8std43s": {
             "id": "ug0xiilk8std43s",
@@ -73,7 +75,8 @@
             ],
             "id": "xhoblepykmi4esas",
             "name": "halt7",
-            "title": "Role"
+            "title": "Role",
+            "role": "haltRole"
           },
           "6sulnksvovxni8": {
             "id": "6sulnksvovxni8",
@@ -97,7 +100,8 @@
             ],
             "id": "c8who5fcyxniqfz2",
             "name": "halt4",
-            "title": "Role"
+            "title": "Role",
+            "role": "haltRole"
           },
           "1zw071jcsqsoio6pg": {
             "id": "1zw071jcsqsoio6pg",
@@ -129,7 +133,8 @@
             ],
             "id": "sikfq7mg1lpbhgyt",
             "name": "halt2",
-            "title": "Role"
+            "title": "Role",
+            "role": "haltRole"
           },
           "giztftddywi7t1": {
             "id": "giztftddywi7t1",
@@ -153,7 +158,8 @@
             ],
             "id": "jkymb18i2jf915",
             "name": "halt1",
-            "title": "Role"
+            "title": "Role",
+            "role": "haltRole"
           },
           "5au3uo7vz3etqdcjo": {
             "children": [
@@ -175,7 +181,8 @@
             ],
             "id": "d33po25p6prfsg",
             "name": "halt6",
-            "title": "Role"
+            "title": "Role",
+            "role": "haltRole"
           },
           "pt7q4ritq044b": {
             "id": "pt7q4ritq044b",
@@ -207,7 +214,8 @@
             ],
             "id": "rqph64mxgmylohb",
             "name": "halt5",
-            "title": "Role"
+            "title": "Role",
+            "role": "haltRole"
           }
         },
         "root": "5au3uo7vz3etqdcjo",

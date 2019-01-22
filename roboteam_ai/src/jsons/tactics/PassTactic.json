@@ -18,6 +18,7 @@
             "id": "n684qa5d2wup8sp",
             "title": "Role",
             "name": "passB",
+            "role": "PassRole",
             "children": [
               "i6e93bqg1nfny5a"
             ],
@@ -47,6 +48,7 @@
             "id": "2c9qj0aoi9sqqz",
             "title": "Role",
             "name": "passA",
+            "role": "PassRole",
             "children": [
               "fcxh14zot6wb8nnl"
             ],
