@@ -24,7 +24,7 @@ bt::Node::Status Attack::onUpdate() {
 
     GoToType goToType;
 
-    if (! Coach::isRobotBehindBallToGoal(0.5, true, robot->pos)) {
+    if (! Coach::isRobotBehindBallToGoal(0.5, false, robot->pos)) {
         targetPos = behindBall;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
