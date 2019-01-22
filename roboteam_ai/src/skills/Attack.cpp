@@ -15,7 +15,7 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
     Vector2 ball = World::getBall()->pos;
-    Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.5, true);
+    Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.5, false);
     Vector2 deltaBall = behindBall - ball;
 
     roboteam_msgs::RobotCommand command;
