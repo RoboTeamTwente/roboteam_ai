@@ -32,9 +32,15 @@ public:
     Controller(double P, double I, double D, double timeDiff);
     Controller(double P, double I, double D, double timeDiff, double initial, double initial2, double prev, double prev2);
 
+    void reset();
+
     void setP(double P);
     void setI(double I);
     void setD(double D);
+    double getP();
+    double getI();
+    double getD();
+
     void setPID(double P, double I, double D);
     void setTimeDiff(double time);
     void setInitial(double initial);

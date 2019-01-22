@@ -12,6 +12,7 @@ namespace ai {
 
 class Pass : public Skill {
     private:
+        using PassState = Coach::PassState;
         control::ControlGoToPos goToPos;
         Vector2 deltaPos;
         Vector2 targetPos;

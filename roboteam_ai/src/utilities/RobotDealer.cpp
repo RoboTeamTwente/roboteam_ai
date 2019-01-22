@@ -350,6 +350,10 @@ std::string RobotDealer::getRoleNameForId(int ID) {
     return "";
 
 }
+void RobotDealer::halt() {
+    robotOwners.clear();
+    RobotDealer::updateFromWorld();
+}
 
 } // RobotDealer
 

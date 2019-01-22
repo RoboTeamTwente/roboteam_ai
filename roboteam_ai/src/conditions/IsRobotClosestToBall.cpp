@@ -30,7 +30,7 @@ namespace ai{
 
         if (robotClosestToBallPtr && robot) {
             robotClosestToBall = *robotClosestToBallPtr;
-            if (robot->id == robotClosestToBall) {
+            if (robot->id == static_cast<unsigned int>(robotClosestToBall)) {
                 return Status::Success;
             } else {
                 return Status::Failure;

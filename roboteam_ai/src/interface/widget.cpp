@@ -266,8 +266,8 @@ void Visualizer::setShowPathAll(bool showPaths) {
 void Visualizer::toggleSelectedRobot(int robotId) {
     bool robotWasAlreadySelected = false;
 
-    for (int i = 0; i < selectedRobots.size(); i++) {
-        if (selectedRobots.at(i).id == robotId) {
+    for (int i = 0; i < static_cast<int>(selectedRobots.size()); i++) {
+        if (selectedRobots.at(static_cast<unsigned long>(i)).id == static_cast<unsigned int>(robotId)) {
             robotWasAlreadySelected = true;
             this->selectedRobots.erase(selectedRobots.begin() + i);
         }

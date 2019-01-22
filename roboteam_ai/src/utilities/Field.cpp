@@ -56,5 +56,22 @@ bool Field::pointIsInDefenceArea(Vector2 point, bool isOurDefenceArea, float mar
             || (! isOurDefenceArea && xIsWithinTheirDefenceArea));
 }
 
+bool Field::pointIsInField(Vector2 point, float margin) {
+    roboteam_msgs::GeometryFieldSize _field;
+    {
+        std::lock_guard<std::mutex> lock(fieldMutex);
+        _field = field;
+    }
+
+    float halfLength = _field.field_length*0.5f;
+    float halfWidth = _field.field_width*0.5f;
+
+    return (point.x < halfLength - margin &&
+            point.x > - halfLength + margin &&
+            point.y < halfWidth - margin &&
+            point.y > - halfWidth + margin);
+
+}
+
 } // ai
 } // rtt

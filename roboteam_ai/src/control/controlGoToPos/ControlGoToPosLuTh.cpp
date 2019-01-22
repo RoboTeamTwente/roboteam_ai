@@ -1,5 +1,3 @@
-#include <utility>
-
 //
 // Created by thijs on 12-12-18.
 //
@@ -17,6 +15,23 @@ void ControlGoToPosLuTh::clear() {
 Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
     Vector2 velocityCommand;
 
+    if (! pidInit) {
+        pidInit = true;
+        pid.setPID(constants::standard_luth_P,
+                constants::standard_luth_P,
+                constants::standard_luth_P);
+    }
+
+    if (pid.getP() != interface::InterfaceValues::getLuthP() ||
+            pid.getI() != interface::InterfaceValues::getLuthI() ||
+            pid.getD() != interface::InterfaceValues::getLuthD()) {
+
+        pid.reset();
+        pid.setPID(interface::InterfaceValues::getLuthP(),
+                interface::InterfaceValues::getLuthI(),
+                interface::InterfaceValues::getLuthD());
+
+    }
     bool recalculate = false;
     double deltaTarget = (abs((target - targetPos).length()));
     double deltaPos = (abs((target - robot->pos).length()));
@@ -29,26 +44,40 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
         auto robotPos = static_cast<Vector2>(robot->pos);
         int currentIndex = 0;
         double distance = 999999;
+
         for (int i = 0; i < static_cast<int>(me.posData.size()); i ++) {
             me.pos = me.posData[i];
-            me.t = me.posData.size()*me.dt;
-            Vector2 closestBot = ControlUtils::getClosestRobot(me.pos, me.id, true, me.t);
-            if (me.isCollision(closestBot)) {
-                recalculate = true;
-                break;
-            }
-            if (me.isCollision(robotPos, distance)) {
+            Vector2 distToRobot = me.pos - robot->pos;
+            if (distToRobot.length() < distance) {
+                distance = distToRobot.length();
                 currentIndex = i;
-                distance = (robotPos - me.pos).length();
             }
         }
-        if (distance < 0.25) robotIndex = currentIndex;
-        else recalculate = true;
-    }
-    else recalculate = true;
+        if (distance > me.defaultCollisionRadius) {
+            recalculate = true;
+        }
+        else {
+            me.posData.erase(me.posData.begin(), me.posData.begin() + currentIndex);
+            me.velData.erase(me.velData.begin(), me.velData.begin() + currentIndex);
 
-    // Calculate new path
+            for (int i = 0; i < static_cast<int>(me.posData.size()); i ++) {
+                me.pos = me.posData[i];
+                me.t = me.posData.size()*me.dt;
+                Vector2 closestBot = ControlUtils::getClosestRobot(me.pos, me.id, true, me.t);
+                if (me.isCollision(closestBot)) {
+                    recalculate = true;
+                    break;
+                }
+            }
+        }
+    }
+    else
+        recalculate = true;
+
+// Calculate new path
     if (recalculate) {
+        displayData = {};
+        pid.reset();
         clear();
         startTime = ros::Time::now();
 
@@ -56,69 +85,61 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
         bool nicePath = calculateNumericDirection(robot, me);
         robotQueue = std::priority_queue<NumRobotPtr, std::vector<NumRobotPtr>, NumRobot::CustomCompare>();
 
-        //ros::Time end = ros::Time::now();
-        //double timeTaken = (end - begin).toSec();
-        //std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
+//ros::Time end = ros::Time::now();
+//double timeTaken = (end - begin).toSec();
+//std::cout << "calculation: " << timeTaken*1000 << " ms" << std::endl;
 
-        // display
-        {
-            std::vector<std::pair<rtt::Vector2, QColor>> displayColorData = {{{}, {}}};
-
-            for (auto &displayAll : displayData) {
-                displayColorData.emplace_back(displayAll, Qt::green);
-            }
-            for (auto &displayMe : me.posData) {
-                displayColorData.emplace_back(displayMe, Qt::red);
-            }
-            displayData = {};
-            drawCross(targetPos);
-            for (auto displayTarget : displayData) {
-                displayColorData.emplace_back(displayTarget, Qt::blue);
-            }
-            rtt::ai::interface::Drawer::setGoToPosLuThPoints(robot->id, displayColorData);
-        }
+        drawCross(targetPos);
 
         if (! nicePath) {
-            std::cout << "No path found in gtpluth! " << std::endl;
-            Vector2 dir = (targetPos - robot->pos).normalize();
-            velocityCommand.x = static_cast<float>(dir.x*2.0f);
-            velocityCommand.y = static_cast<float>(dir.y*2.0f);
-
+            me.clear();
         }
-
     }
 
-    //PID
-    double time = (ros::Time::now() - startTime).toSec();
-    auto toStep = static_cast<int>(round(time/me.dt));
-    int minStep = 10;
-    if (toStep < minStep) toStep = minStep;
+// display
+    {
+        std::vector<std::pair<rtt::Vector2, QColor>> displayColorData = {{{}, {}}};
+        for (auto &displayAll : displayData)
+            displayColorData.emplace_back(displayAll, Qt::green);
+        for (auto &displayMe : me.posData)
+            displayColorData.emplace_back(displayMe, Qt::red);
 
-    if (me.posData.size() < minStep) {
+        rtt::ai::interface::Drawer::setGoToPosLuThPoints(robot->id, displayColorData);
+    }
+
+//PID
+    int minStep = 5;
+    auto allBots = World::getAllRobots();
+    Vector2 closestRobot = coach::Coach::getRobotClosestToPosition(allBots, robot->pos, false);
+    Vector2 closestRobotDir = (closestRobot - robot->pos);
+
+    if ((targetPos - robot->pos).length() < 0.3f) {
+        Vector2 dir = (targetPos - robot->pos).scale(3.0);
+        velocityCommand.x = static_cast<float>(dir.x);
+        velocityCommand.y = static_cast<float>(dir.y);
+    }
+    else if (static_cast<int>(me.posData.size()) < minStep) {
         me.clear();
 
-        Vector2 dir = (targetPos - robot->pos).normalize();
-        velocityCommand.x = static_cast<float>(dir.x*2.0f);
-        velocityCommand.y = static_cast<float>(dir.y*2.0f);
+        if (closestRobotDir.length() < me.defaultCollisionRadius) {
+            std::cout << "Avoiding Collision ........" << std::endl;
+
+            velocityCommand = (Vector2) {-closestRobotDir.y, closestRobotDir.x}.stretchToLength(1.25f);
+        }
+        else
+            velocityCommand = (targetPos - robot->pos).stretchToLength(1.0f);
+    }
+    else if (closestRobotDir.length() < me.defaultCollisionRadius) {
+        std::cout << "Avoiding Collision" << std::endl;
+        velocityCommand = (Vector2) {-closestRobotDir.y, closestRobotDir.x}.stretchToLength(1.25f);
     }
     else {
-        auto size = static_cast<int>(me.posData.size() - 1);
-        while (size < toStep --);
+        Vector2 pidPos = me.velData[minStep - 1];
+        Vector2 vel = pid.controlPIR(pidPos, robot->vel);
 
-        if (! pidInit) {
-            pidInit = true;
-            pid.setPID(3.0, 0, 0.5);
-        }
-
-        Vector2 pidPos = me.posData[toStep];
-        Vector2 vel = pid.controlPIR(pidPos - robot->pos, robot->vel);
-        if (vel.length() > 3.0)
-            vel = vel.normalize()*3.0;
         velocityCommand.x = static_cast<float>(vel.x);
         velocityCommand.y = static_cast<float>(vel.y);
-
     }
-
     return velocityCommand;
 
 }
@@ -136,7 +157,7 @@ bool ControlGoToPosLuTh::calculateNumericDirection(RobotPtr robot, NumRobot &me)
     me.t = me.posData.size()*me.dt;
 
     Vector2 closestBot = ControlUtils::getClosestRobot(me.pos, me.id, true, me.t);
-    if (me.isCollision(closestBot, 0.4f)) return false;
+    if (me.isCollision(closestBot, me.defaultCollisionRadius)) return false;
 
     bool noCollision = tracePath(me, targetPos);
     return noCollision;
@@ -162,16 +183,17 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
             return true;
         }
         else if (me->isCollision(me->targetPos)) {
-            me->startIndex = me->posData.size();
+            //me->startIndex = me->posData.size();
             me->targetPos = target;
             (me->collisions) --;
             me->newDir = NumRobot::goMiddle;
         }
 
-        if (calculateNextPoint(me)) robotQueue.push(me);
+        if (calculateNextPoint(me))
+            robotQueue.push(me);
         else {      //Collision!! calculate new points
 
-            auto minPoints = static_cast<int>(ceil(1.0f/(me->dt)));
+            auto minPoints = static_cast<int>(ceil(0.40f/(me->dt)));
             auto newDataPoints = static_cast<int>(me->posData.size() - 1 - me->startIndex);
 
             if (me->posData.empty() || me->velData.empty()) {
@@ -208,6 +230,13 @@ bool ControlGoToPosLuTh::calculateNextPoint(NumRobotPtr me) {
     if (me->isCollision(closestBot)) {
         return false;
     }
+    if (! Field::pointIsInField(me->pos)) {
+        if (World::getRobotForId(static_cast<unsigned int>(me->id), true).get()) {
+            if (Field::pointIsInField(
+                    World::getRobotForId(static_cast<unsigned int>(me->id), true).get()->pos, -0.25f))
+                return false;
+        }
+    }
 
     // get the target velocity towards the direction we want to go
     me->targetVel = me->getDirection(me->targetPos)*me->maxVel;
@@ -232,7 +261,7 @@ bool ControlGoToPosLuTh::calculateNextPoint(NumRobotPtr me) {
 }
 
 void ControlGoToPosLuTh::drawCross(Vector2 &pos) {
-    float dist = 0.0075f;
+    float dist = 0.004f;
     for (int i = - 7; i < 8; i ++) {
         for (int j = - 1; j < 2; j += 2) {
             Vector2 data = pos + (Vector2) {dist*i, dist*j*i};
