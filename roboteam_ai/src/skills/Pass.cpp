@@ -90,6 +90,7 @@ Pass::Status Pass::onUpdate() {
         break;
     }
     case S5: {
+        return Status::Success;
         goToType = GoToType::luTh;
         if (IamNumber1)
             getBall();
@@ -258,9 +259,9 @@ void Pass::shootBall(roboteam_msgs::RobotCommand &command) {
         command.w = static_cast<float>(((Vector2) otherRobot->pos - ballPos).angle());
 
 
-        if (Coach::doesRobotHaveBall(robot->id, true, 0.25, 0.2)) {
+        if (Coach::doesRobotHaveBall(robot->id, true, 0.15, 0.2)) {
             command.kicker = 1;
-            command.kicker_vel = static_cast<float>(rtt::ai::constants::MAX_KICK_POWER*0.5f);
+            command.kicker_vel = static_cast<float>(rtt::ai::constants::MAX_KICK_POWER*0.2f);
             command.kicker_forced = 1;
         }
     }

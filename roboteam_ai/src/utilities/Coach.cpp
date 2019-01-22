@@ -74,7 +74,7 @@ int Coach::whichRobotHasBall(bool isOurTeam) {
 }
 
 int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
-    return doesRobotHaveBall(robotID, isOurTeam, 0.25, 0.4);
+    return doesRobotHaveBall(robotID, isOurTeam, 0.15, 0.2);
 }
 
 int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkDist, double checkAngle) {
