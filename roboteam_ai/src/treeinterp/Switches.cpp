@@ -75,7 +75,6 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "TwoDefendersTactic",
          "OneAttackerOneDefenderTactic",
          "KeeperTestTactic",
-         "KeeperTacticV2",
          "PassTactic",
          "Attactic",
          "KeeperTactic"};
