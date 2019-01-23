@@ -18,8 +18,8 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
     if (! pidInit) {
         pidInit = true;
         pid.setPID(constants::standard_luth_P,
-                constants::standard_luth_P,
-                constants::standard_luth_P);
+                constants::standard_luth_I,
+                constants::standard_luth_D);
     }
 
     if (pid.getP() != interface::InterfaceValues::getLuthP() ||

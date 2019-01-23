@@ -37,6 +37,7 @@ class ControlUtils {
         static bool lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd, Vector2 lineBStart, Vector2 lineBEnd);
         static rtt::Arc createKeeperArc();
         static Vector2 VelocityLimiter(Vector2 vel);
+        static bool hasBall(double frontDist,double robotOrientation,Vector2 robotPos, Vector2 ballPos);
 };
 
 } // control
