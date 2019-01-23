@@ -52,6 +52,7 @@
 #include <roboteam_ai/src/conditions/TheyHaveBall.h>
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
+#include <roboteam_ai/src/skills/EnterFormation.h>
 #include "../conditions/BallInDefenseAreaAndStill.h"
 #include "../conditions/IsInDefenseArea.hpp"
 
@@ -70,14 +71,16 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "haltTactic",
          "PassTactic",
          "Attactic",
-         "KeeperTactic"};
+         "KeeperTactic",
+         "EnterFormationTactic"};
 
 std::vector<std::string> Switches::strategyJsonFileNames =
         {
          "QualificationStrategy",
          "haltStrategy",
          "PassStrategy",
-         "DemoTeamTwenteStrategy"};
+         "DemoTeamTwenteStrategy",
+         "EnterFormationStrategy"};
 
 std::vector<std::string> Switches::keeperJsonFiles =
         {};
@@ -137,6 +140,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["RotateToAngle"] =          std::make_shared<rtt::ai::RotateToAngle>(name, properties);
     map["SkillGoToPos"] =           std::make_shared<rtt::ai::SkillGoToPos>(name, properties);
     map["BasicGoToPos"] =           std::make_shared<rtt::ai::BasicGoToPos>(name, properties);
+    map["EnterFormation"] =         std::make_shared<rtt::ai::EnterFormation>(name, properties);
 
     // conditions (alphabetic order)
 
@@ -188,6 +192,16 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
             {"GetBallTestTactic", {
                     {"FAKOFF", robotType::random}
+            }
+            },
+            {"EnterFormationTactic", {
+                    {"formation1", robotType::random},
+                    {"formation2", robotType::random},
+                    {"formation3", robotType::random},
+                    {"formation4", robotType::random},
+                    {"formation5", robotType::random},
+                    {"formation6", robotType::random},
+                    {"formation7", robotType::random}
             }
             },
             {"DanceTactic2", {
