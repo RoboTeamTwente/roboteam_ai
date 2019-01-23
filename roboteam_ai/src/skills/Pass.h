@@ -23,8 +23,12 @@ private:
     Vector2 targetPos;
     control::ControlGoToPos goToPos;
     GoToType goToType;
+
+    double maxDistance = 7.0;
+    double distance;
+    double kicker_vel_multiplier;
     int checkTicks;
-    int maxCheckTicks = 10;
+    int maxCheckTicks = 20;
 public:
     explicit Pass(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;

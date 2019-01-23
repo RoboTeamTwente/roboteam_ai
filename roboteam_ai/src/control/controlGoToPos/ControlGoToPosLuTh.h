@@ -180,7 +180,8 @@ class ControlGoToPosLuTh {
         Vector2 targetPos = {999.2, 999.2};
         ros::Time startTime;
 
-        Controller pid;
+        Controller velPID;
+        Controller posPID;
         bool pidInit = false;
 
         bool tracePath(NumRobot &numRobot, Vector2 target);

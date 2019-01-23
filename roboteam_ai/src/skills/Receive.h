@@ -18,6 +18,9 @@ private:
     Vector2 focusPoint;
     Vector2 ballStartPos;
     Vector2 ballEndPos;
+
+    int checkTicks;
+    int maxCheckTicks = 20;
 public:
     explicit Receive(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;

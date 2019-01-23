@@ -10,12 +10,12 @@ namespace coach {
 
 using dealer = robotDealer::RobotDealer;
 std::map<int, int> Coach::defencePairs;
-std::map<std::string,Coach::PassState> Coach::passState;
 
 std::vector<int> Coach::defenders = {};
 
 bool Coach::readyToReceivePass;
 int Coach::robotBeingPassedTo;
+bool Coach::passed;
 
 int Coach::pickOffensivePassTarget(int selfID, std::string roleName) {
 
@@ -268,6 +268,14 @@ int Coach::getRobotBeingPassedTo() {
 
 void Coach::setRobotBeingPassedTo(int robotBeingPassedTo) {
     Coach::robotBeingPassedTo = robotBeingPassedTo;
+}
+
+bool Coach::isPassed() {
+    return passed;
+}
+
+void Coach::setPassed(bool passed) {
+    Coach::passed = passed;
 }
 
 } //control

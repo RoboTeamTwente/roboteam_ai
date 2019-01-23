@@ -23,9 +23,11 @@ namespace coach {
 class Coach {
 private:
     static std::vector<int> defenders;
+
+    // Pass variables
     static bool readyToReceivePass;
     static int robotBeingPassedTo;
-
+    static bool passed;
 public:
     static std::map<int, int> defencePairs;
     static int pickOffensivePassTarget(int selfID, std::string roleName);
@@ -54,16 +56,6 @@ public:
 
     static int getRobotClosestToGoal(bool ourRobot, bool ourGoal);
 
-    enum PassState {
-      goBehindBall,
-      goToReceiveBall,
-      shoot,
-      receive,
-    };
-    static std::map<std::string,PassState> passState;
-    static PassState updatePassState(std::string role);
-    static PassState getPassState(std::string role);
-
     static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToBall(bool isOurTeam);
 
     static void addDefender(int id);
@@ -76,6 +68,8 @@ public:
     static void setReadyToReceivePass(bool readyToReceivePass);
     static int getRobotBeingPassedTo();
     static void setRobotBeingPassedTo(int robotBeingPassedTo);
+    static bool isPassed();
+    static void setPassed(bool passed);
 
 };
 

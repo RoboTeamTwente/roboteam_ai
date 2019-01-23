@@ -12,6 +12,7 @@ Receive::Receive(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void Receive::onInitialize() {
+    checkTicks = 0;
 };
 
 Vector2 Receive::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
@@ -19,13 +20,16 @@ Vector2 Receive::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
 
     // For now we pick the closest point to the (predicted) line of the ball for any 'regular' interception
     interceptionPoint = Vector2(robot->pos).project(startBall,endBall);
-    std::cout << interceptionPoint << std::endl;
 
     return interceptionPoint;
 }
 
 Receive::Status Receive::onUpdate() {
     if (!coach::Coach::doesRobotHaveBall(robot->id, true)) {
+        if (Coach::isPassed() && Vector2(ball->vel).length() < 0.01) {
+            checkTicks++;
+            if (checkTicks > maxCheckTicks) return Status::Success;
+        }
         roboteam_msgs::RobotCommand command;
         command.id = robot->id;
         command.w = static_cast<float>((Vector2(ball->pos) - Vector2(robot->pos)).angle()); //Rotates towards the ball

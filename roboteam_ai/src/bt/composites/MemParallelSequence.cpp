@@ -13,7 +13,6 @@ void MemParallelSequence::initialize() {
     }
 
 bt::Node::Status MemParallelSequence::update() {
-    std::cout << totalSuccess << " " << totalFailure << std::endl;
     for (auto &child : children) {
         if (memory[child] != Status::Success) {
             auto status = child->tick();
