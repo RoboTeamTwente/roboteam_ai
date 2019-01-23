@@ -114,6 +114,9 @@ MainWindow::MainWindow(QWidget* parent)
     configureCheckBox(cb_path_all, verticalLayout, visualizer.get(), SLOT(setShowPathAll(bool)),
             constants::STD_SHOW_PATHS_ALL);
 
+    cb_ball_placement_marker = std::make_shared<QCheckBox>("Show marker for Ball Placement");
+    configureCheckBox(cb_ball_placement_marker, verticalLayout, visualizer.get(), SLOT(setShowBallPlacementMarker(bool)),
+            constants::STD_SHOW_BALL_PLACEMENT_MARKER);
 
     // set up tree widget
     treeWidget = std::make_shared<QTreeWidget>();

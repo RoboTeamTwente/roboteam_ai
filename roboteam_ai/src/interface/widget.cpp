@@ -26,7 +26,7 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawFieldLines(painter);
         drawBall(painter);
         drawRobots(painter);
-        drawBallPlacementTarget(painter);
+        if (showBallPlacementMarker) drawBallPlacementTarget(painter);
 
         if (showPath) {
             for (auto robot : selectedRobots) {
@@ -105,6 +105,15 @@ rtt::Vector2 Visualizer::toScreenPosition(rtt::Vector2 fieldPos) {
             (fieldPos.y*factor*- 1) + static_cast<float>(this->size().height()/2 + fieldmargin)};
 }
 
+// convert field coordinates to screen coordinates
+rtt::Vector2 Visualizer::toFieldPosition(rtt::Vector2 screenPos) {
+
+    auto x = (screenPos.x - fieldmargin - static_cast<float>(this->size().width()/2)) / factor;
+    auto y = ((screenPos.y - fieldmargin - static_cast<float>(this->size().height()/2)) / factor) * -1;
+
+    return {x,y};
+}
+
 // draw a single robot
 void Visualizer::drawRobot(QPainter &painter, roboteam_msgs::WorldRobot robot, bool ourTeam) {
     Vector2 robotpos = toScreenPosition(robot.pos);
@@ -173,7 +182,7 @@ void Visualizer::mousePressEvent(QMouseEvent* event) {
             }
         }
     } else if (event->button() == Qt::RightButton) {
-        InterfaceValues::setBallPlacementTarget(pos);
+        InterfaceValues::setBallPlacementTarget(toFieldPosition(pos));
     }
 }
 
@@ -317,11 +326,15 @@ void Visualizer::drawIntercept(QPainter &painter, std::vector<std::pair<rtt::Vec
     }
 }
 void Visualizer::drawBallPlacementTarget(QPainter& painter) {
-    Vector2 ballPlacementTarget = InterfaceValues::getBallPlacementTarget();
+    Vector2 ballPlacementTarget = toScreenPosition(InterfaceValues::getBallPlacementTarget());
     painter.setBrush(Qt::transparent);
     painter.setPen(Qt::red);
     painter.drawLine(ballPlacementTarget.x - 5, ballPlacementTarget.y - 5, ballPlacementTarget.x + 5, ballPlacementTarget.y + 5);
     painter.drawLine(ballPlacementTarget.x + 5, ballPlacementTarget.y - 5, ballPlacementTarget.x - 5, ballPlacementTarget.y + 5);
+}
+
+void Visualizer::setShowBallPlacementMarker(bool showMarker) {
+    Visualizer::showBallPlacementMarker = showMarker;
 }
 
 } // interface
