@@ -19,7 +19,7 @@ class BasicGoToPos : public Skill {
         void onInitialize() override;
         Vector2 targetPos;
         control::ControlGoToPos goToPos;
-        double errorMargin = 0.4;
+        double errorMargin = 0.3;
 
 
 };

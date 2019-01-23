@@ -23,9 +23,10 @@ int Coach::pickOffensivePassTarget(int selfID, std::string roleName) {
     // Pick a free one TODO make better
     for (auto bot : tacticMates) {
         if (bot != selfID) {
-            if (control::ControlUtils::hasClearVision(selfID, bot, World::get_world(), 2)) {
-                return bot;
-            }
+            return bot;
+//            if (control::ControlUtils::hasClearVision(selfID, bot, World::get_world(), 2)) {
+//                return bot;
+//            }
         }
     }
     return - 1;
@@ -73,6 +74,10 @@ int Coach::whichRobotHasBall(bool isOurTeam) {
 }
 
 int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
+    return doesRobotHaveBall(robotID, isOurTeam, 0.15, 0.2);
+}
+
+int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkDist, double checkAngle) {
     auto robot = World::getRobotForId(robotID, isOurTeam);
     Vector2 ballPos = World::get_world().ball.pos;
 
@@ -88,7 +93,7 @@ int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
         robotAngle += 2*M_PI;
     }
 
-    return ((dist < 0.25) && (fabs(angle - robotAngle) < 0.4));
+    return ((dist < checkDist) && (fabs(angle - robotAngle) < checkAngle));
 }
 
 int Coach::pickOpponentToCover(int selfID) {
@@ -212,7 +217,7 @@ void Coach::removeDefender(int id) {
 Vector2 Coach::getRobotClosestToPosition(std::vector<roboteam_msgs::WorldRobot> &robots, Vector2 position, bool includeSamePosition) {
 
     double distance = 999999;
-    Vector2 pos = {999,999};
+    Vector2 pos = {999, 999};
     for (auto &bot : robots) {
         const Vector2 deltaPos = position - bot.pos;
         double dPLength = abs(deltaPos.length());
@@ -224,9 +229,7 @@ Vector2 Coach::getRobotClosestToPosition(std::vector<roboteam_msgs::WorldRobot> 
         }
     }
     return pos;
-}
-Coach::PassState Coach::getPassState(std::string role) {
-    return passState[role];
+
 }
 
 } //control
