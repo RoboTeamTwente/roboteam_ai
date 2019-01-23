@@ -10,3 +10,4 @@ DefendOnRobot
 Attack
 Pass
 BasicGoToPos
+DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement

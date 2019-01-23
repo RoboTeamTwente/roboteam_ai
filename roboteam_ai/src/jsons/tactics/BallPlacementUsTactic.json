@@ -1,98 +1,98 @@
 {
-  "name": "BallPlacementUsTactic",
   "data": {
     "trees": [
       {
-        "title": "BallPlacementUsTactic",
-        "root": "bzjlygc2zeqjantvs",
         "nodes": {
-          "bzjlygc2zeqjantvs": {
-            "id": "bzjlygc2zeqjantvs",
-            "title": "ParallelSequence",
-            "children": [
-              "rges6sjlxmi99r"
-            ],
-            "location": {
-              "x": 469.0,
-              "y": 191.0
-            }
+          "5jgykecleaapkge4t": {
+            "title": "GoToPosLuTh",
+            "properties": {
+              "Position": "0,0",
+              "ROLE": "BallPlacementBot"
+            },
+            "id": "5jgykecleaapkge4t"
           },
-          "2l2bvdnfqt3vg": {
-            "id": "2l2bvdnfqt3vg",
+          "5igvlwnbp8qik": {
+            "title": "DribbleRotate",
+            "properties": {
+              "ROLE": "BallPlacementBot",
+              "BallPlacement": "true"
+            },
+            "id": "5igvlwnbp8qik"
+          },
+          "m37ckvxjg5qtf": {
+            "children": [
+              "lbyjo6duqqqy8naml"
+            ],
+            "id": "m37ckvxjg5qtf",
+            "title": "UntilSuccess"
+          },
+          "w4w82155afd25uy": {
+            "properties": {
+              "ROLE": "BallPlacementBot"
+            },
+            "title": "UntilSuccess",
+            "children": [
+              "2e1m6314lzn8pr"
+            ],
+            "id": "w4w82155afd25uy"
+          },
+          "lbyjo6duqqqy8naml": {
+            "properties": {
+              "ROLE": "BallPlacementBot"
+            },
+            "name": "BallPlacementBot",
+            "title": "Role",
+            "id": "lbyjo6duqqqy8naml",
+            "role": "BallPlacementBot",
+            "children": [
+              "w4w82155afd25uy"
+            ]
+          },
+          "2e1m6314lzn8pr": {
+            "properties": {
+              "ROLE": "BallPlacementBot"
+            },
             "title": "MemSequence",
             "children": [
-              "zkl7lwhnxjxlmiay",
-              "qggd848t8b7kxxk0",
-              "ef4fg5gehb3r9ucvk",
-              "54gq9n20d9yoi7c"
+              "hxels33bljf1a",
+              "uxxp6qzdq2bdrbwxj",
+              "5igvlwnbp8qik",
+              "xi398enfsxm3b",
+              "5jgykecleaapkge4t"
             ],
-            "location": {
-              "x": 418.0,
-              "y": 133.0
-            }
+            "id": "2e1m6314lzn8pr"
           },
-          "zkl7lwhnxjxlmiay": {
-            "id": "zkl7lwhnxjxlmiay",
-            "title": "GoToPos",
+          "uxxp6qzdq2bdrbwxj": {
             "properties": {
-              "ROLE": "victor1",
-              "Position": "{0, 1}"
+              "ROLE": "BallPlacementBot"
             },
-            "location": {
-              "x": 271.0,
-              "y": 268.0
-            }
+            "id": "uxxp6qzdq2bdrbwxj",
+            "title": "GetBall"
           },
-          "qggd848t8b7kxxk0": {
-            "id": "qggd848t8b7kxxk0",
-            "title": "RotateToAngle",
+          "xi398enfsxm3b": {
+            "title": "Dribble",
             "properties": {
-              "ROLE": "victor1",
-              "Angle": "0.1"
+              "maxTicks": "100",
+              "ROLE": "BallPlacementBot",
+              "BallPlacement": "true",
+              "forwardDirection": "false"
             },
-            "location": {
-              "x": 413.0,
-              "y": 262.0
-            }
+            "id": "xi398enfsxm3b"
           },
-          "ef4fg5gehb3r9ucvk": {
-            "id": "ef4fg5gehb3r9ucvk",
-            "title": "GoToPos",
+          "hxels33bljf1a": {
+            "title": "GoToPosLuTh",
             "properties": {
-              "ROLE": "victor1",
-              "Position": "{-1, 1}"
+              "BallPlacementDist": "0.2",
+              "ROLE": "BallPlacementBot",
+              "BallPlacement": "true"
             },
-            "location": {
-              "x": 595.0,
-              "y": 274.0
-            }
-          },
-          "54gq9n20d9yoi7c": {
-            "id": "54gq9n20d9yoi7c",
-            "title": "GoToPos",
-            "properties": {
-              "ROLE": "victor1",
-              "Position": "{0, -1}"
-            },
-            "location": {
-              "x": 742.0,
-              "y": 273.0
-            }
-          },
-          "rges6sjlxmi99r": {
-            "id": "rges6sjlxmi99r",
-            "title": "Role",
-            "children": [
-              "2l2bvdnfqt3vg"
-            ],
-            "name": "victor1",
-            "location": {
-              "x": 448.0,
-              "y": 287.0
-            }
+            "id": "hxels33bljf1a"
           }
-        }
+        },
+        "root": "m37ckvxjg5qtf",
+        "title": "BallPlacementUsTactic"
       }
     ]
-  }
+  },
+  "name": "BallPlacementUsTactic"
 }

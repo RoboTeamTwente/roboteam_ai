@@ -232,6 +232,10 @@ Vector2 Coach::getRobotClosestToPosition(std::vector<roboteam_msgs::WorldRobot> 
 
 }
 
+Vector2 Coach::getBallPlacementPos(){
+    return {0,0};
+}
+
 } //control
 } //ai
 } //rtt

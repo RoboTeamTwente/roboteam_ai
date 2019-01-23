@@ -54,20 +54,7 @@ bool Dribble::robotHasBall() {
     //The ball is in an area defined by a cone from the robot centre, or from a rectangle in front of the dribbler
     Vector2 RobotPos = robot->pos;
     Vector2 BallPos = ball->pos;
-    Vector2 dribbleLeft = RobotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robot->angle - constants::DRIBBLER_ANGLE_OFFSET);
-    Vector2 dribbleRight = RobotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robot->angle + constants::DRIBBLER_ANGLE_OFFSET);
-
-    std::vector<Vector2> drawPos = {RobotPos, dribbleLeft, dribbleRight,
-                                    dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle),
-                                    dribbleRight + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle)};
-    if (control::ControlUtils::pointInTriangle(BallPos, RobotPos, dribbleLeft, dribbleRight)) {
-        return true;
-    }
-        // else check the rectangle in front of the robot.
-    else
-        return control::ControlUtils::pointInRectangle(BallPos, dribbleLeft, dribbleRight,
-                dribbleRight + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle),
-                dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle));
+    return Control::hasBall(constants::MAX_BALL_BOUNCE_RANGE,robot->angle,RobotPos,BallPos);
 }
 void Dribble::onInitialize() {
     //if false, robot will dribble to the position backwards with the ball.
@@ -75,6 +62,9 @@ void Dribble::onInitialize() {
 
     if (properties->hasVector2("Position")) {
         targetPos = properties->getVector2("Position");
+    }
+    else if (properties->getBool("BallPlacement")){
+        targetPos=Coach::getBallPlacementPos();
     }
     else {
         ROS_ERROR("Dribble Initialize -> No good X or Y set in properties");

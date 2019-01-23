@@ -64,6 +64,8 @@ class Coach {
         static void addDefender(int id);
         static void removeDefender(int id);
         static Vector2 getDefensivePosition(int robotId);
+
+        static Vector2 getBallPlacementPos();
 };
 
 }

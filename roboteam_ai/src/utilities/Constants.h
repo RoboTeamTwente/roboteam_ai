@@ -86,6 +86,8 @@ const int WINDOW_FIELD_MARGIN = 5;
 const int KEEPER_HELP_DRAW_SIZE=7;
 const int INTERCEPT_DRAW_VECTOR_SIZE=5;
 
+const double BP_MOVE_BACK_DIST=0.2;
+
 // Settings
 const bool STD_SHOW_ROLES = false;
 const bool STD_SHOW_TACTICS = false;
