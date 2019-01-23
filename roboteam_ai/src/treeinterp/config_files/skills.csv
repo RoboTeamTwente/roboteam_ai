@@ -8,4 +8,6 @@ InterceptBall
 GetBall
 DefendOnRobot
 Pass
+Receive
 BasicGoToPos
+Attack

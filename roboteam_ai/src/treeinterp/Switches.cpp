@@ -32,7 +32,8 @@
 #include "../skills/Keeper.h"
 #include "../skills/GetBall.h"
 #include "../skills/Attack.h"
-#include "../skills/Pass.h"
+#include "roboteam_ai/src/skills/Pass.h"
+#include "roboteam_ai/src/skills/Receive.h"
 #include <roboteam_ai/src/skills/InterceptBall.h>
 #include <roboteam_ai/src/skills/GoToPosLuTh.h>
 #include <roboteam_ai/src/skills/InterceptBall.h>
@@ -54,6 +55,8 @@
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
 #include "../conditions/BallInDefenseAreaAndStill.h"
 #include "../conditions/IsInDefenseArea.hpp"
+#include "../conditions/IsBeingPassedTo.h"
+#include "../conditions/IsCloseToPoint.h"
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -68,13 +71,13 @@ std::vector<std::string> Switches::tacticJsonFileNames =
         {
          "QualificationTactic",
          "haltTactic",
-         "PassTactic"};
+         "PassTacticRob"};
 
 std::vector<std::string> Switches::strategyJsonFileNames =
         {
          "QualificationStrategy",
          "haltStrategy",
-         "PassStrategy"};
+         "PassStrategyRob"};
 
 std::vector<std::string> Switches::keeperJsonFiles =
         {};
@@ -131,6 +134,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["Keeper"] =                 std::make_shared<rtt::ai::Keeper>(name, properties);
     map["Kick"] =                   std::make_shared<rtt::ai::Kick>(name, properties);
     map["Pass"] =                   std::make_shared<rtt::ai::Pass>(name, properties);
+    map["Receive"] =                std::make_shared<rtt::ai::Receive>(name, properties);
     map["RotateToAngle"] =          std::make_shared<rtt::ai::RotateToAngle>(name, properties);
     map["SkillGoToPos"] =           std::make_shared<rtt::ai::SkillGoToPos>(name, properties);
     map["BasicGoToPos"] =           std::make_shared<rtt::ai::BasicGoToPos>(name, properties);
@@ -151,6 +155,8 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["HasBall"] =                std::make_shared<rtt::ai::HasBall>(name, properties);
     map["IsRobotClosestToBall"] =   std::make_shared<rtt::ai::IsRobotClosestToBall>(name, properties);
     map["TheyHaveBall"] =           std::make_shared<rtt::ai::TheyHaveBall>(name, properties);
+    map["IsBeingPassedTo"] =        std::make_shared<rtt::ai::IsBeingPassedTo>(name, properties);
+    map["IsCloseToPoint"] =         std::make_shared<rtt::ai::IsCloseToPoint>(name, properties);
 
     if ( map.find(name) != map.end() ) {
         return map[name];
@@ -230,11 +236,6 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"keeper", robotType::random}
             }
             },
-            {"PassTactic", {
-                    {"passOne", robotType::random},
-                    {"passB", robotType::random}
-            }
-            },
             {"KeeperTestTactic", {
                     {"keeper", robotType::random},
                     {"atak", robotType::random}
@@ -243,6 +244,11 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             {"QualificationTactic", {
                     {"qualRole", robotType::random},
                     {"eloRlauq", robotType::random}
+            }
+            },
+            {"PassTacticRob", {
+                    {"passer", robotType::closeToBall},
+                    {"receiver", robotType::closeToTheirGoal}
             }
             }
     };

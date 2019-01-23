@@ -157,6 +157,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Receive.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Receive.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.cpp
@@ -207,6 +209,10 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBallOnOurSide.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBallOnOurSide.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBeingPassedTo.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBeingPassedTo.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsCloseToPoint.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsCloseToPoint.h
         )
 
 set(CONTROL_SOURCES

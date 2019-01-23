@@ -14,6 +14,9 @@ std::map<std::string,Coach::PassState> Coach::passState;
 
 std::vector<int> Coach::defenders = {};
 
+bool Coach::readyToReceivePass;
+int Coach::robotBeingPassedTo;
+
 int Coach::pickOffensivePassTarget(int selfID, std::string roleName) {
 
     // Get the other robots in that tactic
@@ -75,6 +78,10 @@ int Coach::whichRobotHasBall(bool isOurTeam) {
 
 int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
     return doesRobotHaveBall(robotID, isOurTeam, 0.15, 0.2);
+}
+
+int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkDist) {
+    return doesRobotHaveBall(robotID, isOurTeam, checkDist, 0.2);
 }
 
 int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkDist, double checkAngle) {
@@ -148,7 +155,7 @@ bool Coach::isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, c
 }
 
 bool Coach::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position,
-        const Vector2 &robotPosition) {
+    const Vector2 &robotPosition) {
     const Vector2 &ball = static_cast<Vector2>(World::getBall()->pos);
     Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, position);
     Vector2 deltaBall = behindBallPosition - ball;
@@ -214,7 +221,8 @@ void Coach::removeDefender(int id) {
     }
 }
 
-Vector2 Coach::getRobotClosestToPosition(std::vector<roboteam_msgs::WorldRobot> &robots, Vector2 position, bool includeSamePosition) {
+Vector2 Coach::getRobotPositionClosestToPositionPosition(std::vector<roboteam_msgs::WorldRobot> &robots,
+                                                         Vector2 position, bool includeSamePosition) {
 
     double distance = 999999;
     Vector2 pos = {999, 999};
@@ -230,6 +238,35 @@ Vector2 Coach::getRobotClosestToPosition(std::vector<roboteam_msgs::WorldRobot> 
     }
     return pos;
 
+}
+
+int Coach::getRobotClosestToGoal(bool ourRobot, bool ourGoal) {
+    roboteam_msgs::World_<std::allocator<void>>::_them_type robots = ourRobot ? World::get_world().us : World::get_world().them;
+    Vector2 target = ourGoal ? Field::get_our_goal_center() : Field::get_their_goal_center();
+
+    std::shared_ptr<int> closestId = World::get_robot_closest_to_point(robots, target);
+    return closestId == nullptr ? -1 : *closestId;
+}
+
+bool Coach::initiatePass(int robotID) {
+    setRobotBeingPassedTo(robotID);
+    return true;
+}
+
+bool Coach::isReadyToReceivePass() {
+    return readyToReceivePass;
+}
+
+void Coach::setReadyToReceivePass(bool readyToReceivePass) {
+    Coach::readyToReceivePass = readyToReceivePass;
+}
+
+int Coach::getRobotBeingPassedTo() {
+    return robotBeingPassedTo;
+}
+
+void Coach::setRobotBeingPassedTo(int robotBeingPassedTo) {
+    Coach::robotBeingPassedTo = robotBeingPassedTo;
 }
 
 } //control

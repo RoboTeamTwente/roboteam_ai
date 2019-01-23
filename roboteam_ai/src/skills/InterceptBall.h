@@ -29,7 +29,6 @@ class InterceptBall :public Skill {
         Vector2 ballStartPos, ballStartVel, ballEndPos, interceptPos;
         Vector2 deltaPos;
         int tickCount, maxTicks;
-        Vector2 computeInterceptPoint(Vector2 startBall, Vector2 endBall);
         control::Controller pid,finePid;
         bool backwards;
 
@@ -46,6 +45,8 @@ class InterceptBall :public Skill {
         Status onUpdate() override;
         void onInitialize() override;
         void onTerminate(Status s) override;
+
+        Vector2 computeInterceptPoint(Vector2 startBall, Vector2 endBall);
 
 };
 
