@@ -45,6 +45,7 @@ class Visualizer : public QWidget {
         void drawRobots(QPainter &painter);
         void drawRobot(QPainter &painter, roboteam_msgs::WorldRobot robot, bool ourTeam);
         void drawBall(QPainter &painter);
+        void drawBallPlacementTarget(QPainter &painter);
         void drawTacticColorForRobot(QPainter &painter, roboteam_msgs::WorldRobot robot);
         void drawDataPoints(QPainter &painter, std::vector<Vector2> points, int pointSize = 3,
                 QColor color = Qt::green);

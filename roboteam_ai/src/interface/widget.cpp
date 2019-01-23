@@ -5,6 +5,7 @@
 #include <roboteam_ai/src/utilities/RobotDealer.h>
 #include "widget.h"
 #include "drawer.h"
+#include "InterfaceValues.h"
 
 namespace c = rtt::ai::constants;
 
@@ -25,6 +26,7 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawFieldLines(painter);
         drawBall(painter);
         drawRobots(painter);
+        drawBallPlacementTarget(painter);
 
         if (showPath) {
             for (auto robot : selectedRobots) {
@@ -160,16 +162,18 @@ void Visualizer::drawRobot(QPainter &painter, roboteam_msgs::WorldRobot robot, b
 
 // Handle mousePressEvents
 void Visualizer::mousePressEvent(QMouseEvent* event) {
-    if (event->button() == Qt::LeftButton) {
-        Vector2 pos;
-        pos.x = event->pos().x();
-        pos.y = event->pos().y();
+    Vector2 pos;
+    pos.x = event->pos().x();
+    pos.y = event->pos().y();
 
+    if (event->button() == Qt::LeftButton) {
         for (roboteam_msgs::WorldRobot robot : rtt::ai::World::get_world().us) {
             if (pos.dist(toScreenPosition(robot.pos)) < 10) {
                 this->toggleSelectedRobot(robot.id);
             }
         }
+    } else if (event->button() == Qt::RightButton) {
+        InterfaceValues::setBallPlacementTarget(pos);
     }
 }
 
@@ -311,6 +315,13 @@ void Visualizer::drawIntercept(QPainter &painter, std::vector<std::pair<rtt::Vec
             }
         }
     }
+}
+void Visualizer::drawBallPlacementTarget(QPainter& painter) {
+    Vector2 ballPlacementTarget = InterfaceValues::getBallPlacementTarget();
+    painter.setBrush(Qt::transparent);
+    painter.setPen(Qt::red);
+    painter.drawLine(ballPlacementTarget.x - 5, ballPlacementTarget.y - 5, ballPlacementTarget.x + 5, ballPlacementTarget.y + 5);
+    painter.drawLine(ballPlacementTarget.x + 5, ballPlacementTarget.y - 5, ballPlacementTarget.x - 5, ballPlacementTarget.y + 5);
 }
 
 } // interface
