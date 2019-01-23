@@ -88,7 +88,7 @@ int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
         robotAngle += 2*M_PI;
     }
 
-    return ((dist < 0.25) && (fabs(angle - robotAngle) < 0.4));
+    return ((dist < 0.08) && (fabs(angle - robotAngle) < constants::DRIBBLER_ANGLE_OFFSET));
 }
 
 int Coach::pickOpponentToCover(int selfID) {
