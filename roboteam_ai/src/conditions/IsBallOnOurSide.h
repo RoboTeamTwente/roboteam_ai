@@ -12,7 +12,7 @@ namespace ai {
 
 class IsBallOnOurSide : public Condition {
 private:
-        bool inField = true;
+        bool inField = false;
     public:
         explicit IsBallOnOurSide(std::string name = "IsBallOnOurSide", bt::Blackboard::Ptr blackboard = nullptr);
         void initialize() override;

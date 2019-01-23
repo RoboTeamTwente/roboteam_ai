@@ -6,4 +6,5 @@ Dribble,ROLE,Position,maxTicks,forwardDirection
 Rotate,ROLE,rotateToBall,rotateToOurGoal,rotateToEnemyGoal,rotateToRobotId,robotIsEnemy
 InterceptBall
 GetBall
-DefendOnRobot
+DefendOnRobotd
+Attack
