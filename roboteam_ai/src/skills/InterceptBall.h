@@ -14,7 +14,7 @@ namespace ai {
 class InterceptBall :public Skill {
     private:
         enum Progression {
-          INTERCEPTING, CLOSETOPOINT, OVERSHOOT, INPOSITION, BALLDEFLECTED, BALLMISSED
+          INTERCEPTING, CLOSETOPOINT, INPOSITION, BALLDEFLECTED, BALLMISSED
         };
         Progression currentProgression;
         void checkProgression();

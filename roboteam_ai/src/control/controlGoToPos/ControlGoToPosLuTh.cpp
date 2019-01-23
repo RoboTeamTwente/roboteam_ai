@@ -17,6 +17,7 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
 
     if (! pidInit) {
         pidInit = true;
+
         velPID.reset();
         velPID.setPID(constants::standard_luth_P,
                 constants::standard_luth_P,

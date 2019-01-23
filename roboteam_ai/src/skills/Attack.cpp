@@ -11,6 +11,7 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
 }
 
+// TODO: WTF HARDCODED SHIT EVERYWHERE
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
@@ -70,7 +71,6 @@ void Attack::onTerminate(Status s) {
     command.id = robot->id;
     command.use_angle = 1;
     command.w = static_cast<float>(deltaPos.angle());
-
     command.x_vel = 0;
     command.y_vel = 0;
 

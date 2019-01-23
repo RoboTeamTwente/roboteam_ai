@@ -74,14 +74,18 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "SingleKeeperTactic",
          "TwoDefendersTactic",
          "OneAttackerOneDefenderTactic",
+         "KeeperTestTactic",
+         "KeeperTacticV2",
          "PassTactic",
          "Attactic",
          "KeeperTactic"};
+
 
 std::vector<std::string> Switches::strategyJsonFileNames =
         {
          "QualificationStrategy",
          "haltStrategy",
+         "KeeperStrategy",
          "PassStrategy",
          "DemoTeamTwenteStrategy",
          "twoPlayerStrategyV2",
@@ -134,6 +138,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["Defend"] =                 std::make_shared<rtt::ai::Defend>(name, properties);
     map["DefendOnRobot"] =          std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
     map["Dribble"] =                std::make_shared<rtt::ai::Dribble>(name, properties);
+    map["DribbleRotate"]=           std::make_shared<rtt::ai::DribbleRotate>(name,properties);
     map["GetBall"] =                std::make_shared<rtt::ai::GetBall>(name, properties);
     map["GoToPos"] =                std::make_shared<rtt::ai::GoToPos>(name, properties);
     map["GoToPosLuTh"] =            std::make_shared<rtt::ai::GoToPosLuTh>(name, properties);
@@ -159,9 +164,11 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
      */
 
     map["BallKickedToOurGoal"] =    std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
+    map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name,properties);
     map["CanSeeGoal"] =             std::make_shared<rtt::ai::CanSeeGoal>(name, properties);
     map["HasBall"] =                std::make_shared<rtt::ai::HasBall>(name, properties);
     map["IsRobotClosestToBall"] =   std::make_shared<rtt::ai::IsRobotClosestToBall>(name, properties);
+    map["IsInDefenseArea"] =        std::make_shared<rtt::ai::IsInDefenseArea>(name,properties);
     map["TheyHaveBall"] =           std::make_shared<rtt::ai::TheyHaveBall>(name, properties);
     map["IsBallOnOurSide"] =        std::make_shared<rtt::ai::IsBallOnOurSide>(name, properties);
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
