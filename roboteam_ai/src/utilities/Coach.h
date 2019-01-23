@@ -30,6 +30,8 @@ class Coach {
         static int pickDefensivePassTarget(int selfID);
         static int pickOpponentToCover(int selfID);
         static int doesRobotHaveBall(unsigned int robotID, bool isOurTeam);
+        static int doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double dist, double angle);
+
         static int whichRobotHasBall(bool isOurTeam);
         static int pickHarassmentTarget(int selfID);
         static Vector2 getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal);
@@ -46,6 +48,7 @@ class Coach {
         static int getOurRobotClosestToBall();
         static int getTheirRobotClosestToBall();
 
+
         enum PassState {
           goBehindBall,
           goToReceiveBall,
@@ -53,8 +56,8 @@ class Coach {
           receive,
         };
         static std::map<std::string,PassState> passState;
+        static PassState updatePassState(std::string role);
         static PassState getPassState(std::string role);
-
 
         static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToBall(bool isOurTeam);
 
