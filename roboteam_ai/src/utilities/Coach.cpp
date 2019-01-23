@@ -3,7 +3,7 @@
 //
 
 #include "Coach.h"
-
+#include "../interface/InterfaceValues.h"
 namespace rtt {
 namespace ai {
 namespace coach {
@@ -233,7 +233,7 @@ Vector2 Coach::getRobotClosestToPosition(std::vector<roboteam_msgs::WorldRobot> 
 }
 
 Vector2 Coach::getBallPlacementPos(){
-    return {0,0};
+    return interface::InterfaceValues::getBallPlacementTarget();
 }
 
 } //control

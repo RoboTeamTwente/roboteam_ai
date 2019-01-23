@@ -89,7 +89,8 @@ std::vector<std::string> Switches::strategyJsonFileNames =
          "PassStrategy",
          "DemoTeamTwenteStrategy",
          "twoPlayerStrategyV2",
-         "threePlayerStrategyV2"
+         "threePlayerStrategyV2",
+         "BallPlacementUsStrategy"
         };
 
 std::vector<std::string> Switches::keeperJsonFiles =
