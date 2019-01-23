@@ -26,6 +26,8 @@ class GetBall : public Skill {
 
         int count;
         Vector2 deltaPos;
+        bool lockAngle;
+        double lockedAngle;
         int currentTick, maxTicks;
     public:
         explicit GetBall(string name, bt::Blackboard::Ptr blackboard);

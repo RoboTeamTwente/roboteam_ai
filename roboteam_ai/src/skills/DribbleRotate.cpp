@@ -17,13 +17,17 @@ DribbleRotate::DribbleRotate(rtt::string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
 void DribbleRotate::checkProgression() {
-    if (currentProgression==FAIL||currentProgression==SUCCESS) return;
     double angDif = Control::angleDifference(robot->angle, targetAngle);
-    if (!robotHasBall(constants::MAX_BALL_RANGE)){ // change to !botHassball() alter
+    if (!robotHasBall(constants::MAX_BALL_BOUNCE_RANGE)){ // change to !botHassball() alter
         currentProgression=FAIL;
+        return;
     }
     if (angDif<0.1*M_PI && currentTick>=maxTick+extraTick){
         currentProgression=SUCCESS;
+        return;
+    }
+    else{
+        currentProgression=ROTATING;
     }
 }
 void DribbleRotate::onInitialize() {
@@ -52,9 +56,14 @@ void DribbleRotate::onInitialize() {
     dir=Control::rotateDirection(startAngle,targetAngle);
     maxTick=(int)floor(Control::angleDifference(startAngle,targetAngle)/maxSpeed*constants::tickRate);
     if (!robotHasBall(constants::MAX_BALL_RANGE)){
+        std::cout<<"Robot does not have ball in dribbleRotateInitialize"<<std::endl;
+        std::cout<< "Distance"<<(Vector2(robot->pos)-Vector2(ball->pos)).length()-constants::ROBOT_RADIUS<<" Max distance:"<<constants::MAX_BALL_RANGE<<std::endl;
         currentProgression=FAIL;
+        std::cout<<robot->angle<<std::endl;
     }
-
+    else {
+        std::cout << "Robot has ball in dribbleRotate Initialize" << std::endl;
+    }
 }
 DribbleRotate::Status DribbleRotate::onUpdate() {
     checkProgression();
@@ -83,7 +92,6 @@ void DribbleRotate::sendMoveCommand() {
     command.use_angle = 1;
     command.dribbler = 1;
     command.w = static_cast<float>(computeCommandAngle());
-    std::cout << command.w << std::endl;
     currentTick++;
     publishRobotCommand(command);
 }
