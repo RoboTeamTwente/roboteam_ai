@@ -17,17 +17,29 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
 
     if (! pidInit) {
         pidInit = true;
-        pid.setPID(constants::standard_luth_P,
-                constants::standard_luth_I,
-                constants::standard_luth_D);
+
+        velPID.reset();
+        velPID.setPID(constants::standard_luth_P,
+                constants::standard_luth_P,
+                constants::standard_luth_P);
+
+        posPID.reset();
+        posPID.setPID(constants::standard_luth_P,
+                constants::standard_luth_P,
+                constants::standard_luth_P);
     }
 
-    if (pid.getP() != interface::InterfaceValues::getLuthP() ||
-            pid.getI() != interface::InterfaceValues::getLuthI() ||
-            pid.getD() != interface::InterfaceValues::getLuthD()) {
+    if (velPID.getP() != interface::InterfaceValues::getLuthP() ||
+            velPID.getI() != interface::InterfaceValues::getLuthI() ||
+            velPID.getD() != interface::InterfaceValues::getLuthD()) {
 
-        pid.reset();
-        pid.setPID(interface::InterfaceValues::getLuthP(),
+        velPID.reset();
+        velPID.setPID(interface::InterfaceValues::getLuthP(),
+                interface::InterfaceValues::getLuthI(),
+                interface::InterfaceValues::getLuthD());
+
+        posPID.reset();
+        posPID.setPID(interface::InterfaceValues::getLuthP(),
                 interface::InterfaceValues::getLuthI(),
                 interface::InterfaceValues::getLuthD());
 
@@ -62,7 +74,7 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
 
             for (int i = 0; i < static_cast<int>(me.posData.size()); i ++) {
                 me.pos = me.posData[i];
-                me.t = me.posData.size()*me.dt;
+                me.t = i*me.dt;
                 Vector2 closestBot = ControlUtils::getClosestRobot(me.pos, me.id, true, me.t);
                 if (me.isCollision(closestBot)) {
                     recalculate = true;
@@ -77,7 +89,8 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
 // Calculate new path
     if (recalculate) {
         displayData = {};
-        pid.reset();
+        velPID.reset();
+        posPID.reset();
         clear();
         startTime = ros::Time::now();
 
@@ -123,19 +136,27 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
 
         if (closestRobotDir.length() < me.defaultCollisionRadius) {
             std::cout << "Avoiding Collision ........" << std::endl;
-
-            velocityCommand = (Vector2) {-closestRobotDir.y, closestRobotDir.x}.stretchToLength(1.25f);
+            double vel = 1.5*me.defaultCollisionRadius/(me.defaultCollisionRadius+closestRobotDir.length());
+            velocityCommand = (Vector2) {-closestRobotDir.y, closestRobotDir.x}.stretchToLength(vel);
         }
         else
             velocityCommand = (targetPos - robot->pos).stretchToLength(1.0f);
     }
     else if (closestRobotDir.length() < me.defaultCollisionRadius) {
         std::cout << "Avoiding Collision" << std::endl;
-        velocityCommand = (Vector2) {-closestRobotDir.y, closestRobotDir.x}.stretchToLength(1.25f);
+        double vel = 1.5*me.defaultCollisionRadius/(me.defaultCollisionRadius+closestRobotDir.length());
+
+        velocityCommand = (Vector2) {-closestRobotDir.y, closestRobotDir.x}.stretchToLength(vel);
     }
     else {
-        Vector2 pidPos = me.velData[minStep - 1];
-        Vector2 vel = pid.controlPIR(pidPos, robot->vel);
+        Vector2 pidVel = me.velData[minStep - 1];
+        Vector2 pidV = velPID.controlPIR(pidVel, robot->vel);
+
+        Vector2 pidPos = me.posData[minStep - 1];
+        //Vector2 pidP = posPID.controlPID((Vector2)(robot->pos) - pidPos);
+        Vector2 pidP = posPID.controlPID(pidPos - robot->pos);
+
+        Vector2 vel = pidV + pidP;
 
         velocityCommand.x = static_cast<float>(vel.x);
         velocityCommand.y = static_cast<float>(vel.y);
@@ -177,7 +198,7 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
         }
 
         NumRobotPtr me = robotQueue.top();
-        if (me->isCollision(target)) {
+        if (me->isCollision(target, 0.1)) {
             numRobot.posData = me->posData;
             numRobot.velData = me->velData;
             return true;

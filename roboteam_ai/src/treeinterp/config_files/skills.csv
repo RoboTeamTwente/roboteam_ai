@@ -7,3 +7,5 @@ Rotate,ROLE,rotateToBall,rotateToOurGoal,rotateToEnemyGoal,rotateToRobotId,robot
 InterceptBall
 GetBall
 DefendOnRobot
+Pass
+BasicGoToPos

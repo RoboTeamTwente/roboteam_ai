@@ -60,7 +60,7 @@ rtt::Vector2 ControlUtils::getClosestRobot(Vector2 &pos, int &id, bool ourTeam, 
             Vector2 botPos = {bot.pos.x + bot.vel.x*t, bot.pos.y + bot.vel.y*t};
             double deltaPos = (pos - botPos).length();
             if (deltaPos < distance) {
-                closestPos = bot.pos;
+                closestPos = botPos;
                 distance = deltaPos;
             }
 
@@ -72,7 +72,7 @@ rtt::Vector2 ControlUtils::getClosestRobot(Vector2 &pos, int &id, bool ourTeam, 
             Vector2 botPos = {bot.pos.x + bot.vel.x*t, bot.pos.y + bot.vel.y*t};
             double deltaPos = (pos - botPos).length();
             if (deltaPos < distance) {
-                closestPos = bot.pos;
+                closestPos = botPos;
                 distance = deltaPos;
             }
         }
@@ -258,6 +258,22 @@ bool ControlUtils::hasBall(double frontDist,double robotOrientation,Vector2 robo
                 dribbleRight + Vector2(frontDist, 0).rotate(robotOrientation),
                 dribbleLeft + Vector2(frontDist, 0).rotate(robotOrientation));
 }
+
+Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, float margin) {
+    auto field = Field::get_field();
+    double hFieldLength = field.field_length*0.5;
+    double hFieldWidth = field.field_width*0.5;
+    if (position.x > hFieldLength - margin)
+        position.x = hFieldLength - margin;
+    if (position.x < - hFieldLength + margin)
+        position.x = - hFieldLength + margin;
+    if (position.y > hFieldWidth - margin)
+        position.y = hFieldWidth - margin;
+    if (position.y < - hFieldWidth + margin)
+        position.y = - hFieldWidth + margin;
+    return position;
+}
+
 } // control
 } // ai
 } // rtt

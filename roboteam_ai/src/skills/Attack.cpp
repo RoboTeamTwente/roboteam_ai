@@ -36,7 +36,7 @@ bt::Node::Status Attack::onUpdate() {
         targetPos = ball;
         command.use_angle = 1;
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
-        if (Coach::doesRobotHaveBall(robot->id, true)) {
+        if (Coach::doesRobotHaveBall(robot->id, true, 0.15, 0.1)) {
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::constants::MAX_KICK_POWER);
             command.kicker_forced = 1;
@@ -44,15 +44,19 @@ bt::Node::Status Attack::onUpdate() {
         goToType = GoToType::basic;
     }
     Vector2 velocity;
-    if (Field::pointIsInDefenceArea(robot->pos, true, 0.2)) {
+    if (Field::pointIsInDefenceArea(robot->pos, true, 0.0)) {
         velocity = ((Vector2) robot->pos - Field::get_our_goal_center()).stretchToLength(2.0);
     }
-    else if (Field::pointIsInDefenceArea(robot->pos, false, 0.2)) {
+    else if (Field::pointIsInDefenceArea(robot->pos, false, 0.0)) {
         velocity = ((Vector2) robot->pos - Field::get_their_goal_center()).stretchToLength(2.0);
-
-    } else if (Field::pointIsInDefenceArea(ball, true) || Field::pointIsInDefenceArea(ball, false)) {
+    }
+    else if (Field::pointIsInDefenceArea(ball, true) || Field::pointIsInDefenceArea(ball, false)) {
         velocity = {0, 0};
-    } else {
+    }
+    else if (Field::pointIsInDefenceArea(targetPos, true)) {
+        velocity = {0, 0};
+    }
+    else {
         velocity = goToPos.goToPos(robot, targetPos, goToType);
     }
     command.x_vel = static_cast<float>(velocity.x);

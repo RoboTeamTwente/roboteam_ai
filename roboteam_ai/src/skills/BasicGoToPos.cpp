@@ -30,9 +30,7 @@ Skill::Status BasicGoToPos::onUpdate() {
     command.y_vel = static_cast<float>(velocity.y);
     publishRobotCommand(command);
 
-    double dx = targetPos.x - robot->pos.x;
-    double dy = targetPos.y - robot->pos.y;
-    Vector2 deltaPos = {dx, dy};
+    Vector2 deltaPos = targetPos - robot->pos;
 
     if (deltaPos.length() > errorMargin) {
         return Status::Running;
