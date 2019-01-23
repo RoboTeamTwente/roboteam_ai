@@ -10,6 +10,7 @@
 #include "math.h"
 #include "../utilities/World.h"
 #include "roboteam_utils/Arc.h"
+
 typedef rtt::Vector2 Vector2;
 
 namespace rtt{
@@ -26,6 +27,7 @@ class ControlUtils {
         static double distanceToLineWithEnds(Vector2 PointToCheck, Vector2 LineStart, Vector2 LineEnd);
         static double angleDifference(double A1, double A2);
         static int rotateDirection(double currentAngle, double targetAngle);
+        static Vector2 projectPositionToWithinField(Vector2 position, float margin = 0.2);
 
         static rtt::Vector2 getClosestRobot(rtt::Vector2 &pos, int &id, bool ourTeam, float &t);
         static rtt::Vector2 getClosestRobot(rtt::Vector2 &pos, int &id, bool ourTeam);

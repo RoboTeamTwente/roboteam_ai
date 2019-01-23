@@ -8,3 +8,5 @@ InterceptBall
 GetBall
 DefendOnRobot
 Attack
+Pass
+BasicGoToPos
