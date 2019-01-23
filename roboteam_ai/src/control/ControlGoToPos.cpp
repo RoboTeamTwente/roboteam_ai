@@ -85,11 +85,15 @@ Vector2 ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
     double dist = error.length();
     static bool far = true;
     if (dist > rtt::ai::constants::ROBOT_RADIUS and ! far) {
-        pid.setD(1.5);
+        pid.setP(2.0);
+        pid.setI(0.6);
+        pid.setD(2.5);
         far = true;
     }
     else {
-        pid.setD(0);
+        pid.setP(2.0);
+        pid.setI(0.5);
+        pid.setD(0.5);
         far = false;
     }
     return pid.controlPIR(error, robot->vel);

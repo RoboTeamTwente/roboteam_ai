@@ -43,7 +43,7 @@ const int MAX_GENEVA_CYCLES = 20;
 const int DEFAULT_GENEVA_STATE = 0;
 
 //dribble
-const double MAX_BALL_RANGE=0.1; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
+const double MAX_BALL_RANGE=0.15; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
 const double MAX_BALL_BOUNCE_RANGE=0.3;
 const double DRIBBLE_POSDIF=0.03;
 const float  DRIBBLE_SPEED=0.4;
@@ -111,9 +111,9 @@ const QColor TACTIC_4 { 255, 120, 180, 255 };
 const QColor TACTIC_5 { 255, 100, 255, 255 };
 const QColor TACTIC_COLORS[] = {TACTIC_1, TACTIC_2, TACTIC_3, TACTIC_4, TACTIC_5};
 
-const double standard_luth_P = 2.0;
+const double standard_luth_P = 2.6;
 const double standard_luth_I = 0.1;
-const double standard_luth_D = 3.0;
+const double standard_luth_D = 3.3;
 } // constants
 } // ai
 } // rtt

@@ -13,6 +13,7 @@ Receive::Receive(string name, bt::Blackboard::Ptr blackboard)
 
 void Receive::onInitialize() {
     checkTicks = 0;
+    initializedBall = false;
 };
 
 Vector2 Receive::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
@@ -26,6 +27,12 @@ Vector2 Receive::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
 
 Receive::Status Receive::onUpdate() {
     if (!coach::Coach::doesRobotHaveBall(robot->id, true)) {
+        if (Vector2(ball->vel).length() > 0.5 && !initializedBall) {
+            initializedBall = true;
+            ballStartPos = ball->pos;
+            ballStartVel = ball->vel;
+        }
+
         if (Coach::isPassed() && Vector2(ball->vel).length() < 0.01) {
             checkTicks++;
             if (checkTicks > maxCheckTicks) return Status::Success;
@@ -35,13 +42,12 @@ Receive::Status Receive::onUpdate() {
         command.w = static_cast<float>((Vector2(ball->pos) - Vector2(robot->pos)).angle()); //Rotates towards the ball
         command.use_angle = 1;
         if (Vector2(ball->vel).length() > 1.0) {
-            ballStartPos = ball->pos;
             Vector2 ballStartVel = ball->vel;
             Vector2 ballEndPos = ballStartPos + ballStartVel * constants::MAX_INTERCEPT_TIME;
             Vector2 interceptPoint = Receive::computeInterceptPoint(ballStartPos, ballEndPos);
 
             Vector2 velocities = goToPos.goToPos(robot, interceptPoint, GoToType::basic);
-
+            velocities=control::ControlUtils::VelocityLimiter(velocities);
             command.x_vel = static_cast<float>(velocities.x);
             command.y_vel = static_cast<float>(velocities.y);
             command.dribbler = 1;
@@ -51,6 +57,16 @@ Receive::Status Receive::onUpdate() {
     } else {
         return Status::Success;
     }
+}
+void Receive::onTerminate(Status s) {
+    roboteam_msgs::RobotCommand command;
+    command.x_vel = 0;
+    command.y_vel = 0;
+    command.id = robot->id;
+
+    command.dribbler = 0;
+
+    publishRobotCommand(command);
 }
 
 }
