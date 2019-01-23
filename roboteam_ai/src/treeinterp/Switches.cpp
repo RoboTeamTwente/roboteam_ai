@@ -13,6 +13,7 @@
 
 #include "../bt/tactics/VictoryDanceTactic.h"
 #include "../bt/tactics/DefaultTactic.h"
+#include "../bt/tactics/EnterFormationTactic.h"
 
 //  ______________________
 //  |                    |
@@ -194,16 +195,6 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"FAKOFF", robotType::random}
             }
             },
-            {"EnterFormationTactic", {
-                    {"formation1", robotType::random},
-                    {"formation2", robotType::random},
-                    {"formation3", robotType::random},
-                    {"formation4", robotType::random},
-                    {"formation5", robotType::random},
-                    {"formation6", robotType::random},
-                    {"formation7", robotType::random}
-            }
-            },
             {"DanceTactic2", {
                     {"retarded", robotType::random},
                     {"Vright", robotType::random}
@@ -271,6 +262,9 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
     }
     else if (tactics.find(name) != tactics.end()) {
         node = std::make_shared<bt::DefaultTactic>(name, properties, tactics[name]);
+    }
+    else if (name == "EnterFormationTactic") {
+        node = std::make_shared<bt::EnterFormationTactic>("EnterFormationTactic", properties);
     }
     else if (name == "victoryDanceTactic") {
         node = std::make_shared<bt::VictoryDanceTactic>("victoryDanceTactic", properties);

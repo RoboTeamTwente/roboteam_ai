@@ -102,7 +102,7 @@ set(BT_SOURCES
 
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.h
-        )
+        roboteam_ai/src/bt/tactics/EnterFormationTactic.cpp roboteam_ai/src/bt/tactics/EnterFormationTactic.h)
 
 set(TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.cpp
