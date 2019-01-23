@@ -13,16 +13,18 @@ namespace ai {
 
 class Pass : public Skill {
 private:
-    int robotToPassToID;
+    int robotToPassToID = -1;
     std::shared_ptr<roboteam_msgs::WorldRobot> robotToPassTo;
-    enum progression {
+    enum Progression {
         INITIATING, POSITIONING, KICKING
     };
-    progression currentProgress;
+    Progression currentProgress;
 
     Vector2 targetPos;
     control::ControlGoToPos goToPos;
     GoToType goToType;
+    int checkTicks;
+    int maxCheckTicks = 10;
 public:
     explicit Pass(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;

@@ -15,6 +15,7 @@ class Receive : public Skill {
 private:
     control::ControlGoToPos goToPos;
     GoToType goToType;
+    Vector2 focusPoint;
     Vector2 ballStartPos;
     Vector2 ballEndPos;
 public:

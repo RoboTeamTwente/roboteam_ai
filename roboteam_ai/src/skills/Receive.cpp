@@ -12,7 +12,6 @@ Receive::Receive(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void Receive::onInitialize() {
-    ballStartPos = ball->pos;
 };
 
 Vector2 Receive::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
@@ -31,19 +30,17 @@ Receive::Status Receive::onUpdate() {
         command.id = robot->id;
         command.w = static_cast<float>((Vector2(ball->pos) - Vector2(robot->pos)).angle()); //Rotates towards the ball
         command.use_angle = 1;
-        if (ball->vel.x != 0 && ball->vel.y != 0) {
-
+        if (Vector2(ball->vel).length() > 1.0) {
+            ballStartPos = ball->pos;
             Vector2 ballStartVel = ball->vel;
             Vector2 ballEndPos = ballStartPos + ballStartVel * constants::MAX_INTERCEPT_TIME;
             Vector2 interceptPoint = Receive::computeInterceptPoint(ballStartPos, ballEndPos);
 
             Vector2 velocities = goToPos.goToPos(robot, interceptPoint, GoToType::basic);
 
-
             command.x_vel = static_cast<float>(velocities.x);
             command.y_vel = static_cast<float>(velocities.y);
-
-
+            command.dribbler = 1;
         }
         publishRobotCommand(command);
         return Status::Running;

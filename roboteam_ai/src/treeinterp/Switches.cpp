@@ -90,6 +90,7 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
     map["MemSelector"] =      std::make_shared<bt::MemSelector>();
     map["MemSequence"] =      std::make_shared<bt::MemSequence>();
     map["ParallelSequence"] = std::make_shared<bt::ParallelSequence>();
+    map["MemParallelSequence"] = std::make_shared<bt::MemParallelSequence>();
     map["Selector"] =         std::make_shared<bt::Selector>();
     map["Sequence"] =         std::make_shared<bt::Sequence>();
     map["Inverter"] =         std::make_shared<bt::Inverter>();

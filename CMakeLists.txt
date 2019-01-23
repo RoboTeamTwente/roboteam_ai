@@ -69,6 +69,8 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/MemSequence.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/ParallelSequence.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/ParallelSequence.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/MemParallelSequence.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/MemParallelSequence.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/Selector.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/Selector.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/Sequence.hpp

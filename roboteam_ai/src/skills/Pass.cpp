@@ -11,9 +11,9 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void Pass::onInitialize() {
-robotToPassToID = Coach::getRobotClosestToGoal(true, false);
+robotToPassToID = robotDealer::RobotDealer::findRobotForRole("receiver");
 robotToPassTo = World::getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
-currentProgress = INITIATING;
+currentProgress = Progression::INITIATING;
 }
 
 Pass::Status Pass::onUpdate() {
@@ -22,21 +22,21 @@ Pass::Status Pass::onUpdate() {
     roboteam_msgs::RobotCommand command;
 
     switch(currentProgress) {
-        case INITIATING: {
+        case Progression::INITIATING:
             if (coach::Coach::initiatePass(robotToPassToID)) {
-                currentProgress = POSITIONING;
+                currentProgress = Progression::POSITIONING;
                 return Status::Running;
             } else return Status::Failure;
-        }
-        case POSITIONING: {
-            if (!coach::Coach::isRobotBehindBallToPosition(0.7, robotToPassTo->pos, robot->pos)) {
+        break;
+        case Progression::POSITIONING: {
+            if (!coach::Coach::isRobotBehindBallToPosition(0.15, robotToPassTo->pos, robot->pos)) {
                 goToType = GoToType::luTh;
-                targetPos = Coach::getPositionBehindBallToPosition(0.7, robotToPassTo->pos);
-            } else if (!coach::Coach::doesRobotHaveBall(robot->id, true, 0.15)) {
+                targetPos = Coach::getPositionBehindBallToPosition(0.15, robotToPassTo->pos);
+            } else if (!coach::Coach::doesRobotHaveBall(robot->id, true, rtt::ai::constants::MAX_BALL_RANGE)) {
                 goToType = GoToType::basic;
                 targetPos = ball->pos;
             } else {
-                currentProgress = KICKING;
+                currentProgress = Progression::KICKING;
                 return Status::Running;
             }
             command.use_angle = 1;
@@ -44,18 +44,28 @@ Pass::Status Pass::onUpdate() {
             Vector2 velocities = goToPos.goToPos(robot, targetPos, goToType);
             command.x_vel = static_cast<float>(velocities.x);
             command.y_vel = static_cast<float>(velocities.y);
+            break;
         }
-        case KICKING: {
-            if (true) {
+        case Progression::KICKING: {
+            // TODO: check whether team mate is ready to receive pass
+            if (coach::Coach::doesRobotHaveBall(robot->id, true, rtt::ai::constants::MAX_BALL_RANGE)) {
                 command.kicker = 1;
                 command.kicker_forced = 1;
-                command.kicker_vel = static_cast<float>(rtt::ai::constants::MAX_KICK_POWER);
+                command.kicker_vel = static_cast<float>(rtt::ai::constants::MAX_KICK_POWER * 0.4f);
                 command.id = robot->id;
                 publishRobotCommand(command);
-                Coach::setRobotBeingPassedTo(-1);
-
-                return Status::Success;
+                checkTicks = 0;
+                return Status::Running;
             }
+            if (Vector2(ball->vel).length() > 0.6 && ((Vector2)robot->pos - ball->pos).length() > rtt::ai::constants::MAX_BALL_RANGE * 2) {
+                Coach::setRobotBeingPassedTo(-1);
+                return Status::Success;
+            } else if (checkTicks < maxCheckTicks) {
+                checkTicks++;
+                return Status::Running;
+            };
+            currentProgress = Progression::POSITIONING;
+            return Status::Running;
         }
     }
 
