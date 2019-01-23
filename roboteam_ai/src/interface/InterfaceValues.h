@@ -17,7 +17,11 @@ private:
     static double luthI;
     static double luthD;
     static std::mutex PIDMutex;
+    static std::mutex BallPlacementMutex;
+    static rtt::Vector2 ballPlacementTarget;
 public:
+    static const Vector2& getBallPlacementTarget();
+    static void setBallPlacementTarget(const Vector2& ballPlacementTarget);
     static double getLuthP();
     static void setLuthP(double luthP);
     static double getLuthI();

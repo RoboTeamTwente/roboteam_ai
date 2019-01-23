@@ -89,14 +89,15 @@ const int INTERCEPT_DRAW_VECTOR_SIZE=5;
 const double BP_MOVE_BACK_DIST=0.2;
 
 // Settings
-const bool STD_SHOW_ROLES = false;
+const bool STD_SHOW_ROLES = true;
 const bool STD_SHOW_TACTICS = false;
 const bool STD_SHOW_TACTICS_COLORS = true;
 const bool STD_SHOW_VELOCITIES = true;
 const bool STD_SHOW_ANGLES = true;
 const bool STD_SHOW_VORONOI = false;
 const bool STD_SHOW_PATHS_ALL = false;
-const bool STD_SHOW_PATHS_CURRENT = false;
+const bool STD_SHOW_PATHS_CURRENT = true;
+const bool STD_SHOW_BALL_PLACEMENT_MARKER = true;
 
 const QColor FIELD_COLOR{30, 30, 30, 255};
 const QColor FIELD_LINE_COLOR = Qt::white;
