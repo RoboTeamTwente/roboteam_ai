@@ -47,7 +47,7 @@ const int DEFAULT_GENEVA_STATE = 0;
 //dribble
 const double MAX_BALL_RANGE=0.05; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
 const double MAX_BALL_BOUNCE_RANGE=0.3;
-const double DRIBBLE_POSDIF=0.15;
+const double DRIBBLE_POSDIF=0.05;
 const float  DRIBBLE_SPEED=0.8;
 //getBallcc
 const double COLLISION_RADIUS=0.18;
@@ -118,9 +118,9 @@ const QColor TACTIC_4 { 255, 120, 180, 255 };
 const QColor TACTIC_5 { 255, 100, 255, 255 };
 const QColor TACTIC_COLORS[] = {TACTIC_1, TACTIC_2, TACTIC_3, TACTIC_4, TACTIC_5};
 
-const double standard_luth_P = 2.7;
-const double standard_luth_I = 0.2;
-const double standard_luth_D = 3.5;
+const double standard_luth_P = 3.0;
+const double standard_luth_I = 0.5;
+const double standard_luth_D = 2.5;
 } // constants
 } // ai
 } // rtt
