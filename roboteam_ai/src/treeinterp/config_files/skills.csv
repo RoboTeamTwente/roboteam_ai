@@ -9,7 +9,6 @@ GetBall
 DefendOnRobot
 Pass
 Receive
-BasicGoToPos,target,goToBall
+BasicGoToPos,target,goToBall,avoidBall,canGoOutsideField
 Attack
-BasicGoToPos
 EnterFormation
