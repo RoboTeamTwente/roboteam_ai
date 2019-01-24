@@ -46,6 +46,8 @@
             "isRole": false,
             "properties": {
               "ROLE": "qualRole",
+              "avoidBall": "true",
+              "canGoOutsideField": "true",
               "target": "{1.4,-0.85}"
             }
           },
@@ -55,6 +57,8 @@
             "isRole": false,
             "properties": {
               "ROLE": "qualRole",
+              "canGoOutsideField": "true",
+              "avoidBall": "true",
               "target": "{-1.4,0.85}"
             }
           },
@@ -88,6 +92,8 @@
             "title": "BasicGoToPos",
             "isRole": false,
             "properties": {
+              "avoidBall": "true",
+              "canGoOutsideField": "true",
               "ROLE": "eloRlauq",
               "target": "{1.4,0.85}"
             }
@@ -97,6 +103,8 @@
             "title": "BasicGoToPos",
             "isRole": false,
             "properties": {
+              "avoidBall": "true",
+              "canGoOutsideField": "true",
               "ROLE": "eloRlauq",
               "target": "{-1.4,-0.85}"
             }
