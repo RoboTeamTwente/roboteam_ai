@@ -42,7 +42,8 @@ Receive::Status Receive::onUpdate() {
         command.id = robot->id;
         command.w = static_cast<float>((Vector2(ball->pos) - Vector2(robot->pos)).angle()); //Rotates towards the ball
         command.use_angle = 1;
-        if (Vector2(ball->vel).length() > 0.6) {
+        double ballAngle = ((Vector2)robot->pos - ball->pos).angle();
+        if (Vector2(ball->vel).length() > 0.6 && (ballAngle - Vector2(ball->vel).angle()) < 0.5) {
             Vector2 ballStartVel = ball->vel;
             Vector2 ballEndPos = ballStartPos + ballStartVel * constants::MAX_INTERCEPT_TIME;
             Vector2 interceptPoint = Receive::computeInterceptPoint(ballStartPos, ballEndPos);

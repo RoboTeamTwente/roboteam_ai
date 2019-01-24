@@ -11,7 +11,7 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void Pass::onInitialize() {
-robotToPassToID = robotDealer::RobotDealer::findRobotForRole("receiver");
+robotToPassToID = robotDealer::RobotDealer::findRobotForRole("striker");
 robotToPassTo = World::getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
 currentProgress = Progression::INITIATING;
 std::cout << "NEW PASS" << std::endl;
