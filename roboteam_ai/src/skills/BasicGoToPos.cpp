@@ -15,6 +15,23 @@ BasicGoToPos::BasicGoToPos(string name, bt::Blackboard::Ptr blackboard)
 void BasicGoToPos::onInitialize() {
     robot = getRobotFromProperties(properties);
     targetPos = properties->getVector2("target");
+    if (properties->getBool("BallPlacementBefore")){
+        if(ball){
+            targetPos=coach::Coach::getBallPlacementBeforePos(ball->pos);
+        }
+        else{
+            ROS_ERROR("BasicGoToPos: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
+        }
+    }
+    else if (properties->getBool("BallPlacementAfter")){
+        if(ball){
+            errorMargin=0.05;
+            targetPos=coach::Coach::getBallPlacementAfterPos(ball->pos,robot->angle);
+        }
+        else{
+            ROS_ERROR("BasicGoToPos: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
+        }
+    }
     goToPos.setAvoidBall(properties->getBool("avoidBall"));
     goToPos.setCanGoOutsideField(properties->getBool("canGoOutsideField"));
 }
@@ -28,6 +45,9 @@ Skill::Status BasicGoToPos::onUpdate() {
     command.id = robot->id;
     command.use_angle = 1;
     command.w = static_cast<float>((targetPos-robot->pos).angle());
+    if(properties->getBool("BallPlacementAfter")){
+        command.w=static_cast<float>((Vector2(robot->pos)-targetPos).angle());
+    }
     Vector2 velocity = goToPos.goToPos(robot, targetPos, control::GoToType::luTh);
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);

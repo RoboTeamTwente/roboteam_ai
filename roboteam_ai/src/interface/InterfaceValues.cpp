@@ -13,7 +13,11 @@ namespace interface {
 double InterfaceValues::luthP = constants::standard_luth_P;
 double InterfaceValues::luthI = constants::standard_luth_I;
 double InterfaceValues::luthD = constants::standard_luth_D;
+rtt::Vector2 InterfaceValues::ballPlacementTarget = {0, 0}; // initialize on middle of the field
+
 std::mutex InterfaceValues::PIDMutex;
+std::mutex InterfaceValues::BallPlacementMutex;
+
 
 double InterfaceValues::getLuthP() {
     std::lock_guard<std::mutex> lock(PIDMutex);
@@ -44,8 +48,19 @@ void InterfaceValues::setLuthD(double LuthD) {
     std::lock_guard<std::mutex> lock(PIDMutex);
     InterfaceValues::luthD = LuthD;
 }
+
 void InterfaceValues::sendHaltCommand() {
-BTFactory::halt();
+    BTFactory::halt();
+}
+
+const Vector2& InterfaceValues::getBallPlacementTarget() {
+    std::lock_guard<std::mutex> lock(BallPlacementMutex);
+    return ballPlacementTarget;
+}
+
+void InterfaceValues::setBallPlacementTarget(const Vector2& ballPlacementTarget) {
+    std::lock_guard<std::mutex> lock(BallPlacementMutex);
+    InterfaceValues::ballPlacementTarget = ballPlacementTarget;
 }
 
 } // interface
