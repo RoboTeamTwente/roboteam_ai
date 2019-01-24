@@ -17,7 +17,6 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
 
     if (! pidInit) {
         pidInit = true;
-
         velPID.reset();
         velPID.setPID(constants::standard_luth_P,
                 constants::standard_luth_P,
@@ -45,7 +44,6 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
 
     }
     posPID.setPID(0,0,0);
-
     bool recalculate = false;
     double deltaTarget = (abs((target - targetPos).length()));
     double deltaPos = (abs((target - robot->pos).length()));
