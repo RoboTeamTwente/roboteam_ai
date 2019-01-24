@@ -23,6 +23,7 @@ namespace coach {
 class Coach {
     private:
         static std::vector<int> defenders;
+        static std::vector<int> robotsInFormation;
 
     public:
         static std::map<int, int> defencePairs;
@@ -64,6 +65,11 @@ class Coach {
         static void addDefender(int id);
         static void removeDefender(int id);
         static Vector2 getDefensivePosition(int robotId);
+
+        static void addFormationRobot(int id);
+        static void removeFormationRobot(int id);
+        static Vector2 getFormationPosition(int robotId);
+
 };
 
 }
