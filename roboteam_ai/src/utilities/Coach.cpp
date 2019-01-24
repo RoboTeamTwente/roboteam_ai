@@ -3,7 +3,7 @@
 //
 
 #include "Coach.h"
-
+#include "../interface/InterfaceValues.h"
 namespace rtt {
 namespace ai {
 namespace coach {
@@ -308,6 +308,19 @@ void Coach::setPassed(bool passed) {
     Coach::passed = passed;
 }
 
+Vector2 Coach::getBallPlacementPos(){
+    return interface::InterfaceValues::getBallPlacementTarget();
+}
+
+Vector2 Coach::getBallPlacementBeforePos(Vector2 ballPos){
+    Vector2 PlacePos=interface::InterfaceValues::getBallPlacementTarget();
+    Vector2 targetPos=ballPos + (PlacePos - ballPos).stretchToLength(constants::BP_MOVE_TOWARDS_DIST);
+    return targetPos;
+}
+Vector2 Coach::getBallPlacementAfterPos(Vector2 ballPos,double RobotAngle){
+    Vector2 targetPos=interface::InterfaceValues::getBallPlacementTarget() + Vector2(constants::BP_MOVE_BACK_DIST,0).rotate(RobotAngle+M_PI);
+    return targetPos;
+}
 } //control
 } //ai
 } //rtt

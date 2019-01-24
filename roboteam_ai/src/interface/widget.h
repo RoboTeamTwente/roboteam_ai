@@ -32,7 +32,9 @@ class Visualizer : public QWidget {
         void setShowVelocities(bool showVelocities);
         void setShowPath(bool showPath);
         void setShowPathAll(bool showPaths);
-        void toggleSelectedRobot(int robotId);
+        void setShowBallPlacementMarker(bool showMarker);
+
+    void toggleSelectedRobot(int robotId);
     protected:
         void paintEvent(QPaintEvent* event) override;
         void mousePressEvent(QMouseEvent* event) override;
@@ -45,6 +47,7 @@ class Visualizer : public QWidget {
         void drawRobots(QPainter &painter);
         void drawRobot(QPainter &painter, roboteam_msgs::WorldRobot robot, bool ourTeam);
         void drawBall(QPainter &painter);
+        void drawBallPlacementTarget(QPainter &painter);
         void drawTacticColorForRobot(QPainter &painter, roboteam_msgs::WorldRobot robot);
         void drawDataPoints(QPainter &painter, std::vector<Vector2> points, int pointSize = 3,
                 QColor color = Qt::green);
@@ -53,6 +56,8 @@ class Visualizer : public QWidget {
         std::string getTacticNameForRobot(roboteam_msgs::WorldRobot robot);
         std::string getRoleNameForRobot(roboteam_msgs::WorldRobot robot);
         rtt::Vector2 toScreenPosition(rtt::Vector2 fieldPos);
+        rtt::Vector2 toFieldPosition(rtt::Vector2 screenPos);
+
         void calculateFieldSizeFactor();
         void drawIntercept(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points);
         // interface variables
@@ -70,6 +75,7 @@ class Visualizer : public QWidget {
         bool showVelocities = constants::STD_SHOW_VELOCITIES;
         bool showPath = constants::STD_SHOW_PATHS_CURRENT;
         bool showAllPaths = constants::STD_SHOW_PATHS_ALL;
+        bool showBallPlacementMarker = constants::STD_SHOW_BALL_PLACEMENT_MARKER;
 
 };
 
