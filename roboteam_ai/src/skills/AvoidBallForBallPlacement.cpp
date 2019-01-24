@@ -16,26 +16,46 @@ void AvoidBallForBallPlacement::onInitialize() {
     ballPlacementTargetLocation = interface::InterfaceValues::getBallPlacementTarget();
 
     auto robotPos = rtt::Vector2(robot->pos);
-    auto ballPos = rtt::Vector2(ball->pos);
-
-    // get the target to move to which is the same vector from the ball
-    targetToMoveTo = robotPos.project(ballPos, ballPlacementTargetLocation);
-    targetToMoveTo.y *= -1;
 
     if (positionIsTooCloseToLine(robotPos)) {
         currentProgress = RUNNING;
     } else {
         currentProgress = DONE;
+        return;
     }
 
-    while (positionIsTooCloseToLine(targetToMoveTo)) {
-        targetToMoveTo = control::ControlUtils::projectPositionToWithinField(targetToMoveTo);
+    auto ballPos = rtt::Vector2(ball->pos);
+    // get the target to move to which is the same vector from the ball
+    auto projectionOnLinePoint = robotPos.project(ballPos, ballPlacementTargetLocation);
+    auto lineDirection = ballPos - ballPlacementTargetLocation;
+    auto inversedLineDirectionX = Vector2(-lineDirection.x, lineDirection.y).stretchToLength(1);
+    auto inversedLineDirectionY = Vector2(lineDirection.x, -lineDirection.y).stretchToLength(1);
+
+
+    auto point = projectionOnLinePoint + inversedLineDirectionX;
+    if (Field::pointIsInField(point) && !positionIsTooCloseToLine(point)) {
+        targetToMoveTo = point;
+        return;
+    }
+
+    point = projectionOnLinePoint + inversedLineDirectionY;
+    if (Field::pointIsInField(point) && !positionIsTooCloseToLine(point)) {
+        targetToMoveTo = point;
+        return;
+    }
+
+    // if we reach this point we are in a corner of the field.
+    inversedLineDirectionX.stretchToLength(2);
+    targetToMoveTo = control::ControlUtils::projectPositionToWithinField(projectionOnLinePoint + inversedLineDirectionX);
+    if (positionIsTooCloseToLine(targetToMoveTo)) {
+        inversedLineDirectionY.stretchToLength(2);
+        targetToMoveTo = control::ControlUtils::projectPositionToWithinField(projectionOnLinePoint + inversedLineDirectionY);
     }
 }
 
 bt::Node::Status AvoidBallForBallPlacement::onUpdate() {
     if (currentProgress == DONE) {
-        return bt::Node::Status::Success;
+      //  return bt::Node::Status::Success;
     }
 
     auto velocities = gtp.goToPos(robot, targetToMoveTo, control::GoToType::luTh);
@@ -50,8 +70,9 @@ bt::Node::Status AvoidBallForBallPlacement::onUpdate() {
     publishRobotCommand(cmd);
 
     if (robotPos.dist(targetToMoveTo) > constants::GOTOPOS_LUTH_ERROR_MARGIN) {
-        return bt::Node::Status::Success;
+        // return bt::Node::Status::Success;
     }
+
 
     if (currentProgress == RUNNING) {
         return bt::Node::Status::Running;
@@ -61,7 +82,7 @@ bt::Node::Status AvoidBallForBallPlacement::onUpdate() {
 }
 
 bool AvoidBallForBallPlacement::positionIsTooCloseToLine(rtt::Vector2 position) {
-    return control::ControlUtils::distanceToLineWithEnds(position, ball->pos, ballPlacementTargetLocation) < constants::ROBOT_RADIUS * 3;
+    return control::ControlUtils::distanceToLineWithEnds(position, ball->pos, ballPlacementTargetLocation) < constants::ROBOT_RADIUS * 6;
 }
 
 } // ai
