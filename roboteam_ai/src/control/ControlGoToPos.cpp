@@ -128,10 +128,14 @@ double ControlGoToPos::distanceToTarget(RobotPtr robot, Vector2 &targetPos) {
 void ControlGoToPos::setAvoidBall(bool _avoidBall) {
     // Add a function to avoid the ball for all goToPos's
 
-
     //gtpBallControl.setAvoidBall(true);
     gtpLuth.setAvoidBall(_avoidBall);
+}
 
+void ControlGoToPos::setCanGoOutsideField(bool _canGoOutsideField) {
+    // Add a function to make sure the robot does not go out of the field for all goToPos's
+
+    gtpLuth.setCanGoOutsideField(_canGoOutsideField);
 }
 
 } //control

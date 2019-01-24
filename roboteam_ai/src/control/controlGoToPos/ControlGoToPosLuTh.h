@@ -184,6 +184,7 @@ class ControlGoToPosLuTh {
         Controller posPID;
         bool pidInit = false;
         bool avoidBall = false;
+        bool canGoOutsideField = true;
         bool tracePath(NumRobot &numRobot, Vector2 target);
         bool calculateNumericDirection(RobotPtr robot, NumRobot &me);
         void drawCross(Vector2 &pos);
@@ -192,6 +193,7 @@ class ControlGoToPosLuTh {
         void clear();
         Vector2 goToPos(RobotPtr robot, Vector2 &target);
         void setAvoidBall(bool _avoidBall);
+        void setCanGoOutsideField(bool _canGoOutsideField);
 };
 
 } // control

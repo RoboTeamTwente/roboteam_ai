@@ -260,7 +260,7 @@ bool ControlGoToPosLuTh::calculateNextPoint(NumRobotPtr me) {
     if (avoidBall && me->isCollision(ballPosAtT))
         return false;
 
-    if (! Field::pointIsInField(me->pos)) {
+    if (!canGoOutsideField && ! Field::pointIsInField(me->pos)) {
         if (World::getRobotForId(static_cast<unsigned int>(me->id), true).get()) {
             if (Field::pointIsInField(
                     World::getRobotForId(static_cast<unsigned int>(me->id), true).get()->pos, -0.25f))
@@ -300,6 +300,9 @@ void ControlGoToPosLuTh::drawCross(Vector2 &pos) {
 }
 void ControlGoToPosLuTh::setAvoidBall(bool _avoidBall) {
     avoidBall = _avoidBall;
+}
+void ControlGoToPosLuTh::setCanGoOutsideField(bool _canGoOutsideField) {
+    canGoOutsideField = _canGoOutsideField;
 }
 
 } // control
