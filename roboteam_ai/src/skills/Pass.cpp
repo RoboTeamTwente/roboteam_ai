@@ -28,6 +28,7 @@ Pass::Status Pass::onUpdate() {
                 currentProgress = Progression::POSITIONING;
                 return Status::Running;
             } else return Status::Failure;
+
         case Progression::POSITIONING: {
             std::cout << "POSITIONING" << std::endl;
             if (!coach::Coach::isRobotBehindBallToPosition(0.15, robotToPassTo->pos, robot->pos)) {

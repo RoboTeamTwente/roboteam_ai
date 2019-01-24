@@ -22,7 +22,7 @@
 
 #include "../skills/Chip.h"
 #include "../skills/Dribble.h"
-#include "../skills/GoToPosLuTh.h"
+
 #include "roboteam_ai/src/skills/SkillGoToPos.h"
 #include "../skills/Halt.h"
 #include "../skills/Kick.h"
@@ -35,10 +35,10 @@
 #include "roboteam_ai/src/skills/Pass.h"
 #include "roboteam_ai/src/skills/Receive.h"
 #include <roboteam_ai/src/skills/InterceptBall.h>
-#include <roboteam_ai/src/skills/GoToPosLuTh.h>
 #include <roboteam_ai/src/skills/InterceptBall.h>
 #include "../skills/DribbleRotate.h"
 #include <roboteam_ai/src/skills/Defend.h>
+#include "../skills/DefendOnRobot.h"
 #include <roboteam_ai/src/skills/InterceptBall.h>
 #include <roboteam_ai/src/skills/BasicGoToPos.h>
 
@@ -71,13 +71,15 @@ std::vector<std::string> Switches::tacticJsonFileNames =
         {
          "QualificationTactic",
          "haltTactic",
-         "PassTacticRob"};
+         "PassTacticRob",
+         "OffenseTactic"};
 
 std::vector<std::string> Switches::strategyJsonFileNames =
         {
          "QualificationStrategy",
          "haltStrategy",
-         "PassStrategyRob"};
+         "PassStrategyRob",
+         "OffenseStrategy"};
 
 std::vector<std::string> Switches::keeperJsonFiles =
         {};
@@ -128,7 +130,6 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["Dribble"] =                std::make_shared<rtt::ai::Dribble>(name, properties);
     map["GetBall"] =                std::make_shared<rtt::ai::GetBall>(name, properties);
     map["GoToPos"] =                std::make_shared<rtt::ai::GoToPos>(name, properties);
-    map["GoToPosLuTh"] =            std::make_shared<rtt::ai::GoToPosLuTh>(name, properties);
     map["Halt"] =                   std::make_shared<rtt::ai::Halt>(name, properties);
     map["Harass"] =                 std::make_shared<rtt::ai::Harass>(name, properties);
     map["InterceptBall"] =          std::make_shared<rtt::ai::InterceptBall>(name, properties);
@@ -249,8 +250,13 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
             {"PassTacticRob", {
                     {"passer", robotType::closeToBall},
-                    {"receiver", robotType::closeToTheirGoal}
+                    {"receiver", robotType::random}
             }
+            },
+            {"OffenseTactic", {
+                  {"striker", robotType::closeToTheirGoal},
+                  {"assister", robotType::closeToBall}
+          }
             }
     };
 

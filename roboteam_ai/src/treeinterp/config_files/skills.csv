@@ -9,5 +9,5 @@ GetBall
 DefendOnRobot
 Pass
 Receive
-BasicGoToPos
+BasicGoToPos,target,goToBall
 Attack
