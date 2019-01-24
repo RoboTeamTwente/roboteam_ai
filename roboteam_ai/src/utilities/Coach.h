@@ -72,10 +72,6 @@ public:
     static bool isPassed();
     static void setPassed(bool passed);
 
-    static void addDefender(int id);
-    static void removeDefender(int id);
-    static Vector2 getDefensivePosition(int robotId);
-
     static void addFormationRobot(int id);
     static void removeFormationRobot(int id);
     static Vector2 getFormationPosition(int robotId);

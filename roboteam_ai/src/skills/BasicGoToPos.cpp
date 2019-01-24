@@ -14,12 +14,8 @@ BasicGoToPos::BasicGoToPos(string name, bt::Blackboard::Ptr blackboard)
 
 void BasicGoToPos::onInitialize() {
     robot = getRobotFromProperties(properties);
-    if (properties->hasBool("goToBall")) {
-        if (properties->getBool("goToBall")) targetPos = ball->pos;
-    }
-
     if (properties->hasVector2("target")) targetPos = properties->getVector2("target");
-    targetPos = properties->getVector2("target");
+    if (properties->getBool("goToBall")) targetPos = ball->pos;
     goToPos.setAvoidBall(properties->getBool("avoidBall"));
     goToPos.setCanGoOutsideField(properties->getBool("canGoOutsideField"));
 }
