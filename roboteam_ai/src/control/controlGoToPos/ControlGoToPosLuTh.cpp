@@ -71,12 +71,17 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
         else {
             me.posData.erase(me.posData.begin(), me.posData.begin() + currentIndex);
             me.velData.erase(me.velData.begin(), me.velData.begin() + currentIndex);
-
+            auto ball = World::getBall().get();
             for (int i = 0; i < static_cast<int>(me.posData.size()); i ++) {
                 me.pos = me.posData[i];
                 me.t = i*me.dt;
                 Vector2 closestBot = ControlUtils::getClosestRobot(me.pos, me.id, true, me.t);
                 if (me.isCollision(closestBot)) {
+                    recalculate = true;
+                    break;
+                }
+                Vector2 ballPosAtT = (Vector2)ball->pos + (Vector2)ball->vel * me.t;
+                if (avoidBall && me.isCollision(ballPosAtT)) {
                     recalculate = true;
                     break;
                 }
@@ -123,9 +128,8 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
 //PID
     int minStep = 5;
     auto allBots = World::getAllRobots();
-    Vector2 closestRobot = coach::Coach::getRobotPositionClosestToPositionPosition(allBots, robot->pos, false);
+    Vector2 closestRobot = coach::Coach::getRobotClosestToPosition(allBots, robot->pos, false);
     Vector2 closestRobotDir = (closestRobot - robot->pos);
-
     if ((targetPos - robot->pos).length() < 0.3f) {
         Vector2 dir = (targetPos - robot->pos).scale(3.0);
         velocityCommand.x = static_cast<float>(dir.x);
@@ -248,10 +252,15 @@ bool ControlGoToPosLuTh::calculateNextPoint(NumRobotPtr me) {
 
     me->t = me->posData.size()*me->dt;
     Vector2 closestBot = ControlUtils::getClosestRobot(me->pos, me->id, true, me->t);
-    if (me->isCollision(closestBot)) {
+    if (me->isCollision(closestBot))
         return false;
-    }
-    if (! Field::pointIsInField(me->pos)) {
+
+    auto ball = World::getBall().get();
+    Vector2 ballPosAtT = (Vector2)ball->pos + (Vector2)ball->vel * me->t;
+    if (avoidBall && me->isCollision(ballPosAtT))
+        return false;
+
+    if (!canGoOutsideField && ! Field::pointIsInField(me->pos)) {
         if (World::getRobotForId(static_cast<unsigned int>(me->id), true).get()) {
             if (Field::pointIsInField(
                     World::getRobotForId(static_cast<unsigned int>(me->id), true).get()->pos, -0.25f))
@@ -266,9 +275,8 @@ bool ControlGoToPosLuTh::calculateNextPoint(NumRobotPtr me) {
     me->acc = (me->targetVel - me->vel).normalize()*me->maxAcc;
     // if the current velocity is away (>90 degrees) from the target
     auto dAngle = static_cast<float>(me->vel.angle() - me->getDirection().angle());
-    if (std::abs(dAngle) > M_PI_2) {
+    if (std::abs(dAngle) > M_PI_2)
         me->acc = (me->acc.normalize() - me->vel.normalize())*me->maxAcc;
-    }
 
     // change my current velocity and position using a numeric euler model
     me->vel = me->vel + me->acc*me->dt;
@@ -289,6 +297,12 @@ void ControlGoToPosLuTh::drawCross(Vector2 &pos) {
             displayData.push_back(data);
         }
     }
+}
+void ControlGoToPosLuTh::setAvoidBall(bool _avoidBall) {
+    avoidBall = _avoidBall;
+}
+void ControlGoToPosLuTh::setCanGoOutsideField(bool _canGoOutsideField) {
+    canGoOutsideField = _canGoOutsideField;
 }
 
 } // control

@@ -82,6 +82,8 @@ class ControlGoToPos {
         Vector2 goToPos(RobotPtr robot, Vector2 &position);
         Vector2 goToPos(RobotPtr robot, Vector2 &position, GoToType goToType);
 
+        void setAvoidBall(bool _avoidBall);
+        void setCanGoOutsideField(bool _canGoOutsideField);
 };
 
 } //control

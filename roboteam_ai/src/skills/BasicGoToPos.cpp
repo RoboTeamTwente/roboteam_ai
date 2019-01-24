@@ -19,7 +19,11 @@ void BasicGoToPos::onInitialize() {
     }
 
     if (properties->hasVector2("target")) targetPos = properties->getVector2("target");
+    targetPos = properties->getVector2("target");
+    goToPos.setAvoidBall(properties->getBool("avoidBall"));
+    goToPos.setCanGoOutsideField(properties->getBool("canGoOutsideField"));
 }
+
 
 Skill::Status BasicGoToPos::onUpdate() {
 
