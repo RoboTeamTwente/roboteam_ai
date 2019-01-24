@@ -8,5 +8,5 @@ InterceptBall
 GetBall
 DefendOnRobot
 Pass
-BasicGoToPos
+BasicGoToPos,ROLE,avoidBall,canGoOutsideField
 EnterFormation
