@@ -34,8 +34,8 @@ void InterceptBall::onInitialize() {
         currentProgression = BALLMISSED;
         backwards=false;
     }
-    pid.setPID(3,0.0,0.2,1.0/constants::tickRate); //TODO:magic numbers galore, from the old team. Move to new control library?
-    finePid.setPID(3.0,0.0,0.0, 1.0/constants::tickRate);
+    pid.setPID(5.7,1.7,0.0,1.0/constants::tickRate); //TODO:magic numbers galore, from the old team. Move to new control library?
+    finePid.setPID(5.7,1.7,0.0, 1.0/constants::tickRate);
 }
 InterceptBall::Status InterceptBall::onUpdate() {
     ball = World::getBall();
@@ -63,9 +63,6 @@ InterceptBall::Status InterceptBall::onUpdate() {
             return Status::Running;
         case CLOSETOPOINT:
             sendFineInterceptCommand();
-            return Status::Running;
-        case OVERSHOOT:
-            sendInterceptCommand();
             return Status::Running;
         case INPOSITION:
             sendStopCommand();
@@ -117,13 +114,9 @@ void InterceptBall::checkProgression() {
             currentProgression = INPOSITION;
         }//If Robot overshoots, switch to overshoot, if in Position, go there
         else if (dist >= constants::ROBOT_RADIUS) {
-            currentProgression = OVERSHOOT;
+            currentProgression = INTERCEPTING;
         }
         return;
-    case OVERSHOOT:
-        if (dist <constants::ROBOT_RADIUS) {
-            currentProgression = CLOSETOPOINT;
-        };// Go back to closestopoint
     case INPOSITION:
         if (dist < constants::INTERCEPT_POSDIF) {
             return;

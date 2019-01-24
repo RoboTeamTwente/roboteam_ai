@@ -76,6 +76,9 @@ void GetBall::onInitialize() {
 GetBall::Status GetBall::onUpdate() {
     if (!ball) return Status::Running;
     deltaPos = Vector2(ball->pos) - Vector2(robot->pos);
+    if(!robotHasBall(constants::MAX_BALL_BOUNCE_RANGE)){
+        lockedAngle=deltaPos.angle();
+    }
     checkProgression();
     currentTick++;
     if (currentProgress == TURNING) {
@@ -143,7 +146,7 @@ void GetBall::sendApproachCommand() {
     command.dribbler = 1;
     command.x_vel = (float) deltaPos.normalize().x*c::GETBALL_SPEED;
     command.y_vel = (float) deltaPos.normalize().y*c::GETBALL_SPEED;
-    command.w = (float) deltaPos.angle();
+    command.w = lockedAngle;
     publishRobotCommand(command);
 
 }
@@ -154,7 +157,7 @@ void GetBall::sendDribblingCommand() {
     command.dribbler = 1;
     command.x_vel = 0;
     command.y_vel = 0;
-    command.w = (float) deltaPos.angle();
+    command.w = lockedAngle;
     publishRobotCommand(command);
 }
 
