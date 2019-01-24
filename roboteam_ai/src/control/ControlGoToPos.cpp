@@ -125,6 +125,15 @@ double ControlGoToPos::distanceToTarget(RobotPtr robot, Vector2 &targetPos) {
     return deltaPos.length();
 }
 
+void ControlGoToPos::setAvoidBall(bool _avoidBall) {
+    // Add a function to avoid the ball for all goToPos's
+
+
+    //gtpBallControl.setAvoidBall(true);
+    gtpLuth.setAvoidBall(_avoidBall);
+
+}
+
 } //control
 } //ai
 } //rtt
