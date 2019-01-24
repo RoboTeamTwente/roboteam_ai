@@ -43,6 +43,7 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
                 interface::InterfaceValues::getLuthD());
 
     }
+    posPID.setPID(0,0,0);
     bool recalculate = false;
     double deltaTarget = (abs((target - targetPos).length()));
     double deltaPos = (abs((target - robot->pos).length()));

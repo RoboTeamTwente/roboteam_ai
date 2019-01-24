@@ -86,7 +86,11 @@ int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkD
 
 int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkDist, double checkAngle) {
     auto robot = World::getRobotForId(robotID, isOurTeam);
-    Vector2 ballPos = World::get_world().ball.pos;
+    Vector2 ballPos;
+    if (World::getBall())
+        ballPos = World::getBall().get()->pos;
+    else
+        return 0;
 
     Vector2 deltaPos = (ballPos - robot->pos);
     double dist = deltaPos.length();

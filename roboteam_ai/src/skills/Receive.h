@@ -18,6 +18,8 @@ private:
     Vector2 focusPoint;
     Vector2 ballStartPos;
     Vector2 ballEndPos;
+    Vector2 ballStartVel;
+    bool initializedBall;
 
     int checkTicks;
     int maxCheckTicks = 20;
@@ -25,7 +27,7 @@ public:
     explicit Receive(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
-
+    void onTerminate(Status s) override;
     Vector2 computeInterceptPoint(Vector2 startBall, Vector2 endBall);
 };
 
