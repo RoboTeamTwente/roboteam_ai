@@ -48,14 +48,14 @@ const int DEFAULT_GENEVA_STATE = 0;
 const double MAX_BALL_RANGE=0.05; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
 const double MAX_BALL_BOUNCE_RANGE=0.3;
 const double DRIBBLE_POSDIF=0.15;
-const float  DRIBBLE_SPEED=0.4;
+const float  DRIBBLE_SPEED=0.8;
 //getBallcc
 const double COLLISION_RADIUS=0.18;
 const double ANGLE_SENS=0.05*M_PI;
 const double MAX_GETBALL_RANGE=0.7;
 const int POSSES_BALL_CYCLES=100;
 const double GETBALL_SPEED=.5;
-const double GETBALL_OVERSHOOT=.1;//m
+const double GETBALL_OVERSHOOT=.05;//m
 
 //GoToPos
 const double MAX_CALCULATION_TIME=20.0; //max time in ms
@@ -79,7 +79,7 @@ const double DEFAULT_MAX_VEL=2.0;
 const double BALL_STILL_VEL=0.1;// if the ball has velocity lower than this in defense area, keeper starts getting it
 
 const double DRIBBLE_ROTATE_WAIT_TIME=0.2; // seconds
-const double DRIBBLE_ROTATE_MAX_SPEED=0.25; //rad/s
+const double DRIBBLE_ROTATE_MAX_SPEED=0.5; //rad/s
 // Interface
 const int ROBOT_DRAWING_SIZE = 8;
 const int BALL_DRAWING_SIZE = 5;
@@ -118,9 +118,9 @@ const QColor TACTIC_4 { 255, 120, 180, 255 };
 const QColor TACTIC_5 { 255, 100, 255, 255 };
 const QColor TACTIC_COLORS[] = {TACTIC_1, TACTIC_2, TACTIC_3, TACTIC_4, TACTIC_5};
 
-const double standard_luth_P = 2.0;
-const double standard_luth_I = 0.1;
-const double standard_luth_D = 3.0;
+const double standard_luth_P = 2.7;
+const double standard_luth_I = 0.2;
+const double standard_luth_D = 3.5;
 } // constants
 } // ai
 } // rtt
