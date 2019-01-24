@@ -59,6 +59,7 @@ private:
     std::shared_ptr<QCheckBox> cb_path;
     std::shared_ptr<QCheckBox> cb_path_all;
     std::shared_ptr<QCheckBox> cb_velocities;
+    std::shared_ptr<QCheckBox> cb_ball_placement_marker;
 
     std::shared_ptr<QGroupBox> doubleSpinBoxesGroup;
     std::shared_ptr<QHBoxLayout> spinBoxLayout;

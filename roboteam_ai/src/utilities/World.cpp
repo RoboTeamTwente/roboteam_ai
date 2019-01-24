@@ -20,6 +20,10 @@ void World::set_world(roboteam_msgs::World _world) {
     if (! _world.us.empty()) {
         didReceiveFirstWorld = true;
     }
+    if(! _world.ball.visible){
+        _world.ball=world.ball;
+        _world.ball.visible=false;
+    }
     world = _world;
 }
 

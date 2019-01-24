@@ -44,7 +44,12 @@ void DribbleRotate::onInitialize() {
         Vector2 theirCentre=Field::get_their_goal_center();
         targetAngle=(theirCentre-robot->pos).angle();
     }
-    if (!properties->hasDouble("Angle")&&!properties->hasBool("RotateToTheirGoal")){
+    else if (properties->getBool("BallPlacement")){
+        if(properties->getBool("BallPlacementForwards")){
+        }
+        targetAngle=(Vector2(robot->pos)-Coach::getBallPlacementPos()).angle();
+    }
+    if (!properties->hasDouble("Angle")&&!properties->hasBool("RotateToTheirGoal")&&!properties->hasBool("BallPlacement")){
         ROS_ERROR(" dribbleRotate Initialize -> No good angle set in properties");
         currentProgression = FAIL;
     }
@@ -55,6 +60,13 @@ void DribbleRotate::onInitialize() {
     extraTick= static_cast<int>(constants::DRIBBLE_ROTATE_WAIT_TIME*constants::tickRate);
     dir=Control::rotateDirection(startAngle,targetAngle);
     maxTick=(int)floor(Control::angleDifference(startAngle,targetAngle)/maxSpeed*constants::tickRate);
+    if(!ball->visible){
+        auto world=World::get_world();
+        Vector2 ballPos=Vector2(robot->pos)+Vector2(constants::ROBOT_RADIUS+constants::BALL_RADIUS,0).rotate(robot->angle);
+        world.ball.visible=true;
+        world.ball.pos=ballPos;
+        World::set_world(world);
+    }
     if (!robotHasBall(constants::MAX_BALL_RANGE)){
         std::cout<<"Robot does not have ball in dribbleRotateInitialize"<<std::endl;
         std::cout<< "Distance"<<(Vector2(robot->pos)-Vector2(ball->pos)).length()-constants::ROBOT_RADIUS<<" Max distance:"<<constants::MAX_BALL_RANGE<<std::endl;
@@ -103,6 +115,9 @@ double DribbleRotate::computeCommandAngle() {
 }
 bool DribbleRotate::robotHasBall(double frontRange) {
     //The ball is in an area defined by a cone from the robot centre, or from a rectangle in front of the dribbler
+    if(!ball->visible){
+        return true;
+    }
     Vector2 RobotPos = robot->pos;
     Vector2 BallPos = ball->pos;
     Vector2 dribbleLeft = RobotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robot->angle - constants::DRIBBLER_ANGLE_OFFSET);
