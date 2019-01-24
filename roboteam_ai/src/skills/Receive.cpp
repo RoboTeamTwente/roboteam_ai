@@ -27,7 +27,8 @@ Vector2 Receive::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
 
 Receive::Status Receive::onUpdate() {
     if (!coach::Coach::doesRobotHaveBall(robot->id, true)) {
-        if (Vector2(ball->vel).length() > 0.5 && !initializedBall) {
+        if (Vector2(ball->vel).length() > 0.6 && !initializedBall) {
+            std::cout << "Ball initialized!" << std::endl;
             initializedBall = true;
             ballStartPos = ball->pos;
             ballStartVel = ball->vel;
@@ -41,7 +42,7 @@ Receive::Status Receive::onUpdate() {
         command.id = robot->id;
         command.w = static_cast<float>((Vector2(ball->pos) - Vector2(robot->pos)).angle()); //Rotates towards the ball
         command.use_angle = 1;
-        if (Vector2(ball->vel).length() > 1.0) {
+        if (Vector2(ball->vel).length() > 0.6) {
             Vector2 ballStartVel = ball->vel;
             Vector2 ballEndPos = ballStartPos + ballStartVel * constants::MAX_INTERCEPT_TIME;
             Vector2 interceptPoint = Receive::computeInterceptPoint(ballStartPos, ballEndPos);
@@ -49,7 +50,7 @@ Receive::Status Receive::onUpdate() {
             Vector2 velocities = goToPos.goToPos(robot, interceptPoint, GoToType::basic);
             velocities=control::ControlUtils::VelocityLimiter(velocities);
             command.x_vel = static_cast<float>(velocities.x);
-            command.y_vel = static_cast<float>(velocities.y);g
+            command.y_vel = static_cast<float>(velocities.y);
             command.dribbler = 1;
         }
         publishRobotCommand(command);
