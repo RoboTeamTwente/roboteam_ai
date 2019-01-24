@@ -173,20 +173,12 @@ bool ControlUtils::lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd, V
 
     // Special Cases
     // p1, q1 and p2 are colinear and p2 lies on segment p1q1
-    if (o1 == 0 && onLineSegment(lineAStart, lineBStart, lineAEnd)) return true;
-
-    // p1, q1 and q2 are colinear and q2 lies on segment p1q1
-    if (o2 == 0 && onLineSegment(lineAStart, lineBEnd, lineAEnd)) return true;
-
-    // p2, q2 and p1 are colinear and p1 lies on segment p2q2
-    if (o3 == 0 && onLineSegment(lineBStart, lineAStart, lineBEnd)) return true;
-
-    // p2, q2 and q1 are colinear and q1 lies on segment p2q2
-    if (o4 == 0 && onLineSegment(lineBStart, lineAEnd, lineBEnd)) return true;
-
-    return false; // Doesn't fall in any of the above cases
-
+    return ((o1 == 0 && onLineSegment(lineAStart, lineBStart, lineAEnd)) ||
+            (o2 == 0 && onLineSegment(lineAStart, lineBEnd, lineAEnd)) ||
+            (o3 == 0 && onLineSegment(lineBStart, lineAStart, lineBEnd)) ||
+            (o4 == 0 && onLineSegment(lineBStart, lineAEnd, lineBEnd)));
 }
+
 rtt::Arc ControlUtils::createKeeperArc() {
     double goalwidth = rtt::ai::Field::get_field().goal_width;
     Vector2 goalPos = rtt::ai::Field::get_our_goal_center();
