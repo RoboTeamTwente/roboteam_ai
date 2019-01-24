@@ -41,23 +41,34 @@ bt::Node::Status AvoidBallForBallPlacement::onUpdate() {
     double halfFieldWidth = Field::get_field().field_width/2;
 
     std::vector<Vector2> walls;
-    walls.emplace_back(Vector2(robotPos.x + halfFieldLength - boundWidth, 0));
-    walls.emplace_back(Vector2(robotPos.x - halfFieldLength + boundWidth, 0));
-    walls.emplace_back(Vector2(0, robotPos.y + halfFieldWidth - boundWidth));
-    walls.emplace_back(Vector2(0, robotPos.y - halfFieldWidth + boundWidth));
+    walls.emplace_back(Vector2(robotPos.x - halfFieldLength - boundWidth, 0));
+    walls.emplace_back(Vector2(robotPos.x + halfFieldLength + boundWidth, 0));
+    walls.emplace_back(Vector2(0, robotPos.y - halfFieldWidth - boundWidth));
+    walls.emplace_back(Vector2(0, robotPos.y + halfFieldWidth + boundWidth));
 
     for (auto const &wallVector : walls) {
         if (wallVector.length() < minWallDistanceForForce) {
-            force = force - wallVector.stretchToLength(1) * (wallWeight/(wallVector.length()));
+            force = force + wallVector.stretchToLength(1) * (wallWeight/(wallVector.length() * wallVector.length()));
         }
     }
 
+    // limit the forces
+    if (force.length() > constants::MAX_VEL_BALLPLACEMENT) force.stretchToLength(constants::MAX_VEL_BALLPLACEMENT);
+    if (force.angle() > constants::MAX_ANGULAR_VELOCITY) force.stretchToLength(constants::MAX_ANGULAR_VELOCITY);
+
     roboteam_msgs::RobotCommand command;
+    if (force.length() < 0.2) {
+        force = {0, 0};
+        command.use_angle = 0;
+        command.w = 0;
+    } else {
+        command.use_angle = 1;
+        command.w = static_cast<float>(force.angle());
+    }
+
     command.id = robot->id;
     command.x_vel = static_cast<float>(force.x);
     command.y_vel = static_cast<float>(force.y);
-    command.use_angle = 1;
-    command.w = static_cast<float>(force.angle());
     publishRobotCommand(command);
 }
 

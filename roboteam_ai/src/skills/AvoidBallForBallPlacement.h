@@ -25,14 +25,14 @@ private:
     };
     Progression currentProgress;
 
-    const double robotWeight = .5;
-    const double minRobotDistanceForForce = .5;
+    const double robotWeight = .05;
+    const double minRobotDistanceForForce = .7;
 
-    const double ballWeight = 1.5;
+    const double ballWeight = .15;
     const double minBallDistanceForForce = .7;
 
-    const double wallWeight = 1;
-    const double minWallDistanceForForce = 1;
+    const double wallWeight = .05;
+    const double minWallDistanceForForce = .4;
 
 
 };
