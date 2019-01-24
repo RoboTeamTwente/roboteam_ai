@@ -66,6 +66,8 @@ class Coach {
         static Vector2 getDefensivePosition(int robotId);
 
         static Vector2 getBallPlacementPos();
+        static Vector2 getBallPlacementBeforePos(Vector2 ballPos);
+        static Vector2 getBallPlacementAfterPos(Vector2 ballPos, double RobotAngle);
 };
 
 }
