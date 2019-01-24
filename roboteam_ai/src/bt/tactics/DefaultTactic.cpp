@@ -28,11 +28,11 @@ bt::Node::Status bt::DefaultTactic::update() {
 
 
 bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboard,
-        std::map<std::string, robotType> robots_) : name(name){
+        std::map<std::string, robotType> robots_) {
 
     robots = std::move(robots_);
     globalBB = std::move(blackboard);
-    setName(std::move(name));
+    this->name = std::move(name);
     robotsNeeded = static_cast<int>(robots.size());
 }
 

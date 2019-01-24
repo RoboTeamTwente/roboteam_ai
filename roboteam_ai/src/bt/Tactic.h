@@ -28,8 +28,7 @@ public:
         void terminate(Status s) override;
         Node::Ptr child = nullptr;
         std::string node_name() override;
-
-        std::string name = "Tactic";
+        std::string name;
 };
 }
 

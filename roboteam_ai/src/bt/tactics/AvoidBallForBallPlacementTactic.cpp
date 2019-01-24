@@ -7,7 +7,8 @@
 
 using dealer = robotDealer::RobotDealer;
 
-bt::AvoidBallForBallPlacementTactic::AvoidBallForBallPlacementTactic(std::string name, bt::Blackboard::Ptr blackboard) : name(name) {
+bt::AvoidBallForBallPlacementTactic::AvoidBallForBallPlacementTactic(std::string name, bt::Blackboard::Ptr blackboard) {
+    this->name = std::move(name);
     globalBB = std::move(blackboard);
 }
 

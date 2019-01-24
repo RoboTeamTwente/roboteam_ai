@@ -9,7 +9,8 @@ namespace bt {
 
 using dealer = robotDealer::RobotDealer;
 
-VictoryDanceTactic::VictoryDanceTactic(std::string name, bt::Blackboard::Ptr blackboard) :name(name) {
+VictoryDanceTactic::VictoryDanceTactic(std::string name, bt::Blackboard::Ptr blackboard) {
+    this->name = std::move(name);
     globalBB = std::move(blackboard);
 }
 
