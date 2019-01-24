@@ -79,12 +79,14 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "TwoDefendersTactic",
          "OneAttackerOneDefenderTactic",
          "KeeperTestTactic",
+         "KeeperTestTactic",
          "PassTactic",
          "Attactic",
          "KeeperTactic",
          "EnterFormationTactic",
          "BallPlacementUsTactic",
          "AvoidBallForBallPlacementTactic"};
+
 
 
 std::vector<std::string> Switches::strategyJsonFileNames =
