@@ -12,3 +12,4 @@ Pass
 BasicGoToPos
 EnterFormation
 DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement
+AvoidBallForBallPlacement
