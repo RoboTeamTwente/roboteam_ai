@@ -1,18 +1,18 @@
 //
-// Created by mrlukasbos on 23-1-19.
+// Created by mrlukasbos on 24-1-19.
 //
 
-#include "EnterFormationTactic.h"
+#include "AvoidBallForBallPlacementTactic.h"
 #include "../../utilities/RobotDealer.h"
 
 using dealer = robotDealer::RobotDealer;
 
-bt::EnterFormationTactic::EnterFormationTactic(std::string name, bt::Blackboard::Ptr blackboard) : name(name) {
+bt::AvoidBallForBallPlacementTactic::AvoidBallForBallPlacementTactic(std::string name, bt::Blackboard::Ptr blackboard) : name(name) {
     globalBB = std::move(blackboard);
 }
 
-void bt::EnterFormationTactic::initialize() {
-    std::vector<std::string> roleNames = {"formation1", "formation2", "formation3", "formation4", "formation5", "formation6", "formation7"};
+void bt::AvoidBallForBallPlacementTactic::initialize() {
+    std::vector<std::string> roleNames = {"avoid1", "avoid2", "avoid3", "avoid4", "avoid5", "avoid6", "avoid7"};
 
     // get the amount of robots to claim
     while (!dealer::getAvailableRobots().empty()) {

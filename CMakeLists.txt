@@ -102,7 +102,7 @@ set(BT_SOURCES
 
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.h
-        roboteam_ai/src/bt/tactics/EnterFormationTactic.cpp roboteam_ai/src/bt/tactics/EnterFormationTactic.h)
+        roboteam_ai/src/bt/tactics/EnterFormationTactic.cpp roboteam_ai/src/bt/tactics/EnterFormationTactic.h roboteam_ai/src/bt/tactics/AvoidBallForBallPlacementTactic.cpp roboteam_ai/src/bt/tactics/AvoidBallForBallPlacementTactic.h)
 
 set(TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.cpp
@@ -176,7 +176,7 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BasicGoToPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BasicGoToPos.h
         roboteam_ai/src/skills/Defend.cpp roboteam_ai/src/skills/Defend.h
-        roboteam_ai/src/skills/EnterFormation.cpp roboteam_ai/src/skills/EnterFormation.h)
+        roboteam_ai/src/skills/EnterFormation.cpp roboteam_ai/src/skills/EnterFormation.h roboteam_ai/src/skills/AvoidBallForBallPlacement.cpp roboteam_ai/src/skills/AvoidBallForBallPlacement.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp

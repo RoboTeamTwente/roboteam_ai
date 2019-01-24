@@ -9,13 +9,8 @@ namespace bt {
 
 using dealer = robotDealer::RobotDealer;
 
-VictoryDanceTactic::VictoryDanceTactic(std::string name, bt::Blackboard::Ptr blackboard) {
+VictoryDanceTactic::VictoryDanceTactic(std::string name, bt::Blackboard::Ptr blackboard) :name(name) {
     globalBB = std::move(blackboard);
-    setName(std::move(name));
-}
-
-void VictoryDanceTactic::setName(std::string newName) {
-    name = std::move(newName);
 }
 
 void VictoryDanceTactic::initialize() {
@@ -28,33 +23,5 @@ void VictoryDanceTactic::initialize() {
     }
 }
 
-Node::Status VictoryDanceTactic::update() {
-    auto status = child->tick();
-
-    if (status == Status::Success) {
-        return Status::Success;
-    }
-
-    else /* if (status == Status::Failure || status == Status::Running) */ {
-        // If the status was anything but success/invalid, keep running
-        return Status::Running;
-    }
-}
-
-void VictoryDanceTactic::terminate(Status s) {
-
-    dealer::removeTactic(name);
-
-    child->terminate(child->getStatus());
-
-    if (s == Status::Running) {
-        setStatus(Status::Failure);
-    }
-    claimedRobots = 0;
-
-}
-std::string VictoryDanceTactic::node_name() {
-    return "Parallel sequence tactic";
-}
 
 } //bt

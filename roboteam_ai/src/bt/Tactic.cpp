@@ -2,6 +2,7 @@
 // Created by baris on 06/11/18.
 //
 
+#include <roboteam_ai/src/utilities/RobotDealer.h>
 #include "Tactic.h"
 
 namespace bt {
@@ -16,21 +17,28 @@ void Tactic::addChild(Node::Ptr newChild) {
 }
 
 void Tactic::terminate(Node::Status s) {
-
-    if (child->getStatus() == Status::Running) {
-        child->terminate(child->getStatus());
-    }
-
+    robotDealer::RobotDealer::removeTactic(name);
+    child->terminate(child->getStatus());
     if (s == Status::Running) {
         setStatus(Status::Failure);
     }
+    claimedRobots = 0;
 }
+
 void Tactic::askForRobots() {
 
 }
 Node::Status Tactic::update() {
-    //Should always be overwritten
-    return Status::Waiting;
+    auto status = child->tick();
+
+    if (status == Status::Success) {
+        return Status::Success;
+    }
+
+    else /* if (status == Status::Failure || status == Status::Running) */ {
+        // If the status was anything but success/invalid, keep running
+        return Status::Running;
+    }
 }
 
 std::string Tactic::node_name() {
