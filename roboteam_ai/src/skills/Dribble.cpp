@@ -96,6 +96,10 @@ void Dribble::onInitialize() {
     count = 0;
 
     stoppingAngle = robot->angle; // default to the current angle
+    initialAngle=robot->angle;
+    if (!forwardDirection){
+        initialAngle+=M_PI;
+    }
 }
 
 Dribble::Status Dribble::onUpdate() {
@@ -105,8 +109,12 @@ Dribble::Status Dribble::onUpdate() {
     else if (currentProgress == Progression::WAITING) {
         return Status::Waiting;
     }
-
-    deltaPos = targetPos - Vector2(ball->pos);
+    if(ball->visible) {
+        deltaPos = targetPos - Vector2(ball->pos);
+    }
+    else{
+        deltaPos=targetPos-(Vector2(robot->pos)+Vector2(constants::ROBOT_RADIUS+constants::BALL_RADIUS,0).rotate(robot->angle));
+    }
     currentProgress = checkProgression();
 
     if (currentProgress == STOPPED) {
@@ -152,8 +160,14 @@ void Dribble::sendMoveCommand() {
     }
     std::vector<Vector2> dposvec = {deltaPos};
     command.dribbler = 1;
+    if(deltaPos.length()>0.5){
     command.x_vel = (float) deltaPos.normalize().x*c::DRIBBLE_SPEED;
     command.y_vel = (float) deltaPos.normalize().y*c::DRIBBLE_SPEED;
+    }
+    else{
+        command.x_vel=cos(initialAngle)*c::DRIBBLE_SPEED;
+        command.y_vel=sin(initialAngle)*c::DRIBBLE_SPEED;
+    }
     publishRobotCommand(command);
 }
 void Dribble::sendStopCommand() {

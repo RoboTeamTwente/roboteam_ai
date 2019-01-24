@@ -54,7 +54,8 @@ const double COLLISION_RADIUS=0.18;
 const double ANGLE_SENS=0.05*M_PI;
 const double MAX_GETBALL_RANGE=0.7;
 const int POSSES_BALL_CYCLES=100;
-const double GETBALL_SPEED=.8;
+const double GETBALL_SPEED=.5;
+const double GETBALL_OVERSHOOT=.1;//m
 
 //GoToPos
 const double MAX_CALCULATION_TIME=20.0; //max time in ms

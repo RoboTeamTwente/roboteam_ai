@@ -13,7 +13,7 @@ namespace ai {
 class GetBall : public Skill {
     private:
         enum Progression {
-          TURNING, APPROACHING, DRIBBLING, SUCCESS, FAIL
+          TURNING, APPROACHING, OVERSHOOTING,DRIBBLING, SUCCESS, FAIL
         };
 
         Progression currentProgress;
@@ -23,10 +23,10 @@ class GetBall : public Skill {
         void sendTurnCommand();
         void sendApproachCommand();
         void sendDribblingCommand();
+        void sendOvershootCommand();
 
         int count;
-        Vector2 deltaPos;
-        bool lockAngle;
+        Vector2 deltaPos, approachPos;
         double lockedAngle;
         int currentTick, maxTicks;
     public:
