@@ -84,9 +84,9 @@ Vector2 ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
     error.y = targetPos.y - robot->pos.y;
     double dist = error.length();
 
-        pid.setP(6.5);
+        pid.setP(6.0);
         pid.setI(1.4);
-        pid.setD(1.0);
+        pid.setD(1.1);
     return pid.controlPIR(error, robot->vel);
 }
 

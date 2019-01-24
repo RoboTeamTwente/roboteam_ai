@@ -52,12 +52,14 @@ Receive::Status Receive::onUpdate() {
             velocities=control::ControlUtils::VelocityLimiter(velocities);
             command.x_vel = static_cast<float>(velocities.x);
             command.y_vel = static_cast<float>(velocities.y);
-            command.dribbler = 1;
+            command.dribbler = 0;
         }
         publishRobotCommand(command);
         return Status::Running;
     } else {
-        return Status::Success;
+        stopDribbleTick++;
+        if (stopDribbleTick < stopDribbleTicks) return Status::Running;
+        else return Status::Success;
     }
 }
 void Receive::onTerminate(Status s) {

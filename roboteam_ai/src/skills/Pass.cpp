@@ -31,9 +31,9 @@ Pass::Status Pass::onUpdate() {
             } else return Status::Failure;
 
         case Progression::POSITIONING: {
-            if (!coach::Coach::isRobotBehindBallToPosition(0.15, robotToPassTo->pos, robot->pos)) {
+            if (!coach::Coach::isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos)) {
                 goToType = GoToType::luTh;
-                targetPos = Coach::getPositionBehindBallToPosition(0.15, robotToPassTo->pos);
+                targetPos = Coach::getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
             } else if (!coach::Coach::doesRobotHaveBall(robot->id, true, rtt::ai::constants::MAX_BALL_RANGE)) {
                 goToType = GoToType::basic;
                 targetPos = ball->pos;
