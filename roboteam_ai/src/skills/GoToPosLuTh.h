@@ -128,6 +128,9 @@ class GoToPosLuTh : public Skill {
         bool drawInterface;
         bool goToBall;
         bool passiveDefend;
+        bool ballPlacement;
+        double ballPlacementDist;
+
         bool random;
 
         enum Progression {
