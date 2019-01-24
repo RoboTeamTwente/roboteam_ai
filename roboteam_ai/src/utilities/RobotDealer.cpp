@@ -234,11 +234,13 @@ int RobotDealer::getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 positio
     int closestID = - 1;
     double distance = 100000000.0;
     for (auto &id : ids) {
-        rtt::Vector2 robotPos = rtt::ai::World::getRobotForId((unsigned int) id, true).get()->pos;
-        double dRobotToPoint = (robotPos - position).length();
-        if (dRobotToPoint < distance) {
-            closestID = id;
-            distance = dRobotToPoint;
+        if (rtt::ai::World::getRobotForId((unsigned int) id, true)) {
+            rtt::Vector2 robotPos = rtt::ai::World::getRobotForId((unsigned int) id, true).get()->pos;
+            double dRobotToPoint = (robotPos - position).length();
+            if (dRobotToPoint < distance) {
+                closestID = id;
+                distance = dRobotToPoint;
+            }
         }
     }
     return closestID;
