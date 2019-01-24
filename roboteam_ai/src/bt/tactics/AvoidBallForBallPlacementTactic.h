@@ -12,7 +12,7 @@ namespace bt {
 class AvoidBallForBallPlacementTactic : public Tactic {
 public:
     std::map<std::string, robotType> robots;
-    AvoidBallForBallPlacementTactic(std::string name, Blackboard::Ptr blackboard);
+    explicit AvoidBallForBallPlacementTactic(std::string name, Blackboard::Ptr blackboard);
     void initialize() override;
 };
 }
