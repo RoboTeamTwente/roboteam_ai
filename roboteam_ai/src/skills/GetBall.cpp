@@ -36,7 +36,7 @@ void GetBall::checkProgression() {
             std::cout<<"GetBall: APPROACHING-> TURNING"<<std::endl;
             return;
         }
-        if (! robotHasBall(c::MAX_BALL_RANGE)) {
+        if (! robotHasBall(c::BALL_RADIUS+0.005)) {
             return;
         }
         else {
@@ -70,7 +70,7 @@ void GetBall::onInitialize() {
     if (properties->hasDouble("maxTime")){
     maxTime=properties->getDouble("maxTime");
     }
-    else maxTime=1000;
+    else maxTime=1000;        ROS_INFO_STREAM(" === TREE CHANGE === ");
     maxTicks= static_cast<int>(floor(maxTime*constants::tickRate));
 }
 GetBall::Status GetBall::onUpdate() {
@@ -111,6 +111,9 @@ void GetBall::onTerminate(Status s) {
 }
 bool GetBall::robotHasBall(double frontRange) {
     //The ball is in an area defined by a cone from the robot centre, or from a rectangle in front of the dribbler
+    if(!ball->visible){
+        return true;
+    }
     Vector2 RobotPos = robot->pos;
     Vector2 BallPos = ball->pos;
     Vector2 dribbleLeft = RobotPos + Vector2(c::ROBOT_RADIUS, 0).rotate(robot->angle - c::DRIBBLER_ANGLE_OFFSET);

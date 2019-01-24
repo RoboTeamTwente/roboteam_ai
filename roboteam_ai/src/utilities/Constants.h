@@ -47,14 +47,14 @@ const int DEFAULT_GENEVA_STATE = 0;
 //dribble
 const double MAX_BALL_RANGE=0.05; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
 const double MAX_BALL_BOUNCE_RANGE=0.3;
-const double DRIBBLE_POSDIF=0.03;
+const double DRIBBLE_POSDIF=0.15;
 const float  DRIBBLE_SPEED=0.4;
 //getBallcc
 const double COLLISION_RADIUS=0.18;
 const double ANGLE_SENS=0.05*M_PI;
 const double MAX_GETBALL_RANGE=0.7;
 const int POSSES_BALL_CYCLES=100;
-const double GETBALL_SPEED=.5;
+const double GETBALL_SPEED=.8;
 
 //GoToPos
 const double MAX_CALCULATION_TIME=20.0; //max time in ms

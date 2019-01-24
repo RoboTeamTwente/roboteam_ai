@@ -52,6 +52,9 @@ Dribble::Progression Dribble::checkProgression() {
 
 bool Dribble::robotHasBall() {
     //The ball is in an area defined by a cone from the robot centre, or from a rectangle in front of the dribbler
+    if(!ball->visible){
+        return true;
+    }
     Vector2 RobotPos = robot->pos;
     Vector2 BallPos = ball->pos;
     return Control::hasBall(constants::MAX_BALL_BOUNCE_RANGE,robot->angle,RobotPos,BallPos);
@@ -81,6 +84,13 @@ void Dribble::onInitialize() {
         ROS_ERROR("Dribble Initialize -> Robot does not have the ball!");
         currentProgress = Progression::FAIL;
         return;
+    }
+    if(!ball->visible){
+        auto world=World::get_world();
+        Vector2 ballPos=Vector2(robot->pos)+Vector2(constants::ROBOT_RADIUS+constants::BALL_RADIUS,0).rotate(robot->angle);
+        world.ball.visible=true;
+        world.ball.pos=ballPos;
+        World::set_world(world);
     }
     currentProgress = Progression::ON_THE_WAY;
     count = 0;
@@ -119,10 +129,10 @@ void Dribble::onTerminate(Status s) {
     command.id = robot->id;
     command.use_angle = 1;
     if (forwardDirection) {
-        command.w = (float) deltaPos.angle();
+        command.w = (float) stoppingAngle;
     }
     else {
-        command.w = (float) deltaPos.rotate(M_PI).angle();
+        command.w = (float) stoppingAngle;
     }
     command.dribbler = 0;
     command.x_vel = 0;
