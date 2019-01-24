@@ -12,6 +12,8 @@ using dealer = robotDealer::RobotDealer;
 std::map<int, int> Coach::defencePairs;
 
 std::vector<int> Coach::defenders = {};
+std::vector<int> Coach::robotsInFormation = {};
+
 
 bool Coach::readyToReceivePass;
 int Coach::robotBeingPassedTo;
@@ -242,6 +244,30 @@ Vector2 Coach::getRobotPositionClosestToPositionPosition(std::vector<roboteam_ms
     }
     return pos;
 
+}
+void Coach::addFormationRobot(int id) {
+    bool robotIsRegistered = std::find(robotsInFormation.begin(), robotsInFormation.end(), id) != robotsInFormation.end();
+    if (!robotIsRegistered) robotsInFormation.push_back(id);
+}
+
+void Coach::removeFormationRobot(int id) {
+    auto formationRobot = std::find(robotsInFormation.begin(), robotsInFormation.end(), id);
+    if (formationRobot != robotsInFormation.end()) {
+        robotsInFormation.erase(formationRobot);
+    }
+}
+
+Vector2 Coach::getFormationPosition(int robotId) {
+    addFormationRobot(robotId);
+    auto me = World::getRobotForId(robotId, true);
+    auto field = Field::get_field();
+    double targetLocationY = field.field_length/4 - (field.field_length/2);
+    for (int i = 0; i<robotsInFormation.size(); i++) {
+        if (robotsInFormation.at(i) == robotId) {
+            return {targetLocationY, ((field.field_width/(robotsInFormation.size() + 1))*(i+1)) - field.field_width/2 };
+        }
+    }
+    return {targetLocationY, 0};
 }
 
 int Coach::getRobotClosestToGoal(bool ourRobot, bool ourGoal) {

@@ -11,3 +11,5 @@ Pass
 Receive
 BasicGoToPos,target,goToBall
 Attack
+BasicGoToPos
+EnterFormation
