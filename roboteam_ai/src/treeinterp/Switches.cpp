@@ -229,7 +229,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
             {"SingleKeeperTactic", {
-                    {"keeper", robotType::closeToOurGoal}
+                    {"Keeper", robotType::closeToOurGoal}
             }
             },
             {"OneAttackerOneDefenderTactic", {
@@ -274,11 +274,6 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             {"PassTactic", {
                     {"passOne", robotType::random},
                     {"passB", robotType::random}
-            }
-            },
-            {"KeeperTestTactic", {
-                    {"keeper", robotType::random},
-                    {"atak", robotType::random}
             }
             },
             {"QualificationTactic", {
