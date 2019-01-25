@@ -13,7 +13,7 @@ bt::AvoidBallForBallPlacementTactic::AvoidBallForBallPlacementTactic(std::string
 }
 
 void bt::AvoidBallForBallPlacementTactic::initialize() {
-    std::vector<std::string> roleNames = {"avoid1", "avoid2", "avoid3", "avoid4", "avoid5", "avoid6", "avoid7"};
+    std::vector<std::string> roleNames = {"avoid1", "avoid2", "avoid3", "avoid4", "avoid5", "avoid6", "avoid7", "avoid8"};
 
     // get the amount of robots to claim
     while (!dealer::getAvailableRobots().empty()) {

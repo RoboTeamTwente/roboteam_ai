@@ -25,7 +25,7 @@ private:
     };
     Progression currentProgress;
 
-    const double robotWeight = .05;
+    const double robotWeight = .09;
     const double minRobotDistanceForForce = .7;
 
     const double ballWeight = .15;
