@@ -59,6 +59,7 @@
 #include <roboteam_ai/src/skills/AvoidBallForBallPlacement.h>
 #include "../conditions/BallInDefenseAreaAndStill.h"
 #include "../conditions/IsInDefenseArea.hpp"
+#include "../conditions/BallOutOfField.h"
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -185,8 +186,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["TheyHaveBall"] =           std::make_shared<rtt::ai::TheyHaveBall>(name, properties);
     map["IsBallOnOurSide"] =        std::make_shared<rtt::ai::IsBallOnOurSide>(name, properties);
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
-    map["IsInDefenseArea"] = std::make_shared<rtt::ai::IsInDefenseArea>(name, properties);
-    map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
+    map["IsInDefenseArea"] =        std::make_shared<rtt::ai::IsInDefenseArea>(name, properties);
+    map["DribbleRotate"] =          std::make_shared<rtt::ai::DribbleRotate>(name, properties);
+    map["BallOutOfField"] =         std::make_shared<rtt::ai::BallOutOfField>(name, properties);
 
     if ( map.find(name) != map.end() ) {
         return map[name];

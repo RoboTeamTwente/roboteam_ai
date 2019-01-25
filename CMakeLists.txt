@@ -214,7 +214,8 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBallOnOurSide.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBallOnOurSide.h
-        )
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallOutOfField.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallOutOfField.h)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
