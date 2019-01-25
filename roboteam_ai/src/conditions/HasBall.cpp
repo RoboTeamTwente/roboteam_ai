@@ -2,6 +2,7 @@
 // Created by rolf on 19-10-18.
 //
 
+#include <roboteam_ai/src/control/ControlUtils.h>
 #include "HasBall.hpp"
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_msgs/WorldBall.h"
@@ -22,13 +23,7 @@ bt::Node::Status HasBall::update() {
 }
 
 bool HasBall::botHasBall(Vector2 ballPos) {
-    Vector2 deltaPos = (ballPos - robot->pos);
-    double dist = deltaPos.length();
-    double angle = deltaPos.angle();
-
-    //TODO: TEST if this is from centre of dribbler of robot in practice. What does
-    // Within 15 cm and .4 radians (of center of dribbler)
-    return ((dist < 0.15) && (fabs(angle - robot->angle) < 0.4));
+    return (Control::hasBall(constants::MAX_BALL_BOUNCE_RANGE,robot->w,robot->pos,ballPos));
 }
 
 } // ai
