@@ -130,7 +130,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
         RobotDealer::addRobotToOwnerList(id, std::move(tacticName), std::move(roleName));
         return id;
     }
-    ROS_INFO_STREAM("Found no free robots in robot dealer");
+   // ROS_INFO_STREAM("Found no free robots in robot dealer");
     return - 1;
 }
 

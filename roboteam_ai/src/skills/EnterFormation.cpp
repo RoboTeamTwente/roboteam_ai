@@ -34,7 +34,7 @@ bt::Node::Status EnterFormation::onUpdate() {
 
         // if we have the right angle
         if (robot->angle > cmd.w - 0.2 && robot->angle < cmd.w + 0.2) {
-            return bt::Node::Status::Success;
+         //   return bt::Node::Status::Success;
         }
     }
     publishRobotCommand(cmd);

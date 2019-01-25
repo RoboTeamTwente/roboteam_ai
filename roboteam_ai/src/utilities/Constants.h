@@ -104,6 +104,7 @@ const bool STD_SHOW_VORONOI = false;
 const bool STD_SHOW_PATHS_ALL = false;
 const bool STD_SHOW_PATHS_CURRENT = true;
 const bool STD_SHOW_BALL_PLACEMENT_MARKER = true;
+const bool STD_USE_REFEREE = true;
 
 const QColor FIELD_COLOR{30, 30, 30, 255};
 const QColor FIELD_LINE_COLOR = Qt::white;

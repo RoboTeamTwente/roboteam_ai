@@ -301,7 +301,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
             {"BallPlacementUsTactic",{
-                    {"BallPlacementBot",robotType::random}
+                    {"BallPlacementBot",robotType::closeToBall}
             }
             }
     };
