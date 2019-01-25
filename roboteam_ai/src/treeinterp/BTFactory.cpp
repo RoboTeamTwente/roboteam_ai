@@ -65,6 +65,8 @@ void BTFactory::setCurrentTree(const std::string &newTree) {
         }
         BTFactory::getFactory().getTree(currentTree)->terminate(bt::Node::Status::Success);
 
+        robotDealer::RobotDealer::halt();
+
         BTFactory::currentTree = newTree;
     }
 }
