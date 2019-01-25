@@ -226,7 +226,7 @@ int RobotDealer::findRobotForRole(std::string roleName) {
             }
         }
     }
-    std::cerr << "Cannot find a robot with that Role Name:   " << roleName << std::endl;
+ //   std::cerr << "Cannot find a robot with that Role Name:   " << roleName << std::endl;
     return - 1;
 }
 
@@ -331,7 +331,7 @@ std::string RobotDealer::getTacticNameForId(int ID) {
             }
         }
     }
-    ROS_ERROR("No robot with that ID  getTacticNameForId");
+  //  ROS_ERROR("No robot with that ID  getTacticNameForId");
     return "";
 }
 
@@ -346,7 +346,7 @@ std::string RobotDealer::getRoleNameForId(int ID) {
             }
         }
     }
-    ROS_ERROR("No robot with that ID  getRoleNameForId");
+   // ROS_ERROR("No robot with that ID  getRoleNameForId");
     return "";
 
 }

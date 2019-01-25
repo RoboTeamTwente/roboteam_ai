@@ -23,8 +23,6 @@ std::string StrategyManager::getCurrentStrategyName(roboteam_msgs::RefereeComman
     }
 
     currentStrategyMap = nextStrategy;
-
-    std::cout << nextStrategy.strategyName << std::endl;
     return nextStrategy.strategyName;
 }
 

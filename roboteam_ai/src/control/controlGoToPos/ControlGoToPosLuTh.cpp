@@ -166,7 +166,9 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
         velocityCommand.x = static_cast<float>(vel.x);
         velocityCommand.y = static_cast<float>(vel.y);
     }
-    return velocityCommand;
+
+
+    return control::ControlUtils::VelocityLimiter(velocityCommand);
 
 }
 
