@@ -29,8 +29,13 @@ bt::Node::Status EnterFormation::onUpdate() {
         cmd.x_vel = velocities.x;
         cmd.y_vel = velocities.y;
         cmd.w = static_cast<float>((targetLocation-robot->pos).angle());
-    } else {
+    } else { // we are at the right location
         cmd.w = static_cast<float>((targetToLookAtLocation-robot->pos).angle());
+
+        // if we have the right angle
+        if (robot->angle > cmd.w - 0.2 && robot->angle < cmd.w + 0.2) {
+            return bt::Node::Status::Success;
+        }
     }
     publishRobotCommand(cmd);
     return bt::Node::Status::Running;
