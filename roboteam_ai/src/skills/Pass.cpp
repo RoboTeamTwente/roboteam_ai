@@ -12,7 +12,7 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
 
 void Pass::onInitialize() {
     goToPos.setAvoidBall(true);
-    robotToPassToID = robotDealer::RobotDealer::findRobotForRole("striker");
+    robotToPassToID = robotDealer::RobotDealer::findRobotForRole("receiver");
     robotToPassTo = World::getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
     currentProgress = Progression::INITIATING;
     std::cout << "NEW PASS" << std::endl;
