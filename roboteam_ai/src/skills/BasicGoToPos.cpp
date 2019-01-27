@@ -19,6 +19,7 @@ void BasicGoToPos::onInitialize() {
     goToPos.setAvoidBall(properties->getBool("avoidBall"));
     goToPos.setCanGoOutsideField(properties->getBool("canGoOutsideField"));
     targetPos = properties->getVector2("target");
+    if (properties->getBool("mirror")) targetPos = {robot->pos.x, -robot->pos.y};
 
     if (properties->getBool("BallPlacementBefore")){
         if(ball){
