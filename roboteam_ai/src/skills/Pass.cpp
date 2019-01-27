@@ -13,12 +13,12 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
 void Pass::onInitialize() {
     goToPos.setAvoidBall(true);
     robotToPassToID = robotDealer::RobotDealer::findRobotForRole("receiver");
-    robotToPassTo = World::getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
     currentProgress = Progression::INITIATING;
 }
 
 Pass::Status Pass::onUpdate() {
     if (robotToPassToID == -1) return Status::Failure;
+    robotToPassTo = World::getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
 
     roboteam_msgs::RobotCommand command;
 
