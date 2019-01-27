@@ -9,7 +9,7 @@ GetBall
 DefendOnRobot
 Pass
 Receive
-BasicGoToPos,target,goToBall,avoidBall,canGoOutsideField
+BasicGoToPos,target,goToBall,avoidBall,canGoOutsideField,mirror
 Attack
 EnterFormation
 DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement
