@@ -25,7 +25,7 @@ private:
     int maxCheckTicks = 20;
 
     int stopDribbleTick = 0;
-    int stopDribbleTicks;
+    int stopDribbleTicks = 20;
 public:
     explicit Receive(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;

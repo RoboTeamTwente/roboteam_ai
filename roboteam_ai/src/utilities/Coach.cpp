@@ -279,6 +279,7 @@ int Coach::getRobotClosestToGoal(bool ourRobot, bool ourGoal) {
 }
 
 bool Coach::initiatePass(int robotID) {
+    setPassed(false);
     setRobotBeingPassedTo(robotID);
     std::cout<<robotBeingPassedTo<<std::endl;
     return true;
