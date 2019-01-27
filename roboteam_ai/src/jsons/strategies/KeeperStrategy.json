@@ -1,18 +1,1 @@
-{
-  "data": {
-    "trees": [
-      {
-        "nodes": {
-          "cqk5go5kip55ex": {
-            "id": "cqk5go5kip55ex",
-            "name": "KeeperTestTactic",
-            "title": "Tactic"
-          }
-        },
-        "root": "cqk5go5kip55ex",
-        "title": "KeeperStrategy"
-      }
-    ]
-  },
-  "name": "KeeperStrategy"
-}
+{"data": {"trees": [{"nodes": {"cqk5go5kip55ex": {"id": "cqk5go5kip55ex", "name": "SingleKeeperTactic", "title": "Tactic"}}, "root": "cqk5go5kip55ex", "title": "KeeperStrategy"}]}, "name": "KeeperStrategy"}

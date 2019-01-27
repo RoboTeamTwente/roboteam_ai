@@ -19,11 +19,21 @@ void GoToPosLuTh::onInitialize() {
     goToBall = properties->getBool("goToBall");
     passiveDefend = properties->getBool("passiveDefend");
     random = properties->getBool("random");
-
+    ballPlacement=properties->getBool("BallPlacement");
+    if (ballPlacement){
+        errorMargin=0.1;
+    }
+    if(properties->hasDouble("BallPlacementDist")){
+        ballPlacementDist=properties->getDouble("BallPlacementDist");
+    }
+    else{
+        ballPlacementDist=constants::BP_MOVE_BACK_DIST;
+    }
     if (properties->hasVector2("Position")) {
         targetPos = properties->getVector2("Position");
     }
-    else {
+
+    if(!properties->hasVector2("Position")&&!properties->getBool("BallPlacement")){
         ROS_ERROR("GoToPosLuTh Initialize -> No good X or Y set in properties");
         currentProgress = Progression::FAIL;
     }
@@ -39,6 +49,29 @@ GoToPosLuTh::Status GoToPosLuTh::onUpdate() {
         } else {
             targetPos = {0, 0};
             ROS_ERROR("GoToPosLuTh: No ball found! assuming (%f, %f)", targetPos.x, targetPos.y);
+        }
+    }
+    else if (ballPlacement){
+        if(properties->hasVector2("Position")) {
+            if (ball) {
+                Vector2 ballPos = ball->pos;
+                targetPos = ballPos + Vector2(ballPlacementDist,0).rotate(robot->angle+M_PI);
+            }
+            else {
+                targetPos = properties->getVector2("Position");
+                ROS_ERROR("GoToPosLuth: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
+            }
+        }
+        else{
+            if (ball) {
+                Vector2 PlacePos = Coach::getBallPlacementPos();
+                Vector2 ballPos = ball->pos;
+                targetPos = ballPos + (PlacePos - ballPos).stretchToLength(ballPlacementDist);
+            }
+            else {
+                targetPos = {0, 0};
+                ROS_ERROR("GoToPosLuth: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
+            }
         }
     }
     else if (random) {

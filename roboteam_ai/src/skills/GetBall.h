@@ -13,19 +13,23 @@ namespace ai {
 class GetBall : public Skill {
     private:
         enum Progression {
-          TURNING, APPROACHING, DRIBBLING, SUCCESS, FAIL
+          TURNING, APPROACHING, OVERSHOOTING,DRIBBLING, SUCCESS, FAIL
         };
 
         Progression currentProgress;
         void checkProgression();
 
-        bool robotHasBall();
+        bool robotHasBall(double frontRange);
         void sendTurnCommand();
         void sendApproachCommand();
         void sendDribblingCommand();
+        void sendOvershootCommand();
 
         int count;
-        Vector2 deltaPos;
+        Vector2 deltaPos, approachPos;
+        bool lockAngle;
+        double lockedAngle;
+        int currentTick, maxTicks;
     public:
         explicit GetBall(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;

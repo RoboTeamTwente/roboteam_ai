@@ -3,14 +3,18 @@
 //
 
 #include "Coach.h"
-
+#include "../interface/InterfaceValues.h"
 namespace rtt {
 namespace ai {
 namespace coach {
 
 using dealer = robotDealer::RobotDealer;
-
 std::map<int, int> Coach::defencePairs;
+std::map<std::string,Coach::PassState> Coach::passState;
+
+std::vector<int> Coach::defenders = {};
+std::vector<int> Coach::robotsInFormation = {};
+
 
 int Coach::pickOffensivePassTarget(int selfID, std::string roleName) {
 
@@ -21,9 +25,10 @@ int Coach::pickOffensivePassTarget(int selfID, std::string roleName) {
     // Pick a free one TODO make better
     for (auto bot : tacticMates) {
         if (bot != selfID) {
-            if (control::ControlUtils::hasClearVision(selfID, bot, World::get_world(), 2)) {
-                return bot;
-            }
+            return bot;
+//            if (control::ControlUtils::hasClearVision(selfID, bot, World::get_world(), 2)) {
+//                return bot;
+//            }
         }
     }
     return - 1;
@@ -71,6 +76,10 @@ int Coach::whichRobotHasBall(bool isOurTeam) {
 }
 
 int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
+    return doesRobotHaveBall(robotID, isOurTeam, 0.15, 0.2);
+}
+
+int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkDist, double checkAngle) {
     auto robot = World::getRobotForId(robotID, isOurTeam);
     Vector2 ballPos = World::get_world().ball.pos;
 
@@ -86,7 +95,7 @@ int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
         robotAngle += 2*M_PI;
     }
 
-    return ((dist < 0.25) && (fabs(angle - robotAngle) < 0.4));
+    return ((dist < checkDist) && (fabs(angle - robotAngle) < checkAngle));
 }
 
 int Coach::pickOpponentToCover(int selfID) {
@@ -150,74 +159,118 @@ bool Coach::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2
             ball + (deltaBall).rotate(M_PI*- 0.17).scale(2.0)));
 }
 
+
+std::shared_ptr<roboteam_msgs::WorldRobot> Coach::getRobotClosestToBall(bool isOurTeam) {
+    auto robots = isOurTeam ? World::get_world().us : World::get_world().them;
+    auto closestId = World::get_robot_closest_to_point(robots, World::getBall()->pos);
+    if (closestId) {
+        return World::getRobotForId(*closestId, isOurTeam);
+    }
+    return nullptr;
+}
+
 std::pair<int, bool> Coach::getRobotClosestToBall() {
-    const roboteam_msgs::World &world = World::get_world();
-    const Vector2 &ball = World::getBall()->pos;
+    auto closestUs = getRobotClosestToBall(true);
+    auto closestThem = getRobotClosestToBall(false);
+    auto distanceToBallUs = (Vector2(closestUs->pos).dist(Vector2(World::getBall()->pos)));
+    auto distanceToBallThem = (Vector2(closestThem->pos).dist(Vector2(World::getBall()->pos)));
 
-    double distance = 999999;
-    int id = - 1;
-    bool ourRobotIsClosest = true;
-
-    Vector2 deltaPos;
-    double dPLength;
-    for (auto &bot : world.us) {
-        deltaPos = ball - bot.pos;
-        dPLength = abs(deltaPos.length());
-        if (dPLength < distance) {
-            distance = dPLength;
-            id = bot.id;
-        }
+    roboteam_msgs::WorldRobot closestRobot;
+    bool weAreCloser;
+    if (distanceToBallUs < distanceToBallThem) {
+        closestRobot = * closestUs;
+        weAreCloser = true;
+    } else {
+        closestRobot = * closestThem;
+        weAreCloser = false;
     }
 
-    for (auto &bot : world.them) {
-        deltaPos = ball - bot.pos;
-        dPLength = abs(deltaPos.length());
-        if (dPLength < distance) {
-            distance = dPLength;
-            id = bot.id;
-            ourRobotIsClosest = false;
-        }
-    }
-
-    return {id, ourRobotIsClosest};
+    return std::make_pair(closestRobot.id, weAreCloser);
 }
 
-int Coach::getOurRobotClosestToBall() {
-    const roboteam_msgs::World &world = World::get_world();
-    const Vector2 &ball = World::getBall()->pos;
+
+Vector2 Coach::getDefensivePosition(int robotId) {
+    addDefender(robotId);
+    auto me = World::getRobotForId(robotId, true);
+    auto field = Field::get_field();
+    double targetLocationY = field.field_length/4 - (field.field_length/2);
+
+    for (int i = 0; i<defenders.size(); i++) {
+        if (defenders.at(i) == robotId) {
+            return {targetLocationY, ((field.field_width/(defenders.size() + 1))*(i+1)) - field.field_width/2 };
+        }
+    }
+    return {targetLocationY, 0};
+}
+
+void Coach::addDefender(int id) {
+    bool robotIsRegistered = std::find(defenders.begin(), defenders.end(), id) != defenders.end();
+    if (!robotIsRegistered) defenders.push_back(id);
+}
+
+
+void Coach::removeDefender(int id) {
+    auto defender = std::find(defenders.begin(), defenders.end(), id);
+    if (defender != defenders.end()) {
+        defenders.erase(defender);
+    }
+}
+
+Vector2 Coach::getRobotClosestToPosition(std::vector<roboteam_msgs::WorldRobot> &robots, Vector2 position, bool includeSamePosition) {
 
     double distance = 999999;
-    int id = - 1;
-
-    for (auto &bot : world.us) {
-        const Vector2 deltaPos = ball - bot.pos;
+    Vector2 pos = {999, 999};
+    for (auto &bot : robots) {
+        const Vector2 deltaPos = position - bot.pos;
         double dPLength = abs(deltaPos.length());
         if (dPLength < distance) {
-            distance = dPLength;
-            id = bot.id;
+            if (dPLength > 0.05 || includeSamePosition) {
+                distance = dPLength;
+                pos = bot.pos;
+            }
         }
     }
-    return id;
+    return pos;
+
+}
+void Coach::addFormationRobot(int id) {
+    bool robotIsRegistered = std::find(robotsInFormation.begin(), robotsInFormation.end(), id) != robotsInFormation.end();
+    if (!robotIsRegistered) robotsInFormation.push_back(id);
 }
 
-int Coach::getTheirRobotClosestToBall() {
-    const roboteam_msgs::World &world = World::get_world();
-    const Vector2 &ball = World::getBall()->pos;
+void Coach::removeFormationRobot(int id) {
+    auto formationRobot = std::find(robotsInFormation.begin(), robotsInFormation.end(), id);
+    if (formationRobot != robotsInFormation.end()) {
+        robotsInFormation.erase(formationRobot);
+    }
+}
 
-    double distance = 999999;
-    int id = - 1;
-
-    for (auto &bot : world.them) {
-        const Vector2 deltaPos = ball - bot.pos;
-        double dPLength = abs(deltaPos.length());
-        if (dPLength < distance) {
-            distance = dPLength;
-            id = bot.id;
+Vector2 Coach::getFormationPosition(int robotId) {
+    addFormationRobot(robotId);
+    auto me = World::getRobotForId(robotId, true);
+    auto field = Field::get_field();
+    double targetLocationY = field.field_length/4 - (field.field_length/2);
+    for (int i = 0; i<robotsInFormation.size(); i++) {
+        if (robotsInFormation.at(i) == robotId) {
+            return {targetLocationY, ((field.field_width/(robotsInFormation.size() + 1))*(i+1)) - field.field_width/2 };
         }
     }
-    return id;
+    return {targetLocationY, 0};
 }
 
+Vector2 Coach::getBallPlacementPos(){
+    return interface::InterfaceValues::getBallPlacementTarget();
+}
+
+Vector2 Coach::getBallPlacementBeforePos(Vector2 ballPos){
+    Vector2 PlacePos=interface::InterfaceValues::getBallPlacementTarget();
+    Vector2 targetPos=ballPos + (PlacePos - ballPos).stretchToLength(constants::BP_MOVE_TOWARDS_DIST);
+    return targetPos;
+}
+Vector2 Coach::getBallPlacementAfterPos(Vector2 ballPos,double RobotAngle){
+    Vector2 targetPos=interface::InterfaceValues::getBallPlacementTarget() + Vector2(constants::BP_MOVE_BACK_DIST,0).rotate(RobotAngle+M_PI);
+    return targetPos;
+}
 } //control
 } //ai
 } //rtt

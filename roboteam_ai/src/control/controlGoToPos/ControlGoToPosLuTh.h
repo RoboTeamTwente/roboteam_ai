@@ -2,7 +2,8 @@
 // Created by thijs on 12-12-18.
 //
 
-#include "goToPosInclude.h"
+#include "GoToPosInclude.h"
+#include <roboteam_ai/src/interface/InterfaceValues.h>
 
 #ifndef ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H
 #define ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H
@@ -27,15 +28,17 @@ class ControlGoToPosLuTh {
           Vector2 finalTargetPos;
           Vector2 vel;                  //Current x,y velocity in ms-1
           Vector2 targetVel;            //Target velocity in ms-1
-          double maxVel = 2.5;          //Maximum velocity in ms-1
+          double maxVel = 1.56;          //Maximum velocity in ms-1
           Vector2 acc;                  //Current x,y acceleration in ms-2
-          double maxAcc = 2.5;          //Maximum acceleration in ms-2
+          double maxAcc = 3.03;          //Maximum acceleration in ms-2
+          double defaultCollisionRadius = 0.25;
           std::vector<Vector2> posData = {{}}; //Save the position data
           std::vector<Vector2> velData = {{}}; //Save the velocity data
           float t = 0;
-          const float dt = 0.05f;
+          const float dt = 0.0175f;
           int totalCalculations = 0;
           int collisions = 0;
+          bool careAboutFieldEdge = true;
 
           enum newDirections {
             goLeft,
@@ -53,8 +56,7 @@ class ControlGoToPosLuTh {
           }
 
           bool isCollision(Vector2 &otherPos) {
-              double minDistance = 0.3;
-              return isCollision(otherPos, minDistance);
+              return isCollision(otherPos, defaultCollisionRadius);
           }
 
           bool isCollision(Vector2 &otherPos, double minDistance) {
@@ -80,17 +82,18 @@ class ControlGoToPosLuTh {
 
               Vector2 deltaPos = collisionPos - startPos;
               std::vector<double> angles;
+              double deltaAngle = 0.055;
               switch (newDir) {
               case goLeft: {
-                  angles = {- M_PI*0.0625};
+                  angles = {- M_PI*deltaAngle};
                   break;
               }
               case goMiddle: {
-                  angles = {- M_PI*0.0625, M_PI*0.0625};
+                  angles = {- M_PI*deltaAngle, M_PI*deltaAngle};
                   break;
               }
               case goRight: {
-                  angles = {M_PI*0.0625};
+                  angles = {M_PI*deltaAngle};
                   break;
               }
               }
@@ -112,18 +115,27 @@ class ControlGoToPosLuTh {
 
               std::vector<Vector2> _posData(me->posData.begin(), me->posData.begin() + me->startIndex);
               newMe.posData = _posData;
-              newMe.pos = newMe.posData.back();//me->posData[me->startIndex];
+              if (newMe.posData.size() != 0) {
+                  newMe.startIndex = newMe.posData.size() - 1;
+                  newMe.pos = newMe.posData.back();
+              }
+              else {
+                  newMe.startIndex = 0;
+                  newMe.pos = World::getRobotForId(static_cast<unsigned int>(me->id), true).get()->pos;
+              }
               std::vector<Vector2> _velData(me->velData.begin(), me->velData.begin() + me->startIndex);
               newMe.velData = _velData;
-              newMe.vel = newMe.velData.back();//me->velData[me->startIndex];
+              newMe.vel = newMe.velData.back();
 
               newMe.id = me->id;
               newMe.totalCalculations = me->totalCalculations;
               newMe.collisions = me->collisions + 1;
-              newMe.startIndex = newMe.posData.size() - 1;
+
+
               newMe.targetPos = newTarget.second;
               newMe.newDir = newTarget.first;
               newMe.finalTargetPos = me->finalTargetPos;
+              newMe.careAboutFieldEdge = me->careAboutFieldEdge;
               return std::make_shared<NumRobot>(newMe);
           }
 
@@ -163,22 +175,25 @@ class ControlGoToPosLuTh {
         NumRobot me;
 
         std::vector<Vector2> displayData;
-        double errorMargin = 0.25;
+        double errorMargin = constants::GOTOPOS_LUTH_ERROR_MARGIN;
 
         Vector2 targetPos = {999.2, 999.2};
         ros::Time startTime;
 
-        Controller pid;
+        Controller velPID;
+        Controller posPID;
         bool pidInit = false;
-
+        bool avoidBall = false;
+        bool canGoOutsideField = true;
         bool tracePath(NumRobot &numRobot, Vector2 target);
         bool calculateNumericDirection(RobotPtr robot, NumRobot &me);
         void drawCross(Vector2 &pos);
         bool calculateNextPoint(NumRobotPtr me);
-        int robotIndex;
     public:
         void clear();
         Vector2 goToPos(RobotPtr robot, Vector2 &target);
+        void setAvoidBall(bool _avoidBall);
+        void setCanGoOutsideField(bool _canGoOutsideField);
 };
 
 } // control

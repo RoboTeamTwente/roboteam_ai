@@ -17,39 +17,60 @@ GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(
 
 // Essentially a state transition diagram. Contains much of the logic
 void GetBall::checkProgression() {
-    if (deltaPos.length() > c::MAX_GETBALL_RANGE) {
+    if (deltaPos.length() > c::MAX_GETBALL_RANGE ||currentTick>maxTicks) {
         currentProgress = FAIL;
+        std::cout<<"GetBall-> FAIL";
         return;
     }
     double angleDif = Control::angleDifference(robot->angle, deltaPos.angle());
     if (currentProgress == TURNING) {
         if (angleDif < c::ANGLE_SENS) {
             currentProgress = APPROACHING;
+            std::cout<<"GetBall: TURNING->APPROACHING"<<std::endl;
             return;
         }
     }
     else if (currentProgress == APPROACHING) {
         if (angleDif >= c::ANGLE_SENS) {
             currentProgress = TURNING;
+            std::cout<<"GetBall: APPROACHING-> TURNING"<<std::endl;
             return;
         }
-        if (! robotHasBall()) {
+        if (robotHasBall(c::MAX_BALL_RANGE)) {
+            std::cout<<"GetBall: APPROACHING -> OVERSHOOTING"<<std::endl;
+            currentProgress = OVERSHOOTING;
             return;
         }
-        else {
-            currentProgress = DRIBBLING;
+        else{
             return;
         }
     }
+    else if (currentProgress == OVERSHOOTING){
+        if (!robotHasBall(c::MAX_BALL_BOUNCE_RANGE)) {
+            std::cout<<"GetBall: OVERSHOOTING -> TURNING"<<std::endl;
+            currentProgress = TURNING;
+            return;
+        }
+        if (((approachPos-robot->pos)).length()<0.05){
+            std::cout<<"GetBall: OVERSHOOTING -> DRIBBLING"<<std::endl;
+            currentProgress=DRIBBLING;
+            return;
+        }
+        else{
+            std::cout<<(approachPos-robot->pos).length()<<std::endl;
+        }
+    }
     else if (currentProgress == DRIBBLING) {
-        if (! robotHasBall()) {
+        if (! robotHasBall(c::MAX_BALL_BOUNCE_RANGE)) {
             currentProgress = APPROACHING;
             count = 0;
+            std::cout<<"GetBall: DRIBBLING-> APPROACHING"<<std::endl;
             return;
         }
         count ++;
         if (count > c::POSSES_BALL_CYCLES) {
             currentProgress = SUCCESS;
+            std::cout<<"GetBall: SUCCESS"<<std::endl;
             return;
         }
     }
@@ -60,17 +81,35 @@ void GetBall::checkProgression() {
 void GetBall::onInitialize() {
     currentProgress = TURNING;
     count = 0;
+    double maxTime;
+    if (properties->hasDouble("maxTime")){
+    maxTime=properties->getDouble("maxTime");
+    }
+    else maxTime=1000;
+    currentTick=0;
+    maxTicks= static_cast<int>(floor(maxTime*constants::tickRate));
 }
 GetBall::Status GetBall::onUpdate() {
     if (!ball) return Status::Running;
     deltaPos = Vector2(ball->pos) - Vector2(robot->pos);
-    checkProgression();
 
+  if(currentProgress!=OVERSHOOTING&&currentProgress!=DRIBBLING){
+    approachPos= Vector2(ball->pos)+(Vector2(ball->pos)-Vector2(robot->pos)).stretchToLength(constants::GETBALL_OVERSHOOT);
+    }
+
+    if(!robotHasBall(constants::MAX_BALL_BOUNCE_RANGE)){
+        lockedAngle=deltaPos.angle();
+    }
+    checkProgression();
+    currentTick++;
     if (currentProgress == TURNING) {
         sendTurnCommand();
     }
     else if (currentProgress == APPROACHING) {
         sendApproachCommand();
+    }
+    else if (currentProgress == OVERSHOOTING){
+        sendOvershootCommand();
     }
     else if (currentProgress == DRIBBLING) {
         sendDribblingCommand();
@@ -79,6 +118,8 @@ GetBall::Status GetBall::onUpdate() {
         case TURNING:
             return Status::Running;
         case APPROACHING:
+            return Status::Running;
+        case OVERSHOOTING:
             return Status::Running;
         case DRIBBLING:
             return Status::Running;
@@ -94,8 +135,11 @@ GetBall::Status GetBall::onUpdate() {
 void GetBall::onTerminate(Status s) {
     sendDribblingCommand();
 }
-bool GetBall::robotHasBall() {
+bool GetBall::robotHasBall(double frontRange) {
     //The ball is in an area defined by a cone from the robot centre, or from a rectangle in front of the dribbler
+    if(!ball->visible){
+        return true;
+    }
     Vector2 RobotPos = robot->pos;
     Vector2 BallPos = ball->pos;
     Vector2 dribbleLeft = RobotPos + Vector2(c::ROBOT_RADIUS, 0).rotate(robot->angle - c::DRIBBLER_ANGLE_OFFSET);
@@ -110,8 +154,8 @@ bool GetBall::robotHasBall() {
         // else check the rectangle in front of the robot.
     else
         return control::ControlUtils::pointInRectangle(BallPos, dribbleLeft, dribbleRight,
-                dribbleRight + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle),
-                dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle));
+                dribbleRight + Vector2(frontRange, 0).rotate(robot->angle),
+                dribbleLeft + Vector2(frontRange, 0).rotate(robot->angle));
 }
 void GetBall::sendTurnCommand() {
     roboteam_msgs::RobotCommand command;
@@ -131,9 +175,19 @@ void GetBall::sendApproachCommand() {
     command.dribbler = 1;
     command.x_vel = (float) deltaPos.normalize().x*c::GETBALL_SPEED;
     command.y_vel = (float) deltaPos.normalize().y*c::GETBALL_SPEED;
-    command.w = (float) deltaPos.angle();
+    command.w = lockedAngle;
     publishRobotCommand(command);
 
+}
+void GetBall::sendOvershootCommand() {
+    roboteam_msgs::RobotCommand command;
+    command.id = robot->id;
+    command.use_angle = 1;
+    command.dribbler = 1;
+    command.x_vel = (float) (approachPos-robot->pos).normalize().x*c::GETBALL_SPEED;
+    command.y_vel = (float) (approachPos-robot->pos).normalize().y*c::GETBALL_SPEED;
+    command.w = lockedAngle;
+    publishRobotCommand(command);
 }
 void GetBall::sendDribblingCommand() {
     roboteam_msgs::RobotCommand command;
@@ -142,7 +196,7 @@ void GetBall::sendDribblingCommand() {
     command.dribbler = 1;
     command.x_vel = 0;
     command.y_vel = 0;
-    command.w = (float) deltaPos.angle();
+    command.w = lockedAngle;
     publishRobotCommand(command);
 }
 

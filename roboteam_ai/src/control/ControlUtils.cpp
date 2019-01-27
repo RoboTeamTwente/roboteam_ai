@@ -60,7 +60,7 @@ rtt::Vector2 ControlUtils::getClosestRobot(Vector2 &pos, int &id, bool ourTeam, 
             Vector2 botPos = {bot.pos.x + bot.vel.x*t, bot.pos.y + bot.vel.y*t};
             double deltaPos = (pos - botPos).length();
             if (deltaPos < distance) {
-                closestPos = bot.pos;
+                closestPos = botPos;
                 distance = deltaPos;
             }
 
@@ -72,7 +72,7 @@ rtt::Vector2 ControlUtils::getClosestRobot(Vector2 &pos, int &id, bool ourTeam, 
             Vector2 botPos = {bot.pos.x + bot.vel.x*t, bot.pos.y + bot.vel.y*t};
             double deltaPos = (pos - botPos).length();
             if (deltaPos < distance) {
-                closestPos = bot.pos;
+                closestPos = botPos;
                 distance = deltaPos;
             }
         }
@@ -217,6 +217,16 @@ double ControlUtils::angleDifference(double A1, double A2) {
     return abs(angleDif);
 }
 
+//returns the side of rotation that is best from this angle.
+int ControlUtils::rotateDirection(double currentAngle, double targetAngle){
+    double angDif=angleDifference(currentAngle,targetAngle);
+    double checkForward=constrainAngle(currentAngle+angDif);
+    double checkBackward=constrainAngle(currentAngle-angDif);
+    if (abs(checkForward-targetAngle)<abs(checkBackward-targetAngle)){
+        return 1; //forwards
+    }
+    else return -1;//backwards
+}
 Vector2 ControlUtils::VelocityLimiter(Vector2 vel) {
     if (vel.length() > rtt::ai::constants::MAX_VEL) {
         vel = vel.stretchToLength(rtt::ai::constants::MAX_VEL);
@@ -224,7 +234,7 @@ Vector2 ControlUtils::VelocityLimiter(Vector2 vel) {
     }
     else return vel;
 }
-rtt::Vector2 ControlUtils::twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2) {
+Vector2 ControlUtils::twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2) {
     //https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
     double denominator = ( (a1.x - a2.x)*(b1.y - b2.y) - (a1.y - b1.y)*(b1.x - b2.x) );
     if (denominator != 0) {
@@ -235,6 +245,33 @@ rtt::Vector2 ControlUtils::twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b
     else
         return Vector2();
 
+}
+
+bool ControlUtils::hasBall(double frontDist,double robotOrientation,Vector2 robotPos, Vector2 ballPos){
+    Vector2 dribbleLeft = robotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robotOrientation - constants::DRIBBLER_ANGLE_OFFSET);
+    Vector2 dribbleRight = robotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robotOrientation + constants::DRIBBLER_ANGLE_OFFSET);
+    if (pointInTriangle(ballPos, robotPos, dribbleLeft, dribbleRight)) {
+        return true;
+    }
+        // else check the rectangle in front of the robot.
+    else return pointInRectangle(ballPos, dribbleLeft, dribbleRight,
+                dribbleRight + Vector2(frontDist, 0).rotate(robotOrientation),
+                dribbleLeft + Vector2(frontDist, 0).rotate(robotOrientation));
+}
+
+Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, float margin) {
+    auto field = Field::get_field();
+    double hFieldLength = field.field_length*0.5;
+    double hFieldWidth = field.field_width*0.5;
+    if (position.x > hFieldLength - margin)
+        position.x = hFieldLength - margin;
+    if (position.x < - hFieldLength + margin)
+        position.x = - hFieldLength + margin;
+    if (position.y > hFieldWidth - margin)
+        position.y = hFieldWidth - margin;
+    if (position.y < - hFieldWidth + margin)
+        position.y = - hFieldWidth + margin;
+    return position;
 }
 
 } // control

@@ -10,11 +10,15 @@ namespace ai{
 class DribbleRotate : public Skill{
     private:
         enum Progression{
-          ROTATING,DONE,FAIL
+          ROTATING,SUCCESS,FAIL
         };
         Progression currentProgression;
         void checkProgression();
-        double startAngle,targetAngle,incrementAngle;
+        double startAngle,targetAngle, maxSpeed,incrementAngle,currentAngle,dir;
+        int currentTick, maxTick,extraTick;
+        bool rotateToGoal;
+        double computeCommandAngle();
+        bool robotHasBall(double frontRange);
     public:
         explicit DribbleRotate(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;

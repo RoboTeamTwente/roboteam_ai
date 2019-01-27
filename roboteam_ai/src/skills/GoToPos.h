@@ -15,7 +15,8 @@ class GoToPos : public Skill {
 
         bool goToBall;
         bool goBehindBall;
-
+        double distanceBehindBall;
+        double speed;
         enum Progression {
           ON_THE_WAY, DONE, FAIL
         };
@@ -33,8 +34,8 @@ class GoToPos : public Skill {
 
     public:
         explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
-        void onInitialize() override;
         Status onUpdate() override;
+        void onInitialize() override;
         void onTerminate(Status s) override;
 };
 } // ai

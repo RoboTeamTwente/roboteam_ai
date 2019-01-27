@@ -1,0 +1,16 @@
+GoToPos,ROLE,Position,goToBall,random
+GoToPosLuTh,ROLE,Position,goToBall,random,passiveDefend
+Kick,ROLE
+Chip,ROLE
+Dribble,ROLE,Position,maxTicks,forwardDirection
+Rotate,ROLE,rotateToBall,rotateToOurGoal,rotateToEnemyGoal,rotateToRobotId,robotIsEnemy
+InterceptBall
+GetBall
+DefendOnRobot
+Attack
+Pass
+EnterFormation
+DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement
+AvoidBallForBallPlacement
+BasicGoToPos,ROLE,avoidBall,canGoOutsideField
+Keeper
