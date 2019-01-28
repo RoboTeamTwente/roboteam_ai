@@ -122,8 +122,12 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
 
     if ( map.find(name) != map.end() ) {
         return map[name];
+    } else {
+            
+        ROS_ERROR("Faulty Control Node! Never should happen!");
+        return bt::Node::Ptr();
     }
-    return bt::Node::Ptr();
+
 }
 
 
@@ -186,8 +190,11 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
 
     if ( map.find(name) != map.end() ) {
         return map[name];
+    } else {
+
+        ROS_ERROR("The leaf node is not registered in the SWITCHES:   %s", name.c_str());
+        return bt::Node::Ptr();
     }
-    return bt::Node::Ptr();
 }
 
 /// If you made a tactic node for a new tactic this is where you add that
