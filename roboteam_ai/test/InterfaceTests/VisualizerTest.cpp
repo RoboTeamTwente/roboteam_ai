@@ -12,14 +12,10 @@ TEST(VisualizerTest, it_shows_proper_data)
 {
 
     // set arguments to 0
-    int argc = 1;
+    int argc = 0;
+    char **argv = 0;
 
-    // tell travis that we don't have a screen
-    char *custom_argv[] = {
-            "-platform offscreen", // most programs will ignore this
-    };
-
-    auto app = new QApplication(argc, custom_argv);
+    auto app = new QApplication(argc, argv);
     auto window = new QMainWindow();
     Visualizer vis(window);
 
