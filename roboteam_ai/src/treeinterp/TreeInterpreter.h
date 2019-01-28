@@ -27,6 +27,9 @@ using json = nlohmann::json;
 class TreeInterpreter {
 
     private:
+
+        static bool lookInVector(std::vector<std::string> vector, std::string item);
+
         JsonReader jsonReader;
 
         PropertiesParser propertyParser;
