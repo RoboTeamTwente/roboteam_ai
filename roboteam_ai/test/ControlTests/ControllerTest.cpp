@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 11-1-19.
 //
 #include <gtest/gtest.h>
-#include "../src/control/Controller.h"
+#include "roboteam_ai/src/control/Controller.h"
 
 namespace rtt {
 namespace ai {

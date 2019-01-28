@@ -3,7 +3,7 @@
 //
 
 #include <roboteam_msgs/RobotCommand.h>
-#include "../src/utilities/StrategyManager.h"
+#include "roboteam_ai/src/utilities/StrategyManager.h"
 #include "gtest/gtest.h"
 
 TEST(StrategyManagerTest, StrategyManagerTest) {

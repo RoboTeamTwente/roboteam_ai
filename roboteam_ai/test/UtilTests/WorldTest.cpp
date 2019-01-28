@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "../src/utilities/World.h"
+#include "roboteam_ai/src/utilities/World.h"
 
 TEST(WorldTest, it_sets_and_gets_the_world) {
     roboteam_msgs::World worldMsg;

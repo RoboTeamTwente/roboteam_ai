@@ -2,7 +2,7 @@
 // Created by rolf on 05/12/18.
 //
 
-#include "../src/control/ControlUtils.h"
+#include "roboteam_ai/src/control/ControlUtils.h"
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/utilities/Field.h>
 

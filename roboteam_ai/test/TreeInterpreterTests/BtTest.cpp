@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../src/bt/bt.hpp"
+#include "roboteam_ai/src/bt/bt.hpp"
 
 namespace {
 std::vector<std::string> traces;

@@ -4,7 +4,7 @@
 #include <gtest/gtest.h>
 
 #include <roboteam_msgs/BoolEntry.h>
-#include "../src/bt/bt.hpp"
+#include "roboteam_ai/src/bt/bt.hpp"
 
 TEST(BTBlackBoardTest, Blackboard) {
 

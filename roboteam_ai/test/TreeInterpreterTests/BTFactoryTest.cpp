@@ -1,6 +1,6 @@
 
 #include <gtest/gtest.h>
-#include "../src/treeinterp/BTFactory.h"
+#include "roboteam_ai/src/treeinterp/BTFactory.h"
 
 TEST (BT, JsonEditor) {
     BTFactory dummyFactory = BTFactory::getFactory();

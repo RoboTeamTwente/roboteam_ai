@@ -210,18 +210,18 @@ set(CONTROL_SOURCES
 
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/main.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/BtTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/JsonTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/BTFactoryTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/WorldTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/FieldTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/DangerFinderTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/BTBlackBoardTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/IOTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/RefereeTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/StrategyManagerTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/PropertiesParserTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlUtilsTest.cpp
+        roboteam_ai/test/TreeInterpreterTests/BtTest.cpp
+        roboteam_ai/test/UtilTests/JsonTest.cpp
+        roboteam_ai/test/TreeInterpreterTests/BTFactoryTest.cpp
+        roboteam_ai/test/UtilTests/WorldTest.cpp
+        roboteam_ai/test/UtilTests/FieldTest.cpp
+        roboteam_ai/test/UtilTests/DangerFinderTest.cpp
+        roboteam_ai/test/TreeInterpreterTests/BTBlackBoardTest.cpp
+        roboteam_ai/test/UtilTests/IOTest.cpp
+        roboteam_ai/test/UtilTests/RefereeTest.cpp
+        roboteam_ai/test/UtilTests/StrategyManagerTest.cpp
+        roboteam_ai/test/UtilTests/PropertiesParserTest.cpp
+        roboteam_ai/test/ControlTests/ControlUtilsTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ApplicationManagerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/TheyHaveBallTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/WeHaveBallTest.cpp
@@ -233,10 +233,10 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/KickTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/GoToPosTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TacticTests/DefaultTacticTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControllerTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/RobotDealerTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlUtilsTest.cpp
+        roboteam_ai/test/ControlTests/ControllerTest.cpp
+        roboteam_ai/test/UtilTests/RobotDealerTest.cpp
+        roboteam_ai/test/InterfaceTests/InterfaceTest.cpp
+        roboteam_ai/test/ControlTests/ControlUtilsTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/WorldHelper.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/WorldHelper.cpp

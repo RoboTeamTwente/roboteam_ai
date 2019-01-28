@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "../src/dangerfinder/DangerFinder.h"
+#include "roboteam_ai/src/dangerfinder/DangerFinder.h"
 #include <bitset>
 
 namespace df = rtt::ai::dangerfinder;

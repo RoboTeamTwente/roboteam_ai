@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "../src/utilities/Field.h"
+#include "roboteam_ai/src/utilities/Field.h"
 #include "roboteam_ai/test/helpers/WorldHelper.h"
 
 TEST(FieldTest, it_gets_and_sets_the_field) {

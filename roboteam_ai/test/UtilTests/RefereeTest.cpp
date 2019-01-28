@@ -3,7 +3,7 @@
 //
 
 #include <roboteam_msgs/RefereeData.h>
-#include "../src/utilities/Referee.hpp"
+#include "roboteam_ai/src/utilities/Referee.hpp"
 #include "gtest/gtest.h"
 
 TEST(RefereeTest, it_gets_and_sets_the_ref) {
