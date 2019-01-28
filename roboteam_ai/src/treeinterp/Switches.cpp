@@ -24,16 +24,19 @@
 
 #include "../skills/Chip.h"
 #include "../skills/Dribble.h"
+#include "../skills/GoToPosLuTh.h"
 #include "roboteam_ai/src/skills/SkillGoToPos.h"
 #include "../skills/Halt.h"
 #include "../skills/Kick.h"
 #include "../skills/Harass.h"
 #include "../skills/RotateToAngle.h"
+#include "../skills/GoToPos.h"
 #include "../skills/Keeper.h"
 #include "../skills/GetBall.h"
 #include "../skills/Attack.h"
 #include "../skills/Pass.h"
 #include <roboteam_ai/src/skills/InterceptBall.h>
+#include <roboteam_ai/src/skills/GoToPosLuTh.h>
 #include <roboteam_ai/src/skills/InterceptBall.h>
 #include "../skills/DribbleRotate.h"
 #include <roboteam_ai/src/skills/Defend.h>
@@ -147,6 +150,8 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["Dribble"] =                std::make_shared<rtt::ai::Dribble>(name, properties);
     map["DribbleRotate"]=           std::make_shared<rtt::ai::DribbleRotate>(name,properties);
     map["GetBall"] =                std::make_shared<rtt::ai::GetBall>(name, properties);
+    map["GoToPos"] =                std::make_shared<rtt::ai::GoToPos>(name, properties);
+    map["GoToPosLuTh"] =            std::make_shared<rtt::ai::GoToPosLuTh>(name, properties);
     map["Halt"] =                   std::make_shared<rtt::ai::Halt>(name, properties);
     map["Harass"] =                 std::make_shared<rtt::ai::Harass>(name, properties);
     map["InterceptBall"] =          std::make_shared<rtt::ai::InterceptBall>(name, properties);
