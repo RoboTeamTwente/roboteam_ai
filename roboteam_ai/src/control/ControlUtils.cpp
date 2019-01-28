@@ -209,7 +209,7 @@ Vector2 ControlUtils::VelocityLimiter(Vector2 vel) {
 /// Get the intersection of two lines
 Vector2 ControlUtils::twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2) {
     //https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
-    double denominator = ( (a1.x - a2.x)*(b1.y - b2.y) - (a1.y - b1.y)*(b1.x - b2.x) );
+    double denominator = ( (a1.x - a2.x)*(b1.y - b2.y) - (a1.y - a2.y)*(b1.x - b2.x) );
     if (denominator != 0) {
         double numerator = ( (a1.x - b1.x)*(b1.y - b2.y) - (a1.y - b1.y)*(b1.x - b2.x) );
         double t =  numerator / denominator;
