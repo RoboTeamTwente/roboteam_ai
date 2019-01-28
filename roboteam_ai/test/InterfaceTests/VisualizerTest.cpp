@@ -10,12 +10,6 @@ namespace interface {
 
 TEST(VisualizerTest, it_shows_proper_data)
 {
-
-    // set arguments to 0
-    int argc = 0;
-    char **argv = 0;
-
-    auto app = new QApplication(argc, argv);
     auto window = new QMainWindow();
     Visualizer vis(window);
 
