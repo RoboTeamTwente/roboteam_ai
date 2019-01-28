@@ -14,7 +14,10 @@ BallInDefenseAreaAndStill::BallInDefenseAreaAndStill(std::string name, bt::Black
         :Condition(std::move(name), std::move(blackboard)) { };
 
 void BallInDefenseAreaAndStill::initialize() {
-    theirDefenceArea=properties->getBool("theirDefenceArea");
+    if (properties->hasBool("theirDefenceArea")) {
+        theirDefenceArea = properties->getBool("theirDefenceArea");
+    }
+    else {theirDefenceArea=false;}
 }
 
 bt::Node::Status BallInDefenseAreaAndStill::update() {
