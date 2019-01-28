@@ -152,8 +152,6 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GetBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GetBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoToPosLuTh.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.cpp

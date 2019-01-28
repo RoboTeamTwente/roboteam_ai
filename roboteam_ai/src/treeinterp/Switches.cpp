@@ -36,8 +36,7 @@
 #include "../skills/Attack.h"
 #include "../skills/Pass.h"
 #include <roboteam_ai/src/skills/InterceptBall.h>
-#include <roboteam_ai/src/skills/GoToPosLuTh.h>
-#include <roboteam_ai/src/skills/InterceptBall.h>
+#include <roboteam_ai/src/skills/DefendOnRobot.h>
 #include "../skills/DribbleRotate.h"
 #include <roboteam_ai/src/skills/Defend.h>
 #include <roboteam_ai/src/skills/InterceptBall.h>
