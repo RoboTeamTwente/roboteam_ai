@@ -28,12 +28,12 @@ TEST(GoToPos, GoToPosTest) {
     BTFactory::halt();
 
     auto bb = std::make_shared<bt::Blackboard>();
-    bb->setInt("ROBOT_ID", 1);
+    bb->setInt("ROBOT_ID", 0);
     bb->setString("ROLE","GTPtest");
     bb->setVector2("Position", rtt::Vector2(5.0,6.0));
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
-    robot.id=1;
+    robot.id=0;
     robot.pos.x=0;
     robot.pos.y=0;
     worldMsg.us.push_back(robot);

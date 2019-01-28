@@ -11,7 +11,7 @@
 
 TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
     auto BB = std::make_shared<bt::Blackboard>();
-    BB->setInt("ROBOT_ID", 2);
+    BB->setInt("ROBOT_ID", 0);
     BB->setString("ROLE","test");
     rtt::ai::IsRobotClosestToBall Node("Test", BB);
 
@@ -21,7 +21,7 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
 
-    robot.id=2;
+    robot.id=0;
     robot.pos.x=0;
     robot.pos.y=0;
     worldMsg.us.push_back(robot);
@@ -37,7 +37,7 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
 
     roboteam_msgs::WorldRobot robot2;
 
-    robot2.id = 3;
+    robot2.id = 1;
     robot2.pos.x=0.5;
     robot2.pos.y=0.5;
     worldMsg.us.push_back(robot2);
@@ -50,7 +50,7 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
 
 TEST(secondsAhead, IsRobotClosestToBallTest) {
     bt::Blackboard BB;
-    BB.setInt("ROBOT_ID", 2);
+    BB.setInt("ROBOT_ID", 0);
     BB.setString("ROLE","test");
     BB.setDouble("secondsAhead", 3.0);
     auto BBpointer = std::make_shared<bt::Blackboard>(BB);
@@ -60,12 +60,12 @@ TEST(secondsAhead, IsRobotClosestToBallTest) {
     roboteam_msgs::WorldRobot robot;
     roboteam_msgs::WorldRobot robot2;
 
-    robot.id=2;
+    robot.id=0;
     robot.pos.x=0;
     robot.pos.y=0;
     worldMsg.us.push_back(robot);
 
-    robot2.id=3;
+    robot2.id=1;
     robot2.pos.x=1;
     robot2.pos.y=1;
     worldMsg.us.push_back(robot2);

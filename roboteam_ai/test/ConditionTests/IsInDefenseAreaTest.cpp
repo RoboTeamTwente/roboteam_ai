@@ -154,7 +154,7 @@ TEST(DetectsBallInOurDefenceArea, IsInDefenceAreaTest)
 
     worldMsg.ball.pos.x = -1.1;
     worldMsg.ball.pos.y = 0;
-
+    worldMsg.ball.visible = 1;
     rtt::ai::World::set_world(worldMsg);
 
     // Should succeed since ball is in our defence area
