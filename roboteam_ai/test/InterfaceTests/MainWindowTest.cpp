@@ -4,6 +4,7 @@
 
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
+#include <roboteam_ai/src/interface/mainWindow.h>
 
 namespace rtt {
 namespace ai {
@@ -15,7 +16,8 @@ int argc = 0;
 char **argv = 0;
 
 auto app = new QApplication(argc, argv);
-auto window = new QMainWindow();
+auto window = std::make_shared<MainWindow>();
+
 }
 
 }

@@ -29,6 +29,7 @@ namespace interface {
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
+    FRIEND_TEST(MainWindowTest, it_displays_main_window);
     public:
         explicit MainWindow(QWidget* parent = nullptr);
 
