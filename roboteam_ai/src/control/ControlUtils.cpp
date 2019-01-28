@@ -183,7 +183,7 @@ double ControlUtils::angleDifference(double A1, double A2) {
     else if (angleDif > M_PI) {
         angleDif -= 2*M_PI;
     }
-    return abs(angleDif);
+    return fabs(angleDif);
 }
 
 //returns the side of rotation that is best from this angle.
