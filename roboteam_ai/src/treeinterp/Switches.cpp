@@ -86,8 +86,7 @@ std::vector<std::string> Switches::tacticJsonFileNames =
 
 
 
-std::vector<std::string> Switches::strategyJsonFileNames =
-        {
+std::vector<std::string> Switches::strategyJsonFileNames = {
          "QualificationStrategy",
          "haltStrategy",
          "KeeperStrategy",
@@ -149,7 +148,6 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["DribbleRotate"]=           std::make_shared<rtt::ai::DribbleRotate>(name,properties);
     map["GetBall"] =                std::make_shared<rtt::ai::GetBall>(name, properties);
     map["GoToPos"] =                std::make_shared<rtt::ai::GoToPos>(name, properties);
-    map["GoToPosLuTh"] =            std::make_shared<rtt::ai::GoToPosLuTh>(name, properties);
     map["Halt"] =                   std::make_shared<rtt::ai::Halt>(name, properties);
     map["Harass"] =                 std::make_shared<rtt::ai::Harass>(name, properties);
     map["InterceptBall"] =          std::make_shared<rtt::ai::InterceptBall>(name, properties);
