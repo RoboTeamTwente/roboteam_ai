@@ -205,8 +205,6 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/controlGoToPos/ControlGoToPosBallControl.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlGoToPos.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlGoToPos.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlRotate.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlRotate.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.h)
 
