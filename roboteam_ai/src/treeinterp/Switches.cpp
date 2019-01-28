@@ -24,7 +24,6 @@
 
 #include "../skills/Chip.h"
 #include "../skills/Dribble.h"
-#include "../skills/GoToPosLuTh.h"
 #include "roboteam_ai/src/skills/SkillGoToPos.h"
 #include "../skills/Halt.h"
 #include "../skills/Kick.h"
