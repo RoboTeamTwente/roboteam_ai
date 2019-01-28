@@ -131,8 +131,7 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Coach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Coach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/ApplicationManager.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/ApplicationManager.h
-        roboteam_ai/test/helpers/WorldMessages.cpp)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/ApplicationManager.h)
 
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
@@ -226,20 +225,20 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.h)
 
 set(TEST_SOURCES
-        roboteam_ai/test/main.cpp
-        roboteam_ai/test/BtTest.cpp
-        roboteam_ai/test/JsonTest.cpp
-        roboteam_ai/test/BTFactoryTest.cpp
-        roboteam_ai/test/WorldTest.cpp
-        roboteam_ai/test/FieldTest.cpp
-        roboteam_ai/test/DangerFinderTest.cpp
-        roboteam_ai/test/BTBlackBoardTest.cpp
-        roboteam_ai/test/IOTest.cpp
-        roboteam_ai/test/RefereeTest.cpp
-        roboteam_ai/test/StrategyManagerTest.cpp
-        roboteam_ai/test/PropertiesParserTest.cpp
-        roboteam_ai/test/ControlUtilsTest.cpp
-#        roboteam_ai/test/ApplicationManagerTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/main.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/BtTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/JsonTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/BTFactoryTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/WorldTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/FieldTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/DangerFinderTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/BTBlackBoardTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/IOTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/RefereeTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/StrategyManagerTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/PropertiesParserTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlUtilsTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ApplicationManagerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInZoneTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/TheyHaveBallTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/WeHaveBallTest.cpp
@@ -248,13 +247,14 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsRobotClosestToBallTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/KickTest.cpp
-#        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/GoToPosTest.cpp
-#        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TacticTests/DefaultTacticTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/GoToPosTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TacticTests/DefaultTacticTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControllerTest.cpp
-
-        roboteam_ai/test/RobotDealerTest.cpp
-        roboteam_ai/test/InterfaceTest.cpp
-        #${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/RobotDealerTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/WorldHelper.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/WorldHelper.cpp
         )
 
 set(INTERFACE_SOURCES
@@ -264,8 +264,8 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widget.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/drawer.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/drawer.h
-        roboteam_ai/src/interface/InterfaceValues.cpp
-        roboteam_ai/src/interface/InterfaceValues.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/InterfaceValues.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/InterfaceValues.h)
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
@@ -311,8 +311,8 @@ catkin_add_gtest(ai_tests
         ${SKILLS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}
-        ${TEST_SOURCES}
         ${INTERFACE_SOURCES}
+        ${TEST_SOURCES}
         )
 
 target_compile_options(ai_tests PUBLIC --coverage)

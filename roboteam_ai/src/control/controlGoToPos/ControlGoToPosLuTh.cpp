@@ -183,8 +183,9 @@ bool ControlGoToPosLuTh::calculateNumericDirection(RobotPtr robot, NumRobot &me)
     if (me.vel.length() > 10.0) return false;
     me.t = me.posData.size()*me.dt;
 
-    Vector2 closestBot = ControlUtils::getClosestRobot(me.pos, me.id, true, me.t);
-    if (me.isCollision(closestBot, me.defaultCollisionRadius)) return false;
+    auto closestBot = World::getRobotClosestToPoint(World::get_world().us, me.pos);
+    Vector2 closestBotPos = closestBot->pos;
+    if (me.isCollision(closestBotPos, me.defaultCollisionRadius)) return false;
 
     bool noCollision = tracePath(me, targetPos);
     return noCollision;
@@ -253,8 +254,9 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
 bool ControlGoToPosLuTh::calculateNextPoint(NumRobotPtr me) {
 
     me->t = me->posData.size()*me->dt;
-    Vector2 closestBot = ControlUtils::getClosestRobot(me->pos, me->id, true, me->t);
-    if (me->isCollision(closestBot))
+    auto closestBot = World::getRobotClosestToPoint(World::get_world().us, me->pos);
+    Vector2 closestBotPos = closestBot->pos;
+    if (me->isCollision(closestBotPos))
         return false;
 
     auto ball = World::getBall().get();

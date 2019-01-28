@@ -263,6 +263,9 @@ Vector2 Coach::getBallPlacementAfterPos(Vector2 ballPos,double RobotAngle){
     Vector2 targetPos=interface::InterfaceValues::getBallPlacementTarget() + Vector2(constants::BP_MOVE_BACK_DIST,0).rotate(RobotAngle+M_PI);
     return targetPos;
 }
+std::shared_ptr<roboteam_msgs::WorldRobot> Coach::getRobotClosestToBall(bool isOurTeam) {
+    return World::getRobotClosestToPoint(isOurTeam ? World::get_world().us : World::get_world().them, World::getBall()->pos);
+}
 } //control
 } //ai
 } //rtt

@@ -4,8 +4,7 @@
 
 #include <gtest/gtest.h>
 #include "../src/utilities/Field.h"
-#include "helpers/WorldMessages.cpp"
-
+#include "roboteam_ai/test/helpers/WorldHelper.h"
 
 TEST(FieldTest, it_gets_and_sets_the_field) {
     roboteam_msgs::GeometryFieldSize field;
@@ -28,8 +27,8 @@ TEST(FieldTest, it_gets_points_in_defence_area) {
 
   	// generate 100 random positions in our defence area
     for (int i=0; i<100; i++) { 
-    	auto x = testhelpers::getRandomValue(-6, -4);
-    	auto y = testhelpers::getRandomValue(0, 8);
+    	auto x = testhelpers::WorldHelper::getRandomValue(-6, -4);
+    	auto y = testhelpers::WorldHelper::getRandomValue(0, 8);
 
     	// all points should be in our defence area
     	rtt::ai::Field::set_field(field);
@@ -43,8 +42,8 @@ TEST(FieldTest, it_gets_points_in_defence_area) {
 
     // generate 100 random positions outside our defence area
     for (int i=0; i<100; i++) { 
-    	auto x = testhelpers::getRandomValue(-4, 4);
-    	auto y = testhelpers::getRandomValue(0, 8);
+    	auto x = testhelpers::WorldHelper::getRandomValue(-4, 4);
+    	auto y = testhelpers::WorldHelper::getRandomValue(0, 8);
     	rtt::ai::Field::set_field(field);
     	bool inDefenceArea = rtt::ai::Field::pointIsInDefenceArea(rtt::Vector2(x, y), true, 0.0);
     	EXPECT_FALSE(inDefenceArea);
@@ -63,6 +62,6 @@ TEST(FieldTest, it_returns_proper_goal_centers) {
     EXPECT_EQ(ourGoalCenter.y, 0);
 
     auto theirGoalCenter = rtt::ai::Field::get_their_goal_center();
-    EXPECT_EQ(ourGoalCenter.x, 4);
-    EXPECT_EQ(ourGoalCenter.y, 0);
+    EXPECT_EQ(theirGoalCenter.x, 4);
+    EXPECT_EQ(theirGoalCenter.y, 0);
 }
