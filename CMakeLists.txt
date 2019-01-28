@@ -164,8 +164,6 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Keeper.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootAtGoal.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootAtGoal.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Attack.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Attack.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleRotate.cpp
@@ -217,8 +215,6 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlGoToPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlRotate.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlRotate.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlKick.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlKick.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.h)
 
