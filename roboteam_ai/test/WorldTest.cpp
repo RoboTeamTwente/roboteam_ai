@@ -8,23 +8,26 @@
 TEST(WorldTest, it_sets_and_gets_the_world) {
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldBall ball;
+    EXPECT_FALSE(rtt::ai::World::didReceiveFirstWorld);
 
     ball.z = 42;
     ball.z_vel = 100;
+    ball.visible = 1;
     worldMsg.ball = ball;
-
+    
     rtt::ai::World::set_world(worldMsg);
-    ASSERT_EQ(rtt::ai::World::get_world().ball.z, 42);
-    ASSERT_EQ(rtt::ai::World::get_world().ball.z_vel, 100);
+    EXPECT_EQ(rtt::ai::World::get_world().ball.z, 42);
+    EXPECT_EQ(rtt::ai::World::get_world().ball.z_vel, 100);
 }
 
 TEST(WorldTest, it_gets_the_ball) {
     roboteam_msgs::World worldMsg;
 
     worldMsg.ball.z = 42;
+    worldMsg.ball.visible = 1;
     rtt::ai::World::set_world(worldMsg);
     auto ball = rtt::ai::World::getBall();
-    ASSERT_EQ(ball->z, 42);
+    EXPECT_EQ(ball->z, 42);
 }
 
 TEST(WorldTest, it_gets_the_robot_ID) {
@@ -41,13 +44,15 @@ TEST(WorldTest, it_gets_the_robot_ID) {
     robots.push_back(robot2);
     worldMsg.us = robots;
     rtt::ai::World::set_world(worldMsg);
-    ASSERT_FALSE(rtt::ai::World::getRobotForId(1, true));
+    EXPECT_TRUE(rtt::ai::World::didReceiveFirstWorld);
+
+    EXPECT_FALSE(rtt::ai::World::getRobotForId(1, true));
 
     auto robot1return = rtt::ai::World::getRobotForId(0, true);
-    ASSERT_FLOAT_EQ(robot1return->angle, 0.3);
+    EXPECT_FLOAT_EQ(robot1return->angle, 0.3);
     auto robot2return = rtt::ai::World::getRobotForId(2, true);
-    ASSERT_FLOAT_EQ(robot2return->angle, 0.4);
-    ASSERT_EQ(rtt::ai::World::getRobotForId(0, false), nullptr);
+    EXPECT_FLOAT_EQ(robot2return->angle, 0.4);
+    EXPECT_EQ(rtt::ai::World::getRobotForId(0, false), nullptr);
 
 }
 
@@ -75,33 +80,33 @@ TEST(WorldTest, it_gets_multiple_robot_ids) {
     rtt::ai::World::set_world(worldMsg);
     
     // robot with id 1 should not exist
-    ASSERT_EQ(rtt::ai::World::getRobotsForId({1}, true).size(), 0);
+    EXPECT_EQ(rtt::ai::World::getRobotsForId({1}, true).size(), 0);
     
     // robot with id 0 should exit
-    ASSERT_EQ(rtt::ai::World::getRobotsForId({0}, true).size(), 1);
+    EXPECT_EQ(rtt::ai::World::getRobotsForId({0}, true).size(), 1);
     
     // sending the same id should work because it is a set
-    ASSERT_EQ(rtt::ai::World::getRobotsForId({0, 0}, true).size(), 1);
+    EXPECT_EQ(rtt::ai::World::getRobotsForId({0, 0}, true).size(), 1);
     
     // two existing robots should be returned
-    ASSERT_EQ(rtt::ai::World::getRobotsForId({0, 2}, true).size(), 2);
+    EXPECT_EQ(rtt::ai::World::getRobotsForId({0, 2}, true).size(), 2);
 
     // robot 1 does not exist but the two other robots still need to be returned
-    ASSERT_EQ(rtt::ai::World::getRobotsForId({0, 1, 2}, true).size(), 2);
+    EXPECT_EQ(rtt::ai::World::getRobotsForId({0, 1, 2}, true).size(), 2);
 
     //  the team should matter
-    ASSERT_EQ(rtt::ai::World::getRobotForId(0, false), nullptr);
+    EXPECT_EQ(rtt::ai::World::getRobotForId(0, false), nullptr);
 
     // the data should be passed properly
     auto robot1return = rtt::ai::World::getRobotsForId({0}, true).front();
-    ASSERT_FLOAT_EQ(robot1return.angle, 0.3);
+    EXPECT_FLOAT_EQ(robot1return.angle, 0.3);
     auto robot2return = rtt::ai::World::getRobotsForId({2}, true).front();
-    ASSERT_FLOAT_EQ(robot2return.angle, 0.4);
+    EXPECT_FLOAT_EQ(robot2return.angle, 0.4);
 
     // robot 3 is from 'them'
     auto robot3return = rtt::ai::World::getRobotsForId({2}, false).front();
-    ASSERT_FLOAT_EQ(robot3return.angle, 0.2);
+    EXPECT_FLOAT_EQ(robot3return.angle, 0.2);
 
     // the getAllRobots functions should return bot us and them
-    ASSERT_EQ(rtt::ai::World::getAllRobots().size(), 3);
+    EXPECT_EQ(rtt::ai::World::getAllRobots().size(), 3);
 }

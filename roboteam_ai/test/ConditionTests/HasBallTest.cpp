@@ -14,7 +14,7 @@ TEST(BallTest, IHaveBallTest) {
     BB->setBool("our_team", false);
     rtt::ai::HasBall node("Test", BB);
     //First test should fail as the robot is not set in the world state yet.
-    ASSERT_EQ(node.update(), bt::Node::Status::Failure);
+    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
@@ -25,29 +25,31 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.us.push_back(robot);
     worldMsg.ball.pos.x = 0.1;
     worldMsg.ball.pos.y = 0.0;
+    worldMsg.ball.visible = 1;
     rtt::ai::World::set_world(worldMsg);
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"IHaveBallTestTactic","test");
-    ASSERT_EQ(node.update(), bt::Node::Status::Success);
+    EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.ball.pos.x = 0.2;
     rtt::ai::World::set_world(worldMsg);
-    ASSERT_EQ(node.update(), bt::Node::Status::Failure);
+    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     //Test if angle checking works
     worldMsg.ball.pos.x = 0;
     worldMsg.ball.pos.y = 0.1;
+    worldMsg.ball.visible = 1;
     rtt::ai::World::set_world(worldMsg);
-    ASSERT_EQ(node.update(), bt::Node::Status::Failure);
+    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = 0;
     worldMsg.ball.pos.y = - 0.1;
     rtt::ai::World::set_world(worldMsg);
-    ASSERT_EQ(node.update(), bt::Node::Status::Failure);
+    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = - 0.1;
     worldMsg.ball.pos.y = 0;
     rtt::ai::World::set_world(worldMsg);
-    ASSERT_EQ(node.update(),bt::Node::Status::Failure);
+    EXPECT_EQ(node.update(),bt::Node::Status::Failure);
 
     robotDealer::RobotDealer::removeTactic("IHaveBallTestTactic");
 }

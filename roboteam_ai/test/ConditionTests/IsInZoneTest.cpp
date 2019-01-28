@@ -12,17 +12,18 @@ TEST(IsBallInZoneTest, IsInZoneTest) {
     auto blackBoard = std::make_shared<bt::Blackboard>();
     rtt::ai::IsInZone node("Test", blackBoard);
 
-    ASSERT_EQ(node.update(),bt::Node::Status::Failure);
+    EXPECT_EQ(node.update(),bt::Node::Status::Failure);
 
     roboteam_msgs::World worldMsg;
 
     worldMsg.ball.pos.x=0.1;
     worldMsg.ball.pos.y=0.0;
+    worldMsg.ball.visible = 1;
     rtt::ai::World::set_world(worldMsg);
 
     blackBoard->setInt("zone", 3);
 
-    ASSERT_EQ(node.update(),bt::Node::Status::Success);
+    EXPECT_EQ(node.update(),bt::Node::Status::Success);
 }
 
 TEST(IsRobotBallInZoneTest, IsInZoneTest) {
@@ -33,7 +34,7 @@ TEST(IsRobotBallInZoneTest, IsInZoneTest) {
     auto blackBoard = std::make_shared<bt::Blackboard>(BB);
     rtt::ai::IsInZone node("Test", blackBoard);
 
-    ASSERT_EQ(node.update(),bt::Node::Status::Failure);
+    EXPECT_EQ(node.update(),bt::Node::Status::Failure);
 
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
@@ -45,10 +46,10 @@ TEST(IsRobotBallInZoneTest, IsInZoneTest) {
     rtt::ai::World::set_world(worldMsg);
 
     blackBoard->setInt("zone", 1);
-    ASSERT_EQ(node.update(),bt::Node::Status::Success);
+    EXPECT_EQ(node.update(),bt::Node::Status::Success);
 
     blackBoard->setInt("zone", 2);
-    ASSERT_EQ(node.update(),bt::Node::Status::Failure);
+    EXPECT_EQ(node.update(),bt::Node::Status::Failure);
 
     blackBoard->setInt("zone", 4);
     roboteam_msgs::GeometryFieldSize field;
@@ -62,16 +63,16 @@ TEST(IsRobotBallInZoneTest, IsInZoneTest) {
 
     rtt::ai::Field::set_field(field);
 
-    ASSERT_EQ(node.update(), bt::Node::Status::Success);
+    EXPECT_EQ(node.update(), bt::Node::Status::Success);
     worldMsg.us[0].pos.x = 0;
     worldMsg.us[0].pos.y = 0.7;
     rtt::ai::World::set_world(worldMsg);
 
-    ASSERT_EQ(node.update(), bt::Node::Status::Success);
+    EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     blackBoard->setInt("zone", 5);
-    ASSERT_EQ(node.update(),bt::Node::Status::Failure);
+    EXPECT_EQ(node.update(),bt::Node::Status::Failure);
 
     blackBoard->setInt("zone", 99);
-    ASSERT_EQ(node.update(),bt::Node::Status::Failure);
+    EXPECT_EQ(node.update(),bt::Node::Status::Failure);
 }

@@ -71,7 +71,9 @@ bool WorldHelper::allPositionsAreValid(const roboteam_msgs::World &worldMsg, boo
         }
 
         if (withBall) {
-            if (pos.second.dist(worldMsg.ball.pos) < rtt::ai::constants::ROBOT_RADIUS + rtt::ai::constants::BALL_RADIUS) return false;
+            if (pos.second.dist(worldMsg.ball.pos) < rtt::ai::constants::ROBOT_RADIUS + rtt::ai::constants::BALL_RADIUS) {
+                return false;
+            }
         }
     }
 
@@ -168,7 +170,8 @@ std::pair<roboteam_msgs::World, int> WorldHelper::getWorldMsgWhereRobotHasBall(i
             robotWithBallId = robot.id;
         }
         msg.ball = generateBallAtLocation(ballLocation);
-    } while (! allPositionsAreValid(msg, true));
+
+    } while (!allPositionsAreValid(msg, false)); // WITHBALL must be set to false, since the ball is generated next to a robot!
 
     return std::make_pair(msg, robotWithBallId);
 }
