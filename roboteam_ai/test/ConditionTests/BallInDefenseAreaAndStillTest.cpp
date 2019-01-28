@@ -46,8 +46,7 @@ TEST(DetectsDefenseArea,BallInDefenseAreaAndStill){
     worldMsg.ball.pos.y=0.0;
     rtt::ai::World::set_world(worldMsg);
     EXPECT_EQ(node.update(),bt::Node::Status::Success);
-
-}
-TEST(DetctsBallVelocity,BallInDefenseAreaAndStill){
-
+    worldMsg.ball.vel.x=0.11;
+    rtt::ai::World::set_world(worldMsg);
+    EXPECT_EQ(node.update(),bt::Node::Status::Failure);
 }
