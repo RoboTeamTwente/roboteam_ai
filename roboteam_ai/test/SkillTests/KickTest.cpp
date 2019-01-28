@@ -18,7 +18,7 @@ void robotCommandCallback(const roboteam_msgs::RobotCommandConstPtr &cmd) {
 }
 
 TEST(KickTest, It_sends_proper_robotcommands) {
-    ros::Rate rate(60);
+    ros::Rate rate(1);
     commands.clear(); // ensure the vector is empty.
     EXPECT_TRUE(commands.empty());
     ros::NodeHandle nh;
