@@ -11,15 +11,15 @@ TEST (BT, JsonEditor) {
     pathReader.editJSON(testProject, testTree, "description", "TESTING");
     json readJson = pathReader.readJSON(testProject);
 
-    ASSERT_EQ(readJson["data"]["trees"][0]["description"], "TESTING");
+    EXPECT_EQ(readJson["data"]["trees"][0]["description"], "TESTING");
     pathReader.editJSON(testProject, testTree, "description", "A");
 
     readJson = pathReader.readJSON(testProject);
-    ASSERT_EQ(readJson["data"]["trees"][0]["description"], "A");
+    EXPECT_EQ(readJson["data"]["trees"][0]["description"], "A");
 
     pathReader.editJSON(testProject, testTree, "description", "");
     readJson = pathReader.readJSON(testProject);
-    ASSERT_EQ(readJson["data"]["trees"][0]["description"], "");
+    EXPECT_EQ(readJson["data"]["trees"][0]["description"], "");
 }
 
 
@@ -41,5 +41,5 @@ TEST(BT, BasicFactoryTest) {
         node = node->getChildren().at(0);
         trace += node->node_name() + "-";
     }
-    ASSERT_EQ(trace, "UntilSuccess-haltTactic-ParallelSequence-halt0-UntilSuccess-Halt-");
+    EXPECT_EQ(trace, "UntilSuccess-haltTactic-ParallelSequence-halt0-UntilSuccess-Halt-");
 }

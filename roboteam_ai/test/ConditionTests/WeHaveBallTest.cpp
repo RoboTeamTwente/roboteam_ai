@@ -29,6 +29,5 @@ TEST(WeHaveBallTest, WeHaveBallTest) {
     auto msg = generated.first;
     rtt::ai::World::set_world(msg);
 
-
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 }

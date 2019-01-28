@@ -49,29 +49,29 @@ TEST(DangerFinderTest, it_has_correct_danger_flags) {
     roboteam_msgs::World worldMsg;
     setFieldtoWorld();
 
-    ASSERT_FALSE(df::DangerFinder::instance().hasCalculated());
+    EXPECT_FALSE(df::DangerFinder::instance().hasCalculated());
     // there is nothing between enemy robot and the ball
     worldMsg.ball = getBall(0, 0);
     worldMsg.them.push_back(getRobot(0, 400));
     danger = calculateDangerForWorld(worldMsg);
 
-    ASSERT_TRUE(df::DangerFinder::instance().hasCalculated());
-    ASSERT_EQ(danger.flags.size(), (unsigned int) 1);
-    ASSERT_EQ(std::bitset<8>(danger.flags.at(0)),
+    EXPECT_TRUE(df::DangerFinder::instance().hasCalculated());
+    EXPECT_EQ(danger.flags.size(), (unsigned int) 1);
+    EXPECT_EQ(std::bitset<8>(danger.flags.at(0)),
             std::bitset<8>(0b00000001)); // the robotflag ISFREE should be triggered
 
     // now put one of our robots between them and the ball
     worldMsg.us.push_back(getRobot(0, 200));
     danger = calculateDangerForWorld(worldMsg);
 
-    ASSERT_EQ(danger.flags.size(), (unsigned int) 1);
-    ASSERT_EQ(std::bitset<8>(danger.flags.at(0)), std::bitset<8>(0b00000000));
+    EXPECT_EQ(danger.flags.size(), (unsigned int) 1);
+    EXPECT_EQ(std::bitset<8>(danger.flags.at(0)), std::bitset<8>(0b00000000));
 
     // the robot should now also be closing in on our goal
     worldMsg.them.push_back(getRobot(0, 500));
     danger = calculateDangerForWorld(worldMsg);
-    ASSERT_EQ((signed) danger.flags.size(), 1);
-    ASSERT_EQ(std::bitset<8>(danger.flags.at(0)), std::bitset<8>(0b00000010));
+    EXPECT_EQ((signed) danger.flags.size(), 1);
+    EXPECT_EQ(std::bitset<8>(danger.flags.at(0)), std::bitset<8>(0b00000010));
 
     df::DangerFinder::instance().stop();
 }
@@ -90,12 +90,12 @@ TEST(DangerFinderTest, it_logs_dangerdata) {
     danger = calculateDangerForWorld(worldMsg);
 
     // All robots of the enemy should have dangerscores
-    ASSERT_EQ((signed) danger.dangerList.size(), amountOfRobots);
-    ASSERT_EQ((signed) danger.scores.size(), amountOfRobots);
-    ASSERT_EQ((signed) danger.flags.size(), amountOfRobots);
+    EXPECT_EQ((signed) danger.dangerList.size(), amountOfRobots);
+    EXPECT_EQ((signed) danger.scores.size(), amountOfRobots);
+    EXPECT_EQ((signed) danger.flags.size(), amountOfRobots);
     // there is no other data set for the robots so their danger scores should be equal
     for (int i = 1; i < (signed) danger.scores.size(); i ++) {
-        ASSERT_EQ(danger.scores.at(i - 1), danger.scores.at(i));
+        EXPECT_EQ(danger.scores.at(i - 1), danger.scores.at(i));
     }
 
     // add a ball to the field
@@ -104,7 +104,7 @@ TEST(DangerFinderTest, it_logs_dangerdata) {
 
     // there is still no different data set for the robots so their danger scores should be equal
     for (int i = 1; i < (signed) danger.scores.size(); i ++) {
-        ASSERT_EQ(danger.scores.at(i - 1), danger.scores.at(i));
+        EXPECT_EQ(danger.scores.at(i - 1), danger.scores.at(i));
     }
 
     // move one robot forward with the ball
@@ -117,7 +117,7 @@ TEST(DangerFinderTest, it_logs_dangerdata) {
 
     // his dangerscore should be sky high (because of canshoot)
     // the canshoot module adds a score of 999, so it should be at least that value.
-    ASSERT_GE(danger.scores[danger.getByDangerRank(0)->id], 999);
+    EXPECT_GE(danger.scores[danger.getByDangerRank(0)->id], 999);
 
     df::DangerFinder::instance().stop();
 }
@@ -143,8 +143,8 @@ TEST(DangerFinderTest, it_stays_within_limits) {
 
         // values can never be smaller than 0 and never greater than 1300
         for (unsigned int j = 0; j < danger.scores.size(); j ++) {
-            ASSERT_GE(danger.scores.at(j), 0);
-            ASSERT_LE(danger.scores.at(j), 1300);
+            EXPECT_GE(danger.scores.at(j), 0);
+            EXPECT_LE(danger.scores.at(j), 1300);
         }
     }
     df::DangerFinder::instance().stop();
@@ -185,8 +185,8 @@ TEST(DangerFinderTest, partial_results_can_be_added_together) {
 
     pr3 = pr1 + pr2;
 
-    ASSERT_EQ(pr3.score, 7);
-    ASSERT_EQ(pr3.flags, 0b11111111);
+    EXPECT_EQ(pr3.score, 7);
+    EXPECT_EQ(pr3.flags, 0b11111111);
 
     pr1.score = - 3;
     pr1.flags = 0b00000000;
@@ -195,7 +195,7 @@ TEST(DangerFinderTest, partial_results_can_be_added_together) {
 
     pr3 = pr1 + pr2;
 
-    ASSERT_EQ(pr3.score, 1);
-    ASSERT_EQ(pr3.flags, 0b00110011);
+    EXPECT_EQ(pr3.score, 1);
+    EXPECT_EQ(pr3.flags, 0b00110011);
     df::DangerFinder::instance().stop();
 }

@@ -8,8 +8,9 @@
 #include "../../src/utilities/RobotDealer.h"
 
 TEST(BallTest, IHaveBallTest) {
+    robotDealer::RobotDealer::halt();
     auto BB = std::make_shared<bt::Blackboard>();
-    BB->setInt("ROBOT_ID", 2);
+    BB->setInt("ROBOT_ID", 0);
     BB->setString("ROLE","test");
     BB->setBool("our_team", false);
     rtt::ai::HasBall node("Test", BB);
@@ -19,7 +20,7 @@ TEST(BallTest, IHaveBallTest) {
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
 
-    robot.id = 2;
+    robot.id = 0;
     robot.pos.x = 0;
     robot.pos.y = 0;
     worldMsg.us.push_back(robot);
@@ -30,7 +31,8 @@ TEST(BallTest, IHaveBallTest) {
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"IHaveBallTestTactic","test");
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
-    worldMsg.ball.pos.x = 0.2;
+    worldMsg.ball.pos.x = 0.0;
+    worldMsg.ball.visible = 1;
     rtt::ai::World::set_world(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
@@ -43,11 +45,13 @@ TEST(BallTest, IHaveBallTest) {
 
     worldMsg.ball.pos.x = 0;
     worldMsg.ball.pos.y = - 0.1;
+    worldMsg.ball.visible = 1;
     rtt::ai::World::set_world(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = - 0.1;
     worldMsg.ball.pos.y = 0;
+    worldMsg.ball.visible = 1;
     rtt::ai::World::set_world(worldMsg);
     EXPECT_EQ(node.update(),bt::Node::Status::Failure);
 

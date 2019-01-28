@@ -6,7 +6,6 @@
 #include "../src/utilities/RobotDealer.h"
 #include "../src/utilities/World.h"
 
-namespace {
 TEST(RobotDealerTest, RobotDealerTest) {
     using dealer = robotDealer::RobotDealer;
     using robot = robotDealer::RobotType;
@@ -16,7 +15,7 @@ TEST(RobotDealerTest, RobotDealerTest) {
     rtt::ai::World::set_world(worldMsg);
 
     dealer::removeTactic("free"); // This is necessary because previous tests create free robots
-    ASSERT_TRUE(dealer::getAvailableRobots().empty());
+    EXPECT_TRUE(dealer::getAvailableRobots().empty());
 
     //fill the world
     robot1.id = 1;
@@ -70,5 +69,4 @@ TEST(RobotDealerTest, RobotDealerTest) {
 
     dealer::removeTactic("testing1");
     EXPECT_EQ(dealer::getAvailableRobots().size(), (unsigned int) 3);
-}
 }

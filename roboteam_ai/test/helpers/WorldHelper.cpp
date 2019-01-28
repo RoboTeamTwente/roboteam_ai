@@ -109,7 +109,7 @@ roboteam_msgs::WorldBall WorldHelper::generateRandomBall(roboteam_msgs::Geometry
  * so close that we can say that the robot has the ball.
  */
 rtt::Vector2 WorldHelper::getLocationRightBeforeRobot(roboteam_msgs::WorldRobot robot) {
-    rtt::Vector2 angleVector = rtt::Vector2(sin(robot.angle), cos(robot.angle));
+    rtt::Vector2 angleVector = rtt::Vector2(cos(robot.angle), sin(robot.angle));
     angleVector = angleVector.stretchToLength(rtt::ai::constants::ROBOT_RADIUS);
     rtt::Vector2 robotPos = rtt::Vector2(robot.pos);
     return robotPos + angleVector;
