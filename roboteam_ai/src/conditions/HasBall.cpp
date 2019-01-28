@@ -23,7 +23,7 @@ bt::Node::Status HasBall::update() {
     if (! robot || ! ball) {
         return Status::Failure;
     }
-    if (World::bot_has_ball(* robot.get(), *ball.get())) {
+    if (World::robotHasBall(*robot, *ball)) {
        return Status::Success;
     }
     return Status::Failure;

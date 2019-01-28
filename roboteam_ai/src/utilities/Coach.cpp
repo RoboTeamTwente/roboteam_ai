@@ -159,19 +159,11 @@ bool Coach::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2
             ball + (deltaBall).rotate(M_PI*- 0.17).scale(2.0)));
 }
 
-
-std::shared_ptr<roboteam_msgs::WorldRobot> Coach::getRobotClosestToBall(bool isOurTeam) {
-    auto robots = isOurTeam ? World::get_world().us : World::get_world().them;
-    auto closestId = World::get_robot_closest_to_point(robots, World::getBall()->pos);
-    if (closestId) {
-        return World::getRobotForId(*closestId, isOurTeam);
-    }
-    return nullptr;
-}
-
 std::pair<int, bool> Coach::getRobotClosestToBall() {
-    auto closestUs = getRobotClosestToBall(true);
-    auto closestThem = getRobotClosestToBall(false);
+
+    auto closestUs = World::getRobotClosestToPoint(World::get_world().us, World::getBall()->pos);
+    auto closestThem = World::getRobotClosestToPoint(World::get_world().them, World::getBall()->pos);
+
     auto distanceToBallUs = (Vector2(closestUs->pos).dist(Vector2(World::getBall()->pos)));
     auto distanceToBallThem = (Vector2(closestThem->pos).dist(Vector2(World::getBall()->pos)));
 

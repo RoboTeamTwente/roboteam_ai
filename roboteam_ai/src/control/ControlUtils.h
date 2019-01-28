@@ -29,7 +29,6 @@ class ControlUtils {
         static int rotateDirection(double currentAngle, double targetAngle);
         static Vector2 projectPositionToWithinField(Vector2 position, float margin = 0.2);
 
-        static rtt::Vector2 getClosestRobot(rtt::Vector2 &pos, int &id = -1, bool ourTeam = true, float &t = 0.0f);
         static bool hasClearVision(int from, int towards, roboteam_msgs::World world, int safelyness);
         static bool onLineSegment(Vector2 p, Vector2 q, Vector2 r);
         static rtt::Vector2 twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2);

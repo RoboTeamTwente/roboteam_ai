@@ -58,37 +58,6 @@ double ControlUtils::constrainAngle(double angle) {
     return angle - M_PI;
 }
 
-/// Get closest robot from a certain point
-rtt::Vector2 ControlUtils::getClosestRobot(Vector2 &pos, int &id, bool ourTeam, float &t) {
-    auto world = rtt::ai::World::get_world();
-    Vector2 closestPos = {420, 420};
-    double distance = 99999999;
-
-    for (auto &bot : world.us) {
-        if (! (ourTeam && id == static_cast<int>(bot.id))) {
-            Vector2 botPos = {bot.pos.x + bot.vel.x*t, bot.pos.y + bot.vel.y*t};
-            double deltaPos = (pos - botPos).length();
-            if (deltaPos < distance) {
-                closestPos = botPos;
-                distance = deltaPos;
-            }
-
-        }
-
-    }
-    for (auto &bot : world.them) {
-        if (! (! ourTeam && id == static_cast<int>(bot.id))) {
-            Vector2 botPos = {bot.pos.x + bot.vel.x*t, bot.pos.y + bot.vel.y*t};
-            double deltaPos = (pos - botPos).length();
-            if (deltaPos < distance) {
-                closestPos = botPos;
-                distance = deltaPos;
-            }
-        }
-    }
-    return closestPos;
-}
-
 /// Get the distance from PointToCheck towards a line - the line is infinitely long
 //http://www.randygaul.net/2014/07/23/distance-point-to-line-segment/
 double ControlUtils::distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vector2 LineEnd) {

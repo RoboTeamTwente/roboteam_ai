@@ -75,8 +75,9 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
             for (int i = 0; i < static_cast<int>(me.posData.size()); i ++) {
                 me.pos = me.posData[i];
                 me.t = i*me.dt;
-                Vector2 closestBot = ControlUtils::getClosestRobot(me.pos, me.id, true, me.t);
-                if (me.isCollision(closestBot)) {
+                auto closestBot = World::getRobotClosestToPoint(World::get_world().us, me.pos);
+                Vector2 closestBotPos = closestBot->pos;
+                if (me.isCollision(closestBotPos)) {
                     recalculate = true;
                     break;
                 }

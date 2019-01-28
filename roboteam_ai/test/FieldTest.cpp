@@ -4,6 +4,8 @@
 
 #include <gtest/gtest.h>
 #include "../src/utilities/Field.h"
+#include "helpers/WorldMessages.cpp"
+
 
 TEST(FieldTest, it_gets_and_sets_the_field) {
     roboteam_msgs::GeometryFieldSize field;
@@ -19,15 +21,15 @@ TEST(FieldTest, it_gets_points_in_defence_area) {
 	field.field_width = 12;
 
 	// set the penalty lines
-	field.left_penalty_line.begin = Vector2(-4, 0);
-	field.left_penalty_line.end = Vector2(-4, 8);
-	field.right_penalty_line.begin = Vector2(4, 0);
-	field.right_penalty_line.end = Vector2(4, 8);
+	field.left_penalty_line.begin = rtt::Vector2(-4, 0);
+	field.left_penalty_line.end = rtt::Vector2(-4, 8);
+	field.right_penalty_line.begin = rtt::Vector2(4, 0);
+	field.right_penalty_line.end = rtt::Vector2(4, 8);
 
   	// generate 100 random positions in our defence area
     for (int i=0; i<100; i++) { 
-    	auto x = getRandomValue(-6, -4); // imported from testhelpers
-    	auto y = getRandomValue(0, 8)
+    	auto x = testhelpers::getRandomValue(-6, -4);
+    	auto y = testhelpers::getRandomValue(0, 8);
 
     	// all points should be in our defence area
     	rtt::ai::Field::set_field(field);
@@ -41,8 +43,8 @@ TEST(FieldTest, it_gets_points_in_defence_area) {
 
     // generate 100 random positions outside our defence area
     for (int i=0; i<100; i++) { 
-    	auto x = getRandomValue(-4, 4); // imported from testhelpers
-    	auto y = getRandomValue(0, 8)
+    	auto x = testhelpers::getRandomValue(-4, 4);
+    	auto y = testhelpers::getRandomValue(0, 8);
     	rtt::ai::Field::set_field(field);
     	bool inDefenceArea = rtt::ai::Field::pointIsInDefenceArea(rtt::Vector2(x, y), true, 0.0);
     	EXPECT_FALSE(inDefenceArea);
