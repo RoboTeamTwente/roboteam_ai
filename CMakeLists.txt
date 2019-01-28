@@ -233,10 +233,11 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/KickTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/GoToPosTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TacticTests/DefaultTacticTest.cpp
-        roboteam_ai/test/ControlTests/ControllerTest.cpp
-        roboteam_ai/test/UtilTests/RobotDealerTest.cpp
-        roboteam_ai/test/InterfaceTests/InterfaceTest.cpp
-        roboteam_ai/test/ControlTests/ControlUtilsTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/ControllerTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/RobotDealerTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/InterfaceTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/VisualizerTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/ControlUtilsTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/WorldHelper.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/WorldHelper.cpp
