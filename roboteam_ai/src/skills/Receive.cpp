@@ -51,7 +51,7 @@ Receive::Status Receive::onUpdate() {
             velocities=control::ControlUtils::VelocityLimiter(velocities);
             command.x_vel = static_cast<float>(velocities.x);
             command.y_vel = static_cast<float>(velocities.y);
-            command.dribbler = 0;
+            command.dribbler = 1;
         }
         publishRobotCommand(command);
         return Status::Running;
