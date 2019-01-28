@@ -86,8 +86,7 @@ std::vector<std::string> Switches::tacticJsonFileNames =
 
 
 
-std::vector<std::string> Switches::strategyJsonFileNames =
-        {
+std::vector<std::string> Switches::strategyJsonFileNames = {
          "QualificationStrategy",
          "haltStrategy",
          "KeeperStrategy",

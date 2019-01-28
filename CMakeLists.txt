@@ -251,7 +251,8 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControllerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/RobotDealerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp 
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlUtilsTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/WorldHelper.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/WorldHelper.cpp
         )
@@ -270,7 +271,7 @@ catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
 add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-# copy all jsons to devel of ROS
+# copy all jsons to devel of RO -m "fix S
 file(GLOB JSONSa "${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons/keeper/*.json")
 file(COPY ${JSONSa} DESTINATION ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons/keeper)
 
