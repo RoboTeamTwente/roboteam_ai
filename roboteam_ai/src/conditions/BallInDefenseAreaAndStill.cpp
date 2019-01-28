@@ -6,14 +6,17 @@
 #include "../utilities/World.h"
 #include "../utilities/Field.h"
 #include "../utilities/Constants.h"
+
 namespace rtt {
 namespace ai {
+
 BallInDefenseAreaAndStill::BallInDefenseAreaAndStill(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
 
 void BallInDefenseAreaAndStill::initialize() {
     theirDefenceArea=properties->getBool("theirDefenceArea");
 }
+
 bt::Node::Status BallInDefenseAreaAndStill::update() {
     Vector2 ballPos;
     auto ball=World::getBall();

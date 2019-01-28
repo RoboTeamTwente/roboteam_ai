@@ -9,7 +9,8 @@
 namespace rtt {
 namespace ai {
 namespace control {
-
+ 
+/// return the angular velocity for a robot to go from robotAngle to targetAngle
 double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAngle) {
     double direction = 1;               // counter clockwise rotation
     double rotFactor = 8;               // how SLOW the robot rotates when it is near its destination angle
@@ -24,7 +25,9 @@ double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAn
     if (angleDiff > 1)angleDiff = 1;
     return direction*(std::pow(rotFactor, angleDiff - 1)*rtt::ai::constants::MAX_ANGULAR_VELOCITY - 1/rotFactor);
 }
-//Efficient implementation, see this: https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
+
+// Efficient implementation, see this: https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
+/// Returns if PointToCheck is within the triangle constructed by three points. 
 bool ControlUtils::pointInTriangle(Vector2 PointToCheck, Vector2 TP1, Vector2 TP2, Vector2 TP3) {
     double as_x = PointToCheck.x - TP1.x;
     double as_y = PointToCheck.y - TP1.y;
@@ -33,9 +36,12 @@ bool ControlUtils::pointInTriangle(Vector2 PointToCheck, Vector2 TP1, Vector2 TP
     return ((((TP3.x - TP2.x)*(PointToCheck.y - TP2.y) - (TP3.y - TP2.y)*(PointToCheck.x - TP2.x)) > 0) == s_ab);
 }
 
+/// Returns the area of a triangle constructed from three points.
 double ControlUtils::TriangleArea(Vector2 A, Vector2 B, Vector2 C) {
     return abs((A.x*(B.y - C.y) + B.x*(C.y - A.y) + C.x*(A.y - B.y))*0.5);
 }
+
+
 ///Square points must be connected! (e.g. SP1 is connected to SP2 and SP4)
 bool ControlUtils::pointInRectangle(Vector2 PointToCheck, Vector2 SP1, Vector2 SP2, Vector2 SP3, Vector2 SP4) {
     if (pointInTriangle(PointToCheck, SP1, SP2, SP3)) {
@@ -43,13 +49,16 @@ bool ControlUtils::pointInRectangle(Vector2 PointToCheck, Vector2 SP1, Vector2 S
     }
     else return pointInTriangle(PointToCheck, SP4, SP1, SP2);
 }
+
+/// Maps the input angle to be within the range of 0 - 2PI
 double ControlUtils::constrainAngle(double angle) {
     angle = fmod(angle + M_PI, 2*M_PI);
     if (angle < 0)
         angle += 2*M_PI;
     return angle - M_PI;
-
 }
+
+/// Get closest robot from a certain point
 rtt::Vector2 ControlUtils::getClosestRobot(Vector2 &pos, int &id, bool ourTeam, float &t) {
     auto world = rtt::ai::World::get_world();
     Vector2 closestPos = {420, 420};
@@ -80,17 +89,7 @@ rtt::Vector2 ControlUtils::getClosestRobot(Vector2 &pos, int &id, bool ourTeam, 
     return closestPos;
 }
 
-rtt::Vector2 ControlUtils::getClosestRobot(Vector2 &pos, int &id, bool ourTeam) {
-    float t = 0.0f;
-    return getClosestRobot(pos, id, ourTeam, t);
-}
-
-rtt::Vector2 ControlUtils::getClosestRobot(Vector2 &pos) {
-    float t = 0.0f;
-    int id = - 1;
-    return getClosestRobot(pos, id, true, t);
-}
-
+/// Get the distance from PointToCheck towards a line - the line is infinitely long
 //http://www.randygaul.net/2014/07/23/distance-point-to-line-segment/
 double ControlUtils::distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vector2 LineEnd) {
     Vector2 n = LineEnd - LineStart;
@@ -101,6 +100,7 @@ double ControlUtils::distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vec
 }
 
 /// See if a robot has a clear vision towards another robot
+/// e.g. there are no obstacles in between. 
 bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::World world, int safelyness) {
     double minDistance = rtt::ai::constants::ROBOT_RADIUS*(3*safelyness); // TODO: calibrate Rolf approved
     Vector2 fromPos;
@@ -124,6 +124,7 @@ bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::Worl
     return true;
 }
 
+/// Get the distance from PointToCheck towards a line, the line is not infinite. 
 double ControlUtils::distanceToLineWithEnds(Vector2 pointToCheck, Vector2 lineStart, Vector2 lineEnd) {
     Vector2 n = lineEnd - lineStart;
     Vector2 pa = lineStart - pointToCheck;
@@ -138,7 +139,6 @@ double ControlUtils::distanceToLineWithEnds(Vector2 pointToCheck, Vector2 lineSt
 }
 
 //https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
-
 // Given three colinear points p, q, r, the function checks if
 // point q lies on line segment 'pr'
 bool ControlUtils::onLineSegment(Vector2 p, Vector2 q, Vector2 r) {
@@ -227,6 +227,8 @@ int ControlUtils::rotateDirection(double currentAngle, double targetAngle){
     }
     else return -1;//backwards
 }
+
+/// Limits velocity to maximum velocity
 Vector2 ControlUtils::VelocityLimiter(Vector2 vel) {
     if (vel.length() > rtt::ai::constants::MAX_VEL) {
         vel = vel.stretchToLength(rtt::ai::constants::MAX_VEL);
@@ -234,6 +236,8 @@ Vector2 ControlUtils::VelocityLimiter(Vector2 vel) {
     }
     else return vel;
 }
+
+/// Get the intersection of two lines
 Vector2 ControlUtils::twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2) {
     //https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
     double denominator = ( (a1.x - a2.x)*(b1.y - b2.y) - (a1.y - b1.y)*(b1.x - b2.x) );
@@ -247,18 +251,8 @@ Vector2 ControlUtils::twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Ve
 
 }
 
-bool ControlUtils::hasBall(double frontDist,double robotOrientation,Vector2 robotPos, Vector2 ballPos){
-    Vector2 dribbleLeft = robotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robotOrientation - constants::DRIBBLER_ANGLE_OFFSET);
-    Vector2 dribbleRight = robotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robotOrientation + constants::DRIBBLER_ANGLE_OFFSET);
-    if (pointInTriangle(ballPos, robotPos, dribbleLeft, dribbleRight)) {
-        return true;
-    }
-        // else check the rectangle in front of the robot.
-    else return pointInRectangle(ballPos, dribbleLeft, dribbleRight,
-                dribbleRight + Vector2(frontDist, 0).rotate(robotOrientation),
-                dribbleLeft + Vector2(frontDist, 0).rotate(robotOrientation));
-}
-
+/// Returns point in field closest to a given point. 
+/// If the point is already in the field it returns the same as the input. 
 Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, float margin) {
     auto field = Field::get_field();
     double hFieldLength = field.field_length*0.5;

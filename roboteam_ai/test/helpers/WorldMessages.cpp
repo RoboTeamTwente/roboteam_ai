@@ -135,7 +135,7 @@ std::vector<roboteam_msgs::WorldRobot> generateRandomRobots(int amount, const ro
 }
 
 /*
- * Generate a world message for both team
+ * Generate a world message for both teams
  */
 roboteam_msgs::World getWorldMsg(int amountUs, int amountThem, bool withBall, const roboteam_msgs::GeometryFieldSize &field) {
     roboteam_msgs::World msg;
