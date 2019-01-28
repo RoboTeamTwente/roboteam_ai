@@ -12,9 +12,13 @@ TEST(VisualizerTest, it_shows_proper_data)
 {
 
     // set arguments to 0
-    int argc = 0;
-    char** argv = 0;
-    auto app = new QApplication(argc, argv);
+    int argc = 2;
+    char *custom_argv[] = {
+            "-platform ", // most programs will ignore this
+            "offscreen"
+    };
+
+    auto app = new QApplication(argc, custom_argv);
     auto window = new QMainWindow();
     Visualizer vis(window);
 
