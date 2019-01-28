@@ -1,0 +1,30 @@
+<launch>
+    <group ns="yellow">
+        <arg name="legacy_packets" default="false" />
+        <param name="output_device" type="str" value="/dev/serial/by-id/usb-STMicroelectronics_Basestation_078-if00" />
+        <param name="use_legacy_packets" type="boolean" value="$(arg legacy_packets)" />
+        <param name="robot_output_target" type="str" value="serial" />
+        <param name="our_side"  type="str" value="left" />
+        <param name="our_color" type="str" value="yellow" />
+
+        <node pkg="roboteam_vision" type="roboteam_vision" name="vision" />
+        <node pkg="roboteam_world" type="filtered_world" name="world" />
+        <node pkg="roboteam_robothub" type="roboteam_robothub" name="robothub" output="screen"/>
+        <node name="Roboteam_AI" pkg="roboteam_ai" type="Roboteam_AI" cwd="node" output="screen" />
+    </group>
+
+    <group ns="blue">
+    	<param name="output_device" type="str" value="/dev/serial/by-id/usb-STMicroelectronics_Basestation_080-if00" />
+        <arg name="legacy_packets" default="false" />
+        <param name="use_legacy_packets" type="boolean" value="$(arg legacy_packets)" />
+        <param name="robot_output_target" type="str" value="serial" />
+        <param name="our_side"  type="str" value="right" />
+        <param name="our_color" type="str" value="blue" />
+
+        <node pkg="roboteam_vision" type="roboteam_vision" name="vision" />
+        <node pkg="roboteam_world" type="filtered_world" name="world"  />
+        <node pkg="roboteam_robothub" type="roboteam_robothub" name="robothub" output="screen"/>
+        <node name="Roboteam_AI" pkg="roboteam_ai" type="Roboteam_AI" cwd="node" output="screen" />
+
+    </group>
+</launch>

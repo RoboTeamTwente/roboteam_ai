@@ -234,7 +234,7 @@ Vector2 ControlUtils::VelocityLimiter(Vector2 vel) {
     }
     else return vel;
 }
-rtt::Vector2 ControlUtils::twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2) {
+Vector2 ControlUtils::twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2) {
     //https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
     double denominator = ( (a1.x - a2.x)*(b1.y - b2.y) - (a1.y - b1.y)*(b1.x - b2.x) );
     if (denominator != 0) {
@@ -245,6 +245,18 @@ rtt::Vector2 ControlUtils::twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b
     else
         return Vector2();
 
+}
+
+bool ControlUtils::hasBall(double frontDist,double robotOrientation,Vector2 robotPos, Vector2 ballPos){
+    Vector2 dribbleLeft = robotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robotOrientation - constants::DRIBBLER_ANGLE_OFFSET);
+    Vector2 dribbleRight = robotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robotOrientation + constants::DRIBBLER_ANGLE_OFFSET);
+    if (pointInTriangle(ballPos, robotPos, dribbleLeft, dribbleRight)) {
+        return true;
+    }
+        // else check the rectangle in front of the robot.
+    else return pointInRectangle(ballPos, dribbleLeft, dribbleRight,
+                dribbleRight + Vector2(frontDist, 0).rotate(robotOrientation),
+                dribbleLeft + Vector2(frontDist, 0).rotate(robotOrientation));
 }
 
 Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, float margin) {
@@ -261,7 +273,6 @@ Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, float margi
         position.y = - hFieldWidth + margin;
     return position;
 }
-
 
 } // control
 } // ai

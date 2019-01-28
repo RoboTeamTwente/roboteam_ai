@@ -45,16 +45,17 @@ const int MAX_GENEVA_CYCLES = 20;
 const int DEFAULT_GENEVA_STATE = 0;
 
 //dribble
-const double MAX_BALL_RANGE=0.125; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
+const double MAX_BALL_RANGE=0.1; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
 const double MAX_BALL_BOUNCE_RANGE=0.3;
-const double DRIBBLE_POSDIF=0.03;
-const float  DRIBBLE_SPEED=0.4;
+const double DRIBBLE_POSDIF=0.15;
+const float  DRIBBLE_SPEED=0.8;
 //getBallcc
 const double COLLISION_RADIUS=0.18;
 const double ANGLE_SENS=0.05*M_PI;
-const double MAX_GETBALL_RANGE=0.3;
+const double MAX_GETBALL_RANGE=0.7;
 const int POSSES_BALL_CYCLES=100;
 const double GETBALL_SPEED=.5;
+const double GETBALL_OVERSHOOT=.05;//m
 
 //GoToPos
 const double MAX_CALCULATION_TIME=20.0; //max time in ms
@@ -78,7 +79,7 @@ const double DEFAULT_MAX_VEL=2.0;
 const double BALL_STILL_VEL=0.1;// if the ball has velocity lower than this in defense area, keeper starts getting it
 
 const double DRIBBLE_ROTATE_WAIT_TIME=0.2; // seconds
-const double DRIBBLE_ROTATE_MAX_SPEED=0.25; //rad/s
+const double DRIBBLE_ROTATE_MAX_SPEED=0.5; //rad/s
 // Interface
 const int ROBOT_DRAWING_SIZE = 8;
 const int BALL_DRAWING_SIZE = 5;
@@ -88,15 +89,19 @@ const int WINDOW_FIELD_MARGIN = 5;
 const int KEEPER_HELP_DRAW_SIZE=7;
 const int INTERCEPT_DRAW_VECTOR_SIZE=5;
 
+const double BP_MOVE_BACK_DIST=0.4;
+const double BP_MOVE_TOWARDS_DIST=0.15;
+
 // Settings
-const bool STD_SHOW_ROLES = false;
+const bool STD_SHOW_ROLES = true;
 const bool STD_SHOW_TACTICS = false;
 const bool STD_SHOW_TACTICS_COLORS = true;
 const bool STD_SHOW_VELOCITIES = true;
 const bool STD_SHOW_ANGLES = true;
 const bool STD_SHOW_VORONOI = false;
 const bool STD_SHOW_PATHS_ALL = false;
-const bool STD_SHOW_PATHS_CURRENT = false;
+const bool STD_SHOW_PATHS_CURRENT = true;
+const bool STD_SHOW_BALL_PLACEMENT_MARKER = true;
 
 const QColor FIELD_COLOR{30, 30, 30, 255};
 const QColor FIELD_LINE_COLOR = Qt::white;
@@ -116,6 +121,7 @@ const QColor TACTIC_COLORS[] = {TACTIC_1, TACTIC_2, TACTIC_3, TACTIC_4, TACTIC_5
 const double standard_luth_P = 2.6;
 const double standard_luth_I = 0.1;
 const double standard_luth_D = 3.3;
+
 } // constants
 } // ai
 } // rtt

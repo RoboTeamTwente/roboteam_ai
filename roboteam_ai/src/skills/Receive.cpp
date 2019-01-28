@@ -28,7 +28,6 @@ Vector2 Receive::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
 Receive::Status Receive::onUpdate() {
     if (!coach::Coach::doesRobotHaveBall(robot->id, true)) {
         if (Vector2(ball->vel).length() > 0.6 && !initializedBall) {
-            std::cout << "Ball initialized!" << std::endl;
             initializedBall = true;
             ballStartPos = ball->pos;
             ballStartVel = ball->vel;
@@ -36,7 +35,7 @@ Receive::Status Receive::onUpdate() {
 
         if (Coach::isPassed() && Vector2(ball->vel).length() < 0.01) {
             checkTicks++;
-            if (checkTicks > maxCheckTicks) return Status::Success;
+            if (checkTicks >= maxCheckTicks) return Status::Success;
         }
         roboteam_msgs::RobotCommand command;
         command.id = robot->id;
@@ -67,7 +66,6 @@ void Receive::onTerminate(Status s) {
     command.x_vel = 0;
     command.y_vel = 0;
     command.id = robot->id;
-
     command.dribbler = 0;
 
     publishRobotCommand(command);
