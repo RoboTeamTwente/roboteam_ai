@@ -78,7 +78,6 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "SingleKeeperTactic",
          "TwoDefendersTactic",
          "OneAttackerOneDefenderTactic",
-         "PassTactic",
          "Attactic",
          "EnterFormationTactic",
          "BallPlacementUsTactic",
@@ -310,6 +309,9 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
     }
     else if (name == "victoryDanceTactic") {
         node = std::make_shared<bt::VictoryDanceTactic>("victoryDanceTactic", properties);
+    } else {
+        ROS_ERROR("The tactic does not have robot specified.:    %s", name.c_str());
+        return node;
     }
-    return node;
+
 }
