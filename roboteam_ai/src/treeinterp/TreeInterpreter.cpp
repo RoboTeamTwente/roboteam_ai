@@ -130,7 +130,7 @@ bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
 /// Reads all the tactics from one JSON project, puts them in a local repositopry and returns them
 std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fileName, bt::Blackboard::Ptr globalBB) {
 
-    if (! lookInVector(Switches::tacticJsonFileNames, fileName, "tactics")) {
+    if (! lookInVector(Switches::tacticJsonFileNames, "tactics/" + fileName, "tactics")) {
 
         ROS_ERROR("The given tree name is not in the TACTIC json file name vector in switches:   %s", fileName.c_str());
 
