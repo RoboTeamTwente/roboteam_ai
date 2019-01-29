@@ -1,7 +1,9 @@
 HasBall
 TheyHaveBall
 HasBall
-BallKickerToOurGoal
+BallKickedToOurGoal
+BallInDefenseAreaAndStill
+IsInDefenseArea
 IsOnOurSide
 WeHaveBall
 IsRobotClosestToBall,secondsAhead

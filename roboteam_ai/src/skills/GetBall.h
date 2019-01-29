@@ -27,6 +27,7 @@ class GetBall : public Skill {
 
         int count;
         Vector2 deltaPos, approachPos;
+        bool lockAngle;
         double lockedAngle;
         int currentTick, maxTicks;
     public:

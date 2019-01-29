@@ -28,8 +28,8 @@ void AvoidBallForBallPlacement::onInitialize() {
     // get the target to move to which is the same vector from the ball
     auto projectionOnLinePoint = robotPos.project(ballPos, ballPlacementTargetLocation);
     auto lineDirection = ballPos - ballPlacementTargetLocation;
-    auto inversedLineDirectionX = Vector2(-lineDirection.x, lineDirection.y).stretchToLength(1);
-    auto inversedLineDirectionY = Vector2(lineDirection.x, -lineDirection.y).stretchToLength(1);
+    auto inversedLineDirectionX = Vector2(-lineDirection.x, lineDirection.y).stretchToLength(.5);
+    auto inversedLineDirectionY = Vector2(lineDirection.x, -lineDirection.y).stretchToLength(.5);
 
 
     auto point = projectionOnLinePoint + inversedLineDirectionX;
@@ -82,7 +82,7 @@ bt::Node::Status AvoidBallForBallPlacement::onUpdate() {
 }
 
 bool AvoidBallForBallPlacement::positionIsTooCloseToLine(rtt::Vector2 position) {
-    return control::ControlUtils::distanceToLineWithEnds(position, ball->pos, ballPlacementTargetLocation) < constants::ROBOT_RADIUS * 6;
+    return control::ControlUtils::distanceToLineWithEnds(position, ball->pos, ballPlacementTargetLocation) < constants::ROBOT_RADIUS * 4;
 }
 
 } // ai

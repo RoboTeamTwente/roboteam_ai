@@ -13,8 +13,8 @@ namespace rtt {
 namespace ai {
 namespace constants {
 
-const bool SHOW_LONGEST_TICK = true;
 
+const bool SHOW_LONGEST_TICK = true;
 const double GOTOPOS_LUTH_ERROR_MARGIN = 0.25;
 
 // Max values we can send through robothub
@@ -23,6 +23,8 @@ const int GENEVA_LEFT=0;//TODO: Might be reversed, please check
 const int GENEVA_RIGHT=5;
 const int MAX_ID_CMD=15;
 const double MAX_ANGULAR_VEL_CMD=16*M_PI;
+const double MIN_ANGLE = -M_PI;
+const double MAX_ANGLE = M_PI;
 
 // Limits as defined in AI itself
 const double MAX_VEL=8.0;

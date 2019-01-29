@@ -45,7 +45,7 @@
             "id": "jkx3g30rh8ovwfb",
             "title": "Tactic",
             "isRole": false,
-            "name": "KeeperTactic",
+            "name": "SingleKeeperTactic",
             "location": {
               "x": 540.0,
               "y": 405.0

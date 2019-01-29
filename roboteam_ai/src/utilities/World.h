@@ -17,25 +17,28 @@
 #include "roboteam_msgs/GeometryData.h"
 #include <mutex>
 #include <thread>
+#include "Constants.h"
 
 namespace rtt {
 namespace ai {
 
 class World {
-    private:
-        static roboteam_msgs::World world;
-        static std::mutex worldMutex;
-    public:
-        static std::shared_ptr<roboteam_msgs::WorldBall> getBall();
-        static bool didReceiveFirstWorld;
-        static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotForId(unsigned int id, bool ourTeam);
-        static const roboteam_msgs::World &get_world();
-        static void set_world(roboteam_msgs::World world);
-        static std::shared_ptr<int> get_robot_closest_to_point(std::vector<roboteam_msgs::WorldRobot> robots,
-                const Vector2 &point);
-        static bool bot_has_ball(const roboteam_msgs::WorldRobot &bot, const roboteam_msgs::WorldBall &ball);
-        static std::vector<roboteam_msgs::WorldRobot> getAllRobots();
-        static std::vector<roboteam_msgs::WorldRobot> getRobotsForId(std::set<unsigned int> ids, bool robotsAreOurTeam);
+private:
+    static roboteam_msgs::World world;
+    static std::mutex worldMutex;
+public:
+    static void set_world(roboteam_msgs::World world);
+    static const roboteam_msgs::World &get_world();
+    static std::shared_ptr<roboteam_msgs::WorldBall> getBall();
+    static bool didReceiveFirstWorld;
+
+    static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotForId(unsigned int id, bool ourTeam);
+    static std::shared_ptr<roboteam_msgs::WorldRobot>getRobotClosestToPoint(std::vector<roboteam_msgs::WorldRobot> robots,
+            const Vector2& point);
+    static bool robotHasBall(Vector2 robotPos, double robotOrientation, Vector2 ballPos, double frontDist = constants::MAX_BALL_BOUNCE_RANGE);
+    static bool robotHasBall(const roboteam_msgs::WorldRobot &bot, const roboteam_msgs::WorldBall &ball, double frontDist = constants::MAX_BALL_BOUNCE_RANGE);
+    static std::vector<roboteam_msgs::WorldRobot> getAllRobots();
+    static std::vector<roboteam_msgs::WorldRobot> getRobotsForId(std::set<unsigned int> ids, bool robotsAreOurTeam);
 };
 
 } // ai

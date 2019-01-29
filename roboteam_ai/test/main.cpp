@@ -4,9 +4,11 @@
 
 #include <gtest/gtest.h>
 #include <ros/ros.h>
+#include <QtWidgets/QApplication>
 
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
+    QApplication app(argc, argv); // initialize qt5
 
     // create a ROS node for the tests
     ros::init(argc, argv, "tester");

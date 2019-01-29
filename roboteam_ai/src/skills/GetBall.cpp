@@ -92,9 +92,11 @@ void GetBall::onInitialize() {
 GetBall::Status GetBall::onUpdate() {
     if (!ball) return Status::Running;
     deltaPos = Vector2(ball->pos) - Vector2(robot->pos);
-    if(currentProgress!=OVERSHOOTING&&currentProgress!=DRIBBLING){
+
+  if(currentProgress!=OVERSHOOTING&&currentProgress!=DRIBBLING){
     approachPos= Vector2(ball->pos)+(Vector2(ball->pos)-Vector2(robot->pos)).stretchToLength(constants::GETBALL_OVERSHOOT);
     }
+
     if(!robotHasBall(constants::MAX_BALL_BOUNCE_RANGE)){
         lockedAngle=deltaPos.angle();
     }

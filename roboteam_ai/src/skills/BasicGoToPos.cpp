@@ -14,13 +14,7 @@ BasicGoToPos::BasicGoToPos(string name, bt::Blackboard::Ptr blackboard)
 
 void BasicGoToPos::onInitialize() {
     robot = getRobotFromProperties(properties);
-    if (properties->hasVector2("target")) targetPos = properties->getVector2("target");
-    if (properties->getBool("goToBall")) targetPos = ball->pos;
-    goToPos.setAvoidBall(properties->getBool("avoidBall"));
-    goToPos.setCanGoOutsideField(properties->getBool("canGoOutsideField"));
     targetPos = properties->getVector2("target");
-    if (properties->getBool("mirror")) targetPos = {robot->pos.x, -robot->pos.y};
-
     if (properties->getBool("BallPlacementBefore")){
         if(ball){
             targetPos=coach::Coach::getBallPlacementBeforePos(ball->pos);
@@ -38,6 +32,8 @@ void BasicGoToPos::onInitialize() {
             ROS_ERROR("BasicGoToPos: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
         }
     }
+    goToPos.setAvoidBall(properties->getBool("avoidBall"));
+    goToPos.setCanGoOutsideField(properties->getBool("canGoOutsideField"));
 }
 
 
@@ -53,7 +49,6 @@ Skill::Status BasicGoToPos::onUpdate() {
         command.w=static_cast<float>((Vector2(robot->pos)-targetPos).angle());
     }
     Vector2 velocity = goToPos.goToPos(robot, targetPos, control::GoToType::luTh);
-    velocity = control::ControlUtils::VelocityLimiter(velocity);
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     publishRobotCommand(command);

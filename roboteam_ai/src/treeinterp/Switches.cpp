@@ -24,7 +24,6 @@
 
 #include "../skills/Chip.h"
 #include "../skills/Dribble.h"
-
 #include "roboteam_ai/src/skills/SkillGoToPos.h"
 #include "../skills/Halt.h"
 #include "../skills/Kick.h"
@@ -37,7 +36,7 @@
 #include "roboteam_ai/src/skills/Pass.h"
 #include "roboteam_ai/src/skills/Receive.h"
 #include <roboteam_ai/src/skills/InterceptBall.h>
-#include <roboteam_ai/src/skills/InterceptBall.h>
+#include <roboteam_ai/src/skills/DefendOnRobot.h>
 #include "../skills/DribbleRotate.h"
 #include <roboteam_ai/src/skills/Defend.h>
 #include "../skills/DefendOnRobot.h"
@@ -51,8 +50,8 @@
 //
 
 #include "../conditions/HasBall.hpp"
-#include "../conditions/CanSeeGoal.h"
 #include <roboteam_ai/src/conditions/TheyHaveBall.h>
+#include <roboteam_ai/src/conditions/WeHaveBall.h>
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
@@ -77,32 +76,32 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "QualificationTactic",
          "haltTactic",
          "PassTacticRob",
-         "OffenseTactic",
          "OneAttackerTactic",
          "OneDefenderTactic",
          "SingleKeeperTactic",
          "TwoDefendersTactic",
          "OneAttackerOneDefenderTactic",
-         "KeeperTestTactic",
+         "PassTactic",
          "Attactic",
-         "KeeperTactic",
          "EnterFormationTactic",
          "BallPlacementUsTactic",
-         "AvoidBallForBallPlacementTactic"};
+         "AvoidBallForBallPlacementTactic",
+         "randomTactic" // used for testing, do not remove it!
+         };
 
 
-std::vector<std::string> Switches::strategyJsonFileNames =
-        {
+
+std::vector<std::string> Switches::strategyJsonFileNames = {
          "QualificationStrategy",
          "haltStrategy",
-         "PassStrategyRob",
-         "OffenseStrategy",
          "KeeperStrategy",
+         "PassStrategyRob",
          "DemoTeamTwenteStrategy",
          "twoPlayerStrategyV2",
          "threePlayerStrategyV2",
          "EnterFormationStrategy",
-         "BallPlacementUsStrategy"
+         "BallPlacementUsStrategy",
+         "randomStrategy" // used for testing, do not remove it!
         };
 
 std::vector<std::string> Switches::keeperJsonFiles =
@@ -169,23 +168,15 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["AvoidBallForBallPlacement"] = std::make_shared<rtt::ai::AvoidBallForBallPlacement>(name, properties);
 
     // conditions (alphabetic order)
-
-    /*
-     * unused Conditions
-     * CanReachPoint
-     * IsInDefenceArea
-     * IsInZone
-     * IsOnOurSide
-     * WeHaveBall
-     */
-
     map["BallKickedToOurGoal"] =    std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name,properties);
-    map["CanSeeGoal"] =             std::make_shared<rtt::ai::CanSeeGoal>(name, properties);
+    map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
     map["HasBall"] =                std::make_shared<rtt::ai::HasBall>(name, properties);
+    map["IsBallOnOurSide"] =        std::make_shared<rtt::ai::IsBallOnOurSide>(name, properties);
     map["IsRobotClosestToBall"] =   std::make_shared<rtt::ai::IsRobotClosestToBall>(name, properties);
     map["IsInDefenseArea"] =        std::make_shared<rtt::ai::IsInDefenseArea>(name,properties);
     map["TheyHaveBall"] =           std::make_shared<rtt::ai::TheyHaveBall>(name, properties);
+    map["WeHaveBall"] =             std::make_shared<rtt::ai::WeHaveBall>(name, properties);
     map["IsBeingPassedTo"] =        std::make_shared<rtt::ai::IsBeingPassedTo>(name, properties);
     map["IsCloseToPoint"] =         std::make_shared<rtt::ai::IsCloseToPoint>(name, properties);
     map["IsBallOnOurSide"] =        std::make_shared<rtt::ai::IsBallOnOurSide>(name, properties);
@@ -238,7 +229,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
             {"SingleKeeperTactic", {
-                    {"keeper", robotType::closeToOurGoal}
+                    {"Keeper", robotType::closeToOurGoal}
             }
             },
             {"OneAttackerOneDefenderTactic", {
@@ -280,22 +271,18 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     //{"atak", robotType::closeToBall},
             }
             },
-            {"KeeperTacticV2", {
-                    {"keeper", robotType::random}
-            }
-            },
-            {"KeeperTactic", {
-                    {"keeper", robotType::random}
-            }
-            },
-            {"KeeperTestTactic", {
-                    {"keeper", robotType::random},
-                    {"atak", robotType::random}
+            {"PassTactic", {
+                    {"passOne", robotType::random},
+                    {"passB", robotType::random}
             }
             },
             {"QualificationTactic", {
                     {"qualRole", robotType::random},
                     {"eloRlauq", robotType::random}
+            }
+            },
+            {"BallPlacementUsTactic",{
+                    {"BallPlacementBot",robotType::random}
             }
             },
             {"PassTacticRob", {

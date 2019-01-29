@@ -3,6 +3,7 @@
 //
 
 #include <gtest/gtest.h>
+#include <roboteam_ai/test/helpers/WorldHelper.h>
 #include "../../src/conditions/WeHaveBall.h"
 #include "../../src/utilities/World.h"
 
@@ -12,32 +13,21 @@ TEST(WeHaveBallTest, WeHaveBallTest) {
 
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
-
     rtt::ai::World::set_world(worldMsg);
+    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
-    ASSERT_EQ(node.update(), bt::Node::Status::Failure);
+    roboteam_msgs::GeometryFieldSize field;
+    field.field_length = 12;
+    field.field_width = 9;
 
-    robot.id = 0;
-    robot.pos.x = -2;
-    robot.pos.y = -2;
-    robot.angle = 0;
-    worldMsg.us.push_back(robot);
+    // expect failure when a world message is generated with a random ball
+    rtt::ai::World::set_world(testhelpers::WorldHelper::getWorldMsg(3, 3, true, field));
+    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
-    worldMsg.ball.pos.x = 0.13;
-    worldMsg.ball.pos.y = 0.0;
-    rtt::ai::World::set_world(worldMsg);
+    // get world message where robot has ball.
+    auto generated = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(3, 3, true, field);
+    auto msg = generated.first;
+    rtt::ai::World::set_world(msg);
 
-    ASSERT_EQ(node.update(), bt::Node::Status::Failure);
-
-    roboteam_msgs::WorldRobot robot2;
-
-    robot2.id = 1;
-    robot2.pos.x = 0;
-    robot2.pos.y = 0;
-    robot2.angle = 0;
-    worldMsg.us.push_back(robot2);
-
-    rtt::ai::World::set_world(worldMsg);
-
-    ASSERT_EQ(node.update(), bt::Node::Status::Success);
+    EXPECT_EQ(node.update(), bt::Node::Status::Success);
 }
