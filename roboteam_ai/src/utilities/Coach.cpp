@@ -266,8 +266,8 @@ int Coach::getRobotClosestToGoal(bool ourRobot, bool ourGoal) {
     roboteam_msgs::World_<std::allocator<void>>::_them_type robots = ourRobot ? World::get_world().us : World::get_world().them;
     Vector2 target = ourGoal ? Field::get_our_goal_center() : Field::get_their_goal_center();
 
-    std::shared_ptr<int> closestId = World::get_robot_closest_to_point(robots, target);
-    return closestId == nullptr ? -1 : *closestId;
+    int closestId = World::getRobotClosestToPoint(robots, target)->id;
+    return closestId;
 }
 
 // --- Pass functions --- //
@@ -311,19 +311,6 @@ void Coach::setPassed(bool passed) {
     Coach::passed = passed;
 }
 
-Vector2 Coach::getBallPlacementPos(){
-    return interface::InterfaceValues::getBallPlacementTarget();
-}
-
-Vector2 Coach::getBallPlacementBeforePos(Vector2 ballPos){
-    Vector2 PlacePos=interface::InterfaceValues::getBallPlacementTarget();
-    Vector2 targetPos=ballPos + (PlacePos - ballPos).stretchToLength(constants::BP_MOVE_TOWARDS_DIST);
-    return targetPos;
-}
-Vector2 Coach::getBallPlacementAfterPos(Vector2 ballPos,double RobotAngle){
-    Vector2 targetPos=interface::InterfaceValues::getBallPlacementTarget() + Vector2(constants::BP_MOVE_BACK_DIST,0).rotate(RobotAngle+M_PI);
-    return targetPos;
-}
 Vector2 Coach::getBallPlacementPos(){
     return interface::InterfaceValues::getBallPlacementTarget();
 }
