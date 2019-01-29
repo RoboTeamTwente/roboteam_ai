@@ -24,7 +24,6 @@
 
 #include "../skills/Chip.h"
 #include "../skills/Dribble.h"
-#include "../skills/GoToPosLuTh.h"
 #include "roboteam_ai/src/skills/SkillGoToPos.h"
 #include "../skills/Halt.h"
 #include "../skills/Kick.h"
@@ -36,8 +35,7 @@
 #include "../skills/Attack.h"
 #include "../skills/Pass.h"
 #include <roboteam_ai/src/skills/InterceptBall.h>
-#include <roboteam_ai/src/skills/GoToPosLuTh.h>
-#include <roboteam_ai/src/skills/InterceptBall.h>
+#include <roboteam_ai/src/skills/DefendOnRobot.h>
 #include "../skills/DribbleRotate.h"
 #include <roboteam_ai/src/skills/Defend.h>
 #include <roboteam_ai/src/skills/InterceptBall.h>
@@ -50,8 +48,8 @@
 //
 
 #include "../conditions/HasBall.hpp"
-#include "../conditions/CanSeeGoal.h"
 #include <roboteam_ai/src/conditions/TheyHaveBall.h>
+#include <roboteam_ai/src/conditions/WeHaveBall.h>
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
@@ -83,12 +81,13 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "Attactic",
          "EnterFormationTactic",
          "BallPlacementUsTactic",
-         "AvoidBallForBallPlacementTactic"};
+         "AvoidBallForBallPlacementTactic",
+         "randomTactic" // used for testing, do not remove it!
+         };
 
 
 
-std::vector<std::string> Switches::strategyJsonFileNames =
-        {
+std::vector<std::string> Switches::strategyJsonFileNames = {
          "QualificationStrategy",
          "haltStrategy",
          "KeeperStrategy",
@@ -98,7 +97,8 @@ std::vector<std::string> Switches::strategyJsonFileNames =
          "threePlayerStrategyV2",
          "EnterFormationStrategy",
          "BallPlacementUsStrategy",
-         "BallPlacementThemStrategy"
+         "BallPlacementThemStrategy",
+         "randomStrategy" // used for testing, do not remove it!
         };
 
 std::vector<std::string> Switches::keeperJsonFiles =
@@ -150,7 +150,6 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["DribbleRotate"]=           std::make_shared<rtt::ai::DribbleRotate>(name,properties);
     map["GetBall"] =                std::make_shared<rtt::ai::GetBall>(name, properties);
     map["GoToPos"] =                std::make_shared<rtt::ai::GoToPos>(name, properties);
-    map["GoToPosLuTh"] =            std::make_shared<rtt::ai::GoToPosLuTh>(name, properties);
     map["Halt"] =                   std::make_shared<rtt::ai::Halt>(name, properties);
     map["Harass"] =                 std::make_shared<rtt::ai::Harass>(name, properties);
     map["InterceptBall"] =          std::make_shared<rtt::ai::InterceptBall>(name, properties);
@@ -164,28 +163,16 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["AvoidBallForBallPlacement"] = std::make_shared<rtt::ai::AvoidBallForBallPlacement>(name, properties);
 
     // conditions (alphabetic order)
-
-    /*
-     * unused Conditions
-     * CanReachPoint
-     * IsInDefenceArea
-     * IsInZone
-     * IsOnOurSide
-     * WeHaveBall
-     */
-
     map["BallKickedToOurGoal"] =    std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name,properties);
-    map["CanSeeGoal"] =             std::make_shared<rtt::ai::CanSeeGoal>(name, properties);
+    map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
     map["HasBall"] =                std::make_shared<rtt::ai::HasBall>(name, properties);
+    map["IsBallOnOurSide"] =        std::make_shared<rtt::ai::IsBallOnOurSide>(name, properties);
     map["IsRobotClosestToBall"] =   std::make_shared<rtt::ai::IsRobotClosestToBall>(name, properties);
     map["IsInDefenseArea"] =        std::make_shared<rtt::ai::IsInDefenseArea>(name,properties);
     map["TheyHaveBall"] =           std::make_shared<rtt::ai::TheyHaveBall>(name, properties);
-    map["IsBallOnOurSide"] =        std::make_shared<rtt::ai::IsBallOnOurSide>(name, properties);
-    map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
-    map["IsInDefenseArea"] =        std::make_shared<rtt::ai::IsInDefenseArea>(name, properties);
-    map["DribbleRotate"] =          std::make_shared<rtt::ai::DribbleRotate>(name, properties);
     map["BallOutOfField"] =         std::make_shared<rtt::ai::BallOutOfField>(name, properties);
+    map["WeHaveBall"] =             std::make_shared<rtt::ai::WeHaveBall>(name, properties);
 
     if ( map.find(name) != map.end() ) {
         return map[name];

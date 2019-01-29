@@ -12,6 +12,7 @@
 #include "../utilities/Field.h"
 #include "../utilities/World.h"
 #include <QMouseEvent>
+#include <gtest/gtest_prod.h>
 
 namespace rtt {
 namespace ai {
@@ -19,6 +20,7 @@ namespace interface {
 
 class Visualizer : public QWidget {
     Q_OBJECT
+    FRIEND_TEST(MainWindowTest, it_shows_the_visualizer_properly);
     public:
         explicit Visualizer(QWidget* parent = nullptr);
         const  std::vector<roboteam_msgs::WorldRobot> &getSelectedRobots() const;

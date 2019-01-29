@@ -52,8 +52,12 @@ bool Field::pointIsInDefenceArea(Vector2 point, bool isOurDefenceArea, float mar
     bool xIsWithinOurDefenceArea = point.x < (xBound + margin);
     bool xIsWithinTheirDefenceArea = point.x > (xBound - margin);
 
-    return yIsWithinDefenceArea && ((isOurDefenceArea && xIsWithinOurDefenceArea)
-            || (! isOurDefenceArea && xIsWithinTheirDefenceArea));
+    if (isOurDefenceArea){
+        return xIsWithinOurDefenceArea&&yIsWithinDefenceArea;
+    }
+    else{
+        return yIsWithinDefenceArea&&xIsWithinTheirDefenceArea;
+    }
 }
 
 bool Field::pointIsInField(Vector2 point, float margin) {
