@@ -26,8 +26,6 @@ private:
 public:
     static bool usesRefereeCommands();
     static void setUseRefereeCommands(bool useRefereeCommands);
-    static const Vector2& getBallPlacementTarget();
-    static void setBallPlacementTarget(const Vector2& ballPlacementTarget);
     static const rtt::Vector2& getBallPlacementTarget();
     static void setBallPlacementTarget(const rtt::Vector2& ballPlacementTarget);
     static double getLuthP();
