@@ -22,14 +22,13 @@ bt::Node::Status HasBall::update() {
     robot = getRobotFromProperties(properties);
     auto ball = World::getBall();
 
-    if (! robot || ! ball) return Status::Failure;
-    if (botHasBall(ball->pos)) return Status::Success;
-    else return Status::Failure;
+    if (! robot || ! ball) {
+        return Status::Failure;
+    }
+    if (World::robotHasBall(*robot, *ball)) {
+        return Status::Success;
+    }
+    return Status::Failure;
 }
-
-bool HasBall::botHasBall(Vector2 ballPos) {
-    return (Control::hasBall(constants::MAX_BALL_BOUNCE_RANGE,robot->w,robot->pos,ballPos));
-}
-
 } // ai
 } // rtt
