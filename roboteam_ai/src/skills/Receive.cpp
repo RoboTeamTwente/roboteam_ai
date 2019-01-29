@@ -14,6 +14,7 @@ Receive::Receive(string name, bt::Blackboard::Ptr blackboard)
 void Receive::onInitialize() {
     checkTicks = 0;
     initializedBall = false;
+    coach::Coach::setReadyToReceivePass(true);
 };
 
 Vector2 Receive::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
@@ -26,6 +27,8 @@ Vector2 Receive::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
 }
 
 Receive::Status Receive::onUpdate() {
+    // if (coach::Coach::getRobotBeingPassedTo() != robotId) return Status::Failure;
+
     if (!coach::Coach::doesRobotHaveBall(robot->id, true)) {
         if (Vector2(ball->vel).length() > 0.6 && !initializedBall) {
             initializedBall = true;

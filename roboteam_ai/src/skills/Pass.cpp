@@ -12,8 +12,8 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
 
 void Pass::onInitialize() {
     goToPos.setAvoidBall(true);
-    robotToPassToID = robotDealer::RobotDealer::findRobotForRole("receiver");
-    currentProgress = Progression::INITIATING;
+    robotToPassToID = coach::Coach::initiatePass();
+    currentProgress = Progression::POSITIONING;
 }
 
 Pass::Status Pass::onUpdate() {
@@ -23,12 +23,6 @@ Pass::Status Pass::onUpdate() {
     roboteam_msgs::RobotCommand command;
 
     switch(currentProgress) {
-        case Progression::INITIATING:
-            if (coach::Coach::initiatePass(robotToPassToID)) {
-                currentProgress = Progression::POSITIONING;
-                return Status::Running;
-            } else return Status::Failure;
-
         case Progression::POSITIONING: {
             if (!coach::Coach::isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos)) {
                 goToType = GoToType::luTh;
@@ -37,7 +31,7 @@ Pass::Status Pass::onUpdate() {
                 goToType = GoToType::basic;
                 targetPos = ball->pos;
             } else {
-                currentProgress = Progression::KICKING;
+                if (coach::Coach::isReadyToReceivePass()) currentProgress = Progression::KICKING;
                 return Status::Running;
             }
             command.use_angle = 1;

@@ -16,7 +16,7 @@ private:
     int robotToPassToID = -1;
     std::shared_ptr<roboteam_msgs::WorldRobot> robotToPassTo;
     enum Progression {
-        INITIATING, POSITIONING, KICKING
+        POSITIONING, KICKING
     };
     Progression currentProgress;
 
@@ -27,6 +27,7 @@ private:
     double maxDistance = 9.0;
     double distance;
     double kicker_vel_multiplier;
+
     int checkTicks;
     int maxCheckTicks = 20;
 public:

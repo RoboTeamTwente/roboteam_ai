@@ -278,11 +278,21 @@ int Coach::getRobotClosestToGoal(bool ourRobot, bool ourGoal) {
     return closestId == nullptr ? -1 : *closestId;
 }
 
-bool Coach::initiatePass(int robotID) {
+// --- Pass functions --- //
+
+void Coach::resetPass() {
     setPassed(false);
-    setRobotBeingPassedTo(robotID);
-    std::cout<<robotBeingPassedTo<<std::endl;
-    return true;
+    setReadyToReceivePass(false);
+    setRobotBeingPassedTo(-1);
+}
+
+int Coach::initiatePass() {
+    resetPass();
+
+    // TODO: More logic to decide which robot to pass to. Possibly split initiate in initiate and findRobotToPassTo
+    int robotBeingPassedTo = getRobotClosestToGoal(true, false);
+    setRobotBeingPassedTo(robotBeingPassedTo);
+    return robotBeingPassedTo;
 }
 
 bool Coach::isReadyToReceivePass() {
