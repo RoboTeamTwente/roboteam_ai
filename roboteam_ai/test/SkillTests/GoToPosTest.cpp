@@ -28,12 +28,12 @@ TEST(GoToPos, GoToPosTest) {
     BTFactory::halt();
 
     auto bb = std::make_shared<bt::Blackboard>();
-    bb->setInt("ROBOT_ID", 1);
+    bb->setInt("ROBOT_ID", 0);
     bb->setString("ROLE","GTPtest");
     bb->setVector2("Position", rtt::Vector2(5.0,6.0));
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
-    robot.id=1;
+    robot.id=0;
     robot.pos.x=0;
     robot.pos.y=0;
     worldMsg.us.push_back(robot);
@@ -44,15 +44,6 @@ TEST(GoToPos, GoToPosTest) {
 
     EXPECT_EQ(goToPos.update(), bt::Leaf::Status::Running);
 
-//    // Wait a little bit
-//    rate.sleep();
-//    ros::spinOnce();
-//
-//    std::vector<roboteam_msgs::RobotCommand> cmds = commands;
-//    EXPECT_EQ((signed int) commands.size(), 1);
-//    EXPECT_TRUE(commands.at(0).x_vel);
-//    EXPECT_TRUE(commands.at(0).y_vel);
-//    robotDealer::RobotDealer::removeTactic("GoToPosTest");
 
 }
 }

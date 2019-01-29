@@ -3,7 +3,7 @@
 //
 
 #include <roboteam_msgs/RobotCommand.h>
-#include "../src/utilities/StrategyManager.h"
+#include "roboteam_ai/src/utilities/StrategyManager.h"
 #include "gtest/gtest.h"
 
 TEST(StrategyManagerTest, StrategyManagerTest) {
@@ -11,22 +11,22 @@ TEST(StrategyManagerTest, StrategyManagerTest) {
     roboteam_msgs::RefereeCommand cmd;
 
     cmd.command = static_cast<int>(RefGameState::NORMAL_START);
-    ASSERT_EQ(strategyManager.getCurrentStrategyName(cmd), "bigjson/NormalPlay");
+    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "bigjson/NormalPlay");
 
     cmd.command = static_cast<int>(RefGameState::HALT);
-    ASSERT_EQ(strategyManager.getCurrentStrategyName(cmd), "rtt_dennis/HaltStrategy");
+    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "rtt_dennis/HaltStrategy");
 
     // prepare command followed up by normal start should trigger followUpCommand
     cmd.command = static_cast<int>(RefGameState::PREPARE_KICKOFF_US);
-    ASSERT_EQ(strategyManager.getCurrentStrategyName(cmd), "rtt_emiel/PrepareKickoffUsStrategy");
+    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "rtt_emiel/PrepareKickoffUsStrategy");
     cmd.command = static_cast<int>(RefGameState::NORMAL_START);
-    ASSERT_EQ(strategyManager.getCurrentStrategyName(cmd), "rtt_bob/KickoffWithChipStrategy");
+    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "rtt_bob/KickoffWithChipStrategy");
     cmd.command = static_cast<int>(RefGameState::NORMAL_START);
-    ASSERT_EQ(strategyManager.getCurrentStrategyName(cmd), "bigjson/NormalPlay");
+    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "bigjson/NormalPlay");
 
     // prepare command followed up by something else (i.e. command a) than normal start should trigger that command (command a).
     cmd.command = static_cast<int>(RefGameState::PREPARE_KICKOFF_US);
-    ASSERT_EQ(strategyManager.getCurrentStrategyName(cmd), "rtt_emiel/PrepareKickoffUsStrategy");
+    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "rtt_emiel/PrepareKickoffUsStrategy");
     cmd.command = static_cast<int>(RefGameState::HALT);
-    ASSERT_EQ(strategyManager.getCurrentStrategyName(cmd), "rtt_dennis/HaltStrategy");
+    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "rtt_dennis/HaltStrategy");
 }

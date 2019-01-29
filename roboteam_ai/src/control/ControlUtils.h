@@ -29,9 +29,6 @@ class ControlUtils {
         static int rotateDirection(double currentAngle, double targetAngle);
         static Vector2 projectPositionToWithinField(Vector2 position, float margin = 0.2);
 
-        static rtt::Vector2 getClosestRobot(rtt::Vector2 &pos, int &id, bool ourTeam, float &t);
-        static rtt::Vector2 getClosestRobot(rtt::Vector2 &pos, int &id, bool ourTeam);
-        static rtt::Vector2 getClosestRobot(rtt::Vector2 &pos);
         static bool hasClearVision(int from, int towards, roboteam_msgs::World world, int safelyness);
         static bool onLineSegment(Vector2 p, Vector2 q, Vector2 r);
         static rtt::Vector2 twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2);
@@ -39,7 +36,6 @@ class ControlUtils {
         static bool lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd, Vector2 lineBStart, Vector2 lineBEnd);
         static rtt::Arc createKeeperArc();
         static Vector2 VelocityLimiter(Vector2 vel);
-        static bool hasBall(double frontDist,double robotOrientation,Vector2 robotPos, Vector2 ballPos);
 };
 
 } // control
