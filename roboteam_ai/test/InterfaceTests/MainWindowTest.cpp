@@ -12,12 +12,8 @@ namespace ai {
 namespace interface {
 
 TEST(MainWindowTest, it_shows_the_visualizer_properly) {
-    auto argc = 0;
-    char **argv = 0;
-    auto app = new QApplication(argc, argv); // initialize qt5
-
-    auto window = std::make_shared<MainWindow>();
-    std::shared_ptr<Visualizer> vis =  window->visualizer;
+    auto window = std::make_shared<QMainWindow>();
+    std::shared_ptr<Visualizer> vis =  std::make_shared<Visualizer>(window.get());
 
     // Initialize
     roboteam_msgs::GeometryFieldSize field;
