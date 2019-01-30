@@ -40,6 +40,7 @@
 #include <roboteam_ai/src/skills/Defend.h>
 #include <roboteam_ai/src/skills/InterceptBall.h>
 #include <roboteam_ai/src/skills/BasicGoToPos.h>
+#include "../skills/GoAroundPos.h"
 
 //  ______________________
 //  |                    |
@@ -81,7 +82,7 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "EnterFormationTactic",
          "BallPlacementUsTactic",
          "AvoidBallForBallPlacementTactic",
-         "randomTactic" // used for testing, do not remove it!
+         "randomTactic", // used for testing, do not remove it!
          };
 
 
@@ -159,7 +160,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["BasicGoToPos"] =           std::make_shared<rtt::ai::BasicGoToPos>(name, properties);
     map["EnterFormation"] =         std::make_shared<rtt::ai::EnterFormation>(name, properties);
     map["AvoidBallForBallPlacement"] = std::make_shared<rtt::ai::AvoidBallForBallPlacement>(name, properties);
-
+    map["GoAroundPos"] =            std::make_shared<rtt::ai::GoAroundPos>(name,properties);
     // conditions (alphabetic order)
     map["BallKickedToOurGoal"] =    std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name,properties);
@@ -182,12 +183,12 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 
     std::map<std::string, std::map<std::string, robotType>> tactics = {
             {"randomTactic", {
-                    {"random1", robotType::random},
-                    {"random2", robotType::random},
-                    {"random3", robotType::random},
-                    {"random4", robotType::random},
-                    {"random5", robotType::random},
-                    {"random6", robotType::random},
+//                    {"random1", robotType::random},
+//                    {"random2", robotType::random},
+//                    {"random3", robotType::random},
+//                    {"random4", robotType::random},
+//                    {"random5", robotType::random},
+//                    {"random6", robotType::random},
                     {"random7", robotType::random}
             }
             },
