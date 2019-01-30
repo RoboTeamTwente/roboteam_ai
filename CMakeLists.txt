@@ -171,7 +171,7 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BasicGoToPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BasicGoToPos.h
         roboteam_ai/src/skills/Defend.cpp roboteam_ai/src/skills/Defend.h
-        roboteam_ai/src/skills/EnterFormation.cpp roboteam_ai/src/skills/EnterFormation.h roboteam_ai/src/skills/AvoidBallForBallPlacement.cpp roboteam_ai/src/skills/AvoidBallForBallPlacement.h)
+        roboteam_ai/src/skills/EnterFormation.cpp roboteam_ai/src/skills/EnterFormation.h roboteam_ai/src/skills/AvoidBallForBallPlacement.cpp roboteam_ai/src/skills/AvoidBallForBallPlacement.h roboteam_ai/src/skills/GoAroundPos.cpp roboteam_ai/src/skills/GoAroundPos.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
