@@ -55,18 +55,59 @@ GoAroundPos::Status GoAroundPos::onUpdate() {
                 targetPos + Vector2(distanceFromPoint, 0).rotate(startAngle + rotateDir*currentTick/maxTick*angleDif);
     }
     deltaPos = targetPos - robot->pos;
+    currentProgress=checkProgression();
+    currentTick++;
+    switch(currentProgress){
+    case ROTATING: sendRotateCommand(); return Status::Running;
+    case STOPPING: sendRotateCommand(); return Status::Running;
+    case FAIL: return Status::Failure;
+    case DONE: return Status::Success;
+    }
 
 }
 void GoAroundPos::onTerminate(rtt::ai::Skill::Status s) {
+    roboteam_msgs::RobotCommand command;
+    Vector2 deltaCommandPos = (commandPos - robot->pos).normalize();
+    command.id = robot->id;
+    command.use_angle = 1;
+    command.dribbler = 0;
+    command.x_vel = 0;
+    command.y_vel = 0;
+    command.w = (float) deltaPos.angle();
+    publishRobotCommand(command);
 
 }
 GoAroundPos::Progression GoAroundPos::checkProgression() {
-    //Failure condition: If it goes outside of the margin during any phase but stopping (also helps against ball moving etc.)_
-    //Go to stopping if currentTick==maxTick
-    //Done when robot sufficiently close to desired end position
-    //If Robot takes too long to stop, fail
-
-
+    //Failure condition: If it goes outside of the margin during any phase but stopping (also helps against ball moving etc.)
+    if (currentProgress!=STOPPING){
+        if (!checkPosition()){
+            return FAIL;
+        }
+    }
+    //Go to stopping if we are done rotating
+    if (currentProgress==ROTATING){
+        if (currentTick>maxTick){
+            return STOPPING;
+        }
+        else return ROTATING;
+    }
+    if (currentProgress==STOPPING){
+        //Done when robot sufficiently close to desired end position. There might be more pretty solutions
+        if ((commandPos-robot->pos).length()<0.03){
+            return  DONE;
+        }
+        //If Robot takes too long to stop, fail
+        if (currentTick>maxTick+constants::MAX_GOAROUND_STOP_TIME*constants::tickRate){
+            return FAIL;
+        }
+    }
+}
+bool GoAroundPos::checkPosition() {
+    double currentAngle=deltaPos.angle();
+    if (Control::angleDifference(startAngle,currentAngle)+Control::angleDifference(currentAngle,endAngle)>angleDif){
+        return false;
+    }
+    return ((deltaPos.length()<=(distanceFromPoint+distanceError))&&deltaPos.length()>distanceFromPoint-distanceError);
 }
 void GoAroundPos::sendRotateCommand() {
     roboteam_msgs::RobotCommand command;

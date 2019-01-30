@@ -62,6 +62,8 @@ const double GETBALL_OVERSHOOT=.05;//m
 //GoToPos
 const double MAX_CALCULATION_TIME=20.0; //max time in ms
 
+//GoAroundPos
+const double MAX_GOAROUND_STOP_TIME=2.0;
 //Keeper
 const double KEEPER_POST_MARGIN=0.08;//m
 const double KEEPER_CENTREGOAL_MARGIN=0.3;//m

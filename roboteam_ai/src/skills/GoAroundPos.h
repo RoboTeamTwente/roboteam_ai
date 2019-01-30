@@ -20,7 +20,7 @@ class GoAroundPos : public Skill {
         double rotatingSpeed; //rad/s
         double currentTick,maxTick;
         void sendRotateCommand();
-
+        bool checkPosition();
         Progression checkProgression();
     public:
         explicit GoAroundPos(string name,bt::Blackboard::Ptr blackboard);
