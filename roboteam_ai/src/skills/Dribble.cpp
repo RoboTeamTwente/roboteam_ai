@@ -57,7 +57,7 @@ bool Dribble::robotHasBall() {
     }
     Vector2 RobotPos = robot->pos;
     Vector2 BallPos = ball->pos;
-    return Control::hasBall(constants::MAX_BALL_BOUNCE_RANGE,robot->angle,RobotPos,BallPos);
+    return World::robotHasBall(*robot, *ball);
 }
 void Dribble::onInitialize() {
     //if false, robot will dribble to the position backwards with the ball.

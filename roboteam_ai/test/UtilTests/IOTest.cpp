@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <roboteam_utils/Vector2.h>
-#include "../src/io/IOManager.h"
+#include "roboteam_ai/src/io/IOManager.h"
 
 // anonymous namespace needed to prevent ROS callback function name clashes
 namespace {

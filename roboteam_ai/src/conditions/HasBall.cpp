@@ -1,6 +1,11 @@
-//
-// Created by rolf on 19-10-18.
-//
+/* 
+ *  Returns Success:
+ *  - if the robot has the ball
+ *
+ *  Returns Failure:
+ *  - if robot does not have the ball
+ *  - if robot or ball is undefined
+ */
 
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "HasBall.hpp"
@@ -16,14 +21,13 @@ HasBall::HasBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(n
 bt::Node::Status HasBall::update() {
     robot = getRobotFromProperties(properties);
     auto ball = World::getBall();
-
-    if (! robot || ! ball) return Status::Failure;
-    if (botHasBall(ball->pos)) return Status::Success;
-    else return Status::Failure;
-}
-
-bool HasBall::botHasBall(Vector2 ballPos) {
-    return (Control::hasBall(constants::MAX_BALL_BOUNCE_RANGE,robot->w,robot->pos,ballPos));
+    if (! robot || ! ball) {
+        return Status::Failure;
+    }
+    if (World::robotHasBall(*robot, *ball)) {
+       return Status::Success;
+    }
+    return Status::Failure;
 }
 
 } // ai

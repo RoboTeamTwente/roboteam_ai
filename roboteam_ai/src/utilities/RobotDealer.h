@@ -63,11 +63,8 @@ class RobotDealer {
         static int findRobotForRole(std::string roleName);
 
         static std::string getTacticNameForId(int ID);
-
         static std::string getRoleNameForId(int ID);
-
         static std::string getTacticNameForRole(std::string role);
-
         static void halt();
 
 };

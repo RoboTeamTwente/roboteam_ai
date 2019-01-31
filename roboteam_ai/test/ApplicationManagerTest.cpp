@@ -32,6 +32,7 @@ TEST(ApplicationManagerTest, it_handles_ROS_data) {
     robot1.id = 0;
     worldMsg.us.push_back(robot1);
     worldMsg.ball.pos = rtt::Vector2(10.1, 20.2);
+    worldMsg.ball.visible = 1;
     worldMsg.them.push_back(robot);
 
     worldPub.publish(worldMsg);
@@ -41,8 +42,6 @@ TEST(ApplicationManagerTest, it_handles_ROS_data) {
     geomMsg.field.goal_depth = 30.3;
     geomPub.publish(geomMsg);
 
-    rate.sleep();
-    ros::spinOnce();
     rate.sleep();
     ros::spinOnce();
 
@@ -57,16 +56,11 @@ TEST(ApplicationManagerTest, it_handles_ROS_data) {
     EXPECT_FLOAT_EQ(app.worldMsg.ball.pos.y, 20.2);
     EXPECT_FLOAT_EQ(app.geometryMsg.field.goal_depth, 30.3);
 
-    // handles the dangerfinder
-    EXPECT_EQ(app.dangerData.scores.size(), 0);
-    app.updateDangerfinder();
-    EXPECT_NE(app.dangerData.scores.size(), 0);
-
     // run a loop
-    // now the strategy should start running!
+    // now the strategy should not be waiting anymore. (it should be running, failure or success)
     app.runOneLoopCycle();
     rate.sleep();
-    EXPECT_EQ(app.strategy->getStatus(), bt::Node::Status::Running);
+    EXPECT_NE(app.strategy->getStatus(), bt::Node::Status::Waiting);
 
 
     df::DangerFinder::instance().stop();

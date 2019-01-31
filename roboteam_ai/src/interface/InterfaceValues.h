@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_INTERFACEVALUES_H
 
 #include <mutex>
+#include <roboteam_utils/Vector2.h>
 
 namespace rtt {
 namespace ai {
@@ -20,8 +21,8 @@ private:
     static std::mutex BallPlacementMutex;
     static rtt::Vector2 ballPlacementTarget;
 public:
-    static const Vector2& getBallPlacementTarget();
-    static void setBallPlacementTarget(const Vector2& ballPlacementTarget);
+    static const rtt::Vector2& getBallPlacementTarget();
+    static void setBallPlacementTarget(const rtt::Vector2& ballPlacementTarget);
     static double getLuthP();
     static void setLuthP(double luthP);
     static double getLuthI();

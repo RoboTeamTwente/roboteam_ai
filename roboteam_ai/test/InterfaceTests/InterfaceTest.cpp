@@ -12,12 +12,10 @@ TEST(InterfaceTest, the_interface_values_work) {
         iv::setLuthI(-18);
         iv::setLuthD(33333.2);
     }
-
     {
-        ASSERT_EQ(iv::getLuthP(), 12);
-        ASSERT_EQ(iv::getLuthI(), -18);
-        ASSERT_EQ(iv::getLuthD(), 33333.2);
+        EXPECT_EQ(iv::getLuthP(), 12);
+        EXPECT_EQ(iv::getLuthI(), -18);
+        EXPECT_EQ(iv::getLuthD(), 33333.2);
     }
 }
-
 

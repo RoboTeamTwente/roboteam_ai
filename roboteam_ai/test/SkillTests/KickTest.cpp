@@ -18,19 +18,19 @@ void robotCommandCallback(const roboteam_msgs::RobotCommandConstPtr &cmd) {
 }
 
 TEST(KickTest, It_sends_proper_robotcommands) {
-    ros::Rate rate(60);
+    ros::Rate rate(1);
     commands.clear(); // ensure the vector is empty.
     EXPECT_TRUE(commands.empty());
     ros::NodeHandle nh;
     ros::Subscriber sub = nh.subscribe<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 0, &robotCommandCallback);
 
     auto bb = std::make_shared<bt::Blackboard>();
-    bb->setInt("ROBOT_ID", 1);
+    bb->setInt("ROBOT_ID", 0);
     bb->setString("ROLE","test");
     rtt::ai::Kick kick("kicktest", bb);
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
-    robot.id=1;
+    robot.id=0;
     robot.pos.x=0;
     robot.pos.y=0;
     worldMsg.us.push_back(robot);
@@ -77,12 +77,12 @@ TEST(KickTest, It_chips) {
     ros::Subscriber sub = nh.subscribe<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 0, &robotCommandCallback);
 
     auto bb = std::make_shared<bt::Blackboard>();
-    bb->setInt("ROBOT_ID", 1);
+    bb->setInt("ROBOT_ID", 0);
     bb->setString("ROLE","test");
     rtt::ai::Chip chip("ChipTest", bb);
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
-    robot.id=1;
+    robot.id=0;
     robot.pos.x=0;
     robot.pos.y=0;
     worldMsg.us.push_back(robot);
