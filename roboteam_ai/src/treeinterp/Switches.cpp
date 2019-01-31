@@ -240,6 +240,16 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"eloRlauq", robotType::random}
             }
             },
+            {"randomTactic", {
+                    {"random1", robotType::random},
+                    {"random2", robotType::random},
+                    {"random3", robotType::random},
+                    {"random4", robotType::random},
+                    {"random5", robotType::random},
+                    {"random6", robotType::random},
+                    {"random7", robotType::random}
+            }
+            },
             {"BallPlacementUsTactic",{
                     {"BallPlacementBot",robotType::random}
             }
