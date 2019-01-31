@@ -12,6 +12,9 @@
 class Switches {
         using robotType = robotDealer::RobotType;
 
+    private:
+        static void runErrorHandler(std::map<std::string, std::map<std::string, robotType>> tactics);
+
     public:
 
         static std::vector<std::string> tacticJsonFileNames;

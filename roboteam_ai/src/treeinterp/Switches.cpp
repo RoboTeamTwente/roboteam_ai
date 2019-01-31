@@ -79,6 +79,7 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "TwoDefendersTactic",
          "OneAttackerOneDefenderTactic",
          "Attactic",
+         "PassTactic",
          "EnterFormationTactic",
          "BallPlacementUsTactic",
          "AvoidBallForBallPlacementTactic"};
@@ -199,17 +200,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
 /// If you made a tactic node for a new tactic this is where you add that
 bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
 
+
     std::map<std::string, std::map<std::string, robotType>> tactics = {
-            {"randomTactic", {
-                    {"random1", robotType::random},
-                    {"random2", robotType::random},
-                    {"random3", robotType::random},
-                    {"random4", robotType::random},
-                    {"random5", robotType::random},
-                    {"random6", robotType::random},
-                    {"random7", robotType::random}
-            }
-            },
+
             {"haltTactic", {
                     {"halt0", robotType::random},
                     {"halt1", robotType::random},
@@ -221,15 +214,8 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"halt7", robotType::random}
             }
             },
-            {"GetBallTestTactic", {
-                    {"FAKOFF", robotType::random}
-            }
-            },
-            {"DanceTactic2", {
-                    {"retarded", robotType::random},
-                    {"Vright", robotType::random}
-            }
-            },
+
+
             {"OneAttackerTactic", {
                     {"attacker", robotType::closeToTheirGoal}
             }
@@ -247,29 +233,9 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"defender", robotType::closeToTheirGoal}
             }
             },
-            {"DanceTactic", {
-                    {"right", robotType::random},
-                    {"letf", robotType::random}
-            }
-            },
-            {"SimpleTactic", {
-                    {"simpleStupidRobot", robotType::random}
-            }
-            },
             {"TwoDefendersTactic", {
                     {"defender1", robotType::closeToOurGoal},
                     {"defender2", robotType::closeToOurGoal},
-            }
-            },
-
-            {"SimpleDefendTactic", {
-                    {"simpleDefender1", robotType::closeToOurGoal},
-                    {"simpleDefender2", robotType::closeToOurGoal},
-                    {"simpleDefender3", robotType::closeToOurGoal}
-            }
-            },
-            {"SimpleDefendTactic_1", {
-                    {"simpleDefender1", robotType::closeToOurGoal}
             }
             },
             {"Attactic", {
@@ -292,6 +258,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             }
     };
+    runErrorHandler(tactics);
 
     bt::Node::Ptr node;
 
@@ -312,6 +279,15 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
     } else {
         ROS_ERROR("The tactic does not have robot specified.:    %s", name.c_str());
         return node;
+    }
+
+}
+void Switches::runErrorHandler(std::map<std::string, std::map<std::string, robotType>> tactics) {
+
+    for (auto &item : tactics) {
+        if (std::find(tacticJsonFileNames.begin(), tacticJsonFileNames.end(), item.first) == tacticJsonFileNames.end()) {
+            ROS_ERROR("THE FOLLOWING TACTIC IS MISSING THE FILE:   %s", item.first.c_str());
+        }
     }
 
 }
