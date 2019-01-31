@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 24-1-19.
 //
 
-#include "AvoidBallForBallPlacement.h"
+#include "AvoidBall.h"
 #include "../utilities/Coach.h"
 #include "../control/ControlUtils.h"
 
@@ -11,10 +11,10 @@ namespace ai {
 
 
 
-AvoidBallForBallPlacement::AvoidBallForBallPlacement(std::string name, bt::Blackboard::Ptr blackboard)
+AvoidBall::AvoidBall(std::string name, bt::Blackboard::Ptr blackboard)
 : Skill(std::move(name), std::move(blackboard)) { }
 
-bt::Node::Status AvoidBallForBallPlacement::onUpdate() {
+bt::Node::Status AvoidBall::onUpdate() {
     auto robotPos = rtt::Vector2(robot->pos);
     Vector2 force = {0, 0};
 

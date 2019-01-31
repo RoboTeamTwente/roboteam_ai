@@ -177,8 +177,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/EnterFormation.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/EnterFormation.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBallForBallPlacement.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBallForBallPlacement.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp

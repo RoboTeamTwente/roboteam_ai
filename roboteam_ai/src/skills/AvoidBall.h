@@ -10,10 +10,10 @@
 namespace rtt {
 namespace ai {
 
-class AvoidBallForBallPlacement : public Skill {
+class AvoidBall : public Skill {
 
 public:
-    explicit AvoidBallForBallPlacement(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+    explicit AvoidBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
     bt::Node::Status onUpdate() override;
 private:
     control::ControlGoToPos gtp;

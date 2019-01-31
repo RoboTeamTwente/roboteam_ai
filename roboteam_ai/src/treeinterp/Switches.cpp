@@ -54,7 +54,7 @@
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
 #include <roboteam_ai/src/skills/EnterFormation.h>
-#include <roboteam_ai/src/skills/AvoidBallForBallPlacement.h>
+#include <roboteam_ai/src/skills/AvoidBall.h>
 #include "../conditions/BallInDefenseAreaAndStill.h"
 #include "../conditions/IsInDefenseArea.hpp"
 #include "../conditions/BallOutOfField.h"
@@ -160,7 +160,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["SkillGoToPos"] =           std::make_shared<rtt::ai::SkillGoToPos>(name, properties);
     map["BasicGoToPos"] =           std::make_shared<rtt::ai::BasicGoToPos>(name, properties);
     map["EnterFormation"] =         std::make_shared<rtt::ai::EnterFormation>(name, properties);
-    map["AvoidBallForBallPlacement"] = std::make_shared<rtt::ai::AvoidBallForBallPlacement>(name, properties);
+    map["AvoidBall"] = std::make_shared<rtt::ai::AvoidBall>(name, properties);
 
     // conditions (alphabetic order)
     map["BallKickedToOurGoal"] =    std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
