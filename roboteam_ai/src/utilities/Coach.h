@@ -40,13 +40,11 @@ class Coach {
         static Vector2 getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position);
         static Vector2 getRobotClosestToPosition(std::vector<roboteam_msgs::WorldRobot> &robots, Vector2 position, bool includeSamePosition);
 
-
         static bool isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal, const Vector2 &robotPos);
         static bool isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID, const Vector2 &robotPosition);
         static bool isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position, const Vector2 &robotPosition);
 
         static std::pair<int, bool> getRobotClosestToBall();
-
 
         enum PassState {
           goBehindBall,
