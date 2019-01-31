@@ -28,8 +28,6 @@ class TreeInterpreter {
 
     private:
 
-        static bool lookInVector(std::vector<std::string> vector, std::string item, std::string type);
-
         JsonReader jsonReader;
 
         PropertiesParser propertyParser;
