@@ -178,7 +178,6 @@ class ControlGoToPosLuTh {
         double errorMargin = constants::GOTOPOS_LUTH_ERROR_MARGIN;
 
         Vector2 targetPos = {999.2, 999.2};
-        ros::Time startTime;
 
         Controller velPID;
         Controller posPID;
@@ -189,6 +188,8 @@ class ControlGoToPosLuTh {
         bool calculateNumericDirection(RobotPtr robot, NumRobot &me);
         void drawCross(Vector2 &pos);
         bool calculateNextPoint(NumRobotPtr me);
+        std::vector<std::pair<NumRobot::newDirections, Vector2>> getNewTargets(NumRobotPtr &me);
+
     public:
         void clear();
         Vector2 goToPos(RobotPtr robot, Vector2 &target);
