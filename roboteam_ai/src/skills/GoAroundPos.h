@@ -15,9 +15,7 @@ class GoAroundPos : public Skill {
         Vector2 targetPos,deltaPos,commandPos;
         double startAngle,endAngle,angleDif;
         double distanceFromPoint;
-        double distanceError;
         int rotateDir;
-        double rotatingSpeed; //rad/s
         double currentTick,maxTick;
         void sendRotateCommand();
         bool checkPosition();

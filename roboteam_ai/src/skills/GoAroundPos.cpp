@@ -37,12 +37,21 @@ void GoAroundPos::onInitialize() {
     deltaPos = targetPos - robot->pos;
     startAngle = deltaPos.angle();
     rotateDir = Control::rotateDirection(startAngle, endAngle);
-    distanceFromPoint = 0.11;
-    distanceError = 0.2;
+    if (ballIsTarget){
+        distanceFromPoint=constants::GOAROUND_BALL_DIST;
+    }
+    else{
+        if (properties->hasDouble("RotatingDistance")){
+            distanceFromPoint=properties->getDouble("RotatingDistance");
+        }
+        else{
+            ROS_ERROR_STREAM("No rotating distance set! Defaulting to ball distance");
+            distanceFromPoint=constants::GOAROUND_BALL_DIST;
+        }
+    }
     currentTick = 0;
-    rotatingSpeed = 6.0;
     angleDif = Control::angleDifference(startAngle, endAngle);
-    maxTick = floor(angleDif/rotatingSpeed*constants::tickRate);
+    maxTick = floor(angleDif/constants::GOAROUND_SPEED*constants::tickRate);
     currentProgress=ROTATING;
 }
 GoAroundPos::Status GoAroundPos::onUpdate() {
@@ -55,13 +64,19 @@ GoAroundPos::Status GoAroundPos::onUpdate() {
         commandPos =
                 targetPos + Vector2(distanceFromPoint, 0).rotate(startAngle + rotateDir*currentTick/maxTick*angleDif+M_PI);
     }
+    else {
+        commandPos=targetPos+Vector2(distanceFromPoint,0).rotate(endAngle+M_PI);
+    }
     deltaPos = targetPos - robot->pos;
     currentProgress=checkProgression();
+    //std::cout<<currentProgress<<std::endl;
     currentTick++;
+    // Visualization
     std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
     displayColorData.emplace_back(std::make_pair(commandPos,Qt::red));
     displayColorData.emplace_back(std::make_pair(targetPos + Vector2(distanceFromPoint, 0).rotate(endAngle+M_PI),Qt::red));
     interface::Drawer::setGoToPosLuThPoints(robot->id,displayColorData);
+
     switch(currentProgress){
     case ROTATING: sendRotateCommand(); return Status::Running;
     case STOPPING: sendRotateCommand(); return Status::Running;
@@ -100,12 +115,11 @@ GoAroundPos::Progression GoAroundPos::checkProgression() {
         //Done when robot sufficiently close to desired end position and rotation.
         double angDif=Control::angleDifference(deltaPos.angle(),endAngle);
         double posDif=(commandPos-robot->pos).length();
-        if (posDif<0.05&&angDif<0.03*M_PI){
+        if (posDif<constants::GOAROUND_POS_MARGIN&&angDif<constants::GOAROUND_ANGLE_MARGIN){
             return  DONE;
         }
         //If Robot takes too long to stop, fail
         if (currentTick>maxTick+constants::MAX_GOAROUND_STOP_TIME*constants::tickRate){
-            double test= deltaPos.angle();
             return FAIL;
         }
         else return STOPPING;
@@ -114,17 +128,15 @@ GoAroundPos::Progression GoAroundPos::checkProgression() {
 bool GoAroundPos::checkPosition() {
     double currentAngle=deltaPos.angle();
     double totalSum=Control::angleDifference(startAngle,currentAngle)+Control::angleDifference(currentAngle,endAngle);
-    double margin=0.05*M_PI;
-    if (totalSum>angleDif+margin*2){
+    if (totalSum>angleDif+0.1*M_PI*2){
         return false;
     }
-    return ((deltaPos.length()<=(distanceFromPoint+distanceError))&&deltaPos.length()>distanceFromPoint-distanceError);
+    return ((deltaPos.length()<=(distanceFromPoint+constants::GOAROUND_MAX_DIST_DEVIATION))&&deltaPos.length()>distanceFromPoint-constants::GOAROUND_MAX_DIST_DEVIATION);
 }
 void GoAroundPos::sendRotateCommand() {
     roboteam_msgs::RobotCommand command;
     Vector2 deltaCommandPos = (commandPos - robot->pos);
-    deltaCommandPos=Control::VelocityLimiter(deltaCommandPos,distanceFromPoint*rotatingSpeed,0.25);
-    std::cout<<deltaCommandPos.length()<<std::endl;
+    deltaCommandPos=Control::VelocityLimiter(deltaCommandPos,distanceFromPoint*constants::GOAROUND_SPEED,constants::GOAROUND_MIN_SPEED);
     command.id = robot->id;
     command.use_angle = 1;
     command.dribbler = 0;
