@@ -121,6 +121,7 @@ bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
 /// Reads all the tactics from one JSON project, puts them in a local repositopry and returns them
 std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fileName, bt::Blackboard::Ptr globalBB) {
 
+
     json tacticJson = jsonReader.readJSON("tactics/" + fileName);
     std::map<std::string, bt::Node::Ptr> resultMap;
 
@@ -141,6 +142,7 @@ bt::Node::Ptr TreeInterpreter::tacticSwitch(std::string name, bt::Blackboard::Pt
     node->addChild(tactics.find(name)->second);
     return node;
 }
+
 
 
 

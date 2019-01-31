@@ -1,6 +1,3 @@
-#include <utility>
-
-#include <boost/filesystem.hpp>
 //
 // Created by baris on 04/10/18.
 //
@@ -47,7 +44,7 @@ bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     if (strategyRepo.find(treeName) != strategyRepo.end()) {
         return strategyRepo.find(treeName)->second;
     }
-    ROS_ERROR("No Strategy by that name");
+    ROS_ERROR("NO STRATEGY BY THAT NAME:    %s\n\n\n", treeName.c_str());
     return strategyRepo.end()->second;
 }
 
