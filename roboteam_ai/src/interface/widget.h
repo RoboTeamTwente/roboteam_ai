@@ -78,8 +78,6 @@ class Visualizer : public QWidget {
         bool showPath = constants::STD_SHOW_PATHS_CURRENT;
         bool showAllPaths = constants::STD_SHOW_PATHS_ALL;
         bool showBallPlacementMarker = constants::STD_SHOW_BALL_PLACEMENT_MARKER;
-        bool weAreYellow = true;
-
 };
 
 } // interface
