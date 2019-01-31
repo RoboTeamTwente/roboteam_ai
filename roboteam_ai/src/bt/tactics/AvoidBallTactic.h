@@ -9,10 +9,10 @@
 
 namespace bt {
 
-class AvoidBallForBallPlacementTactic : public Tactic {
+class AvoidBallTactic : public Tactic {
 public:
     std::map<std::string, robotType> robots;
-    explicit AvoidBallForBallPlacementTactic(std::string name, Blackboard::Ptr blackboard);
+    explicit AvoidBallTactic(std::string name, Blackboard::Ptr blackboard);
     void initialize() override;
 };
 }

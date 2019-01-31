@@ -53,6 +53,7 @@ const double MAX_BALL_RANGE=0.05; // Could maybe be even less? Is a LOT lower in
 const double MAX_BALL_BOUNCE_RANGE=0.15;
 const double DRIBBLE_POSDIF=0.05;
 const float  DRIBBLE_SPEED=0.8;
+
 //getBallcc
 const double COLLISION_RADIUS=0.18;
 const double ANGLE_SENS=0.05*M_PI;
@@ -95,6 +96,14 @@ const int INTERCEPT_DRAW_VECTOR_SIZE=5;
 
 const double BP_MOVE_BACK_DIST=0.4;
 const double BP_MOVE_TOWARDS_DIST=0.15;
+
+// Avoid ball
+const double robotWeight = .09;
+const double minRobotDistanceForForce = .7;
+const double ballWeight = .15;
+const double minBallDistanceForForce = .7;
+const double wallWeight = .05;
+const double minWallDistanceForForce = .4;
 
 // Settings
 const bool STD_SHOW_ROLES = true;

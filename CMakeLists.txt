@@ -104,8 +104,8 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/EnterFormationTactic.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/EnterFormationTactic.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/AvoidBallForBallPlacementTactic.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/AvoidBallForBallPlacementTactic.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/AvoidBallTactic.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/AvoidBallTactic.h)
 
 set(TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.cpp

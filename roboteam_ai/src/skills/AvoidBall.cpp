@@ -5,11 +5,12 @@
 #include "AvoidBall.h"
 #include "../utilities/Coach.h"
 #include "../control/ControlUtils.h"
+#include <cmath>
 
 namespace rtt {
 namespace ai {
 
-
+using cu = control::ControlUtils;
 
 AvoidBall::AvoidBall(std::string name, bt::Blackboard::Ptr blackboard)
 : Skill(std::move(name), std::move(blackboard)) { }
@@ -20,39 +21,31 @@ bt::Node::Status AvoidBall::onUpdate() {
 
     // forces from robots
     for (auto otherRobot : World::getAllRobots()) {
-        double distance = robotPos.dist(otherRobot.pos);
-        Vector2 distanceVector = robotPos - otherRobot.pos;
-
-        if (otherRobot.id != robot->id && distance < minRobotDistanceForForce) {
-            force = force + distanceVector.stretchToLength(1) * (robotWeight/(distance * distance));
+        if (otherRobot.id != robot->id) {
+            force = force + cu::calculateForce(robotPos - otherRobot.pos, constants::robotWeight, constants::minRobotDistanceForForce);
         }
     }
-
     // check forces from ball
-    double distance = robotPos.dist(ball->pos);
-    if (distance < minBallDistanceForForce) {
-        Vector2 distanceVector = robotPos-ball->pos;
-        force = force+distanceVector.stretchToLength(1)*(ballWeight/(distance*distance));
-    }
+    force = force + cu::calculateForce(robotPos - ball->pos, constants::ballWeight, constants::minBallDistanceForForce);
 
     // forces from walls
-    double boundWidth =  Field::get_field().boundary_width;
-    double halfFieldLength = Field::get_field().field_length/2;
-    double halfFieldWidth = Field::get_field().field_width/2;
+    auto field = Field::get_field();
+    double boundWidth =  field.boundary_width;
+    double halfFieldLength = field.field_length/2;
+    double halfFieldWidth = field.field_width/2;
 
-    std::vector<Vector2> walls;
-    walls.emplace_back(Vector2(robotPos.x - halfFieldLength - boundWidth, 0));
-    walls.emplace_back(Vector2(robotPos.x + halfFieldLength + boundWidth, 0));
-    walls.emplace_back(Vector2(0, robotPos.y - halfFieldWidth - boundWidth));
-    walls.emplace_back(Vector2(0, robotPos.y + halfFieldWidth + boundWidth));
+    std::vector<Vector2> wallsVectors;
+    wallsVectors.emplace_back(Vector2(robotPos.x - halfFieldLength - boundWidth, 0));
+    wallsVectors.emplace_back(Vector2(robotPos.x + halfFieldLength + boundWidth, 0));
+    wallsVectors.emplace_back(Vector2(0, robotPos.y - halfFieldWidth - boundWidth));
+    wallsVectors.emplace_back(Vector2(0, robotPos.y + halfFieldWidth + boundWidth));
 
-    for (auto const &wallVector : walls) {
-        if (wallVector.length() < minWallDistanceForForce) {
-            force = force + wallVector.stretchToLength(1) * (wallWeight/(wallVector.length() * wallVector.length()));
-        }
+    for (auto const &wallVector : wallsVectors) {
+        force = force + cu::calculateForce(wallVector, constants::wallWeight, constants::minWallDistanceForForce);
     }
 
     // limit the forces
+    // TODO do not always limit the speed for ballplacement only
     if (force.length() > constants::MAX_VEL_BALLPLACEMENT) force.stretchToLength(constants::MAX_VEL_BALLPLACEMENT);
     if (force.angle() > constants::MAX_ANGULAR_VELOCITY) force.stretchToLength(constants::MAX_ANGULAR_VELOCITY);
 

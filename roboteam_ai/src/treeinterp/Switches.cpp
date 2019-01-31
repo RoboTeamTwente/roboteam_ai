@@ -14,7 +14,7 @@
 #include "../bt/tactics/VictoryDanceTactic.h"
 #include "../bt/tactics/DefaultTactic.h"
 #include "../bt/tactics/EnterFormationTactic.h"
-#include "../bt/tactics/AvoidBallForBallPlacementTactic.h"
+#include "../bt/tactics/AvoidBallTactic.h"
 
 //  ______________________
 //  |                    |
@@ -81,7 +81,7 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "Attactic",
          "EnterFormationTactic",
          "BallPlacementUsTactic",
-         "AvoidBallForBallPlacementTactic",
+         "AvoidBallTactic",
          "randomTactic" // used for testing, do not remove it!
          };
 
@@ -160,7 +160,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["SkillGoToPos"] =           std::make_shared<rtt::ai::SkillGoToPos>(name, properties);
     map["BasicGoToPos"] =           std::make_shared<rtt::ai::BasicGoToPos>(name, properties);
     map["EnterFormation"] =         std::make_shared<rtt::ai::EnterFormation>(name, properties);
-    map["AvoidBall"] = std::make_shared<rtt::ai::AvoidBall>(name, properties);
+    map["AvoidBall"] =              std::make_shared<rtt::ai::AvoidBall>(name, properties);
 
     // conditions (alphabetic order)
     map["BallKickedToOurGoal"] =    std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
@@ -288,8 +288,8 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
     else if (name == "EnterFormationTactic") {
         node = std::make_shared<bt::EnterFormationTactic>("EnterFormationTactic", properties);
     }
-    else if (name == "AvoidBallForBallPlacementTactic") {
-        node = std::make_shared<bt::AvoidBallForBallPlacementTactic>("AvoidBallForBallPlacementTactic", properties);
+    else if (name == "AvoidBallTactic") {
+        node = std::make_shared<bt::AvoidBallTactic>("AvoidBallTactic", properties);
     }
     else if (name == "victoryDanceTactic") {
         node = std::make_shared<bt::VictoryDanceTactic>("victoryDanceTactic", properties);
