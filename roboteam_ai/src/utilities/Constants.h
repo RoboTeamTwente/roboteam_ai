@@ -107,8 +107,8 @@ const bool STD_SHOW_BALL_PLACEMENT_MARKER = true;
 
 const QColor FIELD_COLOR{30, 30, 30, 255};
 const QColor FIELD_LINE_COLOR = Qt::white;
-const QColor ROBOT_US_COLOR { 150, 150, 255, 255 }; // Blue
-const QColor ROBOT_THEM_COLOR { 255, 255, 0, 255 }; // Yellow
+const QColor ROBOT_COLOR_BLUE { 150, 150, 255, 255 }; // Blue
+const QColor ROBOT_COLOR_YELLOW { 255, 255, 0, 255 }; // Yellow
 const QColor BALL_COLOR { 255, 120, 50, 255 }; // Orange
 const QColor TEXT_COLOR = Qt::white;
 const QColor SELECTED_ROBOT_COLOR = Qt::magenta;
