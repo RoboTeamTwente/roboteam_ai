@@ -9,6 +9,7 @@ namespace rtt {
 namespace ai {
 
 class GoAroundPos : public Skill {
+    private:
         enum Progression{FAIL,ROTATING,STOPPING,DONE};
         Progression currentProgress;
         bool ballIsTarget;
