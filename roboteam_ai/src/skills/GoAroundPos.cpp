@@ -38,7 +38,7 @@ void GoAroundPos::onInitialize() {
     startAngle = deltaPos.angle();
     rotateDir = Control::rotateDirection(startAngle, endAngle);
     distanceFromPoint = 0.11;
-    distanceError = 0.5;
+    distanceError = 0.2;
     currentTick = 0;
     rotatingSpeed = 6.0;
     angleDif = Control::angleDifference(startAngle, endAngle);
@@ -101,7 +101,7 @@ GoAroundPos::Progression GoAroundPos::checkProgression() {
         //Done when robot sufficiently close to desired end position and rotation.
         double angDif=Control::angleDifference(deltaPos.angle(),endAngle);
         double posDif=(commandPos-robot->pos).length();
-        if (posDif<0.1&&angDif<0.03*M_PI){
+        if (posDif<0.05&&angDif<0.03*M_PI){
             return  DONE;
         }
         //If Robot takes too long to stop, fail
