@@ -3,6 +3,7 @@
 //
 
 #include <roboteam_ai/src/utilities/RobotDealer.h>
+#include <ros/node_handle.h>
 #include "widget.h"
 #include "drawer.h"
 #include "InterfaceValues.h"
@@ -118,7 +119,23 @@ rtt::Vector2 Visualizer::toFieldPosition(rtt::Vector2 screenPos) {
 void Visualizer::drawRobot(QPainter &painter, roboteam_msgs::WorldRobot robot, bool ourTeam) {
     Vector2 robotpos = toScreenPosition(robot.pos);
     QPointF qrobotPosition(robotpos.x, robotpos.y);
-    QColor robotColor = ourTeam ? c::ROBOT_US_COLOR : c::ROBOT_THEM_COLOR;
+
+    // we check the ros param our_color every time. This is because the referee can switch colors at any moment.
+    ros::NodeHandle nh;
+    std::string ourColorParam, newParam;
+    nh.getParam("our_color", ourColorParam);
+
+    // update the we are yellow
+    bool weAreYellow = ourColorParam == "yellow";
+
+    QColor robotColor;
+    if (ourTeam) {
+        // our robots have our_color
+        robotColor =weAreYellow ? c::ROBOT_COLOR_YELLOW : c::ROBOT_COLOR_BLUE;
+    } else {
+        // the enemy robot should have the inverse of our_color
+        robotColor = weAreYellow ? c::ROBOT_COLOR_BLUE : c::ROBOT_COLOR_YELLOW;
+    }
 
     if (showAllPaths) {
         std::vector<rtt::Vector2> gtpltPoints;
