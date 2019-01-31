@@ -7,6 +7,7 @@
  *  - if robot or ball is undefined
  */
 
+#include <roboteam_ai/src/control/ControlUtils.h>
 #include "HasBall.hpp"
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_msgs/WorldBall.h"

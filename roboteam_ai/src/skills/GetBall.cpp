@@ -36,7 +36,7 @@ void GetBall::checkProgression() {
             std::cout<<"GetBall: APPROACHING-> TURNING"<<std::endl;
             return;
         }
-        if (robotHasBall(c::MAX_BALL_RANGE)) {
+        if (robotHasBall(c::MAX_BALL_BOUNCE_RANGE)) {
             std::cout<<"GetBall: APPROACHING -> OVERSHOOTING"<<std::endl;
             currentProgress = OVERSHOOTING;
             return;
