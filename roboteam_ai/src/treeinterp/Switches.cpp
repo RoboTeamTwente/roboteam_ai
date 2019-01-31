@@ -183,12 +183,12 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 
     std::map<std::string, std::map<std::string, robotType>> tactics = {
             {"randomTactic", {
-//                    {"random1", robotType::random},
-//                    {"random2", robotType::random},
-//                    {"random3", robotType::random},
-//                    {"random4", robotType::random},
-//                    {"random5", robotType::random},
-//                    {"random6", robotType::random},
+                    {"random1", robotType::random},
+                    {"random2", robotType::random},
+                    {"random3", robotType::random},
+                    {"random4", robotType::random},
+                    {"random5", robotType::random},
+                    {"random6", robotType::random},
                     {"random7", robotType::random}
             }
             },

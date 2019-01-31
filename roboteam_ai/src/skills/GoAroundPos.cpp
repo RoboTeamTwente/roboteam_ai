@@ -57,7 +57,6 @@ GoAroundPos::Status GoAroundPos::onUpdate() {
     }
     deltaPos = targetPos - robot->pos;
     currentProgress=checkProgression();
-    std::cout<<currentProgress<<std::endl;
     currentTick++;
     std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
     displayColorData.emplace_back(std::make_pair(commandPos,Qt::red));
@@ -66,8 +65,8 @@ GoAroundPos::Status GoAroundPos::onUpdate() {
     switch(currentProgress){
     case ROTATING: sendRotateCommand(); return Status::Running;
     case STOPPING: sendRotateCommand(); return Status::Running;
-    case FAIL: std::cout<<"Failure!!"<<std::endl; return Status::Failure;
-    case DONE: std::cout<<"Success!!"<<std::endl; return Status::Success;
+    case FAIL: return Status::Failure;
+    case DONE: return Status::Success;
     }
 
 }
