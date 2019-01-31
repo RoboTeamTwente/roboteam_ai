@@ -69,7 +69,6 @@ GoAroundPos::Status GoAroundPos::onUpdate() {
     }
     deltaPos = targetPos - robot->pos;
     currentProgress=checkProgression();
-    //std::cout<<currentProgress<<std::endl;
     currentTick++;
     // Visualization
     std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
