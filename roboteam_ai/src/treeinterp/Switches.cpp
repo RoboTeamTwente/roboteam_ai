@@ -192,7 +192,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
         return map[name];
     } else {
 
-        ROS_ERROR("The leaf node is not registered in the SWITCHES:   %s", name.c_str());
+        ROS_ERROR("\n\n\nTHE LEAF IS NOT REGISTERED IN SWITCHES:   %s\n\n\n", name.c_str());
         return bt::Node::Ptr();
     }
 }
@@ -277,7 +277,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
     else if (name == "victoryDanceTactic") {
         node = std::make_shared<bt::VictoryDanceTactic>("victoryDanceTactic", properties);
     } else {
-        ROS_ERROR("The tactic does not have robot specified.:    %s", name.c_str());
+        ROS_ERROR("\n\n\nTHE TACTIC DOES NOT HAVE ROBOTS SPECIFIED IN THE SWITCHES:    %s\n\n\n", name.c_str());
         return node;
     }
 
@@ -286,7 +286,7 @@ void Switches::runErrorHandler(std::map<std::string, std::map<std::string, robot
 
     for (auto &item : tactics) {
         if (std::find(tacticJsonFileNames.begin(), tacticJsonFileNames.end(), item.first) == tacticJsonFileNames.end()) {
-            ROS_ERROR("THE FOLLOWING TACTIC IS MISSING THE FILE:   %s", item.first.c_str());
+            ROS_ERROR("THE FOLLOWING TACTIC IS MISSING THE FILE:   %s\n\n\n", item.first.c_str());
         }
     }
 

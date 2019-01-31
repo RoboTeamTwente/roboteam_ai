@@ -1,11 +1,8 @@
-#include <utility>
-
 //
 // Created by baris on 01/10/18.
 //
 
 #include "TreeInterpreter.h"
-#include "Switches.h"
 
 /// Return a TreeInterpreter singleton
 TreeInterpreter &TreeInterpreter::getInstance() {
@@ -16,12 +13,6 @@ TreeInterpreter &TreeInterpreter::getInstance() {
 /// Returns a BehaviorTree from a given name
 std::map<std::string, bt::BehaviorTree::Ptr> TreeInterpreter::getTrees(std::string name) {
     std::map<std::string, bt::BehaviorTree::Ptr> result;
-
-    if (! ((lookInVector(Switches::strategyJsonFileNames, name, "strategies"))
-    || (lookInVector(Switches::keeperJsonFiles, name, "keeper")))) {
-
-        ROS_ERROR("The given tree name is not in the STRATEGY or KEEPER json file name vectors in switches:   %s", name.c_str());
-    }
 
     auto project = jsonReader.readJSON(std::move(name));
 
@@ -131,12 +122,6 @@ bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
 std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fileName, bt::Blackboard::Ptr globalBB) {
 
 
-    if (! lookInVector(Switches::tacticJsonFileNames, "tactics/" + fileName, "tactics")) {
-
-        ROS_ERROR("The given tree name is not in the TACTIC json file name vector in switches:   %s", fileName.c_str());
-
-    }
-
     json tacticJson = jsonReader.readJSON("tactics/" + fileName);
     std::map<std::string, bt::Node::Ptr> resultMap;
 
@@ -158,14 +143,6 @@ bt::Node::Ptr TreeInterpreter::tacticSwitch(std::string name, bt::Blackboard::Pt
     return node;
 }
 
-bool TreeInterpreter::lookInVector(std::vector<std::string> vector, std::string item, std::string type) {
-    auto tempVector = std::move(vector);
-    // Deal with folder names
-    for (auto &current : tempVector) {
-        current = type + "/" + current;
-    }
-    return std::find(tempVector.begin(), tempVector.end(), item)!=tempVector.end();
-}
 
 
 

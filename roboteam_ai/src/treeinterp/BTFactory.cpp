@@ -45,7 +45,7 @@ bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     if (strategyRepo.find(treeName) != strategyRepo.end()) {
         return strategyRepo.find(treeName)->second;
     }
-    ROS_ERROR("No Strategy by that name:    %s", treeName.c_str());
+    ROS_ERROR("\n\n\nNO STRATEGY BY THAT NAME:    %s\n\n\n", treeName.c_str());
     return strategyRepo.end()->second;
 }
 
