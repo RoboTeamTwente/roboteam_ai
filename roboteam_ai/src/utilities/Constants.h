@@ -13,8 +13,8 @@ namespace rtt {
 namespace ai {
 namespace constants {
 
-const bool SHOW_LONGEST_TICK = true;
 
+const bool SHOW_LONGEST_TICK = true;
 const double GOTOPOS_LUTH_ERROR_MARGIN = 0.25;
 
 // Max values we can send through robothub
@@ -23,6 +23,8 @@ const int GENEVA_LEFT=0;//TODO: Might be reversed, please check
 const int GENEVA_RIGHT=5;
 const int MAX_ID_CMD=15;
 const double MAX_ANGULAR_VEL_CMD=16*M_PI;
+const double MIN_ANGLE = -M_PI;
+const double MAX_ANGLE = M_PI;
 
 // Limits as defined in AI itself
 const double MAX_VEL=8.0;
@@ -46,16 +48,16 @@ const int DEFAULT_GENEVA_STATE = 0;
 
 //dribble
 const double MAX_BALL_RANGE=0.05; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
-const double MAX_BALL_BOUNCE_RANGE=0.3;
+const double MAX_BALL_BOUNCE_RANGE=0.15;
 const double DRIBBLE_POSDIF=0.05;
 const float  DRIBBLE_SPEED=0.8;
 //getBallcc
 const double COLLISION_RADIUS=0.18;
 const double ANGLE_SENS=0.05*M_PI;
 const double MAX_GETBALL_RANGE=0.7;
-const int POSSES_BALL_CYCLES=100;
+const int POSSES_BALL_CYCLES=25;
 const double GETBALL_SPEED=.5;
-const double GETBALL_OVERSHOOT=.05;//m
+const double GETBALL_OVERSHOOT=.02;//m
 
 //GoToPos
 const double MAX_CALCULATION_TIME=20.0; //max time in ms
@@ -67,7 +69,7 @@ const double KEEPER_POSDIF=0.04;
 
 //ballkickedtoGoal
 const double BALL_TO_GOAL_MARGIN=BALL_RADIUS;//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
-const double BALL_TO_GOAL_TIME=3;//seconds
+const double BALL_TO_GOAL_TIME=1.5;//seconds
 
 //Intercept
 const double MAX_INTERCEPT_TIME=2.0;//seconds. Intercept terminates  after this time.

@@ -241,7 +241,6 @@ std::string Visualizer::getTacticNameForRobot(roboteam_msgs::WorldRobot robot) {
 
 std::string Visualizer::getRoleNameForRobot(roboteam_msgs::WorldRobot robot) {
     return robotDealer::RobotDealer::getRoleNameForId(robot.id);
-
 }
 
 void Visualizer::setShowRoles(bool showRoles) {

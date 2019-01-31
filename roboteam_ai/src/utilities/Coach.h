@@ -46,8 +46,6 @@ class Coach {
         static bool isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position, const Vector2 &robotPosition);
 
         static std::pair<int, bool> getRobotClosestToBall();
-        static int getOurRobotClosestToBall();
-        static int getTheirRobotClosestToBall();
 
 
         enum PassState {

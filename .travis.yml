@@ -40,6 +40,8 @@
 ################################################################################
 
 sudo: required
+services:
+  - xvfb
 notifications:
   email: false
 cache:

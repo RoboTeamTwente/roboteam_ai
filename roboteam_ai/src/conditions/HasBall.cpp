@@ -1,7 +1,13 @@
-//
-// Created by rolf on 19-10-18.
-//
+/* 
+ *  Returns Success:
+ *  - if the robot has the ball
+ *
+ *  Returns Failure:
+ *  - if robot does not have the ball
+ *  - if robot or ball is undefined
+ */
 
+#include <roboteam_ai/src/control/ControlUtils.h>
 #include "HasBall.hpp"
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_msgs/WorldBall.h"
@@ -15,20 +21,13 @@ HasBall::HasBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(n
 bt::Node::Status HasBall::update() {
     robot = getRobotFromProperties(properties);
     auto ball = World::getBall();
-
-    if (! robot || ! ball) return Status::Failure;
-    if (botHasBall(ball->pos)) return Status::Success;
-    else return Status::Failure;
-}
-
-bool HasBall::botHasBall(Vector2 ballPos) {
-    Vector2 deltaPos = (ballPos - robot->pos);
-    double dist = deltaPos.length();
-    double angle = deltaPos.angle();
-
-    //TODO: TEST if this is from centre of dribbler of robot in practice. What does
-    // Within 15 cm and .4 radians (of center of dribbler)
-    return ((dist < 0.15) && (fabs(angle - robot->angle) < 0.4));
+    if (! robot || ! ball) {
+        return Status::Failure;
+    }
+    if (World::robotHasBall(*robot, *ball)) {
+       return Status::Success;
+    }
+    return Status::Failure;
 }
 
 } // ai
