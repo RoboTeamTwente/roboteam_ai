@@ -65,3 +65,28 @@ TEST(FieldTest, it_returns_proper_goal_centers) {
     EXPECT_EQ(theirGoalCenter.x, 4);
     EXPECT_EQ(theirGoalCenter.y, 0);
 }
+
+
+TEST(FieldTest, it_detects_points_in_field_properly) {
+	roboteam_msgs::GeometryFieldSize field;
+	field.field_length = 8;
+	field.field_width = 12;
+	rtt::ai::Field::set_field(field);
+
+	rtt::Vector2 point;
+	
+	// Middle
+	point = {0, 0};
+	EXPECT_TRUE(rtt::ai::Field::pointIsInField(point));
+
+	// exactly on the edge
+	point = {4, 6};
+	EXPECT_FALSE(rtt::ai::Field::pointIsInField(point));
+	EXPECT_TRUE(rtt::ai::Field::pointIsInField(point, 0.1)); // expect true if it has a margin
+
+	// exactly on the edge, negative
+	point = {-4, -6};
+	EXPECT_FALSE(rtt::ai::Field::pointIsInField(point));
+	EXPECT_TRUE(rtt::ai::Field::pointIsInField(point, 0.1)); // expect true if it has a margin
+}
+
