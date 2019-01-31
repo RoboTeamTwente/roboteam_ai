@@ -82,11 +82,16 @@ TEST(FieldTest, it_detects_points_in_field_properly) {
 	// exactly on the edge
 	point = {4, 6};
 	EXPECT_FALSE(rtt::ai::Field::pointIsInField(point));
-	EXPECT_TRUE(rtt::ai::Field::pointIsInField(point, 0.1)); // expect true if it has a margin
+	EXPECT_TRUE(rtt::ai::Field::pointIsInField(point, -0.1)); // expect true if it has a margin outside the field
 
 	// exactly on the edge, negative
 	point = {-4, -6};
 	EXPECT_FALSE(rtt::ai::Field::pointIsInField(point));
-	EXPECT_TRUE(rtt::ai::Field::pointIsInField(point, 0.1)); // expect true if it has a margin
+	EXPECT_TRUE(rtt::ai::Field::pointIsInField(point, -0.1)); // expect true if it has a margin outside the field
+
+	// exactly on the edge, negative
+	point = {-3.8, -5.8};
+	EXPECT_TRUE(rtt::ai::Field::pointIsInField(point));
+	EXPECT_FALSE(rtt::ai::Field::pointIsInField(point, 0.3)); // expect false if it has a margin inside the field
 }
 
