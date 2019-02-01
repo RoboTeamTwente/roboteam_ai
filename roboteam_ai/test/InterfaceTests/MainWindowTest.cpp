@@ -12,7 +12,8 @@ namespace ai {
 namespace interface {
 
 TEST(MainWindowTest, it_shows_the_visualizer_properly) {
-    auto window = std::make_shared<QMainWindow>();
+    auto window = std::make_shared<MainWindow>();
+
     std::shared_ptr<Visualizer> vis =  std::make_shared<Visualizer>(window.get());
 
     // Initialize

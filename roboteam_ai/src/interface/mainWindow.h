@@ -42,34 +42,34 @@ public slots:
     void updatePID_luth();
     void sendHaltSignal();
 private:
-    std::shared_ptr<Visualizer> visualizer;
-    std::shared_ptr<QHBoxLayout> horizontalLayout;
-    std::shared_ptr<QHBoxLayout> robotsLayout;
-    std::shared_ptr<QVBoxLayout> mainLayout;
-    std::shared_ptr<QVBoxLayout> verticalLayout;
-    std::shared_ptr<QTreeWidget> treeWidget;
-    std::shared_ptr<QPushButton> haltBtn;
+    Visualizer * visualizer;
+    QHBoxLayout * horizontalLayout;
+    QHBoxLayout * robotsLayout;
+    QVBoxLayout * mainLayout;
+    QVBoxLayout * verticalLayout;
+    QTreeWidget * treeWidget;
+    QPushButton * haltBtn;
 
-    std::shared_ptr<QPushButton> toggleColorBtn;
-    std::shared_ptr<QPushButton> toggleSideBtn;
-    std::shared_ptr<QComboBox> select_strategy;
-    std::shared_ptr<QCheckBox> cb_referee;
-    std::shared_ptr<QCheckBox> cb_rolenames;
-    std::shared_ptr<QCheckBox> cb_tacticnames;
-    std::shared_ptr<QCheckBox> cb_tacticcolors;
-    std::shared_ptr<QCheckBox> cb_angles;
-    std::shared_ptr<QCheckBox> cb_path;
-    std::shared_ptr<QCheckBox> cb_path_all;
-    std::shared_ptr<QCheckBox> cb_velocities;
-    std::shared_ptr<QCheckBox> cb_ball_placement_marker;
+    QPushButton * toggleColorBtn;
+    QPushButton * toggleSideBtn;
+    QComboBox * select_strategy;
+    QCheckBox * cb_referee;
+    QCheckBox * cb_rolenames;
+    QCheckBox * cb_tacticnames;
+    QCheckBox * cb_tacticcolors;
+    QCheckBox * cb_angles;
+    QCheckBox * cb_path;
+    QCheckBox * cb_path_all;
+    QCheckBox * cb_velocities;
+    QCheckBox * cb_ball_placement_marker;
 
-    std::shared_ptr<QGroupBox> doubleSpinBoxesGroup;
-    std::shared_ptr<QHBoxLayout> spinBoxLayout;
-    std::shared_ptr<QDoubleSpinBox> sb_luth_P;
-    std::shared_ptr<QDoubleSpinBox> sb_luth_I;
-    std::shared_ptr<QDoubleSpinBox> sb_luth_D;
+    QGroupBox * doubleSpinBoxesGroup;
+    QHBoxLayout * spinBoxLayout;
+    QDoubleSpinBox * sb_luth_P;
+    QDoubleSpinBox * sb_luth_I;
+    QDoubleSpinBox * sb_luth_D;
 
-    void configureCheckBox(std::shared_ptr<QCheckBox> checkbox, std::shared_ptr<QLayout> layout,
+    void configureCheckBox(QCheckBox * checkbox, QLayout * layout,
                 const QObject* receiver, const char* method, bool defaultState = false);
 
     bool hasCorrectTree = false;

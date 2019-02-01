@@ -16,69 +16,68 @@ MainWindow::MainWindow(QWidget* parent)
     setMinimumWidth(800);
     setMinimumHeight(600);
 
-    visualizer = std::make_shared<Visualizer>(this);
-    mainLayout = std::make_shared<QVBoxLayout>();
-    horizontalLayout = std::make_shared<QHBoxLayout>();
-    verticalLayout = std::make_shared<QVBoxLayout>();
-    robotsLayout = std::make_shared<QHBoxLayout>();
+    visualizer = new Visualizer(this);
+    mainLayout = new QVBoxLayout();
+    horizontalLayout = new QHBoxLayout();
+    verticalLayout = new QVBoxLayout();
+    robotsLayout =new QHBoxLayout();
 
     // functions to select strategies
-    cb_referee = std::make_shared<QCheckBox>("Use referee");
-    configureCheckBox(cb_referee, verticalLayout, visualizer.get(), SLOT(setShowRoles(bool)),
+    cb_referee = new QCheckBox("Use referee");
+    configureCheckBox(cb_referee, verticalLayout, visualizer, SLOT(setShowRoles(bool)),
             constants::STD_SHOW_ROLES);
 
-    select_strategy = std::make_shared<QComboBox>();
-    verticalLayout->addWidget(select_strategy.get());
+    select_strategy = new QComboBox();
+    verticalLayout->addWidget(select_strategy);
     for (std::string const &strategyName : Switches::strategyJsonFileNames) {
         select_strategy->addItem(QString::fromStdString(strategyName));
     }
 
-    haltBtn = std::make_shared<QPushButton>("HALT");
-    QObject::connect(haltBtn.get(), SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
-    verticalLayout->addWidget(haltBtn.get());
+    haltBtn = new QPushButton("HALT");
+    QObject::connect(haltBtn, SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
+    verticalLayout->addWidget(haltBtn);
 
-    toggleColorBtn = std::make_shared<QPushButton>("Color");
-    QObject::connect(toggleColorBtn.get(), SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
-    verticalLayout->addWidget(toggleColorBtn.get());
+    toggleColorBtn = new QPushButton("Color");
+    QObject::connect(toggleColorBtn, SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
+    verticalLayout->addWidget(toggleColorBtn);
+    
+    toggleSideBtn = new QPushButton("Side");
+    QObject::connect(toggleSideBtn, SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
 
 
-    toggleSideBtn = std::make_shared<QPushButton>("Side");
-    QObject::connect(toggleSideBtn.get(), SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
+    verticalLayout->addWidget(toggleSideBtn);
 
+    doubleSpinBoxesGroup = new QGroupBox("GoToPosLuth PID options");
+    spinBoxLayout =new QHBoxLayout();
 
-    verticalLayout->addWidget(toggleSideBtn.get());
-
-    doubleSpinBoxesGroup = std::make_shared<QGroupBox>("GoToPosLuth PID options");
-    spinBoxLayout = std::make_shared<QHBoxLayout>();
-
-    sb_luth_P = std::make_shared<QDoubleSpinBox>();
+    sb_luth_P = new QDoubleSpinBox();
     sb_luth_P->setRange(-20, 20);
     sb_luth_P->setSingleStep(0.1f);
     sb_luth_P->setValue(InterfaceValues::getLuthP());
-    QObject::connect(sb_luth_P.get(), SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
+    QObject::connect(sb_luth_P, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
 
-    spinBoxLayout->addWidget(sb_luth_P.get());
+    spinBoxLayout->addWidget(sb_luth_P);
 
-    sb_luth_I = std::make_shared<QDoubleSpinBox>();
+    sb_luth_I = new QDoubleSpinBox();
     sb_luth_I->setRange(-20, 20);
     sb_luth_I->setSingleStep(0.1f);
     sb_luth_I->setValue(InterfaceValues::getLuthI());
-    QObject::connect(sb_luth_I.get(), SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
+    QObject::connect(sb_luth_I, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
 
-    spinBoxLayout->addWidget(sb_luth_I.get());
+    spinBoxLayout->addWidget(sb_luth_I);
 
-    sb_luth_D = std::make_shared<QDoubleSpinBox>();
+    sb_luth_D = new QDoubleSpinBox();
     sb_luth_D->setRange(-20, 20);
     sb_luth_D->setSingleStep(0.1f);
     sb_luth_D->setValue(InterfaceValues::getLuthD());
-    QObject::connect(sb_luth_D.get(), SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
+    QObject::connect(sb_luth_D, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
 
-    spinBoxLayout->addWidget(sb_luth_D.get());
+    spinBoxLayout->addWidget(sb_luth_D);
 
-    doubleSpinBoxesGroup->setLayout(spinBoxLayout.get());
-    verticalLayout->addWidget(doubleSpinBoxesGroup.get());
+    doubleSpinBoxesGroup->setLayout(spinBoxLayout);
+    verticalLayout->addWidget(doubleSpinBoxesGroup);
 
-    QObject::connect(select_strategy.get(), static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+    QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [=](const QString &strategyName) {
               // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
               BTFactory::setCurrentTree(strategyName.toStdString());
@@ -86,56 +85,56 @@ MainWindow::MainWindow(QWidget* parent)
             });
 
     // Checkboxes for the visualization
-    cb_rolenames = std::make_shared<QCheckBox>("show rolenames");
-    configureCheckBox(cb_rolenames, verticalLayout, visualizer.get(), SLOT(setShowRoles(bool)),
+    cb_rolenames = new QCheckBox("show rolenames");
+    configureCheckBox(cb_rolenames, verticalLayout, visualizer, SLOT(setShowRoles(bool)),
             constants::STD_SHOW_ROLES);
 
-    cb_tacticnames = std::make_shared<QCheckBox>("show tacticnames");
-    configureCheckBox(cb_tacticnames, verticalLayout, visualizer.get(), SLOT(setShowTactics(bool)),
+    cb_tacticnames = new QCheckBox("show tacticnames");
+    configureCheckBox(cb_tacticnames, verticalLayout, visualizer, SLOT(setShowTactics(bool)),
             constants::STD_SHOW_TACTICS);
 
-    cb_tacticcolors = std::make_shared<QCheckBox>("show tacticColors");
-    configureCheckBox(cb_tacticcolors, verticalLayout, visualizer.get(), SLOT(setShowTacticColors(bool)),
+    cb_tacticcolors = new QCheckBox("show tacticColors");
+    configureCheckBox(cb_tacticcolors, verticalLayout, visualizer, SLOT(setShowTacticColors(bool)),
             constants::STD_SHOW_TACTICS_COLORS);
 
-    cb_angles = std::make_shared<QCheckBox>("show angles");
-    configureCheckBox(cb_angles, verticalLayout, visualizer.get(), SLOT(setShowAngles(bool)),
+    cb_angles = new QCheckBox("show angles");
+    configureCheckBox(cb_angles, verticalLayout, visualizer, SLOT(setShowAngles(bool)),
             constants::STD_SHOW_ANGLES);
 
-    cb_velocities = std::make_shared<QCheckBox>("show velocities");
-    configureCheckBox(cb_velocities, verticalLayout, visualizer.get(), SLOT(setShowVelocities(bool)),
+    cb_velocities = new QCheckBox("show velocities");
+    configureCheckBox(cb_velocities, verticalLayout, visualizer, SLOT(setShowVelocities(bool)),
             constants::STD_SHOW_VELOCITIES);
 
-    cb_path = std::make_shared<QCheckBox>("show path for current robot");
-    configureCheckBox(cb_path, verticalLayout, visualizer.get(), SLOT(setShowPath(bool)),
+    cb_path = new QCheckBox("show path for current robot");
+    configureCheckBox(cb_path, verticalLayout, visualizer, SLOT(setShowPath(bool)),
             constants::STD_SHOW_PATHS_CURRENT);
 
-    cb_path_all = std::make_shared<QCheckBox>("show path for all robots");
-    configureCheckBox(cb_path_all, verticalLayout, visualizer.get(), SLOT(setShowPathAll(bool)),
+    cb_path_all = new QCheckBox("show path for all robots");
+    configureCheckBox(cb_path_all, verticalLayout, visualizer, SLOT(setShowPathAll(bool)),
             constants::STD_SHOW_PATHS_ALL);
 
-    cb_ball_placement_marker = std::make_shared<QCheckBox>("Show marker for Ball Placement");
-    configureCheckBox(cb_ball_placement_marker, verticalLayout, visualizer.get(), SLOT(setShowBallPlacementMarker(bool)),
+    cb_ball_placement_marker = new QCheckBox("Show marker for Ball Placement");
+    configureCheckBox(cb_ball_placement_marker, verticalLayout, visualizer, SLOT(setShowBallPlacementMarker(bool)),
             constants::STD_SHOW_BALL_PLACEMENT_MARKER);
 
     // set up tree widget
-    treeWidget = std::make_shared<QTreeWidget>();
+    treeWidget = new QTreeWidget();
     treeWidget->setColumnCount(2);
     treeWidget->setColumnWidth(0, 250);
 
-    verticalLayout->addWidget(treeWidget.get());
+    verticalLayout->addWidget(treeWidget);
 
     // main layout: left the visualizer and right the vertical layout
-    horizontalLayout->addWidget(visualizer.get(), 3); // width stretch 3/5
-    horizontalLayout->addLayout(verticalLayout.get(), 2); // width stretch 2/5
+    horizontalLayout->addWidget(visualizer, 3); // width stretch 3/5
+    horizontalLayout->addLayout(verticalLayout, 2); // width stretch 2/5
 
-    mainLayout->addLayout(horizontalLayout.get(), 5); // height stretch 5/6
-    mainLayout->addLayout(robotsLayout.get(), 1); // height stretch 1/6
+    mainLayout->addLayout(horizontalLayout, 5); // height stretch 5/6
+    mainLayout->addLayout(robotsLayout, 1); // height stretch 1/6
 
 
     // apply layout
     setCentralWidget(new QWidget);
-    centralWidget()->setLayout(mainLayout.get());
+    centralWidget()->setLayout(mainLayout);
 
     // start the UI update cycles
     auto* timer = new QTimer(this);
@@ -147,12 +146,15 @@ MainWindow::MainWindow(QWidget* parent)
     auto * robotsTimer = new QTimer(this);
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget()));
     robotsTimer->start(200); // 5fps
+    
+    delete timer;
+    delete robotsTimer;
 }
 
 // some widgets need to be updated regularly
 void MainWindow::updateWidgets() {
     // Iterate through all treeWidget items to update the status if needed
-    QTreeWidgetItemIterator iter(treeWidget.get(), QTreeWidgetItemIterator::All);
+    QTreeWidgetItemIterator iter(treeWidget, QTreeWidgetItemIterator::All);
     while (*iter) {
         QTreeWidgetItem* widgetItem = *iter;
         if (treeItemMapping.find(widgetItem) != treeItemMapping.end()) {
@@ -164,6 +166,7 @@ void MainWindow::updateWidgets() {
             }
         }
         ++ iter;
+        delete widgetItem;
     }
 
     // initiate a redraw when the actual tree and the tree in the widget are not the same
@@ -180,7 +183,7 @@ void MainWindow::updateWidgets() {
         bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree(BTFactory::getFactory().getCurrentTree());
 
         if (tree && tree->GetRoot()) {
-            auto treeItemRoot = new QTreeWidgetItem(treeWidget.get());
+            auto treeItemRoot = new QTreeWidgetItem(treeWidget);
             treeItemRoot->setText(0, QString::fromStdString(tree->GetRoot()->node_name()));
             treeItemRoot->setText(1, QString::fromStdString(statusToString(tree->GetRoot()->getStatus())));
             treeItemRoot->setBackgroundColor(1, getColorForStatus(tree->GetRoot()->getStatus()));
@@ -201,7 +204,7 @@ void MainWindow::updateRobotsWidget() {
     // or if the amount of selected robots is not accurate
     if (robotsLayout->count() != static_cast<int>(us.size()) || amountOfSelectedRobots != static_cast<int>(visualizer->getSelectedRobots().size())) {
         amountOfSelectedRobots = visualizer->getSelectedRobots().size();
-        clearLayout(robotsLayout.get());
+        clearLayout(robotsLayout);
 
         for (auto robot : us) {
             QGroupBox * groupBox = new QGroupBox("Robot " + QString::number(robot.id));
@@ -261,19 +264,17 @@ QColor MainWindow::getColorForStatus(bt::Node::Status status) {
 }
 
 /// Set up the checkbox properties for a given checkbox
-void MainWindow::configureCheckBox(std::shared_ptr<QCheckBox> checkbox, std::shared_ptr<QLayout> layout,
+void MainWindow::configureCheckBox(QCheckBox * checkbox, QLayout * layout,
         const QObject* receiver, const char* method,
         bool defaultState) {
     checkbox->setChecked(defaultState);
-    layout->addWidget(checkbox.get());
-    QObject::connect(checkbox.get(), SIGNAL(clicked(bool)), receiver, method);
+    layout->addWidget(checkbox);
+    QObject::connect(checkbox, SIGNAL(clicked(bool)), receiver, method);
 }
 
 
 QVBoxLayout * MainWindow::createRobotGroupItem(roboteam_msgs::WorldRobot robot) {
-
-
-    auto * vbox = new QVBoxLayout;
+    auto vbox = new QVBoxLayout();
 
     auto velLabel = new QLabel("vel: (x = " + QString::number(robot.vel.x, 'G', 3) + ", y = " + QString::number(robot.vel.y, 'g', 3) + ") m/s");
     velLabel->setFixedWidth(250);
@@ -295,15 +296,15 @@ QVBoxLayout * MainWindow::createRobotGroupItem(roboteam_msgs::WorldRobot robot) 
 }
 
 void MainWindow::clearLayout(QLayout *layout) {
-    QLayoutItem *item;
+    QLayoutItem * item;
     while((item = layout->takeAt(0))) {
-    if (item->layout()) {
-        clearLayout(item->layout());
-        delete item->layout();
-    }
-    if (item->widget()) {
-        delete item->widget();
-    }
+        if (item->layout()) {
+            clearLayout(item->layout());
+            delete item->layout();
+        }
+        if (item->widget()) {
+            delete item->widget();
+        }
         delete item;
     }
 }
