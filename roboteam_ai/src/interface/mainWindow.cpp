@@ -11,8 +11,7 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
-MainWindow::MainWindow(QWidget* parent)
-        :QMainWindow(parent) {
+MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     setMinimumWidth(800);
     setMinimumHeight(600);
 
@@ -20,11 +19,10 @@ MainWindow::MainWindow(QWidget* parent)
     mainLayout = new QVBoxLayout();
     horizontalLayout = new QHBoxLayout();
     verticalLayout = new QVBoxLayout();
-    robotsLayout =new QHBoxLayout();
+    robotsLayout = new QHBoxLayout();
 
     // functions to select strategies
-    cb_referee = new QCheckBox("Use referee");
-    configureCheckBox(cb_referee, verticalLayout, visualizer, SLOT(setShowRoles(bool)),
+    configureCheckBox("Use referee", verticalLayout, visualizer, SLOT(setShowRoles(bool)),
             constants::STD_SHOW_ROLES);
 
     select_strategy = new QComboBox();
@@ -33,7 +31,7 @@ MainWindow::MainWindow(QWidget* parent)
         select_strategy->addItem(QString::fromStdString(strategyName));
     }
 
-    haltBtn = new QPushButton("HALT");
+    auto haltBtn = new QPushButton("HALT");
     QObject::connect(haltBtn, SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
     verticalLayout->addWidget(haltBtn);
 
@@ -84,37 +82,28 @@ MainWindow::MainWindow(QWidget* parent)
               hasCorrectTree = false;
             });
 
-    // Checkboxes for the visualization
-    cb_rolenames = new QCheckBox("show rolenames");
-    configureCheckBox(cb_rolenames, verticalLayout, visualizer, SLOT(setShowRoles(bool)),
+    configureCheckBox("show rolenames", verticalLayout, visualizer, SLOT(setShowRoles(bool)),
             constants::STD_SHOW_ROLES);
 
-    cb_tacticnames = new QCheckBox("show tacticnames");
-    configureCheckBox(cb_tacticnames, verticalLayout, visualizer, SLOT(setShowTactics(bool)),
+    configureCheckBox("show tacticnames", verticalLayout, visualizer, SLOT(setShowTactics(bool)),
             constants::STD_SHOW_TACTICS);
 
-    cb_tacticcolors = new QCheckBox("show tacticColors");
-    configureCheckBox(cb_tacticcolors, verticalLayout, visualizer, SLOT(setShowTacticColors(bool)),
+    configureCheckBox("show tacticColors", verticalLayout, visualizer, SLOT(setShowTacticColors(bool)),
             constants::STD_SHOW_TACTICS_COLORS);
 
-    cb_angles = new QCheckBox("show angles");
-    configureCheckBox(cb_angles, verticalLayout, visualizer, SLOT(setShowAngles(bool)),
+    configureCheckBox("show angles", verticalLayout, visualizer, SLOT(setShowAngles(bool)),
             constants::STD_SHOW_ANGLES);
 
-    cb_velocities = new QCheckBox("show velocities");
-    configureCheckBox(cb_velocities, verticalLayout, visualizer, SLOT(setShowVelocities(bool)),
+    configureCheckBox("show velocities", verticalLayout, visualizer, SLOT(setShowVelocities(bool)),
             constants::STD_SHOW_VELOCITIES);
 
-    cb_path = new QCheckBox("show path for current robot");
-    configureCheckBox(cb_path, verticalLayout, visualizer, SLOT(setShowPath(bool)),
+    configureCheckBox("show path for current robot", verticalLayout, visualizer, SLOT(setShowPath(bool)),
             constants::STD_SHOW_PATHS_CURRENT);
 
-    cb_path_all = new QCheckBox("show path for all robots");
-    configureCheckBox(cb_path_all, verticalLayout, visualizer, SLOT(setShowPathAll(bool)),
+    configureCheckBox("show path for all robots", verticalLayout, visualizer, SLOT(setShowPathAll(bool)),
             constants::STD_SHOW_PATHS_ALL);
 
-    cb_ball_placement_marker = new QCheckBox("Show marker for Ball Placement");
-    configureCheckBox(cb_ball_placement_marker, verticalLayout, visualizer, SLOT(setShowBallPlacementMarker(bool)),
+    configureCheckBox("Show marker for Ball Placement", verticalLayout, visualizer, SLOT(setShowBallPlacementMarker(bool)),
             constants::STD_SHOW_BALL_PLACEMENT_MARKER);
 
     // set up tree widget
@@ -264,9 +253,11 @@ QColor MainWindow::getColorForStatus(bt::Node::Status status) {
 }
 
 /// Set up the checkbox properties for a given checkbox
-void MainWindow::configureCheckBox(QCheckBox * checkbox, QLayout * layout,
+void MainWindow::configureCheckBox(QString title, QLayout * layout,
         const QObject* receiver, const char* method,
         bool defaultState) {
+
+    QCheckBox * checkbox = new QCheckBox(title);
     checkbox->setChecked(defaultState);
     layout->addWidget(checkbox);
     QObject::connect(checkbox, SIGNAL(clicked(bool)), receiver, method);

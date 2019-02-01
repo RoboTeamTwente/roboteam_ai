@@ -53,15 +53,6 @@ private:
     QPushButton * toggleColorBtn;
     QPushButton * toggleSideBtn;
     QComboBox * select_strategy;
-    QCheckBox * cb_referee;
-    QCheckBox * cb_rolenames;
-    QCheckBox * cb_tacticnames;
-    QCheckBox * cb_tacticcolors;
-    QCheckBox * cb_angles;
-    QCheckBox * cb_path;
-    QCheckBox * cb_path_all;
-    QCheckBox * cb_velocities;
-    QCheckBox * cb_ball_placement_marker;
 
     QGroupBox * doubleSpinBoxesGroup;
     QHBoxLayout * spinBoxLayout;
@@ -69,7 +60,7 @@ private:
     QDoubleSpinBox * sb_luth_I;
     QDoubleSpinBox * sb_luth_D;
 
-    void configureCheckBox(QCheckBox * checkbox, QLayout * layout,
+    void configureCheckBox(QString title, QLayout * layout,
                 const QObject* receiver, const char* method, bool defaultState = false);
 
     bool hasCorrectTree = false;
