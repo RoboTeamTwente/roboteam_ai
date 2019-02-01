@@ -39,7 +39,7 @@ class StrategyManager {
         std::vector<StrategyMap> strategyMaps = {
                 {RefGameState::NORMAL_START, "bigjson/NormalPlay"},
                 {RefGameState::FORCED_START, "bigjson/009472f6-0d76-4db6-8161-a536bf497f89"},
-                {RefGameState::HALT, "rtt_dennis/HaltStrategy"},
+                {RefGameState::HALT, "haltStrategy"},
                 {RefGameState::STOP, "rtt_anouk/StopStrat"},
                 {RefGameState::TIMEOUT_US, "rtt_anouk/StopStrat"},
                 {RefGameState::TIMEOUT_THEM, "rtt_anouk/StopStrat"},
