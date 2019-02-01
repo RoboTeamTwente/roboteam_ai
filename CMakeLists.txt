@@ -253,6 +253,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/MainWindowTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/ControlUtilsTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/PassTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/WorldHelper.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/WorldHelper.cpp
         )
