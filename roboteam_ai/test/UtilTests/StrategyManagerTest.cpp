@@ -14,7 +14,7 @@ TEST(StrategyManagerTest, StrategyManagerTest) {
     EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "bigjson/NormalPlay");
 
     cmd.command = static_cast<int>(RefGameState::HALT);
-    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "rtt_dennis/HaltStrategy");
+    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "haltStrategy");
 
     // prepare command followed up by normal start should trigger followUpCommand
     cmd.command = static_cast<int>(RefGameState::PREPARE_KICKOFF_US);
@@ -28,5 +28,5 @@ TEST(StrategyManagerTest, StrategyManagerTest) {
     cmd.command = static_cast<int>(RefGameState::PREPARE_KICKOFF_US);
     EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "rtt_emiel/PrepareKickoffUsStrategy");
     cmd.command = static_cast<int>(RefGameState::HALT);
-    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "rtt_dennis/HaltStrategy");
+    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "haltStrategy");
 }
