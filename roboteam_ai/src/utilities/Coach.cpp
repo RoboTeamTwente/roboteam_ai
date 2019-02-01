@@ -262,7 +262,7 @@ Vector2 Coach::getBallPlacementBeforePos(Vector2 ballPos){
     Vector2 targetPos=ballPos + (PlacePos - ballPos).stretchToLength(constants::BP_MOVE_TOWARDS_DIST);
     return targetPos;
 }
-Vector2 Coach::getBallPlacementAfterPos(Vector2 ballPos,double RobotAngle){
+Vector2 Coach::getBallPlacementAfterPos(double RobotAngle){
     Vector2 targetPos=interface::InterfaceValues::getBallPlacementTarget() + Vector2(constants::BP_MOVE_BACK_DIST,0).rotate(RobotAngle+M_PI);
     return targetPos;
 }

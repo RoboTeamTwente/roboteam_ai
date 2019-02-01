@@ -26,7 +26,7 @@ void BasicGoToPos::onInitialize() {
     else if (properties->getBool("BallPlacementAfter")){
         if(ball){
             errorMargin=0.05;
-            targetPos=coach::Coach::getBallPlacementAfterPos(ball->pos,robot->angle);
+            targetPos=coach::Coach::getBallPlacementAfterPos(robot->angle);
         }
         else{
             ROS_ERROR("BasicGoToPos: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
