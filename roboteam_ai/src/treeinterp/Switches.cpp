@@ -219,10 +219,6 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"attacker", robotType::closeToTheirGoal}
             }
             },
-            {"SingleKeeperTactic", {
-                    {"Keeper", robotType::closeToOurGoal}
-            }
-            },
             {"OneAttackerOneDefenderTactic", {
                     {"defender", robotType::closeToOurGoal},
                     {"attacker", robotType::closeToTheirGoal}
@@ -261,15 +257,6 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"random6", robotType::random},
                     {"random7", robotType::random}
             }
-            },
-            {"BallPlacementUsTactic",{
-                    {"BallPlacementBot",robotType::random}
-            }
-            },
-            {"OffenseTactic", {
-                  {"striker", robotType::closeToTheirGoal},
-                  {"assister", robotType::closeToBall}
-          }
             },
             {"BallPlacementUsTactic",{
                     {"BallPlacementBot",robotType::random}
