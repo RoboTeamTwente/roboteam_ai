@@ -93,6 +93,36 @@ TEST(CoachTest, get_position_behind_ball) {
     EXPECT_FALSE(Coach::isRobotBehindBallToRobot(1, false, 2, Vector2(2, 2))); // too far behind ball
 }
 
+TEST(CoachTest, get_robot_closest_to_ball) {
+    roboteam_msgs::GeometryFieldSize field;
+    field.field_width = 12;
+    field.field_length = 8;
+    Field::set_field(field);
+
+    // create a world with 5v5 and one of our robots has the ball
+    auto world = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(5, 5, true, field);
+    World::set_world(world.first);
+    auto robotThatHasBallId = world.second;
+
+
+    // the right robot is closest
+    EXPECT_EQ(Coach::getRobotClosestToBall().first, robotThatHasBallId);
+
+    // it is our robot
+    EXPECT_TRUE(Coach::getRobotClosestToBall().second);
+
+    // create a world with 5v5 and one of their robots has the ball
+    world = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(5, 5, false, field);
+    World::set_world(world.first);
+    robotThatHasBallId = world.second;
+
+    // the right robot is closest
+    EXPECT_EQ(Coach::getRobotClosestToBall().first, robotThatHasBallId);
+
+    // it is our robot
+    EXPECT_FALSE(Coach::getRobotClosestToBall().second);
+}
+
 } // coach
 } // ai
 } // rtt
