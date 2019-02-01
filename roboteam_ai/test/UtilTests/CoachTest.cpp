@@ -46,7 +46,6 @@ TEST(CoachTest, get_position_behind_ball) {
     EXPECT_FLOAT_EQ(pos.dist(World::getBall()->pos), 1);
 
     // it should be the same location as the test position
-
     auto ballPos = rtt::Vector2(World::getBall()->pos);
     auto testPos = ballPos + (ballPos - Field::get_our_goal_center()).stretchToLength(1);
     EXPECT_FLOAT_EQ(pos.dist(World::getBall()->pos), 1);
@@ -70,6 +69,28 @@ TEST(CoachTest, get_position_behind_ball) {
     // there should be some margins as well both behind the max position and on the y scale
     EXPECT_FALSE(Coach::isRobotBehindBallToGoal(1, false, Vector2(1.2, 0.2)));
     EXPECT_TRUE(Coach::isRobotBehindBallToGoal(1, false, Vector2(-1.2, 0.2)));
+
+    // create an empty world
+    worldMsg = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
+    worldMsg.ball.pos = Vector2(0, 0);
+    worldMsg.ball.visible = 1;
+
+    roboteam_msgs::WorldRobot robotToPointTo;
+    robotToPointTo.id = 3;
+    robotToPointTo.pos.x = -1;
+    robotToPointTo.pos.y = -1;
+    worldMsg.them.push_back(robotToPointTo);
+    World::set_world(worldMsg);
+
+    // check for position behind robottopointo, 1 m behind the ball
+    // robottopointto is THEIR team
+    EXPECT_TRUE(Coach::isRobotBehindBallToRobot(1, false, 3, Vector2(1, 1))); // good
+    EXPECT_TRUE(Coach::isRobotBehindBallToRobot(1, false, 3, Vector2(1.2, 1))); // still good
+
+    EXPECT_FALSE(Coach::isRobotBehindBallToRobot(1, true, 3, Vector2(1, 1))); // wrong team, robot should not exist
+    EXPECT_FALSE(Coach::isRobotBehindBallToRobot(1, false, 2, Vector2(1.2, 1))); // wrong id, robot should not exist
+    EXPECT_FALSE(Coach::isRobotBehindBallToRobot(1, true, 3, Vector2(-1, 1))); // wrong location
+    EXPECT_FALSE(Coach::isRobotBehindBallToRobot(1, false, 2, Vector2(2, 2))); // too far behind ball
 }
 
 } // coach
