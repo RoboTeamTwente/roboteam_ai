@@ -11,6 +11,8 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
+namespace c = constants;
+
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     setMinimumWidth(800);
     setMinimumHeight(600);
@@ -18,42 +20,40 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     visualizer = new Visualizer(this);
     mainLayout = new QVBoxLayout();
     horizontalLayout = new QHBoxLayout();
-    verticalLayout = new QVBoxLayout();
+    vLayout = new QVBoxLayout();
     robotsLayout = new QHBoxLayout();
 
     // functions to select strategies
-    configureCheckBox("Use referee", verticalLayout, visualizer, SLOT(setShowRoles(bool)),
+    configureCheckBox("Use referee", vLayout, visualizer, SLOT(setShowRoles(bool)),
             constants::STD_SHOW_ROLES);
 
     select_strategy = new QComboBox();
-    verticalLayout->addWidget(select_strategy);
+    vLayout->addWidget(select_strategy);
     for (std::string const &strategyName : Switches::strategyJsonFileNames) {
         select_strategy->addItem(QString::fromStdString(strategyName));
     }
 
     auto haltBtn = new QPushButton("HALT");
     QObject::connect(haltBtn, SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
-    verticalLayout->addWidget(haltBtn);
+    vLayout->addWidget(haltBtn);
 
     toggleColorBtn = new QPushButton("Color");
     QObject::connect(toggleColorBtn, SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
-    verticalLayout->addWidget(toggleColorBtn);
+    vLayout->addWidget(toggleColorBtn);
     
     toggleSideBtn = new QPushButton("Side");
     QObject::connect(toggleSideBtn, SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
 
 
-    verticalLayout->addWidget(toggleSideBtn);
+    vLayout->addWidget(toggleSideBtn);
 
     doubleSpinBoxesGroup = new QGroupBox("GoToPosLuth PID options");
     spinBoxLayout =new QHBoxLayout();
-
     sb_luth_P = new QDoubleSpinBox();
     sb_luth_P->setRange(-20, 20);
     sb_luth_P->setSingleStep(0.1f);
     sb_luth_P->setValue(InterfaceValues::getLuthP());
     QObject::connect(sb_luth_P, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
-
     spinBoxLayout->addWidget(sb_luth_P);
 
     sb_luth_I = new QDoubleSpinBox();
@@ -61,7 +61,6 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     sb_luth_I->setSingleStep(0.1f);
     sb_luth_I->setValue(InterfaceValues::getLuthI());
     QObject::connect(sb_luth_I, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
-
     spinBoxLayout->addWidget(sb_luth_I);
 
     sb_luth_D = new QDoubleSpinBox();
@@ -73,7 +72,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     spinBoxLayout->addWidget(sb_luth_D);
 
     doubleSpinBoxesGroup->setLayout(spinBoxLayout);
-    verticalLayout->addWidget(doubleSpinBoxesGroup);
+    vLayout->addWidget(doubleSpinBoxesGroup);
 
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [=](const QString &strategyName) {
@@ -82,40 +81,25 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
               hasCorrectTree = false;
             });
 
-    configureCheckBox("show rolenames", verticalLayout, visualizer, SLOT(setShowRoles(bool)),
-            constants::STD_SHOW_ROLES);
-
-    configureCheckBox("show tacticnames", verticalLayout, visualizer, SLOT(setShowTactics(bool)),
-            constants::STD_SHOW_TACTICS);
-
-    configureCheckBox("show tacticColors", verticalLayout, visualizer, SLOT(setShowTacticColors(bool)),
-            constants::STD_SHOW_TACTICS_COLORS);
-
-    configureCheckBox("show angles", verticalLayout, visualizer, SLOT(setShowAngles(bool)),
-            constants::STD_SHOW_ANGLES);
-
-    configureCheckBox("show velocities", verticalLayout, visualizer, SLOT(setShowVelocities(bool)),
-            constants::STD_SHOW_VELOCITIES);
-
-    configureCheckBox("show path for current robot", verticalLayout, visualizer, SLOT(setShowPath(bool)),
-            constants::STD_SHOW_PATHS_CURRENT);
-
-    configureCheckBox("show path for all robots", verticalLayout, visualizer, SLOT(setShowPathAll(bool)),
-            constants::STD_SHOW_PATHS_ALL);
-
-    configureCheckBox("Show marker for Ball Placement", verticalLayout, visualizer, SLOT(setShowBallPlacementMarker(bool)),
-            constants::STD_SHOW_BALL_PLACEMENT_MARKER);
+    configureCheckBox("show rolenames", vLayout, visualizer, SLOT(setShowRoles(bool)), c::STD_SHOW_ROLES);
+    configureCheckBox("show tacticnames", vLayout, visualizer, SLOT(setShowTactics(bool)), c::STD_SHOW_TACTICS);
+    configureCheckBox("show tacticColors", vLayout, visualizer, SLOT(setShowTacticColors(bool)), c::STD_SHOW_TACTICS_COLORS);
+    configureCheckBox("show angles", vLayout, visualizer, SLOT(setShowAngles(bool)), c::STD_SHOW_ANGLES);
+    configureCheckBox("show velocities", vLayout, visualizer, SLOT(setShowVelocities(bool)), c::STD_SHOW_VELOCITIES);
+    configureCheckBox("show path for current robot", vLayout, visualizer, SLOT(setShowPath(bool)), c::STD_SHOW_PATHS_CURRENT);
+    configureCheckBox("show path for all robots", vLayout, visualizer, SLOT(setShowPathAll(bool)), c::STD_SHOW_PATHS_ALL);
+    configureCheckBox("Show marker for Ball Placement", vLayout, visualizer, SLOT(setShowBallPlacementMarker(bool)), c::STD_SHOW_BALL_PLACEMENT_MARKER);
 
     // set up tree widget
-    treeWidget = new QTreeWidget();
+    treeWidget = new TreeVisualizerWidget(this);
     treeWidget->setColumnCount(2);
     treeWidget->setColumnWidth(0, 250);
 
-    verticalLayout->addWidget(treeWidget);
+    vLayout->addWidget(treeWidget);
 
     // main layout: left the visualizer and right the vertical layout
     horizontalLayout->addWidget(visualizer, 3); // width stretch 3/5
-    horizontalLayout->addLayout(verticalLayout, 2); // width stretch 2/5
+    horizontalLayout->addLayout(vLayout, 2); // width stretch 2/5
 
     mainLayout->addLayout(horizontalLayout, 5); // height stretch 5/6
     mainLayout->addLayout(robotsLayout, 1); // height stretch 1/6
@@ -128,64 +112,22 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     // start the UI update cycles
     auto* timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateWidgets()));
+   //  connect(timer, SIGNAL(timeout()), this, SLOT(updateWidgets()));
     timer->start(20); // 50fps
 
     // start the UI update cycles
     auto * robotsTimer = new QTimer(this);
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget()));
     robotsTimer->start(200); // 5fps
-    
-    delete timer;
-    delete robotsTimer;
+
 }
 
-// some widgets need to be updated regularly
-void MainWindow::updateWidgets() {
-    // Iterate through all treeWidget items to update the status if needed
-    QTreeWidgetItemIterator iter(treeWidget, QTreeWidgetItemIterator::All);
-    while (*iter) {
-        QTreeWidgetItem* widgetItem = *iter;
-        if (treeItemMapping.find(widgetItem) != treeItemMapping.end()) {
-            bt::Node::Ptr item = treeItemMapping.at(widgetItem);
-            QString status = QString::fromStdString(statusToString(item->getStatus()));
-            if (widgetItem->text(1) != status) {
-                widgetItem->setText(1, status);
-                widgetItem->setBackgroundColor(1, getColorForStatus(item->getStatus()));
-            }
-        }
-        ++ iter;
-        delete widgetItem;
-    }
 
-    // initiate a redraw when the actual tree and the tree in the widget are not the same
-    std::string currentTree = BTFactory::getFactory().getCurrentTree();
-    if (QString::fromStdString(currentTree) != select_strategy->currentText()) {
-        hasCorrectTree = false;
-        select_strategy->setCurrentText(QString::fromStdString(currentTree));
-    }
-
-    // if the tree did change, clear the treewidget and rebuild it
-    if (! hasCorrectTree && BTFactory::getFactory().isInitialized()) {
-        treeItemMapping.clear();
-        treeWidget->clear();
-        bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree(BTFactory::getFactory().getCurrentTree());
-
-        if (tree && tree->GetRoot()) {
-            auto treeItemRoot = new QTreeWidgetItem(treeWidget);
-            treeItemRoot->setText(0, QString::fromStdString(tree->GetRoot()->node_name()));
-            treeItemRoot->setText(1, QString::fromStdString(statusToString(tree->GetRoot()->getStatus())));
-            treeItemRoot->setBackgroundColor(1, getColorForStatus(tree->GetRoot()->getStatus()));
-
-            addRootItem(tree->GetRoot(), treeItemRoot);
-            treeWidget->expandAll();
-            treeWidget->update();
-        }
-        hasCorrectTree = true;
-    }
-}
 
 void MainWindow::updateRobotsWidget() {
+
+    visualizer->update();
+    treeWidget->updateContents();
 
     auto us = World::get_world().us;
 
@@ -220,41 +162,9 @@ void MainWindow::updateRobotsWidget() {
 }
 
 
-/// Use recursion to iterate through the children of each node
-void MainWindow::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem* QParent) {
-    for (auto const &child : parent->getChildren()) {
-        auto treeItemchild = new QTreeWidgetItem(QParent);
-        treeItemchild->setText(0, QString::fromStdString(child->node_name()));
-        treeItemchild->setText(1, QString::fromStdString(statusToString(child->getStatus())));
-
-        std::pair<QTreeWidgetItem*, bt::Node::Ptr> pair{treeItemchild, child};
-        treeItemMapping.insert(pair);
-
-        treeItemchild->setBackgroundColor(1, getColorForStatus(child->getStatus()));
-        QParent->addChild(treeItemchild);
-        addRootItem(child, treeItemchild);
-    }
-}
-
-/// returns a color for a given node status
-QColor MainWindow::getColorForStatus(bt::Node::Status status) {
-    switch (status) {
-        case bt::Node::Status::Failure:
-            return Qt::red;
-        case bt::Node::Status::Running:
-            return {"#99ff99"}; // light green
-        case bt::Node::Status::Success:
-            return {"#339933"}; // dark green
-        case bt::Node::Status::Waiting:
-            return Qt::gray;
-        default:
-            return Qt::white;
-    }
-}
 
 /// Set up the checkbox properties for a given checkbox
-void MainWindow::configureCheckBox(QString title, QLayout * layout,
-        const QObject* receiver, const char* method,
+void MainWindow::configureCheckBox(QString title, QLayout * layout, const QObject* receiver, const char* method,
         bool defaultState) {
 
     QCheckBox * checkbox = new QCheckBox(title);
@@ -286,21 +196,6 @@ QVBoxLayout * MainWindow::createRobotGroupItem(roboteam_msgs::WorldRobot robot) 
     return vbox;
 }
 
-void MainWindow::clearLayout(QLayout *layout) {
-    QLayoutItem * item;
-    while((item = layout->takeAt(0))) {
-        if (item->layout()) {
-            clearLayout(item->layout());
-            delete item->layout();
-        }
-        if (item->widget()) {
-            delete item->widget();
-        }
-        delete item;
-    }
-}
-
-
 void MainWindow::toggleOurColorParam() {
     ros::NodeHandle nh;
     std::string ourColorParam, newParam;
@@ -327,6 +222,21 @@ void MainWindow::updatePID_luth() {
 
 void MainWindow::sendHaltSignal() {
     InterfaceValues::sendHaltCommand();
+}
+
+/// delete a layout and its children
+void MainWindow::clearLayout(QLayout * layout) {
+    QLayoutItem * item;
+    while((item = layout->takeAt(0))) {
+        if (item->layout()) {
+            clearLayout(item->layout());
+            delete item->layout();
+        }
+        if (item->widget()) {
+            delete item->widget();
+        }
+        delete item;
+    }
 }
 
 } // interface

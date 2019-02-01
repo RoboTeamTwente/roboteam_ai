@@ -22,6 +22,7 @@
 #include <QGroupBox>
 #include <QLabel>
 #include <QtWidgets/QDoubleSpinBox>
+#include "TreeVisualizerWidget.h"
 
 namespace rtt {
 namespace ai {
@@ -35,7 +36,6 @@ class MainWindow : public QMainWindow {
         explicit MainWindow(QWidget* parent = nullptr);
 
 public slots:
-    void updateWidgets();
     void updateRobotsWidget();
     void toggleOurColorParam();
     void toggleOurSideParam();
@@ -46,8 +46,9 @@ private:
     QHBoxLayout * horizontalLayout;
     QHBoxLayout * robotsLayout;
     QVBoxLayout * mainLayout;
-    QVBoxLayout * verticalLayout;
-    QTreeWidget * treeWidget;
+    QVBoxLayout * vLayout;
+
+    TreeVisualizerWidget * treeWidget;
     QPushButton * haltBtn;
 
     QPushButton * toggleColorBtn;
@@ -65,7 +66,6 @@ private:
 
     bool hasCorrectTree = false;
     void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem * QParent);
-    std::map<QTreeWidgetItem *, bt::Node::Ptr> treeItemMapping;
     QVBoxLayout * createRobotGroupItem(roboteam_msgs::WorldRobot robot);
     QColor getColorForStatus(bt::Node::Status status);
     void clearLayout(QLayout *layout);
