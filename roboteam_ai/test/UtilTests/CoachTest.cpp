@@ -92,6 +92,11 @@ TEST(CoachTest, get_position_behind_ball) {
     EXPECT_FALSE(Coach::isRobotBehindBallToRobot(1, false, 2, Vector2(1.2, 1))); // wrong id, robot should not exist
     EXPECT_FALSE(Coach::isRobotBehindBallToRobot(1, true, 3, Vector2(-1, 1))); // wrong location
     EXPECT_FALSE(Coach::isRobotBehindBallToRobot(1, false, 2, Vector2(2, 2))); // too far behind ball
+
+    auto testPos2 = Coach::getPositionBehindBallToRobot(1, false, 3);
+    EXPECT_FLOAT_EQ(testPos2.x, sin(M_PI/4));
+    EXPECT_FLOAT_EQ(testPos2.y, cos(M_PI/4));
+
 }
 
 TEST(CoachTest, get_robot_closest_to_ball) {
