@@ -59,6 +59,9 @@ bt::Node::Status Attack::onUpdate() {
     else {
         velocity = goToPos.goToPos(robot, targetPos, goToType);
     }
+    if (velocity.length() < 0.3 && velocity.length() > 0.04)
+        velocity.stretchToLength(0.3);
+
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     publishRobotCommand(command);
