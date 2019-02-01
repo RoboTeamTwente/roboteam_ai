@@ -123,6 +123,51 @@ TEST(CoachTest, get_robot_closest_to_ball) {
     EXPECT_FALSE(Coach::getRobotClosestToBall().second);
 }
 
+TEST(CoachTest, it_adds_and_removes_defenders) {
+    roboteam_msgs::GeometryFieldSize field;
+    field.field_width = 12;
+    field.field_length = 8;
+    Field::set_field(field);
+
+    EXPECT_TRUE(Coach::defenders.empty());
+
+    Coach::addDefender(3);
+    EXPECT_EQ(Coach::defenders.size(), 1);
+    EXPECT_EQ(Coach::defenders.at(0), 3); // the id is correct
+
+    // getting a defensive position adds a defender if it is not already there.
+    // robot 3 is already there so it should not be added again.
+    auto defensePosition = Coach::getDefensivePosition(3);
+    EXPECT_EQ(Coach::defenders.size(), 1);
+    EXPECT_EQ(Coach::defenders.at(0), 3); // the id is correct
+
+    EXPECT_EQ(defensePosition.y, -2);
+    EXPECT_EQ(defensePosition.x, 0);
+
+    // now another defense robot + position should be there
+    defensePosition = Coach::getDefensivePosition(5);
+    EXPECT_EQ(Coach::defenders.size(), 2);
+
+    EXPECT_EQ(defensePosition.y, -2);
+    EXPECT_EQ(defensePosition.x, abs(4)); // it is either -4 or 4
+
+    Coach::removeDefender(6); // this should do nothing
+    EXPECT_EQ(Coach::defenders.size(), 2);
+
+    Coach::removeDefender(3); // this should do nothing
+    EXPECT_EQ(Coach::defenders.size(), 1);
+    EXPECT_EQ(Coach::defenders.at(0), 5); // the id is correct
+    EXPECT_EQ(defensePosition.y, -2);
+    EXPECT_EQ(defensePosition.x, 0);
+
+    Coach::removeDefender(5); // this should do nothing
+    EXPECT_EQ(Coach::defenders.size(), 0);
+}
+
+TEST(CoachTest, it_adds_and_removes_formationrobots) {
+
+}
+
 } // coach
 } // ai
 } // rtt

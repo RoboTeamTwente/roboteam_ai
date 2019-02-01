@@ -14,6 +14,7 @@
 #include "../control/ControlUtils.h"
 #include <map>
 #include <string>
+#include <gtest/gtest_prod.h>
 #include "roboteam_utils/Vector2.h"
 
 namespace rtt {
@@ -21,7 +22,10 @@ namespace ai {
 namespace coach {
 
 class Coach {
-    private:
+    FRIEND_TEST(CoachTest, it_adds_and_removes_defenders);
+    FRIEND_TEST(CoachTest, it_adds_and_removes_formationrobots);
+
+private:
         static std::vector<int> defenders;
         static std::vector<int> robotsInFormation;
 
