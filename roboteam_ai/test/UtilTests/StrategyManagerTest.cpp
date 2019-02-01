@@ -11,22 +11,22 @@ TEST(StrategyManagerTest, StrategyManagerTest) {
     roboteam_msgs::RefereeCommand cmd;
 
     cmd.command = static_cast<int>(RefGameState::NORMAL_START);
-    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "bigjson/NormalPlay");
+    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "twoPlayerStrategyV2");
 
     cmd.command = static_cast<int>(RefGameState::HALT);
     EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "haltStrategy");
 
     // prepare command followed up by normal start should trigger followUpCommand
     cmd.command = static_cast<int>(RefGameState::PREPARE_KICKOFF_US);
-    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "rtt_emiel/PrepareKickoffUsStrategy");
+    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "EnterFormationStrategy");
     cmd.command = static_cast<int>(RefGameState::NORMAL_START);
-    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "rtt_bob/KickoffWithChipStrategy");
+    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "twoPlayerStrategyV2");
     cmd.command = static_cast<int>(RefGameState::NORMAL_START);
-    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "bigjson/NormalPlay");
+    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "twoPlayerStrategyV2");
 
     // prepare command followed up by something else (i.e. command a) than normal start should trigger that command (command a).
     cmd.command = static_cast<int>(RefGameState::PREPARE_KICKOFF_US);
-    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "rtt_emiel/PrepareKickoffUsStrategy");
+    EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "EnterFormationStrategy");
     cmd.command = static_cast<int>(RefGameState::HALT);
     EXPECT_EQ(strategyManager.getCurrentStrategyName(cmd), "haltStrategy");
 }

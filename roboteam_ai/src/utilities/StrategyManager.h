@@ -37,35 +37,34 @@ class StrategyManager {
         StrategyMap getStrategyMapForRefGameState(RefGameState commandId);
 
         std::vector<StrategyMap> strategyMaps = {
-                {RefGameState::NORMAL_START, "bigjson/NormalPlay"},
-                {RefGameState::FORCED_START, "bigjson/009472f6-0d76-4db6-8161-a536bf497f89"},
+                {RefGameState::NORMAL_START, "twoPlayerStrategyV2"},
+                {RefGameState::FORCED_START, "threePlayerStrategyV2"},
                 {RefGameState::HALT, "haltStrategy"},
-                {RefGameState::STOP, "rtt_anouk/StopStrat"},
-                {RefGameState::TIMEOUT_US, "rtt_anouk/StopStrat"},
-                {RefGameState::TIMEOUT_THEM, "rtt_anouk/StopStrat"},
-                {RefGameState::GOAL_US, "rtt_anouk/StopStrat"},
-                {RefGameState::GOAL_THEM, "rtt_anouk/StopStrat"},
-                {RefGameState::BALL_PLACEMENT_US, "rtt_anouk/BallPlacement_Strat"},
-                {RefGameState::BALL_PLACEMENT_THEM, "rtt_anouk/BallPlacementThemStrat"},
+                {RefGameState::STOP, "haltStrategy"},
+                {RefGameState::TIMEOUT_US, "haltStrategy"},
+                {RefGameState::TIMEOUT_THEM, "haltStrategy"},
+                {RefGameState::GOAL_US, "haltStrategy"},
+                {RefGameState::GOAL_THEM, "haltStrategy"},
+                {RefGameState::BALL_PLACEMENT_US, "BallPlacementUsStrategy"},
+                {RefGameState::BALL_PLACEMENT_THEM, "BallPlacementThemStrategy"},
 
                 //  Strategies with a follow up strategy
-                {RefGameState::PREPARE_KICKOFF_US, "rtt_emiel/PrepareKickoffUsStrategy", RefGameState::DO_KICKOFF},
-                {RefGameState::PREPARE_KICKOFF_THEM, "rtt_emiel/PrepareKickoffThemStrategy",
-                 RefGameState::DEFEND_KICKOFF},
-                {RefGameState::PREPARE_PENALTY_US, "rtt_emiel/PreparePenaltyUsStrategy", RefGameState::DEFEND_PENALTY},
-                {RefGameState::PREPARE_PENALTY_THEM, "rtt_emiel/PreparePenaltyThemStrategy", RefGameState::DO_PENALTY},
+                {RefGameState::PREPARE_KICKOFF_US, "EnterFormationStrategy", RefGameState::DO_KICKOFF},
+                {RefGameState::PREPARE_KICKOFF_THEM, "EnterFormationStrategy", RefGameState::DEFEND_KICKOFF},
+                {RefGameState::PREPARE_PENALTY_US, "BallPlacementUsStrategy", RefGameState::DEFEND_PENALTY},
+                {RefGameState::PREPARE_PENALTY_THEM, "BallPlacementThemStrategy", RefGameState::DO_PENALTY},
 
-                {RefGameState::DIRECT_FREE_US, "rtt_jim/NormalPlay"},
-                {RefGameState::DIRECT_FREE_THEM, "rtt_anouk/PrepareDirectThem"},
-                {RefGameState::INDIRECT_FREE_US, "rtt_emiel/IndirectUsStrategy"},
-                {RefGameState::INDIRECT_FREE_THEM, "rtt_anouk/PrepareDirectThem"},
+                {RefGameState::DIRECT_FREE_US, "twoPlayerStrategyV2"},
+                {RefGameState::DIRECT_FREE_THEM, "EnterFormationStrategy"},
+                {RefGameState::INDIRECT_FREE_US, "EnterFormationStrategy"},
+                {RefGameState::INDIRECT_FREE_THEM, "EnterFormationStrategy"},
 
                 // these are called after PREPARE_
                 // these custom strategies need special attention
-                {RefGameState::DO_KICKOFF, "rtt_bob/KickoffWithChipStrategy"},
-                {RefGameState::DEFEND_KICKOFF, "rtt_jim/KickOffDefenseStrat"},
-                {RefGameState::DEFEND_PENALTY, "rtt_emiel/PreparePenaltyThemStrategy"},
-                {RefGameState::DO_PENALTY, "rtt_jim/TakePenalty"}
+                {RefGameState::DO_KICKOFF, "twoPlayerStrategyV2"},
+                {RefGameState::DEFEND_KICKOFF, "twoPlayerStrategyV2"},
+                {RefGameState::DEFEND_PENALTY, "EnterFormationStrategy"},
+                {RefGameState::DO_PENALTY, "EnterFormationStrategy"}
         };
 };
 

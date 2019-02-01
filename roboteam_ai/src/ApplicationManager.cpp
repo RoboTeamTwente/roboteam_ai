@@ -58,7 +58,10 @@ void ApplicationManager::runOneLoopCycle() {
             ROS_INFO("NaN tree probably Halting");
             return;
         }
-        //this->handleRefData();
+
+        if (ai::interface::InterfaceValues::usesRefereeCommands()) {
+            this->handleRefData();
+        }
         strategy = factory.getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
@@ -95,7 +98,7 @@ void ApplicationManager::updateDangerfinder() {
 void ApplicationManager::handleRefData() {
     ai::StrategyManager strategyManager;
     std::string strategyName = strategyManager.getCurrentStrategyName(refereeMsg.command);
-    strategy = factory.getTree(strategyName);
+    BTFactory::setCurrentTree(strategyName);
 }
 
 void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {

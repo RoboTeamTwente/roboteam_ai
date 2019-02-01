@@ -10,24 +10,19 @@
 namespace rtt {
 namespace ai {
 
-class AvoidBallForBallPlacement : public Skill {
+class AvoidBall : public Skill {
 
 public:
-    explicit AvoidBallForBallPlacement(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-    void onInitialize() override;
+    explicit AvoidBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
     bt::Node::Status onUpdate() override;
 private:
     control::ControlGoToPos gtp;
     rtt::Vector2 ballPlacementTargetLocation;
     rtt::Vector2 targetToMoveTo;
-
-    bool positionIsTooCloseToLine(rtt::Vector2 position);
     enum Progression {
         RUNNING, DONE, FAIL
     };
     Progression currentProgress;
-
-
 };
 
 } // ai

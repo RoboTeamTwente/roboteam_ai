@@ -41,6 +41,7 @@ public slots:
     void toggleOurSideParam();
     void updatePID_luth();
     void sendHaltSignal();
+    void setUseReferee(bool useRef);
 private:
     std::shared_ptr<Visualizer> visualizer;
     std::shared_ptr<QHBoxLayout> horizontalLayout;

@@ -14,9 +14,12 @@ double InterfaceValues::luthP = constants::standard_luth_P;
 double InterfaceValues::luthI = constants::standard_luth_I;
 double InterfaceValues::luthD = constants::standard_luth_D;
 rtt::Vector2 InterfaceValues::ballPlacementTarget = {0, 0}; // initialize on middle of the field
+bool InterfaceValues::useRefereeCommands = constants::STD_USE_REFEREE;
+
 
 std::mutex InterfaceValues::PIDMutex;
 std::mutex InterfaceValues::BallPlacementMutex;
+std::mutex InterfaceValues::RefMutex;
 
 
 double InterfaceValues::getLuthP() {
@@ -61,6 +64,16 @@ const Vector2& InterfaceValues::getBallPlacementTarget() {
 void InterfaceValues::setBallPlacementTarget(const Vector2& ballPlacementTarget) {
     std::lock_guard<std::mutex> lock(BallPlacementMutex);
     InterfaceValues::ballPlacementTarget = ballPlacementTarget;
+}
+
+bool InterfaceValues::usesRefereeCommands() {
+    std::lock_guard<std::mutex> lock(RefMutex);
+    return useRefereeCommands;
+}
+
+void InterfaceValues::setUseRefereeCommands(bool useRefereeCommands){
+    std::lock_guard<std::mutex> lock(RefMutex);
+    InterfaceValues::useRefereeCommands = useRefereeCommands;
 }
 
 } // interface

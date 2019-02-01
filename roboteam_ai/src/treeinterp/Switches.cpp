@@ -14,7 +14,7 @@
 #include "../bt/tactics/VictoryDanceTactic.h"
 #include "../bt/tactics/DefaultTactic.h"
 #include "../bt/tactics/EnterFormationTactic.h"
-#include "../bt/tactics/AvoidBallForBallPlacementTactic.h"
+#include "../bt/tactics/AvoidBallTactic.h"
 
 //  ______________________
 //  |                    |
@@ -54,9 +54,10 @@
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
 #include <roboteam_ai/src/skills/EnterFormation.h>
-#include <roboteam_ai/src/skills/AvoidBallForBallPlacement.h>
+#include <roboteam_ai/src/skills/AvoidBall.h>
 #include "../conditions/BallInDefenseAreaAndStill.h"
 #include "../conditions/IsInDefenseArea.hpp"
+#include "../conditions/BallOutOfField.h"
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -80,7 +81,7 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "PassTactic",
          "EnterFormationTactic",
          "BallPlacementUsTactic",
-         "AvoidBallForBallPlacementTactic",
+         "AvoidBallTactic",
          "randomTactic" // used for testing, do not remove it!
          };
 
@@ -96,6 +97,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
          "threePlayerStrategyV2",
          "EnterFormationStrategy",
          "BallPlacementUsStrategy",
+         "BallPlacementThemStrategy",
          "randomStrategy" // used for testing, do not remove it!
         };
 
@@ -162,7 +164,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["SkillGoToPos"] =           std::make_shared<rtt::ai::SkillGoToPos>(name, properties);
     map["BasicGoToPos"] =           std::make_shared<rtt::ai::BasicGoToPos>(name, properties);
     map["EnterFormation"] =         std::make_shared<rtt::ai::EnterFormation>(name, properties);
-    map["AvoidBallForBallPlacement"] = std::make_shared<rtt::ai::AvoidBallForBallPlacement>(name, properties);
+    map["AvoidBall"] =              std::make_shared<rtt::ai::AvoidBall>(name, properties);
 
     // conditions (alphabetic order)
     map["BallKickedToOurGoal"] =    std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
@@ -173,6 +175,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["IsRobotClosestToBall"] =   std::make_shared<rtt::ai::IsRobotClosestToBall>(name, properties);
     map["IsInDefenseArea"] =        std::make_shared<rtt::ai::IsInDefenseArea>(name,properties);
     map["TheyHaveBall"] =           std::make_shared<rtt::ai::TheyHaveBall>(name, properties);
+    map["BallOutOfField"] =         std::make_shared<rtt::ai::BallOutOfField>(name, properties);
     map["WeHaveBall"] =             std::make_shared<rtt::ai::WeHaveBall>(name, properties);
 
     if ( map.find(name) != map.end() ) {
@@ -251,7 +254,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
             {"BallPlacementUsTactic",{
-                    {"BallPlacementBot",robotType::random}
+                    {"BallPlacementBot",robotType::closeToBall}
             }
             }
     };
@@ -268,8 +271,8 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
     else if (name == "EnterFormationTactic") {
         node = std::make_shared<bt::EnterFormationTactic>("EnterFormationTactic", properties);
     }
-    else if (name == "AvoidBallForBallPlacementTactic") {
-        node = std::make_shared<bt::AvoidBallForBallPlacementTactic>("AvoidBallForBallPlacementTactic", properties);
+    else if (name == "AvoidBallTactic") {
+        node = std::make_shared<bt::AvoidBallTactic>("AvoidBallTactic", properties);
     }
     else if (name == "victoryDanceTactic") {
         node = std::make_shared<bt::VictoryDanceTactic>("victoryDanceTactic", properties);

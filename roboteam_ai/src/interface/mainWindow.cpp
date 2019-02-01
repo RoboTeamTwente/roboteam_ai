@@ -24,8 +24,8 @@ MainWindow::MainWindow(QWidget* parent)
 
     // functions to select strategies
     cb_referee = std::make_shared<QCheckBox>("Use referee");
-    configureCheckBox(cb_referee, verticalLayout, visualizer.get(), SLOT(setShowRoles(bool)),
-            constants::STD_SHOW_ROLES);
+    configureCheckBox(cb_referee, verticalLayout, this, SLOT(setUseReferee(bool)),
+            constants::STD_USE_REFEREE);
 
     select_strategy = std::make_shared<QComboBox>();
     verticalLayout->addWidget(select_strategy.get());
@@ -335,6 +335,10 @@ void MainWindow::updatePID_luth() {
 
 void MainWindow::sendHaltSignal() {
     InterfaceValues::sendHaltCommand();
+}
+
+void MainWindow::setUseReferee(bool useRef) {
+    InterfaceValues::setUseRefereeCommands(useRef);
 }
 
 } // interface
