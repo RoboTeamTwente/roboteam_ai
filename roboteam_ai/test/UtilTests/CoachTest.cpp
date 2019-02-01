@@ -20,7 +20,9 @@ TEST(CoachTest, robot_has_ball_tests) {
 
     ASSERT_TRUE(Coach::doesRobotHaveBall(robotThatHasBall, true));
     ASSERT_FALSE(Coach::doesRobotHaveBall(robotThatHasBall, false));
-    ASSERT_FALSE(Coach::doesRobotHaveBall(robotThatHasBall - 1, true));
+
+    // the -1 gives an overflow on the unsigned int parameter, which makes it return false.
+    ASSERT_FALSE(Coach::doesRobotHaveBall(robotThatHasBall - 1, false));
     ASSERT_FALSE(Coach::doesRobotHaveBall(robotThatHasBall + 1, true));
 
     ASSERT_EQ(Coach::whichRobotHasBall(true), robotThatHasBall);

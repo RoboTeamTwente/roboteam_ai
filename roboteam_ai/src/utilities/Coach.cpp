@@ -81,21 +81,24 @@ int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
 
 int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkDist, double checkAngle) {
     auto robot = World::getRobotForId(robotID, isOurTeam);
-    Vector2 ballPos = World::get_world().ball.pos;
+    Vector2 ballPos = World::getBall()->pos;
 
-    Vector2 deltaPos = (ballPos - robot->pos);
-    double dist = deltaPos.length();
-    double angle = deltaPos.angle();
-    double robotAngle = robot->angle;
+    if (robot &&  World::getBall()) {
+        Vector2 deltaPos = (ballPos-robot->pos);
+        double dist = deltaPos.length();
+        double angle = deltaPos.angle();
+        double robotAngle = robot->angle;
 
-    if (angle < 0) {
-        angle += 2*M_PI;
+        if (angle<0) {
+            angle += 2*M_PI;
+        }
+        if (robotAngle<0) {
+            robotAngle += 2*M_PI;
+        }
+
+        return ((dist<checkDist) && (fabs(angle-robotAngle)<checkAngle));
     }
-    if (robotAngle < 0) {
-        robotAngle += 2*M_PI;
-    }
-
-    return ((dist < checkDist) && (fabs(angle - robotAngle) < checkAngle));
+    return false;
 }
 
 int Coach::pickOpponentToCover(int selfID) {
