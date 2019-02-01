@@ -47,17 +47,17 @@ const int MAX_GENEVA_CYCLES = 20;
 const int DEFAULT_GENEVA_STATE = 0;
 
 //dribble
-const double MAX_BALL_RANGE=0.12; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
-const double MAX_BALL_BOUNCE_RANGE=0.3;
-const double DRIBBLE_POSDIF=0.15;
+const double MAX_BALL_RANGE=0.05; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
+const double MAX_BALL_BOUNCE_RANGE=0.15;
+const double DRIBBLE_POSDIF=0.05;
 const float  DRIBBLE_SPEED=0.8;
 //getBallcc
 const double COLLISION_RADIUS=0.18;
 const double ANGLE_SENS=0.05*M_PI;
 const double MAX_GETBALL_RANGE=0.7;
-const int POSSES_BALL_CYCLES=100;
+const int POSSES_BALL_CYCLES=25;
 const double GETBALL_SPEED=.5;
-const double GETBALL_OVERSHOOT=.05;//m
+const double GETBALL_OVERSHOOT=.02;//m
 
 //GoToPos
 const double MAX_CALCULATION_TIME=20.0; //max time in ms
@@ -69,7 +69,7 @@ const double KEEPER_POSDIF=0.04;
 
 //ballkickedtoGoal
 const double BALL_TO_GOAL_MARGIN=BALL_RADIUS;//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
-const double BALL_TO_GOAL_TIME=3;//seconds
+const double BALL_TO_GOAL_TIME=1.5;//seconds
 
 //Intercept
 const double MAX_INTERCEPT_TIME=2.0;//seconds. Intercept terminates  after this time.
@@ -107,8 +107,8 @@ const bool STD_SHOW_BALL_PLACEMENT_MARKER = true;
 
 const QColor FIELD_COLOR{30, 30, 30, 255};
 const QColor FIELD_LINE_COLOR = Qt::white;
-const QColor ROBOT_US_COLOR { 150, 150, 255, 255 }; // Blue
-const QColor ROBOT_THEM_COLOR { 255, 255, 0, 255 }; // Yellow
+const QColor ROBOT_COLOR_BLUE { 150, 150, 255, 255 }; // Blue
+const QColor ROBOT_COLOR_YELLOW { 255, 255, 0, 255 }; // Yellow
 const QColor BALL_COLOR { 255, 120, 50, 255 }; // Orange
 const QColor TEXT_COLOR = Qt::white;
 const QColor SELECTED_ROBOT_COLOR = Qt::magenta;
@@ -120,10 +120,9 @@ const QColor TACTIC_4 { 255, 120, 180, 255 };
 const QColor TACTIC_5 { 255, 100, 255, 255 };
 const QColor TACTIC_COLORS[] = {TACTIC_1, TACTIC_2, TACTIC_3, TACTIC_4, TACTIC_5};
 
-const double standard_luth_P = 2.6;
-const double standard_luth_I = 0.1;
-const double standard_luth_D = 3.3;
-
+const double standard_luth_P = 3.0;
+const double standard_luth_I = 0.5;
+const double standard_luth_D = 2.5;
 } // constants
 } // ai
 } // rtt
