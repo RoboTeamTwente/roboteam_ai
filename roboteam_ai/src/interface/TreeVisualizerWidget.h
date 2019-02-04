@@ -7,12 +7,12 @@
 
 #include <QtWidgets/QTreeWidget>
 #include <roboteam_ai/src/bt/Node.hpp>
-#include "mainWindow.h"
 
 namespace rtt {
 namespace ai {
 namespace interface {
 
+class MainWindow;
 class TreeVisualizerWidget : public QTreeWidget {
     Q_OBJECT
     FRIEND_TEST(TreeVisualizerTest, it_toggles_our_color_param);
@@ -23,9 +23,7 @@ private:
     bool hasCorrectTree = false;
     MainWindow * parent = nullptr;
 public:
-    bool isHasCorrectTree() const;
     void setHasCorrectTree(bool hasCorrectTree);
-public:
     explicit TreeVisualizerWidget(MainWindow * parent);
 public slots:
     void updateContents();

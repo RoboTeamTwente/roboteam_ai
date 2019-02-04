@@ -6,6 +6,7 @@
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include "TreeVisualizerWidget.h"
 #include "QLayout"
+#include "mainWindow.h"
 
 namespace rtt {
 namespace ai {
