@@ -11,9 +11,10 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
-TreeVisualizerWidget::TreeVisualizerWidget(QWidget* parent)
-        :QTreeWidget(parent)
+TreeVisualizerWidget::TreeVisualizerWidget(MainWindow * parent)
+        : QTreeWidget((QWidget *) parent)
 {
+    this->parent = parent;
     this->setColumnCount(2);
     this->setColumnWidth(0, 250);
 }
@@ -37,15 +38,15 @@ void TreeVisualizerWidget::updateContents()
         delete widgetItem;
     }
 
-//    // initiate a redraw when the actual tree and the tree in the widget are not the same
-//    std::string currentTree = BTFactory::getFactory().getCurrentTree();
-//    if (QString::fromStdString(currentTree) != select_strategy->currentText()) {
-//        hasCorrectTree = false;
-//        select_strategy->setCurrentText(QString::fromStdString(currentTree));
-//    }
+    // initiate a redraw when the actual tree and the tree in the widget are not the same
+    std::string currentTree = BTFactory::getFactory().getCurrentTree();
+    if (QString::fromStdString(currentTree) != parent->getSelectStrategyText()) {
+        hasCorrectTree = false;
+        parent->setSelectStrategyText(QString::fromStdString(currentTree));
+    }
 
     // if the tree did change, clear the treewidget and rebuild it
-    if (BTFactory::getFactory().isInitialized()) {
+    if (!hasCorrectTree || BTFactory::getFactory().isInitialized()) {
         treeItemMapping.clear();
         this->clear();
         bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree(BTFactory::getFactory().getCurrentTree());
@@ -89,6 +90,10 @@ QColor TreeVisualizerWidget::getColorForStatus(bt::Node::Status status) {
     case bt::Node::Status::Waiting:return Qt::gray;
     default:return Qt::white;
     }
+}
+
+void TreeVisualizerWidget::setHasCorrectTree(bool hasCorrectTree) {
+    TreeVisualizerWidget::hasCorrectTree = hasCorrectTree;
 }
 
 }

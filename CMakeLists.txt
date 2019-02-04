@@ -261,7 +261,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/drawer.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/drawer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/InterfaceValues.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/InterfaceValues.h roboteam_ai/src/interface/TreeVisualizerWidget.cpp roboteam_ai/src/interface/TreeVisualizerWidget.h roboteam_ai/src/interface/RobotsWidget.cpp roboteam_ai/src/interface/RobotsWidget.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/InterfaceValues.h roboteam_ai/src/interface/TreeVisualizerWidget.cpp roboteam_ai/src/interface/TreeVisualizerWidget.h roboteam_ai/src/interface/RobotsWidget.cpp roboteam_ai/src/interface/RobotsWidget.h roboteam_ai/test/InterfaceTests/TreeVisualizerTest.cpp)
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})

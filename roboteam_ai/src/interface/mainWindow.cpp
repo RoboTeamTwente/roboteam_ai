@@ -78,7 +78,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
             [=](const QString &strategyName) {
               // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
               BTFactory::setCurrentTree(strategyName.toStdString());
-//              hasCorrectTree = false;
+              treeWidget->setHasCorrectTree(false);
             });
 
     configureCheckBox("show rolenames", vLayout, visualizer, SLOT(setShowRoles(bool)), c::STD_SHOW_ROLES);
@@ -165,6 +165,14 @@ void MainWindow::updateRobotsWidget() {
 
 void MainWindow::setUseReferee(bool useRef) {
     InterfaceValues::setUseRefereeCommands(useRef);
+}
+
+QString MainWindow::getSelectStrategyText() const {
+    return select_strategy->currentText();
+}
+
+void MainWindow::setSelectStrategyText(QString text) {
+    select_strategy->setCurrentText(text);
 }
 
 } // interface

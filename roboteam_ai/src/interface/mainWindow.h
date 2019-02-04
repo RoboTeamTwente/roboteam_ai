@@ -33,8 +33,11 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
     FRIEND_TEST(MainWindowTest, it_displays_main_window);
     FRIEND_TEST(MainWindowTest, it_shows_the_visualizer_properly);
-    public:
-        explicit MainWindow(QWidget* parent = nullptr);
+    FRIEND_TEST(TreeVisualizerTest, it_properly_displays_trees);
+public:
+    explicit MainWindow(QWidget* parent = nullptr);
+    QString getSelectStrategyText() const;
+    void setSelectStrategyText(QString text);
 
 public slots:
     void toggleOurColorParam();
@@ -57,6 +60,7 @@ private:
     QPushButton * toggleSideBtn;
     QComboBox * select_strategy;
 
+private:
     QGroupBox * doubleSpinBoxesGroup;
     QHBoxLayout * spinBoxLayout;
     QDoubleSpinBox * sb_luth_P;
