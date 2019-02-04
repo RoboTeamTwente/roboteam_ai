@@ -62,6 +62,7 @@ void TreeVisualizerWidget::updateContents()
             this->expandAll();
             this->update();
         }
+        hasCorrectTree = true;
     }
 }
 
