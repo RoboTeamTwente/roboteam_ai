@@ -12,16 +12,18 @@ namespace ai {
 namespace interface {
 
 TEST(TreeVisualizerTest, it_properly_displays_trees) {
+    BTFactory factory;
+    factory.init();
     BTFactory::setCurrentTree("randomStrategy");
     auto window = std::make_shared<MainWindow>();
     TreeVisualizerWidget * treeVis = window->treeWidget;
 
     // it initializes to false
     ASSERT_FALSE(treeVis->hasCorrectTree);
+    ASSERT_TRUE(treeVis->treeItemMapping.empty());
 
     treeVis->updateContents();
     ASSERT_TRUE(treeVis->hasCorrectTree);
-
 }
 
 TEST(TreeVisualizerTest, it_sets_proper_color_for_status) {
