@@ -42,13 +42,14 @@ public slots:
     void updatePID_luth();
     void sendHaltSignal();
     void setUseReferee(bool useRef);
+    void updateRobotsWidget();
 private:
     Visualizer * visualizer;
     QHBoxLayout * horizontalLayout;
     RobotsWidget * robotsLayout;
     QVBoxLayout * mainLayout;
     QVBoxLayout * vLayout;
-
+    RobotsWidget * robotsWidget;
     TreeVisualizerWidget * treeWidget;
     QPushButton * haltBtn;
 

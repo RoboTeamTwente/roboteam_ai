@@ -12,18 +12,21 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
-class RobotsWidget: public QHBoxLayout {
+class RobotsWidget: public QWidget {
 Q_OBJECT
 private:
     void clearLayout(QLayout* layout);
     QVBoxLayout* createRobotGroupItem(roboteam_msgs::WorldRobot robot);
     int amountOfSelectedRobots = 0;
+    QHBoxLayout * hLayout;
 public:
+    explicit RobotsWidget(QWidget * parent);
+public slots:
     void updateContents(Visualizer* visualizer);
 };
 
-}
-}
-}
+} // interface
+} // ai
+} // rtt
 
 #endif //ROBOTEAM_AI_ROBOTSWIDGET_H

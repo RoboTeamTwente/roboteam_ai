@@ -23,6 +23,9 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     horizontalLayout = new QHBoxLayout();
     vLayout = new QVBoxLayout();
 
+    robotsWidget = new RobotsWidget(this);
+    mainLayout->addWidget(robotsWidget, 1);
+
     // functions to select strategies
     configureCheckBox("Use referee", vLayout, this, SLOT(setUseReferee(bool)), constants::STD_USE_REFEREE);
 
@@ -95,7 +98,6 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     horizontalLayout->addWidget(visualizer, 3); // width stretch 3/5
     horizontalLayout->addLayout(vLayout, 2); // width stretch 2/5
     mainLayout->addLayout(horizontalLayout, 5); // height stretch 5/6
-    mainLayout->addLayout(robotsLayout, 1); // height stretch 1/6
 
     // apply layout
     setCentralWidget(new QWidget);
@@ -111,7 +113,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     // these are slower
     auto * robotsTimer = new QTimer(this);
     connect(robotsTimer, SIGNAL(timeout()), treeWidget, SLOT(updateContents()));
-    connect(robotsTimer, SIGNAL(timeout()), robotsLayout, SLOT(updateContents()));
+    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget())); // we need to pass the visualizer so thats why a seperate function is used
     robotsTimer->start(200); // 5fps
 }
 
@@ -157,9 +159,9 @@ void MainWindow::sendHaltSignal() {
     InterfaceValues::sendHaltCommand();
 }
 
-//void updateRobotsWidget() {
-//    robotsLayout->updateContents(visualizer);
-//}
+void MainWindow::updateRobotsWidget() {
+    robotsWidget->updateContents(visualizer);
+}
 
 void MainWindow::setUseReferee(bool useRef) {
     InterfaceValues::setUseRefereeCommands(useRef);
