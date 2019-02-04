@@ -6,6 +6,7 @@
 #include <roboteam_ai/src/interface/widget.h>
 #include <QtWidgets/QApplication>
 #include <roboteam_ai/src/interface/mainWindow.h>
+#include <ros/node_handle.h>
 
 namespace rtt {
 namespace ai {
@@ -92,8 +93,57 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     EXPECT_FALSE(vis->robotIsSelected(robot));
 }
 
-TEST(MainWindowTest, it_displays_main_window) {
-    
+TEST(MainWindowTest, it_toggles_our_color_param) {
+    auto window = std::make_shared<MainWindow>();
+
+    ros::NodeHandle nh;
+    std::string ourColorParam;
+    nh.getParam("our_color", ourColorParam);
+
+    bool wasYellow = ourColorParam == "yellow"; // store the original value
+    window->toggleOurColorParam();
+    nh.getParam("our_color", ourColorParam);
+    if (wasYellow){
+        ASSERT_EQ(ourColorParam, "blue");
+    } else {
+        ASSERT_EQ(ourColorParam, "yellow");
+    }
+
+    // reverse it again
+    window->toggleOurColorParam();
+    nh.getParam("our_color", ourColorParam);
+    if (wasYellow){
+        ASSERT_EQ(ourColorParam, "yellow");
+    } else {
+        ASSERT_EQ(ourColorParam, "blue");
+    }
+}
+
+
+TEST(MainWindowTest, it_toggles_our_side_param) {
+    auto window = std::make_shared<MainWindow>();
+
+    ros::NodeHandle nh;
+    std::string ourSideParam;
+    nh.getParam("our_side", ourSideParam);
+
+    bool wasLeft = ourSideParam == "left"; // store the original value
+    window->toggleOurSideParam();
+    nh.getParam("our_side", ourSideParam);
+    if (wasLeft){
+        ASSERT_EQ(ourSideParam, "right");
+    } else {
+        ASSERT_EQ(ourSideParam, "left");
+    }
+
+    // reverse it again
+    window->toggleOurSideParam();
+    nh.getParam("our_side", ourSideParam);
+    if (wasLeft){
+        ASSERT_EQ(ourSideParam, "left");
+    } else {
+        ASSERT_EQ(ourSideParam, "right");
+    }
 }
 
 }
