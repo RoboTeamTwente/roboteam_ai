@@ -47,7 +47,7 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     vis->setShowTactics(true);
     vis->setShowVelocities(true);
 
-    ASSERT_TRUE(vis->showAngles
+    EXPECT_TRUE(vis->showAngles
             && vis->showRoles
             && vis->showBallPlacementMarker
             && vis->showPath
@@ -65,7 +65,7 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     vis->setShowTactics(false);
     vis->setShowVelocities(false);
 
-    ASSERT_FALSE(vis->showAngles
+    EXPECT_FALSE(vis->showAngles
             || vis->showRoles
             || vis->showBallPlacementMarker
             || vis->showPath
@@ -73,6 +73,23 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
             || vis->showTacticColors
             || vis->showTactics
             || vis->showVelocities);
+    
+    roboteam_msgs::World worldMsg;
+    roboteam_msgs::WorldRobot robot;
+    robot.id = 1;
+    worldMsg.us.push_back(robot);
+    World::set_world(worldMsg);
+    
+    EXPECT_EQ(vis->getSelectedRobots().size(), 0);
+    EXPECT_FALSE(vis->robotIsSelected(robot));
+    
+    vis->toggleSelectedRobot(1);
+    EXPECT_EQ(vis->getSelectedRobots().size(), 1);
+    EXPECT_TRUE(vis->robotIsSelected(robot));
+    
+    vis->toggleSelectedRobot(1);
+    EXPECT_EQ(vis->getSelectedRobots().size(), 0);
+    EXPECT_FALSE(vis->robotIsSelected(robot));
 }
 
 TEST(MainWindowTest, it_displays_main_window) {
