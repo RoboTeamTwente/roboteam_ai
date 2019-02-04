@@ -34,6 +34,7 @@ class MainWindow : public QMainWindow {
     FRIEND_TEST(MainWindowTest, it_displays_main_window);
     FRIEND_TEST(MainWindowTest, it_shows_the_visualizer_properly);
     FRIEND_TEST(TreeVisualizerTest, it_properly_displays_trees);
+    FRIEND_TEST(TreeVisualizerTest, it_sets_proper_color_for_status);
 public:
     explicit MainWindow(QWidget* parent = nullptr);
     QString getSelectStrategyText() const;

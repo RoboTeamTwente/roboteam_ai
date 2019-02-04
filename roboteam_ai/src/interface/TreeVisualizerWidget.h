@@ -15,7 +15,8 @@ namespace interface {
 class MainWindow;
 class TreeVisualizerWidget : public QTreeWidget {
     Q_OBJECT
-    FRIEND_TEST(TreeVisualizerTest, it_toggles_our_color_param);
+    FRIEND_TEST(TreeVisualizerTest, it_properly_displays_trees);
+    FRIEND_TEST(TreeVisualizerTest, it_sets_proper_color_for_status);
 private:
     QColor getColorForStatus(bt::Node::Status status);
     void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem* QParent);
