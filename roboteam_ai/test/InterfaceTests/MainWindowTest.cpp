@@ -99,25 +99,16 @@ TEST(MainWindowTest, it_toggles_our_color_param) {
 
     ros::NodeHandle nh;
     std::string ourColorParam;
-    nh.getParam("our_color", ourColorParam);
+    nh.setParam("our_color", "yellow");
 
-    bool wasYellow = ourColorParam == "yellow"; // store the original value
     window->toggleOurColorParam();
     nh.getParam("our_color", ourColorParam);
-    if (wasYellow){
-        ASSERT_EQ(ourColorParam, "blue");
-    } else {
-        ASSERT_EQ(ourColorParam, "yellow");
-    }
+    EXPECT_EQ(ourColorParam, "blue");
 
     // reverse it again
     window->toggleOurColorParam();
     nh.getParam("our_color", ourColorParam);
-    if (wasYellow){
-        ASSERT_EQ(ourColorParam, "yellow");
-    } else {
-        ASSERT_EQ(ourColorParam, "blue");
-    }
+    EXPECT_EQ(ourColorParam, "yellow");
 }
 
 
@@ -126,25 +117,17 @@ TEST(MainWindowTest, it_toggles_our_side_param) {
 
     ros::NodeHandle nh;
     std::string ourSideParam;
-    nh.getParam("our_side", ourSideParam);
+    nh.setParam("our_side", "left");
 
-    bool wasLeft = ourSideParam == "left"; // store the original value
     window->toggleOurSideParam();
     nh.getParam("our_side", ourSideParam);
-    if (wasLeft){
-        ASSERT_EQ(ourSideParam, "right");
-    } else {
-        ASSERT_EQ(ourSideParam, "left");
-    }
+    EXPECT_EQ(ourSideParam, "right");
 
     // reverse it again
     window->toggleOurSideParam();
     nh.getParam("our_side", ourSideParam);
-    if (wasLeft){
-        ASSERT_EQ(ourSideParam, "left");
-    } else {
-        ASSERT_EQ(ourSideParam, "right");
-    }
+    EXPECT_EQ(ourSideParam, "left");
+
 }
 
 }
