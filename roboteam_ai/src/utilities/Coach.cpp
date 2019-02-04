@@ -94,19 +94,22 @@ int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkD
     else
         return 0;
 
-    Vector2 deltaPos = (ballPos - robot->pos);
-    double dist = deltaPos.length();
-    double angle = deltaPos.angle();
-    double robotAngle = robot->angle;
+    if (robot &&  World::getBall()) {
+        Vector2 deltaPos = (ballPos-robot->pos);
+        double dist = deltaPos.length();
+        double angle = deltaPos.angle();
+        double robotAngle = robot->angle;
 
-    if (angle < 0) {
-        angle += 2*M_PI;
-    }
-    if (robotAngle < 0) {
-        robotAngle += 2*M_PI;
-    }
+        if (angle<0) {
+            angle += 2*M_PI;
+        }
+        if (robotAngle<0) {
+            robotAngle += 2*M_PI;
+        }
 
-    return ((dist < checkDist) && (fabs(angle - robotAngle) < checkAngle));
+        return ((dist<checkDist) && (fabs(angle-robotAngle)<checkAngle));
+    }
+    return false;
 }
 
 int Coach::pickOpponentToCover(int selfID) {
@@ -320,7 +323,7 @@ Vector2 Coach::getBallPlacementBeforePos(Vector2 ballPos){
     Vector2 targetPos=ballPos + (PlacePos - ballPos).stretchToLength(constants::BP_MOVE_TOWARDS_DIST);
     return targetPos;
 }
-Vector2 Coach::getBallPlacementAfterPos(Vector2 ballPos,double RobotAngle){
+Vector2 Coach::getBallPlacementAfterPos(double RobotAngle){
     Vector2 targetPos=interface::InterfaceValues::getBallPlacementTarget() + Vector2(constants::BP_MOVE_BACK_DIST,0).rotate(RobotAngle+M_PI);
     return targetPos;
 }

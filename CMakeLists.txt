@@ -105,7 +105,9 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/EnterFormationTactic.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/EnterFormationTactic.h roboteam_ai/src/bt/tactics/AvoidBallForBallPlacementTactic.cpp roboteam_ai/src/bt/tactics/AvoidBallForBallPlacementTactic.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/EnterFormationTactic.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/AvoidBallTactic.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/AvoidBallTactic.h)
 
 set(TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.cpp
@@ -175,12 +177,14 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleRotate.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BasicGoToPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BasicGoToPos.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.cpp roboteam_ai/src/skills/Defend.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/EnterFormation.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/EnterFormation.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBallForBallPlacement.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBallForBallPlacement.h
-        )
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/EnterFormation.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/EnterFormation.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
@@ -207,7 +211,8 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBeingPassedTo.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsCloseToPoint.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsCloseToPoint.h
-        )
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallOutOfField.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallOutOfField.h)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
@@ -248,6 +253,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TacticTests/DefaultTacticTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/ControllerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/RobotDealerTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/CoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/InterfaceTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/VisualizerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/MainWindowTest.cpp
