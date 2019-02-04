@@ -16,13 +16,11 @@ class TreeVisualizerWidget : public QTreeWidget {
     Q_OBJECT
 private:
     QColor getColorForStatus(bt::Node::Status status);
-    void clearLayout(QLayout *layout);
     void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem* QParent);
     std::map<QTreeWidgetItem *, bt::Node::Ptr> treeItemMapping;
-
-
 public:
     explicit TreeVisualizerWidget(QWidget * parent);
+public slots:
     void updateContents();
 };
 
