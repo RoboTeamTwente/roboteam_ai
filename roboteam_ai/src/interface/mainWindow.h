@@ -23,6 +23,7 @@
 #include <QLabel>
 #include <QtWidgets/QDoubleSpinBox>
 #include "TreeVisualizerWidget.h"
+#include "RobotsWidget.h"
 
 namespace rtt {
 namespace ai {
@@ -36,7 +37,6 @@ class MainWindow : public QMainWindow {
         explicit MainWindow(QWidget* parent = nullptr);
 
 public slots:
-    void updateRobotsWidget();
     void toggleOurColorParam();
     void toggleOurSideParam();
     void updatePID_luth();
@@ -44,7 +44,7 @@ public slots:
 private:
     Visualizer * visualizer;
     QHBoxLayout * horizontalLayout;
-    QHBoxLayout * robotsLayout;
+    RobotsWidget * robotsLayout;
     QVBoxLayout * mainLayout;
     QVBoxLayout * vLayout;
 
@@ -61,16 +61,8 @@ private:
     QDoubleSpinBox * sb_luth_I;
     QDoubleSpinBox * sb_luth_D;
 
-    void configureCheckBox(QString title, QLayout * layout,
-                const QObject* receiver, const char* method, bool defaultState = false);
-
-    bool hasCorrectTree = false;
-    void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem * QParent);
-    QVBoxLayout * createRobotGroupItem(roboteam_msgs::WorldRobot robot);
-    QColor getColorForStatus(bt::Node::Status status);
-    void clearLayout(QLayout *layout);
+    void configureCheckBox(QString title, QLayout * layout, const QObject* receiver, const char* method, bool defaultState = false);
     int amountOfSelectedRobots = 0;
-
 };
 
 } // interface

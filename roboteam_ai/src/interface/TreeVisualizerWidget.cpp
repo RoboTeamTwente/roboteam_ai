@@ -7,23 +7,33 @@
 #include "TreeVisualizerWidget.h"
 #include "QLayout"
 
-TreeVisualizerWidget::TreeVisualizerWidget(QWidget * parent) : QTreeWidget(parent) { }
+namespace rtt {
+namespace ai {
+namespace interface {
+
+TreeVisualizerWidget::TreeVisualizerWidget(QWidget* parent)
+        :QTreeWidget(parent)
+{
+    this->setColumnCount(2);
+    this->setColumnWidth(0, 250);
+}
 
 // some widgets need to be updated regularly
-void TreeVisualizerWidget::updateContents() {
+void TreeVisualizerWidget::updateContents()
+{
     // Iterate through all treeWidget items to update the status if needed
     QTreeWidgetItemIterator iter(this, QTreeWidgetItemIterator::All);
     while (*iter) {
         QTreeWidgetItem* widgetItem = *iter;
-        if (treeItemMapping.find(widgetItem) != treeItemMapping.end()) {
+        if (treeItemMapping.find(widgetItem)!=treeItemMapping.end()) {
             bt::Node::Ptr item = treeItemMapping.at(widgetItem);
             QString status = QString::fromStdString(statusToString(item->getStatus()));
-            if (widgetItem->text(1) != status) {
+            if (widgetItem->text(1)!=status) {
                 widgetItem->setText(1, status);
                 widgetItem->setBackgroundColor(1, getColorForStatus(item->getStatus()));
             }
         }
-        ++ iter;
+        ++iter;
         delete widgetItem;
     }
 
@@ -54,8 +64,9 @@ void TreeVisualizerWidget::updateContents() {
 }
 
 /// Use recursion to iterate through the children of each node
-void TreeVisualizerWidget::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem* QParent) {
-    for (auto const &child : parent->getChildren()) {
+void TreeVisualizerWidget::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem* QParent)
+{
+    for (auto const& child : parent->getChildren()) {
         auto treeItemchild = new QTreeWidgetItem(QParent);
         treeItemchild->setText(0, QString::fromStdString(child->node_name()));
         treeItemchild->setText(1, QString::fromStdString(statusToString(child->getStatus())));
@@ -69,20 +80,17 @@ void TreeVisualizerWidget::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem* QP
     }
 }
 
-
-
 /// returns a color for a given node status
 QColor TreeVisualizerWidget::getColorForStatus(bt::Node::Status status) {
     switch (status) {
-    case bt::Node::Status::Failure:
-        return Qt::red;
-    case bt::Node::Status::Running:
-        return {"#99ff99"}; // light green
-    case bt::Node::Status::Success:
-        return {"#339933"}; // dark green
-    case bt::Node::Status::Waiting:
-        return Qt::gray;
-    default:
-        return Qt::white;
+    case bt::Node::Status::Failure:return Qt::red;
+    case bt::Node::Status::Running:return {"#99ff99"}; // light green
+    case bt::Node::Status::Success:return {"#339933"}; // dark green
+    case bt::Node::Status::Waiting:return Qt::gray;
+    default:return Qt::white;
     }
+}
+
+}
+}
 }

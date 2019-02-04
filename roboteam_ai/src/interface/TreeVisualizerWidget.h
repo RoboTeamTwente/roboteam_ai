@@ -8,6 +8,10 @@
 #include <QtWidgets/QTreeWidget>
 #include <roboteam_ai/src/bt/Node.hpp>
 
+namespace rtt {
+namespace ai {
+namespace interface {
+
 class TreeVisualizerWidget : public QTreeWidget {
     Q_OBJECT
 private:
@@ -22,4 +26,7 @@ public:
     void updateContents();
 };
 
+}
+}
+}
 #endif //ROBOTEAM_AI_TREEVISUALIZER_H
