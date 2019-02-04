@@ -17,7 +17,9 @@ void BasicGoToPos::onInitialize() {
     targetPos = properties->getVector2("target");
     if (properties->getBool("BallPlacementBefore")){
         if(ball){
-            targetPos=coach::Coach::getBallPlacementBeforePos(ball->pos);
+            //TODO:Changed for testing, remember to change back
+            //targetPos=coach::Coach::getBallPlacementBeforePos(ball->pos);
+            targetPos=coach::Coach::getBallPlacementPos();
         }
         else{
             ROS_ERROR("BasicGoToPos: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);

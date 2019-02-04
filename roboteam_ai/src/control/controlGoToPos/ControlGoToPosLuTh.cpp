@@ -181,6 +181,7 @@ bool ControlGoToPosLuTh::calculateNumericDirection(RobotPtr robot, NumRobot &me)
     me.velData.push_back(me.vel);
     me.t = me.posData.size()*me.dt;
 
+    //TODO: why is is this in here?
 // if the robot velocity > 10.0, there is something wrong with world state
     if (me.vel.length() > 10.0)
         return false;
@@ -206,8 +207,11 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
         ros::Time now = ros::Time::now();
 
 // check if the calculation does not take too long
-        if ((now - begin).toSec()*1000 > constants::MAX_CALCULATION_TIME)
+        if ((now - begin).toSec()*1000 > constants::MAX_CALCULATION_TIME){
+            std::cout<<"Tick took too long!"<<std::endl;
             return false;
+        }
+
 
 // get the first robot in the queue
         NumRobotPtr me = robotQueue.top();
