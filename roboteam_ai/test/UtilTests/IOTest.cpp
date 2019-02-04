@@ -21,7 +21,7 @@ TEST(IOTest, it_subscribes) {
     ros::Publisher roleFeedbackPub = nh.advertise<roboteam_msgs::RoleFeedback>(rtt::TOPIC_ROLE_FEEDBACK, 1);
     ros::Publisher worldPub = nh.advertise<roboteam_msgs::World>(rtt::TOPIC_WORLD_STATE, 1);
     ros::Publisher geomPub = nh.advertise<roboteam_msgs::GeometryData>(rtt::TOPIC_GEOMETRY, 1);
-    ros::Publisher refPub = nh.advertise<roboteam_msgs::RefereeData>(rtt::TOPIC_REFEREE, 1);
+    ros::Publisher refPub = nh.advertise<roboteam_msgs::RefereeData>("vision_refbox", 1);
 
     rate.sleep();
     ros::spinOnce();

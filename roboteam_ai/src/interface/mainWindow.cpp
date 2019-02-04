@@ -24,8 +24,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     vLayout = new QVBoxLayout();
 
     // functions to select strategies
-    configureCheckBox("Use referee", vLayout, visualizer, SLOT(setShowRoles(bool)),
-            constants::STD_SHOW_ROLES);
+    configureCheckBox("Use referee", vLayout, this, SLOT(setUseReferee(bool)), constants::STD_USE_REFEREE);
 
     select_strategy = new QComboBox();
     vLayout->addWidget(select_strategy);
@@ -162,6 +161,9 @@ void MainWindow::sendHaltSignal() {
 //    robotsLayout->updateContents(visualizer);
 //}
 
+void MainWindow::setUseReferee(bool useRef) {
+    InterfaceValues::setUseRefereeCommands(useRef);
+}
 
 } // interface
 } // ai

@@ -10,7 +10,7 @@
         <node pkg="roboteam_vision" type="roboteam_vision" name="vision" />
         <node pkg="roboteam_world" type="filtered_world" name="world" />
         <node pkg="roboteam_robothub" type="roboteam_robothub" name="robothub" output="screen"/>
-        <node name="Roboteam_AI" pkg="roboteam_ai" type="Roboteam_AI" cwd="node" output="screen" />
+        <node name="Roboteam_AI" pkg="roboteam_ai" type="Roboteam_AI" cwd="node"/>
     </group>
 
     <group ns="blue">
@@ -24,7 +24,7 @@
         <node pkg="roboteam_vision" type="roboteam_vision" name="vision" />
         <node pkg="roboteam_world" type="filtered_world" name="world"  />
         <node pkg="roboteam_robothub" type="roboteam_robothub" name="robothub" output="screen"/>
-        <node name="Roboteam_AI" pkg="roboteam_ai" type="Roboteam_AI" cwd="node" output="screen" />
+        <node name="Roboteam_AI" pkg="roboteam_ai" type="Roboteam_AI" cwd="node" />
 
     </group>
 </launch>

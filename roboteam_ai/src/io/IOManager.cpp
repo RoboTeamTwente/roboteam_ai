@@ -59,7 +59,7 @@ void IOManager::subscribeToRoleFeedback() {
 void IOManager::subscribeToRefereeData() {
     //TODO: This constant TOPIC_REFEREE was not used consistently by the previous team, so if stuff goes wrong check if you are reading the correct topic.
     refereeSubscriber = nodeHandle.subscribe<roboteam_msgs::RefereeData>(
-            rtt::TOPIC_REFEREE,
+            "vision_refbox", //vision_referee or vision_refbox
             100,
             &IOManager::handleRefereeData,
             this,

@@ -60,6 +60,7 @@ bool Field::pointIsInDefenceArea(Vector2 point, bool isOurDefenceArea, float mar
     }
 }
 
+// the margin is pointed inside the field!
 bool Field::pointIsInField(Vector2 point, float margin) {
     roboteam_msgs::GeometryFieldSize _field;
     {

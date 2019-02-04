@@ -28,6 +28,8 @@ const double MAX_ANGLE = M_PI;
 
 // Limits as defined in AI itself
 const double MAX_VEL=8.0;
+const double MAX_VEL_BALLPLACEMENT=3.0;
+
 //Other/multiple usage
 const int DEFAULT_ROBOT_ID = 1;
 const double MAX_ANGULAR_VELOCITY = 6.0; // rad per second??
@@ -51,6 +53,7 @@ const double MAX_BALL_RANGE=0.05; // Could maybe be even less? Is a LOT lower in
 const double MAX_BALL_BOUNCE_RANGE=0.15;
 const double DRIBBLE_POSDIF=0.05;
 const float  DRIBBLE_SPEED=0.8;
+
 //getBallcc
 const double COLLISION_RADIUS=0.18;
 const double ANGLE_SENS=0.05*M_PI;
@@ -94,6 +97,14 @@ const int INTERCEPT_DRAW_VECTOR_SIZE=5;
 const double BP_MOVE_BACK_DIST=0.4;
 const double BP_MOVE_TOWARDS_DIST=0.15;
 
+// Avoid ball
+const double robotWeight = .09;
+const double minRobotDistanceForForce = .7;
+const double ballWeight = .15;
+const double minBallDistanceForForce = .7;
+const double wallWeight = .05;
+const double minWallDistanceForForce = .4;
+
 // Settings
 const bool STD_SHOW_ROLES = true;
 const bool STD_SHOW_TACTICS = false;
@@ -104,6 +115,7 @@ const bool STD_SHOW_VORONOI = false;
 const bool STD_SHOW_PATHS_ALL = false;
 const bool STD_SHOW_PATHS_CURRENT = true;
 const bool STD_SHOW_BALL_PLACEMENT_MARKER = true;
+const bool STD_USE_REFEREE = true;
 
 const QColor FIELD_COLOR{30, 30, 30, 255};
 const QColor FIELD_LINE_COLOR = Qt::white;
