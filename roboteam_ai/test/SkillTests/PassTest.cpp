@@ -43,27 +43,27 @@ TEST(PassTest, PassTest) {
     auto properties = std::make_shared<bt::Blackboard>();
     properties->setString("ROLE", "testPasser");
 
-    //TODO: Fix this part of the test, something with the robotdealer and integers segfaults
-//    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::closeToBall, "PassTest", "testPasser");
-//
-//    rtt::ai::Pass pass("PassTest", properties);
-//    pass.initialize();
-//
-//    ASSERT_EQ(pass.update(), bt::Leaf::Status::Running);
-//
-//    robot1.pos = rtt::ai::coach::Coach::getPositionBehindBallToPosition(0.05, robot2.pos);
-//    robot1.angle = static_cast<float>(((Vector2)robot1.pos - ball.pos).angle());
-//
-//    roboteam_msgs::World world2;
-//    world2.us.push_back(robot1);
-//    world2.us.push_back(robot2);
-//    world2.ball.vel = (Vector2){5, 5};
-//    rtt::ai::World::set_world(world2);
-//
-//    ASSERT_EQ(pass.update(), bt::Leaf::Status::Running);
-//
-//    world2.ball.pos = (Vector2){-3, 3};
-//    rtt::ai::World::set_world(world2);
+    // TODO: Fix this part of the test, something with the robotdealer and integers segfaults
+    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::closeToBall, "PassTest", "testPasser");
+
+    rtt::ai::Pass pass("PassTest", properties);
+    pass.initialize();
+
+    ASSERT_EQ(pass.update(), bt::Leaf::Status::Running);
+
+    robot1.pos = rtt::ai::coach::Coach::getPositionBehindBallToPosition(0.05, robot2.pos);
+    robot1.angle = static_cast<float>(((Vector2)robot1.pos - ball.pos).angle());
+
+    roboteam_msgs::World world2;
+    world2.us.push_back(robot1);
+    world2.us.push_back(robot2);
+    world2.ball.vel = (Vector2){5, 5};
+    rtt::ai::World::set_world(world2);
+
+    ASSERT_EQ(pass.update(), bt::Leaf::Status::Running);
+
+    world2.ball.pos = (Vector2){-3, 3};
+    rtt::ai::World::set_world(world2);
 //    ASSERT_EQ(pass.update(), bt::Leaf::Status::Running);
 
 }
