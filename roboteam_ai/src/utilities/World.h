@@ -63,6 +63,7 @@ class World {
 
         static std::vector<roboteam_msgs::WorldRobot> getAllRobots();
         static std::vector<roboteam_msgs::WorldRobot> getRobotsForId(std::set<unsigned int> ids, bool robotsAreOurTeam);
+        static roboteam_msgs::World futureWorld(double time);
 };
 
 } // ai

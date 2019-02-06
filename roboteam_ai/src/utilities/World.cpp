@@ -148,6 +148,24 @@ bool World::robotHasBall(Vector2 robotPos, double robotOrientation, Vector2 ball
                 dribbleLeft + Vector2(frontDist, 0).rotate(robotOrientation));
 }
 
+/// returns a message of the world where every position has been linearly extrapolated w.r.t current world
+roboteam_msgs::World World::futureWorld(double time){
+
+    const roboteam_msgs::World currentWorld=get_world();
+    roboteam_msgs::World futureWorld;
+    for(auto bot :currentWorld.us){
+        bot.pos=Vector2(bot.pos)+Vector2(bot.vel)*time;
+        futureWorld.us.push_back(bot);
+    }
+    for(auto bot : currentWorld.them){
+        bot.pos=Vector2(bot.pos)+Vector2(bot.vel)*time;
+        futureWorld.them.push_back(bot);
+    }
+    futureWorld.ball=currentWorld.ball;
+    futureWorld.ball.pos=Vector2(currentWorld.ball.pos)+Vector2(currentWorld.ball.vel)*time;
+    return futureWorld;
+}
+
 /// returns all the robots in the field, both us and them. 
 std::vector<roboteam_msgs::WorldRobot> World::getAllRobots() {
     std::lock_guard<std::mutex> lock(worldMutex);

@@ -26,6 +26,8 @@ const double MAX_ANGULAR_VEL_CMD=16*M_PI;
 const double MIN_ANGLE = -M_PI;
 const double MAX_ANGLE = M_PI;
 
+//competition limits
+const double ROBOT_RADIUS_MAX=0.09;
 // Limits as defined in AI itself
 const double MAX_VEL=8.0;
 //Other/multiple usage
