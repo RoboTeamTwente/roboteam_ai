@@ -13,6 +13,5 @@ Receive
 BasicGoToPos,target,goToBall,avoidBall,canGoOutsideField,mirror
 EnterFormation
 DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement
-AvoidBallForBallPlacement
 AvoidBall
 Keeper
