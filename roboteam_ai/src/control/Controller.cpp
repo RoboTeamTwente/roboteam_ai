@@ -176,7 +176,7 @@ void Controller::reset() {
     kP = 0;
     kI = 0;
     kD = 0;
-    timeDiff = 1.0 / Constants::getDouble("tickRate");
+    timeDiff = 1.0 / Constants::getInt("tickRate");
     initial_I = 0;
     initial_I2 = 0; //only used in the case of 2 input variables
     prev_error = 0;
