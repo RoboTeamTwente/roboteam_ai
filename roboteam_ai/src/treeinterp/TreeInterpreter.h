@@ -27,6 +27,7 @@ using json = nlohmann::json;
 class TreeInterpreter {
 
     private:
+
         JsonReader jsonReader;
 
         PropertiesParser propertyParser;

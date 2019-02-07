@@ -187,3 +187,28 @@ TEST(ControlUtils, project_to_position_within_field) {
         EXPECT_FLOAT_EQ(pos.y, -9.8);
     }
 }
+
+// the function should return weight/distance^2 * normalized vector IF within minDistance, otherwise 0.
+TEST(ControlUtils, it_calculates_forces) {
+   Vector2 force = {0, 0};
+
+    // distance should be ok. 2/2^2
+    force = cr::ControlUtils::calculateForce(Vector2(0, -2), 2, 2);
+    EXPECT_DOUBLE_EQ(force.x, 0);
+    EXPECT_DOUBLE_EQ(force.y, -0.5);
+
+   // distance should be ok. 2/2^2
+   force = cr::ControlUtils::calculateForce(Vector2(0, 2), 2, 2);
+   EXPECT_DOUBLE_EQ(force.x, 0);
+   EXPECT_DOUBLE_EQ(force.y, 0.5);
+
+    // distance not ok.
+    force = cr::ControlUtils::calculateForce(Vector2(0, 2.1), 2, 2);
+    EXPECT_DOUBLE_EQ(force.x, 0);
+    EXPECT_DOUBLE_EQ(force.y, 0);
+
+    // distance ok. this is a negative force because of negative weight. -2/1^2
+    force = cr::ControlUtils::calculateForce(Vector2(0, 1), -2, 2);
+    EXPECT_DOUBLE_EQ(force.x, 0);
+    EXPECT_DOUBLE_EQ(force.y, -2);
+}

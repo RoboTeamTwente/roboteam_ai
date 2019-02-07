@@ -250,6 +250,18 @@ Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, float margi
     return position;
 }
 
+
+/// Calculate the force of a given vector + a certain type.
+/// the basic formula is: force = weight/distance^2 * unit vector
+Vector2 ControlUtils::calculateForce(rtt::Vector2 vector, double weight, double minDistance) {
+
+    // if the object is close enough, it's forces should affect. Otherwise don't change anything.
+    if (vector.length() <= minDistance) {
+        return vector.normalize()*(weight/(pow(vector.length(), 2)));
+    }
+    return {0, 0};
+}
+
 } // control
 } // ai
 } // rtt

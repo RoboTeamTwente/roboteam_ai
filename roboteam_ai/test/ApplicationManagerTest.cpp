@@ -4,6 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/bt/bt.hpp>
+#include <roboteam_ai/src/utilities/Referee.hpp>
 #include "../src/ApplicationManager.h"
 
 namespace rtt {
@@ -62,7 +63,16 @@ TEST(ApplicationManagerTest, it_handles_ROS_data) {
     rate.sleep();
     EXPECT_NE(app.strategy->getStatus(), bt::Node::Status::Waiting);
 
+    app.notifyTreeStatus(bt::Node::Status::Waiting);
+    app.notifyTreeStatus(bt::Node::Status::Running);
+    app.notifyTreeStatus(bt::Node::Status::Success);
+    EXPECT_EQ(BTFactory::getCurrentTree(), "haltStrategy");
+
+    app.checkForShutdown();
+    EXPECT_EQ(app.strategy->getStatus(), bt::Node::Status::Failure);
 
     df::DangerFinder::instance().stop();
 } // end of test
+
+
 } // rtt

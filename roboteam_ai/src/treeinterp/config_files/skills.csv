@@ -11,7 +11,7 @@ Attack
 Pass
 EnterFormation
 DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement
-AvoidBallForBallPlacement
+AvoidBall
 BasicGoToPos,ROLE,avoidBall,canGoOutsideField
 Keeper
 GoAroundPos,targetPos,targetDir,towardsTheirGoal
