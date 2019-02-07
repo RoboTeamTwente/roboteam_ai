@@ -173,6 +173,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleRotate.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BasicGoToPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BasicGoToPos.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoAroundPos.cpp 
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoAroundPos.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/EnterFormation.cpp
@@ -218,18 +220,18 @@ set(CONTROL_SOURCES
 
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/main.cpp
-        roboteam_ai/test/TreeInterpreterTests/BtTest.cpp
-        roboteam_ai/test/UtilTests/JsonTest.cpp
-        roboteam_ai/test/TreeInterpreterTests/BTFactoryTest.cpp
-        roboteam_ai/test/UtilTests/WorldTest.cpp
-        roboteam_ai/test/UtilTests/FieldTest.cpp
-        roboteam_ai/test/UtilTests/DangerFinderTest.cpp
-        roboteam_ai/test/TreeInterpreterTests/BTBlackBoardTest.cpp
-        roboteam_ai/test/UtilTests/IOTest.cpp
-        roboteam_ai/test/UtilTests/RefereeTest.cpp
-        roboteam_ai/test/UtilTests/StrategyManagerTest.cpp
-        roboteam_ai/test/UtilTests/PropertiesParserTest.cpp
-        roboteam_ai/test/ControlTests/ControlUtilsTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TreeInterpreterTests/BtTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/JsonTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TreeInterpreterTests/BTFactoryTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/WorldTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/FieldTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/DangerFinderTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TreeInterpreterTests/BTBlackBoardTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/IOTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/RefereeTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/StrategyManagerTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/PropertiesParserTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/ControlUtilsTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ApplicationManagerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/TheyHaveBallTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/WeHaveBallTest.cpp

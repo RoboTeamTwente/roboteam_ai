@@ -14,3 +14,4 @@ DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement
 AvoidBall
 BasicGoToPos,ROLE,avoidBall,canGoOutsideField
 Keeper
+GoAroundPos,targetPos,targetDir,towardsTheirGoal
