@@ -13,6 +13,14 @@ namespace interface {
 
 MainWindow::MainWindow(QWidget* parent)
         :QMainWindow(parent) {
+
+    // these values need to be defined as soon as the mainwindow starts
+    // they cannot be initialized earlier because of the current constants implementation
+    InterfaceValues::setLuthP(Constants::getDouble("standard_luth_P"));
+    InterfaceValues::setLuthI(Constants::getDouble("standard_luth_I"));
+    InterfaceValues::setLuthD(Constants::getDouble("standard_luth_D"));
+    InterfaceValues::setUseRefereeCommands(Constants::getBool("STD_USE_REFEREE"));
+
     setMinimumWidth(800);
     setMinimumHeight(600);
 

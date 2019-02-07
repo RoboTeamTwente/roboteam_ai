@@ -10,6 +10,7 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
+// these values are made static here; but their values are initialized when creating mainWindow!
 double InterfaceValues::luthP = 0;
 double InterfaceValues::luthI = 0;
 double InterfaceValues::luthD = 0;

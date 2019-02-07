@@ -1,6 +1,8 @@
-//
-// Created by mrlukasbos on 23-10-18.
-//
+/*
+ * This constants file checks if the program is running with GrSim or not.
+ * This means that the constants file cannot be generated before ros is initialized:
+ * so on program boot these constants are not yet available!
+ */
 
 #ifndef ROBOTEAM_AI_CONSTANTS_H
 #define ROBOTEAM_AI_CONSTANTS_H

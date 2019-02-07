@@ -15,7 +15,7 @@ void runBehaviourTrees() {
 int main(int argc, char* argv[]) {
     // Init ROS node in main thread
     ros::init(argc, argv, "Roboteam_AI");
-    Constants::init();
+    rtt::ai::Constants::init();
 
     // start the ros loop in separate thread
     std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
