@@ -4,138 +4,166 @@
 
 #ifndef ROBOTEAM_AI_CONSTANTS_H
 #define ROBOTEAM_AI_CONSTANTS_H
-//TODO: add units to the below things, check with control/robothub.
 
 #include <QColor>
+#include <ros/node_handle.h>
 #include "math.h"
 
 namespace rtt {
 namespace ai {
-namespace constants {
+
+class Constants {
+private:
+    bool useGrSim = false;
+    // map
+    std::map<std::string, double> doubles;
+    std::map<std::string, bool> bools;
+    std::map<std::string, int> integers;
 
 
-const bool SHOW_LONGEST_TICK = true;
-const double GOTOPOS_LUTH_ERROR_MARGIN = 0.25;
+public:
+    explicit Constants() {
+        ros::NodeHandle nh;
+        std::string robotOutputTarget;
+        nh.getParam("robot_output_target", robotOutputTarget);
+        useGrSim = robotOutputTarget != "serial"; // use the grSim as default; only serial is specifically defined
 
-// Max values we can send through robothub
-const double MAX_VEL_CMD=8.191;
-const int GENEVA_LEFT=0;//TODO: Might be reversed, please check
-const int GENEVA_RIGHT=5;
-const int MAX_ID_CMD=15;
-const double MAX_ANGULAR_VEL_CMD=16*M_PI;
-const double MIN_ANGLE = -M_PI;
-const double MAX_ANGLE = M_PI;
+        bools["SHOW_LONGEST_TICK"]              = true;
+        integers["tickRate"]                    = 60;
 
-// Limits as defined in AI itself
-const double MAX_VEL=8.0;
-const double MAX_VEL_BALLPLACEMENT=3.0;
+        // defaults
+        integers["DEFAULT_ROBOT_ID"]            = 1;
+        doubles["DEFAULT_KICK_POWER"]           = 5.0;
+        integers["DEFAULT_GENEVA_STATE"]        = 0;
 
-//Other/multiple usage
-const int DEFAULT_ROBOT_ID = 1;
-const double MAX_ANGULAR_VELOCITY = 6.0; // rad per second??
-const double ROBOT_RADIUS=0.089; // TODO: Need to test if world_state agrees with this definition of the centre of the robot
-const double FRONT_LENGTH=0.118; // length of the front (flat) part of the robot
-const double DRIBBLER_ANGLE_OFFSET=asin(FRONT_LENGTH/2/ROBOT_RADIUS); // if the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET points to the left and DRIBBLER_ANGLE_OFFSET to the right.
-const double CENTRE_TO_FRONT=sin(DRIBBLER_ANGLE_OFFSET)*ROBOT_RADIUS;
-const double BALL_RADIUS=0.0215;
+        // Robotcommand limits
+        doubles["MAX_VEL_CMD"]                  = 8.191;
+        integers["MAX_ID_CMD"]                  = 15;
+        doubles["MAX_ANGULAR_VEL_CMD"]          = 16 * M_PI;
+        doubles["MAX_KICK_POWER"]               = 8.0; // TODO: CHECK
 
-const int tickRate=60 ;// Rate at which we tick our behavior Trees
+        // AI limits
+        doubles["MIN_ANGLE"]                    = -M_PI;
+        doubles["MAX_ANGLE"]                    = M_PI;
+        doubles["MAX_VEL"]                      = 8.0;
+        doubles["MAX_VEL_BALLPLACEMENT"]        = 3.0;
+        doubles["MAX_ANGULAR_VELOCITY"]         = 6.0;
+        integers["MAX_KICK_CYCLES"]             = 20;
+        integers["MAX_GENEVA_CYCLES"]           = 20;
 
-//skills
-const double DEFAULT_KICK_POWER = 5.0; // max kick power = 100
-const double MAX_KICK_POWER = 8.0; //TODO: CHECK
-const int MAX_KICK_CYCLES = 20;
-const int MAX_GENEVA_CYCLES = 20;
-const int DEFAULT_GENEVA_STATE = 0;
+        // robot metrics
+        doubles["ROBOT_RADIUS"]                 = 0.089;
+        doubles["FRONT_LENGTH"]                 = 0.118;
+        doubles["DRIBBLER_ANGLE_OFFSET"]        = asin(0.118/2/0.089); // front length / 2 / robot radius
+        doubles["CENTRE_TO_FRONT"]              = sin(asin(0.118/2/0.089))*0.089; // sin(DRIBBLER_ANGLE_OFFSET) * ROBOT_RADIUS
+        doubles["BALL_RADIUS"]                  = 0.0215;
+        integers["GENEVA_LEFT"]                 = 0;
+        integers["GENEVA_RIGHT"]                = 5;
 
-//dribble
-const double MAX_BALL_RANGE=0.05; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
-const double MAX_BALL_BOUNCE_RANGE=0.15;
-const double DRIBBLE_POSDIF=0.05;
-const float  DRIBBLE_SPEED=0.8;
+        // gotopos luth
+        doubles["GOTOPOS_LUTH_ERROR_MARGIN"]    = 0.25;
 
-//getBallcc
-const double COLLISION_RADIUS=0.18;
-const double ANGLE_SENS=0.05*M_PI;
-const double MAX_GETBALL_RANGE=0.7;
-const int POSSES_BALL_CYCLES=25;
-const double GETBALL_SPEED=.5;
-const double GETBALL_OVERSHOOT=.02;//m
+        // dribble
+        doubles["MAX_BALL_RANGE"]               = 0.05;
+        doubles["MAX_BALL_BOUNCE_RANGE"]        = 0.15;
+        doubles["DRIBBLE_POSDIF"]               = 0.05;
+        doubles["DRIBBLE_SPEED"]                = 0.8;
 
-//GoToPos
-const double MAX_CALCULATION_TIME=20.0; //max time in ms
+    }
 
-//Keeper
-const double KEEPER_POST_MARGIN=0.08;//m
-const double KEEPER_CENTREGOAL_MARGIN=0.3;//m
-const double KEEPER_POSDIF=0.04;
 
-//ballkickedtoGoal
-const double BALL_TO_GOAL_MARGIN=BALL_RADIUS;//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
-const double BALL_TO_GOAL_TIME=1.5;//seconds
 
-//Intercept
-const double MAX_INTERCEPT_TIME=2.0;//seconds. Intercept terminates  after this time.
-const double BALL_DEFLECTION_ANGLE=30.0/180.0*M_PI;//angle at which a ball is considered 'deflected'
-const double INTERCEPT_POSDIF=0.04;//m acceptable deviation
+    //dribble
+    const double MAX_BALL_RANGE                 = 0.05; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
+    const double MAX_BALL_BOUNCE_RANGE          = 0.15;
+    const double DRIBBLE_POSDIF                 = 0.05;
+    const float  DRIBBLE_SPEED                  = 0.8;
 
-const double DEFAULT_MAX_VEL=2.0;
-// BallInDefenseAreaAndStill
-const double BALL_STILL_VEL=0.1;// if the ball has velocity lower than this in defense area, keeper starts getting it
+    //getBall
+    const double COLLISION_RADIUS               = 0.18;
+    const double ANGLE_SENS                     = 0.05*M_PI;
+    const double MAX_GETBALL_RANGE              = 0.7;
+    const int POSSES_BALL_CYCLES                = 25;
+    const double GETBALL_SPEED                  = .5;
+    const double GETBALL_OVERSHOOT              = .02;//m
 
-const double DRIBBLE_ROTATE_WAIT_TIME=0.2; // seconds
-const double DRIBBLE_ROTATE_MAX_SPEED=0.5; //rad/s
-// Interface
-const int ROBOT_DRAWING_SIZE = 8;
-const int BALL_DRAWING_SIZE = 5;
-const int TACTIC_COLOR_DRAWING_SIZE = 10;
-const int WINDOW_FIELD_MARGIN = 5;
+    //GoToPos
+    const double MAX_CALCULATION_TIME           = 20.0; //max time in ms
+    const double standard_luth_P                = useGrSim ? 3.0 : 2.9;
+    const double standard_luth_I                = useGrSim ? 0.5 : 0.4;
+    const double standard_luth_D                = useGrSim ? 2.5 : 2.4;
 
-const int KEEPER_HELP_DRAW_SIZE=7;
-const int INTERCEPT_DRAW_VECTOR_SIZE=5;
+    //Keeper
+    const double KEEPER_POST_MARGIN             = 0.08;//m
+    const double KEEPER_CENTREGOAL_MARGIN       = 0.3;//m
+    const double KEEPER_POSDIF                  = 0.04;
 
-const double BP_MOVE_BACK_DIST=0.4;
-const double BP_MOVE_TOWARDS_DIST=0.15;
+    //ballkickedtoGoal
+    const double BALL_TO_GOAL_MARGIN            = BALL_RADIUS;//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
+    const double BALL_TO_GOAL_TIME              = 1.5;//seconds
 
-// Avoid ball
-const double robotWeight = .09;
-const double minRobotDistanceForForce = .7;
-const double ballWeight = .15;
-const double minBallDistanceForForce = .7;
-const double wallWeight = .05;
-const double minWallDistanceForForce = .4;
+    //Intercept
+    const double MAX_INTERCEPT_TIME             = 2.0;//seconds. Intercept terminates  after this time.
+    const double BALL_DEFLECTION_ANGLE          = 30.0/180.0*M_PI;//angle at which a ball is considered 'deflected'
+    const double INTERCEPT_POSDIF               = 0.04;//m acceptable deviation
 
-// Settings
-const bool STD_SHOW_ROLES = true;
-const bool STD_SHOW_TACTICS = false;
-const bool STD_SHOW_TACTICS_COLORS = true;
-const bool STD_SHOW_VELOCITIES = true;
-const bool STD_SHOW_ANGLES = true;
-const bool STD_SHOW_VORONOI = false;
-const bool STD_SHOW_PATHS_ALL = false;
-const bool STD_SHOW_PATHS_CURRENT = true;
-const bool STD_SHOW_BALL_PLACEMENT_MARKER = true;
-const bool STD_USE_REFEREE = true;
+    const double DEFAULT_MAX_VEL                = 2.0;
 
-const QColor FIELD_COLOR{30, 30, 30, 255};
-const QColor FIELD_LINE_COLOR = Qt::white;
-const QColor ROBOT_COLOR_BLUE { 150, 150, 255, 255 }; // Blue
-const QColor ROBOT_COLOR_YELLOW { 255, 255, 0, 255 }; // Yellow
-const QColor BALL_COLOR { 255, 120, 50, 255 }; // Orange
-const QColor TEXT_COLOR = Qt::white;
-const QColor SELECTED_ROBOT_COLOR = Qt::magenta;
+    // BallInDefenseAreaAndStill
+    const double BALL_STILL_VEL                 = 0.1;// if the ball has velocity lower than this in defense area, keeper starts getting it
 
-const QColor TACTIC_1 { 255, 0, 255, 255 };
-const QColor TACTIC_2 { 0, 255, 255, 255 };
-const QColor TACTIC_3 { 255, 255, 0, 255 };
-const QColor TACTIC_4 { 255, 120, 180, 255 };
-const QColor TACTIC_5 { 255, 100, 255, 255 };
-const QColor TACTIC_COLORS[] = {TACTIC_1, TACTIC_2, TACTIC_3, TACTIC_4, TACTIC_5};
+    // DribbleRotate
+    const double DRIBBLE_ROTATE_WAIT_TIME       = 0.2; // seconds
+    const double DRIBBLE_ROTATE_MAX_SPEED       = 0.5; //rad/s
 
-const double standard_luth_P = 3.0;
-const double standard_luth_I = 0.5;
-const double standard_luth_D = 2.5;
-} // constants
+    // Ball Placement
+    const double BP_MOVE_BACK_DIST              = 0.4;
+    const double BP_MOVE_TOWARDS_DIST           = 0.15;
+
+    // Avoid ball
+    const double robotWeight                    = .09;
+    const double minRobotDistanceForForce       = .7;
+    const double ballWeight                     = .15;
+    const double minBallDistanceForForce        = .7;
+    const double wallWeight                     = .05;
+    const double minWallDistanceForForce        = .4;
+
+    // Settings to toggle in interface
+    const bool STD_SHOW_ROLES                   = true;
+    const bool STD_SHOW_TACTICS                 = false;
+    const bool STD_SHOW_TACTICS_COLORS          = true;
+    const bool STD_SHOW_VELOCITIES              = true;
+    const bool STD_SHOW_ANGLES                  = true;
+    const bool STD_SHOW_PATHS_ALL               = false;
+    const bool STD_SHOW_PATHS_CURRENT           = true;
+    const bool STD_SHOW_BALL_PLACEMENT_MARKER   = true;
+    const bool STD_USE_REFEREE                  = true;
+
+    // Interface drawing constants
+    const int ROBOT_DRAWING_SIZE                = 8;
+    const int BALL_DRAWING_SIZE                 = 5;
+    const int TACTIC_COLOR_DRAWING_SIZE         = 10;
+    const int WINDOW_FIELD_MARGIN               = 5;
+    const int KEEPER_HELP_DRAW_SIZE             = 7;
+    const int INTERCEPT_DRAW_VECTOR_SIZE        = 5;
+
+    // Interface color constants
+    const QColor FIELD_COLOR{30, 30, 30, 255};
+    const QColor FIELD_LINE_COLOR = Qt::white;
+    const QColor ROBOT_COLOR_BLUE { 150, 150, 255, 255 }; // Blue
+    const QColor ROBOT_COLOR_YELLOW { 255, 255, 0, 255 }; // Yellow
+    const QColor BALL_COLOR { 255, 120, 50, 255 }; // Orange
+    const QColor TEXT_COLOR = Qt::white;
+    const QColor SELECTED_ROBOT_COLOR = Qt::magenta;
+
+    const QColor TACTIC_1 { 255, 0, 255, 255 };
+    const QColor TACTIC_2 { 0, 255, 255, 255 };
+    const QColor TACTIC_3 { 255, 255, 0, 255 };
+    const QColor TACTIC_4 { 255, 120, 180, 255 };
+    const QColor TACTIC_5 { 255, 100, 255, 255 };
+    //const QColor TACTIC_COLORS[] = [TACTIC_1, TACTIC_2, TACTIC_3, TACTIC_4, TACTIC_5];
+
+};
 } // ai
 } // rtt
 
