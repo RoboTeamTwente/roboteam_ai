@@ -241,7 +241,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
             {"PassTactic", {
-                    {"passer", robotType::random},
+                    {"passer", robotType::closeToBall},
                     {"receiver", robotType::random}
             }
             },
