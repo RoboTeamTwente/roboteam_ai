@@ -25,12 +25,13 @@ void IsCloseToPoint::initialize() {
 }
 
 IsCloseToPoint::Status IsCloseToPoint::update() {
+    if (!getRobotFromProperties(properties)) return Status::Failure;
+
     if (ballPos) {
         position = ball->pos;
     }
 
     double deltaPos = (position - getRobotFromProperties(properties)->pos).length();
-    std::cout << deltaPos << margin << std::endl;
 
     if (deltaPos >= margin) {
         return Status::Failure;
@@ -41,6 +42,5 @@ IsCloseToPoint::Status IsCloseToPoint::update() {
 }
 
 std::string IsCloseToPoint::node_name() {return "IsCloseToPoint";}
-
 }
 }
