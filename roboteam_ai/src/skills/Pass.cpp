@@ -47,7 +47,7 @@ Pass::Status Pass::onUpdate() {
                 command.kicker = 1;
                 command.kicker_forced = 1;
                 distance = ((Vector2)ball->pos - robotToPassTo->pos).length();
-                kicker_vel_multiplier = distance > maxDistance ? 1.0 : distance / maxDistance;
+                kicker_vel_multiplier = distance > rtt::ai::constants::MAX_POWER_KICK_DISTANCE ? 1.0 : distance / rtt::ai::constants::MAX_POWER_KICK_DISTANCE;
 
                 command.kicker_vel = static_cast<float>(rtt::ai::constants::MAX_KICK_POWER * kicker_vel_multiplier);
                 command.id = robot->id;
@@ -55,6 +55,7 @@ Pass::Status Pass::onUpdate() {
                 checkTicks = 0;
                 return Status::Running;
             }
+
             if (Vector2(ball->vel).length() > 0.4 || ((Vector2)robot->pos - ball->pos).length() > rtt::ai::constants::MAX_BALL_RANGE * 2) {
                 Coach::setRobotBeingPassedTo(-1);
                 Coach::setPassed(true);

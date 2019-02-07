@@ -24,7 +24,6 @@ private:
     control::ControlGoToPos goToPos;
     GoToType goToType;
 
-    double maxDistance = 9.0;
     double distance;
     double kicker_vel_multiplier;
 

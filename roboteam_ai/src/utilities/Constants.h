@@ -47,6 +47,7 @@ const double MAX_KICK_POWER = 8.0; //TODO: CHECK
 const int MAX_KICK_CYCLES = 20;
 const int MAX_GENEVA_CYCLES = 20;
 const int DEFAULT_GENEVA_STATE = 0;
+const double MAX_POWER_KICK_DISTANCE = 9.0;
 
 //dribble
 const double MAX_BALL_RANGE=0.05; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
