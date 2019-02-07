@@ -50,7 +50,7 @@ Skill::Status BasicGoToPos::onUpdate() {
     if(properties->getBool("BallPlacementAfter")){
         command.w=static_cast<float>((Vector2(robot->pos)-targetPos).angle());
     }
-    Vector2 velocity = goToPos.goToPos(robot, targetPos, control::GoToType::luTh);
+    Vector2 velocity = goToPos.goToPos(robot, targetPos, control::GoToType::clean);
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     publishRobotCommand(command);

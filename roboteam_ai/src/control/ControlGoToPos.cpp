@@ -12,7 +12,6 @@ namespace ai {
 namespace control {
 
 ControlGoToPos::ControlGoToPos() = default;
-
 void ControlGoToPos::clear(GoToType goToType) {
     switch (goToType) {
     case noPreference:break;
@@ -21,6 +20,7 @@ void ControlGoToPos::clear(GoToType goToType) {
     case lowLevel:break;
     case highLevel:break;
     case force:break;
+    case clean:break;
     case luTh: {
         gtpLuth.clear();
         break;
@@ -67,7 +67,8 @@ Vector2 ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goTo
     case bezier:
         return ControlGoToPos::goToPosBezier(std::move(robot), position);
 
-
+    case clean:
+        return ControlGoToPos::goToPosClean(std::move(robot),position);
     }
     return goToPos(std::move(robot), position);
 }
@@ -105,6 +106,10 @@ Vector2 ControlGoToPos::goToPosLuTh(RobotPtr robot, Vector2 &targetPos) {
 
 }
 
+Vector2 ControlGoToPos::goToPosClean(RobotPtr robot, Vector2 &targetPos){
+    return gtpClean.goToPos(std::move(robot),targetPos);
+}
+
 Vector2 ControlGoToPos::goToPosLowLevel(RobotPtr robot, Vector2 &targetPos) {
     return {};
 }
@@ -130,12 +135,15 @@ void ControlGoToPos::setAvoidBall(bool _avoidBall) {
 
     //gtpBallControl.setAvoidBall(true);
     gtpLuth.setAvoidBall(_avoidBall);
+    gtpClean.setAvoidBall(_avoidBall);
 }
 
 void ControlGoToPos::setCanGoOutsideField(bool _canGoOutsideField) {
     // Add a function to make sure the robot does not go out of the field for all goToPos's
 
     gtpLuth.setCanGoOutsideField(_canGoOutsideField);
+    gtpClean.setCanGoOutsideField(_canGoOutsideField);
+
 }
 
 } //control
