@@ -58,7 +58,7 @@ void Visualizer::drawBackground(QPainter &painter) {
 
 // draws the field lines
 void Visualizer::drawFieldLines(QPainter &painter) {
-    painter.setPen(Constants::getColor("FIELD_COLOR"));
+    painter.setPen(Constants::getColor("FIELD_LINE_COLOR"));
     painter.setBrush(Qt::transparent);
     // draw lines
     for (auto &line : rtt::ai::Field::get_field().field_lines) {
