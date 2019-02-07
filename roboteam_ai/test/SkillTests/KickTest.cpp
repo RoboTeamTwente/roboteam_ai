@@ -62,7 +62,7 @@ TEST(KickTest, It_sends_proper_robotcommands) {
     EXPECT_EQ(commands.size(), (unsigned int) 2);
     EXPECT_EQ(commands.at(1).kicker_vel, 2);
 
-    for (int i = 0; i < rtt::ai::Constants::getDouble("MAX_KICK_CYCLES") - 1; i ++) {
+    for (int i = 0; i < rtt::ai::Constants::getInt("MAX_KICK_CYCLES") - 1; i ++) {
         EXPECT_EQ(kick2.update(), bt::Leaf::Status::Running);
     }
     EXPECT_EQ(kick2.update(), bt::Leaf::Status::Failure);
