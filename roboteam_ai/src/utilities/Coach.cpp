@@ -79,11 +79,11 @@ int Coach::whichRobotHasBall(bool isOurTeam) {
 }
 
 int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
-    return doesRobotHaveBall(robotID, isOurTeam, 0.15, 0.2);
+    return doesRobotHaveBall(robotID, isOurTeam, rtt::ai::constants::MAX_BALL_RANGE, rtt::ai::constants::HAS_BALL_ANGLE);
 }
 
 int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkDist) {
-    return doesRobotHaveBall(robotID, isOurTeam, checkDist, 0.2);
+    return doesRobotHaveBall(robotID, isOurTeam, checkDist, rtt::ai::constants::HAS_BALL_ANGLE);
 }
 
 int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkDist, double checkAngle) {
@@ -91,8 +91,7 @@ int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkD
     Vector2 ballPos;
     if (World::getBall())
         ballPos = World::getBall().get()->pos;
-    else
-        return 0;
+    else return 0;
 
     if (robot &&  World::getBall()) {
         Vector2 deltaPos = (ballPos-robot->pos);
