@@ -24,7 +24,7 @@
 
 #include "../skills/Chip.h"
 #include "../skills/Dribble.h"
-#include "roboteam_ai/src/skills/SkillGoToPos.h"
+#include "../skills/SkillGoToPos.h"
 #include "../skills/Halt.h"
 #include "../skills/Kick.h"
 #include "../skills/Harass.h"
@@ -33,15 +33,15 @@
 #include "../skills/Keeper.h"
 #include "../skills/GetBall.h"
 #include "../skills/Attack.h"
-#include "roboteam_ai/src/skills/Pass.h"
-#include "roboteam_ai/src/skills/Receive.h"
-#include <roboteam_ai/src/skills/InterceptBall.h>
-#include <roboteam_ai/src/skills/DefendOnRobot.h>
-#include "../skills/DribbleRotate.h"
-#include <roboteam_ai/src/skills/Defend.h>
+#include "../skills/Pass.h"
+#include "../skills/Receive.h"
+#include "../skills/InterceptBall.h"
 #include "../skills/DefendOnRobot.h"
-#include <roboteam_ai/src/skills/InterceptBall.h>
-#include <roboteam_ai/src/skills/BasicGoToPos.h>
+#include "../skills/DribbleRotate.h"
+#include "../skills/Defend.h"
+#include "../skills/DefendOnRobot.h"
+#include "../skills/InterceptBall.h"
+#include "../skills/BasicGoToPos.h"
 
 //  ______________________
 //  |                    |

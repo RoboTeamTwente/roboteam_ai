@@ -91,22 +91,6 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
                 id = getRobotClosestToPoint(ids, ballPos);
                 break;
             }
-
-            case betweenBallAndOurGoal: {
-                auto ball = rtt::ai::World::getBall();
-
-                rtt::Vector2 ballPos;
-                if (ball) {
-                   ballPos = ball->pos;
-                } else {
-                    ballPos = {0, 0};
-                    ROS_ERROR("Robotdealer CloseToBall - No ball found in field. Assuming ball at (%f, %f).", ballPos.x, ballPos.y);
-                }
-
-                rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
-                id = getRobotClosestToLine(ids, ballPos, ourGoal, true);
-                break;
-            }
             case closeToOurGoal: {
                 rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
                 id = getRobotClosestToPoint(ids, ourGoal);
@@ -231,62 +215,14 @@ int RobotDealer::findRobotForRole(std::string roleName) {
 }
 
 int RobotDealer::getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 position) {
-    int closestID = - 1;
-    double distance = 100000000.0;
-    for (auto &id : ids) {
-        rtt::Vector2 robotPos = rtt::ai::World::getRobotForId((unsigned int) id, true).get()->pos;
-        double dRobotToPoint = (robotPos - position).length();
-        if (dRobotToPoint < distance) {
-            closestID = id;
-            distance = dRobotToPoint;
+    std::vector<roboteam_msgs::WorldRobot> robots;
+    for (auto id : ids) {
+        auto robot = rtt::ai::World::getRobotForId((unsigned int) id, true);
+        if (robot) {
+            robots.push_back(* robot);
         }
     }
-    return closestID;
-}
-
-int RobotDealer::getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 point1, rtt::Vector2 point2,
-        bool inBetweenPoints) {
-
-    // https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
-    int closestID = - 1;
-    double distance = 100000000.0;
-    for (auto &id : ids) {
-        rtt::Vector2 robotPos = rtt::ai::World::getRobotForId((unsigned int) id, true).get()->pos;
-        //rtt::ai::control::ControlUtils::distanceToLineWithEnds(robotPos,point1,point2) could be used here, perhaps?
-        double deltaY = point2.y - point1.y;
-        double deltaX = point2.x - point1.x;
-        double numerator = abs(deltaY*robotPos.x - deltaX*robotPos.y + point2.x*point1.y - point2.y*point1.x);
-        double denominator = sqrt(deltaY*deltaY + deltaX*deltaX);
-        double dRobotToLine = numerator/denominator;
-        if (dRobotToLine > distance) continue;
-
-        if (inBetweenPoints) {
-            // if we want to check in between the points ...
-            // for variables len**: R = robot, 1 = point 1, 2 = point 2
-            // check if the angle is more than or less than 90 degrees by using pythagoras (in)equality
-            // if it is more, change the distance dRobotToLine to the distance to point 1 or 2
-            // instead of the distance to the line
-
-            double len1R = (point1 - robotPos).length();
-            double len2R = (point1 - robotPos).length();
-            double len12 = (point1 - robotPos).length();
-            if (len1R < len2R) {
-                double pythagoras = len1R*len1R + len12*len12 - len2R*len2R;
-                if (pythagoras < 0) dRobotToLine = len1R;
-                if (dRobotToLine >= distance) continue;
-            }
-            else {
-                double pythagoras = len2R*len2R + len12*len12 - len1R*len1R;
-                if (pythagoras < 0) dRobotToLine = len2R;
-                if (len2R >= distance) continue;
-            }
-        }
-
-        closestID = id;
-        distance = dRobotToLine;
-
-    }
-    return closestID;
+    return rtt::ai::World::getRobotClosestToPoint(robots, position)->id;
 }
 
 /// When robot be free this bad boy anti free
