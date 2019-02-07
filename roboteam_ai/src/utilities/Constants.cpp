@@ -42,7 +42,7 @@ QColor Constants::getColor(const std::string &name) {
     if (colors.find(name) != colors.end() ) {
         return colors[name];
     }
-    ROS_ERROR("Double constant not found: %s", name.c_str());
+    ROS_ERROR("Color constant not found: %s", name.c_str());
     return { 0, 0, 0, 0 }; // transparent
 }
 

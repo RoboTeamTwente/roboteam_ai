@@ -169,7 +169,7 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
     }
 
 
-    return control::ControlUtils::VelocityLimiter(velocityCommand);
+    return control::ControlUtils::VelocityLimiter(velocityCommand, Constants::getDouble("MAX_VEL"));
 
 }
 
