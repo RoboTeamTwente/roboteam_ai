@@ -18,13 +18,13 @@ void Kick::onInitialize() {
 bt::Node::Status Kick::onUpdate() {
     // Fail if we did not succeed after a number of cycles
     amountOfCycles ++;
-    if (amountOfCycles > constants::MAX_KICK_CYCLES) {
+    if (amountOfCycles > Constants::getInt("MAX_KICK_CYCLES")) {
         return Status::Failure;
     }
 
     // Get kickVelocity from blackboard, otherwise it is a default value.
     double kickVel = properties->hasDouble("kickVel") ? properties->getDouble("kickVel")
-                                                      : constants::DEFAULT_KICK_POWER;
+                                                      : Constants::getDouble("DEFAULT_KICK_POWER");
     sendKickCommand(kickVel);
     return Status::Running;
 }

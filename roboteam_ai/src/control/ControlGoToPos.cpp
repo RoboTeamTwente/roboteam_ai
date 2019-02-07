@@ -84,7 +84,7 @@ Vector2 ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
     error.y = targetPos.y - robot->pos.y;
     double dist = error.length();
     static bool far = true;
-    if (dist > rtt::ai::constants::ROBOT_RADIUS and ! far) {
+    if (dist > Constants::getDouble("ROBOT_RADIUS") and ! far) {
         pid.setD(1.5);
         far = true;
     }

@@ -10,11 +10,11 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
-double InterfaceValues::luthP = constants::standard_luth_P;
-double InterfaceValues::luthI = constants::standard_luth_I;
-double InterfaceValues::luthD = constants::standard_luth_D;
+double InterfaceValues::luthP = Constants::getDouble("standard_luth_P");
+double InterfaceValues::luthI = Constants::getDouble("standard_luth_I");
+double InterfaceValues::luthD = Constants::getDouble("standard_luth_D");
 rtt::Vector2 InterfaceValues::ballPlacementTarget = {0, 0}; // initialize on middle of the field
-bool InterfaceValues::useRefereeCommands = constants::STD_USE_REFEREE;
+bool InterfaceValues::useRefereeCommands = Constants::getBool("STD_USE_REFEREE");
 
 
 std::mutex InterfaceValues::PIDMutex;

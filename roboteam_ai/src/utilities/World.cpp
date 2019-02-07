@@ -88,8 +88,8 @@ bool World::robotHasBall(const roboteam_msgs::WorldRobot &bot, const roboteam_ms
 
 /// returns true if a robot at a given position and orientation has the ball
 bool World::robotHasBall(Vector2 robotPos, double robotOrientation, Vector2 ballPos, double frontDist) {
-    Vector2 dribbleLeft = robotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robotOrientation - constants::DRIBBLER_ANGLE_OFFSET);
-    Vector2 dribbleRight = robotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robotOrientation + constants::DRIBBLER_ANGLE_OFFSET);
+    Vector2 dribbleLeft = robotPos + Vector2(Constants::getDouble("ROBOT_RADIUS"), 0).rotate(robotOrientation - Constants::getDouble("DRIBBLER_ANGLE_OFFSET"));
+    Vector2 dribbleRight = robotPos + Vector2(Constants::getDouble("ROBOT_RADIUS"), 0).rotate(robotOrientation + Constants::getDouble("DRIBBLER_ANGLE_OFFSET"));
 
     if (control::ControlUtils::pointInTriangle(ballPos, robotPos, dribbleLeft, dribbleRight)) {
         return true;

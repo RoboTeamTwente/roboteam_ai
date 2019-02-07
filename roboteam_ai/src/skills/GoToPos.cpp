@@ -28,8 +28,9 @@ void GoToPos::onInitialize() {
     }
     if (properties->hasDouble("maxVel"))
         speed=properties->getDouble("maxVel");
-    else
-        speed=constants::DEFAULT_MAX_VEL;
+    else {
+        speed = Constants::getDouble("DEFAULT_MAX_VEL");
+    }
 }
 
 /// Get an update on the skill

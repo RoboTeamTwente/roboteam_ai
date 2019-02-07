@@ -35,13 +35,13 @@ rtt::Vector2 WorldHelper::getRandomFieldPosition(roboteam_msgs::GeometryFieldSiz
  * Generate a random velocity which is lower than the maximum velocity
  */
 rtt::Vector2 WorldHelper::getRandomVelocity() {
-    auto xVel = getRandomValue(-rtt::ai::constants::MAX_VEL, rtt::ai::constants::MAX_VEL);
-    auto yVel = getRandomValue(-rtt::ai::constants::MAX_VEL, rtt::ai::constants::MAX_VEL);
+    auto xVel = getRandomValue(-rtt::ai::Constants::getDouble("MAX_VEL"), rtt::ai::Constants::getDouble("MAX_VEL"));
+    auto yVel = getRandomValue(-rtt::ai::Constants::getDouble("MAX_VEL"), rtt::ai::Constants::getDouble("MAX_VEL"));
     rtt::Vector2 vector = {xVel, yVel};
 
     // limit the vector if needed
-    if (vector.length() > rtt::ai::constants::MAX_VEL) {
-        vector = vector.stretchToLength(rtt::ai::constants::MAX_VEL);
+    if (vector.length() > rtt::ai::Constants::getDouble("MAX_VEL")) {
+        vector = vector.stretchToLength(rtt::ai::Constants::getDouble("MAX_VEL"));
     }
     return vector;
 }
@@ -66,12 +66,12 @@ bool WorldHelper::allPositionsAreValid(const roboteam_msgs::World &worldMsg, boo
 
             // if the position is itself we don't need to do anything
             if (pos.first != posToCompore.first) {
-                if (pos.second.dist((posToCompore.second)) < 2 * rtt::ai::constants::ROBOT_RADIUS) return false;
+                if (pos.second.dist((posToCompore.second)) < 2 * rtt::ai::Constants::getDouble("ROBOT_RADIUS")) return false;
             }
         }
 
         if (withBall) {
-            if (pos.second.dist(worldMsg.ball.pos) < rtt::ai::constants::ROBOT_RADIUS + rtt::ai::constants::BALL_RADIUS) {
+            if (pos.second.dist(worldMsg.ball.pos) < rtt::ai::Constants::getDouble("ROBOT_RADIUS") + rtt::ai::Constants::getDouble("BALL_RADIUS")) {
                 return false;
             }
         }
@@ -87,9 +87,9 @@ roboteam_msgs::WorldRobot WorldHelper::generateRandomRobot(int id, roboteam_msgs
     roboteam_msgs::WorldRobot robot;
     robot.id = (unsigned) id;
     robot.pos = getRandomFieldPosition(std::move(field));
-    robot.angle = static_cast<float>(getRandomValue(rtt::ai::constants::MIN_ANGLE, rtt::ai::constants::MAX_ANGLE));
+    robot.angle = static_cast<float>(getRandomValue(rtt::ai::Constants::getDouble("MIN_ANGLE"), rtt::ai::Constants::getDouble("MAX_ANGLE")));
     robot.vel = getRandomVelocity();
-    robot.w = static_cast<float>(getRandomValue(0, rtt::ai::constants::MAX_ANGULAR_VELOCITY));
+    robot.w = static_cast<float>(getRandomValue(0, rtt::ai::Constants::getDouble("MAX_ANGULAR_VELOCITY")));
     return robot;
 }
 
@@ -110,7 +110,7 @@ roboteam_msgs::WorldBall WorldHelper::generateRandomBall(roboteam_msgs::Geometry
  */
 rtt::Vector2 WorldHelper::getLocationRightBeforeRobot(roboteam_msgs::WorldRobot robot) {
     rtt::Vector2 angleVector = rtt::Vector2(cos(robot.angle), sin(robot.angle));
-    angleVector = angleVector.stretchToLength(rtt::ai::constants::ROBOT_RADIUS);
+    angleVector = angleVector.stretchToLength(rtt::ai::Constants::getDouble("ROBOT_RADIUS"));
     rtt::Vector2 robotPos = rtt::Vector2(robot.pos);
     return robotPos + angleVector;
 }

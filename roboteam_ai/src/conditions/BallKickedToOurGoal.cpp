@@ -16,11 +16,11 @@ bt::Node::Status BallKickedToOurGoal::update() {
     auto ball = World::getBall();
     Vector2 goalCentre = Field::get_our_goal_center();
     double goalWidth = Field::get_field().goal_width;
-    double margin = constants::BALL_TO_GOAL_MARGIN;
+    double margin = Constants::getDouble("BALL_TO_GOAL_MARGIN");
     Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth/2 + margin));
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth/2 + margin);
     Vector2 ballPos = ball->pos;
-    Vector2 ballPredPos = Vector2(ballPos) + Vector2(ball->vel)*constants::BALL_TO_GOAL_TIME;
+    Vector2 ballPredPos = Vector2(ballPos) + Vector2(ball->vel)*Constants::getDouble("BALL_TO_GOAL_TIME");
    
     // Check if the extension of the velocity vector goes through the goal.
     // The line drawn for the ball is the predicted position in 1.5 seconds

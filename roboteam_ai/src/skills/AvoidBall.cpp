@@ -22,11 +22,11 @@ bt::Node::Status AvoidBall::onUpdate() {
     // forces from robots
     for (auto otherRobot : World::getAllRobots()) {
         if (otherRobot.id != robot->id) {
-            force = force + cu::calculateForce(robotPos - otherRobot.pos, constants::robotWeight, constants::minRobotDistanceForForce);
+            force = force + cu::calculateForce(robotPos - otherRobot.pos, Constants::getDouble("robotWeight"), Constants::getDouble("minRobotDistanceForForce"));
         }
     }
     // check forces from ball
-    force = force + cu::calculateForce(robotPos - ball->pos, constants::ballWeight, constants::minBallDistanceForForce);
+    force = force + cu::calculateForce(robotPos - ball->pos, Constants::getDouble("ballWeight"), Constants::getDouble("minBallDistanceForForce"));
 
     // forces from walls
     auto field = Field::get_field();
@@ -41,13 +41,13 @@ bt::Node::Status AvoidBall::onUpdate() {
     wallsVectors.emplace_back(Vector2(0, robotPos.y + halfFieldWidth + boundWidth));
 
     for (auto const &wallVector : wallsVectors) {
-        force = force + cu::calculateForce(wallVector, constants::wallWeight, constants::minWallDistanceForForce);
+        force = force + cu::calculateForce(wallVector, Constants::getDouble("wallWeight"), Constants::getDouble("minWallDistanceForForce"));
     }
 
     // limit the forces
     // TODO do not always limit the speed for ballplacement only
-    if (force.length() > constants::MAX_VEL_BALLPLACEMENT) force.stretchToLength(constants::MAX_VEL_BALLPLACEMENT);
-    if (force.angle() > constants::MAX_ANGULAR_VELOCITY) force.stretchToLength(constants::MAX_ANGULAR_VELOCITY);
+    if (force.length() > Constants::getDouble("MAX_VEL_BALLPLACEMENT")) force.stretchToLength(Constants::getDouble("MAX_VEL_BALLPLACEMENT"));
+    if (force.angle() > Constants::getDouble("MAX_ANGULAR_VELOCITY")) force.stretchToLength(Constants::getDouble("MAX_ANGULAR_VELOCITY"));
 
     roboteam_msgs::RobotCommand command;
     if (force.length() < 0.2) {

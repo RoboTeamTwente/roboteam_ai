@@ -9,34 +9,32 @@
 namespace rtt {
 namespace ai {
 
-namespace c = constants;
-
 //TODO: do obstacle checking and return fail if there is an obstacle in the way.
 //GetBall turns the robot to the ball and softly approaches with dribbler on in an attempt to get the ball.
 GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) { }
 
 // Essentially a state transition diagram. Contains much of the logic
 void GetBall::checkProgression() {
-    if (deltaPos.length() > c::MAX_GETBALL_RANGE ||currentTick>maxTicks) {
+    if (deltaPos.length() > Constants::getDouble("MAX_GETBALL_RANGE") ||currentTick>maxTicks) {
         currentProgress = FAIL;
         std::cout<<"GetBall-> FAIL";
         return;
     }
     double angleDif = Control::angleDifference(robot->angle, deltaPos.angle());
     if (currentProgress == TURNING) {
-        if (angleDif < c::ANGLE_SENS) {
+        if (angleDif < Constants::getDouble("ANGLE_SENS")) {
             currentProgress = APPROACHING;
             std::cout<<"GetBall: TURNING->APPROACHING"<<std::endl;
             return;
         }
     }
     else if (currentProgress == APPROACHING) {
-        if (angleDif >= c::ANGLE_SENS) {
+        if (angleDif >= Constants::getDouble("ANGLE_SENS")) {
             currentProgress = TURNING;
             std::cout<<"GetBall: APPROACHING-> TURNING"<<std::endl;
             return;
         }
-        if (robotHasBall(c::MAX_BALL_BOUNCE_RANGE)) {
+        if (robotHasBall(Constants::getDouble("MAX_BALL_BOUNCE_RANGE"))) {
             std::cout<<"GetBall: APPROACHING -> OVERSHOOTING"<<std::endl;
             currentProgress = OVERSHOOTING;
             return;
@@ -46,7 +44,7 @@ void GetBall::checkProgression() {
         }
     }
     else if (currentProgress == OVERSHOOTING){
-        if (!robotHasBall(c::MAX_BALL_BOUNCE_RANGE)) {
+        if (!robotHasBall(Constants::getDouble("MAX_BALL_BOUNCE_RANGE"))) {
             std::cout<<"GetBall: OVERSHOOTING -> TURNING"<<std::endl;
             currentProgress = TURNING;
             return;
@@ -61,14 +59,14 @@ void GetBall::checkProgression() {
         }
     }
     else if (currentProgress == DRIBBLING) {
-        if (! robotHasBall(c::MAX_BALL_BOUNCE_RANGE)) {
+        if (! robotHasBall(Constants::getDouble("MAX_BALL_BOUNCE_RANGE"))) {
             currentProgress = APPROACHING;
             count = 0;
             std::cout<<"GetBall: DRIBBLING-> APPROACHING"<<std::endl;
             return;
         }
         count ++;
-        if (count > c::POSSES_BALL_CYCLES) {
+        if (count > Constants::getDouble("POSSES_BALL_CYCLES")) {
             currentProgress = SUCCESS;
             std::cout<<"GetBall: SUCCESS"<<std::endl;
             return;
@@ -87,17 +85,17 @@ void GetBall::onInitialize() {
     }
     else maxTime=1000;
     currentTick=0;
-    maxTicks= static_cast<int>(floor(maxTime*constants::tickRate));
+    maxTicks= static_cast<int>(floor(maxTime * Constants::getInt("tickRate")));
 }
 GetBall::Status GetBall::onUpdate() {
     if (!ball) return Status::Running;
     deltaPos = Vector2(ball->pos) - Vector2(robot->pos);
 
   if(currentProgress!=OVERSHOOTING&&currentProgress!=DRIBBLING){
-    approachPos= Vector2(ball->pos)+(Vector2(ball->pos)-Vector2(robot->pos)).stretchToLength(constants::GETBALL_OVERSHOOT);
+    approachPos= Vector2(ball->pos)+(Vector2(ball->pos)-Vector2(robot->pos)).stretchToLength(Constants::getDouble("GETBALL_OVERSHOOT"));
     }
 
-    if(!robotHasBall(constants::MAX_BALL_BOUNCE_RANGE)){
+    if(!robotHasBall(Constants::getDouble("MAX_BALL_BOUNCE_RANGE"))){
         lockedAngle=deltaPos.angle();
     }
     checkProgression();
@@ -142,12 +140,12 @@ bool GetBall::robotHasBall(double frontRange) {
     }
     Vector2 RobotPos = robot->pos;
     Vector2 BallPos = ball->pos;
-    Vector2 dribbleLeft = RobotPos + Vector2(c::ROBOT_RADIUS, 0).rotate(robot->angle - c::DRIBBLER_ANGLE_OFFSET);
-    Vector2 dribbleRight = RobotPos + Vector2(c::ROBOT_RADIUS, 0).rotate(robot->angle + c::DRIBBLER_ANGLE_OFFSET);
+    Vector2 dribbleLeft = RobotPos + Vector2(Constants::getDouble("ROBOT_RADIUS"), 0).rotate(robot->angle - Constants::getDouble("DRIBBLER_ANGLE_OFFSET"));
+    Vector2 dribbleRight = RobotPos + Vector2(Constants::getDouble("ROBOT_RADIUS"), 0).rotate(robot->angle + Constants::getDouble("DRIBBLER_ANGLE_OFFSET"));
 
     std::vector<Vector2> drawPos = {RobotPos, dribbleLeft, dribbleRight,
-                                    dribbleLeft + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle),
-                                    dribbleRight + Vector2(c::MAX_BALL_RANGE, 0).rotate(robot->angle)};
+                                    dribbleLeft + Vector2(Constants::getDouble("MAX_BALL_RANGE"), 0).rotate(robot->angle),
+                                    dribbleRight + Vector2(Constants::getDouble("MAX_BALL_RANGE"), 0).rotate(robot->angle)};
     if (control::ControlUtils::pointInTriangle(BallPos, RobotPos, dribbleLeft, dribbleRight)) {
         return true;
     }
@@ -173,8 +171,8 @@ void GetBall::sendApproachCommand() {
     command.id = robot->id;
     command.use_angle = 1;
     command.dribbler = 1;
-    command.x_vel = (float) deltaPos.normalize().x*c::GETBALL_SPEED;
-    command.y_vel = (float) deltaPos.normalize().y*c::GETBALL_SPEED;
+    command.x_vel = (float) deltaPos.normalize().x * Constants::getDouble("GETBALL_SPEED");
+    command.y_vel = (float) deltaPos.normalize().y * Constants::getDouble("GETBALL_SPEED");
     command.w = lockedAngle;
     publishRobotCommand(command);
 
@@ -184,8 +182,8 @@ void GetBall::sendOvershootCommand() {
     command.id = robot->id;
     command.use_angle = 1;
     command.dribbler = 1;
-    command.x_vel = (float) (approachPos-robot->pos).normalize().x*c::GETBALL_SPEED;
-    command.y_vel = (float) (approachPos-robot->pos).normalize().y*c::GETBALL_SPEED;
+    command.x_vel = (float) (approachPos-robot->pos).normalize().x*Constants::getDouble("GETBALL_SPEED");
+    command.y_vel = (float) (approachPos-robot->pos).normalize().y*Constants::getDouble("GETBALL_SPEED");
     command.w = lockedAngle;
     publishRobotCommand(command);
 }

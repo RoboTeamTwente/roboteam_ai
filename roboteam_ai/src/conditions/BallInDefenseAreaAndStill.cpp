@@ -28,7 +28,7 @@ bt::Node::Status BallInDefenseAreaAndStill::update() {
     }
     else return Status::Failure;
     Vector2 ballVel=ball->vel;
-    if (Field::pointIsInDefenceArea(ballPos,!theirDefenceArea)&&(ballVel.length()<constants::BALL_STILL_VEL)){
+    if (Field::pointIsInDefenceArea(ballPos,!theirDefenceArea)&&(ballVel.length()<Constants::getDouble("BALL_STILL_VEL"))){
         return Status::Success;
     }
     else{
