@@ -140,6 +140,15 @@ void Constants::init() {
     doubles["wallWeight"]                   = .05;
     doubles["minWallDistanceForForce"]      = .4;
 
+    // goAroundPos
+    doubles["MAX_GOAROUND_STOP_TIME"]       = 2.0;
+    doubles["GOAROUND_MAX_DIST_DEVIATION"]  = .2;
+    doubles["GOAROUND_SPEED"]               = 6.0;
+    doubles["GOAROUND_BALL_DIST"]           = .11;
+    doubles["GOAROUND_POS_MARGIN"]          = .05;
+    doubles["GOAROUND_ANGLE_MARGIN"]        = .03;
+    doubles["GOAROUND_MIN_SPEED"]           = .25;
+
     // interface - default checkbox values
     bools["STD_SHOW_ROLES"]                 = true;
     bools["STD_SHOW_TACTICS"]               = false;

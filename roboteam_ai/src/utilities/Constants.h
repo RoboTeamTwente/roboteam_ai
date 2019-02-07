@@ -27,10 +27,6 @@ public:
     static bool getBool(const std::string &name);
     static QColor getColor(const std::string &name);
     static int getInt(const std::string &name);
-
-    static double getDoubleOnBoot(const std::string &name);
-    static bool getBoolOnBoot(const std::string &name);
-
     static void init();
 };
 
