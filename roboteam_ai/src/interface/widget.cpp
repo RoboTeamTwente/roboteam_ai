@@ -12,8 +12,7 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
-Visualizer::Visualizer(QWidget* parent)
-        :QWidget(parent) { }
+Visualizer::Visualizer(QWidget* parent) : QWidget(parent) { }
 
 /// The update loop of the field widget. Invoked by widget->update();
 void Visualizer::paintEvent(QPaintEvent* event) {
