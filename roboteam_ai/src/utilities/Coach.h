@@ -57,8 +57,6 @@ public:
 
     static std::pair<int, bool> getRobotClosestToBall();
 
-    static int getRobotClosestToGoal(bool ourRobot, bool ourGoal);
-
     static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToBall(bool isOurTeam);
 
     static void addDefender(int id);

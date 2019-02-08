@@ -12,6 +12,7 @@
 #include "roboteam_msgs/GeometryFieldSize.h"
 #include <mutex>
 #include <thread>
+#include "World.h"
 
 namespace rtt {
 namespace ai {
@@ -32,6 +33,7 @@ class Field {
 
         static bool pointIsInDefenceArea(Vector2 point, bool isOurDefenceArea = true, float margin = 0.0);
         static bool pointIsInField(Vector2 point, float margin = 0.0);
+        static int getRobotClosestToGoal(bool ourRobot, bool ourGoal);
 };
 
 } // ai

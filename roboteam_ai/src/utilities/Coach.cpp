@@ -264,14 +264,6 @@ Vector2 Coach::getFormationPosition(int robotId) {
     return {targetLocationY, 0};
 }
 
-int Coach::getRobotClosestToGoal(bool ourRobot, bool ourGoal) {
-    roboteam_msgs::World_<std::allocator<void>>::_them_type robots = ourRobot ? World::get_world().us : World::get_world().them;
-    Vector2 target = ourGoal ? Field::get_our_goal_center() : Field::get_their_goal_center();
-
-    int closestId = World::getRobotClosestToPoint(robots, target)->id;
-    return closestId;
-}
-
 // --- Pass functions --- //
 
 void Coach::resetPass() {
@@ -284,7 +276,7 @@ int Coach::initiatePass() {
     resetPass();
 
     // TODO: More logic to decide which robot to pass to. Possibly split initiate in initiate and findRobotToPassTo
-    int robotBeingPassedTo = getRobotClosestToGoal(true, false);
+    int robotBeingPassedTo = Field::getRobotClosestToGoal(true, false);
     setRobotBeingPassedTo(robotBeingPassedTo);
     return robotBeingPassedTo;
 }
