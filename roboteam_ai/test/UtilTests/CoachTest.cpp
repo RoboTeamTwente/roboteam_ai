@@ -227,7 +227,7 @@ TEST(CoachTest, it_handles_ballplacement_positions) {
     EXPECT_EQ(ballplacementTarget.x, 2.3);
     EXPECT_EQ(ballplacementTarget.y, 0.3);
 
-    EXPECT_FLOAT_EQ(ballplacementTarget.dist(Coach::getBallPlacementAfterPos({0, 0}, 0.2)), Constants::BP_MOVE_BACK_DIST());
+    EXPECT_FLOAT_EQ(ballplacementTarget.dist(Coach::getBallPlacementAfterPos(0.2)), Constants::BP_MOVE_BACK_DIST());
 
     roboteam_msgs::World worldMsg;
     worldMsg.ball.pos = Vector2(0, 0);
