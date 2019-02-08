@@ -22,6 +22,8 @@
 #include <QGroupBox>
 #include <QLabel>
 #include <QtWidgets/QDoubleSpinBox>
+#include "TreeVisualizerWidget.h"
+#include "RobotsWidget.h"
 
 namespace rtt {
 namespace ai {
@@ -31,56 +33,43 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
     FRIEND_TEST(MainWindowTest, it_displays_main_window);
     FRIEND_TEST(MainWindowTest, it_shows_the_visualizer_properly);
-    public:
-        explicit MainWindow(QWidget* parent = nullptr);
+    FRIEND_TEST(TreeVisualizerTest, it_properly_displays_trees);
+    FRIEND_TEST(TreeVisualizerTest, it_sets_proper_color_for_status);
+public:
+    explicit MainWindow(QWidget* parent = nullptr);
+    QString getSelectStrategyText() const;
+    void setSelectStrategyText(QString text);
 
 public slots:
-    void updateWidgets();
-    void updateRobotsWidget();
     void toggleOurColorParam();
     void toggleOurSideParam();
     void updatePID_luth();
     void sendHaltSignal();
     void setUseReferee(bool useRef);
+    void updateRobotsWidget();
 private:
-    std::shared_ptr<Visualizer> visualizer;
-    std::shared_ptr<QHBoxLayout> horizontalLayout;
-    std::shared_ptr<QHBoxLayout> robotsLayout;
-    std::shared_ptr<QVBoxLayout> mainLayout;
-    std::shared_ptr<QVBoxLayout> verticalLayout;
-    std::shared_ptr<QTreeWidget> treeWidget;
-    std::shared_ptr<QPushButton> haltBtn;
+    Visualizer * visualizer;
+    QHBoxLayout * horizontalLayout;
+    RobotsWidget * robotsLayout;
+    QVBoxLayout * mainLayout;
+    QVBoxLayout * vLayout;
+    RobotsWidget * robotsWidget;
+    TreeVisualizerWidget * treeWidget;
+    QPushButton * haltBtn;
 
-    std::shared_ptr<QPushButton> toggleColorBtn;
-    std::shared_ptr<QPushButton> toggleSideBtn;
-    std::shared_ptr<QComboBox> select_strategy;
-    std::shared_ptr<QCheckBox> cb_referee;
-    std::shared_ptr<QCheckBox> cb_rolenames;
-    std::shared_ptr<QCheckBox> cb_tacticnames;
-    std::shared_ptr<QCheckBox> cb_tacticcolors;
-    std::shared_ptr<QCheckBox> cb_angles;
-    std::shared_ptr<QCheckBox> cb_path;
-    std::shared_ptr<QCheckBox> cb_path_all;
-    std::shared_ptr<QCheckBox> cb_velocities;
-    std::shared_ptr<QCheckBox> cb_ball_placement_marker;
+    QPushButton * toggleColorBtn;
+    QPushButton * toggleSideBtn;
+    QComboBox * select_strategy;
 
-    std::shared_ptr<QGroupBox> doubleSpinBoxesGroup;
-    std::shared_ptr<QHBoxLayout> spinBoxLayout;
-    std::shared_ptr<QDoubleSpinBox> sb_luth_P;
-    std::shared_ptr<QDoubleSpinBox> sb_luth_I;
-    std::shared_ptr<QDoubleSpinBox> sb_luth_D;
+private:
+    QGroupBox * doubleSpinBoxesGroup;
+    QHBoxLayout * spinBoxLayout;
+    QDoubleSpinBox * sb_luth_P;
+    QDoubleSpinBox * sb_luth_I;
+    QDoubleSpinBox * sb_luth_D;
 
-    void configureCheckBox(std::shared_ptr<QCheckBox> checkbox, std::shared_ptr<QLayout> layout,
-                const QObject* receiver, const char* method, bool defaultState = false);
-
-    bool hasCorrectTree = false;
-    void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem * QParent);
-    std::map<QTreeWidgetItem *, bt::Node::Ptr> treeItemMapping;
-    QVBoxLayout * createRobotGroupItem(roboteam_msgs::WorldRobot robot);
-    QColor getColorForStatus(bt::Node::Status status);
-    void clearLayout(QLayout *layout);
+    void configureCheckBox(QString title, QLayout * layout, const QObject* receiver, const char* method, bool defaultState = false);
     int amountOfSelectedRobots = 0;
-
 };
 
 } // interface

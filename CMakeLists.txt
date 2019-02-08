@@ -249,6 +249,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/InterfaceTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/VisualizerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/MainWindowTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/TreeVisualizerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/ControlUtilsTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/WorldHelper.h
@@ -263,7 +264,11 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/drawer.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/drawer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/InterfaceValues.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/InterfaceValues.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/InterfaceValues.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/TreeVisualizerWidget.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/TreeVisualizerWidget.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.h)
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
