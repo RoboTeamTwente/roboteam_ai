@@ -23,7 +23,7 @@ double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAn
         direction = - 1;                //  clockwise rotation
     }
     if (angleDiff > 1)angleDiff = 1;
-    return direction*(std::pow(rotFactor, angleDiff - 1)*rtt::ai::constants::MAX_ANGULAR_VELOCITY - 1/rotFactor);
+    return direction*(std::pow(rotFactor, angleDiff - 1)*rtt::ai::Constants::MAX_ANGULAR_VELOCITY - 1/rotFactor);
 }
 
 // Efficient implementation, see this: https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
@@ -71,7 +71,7 @@ double ControlUtils::distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vec
 /// See if a robot has a clear vision towards another robot
 /// e.g. there are no obstacles in between. 
 bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::World world, int safelyness) {
-    double minDistance = rtt::ai::constants::ROBOT_RADIUS*(3*safelyness); // TODO: calibrate Rolf approved
+    double minDistance = rtt::ai::Constants::ROBOT_RADIUS()*(3*safelyness); // TODO: calibrate Rolf approved
     Vector2 fromPos;
     Vector2 towardsPos;
 
@@ -159,11 +159,11 @@ bool ControlUtils::lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd, V
 rtt::Arc ControlUtils::createKeeperArc() {
     double goalwidth = rtt::ai::Field::get_field().goal_width;
     Vector2 goalPos = rtt::ai::Field::get_our_goal_center();
-    double diff = rtt::ai::constants::KEEPER_POST_MARGIN - rtt::ai::constants::KEEPER_CENTREGOAL_MARGIN;
+    double diff = rtt::ai::Constants::KEEPER_POST_MARGIN - rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN;
 
     double radius = diff*0.5 + goalwidth*goalwidth/(8*diff); //Pythagoras' theorem.
     double angle = asin(goalwidth/2/radius); // maximum angle (at which we hit the posts)
-    Vector2 center = Vector2(goalPos.x + rtt::ai::constants::KEEPER_CENTREGOAL_MARGIN + radius, 0);
+    Vector2 center = Vector2(goalPos.x + rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN + radius, 0);
     if (diff > 0) {
         return rtt::Arc(center, radius, M_PI - angle, angle - M_PI);
     }
@@ -199,8 +199,8 @@ int ControlUtils::rotateDirection(double currentAngle, double targetAngle){
 
 /// Limits velocity to maximum velocity
 Vector2 ControlUtils::VelocityLimiter(Vector2 vel) {
-    if (vel.length() > rtt::ai::constants::MAX_VEL) {
-        vel = vel.stretchToLength(rtt::ai::constants::MAX_VEL);
+    if (vel.length() > rtt::ai::Constants::MAX_VEL) {
+        vel = vel.stretchToLength(rtt::ai::Constants::MAX_VEL);
         return vel;
     }
     else return vel;

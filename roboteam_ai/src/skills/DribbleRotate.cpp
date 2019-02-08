@@ -18,7 +18,7 @@ DribbleRotate::DribbleRotate(rtt::string name, bt::Blackboard::Ptr blackboard)
 
 void DribbleRotate::checkProgression() {
     double angDif = Control::angleDifference(robot->angle, targetAngle);
-    if (!robotHasBall(constants::MAX_BALL_BOUNCE_RANGE)){ // change to !botHassball() alter
+    if (!robotHasBall(Constants::MAX_BALL_BOUNCE_RANGE())){ // change to !botHassball() alter
         currentProgression=FAIL;
         return;
     }
@@ -35,7 +35,7 @@ void DribbleRotate::onInitialize() {
         maxSpeed = properties->getDouble("maxVel");
     }
     else {
-        maxSpeed = constants::DRIBBLE_ROTATE_MAX_SPEED;
+        maxSpeed = Constants::DRIBBLE_ROTATE_MAX_SPEED();
     }
     if (properties->hasDouble("Angle")) {
         targetAngle = properties->getDouble("Angle");
@@ -54,22 +54,22 @@ void DribbleRotate::onInitialize() {
         currentProgression = FAIL;
     }
     startAngle = robot->angle;
-    incrementAngle= maxSpeed/constants::tickRate;
+    incrementAngle= maxSpeed/Constants::TICK_RATE();
     currentProgression=ROTATING;
     currentTick=0;
-    extraTick= static_cast<int>(constants::DRIBBLE_ROTATE_WAIT_TIME*constants::tickRate);
+    extraTick= static_cast<int>(Constants::DRIBBLE_ROTATE_WAIT_TIME() * Constants::TICK_RATE());
     dir=Control::rotateDirection(startAngle,targetAngle);
-    maxTick=(int)floor(Control::angleDifference(startAngle,targetAngle)/maxSpeed*constants::tickRate);
+    maxTick=(int)floor(Control::angleDifference(startAngle,targetAngle)/maxSpeed*Constants::TICK_RATE());
     if(!ball->visible){
         auto world=World::get_world();
-        Vector2 ballPos=Vector2(robot->pos)+Vector2(constants::ROBOT_RADIUS+constants::BALL_RADIUS,0).rotate(robot->angle);
+        Vector2 ballPos=Vector2(robot->pos)+Vector2(Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS(),0).rotate(robot->angle);
         world.ball.visible=true;
         world.ball.pos=ballPos;
         World::set_world(world);
     }
-    if (!robotHasBall(constants::MAX_BALL_RANGE)){
+    if (!robotHasBall(Constants::MAX_BALL_RANGE())){
         std::cout<<"Robot does not have ball in dribbleRotateInitialize"<<std::endl;
-        std::cout<< "Distance"<<(Vector2(robot->pos)-Vector2(ball->pos)).length()-constants::ROBOT_RADIUS<<" Max distance:"<<constants::MAX_BALL_RANGE<<std::endl;
+        std::cout<< "Distance"<<(Vector2(robot->pos)-Vector2(ball->pos)).length() - Constants::ROBOT_RADIUS()<< "Max distance:" << Constants::MAX_BALL_RANGE() << std::endl;
         currentProgression=FAIL;
         std::cout<<robot->angle<<std::endl;
     }
@@ -120,8 +120,8 @@ bool DribbleRotate::robotHasBall(double frontRange) {
     }
     Vector2 RobotPos = robot->pos;
     Vector2 BallPos = ball->pos;
-    Vector2 dribbleLeft = RobotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robot->angle - constants::DRIBBLER_ANGLE_OFFSET);
-    Vector2 dribbleRight = RobotPos + Vector2(constants::ROBOT_RADIUS, 0).rotate(robot->angle + constants::DRIBBLER_ANGLE_OFFSET);
+    Vector2 dribbleLeft = RobotPos + Vector2(Constants::ROBOT_RADIUS(), 0).rotate(robot->angle - Constants::DRIBBLER_ANGLE_OFFSET());
+    Vector2 dribbleRight = RobotPos + Vector2(Constants::ROBOT_RADIUS(), 0).rotate(robot->angle + Constants::DRIBBLER_ANGLE_OFFSET());
     if (control::ControlUtils::pointInTriangle(BallPos, RobotPos, dribbleLeft, dribbleRight)) {
         return true;
     }

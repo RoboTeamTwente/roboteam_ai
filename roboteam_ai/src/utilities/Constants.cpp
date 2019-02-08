@@ -21,7 +21,10 @@ bool Constants::robotOutputTargetGrSim = true;
 }
 
  bool Constants::GRSIM() {
-    if (!isInitialized) std::cerr << "Ros::init() was not called yet, but you use a value that depends on a ROS parameter. \n this may result in unexepected behaviour" std::endl;
+    if (!isInitialized) {
+        std::cerr << "Ros::init() was not called yet, but you use a value that depends on a ROS parameter. "
+                    << "\n this may result in unexepected behaviour" << std::endl;
+    }
     return robotOutputTargetGrSim;
 }
 

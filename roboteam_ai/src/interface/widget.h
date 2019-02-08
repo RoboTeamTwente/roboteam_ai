@@ -43,7 +43,7 @@ class Visualizer : public QWidget {
 
     private:
         float factor;
-        int fieldmargin = constants::WINDOW_FIELD_MARGIN;
+        int fieldmargin = Constants::WINDOW_FIELD_MARGIN;
         void drawBackground(QPainter &painter);
         void drawFieldLines(QPainter &painter);
         void drawRobots(QPainter &painter);
@@ -70,14 +70,14 @@ class Visualizer : public QWidget {
         std::vector<roboteam_msgs::WorldRobot> selectedRobots;
 
         // toggles
-        bool showRoles = constants::STD_SHOW_ROLES;
-        bool showTactics = constants::STD_SHOW_TACTICS;
-        bool showTacticColors = constants::STD_SHOW_TACTICS_COLORS;
-        bool showAngles = constants::STD_SHOW_ANGLES;
-        bool showVelocities = constants::STD_SHOW_VELOCITIES;
-        bool showPath = constants::STD_SHOW_PATHS_CURRENT;
-        bool showAllPaths = constants::STD_SHOW_PATHS_ALL;
-        bool showBallPlacementMarker = constants::STD_SHOW_BALL_PLACEMENT_MARKER;
+        bool showRoles = Constants::STD_SHOW_ROLES;
+        bool showTactics = Constants::STD_SHOW_TACTICS;
+        bool showTacticColors = Constants::STD_SHOW_TACTICS_COLORS;
+        bool showAngles = Constants::STD_SHOW_ANGLES;
+        bool showVelocities = Constants::STD_SHOW_VELOCITIES;
+        bool showPath = Constants::STD_SHOW_PATHS_CURRENT;
+        bool showAllPaths = Constants::STD_SHOW_PATHS_ALL;
+        bool showBallPlacementMarker = Constants::STD_SHOW_BALL_PLACEMENT_MARKER;
 };
 
 } // interface

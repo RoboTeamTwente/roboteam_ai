@@ -259,11 +259,11 @@ Vector2 Coach::getBallPlacementPos(){
 
 Vector2 Coach::getBallPlacementBeforePos(Vector2 ballPos){
     Vector2 PlacePos=interface::InterfaceValues::getBallPlacementTarget();
-    Vector2 targetPos=ballPos + (PlacePos - ballPos).stretchToLength(constants::BP_MOVE_TOWARDS_DIST);
+    Vector2 targetPos=ballPos + (PlacePos - ballPos).stretchToLength(Constants::BP_MOVE_TOWARDS_DIST());
     return targetPos;
 }
 Vector2 Coach::getBallPlacementAfterPos(double RobotAngle){
-    Vector2 targetPos=interface::InterfaceValues::getBallPlacementTarget() + Vector2(constants::BP_MOVE_BACK_DIST,0).rotate(RobotAngle+M_PI);
+    Vector2 targetPos=interface::InterfaceValues::getBallPlacementTarget() + Vector2(Constants::BP_MOVE_BACK_DIST(),0).rotate(RobotAngle+M_PI);
     return targetPos;
 }
 std::shared_ptr<roboteam_msgs::WorldRobot> Coach::getRobotClosestToBall(bool isOurTeam) {
