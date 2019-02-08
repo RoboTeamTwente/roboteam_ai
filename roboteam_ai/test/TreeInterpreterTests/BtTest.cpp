@@ -334,6 +334,37 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
     }
 }
 
+TEST(BehaviorTreeTest, composities) {
+    bt::MemParallelSequence memParallelSequence;
+    EXPECT_EQ(memParallelSequence.node_name(), "MemParallelSequence");
+    EXPECT_EQ(memParallelSequence.getStatus(), bt::Node::Status::Waiting);
+
+    bt::Leaf::Ptr counterA = std::make_shared<Counter>(bt::Node::Status::Success, "A", 2);
+    memParallelSequence.addChild(counterA);
+
+    memParallelSequence.initialize();
+    EXPECT_EQ(memParallelSequence.update(), bt::Node::Status::Running);
+    EXPECT_EQ(memParallelSequence.update(), bt::Node::Status::Success);
+
+    bt::MemParallelSequence memParallelSequence2;
+    bt::Leaf::Ptr counterB = std::make_shared<Counter>(bt::Node::Status::Success, "A", 2);
+    bt::Leaf::Ptr counterC = std::make_shared<Counter>(bt::Node::Status::Success, "A", 2);
+    memParallelSequence2.addChild(counterB);
+    memParallelSequence2.addChild(counterC);
+    memParallelSequence2.initialize();
+    EXPECT_EQ(memParallelSequence2.update(), bt::Node::Status::Running);
+    EXPECT_EQ(memParallelSequence2.update(), bt::Node::Status::Success);
+
+    bt::MemParallelSequence memParallelSequence3;
+    bt::Leaf::Ptr counterD = std::make_shared<Counter>(bt::Node::Status::Success, "A", 2);
+    bt::Leaf::Ptr counterE = std::make_shared<Counter>(bt::Node::Status::Failure, "A", 2);
+    memParallelSequence3.addChild(counterD);
+    memParallelSequence3.addChild(counterE);
+    memParallelSequence3.initialize();
+    EXPECT_EQ(memParallelSequence3.update(), bt::Node::Status::Running);
+    EXPECT_EQ(memParallelSequence3.update(), bt::Node::Status::Failure);
+}
+
 TEST(BehaviorTreeTest, selectorComposites) {
     // selector
     bt::Selector selector;

@@ -69,6 +69,8 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/MemSequence.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/ParallelSequence.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/ParallelSequence.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/MemParallelSequence.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/MemParallelSequence.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/Selector.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/Selector.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/Sequence.hpp
@@ -158,6 +160,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GetBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Receive.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Receive.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.cpp
@@ -204,6 +208,10 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBallOnOurSide.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBallOnOurSide.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBeingPassedTo.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBeingPassedTo.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsCloseToPoint.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsCloseToPoint.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallOutOfField.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallOutOfField.h)
 
@@ -253,6 +261,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/TreeVisualizerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/ControlUtilsTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/PassTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/WorldHelper.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/WorldHelper.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/BallOutOfFieldtest.cpp

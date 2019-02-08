@@ -9,7 +9,7 @@
 namespace rtt {
 namespace ai {
 namespace control {
- 
+
 /// return the angular velocity for a robot to go from robotAngle to targetAngle
 double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAngle) {
     double direction = 1;               // counter clockwise rotation
@@ -27,7 +27,7 @@ double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAn
 }
 
 // Efficient implementation, see this: https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
-/// Returns if PointToCheck is within the triangle constructed by three points. 
+/// Returns if PointToCheck is within the triangle constructed by three points.
 bool ControlUtils::pointInTriangle(Vector2 PointToCheck, Vector2 TP1, Vector2 TP2, Vector2 TP3) {
     double as_x = PointToCheck.x - TP1.x;
     double as_y = PointToCheck.y - TP1.y;
@@ -69,7 +69,7 @@ double ControlUtils::distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vec
 }
 
 /// See if a robot has a clear vision towards another robot
-/// e.g. there are no obstacles in between. 
+/// e.g. there are no obstacles in between.
 bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::World world, int safelyness) {
     double minDistance = rtt::ai::Constants::ROBOT_RADIUS()*(3*safelyness); // TODO: calibrate Rolf approved
     Vector2 fromPos;
@@ -93,7 +93,7 @@ bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::Worl
     return true;
 }
 
-/// Get the distance from PointToCheck towards a line, the line is not infinite. 
+/// Get the distance from PointToCheck towards a line, the line is not infinite.
 double ControlUtils::distanceToLineWithEnds(Vector2 pointToCheck, Vector2 lineStart, Vector2 lineEnd) {
     Vector2 n = lineEnd - lineStart;
     Vector2 pa = lineStart - pointToCheck;
@@ -233,8 +233,8 @@ Vector2 ControlUtils::twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Ve
 
 }
 
-/// Returns point in field closest to a given point. 
-/// If the point is already in the field it returns the same as the input. 
+/// Returns point in field closest to a given point.
+/// If the point is already in the field it returns the same as the input.
 Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, float margin) {
     auto field = Field::get_field();
     double hFieldLength = field.field_length*0.5;

@@ -16,6 +16,7 @@
 #include "../bt/composites/Sequence.hpp"
 #include "../bt/composites/MemSelector.hpp"
 #include "../bt/composites/ParallelSequence.hpp"
+#include "../bt/composites/MemParallelSequence.h"
 #include "../bt/composites/Selector.hpp"
 
 #include "../bt/decorators/Failer.hpp"
