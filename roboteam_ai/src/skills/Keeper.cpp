@@ -20,7 +20,7 @@ void Keeper::onInitialize() {
     //Create arc for keeper to drive on
     blockCircle=control::ControlUtils::createKeeperArc();
     //TODO::magic numbers galore, from the old team. move to new control library
-    double timediff = 1.0/Constants::TICK_RATE;
+    double timediff = 1.0/Constants::TICK_RATE();
     pid.setPID(3.7,1.7,0.8, timediff);
     finePid.setPID(3.7,1.7,0.8,timediff);
 }
@@ -30,7 +30,7 @@ Keeper::Status Keeper::onUpdate() {
         Vector2 blockPoint = computeBlockPoint(ballPos);
         //double dist=control::ControlUtils::distanceToLine(robot->pos,ballPos,blockPoint);
         double dist = (blockPoint - (Vector2(robot->pos))).length(); //using point distance not line distance.
-        if (dist < Constants::KEEPER_POSDIF) {
+        if (dist < Constants::KEEPER_POSDIF()) {
             sendStopCommand();
         }
         else if (dist <2*Constants::ROBOT_RADIUS()){
@@ -110,7 +110,7 @@ Vector2 Keeper::computeBlockPoint(Vector2 defendPos) {
         blockPos = *intersections.second;
     }
     else {
-        blockPos = Vector2(goalPos.x + Constants::KEEPER_POST_MARGIN, goalwidth/2
+        blockPos = Vector2(goalPos.x + Constants::KEEPER_POST_MARGIN(), goalwidth/2
                 *signum(defendPos.y)); // Go stand at one of the poles depending on the side the defendPos is on.
     }
     //Interface visualization:

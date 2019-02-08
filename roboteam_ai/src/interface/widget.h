@@ -43,7 +43,7 @@ class Visualizer : public QWidget {
 
     private:
         float factor;
-        int fieldmargin = Constants::WINDOW_FIELD_MARGIN;
+        int fieldmargin = Constants::WINDOW_FIELD_MARGIN();
         void drawBackground(QPainter &painter);
         void drawFieldLines(QPainter &painter);
         void drawRobots(QPainter &painter);

@@ -161,8 +161,8 @@ void Dribble::sendMoveCommand() {
 //    command.y_vel = (float) deltaPos.normalize().y*c::DRIBBLE_SPEED;
 //    }
 //    else{
-        command.x_vel=(float) deltaPos.normalize().x*c::DRIBBLE_SPEED;
-        command.y_vel=(float) deltaPos.normalize().y*c::DRIBBLE_SPEED;
+        command.x_vel=(float) deltaPos.normalize().x * Constants::DRIBBLE_SPEED();
+        command.y_vel=(float) deltaPos.normalize().y * Constants::DRIBBLE_SPEED();
 //    }
     publishRobotCommand(command);
 }
