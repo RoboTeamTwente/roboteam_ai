@@ -198,13 +198,26 @@ int ControlUtils::rotateDirection(double currentAngle, double targetAngle){
 }
 
 /// Limits velocity to maximum velocity
-Vector2 ControlUtils::VelocityLimiter(Vector2 vel) {
-    if (vel.length() > Constants::MAX_VEL()) {
-        vel = vel.stretchToLength(Constants::MAX_VEL());
+Vector2 ControlUtils::VelocityLimiter(Vector2 vel,double maxVel) {
+    if (vel.length() > maxVel) {
+        vel = vel.stretchToLength(maxVel);
         return vel;
     }
     else return vel;
 }
+
+Vector2 ControlUtils::VelocityLimiter(Vector2 vel, double maxVel,double minVel){
+    if (vel.length() > maxVel) {
+        vel = vel.stretchToLength(maxVel);
+        return vel;
+    }
+    else if (vel.length()<minVel){
+        vel=vel.stretchToLength(minVel);
+        return vel;
+    }
+    else return vel;
+}
+
 
 /// Get the intersection of two lines
 Vector2 ControlUtils::twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2) {
