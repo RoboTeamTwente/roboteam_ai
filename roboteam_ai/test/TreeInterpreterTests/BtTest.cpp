@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "roboteam_ai/src/bt/bt.hpp"
 
+namespace bt {
+
 namespace {
 std::vector<std::string> traces;
 
@@ -89,6 +91,7 @@ class Counter : public Tracer {
 };
 
 } // anonymous namespace
+
 
 // Behavior Tree with one leaf //
 TEST(BehaviorTreeTest, BehaviorTreeWithOneLeaf) {
@@ -356,9 +359,9 @@ TEST(BehaviorTreeTest, selectorComposites) {
     EXPECT_EQ(memSelector.node_name(), "MemSelector");
 
     EXPECT_EQ(memSelector.getStatus(), bt::Node::Status::Waiting);
-//    memSelector.index = 22; //TODO: Fix this test later sometime.
-//    memSelector.initialize();
-//    EXPECT_EQ(memSelector.index, (unsigned int) 0);
+    memSelector.index = 22; //TODO: Fix this test later sometime.
+    memSelector.initialize();
+    EXPECT_EQ(memSelector.index, (unsigned int) 0);
 
     // return success if no children
     EXPECT_EQ(memSelector.update(), bt::Node::Status::Success);
@@ -436,8 +439,6 @@ TEST(BehaviorTreeTest, StatusToString) {
     EXPECT_EQ(bt::statusToString(bt::Node::Status::Running), "Running");
 }
 
-//TODO: fix that this goes out of the namespace. Currently is hard to do because the FRIEND_TEST is within the namespace in BehaviorTree.hpp
-namespace bt {
 TEST(BehaviorTreeTest, it_sets_blackboards) {
     bt::Blackboard::Ptr bb = std::make_shared<bt::Blackboard>();
     bb->setDouble("A1", 12);
@@ -454,7 +455,6 @@ TEST(BehaviorTreeTest, it_sets_blackboards) {
 
     EXPECT_TRUE(tree.globalBB->hasDouble("A1"));
     EXPECT_EQ(tree.globalBB->getDouble("A1"), 55);
-}
 }
 
 TEST(BehaviorTreeTest, it_terminates_nodes) {
@@ -477,3 +477,4 @@ TEST(BehaviorTreeTest, it_terminates_nodes) {
     succeeder3.terminate(bt::Node::Status::Failure);
     EXPECT_EQ(succeeder3.getStatus(), bt::Node::Status::Waiting);
 }
+} // bt
