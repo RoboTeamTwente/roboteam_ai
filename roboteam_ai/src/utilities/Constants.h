@@ -1,18 +1,30 @@
-//
-// Created by mrlukasbos on 23-10-18.
-//
-
 #ifndef ROBOTEAM_AI_CONSTANTS_H
 #define ROBOTEAM_AI_CONSTANTS_H
-//TODO: add units to the below things, check with control/robothub.
 
 #include <QColor>
+#include <ros/node_handle.h>
 #include "math.h"
 
 namespace rtt {
 namespace ai {
 
 class Constants {
+private:
+    static bool isInitialized;
+    static bool useGrSim;
+public:
+    static void init() {
+        ros::NodeHandle nh;
+        std::string robotOutputTarget;
+        nh.getParam("robot_output_target", robotOutputTarget);
+        useGrSim = robotOutputTarget != "serial"; // only use serial if it is explicitly defined
+    }
+
+    static bool GRSIM() {
+        if (!isInitialized) std::cerr << "Ros::init() was not called yet, but you use a value that depends on a ROS parameter. \n this may result in unexepected behaviour" std::endl;
+        return useGrSim;
+    }
+
     static bool SHOW_LONGEST_TICK()             { return true; };
     static double GOTOPOS_LUTH_ERROR_MARGIN()   { return 0.25; };
 
