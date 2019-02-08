@@ -13,6 +13,13 @@ namespace interface {
 
 MainWindow::MainWindow(QWidget* parent)
         :QMainWindow(parent) {
+
+    // initialize values for interface to display
+    InterfaceValues::setLuthP(Constants::standard_luth_P());
+    InterfaceValues::setLuthI(Constants::standard_luth_I());
+    InterfaceValues::setLuthD(Constants::standard_luth_D());
+    InterfaceValues::setUseRefereeCommands(Constants::STD_USE_REFEREE());
+
     setMinimumWidth(800);
     setMinimumHeight(600);
 
@@ -25,7 +32,7 @@ MainWindow::MainWindow(QWidget* parent)
     // functions to select strategies
     cb_referee = std::make_shared<QCheckBox>("Use referee");
     configureCheckBox(cb_referee, verticalLayout, this, SLOT(setUseReferee(bool)),
-            Constants::STD_USE_REFEREE);
+            Constants::STD_USE_REFEREE());
 
     select_strategy = std::make_shared<QComboBox>();
     verticalLayout->addWidget(select_strategy.get());
@@ -88,35 +95,35 @@ MainWindow::MainWindow(QWidget* parent)
     // Checkboxes for the visualization
     cb_rolenames = std::make_shared<QCheckBox>("show rolenames");
     configureCheckBox(cb_rolenames, verticalLayout, visualizer.get(), SLOT(setShowRoles(bool)),
-            Constants::STD_SHOW_ROLES);
+            Constants::STD_SHOW_ROLES());
 
     cb_tacticnames = std::make_shared<QCheckBox>("show tacticnames");
     configureCheckBox(cb_tacticnames, verticalLayout, visualizer.get(), SLOT(setShowTactics(bool)),
-            Constants::STD_SHOW_TACTICS);
+            Constants::STD_SHOW_TACTICS());
 
     cb_tacticcolors = std::make_shared<QCheckBox>("show tacticColors");
     configureCheckBox(cb_tacticcolors, verticalLayout, visualizer.get(), SLOT(setShowTacticColors(bool)),
-            Constants::STD_SHOW_TACTICS_COLORS);
+            Constants::STD_SHOW_TACTICS_COLORS());
 
     cb_angles = std::make_shared<QCheckBox>("show angles");
     configureCheckBox(cb_angles, verticalLayout, visualizer.get(), SLOT(setShowAngles(bool)),
-            Constants::STD_SHOW_ANGLES);
+            Constants::STD_SHOW_ANGLES());
 
     cb_velocities = std::make_shared<QCheckBox>("show velocities");
     configureCheckBox(cb_velocities, verticalLayout, visualizer.get(), SLOT(setShowVelocities(bool)),
-            Constants::STD_SHOW_VELOCITIES);
+            Constants::STD_SHOW_VELOCITIES());
 
     cb_path = std::make_shared<QCheckBox>("show path for current robot");
     configureCheckBox(cb_path, verticalLayout, visualizer.get(), SLOT(setShowPath(bool)),
-            Constants::STD_SHOW_PATHS_CURRENT);
+            Constants::STD_SHOW_PATHS_CURRENT());
 
     cb_path_all = std::make_shared<QCheckBox>("show path for all robots");
     configureCheckBox(cb_path_all, verticalLayout, visualizer.get(), SLOT(setShowPathAll(bool)),
-            Constants::STD_SHOW_PATHS_ALL);
+            Constants::STD_SHOW_PATHS_ALL());
 
     cb_ball_placement_marker = std::make_shared<QCheckBox>("Show marker for Ball Placement");
     configureCheckBox(cb_ball_placement_marker, verticalLayout, visualizer.get(), SLOT(setShowBallPlacementMarker(bool)),
-            Constants::STD_SHOW_BALL_PLACEMENT_MARKER);
+            Constants::STD_SHOW_BALL_PLACEMENT_MARKER());
 
     // set up tree widget
     treeWidget = std::make_shared<QTreeWidget>();

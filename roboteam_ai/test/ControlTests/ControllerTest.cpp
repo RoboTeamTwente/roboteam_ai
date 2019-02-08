@@ -97,7 +97,6 @@ TEST(ControllerTest, it_calculates_proper_pir) {
     double expectedR = 30 * 12 * -1;
     EXPECT_EQ(c.controlR(12), expectedR);
 
-
     // clear controller otherwise timeDiff makes the values different
     c = Controller(10, 20, 30);
     EXPECT_EQ(c.controlPIR(12, 12), expectedP + expectedI + expectedR);
