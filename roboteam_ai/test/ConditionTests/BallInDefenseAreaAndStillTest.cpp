@@ -21,7 +21,7 @@ TEST(DetectsDefenseArea, BallInDefenseAreaAndStill)
     BBpointer->setBool("theirDefenceArea", false);
     rtt::ai::BallInDefenseAreaAndStill node("Test", BBpointer);
     EXPECT_EQ(node.node_name(), "BallInDefenseAreaAndStill");
-    EXPECT_FALSE(nodeTheirDefenceArea.theirDefenceArea);
+    EXPECT_FALSE(node.theirDefenceArea);
 
     roboteam_msgs::GeometryFieldSize field;
     field.left_penalty_line.begin.x = -1.0f;

@@ -28,32 +28,32 @@ TEST(BallOutOfFieldTest, it_detects_ball_out_of_field) {
     roboteam_msgs::World worldMsg;
 
     rtt::ai::World::set_world(worldMsg);
-    EXPECT_EQ(node.update(), bt::Node::Status::Failure); // return failure because no ball
+    EXPECT_EQ(node.update(), bt::Node::Status::Success); // return success because no ball so probably not in the field
 
     worldMsg.ball.pos.x = 0;
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = 0;
     rtt::ai::World::set_world(worldMsg);
-    EXPECT_EQ(node.update(), bt::Node::Status::Failure); // return failure because no ball visible
+    EXPECT_EQ(node.update(), bt::Node::Status::Success); //  return success because no ball visible so probably not in the field
 
     worldMsg.ball.pos.x = 0.0;
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
     rtt::ai::World::set_world(worldMsg);
-    EXPECT_EQ(node.update(), bt::Node::Status::Success);
+    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.y = 5.1;
     rtt::ai::World::set_world(worldMsg);
-    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
+    EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.ball.pos.y = -4.1;
     rtt::ai::World::set_world(worldMsg);
-    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
+    EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.pos.x = 3.9;
     rtt::ai::World::set_world(worldMsg);
-    EXPECT_EQ(node.update(), bt::Node::Status::Success);
+    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
 }
 }

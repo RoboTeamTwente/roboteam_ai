@@ -18,7 +18,7 @@ bt::Node::Status BallOutOfField::update() {
     if (ball) {
         ballPos = ball->pos;
     } else {
-        return Status::Failure;
+        return Status::Success; // if there is no ball seen it is likely not in the field
     }
 
     // return success if the ball is out of the field
