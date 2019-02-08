@@ -79,11 +79,11 @@ int Coach::whichRobotHasBall(bool isOurTeam) {
 }
 
 int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
-    return doesRobotHaveBall(robotID, isOurTeam, rtt::ai::constants::MAX_BALL_RANGE, rtt::ai::constants::HAS_BALL_ANGLE);
+    return doesRobotHaveBall(robotID, isOurTeam, rtt::ai::Constants::MAX_BALL_RANGE(), rtt::ai::Constants::HAS_BALL_ANGLE());
 }
 
 int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkDist) {
-    return doesRobotHaveBall(robotID, isOurTeam, checkDist, rtt::ai::constants::HAS_BALL_ANGLE);
+    return doesRobotHaveBall(robotID, isOurTeam, checkDist, rtt::ai::Constants::HAS_BALL_ANGLE());
 }
 
 int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkDist, double checkAngle) {
@@ -312,11 +312,11 @@ Vector2 Coach::getBallPlacementPos(){
 
 Vector2 Coach::getBallPlacementBeforePos(Vector2 ballPos){
     Vector2 PlacePos=interface::InterfaceValues::getBallPlacementTarget();
-    Vector2 targetPos=ballPos + (PlacePos - ballPos).stretchToLength(constants::BP_MOVE_TOWARDS_DIST);
+    Vector2 targetPos=ballPos + (PlacePos - ballPos).stretchToLength(Constants::BP_MOVE_TOWARDS_DIST());
     return targetPos;
 }
 Vector2 Coach::getBallPlacementAfterPos(Vector2 ballPos, double RobotAngle){
-    Vector2 targetPos=interface::InterfaceValues::getBallPlacementTarget() + Vector2(constants::BP_MOVE_BACK_DIST,0).rotate(RobotAngle+M_PI);
+    Vector2 targetPos=interface::InterfaceValues::getBallPlacementTarget() + Vector2(Constants::BP_MOVE_BACK_DIST(),0).rotate(RobotAngle+M_PI);
     return targetPos;
 }
 std::shared_ptr<roboteam_msgs::WorldRobot> Coach::getRobotClosestToBall(bool isOurTeam) {

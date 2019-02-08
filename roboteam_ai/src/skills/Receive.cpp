@@ -45,7 +45,7 @@ Receive::Status Receive::onUpdate() {
         double ballAngle = ((Vector2)robot->pos - ball->pos).angle();
         if (Vector2(ball->vel).length() > 0.6 && (ballAngle - Vector2(ball->vel).angle()) < 0.5) {
             Vector2 ballStartVel = ball->vel;
-            Vector2 ballEndPos = ballStartPos + ballStartVel * constants::MAX_INTERCEPT_TIME;
+            Vector2 ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
             Vector2 interceptPoint = Receive::computeInterceptPoint(ballStartPos, ballEndPos);
 
             Vector2 velocities = goToPos.goToPos(robot, interceptPoint, GoToType::basic);

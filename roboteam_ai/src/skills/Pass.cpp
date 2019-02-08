@@ -27,7 +27,7 @@ Pass::Status Pass::onUpdate() {
             if (!coach::Coach::isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos)) {
                 goToType = GoToType::luTh;
                 targetPos = Coach::getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
-            } else if (!coach::Coach::doesRobotHaveBall(robot->id, true, rtt::ai::constants::MAX_BALL_RANGE)) {
+            } else if (!coach::Coach::doesRobotHaveBall(robot->id, true, rtt::ai::Constants::MAX_BALL_RANGE())) {
                 goToType = GoToType::basic;
                 targetPos = ball->pos;
             } else {
@@ -43,20 +43,20 @@ Pass::Status Pass::onUpdate() {
             break;
         }
         case Progression::KICKING: {
-            if (coach::Coach::doesRobotHaveBall(robot->id, true, rtt::ai::constants::MAX_BALL_RANGE)) {
+            if (coach::Coach::doesRobotHaveBall(robot->id, true, rtt::ai::Constants::MAX_BALL_RANGE())) {
                 command.kicker = 1;
                 command.kicker_forced = 1;
                 distance = ((Vector2)ball->pos - robotToPassTo->pos).length();
-                kicker_vel_multiplier = distance > rtt::ai::constants::MAX_POWER_KICK_DISTANCE ? 1.0 : distance / rtt::ai::constants::MAX_POWER_KICK_DISTANCE;
+                kicker_vel_multiplier = distance > rtt::ai::Constants::MAX_POWER_KICK_DISTANCE() ? 1.0 : distance / rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
 
-                command.kicker_vel = static_cast<float>(rtt::ai::constants::MAX_KICK_POWER * kicker_vel_multiplier);
+                command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER() * kicker_vel_multiplier);
                 command.id = robot->id;
                 publishRobotCommand(command);
                 checkTicks = 0;
                 return Status::Running;
             }
 
-            if (Vector2(ball->vel).length() > 0.4 || ((Vector2)robot->pos - ball->pos).length() > rtt::ai::constants::MAX_BALL_RANGE * 2) {
+            if (Vector2(ball->vel).length() > 0.4 || ((Vector2)robot->pos - ball->pos).length() > rtt::ai::Constants::MAX_BALL_RANGE() * 2) {
                 Coach::setRobotBeingPassedTo(-1);
                 Coach::setPassed(true);
                 return Status::Success;
