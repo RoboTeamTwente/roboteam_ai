@@ -14,6 +14,9 @@ TEST(BallTest, IHaveBallTest) {
     BB->setString("ROLE","test");
     BB->setBool("our_team", false);
     rtt::ai::HasBall node("Test", BB);
+
+    EXPECT_EQ(node.node_name(), "HasBall");
+
     //First test should fail as the robot is not set in the world state yet.
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 

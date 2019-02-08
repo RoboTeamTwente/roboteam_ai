@@ -19,6 +19,8 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
     BB.setBool("ourDefenseArea", true);
     auto BBpointer = std::make_shared<bt::Blackboard>(BB);
     rtt::ai::IsInDefenseArea node("Test", BBpointer);
+    
+    EXPECT_EQ(node.node_name(), "IsInDefenseArea");
 
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;

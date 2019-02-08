@@ -15,6 +15,8 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
     BB->setString("ROLE","test");
     rtt::ai::IsRobotClosestToBall Node("Test", BB);
 
+    EXPECT_EQ(Node.node_name(), "IsRobotClosestToBall");
+
     // First test should fail since robot is not set in world state yet
     ASSERT_EQ(Node.update(), bt::Node::Status::Failure);
 
