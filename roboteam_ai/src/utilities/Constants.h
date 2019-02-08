@@ -9,21 +9,9 @@ namespace rtt {
 namespace ai {
 
 class Constants {
-private:
-    static bool isInitialized;
-    static bool useGrSim;
 public:
-    static void init() {
-        ros::NodeHandle nh;
-        std::string robotOutputTarget;
-        nh.getParam("robot_output_target", robotOutputTarget);
-        useGrSim = robotOutputTarget != "serial"; // only use serial if it is explicitly defined
-    }
-
-    static bool GRSIM() {
-        if (!isInitialized) std::cerr << "Ros::init() was not called yet, but you use a value that depends on a ROS parameter. \n this may result in unexepected behaviour" std::endl;
-        return useGrSim;
-    }
+    static void init();
+    static bool GRSIM();
 
     static bool SHOW_LONGEST_TICK()             { return true; };
     static double GOTOPOS_LUTH_ERROR_MARGIN()   { return 0.25; };
@@ -109,32 +97,32 @@ public:
     static double BP_MOVE_TOWARDS_DIST()        { return 0.15; };
 
     // Avoid ball
-    static double robotWeight()                 { return  .09; };
-    static double minRobotDistanceForForce()    { return  .7; };
-    static double ballWeight()                  { return  .15; };
-    static double minBallDistanceForForce()     { return  .7; };
-    static double wallWeight()                  { return  .05; };
-    static double minWallDistanceForForce()     { return  .4; };
+    static double robotWeight()                 { return .09; };
+    static double minRobotDistanceForForce()    { return .7; };
+    static double ballWeight()                  { return .15; };
+    static double minBallDistanceForForce()     { return .7; };
+    static double wallWeight()                  { return .05; };
+    static double minWallDistanceForForce()     { return .4; };
 
     // Settings
-    static bool STD_SHOW_ROLES()                { return  true; };
-    static bool STD_SHOW_TACTICS()              { return  false; };
-    static bool STD_SHOW_TACTICS_COLORS()       { return  true; };
-    static bool STD_SHOW_VELOCITIES()           { return  true; };
-    static bool STD_SHOW_ANGLES()               { return  true; };
-    static bool STD_SHOW_VORONOI()              { return  false; };
-    static bool STD_SHOW_PATHS_ALL()            { return  false; };
-    static bool STD_SHOW_PATHS_CURRENT()        { return  true; };
-    static bool STD_SHOW_BALL_PLACEMENT_MARKER(){ return  true; };
-    static bool STD_USE_REFEREE()               { return  true; };
+    static bool STD_SHOW_ROLES()                { return true; };
+    static bool STD_SHOW_TACTICS()              { return false; };
+    static bool STD_SHOW_TACTICS_COLORS()       { return true; };
+    static bool STD_SHOW_VELOCITIES()           { return true; };
+    static bool STD_SHOW_ANGLES()               { return true; };
+    static bool STD_SHOW_VORONOI()              { return false; };
+    static bool STD_SHOW_PATHS_ALL()            { return false; };
+    static bool STD_SHOW_PATHS_CURRENT()        { return true; };
+    static bool STD_SHOW_BALL_PLACEMENT_MARKER(){ return true; };
+    static bool STD_USE_REFEREE()               { return true; };
 
-    static QColor FIELD_COLOR()                 { return {30, 30, 30, 255}; };
-    static QColor FIELD_LINE_COLOR()            { return  Qt::white; };
-    static QColor ROBOT_COLOR_BLUE()            { return  { 150, 150, 255, 255 }; }; // Blue
-    static QColor ROBOT_COLOR_YELLOW()          { return  { 255, 255, 0, 255 }; }; // Yellow
-    static QColor BALL_COLOR()                  { return  { 255, 120, 50, 255 };  };// Orange
-    static QColor TEXT_COLOR()                  { return  Qt::white; };
-    static QColor SELECTED_ROBOT_COLOR()        { return  Qt::magenta; };
+    static QColor FIELD_COLOR()                 { return GRSIM() ? QColor(30, 30, 30, 255) : QColor(50, 0, 0, 255); };
+    static QColor FIELD_LINE_COLOR()            { return Qt::white; };
+    static QColor ROBOT_COLOR_BLUE()            { return { 150, 150, 255, 255 }; }; // Blue
+    static QColor ROBOT_COLOR_YELLOW()          { return { 255, 255, 0, 255 }; }; // Yellow
+    static QColor BALL_COLOR()                  { return { 255, 120, 50, 255 };  };// Orange
+    static QColor TEXT_COLOR()                  { return Qt::white; };
+    static QColor SELECTED_ROBOT_COLOR()        { return Qt::magenta; };
 
     static std::vector<QColor> TACTIC_COLORS() {
         return {
@@ -146,9 +134,14 @@ public:
         };
     };
 
-    static double standard_luth_P()             { return  3.0; };
-    static double standard_luth_I()             { return  0.5; };
-    static double standard_luth_D()             { return  2.5; };
+    static double standard_luth_P()             { return GRSIM() ? 3.0 : 2.8; };
+    static double standard_luth_I()             { return GRSIM() ? 0.5 : 0.6; };
+    static double standard_luth_D()             { return GRSIM() ? 2.5 : 2.3; };
+
+
+private:
+    static bool isInitialized;
+    static bool robotOutputTargetGrSim; // don't use this value. use GRSIM() instead.
 }; 
 
 } // ai
