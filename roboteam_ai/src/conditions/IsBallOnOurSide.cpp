@@ -12,7 +12,7 @@ namespace ai {
 IsBallOnOurSide::IsBallOnOurSide(std::string name, bt::Blackboard::Ptr blackboard)
     :Condition(std::move(name), std::move(blackboard)) { };
 
-void IsBallOnOurSide::initialize() {;
+void IsBallOnOurSide::initialize() {
     if (properties->hasBool("inField")) {
         inField = properties->getBool("inField");
     }

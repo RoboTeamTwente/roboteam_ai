@@ -33,11 +33,13 @@
 #include "../skills/Keeper.h"
 #include "../skills/GetBall.h"
 #include "../skills/Attack.h"
-#include "../skills/Pass.h"
+#include "roboteam_ai/src/skills/Pass.h"
+#include "roboteam_ai/src/skills/Receive.h"
 #include <roboteam_ai/src/skills/InterceptBall.h>
 #include <roboteam_ai/src/skills/DefendOnRobot.h>
 #include "../skills/DribbleRotate.h"
 #include <roboteam_ai/src/skills/Defend.h>
+#include "../skills/DefendOnRobot.h"
 #include <roboteam_ai/src/skills/InterceptBall.h>
 #include <roboteam_ai/src/skills/BasicGoToPos.h>
 #include "../skills/GoAroundPos.h"
@@ -59,6 +61,8 @@
 #include "../conditions/BallInDefenseAreaAndStill.h"
 #include "../conditions/IsInDefenseArea.hpp"
 #include "../conditions/BallOutOfField.h"
+#include "../conditions/IsBeingPassedTo.h"
+#include "../conditions/IsCloseToPoint.h"
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -75,7 +79,6 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "haltTactic",
          "OneAttackerTactic",
          "OneDefenderTactic",
-         "SingleKeeperTactic",
          "TwoDefendersTactic",
          "OneAttackerOneDefenderTactic",
          "Attactic",
@@ -83,6 +86,7 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "EnterFormationTactic",
          "BallPlacementUsTactic",
          "AvoidBallTactic",
+         "SingleKeeperTactic",
          "randomTactic" // used for testing, do not remove it!
          };
 
@@ -99,8 +103,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
          "EnterFormationStrategy",
          "BallPlacementUsStrategy",
          "BallPlacementThemStrategy",
-         "randomStrategy" // used for testing, do not remove it!
-        };
+         "randomStrategy"};
 
 std::vector<std::string> Switches::keeperJsonFiles =
         {};
@@ -113,6 +116,7 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
     map["MemSelector"] =      std::make_shared<bt::MemSelector>();
     map["MemSequence"] =      std::make_shared<bt::MemSequence>();
     map["ParallelSequence"] = std::make_shared<bt::ParallelSequence>();
+    map["MemParallelSequence"] = std::make_shared<bt::MemParallelSequence>();
     map["Selector"] =         std::make_shared<bt::Selector>();
     map["Sequence"] =         std::make_shared<bt::Sequence>();
     map["Inverter"] =         std::make_shared<bt::Inverter>();
@@ -164,6 +168,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["Keeper"] =                 std::make_shared<rtt::ai::Keeper>(name, properties);
     map["Kick"] =                   std::make_shared<rtt::ai::Kick>(name, properties);
     map["Pass"] =                   std::make_shared<rtt::ai::Pass>(name, properties);
+    map["Receive"] =                std::make_shared<rtt::ai::Receive>(name, properties);
     map["RotateToAngle"] =          std::make_shared<rtt::ai::RotateToAngle>(name, properties);
     map["SkillGoToPos"] =           std::make_shared<rtt::ai::SkillGoToPos>(name, properties);
 
@@ -178,6 +183,12 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["TheyHaveBall"] =           std::make_shared<rtt::ai::TheyHaveBall>(name, properties);
     map["BallOutOfField"] =         std::make_shared<rtt::ai::BallOutOfField>(name, properties);
     map["WeHaveBall"] =             std::make_shared<rtt::ai::WeHaveBall>(name, properties);
+    map["IsBeingPassedTo"] =        std::make_shared<rtt::ai::IsBeingPassedTo>(name, properties);
+    map["IsCloseToPoint"] =         std::make_shared<rtt::ai::IsCloseToPoint>(name, properties);
+    map["IsBallOnOurSide"] =        std::make_shared<rtt::ai::IsBallOnOurSide>(name, properties);
+    map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
+    map["IsInDefenseArea"] = std::make_shared<rtt::ai::IsInDefenseArea>(name, properties);
+    map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
 
     if ( map.find(name) != map.end() ) {
         return map[name];
@@ -211,10 +222,6 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"attacker", robotType::closeToTheirGoal}
             }
             },
-            {"SingleKeeperTactic", {
-                    {"Keeper", robotType::closeToOurGoal}
-            }
-            },
             {"OneAttackerOneDefenderTactic", {
                     {"defender", robotType::closeToOurGoal},
                     {"attacker", robotType::closeToTheirGoal}
@@ -231,12 +238,11 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
             {"Attactic", {
                     {"atak", robotType::random}
-                    //{"atak", robotType::closeToBall},
             }
             },
             {"PassTactic", {
-                    {"passOne", robotType::random},
-                    {"passB", robotType::random}
+                    {"passer", robotType::closeToBall},
+                    {"receiver", robotType::random}
             }
             },
             {"QualificationTactic", {
@@ -257,6 +263,10 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             {"BallPlacementUsTactic",{
                     {"BallPlacementBot",robotType::closeToBall}
             }
+            },
+            {"SingleKeeperTactic",{
+                     {"Keeper",robotType::closeToOurGoal}
+             }
             }
     };
     runErrorHandler(tactics);
@@ -285,7 +295,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 }
 void Switches::runErrorHandler(std::map<std::string, std::map<std::string, robotType>> tactics) {
 
-    for (auto &item : tactics) {
+    for (auto &item : tactics) { // <--- NOT A CONST REFERENCE WOW MAN MAN MAN  -Team (int)Twee(nte)
         if (std::find(tacticJsonFileNames.begin(), tacticJsonFileNames.end(), item.first) == tacticJsonFileNames.end()) {
             ROS_ERROR("THE FOLLOWING TACTIC IS MISSING THE FILE:   %s\n\n\n", item.first.c_str());
         }

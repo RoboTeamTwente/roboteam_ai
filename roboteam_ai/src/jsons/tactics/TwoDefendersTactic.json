@@ -85,8 +85,7 @@
             "id": "iwgfy47r89kw537",
             "title": "IsRobotClosestToBall",
             "properties": {
-              "ROLE": "defender1",
-              "secondsAhead": ""
+              "ROLE": "defender1"
             }
           },
           "fpe83xszvgnj76": {
@@ -158,8 +157,7 @@
             "id": "xzd7fe82k7ozf",
             "title": "IsRobotClosestToBall",
             "properties": {
-              "ROLE": "defender2",
-              "secondsAhead": ""
+              "ROLE": "defender2"
             }
           },
           "3v0sf1axgsspb19d": {

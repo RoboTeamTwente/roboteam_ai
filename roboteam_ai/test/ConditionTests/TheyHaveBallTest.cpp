@@ -23,7 +23,7 @@ TEST(TheyHaveBallTest, TheyHaveBallTest) {
     robot.angle = 0;
     worldMsg.them.push_back(robot);
 
-    worldMsg.ball.pos.x = 0.13;
+    worldMsg.ball.pos.x = 0.04;
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
     rtt::ai::World::set_world(worldMsg);
