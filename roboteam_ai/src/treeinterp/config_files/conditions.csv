@@ -8,3 +8,5 @@ IsOnOurSide
 WeHaveBall
 IsRobotClosestToBall,secondsAhead
 IsBallOnOurSide,inField
+IsBeingPassedTo
+IsCloseToPoint,ball,position,margin

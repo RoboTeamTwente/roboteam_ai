@@ -43,15 +43,19 @@ public:
     //skills
     static double DEFAULT_KICK_POWER()          { return  5.0; }; // max kick power() { return  100
     static double MAX_KICK_POWER()              { return  8.0; }; //TODO: CHECK
+    static double MAX_POWER_KICK_DISTANCE()     { return 9.0; };
     static int MAX_KICK_CYCLES()                { return  20; };
     static int MAX_GENEVA_CYCLES()              { return  20; };
     static int DEFAULT_GENEVA_STATE()           { return  0; };
 
     //dribble
-    static double MAX_BALL_RANGE()              { return 0.05; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
     static double MAX_BALL_BOUNCE_RANGE()       { return 0.15; };
     static double DRIBBLE_POSDIF()              { return 0.05; };
     static float  DRIBBLE_SPEED()               { return 0.8; };
+
+    //hasBall
+    static double MAX_BALL_RANGE()              { return 0.15; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
+    static double HAS_BALL_ANGLE()              { return 0.2; }
 
     //getBallcc
     static double COLLISION_RADIUS()            { return 0.18; };
@@ -72,7 +76,7 @@ public:
     //ballkickedtoGoal
     static double BALL_TO_GOAL_MARGIN()         { return BALL_RADIUS(); };//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
     static double BALL_TO_GOAL_TIME()           { return 1.5; };//seconds
-  
+
     //GoAroundPos
     static double MAX_GOAROUND_STOP_TIME()      { return 2.0; }; //s
     static double GOAROUND_MAX_DIST_DEVIATION() { return 0.2; }; //m
@@ -151,7 +155,7 @@ public:
 private:
     static bool isInitialized;
     static bool robotOutputTargetGrSim; // don't use this value. use GRSIM() instead.
-}; 
+};
 
 } // ai
 } // rtt
