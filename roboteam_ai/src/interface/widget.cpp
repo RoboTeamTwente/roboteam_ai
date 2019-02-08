@@ -217,7 +217,7 @@ void Visualizer::drawTacticColorForRobot(QPainter &painter, roboteam_msgs::World
 
     if (! tacticExists) {
         QColor newColor = Constants::TACTIC_COLORS().at(tacticCount);
-        tacticCount = (tacticCount + 1)%sizeof(Constants::TACTIC_COLORS());
+        tacticCount = (tacticCount + 1)% Constants::TACTIC_COLORS().size();
         tacticColors.push_back({tacticName, newColor});
         c = newColor;
     }
