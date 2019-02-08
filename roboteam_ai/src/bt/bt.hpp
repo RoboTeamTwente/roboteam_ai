@@ -11,6 +11,7 @@
 // Composites
 #include "composites/MemSelector.hpp"
 #include "composites/MemSequence.hpp"
+#include "composites/MemParallelSequence.h"
 #include "composites/ParallelSequence.hpp"
 #include "composites/Selector.hpp"
 #include "composites/Sequence.hpp"
