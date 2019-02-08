@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget* parent)
     mainLayout->addWidget(robotsWidget, 1);
 
     // functions to select strategies
-    configureCheckBox("Use referee", vLayout, this, SLOT(setUseReferee(bool)), constants::STD_USE_REFEREE());
+    configureCheckBox("Use referee", vLayout, this, SLOT(setUseReferee(bool)), Constants::STD_USE_REFEREE());
 
     select_strategy = new QComboBox();
     vLayout->addWidget(select_strategy);
