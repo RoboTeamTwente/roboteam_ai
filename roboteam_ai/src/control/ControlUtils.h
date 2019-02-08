@@ -37,8 +37,8 @@ class ControlUtils {
         static int lineOrientation(Vector2 p, Vector2 q, Vector2 r);
         static bool lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd, Vector2 lineBStart, Vector2 lineBEnd);
         static rtt::Arc createKeeperArc();
-        static Vector2 VelocityLimiter(Vector2 vel);
-        static bool hasBall(double frontDist,double robotOrientation,Vector2 robotPos, Vector2 ballPos);
+        static Vector2 VelocityLimiter(Vector2 vel,double maxVel=rtt::ai::constants::MAX_VEL);
+        static Vector2 VelocityLimiter(Vector2 vel,double maxVel, double minVel);
 };
 
 } // control
