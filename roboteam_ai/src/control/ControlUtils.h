@@ -39,6 +39,8 @@ class ControlUtils {
         static rtt::Arc createKeeperArc();
         static Vector2 VelocityLimiter(Vector2 vel,double maxVel=rtt::ai::Constants::MAX_VEL());
         static Vector2 VelocityLimiter(Vector2 vel,double maxVel, double minVel);
+        static Vector2 getGenevaAim(Vector2 ballPos, Vector2 targetPos, int genevaState);
+        static std::map<int, double> genevaMap;
 };
 
 } // control

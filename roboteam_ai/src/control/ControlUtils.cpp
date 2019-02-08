@@ -10,6 +10,14 @@ namespace rtt {
 namespace ai {
 namespace control {
 
+std::map<int, double> ControlUtils::genevaMap = {
+        {0, -20.0},
+        {1, -10.0},
+        {2, 0.0},
+        {3, 10.0},
+        {4, 20.0}
+};
+
 /// return the angular velocity for a robot to go from robotAngle to targetAngle
 double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAngle) {
     double direction = 1;               // counter clockwise rotation
@@ -260,6 +268,16 @@ Vector2 ControlUtils::calculateForce(rtt::Vector2 vector, double weight, double 
         return vector.normalize()*(weight/(pow(vector.length(), 2)));
     }
     return {0, 0};
+}
+
+
+Vector2 ControlUtils::getGenevaAim(Vector2 ballPos, Vector2 targetPos, int genevaState) {
+    double angleToTarget = (targetPos - ballPos).angle();
+    double genevaAngle = genevaMap[genevaState];
+    double aimAngle = constrainAngle(angleToTarget - genevaAngle);
+
+    Vector2 unitVector = {1, 0};
+    return targetPos + unitVector.rotate(aimAngle);
 }
 
 } // control
