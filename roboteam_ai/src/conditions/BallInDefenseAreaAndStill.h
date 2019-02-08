@@ -11,7 +11,8 @@
 namespace rtt{
 namespace ai{
 
-class BallInDefenseAreaAndStill : public Condition{
+class BallInDefenseAreaAndStill : public Condition {
+    FRIEND_TEST(DetectsDefenseArea,BallInDefenseAreaAndStill);
 private:
     bool theirDefenceArea;
 public:
