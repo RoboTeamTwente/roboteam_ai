@@ -48,14 +48,14 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     vis->setShowTactics(true);
     vis->setShowVelocities(true);
 
-    EXPECT_TRUE(vis->showAngles
-            && vis->showRoles
-            && vis->showBallPlacementMarker
-            && vis->showPath
-            && vis->showAllPaths
-            && vis->showTacticColors
-            && vis->showTactics
-            && vis->showVelocities);
+    EXPECT_TRUE(vis->showAngles);
+    EXPECT_TRUE(vis->showRoles);
+    EXPECT_TRUE(vis->showBallPlacementMarker);
+    EXPECT_TRUE(vis->showPath);
+    EXPECT_TRUE(vis->showAllPaths);
+    EXPECT_TRUE(vis->showTacticColors);
+    EXPECT_TRUE(vis->showTactics);
+    EXPECT_TRUE(vis->showVelocities);
 
     vis->setShowAngles(false);
     vis->setShowRoles(false);
@@ -66,14 +66,14 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     vis->setShowTactics(false);
     vis->setShowVelocities(false);
 
-    EXPECT_FALSE(vis->showAngles
-            || vis->showRoles
-            || vis->showBallPlacementMarker
-            || vis->showPath
-            || vis->showAllPaths
-            || vis->showTacticColors
-            || vis->showTactics
-            || vis->showVelocities);
+    EXPECT_FALSE(vis->showAngles);
+    EXPECT_FALSE(vis->showRoles);
+    EXPECT_FALSE(vis->showBallPlacementMarker);
+    EXPECT_FALSE(vis->showPath);
+    EXPECT_FALSE(vis->showAllPaths);
+    EXPECT_FALSE(vis->showTacticColors);
+    EXPECT_FALSE(vis->showTactics);
+    EXPECT_FALSE(vis->showVelocities);
     
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
