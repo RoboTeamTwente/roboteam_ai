@@ -12,9 +12,15 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
-namespace c = constants;
+MainWindow::MainWindow(QWidget* parent)
+        :QMainWindow(parent) {
 
-MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
+    // initialize values for interface to display
+    InterfaceValues::setLuthP(Constants::standard_luth_P());
+    InterfaceValues::setLuthI(Constants::standard_luth_I());
+    InterfaceValues::setLuthD(Constants::standard_luth_D());
+    InterfaceValues::setUseRefereeCommands(Constants::STD_USE_REFEREE());
+
     setMinimumWidth(800);
     setMinimumHeight(600);
 
@@ -27,7 +33,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     mainLayout->addWidget(robotsWidget, 1);
 
     // functions to select strategies
-    configureCheckBox("Use referee", vLayout, this, SLOT(setUseReferee(bool)), constants::STD_USE_REFEREE);
+    configureCheckBox("Use referee", vLayout, this, SLOT(setUseReferee(bool)), Constants::STD_USE_REFEREE());
 
     select_strategy = new QComboBox();
     vLayout->addWidget(select_strategy);
@@ -81,14 +87,14 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
               treeWidget->setHasCorrectTree(false);
             });
 
-    configureCheckBox("show rolenames", vLayout, visualizer, SLOT(setShowRoles(bool)), c::STD_SHOW_ROLES);
-    configureCheckBox("show tacticnames", vLayout, visualizer, SLOT(setShowTactics(bool)), c::STD_SHOW_TACTICS);
-    configureCheckBox("show tacticColors", vLayout, visualizer, SLOT(setShowTacticColors(bool)), c::STD_SHOW_TACTICS_COLORS);
-    configureCheckBox("show angles", vLayout, visualizer, SLOT(setShowAngles(bool)), c::STD_SHOW_ANGLES);
-    configureCheckBox("show velocities", vLayout, visualizer, SLOT(setShowVelocities(bool)), c::STD_SHOW_VELOCITIES);
-    configureCheckBox("show path for current robot", vLayout, visualizer, SLOT(setShowPath(bool)), c::STD_SHOW_PATHS_CURRENT);
-    configureCheckBox("show path for all robots", vLayout, visualizer, SLOT(setShowPathAll(bool)), c::STD_SHOW_PATHS_ALL);
-    configureCheckBox("Show marker for Ball Placement", vLayout, visualizer, SLOT(setShowBallPlacementMarker(bool)), c::STD_SHOW_BALL_PLACEMENT_MARKER);
+    configureCheckBox("show rolenames", vLayout, visualizer, SLOT(setShowRoles(bool)), Constants::STD_SHOW_ROLES());
+    configureCheckBox("show tacticnames", vLayout, visualizer, SLOT(setShowTactics(bool)), Constants::STD_SHOW_TACTICS());
+    configureCheckBox("show tacticColors", vLayout, visualizer, SLOT(setShowTacticColors(bool)), Constants::STD_SHOW_TACTICS_COLORS());
+    configureCheckBox("show angles", vLayout, visualizer, SLOT(setShowAngles(bool)), Constants::STD_SHOW_ANGLES());
+    configureCheckBox("show velocities", vLayout, visualizer, SLOT(setShowVelocities(bool)), Constants::STD_SHOW_VELOCITIES());
+    configureCheckBox("show path for current robot", vLayout, visualizer, SLOT(setShowPath(bool)), Constants::STD_SHOW_PATHS_CURRENT());
+    configureCheckBox("show path for all robots", vLayout, visualizer, SLOT(setShowPathAll(bool)), Constants::STD_SHOW_PATHS_ALL());
+    configureCheckBox("Show marker for Ball Placement", vLayout, visualizer, SLOT(setShowBallPlacementMarker(bool)), Constants::STD_SHOW_BALL_PLACEMENT_MARKER());
 
     // set up tree widget
     treeWidget = new TreeVisualizerWidget(this);

@@ -18,9 +18,9 @@ TEST(ControllerTest, it_calculates_proper_pid) {
     c = Controller(10, 20, 30);
     double expectedP = 120;
     EXPECT_EQ(c.controlP(12), expectedP);
-    double expectedI = (1.0/rtt::ai::constants::tickRate) * 12 * 20;
+    double expectedI = (1.0/rtt::ai::Constants::TICK_RATE()) * 12 * 20;
     EXPECT_EQ(c.controlI(12), expectedI);
-    double expectedD = 30 * (12 / (1.0/rtt::ai::constants::tickRate));
+    double expectedD = 30 * (12 / (1.0/rtt::ai::Constants::TICK_RATE()));
     EXPECT_EQ(c.controlD(12), expectedD);
 
     // clear controller otherwise timeDiff makes the values different
@@ -41,7 +41,7 @@ TEST(ControllerTest, it_calculates_proper_pid) {
 
     // it sets the timediff to 1/tickRate when time = 0 is given
     c = Controller(0, 0, 0, 0);
-    EXPECT_EQ(c.timeDiff, 1.0/rtt::ai::constants::tickRate);
+    EXPECT_EQ(c.timeDiff, 1.0/rtt::ai::Constants::TICK_RATE());
 
     // otherwise it sets the timediff
     c = Controller(0, 0, 0, 8);
@@ -92,11 +92,10 @@ TEST(ControllerTest, it_calculates_proper_pir) {
     c = Controller(10, 20, 30);
     double expectedP = 120;
     EXPECT_EQ(c.controlP(12), expectedP);
-    double expectedI = (1.0/rtt::ai::constants::tickRate) * 12 * 20;
+    double expectedI = (1.0/rtt::ai::Constants::TICK_RATE()) * 12 * 20;
     EXPECT_EQ(c.controlI(12), expectedI);
     double expectedR = 30 * 12 * -1;
     EXPECT_EQ(c.controlR(12), expectedR);
-
 
     // clear controller otherwise timeDiff makes the values different
     c = Controller(10, 20, 30);
