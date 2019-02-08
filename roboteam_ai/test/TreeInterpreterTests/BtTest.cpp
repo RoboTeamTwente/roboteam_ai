@@ -359,7 +359,7 @@ TEST(BehaviorTreeTest, selectorComposites) {
     EXPECT_EQ(memSelector.node_name(), "MemSelector");
 
     EXPECT_EQ(memSelector.getStatus(), bt::Node::Status::Waiting);
-    memSelector.index = 22; //TODO: Fix this test later sometime.
+    memSelector.index = 22;
     memSelector.initialize();
     EXPECT_EQ(memSelector.index, (unsigned int) 0);
 
