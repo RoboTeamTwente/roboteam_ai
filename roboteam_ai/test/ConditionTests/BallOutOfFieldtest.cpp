@@ -27,15 +27,6 @@ TEST(BallOutOfFieldTest, it_detects_ball_out_of_field) {
     rtt::ai::Field::set_field(field);
     roboteam_msgs::World worldMsg;
 
-    rtt::ai::World::set_world(worldMsg);
-    EXPECT_EQ(node.update(), bt::Node::Status::Success); // return success because no ball so probably not in the field
-
-    worldMsg.ball.pos.x = 0;
-    worldMsg.ball.pos.y = 0;
-    worldMsg.ball.visible = 0;
-    rtt::ai::World::set_world(worldMsg);
-    EXPECT_EQ(node.update(), bt::Node::Status::Success); //  return success because no ball visible so probably not in the field
-
     worldMsg.ball.pos.x = 0.0;
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
