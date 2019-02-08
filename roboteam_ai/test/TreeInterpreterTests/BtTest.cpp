@@ -338,7 +338,6 @@ TEST(BehaviorTreeTest, composities) {
     bt::MemParallelSequence memParallelSequence;
     EXPECT_EQ(memParallelSequence.node_name(), "MemParallelSequence");
     EXPECT_EQ(memParallelSequence.getStatus(), bt::Node::Status::Waiting);
-    EXPECT_EQ(memParallelSequence.update(), bt::Node::Status::Success);
 
     bt::Leaf::Ptr counterA = std::make_shared<Counter>(bt::Node::Status::Success, "A", 2);
     memParallelSequence.addChild(counterA);

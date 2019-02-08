@@ -106,7 +106,7 @@ int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkD
             robotAngle += 2*M_PI;
         }
 
-        return ((dist<checkDist) && (fabs(angle-robotAngle)<checkAngle));
+        return ((dist<=checkDist) && (fabs(angle-robotAngle)<=checkAngle));
     }
     return false;
 }

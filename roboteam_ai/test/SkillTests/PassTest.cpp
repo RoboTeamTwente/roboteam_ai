@@ -8,6 +8,8 @@
 #include "../../src/utilities/Coach.h"
 
 TEST(PassTest, PassTest) {
+    robotDealer::RobotDealer::halt();
+
     roboteam_msgs::GeometryFieldSize field;
     field.field_length = 20;
     field.field_width = 10;

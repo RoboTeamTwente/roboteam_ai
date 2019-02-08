@@ -55,7 +55,7 @@ const double DRIBBLE_POSDIF=0.05;
 const float  DRIBBLE_SPEED=0.8;
 
 //hasBall
-const double MAX_BALL_RANGE=0.05; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
+const double MAX_BALL_RANGE=0.15; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
 const double HAS_BALL_ANGLE=0.2;
 
 //getBallcc
