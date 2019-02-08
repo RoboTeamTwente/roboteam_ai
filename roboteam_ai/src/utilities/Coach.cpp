@@ -221,22 +221,23 @@ void Coach::removeDefender(int id) {
     }
 }
 
-Vector2 Coach::getRobotPositionClosestToPositionPosition(std::vector<roboteam_msgs::WorldRobot> &robots,
-                                                         Vector2 position, bool includeSamePosition) {
+std::shared_ptr<roboteam_msgs::WorldRobot> Coach::getRobotClosestToPosition(
+        std::vector<roboteam_msgs::WorldRobot> &robots,
+        Vector2 position, bool includeSamePosition) {
 
     double distance = 999999;
-    Vector2 pos = {999, 999};
+    roboteam_msgs::WorldRobot closestRobot;
     for (auto &bot : robots) {
         const Vector2 deltaPos = position - bot.pos;
         double dPLength = abs(deltaPos.length());
         if (dPLength < distance) {
             if (dPLength > 0.05 || includeSamePosition) {
                 distance = dPLength;
-                pos = bot.pos;
+                closestRobot = bot;
             }
         }
     }
-    return pos;
+    return std::make_shared<roboteam_msgs::WorldRobot>(closestRobot);
 
 }
 void Coach::addFormationRobot(int id) {

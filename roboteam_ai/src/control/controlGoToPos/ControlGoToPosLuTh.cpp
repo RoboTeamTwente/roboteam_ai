@@ -129,8 +129,9 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
 //PID
     int minStep = 5;
     auto allBots = World::getAllRobots();
-    Vector2 closestRobot = coach::Coach::getRobotPositionClosestToPositionPosition(allBots, robot->pos, false);
-    Vector2 closestRobotDir = (closestRobot - robot->pos);
+    std::shared_ptr<roboteam_msgs::WorldRobot> closestRobot = coach::Coach::getRobotClosestToPosition(allBots,
+                                                                                                      robot->pos, false);
+    Vector2 closestRobotDir = ((Vector2)closestRobot->pos - robot->pos);
     if ((targetPos - robot->pos).length() < 0.3f) {
         Vector2 dir = (targetPos - robot->pos).scale(3.0);
         velocityCommand.x = static_cast<float>(dir.x);

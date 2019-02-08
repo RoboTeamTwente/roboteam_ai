@@ -47,8 +47,9 @@ public:
     static Vector2 getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal);
     static Vector2 getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID);
     static Vector2 getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position);
-    static Vector2 getRobotPositionClosestToPositionPosition(std::vector<roboteam_msgs::WorldRobot> &robots,
-                                                             Vector2 position, bool includeSamePosition);
+    static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToPosition(
+            std::vector<roboteam_msgs::WorldRobot> &robots,
+            Vector2 position, bool includeSamePosition);
 
 
     static bool isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal, const Vector2 &robotPos);
