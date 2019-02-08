@@ -19,10 +19,10 @@ void InterceptBall::onInitialize() {
     currentProgression = INTERCEPTING;
 
     tickCount = 0;
-    maxTicks = static_cast<int>(floor(constants::MAX_INTERCEPT_TIME*constants::tickRate));
+    maxTicks = static_cast<int>(floor(Constants::MAX_INTERCEPT_TIME() * Constants::TICK_RATE()));
     ballStartPos = ball->pos;
     ballStartVel = ball->vel;
-    ballEndPos = ballStartPos + ballStartVel * constants::MAX_INTERCEPT_TIME;
+    ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
 
     if (robot) {
         interceptPos = computeInterceptPoint(ballStartPos,ballEndPos);
@@ -34,15 +34,15 @@ void InterceptBall::onInitialize() {
         currentProgression = BALLMISSED;
         backwards=false;
     }
-    pid.setPID(5.7,1.7,0.0,1.0/constants::tickRate); //TODO:magic numbers galore, from the old team. Move to new control library?
-    finePid.setPID(5.7,1.7,0.0, 1.0/constants::tickRate);
+    pid.setPID(5.7,1.7,0.0,1.0/Constants::TICK_RATE()); //TODO:magic numbers galore, from the old team. Move to new control library?
+    finePid.setPID(5.7,1.7,0.0, 1.0/Constants::TICK_RATE());
 }
 InterceptBall::Status InterceptBall::onUpdate() {
     ball = World::getBall();
     //The keeper dynamically updates the intercept position as he needs to be responsive and cover the whole goal and this would help against curveballs etc.
     if (keeper) {
         interceptPos = computeInterceptPoint(ball->pos,
-                Vector2(ball->pos) + Vector2(ball->vel)*constants::MAX_INTERCEPT_TIME);
+                Vector2(ball->pos) + Vector2(ball->vel) * Constants::MAX_INTERCEPT_TIME());
     }
     deltaPos = interceptPos - robot->pos;
     checkProgression();
@@ -51,7 +51,7 @@ InterceptBall::Status InterceptBall::onUpdate() {
     displayColorData.emplace_back(std::make_pair(ballStartPos,Qt::red));
     displayColorData.emplace_back(std::make_pair(ballEndPos,Qt::red));
     displayColorData.emplace_back(std::make_pair(ball->pos,Qt::green));
-    displayColorData.emplace_back(std::make_pair(Vector2(ball->pos)+ Vector2(ball->vel)*constants::MAX_INTERCEPT_TIME,Qt::green));
+    displayColorData.emplace_back(std::make_pair(Vector2(ball->pos)+ Vector2(ball->vel) * Constants::MAX_INTERCEPT_TIME(),Qt::green));
     interface::Drawer::setInterceptPoints(robot->id,displayColorData);
     displayColorData.clear();
 
@@ -105,20 +105,20 @@ void InterceptBall::checkProgression() {
     //Update the state of the robot
     switch (currentProgression) {
     case INTERCEPTING:
-        if (dist < constants::ROBOT_RADIUS) {
+        if (dist < Constants::ROBOT_RADIUS()) {
             currentProgression = CLOSETOPOINT;
         };//If robot is close, switch to closetoPoint
         return;
     case CLOSETOPOINT:
-        if (dist < constants::INTERCEPT_POSDIF) {
+        if (dist < Constants::INTERCEPT_POSDIF()) {
             currentProgression = INPOSITION;
         }//If Robot overshoots, switch to overshoot, if in Position, go there
-        else if (dist >= constants::ROBOT_RADIUS) {
+        else if (dist >= Constants::ROBOT_RADIUS()) {
             currentProgression = INTERCEPTING;
         }
         return;
     case INPOSITION:
-        if (dist < constants::INTERCEPT_POSDIF) {
+        if (dist < Constants::INTERCEPT_POSDIF()) {
             return;
         }
         else {
@@ -138,7 +138,7 @@ Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall)
     Vector2 interceptionPoint;
     if (keeper) {
         //This is done in control library as it is needed in intercept too
-        // Depends on two keeper constants in constants!
+        // Depends on two keeper Constants in Constants!
         Arc keeperCircle = control::ControlUtils::createKeeperArc();
         std::pair<boost::optional<Vector2>, boost::optional<Vector2>> intersections = keeperCircle.intersectionWithLine(
                 startBall, endBall);
@@ -170,12 +170,12 @@ Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall)
 // Checks if the Robot already missed the Ball
 bool InterceptBall::missedBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel) {
     double interceptDist = (interceptPos - startBall).length();
-    double angleDev = tan(constants::ROBOT_RADIUS/interceptDist);
+    double angleDev = tan(Constants::ROBOT_RADIUS()/interceptDist);
     double rectHalfLength = atan(angleDev)
-            *(interceptDist + constants::ROBOT_RADIUS);// Half of the rectangle covered by the robot behind the robot.
+            *(interceptDist + Constants::ROBOT_RADIUS());// Half of the rectangle covered by the robot behind the robot.
     // We check if the ball ever comes into the rectangle behind the robot that it should 'cover off'
     Vector2 rectSide = ballVel.rotate(M_PI_2).stretchToLength(rectHalfLength);
-    Vector2 startCentre = startBall + ballVel.stretchToLength(interceptDist + constants::ROBOT_RADIUS);
+    Vector2 startCentre = startBall + ballVel.stretchToLength(interceptDist + Constants::ROBOT_RADIUS());
     Vector2 endCentre = startBall + (endBall - startBall)*2; //twice the predicted length to be sure
     return control::ControlUtils::pointInRectangle(ball->pos, startCentre - rectSide, startCentre + rectSide,
             endCentre + rectSide, endCentre - rectSide);
@@ -186,7 +186,7 @@ bool InterceptBall::ballDeflected() {
     // A ball is deflected if:
     // If ball velocity changes by more than x degrees from the original orientation then it is deflected
     if (abs(control::ControlUtils::constrainAngle(Vector2(ball->vel).angle() - ballStartVel.angle()))
-            > constants::BALL_DEFLECTION_ANGLE) {
+            > Constants::BALL_DEFLECTION_ANGLE()) {
         return true;
     }
     // Ball Position is behind the line orthogonal to the ball velocity going through the ballStartPos
@@ -248,11 +248,11 @@ void InterceptBall::sendInterceptCommand() {
 bool InterceptBall::ballToGoal() {
     Vector2 goalCentre = Field::get_our_goal_center();
     double goalWidth = Field::get_field().goal_width;
-    double margin = constants::BALL_TO_GOAL_MARGIN;
+    double margin = Constants::BALL_TO_GOAL_MARGIN();
     Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth + margin));
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth + margin);
     Vector2 ballPos = ball->pos;
-    Vector2 ballPredPos = Vector2(ball->pos) + Vector2(ball->vel)*constants::MAX_INTERCEPT_TIME;
+    Vector2 ballPredPos = Vector2(ball->pos) + Vector2(ball->vel) * Constants::MAX_INTERCEPT_TIME();
     return control::ControlUtils::lineSegmentsIntersect(lowerPost, upperPost, ballPos, ballPredPos);
 }
 // Checks if the ball is in our Goal (e.g. the opponent scored)
