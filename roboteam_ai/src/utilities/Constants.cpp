@@ -18,7 +18,7 @@ double Constants::getDouble(const std::string &name) {
     if (doubles.find(name) != doubles.end() ) {
         return doubles[name];
     }
-    ROS_ERROR("Double constant not found: %s", name.c_str());
+    std::cerr << "Double constant not found: " << name.c_str() << std::endl;
     return 0.0;
 }
 
@@ -26,7 +26,7 @@ int Constants::getInt(const std::string &name) {
     if (integers.find(name) != integers.end() ) {
         return integers[name];
     }
-    ROS_ERROR("Integer constant not found: %s", name.c_str());
+    std::cerr << "Integer constant not found: " << name.c_str() << std::endl;
     return 0;
 }
 
@@ -34,7 +34,7 @@ bool Constants::getBool(const std::string &name) {
     if (bools.find(name) != bools.end() ) {
         return bools[name];
     }
-    ROS_ERROR("Bool constant not found: %s", name.c_str());
+    std::cerr << "Bool constant not found: " << name.c_str() << std::endl;
     return false;
 }
 
@@ -42,7 +42,7 @@ QColor Constants::getColor(const std::string &name) {
     if (colors.find(name) != colors.end() ) {
         return colors[name];
     }
-    ROS_ERROR("Color constant not found: %s", name.c_str());
+    std::cerr << "Color constant not found: " << name.c_str() << std::endl;
     return { 0, 0, 0, 0 }; // transparent
 }
 
