@@ -7,6 +7,8 @@ namespace ai {
 
 // define the static variables
 roboteam_msgs::World World::world;
+std::vector<std::pair<roboteam_msgs::World, double>> World::futureWorlds;
+
 bool World::didReceiveFirstWorld = false;
 std::mutex World::worldMutex;
 
@@ -20,6 +22,7 @@ const roboteam_msgs::World &World::get_world() {
 /// if there is an 'us' vector, it sets didReceiveWorld to true
 void World::set_world(roboteam_msgs::World _world) {
     std::lock_guard<std::mutex> lock(worldMutex);
+    futureWorlds = {{},{}};
 
     if (! _world.us.empty()) {
         didReceiveFirstWorld = true;
@@ -149,9 +152,19 @@ bool World::robotHasBall(Vector2 robotPos, double robotOrientation, Vector2 ball
 }
 
 /// returns a message of the world where every position has been linearly extrapolated w.r.t current world
-roboteam_msgs::World World::futureWorld(double time){
+roboteam_msgs::World World::futureWorld(double time, double maxTimeOffset) {
+    //std::cout << std::endl << "futureWorlds: " << futureWorlds.size() << std::endl;
+//    for (auto futureWorld : futureWorlds) {
+//        if (abs(time - futureWorld.second) < maxTimeOffset)
+//            return futureWorld.first;
+//    }
 
-    const roboteam_msgs::World currentWorld=get_world();
+    roboteam_msgs::World currentWorld;
+    {
+    std::lock_guard<std::mutex> lock(worldMutex);
+    currentWorld = world;
+    }
+
     roboteam_msgs::World futureWorld;
     for(auto bot :currentWorld.us){
         bot.pos=Vector2(bot.pos)+Vector2(bot.vel)*time;
@@ -163,6 +176,8 @@ roboteam_msgs::World World::futureWorld(double time){
     }
     futureWorld.ball=currentWorld.ball;
     futureWorld.ball.pos=Vector2(currentWorld.ball.pos)+Vector2(currentWorld.ball.vel)*time;
+
+    //futureWorlds.emplace_back(futureWorld, time);
     return futureWorld;
 }
 

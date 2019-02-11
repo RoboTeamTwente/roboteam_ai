@@ -4,12 +4,15 @@
 
 #ifndef ROBOTEAM_AI_CONTROLGOTOPOSCLEAN_H
 #define ROBOTEAM_AI_CONTROLGOTOPOSCLEAN_H
+
 #include "GoToPosInclude.h"
 #include <roboteam_ai/src/interface/InterfaceValues.h>
 #include <chrono>
+
 namespace rtt {
 namespace ai {
 namespace control {
+
 class ControlGoToPosClean {
     private:
         //constants, should be moved at some point, or adapted in a dynamic model (e.g. for lower speeds for certain branches, jazz like that)
@@ -47,7 +50,7 @@ class ControlGoToPosClean {
           std::shared_ptr<PathPoint> backTrack(double toTime);
           void addChild(std::shared_ptr<PathPoint> middleChild);
           void addBranch(std::shared_ptr<PathPoint> branchChild);
-          bool isCollission(Vector2 target, double distance);
+          bool isCollision(Vector2 target, double distance);
         };
         std::vector<Vector2> getNewTargets(std::shared_ptr<PathPoint> collisionPoint, Vector2 startPos);
         bool checkCollission(std::shared_ptr<PathPoint> point);
@@ -64,6 +67,7 @@ class ControlGoToPosClean {
         void setCanGoOutsideField(bool _canGoOutsideField);
 
 };
+
 }
 }
 }

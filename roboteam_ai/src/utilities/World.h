@@ -25,6 +25,8 @@ namespace ai {
 class World {
     private:
         static roboteam_msgs::World world;
+        static std::vector<std::pair<roboteam_msgs::World, double>> futureWorlds;
+
         static std::mutex worldMutex;
     public:
         static void set_world(roboteam_msgs::World world);
@@ -63,7 +65,7 @@ class World {
 
         static std::vector<roboteam_msgs::WorldRobot> getAllRobots();
         static std::vector<roboteam_msgs::WorldRobot> getRobotsForId(std::set<unsigned int> ids, bool robotsAreOurTeam);
-        static roboteam_msgs::World futureWorld(double time);
+        static roboteam_msgs::World futureWorld(double time, double maxTimeOffset = 0.11);
 };
 
 } // ai
