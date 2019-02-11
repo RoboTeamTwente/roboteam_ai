@@ -100,9 +100,13 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
     // all the obstacles should be robots
     for (auto const &robot : World::getAllRobots()) {
 
+        // draw vector from the point to the robot
+        auto lineToRobot = point - robot.pos;
+        auto inversePointToRobot = Vector2(-lineToRobot.y, lineToRobot.x);
+
         // get the left and right sides of the robot
-        Vector2 leftSideOfRobot = Vector2(robot.pos.x, robot.pos.y + robotRadius);
-        Vector2 rightSideOfRobot = Vector2(robot.pos.x, robot.pos.y - robotRadius);
+        Vector2 rightSideOfRobot = inversePointToRobot.stretchToLength(robotRadius) + robot.pos;
+        Vector2 leftSideOfRobot = inversePointToRobot.stretchToLength(-robotRadius) + robot.pos;
 
         // if the right side, left side or center is in the triangle then we are quite sure there is a robot in the triangle.
         bool leftInTriangle = util::pointInTriangle(leftSideOfRobot, point, leftGoalSide, rightGoalSide);
