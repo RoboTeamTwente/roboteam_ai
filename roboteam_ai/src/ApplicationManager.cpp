@@ -103,7 +103,7 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     case Status::Running:break;
     case Status::Success:ROS_INFO_STREAM("Status returned: Success");
         ROS_INFO_STREAM(" === TREE CHANGE === ");
-        BTFactory::setCurrentTree("KeeperStrategy");
+        BTFactory::setCurrentTree("haltStrategy");
         break;
     case Status::Failure:ROS_INFO_STREAM("Status returned: Failure");
         break;
