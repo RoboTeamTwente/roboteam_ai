@@ -59,6 +59,8 @@ void ApplicationManager::runOneLoopCycle() {
             return;
         }
 
+        ai::Field::getBlockadesMappedToGoal(false, ai::World::getBall()->pos);
+
         if (ai::interface::InterfaceValues::usesRefereeCommands()) {
             this->handleRefData();
         }

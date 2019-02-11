@@ -30,7 +30,9 @@ class Field {
         static bool pointIsInField(Vector2 point, float margin = 0.0);
 
         static double getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point);
-        static std::vector<Vector2> getVisiblePartsOfGoal();
+        static std::vector<std::pair<Vector2, Vector2>> getBlockadesMappedToGoal(bool ourGoal, Vector2 point);
+        static std::vector<std::pair<Vector2, Vector2>> getVisiblePartsOfGoal(bool ourGoal, Vector2 point);
+
 
 };
 
