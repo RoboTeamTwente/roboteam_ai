@@ -1,4 +1,3 @@
-#include <utility>
 
 #include "roboteam_world/world/filtered_world.h"
 #include <vector>
@@ -59,9 +58,7 @@ namespace rtt {
 
     /// To be called when a detection_frame message is received.
     void FilteredWorld::detection_callback(const roboteam_msgs::DetectionFrame msg) {
-
         buffer_detection_frame(msg);
-
         if (is_calculation_needed()) {
             // Reset the camera update flags.
             for (auto& cam : world_cams) {
@@ -92,7 +89,12 @@ namespace rtt {
         auto cam_id = msg.camera_id;
 
         // Set this cameras updated flag.
-        // If this camera hasn't sent frames before, it is now added to the list of cameras.
+        // If this camera hasn't sent frames before, it is now added to the list of cameras. We reset the other camera's to true as their information is still mergeable
+        if (world_cams.find(cam_id)==world_cams.end()){
+            for (auto& cam :world_cams){
+                cam.second=true;
+            }
+        }
         world_cams[cam_id] = true;
         timeFrameCaptured[cam_id]=msg.t_capture;
 
@@ -146,7 +148,6 @@ namespace rtt {
         for (auto& cam : world_cams) {
 
             if (!cam.second) {
-                // there is only one camera
                 return false;
             }
         }

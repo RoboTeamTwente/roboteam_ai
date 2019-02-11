@@ -5,8 +5,7 @@
 #include "roboteam_world/predictor.h"
 #include "roboteam_utils/LastWorld.h"
 
-int main(int argc, char **argv)
-{
+int main(int argc, char** argv) {
 
     // Init ros.
     ros::init(argc, argv, "filtered_world");
