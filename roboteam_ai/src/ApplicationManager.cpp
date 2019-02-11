@@ -59,7 +59,8 @@ void ApplicationManager::runOneLoopCycle() {
             return;
         }
 
-        ai::Field::getBlockadesMappedToGoal(false, ai::World::getBall()->pos);
+        std::cout << "percentage of goal visible" << ai::Field::getPercentageOfGoalVisibleFromPoint(false, ai::World::getBall()->pos) << std::endl;
+
 
         if (ai::interface::InterfaceValues::usesRefereeCommands()) {
             this->handleRefData();
