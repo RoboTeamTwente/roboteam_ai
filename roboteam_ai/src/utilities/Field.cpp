@@ -228,5 +228,13 @@ std::pair<Vector2, Vector2> Field::getGoalSides(bool ourGoal) {
     return std::make_pair(lowerGoalSide, upperGoalSide);
 }
 
+int Field::getRobotClosestToGoal(bool ourRobot, bool ourGoal) {
+    roboteam_msgs::World_<std::allocator<void>>::_them_type robots = ourRobot ? World::get_world().us : World::get_world().them;
+    Vector2 target = ourGoal ? Field::get_our_goal_center() : Field::get_their_goal_center();
+
+    int closestId = World::getRobotClosestToPoint(robots, target)->id;
+    return closestId;
+}
+
 } // ai
 } // rtt
