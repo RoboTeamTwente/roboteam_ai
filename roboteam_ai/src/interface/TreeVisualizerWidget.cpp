@@ -32,7 +32,7 @@ void TreeVisualizerWidget::updateContents()
             QString status = QString::fromStdString(statusToString(item->getStatus()));
             if (widgetItem->text(1)!=status) {
                 widgetItem->setText(1, status);
-                widgetItem->setBackgroundColor(1, getColorForStatus(item->getStatus()));
+                widgetItem->setTextColor(1, getColorForStatus(item->getStatus()));
             }
         }
         ++iter;
@@ -56,7 +56,7 @@ void TreeVisualizerWidget::updateContents()
             auto treeItemRoot = new QTreeWidgetItem(this);
             treeItemRoot->setText(0, QString::fromStdString(tree->GetRoot()->node_name()));
             treeItemRoot->setText(1, QString::fromStdString(statusToString(tree->GetRoot()->getStatus())));
-            treeItemRoot->setBackgroundColor(1, getColorForStatus(tree->GetRoot()->getStatus()));
+            treeItemRoot->setTextColor(1, getColorForStatus(tree->GetRoot()->getStatus()));
 
             addRootItem(tree->GetRoot(), treeItemRoot);
             this->expandAll();
@@ -77,7 +77,7 @@ void TreeVisualizerWidget::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem* QP
         std::pair<QTreeWidgetItem*, bt::Node::Ptr> pair{treeItemchild, child};
         treeItemMapping.insert(pair);
 
-        treeItemchild->setBackgroundColor(1, getColorForStatus(child->getStatus()));
+        treeItemchild->setTextColor(1, getColorForStatus(child->getStatus()));
         QParent->addChild(treeItemchild);
         addRootItem(child, treeItemchild);
     }
@@ -87,9 +87,9 @@ void TreeVisualizerWidget::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem* QP
 QColor TreeVisualizerWidget::getColorForStatus(bt::Node::Status status) {
     switch (status) {
     case bt::Node::Status::Failure:return Qt::red;
-    case bt::Node::Status::Running:return {"#99ff99"}; // light green
-    case bt::Node::Status::Success:return {"#339933"}; // dark green
-    case bt::Node::Status::Waiting:return Qt::gray;
+    case bt::Node::Status::Running:return {"#006600"}; // dark green
+    case bt::Node::Status::Success:return {"#66ff66"}; // bright green
+    case bt::Node::Status::Waiting:return Qt::darkGray;
     default:return Qt::white;
     }
 }

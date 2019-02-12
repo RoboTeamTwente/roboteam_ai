@@ -30,7 +30,6 @@ MainWindow::MainWindow(QWidget* parent)
     vLayout = new QVBoxLayout();
 
     robotsWidget = new RobotsWidget(this);
-    mainLayout->addWidget(robotsWidget, 1);
 
     // functions to select strategies
     configureCheckBox("Use referee", vLayout, this, SLOT(setUseReferee(bool)), Constants::STD_USE_REFEREE());
@@ -104,6 +103,8 @@ MainWindow::MainWindow(QWidget* parent)
     horizontalLayout->addWidget(visualizer, 3); // width stretch 3/5
     horizontalLayout->addLayout(vLayout, 2); // width stretch 2/5
     mainLayout->addLayout(horizontalLayout, 5); // height stretch 5/6
+    mainLayout->addWidget(robotsWidget, 1); //robotswidget height 1/6
+
 
     // apply layout
     setCentralWidget(new QWidget);
