@@ -113,10 +113,10 @@ TEST(FieldTest, it_calculates_obstacles) {
 	rtt::ai::World::set_world(world);
 	auto obstacles = rtt::ai::Field::getBlockadesMappedToGoal(true, {0, 0});
 	auto visibleParts = rtt::ai::Field::getVisiblePartsOfGoal(true, {0, 0});
-	ASSERT_EQ(obstacles.size(), 0);
-	ASSERT_EQ(visibleParts.size(), 1);
-	ASSERT_FLOAT_EQ(visibleParts.at(0).first.dist(visibleParts.at(0).second), field.goal_width);
-	ASSERT_EQ(rtt::ai::Field::getPercentageOfGoalVisibleFromPoint(true, {0, 0}), 100);
+	EXPECT_EQ(obstacles.size(), 0);
+	EXPECT_EQ(visibleParts.size(), 1);
+	EXPECT_FLOAT_EQ(visibleParts.at(0).first.dist(visibleParts.at(0).second), field.goal_width);
+	EXPECT_EQ(rtt::ai::Field::getPercentageOfGoalVisibleFromPoint(true, {0, 0}), 100);
 
 
 	// watch our goal from the center of the field
@@ -127,13 +127,42 @@ TEST(FieldTest, it_calculates_obstacles) {
 	rtt::ai::World::set_world(world);
 	obstacles = rtt::ai::Field::getBlockadesMappedToGoal(true, {0, 0});
 	visibleParts = rtt::ai::Field::getVisiblePartsOfGoal(true, {0, 0});
-	ASSERT_EQ(obstacles.size(), 1);
-	ASSERT_EQ(visibleParts.size(), 2);
+	EXPECT_EQ(obstacles.size(), 1);
+	EXPECT_EQ(visibleParts.size(), 2);
 	// the width should be somewhere equal to the width of the robot
-	ASSERT_FLOAT_EQ(rtt::ai::Field::getPercentageOfGoalVisibleFromPoint(true, {0, 0}), round(100 - 200*rtt::ai::Constants::ROBOT_RADIUS()));
-	ASSERT_FLOAT_EQ(obstacles.at(0).first.dist(obstacles.at(0).second), 2*rtt::ai::Constants::ROBOT_RADIUS()); // the width of the obstacle is twice robot radius
+	EXPECT_FLOAT_EQ(rtt::ai::Field::getPercentageOfGoalVisibleFromPoint(true, {0, 0}), round(100 - 200*rtt::ai::Constants::ROBOT_RADIUS()));
+	EXPECT_FLOAT_EQ(obstacles.at(0).first.dist(obstacles.at(0).second), 2*rtt::ai::Constants::ROBOT_RADIUS()); // the width of the obstacle is twice robot radius
 
+	// watch their goal from the center of the field
+	// there are two robots in between, separated
+	roboteam_msgs::WorldRobot robot2;
+	robot2.id = 1;
 
+	world = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
+	robot.pos = rtt::Vector2(4, 0);
+	robot2.pos = rtt::Vector2(4, 0.3);
+	world.us.push_back(robot);
+	world.us.push_back(robot2);
+	rtt::ai::World::set_world(world);
+	
+	obstacles = rtt::ai::Field::getBlockadesMappedToGoal(false, {0, 0});
+	visibleParts = rtt::ai::Field::getVisiblePartsOfGoal(false, {0, 0});
+	EXPECT_EQ(obstacles.size(), 2);
+	EXPECT_EQ(visibleParts.size(), 3);
+	EXPECT_FLOAT_EQ(rtt::ai::Field::getPercentageOfGoalVisibleFromPoint(false, {0, 0}), round(100 - 400*rtt::ai::Constants::ROBOT_RADIUS()));
 
+	// watch their goal from the center of the field
+	// there are two robots in between, merged
+	world = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
+	robot.pos = rtt::Vector2(4, 0);
+	robot2.pos = rtt::Vector2(4, 0.05);
+	world.us.push_back(robot);
+	world.us.push_back(robot2);
+	rtt::ai::World::set_world(world);
+	obstacles = rtt::ai::Field::getBlockadesMappedToGoal(false, {0, 0});
+	visibleParts = rtt::ai::Field::getVisiblePartsOfGoal(false, {0, 0});
+	EXPECT_EQ(obstacles.size(), 1);
+	EXPECT_EQ(visibleParts.size(), 2);
+	EXPECT_GT(obstacles.at(0).first.dist(obstacles.at(0).second), rtt::ai::Constants::ROBOT_RADIUS()); // the obstacle should be greater than robot radius
 }
 
