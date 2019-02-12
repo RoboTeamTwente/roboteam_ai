@@ -33,8 +33,7 @@ class Field {
         static std::vector<std::pair<Vector2, Vector2>> getBlockadesMappedToGoal(bool ourGoal, Vector2 point);
         static std::vector<std::pair<Vector2, Vector2>> mergeBlockades(std::vector<std::pair<Vector2, Vector2>> blockades);
         static std::vector<std::pair<Vector2, Vector2>> getVisiblePartsOfGoal(bool ourGoal, Vector2 point);
-
-
+        static std::pair<Vector2, Vector2> getGoalSides(bool ourGoal);
 };
 
 } // ai

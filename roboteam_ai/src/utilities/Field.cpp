@@ -84,31 +84,21 @@ bool Field::pointIsInField(Vector2 point, float margin) {
 double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point){
     auto field = Field::get_field();
     double goalWidth = field.goal_width;
-
     double blockadeLength = 0;
     for (auto blockade : getBlockadesMappedToGoal(ourGoal, point)) {
         blockadeLength += blockade.first.dist(blockade.second);
     }
-
     return std::max(100 - round(blockadeLength/goalWidth * 100), 0.0);
 }
 
 std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, Vector2 point){
     const double robotRadius = Constants::ROBOT_RADIUS();
-
-    // get the sides of the goal
-    auto field = Field::get_field();
-    double goalWidth = field.goal_width;
-    auto goalCenter = ourGoal ? get_our_goal_center() : get_their_goal_center();
-    Vector2 leftGoalSide = { goalCenter.x, goalCenter.y + (goalWidth/2)};
-    Vector2 rightGoalSide = { goalCenter.x, goalCenter.y - (goalWidth/2)};
-
-    // vector to store the blockades0
+    auto lowerGoalSide = getGoalSides(ourGoal).first;
+    auto upperGoalSide = getGoalSides(ourGoal).second;
     std::vector<std::pair<Vector2, Vector2>> blockades = {};
 
     // all the obstacles should be robots
     for (auto const &robot : World::getAllRobots()) {
-
         bool isRobotItself = point == robot.pos;
         bool isInPotentialBlockingZone = ourGoal ? robot.pos.x < point.x + robotRadius : robot.pos.x > point.x - robotRadius;
 
@@ -116,35 +106,27 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
         if (!isRobotItself && isInPotentialBlockingZone) {
 
             // get the left and right sides of the robot
-            auto lineToRobot = point-robot.pos;
-            auto inversePointToRobot = Vector2(-lineToRobot.y, lineToRobot.x);
-            Vector2 rightSideOfRobot = inversePointToRobot.stretchToLength(robotRadius)+robot.pos;
-            Vector2 leftSideOfRobot = inversePointToRobot.stretchToLength(-robotRadius)+robot.pos;
-
-            // get intersections from the line towards the sides of the robots with the goalline
-            Vector2 leftPointOnGoalLine = util::twoLineIntersection(point, leftSideOfRobot, leftGoalSide,
-                    rightGoalSide);
-            Vector2 rightPointOnGoalLine = util::twoLineIntersection(point, rightSideOfRobot, leftGoalSide,
-                    rightGoalSide);
+            auto lineToRobot = point - robot.pos;
+            auto inverseLineToRobot = Vector2(-lineToRobot.y, lineToRobot.x);
+            Vector2 upperSideOfRobot = inverseLineToRobot.stretchToLength(robotRadius) + robot.pos;
+            Vector2 lowerSideOfRobot = inverseLineToRobot.stretchToLength(-robotRadius) + robot.pos;
 
             // if the right side, left side or center is in the triangle then we are quite sure there is a robot in the triangle.
-            bool leftInTriangle = util::pointInTriangle(leftSideOfRobot, point, leftGoalSide, rightGoalSide);
-            bool rightInTriangle = util::pointInTriangle(rightSideOfRobot, point, leftGoalSide, rightGoalSide);
+            bool lowerSideInTriangle = util::pointInTriangle(lowerSideOfRobot, point, lowerGoalSide, upperGoalSide);
+            bool upperSideInTriangle = util::pointInTriangle(upperSideOfRobot, point, lowerGoalSide, upperGoalSide);
 
-            if (leftInTriangle || rightInTriangle) {
-                auto left = leftInTriangle ? leftPointOnGoalLine : leftGoalSide;
-                auto right = rightInTriangle ? rightPointOnGoalLine : rightGoalSide;
-                blockades.emplace_back(std::make_pair(left, right));
-            }
-            else {
+            if (lowerSideInTriangle || upperSideInTriangle) {
+                auto lower = lowerSideInTriangle ?  util::twoLineIntersection(point, lowerSideOfRobot, lowerGoalSide, upperGoalSide) : lowerGoalSide;
+                auto upper = upperSideInTriangle ? util::twoLineIntersection(point, upperSideOfRobot, lowerGoalSide, upperGoalSide) : upperGoalSide;
+                blockades.emplace_back(std::make_pair(lower, upper));
+            } else {
 
                 /* edge case it fully blocks the view; both sides of the robot are out of sight though...
                  * we can instantly return that the view is fully blocked
                  */
-                if (util::lineSegmentsIntersect(point, leftGoalSide, leftSideOfRobot, rightSideOfRobot)
-                        && util::lineSegmentsIntersect(point, rightGoalSide, leftSideOfRobot, rightSideOfRobot)) {
-
-                    return {std::make_pair(leftGoalSide, rightGoalSide)};
+                if (util::lineSegmentsIntersect(point, lowerGoalSide, lowerSideOfRobot, upperSideOfRobot)
+                        && util::lineSegmentsIntersect(point, upperGoalSide, lowerSideOfRobot, upperSideOfRobot)) {
+                    return {std::make_pair(lowerGoalSide, upperGoalSide)};
                 };
                 // else: this robot is not an obstacle
             }
@@ -169,18 +151,65 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
                 blockades.at(iterator + 1).first, blockades.at(iterator + 1).second)) {
 
             // if the first two elements intercept, merge them
-            auto newBlockade = std::make_pair(blockades.at(iterator).first, blockades.at(iterator+1).second);
+            auto lowerbound = std::min(blockades.at(iterator).first.y, blockades.at(iterator+1).first.y);
+            auto upperbound = std::max(blockades.at(iterator).second.y, blockades.at(iterator).second.y);
+
+            // construct a new vector from the lowest to highest blockade value
+            auto newBlockade = std::make_pair(Vector2(blockades.at(iterator).first.x, lowerbound), Vector2(blockades.at(iterator).first.x, upperbound));
             blockades.erase(blockades.begin() + iterator + 1);
             blockades.at(iterator) = newBlockade;
         } else {
+            //  if they don't intercept, move on to the next obstacle
             iterator++;
         }
     }
     return blockades;
 }
 
+/*
+ * Get the visible parts of a goal
+ * This is the inverse of getting the blockades of a goal
+ */
 std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGoal, Vector2 point) {
-    return std::vector<std::pair<Vector2, Vector2>>();
+    auto blockades = getBlockadesMappedToGoal(ourGoal, point);
+
+    // sort the blockades from low to high (low to high)
+    std::sort(blockades.begin(), blockades.end(), [](const std::pair<Vector2,Vector2> &a, const std::pair<Vector2,Vector2> &b) {
+        return a.first.y > b.first.y;
+    });
+
+    auto lower = getGoalSides(ourGoal).first;
+    auto upper = getGoalSides(ourGoal).second;
+
+    auto lowerHook = lower;
+    std::vector<std::pair<Vector2, Vector2>> visibleParts = {};
+
+    for (auto const &blockade : blockades) {
+        auto lowerbound = std::min(blockade.first.y, blockade.second.y);
+        visibleParts.emplace_back(std::make_pair(lowerHook, Vector2(blockade.first.x, lowerbound)));
+
+        auto upperbound = std::max(blockade.first.y, blockade.second.y);
+        lowerHook = Vector2(blockade.first.x, upperbound);
+    }
+
+    visibleParts.emplace_back(std::make_pair(lowerHook, upper));
+    return visibleParts;
+}
+
+std::pair<Vector2, Vector2> Field::getGoalSides(bool ourGoal) {
+    roboteam_msgs::GeometryFieldSize _field;
+    {
+        std::lock_guard<std::mutex> lock(fieldMutex);
+        _field = field;
+    }
+
+    // get the sides of the goal
+    double goalWidth = _field.goal_width;
+    auto goalCenter = ourGoal ? get_our_goal_center() : get_their_goal_center();
+    Vector2 upperGoalSide = { goalCenter.x, goalCenter.y + (goalWidth/2)};
+    Vector2 lowerGoalSide = { goalCenter.x, goalCenter.y - (goalWidth/2)};
+
+    return std::make_pair(lowerGoalSide, upperGoalSide);
 }
 
 } // ai
