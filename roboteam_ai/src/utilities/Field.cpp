@@ -96,13 +96,9 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
 
     Vector2 lowerGoalSide, upperGoalSide;
 
-    if (ourGoal) {
-         lowerGoalSide = getGoalSides(ourGoal).first;
-         upperGoalSide = getGoalSides(ourGoal).second;
-    } else {
-         lowerGoalSide = getGoalSides(ourGoal).second;
-         upperGoalSide = getGoalSides(ourGoal).first;
-    }
+    lowerGoalSide = getGoalSides(ourGoal).first;
+    upperGoalSide = getGoalSides(ourGoal).second;
+
     std::vector<std::pair<Vector2, Vector2>> blockades = {};
 
     // all the obstacles should be robots
@@ -119,24 +115,26 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
             Vector2 upperSideOfRobot = inverseLineToRobot.stretchToLength(robotRadius) + robot.pos;
             Vector2 lowerSideOfRobot = inverseLineToRobot.stretchToLength(-robotRadius) + robot.pos;
 
-            // if the right side, left side or center is in the triangle then we are quite sure there is a robot in the triangle.
-            bool lowerSideInTriangle = util::pointInTriangle(lowerSideOfRobot, point, lowerGoalSide, upperGoalSide);
-            bool upperSideInTriangle = util::pointInTriangle(upperSideOfRobot, point, lowerGoalSide, upperGoalSide);
+            // map points onto goal line
+            auto point1 = util::twoLineIntersection(point, lowerSideOfRobot, lowerGoalSide, upperGoalSide);
+            auto point2 = util::twoLineIntersection(point, upperSideOfRobot, lowerGoalSide, upperGoalSide);
 
-            if (lowerSideInTriangle || upperSideInTriangle) {
-                auto lower = lowerSideInTriangle ?  util::twoLineIntersection(point, lowerSideOfRobot, lowerGoalSide, upperGoalSide) : lowerGoalSide;
-                auto upper = upperSideInTriangle ? util::twoLineIntersection(point, upperSideOfRobot, lowerGoalSide, upperGoalSide) : upperGoalSide;
-                blockades.emplace_back(std::make_pair(lower, upper));
-            } else {
+            // constrain the largest values to fit inside the goal
+            bool bothPointsBelowGoal = point1.y < lowerGoalSide.y && point2.y < lowerGoalSide.y;
+            bool bothPointAboveGoal = point1.y > upperGoalSide.y && point2.y > upperGoalSide.y;
 
-                /* edge case it fully blocks the view; both sides of the robot are out of sight though...
-                 * we can instantly return that the view is fully blocked
-                 */
-                if (util::lineSegmentsIntersect(point, lowerGoalSide, lowerSideOfRobot, upperSideOfRobot)
-                        && util::lineSegmentsIntersect(point, upperGoalSide, lowerSideOfRobot, upperSideOfRobot)) {
-                    return {std::make_pair(lowerGoalSide, upperGoalSide)};
-                };
-                // else: this robot is not an obstacle
+            if (!bothPointsBelowGoal && !bothPointAboveGoal) {
+                // constrain the blockades to within the field
+                if (point1.y > point2.y) { // point1 is largest
+                    point1.y = std::min(point1.y, upperGoalSide.y);
+                    point2.y = std::max(point2.y, lowerGoalSide.y);
+                    blockades.emplace_back(std::make_pair(point1, point2)); // the first element in the pair is the smallest
+                } else { // point2 is largest
+                    point2.y = std::min(point2.y, upperGoalSide.y);
+                    point1.y = std::max(point1.y, lowerGoalSide.y);
+                    blockades.emplace_back(std::make_pair(point2, point1)); // the first element in the pair is the smallest
+                }
+
             }
         }
     }
