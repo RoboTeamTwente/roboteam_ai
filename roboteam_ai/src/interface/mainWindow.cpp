@@ -95,6 +95,10 @@ MainWindow::MainWindow(QWidget* parent)
     auto pidWidget = new QWidget;
     auto pidVLayout = new QVBoxLayout();
     pidVLayout->addWidget(doubleSpinBoxesGroup);
+
+    auto pidSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    pidVLayout->addSpacerItem(pidSpacer);
+
     pidWidget->setLayout(pidVLayout);
 
     auto checkboxWidget = new QWidget;
@@ -108,14 +112,14 @@ MainWindow::MainWindow(QWidget* parent)
     configureCheckBox("show path for current robot", cbVLayout, visualizer, SLOT(setShowPath(bool)), Constants::STD_SHOW_PATHS_CURRENT());
     configureCheckBox("show path for all robots", cbVLayout, visualizer, SLOT(setShowPathAll(bool)), Constants::STD_SHOW_PATHS_ALL());
     configureCheckBox("Show marker for Ball Placement", cbVLayout, visualizer, SLOT(setShowBallPlacementMarker(bool)), Constants::STD_SHOW_BALL_PLACEMENT_MARKER());
+    auto cbVSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    cbVLayout->addSpacerItem(cbVSpacer);
     checkboxWidget->setLayout(cbVLayout);
 
     auto tabWidget = new QTabWidget;
     tabWidget->addTab(treeWidget, tr("Behaviour trees"));
     tabWidget->addTab(checkboxWidget, tr("Visualisation Settings"));
     tabWidget->addTab(pidWidget, tr("PID"));
-
-
 
     vLayout->addWidget(tabWidget);
 
