@@ -40,17 +40,21 @@ MainWindow::MainWindow(QWidget* parent)
         select_strategy->addItem(QString::fromStdString(strategyName));
     }
 
+    auto hButtonsLayout = new QHBoxLayout();
+
     auto haltBtn = new QPushButton("HALT");
     QObject::connect(haltBtn, SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
-    vLayout->addWidget(haltBtn);
+    hButtonsLayout->addWidget(haltBtn);
 
     toggleColorBtn = new QPushButton("Color");
     QObject::connect(toggleColorBtn, SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
-    vLayout->addWidget(toggleColorBtn);
+    hButtonsLayout->addWidget(toggleColorBtn);
     
     toggleSideBtn = new QPushButton("Side");
     QObject::connect(toggleSideBtn, SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
-    vLayout->addWidget(toggleSideBtn);
+    hButtonsLayout->addWidget(toggleSideBtn);
+
+    vLayout->addLayout(hButtonsLayout);
 
     doubleSpinBoxesGroup = new QGroupBox("GoToPosLuth PID options");
     spinBoxLayout =new QHBoxLayout();
@@ -77,7 +81,6 @@ MainWindow::MainWindow(QWidget* parent)
     spinBoxLayout->addWidget(sb_luth_D);
 
     doubleSpinBoxesGroup->setLayout(spinBoxLayout);
-    vLayout->addWidget(doubleSpinBoxesGroup);
 
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [=](const QString &strategyName) {
@@ -86,18 +89,35 @@ MainWindow::MainWindow(QWidget* parent)
               treeWidget->setHasCorrectTree(false);
             });
 
-    configureCheckBox("show rolenames", vLayout, visualizer, SLOT(setShowRoles(bool)), Constants::STD_SHOW_ROLES());
-    configureCheckBox("show tacticnames", vLayout, visualizer, SLOT(setShowTactics(bool)), Constants::STD_SHOW_TACTICS());
-    configureCheckBox("show tacticColors", vLayout, visualizer, SLOT(setShowTacticColors(bool)), Constants::STD_SHOW_TACTICS_COLORS());
-    configureCheckBox("show angles", vLayout, visualizer, SLOT(setShowAngles(bool)), Constants::STD_SHOW_ANGLES());
-    configureCheckBox("show velocities", vLayout, visualizer, SLOT(setShowVelocities(bool)), Constants::STD_SHOW_VELOCITIES());
-    configureCheckBox("show path for current robot", vLayout, visualizer, SLOT(setShowPath(bool)), Constants::STD_SHOW_PATHS_CURRENT());
-    configureCheckBox("show path for all robots", vLayout, visualizer, SLOT(setShowPathAll(bool)), Constants::STD_SHOW_PATHS_ALL());
-    configureCheckBox("Show marker for Ball Placement", vLayout, visualizer, SLOT(setShowBallPlacementMarker(bool)), Constants::STD_SHOW_BALL_PLACEMENT_MARKER());
-
     // set up tree widget
     treeWidget = new TreeVisualizerWidget(this);
-    vLayout->addWidget(treeWidget);
+
+    auto pidWidget = new QWidget;
+    auto pidVLayout = new QVBoxLayout();
+    pidVLayout->addWidget(doubleSpinBoxesGroup);
+    pidWidget->setLayout(pidVLayout);
+
+    auto checkboxWidget = new QWidget;
+
+    auto cbVLayout = new QVBoxLayout();
+    configureCheckBox("show rolenames", cbVLayout, visualizer, SLOT(setShowRoles(bool)), Constants::STD_SHOW_ROLES());
+    configureCheckBox("show tacticnames", cbVLayout, visualizer, SLOT(setShowTactics(bool)), Constants::STD_SHOW_TACTICS());
+    configureCheckBox("show tacticColors", cbVLayout, visualizer, SLOT(setShowTacticColors(bool)), Constants::STD_SHOW_TACTICS_COLORS());
+    configureCheckBox("show angles", cbVLayout, visualizer, SLOT(setShowAngles(bool)), Constants::STD_SHOW_ANGLES());
+    configureCheckBox("show velocities", cbVLayout, visualizer, SLOT(setShowVelocities(bool)), Constants::STD_SHOW_VELOCITIES());
+    configureCheckBox("show path for current robot", cbVLayout, visualizer, SLOT(setShowPath(bool)), Constants::STD_SHOW_PATHS_CURRENT());
+    configureCheckBox("show path for all robots", cbVLayout, visualizer, SLOT(setShowPathAll(bool)), Constants::STD_SHOW_PATHS_ALL());
+    configureCheckBox("Show marker for Ball Placement", cbVLayout, visualizer, SLOT(setShowBallPlacementMarker(bool)), Constants::STD_SHOW_BALL_PLACEMENT_MARKER());
+    checkboxWidget->setLayout(cbVLayout);
+
+    auto tabWidget = new QTabWidget;
+    tabWidget->addTab(treeWidget, tr("Behaviour trees"));
+    tabWidget->addTab(checkboxWidget, tr("Visualisation Settings"));
+    tabWidget->addTab(pidWidget, tr("PID"));
+
+
+
+    vLayout->addWidget(tabWidget);
 
     // main layout: left the visualizer and right the vertical layout
     horizontalLayout->addWidget(visualizer, 3); // width stretch 3/5

@@ -36,7 +36,6 @@ void TreeVisualizerWidget::updateContents()
             }
         }
         ++iter;
-        delete widgetItem;
     }
 
     // initiate a redraw when the actual tree and the tree in the widget are not the same
@@ -47,7 +46,7 @@ void TreeVisualizerWidget::updateContents()
     }
 
     // if the tree did change, clear the treewidget and rebuild it
-    if (!hasCorrectTree || BTFactory::getFactory().isInitialized()) {
+    if (!hasCorrectTree && BTFactory::getFactory().isInitialized()) {
         treeItemMapping.clear();
         this->clear();
         bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree(BTFactory::getFactory().getCurrentTree());
@@ -61,8 +60,8 @@ void TreeVisualizerWidget::updateContents()
             addRootItem(tree->GetRoot(), treeItemRoot);
             this->expandAll();
             this->update();
+            hasCorrectTree = true;
         }
-        hasCorrectTree = true;
     }
 }
 
