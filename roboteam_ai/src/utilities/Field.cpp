@@ -95,7 +95,6 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
     const double robotRadius = Constants::ROBOT_RADIUS();
 
     Vector2 lowerGoalSide, upperGoalSide;
-
     lowerGoalSide = getGoalSides(ourGoal).first;
     upperGoalSide = getGoalSides(ourGoal).second;
 
@@ -103,10 +102,10 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
 
     // all the obstacles should be robots
     for (auto const &robot : World::getAllRobots()) {
-        bool isRobotItself = point == robot.pos;
-        bool isInPotentialBlockingZone = ourGoal ? robot.pos.x < point.x + robotRadius : robot.pos.x > point.x - robotRadius;
 
         // discard already all robots that are not at all between the goal and point, or if a robot is standing on this point
+        bool isRobotItself = point == robot.pos;
+        bool isInPotentialBlockingZone = ourGoal ? robot.pos.x < point.x + robotRadius : robot.pos.x > point.x - robotRadius;
         if (!isRobotItself && isInPotentialBlockingZone) {
 
             // get the left and right sides of the robot
@@ -119,10 +118,9 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
             auto point1 = util::twoLineIntersection(point, lowerSideOfRobot, lowerGoalSide, upperGoalSide);
             auto point2 = util::twoLineIntersection(point, upperSideOfRobot, lowerGoalSide, upperGoalSide);
 
-            // constrain the largest values to fit inside the goal
+            // remove all obstacles that are completely out of the goal
             bool bothPointsBelowGoal = point1.y < lowerGoalSide.y && point2.y < lowerGoalSide.y;
             bool bothPointAboveGoal = point1.y > upperGoalSide.y && point2.y > upperGoalSide.y;
-
             if (!bothPointsBelowGoal && !bothPointAboveGoal) {
 
                 // constrain the blockades to within the goal
@@ -135,7 +133,6 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
                     point1.y = std::max(point1.y, lowerGoalSide.y);
                     blockades.emplace_back(std::make_pair(point2, point1)); // the first element in the pair is the smallest
                 }
-
             }
         }
     }
@@ -151,6 +148,12 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
  * repeat until no overlaps are left.
 */
 std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::pair<Vector2, Vector2>> blockades) {
+
+    // sort the blockades from low to high
+    std::sort(blockades.begin(), blockades.end(), [](const std::pair<Vector2,Vector2> &a, const std::pair<Vector2,Vector2> &b) {
+        return a.first.y < b.first.y;
+    });
+
     std::vector<std::pair<Vector2, Vector2>> mergedBlockades;
     unsigned long iterator = 0;
     while (blockades.size() > (iterator + 1)) {
@@ -158,11 +161,10 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
                 blockades.at(iterator + 1).first, blockades.at(iterator + 1).second)) {
 
             // if the first two elements intercept, merge them
-            auto lowerbound = std::min(blockades.at(iterator).first.y, blockades.at(iterator+1).first.y);
             auto upperbound = std::max(blockades.at(iterator).second.y, blockades.at(iterator).second.y);
 
             // construct a new vector from the lowest to highest blockade value
-            auto newBlockade = std::make_pair(Vector2(blockades.at(iterator).first.x, lowerbound), Vector2(blockades.at(iterator).first.x, upperbound));
+            auto newBlockade = std::make_pair(blockades.at(iterator).first, Vector2(blockades.at(iterator).first.x, upperbound));
             blockades.erase(blockades.begin() + iterator + 1);
             blockades.at(iterator) = newBlockade;
         } else {
@@ -179,11 +181,6 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
  */
 std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGoal, Vector2 point) {
     auto blockades = getBlockadesMappedToGoal(ourGoal, point);
-
-    // sort the blockades from low to high (low to high)
-    std::sort(blockades.begin(), blockades.end(), [](const std::pair<Vector2,Vector2> &a, const std::pair<Vector2,Vector2> &b) {
-        return a.first.y < b.first.y;
-    });
 
     auto lower = getGoalSides(ourGoal).first;
     auto upper = getGoalSides(ourGoal).second;

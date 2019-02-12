@@ -58,6 +58,7 @@ void ApplicationManager::runOneLoopCycle() {
             ROS_INFO("NaN tree probably Halting");
             return;
         }
+
         if (ai::interface::InterfaceValues::usesRefereeCommands()) {
             this->handleRefData();
         }
