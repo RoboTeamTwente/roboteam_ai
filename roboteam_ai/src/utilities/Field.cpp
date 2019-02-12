@@ -181,7 +181,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGo
 
     // sort the blockades from low to high (low to high)
     std::sort(blockades.begin(), blockades.end(), [](const std::pair<Vector2,Vector2> &a, const std::pair<Vector2,Vector2> &b) {
-        return a.first.y > b.first.y;
+        return a.first.y < b.first.y;
     });
 
     auto lower = getGoalSides(ourGoal).first;
@@ -192,13 +192,18 @@ std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGo
 
     for (auto const &blockade : blockades) {
         auto lowerbound = std::min(blockade.first.y, blockade.second.y);
-        visibleParts.emplace_back(std::make_pair(lowerHook, Vector2(blockade.first.x, lowerbound)));
+
+        if (lowerbound != lowerHook.y) {
+            visibleParts.emplace_back(std::make_pair(lowerHook, Vector2(blockade.first.x, lowerbound)));
+        }
 
         auto upperbound = std::max(blockade.first.y, blockade.second.y);
         lowerHook = Vector2(blockade.first.x, upperbound);
     }
 
-    visibleParts.emplace_back(std::make_pair(lowerHook, upper));
+    if (lowerHook != upper) {
+        visibleParts.emplace_back(std::make_pair(lowerHook, upper));
+    }
     return visibleParts;
 }
 
