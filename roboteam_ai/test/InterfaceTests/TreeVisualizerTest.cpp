@@ -78,9 +78,9 @@ TEST(TreeVisualizerTest, it_sets_proper_color_for_status) {
     auto window = std::make_shared<MainWindow>();
     TreeVisualizerWidget * treeVis = window->treeWidget;
     EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Failure), Qt::red);
-    EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Success), QColor("#339933"));
-    EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Running), QColor("#99ff99"));
-    EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Waiting), Qt::gray);
+    EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Success), QColor("#66ff66"));
+    EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Running), QColor("#006600"));
+    EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Waiting), Qt::darkGray);
 }
 
 } // interface
