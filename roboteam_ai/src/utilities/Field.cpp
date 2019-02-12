@@ -93,8 +93,16 @@ double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point){
 
 std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, Vector2 point){
     const double robotRadius = Constants::ROBOT_RADIUS();
-    auto lowerGoalSide = getGoalSides(ourGoal).first;
-    auto upperGoalSide = getGoalSides(ourGoal).second;
+
+    Vector2 lowerGoalSide, upperGoalSide;
+
+    if (ourGoal) {
+         lowerGoalSide = getGoalSides(ourGoal).first;
+         upperGoalSide = getGoalSides(ourGoal).second;
+    } else {
+         lowerGoalSide = getGoalSides(ourGoal).second;
+         upperGoalSide = getGoalSides(ourGoal).first;
+    }
     std::vector<std::pair<Vector2, Vector2>> blockades = {};
 
     // all the obstacles should be robots
