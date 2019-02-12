@@ -58,22 +58,6 @@ void ApplicationManager::runOneLoopCycle() {
             ROS_INFO("NaN tree probably Halting");
             return;
         }
-
-
-        std::cout << "blockades ";
-        for (auto block : ai::Field::getBlockadesMappedToGoal(false, ai::World::getBall()->pos)) {
-            std::cout << "(" << block.first.y << ", " << block.second.y << ") \t \t ";
-        }
-        std::cout << std::endl;
-
-        std::cout << "visible parts ";
-        for (auto visiblePart : ai::Field::getVisiblePartsOfGoal(false, ai::World::getBall()->pos)) {
-            std::cout << "(" << visiblePart.first.y << ", " << visiblePart.second.y << ") \t \t";
-        }
-
-        std::cout << " ---- percentage: " << ai::Field::getPercentageOfGoalVisibleFromPoint(false, ai::World::getBall()->pos) << std::endl;
-
-
         if (ai::interface::InterfaceValues::usesRefereeCommands()) {
             this->handleRefData();
         }

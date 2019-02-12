@@ -85,7 +85,7 @@ double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point){
     auto field = Field::get_field();
     double goalWidth = field.goal_width;
     double blockadeLength = 0;
-    for (auto blockade : getBlockadesMappedToGoal(ourGoal, point)) {
+    for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point)) {
         blockadeLength += blockade.first.dist(blockade.second);
     }
     return std::max(100 - round(blockadeLength/goalWidth * 100), 0.0);
@@ -124,7 +124,8 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
             bool bothPointAboveGoal = point1.y > upperGoalSide.y && point2.y > upperGoalSide.y;
 
             if (!bothPointsBelowGoal && !bothPointAboveGoal) {
-                // constrain the blockades to within the field
+
+                // constrain the blockades to within the goal
                 if (point1.y > point2.y) { // point1 is largest
                     point1.y = std::min(point1.y, upperGoalSide.y);
                     point2.y = std::max(point2.y, lowerGoalSide.y);
@@ -190,23 +191,30 @@ std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGo
     auto lowerHook = lower;
     std::vector<std::pair<Vector2, Vector2>> visibleParts = {};
 
+
+    // we start from the lowerhook, which is the lowest goal side at the start.
+    // The obstacles are sorted on their smallest value.
+    // everytime we add a vector from the lowest goalside to the lowest part of the obstacle we remember the upper part of the obstacle
+    // That upper part is stored as the lowerhook again: and we can repeat the process
     for (auto const &blockade : blockades) {
         auto lowerbound = std::min(blockade.first.y, blockade.second.y);
 
+        // if the lowerbound is the same as the lower hook then the visible part has a length of 0 and we don't care about it
         if (lowerbound != lowerHook.y) {
             visibleParts.emplace_back(std::make_pair(lowerHook, Vector2(blockade.first.x, lowerbound)));
         }
-
         auto upperbound = std::max(blockade.first.y, blockade.second.y);
         lowerHook = Vector2(blockade.first.x, upperbound);
     }
 
+    // if the last lowerhook is the same as the upper goal side then the visible part has a length of 0 and we don't care about it
     if (lowerHook != upper) {
         visibleParts.emplace_back(std::make_pair(lowerHook, upper));
     }
     return visibleParts;
 }
 
+// Returns the sides of the goal. The first vector is the the lower side and the second is the upper side.
 std::pair<Vector2, Vector2> Field::getGoalSides(bool ourGoal) {
     roboteam_msgs::GeometryFieldSize _field;
     {
