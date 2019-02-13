@@ -24,7 +24,7 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
 
     treeVis->updateContents();
     EXPECT_TRUE(treeVis->hasCorrectTree);
-    EXPECT_EQ(treeVis->treeItemMapping.size(), 23);
+    EXPECT_EQ(treeVis->treeItemMapping.size(), 24);
 
     std::map<QTreeWidgetItem *, bt::Node::Ptr>::iterator it;
     for (it = treeVis->treeItemMapping.begin(); it != treeVis->treeItemMapping.end(); it++) {
@@ -60,7 +60,7 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
     treeVis->updateContents();
     EXPECT_TRUE(treeVis->hasCorrectTree);
 
-    EXPECT_EQ(treeVis->treeItemMapping.size(), 26);
+    EXPECT_EQ(treeVis->treeItemMapping.size(), 27);
     for (it = treeVis->treeItemMapping.begin(); it != treeVis->treeItemMapping.end(); it++) {
         std::string nodeTrace, treeTrace, statusTrace;
 
