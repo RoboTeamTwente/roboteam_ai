@@ -25,6 +25,8 @@ TEST(BallKickedToOurGoal,BallKickedToOurGoal){
     auto BBpointer = std::make_shared<bt::Blackboard>(BB);
     rtt::ai::BallKickedToOurGoal node("Test",BBpointer);
 
+    EXPECT_EQ(node.node_name(), "BallKickedToOurGoal");
+
     EXPECT_EQ(node.update(),bt::Node::Status::Failure);
     worldMsg.ball.vel.x=-4.0f;
     worldMsg.ball.vel.y=0.0;
