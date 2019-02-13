@@ -34,7 +34,7 @@ Vector2 ControlGoToPosClean::computeNumericCommand(std::shared_ptr<roboteam_msgs
 }
 
 Vector2 ControlGoToPosClean::computeForceCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
-    
+
     return Vector2(0, 0);
 }
 
