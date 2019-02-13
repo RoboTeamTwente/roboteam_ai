@@ -11,11 +11,11 @@ namespace ai {
 namespace control {
 
 std::map<int, double> ControlUtils::genevaMap = {
-        {0, -20.0},
-        {1, -10.0},
-        {2, 0.0},
-        {3, 10.0},
-        {4, 20.0}
+        {1, -20.0 / 180 * M_PI},
+        {2, -10.0 / 180 * M_PI},
+        {3, 0.0},
+        {4, 10.0 / 180 * M_PI},
+        {5, 20.0 / 180 * M_PI}
 };
 
 /// return the angular velocity for a robot to go from robotAngle to targetAngle
@@ -277,7 +277,7 @@ Vector2 ControlUtils::getGenevaAim(Vector2 ballPos, Vector2 targetPos, int genev
     double aimAngle = constrainAngle(angleToTarget - genevaAngle);
 
     Vector2 unitVector = {1, 0};
-    return targetPos + unitVector.rotate(aimAngle);
+    return ballPos + unitVector.rotate(aimAngle);
 }
 
 } // control

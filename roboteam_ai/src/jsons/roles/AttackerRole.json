@@ -1,1 +1,1 @@
-{"data": {"trees": [{"nodes": {"7ybu9t50bmqddbf": {"id": "7ybu9t50bmqddbf", "title": "Attack"}, "oqwhy7ay04az6": {"children": ["7ybu9t50bmqddbf"], "id": "oqwhy7ay04az6", "title": "Repeater"}}, "root": "oqwhy7ay04az6", "title": "AttackerRole"}]}, "name": "AttackerRole"}
+{"data": {"trees": [{"nodes": {"6ft7lk80shdc52s": {"properties": {"genevaState": "5"}, "id": "6ft7lk80shdc52s", "title": "Attack"}}, "root": "6ft7lk80shdc52s", "title": "AttackerRole"}]}, "name": "AttackerRole"}

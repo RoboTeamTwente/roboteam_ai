@@ -5,6 +5,7 @@
 #include "roboteam_ai/src/control/ControlUtils.h"
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/utilities/Field.h>
+#include "../helpers/WorldHelper.h"
 
 namespace cr=rtt::ai::control;
 
@@ -211,4 +212,18 @@ TEST(ControlUtils, it_calculates_forces) {
     force = cr::ControlUtils::calculateForce(Vector2(0, 1), -2, 2);
     EXPECT_DOUBLE_EQ(force.x, 0);
     EXPECT_DOUBLE_EQ(force.y, -2);
+}
+
+TEST(ControlUtils, getGenevaAimTest) {
+    roboteam_msgs::GeometryFieldSize field;
+    field.field_length = 4;
+    field.field_width = 3;
+    Vector2 ballPos = {0, 0};
+    Vector2 targetPos = {field.field_length / 2, 0};
+
+    for (int genevaState : {1, 2, 3, 4, 5}) {
+        Vector2 aimPos = rtt::ai::control::ControlUtils::getGenevaAim(ballPos, targetPos, genevaState);
+        double aimAngle = tanh(aimPos.y / aimPos.x);
+        ASSERT_GT(0.0001, aimAngle - rtt::ai::control::ControlUtils::genevaMap[genevaState]);
+    }
 }

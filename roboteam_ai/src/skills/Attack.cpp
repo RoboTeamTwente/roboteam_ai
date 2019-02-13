@@ -11,12 +11,22 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
 }
 
+void Attack::onInitialize() {
+    if (properties->hasInt("genevaState")) {
+        genevaState = properties->getInt("genevaState");
+    }
+}
+
 // TODO: WTF HARDCODED SHIT EVERYWHERE
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
     Vector2 ball = World::getBall()->pos;
-    Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.5, false);
+    Vector2 ballTarget = Field::get_their_goal_center() + Field::get_field().goal_width - 0.2;
+    Vector2 aimPos = control::ControlUtils::getGenevaAim(ball, ballTarget, genevaState);
+    std::cout << aimPos << std::endl;
+
+    Vector2 behindBall = Coach::getPositionBehindBallToPosition(0.5, aimPos);
     Vector2 deltaBall = behindBall - ball;
 
     roboteam_msgs::RobotCommand command;
@@ -25,7 +35,7 @@ bt::Node::Status Attack::onUpdate() {
 
     GoToType goToType;
 
-    if (! Coach::isRobotBehindBallToGoal(0.5, false, robot->pos)) {
+    if (! Coach::isRobotBehindBallToPosition(0.5, aimPos, robot->pos)) {
         targetPos = behindBall;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
@@ -37,18 +47,20 @@ bt::Node::Status Attack::onUpdate() {
         command.use_angle = 1;
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
         if (Coach::doesRobotHaveBall(robot->id, true, rtt::ai::Constants::MAX_BALL_RANGE())) {
+            command.geneva_state = genevaState;
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
             command.kicker_forced = 1;
         }
         goToType = GoToType::basic;
     }
+
     Vector2 velocity;
     if (Field::pointIsInDefenceArea(robot->pos, true, 0.0)) {
-        velocity = ((Vector2) robot->pos - Field::get_our_goal_center()).stretchToLength(2.0);
+        velocity = ((Vector2) robot->pos - targetPos).stretchToLength(2.0);
     }
     else if (Field::pointIsInDefenceArea(robot->pos, false, 0.0)) {
-        velocity = ((Vector2) robot->pos - Field::get_their_goal_center()).stretchToLength(2.0);
+        velocity = ((Vector2) robot->pos - targetPos).stretchToLength(2.0);
     }
     else if (Field::pointIsInDefenceArea(ball, true) || Field::pointIsInDefenceArea(ball, false)) {
         velocity = {0, 0};
