@@ -1,11 +1,3 @@
-//
-// Created by mrlukasbos on 8-2-19.
-//
-
-//
-// Created by rolf on 28-1-19.
-//
-
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/conditions/BallOutOfField.h>
 #include "../../src/utilities/World.h"
