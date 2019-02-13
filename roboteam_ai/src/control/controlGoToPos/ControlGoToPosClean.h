@@ -26,6 +26,7 @@ class ControlGoToPosClean {
         Vector2 vel;
         Controller velPID;
         Controller posPID;
+        bool pidInit = false;
         bool avoidBall = false;
         bool canGoOutsideField = true;
         bool pidInitialized = false;
@@ -36,7 +37,8 @@ class ControlGoToPosClean {
             std::vector<std::pair<Vector2, QColor>> displayData;
         void initializePID();
         void checkInterfacePID();
-        Vector2 computeCommand();
+        Vector2 computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
+        bool doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos);
         double remainingStraightLinePathLength(Vector2 currentPos, Vector2 halfwayPos, Vector2 finalPos);
         void drawInInterface();
         std::chrono::duration<double> time;
@@ -64,9 +66,9 @@ class ControlGoToPosClean {
 
         std::pair<std::vector<Vector2>, std::shared_ptr<PathPoint>> getNewTargets(
                 std::shared_ptr<PathPoint> collisionPoint);
-        bool checkCollission(std::shared_ptr<PathPoint> point);
+        bool checkCollision(std::shared_ptr<PathPoint> point);
         std::shared_ptr<PathPoint> computeNewPoint(std::shared_ptr<PathPoint> oldPoint, Vector2 subTarget);
-        std::vector<PathPoint> tracePath(std::shared_ptr<PathPoint> root);
+        void tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
         std::vector<PathPoint> backTrackPath(std::shared_ptr<PathPoint> endPoint, std::shared_ptr<PathPoint> root);
         Vector2 findCollisionPos(std::shared_ptr<PathPoint> point);
 

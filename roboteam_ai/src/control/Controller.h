@@ -32,6 +32,7 @@ public:
     Controller(double P, double I, double D, double timeDiff);
     Controller(double P, double I, double D, double timeDiff, double initial, double initial2, double prev, double prev2);
 
+    bool hasInitialized();
     void reset();
 
     void setP(double P);

@@ -62,7 +62,7 @@ const double GETBALL_SPEED=.5;
 const double GETBALL_OVERSHOOT=.05;//m
 
 //GoToPos
-const double MAX_CALCULATION_TIME=200.0; //max time in ms
+const double MAX_CALCULATION_TIME=20.0; //max time in ms
 
 //Keeper
 const double KEEPER_POST_MARGIN=0.08;//m

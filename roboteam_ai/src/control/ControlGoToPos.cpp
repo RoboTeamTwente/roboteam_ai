@@ -106,7 +106,7 @@ Vector2 ControlGoToPos::goToPosLuTh(RobotPtr robot, Vector2 &targetPos) {
 
 }
 
-Vector2 ControlGoToPos::goToPosClean(RobotPtr robot, Vector2 &targetPos){
+Vector2 ControlGoToPos::goToPosClean(RobotPtr robot, Vector2 &targetPos) {
     return gtpClean.goToPos(std::move(robot),targetPos);
 }
 
