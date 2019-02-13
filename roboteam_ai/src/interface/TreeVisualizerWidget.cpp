@@ -49,6 +49,7 @@ void TreeVisualizerWidget::updateContents(){
     if (!hasCorrectTree && BTFactory::getFactory().isInitialized()) {
         treeItemMapping.clear();
         this->clear();
+        mostTicks = 0;
         bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree(BTFactory::getFactory().getCurrentTree());
 
         if (tree && tree->GetRoot()) {
@@ -114,14 +115,20 @@ void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem* row,
 
     // update the total amount of ticks
     row->setTextColor(3, Qt::darkGray);
+
+
+    // go from yellow to red
+    // yellow = red + green
+    // so we just need to decrease green.
+    mostTicks = std::max(node->getAmountOfTicks(), mostTicks);
+    if (mostTicks != 0) {
+        float div = (node->getAmountOfTicks()*1.0) / (mostTicks*1.0);
+        int factor = 255 * div;
+        std::cout << factor << std::endl;
+        row->setTextColor(3, {255, 255-factor, 0});
+    }
     row->setText(3, QString::number(node->getAmountOfTicks(), 'f', 0));
 
-    //            int factor;
-//            if (duration.toSec() != 0) {
-//                factor = std::max(static_cast<int>( 255 * (widgetItem->text(2).toDouble()/duration.toSec())), 25);
-//                widgetItem->setTextColor(2, {factor,factor,factor});
-//
-//            }
 }
 
 /// returns a color for a given node status

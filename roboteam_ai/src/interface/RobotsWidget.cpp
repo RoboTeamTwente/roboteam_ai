@@ -12,8 +12,10 @@ namespace ai {
 namespace interface {
 
 RobotsWidget::RobotsWidget(QWidget* parent) : QWidget(parent){
-    hLayout = new QHBoxLayout();
-    this->setLayout(hLayout);
+    VLayout = new QVBoxLayout();
+    this->setLayout(VLayout);
+
+
 }
 
 void RobotsWidget::updateContents(Visualizer* visualizer) {
@@ -21,10 +23,13 @@ void RobotsWidget::updateContents(Visualizer* visualizer) {
 
     // reload the widgets completely if a robot is added or removed
     // or if the amount of selected robots is not accurate
-    if (hLayout->count()!=static_cast<int>(us.size())
+    if (VLayout->count()!=static_cast<int>(us.size())
             || amountOfSelectedRobots!=static_cast<int>(visualizer->getSelectedRobots().size())) {
         amountOfSelectedRobots = visualizer->getSelectedRobots().size();
-        clearLayout(hLayout);
+        clearLayout(VLayout);
+
+        auto robotSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
+        VLayout->addSpacerItem(robotSpacer);
 
         for (auto robot : us) {
             QGroupBox* groupBox = new QGroupBox("Robot "+QString::number(robot.id));
@@ -34,13 +39,13 @@ void RobotsWidget::updateContents(Visualizer* visualizer) {
                 visualizer->toggleSelectedRobot(robot.id);
             });
             groupBox->setLayout(createRobotGroupItem(robot));
-            hLayout->addWidget(groupBox);
+            VLayout->addWidget(groupBox);
         }
     }
     else {
         for (int i = 0; i<static_cast<int>(us.size()); i++) {
-            if (hLayout->itemAt(i)) {
-                auto robotwidget = hLayout->itemAt(i)->widget();
+            if (VLayout->itemAt(i)) {
+                auto robotwidget = VLayout->itemAt(i)->widget();
                 clearLayout(robotwidget->layout());
                 delete robotwidget->layout();
                 if (!robotwidget->layout()) {

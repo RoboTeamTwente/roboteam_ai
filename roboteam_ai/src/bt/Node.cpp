@@ -67,18 +67,14 @@ Node::Node() {
 
 Node::Status Node::NodeUpdate() {
     auto status = update();
-    //std::cout << "Node Update:  " << node_name() << status_print(status) << std::endl;
-
     return status;
 }
 
 void Node::NodeInitialize() {
-    //std::cout << "Node Initialize:  " << node_name() << std::endl;
     initialize();
 }
 
 void Node::NodeTerminate(Status s) {
-    //std::cout << "Node Terminate:  " << node_name() << std::endl;
     terminate(s);
 }
 

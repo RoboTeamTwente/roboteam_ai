@@ -23,7 +23,7 @@ private:
     std::map<QTreeWidgetItem *, bt::Node::Ptr> treeItemMapping;
     bool hasCorrectTree = false;
     MainWindow * parent = nullptr;
-
+    unsigned long long mostTicks = 0;
 public:
     void setHasCorrectTree(bool hasCorrectTree);
     explicit TreeVisualizerWidget(MainWindow * parent);

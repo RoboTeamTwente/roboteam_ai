@@ -99,6 +99,8 @@ MainWindow::MainWindow(QWidget* parent)
     auto pidSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
     pidVLayout->addSpacerItem(pidSpacer);
 
+
+
     pidWidget->setLayout(pidVLayout);
 
     auto checkboxWidget = new QWidget;
@@ -120,6 +122,7 @@ MainWindow::MainWindow(QWidget* parent)
     tabWidget->addTab(treeWidget, tr("Behaviour trees"));
     tabWidget->addTab(checkboxWidget, tr("Visualisation Settings"));
     tabWidget->addTab(pidWidget, tr("PID"));
+    tabWidget->addTab(robotsWidget, tr("Robots"));
 
     vLayout->addWidget(tabWidget);
 
@@ -127,7 +130,6 @@ MainWindow::MainWindow(QWidget* parent)
     horizontalLayout->addWidget(visualizer, 3); // width stretch 3/5
     horizontalLayout->addLayout(vLayout, 2); // width stretch 2/5
     mainLayout->addLayout(horizontalLayout, 5); // height stretch 5/6
-    mainLayout->addWidget(robotsWidget, 1); //robotswidget height 1/6
 
 
     // apply layout
