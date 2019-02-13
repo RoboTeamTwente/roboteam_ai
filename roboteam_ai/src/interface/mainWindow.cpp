@@ -47,10 +47,20 @@ MainWindow::MainWindow(QWidget* parent)
     auto haltBtn = new QPushButton("HALT");
     QObject::connect(haltBtn, SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
     hButtonsLayout->addWidget(haltBtn);
+    haltBtn->setStyleSheet("background-color: #cc0000;");
 
     toggleColorBtn = new QPushButton("Color");
     QObject::connect(toggleColorBtn, SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
     hButtonsLayout->addWidget(toggleColorBtn);
+
+    ros::NodeHandle nh;
+    std::string ourColorParam;
+    nh.getParam("our_color", ourColorParam);
+    if (ourColorParam == "yellow") {
+        toggleColorBtn->setStyleSheet("background-color: orange;");
+    } else {
+        toggleColorBtn->setStyleSheet("background-color: blue;");
+    }
     
     toggleSideBtn = new QPushButton("Side");
     QObject::connect(toggleSideBtn, SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
@@ -180,6 +190,13 @@ void MainWindow::toggleOurColorParam() {
     newParam = ourColorParam == "yellow" ? "blue" : "yellow";
     nh.setParam("our_color", newParam);
     toggleColorBtn->setText(QString::fromStdString(newParam));
+
+    if (newParam == "yellow") {
+        toggleColorBtn->setStyleSheet("background-color: orange;");
+    } else {
+        toggleColorBtn->setStyleSheet("background-color: blue;");
+    }
+
 }
 
 /// toggle the ROS param 'our_side'
