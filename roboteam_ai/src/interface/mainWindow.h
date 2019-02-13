@@ -68,6 +68,7 @@ private:
 
     void configureCheckBox(QString title, QLayout * layout, const QObject* receiver, const char* method, bool defaultState = false);
     int amountOfSelectedRobots = 0;
+    void setToggleColorBtnLayout() const;
 };
 
 } // interface

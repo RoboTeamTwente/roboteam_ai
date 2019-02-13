@@ -25,13 +25,17 @@ MainWindow::MainWindow(QWidget* parent)
     setMinimumWidth(800);
     setMinimumHeight(600);
 
+    // layouts
     visualizer = new Visualizer(this);
     mainLayout = new QVBoxLayout();
     horizontalLayout = new QHBoxLayout();
     vLayout = new QVBoxLayout();
-    auto splitter = new QSplitter();
 
+    // set up the large widgets
+    auto splitter = new QSplitter(); // the splitter is an horizontal view that allows to be changed by the user
     robotsWidget = new RobotsWidget(this);
+    treeWidget = new TreeVisualizerWidget(this);
+
 
     // functions to select strategies
     configureCheckBox("Use referee", vLayout, this, SLOT(setUseReferee(bool)), Constants::STD_USE_REFEREE());
@@ -52,18 +56,9 @@ MainWindow::MainWindow(QWidget* parent)
     toggleColorBtn = new QPushButton("Color");
     QObject::connect(toggleColorBtn, SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
     hButtonsLayout->addWidget(toggleColorBtn);
-
-    ros::NodeHandle nh;
-    std::string ourColorParam;
-    nh.getParam("our_color", ourColorParam);
-    if (ourColorParam == "yellow") {
-        toggleColorBtn->setStyleSheet("background-color: orange;");
-    } else {
-        toggleColorBtn->setStyleSheet("background-color: blue;");
-    }
+    setToggleColorBtnLayout(); // set the btn color and text to the current our_color
 
     vLayout->addLayout(hButtonsLayout);
-
     doubleSpinBoxesGroup = new QGroupBox("GoToPosLuth PID options");
     spinBoxLayout =new QHBoxLayout();
     sb_luth_P = new QDoubleSpinBox();
@@ -85,9 +80,7 @@ MainWindow::MainWindow(QWidget* parent)
     sb_luth_D->setSingleStep(0.1f);
     sb_luth_D->setValue(InterfaceValues::getLuthD());
     QObject::connect(sb_luth_D, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
-
     spinBoxLayout->addWidget(sb_luth_D);
-
     doubleSpinBoxesGroup->setLayout(spinBoxLayout);
 
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
@@ -97,18 +90,12 @@ MainWindow::MainWindow(QWidget* parent)
               treeWidget->setHasCorrectTree(false);
             });
 
-    // set up tree widget
-    treeWidget = new TreeVisualizerWidget(this);
-
     auto pidWidget = new QWidget;
     auto pidVLayout = new QVBoxLayout();
     pidVLayout->addWidget(doubleSpinBoxesGroup);
 
     auto pidSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
     pidVLayout->addSpacerItem(pidSpacer);
-
-
-
     pidWidget->setLayout(pidVLayout);
 
     auto checkboxWidget = new QWidget;
@@ -126,28 +113,23 @@ MainWindow::MainWindow(QWidget* parent)
     cbVLayout->addSpacerItem(cbVSpacer);
     checkboxWidget->setLayout(cbVLayout);
 
+    // add the tab widget
     auto tabWidget = new QTabWidget;
     tabWidget->addTab(treeWidget, tr("Behaviour trees"));
     tabWidget->addTab(checkboxWidget, tr("Visualisation Settings"));
     tabWidget->addTab(pidWidget, tr("PID"));
     tabWidget->addTab(robotsWidget, tr("Robots"));
-
     vLayout->addWidget(tabWidget);
 
 
-
-
-    // main layout: left the visualizer and right the vertical layout
-    splitter->addWidget(visualizer); // width stretch 3/5
-
+    splitter->addWidget(visualizer);
     auto sideBarWidget = new QWidget;
     sideBarWidget->setLayout(vLayout);
-
     splitter->addWidget(sideBarWidget);
     splitter->setSizes({600, 200});
 
     horizontalLayout->addWidget(splitter);
-    mainLayout->addLayout(horizontalLayout, 5); // height stretch 5/6
+    mainLayout->addLayout(horizontalLayout);
 
 
     // apply layout
@@ -167,12 +149,23 @@ MainWindow::MainWindow(QWidget* parent)
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget())); // we need to pass the visualizer so thats why a seperate function is used
     robotsTimer->start(200); // 5fps
 }
+void MainWindow::setToggleColorBtnLayout() const {
+    ros::NodeHandle nh;
+    std::string ourColorParam;
+    nh.getParam("our_color", ourColorParam);
+    if (ourColorParam == "yellow") {
+        toggleColorBtn->setStyleSheet("background-color: orange;"); // orange is more readable
+    } else {
+        toggleColorBtn->setStyleSheet("background-color: blue;");
+    }
+    toggleColorBtn->setText(QString::fromStdString(ourColorParam));
+}
 
 /// Set up a checkbox and add it to the layout
 void MainWindow::configureCheckBox(QString title, QLayout * layout, const QObject* receiver, const char* method,
         bool defaultState) {
 
-    QCheckBox * checkbox = new QCheckBox(title);
+    auto checkbox = new QCheckBox(title);
     checkbox->setChecked(defaultState);
     layout->addWidget(checkbox);
     QObject::connect(checkbox, SIGNAL(clicked(bool)), receiver, method);
@@ -185,14 +178,8 @@ void MainWindow::toggleOurColorParam() {
     nh.getParam("our_color", ourColorParam);
     newParam = ourColorParam == "yellow" ? "blue" : "yellow";
     nh.setParam("our_color", newParam);
-    toggleColorBtn->setText(QString::fromStdString(newParam));
 
-    if (newParam == "yellow") {
-        toggleColorBtn->setStyleSheet("background-color: orange;");
-    } else {
-        toggleColorBtn->setStyleSheet("background-color: blue;");
-    }
-
+    setToggleColorBtnLayout();
 }
 
 /// update the PID values for gotopos Luth
