@@ -111,25 +111,6 @@ TEST(MainWindowTest, it_toggles_our_color_param) {
     EXPECT_EQ(ourColorParam, "yellow");
 }
 
-
-TEST(MainWindowTest, it_toggles_our_side_param) {
-    auto window = std::make_shared<MainWindow>();
-
-    ros::NodeHandle nh;
-    std::string ourSideParam;
-    nh.setParam("our_side", "left");
-
-    window->toggleOurSideParam();
-    nh.getParam("our_side", ourSideParam);
-    EXPECT_EQ(ourSideParam, "right");
-
-    // reverse it again
-    window->toggleOurSideParam();
-    nh.getParam("our_side", ourSideParam);
-    EXPECT_EQ(ourSideParam, "left");
-
-}
-
 }
 }
 }
