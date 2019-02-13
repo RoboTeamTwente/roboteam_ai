@@ -87,7 +87,6 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "BallPlacementUsTactic",
          "AvoidBallTactic",
          "SingleKeeperTactic",
-         "AvoidBallForBallPlacementTactic",
          "randomTactic", // used for testing, do not remove it!
          "testAvoidanceTactic"// used for testing, do not remove it!
          };

@@ -58,10 +58,10 @@ class World {
                 const int &myID);
 
         static bool robotHasBall(Vector2 robotPos, double robotOrientation, Vector2 ballPos,
-                double frontDist = constants::MAX_BALL_BOUNCE_RANGE);
+                double frontDist = Constants::MAX_BALL_BOUNCE_RANGE());
 
         static bool robotHasBall(const roboteam_msgs::WorldRobot &bot, const roboteam_msgs::WorldBall &ball,
-                double frontDist = constants::MAX_BALL_BOUNCE_RANGE);
+                double frontDist = Constants::MAX_BALL_BOUNCE_RANGE());
 
         static std::vector<roboteam_msgs::WorldRobot> getAllRobots();
         static std::vector<roboteam_msgs::WorldRobot> getRobotsForId(std::set<unsigned int> ids, bool robotsAreOurTeam);

@@ -18,7 +18,7 @@ class ControlGoToPosClean {
         //constants, should be moved at some point, or adapted in a dynamic model (e.g. for lower speeds for certain branches, jazz like that)
         double dt = 0.03;
 
-        double defaultRobotCollisionRadius = 3*constants::ROBOT_RADIUS_MAX;
+        double defaultRobotCollisionRadius = 3*Constants::ROBOT_RADIUS_MAX();
         int robotID = - 1;
         Vector2 pos;
         Vector2 vel;

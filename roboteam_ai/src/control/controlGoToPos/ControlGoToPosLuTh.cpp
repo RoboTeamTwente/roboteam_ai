@@ -20,14 +20,14 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
         pidInit = true;
 
         velPID.reset();
-        velPID.setPID(constants::standard_luth_P,
-                constants::standard_luth_P,
-                constants::standard_luth_P);
+        velPID.setPID(Constants::standard_luth_P(),
+                Constants::standard_luth_P(),
+                Constants::standard_luth_P());
 
         posPID.reset();
-        posPID.setPID(constants::standard_luth_P,
-                constants::standard_luth_P,
-                constants::standard_luth_P);
+        posPID.setPID(Constants::standard_luth_P(),
+                Constants::standard_luth_P(),
+                Constants::standard_luth_P());
     }
 // change PID values
     if (velPID.getP() != interface::InterfaceValues::getLuthP() ||
@@ -129,7 +129,7 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
     auto allBots = World::getAllRobots();
 
 // another check if the path is still valid
-    Vector2 closestRobot = coach::Coach::getRobotClosestToPosition(allBots, robot->pos, false);
+    Vector2 closestRobot = coach::Coach::getRobotClosestToPosition(allBots, robot->pos, false)->pos;
     Vector2 closestRobotDir = (closestRobot - robot->pos);
     if ((targetPos - robot->pos).length() < 0.3f) {
         Vector2 dir = (targetPos - robot->pos).scale(3.0);
@@ -206,7 +206,7 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
         ros::Time now = ros::Time::now();
 
 // check if the calculation does not take too long
-        if ((now - begin).toSec()*1000 > constants::MAX_CALCULATION_TIME){
+        if ((now - begin).toSec()*1000 > Constants::MAX_CALCULATION_TIME()){
             std::cout<<"Tick took too long!"<<std::endl;
             return false;
         }

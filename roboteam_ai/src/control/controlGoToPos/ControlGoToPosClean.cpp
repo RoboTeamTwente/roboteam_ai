@@ -181,7 +181,7 @@ void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> r
     ros::Time start = ros::Time::now();
     while (! pathQueue.empty()) {
         ros::Time now = ros::Time::now();
-        if ((now - start).toSec()*1000 > constants::MAX_CALCULATION_TIME) {
+        if ((now - start).toSec()*1000 > Constants::MAX_CALCULATION_TIME()) {
             std::cout << "Tick took too long!" << std::endl;
             path = {};
             return;
@@ -292,7 +292,7 @@ bool ControlGoToPosClean::checkCollision(std::shared_ptr<PathPoint> point) {
     }
     if (avoidBall) {
         Vector2 ballPos = (Vector2) (world.ball.pos) + (Vector2) (world.ball.vel)*point->t;
-        if (point->isCollision(ballPos, defaultRobotCollisionRadius*0.5 + constants::BALL_RADIUS)) {
+        if (point->isCollision(ballPos, defaultRobotCollisionRadius*0.5 + Constants::BALL_RADIUS())) {
             std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
             time = time + (end - start);
             return true;
@@ -322,7 +322,7 @@ Vector2 ControlGoToPosClean::findCollisionPos(std::shared_ptr<PathPoint> point) 
     }
     if (avoidBall) {
         Vector2 ballPos = (Vector2) (world.ball.pos) + (Vector2) (world.ball.vel)*point->t;
-        if (point->isCollision(ballPos, defaultRobotCollisionRadius*0.5 + constants::BALL_RADIUS)) {
+        if (point->isCollision(ballPos, defaultRobotCollisionRadius*0.5 + Constants::BALL_RADIUS())) {
             return ballPos;
         }
     }
@@ -418,14 +418,14 @@ std::vector<ControlGoToPosClean::PathPoint> ControlGoToPosClean::backTrackPath(s
 
 void ControlGoToPosClean::initializePID() {
     velPID.reset();
-    velPID.setPID(constants::standard_luth_P,
-            constants::standard_luth_P,
-            constants::standard_luth_P);
+    velPID.setPID(Constants::standard_luth_P(),
+            Constants::standard_luth_P(),
+            Constants::standard_luth_P());
 
     posPID.reset();
-    posPID.setPID(constants::standard_luth_P,
-            constants::standard_luth_P,
-            constants::standard_luth_P);
+    posPID.setPID(Constants::standard_luth_P(),
+            Constants::standard_luth_P(),
+            Constants::standard_luth_P());
 }
 
 void ControlGoToPosClean::checkInterfacePID() {
