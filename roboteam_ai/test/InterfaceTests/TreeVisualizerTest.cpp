@@ -24,7 +24,7 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
 
     treeVis->updateContents();
     EXPECT_TRUE(treeVis->hasCorrectTree);
-    EXPECT_EQ(treeVis->treeItemMapping.size(), 23);
+    EXPECT_EQ(treeVis->treeItemMapping.size(), 24);
 
     std::map<QTreeWidgetItem *, bt::Node::Ptr>::iterator it;
     for (it = treeVis->treeItemMapping.begin(); it != treeVis->treeItemMapping.end(); it++) {
@@ -60,7 +60,7 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
     treeVis->updateContents();
     EXPECT_TRUE(treeVis->hasCorrectTree);
 
-    EXPECT_EQ(treeVis->treeItemMapping.size(), 26);
+    EXPECT_EQ(treeVis->treeItemMapping.size(), 27);
     for (it = treeVis->treeItemMapping.begin(); it != treeVis->treeItemMapping.end(); it++) {
         std::string nodeTrace, treeTrace, statusTrace;
 
@@ -78,9 +78,9 @@ TEST(TreeVisualizerTest, it_sets_proper_color_for_status) {
     auto window = std::make_shared<MainWindow>();
     TreeVisualizerWidget * treeVis = window->treeWidget;
     EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Failure), Qt::red);
-    EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Success), QColor("#339933"));
-    EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Running), QColor("#99ff99"));
-    EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Waiting), Qt::gray);
+    EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Success), QColor("#66ff66"));
+    EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Running), QColor("#006600"));
+    EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Waiting), Qt::darkGray);
 }
 
 } // interface
