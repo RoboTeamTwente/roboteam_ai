@@ -15,6 +15,7 @@ class Attack : public Skill {
     private:
         control::ControlGoToPos goToPos;
         Vector2 deltaPos;
+        Vector2 ballTarget;
         Vector2 targetPos;
         int genevaState = 0;
 

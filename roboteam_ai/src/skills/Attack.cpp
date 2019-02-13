@@ -12,30 +12,50 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void Attack::onInitialize() {
-    if (properties->hasInt("genevaState")) {
-        genevaState = properties->getInt("genevaState");
-    }
+    goToPos.setAvoidBall(true);
 }
 
 // TODO: WTF HARDCODED SHIT EVERYWHERE
 /// Get an update on the skill
+
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
-    Vector2 ball = World::getBall()->pos;
-    Vector2 ballTarget = Field::get_their_goal_center() + Field::get_field().goal_width - 0.2;
-    Vector2 aimPos = control::ControlUtils::getGenevaAim(ball, ballTarget, genevaState);
-    std::cout << aimPos << std::endl;
 
-    Vector2 behindBall = Coach::getPositionBehindBallToPosition(0.5, aimPos);
+    ballTarget = Field::get_their_goal_center();
+    genevaState = 3;
+
+    if (properties->hasInt("genevaState")) {
+        genevaState = properties->getInt("genevaState");
+    }
+
+    // Overwrite set genevaState if autoGeneva is true
+    if (properties->getBool("autoGeneva")) {
+        roboteam_msgs::GeometryFieldSize field = Field::get_field();
+        if (ball->pos.y > 0) {
+            genevaState = 5;
+            ballTarget = {field.field_length / 2, 0.33 * field.goal_width};
+        } else if (ball->pos.y < 0) {
+            genevaState = 1;
+            ballTarget = {field.field_length / 2, -0.33 * field.goal_width};
+        }
+
+        // Set the geneva to one angle lower if the distance from the goal is more than 1,5 times the goal width
+        if (ball->pos.x < field.field_width - 1.5 * field.goal_width) {
+            genevaState += (3 - genevaState) / 2;
+        }
+    }
+
+    Vector2 ball = World::getBall()->pos;
+    Vector2 aimPos = control::ControlUtils::getGenevaAim(ball, ballTarget, genevaState);
+    Vector2 behindBall = Coach::getPositionBehindBallToPosition(0.3, aimPos);
     Vector2 deltaBall = behindBall - ball;
 
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
 
-
     GoToType goToType;
 
-    if (! Coach::isRobotBehindBallToPosition(0.5, aimPos, robot->pos)) {
+    if (! Coach::isRobotBehindBallToPosition(0.3, aimPos, robot->pos)) {
         targetPos = behindBall;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());

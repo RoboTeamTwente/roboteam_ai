@@ -1,1 +1,33 @@
-{"data": {"trees": [{"nodes": {"nmji575qx2ucg": {"properties": {"ROLE": "attacker"}, "name": "attacker", "title": "Role", "id": "nmji575qx2ucg", "role": "AttackerRole", "children": ["954miu5vlzp66"]}, "954miu5vlzp66": {"title": "Attack", "properties": {"ROLE": "attacker", "genevaState": "5"}, "id": "954miu5vlzp66"}}, "root": "nmji575qx2ucg", "title": "OneAttackerTactic"}]}, "name": "OneAttackerTactic"}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "nmji575qx2ucg": {
+            "properties": {
+              "ROLE": "attacker"
+            },
+            "name": "attacker",
+            "title": "Role",
+            "id": "nmji575qx2ucg",
+            "role": "AttackerRole",
+            "children": [
+              "954miu5vlzp66"
+            ]
+          },
+          "954miu5vlzp66": {
+            "title": "Attack",
+            "properties": {
+              "ROLE": "attacker",
+              "autoGeneva": "true"
+            },
+            "id": "954miu5vlzp66"
+          }
+        },
+        "root": "nmji575qx2ucg",
+        "title": "OneAttackerTactic"
+      }
+    ]
+  },
+  "name": "OneAttackerTactic"
+}
