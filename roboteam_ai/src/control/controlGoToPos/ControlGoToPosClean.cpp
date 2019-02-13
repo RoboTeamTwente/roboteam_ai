@@ -8,20 +8,13 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-///add a 'normal' point
-void ControlGoToPosClean::PathPoint::addChild(
-        std::shared_ptr<PathPoint> middleChild) {
-    if (! middle) {
-        middle = std::move(middleChild);
-    }
-    else {
-        std::cout << "Child already claimed!!" << std::endl;
-    }
+///makes the two branches going to different direction
+void ControlGoToPosClean::PathPoint::addChild(std::shared_ptr<PathPoint> &newChild) {
+    children.push_back(newChild);
 }
 
-///makes the two branches going to different direction
-void ControlGoToPosClean::PathPoint::addBranch(std::shared_ptr<PathPoint> branchChild) {
-    branches.push_back(branchChild);
+void ControlGoToPosClean::PathPoint::addChildren(std::vector<std::shared_ptr<PathPoint>> &newChildren) {
+    children.insert(children.end(), newChildren.begin(), newChildren.end());
 }
 
 ///BackTrack until desired time or until Root
@@ -32,6 +25,34 @@ std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::PathPoint::
         return shared_from_this();
     else
         return parent->backTrack(backTime);
+}
+
+std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::PathPoint::backTrack(int maxCollisionDiff) {
+    if (! parent)
+        return shared_from_this();
+    else if (maxCollisionDiff == 0)
+        return shared_from_this();
+    else
+        return parent->backTrack(collisions-parent->collisions);
+    if (collisions > parent->collisions)
+        return parent->backTrack(maxCollisionDiff - 1);
+    else
+        return parent->backTrack(maxCollisionDiff);
+}
+
+std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::PathPoint::backTrack(double backTime,
+        int maxCollisionDiff) {
+
+    if (! parent)
+        return shared_from_this();
+    else if (maxCollisionDiff == 0)
+        return shared_from_this();
+    else if (collisions > parent->collisions)
+        return parent->backTrack(maxCollisionDiff - 1);
+    else if (backTime > t)
+        return shared_from_this();
+    else
+        return parent->backTrack(backTime, maxCollisionDiff);
 }
 
 ///backTracks the path from endPoint until it hits root and outputs in order from root->endPoint
@@ -47,19 +68,7 @@ std::vector<ControlGoToPosClean::PathPoint> ControlGoToPosClean::backTrackPath(s
         point = point->parent;
     }
     std::reverse(path.begin(), path.end()); // everything is from back to forth
-    ros::Time end = ros::Time::now();
     return path;
-}
-
-void ControlGoToPosClean::drawCross(Vector2 &pos) {
-// draws a cross for the display
-    float dist = 0.004f;
-    for (int i = - 7; i < 8; i ++) {
-        for (int j = - 1; j < 2; j += 2) {
-            Vector2 data = pos + (Vector2) {dist*i, dist*j*i};
-            displayData.push_back(data);
-        }
-    }
 }
 
 /// Turn ball avoidance off and on
@@ -103,7 +112,7 @@ void ControlGoToPosClean::checkInterfacePID() {
 void ControlGoToPosClean::drawInInterface() {
     std::vector<std::pair<rtt::Vector2, QColor>> displayColorData = {{{}, {}}};
     for (auto &displayAll : displayData) {
-        displayColorData.emplace_back(displayAll, Qt::green);
+        displayColorData.push_back(displayAll);
     }
     for (auto &displayPath : path) {
         displayColorData.emplace_back(displayPath.pos, Qt::red);
@@ -111,19 +120,27 @@ void ControlGoToPosClean::drawInInterface() {
     rtt::ai::interface::Drawer::setGoToPosLuThPoints(robotID, displayColorData);
 }
 
+void ControlGoToPosClean::drawCross(Vector2 &pos, QColor color) {
+// draws a cross for the display
+    float dist = 0.005f;
+    for (int i = - 14; i < 15; i ++) {
+        for (int j = - 1; j < 2; j += 2) {
+            Vector2 data = pos + (Vector2) {dist*i, dist*j*i};
+            drawPoint(data, color);
+        }
+    }
+}
+
+void ControlGoToPosClean::drawPoint(Vector2 &pos, QColor color) {
+    displayData.emplace_back(pos, color);
+}
+
 Vector2 ControlGoToPosClean::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
     initializePID();
     checkInterfacePID();
-    bool recalculate = false;
     bool nicePath = true;
-    recalculate = true;
-//    // if the targetPos or robot Id changed we have to recalculate.
-//    if (finalTargetPos!=targetPos||robotID!=robot->id){
-//        recalculate=true;
-//    }
-////    else{
-////        recalculate=robotOnPath();
-////    }
+    bool recalculate = true;
+
     if (recalculate) {
         if (Vector2(robot->vel).length() > 10.0)
             return computeCommand();
@@ -149,16 +166,14 @@ Vector2 ControlGoToPosClean::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> 
         // find a path
         std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
         time = std::chrono::milliseconds(0);
+
         path = tracePath(root);
+
         std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> TotalTime = std::chrono::duration_cast<std::chrono::duration<double>>(
                 end - start);
         std::cout << "Other time" << (TotalTime.count() - time.count())*1000 << " Time spent in function:"
                   << time.count()*1000 << std::endl;
-        //clear out the queue again so that on next ticks it's fine. It might still be problematic with memory leaks? Not sure
-//        while(pathQueue.size()!=0){
-//            pathQueue.pop();
-//        }
         if (! path.empty()) { nicePath = true; }
     }
     drawInInterface();
@@ -166,31 +181,61 @@ Vector2 ControlGoToPosClean::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> 
     return command;
 }
 
+double ControlGoToPosClean::remainingStraightLinePathLength(Vector2 currentPos, Vector2 halfwayPos, Vector2 finalPos) {
+    return (abs((halfwayPos - finalPos).length() + (currentPos - halfwayPos).length()));
+}
+
 std::vector<ControlGoToPosClean::PathPoint> ControlGoToPosClean::tracePath(std::shared_ptr<PathPoint> root) {
+
     std::vector<PathPoint> path = {};
+
+// compAStar compares the amount of collisions first (max 3 diff), then sorts the paths based on an approximation on the
+// length of path that still has to be calculated, using straight lines towards the half-way targets, and the final
+// target, while taking into account the length of path already calculated.
     auto compAStar = [this](std::shared_ptr<PathPoint> lhs, std::shared_ptr<PathPoint> rhs) {
-      if (fmod(lhs->collisions, 3) > fmod(rhs->collisions, 3)) { return true; }
-      if (fmod(rhs->collisions, 3) > fmod(lhs->collisions, 3)) { return false; }
-      return (lhs->t + abs((lhs->currentTarget - finalTargetPos).length())/1.56)
-              > (rhs->t + abs((rhs->currentTarget - finalTargetPos).length())/1.56);
+      if (lhs->collisions - rhs->collisions > 2)
+          return true;
+      else if (lhs->collisions - rhs->collisions < -2)
+          return false;
+      else
+          return (maxVel*lhs->t + remainingStraightLinePathLength(lhs->pos, lhs->currentTarget, finalTargetPos)) >
+                  (maxVel*rhs->t + remainingStraightLinePathLength(rhs->pos, rhs->currentTarget, finalTargetPos));
     };
+
+// compClose compares the amount of collisions first, then sorts the paths based on an approximation on the length of
+// path that still has to be calculated, using straight lines towards the half-way targets, and then the final target
     auto compClose = [this](std::shared_ptr<PathPoint> lhs, std::shared_ptr<PathPoint> rhs) {
-      if (lhs->collisions > rhs->collisions) { return true; }
-      if (rhs->collisions > lhs->collisions) { return false; }
-      return (abs((lhs->currentTarget - finalTargetPos).length() + (lhs->pos - lhs->currentTarget).length()))
-              > (abs((rhs->currentTarget - finalTargetPos).length() + (rhs->pos - rhs->currentTarget).length()));
+      if (lhs->collisions > rhs->collisions)
+          return true;
+      else if (rhs->collisions > lhs->collisions)
+          return false;
+      else
+          return (remainingStraightLinePathLength(lhs->pos, lhs->currentTarget, finalTargetPos)) >
+                  (remainingStraightLinePathLength(rhs->pos, rhs->currentTarget, finalTargetPos));
     };
+
     std::priority_queue<std::shared_ptr<PathPoint>,
-                        std::vector<std::shared_ptr<PathPoint>>, decltype(compClose)> pathQueue(compClose);
+                        std::vector<std::shared_ptr<PathPoint>>, decltype(compAStar)> pathQueue(compAStar);
     //create root of tree:
     pathQueue.push(root);
     ros::Time start = ros::Time::now();
     // start searching
+    unsigned long long counter = 0;
     while (! pathQueue.empty()) {
+
+        ros::Time now = ros::Time::now();
+        if ((now - start).toSec()*1000 > constants::MAX_CALCULATION_TIME) {
+            std::cout << "Tick took too long!" << std::endl;
+            //TODO we return an empty path now, we could also return the 'best' path that is closest to the robot perhaps?
+            std::cout << counter << std::endl;
+            return {};
+        }
 
         std::shared_ptr<PathPoint> BranchStart = pathQueue.top();
         std::shared_ptr<PathPoint> point = BranchStart;
+
         while (true) {
+            counter ++;
             std::shared_ptr<PathPoint> newPoint = computeNewPoint(point, point->currentTarget);
             point->addChild(newPoint);
             point = newPoint;
@@ -198,6 +243,7 @@ std::vector<ControlGoToPosClean::PathPoint> ControlGoToPosClean::tracePath(std::
             // if we reach endpoint, return the path we found
             if (point->isCollision(finalTargetPos, 0.1)) {
                 path = backTrackPath(point, root);
+                std::cout << counter << std::endl;
                 return path;
             }
                 // if we reach a halfway point, update the target to the final target again and push this new point to queue
@@ -205,47 +251,35 @@ std::vector<ControlGoToPosClean::PathPoint> ControlGoToPosClean::tracePath(std::
                 point->currentTarget = finalTargetPos;
                 pathQueue.pop();
                 pathQueue.push(point);
-                if (point->middle) {
-                    std::cout << "STOP RIGHT THERE!" << std::endl;
-                }
                 break; // break from current while loop, we start looking at different branches again
             }
             // if we have collided with an obstacle; backtrack and branch to both sides using new intermediary points
             if (checkCollission(point)) {
-                std::shared_ptr<PathPoint> newBranchStart = point->backTrack(point->t - 0.4);
-                //std::shared_ptr<PathPoint> newBranchStart=BranchStart;
-                std::vector<Vector2> targets = getNewTargets(point, newBranchStart->pos);
+                int collisions = ++ point->collisions;
+                std::pair<std::vector<Vector2>, std::shared_ptr<PathPoint>> newTargetsAndBranch = getNewTargets(point);
+                std::vector<Vector2> newTargets = newTargetsAndBranch.first;
+                std::shared_ptr<PathPoint> newBranchStart = newTargetsAndBranch.second;
+
                 pathQueue.pop();
                 // both left and right targets for now
-                for (const auto &newTarget : targets) {
-                    // Check if we are not creating a duplicate
-                    if (! branchHasTarget(newBranchStart, newTarget)) {
-                        // compute new point and add it to branch
-                        std::shared_ptr<PathPoint> branch = computeNewPoint(newBranchStart, newTarget);
-                        newBranchStart->addBranch(branch);
-                        pathQueue.push(branch);
-                    }
+                for (const auto &newTarget : newTargets) {
+                    if (branchHasTarget(newBranchStart, newTarget))
+                        continue;
+                    // compute new point and add it to branch
+                    std::shared_ptr<PathPoint> branch = computeNewPoint(newBranchStart, newTarget);
+                    branch->collisions = collisions;
+                    newBranchStart->addChild(branch);
+                    pathQueue.push(branch);
                 }
                 break; // break from current while loop, we start looking at different branches again
             }
         }
-        ros::Time now = ros::Time::now();
-        if ((now - start).toSec()*1000 > constants::MAX_CALCULATION_TIME) {
-            std::cout << "Tick took too long!" << std::endl;
-            //TODO we return an empty path now, we could also return the 'best' path that is closest to the robot perhaps?
-            return {};
-        }
+
     }
+    std::cout << "reached end of while loop: " << counter << std::endl;
     return {};
 }
-bool ControlGoToPosClean::branchHasTarget(std::shared_ptr<PathPoint> newBranchStart, Vector2 target) {
-    for (const auto &child : newBranchStart->branches) {
-        if (child->currentTarget == target) {
-            return true;
-        }
-    }
-    return false;
-}
+
 std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::computeNewPoint(
         std::shared_ptr<PathPoint> oldPoint, Vector2 subTarget) {
 
@@ -253,25 +287,28 @@ std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::computeNewP
     newPoint->parent = oldPoint;
     newPoint->t = oldPoint->t + dt;
     newPoint->currentTarget = subTarget;
+    newPoint->hasBeenTicked = true;
+
     //ODE model:
-    Vector2 targetVel = (oldPoint->currentTarget - oldPoint->pos).normalize()*maxVel;
+    Vector2 targetVel = (subTarget - oldPoint->pos).normalize()*maxVel;
     newPoint->acc = (targetVel - oldPoint->vel).normalize()*maxAcc;
     newPoint->vel = oldPoint->vel + newPoint->acc*dt;
     newPoint->pos = oldPoint->pos + newPoint->vel*dt;
-    newPoint->collisions = oldPoint->collisions + 1;
-    displayData.push_back(newPoint->pos);
+
+    newPoint->collisions = oldPoint->collisions;
+    drawPoint(newPoint->pos);
 
     return newPoint;
 }
 
 bool ControlGoToPosClean::checkCollission(std::shared_ptr<PathPoint> point) {
-    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
-    roboteam_msgs::World world = World::get_world(); //World::futureWorld(point->t);
+    std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
+    roboteam_msgs::World world = World::get_world();
     for (auto bot: world.us) {
         if (bot.id != robotID) {
             Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
-            if (point->isCollision(botPos, 2*constants::ROBOT_RADIUS_MAX)) {
-                std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+            if (point->isCollision(botPos, defaultRobotCollisionRadius)) {
+                std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
                 time = time + (end - start);
                 return true;
             }
@@ -279,16 +316,16 @@ bool ControlGoToPosClean::checkCollission(std::shared_ptr<PathPoint> point) {
     }
     for (auto bot: world.them) {
         Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
-        if (point->isCollision(botPos, 2*constants::ROBOT_RADIUS_MAX)) {
-            std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+        if (point->isCollision(botPos, defaultRobotCollisionRadius)) {
+            std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
             time = time + (end - start);
             return true;
         }
     }
     if (avoidBall) {
         Vector2 ballPos = (Vector2) (world.ball.pos) + (Vector2) (world.ball.vel)*point->t;
-        if (point->isCollision(ballPos, constants::ROBOT_RADIUS_MAX + constants::BALL_RADIUS)) {
-            std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+        if (point->isCollision(ballPos, defaultRobotCollisionRadius*0.5 + constants::BALL_RADIUS)) {
+            std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
             time = time + (end - start);
             return true;
         }
@@ -299,24 +336,24 @@ bool ControlGoToPosClean::checkCollission(std::shared_ptr<PathPoint> point) {
 }
 
 Vector2 ControlGoToPosClean::findCollisionPos(std::shared_ptr<PathPoint> point) {
-    roboteam_msgs::World world = World::get_world(); //World::futureWorld(point->t);
+    roboteam_msgs::World world = World::get_world();
     for (auto bot: world.us) {
         if (bot.id != robotID) {
             Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
-            if (point->isCollision(botPos, 2*constants::ROBOT_RADIUS_MAX)) {
+            if (point->isCollision(botPos, defaultRobotCollisionRadius)) {
                 return botPos;
             }
         }
     }
     for (auto bot: world.them) {
         Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
-        if (point->isCollision(botPos, 2*constants::ROBOT_RADIUS_MAX)) {
+        if (point->isCollision(botPos, defaultRobotCollisionRadius)) {
             return botPos;
         }
     }
     if (avoidBall) {
         Vector2 ballPos = (Vector2) (world.ball.pos) + (Vector2) (world.ball.vel)*point->t;
-        if (point->isCollision(ballPos, constants::ROBOT_RADIUS_MAX + constants::BALL_RADIUS)) {
+        if (point->isCollision(ballPos, defaultRobotCollisionRadius*0.5 + constants::BALL_RADIUS)) {
             return ballPos;
         }
     }
@@ -328,23 +365,30 @@ bool ControlGoToPosClean::PathPoint::isCollision(Vector2 target, double distance
     return (target - pos).length() < distance;
 }
 
-std::vector<Vector2> ControlGoToPosClean::getNewTargets(std::shared_ptr<PathPoint> collisionPoint, Vector2 startPos) {
-    // we find the centre of the object we are colliding with
-    Vector2 collisionObjPos = findCollisionPos(collisionPoint);
-    // then pick 2 targets left and right of it Preferably at 0.3 m, but closer if they are close to the endPoint.
-    //double angle=(collisionObjPos-startPos).angle();
-    double angle = collisionPoint->vel.angle();
-    double avoidDistanceDefault = 0.3;
-    double objectDist = (collisionObjPos - finalTargetPos).length();
-    if (objectDist < 0.18) { objectDist = 0.18; }
-    double dist = fmin(objectDist, avoidDistanceDefault);
-    Vector2 avoidDist(dist, 0);
-    Vector2 leftTarget = collisionObjPos + avoidDist.rotate(angle - M_PI_2);
-    Vector2 rightTarget = collisionObjPos + avoidDist.rotate(angle + M_PI_2);
-    std::vector<Vector2> newTargets = {leftTarget, rightTarget};
-    drawCross(leftTarget);
-    drawCross(rightTarget);
-    return newTargets;
+std::pair<std::vector<Vector2>, std::shared_ptr<ControlGoToPosClean::PathPoint>> ControlGoToPosClean::getNewTargets(
+        std::shared_ptr<PathPoint> collisionPoint) {
+
+    std::shared_ptr<PathPoint> initialBranchStart = collisionPoint->backTrack(collisionPoint->t - 0.71);
+    int factor = collisionPoint->collisions - initialBranchStart->collisions;
+    std::shared_ptr<PathPoint> newBranchStart = initialBranchStart;//->backTrack(initialBranchStart->t - 0.1*factor);
+
+    Vector2 collisionPosition = findCollisionPos(collisionPoint);
+    Vector2 startPosition = newBranchStart->pos;
+    Vector2 deltaPosition = collisionPosition - startPosition;
+
+    double length = deltaPosition.length();
+    double defaultDistanceFromCollision = 0.3;
+    double deltaAngle = factor*atan(defaultDistanceFromCollision/length);
+
+    Vector2 leftPosition = startPosition + deltaPosition.rotate(deltaAngle);
+    drawCross(leftPosition, Qt::blue);
+
+    Vector2 rightPosition = startPosition + deltaPosition.rotate(- deltaAngle);
+    drawCross(rightPosition, Qt::darkBlue);
+
+    std::vector<Vector2> newTargets = {leftPosition, rightPosition};
+
+    return {newTargets, newBranchStart};
 }
 
 Vector2 ControlGoToPosClean::computeCommand() {
