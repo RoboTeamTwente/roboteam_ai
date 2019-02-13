@@ -34,7 +34,7 @@ bt::Node::Status Attack::onUpdate() {
         if (ball->pos.y > 0) {
             genevaState = 5;
             ballTarget = {field.field_length / 2, 0.33 * field.goal_width};
-        } else if (ball->pos.y < 0) {
+        } else {
             genevaState = 1;
             ballTarget = {field.field_length / 2, -0.33 * field.goal_width};
         }
@@ -52,6 +52,7 @@ bt::Node::Status Attack::onUpdate() {
 
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
+    command.geneva_state = genevaState;
 
     GoToType goToType;
 
@@ -67,7 +68,6 @@ bt::Node::Status Attack::onUpdate() {
         command.use_angle = 1;
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
         if (Coach::doesRobotHaveBall(robot->id, true, rtt::ai::Constants::MAX_BALL_RANGE())) {
-            command.geneva_state = genevaState;
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
             command.kicker_forced = 1;
@@ -91,11 +91,15 @@ bt::Node::Status Attack::onUpdate() {
     else {
         velocity = goToPos.goToPos(robot, targetPos, goToType);
     }
-    if (velocity.length() < 0.3 && velocity.length() > 0.04)
-        velocity.stretchToLength(0.3);
+    if (velocity.length() < 0.5 && velocity.length() > 0.04)
+        velocity.stretchToLength(0.5);
+
+    velocity = control::ControlUtils::VelocityLimiter(velocity);
 
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
+
+    // std::cout << "Geneva state: " << command.geneva_state << std::endl;
     publishRobotCommand(command);
 
     return Status::Running;
