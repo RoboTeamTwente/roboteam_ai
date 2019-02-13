@@ -7,6 +7,7 @@
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include "InterfaceValues.h"
 #include "RobotsWidget.h"
+#include <QSplitter>
 
 namespace rtt {
 namespace ai {
@@ -24,13 +25,17 @@ MainWindow::MainWindow(QWidget* parent)
     setMinimumWidth(800);
     setMinimumHeight(600);
 
+    // layouts
     visualizer = new Visualizer(this);
     mainLayout = new QVBoxLayout();
     horizontalLayout = new QHBoxLayout();
     vLayout = new QVBoxLayout();
 
+    // set up the large widgets
+    auto splitter = new QSplitter(); // the splitter is an horizontal view that allows to be changed by the user
     robotsWidget = new RobotsWidget(this);
-    mainLayout->addWidget(robotsWidget, 1);
+    treeWidget = new TreeVisualizerWidget(this);
+
 
     // functions to select strategies
     configureCheckBox("Use referee", vLayout, this, SLOT(setUseReferee(bool)), Constants::STD_USE_REFEREE());
@@ -41,18 +46,19 @@ MainWindow::MainWindow(QWidget* parent)
         select_strategy->addItem(QString::fromStdString(strategyName));
     }
 
+    auto hButtonsLayout = new QHBoxLayout();
+
     auto haltBtn = new QPushButton("HALT");
     QObject::connect(haltBtn, SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
-    vLayout->addWidget(haltBtn);
+    hButtonsLayout->addWidget(haltBtn);
+    haltBtn->setStyleSheet("background-color: #cc0000;");
 
     toggleColorBtn = new QPushButton("Color");
     QObject::connect(toggleColorBtn, SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
-    vLayout->addWidget(toggleColorBtn);
-    
-    toggleSideBtn = new QPushButton("Side");
-    QObject::connect(toggleSideBtn, SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
-    vLayout->addWidget(toggleSideBtn);
+    hButtonsLayout->addWidget(toggleColorBtn);
+    setToggleColorBtnLayout(); // set the btn color and text to the current our_color
 
+    vLayout->addLayout(hButtonsLayout);
     doubleSpinBoxesGroup = new QGroupBox("GoToPosLuth PID options");
     spinBoxLayout =new QHBoxLayout();
     sb_luth_P = new QDoubleSpinBox();
@@ -74,11 +80,8 @@ MainWindow::MainWindow(QWidget* parent)
     sb_luth_D->setSingleStep(0.1f);
     sb_luth_D->setValue(InterfaceValues::getLuthD());
     QObject::connect(sb_luth_D, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
-
     spinBoxLayout->addWidget(sb_luth_D);
-
     doubleSpinBoxesGroup->setLayout(spinBoxLayout);
-    vLayout->addWidget(doubleSpinBoxesGroup);
 
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [=](const QString &strategyName) {
@@ -87,23 +90,47 @@ MainWindow::MainWindow(QWidget* parent)
               treeWidget->setHasCorrectTree(false);
             });
 
-    configureCheckBox("show rolenames", vLayout, visualizer, SLOT(setShowRoles(bool)), Constants::STD_SHOW_ROLES());
-    configureCheckBox("show tacticnames", vLayout, visualizer, SLOT(setShowTactics(bool)), Constants::STD_SHOW_TACTICS());
-    configureCheckBox("show tacticColors", vLayout, visualizer, SLOT(setShowTacticColors(bool)), Constants::STD_SHOW_TACTICS_COLORS());
-    configureCheckBox("show angles", vLayout, visualizer, SLOT(setShowAngles(bool)), Constants::STD_SHOW_ANGLES());
-    configureCheckBox("show velocities", vLayout, visualizer, SLOT(setShowVelocities(bool)), Constants::STD_SHOW_VELOCITIES());
-    configureCheckBox("show path for current robot", vLayout, visualizer, SLOT(setShowPath(bool)), Constants::STD_SHOW_PATHS_CURRENT());
-    configureCheckBox("show path for all robots", vLayout, visualizer, SLOT(setShowPathAll(bool)), Constants::STD_SHOW_PATHS_ALL());
-    configureCheckBox("Show marker for Ball Placement", vLayout, visualizer, SLOT(setShowBallPlacementMarker(bool)), Constants::STD_SHOW_BALL_PLACEMENT_MARKER());
+    auto pidWidget = new QWidget;
+    auto pidVLayout = new QVBoxLayout();
+    pidVLayout->addWidget(doubleSpinBoxesGroup);
 
-    // set up tree widget
-    treeWidget = new TreeVisualizerWidget(this);
-    vLayout->addWidget(treeWidget);
+    auto pidSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    pidVLayout->addSpacerItem(pidSpacer);
+    pidWidget->setLayout(pidVLayout);
 
-    // main layout: left the visualizer and right the vertical layout
-    horizontalLayout->addWidget(visualizer, 3); // width stretch 3/5
-    horizontalLayout->addLayout(vLayout, 2); // width stretch 2/5
-    mainLayout->addLayout(horizontalLayout, 5); // height stretch 5/6
+    auto checkboxWidget = new QWidget;
+
+    auto cbVLayout = new QVBoxLayout();
+    configureCheckBox("show rolenames", cbVLayout, visualizer, SLOT(setShowRoles(bool)), Constants::STD_SHOW_ROLES());
+    configureCheckBox("show tacticnames", cbVLayout, visualizer, SLOT(setShowTactics(bool)), Constants::STD_SHOW_TACTICS());
+    configureCheckBox("show tacticColors", cbVLayout, visualizer, SLOT(setShowTacticColors(bool)), Constants::STD_SHOW_TACTICS_COLORS());
+    configureCheckBox("show angles", cbVLayout, visualizer, SLOT(setShowAngles(bool)), Constants::STD_SHOW_ANGLES());
+    configureCheckBox("show velocities", cbVLayout, visualizer, SLOT(setShowVelocities(bool)), Constants::STD_SHOW_VELOCITIES());
+    configureCheckBox("show path for current robot", cbVLayout, visualizer, SLOT(setShowPath(bool)), Constants::STD_SHOW_PATHS_CURRENT());
+    configureCheckBox("show path for all robots", cbVLayout, visualizer, SLOT(setShowPathAll(bool)), Constants::STD_SHOW_PATHS_ALL());
+    configureCheckBox("Show marker for Ball Placement", cbVLayout, visualizer, SLOT(setShowBallPlacementMarker(bool)), Constants::STD_SHOW_BALL_PLACEMENT_MARKER());
+    auto cbVSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    cbVLayout->addSpacerItem(cbVSpacer);
+    checkboxWidget->setLayout(cbVLayout);
+
+    // add the tab widget
+    auto tabWidget = new QTabWidget;
+    tabWidget->addTab(treeWidget, tr("Behaviour trees"));
+    tabWidget->addTab(checkboxWidget, tr("Visualisation Settings"));
+    tabWidget->addTab(pidWidget, tr("PID"));
+    tabWidget->addTab(robotsWidget, tr("Robots"));
+    vLayout->addWidget(tabWidget);
+
+
+    splitter->addWidget(visualizer);
+    auto sideBarWidget = new QWidget;
+    sideBarWidget->setLayout(vLayout);
+    splitter->addWidget(sideBarWidget);
+    splitter->setSizes({600, 200});
+
+    horizontalLayout->addWidget(splitter);
+    mainLayout->addLayout(horizontalLayout);
+
 
     // apply layout
     setCentralWidget(new QWidget);
@@ -122,12 +149,23 @@ MainWindow::MainWindow(QWidget* parent)
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget())); // we need to pass the visualizer so thats why a seperate function is used
     robotsTimer->start(200); // 5fps
 }
+void MainWindow::setToggleColorBtnLayout() const {
+    ros::NodeHandle nh;
+    std::string ourColorParam;
+    nh.getParam("our_color", ourColorParam);
+    if (ourColorParam == "yellow") {
+        toggleColorBtn->setStyleSheet("background-color: orange;"); // orange is more readable
+    } else {
+        toggleColorBtn->setStyleSheet("background-color: blue;");
+    }
+    toggleColorBtn->setText(QString::fromStdString(ourColorParam));
+}
 
 /// Set up a checkbox and add it to the layout
 void MainWindow::configureCheckBox(QString title, QLayout * layout, const QObject* receiver, const char* method,
         bool defaultState) {
 
-    QCheckBox * checkbox = new QCheckBox(title);
+    auto checkbox = new QCheckBox(title);
     checkbox->setChecked(defaultState);
     layout->addWidget(checkbox);
     QObject::connect(checkbox, SIGNAL(clicked(bool)), receiver, method);
@@ -140,17 +178,8 @@ void MainWindow::toggleOurColorParam() {
     nh.getParam("our_color", ourColorParam);
     newParam = ourColorParam == "yellow" ? "blue" : "yellow";
     nh.setParam("our_color", newParam);
-    toggleColorBtn->setText(QString::fromStdString(newParam));
-}
 
-/// toggle the ROS param 'our_side'
-void MainWindow::toggleOurSideParam() {
-    ros::NodeHandle nh;
-    std::string ourSideParam, newParam;
-    nh.getParam("our_side", ourSideParam);
-    newParam = ourSideParam == "right" ? "left" : "right";
-    nh.setParam("our_side", newParam);
-    toggleSideBtn->setText(QString::fromStdString(newParam));
+    setToggleColorBtnLayout();
 }
 
 /// update the PID values for gotopos Luth

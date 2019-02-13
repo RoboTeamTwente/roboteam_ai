@@ -18,7 +18,7 @@ private:
     void clearLayout(QLayout* layout);
     QVBoxLayout* createRobotGroupItem(roboteam_msgs::WorldRobot robot);
     int amountOfSelectedRobots = 0;
-    QHBoxLayout * hLayout;
+    QVBoxLayout * VLayout;
 public:
     explicit RobotsWidget(QWidget * parent);
 public slots:
