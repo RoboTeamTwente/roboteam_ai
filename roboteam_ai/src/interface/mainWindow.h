@@ -42,7 +42,6 @@ public:
 
 public slots:
     void toggleOurColorParam();
-    void toggleOurSideParam();
     void updatePID_luth();
     void sendHaltSignal();
     void setUseReferee(bool useRef);
@@ -58,7 +57,6 @@ private:
     QPushButton * haltBtn;
 
     QPushButton * toggleColorBtn;
-    QPushButton * toggleSideBtn;
     QComboBox * select_strategy;
 
 private:

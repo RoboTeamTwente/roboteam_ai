@@ -61,10 +61,6 @@ MainWindow::MainWindow(QWidget* parent)
     } else {
         toggleColorBtn->setStyleSheet("background-color: blue;");
     }
-    
-    toggleSideBtn = new QPushButton("Side");
-    QObject::connect(toggleSideBtn, SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
-    hButtonsLayout->addWidget(toggleSideBtn);
 
     vLayout->addLayout(hButtonsLayout);
 
@@ -197,16 +193,6 @@ void MainWindow::toggleOurColorParam() {
         toggleColorBtn->setStyleSheet("background-color: blue;");
     }
 
-}
-
-/// toggle the ROS param 'our_side'
-void MainWindow::toggleOurSideParam() {
-    ros::NodeHandle nh;
-    std::string ourSideParam, newParam;
-    nh.getParam("our_side", ourSideParam);
-    newParam = ourSideParam == "right" ? "left" : "right";
-    nh.setParam("our_side", newParam);
-    toggleSideBtn->setText(QString::fromStdString(newParam));
 }
 
 /// update the PID values for gotopos Luth
