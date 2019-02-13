@@ -55,8 +55,9 @@ bool Dribble::robotHasBall() {
     if(!ball->visible){
         return true;
     }
-    Vector2 RobotPos = robot->pos;
-    Vector2 BallPos = ball->pos;
+    //TODO: remove these if not being used.
+//    Vector2 RobotPos = robot->pos;
+//    Vector2 BallPos = ball->pos;
     return World::robotHasBall(*robot, *ball);
 }
 void Dribble::onInitialize() {

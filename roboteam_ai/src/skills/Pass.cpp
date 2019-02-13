@@ -238,7 +238,8 @@ void Pass::receiveBall(roboteam_msgs::RobotCommand &command, const Vector2 &pos)
 void Pass::shootBall(roboteam_msgs::RobotCommand &command) {
     Vector2 ballPos = ball->pos;
     Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.5, true);
-    Vector2 deltaBall = behindBall - ballPos;
+    //TODO: remove is unused.
+//    Vector2 deltaBall = behindBall - ballPos;
 
     if (! Coach::isRobotBehindBallToGoal(0.5, true, robot->pos)) {
         targetPos = behindBall;
@@ -271,7 +272,8 @@ void Pass::shootBall(roboteam_msgs::RobotCommand &command) {
 void Pass::getBall() {
     Vector2 ball = World::getBall()->pos;
     Vector2 behindBall = Coach::getPositionBehindBallToPosition(0.5, otherRobot->pos);
-    Vector2 deltaBall = behindBall - ball;
+    //TODO: remove if unused.
+//    Vector2 deltaBall = behindBall - ball;
 
     if (! Coach::isRobotBehindBallToPosition(0.5, otherRobot->pos, robot->pos)) {
         targetPos = behindBall;

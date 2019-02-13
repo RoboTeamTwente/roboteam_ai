@@ -55,7 +55,6 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
     }
     else if (me.posData.size() > 4) {
 
-        auto robotPos = static_cast<Vector2>(robot->pos);
         int currentIndex = 0;
         double distance = 999999;
 

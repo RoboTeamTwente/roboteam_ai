@@ -69,7 +69,7 @@ std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotClosestToPoint(std::ve
     double distance = 99999999;
 
     for (auto &bot : robots) {
-        if (bot.id != myID) {
+        if (static_cast<int>(bot.id) != myID) {
             Vector2 botPosAtT = (Vector2)bot.pos + (Vector2)bot.vel * t;
             double botDist = (botPosAtT - point).length();
             if (botDist < distance) {

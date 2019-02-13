@@ -18,7 +18,7 @@ void ControlGoToPosClean::setCanGoOutsideField(bool _canGoOutsideField) {
     canGoOutsideField = _canGoOutsideField;
 }
 
-Vector2 ControlGoToPosClean::computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
+Vector2 ControlGoToPosClean::computeNumericCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
     if (path.empty())
         return Vector2(0, 0);
 
@@ -33,6 +33,21 @@ Vector2 ControlGoToPosClean::computeCommand(std::shared_ptr<roboteam_msgs::World
     return pidV + pidP;
 }
 
+Vector2 ControlGoToPosClean::computeForceCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
+    
+    return Vector2(0, 0);
+}
+
+Vector2 ControlGoToPosClean::computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot, GTPType gtpType) {
+    switch (gtpType) {
+    case numeric:
+        return computeNumericCommand(std::move(robot));
+    case force:
+        return computeForceCommand(std::move(robot));
+    }
+}
+
+
 bool ControlGoToPosClean::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
     double maxTargetDeviation = 0.3;
     if (path.empty()) {
@@ -45,10 +60,10 @@ bool ControlGoToPosClean::doRecalculatePath(std::shared_ptr<roboteam_msgs::World
     }
 
     Vector2 robotPos = robot->pos;
-    int currentIndex = 0;
+    unsigned long currentIndex = 0;
     double distanceSquared = 9e99;
 
-    for (int i = 0; i < path.size(); i ++) {
+    for (unsigned long i = 0; i < path.size(); i ++) {
         double pathDistanceToRobot = path[i].pos.dist2(robotPos);
         if (pathDistanceToRobot < distanceSquared) {
             distanceSquared = pathDistanceToRobot;
@@ -72,6 +87,7 @@ bool ControlGoToPosClean::doRecalculatePath(std::shared_ptr<roboteam_msgs::World
 }
 
 Vector2 ControlGoToPosClean::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
+    robotID = robot->id;
 
 // init or change PID
     if (! pidInit) {
@@ -83,7 +99,16 @@ Vector2 ControlGoToPosClean::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> 
 // check if the current path is still valid, if not, recalculate
     bool nicePath = true;
 
-    if (doRecalculatePath(robot, targetPos)) {
+    std::shared_ptr<PathPoint> realRobot = std::make_shared<PathPoint>();
+    realRobot->pos = robot->pos;
+    realRobot->vel = robot->vel;
+    realRobot->t = 0;
+    if (checkCollision(realRobot)) {
+        std::cout << "robot is too close to another robot, trying other GoToPos???" << std::endl;
+        path.clear();
+        return computeCommand(robot, GTPType::force);
+    }
+    else if (doRecalculatePath(robot, targetPos)) {
         if (Vector2(robot->vel).length() > 10.0) {
             nicePath = false;
         }
@@ -105,7 +130,7 @@ Vector2 ControlGoToPosClean::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> 
     if (nicePath)
         return computeCommand(robot);
     else
-        return Vector2(0, 0);
+        return computeCommand(robot, GTPType::force);
 }
 
 void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
@@ -119,23 +144,21 @@ void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> r
       else if (lhs->collisions - rhs->collisions < - 2)
           return false;
       else
-          return (maxVel*lhs->t + remainingStraightLinePathLength(lhs->pos, lhs->currentTarget, finalTargetPos)) >
-                  (maxVel*rhs->t + remainingStraightLinePathLength(rhs->pos, rhs->currentTarget, finalTargetPos));
+          return (lhs->maxVel()*lhs->t + remainingStraightLinePathLength(lhs->pos, lhs->currentTarget, finalTargetPos)) >
+                  (rhs->maxVel()*rhs->t + remainingStraightLinePathLength(rhs->pos, rhs->currentTarget, finalTargetPos));
     };
 
-// compClose compares the amount of collisions first, then sorts the paths based on an approximation on the length of
-// path that still has to be calculated, using straight lines towards the half-way targets, and then the final target
-    auto compClose = [this](std::shared_ptr<PathPoint> lhs, std::shared_ptr<PathPoint> rhs) {
-      if (lhs->collisions > rhs->collisions)
-          return true;
-      else if (rhs->collisions > lhs->collisions)
-          return false;
-      else
-          return (remainingStraightLinePathLength(lhs->pos, lhs->currentTarget, finalTargetPos)) >
-                  (remainingStraightLinePathLength(rhs->pos, rhs->currentTarget, finalTargetPos));
-    };
-
-    // start searching
+//// compClose compares the amount of collisions first, then sorts the paths based on an approximation on the length of
+//// path that still has to be calculated, using straight lines towards the half-way targets, and then the final target
+//    auto compClose = [this](std::shared_ptr<PathPoint> lhs, std::shared_ptr<PathPoint> rhs) {
+//      if (lhs->collisions > rhs->collisions)
+//          return true;
+//      else if (rhs->collisions > lhs->collisions)
+//          return false;
+//      else
+//          return (remainingStraightLinePathLength(lhs->pos, lhs->currentTarget, finalTargetPos)) >
+//                  (remainingStraightLinePathLength(rhs->pos, rhs->currentTarget, finalTargetPos));
+//    };
 
     displayData = {};
     velPID.reset();
@@ -149,7 +172,6 @@ void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> r
     root->acc = {0, 0}; //Assumed for now but could be known from world state/previous commands
     root->t = 0;
     root->collisions = 0;
-    robotID = robot->id;
 
     std::priority_queue<std::shared_ptr<PathPoint>,
                         std::vector<std::shared_ptr<PathPoint>>, decltype(compAStar)> pathQueue(compAStar);
@@ -235,8 +257,8 @@ std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::computeNewP
     newPoint->hasBeenTicked = true;
 
     //ODE model:
-    Vector2 targetVel = (subTarget - oldPoint->pos).normalize()*maxVel;
-    newPoint->acc = (targetVel - oldPoint->vel).normalize()*maxAcc;
+    Vector2 targetVel = (subTarget - oldPoint->pos).normalize()*newPoint->maxVel();
+    newPoint->acc = (targetVel - oldPoint->vel).normalize()*newPoint->maxAcc();
     newPoint->vel = oldPoint->vel + newPoint->acc*dt;
     newPoint->pos = oldPoint->pos + newPoint->vel*dt;
 
@@ -250,8 +272,8 @@ std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::computeNewP
 bool ControlGoToPosClean::checkCollision(std::shared_ptr<PathPoint> point) {
     std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
     roboteam_msgs::World world = World::get_world();
-    for (auto bot: world.us) {
-        if (bot.id != robotID) {
+    for (auto bot : world.us) {
+        if (bot.id != static_cast<unsigned long>(robotID)) {
             Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
             if (point->isCollision(botPos, defaultRobotCollisionRadius)) {
                 std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
@@ -285,7 +307,7 @@ bool ControlGoToPosClean::checkCollision(std::shared_ptr<PathPoint> point) {
 Vector2 ControlGoToPosClean::findCollisionPos(std::shared_ptr<PathPoint> point) {
     roboteam_msgs::World world = World::get_world();
     for (auto bot: world.us) {
-        if (bot.id != robotID) {
+        if (bot.id != static_cast<unsigned long>(robotID)) {
             Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
             if (point->isCollision(botPos, defaultRobotCollisionRadius)) {
                 return botPos;

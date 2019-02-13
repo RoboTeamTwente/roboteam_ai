@@ -17,8 +17,6 @@ class ControlGoToPosClean {
     private:
         //constants, should be moved at some point, or adapted in a dynamic model (e.g. for lower speeds for certain branches, jazz like that)
         double dt = 0.03;
-        double maxVel = 1.56;
-        double maxAcc = 3.03;
 
         double defaultRobotCollisionRadius = 3*constants::ROBOT_RADIUS_MAX;
         int robotID = - 1;
@@ -29,7 +27,6 @@ class ControlGoToPosClean {
         bool pidInit = false;
         bool avoidBall = false;
         bool canGoOutsideField = true;
-        bool pidInitialized = false;
 
         void drawCross(Vector2 &pos, QColor color = Qt::green);
         void drawPoint(Vector2 &pos, QColor color = Qt::green);
@@ -37,7 +34,6 @@ class ControlGoToPosClean {
             std::vector<std::pair<Vector2, QColor>> displayData;
         void initializePID();
         void checkInterfacePID();
-        Vector2 computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
         bool doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos);
         double remainingStraightLinePathLength(Vector2 currentPos, Vector2 halfwayPos, Vector2 finalPos);
         void drawInInterface();
@@ -50,6 +46,18 @@ class ControlGoToPosClean {
                 Vector2 pos;
                 Vector2 vel;
                 Vector2 acc;
+
+                double maxVel() {
+                    return 2.2;
+                }
+                double maxAcc() {
+                    if (vel.length() > maxVel()*0.5)
+                        return 3.05;
+                    else
+                        return 5.1;
+
+                }
+
                 double t;
                 int collisions;
                 bool hasBeenTicked;
@@ -63,6 +71,15 @@ class ControlGoToPosClean {
                 void addChildren(std::vector<std::shared_ptr<PathPoint>> &newChildren);
                 bool isCollision(Vector2 target, double distance);
         };
+
+        enum GTPType {
+          numeric,
+          force
+        };
+        Vector2 computeNumericCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
+        Vector2 computeForceCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
+        Vector2 computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot, GTPType gtpType = numeric);
+
 
         std::pair<std::vector<Vector2>, std::shared_ptr<PathPoint>> getNewTargets(
                 std::shared_ptr<PathPoint> collisionPoint);

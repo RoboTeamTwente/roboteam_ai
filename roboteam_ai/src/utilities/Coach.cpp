@@ -187,7 +187,7 @@ Vector2 Coach::getDefensivePosition(int robotId) {
     auto field = Field::get_field();
     double targetLocationY = field.field_length/4 - (field.field_length/2);
 
-    for (int i = 0; i<defenders.size(); i++) {
+    for (unsigned long i = 0; i<defenders.size(); i++) {
         if (defenders.at(i) == robotId) {
             return {targetLocationY, ((field.field_width/(defenders.size() + 1))*(i+1)) - field.field_width/2 };
         }
@@ -242,7 +242,7 @@ Vector2 Coach::getFormationPosition(int robotId) {
     auto me = World::getRobotForId(robotId, true);
     auto field = Field::get_field();
     double targetLocationY = field.field_length/4 - (field.field_length/2);
-    for (int i = 0; i<robotsInFormation.size(); i++) {
+    for (unsigned long i = 0; i<robotsInFormation.size(); i++) {
         if (robotsInFormation.at(i) == robotId) {
             return {targetLocationY, ((field.field_width/(robotsInFormation.size() + 1))*(i+1)) - field.field_width/2 };
         }
