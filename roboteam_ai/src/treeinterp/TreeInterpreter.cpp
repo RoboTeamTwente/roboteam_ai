@@ -105,22 +105,18 @@ bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
 
     if (jsonLeaf["title"] == "Tactic") {
         auto properties = propertyParser.parse(jsonLeaf);
-        auto node = tacticSwitch(jsonLeaf["name"], properties);
-        node->addChild(tactics.find(jsonLeaf["name"])->second);
-        return node;
+        // This is the point where strategy trees get the tactics attached to them
+        return tacticSwitch(jsonLeaf["name"], properties);
     }
 
     bt::Blackboard::Ptr properties = propertyParser.parse(jsonLeaf);
-
     rtt::ai::Skill::Ptr skill = Switches::leafSwitch(jsonLeaf["title"], properties);
-
     return skill;
 
 }
 
 /// Reads all the tactics from one JSON project, puts them in a local repositopry and returns them
 std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fileName, bt::Blackboard::Ptr globalBB) {
-
 
     json tacticJson = jsonReader.readJSON("tactics/" + fileName);
     std::map<std::string, bt::Node::Ptr> resultMap;
@@ -139,6 +135,7 @@ std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fi
 bt::Node::Ptr TreeInterpreter::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
 
     bt::Node::Ptr node = Switches::tacticSwitch(name, std::move(properties));
+
     node->addChild(tactics.find(name)->second);
     return node;
 }

@@ -75,10 +75,16 @@ class Node {
 
         void setProperties(bt::Blackboard::Ptr blackboard);
 
+        unsigned long long getAmountOfTicks() const;
+
+        ros::Time getLastTickTime();
+
     protected:
         Status status = Status::Waiting;
 
-        static void append_status(std::string fmt, ...);
+        unsigned long long amountOfTicks = 0; // ticks can increase fast
+
+        ros::Time lastTickTime;
 };
 
 std::string statusToString(bt::Node::Status status);
