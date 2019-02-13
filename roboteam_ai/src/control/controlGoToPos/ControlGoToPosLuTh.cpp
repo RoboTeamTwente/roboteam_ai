@@ -19,14 +19,14 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
         pidInit = true;
 
         velPID.reset();
-        velPID.setPID(constants::standard_luth_P,
-                constants::standard_luth_P,
-                constants::standard_luth_P);
+        velPID.setPID(Constants::standard_luth_P(),
+                Constants::standard_luth_I(),
+                Constants::standard_luth_D());
 
         posPID.reset();
-        posPID.setPID(constants::standard_luth_P,
-                constants::standard_luth_P,
-                constants::standard_luth_P);
+        posPID.setPID(Constants::standard_luth_P(),
+                Constants::standard_luth_I(),
+                Constants::standard_luth_D());
     }
 
     if (velPID.getP() != interface::InterfaceValues::getLuthP() ||
@@ -129,9 +129,9 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
 //PID
     int minStep = 5;
     auto allBots = World::getAllRobots();
-
-    Vector2 closestRobot = coach::Coach::getRobotClosestToPosition(allBots, robot->pos, false);
-    Vector2 closestRobotDir = (closestRobot - robot->pos);
+    std::shared_ptr<roboteam_msgs::WorldRobot> closestRobot = coach::Coach::getRobotClosestToPosition(allBots,
+                                                                                                      robot->pos, false);
+    Vector2 closestRobotDir = ((Vector2)closestRobot->pos - robot->pos);
     if ((targetPos - robot->pos).length() < 0.3f) {
         Vector2 dir = (targetPos - robot->pos).scale(3.0);
         velocityCommand.x = static_cast<float>(dir.x);
@@ -202,7 +202,7 @@ bool ControlGoToPosLuTh::tracePath(NumRobot &numRobot, Vector2 target) {
     while (! robotQueue.empty()) {
         ros::Time now = ros::Time::now();
 
-        if ((now - begin).toSec()*1000 > constants::MAX_CALCULATION_TIME) {
+        if ((now - begin).toSec()*1000 > Constants::MAX_CALCULATION_TIME()) {
             return false;
         }
 

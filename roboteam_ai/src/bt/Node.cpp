@@ -6,7 +6,6 @@
 namespace bt {
 
 void Node::initialize() {
-
 }
 
 void Node::terminate(Status s) {

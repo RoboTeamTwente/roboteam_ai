@@ -15,13 +15,13 @@ void TurnGeneva::onInitialize() {
 bt::Node::Status TurnGeneva::onUpdate() {
 
     amountOfCycles ++;
-    if (amountOfCycles > constants::MAX_GENEVA_CYCLES) {
+    if (amountOfCycles > Constants::MAX_GENEVA_CYCLES()) {
         return Status::Failure;
     }
 
     // Get genevaState from blackboard, otherwise it is a default value.
     int genevaState = properties->hasInt("genevaState") ? properties->getInt("genevaState")
-                                                        : constants::DEFAULT_GENEVA_STATE;
+                                                        : Constants::DEFAULT_GENEVA_STATE();
 
     // Send the robotCommand.
     sendGenevaCommand(genevaState);

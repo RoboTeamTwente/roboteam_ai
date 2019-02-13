@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 #include <ros/ros.h>
 #include <QtWidgets/QApplication>
+#include <roboteam_ai/src/utilities/Constants.h>
 
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
@@ -12,6 +13,7 @@ int main(int argc, char** argv) {
 
     // create a ROS node for the tests
     ros::init(argc, argv, "tester");
+    rtt::ai::Constants::init();
     ros::NodeHandle nh;
 
     return RUN_ALL_TESTS();

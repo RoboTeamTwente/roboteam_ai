@@ -9,8 +9,10 @@ GetBall
 DefendOnRobot
 Attack
 Pass
+Receive
+BasicGoToPos,target,goToBall,avoidBall,canGoOutsideField,mirror
 EnterFormation
 DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement
 AvoidBall
-BasicGoToPos,ROLE,avoidBall,canGoOutsideField
 Keeper
+GoAroundPos,targetPos,targetDir,towardsTheirGoal

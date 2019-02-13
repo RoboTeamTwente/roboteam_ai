@@ -47,7 +47,7 @@ TEST(KickTest, It_sends_proper_robotcommands) {
     EXPECT_EQ((signed int) commands.size(), 1);
     EXPECT_TRUE(commands.at(0).kicker);
     EXPECT_TRUE(commands.at(0).kicker_forced);
-    EXPECT_EQ(commands.at(0).kicker_vel, rtt::ai::constants::DEFAULT_KICK_POWER);
+    EXPECT_EQ(commands.at(0).kicker_vel, rtt::ai::Constants::DEFAULT_KICK_POWER());
 
     bb->setDouble("kickVel", 2);
     rtt::ai::Kick kick2("test", bb);
@@ -62,7 +62,7 @@ TEST(KickTest, It_sends_proper_robotcommands) {
     EXPECT_EQ(commands.size(), (unsigned int) 2);
     EXPECT_EQ(commands.at(1).kicker_vel, 2);
 
-    for (int i = 0; i < rtt::ai::constants::MAX_KICK_CYCLES - 1; i ++) {
+    for (int i = 0; i < rtt::ai::Constants::MAX_KICK_CYCLES() - 1; i ++) {
         EXPECT_EQ(kick2.update(), bt::Leaf::Status::Running);
     }
     EXPECT_EQ(kick2.update(), bt::Leaf::Status::Failure);
@@ -101,7 +101,7 @@ TEST(KickTest, It_chips) {
     EXPECT_EQ((signed) commands.size(), 1);
     EXPECT_TRUE(commands.at(0).chipper);
     EXPECT_TRUE(commands.at(0).chipper_forced);
-    EXPECT_EQ(commands.at(0).chipper_vel, rtt::ai::constants::DEFAULT_KICK_POWER);
+    EXPECT_EQ(commands.at(0).chipper_vel, rtt::ai::Constants::DEFAULT_KICK_POWER());
     robotDealer::RobotDealer::removeTactic("KickTest");
 }
 
