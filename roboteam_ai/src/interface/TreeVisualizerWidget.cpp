@@ -122,10 +122,9 @@ void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem* row,
     // so we just need to decrease green.
     mostTicks = std::max(node->getAmountOfTicks(), mostTicks);
     if (mostTicks != 0) {
-        float div = (node->getAmountOfTicks()*1.0) / (mostTicks*1.0);
-        int factor = 255 * div;
-        std::cout << factor << std::endl;
-        row->setTextColor(3, {255, 255-factor, 0});
+        double div = (node->getAmountOfTicks()*1.0) / (mostTicks*1.0);
+        int factor = 255 * sqrt(div);
+        row->setTextColor(3, {255, 255-factor, factor});
     }
     row->setText(3, QString::number(node->getAmountOfTicks(), 'f', 0));
 

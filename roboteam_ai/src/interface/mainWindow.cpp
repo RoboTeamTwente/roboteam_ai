@@ -7,6 +7,7 @@
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include "InterfaceValues.h"
 #include "RobotsWidget.h"
+#include <QSplitter>
 
 namespace rtt {
 namespace ai {
@@ -28,6 +29,7 @@ MainWindow::MainWindow(QWidget* parent)
     mainLayout = new QVBoxLayout();
     horizontalLayout = new QHBoxLayout();
     vLayout = new QVBoxLayout();
+    auto splitter = new QSplitter();
 
     robotsWidget = new RobotsWidget(this);
 
@@ -126,9 +128,19 @@ MainWindow::MainWindow(QWidget* parent)
 
     vLayout->addWidget(tabWidget);
 
+
+
+
     // main layout: left the visualizer and right the vertical layout
-    horizontalLayout->addWidget(visualizer, 3); // width stretch 3/5
-    horizontalLayout->addLayout(vLayout, 2); // width stretch 2/5
+    splitter->addWidget(visualizer); // width stretch 3/5
+
+    auto sideBarWidget = new QWidget;
+    sideBarWidget->setLayout(vLayout);
+
+    splitter->addWidget(sideBarWidget);
+    splitter->setSizes({600, 200});
+
+    horizontalLayout->addWidget(splitter);
     mainLayout->addLayout(horizontalLayout, 5); // height stretch 5/6
 
 
