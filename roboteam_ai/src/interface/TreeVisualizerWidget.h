@@ -23,11 +23,13 @@ private:
     std::map<QTreeWidgetItem *, bt::Node::Ptr> treeItemMapping;
     bool hasCorrectTree = false;
     MainWindow * parent = nullptr;
+
 public:
     void setHasCorrectTree(bool hasCorrectTree);
     explicit TreeVisualizerWidget(MainWindow * parent);
 public slots:
     void updateContents();
+    void populateRow(bt::Node::Ptr node, QTreeWidgetItem* row, bool isUpdate = false);
 };
 
 }

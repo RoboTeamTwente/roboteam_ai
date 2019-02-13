@@ -13,27 +13,27 @@ namespace ai {
 namespace interface {
 
 TreeVisualizerWidget::TreeVisualizerWidget(MainWindow * parent)
-        : QTreeWidget((QWidget *) parent)
-{
+        : QTreeWidget((QWidget *) parent) {
     this->parent = parent;
-    this->setColumnCount(2);
+    this->setColumnCount(4);
     this->setColumnWidth(0, 250);
+
+    QTreeWidgetItem* header = this->headerItem();
+    header->setText(0, "Node");
+    header->setText(1, "Status");
+    header->setText(2, "Last tick");
+    header->setText(3, "# of ticks");
 }
 
 // some widgets need to be updated regularly
-void TreeVisualizerWidget::updateContents()
-{
+void TreeVisualizerWidget::updateContents(){
+
     // Iterate through all treeWidget items to update the status if needed
     QTreeWidgetItemIterator iter(this, QTreeWidgetItemIterator::All);
     while (*iter) {
         QTreeWidgetItem* widgetItem = *iter;
         if (treeItemMapping.find(widgetItem)!=treeItemMapping.end()) {
-            bt::Node::Ptr item = treeItemMapping.at(widgetItem);
-            QString status = QString::fromStdString(statusToString(item->getStatus()));
-            if (widgetItem->text(1)!=status) {
-                widgetItem->setText(1, status);
-                widgetItem->setTextColor(1, getColorForStatus(item->getStatus()));
-            }
+            populateRow(treeItemMapping.at(widgetItem), widgetItem, true);
         }
         ++iter;
     }
@@ -53,10 +53,7 @@ void TreeVisualizerWidget::updateContents()
 
         if (tree && tree->GetRoot()) {
             auto treeItemRoot = new QTreeWidgetItem(this);
-            treeItemRoot->setText(0, QString::fromStdString(tree->GetRoot()->node_name()));
-            treeItemRoot->setText(1, QString::fromStdString(statusToString(tree->GetRoot()->getStatus())));
-            treeItemRoot->setTextColor(1, getColorForStatus(tree->GetRoot()->getStatus()));
-
+            populateRow(tree->GetRoot(), treeItemRoot);
             addRootItem(tree->GetRoot(), treeItemRoot);
             this->expandAll();
             this->update();
@@ -65,21 +62,66 @@ void TreeVisualizerWidget::updateContents()
     }
 }
 
+
 /// Use recursion to iterate through the children of each node
-void TreeVisualizerWidget::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem* QParent)
-{
+void TreeVisualizerWidget::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem* QParent){
     for (auto const& child : parent->getChildren()) {
         auto treeItemchild = new QTreeWidgetItem(QParent);
-        treeItemchild->setText(0, QString::fromStdString(child->node_name()));
-        treeItemchild->setText(1, QString::fromStdString(statusToString(child->getStatus())));
-
-        std::pair<QTreeWidgetItem*, bt::Node::Ptr> pair{treeItemchild, child};
-        treeItemMapping.insert(pair);
-
-        treeItemchild->setTextColor(1, getColorForStatus(child->getStatus()));
+        populateRow(child, treeItemchild);
         QParent->addChild(treeItemchild);
         addRootItem(child, treeItemchild);
     }
+}
+
+// update the contents in a row of the treewidget
+void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem* row, bool isUpdate){
+    ros::Time currentTime = ros::Time::now();
+
+    // if the row is updated we don't need to change node names
+    // also insert the pair into treeItemMapping
+    if (!isUpdate) {
+        row->setText(0, QString::fromStdString(node->node_name()));
+
+        std::pair<QTreeWidgetItem*, bt::Node::Ptr> pair{row, node};
+        treeItemMapping.insert(pair);
+    }
+
+    // Check if the status is changed and update it if needed.
+    QString status = QString::fromStdString(statusToString(node->getStatus()));
+    if (row->text(1)!=status) {
+        row->setText(1, status);
+        row->setTextColor(1, getColorForStatus(node->getStatus()));
+    }
+
+    // Update the elapsed time (if ticked)
+    ros::Duration duration = currentTime - node->getLastTickTime();
+
+    if (node->getAmountOfTicks() > 0) {
+        if (duration.toSec() < 1) {
+            row->setTextColor(2, Qt::white);
+            row->setText(2, "Just now");
+        } else if (duration.toSec() < 60){
+            row->setTextColor(2, Qt::gray);
+            row->setText(2, QString::number(duration.toSec(), 'f', 1)+"s ago");
+        } else {
+            row->setTextColor(2, Qt::darkGray);
+            row->setText(2, "> 1m ago");
+        }
+    } else {
+        row->setTextColor(2, Qt::darkGray);
+        row->setText(2, "N/A");
+    }
+
+    // update the total amount of ticks
+    row->setTextColor(3, Qt::darkGray);
+    row->setText(3, QString::number(node->getAmountOfTicks(), 'f', 0));
+
+    //            int factor;
+//            if (duration.toSec() != 0) {
+//                factor = std::max(static_cast<int>( 255 * (widgetItem->text(2).toDouble()/duration.toSec())), 25);
+//                widgetItem->setTextColor(2, {factor,factor,factor});
+//
+//            }
 }
 
 /// returns a color for a given node status

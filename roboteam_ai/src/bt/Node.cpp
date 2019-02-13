@@ -18,6 +18,9 @@ void Node::terminate(Status s) {
 }
 
 Node::Status Node::tick() {
+    amountOfTicks++;
+    lastTickTime = ros::Time::now();
+
     if (status != Status::Running) {
         NodeInitialize();
     }
@@ -77,6 +80,14 @@ void Node::NodeInitialize() {
 void Node::NodeTerminate(Status s) {
     //std::cout << "Node Terminate:  " << node_name() << std::endl;
     terminate(s);
+}
+
+unsigned long long Node::getAmountOfTicks() const {
+    return amountOfTicks;
+}
+
+ros::Time Node::getLastTickTime() {
+    return lastTickTime;
 }
 
 std::string statusToString(bt::Node::Status status) {
