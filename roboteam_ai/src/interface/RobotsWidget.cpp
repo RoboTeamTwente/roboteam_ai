@@ -6,16 +6,24 @@
 #include <QtWidgets/QLabel>
 #include <roboteam_msgs/WorldRobot.h>
 #include "RobotsWidget.h"
+#include <QScrollArea>
 
 namespace rtt {
 namespace ai {
 namespace interface {
 
 RobotsWidget::RobotsWidget(QWidget* parent) : QWidget(parent){
+
+    // make sure it is scrollable
+    auto container = new QVBoxLayout();
     VLayout = new QVBoxLayout();
-    this->setLayout(VLayout);
-
-
+    auto scroll = new QScrollArea();
+    scroll->setWidgetResizable(true);
+    auto inner = new QFrame(scroll);
+    inner->setLayout(VLayout);
+    scroll->setWidget(inner);
+    container->addWidget(scroll);
+    this->setLayout(container);
 }
 
 void RobotsWidget::updateContents(Visualizer* visualizer) {
@@ -27,9 +35,6 @@ void RobotsWidget::updateContents(Visualizer* visualizer) {
             || amountOfSelectedRobots!=static_cast<int>(visualizer->getSelectedRobots().size())) {
         amountOfSelectedRobots = visualizer->getSelectedRobots().size();
         clearLayout(VLayout);
-
-        auto robotSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
-        VLayout->addSpacerItem(robotSpacer);
 
         for (auto robot : us) {
             QGroupBox* groupBox = new QGroupBox("Robot "+QString::number(robot.id));
@@ -54,6 +59,8 @@ void RobotsWidget::updateContents(Visualizer* visualizer) {
             }
         }
     }
+    auto robotSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    VLayout->addSpacerItem(robotSpacer);
 }
 
 /// create a single layout with robot information for a specific robot
