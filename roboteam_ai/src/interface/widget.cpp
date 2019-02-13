@@ -3,18 +3,16 @@
 //
 
 #include <roboteam_ai/src/utilities/RobotDealer.h>
+#include <ros/node_handle.h>
 #include "widget.h"
 #include "drawer.h"
 #include "InterfaceValues.h"
-
-namespace c = rtt::ai::constants;
 
 namespace rtt {
 namespace ai {
 namespace interface {
 
-Visualizer::Visualizer(QWidget* parent)
-        :QWidget(parent) { }
+Visualizer::Visualizer(QWidget* parent) : QWidget(parent) { }
 
 /// The update loop of the field widget. Invoked by widget->update();
 void Visualizer::paintEvent(QPaintEvent* event) {
@@ -31,7 +29,7 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         if (showPath) {
             for (auto robot : selectedRobots) {
                 drawDataPoints(painter, Drawer::getGoToPosLuThPoints(robot.id));
-                drawDataPoints(painter, Drawer::getKeeperPoints(robot.id),constants::KEEPER_HELP_DRAW_SIZE);
+                drawDataPoints(painter, Drawer::getKeeperPoints(robot.id),Constants::KEEPER_HELP_DRAW_SIZE());
                 drawIntercept(painter, Drawer::getInterceptPoints(robot.id));
             }
         }
@@ -45,7 +43,7 @@ void Visualizer::paintEvent(QPaintEvent* event) {
 /// Calculates the factor variable which is used for mapping field coordinates with screen coordinates.
 void Visualizer::calculateFieldSizeFactor() {
     roboteam_msgs::GeometryFieldSize field = rtt::ai::Field::get_field();
-    fieldmargin = static_cast<int>(c::WINDOW_FIELD_MARGIN + field.boundary_width);
+    fieldmargin = static_cast<int>(Constants::WINDOW_FIELD_MARGIN() + field.boundary_width);
     float widthFactor = this->size().width()/field.field_length - (2*fieldmargin);
     float heightFactor = this->size().height()/field.field_width - (2*fieldmargin);
     factor = std::min(widthFactor, heightFactor);
@@ -53,13 +51,13 @@ void Visualizer::calculateFieldSizeFactor() {
 
 /// draws background of the field
 void Visualizer::drawBackground(QPainter &painter) {
-    painter.setBrush(c::FIELD_COLOR);
+    painter.setBrush(Constants::FIELD_COLOR());
     painter.drawRect(0, 0, this->size().width(), this->size().height());
 }
 
 // draws the field lines
 void Visualizer::drawFieldLines(QPainter &painter) {
-    painter.setPen(c::FIELD_LINE_COLOR);
+    painter.setPen(Constants::FIELD_LINE_COLOR());
     painter.setBrush(Qt::transparent);
     // draw lines
     for (auto &line : rtt::ai::Field::get_field().field_lines) {
@@ -80,9 +78,9 @@ void Visualizer::drawFieldLines(QPainter &painter) {
 void Visualizer::drawBall(QPainter &painter) {
     rtt::Vector2 ballPosition = toScreenPosition(rtt::ai::World::get_world().ball.pos);
     QPointF qballPosition(ballPosition.x, ballPosition.y);
-    painter.setBrush(c::BALL_COLOR); // fill
+    painter.setBrush(Constants::BALL_COLOR()); // fill
     painter.setPen(Qt::NoPen); // stroke
-    painter.drawEllipse(qballPosition, c::BALL_DRAWING_SIZE, c::BALL_DRAWING_SIZE);
+    painter.drawEllipse(qballPosition, Constants::BALL_DRAWING_SIZE(), Constants::BALL_DRAWING_SIZE());
 }
 
 // draw the robots
@@ -118,7 +116,23 @@ rtt::Vector2 Visualizer::toFieldPosition(rtt::Vector2 screenPos) {
 void Visualizer::drawRobot(QPainter &painter, roboteam_msgs::WorldRobot robot, bool ourTeam) {
     Vector2 robotpos = toScreenPosition(robot.pos);
     QPointF qrobotPosition(robotpos.x, robotpos.y);
-    QColor robotColor = ourTeam ? c::ROBOT_US_COLOR : c::ROBOT_THEM_COLOR;
+
+    // we check the ros param our_color every time. This is because the referee can switch colors at any moment.
+    ros::NodeHandle nh;
+    std::string ourColorParam, newParam;
+    nh.getParam("our_color", ourColorParam);
+
+    // update the we are yellow
+    bool weAreYellow = ourColorParam == "yellow";
+
+    QColor robotColor;
+    if (ourTeam) {
+        // our robots have our_color
+        robotColor = weAreYellow ? Constants::ROBOT_COLOR_YELLOW() : Constants::ROBOT_COLOR_BLUE();
+    } else {
+        // the enemy robot should have the inverse of our_color
+        robotColor = weAreYellow ? Constants::ROBOT_COLOR_BLUE() : Constants::ROBOT_COLOR_YELLOW();
+    }
 
     if (showAllPaths) {
         std::vector<rtt::Vector2> gtpltPoints;
@@ -149,20 +163,20 @@ void Visualizer::drawRobot(QPainter &painter, roboteam_msgs::WorldRobot robot, b
 
     int ypos = robotpos.y;
     if (showTactics && ourTeam) {
-        painter.setPen(c::TEXT_COLOR);
+        painter.setPen(Constants::TEXT_COLOR());
         painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(getTacticNameForRobot(robot)));
     }
 
     if (showRoles && ourTeam) {
-        painter.setPen(c::TEXT_COLOR);
+        painter.setPen(Constants::TEXT_COLOR());
         painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(getRoleNameForRobot(robot)));
     }
 
     // draw the robots
-    QColor color = (robotIsSelected(robot) && ourTeam) ? c::SELECTED_ROBOT_COLOR : robotColor;
+    QColor color = (robotIsSelected(robot) && ourTeam) ? Constants::SELECTED_ROBOT_COLOR() : robotColor;
     painter.setBrush(color);
     painter.setPen(Qt::transparent);
-    painter.drawEllipse(qrobotPosition, c::ROBOT_DRAWING_SIZE, c::ROBOT_DRAWING_SIZE);
+    painter.drawEllipse(qrobotPosition, Constants::ROBOT_DRAWING_SIZE(), Constants::ROBOT_DRAWING_SIZE());
 
     // draw the id in it
     painter.setPen(Qt::black);
@@ -201,15 +215,15 @@ void Visualizer::drawTacticColorForRobot(QPainter &painter, roboteam_msgs::World
     }
 
     if (! tacticExists) {
-        QColor newColor = c::TACTIC_COLORS[tacticCount];
-        tacticCount = (tacticCount + 1)%sizeof(c::TACTIC_COLORS);
+        QColor newColor = Constants::TACTIC_COLORS().at(tacticCount);
+        tacticCount = (tacticCount + 1)% Constants::TACTIC_COLORS().size();
         tacticColors.push_back({tacticName, newColor});
         c = newColor;
     }
 
     painter.setPen(Qt::transparent);
     painter.setBrush(c);
-    painter.drawEllipse(qrobotPosition, c::TACTIC_COLOR_DRAWING_SIZE, c::TACTIC_COLOR_DRAWING_SIZE);
+    painter.drawEllipse(qrobotPosition, Constants::TACTIC_COLOR_DRAWING_SIZE(), Constants::TACTIC_COLOR_DRAWING_SIZE());
 }
 
 void Visualizer::drawDataPoints(QPainter &painter, std::vector<Vector2> points, int pointSize, QColor color) {
@@ -305,13 +319,13 @@ bool Visualizer::robotIsSelected(roboteam_msgs::WorldRobot robotToCheck) {
 
 void Visualizer::drawIntercept(QPainter &painter, std::vector<std::pair<rtt::Vector2, QColor>> points) {
     if (! points.empty()) {
-        for (int j = 0; j < constants::INTERCEPT_DRAW_VECTOR_SIZE; ++ j) {
+        for (int j = 0; j < Constants::INTERCEPT_DRAW_VECTOR_SIZE(); ++ j) {
             //first point needs to be drawn as a standalone (is not a line)
             if (j < 1) {
                 Vector2 PointZ = toScreenPosition(points[j].first);
                 painter.setPen(points[j].second);
-                painter.drawEllipse(PointZ.x, PointZ.y, constants::KEEPER_HELP_DRAW_SIZE,
-                        constants::KEEPER_HELP_DRAW_SIZE);
+                painter.drawEllipse(PointZ.x, PointZ.y, Constants::KEEPER_HELP_DRAW_SIZE(),
+                        Constants::KEEPER_HELP_DRAW_SIZE());
             }
             else {
                 painter.setPen(points[j].second);

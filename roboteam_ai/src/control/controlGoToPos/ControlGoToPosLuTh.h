@@ -175,7 +175,7 @@ class ControlGoToPosLuTh {
         NumRobot me;
 
         std::vector<Vector2> displayData;
-        double errorMargin = constants::GOTOPOS_LUTH_ERROR_MARGIN;
+        double errorMargin = Constants::GOTOPOS_LUTH_ERROR_MARGIN();
 
         Vector2 targetPos = {999.2, 999.2};
 

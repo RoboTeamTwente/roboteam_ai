@@ -9,7 +9,7 @@
 namespace rtt {
 namespace ai {
 namespace control {
- 
+
 /// return the angular velocity for a robot to go from robotAngle to targetAngle
 double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAngle) {
     double direction = 1;               // counter clockwise rotation
@@ -23,11 +23,11 @@ double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAn
         direction = - 1;                //  clockwise rotation
     }
     if (angleDiff > 1)angleDiff = 1;
-    return direction*(std::pow(rotFactor, angleDiff - 1)*rtt::ai::constants::MAX_ANGULAR_VELOCITY - 1/rotFactor);
+    return direction*(std::pow(rotFactor, angleDiff - 1) * rtt::ai::Constants::MAX_ANGULAR_VELOCITY() - 1/rotFactor);
 }
 
 // Efficient implementation, see this: https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
-/// Returns if PointToCheck is within the triangle constructed by three points. 
+/// Returns if PointToCheck is within the triangle constructed by three points.
 bool ControlUtils::pointInTriangle(Vector2 PointToCheck, Vector2 TP1, Vector2 TP2, Vector2 TP3) {
     double as_x = PointToCheck.x - TP1.x;
     double as_y = PointToCheck.y - TP1.y;
@@ -69,9 +69,9 @@ double ControlUtils::distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vec
 }
 
 /// See if a robot has a clear vision towards another robot
-/// e.g. there are no obstacles in between. 
+/// e.g. there are no obstacles in between.
 bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::World world, int safelyness) {
-    double minDistance = rtt::ai::constants::ROBOT_RADIUS*(3*safelyness); // TODO: calibrate Rolf approved
+    double minDistance = rtt::ai::Constants::ROBOT_RADIUS()*(3*safelyness); // TODO: calibrate Rolf approved
     Vector2 fromPos;
     Vector2 towardsPos;
 
@@ -93,7 +93,7 @@ bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::Worl
     return true;
 }
 
-/// Get the distance from PointToCheck towards a line, the line is not infinite. 
+/// Get the distance from PointToCheck towards a line, the line is not infinite.
 double ControlUtils::distanceToLineWithEnds(Vector2 pointToCheck, Vector2 lineStart, Vector2 lineEnd) {
     Vector2 n = lineEnd - lineStart;
     Vector2 pa = lineStart - pointToCheck;
@@ -159,11 +159,11 @@ bool ControlUtils::lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd, V
 rtt::Arc ControlUtils::createKeeperArc() {
     double goalwidth = rtt::ai::Field::get_field().goal_width;
     Vector2 goalPos = rtt::ai::Field::get_our_goal_center();
-    double diff = rtt::ai::constants::KEEPER_POST_MARGIN - rtt::ai::constants::KEEPER_CENTREGOAL_MARGIN;
+    double diff = rtt::ai::Constants::KEEPER_POST_MARGIN() - rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN();
 
     double radius = diff*0.5 + goalwidth*goalwidth/(8*diff); //Pythagoras' theorem.
     double angle = asin(goalwidth/2/radius); // maximum angle (at which we hit the posts)
-    Vector2 center = Vector2(goalPos.x + rtt::ai::constants::KEEPER_CENTREGOAL_MARGIN + radius, 0);
+    Vector2 center = Vector2(goalPos.x + rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN() + radius, 0);
     if (diff > 0) {
         return rtt::Arc(center, radius, M_PI - angle, angle - M_PI);
     }
@@ -198,13 +198,26 @@ int ControlUtils::rotateDirection(double currentAngle, double targetAngle){
 }
 
 /// Limits velocity to maximum velocity
-Vector2 ControlUtils::VelocityLimiter(Vector2 vel) {
-    if (vel.length() > rtt::ai::constants::MAX_VEL) {
-        vel = vel.stretchToLength(rtt::ai::constants::MAX_VEL);
+Vector2 ControlUtils::VelocityLimiter(Vector2 vel,double maxVel) {
+    if (vel.length() > maxVel) {
+        vel = vel.stretchToLength(maxVel);
         return vel;
     }
     else return vel;
 }
+
+Vector2 ControlUtils::VelocityLimiter(Vector2 vel, double maxVel,double minVel){
+    if (vel.length() > maxVel) {
+        vel = vel.stretchToLength(maxVel);
+        return vel;
+    }
+    else if (vel.length()<minVel){
+        vel=vel.stretchToLength(minVel);
+        return vel;
+    }
+    else return vel;
+}
+
 
 /// Get the intersection of two lines
 Vector2 ControlUtils::twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2) {
@@ -220,8 +233,8 @@ Vector2 ControlUtils::twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Ve
 
 }
 
-/// Returns point in field closest to a given point. 
-/// If the point is already in the field it returns the same as the input. 
+/// Returns point in field closest to a given point.
+/// If the point is already in the field it returns the same as the input.
 Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, float margin) {
     auto field = Field::get_field();
     double hFieldLength = field.field_length*0.5;
@@ -235,6 +248,18 @@ Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, float margi
     if (position.y < - hFieldWidth + margin)
         position.y = - hFieldWidth + margin;
     return position;
+}
+
+
+/// Calculate the force of a given vector + a certain type.
+/// the basic formula is: force = weight/distance^2 * unit vector
+Vector2 ControlUtils::calculateForce(rtt::Vector2 vector, double weight, double minDistance) {
+
+    // if the object is close enough, it's forces should affect. Otherwise don't change anything.
+    if (vector.length() <= minDistance) {
+        return vector.normalize()*(weight/(pow(vector.length(), 2)));
+    }
+    return {0, 0};
 }
 
 } // control

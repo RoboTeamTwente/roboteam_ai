@@ -21,7 +21,7 @@ void ApplicationManager::setup() {
 }
 
 void ApplicationManager::loop() {
-    ros::Rate rate(rtt::ai::constants::tickRate);
+    ros::Rate rate(ai::Constants::TICK_RATE());
     double longestTick = 0.0;
     double timeTaken;
     while (ros::ok()) {
@@ -37,7 +37,7 @@ void ApplicationManager::loop() {
                 std::cout << "tick took longer than 200ms!!" << std::endl;
             } else {
                 longestTick = timeTaken;
-                if (rtt::ai::constants::SHOW_LONGEST_TICK) {
+                if (ai::Constants::SHOW_LONGEST_TICK()) {
                     std::cout << "longest tick took: " << longestTick*0.000001 << " ms" << std::endl;
                 }
             }
@@ -58,7 +58,10 @@ void ApplicationManager::runOneLoopCycle() {
             ROS_INFO("NaN tree probably Halting");
             return;
         }
-        //this->handleRefData();
+
+        if (ai::interface::InterfaceValues::usesRefereeCommands()) {
+            this->handleRefData();
+        }
         strategy = factory.getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
@@ -95,7 +98,7 @@ void ApplicationManager::updateDangerfinder() {
 void ApplicationManager::handleRefData() {
     ai::StrategyManager strategyManager;
     std::string strategyName = strategyManager.getCurrentStrategyName(refereeMsg.command);
-    strategy = factory.getTree(strategyName);
+    BTFactory::setCurrentTree(strategyName);
 }
 
 void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {

@@ -9,13 +9,12 @@ namespace ai {
 Dribble::Dribble(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) { }
 
-namespace c=rtt::ai::constants;
 Dribble::Progression Dribble::checkProgression() {
     if (currentProgress == ON_THE_WAY) {
         if (! robotHasBall()) {
             return FAIL;
         }
-        if (deltaPos.length() <= constants::DRIBBLE_POSDIF) {
+        if (deltaPos.length() <= Constants::DRIBBLE_POSDIF()) {
             if (forwardDirection) {
                 stoppingAngle = (float) deltaPos.angle();
             }
@@ -88,7 +87,7 @@ void Dribble::onInitialize() {
     }
     if(!ball->visible){
         auto world=World::get_world();
-        Vector2 ballPos=Vector2(robot->pos)+Vector2(constants::ROBOT_RADIUS+constants::BALL_RADIUS,0).rotate(robot->angle);
+        Vector2 ballPos=Vector2(robot->pos)+Vector2(Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS(),0).rotate(robot->angle);
         world.ball.visible=true;
         world.ball.pos=ballPos;
         World::set_world(world);
@@ -111,7 +110,7 @@ Dribble::Status Dribble::onUpdate() {
         deltaPos = targetPos - Vector2(ball->pos);
     }
     else{
-        deltaPos=targetPos-(Vector2(robot->pos)+Vector2(constants::ROBOT_RADIUS+constants::BALL_RADIUS,0).rotate(robot->angle));
+        deltaPos=targetPos-(Vector2(robot->pos)+Vector2(Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS(),0).rotate(robot->angle));
     }
     currentProgress = checkProgression();
 
@@ -163,8 +162,8 @@ void Dribble::sendMoveCommand() {
 //    command.y_vel = (float) deltaPos.normalize().y*c::DRIBBLE_SPEED;
 //    }
 //    else{
-        command.x_vel=(float) deltaPos.normalize().x*c::DRIBBLE_SPEED;
-        command.y_vel=(float) deltaPos.normalize().y*c::DRIBBLE_SPEED;
+        command.x_vel=(float) deltaPos.normalize().x * Constants::DRIBBLE_SPEED();
+        command.y_vel=(float) deltaPos.normalize().y * Constants::DRIBBLE_SPEED();
 //    }
     publishRobotCommand(command);
 }

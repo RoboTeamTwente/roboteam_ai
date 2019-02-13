@@ -12,6 +12,7 @@
 #include "roboteam_msgs/GeometryFieldSize.h"
 #include <mutex>
 #include <thread>
+#include "World.h"
 
 namespace rtt {
 namespace ai {
@@ -23,15 +24,15 @@ class Field {
 
     public:
         static const roboteam_msgs::GeometryFieldSize get_field();
-
         static void set_field(roboteam_msgs::GeometryFieldSize field);
-
         static Vector2 get_our_goal_center();
-
         static Vector2 get_their_goal_center();
-
         static bool pointIsInDefenceArea(Vector2 point, bool isOurDefenceArea = true, float margin = 0.0);
         static bool pointIsInField(Vector2 point, float margin = 0.0);
+        static int getRobotClosestToGoal(bool ourRobot, bool ourGoal);
+        static double getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point);
+        static std::vector<Vector2> getVisiblePartsOfGoal();
+
 };
 
 } // ai

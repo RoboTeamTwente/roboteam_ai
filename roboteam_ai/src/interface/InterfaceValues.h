@@ -19,8 +19,13 @@ private:
     static double luthD;
     static std::mutex PIDMutex;
     static std::mutex BallPlacementMutex;
+    static std::mutex RefMutex;
     static rtt::Vector2 ballPlacementTarget;
+    static bool useRefereeCommands;
+
 public:
+    static bool usesRefereeCommands();
+    static void setUseRefereeCommands(bool useRefereeCommands);
     static const rtt::Vector2& getBallPlacementTarget();
     static void setBallPlacementTarget(const rtt::Vector2& ballPlacementTarget);
     static double getLuthP();

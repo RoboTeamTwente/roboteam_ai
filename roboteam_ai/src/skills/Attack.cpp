@@ -36,9 +36,9 @@ bt::Node::Status Attack::onUpdate() {
         targetPos = ball;
         command.use_angle = 1;
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
-        if (Coach::doesRobotHaveBall(robot->id, true, 0.15, 0.1)) {
+        if (Coach::doesRobotHaveBall(robot->id, true, rtt::ai::Constants::MAX_BALL_RANGE())) {
             command.kicker = 1;
-            command.kicker_vel = static_cast<float>(rtt::ai::constants::MAX_KICK_POWER);
+            command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
             command.kicker_forced = 1;
         }
         goToType = GoToType::basic;
@@ -59,6 +59,9 @@ bt::Node::Status Attack::onUpdate() {
     else {
         velocity = goToPos.goToPos(robot, targetPos, goToType);
     }
+    if (velocity.length() < 0.3 && velocity.length() > 0.04)
+        velocity.stretchToLength(0.3);
+
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     publishRobotCommand(command);

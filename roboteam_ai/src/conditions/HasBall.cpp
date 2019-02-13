@@ -7,6 +7,7 @@
  *  - if robot or ball is undefined
  */
 
+#include <roboteam_ai/src/control/ControlUtils.h>
 #include "HasBall.hpp"
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_msgs/WorldBall.h"
@@ -20,14 +21,14 @@ HasBall::HasBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(n
 bt::Node::Status HasBall::update() {
     robot = getRobotFromProperties(properties);
     auto ball = World::getBall();
+
     if (! robot || ! ball) {
         return Status::Failure;
     }
     if (World::robotHasBall(*robot, *ball)) {
-       return Status::Success;
+        return Status::Success;
     }
     return Status::Failure;
 }
-
 } // ai
 } // rtt

@@ -13,7 +13,6 @@
         "nodes": {
           "bbb": {
             "child": "ccc",
-            "description": "",
             "id": "bbb",
             "name": "UntilSuccess",
             "title": "UntilSuccess",
@@ -22,7 +21,6 @@
             }
           },
           "ccc": {
-            "description": "",
             "id": "ccc",
             "title": "Tactic",
             "name": "grsimTestTactic"

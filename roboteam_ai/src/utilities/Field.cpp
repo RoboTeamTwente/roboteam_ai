@@ -60,6 +60,7 @@ bool Field::pointIsInDefenceArea(Vector2 point, bool isOurDefenceArea, float mar
     }
 }
 
+// the margin is pointed inside the field!
 bool Field::pointIsInField(Vector2 point, float margin) {
     roboteam_msgs::GeometryFieldSize _field;
     {
@@ -75,6 +76,14 @@ bool Field::pointIsInField(Vector2 point, float margin) {
             point.y < halfWidth - margin &&
             point.y > - halfWidth + margin);
 
+}
+
+int Field::getRobotClosestToGoal(bool ourRobot, bool ourGoal) {
+    roboteam_msgs::World_<std::allocator<void>>::_them_type robots = ourRobot ? World::get_world().us : World::get_world().them;
+    Vector2 target = ourGoal ? Field::get_our_goal_center() : Field::get_their_goal_center();
+
+    int closestId = World::getRobotClosestToPoint(robots, target)->id;
+    return closestId;
 }
 
 } // ai

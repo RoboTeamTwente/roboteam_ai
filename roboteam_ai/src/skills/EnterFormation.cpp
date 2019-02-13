@@ -24,12 +24,12 @@ bt::Node::Status EnterFormation::onUpdate() {
     cmd.id = robot->id;
     cmd.use_angle = 1;
 
-    if (robotPos.dist(targetLocation) > constants::GOTOPOS_LUTH_ERROR_MARGIN) {
+    if (robotPos.dist(targetLocation) > Constants::GOTOPOS_LUTH_ERROR_MARGIN()) {
         auto velocities = gtp.goToPos(robot, targetLocation, control::GoToType::luTh);
         cmd.x_vel = velocities.x;
         cmd.y_vel = velocities.y;
         cmd.w = static_cast<float>((targetLocation-robot->pos).angle());
-    } else {
+    } else { // we are at the right location
         cmd.w = static_cast<float>((targetToLookAtLocation-robot->pos).angle());
     }
     publishRobotCommand(cmd);
