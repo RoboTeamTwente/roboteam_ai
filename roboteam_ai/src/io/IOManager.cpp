@@ -5,7 +5,8 @@
  * Using this class you don't have to think about callbacks or scoping, or weird ROS parameters.
  */
 
-#include <roboteam_msgs/RobotCommand.h>
+
+#include <roboteam_msgs/DemoRobot.h>
 #include <roboteam_ai/src/demo/JoystickDemo.h>
 #include "IOManager.h"
 
@@ -68,6 +69,16 @@ void IOManager::subscribeToRefereeData() {
     );
 }
 
+void IOManager::subscribeToDemoInfo() {
+    demoInfoSubscriber = nodeHandle.subscribe<roboteam_msgs::DemoRobot>(
+            "demo_info",
+            100,
+            &IOManager::handleDemoInfo,
+            this,
+            ros::TransportHints().reliable().tcpNoDelay()
+    );
+}
+
 void IOManager::handleWorldState(const roboteam_msgs::WorldConstPtr &world) {
     this->world = *world;
 }
@@ -80,12 +91,16 @@ void IOManager::handleRobotFeedback(const roboteam_msgs::RoleFeedbackConstPtr &r
     this->roleFeedback = *rolefeedback;
 }
 
-const roboteam_msgs::World &IOManager::getWorldState() {
-    return this->world;
+void IOManager::handleDemoInfo(const roboteam_msgs::DemoRobotPtr &demoInfo) {
+    this->demoInfo = *demoInfo;
 }
 
 void IOManager::handleRefereeData(const roboteam_msgs::RefereeDataConstPtr &refData) {
     this->refData = *refData;
+}
+
+const roboteam_msgs::World &IOManager::getWorldState() {
+    return this->world;
 }
 
 const roboteam_msgs::GeometryData &IOManager::getGeometryData() {
@@ -108,6 +123,10 @@ void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
         ROS_ERROR("Joystick demo has the robot taken over ID:   %s", std::to_string(cmd.id).c_str());
     }
 }
+const roboteam_msgs::DemoRobot &IOManager::getDemoInfo() {
+    return this->demoInfo;
+}
+
 
 } // io
 } // ai

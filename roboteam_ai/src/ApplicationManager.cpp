@@ -2,6 +2,7 @@
 // Created by mrlukasbos on 14-1-19.
 //
 
+#include <roboteam_ai/src/demo/JoystickDemo.h>
 #include "ApplicationManager.h"
 #include "dangerfinder/DangerFinder.h"
 #include "utilities/Referee.hpp"
@@ -58,6 +59,10 @@ void ApplicationManager::runOneLoopCycle() {
             ROS_INFO("NaN tree probably Halting");
             return;
         }
+
+        // Will do things if this is a demo
+        // otherwise wastes like 0.1 ms
+        demo::JoystickDemo::demoLoop();
 
         if (ai::interface::InterfaceValues::usesRefereeCommands()) {
             this->handleRefData();
