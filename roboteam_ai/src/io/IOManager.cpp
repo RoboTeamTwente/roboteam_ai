@@ -6,6 +6,7 @@
  */
 
 #include <roboteam_msgs/RobotCommand.h>
+#include <roboteam_ai/src/demo/JoystickDemo.h>
 #include "IOManager.h"
 
 namespace rtt {
@@ -100,7 +101,12 @@ const roboteam_msgs::RefereeData &IOManager::getRefereeData() {
 }
 
 void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
-    robotCommandPublisher.publish(cmd);
+    if (demo::JoystickDemo::checkIfDemoSafe(cmd.id)) {
+        robotCommandPublisher.publish(cmd);
+    }
+    else {
+        ROS_ERROR("Joystick demo has the robot taken over %s", std::to_string(cmd.id).c_str());
+    }
 }
 
 } // io

@@ -123,6 +123,11 @@ set(IO_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/IOManager.cpp
         )
 
+set(DEMO_SOURCES
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/demo/JoystickDemo.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/demo/JoystickDemo.h
+)
+
 set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
@@ -308,6 +313,7 @@ add_executable(Roboteam_AI
         ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}
+        ${DEMO_SOURCES}
         ${INTERFACE_SOURCES})
 
 add_dependencies(Roboteam_AI ${catkin_EXPORTED_TARGETS})
@@ -326,6 +332,7 @@ catkin_add_gtest(ai_tests
         ${SKILLS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}
+        ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
         ${TEST_SOURCES}
         )
