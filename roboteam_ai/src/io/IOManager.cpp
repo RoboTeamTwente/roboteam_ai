@@ -21,6 +21,7 @@ IOManager::IOManager(bool subscribe, bool advertise) {
         this->subscribeToGeometryData();
         this->subscribeToRoleFeedback();
         this->subscribeToRefereeData();
+        this->subscribeToDemoInfo();
     }
 
     if (advertise) {
@@ -91,7 +92,7 @@ void IOManager::handleRobotFeedback(const roboteam_msgs::RoleFeedbackConstPtr &r
     this->roleFeedback = *rolefeedback;
 }
 
-void IOManager::handleDemoInfo(const roboteam_msgs::DemoRobotPtr &demoInfo) {
+void IOManager::handleDemoInfo(const roboteam_msgs::DemoRobotConstPtr &demoInfo) {
     this->demoInfo = *demoInfo;
 }
 

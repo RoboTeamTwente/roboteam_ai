@@ -36,7 +36,7 @@ private:
         void handleGeometryData(const roboteam_msgs::GeometryDataConstPtr &geometry);
         void handleRobotFeedback(const roboteam_msgs::RoleFeedbackConstPtr &rolefeedback);
         void handleRefereeData(const roboteam_msgs::RefereeDataConstPtr &refData);
-        void handleDemoInfo(const roboteam_msgs::DemoRobotPtr &demoInfo);
+        void handleDemoInfo(const roboteam_msgs::DemoRobotConstPtr &demoInfo);
 
     public:
         explicit IOManager(bool subscribe = false, bool advertise = false);
