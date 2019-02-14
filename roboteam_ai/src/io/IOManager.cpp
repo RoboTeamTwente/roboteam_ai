@@ -105,7 +105,7 @@ void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
         robotCommandPublisher.publish(cmd);
     }
     else {
-        ROS_ERROR("Joystick demo has the robot taken over %s", std::to_string(cmd.id).c_str());
+        ROS_ERROR("Joystick demo has the robot taken over ID:   %s", std::to_string(cmd.id).c_str());
     }
 }
 

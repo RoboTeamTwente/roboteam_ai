@@ -20,6 +20,13 @@ bool JoystickDemo::isDemo() {
 /// Tool to check if demo stuff should happen every loop
 void JoystickDemo::demoLoop() {
 
+    // Check the robots we have to block
+
+    // Let go of the robots we should
+
+    // Update the vector
+
+
 }
 
 /// Returns the robots that are used in the demo
@@ -38,6 +45,7 @@ void JoystickDemo::checkROS() {
 }
 bool JoystickDemo::checkIfDemoSafe(int ID) {
     std::lock_guard<std::mutex> lock(demoLock);
-    return (std::find(demoRobots.begin(), demoRobots.end(), ID) != demoRobots.end());
+    // True if not in the vector
+    return (std::find(demoRobots.begin(), demoRobots.end(), ID) == demoRobots.end());
 }
 }
