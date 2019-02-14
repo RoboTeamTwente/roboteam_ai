@@ -273,9 +273,6 @@ namespace rtt {
                     }
                     w = buf.second.orientation;
                 }
-                else{
-                    ROS_ERROR_STREAM("timing is wrong!" << timeFrameCaptured[buf.first]-1.55014*pow(10,9)<<" | "<< last_frame-1.55014*pow(10,9));
-                }
             }
             // Assign the robot position and rotation to the extrapolation calculated.
             robot.move_to((float) Extrapolation.x, (float) Extrapolation.y);
