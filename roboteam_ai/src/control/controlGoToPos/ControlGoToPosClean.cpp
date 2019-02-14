@@ -35,7 +35,16 @@ Vector2 ControlGoToPosClean::computeNumericCommand(std::shared_ptr<roboteam_msgs
 
 Vector2 ControlGoToPosClean::computeForceCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
 
-    return Vector2(0, 0);
+    roboteam_msgs::World world = World::get_world();
+    Vector2 force = finalTargetPos - robot->pos;
+    for (auto bot : world.us) {
+        force = force + ControlUtils::calculateForce((Vector2)robot->pos - bot.pos, 1, defaultRobotCollisionRadius*2.0);
+    }
+    for (auto bot : world.them) {
+        force = force + ControlUtils::calculateForce((Vector2)robot->pos - bot.pos, 1, defaultRobotCollisionRadius*2.0);
+    }
+    force = (force.length() > 2.0 ? force.stretchToLength(2.0) : force);
+    return force;
 }
 
 Vector2 ControlGoToPosClean::computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot, GTPType gtpType) {
@@ -254,7 +263,11 @@ std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::computeNewP
     newPoint->parent = oldPoint;
     newPoint->t = oldPoint->t + dt;
     newPoint->currentTarget = subTarget;
+    newPoint->finalTarget = finalTargetPos;
     newPoint->hasBeenTicked = true;
+    newPoint->pos = oldPoint->pos;
+    newPoint->vel = oldPoint->vel;
+    newPoint->acc = oldPoint->acc;
 
     //ODE model:
     Vector2 targetVel = (subTarget - oldPoint->pos).normalize()*newPoint->maxVel();

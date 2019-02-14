@@ -41,17 +41,21 @@ class ControlGoToPosClean {
 
         // If there is another way to return a shared pointer from an object to itself that is more pretty let me know
         struct PathPoint : std::enable_shared_from_this<PathPoint> {
+            private:
+                double maxV = 3.4;
             public:
-                Vector2 currentTarget;//Either the endPoint or an in between target
+                Vector2 currentTarget;  //Either the endPoint or an in between target
+                Vector2 finalTarget;    //Always the endPoint
                 Vector2 pos;
                 Vector2 vel;
                 Vector2 acc;
-
                 double maxVel() {
-                    return 2.2;
+                    double distanceRemaining = (finalTarget-pos).length();
+                    double absoluteMax = sqrt(2.0*maxAcc()*distanceRemaining);
+                    return absoluteMax > maxV ? maxV : absoluteMax;
                 }
                 double maxAcc() {
-                    if (vel.length() > maxVel()*0.5)
+                    if (vel.length() > maxV*0.5)
                         return 3.05;
                     else
                         return 5.1;

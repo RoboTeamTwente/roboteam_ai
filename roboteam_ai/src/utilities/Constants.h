@@ -39,7 +39,7 @@ public:
     static double CENTRE_TO_FRONT()             { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); };
     static double BALL_RADIUS()                 { return 0.0215; };
 
-    static int TICK_RATE()                       { return 60 ; };// Rate at which we tick our behavior Trees
+    static int TICK_RATE()                       { return 60; };// Rate at which we tick our behavior Trees
 
     //skills
     static double DEFAULT_KICK_POWER()          { return  5.0; }; // max kick power() { return  100
