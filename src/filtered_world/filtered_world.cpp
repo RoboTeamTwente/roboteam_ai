@@ -66,7 +66,7 @@ namespace rtt {
             }
             // double time_grsim = msg.t_capture;
             //double time_now = ros::Time::now().toSec();
-            double time_now = msg.t_sent;
+            double time_now = msg.t_capture;
             merge_frames(time_now);
             timeLastUpdated = time_now;
             fresh = true;
@@ -97,7 +97,7 @@ namespace rtt {
             }
         }
         world_cams[cam_id] = true;
-        timeFrameCaptured[cam_id] = msg.t_sent;
+        timeFrameCaptured[cam_id] = msg.t_capture;
 
         // ==== Robots ====
         // Add the robot data
