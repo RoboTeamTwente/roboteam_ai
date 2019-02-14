@@ -44,11 +44,11 @@ namespace rtt {
 
         roboteam_msgs::World returnMsg;
 
-        for (auto& robot : robots_blue_world) {
+        for (auto &robot : robots_blue_world) {
             returnMsg.them.push_back(robot.second.as_message());
         }
 
-        for (auto& robot : robots_yellow_world) {
+        for (auto &robot : robots_yellow_world) {
             returnMsg.us.push_back(robot.second.as_message());
         }
 
@@ -61,17 +61,18 @@ namespace rtt {
         buffer_detection_frame(msg);
         if (is_calculation_needed()) {
             // Reset the camera update flags.
-            for (auto& cam : world_cams) {
+            for (auto &cam : world_cams) {
                 cam.second = false;
             }
             // double time_grsim = msg.t_capture;
             //double time_now = ros::Time::now().toSec();
-            double time_now=msg.t_capture;
+            double time_now = msg.t_sent;
             merge_frames(time_now);
-            timeLastUpdated=time_now;
+            timeLastUpdated = time_now;
             fresh = true;
         }
     }
+
     /// Consume a message if it is fresh
     boost::optional<roboteam_msgs::World> FilteredWorld::consumeMsg() {
         if (isFresh()) {
@@ -90,13 +91,13 @@ namespace rtt {
 
         // Set this cameras updated flag.
         // If this camera hasn't sent frames before, it is now added to the list of cameras. We reset the other camera's to true as their information is still mergeable
-        if (world_cams.find(cam_id)==world_cams.end()){
-            for (auto& cam :world_cams){
-                cam.second=true;
+        if (world_cams.find(cam_id) == world_cams.end()) {
+            for (auto &cam :world_cams) {
+                cam.second = true;
             }
         }
         world_cams[cam_id] = true;
-        timeFrameCaptured[cam_id]=msg.t_capture;
+        timeFrameCaptured[cam_id] = msg.t_sent;
 
         // ==== Robots ====
         // Add the robot data
@@ -114,16 +115,16 @@ namespace rtt {
         // ==== Ball ====
         // Find the ball with the smallest distance from the previous position +velocity * time between the two frames
 
-        if (! msg.balls.empty()) {
+        if (!msg.balls.empty()) {
             Position previousBallPos = ball_world.get_position();
             Position previousBallVel = ball_world.get_velocity();
             roboteam_msgs::DetectionBall closestBall = msg.balls[0];
-            Position predictedPosition= previousBallPos+previousBallVel*(msg.t_capture-timeLastUpdated);
-            double closestDist2 = Vector2(closestBall.pos).dist2(Vector2(predictedPosition.x,predictedPosition.y));
+            Position predictedPosition = previousBallPos + previousBallVel * (msg.t_capture - timeLastUpdated);
+            double closestDist2 = Vector2(closestBall.pos).dist2(Vector2(predictedPosition.x, predictedPosition.y));
 
-            for (auto const & ball : msg.balls) {
+            for (auto const &ball : msg.balls) {
 
-                double dist2 = Vector2(ball.pos).dist2(Vector2(predictedPosition.x,predictedPosition.y));
+                double dist2 = Vector2(ball.pos).dist2(Vector2(predictedPosition.x, predictedPosition.y));
                 if (dist2 < closestDist2) {
                     closestBall = ball;
                     closestDist2 = dist2;
@@ -131,8 +132,7 @@ namespace rtt {
             }
 
             ball_buffer[cam_id] = closestBall; // msg.balls[0];
-        }
-        else {
+        } else {
             ball_buffer.erase(cam_id);
         }
     }
@@ -145,7 +145,7 @@ namespace rtt {
             // No cameras? No use doing a frame merge calculation.
             return false;
         }
-        for (auto& cam : world_cams) {
+        for (auto &cam : world_cams) {
 
             if (!cam.second) {
                 return false;
@@ -177,33 +177,38 @@ namespace rtt {
             // extrapolation of the last world's state velocity and position
             Position previousBallPos = ball_world.get_position();
             Position previousBallVel = ball_world.get_velocity();
-            Position predictedPosition = previousBallPos+ previousBallVel*(timestamp-timeLastUpdated);
+            Position predictedPosition = previousBallPos + previousBallVel * (timestamp - timeLastUpdated);
 
             // First extrapolation
-            roboteam_msgs::DetectionBall closestBall=ball_buffer.begin()->second;
-            int best_camera=ball_buffer.begin()->first;
+            roboteam_msgs::DetectionBall closestBall = ball_buffer.begin()->second;
+            int best_camera = ball_buffer.begin()->first;
             // Initial extrapolation. Does the same as below
-            Position Extrapolation=previousBallPos+(Position(closestBall.pos)-previousBallPos)*(1/(timeFrameCaptured[best_camera]-timeLastUpdated))*(timestamp-timeLastUpdated);
-            double closestDist2= Vector2(Extrapolation.x,Extrapolation.y).dist2(Vector2(predictedPosition.x,predictedPosition.y));
+            Position Extrapolation = previousBallPos + (Position(closestBall.pos) - previousBallPos) *
+                                                       (1 / (timeFrameCaptured[best_camera] - timeLastUpdated)) *
+                                                       (timestamp - timeLastUpdated);
+            double closestDist2 = Vector2(Extrapolation.x, Extrapolation.y).dist2(
+                    Vector2(predictedPosition.x, predictedPosition.y));
 
-            for (auto const & detectedBall : ball_buffer){
+            for (auto const &detectedBall : ball_buffer) {
                 // Extrapolate from detectionframe's capture time to current time.
-                Position detectedBallPos=Position(detectedBall.second.pos);
-                Extrapolation= previousBallPos + (detectedBallPos-previousBallPos)*(1/(timeFrameCaptured[detectedBall.first]-timeLastUpdated))*(timestamp-timeLastUpdated);
-                double dist2 = Vector2(Extrapolation.x,Extrapolation.y).dist2(Vector2(predictedPosition.x,predictedPosition.y));
+                Position detectedBallPos = Position(detectedBall.second.pos);
+                Extrapolation = previousBallPos + (detectedBallPos - previousBallPos) *
+                                                  (1 / (timeFrameCaptured[detectedBall.first] - timeLastUpdated)) *
+                                                  (timestamp - timeLastUpdated);
+                double dist2 = Vector2(Extrapolation.x, Extrapolation.y).dist2(
+                        Vector2(predictedPosition.x, predictedPosition.y));
                 // Pick the Extrapolation which works best
                 if (dist2 < closestDist2) {
                     //best_camera=detectedBall.first;
-                    closestBall=detectedBall.second;
-                    closestBall.pos=Vector2(Extrapolation.x,Extrapolation.y);
+                    closestBall = detectedBall.second;
+                    closestBall.pos = Vector2(Extrapolation.x, Extrapolation.y);
                     closestDist2 = dist2;
                 }
             }
             // Move the ball to the one that has best extrapolation
             //ball_world.move_to(ball_buffer[best_camera].pos.x,ball_buffer[best_camera].pos.y,ball_buffer[best_camera].z);
-            ball_world.move_to(closestBall.pos.x,closestBall.pos.y,closestBall.z);
-        }
-        else {
+            ball_world.move_to(closestBall.pos.x, closestBall.pos.y, closestBall.z);
+        } else {
             ball_world.set_visible(false);
         }
 
@@ -216,17 +221,16 @@ namespace rtt {
             Position vel = *ballVel;
             ball_world.set_velocity(static_cast<float>(vel.x), static_cast<float>(vel.y));
         }
-
         // Clear the buffers.
         robots_blue_buffer.clear();
         robots_yellow_buffer.clear();
     }
 
     /// Merges the robots from different frames
-    void FilteredWorld::merge_robots(RobotMultiCamBuffer& robots_buffer, std::map<int,
-            rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer, double timestamp, bool our_team) {
+    void FilteredWorld::merge_robots(RobotMultiCamBuffer &robots_buffer, std::map<int,
+            rtt::Robot> &robots_output, std::map<int, rtt::Robot> &old_buffer, double timestamp, bool our_team) {
         //For every robot buffer
-        for (auto& robot_buffer : robots_buffer) {
+        for (auto &robot_buffer : robots_buffer) {
             auto bot_id = (uint) robot_buffer.first;
 
             Robot robot;
@@ -239,32 +243,42 @@ namespace rtt {
             //TODO: Catch case if time measurement is off.
             Vector2 previousPosition;
             //If the robot was on last world, get the previous position. If not, initialize it to position(0,0)
-            if (robots_output.find(bot_id)!=robots_output.end()) {
+            if (robots_output.find(bot_id) != robots_output.end()) {
                 previousPosition = Vector2(robots_output[bot_id].get_position().x,
-                                                   robots_output[bot_id].get_position().y);
-            }
-            else {
-                previousPosition=Vector2(0,0);
+                                           robots_output[bot_id].get_position().y);
+            } else {
+                ROS_INFO("Adding bot %i",bot_id);
+                previousPosition = Vector2(0, 0);
             }
 
-            float w =0;
+            float w = 0;
             Vector2 Extrapolation;
             //float previousw=robot.get_position().rot;
             //Vector2 previousVelocity = Vector2(robot.get_velocity().x,robot.get_velocity().y);
             //Vector2 predictedPosition= previousPosition+previousVelocity*(timestamp-timeLastUpdated);
-
-            double last_frame=timeLastUpdated;
-            for (auto& buf : robot_buffer.second){
-                if(timeFrameCaptured[buf.first]>last_frame){
-                    last_frame=timeFrameCaptured[buf.first];
+            Vector2 zero = {0, 0};
+            double last_frame = timeLastUpdated;
+            for (auto &buf : robot_buffer.second) {
+                if (timeFrameCaptured[buf.first] > last_frame) {
+                    last_frame = timeFrameCaptured[buf.first];
                     Vector2 bufPosition = buf.second.pos;
-                    Vector2 bufVelocity = (bufPosition-previousPosition)/(timeFrameCaptured[buf.first]-timeLastUpdated);
-                    Extrapolation= previousPosition+bufVelocity*(timestamp-timeLastUpdated);
-                    w=buf.second.orientation;
+                    if (previousPosition == zero) {
+                        ROS_WARN("Previous position set to 0!!");
+                        Extrapolation=bufPosition;
+                    }
+                    else {
+                        Vector2 bufVelocity =
+                                (bufPosition - previousPosition) / (timeFrameCaptured[buf.first] - timeLastUpdated);
+                        Extrapolation = previousPosition + bufVelocity * (timestamp - timeLastUpdated);
+                    }
+                    w = buf.second.orientation;
+                }
+                else{
+                    ROS_ERROR_STREAM("timing is wrong!" << timeFrameCaptured[buf.first]-1.55014*pow(10,9)<<" | "<< last_frame-1.55014*pow(10,9));
                 }
             }
             // Assign the robot position and rotation to the extrapolation calculated.
-            robot.move_to((float)Extrapolation.x, (float)Extrapolation.y);
+            robot.move_to((float) Extrapolation.x, (float) Extrapolation.y);
             robot.rotate_to(w);
 
             // Send an update and discard old data for buffers used for calculations
@@ -276,7 +290,7 @@ namespace rtt {
 
                 robot.set_vel(static_cast<float>  (vel.x),
                               static_cast<float>  (vel.y),
-                              static_cast<float>  (vel.rot) );
+                              static_cast<float>  (vel.rot));
             }
 
             // Update the last detection time used in calculations.
@@ -291,7 +305,7 @@ namespace rtt {
 
         while (botIter != robots_output.end()) {
             // Remove robots that are not detected for 0.5 seconds.
-            if (botIter->second.is_detection_old(timestamp, 20)) {
+            if (botIter->second.is_detection_old(timestamp, 0.5)) {
                 ROS_INFO("Removing bot: %i. Too old.", botIter->second.get_id());
                 botIter = robots_output.erase(botIter);
             } else if (botIter->second.is_detection_from_future(timestamp)) {
@@ -302,6 +316,7 @@ namespace rtt {
             }
         }
     }
+
     bool FilteredWorld::isFresh() {
         return fresh;
     }
