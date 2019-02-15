@@ -20,7 +20,7 @@ class JoystickDemo {
 
     public:
         static bool isDemo();
-        static void demoLoop(roboteam_msgs::DemoRobotPtr msg);
+        static void demoLoop(roboteam_msgs::DemoRobot msg);
         static std::set<int> getDemoRobots();
         static bool checkIfDemoSafe(int ID);
 
