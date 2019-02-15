@@ -18,9 +18,11 @@ void ControlGoToPosClean::setCanGoOutsideField(bool _canGoOutsideField) {
     canGoOutsideField = _canGoOutsideField;
 }
 
+/// return the velocity command using two PIDs based on the current position and velocity of the robot compared to the
+/// position and velocity of the calculated path
 Vector2 ControlGoToPosClean::computeNumericCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
     if (path.empty())
-        return Vector2(0, 0);
+        return computeForceCommand(robot);
 
     int pathPoint = static_cast<int>(path.size() > 4 ? 4 : path.size());
 
@@ -33,10 +35,12 @@ Vector2 ControlGoToPosClean::computeNumericCommand(std::shared_ptr<roboteam_msgs
     return pidV + pidP;
 }
 
+/// return the velocity command using a force model, where the robot gets repelled from robots close by,
+/// while also adding a velocity vector towards the final target
 Vector2 ControlGoToPosClean::computeForceCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
-
+    path.clear();
     roboteam_msgs::World world = World::get_world();
-    Vector2 force = finalTargetPos - robot->pos;
+    Vector2 force = (finalTargetPos - robot->pos).normalize();
     for (auto bot : world.us) {
         force = force
                 + ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, defaultRobotCollisionRadius*2.0);
@@ -45,10 +49,11 @@ Vector2 ControlGoToPosClean::computeForceCommand(std::shared_ptr<roboteam_msgs::
         force = force
                 + ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, defaultRobotCollisionRadius*2.0);
     }
-    force = (force.length() > 2.0 ? force.stretchToLength(2.0) : force);
+    force = (force.length() > 3.0 ? force.stretchToLength(3.0) : force);
     return force;
 }
 
+/// executes numeric or force velocity command based on input
 Vector2 ControlGoToPosClean::computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot, GTPType gtpType) {
     switch (gtpType) {
     case numeric:return computeNumericCommand(std::move(robot));
@@ -57,6 +62,8 @@ Vector2 ControlGoToPosClean::computeCommand(std::shared_ptr<roboteam_msgs::World
     return computeNumericCommand(std::move(robot));
 }
 
+/// finds a reason to calculate a new path (possible reasons are: on path calculated yet, final target moved,
+/// robot is too far from path or another robot is colliding with current path
 bool ControlGoToPosClean::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
     double maxTargetDeviation = 0.3;
     if (path.empty()) {
@@ -95,6 +102,7 @@ bool ControlGoToPosClean::doRecalculatePath(std::shared_ptr<roboteam_msgs::World
     return false;
 }
 
+/// finds a path using a numeric model
 Vector2 ControlGoToPosClean::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
     robotID = robot->id;
 
@@ -226,7 +234,7 @@ void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> r
                 pathQueue.pop();
                 // both left and right targets for now
                 for (const auto &newTarget : newTargets) {
-                    if (branchHasTarget(newBranchStart, newTarget))
+                    if (newBranchStart->anyBranchHasTarget(newTarget))
                         continue;
                     // compute new point and add it to branch
                     std::shared_ptr<PathPoint> branch = computeNewPoint(newBranchStart, newTarget);
@@ -243,18 +251,10 @@ void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> r
     path = {};
 }
 
+/// calculate the remaining pathlength using straigth lines from current position to a posititon halfway and from
+/// halfway to the final position
 double ControlGoToPosClean::remainingStraightLinePathLength(Vector2 currentPos, Vector2 halfwayPos, Vector2 finalPos) {
     return (abs((halfwayPos - finalPos).length() + (currentPos - halfwayPos).length()));
-}
-
-/// add a child to the current path
-void ControlGoToPosClean::PathPoint::addChild(std::shared_ptr<PathPoint> &newChild) {
-    children.push_back(newChild);
-}
-
-/// add multiple children to the current path
-void ControlGoToPosClean::PathPoint::addChildren(std::vector<std::shared_ptr<PathPoint>> &newChildren) {
-    children.insert(children.end(), newChildren.begin(), newChildren.end());
 }
 
 /// create a new pathPoint using a linear acceleration ODE
@@ -273,7 +273,7 @@ std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::computeNewP
 
     //ODE model:
     Vector2 targetVel = (subTarget - oldPoint->pos).normalize()*newPoint->maxVel();
-    double angle = abs( (targetVel - oldPoint->vel).angle() );
+    double angle = abs((targetVel - oldPoint->vel).angle());
     //angle = angle > M_PI ? M_2_PI - angle : angle;
     newPoint->acc = (targetVel - oldPoint->vel*
             (2.0 + (abs(angle) > M_PI_2 ? abs(angle) - M_PI_2 : 0.0))).stretchToLength(oldPoint->maxAcc());
@@ -287,13 +287,13 @@ std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::computeNewP
 }
 
 /// check if a pathpoint is in a collision with a robot/ball at that timepoint
-bool ControlGoToPosClean::checkCollision(std::shared_ptr<PathPoint> point) {
+bool ControlGoToPosClean::checkCollision(std::shared_ptr<PathPoint> point, double collisionRadius) {
     std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
     roboteam_msgs::World world = World::get_world();
     for (auto bot : world.us) {
         if (bot.id != static_cast<unsigned long>(robotID)) {
             Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
-            if (point->isCollision(botPos, defaultRobotCollisionRadius)) {
+            if (point->isCollision(botPos, collisionRadius)) {
                 std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
                 time = time + (end - start);
                 return true;
@@ -302,7 +302,7 @@ bool ControlGoToPosClean::checkCollision(std::shared_ptr<PathPoint> point) {
     }
     for (auto bot: world.them) {
         Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
-        if (point->isCollision(botPos, defaultRobotCollisionRadius)) {
+        if (point->isCollision(botPos, collisionRadius)) {
             std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
             time = time + (end - start);
             return true;
@@ -310,7 +310,7 @@ bool ControlGoToPosClean::checkCollision(std::shared_ptr<PathPoint> point) {
     }
     if (avoidBall) {
         Vector2 ballPos = (Vector2) (world.ball.pos) + (Vector2) (world.ball.vel)*point->t;
-        if (point->isCollision(ballPos, defaultRobotCollisionRadius*0.5 + Constants::BALL_RADIUS())) {
+        if (point->isCollision(ballPos, collisionRadius*0.5 + Constants::BALL_RADIUS())) {
             std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
             time = time + (end - start);
             return true;
@@ -322,35 +322,30 @@ bool ControlGoToPosClean::checkCollision(std::shared_ptr<PathPoint> point) {
 }
 
 /// find the robot corresponding to a collision-position
-Vector2 ControlGoToPosClean::findCollisionPos(std::shared_ptr<PathPoint> point) {
+Vector2 ControlGoToPosClean::findCollisionPos(std::shared_ptr<PathPoint> point, double collisionRadius) {
     roboteam_msgs::World world = World::get_world();
     for (auto bot: world.us) {
         if (bot.id != static_cast<unsigned long>(robotID)) {
             Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
-            if (point->isCollision(botPos, defaultRobotCollisionRadius)) {
+            if (point->isCollision(botPos, collisionRadius)) {
                 return botPos;
             }
         }
     }
     for (auto bot: world.them) {
         Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
-        if (point->isCollision(botPos, defaultRobotCollisionRadius)) {
+        if (point->isCollision(botPos, collisionRadius)) {
             return botPos;
         }
     }
     if (avoidBall) {
         Vector2 ballPos = (Vector2) (world.ball.pos) + (Vector2) (world.ball.vel)*point->t;
-        if (point->isCollision(ballPos, defaultRobotCollisionRadius*0.5 + Constants::BALL_RADIUS())) {
+        if (point->isCollision(ballPos, collisionRadius*0.5 + Constants::BALL_RADIUS())) {
             return ballPos;
         }
     }
     return {- 42, 42};
 
-}
-
-/// check if a collision is occuring
-bool ControlGoToPosClean::PathPoint::isCollision(Vector2 target, double distance) {
-    return (target - pos).length() < distance;
 }
 
 /// after a collision, get new half-way targets to try to go towards
@@ -380,7 +375,7 @@ std::pair<std::vector<Vector2>, std::shared_ptr<ControlGoToPosClean::PathPoint>>
     return {newTargets, newBranchStart};
 }
 
-///BackTrack until desired time or until Root
+/// go back in the path until desired time or until Root
 std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::PathPoint::backTrack(double backTime) {
     if (! parent)
         return shared_from_this();
@@ -390,6 +385,7 @@ std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::PathPoint::
         return parent->backTrack(backTime);
 }
 
+/// go back in the path until desired collision difference or until Root
 std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::PathPoint::backTrack(int maxCollisionDiff) {
     if (! parent)
         return shared_from_this();
@@ -403,6 +399,7 @@ std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::PathPoint::
         return parent->backTrack(maxCollisionDiff);
 }
 
+/// go back in the path until desired time, collision difference or until Root
 std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::PathPoint::backTrack(double backTime,
         int maxCollisionDiff) {
 
@@ -434,6 +431,7 @@ std::vector<ControlGoToPosClean::PathPoint> ControlGoToPosClean::backTrackPath(s
     return path;
 }
 
+/// start the PID for velocity and position control
 void ControlGoToPosClean::initializePID() {
     velPID.reset();
     velPID.setPID(Constants::standard_luth_P(),
@@ -446,6 +444,7 @@ void ControlGoToPosClean::initializePID() {
             Constants::standard_luth_P());
 }
 
+/// compare current PID values to those set in the interface
 void ControlGoToPosClean::checkInterfacePID() {
     if (velPID.getP() != interface::InterfaceValues::getLuthP() ||
             velPID.getI() != interface::InterfaceValues::getLuthI() ||
@@ -462,6 +461,7 @@ void ControlGoToPosClean::checkInterfacePID() {
     }
 }
 
+/// draw all the data in the interface
 void ControlGoToPosClean::drawInInterface() {
     std::vector<std::pair<rtt::Vector2, QColor>> displayColorData = {{{}, {}}};
     for (auto &displayAll : displayData) {
@@ -473,6 +473,7 @@ void ControlGoToPosClean::drawInInterface() {
     rtt::ai::interface::Drawer::setGoToPosLuThPoints(robotID, displayColorData);
 }
 
+/// draw a cross in the interface
 void ControlGoToPosClean::drawCross(Vector2 &pos, QColor color) {
 // draws a cross for the display
     float dist = 0.005f;
@@ -484,18 +485,61 @@ void ControlGoToPosClean::drawCross(Vector2 &pos, QColor color) {
     }
 }
 
+/// draw a point in the interface
 void ControlGoToPosClean::drawPoint(Vector2 &pos, QColor color) {
     displayData.emplace_back(pos, color);
 }
-bool ControlGoToPosClean::branchHasTarget(const std::shared_ptr<ControlGoToPosClean::PathPoint> &newBranchStart,
-        const Vector2 &target) {
 
-    for (const auto &child : newBranchStart->children) {
+/// add a child to the current path
+void ControlGoToPosClean::PathPoint::addChild(std::shared_ptr<PathPoint> &newChild) {
+    children.push_back(newChild);
+}
+/// add multiple children to the current path
+void ControlGoToPosClean::PathPoint::addChildren(std::vector<std::shared_ptr<PathPoint>> &newChildren) {
+    children.insert(children.end(), newChildren.begin(), newChildren.end());
+}
+
+/// check if a branch already has the target
+bool ControlGoToPosClean::PathPoint::branchHasTarget(const Vector2 &target) {
+
+    for (const auto &child : children) {
         if (child->currentTarget == target) {
             return true;
         }
     }
     return false;
+}
+
+/// check if ANY branch already has that target
+bool ControlGoToPosClean::PathPoint::anyBranchHasTarget(const Vector2 &target) {
+    auto root = backTrack(0.0);
+    return root->anyChildHasTarget(target);
+
+}
+
+/// check if ANY child already has that target
+bool ControlGoToPosClean::PathPoint::anyChildHasTarget(const Vector2 &target) {
+    for (const auto &child : children) {
+        if ((child->currentTarget - target).length() < 0.15 || child->anyChildHasTarget(target)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/// check if ANY parent already has that target
+bool ControlGoToPosClean::PathPoint::anyParentHasTarget(const Vector2 &target) {
+    if (parent) {
+        if (parent->currentTarget == target || parent->anyParentHasTarget(target)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/// check if a collision is occuring
+bool ControlGoToPosClean::PathPoint::isCollision(Vector2 target, double distance) {
+    return (target - pos).length() < distance;
 }
 
 }// control

@@ -33,7 +33,7 @@ public:
     static int DEFAULT_ROBOT_ID()               { return 1; };
     static double MAX_ANGULAR_VELOCITY()        { return 6.0; }; // rad per second??
     static double ROBOT_RADIUS()                { return 0.089;  };// TODO: Need to test if world_state agrees with this definition of the centre of the robot
-    static double ROBOT_RADIUS_MAX()            { return 0.091; };
+    static double ROBOT_RADIUS_MAX()      { return 0.091; };
     static double FRONT_LENGTH()                { return 0.118; }; // length of the front (flat) part of the robot
     static double DRIBBLER_ANGLE_OFFSET()       { return asin(FRONT_LENGTH()/2/ROBOT_RADIUS()); }; // if the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET() points to the left and DRIBBLER_ANGLE_OFFSET() to the right.
     static double CENTRE_TO_FRONT()             { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); };
@@ -67,7 +67,7 @@ public:
     static double GETBALL_OVERSHOOT()           { return .02; };//m
 
     //GoToPos
-    static double MAX_CALCULATION_TIME()        { return 20.0; }; //max time in ms
+    static double MAX_CALCULATION_TIME()        { return 12.0; }; //max time in ms
 
     //Keeper
     static double KEEPER_POST_MARGIN()          { return 0.08; };//m

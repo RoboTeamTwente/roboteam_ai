@@ -50,10 +50,10 @@ Skill::Status BasicGoToPos::onUpdate() {
     if(properties->getBool("BallPlacementAfter")){
         command.w=static_cast<float>((Vector2(robot->pos)-targetPos).angle());
     }
-    const ros::Time &t1 = ros::Time::now();
+//    const ros::Time &t1 = ros::Time::now();
     Vector2 velocity = goToPos.goToPos(robot, targetPos, control::GoToType::clean);
-    const ros::Time &t2 = ros::Time::now();
-    std::cerr << "gotopos took: " << (t2-t1).toNSec()*0.000001 << " ms" << std::endl;
+//    const ros::Time &t2 = ros::Time::now();
+//    std::cerr << "gotopos took: " << (t2-t1).toNSec()*0.000001 << " ms" << std::endl;
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     publishRobotCommand(command);

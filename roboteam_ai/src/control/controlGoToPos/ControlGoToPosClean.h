@@ -57,12 +57,6 @@ class ControlGoToPosClean {
                 }
                 double maxAcc() {
                     return vel.length() > 0.5 * maxV ? maxA * 0.5 : maxA * ((maxV - vel.length()) / maxV);
-
-                    if (vel.length() > maxV*0.5)
-                        return 3.05;
-                    else
-                        return 5.1;
-
                 }
 
                 double t;
@@ -77,6 +71,12 @@ class ControlGoToPosClean {
                 void addChild(std::shared_ptr<PathPoint> &newChild);
                 void addChildren(std::vector<std::shared_ptr<PathPoint>> &newChildren);
                 bool isCollision(Vector2 target, double distance);
+
+                bool branchHasTarget(const Vector2 &target);
+                bool anyBranchHasTarget(const Vector2 &target);
+                bool anyChildHasTarget(const Vector2 &target);
+                bool anyParentHasTarget(const Vector2 &target);
+
         };
 
         enum GTPType {
@@ -90,13 +90,11 @@ class ControlGoToPosClean {
 
         std::pair<std::vector<Vector2>, std::shared_ptr<PathPoint>> getNewTargets(
                 std::shared_ptr<PathPoint> collisionPoint);
-        bool checkCollision(std::shared_ptr<PathPoint> point);
+        bool checkCollision(std::shared_ptr<PathPoint> point, double collisionRadius = 0.27);
         std::shared_ptr<PathPoint> computeNewPoint(std::shared_ptr<PathPoint> oldPoint, Vector2 subTarget);
         void tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
         std::vector<PathPoint> backTrackPath(std::shared_ptr<PathPoint> endPoint, std::shared_ptr<PathPoint> root);
-        Vector2 findCollisionPos(std::shared_ptr<PathPoint> point);
-
-        bool branchHasTarget(const std::shared_ptr<PathPoint> &newBranchStart, const Vector2 &target);
+        Vector2 findCollisionPos(std::shared_ptr<PathPoint> point, double collisionRadius = 0.27);
 
         std::vector<PathPoint> path;
     public:
