@@ -27,10 +27,11 @@ void World::set_world(roboteam_msgs::World _world) {
         didReceiveFirstWorld = true;
     }
     if (!_world.ball.visible){
-        _world.ball=updateBallPosition(_world.ball);
+        _world.ball=updateBallPosition(_world);
     }
     updateBallPossession(_world);
     world = _world;
+    printRobotsWithBall();
 }
 
 /// Returns Robot for an ID and team (if it exists) 
@@ -126,6 +127,7 @@ void World::updateBallPossession(roboteam_msgs::World &_world) {
 
 // uses MAX_BALL_RANGE as default max Dist
 bool World::ourBotHasBall(int id, double maxDistToBall){
+    std::lock_guard<std::mutex> lock(worldMutex);
     if (OurBotsBall.find(id)!=OurBotsBall.end()){
         if (OurBotsBall[id]<=maxDistToBall){
             return true;
@@ -134,6 +136,7 @@ bool World::ourBotHasBall(int id, double maxDistToBall){
     return false;
 }
 bool World::theirBotHasBall(int id, double maxDistToBall){
+    std::lock_guard<std::mutex> lock(worldMutex);
     if (TheirBotsBall.find(id)!=TheirBotsBall.end()){
         if (TheirBotsBall[id]<=maxDistToBall){
             return true;
@@ -143,6 +146,7 @@ bool World::theirBotHasBall(int id, double maxDistToBall){
 }
 // picks the bot that has the ball and is closest to it.
 int World::whichBotHasBall(bool ourTeam) {
+    std::lock_guard<std::mutex> lock(worldMutex);
     double maxDist=100;
     int bestId=-1;
     if (ourTeam) {
@@ -164,13 +168,14 @@ int World::whichBotHasBall(bool ourTeam) {
     return bestId;
 
 }
-roboteam_msgs::WorldBall World::updateBallPosition(roboteam_msgs::WorldBall ball) {
-    if (ball.visible){
-        return ball;
+roboteam_msgs::WorldBall World::updateBallPosition(roboteam_msgs::World _world) {
+    roboteam_msgs::WorldBall newBall=_world.ball;
+    if (_world.ball.visible){
+        return newBall;
     }
     // we set the ball velocity to 0
-    ball.vel.x=0;
-    ball.vel.y=0;
+    newBall.vel.x=0;
+    newBall.vel.y=0;
     // if the ball was dribbled in the previous world_state we set its position to be in front of the robot that was dribbling it
     if (!OurBotsBall.empty()||!TheirBotsBall.empty()){ // check if it was dribbled in last world state
         double maxDist=100;
@@ -192,18 +197,26 @@ roboteam_msgs::WorldBall World::updateBallPosition(roboteam_msgs::WorldBall ball
         }
         if (bestId==-1){
             ROS_ERROR("WTF BALL HANDLING");
-            return ball;
+            return newBall;
         }
-        auto robot=getRobotForId(bestId,ourTeam);
+        // I can't use getRobotForId because of deadlocking and because i need to use the world in the packet
+        roboteam_msgs::WorldRobot robot;
+        const std::vector<roboteam_msgs::WorldRobot> &robots = ourTeam ? _world.us: _world.them;
+        for (const auto &bot : robots) {
+            if (bot.id == bestId) {
+                robot=bot;
+                break;
+            }
+        }
         // put the ball in front of the centre robot that is dribbling it.
-        Vector2 ballPos=Vector2(robot->pos)+Vector2(Constants::CENTRE_TO_FRONT()+Constants::BALL_RADIUS(),0).rotate(robot->angle);
-        ball.pos=ballPos;
+        Vector2 ballPos=Vector2(robot.pos)+Vector2(Constants::CENTRE_TO_FRONT()+Constants::BALL_RADIUS(),0).rotate(robot.angle);
+        newBall.pos=ballPos;
     }
     // else (not visible but not dribbled), we put it at its previous position
     else{
-        ball.pos = world.ball.pos;
+        newBall.pos = world.ball.pos;
     }
-    return ball;
+    return newBall;
 }
 /// returns all the robots in the field, both us and them.
 std::vector<roboteam_msgs::WorldRobot> World::getAllRobots() {
@@ -214,6 +227,16 @@ std::vector<roboteam_msgs::WorldRobot> World::getAllRobots() {
     allRobots.insert(allRobots.end(), world.them.begin(), world.them.end());
     return allRobots;
 }
-
+void World::printRobotsWithBall(){
+    std::cout<<"BallPos: "<<world.ball.pos<<std::endl;
+    std::cout<<"Us:"<<std::endl;
+    for (auto bot : OurBotsBall){
+        std::cout<<"ID: "<<bot.first<<" dist: "<<bot.second<<std::endl;
+    }
+    std::cout<<"Them:"<<std::endl;
+    for (auto bot : TheirBotsBall){
+        std::cout<<"ID: "<<bot.first<<" dist: "<<bot.second<<std::endl;
+    }
+}
 } // ai
 } // rtt

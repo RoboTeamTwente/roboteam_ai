@@ -29,7 +29,7 @@ private:
     static std::map<int,double> OurBotsBall, TheirBotsBall;
     static double findBallDist(roboteam_msgs::WorldRobot &bot, roboteam_msgs::WorldBall &ball);
     static void updateBallPossession(roboteam_msgs::World &_world);
-    static roboteam_msgs::WorldBall updateBallPosition(roboteam_msgs::WorldBall ball);
+    static roboteam_msgs::WorldBall updateBallPosition(roboteam_msgs::World _world);
 public:
     static void set_world(roboteam_msgs::World world);
     static const roboteam_msgs::World &get_world();
@@ -45,6 +45,7 @@ public:
     static int whichBotHasBall(bool ourTeam);
     static std::vector<roboteam_msgs::WorldRobot> getAllRobots();
     static std::vector<roboteam_msgs::WorldRobot> getRobotsForId(std::set<unsigned int> ids, bool robotsAreOurTeam);
+    static void printRobotsWithBall();
 };
 
 } // ai
