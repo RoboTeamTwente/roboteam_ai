@@ -149,27 +149,21 @@ void Dribble::sendMoveCommand() {
     command.id = robot->id;
     command.use_angle = 1;
     if (forwardDirection) {
-        command.w = initialAngle+M_PI;
+        command.w = (float) Control::constrainAngle(initialAngle+M_PI);
     }
     else {
         command.w = (float) Control::constrainAngle(initialAngle);
     }
     std::vector<Vector2> dposvec = {deltaPos};
     command.dribbler = 1;
-//    if(deltaPos.length()>0.5){
-//    command.x_vel = (float) deltaPos.normalize().x*c::DRIBBLE_SPEED;
-//    command.y_vel = (float) deltaPos.normalize().y*c::DRIBBLE_SPEED;
-//    }
-//    else{
-        command.x_vel=(float) deltaPos.normalize().x * Constants::DRIBBLE_SPEED();
-        command.y_vel=(float) deltaPos.normalize().y * Constants::DRIBBLE_SPEED();
-//    }
+    command.x_vel=(float) deltaPos.normalize().x * Constants::DRIBBLE_SPEED();
+    command.y_vel=(float) deltaPos.normalize().y * Constants::DRIBBLE_SPEED();
     publishRobotCommand(command);
 }
 void Dribble::sendStopCommand() {
     roboteam_msgs::RobotCommand command;
-    command.id = robot->id;    command.w = stoppingAngle;
-
+    command.id = robot->id;
+    command.w = stoppingAngle;
     command.use_angle = 1;
     command.w = stoppingAngle;
     command.dribbler = 0;

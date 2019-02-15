@@ -29,7 +29,7 @@ class InterceptBall :public Skill {
         Vector2 ballStartPos, ballStartVel, ballEndPos, interceptPos;
         Vector2 deltaPos;
         int tickCount, maxTicks;
-        control::Controller pid,finePid;
+        control::Controller pid;
         bool backwards;
 
         // Relevant to keeper only

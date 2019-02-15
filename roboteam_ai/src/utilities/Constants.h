@@ -91,6 +91,10 @@ public:
     static double BALL_DEFLECTION_ANGLE()       { return 30.0/180.0*M_PI; };//angle at which a ball is considered 'deflected'
     static double INTERCEPT_POSDIF()            { return 0.04; };//m acceptable deviation
 
+    static double INTERCEPT_P()                 { return 5.7;};
+    static double INTERCEPT_I()                 { return 1.7;};
+    static double INTERCEPT_D()                 { return 0.0;};
+
     static double DEFAULT_MAX_VEL()             { return 2.0; };
     // BallInDefenseAreaAndStill
     static double BALL_STILL_VEL()              { return 0.1; };// if the ball has velocity lower than this in defense area, keeper starts getting it
