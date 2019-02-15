@@ -7,7 +7,7 @@
 
 namespace demo {
 
-std::vector<int> JoystickDemo::demoRobots;
+std::set<int> JoystickDemo::demoRobots;
 std::mutex JoystickDemo::demoLock;
 
 /// Some indication of if there is a demo going
@@ -18,31 +18,29 @@ bool JoystickDemo::isDemo() {
 }
 
 /// Tool to check if demo stuff should happen every loop
-void JoystickDemo::demoLoop() {
+void JoystickDemo::demoLoop(roboteam_msgs::DemoRobotPtr msg) {
 
-    checkROS();
-
+    auto value = *msg;
+    std::lock_guard<std::mutex> lock(demoLock);
+    if (value.reserve) {
+        demoRobots.insert(value.id);
+    }
+    else{
+        demoRobots.erase(value.id);
+    }
 }
 
 /// Returns the robots that are used in the demo
 /// currently probably with the joystick
-std::vector<int> JoystickDemo::getDemoRobots() {
+std::set<int> JoystickDemo::getDemoRobots() {
     std::lock_guard<std::mutex> lock(demoLock);
     return demoRobots;
-}
-
-void JoystickDemo::checkROS() {
-
-    // Check the topic
-
-    // Update the loop if there is a demo situation
-
 }
 
 /// For use outside this class
 bool JoystickDemo::checkIfDemoSafe(int ID) {
     std::lock_guard<std::mutex> lock(demoLock);
     // True if not in the vector
-    return (std::find(demoRobots.begin(), demoRobots.end(), ID) == demoRobots.end());
+    return (demoRobots.find(ID) == demoRobots.end());
 }
 }

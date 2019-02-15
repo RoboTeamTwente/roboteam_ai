@@ -7,20 +7,23 @@
 
 #include <vector>
 #include <mutex>
+#include <set>
+#include <roboteam_ai/src/io/IOManager.h>
 namespace demo {
 class JoystickDemo {
 
     private:
-        static std::vector<int> demoRobots;
+        static std::set<int> demoRobots;
         static std::mutex demoLock;
         static void runDemoUtils();
         static void checkROS();
+        rtt::ai::io::IOManager * IOManager;
 
 
     public:
         static bool isDemo();
-        static void demoLoop();
-        static std::vector<int> getDemoRobots();
+        static void demoLoop(roboteam_msgs::DemoRobotPtr msg);
+        static std::set<int> getDemoRobots();
         static bool checkIfDemoSafe(int ID);
 
 
