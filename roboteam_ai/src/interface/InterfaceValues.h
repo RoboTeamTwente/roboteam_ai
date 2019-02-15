@@ -7,6 +7,7 @@
 
 #include <mutex>
 #include <roboteam_utils/Vector2.h>
+#include <roboteam_ai/src/utilities/Pause.h>
 
 namespace rtt {
 namespace ai {
@@ -23,7 +24,8 @@ private:
     static rtt::Vector2 ballPlacementTarget;
     static bool useRefereeCommands;
 
-public:
+
+    public:
     static bool usesRefereeCommands();
     static void setUseRefereeCommands(bool useRefereeCommands);
     static const rtt::Vector2& getBallPlacementTarget();

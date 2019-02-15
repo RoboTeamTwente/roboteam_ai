@@ -54,7 +54,16 @@ void InterfaceValues::setLuthD(double LuthD) {
 }
 
 void InterfaceValues::sendHaltCommand() {
-    BTFactory::halt();
+    rtt::Pause pause = rtt::Pause();
+    if (pause.getPause()) {
+        // Already halted so unhalt
+        pause.setPause(false);
+    }
+    else {
+        pause.setPause(true);
+        pause.haltRobots();
+    }
+
 }
 
 const Vector2& InterfaceValues::getBallPlacementTarget() {

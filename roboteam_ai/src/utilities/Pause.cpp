@@ -18,7 +18,7 @@ bool Pause::getPause() {
 }
 void Pause::haltRobots() {
 
-    
+
     auto us = rtt::ai::World::get_world().us;
     for (auto robot : us) {
         roboteam_msgs::RobotCommand cmd;
