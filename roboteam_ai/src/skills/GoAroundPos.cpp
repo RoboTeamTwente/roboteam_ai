@@ -76,13 +76,13 @@ GoAroundPos::Status GoAroundPos::onUpdate() {
     displayColorData.emplace_back(std::make_pair(targetPos + Vector2(distanceFromPoint, 0).rotate(endAngle+M_PI),Qt::red));
     interface::Drawer::setGoToPosLuThPoints(robot->id,displayColorData);
 
-    switch(currentProgress){
+    switch(currentProgress) {
     case ROTATING: sendRotateCommand(); return Status::Running;
     case STOPPING: sendRotateCommand(); return Status::Running;
     case FAIL: return Status::Failure;
     case DONE: return Status::Success;
     }
-
+    return Status::Failure;
 }
 void GoAroundPos::onTerminate(rtt::ai::Skill::Status s) {
     roboteam_msgs::RobotCommand command;
@@ -123,6 +123,7 @@ GoAroundPos::Progression GoAroundPos::checkProgression() {
         }
         else return STOPPING;
     }
+    return FAIL;
 }
 bool GoAroundPos::checkPosition() {
     double currentAngle=deltaPos.angle();

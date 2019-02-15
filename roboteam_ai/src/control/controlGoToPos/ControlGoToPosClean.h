@@ -16,7 +16,7 @@ namespace control {
 class ControlGoToPosClean {
     private:
         //constants, should be moved at some point, or adapted in a dynamic model (e.g. for lower speeds for certain branches, jazz like that)
-        double dt = 0.03;
+        double dt = 0.075;
 
         double defaultRobotCollisionRadius = 3*Constants::ROBOT_RADIUS_MAX();
         int robotID = - 1;
@@ -43,6 +43,7 @@ class ControlGoToPosClean {
         struct PathPoint : std::enable_shared_from_this<PathPoint> {
             private:
                 double maxV = 3.4;
+                double maxA = 5.1;
             public:
                 Vector2 currentTarget;  //Either the endPoint or an in between target
                 Vector2 finalTarget;    //Always the endPoint
@@ -55,6 +56,8 @@ class ControlGoToPosClean {
                     return absoluteMax > maxV ? maxV : absoluteMax;
                 }
                 double maxAcc() {
+                    return vel.length() > 0.5 * maxV ? maxA * 0.5 : maxA * ((maxV - vel.length()) / maxV);
+
                     if (vel.length() > maxV*0.5)
                         return 3.05;
                     else
@@ -93,14 +96,7 @@ class ControlGoToPosClean {
         std::vector<PathPoint> backTrackPath(std::shared_ptr<PathPoint> endPoint, std::shared_ptr<PathPoint> root);
         Vector2 findCollisionPos(std::shared_ptr<PathPoint> point);
 
-        bool branchHasTarget(std::shared_ptr<PathPoint> newBranchStart, Vector2 target) {
-            for (const auto &child : newBranchStart->children) {
-                if (child->currentTarget == target) {
-                    return true;
-                }
-            }
-            return false;
-        }
+        bool branchHasTarget(const std::shared_ptr<PathPoint> &newBranchStart, const Vector2 &target);
 
         std::vector<PathPoint> path;
     public:

@@ -38,10 +38,12 @@ Vector2 ControlGoToPosClean::computeForceCommand(std::shared_ptr<roboteam_msgs::
     roboteam_msgs::World world = World::get_world();
     Vector2 force = finalTargetPos - robot->pos;
     for (auto bot : world.us) {
-        force = force + ControlUtils::calculateForce((Vector2)robot->pos - bot.pos, 1, defaultRobotCollisionRadius*2.0);
+        force = force
+                + ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, defaultRobotCollisionRadius*2.0);
     }
     for (auto bot : world.them) {
-        force = force + ControlUtils::calculateForce((Vector2)robot->pos - bot.pos, 1, defaultRobotCollisionRadius*2.0);
+        force = force
+                + ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, defaultRobotCollisionRadius*2.0);
     }
     force = (force.length() > 2.0 ? force.stretchToLength(2.0) : force);
     return force;
@@ -49,13 +51,11 @@ Vector2 ControlGoToPosClean::computeForceCommand(std::shared_ptr<roboteam_msgs::
 
 Vector2 ControlGoToPosClean::computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot, GTPType gtpType) {
     switch (gtpType) {
-    case numeric:
-        return computeNumericCommand(std::move(robot));
-    case force:
-        return computeForceCommand(std::move(robot));
+    case numeric:return computeNumericCommand(std::move(robot));
+    case force:return computeForceCommand(std::move(robot));
     }
+    return computeNumericCommand(std::move(robot));
 }
-
 
 bool ControlGoToPosClean::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
     double maxTargetDeviation = 0.3;
@@ -153,8 +153,10 @@ void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> r
       else if (lhs->collisions - rhs->collisions < - 2)
           return false;
       else
-          return (lhs->maxVel()*lhs->t + remainingStraightLinePathLength(lhs->pos, lhs->currentTarget, finalTargetPos)) >
-                  (rhs->maxVel()*rhs->t + remainingStraightLinePathLength(rhs->pos, rhs->currentTarget, finalTargetPos));
+          return (lhs->maxVel()*lhs->t + remainingStraightLinePathLength(lhs->pos, lhs->currentTarget, finalTargetPos))
+                  >
+                          (rhs->maxVel()*rhs->t
+                                  + remainingStraightLinePathLength(rhs->pos, rhs->currentTarget, finalTargetPos));
     };
 
 //// compClose compares the amount of collisions first, then sorts the paths based on an approximation on the length of
@@ -271,7 +273,10 @@ std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::computeNewP
 
     //ODE model:
     Vector2 targetVel = (subTarget - oldPoint->pos).normalize()*newPoint->maxVel();
-    newPoint->acc = (targetVel - oldPoint->vel).normalize()*newPoint->maxAcc();
+    double angle = abs( (targetVel - oldPoint->vel).angle() );
+    //angle = angle > M_PI ? M_2_PI - angle : angle;
+    newPoint->acc = (targetVel - oldPoint->vel*
+            (2.0 + (abs(angle) > M_PI_2 ? abs(angle) - M_PI_2 : 0.0))).stretchToLength(oldPoint->maxAcc());
     newPoint->vel = oldPoint->vel + newPoint->acc*dt;
     newPoint->pos = oldPoint->pos + newPoint->vel*dt;
 
@@ -362,7 +367,7 @@ std::pair<std::vector<Vector2>, std::shared_ptr<ControlGoToPosClean::PathPoint>>
 
     double length = deltaPosition.length();
     double defaultDistanceFromCollision = 0.3;
-    double deltaAngle = factor*atan(defaultDistanceFromCollision/length);
+    double deltaAngle = sqrt(static_cast<double>(factor))*atan(defaultDistanceFromCollision/length);
 
     Vector2 leftPosition = startPosition + deltaPosition.rotate(deltaAngle);
     drawCross(leftPosition, Qt::blue);
@@ -481,6 +486,16 @@ void ControlGoToPosClean::drawCross(Vector2 &pos, QColor color) {
 
 void ControlGoToPosClean::drawPoint(Vector2 &pos, QColor color) {
     displayData.emplace_back(pos, color);
+}
+bool ControlGoToPosClean::branchHasTarget(const std::shared_ptr<ControlGoToPosClean::PathPoint> &newBranchStart,
+        const Vector2 &target) {
+
+    for (const auto &child : newBranchStart->children) {
+        if (child->currentTarget == target) {
+            return true;
+        }
+    }
+    return false;
 }
 
 }// control
