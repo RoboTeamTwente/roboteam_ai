@@ -18,7 +18,6 @@ class DribbleRotate : public Skill{
         int currentTick, maxTick,extraTick;
         bool rotateToGoal;
         double computeCommandAngle();
-        bool robotHasBall(double frontRange);
     public:
         explicit DribbleRotate(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;

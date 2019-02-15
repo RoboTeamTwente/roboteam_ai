@@ -11,7 +11,7 @@ Dribble::Dribble(string name, bt::Blackboard::Ptr blackboard)
 
 Dribble::Progression Dribble::checkProgression() {
     if (currentProgress == ON_THE_WAY) {
-        if (! robotHasBall()) {
+        if (! World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
             return FAIL;
         }
         if (deltaPos.length() <= Constants::DRIBBLE_POSDIF()) {
@@ -28,7 +28,7 @@ Dribble::Progression Dribble::checkProgression() {
     else if (currentProgress == STOPPED) {
         count ++;
         //ROS_WARN_STREAM("Stopped ticks #:" << count<<"/"<<maxTicks);
-        if (! robotHasBall()) {
+        if (! World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
             return FAIL;
         }
         else if (count >= maxTicks) {
@@ -49,15 +49,6 @@ Dribble::Progression Dribble::checkProgression() {
     return FAIL;
 }
 
-bool Dribble::robotHasBall() {
-    //The ball is in an area defined by a cone from the robot centre, or from a rectangle in front of the dribbler
-    if(!ball->visible){
-        return true;
-    }
-    Vector2 RobotPos = robot->pos;
-    Vector2 BallPos = ball->pos;
-    return World::robotHasBall(*robot, *ball);
-}
 void Dribble::onInitialize() {
     //if false, robot will dribble to the position backwards with the ball.
     forwardDirection = properties->getBool("forwardDirection");
@@ -79,7 +70,7 @@ void Dribble::onInitialize() {
     else {
         ROS_ERROR("Dribble Initialize -> No maxTicks set!");
     }
-    if (! Dribble::robotHasBall()) {
+    if (! World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
         ROS_ERROR("Dribble Initialize -> Robot does not have the ball!");
         currentProgress = Progression::FAIL;
         return;
