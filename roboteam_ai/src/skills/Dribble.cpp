@@ -75,13 +75,6 @@ void Dribble::onInitialize() {
         currentProgress = Progression::FAIL;
         return;
     }
-    if(!ball->visible){
-        auto world=World::get_world();
-        Vector2 ballPos=Vector2(robot->pos)+Vector2(Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS(),0).rotate(robot->angle);
-        world.ball.visible=true;
-        world.ball.pos=ballPos;
-        World::set_world(world);
-    }
     currentProgress = Progression::ON_THE_WAY;
     count = 0;
 
@@ -96,12 +89,7 @@ Dribble::Status Dribble::onUpdate() {
     else if (currentProgress == Progression::WAITING) {
         return Status::Waiting;
     }
-    if(ball->visible) {
-        deltaPos = targetPos - Vector2(ball->pos);
-    }
-    else{
-        deltaPos=targetPos-(Vector2(robot->pos)+Vector2(Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS(),0).rotate(robot->angle));
-    }
+    deltaPos = targetPos - Vector2(ball->pos);
     currentProgress = checkProgression();
 
     if (currentProgress == STOPPED) {

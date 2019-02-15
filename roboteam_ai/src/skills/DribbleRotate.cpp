@@ -60,13 +60,6 @@ void DribbleRotate::onInitialize() {
     extraTick= static_cast<int>(Constants::DRIBBLE_ROTATE_WAIT_TIME() * Constants::TICK_RATE());
     dir=Control::rotateDirection(startAngle,targetAngle);
     maxTick=(int)floor(Control::angleDifference(startAngle,targetAngle)/maxSpeed*Constants::TICK_RATE());
-    if(!ball->visible){
-        auto world=World::get_world();
-        Vector2 ballPos=Vector2(robot->pos)+Vector2(Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS(),0).rotate(robot->angle);
-        world.ball.visible=true;
-        world.ball.pos=ballPos;
-        World::set_world(world);
-    }
     if (!World::ourBotHasBall(robot->id,Constants::MAX_BALL_RANGE())){
         std::cout<<"Robot does not have ball in dribbleRotateInitialize"<<std::endl;
         std::cout<< "Distance"<<(Vector2(robot->pos)-Vector2(ball->pos)).length() - Constants::ROBOT_RADIUS()<< "Max distance:" << Constants::MAX_BALL_RANGE() << std::endl;
