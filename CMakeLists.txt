@@ -137,7 +137,10 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Coach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Coach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/ApplicationManager.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/ApplicationManager.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/ApplicationManager.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Pause.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Pause.h
+        )
 
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
