@@ -37,9 +37,11 @@ public:
     static double DRIBBLER_ANGLE_OFFSET()       { return asin(FRONT_LENGTH()/2/ROBOT_RADIUS()); }; // if the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET() points to the left and DRIBBLER_ANGLE_OFFSET() to the right.
     static double CENTRE_TO_FRONT()             { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); };
     static double BALL_RADIUS()                 { return 0.0215; };
-
     static int TICK_RATE()                       { return 60 ; };// Rate at which we tick our behavior Trees
 
+
+    static double MAX_BALL_RANGE()              { return 0.05; };
+    static double MAX_BALL_BOUNCE_RANGE()       { return 0.15; };
     //skills
     static double DEFAULT_KICK_POWER()          { return  5.0; }; // max kick power() { return  100
     static double MAX_KICK_POWER()              { return  8.0; }; //TODO: CHECK
@@ -49,13 +51,8 @@ public:
     static int DEFAULT_GENEVA_STATE()           { return  0; };
 
     //dribble
-    static double MAX_BALL_BOUNCE_RANGE()       { return 0.15; };
     static double DRIBBLE_POSDIF()              { return 0.05; };
     static float  DRIBBLE_SPEED()               { return 0.8; };
-
-    //hasBall
-    static double MAX_BALL_RANGE()              { return 0.15; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
-    static double HAS_BALL_ANGLE()              { return 0.2; }
 
     //getBallcc
     static double COLLISION_RADIUS()            { return 0.18; };
