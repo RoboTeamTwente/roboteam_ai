@@ -11,6 +11,7 @@ namespace rtt {
 namespace ai {
 
 class IsBallOnOurSide : public Condition {
+    FRIEND_TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side);
 private:
         bool inField = false;
     public:

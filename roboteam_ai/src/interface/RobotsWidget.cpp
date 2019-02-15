@@ -49,7 +49,7 @@ void RobotsWidget::updateContents(Visualizer* visualizer) {
     }
     else {
         for (int i = 0; i<static_cast<int>(us.size()); i++) {
-            if (VLayout->itemAt(i)) {
+            if (VLayout->itemAt(i) && VLayout->itemAt(i)->widget()) {
                 auto robotwidget = VLayout->itemAt(i)->widget();
                 clearLayout(robotwidget->layout());
                 delete robotwidget->layout();
