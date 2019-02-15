@@ -63,7 +63,6 @@ void ApplicationManager::runOneLoopCycle() {
         // Will do things if this is a demo
         // otherwise wastes like 0.1 ms
         auto demomsg = IOManager->getDemoInfo();
-
         demo::JoystickDemo::demoLoop(demomsg);
 
         if (ai::interface::InterfaceValues::usesRefereeCommands()) {
