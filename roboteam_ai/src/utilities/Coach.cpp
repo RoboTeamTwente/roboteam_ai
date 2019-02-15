@@ -65,7 +65,7 @@ int Coach::pickOpponentToCover(int selfID) {
     std::vector<int> dangerList = DangerData.dangerList;
     for (int &opponentID : dangerList) {
         if (defencePairs.find(opponentID) == defencePairs.end()) {
-            if (! doesRobotHaveBall(static_cast<unsigned int>(opponentID), false)) {
+            if (! World::theirBotHasBall(static_cast<unsigned int>(opponentID))) {
                 return opponentID;
             }
         }

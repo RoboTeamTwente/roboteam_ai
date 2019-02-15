@@ -42,6 +42,7 @@ public:
 
     static bool ourBotHasBall(int id, double maxDistToBall=Constants::MAX_BALL_RANGE());
     static bool theirBotHasBall(int id, double maxDistToBall=Constants::MAX_BALL_RANGE());
+    static int whichBotHasBall(bool ourTeam);
     static std::vector<roboteam_msgs::WorldRobot> getAllRobots();
     static std::vector<roboteam_msgs::WorldRobot> getRobotsForId(std::set<unsigned int> ids, bool robotsAreOurTeam);
 };

@@ -22,7 +22,7 @@ bt::Node::Status TheyHaveBall::update() {
 
         bool theyHaveBall = false;
         for(auto &robot : robots) {
-            if(coach::Coach::doesRobotHaveBall(robot.id, false)) {
+            if(World::theirBotHasBall(robot.id)) {
                 theyHaveBall = true;
                 break;
             }

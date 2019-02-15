@@ -141,6 +141,29 @@ bool World::theirBotHasBall(int id, double maxDistToBall){
     }
     return false;
 }
+// picks the bot that has the ball and is closest to it.
+int World::whichBotHasBall(bool ourTeam) {
+    double maxDist=100;
+    int bestId=-1;
+    if (ourTeam) {
+        for (auto bot: OurBotsBall) {
+            if (bot.second < maxDist) {
+                maxDist = bot.second;
+                bestId = bot.first;
+            }
+        }
+    }
+    else{
+        for (auto bot: TheirBotsBall) {
+            if (bot.second < maxDist) {
+                maxDist = bot.second;
+                bestId = bot.first;
+            }
+        }
+    }
+    return bestId;
+
+}
 roboteam_msgs::WorldBall World::updateBallPosition(roboteam_msgs::WorldBall ball) {
     if (ball.visible){
         return ball;
@@ -148,10 +171,8 @@ roboteam_msgs::WorldBall World::updateBallPosition(roboteam_msgs::WorldBall ball
     // we set the ball velocity to 0
     ball.vel.x=0;
     ball.vel.y=0;
-
     // if the ball was dribbled in the previous world_state we set its position to be in front of the robot that was dribbling it
-    // a robot was dribbling it
-    if (!OurBotsBall.empty()||!TheirBotsBall.empty()){
+    if (!OurBotsBall.empty()||!TheirBotsBall.empty()){ // check if it was dribbled in last world state
         double maxDist=100;
         int bestId=-1;
         bool ourTeam=true;
