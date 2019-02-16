@@ -31,7 +31,6 @@ void World::set_world(roboteam_msgs::World _world) {
     }
     updateBallPossession(_world);
     world = _world;
-    printRobotsWithBall();
 }
 
 /// Returns Robot for an ID and team (if it exists) 
@@ -227,16 +226,6 @@ std::vector<roboteam_msgs::WorldRobot> World::getAllRobots() {
     allRobots.insert(allRobots.end(), world.them.begin(), world.them.end());
     return allRobots;
 }
-void World::printRobotsWithBall(){
-    std::cout<<"BallPos: "<<world.ball.pos<<std::endl;
-    std::cout<<"Us:"<<std::endl;
-    for (auto bot : OurBotsBall){
-        std::cout<<"ID: "<<bot.first<<" dist: "<<bot.second<<std::endl;
-    }
-    std::cout<<"Them:"<<std::endl;
-    for (auto bot : TheirBotsBall){
-        std::cout<<"ID: "<<bot.first<<" dist: "<<bot.second<<std::endl;
-    }
-}
+
 } // ai
 } // rtt
