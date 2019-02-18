@@ -30,19 +30,19 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
                 Constants::standard_luth_Pos_P());
     }
 // change PID values
-    if (velPID.getP() != interface::InterfaceValues::getLuthP() ||
-            velPID.getI() != interface::InterfaceValues::getLuthI() ||
-            velPID.getD() != interface::InterfaceValues::getLuthD()) {
+    if (velPID.getP() != interface::InterfaceValues::getLuthPosP() ||
+            velPID.getI() != interface::InterfaceValues::getLuthPosI() ||
+            velPID.getD() != interface::InterfaceValues::getLuthPosD()) {
 
         velPID.reset();
-        velPID.setPID(interface::InterfaceValues::getLuthP(),
-                interface::InterfaceValues::getLuthI(),
-                interface::InterfaceValues::getLuthD());
+        velPID.setPID(interface::InterfaceValues::getLuthPosP(),
+                interface::InterfaceValues::getLuthPosI(),
+                interface::InterfaceValues::getLuthPosD());
 
         posPID.reset();
-        posPID.setPID(interface::InterfaceValues::getLuthP(),
-                interface::InterfaceValues::getLuthI(),
-                interface::InterfaceValues::getLuthD());
+        posPID.setPID(interface::InterfaceValues::getLuthPosP(),
+                interface::InterfaceValues::getLuthPosI(),
+                interface::InterfaceValues::getLuthPosD());
     }
 
     bool recalculate = false;

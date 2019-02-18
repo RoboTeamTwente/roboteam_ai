@@ -132,7 +132,7 @@ public:
     static bool STD_SHOW_PATHS_ALL()            { return false; };
     static bool STD_SHOW_PATHS_CURRENT()        { return true; };
     static bool STD_SHOW_BALL_PLACEMENT_MARKER(){ return true; };
-    static bool STD_USE_REFEREE()               { return true; };
+    static bool STD_USE_REFEREE()               { return false; };
 
     static QColor FIELD_COLOR()                 { return GRSIM() ? QColor(30, 30, 30, 255) : QColor(50, 0, 0, 255); };
     static QColor FIELD_LINE_COLOR()            { return Qt::white; };

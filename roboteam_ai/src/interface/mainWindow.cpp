@@ -17,9 +17,14 @@ MainWindow::MainWindow(QWidget* parent)
         :QMainWindow(parent) {
 
     // initialize values for interface to display
-    InterfaceValues::setLuthP(Constants::standard_luth_Pos_P());
-    InterfaceValues::setLuthI(Constants::standard_luth_Pos_I());
-    InterfaceValues::setLuthD(Constants::standard_luth_Pos_D());
+    InterfaceValues::setLuthPosP(Constants::standard_luth_Pos_P());
+    InterfaceValues::setLuthPosI(Constants::standard_luth_Pos_I());
+    InterfaceValues::setLuthPosD(Constants::standard_luth_Pos_D());
+
+    InterfaceValues::setLuthVelP(Constants::standard_luth_Vel_P());
+    InterfaceValues::setLuthVelI(Constants::standard_luth_Vel_I());
+    InterfaceValues::setLuthVelD(Constants::standard_luth_Vel_D());
+
     InterfaceValues::setUseRefereeCommands(Constants::STD_USE_REFEREE());
 
     setMinimumWidth(800);
@@ -59,29 +64,56 @@ MainWindow::MainWindow(QWidget* parent)
     setToggleColorBtnLayout(); // set the btn color and text to the current our_color
 
     vLayout->addLayout(hButtonsLayout);
-    doubleSpinBoxesGroup = new QGroupBox("GoToPosLuth PID options");
+    doubleSpinBoxesGroup_Pos_PID = new QGroupBox("GoToPosLuth Position PID options");
     spinBoxLayout =new QHBoxLayout();
-    sb_luth_P = new QDoubleSpinBox();
-    sb_luth_P->setRange(-20, 20);
-    sb_luth_P->setSingleStep(0.1f);
-    sb_luth_P->setValue(InterfaceValues::getLuthP());
-    QObject::connect(sb_luth_P, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
-    spinBoxLayout->addWidget(sb_luth_P);
 
-    sb_luth_I = new QDoubleSpinBox();
-    sb_luth_I->setRange(-20, 20);
-    sb_luth_I->setSingleStep(0.1f);
-    sb_luth_I->setValue(InterfaceValues::getLuthI());
-    QObject::connect(sb_luth_I, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
-    spinBoxLayout->addWidget(sb_luth_I);
+    sb_luth_Pos_P = new QDoubleSpinBox();
+    sb_luth_Pos_P->setRange(-20, 20);
+    sb_luth_Pos_P->setSingleStep(0.1f);
+    sb_luth_Pos_P->setValue(InterfaceValues::getLuthPosP());
+    QObject::connect(sb_luth_Pos_P, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
+    spinBoxLayout->addWidget(sb_luth_Pos_P);
 
-    sb_luth_D = new QDoubleSpinBox();
-    sb_luth_D->setRange(-20, 20);
-    sb_luth_D->setSingleStep(0.1f);
-    sb_luth_D->setValue(InterfaceValues::getLuthD());
-    QObject::connect(sb_luth_D, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
-    spinBoxLayout->addWidget(sb_luth_D);
-    doubleSpinBoxesGroup->setLayout(spinBoxLayout);
+    sb_luth_Pos_I = new QDoubleSpinBox();
+    sb_luth_Pos_I->setRange(-20, 20);
+    sb_luth_Pos_I->setSingleStep(0.1f);
+    sb_luth_Pos_I->setValue(InterfaceValues::getLuthPosI());
+    QObject::connect(sb_luth_Pos_I, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
+    spinBoxLayout->addWidget(sb_luth_Pos_I);
+
+    sb_luth_Pos_D = new QDoubleSpinBox();
+    sb_luth_Pos_D->setRange(-20, 20);
+    sb_luth_Pos_D->setSingleStep(0.1f);
+    sb_luth_Pos_D->setValue(InterfaceValues::getLuthPosD());
+    QObject::connect(sb_luth_Pos_D, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
+    spinBoxLayout->addWidget(sb_luth_Pos_D);
+    doubleSpinBoxesGroup_Pos_PID->setLayout(spinBoxLayout);
+
+    vLayout->addLayout(hButtonsLayout);
+    doubleSpinBoxesGroup_Vel_PID = new QGroupBox("GoToPosLuth Velocity PID options");
+    spinBoxLayout =new QHBoxLayout();
+    sb_luth_Vel_P = new QDoubleSpinBox();
+    sb_luth_Vel_P->setRange(-20, 20);
+    sb_luth_Vel_P->setSingleStep(0.1f);
+    sb_luth_Vel_P->setValue(InterfaceValues::getLuthVelP());
+    QObject::connect(sb_luth_Vel_P, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
+    spinBoxLayout->addWidget(sb_luth_Vel_P);
+
+    sb_luth_Vel_I = new QDoubleSpinBox();
+    sb_luth_Vel_I->setRange(-20, 20);
+    sb_luth_Vel_I->setSingleStep(0.1f);
+    sb_luth_Vel_I->setValue(InterfaceValues::getLuthVelI());
+    QObject::connect(sb_luth_Vel_I, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
+    spinBoxLayout->addWidget(sb_luth_Vel_I);
+
+    sb_luth_Vel_D = new QDoubleSpinBox();
+    sb_luth_Vel_D->setRange(-20, 20);
+    sb_luth_Vel_D->setSingleStep(0.1f);
+    sb_luth_Vel_D->setValue(InterfaceValues::getLuthVelD());
+    QObject::connect(sb_luth_Vel_D, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
+    spinBoxLayout->addWidget(sb_luth_Vel_D);
+
+    doubleSpinBoxesGroup_Vel_PID->setLayout(spinBoxLayout);
 
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [=](const QString &strategyName) {
@@ -92,7 +124,8 @@ MainWindow::MainWindow(QWidget* parent)
 
     auto pidWidget = new QWidget;
     auto pidVLayout = new QVBoxLayout();
-    pidVLayout->addWidget(doubleSpinBoxesGroup);
+    pidVLayout->addWidget(doubleSpinBoxesGroup_Pos_PID);
+    pidVLayout->addWidget(doubleSpinBoxesGroup_Vel_PID);
 
     auto pidSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
     pidVLayout->addSpacerItem(pidSpacer);
@@ -184,9 +217,13 @@ void MainWindow::toggleOurColorParam() {
 
 /// update the PID values for gotopos Luth
 void MainWindow::updatePID_luth() {
-    InterfaceValues::setLuthP(sb_luth_P->value());
-    InterfaceValues::setLuthI(sb_luth_I->value());
-    InterfaceValues::setLuthD(sb_luth_D->value());
+    InterfaceValues::setLuthPosP(sb_luth_Pos_P->value());
+    InterfaceValues::setLuthPosI(sb_luth_Pos_I->value());
+    InterfaceValues::setLuthPosD(sb_luth_Pos_D->value());
+
+    InterfaceValues::setLuthVelP(sb_luth_Vel_P->value());
+    InterfaceValues::setLuthVelI(sb_luth_Vel_I->value());
+    InterfaceValues::setLuthVelD(sb_luth_Vel_D->value());
 }
 
 /// send a halt signal to stop all trees from executing

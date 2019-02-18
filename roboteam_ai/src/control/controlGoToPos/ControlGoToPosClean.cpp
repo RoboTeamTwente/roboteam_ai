@@ -193,9 +193,9 @@ void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> r
 //                  (remainingStraightLinePathLength(rhs->pos, rhs->currentTarget, finalTargetPos));
 //    };
 
-    displayData = {};
     velPID.reset();
     posPID.reset();
+    displayData.clear();
     path.clear();
 
     std::shared_ptr<PathPoint> root = std::make_shared<PathPoint>();
@@ -455,25 +455,31 @@ void ControlGoToPosClean::initializePID() {
             Constants::standard_luth_Pos_P());
 
     posPID.reset();
-    posPID.setPID(Constants::standard_luth_Pos_P(),
-            Constants::standard_luth_Pos_P(),
-            Constants::standard_luth_Pos_P());
+    posPID.setPID(Constants::standard_luth_Vel_P(),
+            Constants::standard_luth_Vel_P(),
+            Constants::standard_luth_Vel_P());
 }
 
 /// compare current PID values to those set in the interface
 void ControlGoToPosClean::checkInterfacePID() {
-    if (velPID.getP() != interface::InterfaceValues::getLuthP() ||
-            velPID.getI() != interface::InterfaceValues::getLuthI() ||
-            velPID.getD() != interface::InterfaceValues::getLuthD()) {
+    if (velPID.getP() != interface::InterfaceValues::getLuthVelP() ||
+            velPID.getI() != interface::InterfaceValues::getLuthVelI() ||
+            velPID.getD() != interface::InterfaceValues::getLuthVelD()) {
+
         velPID.reset();
-        velPID.setPID(interface::InterfaceValues::getLuthP(),
-                interface::InterfaceValues::getLuthI(),
-                interface::InterfaceValues::getLuthD());
+        velPID.setPID(interface::InterfaceValues::getLuthVelP(),
+                interface::InterfaceValues::getLuthVelI(),
+                interface::InterfaceValues::getLuthVelD());
+    }
+
+    if (posPID.getP() != interface::InterfaceValues::getLuthPosP() ||
+                posPID.getI() != interface::InterfaceValues::getLuthPosI() ||
+                posPID.getD() != interface::InterfaceValues::getLuthPosD()) {
 
         posPID.reset();
-        posPID.setPID(interface::InterfaceValues::getLuthP(),
-                interface::InterfaceValues::getLuthI(),
-                interface::InterfaceValues::getLuthD());
+        posPID.setPID(interface::InterfaceValues::getLuthPosP(),
+                interface::InterfaceValues::getLuthPosI(),
+                interface::InterfaceValues::getLuthPosD());
     }
 }
 
