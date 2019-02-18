@@ -108,7 +108,9 @@ std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotClosestToPoint(const V
 
     auto closestUs = getRobotClosestToPoint(World::get_world().us, point, myID, t);
     auto closestThem = getRobotClosestToPoint(World::get_world().them, point, t);
-    return (point - closestUs->pos).length() < (point - closestThem->pos).length() ? closestUs : closestThem;
+    double lengthUs = closestUs != nullptr ? (point - closestUs->pos).length() : 9999.0;
+    double lengthThem = closestThem != nullptr ? (point - closestThem->pos).length() : 9999.0;
+    return lengthUs < lengthThem ? closestUs : closestThem;
 }
 
 std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotClosestToPoint(const Vector2 &point, const float &t) {

@@ -4,6 +4,7 @@
 
 #include "roboteam_ai/src/control/ControlUtils.h"
 #include <gtest/gtest.h>
+#include <roboteam_ai/src/utilities/Field.h>
 
 namespace cr=rtt::ai::control;
 
