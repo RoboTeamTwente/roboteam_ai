@@ -14,7 +14,7 @@ void Defend::onInitialize() {
 
 bt::Node::Status Defend::onUpdate() {
     Vector2 targetLocation = coach::Coach::getDefensivePosition(robot->id);
-    auto velocities = gtp.goToPos(robot, targetLocation, control::GoToType::luTh);
+    auto velocities = gtp.goToPos(robot, targetLocation, control::GoToType::clean);
 
     roboteam_msgs::RobotCommand cmd;
     cmd.id = robot->id;
