@@ -138,6 +138,10 @@ TEST(CoachTest, it_adds_and_removes_defenders) {
     field.field_length = 8;
     Field::set_field(field);
 
+    // set the world
+    // we need to make sure all robots are available so this test can run properly
+    rtt::ai::World::set_world(testhelpers::WorldHelper::getWorldMsg(8, 0, false, field));
+
     Coach::defenders = {}; // empty the defenders to start the test
 
     EXPECT_TRUE(Coach::defenders.empty());
