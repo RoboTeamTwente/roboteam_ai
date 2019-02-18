@@ -123,7 +123,8 @@ void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem* row,
     mostTicks = std::max(node->getAmountOfTicks(), mostTicks);
     if (mostTicks != 0) {
         double div = (node->getAmountOfTicks()*1.0) / (mostTicks*1.0);
-        int factor = 255 * sqrt(div);
+        div = log( (127)*div + 1) / log(128);
+        auto factor = static_cast<int>(255 * div);
         row->setTextColor(3, {255, 255-factor, factor});
     }
     row->setText(3, QString::number(node->getAmountOfTicks(), 'f', 0));

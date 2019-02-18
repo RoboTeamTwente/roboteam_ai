@@ -63,6 +63,7 @@ bt::Node::Status AvoidBall::onUpdate() {
     command.x_vel = static_cast<float>(force.x);
     command.y_vel = static_cast<float>(force.y);
     publishRobotCommand(command);
+    return Status::Running;
 }
 
 } // ai

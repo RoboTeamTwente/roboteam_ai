@@ -211,8 +211,8 @@ Vector2 Coach::getDefensivePosition(int robotId) {
     // the order of shortestDistances should be the same order as robotLocations
     // this means that shortestDistances[0] corresponds to defenders[0] etc.
     auto shortestDistances = control::ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(robotLocations, targetLocations);
-
-    for (unsigned int i = 0; i < defenders.size(); i++) {
+   
+  for (unsigned long i = 0; i<defenders.size(); i++) {
         if (defenders.at(i) == robotId) {
             return shortestDistances.at(i).second;
         }
@@ -285,6 +285,7 @@ Vector2 Coach::getFormationPosition(int robotId) {
     auto shortestDistances = control::ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(robotLocations, targetLocations);
 
     for (unsigned int i = 0; i < robotsInFormation.size(); i++) {
+
         if (robotsInFormation.at(i) == robotId) {
             return shortestDistances.at(i).second;
         }

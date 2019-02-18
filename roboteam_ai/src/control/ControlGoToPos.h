@@ -28,7 +28,7 @@
 
 #include "controlGoToPos/ControlGoToPosLuTh.h"
 #include "controlGoToPos/ControlGoToPosBallControl.h"
-
+#include "controlGoToPos/ControlGoToPosClean.h"
 namespace rtt {
 namespace ai {
 namespace control {
@@ -42,6 +42,7 @@ enum GoToType {
     force,
     luTh,
     bezier,
+    clean
 };
 
 class ControlGoToPos {
@@ -55,6 +56,9 @@ class ControlGoToPos {
 
         Vector2 goToPosLuTh(RobotPtr robot, Vector2 &targetPos);
         ControlGoToPosLuTh gtpLuth;
+
+        Vector2 goToPosClean(RobotPtr robot, Vector2 &targetPos);
+        ControlGoToPosClean gtpClean;
 
         Vector2 goToPosLowLevel(RobotPtr robot, Vector2 &targetPos);
         //ControlGoToPosLowLevel gtpLowlevel;
