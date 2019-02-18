@@ -5,14 +5,6 @@
 
 namespace rtt {
 
-    /** NOTES:
-     *
-     *  Baris:
-     *      I removed a lot of old hacks and unused functions that were commented out. If things break
-     *      It might be useful to get back on git and find the hacks old teams used.
-     *
-     */
-
     FilteredWorld::FilteredWorld(Predictor predictor) : fresh{false} {
         reset();
         this->predictor = std::move(predictor);
@@ -22,8 +14,8 @@ namespace rtt {
     void FilteredWorld::reset() {
 
         // Clear the input buffers
-        robots_blue_buffer.clear();
-        robots_yellow_buffer.clear();
+        robots_them_buffer.clear();
+        robots_us_buffer.clear();
 
         // These are used for the final world state
         robots_blue_world.clear();
@@ -31,8 +23,8 @@ namespace rtt {
         ball_world = rtt::Ball();
 
         // Initialize the input buffers.
-        robots_blue_buffer = RobotMultiCamBuffer();
-        robots_yellow_buffer = RobotMultiCamBuffer();
+        robots_them_buffer = RobotMultiCamBuffer();
+        robots_us_buffer = RobotMultiCamBuffer();
 
         // The cameras
         world_cams = std::map<int, bool>();
@@ -64,8 +56,6 @@ namespace rtt {
             for (auto &cam : world_cams) {
                 cam.second = false;
             }
-            // double time_grsim = msg.t_capture;
-            //double time_now = ros::Time::now().toSec();
             double time_now = msg.t_capture;
             merge_frames(time_now);
             timeLastUpdated = time_now;
@@ -83,14 +73,12 @@ namespace rtt {
     }
 
     /// Adds a received detection frame to the buffers.
-    /// might break if there is a half field play not sure => rework only playing with cam 0 and 3 or something
-    /// (Baris September)
     void FilteredWorld::buffer_detection_frame(const roboteam_msgs::DetectionFrame msg) {
 
         auto cam_id = msg.camera_id;
 
         // Set this cameras updated flag.
-        // If this camera hasn't sent frames before, it is now added to the list of cameras. We reset the other camera's to true as their information is still mergeable
+        // If this camera hasn't sent frames before, it is now added to the list of cameras. We reset the other camera's to true as their information is still mergeable now.
         if (world_cams.find(cam_id) == world_cams.end()) {
             for (auto &cam :world_cams) {
                 cam.second = true;
@@ -99,22 +87,22 @@ namespace rtt {
         world_cams[cam_id] = true;
         timeFrameCaptured[cam_id] = msg.t_capture;
 
-        // ==== Robots ====
-        // Add the robot data
+        // Add the robot data to the buffers
         for (const roboteam_msgs::DetectionRobot robot : msg.them) {
             int bot_id = robot.robot_id;
 
-            robots_blue_buffer[bot_id][cam_id] = roboteam_msgs::DetectionRobot(robot);
+            robots_them_buffer[bot_id][cam_id] = roboteam_msgs::DetectionRobot(robot);
         }
         for (const roboteam_msgs::DetectionRobot robot : msg.us) {
             int bot_id = robot.robot_id;
 
-            robots_yellow_buffer[bot_id][cam_id] = roboteam_msgs::DetectionRobot(robot);
+            robots_us_buffer[bot_id][cam_id] = roboteam_msgs::DetectionRobot(robot);
         }
 
         // ==== Ball ====
-        // Find the ball with the smallest distance from the previous position +velocity * time between the two frames
-
+        // There can be multiple balls in one frame:
+        // Find the ball with the smallest distance from the linear extrapolation of last known position
+        // and add that to the buffer.
         if (!msg.balls.empty()) {
             Position previousBallPos = ball_world.get_position();
             Position previousBallVel = ball_world.get_velocity();
@@ -155,20 +143,27 @@ namespace rtt {
     }
 
     /**
-     * Merges the frames multiple cameras gives into a world state.
-     *
+     * Merges the frames of multiple camera's into a world state.
      * Merges the robots using FilteredWorld::merge_robots
      * Picks the best option for the ball.
      * Clears the buffers for the frames afterwards.
-     *
      */
     void FilteredWorld::merge_frames(double timestamp) {
+        // merge all the robots in the buffers
         std::string s;
         get_PARAM_OUR_COLOR(s);
         bool isBlueOurTeam = s == "blue";
-        merge_robots(robots_blue_buffer, robots_blue_world, old_blue, timestamp, isBlueOurTeam);
-        merge_robots(robots_yellow_buffer, robots_yellow_world, old_yellow, timestamp, !isBlueOurTeam);
+        merge_robots(robots_them_buffer, robots_blue_world, old_blue, timestamp, isBlueOurTeam);
+        merge_robots(robots_us_buffer, robots_yellow_world, old_yellow, timestamp, !isBlueOurTeam);
+        // merge the balls in the buffer
+        merge_balls(timestamp);
+        // Clear the buffers.
+        robots_them_buffer.clear();
+        robots_us_buffer.clear();
+    }
 
+    /// Merges the balls from different frames
+    void FilteredWorld::merge_balls(double timestamp) {
         // Take the ball from the camera where extrapolation with respect to the world is closest to
         // the extrapolation of the last world state's velocity and position
         if (!ball_buffer.empty()) {
@@ -184,8 +179,8 @@ namespace rtt {
             int best_camera = ball_buffer.begin()->first;
             // Initial extrapolation. Does the same as below
             Position Extrapolation = previousBallPos + (Position(closestBall.pos) - previousBallPos) *
-                                                       (1 / (timeFrameCaptured[best_camera] - timeLastUpdated)) *
-                                                       (timestamp - timeLastUpdated);
+                    (1 / (timeFrameCaptured[best_camera] - timeLastUpdated)) *
+                    (timestamp - timeLastUpdated);
             double closestDist2 = Vector2(Extrapolation.x, Extrapolation.y).dist2(
                     Vector2(predictedPosition.x, predictedPosition.y));
 
@@ -193,8 +188,8 @@ namespace rtt {
                 // Extrapolate from detectionframe's capture time to current time.
                 Position detectedBallPos = Position(detectedBall.second.pos);
                 Extrapolation = previousBallPos + (detectedBallPos - previousBallPos) *
-                                                  (1 / (timeFrameCaptured[detectedBall.first] - timeLastUpdated)) *
-                                                  (timestamp - timeLastUpdated);
+                        (1 / (timeFrameCaptured[detectedBall.first] - timeLastUpdated)) *
+                        (timestamp - timeLastUpdated);
                 double dist2 = Vector2(Extrapolation.x, Extrapolation.y).dist2(
                         Vector2(predictedPosition.x, predictedPosition.y));
                 // Pick the Extrapolation which works best
@@ -213,7 +208,6 @@ namespace rtt {
         }
 
         // Update the predictor and get a speed vector for the ball
-        // Pushes the Reference of ball to predictor. This is why we can update velocity later.
         predictor.update(ball_world, timestamp);
         boost::optional<Position> ballVel = predictor.computeBallVelocity();
 
@@ -221,11 +215,7 @@ namespace rtt {
             Position vel = *ballVel;
             ball_world.set_velocity(static_cast<float>(vel.x), static_cast<float>(vel.y));
         }
-        // Clear the buffers.
-        robots_blue_buffer.clear();
-        robots_yellow_buffer.clear();
     }
-
     /// Merges the robots from different frames
     void FilteredWorld::merge_robots(RobotMultiCamBuffer &robots_buffer, std::map<int,
             rtt::Robot> &robots_output, std::map<int, rtt::Robot> &old_buffer, double timestamp, bool our_team) {
@@ -236,10 +226,8 @@ namespace rtt {
             Robot robot;
             robot.set_id(bot_id);
 
-
             // Places the robot to the extrapolation of the last frame we saw it in. (assumes good camera calibration)
             //TODO: A position is 'bad' if the internal velocity of the robot is exceedingly large. This is hard to implement for different scenario's
-            //TODO: Rotation is now fixed to last. Could still be extrapolated.
             //TODO: Catch case if time measurement is off.
             Vector2 previousPosition;
             //If the robot was on last world, get the previous position. If not, initialize it to position(0,0)
@@ -252,10 +240,9 @@ namespace rtt {
             }
 
             float w = 0;
+
             Vector2 Extrapolation;
-            //float previousw=robot.get_position().rot;
-            //Vector2 previousVelocity = Vector2(robot.get_velocity().x,robot.get_velocity().y);
-            //Vector2 predictedPosition= previousPosition+previousVelocity*(timestamp-timeLastUpdated);
+            //TODO: Rotation is now fixed to last frames information. Could still be extrapolated?
             Vector2 zero = {0, 0};
             double last_frame = timeLastUpdated;
             for (auto &buf : robot_buffer.second) {

@@ -36,8 +36,8 @@ namespace rtt {
          * `robots_blue_buffer[robot_id][camera_id]`
          */
         typedef std::map<int, std::map<int, roboteam_msgs::DetectionRobot>> RobotMultiCamBuffer;
-        RobotMultiCamBuffer robots_blue_buffer;
-        RobotMultiCamBuffer robots_yellow_buffer;
+        RobotMultiCamBuffer robots_them_buffer;
+        RobotMultiCamBuffer robots_us_buffer;
 
         std::map<int, roboteam_msgs::DetectionBall> ball_buffer;
 
@@ -121,6 +121,7 @@ namespace rtt {
 
         void merge_robots(RobotMultiCamBuffer& robots_buffer, std::map<int, rtt::Robot>& robots_output, std::map<int, rtt::Robot>& old_buffer, double timestamp, bool our_team);
 
+        void merge_balls(double timestamp);
     };
 
 }
