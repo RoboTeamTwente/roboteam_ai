@@ -163,8 +163,8 @@ TEST(CoachTest, it_adds_and_removes_defenders) {
     defensePosition = Coach::getDefensivePosition(5);
     EXPECT_EQ(Coach::defenders.size(), 2);
 
-    EXPECT_EQ(defensePosition.y, abs(2));
-    EXPECT_EQ(defensePosition.x, -2); // it is either -4 or 4
+    EXPECT_EQ(abs(defensePosition.y), 2);
+    EXPECT_EQ(defensePosition.x, -2);
 
     Coach::removeDefender(6); // this should do nothing
     EXPECT_EQ(Coach::defenders.size(), 2);
@@ -173,8 +173,7 @@ TEST(CoachTest, it_adds_and_removes_defenders) {
     EXPECT_EQ(Coach::defenders.size(), 1);
     EXPECT_EQ(Coach::defenders.at(0), 5); // the id is correct
 
-    // TODO check. these might be wrong.
-    EXPECT_EQ(defensePosition.y, 2);
+    EXPECT_EQ(defensePosition.y, -2);
     EXPECT_EQ(defensePosition.x, -2);
 
     Coach::removeDefender(5); // this should do nothing
