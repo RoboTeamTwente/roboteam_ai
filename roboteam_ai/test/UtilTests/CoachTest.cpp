@@ -173,7 +173,7 @@ TEST(CoachTest, it_adds_and_removes_defenders) {
     EXPECT_EQ(Coach::defenders.size(), 1);
     EXPECT_EQ(Coach::defenders.at(0), 5); // the id is correct
 
-    EXPECT_EQ(defensePosition.y, -2);
+    EXPECT_EQ(abs(defensePosition.y), 2);
     EXPECT_EQ(defensePosition.x, -2);
 
     Coach::removeDefender(5); // this should do nothing
@@ -209,7 +209,7 @@ TEST(CoachTest, it_adds_and_removes_formationrobots) {
     formationPosition = Coach::getFormationPosition(5);
     EXPECT_EQ(Coach::robotsInFormation.size(), 2);
 
-    EXPECT_EQ(formationPosition.y, -2);
+    EXPECT_EQ(abs(formationPosition.y), 2);
     EXPECT_EQ(formationPosition.x, -2);
 
     Coach::removeFormationRobot(6); // this should do nothing
@@ -219,7 +219,7 @@ TEST(CoachTest, it_adds_and_removes_formationrobots) {
     EXPECT_EQ(Coach::robotsInFormation.size(), 1);
     EXPECT_EQ(Coach::robotsInFormation.at(0), 5); // the id is correct
 
-    EXPECT_EQ(formationPosition.y, -2);
+    EXPECT_EQ(abs(formationPosition.y), 2);
     EXPECT_EQ(formationPosition.x, -2);
 
     Coach::removeFormationRobot(5); // this should do nothing
