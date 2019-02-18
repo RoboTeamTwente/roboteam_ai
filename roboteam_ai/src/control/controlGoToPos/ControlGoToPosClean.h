@@ -36,7 +36,6 @@ class ControlGoToPosClean {
         bool doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos);
         double remainingStraightLinePathLength(Vector2 currentPos, Vector2 halfwayPos, Vector2 finalPos);
         void drawInInterface();
-        std::chrono::duration<double> time;
 
         // If there is another way to return a shared pointer from an object to itself that is more pretty let me know
         struct PathPoint : std::enable_shared_from_this<PathPoint> {

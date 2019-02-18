@@ -304,36 +304,28 @@ std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::computeNewP
 
 /// check if a pathpoint is in a collision with a robot/ball at that timepoint
 bool ControlGoToPosClean::checkCollision(std::shared_ptr<PathPoint> point, double collisionRadius) {
-    std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
     roboteam_msgs::World world = World::get_world();
     for (auto bot : world.us) {
         if (bot.id != static_cast<unsigned long>(robotID)) {
             Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
-            if (point->isCollision(botPos, collisionRadius)) {
-                std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
-                time = time + (end - start);
+            if (point->isCollision(botPos, collisionRadius))
                 return true;
-            }
         }
     }
     for (auto bot: world.them) {
         Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
-        if (point->isCollision(botPos, collisionRadius)) {
-            std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
-            time = time + (end - start);
+        if (point->isCollision(botPos, collisionRadius))
             return true;
-        }
     }
     if (avoidBall) {
         Vector2 ballPos = (Vector2) (world.ball.pos) + (Vector2) (world.ball.vel)*point->t;
-        if (point->isCollision(ballPos, collisionRadius*0.5 + Constants::BALL_RADIUS())) {
-            std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
-            time = time + (end - start);
+        if (point->isCollision(ballPos, collisionRadius*0.5 + Constants::BALL_RADIUS()))
             return true;
-        }
     }
-    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
-    time = time + (end - start);
+    if (!canGoOutsideField) {
+        if (Field::pointIsInField(point->pos))
+            return true;
+    }
     return false;
 }
 
@@ -359,6 +351,10 @@ Vector2 ControlGoToPosClean::findCollisionPos(std::shared_ptr<PathPoint> point, 
         if (point->isCollision(ballPos, collisionRadius*0.5 + Constants::BALL_RADIUS())) {
             return ballPos;
         }
+    }
+    if (!canGoOutsideField) {
+        if (Field::pointIsInField(point->pos))
+            return point->pos;
     }
     return {- 42, 42};
 
