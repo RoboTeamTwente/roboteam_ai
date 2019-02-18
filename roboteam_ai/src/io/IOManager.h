@@ -38,7 +38,7 @@ private:
         void handleRobotFeedback(const roboteam_msgs::RoleFeedbackConstPtr &rolefeedback);
         void handleRefereeData(const roboteam_msgs::RefereeDataConstPtr &refData);
         void handleDemoInfo(const roboteam_msgs::DemoRobotConstPtr &demoInfo);
-        rtt::Pause pause = rtt::Pause();
+        rtt::pause::Pause pause = rtt::pause::Pause();
 
     public:
         explicit IOManager(bool subscribe = false, bool advertise = false);
