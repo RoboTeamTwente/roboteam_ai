@@ -11,21 +11,24 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
 }
 
+void Attack::onInitialize() {
+    ownGoal = properties->getBool("ownGoal");
+}
+
 // TODO: WTF HARDCODED SHIT EVERYWHERE
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
     Vector2 ball = World::getBall()->pos;
-    Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.5, false);
+    Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.5, ownGoal);
     Vector2 deltaBall = behindBall - ball;
 
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
 
-
     GoToType goToType;
 
-    if (! Coach::isRobotBehindBallToGoal(0.5, false, robot->pos)) {
+    if (!Coach::isRobotBehindBallToGoal(0.5, ownGoal, robot->pos)) {
         targetPos = behindBall;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
@@ -44,23 +47,29 @@ bt::Node::Status Attack::onUpdate() {
         goToType = GoToType::basic;
     }
     Vector2 velocity;
-    if (Field::pointIsInDefenceArea(robot->pos, true, 0.0)) {
+    if (Field::pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
         velocity = ((Vector2) robot->pos - Field::get_our_goal_center()).stretchToLength(2.0);
     }
-    else if (Field::pointIsInDefenceArea(robot->pos, false, 0.0)) {
+    else if (Field::pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
         velocity = ((Vector2) robot->pos - Field::get_their_goal_center()).stretchToLength(2.0);
     }
-    else if (Field::pointIsInDefenceArea(ball, true) || Field::pointIsInDefenceArea(ball, false)) {
+    else if (Field::pointIsInDefenceArea(ball, ownGoal) || Field::pointIsInDefenceArea(ball, ownGoal)) {
         velocity = {0, 0};
     }
-    else if (Field::pointIsInDefenceArea(targetPos, true)) {
+    else if (Field::pointIsInDefenceArea(targetPos, ownGoal)) {
         velocity = {0, 0};
     }
     else {
         velocity = goToPos.goToPos(robot, targetPos, goToType);
     }
-    if (velocity.length() < 0.3 && velocity.length() > 0.04)
-        velocity.stretchToLength(0.3);
+
+    if (velocity.length() < 0.6 && velocity.length() > 0.04) {
+        std::cout << velocity << std::endl;
+        velocity = velocity.stretchToLength(0.6);
+        std::cout << velocity << std::endl;
+    }
+
+    velocity = control::ControlUtils::VelocityLimiter(velocity);
 
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);

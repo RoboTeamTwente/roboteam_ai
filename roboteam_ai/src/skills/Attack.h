@@ -16,9 +16,11 @@ class Attack : public Skill {
         control::ControlGoToPos goToPos;
         Vector2 deltaPos;
         Vector2 targetPos;
+        bool ownGoal = false;
 
     public:
         explicit Attack(string name, bt::Blackboard::Ptr blackboard);
+        void onInitialize() override;
         Status onUpdate() override;
         void onTerminate(Status s) override;
 };

@@ -1,0 +1,33 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "9ue72mwe74mhssnm": {
+            "properties": {
+              "ROLE": "demoAttacker"
+            },
+            "name": "demoAttacker",
+            "title": "Role",
+            "id": "9ue72mwe74mhssnm",
+            "role": "DemoAttackerRole",
+            "children": [
+              "96kf6db17l5npj"
+            ]
+          },
+          "96kf6db17l5npj": {
+            "title": "Attack",
+            "properties": {
+              "ROLE": "demoAttacker",
+              "ownGoal": "true"
+            },
+            "id": "96kf6db17l5npj"
+          }
+        },
+        "root": "9ue72mwe74mhssnm",
+        "title": "DemoAttackerTactic"
+      }
+    ]
+  },
+  "name": "DemoAttackerTactic"
+}

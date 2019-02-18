@@ -54,7 +54,7 @@ public:
     static float  DRIBBLE_SPEED()               { return 0.8; };
 
     //hasBall
-    static double MAX_BALL_RANGE()              { return 0.15; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
+    static double MAX_BALL_RANGE()              { return GRSIM() ? 0.15 : 0.09; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
     static double HAS_BALL_ANGLE()              { return 0.2; }
 
     //getBallcc

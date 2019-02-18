@@ -7,7 +7,7 @@ Rotate,ROLE,rotateToBall,rotateToOurGoal,rotateToEnemyGoal,rotateToRobotId,robot
 InterceptBall
 GetBall
 DefendOnRobot
-Attack
+Attack,ownGoal
 Pass
 Receive
 BasicGoToPos,target,goToBall,avoidBall,canGoOutsideField,mirror
