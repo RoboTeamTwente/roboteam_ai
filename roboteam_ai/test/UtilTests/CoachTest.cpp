@@ -186,6 +186,10 @@ TEST(CoachTest, it_adds_and_removes_formationrobots) {
     field.field_length = 8;
     Field::set_field(field);
 
+    // set the world
+    // we need to make sure all robots are available so this test can run properly
+    rtt::ai::World::set_world(testhelpers::WorldHelper::getWorldMsg(8, 0, false, field));
+
     EXPECT_TRUE(Coach::robotsInFormation.empty());
 
     Coach::addFormationRobot(3);
@@ -205,8 +209,8 @@ TEST(CoachTest, it_adds_and_removes_formationrobots) {
     formationPosition = Coach::getFormationPosition(5);
     EXPECT_EQ(Coach::robotsInFormation.size(), 2);
 
-    EXPECT_EQ(formationPosition.y, abs(2));
-    EXPECT_EQ(formationPosition.x, -2); // it is either -4 or 4
+    EXPECT_EQ(formationPosition.y, -2);
+    EXPECT_EQ(formationPosition.x, -2);
 
     Coach::removeFormationRobot(6); // this should do nothing
     EXPECT_EQ(Coach::robotsInFormation.size(), 2);
@@ -215,8 +219,7 @@ TEST(CoachTest, it_adds_and_removes_formationrobots) {
     EXPECT_EQ(Coach::robotsInFormation.size(), 1);
     EXPECT_EQ(Coach::robotsInFormation.at(0), 5); // the id is correct
 
-    // TODO check. these might be wrong.
-    EXPECT_EQ(formationPosition.y, 2);
+    EXPECT_EQ(formationPosition.y, -2);
     EXPECT_EQ(formationPosition.x, -2);
 
     Coach::removeFormationRobot(5); // this should do nothing
