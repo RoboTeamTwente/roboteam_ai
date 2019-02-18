@@ -131,6 +131,8 @@ TEST(WorldTest, bot_has_ball){
     EXPECT_FALSE(rtt::ai::World::ourBotHasBall(0,0.01));
     EXPECT_EQ(rtt::ai::World::whichBotHasBall(true),0);
     EXPECT_EQ(rtt::ai::World::whichBotHasBall(false),-1);
+    EXPECT_TRUE(rtt::ai::World::BotHasBall(3,false));
+    EXPECT_FALSe(rtt::ai::World::BotHasBall(0,true));
     robot2.id=3;
     robot2.pos.x=0.25;
     robot2.pos.y=0;
@@ -141,6 +143,8 @@ TEST(WorldTest, bot_has_ball){
     EXPECT_FALSE(rtt::ai::World::theirBotHasBall(3,0.01));
     EXPECT_EQ(rtt::ai::World::whichBotHasBall(true),0);
     EXPECT_EQ(rtt::ai::World::whichBotHasBall(false),3);
+    EXPECT_TRUE(rtt::ai::World::BotHasBall(3,false));
+    EXPECT_TRUE(rtt::ai::World::BotHasBall(0,true));
 }
 
 TEST(WorldTest,bot_has_ball_us_repeated){
