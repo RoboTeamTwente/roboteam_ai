@@ -273,7 +273,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
              }
             },
             {"DemoAttackerTactic",{
-                  {"demoAttacker",robotType::random}
+                  {"demoAttacker",robotType::closeToTheirGoal}
           }
             }
     };
