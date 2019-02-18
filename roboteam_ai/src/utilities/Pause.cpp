@@ -4,9 +4,10 @@
 
 
 #include "Pause.h"
+#include "../io/IOManager.h"
 
 namespace rtt {
-namespace pause {
+namespace ai {
 
 bool Pause::pause = false;
 std::mutex Pause::pauseLock;
@@ -23,7 +24,7 @@ void Pause::haltRobots() {
         cmd.x_vel = 0;
         cmd.y_vel = 0;
         cmd.id = robot.id;
-        IOManager.publishRobotCommand(cmd);
+        IOManager->publishRobotCommand(cmd);
     }
 
 }
@@ -32,5 +33,9 @@ void Pause::setPause(bool set) {
     pause = set;
 
 }
+Pause::Pause() {
+
+}
+
 }
 }

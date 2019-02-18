@@ -17,7 +17,6 @@ double InterfaceValues::luthD = 0;
 rtt::Vector2 InterfaceValues::ballPlacementTarget = {0, 0}; // initialize on middle of the field
 bool InterfaceValues::useRefereeCommands = false;
 
-
 std::mutex InterfaceValues::PIDMutex;
 std::mutex InterfaceValues::BallPlacementMutex;
 std::mutex InterfaceValues::RefMutex;
@@ -54,7 +53,8 @@ void InterfaceValues::setLuthD(double LuthD) {
 }
 
 void InterfaceValues::sendHaltCommand() {
-    rtt::Pause pause = rtt::Pause();
+    rtt::ai::Pause pause;
+
     if (pause.getPause()) {
         // Already halted so unhalt
         pause.setPause(false);
