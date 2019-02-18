@@ -25,7 +25,7 @@ bt::Node::Status EnterFormation::onUpdate() {
     cmd.use_angle = 1;
 
     if (robotPos.dist(targetLocation) > Constants::GOTOPOS_LUTH_ERROR_MARGIN()) {
-        auto velocities = gtp.goToPos(robot, targetLocation, control::GoToType::luTh);
+        auto velocities = gtp.goToPos(robot, targetLocation, control::GoToType::clean);
         cmd.x_vel = velocities.x;
         cmd.y_vel = velocities.y;
         cmd.w = static_cast<float>((targetLocation-robot->pos).angle());

@@ -17,9 +17,9 @@ MainWindow::MainWindow(QWidget* parent)
         :QMainWindow(parent) {
 
     // initialize values for interface to display
-    InterfaceValues::setLuthP(Constants::standard_luth_P());
-    InterfaceValues::setLuthI(Constants::standard_luth_I());
-    InterfaceValues::setLuthD(Constants::standard_luth_D());
+    InterfaceValues::setLuthP(Constants::standard_luth_Pos_P());
+    InterfaceValues::setLuthI(Constants::standard_luth_Pos_I());
+    InterfaceValues::setLuthD(Constants::standard_luth_Pos_D());
     InterfaceValues::setUseRefereeCommands(Constants::STD_USE_REFEREE());
 
     setMinimumWidth(800);

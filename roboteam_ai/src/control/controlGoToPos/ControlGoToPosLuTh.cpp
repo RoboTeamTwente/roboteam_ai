@@ -20,14 +20,14 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
         pidInit = true;
 
         velPID.reset();
-        velPID.setPID(Constants::standard_luth_P(),
-                Constants::standard_luth_P(),
-                Constants::standard_luth_P());
+        velPID.setPID(Constants::standard_luth_Pos_P(),
+                Constants::standard_luth_Pos_P(),
+                Constants::standard_luth_Pos_P());
 
         posPID.reset();
-        posPID.setPID(Constants::standard_luth_P(),
-                Constants::standard_luth_P(),
-                Constants::standard_luth_P());
+        posPID.setPID(Constants::standard_luth_Pos_P(),
+                Constants::standard_luth_Pos_P(),
+                Constants::standard_luth_Pos_P());
     }
 // change PID values
     if (velPID.getP() != interface::InterfaceValues::getLuthP() ||

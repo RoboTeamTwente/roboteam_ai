@@ -67,11 +67,13 @@ Vector2 ControlGoToPosClean::computeCommand(std::shared_ptr<roboteam_msgs::World
 bool ControlGoToPosClean::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
     double maxTargetDeviation = 0.3;
     if (path.empty()) {
-        std::cout << "no path, recalculating" << std::endl;
+        if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+            std::cout << "no path, recalculating" << std::endl;
         return true;
     }
     else if ((finalTargetPos - targetPos).length() > maxTargetDeviation) {
-        std::cout << "target moved too much, recalculating" << std::endl;
+        if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+            std::cout << "target moved too much, recalculating" << std::endl;
         return true;
     }
 
@@ -87,14 +89,16 @@ bool ControlGoToPosClean::doRecalculatePath(std::shared_ptr<roboteam_msgs::World
         }
     }
     if (sqrt(distanceSquared) > maxTargetDeviation) {
-        std::cout << "robot is too far from current path, recalculating" << std::endl;
+        if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+            std::cout << "robot is too far from current path, recalculating" << std::endl;
         return true;
     }
     path.erase(path.begin(), path.begin() + currentIndex);
 
     for (auto pathPoint : path) {
         if (checkCollision(std::make_shared<PathPoint>(pathPoint))) {
-            std::cout << "another robot will collide with ours when following this path, recalculating" << std::endl;
+            if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+                std::cout << "another robot will collide with ours when following this path, recalculating" << std::endl;
             return true;
         }
     }
@@ -104,6 +108,7 @@ bool ControlGoToPosClean::doRecalculatePath(std::shared_ptr<roboteam_msgs::World
 
 /// finds a path using a numeric model
 Vector2 ControlGoToPosClean::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
+    ros::Time begin = ros::Time::now();
     robotID = robot->id;
 
 // init or change PID
@@ -121,11 +126,17 @@ Vector2 ControlGoToPosClean::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> 
     realRobot->vel = robot->vel;
     realRobot->t = 0;
     if (checkCollision(realRobot)) {
-        std::cout << "robot is too close to another robot, trying other GoToPos???" << std::endl;
+        if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+            std::cout << "robot is too close to another robot, trying other GoToPos???" << std::endl;
         path.clear();
+
+        ros::Time end = ros::Time::now();
+        if (Constants::SHOW_GOTOPOS_TIME_TAKEN())
+            std::cout << "GoToPosClean tick took: " << (end-begin).toNSec()*0.000001 << " ms" << std::endl;
         return computeCommand(robot, GTPType::force);
     }
     else if (doRecalculatePath(robot, targetPos)) {
+
         if (Vector2(robot->vel).length() > 10.0) {
             nicePath = false;
         }
@@ -133,15 +144,18 @@ Vector2 ControlGoToPosClean::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> 
             finalTargetPos = targetPos;
 
             tracePath(robot);
+            drawCross(targetPos, Qt::darkRed);
+            drawInInterface();
 
             if (path.empty())
                 nicePath = false;
         }
+
     }
 
-// draw in the interface
-    drawCross(targetPos, Qt::darkRed);
-    drawInInterface();
+    ros::Time end = ros::Time::now();
+    if (Constants::SHOW_GOTOPOS_TIME_TAKEN())
+        std::cout << "GoToPosClean tick took: " << (end-begin).toNSec()*0.000001 << " ms" << std::endl;
 
 // compute command using PID
     if (nicePath)
@@ -201,8 +215,9 @@ void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> r
     while (! pathQueue.empty()) {
         ros::Time now = ros::Time::now();
         if ((now - start).toSec()*1000 > Constants::MAX_CALCULATION_TIME()) {
-            std::cout << "Tick took too long!" << std::endl;
-            path = {};
+            if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+                std::cout << "Tick took too long!" << std::endl;
+            path.clear();
             return;
         }
 
@@ -234,7 +249,7 @@ void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> r
                 pathQueue.pop();
                 // both left and right targets for now
                 for (const auto &newTarget : newTargets) {
-                    if (newBranchStart->anyBranchHasTarget(newTarget))
+                    if (newBranchStart->branchHasTarget(newTarget))
                         continue;
                     // compute new point and add it to branch
                     std::shared_ptr<PathPoint> branch = computeNewPoint(newBranchStart, newTarget);
@@ -247,7 +262,8 @@ void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> r
         }
 
     }
-    std::cout << "reached end of while loop: " << std::endl;
+    if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+        std::cout << "reached end of while loop: " << std::endl;
     path = {};
 }
 
@@ -434,14 +450,14 @@ std::vector<ControlGoToPosClean::PathPoint> ControlGoToPosClean::backTrackPath(s
 /// start the PID for velocity and position control
 void ControlGoToPosClean::initializePID() {
     velPID.reset();
-    velPID.setPID(Constants::standard_luth_P(),
-            Constants::standard_luth_P(),
-            Constants::standard_luth_P());
+    velPID.setPID(Constants::standard_luth_Pos_P(),
+            Constants::standard_luth_Pos_P(),
+            Constants::standard_luth_Pos_P());
 
     posPID.reset();
-    posPID.setPID(Constants::standard_luth_P(),
-            Constants::standard_luth_P(),
-            Constants::standard_luth_P());
+    posPID.setPID(Constants::standard_luth_Pos_P(),
+            Constants::standard_luth_Pos_P(),
+            Constants::standard_luth_Pos_P());
 }
 
 /// compare current PID values to those set in the interface

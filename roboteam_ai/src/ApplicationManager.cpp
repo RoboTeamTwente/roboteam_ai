@@ -3,7 +3,6 @@
 //
 
 #include "ApplicationManager.h"
-#include "dangerfinder/DangerFinder.h"
 #include "utilities/Referee.hpp"
 #include "utilities/StrategyManager.h"
 
@@ -24,29 +23,44 @@ void ApplicationManager::loop() {
     ros::Rate rate(ai::Constants::TICK_RATE());
     double longestTick = 0.0;
     double timeTaken;
+    std::vector<double> totalTime;
     while (ros::ok()) {
         ros::Time begin = ros::Time::now();
 
         this->runOneLoopCycle();
 
         ros::Time end = ros::Time::now();
-        timeTaken = (end-begin).toNSec();
+        if (ai::Constants::SHOW_LONGEST_TICK()) {
 
-        if (timeTaken > longestTick) {
-            if (timeTaken > 200000000) {
-                std::cout << "tick took longer than 200ms!!" << std::endl;
-            } else {
-                longestTick = timeTaken;
-                if (ai::Constants::SHOW_LONGEST_TICK()) {
-                    std::cout << "longest tick took: " << longestTick*0.000001 << " ms" << std::endl;
+            timeTaken = (end - begin).toNSec() * 0.000001;
+
+            totalTime.push_back(timeTaken);
+            if (totalTime.size() > 100)
+                totalTime.erase(totalTime.begin());
+
+            if (timeTaken > longestTick) {
+                if (timeTaken > 200) {
+                    std::cout << "tick took longer than 200ms!!" << std::endl;
+                }
+                else {
+                    longestTick = timeTaken;
+                    int totalTicks = 0;
+                    double total = 0.0;
+                    for (auto &time : totalTime) {
+                        totalTicks ++;
+                        total += time;
+                    }
+                    total = total/totalTicks;
+
+                    std::cout << "    average tick time (last 100 ticks) : " << total << " ms" << std::endl;
+                    std::cout << "longest tick took: " << longestTick << " ms" << std::endl;
+
                 }
             }
         }
-
         rate.sleep();
     }
 }
-
 
 void ApplicationManager::runOneLoopCycle() {
     ros::spinOnce();
@@ -65,7 +79,8 @@ void ApplicationManager::runOneLoopCycle() {
         strategy = factory.getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
-    } else {
+    }
+    else {
         ROS_ERROR("No first world");
         ros::Duration(0.2).sleep();
     }
@@ -73,7 +88,7 @@ void ApplicationManager::runOneLoopCycle() {
 
 void ApplicationManager::checkForShutdown() {
     // Terminate if needed
-    if (strategy->getStatus()==Status::Running) {
+    if (strategy->getStatus() == Status::Running) {
         strategy->terminate(Status::Running);
     }
 }

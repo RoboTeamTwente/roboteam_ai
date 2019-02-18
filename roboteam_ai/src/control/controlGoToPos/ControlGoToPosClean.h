@@ -7,7 +7,6 @@
 
 #include "GoToPosInclude.h"
 #include <roboteam_ai/src/interface/InterfaceValues.h>
-#include <chrono>
 
 namespace rtt {
 namespace ai {

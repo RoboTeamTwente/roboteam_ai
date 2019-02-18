@@ -13,8 +13,10 @@ public:
     static void init();
     static bool GRSIM();
 
-    static bool SHOW_LONGEST_TICK()             { return true; };
-    static double GOTOPOS_LUTH_ERROR_MARGIN()   { return 0.25; };
+// Show timing for different functions
+    static bool SHOW_ALL_TIMINGS()              { return false; }
+    static bool SHOW_LONGEST_TICK()             { return true || SHOW_ALL_TIMINGS(); };
+    static bool SHOW_GOTOPOS_TIME_TAKEN()       { return true || SHOW_ALL_TIMINGS(); };
 
     // Max values we can send through robothub
     static double MAX_VEL_CMD()                 { return 8.191; };
@@ -68,6 +70,8 @@ public:
 
     //GoToPos
     static double MAX_CALCULATION_TIME()        { return 12.0; }; //max time in ms
+    static double GOTOPOS_LUTH_ERROR_MARGIN()   { return 0.25; };
+    static bool SHOW_GOTOPOS_DEBUG_INFO()       { return true; };
 
     //Keeper
     static double KEEPER_POST_MARGIN()          { return 0.08; };//m
@@ -148,10 +152,13 @@ public:
         };
     };
 
-    static double standard_luth_P()             { return GRSIM() ? 3.0 : 2.8; };
-    static double standard_luth_I()             { return GRSIM() ? 0.5 : 0.6; };
-    static double standard_luth_D()             { return GRSIM() ? 2.5 : 2.3; };
+    static double standard_luth_Pos_P()         { return GRSIM() ? 3.0 : 2.8; };
+    static double standard_luth_Pos_I()         { return GRSIM() ? 0.5 : 0.6; };
+    static double standard_luth_Pos_D()         { return GRSIM() ? 2.5 : 2.3; };
 
+    static double standard_luth_Vel_P()         { return GRSIM() ? 3.0 : 2.8; };
+    static double standard_luth_Vel_I()         { return GRSIM() ? 0.5 : 0.6; };
+    static double standard_luth_Vel_D()         { return GRSIM() ? 2.5 : 2.3; };
 
 private:
     static bool isInitialized;
