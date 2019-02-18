@@ -12,7 +12,7 @@ Pass
 Receive
 BasicGoToPos,target,goToBall,avoidBall,canGoOutsideField,mirror
 EnterFormation
-DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement
+DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement,distance
 AvoidBall
 Keeper
 GoAroundPos,targetPos,targetDir,towardsTheirGoal

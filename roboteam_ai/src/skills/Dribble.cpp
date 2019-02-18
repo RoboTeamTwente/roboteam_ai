@@ -73,12 +73,25 @@ void Dribble::onInitialize() {
         currentProgress = Progression::FAIL;
         return;
     }
+
     if (properties->hasInt("maxTicks")) {
         maxTicks = properties->getInt("maxTicks");
     }
     else {
         ROS_ERROR("Dribble Initialize -> No maxTicks set!");
     }
+
+    if (properties->hasDouble("distance")) {
+        distance = properties->getDouble("distance");
+        double targetAngle;
+        if (forwardDirection) {
+            targetAngle = robot->angle;
+        } else {
+            targetAngle = control::ControlUtils::constrainAngle(robot->angle - M_PI);
+        }
+        targetPos = (Vector2)robot->pos + Vector2({distance, 0}).rotate(targetAngle);
+    }
+
     if (! Dribble::robotHasBall()) {
         ROS_ERROR("Dribble Initialize -> Robot does not have the ball!");
         currentProgress = Progression::FAIL;
@@ -87,7 +100,7 @@ void Dribble::onInitialize() {
     if(!ball->visible){
         auto world=World::get_world();
         Vector2 ballPos=Vector2(robot->pos)+Vector2(Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS(),0).rotate(robot->angle);
-        world.ball.visible=true;
+        world.ball.visible=1;
         world.ball.pos=ballPos;
         World::set_world(world);
     }

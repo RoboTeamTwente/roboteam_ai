@@ -28,9 +28,10 @@ class Dribble : public Skill {
         Progression checkProgression();
 
         bool forwardDirection;
-        int maxTicks;// seconds
+        int maxTicks = 10;// seconds
         int count;
         Vector2 targetPos, deltaPos;
+        double distance;
         float stoppingAngle,initialAngle;
         bool robotHasBall();
 

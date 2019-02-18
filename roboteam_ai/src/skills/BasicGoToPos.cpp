@@ -32,6 +32,9 @@ void BasicGoToPos::onInitialize() {
             ROS_ERROR("BasicGoToPos: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
         }
     }
+
+    if (properties->getBool("goToBall")) targetPos = ball->pos;
+
     goToPos.setAvoidBall(properties->getBool("avoidBall"));
     goToPos.setCanGoOutsideField(properties->getBool("canGoOutsideField"));
 }
