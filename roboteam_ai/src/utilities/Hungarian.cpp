@@ -297,17 +297,4 @@ Result Solve(const Matrix &input, MODE mode) {
     return result;
 }
 
-void PrintMatrix(const Matrix &m) {
-    const int rows = m.size(), cols = m[0].size();
-    fprintf(stderr, "\n");
-    for (int i = 0; i < rows; i++) {
-        fprintf(stderr, " [");
-        for (int j = 0; j < cols; j++) {
-            fprintf(stderr, "%5d ", m[i][j]);
-        }
-        fprintf(stderr, "]\n");
-    }
-    fprintf(stderr, "\n");
-}
-
 }  // namespace Hungarian
