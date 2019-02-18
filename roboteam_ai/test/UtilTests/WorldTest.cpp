@@ -4,6 +4,7 @@
 
 #include <gtest/gtest.h>
 #include "roboteam_ai/src/utilities/World.h"
+#include "../helpers/WorldHelper.h"
 
 TEST(WorldTest, it_sets_and_gets_the_world) {
     roboteam_msgs::World worldMsg;
@@ -109,4 +110,102 @@ TEST(WorldTest, it_gets_multiple_robot_ids) {
 
     // the getAllRobots functions should return bot us and them
     EXPECT_EQ(rtt::ai::World::getAllRobots().size(), 3);
+}
+
+TEST(WorldTest, bot_has_ball){
+    roboteam_msgs::World worldMsg;
+    roboteam_msgs::WorldRobot robot1, robot2;
+    roboteam_msgs::WorldBall ball1;
+    robot1.id=0;
+    robot1.pos.x=0.05;
+    robot1.pos.y=0;
+    robot1.angle=0;
+
+    ball1.pos.x=0.15;
+    ball1.pos.y=0;
+    ball1.visible=true;
+    worldMsg.us.push_back(robot1);
+    worldMsg.ball=ball1;
+    rtt::ai::World::set_world(worldMsg);
+    EXPECT_TRUE(rtt::ai::World::ourBotHasBall(0));
+    EXPECT_FALSE(rtt::ai::World::ourBotHasBall(0,0.01));
+    EXPECT_EQ(rtt::ai::World::whichBotHasBall(true),0);
+    EXPECT_EQ(rtt::ai::World::whichBotHasBall(false),-1);
+    robot2.id=3;
+    robot2.pos.x=0.25;
+    robot2.pos.y=0;
+    robot2.angle=M_PI;
+    worldMsg.them.push_back(robot2);
+    rtt::ai::World::set_world(worldMsg);
+    EXPECT_TRUE(rtt::ai::World::theirBotHasBall(3));
+    EXPECT_FALSE(rtt::ai::World::theirBotHasBall(3,0.01));
+    EXPECT_EQ(rtt::ai::World::whichBotHasBall(true),0);
+    EXPECT_EQ(rtt::ai::World::whichBotHasBall(false),3);
+}
+
+TEST(WorldTest,bot_has_ball_us_repeated){
+    roboteam_msgs::GeometryFieldSize field;
+    field.field_length = 12;
+    field.field_width = 9;
+    for (int j = 0; j < 1000; ++ j) {
+        std::pair<roboteam_msgs::World,int> worldWithRobot=testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(8,8,true,field);
+        rtt::ai::World::set_world(worldWithRobot.first);
+        EXPECT_TRUE(rtt::ai::World::ourBotHasBall(worldWithRobot.second));
+        EXPECT_EQ(rtt::ai::World::whichBotHasBall(true),worldWithRobot.second);
+    }
+}
+TEST(WorldTest,bot_has_ball_them_repeated){
+    roboteam_msgs::GeometryFieldSize field;
+    field.field_length = 12;
+    field.field_width = 9;
+    for (int j = 0; j < 1000; ++ j) {
+        std::pair<roboteam_msgs::World,int> worldWithRobot=testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(8,8,false,field);
+        rtt::ai::World::set_world(worldWithRobot.first);
+        EXPECT_TRUE(rtt::ai::World::theirBotHasBall(worldWithRobot.second));
+        EXPECT_EQ(rtt::ai::World::whichBotHasBall(false),worldWithRobot.second);
+    }
+}
+TEST(WorldTest,ball_visibility){
+
+    //First normal worldstate where 2 bots ' have the ball'. Robot 3 is closer to it so the ball should move with robot 3
+    roboteam_msgs::World worldMsg;
+    roboteam_msgs::WorldRobot robot1, robot2;
+    roboteam_msgs::WorldBall ball1;
+    robot1.id=0;
+    robot1.pos.x=0.05;
+    robot1.pos.y=0;
+    robot1.angle=0;
+
+    robot2.id=3;
+    robot2.pos.x=0.24;
+    robot2.pos.y=0;
+    robot2.angle=M_PI;
+
+    ball1.pos.x=0.15;
+    ball1.pos.y=0;
+    ball1.visible=true;
+    worldMsg.us.push_back(robot1);
+    worldMsg.us.push_back(robot2);
+    worldMsg.ball=ball1;
+    rtt::ai::World::set_world(worldMsg);
+    EXPECT_TRUE(rtt::ai::World::ourBotHasBall(0));
+    EXPECT_TRUE(rtt::ai::World::ourBotHasBall(3));
+
+    worldMsg.us.clear();
+    ball1.visible=false;
+    worldMsg.ball=ball1;
+    robot1.pos.x=3.0;
+    robot1.pos.y=3.0;
+    robot2.pos.x=1.0;
+    robot2.pos.y=2.0;
+    worldMsg.us.push_back(robot1);
+    worldMsg.us.push_back(robot2);
+    rtt::ai::World::set_world(worldMsg);
+    EXPECT_TRUE(rtt::ai::World::ourBotHasBall(3));
+    EXPECT_FALSE(rtt::ai::World::ourBotHasBall(0));
+
+    worldMsg.ball.visible=true;
+    rtt::ai::World::set_world(worldMsg);
+    EXPECT_FALSE(rtt::ai::World::ourBotHasBall(3));
+    EXPECT_FALSE(rtt::ai::World::ourBotHasBall(0));
 }

@@ -123,8 +123,15 @@ void World::updateBallPossession(roboteam_msgs::World &_world) {
         }
     }
 }
-
 // uses MAX_BALL_RANGE as default max Dist
+bool World::BotHasBall(int id, bool ourTeam, double maxDistToBall) {
+    if (ourTeam){
+        return ourBotHasBall(id,maxDistToBall);
+    }
+    else{
+        return theirBotHasBall(id,maxDistToBall);
+    }
+}
 bool World::ourBotHasBall(int id, double maxDistToBall){
     std::lock_guard<std::mutex> lock(worldMutex);
     if (OurBotsBall.find(id)!=OurBotsBall.end()){
