@@ -12,8 +12,7 @@ namespace interface {
 
 // these values need to be set AFTER ros::init, so they are initialized with values in the constructor of mainwindow
 
-QString InterfaceValues::haltText = "Pause";
-QString InterfaceValues::haltColor = "background-color: #cc0000;";
+
 
 double InterfaceValues::luthVelP = 0;
 double InterfaceValues::luthVelI = 0;
@@ -125,22 +124,7 @@ void InterfaceValues::setUseRefereeCommands(bool useRefereeCommands){
     std::lock_guard<std::mutex> lock(RefMutex);
     InterfaceValues::useRefereeCommands = useRefereeCommands;
 }
-void InterfaceValues::setHaltText() {
-    if (haltText == "Pause") {
-        haltText = "Resume";
-        haltColor = "background-color: #00b200;";
-    }
-    else{
-        haltColor = "background-color: #cc0000;";
-        haltText = "Pause";
-    }
-}
-QString InterfaceValues::getHaltText() {
-    return haltText;
-}
-QString InterfaceValues::getHaltColor() {
-    return haltColor;
-}
+
 
 } // interface
 } // ai

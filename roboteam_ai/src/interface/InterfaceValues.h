@@ -23,8 +23,6 @@ class InterfaceValues {
         static double luthVelI;
         static double luthVelD;
 
-        static QString haltText;
-        static QString haltColor;
 
         static std::mutex PIDMutex;
         static std::mutex BallPlacementMutex;
@@ -53,9 +51,7 @@ class InterfaceValues {
         static void setLuthVelD(double luthD);
 
         static void sendHaltCommand();
-        static void setHaltText();
-        static QString getHaltText();
-        static QString getHaltColor();
+
 };
 
 }
