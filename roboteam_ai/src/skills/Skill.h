@@ -7,12 +7,15 @@
 #include "ros/ros.h"
 #include "../io/IOManager.h"
 #include "roboteam_ai/src/control/PositionController.h"
+#include "../control/positionControllers/PosVelAngle.h"
+
 namespace rtt {
 namespace ai {
 
 // forward declare control Utils
 namespace control {
     class ControlUtils;
+    class PosVelAngle;
 }
 
 

@@ -16,7 +16,7 @@ class ControlGoToPosBallControl {
         using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
 
     public:
-        Vector2 goToPos(RobotPtr robot, Vector2 &target);
+        PosVelAngle goToPos(RobotPtr robot, Vector2 &target);
 };
 
 } //control

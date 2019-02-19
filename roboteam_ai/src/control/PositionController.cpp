@@ -30,16 +30,16 @@ void ControlGoToPos::clear(GoToType goToType) {
     }
 }
 
-Vector2 ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position) {
+PosVelAngle ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position) {
     GoToType goToType = basic;
     //TODO: do stuff that determines which gtp to use...
 
     return ControlGoToPos::goToPos(std::move(robot), position, goToType);
 }
 
-Vector2 ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goToType) {
+PosVelAngle ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goToType) {
     if (!robot)
-        return Vector2();
+        return {};
 
     switch (goToType) {
     case noPreference:
@@ -58,15 +58,16 @@ Vector2 ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goTo
         return ControlGoToPos::goToPosLuTh(std::move(robot), position);
 
     case numTree:
-        return ControlGoToPos::goToPosClean(std::move(robot),position);
+        return ControlGoToPos::numTreePosControl(std::move(robot), position);
     }
     return goToPos(std::move(robot), position);
 }
-Vector2 ControlGoToPos::goToPosBallControl(RobotPtr robot, Vector2 &targetPos) {
+
+PosVelAngle ControlGoToPos::goToPosBallControl(RobotPtr robot, Vector2 &targetPos) {
     return gtpBallControl.goToPos(std::move(robot), targetPos);
 }
 
-Vector2 ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
+PosVelAngle ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
 
     if (! robot) return {};
 
@@ -86,20 +87,18 @@ Vector2 ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
 
     if (dist < rtt::ai::Constants::ROBOT_RADIUS()) velPID.setD(0.0);
 
-    return velPID.controlPIR(error, robot->vel);
+    return PosVelAngle({0,0}, velPID.controlPIR(error, robot->vel), 0.0);
 }
 
-Vector2 ControlGoToPos::goToPosForce(RobotPtr robot, Vector2 &targetPos) {
+PosVelAngle ControlGoToPos::goToPosForce(RobotPtr robot, Vector2 &targetPos) {
     return {};
 }
 
-Vector2 ControlGoToPos::goToPosLuTh(RobotPtr robot, Vector2 &targetPos) {
-
-    return gtpLuth.goToPos(std::move(robot), targetPos);
-
+PosVelAngle ControlGoToPos::goToPosLuTh(RobotPtr robot, Vector2 &targetPos) {
+    return PosVelAngle({0,0}, gtpLuth.goToPos(std::move(robot), targetPos), 0.0);
 }
 
-Vector2 ControlGoToPos::goToPosClean(RobotPtr robot, Vector2 &targetPos) {
+PosVelAngle ControlGoToPos::numTreePosControl(RobotPtr robot, Vector2 &targetPos) {
     PosVelAngle target = numTreeController.goToPos(robot,targetPos);
     return pidController(robot, target);
 }
@@ -114,7 +113,6 @@ double ControlGoToPos::distanceToTarget(RobotPtr robot, Vector2 &targetPos) {
 
 void ControlGoToPos::setAvoidBall(bool _avoidBall) {
     // Add a function to avoid the ball for all goToPos's
-
     //gtpBallControl.setAvoidBall(true);
     gtpLuth.setAvoidBall(_avoidBall);
     numTreeController.setAvoidBall(_avoidBall);
@@ -122,13 +120,12 @@ void ControlGoToPos::setAvoidBall(bool _avoidBall) {
 
 void ControlGoToPos::setCanGoOutsideField(bool _canGoOutsideField) {
     // Add a function to make sure the robot does not go out of the field for all goToPos's
-
     gtpLuth.setCanGoOutsideField(_canGoOutsideField);
     numTreeController.setCanGoOutsideField(_canGoOutsideField);
-
 }
 
-Vector2 ControlGoToPos::pidController(RobotPtr robot, PosVelAngle target) {
+PosVelAngle ControlGoToPos::pidController(const RobotPtr &robot, PosVelAngle target) {
+    PosVelAngle pidCommand;
     if (!PIDHasInitialized)
         initializePID();
     checkInterfacePID();
@@ -136,7 +133,10 @@ Vector2 ControlGoToPos::pidController(RobotPtr robot, PosVelAngle target) {
     Vector2 pidV = velPID.controlPIR(target.vel, robot->vel);
     Vector2 pidP = posPID.controlPIR(target.pos - robot->pos, robot->vel);
     Vector2 total = pidV + pidP;
-    return total.length() < Constants::MAX_VEL() ? total : total.stretchToLength(Constants::MAX_VEL());
+    pidCommand.pos = target.pos;
+    pidCommand.vel = total.length() < Constants::MAX_VEL() ? total : total.stretchToLength(Constants::MAX_VEL());
+    pidCommand.angle = target.angle;
+    return pidCommand;
 }
 
 /// start the PID for velocity and position control

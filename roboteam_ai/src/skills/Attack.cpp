@@ -57,7 +57,7 @@ bt::Node::Status Attack::onUpdate() {
         velocity = {0, 0};
     }
     else {
-        velocity = goToPos.goToPos(robot, targetPos, goToType);
+        velocity = goToPos.goToPos(robot, targetPos, goToType).vel;
     }
     if (velocity.length() < 0.3 && velocity.length() > 0.04)
         velocity.stretchToLength(0.3);

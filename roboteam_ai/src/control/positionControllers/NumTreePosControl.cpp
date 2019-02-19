@@ -33,7 +33,7 @@ PosVelAngle NumTreePosControl::computeNumericCommand(std::shared_ptr<roboteam_ms
     int pathPoint = static_cast<int>(path.size() > 4 ? 4 : path.size());
     target.pos = path[pathPoint].pos;
     target.vel = path[pathPoint].vel;
-
+    target.angle = target.vel.angle();
     return target;
 }
 
@@ -497,7 +497,6 @@ bool NumTreePosControl::PathPoint::branchHasTarget(const Vector2 &target) {
 bool NumTreePosControl::PathPoint::anyBranchHasTarget(const Vector2 &target) {
     auto root = backTrack(0.0);
     return root->anyChildHasTarget(target);
-
 }
 
 /// check if ANY child already has that target

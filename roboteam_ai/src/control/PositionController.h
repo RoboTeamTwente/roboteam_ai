@@ -39,19 +39,19 @@ class ControlGoToPos {
         using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
         using Command = roboteam_msgs::RobotCommand;
 
-        Vector2 goToPosBallControl(RobotPtr robot, Vector2 &targetPos);
+        PosVelAngle goToPosBallControl(RobotPtr robot, Vector2 &targetPos);
         ControlGoToPosBallControl gtpBallControl;
 
-        Vector2 goToPosLuTh(RobotPtr robot, Vector2 &targetPos);
+        PosVelAngle goToPosLuTh(RobotPtr robot, Vector2 &targetPos);
         ControlGoToPosLuTh gtpLuth;
 
-        Vector2 goToPosClean(RobotPtr robot, Vector2 &targetPos);
+        PosVelAngle numTreePosControl(RobotPtr robot, Vector2 &targetPos);
         NumTreePosControl numTreeController;
 
-        Vector2 goToPosForce(RobotPtr robot, Vector2 &targetPos);
+        PosVelAngle goToPosForce(RobotPtr robot, Vector2 &targetPos);
 //        ControlGoToPosForce forceController;
 
-        Vector2 goToPosBasic(RobotPtr robot, Vector2 &targetPos);
+        PosVelAngle goToPosBasic(RobotPtr robot, Vector2 &targetPos);
 //        ControlGoToPosBasic basicController;
 
         double errorMargin = 0.3;
@@ -61,7 +61,7 @@ class ControlGoToPos {
         PIDController posPID;
         bool PIDHasInitialized = false;
 
-        Vector2 pidController(RobotPtr robot, PosVelAngle target);
+        PosVelAngle pidController(const RobotPtr &robot, PosVelAngle target);
         void initializePID();
         void checkInterfacePID();
 
@@ -69,8 +69,8 @@ class ControlGoToPos {
         ControlGoToPos();
 
         void clear(GoToType goToType);
-        Vector2 goToPos(RobotPtr robot, Vector2 &position);
-        Vector2 goToPos(RobotPtr robot, Vector2 &position, GoToType goToType);
+        PosVelAngle goToPos(RobotPtr robot, Vector2 &position);
+        PosVelAngle goToPos(RobotPtr robot, Vector2 &position, GoToType goToType);
 
         void setAvoidBall(bool _avoidBall);
         void setCanGoOutsideField(bool _canGoOutsideField);

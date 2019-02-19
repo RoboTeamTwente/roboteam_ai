@@ -3,7 +3,6 @@
 //
 
 #include "Pass.h"
-
 namespace rtt {
 namespace ai {
 Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
@@ -37,9 +36,9 @@ Pass::Status Pass::onUpdate() {
             command.use_angle = 1;
             command.w = static_cast<float>(((Vector2) robotToPassTo->pos - ball->pos).angle());
             command.dribbler = 0;
-            Vector2 velocities = goToPos.goToPos(robot, targetPos, goToType);
-            command.x_vel = static_cast<float>(velocities.x);
-            command.y_vel = static_cast<float>(velocities.y);
+            control::PosVelAngle velocities = goToPos.goToPos(robot, targetPos, goToType);
+            command.x_vel = static_cast<float>(velocities.vel.x);
+            command.y_vel = static_cast<float>(velocities.vel.y);
             break;
         }
         case Progression::KICKING: {
