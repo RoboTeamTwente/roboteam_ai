@@ -53,7 +53,7 @@ TEST(IOTest, it_subscribes) {
     ros::spinOnce();
 
     EXPECT_FLOAT_EQ(ioManager.getWorldState().ball.pos.x, 10.1);
-    EXPECT_FLOAT_EQ(ioManager.getWorldState().ball.pos.y, 20.2);
+    EXPECT_FLOAT_EQ(ioManager.getWorldState().ball.pos.y, 20git .2);
     EXPECT_FLOAT_EQ(ioManager.getGeometryData().field.goal_depth, 30.3);
     EXPECT_EQ(ioManager.getRoleFeedback().status, 'X');
 

@@ -8,14 +8,14 @@
 TEST(InterfaceTest, the_interface_values_work) {
     using iv = rtt::ai::interface::InterfaceValues;
     {
-        iv::setLuthP(12);
-        iv::setLuthI(-18);
-        iv::setLuthD(33333.2);
+        iv::setLuthPosP(12);
+        iv::setLuthPosI(- 18);
+        iv::setLuthPosD(33333.2);
     }
     {
-        EXPECT_EQ(iv::getLuthP(), 12);
-        EXPECT_EQ(iv::getLuthI(), -18);
-        EXPECT_EQ(iv::getLuthD(), 33333.2);
+        EXPECT_EQ(iv::getLuthPosP(), 12);
+        EXPECT_EQ(iv::getLuthPosI(), -18);
+        EXPECT_EQ(iv::getLuthPosD(), 33333.2);
     }
 }
 
