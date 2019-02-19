@@ -21,8 +21,7 @@ namespace rtt {
 
 class HungarianAlgorithm {
 public:
-    HungarianAlgorithm();
-    ~HungarianAlgorithm();
+    HungarianAlgorithm() = default;
     double Solve(vector<vector<double> >& DistMatrix, vector<int>& Assignment);
 
 private:

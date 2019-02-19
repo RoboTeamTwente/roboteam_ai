@@ -15,18 +15,16 @@
 #include "Hungarian.h"
 
 namespace rtt {
-HungarianAlgorithm::HungarianAlgorithm() { }
-HungarianAlgorithm::~HungarianAlgorithm() { }
 
 //********************************************************//
 // A single function wrapper for solving assignment problem.
 //********************************************************//
 double HungarianAlgorithm::Solve(vector<vector<double> >& DistMatrix, vector<int>& Assignment)
 {
-    unsigned int nRows = DistMatrix.size();
-    unsigned int nCols = DistMatrix[0].size();
+    unsigned long nRows = DistMatrix.size();
+    unsigned long nCols = DistMatrix[0].size();
 
-    double* distMatrixIn = new double[nRows*nCols];
+    auto* distMatrixIn = new double[nRows*nCols];
     int* assignment = new int[nRows];
     double cost = 0.0;
 
@@ -39,7 +37,7 @@ double HungarianAlgorithm::Solve(vector<vector<double> >& DistMatrix, vector<int
             distMatrixIn[i+nRows*j] = DistMatrix[i][j];
 
     // call solving function
-    assignmentoptimal(assignment, &cost, distMatrixIn, nRows, nCols);
+    assignmentoptimal(assignment, &cost, distMatrixIn, static_cast<int>(nRows), static_cast<int>(nCols));
 
     Assignment.clear();
     for (unsigned int r = 0; r<nRows; r++)
@@ -171,8 +169,6 @@ void HungarianAlgorithm::assignmentoptimal(int* assignment, double* cost, double
     free(starMatrix);
     free(primeMatrix);
     free(newStarMatrix);
-
-    return;
 }
 
 /********************************************************/
@@ -183,11 +179,7 @@ void HungarianAlgorithm::buildassignmentvector(int* assignment, bool* starMatrix
     for (row = 0; row<nOfRows; row++)
         for (col = 0; col<nOfColumns; col++)
             if (starMatrix[row+nOfRows*col]) {
-#ifdef ONE_INDEXING
-                assignment[row] = col + 1; /* MATLAB-Indexing */
-#else
                 assignment[row] = col;
-#endif
                 break;
             }
 }
