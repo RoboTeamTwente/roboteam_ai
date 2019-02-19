@@ -130,20 +130,20 @@ Vector2 ControlGoToPos::pidController(RobotPtr robot, PosVelAngle target) {
     checkInterfacePID();
 
     Vector2 pidV = velPID.controlPIR(target.vel, robot->vel);
-    Vector2 pidP = posPID.controlPID(target.pos - robot->pos);
+    Vector2 pidP = posPID.controlPIR(target.pos - robot->pos, robot->vel);
     Vector2 total = pidV + pidP;
     return total.length() < Constants::MAX_VEL() ? total : total.stretchToLength(Constants::MAX_VEL());
 }
 
 /// start the PID for velocity and position control
 void ControlGoToPos::initializePID() {
-    velPID.reset();
-    velPID.setPID(Constants::standard_luth_Pos_P(),
+    posPID.reset();
+    posPID.setPID(Constants::standard_luth_Pos_P(),
             Constants::standard_luth_Pos_P(),
             Constants::standard_luth_Pos_P());
 
-    posPID.reset();
-    posPID.setPID(Constants::standard_luth_Vel_P(),
+    velPID.reset();
+    velPID.setPID(Constants::standard_luth_Vel_P(),
             Constants::standard_luth_Vel_P(),
             Constants::standard_luth_Vel_P());
 }
