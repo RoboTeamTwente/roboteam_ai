@@ -4,6 +4,8 @@
 
 #include "Coach.h"
 #include "../interface/InterfaceValues.h"
+#include "Field.h"
+
 namespace rtt {
 namespace ai {
 namespace coach {
@@ -50,13 +52,10 @@ int Coach::pickDefensivePassTarget(int selfID) {
     }
     return - 1;
 }
-int Coach::pickHarassmentTarget(int selfID) {
-    auto world = World::get_world();
-    auto them = world.them;
-    dangerfinder::DangerData dangerData = dangerfinder::DangerFinder::instance().getMostRecentData();
-    std::vector<int> dangerList = dangerData.dangerList; // A list of robot IDs, sorted from most to least dangerous
 
-    return *dangerList.begin();
+// TODO rewrite this
+int Coach::pickHarassmentTarget(int selfID) {
+    return 0;
 }
 
 int Coach::whichRobotHasBall(bool isOurTeam) {
@@ -111,20 +110,20 @@ int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkD
 }
 
 int Coach::pickOpponentToCover(int selfID) {
-    dangerfinder::DangerData DangerData = dangerfinder::DangerFinder::instance().getMostRecentData();
-    std::vector<int> dangerList = DangerData.dangerList;
-    for (int &opponentID : dangerList) {
-        if (defencePairs.find(opponentID) == defencePairs.end()) {
-            if (! doesRobotHaveBall(static_cast<unsigned int>(opponentID), false)) {
-                return opponentID;
-            }
-        }
-        else if (defencePairs[opponentID] == selfID) {
-            return opponentID;
-        }
-    }
+//    dangerfinder::DangerData DangerData = dangerfinder::DangerFinder::instance().getMostRecentData();
+//    std::vector<int> dangerList = DangerData.dangerList;
+//    for (int &opponentID : dangerList) {
+//        if (defencePairs.find(opponentID) == defencePairs.end()) {
+//            if (! doesRobotHaveBall(static_cast<unsigned int>(opponentID), false)) {
+//                return opponentID;
+//            }
+//        }
+//        else if (defencePairs[opponentID] == selfID) {
+//            return opponentID;
+//        }
+//    }
 
-    return - 1;
+    return 0;
 }
 
 Vector2 Coach::getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal) {

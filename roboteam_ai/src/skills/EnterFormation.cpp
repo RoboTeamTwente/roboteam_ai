@@ -5,6 +5,7 @@
 #include "EnterFormation.h"
 #include "../utilities/Coach.h"
 #include "../control/ControlUtils.h"
+#include "../utilities/Field.h"
 
 namespace rtt {
 namespace ai {

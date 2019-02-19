@@ -6,6 +6,7 @@
 #include "../utilities/Coach.h"
 #include "../control/ControlUtils.h"
 #include <cmath>
+#include "../utilities/Field.h"
 
 namespace rtt {
 namespace ai {

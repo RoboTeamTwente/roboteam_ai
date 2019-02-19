@@ -5,6 +5,7 @@
 #include "ApplicationManager.h"
 #include "utilities/Referee.hpp"
 #include "utilities/StrategyManager.h"
+#include "utilities/Field.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -65,7 +66,6 @@ void ApplicationManager::loop() {
 void ApplicationManager::runOneLoopCycle() {
     ros::spinOnce();
     this->updateROSData();
-    this->updateDangerfinder();
 
     if (ai::World::didReceiveFirstWorld) {
         if (BTFactory::getCurrentTree() == "NaN") {
@@ -102,12 +102,6 @@ void ApplicationManager::updateROSData() {
     ai::World::set_world(worldMsg);
     ai::Field::set_field(geometryMsg.field);
     ai::Referee::setRefereeData(refereeMsg);
-}
-
-void ApplicationManager::updateDangerfinder() {
-    if (df::DangerFinder::instance().hasCalculated()) {
-        dangerData = df::DangerFinder::instance().getMostRecentData();
-    }
 }
 
 void ApplicationManager::handleRefData() {

@@ -3,6 +3,7 @@
 //
 
 #include "Attack.h"
+#include "../utilities/Field.h"
 
 namespace rtt {
 namespace ai {
