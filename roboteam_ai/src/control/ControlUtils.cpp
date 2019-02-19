@@ -283,7 +283,7 @@ std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFrom
     for(unsigned int i = 0; i < assignments.size(); i++) {
         solutionPairs.push_back({set1.at(i), set2.at(assignments.at(i))});
     }
-    return {std::make_pair(Vector2(0,0), Vector2(0,0))};
+    return solutionPairs;
 }
 
 } // control
