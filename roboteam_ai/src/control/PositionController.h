@@ -17,7 +17,7 @@
 
 #include "positionControllers/ControlGoToPosLuTh.h"
 #include "positionControllers/ControlGoToPosBallControl.h"
-#include "positionControllers/ControlGoToPosClean.h"
+#include "roboteam_ai/src/control/positionControllers/NumTreePosControl.h"
 
 
 namespace rtt {
@@ -46,7 +46,7 @@ class ControlGoToPos {
         ControlGoToPosLuTh gtpLuth;
 
         Vector2 goToPosClean(RobotPtr robot, Vector2 &targetPos);
-        ControlGoToPosClean numTreeController;
+        NumTreePosControl numTreeController;
 
         Vector2 goToPosForce(RobotPtr robot, Vector2 &targetPos);
 //        ControlGoToPosForce forceController;
@@ -59,7 +59,7 @@ class ControlGoToPos {
 
         PIDController velPID;
         PIDController posPID;
-        bool hasInitialized = false;
+        bool PIDHasInitialized = false;
 
         Vector2 pidController(RobotPtr robot, PosVelAngle target);
         void initializePID();

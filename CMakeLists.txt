@@ -226,8 +226,8 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PositionController.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PIDController.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PIDController.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ControlGoToPosClean.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ControlGoToPosClean.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/NumTreePosControl.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/NumTreePosControl.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosVelAngle.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PositionControlIncludes.h)
 

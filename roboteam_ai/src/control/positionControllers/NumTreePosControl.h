@@ -12,16 +12,14 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-class ControlGoToPosClean {
+class NumTreePosControl {
     private:
         //constants, should be moved at some point, or adapted in a dynamic model (e.g. for lower speeds for certain branches, jazz like that)
-        double dt = 0.075;
-
-        double defaultRobotCollisionRadius = 3*Constants::ROBOT_RADIUS_MAX();
+        const double dt = 0.075;
+        const double defaultRobotCollisionRadius = 3*Constants::ROBOT_RADIUS_MAX();
         int robotID = - 1;
         Vector2 pos;
         Vector2 vel;
-        bool pidInit = false;
         bool avoidBall = false;
         bool canGoOutsideField = true;
 
@@ -55,7 +53,6 @@ class ControlGoToPosClean {
 
                 double t;
                 int collisions;
-                bool hasBeenTicked;
                 std::shared_ptr<PathPoint> parent;
                 std::vector<std::shared_ptr<PathPoint>> children;
                 std::shared_ptr<PathPoint> backTrack(double backTime);
@@ -92,6 +89,7 @@ class ControlGoToPosClean {
 
         std::vector<PathPoint> path;
     public:
+        void clear();
         Vector2 finalTargetPos;
         PosVelAngle goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos);
         void setAvoidBall(bool _avoidBall);

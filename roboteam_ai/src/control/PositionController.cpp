@@ -10,13 +10,19 @@ namespace ai {
 namespace control {
 
 ControlGoToPos::ControlGoToPos() = default;
+
 void ControlGoToPos::clear(GoToType goToType) {
+    PIDHasInitialized = false;
+
     switch (goToType) {
     case noPreference:break;
     case ballControl:break;
     case basic:break;
     case force:break;
-    case numTree:break;
+    case numTree: {
+        numTreeController.clear();
+        break;
+    }
     case luTh_OLD: {
         gtpLuth.clear();
         break;
@@ -123,7 +129,7 @@ void ControlGoToPos::setCanGoOutsideField(bool _canGoOutsideField) {
 }
 
 Vector2 ControlGoToPos::pidController(RobotPtr robot, PosVelAngle target) {
-    if (!hasInitialized)
+    if (!PIDHasInitialized)
         initializePID();
     checkInterfacePID();
 
