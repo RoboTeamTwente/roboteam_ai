@@ -1,66 +1,45 @@
-/********************************************************************
- ********************************************************************
- **
- ** libhungarian by Cyrill Stachniss, 2004
- ** http://www2.informatik.uni-freiburg.de/~stachnis/misc.html
- **
- ** Modified and adapted from C to C++ by Justin Buchanan
- **
- ** Solving the Minimum Assignment Problem using the
- ** Hungarian Method.
- **
- ** ** This file may be freely copied and distributed! **
- **
- ** Parts of the used code was originally provided by the
- ** "Stanford GraphGase", but I made changes to this code.
- ** As asked by  the copyright node of the "Stanford GraphGase",
- ** I hereby proclaim that this file are *NOT* part of the
- ** "Stanford GraphGase" distrubition!
- **
- ** This file is distributed in the hope that it will be useful,
- ** but WITHOUT ANY WARRANTY; without even the implied
- ** warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
- ** PURPOSE.
- **
- ********************************************************************
- ********************************************************************/
+///////////////////////////////////////////////////////////////////////////////
+// Hungarian.h: Header file for Class HungarianAlgorithm.
+//
+// This is a C++ wrapper with slight modification of a hungarian algorithm implementation by Markus Buehren.
+// The original implementation is a few mex-functions for use in MATLAB, found here:
+// http://www.mathworks.com/matlabcentral/fileexchange/6543-functions-for-the-rectangular-assignment-problem
+//
+// Both this code and the orignal code are published under the BSD license.
+// by Cong Ma, 2016
+//
 
-#pragma once
+#ifndef HUNGARIAN_H
+#define HUNGARIAN_H
 
+#include <iostream>
 #include <vector>
 
-namespace hungarian {
+using namespace std;
 
-typedef enum {
-    MODE_MINIMIZE_COST,
-    MODE_MAXIMIZE_UTIL,
-} MODE;
+namespace rtt {
 
-typedef enum {
-    NOT_ASSIGNED,
-    ASSIGNED,
-} ASSIGN;
+class HungarianAlgorithm {
+public:
+    HungarianAlgorithm();
+    ~HungarianAlgorithm();
+    double Solve(vector<vector<double> >& DistMatrix, vector<int>& Assignment);
 
-using Matrix = std::vector<std::vector<int>>;
-
-struct Result {
-    // True if the algorithm completed and found a solution.
-    bool success = false;
-    // The solution
-    Matrix assignment;
-    // A normalized form of the input cost matrix.
-    Matrix cost;
-    // The costs incurred by the assignment
-    int totalCost = 0;
+private:
+    void assignmentoptimal(int* assignment, double* cost, double* distMatrix, int nOfRows, int nOfColumns);
+    void buildassignmentvector(int* assignment, bool* starMatrix, int nOfRows, int nOfColumns);
+    void computeassignmentcost(int* assignment, double* cost, double* distMatrix, int nOfRows);
+    void step2a(int* assignment, double* distMatrix, bool* starMatrix, bool* newStarMatrix, bool* primeMatrix,
+            bool* coveredColumns, bool* coveredRows, int nOfRows, int nOfColumns, int minDim);
+    void step2b(int* assignment, double* distMatrix, bool* starMatrix, bool* newStarMatrix, bool* primeMatrix,
+            bool* coveredColumns, bool* coveredRows, int nOfRows, int nOfColumns, int minDim);
+    void step3(int* assignment, double* distMatrix, bool* starMatrix, bool* newStarMatrix, bool* primeMatrix,
+            bool* coveredColumns, bool* coveredRows, int nOfRows, int nOfColumns, int minDim);
+    void step4(int* assignment, double* distMatrix, bool* starMatrix, bool* newStarMatrix, bool* primeMatrix,
+            bool* coveredColumns, bool* coveredRows, int nOfRows, int nOfColumns, int minDim, int row, int col);
+    void step5(int* assignment, double* distMatrix, bool* starMatrix, bool* newStarMatrix, bool* primeMatrix,
+            bool* coveredColumns, bool* coveredRows, int nOfRows, int nOfColumns, int minDim);
 };
 
-/**
- * Runs the hungarian algorithm on the input cost matrix and returns a result
- * containing the normalized (square) cost matrix and a solution if one was
- * found.
- */
-Result Solve(const Matrix &input, MODE mode);
-
-void PrintMatrix(const Matrix &m);
-
-}; // namespace Hungarian
+}
+#endif
