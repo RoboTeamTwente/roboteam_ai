@@ -26,6 +26,7 @@ class World {
 private:
     static roboteam_msgs::World world;
     static std::mutex worldMutex;
+    static std::vector<std::pair<roboteam_msgs::World, double>> futureWorlds;
     static std::map<int,double> OurBotsBall, TheirBotsBall;
     static double findBallDist(roboteam_msgs::WorldRobot &bot, roboteam_msgs::WorldBall &ball);
     static void updateBallPossession(roboteam_msgs::World &_world);
@@ -46,6 +47,31 @@ public:
     static int whichBotHasBall(bool ourTeam);
     static std::vector<roboteam_msgs::WorldRobot> getAllRobots();
     static std::vector<roboteam_msgs::WorldRobot> getRobotsForId(std::set<unsigned int> ids, bool robotsAreOurTeam);
+        static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotForId(unsigned int id, bool ourTeam);
+
+        static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToPoint(
+                std::vector<roboteam_msgs::WorldRobot> robots, const Vector2 &point, const int &myID, const float &t);
+
+        static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToPoint(
+                std::vector<roboteam_msgs::WorldRobot> robots, const Vector2 &point, const int &myID);
+
+        static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToPoint(
+                std::vector<roboteam_msgs::WorldRobot> robots, const Vector2 &point, const float &t);
+
+        static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToPoint(
+                std::vector<roboteam_msgs::WorldRobot> robots, const Vector2 &point);
+
+        static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToPoint(const Vector2 &point,
+                const int &myID, const float &t);
+
+        static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToPoint(const Vector2 &point,
+                const float &t);
+
+        static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToPoint(const Vector2 &point,
+                const int &myID);
+        static std::vector<roboteam_msgs::WorldRobot> getAllRobots();
+        static std::vector<roboteam_msgs::WorldRobot> getRobotsForId(std::set<unsigned int> ids, bool robotsAreOurTeam);
+        static roboteam_msgs::World futureWorld(double time, double maxTimeOffset = 0.11);
 };
 
 } // ai

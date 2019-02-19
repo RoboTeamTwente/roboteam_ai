@@ -13,8 +13,10 @@ public:
     static void init();
     static bool GRSIM();
 
-    static bool SHOW_LONGEST_TICK()             { return true; };
-    static double GOTOPOS_LUTH_ERROR_MARGIN()   { return 0.25; };
+// Show timing for different functions
+    static bool SHOW_ALL_TIMINGS()              { return false; }
+    static bool SHOW_LONGEST_TICK()             { return true || SHOW_ALL_TIMINGS(); };
+    static bool SHOW_GOTOPOS_TIME_TAKEN()       { return true || SHOW_ALL_TIMINGS(); };
 
     // Max values we can send through robothub
     static double MAX_VEL_CMD()                 { return 8.191; };
@@ -33,6 +35,7 @@ public:
     static int DEFAULT_ROBOT_ID()               { return 1; };
     static double MAX_ANGULAR_VELOCITY()        { return 6.0; }; // rad per second??
     static double ROBOT_RADIUS()                { return 0.089;  };// TODO: Need to test if world_state agrees with this definition of the centre of the robot
+    static double ROBOT_RADIUS_MAX()      { return 0.090; };
     static double FRONT_LENGTH()                { return 0.118; }; // length of the front (flat) part of the robot
     static double DRIBBLER_ANGLE_OFFSET()       { return asin(FRONT_LENGTH()/2/ROBOT_RADIUS()); }; // if the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET() points to the left and DRIBBLER_ANGLE_OFFSET() to the right.
     static double CENTRE_TO_FRONT()             { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); };
@@ -63,7 +66,9 @@ public:
     static double GETBALL_OVERSHOOT()           { return .02; };//m
 
     //GoToPos
-    static double MAX_CALCULATION_TIME()        { return 20.0; }; //max time in ms
+    static double MAX_CALCULATION_TIME()        { return 12.0; }; //max time in ms
+    static double GOTOPOS_LUTH_ERROR_MARGIN()   { return 0.25; };
+    static bool SHOW_GOTOPOS_DEBUG_INFO()       { return true; };
 
     //Keeper
     static double KEEPER_POST_MARGIN()          { return 0.08; };//m
@@ -128,7 +133,7 @@ public:
     static bool STD_SHOW_PATHS_ALL()            { return false; };
     static bool STD_SHOW_PATHS_CURRENT()        { return true; };
     static bool STD_SHOW_BALL_PLACEMENT_MARKER(){ return true; };
-    static bool STD_USE_REFEREE()               { return true; };
+    static bool STD_USE_REFEREE()               { return false; };
 
     static QColor FIELD_COLOR()                 { return GRSIM() ? QColor(30, 30, 30, 255) : QColor(50, 0, 0, 255); };
     static QColor FIELD_LINE_COLOR()            { return Qt::white; };
@@ -148,10 +153,13 @@ public:
         };
     };
 
-    static double standard_luth_P()             { return GRSIM() ? 3.0 : 2.8; };
-    static double standard_luth_I()             { return GRSIM() ? 0.5 : 0.6; };
-    static double standard_luth_D()             { return GRSIM() ? 2.5 : 2.3; };
+    static double standard_luth_Pos_P()         { return GRSIM() ? 3.0 : 2.8; };
+    static double standard_luth_Pos_I()         { return GRSIM() ? 0.5 : 0.6; };
+    static double standard_luth_Pos_D()         { return GRSIM() ? 2.5 : 2.3; };
 
+    static double standard_luth_Vel_P()         { return GRSIM() ? 3.0 : 2.8; };
+    static double standard_luth_Vel_I()         { return GRSIM() ? 0.5 : 0.6; };
+    static double standard_luth_Vel_D()         { return GRSIM() ? 2.5 : 2.3; };
 
 private:
     static bool isInitialized;
