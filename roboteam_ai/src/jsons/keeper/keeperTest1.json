@@ -1,0 +1,43 @@
+{
+  "name": "keeperTest1",
+  "data": {
+    "trees": [
+      {
+        "title": "keeperTest1",
+        "root": "nzga89qa4lzgr00o",
+        "nodes": {
+          "nzga89qa4lzgr00o": {
+            "id": "nzga89qa4lzgr00o",
+            "title": "Tactic",
+            "children": [
+              "yym4se7phtbk853mn"
+            ],
+            "name": ""
+          },
+          "yym4se7phtbk853mn": {
+            "id": "yym4se7phtbk853mn",
+            "title": "Sequence",
+            "children": [
+              "par1rx2en7ord",
+              "c7c2dwkwv74vl"
+            ]
+          },
+          "par1rx2en7ord": {
+            "id": "par1rx2en7ord",
+            "title": "BasicGoToPos",
+            "properties": {
+              "target": "{1,1}"
+            }
+          },
+          "c7c2dwkwv74vl": {
+            "id": "c7c2dwkwv74vl",
+            "title": "BasicGoToPos",
+            "properties": {
+              "target": "{-1, -1}"
+            }
+          }
+        }
+      }
+    ]
+  }
+}
