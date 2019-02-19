@@ -1,6 +1,7 @@
 #include <utility>
 
 #include <roboteam_ai/src/control/ControlUtils.h>
+#include "World.h"
 
 namespace rtt {
 namespace ai {
@@ -191,6 +192,27 @@ std::vector<roboteam_msgs::WorldRobot> World::getAllRobots() {
     allRobots.insert(allRobots.end(), world.us.begin(), world.us.end());
     allRobots.insert(allRobots.end(), world.them.begin(), world.them.end());
     return allRobots;
+}
+
+bool World::weHaveBall() {
+    return World::teamHasBall(true);
+}
+
+bool World::theyHaveBall() {
+    return World::teamHasBall(false);
+}
+
+bool World::teamHasBall(bool ourTeam) {
+    std::vector<roboteam_msgs::WorldRobot> robots = ourTeam ? world.us : world.them;
+
+    bool teamHasBall = false;
+    for (auto &robot : robots) {
+        if (World::robotHasBall(robot, *World::getBall())) {
+            teamHasBall = true;
+            break;
+        }
+    }
+    return teamHasBall;
 }
 
 } // ai
