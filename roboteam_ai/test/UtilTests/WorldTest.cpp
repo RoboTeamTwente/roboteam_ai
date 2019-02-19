@@ -132,7 +132,7 @@ TEST(WorldTest, bot_has_ball){
     EXPECT_EQ(rtt::ai::World::whichBotHasBall(true),0);
     EXPECT_EQ(rtt::ai::World::whichBotHasBall(false),-1);
     EXPECT_TRUE(rtt::ai::World::BotHasBall(3,false));
-    EXPECT_FALSe(rtt::ai::World::BotHasBall(0,true));
+    EXPECT_FALSE(rtt::ai::World::BotHasBall(0,true));
     robot2.id=3;
     robot2.pos.x=0.25;
     robot2.pos.y=0;
