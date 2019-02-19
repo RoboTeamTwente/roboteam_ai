@@ -56,6 +56,7 @@ Skill::Status BasicGoToPos::onUpdate() {
     Vector2 velocity = goToPos.goToPos(robot, targetPos, control::GoToType::luTh);
 //    const ros::Time &t2 = ros::Time::now();
 //    std::cerr << "gotopos took: " << (t2-t1).toNSec()*0.000001 << " ms" << std::endl;
+    velocity=control::ControlUtils::VelocityLimiter(velocity,Constants::MAX_VEL(),0.3);
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     publishRobotCommand(command);
@@ -66,6 +67,7 @@ Skill::Status BasicGoToPos::onUpdate() {
         return Status::Running;
     }
     else {
+        std::cout<<"BASICGOTOPOS SUCCESS"<< std::endl;
         return Status::Success;
     }
 }

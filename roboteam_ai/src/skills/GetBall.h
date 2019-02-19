@@ -24,8 +24,10 @@ class GetBall : public Skill {
         void sendDribblingCommand();
         void sendOvershootCommand();
 
+        bool botHasLastVisibleBall();
         int count;
-        Vector2 deltaPos, approachPos;
+        Vector2 deltaPos;
+        Vector2 lastVisibleBallPos;
         bool lockAngle;
         double lockedAngle;
         int currentTick, maxTicks;

@@ -52,12 +52,12 @@ public:
     static int DEFAULT_GENEVA_STATE()           { return  0; };
 
     //dribble
-    static double MAX_BALL_BOUNCE_RANGE()       { return GRSIM() ? 0.3 : 0.15; };
+    static double MAX_BALL_BOUNCE_RANGE()       { return GRSIM() ? 0.4 : 0.15; };
     static double DRIBBLE_POSDIF()              { return 0.05; };
     static float  DRIBBLE_SPEED()               { return GRSIM() ? 0.4 : 0.8; };
 
     //hasBall
-    static double MAX_BALL_RANGE()              { return GRSIM() ? 0.15 : 0.09; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
+    static double MAX_BALL_RANGE()              { return GRSIM() ? 0.09 : 0.09; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
     static double HAS_BALL_ANGLE()              { return 0.2; }
 
     //getBallcc
