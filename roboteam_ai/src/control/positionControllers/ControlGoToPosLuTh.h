@@ -2,7 +2,7 @@
 // Created by thijs on 12-12-18.
 //
 
-#include "GoToPosInclude.h"
+#include "PositionControlIncludes.h"
 #include <roboteam_ai/src/interface/InterfaceValues.h>
 
 #ifndef ROBOTEAM_AI_CONTROLGOTOPOSLUTH_H
@@ -179,8 +179,8 @@ class ControlGoToPosLuTh {
 
         Vector2 targetPos = {999.2, 999.2};
 
-        Controller velPID;
-        Controller posPID;
+        PIDController velPID;
+        PIDController posPID;
         bool pidInit = false;
         bool avoidBall = false;
         bool canGoOutsideField = true;

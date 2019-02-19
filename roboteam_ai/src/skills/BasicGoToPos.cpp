@@ -50,7 +50,7 @@ Skill::Status BasicGoToPos::onUpdate() {
         command.w = static_cast<float>((Vector2(robot->pos) - targetPos).angle());
     }
 //    const ros::Time &t1 = ros::Time::now();
-    Vector2 velocity = goToPos.goToPos(robot, targetPos, control::GoToType::clean);
+    Vector2 velocity = goToPos.goToPos(robot, targetPos, control::GoToType::numTree);
 //    const ros::Time &t2 = ros::Time::now();
 //    std::cerr << "gotopos took: " << (t2-t1).toNSec()*0.000001 << " ms" << std::endl;
     command.x_vel = static_cast<float>(velocity.x);

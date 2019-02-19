@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by rolf on 5-2-19.
 //
@@ -20,25 +22,24 @@ void ControlGoToPosClean::setCanGoOutsideField(bool _canGoOutsideField) {
 
 /// return the velocity command using two PIDs based on the current position and velocity of the robot compared to the
 /// position and velocity of the calculated path
-Vector2 ControlGoToPosClean::computeNumericCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
+PosVelAngle ControlGoToPosClean::computeNumericCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
     if (path.empty())
-        return computeForceCommand(robot);
+        return computeForceCommand(std::move(robot));
+    PosVelAngle target;
 
     int pathPoint = static_cast<int>(path.size() > 4 ? 4 : path.size());
+    target.pos = path[pathPoint].pos;
+    target.vel = path[pathPoint].vel;
 
-    Vector2 pidVel = path[pathPoint].vel;
-    Vector2 pidV = velPID.controlPIR(pidVel, robot->vel);
-
-    Vector2 pidPos = path[pathPoint].pos;
-    Vector2 pidP = posPID.controlPID(pidPos - robot->pos);
-
-    return pidV + pidP;
+    return target;
 }
 
 /// return the velocity command using a force model, where the robot gets repelled from robots close by,
 /// while also adding a velocity vector towards the final target
-Vector2 ControlGoToPosClean::computeForceCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
+PosVelAngle ControlGoToPosClean::computeForceCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
     path.clear();
+    PosVelAngle target;
+
     roboteam_msgs::World world = World::get_world();
     Vector2 force = (finalTargetPos - robot->pos).normalize();
     for (auto bot : world.us) {
@@ -50,11 +51,12 @@ Vector2 ControlGoToPosClean::computeForceCommand(std::shared_ptr<roboteam_msgs::
                 + ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, defaultRobotCollisionRadius*2.0);
     }
     force = (force.length() > 3.0 ? force.stretchToLength(3.0) : force);
-    return force;
+    target.vel = force;
+    return target;
 }
 
 /// executes numeric or force velocity command based on input
-Vector2 ControlGoToPosClean::computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot, GTPType gtpType) {
+PosVelAngle ControlGoToPosClean::computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot, GTPType gtpType) {
     switch (gtpType) {
     case numeric:return computeNumericCommand(std::move(robot));
     case force:return computeForceCommand(std::move(robot));
@@ -107,16 +109,9 @@ bool ControlGoToPosClean::doRecalculatePath(std::shared_ptr<roboteam_msgs::World
 }
 
 /// finds a path using a numeric model
-Vector2 ControlGoToPosClean::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
+PosVelAngle ControlGoToPosClean::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
     ros::Time begin = ros::Time::now();
     robotID = robot->id;
-
-// init or change PID
-    if (! pidInit) {
-        pidInit = true;
-        initializePID();
-    }
-    checkInterfacePID();
 
 // check if the current path is still valid, if not, recalculate
     bool nicePath = true;
@@ -193,8 +188,6 @@ void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> r
 //                  (remainingStraightLinePathLength(rhs->pos, rhs->currentTarget, finalTargetPos));
 //    };
 
-    velPID.reset();
-    posPID.reset();
     displayData.clear();
     path.clear();
 
@@ -443,41 +436,8 @@ std::vector<ControlGoToPosClean::PathPoint> ControlGoToPosClean::backTrackPath(s
     return path;
 }
 
-/// start the PID for velocity and position control
-void ControlGoToPosClean::initializePID() {
-    velPID.reset();
-    velPID.setPID(Constants::standard_luth_Pos_P(),
-            Constants::standard_luth_Pos_P(),
-            Constants::standard_luth_Pos_P());
 
-    posPID.reset();
-    posPID.setPID(Constants::standard_luth_Vel_P(),
-            Constants::standard_luth_Vel_P(),
-            Constants::standard_luth_Vel_P());
-}
 
-/// compare current PID values to those set in the interface
-void ControlGoToPosClean::checkInterfacePID() {
-    if (velPID.getP() != interface::InterfaceValues::getLuthVelP() ||
-            velPID.getI() != interface::InterfaceValues::getLuthVelI() ||
-            velPID.getD() != interface::InterfaceValues::getLuthVelD()) {
-
-        velPID.reset();
-        velPID.setPID(interface::InterfaceValues::getLuthVelP(),
-                interface::InterfaceValues::getLuthVelI(),
-                interface::InterfaceValues::getLuthVelD());
-    }
-
-    if (posPID.getP() != interface::InterfaceValues::getLuthPosP() ||
-                posPID.getI() != interface::InterfaceValues::getLuthPosI() ||
-                posPID.getD() != interface::InterfaceValues::getLuthPosD()) {
-
-        posPID.reset();
-        posPID.setPID(interface::InterfaceValues::getLuthPosP(),
-                interface::InterfaceValues::getLuthPosI(),
-                interface::InterfaceValues::getLuthPosD());
-    }
-}
 
 /// draw all the data in the interface
 void ControlGoToPosClean::drawInInterface() {

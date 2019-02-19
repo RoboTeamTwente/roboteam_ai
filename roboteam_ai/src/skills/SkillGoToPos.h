@@ -2,7 +2,7 @@
 // Created by thijs on 19-11-18.
 //
 
-#include <roboteam_ai/src/control/ControlGoToPos.h>
+#include <roboteam_ai/src/control/PositionController.h>
 #include "Skill.h"
 
 #ifndef ROBOTEAM_AI_GOTOPOSLUTH_OLD_H

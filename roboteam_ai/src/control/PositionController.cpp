@@ -5,7 +5,7 @@
 //
 
 
-#include "ControlGoToPos.h"
+#include "PositionController.h"
 
 namespace rtt {
 namespace ai {
@@ -17,15 +17,12 @@ void ControlGoToPos::clear(GoToType goToType) {
     case noPreference:break;
     case ballControl:break;
     case basic:break;
-    case lowLevel:break;
-    case highLevel:break;
     case force:break;
-    case clean:break;
-    case luTh: {
+    case numTree:break;
+    case luTh_OLD: {
         gtpLuth.clear();
         break;
     }
-    case bezier:break;
     }
 }
 
@@ -37,6 +34,8 @@ Vector2 ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position) {
 }
 
 Vector2 ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goToType) {
+    if (!robot)
+        return Vector2();
 
     switch (goToType) {
     case noPreference:
@@ -51,23 +50,10 @@ Vector2 ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goTo
     case force:
         return ControlGoToPos::goToPosForce(std::move(robot), position);
 
-
-    case luTh:
+    case luTh_OLD:
         return ControlGoToPos::goToPosLuTh(std::move(robot), position);
 
-
-    case lowLevel:
-        return ControlGoToPos::goToPosLowLevel(std::move(robot), position);
-
-
-    case highLevel:
-        return ControlGoToPos::goToPosHighLevel(std::move(robot), position);
-
-
-    case bezier:
-        return ControlGoToPos::goToPosBezier(std::move(robot), position);
-
-    case clean:
+    case numTree:
         return ControlGoToPos::goToPosClean(std::move(robot),position);
     }
     return goToPos(std::move(robot), position);
@@ -86,22 +72,17 @@ Vector2 ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
     double dist = error.length();
     static bool far = true;
     if (dist > rtt::ai::Constants::ROBOT_RADIUS() and ! far) {
-        pid.setD(1.5);
+        velPID.setD(1.5);
         far = true;
     }
     else {
-        pid.setD(0);
+        velPID.setD(0);
         far = false;
     }
 
-//    // Grsim
-//    pid.setP(3.0);
-//    pid.setI(0.0);
-//    pid.setD(1.5);
+    if (dist < rtt::ai::Constants::ROBOT_RADIUS()) velPID.setD(0.0);
 
-    if (dist < rtt::ai::Constants::ROBOT_RADIUS()) pid.setD(0.0);
-
-    return pid.controlPIR(error, robot->vel);
+    return velPID.controlPIR(error, robot->vel);
 }
 
 Vector2 ControlGoToPos::goToPosForce(RobotPtr robot, Vector2 &targetPos) {
@@ -115,19 +96,8 @@ Vector2 ControlGoToPos::goToPosLuTh(RobotPtr robot, Vector2 &targetPos) {
 }
 
 Vector2 ControlGoToPos::goToPosClean(RobotPtr robot, Vector2 &targetPos) {
-    return gtpClean.goToPos(std::move(robot),targetPos);
-}
-
-Vector2 ControlGoToPos::goToPosLowLevel(RobotPtr robot, Vector2 &targetPos) {
-    return {};
-}
-
-Vector2 ControlGoToPos::goToPosHighLevel(RobotPtr robot, Vector2 &targetPos) {
-    return {};
-}
-
-Vector2 ControlGoToPos::goToPosBezier(RobotPtr robot, Vector2 &targetPos) {
-    return {};
+    PosVelAngle target = numTreeController.goToPos(robot,targetPos);
+    return pidController(robot, target);
 }
 
 double ControlGoToPos::distanceToTarget(RobotPtr robot, Vector2 &targetPos) {
@@ -143,15 +113,62 @@ void ControlGoToPos::setAvoidBall(bool _avoidBall) {
 
     //gtpBallControl.setAvoidBall(true);
     gtpLuth.setAvoidBall(_avoidBall);
-    gtpClean.setAvoidBall(_avoidBall);
+    numTreeController.setAvoidBall(_avoidBall);
 }
 
 void ControlGoToPos::setCanGoOutsideField(bool _canGoOutsideField) {
     // Add a function to make sure the robot does not go out of the field for all goToPos's
 
     gtpLuth.setCanGoOutsideField(_canGoOutsideField);
-    gtpClean.setCanGoOutsideField(_canGoOutsideField);
+    numTreeController.setCanGoOutsideField(_canGoOutsideField);
 
+}
+
+Vector2 ControlGoToPos::pidController(RobotPtr robot, PosVelAngle target) {
+    if (!hasInitialized)
+        initializePID();
+    checkInterfacePID();
+
+    Vector2 pidV = velPID.controlPIR(target.vel, robot->vel);
+    Vector2 pidP = posPID.controlPID(target.pos - robot->pos);
+    Vector2 total = pidV + pidP;
+    return total.length() < Constants::MAX_VEL() ? total : total.stretchToLength(Constants::MAX_VEL());
+}
+
+/// start the PID for velocity and position control
+void ControlGoToPos::initializePID() {
+    velPID.reset();
+    velPID.setPID(Constants::standard_luth_Pos_P(),
+            Constants::standard_luth_Pos_P(),
+            Constants::standard_luth_Pos_P());
+
+    posPID.reset();
+    posPID.setPID(Constants::standard_luth_Vel_P(),
+            Constants::standard_luth_Vel_P(),
+            Constants::standard_luth_Vel_P());
+}
+
+/// compare current PID values to those set in the interface
+void ControlGoToPos::checkInterfacePID() {
+    if (velPID.getP() != interface::InterfaceValues::getLuthVelP() ||
+            velPID.getI() != interface::InterfaceValues::getLuthVelI() ||
+            velPID.getD() != interface::InterfaceValues::getLuthVelD()) {
+
+        velPID.reset();
+        velPID.setPID(interface::InterfaceValues::getLuthVelP(),
+                interface::InterfaceValues::getLuthVelI(),
+                interface::InterfaceValues::getLuthVelD());
+    }
+
+    if (posPID.getP() != interface::InterfaceValues::getLuthPosP() ||
+            posPID.getI() != interface::InterfaceValues::getLuthPosI() ||
+            posPID.getD() != interface::InterfaceValues::getLuthPosD()) {
+
+        posPID.reset();
+        posPID.setPID(interface::InterfaceValues::getLuthPosP(),
+                interface::InterfaceValues::getLuthPosI(),
+                interface::InterfaceValues::getLuthPosD());
+    }
 }
 
 } //control

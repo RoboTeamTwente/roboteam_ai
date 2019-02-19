@@ -6,7 +6,7 @@
 #include <roboteam_ai/src/utilities/Coach.h>
 #include "ros/ros.h"
 #include "../io/IOManager.h"
-#include "../control/ControlGoToPos.h"
+#include "roboteam_ai/src/control/PositionController.h"
 namespace rtt {
 namespace ai {
 

@@ -27,7 +27,7 @@ bt::Node::Status SideAttacker::onUpdate() {
         command.id = robot->id;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
-        Vector2 velocity = goToPos.goToPos(robot, targetPos, GoToType::luTh);
+        Vector2 velocity = goToPos.goToPos(robot, targetPos, GoToType::luTh_OLD);
         command.x_vel = static_cast<float>(velocity.x);
         command.y_vel = static_cast<float>(velocity.y);
         publishRobotCommand(command);

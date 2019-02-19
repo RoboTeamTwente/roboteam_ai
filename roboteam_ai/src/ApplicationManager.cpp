@@ -23,42 +23,34 @@ void ApplicationManager::loop() {
     ros::Rate rate(ai::Constants::TICK_RATE());
     double longestTick = 0.0;
     double timeTaken;
-    std::vector<double> totalTime;
+    int nTicksTaken = 0;
+    double timeTakenOverNTicks = 0.0;
     while (ros::ok()) {
         ros::Time begin = ros::Time::now();
 
         this->runOneLoopCycle();
+        rate.sleep();
 
         ros::Time end = ros::Time::now();
+        timeTaken = (end - begin).toNSec() * 0.000001; // (ms)
+        timeTakenOverNTicks += timeTaken;
+
+        if (ai::Constants::SHOW_TICK_TIME_TAKEN() && ++nTicksTaken >= ai::Constants::TICK_RATE()) {
+            std::cout << "The last " << nTicksTaken << " ticks took " << timeTakenOverNTicks << " ms" << std::endl;
+            nTicksTaken = 0;
+            timeTakenOverNTicks = 0.0;
+        }
         if (ai::Constants::SHOW_LONGEST_TICK()) {
-
-            timeTaken = (end - begin).toNSec() * 0.000001;
-
-            totalTime.push_back(timeTaken);
-            if (totalTime.size() > 100)
-                totalTime.erase(totalTime.begin());
-
             if (timeTaken > longestTick) {
                 if (timeTaken > 200) {
-                    std::cout << "tick took longer than 200ms!!" << std::endl;
+                    std::cout << "Tick took longer than 200ms!!" << std::endl;
                 }
                 else {
                     longestTick = timeTaken;
-                    int totalTicks = 0;
-                    double total = 0.0;
-                    for (auto &time : totalTime) {
-                        totalTicks ++;
-                        total += time;
-                    }
-                    total = total/totalTicks;
-
-                    std::cout << "    average tick time (last 100 ticks) : " << total << " ms" << std::endl;
-                    std::cout << "longest tick took: " << longestTick << " ms" << std::endl;
-
+                    std::cout << "The Longest tick took " << longestTick << " ms" << std::endl;
                 }
             }
         }
-        rate.sleep();
     }
 }
 

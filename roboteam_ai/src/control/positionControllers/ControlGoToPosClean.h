@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_CONTROLGOTOPOSCLEAN_H
 #define ROBOTEAM_AI_CONTROLGOTOPOSCLEAN_H
 
-#include "GoToPosInclude.h"
+#include "PositionControlIncludes.h"
 #include <roboteam_ai/src/interface/InterfaceValues.h>
 
 namespace rtt {
@@ -21,8 +21,6 @@ class ControlGoToPosClean {
         int robotID = - 1;
         Vector2 pos;
         Vector2 vel;
-        Controller velPID;
-        Controller posPID;
         bool pidInit = false;
         bool avoidBall = false;
         bool canGoOutsideField = true;
@@ -31,8 +29,6 @@ class ControlGoToPosClean {
         void drawPoint(Vector2 &pos, QColor color = Qt::green);
 
             std::vector<std::pair<Vector2, QColor>> displayData;
-        void initializePID();
-        void checkInterfacePID();
         bool doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos);
         double remainingStraightLinePathLength(Vector2 currentPos, Vector2 halfwayPos, Vector2 finalPos);
         void drawInInterface();
@@ -81,9 +77,9 @@ class ControlGoToPosClean {
           numeric,
           force
         };
-        Vector2 computeNumericCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
-        Vector2 computeForceCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
-        Vector2 computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot, GTPType gtpType = numeric);
+        PosVelAngle computeNumericCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
+        PosVelAngle computeForceCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
+        PosVelAngle computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot, GTPType gtpType = numeric);
 
 
         std::pair<std::vector<Vector2>, std::shared_ptr<PathPoint>> getNewTargets(
@@ -97,7 +93,7 @@ class ControlGoToPosClean {
         std::vector<PathPoint> path;
     public:
         Vector2 finalTargetPos;
-        Vector2 goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos);
+        PosVelAngle goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos);
         void setAvoidBall(bool _avoidBall);
         void setCanGoOutsideField(bool _canGoOutsideField);
 

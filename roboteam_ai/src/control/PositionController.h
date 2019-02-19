@@ -7,18 +7,7 @@
 #ifndef ROBOTEAM_AI_CONTROLGOTOPOS_H
 #define ROBOTEAM_AI_CONTROLGOTOPOS_H
 
-
-#include <roboteam_utils/Vector2.h>
-#include <roboteam_msgs/WorldRobot.h>
-#include <roboteam_msgs/RobotCommand.h>
-#include <roboteam_ai/src/io/IOManager.h>
-#include <utility>
-
-#include "ros/ros.h"
-#include "../io/IOManager.h"
-#include "../../src/control/ControlUtils.h"
-#include "../../src/control/Controller.h"
-#include "../utilities/Constants.h"
+#include "positionControllers/PositionControlIncludes.h"
 
 //  ______________________
 //  |                    |
@@ -26,9 +15,11 @@
 //  |____________________|
 //
 
-#include "controlGoToPos/ControlGoToPosLuTh.h"
-#include "controlGoToPos/ControlGoToPosBallControl.h"
-#include "controlGoToPos/ControlGoToPosClean.h"
+#include "positionControllers/ControlGoToPosLuTh.h"
+#include "positionControllers/ControlGoToPosBallControl.h"
+#include "positionControllers/ControlGoToPosClean.h"
+
+
 namespace rtt {
 namespace ai {
 namespace control {
@@ -37,12 +28,9 @@ enum GoToType {
     noPreference,
     ballControl,
     basic,
-    lowLevel,
-    highLevel,
     force,
-    luTh,
-    bezier,
-    clean
+    luTh_OLD,
+    numTree
 };
 
 class ControlGoToPos {
@@ -58,27 +46,25 @@ class ControlGoToPos {
         ControlGoToPosLuTh gtpLuth;
 
         Vector2 goToPosClean(RobotPtr robot, Vector2 &targetPos);
-        ControlGoToPosClean gtpClean;
-
-        Vector2 goToPosLowLevel(RobotPtr robot, Vector2 &targetPos);
-        //ControlGoToPosLowLevel gtpLowlevel;
-
-        Vector2 goToPosHighLevel(RobotPtr robot, Vector2 &targetPos);
-        //ControlGoToPosHighLevel gtpHighlevel;
-
-        Vector2 goToPosBezier(RobotPtr robot, Vector2 &targetPos);
-        //ControlGoToPosBezier gtpBezier;
+        ControlGoToPosClean numTreeController;
 
         Vector2 goToPosForce(RobotPtr robot, Vector2 &targetPos);
-        //ControlGoToPosForce gtpForce;
+//        ControlGoToPosForce forceController;
 
         Vector2 goToPosBasic(RobotPtr robot, Vector2 &targetPos);
-        //ControlGoToPosBasic gtpBasic;
+//        ControlGoToPosBasic basicController;
 
         double errorMargin = 0.3;
         double distanceToTarget(RobotPtr robot, Vector2 &targetPos);
 
-        Controller pid = Controller(3.0, 0.0, 0.5);
+        PIDController velPID;
+        PIDController posPID;
+        bool hasInitialized = false;
+
+        Vector2 pidController(RobotPtr robot, PosVelAngle target);
+        void initializePID();
+        void checkInterfacePID();
+
     public:
         ControlGoToPos();
 
@@ -88,6 +74,7 @@ class ControlGoToPos {
 
         void setAvoidBall(bool _avoidBall);
         void setCanGoOutsideField(bool _canGoOutsideField);
+
 };
 
 } //control

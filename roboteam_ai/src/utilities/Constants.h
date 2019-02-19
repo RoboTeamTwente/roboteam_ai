@@ -14,11 +14,15 @@ public:
     static bool GRSIM();
 
 // Show timing for different functions
-    static bool SHOW_ALL_TIMINGS()              { return false; }
-    static bool SHOW_LONGEST_TICK()             { return true || SHOW_ALL_TIMINGS(); };
-    static bool SHOW_GOTOPOS_TIME_TAKEN()       { return true || SHOW_ALL_TIMINGS(); };
+    static bool SHOW_LONGEST_TICK()             { return true; };
+    static bool SHOW_TICK_TIME_TAKEN()          { return true; };
+    static bool SHOW_GOTOPOS_TIME_TAKEN()       { return false; };
 
-    // Max values we can send through robothub
+// Show debug information for different functions
+    static bool SHOW_GOTOPOS_DEBUG_INFO()       { return false; };
+
+
+// Max values we can send through robothub
     static double MAX_VEL_CMD()                 { return 8.191; };
     static int GENEVA_LEFT()                    { return 0; };//TODO: Might be reversed, please check
     static int GENEVA_RIGHT()                   { return 5; };
@@ -27,23 +31,23 @@ public:
     static double MIN_ANGLE()                   { return  -M_PI; };
     static double MAX_ANGLE()                   { return  M_PI; };
 
-    // Limits as defined in AI itself
+// Limits as defined in AI itself
     static double MAX_VEL()                     { return 8.0; };
     static double MAX_VEL_BALLPLACEMENT()       { return 3.0; };
 
-    //Other/multiple usage
+// Other/multiple usage
     static int DEFAULT_ROBOT_ID()               { return 1; };
     static double MAX_ANGULAR_VELOCITY()        { return 6.0; }; // rad per second??
     static double ROBOT_RADIUS()                { return 0.089;  };// TODO: Need to test if world_state agrees with this definition of the centre of the robot
-    static double ROBOT_RADIUS_MAX()      { return 0.091; };
+    static double ROBOT_RADIUS_MAX()            { return 0.091; };
     static double FRONT_LENGTH()                { return 0.118; }; // length of the front (flat) part of the robot
     static double DRIBBLER_ANGLE_OFFSET()       { return asin(FRONT_LENGTH()/2/ROBOT_RADIUS()); }; // if the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET() points to the left and DRIBBLER_ANGLE_OFFSET() to the right.
     static double CENTRE_TO_FRONT()             { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); };
     static double BALL_RADIUS()                 { return 0.0215; };
 
-    static int TICK_RATE()                       { return 60; };// Rate at which we tick our behavior Trees
+    static int TICK_RATE()                      { return 60; };// Rate at which we tick our behavior Trees
 
-    //skills
+// Skills
     static double DEFAULT_KICK_POWER()          { return  5.0; }; // max kick power() { return  100
     static double MAX_KICK_POWER()              { return  8.0; }; //TODO: CHECK
     static double MAX_POWER_KICK_DISTANCE()     { return 9.0; };
@@ -51,16 +55,16 @@ public:
     static int MAX_GENEVA_CYCLES()              { return  20; };
     static int DEFAULT_GENEVA_STATE()           { return  0; };
 
-    //dribble
+// Dribble
     static double MAX_BALL_BOUNCE_RANGE()       { return 0.15; };
     static double DRIBBLE_POSDIF()              { return 0.05; };
     static float  DRIBBLE_SPEED()               { return 0.8; };
 
-    //hasBall
+// HasBall
     static double MAX_BALL_RANGE()              { return 0.15; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
     static double HAS_BALL_ANGLE()              { return 0.2; }
 
-    //getBallcc
+// GetBallcc
     static double COLLISION_RADIUS()            { return 0.18; };
     static double ANGLE_SENS()                  { return 0.05*M_PI; };
     static double MAX_GETBALL_RANGE()           { return 0.7; };
@@ -68,21 +72,20 @@ public:
     static double GETBALL_SPEED()               { return .5; };
     static double GETBALL_OVERSHOOT()           { return .02; };//m
 
-    //GoToPos
+// GoToPos
     static double MAX_CALCULATION_TIME()        { return 12.0; }; //max time in ms
     static double GOTOPOS_LUTH_ERROR_MARGIN()   { return 0.25; };
-    static bool SHOW_GOTOPOS_DEBUG_INFO()       { return true; };
 
-    //Keeper
+// Keeper
     static double KEEPER_POST_MARGIN()          { return 0.08; };//m
     static double KEEPER_CENTREGOAL_MARGIN()    { return 0.3; };//m
     static double KEEPER_POSDIF()               { return 0.04; };
 
-    //ballkickedtoGoal
+// BallkickedtoGoal
     static double BALL_TO_GOAL_MARGIN()         { return BALL_RADIUS(); };//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
     static double BALL_TO_GOAL_TIME()           { return 1.5; };//seconds
 
-    //GoAroundPos
+// GoAroundPos
     static double MAX_GOAROUND_STOP_TIME()      { return 2.0; }; //s
     static double GOAROUND_MAX_DIST_DEVIATION() { return 0.2; }; //m
     static double GOAROUND_SPEED()              { return 6.0; };// rad/s
@@ -91,18 +94,19 @@ public:
     static double GOAROUND_ANGLE_MARGIN()       { return 0.03*M_PI; }; //rad
     static double GOAROUND_MIN_SPEED()          { return 0.25; };// m/s
 
-    //Intercept
+// Intercept
     static double MAX_INTERCEPT_TIME()          { return 2.0; };//seconds. Intercept terminates  after this time.
     static double BALL_DEFLECTION_ANGLE()       { return 30.0/180.0*M_PI; };//angle at which a ball is considered 'deflected'
     static double INTERCEPT_POSDIF()            { return 0.04; };//m acceptable deviation
-
     static double DEFAULT_MAX_VEL()             { return 2.0; };
-    // BallInDefenseAreaAndStill
+
+// BallInDefenseAreaAndStill
     static double BALL_STILL_VEL()              { return 0.1; };// if the ball has velocity lower than this in defense area, keeper starts getting it
 
     static double DRIBBLE_ROTATE_WAIT_TIME()    { return 0.2; }; // seconds
     static double DRIBBLE_ROTATE_MAX_SPEED()    { return 0.5; }; //rad/s
-    // Interface
+
+// Interface
     static int ROBOT_DRAWING_SIZE()             { return  8; };
     static int BALL_DRAWING_SIZE()              { return  5; };
     static int TACTIC_COLOR_DRAWING_SIZE()      { return  10; };
@@ -114,7 +118,7 @@ public:
     static double BP_MOVE_BACK_DIST()           { return 0.4; };
     static double BP_MOVE_TOWARDS_DIST()        { return 0.15; };
 
-    // Avoid ball
+// Avoid ball
     static double robotWeight()                 { return .09; };
     static double minRobotDistanceForForce()    { return .7; };
     static double ballWeight()                  { return .15; };
@@ -122,7 +126,7 @@ public:
     static double wallWeight()                  { return .05; };
     static double minWallDistanceForForce()     { return .4; };
 
-    // Settings
+// Settings
     static bool STD_SHOW_ROLES()                { return true; };
     static bool STD_SHOW_TACTICS()              { return false; };
     static bool STD_SHOW_TACTICS_COLORS()       { return true; };
@@ -134,31 +138,31 @@ public:
     static bool STD_SHOW_BALL_PLACEMENT_MARKER(){ return true; };
     static bool STD_USE_REFEREE()               { return false; };
 
-    static QColor FIELD_COLOR()                 { return GRSIM() ? QColor(30, 30, 30, 255) : QColor(50, 0, 0, 255); };
+    static QColor FIELD_COLOR()                 { return GRSIM() ? QColor(30 , 30 , 30 , 255) :
+                                                                   QColor(50 , 0  , 0  , 255); };
     static QColor FIELD_LINE_COLOR()            { return Qt::white; };
     static QColor ROBOT_COLOR_BLUE()            { return { 150, 150, 255, 255 }; }; // Blue
-    static QColor ROBOT_COLOR_YELLOW()          { return { 255, 255, 0, 255 }; }; // Yellow
-    static QColor BALL_COLOR()                  { return { 255, 120, 50, 255 };  };// Orange
+    static QColor ROBOT_COLOR_YELLOW()          { return { 255, 255, 0  , 255 }; }; // Yellow
+    static QColor BALL_COLOR()                  { return { 255, 120, 50 , 255 }; };// Orange
     static QColor TEXT_COLOR()                  { return Qt::white; };
     static QColor SELECTED_ROBOT_COLOR()        { return Qt::magenta; };
 
-    static std::vector<QColor> TACTIC_COLORS() {
-        return {
-                {255, 0, 255, 255},
-                {255, 0, 255, 255},
-                {255, 255, 0, 255},
-                {255, 120, 180, 255},
-                {255, 100, 255, 255}
+    static std::vector<QColor> TACTIC_COLORS()  { return { {255, 0  , 255, 255},
+                                                           {255, 0  , 255, 255},
+                                                           {255, 255, 0  , 255},
+                                                           {255, 120, 180, 255},
+                                                           {255, 100, 255, 255}
         };
     };
 
-    static double standard_luth_Pos_P()         { return GRSIM() ? 3.0 : 2.8; };
-    static double standard_luth_Pos_I()         { return GRSIM() ? 0.5 : 0.6; };
-    static double standard_luth_Pos_D()         { return GRSIM() ? 2.5 : 2.3; };
+// Default PID values for the interface
+    static double standard_luth_Pos_P()         { return GRSIM() ? 2.5 : 2.8; };
+    static double standard_luth_Pos_I()         { return GRSIM() ? 0.0 : 0.6; };
+    static double standard_luth_Pos_D()         { return GRSIM() ? 2.0 : 2.3; };
 
-    static double standard_luth_Vel_P()         { return GRSIM() ? 3.0 : 2.8; };
+    static double standard_luth_Vel_P()         { return GRSIM() ? 2.0 : 2.8; };
     static double standard_luth_Vel_I()         { return GRSIM() ? 0.5 : 0.6; };
-    static double standard_luth_Vel_D()         { return GRSIM() ? 2.5 : 2.3; };
+    static double standard_luth_Vel_D()         { return GRSIM() ? 1.8 : 2.3; };
 
 private:
     static bool isInitialized;
@@ -170,7 +174,7 @@ private:
 
 
 enum class RefGameState {
-    // Ref states as dictated by RoboCup SSL
+// Ref states as dictated by RoboCup SSL
     HALT = 0,
     STOP = 1,
     NORMAL_START = 2,
@@ -190,8 +194,8 @@ enum class RefGameState {
     BALL_PLACEMENT_US = 16,
     BALL_PLACEMENT_THEM = 17,
 
-    // Custom extended refstates
-    // These numbers will never be called from the referee immediately, they can only be used as follow-up commands
+// Custom extended refstates
+// These numbers will never be called from the referee immediately, they can only be used as follow-up commands
     DO_KICKOFF = 18,
     DEFEND_KICKOFF = 19,
     DO_PENALTY = 20,
