@@ -18,6 +18,8 @@ private:
     static double luthP;
     static double luthI;
     static double luthD;
+    static QString haltText;
+    static QString haltColor;
     static std::mutex PIDMutex;
     static std::mutex BallPlacementMutex;
     static std::mutex RefMutex;
@@ -37,6 +39,9 @@ private:
     static double getLuthD();
     static void setLuthD(double luthD);
     static void sendHaltCommand();
+    static void setHaltText();
+    static QString getHaltText();
+    static QString getHaltColor();
 };
 
 }

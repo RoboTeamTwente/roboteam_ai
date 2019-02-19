@@ -14,6 +14,8 @@ namespace interface {
 double InterfaceValues::luthP = 0;
 double InterfaceValues::luthI = 0;
 double InterfaceValues::luthD = 0;
+QString InterfaceValues::haltText = "Pause";
+QString InterfaceValues::haltColor = "background-color: #cc0000;";
 rtt::Vector2 InterfaceValues::ballPlacementTarget = {0, 0}; // initialize on middle of the field
 bool InterfaceValues::useRefereeCommands = false;
 
@@ -84,6 +86,22 @@ bool InterfaceValues::usesRefereeCommands() {
 void InterfaceValues::setUseRefereeCommands(bool useRefereeCommands){
     std::lock_guard<std::mutex> lock(RefMutex);
     InterfaceValues::useRefereeCommands = useRefereeCommands;
+}
+void InterfaceValues::setHaltText() {
+    if (haltText == "Pause") {
+        haltText = "Resume";
+        haltColor = "background-color: #00b200;";
+    }
+    else{
+        haltColor = "background-color: #cc0000;";
+        haltText = "Pause";
+    }
+}
+QString InterfaceValues::getHaltText() {
+    return haltText;
+}
+QString InterfaceValues::getHaltColor() {
+    return haltColor;
 }
 
 } // interface
