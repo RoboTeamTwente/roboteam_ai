@@ -192,10 +192,11 @@ void MainWindow::updatePID_luth() {
 /// send a halt signal to stop all trees from executing
 void MainWindow::sendHaltSignal() {
     InterfaceValues::sendHaltCommand();
-    std::cout << "HALT SIGNAL" << std::endl;
     InterfaceValues::setHaltText();
     haltBtn->setText(InterfaceValues::getHaltText());
     haltBtn->setStyleSheet(InterfaceValues::getHaltColor());
+    std::cout << "Pause" << std::endl;
+
 }
 
 void MainWindow::updateRobotsWidget() {

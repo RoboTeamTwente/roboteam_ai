@@ -15,7 +15,6 @@ class JoystickDemo {
     private:
         static std::set<int> demoRobots;
         static std::mutex demoLock;
-        rtt::ai::io::IOManager * IOManager;
 
 
     public:
