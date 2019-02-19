@@ -29,6 +29,8 @@ class RobotDealer {
 
         static std::map<std::string, std::set<std::pair<int, std::string>>> robotOwners;
 
+        static int keeperID;
+
         static std::mutex robotOwnersLock;
 
         static void removeRobotFromOwnerList(int ID);
@@ -66,6 +68,7 @@ class RobotDealer {
         static std::string getRoleNameForId(int ID);
         static std::string getTacticNameForRole(std::string role);
         static void halt();
+        static void setKeeperID(int ID);
 
 };
 }

@@ -17,6 +17,7 @@ void ApplicationManager::setup() {
     factory = BTFactory::getFactory();
     factory.init();
     BTFactory::setCurrentTree("haltStrategy");
+    BTFactory::setKeeperTree("keeperTest1");
 }
 
 void ApplicationManager::loop() {
@@ -76,6 +77,11 @@ void ApplicationManager::runOneLoopCycle() {
         if (ai::interface::InterfaceValues::usesRefereeCommands()) {
             this->handleRefData();
         }
+        // TODO: change this later so the referee tells you this
+        robotDealer::RobotDealer::setKeeperID(0);
+        keeperTree = BTFactory::getKeeperTree();
+        Status keeperStatus = keeperTree->tick();
+
         strategy = factory.getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
