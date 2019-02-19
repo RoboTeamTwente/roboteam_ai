@@ -78,11 +78,11 @@ void HungarianAlgorithm::assignmentoptimal(int* assignment, double* cost, double
 
 
     /* memory allocation */
-    coveredColumns = (bool*) calloc(nOfColumns, sizeof(bool));
-    coveredRows = (bool*) calloc(nOfRows, sizeof(bool));
-    starMatrix = (bool*) calloc(nOfElements, sizeof(bool));
-    primeMatrix = (bool*) calloc(nOfElements, sizeof(bool));
-    newStarMatrix = (bool*) calloc(nOfElements, sizeof(bool)); /* used in step4 */
+    coveredColumns = (bool*) calloc(static_cast<size_t>(nOfColumns), sizeof(bool));
+    coveredRows = (bool*) calloc(static_cast<size_t>(nOfRows), sizeof(bool));
+    starMatrix = (bool*) calloc(static_cast<size_t>(nOfElements), sizeof(bool));
+    primeMatrix = (bool*) calloc(static_cast<size_t>(nOfElements), sizeof(bool));
+    newStarMatrix = (bool*) calloc(static_cast<size_t>(nOfElements), sizeof(bool)); /* used in step4 */
 
     /* preliminary steps */
     if (nOfRows<=nOfColumns) {
