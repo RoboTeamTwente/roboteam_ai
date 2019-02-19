@@ -232,7 +232,9 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlGoToPos.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlGoToPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.h
+        roboteam_ai/src/control/controlGoToPos/ControlGoToPosClean.cpp
+        roboteam_ai/src/control/controlGoToPos/ControlGoToPosClean.h)
 
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/main.cpp

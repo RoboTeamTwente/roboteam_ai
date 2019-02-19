@@ -34,7 +34,7 @@ void GetBall::checkProgression() {
             std::cout<<"GetBall: APPROACHING-> TURNING"<<std::endl;
             return;
         }
-        if (robotHasBall(Constants::MAX_BALL_BOUNCE_RANGE())) {
+        if (World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
             std::cout<<"GetBall: APPROACHING -> OVERSHOOTING"<<std::endl;
             currentProgress = OVERSHOOTING;
             return;
@@ -44,12 +44,12 @@ void GetBall::checkProgression() {
         }
     }
     else if (currentProgress == OVERSHOOTING){
-        if (!robotHasBall(Constants::MAX_BALL_BOUNCE_RANGE())) {
+        if (!World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
             std::cout<<"GetBall: OVERSHOOTING -> TURNING"<<std::endl;
             currentProgress = TURNING;
             return;
         }
-        if (((approachPos-robot->pos)).length()<0.05){
+        if (((approachPos-robot->pos)).length()<0.1){
             std::cout<<"GetBall: OVERSHOOTING -> DRIBBLING"<<std::endl;
             currentProgress=DRIBBLING;
             return;
@@ -59,7 +59,7 @@ void GetBall::checkProgression() {
         }
     }
     else if (currentProgress == DRIBBLING) {
-        if (! robotHasBall(Constants::MAX_BALL_BOUNCE_RANGE())) {
+        if (! World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
             currentProgress = APPROACHING;
             count = 0;
             std::cout<<"GetBall: DRIBBLING-> APPROACHING"<<std::endl;
@@ -95,7 +95,7 @@ GetBall::Status GetBall::onUpdate() {
     approachPos= Vector2(ball->pos)+(Vector2(ball->pos)-Vector2(robot->pos)).stretchToLength(Constants::GETBALL_OVERSHOOT());
     }
 
-    if(!robotHasBall(Constants::MAX_BALL_BOUNCE_RANGE())){
+    if(!World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())){
         lockedAngle=deltaPos.angle();
     }
     checkProgression();
@@ -132,28 +132,6 @@ GetBall::Status GetBall::onUpdate() {
 
 void GetBall::onTerminate(Status s) {
     sendDribblingCommand();
-}
-bool GetBall::robotHasBall(double frontRange) {
-    //The ball is in an area defined by a cone from the robot centre, or from a rectangle in front of the dribbler
-    if(!ball->visible){
-        return true;
-    }
-    Vector2 RobotPos = robot->pos;
-    Vector2 BallPos = ball->pos;
-    Vector2 dribbleLeft = RobotPos + Vector2(Constants::ROBOT_RADIUS(), 0).rotate(robot->angle - Constants::DRIBBLER_ANGLE_OFFSET());
-    Vector2 dribbleRight = RobotPos + Vector2(Constants::ROBOT_RADIUS(), 0).rotate(robot->angle + Constants::DRIBBLER_ANGLE_OFFSET());
-
-    std::vector<Vector2> drawPos = {RobotPos, dribbleLeft, dribbleRight,
-                                    dribbleLeft + Vector2(Constants::MAX_BALL_RANGE(), 0).rotate(robot->angle),
-                                    dribbleRight + Vector2(Constants::MAX_BALL_RANGE(), 0).rotate(robot->angle)};
-    if (control::ControlUtils::pointInTriangle(BallPos, RobotPos, dribbleLeft, dribbleRight)) {
-        return true;
-    }
-        // else check the rectangle in front of the robot.
-    else
-        return control::ControlUtils::pointInRectangle(BallPos, dribbleLeft, dribbleRight,
-                dribbleRight + Vector2(frontRange, 0).rotate(robot->angle),
-                dribbleLeft + Vector2(frontRange, 0).rotate(robot->angle));
 }
 void GetBall::sendTurnCommand() {
     roboteam_msgs::RobotCommand command;

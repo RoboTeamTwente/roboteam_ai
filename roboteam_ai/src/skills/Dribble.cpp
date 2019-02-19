@@ -11,7 +11,7 @@ Dribble::Dribble(string name, bt::Blackboard::Ptr blackboard)
 
 Dribble::Progression Dribble::checkProgression() {
     if (currentProgress == ON_THE_WAY) {
-        if (! robotHasBall()) {
+        if (! World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
             return FAIL;
         }
         if (deltaPos.length() <= Constants::DRIBBLE_POSDIF()) {
@@ -28,7 +28,7 @@ Dribble::Progression Dribble::checkProgression() {
     else if (currentProgress == STOPPED) {
         count ++;
         //ROS_WARN_STREAM("Stopped ticks #:" << count<<"/"<<maxTicks);
-        if (! robotHasBall()) {
+        if (! World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
             return FAIL;
         }
         else if (count >= maxTicks) {
@@ -49,17 +49,9 @@ Dribble::Progression Dribble::checkProgression() {
     return FAIL;
 }
 
-bool Dribble::robotHasBall() {
-    //The ball is in an area defined by a cone from the robot centre, or from a rectangle in front of the dribbler
-    if(!ball->visible){
-        return true;
-    }
-    Vector2 RobotPos = robot->pos;
-    Vector2 BallPos = ball->pos;
-    return World::robotHasBall(*robot, *ball);
-}
 void Dribble::onInitialize() {
     //if false, robot will dribble to the position backwards with the ball.
+    ROS_ERROR("DRIBBLE INITIALIZED");
     forwardDirection = properties->getBool("forwardDirection");
 
     if (properties->hasVector2("Position")) {
@@ -92,17 +84,10 @@ void Dribble::onInitialize() {
         targetPos = (Vector2)robot->pos + Vector2({distance, 0}).rotate(targetAngle);
     }
 
-    if (! Dribble::robotHasBall()) {
+    if (! World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
         ROS_ERROR("Dribble Initialize -> Robot does not have the ball!");
         currentProgress = Progression::FAIL;
         return;
-    }
-    if(!ball->visible){
-        auto world=World::get_world();
-        Vector2 ballPos=Vector2(robot->pos)+Vector2(Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS(),0).rotate(robot->angle);
-        world.ball.visible=1;
-        world.ball.pos=ballPos;
-        World::set_world(world);
     }
     currentProgress = Progression::ON_THE_WAY;
     count = 0;
@@ -118,12 +103,7 @@ Dribble::Status Dribble::onUpdate() {
     else if (currentProgress == Progression::WAITING) {
         return Status::Waiting;
     }
-    if(ball->visible) {
-        deltaPos = targetPos - Vector2(ball->pos);
-    }
-    else{
-        deltaPos=targetPos-(Vector2(robot->pos)+Vector2(Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS(),0).rotate(robot->angle));
-    }
+    deltaPos = targetPos - Vector2(ball->pos);
     currentProgress = checkProgression();
 
     if (currentProgress == STOPPED) {
@@ -162,27 +142,21 @@ void Dribble::sendMoveCommand() {
     command.id = robot->id;
     command.use_angle = 1;
     if (forwardDirection) {
-        command.w = initialAngle+M_PI;
+        command.w = (float) Control::constrainAngle(initialAngle+M_PI);
     }
     else {
         command.w = (float) Control::constrainAngle(initialAngle);
     }
     std::vector<Vector2> dposvec = {deltaPos};
     command.dribbler = 1;
-//    if(deltaPos.length()>0.5){
-//    command.x_vel = (float) deltaPos.normalize().x*c::DRIBBLE_SPEED;
-//    command.y_vel = (float) deltaPos.normalize().y*c::DRIBBLE_SPEED;
-//    }
-//    else{
-        command.x_vel=(float) deltaPos.normalize().x * Constants::DRIBBLE_SPEED();
-        command.y_vel=(float) deltaPos.normalize().y * Constants::DRIBBLE_SPEED();
-//    }
+    command.x_vel=(float) deltaPos.normalize().x * Constants::DRIBBLE_SPEED();
+    command.y_vel=(float) deltaPos.normalize().y * Constants::DRIBBLE_SPEED();
     publishRobotCommand(command);
 }
 void Dribble::sendStopCommand() {
     roboteam_msgs::RobotCommand command;
-    command.id = robot->id;    command.w = stoppingAngle;
-
+    command.id = robot->id;
+    command.w = stoppingAngle;
     command.use_angle = 1;
     command.w = stoppingAngle;
     command.dribbler = 0;

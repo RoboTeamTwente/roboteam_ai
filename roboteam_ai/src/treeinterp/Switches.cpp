@@ -108,7 +108,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
          "EnterFormationStrategy",
          "BallPlacementUsStrategy",
          "BallPlacementThemStrategy",
-         "randomStrategy"};
+         "randomStrategy" // used for testing, do not remove it!
+        };
 
 std::vector<std::string> Switches::keeperJsonFiles =
         {};
@@ -135,7 +136,7 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
     if ( map.find(name) != map.end() ) {
         return map[name];
     } else {
-            
+
         ROS_ERROR("Faulty Control Node! Never should happen!");
         return bt::Node::Ptr();
     }
@@ -211,77 +212,77 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 
     std::map<std::string, std::map<std::string, robotType>> tactics = {
 
-            {"haltTactic", {
-                    {"halt0", robotType::random},
-                    {"halt1", robotType::random},
-                    {"halt2", robotType::random},
-                    {"halt3", robotType::random},
-                    {"halt4", robotType::random},
-                    {"halt5", robotType::random},
-                    {"halt6", robotType::random},
-                    {"halt7", robotType::random}
-            }
+            {"haltTactic",                   {
+                                                     {"halt0",            robotType::random},
+                                                     {"halt1",      robotType::random},
+                                                     {"halt2",   robotType::random},
+                                                     {"halt3",   robotType::random},
+                                                     {"halt4",   robotType::random},
+                                                     {"halt5",   robotType::random},
+                                                     {"halt6",   robotType::random},
+                                                     {"halt7", robotType::random}
+                                             }
             },
 
 
-            {"OneAttackerTactic", {
-                    {"attacker", robotType::closeToTheirGoal}
-            }
+            {"OneAttackerTactic",            {
+                                                     {"attacker",         robotType::closeToTheirGoal}
+                                             }
             },
             {"OneAttackerOneDefenderTactic", {
-                    {"defender", robotType::closeToOurGoal},
-                    {"attacker", robotType::closeToTheirGoal}
-            }
+                                                     {"defender",         robotType::closeToOurGoal},
+                                                     {"attacker",   robotType::closeToTheirGoal}
+                                             }
             },
-            {"OneDefenderTactic", {
-                    {"defender", robotType::closeToTheirGoal}
-            }
+            {"OneDefenderTactic",            {
+                                                     {"defender",         robotType::closeToTheirGoal}
+                                             }
             },
-            {"TwoDefendersTactic", {
-                    {"defender1", robotType::closeToOurGoal},
-                    {"defender2", robotType::closeToOurGoal},
-            }
+            {"TwoDefendersTactic",           {
+                                                     {"defender1",        robotType::closeToOurGoal},
+                                                     {"defender2",  robotType::closeToOurGoal},
+                                             }
             },
-            {"Attactic", {
-                    {"atak", robotType::random}
-            }
+            {"Attactic",                     {
+                                                     {"atak",             robotType::random}
+                                             }
             },
-            {"PassTactic", {
-                    {"passer", robotType::closeToBall},
-                    {"receiver", robotType::random}
-            }
+            {"PassTactic",                   {
+                                                     {"passer",           robotType::closeToBall},
+                                                     {"receiver",   robotType::random}
+                                             }
             },
-            {"QualificationTactic", {
-                    {"qualRole", robotType::random},
-                    {"eloRlauq", robotType::random}
-            }
+            {"QualificationTactic",          {
+                                                     {"qualRole",         robotType::random},
+                                                     {"eloRlauq",   robotType::random}
+                                             }
             },
-            {"randomTactic", {
-                    {"random1", robotType::random},
-                    {"random2", robotType::random},
-                    {"random3", robotType::random},
-                    {"random4", robotType::random},
-                    {"random5", robotType::random},
-                    {"random6", robotType::random},
-                    {"random7", robotType::random}
-            }
+            {"randomTactic",                 {
+                                                     {"random1",          robotType::random},
+                                                     {"random2",    robotType::random},
+                                                     {"random3", robotType::random},
+                                                     {"random4", robotType::random},
+                                                     {"random5", robotType::random},
+                                                     {"random6", robotType::random},
+                                                     {"random7", robotType::random}
+                                             }
             },
-            {"BallPlacementUsTactic",{
-                    {"BallPlacementBot",robotType::closeToBall}
-            }
+            {"BallPlacementUsTactic",        {
+                                                     {"BallPlacementBot", robotType::closeToBall}
+                                             }
             },
-            {"SingleKeeperTactic",{
-                     {"Keeper",robotType::closeToOurGoal}
-             }
+            {"SingleKeeperTactic",           {
+                                                     {"Keeper",           robotType::closeToOurGoal}
+                                             }
             },
-            {"DemoAttackerTactic",{
-                  {"demoAttacker",robotType::closeToTheirGoal}
-          }
+            {"DemoAttackerTactic",           {
+                                                     {"demoAttacker",     robotType::closeToTheirGoal}
+                                             }
             },
-            {"DemoTactic",{
-                  {"demoAttacker",robotType::closeToTheirGoal},
-                  {"demoKeeper",robotType::closeToOurGoal}
-          }
+            {"DemoTactic",                   {
+                                                     {"demoAttacker",     robotType::closeToTheirGoal},
+                                                     {"demoKeeper", robotType::closeToOurGoal}
+                                             }
             }
     };
     runErrorHandler(tactics);
@@ -290,30 +291,28 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 
     if (name == "VerySpecialTacticThatWouldRequireSpecialClass") {
         node = std::make_shared<bt::VictoryDanceTactic>("VerySpecialTacticThatWouldRequireSpecialClass", properties);
-    }
-    else if (tactics.find(name) != tactics.end()) {
+    } else if (tactics.find(name) != tactics.end()) {
         node = std::make_shared<bt::DefaultTactic>(name, properties, tactics[name]);
-    }
-    else if (name == "EnterFormationTactic") {
+    } else if (name == "EnterFormationTactic") {
         node = std::make_shared<bt::EnterFormationTactic>("EnterFormationTactic", properties);
-    }
-    else if (name == "AvoidBallTactic") {
+    } else if (name == "AvoidBallTactic") {
         node = std::make_shared<bt::AvoidBallTactic>("AvoidBallTactic", properties);
-    }
-    else if (name == "victoryDanceTactic") {
+    } else if (name == "victoryDanceTactic") {
         node = std::make_shared<bt::VictoryDanceTactic>("victoryDanceTactic", properties);
     } else {
         ROS_ERROR("\n\n\nTHE TACTIC DOES NOT HAVE ROBOTS SPECIFIED IN THE SWITCHES:    %s\n\n\n", name.c_str());
         return node;
     }
-
 }
+
 void Switches::runErrorHandler(std::map<std::string, std::map<std::string, robotType>> tactics) {
 
     for (auto &item : tactics) { // <--- NOT A CONST REFERENCE WOW MAN MAN MAN  -Team (int)Twee(nte)
-        if (std::find(tacticJsonFileNames.begin(), tacticJsonFileNames.end(), item.first) == tacticJsonFileNames.end()) {
+        if (std::find(tacticJsonFileNames.begin(), tacticJsonFileNames.end(), item.first) ==
+            tacticJsonFileNames.end()) {
             ROS_ERROR("THE FOLLOWING TACTIC IS MISSING THE FILE:   %s\n\n\n", item.first.c_str());
         }
     }
 
 }
+

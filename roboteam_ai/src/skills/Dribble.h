@@ -33,7 +33,6 @@ class Dribble : public Skill {
         Vector2 targetPos, deltaPos;
         double distance;
         float stoppingAngle,initialAngle;
-        bool robotHasBall();
 
         void sendMoveCommand();
         void sendStopCommand();

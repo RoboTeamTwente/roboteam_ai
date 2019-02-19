@@ -11,9 +11,14 @@ namespace ai {
 namespace interface {
 
 // these values need to be set AFTER ros::init, so they are initialized with values in the constructor of mainwindow
-double InterfaceValues::luthP = 0;
-double InterfaceValues::luthI = 0;
-double InterfaceValues::luthD = 0;
+double InterfaceValues::luthPosP = 0;
+double InterfaceValues::luthPosI = 0;
+double InterfaceValues::luthPosD = 0;
+
+double InterfaceValues::luthVelP = 0;
+double InterfaceValues::luthVelI = 0;
+double InterfaceValues::luthVelD = 0;
+
 rtt::Vector2 InterfaceValues::ballPlacementTarget = {0, 0}; // initialize on middle of the field
 bool InterfaceValues::useRefereeCommands = false;
 
@@ -23,34 +28,64 @@ std::mutex InterfaceValues::BallPlacementMutex;
 std::mutex InterfaceValues::RefMutex;
 
 
-double InterfaceValues::getLuthP() {
+double InterfaceValues::getLuthPosP() {
     std::lock_guard<std::mutex> lock(PIDMutex);
-    return luthP;
+    return luthPosP;
 }
 
-void InterfaceValues::setLuthP(double luthP) {
+void InterfaceValues::setLuthPosP(double luthPP) {
     std::lock_guard<std::mutex> lock(PIDMutex);
-    InterfaceValues::luthP = luthP;
+    InterfaceValues::luthPosP = luthPP;
 }
 
-double InterfaceValues::getLuthI() {
+double InterfaceValues::getLuthPosI() {
     std::lock_guard<std::mutex> lock(PIDMutex);
-    return luthI;
+    return luthPosI;
 }
 
-void InterfaceValues::setLuthI(double luthI) {
+void InterfaceValues::setLuthPosI(double luthPI) {
     std::lock_guard<std::mutex> lock(PIDMutex);
-    InterfaceValues::luthI = luthI;
+    InterfaceValues::luthPosI = luthPI;
 }
 
-double InterfaceValues::getLuthD() {
+double InterfaceValues::getLuthPosD() {
     std::lock_guard<std::mutex> lock(PIDMutex);
-    return luthD;
+    return luthPosD;
 }
 
-void InterfaceValues::setLuthD(double LuthD) {
+void InterfaceValues::setLuthPosD(double LuthPD) {
     std::lock_guard<std::mutex> lock(PIDMutex);
-    InterfaceValues::luthD = LuthD;
+    InterfaceValues::luthPosD = LuthPD;
+}
+
+double InterfaceValues::getLuthVelP() {
+    std::lock_guard<std::mutex> lock(PIDMutex);
+    return luthVelP;
+}
+
+void InterfaceValues::setLuthVelP(double luthVP) {
+    std::lock_guard<std::mutex> lock(PIDMutex);
+    InterfaceValues::luthVelP = luthVP;
+}
+
+double InterfaceValues::getLuthVelI() {
+    std::lock_guard<std::mutex> lock(PIDMutex);
+    return luthVelI;
+}
+
+void InterfaceValues::setLuthVelI(double luthVI) {
+    std::lock_guard<std::mutex> lock(PIDMutex);
+    InterfaceValues::luthVelI = luthVI;
+}
+
+double InterfaceValues::getLuthVelD() {
+    std::lock_guard<std::mutex> lock(PIDMutex);
+    return luthVelD;
+}
+
+void InterfaceValues::setLuthVelD(double LuthVD) {
+    std::lock_guard<std::mutex> lock(PIDMutex);
+    InterfaceValues::luthVelD = LuthVD;
 }
 
 void InterfaceValues::sendHaltCommand() {

@@ -41,7 +41,7 @@ bt::Node::Status SideAttacker::onUpdate() {
         command.id = robot->id;
         command.use_angle = 1;
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
-        if (Coach::doesRobotHaveBall(robot->id, true)) {
+        if (World::ourBotHasBall(robot->id)) {
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER);
             command.kicker_forced = 1;

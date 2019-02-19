@@ -19,7 +19,6 @@ class GetBall : public Skill {
         Progression currentProgress;
         void checkProgression();
 
-        bool robotHasBall(double frontRange);
         void sendTurnCommand();
         void sendApproachCommand();
         void sendDribblingCommand();
