@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     auto hButtonsLayout = new QHBoxLayout();
 
-    auto haltBtn = new QPushButton("HALT");
+    auto haltBtn = new QPushButton("PAUSE");
     QObject::connect(haltBtn, SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
     hButtonsLayout->addWidget(haltBtn);
     haltBtn->setStyleSheet("background-color: #cc0000;");
