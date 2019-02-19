@@ -62,7 +62,7 @@ public:
     static double ANGLE_SENS()                  { return 0.05*M_PI; };
     static double MAX_GETBALL_RANGE()           { return 0.7; };
     static int POSSES_BALL_CYCLES()             { return 25; };
-    static double GETBALL_SPEED()               { return .5; };
+    static double GETBALL_SPEED()               { return .8; };
     static double GETBALL_OVERSHOOT()           { return .02; };//m
 
     //GoToPos
