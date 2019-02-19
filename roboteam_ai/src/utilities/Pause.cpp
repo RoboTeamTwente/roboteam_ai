@@ -19,11 +19,13 @@ bool Pause::getPause() {
 void Pause::haltRobots() {
 
     auto us = rtt::ai::World::get_world().us;
-    for (auto robot : us) {
+    for (const auto &robot : us) {
         roboteam_msgs::RobotCommand cmd;
         cmd.x_vel = 0;
         cmd.y_vel = 0;
         cmd.id = robot.id;
+        cmd.dribbler = 0;
+        cmd.w = robot.w;
         IOManager->publishRobotCommand(cmd);
     }
 
@@ -33,9 +35,7 @@ void Pause::setPause(bool set) {
     pause = set;
 
 }
-Pause::Pause() {
-
-}
+Pause::Pause() = default;
 
 }
 }
