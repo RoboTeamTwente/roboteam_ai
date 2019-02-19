@@ -54,10 +54,10 @@ public:
     //dribble
     static double MAX_BALL_BOUNCE_RANGE()       { return GRSIM() ? 0.4 : 0.15; };
     static double DRIBBLE_POSDIF()              { return 0.05; };
-    static float  DRIBBLE_SPEED()               { return GRSIM() ? 0.4 : 0.8; };
+    static float  DRIBBLE_SPEED()               { return GRSIM() ? 0.4 : 1.0; };
 
     //hasBall
-    static double MAX_BALL_RANGE()              { return GRSIM() ? 0.09 : 0.09; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
+    static double MAX_BALL_RANGE()              { return GRSIM() ? 0.09 : 0.03; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
     static double HAS_BALL_ANGLE()              { return 0.2; }
 
     //getBallcc
@@ -65,7 +65,7 @@ public:
     static double ANGLE_SENS()                  { return 0.05*M_PI; };
     static double MAX_GETBALL_RANGE()           { return 0.5; };
     static int POSSES_BALL_CYCLES()             { return 25; };
-    static double GETBALL_SPEED()               { return .8; };
+    static double GETBALL_SPEED()               { return 1.5; };
     static double GETBALL_OVERSHOOT()           { return .02; };//m
 
     //GoToPos

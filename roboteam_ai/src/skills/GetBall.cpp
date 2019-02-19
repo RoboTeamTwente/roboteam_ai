@@ -107,7 +107,7 @@ GetBall::Status GetBall::onUpdate() {
     deltaPos = Vector2(ball->pos) - Vector2(robot->pos);
 
     if(currentProgress!=OVERSHOOTING&&currentProgress!=DRIBBLING){
-        approachPos= Vector2(ball->pos)+(Vector2(robot->pos)-Vector2(ball->pos)).stretchToLength(Constants::CENTRE_TO_FRONT());
+        approachPos= Vector2(ball->pos)+(Vector2(robot->pos)-Vector2(ball->pos)).stretchToLength(Constants::CENTRE_TO_FRONT()-0.03);
     }
 
     if(!World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())){
