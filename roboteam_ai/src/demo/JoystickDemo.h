@@ -22,12 +22,6 @@ class JoystickDemo {
         static void demoLoop(roboteam_msgs::DemoRobot msg);
         static std::set<int> getDemoRobots();
         static bool checkIfDemoSafe(int ID);
-
-
-
-
-
-
 };
 }
 
