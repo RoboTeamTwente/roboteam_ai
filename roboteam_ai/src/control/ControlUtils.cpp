@@ -265,31 +265,24 @@ Vector2 ControlUtils::calculateForce(rtt::Vector2 vector, double weight, double 
 std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(std::vector<Vector2> set1,
         std::vector<Vector2> set2) {
 
-//    // compute a distance matrix
-//    // initialize it with zeros
-//    std::vector<std::vector<int>> distanceMatrix(set1.size(), std::vector<int>(set2.size()));
-//
-//    for (unsigned int i = 0; i < set1.size(); i++) {
-//        for (unsigned int j = 0; j < set2.size(); j++) {
-//            // the distances are converted to centimeters because the hungarian algorithm works with integers,
-//            // and we don't want to lose accuracy.
-//            // should be fine since we don't use the distances after this anymore.
-//            distanceMatrix.at(i).at(j) = static_cast<int>(set1[i].dist(set2[j])*100);
-//        }
-//    }
-//
-//    hungarian::Result result = hungarian::Solve(distanceMatrix, hungarian::MODE_MINIMIZE_COST);
-//    std::vector<std::vector<int>> assignment = result.assignment;
-//    std::vector<std::pair<Vector2, Vector2>> solutionPairs;
-//
-//    for(unsigned int i = 0; i < assignment.size(); i++) {
-//        for (unsigned int j = 0; j<assignment[i].size(); j++) {
-//            if (assignment.at(i).at(j) == 1) {
-//                auto pair = std::make_pair(set1.at(i), set2.at(j));
-//                solutionPairs.push_back(pair);
-//            }
-//        }
-//    }
+    std::vector<int> assignments;
+    // compute a distance matrix
+    // initialize it with zeros
+    std::vector<std::vector<double>> distanceMatrix(set1.size(), std::vector<double>(set2.size()));
+
+    for (unsigned int i = 0; i < set1.size(); i++) {
+        for (unsigned int j = 0; j < set2.size(); j++) {
+            distanceMatrix.at(i).at(j) = static_cast<int>(set1[i].dist(set2[j]));
+        }
+    }
+
+    rtt::HungarianAlgorithm hungarian;
+    hungarian.Solve(distanceMatrix, assignments);
+
+    std::vector<std::pair<Vector2, Vector2>> solutionPairs;
+    for(unsigned int i = 0; i < assignments.size(); i++) {
+        solutionPairs.push_back({set1.at(i), set2.at(assignments.at(i))});
+    }
     return {std::make_pair(Vector2(0,0), Vector2(0,0))};
 }
 

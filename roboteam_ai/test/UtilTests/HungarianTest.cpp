@@ -10,6 +10,7 @@ TEST(HungarianTest, it_works_properly) {
     rtt::HungarianAlgorithm alg;
     double cost;
 
+    // test small vector
     vector<vector<double>> EXAMPLE1 = {
         {100,   100,    1,      0},
         {100,   2,      21512,  0},
@@ -22,7 +23,6 @@ TEST(HungarianTest, it_works_properly) {
 
     EXPECT_EQ(assignments, solution);
     EXPECT_EQ(cost, 4.0);
-
 
     vector<vector<double>> EXAMPLE2 = {
             {46,   15,  46, 97, 31},
@@ -39,6 +39,8 @@ TEST(HungarianTest, it_works_properly) {
     EXPECT_EQ(assignments, solution);
     EXPECT_EQ(cost, 56.0);
 
+
+    // test a huge vector
     vector<vector<double>> EXAMPLE3 = {
         { 3093, 6313, 2221, 7215, 4754, 9879, 9339, 6155, 9437, 9313 },
         { 1046, 4993, 2185, 1897, 7849, 6805, 8304, 1136, 2538, 1797 },
