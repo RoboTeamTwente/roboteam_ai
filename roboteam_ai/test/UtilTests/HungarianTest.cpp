@@ -11,15 +11,16 @@ TEST(HungarianTest, it_works_properly) {
     double cost;
 
     // test small vector
+    // this vector is non-square, so a column -1 should be appended
     vector<vector<double>> EXAMPLE1 = {
-        {100,   100,    1,      0},
-        {100,   2,      21512,  0},
-        {1,     4,      9852,   0},
-        {6,     30252,  400,    0}
+        {100,   100,    1},
+        {100,   2,      21512},
+        {1,     4,      9852},
+        {6,     30252,  400}
     };
 
     cost = alg.Solve(EXAMPLE1, assignments);
-    std::vector<int> solution = {2, 1, 0, 3};
+    std::vector<int> solution = {2, 1, 0, -1};
 
     EXPECT_EQ(assignments, solution);
     EXPECT_EQ(cost, 4.0);
