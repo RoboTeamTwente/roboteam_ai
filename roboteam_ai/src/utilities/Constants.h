@@ -26,7 +26,7 @@ public:
     static double MAX_ANGLE()                   { return  M_PI; };
 
     // Limits as defined in AI itself
-    static double MAX_VEL()                     { return 8.0; };
+    static double MAX_VEL()                     { return GRSIM() ? 4.0 : 8.0; };
     static double MAX_VEL_BALLPLACEMENT()       { return 3.0; };
 
     //Other/multiple usage
@@ -42,16 +42,16 @@ public:
 
     //skills
     static double DEFAULT_KICK_POWER()          { return  5.0; }; // max kick power() { return  100
-    static double MAX_KICK_POWER()              { return  8.0; }; //TODO: CHECK
+    static double MAX_KICK_POWER()              { return GRSIM() ? 5.0 : 8.0; }; //TODO: CHECK
     static double MAX_POWER_KICK_DISTANCE()     { return 9.0; };
     static int MAX_KICK_CYCLES()                { return  20; };
     static int MAX_GENEVA_CYCLES()              { return  20; };
     static int DEFAULT_GENEVA_STATE()           { return  0; };
 
     //dribble
-    static double MAX_BALL_BOUNCE_RANGE()       { return 0.15; };
+    static double MAX_BALL_BOUNCE_RANGE()       { return GRSIM() ? 0.15 : 0.15; };
     static double DRIBBLE_POSDIF()              { return 0.05; };
-    static float  DRIBBLE_SPEED()               { return 0.8; };
+    static float  DRIBBLE_SPEED()               { return GRSIM() ? 0.4 : 0.8; };
 
     //hasBall
     static double MAX_BALL_RANGE()              { return GRSIM() ? 0.15 : 0.09; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.

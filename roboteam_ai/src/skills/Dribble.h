@@ -28,7 +28,7 @@ class Dribble : public Skill {
         Progression checkProgression();
 
         bool forwardDirection;
-        int maxTicks = 10;// seconds
+        int maxTicks = 60;// seconds
         int count;
         Vector2 targetPos, deltaPos;
         double distance;
