@@ -83,7 +83,13 @@ void BTFactory::setKeeper(int newID) {
 bt::BehaviorTree::Ptr BTFactory::getKeeperTree() {
     return keeperRepo[keeperTree];
 }
+void BTFactory::halt() {
+    BTFactory::getFactory().getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
+    BTFactory::currentTree = "NaN";
+    robotDealer::RobotDealer::halt();
 
+
+}
 
 
 
