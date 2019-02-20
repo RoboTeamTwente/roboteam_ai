@@ -60,11 +60,6 @@ void Dribble::onInitialize() {
     else if (properties->getBool("BallPlacement")){
         targetPos=Coach::getBallPlacementPos();
     }
-    else {
-        ROS_ERROR("Dribble Initialize -> No good X or Y set in properties");
-        currentProgress = Progression::FAIL;
-        return;
-    }
 
     if (properties->hasInt("maxTicks")) {
         maxTicks = properties->getInt("maxTicks");

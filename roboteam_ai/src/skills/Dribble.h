@@ -30,7 +30,8 @@ class Dribble : public Skill {
         bool forwardDirection;
         int maxTicks = 60;// seconds
         int count;
-        Vector2 targetPos, deltaPos;
+        Vector2 targetPos = {0, 0};
+        Vector2 deltaPos;
         double distance;
         float stoppingAngle,initialAngle;
 
