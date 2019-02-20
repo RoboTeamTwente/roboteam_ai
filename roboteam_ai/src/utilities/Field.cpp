@@ -90,7 +90,7 @@ double Field::getTotalGoalAngle(bool ourGoal, Vector2 point){
 
 }
 double Field::getTotalVisibleGoalAngle(bool ourGoal, Vector2 point) {
-    return getTotalGoalAngle(ourGoal,point)*getPercentageOfGoalVisibleFromPoint(ourGoal,point);
+    return getTotalGoalAngle(ourGoal,point)*getPercentageOfGoalVisibleFromPoint(ourGoal,point)/100.0;
 }
 double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point){
     auto field = Field::get_field();
