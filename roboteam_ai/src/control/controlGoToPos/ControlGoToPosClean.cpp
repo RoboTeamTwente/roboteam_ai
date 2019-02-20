@@ -213,16 +213,17 @@ void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> r
 
     ros::Time start = ros::Time::now();
     while (! pathQueue.empty()) {
-        ros::Time now = ros::Time::now();
-        if ((now - start).toSec()*1000 > Constants::MAX_CALCULATION_TIME()) {
-            if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
-                std::cout << "Tick took too long!" << std::endl;
-            path.clear();
-            return;
-        }
+
 
         std::shared_ptr<PathPoint> point = pathQueue.top();
         while (true) {
+            ros::Time now = ros::Time::now();
+            if ((now - start).toSec()*1000 > Constants::MAX_CALCULATION_TIME()) {
+                if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+                    std::cout << "Tick took too long!" << std::endl;
+                path.clear();
+                return;
+            }
             std::shared_ptr<PathPoint> newPoint = computeNewPoint(point, point->currentTarget);
             point->addChild(newPoint);
             point = newPoint;
