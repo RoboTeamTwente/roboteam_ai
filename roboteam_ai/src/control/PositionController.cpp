@@ -23,10 +23,7 @@ void ControlGoToPos::clear(GoToType goToType) {
         numTreeController.clear();
         break;
     }
-    case luTh_OLD: {
-        gtpLuth.clear();
-        break;
-    }
+
     }
 }
 
@@ -53,9 +50,6 @@ PosVelAngle ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType 
 
     case force:
         return ControlGoToPos::goToPosForce(std::move(robot), position);
-
-    case luTh_OLD:
-        return ControlGoToPos::goToPosLuTh(std::move(robot), position);
 
     case numTree:
         return ControlGoToPos::numTreePosControl(std::move(robot), position);
@@ -94,10 +88,6 @@ PosVelAngle ControlGoToPos::goToPosForce(RobotPtr robot, Vector2 &targetPos) {
     return {};
 }
 
-PosVelAngle ControlGoToPos::goToPosLuTh(RobotPtr robot, Vector2 &targetPos) {
-    return PosVelAngle({0,0}, gtpLuth.goToPos(std::move(robot), targetPos), 0.0);
-}
-
 PosVelAngle ControlGoToPos::numTreePosControl(RobotPtr robot, Vector2 &targetPos) {
     PosVelAngle target = numTreeController.goToPos(robot,targetPos);
     return pidController(robot, target);
@@ -114,13 +104,11 @@ double ControlGoToPos::distanceToTarget(RobotPtr robot, Vector2 &targetPos) {
 void ControlGoToPos::setAvoidBall(bool _avoidBall) {
     // Add a function to avoid the ball for all goToPos's
     //gtpBallControl.setAvoidBall(true);
-    gtpLuth.setAvoidBall(_avoidBall);
     numTreeController.setAvoidBall(_avoidBall);
 }
 
 void ControlGoToPos::setCanGoOutsideField(bool _canGoOutsideField) {
     // Add a function to make sure the robot does not go out of the field for all goToPos's
-    gtpLuth.setCanGoOutsideField(_canGoOutsideField);
     numTreeController.setCanGoOutsideField(_canGoOutsideField);
 }
 
@@ -130,11 +118,19 @@ PosVelAngle ControlGoToPos::pidController(const RobotPtr &robot, PosVelAngle tar
         initializePID();
     checkInterfacePID();
 
-    Vector2 pidV = velPID.controlPIR(target.vel, robot->vel);
-    Vector2 pidP = posPID.controlPIR(target.pos - robot->pos, robot->vel);
-    Vector2 total = pidV + pidP;
+    Vector2 pidP = Vector2();
+    Vector2 pidV = Vector2();
+
+    if (target.pos != Vector2()) {
+        pidP = posPID.controlPIR(target.pos - robot->pos, robot->vel);
+    }
+    if (target.vel != Vector2()) {
+        pidV = velPID.controlPIR(target.vel, robot->vel);
+    }
+
     pidCommand.pos = target.pos;
-    pidCommand.vel = total.length() < Constants::MAX_VEL() ? total : total.stretchToLength(Constants::MAX_VEL());
+    pidCommand.vel = (pidP + pidV).length() < Constants::MAX_VEL() ?
+            (pidP + pidV) : (pidP + pidV).stretchToLength(Constants::MAX_VEL());
     pidCommand.angle = target.angle;
     return pidCommand;
 }
@@ -142,36 +138,36 @@ PosVelAngle ControlGoToPos::pidController(const RobotPtr &robot, PosVelAngle tar
 /// start the PID for velocity and position control
 void ControlGoToPos::initializePID() {
     posPID.reset();
-    posPID.setPID(Constants::standard_luth_Pos_P(),
-            Constants::standard_luth_Pos_P(),
-            Constants::standard_luth_Pos_P());
+    posPID.setPID(Constants::standardNumTreePosP(),
+            Constants::standardNumTreePosP(),
+            Constants::standardNumTreePosP());
 
     velPID.reset();
-    velPID.setPID(Constants::standard_luth_Vel_P(),
-            Constants::standard_luth_Vel_P(),
-            Constants::standard_luth_Vel_P());
+    velPID.setPID(Constants::standardNumTreeVelP(),
+            Constants::standardNumTreeVelP(),
+            Constants::standardNumTreeVelP());
 }
 
 /// compare current PID values to those set in the interface
 void ControlGoToPos::checkInterfacePID() {
-    if (velPID.getP() != interface::InterfaceValues::getLuthVelP() ||
-            velPID.getI() != interface::InterfaceValues::getLuthVelI() ||
-            velPID.getD() != interface::InterfaceValues::getLuthVelD()) {
+    if (velPID.getP() != interface::InterfaceValues::getNumTreeVelP() ||
+            velPID.getI() != interface::InterfaceValues::getNumTreeVelI() ||
+            velPID.getD() != interface::InterfaceValues::getNumTreeVelD()) {
 
         velPID.reset();
-        velPID.setPID(interface::InterfaceValues::getLuthVelP(),
-                interface::InterfaceValues::getLuthVelI(),
-                interface::InterfaceValues::getLuthVelD());
+        velPID.setPID(interface::InterfaceValues::getNumTreeVelP(),
+                interface::InterfaceValues::getNumTreeVelI(),
+                interface::InterfaceValues::getNumTreeVelD());
     }
 
-    if (posPID.getP() != interface::InterfaceValues::getLuthPosP() ||
-            posPID.getI() != interface::InterfaceValues::getLuthPosI() ||
-            posPID.getD() != interface::InterfaceValues::getLuthPosD()) {
+    if (posPID.getP() != interface::InterfaceValues::getNumTreePosP() ||
+            posPID.getI() != interface::InterfaceValues::getNumTreePosI() ||
+            posPID.getD() != interface::InterfaceValues::getNumTreePosD()) {
 
         posPID.reset();
-        posPID.setPID(interface::InterfaceValues::getLuthPosP(),
-                interface::InterfaceValues::getLuthPosI(),
-                interface::InterfaceValues::getLuthPosD());
+        posPID.setPID(interface::InterfaceValues::getNumTreePosP(),
+                interface::InterfaceValues::getNumTreePosI(),
+                interface::InterfaceValues::getNumTreePosD());
     }
 }
 

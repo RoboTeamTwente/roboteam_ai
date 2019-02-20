@@ -28,7 +28,6 @@ void SkillGoToPos::onInitialize() {
     else if (gTT == "ballControl") goToType = control::GoToType::ballControl;
     else if (gTT == "basic") goToType = control::GoToType::basic;
     else if (gTT == "force") goToType = control::GoToType::force;
-    else if (gTT == "luTh") goToType = control::GoToType::luTh_OLD;
     else {
         ROS_ERROR("SkillGoToPos::onInitialize -> no good goToType set in properties");
         goToType = control::GoToType::noPreference;

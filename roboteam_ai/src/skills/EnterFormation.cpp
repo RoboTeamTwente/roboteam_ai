@@ -24,7 +24,7 @@ bt::Node::Status EnterFormation::onUpdate() {
     cmd.id = robot->id;
     cmd.use_angle = 1;
 
-    if (robotPos.dist(targetLocation) > Constants::GOTOPOS_LUTH_ERROR_MARGIN()) {
+    if (robotPos.dist(targetLocation) > Constants::NUMTREE_ERROR_MARGIN()) {
         auto velocities = gtp.goToPos(robot, targetLocation, control::GoToType::numTree);
         cmd.x_vel = velocities.vel.x;
         cmd.y_vel = velocities.vel.y;

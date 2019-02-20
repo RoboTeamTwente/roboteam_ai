@@ -29,7 +29,7 @@ bt::Node::Status Attack::onUpdate() {
         targetPos = behindBall;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
-        goToType = GoToType::luTh_OLD;
+        goToType = GoToType::numTree;
         if (abs(((Vector2) robot->pos - targetPos).length()) < 1.0) goToType = GoToType::basic;
     }
     else {

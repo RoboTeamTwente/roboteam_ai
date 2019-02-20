@@ -17,13 +17,13 @@ MainWindow::MainWindow(QWidget* parent)
         :QMainWindow(parent) {
 
     // initialize values for interface to display
-    InterfaceValues::setLuthPosP(Constants::standard_luth_Pos_P());
-    InterfaceValues::setLuthPosI(Constants::standard_luth_Pos_I());
-    InterfaceValues::setLuthPosD(Constants::standard_luth_Pos_D());
+    InterfaceValues::setLuthPosP(Constants::standardNumTreePosP());
+    InterfaceValues::setLuthPosI(Constants::standardNumTreePosI());
+    InterfaceValues::setLuthPosD(Constants::standardNumTreePosD());
 
-    InterfaceValues::setLuthVelP(Constants::standard_luth_Vel_P());
-    InterfaceValues::setLuthVelI(Constants::standard_luth_Vel_I());
-    InterfaceValues::setLuthVelD(Constants::standard_luth_Vel_D());
+    InterfaceValues::setLuthVelP(Constants::standardNumTreeVelP());
+    InterfaceValues::setLuthVelI(Constants::standardNumTreeVelI());
+    InterfaceValues::setLuthVelD(Constants::standardNumTreeVelD());
 
     InterfaceValues::setUseRefereeCommands(Constants::STD_USE_REFEREE());
 
@@ -70,21 +70,21 @@ MainWindow::MainWindow(QWidget* parent)
     sb_luth_Pos_P = new QDoubleSpinBox();
     sb_luth_Pos_P->setRange(-20, 20);
     sb_luth_Pos_P->setSingleStep(0.1f);
-    sb_luth_Pos_P->setValue(InterfaceValues::getLuthPosP());
+    sb_luth_Pos_P->setValue(InterfaceValues::getNumTreePosP());
     QObject::connect(sb_luth_Pos_P, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
     spinBoxLayout->addWidget(sb_luth_Pos_P);
 
     sb_luth_Pos_I = new QDoubleSpinBox();
     sb_luth_Pos_I->setRange(-20, 20);
     sb_luth_Pos_I->setSingleStep(0.1f);
-    sb_luth_Pos_I->setValue(InterfaceValues::getLuthPosI());
+    sb_luth_Pos_I->setValue(InterfaceValues::getNumTreePosI());
     QObject::connect(sb_luth_Pos_I, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
     spinBoxLayout->addWidget(sb_luth_Pos_I);
 
     sb_luth_Pos_D = new QDoubleSpinBox();
     sb_luth_Pos_D->setRange(-20, 20);
     sb_luth_Pos_D->setSingleStep(0.1f);
-    sb_luth_Pos_D->setValue(InterfaceValues::getLuthPosD());
+    sb_luth_Pos_D->setValue(InterfaceValues::getNumTreePosD());
     QObject::connect(sb_luth_Pos_D, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
     spinBoxLayout->addWidget(sb_luth_Pos_D);
     doubleSpinBoxesGroup_Pos_PID->setLayout(spinBoxLayout);
@@ -95,21 +95,21 @@ MainWindow::MainWindow(QWidget* parent)
     sb_luth_Vel_P = new QDoubleSpinBox();
     sb_luth_Vel_P->setRange(-20, 20);
     sb_luth_Vel_P->setSingleStep(0.1f);
-    sb_luth_Vel_P->setValue(InterfaceValues::getLuthVelP());
+    sb_luth_Vel_P->setValue(InterfaceValues::getNumTreeVelP());
     QObject::connect(sb_luth_Vel_P, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
     spinBoxLayout->addWidget(sb_luth_Vel_P);
 
     sb_luth_Vel_I = new QDoubleSpinBox();
     sb_luth_Vel_I->setRange(-20, 20);
     sb_luth_Vel_I->setSingleStep(0.1f);
-    sb_luth_Vel_I->setValue(InterfaceValues::getLuthVelI());
+    sb_luth_Vel_I->setValue(InterfaceValues::getNumTreeVelI());
     QObject::connect(sb_luth_Vel_I, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
     spinBoxLayout->addWidget(sb_luth_Vel_I);
 
     sb_luth_Vel_D = new QDoubleSpinBox();
     sb_luth_Vel_D->setRange(-20, 20);
     sb_luth_Vel_D->setSingleStep(0.1f);
-    sb_luth_Vel_D->setValue(InterfaceValues::getLuthVelD());
+    sb_luth_Vel_D->setValue(InterfaceValues::getNumTreeVelD());
     QObject::connect(sb_luth_Vel_D, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
     spinBoxLayout->addWidget(sb_luth_Vel_D);
 

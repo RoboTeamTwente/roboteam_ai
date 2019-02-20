@@ -42,7 +42,7 @@ bt::Node::Status DefendOnRobot::onUpdate() {
         Vector2 targetPos = calculateLocation();
 
         std::cout << "Robot:" << robot->id << "TargetPos:" << targetPos << std::endl;
-        goToPos.goToPos(robot, targetPos, control::GoToType::luTh_OLD);
+        goToPos.goToPos(robot, targetPos, control::GoToType::numTree);
 
         return Status::Running;
     } else {

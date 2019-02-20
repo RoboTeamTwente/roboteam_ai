@@ -13,9 +13,9 @@ TEST(InterfaceTest, the_interface_values_work) {
         iv::setLuthPosD(33333.2);
     }
     {
-        EXPECT_EQ(iv::getLuthPosP(), 12);
-        EXPECT_EQ(iv::getLuthPosI(), -18);
-        EXPECT_EQ(iv::getLuthPosD(), 33333.2);
+        EXPECT_EQ(iv::getNumTreePosP(), 12);
+        EXPECT_EQ(iv::getNumTreePosI(), -18);
+        EXPECT_EQ(iv::getNumTreePosD(), 33333.2);
     }
 }
 

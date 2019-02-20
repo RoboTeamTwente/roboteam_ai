@@ -28,7 +28,7 @@ std::mutex InterfaceValues::BallPlacementMutex;
 std::mutex InterfaceValues::RefMutex;
 
 
-double InterfaceValues::getLuthPosP() {
+double InterfaceValues::getNumTreePosP() {
     std::lock_guard<std::mutex> lock(PIDMutex);
     return luthPosP;
 }
@@ -38,7 +38,7 @@ void InterfaceValues::setLuthPosP(double luthPP) {
     InterfaceValues::luthPosP = luthPP;
 }
 
-double InterfaceValues::getLuthPosI() {
+double InterfaceValues::getNumTreePosI() {
     std::lock_guard<std::mutex> lock(PIDMutex);
     return luthPosI;
 }
@@ -48,7 +48,7 @@ void InterfaceValues::setLuthPosI(double luthPI) {
     InterfaceValues::luthPosI = luthPI;
 }
 
-double InterfaceValues::getLuthPosD() {
+double InterfaceValues::getNumTreePosD() {
     std::lock_guard<std::mutex> lock(PIDMutex);
     return luthPosD;
 }
@@ -58,7 +58,7 @@ void InterfaceValues::setLuthPosD(double LuthPD) {
     InterfaceValues::luthPosD = LuthPD;
 }
 
-double InterfaceValues::getLuthVelP() {
+double InterfaceValues::getNumTreeVelP() {
     std::lock_guard<std::mutex> lock(PIDMutex);
     return luthVelP;
 }
@@ -68,7 +68,7 @@ void InterfaceValues::setLuthVelP(double luthVP) {
     InterfaceValues::luthVelP = luthVP;
 }
 
-double InterfaceValues::getLuthVelI() {
+double InterfaceValues::getNumTreeVelI() {
     std::lock_guard<std::mutex> lock(PIDMutex);
     return luthVelI;
 }
@@ -78,7 +78,7 @@ void InterfaceValues::setLuthVelI(double luthVI) {
     InterfaceValues::luthVelI = luthVI;
 }
 
-double InterfaceValues::getLuthVelD() {
+double InterfaceValues::getNumTreeVelD() {
     std::lock_guard<std::mutex> lock(PIDMutex);
     return luthVelD;
 }

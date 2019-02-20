@@ -24,7 +24,7 @@ Pass::Status Pass::onUpdate() {
     switch(currentProgress) {
         case Progression::POSITIONING: {
             if (!coach::Coach::isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos)) {
-                goToType = GoToType::luTh_OLD;
+                goToType = GoToType::numTree;
                 targetPos = Coach::getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
             } else if (!coach::Coach::doesRobotHaveBall(robot->id, true, rtt::ai::Constants::MAX_BALL_RANGE())) {
                 goToType = GoToType::basic;

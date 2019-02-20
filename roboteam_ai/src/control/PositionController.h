@@ -15,7 +15,6 @@
 //  |____________________|
 //
 
-#include "positionControllers/ControlGoToPosLuTh.h"
 #include "positionControllers/ControlGoToPosBallControl.h"
 #include "roboteam_ai/src/control/positionControllers/NumTreePosControl.h"
 
@@ -29,7 +28,6 @@ enum GoToType {
     ballControl,
     basic,
     force,
-    luTh_OLD,
     numTree
 };
 
@@ -41,9 +39,6 @@ class ControlGoToPos {
 
         PosVelAngle goToPosBallControl(RobotPtr robot, Vector2 &targetPos);
         ControlGoToPosBallControl gtpBallControl;
-
-        PosVelAngle goToPosLuTh(RobotPtr robot, Vector2 &targetPos);
-        ControlGoToPosLuTh gtpLuth;
 
         PosVelAngle numTreePosControl(RobotPtr robot, Vector2 &targetPos);
         NumTreePosControl numTreeController;

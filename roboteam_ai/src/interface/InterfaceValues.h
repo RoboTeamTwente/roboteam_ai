@@ -34,18 +34,18 @@ class InterfaceValues {
         static const rtt::Vector2 &getBallPlacementTarget();
         static void setBallPlacementTarget(const rtt::Vector2 &ballPlacementTarget);
 
-        static double getLuthPosP();
+        static double getNumTreePosP();
         static void setLuthPosP(double luthP);
-        static double getLuthPosI();
+        static double getNumTreePosI();
         static void setLuthPosI(double luthI);
-        static double getLuthPosD();
+        static double getNumTreePosD();
         static void setLuthPosD(double luthD);
 
-        static double getLuthVelP();
+        static double getNumTreeVelP();
         static void setLuthVelP(double luthP);
-        static double getLuthVelI();
+        static double getNumTreeVelI();
         static void setLuthVelI(double luthI);
-        static double getLuthVelD();
+        static double getNumTreeVelD();
         static void setLuthVelD(double luthD);
 
         static void sendHaltCommand();

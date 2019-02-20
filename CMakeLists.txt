@@ -218,8 +218,6 @@ set(CONDITIONS_SOURCES
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ControlGoToPosLuTh.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ControlGoToPosLuTh.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ControlGoToPosBallControl.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ControlGoToPosBallControl.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PositionController.h

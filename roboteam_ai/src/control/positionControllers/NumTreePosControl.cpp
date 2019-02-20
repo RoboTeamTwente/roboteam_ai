@@ -129,7 +129,7 @@ PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot
         path.clear();
 
         ros::Time end = ros::Time::now();
-        if (Constants::SHOW_GOTOPOS_TIME_TAKEN())
+        if (Constants::SHOW_NUMTREE_TIME_TAKEN())
             std::cout << "GoToPosClean tick took: " << (end-begin).toNSec()*0.000001 << " ms" << std::endl;
         return computeCommand(robot, GTPType::force);
     }
@@ -154,7 +154,7 @@ PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot
     }
 
     ros::Time end = ros::Time::now();
-    if (Constants::SHOW_GOTOPOS_TIME_TAKEN())
+    if (Constants::SHOW_NUMTREE_TIME_TAKEN())
         std::cout << "GoToPosClean tick took: " << (end-begin).toNSec()*0.000001 << " ms" << std::endl;
 
 // compute command using PID
