@@ -271,6 +271,9 @@ Vector2 Coach::getBallPlacementAfterPos(double RobotAngle){
 std::shared_ptr<roboteam_msgs::WorldRobot> Coach::getRobotClosestToBall(bool isOurTeam) {
     return World::getRobotClosestToPoint(isOurTeam ? World::get_world().us : World::get_world().them, World::getBall()->pos);
 }
+Vector2 Coach::getDemoKeeperGetBallPos(Vector2 ballPos){
+    return ballPos+Vector2(0.2,0);
+}
 } //control
 } //ai
 } //rtt

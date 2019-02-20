@@ -64,6 +64,7 @@
 #include "../conditions/IsBeingPassedTo.h"
 #include "../conditions/IsCloseToPoint.h"
 #include "../conditions/IsBallCloseToBorder.h"
+#include "../conditions/BallNearOurGoalLineAndStill.h"
 
 
 /**
@@ -181,6 +182,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     // conditions (alphabetic order)
     map["BallKickedToOurGoal"] =    std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name,properties);
+    map["BallNearOurGoalLineAndStill"]=std::make_shared<rtt::ai::BallNearOurGoalLineAndStill>(name,properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
     map["HasBall"] =                std::make_shared<rtt::ai::HasBall>(name, properties);
     map["IsBallCloseToBorder"] =    std::make_shared<rtt::ai::IsBallCloseToBorder>(name, properties);

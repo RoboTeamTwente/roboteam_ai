@@ -11,3 +11,4 @@ IsBallOnOurSide,inField
 IsBeingPassedTo
 IsCloseToPoint,ball,position,margin
 IsBallCloseToBorder,margin
+BallNearOurGoalLineAndStill, margin

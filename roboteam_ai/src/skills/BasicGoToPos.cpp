@@ -18,7 +18,6 @@ void BasicGoToPos::onInitialize() {
     if (properties->getBool("BallPlacementBefore")){
         if(ball){
             targetPos=coach::Coach::getBallPlacementBeforePos(ball->pos);
-            //targetPos=coach::Coach::getBallPlacementPos();
         }
         else{
             ROS_ERROR("BasicGoToPos: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
@@ -33,7 +32,15 @@ void BasicGoToPos::onInitialize() {
             ROS_ERROR("BasicGoToPos: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
         }
     }
-
+    else if (properties->getBool("DemoKeeperGetBall")){
+        if(ball){
+            errorMargin=0.05;
+            targetPos=coach::Coach::getDemoKeeperGetBallPos(ball->pos);
+        }
+        else{
+            ROS_ERROR("BasicGoToPos: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
+        }
+    }
     if (properties->getBool("goToBall")) targetPos = ball->pos;
 
     goToPos.setAvoidBall(properties->getBool("avoidBall"));
@@ -44,7 +51,15 @@ void BasicGoToPos::onInitialize() {
 Skill::Status BasicGoToPos::onUpdate() {
 
     if (! robot) return Status::Running;
-
+    if (properties->getBool("BallPlacementAfter")){
+        targetPos=coach::Coach::getBallPlacementAfterPos(robot->angle);
+    }
+    else if(properties->getBool("BallPlacementBefore")){
+        targetPos=coach::Coach::getBallPlacementBeforePos(ball->pos);
+    }
+    else if(properties->getBool("DemoKeeperGetBall")){
+        targetPos=coach::Coach::getDemoKeeperGetBallPos(ball->pos);
+    }
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = 1;
@@ -67,7 +82,6 @@ Skill::Status BasicGoToPos::onUpdate() {
         return Status::Running;
     }
     else {
-        std::cout<<"BASICGOTOPOS SUCCESS"<< std::endl;
         return Status::Success;
     }
 }
