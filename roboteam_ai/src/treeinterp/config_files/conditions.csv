@@ -3,7 +3,7 @@ TheyHaveBall
 HasBall
 BallKickedToOurGoal
 BallInDefenseAreaAndStill
-IsInDefenseArea,useRobot,ourDefenseArea,margin
+IsInDefenseArea,useRobot,ourDefenseArea,outsideField,margin
 IsOnOurSide
 WeHaveBall
 IsRobotClosestToBall,secondsAhead
