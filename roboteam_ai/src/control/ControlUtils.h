@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_CONTROLUTILS_H
 #define ROBOTEAM_AI_CONTROLUTILS_H
 
+#include <roboteam_ai/src/utilities/Hungarian.h>
 #include "../utilities/Constants.h"
 #include "roboteam_utils/Vector2.h"
 #include "math.h"
@@ -39,6 +40,8 @@ class ControlUtils {
         static rtt::Arc createKeeperArc();
         static Vector2 VelocityLimiter(Vector2 vel,double maxVel=rtt::ai::Constants::MAX_VEL());
         static Vector2 VelocityLimiter(Vector2 vel,double maxVel, double minVel);
+
+        static std::vector<std::pair<Vector2, Vector2>> calculateClosestPathsFromTwoSetsOfPoints(std::vector<Vector2> set1, std::vector<Vector2> set2);
 };
 
 } // control
