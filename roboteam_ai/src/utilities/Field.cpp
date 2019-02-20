@@ -81,6 +81,17 @@ bool Field::pointIsInField(Vector2 point, float margin) {
 
 }
 
+/// returns the angle the goal points make from a point
+double Field::getTotalGoalAngle(bool ourGoal, Vector2 point){
+    std::pair<Vector2,Vector2> goal=getGoalSides(ourGoal);
+    double AngleLeft=(goal.first-point).angle();
+    double AngleRight=(goal.second-point).angle();
+    return control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(AngleLeft),control::ControlUtils::constrainAngle(AngleRight));
+
+}
+double Field::getTotalVisibleGoalAngle(bool ourGoal, Vector2 point) {
+    return getTotalGoalAngle(ourGoal,point)*getPercentageOfGoalVisibleFromPoint(ourGoal,point);
+}
 double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point){
     auto field = Field::get_field();
     double goalWidth = field.goal_width;
@@ -148,23 +159,34 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
  * repeat until no overlaps are left.
 */
 std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::pair<Vector2, Vector2>> blockades) {
-
+    std::vector<std::pair<Vector2, Vector2>> newBlockades;
+    //remove 'duplicate' blockades
+    for (auto Blockade=blockades.begin(); Blockade!=blockades.end(); ++ Blockade){
+        bool duplicate=false;
+        for (auto OtherBlockade=blockades.begin(); OtherBlockade!=blockades.end();++OtherBlockade){
+            if (Blockade!=OtherBlockade){
+                if(Blockade->first.y<OtherBlockade->first.y&&Blockade->second.y>OtherBlockade->second.y){
+                    duplicate=true;
+                    break;
+                }
+            }
+        }
+        if (!duplicate){
+            newBlockades.push_back(*Blockade);
+        }
+    }
+    blockades=newBlockades;
     // sort the blockades from low to high
     std::sort(blockades.begin(), blockades.end(), [](const std::pair<Vector2,Vector2> &a, const std::pair<Vector2,Vector2> &b) {
-        return a.first.y < b.first.y;
+        return a.second.y < b.second.y;
     });
 
     std::vector<std::pair<Vector2, Vector2>> mergedBlockades;
     unsigned long iterator = 0;
     while (blockades.size() > (iterator + 1)) {
-        if (util::lineSegmentsIntersect(blockades.at(iterator).first, blockades.at(iterator).second,
-                blockades.at(iterator + 1).first, blockades.at(iterator + 1).second)) {
-
+        if (blockades.at(iterator).first.y>blockades.at(iterator+1).second.y) {
             // if the first two elements intercept, merge them
-            auto upperbound = std::max(blockades.at(iterator).second.y, blockades.at(iterator).second.y);
-
-            // construct a new vector from the lowest to highest blockade value
-            auto newBlockade = std::make_pair(blockades.at(iterator).first, Vector2(blockades.at(iterator).first.x, upperbound));
+            auto newBlockade = std::make_pair(blockades.at(iterator+1).first,blockades.at(iterator).second);
             blockades.erase(blockades.begin() + iterator + 1);
             blockades.at(iterator) = newBlockade;
         } else {

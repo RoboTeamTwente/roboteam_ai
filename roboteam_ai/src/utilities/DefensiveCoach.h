@@ -16,13 +16,10 @@ class DefensiveCoach {
         //ACTIVEINTERCEPTPOS is actively blocking intercepts to other robots
         enum PosType{BLOCKPOS, PASSIVEINTERCEPTPOS};
         std::map<int,Vector2> robotWithPos;
-        Vector2 computeBlockPos();
-        Vector2 computePassiveInterceptPos();
-        Vector2 computeActiveInterceptPos();
         //pass detection
-        bool theyCanPass();
-        std::vector<std::pair<int,double>> possiblePassTargets();
-
+        std::vector<std::pair<int,double>> possibleTheirPassTargets();
+        double calculatePassDanger(int passFrom, int passTo);
+        double calculateStopInterceptProbability(Vector2 startPass,Vector2 endPass,double passVel,Vector2 botPos,Vector2 botVel);
     public:
 };
 
