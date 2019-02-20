@@ -61,7 +61,7 @@ public:
     static double HAS_BALL_ANGLE()              { return 0.2; }
 
     //kick
-    static double MAX_KICK_RANGE()              { return GRSIM() ? 0.4 : 0.04; };
+    static double MAX_KICK_RANGE()              { return GRSIM() ? 0.4 : 0.045; };
 
     //getBallcc
     static double COLLISION_RADIUS()            { return 0.18; };

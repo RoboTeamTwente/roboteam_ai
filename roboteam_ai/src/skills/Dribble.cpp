@@ -126,7 +126,11 @@ void Dribble::onTerminate(Status s) {
     else {
         command.w = (float) stoppingAngle;
     }
-    command.dribbler = 0;
+    if (properties->getBool("dribbleOnTerminate")){
+        command.dribbler=1;
+    } else{
+        command.dribbler = 0;
+    }
     command.x_vel = 0;
     command.y_vel = 0;
     publishRobotCommand(command);
@@ -154,7 +158,11 @@ void Dribble::sendStopCommand() {
     command.w = stoppingAngle;
     command.use_angle = 1;
     command.w = stoppingAngle;
-    command.dribbler = 0;
+    if (properties->getBool("dribbleOnTerminate")){
+        command.dribbler=1;
+    } else{
+        command.dribbler = 0;
+    }
     command.x_vel = 0;
     command.y_vel = 0;
     publishRobotCommand(command);

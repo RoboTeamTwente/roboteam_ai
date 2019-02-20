@@ -2,7 +2,7 @@ GoToPos,ROLE,Position,goToBall,random
 GoToPosLuTh,ROLE,Position,goToBall,random,passiveDefend
 Kick,ROLE
 Chip,ROLE
-Dribble,ROLE,Position,maxTicks,forwardDirection
+Dribble,ROLE,Position,maxTicks,forwardDirection,dribbleOnTerminate
 Rotate,ROLE,rotateToBall,rotateToOurGoal,rotateToEnemyGoal,rotateToRobotId,robotIsEnemy
 InterceptBall
 GetBall
@@ -10,7 +10,7 @@ DefendOnRobot
 Attack,ownGoal
 Pass
 Receive
-BasicGoToPos,target,goToBall,avoidBall,canGoOutsideField,mirror
+BasicGoToPos,target,goToBall,avoidBall,canGoOutsideField,mirror,maxVel,getBallFromSide,angle
 EnterFormation
 DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement,distance
 AvoidBall

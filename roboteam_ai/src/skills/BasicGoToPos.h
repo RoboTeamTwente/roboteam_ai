@@ -17,10 +17,14 @@ class BasicGoToPos : public Skill {
         explicit BasicGoToPos(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;
         void onInitialize() override;
+        void onTerminate(Status s) override;
         Vector2 targetPos;
+        double maxVel;
         control::ControlGoToPos goToPos;
         double errorMargin = 0.3;
 
+        double getballFromSideMargin = 0.3;
+        Vector2 getBallFromSideLocation();
 
 };
 }
