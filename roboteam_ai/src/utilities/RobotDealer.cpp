@@ -14,7 +14,7 @@ std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::robotO
 
 std::mutex RobotDealer::robotOwnersLock;
 
-int RobotDealer::keeperID;
+int RobotDealer::keeperID = -1;
 
 /// For internal use
 /// Removes a robot with an ID from the map and if the tactic then is empty it removes the tactic

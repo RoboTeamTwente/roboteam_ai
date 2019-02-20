@@ -84,9 +84,10 @@ void ApplicationManager::runOneLoopCycle() {
             this->handleRefData();
         }
         // TODO: change this later so the referee tells you this
-        robotDealer::RobotDealer::setKeeperID(0);
-        keeperTree = BTFactory::getKeeperTree();
-        Status keeperStatus = keeperTree->tick();
+        // TODO enable for keeper
+//        robotDealer::RobotDealer::setKeeperID(0);
+//        keeperTree = BTFactory::getKeeperTree();
+//        Status keeperStatus = keeperTree->tick();
 
         strategy = factory.getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
