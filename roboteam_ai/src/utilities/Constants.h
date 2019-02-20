@@ -37,15 +37,15 @@ public:
 
 // Other/multiple usage
     static int DEFAULT_ROBOT_ID()               { return 1; };
-    static double MAX_ANGULAR_VELOCITY()        { return 6.0; };    // Rad per second??
+    static double MAX_ANGULAR_VELOCITY()        { return 6.0; };    // Rad per second
     static double ROBOT_RADIUS()                { return 0.089;  }; // TODO: Need to test if world_state agrees with this definition of the centre of the robot
     static double ROBOT_RADIUS_MAX()            { return 0.091; };
     static double FRONT_LENGTH()                { return 0.118; };  // Length of the front (flat) part of the robot
-    static double DRIBBLER_ANGLE_OFFSET()       { return asin(FRONT_LENGTH()/2/ROBOT_RADIUS()); }; // If the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET() points to the left and DRIBBLER_ANGLE_OFFSET() to the right.
+    static double DRIBBLER_ANGLE_OFFSET()       { return asin(FRONT_LENGTH()/2/ROBOT_RADIUS()); };  // If the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET() points to the left and DRIBBLER_ANGLE_OFFSET() to the right.
     static double CENTRE_TO_FRONT()             { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); };
     static double BALL_RADIUS()                 { return 0.0215; };
 
-    static int TICK_RATE()                      { return 200; };    // Rate at which we tick our behavior Trees
+    static int TICK_RATE()                      { return 120; };    // Rate at which we tick our behavior Trees
 
 // Skills
     static double DEFAULT_KICK_POWER()          { return  5.0; };   // Max kick power() { return  100 }
@@ -70,11 +70,11 @@ public:
     static double MAX_GETBALL_RANGE()           { return 0.7; };
     static int POSSES_BALL_CYCLES()             { return 25; };
     static double GETBALL_SPEED()               { return .5; };
-    static double GETBALL_OVERSHOOT()           { return .02; };//m
+    static double GETBALL_OVERSHOOT()           { return .02; };    // Meters
 
 // PositionControl
     static double MAX_CALCULATION_TIME()        { return 12.0; };   // Max time in ms
-    static double NUMTREE_ERROR_MARGIN()   { return 0.25; };
+    static double NUMTREE_ERROR_MARGIN()        { return 0.25; };
 
 // Keeper
     static double KEEPER_POST_MARGIN()          { return 0.08; };   // Meters
@@ -141,9 +141,9 @@ public:
     static QColor FIELD_COLOR()                 { return GRSIM() ? QColor(30 , 30 , 30 , 255) :
                                                                    QColor(50 , 0  , 0  , 255); };
     static QColor FIELD_LINE_COLOR()            { return Qt::white; };
-    static QColor ROBOT_COLOR_BLUE()            { return { 150, 150, 255, 255 }; }; // Blue
-    static QColor ROBOT_COLOR_YELLOW()          { return { 255, 255, 0  , 255 }; }; // Yellow
-    static QColor BALL_COLOR()                  { return { 255, 120, 50 , 255 }; }; // Orange
+    static QColor ROBOT_COLOR_BLUE()            { return {150, 150, 255, 255}; }; // Blue
+    static QColor ROBOT_COLOR_YELLOW()          { return {255, 255, 0  , 255}; }; // Yellow
+    static QColor BALL_COLOR()                  { return {255, 120, 50 , 255}; }; // Orange
     static QColor TEXT_COLOR()                  { return Qt::white; };
     static QColor SELECTED_ROBOT_COLOR()        { return Qt::magenta; };
 
@@ -151,9 +151,7 @@ public:
                                                            {255, 0  , 255, 255},
                                                            {255, 255, 0  , 255},
                                                            {255, 120, 180, 255},
-                                                           {255, 100, 255, 255}
-        };
-    };
+                                                           {255, 100, 255, 255} }; };
 
 // Default PID values for the interface
     static double standardNumTreePosP()         { return GRSIM() ? 2.5 : 2.8; };

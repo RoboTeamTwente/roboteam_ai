@@ -13,7 +13,7 @@ namespace ai {
 
 class Attack : public Skill {
     private:
-        control::ControlGoToPos goToPos;
+        control::PositionController goToPos;
         Vector2 deltaPos;
         Vector2 targetPos;
 

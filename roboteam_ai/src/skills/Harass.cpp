@@ -42,7 +42,7 @@ Skill::Status Harass::onUpdate() {
     std::cout << "call gotopos with target pos" << targetPos << std::endl;
     std::cout << "call gotopos with robot pos           " << robot->pos << std::endl;
 
-    goToPos.goToPos(robot, targetPos, control::GoToType::basic);
+    goToPos.goToPos(robot, targetPos, control::PosControlType::basic);
 
     if (harassBallOwner && ! coach::Coach::doesRobotHaveBall(harassmentTarget, false)) {
         return Status::Success;

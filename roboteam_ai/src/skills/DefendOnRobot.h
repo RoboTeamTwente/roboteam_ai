@@ -13,7 +13,7 @@ namespace ai {
 
 class DefendOnRobot : public Skill {
     private:
-        control::ControlGoToPos goToPos;
+        control::PositionController goToPos;
         double angleBetweenRobots;
         Vector2 newPosition;
 

@@ -31,7 +31,7 @@ protected:
         io::IOManager ioManager = io::IOManager(false,true);
 
         using Coach = coach::Coach;
-        using GoToType = control::GoToType;
+        using GoToType = control::PosControlType;
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
     public:
 

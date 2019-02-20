@@ -9,9 +9,9 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-ControlGoToPos::ControlGoToPos() = default;
+PositionController::PositionController() = default;
 
-void ControlGoToPos::clear(GoToType goToType) {
+void PositionController::clear(PosControlType goToType) {
     PIDHasInitialized = false;
 
     switch (goToType) {
@@ -27,41 +27,41 @@ void ControlGoToPos::clear(GoToType goToType) {
     }
 }
 
-PosVelAngle ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position) {
-    GoToType goToType = basic;
+PosVelAngle PositionController::goToPos(RobotPtr robot, Vector2 &position) {
+    PosControlType goToType = basic;
     //TODO: do stuff that determines which gtp to use...
 
-    return ControlGoToPos::goToPos(std::move(robot), position, goToType);
+    return PositionController::goToPos(std::move(robot), position, goToType);
 }
 
-PosVelAngle ControlGoToPos::goToPos(RobotPtr robot, Vector2 &position, GoToType goToType) {
+PosVelAngle PositionController::goToPos(RobotPtr robot, Vector2 &position, PosControlType goToType) {
     if (!robot)
         return {};
 
     switch (goToType) {
     case noPreference:
-        return ControlGoToPos::goToPos(robot, position);
+        return PositionController::goToPos(robot, position);
 
     case ballControl:
-        return ControlGoToPos::goToPosBallControl(robot, position);
+        return PositionController::goToPosBallControl(robot, position);
 
     case basic:
-        return ControlGoToPos::goToPosBasic(std::move(robot), position);
+        return PositionController::goToPosBasic(std::move(robot), position);
 
     case force:
-        return ControlGoToPos::goToPosForce(std::move(robot), position);
+        return PositionController::goToPosForce(std::move(robot), position);
 
     case numTree:
-        return ControlGoToPos::numTreePosControl(std::move(robot), position);
+        return PositionController::numTreePosControl(std::move(robot), position);
     }
     return goToPos(std::move(robot), position);
 }
 
-PosVelAngle ControlGoToPos::goToPosBallControl(RobotPtr robot, Vector2 &targetPos) {
+PosVelAngle PositionController::goToPosBallControl(RobotPtr robot, Vector2 &targetPos) {
     return gtpBallControl.goToPos(std::move(robot), targetPos);
 }
 
-PosVelAngle ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
+PosVelAngle PositionController::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
 
     if (! robot) return {};
 
@@ -84,16 +84,16 @@ PosVelAngle ControlGoToPos::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
     return PosVelAngle({0,0}, velPID.controlPIR(error, robot->vel), 0.0);
 }
 
-PosVelAngle ControlGoToPos::goToPosForce(RobotPtr robot, Vector2 &targetPos) {
+PosVelAngle PositionController::goToPosForce(RobotPtr robot, Vector2 &targetPos) {
     return {};
 }
 
-PosVelAngle ControlGoToPos::numTreePosControl(RobotPtr robot, Vector2 &targetPos) {
+PosVelAngle PositionController::numTreePosControl(RobotPtr robot, Vector2 &targetPos) {
     PosVelAngle target = numTreeController.goToPos(robot,targetPos);
     return pidController(robot, target);
 }
 
-double ControlGoToPos::distanceToTarget(RobotPtr robot, Vector2 &targetPos) {
+double PositionController::distanceToTarget(RobotPtr robot, Vector2 &targetPos) {
 
     double dx = targetPos.x - robot->pos.x;
     double dy = targetPos.y - robot->pos.y;
@@ -101,18 +101,18 @@ double ControlGoToPos::distanceToTarget(RobotPtr robot, Vector2 &targetPos) {
     return deltaPos.length();
 }
 
-void ControlGoToPos::setAvoidBall(bool _avoidBall) {
+void PositionController::setAvoidBall(bool _avoidBall) {
     // Add a function to avoid the ball for all goToPos's
     //gtpBallControl.setAvoidBall(true);
     numTreeController.setAvoidBall(_avoidBall);
 }
 
-void ControlGoToPos::setCanGoOutsideField(bool _canGoOutsideField) {
+void PositionController::setCanGoOutsideField(bool _canGoOutsideField) {
     // Add a function to make sure the robot does not go out of the field for all goToPos's
     numTreeController.setCanGoOutsideField(_canGoOutsideField);
 }
 
-PosVelAngle ControlGoToPos::pidController(const RobotPtr &robot, PosVelAngle target) {
+PosVelAngle PositionController::pidController(const RobotPtr &robot, PosVelAngle target) {
     PosVelAngle pidCommand;
     if (!PIDHasInitialized)
         initializePID();
@@ -136,7 +136,7 @@ PosVelAngle ControlGoToPos::pidController(const RobotPtr &robot, PosVelAngle tar
 }
 
 /// start the PID for velocity and position control
-void ControlGoToPos::initializePID() {
+void PositionController::initializePID() {
     posPID.reset();
     posPID.setPID(Constants::standardNumTreePosP(),
             Constants::standardNumTreePosP(),
@@ -149,7 +149,7 @@ void ControlGoToPos::initializePID() {
 }
 
 /// compare current PID values to those set in the interface
-void ControlGoToPos::checkInterfacePID() {
+void PositionController::checkInterfacePID() {
     if (velPID.getP() != interface::InterfaceValues::getNumTreeVelP() ||
             velPID.getI() != interface::InterfaceValues::getNumTreeVelI() ||
             velPID.getD() != interface::InterfaceValues::getNumTreeVelD()) {

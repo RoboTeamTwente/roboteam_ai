@@ -22,22 +22,22 @@ void SkillGoToPos::onInitialize() {
     std::string gTT = properties->getString("goToType");
     if (gTT.empty()) {
         ROS_ERROR("SkillGoToPos::onInitialize -> no goToType set in properties");
-        goToType = control::GoToType::noPreference;
+        goToType = control::PosControlType::noPreference;
     }
-    else if (gTT == "noPreference") goToType = control::GoToType::noPreference;
-    else if (gTT == "ballControl") goToType = control::GoToType::ballControl;
-    else if (gTT == "basic") goToType = control::GoToType::basic;
-    else if (gTT == "force") goToType = control::GoToType::force;
+    else if (gTT == "noPreference") goToType = control::PosControlType::noPreference;
+    else if (gTT == "ballControl") goToType = control::PosControlType::ballControl;
+    else if (gTT == "basic") goToType = control::PosControlType::basic;
+    else if (gTT == "force") goToType = control::PosControlType::force;
     else {
         ROS_ERROR("SkillGoToPos::onInitialize -> no good goToType set in properties");
-        goToType = control::GoToType::noPreference;
+        goToType = control::PosControlType::noPreference;
     }
 }
 
 /// Called when the Skill is Updated
 SkillGoToPos::Status SkillGoToPos::onUpdate() {
 
-    control::ControlGoToPos goToPos;
+    control::PositionController goToPos;
 
     goToPos.goToPos(robot, targetPos, goToType);
     // Now check the progress we made

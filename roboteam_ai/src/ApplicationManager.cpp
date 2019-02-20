@@ -5,6 +5,7 @@
 #include "ApplicationManager.h"
 #include "utilities/Referee.hpp"
 #include "utilities/StrategyManager.h"
+#include <sstream>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -34,22 +35,19 @@ void ApplicationManager::loop() {
         ros::Time end = ros::Time::now();
         timeTaken = (end - begin).toNSec() * 0.000001; // (ms)
         timeTakenOverNTicks += timeTaken;
-
+        if (timeTaken > longestTick) {
+            longestTick = timeTaken;
+        }
         if (ai::Constants::SHOW_TICK_TIME_TAKEN() && ++nTicksTaken >= ai::Constants::TICK_RATE()) {
-            std::cout << "The last " << nTicksTaken << " ticks took " << timeTakenOverNTicks << " ms" << std::endl;
+            std::stringstream ss;
+            ss << "The last " << nTicksTaken << " ticks took " << timeTakenOverNTicks << " ms, which gives an average of " << timeTakenOverNTicks / nTicksTaken << " ms / tick. The longest tick took " << longestTick << " ms!";
+            if (nTicksTaken * longestTick < 1600 && timeTakenOverNTicks < 1200)
+                std::cout << ss.str() << std::endl;
+            else
+                std::cerr << ss.str() << std::endl;
             nTicksTaken = 0;
             timeTakenOverNTicks = 0.0;
-        }
-        if (ai::Constants::SHOW_LONGEST_TICK()) {
-            if (timeTaken > longestTick) {
-                if (timeTaken > 200) {
-                    std::cout << "Tick took longer than 200ms!!" << std::endl;
-                }
-                else {
-                    longestTick = timeTaken;
-                    std::cout << "The Longest tick took " << longestTick << " ms" << std::endl;
-                }
-            }
+            longestTick = 0.0;
         }
     }
 }

@@ -18,7 +18,7 @@ class BasicGoToPos : public Skill {
         Status onUpdate() override;
         void onInitialize() override;
         Vector2 targetPos;
-        control::ControlGoToPos goToPos;
+        control::PositionController goToPos;
         double errorMargin = 0.3;
 
 

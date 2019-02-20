@@ -21,7 +21,7 @@ class Harass : public Skill {
         int harassmentTarget = - 1;
         void pickHarassmentTarget();
         bool harassBallOwner = false;
-        control::ControlGoToPos goToPos;
+        control::PositionController goToPos;
 };
 
 }

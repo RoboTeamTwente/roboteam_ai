@@ -13,10 +13,10 @@ namespace ai {
 class SkillGoToPos : public Skill {
 
     private:
-        control::GoToType goToType;
+        control::PosControlType goToType;
         bool goToBall;
         Vector2 targetPos;
-        control::ControlGoToPos goToPos;
+        control::PositionController goToPos;
 
         enum Progression {
           ON_THE_WAY, DONE, FAIL

@@ -23,7 +23,7 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-enum GoToType {
+enum PosControlType {
     noPreference,
     ballControl,
     basic,
@@ -31,7 +31,7 @@ enum GoToType {
     numTree
 };
 
-class ControlGoToPos {
+class PositionController {
 
     private:
         using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
@@ -61,11 +61,11 @@ class ControlGoToPos {
         void checkInterfacePID();
 
     public:
-        ControlGoToPos();
+        PositionController();
 
-        void clear(GoToType goToType);
+        void clear(PosControlType goToType);
         PosVelAngle goToPos(RobotPtr robot, Vector2 &position);
-        PosVelAngle goToPos(RobotPtr robot, Vector2 &position, GoToType goToType);
+        PosVelAngle goToPos(RobotPtr robot, Vector2 &position, PosControlType goToType);
 
         void setAvoidBall(bool _avoidBall);
         void setCanGoOutsideField(bool _canGoOutsideField);
