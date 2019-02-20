@@ -18,6 +18,8 @@ void BallInDefenseAreaAndStill::initialize() {
         theirDefenceArea = properties->getBool("theirDefenceArea");
     }
     else {theirDefenceArea=false;}
+
+    if (properties->getBool("outsideField")) outsideField = true;
 }
 
 bt::Node::Status BallInDefenseAreaAndStill::update() {
@@ -28,7 +30,7 @@ bt::Node::Status BallInDefenseAreaAndStill::update() {
     }
     else return Status::Failure;
     Vector2 ballVel=ball->vel;
-    if (Field::pointIsInDefenceArea(ballPos,!theirDefenceArea, true)&&(ballVel.length()<Constants::BALL_STILL_VEL())){
+    if (Field::pointIsInDefenceArea(ballPos,!theirDefenceArea, outsideField)&&(ballVel.length()<Constants::BALL_STILL_VEL())){
         return Status::Success;
     }
     else{
