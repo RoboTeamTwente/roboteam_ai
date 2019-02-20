@@ -139,7 +139,9 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/ApplicationManager.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/ApplicationManager.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/DefensiveCoach.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/DefensiveCoach.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/DefensiveCoach.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Hungarian.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Hungarian.h)
 
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
@@ -259,6 +261,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/ControllerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/RobotDealerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/CoachTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/HungarianTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/InterfaceTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/VisualizerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/MainWindowTest.cpp

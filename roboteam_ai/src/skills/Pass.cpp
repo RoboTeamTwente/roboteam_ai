@@ -27,7 +27,7 @@ Pass::Status Pass::onUpdate() {
             if (!coach::Coach::isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos)) {
                 goToType = GoToType::luTh;
                 targetPos = Coach::getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
-            } else if (!coach::Coach::doesRobotHaveBall(robot->id, true, rtt::ai::Constants::MAX_BALL_RANGE())) {
+            } else if (!World::ourBotHasBall(robot->id)) {
                 goToType = GoToType::basic;
                 targetPos = ball->pos;
             } else {
@@ -43,7 +43,7 @@ Pass::Status Pass::onUpdate() {
             break;
         }
         case Progression::KICKING: {
-            if (coach::Coach::doesRobotHaveBall(robot->id, true, rtt::ai::Constants::MAX_BALL_RANGE())) {
+            if (World::ourBotHasBall(robot->id)) {
                 command.kicker = 1;
                 command.kicker_forced = 1;
                 distance = ((Vector2)ball->pos - robotToPassTo->pos).length();

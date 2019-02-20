@@ -47,7 +47,7 @@ bool ControlUtils::pointInRectangle(Vector2 PointToCheck, Vector2 SP1, Vector2 S
     if (pointInTriangle(PointToCheck, SP1, SP2, SP3)) {
         return true;
     }
-    else return pointInTriangle(PointToCheck, SP4, SP1, SP2);
+    else return pointInTriangle(PointToCheck, SP4, SP1, SP3);
 }
 
 /// Maps the input angle to be within the range of 0 - 2PI
@@ -260,6 +260,30 @@ Vector2 ControlUtils::calculateForce(rtt::Vector2 vector, double weight, double 
         return vector.normalize()*(weight/(pow(vector.length(), 2)));
     }
     return {0, 0};
+}
+
+std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(std::vector<Vector2> set1,
+        std::vector<Vector2> set2) {
+
+    std::vector<int> assignments;
+    // compute a distance matrix
+    // initialize it with zeros
+    std::vector<std::vector<double>> distanceMatrix(set1.size(), std::vector<double>(set2.size()));
+
+    for (unsigned int i = 0; i < set1.size(); i++) {
+        for (unsigned int j = 0; j < set2.size(); j++) {
+            distanceMatrix.at(i).at(j) = static_cast<int>(set1[i].dist(set2[j]));
+        }
+    }
+
+    rtt::HungarianAlgorithm hungarian;
+    hungarian.Solve(distanceMatrix, assignments);
+
+    std::vector<std::pair<Vector2, Vector2>> solutionPairs;
+    for(unsigned int i = 0; i < assignments.size(); i++) {
+        solutionPairs.push_back({set1.at(i), set2.at(assignments.at(i))});
+    }
+    return solutionPairs;
 }
 
 } // control
