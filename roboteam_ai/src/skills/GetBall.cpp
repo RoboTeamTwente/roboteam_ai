@@ -118,6 +118,8 @@ GetBall::Status GetBall::onUpdate() {
     }
     checkProgression();
     currentTick++;
+    if (currentTick >= maxTicks) return Status::Failure;
+
     if (currentProgress == TURNING) {
         sendTurnCommand();
     }

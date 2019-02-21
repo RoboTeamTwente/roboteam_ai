@@ -1,11 +1,11 @@
-GoToPos,ROLE,Position,goToBall,random
+GoToPos,ROLE,Position,goToBall,random,goToBall
 GoToPosLuTh,ROLE,Position,goToBall,random,passiveDefend
 Kick,ROLE
 Chip,ROLE
 Dribble,ROLE,Position,maxTicks,forwardDirection,dribbleOnTerminate,BallPlacement,distance
-Rotate,ROLE,rotateToBall,rotateToOurGoal,rotateToEnemyGoal,rotateToRobotId,robotIsEnemy
+RotateToAngle,rotateToBall,Angle,RobotControl
 InterceptBall
-GetBall
+GetBall,maxTime
 DefendOnRobot
 Attack,ownGoal
 Pass

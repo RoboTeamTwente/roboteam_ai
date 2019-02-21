@@ -16,16 +16,17 @@ GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
 void GoToPos::onInitialize() {
     goToBall = properties->getBool("goToBall");
     goBehindBall = properties->getBool("goBehindBall");
-    if (properties->hasVector2("distanceBehindBall"))
+
+    if (properties->hasVector2("distanceBehindBall")) {
         distanceBehindBall = properties->getDouble("distanceBehindBall");
-    else
+    } else {
         distanceBehindBall = 0.5;
-    if (properties->hasVector2("Position"))
-        targetPos = properties->getVector2("Position");
-    else {
-        ROS_ERROR("GoToPos Initialize -> No good X or Y set in properties");
-        currentProgress = Progression::FAIL;
     }
+
+    if (properties->hasVector2("Position")) {
+        targetPos = properties->getVector2("Position");
+    }
+
     if (properties->hasDouble("maxVel"))
         speed=properties->getDouble("maxVel");
     else
@@ -42,6 +43,10 @@ bt::Node::Status GoToPos::onUpdate() {
         targetPos = ball->pos;
     }
     else if (goBehindBall) {
+        if (coach::Coach::isRobotBehindBallToGoal(distanceBehindBall, false, robot->pos)){
+            return Status::Success;
+        }
+
         auto enemyGoal = Field::get_their_goal_center();
         Vector2 ballToEnemyGoal = enemyGoal - ball->pos;
         Vector2 normalizedBTEG = ballToEnemyGoal.stretchToLength(-distanceBehindBall);
