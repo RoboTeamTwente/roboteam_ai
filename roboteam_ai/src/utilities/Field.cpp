@@ -128,6 +128,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
         // discard already all robots that are not at all between the goal and point, or if a robot is standing on this point
         bool isRobotItself = point == robot.pos;
         bool isInPotentialBlockingZone = ourGoal ? robot.pos.x < point.x + collisionRadius : robot.pos.x > point.x - collisionRadius;
+        // the code below also does not make robots that are not in the blocking zone barriers, but this quick check saves us computation time
         if (!isRobotItself&& isInPotentialBlockingZone) {
 
             // get the left and right sides of the robot
@@ -145,13 +146,13 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
 
             // remove all obstacles that are completely out of the goal regardless
 
-            // black magic boolean magic to check every fucking case possible
             bool validObstacle;
             //object completely faced the wrong way
             if (point1val<=0 && point2val<=0){
                 validObstacle=false;
             }
-            //these following 2 cases are identical in logic but mirrored; one line hits the backline, other does not
+            //these following 2 cases are identical in logic but mirrored; one point hits the backline, other does not.
+            // in that case, we pick the appropriate goalPost which would be right for the obstacle as new Point and check if this interval is valid
             else if(point1val<=0&&point2val>0){
                 validObstacle=true;
                 if (point1.y<point2.y){
@@ -181,7 +182,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
                 }
             }
             else{
-                //'normal' obstacle
+                //'normal' obstacle; check if the points are at good points
                 validObstacle=true;
                 bool bothPointsBelowGoal = point1.y <= lowerGoalSide.y && point2.y <= lowerGoalSide.y;
                 bool bothPointAboveGoal = point1.y >= upperGoalSide.y && point2.y >= upperGoalSide.y;
@@ -209,19 +210,13 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
 }
 
 
-/*
- * if two blockades intersect (in this case, overlap), we take the beginning of the first
- * obstacle and the end of the second obstacle, and put them back in the front of the obstacles vector.
- * The second element gets erased. if they don't intersect, try the next two obstacles.
- * repeat until no overlaps are left.
-*/
 std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::pair<Vector2, Vector2>> blockades) {
-    // sort blockades from large to small. This is crucial for checking mergeability!!
+    // sort blockades from large to small. This is crucial for checking mergeability
     std::sort(blockades.begin(), blockades.end(), [](const std::pair<Vector2,Vector2> &a, const std::pair<Vector2,Vector2> &b) {
       return abs(a.second.y-a.first.y) >abs(b.second.y-b.first.y);
     });
     std::vector<std::pair<Vector2, Vector2>> mergedBlockades;
-
+    // for every blockade we check if it overlaps and then edit the current mergedBlockades to reflect those overlaps
     for (auto Blockade : blockades){
         bool addBlockade=true;
         bool mergeLeft=false;
@@ -255,20 +250,20 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
                 mergedBlockades.emplace_back(Blockade);
             }
             else if (mergeLeft&&mergeRight){
-                //remove both posses and add new one
+                //merge the 3 blockades into one
                 std::pair<Vector2,Vector2> newBlockade=std::make_pair(mergedBlockades[mergeRightPos].first,mergedBlockades[mergeLeftPos].second);
                 mergedBlockades.erase(mergedBlockades.begin()+mergeLeftPos);
                 mergedBlockades.erase(mergedBlockades.begin()+mergeRightPos);
                 mergedBlockades.emplace_back(newBlockade);
             }
             else if (mergeLeft){
-                //remove pos and add the new one
+                //merge the blockade
                 std::pair<Vector2,Vector2> newBlockade=std::make_pair(Blockade.first,mergedBlockades[mergeLeftPos].second);
                 mergedBlockades.erase(mergedBlockades.begin()+mergeLeftPos);
                 mergedBlockades.emplace_back(newBlockade);
             }
             else{
-                //remove pos and add the new one
+                //merge the (right) blockade
                 std::pair<Vector2,Vector2> newBlockade=std::make_pair(mergedBlockades[mergeRightPos].first,Blockade.second);
                 mergedBlockades.erase(mergedBlockades.begin()+mergeRightPos);
                 mergedBlockades.emplace_back(newBlockade);
