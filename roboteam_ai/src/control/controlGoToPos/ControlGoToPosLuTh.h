@@ -183,7 +183,9 @@ class ControlGoToPosLuTh {
         Controller posPID;
         bool pidInit = false;
         bool avoidBall = false;
-        bool canGoOutsideField = true;
+
+        //TODO: set canGoOutsideField to true again, or not
+        bool canGoOutsideField = false;
         bool tracePath(NumRobot &numRobot, Vector2 target);
         bool calculateNumericDirection(RobotPtr robot, NumRobot &me);
         void drawCross(Vector2 &pos);

@@ -186,9 +186,13 @@ bool ControlGoToPosLuTh::calculateNumericDirection(RobotPtr robot, NumRobot &me)
         return false;
 
 // check if the robot is currently too close to a robot to calculate a path
-    Vector2 closestBotPos = World::getRobotClosestToPoint(me.pos, me.id, me.t).get()->pos;
-    if (me.isCollision(closestBotPos))
-        return false;
+    roboteam_msgs::WorldRobot_<std::allocator<void>> * closestBot;
+    closestBot = World::getRobotClosestToPoint(me.pos, me.id, me.t).get();
+    if (closestBot) {
+        Vector2 closestBotPos = World::getRobotClosestToPoint(me.pos, me.id, me.t).get()->pos;
+        if (me.isCollision(closestBotPos))
+            return false;
+    }
 
 // calculate a path using the initialized NumRobot
     bool noCollision = tracePath(me, targetPos);
