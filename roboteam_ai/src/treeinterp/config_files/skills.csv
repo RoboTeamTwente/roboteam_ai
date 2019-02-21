@@ -2,7 +2,7 @@ GoToPos,ROLE,Position,goToBall,random
 GoToPosLuTh,ROLE,Position,goToBall,random,passiveDefend
 Kick,ROLE
 Chip,ROLE
-Dribble,ROLE,Position,maxTicks,forwardDirection,dribbleOnTerminate,BallPlacement
+Dribble,ROLE,Position,maxTicks,forwardDirection,dribbleOnTerminate,BallPlacement,distance
 Rotate,ROLE,rotateToBall,rotateToOurGoal,rotateToEnemyGoal,rotateToRobotId,robotIsEnemy
 InterceptBall
 GetBall
