@@ -66,7 +66,10 @@ void ApplicationManager::runOneLoopCycle() {
     ros::spinOnce();
     this->updateROSData();
     this->updateDangerfinder();
-
+    Vector2 pos=ai::World::getBall()->pos;
+    std::cout<<"angle:"<<ai::Field::getTotalGoalAngle(true,pos)<<std::endl;
+    std::cout<<"Visbile angle:"<<ai::Field::getTotalVisibleGoalAngle(true,pos,true,0.089+0.0215)<<std::endl;
+    std::cout<<"Visbile angle:"<<ai::Field::getTotalVisibleGoalAngle(true,pos,true,0.089)<<std::endl;
     if (ai::World::didReceiveFirstWorld) {
         if (BTFactory::getCurrentTree() == "NaN") {
             ROS_INFO("NaN tree probably Halting");

@@ -89,20 +89,20 @@ double Field::getTotalGoalAngle(bool ourGoal, Vector2 point){
     return control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(AngleLeft),control::ControlUtils::constrainAngle(AngleRight));
 
 }
-double Field::getTotalVisibleGoalAngle(bool ourGoal, Vector2 point) {
-    return getTotalGoalAngle(ourGoal,point)*getPercentageOfGoalVisibleFromPoint(ourGoal,point)/100.0;
+double Field::getTotalVisibleGoalAngle(bool ourGoal, Vector2 point, bool allBots,double collisionRadius) {
+    return getTotalGoalAngle(ourGoal,point)*getPercentageOfGoalVisibleFromPoint(ourGoal,point,allBots,collisionRadius)/100.0;
 }
-double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point){
+double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point,bool allBots,double collisionRadius){
     auto field = Field::get_field();
     double goalWidth = field.goal_width;
     double blockadeLength = 0;
-    for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point)) {
+    for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point,allBots,collisionRadius)) {
         blockadeLength += blockade.first.dist(blockade.second);
     }
     return std::max(100 - round(blockadeLength/goalWidth * 100), 0.0);
 }
 
-std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, Vector2 point){
+std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, Vector2 point, bool allBots,double collisionRadius){
     const double robotRadius = Constants::ROBOT_RADIUS();
 
     Vector2 lowerGoalSide, upperGoalSide;
@@ -110,39 +110,96 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
     upperGoalSide = getGoalSides(ourGoal).second;
 
     std::vector<std::pair<Vector2, Vector2>> blockades = {};
-
+    std::vector<roboteam_msgs::WorldRobot> botsToCheck;
+    if (allBots){
+        botsToCheck=World::getAllRobots();
+    }
+    else{
+        if (ourGoal){
+            botsToCheck=World::get_world().us;
+        }
+        else{
+            botsToCheck=World::get_world().them;
+        }
+    }
     // all the obstacles should be robots
-    for (auto const &robot : World::getAllRobots()) {
+    for (auto const &robot : botsToCheck) {
 
         // discard already all robots that are not at all between the goal and point, or if a robot is standing on this point
         bool isRobotItself = point == robot.pos;
-        bool isInPotentialBlockingZone = ourGoal ? robot.pos.x < point.x + robotRadius : robot.pos.x > point.x - robotRadius;
-        if (!isRobotItself && isInPotentialBlockingZone) {
+        bool isInPotentialBlockingZone = ourGoal ? robot.pos.x < point.x + collisionRadius : robot.pos.x > point.x - collisionRadius;
+        if (!isRobotItself&& isInPotentialBlockingZone) {
 
             // get the left and right sides of the robot
-            auto lineToRobot = point - robot.pos;
-            auto inverseLineToRobot = Vector2(-lineToRobot.y, lineToRobot.x);
-            Vector2 upperSideOfRobot = inverseLineToRobot.stretchToLength(robotRadius) + robot.pos;
-            Vector2 lowerSideOfRobot = inverseLineToRobot.stretchToLength(-robotRadius) + robot.pos;
-
+            double lenToBot=(point-robot.pos).length();
+            double theta=asin(collisionRadius/lenToBot);
+            double length=sqrt(lenToBot*lenToBot-collisionRadius*collisionRadius);
+            Vector2 lowerSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot.pos)-point).angle()-theta);
+            Vector2 upperSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot.pos)-point).angle()+theta);
             // map points onto goal line
-            auto point1 = util::twoLineIntersection(point, lowerSideOfRobot, lowerGoalSide, upperGoalSide);
-            auto point2 = util::twoLineIntersection(point, upperSideOfRobot, lowerGoalSide, upperGoalSide);
+            double point1val = util::twoLineForwardIntersection(point,lowerSideOfRobot,lowerGoalSide,upperGoalSide);
+            double point2val= util::twoLineForwardIntersection(point,upperSideOfRobot,lowerGoalSide,upperGoalSide);
+            Vector2 point1=point+(lowerSideOfRobot-point)*point1val;
+            Vector2 point2=point+(upperSideOfRobot-point)*point2val;
 
-            // remove all obstacles that are completely out of the goal
-            bool bothPointsBelowGoal = point1.y < lowerGoalSide.y && point2.y < lowerGoalSide.y;
-            bool bothPointAboveGoal = point1.y > upperGoalSide.y && point2.y > upperGoalSide.y;
-            if (!bothPointsBelowGoal && !bothPointAboveGoal) {
 
+            // remove all obstacles that are completely out of the goal regardless
+
+            // black magic boolean magic to check every fucking case possible
+            bool validObstacle;
+            //object completely faced the wrong way
+            if (point1val<=0 && point2val<=0){
+                validObstacle=false;
+            }
+            //these following 2 cases are identical in logic but mirrored; one line hits the backline, other does not
+            else if(point1val<=0&&point2val>0){
+                validObstacle=true;
+                if (point1.y<point2.y){
+                    point1=upperGoalSide;
+                }
+                else{
+                    point1=lowerGoalSide;
+                }
+                bool bothPointsBelowGoal = point1.y <= lowerGoalSide.y && point2.y <= lowerGoalSide.y;
+                bool bothPointAboveGoal = point1.y >= upperGoalSide.y && point2.y >= upperGoalSide.y;
+                if (bothPointsBelowGoal||bothPointAboveGoal){
+                    validObstacle=false;
+                }
+            }
+            else if(point2val<=0&&point1val>0){
+                validObstacle=true;
+                if (point2.y<point1.y ){
+                    point2=upperGoalSide;
+                }
+                else{
+                    point2=lowerGoalSide;
+                }
+                bool bothPointsBelowGoal = point1.y <= lowerGoalSide.y && point2.y <= lowerGoalSide.y;
+                bool bothPointAboveGoal = point1.y >= upperGoalSide.y && point2.y >= upperGoalSide.y;
+                if (bothPointsBelowGoal||bothPointAboveGoal){
+                    validObstacle=false;
+                }
+            }
+            else{
+                //'normal' obstacle
+                validObstacle=true;
+                bool bothPointsBelowGoal = point1.y <= lowerGoalSide.y && point2.y <= lowerGoalSide.y;
+                bool bothPointAboveGoal = point1.y >= upperGoalSide.y && point2.y >= upperGoalSide.y;
+                if (bothPointsBelowGoal||bothPointAboveGoal){
+                    validObstacle=false;
+                }
+            }
+
+            if (validObstacle ) {
                 // constrain the blockades to within the goal
                 if (point1.y > point2.y) { // point1 is largest
                     point1.y = std::min(point1.y, upperGoalSide.y);
                     point2.y = std::max(point2.y, lowerGoalSide.y);
-                    blockades.emplace_back(std::make_pair(point1, point2)); // the first element in the pair is the smallest
+                    blockades.emplace_back(std::make_pair(point2,point1)); // the first element in the pair is the smallest
                 } else { // point2 is largest
                     point2.y = std::min(point2.y, upperGoalSide.y);
                     point1.y = std::max(point1.y, lowerGoalSide.y);
-                    blockades.emplace_back(std::make_pair(point2, point1)); // the first element in the pair is the smallest
+                    blockades.emplace_back(std::make_pair(point1,point2)); // the first element in the pair is the smallest
                 }
             }
         }
@@ -159,42 +216,66 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
  * repeat until no overlaps are left.
 */
 std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::pair<Vector2, Vector2>> blockades) {
-    std::vector<std::pair<Vector2, Vector2>> newBlockades;
-    //remove 'duplicate' blockades
-    for (auto Blockade=blockades.begin(); Blockade!=blockades.end(); ++ Blockade){
-        bool duplicate=false;
-        for (auto OtherBlockade=blockades.begin(); OtherBlockade!=blockades.end();++OtherBlockade){
-            if (Blockade!=OtherBlockade){
-                if(Blockade->first.y<OtherBlockade->first.y&&Blockade->second.y>OtherBlockade->second.y){
-                    duplicate=true;
-                    break;
-                }
+    // sort blockades from large to small. This is crucial for checking mergeability!!
+    std::sort(blockades.begin(), blockades.end(), [](const std::pair<Vector2,Vector2> &a, const std::pair<Vector2,Vector2> &b) {
+      return abs(a.second.y-a.first.y) >abs(b.second.y-b.first.y);
+    });
+    std::vector<std::pair<Vector2, Vector2>> mergedBlockades;
+
+    for (auto Blockade : blockades){
+        bool addBlockade=true;
+        bool mergeLeft=false;
+        bool mergeRight=false;
+        int mergeRightPos,mergeLeftPos;
+
+        // for reviewers: if you know a way to do this with a proper iterator please do it/show me
+        for (int i=0; i<mergedBlockades.size(); i++){
+            std::pair<Vector2,Vector2> usedBlockade=mergedBlockades[i];
+            // if it's area is already completely covered by a blockade in mergedBlockades, we don't add it
+            if (Blockade.first.y>=usedBlockade.first.y&&Blockade.second.y<=usedBlockade.second.y){
+                addBlockade=false;
+                break;
+            }
+            // find if there is an overlap on the left or the right
+            if (Blockade.second.y>=usedBlockade.first.y &&Blockade.first.y<usedBlockade.first.y){
+                mergeLeft=true;
+                mergeLeftPos=i;
+                continue;
+            }
+            if (Blockade.first.y<=usedBlockade.second.y&& Blockade.second.y>usedBlockade.second.y){
+                mergeRight=true;
+                mergeRightPos=i;
+                continue;
             }
         }
-        if (!duplicate){
-            newBlockades.push_back(*Blockade);
+        //processing the found overlaps
+        if (addBlockade){
+            if(!mergeLeft&&!mergeRight){
+                // just add it to mergedBlockades
+                mergedBlockades.emplace_back(Blockade);
+            }
+            else if (mergeLeft&&mergeRight){
+                //remove both posses and add new one
+                std::pair<Vector2,Vector2> newBlockade=std::make_pair(mergedBlockades[mergeRightPos].first,mergedBlockades[mergeLeftPos].second);
+                mergedBlockades.erase(mergedBlockades.begin()+mergeLeftPos);
+                mergedBlockades.erase(mergedBlockades.begin()+mergeRightPos);
+                mergedBlockades.emplace_back(newBlockade);
+            }
+            else if (mergeLeft){
+                //remove pos and add the new one
+                std::pair<Vector2,Vector2> newBlockade=std::make_pair(Blockade.first,mergedBlockades[mergeLeftPos].second);
+                mergedBlockades.erase(mergedBlockades.begin()+mergeLeftPos);
+                mergedBlockades.emplace_back(newBlockade);
+            }
+            else{
+                //remove pos and add the new one
+                std::pair<Vector2,Vector2> newBlockade=std::make_pair(mergedBlockades[mergeRightPos].first,Blockade.second);
+                mergedBlockades.erase(mergedBlockades.begin()+mergeRightPos);
+                mergedBlockades.emplace_back(newBlockade);
+            }
         }
     }
-    blockades=newBlockades;
-    // sort the blockades from low to high
-    std::sort(blockades.begin(), blockades.end(), [](const std::pair<Vector2,Vector2> &a, const std::pair<Vector2,Vector2> &b) {
-        return a.second.y < b.second.y;
-    });
-
-    std::vector<std::pair<Vector2, Vector2>> mergedBlockades;
-    unsigned long iterator = 0;
-    while (blockades.size() > (iterator + 1)) {
-        if (blockades.at(iterator).first.y>blockades.at(iterator+1).second.y) {
-            // if the first two elements intercept, merge them
-            auto newBlockade = std::make_pair(blockades.at(iterator+1).first,blockades.at(iterator).second);
-            blockades.erase(blockades.begin() + iterator + 1);
-            blockades.at(iterator) = newBlockade;
-        } else {
-            //  if they don't intercept, move on to the next obstacle
-            iterator++;
-        }
-    }
-    return blockades;
+    return mergedBlockades;
 }
 
 /*
