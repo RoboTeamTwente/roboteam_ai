@@ -24,11 +24,11 @@ namespace ai {
 namespace control {
 
 enum PosControlType {
-    noPreference,
-    ballControl,
-    basic,
-    force,
-    numTree
+    NO_PREFERENCE,
+    BALL_CONTROL,
+    BASIC,
+    FORCE,
+    NUMERIC_TREES
 };
 
 class PositionController {
@@ -37,27 +37,26 @@ class PositionController {
         using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
         using Command = roboteam_msgs::RobotCommand;
 
-        PosVelAngle goToPosBallControl(RobotPtr robot, Vector2 &targetPos);
-        ControlGoToPosBallControl gtpBallControl;
+        PosVelAngle ballControl(RobotPtr robot, Vector2 &targetPos);
+        ControlGoToPosBallControl ballControlController;
 
-        PosVelAngle numTreePosControl(RobotPtr robot, Vector2 &targetPos);
+        PosVelAngle numTree(RobotPtr robot, Vector2 &targetPos);
         NumTreePosControl numTreeController;
 
-        PosVelAngle goToPosForce(RobotPtr robot, Vector2 &targetPos);
+        PosVelAngle force(RobotPtr robot, Vector2 &targetPos);
 //        ControlGoToPosForce forceController;
 
-        PosVelAngle goToPosBasic(RobotPtr robot, Vector2 &targetPos);
+        PosVelAngle basic(RobotPtr robot, Vector2 &targetPos);
 //        ControlGoToPosBasic basicController;
-
-        double errorMargin = 0.3;
-        double distanceToTarget(RobotPtr robot, Vector2 &targetPos);
 
         PIDController velPID;
         PIDController posPID;
         bool PIDHasInitialized = false;
+        bool usingManualPID = false;
 
-        PosVelAngle pidController(const RobotPtr &robot, PosVelAngle target);
+        PosVelAngle pidController(const RobotPtr &robot, PosVelAngle target, bool checkInterface = true);
         void initializePID();
+        void initializePID(double posP, double posI, double posD, double velP = 0.0, double velI = 0.0, double velD = 0.0);
         void checkInterfacePID();
 
     public:

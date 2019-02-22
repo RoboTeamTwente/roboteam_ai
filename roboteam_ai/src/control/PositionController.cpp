@@ -15,95 +15,105 @@ void PositionController::clear(PosControlType goToType) {
     PIDHasInitialized = false;
 
     switch (goToType) {
-    case noPreference:break;
-    case ballControl:break;
-    case basic:break;
-    case force:break;
-    case numTree: {
+    case PosControlType::NO_PREFERENCE:break;
+    case PosControlType::BALL_CONTROL:break;
+    case PosControlType::BASIC:break;
+    case PosControlType::FORCE:break;
+    case PosControlType::NUMERIC_TREES: {
         numTreeController.clear();
         break;
     }
-
+    default:break;
     }
 }
 
 PosVelAngle PositionController::goToPos(RobotPtr robot, Vector2 &position) {
-    PosControlType goToType = basic;
+    if (! robot)
+        return {};
+
+    PosControlType goToType = PosControlType::NUMERIC_TREES;
     //TODO: do stuff that determines which gtp to use...
 
     return PositionController::goToPos(std::move(robot), position, goToType);
 }
 
 PosVelAngle PositionController::goToPos(RobotPtr robot, Vector2 &position, PosControlType goToType) {
-    if (!robot)
+    if (! robot)
         return {};
 
     switch (goToType) {
-    case noPreference:
+    case PosControlType::NO_PREFERENCE:
         return PositionController::goToPos(robot, position);
-
-    case ballControl:
-        return PositionController::goToPosBallControl(robot, position);
-
-    case basic:
-        return PositionController::goToPosBasic(std::move(robot), position);
-
-    case force:
-        return PositionController::goToPosForce(std::move(robot), position);
-
-    case numTree:
-        return PositionController::numTreePosControl(std::move(robot), position);
+    case PosControlType::BALL_CONTROL:
+        return PositionController::ballControl(robot, position);
+    case PosControlType::BASIC:
+        return PositionController::basic(robot, position);
+    case PosControlType::FORCE:
+        return PositionController::force(robot, position);
+    case PosControlType::NUMERIC_TREES:
+        return PositionController::numTree(robot, position);
+    default:
+        return PositionController::numTree(robot, position);
     }
-    return goToPos(std::move(robot), position);
 }
 
-PosVelAngle PositionController::goToPosBallControl(RobotPtr robot, Vector2 &targetPos) {
-    return gtpBallControl.goToPos(std::move(robot), targetPos);
+PosVelAngle PositionController::ballControl(RobotPtr robot, Vector2 &targetPos) {
+    return ballControlController.goToPos(std::move(robot), targetPos);
 }
 
-PosVelAngle PositionController::goToPosBasic(RobotPtr robot, Vector2 &targetPos) {
+PosVelAngle PositionController::basic(RobotPtr robot, Vector2 &targetPos) {
 
-    if (! robot) return {};
-
+    PosVelAngle posVelAngle;
     Vector2 error;
     error.x = targetPos.x - robot->pos.x;
     error.y = targetPos.y - robot->pos.y;
-    double dist = error.length();
-    static bool far = true;
-    if (dist > rtt::ai::Constants::ROBOT_RADIUS() and ! far) {
-        velPID.setD(1.5);
-        far = true;
+    velPID.reset();
+    posPID.reset();
+    if (error.length() < rtt::ai::Constants::ROBOT_RADIUS())
+        velPID.setPID(3.0, 1.0, 0.2);
+    else
+        velPID.setPID(3.0, 0.5, 1.5);
+
+    PIDHasInitialized = true;
+    posVelAngle.vel = error;
+    return pidController(robot, posVelAngle, false);
+}
+
+PosVelAngle PositionController::force(RobotPtr robot, Vector2 &targetPos) {
+
+    PosVelAngle target;
+    roboteam_msgs::World world = World::get_world();
+    Vector2 force = (targetPos - robot->pos);
+    force = (force.length() > 3.0) ?
+            force.stretchToLength(3.0) : force;
+
+    for (auto bot : world.us) {
+        force = force
+                + ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, Constants::ROBOT_RADIUS_MAX()*6.0);
     }
-    else {
-        velPID.setD(0);
-        far = false;
+
+    for (auto bot : world.them) {
+        force = force
+                + ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, Constants::ROBOT_RADIUS_MAX()*6.0);
     }
 
-    if (dist < rtt::ai::Constants::ROBOT_RADIUS()) velPID.setD(0.0);
+    force = (force.length() > 3.0) ?
+            force.stretchToLength(3.0) : force;
 
-    return PosVelAngle({0,0}, velPID.controlPIR(error, robot->vel), 0.0);
+    target.vel = force;
+    return target;
 }
 
-PosVelAngle PositionController::goToPosForce(RobotPtr robot, Vector2 &targetPos) {
-    return {};
-}
-
-PosVelAngle PositionController::numTreePosControl(RobotPtr robot, Vector2 &targetPos) {
-    PosVelAngle target = numTreeController.goToPos(robot,targetPos);
-    return pidController(robot, target);
-}
-
-double PositionController::distanceToTarget(RobotPtr robot, Vector2 &targetPos) {
-
-    double dx = targetPos.x - robot->pos.x;
-    double dy = targetPos.y - robot->pos.y;
-    Vector2 deltaPos = {dx, dy};
-    return deltaPos.length();
+PosVelAngle PositionController::numTree(RobotPtr robot, Vector2 &targetPos) {
+    PosVelAngle target = numTreeController.goToPos(robot, targetPos);
+    if (target.empty())
+        return force(robot, targetPos);
+    else
+        return pidController(robot, target);
 }
 
 void PositionController::setAvoidBall(bool _avoidBall) {
     // Add a function to avoid the ball for all goToPos's
-    //gtpBallControl.setAvoidBall(true);
     numTreeController.setAvoidBall(_avoidBall);
 }
 
@@ -112,25 +122,26 @@ void PositionController::setCanGoOutsideField(bool _canGoOutsideField) {
     numTreeController.setCanGoOutsideField(_canGoOutsideField);
 }
 
-PosVelAngle PositionController::pidController(const RobotPtr &robot, PosVelAngle target) {
+PosVelAngle PositionController::pidController(const RobotPtr &robot, PosVelAngle target, bool checkInterface) {
     PosVelAngle pidCommand;
-    if (!PIDHasInitialized)
+    if (! PIDHasInitialized)
         initializePID();
-    checkInterfacePID();
+    if (checkInterface)
+        checkInterfacePID();
 
     Vector2 pidP = Vector2();
     Vector2 pidV = Vector2();
 
-    if (target.pos != Vector2()) {
+    if (target.pos != Vector2() && ! (posPID.getP() == 0.0 && posPID.getI() == 0.0 && posPID.getD() == 0.0)) {
         pidP = posPID.controlPIR(target.pos - robot->pos, robot->vel);
     }
-    if (target.vel != Vector2()) {
+    if (target.vel != Vector2() && ! (velPID.getP() == 0.0 && velPID.getI() == 0.0 && velPID.getD() == 0.0)) {
         pidV = velPID.controlPIR(target.vel, robot->vel);
     }
 
     pidCommand.pos = target.pos;
     pidCommand.vel = (pidP + pidV).length() < Constants::MAX_VEL() ?
-            (pidP + pidV) : (pidP + pidV).stretchToLength(Constants::MAX_VEL());
+                     (pidP + pidV) : (pidP + pidV).stretchToLength(Constants::MAX_VEL());
     pidCommand.angle = target.angle;
     return pidCommand;
 }
@@ -146,10 +157,25 @@ void PositionController::initializePID() {
     velPID.setPID(Constants::standardNumTreeVelP(),
             Constants::standardNumTreeVelP(),
             Constants::standardNumTreeVelP());
+
+    usingManualPID = false;
+}
+
+void PositionController::initializePID(double posP, double posI, double posD, double velP, double velI, double velD) {
+    posPID.reset();
+    posPID.setPID(posP, posI, posD);
+
+    velPID.reset();
+    velPID.setPID(velP, velI, velD);
+
+    usingManualPID = true;
 }
 
 /// compare current PID values to those set in the interface
 void PositionController::checkInterfacePID() {
+    if (usingManualPID)
+        return;
+
     if (velPID.getP() != interface::InterfaceValues::getNumTreeVelP() ||
             velPID.getI() != interface::InterfaceValues::getNumTreeVelI() ||
             velPID.getD() != interface::InterfaceValues::getNumTreeVelD()) {

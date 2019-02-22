@@ -70,13 +70,7 @@ class NumTreePosControl {
 
         };
 
-        enum GTPType {
-          numeric,
-          force
-        };
-        PosVelAngle computeNumericCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
-        PosVelAngle computeForceCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
-        PosVelAngle computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot, GTPType gtpType = numeric);
+        PosVelAngle computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
 
 
         std::pair<std::vector<Vector2>, std::shared_ptr<PathPoint>> getNewTargets(

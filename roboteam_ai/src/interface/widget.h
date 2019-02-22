@@ -35,6 +35,8 @@ class Visualizer : public QWidget {
         void setShowPath(bool showPath);
         void setShowPathAll(bool showPaths);
         void setShowBallPlacementMarker(bool showMarker);
+        void setShowDebugValueInTerminal(bool showDebug);
+        bool getShowDebugValueInTerminal();
 
     void toggleSelectedRobot(int robotId);
     protected:
@@ -70,14 +72,15 @@ class Visualizer : public QWidget {
         std::vector<roboteam_msgs::WorldRobot> selectedRobots;
 
         // toggles
-        bool showRoles = Constants::STD_SHOW_ROLES;
-        bool showTactics = Constants::STD_SHOW_TACTICS;
-        bool showTacticColors = Constants::STD_SHOW_TACTICS_COLORS;
-        bool showAngles = Constants::STD_SHOW_ANGLES;
-        bool showVelocities = Constants::STD_SHOW_VELOCITIES;
-        bool showPath = Constants::STD_SHOW_PATHS_CURRENT;
-        bool showAllPaths = Constants::STD_SHOW_PATHS_ALL;
-        bool showBallPlacementMarker = Constants::STD_SHOW_BALL_PLACEMENT_MARKER;
+        bool showRoles = Constants::STD_SHOW_ROLES();
+        bool showTactics = Constants::STD_SHOW_TACTICS();
+        bool showTacticColors = Constants::STD_SHOW_TACTICS_COLORS();
+        bool showAngles = Constants::STD_SHOW_ANGLES();
+        bool showVelocities = Constants::STD_SHOW_VELOCITIES();
+        bool showPath = Constants::STD_SHOW_PATHS_CURRENT();
+        bool showAllPaths = Constants::STD_SHOW_PATHS_ALL();
+        bool showBallPlacementMarker = Constants::STD_SHOW_BALL_PLACEMENT_MARKER();
+        bool showDebugValueInTerminal = Constants::STD_SHOW_DEBUG_VALUES();
 };
 
 } // interface

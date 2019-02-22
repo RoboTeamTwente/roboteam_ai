@@ -21,12 +21,12 @@ double InterfaceValues::luthVelD = 0;
 
 rtt::Vector2 InterfaceValues::ballPlacementTarget = {0, 0}; // initialize on middle of the field
 bool InterfaceValues::useRefereeCommands = false;
-
+bool InterfaceValues::showDebugValuesInTerminal = true;
 
 std::mutex InterfaceValues::PIDMutex;
 std::mutex InterfaceValues::BallPlacementMutex;
 std::mutex InterfaceValues::RefMutex;
-
+std::mutex InterfaceValues::ShowDebugMutex;
 
 double InterfaceValues::getNumTreePosP() {
     std::lock_guard<std::mutex> lock(PIDMutex);
@@ -107,9 +107,19 @@ bool InterfaceValues::usesRefereeCommands() {
     return useRefereeCommands;
 }
 
-void InterfaceValues::setUseRefereeCommands(bool useRefereeCommands){
+void InterfaceValues::setUseRefereeCommands(bool useRefereeCommands) {
     std::lock_guard<std::mutex> lock(RefMutex);
     InterfaceValues::useRefereeCommands = useRefereeCommands;
+}
+
+void InterfaceValues::setShowDebugValues(bool showDebug) {
+    std::lock_guard<std::mutex> lock(ShowDebugMutex);
+    InterfaceValues::showDebugValuesInTerminal = showDebug;
+}
+
+bool InterfaceValues::getShowDebugValues() {
+    std::lock_guard<std::mutex> lock(ShowDebugMutex);
+    return InterfaceValues::showDebugValuesInTerminal;
 }
 
 } // interface

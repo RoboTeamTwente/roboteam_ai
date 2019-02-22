@@ -46,7 +46,7 @@ bt::Node::Status SideAttacker::onUpdate() {
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER);
             command.kicker_forced = 1;
         }
-        Vector2 velocity = goToPos.goToPos(robot, targetPos, GoToType::basic);
+        Vector2 velocity = goToPos.goToPos(robot, targetPos, GoToType::BASIC);
         command.x_vel = static_cast<float>(velocity.x);
         command.y_vel = static_cast<float>(velocity.y);
         publishRobotCommand(command);

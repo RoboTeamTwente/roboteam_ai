@@ -4,6 +4,7 @@
 #include <QColor>
 #include <ros/node_handle.h>
 #include "math.h"
+#include "../interface/InterfaceValues.h"
 
 namespace rtt {
 namespace ai {
@@ -14,9 +15,9 @@ public:
     static bool GRSIM();
 
 // Show timing for different functions
-    static bool SHOW_LONGEST_TICK()             { return true; };
-    static bool SHOW_TICK_TIME_TAKEN()          { return true; };
-    static bool SHOW_NUMTREE_TIME_TAKEN()       { return false; };
+    static bool SHOW_LONGEST_TICK()             { return true && interface::InterfaceValues::getShowDebugValues(); };
+    static bool SHOW_TICK_TIME_TAKEN()          { return true && interface::InterfaceValues::getShowDebugValues(); };
+    static bool SHOW_NUMTREE_TIME_TAKEN()       { return false && interface::InterfaceValues::getShowDebugValues(); };
 
 // Show debug information for different functions
     static bool SHOW_GOTOPOS_DEBUG_INFO()       { return false; };
@@ -136,6 +137,7 @@ public:
     static bool STD_SHOW_PATHS_ALL()            { return false; };
     static bool STD_SHOW_PATHS_CURRENT()        { return true; };
     static bool STD_SHOW_BALL_PLACEMENT_MARKER(){ return true; };
+    static bool STD_SHOW_DEBUG_VALUES()         { return true; };
     static bool STD_USE_REFEREE()               { return false; };
 
     static QColor FIELD_COLOR()                 { return GRSIM() ? QColor(30 , 30 , 30 , 255) :

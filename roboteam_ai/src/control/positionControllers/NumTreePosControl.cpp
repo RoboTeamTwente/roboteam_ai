@@ -25,46 +25,16 @@ void NumTreePosControl::setCanGoOutsideField(bool _canGoOutsideField) {
 
 /// return the velocity command using two PIDs based on the current position and velocity of the robot compared to the
 /// position and velocity of the calculated path
-PosVelAngle NumTreePosControl::computeNumericCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
+PosVelAngle NumTreePosControl::computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
     if (path.empty())
-        return computeForceCommand(std::move(robot));
-    PosVelAngle target;
+        return {};
 
+    PosVelAngle target;
     int pathPoint = static_cast<int>(path.size() > 4 ? 4 : path.size());
     target.pos = path[pathPoint].pos;
     target.vel = path[pathPoint].vel;
     target.angle = target.vel.angle();
     return target;
-}
-
-/// return the velocity command using a force model, where the robot gets repelled from robots close by,
-/// while also adding a velocity vector towards the final target
-PosVelAngle NumTreePosControl::computeForceCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
-    path.clear();
-    PosVelAngle target;
-
-    roboteam_msgs::World world = World::get_world();
-    Vector2 force = (finalTargetPos - robot->pos).normalize();
-    for (auto bot : world.us) {
-        force = force
-                + ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, defaultRobotCollisionRadius*2.0);
-    }
-    for (auto bot : world.them) {
-        force = force
-                + ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, defaultRobotCollisionRadius*2.0);
-    }
-    force = (force.length() > 3.0 ? force.stretchToLength(3.0) : force);
-    target.vel = force;
-    return target;
-}
-
-/// executes numeric or force velocity command based on input
-PosVelAngle NumTreePosControl::computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot, GTPType gtpType) {
-    switch (gtpType) {
-    case numeric:return computeNumericCommand(std::move(robot));
-    case force:return computeForceCommand(std::move(robot));
-    }
-    return computeNumericCommand(std::move(robot));
 }
 
 /// finds a reason to calculate a new path (possible reasons are: on path calculated yet, final target moved,
@@ -124,19 +94,22 @@ PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot
     realRobot->vel = robot->vel;
     realRobot->t = 0;
     if (checkCollision(realRobot)) {
-        if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
-            std::cout << "robot is too close to another robot, trying other GoToPos???" << std::endl;
-        path.clear();
-
         ros::Time end = ros::Time::now();
         if (Constants::SHOW_NUMTREE_TIME_TAKEN())
             std::cout << "GoToPosClean tick took: " << (end-begin).toNSec()*0.000001 << " ms" << std::endl;
-        return computeCommand(robot, GTPType::force);
+        if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+            std::cout << "robot is too close to another robot, trying other GoToPos???" << std::endl;
+
+        path.clear();
+        return {};
     }
     else if (doRecalculatePath(robot, targetPos)) {
 
         if (Vector2(robot->vel).length() > 10.0) {
             nicePath = false;
+            if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+                std::cout << "robot is moving too fast!!" << std::endl;
+
         }
         else {
             finalTargetPos = targetPos;
@@ -157,11 +130,13 @@ PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot
     if (Constants::SHOW_NUMTREE_TIME_TAKEN())
         std::cout << "GoToPosClean tick took: " << (end-begin).toNSec()*0.000001 << " ms" << std::endl;
 
-// compute command using PID
-    if (nicePath)
+    if (nicePath) {
         return computeCommand(robot);
-    else
-        return computeCommand(robot, GTPType::force);
+    }
+    else {
+        path.clear();
+        return {};
+    }
 }
 
 void NumTreePosControl::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {

@@ -22,15 +22,15 @@ void SkillGoToPos::onInitialize() {
     std::string gTT = properties->getString("goToType");
     if (gTT.empty()) {
         ROS_ERROR("SkillGoToPos::onInitialize -> no goToType set in properties");
-        goToType = control::PosControlType::noPreference;
+        goToType = control::PosControlType::NO_PREFERENCE;
     }
-    else if (gTT == "noPreference") goToType = control::PosControlType::noPreference;
-    else if (gTT == "ballControl") goToType = control::PosControlType::ballControl;
-    else if (gTT == "basic") goToType = control::PosControlType::basic;
-    else if (gTT == "force") goToType = control::PosControlType::force;
+    else if (gTT == "noPreference") goToType = control::PosControlType::NO_PREFERENCE;
+    else if (gTT == "ballControl") goToType = control::PosControlType::BALL_CONTROL;
+    else if (gTT == "basic") goToType = control::PosControlType::BASIC;
+    else if (gTT == "force") goToType = control::PosControlType::FORCE;
     else {
         ROS_ERROR("SkillGoToPos::onInitialize -> no good goToType set in properties");
-        goToType = control::PosControlType::noPreference;
+        goToType = control::PosControlType::NO_PREFERENCE;
     }
 }
 

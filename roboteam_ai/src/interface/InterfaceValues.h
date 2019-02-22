@@ -25,10 +25,16 @@ class InterfaceValues {
         static std::mutex PIDMutex;
         static std::mutex BallPlacementMutex;
         static std::mutex RefMutex;
+        static std::mutex ShowDebugMutex;
+
         static rtt::Vector2 ballPlacementTarget;
         static bool useRefereeCommands;
+        static bool showDebugValuesInTerminal;
 
     public:
+        static void setShowDebugValues(bool showDebug);
+        static bool getShowDebugValues();
+
         static bool usesRefereeCommands();
         static void setUseRefereeCommands(bool useRefereeCommands);
         static const rtt::Vector2 &getBallPlacementTarget();

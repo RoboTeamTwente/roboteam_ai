@@ -350,6 +350,12 @@ void Visualizer::setShowBallPlacementMarker(bool showMarker) {
     Visualizer::showBallPlacementMarker = showMarker;
 }
 
+void Visualizer::setShowDebugValueInTerminal(bool showDebug) {
+    Visualizer::showDebugValueInTerminal = showDebug;
+    InterfaceValues::setShowDebugValues(showDebug);
+}
+
+
 } // interface
 } // ai
 } // rtt
