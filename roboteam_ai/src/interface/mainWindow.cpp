@@ -142,7 +142,7 @@ MainWindow::MainWindow(QWidget* parent)
     configureCheckBox("show path for current robot", cbVLayout, visualizer, SLOT(setShowPath(bool)), Constants::STD_SHOW_PATHS_CURRENT());
     configureCheckBox("show path for all robots", cbVLayout, visualizer, SLOT(setShowPathAll(bool)), Constants::STD_SHOW_PATHS_ALL());
     configureCheckBox("Show marker for Ball Placement", cbVLayout, visualizer, SLOT(setShowBallPlacementMarker(bool)), Constants::STD_SHOW_BALL_PLACEMENT_MARKER());
-    configureCheckBox("show debug values in terminal", cbVLayout, visualizer, SLOT(setShowDebugValuesInTerminal(bool)), Constants::STD_SHOW_DEBUG_VALUES());
+    configureCheckBox("show debug values in terminal", cbVLayout, visualizer, SLOT(setShowDebugValueInTerminal(bool)), Constants::STD_SHOW_DEBUG_VALUES());
 
     auto cbVSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
     cbVLayout->addSpacerItem(cbVSpacer);
@@ -235,6 +235,10 @@ void MainWindow::sendHaltSignal() {
 
 void MainWindow::updateRobotsWidget() {
     robotsWidget->updateContents(visualizer);
+}
+
+void MainWindow::setShowDebugValueInTerminal(bool showDebug) {
+    InterfaceValues::setShowDebugValues(showDebug);
 }
 
 void MainWindow::setUseReferee(bool useRef) {

@@ -197,6 +197,7 @@ void Visualizer::mousePressEvent(QMouseEvent* event) {
         }
     } else if (event->button() == Qt::RightButton) {
         InterfaceValues::setBallPlacementTarget(toFieldPosition(pos));
+
     }
 }
 

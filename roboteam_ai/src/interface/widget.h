@@ -36,9 +36,8 @@ class Visualizer : public QWidget {
         void setShowPathAll(bool showPaths);
         void setShowBallPlacementMarker(bool showMarker);
         void setShowDebugValueInTerminal(bool showDebug);
-        bool getShowDebugValueInTerminal();
+        void toggleSelectedRobot(int robotId);
 
-    void toggleSelectedRobot(int robotId);
     protected:
         void paintEvent(QPaintEvent* event) override;
         void mousePressEvent(QMouseEvent* event) override;
