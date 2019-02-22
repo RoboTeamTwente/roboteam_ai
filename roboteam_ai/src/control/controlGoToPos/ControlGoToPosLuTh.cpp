@@ -258,9 +258,13 @@ bool ControlGoToPosLuTh::calculateNextPoint(NumRobotPtr me) {
     me->t = me->posData.size()*me->dt;
 
 // check for collision with a robot
-    Vector2 closestBotPos = World::getRobotClosestToPoint(me->pos, me->id, me->t).get()->pos;
-    if (me->isCollision(closestBotPos))
-        return false;
+    roboteam_msgs::WorldRobot_<allocator<void>> * closestBot;
+    closestBot = World::getRobotClosestToPoint(me->pos, me->id, me->t).get();
+    if (closestBot) {
+        Vector2 closestBotPos = closestBot->pos;
+        if (me->isCollision(closestBotPos))
+            return false;
+    }
 
 // if we should avoid the ball, check for a collision with the ball
     auto ball = World::getBall().get();
