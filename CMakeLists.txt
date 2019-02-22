@@ -125,11 +125,6 @@ set(DEMO_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/demo/JoystickDemo.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/demo/JoystickDemo.h)
 
-set(DEMO_SOURCES
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/demo/JoystickDemo.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/demo/JoystickDemo.h
-)
-
 set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
