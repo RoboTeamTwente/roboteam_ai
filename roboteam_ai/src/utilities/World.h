@@ -28,7 +28,6 @@ class World {
 private:
     static roboteam_msgs::World world;
     static std::vector<std::pair<roboteam_msgs::World, double>> futureWorlds;
-    static bool teamHasBall(bool ourTeam);
     static std::mutex worldMutex;
 public:
     static void set_world(roboteam_msgs::World world);
@@ -50,6 +49,7 @@ public:
     static bool robotHasBall(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::WorldBall& ball,
             double frontDist = Constants::MAX_BALL_BOUNCE_RANGE());
 
+    static bool teamHasBall(bool ourTeam);
     static bool weHaveBall();
     static bool theyHaveBall();
 

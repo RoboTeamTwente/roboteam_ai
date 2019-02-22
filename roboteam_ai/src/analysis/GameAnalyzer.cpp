@@ -13,8 +13,15 @@ namespace analysis {
 GameAnalyzer::GameAnalyzer() { }
 
 double GameAnalyzer::getBallPossessionEstimate(bool ourTeam) {
+    double ballPossessionEstimate = 0;
 
+    // booleans that matter
+    bool teamHasBall = World::teamHasBall(ourTeam);
+    bool teamHasShotAtGoal = true;
+    bool teamHasAttackerShotAtGoal = true;
 
+    // doubles that matter
+    double teamDistanceToGoal = 0;
     return 0;
 }
 
