@@ -52,6 +52,7 @@ public:
     static bool teamHasBall(bool ourTeam);
     static bool weHaveBall();
     static bool theyHaveBall();
+    static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotThatHasBall(bool ourTeam);
 
     static std::vector<roboteam_msgs::WorldRobot> getAllRobots();
     static std::vector<roboteam_msgs::WorldRobot> getRobotsForId(std::set<unsigned int> ids, bool robotsAreOurTeam);

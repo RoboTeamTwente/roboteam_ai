@@ -78,7 +78,6 @@ bool Field::pointIsInField(Vector2 point, float margin) {
             point.x > - halfLength + margin &&
             point.y < halfWidth - margin &&
             point.y > - halfWidth + margin);
-
 }
 
 double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point){
@@ -234,6 +233,14 @@ int Field::getRobotClosestToGoal(bool ourRobot, bool ourGoal) {
 
     int closestId = World::getRobotClosestToPoint(robots, target)->id;
     return closestId;
+}
+
+/*
+ * Get Distance to goal
+ */
+double Field::getDistanceToGoal(bool ourGoal, Vector2 point) {
+    auto sides = getGoalSides(ourGoal);
+    return control::ControlUtils::distanceToLineWithEnds(point, sides.first, sides.second);
 }
 
 } // ai

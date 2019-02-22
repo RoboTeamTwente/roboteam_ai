@@ -5,6 +5,8 @@
 #ifndef ROBOTEAM_AI_GAMEANALYZER_H
 #define ROBOTEAM_AI_GAMEANALYZER_H
 
+#include <roboteam_msgs/WorldRobot.h>
+
 namespace rtt {
 namespace ai {
 namespace analysis {
@@ -21,15 +23,18 @@ enum playStyle {
     MAKE_THEM_PAY                   = 7, // attack with attackers, midfielders and two defenders
 };
 
-// divide the field into zones which are dangerous or not
-
-
 class GameAnalyzer {
 public:
-    GameAnalyzer();
+    GameAnalyzer() = default;
     double getBallPossessionEstimate(bool ourTeam);
+    playStyle getRecommendedPlayStyle(bool ourTeam);
 private:
     double getBallSecurityForTeam(bool ourTeam = true);
+    double getTeamDistanceToGoalAvg(bool ourTeam); // get average of distances to goal
+
+    double getTeamGoalVisionAvg(bool ourTeam);
+
+    std::vector<std::pair<roboteam_msgs::WorldRobot, double>> getAttackersSortedOnGoalVision(bool ourTeam);
 
 };
 

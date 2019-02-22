@@ -203,16 +203,19 @@ bool World::theyHaveBall() {
 }
 
 bool World::teamHasBall(bool ourTeam) {
+    return getRobotThatHasBall(ourTeam) != nullptr;
+}
+
+/// returns the robot that has the ball of given team if it exists, otherwise nullptr
+std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotThatHasBall(bool ourTeam) {
     std::vector<roboteam_msgs::WorldRobot> robots = ourTeam ? world.us : world.them;
 
-    bool teamHasBall = false;
     for (auto &robot : robots) {
         if (World::robotHasBall(robot, *World::getBall())) {
-            teamHasBall = true;
-            break;
+            return std::make_shared<roboteam_msgs::WorldRobot>(robot);
         }
     }
-    return teamHasBall;
+    return nullptr;
 }
 
 } // ai
