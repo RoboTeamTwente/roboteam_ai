@@ -28,11 +28,11 @@ void JoystickDemo::demoLoop(roboteam_msgs::DemoRobot msg) {
     else if (! msg.reserve && msg.halt == 0) {
         demoRobots.erase(msg.id);
     }
-    else if (msg.halt == 1) {
+    else if (msg.halt == 1 && msg.id == -1) {
         pause.setPause(true);
         pause.haltRobots();
     }
-    else if (msg.halt == 2) {
+    else if (msg.halt == 2 && msg.id == -1) {
         pause.setPause(false);
     }
     else {
