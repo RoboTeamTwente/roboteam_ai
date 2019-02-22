@@ -162,7 +162,6 @@ void GetBall::sendTurnCommand() {
     command.y_vel = 0;
     command.w = (float) deltaPos.angle();
     publishRobotCommand(command);
-
 }
 void GetBall::sendApproachCommand() {
     roboteam_msgs::RobotCommand command;

@@ -64,9 +64,7 @@ bt::Node::Status Attack::onUpdate() {
     }
 
     if (velocity.length() < 0.6 && velocity.length() > 0.04) {
-        std::cout << velocity << std::endl;
         velocity = velocity.stretchToLength(0.6);
-        std::cout << velocity << std::endl;
     }
 
     velocity = control::ControlUtils::VelocityLimiter(velocity);
