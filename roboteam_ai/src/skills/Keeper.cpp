@@ -64,6 +64,7 @@ void Keeper::sendMoveCommand(Vector2 pos) {
     cmd.w = static_cast<float>(M_PI_2);
     publishRobotCommand(cmd);
 }
+
 void Keeper::sendFineMoveCommand(Vector2 pos) {
     Vector2 error = pos - robot->pos;
     Vector2 delta = finePid.controlPIR(error, robot->vel);
