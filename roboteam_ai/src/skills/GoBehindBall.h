@@ -18,7 +18,11 @@ class GoBehindBall : public Skill {
           freeKick,
           corner
         };
+        control::ControlGoToPos goToPos;
         unit type;
+        unit stringToUnit(std::string string);
+        // TODO maybe be smarter then Thijs
+        double errorMargin = 0.1;
 
     public:
         explicit GoBehindBall(string name, bt::Blackboard::Ptr blackboard);
