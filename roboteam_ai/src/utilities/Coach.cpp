@@ -14,7 +14,6 @@ std::map<int, int> Coach::defencePairs;
 std::vector<int> Coach::defenders = {};
 std::vector<int> Coach::robotsInFormation = {};
 
-
 bool Coach::readyToReceivePass;
 int Coach::robotBeingPassedTo;
 bool Coach::passed;
@@ -122,7 +121,6 @@ bool Coach::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2
 }
 
 std::pair<int, bool> Coach::getRobotClosestToBall() {
-
     auto closestUs = World::getRobotClosestToPoint(World::get_world().us, World::getBall()->pos);
     auto closestThem = World::getRobotClosestToPoint(World::get_world().them, World::getBall()->pos);
 
@@ -147,14 +145,28 @@ Vector2 Coach::getDefensivePosition(int robotId) {
     addDefender(robotId);
     auto me = World::getRobotForId(robotId, true);
     auto field = Field::get_field();
-    double targetLocationY = field.field_length/4 - (field.field_length/2);
+    double targetLocationX = field.field_length/4 - (field.field_length/2);
 
-    for (unsigned long i = 0; i<defenders.size(); i++) {
+    // first we calculate all the positions for the defense
+    std::vector<Vector2> targetLocations;
+    std::vector<Vector2> robotLocations;
+
+    for (unsigned int i = 0; i<defenders.size(); i++) {
+        double targetLocationY = ((field.field_width/(defenders.size() + 1))*(i+1)) - field.field_width/2;
+        targetLocations.push_back({targetLocationX, targetLocationY});
+        robotLocations.push_back(World::getRobotForId(defenders.at(i), true)->pos);
+    }
+
+    // the order of shortestDistances should be the same order as robotLocations
+    // this means that shortestDistances[0] corresponds to defenders[0] etc.
+    auto shortestDistances = control::ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(robotLocations, targetLocations);
+
+  for (unsigned long i = 0; i<defenders.size(); i++) {
         if (defenders.at(i) == robotId) {
-            return {targetLocationY, ((field.field_width/(defenders.size() + 1))*(i+1)) - field.field_width/2 };
+            return shortestDistances.at(i).second;
         }
     }
-    return {targetLocationY, 0};
+    return {0, 0};
 }
 
 void Coach::addDefender(int id) {
@@ -205,13 +217,29 @@ Vector2 Coach::getFormationPosition(int robotId) {
     addFormationRobot(robotId);
     auto me = World::getRobotForId(robotId, true);
     auto field = Field::get_field();
-    double targetLocationY = field.field_length/4 - (field.field_length/2);
-    for (unsigned long i = 0; i<robotsInFormation.size(); i++) {
+    double targetLocationX = field.field_length/4 - (field.field_length/2);
+
+    // first we calculate all the positions for the defense
+    std::vector<Vector2> targetLocations;
+    std::vector<Vector2> robotLocations;
+
+    for (unsigned int i = 0; i<robotsInFormation.size(); i++) {
+        double targetLocationY = ((field.field_width/(robotsInFormation.size() + 1))*(i+1)) - field.field_width/2;
+        targetLocations.push_back({targetLocationX, targetLocationY});
+        robotLocations.push_back(World::getRobotForId(robotsInFormation.at(i), true)->pos);
+    }
+
+    // the order of shortestDistances should be the same order as robotLocations
+    // this means that shortestDistances[0] corresponds to defenders[0] etc.
+    auto shortestDistances = control::ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(robotLocations, targetLocations);
+
+    for (unsigned int i = 0; i < robotsInFormation.size(); i++) {
+
         if (robotsInFormation.at(i) == robotId) {
-            return {targetLocationY, ((field.field_width/(robotsInFormation.size() + 1))*(i+1)) - field.field_width/2 };
+            return shortestDistances.at(i).second;
         }
     }
-    return {targetLocationY, 0};
+    return {0, 0};
 }
 
 // --- Pass functions --- //

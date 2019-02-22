@@ -10,6 +10,7 @@
 #include <roboteam_msgs/RobotCommand.h>
 #include "roboteam_msgs/RefereeData.h"
 #include <roboteam_msgs/DemoRobot.h>
+#include <roboteam_ai/src/utilities/Pause.h>
 
 namespace rtt {
 namespace ai {
@@ -37,6 +38,7 @@ private:
         void handleRobotFeedback(const roboteam_msgs::RoleFeedbackConstPtr &rolefeedback);
         void handleRefereeData(const roboteam_msgs::RefereeDataConstPtr &refData);
         void handleDemoInfo(const roboteam_msgs::DemoRobotConstPtr &demoInfo);
+        rtt::ai::Pause pause;
 
     public:
         explicit IOManager(bool subscribe = false, bool advertise = false);

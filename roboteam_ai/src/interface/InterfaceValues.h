@@ -7,6 +7,7 @@
 
 #include <mutex>
 #include <roboteam_utils/Vector2.h>
+#include <roboteam_ai/src/utilities/Pause.h>
 
 namespace rtt {
 namespace ai {
@@ -21,6 +22,7 @@ class InterfaceValues {
         static double luthVelP;
         static double luthVelI;
         static double luthVelD;
+
 
         static std::mutex PIDMutex;
         static std::mutex BallPlacementMutex;
@@ -49,6 +51,7 @@ class InterfaceValues {
         static void setLuthVelD(double luthD);
 
         static void sendHaltCommand();
+
 };
 
 }

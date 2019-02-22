@@ -117,11 +117,16 @@ const roboteam_msgs::RefereeData &IOManager::getRefereeData() {
 }
 
 void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
-    if (demo::JoystickDemo::checkIfDemoSafe(cmd.id)) {
-        robotCommandPublisher.publish(cmd);
+    if (! pause.getPause()) {
+        if (demo::JoystickDemo::checkIfDemoSafe(cmd.id)) {
+            robotCommandPublisher.publish(cmd);
+        }
+        else {
+            ROS_ERROR("Joystick demo has the robot taken over ID:   %s", std::to_string(cmd.id).c_str());
+        }
     }
     else {
-        ROS_ERROR("Joystick demo has the robot taken over ID:   %s", std::to_string(cmd.id).c_str());
+        ROS_ERROR("HALT!");
     }
 }
 const roboteam_msgs::DemoRobot &IOManager::getDemoInfo() {
