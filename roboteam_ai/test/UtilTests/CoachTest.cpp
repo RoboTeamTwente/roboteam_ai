@@ -138,6 +138,10 @@ TEST(CoachTest, it_adds_and_removes_defenders) {
     field.field_length = 8;
     Field::set_field(field);
 
+    // set the world
+    // we need to make sure all robots are available so this test can run properly
+    rtt::ai::World::set_world(testhelpers::WorldHelper::getWorldMsg(8, 0, false, field));
+
     Coach::defenders = {}; // empty the defenders to start the test
 
     EXPECT_TRUE(Coach::defenders.empty());
@@ -159,8 +163,8 @@ TEST(CoachTest, it_adds_and_removes_defenders) {
     defensePosition = Coach::getDefensivePosition(5);
     EXPECT_EQ(Coach::defenders.size(), 2);
 
-    EXPECT_EQ(defensePosition.y, abs(2));
-    EXPECT_EQ(defensePosition.x, -2); // it is either -4 or 4
+    EXPECT_EQ(abs(defensePosition.y), 2);
+    EXPECT_EQ(defensePosition.x, -2);
 
     Coach::removeDefender(6); // this should do nothing
     EXPECT_EQ(Coach::defenders.size(), 2);
@@ -169,8 +173,7 @@ TEST(CoachTest, it_adds_and_removes_defenders) {
     EXPECT_EQ(Coach::defenders.size(), 1);
     EXPECT_EQ(Coach::defenders.at(0), 5); // the id is correct
 
-    // TODO check. these might be wrong.
-    EXPECT_EQ(defensePosition.y, 2);
+    EXPECT_EQ(abs(defensePosition.y), 2);
     EXPECT_EQ(defensePosition.x, -2);
 
     Coach::removeDefender(5); // this should do nothing
@@ -182,6 +185,10 @@ TEST(CoachTest, it_adds_and_removes_formationrobots) {
     field.field_width = 12;
     field.field_length = 8;
     Field::set_field(field);
+
+    // set the world
+    // we need to make sure all robots are available so this test can run properly
+    rtt::ai::World::set_world(testhelpers::WorldHelper::getWorldMsg(8, 0, false, field));
 
     EXPECT_TRUE(Coach::robotsInFormation.empty());
 
@@ -202,8 +209,8 @@ TEST(CoachTest, it_adds_and_removes_formationrobots) {
     formationPosition = Coach::getFormationPosition(5);
     EXPECT_EQ(Coach::robotsInFormation.size(), 2);
 
-    EXPECT_EQ(formationPosition.y, abs(2));
-    EXPECT_EQ(formationPosition.x, -2); // it is either -4 or 4
+    EXPECT_EQ(abs(formationPosition.y), 2);
+    EXPECT_EQ(formationPosition.x, -2);
 
     Coach::removeFormationRobot(6); // this should do nothing
     EXPECT_EQ(Coach::robotsInFormation.size(), 2);
@@ -212,8 +219,7 @@ TEST(CoachTest, it_adds_and_removes_formationrobots) {
     EXPECT_EQ(Coach::robotsInFormation.size(), 1);
     EXPECT_EQ(Coach::robotsInFormation.at(0), 5); // the id is correct
 
-    // TODO check. these might be wrong.
-    EXPECT_EQ(formationPosition.y, 2);
+    EXPECT_EQ(abs(formationPosition.y), 2);
     EXPECT_EQ(formationPosition.x, -2);
 
     Coach::removeFormationRobot(5); // this should do nothing

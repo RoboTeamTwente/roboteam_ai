@@ -53,7 +53,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     auto hButtonsLayout = new QHBoxLayout();
 
-    auto haltBtn = new QPushButton("HALT");
+    haltBtn = new QPushButton("Pause");
     QObject::connect(haltBtn, SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
     hButtonsLayout->addWidget(haltBtn);
     haltBtn->setStyleSheet("background-color: #cc0000;");
@@ -231,6 +231,18 @@ void MainWindow::updatePID_luth() {
 /// send a halt signal to stop all trees from executing
 void MainWindow::sendHaltSignal() {
     InterfaceValues::sendHaltCommand();
+    rtt::ai::Pause pause;
+    if (pause.getPause()) {
+        haltBtn->setText("Resume");
+        haltBtn->setStyleSheet("background-color: #00b200;");
+    }
+    else {
+        haltBtn->setText("Pause");
+        haltBtn->setStyleSheet("background-color: #cc0000;");
+    }
+
+    std::cout << "Pause" << std::endl;
+
 }
 
 void MainWindow::updateRobotsWidget() {

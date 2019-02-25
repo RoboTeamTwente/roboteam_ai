@@ -89,7 +89,17 @@ void InterfaceValues::setLuthVelD(double LuthVD) {
 }
 
 void InterfaceValues::sendHaltCommand() {
-    BTFactory::halt();
+    rtt::ai::Pause pause;
+
+    if (pause.getPause()) {
+        // Already halted so unhalt
+        pause.setPause(false);
+    }
+    else {
+        pause.setPause(true);
+        pause.haltRobots();
+    }
+
 }
 
 const Vector2& InterfaceValues::getBallPlacementTarget() {
@@ -121,6 +131,7 @@ bool InterfaceValues::getShowDebugValues() {
     std::lock_guard<std::mutex> lock(ShowDebugMutex);
     return InterfaceValues::showDebugValuesInTerminal;
 }
+
 
 } // interface
 } // ai
