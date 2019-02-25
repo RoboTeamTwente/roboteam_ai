@@ -67,12 +67,12 @@ Vector2 ControlGoToPosClean::computeCommand(std::shared_ptr<roboteam_msgs::World
 bool ControlGoToPosClean::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
     double maxTargetDeviation = 0.3;
     if (path.empty()) {
-        if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+        if (Constants::SHOW_NUMTREE_DEBUG_INFO())
             std::cout << "no path, recalculating" << std::endl;
         return true;
     }
     else if ((finalTargetPos - targetPos).length() > maxTargetDeviation) {
-        if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+        if (Constants::SHOW_NUMTREE_DEBUG_INFO())
             std::cout << "target moved too much, recalculating" << std::endl;
         return true;
     }
@@ -89,7 +89,7 @@ bool ControlGoToPosClean::doRecalculatePath(std::shared_ptr<roboteam_msgs::World
         }
     }
     if (sqrt(distanceSquared) > maxTargetDeviation) {
-        if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+        if (Constants::SHOW_NUMTREE_DEBUG_INFO())
             std::cout << "robot is too far from current path, recalculating" << std::endl;
         return true;
     }
@@ -97,7 +97,7 @@ bool ControlGoToPosClean::doRecalculatePath(std::shared_ptr<roboteam_msgs::World
 
     for (auto pathPoint : path) {
         if (checkCollision(std::make_shared<PathPoint>(pathPoint))) {
-            if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+            if (Constants::SHOW_NUMTREE_DEBUG_INFO())
                 std::cout << "another robot will collide with ours when following this path, recalculating" << std::endl;
             return true;
         }
@@ -126,7 +126,7 @@ Vector2 ControlGoToPosClean::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> 
     realRobot->vel = robot->vel;
     realRobot->t = 0;
     if (checkCollision(realRobot)) {
-        if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+        if (Constants::SHOW_NUMTREE_DEBUG_INFO())
             std::cout << "robot is too close to another robot, trying other GoToPos???" << std::endl;
         path.clear();
 
@@ -215,7 +215,7 @@ void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> r
     while (! pathQueue.empty()) {
         ros::Time now = ros::Time::now();
         if ((now - start).toSec()*1000 > Constants::MAX_CALCULATION_TIME()) {
-            if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+            if (Constants::SHOW_NUMTREE_DEBUG_INFO())
                 std::cout << "Tick took too long!" << std::endl;
             path.clear();
             return;
@@ -262,7 +262,7 @@ void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> r
         }
 
     }
-    if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+    if (Constants::SHOW_NUMTREE_DEBUG_INFO())
         std::cout << "reached end of while loop: " << std::endl;
     path = {};
 }

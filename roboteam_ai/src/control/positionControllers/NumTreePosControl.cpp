@@ -42,12 +42,12 @@ PosVelAngle NumTreePosControl::computeCommand(std::shared_ptr<roboteam_msgs::Wor
 bool NumTreePosControl::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
     double maxTargetDeviation = 0.3;
     if (path.empty()) {
-        if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+        if (interface::InterfaceValues::showDebugNumTreeInfo())
             std::cout << "no path, recalculating" << std::endl;
         return true;
     }
     else if ((finalTargetPos - targetPos).length() > maxTargetDeviation) {
-        if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+        if (interface::InterfaceValues::showDebugNumTreeInfo())
             std::cout << "target moved too much, recalculating" << std::endl;
         return true;
     }
@@ -64,7 +64,7 @@ bool NumTreePosControl::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRo
         }
     }
     if (sqrt(distanceSquared) > maxTargetDeviation) {
-        if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+        if (interface::InterfaceValues::showDebugNumTreeInfo())
             std::cout << "robot is too far from current path, recalculating" << std::endl;
         return true;
     }
@@ -72,7 +72,7 @@ bool NumTreePosControl::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRo
 
     for (auto pathPoint : path) {
         if (checkCollision(std::make_shared<PathPoint>(pathPoint))) {
-            if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+            if (interface::InterfaceValues::showDebugNumTreeInfo())
                 std::cout << "another robot will collide with ours when following this path, recalculating" << std::endl;
             return true;
         }
@@ -95,9 +95,9 @@ PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot
     realRobot->t = 0;
     if (checkCollision(realRobot)) {
         ros::Time end = ros::Time::now();
-        if (Constants::SHOW_NUMTREE_TIME_TAKEN())
+        if (interface::InterfaceValues::showDebugNumTreeTimeTaken())
             std::cout << "GoToPosClean tick took: " << (end-begin).toNSec()*0.000001 << " ms" << std::endl;
-        if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+        if (interface::InterfaceValues::showDebugNumTreeInfo())
             std::cout << "robot is too close to another robot, trying other GoToPos???" << std::endl;
 
         path.clear();
@@ -107,7 +107,7 @@ PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot
 
         if (Vector2(robot->vel).length() > 10.0) {
             nicePath = false;
-            if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+            if (interface::InterfaceValues::showDebugNumTreeInfo())
                 std::cout << "robot is moving too fast!!" << std::endl;
 
         }
@@ -127,7 +127,7 @@ PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot
     }
 
     ros::Time end = ros::Time::now();
-    if (Constants::SHOW_NUMTREE_TIME_TAKEN())
+    if (interface::InterfaceValues::showDebugNumTreeTimeTaken())
         std::cout << "GoToPosClean tick took: " << (end-begin).toNSec()*0.000001 << " ms" << std::endl;
 
     if (nicePath) {
@@ -188,7 +188,7 @@ void NumTreePosControl::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> rob
     while (! pathQueue.empty()) {
         ros::Time now = ros::Time::now();
         if ((now - start).toSec()*1000 > Constants::MAX_CALCULATION_TIME()) {
-            if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+            if (interface::InterfaceValues::showDebugNumTreeInfo())
                 std::cout << "Tick took too long!" << std::endl;
             path.clear();
             return;
@@ -235,7 +235,7 @@ void NumTreePosControl::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> rob
         }
 
     }
-    if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+    if (interface::InterfaceValues::showDebugNumTreeInfo())
         std::cout << "reached end of while loop: " << std::endl;
     path = {};
 }

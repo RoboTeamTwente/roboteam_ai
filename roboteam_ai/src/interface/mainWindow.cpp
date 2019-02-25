@@ -18,12 +18,12 @@ MainWindow::MainWindow(QWidget* parent)
 
     // initialize values for interface to display
     InterfaceValues::setLuthPosP(Constants::standardNumTreePosP());
-    InterfaceValues::setLuthPosI(Constants::standardNumTreePosI());
-    InterfaceValues::setLuthPosD(Constants::standardNumTreePosD());
+    InterfaceValues::setNumTreePosI(Constants::standardNumTreePosI());
+    InterfaceValues::setNumTreePosD(Constants::standardNumTreePosD());
 
-    InterfaceValues::setLuthVelP(Constants::standardNumTreeVelP());
-    InterfaceValues::setLuthVelI(Constants::standardNumTreeVelI());
-    InterfaceValues::setLuthVelD(Constants::standardNumTreeVelD());
+    InterfaceValues::setNumTreeVelP(Constants::standardNumTreeVelP());
+    InterfaceValues::setNumTreeVelI(Constants::standardNumTreeVelI());
+    InterfaceValues::setNumTreeVelD(Constants::standardNumTreeVelD());
 
     InterfaceValues::setUseRefereeCommands(Constants::STD_USE_REFEREE());
 
@@ -70,7 +70,7 @@ MainWindow::MainWindow(QWidget* parent)
     sb_luth_Pos_P = new QDoubleSpinBox();
     sb_luth_Pos_P->setRange(-20, 20);
     sb_luth_Pos_P->setSingleStep(0.1f);
-    sb_luth_Pos_P->setValue(InterfaceValues::getNumTreePosP());
+    sb_luth_Pos_P->setValue(InterfaceValues::setNumTreePosP());
     QObject::connect(sb_luth_Pos_P, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
     spinBoxLayout->addWidget(sb_luth_Pos_P);
 
@@ -220,12 +220,12 @@ void MainWindow::toggleOurColorParam() {
 /// update the PID values for gotopos Luth
 void MainWindow::updatePID_luth() {
     InterfaceValues::setLuthPosP(sb_luth_Pos_P->value());
-    InterfaceValues::setLuthPosI(sb_luth_Pos_I->value());
-    InterfaceValues::setLuthPosD(sb_luth_Pos_D->value());
+    InterfaceValues::setNumTreePosI(sb_luth_Pos_I->value());
+    InterfaceValues::setNumTreePosD(sb_luth_Pos_D->value());
 
-    InterfaceValues::setLuthVelP(sb_luth_Vel_P->value());
-    InterfaceValues::setLuthVelI(sb_luth_Vel_I->value());
-    InterfaceValues::setLuthVelD(sb_luth_Vel_D->value());
+    InterfaceValues::setNumTreeVelP(sb_luth_Vel_P->value());
+    InterfaceValues::setNumTreeVelI(sb_luth_Vel_I->value());
+    InterfaceValues::setNumTreeVelD(sb_luth_Vel_D->value());
 }
 
 /// send a halt signal to stop all trees from executing

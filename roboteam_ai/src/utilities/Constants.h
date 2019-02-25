@@ -1,10 +1,11 @@
+
 #ifndef ROBOTEAM_AI_CONSTANTS_H
 #define ROBOTEAM_AI_CONSTANTS_H
 
 #include <QColor>
 #include <ros/node_handle.h>
 #include "math.h"
-#include "../interface/InterfaceValues.h"
+
 
 namespace rtt {
 namespace ai {
@@ -15,13 +16,12 @@ public:
     static bool GRSIM();
 
 // Show timing for different functions
-    static bool SHOW_LONGEST_TICK()             { return true && interface::InterfaceValues::getShowDebugValues(); };
-    static bool SHOW_TICK_TIME_TAKEN()          { return true && interface::InterfaceValues::getShowDebugValues(); };
-    static bool SHOW_NUMTREE_TIME_TAKEN()       { return false && interface::InterfaceValues::getShowDebugValues(); };
+    static bool SHOW_LONGEST_TICK()             { return true;};
+    static bool SHOW_TICK_TIME_TAKEN()          { return true;};
+    static bool SHOW_NUMTREE_TIME_TAKEN()       { return false;};
 
 // Show debug information for different functions
-    static bool SHOW_GOTOPOS_DEBUG_INFO()       { return false; };
-
+    static bool SHOW_NUMTREE_DEBUG_INFO()       { return true; };
 
 // Max values we can send through robothub
     static double MAX_VEL_CMD()                 { return 8.191; };
@@ -49,29 +49,30 @@ public:
     static int TICK_RATE()                      { return 120; };    // Rate at which we tick our behavior Trees
 
 // Skills
-    static double DEFAULT_KICK_POWER()          { return  5.0; };   // Max kick power() { return  100 }
-    static double MAX_KICK_POWER()              { return  8.0; };   // TODO: CHECK
+    static double DEFAULT_KICK_POWER()          { return 5.0; };   // Max kick power() { return  100 }
+    static double MAX_KICK_POWER()              { return 8.0; };   // TODO: CHECK
     static double MAX_POWER_KICK_DISTANCE()     { return 9.0; };
-    static int MAX_KICK_CYCLES()                { return  20; };
-    static int MAX_GENEVA_CYCLES()              { return  20; };
-    static int DEFAULT_GENEVA_STATE()           { return  0; };
+    static int MAX_KICK_CYCLES()                { return 20; };
+    static int MAX_GENEVA_CYCLES()              { return 20; };
+    static int DEFAULT_GENEVA_STATE()           { return 0; };
 
 // Dribble
     static double MAX_BALL_BOUNCE_RANGE()       { return 0.15; };
     static double DRIBBLE_POSDIF()              { return 0.05; };
     static float  DRIBBLE_SPEED()               { return 0.8; };
 
+
 // HasBall
     static double MAX_BALL_RANGE()              { return 0.15; };   // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
     static double HAS_BALL_ANGLE()              { return 0.2; }
 
-// GetBallcc
+// GetBall
     static double COLLISION_RADIUS()            { return 0.18; };
     static double ANGLE_SENS()                  { return 0.05*M_PI; };
     static double MAX_GETBALL_RANGE()           { return 0.7; };
     static int POSSES_BALL_CYCLES()             { return 25; };
-    static double GETBALL_SPEED()               { return .5; };
-    static double GETBALL_OVERSHOOT()           { return .02; };    // Meters
+    static double GETBALL_SPEED()               { return 0.5; };
+    static double GETBALL_OVERSHOOT()           { return 0.02; };    // Meters
 
 // PositionControl
     static double MAX_CALCULATION_TIME()        { return 12.0; };   // Max time in ms
@@ -108,10 +109,10 @@ public:
     static double DRIBBLE_ROTATE_MAX_SPEED()    { return 0.5; };    // Rad/second
 
 // Interface
-    static int ROBOT_DRAWING_SIZE()             { return  8; };
-    static int BALL_DRAWING_SIZE()              { return  5; };
-    static int TACTIC_COLOR_DRAWING_SIZE()      { return  10; };
-    static int WINDOW_FIELD_MARGIN()            { return  5; };
+    static int ROBOT_DRAWING_SIZE()             { return 8; };
+    static int BALL_DRAWING_SIZE()              { return 5; };
+    static int TACTIC_COLOR_DRAWING_SIZE()      { return 10; };
+    static int WINDOW_FIELD_MARGIN()            { return 5; };
 
     static int KEEPER_HELP_DRAW_SIZE()          { return 7; };
     static int INTERCEPT_DRAW_VECTOR_SIZE()     { return 5; };
@@ -120,12 +121,12 @@ public:
     static double BP_MOVE_TOWARDS_DIST()        { return 0.15; };
 
 // Avoid ball
-    static double robotWeight()                 { return .09; };
-    static double minRobotDistanceForForce()    { return .7; };
-    static double ballWeight()                  { return .15; };
-    static double minBallDistanceForForce()     { return .7; };
-    static double wallWeight()                  { return .05; };
-    static double minWallDistanceForForce()     { return .4; };
+    static double robotWeight()                 { return 0.09; };
+    static double minRobotDistanceForForce()    { return 0.7; };
+    static double ballWeight()                  { return 0.15; };
+    static double minBallDistanceForForce()     { return 0.7; };
+    static double wallWeight()                  { return 0.05; };
+    static double minWallDistanceForForce()     { return 0.4; };
 
 // Settings
     static bool STD_SHOW_ROLES()                { return true; };

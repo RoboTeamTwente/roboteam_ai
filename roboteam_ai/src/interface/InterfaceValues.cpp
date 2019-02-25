@@ -28,7 +28,7 @@ std::mutex InterfaceValues::BallPlacementMutex;
 std::mutex InterfaceValues::RefMutex;
 std::mutex InterfaceValues::ShowDebugMutex;
 
-double InterfaceValues::getNumTreePosP() {
+double InterfaceValues::setNumTreePosP() {
     std::lock_guard<std::mutex> lock(PIDMutex);
     return luthPosP;
 }
@@ -43,7 +43,7 @@ double InterfaceValues::getNumTreePosI() {
     return luthPosI;
 }
 
-void InterfaceValues::setLuthPosI(double luthPI) {
+void InterfaceValues::setNumTreePosI(double luthPI) {
     std::lock_guard<std::mutex> lock(PIDMutex);
     InterfaceValues::luthPosI = luthPI;
 }
@@ -53,7 +53,7 @@ double InterfaceValues::getNumTreePosD() {
     return luthPosD;
 }
 
-void InterfaceValues::setLuthPosD(double LuthPD) {
+void InterfaceValues::setNumTreePosD(double LuthPD) {
     std::lock_guard<std::mutex> lock(PIDMutex);
     InterfaceValues::luthPosD = LuthPD;
 }
@@ -63,7 +63,7 @@ double InterfaceValues::getNumTreeVelP() {
     return luthVelP;
 }
 
-void InterfaceValues::setLuthVelP(double luthVP) {
+void InterfaceValues::setNumTreeVelP(double luthVP) {
     std::lock_guard<std::mutex> lock(PIDMutex);
     InterfaceValues::luthVelP = luthVP;
 }
@@ -73,7 +73,7 @@ double InterfaceValues::getNumTreeVelI() {
     return luthVelI;
 }
 
-void InterfaceValues::setLuthVelI(double luthVI) {
+void InterfaceValues::setNumTreeVelI(double luthVI) {
     std::lock_guard<std::mutex> lock(PIDMutex);
     InterfaceValues::luthVelI = luthVI;
 }
@@ -83,7 +83,7 @@ double InterfaceValues::getNumTreeVelD() {
     return luthVelD;
 }
 
-void InterfaceValues::setLuthVelD(double LuthVD) {
+void InterfaceValues::setNumTreeVelD(double LuthVD) {
     std::lock_guard<std::mutex> lock(PIDMutex);
     InterfaceValues::luthVelD = LuthVD;
 }
@@ -132,6 +132,21 @@ bool InterfaceValues::getShowDebugValues() {
     return InterfaceValues::showDebugValuesInTerminal;
 }
 
+bool InterfaceValues::showDebugTickTimeTaken() {
+    return getShowDebugValues() && Constants::SHOW_TICK_TIME_TAKEN();
+}
+
+bool InterfaceValues::showDebugLongestTick() {
+    return getShowDebugValues() && Constants::SHOW_LONGEST_TICK();
+}
+
+bool InterfaceValues::showDebugNumTreeTimeTaken() {
+    return getShowDebugValues() && Constants::SHOW_NUMTREE_TIME_TAKEN();
+}
+
+bool InterfaceValues::showDebugNumTreeInfo() {
+    return getShowDebugValues() && Constants::SHOW_NUMTREE_DEBUG_INFO();
+}
 
 } // interface
 } // ai

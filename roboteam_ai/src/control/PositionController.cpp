@@ -186,12 +186,12 @@ void PositionController::checkInterfacePID() {
                 interface::InterfaceValues::getNumTreeVelD());
     }
 
-    if (posPID.getP() != interface::InterfaceValues::getNumTreePosP() ||
+    if (posPID.getP() != interface::InterfaceValues::setNumTreePosP() ||
             posPID.getI() != interface::InterfaceValues::getNumTreePosI() ||
             posPID.getD() != interface::InterfaceValues::getNumTreePosD()) {
 
         posPID.reset();
-        posPID.setPID(interface::InterfaceValues::getNumTreePosP(),
+        posPID.setPID(interface::InterfaceValues::setNumTreePosP(),
                 interface::InterfaceValues::getNumTreePosI(),
                 interface::InterfaceValues::getNumTreePosD());
     }

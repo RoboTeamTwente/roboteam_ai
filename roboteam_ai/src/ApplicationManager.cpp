@@ -39,7 +39,7 @@ void ApplicationManager::loop() {
         if (timeTaken > longestTick) {
             longestTick = timeTaken;
         }
-        if (ai::Constants::SHOW_TICK_TIME_TAKEN() && ++nTicksTaken >= ai::Constants::TICK_RATE()) {
+        if (ai::interface::InterfaceValues::showDebugTickTimeTaken() && ++nTicksTaken >= ai::Constants::TICK_RATE()) {
             std::stringstream ss;
             ss << "The last " << nTicksTaken << " ticks took " << timeTakenOverNTicks << " ms, which gives an average of " << timeTakenOverNTicks / nTicksTaken << " ms / tick. The longest tick took " << longestTick << " ms!";
             if (nTicksTaken * longestTick < 2000 && timeTakenOverNTicks < 1200)

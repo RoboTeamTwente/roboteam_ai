@@ -9,6 +9,8 @@
 #include <roboteam_utils/Vector2.h>
 #include <roboteam_ai/src/utilities/Pause.h>
 
+
+
 namespace rtt {
 namespace ai {
 namespace interface {
@@ -35,25 +37,29 @@ class InterfaceValues {
     public:
         static void setShowDebugValues(bool showDebug);
         static bool getShowDebugValues();
+        static bool showDebugLongestTick();
+        static bool showDebugTickTimeTaken();
+        static bool showDebugNumTreeTimeTaken();
+        static bool showDebugNumTreeInfo();
 
         static bool usesRefereeCommands();
         static void setUseRefereeCommands(bool useRefereeCommands);
         static const rtt::Vector2 &getBallPlacementTarget();
         static void setBallPlacementTarget(const rtt::Vector2 &ballPlacementTarget);
 
-        static double getNumTreePosP();
+        static double setNumTreePosP();
         static void setLuthPosP(double luthP);
         static double getNumTreePosI();
-        static void setLuthPosI(double luthI);
+        static void setNumTreePosI(double luthI);
         static double getNumTreePosD();
-        static void setLuthPosD(double luthD);
+        static void setNumTreePosD(double luthD);
 
         static double getNumTreeVelP();
-        static void setLuthVelP(double luthP);
+        static void setNumTreeVelP(double luthP);
         static double getNumTreeVelI();
-        static void setLuthVelI(double luthI);
+        static void setNumTreeVelI(double luthI);
         static double getNumTreeVelD();
-        static void setLuthVelD(double luthD);
+        static void setNumTreeVelD(double luthD);
 
         static void sendHaltCommand();
 };

@@ -17,6 +17,7 @@
 #include "../../utilities/Constants.h"
 #include <roboteam_ai/src/control/PIDController.h>
 #include "PosVelAngle.h"
+#include "../../interface/InterfaceValues.h"
 
 #ifndef ROBOTEAM_AI_GOTOPOSINCLUDE_H
 #define ROBOTEAM_AI_GOTOPOSINCLUDE_H
