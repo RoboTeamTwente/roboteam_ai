@@ -15,7 +15,7 @@ namespace control {
 class NumTreePosControl {
     private:
         //constants, should be moved at some point, or adapted in a dynamic model (e.g. for lower speeds for certain branches, jazz like that)
-        const double dt = 0.075;
+        const double dt = 0.1;
         const double defaultRobotCollisionRadius = 3*Constants::ROBOT_RADIUS_MAX();
         int robotID = - 1;
         Vector2 pos;
@@ -25,11 +25,12 @@ class NumTreePosControl {
 
         void drawCross(Vector2 &pos, QColor color = Qt::green);
         void drawPoint(Vector2 &pos, QColor color = Qt::green);
+        void addDataInInterface(std::vector<std::pair<rtt::Vector2, QColor>> displayColorData);
+        void redrawInInterface();
 
-            std::vector<std::pair<Vector2, QColor>> displayData;
+        std::vector<std::pair<Vector2, QColor>> displayData;
         bool doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos);
         double remainingStraightLinePathLength(Vector2 currentPos, Vector2 halfwayPos, Vector2 finalPos);
-        void drawInInterface();
 
         // If there is another way to return a shared pointer from an object to itself that is more pretty let me know
         struct PathPoint : std::enable_shared_from_this<PathPoint> {
@@ -44,7 +45,7 @@ class NumTreePosControl {
                 Vector2 acc;
                 double maxVel() {
                     double distanceRemaining = (finalTarget-pos).length();
-                    double absoluteMax = sqrt(2.0*maxAcc()*distanceRemaining);
+                    double absoluteMax = sqrt(2.0*maxAcc()*distanceRemaining) * 0.8;
                     return absoluteMax > maxV ? maxV : absoluteMax;
                 }
                 double maxAcc() {
@@ -71,7 +72,6 @@ class NumTreePosControl {
         };
 
         PosVelAngle computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
-
 
         std::pair<std::vector<Vector2>, std::shared_ptr<PathPoint>> getNewTargets(
                 std::shared_ptr<PathPoint> collisionPoint);

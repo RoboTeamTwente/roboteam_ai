@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by mrlukasbos on 4-12-18.
 //
@@ -18,16 +20,22 @@ std::mutex Drawer::keeperMutex;
 std::mutex Drawer::goToPosMutex;
 std::mutex Drawer::interceptMutex;
 
-void Drawer::setGoToPosLuThPoints(int id, std::vector<std::pair<rtt::Vector2, QColor>> points) {
+void Drawer::setGoToPosLuThPoints(int id, GTPPoints points) {
     std::lock_guard<std::mutex> lock(goToPosMutex);
 
-    std::pair<int, std::vector<std::pair<rtt::Vector2, QColor>>> pair{id, std::move(points)};
-
-    GoToPosLuThPoints.erase(id);
-    GoToPosLuThPoints.insert(pair);
+    //GoToPosLuThPoints.erase(id); //Probably not needed?
+    GoToPosLuThPoints[id] = std::move(points);
 }
 
-std::vector<std::pair<Vector2, QColor>> Drawer::getGoToPosLuThPoints(int id) {
+void Drawer::addGoToPosLuThPoints(int id, GTPPoints points) {
+    std::lock_guard<std::mutex> lock(goToPosMutex);
+
+    GTPPoints oldPoints = GoToPosLuThPoints[id];
+    oldPoints.insert(oldPoints.end(), points.begin(), points.end());
+    GoToPosLuThPoints[id] = oldPoints;
+}
+
+Drawer::GTPPoints Drawer::getGoToPosLuThPoints(int id) {
     std::lock_guard<std::mutex> lock(goToPosMutex);
 
     if (GoToPosLuThPoints.find(id) != GoToPosLuThPoints.end()) {
@@ -37,15 +45,16 @@ std::vector<std::pair<Vector2, QColor>> Drawer::getGoToPosLuThPoints(int id) {
 
 }
 
-void Drawer::setKeeperPoints(int id,std::vector<std::pair<rtt::Vector2, QColor>> points) {
+void Drawer::setKeeperPoints(int id, GTPPoints points) {
     std::lock_guard<std::mutex> lock(keeperMutex);
 
-    std::pair<int, std::vector<std::pair<rtt::Vector2, QColor>>> pair{id, std::move(points)};
+    std::pair<int, GTPPoints> pair{id, std::move(points)};
 
     KeeperPoints.erase(id);
     KeeperPoints.insert(pair);
 }
-std::vector<std::pair<Vector2, QColor>> Drawer::getKeeperPoints(int id) {
+
+Drawer::GTPPoints Drawer::getKeeperPoints(int id) {
     std::lock_guard<std::mutex> lock(keeperMutex);
 
     if (KeeperPoints.find(id) != KeeperPoints.end()) {
@@ -54,15 +63,15 @@ std::vector<std::pair<Vector2, QColor>> Drawer::getKeeperPoints(int id) {
     return {};
 
 }
-void Drawer::setInterceptPoints(int id,std::vector<std::pair<rtt::Vector2, QColor>> points) {
+void Drawer::setInterceptPoints(int id, GTPPoints points) {
     std::lock_guard<std::mutex> lock(interceptMutex);
 
-    std::pair<int, std::vector<std::pair<rtt::Vector2, QColor>>> pair{id, std::move(points)};
+    std::pair<int, GTPPoints> pair{id, std::move(points)};
 
     InterceptPoints.erase(id);
     InterceptPoints.insert(pair);
 }
-std::vector<std::pair<Vector2, QColor>> Drawer::getInterceptPoints(int id) {
+Drawer::GTPPoints Drawer::getInterceptPoints(int id) {
     std::lock_guard<std::mutex> lock(interceptMutex);
 
     if (InterceptPoints.find(id) != InterceptPoints.end()) {

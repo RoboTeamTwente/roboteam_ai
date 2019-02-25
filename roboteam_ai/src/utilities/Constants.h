@@ -21,7 +21,7 @@ public:
     static bool SHOW_NUMTREE_TIME_TAKEN()       { return false;};
 
 // Show debug information for different functions
-    static bool SHOW_NUMTREE_DEBUG_INFO()       { return true; };
+    static bool SHOW_NUMTREE_DEBUG_INFO()       { return false; };
 
 // Max values we can send through robothub
     static double MAX_VEL_CMD()                 { return 8.191; };
@@ -46,7 +46,7 @@ public:
     static double CENTRE_TO_FRONT()             { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); };
     static double BALL_RADIUS()                 { return 0.0215; };
 
-    static int TICK_RATE()                      { return 120; };    // Rate at which we tick our behavior Trees
+    static int TICK_RATE()                      { return 100; };    // Rate at which we tick our behavior Trees
 
 // Skills
     static double DEFAULT_KICK_POWER()          { return 5.0; };   // Max kick power() { return  100 }
@@ -75,7 +75,7 @@ public:
     static double GETBALL_OVERSHOOT()           { return 0.02; };    // Meters
 
 // PositionControl
-    static double MAX_CALCULATION_TIME()        { return 12.0; };   // Max time in ms
+    static double MAX_CALCULATION_TIME()        { return 5.0; };   // Max time in ms
     static double NUMTREE_ERROR_MARGIN()        { return 0.25; };
 
 // Keeper

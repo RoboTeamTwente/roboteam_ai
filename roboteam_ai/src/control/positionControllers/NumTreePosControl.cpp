@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by rolf on 5-2-19.
 //
@@ -26,11 +28,13 @@ void NumTreePosControl::setCanGoOutsideField(bool _canGoOutsideField) {
 /// return the velocity command using two PIDs based on the current position and velocity of the robot compared to the
 /// position and velocity of the calculated path
 PosVelAngle NumTreePosControl::computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
-    if (path.empty())
+    if (path.size() < static_cast<int>(1.01 + 0.40/dt)) {
+        path.clear();
         return {};
+    }
 
+    int pathPoint = static_cast<int>(0.40/dt);
     PosVelAngle target;
-    int pathPoint = static_cast<int>(path.size() > 4 ? 4 : path.size());
     target.pos = path[pathPoint].pos;
     target.vel = path[pathPoint].vel;
     target.angle = target.vel.angle();
@@ -68,6 +72,11 @@ bool NumTreePosControl::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRo
             std::cout << "robot is too far from current path, recalculating" << std::endl;
         return true;
     }
+    std::vector<std::pair<rtt::Vector2, QColor>> colorData = {{},{}};
+    for (int i = 0; i < currentIndex; i++) {
+        auto p = path[i];
+        colorData.emplace_back(p.pos , Qt::darkGreen);
+    }
     path.erase(path.begin(), path.begin() + currentIndex);
 
     for (auto pathPoint : path) {
@@ -77,7 +86,7 @@ bool NumTreePosControl::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRo
             return true;
         }
     }
-
+    addDataInInterface(colorData);
     return false;
 }
 
@@ -109,7 +118,6 @@ PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot
             nicePath = false;
             if (interface::InterfaceValues::showDebugNumTreeInfo())
                 std::cout << "robot is moving too fast!!" << std::endl;
-
         }
         else {
             finalTargetPos = targetPos;
@@ -118,7 +126,7 @@ PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot
             tracePath(robot);
 
             drawCross(targetPos, Qt::darkRed);
-            drawInInterface();
+            redrawInInterface();
 
             if (path.empty())
                 nicePath = false;
@@ -190,13 +198,16 @@ void NumTreePosControl::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> rob
         if ((now - start).toSec()*1000 > Constants::MAX_CALCULATION_TIME()) {
             if (interface::InterfaceValues::showDebugNumTreeInfo())
                 std::cout << "Tick took too long!" << std::endl;
-            path.clear();
+             //( dont clear path?? ) path.clear();
             return;
         }
-
         std::shared_ptr<PathPoint> point = pathQueue.top();
         while (true) {
             std::shared_ptr<PathPoint> newPoint = computeNewPoint(point, point->currentTarget);
+            if (newPoint->t > 2.26) {
+                path = backTrackPath(point, root);
+                return;
+            }
             point->addChild(newPoint);
             point = newPoint;
 
@@ -236,7 +247,7 @@ void NumTreePosControl::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> rob
 
     }
     if (interface::InterfaceValues::showDebugNumTreeInfo())
-        std::cout << "reached end of while loop: " << std::endl;
+        std::cout << "reached end of while loop :x " << std::endl;
     path = {};
 }
 
@@ -420,7 +431,7 @@ std::vector<NumTreePosControl::PathPoint> NumTreePosControl::backTrackPath(std::
 
 
 /// draw all the data in the interface
-void NumTreePosControl::drawInInterface() {
+void NumTreePosControl::redrawInInterface() {
     std::vector<std::pair<rtt::Vector2, QColor>> displayColorData = {{{}, {}}};
     for (auto &displayAll : displayData) {
         displayColorData.push_back(displayAll);
@@ -429,6 +440,11 @@ void NumTreePosControl::drawInInterface() {
         displayColorData.emplace_back(displayPath.pos, Qt::red);
     }
     rtt::ai::interface::Drawer::setGoToPosLuThPoints(robotID, displayColorData);
+}
+
+/// add data to interface
+void NumTreePosControl::addDataInInterface(std::vector<std::pair<rtt::Vector2, QColor>> displayColorData) {
+   rtt::ai::interface::Drawer::addGoToPosLuThPoints(robotID, std::move(displayColorData));
 }
 
 /// draw a cross in the interface
