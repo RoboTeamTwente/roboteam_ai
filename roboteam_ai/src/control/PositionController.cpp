@@ -80,6 +80,18 @@ PosVelAngle PositionController::basic(RobotPtr robot, Vector2 &targetPos) {
 }
 
 PosVelAngle PositionController::force(RobotPtr robot, Vector2 &targetPos) {
+    double forceRadius;
+    if ((targetPos - robot->pos).length() < 0.1) {
+        return {robot->pos,{0.0,0.0},0.0};
+    }
+    else if ((targetPos - robot->pos).length() < Constants::MIN_DISTANCE_FOR_FORCE()) {
+        forceRadius = Constants::ROBOT_RADIUS_MAX()*3.0;
+        initializePID(3.0, 1.0, 0.2);
+    }
+    else {
+        forceRadius = Constants::ROBOT_RADIUS_MAX()*6.0;
+        initializePID(3.0, 0.5, 1.5);
+    }
 
     PosVelAngle target;
     roboteam_msgs::World world = World::get_world();
@@ -89,19 +101,19 @@ PosVelAngle PositionController::force(RobotPtr robot, Vector2 &targetPos) {
 
     for (auto bot : world.us) {
         force = force
-                + ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, Constants::ROBOT_RADIUS_MAX()*6.0);
+                + ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, forceRadius);
     }
 
     for (auto bot : world.them) {
         force = force
-                + ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, Constants::ROBOT_RADIUS_MAX()*6.0);
+                + ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, forceRadius);
     }
 
     force = (force.length() > 3.0) ?
             force.stretchToLength(3.0) : force;
 
     target.vel = force;
-    return target;
+    return pidController(robot, target);
 }
 
 PosVelAngle PositionController::numTree(RobotPtr robot, Vector2 &targetPos) {

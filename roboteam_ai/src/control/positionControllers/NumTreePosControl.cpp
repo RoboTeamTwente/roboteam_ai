@@ -28,12 +28,12 @@ void NumTreePosControl::setCanGoOutsideField(bool _canGoOutsideField) {
 /// return the velocity command using two PIDs based on the current position and velocity of the robot compared to the
 /// position and velocity of the calculated path
 PosVelAngle NumTreePosControl::computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
-    if (path.size() < static_cast<int>(1.01 + 0.40/dt)) {
+    if (path.size() < static_cast<unsigned int>(1.01 + 0.40/dt)) {
         path.clear();
         return {};
     }
 
-    int pathPoint = static_cast<int>(0.40/dt);
+    auto pathPoint = static_cast<unsigned int>(0.40/dt);
     PosVelAngle target;
     target.pos = path[pathPoint].pos;
     target.vel = path[pathPoint].vel;
@@ -73,7 +73,7 @@ bool NumTreePosControl::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRo
         return true;
     }
     std::vector<std::pair<rtt::Vector2, QColor>> colorData = {{},{}};
-    for (int i = 0; i < currentIndex; i++) {
+    for (int i = 0; i < static_cast<int>(currentIndex); i++) {
         auto p = path[i];
         colorData.emplace_back(p.pos , Qt::darkGreen);
     }
@@ -109,6 +109,10 @@ PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot
         if (interface::InterfaceValues::showDebugNumTreeInfo())
             std::cout << "robot is too close to another robot, trying other GoToPos???" << std::endl;
 
+        path.clear();
+        return {};
+    }
+    if ((targetPos-robot->pos).length() < Constants::MIN_DISTANCE_FOR_FORCE()) {
         path.clear();
         return {};
     }

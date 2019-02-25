@@ -77,6 +77,7 @@ public:
 // PositionControl
     static double MAX_CALCULATION_TIME()        { return 5.0; };   // Max time in ms
     static double NUMTREE_ERROR_MARGIN()        { return 0.25; };
+    static double MIN_DISTANCE_FOR_FORCE()      { return 0.8; };
 
 // Keeper
     static double KEEPER_POST_MARGIN()          { return 0.08; };   // Meters
