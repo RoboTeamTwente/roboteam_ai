@@ -1,0 +1,18 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "uomwr1r2bul9884": {
+            "id": "uomwr1r2bul9884",
+            "name": "testAvoidanceTactic",
+            "title": "Tactic"
+          }
+        },
+        "root": "uomwr1r2bul9884",
+        "title": "testAvoidanceStategy"
+      }
+    ]
+  },
+  "name": "testAvoidanceStategy"
+}
