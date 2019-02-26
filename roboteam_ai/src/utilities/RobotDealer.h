@@ -69,6 +69,7 @@ class RobotDealer {
         static std::string getTacticNameForRole(std::string role);
         static void halt();
         static void setKeeperID(int ID);
+        static int getKeeperID();
 
 };
 }
