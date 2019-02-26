@@ -6,22 +6,25 @@
 #include "../interface/drawer.h"
 namespace rtt {
 namespace ai {
+
 GoAroundPos::GoAroundPos(rtt::string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) { }
+
+
 void GoAroundPos::onInitialize() {
-    if (properties->hasVector2("targetPos")) {
-        ballIsTarget = false;
-        targetPos = properties->getVector2("targetPos");
-    }
-    else {
-        ballIsTarget = true;
+    if (properties->hasBool("ball")) {
         if (ball) {
+            ballIsTarget = true;
             targetPos = ball->pos;
         }
-        else {
-            targetPos = {0, 0};
-            ROS_ERROR_STREAM("GoAroundPos update--> No ball found! Defaulting to {0,0}");
+        else{
+            ROS_ERROR("Get some balls");
         }
+    }
+    else {
+        ballIsTarget = false;
+            targetPos = properties->getVector2("targetPos");
+
     }
     if (properties->hasDouble("targetDir")) {
         endAngle = Control::constrainAngle(properties->getDouble("targetDir"));
@@ -54,8 +57,13 @@ void GoAroundPos::onInitialize() {
     maxTick = floor(angleDif/Constants::GOAROUND_SPEED()*Constants::TICK_RATE());
     currentProgress=ROTATING;
 }
+
+
 GoAroundPos::Status GoAroundPos::onUpdate() {
-    if (! robot) { return Status::Failure; }
+    if (! robot) {
+        ROS_ERROR("Robot not found ree:  %s", std::to_string(robot->id).c_str());
+        return Status::Failure;
+    }
     if (ballIsTarget && ! ball) {ROS_ERROR_STREAM("GoAroundPos update -> No ball found!");return Status::Failure; }
     if (ballIsTarget) {
         targetPos = ball->pos;
@@ -140,8 +148,8 @@ void GoAroundPos::sendRotateCommand() {
     command.id = robot->id;
     command.use_angle = 1;
     command.dribbler = 0;
-    command.x_vel = deltaCommandPos.x;
-    command.y_vel = deltaCommandPos.y;
+    command.x_vel = static_cast<float>(deltaCommandPos.x);
+    command.y_vel = static_cast<float>(deltaCommandPos.y);
     command.w = (float) deltaPos.angle();
     publishRobotCommand(command);
 }

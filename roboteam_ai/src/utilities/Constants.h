@@ -86,7 +86,7 @@ public:
     static double MAX_GOAROUND_STOP_TIME()      { return 2.0; }; //s
     static double GOAROUND_MAX_DIST_DEVIATION() { return 0.2; }; //m
     static double GOAROUND_SPEED()              { return 6.0; };// rad/s
-    static double GOAROUND_BALL_DIST()          { return 0.11; };//m
+    static double GOAROUND_BALL_DIST()          { return 0.15; };//m
     static double GOAROUND_POS_MARGIN()         { return 0.05; };//m
     static double GOAROUND_ANGLE_MARGIN()       { return 0.03*M_PI; }; //rad
     static double GOAROUND_MIN_SPEED()          { return 0.25; };// m/s

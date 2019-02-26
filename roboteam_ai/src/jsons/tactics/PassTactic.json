@@ -1,1 +1,77 @@
-{"data": {"trees": [{"nodes": {"bk5e6rcy1apenfij": {"properties": {"ROLE": "passer"}, "id": "bk5e6rcy1apenfij", "title": "Pass"}, "j1vtktfo1lz8x5": {"children": ["inzmob2h5l9hs64", "iq9fmdiuuwb906w"], "id": "j1vtktfo1lz8x5", "title": "MemParallelSequence"}, "inzmob2h5l9hs64": {"properties": {"ROLE": "passer"}, "name": "passer", "title": "Role", "id": "inzmob2h5l9hs64", "role": "PassRole", "children": ["bk5e6rcy1apenfij"]}, "1znsa0q5hu8q7nncc": {"properties": {"ROLE": "receiver"}, "id": "1znsa0q5hu8q7nncc", "title": "Receive"}, "hbqj83hfh7kgtqhw": {"properties": {"ROLE": "receiver"}, "id": "hbqj83hfh7kgtqhw", "title": "IsBeingPassedTo"}, "3zxvw3d5ulvp091r": {"properties": {"ROLE": "receiver"}, "title": "MemSequence", "children": ["hbqj83hfh7kgtqhw", "1znsa0q5hu8q7nncc"], "id": "3zxvw3d5ulvp091r"}, "iq9fmdiuuwb906w": {"properties": {"ROLE": "receiver"}, "name": "receiver", "title": "Role", "id": "iq9fmdiuuwb906w", "role": "ReceiveRole", "children": ["3zxvw3d5ulvp091r"]}}, "root": "j1vtktfo1lz8x5", "title": "PassTactic"}]}, "name": "PassTactic"}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "bk5e6rcy1apenfij": {
+            "properties": {
+              "ROLE": "passer"
+            },
+            "id": "bk5e6rcy1apenfij",
+            "title": "Pass"
+          },
+          "j1vtktfo1lz8x5": {
+            "children": [
+              "inzmob2h5l9hs64",
+              "iq9fmdiuuwb906w"
+            ],
+            "id": "j1vtktfo1lz8x5",
+            "title": "MemParallelSequence"
+          },
+          "inzmob2h5l9hs64": {
+            "properties": {
+              "ROLE": "passer"
+            },
+            "name": "passer",
+            "title": "Role",
+            "id": "inzmob2h5l9hs64",
+            "role": "PassRole",
+            "children": [
+              "bk5e6rcy1apenfij"
+            ]
+          },
+          "1znsa0q5hu8q7nncc": {
+            "properties": {
+              "ROLE": "receiver"
+            },
+            "id": "1znsa0q5hu8q7nncc",
+            "title": "Receive"
+          },
+          "hbqj83hfh7kgtqhw": {
+            "properties": {
+              "ROLE": "receiver"
+            },
+            "id": "hbqj83hfh7kgtqhw",
+            "title": "IsBeingPassedTo"
+          },
+          "3zxvw3d5ulvp091r": {
+            "properties": {
+              "ROLE": "receiver"
+            },
+            "title": "MemSequence",
+            "children": [
+              "hbqj83hfh7kgtqhw",
+              "1znsa0q5hu8q7nncc"
+            ],
+            "id": "3zxvw3d5ulvp091r"
+          },
+          "iq9fmdiuuwb906w": {
+            "properties": {
+              "ROLE": "receiver"
+            },
+            "name": "receiver",
+            "title": "Role",
+            "id": "iq9fmdiuuwb906w",
+            "role": "ReceiveRole",
+            "children": [
+              "3zxvw3d5ulvp091r"
+            ]
+          }
+        },
+        "root": "j1vtktfo1lz8x5",
+        "title": "PassTactic"
+      }
+    ]
+  },
+  "name": "PassTactic"
+}

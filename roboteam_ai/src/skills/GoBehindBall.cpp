@@ -42,6 +42,7 @@ void GoBehindBall::onInitialize() {
 }
 
 void GoBehindBall::onTerminate(Skill::Status s) {
+    std::cout << "terminate" << std::endl;
 
 }
 

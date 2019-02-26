@@ -89,7 +89,8 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "AvoidBallTactic",
          "SingleKeeperTactic",
          "randomTactic", // used for testing, do not remove it!
-         "testAvoidanceTactic"// used for testing, do not remove it!
+         "testAvoidanceTactic",// used for testing, do not remove it!
+         "PenaltyAtackTactic"
          };
 
 
@@ -106,7 +107,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
          "BallPlacementUsStrategy",
          "BallPlacementThemStrategy",
          "randomStrategy", // used for testing, do not remove it!
-         "testAvoidanceStrategy"
+         "testAvoidanceStrategy",
+         "PenaltyAtackStrategy"
         };
 
 std::vector<std::string> Switches::keeperJsonFiles =
@@ -276,6 +278,10 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             {"testAvoidanceTactic",{
                     {"testAvoidanceBot",robotType::random}
             }
+            },
+            {"PenaltyAtackTactic",{
+                        {"kicker",robotType::random}
+                }
             }
     };
     runErrorHandler(tactics);
