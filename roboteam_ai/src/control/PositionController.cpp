@@ -28,9 +28,10 @@ void PositionController::clear(PosControlType goToType) {
 }
 
 PosVelAngle PositionController::goToPos(RobotPtr robot, Vector2 &position) {
-    if (! robot)
+    if (! robot) {
+        ROS_ERROR("Error in PositionController->goToPos(robot %i): robot does not exist in world", robot->id);
         return {};
-
+    }
     PosControlType goToType = PosControlType::NUMERIC_TREES;
     //TODO: do stuff that determines which gtp to use...
 
@@ -136,6 +137,7 @@ void PositionController::setCanGoOutsideField(bool _canGoOutsideField) {
 
 PosVelAngle PositionController::pidController(const RobotPtr &robot, PosVelAngle target, bool checkInterface) {
     PosVelAngle pidCommand;
+
     if (! PIDHasInitialized)
         initializePID();
     if (checkInterface)

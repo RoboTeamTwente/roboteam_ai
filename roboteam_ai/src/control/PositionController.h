@@ -7,17 +7,8 @@
 #ifndef ROBOTEAM_AI_CONTROLGOTOPOS_H
 #define ROBOTEAM_AI_CONTROLGOTOPOS_H
 
-#include "positionControllers/PositionControlIncludes.h"
-
-//  ______________________
-//  |                    |
-//  |  INCLUDE GoToPos   |
-//  |____________________|
-//
-
 #include "positionControllers/ControlGoToPosBallControl.h"
 #include "roboteam_ai/src/control/positionControllers/NumTreePosControl.h"
-
 
 namespace rtt {
 namespace ai {

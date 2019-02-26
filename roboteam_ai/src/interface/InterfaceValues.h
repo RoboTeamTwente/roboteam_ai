@@ -25,10 +25,10 @@ class InterfaceValues {
         static double luthVelI;
         static double luthVelD;
 
-        static std::mutex PIDMutex;
-        static std::mutex BallPlacementMutex;
-        static std::mutex RefMutex;
-        static std::mutex ShowDebugMutex;
+        static std::mutex pidMutex;
+        static std::mutex ballPlacementMutex;
+        static std::mutex refMutex;
+        static std::mutex showDebugMutex;
 
         static rtt::Vector2 ballPlacementTarget;
         static bool useRefereeCommands;
