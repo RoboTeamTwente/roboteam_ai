@@ -81,6 +81,16 @@ void ApplicationManager::runOneLoopCycle() {
                 vis.emplace_back(pair);
             }
         }
+         visibleParts = ai::Field::getVisiblePartsOfGoal(true,
+                ai::World::get_world().them[0].pos, false, 0.089 );
+        for (auto part :visibleParts) {
+            auto segment = ai::coach::DefensiveCoach::getBlockLineSegment(part, ai::World::get_world().them[0].pos,
+                    0.089 );
+            if (segment) {
+                auto pair = std::make_pair(*segment, Qt::green);
+                vis.emplace_back(pair);
+            }
+        }
         ai::interface::Drawer::setTestLines(vis);
     }
     if (ai::World::didReceiveFirstWorld) {
