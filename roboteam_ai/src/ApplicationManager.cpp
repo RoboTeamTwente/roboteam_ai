@@ -72,7 +72,7 @@ void ApplicationManager::runOneLoopCycle() {
     this->updateDangerfinder();
     if (!ai::World::get_world().them.empty()) {
         std::vector<std::pair<Vector2, Vector2>> visibleParts = ai::Field::getVisiblePartsOfGoal(true,
-                ai::World::get_world().them[0].pos, false, 0.089 + 0.0215);
+                ai::World::get_world().them[0].pos, ai::World::get_world().us, 0.089 + 0.0215);
         std::vector<std::pair<std::pair<Vector2, Vector2>, QColor>> vis;
         for (auto part :visibleParts) {
             auto segment = ai::coach::DefensiveCoach::getBlockLineSegment(part, ai::World::get_world().them[0].pos,
@@ -83,7 +83,7 @@ void ApplicationManager::runOneLoopCycle() {
             }
         }
          visibleParts = ai::Field::getVisiblePartsOfGoal(true,
-                ai::World::get_world().them[0].pos, false, 0.089 );
+                ai::World::get_world().them[0].pos, ai::World::get_world().us, 0.089 );
         for (auto part :visibleParts) {
             auto segment = ai::coach::DefensiveCoach::getBlockLineSegment(part, ai::World::get_world().them[0].pos,
                     0.089 );
@@ -110,9 +110,9 @@ void ApplicationManager::runOneLoopCycle() {
         }
         // TODO: change this later so the referee tells you this
         // TODO enable for keeper
-//        robotDealer::RobotDealer::setKeeperID(0);
-//        keeperTree = BTFactory::getKeeperTree();
-//        Status keeperStatus = keeperTree->tick();
+        robotDealer::RobotDealer::setKeeperID(0);
+        keeperTree = BTFactory::getKeeperTree();
+        Status keeperStatus = keeperTree->tick();
 
         strategy = factory.getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();

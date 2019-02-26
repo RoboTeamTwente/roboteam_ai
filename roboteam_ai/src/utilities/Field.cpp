@@ -89,20 +89,20 @@ double Field::getTotalGoalAngle(bool ourGoal, Vector2 point){
     return control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(AngleLeft),control::ControlUtils::constrainAngle(AngleRight));
 
 }
-double Field::getTotalVisibleGoalAngle(bool ourGoal, Vector2 point, bool allBots,double collisionRadius) {
-    return getTotalGoalAngle(ourGoal,point)*getPercentageOfGoalVisibleFromPoint(ourGoal,point,allBots,collisionRadius)/100.0;
+double Field::getTotalVisibleGoalAngle(bool ourGoal, Vector2 point,  std::vector<roboteam_msgs::WorldRobot> botsToCheck,double collisionRadius) {
+    return getTotalGoalAngle(ourGoal,point)*getPercentageOfGoalVisibleFromPoint(ourGoal,point,botsToCheck,collisionRadius)/100.0;
 }
-double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point,bool allBots,double collisionRadius){
+double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point, std::vector<roboteam_msgs::WorldRobot> botsToCheck,double collisionRadius){
     auto field = Field::get_field();
     double goalWidth = field.goal_width;
     double blockadeLength = 0;
-    for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point,allBots,collisionRadius)) {
+    for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point,botsToCheck,collisionRadius)) {
         blockadeLength += blockade.first.dist(blockade.second);
     }
     return std::max(100 - round(blockadeLength/goalWidth * 100), 0.0);
 }
 
-std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, Vector2 point, bool allBots,double collisionRadius){
+std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, Vector2 point,  std::vector<roboteam_msgs::WorldRobot> botsToCheck,double collisionRadius){
     const double robotRadius = Constants::ROBOT_RADIUS();
 
     Vector2 lowerGoalSide, upperGoalSide;
@@ -110,18 +110,6 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
     upperGoalSide = getGoalSides(ourGoal).second;
 
     std::vector<std::pair<Vector2, Vector2>> blockades = {};
-    std::vector<roboteam_msgs::WorldRobot> botsToCheck;
-    if (allBots){
-        botsToCheck=World::getAllRobots();
-    }
-    else{
-        if (ourGoal){
-            botsToCheck=World::get_world().us;
-        }
-        else{
-            botsToCheck=World::get_world().them;
-        }
-    }
     // all the obstacles should be robots
     for (auto const &robot : botsToCheck) {
 
@@ -269,8 +257,8 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
  * Get the visible parts of a goal
  * This is the inverse of getting the blockades of a goal
  */
-std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGoal, Vector2 point, bool allBots, double collisionRadius) {
-    auto blockades = getBlockadesMappedToGoal(ourGoal, point, allBots, collisionRadius );
+std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGoal, Vector2 point,  std::vector<roboteam_msgs::WorldRobot> botsToCheck, double collisionRadius) {
+    auto blockades = getBlockadesMappedToGoal(ourGoal, point, botsToCheck, collisionRadius );
 
     auto lower = getGoalSides(ourGoal).first;
     auto upper = getGoalSides(ourGoal).second;
