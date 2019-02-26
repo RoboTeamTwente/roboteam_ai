@@ -22,6 +22,12 @@ BTFactory &BTFactory::getFactory() {
 void BTFactory::init() {
     interpreter = TreeInterpreter::getInstance();
 
+    tacticsRepo.empty();
+    strategyRepo.empty();
+    keeperRepo.empty();
+
+//    ros::Duration(0.01).sleep();
+
     for (const auto &tacticName : Switches::tacticJsonFileNames) {
         auto BB = std::make_shared<bt::Blackboard>(); //TODO maybe make the BB somewhere else that makes sense
         auto tempMap = interpreter.makeTactics(tacticName, BB);
@@ -53,6 +59,8 @@ std::string BTFactory::getCurrentTree() {
 }
 
 void BTFactory::setCurrentTree(const std::string &newTree) {
+
+
 
     if (newTree != BTFactory::currentTree) {
 

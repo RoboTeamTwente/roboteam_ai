@@ -116,6 +116,7 @@ void ApplicationManager::updateDangerfinder() {
 void ApplicationManager::handleRefData() {
     ai::StrategyManager strategyManager;
     std::string strategyName = strategyManager.getCurrentStrategyName(refereeMsg.command);
+    BTFactory::getFactory().init();
     BTFactory::setCurrentTree(strategyName);
 }
 
@@ -124,7 +125,7 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     case Status::Running:break;
     case Status::Success:ROS_INFO_STREAM("Status returned: Success");
         ROS_INFO_STREAM(" === TREE CHANGE === ");
-        BTFactory::setCurrentTree("haltStrategy");
+            BTFactory::setCurrentTree("haltStrategy");
         break;
     case Status::Failure:ROS_INFO_STREAM("Status returned: Failure");
         break;
