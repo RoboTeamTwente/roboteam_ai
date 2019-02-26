@@ -11,13 +11,16 @@ namespace ai {
 namespace interface {
 
 // these values need to be set AFTER ros::init, so they are initialized with values in the constructor of mainwindow
-double InterfaceValues::luthPosP = 0;
-double InterfaceValues::luthPosI = 0;
-double InterfaceValues::luthPosD = 0;
+
+
 
 double InterfaceValues::luthVelP = 0;
 double InterfaceValues::luthVelI = 0;
 double InterfaceValues::luthVelD = 0;
+
+double InterfaceValues::luthPosP = 0;
+double InterfaceValues::luthPosI = 0;
+double InterfaceValues::luthPosD = 0;
 
 rtt::Vector2 InterfaceValues::ballPlacementTarget = {0, 0}; // initialize on middle of the field
 bool InterfaceValues::useRefereeCommands = false;
@@ -89,7 +92,17 @@ void InterfaceValues::setLuthVelD(double LuthVD) {
 }
 
 void InterfaceValues::sendHaltCommand() {
-    BTFactory::halt();
+    rtt::ai::Pause pause;
+
+    if (pause.getPause()) {
+        // Already halted so unhalt
+        pause.setPause(false);
+    }
+    else {
+        pause.setPause(true);
+        pause.haltRobots();
+    }
+
 }
 
 const Vector2& InterfaceValues::getBallPlacementTarget() {
@@ -111,6 +124,7 @@ void InterfaceValues::setUseRefereeCommands(bool useRefereeCommands){
     std::lock_guard<std::mutex> lock(RefMutex);
     InterfaceValues::useRefereeCommands = useRefereeCommands;
 }
+
 
 } // interface
 } // ai
