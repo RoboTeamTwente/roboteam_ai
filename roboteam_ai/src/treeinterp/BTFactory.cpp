@@ -73,16 +73,17 @@ bool BTFactory::isInitialized() {
 }
 
 void BTFactory::setKeeperTree(const std::string &keeperTree_) {
-
     keeperTree = keeperTree_;
-
 }
+
 void BTFactory::setKeeper(int newID) {
     BTFactory::keeperID = newID;
 }
+
 bt::BehaviorTree::Ptr BTFactory::getKeeperTree() {
     return keeperRepo[keeperTree];
 }
+
 void BTFactory::halt() {
     BTFactory::getFactory().getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
     BTFactory::currentTree = "NaN";

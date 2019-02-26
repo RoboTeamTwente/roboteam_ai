@@ -109,7 +109,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         };
 
 std::vector<std::string> Switches::keeperJsonFiles =
-        {};
+        {"keeperTest1"};
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
 /// have a look around with the names and see if what you made is on the same level as these are
