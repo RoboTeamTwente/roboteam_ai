@@ -24,6 +24,8 @@ Skill::Status GoBehindBall::onUpdate() {
     Vector2 velocity = goToPos.goToPos(robot, targetPos, control::GoToType::clean);
 
     Vector2 deltaPos = targetPos - robot->pos;
+    publishCommand(targetPos, velocity);
+
 
     if (deltaPos.length() > errorMargin) {
         return Status::Running;
@@ -53,6 +55,17 @@ GoBehindBall::unit GoBehindBall::stringToUnit(std::string string) {
     else {
         return freeKick;
     }
+}
+void GoBehindBall::publishCommand(Vector2 targetPos , Vector2 velocity) {
+
+    roboteam_msgs::RobotCommand command;
+    command.id = robot->id;
+    command.use_angle = 1;
+    command.w = static_cast<float>((targetPos-robot->pos).angle());
+    command.x_vel = static_cast<float>(velocity.x);
+    command.y_vel = static_cast<float>(velocity.y);
+    publishRobotCommand(command);
+
 }
 }
 }

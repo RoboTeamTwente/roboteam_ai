@@ -23,6 +23,7 @@ class GoBehindBall : public Skill {
         unit stringToUnit(std::string string);
         // TODO maybe be smarter then Thijs
         double errorMargin = 0.1;
+        void publishCommand(Vector2 point, Vector2 velocity);
 
     public:
         explicit GoBehindBall(string name, bt::Blackboard::Ptr blackboard);
