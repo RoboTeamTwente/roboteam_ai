@@ -161,11 +161,6 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
                 else{
                     point1=lowerGoalSide;
                 }
-                bool bothPointsBelowGoal = point1.y <= lowerGoalSide.y && point2.y <= lowerGoalSide.y;
-                bool bothPointAboveGoal = point1.y >= upperGoalSide.y && point2.y >= upperGoalSide.y;
-                if (bothPointsBelowGoal||bothPointAboveGoal){
-                    validObstacle=false;
-                }
             }
             else if(point2val<=0&&point1val>0){
                 validObstacle=true;
@@ -175,22 +170,19 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
                 else{
                     point2=lowerGoalSide;
                 }
-                bool bothPointsBelowGoal = point1.y <= lowerGoalSide.y && point2.y <= lowerGoalSide.y;
-                bool bothPointAboveGoal = point1.y >= upperGoalSide.y && point2.y >= upperGoalSide.y;
-                if (bothPointsBelowGoal||bothPointAboveGoal){
-                    validObstacle=false;
-                }
             }
             else{
                 //'normal' obstacle; check if the points are at good points
                 validObstacle=true;
+            }
+
+            if (validObstacle){
                 bool bothPointsBelowGoal = point1.y <= lowerGoalSide.y && point2.y <= lowerGoalSide.y;
                 bool bothPointAboveGoal = point1.y >= upperGoalSide.y && point2.y >= upperGoalSide.y;
                 if (bothPointsBelowGoal||bothPointAboveGoal){
                     validObstacle=false;
                 }
             }
-
             if (validObstacle ) {
                 // constrain the blockades to within the goal
                 if (point1.y > point2.y) { // point1 is largest
@@ -277,8 +269,8 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
  * Get the visible parts of a goal
  * This is the inverse of getting the blockades of a goal
  */
-std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGoal, Vector2 point) {
-    auto blockades = getBlockadesMappedToGoal(ourGoal, point);
+std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGoal, Vector2 point, bool allBots, double collisionRadius) {
+    auto blockades = getBlockadesMappedToGoal(ourGoal, point, allBots, collisionRadius );
 
     auto lower = getGoalSides(ourGoal).first;
     auto upper = getGoalSides(ourGoal).second;
@@ -286,7 +278,9 @@ std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGo
     auto lowerHook = lower;
     std::vector<std::pair<Vector2, Vector2>> visibleParts = {};
 
-
+    std::sort(blockades.begin(), blockades.end(), [](const std::pair<Vector2,Vector2> &a, const std::pair<Vector2,Vector2> &b) {
+      return a.first.y<b.first.y;
+    });
     // we start from the lowerhook, which is the lowest goal side at the start.
     // The obstacles are sorted on their smallest value.
     // everytime we add a vector from the lowest goalside to the lowest part of the obstacle we remember the upper part of the obstacle

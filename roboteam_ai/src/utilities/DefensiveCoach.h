@@ -13,14 +13,25 @@ class DefensiveCoach {
     private:
         //BLOCKPOS actively covers the goal up from the ball or robots who can receive the ball and score
         //PASSIVEINTERCEPTPOS tries to go to a position where in case of a pass to another robot it can intercept it in case of a pass
-        //ACTIVEINTERCEPTPOS is actively blocking intercepts to other robots
+        //ACTIVEINTERCEPTPOS is actively blocking passes  to other robots (e.g. on the path)
+
         enum PosType{BLOCKPOS, PASSIVEINTERCEPTPOS};
         std::map<int,Vector2> robotWithPos;
         //pass detection
-        std::vector<std::pair<int,double>> possibleTheirPassTargets();
-        double calculatePassDanger(int passFrom, int passTo);
-        double calculateStopInterceptProbability(Vector2 startPass,Vector2 endPass,double passVel,Vector2 botPos,Vector2 botVel);
+        struct PossiblePass{
+          roboteam_msgs::WorldRobot toBot,fromBot;
+          Vector2 startPos;
+          Vector2 endPos;
+
+          double distance();
+          bool obstacleObstructsPath(Vector2 obstPos, double obstRadius=(Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS()));
+          int amountOfBlockers();
+          PossiblePass(roboteam_msgs::WorldRobot _toBot,roboteam_msgs::WorldRobot _fromBot, Vector2 ballPos );
+        };
     public:
+        static std::vector<PossiblePass> getPossiblePassesThem();
+        static std::shared_ptr<std::pair<Vector2,Vector2>> getBlockLineSegment(std::pair<Vector2,Vector2> openGoalSegment, Vector2 point,double collisionRadius);
+
 };
 
 }

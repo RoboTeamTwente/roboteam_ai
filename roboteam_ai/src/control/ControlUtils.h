@@ -43,6 +43,8 @@ class ControlUtils {
         static Vector2 VelocityLimiter(Vector2 vel,double maxVel, double minVel);
 
         static std::vector<std::pair<Vector2, Vector2>> calculateClosestPathsFromTwoSetsOfPoints(std::vector<Vector2> set1, std::vector<Vector2> set2);
+
+        static Vector2 computeSimpleReceivePos(Vector2 startPos,Vector2 robotPos);
 };
 
 } // control
