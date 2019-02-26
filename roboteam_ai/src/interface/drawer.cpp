@@ -13,7 +13,6 @@ std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::GoToPosLuThPoints
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::KeeperPoints;
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::InterceptPoints;
 
-
 std::mutex Drawer::keeperMutex;
 std::mutex Drawer::goToPosMutex;
 std::mutex Drawer::interceptMutex;
@@ -61,6 +60,7 @@ Drawer::GTPPoints Drawer::getKeeperPoints(int id) {
     return {};
 
 }
+
 void Drawer::setInterceptPoints(int id, GTPPoints points) {
     std::lock_guard<std::mutex> lock(interceptMutex);
 
@@ -69,6 +69,7 @@ void Drawer::setInterceptPoints(int id, GTPPoints points) {
     InterceptPoints.erase(id);
     InterceptPoints.insert(pair);
 }
+
 Drawer::GTPPoints Drawer::getInterceptPoints(int id) {
     std::lock_guard<std::mutex> lock(interceptMutex);
 
@@ -78,6 +79,7 @@ Drawer::GTPPoints Drawer::getInterceptPoints(int id) {
     return {};
 
 }
+
 } // interface
 } // ai
 } // rtt
