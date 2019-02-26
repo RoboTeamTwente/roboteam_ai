@@ -46,6 +46,7 @@ class MainWindow : public QMainWindow {
         void sendHaltSignal();
         void setUseReferee(bool useRef);
         void updateRobotsWidget();
+        void setShowDebugValueInTerminal(bool showDebug);
     private:
         Visualizer* visualizer;
         QHBoxLayout* horizontalLayout;

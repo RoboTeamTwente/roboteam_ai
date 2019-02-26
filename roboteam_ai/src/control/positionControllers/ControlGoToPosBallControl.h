@@ -2,7 +2,7 @@
 // Created by thijs on 18-12-18.
 //
 
-#include "GoToPosInclude.h"
+#include "PositionControlIncludes.h"
 
 #ifndef ROBOTEAM_AI_CONTROLGOTOPOSBALLCONTROL_H
 #define ROBOTEAM_AI_CONTROLGOTOPOSBALLCONTROL_H
@@ -16,7 +16,7 @@ class ControlGoToPosBallControl {
         using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
 
     public:
-        Vector2 goToPos(RobotPtr robot, Vector2 &target);
+        PosVelAngle goToPos(RobotPtr robot, Vector2 &target);
 };
 
 } //control

@@ -21,7 +21,7 @@ private:
     Progression currentProgress;
 
     Vector2 targetPos;
-    control::ControlGoToPos goToPos;
+    control::PositionController goToPos;
     GoToType goToType;
 
     double distance;

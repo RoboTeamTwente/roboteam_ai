@@ -5,7 +5,7 @@
 #include "roboteam_utils/Vector2.h"
 #include <roboteam_ai/src/conditions/HasBall.hpp>
 #include <roboteam_ai/src/utilities/Coach.h>
-#include <roboteam_ai/src/control/ControlGoToPos.h>
+#include <roboteam_ai/src/control/PositionController.h>
 #include "roboteam_utils/Arc.h"
 #include "roboteam_utils/Math.h"
 #include "../control/ControlUtils.h"

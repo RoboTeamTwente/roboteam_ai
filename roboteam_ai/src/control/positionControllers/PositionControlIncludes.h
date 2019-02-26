@@ -2,6 +2,7 @@
 // Created by thijs on 18-12-18.
 //
 
+#include <utility>
 #include <queue>
 #include <cstdlib>
 #include <time.h>
@@ -14,7 +15,9 @@
 #include "ros/ros.h"
 #include "../../utilities/Coach.h"
 #include "../../utilities/Constants.h"
-#include <roboteam_ai/src/control/Controller.h>
+#include <roboteam_ai/src/control/PIDController.h>
+#include "PosVelAngle.h"
+#include "../../interface/InterfaceValues.h"
 
 #ifndef ROBOTEAM_AI_GOTOPOSINCLUDE_H
 #define ROBOTEAM_AI_GOTOPOSINCLUDE_H

@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_BASICGOTOPOS_H
 #define ROBOTEAM_AI_BASICGOTOPOS_H
 
-#include <roboteam_ai/src/control/ControlGoToPos.h>
+#include <roboteam_ai/src/control/PositionController.h>
 #include "Skill.h"
 
 namespace rtt {
@@ -18,7 +18,7 @@ class BasicGoToPos : public Skill {
         Status onUpdate() override;
         void onInitialize() override;
         Vector2 targetPos;
-        control::ControlGoToPos goToPos;
+        control::PositionController goToPos;
         double errorMargin = 0.3;
 
 
