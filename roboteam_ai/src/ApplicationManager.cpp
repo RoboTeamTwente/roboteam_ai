@@ -2,6 +2,8 @@
 // Created by mrlukasbos on 14-1-19.
 //
 
+#include "interface/drawer.h"
+#include <roboteam_ai/src/utilities/DefensiveCoach.h>
 #include <roboteam_ai/src/demo/JoystickDemo.h>
 #include "ApplicationManager.h"
 #include "utilities/Referee.hpp"
@@ -67,10 +69,20 @@ void ApplicationManager::runOneLoopCycle() {
     ros::spinOnce();
     this->updateROSData();
     this->updateDangerfinder();
-    Vector2 pos=ai::World::getBall()->pos;
-    std::cout<<"angle:"<<ai::Field::getTotalGoalAngle(true,pos)<<std::endl;
-    std::cout<<"Visbile angle:"<<ai::Field::getTotalVisibleGoalAngle(true,pos,true,0.089+0.0215)<<std::endl;
-    std::cout<<"Visbile angle:"<<ai::Field::getTotalVisibleGoalAngle(true,pos,true,0.089)<<std::endl;
+    if (!ai::World::get_world().them.empty()) {
+        std::vector<std::pair<Vector2, Vector2>> visibleParts = ai::Field::getVisiblePartsOfGoal(true,
+                ai::World::get_world().them[0].pos, false, 0.089 + 0.0215);
+        std::vector<std::pair<std::pair<Vector2, Vector2>, QColor>> vis;
+        for (auto part :visibleParts) {
+            auto segment = ai::coach::DefensiveCoach::getBlockLineSegment(part, ai::World::get_world().them[0].pos,
+                    0.089 + 0.0215);
+            if (segment) {
+                auto pair = std::make_pair(*segment, Qt::red);
+                vis.emplace_back(pair);
+            }
+        }
+        ai::interface::Drawer::setTestLines(vis);
+    }
     if (ai::World::didReceiveFirstWorld) {
         if (BTFactory::getCurrentTree() == "NaN") {
             ROS_INFO("NaN tree probably Halting");
