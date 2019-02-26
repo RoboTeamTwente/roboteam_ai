@@ -36,7 +36,7 @@ bt::Node::Status Attack::onUpdate() {
         targetPos = ball;
         command.use_angle = 1;
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
-        if (World::ourBotHasBall(robot->id)) {
+        if (World::botHasBall(robot->id,true)) {
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
             command.kicker_forced = 1;

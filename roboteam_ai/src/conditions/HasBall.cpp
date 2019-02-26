@@ -25,7 +25,7 @@ bt::Node::Status HasBall::update() {
     if (! robot || ! ball) {
         return Status::Failure;
     }
-    if (World::ourBotHasBall(robot->id)) {
+    if (World::botHasBall(robot->id,true)) {
         return Status::Success;
     }
     return Status::Failure;
