@@ -21,7 +21,7 @@ Skill::Status GoBehindBall::onUpdate() {
     auto targetPos = ((v * -1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS())) + ball->pos;
     // TODO draw the point in the interface
 
-    Vector2 velocity = goToPos.goToPos(robot, targetPos, control::GoToType::clean);
+    Vector2 velocity = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES).vel;
 
     Vector2 deltaPos = targetPos - robot->pos;
     publishCommand(targetPos, velocity);
