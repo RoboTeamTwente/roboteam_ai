@@ -28,7 +28,7 @@
             "title": "BasicGoToPos",
             "properties": {
               "ROLE": "keeper",
-              "target": "{1,1}"
+              "target": "{-6.0,0.6}"
             }
           },
           "e2dy40w6gfegn": {
@@ -36,7 +36,7 @@
             "title": "BasicGoToPos",
             "properties": {
               "ROLE": "keeper",
-              "target": "{-1,-1}"
+              "target": "{-6.0,-0.6}"
             }
           }
         }

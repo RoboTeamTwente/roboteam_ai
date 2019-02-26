@@ -57,6 +57,7 @@ std::vector<DefensiveCoach::PossiblePass> DefensiveCoach::getPossiblePassesThem(
 }
 std::shared_ptr<std::pair<Vector2,Vector2>> DefensiveCoach::getBlockLineSegment(std::pair<Vector2,Vector2> openGoalSegment, Vector2 point,double collisionRadius){
     double margin=collisionRadius;
+    //compute the bisector
     Vector2 lineToSideOne=openGoalSegment.first-point;
     Vector2 lineToSideTwo=(openGoalSegment.second-point).stretchToLength(lineToSideOne.length());
     Vector2 startPos=point+(lineToSideOne+lineToSideTwo).stretchToLength(collisionRadius);
@@ -79,6 +80,7 @@ std::shared_ptr<std::pair<Vector2,Vector2>> DefensiveCoach::getBlockLineSegment(
         cornerPos1=Vector2(margin,margin)+field.left_penalty_line.begin;
         cornerPos2=Vector2(margin,-margin)+field.left_penalty_line.end;
     }
+    // if it intersects with defense area return that,
     Vector2 intersectPos;
     if (util::lineSegmentsIntersect(point,FurthestBlock,goalLinePos1,cornerPos1)){
         intersectPos=util::twoLineIntersection(point,FurthestBlock,goalLinePos1,cornerPos1);
@@ -90,6 +92,7 @@ std::shared_ptr<std::pair<Vector2,Vector2>> DefensiveCoach::getBlockLineSegment(
         intersectPos=util::twoLineIntersection(point,FurthestBlock,cornerPos2,goalLinePos2);
     }
     else{
+        // return the original line
         std::pair<Vector2,Vector2> line=std::make_pair(startPos,FurthestBlock);
         std::shared_ptr<std::pair<Vector2,Vector2>> segment=std::make_shared<std::pair<Vector2,Vector2>>(line);
         return segment;
@@ -99,6 +102,26 @@ std::shared_ptr<std::pair<Vector2,Vector2>> DefensiveCoach::getBlockLineSegment(
     return segment;
 
 }
+std::shared_ptr<std::pair<Vector2,Vector2>> DefensiveCoach::blockBall(){
+    if (World::getBall()) {
+        auto goalSides = Field::getGoalSides(true);
+        return getBlockLineSegment(goalSides,World::getBall()->pos,Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS());
+    }
+    return nullptr;
+}
+
+std::vector<std::pair<Vector2,Vector2>> DefensiveCoach::getWholeBlockSegments(std::vector<Vector2> points){
+    std::vector<std::pair<Vector2,Vector2>> segments;
+    std::pair<Vector2,Vector2> goalsides=Field::getGoalSides(true);
+    for (Vector2 point : points){
+        auto segment=getBlockLineSegment(goalsides,point,Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS());
+        if (segment){
+            segments.push_back(*segment);
+        }
+    }
+    return segments;
+}
+
 }
 }
 }

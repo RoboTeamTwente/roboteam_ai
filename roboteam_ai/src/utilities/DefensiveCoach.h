@@ -31,7 +31,8 @@ class DefensiveCoach {
     public:
         static std::vector<PossiblePass> getPossiblePassesThem();
         static std::shared_ptr<std::pair<Vector2,Vector2>> getBlockLineSegment(std::pair<Vector2,Vector2> openGoalSegment, Vector2 point,double collisionRadius);
-
+        static std::shared_ptr<std::pair<Vector2,Vector2>> blockBall();
+        static std::vector<std::pair<Vector2,Vector2>> getWholeBlockSegments(std::vector<Vector2>);
 };
 
 }
