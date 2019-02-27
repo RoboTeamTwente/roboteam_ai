@@ -261,7 +261,7 @@ double DefensiveCoach::scorePossiblePass2(PossiblePass pass, std::vector<Vector2
             amountOfBlocks++;
         }
     }
-    
+
     score = score*pow(obstacleFactor, amountOfBlocks);
     double goodUntilPassDist = 4.0;
     double impossiblePassDist = 10.0;
