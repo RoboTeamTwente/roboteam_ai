@@ -33,6 +33,7 @@ int DefensiveCoach::PossiblePass::amountOfBlockers() {
     }
     return total;
 }
+
 ///returns all passes that are not obstructed
 std::vector<DefensiveCoach::PossiblePass> DefensiveCoach::getPossiblePassesThem() {
     std::vector<PossiblePass> possiblePasses;
@@ -160,6 +161,7 @@ std::vector<std::pair<Vector2, Vector2>> DefensiveCoach::decideDefenderLocations
             passWithScore.push_back(passPair);
         }
     }
+    //order passes from most dangerous to least dangerous
     std::sort(passWithScore.begin(), passWithScore.end(),
             [](std::pair<PossiblePass, double> &left, std::pair<PossiblePass, double> &right) {
               if (left.second > right.second) { return true; }
@@ -179,6 +181,94 @@ std::vector<std::pair<Vector2, Vector2>> DefensiveCoach::decideDefenderLocations
         }
     }
     return decidedLines;
+}
+std::vector<Vector2> DefensiveCoach::decideDefenderLocations2(int amount, double aggressionFactor) {
+    std::vector<Vector2> decidedBlocks;
+    if (amount <= 0) {
+        ROS_ERROR("Can't assign 0 or less Defender locations!!");
+        return decidedBlocks;
+    }
+    // we decide the lines on which we want the defenders to be
+    //most importantly; make sure the ball can't be kicked into the goal directly
+    auto priorityPos = blockBall();
+    if (priorityPos) {
+        decidedBlocks.push_back(getPos(*priorityPos, aggressionFactor));
+    }
+    if (decidedBlocks.size() == amount) {
+        return decidedBlocks;
+    }
+    // now we look for passes and cover off the good positions from there
+    // we assign a position to one robot and then recompute the passes again
+
+    std::pair<Vector2, Vector2> goalSides = Field::getGoalSides(true);
+    int theirBallBotId = World::whichBotHasBall(false);
+    auto bots = World::get_world().them;
+    if (theirBallBotId!=-1){
+        auto botPos = std::find_if(bots.begin(),bots.end(),[theirBallBotId](roboteam_msgs::WorldRobot bot){return bot.id==theirBallBotId;});
+        if (botPos!=bots.end()){
+            bots.erase(botPos);
+        }
+    }
+    while (decidedBlocks.size()!=amount&&!bots.empty()) {
+        std::vector<std::pair<PossiblePass, double>> passWithScore;
+        for (auto bot : bots) {
+            PossiblePass pass(bot, World::getBall()->pos);
+            double danger = scorePossiblePass2(pass,decidedBlocks);
+            std::pair<PossiblePass, double> passPair = std::make_pair(pass, danger);
+            passWithScore.push_back(passPair);
+        }
+        //order passes from most dangerous to least dangerous
+        std::sort(passWithScore.begin(), passWithScore.end(),
+                [](std::pair<PossiblePass, double> &left, std::pair<PossiblePass, double> &right) {
+                  return left.second > right.second;
+                });
+
+        for (const auto &bestPass: passWithScore) {
+            auto segment = getBlockLineSegment(goalSides, bestPass.first.endPos,
+                    Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
+            // we erase the robot from the positions to be searched
+            auto botPos = std::find_if(bots.begin(),bots.end(),[bestPass](roboteam_msgs::WorldRobot b){return b.id==bestPass.first.toBot.id;});
+            if (botPos!=bots.end()){
+                bots.erase(botPos);
+            }
+            if (segment) {
+                decidedBlocks.push_back(getPos(*segment, aggressionFactor));
+                if (decidedBlocks.size() == amount) {
+                    return decidedBlocks;
+                }
+                break;
+            }
+
+        }
+    }
+    return decidedBlocks;
+}
+Vector2 DefensiveCoach::getPos(std::pair<Vector2, Vector2> line, double aggressionFactor) {
+    if (aggressionFactor < 0) {
+        return line.second;
+    }
+    else if (aggressionFactor > 1) {
+        return line.first;
+    }
+    return line.second + (line.first- line.second)*aggressionFactor;
+}
+double DefensiveCoach::scorePossiblePass2(PossiblePass pass, std::vector<Vector2> decidedBlocks){
+    double score = 1.0;
+    double obstacleFactor = 0.5;
+    int amountOfBlocks=0;
+    for (auto block : decidedBlocks){
+        if (util::distanceToLineWithEnds(block,pass.startPos,pass.endPos)<=(Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS())){
+            amountOfBlocks++;
+        }
+    }
+    
+    score = score*pow(obstacleFactor, amountOfBlocks);
+    double goodUntilPassDist = 4.0;
+    double impossiblePassDist = 10.0;
+    if (pass.distance() > goodUntilPassDist) {
+        score = score*(1 - (pass.distance() - goodUntilPassDist)/(impossiblePassDist - goodUntilPassDist));
+    }
+    return score;
 }
 }
 }

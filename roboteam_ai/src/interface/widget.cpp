@@ -25,6 +25,7 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawBall(painter);
         drawRobots(painter);
         drawLines(painter,Drawer::getTestLines());
+        drawPoints(painter,Drawer::getTestPoints());
         if (showBallPlacementMarker) drawBallPlacementTarget(painter);
 
         if (showPath) {
@@ -345,6 +346,13 @@ void Visualizer::drawLines(QPainter &painter, std::vector<std::pair<std::pair<rt
         Vector2 end=toScreenPosition(line.first.second);
         painter.setPen(line.second);
         painter.drawLine(start.x,start.y,end.x,end.y);
+    }
+}
+void Visualizer::drawPoints(QPainter &painter, std::vector<std::pair<Vector2,QColor>> points){
+    for (auto point : points){
+        Vector2 screenPoint=toScreenPosition(point.first);
+        painter.setPen(point.second);
+        painter.drawEllipse(screenPoint.x-2,screenPoint.y-2,4,4);
     }
 }
 void Visualizer::drawBallPlacementTarget(QPainter& painter) {

@@ -30,12 +30,18 @@ class DefensiveCoach {
           PossiblePass(roboteam_msgs::WorldRobot _toBot,Vector2 ballPos );
         };
         static double scorePossiblePass(PossiblePass pass);
+        static double scorePossiblePass2(PossiblePass pass, std::vector<Vector2> decidedBlocks);
+
+        static Vector2 getPos(std::pair<Vector2,Vector2> line, double aggressionFactor);
     public:
         static std::vector<PossiblePass> getPossiblePassesThem();
         static std::shared_ptr<std::pair<Vector2,Vector2>> getBlockLineSegment(std::pair<Vector2,Vector2> openGoalSegment, Vector2 point,double collisionRadius);
         static std::shared_ptr<std::pair<Vector2,Vector2>> blockBall();
         static std::vector<std::pair<Vector2,Vector2>> getWholeBlockSegments(std::vector<Vector2>);
         static std::vector<std::pair<Vector2,Vector2>> decideDefenderLocations(int amount);
+        static std::vector<Vector2> decideDefenderLocations2(int amount,double aggressionFactor);
+
+
 };
 
 }

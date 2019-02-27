@@ -13,10 +13,12 @@ std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::GoToPosLuThPoints
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::KeeperPoints;
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::InterceptPoints;
 std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>> Drawer::testLines;
+std::vector<std::pair<Vector2,QColor>> Drawer::testPoints;
 std::mutex Drawer::keeperMutex;
 std::mutex Drawer::goToPosMutex;
 std::mutex Drawer::interceptMutex;
 std::mutex Drawer::testLineMutex;
+std::mutex Drawer::testPointMutex;
 
 void Drawer::setGoToPosLuThPoints(int id, std::vector<std::pair<rtt::Vector2, QColor>> points) {
     std::lock_guard<std::mutex> lock(goToPosMutex);
@@ -78,6 +80,14 @@ void Drawer::setTestLines(std::vector<std::pair<std::pair<rtt::Vector2, rtt::Vec
 std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>> Drawer::getTestLines() {
     std::lock_guard<std::mutex> lock(testLineMutex);
     return testLines;
+}
+void Drawer::setTestPoints(std::vector<std::pair<Vector2, QColor>> points) {
+    std::lock_guard<std::mutex> lock(testPointMutex);
+    testPoints=points;
+}
+std::vector<std::pair<Vector2,QColor>> Drawer::getTestPoints() {
+    std::lock_guard<std::mutex> lock(testPointMutex);
+    return testPoints;
 }
 } // interface
 } // ai

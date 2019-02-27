@@ -25,12 +25,16 @@ class Drawer {
         static std::vector<std::pair<Vector2, QColor>> getInterceptPoints(int id);
         static void setTestLines(std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>> lines);
         static std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>>  getTestLines();
+        static void setTestPoints(std::vector<std::pair<Vector2,QColor>> points);
+        static std::vector<std::pair<Vector2,QColor>>  getTestPoints();
     private:
-        static std::mutex goToPosMutex,keeperMutex,interceptMutex,testLineMutex;
+        static std::mutex goToPosMutex,keeperMutex,interceptMutex,testLineMutex,testPointMutex;
         static std::map<int, std::vector<std::pair<Vector2, QColor>>> GoToPosLuThPoints;
         static std::map<int, std::vector<std::pair<Vector2, QColor>>> KeeperPoints;
         static std::map<int, std::vector<std::pair<Vector2, QColor>>> InterceptPoints;
         static std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>> testLines;
+        static std::vector<std::pair<Vector2,QColor>> testPoints;
+
 };
 
 } // interface

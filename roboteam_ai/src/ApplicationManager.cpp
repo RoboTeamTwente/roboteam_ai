@@ -77,6 +77,13 @@ void ApplicationManager::runOneLoopCycle() {
         vis.emplace_back(pair);
     }
     ai::interface::Drawer::setTestLines(vis);
+    std::vector<std::pair<Vector2,QColor>> vis2;
+    auto locations2=ai::coach::DefensiveCoach::decideDefenderLocations2(3,0);
+    for (auto location : locations2){
+        auto pair=make_pair(location,Qt::green);
+        vis2.emplace_back(pair);
+    }
+    ai::interface::Drawer::setTestPoints(vis2);
     if (ai::World::didReceiveFirstWorld) {
         if (BTFactory::getCurrentTree() == "NaN") {
             ROS_INFO("NaN tree probably Halting");
