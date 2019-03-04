@@ -23,6 +23,7 @@ private:
     roboteam_msgs::GeometryData geometryMsg;
     roboteam_msgs::RefereeData refereeMsg;
     bt::BehaviorTree::Ptr strategy;
+    bt::BehaviorTree::Ptr keeperTree;
     BTFactory factory;
     df::DangerData dangerData;
 
