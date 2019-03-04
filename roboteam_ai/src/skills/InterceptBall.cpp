@@ -59,9 +59,11 @@ InterceptBall::Status InterceptBall::onUpdate() {
     switch (currentProgression) {
         case INTERCEPTING:
             sendInterceptCommand();
+            //sendMoveCommand(interceptPos);
             return Status::Running;
         case CLOSETOPOINT:
             sendFineInterceptCommand();
+            //sendMoveCommand(interceptPos);
             return Status::Running;
         case INPOSITION:
             sendStopCommand();
@@ -73,6 +75,18 @@ InterceptBall::Status InterceptBall::onUpdate() {
     }
 
     return Status::Failure;
+}
+
+void InterceptBall::sendMoveCommand(Vector2 targetPos) {
+    roboteam_msgs::RobotCommand command;
+    command.id = robot->id;
+
+    Vector2 velocities = goToPos.goToPos(robot, targetPos);
+    velocities = control::ControlUtils::VelocityLimiter(velocities);
+    command.x_vel = static_cast<float>(velocities.x);
+    command.y_vel = static_cast<float>(velocities.y);
+
+    publishRobotCommand(command);
 }
 
 void InterceptBall::checkProgression() {

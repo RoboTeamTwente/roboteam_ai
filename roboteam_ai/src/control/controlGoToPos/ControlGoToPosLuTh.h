@@ -121,7 +121,10 @@ class ControlGoToPosLuTh {
               }
               else {
                   newMe.startIndex = 0;
-                  newMe.pos = World::getRobotForId(static_cast<unsigned int>(me->id), true).get()->pos;
+                  roboteam_msgs::WorldRobot_<allocator<void>> *bot = World::getRobotForId(static_cast<unsigned int>(me->id), true).get();
+                  if (bot) {
+                      newMe.pos = bot->pos;
+                  }
               }
               std::vector<Vector2> _velData(me->velData.begin(), me->velData.begin() + me->startIndex);
               newMe.velData = _velData;

@@ -19,6 +19,7 @@ class Dribble : public Skill {
     private:
         enum Progression {
           ON_THE_WAY,
+          STOPPING,
           STOPPED,
           DONE,
           FAIL,
@@ -29,6 +30,8 @@ class Dribble : public Skill {
 
         bool forwardDirection;
         int maxTicks = 60;// seconds
+        int stopTick = 0;
+        int stopTicks = 0;
         int count;
         Vector2 targetPos = {0, 0};
         Vector2 deltaPos;

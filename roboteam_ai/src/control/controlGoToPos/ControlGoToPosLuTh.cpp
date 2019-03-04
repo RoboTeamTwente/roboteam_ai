@@ -76,10 +76,13 @@ Vector2 ControlGoToPosLuTh::goToPos(RobotPtr robot, Vector2 &target) {
             for (int i = 0; i < static_cast<int>(me.posData.size()); i ++) {
                 me.pos = me.posData[i];
                 me.t = i*me.dt;
-                Vector2 closestBotPos = World::getRobotClosestToPoint(me.pos, me.id, me.t).get()->pos;
-                if (me.isCollision(closestBotPos)) {
-                    recalculate = true;
-                    break;
+                auto closeBot = World::getRobotClosestToPoint(me.pos, me.id, me.t).get();
+                if (closeBot) {
+                    Vector2 closestBotPos = closeBot->pos;
+                    if (me.isCollision(closestBotPos)) {
+                        recalculate = true;
+                        break;
+                    }
                 }
                 Vector2 ballPosAtT = (Vector2) ball->pos + (Vector2) ball->vel*me.t;
                 if (avoidBall && me.isCollision(ballPosAtT)) {

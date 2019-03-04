@@ -116,8 +116,10 @@ bool Coach::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2
     Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, position);
     Vector2 deltaBall = behindBallPosition - ball;
 
-    return (control::ControlUtils::pointInTriangle(robotPosition, ball, ball + (deltaBall).rotate(M_PI*0.17).scale(2.0),
-            ball + (deltaBall).rotate(M_PI*- 0.17).scale(2.0)));
+    double angleMargin = 0.12;
+
+    return (control::ControlUtils::pointInTriangle(robotPosition, ball, ball + (deltaBall).rotate(M_PI*angleMargin).scale(2.0),
+            ball + (deltaBall).rotate(M_PI*- angleMargin).scale(2.0)));
 }
 
 std::pair<int, bool> Coach::getRobotClosestToBall() {

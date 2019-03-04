@@ -18,10 +18,23 @@ void IsBallCloseToBorder::initialize() {
 
 bt::Node::Status IsBallCloseToBorder::update() {
     Vector2 ballPos = World::getBall()->pos;
-    if (!Field::pointIsInField(ballPos, static_cast<float>(margin))) {
-        return Status::Success;
+    if (!properties->getBool("corner")) {
+        if (!Field::pointIsInField(ballPos, static_cast<float>(margin))) {
+            return Status::Success;
+        } else {
+            return Status::Failure;
+        }
     } else {
-        return Status::Failure;
+        roboteam_msgs::GeometryFieldSize field = Field::get_field();
+        double xDiff = field.field_length / 2 - abs(ballPos.x);
+        double yDiff = field.field_width / 2 - abs(ballPos.y);
+
+        // TODO: HACK HACK SEPERATE LAYING STILL FROM CONDITION
+        if (xDiff < margin && yDiff < margin && Vector2(ball->vel).length() < Constants::BALL_STILL_VEL()) {
+            return Status::Success;
+        } else {
+            return Status::Failure;
+        }
     }
 }
 

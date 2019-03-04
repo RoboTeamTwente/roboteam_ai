@@ -16,3 +16,4 @@ DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement,distance
 AvoidBall
 Keeper
 GoAroundPos,targetPos,targetDir,towardsTheirGoal
+Halt,ticks

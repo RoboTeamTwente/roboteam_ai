@@ -13,7 +13,7 @@ namespace ai {
 class GetBall : public Skill {
     private:
         enum Progression {
-          TURNING, APPROACHING, OVERSHOOTING,DRIBBLING, SUCCESS, FAIL
+          TURNING, APPROACHING, OVERSHOOTING, DRIBBLING, SUCCESS, FAIL
         };
 
         Progression currentProgress;

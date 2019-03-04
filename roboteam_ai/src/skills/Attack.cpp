@@ -13,6 +13,7 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 
 void Attack::onInitialize() {
     ownGoal = properties->getBool("ownGoal");
+    goToPos.setAvoidBall(true);
 }
 
 // TODO: WTF HARDCODED SHIT EVERYWHERE
@@ -20,7 +21,7 @@ void Attack::onInitialize() {
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
     Vector2 ball = World::getBall()->pos;
-    Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.5, ownGoal);
+    Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.35, ownGoal);
     Vector2 deltaBall = behindBall - ball;
 
     roboteam_msgs::RobotCommand command;
@@ -28,23 +29,32 @@ bt::Node::Status Attack::onUpdate() {
 
     GoToType goToType;
 
-    if (!Coach::isRobotBehindBallToGoal(0.5, ownGoal, robot->pos)) {
+    if (!Coach::isRobotBehindBallToGoal(0.4, ownGoal, robot->pos)) {
         targetPos = behindBall;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
-        goToType = GoToType::luTh;
-        if (abs(((Vector2) robot->pos - targetPos).length()) < 1.0) goToType = GoToType::basic;
+        goToType = GoToType::clean;
+        goToPos.setAvoidBall(true);
+
+        // TODO: HACK HACK CHECK OPPONENT'S GOAL AND NOT OUR GOAL
+        if (abs(((Vector2) robot->pos - targetPos).length()) < 0.1) {
+            goToType = GoToType::basic;
+            goToPos.setAvoidBall(false);
+        }
     }
     else {
         targetPos = ball;
+        goToPos.setAvoidBall(false);
         command.use_angle = 1;
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
+        // command.w = static_cast<float>((ball - robot->pos).angle());
         if (World::ourBotHasBall(robot->id, Constants::MAX_KICK_RANGE())) {
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
             command.kicker_forced = 1;
         }
         goToType = GoToType::basic;
+        goToPos.setAvoidBall(false);
     }
     Vector2 velocity;
     if (Field::pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {

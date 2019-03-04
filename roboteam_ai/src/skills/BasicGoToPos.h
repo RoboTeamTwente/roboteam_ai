@@ -21,7 +21,7 @@ class BasicGoToPos : public Skill {
         Vector2 targetPos;
         double maxVel;
         control::ControlGoToPos goToPos;
-        double errorMargin = 0.3;
+        double errorMargin = 0.05;
 
         double getballFromSideMargin = 0.3;
         Vector2 getBallFromSideLocation();

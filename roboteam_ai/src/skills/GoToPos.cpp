@@ -20,7 +20,7 @@ void GoToPos::onInitialize() {
     if (properties->hasVector2("distanceBehindBall")) {
         distanceBehindBall = properties->getDouble("distanceBehindBall");
     } else {
-        distanceBehindBall = 0.5;
+        distanceBehindBall = 0.2;
     }
 
     if (properties->hasVector2("Position")) {

@@ -37,11 +37,14 @@ class InterceptBall :public Skill {
         bool ballToGoal();
         bool ballInGoal();
 
+        control::ControlGoToPos goToPos;
+
         //Interface
         std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
 
     public:
         explicit InterceptBall(string name, bt::Blackboard::Ptr blackboard);
+        void sendMoveCommand(Vector2 targetPos);
         Status onUpdate() override;
         void onInitialize() override;
         void onTerminate(Status s) override;

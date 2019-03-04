@@ -15,8 +15,8 @@ public:
 
 // Show timing for different functions
     static bool SHOW_ALL_TIMINGS()              { return false; }
-    static bool SHOW_LONGEST_TICK()             { return true || SHOW_ALL_TIMINGS(); };
-    static bool SHOW_GOTOPOS_TIME_TAKEN()       { return true || SHOW_ALL_TIMINGS(); };
+    static bool SHOW_LONGEST_TICK()             { return false || SHOW_ALL_TIMINGS(); };
+    static bool SHOW_GOTOPOS_TIME_TAKEN()       { return false || SHOW_ALL_TIMINGS(); };
 
     // Max values we can send through robothub
     static double MAX_VEL_CMD()                 { return 8.191; };
@@ -28,7 +28,7 @@ public:
     static double MAX_ANGLE()                   { return  M_PI; };
 
     // Limits as defined in AI itself
-    static double MAX_VEL()                     { return GRSIM() ? 4.0 : 8.0; };
+    static double MAX_VEL()                     { return GRSIM() ? 4.0 : 6.0; };
     static double MAX_VEL_BALLPLACEMENT()       { return 3.0; };
 
     //Other/multiple usage
@@ -45,7 +45,7 @@ public:
 
     //skills
     static double DEFAULT_KICK_POWER()          { return  5.0; }; // max kick power() { return  100
-    static double MAX_KICK_POWER()              { return GRSIM() ? 5.0 : 8.0; }; //TODO: CHECK
+    static double MAX_KICK_POWER()              { return GRSIM() ? 5.0 : 4.0; }; //TODO: CHECK
     static double MAX_POWER_KICK_DISTANCE()     { return 9.0; };
     static int MAX_KICK_CYCLES()                { return  20; };
     static int MAX_GENEVA_CYCLES()              { return  20; };
@@ -54,10 +54,10 @@ public:
     //dribble
     static double MAX_BALL_BOUNCE_RANGE()       { return GRSIM() ? 0.4 : 0.15; };
     static double DRIBBLE_POSDIF()              { return 0.05; };
-    static float  DRIBBLE_SPEED()               { return GRSIM() ? 0.4 : 1.0; };
+    static float  DRIBBLE_SPEED()               { return GRSIM() ? 0.4 : 1.2; };
 
     //hasBall
-    static double MAX_BALL_RANGE()              { return GRSIM() ? 0.09 : 0.03; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
+    static double MAX_BALL_RANGE()              { return GRSIM() ? 0.09 : 0.04; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
     static double HAS_BALL_ANGLE()              { return 0.2; }
 
     //kick
@@ -74,16 +74,16 @@ public:
     //GoToPos
     static double MAX_CALCULATION_TIME()        { return 12.0; }; //max time in ms
     static double GOTOPOS_LUTH_ERROR_MARGIN()   { return 0.25; };
-    static bool SHOW_GOTOPOS_DEBUG_INFO()       { return true; };
+    static bool SHOW_GOTOPOS_DEBUG_INFO()       { return false; };
 
     //Keeper
     static double KEEPER_POST_MARGIN()          { return 0.08; };//m
     static double KEEPER_CENTREGOAL_MARGIN()    { return 0.3; };//m
-    static double KEEPER_POSDIF()               { return 0.04; };
+    static double KEEPER_POSDIF()               { return 0.01; };
 
     //ballkickedtoGoal
     static double BALL_TO_GOAL_MARGIN()         { return BALL_RADIUS(); };//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
-    static double BALL_TO_GOAL_TIME()           { return 1.5; };//seconds
+    static double BALL_TO_GOAL_TIME()           { return 2.5; };//seconds
 
     //GoAroundPos
     static double MAX_GOAROUND_STOP_TIME()      { return 2.0; }; //s

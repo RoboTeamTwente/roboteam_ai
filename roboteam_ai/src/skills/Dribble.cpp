@@ -21,7 +21,7 @@ Dribble::Progression Dribble::checkProgression() {
             else {
                 stoppingAngle = (float) deltaPos.rotate(M_PI).angle();
             }
-            return STOPPED;
+            return STOPPING;
         }
         else { return ON_THE_WAY; }
     }
@@ -34,19 +34,9 @@ Dribble::Progression Dribble::checkProgression() {
         else if (count >= maxTicks) {
             return DONE;
         }
-        else return STOPPED;
+        else return STOPPING;
     }
-    else if (currentProgress == DONE) {
-        return DONE;
-    }
-    else if (currentProgress == FAIL) {
-        return FAIL;
-    }
-    else if (currentProgress == WAITING) {
-        return WAITING;
-    }
-
-    return FAIL;
+    else return currentProgress;
 }
 
 void Dribble::onInitialize() {
@@ -66,6 +56,10 @@ void Dribble::onInitialize() {
     }
     else {
         ROS_ERROR("Dribble Initialize -> No maxTicks set!");
+    }
+
+    if (properties->hasInt("stopTicks")) {
+        stopTicks = properties->getInt("stopTicks");
     }
 
     if (properties->hasDouble("distance")) {
@@ -88,7 +82,7 @@ void Dribble::onInitialize() {
     count = 0;
 
     stoppingAngle = robot->angle; // default to the current angle
-    initialAngle=robot->angle;
+    initialAngle = robot->angle;
 }
 
 Dribble::Status Dribble::onUpdate() {
@@ -101,6 +95,16 @@ Dribble::Status Dribble::onUpdate() {
     deltaPos = targetPos - Vector2(ball->pos);
     currentProgress = checkProgression();
 
+    if (currentProgress == STOPPING) {
+        if (stopTick <= stopTicks) {
+            sendStopCommand();
+            std::cout << "STOPPING! Tick: " << stopTick << std::endl;
+            stopTick++;
+        } else {
+            currentProgress = STOPPED;
+        }
+    }
+
     if (currentProgress == STOPPED) {
         sendStopCommand();
     }
@@ -110,6 +114,7 @@ Dribble::Status Dribble::onUpdate() {
 
     switch (currentProgress) {
         case ON_THE_WAY: return Status::Running;
+        case STOPPING: return Status::Running;
         case STOPPED: return Status::Running;
         case DONE: return Status::Success;
         case FAIL: return Status::Failure;
