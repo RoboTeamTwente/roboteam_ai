@@ -31,45 +31,52 @@ namespace interface {
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
-    FRIEND_TEST(MainWindowTest, it_displays_main_window);
-    FRIEND_TEST(MainWindowTest, it_shows_the_visualizer_properly);
-    FRIEND_TEST(TreeVisualizerTest, it_properly_displays_trees);
-    FRIEND_TEST(TreeVisualizerTest, it_sets_proper_color_for_status);
-public:
-    explicit MainWindow(QWidget* parent = nullptr);
-    QString getSelectStrategyText() const;
-    void setSelectStrategyText(QString text);
+        FRIEND_TEST(MainWindowTest, it_displays_main_window);
+        FRIEND_TEST(MainWindowTest, it_shows_the_visualizer_properly);
+        FRIEND_TEST(TreeVisualizerTest, it_properly_displays_trees);
+        FRIEND_TEST(TreeVisualizerTest, it_sets_proper_color_for_status);
+    public:
+        explicit MainWindow(QWidget* parent = nullptr);
+        QString getSelectStrategyText() const;
+        void setSelectStrategyText(QString text);
 
-public slots:
-    void toggleOurColorParam();
-    void toggleOurSideParam();
-    void updatePID_luth();
-    void sendHaltSignal();
-    void setUseReferee(bool useRef);
-    void updateRobotsWidget();
-private:
-    Visualizer * visualizer;
-    QHBoxLayout * horizontalLayout;
-    RobotsWidget * robotsLayout;
-    QVBoxLayout * mainLayout;
-    QVBoxLayout * vLayout;
-    RobotsWidget * robotsWidget;
-    TreeVisualizerWidget * treeWidget;
-    QPushButton * haltBtn;
+    public slots:
+        void toggleOurColorParam();
+        void updatePID_luth();
+        void sendHaltSignal();
+        void setUseReferee(bool useRef);
+        void updateRobotsWidget();
+        void setShowDebugValueInTerminal(bool showDebug);
+    private:
+        Visualizer* visualizer;
+        QHBoxLayout* horizontalLayout;
+        RobotsWidget* robotsLayout;
+        QVBoxLayout* mainLayout;
+        QVBoxLayout* vLayout;
+        RobotsWidget* robotsWidget;
+        TreeVisualizerWidget* treeWidget;
+        QPushButton* haltBtn;
 
-    QPushButton * toggleColorBtn;
-    QPushButton * toggleSideBtn;
-    QComboBox * select_strategy;
+        QPushButton* toggleColorBtn;
+        QComboBox* select_strategy;
 
-private:
-    QGroupBox * doubleSpinBoxesGroup;
-    QHBoxLayout * spinBoxLayout;
-    QDoubleSpinBox * sb_luth_P;
-    QDoubleSpinBox * sb_luth_I;
-    QDoubleSpinBox * sb_luth_D;
+    private:
+        // TODO: LUKAS, look at if I did this right with pos pid / vel pid :)
+        QGroupBox* doubleSpinBoxesGroup_Pos_PID;
+        QGroupBox* doubleSpinBoxesGroup_Vel_PID;
+        QHBoxLayout* spinBoxLayout;
+        QDoubleSpinBox* sb_luth_Pos_P;
+        QDoubleSpinBox* sb_luth_Pos_I;
+        QDoubleSpinBox* sb_luth_Pos_D;
 
-    void configureCheckBox(QString title, QLayout * layout, const QObject* receiver, const char* method, bool defaultState = false);
-    int amountOfSelectedRobots = 0;
+        QDoubleSpinBox* sb_luth_Vel_P;
+        QDoubleSpinBox* sb_luth_Vel_I;
+        QDoubleSpinBox* sb_luth_Vel_D;
+
+        void configureCheckBox(QString title, QLayout* layout, const QObject* receiver, const char* method,
+                bool defaultState = false);
+        int amountOfSelectedRobots = 0;
+        void setToggleColorBtnLayout() const;
 };
 
 } // interface

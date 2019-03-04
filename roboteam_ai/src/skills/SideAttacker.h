@@ -14,7 +14,7 @@ class SideAttacker : public Skill {
     private:
 
 
-        control::ControlGoToPos goToPos;
+        control::PositionController goToPos;
         control::ControlKick kicker;
         Vector2 deltaPos;
         Vector2 targetPos;

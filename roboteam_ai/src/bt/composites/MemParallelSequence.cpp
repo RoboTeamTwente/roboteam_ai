@@ -27,11 +27,11 @@ bt::Node::Status MemParallelSequence::update() {
         }
     }
 
-    if (totalSuccess == children.size()) {
+    if (totalSuccess == static_cast<int>(children.size())) {
         return Status::Success;
     }
 
-    if (totalSuccess + totalFailure == children.size()) {
+    if (totalSuccess + totalFailure == static_cast<int>(children.size())) {
         return Status::Failure;
     }
 

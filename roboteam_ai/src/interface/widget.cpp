@@ -52,7 +52,7 @@ void Visualizer::calculateFieldSizeFactor() {
 /// draws background of the field
 void Visualizer::drawBackground(QPainter &painter) {
     painter.setBrush(Constants::FIELD_COLOR());
-    painter.drawRect(0, 0, this->size().width(), this->size().height());
+    painter.drawRect(-10, -10, this->size().width() + 10, this->size().height() +10);
 }
 
 // draws the field lines
@@ -197,6 +197,7 @@ void Visualizer::mousePressEvent(QMouseEvent* event) {
         }
     } else if (event->button() == Qt::RightButton) {
         InterfaceValues::setBallPlacementTarget(toFieldPosition(pos));
+
     }
 }
 
@@ -349,6 +350,12 @@ void Visualizer::drawBallPlacementTarget(QPainter& painter) {
 void Visualizer::setShowBallPlacementMarker(bool showMarker) {
     Visualizer::showBallPlacementMarker = showMarker;
 }
+
+void Visualizer::setShowDebugValueInTerminal(bool showDebug) {
+    Visualizer::showDebugValueInTerminal = showDebug;
+    InterfaceValues::setShowDebugValues(showDebug);
+}
+
 
 } // interface
 } // ai

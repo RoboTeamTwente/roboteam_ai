@@ -42,6 +42,7 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     vis->setShowAngles(true);
     vis->setShowRoles(true);
     vis->setShowBallPlacementMarker(true);
+    vis->setShowDebugValueInTerminal(true);
     vis->setShowPath(true);
     vis->setShowPathAll(true);
     vis->setShowTacticColors(true);
@@ -60,6 +61,7 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     vis->setShowAngles(false);
     vis->setShowRoles(false);
     vis->setShowBallPlacementMarker(false);
+    vis->setShowDebugValueInTerminal(false);
     vis->setShowPath(false);
     vis->setShowPathAll(false);
     vis->setShowTacticColors(false);
@@ -109,25 +111,6 @@ TEST(MainWindowTest, it_toggles_our_color_param) {
     window->toggleOurColorParam();
     nh.getParam("our_color", ourColorParam);
     EXPECT_EQ(ourColorParam, "yellow");
-}
-
-
-TEST(MainWindowTest, it_toggles_our_side_param) {
-    auto window = std::make_shared<MainWindow>();
-
-    ros::NodeHandle nh;
-    std::string ourSideParam;
-    nh.setParam("our_side", "left");
-
-    window->toggleOurSideParam();
-    nh.getParam("our_side", ourSideParam);
-    EXPECT_EQ(ourSideParam, "right");
-
-    // reverse it again
-    window->toggleOurSideParam();
-    nh.getParam("our_side", ourSideParam);
-    EXPECT_EQ(ourSideParam, "left");
-
 }
 
 }

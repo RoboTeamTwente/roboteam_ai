@@ -10,6 +10,8 @@ TEST(TheyHaveBallTest, TheyHaveBallTest) {
     auto BB = std::make_shared<bt::Blackboard>();
     rtt::ai::TheyHaveBall node("Test", BB);
 
+    EXPECT_EQ(node.node_name(), "TheyHaveBall");
+
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
 

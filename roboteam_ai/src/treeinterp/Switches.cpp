@@ -87,7 +87,8 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "BallPlacementUsTactic",
          "AvoidBallTactic",
          "SingleKeeperTactic",
-         "randomTactic" // used for testing, do not remove it!
+         "randomTactic", // used for testing, do not remove it!
+         "testAvoidanceTactic"// used for testing, do not remove it!
          };
 
 
@@ -104,10 +105,12 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
          "EnterFormationStrategy",
          "BallPlacementUsStrategy",
          "BallPlacementThemStrategy",
-         "randomStrategy"};
+         "randomStrategy", // used for testing, do not remove it!
+         "testAvoidanceStrategy"
+        };
 
 std::vector<std::string> Switches::keeperJsonFiles =
-        {};
+        {"keeperTest1"};
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
 /// have a look around with the names and see if what you made is on the same level as these are
@@ -131,7 +134,7 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
     if ( map.find(name) != map.end() ) {
         return map[name];
     } else {
-            
+
         ROS_ERROR("Faulty Control Node! Never should happen!");
         return bt::Node::Ptr();
     }
@@ -268,32 +271,31 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             {"SingleKeeperTactic",{
                      {"Keeper",robotType::closeToOurGoal}
              }
+            },
+            {"testAvoidanceTactic",{
+                    {"testAvoidanceBot",robotType::random}
+            }
             }
     };
     runErrorHandler(tactics);
 
     bt::Node::Ptr node;
 
-    if (name == "VerySpecialTacticThatWouldRequireSpecialClass") {
+    if (name == "VerySpecialTacticThatWouldRequireSpecialClass")
         node = std::make_shared<bt::VictoryDanceTactic>("VerySpecialTacticThatWouldRequireSpecialClass", properties);
-    }
-    else if (tactics.find(name) != tactics.end()) {
+    else if (tactics.find(name) != tactics.end())
         node = std::make_shared<bt::DefaultTactic>(name, properties, tactics[name]);
-    }
-    else if (name == "EnterFormationTactic") {
+    else if (name == "EnterFormationTactic")
         node = std::make_shared<bt::EnterFormationTactic>("EnterFormationTactic", properties);
-    }
-    else if (name == "AvoidBallTactic") {
+    else if (name == "AvoidBallTactic")
         node = std::make_shared<bt::AvoidBallTactic>("AvoidBallTactic", properties);
-    }
-    else if (name == "victoryDanceTactic") {
+    else if (name == "victoryDanceTactic")
         node = std::make_shared<bt::VictoryDanceTactic>("victoryDanceTactic", properties);
-    } else {
+    else
         ROS_ERROR("\n\n\nTHE TACTIC DOES NOT HAVE ROBOTS SPECIFIED IN THE SWITCHES:    %s\n\n\n", name.c_str());
-        return node;
-    }
-
+    return node;
 }
+
 void Switches::runErrorHandler(std::map<std::string, std::map<std::string, robotType>> tactics) {
 
     for (auto &item : tactics) { // <--- NOT A CONST REFERENCE WOW MAN MAN MAN  -Team (int)Twee(nte)
