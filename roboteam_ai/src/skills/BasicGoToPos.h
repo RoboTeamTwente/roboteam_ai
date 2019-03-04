@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_BASICGOTOPOS_H
 #define ROBOTEAM_AI_BASICGOTOPOS_H
 
-#include <roboteam_ai/src/control/ControlGoToPos.h>
+#include <roboteam_ai/src/control/PositionController.h>
 #include "Skill.h"
 
 namespace rtt {
@@ -19,9 +19,9 @@ class BasicGoToPos : public Skill {
         void onInitialize() override;
         void onTerminate(Status s) override;
         Vector2 targetPos;
-        double maxVel;
-        control::ControlGoToPos goToPos;
+        control::PositionController goToPos;
         double errorMargin = 0.05;
+        double maxVel;
 
         double getballFromSideMargin = 0.3;
         Vector2 getBallFromSideLocation();

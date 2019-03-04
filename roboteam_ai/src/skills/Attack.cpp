@@ -21,7 +21,7 @@ void Attack::onInitialize() {
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
     Vector2 ball = World::getBall()->pos;
-    Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.35, ownGoal);
+    Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.5, false);
     Vector2 deltaBall = behindBall - ball;
 
     roboteam_msgs::RobotCommand command;
@@ -33,12 +33,12 @@ bt::Node::Status Attack::onUpdate() {
         targetPos = behindBall;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
-        goToType = GoToType::clean;
+        goToType = GoToType::NUMERIC_TREES;
         goToPos.setAvoidBall(true);
 
         // TODO: HACK HACK CHECK OPPONENT'S GOAL AND NOT OUR GOAL
         if (abs(((Vector2) robot->pos - targetPos).length()) < 0.1) {
-            goToType = GoToType::basic;
+            goToType = GoToType::BASIC;
             goToPos.setAvoidBall(false);
         }
     }
@@ -53,7 +53,7 @@ bt::Node::Status Attack::onUpdate() {
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
             command.kicker_forced = 1;
         }
-        goToType = GoToType::basic;
+        goToType = GoToType::BASIC;
         goToPos.setAvoidBall(false);
     }
     Vector2 velocity;
@@ -70,12 +70,10 @@ bt::Node::Status Attack::onUpdate() {
         velocity = {0, 0};
     }
     else {
-        velocity = goToPos.goToPos(robot, targetPos, goToType);
+        velocity = goToPos.goToPos(robot, targetPos, goToType).vel;
     }
-
-    if (velocity.length() < 0.6 && velocity.length() > 0.04) {
-        velocity = velocity.stretchToLength(0.6);
-    }
+    if (velocity.length() < 0.3 && velocity.length() > 0.04)
+        velocity.stretchToLength(0.3);
 
     velocity = control::ControlUtils::VelocityLimiter(velocity);
 

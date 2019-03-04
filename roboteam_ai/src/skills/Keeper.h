@@ -7,7 +7,7 @@
 #include "Skill.h"
 #include "roboteam_utils/Arc.h"
 #include "roboteam_utils/Math.h"
-#include "../control/Controller.h"
+#include "roboteam_ai/src/control/PIDController.h"
 
 namespace rtt{
 namespace ai{
@@ -22,9 +22,9 @@ class Keeper : public Skill {
         void sendMoveCommand(Vector2 pos);
         void sendFineMoveCommand(Vector2 pos);
         void sendStopCommand();
-        control::Controller pid,finePid;
+        control::PIDController pid,finePid;
 
-        control::ControlGoToPos goToPos;
+        control::PositionController goToPos;
     public:
         explicit Keeper(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;

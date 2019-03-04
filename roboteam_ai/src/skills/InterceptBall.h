@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_INTERCEPTBALL_H
 
 #include "Skill.h"
-#include "../control/Controller.h"
+#include "roboteam_ai/src/control/PIDController.h"
 
 namespace rtt {
 namespace ai {
@@ -26,18 +26,18 @@ class InterceptBall :public Skill {
         bool missedBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel);
         bool ballDeflected();
 
+        control::PositionController goToPos;
+
         Vector2 ballStartPos, ballStartVel, ballEndPos, interceptPos;
         Vector2 deltaPos;
         int tickCount, maxTicks;
-        control::Controller pid;
+        control::PIDController pid,finePid;
         bool backwards;
 
         // Relevant to keeper only
         bool keeper;
         bool ballToGoal();
         bool ballInGoal();
-
-        control::ControlGoToPos goToPos;
 
         //Interface
         std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;

@@ -81,7 +81,7 @@ void InterceptBall::sendMoveCommand(Vector2 targetPos) {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
 
-    Vector2 velocities = goToPos.goToPos(robot, targetPos);
+    Vector2 velocities = goToPos.goToPos(robot, targetPos).vel;
     velocities = control::ControlUtils::VelocityLimiter(velocities);
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);

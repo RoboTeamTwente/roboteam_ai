@@ -20,7 +20,15 @@ BTFactory &BTFactory::getFactory() {
 
 /// Initiate the BTFactory
 void BTFactory::init() {
+
+    // If you think calling this over and over again is bad or slow you are partially correct. But if you optimize with
+    //-O1 flag this takes like 20 ms so it is totally fine.
     interpreter = TreeInterpreter::getInstance();
+
+    tacticsRepo.empty();
+    strategyRepo.empty();
+    keeperRepo.empty();
+
 
     for (const auto &tacticName : Switches::tacticJsonFileNames) {
         auto BB = std::make_shared<bt::Blackboard>(); //TODO maybe make the BB somewhere else that makes sense
@@ -54,6 +62,7 @@ std::string BTFactory::getCurrentTree() {
 
 void BTFactory::setCurrentTree(const std::string &newTree) {
 
+
     if (newTree != BTFactory::currentTree) {
 
         if (BTFactory::currentTree == "NaN") {
@@ -73,16 +82,17 @@ bool BTFactory::isInitialized() {
 }
 
 void BTFactory::setKeeperTree(const std::string &keeperTree_) {
-
     keeperTree = keeperTree_;
-
 }
+
 void BTFactory::setKeeper(int newID) {
     BTFactory::keeperID = newID;
 }
+
 bt::BehaviorTree::Ptr BTFactory::getKeeperTree() {
     return keeperRepo[keeperTree];
 }
+
 void BTFactory::halt() {
     BTFactory::getFactory().getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
     BTFactory::currentTree = "NaN";
