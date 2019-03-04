@@ -29,15 +29,15 @@ public:
     double getBallPossessionEstimate(bool ourTeam);
     playStyle getRecommendedPlayStyle(bool ourTeam);
 private:
-    double getBallSecurityForTeam(bool ourTeam = true);
-    double getTeamDistanceToGoalAvg(bool ourTeam); // get average of distances to goal
-    double getTeamGoalVisionAvg(bool ourTeam);
+    double getTeamDistanceToGoalAvg(bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world()); // get average of distances to goal
+    double getTeamGoalVisionAvg(bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
     double evaluateRobotDangerScore(roboteam_msgs::WorldRobot robot, bool ourTeam);
-    std::vector<std::pair<roboteam_msgs::WorldRobot, double>> getAttackersSortedOnGoalVision(bool ourTeam);
+    std::vector<std::pair<roboteam_msgs::WorldRobot, double>> getAttackersSortedOnGoalVision(bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
 
-    double robotCanShootAtGoalCertainty(roboteam_msgs::WorldRobot robot, bool ourTeam);
-    int getRobotsToPassTo(roboteam_msgs::WorldRobot robot, bool ourTeam);
-    double shortestDistToEnemyRobot(roboteam_msgs::WorldRobot robot, bool ourTeam);
+    double robotCanShootAtGoalCertainty(roboteam_msgs::WorldRobot robot, bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
+    vector<pair<int, double>> getRobotsToPassTo(roboteam_msgs::WorldRobot robot, bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
+    double shortestDistToEnemyRobot(roboteam_msgs::WorldRobot robot, bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
+    bool isClosingInToGoal(roboteam_msgs::WorldRobot robot, bool ourTeam);
 };
 
 
