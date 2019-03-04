@@ -102,6 +102,9 @@ public:
 
     static double DRIBBLE_ROTATE_WAIT_TIME()    { return 0.2; }; // seconds
     static double DRIBBLE_ROTATE_MAX_SPEED()    { return 0.5; }; //rad/s
+
+    static double robotAimedAtPointMaxDiff()    { return 0.03* M_PI; }; // rad
+
     // Interface
     static int ROBOT_DRAWING_SIZE()             { return  8; };
     static int BALL_DRAWING_SIZE()              { return  5; };

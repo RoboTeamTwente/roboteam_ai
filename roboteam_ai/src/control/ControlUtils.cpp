@@ -266,8 +266,7 @@ std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFrom
         std::vector<Vector2> set2) {
 
     std::vector<int> assignments;
-    // compute a distance matrix
-    // initialize it with zeros
+    // compute a distance matrix, initialize it with zeros
     std::vector<std::vector<double>> distanceMatrix(set1.size(), std::vector<double>(set2.size()));
 
     for (unsigned int i = 0; i < set1.size(); i++) {
@@ -284,6 +283,16 @@ std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFrom
         solutionPairs.push_back({set1.at(i), set2.at(assignments.at(i))});
     }
     return solutionPairs;
+}
+
+bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, Vector2 point, double maxDifference) {
+    auto robot = World::getRobotForId(id, ourTeam);
+    if (robot) {
+        double exactAngleTowardsPoint = (point - robot->pos).angle();
+        return (robot->w > constrainAngle(exactAngleTowardsPoint - maxDifference/2)
+            && robot->w < constrainAngle(exactAngleTowardsPoint + maxDifference/2));
+    }
+    return false;
 }
 
 } // control

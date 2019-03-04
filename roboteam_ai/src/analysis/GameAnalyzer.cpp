@@ -11,7 +11,6 @@ namespace ai {
 namespace analysis {
 
 playStyle GameAnalyzer::getRecommendedPlayStyle(bool ourTeam) {
-
     /*
      * If they are close
      * and have an immediate shot at goal
@@ -35,10 +34,11 @@ double GameAnalyzer::getBallPossessionEstimate(bool ourTeam) {
     int amountOfOurRobots = 0;
     int amountOfTheirRobots = 0;
 
-
-
     return 0;
 }
+
+
+
 
 /// Get the average of the distances of robots to their opponents goal
 double GameAnalyzer::getTeamDistanceToGoalAvg(bool ourTeam) {
@@ -76,6 +76,55 @@ double GameAnalyzer::getTeamGoalVisionAvg(bool ourTeam) {
         total += Field::getPercentageOfGoalVisibleFromPoint(!ourTeam, robot.pos);
     }
     return (total/robots.size());
+}
+
+///
+double GameAnalyzer::evaluateRobotDangerScore(roboteam_msgs::WorldRobot robot, bool ourTeam) {
+    double total = 0.0;
+
+    total += World::robotHasBall(robot, * World::getBall()) ? 100 : 0;
+
+    total += std::max(10 - Field::getDistanceToGoal(ourTeam, robot.pos), 0.0);
+
+    total += Field::getPercentageOfGoalVisibleFromPoint(!ourTeam, robot.pos);
+
+    // check if a robot stands free, meaning the closest distance to it's enemy robots is larger than X
+    total += shortestDistToEnemyRobot(robot, ourTeam) > 0.5;
+
+
+
+    // hasBall
+    // can pass
+    // has goal vision
+    // can shoot at goal
+    // is close to goal
+    // is closing in to goal
+    // is standing free
+
+    return total;
+}
+
+double GameAnalyzer::robotCanShootAtGoalCertainty(roboteam_msgs::WorldRobot robot, bool ourTeam) {
+
+}
+
+int GameAnalyzer::getRobotsToPassTo(roboteam_msgs::WorldRobot robot, bool ourTeam) {
+
+    // get robots from this team
+    // get robots from opponent team
+
+    // draw line
+    return 0;
+}
+
+double GameAnalyzer::shortestDistToEnemyRobot(roboteam_msgs::WorldRobot robot, bool ourTeam) {
+    auto enemyRobots = ourTeam ? World::get_world().us : World::get_world().them;
+    Vector2 robotPos = robot.pos;
+    double shortestDist = INT_MAX;
+    for (auto opponent : enemyRobots) {
+        shortestDist = std::min(robotPos.dist(opponent.pos), shortestDist);
+    }
+    return shortestDist;
 }
 
 } // analysis

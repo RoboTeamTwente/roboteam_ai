@@ -31,12 +31,15 @@ public:
 private:
     double getBallSecurityForTeam(bool ourTeam = true);
     double getTeamDistanceToGoalAvg(bool ourTeam); // get average of distances to goal
-
     double getTeamGoalVisionAvg(bool ourTeam);
-
+    double evaluateRobotDangerScore(roboteam_msgs::WorldRobot robot, bool ourTeam);
     std::vector<std::pair<roboteam_msgs::WorldRobot, double>> getAttackersSortedOnGoalVision(bool ourTeam);
 
+    double robotCanShootAtGoalCertainty(roboteam_msgs::WorldRobot robot, bool ourTeam);
+    int getRobotsToPassTo(roboteam_msgs::WorldRobot robot, bool ourTeam);
+    double shortestDistToEnemyRobot(roboteam_msgs::WorldRobot robot, bool ourTeam);
 };
+
 
 }
 }
