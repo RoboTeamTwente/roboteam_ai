@@ -63,7 +63,6 @@ std::string BTFactory::getCurrentTree() {
 void BTFactory::setCurrentTree(const std::string &newTree) {
 
 
-
     if (newTree != BTFactory::currentTree) {
 
         if (BTFactory::currentTree == "NaN") {
