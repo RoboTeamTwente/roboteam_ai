@@ -30,8 +30,8 @@ bt::Node::Status Attack::onUpdate() {
         targetPos = behindBall;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
-        goToType = GoToType::luTh;
-        if (abs(((Vector2) robot->pos - targetPos).length()) < 1.0) goToType = GoToType::basic;
+        goToType = GoToType::NUMERIC_TREES;
+        if (abs(((Vector2) robot->pos - targetPos).length()) < 1.0) goToType = GoToType::BASIC;
     }
     else {
         targetPos = ball;
@@ -42,7 +42,7 @@ bt::Node::Status Attack::onUpdate() {
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
             command.kicker_forced = 1;
         }
-        goToType = GoToType::basic;
+        goToType = GoToType::BASIC;
     }
     Vector2 velocity;
     if (Field::pointIsInDefenceArea(robot->pos, true, 0.0)) {
@@ -58,7 +58,7 @@ bt::Node::Status Attack::onUpdate() {
         velocity = {0, 0};
     }
     else {
-        velocity = goToPos.goToPos(robot, targetPos, goToType);
+        velocity = goToPos.goToPos(robot, targetPos, goToType).vel;
     }
     if (velocity.length() < 0.3 && velocity.length() > 0.04)
         velocity.stretchToLength(0.3);

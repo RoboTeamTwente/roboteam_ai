@@ -38,7 +38,7 @@ void Leaf::updateRobot() {
         robot = rtt::ai::World::getRobotForId(robotId, true);
     }
     else {
-       // ROS_ERROR("%s Update -> robot %i does not exist in world", node_name().c_str(), robotId);
+        ROS_ERROR("%s Update -> robot %i does not exist in world", node_name().c_str(), robotId);
     }
 }
 }

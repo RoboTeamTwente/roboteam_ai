@@ -17,13 +17,13 @@ MainWindow::MainWindow(QWidget* parent)
         :QMainWindow(parent) {
 
     // initialize values for interface to display
-    InterfaceValues::setLuthPosP(Constants::standard_luth_Pos_P());
-    InterfaceValues::setLuthPosI(Constants::standard_luth_Pos_I());
-    InterfaceValues::setLuthPosD(Constants::standard_luth_Pos_D());
+    InterfaceValues::setLuthPosP(Constants::standardNumTreePosP());
+    InterfaceValues::setNumTreePosI(Constants::standardNumTreePosI());
+    InterfaceValues::setNumTreePosD(Constants::standardNumTreePosD());
 
-    InterfaceValues::setLuthVelP(Constants::standard_luth_Vel_P());
-    InterfaceValues::setLuthVelI(Constants::standard_luth_Vel_I());
-    InterfaceValues::setLuthVelD(Constants::standard_luth_Vel_D());
+    InterfaceValues::setNumTreeVelP(Constants::standardNumTreeVelP());
+    InterfaceValues::setNumTreeVelI(Constants::standardNumTreeVelI());
+    InterfaceValues::setNumTreeVelD(Constants::standardNumTreeVelD());
 
     InterfaceValues::setUseRefereeCommands(Constants::STD_USE_REFEREE());
 
@@ -53,7 +53,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     auto hButtonsLayout = new QHBoxLayout();
 
-    auto haltBtn = new QPushButton("HALT");
+    haltBtn = new QPushButton("Pause");
     QObject::connect(haltBtn, SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
     hButtonsLayout->addWidget(haltBtn);
     haltBtn->setStyleSheet("background-color: #cc0000;");
@@ -70,21 +70,21 @@ MainWindow::MainWindow(QWidget* parent)
     sb_luth_Pos_P = new QDoubleSpinBox();
     sb_luth_Pos_P->setRange(-20, 20);
     sb_luth_Pos_P->setSingleStep(0.1f);
-    sb_luth_Pos_P->setValue(InterfaceValues::getLuthPosP());
+    sb_luth_Pos_P->setValue(InterfaceValues::setNumTreePosP());
     QObject::connect(sb_luth_Pos_P, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
     spinBoxLayout->addWidget(sb_luth_Pos_P);
 
     sb_luth_Pos_I = new QDoubleSpinBox();
     sb_luth_Pos_I->setRange(-20, 20);
     sb_luth_Pos_I->setSingleStep(0.1f);
-    sb_luth_Pos_I->setValue(InterfaceValues::getLuthPosI());
+    sb_luth_Pos_I->setValue(InterfaceValues::getNumTreePosI());
     QObject::connect(sb_luth_Pos_I, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
     spinBoxLayout->addWidget(sb_luth_Pos_I);
 
     sb_luth_Pos_D = new QDoubleSpinBox();
     sb_luth_Pos_D->setRange(-20, 20);
     sb_luth_Pos_D->setSingleStep(0.1f);
-    sb_luth_Pos_D->setValue(InterfaceValues::getLuthPosD());
+    sb_luth_Pos_D->setValue(InterfaceValues::getNumTreePosD());
     QObject::connect(sb_luth_Pos_D, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
     spinBoxLayout->addWidget(sb_luth_Pos_D);
     doubleSpinBoxesGroup_Pos_PID->setLayout(spinBoxLayout);
@@ -95,21 +95,21 @@ MainWindow::MainWindow(QWidget* parent)
     sb_luth_Vel_P = new QDoubleSpinBox();
     sb_luth_Vel_P->setRange(-20, 20);
     sb_luth_Vel_P->setSingleStep(0.1f);
-    sb_luth_Vel_P->setValue(InterfaceValues::getLuthVelP());
+    sb_luth_Vel_P->setValue(InterfaceValues::getNumTreeVelP());
     QObject::connect(sb_luth_Vel_P, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
     spinBoxLayout->addWidget(sb_luth_Vel_P);
 
     sb_luth_Vel_I = new QDoubleSpinBox();
     sb_luth_Vel_I->setRange(-20, 20);
     sb_luth_Vel_I->setSingleStep(0.1f);
-    sb_luth_Vel_I->setValue(InterfaceValues::getLuthVelI());
+    sb_luth_Vel_I->setValue(InterfaceValues::getNumTreeVelI());
     QObject::connect(sb_luth_Vel_I, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
     spinBoxLayout->addWidget(sb_luth_Vel_I);
 
     sb_luth_Vel_D = new QDoubleSpinBox();
     sb_luth_Vel_D->setRange(-20, 20);
     sb_luth_Vel_D->setSingleStep(0.1f);
-    sb_luth_Vel_D->setValue(InterfaceValues::getLuthVelD());
+    sb_luth_Vel_D->setValue(InterfaceValues::getNumTreeVelD());
     QObject::connect(sb_luth_Vel_D, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
     spinBoxLayout->addWidget(sb_luth_Vel_D);
 
@@ -118,6 +118,7 @@ MainWindow::MainWindow(QWidget* parent)
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [=](const QString &strategyName) {
               // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+              BTFactory::getFactory().init();
               BTFactory::setCurrentTree(strategyName.toStdString());
               treeWidget->setHasCorrectTree(false);
             });
@@ -142,6 +143,8 @@ MainWindow::MainWindow(QWidget* parent)
     configureCheckBox("show path for current robot", cbVLayout, visualizer, SLOT(setShowPath(bool)), Constants::STD_SHOW_PATHS_CURRENT());
     configureCheckBox("show path for all robots", cbVLayout, visualizer, SLOT(setShowPathAll(bool)), Constants::STD_SHOW_PATHS_ALL());
     configureCheckBox("Show marker for Ball Placement", cbVLayout, visualizer, SLOT(setShowBallPlacementMarker(bool)), Constants::STD_SHOW_BALL_PLACEMENT_MARKER());
+    configureCheckBox("show debug values in terminal", cbVLayout, visualizer, SLOT(setShowDebugValueInTerminal(bool)), Constants::STD_SHOW_DEBUG_VALUES());
+
     auto cbVSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
     cbVLayout->addSpacerItem(cbVSpacer);
     checkboxWidget->setLayout(cbVLayout);
@@ -218,21 +221,37 @@ void MainWindow::toggleOurColorParam() {
 /// update the PID values for gotopos Luth
 void MainWindow::updatePID_luth() {
     InterfaceValues::setLuthPosP(sb_luth_Pos_P->value());
-    InterfaceValues::setLuthPosI(sb_luth_Pos_I->value());
-    InterfaceValues::setLuthPosD(sb_luth_Pos_D->value());
+    InterfaceValues::setNumTreePosI(sb_luth_Pos_I->value());
+    InterfaceValues::setNumTreePosD(sb_luth_Pos_D->value());
 
-    InterfaceValues::setLuthVelP(sb_luth_Vel_P->value());
-    InterfaceValues::setLuthVelI(sb_luth_Vel_I->value());
-    InterfaceValues::setLuthVelD(sb_luth_Vel_D->value());
+    InterfaceValues::setNumTreeVelP(sb_luth_Vel_P->value());
+    InterfaceValues::setNumTreeVelI(sb_luth_Vel_I->value());
+    InterfaceValues::setNumTreeVelD(sb_luth_Vel_D->value());
 }
 
 /// send a halt signal to stop all trees from executing
 void MainWindow::sendHaltSignal() {
     InterfaceValues::sendHaltCommand();
+    rtt::ai::Pause pause;
+    if (pause.getPause()) {
+        haltBtn->setText("Resume");
+        haltBtn->setStyleSheet("background-color: #00b200;");
+    }
+    else {
+        haltBtn->setText("Pause");
+        haltBtn->setStyleSheet("background-color: #cc0000;");
+    }
+
+    std::cout << "Pause" << std::endl;
+
 }
 
 void MainWindow::updateRobotsWidget() {
     robotsWidget->updateContents(visualizer);
+}
+
+void MainWindow::setShowDebugValueInTerminal(bool showDebug) {
+    InterfaceValues::setShowDebugValues(showDebug);
 }
 
 void MainWindow::setUseReferee(bool useRef) {
