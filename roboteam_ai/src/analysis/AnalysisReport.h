@@ -1,11 +1,15 @@
-//
-// Created by mrlukasbos on 5-3-19.
-//
+/*
+ *
+ * Analysis Reports are a summary of the world state, which includes the things that are important to us.
+ *
+ *
+ */
 
 #ifndef ROBOTEAM_AI_ANALYSISREPORT_H
 #define ROBOTEAM_AI_ANALYSISREPORT_H
 
 #include <roboteam_msgs/WorldRobot.h>
+#include "RobotDanger.h"
 
 namespace rtt {
 namespace ai {
@@ -25,8 +29,11 @@ enum playStyle {
 
 struct AnalysisReport {
     bool reportForUs = true;
-    std::vector<std::pair<roboteam_msgs::WorldRobot, double>> robotSortedOnDanger;
+    std::vector<std::pair<roboteam_msgs::WorldRobot, RobotDanger>> robotSortedOnDanger;
     playStyle recommendedPlayStyle;
+    double ballPossession = 0.0;
+    double ourDistanceToGoalAvg = 0.0;
+    double theirDistanceToGoalAvg = 0.0;
 
 };
 

@@ -17,28 +17,28 @@ public:
     // It's a singleton; don't copy it.
     GameAnalyzer(const GameAnalyzer &) = delete;
     void operator=(const GameAnalyzer &) = delete;
-
-    double getBallPossessionEstimate(bool ourTeam);
-    playStyle getRecommendedPlayStyle(bool ourTeam);
     GameAnalyzer &getInstance();
+
     void start(int iterationsPerSecond);
+    void stop();
 
     AnalysisReport getMostRecentReport();
     AnalysisReport generateReportNow();
 
 private:
     GameAnalyzer();
-    void stop();
-    void loop(unsigned delayMillis);
 
+    // Threading
     std::thread thread;
     std::mutex mutex;
     volatile bool running;
     volatile bool stopping;
+    void loop(unsigned delayMillis);
 
     AnalysisReport mostRecentReport;
 
-    // get average of distances to goal
+    double getBallPossessionEstimate(bool ourTeam);
+    playStyle getRecommendedPlayStyle();
     double getTeamDistanceToGoalAvg(bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
     double getTeamGoalVisionAvg(bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
     double evaluateRobotDangerScore(roboteam_msgs::WorldRobot robot, bool ourTeam);

@@ -6,6 +6,7 @@
 #include "GameAnalyzer.h"
 #include "../utilities/World.h"
 #include "../utilities/Field.h"
+#include "RobotDanger.h"
 
 namespace rtt {
 namespace ai {
@@ -18,42 +19,23 @@ GameAnalyzer& GameAnalyzer::getInstance() {
     return instance;
 }
 
-void GameAnalyzer::start(int iterationsPerSecond) {
-    ROS_INFO_STREAM_NAMED("GameAnalyzer", "Starting at " << iterationsPerSecond << " iterations per second");
-    auto delay = (unsigned) (1000/iterationsPerSecond);
-    thread = std::thread(&GameAnalyzer::loop, this, delay);
-    running = true;
-}
-
-// Stops the background worker thread.
-void GameAnalyzer::stop() {
-    if (running) {
-        ROS_INFO_STREAM_NAMED("GameAnalyzer", "Stopping GameAnalyzer");
-        thread.join();
-        running = false;
-    } else {
-        ROS_INFO_STREAM_NAMED("GameAnalyzer", "Could not stop since it was not running in the first place.");
-    }
-}
-
-void GameAnalyzer::loop(unsigned delayMillis) {
-    std::chrono::milliseconds delay(delayMillis);
-    while (!stopping) {
-        generateReportNow();
-        std::this_thread::sleep_for(delay);
-    }
-}
-
 AnalysisReport GameAnalyzer::getMostRecentReport() {
     return mostRecentReport;
 }
 
 AnalysisReport GameAnalyzer::generateReportNow() {
-    AnalysisReport newReport;
-    return mostRecentReport;
+    AnalysisReport report;
+
+    report.recommendedPlayStyle = getRecommendedPlayStyle();
+    report.ballPossession = getBallPossessionEstimate(true);
+    report.ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(true);
+    report.theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(false);
+
+    mostRecentReport = report;
+    return report;
 }
 
-playStyle GameAnalyzer::getRecommendedPlayStyle(bool ourTeam) {
+playStyle GameAnalyzer::getRecommendedPlayStyle() {
     return DEFEND_WITH_ALL;
 }
 
@@ -99,8 +81,12 @@ double GameAnalyzer::getTeamGoalVisionAvg(bool ourTeam, roboteam_msgs::World sim
     return (total/robots.size());
 }
 
-/// returns a danger score in a range from 0 - 100
+/// returns a danger score
 double GameAnalyzer::evaluateRobotDangerScore(roboteam_msgs::WorldRobot robot, bool ourTeam) {
+
+    RobotDanger danger;
+
+
     double total = 0.0;
 
     Vector2 goalCenter = ourTeam ? Field::get_our_goal_center() : Field::get_their_goal_center();
@@ -182,6 +168,33 @@ bool GameAnalyzer::isClosingInToGoal(roboteam_msgs::WorldRobot robot, bool ourTe
         }
     }
     return false;
+}
+
+
+void GameAnalyzer::start(int iterationsPerSecond) {
+    ROS_INFO_STREAM_NAMED("GameAnalyzer", "Starting at " << iterationsPerSecond << " iterations per second");
+    auto delay = (unsigned) (1000/iterationsPerSecond);
+    thread = std::thread(&GameAnalyzer::loop, this, delay);
+    running = true;
+}
+
+// Stops the background worker thread.
+void GameAnalyzer::stop() {
+    if (running) {
+        ROS_INFO_STREAM_NAMED("GameAnalyzer", "Stopping GameAnalyzer");
+        thread.join();
+        running = false;
+    } else {
+        ROS_INFO_STREAM_NAMED("GameAnalyzer", "Could not stop since it was not running in the first place.");
+    }
+}
+
+void GameAnalyzer::loop(unsigned delayMillis) {
+    std::chrono::milliseconds delay(delayMillis);
+    while (!stopping) {
+        generateReportNow();
+        std::this_thread::sleep_for(delay);
+    }
 }
 
 
