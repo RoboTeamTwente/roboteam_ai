@@ -14,14 +14,20 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 void Attack::onInitialize() {
     ownGoal = properties->getBool("ownGoal");
     goToPos.setAvoidBall(true);
+    shot = false;
 }
 
 // TODO: WTF HARDCODED SHIT EVERYWHERE
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
+
+    if (shot && !World::botHasBall(robot->id, true)) {
+        return Status::Success;
+    }
+
     Vector2 ball = World::getBall()->pos;
-    Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.5, false);
+    Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.4, ownGoal);
     Vector2 deltaBall = behindBall - ball;
 
     roboteam_msgs::RobotCommand command;
@@ -29,7 +35,7 @@ bt::Node::Status Attack::onUpdate() {
 
     GoToType goToType;
 
-    if (!Coach::isRobotBehindBallToGoal(0.4, ownGoal, robot->pos)) {
+    if (!Coach::isRobotBehindBallToGoal(0.6, ownGoal, robot->pos)) {
         targetPos = behindBall;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
@@ -37,7 +43,7 @@ bt::Node::Status Attack::onUpdate() {
         goToPos.setAvoidBall(true);
 
         // TODO: HACK HACK CHECK OPPONENT'S GOAL AND NOT OUR GOAL
-        if (abs(((Vector2) robot->pos - targetPos).length()) < 0.1) {
+        if (abs(((Vector2) robot->pos - targetPos).length()) < 0.11) {
             goToType = GoToType::BASIC;
             goToPos.setAvoidBall(false);
         }
@@ -47,14 +53,14 @@ bt::Node::Status Attack::onUpdate() {
         goToPos.setAvoidBall(false);
         command.use_angle = 1;
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
-        // command.w = static_cast<float>((ball - robot->pos).angle());
-        if (World::ourBotHasBall(robot->id, Constants::MAX_KICK_RANGE())) {
+        if (World::botHasBall(robot->id, true)) {
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
             command.kicker_forced = 1;
+            shot = true;
         }
+
         goToType = GoToType::BASIC;
-        goToPos.setAvoidBall(false);
     }
     Vector2 velocity;
     if (Field::pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
@@ -70,10 +76,11 @@ bt::Node::Status Attack::onUpdate() {
         velocity = {0, 0};
     }
     else {
-        velocity = goToPos.goToPos(robot, targetPos, goToType).vel;
+
+        velocity = goToPos.goToPos(robot, targetPos, GoToType::NUMERIC_TREES).vel;
     }
-    if (velocity.length() < 0.3 && velocity.length() > 0.04)
-        velocity.stretchToLength(0.3);
+
+    std::cout << velocity << goToType << std::endl;
 
     velocity = control::ControlUtils::VelocityLimiter(velocity);
 

@@ -41,7 +41,6 @@ Dribble::Progression Dribble::checkProgression() {
 
 void Dribble::onInitialize() {
     //if false, robot will dribble to the position backwards with the ball.
-    ROS_ERROR("DRIBBLE INITIALIZED");
     forwardDirection = properties->getBool("forwardDirection");
 
     if (properties->hasVector2("Position")) {

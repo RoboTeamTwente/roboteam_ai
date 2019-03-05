@@ -17,6 +17,7 @@ class Attack : public Skill {
         Vector2 deltaPos;
         Vector2 targetPos;
         bool ownGoal = false;
+        bool shot = false;
     public:
         explicit Attack(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;

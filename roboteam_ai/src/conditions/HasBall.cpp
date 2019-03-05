@@ -29,8 +29,7 @@ bt::Node::Status HasBall::update() {
     if (! robot || ! ball) {
         return Status::Failure;
     }
-    // TODO: Check where this is used, currently optimal for kicking the ball
-    if (World::ourBotHasBall(robot->id, ballRange)) {
+    if (World::botHasBall(robot->id,true)) {
         return Status::Success;
     }
     return Status::Failure;

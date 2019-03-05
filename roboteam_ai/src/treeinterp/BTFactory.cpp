@@ -21,6 +21,8 @@ BTFactory &BTFactory::getFactory() {
 /// Initiate the BTFactory
 void BTFactory::init() {
 
+    std::cout << "Re-Make Trees From Json" << std::endl;
+
     // If you think calling this over and over again is bad or slow you are partially correct. But if you optimize with
     //-O1 flag this takes like 20 ms so it is totally fine.
     interpreter = TreeInterpreter::getInstance();

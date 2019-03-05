@@ -91,7 +91,7 @@ Vector2 Coach::getPositionBehindBallToRobot(double distanceBehindBall, bool ourR
 }
 
 Vector2 Coach::getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position) {
-    const Vector2 &ball = static_cast<Vector2>(World::getBall()->pos);
+    Vector2 ball = World::getBall()->pos;
     return ball + (ball - position).stretchToLength(distanceBehindBall);
 }
 

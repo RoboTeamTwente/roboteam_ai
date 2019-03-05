@@ -35,7 +35,7 @@ Keeper::Status Keeper::onUpdate() {
             double closestBotAngle = closestBot->angle;
 
             // TODO: HACK HACK DO NOT LOOK AT OUR OWN ROBOTS BUT OPPONENT'S
-            if (World::BotHasBall(closestBot->id, true, 0.25) && viewAtGoal(closestBot)) {
+            if (World::botHasBall(closestBot->id, true, 0.25) && viewAtGoal(closestBot)) {
                 blockPoint = computeBlockPointWithAttacker(closestBot);
                 if (!Field::pointIsInField(blockPoint) || !Field::pointIsInDefenceArea(blockPoint, true)) {
                     blockPoint = computeBlockPoint(ballPos);

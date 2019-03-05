@@ -16,12 +16,12 @@ public:
     static bool GRSIM();
 
 // Show timing for different functions
-    static bool SHOW_LONGEST_TICK()             { return true;};
-    static bool SHOW_TICK_TIME_TAKEN()          { return true;};
+    static bool SHOW_LONGEST_TICK()             { return false;};
+    static bool SHOW_TICK_TIME_TAKEN()          { return false;};
     static bool SHOW_NUMTREE_TIME_TAKEN()       { return false;};
 
 // Show debug information for different functions
-    static bool SHOW_NUMTREE_DEBUG_INFO()       { return false; };
+    static bool SHOW_NUMTREE_DEBUG_INFO()       { return true; };
 
 // Max values we can send through robothub
     static double MAX_VEL_CMD()                 { return 8.191; };
@@ -38,16 +38,17 @@ public:
 
 // Other/multiple usage
     static int DEFAULT_ROBOT_ID()               { return 1; };
+
     static double MAX_ANGULAR_VELOCITY()        { return 6.0; };    // Rad per second
     static double ROBOT_RADIUS()                { return 0.089;  }; // TODO: Need to test if world_state agrees with this definition of the centre of the robot
     static double ROBOT_RADIUS_MAX()            { return 0.091; };
     static double FRONT_LENGTH()                { return 0.118; };  // Length of the front (flat) part of the robot
     static double DRIBBLER_ANGLE_OFFSET()       { return asin(FRONT_LENGTH()/2/ROBOT_RADIUS()); };  // If the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET() points to the left and DRIBBLER_ANGLE_OFFSET() to the right.
-    static double CENTRE_TO_FRONT()             { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); };
+
+  static double CENTRE_TO_FRONT()             { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); };
     static double BALL_RADIUS()                 { return 0.0215; };
     static double CLOSE_TO_BORDER_DISTANCE()    { return 1.2 * ROBOT_RADIUS(); };
-
-    static int TICK_RATE()                       { return 60; };// Rate at which we tick our behavior Trees
+    static int TICK_RATE()                       { return 60 ; };// Rate at which we tick our behavior Trees
 
 // Skills
     static double DEFAULT_KICK_POWER()          { return 5.0; };   // Max kick power() { return  100 }
@@ -115,6 +116,7 @@ public:
 
     static double DRIBBLE_ROTATE_WAIT_TIME()    { return 0.2; };    // Seconds
     static double DRIBBLE_ROTATE_MAX_SPEED()    { return 0.5; };    // Rad/second
+
 
 // Interface
     static int ROBOT_DRAWING_SIZE()             { return 8; };

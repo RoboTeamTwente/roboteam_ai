@@ -174,7 +174,7 @@ void World::updateBallPossession(roboteam_msgs::World &_world) {
     }
 }
 // uses MAX_BALL_RANGE as default max Dist
-bool World::BotHasBall(int id, bool ourTeam, double maxDistToBall) {
+bool World::botHasBall(int id, bool ourTeam, double maxDistToBall) {
     if (ourTeam){
         return ourBotHasBall(id,maxDistToBall);
     }
@@ -282,7 +282,7 @@ roboteam_msgs::WorldBall World::updateBallPosition(roboteam_msgs::World _world) 
             }
         }
         if (bestId==-1){
-            ROS_ERROR("WTF BALL HANDLING");
+            ROS_ERROR("Could not find a proper bot that possesses ball!");
             return newBall;
         }
         // I can't use getRobotForId because of deadlocking and because i need to use the world in the packet

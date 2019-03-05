@@ -214,64 +214,64 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 
     std::map<std::string, std::map<std::string, robotType>> tactics = {
 
-            {"haltTactic",                   {
-                                                     {"halt0",            robotType::random},
-                                                     {"halt1",      robotType::random},
-                                                     {"halt2",   robotType::random},
-                                                     {"halt3",   robotType::random},
-                                                     {"halt4",   robotType::random},
-                                                     {"halt5",   robotType::random},
-                                                     {"halt6",   robotType::random},
-                                                     {"halt7", robotType::random}
-                                             }
+            {"haltTactic", {
+                    {"halt0", robotType::random},
+                    {"halt1", robotType::random},
+                    {"halt2", robotType::random},
+                    {"halt3", robotType::random},
+                    {"halt4", robotType::random},
+                    {"halt5", robotType::random},
+                    {"halt6", robotType::random},
+                    {"halt7", robotType::random}
+            }
             },
 
 
-            {"OneAttackerTactic",            {
-                                                     {"attacker",         robotType::closeToTheirGoal}
-                                             }
+            {"OneAttackerTactic", {
+                    {"attacker", robotType::closeToTheirGoal}
+            }
             },
             {"OneAttackerOneDefenderTactic", {
-                                                     {"defender",         robotType::closeToOurGoal},
-                                                     {"attacker",   robotType::closeToTheirGoal}
-                                             }
+                    {"defender", robotType::closeToOurGoal},
+                    {"attacker", robotType::closeToTheirGoal}
+            }
             },
-            {"OneDefenderTactic",            {
-                                                     {"defender",         robotType::closeToTheirGoal}
-                                             }
+            {"OneDefenderTactic", {
+                    {"defender", robotType::closeToTheirGoal}
+            }
             },
-            {"TwoDefendersTactic",           {
-                                                     {"defender1",        robotType::closeToOurGoal},
-                                                     {"defender2",  robotType::closeToOurGoal},
-                                             }
+            {"TwoDefendersTactic", {
+                    {"defender1", robotType::closeToOurGoal},
+                    {"defender2", robotType::closeToOurGoal},
+            }
             },
-            {"Attactic",                     {
-                                                     {"atak",             robotType::random}
-                                             }
+            {"Attactic", {
+                    {"atak", robotType::random}
+            }
             },
-            {"PassTactic",                   {
-                                                     {"passer",           robotType::closeToBall},
-                                                     {"receiver",   robotType::random}
-                                             }
+            {"PassTactic", {
+                    {"passer", robotType::closeToBall},
+                    {"receiver", robotType::random}
+            }
             },
-            {"QualificationTactic",          {
-                                                     {"qualRole",         robotType::random},
-                                                     {"eloRlauq",   robotType::random}
-                                             }
+            {"QualificationTactic", {
+                    {"qualRole", robotType::random},
+                    {"eloRlauq", robotType::random}
+            }
             },
-            {"randomTactic",                 {
-                                                     {"random1",          robotType::random},
-                                                     {"random2",    robotType::random},
-                                                     {"random3", robotType::random},
-                                                     {"random4", robotType::random},
-                                                     {"random5", robotType::random},
-                                                     {"random6", robotType::random},
-                                                     {"random7", robotType::random}
-                                             }
+            {"randomTactic", {
+                    {"random1", robotType::random},
+                    {"random2", robotType::random},
+                    {"random3", robotType::random},
+                    {"random4", robotType::random},
+                    {"random5", robotType::random},
+                    {"random6", robotType::random},
+                    {"random7", robotType::random}
+            }
             },
-            {"BallPlacementUsTactic",        {
-                                                     {"BallPlacementBot", robotType::closeToBall}
-                                             }
+            {"BallPlacementUsTactic",{
+                    {"BallPlacementBot",robotType::closeToBall}
+            }
             },
             {"SingleKeeperTactic",           {
                                                      {"Keeper",           robotType::closeToOurGoal}
