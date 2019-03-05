@@ -13,29 +13,37 @@ GoBehindBall::GoBehindBall(string name, bt::Blackboard::Ptr blackboard)
 }
 
 Skill::Status GoBehindBall::onUpdate() {
+    switch (type) {
+        case penalty: {
+            auto ball = ai::World::getBall();
+            auto goal = ai::Field::get_their_goal_center();
 
-    auto ball = ai::World::getBall();
-    auto goal = ai::Field::get_their_goal_center();
+            Vector2 v = goal - ball->pos;
+            auto targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS())) + ball->pos;
+            // TODO draw the point in the interface
 
-    Vector2 v = goal - ball->pos;
-    auto targetPos = ((v * -1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS())) + ball->pos;
-    // TODO draw the point in the interface
+            Vector2 velocity = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES).vel;
 
-    Vector2 velocity = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES).vel;
+            Vector2 deltaPos = targetPos - robot->pos;
+            publishCommand(targetPos, velocity);
 
-    Vector2 deltaPos = targetPos - robot->pos;
-    publishCommand(targetPos, velocity);
+            if (deltaPos.length() > errorMargin) {
+                return Status::Running;
+            }
+            else {
+                return Status::Success;
+            }
+        }
 
 
-    if (deltaPos.length() > errorMargin) {
-        return Status::Running;
+        case freeKick:break;
+        case corner:break;
     }
-    else {
-        return Status::Success;
-    }
+    return  Status::Failure;
 }
 
 void GoBehindBall::onInitialize() {
+    std::cout << "am" << std::endl;
     if (properties->hasString("type")) {
         type = stringToUnit(properties->getString("type"));
     }

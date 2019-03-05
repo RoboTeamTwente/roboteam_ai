@@ -1,0 +1,59 @@
+{
+  "name": "PenaltyTactic",
+  "data": {
+    "trees": [
+      {
+        "title": "PenaltyTactic",
+        "root": "jrt62tk991ze7",
+        "nodes": {
+          "jrt62tk991ze7": {
+            "children": [
+              "ejpylr5bvu1ej"
+            ],
+            "id": "jrt62tk991ze7",
+            "title": "Repeater"
+          },
+          "ejpylr5bvu1ej": {
+            "id": "ejpylr5bvu1ej",
+            "title": "Role",
+            "name": "kicker",
+            "role": "PenaltyRole",
+            "children": [
+              "hprgz6qousivkvh"
+            ],
+            "properties": {
+              "ROLE": "kicker"
+            }
+          },
+          "hprgz6qousivkvh": {
+            "id": "hprgz6qousivkvh",
+            "title": "MemSequence",
+            "children": [
+              "6vjsw77zqdev2",
+              "1646iqotio3wb"
+            ],
+            "properties": {
+              "ROLE": "kicker"
+            }
+          },
+          "6vjsw77zqdev2": {
+            "id": "6vjsw77zqdev2",
+            "title": "GoBehindBall",
+            "properties": {
+              "type": "penalty",
+              "ROLE": "kicker"
+            }
+          },
+          "1646iqotio3wb": {
+            "id": "1646iqotio3wb",
+            "title": "GoAroundPos",
+            "properties": {
+              "ball": "true",
+              "ROLE": "kicker"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

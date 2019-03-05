@@ -16,8 +16,8 @@ public:
     static bool GRSIM();
 
 // Show timing for different functions
-    static bool SHOW_LONGEST_TICK()             { return true;};
-    static bool SHOW_TICK_TIME_TAKEN()          { return true;};
+    static bool SHOW_LONGEST_TICK()             { return false;};
+    static bool SHOW_TICK_TIME_TAKEN()          { return false;};
     static bool SHOW_NUMTREE_TIME_TAKEN()       { return false;};
 
 // Show debug information for different functions

@@ -44,7 +44,7 @@ protected:
         Status update() override;
         void terminate(Status s) override;
 
-        virtual void onInitialize() { };
+        virtual void onInitialize() {};
         virtual Status onUpdate() = 0;
         virtual void onTerminate(Status s) { };
 };

@@ -21,7 +21,7 @@ class GoBehindBall : public Skill {
         control::PositionController goToPos;
         unit type;
         unit stringToUnit(std::string string);
-        // TODO maybe be smarter then Thijs
+        // TODO maybe be smarter than Thijs
         double errorMargin = 0.1;
         void publishCommand(Vector2 point, Vector2 velocity);
 
