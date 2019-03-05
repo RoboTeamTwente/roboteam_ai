@@ -11,33 +11,55 @@ namespace rtt {
 namespace ai {
 namespace analysis {
 
+GameAnalyzer::GameAnalyzer() : running(false), stopping(false) { }
+
+GameAnalyzer& GameAnalyzer::getInstance() {
+    static GameAnalyzer instance;
+    return instance;
+}
+
+void GameAnalyzer::start(int iterationsPerSecond) {
+    ROS_INFO_STREAM_NAMED("GameAnalyzer", "Starting at " << iterationsPerSecond << " iterations per second");
+    auto delay = (unsigned) (1000/iterationsPerSecond);
+    thread = std::thread(&GameAnalyzer::loop, this, delay);
+    running = true;
+}
+
+// Stops the background worker thread.
+void GameAnalyzer::stop() {
+    if (running) {
+        ROS_INFO_STREAM_NAMED("GameAnalyzer", "Stopping GameAnalyzer");
+        thread.join();
+        running = false;
+    } else {
+        ROS_INFO_STREAM_NAMED("GameAnalyzer", "Could not stop since it was not running in the first place.");
+    }
+}
+
+void GameAnalyzer::loop(unsigned delayMillis) {
+    std::chrono::milliseconds delay(delayMillis);
+    while (!stopping) {
+        generateReportNow();
+        std::this_thread::sleep_for(delay);
+    }
+}
+
+AnalysisReport GameAnalyzer::getMostRecentReport() {
+    return mostRecentReport;
+}
+
+AnalysisReport GameAnalyzer::generateReportNow() {
+    AnalysisReport newReport;
+    return mostRecentReport;
+}
+
 playStyle GameAnalyzer::getRecommendedPlayStyle(bool ourTeam) {
-    /*
-     * If they are close
-     * and have an immediate shot at goal
-     */
     return DEFEND_WITH_ALL;
 }
 
-
 double GameAnalyzer::getBallPossessionEstimate(bool ourTeam) {
-    double ballPossessionEstimate = 0.0;
-
-    // booleans that matter
-    bool teamHasBall = World::teamHasBall(ourTeam);
-    bool teamHasShotAtGoal = true;
-    bool teamHasAttackerAimedAtGoal = true;
-
-    // doubles that matter
-    double teamDistanceToGoal = 0;
-
-    // integers that matter
-    int amountOfOurRobots = 0;
-    int amountOfTheirRobots = 0;
-
     return 0;
 }
-
 
 /// Get the average of the distances of robots to their opponents goal
 double GameAnalyzer::getTeamDistanceToGoalAvg(bool ourTeam, roboteam_msgs::World simulatedWorld ) {
@@ -95,20 +117,17 @@ double GameAnalyzer::evaluateRobotDangerScore(roboteam_msgs::WorldRobot robot, b
     bool standsFree = shortestDistToEnemy > 0.5;
     bool hasGoalOpening =  goalOpeningPercentage > 10;
 
-
-    if (standsFree) total += 10;
     if (hasBall) total += 25;
-    if (closeToGoal) total += 15;
     if (hasGoalOpening) total += 15;
-    if (aimedAtGoal) total += 20;
+    if (closeToGoal) total += 20;
+    if (standsFree) total += 15;
+    if (aimedAtGoal) total += 10;
     if (isClosingIn) total += 5;
     if (canPass) total += 10;
 
+    // check if it is likely that a robot will receive the ball
+
     return total;
-}
-
-double GameAnalyzer::robotCanShootAtGoalCertainty(roboteam_msgs::WorldRobot robot, bool ourTeam, roboteam_msgs::World simulatedWorld ) {
-
 }
 
 
@@ -136,7 +155,8 @@ vector<pair<int, double>> GameAnalyzer::getRobotsToPassTo(roboteam_msgs::WorldRo
     return robotsToPassTo;
 }
 
-
+/// get the shortest distance to an enemy robot
+/// this is useful to check if a robot stands free
 double GameAnalyzer::shortestDistToEnemyRobot(roboteam_msgs::WorldRobot robot, bool ourTeam, roboteam_msgs::World simulatedWorld ) {
     auto enemyRobots = ourTeam ? simulatedWorld.them : simulatedWorld.us;
     Vector2 robotPos = robot.pos;
@@ -163,6 +183,7 @@ bool GameAnalyzer::isClosingInToGoal(roboteam_msgs::WorldRobot robot, bool ourTe
     }
     return false;
 }
+
 
 } // analysis
 } // ai
