@@ -13,7 +13,7 @@ namespace rtt {
 namespace ai {
 class BallNearOurGoalLineAndStill : public Condition {
     private:
-        double margin = Constants::ROBOT_RADIUS()*1.2;
+        double margin = Constants::CLOSE_TO_BORDER_DISTANCE();
     public:
         explicit BallNearOurGoalLineAndStill(std::string
         name = "BallNearOurGoalLineAndStill", bt::Blackboard::Ptr
