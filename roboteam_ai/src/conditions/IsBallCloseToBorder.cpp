@@ -14,6 +14,7 @@ void IsBallCloseToBorder::initialize() {
     if (properties->hasDouble("margin")) {
         margin = properties->getDouble("margin");
     }
+    layingStill = properties->getBool("layingStill");
 }
 
 bt::Node::Status IsBallCloseToBorder::update() {

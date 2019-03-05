@@ -10,5 +10,5 @@ IsRobotClosestToBall,secondsAhead
 IsBallOnOurSide,inField
 IsBeingPassedTo
 IsCloseToPoint,ball,position,margin
-IsBallCloseToBorder,margin
+IsBallCloseToBorder,margin,corner,layingStill
 BallNearOurGoalLineAndStill,margin,outsideField
