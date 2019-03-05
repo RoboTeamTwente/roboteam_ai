@@ -4,8 +4,9 @@
 
 #ifndef ROBOTEAM_AI_BALLNEAROURGOALLINEANDSTILL_H
 #define ROBOTEAM_AI_BALLNEAROURGOALLINEANDSTILL_H
+
 #include "Condition.h"
-#include <roboteam_ai/src/utilities/Constants.h>
+#include "../utilities/Constants.h"
 #include "../utilities/Field.h"
 
 namespace rtt {
