@@ -12,15 +12,16 @@ namespace ai {
 namespace analysis {
 
 struct RobotDanger {
-    bool ourteam;
+    bool ourTeam;
     int id;
 
+    double shortestDistToEnemy;
     double distanceToGoal;
     bool aimedAtGoal;
     bool closingInToGoal;
     bool hasBall;
     double goalVisionPercentage;
-    std::vector<std::pair<roboteam_msgs::WorldRobot, double>> robotsToPassTo;
+    std::vector<std::pair<int, double>> robotsToPassTo;
     double getTotalDanger();
 };
 

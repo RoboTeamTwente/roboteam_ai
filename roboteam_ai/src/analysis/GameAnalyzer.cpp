@@ -30,6 +30,7 @@ AnalysisReport GameAnalyzer::generateReportNow() {
     report.ballPossession = getBallPossessionEstimate(true);
     report.ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(true);
     report.theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(false);
+    report.robotSortedOnDanger =  getRobotsSortedOnDanger(false);
 
     mostRecentReport = report;
     return report;
@@ -82,38 +83,20 @@ double GameAnalyzer::getTeamGoalVisionAvg(bool ourTeam, roboteam_msgs::World sim
 }
 
 /// returns a danger score
-double GameAnalyzer::evaluateRobotDangerScore(roboteam_msgs::WorldRobot robot, bool ourTeam) {
-
-    RobotDanger danger;
-
-
-    double total = 0.0;
-
+RobotDanger GameAnalyzer::evaluateRobotDangerScore(roboteam_msgs::WorldRobot robot, bool ourTeam) {
     Vector2 goalCenter = ourTeam ? Field::get_our_goal_center() : Field::get_their_goal_center();
 
-    double distToGoal = Field::getDistanceToGoal(ourTeam, robot.pos);
-    double shortestDistToEnemy = shortestDistToEnemyRobot(robot, ourTeam);
-    double goalOpeningPercentage = Field::getPercentageOfGoalVisibleFromPoint(!ourTeam, robot.pos);
+    RobotDanger danger;
+    danger.ourTeam = ourTeam;
+    danger.id = robot.id;
+    danger.distanceToGoal = Field::getDistanceToGoal(ourTeam, robot.pos);
+    danger.shortestDistToEnemy = shortestDistToEnemyRobot(robot, ourTeam);
+    danger.goalVisionPercentage = Field::getPercentageOfGoalVisibleFromPoint(!ourTeam, robot.pos);
+    danger.robotsToPassTo = getRobotsToPassTo(robot, ourTeam);
+    danger.closingInToGoal = isClosingInToGoal(robot, ourTeam);
+    danger.aimedAtGoal = control::ControlUtils::robotIsAimedAtPoint(robot.id, ourTeam, goalCenter)
 
-    bool isClosingIn = isClosingInToGoal(robot, ourTeam);
-    bool canPass = !getRobotsToPassTo(robot, ourTeam).empty();
-    bool hasBall = World::robotHasBall(robot, * World::getBall());
-    bool aimedAtGoal = control::ControlUtils::robotIsAimedAtPoint(robot.id, ourTeam, goalCenter);
-    bool closeToGoal = distToGoal < 10;
-    bool standsFree = shortestDistToEnemy > 0.5;
-    bool hasGoalOpening =  goalOpeningPercentage > 10;
-
-    if (hasBall) total += 25;
-    if (hasGoalOpening) total += 15;
-    if (closeToGoal) total += 20;
-    if (standsFree) total += 15;
-    if (aimedAtGoal) total += 10;
-    if (isClosingIn) total += 5;
-    if (canPass) total += 10;
-
-    // check if it is likely that a robot will receive the ball
-
-    return total;
+    return danger;
 }
 
 
@@ -197,6 +180,22 @@ void GameAnalyzer::loop(unsigned delayMillis) {
     }
 }
 
+std::vector<std::pair<roboteam_msgs::WorldRobot, RobotDanger>> GameAnalyzer::getRobotsSortedOnDanger(bool ourTeam) {
+    auto robots = ourTeam ? World::get_world().us : World::get_world().them;
+    std::vector<std::pair<roboteam_msgs::WorldRobot, RobotDanger>> robotDangers;
+
+    for (auto robot : robots) {
+        robotDangers.emplace_back(std::make_pair(robot, evaluateRobotDangerScore(robot, ourTeam)));
+    }
+
+    std::sort(robotDangers.begin(), robotDangers.end(),
+            [](std::pair<roboteam_msgs::WorldRobot, RobotDanger> a,
+                    std::pair<roboteam_msgs::WorldRobot, RobotDanger> b) {
+        return a.second.getTotalDanger() > b.second.getTotalDanger();
+    });
+
+    return robotDangers;
+}
 
 } // analysis
 } // ai

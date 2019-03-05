@@ -37,11 +37,12 @@ private:
 
     AnalysisReport mostRecentReport;
 
+    std::vector<std::pair<roboteam_msgs::WorldRobot, RobotDanger>> getRobotsSortedOnDanger(bool ourTeam);
     double getBallPossessionEstimate(bool ourTeam);
     playStyle getRecommendedPlayStyle();
     double getTeamDistanceToGoalAvg(bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
     double getTeamGoalVisionAvg(bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
-    double evaluateRobotDangerScore(roboteam_msgs::WorldRobot robot, bool ourTeam);
+    RobotDanger evaluateRobotDangerScore(roboteam_msgs::WorldRobot robot, bool ourTeam);
     std::vector<std::pair<roboteam_msgs::WorldRobot, double>> getAttackersSortedOnGoalVision(bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
 
     vector<pair<int, double>> getRobotsToPassTo(roboteam_msgs::WorldRobot robot, bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());

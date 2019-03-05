@@ -2,6 +2,7 @@
 // Created by mrlukasbos on 5-3-19.
 //
 
+#include <roboteam_ai/src/utilities/Field.h>
 #include "RobotDanger.h"
 
 namespace rtt {
@@ -9,9 +10,17 @@ namespace ai {
 namespace analysis {
 
 double RobotDanger::getTotalDanger() {
-    return 0;
+    double total = 0.0;
+    if (hasBall) total += 25;
+    if (goalVisionPercentage > 20) total += 15;
+    if (distanceToGoal < Field::get_field().field_width/3) total += 20;
+    if (shortestDistToEnemy > 0.5) total += 15;
+    if (aimedAtGoal) total += 10;
+    if (closingInToGoal) total += 5;
+    if (!robotsToPassTo.empty()) total += 10;
+    return total;
 }
 
-}
-}
-}
+} // analysis
+} // ai
+} // rtt
