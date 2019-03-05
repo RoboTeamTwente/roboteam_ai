@@ -8,6 +8,7 @@
 #include "utilities/StrategyManager.h"
 #include "utilities/Field.h"
 #include <sstream>
+#include <roboteam_ai/src/analysis/GameAnalyzer.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -65,6 +66,8 @@ void ApplicationManager::runOneLoopCycle() {
             return;
         }
 
+        ai::analysis::GameAnalyzer::getInstance().start();
+
         // Will do things if this is a demo
         // otherwise wastes like 0.1 ms
         auto demomsg = IOManager->getDemoInfo();
@@ -94,6 +97,7 @@ void ApplicationManager::checkForShutdown() {
     if (strategy->getStatus() == Status::Running) {
         strategy->terminate(Status::Running);
     }
+    ai::analysis::GameAnalyzer::getInstance().stop();
 }
 
 void ApplicationManager::updateROSData() {

@@ -17,9 +17,9 @@ public:
     // It's a singleton; don't copy it.
     GameAnalyzer(const GameAnalyzer &) = delete;
     void operator=(const GameAnalyzer &) = delete;
-    GameAnalyzer &getInstance();
+    static GameAnalyzer &getInstance();
 
-    void start(int iterationsPerSecond);
+    void start(int iterationsPerSecond = Constants::GAME_ANALYSIS_TICK_RATE());
     void stop();
 
     AnalysisReport getMostRecentReport();

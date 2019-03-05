@@ -47,6 +47,7 @@ public:
     static double BALL_RADIUS()                 { return 0.0215; };
 
     static int TICK_RATE()                      { return 100; };    // Rate at which we tick our behavior Trees
+    static int GAME_ANALYSIS_TICK_RATE()        { return 30;  };
 
 // Skills
     static double DEFAULT_KICK_POWER()          { return 5.0; };   // Max kick power() { return  100 }

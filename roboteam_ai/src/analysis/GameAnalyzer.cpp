@@ -26,6 +26,8 @@ AnalysisReport GameAnalyzer::getMostRecentReport() {
 AnalysisReport GameAnalyzer::generateReportNow() {
     AnalysisReport report;
 
+    std::cout << "generating report" << std::endl;
+
     report.recommendedPlayStyle = getRecommendedPlayStyle();
     report.ballPossession = getBallPossessionEstimate(true);
     report.ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(true);
@@ -94,7 +96,7 @@ RobotDanger GameAnalyzer::evaluateRobotDangerScore(roboteam_msgs::WorldRobot rob
     danger.goalVisionPercentage = Field::getPercentageOfGoalVisibleFromPoint(!ourTeam, robot.pos);
     danger.robotsToPassTo = getRobotsToPassTo(robot, ourTeam);
     danger.closingInToGoal = isClosingInToGoal(robot, ourTeam);
-    danger.aimedAtGoal = control::ControlUtils::robotIsAimedAtPoint(robot.id, ourTeam, goalCenter)
+    danger.aimedAtGoal = control::ControlUtils::robotIsAimedAtPoint(robot.id, ourTeam, goalCenter);
 
     return danger;
 }
@@ -155,10 +157,12 @@ bool GameAnalyzer::isClosingInToGoal(roboteam_msgs::WorldRobot robot, bool ourTe
 
 
 void GameAnalyzer::start(int iterationsPerSecond) {
-    ROS_INFO_STREAM_NAMED("GameAnalyzer", "Starting at " << iterationsPerSecond << " iterations per second");
-    auto delay = (unsigned) (1000/iterationsPerSecond);
-    thread = std::thread(&GameAnalyzer::loop, this, delay);
-    running = true;
+    if (!running) {
+        ROS_INFO_STREAM_NAMED("GameAnalyzer", "Starting at " << iterationsPerSecond << " iterations per second");
+        auto delay = (unsigned) (1000/iterationsPerSecond);
+        thread = std::thread(&GameAnalyzer::loop, this, delay);
+        running = true;
+    }
 }
 
 // Stops the background worker thread.
