@@ -70,18 +70,35 @@ void ApplicationManager::runOneLoopCycle() {
     ros::spinOnce();
     this->updateROSData();
     this->updateDangerfinder();
-    std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>> vis;
-    auto locations=ai::coach::DefensiveCoach::decideDefenderLocations(3);
-    for (auto location : locations){
-        auto pair=make_pair(location,Qt::red);
-        vis.emplace_back(pair);
-    }
-    ai::interface::Drawer::setTestLines(vis);
     std::vector<std::pair<Vector2,QColor>> vis2;
-    auto locations2=ai::coach::DefensiveCoach::decideDefenderLocations2(3,0);
+    auto start=std::chrono::high_resolution_clock::now();
+    auto locations2=ai::coach::DefensiveCoach::decideDefendersOnDefenseLine(8);
+    auto stop=std::chrono::high_resolution_clock::now();
+    std::cout<<"Computation time:" << (std::chrono::duration_cast<chrono::nanoseconds>(stop-start).count()/1000000.0) << std::endl;
+    int i=0;
     for (auto location : locations2){
-        auto pair=make_pair(location,Qt::green);
+        std::pair<Vector2,QColor> pair;
+        int colourcount=6;
+        if (i%colourcount==0){
+            pair=make_pair(location,Qt::green);
+        }
+        else if(i%colourcount==1){
+            pair=make_pair(location,Qt::red);
+        }
+        else if(i%colourcount==2){
+            pair=make_pair(location,Qt::blue);
+        }
+        else if(i%colourcount==3){
+            pair=make_pair(location,Qt::darkYellow);
+        }
+        else if(i%colourcount==4){
+            pair=make_pair(location,Qt::darkMagenta);
+        }
+        else if(i%colourcount==5){
+            pair=make_pair(location,Qt::cyan);
+        }
         vis2.emplace_back(pair);
+        i++;
     }
     ai::interface::Drawer::setTestPoints(vis2);
     if (ai::World::didReceiveFirstWorld) {

@@ -37,6 +37,7 @@ class Field {
         static std::pair<Vector2, Vector2> getGoalSides(bool ourGoal);
         static double getTotalGoalAngle(bool ourGoal, Vector2 point);
         static double getTotalVisibleGoalAngle(bool ourGoal, Vector2 point, std::vector<roboteam_msgs::WorldRobot> botsToCheck=World::getAllRobots(),double collisionRadius=Constants::ROBOT_RADIUS());
+        static std::shared_ptr<Vector2> lineIntersectsWithDefenceArea(bool ourGoal,Vector2 lineStart,Vector2 lineEnd,double margin);
 };
 
 } // ai

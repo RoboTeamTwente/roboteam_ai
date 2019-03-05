@@ -308,6 +308,45 @@ std::pair<Vector2, Vector2> Field::getGoalSides(bool ourGoal) {
     return std::make_pair(lowerGoalSide, upperGoalSide);
 }
 
+
+std::shared_ptr<Vector2> Field::lineIntersectsWithDefenceArea(bool ourGoal, Vector2 lineStart, Vector2 lineEnd,double margin) {
+    Vector2 goalLinePos1,goalLinePos2,cornerPos1,cornerPos2;
+    std::shared_ptr<Vector2> intersectPos= nullptr;
+    if (ourGoal) {
+        goalLinePos1 = Vector2(- field.field_length*0.5, field.left_penalty_line.begin.y - margin);
+        goalLinePos2 = Vector2(- field.field_length*0.5, field.left_penalty_line.end.y + margin);
+        cornerPos1 = Vector2(margin, - margin) + field.left_penalty_line.begin;
+        cornerPos2 = Vector2(margin, margin) + field.left_penalty_line.end;
+        if (field.left_penalty_line.begin.y > field.left_penalty_line.end.y) {
+            goalLinePos1 = Vector2(- field.field_length*0.5, field.left_penalty_line.begin.y + margin);
+            goalLinePos2 = Vector2(- field.field_length*0.5, field.left_penalty_line.end.y - margin);
+            cornerPos1 = Vector2(margin, margin) + field.left_penalty_line.begin;
+            cornerPos2 = Vector2(margin, - margin) + field.left_penalty_line.end;
+        }
+    }
+    else{
+        goalLinePos1 = Vector2(field.field_length*0.5, field.right_penalty_line.begin.y - margin);
+        goalLinePos2 = Vector2(field.field_length*0.5, field.right_penalty_line.end.y + margin);
+        cornerPos1 = Vector2(-margin, - margin) + field.right_penalty_line.begin;
+        cornerPos2 = Vector2(-margin, margin) + field.right_penalty_line.end;
+        if (field.right_penalty_line.begin.y > field.right_penalty_line.end.y) {
+            goalLinePos1 = Vector2(field.field_length*0.5, field.right_penalty_line.begin.y + margin);
+            goalLinePos2 = Vector2(field.field_length*0.5, field.right_penalty_line.end.y - margin);
+            cornerPos1 = Vector2(-margin, margin) + field.right_penalty_line.begin;
+            cornerPos2 = Vector2(-margin, - margin) + field.right_penalty_line.end;
+        }
+    }
+    if (util::lineSegmentsIntersect(lineStart,lineEnd , goalLinePos1, cornerPos1)) {
+        intersectPos = std::make_shared<Vector2>(util::twoLineIntersection(lineStart,lineEnd , goalLinePos1, cornerPos1));
+    }
+    else if (util::lineSegmentsIntersect(lineStart,lineEnd , cornerPos1, cornerPos2)) {
+        intersectPos = std::make_shared<Vector2>(util::twoLineIntersection(lineStart,lineEnd , cornerPos1, cornerPos2));
+    }
+    else if (util::lineSegmentsIntersect(lineStart,lineEnd,cornerPos2, goalLinePos2)) {
+        intersectPos = std::make_shared<Vector2>(util::twoLineIntersection(lineStart,lineEnd , cornerPos2, goalLinePos2));
+    }
+    return intersectPos;
+}
 int Field::getRobotClosestToGoal(bool ourRobot, bool ourGoal) {
     roboteam_msgs::World_<std::allocator<void>>::_them_type robots = ourRobot ? World::get_world().us : World::get_world().them;
     Vector2 target = ourGoal ? Field::get_our_goal_center() : Field::get_their_goal_center();
