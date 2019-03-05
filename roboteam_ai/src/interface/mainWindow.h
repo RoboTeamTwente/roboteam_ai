@@ -61,7 +61,6 @@ class MainWindow : public QMainWindow {
         QComboBox* select_strategy;
 
     private:
-        // TODO: LUKAS, look at if I did this right with pos pid / vel pid :)
         QGroupBox* doubleSpinBoxesGroup_Pos_PID;
         QGroupBox* doubleSpinBoxesGroup_Vel_PID;
         QHBoxLayout* spinBoxLayout;

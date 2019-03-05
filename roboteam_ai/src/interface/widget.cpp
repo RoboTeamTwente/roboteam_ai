@@ -356,6 +356,9 @@ void Visualizer::setShowDebugValueInTerminal(bool showDebug) {
     InterfaceValues::setShowDebugValues(showDebug);
 }
 
+void Visualizer::setShowAvailablePasses(bool showAvailablePasses) {
+    Visualizer::showAvailablePasses = showAvailablePasses;
+}
 
 } // interface
 } // ai

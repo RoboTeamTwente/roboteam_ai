@@ -143,6 +143,7 @@ public:
     static bool STD_SHOW_PATHS_CURRENT()        { return true; };
     static bool STD_SHOW_BALL_PLACEMENT_MARKER(){ return true; };
     static bool STD_SHOW_DEBUG_VALUES()         { return true; };
+    static bool STD_SHOW_AVAILABLE_PASSES()     { return true; };
     static bool STD_USE_REFEREE()               { return false; };
 
     static QColor FIELD_COLOR()                 { return GRSIM() ? QColor(30 , 30 , 30 , 255) :

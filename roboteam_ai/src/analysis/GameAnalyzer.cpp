@@ -19,20 +19,15 @@ GameAnalyzer& GameAnalyzer::getInstance() {
     return instance;
 }
 
-AnalysisReport GameAnalyzer::getMostRecentReport() {
-    return mostRecentReport;
-}
-
+/// Generate a report with the game analysis
 AnalysisReport GameAnalyzer::generateReportNow() {
     AnalysisReport report;
-
-    std::cout << "generating report" << std::endl;
 
     report.recommendedPlayStyle = getRecommendedPlayStyle();
     report.ballPossession = getBallPossessionEstimate(true);
     report.ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(true);
     report.theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(false);
-    report.robotSortedOnDanger =  getRobotsSortedOnDanger(false);
+    report.robotSortedOnDanger = getRobotsSortedOnDanger(false);
 
     mostRecentReport = report;
     return report;
@@ -101,6 +96,10 @@ RobotDanger GameAnalyzer::evaluateRobotDangerScore(roboteam_msgs::WorldRobot rob
     return danger;
 }
 
+
+AnalysisReport GameAnalyzer::getMostRecentReport() {
+    return mostRecentReport;
+}
 
 /// Check with distanceToLineWithEnds if there are obstructions
 /// Returns all robots that can be passed to, along with the distance

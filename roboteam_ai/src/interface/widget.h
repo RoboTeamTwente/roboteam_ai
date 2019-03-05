@@ -37,6 +37,7 @@ class Visualizer : public QWidget {
         void setShowBallPlacementMarker(bool showMarker);
         void setShowDebugValueInTerminal(bool showDebug);
         void toggleSelectedRobot(int robotId);
+        void setShowAvailablePasses(bool showAvailablePasses);
 
     protected:
         void paintEvent(QPaintEvent* event) override;
@@ -80,6 +81,7 @@ class Visualizer : public QWidget {
         bool showAllPaths = Constants::STD_SHOW_PATHS_ALL();
         bool showBallPlacementMarker = Constants::STD_SHOW_BALL_PLACEMENT_MARKER();
         bool showDebugValueInTerminal = Constants::STD_SHOW_DEBUG_VALUES();
+        bool showAvailablePasses = Constants::STD_SHOW_AVAILABLE_PASSES();
 };
 
 } // interface
