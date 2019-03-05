@@ -30,11 +30,12 @@ bt::Node::Status IsBallCloseToBorder::update() {
         double xDiff = field.field_length / 2 - abs(ballPos.x);
         double yDiff = field.field_width / 2 - abs(ballPos.y);
 
-        // TODO: HACK HACK SEPERATE LAYING STILL FROM CONDITION
-        if (xDiff < margin && yDiff < margin && Vector2(ball->vel).length() < Constants::BALL_STILL_VEL()) {
-            return Status::Success;
-        } else {
-            return Status::Failure;
+        if (layingStill) {
+            if (xDiff < margin && yDiff < margin && Vector2(ball->vel).length() < Constants::BALL_STILL_VEL()) {
+                return Status::Success;
+            } else {
+                return Status::Failure;
+            }
         }
     }
 }
