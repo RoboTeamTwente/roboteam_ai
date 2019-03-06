@@ -8,17 +8,14 @@ namespace rtt {
 namespace ai {
 
 BasicGoToPos::BasicGoToPos(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) {
-
-}
+        :Skill(std::move(name), std::move(blackboard)) { }
 
 void BasicGoToPos::onInitialize() {
     robot = getRobotFromProperties(properties);
     targetPos = properties->getVector2("target");
     if (properties->getBool("BallPlacementBefore")) {
         if (ball) {
-            //TODO:Changed for testing, remember to change back
-            //targetPos=coach::Coach::getBallPlacementBeforePos(ball->pos);
+            targetPos=coach::Coach::getBallPlacementBeforePos(ball->pos);
             targetPos = coach::Coach::getBallPlacementPos();
         }
         else {
@@ -49,10 +46,7 @@ Skill::Status BasicGoToPos::onUpdate() {
     if (properties->getBool("BallPlacementAfter")) {
         command.w = static_cast<float>((Vector2(robot->pos) - targetPos).angle());
     }
-//    const ros::Time &t1 = ros::Time::now();
     Vector2 velocity = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES).vel;
-//    const ros::Time &t2 = ros::Time::now();
-//    std::cerr << "gotopos took: " << (t2-t1).toNSec()*0.000001 << " ms" << std::endl;
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     publishRobotCommand(command);
