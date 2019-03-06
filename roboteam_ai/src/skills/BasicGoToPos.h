@@ -11,17 +11,14 @@
 namespace rtt {
 namespace ai {
 
-
 class BasicGoToPos : public Skill {
-    public:
-        explicit BasicGoToPos(string name, bt::Blackboard::Ptr blackboard);
-        Status onUpdate() override;
-        void onInitialize() override;
-        Vector2 targetPos;
-        control::PositionController goToPos;
-        double errorMargin = 0.3;
-
-
+public:
+    explicit BasicGoToPos(string name, bt::Blackboard::Ptr blackboard);
+    Status onUpdate() override;
+    void onInitialize() override;
+    Vector2 targetPos;
+    control::PositionController goToPos;
+    double errorMargin = 0.3;
 };
 }
 }

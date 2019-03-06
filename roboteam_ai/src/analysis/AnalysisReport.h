@@ -29,7 +29,9 @@ enum playStyle {
 
 struct AnalysisReport {
     bool reportForUs = true;
-    std::vector<std::pair<roboteam_msgs::WorldRobot, RobotDanger>> robotSortedOnDanger;
+    std::vector<std::pair<roboteam_msgs::WorldRobot, RobotDanger>> theirRobotSortedOnDanger;
+    std::vector<std::pair<roboteam_msgs::WorldRobot, RobotDanger>> ourRobotsSortedOnDanger;
+
     playStyle recommendedPlayStyle;
     double ballPossession = 0.0;
     double ourDistanceToGoalAvg = 0.0;

@@ -45,7 +45,7 @@ private:
     RobotDanger evaluateRobotDangerScore(roboteam_msgs::WorldRobot robot, bool ourTeam);
     std::vector<std::pair<roboteam_msgs::WorldRobot, double>> getAttackersSortedOnGoalVision(bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
 
-    vector<pair<int, double>> getRobotsToPassTo(roboteam_msgs::WorldRobot robot, bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
+    std::vector<std::pair<int, double>> getRobotsToPassTo(roboteam_msgs::WorldRobot robot, bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
     double shortestDistToEnemyRobot(roboteam_msgs::WorldRobot robot, bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
     bool isClosingInToGoal(roboteam_msgs::WorldRobot robot, bool ourTeam);
 };

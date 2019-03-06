@@ -27,7 +27,8 @@ AnalysisReport GameAnalyzer::generateReportNow() {
     report.ballPossession = getBallPossessionEstimate(true);
     report.ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(true);
     report.theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(false);
-    report.robotSortedOnDanger = getRobotsSortedOnDanger(false);
+    report.theirRobotSortedOnDanger = getRobotsSortedOnDanger(false);
+    report.ourRobotsSortedOnDanger = getRobotsSortedOnDanger(true);
 
     mostRecentReport = report;
     return report;
@@ -107,6 +108,7 @@ AnalysisReport GameAnalyzer::getMostRecentReport() {
 vector<pair<int, double>> GameAnalyzer::getRobotsToPassTo(roboteam_msgs::WorldRobot robot, bool ourTeam, roboteam_msgs::World simulatedWorld ) {
     auto ourRobots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     auto enemyRobots = ourTeam ? simulatedWorld.them : simulatedWorld.us;
+
     vector<pair<int, double>> robotsToPassTo;
     for (auto ourRobot : ourRobots) {
         bool canPassToThisRobot = true;
@@ -119,7 +121,7 @@ vector<pair<int, double>> GameAnalyzer::getRobotsToPassTo(roboteam_msgs::WorldRo
          }
          if (canPassToThisRobot) {
              double distToRobot = (Vector2(ourRobot.pos) - Vector2(robot.pos)).length();
-             robotsToPassTo.emplace_back(make_pair(robot.id, distToRobot));
+             robotsToPassTo.emplace_back(make_pair(ourRobot.id, distToRobot));
          }
     }
     return robotsToPassTo;

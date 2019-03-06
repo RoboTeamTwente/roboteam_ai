@@ -7,6 +7,7 @@
 #include "widget.h"
 #include "drawer.h"
 #include "InterfaceValues.h"
+#include "../analysis/GameAnalyzer.h"
 
 namespace rtt {
 namespace ai {
@@ -25,6 +26,8 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawBall(painter);
         drawRobots(painter);
         if (showBallPlacementMarker) drawBallPlacementTarget(painter);
+
+        if (showAvailablePasses) drawPasses(painter);
 
         if (showPath) {
             for (auto robot : selectedRobots) {
@@ -358,6 +361,31 @@ void Visualizer::setShowDebugValueInTerminal(bool showDebug) {
 
 void Visualizer::setShowAvailablePasses(bool showAvailablePasses) {
     Visualizer::showAvailablePasses = showAvailablePasses;
+}
+
+void Visualizer::drawPasses(QPainter& painter) {
+    auto report = rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
+
+    std::vector<std::pair<Vector2, Vector2>> lines;
+    for (auto robot : report.ourRobotsSortedOnDanger) {
+        if (robotIsSelected(robot.first)) {
+            Vector2 robotLocation = toScreenPosition(robot.first.pos);
+            for (auto robotToPassToId : robot.second.robotsToPassTo) {
+                auto passRobot = World::getRobotForId(robotToPassToId.first, true);
+                Vector2 passRobotLocation = toScreenPosition(passRobot->pos);
+
+                double distance = robotToPassToId.second;
+
+                painter.setBrush(Qt::transparent);
+
+                int opacity = (robotLocation.dist(passRobotLocation) / width()) * 255;
+                painter.setPen({255, 255, 255, 255 - opacity});
+                painter.drawLine(robotLocation.x, robotLocation.y, passRobotLocation.x, passRobotLocation.y);
+
+            }
+        }
+    };
+
 }
 
 } // interface
