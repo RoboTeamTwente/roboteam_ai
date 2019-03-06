@@ -20,7 +20,7 @@ class TheyHaveBall : public Condition {
          * @brief checks if a robot with specific ID given through blackboards has a ball. Uses BB parameters "me/ROBOT_ID" and "our_team"
          * @return Returns status::success if a robot has a ball, status::failure otherwise.
          */
-        Status update() override;
+        Status onUpdate() override;
         std::string node_name() override { return "TheyHaveBall"; }
 
 };

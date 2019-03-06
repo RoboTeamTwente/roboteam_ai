@@ -13,14 +13,14 @@ namespace ai {
 BallInDefenseAreaAndStill::BallInDefenseAreaAndStill(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
 
-void BallInDefenseAreaAndStill::initialize() {
+void BallInDefenseAreaAndStill::onInitialize() {
     if (properties->hasBool("theirDefenceArea")) {
         theirDefenceArea = properties->getBool("theirDefenceArea");
     }
     else {theirDefenceArea=false;}
 }
 
-bt::Node::Status BallInDefenseAreaAndStill::update() {
+bt::Node::Status BallInDefenseAreaAndStill::onUpdate() {
     Vector2 ballPos;
     auto ball=World::getBall();
     if (ball){

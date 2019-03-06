@@ -12,7 +12,7 @@ namespace ai {
 BallKickedToOurGoal::BallKickedToOurGoal(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
 
-bt::Node::Status BallKickedToOurGoal::update() {
+bt::Node::Status BallKickedToOurGoal::onUpdate() {
     auto ball = World::getBall();
     Vector2 goalCentre = Field::get_our_goal_center();
     double goalWidth = Field::get_field().goal_width;

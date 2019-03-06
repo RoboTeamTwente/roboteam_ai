@@ -11,7 +11,7 @@ namespace ai{
 IsRobotClosestToBall::IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr blackboard)
 : Condition(std::move(name), std::move(blackboard)) { }
 
-bt::Node::Status IsRobotClosestToBall::update() {
+bt::Node::Status IsRobotClosestToBall::onUpdate() {
     robot = getRobotFromProperties(properties);
     roboteam_msgs::World world = World::get_world();
     Vector2 ballPos(world.ball.pos);

@@ -11,9 +11,9 @@ IsBeingPassedTo::IsBeingPassedTo(std::string name, bt::Blackboard::Ptr blackboar
         :Condition(std::move(name), std::move(blackboard)) { };
 
 
-void IsBeingPassedTo::initialize() {};
+void IsBeingPassedTo::onInitialize() {};
 
-IsBeingPassedTo::Status IsBeingPassedTo::update() {
+IsBeingPassedTo::Status IsBeingPassedTo::onUpdate() {
     if (coach::Coach::getRobotBeingPassedTo() == static_cast<int>(getRobotFromProperties(properties)->id)) {
         return Status::Success;
     }

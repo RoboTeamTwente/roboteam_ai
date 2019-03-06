@@ -17,7 +17,7 @@ public:
 
 // Show timing for different functions
     static bool SHOW_LONGEST_TICK()             { return false;};
-    static bool SHOW_TICK_TIME_TAKEN()          { return false;};
+    static bool SHOW_TICK_TIME_TAKEN()          { return true;};
     static bool SHOW_NUMTREE_TIME_TAKEN()       { return false;};
 
 // Show debug information for different functions
@@ -47,7 +47,7 @@ public:
 
   static double CENTRE_TO_FRONT()             { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); };
     static double BALL_RADIUS()                 { return 0.0215; };
-    static int TICK_RATE()                       { return 60 ; };// Rate at which we tick our behavior Trees
+    static int TICK_RATE()                       { return 500 ; };// Rate at which we tick our behavior Trees
 
     //skills
     static double DEFAULT_KICK_POWER()          { return  5.0; }; // max kick power() { return  100

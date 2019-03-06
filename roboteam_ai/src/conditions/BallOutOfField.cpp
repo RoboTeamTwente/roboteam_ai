@@ -12,7 +12,7 @@ namespace ai {
 BallOutOfField::BallOutOfField(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
 
-bt::Node::Status BallOutOfField::update() {
+bt::Node::Status BallOutOfField::onUpdate() {
     Vector2 ballPos;
     auto ball = World::getBall();
     if (ball) {

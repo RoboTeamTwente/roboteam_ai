@@ -14,7 +14,7 @@ namespace ai {
 
 IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) { }
 
-bt::Node::Status IsInDefenseArea::update() {
+bt::Node::Status IsInDefenseArea::onUpdate() {
     Vector2 point;
     if (properties->getBool("useRobot")) {
         robot = getRobotFromProperties(properties);
