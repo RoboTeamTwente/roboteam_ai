@@ -32,7 +32,7 @@ Keeper::Status Keeper::onUpdate() {
             std::cout << "Keeper escaping field!" << std::endl;
             return Status::Running;
         } else {
-            Vector2 velocities = goToPos.goToPos(robot, blockPoint).vel;
+            Vector2 velocities = goToPos.goToPos(robot, blockPoint, GoToType::BASIC).vel;
             velocities = control::ControlUtils::VelocityLimiter(velocities);
             roboteam_msgs::RobotCommand command;
             command.id = robot->id;
