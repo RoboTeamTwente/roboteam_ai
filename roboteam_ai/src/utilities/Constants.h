@@ -21,7 +21,7 @@ public:
     static bool SHOW_NUMTREE_TIME_TAKEN()       { return false;};
 
 // Show debug information for different functions
-    static bool SHOW_NUMTREE_DEBUG_INFO()       { return true; };
+    static bool SHOW_NUMTREE_DEBUG_INFO()       { return false; };
 
 // Max values we can send through robothub
     static double MAX_VEL_CMD()                 { return 8.191; };

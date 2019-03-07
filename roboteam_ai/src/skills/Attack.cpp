@@ -43,7 +43,7 @@ bt::Node::Status Attack::onUpdate() {
         goToPos.setAvoidBall(true);
 
         // TODO: HACK HACK CHECK OPPONENT'S GOAL AND NOT OUR GOAL
-        if (abs(((Vector2) robot->pos - targetPos).length()) < 0.11) {
+        if (abs(((Vector2) robot->pos - targetPos).length()) < 0.10) {
             goToType = GoToType::BASIC;
             goToPos.setAvoidBall(false);
         }
@@ -69,18 +69,15 @@ bt::Node::Status Attack::onUpdate() {
     else if (Field::pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
         velocity = ((Vector2) robot->pos - Field::get_their_goal_center()).stretchToLength(2.0);
     }
-    else if (Field::pointIsInDefenceArea(ball, ownGoal) || Field::pointIsInDefenceArea(ball, ownGoal)) {
+    else if (Field::pointIsInDefenceArea(ball, ownGoal) || Field::pointIsInDefenceArea(ball, !ownGoal)) {
         velocity = {0, 0};
     }
     else if (Field::pointIsInDefenceArea(targetPos, ownGoal)) {
         velocity = {0, 0};
     }
     else {
-
         velocity = goToPos.goToPos(robot, targetPos, GoToType::NUMERIC_TREES).vel;
     }
-
-    std::cout << velocity << goToType << std::endl;
 
     velocity = control::ControlUtils::VelocityLimiter(velocity);
 
