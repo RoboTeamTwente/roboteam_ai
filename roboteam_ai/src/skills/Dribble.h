@@ -32,7 +32,6 @@ class Dribble : public Skill {
         int count;
         Vector2 targetPos, deltaPos;
         float stoppingAngle,initialAngle;
-        bool robotHasBall();
 
         void sendMoveCommand();
         void sendStopCommand();

@@ -44,7 +44,7 @@ Skill::Status Harass::onUpdate() {
 
     goToPos.goToPos(robot, targetPos, control::PosControlType::BASIC);
 
-    if (harassBallOwner && ! coach::Coach::doesRobotHaveBall(harassmentTarget, false)) {
+    if (harassBallOwner && ! World::theirBotHasBall(harassmentTarget)) {
         return Status::Success;
     }
     // TODO make something that will make harassment stop if something happens else we assume that there is a tree

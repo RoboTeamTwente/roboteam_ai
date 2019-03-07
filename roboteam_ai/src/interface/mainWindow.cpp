@@ -58,6 +58,11 @@ MainWindow::MainWindow(QWidget* parent)
     hButtonsLayout->addWidget(haltBtn);
     haltBtn->setStyleSheet("background-color: #cc0000;");
 
+    refreshBtn = new QPushButton("Refresh");
+    QObject::connect(refreshBtn, SIGNAL(clicked()), this, SLOT(refreshSignal()));
+    hButtonsLayout->addWidget(refreshBtn);
+    refreshBtn->setStyleSheet("background-color: #0000cc;");
+
     toggleColorBtn = new QPushButton("Color");
     QObject::connect(toggleColorBtn, SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
     hButtonsLayout->addWidget(toggleColorBtn);
@@ -265,6 +270,11 @@ QString MainWindow::getSelectStrategyText() const {
 void MainWindow::setSelectStrategyText(QString text) {
     select_strategy->setCurrentText(text);
 }
+void MainWindow::refreshSignal() {
+    BTFactory::getFactory().init();
+    treeWidget->setHasCorrectTree(false);
+}
+
 
 } // interface
 } // ai

@@ -55,7 +55,7 @@ bool ControlUtils::pointInRectangle(Vector2 PointToCheck, Vector2 SP1, Vector2 S
     if (pointInTriangle(PointToCheck, SP1, SP2, SP3)) {
         return true;
     }
-    else return pointInTriangle(PointToCheck, SP4, SP1, SP2);
+    else return pointInTriangle(PointToCheck, SP4, SP1, SP3);
 }
 
 /// Maps the input angle to be within the range of 0 - 2PI
