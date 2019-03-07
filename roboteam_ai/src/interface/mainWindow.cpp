@@ -188,6 +188,7 @@ MainWindow::MainWindow(QWidget* parent)
     auto * robotsTimer = new QTimer(this);
     connect(robotsTimer, SIGNAL(timeout()), treeWidget, SLOT(updateContents()));
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget())); // we need to pass the visualizer so thats why a seperate function is used
+    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updatePause()));
     robotsTimer->start(200); // 5fps
 }
 void MainWindow::setToggleColorBtnLayout() const {
@@ -237,6 +238,10 @@ void MainWindow::updatePID_luth() {
 /// send a halt signal to stop all trees from executing
 void MainWindow::sendHaltSignal() {
     InterfaceValues::sendHaltCommand();
+    std::cout << "Pause" << std::endl;
+}
+
+void MainWindow::updatePause() {
     rtt::ai::Pause pause;
     if (pause.getPause()) {
         haltBtn->setText("Resume");
@@ -246,8 +251,6 @@ void MainWindow::sendHaltSignal() {
         haltBtn->setText("Pause");
         haltBtn->setStyleSheet("background-color: #cc0000;");
     }
-
-    std::cout << "Pause" << std::endl;
 
 }
 
