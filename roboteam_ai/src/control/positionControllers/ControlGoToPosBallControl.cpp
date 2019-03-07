@@ -9,11 +9,10 @@ namespace ai {
 namespace control {
 
 
-Vector2 ControlGoToPosBallControl::goToPos(ControlGoToPosBallControl::RobotPtr robot,
+PosVelAngle ControlGoToPosBallControl::goToPos(ControlGoToPosBallControl::RobotPtr robot,
         Vector2 &target) {
 
-    Vector2 a;
-    return a;
+    return {};
 }
 
 } //control

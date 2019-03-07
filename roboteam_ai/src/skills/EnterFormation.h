@@ -17,7 +17,7 @@ public:
     bt::Node::Status onUpdate() override;
     void onTerminate(bt::Node::Status) override;
 private:
-    control::ControlGoToPos gtp;
+    control::PositionController gtp;
 
 };
 

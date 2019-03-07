@@ -3,7 +3,6 @@
 //
 
 #include "Pass.h"
-
 namespace rtt {
 namespace ai {
 Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
@@ -25,10 +24,10 @@ Pass::Status Pass::onUpdate() {
     switch(currentProgress) {
         case Progression::POSITIONING: {
             if (!coach::Coach::isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos)) {
-                goToType = GoToType::luTh;
+                goToType = GoToType::NUMERIC_TREES;
                 targetPos = Coach::getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
-            } else if (!coach::Coach::doesRobotHaveBall(robot->id, true, rtt::ai::Constants::MAX_BALL_RANGE())) {
-                goToType = GoToType::basic;
+            } else if (!World::ourBotHasBall(robot->id)) {
+                goToType = GoToType::BASIC;
                 targetPos = ball->pos;
             } else {
                 if (coach::Coach::isReadyToReceivePass()) currentProgress = Progression::KICKING;
@@ -37,13 +36,13 @@ Pass::Status Pass::onUpdate() {
             command.use_angle = 1;
             command.w = static_cast<float>(((Vector2) robotToPassTo->pos - ball->pos).angle());
             command.dribbler = 0;
-            Vector2 velocities = goToPos.goToPos(robot, targetPos, goToType);
-            command.x_vel = static_cast<float>(velocities.x);
-            command.y_vel = static_cast<float>(velocities.y);
+            control::PosVelAngle velocities = goToPos.goToPos(robot, targetPos, goToType);
+            command.x_vel = static_cast<float>(velocities.vel.x);
+            command.y_vel = static_cast<float>(velocities.vel.y);
             break;
         }
         case Progression::KICKING: {
-            if (coach::Coach::doesRobotHaveBall(robot->id, true, rtt::ai::Constants::MAX_BALL_RANGE())) {
+            if (World::ourBotHasBall(robot->id)) {
                 command.kicker = 1;
                 command.kicker_forced = 1;
                 distance = ((Vector2)ball->pos - robotToPassTo->pos).length();

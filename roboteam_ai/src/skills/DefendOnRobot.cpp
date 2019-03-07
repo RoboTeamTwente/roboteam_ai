@@ -12,7 +12,7 @@ DefendOnRobot::DefendOnRobot(std::string name, bt::Blackboard::Ptr blackboard)
     :Skill(std::move(name), std::move(blackboard)) { }
 
 void DefendOnRobot::onInitialize() {
-    opponentWithBallID = coach::Coach::whichRobotHasBall(false);
+    opponentWithBallID = World::whichBotHasBall(false);
     if (opponentWithBallID == -1) {
         currentProgress = FAIL;
     }
@@ -35,14 +35,14 @@ bt::Node::Status DefendOnRobot::onUpdate() {
 
     if (opponentWithBall && opponentToCover) {
         updateRobot();
-        if (!coach::Coach::doesRobotHaveBall(opponentWithBall->id, false)) {
+        if (!World::botHasBall(opponentWithBall->id,false)) {
             return Status::Success;
         }
 
         Vector2 targetPos = calculateLocation();
 
         std::cout << "Robot:" << robot->id << "TargetPos:" << targetPos << std::endl;
-        goToPos.goToPos(robot, targetPos, control::GoToType::luTh);
+        goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES);
 
         return Status::Running;
     } else {

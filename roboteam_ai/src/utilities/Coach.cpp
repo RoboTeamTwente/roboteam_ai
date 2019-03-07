@@ -59,63 +59,12 @@ int Coach::pickHarassmentTarget(int selfID) {
     return *dangerList.begin();
 }
 
-int Coach::whichRobotHasBall(bool isOurTeam) {
-    roboteam_msgs::World world = World::get_world();
-    std::vector<roboteam_msgs::WorldRobot> robots;
-    if (isOurTeam) {
-        robots = world.us;
-    }
-    else {
-        robots = world.them;
-    }
-
-    for (auto &robot:robots) {
-        if (doesRobotHaveBall(robot.id, isOurTeam)) {
-            return robot.id;
-        }
-    }
-    return - 1;
-}
-
-int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam) {
-    return doesRobotHaveBall(robotID, isOurTeam, rtt::ai::Constants::MAX_BALL_RANGE(), rtt::ai::Constants::HAS_BALL_ANGLE());
-}
-
-int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkDist) {
-    return doesRobotHaveBall(robotID, isOurTeam, checkDist, rtt::ai::Constants::HAS_BALL_ANGLE());
-}
-
-int Coach::doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double checkDist, double checkAngle) {
-    auto robot = World::getRobotForId(robotID, isOurTeam);
-    Vector2 ballPos;
-    if (World::getBall())
-        ballPos = World::getBall().get()->pos;
-    else return 0;
-
-    if (robot &&  World::getBall()) {
-        Vector2 deltaPos = (ballPos-robot->pos);
-        double dist = deltaPos.length();
-        double angle = deltaPos.angle();
-        double robotAngle = robot->angle;
-
-        if (angle<0) {
-            angle += 2*M_PI;
-        }
-        if (robotAngle<0) {
-            robotAngle += 2*M_PI;
-        }
-
-        return ((dist<=checkDist) && (fabs(angle-robotAngle)<=checkAngle));
-    }
-    return false;
-}
-
 int Coach::pickOpponentToCover(int selfID) {
     dangerfinder::DangerData DangerData = dangerfinder::DangerFinder::instance().getMostRecentData();
     std::vector<int> dangerList = DangerData.dangerList;
     for (int &opponentID : dangerList) {
         if (defencePairs.find(opponentID) == defencePairs.end()) {
-            if (! doesRobotHaveBall(static_cast<unsigned int>(opponentID), false)) {
+            if (! World::theirBotHasBall(static_cast<unsigned int>(opponentID))) {
                 return opponentID;
             }
         }

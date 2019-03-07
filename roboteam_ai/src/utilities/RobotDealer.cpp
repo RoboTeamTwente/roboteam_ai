@@ -14,6 +14,8 @@ std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::robotO
 
 std::mutex RobotDealer::robotOwnersLock;
 
+int RobotDealer::keeperID = -1;
+
 /// For internal use
 /// Removes a robot with an ID from the map and if the tactic then is empty it removes the tactic
 void RobotDealer::removeRobotFromOwnerList(int ID) {
@@ -62,6 +64,10 @@ void RobotDealer::updateFromWorld() {
     std::set<int> currentRobots = RobotDealer::getRobots();
     for (auto robot : robots) {
         if (currentRobots.find(robot) == currentRobots.end()) {
+            if (robot == keeperID) {
+                ROS_ERROR("The keeper just got registered as a free robot this should never happen");
+                continue;
+            }
             std::lock_guard<std::mutex> lock(robotOwnersLock);
             RobotDealer::addRobotToOwnerList(robot, "free", "free");
         }
@@ -353,6 +359,15 @@ std::string RobotDealer::getRoleNameForId(int ID) {
 void RobotDealer::halt() {
     robotOwners.clear();
     RobotDealer::updateFromWorld();
+}
+void RobotDealer::setKeeperID(int ID) {
+    keeperID = ID;
+    std::lock_guard<std::mutex> lock(robotOwnersLock);
+    addRobotToOwnerList(ID, "keeper", "keeper");
+}
+int RobotDealer::getKeeperID() {
+    std::lock_guard<std::mutex> lock(robotOwnersLock);
+    return keeperID;
 }
 
 } // RobotDealer

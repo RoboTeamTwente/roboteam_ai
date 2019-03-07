@@ -9,6 +9,8 @@
 #include <roboteam_utils/Vector2.h>
 #include <roboteam_ai/src/utilities/Pause.h>
 
+
+
 namespace rtt {
 namespace ai {
 namespace interface {
@@ -23,35 +25,43 @@ class InterfaceValues {
         static double luthVelI;
         static double luthVelD;
 
+        static std::mutex pidMutex;
+        static std::mutex ballPlacementMutex;
+        static std::mutex refMutex;
+        static std::mutex showDebugMutex;
 
-        static std::mutex PIDMutex;
-        static std::mutex BallPlacementMutex;
-        static std::mutex RefMutex;
         static rtt::Vector2 ballPlacementTarget;
         static bool useRefereeCommands;
+        static bool showDebugValuesInTerminal;
 
     public:
+        static void setShowDebugValues(bool showDebug);
+        static bool getShowDebugValues();
+        static bool showDebugLongestTick();
+        static bool showDebugTickTimeTaken();
+        static bool showDebugNumTreeTimeTaken();
+        static bool showDebugNumTreeInfo();
+
         static bool usesRefereeCommands();
         static void setUseRefereeCommands(bool useRefereeCommands);
         static const rtt::Vector2 &getBallPlacementTarget();
         static void setBallPlacementTarget(const rtt::Vector2 &ballPlacementTarget);
 
-        static double getLuthPosP();
+        static double setNumTreePosP();
         static void setLuthPosP(double luthP);
-        static double getLuthPosI();
-        static void setLuthPosI(double luthI);
-        static double getLuthPosD();
-        static void setLuthPosD(double luthD);
+        static double getNumTreePosI();
+        static void setNumTreePosI(double luthI);
+        static double getNumTreePosD();
+        static void setNumTreePosD(double luthD);
 
-        static double getLuthVelP();
-        static void setLuthVelP(double luthP);
-        static double getLuthVelI();
-        static void setLuthVelI(double luthI);
-        static double getLuthVelD();
-        static void setLuthVelD(double luthD);
+        static double getNumTreeVelP();
+        static void setNumTreeVelP(double luthP);
+        static double getNumTreeVelI();
+        static void setNumTreeVelI(double luthI);
+        static double getNumTreeVelD();
+        static void setNumTreeVelD(double luthD);
 
         static void sendHaltCommand();
-
 };
 
 }
