@@ -33,18 +33,13 @@ bt::Node::Status Attack::onUpdate() {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
 
-    GoToType goToType;
-
     if (!Coach::isRobotBehindBallToGoal(0.6, ownGoal, robot->pos)) {
         targetPos = behindBall;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
-        goToType = GoToType::NUMERIC_TREES;
         goToPos.setAvoidBall(true);
 
-        // TODO: HACK HACK CHECK OPPONENT'S GOAL AND NOT OUR GOAL
         if (abs(((Vector2) robot->pos - targetPos).length()) < 0.10) {
-            goToType = GoToType::BASIC;
             goToPos.setAvoidBall(false);
         }
     }
@@ -60,7 +55,6 @@ bt::Node::Status Attack::onUpdate() {
             shot = true;
         }
 
-        goToType = GoToType::BASIC;
     }
     Vector2 velocity;
     if (Field::pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
