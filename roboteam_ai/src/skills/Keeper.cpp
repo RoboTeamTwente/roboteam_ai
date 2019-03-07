@@ -27,25 +27,7 @@ void Keeper::onInitialize() {
 
 Keeper::Status Keeper::onUpdate() {
         Vector2 ballPos = World::getBall()->pos;
-        Vector2 blockPoint;
-
-        shared_ptr<roboteam_msgs::WorldRobot> closestBot;
-        closestBot = World::getRobotClosestToPoint(ballPos, robot->id, 0);
-        if(closestBot) {
-            double closestBotAngle = closestBot->angle;
-
-            // TODO: HACK HACK DO NOT LOOK AT OUR OWN ROBOTS BUT OPPONENT'S
-            if (World::botHasBall(closestBot->id, true, 0.25) && viewAtGoal(closestBot)) {
-                blockPoint = computeBlockPointWithAttacker(closestBot);
-                if (!Field::pointIsInField(blockPoint) || !Field::pointIsInDefenceArea(blockPoint, true)) {
-                    blockPoint = computeBlockPoint(ballPos);
-                }
-            } else {
-                blockPoint = computeBlockPoint(ballPos);
-            }
-        } else {
-            blockPoint = computeBlockPoint(ballPos);
-        }
+        Vector2 blockPoint = computeBlockPoint(ballPos);
         if (!Field::pointIsInField(blockPoint, 0.03)) {
             std::cout << "Keeper escaping field!" << std::endl;
             return Status::Running;
@@ -162,58 +144,6 @@ Vector2 Keeper::computeBlockPoint(Vector2 defendPos) {
     interface::Drawer::setKeeperPoints(robot->id,displayColorData);
 
     return blockPos;
-}
-
-Vector2 Keeper::computeBlockPointWithAttacker(shared_ptr<roboteam_msgs::WorldRobot> attacker) {
-    Vector2 interceptionPoint;
-
-    Vector2 start;
-    Vector2 end;
-    double distanceToGoal = ((Vector2)attacker->pos - Field::get_our_goal_center()).length();
-
-    start = attacker->pos;
-    end = start + (Vector2){distanceToGoal, 0}.rotate(attacker->angle);
-
-    Arc keeperCircle = control::ControlUtils::createKeeperArc();
-    std::pair<boost::optional<Vector2>, boost::optional<Vector2>> intersections = keeperCircle.intersectionWithLine(
-            start, end);
-
-    if (intersections.first && intersections.second) {
-        double dist1 = (Vector2(robot->pos) - *intersections.first).length();
-        double dist2 = (Vector2(robot->pos) - *intersections.second).length();
-        if (dist2 < dist1) {
-            interceptionPoint = *intersections.second;
-        }
-        else { interceptionPoint = *intersections.first; }
-    }
-    else if (intersections.first) {
-        interceptionPoint = *intersections.first;
-    }
-    else if (intersections.second) {
-        interceptionPoint = *intersections.second;
-    }
-    else {
-        // if the Line does not intercept it usually means the ball is coming from one of the corners-ish to the keeper
-        // For now we pick the closest point to the (predicted) line of the ball
-        interceptionPoint = Vector2(robot->pos).project(start, end);
-    }
-
-    return interceptionPoint;
-}
-
-bool Keeper::viewAtGoal(shared_ptr<roboteam_msgs::WorldRobot> attacker) {
-    Vector2 start;
-    Vector2 end;
-    double distanceToGoal = ((Vector2)attacker->pos - Field::get_our_goal_center()).length();
-
-    start = attacker->pos;
-    end = start + (Vector2){distanceToGoal * 1.2, 0}.rotate(attacker->angle);
-
-    auto field = Field::get_field();
-    Vector2 startGoal = {-field.field_length, -field.goal_width / 2};
-    Vector2 endGoal = {-field.field_length, field.goal_width / 2};
-
-    return control::ControlUtils::lineSegmentsIntersect(start, end, startGoal, endGoal);
 }
 
 }
