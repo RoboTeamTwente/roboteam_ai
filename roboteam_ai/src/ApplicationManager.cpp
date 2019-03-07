@@ -115,8 +115,13 @@ void ApplicationManager::updateDangerfinder() {
 
 void ApplicationManager::handleRefData() {
     ai::StrategyManager strategyManager;
+    // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
+    // might want to build something that verifies this
+    auto oldStrategy = BTFactory::getCurrentTree();
     std::string strategyName = strategyManager.getCurrentStrategyName(refereeMsg.command);
-    BTFactory::getFactory().init();
+    if (oldStrategy != strategyName) {
+        BTFactory::getFactory().init();
+    }
     BTFactory::setCurrentTree(strategyName);
 }
 
