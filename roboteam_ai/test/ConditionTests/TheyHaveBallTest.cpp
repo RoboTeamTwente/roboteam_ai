@@ -28,6 +28,7 @@ TEST(TheyHaveBallTest, TheyHaveBallTest) {
     worldMsg.ball.pos.x = 0.04;
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
+    worldMsg.ball.area = 99999;
     rtt::ai::World::set_world(worldMsg);
 
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);

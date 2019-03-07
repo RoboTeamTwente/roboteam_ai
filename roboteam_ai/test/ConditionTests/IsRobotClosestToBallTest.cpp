@@ -15,13 +15,16 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
     BB->setString("ROLE","test");
     rtt::ai::IsRobotClosestToBall Node("Test", BB);
 
+    roboteam_msgs::World worldMsg;
+    roboteam_msgs::WorldRobot robot;
+    rtt::ai::World::set_world(worldMsg);
+
     EXPECT_EQ(Node.node_name(), "IsRobotClosestToBall");
 
     // First test should fail since robot is not set in world state yet
-    ASSERT_EQ(Node.update(), bt::Node::Status::Failure);
+    ASSERT_EQ(Node.update(), bt::Node::Status::Waiting);
 
-    roboteam_msgs::World worldMsg;
-    roboteam_msgs::WorldRobot robot;
+
 
     robot.id=0;
     robot.pos.x=0;
@@ -31,6 +34,7 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
     worldMsg.ball.pos.x=1.0;
     worldMsg.ball.pos.y=1.0;
     worldMsg.ball.visible = 1;
+    worldMsg.ball.area = 99999;
     rtt::ai::World::set_world(worldMsg);
 
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"IsRobotClosestToBallTestTactic","test");
@@ -77,7 +81,7 @@ TEST(secondsAhead, IsRobotClosestToBallTest) {
     worldMsg.ball.vel.x = -1;
     worldMsg.ball.vel.y = -1;
     worldMsg.ball.visible = 1;
-
+    worldMsg.ball.area = 99999;
     rtt::ai::World::set_world(worldMsg);
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"IsRobotClosestToBallTestTactic","test");
     ASSERT_EQ(Node.update(), bt::Node::Status::Success);

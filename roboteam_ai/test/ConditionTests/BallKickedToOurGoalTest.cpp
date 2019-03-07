@@ -19,6 +19,7 @@ TEST(BallKickedToOurGoal,BallKickedToOurGoal){
     worldMsg.ball.pos.y=0.0;
     worldMsg.ball.vel.x=0.0;
     worldMsg.ball.vel.y=0.0;
+    worldMsg.ball.area=99999;
     rtt::ai::World::set_world(worldMsg);
 
     bt::Blackboard BB;

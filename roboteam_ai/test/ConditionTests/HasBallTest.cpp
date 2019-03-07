@@ -8,6 +8,10 @@
 #include "../../src/utilities/RobotDealer.h"
 
 TEST(BallTest, IHaveBallTest) {
+    roboteam_msgs::World worldMsg;
+    roboteam_msgs::WorldRobot robot;
+    rtt::ai::World::set_world(worldMsg);
+
     robotDealer::RobotDealer::halt();
     auto BB = std::make_shared<bt::Blackboard>();
     BB->setInt("ROBOT_ID", 0);
@@ -18,10 +22,9 @@ TEST(BallTest, IHaveBallTest) {
     EXPECT_EQ(node.node_name(), "HasBall");
 
     //First test should fail as the robot is not set in the world state yet.
-    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
+    EXPECT_EQ(node.update(), bt::Node::Status::Waiting);
 
-    roboteam_msgs::World worldMsg;
-    roboteam_msgs::WorldRobot robot;
+
 
     robot.id = 0;
     robot.pos.x = 0;
@@ -30,12 +33,14 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.pos.x = 0.1;
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
+    worldMsg.ball.area = 99999;
     rtt::ai::World::set_world(worldMsg);
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"IHaveBallTestTactic","test");
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.ball.pos.x = 0.0;
     worldMsg.ball.visible = 1;
+    worldMsg.ball.area = 99999;
     rtt::ai::World::set_world(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
@@ -43,18 +48,21 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.pos.x = 0;
     worldMsg.ball.pos.y = 0.1;
     worldMsg.ball.visible = 1;
+    worldMsg.ball.area = 99999;
     rtt::ai::World::set_world(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = 0;
     worldMsg.ball.pos.y = - 0.1;
     worldMsg.ball.visible = 1;
+    worldMsg.ball.area = 99999;
     rtt::ai::World::set_world(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = - 0.1;
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = 1;
+    worldMsg.ball.area = 99999;
     rtt::ai::World::set_world(worldMsg);
     EXPECT_EQ(node.update(),bt::Node::Status::Failure);
 

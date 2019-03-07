@@ -11,18 +11,22 @@ std::string Condition::node_name() {
 }
 
 void Condition::initialize() {
-    robot = getRobotFromProperties(properties);
-    ball = World::getBall();
-    if (! robot) return;
-    if (! ball) return;
+    if (! properties->getString("ROLE").empty()) {
+        robot = getRobotFromProperties(properties);
+        ball = World::getBall(); // update ball position
+        if (! robot) return;
+        if (! ball) return;
+    }
     onInitialize();
 }
 
 Condition::Status Condition::update() {
-    updateRobot();
-    ball = World::getBall(); // update ball position
-    if (! robot) return Status::Failure;
-    if (! ball) return Status::Waiting;
+    if (! properties->getString("ROLE").empty()) {
+        updateRobot();
+        ball = World::getBall(); // update ball position
+        if (! robot) return Status::Failure;
+        if (! ball) return Status::Waiting;
+    }
     return onUpdate();
 }
 
