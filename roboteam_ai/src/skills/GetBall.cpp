@@ -49,7 +49,7 @@ void GetBall::checkProgression() {
             currentProgress = TURNING;
             return;
         }
-        if (((approachPos-robot->pos)).length()<0.06){
+        if (((approachPos-robot->pos)).length()<Constants::GET_BALL_OVERSHOOT()){
             //std::cout<<"GetBall: OVERSHOOTING -> DRIBBLING"<<std::endl;
             currentProgress=DRIBBLING;
             return;

@@ -57,6 +57,7 @@ public:
     static int MAX_KICK_CYCLES()                { return 20; };
     static int MAX_GENEVA_CYCLES()              { return 20; };
     static int DEFAULT_GENEVA_STATE()           { return 0; };
+    static double GET_BALL_OVERSHOOT()          { return 0.06; };
 
     //dribble
     static double MAX_BALL_BOUNCE_RANGE()       { return GRSIM() ? 0.4 : 0.15; };
