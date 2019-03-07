@@ -24,6 +24,8 @@ bt::Node::Status HasBall::update() {
 
     if (properties->hasDouble("ballRange")) {
         ballRange = properties->getDouble("ballRange");
+    } else {
+        ballRange = Constants::MAX_KICK_RANGE();
     }
 
     if (! robot || ! ball) {

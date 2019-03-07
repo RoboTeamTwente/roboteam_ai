@@ -8,7 +8,7 @@ namespace ai {
 
 class HasBall : public Condition {
 private:
-    double ballRange = Constants::MAX_KICK_RANGE();
+    double ballRange;
 public:
     explicit HasBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
     Status update() override;
