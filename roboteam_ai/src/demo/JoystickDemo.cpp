@@ -22,9 +22,10 @@ void JoystickDemo::demoLoop(roboteam_msgs::DemoRobot msg) {
     rtt::ai::Pause pause;
 
     std::lock_guard<std::mutex> lock(demoLock);
-    if (msg.reserve) {
+    if (msg.reserve && msg.halt == 0) {
         demoRobots.insert(msg.id);
     }
+
     else if (! msg.reserve) {
         demoRobots.erase(msg.id);
     }
