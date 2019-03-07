@@ -21,7 +21,7 @@ Dribble::Progression Dribble::checkProgression() {
             else {
                 stoppingAngle = (float) deltaPos.rotate(M_PI).angle();
             }
-            return STOPPING;
+            return STOPPED;
         }
         else { return ON_THE_WAY; }
     }
@@ -33,8 +33,9 @@ Dribble::Progression Dribble::checkProgression() {
         }
         else if (count >= maxTicks) {
             return DONE;
+        } else {
+            return STOPPED;
         }
-        else return STOPPING;
     }
     else return currentProgress;
 }
@@ -57,9 +58,6 @@ void Dribble::onInitialize() {
         ROS_ERROR("Dribble Initialize -> No maxTicks set!");
     }
 
-    if (properties->hasInt("stopTicks")) {
-        stopTicks = properties->getInt("stopTicks");
-    }
 
     if (properties->hasDouble("distance")) {
         distance = properties->getDouble("distance");
@@ -93,16 +91,6 @@ Dribble::Status Dribble::onUpdate() {
     }
     deltaPos = targetPos - Vector2(ball->pos);
     currentProgress = checkProgression();
-
-    if (currentProgress == STOPPING) {
-        if (stopTick <= stopTicks) {
-            sendStopCommand();
-            std::cout << "STOPPING! Tick: " << stopTick << std::endl;
-            stopTick++;
-        } else {
-            currentProgress = STOPPED;
-        }
-    }
 
     if (currentProgress == STOPPED) {
         sendStopCommand();
