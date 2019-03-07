@@ -22,8 +22,8 @@ public:
     void start(int iterationsPerSecond = Constants::GAME_ANALYSIS_TICK_RATE());
     void stop();
 
-    AnalysisReport getMostRecentReport();
-    AnalysisReport generateReportNow();
+    std::shared_ptr<AnalysisReport> getMostRecentReport();
+    std::shared_ptr<AnalysisReport> generateReportNow();
 
 private:
     GameAnalyzer();
@@ -35,7 +35,7 @@ private:
     volatile bool stopping;
     void loop(unsigned delayMillis);
 
-    AnalysisReport mostRecentReport;
+    std::shared_ptr<AnalysisReport> mostRecentReport;
 
     std::vector<std::pair<roboteam_msgs::WorldRobot, RobotDanger>> getRobotsSortedOnDanger(bool ourTeam);
     double getBallPossessionEstimate(bool ourTeam);

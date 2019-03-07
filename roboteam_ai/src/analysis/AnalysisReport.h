@@ -37,6 +37,8 @@ struct AnalysisReport {
     double ourDistanceToGoalAvg = 0.0;
     double theirDistanceToGoalAvg = 0.0;
 
+    RobotDanger getRobotDangerForId(int id, bool ourTeam);
+
 };
 
 } // analysis

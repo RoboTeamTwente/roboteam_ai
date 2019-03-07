@@ -23,12 +23,10 @@ void Visualizer::paintEvent(QPaintEvent* event) {
     if (rtt::ai::World::didReceiveFirstWorld) {
         drawBackground(painter);
         drawFieldLines(painter);
+        if (showAvailablePasses) drawPasses(painter);
         drawBall(painter);
         drawRobots(painter);
         if (showBallPlacementMarker) drawBallPlacementTarget(painter);
-
-        if (showAvailablePasses) drawPasses(painter);
-
         if (showPath) {
             for (auto robot : selectedRobots) {
                 drawDataPoints(painter, Drawer::getGoToPosLuThPoints(robot.id));
@@ -367,21 +365,17 @@ void Visualizer::drawPasses(QPainter& painter) {
     auto report = rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
 
     std::vector<std::pair<Vector2, Vector2>> lines;
-    for (auto robot : report.ourRobotsSortedOnDanger) {
+    for (auto &robot : report->ourRobotsSortedOnDanger) {
         if (robotIsSelected(robot.first)) {
             Vector2 robotLocation = toScreenPosition(robot.first.pos);
             for (auto robotToPassToId : robot.second.robotsToPassTo) {
                 auto passRobot = World::getRobotForId(robotToPassToId.first, true);
                 Vector2 passRobotLocation = toScreenPosition(passRobot->pos);
-
                 double distance = robotToPassToId.second;
-
                 painter.setBrush(Qt::transparent);
-
-                int opacity = (robotLocation.dist(passRobotLocation) / width()) * 255;
-                painter.setPen({255, 255, 255, 255 - opacity});
+                int opacity = static_cast<int>((robotLocation.dist(passRobotLocation) / width()) * 255);
+                painter.setPen({255, 255, 0, 255 - opacity});
                 painter.drawLine(robotLocation.x, robotLocation.y, passRobotLocation.x, passRobotLocation.y);
-
             }
         }
     };

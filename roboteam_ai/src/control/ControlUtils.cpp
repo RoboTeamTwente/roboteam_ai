@@ -95,19 +95,26 @@ bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::Worl
 
 /// Get the distance from PointToCheck towards a line, the line is not infinite.
 double ControlUtils::distanceToLineWithEnds(Vector2 pointToCheck, Vector2 lineStart, Vector2 lineEnd) {
-    Vector2 n = lineEnd - lineStart;
-    Vector2 pa = lineStart - pointToCheck;
-    Vector2 c = n*(n.dot(pa)/n.dot(n));
-    Vector2 d = pa - c;
-    Vector2 A = (pointToCheck - lineStart).project(lineStart, lineEnd);
-    Vector2 B = (pointToCheck - lineEnd).project(lineEnd, lineStart);
-    if ((A.length() + B.length()) > n.length()) {
-        return fmin(pa.length(), (lineEnd - pointToCheck).length());
+    Vector2 line=lineEnd-lineStart;
+    Vector2 diff=pointToCheck-lineStart;
+    double dot=line.x*diff.x+line.y*diff.y;
+    double len_sq=line.y*line.y+line.x*line.x;
+    double param=-1;
+    if (len_sq!=0){
+        param=dot/len_sq;
     }
-    else return d.length();
+    if (param<0){
+        param=0;
+    }
+    else if (param>1){
+        param=1;
+    }
+    Vector2 project=lineStart+line*param;
+    Vector2 distDiff=pointToCheck-project;
+    return distDiff.length();
 }
 
-//https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
+// https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
 // Given three colinear points p, q, r, the function checks if
 // point q lies on line segment 'pr'
 bool ControlUtils::onLineSegment(Vector2 p, Vector2 q, Vector2 r) {

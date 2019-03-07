@@ -20,16 +20,15 @@ GameAnalyzer& GameAnalyzer::getInstance() {
 }
 
 /// Generate a report with the game analysis
-AnalysisReport GameAnalyzer::generateReportNow() {
-    AnalysisReport report;
+std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
+    std::shared_ptr<AnalysisReport> report = std::make_shared<AnalysisReport>();
 
-    report.recommendedPlayStyle = getRecommendedPlayStyle();
-    report.ballPossession = getBallPossessionEstimate(true);
-    report.ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(true);
-    report.theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(false);
-    report.theirRobotSortedOnDanger = getRobotsSortedOnDanger(false);
-    report.ourRobotsSortedOnDanger = getRobotsSortedOnDanger(true);
-
+    report->recommendedPlayStyle = getRecommendedPlayStyle();
+    report->ballPossession = getBallPossessionEstimate(true);
+    report->ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(true);
+    report->theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(false);
+    report->theirRobotSortedOnDanger = getRobotsSortedOnDanger(false);
+    report->ourRobotsSortedOnDanger = getRobotsSortedOnDanger(true);
     mostRecentReport = report;
     return report;
 }
@@ -98,7 +97,7 @@ RobotDanger GameAnalyzer::evaluateRobotDangerScore(roboteam_msgs::WorldRobot rob
 }
 
 
-AnalysisReport GameAnalyzer::getMostRecentReport() {
+std::shared_ptr<AnalysisReport> GameAnalyzer::getMostRecentReport() {
     return mostRecentReport;
 }
 
