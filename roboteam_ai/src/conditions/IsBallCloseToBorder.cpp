@@ -20,9 +20,7 @@ void IsBallCloseToBorder::initialize() {
 bt::Node::Status IsBallCloseToBorder::update() {
     Vector2 ballPos = World::getBall()->pos;
     if (!properties->getBool("corner")) {
-        if (!Field::pointIsInField(ballPos, static_cast<float>(margin))) {
-            return Status::Success;
-        } else {
+        if (Field::pointIsInField(ballPos, static_cast<float>(margin))) {
             return Status::Failure;
         }
     } else {
@@ -30,13 +28,17 @@ bt::Node::Status IsBallCloseToBorder::update() {
         double xDiff = field.field_length / 2 - abs(ballPos.x);
         double yDiff = field.field_width / 2 - abs(ballPos.y);
 
-        if (layingStill) {
-            if (xDiff < margin && yDiff < margin && Vector2(ball->vel).length() < Constants::BALL_STILL_VEL()) {
-                return Status::Success;
-            } else {
-                return Status::Failure;
-            }
+        if (xDiff >= margin || yDiff >= margin) {
+            return Status::Failure;
         }
+    }
+
+    if (!layingStill) {
+        return Status::Success;
+    } else if (Vector2(ball->vel).length() >= Constants::BALL_STILL_VEL()) {
+        return Status::Success;
+    } else {
+        return Status::Failure;
     }
 }
 
