@@ -13,6 +13,8 @@ IsBallCloseToBorder::IsBallCloseToBorder(std::string name, bt::Blackboard::Ptr b
 void IsBallCloseToBorder::initialize() {
     if (properties->hasDouble("margin")) {
         margin = properties->getDouble("margin");
+    } else {
+        margin = Constants::CLOSE_TO_BORDER_DISTANCE();
     }
     layingStill = properties->getBool("layingStill");
 }
@@ -34,8 +36,9 @@ bt::Node::Status IsBallCloseToBorder::update() {
     }
 
     if (!layingStill) {
+        std::cout << "LOL1" << std::endl;
         return Status::Success;
-    } else if (Vector2(ball->vel).length() >= Constants::BALL_STILL_VEL()) {
+    } else if (Vector2(ball->vel).length() <= Constants::BALL_STILL_VEL()) {
         return Status::Success;
     } else {
         return Status::Failure;

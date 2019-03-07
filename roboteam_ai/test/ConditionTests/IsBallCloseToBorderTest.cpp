@@ -21,7 +21,7 @@ TEST(IsBallCloseToBorderTest, is_not_close_to_border) {
     bt::Blackboard properties;
     auto propertiesPointer = std::make_shared<bt::Blackboard>(properties);
     
-    rtt::ai::IsBallCloseToBorder node("Test", propertiesPointer);
+    rtt::ai::IsBallCloseToBorder node("Testt", propertiesPointer);
     node.initialize();
     
     ASSERT_EQ(node.update(), bt::Node::Status::Failure);
