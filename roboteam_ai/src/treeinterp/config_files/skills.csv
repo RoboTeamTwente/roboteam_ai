@@ -15,5 +15,5 @@ EnterFormation
 DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement
 AvoidBall
 Keeper
-GoAroundPos,targetPos,targetDir,towardsTheirGoal, ball
-GoBehindBall, type
+GoAroundPos,targetPos,targetDir,towardsTheirGoal,ball
+GoBehindBall,type

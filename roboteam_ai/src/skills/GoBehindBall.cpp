@@ -43,14 +43,12 @@ Skill::Status GoBehindBall::onUpdate() {
 }
 
 void GoBehindBall::onInitialize() {
-    std::cout << "am" << std::endl;
     if (properties->hasString("type")) {
         type = stringToUnit(properties->getString("type"));
     }
 }
 
 void GoBehindBall::onTerminate(Skill::Status s) {
-    std::cout << "terminate" << std::endl;
 
 }
 

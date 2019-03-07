@@ -19,7 +19,10 @@ class PreparePenalty : public Skill {
          * 3. Orientation
          * 4. Then wait
          */
-
+    public:
+        explicit PreparePenalty(string name, bt::Blackboard::Ptr blackboard);
+        void onInitialize() override;
+        Status onUpdate() override;
 };
 }
 }

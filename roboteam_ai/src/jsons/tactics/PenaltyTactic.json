@@ -7,47 +7,68 @@
         "root": "jrt62tk991ze7",
         "nodes": {
           "jrt62tk991ze7": {
-            "children": [
-              "ejpylr5bvu1ej"
-            ],
             "id": "jrt62tk991ze7",
-            "title": "Repeater"
+            "title": "Repeater",
+            "children": [
+              "9b9ejow59ogy90cd"
+            ]
           },
-          "ejpylr5bvu1ej": {
-            "id": "ejpylr5bvu1ej",
+          "9b9ejow59ogy90cd": {
+            "id": "9b9ejow59ogy90cd",
             "title": "Role",
             "name": "kicker",
             "role": "PenaltyRole",
             "children": [
-              "hprgz6qousivkvh"
+              "tzamtfgnxk0z4ymk2"
             ],
             "properties": {
               "ROLE": "kicker"
             }
           },
-          "hprgz6qousivkvh": {
-            "id": "hprgz6qousivkvh",
+          "tzamtfgnxk0z4ymk2": {
+            "id": "tzamtfgnxk0z4ymk2",
             "title": "MemSequence",
             "children": [
-              "6vjsw77zqdev2",
-              "1646iqotio3wb"
+              "twkz4r5pkzmgt786w",
+              "c1x6vjnxnfkbjp",
+              "3jbjn19u1igfjy1lz"
             ],
             "properties": {
               "ROLE": "kicker"
             }
           },
-          "6vjsw77zqdev2": {
-            "id": "6vjsw77zqdev2",
+          "twkz4r5pkzmgt786w": {
+            "id": "twkz4r5pkzmgt786w",
+            "title": "BasicGoToPos",
+            "properties": {
+              "target": "{0,0}",
+              "avoidBall": "true",
+              "ROLE": "kicker"
+            }
+          },
+          "c1x6vjnxnfkbjp": {
+            "id": "c1x6vjnxnfkbjp",
             "title": "GoBehindBall",
             "properties": {
               "type": "penalty",
               "ROLE": "kicker"
             }
           },
-          "1646iqotio3wb": {
-            "id": "1646iqotio3wb",
+          "3jbjn19u1igfjy1lz": {
+            "id": "3jbjn19u1igfjy1lz",
+            "title": "Repeater",
+            "children": [
+              "to6hnguh2gd8tj"
+            ],
+            "properties": {
+              "ROLE": "kicker"
+            }
+          },
+          "to6hnguh2gd8tj": {
+            "id": "to6hnguh2gd8tj",
             "title": "GoAroundPos",
             "properties": {
+              "towardsTheirGoal": "true",
               "ball": "true",
               "ROLE": "kicker"
             }
