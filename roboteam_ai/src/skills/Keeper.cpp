@@ -28,7 +28,7 @@ void Keeper::onInitialize() {
 Keeper::Status Keeper::onUpdate() {
         Vector2 ballPos = World::getBall()->pos;
         Vector2 blockPoint = computeBlockPoint(ballPos);
-        if (!Field::pointIsInField(blockPoint, Constants::OUT_OF_FIELD_MARGIN())) {
+        if (!Field::pointIsInField(blockPoint, static_cast<float>(Constants::OUT_OF_FIELD_MARGIN()))) {
             std::cout << "Keeper escaping field!" << std::endl;
             return Status::Running;
         } else {
