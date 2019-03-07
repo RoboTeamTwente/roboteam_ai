@@ -17,7 +17,6 @@ void Attack::onInitialize() {
     shot = false;
 }
 
-// TODO: WTF HARDCODED SHIT EVERYWHERE
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
