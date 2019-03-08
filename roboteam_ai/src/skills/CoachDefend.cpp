@@ -15,19 +15,33 @@ coach::DefensiveCoach::addDefender(robot->id);
 
 
 bt::Node::Status CoachDefend::onUpdate() {
+    coach::DefensiveCoach::updateDefenderLocations();
     auto targetLocation = coach::DefensiveCoach::getDefenderPosition(robot->id);
     if (!targetLocation){
-        ROS_ERROR("Could not find the location of defender in calculated positions!");
-        return bt::Node::Status::Failure;
+        std::cerr<<"Could not find the location of defender "<< robot->id<< " in calculated positions!"<<std::endl;
+        return bt::Node::Status::Running;
     }
-    auto velocities = gtp.goToPos(robot, *targetLocation, control::GoToType::clean);
-
+    auto velocities = gtp.goToPos(robot, targetLocation->first, control::GoToType::basic);
+    velocities=control::ControlUtils::VelocityLimiter(velocities);
     roboteam_msgs::RobotCommand cmd;
     cmd.id = robot->id;
-    cmd.x_vel = static_cast<float>(velocities.x);
-    cmd.y_vel = static_cast<float>(velocities.y);
     cmd.use_angle = 1;
-    cmd.w = static_cast<float>((*targetLocation - robot->pos).angle());
+    if ((targetLocation->first-robot->pos).length()<0.02){
+        cmd.x_vel = 0;
+        cmd.y_vel = 0;
+        cmd.w = static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second));
+    }
+    else if ((targetLocation->first-robot->pos).length()<0.12){
+        cmd.x_vel = static_cast<float>(velocities.x);
+        cmd.y_vel = static_cast<float>(velocities.y);
+        cmd.w = static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second));
+    }
+    else{
+        cmd.x_vel = static_cast<float>(velocities.x);
+        cmd.y_vel = static_cast<float>(velocities.y);
+        cmd.w = static_cast<float>((targetLocation->first - robot->pos).angle());
+    }
+
     publishRobotCommand(cmd);
 
     return bt::Node::Status::Running;
