@@ -17,3 +17,4 @@ AvoidBall
 Keeper
 GoAroundPos,targetPos,targetDir,towardsTheirGoal
 Halt,ticks
+SideAttacker

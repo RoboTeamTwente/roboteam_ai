@@ -4,6 +4,7 @@
 #include "../bt/Leaf.hpp"
 #include <roboteam_msgs/RobotCommand.h>
 #include <roboteam_ai/src/utilities/Coach.h>
+#include <roboteam_ai/src/utilities/OffensiveCoach.h>
 #include "ros/ros.h"
 #include "../io/IOManager.h"
 #include "roboteam_ai/src/control/PositionController.h"

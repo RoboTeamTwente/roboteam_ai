@@ -27,10 +27,11 @@ bt::Node::Status SideAttacker::onUpdate() {
         command.id = robot->id;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
-        Vector2 velocity = goToPos.goToPos(robot, targetPos, GoToType::luTh_OLD);
+        Vector2 velocity = goToPos.goToPos(robot, targetPos, GoToType::BASIC).vel;
         command.x_vel = static_cast<float>(velocity.x);
         command.y_vel = static_cast<float>(velocity.y);
-        publishRobotCommand(command);
+        coach::OffensiveCoach::calculatePositionScore(robot->pos);
+        //publishRobotCommand(command);
 
     }
     else {
@@ -43,13 +44,13 @@ bt::Node::Status SideAttacker::onUpdate() {
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
         if (World::ourBotHasBall(robot->id)) {
             command.kicker = 1;
-            command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER);
+            command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
             command.kicker_forced = 1;
         }
-        Vector2 velocity = goToPos.goToPos(robot, targetPos, GoToType::BASIC);
+        Vector2 velocity = goToPos.goToPos(robot, targetPos, GoToType::BASIC).vel;
         command.x_vel = static_cast<float>(velocity.x);
         command.y_vel = static_cast<float>(velocity.y);
-        publishRobotCommand(command);
+        //publishRobotCommand(command);
     }
 
     return Status::Running;
@@ -64,7 +65,7 @@ void SideAttacker::onTerminate(Status s) {
     command.x_vel = 0;
     command.y_vel = 0;
 
-    publishRobotCommand(command);
+    //publishRobotCommand(command);
 }
 
 } // ai
