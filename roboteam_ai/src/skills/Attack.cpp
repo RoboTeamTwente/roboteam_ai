@@ -12,14 +12,20 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void Attack::onInitialize() {
+    ownGoal = properties->getBool("ownGoal");
     goToPos.setAvoidBall(true);
+    shot = false;
 }
 
-// TODO: WTF HARDCODED SHIT EVERYWHERE
 /// Get an update on the skill
 
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
+
+    if (shot && !World::botHasBall(robot->id, true)) {
+        return Status::Success;
+    }
+
 
     ballTarget = Field::get_their_goal_center();
     genevaState = 3;
@@ -47,32 +53,35 @@ bt::Node::Status Attack::onUpdate() {
 
     Vector2 ball = World::getBall()->pos;
     Vector2 aimPos = control::ControlUtils::getGenevaAim(ball, ballTarget, genevaState);
-    Vector2 behindBall = Coach::getPositionBehindBallToPosition(0.3, aimPos);
+    Vector2 behindBall = Coach::getPositionBehindBallToPosition(0.2, aimPos);
     Vector2 deltaBall = behindBall - ball;
 
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.geneva_state = genevaState;
 
-    GoToType goToType;
-
     if (! Coach::isRobotBehindBallToPosition(0.3, aimPos, robot->pos)) {
         targetPos = behindBall;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
-        goToType = GoToType::NUMERIC_TREES;
-        if (abs(((Vector2) robot->pos - targetPos).length()) < 1.0) goToType = GoToType::BASIC;
+        goToPos.setAvoidBall(true);
+
+        if (abs(((Vector2) robot->pos - targetPos).length()) < 0.10) {
+            goToPos.setAvoidBall(false);
+        }
     }
     else {
         targetPos = ball;
+        goToPos.setAvoidBall(false);
         command.use_angle = 1;
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
-        if (World::botHasBall(robot->id,true)) {
+        if (World::botHasBall(robot->id, true)) {
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
             command.kicker_forced = 1;
+            shot = true;
         }
-        goToType = GoToType::BASIC;
+
     }
 
     Vector2 velocity;
@@ -82,24 +91,20 @@ bt::Node::Status Attack::onUpdate() {
     else if (Field::pointIsInDefenceArea(robot->pos, false, 0.0)) {
         velocity = ((Vector2) robot->pos - targetPos).stretchToLength(2.0);
     }
-    else if (Field::pointIsInDefenceArea(ball, true) || Field::pointIsInDefenceArea(ball, false)) {
+    else if (Field::pointIsInDefenceArea(ball, ownGoal) || Field::pointIsInDefenceArea(ball, !ownGoal)) {
         velocity = {0, 0};
     }
-    else if (Field::pointIsInDefenceArea(targetPos, true)) {
+    else if (Field::pointIsInDefenceArea(targetPos, ownGoal)) {
         velocity = {0, 0};
     }
     else {
-        velocity = goToPos.goToPos(robot, targetPos, goToType).vel;
+        velocity = goToPos.goToPos(robot, targetPos, GoToType::NUMERIC_TREES).vel;
     }
-    if (velocity.length() < 0.5 && velocity.length() > 0.04)
-        velocity.stretchToLength(0.5);
 
     velocity = control::ControlUtils::VelocityLimiter(velocity);
 
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
-
-    // std::cout << "Geneva state: " << command.geneva_state << std::endl;
     publishRobotCommand(command);
 
     return Status::Running;

@@ -18,7 +18,7 @@ DribbleRotate::DribbleRotate(rtt::string name, bt::Blackboard::Ptr blackboard)
 
 void DribbleRotate::checkProgression() {
     double angDif = Control::angleDifference(robot->angle, targetAngle);
-    if (World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())){ // change to !botHassball() alter
+    if (!World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())){ // change to !botHassball() alter
         currentProgression=FAIL;
         return;
     }

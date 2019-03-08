@@ -26,6 +26,8 @@ class InterceptBall :public Skill {
         bool missedBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel);
         bool ballDeflected();
 
+        control::PositionController goToPos;
+
         Vector2 ballStartPos, ballStartVel, ballEndPos, interceptPos;
         Vector2 deltaPos;
         int tickCount, maxTicks;
@@ -42,6 +44,7 @@ class InterceptBall :public Skill {
 
     public:
         explicit InterceptBall(string name, bt::Blackboard::Ptr blackboard);
+        void sendMoveCommand(Vector2 targetPos);
         Status onUpdate() override;
         void onInitialize() override;
         void onTerminate(Status s) override;

@@ -18,7 +18,8 @@ class Attack : public Skill {
         Vector2 ballTarget;
         Vector2 targetPos;
         int genevaState = 0;
-
+        bool ownGoal = false;
+        bool shot = false;
     public:
         explicit Attack(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;
