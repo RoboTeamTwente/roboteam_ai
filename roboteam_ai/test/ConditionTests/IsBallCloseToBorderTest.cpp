@@ -4,11 +4,14 @@
 
 #include <gtest/gtest.h>
 #include "../../src/conditions/IsBallCloseToBorder.h"
+#include "../../src/utilities/Field.h"
+#include "../../src/utilities/Coach.h"
 
 namespace rtt{
 namespace ai {
 
 TEST(IsBallCloseToBorderTest, is_not_close_to_border) {
+    robotDealer::RobotDealer::halt();
     roboteam_msgs::GeometryFieldSize field;
     field.field_width = 9;
     field.field_length = 12;
@@ -16,12 +19,13 @@ TEST(IsBallCloseToBorderTest, is_not_close_to_border) {
 
     roboteam_msgs::World world;
     world.ball.pos = Vector2{0, 0};
+    world.ball.visible = static_cast<unsigned char>(true);
     World::set_world(world);
     
     bt::Blackboard properties;
     auto propertiesPointer = std::make_shared<bt::Blackboard>(properties);
     
-    rtt::ai::IsBallCloseToBorder node("Testt", propertiesPointer);
+    rtt::ai::IsBallCloseToBorder node("Test", propertiesPointer);
     node.initialize();
     
     ASSERT_EQ(node.update(), bt::Node::Status::Failure);

@@ -36,7 +36,6 @@ bt::Node::Status IsBallCloseToBorder::update() {
     }
 
     if (!layingStill) {
-        std::cout << "LOL1" << std::endl;
         return Status::Success;
     } else if (Vector2(ball->vel).length() <= Constants::BALL_STILL_VEL()) {
         return Status::Success;
