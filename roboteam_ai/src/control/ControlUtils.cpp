@@ -10,6 +10,7 @@ namespace rtt {
 namespace ai {
 namespace control {
 
+// Maps geneva states to their corresponding angles in radians
 std::map<int, double> ControlUtils::genevaMap = {
         {1, -20.0 / 180 * M_PI},
         {2, -10.0 / 180 * M_PI},
