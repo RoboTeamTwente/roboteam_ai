@@ -159,7 +159,7 @@ bool GameAnalyzer::isClosingInToGoal(roboteam_msgs::WorldRobot robot, bool ourTe
 void GameAnalyzer::start(int iterationsPerSecond) {
     if (!running) {
         ROS_INFO_STREAM_NAMED("GameAnalyzer", "Starting at " << iterationsPerSecond << " iterations per second");
-        auto delay = (unsigned) (1000/iterationsPerSecond);
+        auto delay = (unsigned) (1000/iterationsPerSecond); //TODO: Why is this integer division?
         thread = std::thread(&GameAnalyzer::loop, this, delay);
         running = true;
     }
