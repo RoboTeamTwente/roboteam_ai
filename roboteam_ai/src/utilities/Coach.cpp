@@ -155,8 +155,8 @@ Vector2 Coach::getDefensivePosition(int robotId) {
 
     for (unsigned int i = 0; i<defenders.size(); i++) {
         double targetLocationY = ((field.field_width/(defenders.size() + 1))*(i+1)) - field.field_width/2;
-        targetLocations.push_back({targetLocationX, targetLocationY});
-        robotLocations.push_back(World::getRobotForId(defenders.at(i), true)->pos);
+        targetLocations.emplace_back(targetLocationX, targetLocationY);
+        robotLocations.emplace_back(World::getRobotForId(defenders.at(i), true)->pos);
     }
 
     // the order of shortestDistances should be the same order as robotLocations
@@ -227,8 +227,8 @@ Vector2 Coach::getFormationPosition(int robotId) {
 
     for (unsigned int i = 0; i<robotsInFormation.size(); i++) {
         double targetLocationY = ((field.field_width/(robotsInFormation.size() + 1))*(i+1)) - field.field_width/2;
-        targetLocations.push_back({targetLocationX, targetLocationY});
-        robotLocations.push_back(World::getRobotForId(robotsInFormation.at(i), true)->pos);
+        targetLocations.emplace_back(targetLocationX, targetLocationY);
+        robotLocations.emplace_back(World::getRobotForId(robotsInFormation.at(i), true)->pos);
     }
 
     // the order of shortestDistances should be the same order as robotLocations
