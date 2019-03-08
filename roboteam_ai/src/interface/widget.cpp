@@ -78,7 +78,12 @@ void Visualizer::drawFieldLines(QPainter &painter) {
 void Visualizer::drawBall(QPainter &painter) {
     rtt::Vector2 ballPosition = toScreenPosition(rtt::ai::World::get_world().ball.pos);
     QPointF qballPosition(ballPosition.x, ballPosition.y);
-    painter.setBrush(Constants::BALL_COLOR()); // fill
+    if (!rtt::ai::World::get_world().ball.visible){
+        painter.setBrush(Qt::red); // fill
+    }
+    else{
+        painter.setBrush(Constants::BALL_COLOR()); // fill
+    }
     painter.setPen(Qt::NoPen); // stroke
     painter.drawEllipse(qballPosition, Constants::BALL_DRAWING_SIZE(), Constants::BALL_DRAWING_SIZE());
 }

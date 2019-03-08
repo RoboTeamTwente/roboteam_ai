@@ -12,7 +12,6 @@ IsRobotClosestToBall::IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr
 : Condition(std::move(name), std::move(blackboard)) { }
 
 bt::Node::Status IsRobotClosestToBall::update() {
-    robot = getRobotFromProperties(properties);
     roboteam_msgs::World world = World::get_world();
     Vector2 ballPos(world.ball.pos);
     std::vector<roboteam_msgs::WorldRobot> robots = world.us;

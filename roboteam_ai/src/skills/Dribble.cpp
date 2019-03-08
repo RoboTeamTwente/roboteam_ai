@@ -33,20 +33,11 @@ Dribble::Progression Dribble::checkProgression() {
         }
         else if (count >= maxTicks) {
             return DONE;
+        } else {
+            return STOPPED;
         }
-        else return STOPPED;
     }
-    else if (currentProgress == DONE) {
-        return DONE;
-    }
-    else if (currentProgress == FAIL) {
-        return FAIL;
-    }
-    else if (currentProgress == WAITING) {
-        return WAITING;
-    }
-
-    return FAIL;
+    else return currentProgress;
 }
 
 void Dribble::onInitialize() {
@@ -59,17 +50,26 @@ void Dribble::onInitialize() {
     else if (properties->getBool("BallPlacement")){
         targetPos=Coach::getBallPlacementPos();
     }
-    else {
-        ROS_ERROR("Dribble Initialize -> No good X or Y set in properties");
-        currentProgress = Progression::FAIL;
-        return;
-    }
+
     if (properties->hasInt("maxTicks")) {
         maxTicks = properties->getInt("maxTicks");
     }
     else {
         ROS_ERROR("Dribble Initialize -> No maxTicks set!");
     }
+
+
+    if (properties->hasDouble("distance")) {
+        distance = properties->getDouble("distance");
+        double targetAngle;
+        if (forwardDirection) {
+            targetAngle = robot->angle;
+        } else {
+            targetAngle = control::ControlUtils::constrainAngle(robot->angle - M_PI);
+        }
+        targetPos = (Vector2)robot->pos + Vector2({distance, 0}).rotate(targetAngle);
+    }
+
     if (! World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
         ROS_ERROR("Dribble Initialize -> Robot does not have the ball!");
         currentProgress = Progression::FAIL;
@@ -79,7 +79,7 @@ void Dribble::onInitialize() {
     count = 0;
 
     stoppingAngle = robot->angle; // default to the current angle
-    initialAngle=robot->angle;
+    initialAngle = robot->angle;
 }
 
 Dribble::Status Dribble::onUpdate() {
@@ -101,6 +101,7 @@ Dribble::Status Dribble::onUpdate() {
 
     switch (currentProgress) {
         case ON_THE_WAY: return Status::Running;
+        case STOPPING: return Status::Running;
         case STOPPED: return Status::Running;
         case DONE: return Status::Success;
         case FAIL: return Status::Failure;
@@ -117,7 +118,11 @@ void Dribble::onTerminate(Status s) {
     else {
         command.w = (float) stoppingAngle;
     }
-    command.dribbler = 0;
+    if (properties->getBool("dribbleOnTerminate")){
+        command.dribbler=1;
+    } else{
+        command.dribbler = 0;
+    }
     command.x_vel = 0;
     command.y_vel = 0;
     publishRobotCommand(command);
@@ -145,7 +150,11 @@ void Dribble::sendStopCommand() {
     command.w = stoppingAngle;
     command.use_angle = 1;
     command.w = stoppingAngle;
-    command.dribbler = 0;
+    if (properties->getBool("dribbleOnTerminate")){
+        command.dribbler=1;
+    } else{
+        command.dribbler = 0;
+    }
     command.x_vel = 0;
     command.y_vel = 0;
     publishRobotCommand(command);

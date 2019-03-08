@@ -15,6 +15,7 @@ class BallInDefenseAreaAndStill : public Condition {
     FRIEND_TEST(DetectsDefenseArea,BallInDefenseAreaAndStill);
 private:
     bool theirDefenceArea;
+    bool outsideField = false;
 public:
     explicit BallInDefenseAreaAndStill(std::string name = "BallInDefenseAreaAndStill", bt::Blackboard::Ptr blackboard = nullptr);
     void initialize() override;
