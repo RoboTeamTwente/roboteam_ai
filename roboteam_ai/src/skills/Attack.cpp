@@ -50,6 +50,7 @@ bt::Node::Status Attack::onUpdate() {
 
         /// Set the geneva to one angle lower if the distance from the goal is more than 1,5 times the goal width
         if (ball->pos.x < field.field_width - 1.5 * field.goal_width) {
+            /// Set geneva to 4 if it is 5, set geneva to 2 if it is 1
             genevaState += (3 - genevaState) / 2;
         }
     }

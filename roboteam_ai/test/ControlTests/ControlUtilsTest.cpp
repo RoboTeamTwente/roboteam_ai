@@ -224,6 +224,7 @@ TEST(ControlUtils, getGenevaAimTest) {
     for (int genevaState : {1, 2, 3, 4, 5}) {
         Vector2 aimPos = rtt::ai::control::ControlUtils::getGenevaAim(ballPos, targetPos, genevaState);
         double aimAngle = tanh(aimPos.y / aimPos.x);
-        ASSERT_GT(0.0001, aimAngle - rtt::ai::control::ControlUtils::genevaMap[genevaState]);
+        double genevaAngle = rtt::ai::control::ControlUtils::genevaMap[genevaState];
+        ASSERT_NEAR(0, aimAngle + genevaAngle, 0.001);
     }
 }
