@@ -19,14 +19,26 @@ bool JoystickDemo::isDemo() {
 
 /// Tool to check if demo stuff should happen every loop
 void JoystickDemo::demoLoop(roboteam_msgs::DemoRobot msg) {
+    rtt::ai::Pause pause;
 
     std::lock_guard<std::mutex> lock(demoLock);
-    if (msg.reserve) {
+    if (msg.reserve && msg.halt == 0) {
         demoRobots.insert(msg.id);
     }
-    else{
+    else if (! msg.reserve && msg.halt == 0) {
         demoRobots.erase(msg.id);
     }
+    else if (msg.halt == 1 && msg.id == -1) {
+        pause.setPause(true);
+        pause.haltRobots();
+    }
+    else if (msg.halt == 2 && msg.id == -1) {
+        pause.setPause(false);
+    }
+    else {
+        std::cout << "Pause Else should never be hit" << std::endl;
+    }
+
 }
 
 /// Returns the robots that are used in the demo
