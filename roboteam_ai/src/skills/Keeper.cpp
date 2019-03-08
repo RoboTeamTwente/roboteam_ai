@@ -30,8 +30,15 @@ Keeper::Status Keeper::onUpdate() {
         Vector2 blockPoint = computeBlockPoint(ballPos);
         if (!Field::pointIsInField(blockPoint, static_cast<float>(Constants::OUT_OF_FIELD_MARGIN()))) {
             std::cout << "Keeper escaping field!" << std::endl;
+            sendStopCommand();
             return Status::Running;
         } else {
+            double dist = (blockPoint - (Vector2(robot->pos))).length(); //using point distance not line distance.
+            if (dist < Constants::KEEPER_POSDIF()) {
+                sendStopCommand();
+                return Status::Running;
+            }
+
             Vector2 velocities = goToPos.goToPos(robot, blockPoint, GoToType::BASIC).vel;
             velocities = control::ControlUtils::VelocityLimiter(velocities);
             roboteam_msgs::RobotCommand command;
@@ -42,18 +49,6 @@ Keeper::Status Keeper::onUpdate() {
             return Status::Running;
 
         }
-        //double dist=control::ControlUtils::distanceToLine(robot->pos,ballPos,blockPoint);
-        double dist = (blockPoint - (Vector2(robot->pos))).length(); //using point distance not line distance.
-        if (dist < Constants::KEEPER_POSDIF()) {
-            sendStopCommand();
-        }
-        else if (dist < 2*Constants::ROBOT_RADIUS()){
-            sendFineMoveCommand(blockPoint);
-        }
-        else {
-            sendMoveCommand(blockPoint);
-        }
-        return Status::Running;
 }
 
 void Keeper::onTerminate(Status s) {

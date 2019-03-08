@@ -37,12 +37,13 @@ bt::Node::Status Attack::onUpdate() {
     // Overwrite set genevaState if autoGeneva is true
     if (properties->getBool("autoGeneva")) {
         roboteam_msgs::GeometryFieldSize field = Field::get_field();
+        double xTarget = ownGoal ? -field.field_length / 2 : field.field_length / 2;
         if (ball->pos.y > 0) {
-            genevaState = 5;
-            ballTarget = {field.field_length / 2, 0.33 * field.goal_width};
+            genevaState = ownGoal ? 1 : 5;
+            ballTarget = {xTarget, 0.30 * field.goal_width};
         } else {
-            genevaState = 1;
-            ballTarget = {field.field_length / 2, -0.33 * field.goal_width};
+            genevaState = ownGoal ? 5 : 1;
+            ballTarget = {xTarget, -0.30 * field.goal_width};
         }
 
         // Set the geneva to one angle lower if the distance from the goal is more than 1,5 times the goal width
@@ -98,7 +99,7 @@ bt::Node::Status Attack::onUpdate() {
         velocity = {0, 0};
     }
     else {
-        velocity = goToPos.goToPos(robot, targetPos, GoToType::NUMERIC_TREES).vel;
+        velocity = goToPos.goToPos(robot, targetPos, GoToType::BASIC).vel;
     }
 
     velocity = control::ControlUtils::VelocityLimiter(velocity);

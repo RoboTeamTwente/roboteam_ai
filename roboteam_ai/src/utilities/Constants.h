@@ -70,7 +70,7 @@ public:
     static double HAS_BALL_ANGLE()              { return 0.2; }
 
     //kick
-    static double MAX_KICK_RANGE()              { return GRSIM() ? 0.4 : 0.04; };
+    static double MAX_KICK_RANGE()              { return GRSIM() ? 0.01 : 0.04; };
 
     //getBall
     static double COLLISION_RADIUS()            { return 0.18; };
@@ -88,7 +88,7 @@ public:
     //Keeper
     static double KEEPER_POST_MARGIN()          { return 0.08; };//m
     static double KEEPER_CENTREGOAL_MARGIN()    { return 0.3; };//m
-    static double KEEPER_POSDIF()               { return 0.01; };
+    static double KEEPER_POSDIF()               { return 0.005; };
 
     //ballkickedtoGoal
     static double BALL_TO_GOAL_MARGIN()         { return BALL_RADIUS(); };//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
