@@ -34,7 +34,9 @@ bt::Node::Status Attack::onUpdate() {
         genevaState = properties->getInt("genevaState");
     }
 
-    // Overwrite set genevaState if autoGeneva is true
+    /// Overwrite set genevaState if autoGeneva is true
+    /// Robot is set to shoot in the "short corner" but look at the other corner
+
     if (properties->getBool("autoGeneva")) {
         roboteam_msgs::GeometryFieldSize field = Field::get_field();
         double xTarget = ownGoal ? -field.field_length / 2 : field.field_length / 2;
@@ -46,7 +48,7 @@ bt::Node::Status Attack::onUpdate() {
             ballTarget = {xTarget, -0.30 * field.goal_width};
         }
 
-        // Set the geneva to one angle lower if the distance from the goal is more than 1,5 times the goal width
+        /// Set the geneva to one angle lower if the distance from the goal is more than 1,5 times the goal width
         if (ball->pos.x < field.field_width - 1.5 * field.goal_width) {
             genevaState += (3 - genevaState) / 2;
         }
