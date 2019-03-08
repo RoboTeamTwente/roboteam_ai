@@ -20,6 +20,7 @@ class Attack : public Skill {
         int genevaState = 0;
         bool ownGoal = false;
         bool shot = false;
+        double smallerGenevaMargin;
     public:
         explicit Attack(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;

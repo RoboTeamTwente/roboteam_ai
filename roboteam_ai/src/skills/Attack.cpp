@@ -15,6 +15,9 @@ void Attack::onInitialize() {
     ownGoal = properties->getBool("ownGoal");
     goToPos.setAvoidBall(true);
     shot = false;
+
+    roboteam_msgs::GeometryFieldSize field = Field::get_field();
+    smallerGenevaMargin = (field.field_length / 2) - (1.5 * field.goal_width);
 }
 
 /// Get an update on the skill
@@ -49,9 +52,13 @@ bt::Node::Status Attack::onUpdate() {
         }
 
         /// Set the geneva to one angle lower if the distance from the goal is more than 1,5 times the goal width
-        if (ball->pos.x < field.field_width - 1.5 * field.goal_width) {
+        if ((!ownGoal && ball->pos.x < smallerGenevaMargin) || (ownGoal && ball->pos.x >  -smallerGenevaMargin)) {
             /// Set geneva to 4 if it is 5, set geneva to 2 if it is 1
-            genevaState += (3 - genevaState) / 2;
+            if (genevaState == 5) {
+                genevaState = 4;
+            } else if (genevaState == 1) {
+                genevaState = 2;
+            }
         }
     }
 
