@@ -271,7 +271,7 @@ Vector2 ControlUtils::calculateForce(rtt::Vector2 vector, double weight, double 
     return {0, 0};
 }
 
-
+/// Calculates the position the robot should "aim" at given the ballPos, a targetPos and the geneva state
 Vector2 ControlUtils::getGenevaAim(Vector2 ballPos, Vector2 targetPos, int genevaState) {
     double angleToTarget = (targetPos - ballPos).angle();
     double genevaAngle = genevaMap[genevaState];
