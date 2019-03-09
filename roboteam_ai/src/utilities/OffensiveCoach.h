@@ -23,6 +23,7 @@ private:
 
     static std::vector<offensivePosition> offensivePositions;
     static int maxPositions;
+    static std::map<int, int> robotPositions;
 
     static bool compareByScore(const offensivePosition position1, const offensivePosition position2);
     static double calculateCloseToGoalScore(Vector2 position);
@@ -33,6 +34,11 @@ private:
 public:
     static double calculatePositionScore(Vector2 position);
     static void calculateNewPositions();
+    static void visualizePositions();
+
+    static void setRobot(int robotID);
+    static void releaseRobot(int robotID);
+    static Vector2 getPositionForRobotID(int robotID);
 
 };
 

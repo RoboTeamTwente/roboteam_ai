@@ -2,13 +2,16 @@
 // Created by robzelluf on 3/8/19.
 //
 
+#include <roboteam_ai/src/interface/widget.h>
 #include "OffensiveCoach.h"
 
 namespace rtt{
 namespace ai{
 namespace coach {
 
-int OffensiveCoach::maxPositions = 5;
+int OffensiveCoach::maxPositions = 8;
+std::vector<OffensiveCoach::offensivePosition> OffensiveCoach::offensivePositions;
+std::map<int, int> OffensiveCoach::robotPositions;
 
 double OffensiveCoach::calculateCloseToGoalScore(Vector2 position) {
     roboteam_msgs::GeometryFieldSize field = Field::get_field();
@@ -45,8 +48,12 @@ double OffensiveCoach::calculatePassLineScore(Vector2 position, roboteam_msgs::W
 
 double OffensiveCoach::calculateDistanceToOpponentsScore(Vector2 position, roboteam_msgs::World world) {
     shared_ptr<roboteam_msgs::WorldRobot> closestRobot = World::getRobotClosestToPoint(world.them, position);
-    double distance = (position - closestRobot->pos).length();
-    return 1 - exp(0.4 * distance);
+    if (closestRobot) {
+        double distance = (position - closestRobot->pos).length();
+        return 1 - exp(0.4 * distance);
+    } else {
+        return 1;
+    }
 }
 
 double OffensiveCoach::calculateDistanceToTeamScore(Vector2 position, roboteam_msgs::World world){
@@ -105,6 +112,38 @@ void OffensiveCoach::calculateNewPositions() {
 
 bool OffensiveCoach::compareByScore(const offensivePosition position1, const offensivePosition position2) {
     return position1.score > position2.score;
+}
+
+void OffensiveCoach::visualizePositions() {
+    int showPositions = 3;
+    int i = 0;
+    while (i <= showPositions) {
+        std::cout << offensivePositions[i].position << std::endl;
+        i++;
+    }
+}
+
+void OffensiveCoach::setRobot(int robotID) {
+    std::map<int,int>::iterator it;
+    int i = 0;
+    while (i <= maxPositions) {
+        for (it = robotPositions.begin(); it != robotPositions.end(); ++it) {
+            if (it->second == i) {
+                continue;
+            }
+            robotPositions[robotID] = i;
+        }
+        i++;
+    }
+}
+
+void OffensiveCoach::releaseRobot(int robotID) {
+    robotPositions.erase(robotID);
+}
+
+Vector2 OffensiveCoach::getPositionForRobotID(int robotID) {
+    int positionIndex = robotPositions[robotID];
+    return offensivePositions[positionIndex].position;
 }
 
 }
