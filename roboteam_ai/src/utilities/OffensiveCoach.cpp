@@ -56,10 +56,6 @@ double OffensiveCoach::calculateDistanceToOpponentsScore(Vector2 position, robot
     }
 }
 
-double OffensiveCoach::calculateDistanceToTeamScore(Vector2 position, roboteam_msgs::World world){
-
-}
-
 double OffensiveCoach::calculatePositionScore(Vector2 position) {
     roboteam_msgs::World world = World::get_world();
     double closeToGoalScore = calculateCloseToGoalScore(position);
@@ -111,7 +107,7 @@ void OffensiveCoach::calculateNewPositions() {
 }
 
 bool OffensiveCoach::compareByScore(const offensivePosition position1, const offensivePosition position2) {
-    return position1.score > position2.score;
+    return position1.score < position2.score;
 }
 
 void OffensiveCoach::visualizePositions() {
@@ -124,6 +120,10 @@ void OffensiveCoach::visualizePositions() {
 }
 
 void OffensiveCoach::setRobot(int robotID) {
+    for (offensivePosition position : offensivePositions) {
+        std::cout << position.position << std::endl;
+    }
+
     std::map<int,int>::iterator it;
     int i = 0;
     while (i <= maxPositions) {
@@ -143,7 +143,9 @@ void OffensiveCoach::releaseRobot(int robotID) {
 
 Vector2 OffensiveCoach::getPositionForRobotID(int robotID) {
     int positionIndex = robotPositions[robotID];
-    return offensivePositions[positionIndex].position;
+    Vector2 position = offensivePositions[positionIndex].position;
+    std::cout << "Robot " << robotID << " - " << position << std::endl;
+    return position;
 }
 
 }

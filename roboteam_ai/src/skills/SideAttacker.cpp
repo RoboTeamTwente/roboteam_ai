@@ -13,15 +13,16 @@ SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard)
 
 void SideAttacker::onInitialize() {
     coach::OffensiveCoach::setRobot(robot->id);
+    targetPos = coach::OffensiveCoach::getPositionForRobotID(robot->id);
 }
 
 
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
     if (! robot) return Status::Running;
-    targetPos = coach::OffensiveCoach::getPositionForRobotID(robot->id);
-    std::cout << "ID: " << robot->id << " - " << targetPos << std::endl;
-    Vector2 velocity = goToPos.goToPos(robot, targetPos, GoToType::BASIC).vel;
+    if (((Vector2)robot->pos - targetPos).length() < 0.05) return Status::Success;
+    auto newPosition = goToPos.goToPos(robot, targetPos);
+    Vector2 velocity = newPosition.vel;
 
     velocity = control::ControlUtils::VelocityLimiter(velocity);
 
@@ -29,9 +30,8 @@ bt::Node::Status SideAttacker::onUpdate() {
     command.id = robot->id;
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
-    command.w = static_cast<float>(velocity.angle());
+    command.w = static_cast<float>(newPosition.angle);
     publishRobotCommand(command);
-
     return Status::Running;
 }
 
@@ -44,7 +44,8 @@ void SideAttacker::onTerminate(Status s) {
     command.x_vel = 0;
     command.y_vel = 0;
 
-    //publishRobotCommand(command);
+    publishRobotCommand(command);
+    coach::OffensiveCoach::releaseRobot(robot->id);
 }
 
 } // ai
