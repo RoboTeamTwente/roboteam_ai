@@ -58,6 +58,7 @@ void ApplicationManager::runOneLoopCycle() {
     ros::spinOnce();
     this->updateROSData();
     this->updateDangerfinder();
+    rtt::ai::coach::OffensiveCoach::calculateNewPositions();
 
     if (ai::World::didReceiveFirstWorld) {
         if (BTFactory::getCurrentTree() == "NaN") {
