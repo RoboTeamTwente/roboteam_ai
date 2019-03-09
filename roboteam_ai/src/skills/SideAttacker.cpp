@@ -20,8 +20,9 @@ void SideAttacker::onInitialize() {
 bt::Node::Status SideAttacker::onUpdate() {
     if (! robot) return Status::Running;
     targetPos = coach::OffensiveCoach::getPositionForRobotID(robot->id);
-    std::cout << targetPos << std::endl;
+    std::cout << "ID: " << robot->id << " - " << targetPos << std::endl;
     Vector2 velocity = goToPos.goToPos(robot, targetPos, GoToType::BASIC).vel;
+
     velocity = control::ControlUtils::VelocityLimiter(velocity);
 
     roboteam_msgs::RobotCommand command;

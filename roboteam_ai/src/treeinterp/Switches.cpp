@@ -291,7 +291,11 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
              }
             },
             {"SideAttackerTactic", {
-                   {"sideAttacker1", robotType::closeToTheirGoal}
+                   {"sideAttacker1", robotType::closeToTheirGoal},
+                   {"sideAttacker2", robotType::closeToTheirGoal},
+                   {"sideAttacker3", robotType::closeToTheirGoal},
+                   {"sideAttacker4", robotType::closeToTheirGoal}
+
            }
             }
     };
