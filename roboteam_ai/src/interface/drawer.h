@@ -26,10 +26,11 @@ class Drawer {
         static void setInterceptPoints(int id, GTPPoints points);
         static GTPPoints getInterceptPoints(int id);
     private:
-        static std::mutex goToPosMutex,keeperMutex,interceptMutex;
+        static std::mutex goToPosMutex,keeperMutex,interceptMutex,offensiveMutex;
         static std::map<int, GTPPoints> GoToPosLuThPoints;
         static std::map<int, GTPPoints> KeeperPoints;
         static std::map<int, GTPPoints> InterceptPoints;
+        static std::map<int, GTPPoints> OffensivePoints;
 };
 
 } // interface

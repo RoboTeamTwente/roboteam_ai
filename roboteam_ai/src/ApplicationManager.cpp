@@ -58,7 +58,6 @@ void ApplicationManager::runOneLoopCycle() {
     ros::spinOnce();
     this->updateROSData();
     this->updateDangerfinder();
-    rtt::ai::coach::OffensiveCoach::calculateNewPositions();
 
     if (ai::World::didReceiveFirstWorld) {
         if (BTFactory::getCurrentTree() == "NaN") {
@@ -83,6 +82,8 @@ void ApplicationManager::runOneLoopCycle() {
         strategy = factory.getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
+
+        rtt::ai::coach::OffensiveCoach::calculateNewPositions();
     }
     else {
         ROS_ERROR("No first world");

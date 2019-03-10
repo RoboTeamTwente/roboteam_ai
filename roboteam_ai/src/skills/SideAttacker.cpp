@@ -25,13 +25,16 @@ bt::Node::Status SideAttacker::onUpdate() {
     Vector2 velocity = newPosition.vel;
 
     velocity = control::ControlUtils::VelocityLimiter(velocity);
+    if (robotDealer::RobotDealer::getRoleNameForId(robot->id) == "sideAttacker1") {
+        std::cout << coach::OffensiveCoach::calculatePositionScore(robot->pos) << std::endl;
+    }
 
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     command.w = static_cast<float>(newPosition.angle);
-    publishRobotCommand(command);
+    //publishRobotCommand(command);
     return Status::Running;
 }
 

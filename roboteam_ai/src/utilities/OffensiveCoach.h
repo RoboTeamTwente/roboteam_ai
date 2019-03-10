@@ -15,12 +15,14 @@ namespace coach {
 
 
 class OffensiveCoach {
-private:
+public:
     struct offensivePosition {
         Vector2 position;
         double score;
     };
+    static const vector<offensivePosition> &getOffensivePositions();
 
+private:
     static std::vector<offensivePosition> offensivePositions;
     static int maxPositions;
     static std::map<int, int> robotPositions;
