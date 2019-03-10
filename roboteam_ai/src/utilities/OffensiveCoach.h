@@ -8,6 +8,7 @@
 #include <roboteam_utils/Vector2.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/utilities/Field.h>
+#include <algorithm>
 
 namespace rtt {
 namespace ai {
@@ -20,14 +21,15 @@ public:
         Vector2 position;
         double score;
     };
-    static const vector<offensivePosition> &getOffensivePositions();
+    static vector<offensivePosition> &getOffensivePositions();
 
 private:
+    static double newRobotPositionMargin;
     static std::vector<offensivePosition> offensivePositions;
     static int maxPositions;
-    static std::map<int, int> robotPositions;
+    static std::map<int, offensivePosition> robotPositions;
 
-    static bool compareByScore(const offensivePosition position1, const offensivePosition position2);
+    static bool compareByScore(offensivePosition position1, offensivePosition position2);
     static double calculateCloseToGoalScore(Vector2 position);
     static double calculateShotAtGoalScore(Vector2 position, roboteam_msgs::World world);
     static double calculatePassLineScore(Vector2 position, roboteam_msgs::World world);
@@ -37,9 +39,9 @@ private:
 public:
     static double calculatePositionScore(Vector2 position);
     static void calculateNewPositions();
-    static void visualizePositions();
+    static Vector2 calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
 
-    static void setRobot(int robotID);
+    static void setRobot(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
     static void releaseRobot(int robotID);
     static Vector2 getPositionForRobotID(int robotID);
 

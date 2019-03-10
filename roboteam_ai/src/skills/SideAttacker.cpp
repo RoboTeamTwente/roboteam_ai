@@ -11,30 +11,26 @@ SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
 }
 
-void SideAttacker::onInitialize() {
-    coach::OffensiveCoach::setRobot(robot->id);
-    targetPos = coach::OffensiveCoach::getPositionForRobotID(robot->id);
-}
+void SideAttacker::onInitialize() {}
 
 
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
     if (! robot) return Status::Running;
-    if (((Vector2)robot->pos - targetPos).length() < 0.05) return Status::Success;
+
+    coach::OffensiveCoach::setRobot(robot);
+    targetPos = coach::OffensiveCoach::getPositionForRobotID(robot->id);
+
     auto newPosition = goToPos.goToPos(robot, targetPos);
     Vector2 velocity = newPosition.vel;
-
     velocity = control::ControlUtils::VelocityLimiter(velocity);
-    if (robotDealer::RobotDealer::getRoleNameForId(robot->id) == "sideAttacker1") {
-        std::cout << coach::OffensiveCoach::calculatePositionScore(robot->pos) << std::endl;
-    }
 
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     command.w = static_cast<float>(newPosition.angle);
-    //publishRobotCommand(command);
+    publishRobotCommand(command);
     return Status::Running;
 }
 
