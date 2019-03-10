@@ -33,6 +33,7 @@ private:
     static double calculatePassLineScore(Vector2 position, roboteam_msgs::World world);
     static double calculateDistanceToOpponentsScore(Vector2 position, roboteam_msgs::World world);
     static double calculateDistanceToTeamScore(Vector2 position, roboteam_msgs::World world);
+    static double calculateDistanceFromCorner(Vector2 position, roboteam_msgs::GeometryFieldSize field);
 public:
     static double calculatePositionScore(Vector2 position);
     static void calculateNewPositions();

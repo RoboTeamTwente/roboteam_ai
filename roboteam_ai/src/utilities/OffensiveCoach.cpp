@@ -49,7 +49,7 @@ double OffensiveCoach::calculateDistanceToOpponentsScore(Vector2 position, robot
     shared_ptr<roboteam_msgs::WorldRobot> closestRobot = World::getRobotClosestToPoint(world.them, position);
     if (closestRobot) {
         double distance = (position - closestRobot->pos).length();
-        return 1 - exp(-0.01 * distance);
+        return 1 - exp(-0.05 * distance);
     } else {
         return 1;
     }
@@ -64,9 +64,10 @@ double OffensiveCoach::calculatePositionScore(Vector2 position) {
     double closestOpponentScore = calculateDistanceToOpponentsScore(position, world);
     double tooCloseToBallScore = 1 - exp(-5 * (position - world.ball.pos).length());
     double behindBallScore = position.x < world.ball.pos.x ? 0.7 : 1.0;
+    double distanceFromCornerScore = calculateDistanceFromCorner(position, field);
 
     double score = closeToGoalScore + shotAtGoalScore + passLineScore + closestOpponentScore
-            + tooCloseToBallScore + behindBallScore;
+            + tooCloseToBallScore + behindBallScore + distanceFromCornerScore;
 
     return score;
 }
@@ -148,10 +149,6 @@ bool OffensiveCoach::compareByScore(const offensivePosition position1, const off
 }
 
 void OffensiveCoach::setRobot(int robotID) {
-    for (offensivePosition position : offensivePositions) {
-        std::cout << position.position << std::endl;
-    }
-
     std::map<int,int>::iterator it;
     int i = 0;
     while (i <= maxPositions) {
@@ -172,12 +169,24 @@ void OffensiveCoach::releaseRobot(int robotID) {
 Vector2 OffensiveCoach::getPositionForRobotID(int robotID) {
     int positionIndex = robotPositions[robotID];
     Vector2 position = offensivePositions[positionIndex].position;
-    std::cout << "Robot " << robotID << " - " << position << std::endl;
+    // std::cout << "Robot " << robotID << " - " << position << std::endl;
     return position;
 }
 
 const vector<OffensiveCoach::offensivePosition> &OffensiveCoach::getOffensivePositions() {
     return offensivePositions;
+}
+
+double OffensiveCoach::calculateDistanceFromCorner(Vector2 position, roboteam_msgs::GeometryFieldSize field) {
+    Vector2 corner;
+    corner.x = field.field_length / 2;
+    if (position.y > 0) {
+        corner.y = field.field_width / 2;
+    } else {
+        corner.y = -field.field_width / 2;
+    }
+    double distanceFromCorner = (position - corner).length();
+    return 1 - (-0.025 * distanceFromCorner);
 }
 
 }
