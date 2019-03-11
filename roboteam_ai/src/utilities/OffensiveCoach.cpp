@@ -9,7 +9,7 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
-int OffensiveCoach::maxPositions = 30;
+int OffensiveCoach::maxPositions = 15;
 double OffensiveCoach::newRobotPositionMargin = 0.1;
 double OffensiveCoach::marginFromLines = 0.2;
 std::vector<OffensiveCoach::OffensivePosition> OffensiveCoach::offensivePositions;
@@ -64,7 +64,7 @@ double OffensiveCoach::calculatePositionScore(Vector2 position) {
     double shotAtGoalScore = calculateShotAtGoalScore(position, world);
     double passLineScore = calculatePassLineScore(position, world);
     double closestOpponentScore = calculateDistanceToOpponentsScore(position, world);
-    double tooCloseToBallScore = 1 - exp(-5 * (position - world.ball.pos).length());
+    double tooCloseToBallScore = 1 - exp(-2 * (position - world.ball.pos).length());
     double behindBallScore = position.x < world.ball.pos.x ? 0.7 : 1.0;
     double distanceFromCornerScore = calculateDistanceFromCorner(position, field);
 

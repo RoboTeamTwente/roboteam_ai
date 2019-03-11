@@ -16,6 +16,7 @@ class SideAttacker : public Skill {
         control::PositionController goToPos;
         Vector2 deltaPos;
         Vector2 targetPos;
+        bool firstLocationReached;
 
     public:
         explicit SideAttacker(string name, bt::Blackboard::Ptr blackboard);

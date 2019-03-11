@@ -91,8 +91,8 @@ public:
     static double KEEPER_POSDIF()               { return 0.01; };
 
     //Attacker
-    static double OFFENSIVE_POSITION_DISTANCE() { return 0.3; };
-    static double ATTACKER_DISTANCE()           { return 1.5; };
+    static double OFFENSIVE_POSITION_DISTANCE() { return 0.4; };
+    static double ATTACKER_DISTANCE()           { return 1.2; };
 
     //ballkickedtoGoal
     static double BALL_TO_GOAL_MARGIN()         { return BALL_RADIUS(); };//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.

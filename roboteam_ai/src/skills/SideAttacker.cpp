@@ -20,8 +20,14 @@ void SideAttacker::onInitialize() {
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
     if (! robot) return Status::Running;
-    targetPos = coach::OffensiveCoach::calculateNewRobotPositions(robot);
+    firstLocationReached = false;
+    if ((targetPos - robot->pos).length() < 0.05) firstLocationReached = true;
 
+    if (firstLocationReached) {
+        targetPos = coach::OffensiveCoach::calculateNewRobotPositions(robot);
+    } else {
+        targetPos = coach::OffensiveCoach::getPositionForRobotID(robot->id);
+    }
     auto newPosition = goToPos.goToPos(robot, targetPos);
     Vector2 velocity = newPosition.vel;
     velocity = control::ControlUtils::VelocityLimiter(velocity);
