@@ -131,7 +131,6 @@ std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotClosestToPoint(const V
 /// returns the ball msg
 std::shared_ptr<roboteam_msgs::WorldBall> World::getBall() {
     std::lock_guard<std::mutex> lock(worldMutex);
-    //TODO:
     if (world.ball.area != 0)
         return std::make_shared<roboteam_msgs::WorldBall>(world.ball);
     else

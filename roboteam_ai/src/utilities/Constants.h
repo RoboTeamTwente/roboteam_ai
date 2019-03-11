@@ -47,7 +47,7 @@ public:
 
   static double CENTRE_TO_FRONT()             { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); };
     static double BALL_RADIUS()                 { return 0.0215; };
-    static int TICK_RATE()                       { return 500 ; };// Rate at which we tick our behavior Trees
+    static int TICK_RATE()                       { return 100 ; };// Rate at which we tick our behavior Trees
 
     //skills
     static double DEFAULT_KICK_POWER()          { return  5.0; }; // max kick power() { return  100
@@ -166,13 +166,13 @@ public:
                                                            {255, 100, 255, 255} }; };
 
 // Default PID values for the interface
-    static double standardNumTreePosP()         { return GRSIM() ? 2.5 : 2.8; };
-    static double standardNumTreePosI()         { return GRSIM() ? 0.0 : 0.6; };
+    static double standardNumTreePosP()         { return GRSIM() ? 0.8 : 2.8; };
+    static double standardNumTreePosI()         { return GRSIM() ? 0.1 : 0.6; };
     static double standardNumTreePosD()         { return GRSIM() ? 2.0 : 2.3; };
 
-    static double standardNumTreeVelP()         { return GRSIM() ? 2.0 : 2.8; };
+    static double standardNumTreeVelP()         { return GRSIM() ? 1.2 : 2.8; };
     static double standardNumTreeVelI()         { return GRSIM() ? 0.5 : 0.6; };
-    static double standardNumTreeVelD()         { return GRSIM() ? 1.8 : 2.3; };
+    static double standardNumTreeVelD()         { return GRSIM() ? 3.0 : 2.3; };
 
 private:
     static bool isInitialized;
