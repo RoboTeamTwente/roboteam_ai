@@ -6,12 +6,14 @@
 #define ROBOTEAM_AI_SHOOTPENALTY_H
 
 #include "Skill.h"
-namespace rtt{
+namespace rtt {
 namespace ai {
 
 class ShootPenalty : public Skill {
 
-
+        Status onUpdate() override;
+        void onInitialize() override;
+        void onTerminate(Status s) override;
 
 };
 
