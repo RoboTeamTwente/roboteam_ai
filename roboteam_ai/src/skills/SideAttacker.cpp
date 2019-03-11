@@ -11,15 +11,16 @@ SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
 }
 
-void SideAttacker::onInitialize() {}
+void SideAttacker::onInitialize() {
+    coach::OffensiveCoach::setRobot(robot);
+    targetPos = coach::OffensiveCoach::getPositionForRobotID(robot->id);
+}
 
 
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
     if (! robot) return Status::Running;
-
-    coach::OffensiveCoach::setRobot(robot);
-    targetPos = coach::OffensiveCoach::getPositionForRobotID(robot->id);
+    targetPos = coach::OffensiveCoach::calculateNewRobotPositions(robot);
 
     auto newPosition = goToPos.goToPos(robot, targetPos);
     Vector2 velocity = newPosition.vel;
