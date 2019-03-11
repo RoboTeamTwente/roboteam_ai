@@ -75,11 +75,21 @@ double OffensiveCoach::calculatePositionScore(Vector2 position) {
 }
 
 void OffensiveCoach::calculateNewPositions() {
+    std::vector<OffensiveCoach::OffensivePosition> newPositions;
     for (auto &positionPointer : offensivePositions) {
         OffensivePosition position = positionPointer;
         position.score = calculatePositionScore(position.position);
-        positionPointer = position;
+        bool tooClose = false;
+        for (auto& robotPosition : robotPositions) {
+            if ((robotPosition.second.position - position.position).length() < Constants::ATTACKER_DISTANCE()) {
+                tooClose = true;
+                break;
+            }
+        }
+        if (!tooClose) newPositions.emplace_back(position);
     }
+
+    offensivePositions = newPositions;
 
     roboteam_msgs::GeometryFieldSize field = Field::get_field();
     double xStart = 0 + marginFromLines;
@@ -106,6 +116,14 @@ void OffensiveCoach::calculateNewPositions() {
                 break;
             }
         }
+
+        for (auto &robotPosition : robotPositions) {
+            if ((newPosition - robotPosition.second.position).length() < Constants::ATTACKER_DISTANCE()) {
+                tooClose = true;
+                break;
+            }
+        }
+
         if (tooClose) continue;
 
         score = calculatePositionScore({x, y});
