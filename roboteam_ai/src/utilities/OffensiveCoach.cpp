@@ -260,6 +260,11 @@ Vector2 OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs
     }
 }
 
+vector<OffensiveCoach::OffensivePosition>
+OffensiveCoach::getAreaPositions(double xStart, double xEnd, double yStart, double yEnd, double numberOfPositions) {
+    return vector<OffensiveCoach::OffensivePosition>();
+}
+
 }
 }
 }
