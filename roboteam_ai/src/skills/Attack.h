@@ -21,6 +21,7 @@ class Attack : public Skill {
         bool ownGoal = false;
         bool shot = false;
         double smallerGenevaMargin;
+        double distancePercentageFromCenter = 0.3;
     public:
         explicit Attack(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;

@@ -45,10 +45,10 @@ bt::Node::Status Attack::onUpdate() {
         double xTarget = ownGoal ? -field.field_length / 2 : field.field_length / 2;
         if (ball->pos.y > 0) {
             genevaState = ownGoal ? 1 : 5;
-            ballTarget = {xTarget, 0.30 * field.goal_width};
+            ballTarget = {xTarget, distancePercentageFromCenter * field.goal_width};
         } else {
             genevaState = ownGoal ? 5 : 1;
-            ballTarget = {xTarget, -0.30 * field.goal_width};
+            ballTarget = {xTarget, -distancePercentageFromCenter * field.goal_width};
         }
 
         /// Set the geneva to one angle lower if the distance from the goal is more than 1,5 times the goal width
