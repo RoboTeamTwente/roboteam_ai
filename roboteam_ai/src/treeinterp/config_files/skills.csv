@@ -18,3 +18,4 @@ Keeper
 GoAroundPos,targetPos,targetDir,towardsTheirGoal,ball
 Halt,ticks
 GoBehindBall,type
+PreparePenalty

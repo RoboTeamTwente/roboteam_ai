@@ -13,8 +13,9 @@ PreparePenalty::PreparePenalty(string name, bt::Blackboard::Ptr blackboard)
 
 }
 void PreparePenalty::onInitialize() {
-    Skill::onInitialize();
-}
+ }
+
+
 Skill::Status PreparePenalty::onUpdate() {
     return Status::Failure;
 }

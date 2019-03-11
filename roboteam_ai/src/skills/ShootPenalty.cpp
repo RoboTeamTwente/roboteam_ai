@@ -31,9 +31,10 @@ void ShootPenalty::onTerminate(Skill::Status s) {
     // clean up the coach or whereever logic you use
 
 }
+ShootPenalty::ShootPenalty(string name, bt::Blackboard::Ptr blackboard)
+        :Skill(name, blackboard) {
 
-
-
+}
 
 }
 }
