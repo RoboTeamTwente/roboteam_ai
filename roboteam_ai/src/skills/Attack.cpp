@@ -109,7 +109,7 @@ bt::Node::Status Attack::onUpdate() {
         velocity = {0, 0};
     }
     else {
-        velocity = goToPos.goToPos(robot, targetPos, GoToType::BASIC).vel;
+        velocity = goToPos.goToPos(robot, targetPos, GoToType::NUMERIC_TREES).vel;
     }
 
     velocity = control::ControlUtils::VelocityLimiter(velocity);
