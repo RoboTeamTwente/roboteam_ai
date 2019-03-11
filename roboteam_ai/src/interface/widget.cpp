@@ -233,8 +233,8 @@ void Visualizer::drawTacticColorForRobot(QPainter &painter, roboteam_msgs::World
     painter.drawEllipse(qrobotPosition, Constants::TACTIC_COLOR_DRAWING_SIZE(), Constants::TACTIC_COLOR_DRAWING_SIZE());
 }
 
-void Visualizer::drawOffensivePoints(QPainter &painter, std::vector<coach::OffensiveCoach::offensivePosition> positions) {
-    for (coach::OffensiveCoach::offensivePosition position : positions) {
+void Visualizer::drawOffensivePoints(QPainter &painter, std::vector<coach::OffensiveCoach::OffensivePosition> positions) {
+    for (coach::OffensiveCoach::OffensivePosition position : positions) {
         Vector2 pos = toScreenPosition(position.position);
         painter.setBrush(Qt::transparent);
         painter.setPen(Qt::blue);

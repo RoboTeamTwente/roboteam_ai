@@ -17,19 +17,21 @@ namespace coach {
 
 class OffensiveCoach {
 public:
-    struct offensivePosition {
+    struct OffensivePosition {
         Vector2 position;
         double score;
     };
-    static vector<offensivePosition> &getOffensivePositions();
+    static vector<OffensivePosition> &getOffensivePositions();
 
 private:
-    static double newRobotPositionMargin;
-    static std::vector<offensivePosition> offensivePositions;
-    static int maxPositions;
-    static std::map<int, offensivePosition> robotPositions;
+    static double marginFromLines;
 
-    static bool compareByScore(offensivePosition position1, offensivePosition position2);
+    static double newRobotPositionMargin;
+    static std::vector<OffensivePosition> offensivePositions;
+    static int maxPositions;
+    static std::map<int, OffensivePosition> robotPositions;
+
+    static bool compareByScore(OffensivePosition position1, OffensivePosition position2);
     static double calculateCloseToGoalScore(Vector2 position);
     static double calculateShotAtGoalScore(Vector2 position, roboteam_msgs::World world);
     static double calculatePassLineScore(Vector2 position, roboteam_msgs::World world);

@@ -5,19 +5,20 @@
 #include <roboteam_ai/src/interface/widget.h>
 #include "OffensiveCoach.h"
 
-namespace rtt{
-namespace ai{
+namespace rtt {
+namespace ai {
 namespace coach {
 
-int OffensiveCoach::maxPositions = 10;
+int OffensiveCoach::maxPositions = 30;
 double OffensiveCoach::newRobotPositionMargin = 0.1;
-std::vector<OffensiveCoach::offensivePosition> OffensiveCoach::offensivePositions;
-std::map<int, OffensiveCoach::offensivePosition> OffensiveCoach::robotPositions;
+double OffensiveCoach::marginFromLines = 0.2;
+std::vector<OffensiveCoach::OffensivePosition> OffensiveCoach::offensivePositions;
+std::map<int, OffensiveCoach::OffensivePosition> OffensiveCoach::robotPositions;
 
 double OffensiveCoach::calculateCloseToGoalScore(Vector2 position) {
     double distanceFromGoal = (Field::get_their_goal_center() - position).length();
 
-    double score = exp(-0.05 * distanceFromGoal);
+    double score = exp(-0.1 * distanceFromGoal);
     return score;
 }
 
@@ -25,12 +26,12 @@ double OffensiveCoach::calculateShotAtGoalScore(Vector2 position, roboteam_msgs:
     double safelyness = 3;
     while (safelyness > 0) {
             if (control::ControlUtils::clearLine(position, Field::get_their_goal_center(), world, safelyness)) {
-                return safelyness / 3;
+                break;
             }
             safelyness -= 0.5;
         }
 
-    return 0;
+    return 1 - exp(-0.1 * safelyness);
 }
 
 
@@ -38,12 +39,12 @@ double OffensiveCoach::calculatePassLineScore(Vector2 position, roboteam_msgs::W
     double safelyness = 3;
     while (safelyness > 0) {
         if (control::ControlUtils::clearLine(world.ball.pos, position, world, safelyness)) {
-            return safelyness / 3;
+            break;
         }
         safelyness -= 0.5;
     }
 
-    return 0;
+    return 1 - exp(-0.1 * safelyness);
 }
 
 double OffensiveCoach::calculateDistanceToOpponentsScore(Vector2 position, roboteam_msgs::World world) {
@@ -75,22 +76,21 @@ double OffensiveCoach::calculatePositionScore(Vector2 position) {
 
 void OffensiveCoach::calculateNewPositions() {
     for (auto &positionPointer : offensivePositions) {
-        offensivePosition position = positionPointer;
+        OffensivePosition position = positionPointer;
         position.score = calculatePositionScore(position.position);
         positionPointer = position;
     }
 
     roboteam_msgs::GeometryFieldSize field = Field::get_field();
-    double margin = 0.2;
-    double xStart = 0 + margin;
-    double xEnd = field.field_length / 2 - margin;
-    double yStart = -field.field_width + margin;
-    double yEnd = field.field_width - margin;
+    double xStart = 0 + marginFromLines;
+    double xEnd = field.right_penalty_line.begin.x - marginFromLines;
+    double yStart = -field.field_width + marginFromLines;
+    double yEnd = field.field_width - marginFromLines;
 
     int attempts = 20;
     int attempt = 0;
     double score = 0;
-    offensivePosition position;
+    OffensivePosition position;
 
     while (attempt <= attempts) {
         double x = (xEnd - xStart) * ( (double)rand() / (double)RAND_MAX) + xStart;
@@ -101,7 +101,7 @@ void OffensiveCoach::calculateNewPositions() {
 
         bool tooClose = false;
         for (auto &robotPosition : offensivePositions) {
-            if ((newPosition - robotPosition.position).length() < Constants::ATTACKERS_DISTANCE()) {
+            if ((newPosition - robotPosition.position).length() < Constants::OFFENSIVE_POSITION_DISTANCE()) {
                 tooClose = true;
                 break;
             }
@@ -117,7 +117,7 @@ void OffensiveCoach::calculateNewPositions() {
             position.score = score;
             bool betterPosition = false;
             for (auto &positionPointer : offensivePositions) {
-                if ((position.position - positionPointer.position).length() < Constants::ATTACKERS_DISTANCE()) {
+                if ((position.position - positionPointer.position).length() < Constants::OFFENSIVE_POSITION_DISTANCE()) {
                     if (position.score > positionPointer.score) {
                         positionPointer = position;
                         betterPosition = true;
@@ -133,7 +133,7 @@ void OffensiveCoach::calculateNewPositions() {
         } else if (score > offensivePositions[maxPositions - 1].score) {
             bool betterPosition = false;
             for (auto &positionPointer : offensivePositions) {
-                if ((position.position - positionPointer.position).length() < Constants::ATTACKERS_DISTANCE()) {
+                if ((position.position - positionPointer.position).length() < Constants::OFFENSIVE_POSITION_DISTANCE()) {
                     if (position.score > positionPointer.score) {
                         positionPointer = position;
                         betterPosition = true;
@@ -154,20 +154,21 @@ void OffensiveCoach::calculateNewPositions() {
     offensivePositions.erase(offensivePositions.begin() + maxPositions, offensivePositions.end());
 }
 
-bool OffensiveCoach::compareByScore(offensivePosition position1, offensivePosition position2) {
+bool OffensiveCoach::compareByScore(OffensivePosition position1, OffensivePosition position2) {
     return position1.score > position2.score;
 }
 
 void OffensiveCoach::setRobot(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
     double distance = 999;
     double currentDistance;
-    OffensiveCoach::offensivePosition newRobotPosition;
+    OffensiveCoach::OffensivePosition newRobotPosition;
     for (auto& position : offensivePositions) {
         currentDistance = (position.position - robot->pos).length();
         if (currentDistance < distance) {
             for (auto& robotPosition : robotPositions) {
                 if (robotPosition.first != robot->id) {
-                    if ((robotPosition.second.position - position.position).length() > Constants::ATTACKERS_DISTANCE()) {
+                    if ((robotPosition.second.position - position.position).length() >
+                            Constants::OFFENSIVE_POSITION_DISTANCE()) {
                         distance = currentDistance;
                         newRobotPosition = position;
                     }
@@ -192,7 +193,7 @@ Vector2 OffensiveCoach::getPositionForRobotID(int robotID) {
     return position;
 }
 
-vector<OffensiveCoach::offensivePosition> &OffensiveCoach::getOffensivePositions() {
+vector<OffensiveCoach::OffensivePosition> &OffensiveCoach::getOffensivePositions() {
     return offensivePositions;
 }
 
@@ -211,7 +212,7 @@ double OffensiveCoach::calculateDistanceFromCorner(Vector2 position, roboteam_ms
 Vector2 OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
     int attempts = 20;
     int attempt = 0;
-    OffensiveCoach::offensivePosition currentRobotPosition = robotPositions[robot->id];
+    OffensiveCoach::OffensivePosition currentRobotPosition = robotPositions[robot->id];
     Vector2 newPosition;
     double newScore;
     bool foundNewPosition = false;
