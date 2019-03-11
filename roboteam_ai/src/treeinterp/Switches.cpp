@@ -40,6 +40,7 @@
 #include <roboteam_ai/src/skills/BasicGoToPos.h>
 #include "../skills/GoAroundPos.h"
 #include "../skills/GoBehindBall.h"
+#include "../skills/ShootPenalty.h"
 
 //  ______________________
 //  |                    |
@@ -175,6 +176,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["RotateToAngle"] = std::make_shared<rtt::ai::RotateToAngle>(name, properties);
     map["SkillGoToPos"] = std::make_shared<rtt::ai::SkillGoToPos>(name, properties);
     map["GoBehindBall"] = std::make_shared<rtt::ai::GoBehindBall>(name, properties);
+    map["ShootPenalty"] = std::make_shared<rtt::ai::ShootPenalty>(name, properties);
 
     // conditions (alphabetic order)
     map["BallKickedToOurGoal"] = std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
