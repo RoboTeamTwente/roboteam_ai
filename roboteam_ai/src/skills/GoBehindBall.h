@@ -22,7 +22,7 @@ class GoBehindBall : public Skill {
         unit type;
         unit stringToUnit(std::string string);
         // TODO maybe be smarter than Thijs
-        double errorMargin = 0.1;
+        double errorMargin = 0.06;
         void publishCommand(Vector2 point, Vector2 velocity);
 
     public:

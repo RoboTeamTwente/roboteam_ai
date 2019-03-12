@@ -11,6 +11,7 @@ void ShootPenalty::onInitialize() {
     Vector2 ballPos = rtt::ai::World::getBall()->pos;
     Vector2 robotPos = robot -> pos;
     targetPos = ballPos + (robotPos - ballPos).rotate(fakeOffset.getAngle());
+    progress = GOING;
 }
 
 
@@ -20,24 +21,29 @@ Skill::Status ShootPenalty::onUpdate() {
     switch (progress) {
 
         case GOING: {
-            Vector2 deltaPos = (targetPos - robot->pos);
+            Vector2 ballPos = rtt::ai::World::getBall()->pos;
+            Vector2 deltaPos = (ballPos - robot->pos);
 
             if (deltaPos.length() < errorMarginPos) {
-                progress = READY;
+                progress = ROTATING;
             }
             else{
                 roboteam_msgs::RobotCommand command;
                 command.id = robot->id;
                 command.use_angle = 1;
-                command.w = static_cast<float>((targetPos-robot->pos).angle());
+                command.w = static_cast<float>((ballPos-robot->pos).angle());
                 command.geneva_state = 1;
-                Vector2 velocity = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES).vel;
+                Vector2 velocity = goToPos.goToPos(robot, ballPos, control::PosControlType::BASIC).vel;
+                command.x_vel = static_cast<float>(velocity.x);
+                command.y_vel = static_cast<float>(velocity.y);
                 publishRobotCommand(command);
+
             }
-            break;
+            return Status::Running;
         }
 
         case ROTATING:{
+            std::cout << (robot->w - fakeOffset) << std::endl;
             if ((robot->w - fakeOffset) > errorMarginAng) {
                 roboteam_msgs::RobotCommand command;
                 command.id = robot->id;
@@ -45,13 +51,15 @@ Skill::Status ShootPenalty::onUpdate() {
                 command.geneva_state = 1;
                 command.w = static_cast<float>(fakeOffset);
                 publishRobotCommand(command);
+
             }
             else {
                 progress = READY;
-                break;
+                return Status::Running;
             }
 
-            break;}
+            return Status::Running;
+        }
 
         case READY:{
             //TODO: make rule checks
@@ -60,7 +68,8 @@ Skill::Status ShootPenalty::onUpdate() {
             command.geneva_state = 1;
             publishRobotCommand(command);
             progress = SHOOTING;
-            break;}
+            return Status::Running;
+        }
 
 
         case SHOOTING:{
@@ -74,12 +83,12 @@ Skill::Status ShootPenalty::onUpdate() {
             command.kicker = static_cast<unsigned char>(true);
             command.kicker_vel = Constants::MAX_KICK_POWER();
             Vector2 velocity = goToPos.goToPos(robot, ballPos, control::PosControlType::BASIC).vel;
+            command.x_vel = static_cast<float>(velocity.x);
+            command.y_vel = static_cast<float>(velocity.y);
             publishRobotCommand(command);
-            break;}
+            return Status::Running;
 
-
-        case AVOIDING:{
-            break;}
+        }
 
 
     }

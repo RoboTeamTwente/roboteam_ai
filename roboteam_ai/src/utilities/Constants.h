@@ -177,6 +177,9 @@ public:
     static double standardNumTreeVelI()         { return GRSIM() ? 0.5 : 0.6; };
     static double standardNumTreeVelD()         { return GRSIM() ? 1.8 : 2.3; };
 
+// Penalty
+    static double PENALTY_SHOOT_MARGIN()        {return GRSIM() ? (CENTRE_TO_FRONT() + 0.015 + BALL_RADIUS()) : (CENTRE_TO_FRONT() + 0.016 + BALL_RADIUS());};
+
 private:
     static bool isInitialized;
     static bool robotOutputTargetGrSim; // Don't use this value. use GRSIM() instead.
