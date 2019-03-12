@@ -24,12 +24,13 @@ class ShootPenalty : public Skill {
           GOING,
           ROTATING,
           READY,
-          SHOOTING,
-          AVOIDING
+          SHOOTING
         };
         Progress progress;
         double errorMarginPos = Constants::PENALTY_SHOOT_MARGIN() + 0.02;
         double errorMarginAng = 0.0174533; // 1 degrees
+        bool isPenaltyShot();
+        int count = 0;
 
         control::PositionController goToPos;
 

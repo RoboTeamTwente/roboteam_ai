@@ -1,0 +1,51 @@
+{
+  "name": "PenaltyShootTactic",
+  "data": {
+    "trees": [
+      {
+        "title": "PenaltyShootTactic",
+        "root": "1jq5pdbybcrm6",
+        "nodes": {
+          "1jq5pdbybcrm6": {
+            "id": "1jq5pdbybcrm6",
+            "title": "Role",
+            "name": "shooter",
+            "role": "PenaltyShootRole",
+            "children": [
+              "xffrqjfij0lzqvw"
+            ],
+            "properties": {
+              "ROLE": "shooter"
+            }
+          },
+          "xffrqjfij0lzqvw": {
+            "id": "xffrqjfij0lzqvw",
+            "title": "MemSequence",
+            "children": [
+              "w7q31yrx73s37",
+              "7sb8b35pkbcmhokf"
+            ],
+            "properties": {
+              "ROLE": "shooter"
+            }
+          },
+          "w7q31yrx73s37": {
+            "id": "w7q31yrx73s37",
+            "title": "GoBehindBall",
+            "properties": {
+              "type": "penalty",
+              "ROLE": "shooter"
+            }
+          },
+          "7sb8b35pkbcmhokf": {
+            "id": "7sb8b35pkbcmhokf",
+            "title": "ShootPenalty",
+            "properties": {
+              "ROLE": "shooter"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

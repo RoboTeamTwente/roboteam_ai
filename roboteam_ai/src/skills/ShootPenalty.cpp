@@ -62,7 +62,6 @@ Skill::Status ShootPenalty::onUpdate() {
         }
 
         case READY:{
-            //TODO: make rule checks
             roboteam_msgs::RobotCommand command;
             command.id = robot->id;
             command.geneva_state = 1;
@@ -106,6 +105,10 @@ void ShootPenalty::onTerminate(Skill::Status s) {
 ShootPenalty::ShootPenalty(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
 
+}
+bool ShootPenalty::isPenaltyShot() {
+    Vector2 ballPos = rtt::ai::World::getBall()->pos;
+    if (ballPos - )
 }
 
 }

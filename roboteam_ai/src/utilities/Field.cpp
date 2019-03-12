@@ -243,6 +243,19 @@ int Field::getRobotClosestToGoal(bool ourRobot, bool ourGoal) {
     int closestId = World::getRobotClosestToPoint(robots, target)->id;
     return closestId;
 }
+Vector2 Field::getPenaltyPoint(bool ourGoal) {
+    if (ourGoal) {
+        Vector2 begin = get_field().left_penalty_line.begin;
+        Vector2 end = get_field().left_penalty_line.end;
+        return (begin + ((end - begin)*0.5));
+    }
+    else {
+        Vector2 begin = get_field().right_penalty_line.begin;
+        Vector2 end = get_field().right_penalty_line.end;
+        return (begin + ((end - begin)*0.5));
+    }
+
+}
 
 } // ai
 } // rtt
