@@ -12,22 +12,15 @@ SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void SideAttacker::onInitialize() {
-    coach::OffensiveCoach::setRobot(robot);
-    targetPos = coach::OffensiveCoach::getPositionForRobotID(robot->id);
+    targetPos = coach::OffensiveCoach::calculatePositionForRobot(robot);
 }
 
 
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
     if (! robot) return Status::Running;
-    firstLocationReached = false;
-    if ((targetPos - robot->pos).length() < 0.05) firstLocationReached = true;
+    targetPos = coach::OffensiveCoach::calculatePositionForRobot(robot);
 
-    if (firstLocationReached) {
-        targetPos = coach::OffensiveCoach::calculateNewRobotPositions(robot);
-    } else {
-        targetPos = coach::OffensiveCoach::getPositionForRobotID(robot->id);
-    }
     auto newPosition = goToPos.goToPos(robot, targetPos);
     Vector2 velocity = newPosition.vel;
     velocity = control::ControlUtils::VelocityLimiter(velocity);

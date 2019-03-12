@@ -10,7 +10,7 @@ namespace ai {
 namespace coach {
 
 int OffensiveCoach::maxPositions = 15;
-double OffensiveCoach::newRobotPositionMargin = 0.1;
+double OffensiveCoach::newRobotPositionMargin = 0.05;
 double OffensiveCoach::marginFromLines = 0.2;
 std::vector<OffensiveCoach::OffensivePosition> OffensiveCoach::offensivePositions;
 std::map<int, OffensiveCoach::OffensivePosition> OffensiveCoach::robotPositions;
@@ -51,7 +51,7 @@ double OffensiveCoach::calculateDistanceToOpponentsScore(Vector2 position, robot
     shared_ptr<roboteam_msgs::WorldRobot> closestRobot = World::getRobotClosestToPoint(world.them, position);
     if (closestRobot) {
         double distance = (position - closestRobot->pos).length();
-        return 1 - exp(-0.05 * distance);
+        return 1 - exp(-1 * distance);
     } else {
         return 1;
     }
@@ -79,6 +79,7 @@ void OffensiveCoach::calculateNewPositions() {
     for (auto &positionPointer : offensivePositions) {
         OffensivePosition position = positionPointer;
         position.score = calculatePositionScore(position.position);
+
         bool tooClose = false;
         for (auto& robotPosition : robotPositions) {
             if ((robotPosition.second.position - position.position).length() < Constants::ATTACKER_DISTANCE()) {
@@ -97,7 +98,7 @@ void OffensiveCoach::calculateNewPositions() {
     double yStart = -field.field_width + marginFromLines;
     double yEnd = field.field_width - marginFromLines;
 
-    int attempts = 20;
+    int attempts = 40;
     int attempt = 0;
     double score = 0;
     OffensivePosition position;
@@ -113,6 +114,7 @@ void OffensiveCoach::calculateNewPositions() {
         for (auto &robotPosition : offensivePositions) {
             if ((newPosition - robotPosition.position).length() < Constants::OFFENSIVE_POSITION_DISTANCE()) {
                 tooClose = true;
+                attempt++;
                 break;
             }
         }
@@ -120,6 +122,7 @@ void OffensiveCoach::calculateNewPositions() {
         for (auto &robotPosition : robotPositions) {
             if ((newPosition - robotPosition.second.position).length() < Constants::ATTACKER_DISTANCE()) {
                 tooClose = true;
+                attempt++;
                 break;
             }
         }
@@ -139,6 +142,7 @@ void OffensiveCoach::calculateNewPositions() {
                     if (position.score > positionPointer.score) {
                         positionPointer = position;
                         betterPosition = true;
+                        attempt++;
                         break;
                     }
                 }
@@ -155,6 +159,7 @@ void OffensiveCoach::calculateNewPositions() {
                     if (position.score > positionPointer.score) {
                         positionPointer = position;
                         betterPosition = true;
+                        attempt++;
                         break;
                     }
                 }
@@ -170,36 +175,51 @@ void OffensiveCoach::calculateNewPositions() {
 
     std::sort(offensivePositions.begin(), offensivePositions.end(), compareByScore);
     offensivePositions.erase(offensivePositions.begin() + maxPositions, offensivePositions.end());
+    std::cout << robotPositions.size() << std::endl;
 }
 
 bool OffensiveCoach::compareByScore(OffensivePosition position1, OffensivePosition position2) {
     return position1.score > position2.score;
 }
 
-void OffensiveCoach::setRobot(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
-    double distance = 999;
-    double currentDistance;
-    OffensiveCoach::OffensivePosition newRobotPosition;
-    for (auto& position : offensivePositions) {
-        currentDistance = (position.position - robot->pos).length();
-        if (currentDistance < distance) {
-            for (auto& robotPosition : robotPositions) {
-                if (robotPosition.first != robot->id) {
-                    if ((robotPosition.second.position - position.position).length() >
+Vector2 OffensiveCoach::calculatePositionForRobot(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
+    if ((robotPositions.find(robot->id) == robotPositions.end())) { // not there yet
+        double distance = 999;
+        double currentDistance;
+        OffensiveCoach::OffensivePosition newRobotPosition;
+        for (auto &position : offensivePositions) {
+            currentDistance = (position.position - robot->pos).length();
+            if (currentDistance < distance) {
+                for (auto &robotPosition : robotPositions) {
+                    if (robotPosition.first != robot->id) {
+                        if ((robotPosition.second.position - position.position).length() >
                             Constants::OFFENSIVE_POSITION_DISTANCE()) {
-                        distance = currentDistance;
-                        newRobotPosition = position;
+                            distance = currentDistance;
+                            newRobotPosition = position;
+                        }
                     }
                 }
             }
         }
-    }
-    if (distance == 999) {
-        newRobotPosition.position = robot->pos;
-        newRobotPosition.score = calculatePositionScore(robot->pos);
-    }
+        if (distance == 999) {
+            newRobotPosition.position = robot->pos;
+            newRobotPosition.score = calculatePositionScore(robot->pos);
+        }
 
-    robotPositions[robot->id] = newRobotPosition;
+        if ((newRobotPosition.position - robot->pos).length() < 0.2) {
+            robotPositions[robot->id] = newRobotPosition;
+        }
+
+        return newRobotPosition.position;
+
+    } else {
+        calculateNewRobotPositions(robot);
+        if ((robotPositions.find(robot->id) == robotPositions.end())) { //not in there
+            return calculatePositionForRobot(robot);
+        } else {
+            return robotPositions[robot->id].position;
+        }
+    }
 }
 
 void OffensiveCoach::releaseRobot(int robotID) {
@@ -227,8 +247,8 @@ double OffensiveCoach::calculateDistanceFromCorner(Vector2 position, roboteam_ms
     return 1 - exp(-0.05 * distanceFromCorner);
 }
 
-Vector2 OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
-    int attempts = 20;
+void OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
+    int attempts = 40;
     int attempt = 0;
     OffensiveCoach::OffensivePosition currentRobotPosition = robotPositions[robot->id];
     Vector2 newPosition;
@@ -244,6 +264,21 @@ Vector2 OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs
         double x = (xEnd - xStart) * ( (double)rand() / (double)RAND_MAX) + xStart;
         double y = (yEnd - yStart) * ( (double)rand() / (double)RAND_MAX) + yStart;
         newPosition = {x, y};
+
+        bool tooClose = false;
+        for (auto& robotPosition : robotPositions) {
+            if (robotPosition.first != robot->id) {
+                if ((newPosition - robotPosition.second.position).length() < Constants::ATTACKER_DISTANCE()) {
+                    tooClose = true;
+                    attempt++;
+                    break;
+                }
+            }
+        }
+
+        if (tooClose) continue;
+
+        if (!Field::pointIsInField(newPosition) || Field::pointIsInDefenceArea(newPosition, false)) continue;
         newScore = calculatePositionScore(newPosition);
         if (newScore > currentRobotPosition.score && newScore > offensivePositions[maxPositions - 1].score) {
             currentRobotPosition.position = newPosition;
@@ -253,16 +288,24 @@ Vector2 OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs
         attempt++;
     }
     if (foundNewPosition) {
-        return newPosition;
+        robotPositions[robot->id] = currentRobotPosition;
     } else {
-        setRobot(robot);
-        return robotPositions[robot->id].position;
+        robotPositions.erase(robot->id);
     }
 }
 
 vector<OffensiveCoach::OffensivePosition>
 OffensiveCoach::getAreaPositions(double xStart, double xEnd, double yStart, double yEnd, double numberOfPositions) {
     return vector<OffensiveCoach::OffensivePosition>();
+}
+
+vector<OffensiveCoach::OffensivePosition> OffensiveCoach::getRobotPositions() {
+    std::vector<OffensivePosition> positions;
+    for (auto &position : robotPositions) {
+        positions.emplace_back(position.second);
+    }
+
+    return positions;
 }
 
 }

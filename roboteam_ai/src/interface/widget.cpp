@@ -24,7 +24,8 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawFieldLines(painter);
         drawBall(painter);
         drawRobots(painter);
-        drawOffensivePoints(painter, coach::OffensiveCoach::getOffensivePositions());
+        drawOffensivePoints(painter, coach::OffensiveCoach::getOffensivePositions(), Qt::blue);
+        drawOffensivePoints(painter, coach::OffensiveCoach::getRobotPositions(), Qt::darkRed);
         if (showBallPlacementMarker) drawBallPlacementTarget(painter);
 
         if (showPath) {
@@ -233,11 +234,11 @@ void Visualizer::drawTacticColorForRobot(QPainter &painter, roboteam_msgs::World
     painter.drawEllipse(qrobotPosition, Constants::TACTIC_COLOR_DRAWING_SIZE(), Constants::TACTIC_COLOR_DRAWING_SIZE());
 }
 
-void Visualizer::drawOffensivePoints(QPainter &painter, std::vector<coach::OffensiveCoach::OffensivePosition> positions) {
+void Visualizer::drawOffensivePoints(QPainter &painter, std::vector<coach::OffensiveCoach::OffensivePosition> positions, QColor color) {
     for (coach::OffensiveCoach::OffensivePosition position : positions) {
         Vector2 pos = toScreenPosition(position.position);
         painter.setBrush(Qt::transparent);
-        painter.setPen(Qt::blue);
+        painter.setPen(color);
         painter.drawLine(pos.x - 5, pos.y - 5, pos.x + 5, pos.y + 5);
         painter.drawLine(pos.x + 5, pos.y - 5, pos.x - 5, pos.y + 5);
     }
