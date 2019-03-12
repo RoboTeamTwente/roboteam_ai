@@ -12,8 +12,9 @@ namespace ai {
 
 class RotateToAngle : public Skill {
     private:
-        double targetAngle, deltaAngle;
-        bool useAngle;
+        double targetAngle = 0;
+        double deltaAngle;
+        bool useAngle = true;
         enum Progression {
           ROTATING, DONE, FAIL
         };

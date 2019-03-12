@@ -58,6 +58,11 @@ MainWindow::MainWindow(QWidget* parent)
     hButtonsLayout->addWidget(haltBtn);
     haltBtn->setStyleSheet("background-color: #cc0000;");
 
+    refreshBtn = new QPushButton("Refresh");
+    QObject::connect(refreshBtn, SIGNAL(clicked()), this, SLOT(refreshSignal()));
+    hButtonsLayout->addWidget(refreshBtn);
+    refreshBtn->setStyleSheet("background-color: #0000cc;");
+
     toggleColorBtn = new QPushButton("Color");
     QObject::connect(toggleColorBtn, SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
     hButtonsLayout->addWidget(toggleColorBtn);
@@ -184,6 +189,7 @@ MainWindow::MainWindow(QWidget* parent)
     auto * robotsTimer = new QTimer(this);
     connect(robotsTimer, SIGNAL(timeout()), treeWidget, SLOT(updateContents()));
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget())); // we need to pass the visualizer so thats why a seperate function is used
+    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updatePause()));
     robotsTimer->start(200); // 5fps
 }
 void MainWindow::setToggleColorBtnLayout() const {
@@ -233,6 +239,9 @@ void MainWindow::updatePID_luth() {
 /// send a halt signal to stop all trees from executing
 void MainWindow::sendHaltSignal() {
     InterfaceValues::sendHaltCommand();
+}
+
+void MainWindow::updatePause() {
     rtt::ai::Pause pause;
     if (pause.getPause()) {
         haltBtn->setText("Resume");
@@ -242,8 +251,6 @@ void MainWindow::sendHaltSignal() {
         haltBtn->setText("Pause");
         haltBtn->setStyleSheet("background-color: #cc0000;");
     }
-
-    std::cout << "Pause" << std::endl;
 
 }
 
@@ -266,6 +273,11 @@ QString MainWindow::getSelectStrategyText() const {
 void MainWindow::setSelectStrategyText(QString text) {
     select_strategy->setCurrentText(text);
 }
+void MainWindow::refreshSignal() {
+    BTFactory::getFactory().init();
+    treeWidget->setHasCorrectTree(false);
+}
+
 
 } // interface
 } // ai

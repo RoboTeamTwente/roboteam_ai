@@ -14,11 +14,24 @@ WeHaveBall::WeHaveBall(std::string name, bt::Blackboard::Ptr blackboard)
     : Condition(std::move(name), std::move(blackboard)) { }
 
 bt::Node::Status WeHaveBall::update() {
-    if (World::weHaveBall()) {
+    roboteam_msgs::World world = World::get_world();
+    std::vector<roboteam_msgs::WorldRobot> robots = world.us;
+
+    bool WeHaveBall = false;
+    for (auto &robot : robots) {
+        if (World::botHasBall(robot.id,true)) {
+            WeHaveBall = true;
+            break;
+        }
+    }
+
+    if (WeHaveBall) {
         return bt::Node::Status::Success;
     }
-    return bt::Node::Status::Failure;
+    else {
+        return bt::Node::Status::Failure;
+    }
 }
 
-} // ai
-} // rtt
+}
+}

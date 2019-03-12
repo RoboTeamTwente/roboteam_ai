@@ -44,9 +44,11 @@ class MainWindow : public QMainWindow {
         void toggleOurColorParam();
         void updatePID_luth();
         void sendHaltSignal();
+        void updatePause();
         void setUseReferee(bool useRef);
         void updateRobotsWidget();
         void setShowDebugValueInTerminal(bool showDebug);
+        void refreshSignal();
     private:
         Visualizer* visualizer;
         QHBoxLayout* horizontalLayout;
@@ -56,6 +58,7 @@ class MainWindow : public QMainWindow {
         RobotsWidget* robotsWidget;
         TreeVisualizerWidget* treeWidget;
         QPushButton* haltBtn;
+        QPushButton* refreshBtn;
 
         QPushButton* toggleColorBtn;
         QComboBox* select_strategy;

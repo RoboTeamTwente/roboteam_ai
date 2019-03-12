@@ -35,11 +35,6 @@ public:
     static int pickOffensivePassTarget(int selfID, std::string roleName);
     static int pickDefensivePassTarget(int selfID);
     static int pickOpponentToCover(int selfID);
-    static int doesRobotHaveBall(unsigned int robotID, bool isOurTeam);
-    static int doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double dist);
-    static int doesRobotHaveBall(unsigned int robotID, bool isOurTeam, double dist, double angle);
-
-    static int whichRobotHasBall(bool isOurTeam);
     static int pickHarassmentTarget(int selfID);
     static Vector2 getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal);
     static Vector2 getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID);
@@ -78,6 +73,7 @@ public:
     static Vector2 getBallPlacementPos();
     static Vector2 getBallPlacementBeforePos(Vector2 ballPos);
     static Vector2 getBallPlacementAfterPos(double RobotAngle);
+    static Vector2 getDemoKeeperGetBallPos(Vector2 ballPos);
 };
 
 }

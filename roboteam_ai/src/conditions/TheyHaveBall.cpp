@@ -12,13 +12,28 @@ namespace rtt {
 namespace ai {
 
 TheyHaveBall::TheyHaveBall(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) { }
+        :Condition(name, blackboard) {
+
+}
 
 bt::Node::Status TheyHaveBall::update() {
-    if (World::theyHaveBall()) {
+    roboteam_msgs::World world = World::get_world();
+    std::vector<roboteam_msgs::WorldRobot> robots = world.them;
+
+        bool theyHaveBall = false;
+        for(auto &robot : robots) {
+            if(World::botHasBall(robot.id,false)) {
+                theyHaveBall = true;
+                break;
+            }
+        }
+
+    if (theyHaveBall) {
         return bt::Node::Status::Success;
     }
-    return bt::Node::Status::Failure;
+    else {
+        return bt::Node::Status::Failure;
+    }
 }
 
 } // ai

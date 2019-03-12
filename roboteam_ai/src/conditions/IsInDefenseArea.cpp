@@ -36,11 +36,12 @@ bt::Node::Status IsInDefenseArea::update() {
 
     }
     ourDefenseArea = properties->getBool("ourDefenseArea");
+    outsideField = properties->getBool("outsideField");
     if (properties->hasDouble("margin")) margin = static_cast<float>(properties->getDouble("margin"));
     else margin = 0.0f;
 
     roboteam_msgs::World world = World::get_world();
-    if (Field::pointIsInDefenceArea(point, ourDefenseArea, margin)) {
+    if (Field::pointIsInDefenceArea(point, ourDefenseArea, margin, outsideField)) {
         return Status::Success;
     }
     return Status::Failure;
