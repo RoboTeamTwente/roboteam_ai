@@ -184,21 +184,15 @@ bool OffensiveCoach::compareByScore(OffensivePosition position1, OffensivePositi
 
 Vector2 OffensiveCoach::calculatePositionForRobot(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
     if ((robotPositions.find(robot->id) == robotPositions.end())) { // not there yet
+        std::cout << "Calculating new position for robot " << robot->id << std::endl;
         double distance = 999;
         double currentDistance;
         OffensiveCoach::OffensivePosition newRobotPosition;
         for (auto &position : offensivePositions) {
             currentDistance = (position.position - robot->pos).length();
             if (currentDistance < distance) {
-                for (auto &robotPosition : robotPositions) {
-                    if (robotPosition.first != robot->id) {
-                        if ((robotPosition.second.position - position.position).length() >
-                            Constants::OFFENSIVE_POSITION_DISTANCE()) {
-                            distance = currentDistance;
-                            newRobotPosition = position;
-                        }
-                    }
-                }
+                distance = currentDistance;
+                newRobotPosition = position;
             }
         }
         if (distance == 999) {
@@ -206,13 +200,14 @@ Vector2 OffensiveCoach::calculatePositionForRobot(std::shared_ptr<roboteam_msgs:
             newRobotPosition.score = calculatePositionScore(robot->pos);
         }
 
-        if ((newRobotPosition.position - robot->pos).length() < 0.2) {
+        if ((newRobotPosition.position - robot->pos).length() < 0.4) {
             robotPositions[robot->id] = newRobotPosition;
         }
 
         return newRobotPosition.position;
 
     } else {
+        std::cout << "Calculating better position for robot " << robot->id << std::endl;
         calculateNewRobotPositions(robot);
         if ((robotPositions.find(robot->id) == robotPositions.end())) { //not in there
             return calculatePositionForRobot(robot);
@@ -251,8 +246,13 @@ void OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::W
     int attempts = 40;
     int attempt = 0;
     OffensiveCoach::OffensivePosition currentRobotPosition = robotPositions[robot->id];
+
+    Vector2 currentPosition = currentRobotPosition.position;
+    double currentScore = calculatePositionScore(currentPosition);
+
     Vector2 newPosition;
     double newScore;
+
     bool foundNewPosition = false;
 
     while (attempt <= attempts) {
@@ -280,17 +280,19 @@ void OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::W
 
         if (!Field::pointIsInField(newPosition) || Field::pointIsInDefenceArea(newPosition, false)) continue;
         newScore = calculatePositionScore(newPosition);
-        if (newScore > currentRobotPosition.score && newScore > offensivePositions[maxPositions - 1].score) {
-            currentRobotPosition.position = newPosition;
-            currentRobotPosition.score = newScore;
+        if (newScore > currentScore && newScore > offensivePositions[maxPositions - 1].score) {
+            currentPosition = newPosition;
+            currentScore = newScore;
             foundNewPosition = true;
         }
         attempt++;
     }
     if (foundNewPosition) {
-        robotPositions[robot->id] = currentRobotPosition;
+        robotPositions[robot->id].position = currentPosition;
+        robotPositions[robot->id].score = currentScore;
     } else {
         robotPositions.erase(robot->id);
+        std::cout << "Remove old position for robot " << robot->id << std::endl;
     }
 }
 
