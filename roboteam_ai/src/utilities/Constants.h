@@ -52,7 +52,7 @@ public:
 
 // Skills
     static double DEFAULT_KICK_POWER()          { return 5.0; };   // Max kick power() { return  100 }
-    static double MAX_KICK_POWER()              { return 8.0; };   // TODO: CHECK
+    static float MAX_KICK_POWER()              { return 8.0; };   // TODO: CHECK
     static double MAX_POWER_KICK_DISTANCE()     { return 9.0; };
     static int MAX_KICK_CYCLES()                { return 20; };
     static int MAX_GENEVA_CYCLES()              { return 20; };

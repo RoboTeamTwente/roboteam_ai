@@ -17,6 +17,22 @@ class ShootPenalty : public Skill {
         Status onUpdate() override;
         void onInitialize() override;
         void onTerminate(Status s) override;
+        Angle geneva = 0.349066; // 20 degrees
+        Angle fakeOffset = 0.0872665; // 5 degrees
+        Vector2 targetPos;
+        enum Progress {
+          GOING,
+          ROTATING,
+          READY,
+          SHOOTING,
+          AVOIDING
+        };
+        Progress progress = GOING;
+        double errorMarginPos = 0.02;
+        double errorMarginAng = 0.0174533; // 1 degrees
+
+        control::PositionController goToPos;
+
 
 };
 
