@@ -24,6 +24,7 @@ public:
     static vector<OffensivePosition> &getOffensivePositions();
 
 private:
+
     static double marginFromLines;
 
     static double newRobotPositionMargin;
@@ -40,6 +41,7 @@ private:
     static double calculateDistanceToOpponentsScore(Vector2 position, roboteam_msgs::World world);
     static double calculateDistanceFromCorner(Vector2 position, roboteam_msgs::GeometryFieldSize field);
     static std::vector<OffensivePosition> getAreaPositions(double xStart, double xEnd, double yStart, double yEnd, double numberOfPositions);
+    static void drawOffensivePoints();
 public:
     static double calculatePositionScore(Vector2 position);
     static void calculateNewPositions();

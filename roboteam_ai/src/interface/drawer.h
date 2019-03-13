@@ -25,12 +25,17 @@ class Drawer {
         static GTPPoints getKeeperPoints(int id);
         static void setInterceptPoints(int id, GTPPoints points);
         static GTPPoints getInterceptPoints(int id);
+        static void setOffensivePoints(GTPPoints points);
+        static GTPPoints getOffensivePoints();
+        static void setAttackerPoints(int id, GTPPoints points);
+        static GTPPoints getAttackerPoints(int id);
     private:
-        static std::mutex goToPosMutex,keeperMutex,interceptMutex,offensiveMutex;
+        static std::mutex goToPosMutex,keeperMutex,interceptMutex,offensiveMutex,attackerMutex;
         static std::map<int, GTPPoints> GoToPosLuThPoints;
         static std::map<int, GTPPoints> KeeperPoints;
         static std::map<int, GTPPoints> InterceptPoints;
-        static std::map<int, GTPPoints> OffensivePoints;
+        static std::map<int, GTPPoints> AttackerPoints;
+        static GTPPoints OffensivePoints;
 };
 
 } // interface

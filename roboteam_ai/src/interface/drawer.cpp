@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by mrlukasbos on 4-12-18.
 //
@@ -12,10 +14,14 @@ namespace interface {
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::GoToPosLuThPoints;
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::KeeperPoints;
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::InterceptPoints;
+std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::AttackerPoints;
+std::vector<std::pair<Vector2, QColor>> Drawer::OffensivePoints;
 
 std::mutex Drawer::keeperMutex;
 std::mutex Drawer::goToPosMutex;
 std::mutex Drawer::interceptMutex;
+std::mutex Drawer::offensiveMutex;
+std::mutex Drawer::attackerMutex;
 
 void Drawer::setGoToPosLuThPoints(int id, GTPPoints points) {
     std::lock_guard<std::mutex> lock(goToPosMutex);
@@ -78,6 +84,35 @@ Drawer::GTPPoints Drawer::getInterceptPoints(int id) {
     }
     return {};
 
+}
+
+void Drawer::setAttackerPoints(int id, GTPPoints points) {
+    std::lock_guard<std::mutex> lock(attackerMutex);
+
+    std::pair<int, GTPPoints> pair{id, std::move(points)};
+
+    AttackerPoints.erase(id);
+    AttackerPoints.insert(pair);
+}
+
+Drawer::GTPPoints Drawer::getAttackerPoints(int id) {
+    std::lock_guard<std::mutex> lock(attackerMutex);
+
+    if (AttackerPoints.find(id) != AttackerPoints.end()) {
+        return AttackerPoints.at(id);
+    }
+    return {};
+
+}
+
+void Drawer::setOffensivePoints(GTPPoints points){
+    std::lock_guard<std::mutex> lock(offensiveMutex);
+    OffensivePoints = std::move(points);
+}
+
+Drawer::GTPPoints Drawer::getOffensivePoints(){
+    std::lock_guard<std::mutex> lock(offensiveMutex);
+    return OffensivePoints;
 }
 
 } // interface

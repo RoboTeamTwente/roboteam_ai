@@ -3,13 +3,14 @@
 //
 
 #include <roboteam_ai/src/interface/widget.h>
+#include <roboteam_ai/src/interface/drawer.h>
 #include "OffensiveCoach.h"
 
 namespace rtt {
 namespace ai {
 namespace coach {
 
-int OffensiveCoach::maxPositions = 15;
+int OffensiveCoach::maxPositions = 4;
 double OffensiveCoach::newRobotPositionMargin = 0.05;
 double OffensiveCoach::marginFromLines = 0.2;
 std::vector<OffensiveCoach::OffensivePosition> OffensiveCoach::offensivePositions;
@@ -75,22 +76,17 @@ double OffensiveCoach::calculatePositionScore(Vector2 position) {
 }
 
 void OffensiveCoach::calculateNewPositions() {
-    std::vector<OffensiveCoach::OffensivePosition> newPositions;
-    for (auto &positionPointer : offensivePositions) {
-        OffensivePosition position = positionPointer;
-        position.score = calculatePositionScore(position.position);
-
-        bool tooClose = false;
+    auto it = offensivePositions.begin();
+    while (it < offensivePositions.end()) {
+        it->score = calculatePositionScore(it->position);
         for (auto& robotPosition : robotPositions) {
-            if ((robotPosition.second.position - position.position).length() < Constants::ATTACKER_DISTANCE()) {
-                tooClose = true;
+            if ((it->position - robotPosition.second.position).length() < Constants::ATTACKER_DISTANCE()) {
+                offensivePositions.erase(it);
                 break;
             }
         }
-        if (!tooClose) newPositions.emplace_back(position);
+        it++;
     }
-
-    offensivePositions = newPositions;
 
     roboteam_msgs::GeometryFieldSize field = Field::get_field();
     double xStart = 0 + marginFromLines;
@@ -98,84 +94,59 @@ void OffensiveCoach::calculateNewPositions() {
     double yStart = -field.field_width + marginFromLines;
     double yEnd = field.field_width - marginFromLines;
 
-    int attempts = 40;
-    int attempt = 0;
-    double score = 0;
-    OffensivePosition position;
+    int attempts = 30;
 
-    while (attempt <= attempts) {
+    for (int attempt = 0; attempt < attempts; attempt++) {
+        OffensivePosition position;
+
         double x = (xEnd - xStart) * ( (double)rand() / (double)RAND_MAX) + xStart;
         double y = (yEnd - yStart) * ( (double)rand() / (double)RAND_MAX) + yStart;
-        Vector2 newPosition = {x, y};
 
-        if (!Field::pointIsInField({x, y}) || Field::pointIsInDefenceArea({x, y}, false)) continue;
+        position.position = {x, y};
+
+        if (!Field::pointIsInField(position.position) || Field::pointIsInDefenceArea(position.position, false)) {
+            attempt--;
+            continue;
+        }
 
         bool tooClose = false;
-        for (auto &robotPosition : offensivePositions) {
-            if ((newPosition - robotPosition.position).length() < Constants::OFFENSIVE_POSITION_DISTANCE()) {
-                tooClose = true;
-                attempt++;
-                break;
-            }
-        }
-
         for (auto &robotPosition : robotPositions) {
-            if ((newPosition - robotPosition.second.position).length() < Constants::ATTACKER_DISTANCE()) {
+            if ((position.position - robotPosition.second.position).length() < Constants::ATTACKER_DISTANCE()) {
                 tooClose = true;
-                attempt++;
-                break;
+                continue;
             }
         }
 
-        if (tooClose) continue;
-
-        score = calculatePositionScore({x, y});
-        position.position = {x, y};
-        position.score = score;
-
-        if (offensivePositions.size() < maxPositions) {
-            position.position = {x, y};
-            position.score = score;
-            bool betterPosition = false;
-            for (auto &positionPointer : offensivePositions) {
-                if ((position.position - positionPointer.position).length() < Constants::OFFENSIVE_POSITION_DISTANCE()) {
-                    if (position.score > positionPointer.score) {
-                        positionPointer = position;
-                        betterPosition = true;
-                        attempt++;
-                        break;
-                    }
-                }
-            }
-
-            if (!betterPosition) {
-                offensivePositions.emplace_back(position);
-            }
-            offensivePositions.emplace_back(position);
-        } else if (score > offensivePositions[maxPositions - 1].score) {
-            bool betterPosition = false;
-            for (auto &positionPointer : offensivePositions) {
-                if ((position.position - positionPointer.position).length() < Constants::OFFENSIVE_POSITION_DISTANCE()) {
-                    if (position.score > positionPointer.score) {
-                        positionPointer = position;
-                        betterPosition = true;
-                        attempt++;
-                        break;
-                    }
-                }
-            }
-
-            if (!betterPosition) {
-                offensivePositions.emplace_back(position);
-            }
+        if (tooClose) {
+            attempt--;
+            continue;
         }
 
-        attempt++;
+        position.score =  calculatePositionScore({x, y});
+
+        if (offensivePositions.empty()) {
+            offensivePositions.push_back(position);
+            continue;
+        }
+
+        OffensivePosition bestPos = position;
+        auto it = offensivePositions.begin();
+        while (it < offensivePositions.end()) {
+            if ((position.position - it->position).length() < Constants::OFFENSIVE_POSITION_DISTANCE()) {//Constants::ATTACKER_DISTANCE()) {
+                if (it->score >= bestPos.score) {
+                    bestPos.position = it->position;
+                    bestPos.score = it->score;
+                }
+                offensivePositions.erase(it);
+            }
+            it++;
+        }
+        offensivePositions.push_back(bestPos);
     }
 
     std::sort(offensivePositions.begin(), offensivePositions.end(), compareByScore);
     offensivePositions.erase(offensivePositions.begin() + maxPositions, offensivePositions.end());
-    std::cout << robotPositions.size() << std::endl;
+    drawOffensivePoints();
 }
 
 bool OffensiveCoach::compareByScore(OffensivePosition position1, OffensivePosition position2) {
@@ -200,10 +171,10 @@ Vector2 OffensiveCoach::calculatePositionForRobot(std::shared_ptr<roboteam_msgs:
             newRobotPosition.score = calculatePositionScore(robot->pos);
         }
 
-        if ((newRobotPosition.position - robot->pos).length() < 0.4) {
+
+        if ((newRobotPosition.position - robot->pos).length() < 0.8) {
             robotPositions[robot->id] = newRobotPosition;
         }
-
         return newRobotPosition.position;
 
     } else {
@@ -212,6 +183,7 @@ Vector2 OffensiveCoach::calculatePositionForRobot(std::shared_ptr<roboteam_msgs:
         if ((robotPositions.find(robot->id) == robotPositions.end())) { //not in there
             return calculatePositionForRobot(robot);
         } else {
+
             return robotPositions[robot->id].position;
         }
     }
@@ -243,8 +215,6 @@ double OffensiveCoach::calculateDistanceFromCorner(Vector2 position, roboteam_ms
 }
 
 void OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
-    int attempts = 40;
-    int attempt = 0;
     OffensiveCoach::OffensivePosition currentRobotPosition = robotPositions[robot->id];
 
     Vector2 currentPosition = currentRobotPosition.position;
@@ -252,47 +222,40 @@ void OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::W
 
     Vector2 newPosition;
     double newScore;
-
     bool foundNewPosition = false;
 
-    while (attempt <= attempts) {
-        double xStart = currentRobotPosition.position.x - newRobotPositionMargin;
-        double xEnd = currentRobotPosition.position.x + newRobotPositionMargin;
-        double yStart = currentRobotPosition.position.y - newRobotPositionMargin;
-        double yEnd = currentRobotPosition.position.y + newRobotPositionMargin;
+    for (int xDiff : {-2, -1, 0, 1, 2}) {
+        for (int yDiff : {-2, -1, 0, 1, 2}) {
+            if (!Field::pointIsInField(newPosition) || Field::pointIsInDefenceArea(newPosition, false)) continue;
+            newPosition.x = currentPosition.x + 0.01 * xDiff;
+            newPosition.y = currentPosition.y + 0.01 * yDiff;
 
-        double x = (xEnd - xStart) * ( (double)rand() / (double)RAND_MAX) + xStart;
-        double y = (yEnd - yStart) * ( (double)rand() / (double)RAND_MAX) + yStart;
-        newPosition = {x, y};
-
-        bool tooClose = false;
-        for (auto& robotPosition : robotPositions) {
-            if (robotPosition.first != robot->id) {
-                if ((newPosition - robotPosition.second.position).length() < Constants::ATTACKER_DISTANCE()) {
-                    tooClose = true;
-                    attempt++;
-                    break;
+            bool tooClose = false;
+            for (auto &robotPosition : robotPositions) {
+                if (robotPosition.first != robot->id) {
+                    if ((newPosition - robotPosition.second.position).length() < Constants::ATTACKER_DISTANCE()) {
+                        tooClose = true;
+                        break;
+                    }
                 }
             }
-        }
 
-        if (tooClose) continue;
+            if (tooClose) continue;
+            newScore = calculatePositionScore(newPosition);
+            if (newScore > currentScore && newScore > 0.6 * offensivePositions[maxPositions - 1].score) {
+                currentPosition = newPosition;
+                currentScore = newScore;
+                foundNewPosition = true;
+            }
 
-        if (!Field::pointIsInField(newPosition) || Field::pointIsInDefenceArea(newPosition, false)) continue;
-        newScore = calculatePositionScore(newPosition);
-        if (newScore > currentScore && newScore > offensivePositions[maxPositions - 1].score) {
-            currentPosition = newPosition;
-            currentScore = newScore;
-            foundNewPosition = true;
         }
-        attempt++;
     }
     if (foundNewPosition) {
         robotPositions[robot->id].position = currentPosition;
         robotPositions[robot->id].score = currentScore;
     } else {
         robotPositions.erase(robot->id);
-        std::cout << "Remove old position for robot " << robot->id << std::endl;
+
     }
 }
 
@@ -308,6 +271,23 @@ vector<OffensiveCoach::OffensivePosition> OffensiveCoach::getRobotPositions() {
     }
 
     return positions;
+}
+
+void OffensiveCoach::drawOffensivePoints() {
+    /// Draw general offensive points
+    std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
+    for (auto offensivePosition : offensivePositions) {
+        displayColorData.emplace_back(std::make_pair(offensivePosition.position, Qt::green));
+    }
+    interface::Drawer::setOffensivePoints(displayColorData);
+
+    /// Draw attacker points specific to robot
+    displayColorData = {};
+    for (auto robotPosition : robotPositions) {
+        displayColorData.emplace_back(std::make_pair(robotPosition.second.position, Qt::darkYellow));
+        interface::Drawer::setAttackerPoints(robotPosition.first, displayColorData);
+    }
+
 }
 
 }

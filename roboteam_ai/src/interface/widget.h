@@ -56,7 +56,8 @@ class Visualizer : public QWidget {
         void drawDataPoints(QPainter &painter, std::vector<Vector2> points, int pointSize = 3,
                 QColor color = Qt::green);
         void drawDataPoints(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize = 3);
-        void drawOffensivePoints(QPainter &painter, std::vector<coach::OffensiveCoach::OffensivePosition> positions, QColor color);
+        void drawCrosses(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, double size = 5);
+
         // utitlity functions
         std::string getTacticNameForRobot(roboteam_msgs::WorldRobot robot);
         std::string getRoleNameForRobot(roboteam_msgs::WorldRobot robot);

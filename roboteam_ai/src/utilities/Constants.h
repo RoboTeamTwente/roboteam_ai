@@ -91,7 +91,7 @@ public:
     static double KEEPER_POSDIF()               { return 0.01; };
 
     //Attacker
-    static double OFFENSIVE_POSITION_DISTANCE() { return 0.4; };
+    static double OFFENSIVE_POSITION_DISTANCE() { return 0.8; };
     static double ATTACKER_DISTANCE()           { return 1.6; };
 
     //ballkickedtoGoal
