@@ -12,7 +12,11 @@ std::vector<std::pair<roboteam_msgs::World, double>> World::futureWorlds;
 bool World::didReceiveFirstWorld = false;
 std::map<int, double> World::OurBotsBall;
 std::map<int, double> World::TheirBotsBall;
-
+double World::ballUsNearT=0;
+double World::ballUsFarT=0;
+double World::ballThemNearT=0;
+double World::ballThemFarT=0;
+World::ballPossession World::possession=World::ballPossession::LOOSE;
 std::mutex World::worldMutex;
 
 /// return the world message
@@ -26,14 +30,14 @@ const roboteam_msgs::World &World::get_world() {
 void World::set_world(roboteam_msgs::World _world) {
     std::lock_guard<std::mutex> lock(worldMutex);
     futureWorlds = {{},{}};
-
-    if (! _world.us.empty()) {
-        didReceiveFirstWorld = true;
-    }
     if (!_world.ball.visible){
         _world.ball=updateBallPosition(_world);
     }
     updateBallPossession(_world);
+    if (! _world.us.empty()) {
+        didReceiveFirstWorld = true;
+    }
+    determineBallPossession(_world);
     world = _world;
 }
 
@@ -313,7 +317,87 @@ std::vector<roboteam_msgs::WorldRobot> World::getAllRobots() {
     allRobots.insert(allRobots.end(), world.them.begin(), world.them.end());
     return allRobots;
 }
+void World::determineBallPossession(roboteam_msgs::World _world) {
+    double closeTresh=0.2;
+    double farTresh=0.4;
+    if (!OurBotsBall.empty()) {
+        for (auto bot: OurBotsBall) {
+            if (bot.second < closeTresh) {
+                ballUsNearT += (_world.time - world.time);
+            }
+            else {
+                ballUsNearT = 0;
+            }
+        }
+    }
+    else{
+        ballUsNearT = 0;
+    }
+    if (!TheirBotsBall.empty()) {
+        for (auto bot: TheirBotsBall) {
+            if (bot.second < closeTresh) {
+                ballThemNearT += (_world.time - world.time);
+            }
+            else {
+                ballThemNearT = 0;
+            }
+        }
+    }
+    else{
+        ballThemNearT = 0;
+    }
+    bool areWeFar=true;
+    for (auto bot: _world.us){
+        if((Vector2(world.ball.pos)-Vector2(bot.pos)).length()<farTresh){
+            areWeFar=false;
+            break;
+        }
+    }
+    if (areWeFar){
+        ballUsFarT+=(_world.time - world.time);
+    }
+    else{
+        ballUsFarT=0;
+    }
+    bool areTheyFar=true;
+    for (auto bot: _world.them){
+        if((Vector2(world.ball.pos)-Vector2(bot.pos)).length()<farTresh){
+            areTheyFar=false;
+            break;
+        }
+    }
+    if (areTheyFar){
+        ballThemFarT+=(_world.time - world.time);
+    }
+    else{
+        ballThemFarT=0;
+    }
+    double closeTime=0.1;
+    double farTime=1.0;
 
+    if (ballUsNearT>closeTime&&ballThemNearT<closeTime){
+        possession=ballPossession::WEHAVEBALL;
+    }
+    else if(ballUsNearT>closeTime&&ballThemNearT>closeTime){
+        possession=ballPossession::CONTENDED;
+    }
+    else if (ballUsNearT<closeTime&&ballThemNearT>closeTime){
+        possession=ballPossession::THEYHAVEBALL;
+    }
+    else if (ballUsFarT>farTime&&ballThemFarT>farTime){
+        possession=ballPossession::LOOSE;
+    }
+//    std::cout<<"--------"<<std::endl;
+//    std::cout<<"usclose:"<< ballUsNearT<<std::endl;
+//    std::cout<<"themclose:"<< ballThemNearT<<std::endl;
+//    std::cout<<"usFar:"<< ballUsFarT<<std::endl;
+//    std::cout<<"themFar:"<< ballThemFarT<<std::endl;
+//    std::cout<<possession<<std::endl;
+    return;
+}
+World::ballPossession World::getPossession() {
+    return possession;
+}
 //bool World::weHaveBall() {
 //    return World::teamHasBall(true);
 //}

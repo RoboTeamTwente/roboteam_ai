@@ -25,7 +25,12 @@ namespace rtt {
 namespace ai {
 
 class World {
-private:
+    public:
+        enum ballPossession{WEHAVEBALL,THEYHAVEBALL, CONTENDED, LOOSE};
+    private:
+    static ballPossession possession;
+    static double ballUsNearT,ballUsFarT,ballThemNearT,ballThemFarT;
+    static void determineBallPossession(roboteam_msgs::World _world);
     static roboteam_msgs::World world;
     static std::mutex worldMutex;
     static std::vector<std::pair<roboteam_msgs::World, double>> futureWorlds;
@@ -34,6 +39,7 @@ private:
     static void updateBallPossession(roboteam_msgs::World &_world);
     static roboteam_msgs::WorldBall updateBallPosition(roboteam_msgs::World _world);
 public:
+    static ballPossession getPossession();
     static void set_world(roboteam_msgs::World world);
     static const roboteam_msgs::World &get_world();
     static std::shared_ptr<roboteam_msgs::WorldBall> getBall();
