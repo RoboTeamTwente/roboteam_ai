@@ -8,7 +8,7 @@
 #include "drawer.h"
 #include "InterfaceValues.h"
 #include "../analysis/GameAnalyzer.h"
-
+#include "../utilities/BallModel.h"
 namespace rtt {
 namespace ai {
 namespace interface {
@@ -81,6 +81,12 @@ void Visualizer::drawBall(QPainter &painter) {
     QPointF qballPosition(ballPosition.x, ballPosition.y);
     if (!rtt::ai::World::get_world().ball.visible){
         painter.setBrush(Qt::red); // fill
+    }
+    else if (rtt::ai::BallModel::ballKicked()){
+        painter.setBrush(Qt::green);
+    }
+    else if (rtt::ai::BallModel::ballCollided()){
+        painter.setBrush(Qt::blue);
     }
     else{
         painter.setBrush(Constants::BALL_COLOR()); // fill

@@ -12,6 +12,7 @@ class BallModel {
         static roboteam_msgs::WorldBall currentBall;
         static bool ballInAir;
         static bool collidesNow;
+        static bool kickedNow;
         static double lastKickVel;
         static int ballStraightTicks;
 

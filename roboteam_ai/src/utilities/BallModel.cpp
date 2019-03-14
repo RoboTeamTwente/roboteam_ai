@@ -13,42 +13,66 @@ roboteam_msgs::WorldBall BallModel::currentBall;
 bool BallModel::ballInAir;
 double BallModel::lastKickVel;
 bool BallModel::collidesNow;
+bool BallModel::kickedNow;
 int BallModel::ballStraightTicks=0;
 void BallModel::updateBallModel(roboteam_msgs::WorldBall newBall) {
     // check for collisions
+    Vector2 lastVel=Vector2(currentBall.vel);
+    Vector2 newVel= Vector2(newBall.vel);
+    //TODO: this model need to be tuned for real life / the noise levels need to be tested esp
     double maxDecelleration=5.0; // m/s^2
-    double lastVel=Vector2(currentBall.vel).length();
+    double maxAngleDeviation=5.0/180.0*M_PI;
+    double threshold=0.1;// m/s
+    double baseNoise=0.2;// m/s
+    double slope=0.2 ; // m/s / m/s
     double velNoiseMax;
-    if (lastVel<0.1){
-        velNoiseMax=0.02;
+    if (lastVel.length()<threshold){
+        velNoiseMax=baseNoise;
     }
     else {
-        velNoiseMax=0.3*lastVel;
+        velNoiseMax=baseNoise+slope*(lastVel.length()-threshold);
     }
-    double maxAngleDeviation=5.0/180.0*M_PI;
-    double newVel= Vector2(newBall.vel).length();
-    if (control::ControlUtils::angleDifference(Vector2(currentBall.vel).angle(),Vector2(newBall.vel).angle())>=maxAngleDeviation){
-        collidesNow=true;
-        ballStraightTicks=0;
-    }
-    else if(newVel>(velNoiseMax+lastVel)||newVel<(lastVel-maxDecelleration*1/60-velNoiseMax)){
-        collidesNow=true;
-        ballStraightTicks=0;
+
+    if ((lastVel-newVel).length()>velNoiseMax){
+        // decelleration in the direction; just ball rolling
+        double angDif=control::ControlUtils::angleDifference(lastVel.angle(),newVel.angle());
+        double minLen=lastVel.length()-maxDecelleration*1/60-velNoiseMax;
+        if(angDif<=maxAngleDeviation&&newVel.length()>minLen){
+            collidesNow=false;
+            ballStraightTicks++;
+            kickedNow=false;
+        }
+        else{
+            std::cout<<angDif<< " : "<<maxAngleDeviation<< "|| " << newVel.length() <<" :" <<minLen<<std::endl;
+            ballStraightTicks=0;
+            // kicked or collided
+            if (newVel.length()>(lastVel.length()+velNoiseMax)){
+                kickedNow=true;
+                std::cout<<"KICKED"<<std::endl;
+
+            }
+            else{
+                collidesNow=true;
+                std::cout<<"COLLIDED"<<std::endl;
+            }
+        }
     }
     else{
         collidesNow=false;
         ballStraightTicks++;
+        kickedNow=false;
     }
-    //
-
-
-
+    currentBall=newBall;
+    std::cout<<ballStraightTicks<<std::endl;
 }
 bool BallModel::ballCollided() {
     return collidesNow;
 }
 bool BallModel::isBallInAir() {
     return ballInAir;
+}
+bool BallModel::ballKicked() {
+    return kickedNow;
 }
 
 }

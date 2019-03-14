@@ -1,7 +1,7 @@
 #include <utility>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "World.h"
-
+#include "BallModel.h"
 namespace rtt {
 namespace ai {
 
@@ -38,6 +38,7 @@ void World::set_world(roboteam_msgs::World _world) {
         didReceiveFirstWorld = true;
     }
     determineBallPossession(_world);
+    BallModel::updateBallModel(_world.ball);
     world = _world;
 }
 
@@ -398,6 +399,7 @@ void World::determineBallPossession(roboteam_msgs::World _world) {
 World::ballPossession World::getPossession() {
     return possession;
 }
+
 //bool World::weHaveBall() {
 //    return World::teamHasBall(true);
 //}
