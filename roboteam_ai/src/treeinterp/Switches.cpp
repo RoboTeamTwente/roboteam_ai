@@ -92,7 +92,8 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "SingleKeeperTactic",
          "DemoAttackerTactic",
          "DemoTactic",
-         "randomTactic" // used for testing, do not remove it!
+         "randomTactic",
+         "victoryDanceTactic"// used for testing, do not remove it!
          };
 
 
@@ -109,7 +110,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
          "EnterFormationStrategy",
          "BallPlacementUsStrategy",
          "BallPlacementThemStrategy",
-         "randomStrategy" // used for testing, do not remove it!
+         "randomStrategy",
+         "victoryDanceStrategy"// used for testing, do not remove it!
         };
 
 std::vector<std::string> Switches::keeperJsonFiles =
@@ -161,6 +163,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["Attack"] =                 std::make_shared<rtt::ai::Attack>(name, properties);
     map["AvoidBall"] =              std::make_shared<rtt::ai::AvoidBall>(name, properties);
     map["BasicGoToPos"] =           std::make_shared<rtt::ai::BasicGoToPos>(name, properties);
+    map["Chip"] =                   std::make_shared<rtt::ai::Chip>(name,properties);
     map["Defend"] =                 std::make_shared<rtt::ai::Defend>(name, properties);
     map["DefendOnRobot"] =          std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
     map["Dribble"] =                std::make_shared<rtt::ai::Dribble>(name, properties);

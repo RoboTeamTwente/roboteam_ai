@@ -13,6 +13,8 @@ class BallModel {
         static bool ballInAir;
         static bool collidesNow;
         static double lastKickVel;
+        static int ballStraightTicks;
+
     public:
         static void updateBallModel(roboteam_msgs::WorldBall newBall);
         static bool isBallInAir();

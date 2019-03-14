@@ -13,7 +13,9 @@ roboteam_msgs::WorldBall BallModel::currentBall;
 bool BallModel::ballInAir;
 double BallModel::lastKickVel;
 bool BallModel::collidesNow;
+int BallModel::ballStraightTicks=0;
 void BallModel::updateBallModel(roboteam_msgs::WorldBall newBall) {
+    // check for collisions
     double maxDecelleration=5.0; // m/s^2
     double lastVel=Vector2(currentBall.vel).length();
     double velNoiseMax;
@@ -27,15 +29,26 @@ void BallModel::updateBallModel(roboteam_msgs::WorldBall newBall) {
     double newVel= Vector2(newBall.vel).length();
     if (control::ControlUtils::angleDifference(Vector2(currentBall.vel).angle(),Vector2(newBall.vel).angle())>=maxAngleDeviation){
         collidesNow=true;
+        ballStraightTicks=0;
     }
     else if(newVel>(velNoiseMax+lastVel)||newVel<(lastVel-maxDecelleration*1/60-velNoiseMax)){
         collidesNow=true;
+        ballStraightTicks=0;
     }
     else{
         collidesNow=false;
+        ballStraightTicks++;
     }
+    //
 
 
+
+}
+bool BallModel::ballCollided() {
+    return collidesNow;
+}
+bool BallModel::isBallInAir() {
+    return ballInAir;
 }
 
 }
