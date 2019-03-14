@@ -40,7 +40,6 @@ Skill::Status ShootPenalty::onUpdate() {
         }
 
         case ROTATING: {
-            std::cout << (robot->w - fakeOffset) << std::endl;
             if ((robot->w - fakeOffset) > errorMarginAng) {
                 roboteam_msgs::RobotCommand command;
                 command.id = robot->id;

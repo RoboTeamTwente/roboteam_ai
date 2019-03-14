@@ -28,6 +28,10 @@ class ShootFreeKick : public Skill {
         };
 
         Progress progress;
+        Vector2 targetPos;
+        control::PositionController goToPos;
+        double errorMarginPos = Constants::PENALTY_SHOOT_MARGIN() + 0.02; // Same logic
+
 };
 
 }
