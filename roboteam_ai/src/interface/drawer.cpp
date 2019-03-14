@@ -79,7 +79,6 @@ Drawer::GTPPoints Drawer::getInterceptPoints(int id) {
     return {};
 
 }
-
 } // interface
 } // ai
 } // rtt

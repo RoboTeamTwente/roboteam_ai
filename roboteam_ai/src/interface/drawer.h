@@ -25,6 +25,7 @@ class Drawer {
         static GTPPoints getKeeperPoints(int id);
         static void setInterceptPoints(int id, GTPPoints points);
         static GTPPoints getInterceptPoints(int id);
+
     private:
         static std::mutex goToPosMutex,keeperMutex,interceptMutex;
         static std::map<int, GTPPoints> GoToPosLuThPoints;

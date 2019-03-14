@@ -6,10 +6,10 @@
 #include <ros/node_handle.h>
 #include <roboteam_utils/Vector2.h>
 #include "math.h"
-#include "Field.h"
 
 namespace rtt {
 namespace ai {
+
 
 class Constants {
 public:

@@ -33,7 +33,7 @@
             "id": "yq40mitub02qxvf",
             "title": "BasicGoToPos",
             "properties": {
-              "target": "{0,0}",
+              "target": "{3,0}",
               "avoidBall": "true",
               "ROLE": "shooter"
             }
