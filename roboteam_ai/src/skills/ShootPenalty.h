@@ -18,8 +18,11 @@ class ShootPenalty : public Skill {
         Status onUpdate() override;
         void onInitialize() override;
         void onTerminate(Status s) override;
+
+        // TODO : make some more faking logic
         Angle geneva = 0.349066; // 20 degrees
         Angle fakeOffset = 0.0872665; // 5 degrees
+
         Vector2 targetPos;
         enum Progress {
           GOING,
