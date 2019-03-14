@@ -11,7 +11,6 @@
 namespace rtt {
 namespace ai {
 
-
 class BasicGoToPos : public Skill {
     public:
         explicit BasicGoToPos(string name, bt::Blackboard::Ptr blackboard);
@@ -20,9 +19,8 @@ class BasicGoToPos : public Skill {
         Vector2 targetPos;
         control::PositionController goToPos;
         double errorMargin = 0.3;
-
-
 };
+
 }
 }
 

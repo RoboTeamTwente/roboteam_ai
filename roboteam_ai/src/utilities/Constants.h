@@ -21,7 +21,7 @@ public:
     static bool SHOW_NUMTREE_TIME_TAKEN()       { return false;};
 
 // Show debug information for different functions
-    static bool SHOW_NUMTREE_DEBUG_INFO()       { return false; };
+    static bool SHOW_NUMTREE_DEBUG_INFO()       { return true; };
 
 // Max values we can send through robothub
     static double MAX_VEL_CMD()                 { return 8.191; };
@@ -80,7 +80,7 @@ public:
 // PositionControl
     static double MAX_CALCULATION_TIME()        { return 5.0; };   // Max time in ms
     static double NUMTREE_ERROR_MARGIN()        { return 0.25; };
-    static double MIN_DISTANCE_FOR_FORCE()      { return 0.8; };
+    static double MIN_DISTANCE_FOR_FORCE()      { return 0.5; };
 
 // Keeper
     static double KEEPER_POST_MARGIN()          { return 0.08; };   // Meters
@@ -166,13 +166,13 @@ public:
                                                            {255, 100, 255, 255} }; };
 
 // Default PID values for the interface
-    static double standardNumTreePosP()         { return GRSIM() ? 0.8 : 2.8; };
-    static double standardNumTreePosI()         { return GRSIM() ? 0.1 : 0.6; };
-    static double standardNumTreePosD()         { return GRSIM() ? 2.0 : 2.3; };
+    static double standardNumTreePosP()         { return GRSIM() ? 1.5 : 2.8; };
+    static double standardNumTreePosI()         { return GRSIM() ? 0.0 : 0.6; };
+    static double standardNumTreePosD()         { return GRSIM() ? 0.0 : 2.3; };
 
-    static double standardNumTreeVelP()         { return GRSIM() ? 1.2 : 2.8; };
-    static double standardNumTreeVelI()         { return GRSIM() ? 0.5 : 0.6; };
-    static double standardNumTreeVelD()         { return GRSIM() ? 3.0 : 2.3; };
+    static double standardNumTreeVelP()         { return GRSIM() ? 2.5 : 2.8; };
+    static double standardNumTreeVelI()         { return GRSIM() ? 0.0 : 0.6; };
+    static double standardNumTreeVelD()         { return GRSIM() ? 2.5 : 2.3; };
 
 private:
     static bool isInitialized;

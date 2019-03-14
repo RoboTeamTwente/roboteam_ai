@@ -44,6 +44,8 @@ class PositionController {
         PIDController posPID;
         bool PIDHasInitialized = false;
         bool usingManualPID = false;
+        bool avoidBall = false;
+        bool canGoOutsideField = false;
 
         PosVelAngle pidController(const RobotPtr &robot, PosVelAngle target, bool checkInterface = true);
         void initializePID();

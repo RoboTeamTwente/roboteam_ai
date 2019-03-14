@@ -14,7 +14,6 @@ namespace control {
 
 class NumTreePosControl {
     private:
-        //constants, should be moved at some point, or adapted in a dynamic model (e.g. for lower speeds for certain branches, jazz like that)
         const double dt = 0.1;
         const double defaultRobotCollisionRadius = 3*Constants::ROBOT_RADIUS_MAX();
         int robotID = - 1;
@@ -35,8 +34,8 @@ class NumTreePosControl {
         // If there is another way to return a shared pointer from an object to itself that is more pretty let me know
         struct PathPoint : std::enable_shared_from_this<PathPoint> {
             private:
-                double maxV = 3.4;
-                double maxA = 5.1;
+                double maxV = 1.4;
+                double maxA = 8.1;
             public:
                 Vector2 currentTarget;  //Either the endPoint or an in between target
                 Vector2 finalTarget;    //Always the endPoint
@@ -71,7 +70,7 @@ class NumTreePosControl {
 
         };
 
-        PosVelAngle computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
+        PosVelAngle computeCommand();
 
         std::pair<std::vector<Vector2>, std::shared_ptr<PathPoint>> getNewTargets(
                 std::shared_ptr<PathPoint> collisionPoint);
