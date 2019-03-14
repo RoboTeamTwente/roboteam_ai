@@ -19,7 +19,7 @@ class GoBehindBall : public Skill {
           corner
         };
         control::PositionController goToPos;
-        unit type;
+        unit unitType;
         unit stringToUnit(std::string string);
         // TODO maybe be smarter than Thijs
         double errorMargin = 0.06;

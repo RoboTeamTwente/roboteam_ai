@@ -13,11 +13,13 @@ namespace ai {
 class ShootPenalty : public Skill {
     public:
         explicit ShootPenalty(string name, bt::Blackboard::Ptr blackboard);
-
-    private:
         Status onUpdate() override;
         void onInitialize() override;
         void onTerminate(Status s) override;
+
+
+
+    private:
 
         // TODO : make some more faking logic
         Angle geneva = 0.349066; // 20 degrees

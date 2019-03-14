@@ -13,7 +13,7 @@ GoBehindBall::GoBehindBall(string name, bt::Blackboard::Ptr blackboard)
 }
 
 Skill::Status GoBehindBall::onUpdate() {
-    switch (type) {
+    switch (unitType) {
         case penalty: {
             auto ball = ai::World::getBall();
             auto goal = ai::Field::get_their_goal_center();
@@ -44,7 +44,7 @@ Skill::Status GoBehindBall::onUpdate() {
 
 void GoBehindBall::onInitialize() {
     if (properties->hasString("type")) {
-        type = stringToUnit(properties->getString("type"));
+        unitType = stringToUnit(properties->getString("type"));
     }
 }
 
@@ -71,6 +71,10 @@ void GoBehindBall::publishCommand(Vector2 targetPos , Vector2 velocity) {
     command.w = static_cast<float>((targetPos-robot->pos).angle());
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
+
+    if (unitType == penalty)
+        command.geneva_state = 1;
+
     publishRobotCommand(command);
 
 }
