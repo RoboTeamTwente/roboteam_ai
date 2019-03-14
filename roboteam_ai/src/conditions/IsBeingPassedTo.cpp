@@ -14,7 +14,8 @@ IsBeingPassedTo::IsBeingPassedTo(std::string name, bt::Blackboard::Ptr blackboar
 void IsBeingPassedTo::initialize() {};
 
 IsBeingPassedTo::Status IsBeingPassedTo::update() {
-    if (coach::Coach::getRobotBeingPassedTo() == static_cast<int>(getRobotFromProperties(properties)->id)) {
+    robot = getRobotFromProperties(properties);
+    if (coach::Coach::getRobotBeingPassedTo() == robot->id) {
         return Status::Success;
     }
     else {

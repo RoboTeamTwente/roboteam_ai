@@ -10,7 +10,7 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
-int OffensiveCoach::maxPositions = 10;
+int OffensiveCoach::maxPositions = 4;
 double OffensiveCoach::maxDistanceFromBall = 6.0;
 double OffensiveCoach::newRobotPositionMargin = 0.05;
 double OffensiveCoach::marginFromLines = 0.2;
@@ -87,7 +87,7 @@ double OffensiveCoach::calculatePositionScore(Vector2 position) {
     double behindBallScore = position.x < world.ball.pos.x ? 0.7 : 1.0;
     double distanceFromCornerScore = calculateDistanceFromCorner(position, field);
 
-    double score = closeToGoalScore + shotAtGoalScore + passLineScore + closestOpponentScore
+    double score = 2 * closeToGoalScore + 2 * shotAtGoalScore + passLineScore + closestOpponentScore
             + distanceFromBallScore + behindBallScore + distanceFromCornerScore;
 
     return score;
@@ -173,7 +173,6 @@ bool OffensiveCoach::compareByScore(OffensivePosition position1, OffensivePositi
 
 Vector2 OffensiveCoach::calculatePositionForRobot(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
     if ((robotPositions.find(robot->id) == robotPositions.end())) { // not there yet
-        std::cout << "Calculating new position for robot " << robot->id << std::endl;
         double distance = 999;
         double currentDistance;
         OffensiveCoach::OffensivePosition newRobotPosition;
@@ -196,7 +195,6 @@ Vector2 OffensiveCoach::calculatePositionForRobot(std::shared_ptr<roboteam_msgs:
         return newRobotPosition.position;
 
     } else {
-        std::cout << "Calculating better position for robot " << robot->id << std::endl;
         calculateNewRobotPositions(robot);
         if ((robotPositions.find(robot->id) == robotPositions.end())) { //not in there
             return calculatePositionForRobot(robot);
@@ -289,6 +287,29 @@ void OffensiveCoach::drawOffensivePoints() {
         interface::Drawer::setAttackerPoints(robotPosition.first, displayColorData);
     }
 
+}
+
+int OffensiveCoach::getBestStrikerID() {
+    int bestRobot = -1;
+    double bestScore = 0;
+    for (auto& robotPosition : robotPositions) {
+        if (robotPosition.second.score > bestScore) {
+            bestRobot = robotPosition.first;
+            bestScore = robotPosition.second.score;
+        }
+    }
+
+    if (bestRobot == -1) {
+        for (auto& robot : World::get_world().us) {
+            double score = calculatePositionScore(robot.pos);
+            if (score > bestScore) {
+                bestRobot = robot.id;
+                bestScore = score;
+            }
+        }
+    }
+
+    return bestRobot;
 }
 
 }

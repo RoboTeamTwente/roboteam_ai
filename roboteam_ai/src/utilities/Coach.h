@@ -16,6 +16,7 @@
 #include <string>
 #include <gtest/gtest_prod.h>
 #include "roboteam_utils/Vector2.h"
+#include <roboteam_ai/src/utilities/OffensiveCoach.h>
 
 namespace rtt {
 namespace ai {

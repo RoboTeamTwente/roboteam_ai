@@ -70,7 +70,8 @@ public:
     static double HAS_BALL_ANGLE()              { return 0.2; }
 
     //kick
-    static double MAX_KICK_RANGE()              { return GRSIM() ? 0.4 : 0.04; };
+    static double MAX_KICK_RANGE()              { return GRSIM() ? 0.08 : 0.04; };
+    static double MAX_SHOOTING_DISTANCE()       { return 2.0; };
 
     //getBall
     static double COLLISION_RADIUS()            { return 0.18; };

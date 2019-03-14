@@ -116,7 +116,7 @@ bool Coach::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2
     Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, position);
     Vector2 deltaBall = behindBallPosition - ball;
 
-    double angleMargin = 0.12;
+    double angleMargin = 0.02;
 
     return (control::ControlUtils::pointInTriangle(robotPosition, ball, ball + (deltaBall).rotate(M_PI*angleMargin).scale(2.0),
             ball + (deltaBall).rotate(M_PI*- angleMargin).scale(2.0)));
@@ -255,8 +255,8 @@ void Coach::resetPass() {
 int Coach::initiatePass() {
     resetPass();
 
-    // TODO: More logic to decide which robot to pass to. Possibly split initiate in initiate and findRobotToPassTo
-    int robotBeingPassedTo = Field::getRobotClosestToGoal(true, false);
+    int robotBeingPassedTo = coach::OffensiveCoach::getBestStrikerID();
+    std::cout << "Pass to robot " << robotBeingPassedTo << std::endl;
     setRobotBeingPassedTo(robotBeingPassedTo);
     return robotBeingPassedTo;
 }

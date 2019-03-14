@@ -68,7 +68,7 @@ double ControlUtils::distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vec
     return d.length();
 }
 
-bool ControlUtils::clearLine(Vector2 fromPos, Vector2 toPos, roboteam_msgs::World world, double safelyness) {
+bool ControlUtils::clearLine(Vector2 fromPos, Vector2 toPos, roboteam_msgs::World world, double safelyness, bool keeper) {
     double minDistance = Constants::ROBOT_RADIUS() * safelyness * 3;
 
     for (auto enemy : world.them) {

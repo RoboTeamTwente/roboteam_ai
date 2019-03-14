@@ -12,3 +12,4 @@ IsBeingPassedTo
 IsCloseToPoint,ball,position,margin
 IsBallCloseToBorder,margin,corner,layingStill
 BallNearOurGoalLineAndStill,margin,outsideField
+ShotAtGoal

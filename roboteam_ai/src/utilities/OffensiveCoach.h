@@ -52,6 +52,7 @@ public:
     static void releaseRobot(int robotID);
     static Vector2 getPositionForRobotID(int robotID);
     static std::vector<OffensivePosition> getRobotPositions();
+    static int getBestStrikerID();
 
 };
 

@@ -94,6 +94,7 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "DemoAttackerTactic",
          "DemoTactic",
          "SideAttackerTactic",
+         "PassAndShootTactic",
          "randomTactic" // used for testing, do not remove it!
          };
 
@@ -112,6 +113,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
          "BallPlacementUsStrategy",
          "BallPlacementThemStrategy",
          "SideAttackerStrategy",
+         "PassAndShootStrategy",
          "randomStrategy" // used for testing, do not remove it!
         };
 
@@ -295,6 +297,13 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                    {"sideAttacker2", robotType::closeToTheirGoal},
                    {"sideAttacker3", robotType::closeToTheirGoal},
                    {"sideAttacker4", robotType::closeToTheirGoal}
+
+           }
+            },
+            {"PassAndShootTactic", {
+                   {"middleFielder1", robotType::closeToBall},
+                   {"sideAttacker1", robotType::closeToTheirGoal},
+                   {"sideAttacker2", robotType::closeToTheirGoal}
 
            }
             }
