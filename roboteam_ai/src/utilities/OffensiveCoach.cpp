@@ -10,7 +10,8 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
-int OffensiveCoach::maxPositions = 4;
+int OffensiveCoach::maxPositions = 10;
+double OffensiveCoach::maxDistanceFromBall = 6.0;
 double OffensiveCoach::newRobotPositionMargin = 0.05;
 double OffensiveCoach::marginFromLines = 0.2;
 std::vector<OffensiveCoach::OffensivePosition> OffensiveCoach::offensivePositions;
@@ -32,7 +33,7 @@ double OffensiveCoach::calculateShotAtGoalScore(Vector2 position, roboteam_msgs:
             safelyness -= 0.5;
         }
 
-    return 1 - exp(-0.1 * safelyness);
+    return 1 - exp(-safelyness);
 }
 
 
@@ -45,17 +46,34 @@ double OffensiveCoach::calculatePassLineScore(Vector2 position, roboteam_msgs::W
         safelyness -= 0.5;
     }
 
-    return 1 - exp(-0.1 * safelyness);
+    return 1 - exp(-safelyness);
 }
 
 double OffensiveCoach::calculateDistanceToOpponentsScore(Vector2 position, roboteam_msgs::World world) {
     shared_ptr<roboteam_msgs::WorldRobot> closestRobot = World::getRobotClosestToPoint(world.them, position);
     if (closestRobot) {
         double distance = (position - closestRobot->pos).length();
-        return 1 - exp(-1 * distance);
+        return 1 - exp(-0.5 * distance);
     } else {
         return 1;
     }
+}
+
+double OffensiveCoach::calculateDistanceFromCorner(Vector2 position, roboteam_msgs::GeometryFieldSize field) {
+    Vector2 corner;
+    corner.x = field.field_length / 2;
+    if (position.y > 0) {
+        corner.y = field.field_width / 2;
+    } else {
+        corner.y = -field.field_width / 2;
+    }
+    double distanceFromCorner = (position - corner).length();
+    return 1 - exp(-0.05 * distanceFromCorner);
+}
+
+double OffensiveCoach::calculateDistanceFromBallScore(Vector2 position, roboteam_msgs::GeometryFieldSize& field, roboteam_msgs::WorldBall& ball) {
+    double distanceFromBall = (position - ball.pos).length();
+    return -pow(distanceFromBall / (0.5 * maxDistanceFromBall), 2) + 2 * (distanceFromBall / (0.5 * maxDistanceFromBall));
 }
 
 double OffensiveCoach::calculatePositionScore(Vector2 position) {
@@ -65,12 +83,12 @@ double OffensiveCoach::calculatePositionScore(Vector2 position) {
     double shotAtGoalScore = calculateShotAtGoalScore(position, world);
     double passLineScore = calculatePassLineScore(position, world);
     double closestOpponentScore = calculateDistanceToOpponentsScore(position, world);
-    double tooCloseToBallScore = 1 - exp(-2 * (position - world.ball.pos).length());
+    double distanceFromBallScore = calculateDistanceFromBallScore(position, field, world.ball);
     double behindBallScore = position.x < world.ball.pos.x ? 0.7 : 1.0;
     double distanceFromCornerScore = calculateDistanceFromCorner(position, field);
 
     double score = closeToGoalScore + shotAtGoalScore + passLineScore + closestOpponentScore
-            + tooCloseToBallScore + behindBallScore + distanceFromCornerScore;
+            + distanceFromBallScore + behindBallScore + distanceFromCornerScore;
 
     return score;
 }
@@ -202,18 +220,6 @@ vector<OffensiveCoach::OffensivePosition> &OffensiveCoach::getOffensivePositions
     return offensivePositions;
 }
 
-double OffensiveCoach::calculateDistanceFromCorner(Vector2 position, roboteam_msgs::GeometryFieldSize field) {
-    Vector2 corner;
-    corner.x = field.field_length / 2;
-    if (position.y > 0) {
-        corner.y = field.field_width / 2;
-    } else {
-        corner.y = -field.field_width / 2;
-    }
-    double distanceFromCorner = (position - corner).length();
-    return 1 - exp(-0.05 * distanceFromCorner);
-}
-
 void OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
     OffensiveCoach::OffensivePosition currentRobotPosition = robotPositions[robot->id];
 
@@ -257,11 +263,6 @@ void OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::W
         robotPositions.erase(robot->id);
 
     }
-}
-
-vector<OffensiveCoach::OffensivePosition>
-OffensiveCoach::getAreaPositions(double xStart, double xEnd, double yStart, double yEnd, double numberOfPositions) {
-    return vector<OffensiveCoach::OffensivePosition>();
 }
 
 vector<OffensiveCoach::OffensivePosition> OffensiveCoach::getRobotPositions() {

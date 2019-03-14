@@ -26,6 +26,7 @@ public:
 private:
 
     static double marginFromLines;
+    static double maxDistanceFromBall;
 
     static double newRobotPositionMargin;
     static std::vector<OffensivePosition> offensivePositions;
@@ -40,7 +41,7 @@ private:
     static double calculatePassLineScore(Vector2 position, roboteam_msgs::World world);
     static double calculateDistanceToOpponentsScore(Vector2 position, roboteam_msgs::World world);
     static double calculateDistanceFromCorner(Vector2 position, roboteam_msgs::GeometryFieldSize field);
-    static std::vector<OffensivePosition> getAreaPositions(double xStart, double xEnd, double yStart, double yEnd, double numberOfPositions);
+    static double calculateDistanceFromBallScore(Vector2 position, roboteam_msgs::GeometryFieldSize& field, roboteam_msgs::WorldBall& ball);
     static void drawOffensivePoints();
 public:
     static double calculatePositionScore(Vector2 position);
