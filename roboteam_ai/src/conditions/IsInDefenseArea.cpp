@@ -19,7 +19,7 @@ bt::Node::Status IsInDefenseArea::onUpdate() {
     if (properties->getBool("useRobot")) {
         point = robot->pos;
     } else {
-        point=ball->pos;
+        point = ball->pos;
     }
     ourDefenseArea = properties->getBool("ourDefenseArea");
     outsideField = properties->getBool("outsideField");

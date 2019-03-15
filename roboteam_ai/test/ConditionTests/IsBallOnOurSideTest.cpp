@@ -24,9 +24,6 @@ TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side)
     rtt::ai::Field::set_field(field);
     roboteam_msgs::World worldMsg;
 
-    rtt::ai::World::set_world(worldMsg);
-    EXPECT_EQ(node.update(), bt::Node::Status::Failure); // return failure because no ball
-
     worldMsg.ball.pos.x = -1;
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = 0;
