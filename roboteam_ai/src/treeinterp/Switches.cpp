@@ -92,8 +92,9 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "DemoTactic",
         "randomTactic", // used for testing, do not remove it!
         "PenaltyShootTactic",
-        "PenaltyTactic"
-        };
+        "PenaltyTactic",
+        "FreeKickShootTactic"
+};
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
         "QualificationStrategy",
@@ -109,7 +110,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "BallPlacementThemStrategy",
         "randomStrategy", // used for testing, do not remove it!
         "PenaltyShootStrategy",
-        "PenaltyStrategy"
+        "PenaltyStrategy",
+        "FreeKickShootStrategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles =
@@ -299,6 +301,10 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
             {"PenaltyTactic", {
                     {"shooter", robotType::random}
+            }
+            },
+            {"FreeKickShootTactic", {
+                    {"freeShooter", robotType::random}
             }
             }
     };
