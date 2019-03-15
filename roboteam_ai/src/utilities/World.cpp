@@ -131,7 +131,7 @@ std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotClosestToPoint(const V
 /// returns the ball msg
 std::shared_ptr<roboteam_msgs::WorldBall> World::getBall() {
     std::lock_guard<std::mutex> lock(worldMutex);
-    if (world.ball.area != 0)
+    if (world.ball.area != 0) // Prevents segfaults
         return std::make_shared<roboteam_msgs::WorldBall>(world.ball);
     else
         ROS_ERROR("BALL DOES NOT EXIST IN WORLD (AREA = 0)");
