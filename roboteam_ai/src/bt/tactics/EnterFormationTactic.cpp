@@ -13,7 +13,7 @@ bt::EnterFormationTactic::EnterFormationTactic(std::string name, bt::Blackboard:
 }
 
 void bt::EnterFormationTactic::initialize() {
-    std::vector<std::string> roleNames = {"formation1", "formation2", "formation3", "formation4", "formation5", "formation6", "formation7"};
+    std::vector<std::string> roleNames = {"formation1", "formation2", "formation3", "formation4", "formation5", "formation6", "formation7", "formation8", "formation9", "formation10"};
 
     // get the amount of robots to claim
     while (!dealer::getAvailableRobots().empty()) {

@@ -23,7 +23,7 @@ void ApplicationManager::setup() {
 }
 
 void ApplicationManager::loop() {
-    ros::Rate rate(ai::Constants::TICK_RATE());
+    ros::Rate rate(60);
     double longestTick = 0.0;
     double timeTaken;
     int nTicksTaken = 0;
