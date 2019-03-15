@@ -24,7 +24,7 @@ class GoToPos : public Skill {
         Progression checkProgression();
 
         Vector2 deltaPos;
-        Vector2 targetPos;
+        Vector2 targetPos = {0, 0};
 
         bool checkTargetPos(Vector2 pos);
 

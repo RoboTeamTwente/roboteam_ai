@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget* parent)
         :QMainWindow(parent) {
 
     // initialize values for interface to display
-    InterfaceValues::setLuthPosP(Constants::standardNumTreePosP());
+    InterfaceValues::setNumTreePosP(Constants::standardNumTreePosP());
     InterfaceValues::setNumTreePosI(Constants::standardNumTreePosI());
     InterfaceValues::setNumTreePosD(Constants::standardNumTreePosD());
 
@@ -188,6 +188,7 @@ MainWindow::MainWindow(QWidget* parent)
     auto * robotsTimer = new QTimer(this);
     connect(robotsTimer, SIGNAL(timeout()), treeWidget, SLOT(updateContents()));
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget())); // we need to pass the visualizer so thats why a seperate function is used
+    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updatePause()));
     robotsTimer->start(200); // 5fps
 }
 void MainWindow::setToggleColorBtnLayout() const {
@@ -225,7 +226,7 @@ void MainWindow::toggleOurColorParam() {
 
 /// update the PID values for gotopos Luth
 void MainWindow::updatePID_luth() {
-    InterfaceValues::setLuthPosP(sb_luth_Pos_P->value());
+    InterfaceValues::setNumTreePosP(sb_luth_Pos_P->value());
     InterfaceValues::setNumTreePosI(sb_luth_Pos_I->value());
     InterfaceValues::setNumTreePosD(sb_luth_Pos_D->value());
 
@@ -237,6 +238,9 @@ void MainWindow::updatePID_luth() {
 /// send a halt signal to stop all trees from executing
 void MainWindow::sendHaltSignal() {
     InterfaceValues::sendHaltCommand();
+}
+
+void MainWindow::updatePause() {
     rtt::ai::Pause pause;
     if (pause.getPause()) {
         haltBtn->setText("Resume");
@@ -246,8 +250,6 @@ void MainWindow::sendHaltSignal() {
         haltBtn->setText("Pause");
         haltBtn->setStyleSheet("background-color: #cc0000;");
     }
-
-    std::cout << "Pause" << std::endl;
 
 }
 

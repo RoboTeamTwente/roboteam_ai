@@ -29,7 +29,7 @@ IsCloseToPoint::Status IsCloseToPoint::onUpdate() {
         position = ball->pos;
     }
 
-    double deltaPos = (position - getRobotFromProperties(properties)->pos).length();
+    double deltaPos = (position - robot->pos).length();
 
     if (deltaPos >= margin) {
         return Status::Failure;

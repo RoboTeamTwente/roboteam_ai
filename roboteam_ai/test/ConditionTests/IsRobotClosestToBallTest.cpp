@@ -34,7 +34,7 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
     worldMsg.ball.pos.x=1.0;
     worldMsg.ball.pos.y=1.0;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.area = 99999;
+    worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
 
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"IsRobotClosestToBallTestTactic","test");
@@ -81,7 +81,7 @@ TEST(secondsAhead, IsRobotClosestToBallTest) {
     worldMsg.ball.vel.x = -1;
     worldMsg.ball.vel.y = -1;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.area = 99999;
+    worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"IsRobotClosestToBallTestTactic","test");
     ASSERT_EQ(Node.update(), bt::Node::Status::Success);

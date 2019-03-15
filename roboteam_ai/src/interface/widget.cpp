@@ -24,11 +24,12 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawFieldLines(painter);
         drawBall(painter);
         drawRobots(painter);
+        drawDrawPoints(painter, Drawer::getDrawPoints());
         if (showBallPlacementMarker) drawBallPlacementTarget(painter);
 
         if (showPath) {
             for (auto robot : selectedRobots) {
-                drawDataPoints(painter, Drawer::getGoToPosLuThPoints(robot.id));
+                drawDataPoints(painter, Drawer::getNumTreePoints(robot.id));
                 drawDataPoints(painter, Drawer::getKeeperPoints(robot.id),Constants::KEEPER_HELP_DRAW_SIZE());
                 drawIntercept(painter, Drawer::getInterceptPoints(robot.id));
             }
@@ -78,7 +79,12 @@ void Visualizer::drawFieldLines(QPainter &painter) {
 void Visualizer::drawBall(QPainter &painter) {
     rtt::Vector2 ballPosition = toScreenPosition(rtt::ai::World::get_world().ball.pos);
     QPointF qballPosition(ballPosition.x, ballPosition.y);
-    painter.setBrush(Constants::BALL_COLOR()); // fill
+    if (!rtt::ai::World::get_world().ball.visible){
+        painter.setBrush(Qt::red); // fill
+    }
+    else{
+        painter.setBrush(Constants::BALL_COLOR()); // fill
+    }
     painter.setPen(Qt::NoPen); // stroke
     painter.drawEllipse(qballPosition, Constants::BALL_DRAWING_SIZE(), Constants::BALL_DRAWING_SIZE());
 }
@@ -136,7 +142,7 @@ void Visualizer::drawRobot(QPainter &painter, roboteam_msgs::WorldRobot robot, b
 
     if (showAllPaths) {
         std::vector<rtt::Vector2> gtpltPoints;
-        for (auto pair : Drawer::getGoToPosLuThPoints(robot.id)) {
+        for (auto pair : Drawer::getNumTreePoints(robot.id)) {
             gtpltPoints.push_back(pair.first);
         }
         drawDataPoints(painter, gtpltPoints, 2, Qt::gray);
@@ -239,6 +245,18 @@ void Visualizer::drawDataPoints(QPainter &painter, std::vector<Vector2> points, 
     }
 }
 void Visualizer::drawDataPoints(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize) {
+    if (! points.empty()) {
+        painter.setPen(Qt::NoPen);
+
+        for (auto point : points) {
+            painter.setBrush(point.second);
+            Vector2 pointOnScreen = toScreenPosition(point.first);
+            painter.drawEllipse(pointOnScreen.x, pointOnScreen.y, pointSize, pointSize);
+        }
+    }
+}
+
+void Visualizer::drawDrawPoints(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize) {
     if (! points.empty()) {
         painter.setPen(Qt::NoPen);
 

@@ -8,7 +8,7 @@
 TEST(InterfaceTest, the_interface_values_work) {
     using iv = rtt::ai::interface::InterfaceValues;
     {
-        iv::setLuthPosP(12);
+        iv::setNumTreePosP(12);
         iv::setNumTreePosI(- 18);
         iv::setNumTreePosD(33333.2);
     }
