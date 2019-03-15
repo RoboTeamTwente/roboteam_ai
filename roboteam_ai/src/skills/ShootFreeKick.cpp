@@ -36,7 +36,6 @@ Skill::Status ShootFreeKick::onUpdate() {
                 command.id = robot->id;
                 command.use_angle = 1;
                 command.w = static_cast<float>((ballPos - robot->pos).angle());
-                command.geneva_state = 1;
                 Vector2 velocity = goToPos.goToPos(robot, ballPos, control::PosControlType::BASIC).vel;
                 command.x_vel = static_cast<float>(velocity.x);
                 command.y_vel = static_cast<float>(velocity.y);

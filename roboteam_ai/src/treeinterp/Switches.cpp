@@ -41,6 +41,8 @@
 #include "../skills/GoAroundPos.h"
 #include "../skills/GoBehindBall.h"
 #include "../skills/ShootPenalty.h"
+#include "../skills/ShootFreeKick.h"
+
 
 //  ______________________
 //  |                    |
@@ -73,25 +75,24 @@
  */
 
 
-std::vector<std::string> Switches::tacticJsonFileNames =
-        {
-                "QualificationTactic",
-                "haltTactic",
-                "OneAttackerTactic",
-                "OneDefenderTactic",
-                "TwoDefendersTactic",
-                "OneAttackerOneDefenderTactic",
-                "Attactic",
-                "PassTactic",
-                "EnterFormationTactic",
-                "BallPlacementUsTactic",
-                "AvoidBallTactic",
-                "SingleKeeperTactic",
-                "DemoAttackerTactic",
-                "DemoTactic",
-                "randomTactic", // used for testing, do not remove it!
-                "PenaltyShootTactic",
-                "PenaltyTactic"
+std::vector<std::string> Switches::tacticJsonFileNames = {
+        "QualificationTactic",
+        "haltTactic",
+        "OneAttackerTactic",
+        "OneDefenderTactic",
+        "TwoDefendersTactic",
+        "OneAttackerOneDefenderTactic",
+        "Attactic",
+        "PassTactic",
+        "EnterFormationTactic",
+        "BallPlacementUsTactic",
+        "AvoidBallTactic",
+        "SingleKeeperTactic",
+        "DemoAttackerTactic",
+        "DemoTactic",
+        "randomTactic", // used for testing, do not remove it!
+        "PenaltyShootTactic",
+        "PenaltyTactic"
         };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
@@ -179,6 +180,8 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["SkillGoToPos"] = std::make_shared<rtt::ai::SkillGoToPos>(name, properties);
     map["GoBehindBall"] = std::make_shared<rtt::ai::GoBehindBall>(name, properties);
     map["ShootPenalty"] = std::make_shared<rtt::ai::ShootPenalty>(name, properties);
+    map["ShootFreeKick"] = std::make_shared<rtt::ai::ShootFreeKick>(name, properties);
+
 
     // conditions (alphabetic order)
     map["BallKickedToOurGoal"] = std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
