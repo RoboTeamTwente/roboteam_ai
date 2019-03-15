@@ -4,8 +4,8 @@
 
 
 
-#ifndef ROBOTEAM_AI_CONTROLGOTOPOS_H
-#define ROBOTEAM_AI_CONTROLGOTOPOS_H
+#ifndef ROBOTEAM_AI_POSITIONCONTROLLER_H
+#define ROBOTEAM_AI_POSITIONCONTROLLER_H
 
 #include "positionControllers/ControlGoToPosBallControl.h"
 #include "roboteam_ai/src/control/positionControllers/NumTreePosControl.h"
@@ -68,4 +68,4 @@ class PositionController {
 } //ai
 } //rtt
 
-#endif //ROBOTEAM_AI_CONTROLGOTOPOS_H
+#endif //ROBOTEAM_AI_POSITIONCONTROLLER_H

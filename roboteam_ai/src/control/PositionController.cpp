@@ -70,9 +70,9 @@ PosVelAngle PositionController::basic(RobotPtr robot, Vector2 &targetPos) {
     velPID.reset();
     posPID.reset();
     if (error.length() < rtt::ai::Constants::ROBOT_RADIUS())
-        velPID.setPID(3.0, 1.0, 0.2);
+        posPID.setPID(3.0, 1.0, 0.2);
     else
-        velPID.setPID(3.0, 0.5, 1.5);
+        posPID.setPID(3.0, 0.5, 1.5);
 
     PIDHasInitialized = true;
     posVelAngle.vel = error;
@@ -104,12 +104,12 @@ PosVelAngle PositionController::force(RobotPtr robot, Vector2 &targetPos) {
     for (auto bot : world.us)
         force += ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, forceRadius);
     for (auto bot : world.them)
-        force += ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, forceRadius);
+        force += ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 2, forceRadius);
     if (avoidBall)
-        force += ControlUtils::calculateForce((Vector2) robot->pos - World::getBall()->pos, 1, forceRadius);
+        force += ControlUtils::calculateForce((Vector2) robot->pos - world.ball.pos, 1, forceRadius);
     if (!canGoOutsideField)
-        force += Field::pointIsInField(robot->pos) ?
-                Vector2() : ControlUtils::calculateForce((Vector2)robot->pos *-1, 1, 99.9);
+        force += Field::pointIsInField(robot->pos, 0.5) ?
+                Vector2() : ControlUtils::calculateForce(Vector2(-1.0,-1.0) / robot->pos, 1, 99.9);
 
     force = (force.length() > 3.0) ?
             force.stretchToLength(3.0) : force;
@@ -120,7 +120,7 @@ PosVelAngle PositionController::force(RobotPtr robot, Vector2 &targetPos) {
 
 PosVelAngle PositionController::numTree(RobotPtr robot, Vector2 &targetPos) {
     PosVelAngle target = numTreeController.goToPos(robot, targetPos);
-    if (target.empty())
+    if (target.isZero())
         return force(robot, targetPos);
     else
         return pidController(robot, target);

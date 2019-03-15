@@ -22,8 +22,12 @@ class PosVelAngle {
         PosVelAngle(const Vector2 &p, const Vector2 &v, double a) :
             pos(p), vel(v), angle(a) {}
 
-        bool empty() {
-            return (pos == Vector2() && vel == Vector2() && angle == 0.0);
+        bool isZero() {
+            return *this == PosVelAngle();
+        }
+
+        bool operator==(const PosVelAngle &other) {
+            return this->pos == other.pos && this->vel == other.vel && this->angle == other.angle;
         }
 };
 

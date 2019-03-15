@@ -2,8 +2,8 @@
 // Created by rolf on 5-2-19.
 //
 
-#ifndef ROBOTEAM_AI_CONTROLGOTOPOSCLEAN_H
-#define ROBOTEAM_AI_CONTROLGOTOPOSCLEAN_H
+#ifndef ROBOTEAM_AI_NUMTREEPOSCONTROL_H
+#define ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 
 #include "PositionControlIncludes.h"
 #include <roboteam_ai/src/interface/InterfaceValues.h>
@@ -14,6 +14,8 @@ namespace control {
 
 class NumTreePosControl {
     private:
+        using InterfaceValues = interface::InterfaceValues;
+
         const double dt = 0.1;
         const double defaultRobotCollisionRadius = 3*Constants::ROBOT_RADIUS_MAX();
         int robotID = - 1;
@@ -42,6 +44,7 @@ class NumTreePosControl {
                 Vector2 pos;
                 Vector2 vel;
                 Vector2 acc;
+
                 double maxVel() {
                     double distanceRemaining = (finalTarget-pos).length();
                     double absoluteMax = sqrt(2.0*maxAcc()*distanceRemaining) * 0.8;
@@ -94,4 +97,4 @@ class NumTreePosControl {
 }
 }
 
-#endif //ROBOTEAM_AI_CONTROLGOTOPOSCLEAN_H
+#endif //ROBOTEAM_AI_NUMTREEPOSCONTROL_H
