@@ -351,10 +351,9 @@ target_link_libraries(ai_tests
         gcov
         Qt5::Widgets Qt5::Gui)
 
-# this part copies all the files to the devel running directory when an executable is built
-add_custom_target(copyJson ALL
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons
+
+ADD_CUSTOM_TARGET(link_target ALL
+        COMMAND ${CMAKE_COMMAND} -E create_symlink ${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons
         DEPENDS Roboteam_AI ai_tests
         )
 
