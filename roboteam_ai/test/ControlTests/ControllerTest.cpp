@@ -20,7 +20,7 @@ TEST(ControllerTest, it_calculates_proper_pid) {
     EXPECT_EQ(c.controlP(12), expectedP);
     double expectedI = (1.0/rtt::ai::Constants::TICK_RATE()) * 12 * 20;
     EXPECT_EQ(c.controlI(12), expectedI);
-    double expectedD = 30 * (12 / (1.0/rtt::ai::Constants::TICK_RATE()));
+    double expectedD = 30 * (12 * (1.0/rtt::ai::Constants::TICK_RATE()));
     EXPECT_EQ(c.controlD(12), expectedD);
 
     // clear controller otherwise timeDiff makes the values different
