@@ -82,6 +82,8 @@ PosVelAngle PositionController::basic(RobotPtr robot, Vector2 &targetPos) {
 PosVelAngle PositionController::force(RobotPtr robot, Vector2 &targetPos) {
     double forceRadius;
     if ((targetPos - robot->pos).length() < 0.1) {
+        if (interface::InterfaceValues::showDebugNumTreeInfo())
+            std::cout << "close to target, using basic gtp" << std::endl;
         return basic(robot, targetPos);
     }
     else if ((targetPos - robot->pos).length() < Constants::MIN_DISTANCE_FOR_FORCE()) {

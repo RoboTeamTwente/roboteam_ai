@@ -17,11 +17,11 @@ public:
 
 // Show timing for different functions
     static bool SHOW_LONGEST_TICK()             { return false;};
-    static bool SHOW_TICK_TIME_TAKEN()          { return true;};
+    static bool SHOW_TICK_TIME_TAKEN()          { return false;};
     static bool SHOW_NUMTREE_TIME_TAKEN()       { return false;};
 
 // Show debug information for different functions
-    static bool SHOW_NUMTREE_DEBUG_INFO()       { return true; };
+    static bool SHOW_NUMTREE_DEBUG_INFO()       { return false; };
 
 // Max values we can send through robothub
     static double MAX_VEL_CMD()                 { return 8.191; };
@@ -48,6 +48,7 @@ public:
   static double CENTRE_TO_FRONT()             { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); };
     static double BALL_RADIUS()                 { return 0.0215; };
     static int TICK_RATE()                       { return 100 ; };// Rate at which we tick our behavior Trees
+    static double CLOSE_TO_BORDER_DISTANCE()    { return 1.2 * ROBOT_RADIUS(); };
 
     //skills
     static double DEFAULT_KICK_POWER()          { return  5.0; }; // max kick power() { return  100
@@ -57,39 +58,42 @@ public:
     static int MAX_KICK_CYCLES()                { return 20; };
     static int MAX_GENEVA_CYCLES()              { return 20; };
     static int DEFAULT_GENEVA_STATE()           { return 0; };
+    static double GET_BALL_OVERSHOOT()          { return 0.06; };
+    static double OUT_OF_FIELD_MARGIN()         { return 0.03; };
 
-
-// Dribble
-    static double MAX_BALL_BOUNCE_RANGE()       { return 0.15; };
+    //dribble
+    static double MAX_BALL_BOUNCE_RANGE()       { return GRSIM() ? 0.4 : 0.15; };
     static double DRIBBLE_POSDIF()              { return 0.05; };
-    static float  DRIBBLE_SPEED()               { return 0.8; };
+    static float  DRIBBLE_SPEED()               { return GRSIM() ? 0.4 : 0.8; };
 
-
-// HasBall
-    static double MAX_BALL_RANGE()              { return 0.15; };   // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
+    //hasBall
+    static double MAX_BALL_RANGE()              { return GRSIM() ? 0.09 : 0.04; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
     static double HAS_BALL_ANGLE()              { return 0.2; }
 
-// GetBall
+    //kick
+    static double MAX_KICK_RANGE()              { return GRSIM() ? 0.4 : 0.04; };
+
+    //getBall
     static double COLLISION_RADIUS()            { return 0.18; };
     static double ANGLE_SENS()                  { return 0.05*M_PI; };
     static double MAX_GETBALL_RANGE()           { return 0.7; };
     static int POSSES_BALL_CYCLES()             { return 25; };
-    static double GETBALL_SPEED()               { return 0.5; };
-    static double GETBALL_OVERSHOOT()           { return 0.02; };    // Meters
+    static double GETBALL_SPEED()               { return GRSIM() ?0.4 : 0.8; };
+    static double GETBALL_OVERSHOOT()           { return .02; };//m
 
 // PositionControl
     static double MAX_CALCULATION_TIME()        { return 5.0; };   // Max time in ms
     static double NUMTREE_ERROR_MARGIN()        { return 0.25; };
     static double MIN_DISTANCE_FOR_FORCE()      { return 0.5; };
 
-// Keeper
-    static double KEEPER_POST_MARGIN()          { return 0.08; };   // Meters
-    static double KEEPER_CENTREGOAL_MARGIN()    { return 0.3; };    // Meters
-    static double KEEPER_POSDIF()               { return 0.04; };
+    //Keeper
+    static double KEEPER_POST_MARGIN()          { return 0.08; };//m
+    static double KEEPER_CENTREGOAL_MARGIN()    { return 0.3; };//m
+    static double KEEPER_POSDIF()               { return 0.01; };
 
-// BallkickedtoGoal
-    static double BALL_TO_GOAL_MARGIN()         { return BALL_RADIUS(); };  //Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
-    static double BALL_TO_GOAL_TIME()           { return 1.5; };    // Seconds
+    //ballkickedtoGoal
+    static double BALL_TO_GOAL_MARGIN()         { return BALL_RADIUS(); };//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
+    static double BALL_TO_GOAL_TIME()           { return 2.5; };//seconds
 
 // GoAroundPos
     static double MAX_GOAROUND_STOP_TIME()      { return 2.0; };    // Seconds
@@ -106,12 +110,12 @@ public:
     static double INTERCEPT_POSDIF()            { return 0.04; };   // Meters acceptable deviation
     static double DEFAULT_MAX_VEL()             { return 2.0; };
 
-// BallInDefenseAreaAndStill
-    static double BALL_STILL_VEL()              { return 0.1; };    // If the ball has velocity lower than this in defense area, keeper starts getting it
-
     static double INTERCEPT_P()                 { return 5.7;};
     static double INTERCEPT_I()                 { return 1.7;};
     static double INTERCEPT_D()                 { return 0.0;};
+
+// BallInDefenseAreaAndStill
+    static double BALL_STILL_VEL()              { return 0.1; };    // If the ball has velocity lower than this in defense area, keeper starts getting it
 
     static double DRIBBLE_ROTATE_WAIT_TIME()    { return 0.2; };    // Seconds
     static double DRIBBLE_ROTATE_MAX_SPEED()    { return 0.5; };    // Rad/second

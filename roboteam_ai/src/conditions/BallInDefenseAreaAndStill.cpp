@@ -14,10 +14,8 @@ BallInDefenseAreaAndStill::BallInDefenseAreaAndStill(std::string name, bt::Black
         :Condition(std::move(name), std::move(blackboard)) { };
 
 void BallInDefenseAreaAndStill::onInitialize() {
-    if (properties->hasBool("theirDefenceArea")) {
-        theirDefenceArea = properties->getBool("theirDefenceArea");
-    }
-    else {theirDefenceArea=false;}
+    theirDefenceArea = properties->getBool("theirDefenceArea");
+    outsideField = properties->getBool("outsideField");
 }
 
 bt::Node::Status BallInDefenseAreaAndStill::onUpdate() {
@@ -28,7 +26,7 @@ bt::Node::Status BallInDefenseAreaAndStill::onUpdate() {
     }
     else return Status::Failure;
     Vector2 ballVel=ball->vel;
-    if (Field::pointIsInDefenceArea(ballPos,!theirDefenceArea)&&(ballVel.length()<Constants::BALL_STILL_VEL())){
+    if (Field::pointIsInDefenceArea(ballPos,!theirDefenceArea, outsideField)&&(ballVel.length()<Constants::BALL_STILL_VEL())){
         return Status::Success;
     }
     else{

@@ -25,13 +25,11 @@ void IsCloseToPoint::onInitialize() {
 }
 
 IsCloseToPoint::Status IsCloseToPoint::onUpdate() {
-    if (!getRobotFromProperties(properties)) return Status::Failure;
-
     if (ballPos) {
         position = ball->pos;
     }
 
-    double deltaPos = (position - getRobotFromProperties(properties)->pos).length();
+    double deltaPos = (position - robot->pos).length();
 
     if (deltaPos >= margin) {
         return Status::Failure;

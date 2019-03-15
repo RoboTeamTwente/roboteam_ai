@@ -77,6 +77,7 @@ public:
     static Vector2 getBallPlacementPos();
     static Vector2 getBallPlacementBeforePos(Vector2 ballPos);
     static Vector2 getBallPlacementAfterPos(double RobotAngle);
+    static Vector2 getDemoKeeperGetBallPos(Vector2 ballPos);
 };
 
 }

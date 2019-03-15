@@ -14,6 +14,7 @@ BallKickedToOurGoal::BallKickedToOurGoal(std::string name, bt::Blackboard::Ptr b
 
 bt::Node::Status BallKickedToOurGoal::onUpdate() {
     auto ball = World::getBall();
+    if ((Vector2(ball->vel)).length() < Constants::BALL_STILL_VEL()) return Status::Failure;
     Vector2 goalCentre = Field::get_our_goal_center();
     double goalWidth = Field::get_field().goal_width;
     double margin = Constants::BALL_TO_GOAL_MARGIN();

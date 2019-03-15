@@ -22,6 +22,12 @@ bt::Node::Status HasBall::onUpdate() {
     robot = getRobotFromProperties(properties);
     auto ball = World::getBall();
 
+    if (properties->hasDouble("ballRange")) {
+        ballRange = properties->getDouble("ballRange");
+    } else {
+        ballRange = Constants::MAX_KICK_RANGE();
+    }
+
     if (! robot || ! ball) {
         return Status::Failure;
     }
