@@ -30,7 +30,7 @@ TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side)
     worldMsg.ball.pos.x = -1;
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = 0;
-    worldMsg.ball.area = 99999;
+    worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure); // return failure because no ball visible
 
