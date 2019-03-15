@@ -38,11 +38,7 @@ class ShootPenalty : public Skill {
         bool isPenaltyShot();
         int count = 0;
 
-        // Turns out using field in constants is a circular dependency
-        // So i just put this here
-        Vector2 end = Field::get_field().right_penalty_line.end;
-        Vector2 begin = Field::get_field().right_penalty_line.begin;
-        Vector2 penaltyPoint = begin + ((end - begin)/2);
+
 
         control::PositionController goToPos;
 

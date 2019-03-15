@@ -15,8 +15,10 @@ ShootFreeKick::ShootFreeKick(string name, bt::Blackboard::Ptr blackboard)
 void ShootFreeKick::onInitialize() {
     Vector2 ballPos = rtt::ai::World::getBall()->pos;
     Vector2 robotPos = robot->pos;
+    freeKickPos = ballPos;
     Vector2 goal = Field::get_their_goal_center();
-    targetPos = ballPos + (robotPos - ballPos).rotate((goal - ballPos).angle());
+    // behind the ball looking at the goal
+    targetPos = ballPos + (ballPos - goal).stretchToLength(Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS() + 0.03);
     progress = GOING;
 }
 
@@ -45,6 +47,8 @@ Skill::Status ShootFreeKick::onUpdate() {
             return Status::Running;
         }
         case TARGETING: {
+            // Find a target and draw a vector to it
+            Vector2
             break;
         }
         case READY: {
@@ -59,6 +63,12 @@ Skill::Status ShootFreeKick::onUpdate() {
 }
 
 void ShootFreeKick::onTerminate(Skill::Status s) {
+}
+
+bool ShootFreeKick::isShot() {
+    Vector2 ballPos = rtt::ai::World::getBall()->pos;
+    return ((ballPos - freeKickPos).length() > 0.05);
+
 }
 }
 }

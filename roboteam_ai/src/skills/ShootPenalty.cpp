@@ -106,7 +106,7 @@ ShootPenalty::ShootPenalty(string name, bt::Blackboard::Ptr blackboard)
 }
 bool ShootPenalty::isPenaltyShot() {
     Vector2 ballPos = rtt::ai::World::getBall()->pos;
-    return ((ballPos - penaltyPoint).length() > 0.05);
+    return ((ballPos - Field::getPenaltyPoint(false)).length() > 0.05);
 
 }
 

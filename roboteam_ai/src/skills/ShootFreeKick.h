@@ -31,6 +31,8 @@ class ShootFreeKick : public Skill {
         Vector2 targetPos;
         control::PositionController goToPos;
         double errorMarginPos = Constants::PENALTY_SHOOT_MARGIN() + 0.02; // Same logic
+        bool isShot();
+        Vector2 freeKickPos;
 
 };
 
