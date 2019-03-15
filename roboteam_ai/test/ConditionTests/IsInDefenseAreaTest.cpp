@@ -48,7 +48,7 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
     robot.pos.y = 0;
 
     worldMsg.us.push_back(robot);
-    worldMsg.ball.area = 99999;
+    worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random, "IsInDefenseAreaTest", "test");
     // Should succeed since robot is in our defence area
@@ -106,7 +106,7 @@ TEST(DetectsInTheirDefenseArea, IsInDefenseAreaTest)
     robot.pos.y = 0;
 
     worldMsg.us.push_back(robot);
-    worldMsg.ball.area = 99999;
+    worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random, "IsInDefenseAreaTest", "test");
     // Should succeed since robot is in their defence area
@@ -159,7 +159,7 @@ TEST(DetectsBallInOurDefenceArea, IsInDefenceAreaTest)
     worldMsg.ball.pos.x = -1.1;
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.area = 99999;
+    worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
 
     // Should succeed since ball is in our defence area

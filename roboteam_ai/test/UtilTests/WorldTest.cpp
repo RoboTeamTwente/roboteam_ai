@@ -26,7 +26,7 @@ TEST(WorldTest, it_gets_the_ball) {
 
     worldMsg.ball.z = 42;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.area = 99999;
+    worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
     auto ball = rtt::ai::World::getBall();
     EXPECT_EQ(ball->z, 42);

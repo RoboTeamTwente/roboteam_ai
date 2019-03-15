@@ -37,7 +37,7 @@ TEST(GoToPos, GoToPosTest) {
     robot.pos.x=0;
     robot.pos.y=0;
     worldMsg.us.push_back(robot);
-    worldMsg.ball.area = 99999;
+    worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"GoToPosTest","GTPtest");
     rtt::ai::GoToPos goToPos("GTPtest", bb);

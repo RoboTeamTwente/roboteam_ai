@@ -33,14 +33,14 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.pos.x = 0.1;
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.area = 99999;
+    worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"IHaveBallTestTactic","test");
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.ball.pos.x = 0.0;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.area = 99999;
+    worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
@@ -48,21 +48,21 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.pos.x = 0;
     worldMsg.ball.pos.y = 0.1;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.area = 99999;
+    worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = 0;
     worldMsg.ball.pos.y = - 0.1;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.area = 99999;
+    worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = - 0.1;
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.area = 99999;
+    worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
     EXPECT_EQ(node.update(),bt::Node::Status::Failure);
 
