@@ -326,10 +326,6 @@ add_executable(Roboteam_AI
 add_dependencies(Roboteam_AI ${catkin_EXPORTED_TARGETS})
 target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} Qt5::Widgets Qt5::Gui)
 
-add_custom_command(TARGET Roboteam_AI POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons)
-
 #############
 ## Testing ##
 #############
@@ -355,9 +351,12 @@ target_link_libraries(ai_tests
         gcov
         Qt5::Widgets Qt5::Gui)
 
-add_custom_command(TARGET ai_tests POST_BUILD
+# this part copies all the files to the devel running directory when an executable is built
+add_custom_target(copyJson ALL
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons
+        DEPENDS Roboteam_AI ai_tests
+        )
 
 include(CodeCoverage)
 APPEND_COVERAGE_COMPILER_FLAGS()
