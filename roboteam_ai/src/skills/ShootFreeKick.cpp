@@ -27,8 +27,7 @@ Skill::Status ShootFreeKick::onUpdate() {
     switch (progress) {
 
         case GOING: {
-            Vector2 ballPos = rtt::ai::World::getBall()->pos;
-            Vector2 deltaPos = (ballPos - robot->pos);
+            Vector2 deltaPos = (targetPos - robot->pos);
 
             if (deltaPos.length() < errorMarginPos) {
                 progress = TARGETING;
@@ -37,8 +36,8 @@ Skill::Status ShootFreeKick::onUpdate() {
                 roboteam_msgs::RobotCommand command;
                 command.id = robot->id;
                 command.use_angle = 1;
-                command.w = static_cast<float>((ballPos - robot->pos).angle());
-                Vector2 velocity = goToPos.goToPos(robot, ballPos, control::PosControlType::BASIC).vel;
+                command.w = static_cast<float>((targetPos - robot->pos).angle());
+                Vector2 velocity = goToPos.goToPos(robot, targetPos, control::PosControlType::BASIC).vel;
                 command.x_vel = static_cast<float>(velocity.x);
                 command.y_vel = static_cast<float>(velocity.y);
                 publishRobotCommand(command);
@@ -47,16 +46,52 @@ Skill::Status ShootFreeKick::onUpdate() {
             return Status::Running;
         }
         case TARGETING: {
-            // Find a target and draw a vector to it
-            Vector2
-            break;
+            Vector2 deltaPos = (targetPos - robot->pos);
+
+            if (deltaPos.length() < errorMarginPos) {
+                progress = READY;
+            }
+            else {
+                // Find a target and draw a vector to it
+                // TODO make targeting functions based on our robots positions maybe coach
+                // TODO for now it shoots at the goal
+                Vector2 target = Field::getPenaltyPoint(false);
+                Vector2 ballPos = rtt::ai::World::getBall()->pos;
+                targetPos = ballPos + (ballPos - target).stretchToLength(
+                        Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS() + 0.03);
+
+            }
+            return Status::Running;
+
         }
         case READY: {
-            break;
+            progress = SHOOTING;
+            return Status::Running;
+
+            // TODO inform the coach that we are ready to take the free kick and do some other comm.
         }
         case SHOOTING: {
-            break;
-        }
+            if (! isShot()) {
+                Vector2 ballPos = rtt::ai::World::getBall()->pos;
+                roboteam_msgs::RobotCommand command;
+                command.id = robot->id;
+                command.use_angle = 1;
+                command.w = static_cast<float>((ballPos - robot->pos).angle());
+                command.chipper = static_cast<unsigned char>(true);
+                command.chipper_vel = 100; // Such power much wow
+                Vector2 velocity = goToPos.goToPos(robot, ballPos, control::PosControlType::BASIC).vel;
+                command.x_vel = static_cast<float>(velocity.x);
+                command.y_vel = static_cast<float>(velocity.y);
+                publishRobotCommand(command);
+                return Status::Running;
+            }
+            else {
+                roboteam_msgs::RobotCommand command;
+                command.id = robot->id;
+                command.use_angle = 1;
+                publishRobotCommand(command);
+                return Status::Success;
+            }        }
     }
 
     return Status::Waiting;
