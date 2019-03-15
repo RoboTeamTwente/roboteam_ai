@@ -21,13 +21,9 @@ void BallInDefenseAreaAndStill::onInitialize() {
 }
 
 bt::Node::Status BallInDefenseAreaAndStill::onUpdate() {
-    Vector2 ballPos;
-    auto ball=World::getBall();
-    if (ball){
-        ballPos=ball->pos;
-    }
-    else return Status::Failure;
+    Vector2 ballPos = ball->pos;
     Vector2 ballVel=ball->vel;
+
     if (Field::pointIsInDefenceArea(ballPos,!theirDefenceArea)&&(ballVel.length()<Constants::BALL_STILL_VEL())){
         return Status::Success;
     }

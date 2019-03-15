@@ -10,7 +10,6 @@ namespace ai {
 IsBeingPassedTo::IsBeingPassedTo(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
 
-
 void IsBeingPassedTo::onInitialize() {};
 
 IsBeingPassedTo::Status IsBeingPassedTo::onUpdate() {

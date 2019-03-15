@@ -19,9 +19,6 @@ namespace ai {
 HasBall::HasBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(name, blackboard) { }
 
 bt::Node::Status HasBall::onUpdate() {
-    robot = getRobotFromProperties(properties);
-    auto ball = World::getBall();
-
     if (! robot || ! ball) {
         return Status::Failure;
     }

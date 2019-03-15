@@ -25,8 +25,6 @@ void IsCloseToPoint::onInitialize() {
 }
 
 IsCloseToPoint::Status IsCloseToPoint::onUpdate() {
-    if (!getRobotFromProperties(properties)) return Status::Failure;
-
     if (ballPos) {
         position = ball->pos;
     }
