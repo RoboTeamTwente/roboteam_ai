@@ -220,8 +220,8 @@ void NumTreePosControl::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> rob
                 path = backTrackPath(point, root);
                 return;
             }
-            point->addChild(newPoint);
-            point = newPoint;
+            //point->addChild(newPoint);
+            point.swap(newPoint);
 
             // if we reach endpoint, return the path we found
             if (point->isCollision(finalTargetPos, 0.1)) {
@@ -276,6 +276,7 @@ std::shared_ptr<NumTreePosControl::PathPoint> NumTreePosControl::computeNewPoint
 //Copy parent
     std::shared_ptr<PathPoint> newPoint = std::make_shared<PathPoint>();
     newPoint->parent = oldPoint;
+    oldPoint->addChild(newPoint);
     newPoint->t = oldPoint->t + dt;
     newPoint->currentTarget = subTarget;
     newPoint->finalTarget = finalTargetPos;
@@ -438,8 +439,9 @@ std::vector<NumTreePosControl::PathPoint> NumTreePosControl::backTrackPath(std::
         if (point == root) {
             break;
         }
-        point = point->parent;
+        point.swap(point->parent);
     }
+
     std::reverse(path.begin(), path.end()); // everything is from back to forth
     return path;
 }
