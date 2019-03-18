@@ -14,8 +14,8 @@ namespace ai {
 class HasClearShot : public Condition {
 public:
     explicit HasClearShot(std::string name = "HasClearShot", bt::Blackboard::Ptr blackboard = nullptr);
-    void initialize() override;
-    Status update() override;
+    void onInitialize() override;
+    Status onUpdate() override;
     std::string node_name() override;
 
 };

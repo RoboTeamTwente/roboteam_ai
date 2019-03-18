@@ -10,10 +10,9 @@ namespace ai {
 HasClearShot::HasClearShot(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) {};
 
-void HasClearShot::initialize() {};
+void HasClearShot::onInitialize() {};
 
-HasClearShot::Status HasClearShot::update() {
-    robot = getRobotFromProperties(properties);
+HasClearShot::Status HasClearShot::onUpdate() {
     if (((Vector2)robot->pos - Field::get_their_goal_center()).length() > Constants::MAX_SHOOTING_DISTANCE()) {
         return Status::Failure;
     }
