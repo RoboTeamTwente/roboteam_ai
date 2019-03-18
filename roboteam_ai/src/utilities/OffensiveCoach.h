@@ -55,6 +55,8 @@ private:
     static bool positionTooCloseToRobotPositions(OffensivePosition position);
 
     static void compareToCurrentPositions(const OffensivePosition &position);
+
+    static Vector2 getClosestOffensivePosition(const shared_ptr<roboteam_msgs::WorldRobot> &robot);
 };
 
 }

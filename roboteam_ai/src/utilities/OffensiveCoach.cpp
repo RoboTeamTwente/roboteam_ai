@@ -187,36 +187,39 @@ bool OffensiveCoach::compareByScore(OffensivePosition position1, OffensivePositi
 
 Vector2 OffensiveCoach::calculatePositionForRobot(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
     if ((robotPositions.find(robot->id) == robotPositions.end())) { // not there yet
-        double distance = INT_MAX;
-        double currentDistance;
-        OffensiveCoach::OffensivePosition newRobotPosition;
-        for (auto &position : offensivePositions) {
-            currentDistance = (position.position - robot->pos).length();
-            if (currentDistance < distance) {
-                distance = currentDistance;
-                newRobotPosition = position;
-            }
-        }
-        if (distance == INT_MAX) {
-            newRobotPosition.position = robot->pos;
-            newRobotPosition.score = calculatePositionScore(robot->pos);
-        }
-
-
-        if ((newRobotPosition.position - robot->pos).length() < 0.8) {
-            robotPositions[robot->id] = newRobotPosition;
-        }
-        return newRobotPosition.position;
+        return getClosestOffensivePosition(robot);
 
     } else {
         calculateNewRobotPositions(robot);
         if ((robotPositions.find(robot->id) == robotPositions.end())) { //not in there
             return calculatePositionForRobot(robot);
         } else {
-
             return robotPositions[robot->id].position;
         }
     }
+}
+
+Vector2 OffensiveCoach::getClosestOffensivePosition(const shared_ptr<roboteam_msgs::WorldRobot> &robot) {
+    double distance = INT_MAX;
+    double currentDistance;
+    OffensivePosition newRobotPosition;
+    for (auto &position : offensivePositions) {
+            currentDistance = (position.position - robot->pos).length();
+            if (currentDistance < distance) {
+                distance = currentDistance;
+                newRobotPosition = position;
+            }
+        }
+    if (distance == INT_MAX) {
+            newRobotPosition.position = robot->pos;
+            newRobotPosition.score = calculatePositionScore(robot->pos);
+        }
+
+
+    if ((newRobotPosition.position - robot->pos).length() < 0.8) {
+            robotPositions[robot->id] = newRobotPosition;
+        }
+    return newRobotPosition.position;
 }
 
 void OffensiveCoach::releaseRobot(int robotID) {
