@@ -36,6 +36,7 @@ TEST(CoachTest, get_position_behind_ball) {
     auto worldMsg = testhelpers::WorldHelper::getWorldMsg(3, 3, false, field);
     worldMsg.ball.pos = Vector2(0, 0);
     worldMsg.ball.visible = 1;
+    worldMsg.ball.existence = 99999;
     World::set_world(worldMsg);
 
     // set the robot on the horizontal line from the ball to the goal
@@ -54,6 +55,7 @@ TEST(CoachTest, get_position_behind_ball) {
     worldMsg = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
     worldMsg.ball.pos = Vector2(0, 0);
     worldMsg.ball.visible = 1;
+    worldMsg.ball.existence = 99999;
 
     roboteam_msgs::WorldRobot robotToPointTo;
     robotToPointTo.id = 3;
@@ -217,6 +219,7 @@ TEST(CoachTest, it_handles_ballplacement_positions) {
     roboteam_msgs::World worldMsg;
     worldMsg.ball.pos = Vector2(0, 0);
     worldMsg.ball.visible = 1;
+    worldMsg.ball.existence = 99999;
     World::set_world(worldMsg);
 
     EXPECT_FLOAT_EQ(Vector2(World::getBall()->pos).dist(Coach::getBallPlacementBeforePos(World::getBall()->pos)), Constants::BP_MOVE_TOWARDS_DIST());

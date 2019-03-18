@@ -26,7 +26,7 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
     roboteam_msgs::WorldRobot robot;
 
     rtt::ai::World::set_world(worldMsg);
-    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
+    EXPECT_EQ(node.update(), bt::Node::Status::Waiting);
 
     roboteam_msgs::GeometryFieldSize field;
     field.left_penalty_line.begin.x = -1.0f;
@@ -48,8 +48,11 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
     robot.pos.y = 0;
 
     worldMsg.us.push_back(robot);
+    worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random, "IsInDefenseAreaTest", "test");
+    node.initialize();
+
     // Should succeed since robot is in our defence area
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
@@ -80,10 +83,15 @@ TEST(DetectsInTheirDefenseArea, IsInDefenseAreaTest)
 
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
+    robot.id = 0;
+    robot.pos.x = 1.2;
+    robot.pos.y = 0;
+
+    worldMsg.us.push_back(robot);
 
     rtt::ai::World::set_world(worldMsg);
 
-    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
+    EXPECT_EQ(node.update(), bt::Node::Status::Waiting);
 
     roboteam_msgs::GeometryFieldSize field;
     field.left_penalty_line.begin.x = -1.0f;
@@ -99,14 +107,14 @@ TEST(DetectsInTheirDefenseArea, IsInDefenseAreaTest)
     field.right_penalty_line.end.y = 1.0;
 
     rtt::ai::Field::set_field(field);
+    worldMsg.ball.existence = 99999;
+    worldMsg.ball.visible = 1;
 
-    robot.id = 0;
-    robot.pos.x = 1.2;
-    robot.pos.y = 0;
 
-    worldMsg.us.push_back(robot);
     rtt::ai::World::set_world(worldMsg);
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random, "IsInDefenseAreaTest", "test");
+    node.initialize();
+
     // Should succeed since robot is in their defence area
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
@@ -152,11 +160,12 @@ TEST(DetectsBallInOurDefenceArea, IsInDefenceAreaTest)
     field.right_penalty_line.end.y = 1.0;
     rtt::ai::Field::set_field(field);
 
-    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
+    EXPECT_EQ(node.update(), bt::Node::Status::Waiting);
 
     worldMsg.ball.pos.x = -1.1;
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = 1;
+    worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
 
     // Should succeed since ball is in our defence area

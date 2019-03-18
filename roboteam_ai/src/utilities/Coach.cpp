@@ -4,6 +4,7 @@
 
 #include "Coach.h"
 #include "../interface/InterfaceValues.h"
+
 namespace rtt {
 namespace ai {
 namespace coach {
@@ -111,7 +112,7 @@ bool Coach::isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, c
 }
 
 bool Coach::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position,
-    const Vector2 &robotPosition) {
+        const Vector2 &robotPosition) {
     const Vector2 &ball = static_cast<Vector2>(World::getBall()->pos);
     Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, position);
     Vector2 deltaBall = behindBallPosition - ball;
@@ -132,16 +133,16 @@ std::pair<int, bool> Coach::getRobotClosestToBall() {
     roboteam_msgs::WorldRobot closestRobot;
     bool weAreCloser;
     if (distanceToBallUs < distanceToBallThem) {
-        closestRobot = * closestUs;
+        closestRobot = *closestUs;
         weAreCloser = true;
-    } else {
-        closestRobot = * closestThem;
+    }
+    else {
+        closestRobot = *closestThem;
         weAreCloser = false;
     }
 
     return std::make_pair(closestRobot.id, weAreCloser);
 }
-
 
 Vector2 Coach::getDefensivePosition(int robotId) {
     addDefender(robotId);
@@ -153,19 +154,27 @@ Vector2 Coach::getDefensivePosition(int robotId) {
     std::vector<Vector2> targetLocations;
     std::vector<Vector2> robotLocations;
 
-    for (unsigned int i = 0; i<defenders.size(); i++) {
-        double targetLocationY = ((field.field_width/(defenders.size() + 1))*(i+1)) - field.field_width/2;
-        targetLocations.push_back({targetLocationX, targetLocationY});
-        robotLocations.push_back(World::getRobotForId(defenders.at(i), true)->pos);
+    for (unsigned int i = 0; i < defenders.size(); i ++) {
+        if (World::getRobotForId(defenders[i], true)) {
+            double targetLocationY = ((field.field_width/(defenders.size() + 1))*(i + 1)) - field.field_width/2;
+            targetLocations.emplace_back(targetLocationX, targetLocationY);
+            robotLocations.emplace_back(World::getRobotForId(defenders[i], true)->pos);
+        }
+        else {
+            ROS_ERROR("no robot found with that id (Coach::getDefensivePosition)");
+        }
     }
 
     // the order of shortestDistances should be the same order as robotLocations
     // this means that shortestDistances[0] corresponds to defenders[0] etc.
-    auto shortestDistances = control::ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(robotLocations, targetLocations);
+    auto shortestDistances = control::ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(robotLocations,
+            targetLocations);
 
-    for (unsigned long i = 0; i<defenders.size(); i++) {
-        if (defenders.at(i) == robotId) {
-            return shortestDistances.at(i).second;
+    for (auto &shortestDistance : shortestDistances) {
+        if (World::getRobotForId(robotId, true)) {
+            if ((shortestDistance.first - World::getRobotForId(robotId, true)->pos).length() < 0.1) {
+                return shortestDistance.second;
+            }
         }
     }
     return {0, 0};
@@ -173,9 +182,8 @@ Vector2 Coach::getDefensivePosition(int robotId) {
 
 void Coach::addDefender(int id) {
     bool robotIsRegistered = std::find(defenders.begin(), defenders.end(), id) != defenders.end();
-    if (!robotIsRegistered) defenders.push_back(id);
+    if (! robotIsRegistered) defenders.push_back(id);
 }
-
 
 void Coach::removeDefender(int id) {
     auto defender = std::find(defenders.begin(), defenders.end(), id);
@@ -204,8 +212,9 @@ std::shared_ptr<roboteam_msgs::WorldRobot> Coach::getRobotClosestToPosition(
 
 }
 void Coach::addFormationRobot(int id) {
-    bool robotIsRegistered = std::find(robotsInFormation.begin(), robotsInFormation.end(), id) != robotsInFormation.end();
-    if (!robotIsRegistered) robotsInFormation.push_back(id);
+    bool robotIsRegistered =
+            std::find(robotsInFormation.begin(), robotsInFormation.end(), id) != robotsInFormation.end();
+    if (! robotIsRegistered) robotsInFormation.push_back(id);
 }
 
 void Coach::removeFormationRobot(int id) {
@@ -225,17 +234,18 @@ Vector2 Coach::getFormationPosition(int robotId) {
     std::vector<Vector2> targetLocations;
     std::vector<Vector2> robotLocations;
 
-    for (unsigned int i = 0; i<robotsInFormation.size(); i++) {
-        double targetLocationY = ((field.field_width/(robotsInFormation.size() + 1))*(i+1)) - field.field_width/2;
+    for (unsigned int i = 0; i < robotsInFormation.size(); i ++) {
+        double targetLocationY = ((field.field_width/(robotsInFormation.size() + 1))*(i + 1)) - field.field_width/2;
         targetLocations.push_back({targetLocationX, targetLocationY});
         robotLocations.push_back(World::getRobotForId(robotsInFormation.at(i), true)->pos);
     }
 
     // the order of shortestDistances should be the same order as robotLocations
     // this means that shortestDistances[0] corresponds to defenders[0] etc.
-    auto shortestDistances = control::ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(robotLocations, targetLocations);
+    auto shortestDistances = control::ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(robotLocations,
+            targetLocations);
 
-    for (unsigned int i = 0; i < robotsInFormation.size(); i++) {
+    for (unsigned int i = 0; i < robotsInFormation.size(); i ++) {
 
         if (robotsInFormation.at(i) == robotId) {
             return shortestDistances.at(i).second;
@@ -249,7 +259,7 @@ Vector2 Coach::getFormationPosition(int robotId) {
 void Coach::resetPass() {
     setPassed(false);
     setReadyToReceivePass(false);
-    setRobotBeingPassedTo(-1);
+    setRobotBeingPassedTo(- 1);
 }
 
 int Coach::initiatePass() {
@@ -285,21 +295,23 @@ void Coach::setPassed(bool passed) {
     Coach::passed = passed;
 }
 
-Vector2 Coach::getBallPlacementPos(){
+Vector2 Coach::getBallPlacementPos() {
     return interface::InterfaceValues::getBallPlacementTarget();
 }
 
-Vector2 Coach::getBallPlacementBeforePos(Vector2 ballPos){
-    Vector2 PlacePos=interface::InterfaceValues::getBallPlacementTarget();
-    Vector2 targetPos=ballPos + (PlacePos - ballPos).stretchToLength(Constants::BP_MOVE_TOWARDS_DIST());
+Vector2 Coach::getBallPlacementBeforePos(Vector2 ballPos) {
+    Vector2 PlacePos = interface::InterfaceValues::getBallPlacementTarget();
+    Vector2 targetPos = ballPos + (PlacePos - ballPos).stretchToLength(Constants::BP_MOVE_TOWARDS_DIST());
     return targetPos;
 }
-Vector2 Coach::getBallPlacementAfterPos(double RobotAngle){
-    Vector2 targetPos=interface::InterfaceValues::getBallPlacementTarget() + Vector2(Constants::BP_MOVE_BACK_DIST(),0).rotate(RobotAngle+M_PI);
+Vector2 Coach::getBallPlacementAfterPos(double RobotAngle) {
+    Vector2 targetPos = interface::InterfaceValues::getBallPlacementTarget()
+            + Vector2(Constants::BP_MOVE_BACK_DIST(), 0).rotate(RobotAngle + M_PI);
     return targetPos;
 }
 std::shared_ptr<roboteam_msgs::WorldRobot> Coach::getRobotClosestToBall(bool isOurTeam) {
-    return World::getRobotClosestToPoint(isOurTeam ? World::get_world().us : World::get_world().them, World::getBall()->pos);
+    return World::getRobotClosestToPoint(isOurTeam ? World::get_world().us : World::get_world().them,
+            World::getBall()->pos);
 }
 Vector2 Coach::getDemoKeeperGetBallPos(Vector2 ballPos){
     return ballPos+Vector2(0.2,0);

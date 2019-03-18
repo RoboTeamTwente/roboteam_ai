@@ -34,6 +34,7 @@ TEST(KickTest, It_sends_proper_robotcommands) {
     robot.pos.x=0;
     robot.pos.y=0;
     worldMsg.us.push_back(robot);
+    worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"KickTest","test");
     kick.initialize();
@@ -86,6 +87,7 @@ TEST(KickTest, It_chips) {
     robot.pos.x=0;
     robot.pos.y=0;
     worldMsg.us.push_back(robot);
+    worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"KickTest","test");
 

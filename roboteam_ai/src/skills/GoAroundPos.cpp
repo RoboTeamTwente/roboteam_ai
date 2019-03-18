@@ -74,7 +74,7 @@ GoAroundPos::Status GoAroundPos::onUpdate() {
     std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
     displayColorData.emplace_back(std::make_pair(commandPos,Qt::red));
     displayColorData.emplace_back(std::make_pair(targetPos + Vector2(distanceFromPoint, 0).rotate(endAngle+M_PI),Qt::red));
-    interface::Drawer::setGoToPosLuThPoints(robot->id,displayColorData);
+    interface::Drawer::setNumTreePoints(robot->id, displayColorData);
 
     switch(currentProgress) {
     case ROTATING: sendRotateCommand(); return Status::Running;

@@ -10,7 +10,7 @@ namespace ai {
 IsBallCloseToBorder::IsBallCloseToBorder(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
 
-void IsBallCloseToBorder::initialize() {
+void IsBallCloseToBorder::onInitialize() {
     if (properties->hasDouble("margin")) {
         margin = properties->getDouble("margin");
     } else {
@@ -19,7 +19,7 @@ void IsBallCloseToBorder::initialize() {
     layingStill = properties->getBool("layingStill");
 }
 
-bt::Node::Status IsBallCloseToBorder::update() {
+bt::Node::Status IsBallCloseToBorder::onUpdate() {
     Vector2 ballPos = World::getBall()->pos;
     if (!properties->getBool("corner")) {
         if (Field::pointIsInField(ballPos, static_cast<float>(margin))) {
