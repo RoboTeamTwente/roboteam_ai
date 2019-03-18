@@ -122,12 +122,14 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateRandomPosition(double
     return position;
 }
 
-bool OffensiveCoach::positionTooCloseToRobotPositions(OffensivePosition position) {
+bool OffensiveCoach::positionTooCloseToRobotPositions(OffensivePosition position, int self) {
     bool tooClose = false;
     for (auto &robotPosition : robotPositions) {
-        if ((position.position - robotPosition.second.position).length() < Constants::ATTACKER_DISTANCE()) {
-            tooClose = true;
-            continue;
+        if (robotPosition.first != self) {
+            if ((position.position - robotPosition.second.position).length() < Constants::ATTACKER_DISTANCE()) {
+                tooClose = true;
+                continue;
+            }
         }
     }
 
@@ -237,31 +239,21 @@ void OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::W
     Vector2 currentPosition = currentRobotPosition.position;
     double currentScore = calculatePositionScore(currentPosition);
 
-    Vector2 newPosition;
-    double newScore;
+    OffensivePosition newPosition;
     bool foundNewPosition = false;
 
     for (int xDiff : {-2, -1, 0, 1, 2}) {
         for (int yDiff : {-2, -1, 0, 1, 2}) {
-            if (!Field::pointIsInField(newPosition) || Field::pointIsInDefenceArea(newPosition, false)) continue;
-            newPosition.x = currentPosition.x + 0.01 * xDiff;
-            newPosition.y = currentPosition.y + 0.01 * yDiff;
+            newPosition.position.x = currentPosition.x + 0.01 * xDiff;
+            newPosition.position.y = currentPosition.y + 0.01 * yDiff;
+            if (!Field::pointIsInField(newPosition.position) || Field::pointIsInDefenceArea(newPosition.position, false)) continue;
 
-            bool tooClose = false;
-            for (auto &robotPosition : robotPositions) {
-                if (robotPosition.first != robot->id) {
-                    if ((newPosition - robotPosition.second.position).length() < Constants::ATTACKER_DISTANCE()) {
-                        tooClose = true;
-                        break;
-                    }
-                }
-            }
+            if(positionTooCloseToRobotPositions(newPosition, robot->id)) continue;
 
-            if (tooClose) continue;
-            newScore = calculatePositionScore(newPosition);
-            if (newScore > currentScore && newScore > 0.6 * offensivePositions[maxPositions - 1].score) {
-                currentPosition = newPosition;
-                currentScore = newScore;
+            newPosition.score = calculatePositionScore(newPosition.position);
+            if (newPosition.score > currentScore && newPosition.score > 0.6 * offensivePositions[maxPositions - 1].score) {
+                currentPosition = newPosition.position;
+                currentScore = newPosition.score;
                 foundNewPosition = true;
             }
 

@@ -56,7 +56,7 @@ private:
     static void drawOffensivePoints();
     static void recalculateOffensivePositions();
     static OffensivePosition calculateRandomPosition(double xStart, double xEnd, double yStart, double yEnd);
-    static bool positionTooCloseToRobotPositions(OffensivePosition position);
+    static bool positionTooCloseToRobotPositions(OffensivePosition position, int self = -1);
 
     static void compareToCurrentPositions(const OffensivePosition &position);
 
