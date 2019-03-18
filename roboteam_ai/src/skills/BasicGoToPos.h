@@ -11,7 +11,6 @@
 namespace rtt {
 namespace ai {
 
-
 class BasicGoToPos : public Skill {
     public:
         explicit BasicGoToPos(string name, bt::Blackboard::Ptr blackboard);

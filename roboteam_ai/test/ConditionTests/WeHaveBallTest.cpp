@@ -16,7 +16,6 @@ TEST(WeHaveBallTest, WeHaveBallTest) {
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
     rtt::ai::World::set_world(worldMsg);
-    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     roboteam_msgs::GeometryFieldSize field;
     field.field_length = 12;
