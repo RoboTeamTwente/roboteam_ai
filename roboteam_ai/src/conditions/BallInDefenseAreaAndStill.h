@@ -18,8 +18,8 @@ private:
     bool outsideField = false;
 public:
     explicit BallInDefenseAreaAndStill(std::string name = "BallInDefenseAreaAndStill", bt::Blackboard::Ptr blackboard = nullptr);
-    void initialize() override;
-    Status update() override;
+    void onInitialize() override;
+    Status onUpdate() override;
     std::string node_name() override;
 };
 

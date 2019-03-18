@@ -17,13 +17,13 @@ namespace interface {
 
 class InterfaceValues {
     private:
-        static double luthPosP;
-        static double luthPosI;
-        static double luthPosD;
+        static double numTreePosP;
+        static double numTreePosI;
+        static double numTreePosD;
 
-        static double luthVelP;
-        static double luthVelI;
-        static double luthVelD;
+        static double numTreeVelP;
+        static double numTreeVelI;
+        static double numTreeVelD;
 
         static std::mutex pidMutex;
         static std::mutex ballPlacementMutex;
@@ -41,6 +41,7 @@ class InterfaceValues {
         static bool showDebugTickTimeTaken();
         static bool showDebugNumTreeTimeTaken();
         static bool showDebugNumTreeInfo();
+        static bool showFullDebugNumTreeInfo();
 
         static bool usesRefereeCommands();
         static void setUseRefereeCommands(bool useRefereeCommands);
@@ -48,18 +49,18 @@ class InterfaceValues {
         static void setBallPlacementTarget(const rtt::Vector2 &ballPlacementTarget);
 
         static double setNumTreePosP();
-        static void setLuthPosP(double luthP);
+        static void setNumTreePosP(double numTreePP);
         static double getNumTreePosI();
-        static void setNumTreePosI(double luthI);
+        static void setNumTreePosI(double numTreePI);
         static double getNumTreePosD();
-        static void setNumTreePosD(double luthD);
+        static void setNumTreePosD(double numTreePD);
 
         static double getNumTreeVelP();
-        static void setNumTreeVelP(double luthP);
+        static void setNumTreeVelP(double numTreeVP);
         static double getNumTreeVelI();
-        static void setNumTreeVelI(double luthI);
+        static void setNumTreeVelI(double numTreeVI);
         static double getNumTreeVelD();
-        static void setNumTreeVelD(double luthD);
+        static void setNumTreeVelD(double numTreeVD);
 
         static void sendHaltCommand();
 };

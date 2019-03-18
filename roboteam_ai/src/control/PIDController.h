@@ -2,8 +2,8 @@
 // Created by kjhertenberg on 18-12-18.
 //
 
-#ifndef ROBOTEAM_AI_CONTROLLER_H
-#define ROBOTEAM_AI_CONTROLLER_H
+#ifndef ROBOTEAM_AI_PIDCONTROLLER_H
+#define ROBOTEAM_AI_PIDCONTROLLER_H
 
 #include "ControlUtils.h"
 #include "../utilities/Constants.h"
@@ -79,4 +79,4 @@ public:
 } // ai
 } // rtt
 
-#endif //ROBOTEAM_AI_CONTROLLER_H
+#endif //ROBOTEAM_AI_PIDCONTROLLER_H

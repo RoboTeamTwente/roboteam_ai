@@ -13,7 +13,7 @@ namespace ai {
 WeHaveBall::WeHaveBall(std::string name, bt::Blackboard::Ptr blackboard)
     : Condition(std::move(name), std::move(blackboard)) { }
 
-bt::Node::Status WeHaveBall::update() {
+bt::Node::Status WeHaveBall::onUpdate() {
     roboteam_msgs::World world = World::get_world();
     std::vector<roboteam_msgs::WorldRobot> robots = world.us;
 

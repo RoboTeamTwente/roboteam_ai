@@ -10,10 +10,9 @@ namespace ai {
 IsBeingPassedTo::IsBeingPassedTo(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
 
+void IsBeingPassedTo::onInitialize() {};
 
-void IsBeingPassedTo::initialize() {};
-
-IsBeingPassedTo::Status IsBeingPassedTo::update() {
+IsBeingPassedTo::Status IsBeingPassedTo::onUpdate() {
     robot = getRobotFromProperties(properties);
     if (coach::Coach::getRobotBeingPassedTo() == robot->id) {
         return Status::Success;
