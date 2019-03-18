@@ -88,6 +88,8 @@ void BallModel::updateBallModel(roboteam_msgs::WorldBall newBall) {
 void BallModel::updateDribbling(roboteam_msgs::WorldBall newBall) {
     // first find the robot that is most likely dribbling the ball. This can possibly be moved to world
     std::pair<int,bool> bestBot=std::make_pair(-1,true);
+
+    //TODO: tune constants and move to Constants
     double maxDribbleRange=0.05;
     double maxSpeedDiff=0.5;
     double bestRange=maxDribbleRange;
