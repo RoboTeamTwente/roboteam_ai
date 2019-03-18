@@ -22,27 +22,6 @@ public:
         double score;
     };
 
-private:
-
-    static double marginFromLines;
-    static double maxDistanceFromBall;
-
-    static std::vector<OffensivePosition> offensivePositions;
-    static int maxPositions;
-    static std::map<int, OffensivePosition> robotPositions;
-
-private:
-
-    static bool compareByScore(OffensivePosition position1, OffensivePosition position2);
-    static double calculateCloseToGoalScore(Vector2 position);
-    static double calculateShotAtGoalScore(Vector2 position, roboteam_msgs::World world);
-    static double calculatePassLineScore(Vector2 position, roboteam_msgs::World world);
-    static double calculateDistanceToOpponentsScore(Vector2 position, roboteam_msgs::World world);
-    static double calculateDistanceFromCorner(Vector2 position, roboteam_msgs::GeometryFieldSize field);
-    static double calculateDistanceFromBallScore(Vector2 position, roboteam_msgs::GeometryFieldSize& field, roboteam_msgs::WorldBall& ball);
-    static void drawOffensivePoints();
-public:
-    static double calculatePositionScore(Vector2 position);
     static void calculateNewPositions();
     static void calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
 
@@ -52,6 +31,30 @@ public:
     static std::vector<OffensivePosition> getRobotPositions();
     static int getBestStrikerID();
 
+
+private:
+
+    static double marginFromLines;
+    static double maxDistanceFromBall;
+
+    static std::vector<OffensivePosition> offensivePositions;
+    static int maxPositions;
+    static std::map<int, OffensivePosition> robotPositions;
+
+    static bool compareByScore(OffensivePosition position1, OffensivePosition position2);
+    static double calculateCloseToGoalScore(Vector2 position);
+    static double calculateShotAtGoalScore(Vector2 position, roboteam_msgs::World world);
+    static double calculatePassLineScore(Vector2 position, roboteam_msgs::World world);
+    static double calculateDistanceToOpponentsScore(Vector2 position, roboteam_msgs::World world);
+    static double calculateDistanceFromCorner(Vector2 position, roboteam_msgs::GeometryFieldSize field);
+    static double calculateDistanceFromBallScore(Vector2 position, roboteam_msgs::GeometryFieldSize& field, roboteam_msgs::WorldBall& ball);
+    static double calculatePositionScore(Vector2 position);
+    static void drawOffensivePoints();
+    static void recalculateOffensivePositions();
+    static OffensivePosition calculateRandomPosition(double xStart, double xEnd, double yStart, double yEnd);
+    static bool positionTooCloseToRobotPositions(OffensivePosition position);
+
+    static void compareToCurrentPositions(const OffensivePosition &position);
 };
 
 }
