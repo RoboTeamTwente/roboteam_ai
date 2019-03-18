@@ -25,6 +25,11 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawBall(painter);
         drawRobots(painter);
         drawDrawPoints(painter, Drawer::getDrawPoints());
+        drawDrawLines(painter, Drawer::getDrawLines());
+
+        Drawer::clearDrawPoints();
+        Drawer::clearDrawLines();
+
         if (showBallPlacementMarker) drawBallPlacementTarget(painter);
 
         if (showPath) {
@@ -268,6 +273,17 @@ void Visualizer::drawDrawPoints(QPainter &painter, std::vector<std::pair<Vector2
     }
 }
 
+void Visualizer::drawDrawLines(QPainter &painter, std::vector<std::tuple<Vector2, Vector2, QColor>> lines) {
+    if (!lines.empty()) {
+        for (auto &line : lines) {
+            painter.setPen(std::get<2>(line));
+            Vector2 v1 = toScreenPosition(std::get<0>(line));
+            Vector2 v2 = toScreenPosition(std::get<1>(line));
+            painter.drawLine(v1.x, v1.y, v2.x, v2.y);
+        }
+    }
+}
+
 std::string Visualizer::getTacticNameForRobot(roboteam_msgs::WorldRobot robot) {
    return robotDealer::RobotDealer::getTacticNameForId(robot.id);
 }
@@ -357,6 +373,7 @@ void Visualizer::drawIntercept(QPainter &painter, std::vector<std::pair<rtt::Vec
         }
     }
 }
+
 void Visualizer::drawBallPlacementTarget(QPainter& painter) {
     Vector2 ballPlacementTarget = toScreenPosition(InterfaceValues::getBallPlacementTarget());
     painter.setBrush(Qt::transparent);
