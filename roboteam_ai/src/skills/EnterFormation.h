@@ -18,6 +18,13 @@ public:
     void onTerminate(bt::Node::Status) override;
 private:
     control::PositionController gtp;
+    enum Formation {
+      Normal,
+      Penalty,
+      FreeKick
+    };
+    Formation formation;
+    void setFormation(std::string property);
 
 };
 

@@ -13,31 +13,59 @@ EnterFormation::EnterFormation(std::string name, bt::Blackboard::Ptr blackboard)
 
 void EnterFormation::onInitialize() {
     coach::Coach::addFormationRobot(robot->id);
+    auto form = properties->getString("Formation");
+    setFormation(form);
 }
 
 bt::Node::Status EnterFormation::onUpdate() {
-    auto robotPos = rtt::Vector2(robot->pos);
-    Vector2 targetLocation = coach::Coach::getFormationPosition(robot->id);
-    Vector2 targetToLookAtLocation = Field::get_their_goal_center();
+    switch (formation) {
 
-    roboteam_msgs::RobotCommand cmd;
-    cmd.id = robot->id;
-    cmd.use_angle = 1;
+        case Normal:{
+            auto robotPos = rtt::Vector2(robot->pos);
+            Vector2 targetLocation = coach::Coach::getFormationPosition(robot->id);
+            Vector2 targetToLookAtLocation = Field::get_their_goal_center();
 
-    if (robotPos.dist(targetLocation) > Constants::NUMTREE_ERROR_MARGIN()) {
-        auto velocities = gtp.goToPos(robot, targetLocation, control::PosControlType::NUMERIC_TREES);
-        cmd.x_vel = velocities.vel.x;
-        cmd.y_vel = velocities.vel.y;
-        cmd.w = static_cast<float>((targetLocation-robot->pos).angle());
-    } else { // we are at the right location
-        cmd.w = static_cast<float>((targetToLookAtLocation-robot->pos).angle());
+            roboteam_msgs::RobotCommand cmd;
+            cmd.id = robot->id;
+            cmd.use_angle = 1;
+
+            if (robotPos.dist(targetLocation) > Constants::NUMTREE_ERROR_MARGIN()) {
+                auto velocities = gtp.goToPos(robot, targetLocation, control::PosControlType::NUMERIC_TREES);
+                cmd.x_vel = static_cast<float>(velocities.vel.x);
+                cmd.y_vel = static_cast<float>(velocities.vel.y);
+                cmd.w = static_cast<float>((targetLocation-robot->pos).angle());
+            } else { // we are at the right location
+                cmd.w = static_cast<float>((targetToLookAtLocation-robot->pos).angle());
+            }
+            publishRobotCommand(cmd);
+            return bt::Node::Status::Running;
+        }
+        case Penalty:{
+
+        }
+        case FreeKick:{
+
+        }
     }
-    publishRobotCommand(cmd);
-    return bt::Node::Status::Running;
+    return bt::Node::Status::Failure;
+
+
 }
 
 void EnterFormation::onTerminate(bt::Node::Status s) {
     coach::Coach::removeFormationRobot(robot->id);
+}
+void EnterFormation::setFormation(std::string property) {
+    if (property == "Penalty") {
+        formation = Penalty;
+    }
+    else if (property == "FreeKick") {
+        formation = FreeKick;
+    }
+    else { // this also means that if you dont have this set in the tree it will be normal
+        formation = Normal;
+    }
+
 }
 
 } // ai

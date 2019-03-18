@@ -3,8 +3,6 @@
 //
 
 #include "Switches.h"
-
-
 //  ______________________
 //  |                    |
 //  |   INCLUDE TACTICS  |
@@ -15,6 +13,8 @@
 #include "../bt/tactics/DefaultTactic.h"
 #include "../bt/tactics/EnterFormationTactic.h"
 #include "../bt/tactics/AvoidBallTactic.h"
+#include "../bt/tactics/PenaltyTactic.h"
+
 
 //  ______________________
 //  |                    |
@@ -322,6 +322,8 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
         node = std::make_shared<bt::AvoidBallTactic>("AvoidBallTactic", properties);
     else if (name == "victoryDanceTactic")
         node = std::make_shared<bt::VictoryDanceTactic>("victoryDanceTactic", properties);
+    else if (name == "PenaltyTactic")
+        node = std::make_shared<bt::PenaltyTactic>("PenaltyTactic", properties);
     else
         ROS_ERROR("\n\n\nTHE TACTIC DOES NOT HAVE ROBOTS SPECIFIED IN THE SWITCHES:    %s\n\n\n", name.c_str());
     return node;
