@@ -51,6 +51,8 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
     worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random, "IsInDefenseAreaTest", "test");
+    node.initialize();
+
     // Should succeed since robot is in our defence area
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
