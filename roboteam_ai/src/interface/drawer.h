@@ -30,7 +30,7 @@ class Drawer {
         static void setTestPoints(std::vector<std::pair<Vector2,QColor>> points);
         static std::vector<std::pair<Vector2,QColor>>  getTestPoints();
     private:
-        static std::mutex goToPosMutex,keeperMutex,interceptMutex;
+        static std::mutex goToPosMutex,keeperMutex,interceptMutex,testLineMutex,testPointMutex;
         static std::map<int, GTPPoints> GoToPosLuThPoints;
         static std::map<int, GTPPoints> KeeperPoints;
         static std::map<int, GTPPoints> InterceptPoints;

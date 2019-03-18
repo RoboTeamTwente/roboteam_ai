@@ -21,7 +21,7 @@ bt::Node::Status CoachDefend::onUpdate() {
         std::cerr<<"Could not find the location of defender "<< robot->id<< " in calculated positions!"<<std::endl;
         return bt::Node::Status::Running;
     }
-    auto velocities = gtp.goToPos(robot, targetLocation->first, control::GoToType::basic);
+    auto velocities = gtp.goToPos(robot, targetLocation->first, control::PosControlType::BASIC).vel;
     velocities=control::ControlUtils::VelocityLimiter(velocities);
     roboteam_msgs::RobotCommand cmd;
     cmd.id = robot->id;
