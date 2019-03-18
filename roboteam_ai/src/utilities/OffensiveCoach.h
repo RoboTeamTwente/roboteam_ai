@@ -38,6 +38,10 @@ private:
     static double maxDistanceFromBall;
 
     static std::vector<OffensivePosition> offensivePositions;
+public:
+    static const vector<OffensivePosition> &getOffensivePositions();
+
+private:
     static int maxPositions;
     static std::map<int, OffensivePosition> robotPositions;
 

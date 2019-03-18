@@ -325,6 +325,10 @@ int OffensiveCoach::getBestStrikerID() {
     return bestRobot;
 }
 
+const vector<OffensiveCoach::OffensivePosition> &OffensiveCoach::getOffensivePositions() {
+    return offensivePositions;
+}
+
 }
 }
 }
