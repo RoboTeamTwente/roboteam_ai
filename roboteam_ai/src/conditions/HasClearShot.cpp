@@ -2,17 +2,17 @@
 // Created by robzelluf on 3/14/19.
 //
 
-#include "ShotAtGoal.h"
+#include "HasClearShot.h"
 
 namespace rtt{
 namespace ai {
 
-ShotAtGoal::ShotAtGoal(std::string name, bt::Blackboard::Ptr blackboard)
+HasClearShot::HasClearShot(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) {};
 
-void ShotAtGoal::initialize() {};
+void HasClearShot::initialize() {};
 
-ShotAtGoal::Status ShotAtGoal::update() {
+HasClearShot::Status HasClearShot::update() {
     robot = getRobotFromProperties(properties);
     if (((Vector2)robot->pos - Field::get_their_goal_center()).length() > Constants::MAX_SHOOTING_DISTANCE()) {
         return Status::Failure;
@@ -26,7 +26,7 @@ ShotAtGoal::Status ShotAtGoal::update() {
     return Status::Success;
 }
 
-std::string ShotAtGoal::node_name() {return "ShotAtGoal";}
+std::string HasClearShot::node_name() {return "HasClearShot";}
 
 }
 };

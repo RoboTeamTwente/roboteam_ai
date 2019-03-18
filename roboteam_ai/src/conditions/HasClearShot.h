@@ -11,9 +11,9 @@
 namespace rtt {
 namespace ai {
 
-class ShotAtGoal : public Condition {
+class HasClearShot : public Condition {
 public:
-    explicit ShotAtGoal(std::string name = "ShotAtGoal", bt::Blackboard::Ptr blackboard = nullptr);
+    explicit HasClearShot(std::string name = "HasClearShot", bt::Blackboard::Ptr blackboard = nullptr);
     void initialize() override;
     Status update() override;
     std::string node_name() override;

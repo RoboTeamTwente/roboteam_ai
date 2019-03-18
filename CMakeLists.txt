@@ -233,8 +233,8 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBallCloseToBorder.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNearOurGoalLineAndStill.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNearOurGoalLineAndStill.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ShotAtGoal.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ShotAtGoal.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasClearShot.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasClearShot.h)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
