@@ -21,14 +21,12 @@ public:
         Vector2 position;
         double score;
     };
-    static vector<OffensivePosition> &getOffensivePositions();
 
 private:
 
     static double marginFromLines;
     static double maxDistanceFromBall;
 
-    static double newRobotPositionMargin;
     static std::vector<OffensivePosition> offensivePositions;
     static int maxPositions;
     static std::map<int, OffensivePosition> robotPositions;

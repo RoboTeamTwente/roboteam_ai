@@ -23,10 +23,10 @@ Pass::Status Pass::onUpdate() {
 
     switch(currentProgress) {
         case Progression::POSITIONING: {
-            if (!coach::Coach::isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos)) {
+            if (!coach::Coach::isRobotBehindBallToPosition(0.40, robotToPassTo->pos, robot->pos)) {
                 std::cout << "Going behind ball" << std::endl;
                 goToType = GoToType::BASIC;
-                targetPos = Coach::getPositionBehindBallToPosition(0.25, robotToPassTo->pos);
+                targetPos = Coach::getPositionBehindBallToPosition(0.35, robotToPassTo->pos);
                 goToPos.setAvoidBall(true);
             } else if (!World::ourBotHasBall(robot->id, Constants::MAX_KICK_RANGE())) {
                 std::cout << "Getting to ball" << std::endl;

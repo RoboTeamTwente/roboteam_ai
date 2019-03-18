@@ -12,7 +12,6 @@ namespace coach {
 
 int OffensiveCoach::maxPositions = 4;
 double OffensiveCoach::maxDistanceFromBall = 6.0;
-double OffensiveCoach::newRobotPositionMargin = 0.05;
 double OffensiveCoach::marginFromLines = 0.2;
 std::vector<OffensiveCoach::OffensivePosition> OffensiveCoach::offensivePositions;
 std::map<int, OffensiveCoach::OffensivePosition> OffensiveCoach::robotPositions;
@@ -123,7 +122,6 @@ void OffensiveCoach::calculateNewPositions() {
         position.position = {x, y};
 
         if (!Field::pointIsInField(position.position) || Field::pointIsInDefenceArea(position.position, false)) {
-            attempt--;
             continue;
         }
 
@@ -136,7 +134,6 @@ void OffensiveCoach::calculateNewPositions() {
         }
 
         if (tooClose) {
-            attempt--;
             continue;
         }
 
@@ -163,7 +160,9 @@ void OffensiveCoach::calculateNewPositions() {
     }
 
     std::sort(offensivePositions.begin(), offensivePositions.end(), compareByScore);
-    offensivePositions.erase(offensivePositions.begin() + maxPositions, offensivePositions.end());
+    if (offensivePositions.size() > maxPositions) {
+        offensivePositions.erase(offensivePositions.begin() + maxPositions, offensivePositions.end());
+    }
     drawOffensivePoints();
 }
 
@@ -212,10 +211,6 @@ void OffensiveCoach::releaseRobot(int robotID) {
 Vector2 OffensiveCoach::getPositionForRobotID(int robotID) {
     Vector2 position = robotPositions[robotID].position;
     return position;
-}
-
-vector<OffensiveCoach::OffensivePosition> &OffensiveCoach::getOffensivePositions() {
-    return offensivePositions;
 }
 
 void OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
@@ -275,7 +270,7 @@ vector<OffensiveCoach::OffensivePosition> OffensiveCoach::getRobotPositions() {
 void OffensiveCoach::drawOffensivePoints() {
     /// Draw general offensive points
     std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
-    for (auto offensivePosition : offensivePositions) {
+    for (auto &offensivePosition : offensivePositions) {
         displayColorData.emplace_back(std::make_pair(offensivePosition.position, Qt::green));
     }
     interface::Drawer::setOffensivePoints(displayColorData);

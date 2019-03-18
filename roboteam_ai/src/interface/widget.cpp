@@ -373,6 +373,7 @@ void Visualizer::drawIntercept(QPainter &painter, std::vector<std::pair<rtt::Vec
         }
     }
 }
+
 void Visualizer::drawBallPlacementTarget(QPainter& painter) {
     Vector2 ballPlacementTarget = toScreenPosition(InterfaceValues::getBallPlacementTarget());
     painter.setBrush(Qt::transparent);
