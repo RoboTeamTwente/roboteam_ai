@@ -26,7 +26,6 @@ TEST(ControllerTest, it_calculates_proper_pid) {
     // clear controller otherwise timeDiff makes the values different
     c = PIDController(10, 20, 30);
     EXPECT_EQ(c.controlPID(12), expectedP + expectedI + expectedD);
-
     // check if the setters work
     c = PIDController(0, 0, 0);
     c.setP(10);
