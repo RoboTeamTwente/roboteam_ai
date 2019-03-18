@@ -301,7 +301,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
            }
             },
             {"PassAndShootTactic", {
-                   {"middleFielder1", robotType::closeToBall},
+                   {"midfielder1", robotType::closeToBall},
                    {"sideAttacker1", robotType::closeToTheirGoal},
                    {"sideAttacker2", robotType::closeToTheirGoal}
 
