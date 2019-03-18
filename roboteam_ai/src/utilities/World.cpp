@@ -38,8 +38,8 @@ void World::set_world(roboteam_msgs::World _world) {
         didReceiveFirstWorld = true;
     }
     determineBallPossession(_world);
-    BallModel::updateBallModel(_world.ball);
     world = _world;
+    BallModel::updateBallModel(_world.ball);
 }
 
 /// Returns Robot for an ID and team (if it exists) 

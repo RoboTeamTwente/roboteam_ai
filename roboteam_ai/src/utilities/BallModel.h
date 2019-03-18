@@ -13,21 +13,23 @@ class BallModel {
         static bool ballInAir;
         static bool collidesNow;
         static bool kickedNow;
+        static bool dribbledNow;
         static double lastKickVel;
         static int ballStraightTicks;
+        static void updateDribbling(roboteam_msgs::WorldBall newBall);
 
     public:
         static void updateBallModel(roboteam_msgs::WorldBall newBall);
         static bool isBallInAir();
         static bool ballCollided();
         static bool ballKicked();
+        static bool ballDribbled();
         struct simulatedBall{
           Vector2 pos;
           Vector2 vel;
           int collissions=0;
         };
         static std::vector<simulatedBall> extrapolateBallSimple(double timeAhead, double timeStep);
-
 };
 }
 }
