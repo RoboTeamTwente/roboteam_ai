@@ -306,15 +306,7 @@ catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
 add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-# copy all jsons to devel of RO -m "fix S
-file(GLOB JSONSa "${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons/keeper/*.json")
-file(COPY ${JSONSa} DESTINATION ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons/keeper)
 
-file(GLOB JSONSb "${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons/strategies/*.json")
-file(COPY ${JSONSb} DESTINATION ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons/strategies)
-
-file(GLOB JSONSc"${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons/tactics/*.json")
-file(COPY ${JSONSc} DESTINATION ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons/tactics)
 
 # Main Executable
 add_executable(Roboteam_AI
@@ -358,6 +350,14 @@ target_link_libraries(ai_tests
         ${catkin_LIBRARIES}
         gcov
         Qt5::Widgets Qt5::Gui)
+
+# this creates a directory for the jsons where  ROS launch scripts can access it
+# then the json folder gets linked to that directory, so also ROS launch scripts can profit from refreshing JSONS on runtime
+ADD_CUSTOM_TARGET(link_target ALL
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src
+        COMMAND ${CMAKE_COMMAND} -E create_symlink ${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons
+        DEPENDS Roboteam_AI ai_tests
+        )
 
 include(CodeCoverage)
 APPEND_COVERAGE_COMPILER_FLAGS()
