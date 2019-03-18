@@ -67,7 +67,9 @@ public:
 
     //hasBall
     static double MAX_BALL_RANGE()              { return GRSIM() ? 0.09 : 0.04; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
-    static double HAS_BALL_ANGLE()              { return 0.2; }
+    static double HAS_BALL_ANGLE()              { return 0.2; };
+    static double BEHIND_BALL_ANGLE()           { return 0.12; };
+    static double BEHIND_BALL_ANGLE_PRECISE()   { return 0.02; };
 
     //kick
     static double MAX_KICK_RANGE()              { return GRSIM() ? 0.08 : 0.04; };

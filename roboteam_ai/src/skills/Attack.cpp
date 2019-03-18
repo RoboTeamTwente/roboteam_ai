@@ -32,7 +32,7 @@ bt::Node::Status Attack::onUpdate() {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
 
-    if (!Coach::isRobotBehindBallToGoal(0.6, ownGoal, robot->pos)) {
+    if (!Coach::isRobotBehindBallToGoal(0.6, ownGoal, robot->pos, Constants::BEHIND_BALL_ANGLE_PRECISE())) {
         targetPos = behindBall;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());

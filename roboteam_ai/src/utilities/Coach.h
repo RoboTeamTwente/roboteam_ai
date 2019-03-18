@@ -48,9 +48,9 @@ public:
             Vector2 position, bool includeSamePosition);
 
 
-    static bool isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal, const Vector2 &robotPos);
-    static bool isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID, const Vector2 &robotPosition);
-    static bool isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position, const Vector2 &robotPosition);
+    static bool isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal, const Vector2 &robotPos, double angleMargin = Constants::BEHIND_BALL_ANGLE());
+    static bool isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID, const Vector2 &robotPosition, double angleMargin = Constants::BEHIND_BALL_ANGLE());
+    static bool isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position, const Vector2 &robotPosition, double angleMargin = Constants::BEHIND_BALL_ANGLE());
 
     static std::pair<int, bool> getRobotClosestToBall();
 
