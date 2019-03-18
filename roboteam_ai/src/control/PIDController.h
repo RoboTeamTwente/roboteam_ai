@@ -13,7 +13,7 @@ namespace rtt{
 namespace ai {
 namespace control {
 
-class Controller {
+class PIDController {
     FRIEND_TEST(ControllerTest, it_calculates_proper_pid);
 
 private:
@@ -27,10 +27,10 @@ private:
     double prev_error2 = 0; //only used in the case of 2 input variables
 
 public:
-    Controller() = default;
-    Controller(double P, double I, double D);
-    Controller(double P, double I, double D, double timeDiff);
-    Controller(double P, double I, double D, double timeDiff, double initial, double initial2, double prev, double prev2);
+    PIDController() = default;
+    PIDController(double P, double I, double D);
+    PIDController(double P, double I, double D, double timeDiff);
+    PIDController(double P, double I, double D, double timeDiff, double initial, double initial2, double prev, double prev2);
 
     bool hasInitialized();
     void reset();

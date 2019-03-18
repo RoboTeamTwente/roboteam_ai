@@ -35,14 +35,14 @@ bt::Node::Status DefendOnRobot::onUpdate() {
 
     if (opponentWithBall && opponentToCover) {
         updateRobot();
-        if (!World::theirBotHasBall(opponentWithBall->id)) {
+        if (!World::botHasBall(opponentWithBall->id,false)) {
             return Status::Success;
         }
 
         Vector2 targetPos = calculateLocation();
 
         std::cout << "Robot:" << robot->id << "TargetPos:" << targetPos << std::endl;
-        goToPos.goToPos(robot, targetPos, control::GoToType::luTh);
+        goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES);
 
         return Status::Running;
     } else {

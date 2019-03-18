@@ -16,7 +16,7 @@ public:
     explicit AvoidBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
     bt::Node::Status onUpdate() override;
 private:
-    control::ControlGoToPos gtp;
+    control::PositionController gtp;
     rtt::Vector2 ballPlacementTargetLocation;
     rtt::Vector2 targetToMoveTo;
     enum Progression {

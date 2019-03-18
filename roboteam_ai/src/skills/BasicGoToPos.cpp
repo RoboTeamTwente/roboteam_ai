@@ -13,58 +13,124 @@ BasicGoToPos::BasicGoToPos(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void BasicGoToPos::onInitialize() {
-    robot = getRobotFromProperties(properties);
     targetPos = properties->getVector2("target");
-    if (properties->getBool("BallPlacementBefore")){
-        if(ball){
+    if (properties->getBool("BallPlacementBefore")) {
+        if (ball) {
             //TODO:Changed for testing, remember to change back
             //targetPos=coach::Coach::getBallPlacementBeforePos(ball->pos);
-            targetPos=coach::Coach::getBallPlacementPos();
+            targetPos = coach::Coach::getBallPlacementPos();
         }
-        else{
+        else {
             ROS_ERROR("BasicGoToPos: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
         }
     }
-    else if (properties->getBool("BallPlacementAfter")){
+    else if (properties->getBool("BallPlacementAfter")) {
+        if (ball) {
+            errorMargin = 0.05;
+            targetPos = coach::Coach::getBallPlacementAfterPos(robot->angle);
+        }
+        else {
+            ROS_ERROR("BasicGoToPos: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
+        }
+    }
+    else if (properties->getBool("DemoKeeperGetBall")){
         if(ball){
             errorMargin=0.05;
-            targetPos=coach::Coach::getBallPlacementAfterPos(robot->angle);
+            targetPos=coach::Coach::getDemoKeeperGetBallPos(ball->pos);
         }
         else{
             ROS_ERROR("BasicGoToPos: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
         }
     }
+    if (properties->getBool("goToBall")) targetPos = ball->pos;
+
+    if (properties->getBool("getBallFromSide")) targetPos = getBallFromSideLocation();
+
+    if (properties->getDouble("maxVel")) {
+        maxVel = properties->getDouble("maxVel");
+    } else maxVel = Constants::MAX_VEL();
+
     goToPos.setAvoidBall(properties->getBool("avoidBall"));
     goToPos.setCanGoOutsideField(properties->getBool("canGoOutsideField"));
 }
 
-
 Skill::Status BasicGoToPos::onUpdate() {
-
     if (! robot) return Status::Running;
+//    if (properties->getBool("BallPlacementAfter")){
+//        targetPos=coach::Coach::getBallPlacementAfterPos(robot->angle);
+//    }
+    else if(properties->getBool("BallPlacementBefore")){
+        targetPos=coach::Coach::getBallPlacementBeforePos(ball->pos);
+    }
+    else if(properties->getBool("DemoKeeperGetBall")){
+        targetPos=coach::Coach::getDemoKeeperGetBallPos(ball->pos);
+    }
 
+    if (properties->getBool("getBallFromSide")) targetPos = getBallFromSideLocation();
+
+    if (!Field::pointIsInField(targetPos)) return Status::Failure;
+
+    Vector2 deltaPos = (targetPos - robot->pos);
+
+    if (deltaPos.length() < errorMargin) {
+        return Status::Success;
+    }
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = 1;
     command.w = static_cast<float>((targetPos-robot->pos).angle());
+    Vector2 velocity = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES).vel;
     if(properties->getBool("BallPlacementAfter")){
         command.w=static_cast<float>((Vector2(robot->pos)-targetPos).angle());
+        velocity = goToPos.goToPos(robot, targetPos, control::PosControlType::BASIC).vel;
     }
-//    const ros::Time &t1 = ros::Time::now();
-    Vector2 velocity = goToPos.goToPos(robot, targetPos, control::GoToType::clean);
-//    const ros::Time &t2 = ros::Time::now();
-//    std::cerr << "gotopos took: " << (t2-t1).toNSec()*0.000001 << " ms" << std::endl;
+
+    velocity=control::ControlUtils::VelocityLimiter(velocity,maxVel,0.3);
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     publishRobotCommand(command);
+    return Status::Running;
+}
 
-    Vector2 deltaPos = targetPos - robot->pos;
+Vector2 BasicGoToPos::getBallFromSideLocation() {
+    roboteam_msgs::GeometryFieldSize field = Field::get_field();
+    double distanceFromTop      = abs(field.field_width / 2 - ball->pos.y);
+    double distanceFromBottom   = abs(-field.field_width / 2 - ball->pos.y);
+    double distanceFromLeft     = abs(-field.field_length / 2 - ball->pos.x);
+    double distanceFromRight    = abs(field.field_length / 2 - ball->pos.x);
 
-    if (deltaPos.length() > errorMargin) {
-        return Status::Running;
+    double distance = 999;
+    Vector2 pos;
+    if (distanceFromTop < distance) {
+        distance = distanceFromTop;
+        pos = {ball->pos.x, ball->pos.y - getballFromSideMargin};
     }
-    else {
-        return Status::Success;
+    if (distanceFromBottom < distance) {
+        distance = distanceFromBottom;
+        pos = {ball->pos.x, ball->pos.y + getballFromSideMargin};
+    }
+
+    if (distance < 0.20) {
+        return pos;
+    }
+    if (distanceFromLeft < distance) {
+        distance = distanceFromLeft;
+        pos = {ball->pos.x + getballFromSideMargin, ball->pos.y};
+    }
+    if (distanceFromRight < distance) {
+        pos = {ball->pos.x - getballFromSideMargin, ball->pos.y};
+    }
+
+    return pos;
+}
+
+void BasicGoToPos::onTerminate(Status s) {
+    if (properties->hasDouble("angle")) {
+        roboteam_msgs::RobotCommand command;
+        command.id = robot->id;
+        double targetAngle = control::ControlUtils::constrainAngle(properties->getDouble("angle") * M_PI);
+        command.w = static_cast<float>(targetAngle);
+        publishRobotCommand(command);
     }
 }
 

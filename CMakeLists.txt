@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.1)
 project(roboteam_ai)
 
-SET(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
+#SET(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
+set(CMAKE_CXX_FLAGS_DEBUG "-std=c++11 ${CMAKE_CXX_FLAGS} -g3 -O0 -Wall --coverage")
+set(CMAKE_CXX_FLAGS_RELEASE "-std=c++11 ${CMAKE_CXX_FLAGS} -Werror -O1")
+
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 
 SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
@@ -223,21 +226,26 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsCloseToPoint.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsCloseToPoint.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallOutOfField.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallOutOfField.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallOutOfField.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBallCloseToBorder.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBallCloseToBorder.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNearOurGoalLineAndStill.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNearOurGoalLineAndStill.h)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/controlGoToPos/ControlGoToPosLuTh.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/controlGoToPos/ControlGoToPosLuTh.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/controlGoToPos/ControlGoToPosBallControl.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/controlGoToPos/ControlGoToPosBallControl.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlGoToPos.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlGoToPos.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Controller.h
-        roboteam_ai/src/control/controlGoToPos/ControlGoToPosClean.cpp
-        roboteam_ai/src/control/controlGoToPos/ControlGoToPosClean.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ControlGoToPosBallControl.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ControlGoToPosBallControl.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PositionController.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PositionController.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PIDController.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PIDController.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/NumTreePosControl.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/NumTreePosControl.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosVelAngle.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PositionControlIncludes.h)
+
 
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/main.cpp
@@ -279,6 +287,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/WorldHelper.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/BallOutOfFieldtest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsBallOnOurSideTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsBallCloseToBorderTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/JoyStickTest.cpp)
 
 set(INTERFACE_SOURCES
@@ -299,15 +308,7 @@ catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
 add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-# copy all jsons to devel of RO -m "fix S
-file(GLOB JSONSa "${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons/keeper/*.json")
-file(COPY ${JSONSa} DESTINATION ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons/keeper)
 
-file(GLOB JSONSb "${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons/strategies/*.json")
-file(COPY ${JSONSb} DESTINATION ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons/strategies)
-
-file(GLOB JSONSc"${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons/tactics/*.json")
-file(COPY ${JSONSc} DESTINATION ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons/tactics)
 
 # Main Executable
 add_executable(Roboteam_AI
@@ -351,6 +352,14 @@ target_link_libraries(ai_tests
         ${catkin_LIBRARIES}
         gcov
         Qt5::Widgets Qt5::Gui)
+
+# this creates a directory for the jsons where  ROS launch scripts can access it
+# then the json folder gets linked to that directory, so also ROS launch scripts can profit from refreshing JSONS on runtime
+ADD_CUSTOM_TARGET(link_target ALL
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src
+        COMMAND ${CMAKE_COMMAND} -E create_symlink ${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons
+        DEPENDS Roboteam_AI ai_tests
+        )
 
 include(CodeCoverage)
 APPEND_COVERAGE_COMPILER_FLAGS()

@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_DEFENDONROBOT_H
 #define ROBOTEAM_AI_DEFENDONROBOT_H
 
-#include <roboteam_ai/src/control/ControlGoToPos.h>
+#include <roboteam_ai/src/control/PositionController.h>
 #include "Skill.h"
 
 namespace rtt {
@@ -13,7 +13,7 @@ namespace ai {
 
 class DefendOnRobot : public Skill {
     private:
-        control::ControlGoToPos goToPos;
+        control::PositionController goToPos;
         double angleBetweenRobots;
         Vector2 newPosition;
 

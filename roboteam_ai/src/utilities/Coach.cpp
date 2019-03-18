@@ -91,7 +91,7 @@ Vector2 Coach::getPositionBehindBallToRobot(double distanceBehindBall, bool ourR
 }
 
 Vector2 Coach::getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position) {
-    const Vector2 &ball = static_cast<Vector2>(World::getBall()->pos);
+    Vector2 ball = World::getBall()->pos;
     return ball + (ball - position).stretchToLength(distanceBehindBall);
 }
 
@@ -116,8 +116,10 @@ bool Coach::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2
     Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, position);
     Vector2 deltaBall = behindBallPosition - ball;
 
-    return (control::ControlUtils::pointInTriangle(robotPosition, ball, ball + (deltaBall).rotate(M_PI*0.17).scale(2.0),
-            ball + (deltaBall).rotate(M_PI*- 0.17).scale(2.0)));
+    double angleMargin = 0.12;
+
+    return (control::ControlUtils::pointInTriangle(robotPosition, ball, ball + (deltaBall).rotate(M_PI*angleMargin).scale(2.0),
+            ball + (deltaBall).rotate(M_PI*- angleMargin).scale(2.0)));
 }
 
 std::pair<int, bool> Coach::getRobotClosestToBall() {
@@ -160,8 +162,8 @@ Vector2 Coach::getDefensivePosition(int robotId) {
     // the order of shortestDistances should be the same order as robotLocations
     // this means that shortestDistances[0] corresponds to defenders[0] etc.
     auto shortestDistances = control::ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(robotLocations, targetLocations);
-   
-  for (unsigned long i = 0; i<defenders.size(); i++) {
+
+    for (unsigned long i = 0; i<defenders.size(); i++) {
         if (defenders.at(i) == robotId) {
             return shortestDistances.at(i).second;
         }
@@ -299,7 +301,9 @@ Vector2 Coach::getBallPlacementAfterPos(double RobotAngle){
 std::shared_ptr<roboteam_msgs::WorldRobot> Coach::getRobotClosestToBall(bool isOurTeam) {
     return World::getRobotClosestToPoint(isOurTeam ? World::get_world().us : World::get_world().them, World::getBall()->pos);
 }
-
+Vector2 Coach::getDemoKeeperGetBallPos(Vector2 ballPos){
+    return ballPos+Vector2(0.2,0);
+}
 } //control
 } //ai
 } //rtt

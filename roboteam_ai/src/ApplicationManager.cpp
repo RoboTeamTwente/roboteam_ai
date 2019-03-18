@@ -8,6 +8,7 @@
 #include "ApplicationManager.h"
 #include "utilities/Referee.hpp"
 #include "utilities/StrategyManager.h"
+#include <sstream>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -27,42 +28,31 @@ void ApplicationManager::loop() {
     ros::Rate rate(ai::Constants::TICK_RATE());
     double longestTick = 0.0;
     double timeTaken;
-    std::vector<double> totalTime;
+    int nTicksTaken = 0;
+    double timeTakenOverNTicks = 0.0;
     while (ros::ok()) {
         ros::Time begin = ros::Time::now();
 
         this->runOneLoopCycle();
+        rate.sleep();
 
         ros::Time end = ros::Time::now();
-        if (ai::Constants::SHOW_LONGEST_TICK()) {
-
-            timeTaken = (end - begin).toNSec() * 0.000001;
-
-            totalTime.push_back(timeTaken);
-            if (totalTime.size() > 100)
-                totalTime.erase(totalTime.begin());
-
-            if (timeTaken > longestTick) {
-                if (timeTaken > 200) {
-                    std::cout << "tick took longer than 200ms!!" << std::endl;
-                }
-                else {
-                    longestTick = timeTaken;
-                    int totalTicks = 0;
-                    double total = 0.0;
-                    for (auto &time : totalTime) {
-                        totalTicks ++;
-                        total += time;
-                    }
-                    total = total/totalTicks;
-
-                    std::cout << "    average tick time (last 100 ticks) : " << total << " ms" << std::endl;
-                    std::cout << "longest tick took: " << longestTick << " ms" << std::endl;
-
-                }
-            }
+        timeTaken = (end - begin).toNSec() * 0.000001; // (ms)
+        timeTakenOverNTicks += timeTaken;
+        if (timeTaken > longestTick) {
+            longestTick = timeTaken;
         }
-        rate.sleep();
+        if (ai::interface::InterfaceValues::showDebugTickTimeTaken() && ++nTicksTaken >= ai::Constants::TICK_RATE()) {
+            std::stringstream ss;
+            ss << "The last " << nTicksTaken << " ticks took " << timeTakenOverNTicks << " ms, which gives an average of " << timeTakenOverNTicks / nTicksTaken << " ms / tick. The longest tick took " << longestTick << " ms!";
+            if (nTicksTaken * longestTick < 2000 && timeTakenOverNTicks < 1200)
+                std::cout << ss.str() << std::endl;
+            else
+                std::cerr << ss.str() << std::endl;
+            nTicksTaken = 0;
+            timeTakenOverNTicks = 0.0;
+            longestTick = 0.0;
+        }
     }
 }
 
@@ -127,7 +117,13 @@ void ApplicationManager::updateDangerfinder() {
 
 void ApplicationManager::handleRefData() {
     ai::StrategyManager strategyManager;
+    // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
+    // might want to build something that verifies this
+    auto oldStrategy = BTFactory::getCurrentTree();
     std::string strategyName = strategyManager.getCurrentStrategyName(refereeMsg.command);
+    if (oldStrategy != strategyName) {
+        BTFactory::getFactory().init();
+    }
     BTFactory::setCurrentTree(strategyName);
 }
 
@@ -136,7 +132,7 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     case Status::Running:break;
     case Status::Success:ROS_INFO_STREAM("Status returned: Success");
         ROS_INFO_STREAM(" === TREE CHANGE === ");
-        BTFactory::setCurrentTree("haltStrategy");
+            BTFactory::setCurrentTree("haltStrategy");
         break;
     case Status::Failure:ROS_INFO_STREAM("Status returned: Failure");
         break;

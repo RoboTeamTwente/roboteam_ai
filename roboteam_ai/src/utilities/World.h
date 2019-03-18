@@ -9,8 +9,7 @@
  *    - Getting robots by team
  */
 
-#ifndef ROBOTEAM_AI_WORLD_H
-#define ROBOTEAM_AI_WORLD_H
+
 
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_msgs/World.h"
@@ -18,6 +17,9 @@
 #include <mutex>
 #include <thread>
 #include "Constants.h"
+
+#ifndef ROBOTEAM_AI_WORLD_H
+#define ROBOTEAM_AI_WORLD_H
 
 namespace rtt {
 namespace ai {
@@ -41,7 +43,7 @@ public:
     static std::shared_ptr<roboteam_msgs::WorldRobot>getRobotClosestToPoint(std::vector<roboteam_msgs::WorldRobot> robots,
             const Vector2& point);
 
-    static bool BotHasBall(int id, bool ourTeam, double maxDistToBall=Constants::MAX_BALL_RANGE());
+    static bool botHasBall(int id, bool ourTeam, double maxDistToBall = Constants::MAX_BALL_RANGE());
     static bool ourBotHasBall(int id, double maxDistToBall=Constants::MAX_BALL_RANGE());
     static bool theirBotHasBall(int id, double maxDistToBall=Constants::MAX_BALL_RANGE());
     static int whichBotHasBall(bool ourTeam);

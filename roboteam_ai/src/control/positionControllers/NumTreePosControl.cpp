@@ -1,78 +1,57 @@
+#include <utility>
+
 //
 // Created by rolf on 5-2-19.
 //
 
-#include "ControlGoToPosClean.h"
+#include "NumTreePosControl.h"
 
 namespace rtt {
 namespace ai {
 namespace control {
 
+/// Clears data and resets variables
+void NumTreePosControl::clear() {
+    path.clear();
+}
+
 /// Turn ball avoidance off and on
-void ControlGoToPosClean::setAvoidBall(bool _avoidBall) {
+void NumTreePosControl::setAvoidBall(bool _avoidBall) {
     avoidBall = _avoidBall;
 }
 
 /// Make the Robot able to go outside of the field
-void ControlGoToPosClean::setCanGoOutsideField(bool _canGoOutsideField) {
+void NumTreePosControl::setCanGoOutsideField(bool _canGoOutsideField) {
     canGoOutsideField = _canGoOutsideField;
 }
 
 /// return the velocity command using two PIDs based on the current position and velocity of the robot compared to the
 /// position and velocity of the calculated path
-Vector2 ControlGoToPosClean::computeNumericCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
-    if (path.empty())
-        return computeForceCommand(robot);
-
-    int pathPoint = static_cast<int>(path.size() > 4 ? 4 : path.size());
-
-    Vector2 pidVel = path[pathPoint].vel;
-    Vector2 pidV = velPID.controlPIR(pidVel, robot->vel);
-
-    Vector2 pidPos = path[pathPoint].pos;
-    Vector2 pidP = posPID.controlPID(pidPos - robot->pos);
-
-    return pidV + pidP;
-}
-
-/// return the velocity command using a force model, where the robot gets repelled from robots close by,
-/// while also adding a velocity vector towards the final target
-Vector2 ControlGoToPosClean::computeForceCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
-    path.clear();
-    roboteam_msgs::World world = World::get_world();
-    Vector2 force = (finalTargetPos - robot->pos).normalize();
-    for (auto bot : world.us) {
-        force = force
-                + ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, defaultRobotCollisionRadius*2.0);
+PosVelAngle NumTreePosControl::computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
+    if (path.size() < static_cast<unsigned int>(1.01 + 0.40/dt)) {
+        path.clear();
+        return {};
     }
-    for (auto bot : world.them) {
-        force = force
-                + ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, defaultRobotCollisionRadius*2.0);
-    }
-    force = (force.length() > 3.0 ? force.stretchToLength(3.0) : force);
-    return force;
-}
 
-/// executes numeric or force velocity command based on input
-Vector2 ControlGoToPosClean::computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot, GTPType gtpType) {
-    switch (gtpType) {
-    case numeric:return computeNumericCommand(std::move(robot));
-    case force:return computeForceCommand(std::move(robot));
-    }
-    return computeNumericCommand(std::move(robot));
+    auto pathPoint = static_cast<unsigned int>(0.40/dt);
+    PosVelAngle target;
+    target.pos = path[pathPoint].pos;
+    target.vel = path[pathPoint].vel;
+    target.angle = target.vel.angle();
+    return target;
 }
 
 /// finds a reason to calculate a new path (possible reasons are: on path calculated yet, final target moved,
 /// robot is too far from path or another robot is colliding with current path
-bool ControlGoToPosClean::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
+bool NumTreePosControl::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
     double maxTargetDeviation = 0.3;
     if (path.empty()) {
-        if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+        if (interface::InterfaceValues::showDebugNumTreeInfo())
             std::cout << "no path, recalculating" << std::endl;
         return true;
     }
     else if ((finalTargetPos - targetPos).length() > maxTargetDeviation) {
-        if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+        if (interface::InterfaceValues::showDebugNumTreeInfo())
             std::cout << "target moved too much, recalculating" << std::endl;
         return true;
     }
@@ -89,36 +68,34 @@ bool ControlGoToPosClean::doRecalculatePath(std::shared_ptr<roboteam_msgs::World
         }
     }
     if (sqrt(distanceSquared) > maxTargetDeviation) {
-        if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+        if (interface::InterfaceValues::showDebugNumTreeInfo())
             std::cout << "robot is too far from current path, recalculating" << std::endl;
         return true;
+    }
+    std::vector<std::pair<rtt::Vector2, QColor>> colorData = {{},{}};
+    for (int i = 0; i < static_cast<int>(currentIndex); i++) {
+        auto p = path[i];
+        colorData.emplace_back(p.pos , Qt::darkGreen);
     }
     path.erase(path.begin(), path.begin() + currentIndex);
 
     for (auto pathPoint : path) {
         if (checkCollision(std::make_shared<PathPoint>(pathPoint))) {
-            if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
+            if (interface::InterfaceValues::showDebugNumTreeInfo())
                 std::cout << "another robot will collide with ours when following this path, recalculating" << std::endl;
             return true;
         }
     }
-
+    addDataInInterface(colorData);
     return false;
 }
 
 /// finds a path using a numeric model
-Vector2 ControlGoToPosClean::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
+PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
     ros::Time begin = ros::Time::now();
     robotID = robot->id;
 
-// init or change PID
-    if (! pidInit) {
-        pidInit = true;
-        initializePID();
-    }
-    checkInterfacePID();
-
-// check if the current path is still valid, if not, recalculate
+// Check if the current path is still valid, if not, recalculate
     bool nicePath = true;
 
     std::shared_ptr<PathPoint> realRobot = std::make_shared<PathPoint>();
@@ -126,26 +103,34 @@ Vector2 ControlGoToPosClean::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> 
     realRobot->vel = robot->vel;
     realRobot->t = 0;
     if (checkCollision(realRobot)) {
-        if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
-            std::cout << "robot is too close to another robot, trying other GoToPos???" << std::endl;
-        path.clear();
-
         ros::Time end = ros::Time::now();
-        if (Constants::SHOW_GOTOPOS_TIME_TAKEN())
+        if (interface::InterfaceValues::showDebugNumTreeTimeTaken())
             std::cout << "GoToPosClean tick took: " << (end-begin).toNSec()*0.000001 << " ms" << std::endl;
-        return computeCommand(robot, GTPType::force);
+        if (interface::InterfaceValues::showDebugNumTreeInfo())
+            std::cout << "robot is too close to another robot, trying other GoToPos???" << std::endl;
+
+        path.clear();
+        return {};
+    }
+    if ((targetPos-robot->pos).length() < Constants::MIN_DISTANCE_FOR_FORCE()) {
+        path.clear();
+        return {};
     }
     else if (doRecalculatePath(robot, targetPos)) {
 
         if (Vector2(robot->vel).length() > 10.0) {
             nicePath = false;
+            if (interface::InterfaceValues::showDebugNumTreeInfo())
+                std::cout << "robot is moving too fast!!" << std::endl;
         }
         else {
             finalTargetPos = targetPos;
 
+// Calculate new path
             tracePath(robot);
+
             drawCross(targetPos, Qt::darkRed);
-            drawInInterface();
+            redrawInInterface();
 
             if (path.empty())
                 nicePath = false;
@@ -154,17 +139,19 @@ Vector2 ControlGoToPosClean::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> 
     }
 
     ros::Time end = ros::Time::now();
-    if (Constants::SHOW_GOTOPOS_TIME_TAKEN())
+    if (interface::InterfaceValues::showDebugNumTreeTimeTaken())
         std::cout << "GoToPosClean tick took: " << (end-begin).toNSec()*0.000001 << " ms" << std::endl;
 
-// compute command using PID
-    if (nicePath)
+    if (nicePath) {
         return computeCommand(robot);
-    else
-        return computeCommand(robot, GTPType::force);
+    }
+    else {
+        path.clear();
+        return {};
+    }
 }
 
-void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
+void NumTreePosControl::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
 
 // compAStar compares the amount of collisions first (max 3 diff), then sorts the paths based on an approximation on the
 // length of path that still has to be calculated, using straight lines towards the half-way targets, and the final
@@ -193,8 +180,6 @@ void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> r
 //                  (remainingStraightLinePathLength(rhs->pos, rhs->currentTarget, finalTargetPos));
 //    };
 
-    velPID.reset();
-    posPID.reset();
     displayData.clear();
     path.clear();
 
@@ -213,18 +198,20 @@ void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> r
 
     ros::Time start = ros::Time::now();
     while (! pathQueue.empty()) {
-
-
+        ros::Time now = ros::Time::now();
+        if ((now - start).toSec()*1000 > Constants::MAX_CALCULATION_TIME()) {
+            if (interface::InterfaceValues::showDebugNumTreeInfo())
+                std::cout << "Tick took too long!" << std::endl;
+             //( dont clear path?? ) path.clear();
+            return;
+        }
         std::shared_ptr<PathPoint> point = pathQueue.top();
         while (true) {
-            ros::Time now = ros::Time::now();
-            if ((now - start).toSec()*1000 > Constants::MAX_CALCULATION_TIME()) {
-                if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
-                    std::cout << "Tick took too long!" << std::endl;
-                path.clear();
+            std::shared_ptr<PathPoint> newPoint = computeNewPoint(point, point->currentTarget);
+            if (newPoint->t > 2.26) {
+                path = backTrackPath(point, root);
                 return;
             }
-            std::shared_ptr<PathPoint> newPoint = computeNewPoint(point, point->currentTarget);
             point->addChild(newPoint);
             point = newPoint;
 
@@ -263,19 +250,19 @@ void ControlGoToPosClean::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> r
         }
 
     }
-    if (Constants::SHOW_GOTOPOS_DEBUG_INFO())
-        std::cout << "reached end of while loop: " << std::endl;
+    if (interface::InterfaceValues::showDebugNumTreeInfo())
+        std::cout << "reached end of while loop :x " << std::endl;
     path = {};
 }
 
 /// calculate the remaining pathlength using straigth lines from current position to a posititon halfway and from
 /// halfway to the final position
-double ControlGoToPosClean::remainingStraightLinePathLength(Vector2 currentPos, Vector2 halfwayPos, Vector2 finalPos) {
+double NumTreePosControl::remainingStraightLinePathLength(Vector2 currentPos, Vector2 halfwayPos, Vector2 finalPos) {
     return (abs((halfwayPos - finalPos).length() + (currentPos - halfwayPos).length()));
 }
 
 /// create a new pathPoint using a linear acceleration ODE
-std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::computeNewPoint(
+std::shared_ptr<NumTreePosControl::PathPoint> NumTreePosControl::computeNewPoint(
         std::shared_ptr<PathPoint> oldPoint, Vector2 subTarget) {
 
     std::shared_ptr<PathPoint> newPoint = std::make_shared<PathPoint>();
@@ -283,7 +270,6 @@ std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::computeNewP
     newPoint->t = oldPoint->t + dt;
     newPoint->currentTarget = subTarget;
     newPoint->finalTarget = finalTargetPos;
-    newPoint->hasBeenTicked = true;
     newPoint->pos = oldPoint->pos;
     newPoint->vel = oldPoint->vel;
     newPoint->acc = oldPoint->acc;
@@ -304,42 +290,34 @@ std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::computeNewP
 }
 
 /// check if a pathpoint is in a collision with a robot/ball at that timepoint
-bool ControlGoToPosClean::checkCollision(std::shared_ptr<PathPoint> point, double collisionRadius) {
-    std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
+bool NumTreePosControl::checkCollision(std::shared_ptr<PathPoint> point, double collisionRadius) {
     roboteam_msgs::World world = World::get_world();
     for (auto bot : world.us) {
         if (bot.id != static_cast<unsigned long>(robotID)) {
             Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
-            if (point->isCollision(botPos, collisionRadius)) {
-                std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
-                time = time + (end - start);
+            if (point->isCollision(botPos, collisionRadius))
                 return true;
-            }
         }
     }
     for (auto bot: world.them) {
         Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
-        if (point->isCollision(botPos, collisionRadius)) {
-            std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
-            time = time + (end - start);
+        if (point->isCollision(botPos, collisionRadius))
             return true;
-        }
     }
     if (avoidBall) {
         Vector2 ballPos = (Vector2) (world.ball.pos) + (Vector2) (world.ball.vel)*point->t;
-        if (point->isCollision(ballPos, collisionRadius*0.5 + Constants::BALL_RADIUS())) {
-            std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
-            time = time + (end - start);
+        if (point->isCollision(ballPos, collisionRadius*0.5 + Constants::BALL_RADIUS()))
             return true;
-        }
     }
-    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
-    time = time + (end - start);
+    if (!canGoOutsideField) {
+        if (Field::pointIsInField(point->pos))
+            return true;
+    }
     return false;
 }
 
 /// find the robot corresponding to a collision-position
-Vector2 ControlGoToPosClean::findCollisionPos(std::shared_ptr<PathPoint> point, double collisionRadius) {
+Vector2 NumTreePosControl::findCollisionPos(std::shared_ptr<PathPoint> point, double collisionRadius) {
     roboteam_msgs::World world = World::get_world();
     for (auto bot: world.us) {
         if (bot.id != static_cast<unsigned long>(robotID)) {
@@ -361,12 +339,16 @@ Vector2 ControlGoToPosClean::findCollisionPos(std::shared_ptr<PathPoint> point, 
             return ballPos;
         }
     }
+    if (!canGoOutsideField) {
+        if (Field::pointIsInField(point->pos))
+            return point->pos;
+    }
     return {- 42, 42};
 
 }
 
 /// after a collision, get new half-way targets to try to go towards
-std::pair<std::vector<Vector2>, std::shared_ptr<ControlGoToPosClean::PathPoint>> ControlGoToPosClean::getNewTargets(
+std::pair<std::vector<Vector2>, std::shared_ptr<NumTreePosControl::PathPoint>> NumTreePosControl::getNewTargets(
         std::shared_ptr<PathPoint> collisionPoint) {
 
     std::shared_ptr<PathPoint> initialBranchStart = collisionPoint->backTrack(collisionPoint->t - 0.71);
@@ -393,7 +375,7 @@ std::pair<std::vector<Vector2>, std::shared_ptr<ControlGoToPosClean::PathPoint>>
 }
 
 /// go back in the path until desired time or until Root
-std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::PathPoint::backTrack(double backTime) {
+std::shared_ptr<NumTreePosControl::PathPoint> NumTreePosControl::PathPoint::backTrack(double backTime) {
     if (! parent)
         return shared_from_this();
     else if (backTime > t)
@@ -403,7 +385,7 @@ std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::PathPoint::
 }
 
 /// go back in the path until desired collision difference or until Root
-std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::PathPoint::backTrack(int maxCollisionDiff) {
+std::shared_ptr<NumTreePosControl::PathPoint> NumTreePosControl::PathPoint::backTrack(int maxCollisionDiff) {
     if (! parent)
         return shared_from_this();
     else if (maxCollisionDiff == 0)
@@ -417,7 +399,7 @@ std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::PathPoint::
 }
 
 /// go back in the path until desired time, collision difference or until Root
-std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::PathPoint::backTrack(double backTime,
+std::shared_ptr<NumTreePosControl::PathPoint> NumTreePosControl::PathPoint::backTrack(double backTime,
         int maxCollisionDiff) {
 
     if (! parent)
@@ -433,9 +415,10 @@ std::shared_ptr<ControlGoToPosClean::PathPoint> ControlGoToPosClean::PathPoint::
 }
 
 ///backTracks the path from endPoint until it hits root and outputs in order from root->endPoint
-std::vector<ControlGoToPosClean::PathPoint> ControlGoToPosClean::backTrackPath(std::shared_ptr<PathPoint> endPoint,
+std::vector<NumTreePosControl::PathPoint> NumTreePosControl::backTrackPath(std::shared_ptr<PathPoint> endPoint,
         std::shared_ptr<PathPoint> root) {
-    std::vector<PathPoint> path;
+
+    std::vector<PathPoint> path = {};
     std::shared_ptr<PathPoint> point = std::move(endPoint);
     while (point) {
         path.push_back(*point);
@@ -448,44 +431,11 @@ std::vector<ControlGoToPosClean::PathPoint> ControlGoToPosClean::backTrackPath(s
     return path;
 }
 
-/// start the PID for velocity and position control
-void ControlGoToPosClean::initializePID() {
-    velPID.reset();
-    velPID.setPID(Constants::standard_luth_Pos_P(),
-            Constants::standard_luth_Pos_P(),
-            Constants::standard_luth_Pos_P());
 
-    posPID.reset();
-    posPID.setPID(Constants::standard_luth_Vel_P(),
-            Constants::standard_luth_Vel_P(),
-            Constants::standard_luth_Vel_P());
-}
 
-/// compare current PID values to those set in the interface
-void ControlGoToPosClean::checkInterfacePID() {
-    if (velPID.getP() != interface::InterfaceValues::getLuthVelP() ||
-            velPID.getI() != interface::InterfaceValues::getLuthVelI() ||
-            velPID.getD() != interface::InterfaceValues::getLuthVelD()) {
-
-        velPID.reset();
-        velPID.setPID(interface::InterfaceValues::getLuthVelP(),
-                interface::InterfaceValues::getLuthVelI(),
-                interface::InterfaceValues::getLuthVelD());
-    }
-
-    if (posPID.getP() != interface::InterfaceValues::getLuthPosP() ||
-                posPID.getI() != interface::InterfaceValues::getLuthPosI() ||
-                posPID.getD() != interface::InterfaceValues::getLuthPosD()) {
-
-        posPID.reset();
-        posPID.setPID(interface::InterfaceValues::getLuthPosP(),
-                interface::InterfaceValues::getLuthPosI(),
-                interface::InterfaceValues::getLuthPosD());
-    }
-}
 
 /// draw all the data in the interface
-void ControlGoToPosClean::drawInInterface() {
+void NumTreePosControl::redrawInInterface() {
     std::vector<std::pair<rtt::Vector2, QColor>> displayColorData = {{{}, {}}};
     for (auto &displayAll : displayData) {
         displayColorData.push_back(displayAll);
@@ -496,8 +446,13 @@ void ControlGoToPosClean::drawInInterface() {
     rtt::ai::interface::Drawer::setGoToPosLuThPoints(robotID, displayColorData);
 }
 
+/// add data to interface
+void NumTreePosControl::addDataInInterface(std::vector<std::pair<rtt::Vector2, QColor>> displayColorData) {
+   rtt::ai::interface::Drawer::addGoToPosLuThPoints(robotID, std::move(displayColorData));
+}
+
 /// draw a cross in the interface
-void ControlGoToPosClean::drawCross(Vector2 &pos, QColor color) {
+void NumTreePosControl::drawCross(Vector2 &pos, QColor color) {
 // draws a cross for the display
     float dist = 0.005f;
     for (int i = - 14; i < 15; i ++) {
@@ -509,21 +464,21 @@ void ControlGoToPosClean::drawCross(Vector2 &pos, QColor color) {
 }
 
 /// draw a point in the interface
-void ControlGoToPosClean::drawPoint(Vector2 &pos, QColor color) {
+void NumTreePosControl::drawPoint(Vector2 &pos, QColor color) {
     displayData.emplace_back(pos, color);
 }
 
 /// add a child to the current path
-void ControlGoToPosClean::PathPoint::addChild(std::shared_ptr<PathPoint> &newChild) {
+void NumTreePosControl::PathPoint::addChild(std::shared_ptr<PathPoint> &newChild) {
     children.push_back(newChild);
 }
 /// add multiple children to the current path
-void ControlGoToPosClean::PathPoint::addChildren(std::vector<std::shared_ptr<PathPoint>> &newChildren) {
+void NumTreePosControl::PathPoint::addChildren(std::vector<std::shared_ptr<PathPoint>> &newChildren) {
     children.insert(children.end(), newChildren.begin(), newChildren.end());
 }
 
 /// check if a branch already has the target
-bool ControlGoToPosClean::PathPoint::branchHasTarget(const Vector2 &target) {
+bool NumTreePosControl::PathPoint::branchHasTarget(const Vector2 &target) {
 
     for (const auto &child : children) {
         if (child->currentTarget == target) {
@@ -534,14 +489,13 @@ bool ControlGoToPosClean::PathPoint::branchHasTarget(const Vector2 &target) {
 }
 
 /// check if ANY branch already has that target
-bool ControlGoToPosClean::PathPoint::anyBranchHasTarget(const Vector2 &target) {
+bool NumTreePosControl::PathPoint::anyBranchHasTarget(const Vector2 &target) {
     auto root = backTrack(0.0);
     return root->anyChildHasTarget(target);
-
 }
 
 /// check if ANY child already has that target
-bool ControlGoToPosClean::PathPoint::anyChildHasTarget(const Vector2 &target) {
+bool NumTreePosControl::PathPoint::anyChildHasTarget(const Vector2 &target) {
     for (const auto &child : children) {
         if ((child->currentTarget - target).length() < 0.15 || child->anyChildHasTarget(target)) {
             return true;
@@ -551,7 +505,7 @@ bool ControlGoToPosClean::PathPoint::anyChildHasTarget(const Vector2 &target) {
 }
 
 /// check if ANY parent already has that target
-bool ControlGoToPosClean::PathPoint::anyParentHasTarget(const Vector2 &target) {
+bool NumTreePosControl::PathPoint::anyParentHasTarget(const Vector2 &target) {
     if (parent) {
         if (parent->currentTarget == target || parent->anyParentHasTarget(target)) {
             return true;
@@ -561,7 +515,7 @@ bool ControlGoToPosClean::PathPoint::anyParentHasTarget(const Vector2 &target) {
 }
 
 /// check if a collision is occuring
-bool ControlGoToPosClean::PathPoint::isCollision(Vector2 target, double distance) {
+bool NumTreePosControl::PathPoint::isCollision(Vector2 target, double distance) {
     return (target - pos).length() < distance;
 }
 

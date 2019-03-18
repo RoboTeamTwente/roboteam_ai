@@ -42,6 +42,7 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     vis->setShowAngles(true);
     vis->setShowRoles(true);
     vis->setShowBallPlacementMarker(true);
+    vis->setShowDebugValueInTerminal(true);
     vis->setShowPath(true);
     vis->setShowPathAll(true);
     vis->setShowTacticColors(true);
@@ -60,6 +61,7 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     vis->setShowAngles(false);
     vis->setShowRoles(false);
     vis->setShowBallPlacementMarker(false);
+    vis->setShowDebugValueInTerminal(false);
     vis->setShowPath(false);
     vis->setShowPathAll(false);
     vis->setShowTacticColors(false);
@@ -92,7 +94,6 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     EXPECT_EQ(vis->getSelectedRobots().size(), 0);
     EXPECT_FALSE(vis->robotIsSelected(robot));
 }
-
 
 TEST(MainWindowTest, it_toggles_our_color_param) {
     auto window = std::make_shared<MainWindow>();

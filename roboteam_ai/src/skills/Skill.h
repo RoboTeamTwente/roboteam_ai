@@ -6,13 +6,16 @@
 #include <roboteam_ai/src/utilities/Coach.h>
 #include "ros/ros.h"
 #include "../io/IOManager.h"
-#include "../control/ControlGoToPos.h"
+#include "roboteam_ai/src/control/PositionController.h"
+#include "../control/positionControllers/PosVelAngle.h"
+
 namespace rtt {
 namespace ai {
 
 // forward declare control Utils
 namespace control {
     class ControlUtils;
+    class PosVelAngle;
 }
 
 
@@ -28,7 +31,7 @@ protected:
         io::IOManager ioManager = io::IOManager(false,true);
 
         using Coach = coach::Coach;
-        using GoToType = control::GoToType;
+        using GoToType = control::PosControlType;
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
     public:
 
