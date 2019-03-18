@@ -40,14 +40,14 @@ int Coach::pickDefensivePassTarget(int selfID) {
 
     auto world = World::get_world();
     auto us = world.us;
-    int safelyness = 3;
-    while (safelyness > 0) {
+    int safeDistanceFactor = 3;
+    while (safeDistanceFactor > 0) {
         for (auto friendly : us) {
-            if (control::ControlUtils::hasClearVision(selfID, friendly.id, world, safelyness)) {
+            if (control::ControlUtils::hasClearVision(selfID, friendly.id, world, safeDistanceFactor)) {
                 return friendly.id;
             }
         }
-        safelyness --;
+        safeDistanceFactor --;
     }
     return - 1;
 }

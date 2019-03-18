@@ -24,28 +24,28 @@ double OffensiveCoach::calculateCloseToGoalScore(Vector2 position) {
 }
 
 double OffensiveCoach::calculateShotAtGoalScore(Vector2 position, roboteam_msgs::World world) {
-    double safelyness = 3;
-    while (safelyness > 0) {
-            if (control::ControlUtils::clearLine(position, Field::get_their_goal_center(), world, safelyness)) {
+    double safeDistanceFactor = 3;
+    while (safeDistanceFactor > 0) {
+            if (control::ControlUtils::clearLine(position, Field::get_their_goal_center(), world, safeDistanceFactor)) {
                 break;
             }
-            safelyness -= 0.5;
+            safeDistanceFactor -= 0.5;
         }
 
-    return 1 - exp(-safelyness);
+    return 1 - exp(-safeDistanceFactor);
 }
 
 
 double OffensiveCoach::calculatePassLineScore(Vector2 position, roboteam_msgs::World world) {
-    double safelyness = 3;
-    while (safelyness > 0) {
-        if (control::ControlUtils::clearLine(world.ball.pos, position, world, safelyness)) {
+    double safeDistanceFactor = 3;
+    while (safeDistanceFactor > 0) {
+        if (control::ControlUtils::clearLine(world.ball.pos, position, world, safeDistanceFactor)) {
             break;
         }
-        safelyness -= 0.5;
+        safeDistanceFactor -= 0.5;
     }
 
-    return 1 - exp(-safelyness);
+    return 1 - exp(-safeDistanceFactor);
 }
 
 double OffensiveCoach::calculateDistanceToOpponentsScore(Vector2 position, roboteam_msgs::World world) {
@@ -172,7 +172,7 @@ bool OffensiveCoach::compareByScore(OffensivePosition position1, OffensivePositi
 
 Vector2 OffensiveCoach::calculatePositionForRobot(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
     if ((robotPositions.find(robot->id) == robotPositions.end())) { // not there yet
-        double distance = 999;
+        double distance = INT_MAX;
         double currentDistance;
         OffensiveCoach::OffensivePosition newRobotPosition;
         for (auto &position : offensivePositions) {
@@ -182,7 +182,7 @@ Vector2 OffensiveCoach::calculatePositionForRobot(std::shared_ptr<roboteam_msgs:
                 newRobotPosition = position;
             }
         }
-        if (distance == 999) {
+        if (distance == INT_MAX) {
             newRobotPosition.position = robot->pos;
             newRobotPosition.score = calculatePositionScore(robot->pos);
         }

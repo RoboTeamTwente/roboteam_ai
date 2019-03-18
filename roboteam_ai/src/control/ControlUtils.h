@@ -26,14 +26,14 @@ class ControlUtils {
         static bool pointInRectangle(Vector2 PointToCheck, Vector2 SP1, Vector2 SP2, Vector2 SP3, Vector2 SP4);
         static double constrainAngle(double angle);
         static double distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vector2 LineEnd);
-        static bool clearLine(Vector2 fromPos, Vector2 toPos, roboteam_msgs::World world, double safelyness, bool keeper = true);
+        static bool clearLine(Vector2 fromPos, Vector2 toPos, roboteam_msgs::World world, double safeDistanceFactor, bool keeper = true);
         static double distanceToLineWithEnds(Vector2 PointToCheck, Vector2 LineStart, Vector2 LineEnd);
         static double angleDifference(double A1, double A2);
         static int rotateDirection(double currentAngle, double targetAngle);
         static Vector2 projectPositionToWithinField(Vector2 position, float margin = 0.2);
         static Vector2 calculateForce(rtt::Vector2 vector, double weight, double minDistance);
 
-        static bool hasClearVision(int from, int towards, roboteam_msgs::World world, int safelyness);
+        static bool hasClearVision(int from, int towards, roboteam_msgs::World world, int safeDistanceFactor);
         static bool onLineSegment(Vector2 p, Vector2 q, Vector2 r);
         static rtt::Vector2 twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2);
         static int lineOrientation(Vector2 p, Vector2 q, Vector2 r);
