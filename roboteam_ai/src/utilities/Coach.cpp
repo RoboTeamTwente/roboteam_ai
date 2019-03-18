@@ -264,7 +264,6 @@ int Coach::initiatePass() {
     resetPass();
 
     int robotBeingPassedTo = coach::OffensiveCoach::getBestStrikerID();
-    std::cout << "Pass to robot " << robotBeingPassedTo << std::endl;
     setRobotBeingPassedTo(robotBeingPassedTo);
     return robotBeingPassedTo;
 }
