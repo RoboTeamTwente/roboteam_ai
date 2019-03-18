@@ -18,9 +18,9 @@ class Drawer {
     public:
         explicit Drawer() = default;
         using GTPPoints = std::vector<std::pair<Vector2, QColor>>;
-        static void setGoToPosLuThPoints(int id, GTPPoints points);
-        static void addGoToPosLuThPoints(int id, GTPPoints points);
-        static GTPPoints getGoToPosLuThPoints(int id);
+        static void setNumTreePoints(int id, GTPPoints points);
+        static void addNumTreePoints(int id, GTPPoints points);
+        static GTPPoints getNumTreePoints(int id);
         static void setKeeperPoints(int id, GTPPoints points);
         static GTPPoints getKeeperPoints(int id);
         static void setInterceptPoints(int id, GTPPoints points);
@@ -30,13 +30,17 @@ class Drawer {
         static void setTestPoints(std::vector<std::pair<Vector2,QColor>> points);
         static std::vector<std::pair<Vector2,QColor>>  getTestPoints();
     private:
-        static std::mutex goToPosMutex,keeperMutex,interceptMutex,testLineMutex,testPointMutex;
-        static std::map<int, GTPPoints> GoToPosLuThPoints;
-        static std::map<int, GTPPoints> KeeperPoints;
-        static std::map<int, GTPPoints> InterceptPoints;
+        static std::mutex goToPosMutex,keeperMutex,interceptMutex,testLineMutex,testPointMutex, drawMutex;
         static std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>> testLines;
         static std::vector<std::pair<Vector2,QColor>> testPoints;
-
+        static void addDrawPoint(Vector2 point, QColor color = Qt::darkMagenta);
+        static void addDrawPoint(std::pair<Vector2, QColor> point);
+        static void addDrawPoints(std::vector<std::pair<Vector2, QColor>> points);
+        static std::vector<std::pair<Vector2, QColor>> getDrawPoints();
+        static std::map<int, GTPPoints> NumTreePoints;
+        static std::map<int, GTPPoints> KeeperPoints;
+        static std::map<int, GTPPoints> InterceptPoints;
+        static std::vector<std::pair<Vector2, QColor>> drawPoints;
 };
 
 } // interface

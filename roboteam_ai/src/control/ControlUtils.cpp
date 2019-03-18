@@ -274,8 +274,8 @@ Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, float margi
 Vector2 ControlUtils::calculateForce(rtt::Vector2 vector, double weight, double minDistance) {
 
     // if the object is close enough, it's forces should affect. Otherwise don't change anything.
-    if (vector.length() < minDistance && vector.length() > 0) {
-        return vector.normalize()*(weight/(pow(vector.length(), 2)));
+    if (vector.length() < minDistance && vector.length2() > 0) {
+        return vector.normalize()*(weight/vector.length2());
     }
     return {0, 0};
 }
