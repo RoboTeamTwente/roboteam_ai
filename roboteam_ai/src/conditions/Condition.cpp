@@ -13,20 +13,27 @@ std::string Condition::node_name() {
 void Condition::initialize() {
     if (! properties->getString("ROLE").empty()) {
         robot = getRobotFromProperties(properties);
-        ball = World::getBall(); // update ball position
         if (! robot) return;
-        if (! ball) return;
     }
+
+    ball = World::getBall(); // update ball position
+    if (! ball) return;
+
     onInitialize();
 }
 
 Condition::Status Condition::update() {
+
+    // get a robot if the condition needs one
     if (! properties->getString("ROLE").empty()) {
         updateRobot();
-        ball = World::getBall(); // update ball position
         if (! robot) return Status::Failure;
-        if (! ball) return Status::Waiting;
     }
+
+    // there should always be a ball
+    ball = World::getBall(); // update ball position
+    if (! ball) return Status::Waiting;
+
     return onUpdate();
 }
 

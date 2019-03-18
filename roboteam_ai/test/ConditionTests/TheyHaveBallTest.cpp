@@ -17,8 +17,6 @@ TEST(TheyHaveBallTest, TheyHaveBallTest) {
 
     rtt::ai::World::set_world(worldMsg);
 
-    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
-
     robot.id = 0;
     robot.pos.x = -2;
     robot.pos.y = -2;
@@ -28,7 +26,7 @@ TEST(TheyHaveBallTest, TheyHaveBallTest) {
     worldMsg.ball.pos.x = 0.04;
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.area = 99999;
+    worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
 
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);

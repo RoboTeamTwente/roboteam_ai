@@ -20,12 +20,7 @@ void IsBallOnOurSide::onInitialize() {
 }
 
 bt::Node::Status IsBallOnOurSide::onUpdate() {
-    Vector2 ballPos;
-    auto ball = World::getBall();
-    if (ball) {
-        ballPos = ball->pos;
-    }
-    else return Status::Failure;
+    Vector2 ballPos = ball->pos;
 
     if (ballPos.x < 0) {
         if (inField) {
