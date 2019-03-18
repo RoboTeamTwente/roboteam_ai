@@ -19,7 +19,7 @@ TEST(OffensiveCoachTest, calculateNewPositionsTest) {
 
     ASSERT_EQ(OffensiveCoach::getOffensivePositions().size(), 0);
     OffensiveCoach::calculateNewPositions();
-    ASSERT_GT(OffensiveCoach::getOffensivePositions().size(), 0);
+    ASSERT_GT(OffensiveCoach::getOffensivePositions().size(), 1);
 }
 
 }
