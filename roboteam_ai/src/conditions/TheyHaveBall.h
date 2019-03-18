@@ -13,7 +13,7 @@ namespace ai {
 class TheyHaveBall : public Condition {
     public:
         explicit TheyHaveBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-        Status update() override;
+        Status onUpdate() override;
         std::string node_name() override { return "TheyHaveBall"; }
 };
 }

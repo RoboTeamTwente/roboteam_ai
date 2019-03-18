@@ -13,6 +13,7 @@
 #include <string>
 #include <gtest/gtest_prod.h>
 #include "roboteam_utils/Vector2.h"
+#include "../interface/InterfaceValues.h"
 
 namespace rtt {
 namespace ai {

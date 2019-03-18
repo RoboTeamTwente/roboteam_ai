@@ -52,7 +52,6 @@ PosVelAngle PositionController::goToPos(RobotPtr robot, Vector2 &position, PosCo
     case PosControlType::FORCE:
         return PositionController::force(robot, position);
     case PosControlType::NUMERIC_TREES:
-        return PositionController::numTree(robot, position);
     default:
         return PositionController::numTree(robot, position);
     }
@@ -71,9 +70,9 @@ PosVelAngle PositionController::basic(RobotPtr robot, Vector2 &targetPos) {
     velPID.reset();
     posPID.reset();
     if (error.length() < rtt::ai::Constants::ROBOT_RADIUS())
-        velPID.setPID(3.0, 1.0, 0.2);
+        posPID.setPID(3.0, 1.0, 0.2);
     else
-        velPID.setPID(3.0, 0.5, 1.5);
+        posPID.setPID(3.0, 0.5, 1.5);
 
     PIDHasInitialized = true;
     posVelAngle.vel = error;
@@ -88,11 +87,11 @@ PosVelAngle PositionController::force(RobotPtr robot, Vector2 &targetPos) {
         return basic(robot, targetPos);
     }
     else if ((targetPos - robot->pos).length() < Constants::MIN_DISTANCE_FOR_FORCE()) {
-        forceRadius = Constants::ROBOT_RADIUS_MAX()*3.0;
+        forceRadius = Constants::ROBOT_RADIUS_MAX()*2.0;
         initializePID(3.0, 1.0, 0.2);
     }
     else {
-        forceRadius = Constants::ROBOT_RADIUS_MAX()*6.0;
+        forceRadius = Constants::ROBOT_RADIUS_MAX()*8.0;
         initializePID(3.0, 0.5, 1.5);
     }
 
@@ -102,15 +101,15 @@ PosVelAngle PositionController::force(RobotPtr robot, Vector2 &targetPos) {
     force = (force.length() > 3.0) ?
             force.stretchToLength(3.0) : force;
 
-    for (auto bot : world.us) {
-        force = force
-                + ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, forceRadius);
-    }
-
-    for (auto bot : world.them) {
-        force = force
-                + ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, forceRadius);
-    }
+    for (auto bot : world.us)
+        force += ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, forceRadius);
+    for (auto bot : world.them)
+        force += ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 2, forceRadius);
+    if (avoidBall)
+        force += ControlUtils::calculateForce((Vector2) robot->pos - world.ball.pos, 1, forceRadius);
+    if (!canGoOutsideField)
+        force += Field::pointIsInField(robot->pos, 0.5) ?
+                Vector2() : ControlUtils::calculateForce(Vector2(-1.0,-1.0) / robot->pos, 1, 99.9);
 
     force = (force.length() > 3.0) ?
             force.stretchToLength(3.0) : force;
@@ -121,7 +120,7 @@ PosVelAngle PositionController::force(RobotPtr robot, Vector2 &targetPos) {
 
 PosVelAngle PositionController::numTree(RobotPtr robot, Vector2 &targetPos) {
     PosVelAngle target = numTreeController.goToPos(robot, targetPos);
-    if (target.empty())
+    if (target.isZero())
         return force(robot, targetPos);
     else
         return pidController(robot, target);
@@ -130,11 +129,13 @@ PosVelAngle PositionController::numTree(RobotPtr robot, Vector2 &targetPos) {
 void PositionController::setAvoidBall(bool _avoidBall) {
     // Add a function to avoid the ball for all goToPos's
     numTreeController.setAvoidBall(_avoidBall);
+    avoidBall = _avoidBall;
 }
 
 void PositionController::setCanGoOutsideField(bool _canGoOutsideField) {
     // Add a function to make sure the robot does not go out of the field for all goToPos's
     numTreeController.setCanGoOutsideField(_canGoOutsideField);
+    canGoOutsideField = _canGoOutsideField;
 }
 
 PosVelAngle PositionController::pidController(const RobotPtr &robot, PosVelAngle target, bool checkInterface) {
@@ -149,7 +150,7 @@ PosVelAngle PositionController::pidController(const RobotPtr &robot, PosVelAngle
     Vector2 pidV = Vector2();
 
     if (target.pos != Vector2() && ! (posPID.getP() == 0.0 && posPID.getI() == 0.0 && posPID.getD() == 0.0)) {
-        pidP = posPID.controlPIR(target.pos - robot->pos, robot->vel);
+        pidP = posPID.controlPID(target.pos - robot->pos);//, robot->vel);
     }
     if (target.vel != Vector2() && ! (velPID.getP() == 0.0 && velPID.getI() == 0.0 && velPID.getD() == 0.0)) {
         pidV = velPID.controlPIR(target.vel, robot->vel);

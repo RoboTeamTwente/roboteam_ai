@@ -2,7 +2,7 @@
 #define ROBOTEAM_AI_CONDITION_H
 
 #include "../bt/Leaf.hpp"
-
+#include <roboteam_ai/src/utilities/Coach.h>
 namespace rtt {
 namespace ai {
 
@@ -12,11 +12,22 @@ namespace control {
 }
 
 class Condition : public bt::Leaf {
-    public:
+    protected:
         using Control = control::ControlUtils;
         using Status = bt::Node::Status;
+        using Coach = coach::Coach;
 
+    public:
         explicit Condition(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+
+        std::string node_name() override;
+        void initialize() override;
+        Status update() override;
+        void terminate(Status s) override;
+
+        virtual void onInitialize() { };
+        virtual Status onUpdate() = 0;
+        virtual void onTerminate(Status s) { };
 };
 
 } // ai

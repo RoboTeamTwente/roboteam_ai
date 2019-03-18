@@ -13,7 +13,7 @@ namespace ai {
 class BallOutOfField : public Condition {
 public:
     explicit BallOutOfField(std::string name = "BallOutOfField", bt::Blackboard::Ptr blackboard = nullptr);
-    Status update() override;
+    Status onUpdate() override;
     std::string node_name() override;
 };
 

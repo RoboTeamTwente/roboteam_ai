@@ -12,6 +12,7 @@ BasicGoToPos::BasicGoToPos(string name, bt::Blackboard::Ptr blackboard)
 
 void BasicGoToPos::onInitialize() {
     targetPos = properties->getVector2("target");
+    errorMargin = 0.2;
     if (properties->getBool("BallPlacementBefore")) {
         if (ball) {
             targetPos=coach::Coach::getBallPlacementBeforePos(ball->pos);
@@ -82,9 +83,10 @@ Skill::Status BasicGoToPos::onUpdate() {
         velocity = goToPos.goToPos(robot, targetPos, control::PosControlType::BASIC).vel;
     }
 
-    velocity=control::ControlUtils::VelocityLimiter(velocity,maxVel,0.3);
+    velocity=control::ControlUtils::VelocityLimiter(velocity,maxVel,Constants::MAX_VEL());
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
+
     publishRobotCommand(command);
     return Status::Running;
 }
