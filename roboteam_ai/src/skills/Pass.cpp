@@ -24,17 +24,14 @@ Pass::Status Pass::onUpdate() {
     switch(currentProgress) {
         case Progression::POSITIONING: {
             if (!coach::Coach::isRobotBehindBallToPosition(0.40, robotToPassTo->pos, robot->pos)) {
-                std::cout << "Going behind ball" << std::endl;
                 goToType = GoToType::BASIC;
                 targetPos = Coach::getPositionBehindBallToPosition(0.35, robotToPassTo->pos);
                 goToPos.setAvoidBall(true);
             } else if (!World::ourBotHasBall(robot->id, Constants::MAX_KICK_RANGE())) {
-                std::cout << "Getting to ball" << std::endl;
                 goToType = GoToType::BASIC;
                 targetPos = ball->pos;
                 goToPos.setAvoidBall(false);
             } else {
-                std::cout << "Start kicking" << std::endl;
                 if (coach::Coach::isReadyToReceivePass()) currentProgress = Progression::KICKING;
                 goToPos.setAvoidBall(false);
                 return Status::Running;
@@ -48,7 +45,6 @@ Pass::Status Pass::onUpdate() {
             break;
         }
         case Progression::KICKING: {
-            std::cout << "KICK!" << std::endl;
             if (World::ourBotHasBall(robot->id, Constants::MAX_KICK_RANGE())) {
                 command.kicker = 1;
                 command.kicker_forced = 1;
