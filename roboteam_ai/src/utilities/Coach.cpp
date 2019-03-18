@@ -111,7 +111,7 @@ bool Coach::isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, c
     return isRobotBehindBallToPosition(distanceBehindBall, robot, robotPosition, angleMargin);
 }
 
-bool Coach::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position, onst Vector2 &robotPosition, double angleMargin) {
+bool Coach::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position, const Vector2 &robotPosition, double angleMargin) {
 
     const Vector2 &ball = static_cast<Vector2>(World::getBall()->pos);
     Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, position);

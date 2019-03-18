@@ -30,8 +30,11 @@ class Drawer {
         static GTPPoints getOffensivePoints();
         static void setAttackerPoints(int id, GTPPoints points);
         static GTPPoints getAttackerPoints(int id);
-    private:
-        static std::mutex goToPosMutex,keeperMutex,interceptMutex,offensiveMutex,attackerMutex;
+
+    static std::vector<std::pair<Vector2, QColor>> getDrawPoints();
+
+private:
+        static std::mutex drawMutex,goToPosMutex,keeperMutex,interceptMutex,offensiveMutex,attackerMutex;
         static std::map<int, GTPPoints> GoToPosLuThPoints;
         static std::map<int, GTPPoints> KeeperPoints;
         static std::map<int, GTPPoints> InterceptPoints;
@@ -42,8 +45,8 @@ class Drawer {
         static void addDrawPoint(Vector2 point, QColor color = Qt::darkMagenta);
         static void addDrawPoint(std::pair<Vector2, QColor> point);
         static void addDrawPoints(std::vector<std::pair<Vector2, QColor>> points);
-        static std::vector<std::pair<Vector2, QColor>> getDrawPoints();
-        static std::vector<std::pair<Vector2, QColor>> drawPoints;
+
+    static std::vector<std::pair<Vector2, QColor>> drawPoints;
 
 };
 

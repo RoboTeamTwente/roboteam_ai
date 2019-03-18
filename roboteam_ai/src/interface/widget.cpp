@@ -260,12 +260,17 @@ void Visualizer::drawDataPoints(QPainter &painter, std::vector<std::pair<Vector2
 }
 
 void Visualizer::drawCrosses(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, double size) {
-    if (! points.empty()) {
+    if (!points.empty()) {
         for (auto point : points) {
             painter.setPen(point.second);
             Vector2 pointOnScreen = toScreenPosition(point.first);
-            painter.drawLine(pointOnScreen.x - size, pointOnScreen.y - size, pointOnScreen.x + size, pointOnScreen.y + size);
-            painter.drawLine(pointOnScreen.x + size, pointOnScreen.y - size, pointOnScreen.x - size, pointOnScreen.y + size);
+            painter.drawLine(pointOnScreen.x - size, pointOnScreen.y - size, pointOnScreen.x + size,
+                             pointOnScreen.y + size);
+            painter.drawLine(pointOnScreen.x + size, pointOnScreen.y - size, pointOnScreen.x - size,
+                             pointOnScreen.y + size);
+        }
+    }
+}
 
 void Visualizer::drawDrawPoints(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize) {
     if (! points.empty()) {
