@@ -20,7 +20,7 @@ void EnterFormation::onInitialize() {
 bt::Node::Status EnterFormation::onUpdate() {
     switch (formation) {
 
-        case Normal:{
+        case Normal: {
             auto robotPos = rtt::Vector2(robot->pos);
             Vector2 targetLocation = coach::Coach::getFormationPosition(robot->id);
             Vector2 targetToLookAtLocation = Field::get_their_goal_center();
