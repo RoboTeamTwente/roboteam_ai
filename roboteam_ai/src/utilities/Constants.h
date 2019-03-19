@@ -135,12 +135,7 @@ public:
     static double BP_MOVE_TOWARDS_DIST()        { return 0.15; };
 
 // Avoid ball
-    static double robotWeight()                 { return 0.09; };
-    static double minRobotDistanceForForce()    { return 0.7; };
-    static double ballWeight()                  { return 0.15; };
-    static double minBallDistanceForForce()     { return 0.7; };
-    static double wallWeight()                  { return 0.05; };
-    static double minWallDistanceForForce()     { return 0.4; };
+
 
 // Settings
     static bool STD_SHOW_ROLES()                { return true; };
