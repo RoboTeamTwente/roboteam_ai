@@ -52,6 +52,8 @@ public:
     static double CLOSE_TO_BORDER_DISTANCE()    { return 1.2 * ROBOT_RADIUS(); };
 
     //skills
+    static double GOTOPOS_ERROR_MARGIN()        { return 0.01;} ;
+
     static double DEFAULT_KICK_POWER()          { return  5.0; }; // max kick power() { return  100
     static double MAX_KICK_POWER()              { return  8.0; }; //TODO: CHECK
 
