@@ -66,8 +66,7 @@ public:
     static double KEEPER_CENTREGOAL_MARGIN()    { return 0.3; };//m
 
     //ballkickedtoGoal
-    static double BALL_TO_GOAL_MARGIN()         { return BALL_RADIUS(); };//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
-    static double BALL_TO_GOAL_TIME()           { return 2.5; };//seconds
+
 
 
 // Intercept
