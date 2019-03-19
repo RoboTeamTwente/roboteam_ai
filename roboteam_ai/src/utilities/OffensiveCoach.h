@@ -28,7 +28,7 @@ public:
     static Vector2 calculatePositionForRobot(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
     static void releaseRobot(int robotID);
     static Vector2 getPositionForRobotID(int robotID);
-    static std::vector<OffensivePosition> getRobotPositions();
+    static std::vector<OffensivePosition> getRobotPositionVectors();
     static int getBestStrikerID();
 
 
@@ -44,6 +44,10 @@ public:
 private:
     static int maxPositions;
     static std::map<int, OffensivePosition> robotPositions;
+public:
+    static const map<int, OffensivePosition> &getRobotPositions();
+
+private:
 
     static bool compareByScore(OffensivePosition position1, OffensivePosition position2);
     static double calculateCloseToGoalScore(Vector2 position);

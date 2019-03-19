@@ -268,7 +268,7 @@ void OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::W
     }
 }
 
-vector<OffensiveCoach::OffensivePosition> OffensiveCoach::getRobotPositions() {
+vector<OffensiveCoach::OffensivePosition> OffensiveCoach::getRobotPositionVectors() {
     std::vector<OffensivePosition> positions;
     for (auto &position : robotPositions) {
         positions.emplace_back(position.second);
@@ -319,6 +319,10 @@ int OffensiveCoach::getBestStrikerID() {
 
 const vector<OffensiveCoach::OffensivePosition> &OffensiveCoach::getOffensivePositions() {
     return offensivePositions;
+}
+
+const map<int, OffensiveCoach::OffensivePosition> &OffensiveCoach::getRobotPositions() {
+    return robotPositions;
 }
 
 }

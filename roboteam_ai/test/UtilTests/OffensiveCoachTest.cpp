@@ -22,7 +22,7 @@ TEST(OffensiveCoachTest, calculateNewPositionsTest) {
     ASSERT_GT(OffensiveCoach::getOffensivePositions().size(), 1);
 }
 
-TEST(OffensiveCoachTest, calculateNewRobotPositions) {
+TEST(OffensiveCoachTest, calculatePositionsForRobotTest) {
     roboteam_msgs::GeometryFieldSize field;
     field.field_width = 3;
     field.field_length = 5;
@@ -57,6 +57,22 @@ TEST(OffensiveCoachTest, calculateNewRobotPositions) {
 
     ASSERT_TRUE(std::find(offensivePositionVectors.begin(), offensivePositionVectors.end(), robotPosition1) != offensivePositionVectors.end());
     ASSERT_TRUE(std::find(offensivePositionVectors.begin(), offensivePositionVectors.end(), robotPosition2) != offensivePositionVectors.end());
+
+    bool robot1CloseEnough = std::find(offensivePositionVectors.begin(), offensivePositionVectors.end(), OffensiveCoach::getPositionForRobotID(robot1.id)) != offensivePositionVectors.end();
+    bool robot2CloseEnough = std::find(offensivePositionVectors.begin(), offensivePositionVectors.end(), OffensiveCoach::getPositionForRobotID(robot2.id)) != offensivePositionVectors.end();
+
+    robotPosition1 = OffensiveCoach::calculatePositionForRobot(std::make_shared<roboteam_msgs::WorldRobot>(robot1));
+    robotPosition2 = OffensiveCoach::calculatePositionForRobot(std::make_shared<roboteam_msgs::WorldRobot>(robot2));
+
+    auto robotPositions = OffensiveCoach::getRobotPositions();
+
+    if (robot1CloseEnough) {
+        ASSERT_TRUE(robotPositions.find(robot1.id) != robotPositions.end());
+    }
+
+    if (robot2CloseEnough) {
+        ASSERT_TRUE(robotPositions.find(robot2.id) != robotPositions.end());
+    }
 }
 
 }
