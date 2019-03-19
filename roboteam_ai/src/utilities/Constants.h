@@ -15,16 +15,15 @@ public:
     static void init();
     static bool GRSIM();
 
-// Show timing for different functions
+    /// LOGGING ///
     static bool SHOW_LONGEST_TICK()             { return false;};
     static bool SHOW_TICK_TIME_TAKEN()          { return false;};
     static bool SHOW_NUMTREE_TIME_TAKEN()       { return false;};
-
-// Show debug information for different functions
     static bool SHOW_NUMTREE_DEBUG_INFO()       { return false; };
     static bool SHOW_FULL_NUMTREE_DEBUG_INFO()  { return false; };
 
-// Max values we can send through robothub
+
+    /// ROBOT AND RELATED ///
     static double MAX_VEL_CMD()                 { return 8.191; };
     static int GENEVA_LEFT()                    { return 0; } ;     //TODO: Might be reversed, please check
     static int GENEVA_RIGHT()                   { return 5; };
@@ -32,29 +31,23 @@ public:
     static double MAX_ANGULAR_VEL_CMD()         { return 16*M_PI; };
     static double MIN_ANGLE()                   { return -M_PI; };
     static double MAX_ANGLE()                   { return M_PI; };
-
-// Limits as defined in AI itself
     static double MAX_VEL()                     { return 8.0; };
     static double MAX_VEL_BALLPLACEMENT()       { return 3.0; };
-
-// Other/multiple usage
     static int DEFAULT_ROBOT_ID()               { return 1; };
-
     static double MAX_ANGULAR_VELOCITY()        { return 6.0; };    // Rad per second
     static double ROBOT_RADIUS()                { return 0.089;  }; // TODO: Need to test if world_state agrees with this definition of the centre of the robot
     static double ROBOT_RADIUS_MAX()            { return 0.091; };
-    static double FRONT_LENGTH()                { return 0.118; };  // Length of the front (flat) part of the robot
+    static double FRONT_LENGTH()                { return 0.118; };
     static double DRIBBLER_ANGLE_OFFSET()       { return asin(FRONT_LENGTH()/2/ROBOT_RADIUS()); };  // If the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET() points to the left and DRIBBLER_ANGLE_OFFSET() to the right.
-
-  static double CENTRE_TO_FRONT()             { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); };
+    static double CENTRE_TO_FRONT()             { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); };
     static double BALL_RADIUS()                 { return 0.0215; };
-    static int TICK_RATE()                       { return 100 ; };// Rate at which we tick our behavior Trees
+    static int TICK_RATE()                      { return 100 ; };
     static double CLOSE_TO_BORDER_DISTANCE()    { return 1.2 * ROBOT_RADIUS(); };
 
-    //skills
+
+    /// GENERAL SKILLS ///
     static double DEFAULT_KICK_POWER()          { return  5.0; }; // max kick power() { return  100
     static double MAX_KICK_POWER()              { return  8.0; }; //TODO: CHECK
-
     static double MAX_POWER_KICK_DISTANCE()     { return 9.0; };
     static int MAX_KICK_CYCLES()                { return 20; };
     static int MAX_GENEVA_CYCLES()              { return 20; };
@@ -64,8 +57,7 @@ public:
 
     //dribble
     static double MAX_BALL_BOUNCE_RANGE()       { return GRSIM() ? 0.4 : 0.15; };
-    static double DRIBBLE_POSDIF()              { return 0.05; };
-    static float  DRIBBLE_SPEED()               { return GRSIM() ? 0.4 : 0.8; };
+
 
     //hasBall
     static double MAX_BALL_RANGE()              { return GRSIM() ? 0.09 : 0.04; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
