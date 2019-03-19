@@ -7,6 +7,8 @@
 
 #include <roboteam_ai/src/control/PositionController.h>
 #include "Skill.h"
+#include "../interface/drawer.h"
+
 
 namespace rtt {
 namespace ai {
