@@ -74,14 +74,6 @@ public:
     //kick
     static double MAX_KICK_RANGE()              { return GRSIM() ? 0.4 : 0.04; };
 
-    //getBall
-    static double COLLISION_RADIUS()            { return 0.18; };
-    static double ANGLE_SENS()                  { return 0.05*M_PI; };
-    static double MAX_GETBALL_RANGE()           { return 0.7; };
-    static int POSSES_BALL_CYCLES()             { return 25; };
-    static double GETBALL_SPEED()               { return GRSIM() ?0.4 : 0.8; };
-    static double GETBALL_OVERSHOOT()           { return .02; };//m
-
 // PositionControl
     static double MAX_CALCULATION_TIME()        { return 5.0; };   // Max time in ms
     static double NUMTREE_ERROR_MARGIN()        { return 0.25; };

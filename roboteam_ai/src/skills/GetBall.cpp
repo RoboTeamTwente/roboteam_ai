@@ -15,21 +15,21 @@ GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(
 
 // Essentially a state transition diagram. Contains much of the logic
 void GetBall::checkProgression() {
-    if (deltaPos.length() > Constants::MAX_GETBALL_RANGE() ||currentTick>maxTicks) {
+    if (deltaPos.length() > MAX_RANGE ||currentTick>maxTicks) {
         currentProgress = FAIL;
         //std::cout<<"GetBall-> FAIL";
         return;
     }
     double angleDif = Control::angleDifference(robot->angle, deltaPos.angle());
     if (currentProgress == TURNING) {
-        if (angleDif < Constants::ANGLE_SENS()) {
+        if (angleDif < ANGLE_SENS) {
             currentProgress = APPROACHING;
             //std::cout<<"GetBall: TURNING->APPROACHING"<<std::endl;
             return;
         }
     }
     else if (currentProgress == APPROACHING) {
-        if (angleDif >= Constants::ANGLE_SENS()) {
+        if (angleDif >= ANGLE_SENS) {
             currentProgress = TURNING;
             //std::cout<<"GetBall: APPROACHING-> TURNING"<<std::endl;
             return;
@@ -78,7 +78,7 @@ void GetBall::checkProgression() {
             return;
         }
         count ++;
-        if (count > Constants::POSSES_BALL_CYCLES()) {
+        if (count > POSSES_BALL_CYCLES) {
             currentProgress = SUCCESS;
             //std::cout<<"GetBall: SUCCESS"<<std::endl;
             return;
@@ -166,8 +166,8 @@ void GetBall::sendApproachCommand() {
     command.id = robot->id;
     command.use_angle = 1;
     command.dribbler = 1;
-    command.x_vel = (float) deltaPos.normalize().x * Constants::GETBALL_SPEED();
-    command.y_vel = (float) deltaPos.normalize().y * Constants::GETBALL_SPEED();
+    command.x_vel = (float) deltaPos.normalize().x * SPEED;
+    command.y_vel = (float) deltaPos.normalize().y * SPEED;
     command.w = lockedAngle;
     publishRobotCommand(command);
 
@@ -177,8 +177,8 @@ void GetBall::sendOvershootCommand() {
     command.id = robot->id;
     command.use_angle = 1;
     command.dribbler = 1;
-    command.x_vel = (float) (approachPos-robot->pos).normalize().x * Constants::GETBALL_SPEED();
-    command.y_vel = (float) (approachPos-robot->pos).normalize().y * Constants::GETBALL_SPEED();
+    command.x_vel = (float) (approachPos-robot->pos).normalize().x * SPEED;
+    command.y_vel = (float) (approachPos-robot->pos).normalize().y * SPEED;
     command.w = lockedAngle;
     publishRobotCommand(command);
 }
