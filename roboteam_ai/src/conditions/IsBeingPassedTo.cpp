@@ -2,6 +2,7 @@
 // Created by robzelluf on 1/22/19.
 //
 
+#include <roboteam_ai/src/coach/PassCoach.h>
 #include "IsBeingPassedTo.h"
 
 namespace rtt {
@@ -14,7 +15,7 @@ IsBeingPassedTo::IsBeingPassedTo(std::string name, bt::Blackboard::Ptr blackboar
 void IsBeingPassedTo::initialize() {};
 
 IsBeingPassedTo::Status IsBeingPassedTo::update() {
-    if (coach::Coach::getRobotBeingPassedTo() == static_cast<int>(getRobotFromProperties(properties)->id)) {
+    if (coach::g_pass.getRobotBeingPassedTo() == static_cast<int>(getRobotFromProperties(properties)->id)) {
         return Status::Success;
     }
     else {

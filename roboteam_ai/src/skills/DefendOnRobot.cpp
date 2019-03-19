@@ -12,21 +12,21 @@ DefendOnRobot::DefendOnRobot(std::string name, bt::Blackboard::Ptr blackboard)
     :Skill(std::move(name), std::move(blackboard)) { }
 
 void DefendOnRobot::onInitialize() {
-    opponentWithBallID = World::whichBotHasBall(false);
-    if (opponentWithBallID == -1) {
-        currentProgress = FAIL;
-    }
-
-    opponentToCoverID = coach::Coach::pickOpponentToCover(robot->id);
-    if (opponentToCoverID == -1) {
-        currentProgress = FAIL;
-    } else {
-        coach::Coach::defencePairs.insert({opponentToCoverID, robot->id});
-    }
+//    opponentWithBallID = World::whichBotHasBall(false);
+//    if (opponentWithBallID == -1) {
+//        currentProgress = FAIL;
+//    }
+//
+//    opponentToCoverID = coach::Coach::pickOpponentToCover(robot->id);
+//    if (opponentToCoverID == -1) {
+//        currentProgress = FAIL;
+//    } else {
+//        coach::Coach::defencePairs.insert({opponentToCoverID, robot->id});
+//    }
 }
 
 void DefendOnRobot::onTerminate(Skill::Status s) {
-    coach::Coach::defencePairs.erase(robot->id);
+   // coach::Coach::defencePairs.erase(robot->id);
 }
 
 bt::Node::Status DefendOnRobot::onUpdate() {

@@ -2,6 +2,7 @@
 // Created by baris on 15-1-19.
 //
 
+#include <roboteam_ai/src/coach/Ballplacement.h>
 #include "BasicGoToPos.h"
 
 namespace rtt {
@@ -18,7 +19,7 @@ void BasicGoToPos::onInitialize() {
         if (ball) {
             //TODO:Changed for testing, remember to change back
             //targetPos=coach::Coach::getBallPlacementBeforePos(ball->pos);
-            targetPos = coach::Coach::getBallPlacementPos();
+            targetPos = coach::g_ballPlacement.getBallPlacementPos();
         }
         else {
             ROS_ERROR("BasicGoToPos: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
@@ -27,7 +28,7 @@ void BasicGoToPos::onInitialize() {
     else if (properties->getBool("BallPlacementAfter")) {
         if (ball) {
             errorMargin = 0.05;
-            targetPos = coach::Coach::getBallPlacementAfterPos(robot->angle);
+            targetPos = coach::g_ballPlacement.getBallPlacementAfterPos(robot->angle);
         }
         else {
             ROS_ERROR("BasicGoToPos: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
@@ -60,7 +61,7 @@ Skill::Status BasicGoToPos::onUpdate() {
 //        targetPos=coach::Coach::getBallPlacementAfterPos(robot->angle);
 //    }
     else if(properties->getBool("BallPlacementBefore")){
-        targetPos=coach::Coach::getBallPlacementBeforePos(ball->pos);
+        targetPos=coach::g_ballPlacement.getBallPlacementBeforePos(ball->pos);
     }
     else if(properties->getBool("DemoKeeperGetBall")){
         targetPos=coach::Coach::getDemoKeeperGetBallPos(ball->pos);

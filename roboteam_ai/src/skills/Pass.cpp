@@ -2,7 +2,10 @@
 // Created by robzelluf on 1/22/19.
 //
 
+#include <roboteam_ai/src/coach/PassCoach.h>
+#include <roboteam_ai/src/utilities/Constants.h>
 #include "Pass.h"
+
 namespace rtt {
 namespace ai {
 Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
@@ -11,7 +14,7 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
 
 void Pass::onInitialize() {
     goToPos.setAvoidBall(true);
-    robotToPassToID = coach::Coach::initiatePass();
+    robotToPassToID = coach::g_pass.initiatePass();
     currentProgress = Progression::POSITIONING;
 }
 
@@ -30,7 +33,7 @@ Pass::Status Pass::onUpdate() {
                 goToType = GoToType::BASIC;
                 targetPos = ball->pos;
             } else {
-                if (coach::Coach::isReadyToReceivePass()) currentProgress = Progression::KICKING;
+                if (coach::g_pass.isReadyToReceivePass()) currentProgress = Progression::KICKING;
                 return Status::Running;
             }
             command.use_angle = 1;
@@ -56,8 +59,8 @@ Pass::Status Pass::onUpdate() {
             }
 
             if (Vector2(ball->vel).length() > 0.4 || ((Vector2)robot->pos - ball->pos).length() > rtt::ai::Constants::MAX_BALL_RANGE() * 2) {
-                Coach::setRobotBeingPassedTo(-1);
-                Coach::setPassed(true);
+                coach::g_pass.setRobotBeingPassedTo(-1);
+                coach::g_pass.setPassed(true);
                 return Status::Success;
             } else if (checkTicks < maxCheckTicks) {
                 checkTicks++;

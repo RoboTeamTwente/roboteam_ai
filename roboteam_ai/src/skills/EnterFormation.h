@@ -16,9 +16,14 @@ public:
     void onInitialize() override;
     bt::Node::Status onUpdate() override;
     void onTerminate(bt::Node::Status) override;
+
 private:
     control::PositionController gtp;
 
+    static std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> robotsInFormation;
+    int robotsInFormationMemory = 0;
+    Vector2 getFormationPosition();
+    Vector2 targetLocation;
 };
 
 }

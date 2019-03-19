@@ -2,6 +2,7 @@
 // Created by rolf on 28/11/18.
 //
 
+#include <roboteam_ai/src/coach/Ballplacement.h>
 #include "Dribble.h"
 namespace rtt {
 namespace ai {
@@ -48,7 +49,7 @@ void Dribble::onInitialize() {
         targetPos = properties->getVector2("Position");
     }
     else if (properties->getBool("BallPlacement")){
-        targetPos=Coach::getBallPlacementPos();
+        targetPos=coach::g_ballPlacement.getBallPlacementPos();
     }
 
     if (properties->hasInt("maxTicks")) {
