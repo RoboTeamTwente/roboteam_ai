@@ -18,6 +18,7 @@ public:
     void onTerminate(bt::Node::Status) override;
 private:
     control::PositionController gtp;
+    double errorMargin = 0.1;
 
 };
 
