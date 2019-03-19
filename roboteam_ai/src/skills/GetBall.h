@@ -17,7 +17,7 @@ class GetBall : public Skill {
         const double MAX_RANGE = 0.7;
         const int POSSES_BALL_CYCLES = 25;
         const double SPEED = (Constants::GRSIM() ? 0.4 : 0.8);
-        const double OVERSHOOT = .02;
+        const double OVERSHOOT = .06;
 
     private:
         enum Progression {

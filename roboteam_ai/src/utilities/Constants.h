@@ -52,7 +52,6 @@ public:
     static int MAX_KICK_CYCLES()                { return 20; };
     static int MAX_GENEVA_CYCLES()              { return 20; };
     static int DEFAULT_GENEVA_STATE()           { return 0; };
-    static double GET_BALL_OVERSHOOT()          { return 0.06; };
     static double OUT_OF_FIELD_MARGIN()         { return 0.03; };
     static double MAX_BALL_BOUNCE_RANGE()       { return GRSIM() ? 0.4 : 0.15; };
     static double MAX_BALL_RANGE()              { return GRSIM() ? 0.09 : 0.04; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
@@ -60,7 +59,6 @@ public:
     static double MAX_KICK_RANGE()              { return GRSIM() ? 0.4 : 0.04; };
 
 // PositionControl
-    static double MAX_CALCULATION_TIME()        { return 5.0; };   // Max time in ms
     static double MIN_DISTANCE_FOR_FORCE()      { return 0.5; };
 
     //Keeper
