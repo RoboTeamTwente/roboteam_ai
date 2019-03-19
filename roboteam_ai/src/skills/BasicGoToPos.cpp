@@ -87,7 +87,6 @@ Skill::Status BasicGoToPos::onUpdate() {
     }
 
     pva.vel = control::ControlUtils::VelocityLimiter(pva.vel, maxVel, 0.3);
-    
     command.use_angle = 1;
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);
