@@ -22,6 +22,7 @@ public:
 
 // Show debug information for different functions
     static bool SHOW_NUMTREE_DEBUG_INFO()       { return false; };
+    static bool SHOW_FULL_NUMTREE_DEBUG_INFO()  { return false; };
 
 // Max values we can send through robothub
     static double MAX_VEL_CMD()                 { return 8.191; };
@@ -47,12 +48,13 @@ public:
 
   static double CENTRE_TO_FRONT()             { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); };
     static double BALL_RADIUS()                 { return 0.0215; };
+    static int TICK_RATE()                       { return 100 ; };// Rate at which we tick our behavior Trees
     static double CLOSE_TO_BORDER_DISTANCE()    { return 1.2 * ROBOT_RADIUS(); };
-    static int TICK_RATE()                       { return 60 ; };// Rate at which we tick our behavior Trees
 
-// Skills
-    static double DEFAULT_KICK_POWER()          { return 5.0; };   // Max kick power() { return  100 }
-    static double MAX_KICK_POWER()              { return 8.0; };   // TODO: CHECK
+    //skills
+    static double DEFAULT_KICK_POWER()          { return  5.0; }; // max kick power() { return  100
+    static double MAX_KICK_POWER()              { return  8.0; }; //TODO: CHECK
+
     static double MAX_POWER_KICK_DISTANCE()     { return 9.0; };
     static int MAX_KICK_CYCLES()                { return 20; };
     static int MAX_GENEVA_CYCLES()              { return 20; };
@@ -83,7 +85,7 @@ public:
 // PositionControl
     static double MAX_CALCULATION_TIME()        { return 5.0; };   // Max time in ms
     static double NUMTREE_ERROR_MARGIN()        { return 0.25; };
-    static double MIN_DISTANCE_FOR_FORCE()      { return 0.8; };
+    static double MIN_DISTANCE_FOR_FORCE()      { return 0.5; };
 
     //Keeper
     static double KEEPER_POST_MARGIN()          { return 0.08; };//m
@@ -169,13 +171,13 @@ public:
                                                            {255, 100, 255, 255} }; };
 
 // Default PID values for the interface
-    static double standardNumTreePosP()         { return GRSIM() ? 2.5 : 2.8; };
+    static double standardNumTreePosP()         { return GRSIM() ? 1.0 : 2.8; };
     static double standardNumTreePosI()         { return GRSIM() ? 0.0 : 0.6; };
-    static double standardNumTreePosD()         { return GRSIM() ? 2.0 : 2.3; };
+    static double standardNumTreePosD()         { return GRSIM() ? 0.0 : 2.3; };
 
-    static double standardNumTreeVelP()         { return GRSIM() ? 2.0 : 2.8; };
-    static double standardNumTreeVelI()         { return GRSIM() ? 0.5 : 0.6; };
-    static double standardNumTreeVelD()         { return GRSIM() ? 1.8 : 2.3; };
+    static double standardNumTreeVelP()         { return GRSIM() ? 3.0 : 2.8; };
+    static double standardNumTreeVelI()         { return GRSIM() ? 0.2 : 0.6; };
+    static double standardNumTreeVelD()         { return GRSIM() ? 2.5 : 2.3; };
 
 private:
     static bool isInitialized;

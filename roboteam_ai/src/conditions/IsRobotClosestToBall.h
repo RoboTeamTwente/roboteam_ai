@@ -13,7 +13,7 @@ namespace ai {
 class IsRobotClosestToBall : public Condition {
     public:
         IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-        Status update() override;
+        Status onUpdate() override;
         std::string node_name() override { return "IsRobotClosestToBall";}
 };
 

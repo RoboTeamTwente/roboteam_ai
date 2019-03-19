@@ -92,7 +92,7 @@ double PIDController::controlI(double err) {
 }
 
 double PIDController::controlD(double err) {
-    double rateErr = (err - this->prev_error) / this->timeDiff;
+    double rateErr = (err - this->prev_error) * this->timeDiff;
     double value_D = this->kD * rateErr;
     this->prev_error = err;
     return value_D;
@@ -135,7 +135,7 @@ Vector2 PIDController::controlI(Vector2 err) {
 Vector2 PIDController::controlD(Vector2 err) {
     Vector2 value_D2;
     value_D2.x = this->controlD(err.x);
-    double rateErr2 = (err.y - this->prev_error2) / this->timeDiff;
+    double rateErr2 = (err.y - this->prev_error2) * this->timeDiff;
     value_D2.y = this->kD * rateErr2;
     this->prev_error2 = err.y;
     return value_D2;

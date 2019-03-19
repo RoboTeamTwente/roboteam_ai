@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget* parent)
         :QMainWindow(parent) {
 
     // initialize values for interface to display
-    InterfaceValues::setLuthPosP(Constants::standardNumTreePosP());
+    InterfaceValues::setNumTreePosP(Constants::standardNumTreePosP());
     InterfaceValues::setNumTreePosI(Constants::standardNumTreePosI());
     InterfaceValues::setNumTreePosD(Constants::standardNumTreePosD());
 
@@ -226,7 +226,7 @@ void MainWindow::toggleOurColorParam() {
 
 /// update the PID values for gotopos Luth
 void MainWindow::updatePID_luth() {
-    InterfaceValues::setLuthPosP(sb_luth_Pos_P->value());
+    InterfaceValues::setNumTreePosP(sb_luth_Pos_P->value());
     InterfaceValues::setNumTreePosI(sb_luth_Pos_I->value());
     InterfaceValues::setNumTreePosD(sb_luth_Pos_D->value());
 

@@ -9,34 +9,38 @@ namespace ai {
 namespace interface {
 
 // declare static variables
-std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::GoToPosLuThPoints;
+std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::NumTreePoints;
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::KeeperPoints;
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::InterceptPoints;
+std::vector<std::pair<Vector2, QColor>> Drawer::drawP;
+std::vector<std::tuple<Vector2, Vector2, QColor>> Drawer::drawL;
 
 std::mutex Drawer::keeperMutex;
 std::mutex Drawer::goToPosMutex;
 std::mutex Drawer::interceptMutex;
+std::mutex Drawer::drawMutex;
+std::mutex Drawer::drawLinesMutex;
 
-void Drawer::setGoToPosLuThPoints(int id, GTPPoints points) {
+void Drawer::setNumTreePoints(int id, GTPPoints points) {
     std::lock_guard<std::mutex> lock(goToPosMutex);
 
     //GoToPosLuThPoints.erase(id); //Probably not needed?
-    GoToPosLuThPoints[id] = std::move(points);
+    NumTreePoints[id] = std::move(points);
 }
 
-void Drawer::addGoToPosLuThPoints(int id, GTPPoints points) {
+void Drawer::addNumTreePoints(int id, GTPPoints points) {
     std::lock_guard<std::mutex> lock(goToPosMutex);
 
-    GTPPoints oldPoints = GoToPosLuThPoints[id];
+    GTPPoints oldPoints = NumTreePoints[id];
     oldPoints.insert(oldPoints.end(), points.begin(), points.end());
-    GoToPosLuThPoints[id] = oldPoints;
+    NumTreePoints[id] = oldPoints;
 }
 
-Drawer::GTPPoints Drawer::getGoToPosLuThPoints(int id) {
+Drawer::GTPPoints Drawer::getNumTreePoints(int id) {
     std::lock_guard<std::mutex> lock(goToPosMutex);
 
-    if (GoToPosLuThPoints.find(id) != GoToPosLuThPoints.end()) {
-        return GoToPosLuThPoints.at(id);
+    if (NumTreePoints.find(id) != NumTreePoints.end()) {
+        return NumTreePoints.at(id);
     }
     return {};
 
@@ -78,6 +82,45 @@ Drawer::GTPPoints Drawer::getInterceptPoints(int id) {
     }
     return {};
 
+}
+void Drawer::drawPoint(Vector2 position, QColor color) {
+    std::pair<Vector2, QColor> point = {position, color};
+    drawPoint(point);
+}
+
+void Drawer::drawPoint(std::pair<Vector2, QColor> point) {
+    std::lock_guard<std::mutex> lock(drawMutex);
+    drawP.push_back(point);
+}
+
+void Drawer::drawPoints(std::vector<std::pair<Vector2, QColor>> points) {
+    for (auto &point : points) {
+        drawPoint(point);
+    }
+}
+
+std::vector<std::pair<Vector2, QColor>> Drawer::getDrawPoints() {
+    return drawP;
+}
+
+void Drawer::drawLine(Vector2 pointA, Vector2 pointB, QColor color) {
+    std::lock_guard<std::mutex> lock(drawLinesMutex);
+    drawL.emplace_back(pointA, pointB, color);
+}
+
+std::vector<std::tuple<Vector2, Vector2, QColor>> Drawer::getDrawLines() {
+    std::lock_guard<std::mutex> lock(drawLinesMutex);
+    return drawL;
+}
+
+void Drawer::clearDrawLines() {
+    std::lock_guard<std::mutex> lock(drawLinesMutex);
+    drawL = {};
+}
+
+void Drawer::clearDrawPoints() {
+    std::lock_guard<std::mutex> lock(drawMutex);
+    drawP = {};
 }
 
 } // interface

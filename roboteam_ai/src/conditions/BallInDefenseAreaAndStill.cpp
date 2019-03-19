@@ -13,19 +13,15 @@ namespace ai {
 BallInDefenseAreaAndStill::BallInDefenseAreaAndStill(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
 
-void BallInDefenseAreaAndStill::initialize() {
+void BallInDefenseAreaAndStill::onInitialize() {
     theirDefenceArea = properties->getBool("theirDefenceArea");
     outsideField = properties->getBool("outsideField");
 }
 
-bt::Node::Status BallInDefenseAreaAndStill::update() {
-    Vector2 ballPos;
-    auto ball=World::getBall();
-    if (ball){
-        ballPos=ball->pos;
-    }
-    else return Status::Failure;
+bt::Node::Status BallInDefenseAreaAndStill::onUpdate() {
+    Vector2 ballPos = ball->pos;
     Vector2 ballVel=ball->vel;
+
     if (Field::pointIsInDefenceArea(ballPos,!theirDefenceArea, outsideField)&&(ballVel.length()<Constants::BALL_STILL_VEL())){
         return Status::Success;
     }
@@ -36,5 +32,5 @@ bt::Node::Status BallInDefenseAreaAndStill::update() {
 
 std::string BallInDefenseAreaAndStill::node_name() {return "BallInDefenseAreaAndStill";}
 
-}
-}
+} // ai
+} // rtt

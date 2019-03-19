@@ -11,13 +11,13 @@ namespace ai {
 namespace interface {
 
 // these values need to be set AFTER ros::init, so they are initialized with values in the constructor of mainwindow
-double InterfaceValues::luthPosP = 0;
-double InterfaceValues::luthPosI = 0;
-double InterfaceValues::luthPosD = 0;
+double InterfaceValues::numTreePosP = 0;
+double InterfaceValues::numTreePosI = 0;
+double InterfaceValues::numTreePosD = 0;
 
-double InterfaceValues::luthVelP = 0;
-double InterfaceValues::luthVelI = 0;
-double InterfaceValues::luthVelD = 0;
+double InterfaceValues::numTreeVelP = 0;
+double InterfaceValues::numTreeVelI = 0;
+double InterfaceValues::numTreeVelD = 0;
 
 rtt::Vector2 InterfaceValues::ballPlacementTarget = {0, 0}; // initialize on middle of the field
 bool InterfaceValues::useRefereeCommands = false;
@@ -30,62 +30,62 @@ std::mutex InterfaceValues::showDebugMutex;
 
 double InterfaceValues::setNumTreePosP() {
     std::lock_guard<std::mutex> lock(pidMutex);
-    return luthPosP;
+    return numTreePosP;
 }
 
-void InterfaceValues::setLuthPosP(double luthPP) {
+void InterfaceValues::setNumTreePosP(double numTreePP) {
     std::lock_guard<std::mutex> lock(pidMutex);
-    InterfaceValues::luthPosP = luthPP;
+    InterfaceValues::numTreePosP = numTreePP;
 }
 
 double InterfaceValues::getNumTreePosI() {
     std::lock_guard<std::mutex> lock(pidMutex);
-    return luthPosI;
+    return numTreePosI;
 }
 
-void InterfaceValues::setNumTreePosI(double luthPI) {
+void InterfaceValues::setNumTreePosI(double numTreePI) {
     std::lock_guard<std::mutex> lock(pidMutex);
-    InterfaceValues::luthPosI = luthPI;
+    InterfaceValues::numTreePosI = numTreePI;
 }
 
 double InterfaceValues::getNumTreePosD() {
     std::lock_guard<std::mutex> lock(pidMutex);
-    return luthPosD;
+    return numTreePosD;
 }
 
-void InterfaceValues::setNumTreePosD(double LuthPD) {
+void InterfaceValues::setNumTreePosD(double numTreePD) {
     std::lock_guard<std::mutex> lock(pidMutex);
-    InterfaceValues::luthPosD = LuthPD;
+    InterfaceValues::numTreePosD = numTreePD;
 }
 
 double InterfaceValues::getNumTreeVelP() {
     std::lock_guard<std::mutex> lock(pidMutex);
-    return luthVelP;
+    return numTreeVelP;
 }
 
-void InterfaceValues::setNumTreeVelP(double luthVP) {
+void InterfaceValues::setNumTreeVelP(double numTreeVP) {
     std::lock_guard<std::mutex> lock(pidMutex);
-    InterfaceValues::luthVelP = luthVP;
+    InterfaceValues::numTreeVelP = numTreeVP;
 }
 
 double InterfaceValues::getNumTreeVelI() {
     std::lock_guard<std::mutex> lock(pidMutex);
-    return luthVelI;
+    return numTreeVelI;
 }
 
-void InterfaceValues::setNumTreeVelI(double luthVI) {
+void InterfaceValues::setNumTreeVelI(double numTreeVI) {
     std::lock_guard<std::mutex> lock(pidMutex);
-    InterfaceValues::luthVelI = luthVI;
+    InterfaceValues::numTreeVelI = numTreeVI;
 }
 
 double InterfaceValues::getNumTreeVelD() {
     std::lock_guard<std::mutex> lock(pidMutex);
-    return luthVelD;
+    return numTreeVelD;
 }
 
-void InterfaceValues::setNumTreeVelD(double LuthVD) {
+void InterfaceValues::setNumTreeVelD(double numTreeVD) {
     std::lock_guard<std::mutex> lock(pidMutex);
-    InterfaceValues::luthVelD = LuthVD;
+    InterfaceValues::numTreeVelD = numTreeVD;
 }
 
 void InterfaceValues::sendHaltCommand() {
@@ -147,6 +147,11 @@ bool InterfaceValues::showDebugNumTreeTimeTaken() {
 bool InterfaceValues::showDebugNumTreeInfo() {
     return getShowDebugValues() && Constants::SHOW_NUMTREE_DEBUG_INFO();
 }
+
+bool InterfaceValues::showFullDebugNumTreeInfo() {
+    return getShowDebugValues() && Constants::SHOW_NUMTREE_DEBUG_INFO() && Constants::SHOW_FULL_NUMTREE_DEBUG_INFO();
+}
+
 
 } // interface
 } // ai

@@ -12,14 +12,8 @@ namespace ai {
 BallOutOfField::BallOutOfField(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
 
-bt::Node::Status BallOutOfField::update() {
-    Vector2 ballPos;
-    auto ball = World::getBall();
-    if (ball) {
-        ballPos = ball->pos;
-    } else {
-        return Status::Success; // if there is no ball seen it is likely not in the field
-    }
+bt::Node::Status BallOutOfField::onUpdate() {
+    Vector2 ballPos = ball->pos;
 
     // return success if the ball is out of the field
     if (abs(ballPos.x) < Field::get_field().field_length / 2 &&
