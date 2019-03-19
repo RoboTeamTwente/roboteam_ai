@@ -17,7 +17,6 @@ TEST(OffensiveCoachTest, calculateNewPositionsTest) {
     field.field_length = 5;
     Field::set_field(field);
 
-    ASSERT_EQ(OffensiveCoach::getOffensivePositions().size(), 0);
     OffensiveCoach::calculateNewPositions();
     ASSERT_GT(OffensiveCoach::getOffensivePositions().size(), 1);
 }
