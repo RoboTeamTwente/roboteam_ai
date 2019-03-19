@@ -96,14 +96,6 @@ public:
     static double BALL_TO_GOAL_MARGIN()         { return BALL_RADIUS(); };//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
     static double BALL_TO_GOAL_TIME()           { return 2.5; };//seconds
 
-// GoAroundPos
-    static double MAX_GOAROUND_STOP_TIME()      { return 2.0; };    // Seconds
-    static double GOAROUND_MAX_DIST_DEVIATION() { return 0.2; };    // Meters
-    static double GOAROUND_SPEED()              { return 6.0; };    // Rad/second
-    static double GOAROUND_BALL_DIST()          { return 0.11; };   // Meters
-    static double GOAROUND_POS_MARGIN()         { return 0.05; };   // Meters
-    static double GOAROUND_ANGLE_MARGIN()       { return 0.03*M_PI; };  //Rad
-    static double GOAROUND_MIN_SPEED()          { return 0.25; };   // Meters/second
 
 // Intercept
     static double MAX_INTERCEPT_TIME()          { return 2.0; };    // Seconds. Intercept terminates  after this time.
@@ -133,9 +125,6 @@ public:
 
     static double BP_MOVE_BACK_DIST()           { return 0.4; };
     static double BP_MOVE_TOWARDS_DIST()        { return 0.15; };
-
-// Avoid ball
-
 
 // Settings
     static bool STD_SHOW_ROLES()                { return true; };
