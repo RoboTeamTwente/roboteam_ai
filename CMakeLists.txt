@@ -300,7 +300,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/TreeVisualizerWidget.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/TreeVisualizerWidget.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.h roboteam_ai/src/coach/Offense.cpp roboteam_ai/src/coach/Offense.h roboteam_ai/src/coach/Defense.cpp roboteam_ai/src/coach/Defense.h roboteam_ai/src/coach/Pass.cpp roboteam_ai/src/coach/Pass.h roboteam_ai/src/coach/Ballplacement.cpp roboteam_ai/src/coach/Ballplacement.h roboteam_ai/src/coach/Formation.cpp roboteam_ai/src/coach/Formation.h)
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
