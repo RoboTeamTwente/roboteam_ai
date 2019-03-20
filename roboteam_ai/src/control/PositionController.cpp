@@ -56,8 +56,7 @@ PosVelAngle PositionController::ballControl(RobotPtr robot, Vector2 &targetPos) 
 
 PosVelAngle PositionController::basic(RobotPtr robot, Vector2 &targetPos) {
 
-    Vector2 error;
-    error = targetPos - robot->pos;
+    Vector2 error = targetPos - robot->pos;
 
     if (error.length() < rtt::ai::Constants::ROBOT_RADIUS()){
         posPID.setPID(3.0, 0, 0.2);}
@@ -65,17 +64,19 @@ PosVelAngle PositionController::basic(RobotPtr robot, Vector2 &targetPos) {
         posPID.setPID(3.0, 0, 1.5);}
 
     PosVelAngle target;
+    target.angle = error.angle()
     return pidController(robot, target);
 }
 
 PosVelAngle PositionController::force(RobotPtr robot, Vector2 &targetPos) {
     double forceRadius;
-    if ((targetPos - robot->pos).length() < 0.1) {
+    Vector2 error = targetPos - robot->pos;
+    if (error.length() < 0.1) {
         if (interface::InterfaceValues::showDebugNumTreeInfo())
             std::cout << "close to target, using basic gtp" << std::endl;
         return basic(robot, targetPos);
     }
-    else if ((targetPos - robot->pos).length() < Constants::MIN_DISTANCE_FOR_FORCE()) {
+    else if (error.length() < Constants::MIN_DISTANCE_FOR_FORCE()) {
         forceRadius = Constants::ROBOT_RADIUS_MAX()*2.0;
         posPID.setPID(3.0, 1.0, 0.2);
     }
@@ -86,9 +87,7 @@ PosVelAngle PositionController::force(RobotPtr robot, Vector2 &targetPos) {
 
     PosVelAngle target;
     roboteam_msgs::World world = World::get_world();
-    Vector2 force = (targetPos - robot->pos);
-    force = (force.length() > 3.0) ?
-            force.stretchToLength(3.0) : force;
+    Vector2 force = error;
 
     for (auto bot : world.us)
         force += ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, forceRadius);
@@ -145,7 +144,7 @@ PosVelAngle PositionController::pidController(const RobotPtr &robot, PosVelAngle
     pidCommand.pos = target.pos;
     pidCommand.vel = pidP.length() < Constants::MAX_VEL() ?
                      pidP : pidP.stretchToLength(Constants::MAX_VEL());
-    pidCommand.angle = target.vel.angle();
+    pidCommand.angle = target.angle;
     return pidCommand;
 }
 
