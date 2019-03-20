@@ -35,7 +35,6 @@ PosVelAngle PositionController::goToPos(RobotPtr robot, Vector2 &position, PosCo
         ROS_ERROR("Error in PositionController->goToPos(robot %i): robot does not exist in world", robot->id);
         return {};
     }
-    velPID.reset();
     posPID.reset();
     switch (goToType) {
     case PosControlType::BALL_CONTROL:
@@ -57,7 +56,6 @@ PosVelAngle PositionController::ballControl(RobotPtr robot, Vector2 &targetPos) 
 
 PosVelAngle PositionController::basic(RobotPtr robot, Vector2 &targetPos) {
 
-    PosVelAngle posVelAngle;
     Vector2 error;
     error = targetPos - robot->pos;
 
@@ -66,8 +64,8 @@ PosVelAngle PositionController::basic(RobotPtr robot, Vector2 &targetPos) {
     else{
         posPID.setPID(3.0, 0, 1.5);}
 
-    posVelAngle.vel = error;
-    return pidController(robot, posVelAngle);
+    PosVelAngle target;
+    return pidController(robot, target);
 }
 
 PosVelAngle PositionController::force(RobotPtr robot, Vector2 &targetPos) {
@@ -118,9 +116,6 @@ PosVelAngle PositionController::numTree(RobotPtr robot, Vector2 &targetPos) {
         posPID.setPID(Constants::standardNumTreePosP(),
                        Constants::standardNumTreePosP(),
                        Constants::standardNumTreePosP());
-        velPID.setPID(Constants::standardNumTreeVelP(),
-                       Constants::standardNumTreeVelP(),
-                       Constants::standardNumTreeVelP());
         checkInterfacePID();}
         return pidController(robot, target);
 }
@@ -142,34 +137,20 @@ PosVelAngle PositionController::pidController(const RobotPtr &robot, PosVelAngle
 
 
     Vector2 pidP = Vector2();
-    Vector2 pidV = Vector2();
 
     if (target.pos != Vector2() && ! (posPID.getP() == 0.0 && posPID.getI() == 0.0 && posPID.getD() == 0.0)) {
-        pidP = posPID.controlPID(target.pos - robot->pos);//, robot->vel);
-    }
-    if (target.vel != Vector2() && ! (velPID.getP() == 0.0 && velPID.getI() == 0.0 && velPID.getD() == 0.0)) {
-        pidV = velPID.controlPIR(target.vel, robot->vel);
+        pidP = posPID.controlPIR(target.pos-robot->pos, robot->vel);
     }
 
     pidCommand.pos = target.pos;
-    pidCommand.vel = (pidP + pidV).length() < Constants::MAX_VEL() ?
-                     (pidP + pidV) : (pidP + pidV).stretchToLength(Constants::MAX_VEL());
-    pidCommand.angle = target.angle;
+    pidCommand.vel = pidP.length() < Constants::MAX_VEL() ?
+                     pidP : pidP.stretchToLength(Constants::MAX_VEL());
+    pidCommand.angle = target.vel.angle();
     return pidCommand;
 }
 
 /// compare current PID values to those set in the interface
 void PositionController::checkInterfacePID() {
-
-    if (velPID.getP() != interface::InterfaceValues::getNumTreeVelP() ||
-            velPID.getI() != interface::InterfaceValues::getNumTreeVelI() ||
-            velPID.getD() != interface::InterfaceValues::getNumTreeVelD()) {
-
-        velPID.reset();
-        velPID.setPID(interface::InterfaceValues::getNumTreeVelP(),
-                interface::InterfaceValues::getNumTreeVelI(),
-                interface::InterfaceValues::getNumTreeVelD());
-    }
 
     if (posPID.getP() != interface::InterfaceValues::setNumTreePosP() ||
             posPID.getI() != interface::InterfaceValues::getNumTreePosI() ||

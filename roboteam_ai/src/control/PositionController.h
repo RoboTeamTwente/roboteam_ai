@@ -40,7 +40,6 @@ class PositionController {
         PosVelAngle basic(RobotPtr robot, Vector2 &targetPos);
 //        ControlGoToPosBasic basicController;
 
-        PIDController velPID;
         PIDController posPID;
         bool avoidBall = false;
         bool canGoOutsideField = false;
