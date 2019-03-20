@@ -154,7 +154,6 @@ void PositionController::checkInterfacePID() {
     posPID.setPID(interface::InterfaceValues::setNumTreePosP(),
             interface::InterfaceValues::getNumTreePosI(),
             interface::InterfaceValues::getNumTreePosD());
-    }
 }
 
 } //control
