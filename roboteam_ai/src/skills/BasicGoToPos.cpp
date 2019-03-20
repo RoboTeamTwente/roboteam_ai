@@ -79,19 +79,21 @@ Skill::Status BasicGoToPos::onUpdate() {
     if (deltaPos.length() < errorMargin) {
         return Status::Success;
     }
+
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
-    command.use_angle = 1;
-    command.w = static_cast<float>((targetPos-robot->pos).angle());
-    Vector2 velocity = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES).vel;
-    if(properties->getBool("BallPlacementAfter")){
-        command.w=static_cast<float>((Vector2(robot->pos)-targetPos).angle());
-        velocity = goToPos.goToPos(robot, targetPos, control::PosControlType::BASIC).vel;
+    control::PosVelAngle pva = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES);
+
+    if (properties->getBool("BallPlacementAfter")){
+        command.w = static_cast<float>((Vector2(robot->pos)-targetPos).angle());
+        pva.vel = goToPos.goToPos(robot, targetPos, control::PosControlType::BASIC).vel;
     }
 
-    velocity=control::ControlUtils::VelocityLimiter(velocity,maxVel,Constants::MAX_VEL());
-    command.x_vel = static_cast<float>(velocity.x);
-    command.y_vel = static_cast<float>(velocity.y);
+    pva.vel = control::ControlUtils::VelocityLimiter(pva.vel, maxVel, 0.3);
+    command.use_angle = 1;
+    command.x_vel = static_cast<float>(pva.vel.x);
+    command.y_vel = static_cast<float>(pva.vel.y);
+    command.w = static_cast<float>(pva.angle);
 
     publishRobotCommand(command);
     return Status::Running;
