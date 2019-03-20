@@ -1,8 +1,8 @@
-GoToPos,ROLE,Position,goToBall,random,goToBall
-GoToPosLuTh,ROLE,Position,goToBall,random,passiveDefend
-Kick,ROLE
-Chip,ROLE
-Dribble,ROLE,Position,maxTicks,forwardDirection,dribbleOnTerminate,BallPlacement,distance
+GoToPos,targetOis,avoidBall,maxVel
+GoToPosLuTh,Position,goToBall,random,passiveDefend
+Kick
+Chip
+Dribble,Position,maxTicks,forwardDirection,dribbleOnTerminate,BallPlacement,distance
 RotateToAngle,rotateToBall,Angle,RobotControl
 InterceptBall
 GetBall,maxTime
