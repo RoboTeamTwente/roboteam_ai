@@ -22,15 +22,15 @@ class PosVelAngle;
  * \brief Base class for all skills. Provides no additional functionality.
  */
 class Skill : public bt::Leaf {
-    using Control = control::ControlUtils;
-    using Status = bt::Node::Status;
-    using GoToType = control::PosControlType;
-
     private:
         roboteam_msgs::RobotCommand rotateRobotCommand(roboteam_msgs::RobotCommand &cmd);
     protected:
         io::IOManager ioManager = io::IOManager(false, true);
         void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
+
+        using Control = control::ControlUtils;
+        using Status = bt::Node::Status;
+        using GoToType = control::PosControlType;
     public:
         explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
         std::string node_name() override;

@@ -38,6 +38,7 @@ EXPECT_FLOAT_EQ(pos.y, testPos.y);
 auto worldMsg = testhelpers::WorldHelper::getWorldMsg(3, 3, false, field);
 worldMsg.ball.pos = Vector2(0, 0);
 worldMsg.ball.visible = 1;
+worldMsg.ball.existence = 9999;
 World::set_world(worldMsg);
 
 // set the robot on the horizontal line from the ball to the goal
@@ -56,8 +57,10 @@ EXPECT_TRUE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToGoal(1, fa
 worldMsg = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
 worldMsg.ball.pos = Vector2(0, 0);
 worldMsg.ball.visible = 1;
+worldMsg.ball.existence = 9999;
 
-roboteam_msgs::WorldRobot robotToPointTo;
+
+    roboteam_msgs::WorldRobot robotToPointTo;
 robotToPointTo.id = 3;
 robotToPointTo.pos.x = -1;
 robotToPointTo.pos.y = -1;
