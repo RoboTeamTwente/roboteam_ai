@@ -151,15 +151,9 @@ PosVelAngle PositionController::pidController(const RobotPtr &robot, PosVelAngle
 
 /// compare current PID values to those set in the interface
 void PositionController::checkInterfacePID() {
-
-    if (posPID.getP() != interface::InterfaceValues::setNumTreePosP() ||
-            posPID.getI() != interface::InterfaceValues::getNumTreePosI() ||
-            posPID.getD() != interface::InterfaceValues::getNumTreePosD()) {
-
-        posPID.reset();
-        posPID.setPID(interface::InterfaceValues::setNumTreePosP(),
-                interface::InterfaceValues::getNumTreePosI(),
-                interface::InterfaceValues::getNumTreePosD());
+    posPID.setPID(interface::InterfaceValues::setNumTreePosP(),
+            interface::InterfaceValues::getNumTreePosI(),
+            interface::InterfaceValues::getNumTreePosD());
     }
 }
 
