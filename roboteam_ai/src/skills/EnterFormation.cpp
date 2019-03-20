@@ -14,7 +14,7 @@ std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> EnterFormation::robotsIn
 EnterFormation::EnterFormation(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void EnterFormation::onInitialize() {
-
+    robotsInFormationMemory = 0;
     // add the robot if its not already there.
     for (unsigned long i = 0; i<robotsInFormation.size(); i++) {
         if (robotsInFormation.at(i)->id == robot->id) {

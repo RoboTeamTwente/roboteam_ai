@@ -23,6 +23,7 @@ private:
     Vector2 targetLocation;
     static std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> allDefenders;
     Vector2 getDefensivePosition();
+    int allDefendersMemory = 0;
 };
 
 } // ai

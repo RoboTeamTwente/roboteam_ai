@@ -10,11 +10,26 @@ std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> Defend::allDefenders = {
 Defend::Defend(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void Defend::onInitialize() {
+    allDefendersMemory = 0;
+    // add the robot if its not already there.
+    for (unsigned long i = 0; i<allDefenders.size(); i++) {
+        if (allDefenders.at(i)->id == robot->id) {
+            return;
+        }
+    }
     allDefenders.push_back(robot);
-    targetLocation = getDefensivePosition();
 }
 
 bt::Node::Status Defend::onUpdate() {
+
+    /*
+ * Calculate the target location at least once, and every time when the amount of robots in the formation change.
+ */
+    if (allDefendersMemory != allDefenders.size()) {
+        targetLocation = getDefensivePosition();
+    }
+
+
     auto velocities = gtp.goToPos(robot, targetLocation, control::PosControlType::NUMERIC_TREES);
     roboteam_msgs::RobotCommand cmd;
     cmd.id = robot->id;
@@ -38,7 +53,7 @@ Vector2 Defend::getDefensivePosition() {
     for (unsigned int i = 0; i<allDefenders.size(); i++) {
         double targetLocationY = ((field.field_width/(allDefenders.size() + 1))*(i+1)) - field.field_width/2;
         targetLocations.push_back({targetLocationX, targetLocationY});
-        robotLocations.push_back(robot->pos);
+        robotLocations.push_back(allDefenders.at(i)->pos);
     }
 
     // the order of shortestDistances should be the same order as robotLocations
@@ -55,7 +70,7 @@ Vector2 Defend::getDefensivePosition() {
 
 void Defend::onTerminate(bt::Node::Status s) {
     for (int i = 0; i < allDefenders.size(); i++) {
-        if (allDefenders.at(i) == robot) {
+        if (allDefenders.at(i)->id == robot->id) {
             allDefenders.erase(allDefenders.begin() + i);
         }
     }
