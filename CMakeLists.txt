@@ -270,7 +270,6 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TacticTests/DefaultTacticTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/ControllerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/RobotDealerTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/CoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/HungarianTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/InterfaceTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/VisualizerTest.cpp
@@ -298,7 +297,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/TreeVisualizerWidget.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/TreeVisualizerWidget.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.h roboteam_ai/src/coach/PassCoach.cpp roboteam_ai/src/coach/PassCoach.h roboteam_ai/src/coach/Ballplacement.cpp roboteam_ai/src/coach/Ballplacement.h roboteam_ai/src/coach/GeneralPositionCoach.cpp roboteam_ai/src/coach/GeneralPositionCoach.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.h roboteam_ai/src/coach/PassCoach.cpp roboteam_ai/src/coach/PassCoach.h roboteam_ai/src/coach/Ballplacement.cpp roboteam_ai/src/coach/Ballplacement.h roboteam_ai/src/coach/GeneralPositionCoach.cpp roboteam_ai/src/coach/GeneralPositionCoach.h roboteam_ai/test/CoachTests/GeneralPositionCoachTest.cpp roboteam_ai/test/CoachTests/BallPlacementCoachTest.cpp)
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})

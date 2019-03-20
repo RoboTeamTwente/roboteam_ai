@@ -3,6 +3,7 @@
 //
 
 #include <gtest/gtest.h>
+#include <roboteam_ai/src/utilities/Field.h>
 #include "roboteam_ai/src/utilities/World.h"
 #include "../helpers/WorldHelper.h"
 
@@ -212,3 +213,40 @@ TEST(WorldTest,ball_visibility){
     EXPECT_FALSE(rtt::ai::World::ourBotHasBall(3));
     EXPECT_FALSE(rtt::ai::World::ourBotHasBall(0));
 }
+
+
+TEST(WorldTest, get_robot_closest_to_ball) {
+    roboteam_msgs::GeometryFieldSize field;
+    field.field_width = 12;
+    field.field_length = 8;
+    rtt::ai::Field::set_field(field);
+
+    using World = rtt::ai::World;
+
+    // create a world with 5v5 and one of our robots has the ball
+    auto world = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(5, 5, true, field);
+    World::set_world(world.first);
+    auto robotThatHasBallId = world.second;
+
+
+    // the right robot is closest
+    EXPECT_EQ(World::getRobotClosestToBall().first, robotThatHasBallId);
+
+    // it is our robot
+    EXPECT_TRUE(World::getRobotClosestToBall().second);
+    EXPECT_EQ(World::getRobotClosestToBall(true)->id, robotThatHasBallId);
+
+    // create a world with 5v5 and one of their robots has the ball
+    world = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(5, 5, false, field);
+    World::set_world(world.first);
+    robotThatHasBallId = world.second;
+
+    // the right robot is closest
+    EXPECT_EQ(World::getRobotClosestToBall().first, robotThatHasBallId);
+
+    // it is our robot
+    EXPECT_FALSE(World::getRobotClosestToBall().second);
+
+    EXPECT_EQ(World::getRobotClosestToBall(false)->id, robotThatHasBallId);
+}
+
