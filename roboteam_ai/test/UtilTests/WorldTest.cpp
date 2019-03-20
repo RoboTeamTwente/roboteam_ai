@@ -10,7 +10,6 @@
 TEST(WorldTest, it_sets_and_gets_the_world) {
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldBall ball;
-    EXPECT_FALSE(rtt::ai::World::didReceiveFirstWorld);
 
     ball.z = 42;
     ball.z_vel = 100;
