@@ -37,9 +37,7 @@ bt::Node::Status GoToPos::onUpdate() {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
 
-    std::cout << targetPos << std::endl;
     control::PosVelAngle pva = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES);
-    std::cout << pva.vel << std::endl;
     pva.vel = control::ControlUtils::VelocityLimiter(pva.vel, maxVel);
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);
