@@ -28,23 +28,16 @@ void PositionController::clear(PosControlType goToType) {
 }
 
 PosVelAngle PositionController::goToPos(RobotPtr robot, Vector2 &position) {
+    return PositionController::goToPos(robot, position, NO_PREFERENCE);
+}
+
+PosVelAngle PositionController::goToPos(RobotPtr robot, Vector2 &position, PosControlType goToType) {
     if (! robot) {
         ROS_ERROR("Error in PositionController->goToPos(robot %i): robot does not exist in world", robot->id);
         return {};
     }
-    PosControlType goToType = PosControlType::NUMERIC_TREES;
-    //TODO: do stuff that determines which gtp to use...
-
-    return PositionController::goToPos(std::move(robot), position, goToType);
-}
-
-PosVelAngle PositionController::goToPos(RobotPtr robot, Vector2 &position, PosControlType goToType) {
-    if (! robot)
-        return {};
 
     switch (goToType) {
-    case PosControlType::NO_PREFERENCE:
-        return PositionController::goToPos(robot, position);
     case PosControlType::BALL_CONTROL:
         return PositionController::ballControl(robot, position);
     case PosControlType::BASIC:
@@ -52,6 +45,7 @@ PosVelAngle PositionController::goToPos(RobotPtr robot, Vector2 &position, PosCo
     case PosControlType::FORCE:
         return PositionController::force(robot, position);
     case PosControlType::NUMERIC_TREES:
+        return PositionController::numTree(robot, position);
     default:
         return PositionController::numTree(robot, position);
     }
@@ -65,14 +59,13 @@ PosVelAngle PositionController::basic(RobotPtr robot, Vector2 &targetPos) {
 
     PosVelAngle posVelAngle;
     Vector2 error;
-    error.x = targetPos.x - robot->pos.x;
-    error.y = targetPos.y - robot->pos.y;
+    error = targetPos - robot->pos;
     velPID.reset();
     posPID.reset();
     if (error.length() < rtt::ai::Constants::ROBOT_RADIUS())
-        posPID.setPID(3.0, 1.0, 0.2);
+        posPID.setPID(3.0, 0, 0.2);
     else
-        posPID.setPID(3.0, 0.5, 1.5);
+        posPID.setPID(3.0, 0, 1.5);
 
     PIDHasInitialized = true;
     posVelAngle.vel = error;
