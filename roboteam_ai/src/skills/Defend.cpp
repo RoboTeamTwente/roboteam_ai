@@ -27,8 +27,8 @@ bt::Node::Status Defend::onUpdate() {
  */
     if (allDefendersMemory != allDefenders.size()) {
         targetLocation = getDefensivePosition();
+        allDefendersMemory = allDefenders.size();
     }
-
 
     auto velocities = gtp.goToPos(robot, targetLocation, control::PosControlType::NUMERIC_TREES);
     roboteam_msgs::RobotCommand cmd;
@@ -61,7 +61,7 @@ Vector2 Defend::getDefensivePosition() {
     auto shortestDistances = control::ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(robotLocations, targetLocations);
 
     for (unsigned long i = 0; i<allDefenders.size(); i++) {
-        if (allDefenders.at(i) == robot) {
+        if (allDefenders.at(i)->id == robot->id) {
             return shortestDistances.at(i).second;
         }
     }

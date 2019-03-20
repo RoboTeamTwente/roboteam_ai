@@ -33,11 +33,8 @@ bt::Node::Status EnterFormation::onUpdate() {
         targetLocation = getFormationPosition();
         robotsInFormationMemory = robotsInFormation.size();
     }
-
-
     auto robotPos = rtt::Vector2(robot->pos);
     Vector2 targetToLookAtLocation = Field::get_their_goal_center();
-
     roboteam_msgs::RobotCommand cmd;
     cmd.id = robot->id;
     cmd.use_angle = 1;

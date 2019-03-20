@@ -307,7 +307,7 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/Ballplacement.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/Ballplacement.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GeneralPositionCoach.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GeneralPositionCoach.h roboteam_ai/test/SkillTests/FormationTest.cpp)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GeneralPositionCoach.h roboteam_ai/test/SkillTests/FormationTest.cpp roboteam_ai/test/SkillTests/DefendTest.cpp)
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})

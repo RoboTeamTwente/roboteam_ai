@@ -7,11 +7,13 @@
 #define ROBOTEAM_AI_DEFEND_H
 
 #include "Skill.h"
+#include "gtest/gtest_prod.h"
 
 namespace rtt {
 namespace ai {
 
 class Defend : public Skill {
+    FRIEND_TEST(Defendtest, defend_test);
 
 public:
     explicit Defend(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
