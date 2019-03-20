@@ -3,7 +3,9 @@
 //
 
 #include <roboteam_ai/src/coach/Ballplacement.h>
+#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
 #include "BasicGoToPos.h"
+#include <roboteam_ai/src/utilities/Field.h>
 
 namespace rtt {
 namespace ai {
@@ -37,7 +39,7 @@ void BasicGoToPos::onInitialize() {
     else if (properties->getBool("DemoKeeperGetBall")){
         if(ball){
             errorMargin=0.05;
-            targetPos=coach::Coach::getDemoKeeperGetBallPos(ball->pos);
+            targetPos=coach::g_generalPositionCoach.getDemoKeeperGetBallPos(ball->pos);
         }
         else{
             ROS_ERROR("BasicGoToPos: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
@@ -64,7 +66,7 @@ Skill::Status BasicGoToPos::onUpdate() {
         targetPos=coach::g_ballPlacement.getBallPlacementBeforePos(ball->pos);
     }
     else if(properties->getBool("DemoKeeperGetBall")){
-        targetPos=coach::Coach::getDemoKeeperGetBallPos(ball->pos);
+        targetPos=coach::g_generalPositionCoach.getDemoKeeperGetBallPos(ball->pos);
     }
 
     if (properties->getBool("getBallFromSide")) targetPos = getBallFromSideLocation();

@@ -6,7 +6,6 @@
 #define ROBOTEAM_AI_ISBEINGPASSEDTO_H
 
 #include "Condition.h"
-#include "../utilities/Coach.h"
 
 namespace rtt {
 namespace ai {

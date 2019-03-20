@@ -1,5 +1,4 @@
 #include "Defend.h"
-#include "../utilities/Coach.h"
 #include "../utilities/Field.h"
 #include "../control/ControlUtils.h"
 

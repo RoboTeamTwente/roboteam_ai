@@ -3,7 +3,6 @@
 //
 
 #include "DefendOnRobot.h"
-#include "../utilities/Coach.h"
 
 namespace rtt{
 namespace ai{
@@ -28,6 +27,24 @@ void DefendOnRobot::onInitialize() {
 void DefendOnRobot::onTerminate(Skill::Status s) {
    // coach::Coach::defencePairs.erase(robot->id);
 }
+
+
+//int Coach::pickOpponentToCover(int selfID) {
+////    dangerfinder::DangerData DangerData = dangerfinder::DangerFinder::instance().getMostRecentData();
+////    std::vector<int> dangerList = DangerData.dangerList;
+////    for (int &opponentID : dangerList) {
+////        if (defencePairs.find(opponentID) == defencePairs.end()) {
+////            if (! World::theirBotHasBall(static_cast<unsigned int>(opponentID))) {
+////                return opponentID;
+////            }
+////        }
+////        else if (defencePairs[opponentID] == selfID) {
+////            return opponentID;
+////        }
+////    }
+//
+//    return - 1;
+//}
 
 bt::Node::Status DefendOnRobot::onUpdate() {
     opponentWithBall = World::getRobotForId(static_cast<unsigned int>(opponentWithBallID), false);

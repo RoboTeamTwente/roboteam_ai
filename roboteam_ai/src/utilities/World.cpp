@@ -304,6 +304,33 @@ roboteam_msgs::WorldBall World::updateBallPosition(roboteam_msgs::World _world) 
     }
     return newBall;
 }
+
+
+std::pair<int, bool> World::getRobotClosestToBall() {
+    auto closestUs = World::getRobotClosestToPoint(World::get_world().us, World::getBall()->pos);
+    auto closestThem = World::getRobotClosestToPoint(World::get_world().them, World::getBall()->pos);
+
+    auto distanceToBallUs = (Vector2(closestUs->pos).dist(Vector2(World::getBall()->pos)));
+    auto distanceToBallThem = (Vector2(closestThem->pos).dist(Vector2(World::getBall()->pos)));
+
+    roboteam_msgs::WorldRobot closestRobot;
+    bool weAreCloser;
+
+    if (distanceToBallUs < distanceToBallThem) {
+        closestRobot = * closestUs;
+        weAreCloser = true;
+    } else {
+        closestRobot = * closestThem;
+        weAreCloser = false;
+    }
+
+    return std::make_pair(closestRobot.id, weAreCloser);
+}
+
+std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotClosestToBall(bool isOurTeam) {
+    return World::getRobotClosestToPoint(isOurTeam ? World::get_world().us : World::get_world().them, World::getBall()->pos);
+}
+
 /// returns all the robots in the field, both us and them.
 std::vector<roboteam_msgs::WorldRobot> World::getAllRobots() {
     std::lock_guard<std::mutex> lock(worldMutex);

@@ -3,6 +3,7 @@
 //
 
 #include <roboteam_ai/src/coach/PassCoach.h>
+#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
 #include <roboteam_ai/src/utilities/Constants.h>
 #include "Pass.h"
 
@@ -26,9 +27,9 @@ Pass::Status Pass::onUpdate() {
 
     switch(currentProgress) {
         case Progression::POSITIONING: {
-            if (!coach::Coach::isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos)) {
+            if (!coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos)) {
                 goToType = GoToType::NUMERIC_TREES;
-                targetPos = Coach::getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
+                targetPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
             } else if (!World::ourBotHasBall(robot->id)) {
                 goToType = GoToType::BASIC;
                 targetPos = ball->pos;
