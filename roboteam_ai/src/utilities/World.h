@@ -68,6 +68,10 @@ public:
         static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToPoint(const Vector2 &point,
                 const int &myID);
         static roboteam_msgs::World futureWorld(double time, double maxTimeOffset = 0.11);
+
+        static std::pair<int, bool> getRobotClosestToBall();
+
+        static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToBall(bool isOurTeam);
 };
 
 } // ai
