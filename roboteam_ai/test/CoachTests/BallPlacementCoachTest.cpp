@@ -19,6 +19,7 @@ EXPECT_FLOAT_EQ(ballplacementTarget.dist(rtt::ai::coach::g_ballPlacement.getBall
 roboteam_msgs::World worldMsg;
 worldMsg.ball.pos = Vector2(0, 0);
 worldMsg.ball.visible = 1;
+worldMsg.ball.existence = 9999;
 rtt::ai::World::set_world(worldMsg);
 
 EXPECT_FLOAT_EQ(Vector2(rtt::ai::World::getBall()->pos).dist(rtt::ai::coach::g_ballPlacement.getBallPlacementBeforePos(rtt::ai::World::getBall()->pos)), rtt::ai::Constants::BP_MOVE_TOWARDS_DIST());
