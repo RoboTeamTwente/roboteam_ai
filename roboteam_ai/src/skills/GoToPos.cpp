@@ -19,19 +19,18 @@ void GoToPos::onInitialize() {
     }
 
     if (properties->hasDouble("maxVel")) {
-        speed = properties->getDouble("maxVel");
+        maxVel = properties->getDouble("maxVel");
     }
 
-    if (properties->getBool("avoidBall")) {
-        goToPos.setAvoidBall(true);
-    }
+    goToPos.setAvoidBall(properties->getBool("avoidBall"));
+    goToPos.setCanGoOutsideField(properties->getBool("canGoOutsideField"));
 }
 
 /// Get an update on the skill
 bt::Node::Status GoToPos::onUpdate() {
     if (! robot) return Status::Running;
 
-    if ((targetPos - robot->pos).length() < Constants::GOTOPOS_ERROR_MARGIN()) {
+    if ((targetPos - robot->pos).length() < errorMargin) {
         return Status::Success;
     }
 

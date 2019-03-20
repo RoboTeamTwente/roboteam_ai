@@ -7,22 +7,28 @@
 
 #include <roboteam_ai/src/control/PositionController.h>
 #include "Skill.h"
+#include "GoToPos.h"
 #include "../interface/drawer.h"
 
 
 namespace rtt {
 namespace ai {
 
-class BasicGoToPos : public Skill {
+class GTPSpecial : public GoToPos {
+    private:
+        enum Type {
+            goToBall,
+            ballPlacementBefore,
+            ballPlacementAfter,
+            getBallFromSide
+        };
+
+        Type type;
+        Type stringToType(std::string string);
+
     public:
-        explicit BasicGoToPos(string name, bt::Blackboard::Ptr blackboard);
-        Status onUpdate() override;
+        explicit GTPSpecial(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;
-        void onTerminate(Status s) override;
-        Vector2 targetPos;
-        control::PositionController goToPos;
-        double errorMargin = 0.05;
-        double maxVel;
 
         double getballFromSideMargin = 0.3;
         Vector2 getBallFromSideLocation();

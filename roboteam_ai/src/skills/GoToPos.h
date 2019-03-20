@@ -11,11 +11,12 @@ namespace rtt {
 namespace ai {
 
 class GoToPos : public Skill {
-    private:
-        Vector2 targetPos = {0, 0};
-        double speed = Constants::DEFAULT_MAX_VEL();
-        control::PositionController goToPos;
     public:
+        Vector2 targetPos = {0, 0};
+        double maxVel = Constants::DEFAULT_MAX_VEL();
+        control::PositionController goToPos;
+        double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
+
         explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;
         void onInitialize() override;
