@@ -2,14 +2,6 @@
 // Created by mrlukasbos on 20-3-19.
 //
 
-//
-// Created by mrlukasbos on 20-3-19.
-//
-
-//
-// Created by robzelluf on 1/29/19.
-//
-
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/utilities/RobotDealer.h>
 #include <roboteam_ai/src/utilities/Field.h>
