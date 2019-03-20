@@ -41,6 +41,7 @@ TEST(GoToPos, GoToPosTest) {
     rtt::ai::GoToPos goToPos("GTPtest", bb);
     goToPos.initialize();
 
+    EXPECT_EQ(goToPos.targetPos, bb->getVector2("targetPos"));
     EXPECT_EQ(goToPos.update(), bt::Leaf::Status::Running);
 
     robot.pos.x = 5.0;
