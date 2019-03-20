@@ -6,11 +6,13 @@
 #define ROBOTEAM_AI_ENTERFORMATION_H
 
 #include "Skill.h"
+#include "gtest/gtest_prod.h"
 
 namespace rtt {
 namespace ai {
 
 class EnterFormation : public Skill {
+    FRIEND_TEST(FormationTest, formation_test);
 public:
     explicit EnterFormation(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
     void onInitialize() override;

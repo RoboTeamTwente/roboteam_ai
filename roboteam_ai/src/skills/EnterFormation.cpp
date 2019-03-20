@@ -31,6 +31,7 @@ bt::Node::Status EnterFormation::onUpdate() {
      */
     if (robotsInFormationMemory != robotsInFormation.size()) {
         targetLocation = getFormationPosition();
+        robotsInFormationMemory = robotsInFormation.size();
     }
 
 
@@ -80,8 +81,11 @@ Vector2 EnterFormation::getFormationPosition() {
 }
 
 void EnterFormation::onTerminate(bt::Node::Status s) {
-    //https://en.wikipedia.org/wiki/Erase%E2%80%93remove_idiom
-    robotsInFormation.erase(std::remove(robotsInFormation.begin(), robotsInFormation.begin(), robot), robotsInFormation.end());
+    for (unsigned long i = 0; i<robotsInFormation.size(); i++) {
+        if (robotsInFormation.at(i)->id == robot->id) {
+            robotsInFormation.erase(robotsInFormation.begin() + i);
+        }
+    }
 }
 } // ai
 } // rtt
