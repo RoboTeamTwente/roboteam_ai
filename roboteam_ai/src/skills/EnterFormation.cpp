@@ -21,7 +21,6 @@ void EnterFormation::onInitialize() {
             return;
         }
     }
-
     robotsInFormation.push_back(robot);
 }
 

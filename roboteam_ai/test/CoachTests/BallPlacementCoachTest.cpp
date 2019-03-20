@@ -8,19 +8,19 @@
 #include <roboteam_ai/src/control/ControlUtils.h>
 
 TEST(CoachTest, it_handles_ballplacement_positions) {
-rtt::ai::interface::InterfaceValues::setBallPlacementTarget({2.3, 0.3});
+    rtt::ai::interface::InterfaceValues::setBallPlacementTarget({2.3, 0.3});
 
-auto ballplacementTarget = rtt::ai::coach::g_ballPlacement.getBallPlacementPos();
-EXPECT_EQ(ballplacementTarget.x, 2.3);
-EXPECT_EQ(ballplacementTarget.y, 0.3);
+    auto ballplacementTarget = rtt::ai::coach::g_ballPlacement.getBallPlacementPos();
+    EXPECT_EQ(ballplacementTarget.x, 2.3);
+    EXPECT_EQ(ballplacementTarget.y, 0.3);
 
-EXPECT_FLOAT_EQ(ballplacementTarget.dist(rtt::ai::coach::g_ballPlacement.getBallPlacementAfterPos(0.2)), rtt::ai::Constants::BP_MOVE_BACK_DIST());
+    EXPECT_FLOAT_EQ(ballplacementTarget.dist(rtt::ai::coach::g_ballPlacement.getBallPlacementAfterPos(0.2)), rtt::ai::Constants::BP_MOVE_BACK_DIST());
 
-roboteam_msgs::World worldMsg;
-worldMsg.ball.pos = Vector2(0, 0);
-worldMsg.ball.visible = 1;
-worldMsg.ball.existence = 9999;
-rtt::ai::World::set_world(worldMsg);
+    roboteam_msgs::World worldMsg;
+    worldMsg.ball.pos = Vector2(0, 0);
+    worldMsg.ball.visible = 1;
+    worldMsg.ball.existence = 9999;
+    rtt::ai::World::set_world(worldMsg);
 
-EXPECT_FLOAT_EQ(Vector2(rtt::ai::World::getBall()->pos).dist(rtt::ai::coach::g_ballPlacement.getBallPlacementBeforePos(rtt::ai::World::getBall()->pos)), rtt::ai::Constants::BP_MOVE_TOWARDS_DIST());
+    EXPECT_FLOAT_EQ(Vector2(rtt::ai::World::getBall()->pos).dist(rtt::ai::coach::g_ballPlacement.getBallPlacementBeforePos(rtt::ai::World::getBall()->pos)), rtt::ai::Constants::BP_MOVE_TOWARDS_DIST());
 }

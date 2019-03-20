@@ -2,6 +2,12 @@
 // Created by mrlukasbos on 19-3-19.
 //
 
+/*
+ *
+ * This class contains functionality for retreiving some tactical positions in the game
+ *
+ */
+
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/utilities/Field.h>
 #include "GeneralPositionCoach.h"
@@ -10,7 +16,9 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
+// create the global object
 GeneralPositionCoach g_generalPositionCoach;
+
 
 rtt::Vector2 GeneralPositionCoach::getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal) {
     const Vector2 &goal = (ourGoal ? Field::get_our_goal_center : Field::get_their_goal_center)();
@@ -19,11 +27,11 @@ rtt::Vector2 GeneralPositionCoach::getPositionBehindBallToGoal(double distanceBe
 
 Vector2 GeneralPositionCoach::getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID) {
     Vector2 robot;
-    if (World::getRobotForId(robotID, ourRobot))
+    if (World::getRobotForId(robotID, ourRobot)) {
         robot = World::getRobotForId(robotID, ourRobot).get()->pos;
-    else
-        return Vector2();
-    return getPositionBehindBallToPosition(distanceBehindBall, robot);
+        return getPositionBehindBallToPosition(distanceBehindBall, robot);
+    }
+    return Vector2();
 }
 
 Vector2 GeneralPositionCoach::getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position) {
@@ -39,11 +47,11 @@ bool GeneralPositionCoach::isRobotBehindBallToGoal(double distanceBehindBall, bo
 bool GeneralPositionCoach::isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID,
         const Vector2 &robotPosition) {
     Vector2 robot;
-    if (World::getRobotForId(robotID, ourRobot))
+    if (World::getRobotForId(robotID, ourRobot)) {
         robot = World::getRobotForId(robotID, ourRobot).get()->pos;
-    else
-        return false;
-    return isRobotBehindBallToPosition(distanceBehindBall, robot, robotPosition);
+        return isRobotBehindBallToPosition(distanceBehindBall, robot, robotPosition);
+    }
+    return false;
 }
 
 bool GeneralPositionCoach::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position,
@@ -53,7 +61,6 @@ bool GeneralPositionCoach::isRobotBehindBallToPosition(double distanceBehindBall
     Vector2 deltaBall = behindBallPosition - ball;
 
     double angleMargin = 0.12;
-
     return (control::ControlUtils::pointInTriangle(robotPosition, ball, ball + (deltaBall).rotate(M_PI*angleMargin).scale(2.0),
             ball + (deltaBall).rotate(M_PI*- angleMargin).scale(2.0)));
 }
