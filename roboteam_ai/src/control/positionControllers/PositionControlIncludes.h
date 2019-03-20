@@ -3,6 +3,7 @@
 //
 
 #include <utility>
+#include <memory>
 #include <queue>
 #include <cstdlib>
 #include <time.h>
