@@ -8,13 +8,13 @@ namespace ai{
 BallNearOurGoalLineAndStill::BallNearOurGoalLineAndStill(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
 
-void BallNearOurGoalLineAndStill::initialize() {
+void BallNearOurGoalLineAndStill::onInitialize() {
     if (properties->hasDouble("margin")) {
         margin = properties->getDouble("margin");
     }
 }
 
-bt::Node::Status BallNearOurGoalLineAndStill::update() {
+bt::Node::Status BallNearOurGoalLineAndStill::onUpdate() {
     Vector2 ballPos = World::getBall()->pos;
     if (ballPos.x<(Field::get_field().left_line.begin.x+margin)&&Vector2(ball->vel).length()<Constants::BALL_STILL_VEL()) {
         return Status::Success;

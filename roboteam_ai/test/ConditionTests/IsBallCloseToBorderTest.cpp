@@ -20,6 +20,7 @@ TEST(IsBallCloseToBorderTest, is_not_close_to_border) {
     roboteam_msgs::World world;
     world.ball.pos = Vector2{0, 0};
     world.ball.visible = static_cast<unsigned char>(true);
+    world.ball.existence = 99999;
     World::set_world(world);
     
     bt::Blackboard properties;
@@ -40,6 +41,7 @@ TEST(IsBallCloseToBorderTest, is_close_to_border) {
     roboteam_msgs::World world;
     world.ball.visible = 1;
     world.ball.pos = Vector2{5.90, 4.40};
+    world.ball.existence = 99999;
     World::set_world(world);
 
     bt::Blackboard properties;

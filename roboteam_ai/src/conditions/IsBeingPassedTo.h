@@ -13,8 +13,7 @@ namespace ai {
 class IsBeingPassedTo : public Condition {
 public:
     explicit IsBeingPassedTo(std::string name = "IsBeingPassedTo", bt::Blackboard::Ptr blackboard = nullptr);
-    void initialize() override;
-    Status update() override;
+    Status onUpdate() override;
     std::string node_name() override;
 };
 
