@@ -17,6 +17,7 @@ void DemoAttack::onInitialize() {
     ownGoal = properties->getBool("ownGoal");
     goToPos.setAvoidBall(true);
     shot = false;
+    goToType = GoToType::NUMERIC_TREES;
 }
 
 /// Get an update on the skill
@@ -28,20 +29,22 @@ bt::Node::Status DemoAttack::onUpdate() {
     }
 
     Vector2 ball = World::getBall()->pos;
-    Vector2 behindBall = coach::g_generalPositionCoach.getPositionBehindBallToGoal(0.4, ownGoal);
+    Vector2 behindBall = coach::g_generalPositionCoach.getPositionBehindBallToGoal(BEHIND_BALL_TARGET, ownGoal);
     Vector2 deltaBall = behindBall - ball;
 
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
 
-    if (!coach::g_generalPositionCoach.isRobotBehindBallToGoal(0.6, ownGoal, robot->pos)) {
+    if (!coach::g_generalPositionCoach.isRobotBehindBallToGoal(BEHIND_BALL_CHECK, ownGoal, robot->pos)) {
         targetPos = behindBall;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
         goToPos.setAvoidBall(true);
+        goToType = GoToType::NUMERIC_TREES;
 
-        if (abs(((Vector2) robot->pos - targetPos).length()) < 0.10) {
+        if (abs(((Vector2) robot->pos - targetPos).length()) < SWITCH_TO_BASICGTP_DISTANCE) {
             goToPos.setAvoidBall(false);
+            goToType = GoToType::BASIC;
         }
     }
     else {
@@ -71,7 +74,7 @@ bt::Node::Status DemoAttack::onUpdate() {
         velocity = {0, 0};
     }
     else {
-        velocity = goToPos.goToPos(robot, targetPos, GoToType::NUMERIC_TREES).vel;
+        velocity = goToPos.goToPos(robot, targetPos, goToType).vel;
     }
 
     velocity = control::ControlUtils::VelocityLimiter(velocity);

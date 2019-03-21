@@ -16,6 +16,7 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 void Attack::onInitialize() {
     goToPos.setAvoidBall(true);
     shot = false;
+    goToType = GoToType::NUMERIC_TREES;
 }
 
 /// Get an update on the skill
@@ -27,20 +28,22 @@ bt::Node::Status Attack::onUpdate() {
     }
 
     Vector2 ball = World::getBall()->pos;
-    Vector2 behindBall = coach::g_generalPositionCoach.getPositionBehindBallToGoal(0.4, false);
+    Vector2 behindBall = coach::g_generalPositionCoach.getPositionBehindBallToGoal(BEHIND_BALL_TARGET, false);
     Vector2 deltaBall = behindBall - ball;
 
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
 
-    if (!coach::g_generalPositionCoach.isRobotBehindBallToGoal(0.6, false, robot->pos)) {
+    if (!coach::g_generalPositionCoach.isRobotBehindBallToGoal(BEHIND_BALL_CHECK, false, robot->pos)) {
         targetPos = behindBall;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
         goToPos.setAvoidBall(true);
+        goToType = GoToType::NUMERIC_TREES;
 
-        if (abs(((Vector2) robot->pos - targetPos).length()) < 0.10) {
+        if (abs(((Vector2) robot->pos - targetPos).length()) < SWITCH_TO_BASICGTP_DISTANCE) {
             goToPos.setAvoidBall(false);
+            goToType = GoToType::BASIC;
         }
     }
     else {
@@ -63,14 +66,14 @@ bt::Node::Status Attack::onUpdate() {
     else if (Field::pointIsInDefenceArea(robot->pos, false, 0.0)) {
         velocity = ((Vector2) robot->pos - Field::get_their_goal_center()).stretchToLength(2.0);
     }
-    else if (Field::pointIsInDefenceArea(ball, false) || Field::pointIsInDefenceArea(ball, !false)) {
+    else if (Field::pointIsInDefenceArea(ball, false) || Field::pointIsInDefenceArea(ball, true)) {
         velocity = {0, 0};
     }
     else if (Field::pointIsInDefenceArea(targetPos, false)) {
         velocity = {0, 0};
     }
     else {
-        velocity = goToPos.goToPos(robot, targetPos, GoToType::NUMERIC_TREES).vel;
+        velocity = goToPos.goToPos(robot, targetPos, goToType).vel;
     }
 
     velocity = control::ControlUtils::VelocityLimiter(velocity);
