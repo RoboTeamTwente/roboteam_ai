@@ -21,6 +21,7 @@ public:
 
 private:
     control::PositionController gtp;
+    double errorMargin = 0.1;
 
     static std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> robotsInFormation;
     int robotsInFormationMemory = 0;

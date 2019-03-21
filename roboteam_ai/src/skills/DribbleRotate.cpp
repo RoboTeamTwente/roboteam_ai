@@ -1,5 +1,3 @@
-
-
 //
 // Created by rolf on 14/12/18.
 //
@@ -34,7 +32,7 @@ void DribbleRotate::onInitialize() {
         maxSpeed = properties->getDouble("maxVel");
     }
     else {
-        maxSpeed = Constants::DRIBBLE_ROTATE_MAX_SPEED();
+        maxSpeed = MAX_SPEED;
     }
     if (properties->hasDouble("Angle")) {
         targetAngle = properties->getDouble("Angle");
@@ -56,7 +54,7 @@ void DribbleRotate::onInitialize() {
     incrementAngle= maxSpeed/Constants::TICK_RATE();
     currentProgression=ROTATING;
     currentTick=0;
-    extraTick= static_cast<int>(Constants::DRIBBLE_ROTATE_WAIT_TIME() * Constants::TICK_RATE());
+    extraTick= static_cast<int>(WAIT_TIME * Constants::TICK_RATE());
     dir=Control::rotateDirection(startAngle,targetAngle);
     maxTick=(int)floor(Control::angleDifference(startAngle,targetAngle)/maxSpeed*Constants::TICK_RATE());
     if (!World::ourBotHasBall(robot->id,Constants::MAX_BALL_RANGE())){
