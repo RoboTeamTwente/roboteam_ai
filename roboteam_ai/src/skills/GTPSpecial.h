@@ -23,7 +23,8 @@ class GTPSpecial : public GoToPos {
             goToBall,
             ballPlacementBefore,
             ballPlacementAfter,
-            getBallFromSide
+            getBallFromSide,
+            defaultType
         };
 
         Type type;

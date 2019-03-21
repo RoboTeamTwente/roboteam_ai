@@ -14,29 +14,31 @@ GTPSpecial::GTPSpecial(string name, bt::Blackboard::Ptr blackboard)
 
 void GTPSpecial::onInitialize() {
     if (properties->hasDouble("errorMargin")) {
-        errorMargin = properties->getDouble("errorMargin");
-    }
+        errorMargin = properties->getDouble("errorMargin");    }
 
-    if (properties->hasString("type")) {
-        type = stringToType(properties->getString("type"));
-        switch (type) {
-            case goToBall: {
-                targetPos = ball->pos;
-                break;
-            }
-            case ballPlacementBefore: {
-                targetPos = coach::g_ballPlacement.getBallPlacementBeforePos(ball->pos);
-                break;
-            }
-            case ballPlacementAfter: {
-                errorMargin = 0.05;
-                targetPos = coach::g_ballPlacement.getBallPlacementAfterPos(robot->angle);
-                break;
-            }
-            case getBallFromSide: {
-                targetPos = getBallFromSideLocation();
-                break;
-            }
+    type = stringToType(properties->getString("type"));
+    switch (type) {
+        case goToBall: {
+            targetPos = ball->pos;
+            break;
+        }
+        case ballPlacementBefore: {
+            targetPos = coach::g_ballPlacement.getBallPlacementBeforePos(ball->pos);
+            break;
+        }
+        case ballPlacementAfter: {
+            errorMargin = 0.05;
+            targetPos = coach::g_ballPlacement.getBallPlacementAfterPos(robot->angle);
+            break;
+        }
+        case getBallFromSide: {
+            targetPos = getBallFromSideLocation();
+            break;
+        }
+        case defaultType: {
+            targetPos = {0, 0};
+            ROS_WARN("GTPSpecial was not given any type! Defaulting to {0, 0}");
+            break;
         }
     }
 
@@ -92,6 +94,9 @@ GTPSpecial::Type GTPSpecial::stringToType(std::string string) {
     }
     else if (string == "getBallFromSide") {
         return getBallFromSide;
+    }
+    else {
+        return defaultType;
     }
 }
 
