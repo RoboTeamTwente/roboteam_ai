@@ -1,9 +1,10 @@
 //
-// Created by robzelluf on 3/8/19.
+// Created by robzelluf on 3/21/19.
 //
 
 #ifndef ROBOTEAM_AI_OFFENSIVECOACH_H
 #define ROBOTEAM_AI_OFFENSIVECOACH_H
+
 
 #include <roboteam_utils/Vector2.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
@@ -18,8 +19,8 @@ namespace coach {
 class OffensiveCoach {
 public:
     struct OffensivePosition {
-        Vector2 position;
-        double score;
+    Vector2 position;
+    double score;
     };
 
     static void calculateNewPositions();
@@ -30,6 +31,8 @@ public:
     static Vector2 getPositionForRobotID(int robotID);
     static std::vector<OffensivePosition> getRobotPositionVectors();
     static int getBestStrikerID();
+    static const vector<OffensivePosition> &getOffensivePositions();
+    static const map<int, OffensivePosition> &getRobotPositions();
 
 
 private:
@@ -38,16 +41,8 @@ private:
     static double maxDistanceFromBall;
 
     static std::vector<OffensivePosition> offensivePositions;
-public:
-    static const vector<OffensivePosition> &getOffensivePositions();
-
-private:
     static int maxPositions;
     static std::map<int, OffensivePosition> robotPositions;
-public:
-    static const map<int, OffensivePosition> &getRobotPositions();
-
-private:
 
     static bool compareByScore(OffensivePosition position1, OffensivePosition position2);
     static double calculateCloseToGoalScore(Vector2 position);
@@ -66,6 +61,8 @@ private:
 
     static Vector2 getClosestOffensivePosition(const shared_ptr<roboteam_msgs::WorldRobot> &robot);
 };
+
+extern OffensiveCoach g_offensiveCoach;
 
 }
 }

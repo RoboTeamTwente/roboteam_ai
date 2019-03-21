@@ -83,7 +83,7 @@ void ApplicationManager::runOneLoopCycle() {
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
 
-        rtt::ai::coach::OffensiveCoach::calculateNewPositions();
+        rtt::ai::coach::g_offensiveCoach.calculateNewPositions();
     }
     else {
         ROS_ERROR("No first world");

@@ -72,6 +72,7 @@ bool ControlUtils::clearLine(Vector2 fromPos, Vector2 toPos, roboteam_msgs::Worl
     double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor * 3;
 
     for (auto enemy : world.them) {
+        //TODO: Check if the keeper should be taken into account and get it from the referee
         if (distanceToLineWithEnds(enemy.pos, fromPos, toPos) < minDistance) {
             return false;
         }

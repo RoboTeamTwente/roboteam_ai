@@ -2,7 +2,11 @@
 // Created by robzelluf on 1/22/19.
 //
 
+#include <roboteam_ai/src/coach/PassCoach.h>
+#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
+#include <roboteam_ai/src/utilities/Constants.h>
 #include "Pass.h"
+
 namespace rtt {
 namespace ai {
 Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
@@ -11,7 +15,7 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
 
 void Pass::onInitialize() {
     goToPos.setAvoidBall(true);
-    robotToPassToID = coach::Coach::initiatePass();
+    robotToPassToID = coach::g_pass.initiatePass();
     currentProgress = Progression::POSITIONING;
 }
 
@@ -23,17 +27,15 @@ Pass::Status Pass::onUpdate() {
 
     switch(currentProgress) {
         case Progression::POSITIONING: {
-            if (!coach::Coach::isRobotBehindBallToPosition(0.40, robotToPassTo->pos, robot->pos)) {
-                goToType = GoToType::BASIC;
-                targetPos = Coach::getPositionBehindBallToPosition(0.35, robotToPassTo->pos);
-                goToPos.setAvoidBall(true);
-            } else if (!World::ourBotHasBall(robot->id, Constants::MAX_KICK_RANGE())) {
+            if (!coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos)) {
+                goToType = GoToType::NUMERIC_TREES;
+                targetPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
+            } else if (!World::ourBotHasBall(robot->id)) {
                 goToType = GoToType::BASIC;
                 targetPos = ball->pos;
                 goToPos.setAvoidBall(false);
             } else {
-                if (coach::Coach::isReadyToReceivePass()) currentProgress = Progression::KICKING;
-                goToPos.setAvoidBall(false);
+                if (coach::g_pass.isReadyToReceivePass()) currentProgress = Progression::KICKING;
                 return Status::Running;
             }
             command.use_angle = 1;
@@ -68,8 +70,8 @@ Pass::Status Pass::onUpdate() {
             }
 
             if (Vector2(ball->vel).length() > 0.4 || ((Vector2)robot->pos - ball->pos).length() > rtt::ai::Constants::MAX_BALL_RANGE() * 2) {
-                Coach::setRobotBeingPassedTo(-1);
-                Coach::setPassed(true);
+                coach::g_pass.setRobotBeingPassedTo(-1);
+                coach::g_pass.setPassed(true);
                 return Status::Success;
             } else if (checkTicks < maxCheckTicks) {
                 checkTicks++;

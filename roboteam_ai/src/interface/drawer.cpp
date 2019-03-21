@@ -14,7 +14,8 @@ std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::KeeperPoints;
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::InterceptPoints;
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::AttackerPoints;
 std::vector<std::pair<Vector2, QColor>> Drawer::OffensivePoints;
-std::vector<std::pair<Vector2, QColor>> Drawer::drawPoints;
+std::vector<std::pair<Vector2, QColor>> Drawer::drawP;
+std::vector<std::tuple<Vector2, Vector2, QColor>> Drawer::drawL;
 
 std::mutex Drawer::keeperMutex;
 std::mutex Drawer::goToPosMutex;
@@ -22,6 +23,7 @@ std::mutex Drawer::interceptMutex;
 std::mutex Drawer::offensiveMutex;
 std::mutex Drawer::attackerMutex;
 std::mutex Drawer::drawMutex;
+std::mutex Drawer::drawLinesMutex;
 
 void Drawer::setNumTreePoints(int id, GTPPoints points) {
     std::lock_guard<std::mutex> lock(goToPosMutex);
@@ -85,24 +87,44 @@ Drawer::GTPPoints Drawer::getInterceptPoints(int id) {
     return {};
 
 }
-void Drawer::addDrawPoint(Vector2 position, QColor color) {
+void Drawer::drawPoint(Vector2 position, QColor color) {
     std::pair<Vector2, QColor> point = {position, color};
-    addDrawPoint(point);
+    drawPoint(point);
 }
 
-void Drawer::addDrawPoint(std::pair<Vector2, QColor> point) {
+void Drawer::drawPoint(std::pair<Vector2, QColor> point) {
     std::lock_guard<std::mutex> lock(drawMutex);
-    drawPoints.push_back(point);
+    drawP.push_back(point);
 }
 
-void Drawer::addDrawPoints(std::vector<std::pair<Vector2, QColor>> points) {
+void Drawer::drawPoints(std::vector<std::pair<Vector2, QColor>> points) {
     for (auto &point : points) {
-        addDrawPoint(point);
+        drawPoint(point);
     }
 }
 
 std::vector<std::pair<Vector2, QColor>> Drawer::getDrawPoints() {
-    return drawPoints;
+    return drawP;
+}
+
+void Drawer::drawLine(Vector2 pointA, Vector2 pointB, QColor color) {
+    std::lock_guard<std::mutex> lock(drawLinesMutex);
+    drawL.emplace_back(pointA, pointB, color);
+}
+
+std::vector<std::tuple<Vector2, Vector2, QColor>> Drawer::getDrawLines() {
+    std::lock_guard<std::mutex> lock(drawLinesMutex);
+    return drawL;
+}
+
+void Drawer::clearDrawLines() {
+    std::lock_guard<std::mutex> lock(drawLinesMutex);
+    drawL = {};
+}
+
+void Drawer::clearDrawPoints() {
+    std::lock_guard<std::mutex> lock(drawMutex);
+    drawP = {};
 }
 
 void Drawer::setAttackerPoints(int id, GTPPoints points) {

@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_SIDEATTACKER_H
 
 #include "Skill.h"
-#include <roboteam_ai/src/utilities/OffensiveCoach.h>
+#include <roboteam_ai/src/coach/OffensiveCoach.h>
 
 namespace rtt {
 namespace ai {

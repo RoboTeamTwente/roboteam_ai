@@ -2,6 +2,7 @@
 // Created by robzelluf on 3/14/19.
 //
 
+#include <roboteam_ai/src/control/ControlUtils.h>
 #include "HasClearShot.h"
 
 namespace rtt{

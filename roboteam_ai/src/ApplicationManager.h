@@ -7,7 +7,7 @@
 
 #include <gtest/gtest_prod.h>
 #include <roboteam_ai/src/dangerfinder/DangerFinder.h>
-#include <roboteam_ai/src/utilities/OffensiveCoach.h>
+#include <roboteam_ai/src/coach/OffensiveCoach.h>
 #include "io/IOManager.h"
 #include "treeinterp/BTFactory.h"
 #include "ros/ros.h"

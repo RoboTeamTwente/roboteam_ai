@@ -3,10 +3,11 @@
 //
 
 #include <gtest/gtest.h>
+#include <roboteam_ai/src/utilities/RobotDealer.h>
 #include "../../src/skills/Pass.h"
 #include "../../src/utilities/Field.h"
-#include "../../src/utilities/Coach.h"
-#include "../../src/utilities/OffensiveCoach.h"
+#include "../../src/coach/PassCoach.h"
+#include "../../src/coach/GeneralPositionCoach.h"
 
 TEST(PassTest, PassTest) {
     robotDealer::RobotDealer::halt();
@@ -66,7 +67,7 @@ TEST(PassTest, PassTest) {
 
     ASSERT_EQ(pass.update(), bt::Leaf::Status::Running);
 
-    robot1.pos = rtt::ai::coach::Coach::getPositionBehindBallToPosition(0.05, robot2.pos);
+    robot1.pos = rtt::ai::coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.05, robot2.pos);
     robot1.angle = static_cast<float>(((Vector2)robot1.pos - ball.pos).angle());
 
     roboteam_msgs::World world2;

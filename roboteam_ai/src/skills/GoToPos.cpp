@@ -4,6 +4,7 @@
 
 #include "GoToPos.h"
 #include "../utilities/Field.h"
+#include "../coach/GeneralPositionCoach.h"
 #include "../control/ControlUtils.h"
 
 namespace rtt {
@@ -43,7 +44,7 @@ bt::Node::Status GoToPos::onUpdate() {
         targetPos = ball->pos;
     }
     else if (goBehindBall) {
-        if (coach::Coach::isRobotBehindBallToGoal(distanceBehindBall, false, robot->pos)){
+        if (coach::g_generalPositionCoach.isRobotBehindBallToGoal(distanceBehindBall, false, robot->pos)){
             return Status::Success;
         }
 

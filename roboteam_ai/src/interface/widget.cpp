@@ -26,6 +26,11 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawRobots(painter);
         drawCrosses(painter, Drawer::getOffensivePoints(), 5);
         drawDrawPoints(painter, Drawer::getDrawPoints());
+        drawDrawLines(painter, Drawer::getDrawLines());
+
+        Drawer::clearDrawPoints();
+        Drawer::clearDrawLines();
+
         if (showBallPlacementMarker) drawBallPlacementTarget(painter);
 
         if (showPath) {
@@ -280,6 +285,17 @@ void Visualizer::drawDrawPoints(QPainter &painter, std::vector<std::pair<Vector2
             painter.setBrush(point.second);
             Vector2 pointOnScreen = toScreenPosition(point.first);
             painter.drawEllipse(pointOnScreen.x, pointOnScreen.y, pointSize, pointSize);
+        }
+    }
+}
+
+void Visualizer::drawDrawLines(QPainter &painter, std::vector<std::tuple<Vector2, Vector2, QColor>> lines) {
+    if (!lines.empty()) {
+        for (auto &line : lines) {
+            painter.setPen(std::get<2>(line));
+            Vector2 v1 = toScreenPosition(std::get<0>(line));
+            Vector2 v2 = toScreenPosition(std::get<1>(line));
+            painter.drawLine(v1.x, v1.y, v2.x, v2.y);
         }
     }
 }

@@ -12,14 +12,14 @@ SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void SideAttacker::onInitialize() {
-    targetPos = coach::OffensiveCoach::calculatePositionForRobot(robot);
+    targetPos = coach::g_offensiveCoach.calculatePositionForRobot(robot);
 }
 
 
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
     if (! robot) return Status::Running;
-    targetPos = coach::OffensiveCoach::calculatePositionForRobot(robot);
+    targetPos = coach::g_offensiveCoach.calculatePositionForRobot(robot);
 
     auto newPosition = goToPos.goToPos(robot, targetPos);
     Vector2 velocity = newPosition.vel;

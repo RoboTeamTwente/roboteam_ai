@@ -1,5 +1,5 @@
 //
-// Created by robzelluf on 3/8/19.
+// Created by robzelluf on 3/21/19.
 //
 
 #include <roboteam_ai/src/interface/widget.h>
@@ -26,11 +26,11 @@ double OffensiveCoach::calculateCloseToGoalScore(Vector2 position) {
 double OffensiveCoach::calculateShotAtGoalScore(Vector2 position, roboteam_msgs::World world) {
     double safeDistanceFactor = 3;
     while (safeDistanceFactor > 0) {
-            if (control::ControlUtils::clearLine(position, Field::get_their_goal_center(), world, safeDistanceFactor)) {
-                break;
-            }
-            safeDistanceFactor -= 0.5;
+        if (control::ControlUtils::clearLine(position, Field::get_their_goal_center(), world, safeDistanceFactor)) {
+            break;
         }
+        safeDistanceFactor -= 0.5;
+    }
 
     return 1 - exp(-safeDistanceFactor);
 }
@@ -87,7 +87,7 @@ double OffensiveCoach::calculatePositionScore(Vector2 position) {
     double distanceFromCornerScore = calculateDistanceFromCorner(position, field);
 
     double score = 2 * closeToGoalScore + 2 * shotAtGoalScore + passLineScore + closestOpponentScore
-            + distanceFromBallScore + behindBallScore + distanceFromCornerScore;
+                   + distanceFromBallScore + behindBallScore + distanceFromCornerScore;
 
     return score;
 }
@@ -171,15 +171,15 @@ void OffensiveCoach::compareToCurrentPositions(const OffensiveCoach::OffensivePo
     OffensivePosition bestPos = position;
     auto it = offensivePositions.begin();
     while (it < offensivePositions.end()) {
-            if ((position.position - it->position).length() < Constants::OFFENSIVE_POSITION_DISTANCE()) {//Constants::ATTACKER_DISTANCE()) {
-                if (it->score >= bestPos.score) {
-                    bestPos.position = it->position;
-                    bestPos.score = it->score;
-                }
-                offensivePositions.erase(it);
+        if ((position.position - it->position).length() < Constants::OFFENSIVE_POSITION_DISTANCE()) {//Constants::ATTACKER_DISTANCE()) {
+            if (it->score >= bestPos.score) {
+                bestPos.position = it->position;
+                bestPos.score = it->score;
             }
-            it++;
+            offensivePositions.erase(it);
         }
+        it++;
+    }
     offensivePositions.push_back(bestPos);
 }
 
@@ -206,21 +206,21 @@ Vector2 OffensiveCoach::getClosestOffensivePosition(const shared_ptr<roboteam_ms
     double currentDistance;
     OffensivePosition newRobotPosition;
     for (auto &position : offensivePositions) {
-            currentDistance = (position.position - robot->pos).length();
-            if (currentDistance < distance) {
-                distance = currentDistance;
-                newRobotPosition = position;
-            }
+        currentDistance = (position.position - robot->pos).length();
+        if (currentDistance < distance) {
+            distance = currentDistance;
+            newRobotPosition = position;
         }
+    }
     if (distance == INT_MAX) {
-            newRobotPosition.position = robot->pos;
-            newRobotPosition.score = calculatePositionScore(robot->pos);
-        }
+        newRobotPosition.position = robot->pos;
+        newRobotPosition.score = calculatePositionScore(robot->pos);
+    }
 
 
     if ((newRobotPosition.position - robot->pos).length() < 0.8) {
-            robotPositions[robot->id] = newRobotPosition;
-        }
+        robotPositions[robot->id] = newRobotPosition;
+    }
     return newRobotPosition.position;
 }
 
