@@ -9,6 +9,7 @@
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/utilities/Field.h>
 #include <algorithm>
+#include "CoachHeuristics.h"
 
 namespace rtt {
 namespace ai {
@@ -24,7 +25,6 @@ public:
 
     void calculateNewPositions();
     void calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
-
     Vector2 calculatePositionForRobot(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
     void releaseRobot(int robotID);
     Vector2 getPositionForRobotID(int robotID);
@@ -37,20 +37,12 @@ public:
 private:
 
     double marginFromLines = 0.2;
-    double maxDistanceFromBall = 6.0;
 
     std::vector<OffensivePosition> offensivePositions;
     int maxPositions = 4;
     std::map<int, OffensivePosition> robotPositions;
 
     static bool compareByScore(OffensivePosition position1, OffensivePosition position2);
-    double calculateCloseToGoalScore(Vector2 position);
-    double calculateShotAtGoalScore(Vector2 position, roboteam_msgs::World world);
-    double calculatePassLineScore(Vector2 position, roboteam_msgs::World world);
-    double calculateDistanceToOpponentsScore(Vector2 position, roboteam_msgs::World world);
-    double calculateDistanceFromCorner(Vector2 position, roboteam_msgs::GeometryFieldSize field);
-    double calculateDistanceFromBallScore(Vector2 position, roboteam_msgs::GeometryFieldSize& field, roboteam_msgs::WorldBall& ball);
-    double calculatePositionScore(Vector2 position);
     void drawOffensivePoints();
     void recalculateOffensivePositions();
     OffensivePosition calculateRandomPosition(double xStart, double xEnd, double yStart, double yEnd);

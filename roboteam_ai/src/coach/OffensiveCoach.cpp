@@ -12,86 +12,10 @@ namespace coach {
 
 OffensiveCoach g_offensiveCoach;
 
-double OffensiveCoach::calculateCloseToGoalScore(Vector2 position) {
-    double distanceFromGoal = (Field::get_their_goal_center() - position).length();
-
-    double score = exp(-0.1 * distanceFromGoal);
-    return score;
-}
-
-double OffensiveCoach::calculateShotAtGoalScore(Vector2 position, roboteam_msgs::World world) {
-    double safeDistanceFactor = 3;
-    while (safeDistanceFactor > 0) {
-        if (control::ControlUtils::clearLine(position, Field::get_their_goal_center(), world, safeDistanceFactor)) {
-            break;
-        }
-        safeDistanceFactor -= 0.5;
-    }
-
-    return 1 - exp(-safeDistanceFactor);
-}
-
-
-double OffensiveCoach::calculatePassLineScore(Vector2 position, roboteam_msgs::World world) {
-    double safeDistanceFactor = 3;
-    while (safeDistanceFactor > 0) {
-        if (control::ControlUtils::clearLine(world.ball.pos, position, world, safeDistanceFactor)) {
-            break;
-        }
-        safeDistanceFactor -= 0.5;
-    }
-
-    return 1 - exp(-safeDistanceFactor);
-}
-
-double OffensiveCoach::calculateDistanceToOpponentsScore(Vector2 position, roboteam_msgs::World world) {
-    shared_ptr<roboteam_msgs::WorldRobot> closestRobot = World::getRobotClosestToPoint(world.them, position);
-    if (closestRobot) {
-        double distance = (position - closestRobot->pos).length();
-        return 1 - exp(-0.5 * distance);
-    } else {
-        return 1;
-    }
-}
-
-double OffensiveCoach::calculateDistanceFromCorner(Vector2 position, roboteam_msgs::GeometryFieldSize field) {
-    Vector2 corner;
-    corner.x = field.field_length / 2;
-    if (position.y > 0) {
-        corner.y = field.field_width / 2;
-    } else {
-        corner.y = -field.field_width / 2;
-    }
-    double distanceFromCorner = (position - corner).length();
-    return 1 - exp(-0.05 * distanceFromCorner);
-}
-
-double OffensiveCoach::calculateDistanceFromBallScore(Vector2 position, roboteam_msgs::GeometryFieldSize& field, roboteam_msgs::WorldBall& ball) {
-    double distanceFromBall = (position - ball.pos).length();
-    return -pow(distanceFromBall / (0.5 * maxDistanceFromBall), 2) + 2 * (distanceFromBall / (0.5 * maxDistanceFromBall));
-}
-
-double OffensiveCoach::calculatePositionScore(Vector2 position) {
-    roboteam_msgs::World world = World::get_world();
-    roboteam_msgs::GeometryFieldSize field = Field::get_field();
-    double closeToGoalScore = calculateCloseToGoalScore(position);
-    double shotAtGoalScore = calculateShotAtGoalScore(position, world);
-    double passLineScore = calculatePassLineScore(position, world);
-    double closestOpponentScore = calculateDistanceToOpponentsScore(position, world);
-    double distanceFromBallScore = calculateDistanceFromBallScore(position, field, world.ball);
-    double behindBallScore = position.x < world.ball.pos.x ? 0.7 : 1.0;
-    double distanceFromCornerScore = calculateDistanceFromCorner(position, field);
-
-    double score = 2 * closeToGoalScore + 2 * shotAtGoalScore + passLineScore + closestOpponentScore
-                   + distanceFromBallScore + behindBallScore + distanceFromCornerScore;
-
-    return score;
-}
-
 void OffensiveCoach::recalculateOffensivePositions() {
     auto it = offensivePositions.begin();
     while (it < offensivePositions.end()) {
-        it->score = calculatePositionScore(it->position);
+        it->score = CoachHeuristics::calculatePositionScore(it->position);
         for (auto& robotPosition : robotPositions) {
             if ((it->position - robotPosition.second.position).length() < Constants::ATTACKER_DISTANCE()) {
                 offensivePositions.erase(it);
@@ -146,7 +70,7 @@ void OffensiveCoach::calculateNewPositions() {
     for (int attempt = 0; attempt < attempts; attempt++) {
         OffensivePosition position = calculateRandomPosition(xStart, xEnd, yStart, yEnd);
         if (positionTooCloseToRobotPositions(position)) continue;
-        position.score =  calculatePositionScore(position.position);
+        position.score =  CoachHeuristics::calculatePositionScore(position.position);
 
         if (offensivePositions.empty()) {
             offensivePositions.push_back(position);
@@ -210,7 +134,7 @@ Vector2 OffensiveCoach::getClosestOffensivePosition(const shared_ptr<roboteam_ms
     }
     if (distance == INT_MAX) {
         newRobotPosition.position = robot->pos;
-        newRobotPosition.score = calculatePositionScore(robot->pos);
+        newRobotPosition.score = CoachHeuristics::calculatePositionScore(robot->pos);
     }
 
 
@@ -233,7 +157,7 @@ void OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::W
     OffensiveCoach::OffensivePosition currentRobotPosition = robotPositions[robot->id];
 
     Vector2 currentPosition = currentRobotPosition.position;
-    double currentScore = calculatePositionScore(currentPosition);
+    double currentScore = CoachHeuristics::calculatePositionScore(currentPosition);
 
     OffensivePosition newPosition;
     bool foundNewPosition = false;
@@ -246,7 +170,7 @@ void OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::W
 
             if(positionTooCloseToRobotPositions(newPosition, robot->id)) continue;
 
-            newPosition.score = calculatePositionScore(newPosition.position);
+            newPosition.score = CoachHeuristics::calculatePositionScore(newPosition.position);
             if (newPosition.score > currentScore && newPosition.score > 0.6 * offensivePositions[maxPositions - 1].score) {
                 currentPosition = newPosition.position;
                 currentScore = newPosition.score;
@@ -302,7 +226,7 @@ int OffensiveCoach::getBestStrikerID() {
 
     if (bestRobot == -1) {
         for (auto& robot : World::get_world().us) {
-            double score = calculatePositionScore(robot.pos);
+            double score = CoachHeuristics::calculatePositionScore(robot.pos);
             if (score > bestScore) {
                 bestRobot = robot.id;
                 bestScore = score;
