@@ -35,7 +35,6 @@ namespace rtt {
     roboteam_msgs::World FilteredWorld::as_message() const {
 
         roboteam_msgs::World returnMsg;
-
         for (auto &robot : robots_blue_world) {
             returnMsg.them.push_back(robot.second.as_message());
         }
@@ -45,6 +44,7 @@ namespace rtt {
         }
 
         returnMsg.ball = ball_world.as_message();
+        returnMsg.time=timeLastUpdated;
         return returnMsg;
     }
 
@@ -259,6 +259,12 @@ namespace rtt {
                         Extrapolation = previousPosition + bufVelocity * (timestamp - timeLastUpdated);
                     }
                     w = buf.second.orientation;
+                    if (w>M_PI){
+                        w=w-2*M_PI;
+                    }
+                    else if(w<-M_PI){
+                        w=w+2*M_PI;
+                    }
                 }
             }
             // Assign the robot position and rotation to the extrapolation calculated.
