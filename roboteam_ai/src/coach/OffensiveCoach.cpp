@@ -10,11 +10,7 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
-int OffensiveCoach::maxPositions = 4;
-double OffensiveCoach::maxDistanceFromBall = 6.0;
-double OffensiveCoach::marginFromLines = 0.2;
-std::vector<OffensiveCoach::OffensivePosition> OffensiveCoach::offensivePositions;
-std::map<int, OffensiveCoach::OffensivePosition> OffensiveCoach::robotPositions;
+OffensiveCoach g_offensiveCoach;
 
 double OffensiveCoach::calculateCloseToGoalScore(Vector2 position) {
     double distanceFromGoal = (Field::get_their_goal_center() - position).length();

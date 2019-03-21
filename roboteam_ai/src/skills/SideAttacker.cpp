@@ -44,7 +44,7 @@ void SideAttacker::onTerminate(Status s) {
     command.y_vel = 0;
 
     publishRobotCommand(command);
-    coach::OffensiveCoach::releaseRobot(robot->id);
+    coach::g_offensiveCoach.releaseRobot(robot->id);
 }
 
 } // ai
