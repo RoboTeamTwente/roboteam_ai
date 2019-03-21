@@ -261,7 +261,7 @@ void InterceptBall::sendInterceptCommand() {
 bool InterceptBall::ballToGoal() {
     Vector2 goalCentre = Field::get_our_goal_center();
     double goalWidth = Field::get_field().goal_width;
-    double margin = Constants::BALL_TO_GOAL_MARGIN();
+    double margin = Constants::BALL_RADIUS();
     Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth + margin));
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth + margin);
     Vector2 ballPos = ball->pos;

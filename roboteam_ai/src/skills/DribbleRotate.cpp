@@ -1,6 +1,4 @@
-#include <utility>
 
-#include <utility>
 
 //
 // Created by rolf on 14/12/18.
@@ -10,6 +8,7 @@
 #include "DribbleRotate.h"
 #include "../control/ControlUtils.h"
 #include "../utilities/Field.h"
+#include "../coach/Ballplacement.h"
 
 namespace rtt {
 namespace ai {
@@ -47,7 +46,7 @@ void DribbleRotate::onInitialize() {
     else if (properties->getBool("BallPlacement")){
         if(properties->getBool("BallPlacementForwards")){
         }
-        targetAngle=(Vector2(robot->pos)-Coach::getBallPlacementPos()).angle();
+        targetAngle=(Vector2(robot->pos) - coach::g_ballPlacement.getBallPlacementPos()).angle();
     }
     if (!properties->hasDouble("Angle")&&!properties->hasBool("RotateToTheirGoal")&&!properties->hasBool("BallPlacement")){
         ROS_ERROR(" dribbleRotate Initialize -> No good angle set in properties");
