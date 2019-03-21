@@ -45,26 +45,6 @@ set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/Switches.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/BTImport.h)
 
-set(DANGER_FINDER_SOURCES
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/modules/CanShootModule.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/modules/CanShootModule.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/DangerData.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/DangerData.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/DangerFinder.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/DangerFinder.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/PartialResult.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/PartialResult.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/modules/DangerModule.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/modules/DangerModule.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/modules/DistanceModule.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/modules/DistanceModule.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/modules/FreeModule.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/modules/FreeModule.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/modules/HasBallModule.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/modules/HasBallModule.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/modules/OrientationModule.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/dangerfinder/modules/OrientationModule.h)
-
 set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/MemSelector.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/MemSelector.cpp
@@ -129,16 +109,16 @@ set(DEMO_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/demo/JoystickDemo.h)
 
 set(UTILS_SOURCES
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
+        #${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
+        #${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
+        roboteam_ai/src/world/Field.h
+        roboteam_ai/src/world/Field.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Coach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Coach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/ApplicationManager.cpp
@@ -189,7 +169,7 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleRotate.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BasicGoToPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BasicGoToPos.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoAroundPos.cpp 
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoAroundPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoAroundPos.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.h
@@ -302,16 +282,28 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.h)
 
+set(WORLD_SOURCES
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/World.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/World.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldData.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldData.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldManager.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldManager.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/LastWorld.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/LastWorld.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/PredictedWorld.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/PredictedWorld.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/ProcessedWorld.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/ProcessedWorld.h)
+
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
 add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 
-
 # Main Executable
 add_executable(Roboteam_AI
         roboteam_ai/src/roboteam_ai.cpp
-        ${DANGER_FINDER_SOURCES}
         ${IO_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
@@ -321,7 +313,8 @@ add_executable(Roboteam_AI
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}
         ${DEMO_SOURCES}
-        ${INTERFACE_SOURCES})
+        ${INTERFACE_SOURCES}
+        ${WORLD_SOURCES})
 
 add_dependencies(Roboteam_AI ${catkin_EXPORTED_TARGETS})
 target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} Qt5::Widgets Qt5::Gui)

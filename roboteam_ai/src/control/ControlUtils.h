@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_CONTROLUTILS_H
 
 #include <roboteam_ai/src/utilities/Hungarian.h>
+#include "roboteam_msgs/World.h"
 #include "../utilities/Constants.h"
 #include "roboteam_utils/Vector2.h"
 #include "math.h"

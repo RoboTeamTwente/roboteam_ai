@@ -4,7 +4,7 @@
 
 #include "BallInDefenseAreaAndStill.h"
 #include "../utilities/World.h"
-#include "../utilities/Field.h"
+#include "roboteam_ai/src/world/Field.h"
 #include "../utilities/Constants.h"
 
 namespace rtt {

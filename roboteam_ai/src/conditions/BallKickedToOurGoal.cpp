@@ -4,7 +4,7 @@
 
 #include "BallKickedToOurGoal.h"
 #include "../control/ControlUtils.h"
-#include "../utilities/Field.h"
+#include "roboteam_ai/src/world/Field.h"
 
 namespace rtt {
 namespace ai {

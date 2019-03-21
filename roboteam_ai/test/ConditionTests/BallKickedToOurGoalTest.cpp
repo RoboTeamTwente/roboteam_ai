@@ -5,7 +5,7 @@
 #include <gtest/gtest.h>
 #include "../../src/conditions/BallKickedToOurGoal.h"
 #include "../../src/utilities/World.h"
-#include "../../src/utilities/Field.h"
+#include "roboteam_ai/src/world/Field.h"
 
 TEST(BallKickedToOurGoal,BallKickedToOurGoal){
     roboteam_msgs::GeometryFieldSize field;

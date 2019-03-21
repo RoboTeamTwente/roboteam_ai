@@ -4,7 +4,7 @@
 #include <gtest/gtest.h>
 #include "../../src/conditions/IsInDefenseArea.hpp"
 #include "../../src/utilities/World.h"
-#include "../../src/utilities/Field.h"
+#include "roboteam_ai/src/world/Field.h"
 #include "../../src/utilities/RobotDealer.h"
 
 TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)

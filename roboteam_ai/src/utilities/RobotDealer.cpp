@@ -4,7 +4,7 @@
 //
 #include "RobotDealer.h"
 #include "World.h"
-#include "Field.h"
+#include "roboteam_ai/src/world/Field.h"
 #include "ros/ros.h"
 #include <utility>
 
@@ -15,6 +15,8 @@ std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::robotO
 std::mutex RobotDealer::robotOwnersLock;
 
 int RobotDealer::keeperID = -1;
+
+rtt::ai::world::World* RobotDealer::world = rtt::ai::world::World::getInstance();
 
 /// For internal use
 /// Removes a robot with an ID from the map and if the tactic then is empty it removes the tactic
@@ -56,7 +58,7 @@ void RobotDealer::addRobotToOwnerList(int ID, std::string roleName, std::string 
 /// Look at the world and see if there are more robots than on the map and if so put them as free
 void RobotDealer::updateFromWorld() {
 
-    auto worldUs = rtt::ai::World::get_world().us;
+    auto worldUs = world->getWorld().us;
     std::set<int> robots;
     for (auto robot : worldUs) {
         robots.insert(robot.id);
@@ -87,27 +89,18 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
                 return - 1;
 
             case closeToBall: {
-                auto ball = rtt::ai::World::getBall();
+                auto ball = world->getWorld().ball;
                 rtt::Vector2 ballPos;
-                if (ball) {
-                    ballPos = ball->pos;
-                } else {
-                    ROS_ERROR("Robotdealer CloseToBall - No ball found in field. Assuming (%f, %f)", ballPos.x, ballPos.y);
-                }
+                ballPos = ball.pos;
                 id = getRobotClosestToPoint(ids, ballPos);
                 break;
             }
 
             case betweenBallAndOurGoal: {
-                auto ball = rtt::ai::World::getBall();
+                auto ball = world->getWorld().ball;
 
                 rtt::Vector2 ballPos;
-                if (ball) {
-                   ballPos = ball->pos;
-                } else {
-                    ballPos = {0, 0};
-                    ROS_ERROR("Robotdealer CloseToBall - No ball found in field. Assuming ball at (%f, %f).", ballPos.x, ballPos.y);
-                }
+                ballPos = ball.pos;
 
                 rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
                 id = getRobotClosestToLine(ids, ballPos, ourGoal, true);

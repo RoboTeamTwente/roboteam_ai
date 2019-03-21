@@ -9,7 +9,7 @@
 #include <QPainter>
 #include <memory>
 #include "../utilities/Constants.h"
-#include "../utilities/Field.h"
+#include "roboteam_ai/src/world/Field.h"
 #include "../utilities/World.h"
 #include <QMouseEvent>
 #include <gtest/gtest_prod.h>

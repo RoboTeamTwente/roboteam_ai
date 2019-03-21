@@ -7,7 +7,7 @@
 #include "roboteam_msgs/GeometryFieldSize.h"
 #include "roboteam_utils/Vector2.h"
 #include "../utilities/World.h"
-#include "../utilities/Field.h"
+#include "roboteam_ai/src/world/Field.h"
 
 namespace rtt {
 namespace ai {

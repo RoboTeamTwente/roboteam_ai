@@ -19,6 +19,7 @@ void Referee::setRefereeData(roboteam_msgs::RefereeData refMsg) {
     Referee::previousRefMsg = Referee::refMsg; // set the old message as previous message
     Referee::refMsg = refMsg;
 }
+
 roboteam_msgs::RefereeData Referee::getPreviousRefereeData() {
     return Referee::previousRefMsg;
 }

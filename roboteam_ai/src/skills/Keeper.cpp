@@ -5,7 +5,7 @@
 #include <roboteam_ai/src/interface/drawer.h>
 #include <roboteam_ai/src/control/PIDController.h>
 #include "Keeper.h"
-#include "../utilities/Field.h"
+#include "roboteam_ai/src/world/Field.h"
 
 namespace rtt {
 namespace ai {

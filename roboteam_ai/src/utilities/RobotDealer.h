@@ -10,6 +10,7 @@
 #include <mutex>
 #include <vector>
 #include "roboteam_utils/Vector2.h"
+#include "../world/World.h"
 
 namespace robotDealer {
 
@@ -28,6 +29,8 @@ class RobotDealer {
     private:
 
         static std::map<std::string, std::set<std::pair<int, std::string>>> robotOwners;
+
+        static rtt::ai::world::World* world;
 
         static int keeperID;
 

@@ -3,7 +3,7 @@
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
 #include "../../src/conditions/BallInDefenseAreaAndStill.h"
 #include "../../src/utilities/World.h"
-#include "../../src/utilities/Field.h"
+#include "roboteam_ai/src/world/Field.h"
 namespace rtt {
 namespace ai {
 

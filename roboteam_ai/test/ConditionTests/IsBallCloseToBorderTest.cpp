@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 #include "../../src/conditions/IsBallCloseToBorder.h"
-#include "../../src/utilities/Field.h"
+#include "roboteam_ai/src/world/Field.h"
 #include "../../src/utilities/Coach.h"
 
 namespace rtt{

@@ -59,7 +59,7 @@ void ApplicationManager::runOneLoopCycle() {
     this->updateROSData();
     this->updateDangerfinder();
 
-    if (ai::World::didReceiveFirstWorld) {
+    if (ai::world::world.didReceiveFirstWorld) {
         if (BTFactory::getCurrentTree() == "NaN") {
             ROS_INFO("NaN tree probably Halting");
             return;
@@ -102,7 +102,7 @@ void ApplicationManager::updateROSData() {
     geometryMsg = IOManager->getGeometryData();
     refereeMsg = IOManager->getRefereeData();
 
-    ai::World::set_world(worldMsg);
+    ai::world->set_world(worldMsg);
     ai::Field::set_field(geometryMsg.field);
     ai::Referee::setRefereeData(refereeMsg);
 }

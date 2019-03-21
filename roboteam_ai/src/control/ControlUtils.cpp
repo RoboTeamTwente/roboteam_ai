@@ -3,7 +3,7 @@
 //
 
 
-#include <roboteam_ai/src/utilities/Field.h>
+#include <roboteam_ai/src/world/Field.h>
 #include "ControlUtils.h"
 
 namespace rtt {

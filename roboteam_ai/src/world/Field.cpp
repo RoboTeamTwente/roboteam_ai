@@ -4,14 +4,13 @@
 
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "Field.h"
+#include "World.h"
 
 namespace rtt {
 namespace ai {
+namespace world {
 
 using util = control::ControlUtils;
-
-roboteam_msgs::GeometryFieldSize Field::field;
-std::mutex Field::fieldMutex;
 
 const roboteam_msgs::GeometryFieldSize Field::get_field() {
     std::lock_guard<std::mutex> lock(fieldMutex);
@@ -55,17 +54,19 @@ bool Field::pointIsInDefenceArea(Vector2 point, bool isOurDefenceArea, float mar
     bool xIsWithinOurDefenceArea = point.x < (xBound + margin);
     bool xIsWithinTheirDefenceArea = point.x > (xBound - margin);
 
-    if (isOurDefenceArea){
+    if (isOurDefenceArea) {
         if (outsideField) {
             return xIsWithinOurDefenceArea;
-        } else {
+        }
+        else {
             return xIsWithinOurDefenceArea && yIsWithinDefenceArea;
         }
     }
-    else{
+    else {
         if (outsideField) {
             return xIsWithinTheirDefenceArea;
-        } else {
+        }
+        else {
             return yIsWithinDefenceArea && xIsWithinTheirDefenceArea;
         }
     }
@@ -89,17 +90,17 @@ bool Field::pointIsInField(Vector2 point, float margin) {
 
 }
 
-double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point){
+double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point) {
     auto field = Field::get_field();
     double goalWidth = field.goal_width;
     double blockadeLength = 0;
     for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point)) {
         blockadeLength += blockade.first.dist(blockade.second);
     }
-    return std::max(100 - round(blockadeLength/goalWidth * 100), 0.0);
+    return std::max(100 - round(blockadeLength/goalWidth*100), 0.0);
 }
 
-std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, Vector2 point){
+std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, Vector2 point) {
     const double robotRadius = Constants::ROBOT_RADIUS();
 
     Vector2 lowerGoalSide, upperGoalSide;
@@ -109,18 +110,19 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
     std::vector<std::pair<Vector2, Vector2>> blockades = {};
 
     // all the obstacles should be robots
-    for (auto const &robot : World::getAllRobots()) {
+    for (auto const &robot : world.getAllRobots()) {
 
         // discard already all robots that are not at all between the goal and point, or if a robot is standing on this point
         bool isRobotItself = point == robot.pos;
-        bool isInPotentialBlockingZone = ourGoal ? robot.pos.x < point.x + robotRadius : robot.pos.x > point.x - robotRadius;
-        if (!isRobotItself && isInPotentialBlockingZone) {
+        bool isInPotentialBlockingZone = ourGoal ? robot.pos.x < point.x + robotRadius : robot.pos.x
+                > point.x - robotRadius;
+        if (! isRobotItself && isInPotentialBlockingZone) {
 
             // get the left and right sides of the robot
             auto lineToRobot = point - robot.pos;
-            auto inverseLineToRobot = Vector2(-lineToRobot.y, lineToRobot.x);
+            auto inverseLineToRobot = Vector2(- lineToRobot.y, lineToRobot.x);
             Vector2 upperSideOfRobot = inverseLineToRobot.stretchToLength(robotRadius) + robot.pos;
-            Vector2 lowerSideOfRobot = inverseLineToRobot.stretchToLength(-robotRadius) + robot.pos;
+            Vector2 lowerSideOfRobot = inverseLineToRobot.stretchToLength(- robotRadius) + robot.pos;
 
             // map points onto goal line
             auto point1 = util::twoLineIntersection(point, lowerSideOfRobot, lowerGoalSide, upperGoalSide);
@@ -129,17 +131,20 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
             // remove all obstacles that are completely out of the goal
             bool bothPointsBelowGoal = point1.y < lowerGoalSide.y && point2.y < lowerGoalSide.y;
             bool bothPointAboveGoal = point1.y > upperGoalSide.y && point2.y > upperGoalSide.y;
-            if (!bothPointsBelowGoal && !bothPointAboveGoal) {
+            if (! bothPointsBelowGoal && ! bothPointAboveGoal) {
 
                 // constrain the blockades to within the goal
                 if (point1.y > point2.y) { // point1 is largest
                     point1.y = std::min(point1.y, upperGoalSide.y);
                     point2.y = std::max(point2.y, lowerGoalSide.y);
-                    blockades.emplace_back(std::make_pair(point1, point2)); // the first element in the pair is the smallest
-                } else { // point2 is largest
+                    blockades.emplace_back(
+                            std::make_pair(point1, point2)); // the first element in the pair is the smallest
+                }
+                else { // point2 is largest
                     point2.y = std::min(point2.y, upperGoalSide.y);
                     point1.y = std::max(point1.y, lowerGoalSide.y);
-                    blockades.emplace_back(std::make_pair(point2, point1)); // the first element in the pair is the smallest
+                    blockades.emplace_back(
+                            std::make_pair(point2, point1)); // the first element in the pair is the smallest
                 }
             }
         }
@@ -147,7 +152,6 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
 
     return mergeBlockades(blockades);
 }
-
 
 /*
  * if two blockades intersect (in this case, overlap), we take the beginning of the first
@@ -158,9 +162,10 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
 std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::pair<Vector2, Vector2>> blockades) {
 
     // sort the blockades from low to high
-    std::sort(blockades.begin(), blockades.end(), [](const std::pair<Vector2,Vector2> &a, const std::pair<Vector2,Vector2> &b) {
-        return a.first.y < b.first.y;
-    });
+    std::sort(blockades.begin(), blockades.end(),
+            [](const std::pair<Vector2, Vector2> &a, const std::pair<Vector2, Vector2> &b) {
+              return a.first.y < b.first.y;
+            });
 
     std::vector<std::pair<Vector2, Vector2>> mergedBlockades;
     unsigned long iterator = 0;
@@ -172,12 +177,14 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
             auto upperbound = std::max(blockades.at(iterator).second.y, blockades.at(iterator).second.y);
 
             // construct a new vector from the lowest to highest blockade value
-            auto newBlockade = std::make_pair(blockades.at(iterator).first, Vector2(blockades.at(iterator).first.x, upperbound));
+            auto newBlockade = std::make_pair(blockades.at(iterator).first,
+                    Vector2(blockades.at(iterator).first.x, upperbound));
             blockades.erase(blockades.begin() + iterator + 1);
             blockades.at(iterator) = newBlockade;
-        } else {
+        }
+        else {
             //  if they don't intercept, move on to the next obstacle
-            iterator++;
+            iterator ++;
         }
     }
     return blockades;
@@ -230,19 +237,21 @@ std::pair<Vector2, Vector2> Field::getGoalSides(bool ourGoal) {
     // get the sides of the goal
     double goalWidth = _field.goal_width;
     auto goalCenter = ourGoal ? get_our_goal_center() : get_their_goal_center();
-    Vector2 upperGoalSide = { goalCenter.x, goalCenter.y + (goalWidth/2)};
-    Vector2 lowerGoalSide = { goalCenter.x, goalCenter.y - (goalWidth/2)};
+    Vector2 upperGoalSide = {goalCenter.x, goalCenter.y + (goalWidth/2)};
+    Vector2 lowerGoalSide = {goalCenter.x, goalCenter.y - (goalWidth/2)};
 
     return std::make_pair(lowerGoalSide, upperGoalSide);
 }
 
 int Field::getRobotClosestToGoal(bool ourRobot, bool ourGoal) {
-    roboteam_msgs::World_<std::allocator<void>>::_them_type robots = ourRobot ? World::get_world().us : World::get_world().them;
+    roboteam_msgs::World_<std::allocator<void>>::_them_type robots = ourRobot ? World::get_world().us
+                                                                              : World::get_world().them;
     Vector2 target = ourGoal ? Field::get_our_goal_center() : Field::get_their_goal_center();
 
     int closestId = World::getRobotClosestToPoint(robots, target)->id;
     return closestId;
 }
 
+} // world
 } // ai
 } // rtt

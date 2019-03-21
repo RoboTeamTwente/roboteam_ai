@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/conditions/BallOutOfField.h>
 #include "../../src/utilities/World.h"
-#include "../../src/utilities/Field.h"
+#include "roboteam_ai/src/world/Field.h"
 
 namespace rtt {
 namespace ai {

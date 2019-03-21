@@ -7,7 +7,7 @@
 
 #include <mutex>
 #include <roboteam_msgs/RobotCommand.h>
-#include "World.h"
+#include "../world/World.h"
 
 namespace rtt {
 namespace ai {
@@ -19,6 +19,7 @@ class IOManager;
 class Pause {
 
     private:
+        world::World* world;
         static bool pause;
         static std::mutex pauseLock;
         std::shared_ptr<io::IOManager> IOManager;

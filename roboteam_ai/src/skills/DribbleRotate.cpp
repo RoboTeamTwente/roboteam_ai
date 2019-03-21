@@ -9,7 +9,7 @@
 // TODO: Make the robot automatically slow down/speed up if the ball is going to one end of the dribbler. Control?
 #include "DribbleRotate.h"
 #include "../control/ControlUtils.h"
-#include "../utilities/Field.h"
+#include "roboteam_ai/src/world/Field.h"
 
 namespace rtt {
 namespace ai {

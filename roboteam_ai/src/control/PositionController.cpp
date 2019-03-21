@@ -28,10 +28,6 @@ void PositionController::clear(PosControlType goToType) {
 }
 
 PosVelAngle PositionController::goToPos(RobotPtr robot, Vector2 &position) {
-    if (! robot) {
-        ROS_ERROR("Error in PositionController->goToPos(robot %i): robot does not exist in world", robot->id);
-        return {};
-    }
     PosControlType goToType = PosControlType::NUMERIC_TREES;
     //TODO: do stuff that determines which gtp to use...
 
