@@ -35,6 +35,7 @@ PosVelAngle PositionController::goToPos(RobotPtr robot, Vector2 &position, PosCo
         ROS_ERROR("Error in PositionController->goToPos(robot %i): robot does not exist in world", robot->id);
         return {};
     }
+
     posPID.reset();
     switch (goToType) {
     case PosControlType::BALL_CONTROL:
@@ -42,9 +43,10 @@ PosVelAngle PositionController::goToPos(RobotPtr robot, Vector2 &position, PosCo
     case PosControlType::BASIC:
         return PositionController::basic(robot, position);
     case PosControlType::FORCE:
-        return PositionController::force(robot, position);
+        return PositionController::basic(robot, position);
     case PosControlType::NUMERIC_TREES:
         return PositionController::numTree(robot, position);
+    case PosControlType::NO_PREFERENCE:
     default:
         return PositionController::numTree(robot, position);
     }
@@ -59,63 +61,62 @@ PosVelAngle PositionController::basic(RobotPtr robot, Vector2 &targetPos) {
     Vector2 error = targetPos - robot->pos;
 
     if (error.length() < rtt::ai::Constants::ROBOT_RADIUS()){
-        posPID.setPID(3.0, 0, 0.2);}
+        posPID.setPID(0.5, 0, 0.2);}
     else{
-        posPID.setPID(3.0, 0, 1.5);}
+        posPID.setPID(0.5, 0, 0.2);}
 
+    checkInterfacePID();
     PosVelAngle target;
-    target.angle = error.angle()
+    target.pos = targetPos;
+    target.angle = error.angle();
+    useforce = true;
     return pidController(robot, target);
 }
 
-PosVelAngle PositionController::force(RobotPtr robot, Vector2 &targetPos) {
+Vector2 PositionController::force(RobotPtr robot, Vector2 &targetPos) {
     double forceRadius;
     Vector2 error = targetPos - robot->pos;
     if (error.length() < 0.1) {
         if (interface::InterfaceValues::showDebugNumTreeInfo())
             std::cout << "close to target, using basic gtp" << std::endl;
-        return basic(robot, targetPos);
+        Vector2 zero = Vector2();
+        return zero;
     }
     else if (error.length() < Constants::MIN_DISTANCE_FOR_FORCE()) {
         forceRadius = Constants::ROBOT_RADIUS_MAX()*2.0;
-        posPID.setPID(3.0, 1.0, 0.2);
     }
     else {
         forceRadius = Constants::ROBOT_RADIUS_MAX()*8.0;
-        posPID.setPID(3.0, 0.5, 1.5);
     }
 
-    PosVelAngle target;
     roboteam_msgs::World world = World::get_world();
-    Vector2 force = error;
+    Vector2 force = Vector2();
 
     for (auto bot : world.us)
-        force += ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, forceRadius);
+        force += ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 0.5, forceRadius);
     for (auto bot : world.them)
-        force += ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 2, forceRadius);
+        force += ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, forceRadius);
     if (avoidBall)
-        force += ControlUtils::calculateForce((Vector2) robot->pos - world.ball.pos, 1, forceRadius);
+        force += ControlUtils::calculateForce((Vector2) robot->pos - world.ball.pos, 0.5, forceRadius);
     if (!canGoOutsideField)
         force += Field::pointIsInField(robot->pos, 0.5) ?
                 Vector2() : ControlUtils::calculateForce(Vector2(-1.0,-1.0) / robot->pos, 1, 99.9);
 
-    force = (force.length() > 3.0) ?
-            force.stretchToLength(3.0) : force;
+    //force = (force.length() > 3.0) ?
+    //        force.stretchToLength(3.0) : force;
 
-    target.vel = force;
-    checkInterfacePID();
-    return pidController(robot, target);
+    return force;
 }
 
 PosVelAngle PositionController::numTree(RobotPtr robot, Vector2 &targetPos) {
     PosVelAngle target = numTreeController.goToPos(robot, targetPos);
     if (target.isZero()){
-        return force(robot, targetPos);}
+        return basic(robot, targetPos);
+    }
     else{
-        posPID.setPID(Constants::standardNumTreePosP(),
-                       Constants::standardNumTreePosP(),
-                       Constants::standardNumTreePosP());
-        checkInterfacePID();}
+        useforce = false;
+        checkInterfacePID();
+        }
         return pidController(robot, target);
 }
 
@@ -134,22 +135,27 @@ void PositionController::setCanGoOutsideField(bool _canGoOutsideField) {
 PosVelAngle PositionController::pidController(const RobotPtr &robot, PosVelAngle target) {
     PosVelAngle pidCommand;
 
+    Vector2 pid = Vector2();
 
-    Vector2 pidP = Vector2();
-
-    if (target.pos != Vector2() && ! (posPID.getP() == 0.0 && posPID.getI() == 0.0 && posPID.getD() == 0.0)) {
-        pidP = posPID.controlPIR(target.pos-robot->pos, robot->vel);
-    }
+    pid = posPID.controlPIR(target.pos-robot->pos, robot->vel);
 
     pidCommand.pos = target.pos;
-    pidCommand.vel = pidP.length() < Constants::MAX_VEL() ?
-                     pidP : pidP.stretchToLength(Constants::MAX_VEL());
-    pidCommand.angle = target.angle;
+    pidCommand.vel += pid.length() < Constants::MAX_VEL() ?
+                     pid : pid.stretchToLength(Constants::MAX_VEL());
+    pidCommand.angle = (target.pos-robot->pos).angle();
+
+
+    if (useforce){
+        Vector2 temp = pidCommand.vel + force(robot, target.pos);
+        pidCommand.vel = temp;
+    }
+
     return pidCommand;
 }
 
 /// compare current PID values to those set in the interface
 void PositionController::checkInterfacePID() {
+    posPID.reset();
     posPID.setPID(interface::InterfaceValues::setNumTreePosP(),
             interface::InterfaceValues::getNumTreePosI(),
             interface::InterfaceValues::getNumTreePosD());
