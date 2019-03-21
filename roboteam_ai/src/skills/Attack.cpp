@@ -2,7 +2,9 @@
 // Created by thijs on 17-12-18.
 //
 
+#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
 #include "Attack.h"
+#include <roboteam_ai/src/utilities/Field.h>
 
 namespace rtt {
 namespace ai {
@@ -26,13 +28,13 @@ bt::Node::Status Attack::onUpdate() {
     }
 
     Vector2 ball = World::getBall()->pos;
-    Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.4, ownGoal);
+    Vector2 behindBall = coach::g_generalPositionCoach.getPositionBehindBallToGoal(0.4, ownGoal);
     Vector2 deltaBall = behindBall - ball;
 
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
 
-    if (!Coach::isRobotBehindBallToGoal(0.6, ownGoal, robot->pos)) {
+    if (!coach::g_generalPositionCoach.isRobotBehindBallToGoal(0.6, ownGoal, robot->pos)) {
         targetPos = behindBall;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());

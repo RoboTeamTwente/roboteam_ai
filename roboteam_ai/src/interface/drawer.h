@@ -9,6 +9,7 @@
 #include <roboteam_utils/Vector2.h>
 #include <iostream>
 #include <mutex>
+#include <tuple>
 
 namespace rtt {
 namespace ai {
@@ -29,18 +30,28 @@ class Drawer {
         static std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>>  getTestLines();
         static void setTestPoints(std::vector<std::pair<Vector2,QColor>> points);
         static std::vector<std::pair<Vector2,QColor>>  getTestPoints();
+        static std::vector<std::pair<Vector2, QColor>> getDrawPoints();
+        static std::vector<std::tuple<Vector2, Vector2, QColor>> getDrawLines();
+        static void clearDrawLines();
+        static void clearDrawPoints();
     private:
-        static std::mutex goToPosMutex,keeperMutex,interceptMutex,testLineMutex,testPointMutex, drawMutex;
+        static std::mutex goToPosMutex,keeperMutex,interceptMutex,testLineMutex,testPointMutex, drawMutex, drawLinesMutex;
         static std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>> testLines;
         static std::vector<std::pair<Vector2,QColor>> testPoints;
         static void addDrawPoint(Vector2 point, QColor color = Qt::darkMagenta);
         static void addDrawPoint(std::pair<Vector2, QColor> point);
         static void addDrawPoints(std::vector<std::pair<Vector2, QColor>> points);
-        static std::vector<std::pair<Vector2, QColor>> getDrawPoints();
         static std::map<int, GTPPoints> NumTreePoints;
         static std::map<int, GTPPoints> KeeperPoints;
         static std::map<int, GTPPoints> InterceptPoints;
-        static std::vector<std::pair<Vector2, QColor>> drawPoints;
+
+        static void drawPoint(Vector2 point, QColor color = Qt::darkMagenta);
+        static void drawPoint(std::pair<Vector2, QColor> point);
+        static void drawPoints(std::vector<std::pair<Vector2, QColor>> points);
+        static void drawLine(Vector2 pointA, Vector2 pointB, QColor color = Qt::darkMagenta);
+        static std::vector<std::pair<Vector2, QColor>> drawP;
+        static std::vector<std::tuple<Vector2, Vector2, QColor>> drawL;
+
 };
 
 } // interface

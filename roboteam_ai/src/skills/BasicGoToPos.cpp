@@ -2,7 +2,10 @@
 // Created by baris on 15-1-19.
 //
 
+#include <roboteam_ai/src/coach/Ballplacement.h>
+#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
 #include "BasicGoToPos.h"
+#include <roboteam_ai/src/utilities/Field.h>
 
 namespace rtt {
 namespace ai {
@@ -19,7 +22,7 @@ void BasicGoToPos::onInitialize() {
         if (ball) {
             //TODO:Changed for testing, remember to change back
             //targetPos=coach::Coach::getBallPlacementBeforePos(ball->pos);
-            targetPos = coach::Coach::getBallPlacementPos();
+            targetPos = coach::g_ballPlacement.getBallPlacementPos();
         }
         else {
             ROS_ERROR("BasicGoToPos: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
@@ -28,7 +31,7 @@ void BasicGoToPos::onInitialize() {
     else if (properties->getBool("BallPlacementAfter")) {
         if (ball) {
             errorMargin = 0.05;
-            targetPos = coach::Coach::getBallPlacementAfterPos(robot->angle);
+            targetPos = coach::g_ballPlacement.getBallPlacementAfterPos(robot->angle);
         }
         else {
             ROS_ERROR("BasicGoToPos: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
@@ -37,7 +40,7 @@ void BasicGoToPos::onInitialize() {
     else if (properties->getBool("DemoKeeperGetBall")){
         if(ball){
             errorMargin=0.05;
-            targetPos=coach::Coach::getDemoKeeperGetBallPos(ball->pos);
+            targetPos=coach::g_generalPositionCoach.getDemoKeeperGetBallPos(ball->pos);
         }
         else{
             ROS_ERROR("BasicGoToPos: No ball found! assuming (%f,%f)", targetPos.x, targetPos.y);
@@ -61,10 +64,10 @@ Skill::Status BasicGoToPos::onUpdate() {
 //        targetPos=coach::Coach::getBallPlacementAfterPos(robot->angle);
 //    }
     else if(properties->getBool("BallPlacementBefore")){
-        targetPos=coach::Coach::getBallPlacementBeforePos(ball->pos);
+        targetPos=coach::g_ballPlacement.getBallPlacementBeforePos(ball->pos);
     }
     else if(properties->getBool("DemoKeeperGetBall")){
-        targetPos=coach::Coach::getDemoKeeperGetBallPos(ball->pos);
+        targetPos=coach::g_generalPositionCoach.getDemoKeeperGetBallPos(ball->pos);
     }
 
     if (properties->getBool("getBallFromSide")) targetPos = getBallFromSideLocation();
@@ -76,19 +79,21 @@ Skill::Status BasicGoToPos::onUpdate() {
     if (deltaPos.length() < errorMargin) {
         return Status::Success;
     }
+
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
-    command.use_angle = 1;
-    command.w = static_cast<float>((targetPos-robot->pos).angle());
-    Vector2 velocity = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES).vel;
-    if(properties->getBool("BallPlacementAfter")){
-        command.w=static_cast<float>((Vector2(robot->pos)-targetPos).angle());
-        velocity = goToPos.goToPos(robot, targetPos, control::PosControlType::BASIC).vel;
+    control::PosVelAngle pva = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES);
+
+    if (properties->getBool("BallPlacementAfter")){
+        command.w = static_cast<float>((Vector2(robot->pos)-targetPos).angle());
+        pva.vel = goToPos.goToPos(robot, targetPos, control::PosControlType::BASIC).vel;
     }
 
-    velocity=control::ControlUtils::VelocityLimiter(velocity,maxVel,Constants::MAX_VEL());
-    command.x_vel = static_cast<float>(velocity.x);
-    command.y_vel = static_cast<float>(velocity.y);
+    pva.vel = control::ControlUtils::VelocityLimiter(pva.vel, maxVel, 0.3);
+    command.use_angle = 1;
+    command.x_vel = static_cast<float>(pva.vel.x);
+    command.y_vel = static_cast<float>(pva.vel.y);
+    command.w = static_cast<float>(pva.angle);
 
     publishRobotCommand(command);
     return Status::Running;

@@ -3,6 +3,7 @@
 //
 
 #include <utility>
+#include <memory>
 #include <queue>
 #include <cstdlib>
 #include <time.h>
@@ -14,7 +15,6 @@
 #include <roboteam_msgs/RobotCommand.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "ros/ros.h"
-#include "../../utilities/Coach.h"
 #include "../../utilities/Constants.h"
 #include <roboteam_ai/src/control/PIDController.h>
 #include "PosVelAngle.h"
