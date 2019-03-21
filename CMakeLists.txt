@@ -119,8 +119,6 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Coach.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Coach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/ApplicationManager.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/ApplicationManager.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Hungarian.cpp
@@ -251,7 +249,6 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TacticTests/DefaultTacticTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/ControllerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/RobotDealerTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/CoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/HungarianTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/InterfaceTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/VisualizerTest.cpp
@@ -265,7 +262,11 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/BallOutOfFieldtest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsBallOnOurSideTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsBallCloseToBorderTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/JoyStickTest.cpp)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/JoyStickTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/GeneralPositionCoachTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/BallPlacementCoachTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/FormationTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendTest.cpp)
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/mainWindow.cpp
@@ -279,13 +280,25 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/TreeVisualizerWidget.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/TreeVisualizerWidget.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.h roboteam_ai/src/analysis/GameAnalyzer.cpp roboteam_ai/src/analysis/GameAnalyzer.h roboteam_ai/src/analysis/AnalysisReport.cpp roboteam_ai/src/analysis/AnalysisReport.h roboteam_ai/src/analysis/RobotDanger.cpp roboteam_ai/src/analysis/RobotDanger.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.h
+        roboteam_ai/src/analysis/GameAnalyzer.cpp
+        roboteam_ai/src/analysis/GameAnalyzer.h
+        roboteam_ai/src/analysis/AnalysisReport.cpp
+        roboteam_ai/src/analysis/AnalysisReport.h
+        roboteam_ai/src/analysis/RobotDanger.cpp
+        roboteam_ai/src/analysis/RobotDanger.h)
+
+set(COACH_SOURCES
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/PassCoach.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/PassCoach.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/Ballplacement.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/Ballplacement.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GeneralPositionCoach.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GeneralPositionCoach.h)
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
 add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-
 
 # Main Executable
 add_executable(Roboteam_AI
@@ -298,6 +311,7 @@ add_executable(Roboteam_AI
         ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}
+        ${COACH_SOURCES}
         ${DEMO_SOURCES}
         ${INTERFACE_SOURCES})
 
@@ -317,6 +331,7 @@ catkin_add_gtest(ai_tests
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}
         ${DEMO_SOURCES}
+        ${COACH_SOURCES}
         ${INTERFACE_SOURCES}
         ${TEST_SOURCES}
         )

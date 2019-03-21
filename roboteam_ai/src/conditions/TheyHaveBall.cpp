@@ -4,7 +4,6 @@
 
 #include "TheyHaveBall.h"
 #include "../utilities/World.h"
-#include "../utilities/Coach.h"
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_msgs/WorldBall.h"
 
