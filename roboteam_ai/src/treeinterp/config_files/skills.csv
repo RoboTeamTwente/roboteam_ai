@@ -1,8 +1,8 @@
-GoToPos,ROLE,Position,goToBall,random,goToBall
-GoToPosLuTh,ROLE,Position,goToBall,random,passiveDefend
-Kick,ROLE
-Chip,ROLE
-Dribble,ROLE,Position,maxTicks,forwardDirection,dribbleOnTerminate,BallPlacement,distance
+GoToPos,targetPos,avoidBall,maxVel,canGoOutsideField
+GTPSpecial,type,avoidBall,maxVel,canGoOutsideField
+Kick
+Chip
+Dribble,Position,maxTicks,forwardDirection,dribbleOnTerminate,BallPlacement,distance
 RotateToAngle,rotateToBall,Angle,RobotControl
 InterceptBall
 GetBall,maxTime
@@ -11,7 +11,6 @@ Attack
 DemoAttack,ownGoal
 Pass
 Receive
-BasicGoToPos,target,goToBall,avoidBall,canGoOutsideField,mirror,maxVel,getBallFromSide,angle,BallPlacementBefore,BallPlacementAfter
 EnterFormation
 DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement,distance
 AvoidBall
