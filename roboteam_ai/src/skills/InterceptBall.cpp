@@ -34,7 +34,7 @@ void InterceptBall::onInitialize() {
         currentProgression = BALLMISSED;
         backwards=false;
     }
-    pid.setPID(Constants::INTERCEPT_P(),Constants::INTERCEPT_I(),Constants::INTERCEPT_D(),1.0/Constants::TICK_RATE()); //TODO:magic numbers galore, from the old team. Move to new control library?
+    pid.setPID(INTERCEPT_P,INTERCEPT_I,INTERCEPT_D,1.0/Constants::TICK_RATE()); //TODO:magic numbers galore, from the old team. Move to new control library?
 }
 InterceptBall::Status InterceptBall::onUpdate() {
     ball = World::getBall();
@@ -123,7 +123,7 @@ void InterceptBall::checkProgression() {
         };//If robot is close, switch to closetoPoint
         return;
     case CLOSETOPOINT:
-        if (dist < Constants::INTERCEPT_POSDIF()) {
+        if (dist < INTERCEPT_POSDIF) {
             currentProgression = INPOSITION;
         }//If Robot overshoots, switch to overshoot, if in Position, go there
         else if (dist >= Constants::ROBOT_RADIUS()) {
@@ -131,7 +131,7 @@ void InterceptBall::checkProgression() {
         }
         return;
     case INPOSITION:
-        if (dist < Constants::INTERCEPT_POSDIF()) {
+        if (dist < INTERCEPT_POSDIF) {
             return;
         }
         else {
@@ -199,7 +199,7 @@ bool InterceptBall::ballDeflected() {
     // A ball is deflected if:
     // If ball velocity changes by more than x degrees from the original orientation then it is deflected
     if (abs(control::ControlUtils::constrainAngle(Vector2(ball->vel).angle() - ballStartVel.angle()))
-            > Constants::BALL_DEFLECTION_ANGLE()) {
+            > BALL_DEFLECTION_ANGLE) {
         return true;
     }
     // Ball Position is behind the line orthogonal to the ball velocity going through the ballStartPos
