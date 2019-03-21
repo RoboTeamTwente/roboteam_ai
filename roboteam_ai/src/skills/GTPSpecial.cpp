@@ -25,12 +25,12 @@ void GTPSpecial::onInitialize() {
                 break;
             }
             case ballPlacementBefore: {
-                targetPos = coach::Coach::getBallPlacementBeforePos(ball->pos);
+                targetPos = coach::g_ballPlacement.getBallPlacementBeforePos(ball->pos);
                 break;
             }
             case ballPlacementAfter: {
                 errorMargin = 0.05;
-                targetPos = coach::Coach::getBallPlacementAfterPos(robot->angle);
+                targetPos = coach::g_ballPlacement.getBallPlacementAfterPos(robot->angle);
                 break;
             }
             case getBallFromSide: {
