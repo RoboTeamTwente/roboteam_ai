@@ -14,6 +14,8 @@ namespace control {
 
 class NumTreePosControl {
     private:
+        const double MAX_CALCULATION_TIME = 5.0;   // Max time in ms
+
         using InterfaceValues = interface::InterfaceValues;
 
         const double dt = 0.07;
