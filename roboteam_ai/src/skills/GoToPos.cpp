@@ -4,6 +4,7 @@
 
 #include "GoToPos.h"
 #include "../utilities/Field.h"
+#include "../coach/GeneralPositionCoach.h"
 #include "../control/ControlUtils.h"
 
 namespace rtt {
