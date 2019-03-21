@@ -16,7 +16,6 @@ class Attack : public Skill {
         control::PositionController goToPos;
         Vector2 deltaPos;
         Vector2 targetPos;
-        bool ownGoal = false;
         bool shot = false;
     public:
         explicit Attack(string name, bt::Blackboard::Ptr blackboard);
