@@ -59,26 +59,14 @@ public:
     static double MAX_KICK_RANGE()              { return GRSIM() ? 0.4 : 0.04; };
     static double DEFAULT_MAX_VEL()             { return 2.0; };
     static double MAX_INTERCEPT_TIME()          { return 2.0; };    // Seconds. Intercept terminates  after this time.
-
-// PositionControl
+    static double BALL_STILL_VEL()              { return 0.1; };    // If the ball has velocity lower than this in defense area, keeper starts getting it
     static double MIN_DISTANCE_FOR_FORCE()      { return 0.5; };
 
-//Keeper
+    /// KEEPER ///
     static double KEEPER_POST_MARGIN()          { return 0.08; };//m
     static double KEEPER_CENTREGOAL_MARGIN()    { return 0.3; };//m
 
-// Intercept
-
-
-
-// BallInDefenseAreaAndStill
-    static double BALL_STILL_VEL()              { return 0.1; };    // If the ball has velocity lower than this in defense area, keeper starts getting it
-
-    static double DRIBBLE_ROTATE_WAIT_TIME()    { return 0.2; };    // Seconds
-    static double DRIBBLE_ROTATE_MAX_SPEED()    { return 0.5; };    // Rad/second
-
-
-// Interface
+    /// INTERFACE ///
     static int ROBOT_DRAWING_SIZE()             { return 8; };
     static int BALL_DRAWING_SIZE()              { return 5; };
     static int TACTIC_COLOR_DRAWING_SIZE()      { return 10; };
@@ -90,7 +78,7 @@ public:
     static double BP_MOVE_BACK_DIST()           { return 0.4; };
     static double BP_MOVE_TOWARDS_DIST()        { return 0.15; };
 
-// Settings
+    /// SETTINGS ///
     static bool STD_SHOW_ROLES()                { return true; };
     static bool STD_SHOW_TACTICS()              { return false; };
     static bool STD_SHOW_TACTICS_COLORS()       { return true; };
@@ -127,6 +115,7 @@ public:
     static double standardNumTreeVelI()         { return GRSIM() ? 0.2 : 0.6; };
     static double standardNumTreeVelD()         { return GRSIM() ? 2.5 : 2.3; };
 
+    
 private:
     static bool isInitialized;
     static bool robotOutputTargetGrSim; // Don't use this value. use GRSIM() instead.
