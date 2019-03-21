@@ -21,7 +21,7 @@ int PassCoach::initiatePass() {
     resetPass();
 
     // TODO: More logic to decide which robot to pass to. Possibly split initiate in initiate and findRobotToPassTo
-    int robotBeingPassedTo = Field::getRobotClosestToGoal(true, false);
+    int robotBeingPassedTo = g_offensiveCoach.getBestStrikerID();
     setRobotBeingPassedTo(robotBeingPassedTo);
     return robotBeingPassedTo;
 }
