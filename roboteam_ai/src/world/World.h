@@ -21,25 +21,28 @@ namespace rtt {
 namespace ai {
 namespace world {
 
+class ProcessedWorld;
 class World {
     private:
+        using RobotPtr = std::shared_ptr<Robot>;
+        using BallPtr = std::shared_ptr<Ball>;
+        using WorldDataPtr = std::shared_ptr<WorldData>;
+
+        roboteam_msgs::World worldMsg;
+        ProcessedWorld* processedWorld;
+        WorldData worldData;
+
+        std::mutex worldMutex;
+        std::mutex worldMsgMutex;
+
+    public:
         enum WhichRobots {
           OUR_ROBOTS,
           THEIR_ROBOTS,
           ALL_ROBOTS
         };
 
-        using RobotPtr = std::shared_ptr<Robot>;
-        using BallPtr = std::shared_ptr<Ball>;
-        using WorldDataPtr = std::shared_ptr<WorldData>;
-        roboteam_msgs::World worldMsg;
-        WorldData worldData;
-
-        //TODO: make threadsafe
-        std::mutex worldMutex;
-        std::mutex worldMsgMutex;
-
-    public:
+        bool weHaveRobots();
         void setWorld(const roboteam_msgs::World &world);
 
         const roboteam_msgs::World &getWorldMsg();
@@ -49,9 +52,15 @@ class World {
         BallPtr getBall();
         RobotPtr getRobotForId(int id, bool ourTeam = true);
         std::vector<RobotPtr> getAllRobots();
-        RobotPtr getRobotClosestToPoint(const Vector2& point, WhichRobots whichRobots);
 
+        RobotPtr getRobotClosestToPoint(const Vector2 &point, WhichRobots whichRobots = ALL_ROBOTS);
+        RobotPtr getRobotClosestToRobot(int id, bool ourTeam, WhichRobots whichRobots = ALL_ROBOTS);
+        RobotPtr getRobotClosestToBall(WhichRobots whichRobots = ALL_ROBOTS);
 
+        bool robotHasBall(int id, bool ourTeam, double maxDist = Constants::MAX_BALL_RANGE());
+        bool ourRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
+        bool theirRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
+        const WorldData getFutureWorld(double time);
 };
 
 World* world;

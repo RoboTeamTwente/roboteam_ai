@@ -59,7 +59,7 @@ void ApplicationManager::runOneLoopCycle() {
     this->updateROSData();
     this->updateDangerfinder();
 
-    if (ai::world::world.didReceiveFirstWorld) {
+    if (ai::world::world->weHaveRobots()) {
         if (BTFactory::getCurrentTree() == "NaN") {
             ROS_INFO("NaN tree probably Halting");
             return;

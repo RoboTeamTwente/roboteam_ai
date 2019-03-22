@@ -31,7 +31,8 @@ void WorldManager::updateROSData() {
 }
 
 void WorldManager::updateWorld() {
-    world->set_world(worldMsg);
+    world->setWorld(worldMsg);
+    processedWorld->update();
 }
 
 void WorldManager::updateField() {

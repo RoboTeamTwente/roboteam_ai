@@ -36,12 +36,15 @@ class Ball {
         Ball() = default;
         explicit Ball(const roboteam_msgs::WorldBall &copy)
                 :
-                pos(copy.pos), vel(copy.vel) { }
+                pos(copy.pos), vel(copy.vel),
+                exists(copy.existence!=0), visible(copy.visible) { }
 
         Vector2 pos = Vector2();
         Vector2 vel = Vector2();
         Vector2 acc = Vector2();
         double spin = 0.0;
+        bool exists = false;
+        bool visible = false;
 };
 
 class WorldData {
