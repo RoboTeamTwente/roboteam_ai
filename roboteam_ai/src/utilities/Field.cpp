@@ -92,6 +92,7 @@ double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point){
     auto field = Field::get_field();
     double goalWidth = field.goal_width;
     double blockadeLength = 0;
+
     for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point)) {
         blockadeLength += blockade.first.dist(blockade.second);
     }
@@ -112,14 +113,15 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
 
         // discard already all robots that are not at all between the goal and point, or if a robot is standing on this point
         bool isRobotItself = point == robot.pos;
-        bool isInPotentialBlockingZone = ourGoal ? robot.pos.x < point.x + robotRadius : robot.pos.x > point.x - robotRadius;
+        bool isInPotentialBlockingZone = ourGoal ? robot.pos.x < point.x - robotRadius : robot.pos.x > point.x + robotRadius;
         if (!isRobotItself && isInPotentialBlockingZone) {
 
             // get the left and right sides of the robot
-            auto lineToRobot = point - robot.pos;
-            auto inverseLineToRobot = Vector2(-lineToRobot.y, lineToRobot.x);
-            Vector2 upperSideOfRobot = inverseLineToRobot.stretchToLength(robotRadius) + robot.pos;
-            Vector2 lowerSideOfRobot = inverseLineToRobot.stretchToLength(-robotRadius) + robot.pos;
+            double lenToBot=(point-robot.pos).length();
+            double theta=asin(Constants::ROBOT_RADIUS()/lenToBot);
+            double length=sqrt(lenToBot*lenToBot-Constants::ROBOT_RADIUS()*Constants::ROBOT_RADIUS());
+            Vector2 lowerSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot.pos)-point).angle()-theta);
+            Vector2 upperSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot.pos)-point).angle()+theta);
 
             // map points onto goal line
             auto point1 = util::twoLineIntersection(point, lowerSideOfRobot, lowerGoalSide, upperGoalSide);
@@ -142,6 +144,11 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
                 }
             }
         }
+    }
+
+    std::cout << "blockades" << std::endl;
+    for(auto blockade : blockades) {
+        std::cout << blockade.first << ", " << blockade.second << std::endl;
     }
 
     return mergeBlockades(blockades);
