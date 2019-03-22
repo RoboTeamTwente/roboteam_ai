@@ -31,6 +31,10 @@ private:
     static roboteam_msgs::World world;
     static std::vector<std::pair<roboteam_msgs::World, double>> futureWorlds;
     static std::mutex worldMutex;
+    static std::map<int,double> OurBotsBall, TheirBotsBall;
+    static double findBallDist(roboteam_msgs::WorldRobot &bot, roboteam_msgs::WorldBall &ball);
+    static void updateBallPossession(roboteam_msgs::World &_world);
+    static roboteam_msgs::WorldBall updateBallPosition(roboteam_msgs::World _world);
 public:
     static void set_world(roboteam_msgs::World world);
     static const roboteam_msgs::World& get_world();
@@ -45,20 +49,23 @@ public:
     static robotPtr getRobotClosestToPoint(const Vector2& point, const int& myID, const float& t);
     static robotPtr getRobotClosestToPoint(const Vector2& point, const float& t);
     static robotPtr getRobotClosestToPoint(const Vector2& point, const int& myID);
-    static bool robotHasBall(Vector2 robotPos, double robotOrientation, Vector2 ballPos,
-            double frontDist = Constants::MAX_BALL_BOUNCE_RANGE());
-
-    static bool robotHasBall(const roboteam_msgs::WorldRobot& bot, const roboteam_msgs::WorldBall& ball,
-            double frontDist = Constants::MAX_BALL_BOUNCE_RANGE());
 
     static bool teamHasBall(bool ourTeam);
     static bool weHaveBall();
     static bool theyHaveBall();
     static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotThatHasBall(bool ourTeam);
 
+    static bool botHasBall(int id, bool ourTeam, double maxDistToBall = Constants::MAX_BALL_RANGE());
+    static bool ourBotHasBall(int id, double maxDistToBall=Constants::MAX_BALL_RANGE());
+    static bool theirBotHasBall(int id, double maxDistToBall=Constants::MAX_BALL_RANGE());
+    static int whichBotHasBall(bool ourTeam);
+
     static std::vector<roboteam_msgs::WorldRobot> getAllRobots();
     static std::vector<roboteam_msgs::WorldRobot> getRobotsForId(std::set<unsigned int> ids, bool robotsAreOurTeam);
     static roboteam_msgs::World futureWorld(double time, double maxTimeOffset = 0.11);
+
+    static std::pair<int, bool> getRobotClosestToBall();
+    static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToBall(bool isOurTeam);
 };
 
 } // ai

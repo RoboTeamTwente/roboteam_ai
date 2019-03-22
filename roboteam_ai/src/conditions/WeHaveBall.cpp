@@ -4,8 +4,6 @@
 
 #include "WeHaveBall.h"
 #include "../utilities/World.h"
-#include "roboteam_msgs/WorldRobot.h"
-#include "roboteam_msgs/WorldBall.h"
 
 namespace rtt {
 namespace ai {
@@ -13,7 +11,7 @@ namespace ai {
 WeHaveBall::WeHaveBall(std::string name, bt::Blackboard::Ptr blackboard)
     : Condition(std::move(name), std::move(blackboard)) { }
 
-bt::Node::Status WeHaveBall::update() {
+bt::Node::Status WeHaveBall::onUpdate() {
     if (World::weHaveBall()) {
         return bt::Node::Status::Success;
     }

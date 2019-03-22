@@ -363,7 +363,7 @@ std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotThatHasBall(bool ourTe
     std::vector<roboteam_msgs::WorldRobot> robots = ourTeam ? world.us : world.them;
 
     for (auto &robot : robots) {
-        if (World::robotHasBall(robot, *World::getBall())) {
+        if (World::botHasBall(robot.id, ourTeam)) {
             return std::make_shared<roboteam_msgs::WorldRobot>(robot);
         }
     }
