@@ -86,9 +86,8 @@ QVBoxLayout* RobotsWidget::createRobotGroupItem(roboteam_msgs::WorldRobot robot)
     wLabel->setFixedWidth(250);
     vbox->addWidget(wLabel);
 
-    // explicitly COPY it to prevent segfaults
-    auto report = * rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
-    analysis::RobotDanger danger = report.getRobotDangerForId(robot.id, true);
+    auto report = rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
+    analysis::RobotDanger danger = report->getRobotDangerForId(robot.id, true);
 
     auto dangerTotalLabel = new QLabel("danger total: "+QString::number(danger.getTotalDanger(), 'g', 3));
     dangerTotalLabel->setFixedWidth(250);
