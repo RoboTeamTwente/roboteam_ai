@@ -16,19 +16,10 @@
 namespace rtt {
 namespace ai {
 
-HasBall::HasBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(name, blackboard) { }
+HasBall::HasBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), blackboard) { }
 
-bt::Node::Status HasBall::update() {
-    robot = getRobotFromProperties(properties);
-    auto ball = World::getBall();
-
-    if (! robot || ! ball) {
-        return Status::Failure;
-    }
-    if (World::robotHasBall(*robot, *ball)) {
-        return Status::Success;
-    }
-    return Status::Failure;
+bt::Node::Status HasBall::onUpdate() {
+    return World::botHasBall(robot->id,true) ? Status::Success : Status::Failure;
 }
 } // ai
 } // rtt

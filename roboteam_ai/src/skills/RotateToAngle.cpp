@@ -14,15 +14,11 @@ void RotateToAngle::onInitialize() {
     if (properties->hasDouble("Angle")) {
         targetAngle = properties->getDouble("Angle");
     }
-    else {
-        ROS_ERROR("No angle set in properties!");
+
+    if (properties->getBool("rotateToBall")) {
+        targetAngle = ((Vector2)ball->pos - robot->pos).angle();
     }
-    if (properties->hasBool("RobotControl")) {
-        useAngle = properties->getBool("RobotControl");
-    }
-    else {
-        ROS_ERROR("No use_angle identifier set in properties!");
-    }
+
 }
 
 /// Called when the Skill is Updated
@@ -30,9 +26,7 @@ RotateToAngle::Status RotateToAngle::onUpdate() {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
     command.use_angle = useAngle;
-    command.w = (float) targetAngle;
-    std::cerr << "Rotate command -> id: " << command.id << ", theta: " << command.w << std::endl;
-    std::cerr << "Robot Angle: " << robot->angle << std::endl;
+    command.w = static_cast<float>(targetAngle);
 //__________________________________________________________________________________________________________
     deltaAngle = fabs(Control::constrainAngle(targetAngle - robot->angle));
     currentProgress = checkProgression();

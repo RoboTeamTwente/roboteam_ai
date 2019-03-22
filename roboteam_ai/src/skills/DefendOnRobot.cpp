@@ -2,31 +2,52 @@
 // Created by robzelluf on 12/7/18.
 //
 
+#include <roboteam_ai/src/dangerfinder/DangerData.h>
+#include <roboteam_ai/src/dangerfinder/DangerFinder.h>
 #include "DefendOnRobot.h"
-#include "../utilities/Coach.h"
 
 namespace rtt{
 namespace ai{
+
+std::map<int, int> DefendOnRobot::defencePairs = {};
 
 DefendOnRobot::DefendOnRobot(std::string name, bt::Blackboard::Ptr blackboard)
     :Skill(std::move(name), std::move(blackboard)) { }
 
 void DefendOnRobot::onInitialize() {
-    opponentWithBallID = coach::Coach::whichRobotHasBall(false);
+    opponentWithBallID = World::whichBotHasBall(false);
     if (opponentWithBallID == -1) {
         currentProgress = FAIL;
     }
 
-    opponentToCoverID = coach::Coach::pickOpponentToCover(robot->id);
+    opponentToCoverID = pickOpponentToCover();
     if (opponentToCoverID == -1) {
         currentProgress = FAIL;
     } else {
-        coach::Coach::defencePairs.insert({opponentToCoverID, robot->id});
+        defencePairs.insert({opponentToCoverID, robot->id});
     }
 }
 
 void DefendOnRobot::onTerminate(Skill::Status s) {
-    coach::Coach::defencePairs.erase(robot->id);
+   defencePairs.erase(robot->id);
+}
+
+
+int DefendOnRobot::pickOpponentToCover() {
+    rtt::ai::dangerfinder::DangerData DangerData = dangerfinder::DangerFinder::instance().getMostRecentData();
+    std::vector<int> dangerList = DangerData.dangerList;
+    for (int &opponentID : dangerList) {
+        if (defencePairs.find(opponentID) == defencePairs.end()) {
+            if (! World::theirBotHasBall(static_cast<unsigned int>(opponentID))) {
+                return opponentID;
+            }
+        }
+        else if (defencePairs[opponentID] == robot->id) {
+            return opponentID;
+        }
+    }
+
+    return - 1;
 }
 
 bt::Node::Status DefendOnRobot::onUpdate() {
@@ -35,7 +56,7 @@ bt::Node::Status DefendOnRobot::onUpdate() {
 
     if (opponentWithBall && opponentToCover) {
         updateRobot();
-        if (!coach::Coach::doesRobotHaveBall(opponentWithBall->id, false)) {
+        if (!World::botHasBall(opponentWithBall->id,false)) {
             return Status::Success;
         }
 

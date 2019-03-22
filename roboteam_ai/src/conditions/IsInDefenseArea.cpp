@@ -14,33 +14,20 @@ namespace ai {
 
 IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) { }
 
-bt::Node::Status IsInDefenseArea::update() {
+bt::Node::Status IsInDefenseArea::onUpdate() {
     Vector2 point;
     if (properties->getBool("useRobot")) {
-        robot = getRobotFromProperties(properties);
-        if (robot) {
-            point = robot->pos;
-        }
-        else{
-            return Status::Failure;
-        }
-    }
-    else{
-        auto ball=World::getBall();
-        if (ball){
-            point=ball->pos;
-        }
-        else{
-            return Status::Failure;
-        }
-
+        point = robot->pos;
+    } else {
+        point = ball->pos;
     }
     ourDefenseArea = properties->getBool("ourDefenseArea");
+    outsideField = properties->getBool("outsideField");
     if (properties->hasDouble("margin")) margin = static_cast<float>(properties->getDouble("margin"));
     else margin = 0.0f;
 
     roboteam_msgs::World world = World::get_world();
-    if (Field::pointIsInDefenceArea(point, ourDefenseArea, margin)) {
+    if (Field::pointIsInDefenceArea(point, ourDefenseArea, margin, outsideField)) {
         return Status::Success;
     }
     return Status::Failure;

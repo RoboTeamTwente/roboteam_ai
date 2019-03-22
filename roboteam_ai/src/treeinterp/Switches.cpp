@@ -41,8 +41,9 @@
 #include <roboteam_ai/src/skills/Defend.h>
 #include "../skills/DefendOnRobot.h"
 #include <roboteam_ai/src/skills/InterceptBall.h>
-#include <roboteam_ai/src/skills/BasicGoToPos.h>
+#include <roboteam_ai/src/skills/GTPSpecial.h>
 #include "../skills/GoAroundPos.h"
+#include "../skills/DemoAttack.h"
 
 //  ______________________
 //  |                    |
@@ -63,6 +64,9 @@
 #include "../conditions/BallOutOfField.h"
 #include "../conditions/IsBeingPassedTo.h"
 #include "../conditions/IsCloseToPoint.h"
+#include "../conditions/IsBallCloseToBorder.h"
+#include "../conditions/BallNearOurGoalLineAndStill.h"
+
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -87,8 +91,9 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "BallPlacementUsTactic",
          "AvoidBallTactic",
          "SingleKeeperTactic",
-         "randomTactic", // used for testing, do not remove it!
-         "testAvoidanceTactic"// used for testing, do not remove it!
+         "DemoAttackerTactic",
+         "DemoTactic",
+         "randomTactic" // used for testing, do not remove it!
          };
 
 
@@ -97,6 +102,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
          "QualificationStrategy",
          "haltStrategy",
          "KeeperStrategy",
+         "DemoStrategy",
          "PassStrategy",
          "DemoTeamTwenteStrategy",
          "twoPlayerStrategyV2",
@@ -104,8 +110,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
          "EnterFormationStrategy",
          "BallPlacementUsStrategy",
          "BallPlacementThemStrategy",
-         "randomStrategy", // used for testing, do not remove it!
-         "testAvoidanceStrategy"
+         "randomStrategy" // used for testing, do not remove it!
         };
 
 std::vector<std::string> Switches::keeperJsonFiles =
@@ -156,9 +161,10 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
 
     map["Attack"] =                 std::make_shared<rtt::ai::Attack>(name, properties);
     map["AvoidBall"] =              std::make_shared<rtt::ai::AvoidBall>(name, properties);
-    map["BasicGoToPos"] =           std::make_shared<rtt::ai::BasicGoToPos>(name, properties);
+    map["GTPSpecial"] =           std::make_shared<rtt::ai::GTPSpecial>(name, properties);
     map["Defend"] =                 std::make_shared<rtt::ai::Defend>(name, properties);
     map["DefendOnRobot"] =          std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
+    map["DemoAttack"] =             std::make_shared<rtt::ai::DemoAttack>(name, properties);
     map["Dribble"] =                std::make_shared<rtt::ai::Dribble>(name, properties);
     map["DribbleRotate"]=           std::make_shared<rtt::ai::DribbleRotate>(name,properties);
     map["EnterFormation"] =         std::make_shared<rtt::ai::EnterFormation>(name, properties);
@@ -178,8 +184,10 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     // conditions (alphabetic order)
     map["BallKickedToOurGoal"] =    std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name,properties);
+    map["BallNearOurGoalLineAndStill"]=std::make_shared<rtt::ai::BallNearOurGoalLineAndStill>(name,properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
     map["HasBall"] =                std::make_shared<rtt::ai::HasBall>(name, properties);
+    map["IsBallCloseToBorder"] =    std::make_shared<rtt::ai::IsBallCloseToBorder>(name, properties);
     map["IsBallOnOurSide"] =        std::make_shared<rtt::ai::IsBallOnOurSide>(name, properties);
     map["IsRobotClosestToBall"] =   std::make_shared<rtt::ai::IsRobotClosestToBall>(name, properties);
     map["IsInDefenseArea"] =        std::make_shared<rtt::ai::IsInDefenseArea>(name,properties);
@@ -267,40 +275,48 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"BallPlacementBot",robotType::closeToBall}
             }
             },
-            {"SingleKeeperTactic",{
-                     {"Keeper",robotType::closeToOurGoal}
-             }
+            {"SingleKeeperTactic",           {
+                                                     {"Keeper",           robotType::closeToOurGoal}
+                                             }
             },
-            {"testAvoidanceTactic",{
-                    {"testAvoidanceBot",robotType::random}
-            }
+            {"DemoAttackerTactic",           {
+                                                     {"demoAttacker",     robotType::closeToTheirGoal}
+                                             }
+            },
+            {"DemoTactic",                   {
+                                                     {"demoAttacker",     robotType::closeToTheirGoal},
+                                                     {"demoKeeper", robotType::closeToOurGoal}
+                                             }
             }
     };
     runErrorHandler(tactics);
 
     bt::Node::Ptr node;
 
-    if (name == "VerySpecialTacticThatWouldRequireSpecialClass")
+    if (name == "VerySpecialTacticThatWouldRequireSpecialClass") {
         node = std::make_shared<bt::VictoryDanceTactic>("VerySpecialTacticThatWouldRequireSpecialClass", properties);
-    else if (tactics.find(name) != tactics.end())
+    } else if (tactics.find(name) != tactics.end()) {
         node = std::make_shared<bt::DefaultTactic>(name, properties, tactics[name]);
-    else if (name == "EnterFormationTactic")
+    } else if (name == "EnterFormationTactic") {
         node = std::make_shared<bt::EnterFormationTactic>("EnterFormationTactic", properties);
-    else if (name == "AvoidBallTactic")
+    } else if (name == "AvoidBallTactic") {
         node = std::make_shared<bt::AvoidBallTactic>("AvoidBallTactic", properties);
-    else if (name == "victoryDanceTactic")
+    } else if (name == "victoryDanceTactic") {
         node = std::make_shared<bt::VictoryDanceTactic>("victoryDanceTactic", properties);
-    else
+    } else {
         ROS_ERROR("\n\n\nTHE TACTIC DOES NOT HAVE ROBOTS SPECIFIED IN THE SWITCHES:    %s\n\n\n", name.c_str());
-    return node;
+        return node;
+    }
 }
 
 void Switches::runErrorHandler(std::map<std::string, std::map<std::string, robotType>> tactics) {
 
     for (auto &item : tactics) { // <--- NOT A CONST REFERENCE WOW MAN MAN MAN  -Team (int)Twee(nte)
-        if (std::find(tacticJsonFileNames.begin(), tacticJsonFileNames.end(), item.first) == tacticJsonFileNames.end()) {
+        if (std::find(tacticJsonFileNames.begin(), tacticJsonFileNames.end(), item.first) ==
+            tacticJsonFileNames.end()) {
             ROS_ERROR("THE FOLLOWING TACTIC IS MISSING THE FILE:   %s\n\n\n", item.first.c_str());
         }
     }
 
 }
+

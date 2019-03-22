@@ -9,12 +9,20 @@
 
 namespace rtt {
 namespace ai {
-
+/**
+ * @class IHaveBall
+ * @brief
+ */
 class TheyHaveBall : public Condition {
     public:
         explicit TheyHaveBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-        Status update() override;
+        /**
+         * @brief checks if a robot with specific ID given through blackboards has a ball. Uses BB parameters "me/ROBOT_ID" and "our_team"
+         * @return Returns status::success if a robot has a ball, status::failure otherwise.
+         */
+        Status onUpdate() override;
         std::string node_name() override { return "TheyHaveBall"; }
+
 };
 }
 }

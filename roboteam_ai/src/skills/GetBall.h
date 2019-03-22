@@ -11,22 +11,32 @@ namespace rtt {
 namespace ai {
 
 class GetBall : public Skill {
+
+        const double COLLISION_RADIUS = 0.18;
+        const double ANGLE_SENS = 0.05*M_PI;
+        const double MAX_RANGE = 0.7;
+        const int POSSES_BALL_CYCLES = 25;
+        const double SPEED = (Constants::GRSIM() ? 0.4 : 0.8);
+        const double OVERSHOOT = .06;
+
     private:
         enum Progression {
-          TURNING, APPROACHING, OVERSHOOTING,DRIBBLING, SUCCESS, FAIL
+          TURNING, APPROACHING, OVERSHOOTING, DRIBBLING, SUCCESS, FAIL
         };
 
         Progression currentProgress;
         void checkProgression();
 
-        bool robotHasBall(double frontRange);
         void sendTurnCommand();
         void sendApproachCommand();
         void sendDribblingCommand();
         void sendOvershootCommand();
 
+        bool botHasLastVisibleBall();
         int count;
-        Vector2 deltaPos, approachPos;
+        Vector2 deltaPos;
+        Vector2 lastVisibleBallPos;
+        Vector2 approachPos;
         bool lockAngle;
         double lockedAngle;
         int currentTick, maxTicks;

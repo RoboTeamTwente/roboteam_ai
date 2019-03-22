@@ -42,7 +42,7 @@
           },
           "wxz97tvxcyquj3nj": {
             "id": "wxz97tvxcyquj3nj",
-            "title": "BasicGoToPos",
+            "title": "GoToPos",
             "isRole": false,
             "properties": {
               "ROLE": "qualRole",
@@ -53,7 +53,7 @@
           },
           "xm1dohkoqeoibxof1": {
             "id": "xm1dohkoqeoibxof1",
-            "title": "BasicGoToPos",
+            "title": "GoToPos",
             "isRole": false,
             "properties": {
               "ROLE": "qualRole",
@@ -89,7 +89,7 @@
           },
           "gtp2121": {
             "id": "gtp2121",
-            "title": "BasicGoToPos",
+            "title": "GoToPos",
             "isRole": false,
             "properties": {
               "avoidBall": "true",
@@ -100,7 +100,7 @@
           },
           "gototheposition2121": {
             "id": "gototheposition2121",
-            "title": "BasicGoToPos",
+            "title": "GoToPos",
             "isRole": false,
             "properties": {
               "avoidBall": "true",

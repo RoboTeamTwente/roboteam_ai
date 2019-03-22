@@ -16,9 +16,14 @@ namespace ai {
 /// Assumes we already have the ball when skill is initialized.
 /// Stops at the end to ensure the ball does not spin away.
 class Dribble : public Skill {
+
+        const double POS_DIF = 0.05;
+        const double SPEED = (Constants::GRSIM() ? 0.4 : 0.8);
+
     private:
         enum Progression {
           ON_THE_WAY,
+          STOPPING,
           STOPPED,
           DONE,
           FAIL,
@@ -28,11 +33,14 @@ class Dribble : public Skill {
         Progression checkProgression();
 
         bool forwardDirection;
-        int maxTicks;// seconds
+        int maxTicks = 60;// seconds
+        int stopTick = 0;
+        int stopTicks = 0;
         int count;
-        Vector2 targetPos, deltaPos;
-        float stoppingAngle,initialAngle;
-        bool robotHasBall();
+        Vector2 targetPos = {0, 0};
+        Vector2 deltaPos;
+        double distance;
+        float stoppingAngle, initialAngle;
 
         void sendMoveCommand();
         void sendStopCommand();

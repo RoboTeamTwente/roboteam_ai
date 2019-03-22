@@ -10,7 +10,7 @@ namespace ai {
 IsCloseToPoint::IsCloseToPoint(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
 
-void IsCloseToPoint::initialize() {
+void IsCloseToPoint::onInitialize() {
     if (properties->hasDouble("margin")) {
         margin = properties->getDouble("margin");
     } else margin = 0.0;
@@ -24,14 +24,12 @@ void IsCloseToPoint::initialize() {
     }
 }
 
-IsCloseToPoint::Status IsCloseToPoint::update() {
-    if (!getRobotFromProperties(properties)) return Status::Failure;
-
+IsCloseToPoint::Status IsCloseToPoint::onUpdate() {
     if (ballPos) {
         position = ball->pos;
     }
 
-    double deltaPos = (position - getRobotFromProperties(properties)->pos).length();
+    double deltaPos = (position - robot->pos).length();
 
     if (deltaPos >= margin) {
         return Status::Failure;

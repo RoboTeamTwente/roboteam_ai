@@ -1,5 +1,4 @@
 #include <utility>
-
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "World.h"
 
@@ -11,6 +10,9 @@ roboteam_msgs::World World::world;
 std::vector<std::pair<roboteam_msgs::World, double>> World::futureWorlds;
 
 bool World::didReceiveFirstWorld = false;
+std::map<int, double> World::OurBotsBall;
+std::map<int, double> World::TheirBotsBall;
+
 std::mutex World::worldMutex;
 
 /// return the world message
@@ -28,10 +30,10 @@ void World::set_world(roboteam_msgs::World _world) {
     if (! _world.us.empty()) {
         didReceiveFirstWorld = true;
     }
-    if (! _world.ball.visible) {
-        _world.ball = world.ball;
-        _world.ball.visible = false;
+    if (!_world.ball.visible){
+        _world.ball=updateBallPosition(_world);
     }
+    updateBallPossession(_world);
     world = _world;
 }
 
@@ -129,31 +131,103 @@ std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotClosestToPoint(const V
 /// returns the ball msg
 std::shared_ptr<roboteam_msgs::WorldBall> World::getBall() {
     std::lock_guard<std::mutex> lock(worldMutex);
-    return std::make_shared<roboteam_msgs::WorldBall>(world.ball);
-}
-
-/// returns boolean if a robot for a given ID has the ball
-bool World::robotHasBall(const roboteam_msgs::WorldRobot &bot, const roboteam_msgs::WorldBall &ball, double frontDist) {
-    return World::robotHasBall(bot.pos, bot.angle, ball.pos, frontDist);
-}
-
-/// returns true if a robot at a given position and orientation has the ball
-bool World::robotHasBall(Vector2 robotPos, double robotOrientation, Vector2 ballPos, double frontDist) {
-    Vector2 dribbleLeft =
-            robotPos + Vector2(Constants::ROBOT_RADIUS(), 0).rotate(robotOrientation - Constants::DRIBBLER_ANGLE_OFFSET());
-    Vector2 dribbleRight =
-            robotPos + Vector2(Constants::ROBOT_RADIUS(), 0).rotate(robotOrientation + Constants::DRIBBLER_ANGLE_OFFSET());
-
-    if (control::ControlUtils::pointInTriangle(ballPos, robotPos, dribbleLeft, dribbleRight)) {
-        return true;
-    }
-        // else check the rectangle in front of the robot.
+    if (world.ball.existence != 0) // Prevents segfaults
+        return std::make_shared<roboteam_msgs::WorldBall>(world.ball);
     else
-        return control::ControlUtils::pointInRectangle(ballPos, dribbleLeft, dribbleRight,
-                dribbleRight + Vector2(frontDist, 0).rotate(robotOrientation),
-                dribbleLeft + Vector2(frontDist, 0).rotate(robotOrientation));
+        ROS_ERROR("BALL DOES NOT EXIST IN WORLD (AREA = 0)");
+
+    return nullptr;
 }
 
+
+double World::findBallDist(roboteam_msgs::WorldRobot &bot, roboteam_msgs::WorldBall &ball) {
+    Vector2 robotPos = Vector2(bot.pos);
+    double robotOrientation = bot.angle;
+    Vector2 ballPos = ball.pos;
+    Vector2 dribbleLeft = robotPos
+            + Vector2(Constants::ROBOT_RADIUS(), 0).rotate(robotOrientation - Constants::DRIBBLER_ANGLE_OFFSET());
+    Vector2 dribbleRight = robotPos
+            + Vector2(Constants::ROBOT_RADIUS(), 0).rotate(robotOrientation + Constants::DRIBBLER_ANGLE_OFFSET());
+    // if the ball is very close (or on top of the robot?)
+    if (control::ControlUtils::pointInTriangle(ballPos, robotPos, dribbleLeft, dribbleRight)) {
+        return 0.0;
+    }
+    else if (control::ControlUtils::pointInRectangle(ballPos, dribbleLeft, dribbleRight,
+            dribbleRight + Vector2(Constants::MAX_BALL_BOUNCE_RANGE(), 0).rotate(robotOrientation),
+            dribbleLeft + Vector2(Constants::MAX_BALL_BOUNCE_RANGE(), 0).rotate(robotOrientation))) {
+        return control::ControlUtils::distanceToLine(ballPos, dribbleLeft, dribbleRight);
+    }
+    // default return
+    return - 1.0;
+
+}
+void World::updateBallPossession(roboteam_msgs::World &_world) {
+    OurBotsBall.clear();
+    TheirBotsBall.clear();
+    // calculate if a bot is in dribbling range and if so what range it is at.
+    for (auto ourBot :_world.us) {
+        double dist = findBallDist(ourBot, _world.ball);
+        if (dist != - 1.0) {
+            OurBotsBall[ourBot.id] = dist;
+        }
+    }
+    for (auto theirBot: _world.them) {
+        double dist = findBallDist(theirBot, _world.ball);
+        if (dist != - 1.0) {
+            TheirBotsBall[theirBot.id] = dist;
+        }
+    }
+}
+// uses MAX_BALL_RANGE as default max Dist
+bool World::botHasBall(int id, bool ourTeam, double maxDistToBall) {
+    if (ourTeam){
+        return ourBotHasBall(id,maxDistToBall);
+    }
+    else{
+        return theirBotHasBall(id,maxDistToBall);
+    }
+}
+bool World::ourBotHasBall(int id, double maxDistToBall){
+    std::lock_guard<std::mutex> lock(worldMutex);
+    if (OurBotsBall.find(id)!=OurBotsBall.end()){
+        if (OurBotsBall[id]<=maxDistToBall){
+            return true;
+        }
+    }
+    return false;
+}
+bool World::theirBotHasBall(int id, double maxDistToBall){
+    std::lock_guard<std::mutex> lock(worldMutex);
+    if (TheirBotsBall.find(id)!=TheirBotsBall.end()){
+        if (TheirBotsBall[id]<=maxDistToBall){
+            return true;
+        }
+    }
+    return false;
+}
+// picks the bot that has the ball and is closest to it.
+int World::whichBotHasBall(bool ourTeam) {
+    std::lock_guard<std::mutex> lock(worldMutex);
+    double maxDist = 100;
+    int bestId = - 1;
+    if (ourTeam) {
+        for (auto bot: OurBotsBall) {
+            if (bot.second < maxDist) {
+                maxDist = bot.second;
+                bestId = bot.first;
+            }
+        }
+    }
+    else {
+        for (auto bot: TheirBotsBall) {
+            if (bot.second < maxDist) {
+                maxDist = bot.second;
+                bestId = bot.first;
+            }
+        }
+    }
+    return bestId;
+}
 /// returns a message of the world where every position has been linearly extrapolated w.r.t current world
 roboteam_msgs::World World::futureWorld(double time, double maxTimeOffset) {
     //std::cout << std::endl << "futureWorlds: " << futureWorlds.size() << std::endl;
@@ -184,7 +258,85 @@ roboteam_msgs::World World::futureWorld(double time, double maxTimeOffset) {
     return futureWorld;
 }
 
-/// returns all the robots in the field, both us and them. 
+/// returns all the robots in the field, both us and them.
+roboteam_msgs::WorldBall World::updateBallPosition(roboteam_msgs::World _world) {
+    roboteam_msgs::WorldBall newBall=_world.ball;
+    if (_world.ball.visible){
+        return newBall;
+    }
+    // we set the ball velocity to 0
+    newBall.vel.x=0;
+    newBall.vel.y=0;
+    // if the ball was dribbled in the previous world_state we set its position to be in front of the robot that was dribbling it
+    if (!OurBotsBall.empty()||!TheirBotsBall.empty()){ // check if it was dribbled in last world state
+        double maxDist=100;
+        int bestId=-1;
+        bool ourTeam=true;
+        for (auto bot: OurBotsBall ) {
+            if (bot.second < maxDist) {
+                maxDist = bot.second;
+                bestId = bot.first;
+                ourTeam = true;
+            }
+        }
+        for (auto bot: TheirBotsBall ) {
+            if (bot.second < maxDist) {
+                maxDist = bot.second;
+                bestId = bot.first;
+                ourTeam = false;
+            }
+        }
+        if (bestId==-1){
+            ROS_ERROR("Could not find a proper bot that possesses ball!");
+            return newBall;
+        }
+        // I can't use getRobotForId because of deadlocking and because i need to use the world in the packet
+        roboteam_msgs::WorldRobot robot;
+        const std::vector<roboteam_msgs::WorldRobot> &robots = ourTeam ? _world.us: _world.them;
+        for (const auto &bot : robots) {
+            if (bot.id == bestId) {
+                robot=bot;
+                break;
+            }
+        }
+        // put the ball in front of the centre robot that is dribbling it.
+        Vector2 ballPos=Vector2(robot.pos)+Vector2(Constants::CENTRE_TO_FRONT()+Constants::BALL_RADIUS(),0).rotate(robot.angle);
+        newBall.pos=ballPos;
+    }
+    // else (not visible but not dribbled), we put it at its previous position
+    else{
+        newBall.pos = world.ball.pos;
+    }
+    return newBall;
+}
+
+
+std::pair<int, bool> World::getRobotClosestToBall() {
+    auto closestUs = World::getRobotClosestToPoint(World::get_world().us, World::getBall()->pos);
+    auto closestThem = World::getRobotClosestToPoint(World::get_world().them, World::getBall()->pos);
+
+    auto distanceToBallUs = (Vector2(closestUs->pos).dist(Vector2(World::getBall()->pos)));
+    auto distanceToBallThem = (Vector2(closestThem->pos).dist(Vector2(World::getBall()->pos)));
+
+    roboteam_msgs::WorldRobot closestRobot;
+    bool weAreCloser;
+
+    if (distanceToBallUs < distanceToBallThem) {
+        closestRobot = * closestUs;
+        weAreCloser = true;
+    } else {
+        closestRobot = * closestThem;
+        weAreCloser = false;
+    }
+
+    return std::make_pair(closestRobot.id, weAreCloser);
+}
+
+std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotClosestToBall(bool isOurTeam) {
+    return World::getRobotClosestToPoint(isOurTeam ? World::get_world().us : World::get_world().them, World::getBall()->pos);
+}
+
+/// returns all the robots in the field, both us and them.
 std::vector<roboteam_msgs::WorldRobot> World::getAllRobots() {
     std::lock_guard<std::mutex> lock(worldMutex);
 

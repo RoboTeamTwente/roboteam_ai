@@ -28,12 +28,26 @@ void Keeper::onInitialize() {
 Keeper::Status Keeper::onUpdate() {
         Vector2 ballPos = World::getBall()->pos;
         Vector2 blockPoint = computeBlockPoint(ballPos);
+        if (!Field::pointIsInField(blockPoint, static_cast<float>(Constants::OUT_OF_FIELD_MARGIN()))) {
+            std::cout << "Keeper escaping field!" << std::endl;
+            return Status::Running;
+        } else {
+            Vector2 velocities = goToPos.goToPos(robot, blockPoint, GoToType::BASIC).vel;
+            velocities = control::ControlUtils::VelocityLimiter(velocities);
+            roboteam_msgs::RobotCommand command;
+            command.id = robot->id;
+            command.x_vel = static_cast<float>(velocities.x);
+            command.y_vel = static_cast<float>(velocities.y);
+            publishRobotCommand(command);
+            return Status::Running;
+
+        }
         //double dist=control::ControlUtils::distanceToLine(robot->pos,ballPos,blockPoint);
         double dist = (blockPoint - (Vector2(robot->pos))).length(); //using point distance not line distance.
-        if (dist < Constants::KEEPER_POSDIF()) {
+        if (dist < KEEPER_POSDIF) {
             sendStopCommand();
         }
-        else if (dist <2*Constants::ROBOT_RADIUS()){
+        else if (dist < 2*Constants::ROBOT_RADIUS()){
             sendFineMoveCommand(blockPoint);
         }
         else {
@@ -98,6 +112,11 @@ Vector2 Keeper::computeBlockPoint(Vector2 defendPos) {
     if (intersections.first && intersections.second) {
         posA = *intersections.first;
         posB = *intersections.second;
+
+        if (!Field::pointIsInDefenceArea(posA, true)) {
+            blockPos = posB;
+        }
+
         if (posA.length() < posB.length()) {
             blockPos = posA;
         }
