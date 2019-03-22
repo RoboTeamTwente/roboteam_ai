@@ -5,7 +5,7 @@
 
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/bt/tactics/DefaultTactic.h>
-#include <roboteam_ai/src/treeinterp/Switches.h>
+#include <roboteam_ai/src/Switches.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include <roboteam_ai/src/utilities/World.h>
 #include "../../src/utilities/RobotDealer.h"
