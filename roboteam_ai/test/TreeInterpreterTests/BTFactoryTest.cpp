@@ -3,7 +3,7 @@
 #include "roboteam_ai/src/treeinterp/BTFactory.h"
 
 TEST (BT, JsonEditor) {
-    BTFactory dummyFactory = BTFactory::getFactory();
+    BTFactory dummyFactory;
     std::string testProject = "sample";
     std::string testTree = "sAmPleNamE";
     JsonReader pathReader;
@@ -25,7 +25,7 @@ TEST (BT, JsonEditor) {
 
 // Warning: tests depend on functioning of JsonTest and BTtests!!
 TEST(BT, BasicFactoryTest) {
-    BTFactory dummyFactory = BTFactory::getFactory();
+    BTFactory dummyFactory;
     dummyFactory.init();
     std::string trace = "";
 
