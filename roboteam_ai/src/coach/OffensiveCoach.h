@@ -20,6 +20,8 @@ class OffensiveCoach {
 public:
     const double ATTACKER_DISTANCE = 1.6;
     const double OFFENSIVE_POSITION_DISTANCE = 0.8;
+    const double SEARCH_GRID_ROBOT_POSITIONS = 0.01;
+    const int GRID_SIZE = 2;
 
     struct OffensivePosition {
     Vector2 position;

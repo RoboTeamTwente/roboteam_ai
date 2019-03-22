@@ -171,10 +171,10 @@ void OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::W
     OffensivePosition newPosition;
     bool foundNewPosition = false;
 
-    for (int xDiff : {-2, -1, 0, 1, 2}) {
-        for (int yDiff : {-2, -1, 0, 1, 2}) {
-            newPosition.position.x = currentPosition.x + 0.01 * xDiff;
-            newPosition.position.y = currentPosition.y + 0.01 * yDiff;
+    for (int xDiff = -GRID_SIZE; xDiff <= GRID_SIZE; xDiff++) {
+        for (int yDiff = -GRID_SIZE; yDiff <= GRID_SIZE; yDiff++) {
+            newPosition.position.x = currentPosition.x + SEARCH_GRID_ROBOT_POSITIONS * xDiff;
+            newPosition.position.y = currentPosition.y + SEARCH_GRID_ROBOT_POSITIONS * yDiff;
             if (!Field::pointIsInField(newPosition.position) || Field::pointIsInDefenceArea(newPosition.position, false)) continue;
 
             if(positionTooCloseToRobotPositions(newPosition, robot->id)) continue;
