@@ -96,7 +96,7 @@ void OffensiveCoach::compareToCurrentPositions(const OffensiveCoach::OffensivePo
     OffensivePosition bestPos = position;
     auto it = offensivePositions.begin();
     while (it < offensivePositions.end()) {
-        if ((position.position - it->position).length() < OFFENSIVE_POSITION_DISTANCE) {//Constants::ATTACKER_DISTANCE()) {
+        if ((position.position - it->position).length() < OFFENSIVE_POSITION_DISTANCE) {
             if (it->score >= bestPos.score) {
                 bestPos.position = it->position;
                 bestPos.score = it->score;
