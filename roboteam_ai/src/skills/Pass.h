@@ -6,7 +6,6 @@
 #define ROBOTEAM_AI_PASS_H
 
 #include "Skill.h"
-#include "../utilities/Coach.h"
 
 namespace rtt {
 namespace ai {

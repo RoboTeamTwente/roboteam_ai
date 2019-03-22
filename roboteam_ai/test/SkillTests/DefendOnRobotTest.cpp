@@ -3,7 +3,6 @@
 //
 
 #include "../../src/skills/DefendOnRobot.h"
-#include "../../src/utilities/Constants.h"
 #include <gtest/gtest.h>
 
 TEST(DefendOnRobotTest, PositiveTest) {

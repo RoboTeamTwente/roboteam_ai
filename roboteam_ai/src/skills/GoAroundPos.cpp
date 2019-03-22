@@ -41,7 +41,7 @@ void GoAroundPos::onInitialize() {
     startAngle = deltaPos.angle();
     rotateDir = Control::rotateDirection(startAngle, endAngle);
     if (ballIsTarget){
-        distanceFromPoint=Constants::GOAROUND_BALL_DIST();
+        distanceFromPoint=BALL_DIST;
     }
     else{
         if (properties->hasDouble("RotatingDistance")){
@@ -49,12 +49,12 @@ void GoAroundPos::onInitialize() {
         }
         else{
             ROS_ERROR_STREAM("No rotating distance set! Defaulting to ball distance");
-            distanceFromPoint=Constants::GOAROUND_BALL_DIST();
+            distanceFromPoint=BALL_DIST;
         }
     }
     currentTick = 0;
     angleDif = Control::angleDifference(startAngle, endAngle);
-    maxTick = floor(angleDif/Constants::GOAROUND_SPEED()*Constants::TICK_RATE());
+    maxTick = floor(angleDif/SPEED*Constants::TICK_RATE());
     currentProgress=ROTATING;
 }
 
@@ -122,11 +122,11 @@ GoAroundPos::Progression GoAroundPos::checkProgression() {
         //Done when robot sufficiently close to desired end position and rotation.
         double angDif=Control::angleDifference(deltaPos.angle(),endAngle);
         double posDif=(commandPos-robot->pos).length();
-        if (posDif < Constants::GOAROUND_POS_MARGIN() && angDif < Constants::GOAROUND_ANGLE_MARGIN()){
+        if (posDif < POS_MARGIN && angDif < ANGLE_MARGIN){
             return  DONE;
         }
         //If Robot takes too long to stop, fail
-        if (currentTick>maxTick+Constants::MAX_GOAROUND_STOP_TIME() * Constants::TICK_RATE()){
+        if (currentTick>maxTick+MAX_STOP_TIME * Constants::TICK_RATE()){
             return FAIL;
         }
         else return STOPPING;
@@ -139,12 +139,12 @@ bool GoAroundPos::checkPosition() {
     if (totalSum>angleDif+0.1*M_PI*2){
         return false;
     }
-    return ((deltaPos.length()<=(distanceFromPoint+Constants::GOAROUND_MAX_DIST_DEVIATION()))&&deltaPos.length()>distanceFromPoint-Constants::GOAROUND_MAX_DIST_DEVIATION());
+    return ((deltaPos.length()<=(distanceFromPoint+MAX_DIST_DEVIATION))&&deltaPos.length()>distanceFromPoint-MAX_DIST_DEVIATION);
 }
 void GoAroundPos::sendRotateCommand() {
     roboteam_msgs::RobotCommand command;
     Vector2 deltaCommandPos = (commandPos - robot->pos);
-    deltaCommandPos=Control::VelocityLimiter(deltaCommandPos,distanceFromPoint*Constants::GOAROUND_SPEED(),Constants::GOAROUND_MIN_SPEED());
+    deltaCommandPos=Control::VelocityLimiter(deltaCommandPos,distanceFromPoint*SPEED,MIN_SPEED);
     command.id = robot->id;
     command.use_angle = 1;
     command.dribbler = 0;

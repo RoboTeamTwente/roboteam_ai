@@ -15,27 +15,23 @@ GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(
 
 // Essentially a state transition diagram. Contains much of the logic
 void GetBall::checkProgression() {
-    if (deltaPos.length() > Constants::MAX_GETBALL_RANGE() ||currentTick>maxTicks) {
+    if (deltaPos.length() > MAX_RANGE ||currentTick>maxTicks) {
         currentProgress = FAIL;
-        //std::cout<<"GetBall-> FAIL";
         return;
     }
     double angleDif = Control::angleDifference(robot->angle, deltaPos.angle());
     if (currentProgress == TURNING) {
-        if (angleDif < Constants::ANGLE_SENS()) {
+        if (angleDif < ANGLE_SENS) {
             currentProgress = APPROACHING;
-            //std::cout<<"GetBall: TURNING->APPROACHING"<<std::endl;
             return;
         }
     }
     else if (currentProgress == APPROACHING) {
-        if (angleDif >= Constants::ANGLE_SENS()) {
+        if (angleDif >= ANGLE_SENS) {
             currentProgress = TURNING;
-            //std::cout<<"GetBall: APPROACHING-> TURNING"<<std::endl;
             return;
         }
         if (World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
-            //std::cout<<"GetBall: APPROACHING -> OVERSHOOTING"<<std::endl;
             currentProgress = OVERSHOOTING;
             return;
         }
@@ -45,42 +41,23 @@ void GetBall::checkProgression() {
     }
     else if (currentProgress == OVERSHOOTING){
         if (!World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
-            //std::cout<<"GetBall: OVERSHOOTING -> TURNING"<<std::endl;
             currentProgress = TURNING;
             return;
         }
-        if (((approachPos-robot->pos)).length()<Constants::GET_BALL_OVERSHOOT()){
-            //std::cout<<"GetBall: OVERSHOOTING -> DRIBBLING"<<std::endl;
+        if (((approachPos-robot->pos)).length()<OVERSHOOT){
             currentProgress=DRIBBLING;
             return;
         }
-//        if (World::getBall()->visible){
-//            if(World::ourBotHasBall(robot->id,Constants::MAX_BALL_RANGE())){
-//                currentProgress=DRIBBLING;
-//                std::cout<<"GetBall: OVERSHOOTING -> DRIBBLING"<<std::endl;
-//                return;
-//            }
-//        }
-//        else{
-//            // no visible ball: we check relative to last ballPos
-//            if(botHasLastVisibleBall()){
-//                currentProgress=DRIBBLING;
-//                std::cout<<"GetBall: OVERSHOOTING -> DRIBBLING"<<std::endl;
-//                return;
-//            }
-//        }
     }
     else if (currentProgress == DRIBBLING) {
         if (! World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
             currentProgress = APPROACHING;
             count = 0;
-            //std::cout<<"GetBall: DRIBBLING-> APPROACHING"<<std::endl;
             return;
         }
         count ++;
-        if (count > Constants::POSSES_BALL_CYCLES()) {
+        if (count > POSSES_BALL_CYCLES) {
             currentProgress = SUCCESS;
-            //std::cout<<"GetBall: SUCCESS"<<std::endl;
             return;
         }
     }
@@ -88,6 +65,7 @@ void GetBall::checkProgression() {
         return;
     }
 }
+
 void GetBall::onInitialize() {
     currentProgress = TURNING;
     count = 0;
@@ -118,33 +96,24 @@ GetBall::Status GetBall::onUpdate() {
     currentTick++;
     if (currentTick >= maxTicks) return Status::Failure;
 
-    if (currentProgress == TURNING) {
-        sendTurnCommand();
-    }
-    else if (currentProgress == APPROACHING) {
-        sendApproachCommand();
-    }
-    else if (currentProgress == OVERSHOOTING){
-        sendOvershootCommand();
-    }
-    else if (currentProgress == DRIBBLING) {
-        sendDribblingCommand();
-    }
     switch (currentProgress) {
         case TURNING:
+            sendTurnCommand();
             return Status::Running;
         case APPROACHING:
+            sendApproachCommand();
             return Status::Running;
         case OVERSHOOTING:
+            sendOvershootCommand();
             return Status::Running;
         case DRIBBLING:
+            sendDribblingCommand();
             return Status::Running;
         case SUCCESS:
             return Status::Success;
         case FAIL:
             return Status::Failure;
     }
-
     return Status::Failure;
 }
 
@@ -166,8 +135,8 @@ void GetBall::sendApproachCommand() {
     command.id = robot->id;
     command.use_angle = 1;
     command.dribbler = 1;
-    command.x_vel = (float) deltaPos.normalize().x * Constants::GETBALL_SPEED();
-    command.y_vel = (float) deltaPos.normalize().y * Constants::GETBALL_SPEED();
+    command.x_vel = (float) deltaPos.normalize().x * SPEED;
+    command.y_vel = (float) deltaPos.normalize().y * SPEED;
     command.w = lockedAngle;
     publishRobotCommand(command);
 
@@ -177,8 +146,8 @@ void GetBall::sendOvershootCommand() {
     command.id = robot->id;
     command.use_angle = 1;
     command.dribbler = 1;
-    command.x_vel = (float) (approachPos-robot->pos).normalize().x * Constants::GETBALL_SPEED();
-    command.y_vel = (float) (approachPos-robot->pos).normalize().y * Constants::GETBALL_SPEED();
+    command.x_vel = (float) (approachPos-robot->pos).normalize().x * SPEED;
+    command.y_vel = (float) (approachPos-robot->pos).normalize().y * SPEED;
     command.w = lockedAngle;
     publishRobotCommand(command);
 }

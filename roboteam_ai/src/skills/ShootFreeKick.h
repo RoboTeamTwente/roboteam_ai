@@ -6,6 +6,8 @@
 #define ROBOTEAM_AI_SHOOTFREEKICK_H
 
 #include "Skill.h"
+#include "../utilities/Field.h"
+
 
 namespace rtt {
 namespace ai {
@@ -30,7 +32,7 @@ class ShootFreeKick : public Skill {
         Progress progress;
         Vector2 targetPos;
         control::PositionController goToPos;
-        double errorMarginPos = Constants::PENALTY_SHOOT_MARGIN() + 0.02; // Same logic
+        double errorMarginPos = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS() + 0.03; // Same logic
         bool isShot();
         Vector2 freeKickPos;
 

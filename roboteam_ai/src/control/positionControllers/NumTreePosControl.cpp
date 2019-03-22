@@ -1,3 +1,5 @@
+#include "../../utilities/Field.h"
+
 //
 // Created by rolf on 5-2-19.
 //
@@ -25,7 +27,7 @@ void NumTreePosControl::setCanGoOutsideField(bool _canGoOutsideField) {
 
 /// return the velocity command using two PIDs based on the current position and velocity of the robot compared to the
 /// position and velocity of the calculated path
-PosVelAngle NumTreePosControl::computeCommand() {
+PosVelAngle NumTreePosControl::computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
     if (path.size() < static_cast<unsigned int>(1.01 + 0.30/dt)) {
         path.clear();
         return {};
@@ -37,7 +39,7 @@ PosVelAngle NumTreePosControl::computeCommand() {
     PosVelAngle target;
     target.pos = path[pathPoint].pos;
     target.vel = path[pathPoint].vel;
-    target.angle = target.vel.angle();
+    target.angle = (target.pos - robot->pos).angle();
     addDataInInterface({{target.pos, Qt::darkMagenta}});
 
     return target;
@@ -111,9 +113,9 @@ PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot
     realRobot->pos = robot->pos;
     realRobot->vel = robot->vel;
     realRobot->t = 0;
-    if (checkCollision(realRobot)) {
+    if (checkCollision(realRobot, 2.5*Constants::ROBOT_RADIUS_MAX())) {
         ros::Time end = ros::Time::now();
-        if (InterfaceValues::showDebugNumTreeTimeTaken() || InterfaceValues::showFullDebugNumTreeInfo())
+        if (InterfaceValues::showDebugNumTreeTimeTaken() && InterfaceValues::showFullDebugNumTreeInfo())
             std::cout << "GoToPosClean tick took: " << (end-begin).toNSec()*0.000001 << " ms" << std::endl;
         if (InterfaceValues::showDebugNumTreeInfo())
             std::cout << "robot is too close to another robot, trying to use forces instead" << std::endl;
@@ -148,11 +150,11 @@ PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot
     }
 
     ros::Time end = ros::Time::now();
-    if (InterfaceValues::showDebugNumTreeTimeTaken() || InterfaceValues::showFullDebugNumTreeInfo())
+    if (InterfaceValues::showDebugNumTreeTimeTaken() && InterfaceValues::showFullDebugNumTreeInfo())
         std::cout << "GoToPosClean tick took: " << (end-begin).toNSec()*0.000001 << " ms" << std::endl;
 
     if (nicePath) {
-        return computeCommand();
+        return computeCommand(robot);
     }
     else {
         path.clear();
@@ -172,9 +174,8 @@ void NumTreePosControl::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> rob
           return false;
       else
           return (lhs->maxVel()*lhs->t + remainingStraightLinePathLength(lhs->pos, lhs->currentTarget, finalTargetPos))
-                  >
-                          (rhs->maxVel()*rhs->t
-                                  + remainingStraightLinePathLength(rhs->pos, rhs->currentTarget, finalTargetPos));
+                  > (rhs->maxVel()*rhs->t
+                  + remainingStraightLinePathLength(rhs->pos, rhs->currentTarget, finalTargetPos));
     };
 
 //// compClose compares the amount of collisions first, then sorts the paths based on an approximation on the length of
@@ -208,7 +209,7 @@ void NumTreePosControl::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> rob
     ros::Time start = ros::Time::now();
     while (! pathQueue.empty()) {
         ros::Time now = ros::Time::now();
-        if ((now - start).toSec()*1000 > Constants::MAX_CALCULATION_TIME()) {
+        if ((now - start).toSec()*1000 > MAX_CALCULATION_TIME) {
             if (InterfaceValues::showDebugNumTreeInfo())
                 std::cout << "Tick took too long!" << std::endl;
              //( dont clear path?? ) path.clear();
@@ -221,8 +222,8 @@ void NumTreePosControl::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> rob
                 path = backTrackPath(point, root);
                 return;
             }
-            point->addChild(newPoint);
-            point = newPoint;
+            //point->addChild(newPoint);
+            point.swap(newPoint);
 
             // if we reach endpoint, return the path we found
             if (point->isCollision(finalTargetPos, 0.1)) {
@@ -277,12 +278,12 @@ std::shared_ptr<NumTreePosControl::PathPoint> NumTreePosControl::computeNewPoint
 //Copy parent
     std::shared_ptr<PathPoint> newPoint = std::make_shared<PathPoint>();
     newPoint->parent = oldPoint;
+    oldPoint->addChild(newPoint);
     newPoint->t = oldPoint->t + dt;
     newPoint->currentTarget = subTarget;
     newPoint->finalTarget = finalTargetPos;
     newPoint->pos = oldPoint->pos;
     newPoint->vel = oldPoint->vel;
-    newPoint->acc = oldPoint->acc;
 
     auto dir = (subTarget - newPoint->pos).normalize();
     auto targetVel = dir*newPoint->maxVel();
@@ -431,18 +432,18 @@ std::shared_ptr<NumTreePosControl::PathPoint> NumTreePosControl::PathPoint::back
 }
 
 ///backTracks the path from endPoint until it hits root and outputs in order from root->endPoint
-std::vector<NumTreePosControl::PathPoint> NumTreePosControl::backTrackPath(std::shared_ptr<PathPoint> endPoint,
+std::vector<NumTreePosControl::PathPoint> NumTreePosControl::backTrackPath(std::shared_ptr<PathPoint> point,
         std::shared_ptr<PathPoint> root) {
 
     std::vector<PathPoint> path = {};
-    std::shared_ptr<PathPoint> point = std::move(endPoint);
     while (point) {
         path.push_back(*point);
         if (point == root) {
             break;
         }
-        point = point->parent;
+        point.swap(point->parent);
     }
+
     std::reverse(path.begin(), path.end()); // everything is from back to forth
     return path;
 }

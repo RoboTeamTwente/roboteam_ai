@@ -33,7 +33,7 @@ class ShootPenalty : public Skill {
           SHOOTING
         };
         Progress progress;
-        double errorMarginPos = Constants::PENALTY_SHOOT_MARGIN() + 0.02;
+        double errorMarginPos = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS() + 0.03;
         double errorMarginAng = 0.0174533; // 1 degrees
         bool isPenaltyShot();
         int count = 0;

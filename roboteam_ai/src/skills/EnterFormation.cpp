@@ -3,70 +3,86 @@
 //
 
 #include "EnterFormation.h"
-#include "../utilities/Coach.h"
 #include "../control/ControlUtils.h"
+#include "../utilities/Field.h"
 
 namespace rtt {
 namespace ai {
 
+std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> EnterFormation::robotsInFormation = {};
+
 EnterFormation::EnterFormation(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void EnterFormation::onInitialize() {
-    coach::Coach::addFormationRobot(robot->id);
-    auto form = properties->getString("Formation");
-    setFormation(form);
+    robotsInFormationMemory = 0;
+    // add the robot if its not already there.
+    for (unsigned long i = 0; i<robotsInFormation.size(); i++) {
+        if (robotsInFormation.at(i)->id == robot->id) {
+            return;
+        }
+    }
+    robotsInFormation.push_back(robot);
 }
 
 bt::Node::Status EnterFormation::onUpdate() {
-    switch (formation) {
 
-        case Normal: {
-            auto robotPos = rtt::Vector2(robot->pos);
-            Vector2 targetLocation = coach::Coach::getFormationPosition(robot->id);
-            Vector2 targetToLookAtLocation = Field::get_their_goal_center();
+    /*
+     * Calculate the target location at least once, and every time when the amount of robots in the formation change.
+     */
+    if (robotsInFormationMemory != robotsInFormation.size()) {
+        targetLocation = getFormationPosition();
+        robotsInFormationMemory = robotsInFormation.size();
+    }
+    auto robotPos = rtt::Vector2(robot->pos);
+    Vector2 targetToLookAtLocation = Field::get_their_goal_center();
+    roboteam_msgs::RobotCommand cmd;
+    cmd.id = robot->id;
+    cmd.use_angle = 1;
 
-            roboteam_msgs::RobotCommand cmd;
-            cmd.id = robot->id;
-            cmd.use_angle = 1;
+    if (robotPos.dist(targetLocation) > errorMargin) {
+        auto velocities = gtp.goToPos(robot, targetLocation, control::PosControlType::NUMERIC_TREES);
+        cmd.x_vel = velocities.vel.x;
+        cmd.y_vel = velocities.vel.y;
+        cmd.w = static_cast<float>((targetLocation-robot->pos).angle());
+    } else { // we are at the right location
+        cmd.w = static_cast<float>((targetToLookAtLocation-robot->pos).angle());
+    }
+    publishRobotCommand(cmd);
+    return bt::Node::Status::Running;
+}
 
-            if (robotPos.dist(targetLocation) > Constants::NUMTREE_ERROR_MARGIN()) {
-                auto velocities = gtp.goToPos(robot, targetLocation, control::PosControlType::NUMERIC_TREES);
-                cmd.x_vel = static_cast<float>(velocities.vel.x);
-                cmd.y_vel = static_cast<float>(velocities.vel.y);
-                cmd.w = static_cast<float>((targetLocation-robot->pos).angle());
-            } else { // we are at the right location
-                cmd.w = static_cast<float>((targetToLookAtLocation-robot->pos).angle());
-            }
-            publishRobotCommand(cmd);
-            return bt::Node::Status::Running;
-        }
-        case Penalty:{
+Vector2 EnterFormation::getFormationPosition() {
+    auto field = Field::get_field();
+    double targetLocationX = field.field_length/4 - (field.field_length/2);
 
-        }
-        case FreeKick:{
+    // first we calculate all the positions for the defense
+    std::vector<Vector2> targetLocations;
+    std::vector<Vector2> robotLocations;
 
+    for (unsigned int i = 0; i<robotsInFormation.size(); i++) {
+        double targetLocationY = ((field.field_width/(robotsInFormation.size() + 1))*(i+1)) - field.field_width/2;
+        targetLocations.push_back({targetLocationX, targetLocationY});
+        robotLocations.push_back(robotsInFormation.at(i)->pos);
+    }
+
+    // the order of shortestDistances should be the same order as robotLocations
+    // this means that shortestDistances[0] corresponds to defenders[0] etc.
+    auto shortestDistances = control::ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(robotLocations, targetLocations);
+
+    for (unsigned long i = 0; i<robotsInFormation.size(); i++) {
+        if (robotsInFormation.at(i)->id == robot->id) {
+            return shortestDistances.at(i).second;
         }
     }
-    return bt::Node::Status::Failure;
-
-
+    return {0, 0};
 }
 
 void EnterFormation::onTerminate(bt::Node::Status s) {
-    coach::Coach::removeFormationRobot(robot->id);
+    for (unsigned long i = 0; i<robotsInFormation.size(); i++) {
+        if (robotsInFormation.at(i)->id == robot->id) {
+            robotsInFormation.erase(robotsInFormation.begin() + i);
+        }
+    }
 }
-void EnterFormation::setFormation(std::string property) {
-    if (property == "Penalty") {
-        formation = Penalty;
-    }
-    else if (property == "FreeKick") {
-        formation = FreeKick;
-    }
-    else { // this also means that if you dont have this set in the tree it will be normal
-        formation = Normal;
-    }
-
-}
-
 } // ai
 } // rtt

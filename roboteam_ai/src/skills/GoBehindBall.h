@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_GOBEHINDBALL_H
 
 #include "Skill.h"
+#include "../utilities/Field.h"
 
 namespace rtt {
 namespace ai {
