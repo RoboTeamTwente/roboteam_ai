@@ -68,10 +68,23 @@ double ControlUtils::distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vec
     return d.length();
 }
 
+bool ControlUtils::clearLine(Vector2 fromPos, Vector2 toPos, roboteam_msgs::World world, double safeDistanceFactor, bool keeper) {
+    double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor * 3;
+
+    for (auto enemy : world.them) {
+        //TODO: Check if the keeper should be taken into account and get it from the referee
+        if (distanceToLineWithEnds(enemy.pos, fromPos, toPos) < minDistance) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 /// See if a robot has a clear vision towards another robot
 /// e.g. there are no obstacles in between.
-bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::World world, int safelyness) {
-    double minDistance = rtt::ai::Constants::ROBOT_RADIUS()*(3*safelyness); // TODO: calibrate Rolf approved
+bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::World world, int safeDistanceFactor) {
+    double minDistance = rtt::ai::Constants::ROBOT_RADIUS()*(3*safeDistanceFactor); // TODO: calibrate Rolf approved
     Vector2 fromPos;
     Vector2 towardsPos;
 
@@ -92,6 +105,7 @@ bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::Worl
 
     return true;
 }
+
 
 /// Get the distance from PointToCheck towards a line, the line is not infinite.
 double ControlUtils::distanceToLineWithEnds(Vector2 pointToCheck, Vector2 lineStart, Vector2 lineEnd) {

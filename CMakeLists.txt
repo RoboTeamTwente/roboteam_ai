@@ -185,7 +185,9 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DemoAttack.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DemoAttack.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DemoAttack.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SideAttacker.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SideAttacker.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
@@ -217,7 +219,9 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBallCloseToBorder.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBallCloseToBorder.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNearOurGoalLineAndStill.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNearOurGoalLineAndStill.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNearOurGoalLineAndStill.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasClearShot.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasClearShot.h)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
@@ -294,12 +298,16 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.h )
 
 set(COACH_SOURCES
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/CoachHeuristics.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/CoachHeuristics.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/PassCoach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/PassCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/Ballplacement.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/Ballplacement.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GeneralPositionCoach.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GeneralPositionCoach.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GeneralPositionCoach.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/OffensiveCoach.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/OffensiveCoach.h)
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})

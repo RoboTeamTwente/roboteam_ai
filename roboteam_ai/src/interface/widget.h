@@ -13,6 +13,7 @@
 #include "../utilities/World.h"
 #include <QMouseEvent>
 #include <gtest/gtest_prod.h>
+#include <roboteam_ai/src/coach/OffensiveCoach.h>
 
 namespace rtt {
 namespace ai {
@@ -57,6 +58,7 @@ class Visualizer : public QWidget {
                 QColor color = Qt::green);
         void drawDataPoints(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize = 3);
         void drawPasses(QPainter &painter);
+        void drawCrosses(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, double size = 5);
 
         void drawDrawPoints(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize = 3);
         void drawDrawLines(QPainter &painter, std::vector<std::tuple<Vector2, Vector2, QColor>> lines);
