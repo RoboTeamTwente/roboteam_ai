@@ -19,6 +19,7 @@ enum RobotType : short {
     closeToOurGoal,
     betweenBallAndOurGoal,
     closeToTheirGoal,
+    closeToBallPlacementLocation,
     random
 
 };

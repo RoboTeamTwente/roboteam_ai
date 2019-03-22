@@ -128,6 +128,11 @@ std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotClosestToPoint(const V
     return getRobotClosestToPoint(point, myID, t);
 }
 
+std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotClosestToPoint(const Vector2 &point, const bool ourTeam) {
+    auto robots = ourTeam ? World::get_world().us : World::get_world().them;
+    return getRobotClosestToPoint(robots, point);
+}
+
 /// returns the ball msg
 std::shared_ptr<roboteam_msgs::WorldBall> World::getBall() {
     std::lock_guard<std::mutex> lock(worldMutex);

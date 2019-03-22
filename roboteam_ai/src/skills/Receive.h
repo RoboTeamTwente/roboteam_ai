@@ -7,12 +7,29 @@
 
 #include "Skill.h"
 #include "InterceptBall.h"
+#include "../coach/GeneralPositionCoach.h"
 
 namespace rtt {
 namespace ai {
 
 class Receive : public Skill {
 private:
+    coach::PassCoach::PassType passType;
+
+    enum ReceiveType {
+        onPosition,
+        onRobot
+    };
+
+    ReceiveType receiveType;
+
+    enum Progression {
+        positioning,
+        receiving
+    };
+
+    Progression currentProgress = positioning;
+
     control::PositionController goToPos;
     GoToType goToType;
     Vector2 focusPoint;
@@ -26,6 +43,10 @@ private:
 
     int stopDribbleTick = 0;
     int stopDribbleTicks = 20;
+
+    Vector2 targetPos;
+    Vector2 passPosition;
+    bool readyToReceivePass = false;
 public:
     explicit Receive(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;

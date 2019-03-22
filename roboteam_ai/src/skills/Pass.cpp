@@ -2,9 +2,6 @@
 // Created by robzelluf on 1/22/19.
 //
 
-#include <roboteam_ai/src/coach/PassCoach.h>
-#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
-#include <roboteam_ai/src/utilities/Constants.h>
 #include "Pass.h"
 
 namespace rtt {
@@ -15,7 +12,22 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
 
 void Pass::onInitialize() {
     goToPos.setAvoidBall(true);
-    robotToPassToID = coach::g_pass.initiatePass();
+    type = coach::g_pass.stringToType(properties->getString("type"));
+    robotToPassToID = coach::g_pass.initiatePass(type);
+
+    switch (type) {
+        case coach::PassCoach::ballPlacement: {
+            passType = onPosition;
+            passPosition = coach::g_pass.getPassPosition();
+            targetPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, passPosition);
+            break;
+        }
+        case coach::PassCoach::offensive: {
+            passType = onRobot;
+            break;
+        }
+    }
+
     currentProgress = Progression::POSITIONING;
 }
 
@@ -24,29 +36,38 @@ Pass::Status Pass::onUpdate() {
     robotToPassTo = World::getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
 
     roboteam_msgs::RobotCommand command;
+    command.id = robot->id;
 
     switch(currentProgress) {
         case Progression::POSITIONING: {
-            if (!coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos)) {
+
+            /// Get new passPosition if passType is onRobot
+            if (passType == onRobot) {
+                passPosition = robotToPassTo->pos;
+                targetPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.20, passPosition);
+            }
+
+            /// Check if robot is not yet at the targetPos
+            if (!coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.25, passPosition, robot->pos)) {
                 goToType = GoToType::NUMERIC_TREES;
-                targetPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
-            } else if (!World::ourBotHasBall(robot->id)) {
-                goToType = GoToType::BASIC;
-                targetPos = ball->pos;
-                goToPos.setAvoidBall(false);
-            } else {
-                if (coach::g_pass.isReadyToReceivePass()) currentProgress = Progression::KICKING;
+
+            /// Check if the robot does not have the ball
+            } else if (coach::g_pass.isReadyToReceivePass()) {
+                currentProgress = Progression::KICKING;
                 return Status::Running;
             }
             command.use_angle = 1;
+            // TODO: Check if angle can be same as for the attacker that shoots at the goal
             command.w = static_cast<float>(((Vector2) robotToPassTo->pos - ball->pos).angle());
             command.dribbler = 0;
-            control::PosVelAngle velocities = goToPos.goToPos(robot, targetPos, goToType);
-            command.x_vel = static_cast<float>(velocities.vel.x);
-            command.y_vel = static_cast<float>(velocities.vel.y);
+            Vector2 velocities = goToPos.goToPos(robot, targetPos, goToType).vel;
+            velocities = control::ControlUtils::VelocityLimiter(velocities);
+            command.x_vel = static_cast<float>(velocities.x);
+            command.y_vel = static_cast<float>(velocities.y);
             break;
         }
         case Progression::KICKING: {
+            std::cout << "Kicking" << std::endl;
             if (World::ourBotHasBall(robot->id, Constants::MAX_KICK_RANGE())) {
                 command.kicker = 1;
                 command.kicker_forced = 1;
@@ -58,6 +79,7 @@ Pass::Status Pass::onUpdate() {
                 goToType = GoToType::BASIC;
                 targetPos = ball->pos;
                 Vector2 velocities = goToPos.goToPos(robot, targetPos, goToType).vel;
+                velocities = control::ControlUtils::VelocityLimiter(velocities);
                 if (velocities.length() < 0.4) velocities = velocities.stretchToLength(0.4);
 
                 command.x_vel = static_cast<float>(velocities.x);
@@ -82,8 +104,7 @@ Pass::Status Pass::onUpdate() {
             }
         }
     }
-
-    command.id = robot->id;
+    std::cout << "Publishing" << std::endl;
     publishRobotCommand(command);
     return Status::Running;
 }

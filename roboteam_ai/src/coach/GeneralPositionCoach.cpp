@@ -40,6 +40,12 @@ Vector2 GeneralPositionCoach::getPositionBehindBallToPosition(double distanceBeh
     return ball + (ball - position).stretchToLength(distanceBehindBall);
 }
 
+Vector2
+GeneralPositionCoach::getPositionBehindPositionToPosition(double distanceBehindBall, const Vector2 &behindPosition,
+                                                          const Vector2 &toPosition) {
+    return behindPosition + (behindPosition - toPosition).stretchToLength(distanceBehindBall);
+}
+
 bool GeneralPositionCoach::isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal, const Vector2 &robotPosition, double angleMargin) {
     const Vector2 &goal = (ourGoal ? Field::get_our_goal_center : Field::get_their_goal_center)();
     return isRobotBehindBallToPosition(distanceBehindBall, goal, robotPosition, angleMargin);

@@ -15,7 +15,21 @@ Receive::Receive(string name, bt::Blackboard::Ptr blackboard)
 void Receive::onInitialize() {
     checkTicks = 0;
     initializedBall = false;
-    coach::g_pass.setReadyToReceivePass(true);
+    passType = coach::g_pass.getPassType();
+    std::cout << passType << std::endl;
+
+    switch (passType) {
+        case coach::PassCoach::ballPlacement: {
+            receiveType = onPosition;
+            passPosition = coach::g_pass.getPassPosition();
+            targetPos = coach::g_generalPositionCoach.getPositionBehindPositionToPosition(0.10, passPosition, ball->pos);
+            break;
+        }
+        case coach::PassCoach::offensive: {
+            receiveType = onRobot;
+            break;
+        }
+    }
 };
 
 Vector2 Receive::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
@@ -28,41 +42,69 @@ Vector2 Receive::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
 }
 
 Receive::Status Receive::onUpdate() {
+    roboteam_msgs::RobotCommand command;
+    command.id = robot->id;
+    command.use_angle = 1;
+
     if (!World::ourBotHasBall(robot->id)) {
-        if (Vector2(ball->vel).length() > 0.6 && !initializedBall) {
-            initializedBall = true;
-            ballStartPos = ball->pos;
-            ballStartVel = ball->vel;
-        }
+        if (currentProgress == positioning) {
+            if (receiveType == onRobot) {
+                command.w = static_cast<float>((Vector2(ball->pos) -
+                                                Vector2(robot->pos)).angle()); //Rotates towards the ball
+                currentProgress = receiving;
+                coach::g_pass.setReadyToReceivePass(true);
+            } else if (receiveType == onPosition) {
+                std::cout << "POSITIONING" << std::endl;
+                if (((Vector2) robot->pos - targetPos).length() < 0.10) {
+                    currentProgress = receiving;
+                    coach::g_pass.setReadyToReceivePass(true);
+                    return Status::Running;
+                }
 
-        if (coach::g_pass.isPassed() && Vector2(ball->vel).length() < 0.01) {
-            checkTicks++;
-            if (checkTicks >= maxCheckTicks) return Status::Success;
-        }
-        roboteam_msgs::RobotCommand command;
-        command.id = robot->id;
-        command.w = static_cast<float>((Vector2(ball->pos) - Vector2(robot->pos)).angle()); //Rotates towards the ball
-        command.use_angle = 1;
-        double ballAngle = ((Vector2)robot->pos - ball->pos).angle();
-        if (Vector2(ball->vel).length() > 0.6 && (ballAngle - Vector2(ball->vel).angle()) < 0.5) {
-            Vector2 ballStartVel = ball->vel;
-            Vector2 ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
-            Vector2 interceptPoint = Receive::computeInterceptPoint(ballStartPos, ballEndPos);
+                control::PosVelAngle pva = goToPos.goToPos(robot, targetPos, GoToType::NUMERIC_TREES);
+                pva.vel = control::ControlUtils::VelocityLimiter(pva.vel);
+                command.x_vel = static_cast<float>(pva.vel.x);
+                command.y_vel = static_cast<float>(pva.vel.y);
+                command.w = static_cast<float>(pva.angle);
+            }
 
-            control::PosVelAngle velocities = goToPos.goToPos(robot, interceptPoint, GoToType::BASIC);
-            velocities.vel = control::ControlUtils::VelocityLimiter(velocities.vel);
-            command.x_vel = static_cast<float>(velocities.vel.x);
-            command.y_vel = static_cast<float>(velocities.vel.y);
-            command.dribbler = 1;
+            /// If receiving
+        } else {
+            command.w = static_cast<float>((Vector2(ball->pos) -
+                                            Vector2(robot->pos)).angle()); //Rotates towards the ball
+
+
+            if (Vector2(ball->vel).length() > 0.6 && !initializedBall) {
+                initializedBall = true;
+                ballStartPos = ball->pos;
+                ballStartVel = ball->vel;
+            }
+
+            if (coach::g_pass.isPassed() && Vector2(ball->vel).length() < 0.01) {
+                checkTicks++;
+                if (checkTicks >= maxCheckTicks) return Status::Success;
+            }
+
+
+            double ballAngle = ((Vector2) robot->pos - ball->pos).angle();
+            if (Vector2(ball->vel).length() > 0.6 && (ballAngle - Vector2(ball->vel).angle()) < 0.5) {
+                Vector2 ballStartVel = ball->vel;
+                Vector2 ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
+                Vector2 interceptPoint = Receive::computeInterceptPoint(ballStartPos, ballEndPos);
+
+                Vector2 velocities = goToPos.goToPos(robot, interceptPoint, GoToType::BASIC).vel;
+                velocities = control::ControlUtils::VelocityLimiter(velocities);
+                command.x_vel = static_cast<float>(velocities.x);
+                command.y_vel = static_cast<float>(velocities.y);
+                command.dribbler = 1;
+            }
+
         }
-        publishRobotCommand(command);
-        return Status::Running;
-    } else {
-        stopDribbleTick++;
-        if (stopDribbleTick < stopDribbleTicks) return Status::Running;
-        else return Status::Success;
     }
+    publishRobotCommand(command);
+    return Status::Running;
 }
+
 void Receive::onTerminate(Status s) {
     roboteam_msgs::RobotCommand command;
     command.x_vel = 0;

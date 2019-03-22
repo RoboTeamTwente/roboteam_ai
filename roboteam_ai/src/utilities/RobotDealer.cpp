@@ -7,6 +7,7 @@
 #include "Field.h"
 #include "ros/ros.h"
 #include <utility>
+#include <roboteam_ai/src/coach/Ballplacement.h>
 
 namespace robotDealer {
 
@@ -130,6 +131,11 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
                 break;
             }
 
+            case closeToBallPlacementLocation:{
+                rtt::Vector2 ballPlacementPosition = rtt::ai::coach::g_ballPlacement.getBallPlacementPos();
+                id = getRobotClosestToPoint(ids, ballPlacementPosition);
+                break;
+            }
         }
         std::lock_guard<std::mutex> lock(robotOwnersLock);
         RobotDealer::unFreeRobot(id);

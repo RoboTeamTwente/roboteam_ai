@@ -6,18 +6,33 @@
 #define ROBOTEAM_AI_PASS_H
 
 #include "Skill.h"
+#include <roboteam_ai/src/coach/PassCoach.h>
+#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
+#include <roboteam_ai/src/utilities/Constants.h>
 
 namespace rtt {
 namespace ai {
 
 class Pass : public Skill {
 private:
+    coach::PassCoach::PassType type;
+
+    enum PassType {
+        onPosition,
+        onRobot
+    };
+
+    PassType passType;
+
     int robotToPassToID = -1;
     std::shared_ptr<roboteam_msgs::WorldRobot> robotToPassTo;
     enum Progression {
         POSITIONING, KICKING
     };
     Progression currentProgress;
+
+
+    Vector2 passPosition;
 
     Vector2 targetPos;
     control::PositionController goToPos;
