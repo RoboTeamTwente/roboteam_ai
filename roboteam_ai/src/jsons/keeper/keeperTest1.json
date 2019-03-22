@@ -25,7 +25,7 @@
           },
           "9ke9387fugbou2": {
             "id": "9ke9387fugbou2",
-            "title": "BasicGoToPos",
+            "title": "GoToPos",
             "properties": {
               "ROLE": "keeper",
               "target": "{1,1}"
@@ -33,7 +33,7 @@
           },
           "e2dy40w6gfegn": {
             "id": "e2dy40w6gfegn",
-            "title": "BasicGoToPos",
+            "title": "GoToPos",
             "properties": {
               "ROLE": "keeper",
               "target": "{-1,-1}"

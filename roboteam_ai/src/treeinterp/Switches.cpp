@@ -41,8 +41,9 @@
 #include <roboteam_ai/src/skills/Defend.h>
 #include "../skills/DefendOnRobot.h"
 #include <roboteam_ai/src/skills/InterceptBall.h>
-#include <roboteam_ai/src/skills/BasicGoToPos.h>
+#include <roboteam_ai/src/skills/GTPSpecial.h>
 #include "../skills/GoAroundPos.h"
+#include "../skills/DemoAttack.h"
 
 //  ______________________
 //  |                    |
@@ -162,10 +163,10 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
 
     map["Attack"] =                 std::make_shared<rtt::ai::Attack>(name, properties);
     map["AvoidBall"] =              std::make_shared<rtt::ai::AvoidBall>(name, properties);
-    map["BasicGoToPos"] =           std::make_shared<rtt::ai::BasicGoToPos>(name, properties);
-    map["Chip"] =                   std::make_shared<rtt::ai::Chip>(name,properties);
+    map["GTPSpecial"] =           std::make_shared<rtt::ai::GTPSpecial>(name, properties);
     map["Defend"] =                 std::make_shared<rtt::ai::Defend>(name, properties);
     map["DefendOnRobot"] =          std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
+    map["DemoAttack"] =             std::make_shared<rtt::ai::DemoAttack>(name, properties);
     map["Dribble"] =                std::make_shared<rtt::ai::Dribble>(name, properties);
     map["DribbleRotate"]=           std::make_shared<rtt::ai::DribbleRotate>(name,properties);
     map["EnterFormation"] =         std::make_shared<rtt::ai::EnterFormation>(name, properties);
