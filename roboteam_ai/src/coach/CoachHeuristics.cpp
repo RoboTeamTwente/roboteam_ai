@@ -8,12 +8,12 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
-double MAX_DISTANCE_FROM_BALL = 6.0;
-double CLOSE_TO_GOAL_WEIGHT = -0.1;
-double SHOT_AT_GOAL_WEIGHT = -1.0;
-double PASS_LINE_WEIGHT = -1.0;
-double DISTANCE_TO_OPPONENTS_WEIGHT = -0.5;
-double DISTANCE_FROM_CORNER_WEIGHT = -0.05;
+const double CoachHeuristics::MAX_DISTANCE_FROM_BALL = 6.0;
+const double CoachHeuristics::CLOSE_TO_GOAL_WEIGHT = -0.1;
+const double CoachHeuristics::SHOT_AT_GOAL_WEIGHT = -1.0;
+const double CoachHeuristics::PASS_LINE_WEIGHT = -1.0;
+const double CoachHeuristics::DISTANCE_TO_OPPONENTS_WEIGHT = -0.5;
+const double CoachHeuristics::DISTANCE_FROM_CORNER_WEIGHT = -0.05;
 
 /// Gives a higher score to positions closer to the oppontents goal
 double CoachHeuristics::calculateCloseToGoalScore(Vector2 position) {
