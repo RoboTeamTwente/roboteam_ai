@@ -257,9 +257,26 @@ Vector2 ControlUtils::calculateForce(rtt::Vector2 vector, double weight, double 
 
     // if the object is close enough, it's forces should affect. Otherwise don't change anything.
     if (vector.length() < minDistance && vector.length() > 0) {
-        return vector.normalize()*weight*(1/vector.length2()+1/vector.length());
+        return vector.normalize()*weight*(1/vector.length2());
     }
     return {0, 0};
+}
+
+double ControlUtils::calculateRotForce(rtt::Vector2 dis, rtt::Vector2 vel, double weight, double minDistance) {
+    if (dis.length() < minDistance && dis.length() > 0) {
+        double cosTheta = dis.dot(vel) / (dis.length() * vel.length());
+        double r = dis.length();
+        double rot = weight * cosTheta / (r-1);
+        if (cosTheta > 0) {
+            double side = vel.x * dis.y - vel.y * dis.x;
+            if (side > 0) {
+                return -rot;
+            } else {
+                return rot;
+            }
+        }
+    }
+    return 0;
 }
 
 std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(std::vector<Vector2> set1,

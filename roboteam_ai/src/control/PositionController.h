@@ -34,7 +34,8 @@ class PositionController {
         PosVelAngle numTree(RobotPtr robot, Vector2 &targetPos);
         NumTreePosControl numTreeController;
 
-        Vector2 force(RobotPtr robot, Vector2 &targetPos);
+        PosVelAngle force(RobotPtr robot, Vector2 &targetPos);
+        double rotation(RobotPtr robot, Vector2 &targetPos, Vector2 &targetVel);
 //        ControlGoToPosForce forceController;
 
         PosVelAngle basic(RobotPtr robot, Vector2 &targetPos);
@@ -43,7 +44,7 @@ class PositionController {
         PIDController posPID;
         bool avoidBall = false;
         bool canGoOutsideField = false;
-        bool useforce = false;
+        bool userotforce = false;
 
         PosVelAngle pidController(const RobotPtr &robot, PosVelAngle target);
         void checkInterfacePID();

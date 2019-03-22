@@ -31,6 +31,7 @@ class ControlUtils {
         static int rotateDirection(double currentAngle, double targetAngle);
         static Vector2 projectPositionToWithinField(Vector2 position, float margin = 0.2);
         static Vector2 calculateForce(rtt::Vector2 vector, double weight, double minDistance);
+        static double calculateRotForce(rtt::Vector2 dis, rtt::Vector2 vel, double weight, double minDistance);
 
         static bool hasClearVision(int from, int towards, roboteam_msgs::World world, int safelyness);
         static bool onLineSegment(Vector2 p, Vector2 q, Vector2 r);
