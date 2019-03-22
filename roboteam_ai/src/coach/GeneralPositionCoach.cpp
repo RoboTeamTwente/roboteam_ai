@@ -19,6 +19,7 @@ namespace coach {
 // create the global object
 GeneralPositionCoach g_generalPositionCoach;
 
+double GeneralPositionCoach::BEHIND_BALL_ANGLE = 0.15;
 
 rtt::Vector2 GeneralPositionCoach::getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal) {
     const Vector2 &goal = (ourGoal ? Field::get_our_goal_center : Field::get_their_goal_center)();

@@ -17,7 +17,7 @@ void OffensiveCoach::recalculateOffensivePositions() {
     while (it < offensivePositions.end()) {
         it->score = CoachHeuristics::calculatePositionScore(it->position);
         for (auto& robotPosition : robotPositions) {
-            if ((it->position - robotPosition.second.position).length() < Constants::ATTACKER_DISTANCE()) {
+            if ((it->position - robotPosition.second.position).length() < ATTACKER_DISTANCE) {
                 offensivePositions.erase(it);
                 break;
             }
@@ -46,7 +46,7 @@ bool OffensiveCoach::positionTooCloseToRobotPositions(OffensivePosition position
     bool tooClose = false;
     for (auto &robotPosition : robotPositions) {
         if (robotPosition.first != self) {
-            if ((position.position - robotPosition.second.position).length() < Constants::ATTACKER_DISTANCE()) {
+            if ((position.position - robotPosition.second.position).length() < ATTACKER_DISTANCE) {
                 tooClose = true;
                 continue;
             }
@@ -91,7 +91,7 @@ void OffensiveCoach::compareToCurrentPositions(const OffensiveCoach::OffensivePo
     OffensivePosition bestPos = position;
     auto it = offensivePositions.begin();
     while (it < offensivePositions.end()) {
-        if ((position.position - it->position).length() < Constants::OFFENSIVE_POSITION_DISTANCE()) {//Constants::ATTACKER_DISTANCE()) {
+        if ((position.position - it->position).length() < OFFENSIVE_POSITION_DISTANCE) {//Constants::ATTACKER_DISTANCE()) {
             if (it->score >= bestPos.score) {
                 bestPos.position = it->position;
                 bestPos.score = it->score;

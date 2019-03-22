@@ -11,28 +11,12 @@ namespace rtt {
 namespace ai {
 
 class GoToPos : public Skill {
-    private:
-
-        bool goToBall;
-        bool goBehindBall;
-        double distanceBehindBall;
-        double speed;
-        enum Progression {
-          ON_THE_WAY, DONE, FAIL
-        };
-        Progression currentProgress;
-        Progression checkProgression();
-
-        Vector2 deltaPos;
-        Vector2 targetPos = {0, 0};
-
-        bool checkTargetPos(Vector2 pos);
-
-        void sendMoveCommand();
-        void sendMoveCommand2();
-        bool commandSend;
-
     public:
+        Vector2 targetPos = {0, 0};
+        double maxVel = Constants::DEFAULT_MAX_VEL();
+        control::PositionController goToPos;
+        double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
+
         explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;
         void onInitialize() override;

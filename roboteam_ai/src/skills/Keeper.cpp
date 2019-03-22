@@ -44,7 +44,7 @@ Keeper::Status Keeper::onUpdate() {
         }
         //double dist=control::ControlUtils::distanceToLine(robot->pos,ballPos,blockPoint);
         double dist = (blockPoint - (Vector2(robot->pos))).length(); //using point distance not line distance.
-        if (dist < Constants::KEEPER_POSDIF()) {
+        if (dist < KEEPER_POSDIF) {
             sendStopCommand();
         }
         else if (dist < 2*Constants::ROBOT_RADIUS()){

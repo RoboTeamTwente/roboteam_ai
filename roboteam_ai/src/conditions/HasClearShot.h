@@ -12,6 +12,8 @@ namespace rtt {
 namespace ai {
 
 class HasClearShot : public Condition {
+private:
+    const double MAX_SHOOTING_DISTANCE = 3.0;
 public:
     explicit HasClearShot(std::string name = "HasClearShot", bt::Blackboard::Ptr blackboard = nullptr);
     void onInitialize() override;

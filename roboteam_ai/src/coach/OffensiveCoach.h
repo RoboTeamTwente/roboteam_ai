@@ -18,6 +18,9 @@ namespace coach {
 
 class OffensiveCoach {
 public:
+    const double ATTACKER_DISTANCE = 1.6;
+    const double OFFENSIVE_POSITION_DISTANCE = 0.8;
+
     struct OffensivePosition {
     Vector2 position;
     double score;
