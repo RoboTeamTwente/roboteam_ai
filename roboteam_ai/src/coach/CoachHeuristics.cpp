@@ -8,8 +8,7 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
-double CoachHeuristics::maxDistanceFromBall = 6.0;
-
+double MAX_DISTANCE_FROM_BALL = 6.0;
 double CLOSE_TO_GOAL_WEIGHT = -0.1;
 double SHOT_AT_GOAL_WEIGHT = -1.0;
 double PASS_LINE_WEIGHT = -1.0;
@@ -78,7 +77,7 @@ double CoachHeuristics::calculateDistanceFromCornerScore(Vector2 position, robot
 /// Gives a higher score if the ball is not too far or too close to the ball (parabolic using maxDistanceFromBall)
 double CoachHeuristics::calculateDistanceFromBallScore(Vector2 position, roboteam_msgs::GeometryFieldSize& field, roboteam_msgs::WorldBall& ball) {
     double distanceFromBall = (position - ball.pos).length();
-    return -pow(distanceFromBall / (0.5 * maxDistanceFromBall), 2) + 2 * (distanceFromBall / (0.5 * maxDistanceFromBall));
+    return -pow(distanceFromBall / (0.5 * MAX_DISTANCE_FROM_BALL), 2) + 2 * (distanceFromBall / (0.5 * MAX_DISTANCE_FROM_BALL));
 }
 
 /// Calculates a total score based on all the sub-scores

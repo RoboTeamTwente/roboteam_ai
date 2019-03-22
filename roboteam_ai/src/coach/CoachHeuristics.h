@@ -15,8 +15,7 @@ namespace coach {
 
 class CoachHeuristics {
 private:
-    static double maxDistanceFromBall;
-
+    static const double MAX_DISTANCE_FROM_BALL;
     static const double CLOSE_TO_GOAL_WEIGHT;
     static const double SHOT_AT_GOAL_WEIGHT;
     static const double PASS_LINE_WEIGHT;
