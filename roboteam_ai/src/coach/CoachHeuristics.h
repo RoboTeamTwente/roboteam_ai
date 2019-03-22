@@ -16,6 +16,12 @@ namespace coach {
 class CoachHeuristics {
 private:
     static double maxDistanceFromBall;
+
+    static const double CLOSE_TO_GOAL_WEIGHT;
+    static const double SHOT_AT_GOAL_WEIGHT;
+    static const double PASS_LINE_WEIGHT;
+    static const double DISTANCE_TO_OPPONENTS_WEIGHT;
+    static const double DISTANCE_FROM_CORNER_WEIGHT;
 public:
     static double calculateCloseToGoalScore(Vector2 position);
     static double calculateShotAtGoalScore(Vector2 position, roboteam_msgs::World world);

@@ -10,11 +10,17 @@ namespace coach {
 
 double CoachHeuristics::maxDistanceFromBall = 6.0;
 
+double CLOSE_TO_GOAL_WEIGHT = -0.1;
+double SHOT_AT_GOAL_WEIGHT = -1.0;
+double PASS_LINE_WEIGHT = -1.0;
+double DISTANCE_TO_OPPONENTS_WEIGHT = -0.5;
+double DISTANCE_FROM_CORNER_WEIGHT = -0.05;
+
 /// Gives a higher score to positions closer to the oppontents goal
 double CoachHeuristics::calculateCloseToGoalScore(Vector2 position) {
     double distanceFromGoal = (Field::get_their_goal_center() - position).length();
 
-    double score = exp(-0.1 * distanceFromGoal);
+    double score = exp(CLOSE_TO_GOAL_WEIGHT * distanceFromGoal);
     return score;
 }
 
@@ -29,7 +35,7 @@ double CoachHeuristics::calculateShotAtGoalScore(Vector2 position, roboteam_msgs
         safeDistanceFactor -= 0.5;
     }
 
-    return 1 - exp(-safeDistanceFactor);
+    return 1 - exp(SHOT_AT_GOAL_WEIGHT * safeDistanceFactor);
 }
 
 /// Gives a higher score if the distance between the ball and the positions if free (safe pass line)
@@ -42,7 +48,7 @@ double CoachHeuristics::calculatePassLineScore(Vector2 position, roboteam_msgs::
         safeDistanceFactor -= 0.5;
     }
 
-    return 1 - exp(-safeDistanceFactor);
+    return 1 - exp(PASS_LINE_WEIGHT * safeDistanceFactor);
 }
 
 /// Gives a higher score if the position is far away from enemy robots
@@ -50,7 +56,7 @@ double CoachHeuristics::calculateDistanceToOpponentsScore(Vector2 position, robo
     shared_ptr<roboteam_msgs::WorldRobot> closestRobot = World::getRobotClosestToPoint(world.them, position);
     if (closestRobot) {
         double distance = (position - closestRobot->pos).length();
-        return 1 - exp(-0.5 * distance);
+        return 1 - exp(DISTANCE_TO_OPPONENTS_WEIGHT * distance);
     } else {
         return 1;
     }
@@ -66,7 +72,7 @@ double CoachHeuristics::calculateDistanceFromCornerScore(Vector2 position, robot
         corner.y = -field.field_width / 2;
     }
     double distanceFromCorner = (position - corner).length();
-    return 1 - exp(-0.05 * distanceFromCorner);
+    return 1 - exp(DISTANCE_FROM_CORNER_WEIGHT * distanceFromCorner);
 }
 
 /// Gives a higher score if the ball is not too far or too close to the ball (parabolic using maxDistanceFromBall)
