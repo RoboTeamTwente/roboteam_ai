@@ -5,6 +5,8 @@
 #ifndef ROBOTEAM_AI_PASSCOACH_H
 #define ROBOTEAM_AI_PASSCOACH_H
 
+#include <roboteam_ai/src/coach/OffensiveCoach.h>
+
 namespace rtt {
 namespace ai {
 namespace coach {
