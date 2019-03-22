@@ -6,6 +6,7 @@
 #include <roboteam_ai/src/bt/bt.hpp>
 #include <roboteam_ai/src/utilities/Referee.hpp>
 #include "../src/ApplicationManager.h"
+#include "../src/treeinterp/BTFactory.h"
 
 namespace rtt {
 TEST(ApplicationManagerTest, it_handles_ROS_data) {
@@ -66,7 +67,7 @@ TEST(ApplicationManagerTest, it_handles_ROS_data) {
     app.notifyTreeStatus(bt::Node::Status::Waiting);
     app.notifyTreeStatus(bt::Node::Status::Running);
     app.notifyTreeStatus(bt::Node::Status::Success);
-    EXPECT_EQ(BTFactory::getCurrentTree(), "haltStrategy");
+    EXPECT_EQ(ai::treeinterp::g_btfactory.getCurrentTree(), "haltStrategy");
 
     app.checkForShutdown();
     EXPECT_EQ(app.strategy->getStatus(), bt::Node::Status::Failure);
