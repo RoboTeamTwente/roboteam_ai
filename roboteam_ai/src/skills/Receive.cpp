@@ -54,8 +54,7 @@ Receive::Status Receive::onUpdate() {
                 currentProgress = receiving;
                 coach::g_pass.setReadyToReceivePass(true);
             } else if (receiveType == onPosition) {
-                std::cout << "POSITIONING" << std::endl;
-                if (((Vector2) robot->pos - targetPos).length() < 0.10) {
+                if (((Vector2) robot->pos - targetPos).length() < 0.20) {
                     currentProgress = receiving;
                     coach::g_pass.setReadyToReceivePass(true);
                     return Status::Running;

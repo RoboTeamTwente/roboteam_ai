@@ -40,19 +40,23 @@ Pass::Status Pass::onUpdate() {
 
     switch(currentProgress) {
         case Progression::POSITIONING: {
+            goToType = GoToType::NUMERIC_TREES;
 
             /// Get new passPosition if passType is onRobot
             if (passType == onRobot) {
                 passPosition = robotToPassTo->pos;
-                targetPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.20, passPosition);
             }
 
             /// Check if robot is not yet at the targetPos
             if (!coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.25, passPosition, robot->pos)) {
-                goToType = GoToType::NUMERIC_TREES;
-
+                targetPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.20, passPosition);
+                std::cout << "Getting behind ball" << std::endl;
+            } else if (!World::ourBotHasBall(robot->id, 0.15)) {
+                targetPos = ball->pos;
+                std::cout << "Getting towards ball" << std::endl;
+            }
             /// Check if the robot does not have the ball
-            } else if (coach::g_pass.isReadyToReceivePass()) {
+            else if (coach::g_pass.isReadyToReceivePass()) {
                 currentProgress = Progression::KICKING;
                 return Status::Running;
             }
@@ -74,13 +78,12 @@ Pass::Status Pass::onUpdate() {
                 distance = ((Vector2)ball->pos - robotToPassTo->pos).length();
                 kicker_vel_multiplier = distance > rtt::ai::Constants::MAX_POWER_KICK_DISTANCE() ? 1.0 : distance / rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
                 command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER() * kicker_vel_multiplier);
-                command.id = robot->id;
 
                 goToType = GoToType::BASIC;
                 targetPos = ball->pos;
                 Vector2 velocities = goToPos.goToPos(robot, targetPos, goToType).vel;
                 velocities = control::ControlUtils::VelocityLimiter(velocities);
-                if (velocities.length() < 0.4) velocities = velocities.stretchToLength(0.4);
+                if (velocities.length() < 0.6) velocities = velocities.stretchToLength(0.6);
 
                 command.x_vel = static_cast<float>(velocities.x);
                 command.y_vel = static_cast<float>(velocities.y);
@@ -104,7 +107,6 @@ Pass::Status Pass::onUpdate() {
             }
         }
     }
-    std::cout << "Publishing" << std::endl;
     publishRobotCommand(command);
     return Status::Running;
 }
