@@ -45,7 +45,7 @@ PosVelAngle PositionController::goToPos(RobotPtr robot, Vector2 &position, PosCo
     case PosControlType::FORCE:
         return PositionController::force(robot, position);
     case PosControlType::NUMERIC_TREES:
-        return PositionController::force(robot, position);
+        return PositionController::numTree(robot, position);
     case PosControlType::NO_PREFERENCE:
     default:
         return PositionController::numTree(robot, position);
@@ -57,33 +57,35 @@ PosVelAngle PositionController::ballControl(RobotPtr robot, Vector2 &targetPos) 
 }
 
 PosVelAngle PositionController::basic(RobotPtr robot, Vector2 &targetPos) {
-
+    //Just a PID position controller
     Vector2 error = targetPos - robot->pos;
 
-    posPID.setPID(2.0, 0, 3.0);
+    posPID.setPID(15.0, 0, 10.0);
 
     PosVelAngle target;
     target.pos = targetPos;
     target.angle = error.angle();
     userotforce = false;
-    return pidController(robot, target);
+    return pidController(robot, target, 0.5);
 }
 
 PosVelAngle PositionController::force(RobotPtr robot, Vector2 &targetPos) {
-
+    //Just a PID position controller but also rotates the velocity afterwards to avoid objects
     Vector2 error = targetPos - robot->pos;
 
-    posPID.setPID(2.0, 0, 3.0);
+    posPID.setPID(15.0, 0, 10.0);
 
+    checkInterfacePID();
     PosVelAngle target;
-    target.pos = targetPos;
+    target.pos.x = robot->pos.x + error.stretchToLength(1).x;//no square or move, 0.5
+    target.pos.y = robot->pos.y + error.stretchToLength(1).y;
     target.angle = error.angle();
     userotforce = true;
-    return pidController(robot, target);
+    return pidController(robot, target, 0.5);
 }
 
 
-double PositionController::rotation(RobotPtr robot, Vector2 &targetPos, Vector2 &targetVel) {
+double PositionController::rotation(RobotPtr robot, Vector2 &targetPos, Vector2 &targetVel, float weight) {
     double forceRadius;
     Vector2 error = targetPos - robot->pos;
     if (error.length() < Constants::MIN_DISTANCE_FOR_FORCE()) {
@@ -97,19 +99,16 @@ double PositionController::rotation(RobotPtr robot, Vector2 &targetPos, Vector2 
     double force = 0.0;
 
     for (auto bot : world.us){
-        force += ControlUtils::calculateRotForce((Vector2) bot.pos - robot->pos, targetVel, 0, forceRadius);}
+        force += ControlUtils::calculateRotForce((Vector2) bot.pos - robot->pos, targetVel, weight/2, forceRadius);}
     for (auto bot : world.them){
-        force += ControlUtils::calculateRotForce((Vector2) bot.pos - robot->pos, targetVel, 1, forceRadius);}
+        force += ControlUtils::calculateRotForce((Vector2) bot.pos - robot->pos, targetVel, weight, forceRadius);}
     if (avoidBall){
-        force += ControlUtils::calculateRotForce((Vector2) world.ball.pos - robot->pos, targetVel, 0.5, forceRadius);}
-    //if (!canGoOutsideField)
-    //  force += Field::pointIsInField(robot->pos, 0.5) ?
-    //          Vector2() : ControlUtils::calculateForce(Vector2(-1.0,-1.0) / robot->pos, 1, 99.9);
+        force += ControlUtils::calculateRotForce((Vector2) world.ball.pos - robot->pos, targetVel, weight, forceRadius);}
 
-    force = (force > 2) ?
-            2 : force;
-    force = (force < -2) ?
-            -2 : force;
+    force = (force > 1) ?
+            1 : force;
+    force = (force < -1) ?
+            -1 : force;
 
     return force;
 }
@@ -121,10 +120,11 @@ PosVelAngle PositionController::numTree(RobotPtr robot, Vector2 &targetPos) {
         return force(robot, targetPos);
     }
     else {
-        userotforce = false;
+        posPID.setPID(20.0, 0, 10.0);
+        userotforce = true;
         checkInterfacePID();
     }
-    return pidController(robot, target);
+    return pidController(robot, target, 0.10);
 }
 
 void PositionController::setAvoidBall(bool _avoidBall) {
@@ -139,7 +139,7 @@ void PositionController::setCanGoOutsideField(bool _canGoOutsideField) {
     canGoOutsideField = _canGoOutsideField;
 }
 
-PosVelAngle PositionController::pidController(const RobotPtr &robot, PosVelAngle target) {
+PosVelAngle PositionController::pidController(const RobotPtr &robot, PosVelAngle target, float weight) {
     PosVelAngle pidCommand;
 
     Vector2 pid = Vector2();
@@ -153,7 +153,7 @@ PosVelAngle PositionController::pidController(const RobotPtr &robot, PosVelAngle
 
 
     if (userotforce){
-        double rot = rotation(robot, pidCommand.pos, pidCommand.vel);
+        double rot = rotation(robot, pidCommand.pos, pidCommand.vel, weight);
         pidCommand.vel = pidCommand.vel.rotate(rot*0.5*M_PI);
     }
 
@@ -162,7 +162,7 @@ PosVelAngle PositionController::pidController(const RobotPtr &robot, PosVelAngle
 
 /// compare current PID values to those set in the interface
 void PositionController::checkInterfacePID() {
-    posPID.reset();
+    posPID.reset(); //Throws away the integrated I but we don't care since it does not work for this situation.
     posPID.setPID(interface::InterfaceValues::setNumTreePosP(),
             interface::InterfaceValues::getNumTreePosI(),
             interface::InterfaceValues::getNumTreePosD());

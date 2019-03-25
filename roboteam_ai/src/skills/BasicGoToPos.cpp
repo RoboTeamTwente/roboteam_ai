@@ -79,7 +79,7 @@ Skill::Status BasicGoToPos::onUpdate() {
 
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
-    control::PosVelAngle pva = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES);
+    control::PosVelAngle pva = goToPos.goToPos(robot, targetPos, control::PosControlType::FORCE);
 
     if (properties->getBool("BallPlacementAfter")){
         command.w = static_cast<float>((Vector2(robot->pos)-targetPos).angle());

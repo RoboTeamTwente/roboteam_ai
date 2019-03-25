@@ -266,7 +266,7 @@ double ControlUtils::calculateRotForce(rtt::Vector2 dis, rtt::Vector2 vel, doubl
     if (dis.length() < minDistance && dis.length() > 0) {
         double cosTheta = dis.dot(vel) / (dis.length() * vel.length());
         double r = dis.length();
-        double rot = weight * cosTheta / (r-1);
+        double rot = weight * cosTheta / (r);
         if (cosTheta > 0) {
             double side = vel.x * dis.y - vel.y * dis.x;
             if (side > 0) {
