@@ -2,7 +2,9 @@
 #define ROBOTEAM_AI_CONDITION_H
 
 #include "../bt/Leaf.hpp"
-#include <roboteam_ai/src/utilities/Coach.h>
+#include "../utilities/World.h"
+#include "../utilities/Field.h"
+
 namespace rtt {
 namespace ai {
 
@@ -15,7 +17,6 @@ class Condition : public bt::Leaf {
     protected:
         using Control = control::ControlUtils;
         using Status = bt::Node::Status;
-        using Coach = coach::Coach;
 
     public:
         explicit Condition(std::string name, bt::Blackboard::Ptr blackboard = nullptr);

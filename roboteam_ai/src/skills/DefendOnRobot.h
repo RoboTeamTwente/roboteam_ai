@@ -16,8 +16,9 @@ class DefendOnRobot : public Skill {
         control::PositionController goToPos;
         double angleBetweenRobots;
         Vector2 newPosition;
-
-        int amountOfCycles{};
+        int pickOpponentToCover();
+        static std::map<int, int> defencePairs;
+    int amountOfCycles{};
     protected:
         enum Progression {
           IDLE, DONE, FAIL

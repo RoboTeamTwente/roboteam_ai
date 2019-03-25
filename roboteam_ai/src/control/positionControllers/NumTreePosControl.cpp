@@ -1,3 +1,5 @@
+#include "../../utilities/Field.h"
+
 //
 // Created by rolf on 5-2-19.
 //
@@ -207,7 +209,7 @@ void NumTreePosControl::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> rob
     ros::Time start = ros::Time::now();
     while (! pathQueue.empty()) {
         ros::Time now = ros::Time::now();
-        if ((now - start).toSec()*1000 > Constants::MAX_CALCULATION_TIME()) {
+        if ((now - start).toSec()*1000 > MAX_CALCULATION_TIME) {
             if (InterfaceValues::showDebugNumTreeInfo())
                 std::cout << "Tick took too long!" << std::endl;
              //( dont clear path?? ) path.clear();

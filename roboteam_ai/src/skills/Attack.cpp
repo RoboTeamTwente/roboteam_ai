@@ -2,7 +2,9 @@
 // Created by thijs on 17-12-18.
 //
 
+#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
 #include "Attack.h"
+#include <roboteam_ai/src/utilities/Field.h>
 
 namespace rtt {
 namespace ai {
@@ -12,9 +14,9 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void Attack::onInitialize() {
-    ownGoal = properties->getBool("ownGoal");
     goToPos.setAvoidBall(true);
     shot = false;
+    goToType = GoToType::NUMERIC_TREES;
 }
 
 /// Get an update on the skill
@@ -26,20 +28,22 @@ bt::Node::Status Attack::onUpdate() {
     }
 
     Vector2 ball = World::getBall()->pos;
-    Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.4, ownGoal);
+    Vector2 behindBall = coach::g_generalPositionCoach.getPositionBehindBallToGoal(BEHIND_BALL_TARGET, false);
     Vector2 deltaBall = behindBall - ball;
 
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
 
-    if (!Coach::isRobotBehindBallToGoal(0.6, ownGoal, robot->pos)) {
+    if (!coach::g_generalPositionCoach.isRobotBehindBallToGoal(BEHIND_BALL_CHECK, false, robot->pos)) {
         targetPos = behindBall;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
         goToPos.setAvoidBall(true);
+        goToType = GoToType::NUMERIC_TREES;
 
-        if (abs(((Vector2) robot->pos - targetPos).length()) < 0.10) {
+        if (abs(((Vector2) robot->pos - targetPos).length()) < SWITCH_TO_BASICGTP_DISTANCE) {
             goToPos.setAvoidBall(false);
+            goToType = GoToType::BASIC;
         }
     }
     else {
@@ -47,7 +51,7 @@ bt::Node::Status Attack::onUpdate() {
         goToPos.setAvoidBall(false);
         command.use_angle = 1;
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
-        if (World::botHasBall(robot->id, true)) {
+        if (World::botHasBall(robot->id, true, Constants::MAX_KICK_RANGE())) {
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
             command.kicker_forced = 1;
@@ -56,20 +60,20 @@ bt::Node::Status Attack::onUpdate() {
 
     }
     Vector2 velocity;
-    if (Field::pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
+    if (Field::pointIsInDefenceArea(robot->pos, false, 0.0)) {
         velocity = ((Vector2) robot->pos - Field::get_our_goal_center()).stretchToLength(2.0);
     }
-    else if (Field::pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
+    else if (Field::pointIsInDefenceArea(robot->pos, false, 0.0)) {
         velocity = ((Vector2) robot->pos - Field::get_their_goal_center()).stretchToLength(2.0);
     }
-    else if (Field::pointIsInDefenceArea(ball, ownGoal) || Field::pointIsInDefenceArea(ball, !ownGoal)) {
+    else if (Field::pointIsInDefenceArea(ball, false) || Field::pointIsInDefenceArea(ball, true)) {
         velocity = {0, 0};
     }
-    else if (Field::pointIsInDefenceArea(targetPos, ownGoal)) {
+    else if (Field::pointIsInDefenceArea(targetPos, false)) {
         velocity = {0, 0};
     }
     else {
-        velocity = goToPos.goToPos(robot, targetPos, GoToType::NUMERIC_TREES).vel;
+        velocity = goToPos.goToPos(robot, targetPos, goToType).vel;
     }
 
     velocity = control::ControlUtils::VelocityLimiter(velocity);
