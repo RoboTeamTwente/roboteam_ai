@@ -14,21 +14,12 @@ namespace ai {
 
 class Receive : public Skill {
 private:
-    coach::PassCoach::PassType passType;
-
-    enum ReceiveType {
-        onPosition,
-        onRobot
-    };
-
-    ReceiveType receiveType;
-
     enum Progression {
-        positioning,
-        receiving
+        POSITIONING,
+        RECEIVING
     };
 
-    Progression currentProgress = positioning;
+    Progression currentProgress = POSITIONING;
 
     control::PositionController goToPos;
     GoToType goToType;

@@ -51,6 +51,9 @@ const Vector2 &PassCoach::getPassPosition() const {
 int PassCoach::determineRobotToPassTo() {
      return g_offensiveCoach.getBestStrikerID();
 }
+void PassCoach::setPassed(bool passed) {
+this->passed = passed;
+}
 
 } // coach
 } // ai

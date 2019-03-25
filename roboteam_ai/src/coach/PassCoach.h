@@ -24,7 +24,10 @@ public:
     int getRobotBeingPassedTo();
     void setRobotBeingPassedTo(int robotBeingPassedTo);
 
+
+
     bool isPassed();
+    void setPassed(bool passed);
 
     const Vector2 &getPassPosition() const;
 
