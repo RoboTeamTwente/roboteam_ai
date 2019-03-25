@@ -33,6 +33,7 @@
 #include "roboteam_ai/src/skills/Keeper.h"
 #include "roboteam_ai/src/skills/GetBall.h"
 #include "roboteam_ai/src/skills/Attack.h"
+#include "roboteam_ai/src/skills/SideAttacker.h"
 #include "roboteam_ai/src/skills/Pass.h"
 #include "roboteam_ai/src/skills/Receive.h"
 #include <roboteam_ai/src/skills/InterceptBall.h>
@@ -93,6 +94,8 @@ std::vector<std::string> Switches::tacticJsonFileNames =
          "SingleKeeperTactic",
          "DemoAttackerTactic",
          "DemoTactic",
+         "SideAttackerTactic",
+         "PassAndShootTactic",
          "randomTactic" // used for testing, do not remove it!
          };
 
@@ -110,6 +113,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
          "EnterFormationStrategy",
          "BallPlacementUsStrategy",
          "BallPlacementThemStrategy",
+         "SideAttackerStrategy",
+         "PassAndShootStrategy",
          "randomStrategy" // used for testing, do not remove it!
         };
 
@@ -180,6 +185,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["Receive"] =                std::make_shared<rtt::ai::Receive>(name, properties);
     map["RotateToAngle"] =          std::make_shared<rtt::ai::RotateToAngle>(name, properties);
     map["SkillGoToPos"] =           std::make_shared<rtt::ai::SkillGoToPos>(name, properties);
+    map["SideAttacker"] =           std::make_shared<rtt::ai::SideAttacker>(name, properties);
 
     // conditions (alphabetic order)
     map["BallKickedToOurGoal"] =    std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
@@ -276,17 +282,32 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
             {"SingleKeeperTactic",           {
-                                                     {"Keeper",           robotType::closeToOurGoal}
-                                             }
+                     {"Keeper",           robotType::closeToOurGoal}
+             }
             },
             {"DemoAttackerTactic",           {
-                                                     {"demoAttacker",     robotType::closeToTheirGoal}
-                                             }
+                     {"demoAttacker",     robotType::closeToTheirGoal}
+             }
             },
             {"DemoTactic",                   {
-                                                     {"demoAttacker",     robotType::closeToTheirGoal},
-                                                     {"demoKeeper", robotType::closeToOurGoal}
-                                             }
+                     {"demoAttacker",     robotType::closeToTheirGoal},
+                     {"demoKeeper", robotType::closeToOurGoal}
+             }
+            },
+            {"SideAttackerTactic", {
+                   {"sideAttacker1", robotType::closeToTheirGoal},
+                   {"sideAttacker2", robotType::closeToTheirGoal},
+                   {"sideAttacker3", robotType::closeToTheirGoal},
+                   {"sideAttacker4", robotType::closeToTheirGoal}
+
+           }
+            },
+            {"PassAndShootTactic", {
+                   {"midfielder1", robotType::closeToBall},
+                   {"sideAttacker1", robotType::closeToTheirGoal},
+                   {"sideAttacker2", robotType::closeToTheirGoal}
+
+           }
             }
     };
     runErrorHandler(tactics);

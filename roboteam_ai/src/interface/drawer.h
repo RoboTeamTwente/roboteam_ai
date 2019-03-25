@@ -26,10 +26,20 @@ class Drawer {
         static GTPPoints getKeeperPoints(int id);
         static void setInterceptPoints(int id, GTPPoints points);
         static GTPPoints getInterceptPoints(int id);
+
+        static void setOffensivePoints(GTPPoints points);
+        static GTPPoints getOffensivePoints();
+        static void setAttackerPoints(int id, GTPPoints points);
+        static GTPPoints getAttackerPoints(int id);
+
         static std::vector<std::pair<Vector2, QColor>> getDrawPoints();
         static std::vector<std::tuple<Vector2, Vector2, QColor>> getDrawLines();
         static void clearDrawLines();
         static void clearDrawPoints();
+
+private:
+        static std::mutex drawMutex,goToPosMutex,keeperMutex,interceptMutex,offensiveMutex,attackerMutex,drawLinesMutex;
+        static std::map<int, GTPPoints> GoToPosLuThPoints;
 
 
         static void drawPoint(Vector2 point, QColor color = Qt::darkMagenta);
@@ -37,12 +47,16 @@ class Drawer {
         static void drawPoints(std::vector<std::pair<Vector2, QColor>> points);
 
         static void drawLine(Vector2 pointA, Vector2 pointB, QColor color = Qt::darkMagenta);
-
-    private:
-        static std::mutex goToPosMutex,keeperMutex,interceptMutex, drawMutex, drawLinesMutex;
         static std::map<int, GTPPoints> NumTreePoints;
         static std::map<int, GTPPoints> KeeperPoints;
         static std::map<int, GTPPoints> InterceptPoints;
+        static std::map<int, GTPPoints> AttackerPoints;
+        static GTPPoints OffensivePoints;
+
+        static void addDrawPoint(Vector2 point, QColor color = Qt::darkMagenta);
+        static void addDrawPoint(std::pair<Vector2, QColor> point);
+        static void addDrawPoints(std::vector<std::pair<Vector2, QColor>> points);
+
         static std::vector<std::pair<Vector2, QColor>> drawP;
         static std::vector<std::tuple<Vector2, Vector2, QColor>> drawL;
 

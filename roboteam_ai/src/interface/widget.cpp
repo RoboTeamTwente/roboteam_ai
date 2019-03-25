@@ -24,6 +24,7 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawFieldLines(painter);
         drawBall(painter);
         drawRobots(painter);
+        drawCrosses(painter, Drawer::getOffensivePoints(), 5);
         drawDrawPoints(painter, Drawer::getDrawPoints());
         drawDrawLines(painter, Drawer::getDrawLines());
 
@@ -37,6 +38,7 @@ void Visualizer::paintEvent(QPaintEvent* event) {
                 drawDataPoints(painter, Drawer::getNumTreePoints(robot.id));
                 drawDataPoints(painter, Drawer::getKeeperPoints(robot.id),Constants::KEEPER_HELP_DRAW_SIZE());
                 drawIntercept(painter, Drawer::getInterceptPoints(robot.id));
+                drawCrosses(painter, Drawer::getAttackerPoints(robot.id), 5);
             }
         }
 
@@ -249,6 +251,7 @@ void Visualizer::drawDataPoints(QPainter &painter, std::vector<Vector2> points, 
         }
     }
 }
+
 void Visualizer::drawDataPoints(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize) {
     if (! points.empty()) {
         painter.setPen(Qt::NoPen);
@@ -257,6 +260,19 @@ void Visualizer::drawDataPoints(QPainter &painter, std::vector<std::pair<Vector2
             painter.setBrush(point.second);
             Vector2 pointOnScreen = toScreenPosition(point.first);
             painter.drawEllipse(pointOnScreen.x, pointOnScreen.y, pointSize, pointSize);
+        }
+    }
+}
+
+void Visualizer::drawCrosses(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, double size) {
+    if (!points.empty()) {
+        for (auto point : points) {
+            painter.setPen(point.second);
+            Vector2 pointOnScreen = toScreenPosition(point.first);
+            painter.drawLine(pointOnScreen.x - size, pointOnScreen.y - size, pointOnScreen.x + size,
+                             pointOnScreen.y + size);
+            painter.drawLine(pointOnScreen.x + size, pointOnScreen.y - size, pointOnScreen.x - size,
+                             pointOnScreen.y + size);
         }
     }
 }

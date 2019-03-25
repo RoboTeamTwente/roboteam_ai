@@ -81,6 +81,8 @@ void ApplicationManager::runOneLoopCycle() {
         strategy = ai::treeinterp::g_btfactory.getTree(ai::treeinterp::g_btfactory.getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
+
+        rtt::ai::coach::g_offensiveCoach.calculateNewPositions();
     }
     else {
         ROS_ERROR("No first world");
