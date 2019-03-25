@@ -2,8 +2,8 @@
 // Created by baris on 16/11/18.
 //
 
-#ifndef ROBOTEAM_AI_ROBOTDEALER_H
-#define ROBOTEAM_AI_ROBOTDEALER_H
+#ifndef ROBOTEAM_AI_ROBOTDEALERR_H
+#define ROBOTEAM_AI_ROBOTDEALERR_H
 
 #include <utility>
 #include <map>
@@ -11,23 +11,20 @@
 #include <mutex>
 #include <vector>
 #include "roboteam_utils/Vector2.h"
-#include "../world/World.h"
 #include "../world/WorldData.h"
-#include "../world/Field.h"
 #include "ros/ros.h"
 
 namespace rtt {
 namespace ai {
 namespace robotDealer {
 
-enum RobotType : short {
+enum RobotType {
     closeToBall,
     farFromBall,
     closeToOurGoal,
     betweenBallAndOurGoal,
     closeToTheirGoal,
     random
-
 };
 
 class RobotDealer {

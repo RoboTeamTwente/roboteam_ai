@@ -3,8 +3,6 @@
 //
 
 #include "BallInDefenseAreaAndStill.h"
-#include "../utilities/World.h"
-#include "roboteam_ai/src/world/Field.h"
 #include "../utilities/Constants.h"
 
 namespace rtt {
@@ -22,7 +20,7 @@ bt::Node::Status BallInDefenseAreaAndStill::onUpdate() {
     Vector2 ballPos = ball->pos;
     Vector2 ballVel=ball->vel;
 
-    if (Field::pointIsInDefenceArea(ballPos,!theirDefenceArea, outsideField)&&(ballVel.length()<Constants::BALL_STILL_VEL())){
+    if (world::field->pointIsInDefenceArea(ballPos,!theirDefenceArea, outsideField)&&(ballVel.length()<Constants::BALL_STILL_VEL())){
         return Status::Success;
     }
     else{

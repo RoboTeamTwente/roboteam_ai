@@ -14,8 +14,8 @@ Keeper::Keeper(rtt::string name, bt::Blackboard::Ptr blackboard)
 
 void Keeper::onInitialize() {
 
-    goalPos = Field::get_our_goal_center();
-    goalwidth = Field::get_field().goal_width;
+    goalPos = world::field->get_our_goal_center();
+    goalwidth = world::field->get_field().goal_width;
 
     //Create arc for keeper to drive on
     blockCircle=control::ControlUtils::createKeeperArc();
@@ -26,9 +26,9 @@ void Keeper::onInitialize() {
 }
 
 Keeper::Status Keeper::onUpdate() {
-        Vector2 ballPos = World::getBall()->pos;
+        Vector2 ballPos = world::world->getBall()->pos;
         Vector2 blockPoint = computeBlockPoint(ballPos);
-        if (!Field::pointIsInField(blockPoint, static_cast<float>(Constants::OUT_OF_FIELD_MARGIN()))) {
+        if (!world::field->pointIsInField(blockPoint, static_cast<float>(Constants::OUT_OF_FIELD_MARGIN()))) {
             std::cout << "Keeper escaping field!" << std::endl;
             return Status::Running;
         } else {
@@ -113,7 +113,7 @@ Vector2 Keeper::computeBlockPoint(Vector2 defendPos) {
         posA = *intersections.first;
         posB = *intersections.second;
 
-        if (!Field::pointIsInDefenceArea(posA, true)) {
+        if (!world::field->pointIsInDefenceArea(posA, true)) {
             blockPos = posB;
         }
 

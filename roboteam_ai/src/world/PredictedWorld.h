@@ -11,12 +11,7 @@ namespace rtt {
 namespace ai {
 namespace world {
 
-class PredictedWorld : public LastWorld {
-    private:
-
-    public:
-        void updatePredictedWorld() override;
-
+class PredictedWorld {
 };
 
 }

@@ -2,8 +2,8 @@
 // Created by thijs on 19-3-19.
 //
 
-#ifndef ROBOTEAM_AI_PROCESSEDWORLD_H
-#define ROBOTEAM_AI_PROCESSEDWORLD_H
+#ifndef ROBOTEAM_AI_PROCESSEDWORLDEE_H
+#define ROBOTEAM_AI_PROCESSEDWORLDEE_H
 
 #include "WorldData.h"
 
@@ -11,7 +11,6 @@ namespace rtt {
 namespace ai {
 namespace world {
 
-class World;
 class ProcessedWorld {
     private:
         using RobotPtr = std::shared_ptr<Robot>;

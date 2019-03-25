@@ -92,19 +92,19 @@ PosVelAngle PositionController::force(RobotPtr robot, Vector2 &targetPos) {
     }
 
     PosVelAngle target;
-    roboteam_msgs::World world = World::get_world();
+    auto w = world::world->getWorld();
     Vector2 force = (targetPos - robot->pos);
     force = (force.length() > 3.0) ?
             force.stretchToLength(3.0) : force;
 
-    for (auto bot : world.us)
+    for (auto bot : w.us)
         force += ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, forceRadius);
-    for (auto bot : world.them)
+    for (auto bot : w.them)
         force += ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 2, forceRadius);
     if (avoidBall)
-        force += ControlUtils::calculateForce((Vector2) robot->pos - world.ball.pos, 1, forceRadius);
+        force += ControlUtils::calculateForce((Vector2) robot->pos - w.ball.pos, 1, forceRadius);
     if (!canGoOutsideField)
-        force += Field::pointIsInField(robot->pos, 0.5) ?
+        force += world::field->pointIsInField(robot->pos, 0.5) ?
                 Vector2() : ControlUtils::calculateForce(Vector2(-1.0,-1.0) / robot->pos, 1, 99.9);
 
     force = (force.length() > 3.0) ?

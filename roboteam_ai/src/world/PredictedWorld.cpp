@@ -8,10 +8,6 @@ namespace rtt {
 namespace ai {
 namespace world {
 
-void PredictedWorld::updatePredictedWorld() {
-
-}
-
 }
 }
 }

@@ -18,7 +18,7 @@ void EnterFormation::onInitialize() {
 bt::Node::Status EnterFormation::onUpdate() {
     auto robotPos = rtt::Vector2(robot->pos);
     Vector2 targetLocation = coach::Coach::getFormationPosition(robot->id);
-    Vector2 targetToLookAtLocation = Field::get_their_goal_center();
+    Vector2 targetToLookAtLocation = world::field->get_their_goal_center();
 
     roboteam_msgs::RobotCommand cmd;
     cmd.id = robot->id;

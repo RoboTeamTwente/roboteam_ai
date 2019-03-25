@@ -25,7 +25,7 @@ class ApplicationManager {
         bt::BehaviorTree::Ptr keeperTree;
         BTFactory factory;
 
-        void updateROSData();
+//        void updateROSData();
         void updateDangerfinder();
         void handleRefData();
         void notifyTreeStatus(bt::Node::Status status);

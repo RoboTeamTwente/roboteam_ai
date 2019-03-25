@@ -25,7 +25,7 @@ void NumTreePosControl::setCanGoOutsideField(bool _canGoOutsideField) {
 
 /// return the velocity command using two PIDs based on the current position and velocity of the robot compared to the
 /// position and velocity of the calculated path
-PosVelAngle NumTreePosControl::computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
+PosVelAngle NumTreePosControl::computeCommand(RobotPtr robot) {
     if (path.size() < static_cast<unsigned int>(1.01 + 0.30/dt)) {
         path.clear();
         return {};
@@ -45,7 +45,7 @@ PosVelAngle NumTreePosControl::computeCommand(std::shared_ptr<roboteam_msgs::Wor
 
 /// finds a reason to calculate a new path (possible reasons are: on path calculated yet, final target moved,
 /// robot is too far from path or another robot is colliding with current path
-bool NumTreePosControl::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
+bool NumTreePosControl::doRecalculatePath(RobotPtr robot, Vector2 targetPos) {
     double maxTargetDeviation = 0.3;
     if (path.empty()) {
         if (InterfaceValues::showFullDebugNumTreeInfo())
@@ -100,7 +100,7 @@ bool NumTreePosControl::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRo
 }
 
 /// finds a path using a numeric model
-PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
+PosVelAngle NumTreePosControl::goToPos(RobotPtr robot, Vector2 targetPos) {
     ros::Time begin = ros::Time::now();
     robotID = robot->id;
 
@@ -160,7 +160,7 @@ PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot
     }
 }
 
-void NumTreePosControl::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
+void NumTreePosControl::tracePath(RobotPtr robot) {
 
 // compAStar compares the amount of collisions first (max 3 diff), then sorts the paths based on an approximation on the
 // length of path that still has to be calculated, using straight lines towards the half-way targets, and the final
@@ -306,26 +306,26 @@ std::shared_ptr<NumTreePosControl::PathPoint> NumTreePosControl::computeNewPoint
 
 /// check if a pathpoint is in a collision with a robot/ball at that timepoint
 bool NumTreePosControl::checkCollision(std::shared_ptr<PathPoint> point, double collisionRadius) {
-    roboteam_msgs::World world = World::get_world();
-    for (auto bot : world.us) {
-        if (bot.id != static_cast<unsigned long>(robotID)) {
+    auto w = world::world->getWorld();
+    for (auto bot : w.us) {
+        if (bot.id != static_cast<int>(robotID)) {
             Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
             if (point->isCollision(botPos, collisionRadius))
                 return true;
         }
     }
-    for (auto bot: world.them) {
+    for (auto bot: w.them) {
         Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
         if (point->isCollision(botPos, collisionRadius))
             return true;
     }
     if (avoidBall) {
-        Vector2 ballPos = (Vector2) (world.ball.pos) + (Vector2) (world.ball.vel)*point->t;
+        Vector2 ballPos = (Vector2) (w.ball.pos) + (Vector2) (w.ball.vel)*point->t;
         if (point->isCollision(ballPos, collisionRadius*0.5 + Constants::BALL_RADIUS()))
             return true;
     }
     if (!canGoOutsideField) {
-        if (Field::pointIsInField(point->pos))
+        if (world::field->pointIsInField(point->pos))
             return true;
     }
     return false;
@@ -333,29 +333,29 @@ bool NumTreePosControl::checkCollision(std::shared_ptr<PathPoint> point, double 
 
 /// find the robot corresponding to a collision-position
 Vector2 NumTreePosControl::findCollisionPos(std::shared_ptr<PathPoint> point, double collisionRadius) {
-    roboteam_msgs::World world = World::get_world();
-    for (auto bot: world.us) {
-        if (bot.id != static_cast<unsigned long>(robotID)) {
+    auto w = world::world->getWorld();
+    for (auto bot: w.us) {
+        if (bot.id != robotID) {
             Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
             if (point->isCollision(botPos, collisionRadius)) {
                 return botPos;
             }
         }
     }
-    for (auto bot: world.them) {
+    for (auto bot: w.them) {
         Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
         if (point->isCollision(botPos, collisionRadius)) {
             return botPos;
         }
     }
     if (avoidBall) {
-        Vector2 ballPos = (Vector2) (world.ball.pos) + (Vector2) (world.ball.vel)*point->t;
+        Vector2 ballPos = (Vector2) (w.ball.pos) + (Vector2) (w.ball.vel)*point->t;
         if (point->isCollision(ballPos, collisionRadius*0.5 + Constants::BALL_RADIUS())) {
             return ballPos;
         }
     }
     if (!canGoOutsideField) {
-        if (Field::pointIsInField(point->pos))
+        if (world::field->pointIsInField(point->pos))
             return point->pos;
     }
     return {- 42, 42};

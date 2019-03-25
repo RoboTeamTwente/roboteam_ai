@@ -47,7 +47,7 @@ bt::Node::Status GoToPos::onUpdate() {
             return Status::Success;
         }
 
-        auto enemyGoal = Field::get_their_goal_center();
+        auto enemyGoal = world::field->get_their_goal_center();
         Vector2 ballToEnemyGoal = enemyGoal - ball->pos;
         Vector2 normalizedBTEG = ballToEnemyGoal.stretchToLength(-distanceBehindBall);
         targetPos = normalizedBTEG + ball->pos;

@@ -34,7 +34,7 @@ void GetBall::checkProgression() {
             //std::cout<<"GetBall: APPROACHING-> TURNING"<<std::endl;
             return;
         }
-        if (World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
+        if (world::world->ourRobotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
             //std::cout<<"GetBall: APPROACHING -> OVERSHOOTING"<<std::endl;
             currentProgress = OVERSHOOTING;
             return;
@@ -44,7 +44,7 @@ void GetBall::checkProgression() {
         }
     }
     else if (currentProgress == OVERSHOOTING){
-        if (!World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
+        if (!world::world->ourRobotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
             //std::cout<<"GetBall: OVERSHOOTING -> TURNING"<<std::endl;
             currentProgress = TURNING;
             return;
@@ -71,7 +71,7 @@ void GetBall::checkProgression() {
 //        }
     }
     else if (currentProgress == DRIBBLING) {
-        if (! World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
+        if (! world::world->ourRobotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
             currentProgress = APPROACHING;
             count = 0;
             //std::cout<<"GetBall: DRIBBLING-> APPROACHING"<<std::endl;
@@ -108,7 +108,7 @@ GetBall::Status GetBall::onUpdate() {
         approachPos= Vector2(ball->pos)+(Vector2(robot->pos)-Vector2(ball->pos)).stretchToLength(Constants::CENTRE_TO_FRONT()-0.03);
     }
 
-    if(!World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())){
+    if(!world::world->ourRobotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())){
         lockedAngle=deltaPos.angle();
     }
     if (ball->visible){

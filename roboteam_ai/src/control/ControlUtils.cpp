@@ -159,8 +159,8 @@ bool ControlUtils::lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd, V
 
 }
 rtt::Arc ControlUtils::createKeeperArc() {
-    double goalwidth = rtt::ai::Field::get_field().goal_width;
-    Vector2 goalPos = rtt::ai::Field::get_our_goal_center();
+    double goalwidth = rtt::ai::world::field->get_field().goal_width;
+    Vector2 goalPos = rtt::ai::world::field->get_our_goal_center();
     double diff = rtt::ai::Constants::KEEPER_POST_MARGIN() - rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN();
 
     double radius = diff*0.5 + goalwidth*goalwidth/(8*diff); //Pythagoras' theorem.
@@ -238,7 +238,7 @@ Vector2 ControlUtils::twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Ve
 /// Returns point in field closest to a given point.
 /// If the point is already in the field it returns the same as the input.
 Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, float margin) {
-    auto field = Field::get_field();
+    auto field = world::field->get_field();
     double hFieldLength = field.field_length*0.5;
     double hFieldWidth = field.field_width*0.5;
     if (position.x > hFieldLength - margin)

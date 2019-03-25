@@ -17,7 +17,7 @@ void Tactic::addChild(Node::Ptr newChild) {
 }
 
 void Tactic::terminate(Node::Status s) {
-    robotDealer::RobotDealer::removeTactic(name);
+    rtt::ai::robotDealer::robotDealer->removeTactic(name);
     child->terminate(child->getStatus());
     if (s == Status::Running) {
         setStatus(Status::Failure);

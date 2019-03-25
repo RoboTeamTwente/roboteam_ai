@@ -12,7 +12,7 @@ namespace ai {
 
 class WorldBuffer {
     private:
-        WorldData* worldBuffer;
+        world::WorldData* worldBuffer;
         unsigned int size;
         unsigned int lastIndex;
     public:
@@ -21,7 +21,7 @@ class WorldBuffer {
 
         explicit WorldBuffer(unsigned int size) {
             WorldBuffer::size = size;
-            worldBuffer = new WorldData[size];
+            worldBuffer = new world::WorldData[size];
             lastIndex = 0;
         }
 
@@ -29,26 +29,19 @@ class WorldBuffer {
             delete[] worldBuffer;
         }
 
-        void addWorld(WorldData &world) {
+        void addWorld(world::WorldData &world) {
             worldBuffer[lastIndex--] = world;
             if (lastIndex < 0) lastIndex = size - 1;
         }
 
-        const WorldData &getLastWorld(const unsigned int w) {
+        const world::WorldData &getLastWorld(const unsigned int w) {
             unsigned int location = lastIndex + w + 1;
             location %= size;
             return worldBuffer[location];
         }
 };
 
-class LastWorld : public World {
-    protected:
-        WorldBuffer worldBuffer;
-    public:
-        const WorldData &getLastWorld(unsigned int w = 0);
-        void updateLastWorld() override;
-        virtual void updatePredictedWorld() = 0;
-
+class LastWorld {
 };
 
 }

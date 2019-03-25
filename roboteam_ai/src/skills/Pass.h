@@ -14,7 +14,7 @@ namespace ai {
 class Pass : public Skill {
 private:
     int robotToPassToID = -1;
-    std::shared_ptr<roboteam_msgs::WorldRobot> robotToPassTo;
+    RobotPtr robotToPassTo;
     enum Progression {
         POSITIONING, KICKING
     };

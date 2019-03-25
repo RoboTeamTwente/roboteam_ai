@@ -8,7 +8,6 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
-using dealer = robotDealer::RobotDealer;
 std::map<int, int> Coach::defencePairs;
 
 std::vector<int> Coach::defenders = {};

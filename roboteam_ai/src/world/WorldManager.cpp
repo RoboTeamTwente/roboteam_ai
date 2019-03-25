@@ -9,7 +9,7 @@ namespace ai {
 namespace world {
 
 void WorldManager::setup() {
-    IOManager = new io::IOManager(true);
+    IOManager = new io::IOManager(true, true);
 }
 
 void WorldManager::loop() {
@@ -32,7 +32,7 @@ void WorldManager::updateROSData() {
 
 void WorldManager::updateWorld() {
     world->setWorld(worldMsg);
-    processedWorld->update();
+    //world->getProcessedWorld()->update();
 }
 
 void WorldManager::updateField() {

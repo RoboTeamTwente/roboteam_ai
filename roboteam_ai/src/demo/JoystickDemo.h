@@ -8,7 +8,8 @@
 #include <vector>
 #include <mutex>
 #include <set>
-#include <roboteam_ai/src/io/IOManager.h>
+#include <roboteam_msgs/DemoRobot.h>
+
 namespace demo {
 class JoystickDemo {
 

@@ -16,6 +16,7 @@
 #include "Switches.h"
 
 class BTFactory {
+    private:
 
         // TODO: have the names of all the project before here
         TreeInterpreter interpreter;

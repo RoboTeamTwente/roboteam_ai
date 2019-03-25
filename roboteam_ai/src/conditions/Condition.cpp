@@ -16,7 +16,7 @@ void Condition::initialize() {
         if (! robot) return;
     }
 
-    ball = World::getBall(); // update ball position
+    ball = world::world->getBall(); // update ball position
     if (! ball) return;
 
     onInitialize();
@@ -31,7 +31,7 @@ Condition::Status Condition::update() {
     }
 
     // there should always be a ball
-    ball = World::getBall(); // update ball position
+    ball = world::world->getBall(); // update ball position
     if (! ball) return Status::Waiting;
 
     return onUpdate();

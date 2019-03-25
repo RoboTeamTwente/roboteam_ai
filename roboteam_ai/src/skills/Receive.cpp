@@ -27,7 +27,7 @@ Vector2 Receive::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
 }
 
 Receive::Status Receive::onUpdate() {
-    if (!World::ourBotHasBall(robot->id)) {
+    if (!world::world->ourRobotHasBall(static_cast<int>(robot->id))) {
         if (Vector2(ball->vel).length() > 0.6 && !initializedBall) {
             initializedBall = true;
             ballStartPos = ball->pos;

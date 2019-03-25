@@ -25,7 +25,7 @@ enum PosControlType {
 class PositionController {
 
     private:
-        using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
+        using RobotPtr = std::shared_ptr<world::Robot>;
         using Command = roboteam_msgs::RobotCommand;
 
         PosVelAngle ballControl(RobotPtr robot, Vector2 &targetPos);

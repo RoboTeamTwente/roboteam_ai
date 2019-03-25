@@ -109,16 +109,13 @@ set(DEMO_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/demo/JoystickDemo.h)
 
 set(UTILS_SOURCES
-        #${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
-        #${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
+
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.cpp
-        roboteam_ai/src/world/Field.h
-        roboteam_ai/src/world/Field.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Coach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Coach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/ApplicationManager.cpp
@@ -285,6 +282,8 @@ set(INTERFACE_SOURCES
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/World.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/World.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/Field.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/Field.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldData.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldData.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldManager.cpp

@@ -56,7 +56,6 @@ void ApplicationManager::loop() {
 
 void ApplicationManager::runOneLoopCycle() {
     ros::spinOnce();
-    this->updateROSData();
     this->updateDangerfinder();
 
     if (ai::world::world->weHaveRobots()) {
@@ -95,22 +94,21 @@ void ApplicationManager::checkForShutdown() {
         strategy->terminate(Status::Running);
     }
 }
-
-void ApplicationManager::updateROSData() {
-    // make ROS world_state and geometry data globally accessible
-    worldMsg = IOManager->getWorldState();
-    geometryMsg = IOManager->getGeometryData();
-    refereeMsg = IOManager->getRefereeData();
-
-    ai::world->set_world(worldMsg);
-    ai::Field::set_field(geometryMsg.field);
-    ai::Referee::setRefereeData(refereeMsg);
-}
+//
+//void ApplicationManager::updateROSData() {
+//    // make ROS world_state and geometry data globally accessible
+//    worldMsg = IOManager->getWorldState();
+//    geometryMsg = IOManager->getGeometryData();
+//    refereeMsg = IOManager->getRefereeData();
+//
+//    ai::world::world->setWorld(worldMsg);
+//    ai::world::field->set_field(geometryMsg.field);
+//    ai::Referee::setRefereeData(refereeMsg);
+//}
 
 void ApplicationManager::updateDangerfinder() {
-    if (df::DangerFinder::instance().hasCalculated()) {
-        dangerData = df::DangerFinder::instance().getMostRecentData();
-    }
+
+    //TODO:: fix gameanalyzer/dangerfinder
 }
 
 void ApplicationManager::handleRefData() {

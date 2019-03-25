@@ -14,12 +14,12 @@
 #include <thread>
 #include "WorldData.h"
 #include <roboteam_ai/src/control/ControlUtils.h>
+#include "World.h"
 
 namespace rtt {
 namespace ai {
 namespace world {
 
-class World;
 class Field {
     private:
         roboteam_msgs::GeometryFieldSize field;
@@ -40,10 +40,9 @@ class Field {
         std::vector<std::pair<Vector2, Vector2>> getVisiblePartsOfGoal(bool ourGoal, Vector2 point);
         std::pair<Vector2, Vector2> getGoalSides(bool ourGoal);
 };
-
 Field* field;
 
-} // field
+} // world
 } // ai
 } // rtt
 

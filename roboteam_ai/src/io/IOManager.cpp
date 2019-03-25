@@ -5,9 +5,9 @@
  * Using this class you don't have to think about callbacks or scoping, or weird ROS parameters.
  */
 
-
 #include <roboteam_msgs/DemoRobot.h>
 #include <roboteam_ai/src/demo/JoystickDemo.h>
+#include <roboteam_ai/src/utilities/Pause.h>
 #include "IOManager.h"
 
 namespace rtt {
@@ -80,44 +80,44 @@ void IOManager::subscribeToDemoInfo() {
     );
 }
 
-void IOManager::handleWorldState(const roboteam_msgs::WorldConstPtr &world) {
-    this->world = *world;
+void IOManager::handleWorldState(const roboteam_msgs::WorldConstPtr &w) {
+    this->worldMsg = *w;
 }
 
 void IOManager::handleGeometryData(const roboteam_msgs::GeometryDataConstPtr &geometry) {
-    this->geometry = *geometry;
+    this->geometryMsg = *geometry;
 }
 
 void IOManager::handleRobotFeedback(const roboteam_msgs::RoleFeedbackConstPtr &rolefeedback) {
-    this->roleFeedback = *rolefeedback;
+    this->roleFeedbackMsg = *rolefeedback;
 }
 
 void IOManager::handleDemoInfo(const roboteam_msgs::DemoRobotConstPtr &demoInfo) {
-    this->demoInfo = *demoInfo;
+    this->demoInfoMsg = *demoInfo;
 }
 
 void IOManager::handleRefereeData(const roboteam_msgs::RefereeDataConstPtr &refData) {
-    this->refData = *refData;
+    this->refDataMsg = *refData;
 }
 
 const roboteam_msgs::World &IOManager::getWorldState() {
-    return this->world;
+    return this->worldMsg;
 }
 
 const roboteam_msgs::GeometryData &IOManager::getGeometryData() {
-    return this->geometry;
+    return this->geometryMsg;
 }
 
 const roboteam_msgs::RoleFeedback &IOManager::getRoleFeedback() {
-    return this->roleFeedback;
+    return this->roleFeedbackMsg;
 }
 
 const roboteam_msgs::RefereeData &IOManager::getRefereeData() {
-    return this->refData;
+    return this->refDataMsg;
 }
 
 void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
-    if (! pause.getPause()) {
+    if (! pause->getPause()) {
         if (demo::JoystickDemo::checkIfDemoSafe(cmd.id)) {
             robotCommandPublisher.publish(cmd);
         }
@@ -130,7 +130,7 @@ void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
     }
 }
 const roboteam_msgs::DemoRobot &IOManager::getDemoInfo() {
-    return this->demoInfo;
+    return this->demoInfoMsg;
 }
 
 

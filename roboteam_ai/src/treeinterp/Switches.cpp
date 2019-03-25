@@ -22,9 +22,18 @@
 //  |____________________|
 //
 
-#include "../skills/Chip.h"
-#include "../skills/Dribble.h"
-#include "roboteam_ai/src/skills/SkillGoToPos.h"
+
+#include <roboteam_ai/src/skills/SkillGoToPos.h>
+#include <roboteam_ai/src/skills/EnterFormation.h>
+#include <roboteam_ai/src/skills/AvoidBall.h>
+#include <roboteam_ai/src/skills/Pass.h>
+#include <roboteam_ai/src/skills/Receive.h>
+#include <roboteam_ai/src/skills/InterceptBall.h>
+#include <roboteam_ai/src/skills/DefendOnRobot.h>
+#include <roboteam_ai/src/skills/Defend.h>
+#include <roboteam_ai/src/skills/InterceptBall.h>
+#include <roboteam_ai/src/skills/BasicGoToPos.h>
+#include "../skills/DefendOnRobot.h"
 #include "../skills/Halt.h"
 #include "../skills/Kick.h"
 #include "../skills/Harass.h"
@@ -33,16 +42,10 @@
 #include "../skills/Keeper.h"
 #include "../skills/GetBall.h"
 #include "../skills/Attack.h"
-#include "roboteam_ai/src/skills/Pass.h"
-#include "roboteam_ai/src/skills/Receive.h"
-#include <roboteam_ai/src/skills/InterceptBall.h>
-#include <roboteam_ai/src/skills/DefendOnRobot.h>
 #include "../skills/DribbleRotate.h"
-#include <roboteam_ai/src/skills/Defend.h>
-#include "../skills/DefendOnRobot.h"
-#include <roboteam_ai/src/skills/InterceptBall.h>
-#include <roboteam_ai/src/skills/BasicGoToPos.h>
 #include "../skills/GoAroundPos.h"
+#include "../skills/Chip.h"
+#include "../skills/Dribble.h"
 
 //  ______________________
 //  |                    |
@@ -50,14 +53,12 @@
 //  |____________________|
 //
 
-#include "../conditions/HasBall.hpp"
 #include <roboteam_ai/src/conditions/TheyHaveBall.h>
 #include <roboteam_ai/src/conditions/WeHaveBall.h>
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
-#include <roboteam_ai/src/skills/EnterFormation.h>
-#include <roboteam_ai/src/skills/AvoidBall.h>
+#include "../conditions/HasBall.hpp"
 #include "../conditions/BallInDefenseAreaAndStill.h"
 #include "../conditions/IsInDefenseArea.hpp"
 #include "../conditions/BallOutOfField.h"
@@ -293,18 +294,18 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 
     if (name == "VerySpecialTacticThatWouldRequireSpecialClass") {
         node = std::make_shared<bt::VictoryDanceTactic>("VerySpecialTacticThatWouldRequireSpecialClass", properties);
-    } else if (tactics.find(name) != tactics.end()) {
-        node = std::make_shared<bt::DefaultTactic>(name, properties, tactics[name]);
     } else if (name == "EnterFormationTactic") {
         node = std::make_shared<bt::EnterFormationTactic>("EnterFormationTactic", properties);
     } else if (name == "AvoidBallTactic") {
         node = std::make_shared<bt::AvoidBallTactic>("AvoidBallTactic", properties);
     } else if (name == "victoryDanceTactic") {
         node = std::make_shared<bt::VictoryDanceTactic>("victoryDanceTactic", properties);
+    } else if (tactics.find(name) != tactics.end()) {
+        node = std::make_shared<bt::DefaultTactic>(name, properties, tactics[name]);
     } else {
         ROS_ERROR("\n\n\nTHE TACTIC DOES NOT HAVE ROBOTS SPECIFIED IN THE SWITCHES:    %s\n\n\n", name.c_str());
-        return node;
     }
+    return node;
 }
 
 void Switches::runErrorHandler(std::map<std::string, std::map<std::string, robotType>> tactics) {

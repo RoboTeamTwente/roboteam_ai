@@ -17,7 +17,7 @@ void Pass::onInitialize() {
 
 Pass::Status Pass::onUpdate() {
     if (robotToPassToID == -1) return Status::Failure;
-    robotToPassTo = World::getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
+    robotToPassTo = world::world->getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
 
     roboteam_msgs::RobotCommand command;
 
@@ -26,7 +26,7 @@ Pass::Status Pass::onUpdate() {
             if (!coach::Coach::isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos)) {
                 goToType = GoToType::NUMERIC_TREES;
                 targetPos = Coach::getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
-            } else if (!World::ourBotHasBall(robot->id)) {
+            } else if (!world::world->ourRobotHasBall(robot->id)) {
                 goToType = GoToType::BASIC;
                 targetPos = ball->pos;
             } else {
@@ -42,7 +42,7 @@ Pass::Status Pass::onUpdate() {
             break;
         }
         case Progression::KICKING: {
-            if (World::ourBotHasBall(robot->id)) {
+            if (world::world->ourRobotHasBall(robot->id)) {
                 command.kicker = 1;
                 command.kicker_forced = 1;
                 distance = ((Vector2)ball->pos - robotToPassTo->pos).length();

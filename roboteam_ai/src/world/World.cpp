@@ -153,6 +153,11 @@ bool World::theirRobotHasBall(int id, double maxDist) {
     return false;
 }
 
+int World::whichRobotHasBall(WhichRobots whichRobots) {
+    //TODO:
+    return 0;
+}
+
 const WorldData World::getFutureWorld(double time) {
     WorldData worldCopy;
     {
@@ -164,6 +169,10 @@ const WorldData World::getFutureWorld(double time) {
     return worldCopy;
 }
 
+//ProcessedWorld* World::getProcessedWorld() {
+//    return processedWorld;
+//}
+//h
 } //world
 } //ai
 } //rtt

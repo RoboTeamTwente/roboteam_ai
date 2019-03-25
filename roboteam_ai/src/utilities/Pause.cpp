@@ -18,7 +18,7 @@ bool Pause::getPause() {
 }
 void Pause::haltRobots() {
 
-    auto us = world->getWorld().us;
+    auto us = world::world->getWorld().us;
     for (const auto &robot : us) {
         roboteam_msgs::RobotCommand cmd;
         cmd.x_vel = 0;

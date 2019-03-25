@@ -3,8 +3,6 @@
 //
 
 #include "IsBallOnOurSide.h"
-#include "../utilities/World.h"
-#include "roboteam_ai/src/world/Field.h"
 
 namespace rtt {
 namespace ai {
@@ -24,8 +22,8 @@ bt::Node::Status IsBallOnOurSide::onUpdate() {
 
     if (ballPos.x < 0) {
         if (inField) {
-            if (abs(ballPos.x) < Field::get_field().field_length / 2 &&
-                abs(ballPos.y) < Field::get_field().field_width / 2) {
+            if (abs(ballPos.x) < world::field->get_field().field_length / 2 &&
+                abs(ballPos.y) < world::field->get_field().field_width / 2) {
                 return Status::Success;
             } else return Status::Failure;
         } else return Status::Success;

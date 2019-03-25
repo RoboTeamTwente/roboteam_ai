@@ -21,11 +21,11 @@ void Attack::onInitialize() {
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
 
-    if (shot && !World::botHasBall(robot->id, true)) {
+    if (shot && !world::world->robotHasBall(robot->id, world::OUR_ROBOTS)) {
         return Status::Success;
     }
 
-    Vector2 ball = World::getBall()->pos;
+    Vector2 ball = world::world->getBall()->pos;
     Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.4, ownGoal);
     Vector2 deltaBall = behindBall - ball;
 
@@ -47,7 +47,7 @@ bt::Node::Status Attack::onUpdate() {
         goToPos.setAvoidBall(false);
         command.use_angle = 1;
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
-        if (World::botHasBall(robot->id, true)) {
+        if (world::world->robotHasBall(robot->id, world::OUR_ROBOTS)) {
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
             command.kicker_forced = 1;
@@ -56,16 +56,16 @@ bt::Node::Status Attack::onUpdate() {
 
     }
     Vector2 velocity;
-    if (Field::pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
-        velocity = ((Vector2) robot->pos - Field::get_our_goal_center()).stretchToLength(2.0);
+    if (world::field->pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
+        velocity = ((Vector2) robot->pos - world::field->get_our_goal_center()).stretchToLength(2.0);
     }
-    else if (Field::pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
-        velocity = ((Vector2) robot->pos - Field::get_their_goal_center()).stretchToLength(2.0);
+    else if (world::field->pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
+        velocity = ((Vector2) robot->pos - world::field->get_their_goal_center()).stretchToLength(2.0);
     }
-    else if (Field::pointIsInDefenceArea(ball, ownGoal) || Field::pointIsInDefenceArea(ball, !ownGoal)) {
+    else if (world::field->pointIsInDefenceArea(ball, ownGoal) || world::field->pointIsInDefenceArea(ball, !ownGoal)) {
         velocity = {0, 0};
     }
-    else if (Field::pointIsInDefenceArea(targetPos, ownGoal)) {
+    else if (world::field->pointIsInDefenceArea(targetPos, ownGoal)) {
         velocity = {0, 0};
     }
     else {

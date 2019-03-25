@@ -2,8 +2,6 @@
 // Created by mrlukasbos on 25-1-19.
 //
 
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/utilities/World.h>
 #include "BallOutOfField.h"
 
 namespace rtt {
@@ -16,8 +14,8 @@ bt::Node::Status BallOutOfField::onUpdate() {
     Vector2 ballPos = ball->pos;
 
     // return success if the ball is out of the field
-    if (abs(ballPos.x) < Field::get_field().field_length / 2 &&
-            abs(ballPos.y) < Field::get_field().field_width / 2) {
+    if (abs(ballPos.x) < world::field->get_field().field_length / 2 &&
+            abs(ballPos.y) < world::field->get_field().field_width / 2) {
         return Status::Failure;
     } else {
         return Status::Success;

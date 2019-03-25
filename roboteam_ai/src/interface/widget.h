@@ -13,6 +13,7 @@
 #include "../world/World.h"
 #include <QMouseEvent>
 #include <gtest/gtest_prod.h>
+#include "roboteam_ai/src/world/WorldData.h"
 
 namespace rtt {
 namespace ai {
@@ -22,9 +23,11 @@ class Visualizer : public QWidget {
     Q_OBJECT
     FRIEND_TEST(MainWindowTest, it_shows_the_visualizer_properly);
     public:
+        using Robot = rtt::ai::world::Robot;
+        using RobotPtr = std::shared_ptr<Robot>;
         explicit Visualizer(QWidget* parent = nullptr);
-        const  std::vector<roboteam_msgs::WorldRobot> &getSelectedRobots() const;
-        bool robotIsSelected(roboteam_msgs::WorldRobot robot);
+        const  std::vector<Robot> &getSelectedRobots() const;
+        bool robotIsSelected(Robot robotToCheck);
 
     public slots:
         void setShowRoles(bool showRoles);
@@ -48,10 +51,10 @@ class Visualizer : public QWidget {
         void drawBackground(QPainter &painter);
         void drawFieldLines(QPainter &painter);
         void drawRobots(QPainter &painter);
-        void drawRobot(QPainter &painter, roboteam_msgs::WorldRobot robot, bool ourTeam);
+        void drawRobot(QPainter &painter, Robot, bool ourTeam);
         void drawBall(QPainter &painter);
         void drawBallPlacementTarget(QPainter &painter);
-        void drawTacticColorForRobot(QPainter &painter, roboteam_msgs::WorldRobot robot);
+        void drawTacticColorForRobot(QPainter &painter, Robot robot);
         void drawDataPoints(QPainter &painter, std::vector<Vector2> points, int pointSize = 3,
                 QColor color = Qt::green);
         void drawDataPoints(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize = 3);
@@ -60,8 +63,8 @@ class Visualizer : public QWidget {
         void drawDrawLines(QPainter &painter, std::vector<std::tuple<Vector2, Vector2, QColor>> lines);
 
         // utitlity functions
-        std::string getTacticNameForRobot(roboteam_msgs::WorldRobot robot);
-        std::string getRoleNameForRobot(roboteam_msgs::WorldRobot robot);
+        std::string getTacticNameForRobot(Robot robot);
+        std::string getRoleNameForRobot(Robot robot);
         rtt::Vector2 toScreenPosition(rtt::Vector2 fieldPos);
         rtt::Vector2 toFieldPosition(rtt::Vector2 screenPos);
 
@@ -72,7 +75,7 @@ class Visualizer : public QWidget {
                               QColor>> tacticColors; // map colors to tactic to visualize which robots work together
         int tacticCount = 0; // increases when a new tactic is used
 
-        std::vector<roboteam_msgs::WorldRobot> selectedRobots;
+        std::vector<Robot> selectedRobots;
 
         // toggles
         bool showRoles = Constants::STD_SHOW_ROLES();

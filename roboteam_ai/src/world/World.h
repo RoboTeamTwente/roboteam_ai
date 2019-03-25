@@ -2,8 +2,8 @@
 // Created by thijs on 19-3-19.
 //
 
-#ifndef ROBOTEAM_AI_WORLD_H
-#define ROBOTEAM_AI_WORLD_H
+#ifndef ROBOTEAM_AI_WORLDDDD_H
+#define ROBOTEAM_AI_WORLDDDD_H
 
 #include <utility>
 #include <mutex>
@@ -15,20 +15,20 @@
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_msgs/GeometryData.h"
 #include "WorldData.h"
+#include "ProcessedWorld.h"
 
 namespace rtt {
 namespace ai {
 namespace world {
 
-class ProcessedWorld;
 class World {
     private:
         using RobotPtr = std::shared_ptr<Robot>;
         using BallPtr = std::shared_ptr<Ball>;
         using WorldDataPtr = std::shared_ptr<WorldData>;
 
-        roboteam_msgs::World worldMsg;
         ProcessedWorld* processedWorld;
+        roboteam_msgs::World worldMsg;
         WorldData worldData;
 
         std::mutex worldMutex;
@@ -53,9 +53,13 @@ class World {
         bool robotHasBall(int id, bool ourTeam, double maxDist = Constants::MAX_BALL_RANGE());
         bool ourRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
         bool theirRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
-        const WorldData getFutureWorld(double time);
-};
 
+        int whichRobotHasBall(WhichRobots whichRobots = OUR_ROBOTS);
+
+        const WorldData getFutureWorld(double time);
+
+        //ProcessedWorld* getProcessedWorld();
+};
 World* world;
 
 } //world

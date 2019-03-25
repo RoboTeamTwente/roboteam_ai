@@ -3,6 +3,7 @@
 
 #include "../bt/Leaf.hpp"
 #include <roboteam_ai/src/utilities/Coach.h>
+
 namespace rtt {
 namespace ai {
 

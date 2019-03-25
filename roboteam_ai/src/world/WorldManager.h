@@ -10,6 +10,8 @@
 #include "ros/ros.h"
 #include "World.h"
 #include "Field.h"
+#include "ProcessedWorld.h"
+#include "WorldData.h"
 
 namespace rtt {
 namespace ai {
@@ -21,7 +23,6 @@ class WorldManager {
         roboteam_msgs::World worldMsg;
         roboteam_msgs::GeometryData geometryMsg;
         roboteam_msgs::RefereeData refereeMsg;
-        ProcessedWorld* processedWorld;
 
         void updateROSData();
         void updateWorld();

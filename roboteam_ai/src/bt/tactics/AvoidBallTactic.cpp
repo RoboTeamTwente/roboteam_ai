@@ -5,7 +5,6 @@
 #include "AvoidBallTactic.h"
 #include "../../utilities/RobotDealer.h"
 
-using dealer = robotDealer::RobotDealer;
 
 bt::AvoidBallTactic::AvoidBallTactic(std::string name, bt::Blackboard::Ptr blackboard) {
     this->name = std::move(name);
@@ -16,8 +15,9 @@ void bt::AvoidBallTactic::initialize() {
     std::vector<std::string> roleNames = {"avoid1", "avoid2", "avoid3", "avoid4", "avoid5", "avoid6", "avoid7", "avoid8"};
 
     // get the amount of robots to claim
-    while (!dealer::getAvailableRobots().empty()) {
-        robotIDs.insert(dealer::claimRobotForTactic(robotType::random, name, roleNames[claimedRobots]));
+    while (!rtt::ai::robotDealer::robotDealer->getAvailableRobots().empty()) {
+        robotIDs.insert(rtt::ai::robotDealer::robotDealer->claimRobotForTactic(
+                rtt::ai::robotDealer::RobotType::random, name, roleNames[claimedRobots]));
         if (robotIDs.find(-1) == robotIDs.end()) claimedRobots++;
         else robotIDs.erase(-1);
     }

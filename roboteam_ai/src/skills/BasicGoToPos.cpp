@@ -69,7 +69,7 @@ Skill::Status BasicGoToPos::onUpdate() {
 
     if (properties->getBool("getBallFromSide")) targetPos = getBallFromSideLocation();
 
-    if (!Field::pointIsInField(targetPos)) return Status::Failure;
+    if (!world::field->pointIsInField(targetPos)) return Status::Failure;
 
     Vector2 deltaPos = (targetPos - robot->pos);
 
@@ -98,7 +98,7 @@ Skill::Status BasicGoToPos::onUpdate() {
 }
 
 Vector2 BasicGoToPos::getBallFromSideLocation() {
-    roboteam_msgs::GeometryFieldSize field = Field::get_field();
+    roboteam_msgs::GeometryFieldSize field = world::field->get_field();
     double distanceFromTop      = abs(field.field_width / 2 - ball->pos.y);
     double distanceFromBottom   = abs(-field.field_width / 2 - ball->pos.y);
     double distanceFromLeft     = abs(-field.field_length / 2 - ball->pos.x);

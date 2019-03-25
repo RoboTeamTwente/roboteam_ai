@@ -3,10 +3,7 @@
 //
 
 #include "TheyHaveBall.h"
-#include "../utilities/World.h"
 #include "../utilities/Coach.h"
-#include "roboteam_msgs/WorldRobot.h"
-#include "roboteam_msgs/WorldBall.h"
 
 namespace rtt {
 namespace ai {
@@ -17,12 +14,12 @@ TheyHaveBall::TheyHaveBall(std::string name, bt::Blackboard::Ptr blackboard)
 }
 
 bt::Node::Status TheyHaveBall::onUpdate() {
-    roboteam_msgs::World world = World::get_world();
-    std::vector<roboteam_msgs::WorldRobot> robots = world.them;
+    auto w = world::world->getWorld();
+    std::vector<Robot> robots = w.them;
 
         bool theyHaveBall = false;
         for(auto &robot : robots) {
-            if(World::botHasBall(robot.id,false)) {
+            if(world::world->robotHasBall(robot.id,false)) {
                 theyHaveBall = true;
                 break;
             }

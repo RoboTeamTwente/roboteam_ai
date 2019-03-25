@@ -2,12 +2,7 @@
 // Created by Rolf on 17-10-18.
 //
 #include "IsInDefenseArea.hpp"
-#include "roboteam_msgs/World.h"
-#include "roboteam_msgs/WorldRobot.h"
-#include "roboteam_msgs/GeometryFieldSize.h"
-#include "roboteam_utils/Vector2.h"
-#include "../utilities/World.h"
-#include "roboteam_ai/src/world/Field.h"
+
 
 namespace rtt {
 namespace ai {
@@ -26,8 +21,7 @@ bt::Node::Status IsInDefenseArea::onUpdate() {
     if (properties->hasDouble("margin")) margin = static_cast<float>(properties->getDouble("margin"));
     else margin = 0.0f;
 
-    roboteam_msgs::World world = World::get_world();
-    if (Field::pointIsInDefenceArea(point, ourDefenseArea, margin, outsideField)) {
+    if (world::field->pointIsInDefenceArea(point, ourDefenseArea, margin, outsideField)) {
         return Status::Success;
     }
     return Status::Failure;

@@ -12,7 +12,7 @@ DefendOnRobot::DefendOnRobot(std::string name, bt::Blackboard::Ptr blackboard)
     :Skill(std::move(name), std::move(blackboard)) { }
 
 void DefendOnRobot::onInitialize() {
-    opponentWithBallID = World::whichBotHasBall(false);
+    opponentWithBallID = world::world->whichRobotHasBall(world::THEIR_ROBOTS);
     if (opponentWithBallID == -1) {
         currentProgress = FAIL;
     }
@@ -30,12 +30,12 @@ void DefendOnRobot::onTerminate(Skill::Status s) {
 }
 
 bt::Node::Status DefendOnRobot::onUpdate() {
-    opponentWithBall = World::getRobotForId(static_cast<unsigned int>(opponentWithBallID), false);
-    opponentToCover = World::getRobotForId(static_cast<unsigned int>(opponentToCoverID), false);
+    opponentWithBall = world::world->getRobotForId(static_cast<unsigned int>(opponentWithBallID), false);
+    opponentToCover = world::world->getRobotForId(static_cast<unsigned int>(opponentToCoverID), false);
 
     if (opponentWithBall && opponentToCover) {
         updateRobot();
-        if (!World::botHasBall(opponentWithBall->id,false)) {
+        if (!world::world->robotHasBall(opponentWithBall->id,false)) {
             return Status::Success;
         }
 
@@ -51,8 +51,8 @@ bt::Node::Status DefendOnRobot::onUpdate() {
 }
 
 Vector2 DefendOnRobot::calculateLocation() {
-    float robotAngle1 = opponentWithBall.get()->angle;
-    float robotAngle2 = opponentToCover.get()->angle;
+    float robotAngle1 = static_cast<float>(opponentWithBall->angle.getAngle());
+    float robotAngle2 = static_cast<float>(opponentToCover->angle.getAngle());
 
     if (opponentWithBall->pos.x > opponentToCover->pos.x) {
         angleBetweenRobots = atan((opponentToCover->pos.y - opponentWithBall->pos.y) /

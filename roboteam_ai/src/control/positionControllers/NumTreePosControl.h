@@ -15,6 +15,8 @@ namespace control {
 class NumTreePosControl {
     private:
         using InterfaceValues = interface::InterfaceValues;
+        using Robot = world::Robot;
+        using RobotPtr = std::shared_ptr<Robot>;
 
         const double dt = 0.07;
         const double defaultRobotCollisionRadius = 3*Constants::ROBOT_RADIUS_MAX();
@@ -30,7 +32,7 @@ class NumTreePosControl {
         void redrawInInterface();
 
         std::vector<std::pair<Vector2, QColor>> displayData;
-        bool doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos);
+        bool doRecalculatePath(RobotPtr robot, Vector2 targetPos);
         double remainingStraightLinePathLength(Vector2 currentPos, Vector2 halfwayPos, Vector2 finalPos);
 
         // If there is another way to return a shared pointer from an object to itself that is more pretty let me know
@@ -80,13 +82,13 @@ class NumTreePosControl {
 
         };
 
-        PosVelAngle computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
+        PosVelAngle computeCommand(RobotPtr robot);
 
         std::pair<std::vector<Vector2>, std::shared_ptr<PathPoint>> getNewTargets(
                 std::shared_ptr<PathPoint> collisionPoint);
         bool checkCollision(std::shared_ptr<PathPoint> point, double collisionRadius = 0.27);
         std::shared_ptr<PathPoint> computeNewPoint(std::shared_ptr<PathPoint> oldPoint, Vector2 subTarget);
-        void tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
+        void tracePath(RobotPtr robot);
         std::vector<PathPoint> backTrackPath(std::shared_ptr<PathPoint> point, std::shared_ptr<PathPoint> root);
         Vector2 findCollisionPos(std::shared_ptr<PathPoint> point, double collisionRadius = 0.27);
 
@@ -94,7 +96,7 @@ class NumTreePosControl {
     public:
         void clear();
         Vector2 finalTargetPos;
-        PosVelAngle goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos);
+        PosVelAngle goToPos(RobotPtr robot, Vector2 targetPos);
         void setAvoidBall(bool _avoidBall);
         void setCanGoOutsideField(bool _canGoOutsideField);
 

@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_TACTIC_H
 
 #include "Node.hpp"
+#include "roboteam_ai/src/utilities/RobotDealer.h"
 
 namespace robotDealer {
 enum RobotType : short;
@@ -21,7 +22,7 @@ public:
         void addChild(Node::Ptr newChild) override;
 
         std::vector<Node::Ptr> getChildren() override;
-        using robotType = robotDealer::RobotType;
+        using RobotType = rtt::ai::robotDealer::RobotType;
         void initialize() override;
         Status update() override;
         void askForRobots();

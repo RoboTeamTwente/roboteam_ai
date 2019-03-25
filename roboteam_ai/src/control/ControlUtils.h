@@ -12,8 +12,6 @@
 #include "math.h"
 #include "roboteam_utils/Arc.h"
 
-typedef rtt::Vector2 Vector2;
-
 namespace rtt{
 namespace ai {
 namespace control {

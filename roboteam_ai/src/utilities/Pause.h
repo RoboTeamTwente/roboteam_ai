@@ -19,7 +19,6 @@ class IOManager;
 class Pause {
 
     private:
-        world::World* world;
         static bool pause;
         static std::mutex pauseLock;
         std::shared_ptr<io::IOManager> IOManager;

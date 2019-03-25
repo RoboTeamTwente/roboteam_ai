@@ -13,7 +13,8 @@ namespace control {
 
 class ControlGoToPosBallControl {
     private:
-        using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
+        using Robot = world::Robot;
+        using RobotPtr = std::shared_ptr<Robot>;
 
     public:
         PosVelAngle goToPos(RobotPtr robot, Vector2 &target);

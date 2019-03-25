@@ -3,7 +3,7 @@
 //
 
 #include "WeHaveBall.h"
-#include "../utilities/World.h"
+#include "../world/World.h"
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_msgs/WorldBall.h"
 
@@ -14,12 +14,12 @@ WeHaveBall::WeHaveBall(std::string name, bt::Blackboard::Ptr blackboard)
     : Condition(std::move(name), std::move(blackboard)) { }
 
 bt::Node::Status WeHaveBall::onUpdate() {
-    roboteam_msgs::World world = World::get_world();
-    std::vector<roboteam_msgs::WorldRobot> robots = world.us;
+    auto w = world::world->getWorld();
+    std::vector<Robot> robots = w.us;
 
     bool WeHaveBall = false;
     for (auto &robot : robots) {
-        if (World::botHasBall(robot.id,true)) {
+        if (world::world->robotHasBall(robot.id,true)) {
             WeHaveBall = true;
             break;
         }
