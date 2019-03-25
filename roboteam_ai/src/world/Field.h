@@ -12,11 +12,14 @@
 #include "roboteam_msgs/GeometryFieldSize.h"
 #include <mutex>
 #include <thread>
+#include "WorldData.h"
+#include <roboteam_ai/src/control/ControlUtils.h>
 
 namespace rtt {
 namespace ai {
 namespace world {
 
+class World;
 class Field {
     private:
         roboteam_msgs::GeometryFieldSize field;
@@ -30,7 +33,7 @@ class Field {
         bool pointIsInDefenceArea(Vector2 point, bool isOurDefenceArea = true, float margin = 0.0,
                 bool outsideField = false);
         bool pointIsInField(Vector2 point, float margin = 0.05); //TODO: Remove margin hack
-        int getRobotClosestToGoal(bool ourRobot, bool ourGoal);
+        int getRobotClosestToGoal(WhichRobots whichRobots, bool ourGoal);
         double getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point);
         std::vector<std::pair<Vector2, Vector2>> getBlockadesMappedToGoal(bool ourGoal, Vector2 point);
         std::vector<std::pair<Vector2, Vector2>> mergeBlockades(std::vector<std::pair<Vector2, Vector2>> blockades);

@@ -15,6 +15,12 @@ namespace rtt {
 namespace ai {
 namespace world {
 
+enum WhichRobots {
+  OUR_ROBOTS,
+  THEIR_ROBOTS,
+  ALL_ROBOTS
+};
+
 class Robot {
     public:
         Robot() = default;

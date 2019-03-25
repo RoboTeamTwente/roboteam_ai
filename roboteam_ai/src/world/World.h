@@ -8,7 +8,6 @@
 #include <utility>
 #include <mutex>
 #include <thread>
-#include <roboteam_ai/src/control/ControlUtils.h>
 #include "../utilities/Constants.h"
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Angle.h"
@@ -36,12 +35,6 @@ class World {
         std::mutex worldMsgMutex;
 
     public:
-        enum WhichRobots {
-          OUR_ROBOTS,
-          THEIR_ROBOTS,
-          ALL_ROBOTS
-        };
-
         bool weHaveRobots();
         void setWorld(const roboteam_msgs::World &world);
 

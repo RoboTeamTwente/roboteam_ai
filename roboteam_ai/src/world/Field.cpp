@@ -2,7 +2,6 @@
 // Created by mrlukasbos on 19-10-18.
 //
 
-#include <roboteam_ai/src/control/ControlUtils.h>
 #include "Field.h"
 #include "World.h"
 
@@ -110,19 +109,19 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
     std::vector<std::pair<Vector2, Vector2>> blockades = {};
 
     // all the obstacles should be robots
-    for (auto const &robot : world.getAllRobots()) {
+    for (auto const &robot : world->getAllRobots()) {
 
         // discard already all robots that are not at all between the goal and point, or if a robot is standing on this point
-        bool isRobotItself = point == robot.pos;
-        bool isInPotentialBlockingZone = ourGoal ? robot.pos.x < point.x + robotRadius : robot.pos.x
+        bool isRobotItself = point == robot->pos;
+        bool isInPotentialBlockingZone = ourGoal ? robot->pos.x < point.x + robotRadius : robot->pos.x
                 > point.x - robotRadius;
         if (! isRobotItself && isInPotentialBlockingZone) {
 
             // get the left and right sides of the robot
-            auto lineToRobot = point - robot.pos;
+            auto lineToRobot = point - robot->pos;
             auto inverseLineToRobot = Vector2(- lineToRobot.y, lineToRobot.x);
-            Vector2 upperSideOfRobot = inverseLineToRobot.stretchToLength(robotRadius) + robot.pos;
-            Vector2 lowerSideOfRobot = inverseLineToRobot.stretchToLength(- robotRadius) + robot.pos;
+            Vector2 upperSideOfRobot = inverseLineToRobot.stretchToLength(robotRadius) + robot->pos;
+            Vector2 lowerSideOfRobot = inverseLineToRobot.stretchToLength(- robotRadius) + robot->pos;
 
             // map points onto goal line
             auto point1 = util::twoLineIntersection(point, lowerSideOfRobot, lowerGoalSide, upperGoalSide);
@@ -243,13 +242,9 @@ std::pair<Vector2, Vector2> Field::getGoalSides(bool ourGoal) {
     return std::make_pair(lowerGoalSide, upperGoalSide);
 }
 
-int Field::getRobotClosestToGoal(bool ourRobot, bool ourGoal) {
-    roboteam_msgs::World_<std::allocator<void>>::_them_type robots = ourRobot ? World::get_world().us
-                                                                              : World::get_world().them;
-    Vector2 target = ourGoal ? Field::get_our_goal_center() : Field::get_their_goal_center();
-
-    int closestId = World::getRobotClosestToPoint(robots, target)->id;
-    return closestId;
+int Field::getRobotClosestToGoal(WhichRobots whichRobots, bool ourGoal) {
+    Vector2 goalCenter = ourGoal ? get_our_goal_center() : get_their_goal_center();
+    return world->getRobotClosestToPoint(goalCenter, whichRobots)->id;
 }
 
 } // world

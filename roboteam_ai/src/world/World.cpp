@@ -85,7 +85,7 @@ std::vector<std::shared_ptr<Robot>> World::getAllRobots() {
     return allRobots;
 }
 
-World::RobotPtr World::getRobotClosestToPoint(const Vector2 &point, World::WhichRobots whichRobots) {
+World::RobotPtr World::getRobotClosestToPoint(const Vector2 &point, WhichRobots whichRobots) {
     std::vector<Robot> robotsCopy;
     {
         std::lock_guard<std::mutex> lock(worldMutex);

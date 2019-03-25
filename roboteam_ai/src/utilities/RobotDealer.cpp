@@ -3,20 +3,10 @@
 // Created by baris on 16/11/18.
 //
 #include "RobotDealer.h"
-#include "World.h"
-#include "roboteam_ai/src/world/Field.h"
-#include "ros/ros.h"
-#include <utility>
 
+namespace rtt {
+namespace ai {
 namespace robotDealer {
-
-std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::robotOwners;
-
-std::mutex RobotDealer::robotOwnersLock;
-
-int RobotDealer::keeperID = -1;
-
-rtt::ai::world::World* RobotDealer::world = rtt::ai::world::World::getInstance();
 
 /// For internal use
 /// Removes a robot with an ID from the map and if the tactic then is empty it removes the tactic
@@ -58,7 +48,7 @@ void RobotDealer::addRobotToOwnerList(int ID, std::string roleName, std::string 
 /// Look at the world and see if there are more robots than on the map and if so put them as free
 void RobotDealer::updateFromWorld() {
 
-    auto worldUs = world->getWorld().us;
+    auto worldUs = world::world->getWorld().us;
     std::set<int> robots;
     for (auto robot : worldUs) {
         robots.insert(robot.id);
@@ -89,7 +79,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
                 return - 1;
 
             case closeToBall: {
-                auto ball = world->getWorld().ball;
+                auto ball = world::world->getWorld().ball;
                 rtt::Vector2 ballPos;
                 ballPos = ball.pos;
                 id = getRobotClosestToPoint(ids, ballPos);
@@ -97,23 +87,23 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
             }
 
             case betweenBallAndOurGoal: {
-                auto ball = world->getWorld().ball;
+                auto ball = world::world->getWorld().ball;
 
                 rtt::Vector2 ballPos;
                 ballPos = ball.pos;
 
-                rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
+                rtt::Vector2 ourGoal = rtt::ai::world::field->get_our_goal_center();
                 id = getRobotClosestToLine(ids, ballPos, ourGoal, true);
                 break;
             }
             case closeToOurGoal: {
-                rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
+                rtt::Vector2 ourGoal = world::field->get_our_goal_center();
                 id = getRobotClosestToPoint(ids, ourGoal);
                 break;
             }
 
             case closeToTheirGoal: {
-                rtt::Vector2 theirGoal = rtt::ai::Field::get_their_goal_center();
+                rtt::Vector2 theirGoal = world::field->get_their_goal_center();
                 id = getRobotClosestToPoint(ids, theirGoal);
                 break;
             }
@@ -233,7 +223,7 @@ int RobotDealer::getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 positio
     int closestID = - 1;
     double distance = 100000000.0;
     for (auto &id : ids) {
-        rtt::Vector2 robotPos = rtt::ai::World::getRobotForId((unsigned int) id, true).get()->pos;
+        rtt::Vector2 robotPos = world::world->getRobotForId((unsigned int) id, true).get()->pos;
         double dRobotToPoint = (robotPos - position).length();
         if (dRobotToPoint < distance) {
             closestID = id;
@@ -250,7 +240,7 @@ int RobotDealer::getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 point1, 
     int closestID = - 1;
     double distance = 100000000.0;
     for (auto &id : ids) {
-        rtt::Vector2 robotPos = rtt::ai::World::getRobotForId((unsigned int) id, true).get()->pos;
+        rtt::Vector2 robotPos = world::world->getRobotForId((unsigned int) id, true).get()->pos;
         //rtt::ai::control::ControlUtils::distanceToLineWithEnds(robotPos,point1,point2) could be used here, perhaps?
         double deltaY = point2.y - point1.y;
         double deltaX = point2.x - point1.x;
@@ -363,7 +353,10 @@ int RobotDealer::getKeeperID() {
     return keeperID;
 }
 
-} // RobotDealer
+} // robotDealer
+} // ai
+} // rtt
+
 
 
 

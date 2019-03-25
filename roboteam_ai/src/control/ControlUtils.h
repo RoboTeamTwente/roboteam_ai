@@ -10,7 +10,6 @@
 #include "../utilities/Constants.h"
 #include "roboteam_utils/Vector2.h"
 #include "math.h"
-#include "../utilities/World.h"
 #include "roboteam_utils/Arc.h"
 
 typedef rtt::Vector2 Vector2;
@@ -33,7 +32,7 @@ class ControlUtils {
         static Vector2 projectPositionToWithinField(Vector2 position, float margin = 0.2);
         static Vector2 calculateForce(rtt::Vector2 vector, double weight, double minDistance);
 
-        static bool hasClearVision(int from, int towards, roboteam_msgs::World world, int safelyness);
+        static bool hasClearVision(int from, int towards, int safelyness);
         static bool onLineSegment(Vector2 p, Vector2 q, Vector2 r);
         static rtt::Vector2 twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2);
         static int lineOrientation(Vector2 p, Vector2 q, Vector2 r);

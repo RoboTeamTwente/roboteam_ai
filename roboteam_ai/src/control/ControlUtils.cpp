@@ -5,6 +5,7 @@
 
 #include <roboteam_ai/src/world/Field.h>
 #include "ControlUtils.h"
+#include "../world/World.h"
 
 namespace rtt {
 namespace ai {
@@ -70,12 +71,13 @@ double ControlUtils::distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vec
 
 /// See if a robot has a clear vision towards another robot
 /// e.g. there are no obstacles in between.
-bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::World world, int safelyness) {
+bool ControlUtils::hasClearVision(int fromID, int towardsID, int safelyness) {
     double minDistance = rtt::ai::Constants::ROBOT_RADIUS()*(3*safelyness); // TODO: calibrate Rolf approved
     Vector2 fromPos;
     Vector2 towardsPos;
 
-    for (auto friendly : world.us) {
+    auto w = world::world->getWorld();
+    for (auto friendly : w.us) {
         if (static_cast<int>(friendly.id) == fromID) {
             fromPos = friendly.pos;
         }
@@ -84,7 +86,7 @@ bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::Worl
         }
     }
 
-    for (auto enemy : world.them) {
+    for (auto enemy : w.them) {
         if (distanceToLineWithEnds(enemy.pos, fromPos, towardsPos) < minDistance) {
             return false;
         }

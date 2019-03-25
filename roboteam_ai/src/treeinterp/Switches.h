@@ -10,7 +10,7 @@
 #include "../bt/bt.hpp"
 
 class Switches {
-        using robotType = robotDealer::RobotType;
+        using robotType = rtt::ai::robotDealer::RobotType;
 
     private:
         static void runErrorHandler(std::map<std::string, std::map<std::string, robotType>> tactics);

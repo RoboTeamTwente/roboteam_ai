@@ -14,6 +14,11 @@
 #include <gtest/gtest_prod.h>
 #include "roboteam_utils/Vector2.h"
 #include "../interface/InterfaceValues.h"
+#include "../world/World.h"
+#include "../world/Field.h"
+#include "../interface/InterfaceValues.h"
+#include "RobotDealer.h"
+#include "../world/WorldData.h"
 
 namespace rtt {
 namespace ai {
@@ -51,7 +56,7 @@ public:
 
     static std::pair<int, bool> getRobotClosestToBall();
 
-    static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToBall(bool isOurTeam);
+    static std::shared_ptr<world::Robot> getRobotClosestToBall(world::WhichRobots whichRobots);
 
     static void addDefender(int id);
     static void removeDefender(int id);

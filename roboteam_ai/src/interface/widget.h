@@ -10,7 +10,7 @@
 #include <memory>
 #include "../utilities/Constants.h"
 #include "roboteam_ai/src/world/Field.h"
-#include "../utilities/World.h"
+#include "../world/World.h"
 #include <QMouseEvent>
 #include <gtest/gtest_prod.h>
 
