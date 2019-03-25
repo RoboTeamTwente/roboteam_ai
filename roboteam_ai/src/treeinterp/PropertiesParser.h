@@ -15,12 +15,14 @@
 #include <string>
 #include <vector>
 
+namespace rtt {
+namespace ai {
+namespace treeinterp {
+
 class PropertiesParser {
-        using json = nlohmann::json;
-
-    private:
+using json = nlohmann::json;
+private:
         JsonReader jsonReader;
-
         enum type {
           Int,
           String,
@@ -29,16 +31,16 @@ class PropertiesParser {
           Bool_True,
           Bool_False
         };
-
         char vectorStartChar = '{', vectorEndChar = '}', dot = '.', comma = ',', space = ' ', minus = '-';
-
         type checkVarTypeOfString(std::string keyName, json someJson, std::vector<double> &vec);
-
         type getNumberFromString(std::string strKey, std::vector<char> charKey, int &it, double &number);
-
-    public:
+public:
         bt::Blackboard::Ptr parse(json someJson);
-
 };
+
+
+} // treeinterp
+} // ai
+} // rtt
 
 #endif //ROBOTEAM_AI_PROPERTIESPARSER_H
