@@ -3,7 +3,7 @@
 //
 
 #include "Condition.h"
-#include "../coach/Ballplacement.h"
+#include "roboteam_ai/src/coach/BallplacementCoach.h"
 
 #ifndef ROBOTEAM_AI_TWOROBOTBALLPLACEMENT_H
 #define ROBOTEAM_AI_TWOROBOTBALLPLACEMENT_H

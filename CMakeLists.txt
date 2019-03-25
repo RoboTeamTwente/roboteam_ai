@@ -316,8 +316,8 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/CoachHeuristics.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/PassCoach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/PassCoach.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/Ballplacement.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/Ballplacement.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/BallplacementCoach.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/BallplacementCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GeneralPositionCoach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GeneralPositionCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/OffensiveCoach.cpp

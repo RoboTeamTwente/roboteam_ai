@@ -6,19 +6,22 @@
 #define ROBOTEAM_AI_BALLPLACEMENT_H
 
 #include "roboteam_utils/Vector2.h"
+#include "PassCoach.h"
 
 namespace rtt {
 namespace ai {
 namespace coach {
 
-class Ballplacement {
+class BallplacementCoach : public PassCoach {
 public:
+    explicit BallplacementCoach() = default;
     rtt::Vector2 getBallPlacementPos();
     rtt::Vector2 getBallPlacementBeforePos(Vector2 ballPos);
     rtt::Vector2 getBallPlacementAfterPos(double RobotAngle);
+    int determineRobotToPassTo() override;
 };
 
-extern Ballplacement g_ballPlacement;
+extern BallplacementCoach g_ballPlacement;
 
 } // coach
 } // ai

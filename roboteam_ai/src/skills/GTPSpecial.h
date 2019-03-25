@@ -7,7 +7,7 @@
 
 #include <roboteam_ai/src/control/PositionController.h>
 #include <roboteam_ai/src/coach/GeneralPositionCoach.h>
-#include <roboteam_ai/src/coach/Ballplacement.h>
+#include <roboteam_ai/src/coach/BallplacementCoach.h>
 #include <roboteam_ai/src/utilities/Field.h>
 #include "Skill.h"
 #include "GoToPos.h"

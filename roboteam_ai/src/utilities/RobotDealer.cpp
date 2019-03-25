@@ -7,7 +7,7 @@
 #include "Field.h"
 #include "ros/ros.h"
 #include <utility>
-#include <roboteam_ai/src/coach/Ballplacement.h>
+#include <roboteam_ai/src/coach/BallplacementCoach.h>
 
 namespace robotDealer {
 

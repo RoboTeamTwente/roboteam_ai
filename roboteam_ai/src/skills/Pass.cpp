@@ -12,22 +12,7 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
 
 void Pass::onInitialize() {
     goToPos.setAvoidBall(true);
-    type = coach::g_pass.stringToType(properties->getString("type"));
-    robotToPassToID = coach::g_pass.initiatePass(type);
-
-    switch (type) {
-        case coach::PassCoach::ballPlacement: {
-            passType = onPosition;
-            passPosition = coach::g_pass.getPassPosition();
-            targetPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, passPosition);
-            break;
-        }
-        case coach::PassCoach::offensive: {
-            passType = onRobot;
-            break;
-        }
-    }
-
+    robotToPassToID = coach::g_pass.initiatePass();
     currentProgress = Progression::POSITIONING;
 }
 
@@ -41,11 +26,7 @@ Pass::Status Pass::onUpdate() {
     switch(currentProgress) {
         case Progression::POSITIONING: {
             goToType = GoToType::NUMERIC_TREES;
-
-            /// Get new passPosition if passType is onRobot
-            if (passType == onRobot) {
-                passPosition = robotToPassTo->pos;
-            }
+            passPosition = robotToPassTo->pos;
 
             /// Check if robot is not yet at the targetPos
             if (!coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.25, passPosition, robot->pos)) {
@@ -61,6 +42,7 @@ Pass::Status Pass::onUpdate() {
                 return Status::Running;
             }
             command.use_angle = 1;
+
             // TODO: Check if angle can be same as for the attacker that shoots at the goal
             command.w = static_cast<float>(((Vector2) robotToPassTo->pos - ball->pos).angle());
             command.dribbler = 0;
@@ -111,6 +93,6 @@ Pass::Status Pass::onUpdate() {
     return Status::Running;
 }
 
-}
-}
+} // ai
+} // rtt
 

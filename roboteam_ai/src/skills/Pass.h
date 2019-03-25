@@ -15,15 +15,6 @@ namespace ai {
 
 class Pass : public Skill {
 private:
-    coach::PassCoach::PassType type;
-
-    enum PassType {
-        onPosition,
-        onRobot
-    };
-
-    PassType passType;
-
     int robotToPassToID = -1;
     std::shared_ptr<roboteam_msgs::WorldRobot> robotToPassTo;
     enum Progression {
