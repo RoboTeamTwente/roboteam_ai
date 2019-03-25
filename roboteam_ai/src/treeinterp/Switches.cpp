@@ -92,10 +92,10 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "SingleKeeperTactic",
         "DemoAttackerTactic",
         "DemoTactic",
-        "randomTactic" // used for testing, do not remove it!
-//        "PenaltyShootTactic",
-//        "PenaltyTactic",
-//        "FreeKickShootTactic"
+        "randomTactic", // used for testing, do not remove it!
+        "PenaltyShootTactic",
+        "PenaltyTactic",
+        "FreeKickShootTactic"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
@@ -110,10 +110,10 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "EnterFormationStrategy",
         "BallPlacementUsStrategy",
         "BallPlacementThemStrategy",
-        "randomStrategy" // used for testing, do not remove it!
-//        "PenaltyShootStrategy",
-//        "PenaltyStrategy",
-//        "FreeKickShootStrategy"
+        "randomStrategy", // used for testing, do not remove it!
+        "PenaltyShootStrategy",
+        "PenaltyStrategy",
+        "FreeKickShootStrategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles =
