@@ -77,7 +77,7 @@ PosVelAngle PositionController::force(RobotPtr robot, Vector2 &targetPos) {
 
     checkInterfacePID();
     PosVelAngle target;
-    target.pos.x = robot->pos.x + error.stretchToLength(1).x;//no square or move, 0.5
+    target.pos.x = robot->pos.x + error.stretchToLength(1).x;
     target.pos.y = robot->pos.y + error.stretchToLength(1).y;
     target.angle = error.angle();
     userotforce = true;
