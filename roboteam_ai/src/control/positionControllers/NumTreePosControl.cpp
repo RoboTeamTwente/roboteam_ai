@@ -310,7 +310,7 @@ std::shared_ptr<NumTreePosControl::PathPoint> NumTreePosControl::computeNewPoint
 bool NumTreePosControl::checkCollision(std::shared_ptr<PathPoint> point, double collisionRadius) {
     roboteam_msgs::World world = World::get_world();
     for (auto bot : world.us) {
-        if (bot.id != static_cast<unsigned long>(robotID)) {
+        if (bot.id != (robotID)) {
             Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
             if (point->isCollision(botPos, collisionRadius))
                 return true;

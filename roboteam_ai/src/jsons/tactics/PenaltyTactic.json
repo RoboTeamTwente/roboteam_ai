@@ -31,11 +31,9 @@
           },
           "yq40mitub02qxvf": {
             "id": "yq40mitub02qxvf",
-            "title": "GTPSpecial",
+            "title": "GoToPos",
             "properties": {
-              "type" : "fixed",
-              "fixedTarget": "{3,0}",
-              "avoidBall": "true",
+              "targetPos": "{3,0}",
               "ROLE": "shooter"
             }
           },

@@ -29,9 +29,8 @@ void GoToPos::onInitialize() {
 
 /// Get an update on the skill
 bt::Node::Status GoToPos::onUpdate() {
-    if (! robot) return Status::Running;
 
-    if ((targetPos - robot->pos).length() < errorMargin) {
+    if ((targetPos - robot->pos).length() < errorMargin + 0.4) {
         return Status::Success;
     }
 

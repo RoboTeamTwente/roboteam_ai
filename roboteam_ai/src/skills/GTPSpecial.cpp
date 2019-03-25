@@ -41,10 +41,10 @@ void GTPSpecial::onInitialize() {
             ROS_WARN("GTPSpecial was not given any type! Defaulting to {0, 0}");
             break;
         }
-        case fixed: {
-            targetPos = properties->getVector2("fixedTarget");
-            break;
-        }
+//        case fixed: {
+//            targetPos = properties->getVector2("fixedTarget");
+//            break;
+//        }
     }
 
     if (properties->hasDouble("maxVel")) {
@@ -100,9 +100,9 @@ GTPSpecial::Type GTPSpecial::stringToType(std::string string) {
     else if (string == "getBallFromSide") {
         return getBallFromSide;
     }
-    else if (string == "fixed") {
-        return fixed;
-    }
+//    else if (string == "fixed") {
+//        return fixed;
+//    }
     else {
         return defaultType;
     }
