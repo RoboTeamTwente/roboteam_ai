@@ -91,9 +91,9 @@ bool Field::pointIsInField(Vector2 point, float margin) {
 /// returns the angle the goal points make from a point
 double Field::getTotalGoalAngle(bool ourGoal, Vector2 point){
     std::pair<Vector2,Vector2> goal=getGoalSides(ourGoal);
-    double AngleLeft=(goal.first-point).angle();
-    double AngleRight=(goal.second-point).angle();
-    return control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(AngleLeft),control::ControlUtils::constrainAngle(AngleRight));
+    double angleLeft=(goal.first-point).angle();
+    double angleRight=(goal.second-point).angle();
+    return control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(angleLeft),control::ControlUtils::constrainAngle(angleRight));
 
 }
 double Field::getTotalVisibleGoalAngle(bool ourGoal, Vector2 point,  std::vector<roboteam_msgs::WorldRobot> botsToCheck,double collisionRadius) {
@@ -204,7 +204,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
     });
     std::vector<std::pair<Vector2, Vector2>> mergedBlockades;
     // for every blockade we check if it overlaps and then edit the current mergedBlockades to reflect those overlaps
-    for (auto Blockade : blockades){
+    for (auto blockade : blockades){
         bool addBlockade=true;
         bool mergeLeft=false;
         bool mergeRight=false;
@@ -214,17 +214,17 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
         for (int i=0; i<mergedBlockades.size(); i++){
             std::pair<Vector2,Vector2> usedBlockade=mergedBlockades[i];
             // if it's area is already completely covered by a blockade in mergedBlockades, we don't add it
-            if (Blockade.first.y>=usedBlockade.first.y&&Blockade.second.y<=usedBlockade.second.y){
+            if (blockade.first.y>=usedBlockade.first.y&&blockade.second.y<=usedBlockade.second.y){
                 addBlockade=false;
                 break;
             }
             // find if there is an overlap on the left or the right
-            if (Blockade.second.y>=usedBlockade.first.y &&Blockade.first.y<usedBlockade.first.y){
+            if (blockade.second.y>=usedBlockade.first.y &&blockade.first.y<usedBlockade.first.y){
                 mergeLeft=true;
                 mergeLeftPos=i;
                 continue;
             }
-            if (Blockade.first.y<=usedBlockade.second.y&& Blockade.second.y>usedBlockade.second.y){
+            if (blockade.first.y<=usedBlockade.second.y&& blockade.second.y>usedBlockade.second.y){
                 mergeRight=true;
                 mergeRightPos=i;
                 continue;
@@ -234,7 +234,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
         if (addBlockade){
             if(!mergeLeft&&!mergeRight){
                 // just add it to mergedBlockades
-                mergedBlockades.emplace_back(Blockade);
+                mergedBlockades.emplace_back(blockade);
             }
             else if (mergeLeft&&mergeRight){
                 //merge the 3 blockades into one
@@ -245,13 +245,13 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
             }
             else if (mergeLeft){
                 //merge the blockade
-                std::pair<Vector2,Vector2> newBlockade=std::make_pair(Blockade.first,mergedBlockades[mergeLeftPos].second);
+                std::pair<Vector2,Vector2> newBlockade=std::make_pair(blockade.first,mergedBlockades[mergeLeftPos].second);
                 mergedBlockades.erase(mergedBlockades.begin()+mergeLeftPos);
                 mergedBlockades.emplace_back(newBlockade);
             }
             else{
                 //merge the (right) blockade
-                std::pair<Vector2,Vector2> newBlockade=std::make_pair(mergedBlockades[mergeRightPos].first,Blockade.second);
+                std::pair<Vector2,Vector2> newBlockade=std::make_pair(mergedBlockades[mergeRightPos].first,blockade.second);
                 mergedBlockades.erase(mergedBlockades.begin()+mergeRightPos);
                 mergedBlockades.emplace_back(newBlockade);
             }
