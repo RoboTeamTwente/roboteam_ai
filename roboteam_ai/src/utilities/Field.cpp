@@ -133,11 +133,15 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
             Vector2 lowerSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot.pos)-point).angle()-theta);
             Vector2 upperSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot.pos)-point).angle()+theta);
             // map points onto goal line
+
+            // the forwardIntersection returns a double which is the scale of the vector projection
+            // this returns -1.0 if there is no intersections in the forward direction
             double point1val = util::twoLineForwardIntersection(point,lowerSideOfRobot,lowerGoalSide,upperGoalSide);
             double point2val= util::twoLineForwardIntersection(point,upperSideOfRobot,lowerGoalSide,upperGoalSide);
+            // Here is how we calculate the actual intersections using the above values
             Vector2 point1=point+(lowerSideOfRobot-point)*point1val;
             Vector2 point2=point+(upperSideOfRobot-point)*point2val;
-
+            // we can use the
 
             // remove all obstacles that are completely out of the goal regardless
 
@@ -171,6 +175,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
                 validObstacle=true;
             }
 
+            // check if both points are below or above the goal (this invalidates it again)
             if (validObstacle){
                 bool bothPointsBelowGoal = point1.y <= lowerGoalSide.y && point2.y <= lowerGoalSide.y;
                 bool bothPointAboveGoal = point1.y >= upperGoalSide.y && point2.y >= upperGoalSide.y;
