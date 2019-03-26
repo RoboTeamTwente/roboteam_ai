@@ -13,6 +13,14 @@ namespace ai {
 
 class InterceptBall :public Skill {
     private:
+
+        const double BALL_DEFLECTION_ANGLE = 30.0/180.0*M_PI;    // Angle at which a ball is considered 'deflected'
+        const double INTERCEPT_POSDIF = 0.04;    // Meters acceptable deviation
+
+        const double INTERCEPT_P = 5.7;
+        const double INTERCEPT_I = 1.7;
+        const double INTERCEPT_D = 0.0;
+
         enum Progression {
           INTERCEPTING, CLOSETOPOINT, INPOSITION, BALLDEFLECTED, BALLMISSED
         };

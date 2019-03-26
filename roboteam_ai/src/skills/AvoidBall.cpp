@@ -22,11 +22,11 @@ bt::Node::Status AvoidBall::onUpdate() {
     // forces from robots
     for (auto otherRobot : World::getAllRobots()) {
         if (otherRobot.id != robot->id) {
-            force = force + cu::calculateForce(robotPos - otherRobot.pos, Constants::robotWeight(), Constants::minRobotDistanceForForce());
+            force = force + cu::calculateForce(robotPos - otherRobot.pos, robotWeight, minRobotDistanceForForce);
         }
     }
     // check forces from ball
-    force = force + cu::calculateForce(robotPos - ball->pos, Constants::ballWeight(), Constants::minBallDistanceForForce());
+    force = force + cu::calculateForce(robotPos - ball->pos, ballWeight, minBallDistanceForForce);
 
     // forces from walls
     auto field = Field::get_field();
@@ -41,7 +41,7 @@ bt::Node::Status AvoidBall::onUpdate() {
     wallsVectors.emplace_back(Vector2(0, robotPos.y + halfFieldWidth + boundWidth));
 
     for (auto const &wallVector : wallsVectors) {
-        force = force + cu::calculateForce(wallVector, Constants::wallWeight(), Constants::minWallDistanceForForce());
+        force = force + cu::calculateForce(wallVector, wallWeight, minWallDistanceForForce);
     }
 
     // limit the forces

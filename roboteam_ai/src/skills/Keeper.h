@@ -9,9 +9,12 @@
 #include "roboteam_utils/Math.h"
 #include "roboteam_ai/src/control/PIDController.h"
 
-namespace rtt{
-namespace ai{
+namespace rtt {
+namespace ai {
 class Keeper : public Skill {
+
+        const double KEEPER_POSDIF = 0.01;
+
     private:
         Arc blockCircle;
         Vector2 computeBlockPoint(Vector2 defendPos);
@@ -22,7 +25,7 @@ class Keeper : public Skill {
         void sendMoveCommand(Vector2 pos);
         void sendFineMoveCommand(Vector2 pos);
         void sendStopCommand();
-        control::PIDController pid,finePid;
+        control::PIDController pid, finePid;
 
         control::PositionController goToPos;
     public:
@@ -33,6 +36,5 @@ class Keeper : public Skill {
 };
 }
 }
-
 
 #endif //ROBOTEAM_AI_KEEPER_H

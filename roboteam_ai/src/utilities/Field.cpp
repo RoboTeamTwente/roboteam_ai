@@ -86,15 +86,14 @@ bool Field::pointIsInField(Vector2 point, float margin) {
             point.x > - halfLength + margin &&
             point.y < halfWidth - margin &&
             point.y > - halfWidth + margin);
-
 }
 
 /// returns the angle the goal points make from a point
 double Field::getTotalGoalAngle(bool ourGoal, Vector2 point){
     std::pair<Vector2,Vector2> goal=getGoalSides(ourGoal);
-    double AngleLeft=(goal.first-point).angle();
-    double AngleRight=(goal.second-point).angle();
-    return control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(AngleLeft),control::ControlUtils::constrainAngle(AngleRight));
+    double angleLeft=(goal.first-point).angle();
+    double angleRight=(goal.second-point).angle();
+    return control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(angleLeft),control::ControlUtils::constrainAngle(angleRight));
 
 }
 double Field::getTotalVisibleGoalAngle(bool ourGoal, Vector2 point,  std::vector<roboteam_msgs::WorldRobot> botsToCheck,double collisionRadius) {
@@ -134,11 +133,15 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
             Vector2 lowerSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot.pos)-point).angle()-theta);
             Vector2 upperSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot.pos)-point).angle()+theta);
             // map points onto goal line
+
+            // the forwardIntersection returns a double which is the scale of the vector projection
+            // this returns -1.0 if there is no intersections in the forward direction
             double point1val = util::twoLineForwardIntersection(point,lowerSideOfRobot,lowerGoalSide,upperGoalSide);
             double point2val= util::twoLineForwardIntersection(point,upperSideOfRobot,lowerGoalSide,upperGoalSide);
+            // Here is how we calculate the actual intersections using the above values
             Vector2 point1=point+(lowerSideOfRobot-point)*point1val;
             Vector2 point2=point+(upperSideOfRobot-point)*point2val;
-
+            // we can use the
 
             // remove all obstacles that are completely out of the goal regardless
 
@@ -147,8 +150,8 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
             if (point1val<=0 && point2val<=0){
                 validObstacle=false;
             }
-            //these following 2 cases are identical in logic but mirrored; one point hits the backline, other does not.
-            // in that case, we pick the appropriate goalPost which would be right for the obstacle as new Point and check if this interval is valid
+                //these following 2 cases are identical in logic but mirrored; one point hits the backline, other does not.
+                // in that case, we pick the appropriate goalPost which would be right for the obstacle as new Point and check if this interval is valid
             else if(point1val<=0&&point2val>0){
                 validObstacle=true;
                 if (point1.y<point2.y){
@@ -172,6 +175,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
                 validObstacle=true;
             }
 
+            // check if both points are below or above the goal (this invalidates it again)
             if (validObstacle){
                 bool bothPointsBelowGoal = point1.y <= lowerGoalSide.y && point2.y <= lowerGoalSide.y;
                 bool bothPointAboveGoal = point1.y >= upperGoalSide.y && point2.y >= upperGoalSide.y;
@@ -201,11 +205,11 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
 std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::pair<Vector2, Vector2>> blockades) {
     // sort blockades from large to small. This is crucial for checking mergeability
     std::sort(blockades.begin(), blockades.end(), [](const std::pair<Vector2,Vector2> &a, const std::pair<Vector2,Vector2> &b) {
-      return abs(a.second.y-a.first.y) >abs(b.second.y-b.first.y);
+        return abs(a.second.y-a.first.y) >abs(b.second.y-b.first.y);
     });
     std::vector<std::pair<Vector2, Vector2>> mergedBlockades;
     // for every blockade we check if it overlaps and then edit the current mergedBlockades to reflect those overlaps
-    for (auto Blockade : blockades){
+    for (auto blockade : blockades){
         bool addBlockade=true;
         bool mergeLeft=false;
         bool mergeRight=false;
@@ -215,17 +219,17 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
         for (int i=0; i<mergedBlockades.size(); i++){
             std::pair<Vector2,Vector2> usedBlockade=mergedBlockades[i];
             // if it's area is already completely covered by a blockade in mergedBlockades, we don't add it
-            if (Blockade.first.y>=usedBlockade.first.y&&Blockade.second.y<=usedBlockade.second.y){
+            if (blockade.first.y>=usedBlockade.first.y&&blockade.second.y<=usedBlockade.second.y){
                 addBlockade=false;
                 break;
             }
             // find if there is an overlap on the left or the right
-            if (Blockade.second.y>=usedBlockade.first.y &&Blockade.first.y<usedBlockade.first.y){
+            if (blockade.second.y>=usedBlockade.first.y &&blockade.first.y<usedBlockade.first.y){
                 mergeLeft=true;
                 mergeLeftPos=i;
                 continue;
             }
-            if (Blockade.first.y<=usedBlockade.second.y&& Blockade.second.y>usedBlockade.second.y){
+            if (blockade.first.y<=usedBlockade.second.y&& blockade.second.y>usedBlockade.second.y){
                 mergeRight=true;
                 mergeRightPos=i;
                 continue;
@@ -235,7 +239,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
         if (addBlockade){
             if(!mergeLeft&&!mergeRight){
                 // just add it to mergedBlockades
-                mergedBlockades.emplace_back(Blockade);
+                mergedBlockades.emplace_back(blockade);
             }
             else if (mergeLeft&&mergeRight){
                 //merge the 3 blockades into one
@@ -246,13 +250,13 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
             }
             else if (mergeLeft){
                 //merge the blockade
-                std::pair<Vector2,Vector2> newBlockade=std::make_pair(Blockade.first,mergedBlockades[mergeLeftPos].second);
+                std::pair<Vector2,Vector2> newBlockade=std::make_pair(blockade.first,mergedBlockades[mergeLeftPos].second);
                 mergedBlockades.erase(mergedBlockades.begin()+mergeLeftPos);
                 mergedBlockades.emplace_back(newBlockade);
             }
             else{
                 //merge the (right) blockade
-                std::pair<Vector2,Vector2> newBlockade=std::make_pair(mergedBlockades[mergeRightPos].first,Blockade.second);
+                std::pair<Vector2,Vector2> newBlockade=std::make_pair(mergedBlockades[mergeRightPos].first,blockade.second);
                 mergedBlockades.erase(mergedBlockades.begin()+mergeRightPos);
                 mergedBlockades.emplace_back(newBlockade);
             }
@@ -275,7 +279,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGo
     std::vector<std::pair<Vector2, Vector2>> visibleParts = {};
 
     std::sort(blockades.begin(), blockades.end(), [](const std::pair<Vector2,Vector2> &a, const std::pair<Vector2,Vector2> &b) {
-      return a.first.y<b.first.y;
+        return a.first.y<b.first.y;
     });
     // we start from the lowerhook, which is the lowest goal side at the start.
     // The obstacles are sorted on their smallest value.
@@ -361,6 +365,14 @@ int Field::getRobotClosestToGoal(bool ourRobot, bool ourGoal) {
 
     int closestId = World::getRobotClosestToPoint(robots, target)->id;
     return closestId;
+}
+
+/*
+ * Get Distance to goal
+ */
+double Field::getDistanceToGoal(bool ourGoal, Vector2 point) {
+    auto sides = getGoalSides(ourGoal);
+    return control::ControlUtils::distanceToLineWithEnds(point, sides.first, sides.second);
 }
 
 } // ai

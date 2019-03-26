@@ -9,51 +9,41 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <gtest/gtest_prod.h>
 #include <map>
 #include "TreeInterpreter.h"
 #include "BTImport.h"
-#include "Switches.h"
+#include "roboteam_ai/src/Switches.h"
+
+namespace rtt {
+namespace ai {
+namespace treeinterp {
 
 class BTFactory {
-
-        // TODO: have the names of all the project before here
-        TreeInterpreter interpreter;
-
-        static std::string currentTree;
-
-        static std::string keeperTree;
-
-        static int keeperID;
-
-        static bool initialized;
-
-    public:
-        void init();
-
-        static BTFactory &getFactory();
-
-        bt::BehaviorTree::Ptr getTree(std::string treeName);
-
-        static std::map<std::string, bt::BehaviorTree::Ptr> strategyRepo;
-
-        static std::map<std::string, bt::Node::Ptr> tacticsRepo;
-
-        static std::map<std::string, bt::BehaviorTree::Ptr> keeperRepo;
-
-        static std::string getCurrentTree();
-
-        static bt::BehaviorTree::Ptr getKeeperTree();
-
-        static void setCurrentTree(const std::string &currentTree);
-
-        static void setKeeperTree(const std::string &keeperTree);
-
-        static void setKeeper(int newID);
-
-        static bool isInitialized();
-
-        static void halt();
+private:
+    TreeInterpreter interpreter;
+    std::string currentTree = "NaN";
+    std::string keeperTree;
+    int keeperID;
+    bool initialized = false;
+public:
+    void init();
+    bt::BehaviorTree::Ptr getTree(std::string treeName);
+    std::map<std::string, bt::BehaviorTree::Ptr> strategyRepo;
+    std::map<std::string, bt::Node::Ptr> tacticsRepo;
+    std::map<std::string, bt::BehaviorTree::Ptr> keeperRepo;
+    std::string getCurrentTree();
+    bt::BehaviorTree::Ptr getKeeperTree();
+    void setCurrentTree(const std::string& currentTree);
+    void setKeeperTree(const std::string& keeperTree);
+    void setKeeper(int newID);
+    bool isInitialized();
+    void halt();
 };
+
+extern BTFactory g_btfactory;
+
+} // treeinterp
+} // ai
+} // rtt
 
 #endif //ROBOTEAM_AI_BTFACTORY_H

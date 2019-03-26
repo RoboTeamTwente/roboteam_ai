@@ -68,10 +68,23 @@ double ControlUtils::distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vec
     return d.length();
 }
 
+bool ControlUtils::clearLine(Vector2 fromPos, Vector2 toPos, roboteam_msgs::World world, double safeDistanceFactor, bool keeper) {
+    double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor * 3;
+
+    for (auto enemy : world.them) {
+        //TODO: Check if the keeper should be taken into account and get it from the referee
+        if (distanceToLineWithEnds(enemy.pos, fromPos, toPos) < minDistance) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 /// See if a robot has a clear vision towards another robot
 /// e.g. there are no obstacles in between.
-bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::World world, int safelyness) {
-    double minDistance = rtt::ai::Constants::ROBOT_RADIUS()*(3*safelyness); // TODO: calibrate Rolf approved
+bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::World world, int safeDistanceFactor) {
+    double minDistance = rtt::ai::Constants::ROBOT_RADIUS()*(3*safeDistanceFactor); // TODO: calibrate Rolf approved
     Vector2 fromPos;
     Vector2 towardsPos;
 
@@ -92,6 +105,7 @@ bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::Worl
 
     return true;
 }
+
 
 /// Get the distance from PointToCheck towards a line, the line is not infinite.
 double ControlUtils::distanceToLineWithEnds(Vector2 pointToCheck, Vector2 lineStart, Vector2 lineEnd) {
@@ -114,7 +128,7 @@ double ControlUtils::distanceToLineWithEnds(Vector2 pointToCheck, Vector2 lineSt
     return distDiff.length();
 }
 
-//https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
+// https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
 // Given three colinear points p, q, r, the function checks if
 // point q lies on line segment 'pr'
 bool ControlUtils::onLineSegment(Vector2 p, Vector2 q, Vector2 r) {
@@ -284,8 +298,7 @@ std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFrom
         std::vector<Vector2> set2) {
 
     std::vector<int> assignments;
-    // compute a distance matrix
-    // initialize it with zeros
+    // compute a distance matrix, initialize it with zeros
     std::vector<std::vector<double>> distanceMatrix(set1.size(), std::vector<double>(set2.size()));
 
     for (unsigned int i = 0; i < set1.size(); i++) {
@@ -302,6 +315,16 @@ std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFrom
         solutionPairs.push_back({set1.at(i), set2.at(assignments.at(i))});
     }
     return solutionPairs;
+}
+
+bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, Vector2 point, double maxDifference) {
+    auto robot = World::getRobotForId(id, ourTeam);
+    if (robot) {
+        double exactAngleTowardsPoint = (point - robot->pos).angle();
+        return (robot->w > constrainAngle(exactAngleTowardsPoint - maxDifference/2)
+            && robot->w < constrainAngle(exactAngleTowardsPoint + maxDifference/2));
+    }
+    return false;
 }
 
 Vector2 ControlUtils::computeSimpleReceivePos(Vector2 startPos, Vector2 robotPos){

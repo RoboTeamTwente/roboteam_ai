@@ -7,6 +7,7 @@
 #include "widget.h"
 #include "drawer.h"
 #include "InterfaceValues.h"
+#include "../analysis/GameAnalyzer.h"
 
 namespace rtt {
 namespace ai {
@@ -22,8 +23,10 @@ void Visualizer::paintEvent(QPaintEvent* event) {
     if (rtt::ai::World::didReceiveFirstWorld) {
         drawBackground(painter);
         drawFieldLines(painter);
+        if (showAvailablePasses) drawPasses(painter);
         drawBall(painter);
         drawRobots(painter);
+        drawCrosses(painter, Drawer::getOffensivePoints(), 5);
         drawLines(painter,Drawer::getTestLines());
         drawPoints(painter,Drawer::getTestPoints());
         drawDrawPoints(painter, Drawer::getDrawPoints());
@@ -33,12 +36,12 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         Drawer::clearDrawLines();
 
         if (showBallPlacementMarker) drawBallPlacementTarget(painter);
-
         if (showPath) {
             for (auto robot : selectedRobots) {
                 drawDataPoints(painter, Drawer::getNumTreePoints(robot.id));
                 drawDataPoints(painter, Drawer::getKeeperPoints(robot.id),Constants::KEEPER_HELP_DRAW_SIZE());
                 drawIntercept(painter, Drawer::getInterceptPoints(robot.id));
+                drawCrosses(painter, Drawer::getAttackerPoints(robot.id), 5);
             }
         }
 
@@ -251,6 +254,7 @@ void Visualizer::drawDataPoints(QPainter &painter, std::vector<Vector2> points, 
         }
     }
 }
+
 void Visualizer::drawDataPoints(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize) {
     if (! points.empty()) {
         painter.setPen(Qt::NoPen);
@@ -259,6 +263,19 @@ void Visualizer::drawDataPoints(QPainter &painter, std::vector<std::pair<Vector2
             painter.setBrush(point.second);
             Vector2 pointOnScreen = toScreenPosition(point.first);
             painter.drawEllipse(pointOnScreen.x, pointOnScreen.y, pointSize, pointSize);
+        }
+    }
+}
+
+void Visualizer::drawCrosses(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, double size) {
+    if (!points.empty()) {
+        for (auto point : points) {
+            painter.setPen(point.second);
+            Vector2 pointOnScreen = toScreenPosition(point.first);
+            painter.drawLine(pointOnScreen.x - size, pointOnScreen.y - size, pointOnScreen.x + size,
+                             pointOnScreen.y + size);
+            painter.drawLine(pointOnScreen.x + size, pointOnScreen.y - size, pointOnScreen.x - size,
+                             pointOnScreen.y + size);
         }
     }
 }
@@ -408,6 +425,30 @@ void Visualizer::setShowDebugValueInTerminal(bool showDebug) {
     InterfaceValues::setShowDebugValues(showDebug);
 }
 
+void Visualizer::setShowAvailablePasses(bool showAvailablePasses) {
+    Visualizer::showAvailablePasses = showAvailablePasses;
+}
+
+void Visualizer::drawPasses(QPainter& painter) {
+    auto report = rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
+
+    std::vector<std::pair<Vector2, Vector2>> lines;
+    for (auto &robot : report->ourRobotsSortedOnDanger) {
+        if (robotIsSelected(robot.first)) {
+            Vector2 robotLocation = toScreenPosition(robot.first.pos);
+            for (auto robotToPassToId : robot.second.robotsToPassTo) {
+                auto passRobot = World::getRobotForId(robotToPassToId.first, true);
+                Vector2 passRobotLocation = toScreenPosition(passRobot->pos);
+                double distance = robotToPassToId.second;
+                painter.setBrush(Qt::transparent);
+                int opacity = static_cast<int>((robotLocation.dist(passRobotLocation) / width()) * 255);
+                painter.setPen({255, 255, 0, 255 - opacity});
+                painter.drawLine(robotLocation.x, robotLocation.y, passRobotLocation.x, passRobotLocation.y);
+            }
+        }
+    };
+
+}
 
 } // interface
 } // ai

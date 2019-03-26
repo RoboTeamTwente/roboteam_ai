@@ -7,12 +7,15 @@
 #define ROBOTEAM_AI_GENERALPOSITIONCOACH_H
 
 #include "roboteam_utils/Vector2.h"
+#include <roboteam_ai/src/utilities/Constants.h>
 
 namespace rtt {
 namespace ai {
 namespace coach {
 
 class GeneralPositionCoach {
+private:
+    static double BEHIND_BALL_ANGLE;
 
 public:
     explicit GeneralPositionCoach() = default;
@@ -20,9 +23,9 @@ public:
     Vector2 getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID);
     Vector2 getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position);
 
-    bool isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal, const Vector2 &robotPos);
-    bool isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID, const Vector2 &robotPosition);
-    bool isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position, const Vector2 &robotPosition);
+    bool isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal, const Vector2 &robotPos, double angleMargin = BEHIND_BALL_ANGLE);
+    bool isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID, const Vector2 &robotPosition, double angleMargin = BEHIND_BALL_ANGLE);
+    bool isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position, const Vector2 &robotPosition, double angleMargin = BEHIND_BALL_ANGLE);
     Vector2 getDemoKeeperGetBallPos(Vector2 ballPos);
 
 };
