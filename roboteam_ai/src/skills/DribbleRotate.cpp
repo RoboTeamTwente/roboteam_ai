@@ -1,7 +1,3 @@
-#include <utility>
-
-#include <utility>
-
 //
 // Created by rolf on 14/12/18.
 //
@@ -10,6 +6,7 @@
 #include "DribbleRotate.h"
 #include "../control/ControlUtils.h"
 #include "../utilities/Field.h"
+#include "../coach/Ballplacement.h"
 
 namespace rtt {
 namespace ai {
@@ -35,7 +32,7 @@ void DribbleRotate::onInitialize() {
         maxSpeed = properties->getDouble("maxVel");
     }
     else {
-        maxSpeed = Constants::DRIBBLE_ROTATE_MAX_SPEED();
+        maxSpeed = MAX_SPEED;
     }
     if (properties->hasDouble("Angle")) {
         targetAngle = properties->getDouble("Angle");
@@ -47,7 +44,7 @@ void DribbleRotate::onInitialize() {
     else if (properties->getBool("BallPlacement")){
         if(properties->getBool("BallPlacementForwards")){
         }
-        targetAngle=(Vector2(robot->pos)-Coach::getBallPlacementPos()).angle();
+        targetAngle=(Vector2(robot->pos) - coach::g_ballPlacement.getBallPlacementPos()).angle();
     }
     if (!properties->hasDouble("Angle")&&!properties->hasBool("RotateToTheirGoal")&&!properties->hasBool("BallPlacement")){
         ROS_ERROR(" dribbleRotate Initialize -> No good angle set in properties");
@@ -57,7 +54,7 @@ void DribbleRotate::onInitialize() {
     incrementAngle= maxSpeed/Constants::TICK_RATE();
     currentProgression=ROTATING;
     currentTick=0;
-    extraTick= static_cast<int>(Constants::DRIBBLE_ROTATE_WAIT_TIME() * Constants::TICK_RATE());
+    extraTick= static_cast<int>(WAIT_TIME * Constants::TICK_RATE());
     dir=Control::rotateDirection(startAngle,targetAngle);
     maxTick=(int)floor(Control::angleDifference(startAngle,targetAngle)/maxSpeed*Constants::TICK_RATE());
     if (!World::ourBotHasBall(robot->id,Constants::MAX_BALL_RANGE())){

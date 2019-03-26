@@ -12,20 +12,15 @@ namespace ai {
 IsBallOnOurSide::IsBallOnOurSide(std::string name, bt::Blackboard::Ptr blackboard)
     :Condition(std::move(name), std::move(blackboard)) { };
 
-void IsBallOnOurSide::initialize() {
+void IsBallOnOurSide::onInitialize() {
     if (properties->hasBool("inField")) {
         inField = properties->getBool("inField");
     }
 
 }
 
-bt::Node::Status IsBallOnOurSide::update() {
-    Vector2 ballPos;
-    auto ball = World::getBall();
-    if (ball) {
-        ballPos = ball->pos;
-    }
-    else return Status::Failure;
+bt::Node::Status IsBallOnOurSide::onUpdate() {
+    Vector2 ballPos = ball->pos;
 
     if (ballPos.x < 0) {
         if (inField) {

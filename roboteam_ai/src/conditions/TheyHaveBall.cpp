@@ -4,7 +4,6 @@
 
 #include "TheyHaveBall.h"
 #include "../utilities/World.h"
-#include "../utilities/Coach.h"
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_msgs/WorldBall.h"
 
@@ -16,7 +15,7 @@ TheyHaveBall::TheyHaveBall(std::string name, bt::Blackboard::Ptr blackboard)
 
 }
 
-bt::Node::Status TheyHaveBall::update() {
+bt::Node::Status TheyHaveBall::onUpdate() {
     roboteam_msgs::World world = World::get_world();
     std::vector<roboteam_msgs::WorldRobot> robots = world.them;
 
