@@ -61,10 +61,11 @@ PosVelAngle PositionController::basic(RobotPtr robot, Vector2 &targetPos) {
     //Just a PID position controller
     Vector2 error = targetPos - robot->pos;
 
-    posPID.setPID(15.0, 0, 10.0);
+    posPID.setPID(15.0, 0, 10.0);//increase P for more speed, increase D for less overshoot
 
     PosVelAngle target;
-    target.pos = targetPos;
+    target.pos.x = robot->pos.x + error.stretchToLength(1).x;//Makes the target max 1 meter to the front of the robot
+    target.pos.y = robot->pos.y + error.stretchToLength(1).y;
     target.angle = error.angle();
     userotforce = false;
     return pidController(robot, target, 0.5);
@@ -74,11 +75,11 @@ PosVelAngle PositionController::force(RobotPtr robot, Vector2 &targetPos) {
     //Just a PID position controller but also rotates the velocity afterwards to avoid objects
     Vector2 error = targetPos - robot->pos;
 
-    posPID.setPID(15.0, 0, 10.0);
+    posPID.setPID(15.0, 0, 10.0);//increase P for more speed, increase D for less overshoot
 
     checkInterfacePID();
     PosVelAngle target;
-    target.pos.x = robot->pos.x + error.stretchToLength(1).x;
+    target.pos.x = robot->pos.x + error.stretchToLength(1).x;//Makes the target max 1 meter to the front of the robot
     target.pos.y = robot->pos.y + error.stretchToLength(1).y;
     target.angle = error.angle();
     userotforce = true;
@@ -121,9 +122,9 @@ PosVelAngle PositionController::numTree(RobotPtr robot, Vector2 &targetPos) {
         return force(robot, targetPos);
     }
     else {
-        posPID.setPID(20.0, 0, 10.0);
+        posPID.setPID(20.0, 0, 10.0);//increase P for more speed, increase D for less overshoot
         userotforce = true;
-        checkInterfacePID();
+        checkInterfacePID();//For Testing, otherwise I(Koen) found the above values to sorta work.
     }
     return pidController(robot, target, 0.10);
 }
