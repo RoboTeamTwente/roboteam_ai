@@ -36,12 +36,12 @@ class World {
     static roboteam_msgs::World world;
     static std::mutex worldMutex;
     static std::vector<std::pair<roboteam_msgs::World, double>> futureWorlds;
-    static std::map<int,double> OurBotsBall, TheirBotsBall;
     static double findBallDist(roboteam_msgs::WorldRobot &bot, roboteam_msgs::WorldBall &ball);
     static void updateBallPossession(roboteam_msgs::World &_world);
     static roboteam_msgs::WorldBall updateBallPosition(roboteam_msgs::World _world);
 public:
     static ballPossession getPossession();
+    static std::map<int,double> OurBotsBall, TheirBotsBall;
     static void set_world(roboteam_msgs::World world);
     static const roboteam_msgs::World& get_world();
     static std::shared_ptr<roboteam_msgs::WorldBall> getBall();
