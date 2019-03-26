@@ -3,7 +3,6 @@
 //
 
 #include "ProcessedWorld.h"
-#include "World.h"
 
 namespace rtt {
 namespace ai {

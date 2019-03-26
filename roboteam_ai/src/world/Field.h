@@ -5,8 +5,8 @@
  */
 
 
-#ifndef ROBOTEAM_AI_FIELD_H
-#define ROBOTEAM_AI_FIELD_H
+#ifndef ROBOTEAM_AI_FIELDD_H
+#define ROBOTEAM_AI_FIELDD_H
 
 #include <roboteam_utils/Vector2.h>
 #include "roboteam_msgs/GeometryFieldSize.h"
@@ -14,7 +14,6 @@
 #include <thread>
 #include "WorldData.h"
 #include <roboteam_ai/src/control/ControlUtils.h>
-#include "World.h"
 
 namespace rtt {
 namespace ai {

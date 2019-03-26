@@ -31,12 +31,12 @@ void WorldManager::updateROSData() {
 }
 
 void WorldManager::updateWorld() {
-    world->setWorld(worldMsg);
+    world::world->setWorld(worldMsg);
     //world->getProcessedWorld()->update();
 }
 
 void WorldManager::updateField() {
-    field->set_field(geometryMsg.field);
+    world::field->set_field(geometryMsg.field);
 }
 
 void WorldManager::updateGameAnalyzer() {

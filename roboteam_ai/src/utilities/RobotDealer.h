@@ -11,7 +11,6 @@
 #include <mutex>
 #include <vector>
 #include "roboteam_utils/Vector2.h"
-#include "../world/WorldData.h"
 #include "ros/ros.h"
 
 namespace rtt {

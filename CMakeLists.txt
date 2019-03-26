@@ -334,7 +334,9 @@ catkin_add_gtest(ai_tests
         ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
         ${TEST_SOURCES}
-        )
+        ${WORLD_SOURCES})
+
+
 
 target_compile_options(ai_tests PUBLIC --coverage)
 

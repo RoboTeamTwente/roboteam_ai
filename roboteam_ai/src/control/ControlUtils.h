@@ -9,7 +9,7 @@
 #include "roboteam_msgs/World.h"
 #include "../utilities/Constants.h"
 #include "roboteam_utils/Vector2.h"
-#include "math.h"
+#include <cmath>
 #include "roboteam_utils/Arc.h"
 
 namespace rtt{
