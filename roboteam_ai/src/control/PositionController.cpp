@@ -66,14 +66,15 @@ PosVelAngle PositionController::basic(RobotPtr robot, Vector2 &targetPos) {
 
     PosVelAngle posVelAngle;
     Vector2 error;
-    error.x = targetPos.x - robot->pos.x;
-    error.y = targetPos.y - robot->pos.y;
+    error = targetPos - robot->pos;
     velPID.reset();
     posPID.reset();
-    if (error.length() < rtt::ai::Constants::ROBOT_RADIUS())
+
+    if (error.length() < rtt::ai::Constants::ROBOT_RADIUS()) {
         posPID.setPID(3.0, 1.0, 0.2);
-    else
+    } else {
         posPID.setPID(3.0, 0.5, 1.5);
+    }
 
     PIDHasInitialized = true;
     posVelAngle.vel = error;

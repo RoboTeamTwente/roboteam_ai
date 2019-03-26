@@ -69,11 +69,19 @@ bool GeneralPositionCoach::isRobotBehindBallToPosition(double distanceBehindBall
         const Vector2 &robotPosition, double angleMargin) {
 
     const Vector2 &ball = static_cast<Vector2>(World::getBall()->pos);
+
     Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, position);
     Vector2 deltaBall = behindBallPosition - ball;
 
-    return (control::ControlUtils::pointInTriangle(robotPosition, ball, ball + (deltaBall).rotate(M_PI*angleMargin).scale(2.0),
-            ball + (deltaBall).rotate(M_PI*- angleMargin).scale(2.0)));
+
+    Vector2 trianglePoint1 = ball;
+    Vector2 trianglePoint2 = ball + deltaBall.rotate(M_PI*angleMargin).scale(1.2);
+    Vector2 trianglePoint3 = ball + deltaBall.rotate(M_PI*- angleMargin).scale(1.2);
+
+    bool inLargeTriangleOnPosition = control::ControlUtils::pointInTriangle(robotPosition, trianglePoint1, trianglePoint2, trianglePoint3);
+    bool closeToLineBehindball= control::ControlUtils::distanceToLineWithEnds(robotPosition, behindBallPosition, ball) < 0.1;
+
+    return inLargeTriangleOnPosition || closeToLineBehindball;
 }
 
 Vector2 GeneralPositionCoach::getDemoKeeperGetBallPos(Vector2 ballPos){

@@ -206,7 +206,7 @@ int ControlUtils::rotateDirection(double currentAngle, double targetAngle){
 Vector2 ControlUtils::VelocityLimiter(Vector2 vel, double maxVel,double minVel){
     if (vel.length() > maxVel) {
         return vel.stretchToLength(maxVel);
-    } else if (vel.length()<minVel){
+    } else if (vel.length() < minVel){
         return vel.stretchToLength(minVel);
     }
      return vel;

@@ -2,6 +2,7 @@
 // Created by robzelluf on 1/22/19.
 //
 
+#include <roboteam_ai/src/coach/BallplacementCoach.h>
 #include "Pass.h"
 
 namespace rtt {
@@ -10,20 +11,20 @@ namespace ai {
 Pass::Pass(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) { }
 
 void Pass::onInitialize() {
-    robotToPassToID = coach::g_pass.initiatePass();
+    robotToPassToID = coach::g_ballPlacement.initiatePass();
 }
 
 Pass::Status Pass::onUpdate() {
     if (robotToPassToID == -1) return Status::Failure;
     robotToPassTo = World::getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
 
-    bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.50, robotToPassTo->pos, robot->pos);
+    bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos);
     bool hasBall = World::ourBotHasBall(robot->id, Constants::MAX_BALL_RANGE());
     bool ballIsMovingFast = false && Vector2(World::getBall()->vel).length() > 0.4;
 
     if (ballIsMovingFast) {
-        coach::g_pass.setRobotBeingPassedTo(-1);
-        coach::g_pass.setPassed(true);
+        coach::g_ballPlacement.setRobotBeingPassedTo(-1);
+        coach::g_ballPlacement.setPassed(true);
         return Status::Success;
     } else if (isBehindBall) {
         return hasBall ? shoot() : getBall();
@@ -34,10 +35,9 @@ Pass::Status Pass::onUpdate() {
 /// this is the method we call when we are far from the desired position
 bt::Leaf::Status Pass::moveBehindBall() {
     std::cout << "Getting behind ball" << std::endl;
-
     targetPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.20, robotToPassTo->pos);
     goToPos.setAvoidBall(true);
-    sendMoveCommand(GoToType::NUMERIC_TREES, 0.6);
+    sendMoveCommand(GoToType::NUMERIC_TREES);
     return bt::Leaf::Status::Running;
 }
 
@@ -47,7 +47,16 @@ bt::Leaf::Status Pass::getBall() {
 
     targetPos = ball->pos;
     goToPos.setAvoidBall(false);
-    sendMoveCommand(GoToType::BASIC, 0.6);
+
+    roboteam_msgs::RobotCommand command = getBasicCommand();
+
+    control::PosVelAngle pva = goToPos.goToPos(robot, targetPos, GoToType::FORCE);
+    pva.vel = control::ControlUtils::VelocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL(), 0.3);
+    command.x_vel = static_cast<float>(pva.vel.x);
+    command.y_vel = static_cast<float>(pva.vel.y);
+    command.w = static_cast<float>( (Vector2(robotToPassTo->pos) - robot->pos).angle());
+
+    publishRobotCommand(command);
     return bt::Leaf::Status::Running;
 }
 
@@ -59,7 +68,7 @@ bt::Leaf::Status Pass::shoot() {
     command.kicker = 1;
     command.kicker_forced = 1;
     const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
-    double distance = ((Vector2)ball->pos - robotToPassTo->pos).length();
+    double distance = (Vector2(ball->pos) - robotToPassTo->pos).length();
     double kicker_vel_multiplier = distance > maxPowerDist ? 1.0 : distance / maxPowerDist;
 
     command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER()*kicker_vel_multiplier);
@@ -77,14 +86,14 @@ roboteam_msgs::RobotCommand Pass::getBasicCommand() const {
 
 /// send a command to move the current robot to targetPos with a certain goToType.
 void Pass::sendMoveCommand(const Skill::GoToType& goToType, const double minimumSpeed) {
-
-
-    Vector2 velocities = goToPos.goToPos(robot, targetPos, goToType).vel;
-    velocities = control::ControlUtils::VelocityLimiter(velocities, rtt::ai::Constants::MAX_VEL(), minimumSpeed);
     roboteam_msgs::RobotCommand command = getBasicCommand();
-    command.x_vel = static_cast<float>(velocities.x);
-    command.y_vel = static_cast<float>(velocities.y);
-    command.w = static_cast<float>( (targetPos-robot->pos).angle());
+
+    control::PosVelAngle pva = goToPos.goToPos(robot, targetPos, goToType);
+    pva.vel = control::ControlUtils::VelocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL(), minimumSpeed);
+    command.x_vel = static_cast<float>(pva.vel.x);
+    command.y_vel = static_cast<float>(pva.vel.y);
+    command.w = static_cast<float>( (targetPos - robot->pos).angle());
+
     publishRobotCommand(command);
 }
 
