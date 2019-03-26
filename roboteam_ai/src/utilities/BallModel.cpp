@@ -83,7 +83,7 @@ void BallModel::updateBallModel(roboteam_msgs::WorldBall newBall) {
         ballStraightTicks ++;
         kickedNow = false;
     }
-    //updateDribbling(newBall); TODO: prevent deadlocks (currently happening)
+    updateDribbling(newBall);
     currentBall = newBall;
 
 }
@@ -111,21 +111,26 @@ void BallModel::updateDribbling(roboteam_msgs::WorldBall newBall) {
             }
         }
     }
-    if (bestBot.first==-1){
-        dribbledNow=false;
-        return;
-    }
-    // Model that compares robot and ball velocities and estimates whether or not the ball is being dribbled
-    std::shared_ptr<roboteam_msgs::WorldRobot> likelyDribblingBot=World::getRobotForId(bestBot.first,bestBot.second);
-    if (!likelyDribblingBot){
-        dribbledNow=false;
-        ROS_ERROR("Could not find the dribbling robot in the worldState!" );
-        return;
-    }
-    Vector2 ballTouchPointVel=likelyDribblingBot->vel;
-    ballTouchPointVel=ballTouchPointVel+Vector2((Constants::BALL_RADIUS()+Constants::ROBOT_RADIUS())*2*M_PI*likelyDribblingBot->w,0).rotate(likelyDribblingBot->angle+M_PI_2);// takes into account tha the point on the robot dribbles. can be commented out for now but useful against e.g. zjunlict who rotate with ball
-    dribbledNow= (Vector2(newBall.vel)-ballTouchPointVel).length() <= maxSpeedDiff;
+        if (bestBot.first==-1){
+            dribbledNow=false;
+            return;
+        }
+        // Model that compares robot and ball velocities and estimates whether or not the ball is being dribbled
+        std::shared_ptr<roboteam_msgs::WorldRobot> likelyDribblingBot=World::getRobotForId(bestBot.first,bestBot.second);
+        if (!likelyDribblingBot){
+            dribbledNow=false;
+            ROS_ERROR("Could not find the dribbling robot in the worldState!" );
+            return;
+        }
+        Vector2 ballTouchPointVel=likelyDribblingBot->vel;
+        // this is currently commented out because the w is too noisy, but the logic works
+        //ballTouchPointVel=ballTouchPointVel+Vector2((Constants::BALL_RADIUS()+Constants::ROBOT_RADIUS())*2*M_PI*likelyDribblingBot->w,0).rotate(likelyDribblingBot->angle+M_PI_2);// takes into account tha the point on the robot dribbles. can be commented out for now but useful against e.g. zjunlict who rotate with ball
+        dribbledNow= (Vector2(newBall.vel)-ballTouchPointVel).length() <= maxSpeedDiff;
+        if (dribbledNow){
+            std::cout<<"DRIBBLED"<<std::endl;
+        }
 }
+
 bool BallModel::ballCollided() {
     return collidesNow;
 }
@@ -135,10 +140,5 @@ bool BallModel::isBallInAir() {
 bool BallModel::ballKicked() {
     return kickedNow;
 }
-bool BallModel::ballDribbled(){
-    return dribbledNow;
-}
-
-
 }
 }
