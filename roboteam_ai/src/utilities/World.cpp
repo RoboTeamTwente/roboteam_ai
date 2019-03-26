@@ -28,17 +28,19 @@ const roboteam_msgs::World &World::get_world() {
 /// set a world message
 /// if there is an 'us' vector, it sets didReceiveWorld to true
 void World::set_world(roboteam_msgs::World _world) {
-    std::lock_guard<std::mutex> lock(worldMutex);
-    futureWorlds = {{},{}};
-    if (!_world.ball.visible){
-        _world.ball=updateBallPosition(_world);
+    {
+        std::lock_guard<std::mutex> lock(worldMutex);
+        futureWorlds = {{}, {}};
+        if (! _world.ball.visible) {
+            _world.ball = updateBallPosition(_world);
+        }
+        updateBallPossession(_world);
+        if (! _world.us.empty()) {
+            didReceiveFirstWorld = true;
+        }
+        determineBallPossession(_world);
+        world = _world;
     }
-    updateBallPossession(_world);
-    if (! _world.us.empty()) {
-        didReceiveFirstWorld = true;
-    }
-    determineBallPossession(_world);
-    world = _world;
     BallModel::updateBallModel(_world.ball);
 }
 

@@ -24,9 +24,10 @@ void BallModel::updateBallModel(roboteam_msgs::WorldBall newBall) {
     double maxDecelleration = 5.0; // m/s^2
     double linearDeviation, orthogonalDeviation;
     //noise rectangle; rectangle within the velocity state diagram where the velocity is still considered 'good'
+    //We consider the linear direction (direction the ball is rolling it) and the diretcion orthogonal to the linear direction
     double linearTreshhold=0.1;
     double baseLinear=0.1;
-    double linearSlope=0.1;
+    double linearSlope=0.15;
     double orthogonaltreshHold=0.1;
     double baseOrthogo=0.1;
     double orthogoSlope=0.01;
@@ -54,7 +55,7 @@ void BallModel::updateBallModel(roboteam_msgs::WorldBall newBall) {
         orthogonalDeviation=baseOrthogo+orthogoSlope*(orthogoLen-orthogonaltreshHold);
     }
 
-    // defining the rectangle
+    // defining the rectangle around the velocity for which the deviation is acceptable (is always faced towards the origin)
     Vector2 centerLow = lastVel - lastVel.stretchToLength(linearDeviation + maxDecelleration/60);
     Vector2 centerHigh = lastVel + lastVel.stretchToLength(linearDeviation);
     Vector2 orthogoVec = Vector2(orthogonalDeviation, 0).rotate(lastVel.angle() + M_PI_2);
@@ -63,13 +64,14 @@ void BallModel::updateBallModel(roboteam_msgs::WorldBall newBall) {
     Vector2 point3 = centerHigh - orthogoVec;
     Vector2 point4 = centerHigh + orthogoVec;
 
+    // check the noise rectangle
     if (!control::ControlUtils::pointInRectangle(newVel,point1,point2,point3,point4)) {
-        // decelleration in the direction; just ball rolling
 
         ballStraightTicks = 0;
         // kicked or collided
         if (newVel.length() > (lastVel.length()+linearDeviation)) {
             kickedNow = true;
+            std::cout << "KICKED" << std::endl;
         }
         else {
             collidesNow = true;
@@ -81,7 +83,7 @@ void BallModel::updateBallModel(roboteam_msgs::WorldBall newBall) {
         ballStraightTicks ++;
         kickedNow = false;
     }
-    updateDribbling(newBall);
+    //updateDribbling(newBall); TODO: prevent deadlocks (currently happening)
     currentBall = newBall;
 
 }
