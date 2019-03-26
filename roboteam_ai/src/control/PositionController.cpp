@@ -48,6 +48,7 @@ PosVelAngle PositionController::goToPos(RobotPtr robot, Vector2 &position, PosCo
     case PosControlType::NUMERIC_TREES:
         return PositionController::numTree(robot, position);
     case PosControlType::NO_PREFERENCE:
+        return PositionController::numTree(robot, position);
     default:
         return PositionController::numTree(robot, position);
     }
