@@ -19,8 +19,6 @@ namespace coach {
 // create the global object
 GeneralPositionCoach g_generalPositionCoach;
 
-double GeneralPositionCoach::BEHIND_BALL_ANGLE = 0.15;
-
 rtt::Vector2 GeneralPositionCoach::getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal) {
     const Vector2 &goal = (ourGoal ? Field::get_our_goal_center : Field::get_their_goal_center)();
     return getPositionBehindBallToPosition(distanceBehindBall, goal);
@@ -61,8 +59,15 @@ bool GeneralPositionCoach::isRobotBehindBallToRobot(double distanceBehindBall, b
     return false;
 }
 
+// get ball position
+// get aposition behind the ball aimed at a position; e.g. the goal
+// the delta with ball is the difference between the found position and the ball
+
+//
+
 bool GeneralPositionCoach::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position,
         const Vector2 &robotPosition, double angleMargin) {
+
     const Vector2 &ball = static_cast<Vector2>(World::getBall()->pos);
     Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, position);
     Vector2 deltaBall = behindBallPosition - ball;

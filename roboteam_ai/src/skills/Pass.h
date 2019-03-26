@@ -31,7 +31,7 @@ public:
     Status onUpdate() override;
 
     roboteam_msgs::RobotCommand getBasicCommand() const;
-    void sendMoveCommand(const GoToType& goToType);
+    void sendMoveCommand(const GoToType& goToType, const double minimumSpeed = 0.0);
 };
 
 } //ai

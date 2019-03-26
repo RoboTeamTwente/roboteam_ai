@@ -203,25 +203,13 @@ int ControlUtils::rotateDirection(double currentAngle, double targetAngle){
     else return -1;//backwards
 }
 
-/// Limits velocity to maximum velocity
-Vector2 ControlUtils::VelocityLimiter(Vector2 vel,double maxVel) {
-    if (vel.length() > maxVel) {
-        vel = vel.stretchToLength(maxVel);
-        return vel;
-    }
-    else return vel;
-}
-
 Vector2 ControlUtils::VelocityLimiter(Vector2 vel, double maxVel,double minVel){
     if (vel.length() > maxVel) {
-        vel = vel.stretchToLength(maxVel);
-        return vel;
+        return vel.stretchToLength(maxVel);
+    } else if (vel.length()<minVel){
+        return vel.stretchToLength(minVel);
     }
-    else if (vel.length()<minVel){
-        vel=vel.stretchToLength(minVel);
-        return vel;
-    }
-    else return vel;
+     return vel;
 }
 
 

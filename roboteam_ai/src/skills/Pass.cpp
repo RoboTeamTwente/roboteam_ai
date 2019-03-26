@@ -17,9 +17,9 @@ Pass::Status Pass::onUpdate() {
     if (robotToPassToID == -1) return Status::Failure;
     robotToPassTo = World::getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
 
-    bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos);
-    bool hasBall = World::ourBotHasBall(robot->id, Constants::MAX_KICK_RANGE());
-    bool ballIsMovingFast = Vector2(World::getBall()->vel).length() > 0.4;
+    bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.50, robotToPassTo->pos, robot->pos);
+    bool hasBall = World::ourBotHasBall(robot->id, Constants::MAX_BALL_RANGE());
+    bool ballIsMovingFast = false && Vector2(World::getBall()->vel).length() > 0.4;
 
     if (ballIsMovingFast) {
         coach::g_pass.setRobotBeingPassedTo(-1);
@@ -37,7 +37,7 @@ bt::Leaf::Status Pass::moveBehindBall() {
 
     targetPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.20, robotToPassTo->pos);
     goToPos.setAvoidBall(true);
-    sendMoveCommand(GoToType::NUMERIC_TREES);
+    sendMoveCommand(GoToType::NUMERIC_TREES, 0.6);
     return bt::Leaf::Status::Running;
 }
 
@@ -47,7 +47,7 @@ bt::Leaf::Status Pass::getBall() {
 
     targetPos = ball->pos;
     goToPos.setAvoidBall(false);
-    sendMoveCommand(GoToType::BALL_CONTROL);
+    sendMoveCommand(GoToType::BASIC, 0.6);
     return bt::Leaf::Status::Running;
 }
 
@@ -76,9 +76,11 @@ roboteam_msgs::RobotCommand Pass::getBasicCommand() const {
 }
 
 /// send a command to move the current robot to targetPos with a certain goToType.
-void Pass::sendMoveCommand(const Skill::GoToType& goToType) {
+void Pass::sendMoveCommand(const Skill::GoToType& goToType, const double minimumSpeed) {
+
+
     Vector2 velocities = goToPos.goToPos(robot, targetPos, goToType).vel;
-    velocities = control::ControlUtils::VelocityLimiter(velocities);
+    velocities = control::ControlUtils::VelocityLimiter(velocities, rtt::ai::Constants::MAX_VEL(), minimumSpeed);
     roboteam_msgs::RobotCommand command = getBasicCommand();
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
