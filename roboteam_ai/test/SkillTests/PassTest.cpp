@@ -8,6 +8,7 @@
 #include "../../src/utilities/Field.h"
 #include "../../src/coach/PassCoach.h"
 #include "../../src/coach/GeneralPositionCoach.h"
+#include "../../src/coach/OffensiveCoach.h"
 
 TEST(PassTest, PassTest) {
     robotDealer::RobotDealer::halt();
@@ -20,19 +21,25 @@ TEST(PassTest, PassTest) {
     roboteam_msgs::World world;
 
     roboteam_msgs::WorldRobot robot1;
-    robot1.id = 1;
+    robot1.id = 0;
     robot1.pos.x = 0;
     robot1.pos.y = 0;
 
     world.us.push_back(robot1);
     rtt::ai::World::set_world(world);
 
+    rtt::ai::coach::g_offensiveCoach.calculateNewPositions();
+
+    rtt::ai::coach::g_offensiveCoach.calculatePositionForRobot(std::make_shared<roboteam_msgs::WorldRobot>(robot1));
+
     ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(), robot1.id);
 
     roboteam_msgs::WorldRobot robot2;
-    robot2.id = 2;
-    robot2.pos.x = 3.0;
-    robot2.pos.y = 0.0;
+    robot2.id = 1;
+    rtt::ai::World::set_world(world);
+
+    Vector2 bestPos = rtt::ai::coach::g_offensiveCoach.calculatePositionForRobot(std::make_shared<roboteam_msgs::WorldRobot>(robot2));
+    robot2.pos = bestPos;
     world.us.push_back(robot2);
     rtt::ai::World::set_world(world);
 

@@ -29,6 +29,8 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
     report->theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(false);
     report->theirRobotSortedOnDanger = getRobotsSortedOnDanger(false);
     report->ourRobotsSortedOnDanger = getRobotsSortedOnDanger(true);
+
+    std::lock_guard<std::mutex> lock(mutex);
     mostRecentReport = report;
     return report;
 }
@@ -98,6 +100,7 @@ RobotDanger GameAnalyzer::evaluateRobotDangerScore(roboteam_msgs::WorldRobot rob
 
 
 std::shared_ptr<AnalysisReport> GameAnalyzer::getMostRecentReport() {
+    std::lock_guard<std::mutex> lock(mutex);
     return mostRecentReport;
 }
 
@@ -167,10 +170,12 @@ void GameAnalyzer::start(int iterationsPerSecond) {
 
 // Stops the background worker thread.
 void GameAnalyzer::stop() {
-    if (running) {
+    stopping = true;
+    if (running || stopping) {
         ROS_INFO_STREAM_NAMED("GameAnalyzer", "Stopping GameAnalyzer");
         thread.join();
         running = false;
+        stopping = false;
     } else {
         ROS_INFO_STREAM_NAMED("GameAnalyzer", "Could not stop since it was not running in the first place.");
     }

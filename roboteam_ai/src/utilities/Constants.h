@@ -41,10 +41,9 @@ public:
     static double DRIBBLER_ANGLE_OFFSET()       { return asin(FRONT_LENGTH()/2/ROBOT_RADIUS()); };  // If the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET() points to the left and DRIBBLER_ANGLE_OFFSET() to the right.
     static double CENTRE_TO_FRONT()             { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); };
     static double BALL_RADIUS()                 { return 0.0215; };
-
-    static int GAME_ANALYSIS_TICK_RATE()        { return 30;  };
     static int TICK_RATE()                      { return 100 ; };
     static double CLOSE_TO_BORDER_DISTANCE()    { return 1.2 * ROBOT_RADIUS(); };
+    static int GAME_ANALYSIS_TICK_RATE()        { return 30; };
 
     /// GENERAL SKILLS ///
     static double DEFAULT_KICK_POWER()          { return  5.0; }; // max kick power() { return  100
@@ -92,8 +91,8 @@ public:
     static bool STD_SHOW_PATHS_CURRENT()        { return true; };
     static bool STD_SHOW_BALL_PLACEMENT_MARKER(){ return true; };
     static bool STD_SHOW_DEBUG_VALUES()         { return true; };
-    static bool STD_SHOW_AVAILABLE_PASSES()     { return true; };
     static bool STD_USE_REFEREE()               { return false; };
+    static bool STD_SHOW_AVAILABLE_PASSES()     { return false; };
 
     static QColor FIELD_COLOR()                 { return GRSIM() ? QColor(30 , 30 , 30 , 255) :
                                                                    QColor(50 , 0  , 0  , 255); };

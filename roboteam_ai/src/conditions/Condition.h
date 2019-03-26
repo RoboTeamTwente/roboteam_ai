@@ -3,6 +3,7 @@
 
 #include "../bt/Leaf.hpp"
 #include "../utilities/World.h"
+#include "../utilities/Field.h"
 
 namespace rtt {
 namespace ai {

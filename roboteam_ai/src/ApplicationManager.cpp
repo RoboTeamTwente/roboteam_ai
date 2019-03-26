@@ -18,10 +18,9 @@ namespace rtt {
 
 void ApplicationManager::setup() {
     IOManager = new io::IOManager(true);
-    factory = BTFactory::getFactory();
-    factory.init();
-    BTFactory::setCurrentTree("haltStrategy");
-    BTFactory::setKeeperTree("keeperTest1");
+    ai::treeinterp::g_btfactory.init();
+    ai::treeinterp::g_btfactory.setCurrentTree("haltStrategy");
+    ai::treeinterp::g_btfactory.setKeeperTree("keeperTest1");
 }
 
 void ApplicationManager::loop() {
@@ -61,7 +60,7 @@ void ApplicationManager::runOneLoopCycle() {
     this->updateROSData();
 
     if (ai::World::didReceiveFirstWorld) {
-        if (BTFactory::getCurrentTree() == "NaN") {
+        if (ai::treeinterp::g_btfactory.getCurrentTree() == "NaN") {
             ROS_INFO("NaN tree probably Halting");
             return;
         }
@@ -79,12 +78,14 @@ void ApplicationManager::runOneLoopCycle() {
         // TODO: change this later so the referee tells you this
         // TODO enable for keeper
 //        robotDealer::RobotDealer::setKeeperID(0);
-//        keeperTree = BTFactory::getKeeperTree();
+//        keeperTree = ai::treeinterp::g_btfactory.getKeeperTree();
 //        Status keeperStatus = keeperTree->tick();
 
-        strategy = factory.getTree(BTFactory::getCurrentTree());
+        strategy = ai::treeinterp::g_btfactory.getTree(ai::treeinterp::g_btfactory.getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
+
+        rtt::ai::coach::g_offensiveCoach.calculateNewPositions();
     }
     else {
         ROS_ERROR("No first world");
@@ -115,12 +116,12 @@ void ApplicationManager::handleRefData() {
     ai::StrategyManager strategyManager;
     // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
     // might want to build something that verifies this
-    auto oldStrategy = BTFactory::getCurrentTree();
+    auto oldStrategy = ai::treeinterp::g_btfactory.getCurrentTree();
     std::string strategyName = strategyManager.getCurrentStrategyName(refereeMsg.command);
     if (oldStrategy != strategyName) {
-        BTFactory::getFactory().init();
+        ai::treeinterp::g_btfactory.init();
     }
-    BTFactory::setCurrentTree(strategyName);
+    ai::treeinterp::g_btfactory.setCurrentTree(strategyName);
 }
 
 void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
@@ -128,7 +129,7 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     case Status::Running:break;
     case Status::Success:ROS_INFO_STREAM("Status returned: Success");
         ROS_INFO_STREAM(" === TREE CHANGE === ");
-            BTFactory::setCurrentTree("haltStrategy");
+        ai::treeinterp::g_btfactory.setCurrentTree("haltStrategy");
         break;
     case Status::Failure:ROS_INFO_STREAM("Status returned: Failure");
         break;

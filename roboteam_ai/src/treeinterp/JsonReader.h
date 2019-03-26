@@ -20,37 +20,30 @@
 #include <direct.h>
 #define GetCurrentDir _getcwd
 #else
-
 #include <unistd.h>
-
 #define GetCurrentDir getcwd
 #endif
 
 using json = nlohmann::json;
 
+namespace rtt {
+namespace ai {
+namespace treeinterp {
+
 class JsonReader {
-
-    private:
-
-        FRIEND_TEST(JsonBasics, JsonTest);
-
-        FRIEND_TEST(BT, FactoryTest);
-
-        std::string getFilePath(std::string name);
-
-        std::vector<std::string> split(std::string s, char c);
-
-    protected:
-
-    public:
-
-        json readJSON(std::string fileName);
-
-        JsonReader() = default;
-
-        bool checkIfKeyExists(std::string key, json json);
-
-        void editJSON(std::string fileName, std::string tree, std::string field, std::string newValue);
+private:
+    FRIEND_TEST(JsonBasics, JsonTest);
+    FRIEND_TEST(BT, FactoryTest);
+    std::string getFilePath(std::string name);
+    std::vector<std::string> split(std::string s, char c);
+public:
+    json readJSON(std::string fileName);
+    JsonReader() = default;
+    bool checkIfKeyExists(std::string key, json json);
+    void editJSON(std::string fileName, std::string tree, std::string field, std::string newValue);
 };
 
+} // treeinterp
+} // ai
+} // rtt
 #endif //ROBOTEAM_AI_JSONREADER_H
