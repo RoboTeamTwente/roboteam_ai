@@ -2,8 +2,6 @@
 // Created by robzelluf on 12/7/18.
 //
 
-#include <roboteam_ai/src/dangerfinder/DangerData.h>
-#include <roboteam_ai/src/dangerfinder/DangerFinder.h>
 #include "DefendOnRobot.h"
 
 namespace rtt{
@@ -34,18 +32,18 @@ void DefendOnRobot::onTerminate(Skill::Status s) {
 
 
 int DefendOnRobot::pickOpponentToCover() {
-    rtt::ai::dangerfinder::DangerData DangerData = dangerfinder::DangerFinder::instance().getMostRecentData();
-    std::vector<int> dangerList = DangerData.dangerList;
-    for (int &opponentID : dangerList) {
-        if (defencePairs.find(opponentID) == defencePairs.end()) {
-            if (! World::theirBotHasBall(static_cast<unsigned int>(opponentID))) {
-                return opponentID;
-            }
-        }
-        else if (defencePairs[opponentID] == robot->id) {
-            return opponentID;
-        }
-    }
+  //  rtt::ai::dangerfinder::DangerData DangerData = dangerfinder::DangerFinder::instance().getMostRecentData();
+//    std::vector<int> dangerList = DangerData.dangerList;
+//    for (int &opponentID : dangerList) {
+//        if (defencePairs.find(opponentID) == defencePairs.end()) {
+//            if (! World::theirBotHasBall(static_cast<unsigned int>(opponentID))) {
+//                return opponentID;
+//            }
+//        }
+//        else if (defencePairs[opponentID] == robot->id) {
+//            return opponentID;
+//        }
+//    }
 
     return - 1;
 }

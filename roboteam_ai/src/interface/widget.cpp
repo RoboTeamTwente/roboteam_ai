@@ -7,6 +7,7 @@
 #include "widget.h"
 #include "drawer.h"
 #include "InterfaceValues.h"
+#include "../analysis/GameAnalyzer.h"
 
 namespace rtt {
 namespace ai {
@@ -22,6 +23,7 @@ void Visualizer::paintEvent(QPaintEvent* event) {
     if (rtt::ai::World::didReceiveFirstWorld) {
         drawBackground(painter);
         drawFieldLines(painter);
+        if (showAvailablePasses) drawPasses(painter);
         drawBall(painter);
         drawRobots(painter);
         drawCrosses(painter, Drawer::getOffensivePoints(), 5);
@@ -32,7 +34,6 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         Drawer::clearDrawLines();
 
         if (showBallPlacementMarker) drawBallPlacementTarget(painter);
-
         if (showPath) {
             for (auto robot : selectedRobots) {
                 drawDataPoints(painter, Drawer::getNumTreePoints(robot.id));
@@ -407,6 +408,30 @@ void Visualizer::setShowDebugValueInTerminal(bool showDebug) {
     InterfaceValues::setShowDebugValues(showDebug);
 }
 
+void Visualizer::setShowAvailablePasses(bool showAvailablePasses) {
+    Visualizer::showAvailablePasses = showAvailablePasses;
+}
+
+void Visualizer::drawPasses(QPainter& painter) {
+    auto report = rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
+
+    std::vector<std::pair<Vector2, Vector2>> lines;
+    for (auto &robot : report->ourRobotsSortedOnDanger) {
+        if (robotIsSelected(robot.first)) {
+            Vector2 robotLocation = toScreenPosition(robot.first.pos);
+            for (auto robotToPassToId : robot.second.robotsToPassTo) {
+                auto passRobot = World::getRobotForId(robotToPassToId.first, true);
+                Vector2 passRobotLocation = toScreenPosition(passRobot->pos);
+                double distance = robotToPassToId.second;
+                painter.setBrush(Qt::transparent);
+                int opacity = static_cast<int>((robotLocation.dist(passRobotLocation) / width()) * 255);
+                painter.setPen({255, 255, 0, 255 - opacity});
+                painter.drawLine(robotLocation.x, robotLocation.y, passRobotLocation.x, passRobotLocation.y);
+            }
+        }
+    };
+
+}
 
 } // interface
 } // ai
