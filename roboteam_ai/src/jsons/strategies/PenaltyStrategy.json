@@ -1,0 +1,18 @@
+{
+  "name": "PenaltyStrategy",
+  "data": {
+    "trees": [
+      {
+        "title": "PenaltyStrategy",
+        "root": "dpf038jl059iq",
+        "nodes": {
+          "dpf038jl059iq": {
+            "id": "dpf038jl059iq",
+            "title": "Tactic",
+            "name": "PenaltyTactic"
+          }
+        }
+      }
+    ]
+  }
+}

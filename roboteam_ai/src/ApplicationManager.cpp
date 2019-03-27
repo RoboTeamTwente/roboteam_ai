@@ -6,7 +6,9 @@
 #include "ApplicationManager.h"
 #include "utilities/Referee.hpp"
 #include "utilities/StrategyManager.h"
+#include "utilities/Field.h"
 #include <sstream>
+#include <roboteam_ai/src/analysis/GameAnalyzer.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -56,13 +58,14 @@ void ApplicationManager::loop() {
 void ApplicationManager::runOneLoopCycle() {
     ros::spinOnce();
     this->updateROSData();
-    this->updateDangerfinder();
 
     if (ai::World::didReceiveFirstWorld) {
         if (ai::treeinterp::g_btfactory.getCurrentTree() == "NaN") {
             ROS_INFO("NaN tree probably Halting");
             return;
         }
+
+        ai::analysis::GameAnalyzer::getInstance().start();
 
         // Will do things if this is a demo
         // otherwise wastes like 0.1 ms
@@ -95,6 +98,7 @@ void ApplicationManager::checkForShutdown() {
     if (strategy->getStatus() == Status::Running) {
         strategy->terminate(Status::Running);
     }
+    ai::analysis::GameAnalyzer::getInstance().stop();
 }
 
 void ApplicationManager::updateROSData() {
@@ -106,12 +110,6 @@ void ApplicationManager::updateROSData() {
     ai::World::set_world(worldMsg);
     ai::Field::set_field(geometryMsg.field);
     ai::Referee::setRefereeData(refereeMsg);
-}
-
-void ApplicationManager::updateDangerfinder() {
-    if (df::DangerFinder::instance().hasCalculated()) {
-        dangerData = df::DangerFinder::instance().getMostRecentData();
-    }
 }
 
 void ApplicationManager::handleRefData() {
