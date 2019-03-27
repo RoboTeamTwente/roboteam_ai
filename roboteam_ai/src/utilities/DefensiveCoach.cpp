@@ -55,7 +55,7 @@ std::shared_ptr<std::pair<Vector2, Vector2>> DefensiveCoach::getBlockLineSegment
     double margin = collisionRadius;
     //compute the bisector of the angle of point and the two ends of the openGoalSegment
     Vector2 lineToSideOne = openGoalSegment.first - point;
-    Vector2 lineToSideTwo = (openGoalSegment.second - point).stretchToLength(lineToSideOne.length());
+    Vector2 lineToSideTwo = (openGoalSegment.second - point);
     // the starting position of the line needs to be atleast one robotRadius towards the goal if we want to be able to block on the line
     Vector2 startPos =
             point + (lineToSideOne + lineToSideTwo).stretchToLength(collisionRadius); //start of the line/bisector
@@ -80,7 +80,6 @@ std::shared_ptr<std::pair<Vector2, Vector2>> DefensiveCoach::getBlockLineSegment
     else {
         // it intersects with the defence area, so we use the intersect position
         line = std::make_pair(startPos, *intersectPos);
-
     }
     std::shared_ptr<std::pair<Vector2, Vector2>> segment = std::make_shared<std::pair<Vector2, Vector2>>(line);
     return segment;
@@ -382,8 +381,12 @@ void DefensiveCoach::updateDefenderLocations() {
     // clear the defenderLocations
     defenderLocations.clear();
     std::vector<int> availableDefenders = defenders;
+    // decide the locations to defend
     std::vector<std::pair<Vector2, double>> positions = decideDefendersOnDefenseLine(availableDefenders.size());
 
+    // the following algorithm takes the closest robot for each available defender to decide which robot goes where.
+    // Since the points are ordered on priority from the above algorithm the most important points come first
+    // It might be better to use an algorithm that is more complicated (e.g. hungarian) but then we might need some kind of system which gives the first points more 'priority'
     for (auto position : positions) {
         int bestId = - 1;
         double bestDist = 10000000000;
@@ -408,7 +411,7 @@ void DefensiveCoach::updateDefenderLocations() {
             return;
         }
     }
-    //visualization (for sanity)
+    //visualization
     int i = 0;
     std::vector<std::pair<Vector2, QColor>> vis2;
     for (auto location : positions) {
@@ -447,9 +450,8 @@ void DefensiveCoach::addDefender(int id) {
     bool robotIsRegistered = std::find(defenders.begin(), defenders.end(), id) != defenders.end();
     if (! robotIsRegistered) {
         defenders.push_back(id);
-        std::cout << "registered defender id:" << id << std::endl;
+//        std::cout << "registered defender id:" << id << std::endl;
     }
-
 }
 
 /// removes a defender from the available id's
@@ -457,8 +459,7 @@ void DefensiveCoach::removeDefender(int id) {
     auto defender = std::find(defenders.begin(), defenders.end(), id);
     if (defender != defenders.end()) {
         defenders.erase(defender);
-        std::cout << "removed defender id:" << id << std::endl;
-
+//        std::cout << "removed defender id:" << id << std::endl;
     }
 }
 
