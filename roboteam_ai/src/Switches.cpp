@@ -11,10 +11,10 @@
 //  |____________________|
 //
 
-#include "../bt/tactics/VictoryDanceTactic.h"
-#include "../bt/tactics/DefaultTactic.h"
-#include "../bt/tactics/EnterFormationTactic.h"
-#include "../bt/tactics/AvoidBallTactic.h"
+#include "roboteam_ai/src/bt/tactics/VictoryDanceTactic.h"
+#include "roboteam_ai/src/bt/tactics/DefaultTactic.h"
+#include "roboteam_ai/src/bt/tactics/EnterFormationTactic.h"
+#include "roboteam_ai/src/bt/tactics/AvoidBallTactic.h"
 
 //  ______________________
 //  |                    |
@@ -22,29 +22,29 @@
 //  |____________________|
 //
 
-#include "../skills/Chip.h"
-#include "../skills/Dribble.h"
+#include "roboteam_ai/src/skills/Chip.h"
+#include "roboteam_ai/src/skills/Dribble.h"
 #include "roboteam_ai/src/skills/SkillGoToPos.h"
-#include "../skills/Halt.h"
-#include "../skills/Kick.h"
-#include "../skills/Harass.h"
-#include "../skills/RotateToAngle.h"
-#include "../skills/GoToPos.h"
-#include "../skills/Keeper.h"
-#include "../skills/GetBall.h"
-#include "../skills/Attack.h"
-#include "../skills/SideAttacker.h"
+#include "roboteam_ai/src/skills/Halt.h"
+#include "roboteam_ai/src/skills/Kick.h"
+#include "roboteam_ai/src/skills/Harass.h"
+#include "roboteam_ai/src/skills/RotateToAngle.h"
+#include "roboteam_ai/src/skills/GoToPos.h"
+#include "roboteam_ai/src/skills/Keeper.h"
+#include "roboteam_ai/src/skills/GetBall.h"
+#include "roboteam_ai/src/skills/Attack.h"
+#include "roboteam_ai/src/skills/SideAttacker.h"
 #include "roboteam_ai/src/skills/Pass.h"
 #include "roboteam_ai/src/skills/Receive.h"
 #include <roboteam_ai/src/skills/InterceptBall.h>
 #include <roboteam_ai/src/skills/DefendOnRobot.h>
-#include "../skills/DribbleRotate.h"
+#include "roboteam_ai/src/skills/DribbleRotate.h"
 #include <roboteam_ai/src/skills/Defend.h>
-#include "../skills/DefendOnRobot.h"
+#include "roboteam_ai/src/skills/DefendOnRobot.h"
 #include <roboteam_ai/src/skills/InterceptBall.h>
 #include <roboteam_ai/src/skills/GTPSpecial.h>
-#include "../skills/GoAroundPos.h"
-#include "../skills/DemoAttack.h"
+#include "roboteam_ai/src/skills/GoAroundPos.h"
+#include "roboteam_ai/src/skills/DemoAttack.h"
 
 //  ______________________
 //  |                    |
@@ -52,7 +52,7 @@
 //  |____________________|
 //
 
-#include "../conditions/HasBall.hpp"
+#include "roboteam_ai/src/conditions/HasBall.hpp"
 #include <roboteam_ai/src/conditions/TheyHaveBall.h>
 #include <roboteam_ai/src/conditions/WeHaveBall.h>
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
@@ -60,14 +60,15 @@
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
 #include <roboteam_ai/src/skills/EnterFormation.h>
 #include <roboteam_ai/src/skills/AvoidBall.h>
-#include "../conditions/BallInDefenseAreaAndStill.h"
-#include "../conditions/IsInDefenseArea.hpp"
-#include "../conditions/BallOutOfField.h"
-#include "../conditions/IsBeingPassedTo.h"
-#include "../conditions/IsCloseToPoint.h"
-#include "../conditions/IsBallCloseToBorder.h"
-#include "../conditions/BallNearOurGoalLineAndStill.h"
-#include "../conditions/TwoRobotBallPlacement.h"
+
+#include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
+#include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"
+#include "roboteam_ai/src/conditions/BallOutOfField.h"
+#include "roboteam_ai/src/conditions/IsBeingPassedTo.h"
+#include "roboteam_ai/src/conditions/IsCloseToPoint.h"
+#include "roboteam_ai/src/conditions/IsBallCloseToBorder.h"
+#include "roboteam_ai/src/conditions/BallNearOurGoalLineAndStill.h"
+#include "roboteam_ai/src/conditions/TwoRobotBallPlacement.h"
 
 
 /**

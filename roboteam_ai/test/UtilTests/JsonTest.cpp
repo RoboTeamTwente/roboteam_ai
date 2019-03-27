@@ -1,12 +1,17 @@
 #include <gtest/gtest.h>
 #include "roboteam_ai/src/treeinterp/TreeInterpreter.h"
+#include "roboteam_ai/src/treeinterp/BTFactory.h"
 
-TEST(JsonBasics, JsonTest) {
+namespace rtt {
+namespace ai {
+namespace treeinterp {
+
+TEST(JsonBasics, JsonTest)
+{
 
     // Get the instance of the interpreter
-    TreeInterpreter interpreter = TreeInterpreter::getInstance();
-
-    JsonReader jsonReader;
+    rtt::ai::treeinterp::TreeInterpreter interpreter;
+    rtt::ai::treeinterp::JsonReader jsonReader;
 
     // Test file path utils
     std::vector<std::string> right1 = {"a", "b"};
@@ -43,12 +48,14 @@ TEST(JsonBasics, JsonTest) {
     EXPECT_EQ(aTree["title"], "ASimpleTree");
 
     // See if all of them are trees
-    for (const json &current : trees) {
+    for (const json& current : trees) {
         EXPECT_EQ(current["scope"], "tree");
     }
 }
 
-
+}
+}
+}
 
 
 
