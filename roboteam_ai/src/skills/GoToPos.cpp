@@ -35,29 +35,21 @@ bt::Node::Status GoToPos::onUpdate() {
         return Status::Success;
     }
 
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-
     control::PosVelAngle pva = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES);
     pva.vel = control::ControlUtils::VelocityLimiter(pva.vel, maxVel);
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);
     command.w = static_cast<float>(pva.angle);
 
-    publishRobotCommand(command);
+    publishRobotCommand();
     return Status::Running;
 }
 
 void GoToPos::onTerminate(Status s) {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
     command.w = robot->angle;
-
     command.x_vel = 0;
     command.y_vel = 0;
-
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 
 } // ai

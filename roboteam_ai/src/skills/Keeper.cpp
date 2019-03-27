@@ -34,11 +34,9 @@ Keeper::Status Keeper::onUpdate() {
         } else {
             Vector2 velocities = goToPos.goToPos(robot, blockPoint, GoToType::BASIC).vel;
             velocities = control::ControlUtils::VelocityLimiter(velocities);
-            roboteam_msgs::RobotCommand command;
-            command.id = robot->id;
             command.x_vel = static_cast<float>(velocities.x);
             command.y_vel = static_cast<float>(velocities.y);
-            publishRobotCommand(command);
+            publishRobotCommand();
             return Status::Running;
 
         }
@@ -57,48 +55,38 @@ Keeper::Status Keeper::onUpdate() {
 }
 
 void Keeper::onTerminate(Status s) {
-    roboteam_msgs::RobotCommand cmd;
-    cmd.use_angle = 1;
-    cmd.id = robotId;
-    cmd.x_vel = 0;
-    cmd.y_vel = 0;
-    cmd.w = static_cast<float>(M_PI_2);
-    publishRobotCommand(cmd);
+    command.x_vel = 0;
+    command.y_vel = 0;
+    command.w = static_cast<float>(M_PI_2);
+    publishRobotCommand();
 }
 
 void Keeper::sendMoveCommand(Vector2 pos) {
     Vector2 error = pos - robot->pos;
     Vector2 delta = pid.controlPIR(error, robot->vel);
     Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
-    roboteam_msgs::RobotCommand cmd;
-    cmd.use_angle = 1;
-    cmd.id = robot->id;
-    cmd.x_vel = static_cast<float>(deltaLim.x);
-    cmd.y_vel = static_cast<float>(deltaLim.y);
-    cmd.w = static_cast<float>(M_PI_2);
-    publishRobotCommand(cmd);
+
+    command.x_vel = static_cast<float>(deltaLim.x);
+    command.y_vel = static_cast<float>(deltaLim.y);
+    command.w = static_cast<float>(M_PI_2);
+    publishRobotCommand();
 }
 void Keeper::sendFineMoveCommand(Vector2 pos) {
     Vector2 error = pos - robot->pos;
     Vector2 delta = finePid.controlPIR(error, robot->vel);
     Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
-    roboteam_msgs::RobotCommand cmd;
-    cmd.use_angle = 1;
-    cmd.id = robot->id;
-    cmd.x_vel = static_cast<float>(deltaLim.x);
-    cmd.y_vel = static_cast<float>(deltaLim.y);
-    cmd.w = static_cast<float>(M_PI_2);
-    publishRobotCommand(cmd);
+
+    command.x_vel = static_cast<float>(deltaLim.x);
+    command.y_vel = static_cast<float>(deltaLim.y);
+    command.w = static_cast<float>(M_PI_2);
+    publishRobotCommand();
 }
 
 void Keeper::sendStopCommand() {
-    roboteam_msgs::RobotCommand cmd;
-    cmd.use_angle = 1;
-    cmd.id = robot->id;
-    cmd.x_vel = static_cast<float>(0.0);
-    cmd.y_vel = static_cast<float>(0.0);
-    cmd.w = static_cast<float>(M_PI_2);
-    publishRobotCommand(cmd);
+    command.x_vel = static_cast<float>(0.0);
+    command.y_vel = static_cast<float>(0.0);
+    command.w = static_cast<float>(M_PI_2);
+    publishRobotCommand();
 }
 Vector2 Keeper::computeBlockPoint(Vector2 defendPos) {
     Vector2 u1 = (goalPos + Vector2(0.0, goalwidth*0.5) - defendPos).normalize();

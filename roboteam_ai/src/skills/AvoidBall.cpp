@@ -49,7 +49,6 @@ bt::Node::Status AvoidBall::onUpdate() {
     if (force.length() > Constants::MAX_VEL_BALLPLACEMENT()) force.stretchToLength(Constants::MAX_VEL_BALLPLACEMENT());
     if (force.angle() > Constants::MAX_ANGULAR_VELOCITY()) force.stretchToLength(Constants::MAX_ANGULAR_VELOCITY());
 
-    roboteam_msgs::RobotCommand command;
     if (force.length() < 0.2) {
         force = {0, 0};
         command.use_angle = 0;
@@ -59,10 +58,11 @@ bt::Node::Status AvoidBall::onUpdate() {
         command.w = static_cast<float>(force.angle());
     }
 
-    command.id = robot->id;
     command.x_vel = static_cast<float>(force.x);
     command.y_vel = static_cast<float>(force.y);
-    publishRobotCommand(command);
+
+    publishRobotCommand();
+
     return Status::Running;
 }
 

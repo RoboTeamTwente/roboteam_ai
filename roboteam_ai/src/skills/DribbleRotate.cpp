@@ -22,8 +22,7 @@ void DribbleRotate::checkProgression() {
     if (angDif<0.1*M_PI && currentTick>=maxTick+extraTick){
         currentProgression=SUCCESS;
         return;
-    }
-    else{
+    } else {
         currentProgression=ROTATING;
     }
 }
@@ -81,27 +80,24 @@ DribbleRotate::Status DribbleRotate::onUpdate() {
 }
 
 void DribbleRotate::onTerminate(Status s) {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
     command.dribbler = 1;
     command.w = static_cast<float>(targetAngle);
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
+
 void DribbleRotate::sendMoveCommand() {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
     command.dribbler = 1;
     command.w = static_cast<float>(computeCommandAngle());
     currentTick++;
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
+
 double DribbleRotate::computeCommandAngle() {
     if (currentTick<maxTick){
         return Control::constrainAngle(startAngle+dir*currentTick*incrementAngle);
     }
-    else return targetAngle;
+    return targetAngle;
 }
+
 }
 }

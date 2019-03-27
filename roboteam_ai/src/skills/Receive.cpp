@@ -39,10 +39,8 @@ Receive::Status Receive::onUpdate() {
             checkTicks++;
             if (checkTicks >= maxCheckTicks) return Status::Success;
         }
-        roboteam_msgs::RobotCommand command;
-        command.id = robot->id;
+
         command.w = static_cast<float>((Vector2(ball->pos) - Vector2(robot->pos)).angle()); //Rotates towards the ball
-        command.use_angle = 1;
         double ballAngle = ((Vector2)robot->pos - ball->pos).angle();
         if (Vector2(ball->vel).length() > 0.6 && (ballAngle - Vector2(ball->vel).angle()) < 0.5) {
             Vector2 ballStartVel = ball->vel;
@@ -55,7 +53,7 @@ Receive::Status Receive::onUpdate() {
             command.y_vel = static_cast<float>(velocities.vel.y);
             command.dribbler = 1;
         }
-        publishRobotCommand(command);
+        publishRobotCommand();
         return Status::Running;
     } else {
         stopDribbleTick++;
@@ -64,13 +62,10 @@ Receive::Status Receive::onUpdate() {
     }
 }
 void Receive::onTerminate(Status s) {
-    roboteam_msgs::RobotCommand command;
     command.x_vel = 0;
     command.y_vel = 0;
-    command.id = robot->id;
     command.dribbler = 0;
-
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 
 }

@@ -95,14 +95,11 @@ GoAroundPos::Status GoAroundPos::onUpdate() {
     return Status::Failure;
 }
 void GoAroundPos::onTerminate(rtt::ai::Skill::Status s) {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
     command.dribbler = 0;
     command.x_vel = 0;
     command.y_vel = 0;
     command.w = (float) deltaPos.angle();
-    publishRobotCommand(command);
+    publishRobotCommand();
 
 }
 GoAroundPos::Progression GoAroundPos::checkProgression() {
@@ -146,16 +143,13 @@ bool GoAroundPos::checkPosition() {
             && deltaPos.length() > distanceFromPoint - MAX_DIST_DEVIATION);
 }
 void GoAroundPos::sendRotateCommand() {
-    roboteam_msgs::RobotCommand command;
     Vector2 deltaCommandPos = (commandPos - robot->pos);
     deltaCommandPos = Control::VelocityLimiter(deltaCommandPos, distanceFromPoint*SPEED, MIN_SPEED);
-    command.id = robot->id;
-    command.use_angle = 1;
     command.dribbler = 0;
     command.x_vel = static_cast<float>(deltaCommandPos.x);
     command.y_vel = static_cast<float>(deltaCommandPos.y);
     command.w = (float) deltaPos.angle();
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 }
 }

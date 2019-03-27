@@ -121,45 +121,33 @@ void GetBall::onTerminate(Status s) {
     sendDribblingCommand();
 }
 void GetBall::sendTurnCommand() {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
     command.dribbler = 0;
     command.x_vel = 0;
     command.y_vel = 0;
     command.w = (float) deltaPos.angle();
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 void GetBall::sendApproachCommand() {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
     command.dribbler = 1;
     command.x_vel = (float) deltaPos.normalize().x * SPEED;
     command.y_vel = (float) deltaPos.normalize().y * SPEED;
     command.w = lockedAngle;
-    publishRobotCommand(command);
+    publishRobotCommand();
 
 }
 void GetBall::sendOvershootCommand() {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
     command.dribbler = 1;
     command.x_vel = (float) (approachPos-robot->pos).normalize().x * SPEED;
     command.y_vel = (float) (approachPos-robot->pos).normalize().y * SPEED;
     command.w = lockedAngle;
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 void GetBall::sendDribblingCommand() {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
     command.dribbler = 1;
     command.x_vel = 0;
     command.y_vel = 0;
     command.w = lockedAngle;
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 
 bool GetBall::botHasLastVisibleBall(){

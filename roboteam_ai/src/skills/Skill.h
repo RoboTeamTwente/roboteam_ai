@@ -26,11 +26,14 @@ class Skill : public bt::Leaf {
         roboteam_msgs::RobotCommand rotateRobotCommand(roboteam_msgs::RobotCommand &cmd);
     protected:
         io::IOManager ioManager = io::IOManager(false, true);
-        void publishRobotCommand(roboteam_msgs::RobotCommand cmd);
+        void publishRobotCommand();
 
         using Control = control::ControlUtils;
         using Status = bt::Node::Status;
         using GoToType = control::PosControlType;
+
+        void refreshRobotCommand();
+        roboteam_msgs::RobotCommand command;
     public:
         explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
         std::string node_name() override;

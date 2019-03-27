@@ -18,8 +18,7 @@ Dribble::Progression Dribble::checkProgression() {
         if (deltaPos.length() <= POS_DIF) {
             if (forwardDirection) {
                 stoppingAngle = (float) deltaPos.angle();
-            }
-            else {
+            } else {
                 stoppingAngle = (float) deltaPos.rotate(M_PI).angle();
             }
             return STOPPED;
@@ -58,7 +57,6 @@ void Dribble::onInitialize() {
     else {
         ROS_ERROR("Dribble Initialize -> No maxTicks set!");
     }
-
 
     if (properties->hasDouble("distance")) {
         distance = properties->getDouble("distance");
@@ -109,10 +107,8 @@ Dribble::Status Dribble::onUpdate() {
         default: return Status::Waiting;
     }
 }
+
 void Dribble::onTerminate(Status s) {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
     if (forwardDirection) {
         command.w = (float) stoppingAngle;
     }
@@ -126,13 +122,10 @@ void Dribble::onTerminate(Status s) {
     }
     command.x_vel = 0;
     command.y_vel = 0;
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 
 void Dribble::sendMoveCommand() {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
     if (forwardDirection) {
         command.w = (float) Control::constrainAngle(initialAngle+M_PI);
     }
@@ -143,13 +136,10 @@ void Dribble::sendMoveCommand() {
     command.dribbler = 1;
     command.x_vel= static_cast<float>(deltaPos.normalize().x * SPEED);
     command.y_vel= static_cast<float>(deltaPos.normalize().y * SPEED);
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
+
 void Dribble::sendStopCommand() {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.w = stoppingAngle;
-    command.use_angle = 1;
     command.w = stoppingAngle;
     if (properties->getBool("dribbleOnTerminate")){
         command.dribbler=1;
@@ -158,7 +148,7 @@ void Dribble::sendStopCommand() {
     }
     command.x_vel = 0;
     command.y_vel = 0;
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 
 } // ai
