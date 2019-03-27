@@ -25,6 +25,7 @@ void Pause::haltRobots() {
         cmd.y_vel = 0;
         cmd.id = robot.id;
         cmd.dribbler = 0;
+        cmd.use_angle = 1;
         cmd.w = static_cast<float>(robot.angle);
         IOManager->publishRobotCommand(cmd);
     }
@@ -35,7 +36,10 @@ void Pause::setPause(bool set) {
     pause = set;
 
 }
-Pause::Pause() = default;
+Pause::Pause() {
+    io::IOManager ioManager;
+    IOManager = std::make_shared<io::IOManager>(ioManager);
+}
 
 }
 }

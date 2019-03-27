@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_PROCESSEDWORLDEE_H
 
 #include "WorldData.h"
+#include "LastWorld.h"
 
 namespace rtt {
 namespace ai {
@@ -19,11 +20,17 @@ class ProcessedWorld {
 
         void updateFutureRobot(Robot &robot, double time);
         void updateFutureBall(Ball &ball, double time);
+
+        void updateBallPosition(WorldData &worldData);
+        void updateBallPossession(WorldData &worldData);
     public:
-        void update();
+        void update(WorldData worldData);
         RobotPtr getRobotClosestToPoint(const Vector2 &point, std::vector<Robot> &robots);
         void updateFutureWorld(WorldData &worldData, double time);
 };
+
+extern ProcessedWorld processedWorldObj;
+extern ProcessedWorld* processedWorld;
 
 }
 }

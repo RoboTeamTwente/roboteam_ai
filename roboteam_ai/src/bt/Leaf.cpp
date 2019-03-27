@@ -18,12 +18,12 @@ Leaf::Leaf(std::string name, Blackboard::Ptr blackboard) : name(std::move(name))
 std::shared_ptr<rtt::ai::world::Robot> Leaf::getRobotFromProperties(bt::Blackboard::Ptr properties) {
     if (properties->hasString("ROLE")) {
         std::string roleName = properties->getString("ROLE");
-        robotId = (unsigned int) rtt::ai::robotDealer::robotDealer->findRobotForRole(roleName);
+        robotId = rtt::ai::robotDealer::robotDealer->findRobotForRole(roleName);
         if (rtt::ai::world::world->getRobotForId(robotId, true)) {
             return rtt::ai::world::world->getRobotForId(robotId, true);
         }
         else {
-         //   ROS_ERROR("%s Initialize -> robot %i does not exist in world", node_name().c_str(), robotId);
+            ROS_ERROR("%s Initialize -> robot %i does not exist in world", node_name().c_str(), robotId);
         }
     }
     else {

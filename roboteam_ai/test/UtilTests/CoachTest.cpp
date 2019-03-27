@@ -13,22 +13,22 @@ TEST(CoachTest, get_position_behind_ball) {
     roboteam_msgs::GeometryFieldSize field;
     field.field_width = 12;
     field.field_length = 8;
-    Field::set_field(field);
+    world::field->set_field(field);
 
     // create a world with one of our robots that has the ball
     auto world = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(1, 0, true, field);
-    World::set_world(world.first);
+    world::world->setWorld(world.first);
 
     // get position behind ball to our own goal
     auto pos = Coach::getPositionBehindBallToGoal(1, true);
 
     // it should be one meter further than the ball
-    EXPECT_FLOAT_EQ(pos.dist(World::getBall()->pos), 1);
+    EXPECT_FLOAT_EQ(pos.dist(world::world->getBall()->pos), 1);
 
     // it should be the same location as the test position
-    auto ballPos = rtt::Vector2(World::getBall()->pos);
-    auto testPos = ballPos + (ballPos - Field::get_our_goal_center()).stretchToLength(1);
-    EXPECT_FLOAT_EQ(pos.dist(World::getBall()->pos), 1);
+    auto ballPos = rtt::Vector2(world::world->getBall()->pos);
+    auto testPos = ballPos + (ballPos - world::field->get_our_goal_center()).stretchToLength(1);
+    EXPECT_FLOAT_EQ(pos.dist(world::world->getBall()->pos), 1);
     EXPECT_FLOAT_EQ(pos.x, testPos.x);
     EXPECT_FLOAT_EQ(pos.y, testPos.y);
 
@@ -37,7 +37,7 @@ TEST(CoachTest, get_position_behind_ball) {
     worldMsg.ball.pos = Vector2(0, 0);
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    World::set_world(worldMsg);
+    world::world->setWorld(worldMsg);
 
     // set the robot on the horizontal line from the ball to the goal
     EXPECT_FALSE(Coach::isRobotBehindBallToGoal(1.0, true, Vector2(0,0))); // robot on top of the ball: false
@@ -62,7 +62,7 @@ TEST(CoachTest, get_position_behind_ball) {
     robotToPointTo.pos.x = -1;
     robotToPointTo.pos.y = -1;
     worldMsg.them.push_back(robotToPointTo);
-    World::set_world(worldMsg);
+    world::world->setWorld(worldMsg);
 
     // check for position behind robottopointo, 1 m behind the ball
     // robottopointto is THEIR team
@@ -84,11 +84,11 @@ TEST(CoachTest, get_robot_closest_to_ball) {
     roboteam_msgs::GeometryFieldSize field;
     field.field_width = 12;
     field.field_length = 8;
-    Field::set_field(field);
+    world::field->set_field(field);
 
     // create a world with 5v5 and one of our robots has the ball
     auto world = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(5, 5, true, field);
-    World::set_world(world.first);
+    world::world->setWorld(world.first);
     auto robotThatHasBallId = world.second;
 
 
@@ -97,11 +97,11 @@ TEST(CoachTest, get_robot_closest_to_ball) {
 
     // it is our robot
     EXPECT_TRUE(Coach::getRobotClosestToBall().second);
-    EXPECT_EQ(Coach::getRobotClosestToBall(true)->id, robotThatHasBallId);
+    EXPECT_EQ(Coach::getRobotClosestToBall(world::WhichRobots::OUR_ROBOTS)->id, robotThatHasBallId);
 
     // create a world with 5v5 and one of their robots has the ball
     world = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(5, 5, false, field);
-    World::set_world(world.first);
+    world::world->setWorld(world.first);
     robotThatHasBallId = world.second;
 
     // the right robot is closest
@@ -110,18 +110,18 @@ TEST(CoachTest, get_robot_closest_to_ball) {
     // it is our robot
     EXPECT_FALSE(Coach::getRobotClosestToBall().second);
 
-    EXPECT_EQ(Coach::getRobotClosestToBall(false)->id, robotThatHasBallId);
+    EXPECT_EQ(Coach::getRobotClosestToBall(world::WhichRobots::THEIR_ROBOTS)->id, robotThatHasBallId);
 }
 
 TEST(CoachTest, it_adds_and_removes_defenders) {
     roboteam_msgs::GeometryFieldSize field;
     field.field_width = 12;
     field.field_length = 8;
-    Field::set_field(field);
+    world::field->set_field(field);
 
     // set the world
     // we need to make sure all robots are available so this test can run properly
-    rtt::ai::World::set_world(testhelpers::WorldHelper::getWorldMsg(8, 0, false, field));
+    rtt::ai::world::world->setWorld(testhelpers::WorldHelper::getWorldMsg(8, 0, false, field));
 
     Coach::defenders = {}; // empty the defenders to start the test
 
@@ -165,11 +165,11 @@ TEST(CoachTest, it_adds_and_removes_formationrobots) {
     roboteam_msgs::GeometryFieldSize field;
     field.field_width = 12;
     field.field_length = 8;
-    Field::set_field(field);
+    world::field->set_field(field);
 
     // set the world
     // we need to make sure all robots are available so this test can run properly
-    rtt::ai::World::set_world(testhelpers::WorldHelper::getWorldMsg(8, 0, false, field));
+    rtt::ai::world::world->setWorld(testhelpers::WorldHelper::getWorldMsg(8, 0, false, field));
 
     EXPECT_TRUE(Coach::robotsInFormation.empty());
 
@@ -220,9 +220,9 @@ TEST(CoachTest, it_handles_ballplacement_positions) {
     worldMsg.ball.pos = Vector2(0, 0);
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    World::set_world(worldMsg);
+    world::world->setWorld(worldMsg);
 
-    EXPECT_FLOAT_EQ(Vector2(World::getBall()->pos).dist(Coach::getBallPlacementBeforePos(World::getBall()->pos)), Constants::BP_MOVE_TOWARDS_DIST());
+    EXPECT_FLOAT_EQ(Vector2(world::world->getBall()->pos).dist(Coach::getBallPlacementBeforePos(world::world->getBall()->pos)), Constants::BP_MOVE_TOWARDS_DIST());
 }
 
 } // coach

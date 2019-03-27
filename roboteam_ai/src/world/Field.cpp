@@ -9,6 +9,9 @@ namespace rtt {
 namespace ai {
 namespace world {
 
+Field fieldObj;
+Field* field = &fieldObj;
+
 using util = control::ControlUtils;
 
 const roboteam_msgs::GeometryFieldSize Field::get_field() {

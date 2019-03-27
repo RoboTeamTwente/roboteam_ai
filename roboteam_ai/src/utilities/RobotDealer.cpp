@@ -10,6 +10,9 @@ namespace rtt {
 namespace ai {
 namespace robotDealer {
 
+RobotDealer robotDealerObj;
+RobotDealer* robotDealer = &robotDealerObj;
+
 /// For internal use
 /// Removes a robot with an ID from the map and if the tactic then is empty it removes the tactic
 void RobotDealer::removeRobotFromOwnerList(int ID) {
@@ -217,7 +220,7 @@ int RobotDealer::findRobotForRole(std::string roleName) {
             }
         }
     }
- //   std::cerr << "Cannot find a robot with that Role Name:   " << roleName << std::endl;
+    std::cerr << "Cannot find a robot with that Role Name:   " << roleName << std::endl;
     return - 1;
 }
 

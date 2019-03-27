@@ -39,7 +39,9 @@ class Field {
         std::vector<std::pair<Vector2, Vector2>> getVisiblePartsOfGoal(bool ourGoal, Vector2 point);
         std::pair<Vector2, Vector2> getGoalSides(bool ourGoal);
 };
-Field* field;
+
+extern Field fieldObj;
+extern Field* field;
 
 } // world
 } // ai

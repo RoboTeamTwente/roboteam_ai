@@ -7,18 +7,19 @@
 #include <roboteam_ai/src/bt/tactics/DefaultTactic.h>
 #include <roboteam_ai/src/treeinterp/Switches.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
-#include <roboteam_ai/src/utilities/World.h>
+#include <roboteam_ai/src/world/World.h>
 #include "../../src/utilities/RobotDealer.h"
 
+namespace w = rtt::ai::world;
+namespace rd = rtt::ai::robotDealer;
+
 TEST(DefaultTacticTest, it_takes_robots) {
-    using dealer = robotDealer::RobotDealer;
-    using robotType = robotDealer::RobotType;
     // Make sure that there is a world and that it is empty
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot1, robot2, robot3, robot4, robot5, robot6, robot7, robot8;
-    rtt::ai::World::set_world(worldMsg);
-    dealer::removeTactic("free"); // This is necessary because previous tests create free robots
-    ASSERT_TRUE(dealer::getAvailableRobots().empty());
+    w::world->setWorld(worldMsg);
+    rd::robotDealer->removeTactic("free"); // This is necessary because previous tests create free robots
+    ASSERT_TRUE(rd::robotDealer->getAvailableRobots().empty());
 
     //fill the world
     robot1.id=1;
@@ -27,7 +28,7 @@ TEST(DefaultTacticTest, it_takes_robots) {
     worldMsg.us.push_back(robot1);
     worldMsg.us.push_back(robot2);
     worldMsg.us.push_back(robot3);
-    rtt::ai::World::set_world(worldMsg);
+    w::world->setWorld(worldMsg);
 
     bt::Blackboard::Ptr bb = std::make_shared<bt::Blackboard>();
 
@@ -45,7 +46,7 @@ TEST(DefaultTacticTest, it_takes_robots) {
     // here the tactics get initialized
     ASSERT_EQ(tacticNode->node_name(), "randomTactic");
     ASSERT_EQ(tacticNode->getChildren().size(), 1); // it has one child (which is parallelsequence)
-    ASSERT_EQ(dealer::getAvailableRobots().size(), 3);
+    ASSERT_EQ(rd::robotDealer->getAvailableRobots().size(), 3);
 
     strategy->tick();
 
@@ -61,18 +62,18 @@ TEST(DefaultTacticTest, it_takes_robots) {
     worldMsg.us.push_back(robot5);
     worldMsg.us.push_back(robot6);
     worldMsg.us.push_back(robot7);
-    rtt::ai::World::set_world(worldMsg);
+    w::world->setWorld(worldMsg);
 
     // now there are enough robots
-    ASSERT_EQ(dealer::getAvailableRobots().size(), 7);
+    ASSERT_EQ(rd::robotDealer->getAvailableRobots().size(), 7);
     ASSERT_EQ(tacticNode->getStatus(), bt::Node::Status::Waiting);
 
     strategy->tick();
     ASSERT_EQ(tacticNode->getStatus(), bt::Node::Status::Running);
 
     // now all robots should be claimed for randomTactic and randomTactic should start Running
-    ASSERT_EQ(dealer::getAvailableRobots().size(), 0);
-    ASSERT_EQ(dealer::getClaimedRobots().at("randomTactic").size(), 7); //robotdealer should say randomTactic has claimed 7 robots
+    ASSERT_EQ(rd::robotDealer->getAvailableRobots().size(), 0);
+    ASSERT_EQ(rd::robotDealer->getClaimedRobots().at("randomTactic").size(), 7); //robotdealer should say randomTactic has claimed 7 robots
 
     strategy->tick();
     ASSERT_EQ(tacticNode->getStatus(), bt::Node::Status::Running);
@@ -82,6 +83,6 @@ TEST(DefaultTacticTest, it_takes_robots) {
     ASSERT_EQ(strategy->getStatus(), bt::Node::Status::Failure);
 
     // the robots should be available again.
-    ASSERT_EQ(dealer::getAvailableRobots().size(), 7);
+    ASSERT_EQ(rd::robotDealer->getAvailableRobots().size(), 7);
 
 }

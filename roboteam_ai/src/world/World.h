@@ -16,6 +16,7 @@
 #include "roboteam_msgs/GeometryData.h"
 #include "WorldData.h"
 #include "ProcessedWorld.h"
+#include "LastWorld.h"
 
 namespace rtt {
 namespace ai {
@@ -27,21 +28,28 @@ class World {
         using BallPtr = std::shared_ptr<Ball>;
         using WorldDataPtr = std::shared_ptr<WorldData>;
 
-        ProcessedWorld* processedWorld;
         roboteam_msgs::World worldMsg;
-        WorldData worldData;
+        WorldDataPtr worldData;
 
         std::mutex worldMutex;
         std::mutex worldMsgMutex;
 
+        roboteam_msgs::World makeWorldMsg(WorldDataPtr worldData);
+        roboteam_msgs::WorldRobot makeWorldRobotMsg(Robot robot);
+        roboteam_msgs::WorldBall makeWorldBallMsg(Ball ball);
+
     public:
         bool weHaveRobots();
+
+        void updateWorld(const roboteam_msgs::World &world);
+
         void setWorld(const roboteam_msgs::World &world);
+        void setWorldData(WorldDataPtr &world);
 
         const roboteam_msgs::World &getWorldMsg();
         const roboteam_msgs::WorldBall &getBallMsg();
 
-        const WorldData &getWorld();
+        const WorldData getWorld();
         BallPtr getBall();
         RobotPtr getRobotForId(int id, bool ourTeam = true);
         std::vector<RobotPtr> getAllRobots();
@@ -58,9 +66,10 @@ class World {
 
         const WorldData getFutureWorld(double time);
 
-        //ProcessedWorld* getProcessedWorld();
 };
-World* world;
+
+extern World worldObj;
+extern World* world;
 
 } //world
 } //ai

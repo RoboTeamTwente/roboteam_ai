@@ -109,7 +109,6 @@ set(DEMO_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/demo/JoystickDemo.h)
 
 set(UTILS_SOURCES
-
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
@@ -229,7 +228,6 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TreeInterpreterTests/BTFactoryTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/WorldTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/FieldTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/DangerFinderTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TreeInterpreterTests/BTBlackBoardTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/IOTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/RefereeTest.cpp
@@ -284,14 +282,11 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/World.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/Field.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/Field.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldData.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldData.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldManager.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldManager.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/LastWorld.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/LastWorld.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/PredictedWorld.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/PredictedWorld.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/ProcessedWorld.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/ProcessedWorld.h)
 
@@ -322,7 +317,6 @@ target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} Qt5::Widgets Qt5::Gui)
 ## Testing ##
 #############
 catkin_add_gtest(ai_tests
-        ${DANGER_FINDER_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
         ${BT_SOURCES}

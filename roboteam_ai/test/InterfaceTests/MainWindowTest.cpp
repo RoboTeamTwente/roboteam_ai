@@ -8,6 +8,8 @@
 #include <roboteam_ai/src/interface/mainWindow.h>
 #include <ros/node_handle.h>
 
+namespace w = rtt::ai::world;
+
 namespace rtt {
 namespace ai {
 namespace interface {
@@ -21,7 +23,7 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     roboteam_msgs::GeometryFieldSize field;
     field.field_length = 12;
     field.field_width = 9;
-    rtt::ai::Field::set_field(field);
+    w::field->set_field(field);
 
     // check if the conversion factor is calculated properly
     vis->calculateFieldSizeFactor();
@@ -76,20 +78,20 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     EXPECT_FALSE(vis->showTacticColors);
     EXPECT_FALSE(vis->showTactics);
     EXPECT_FALSE(vis->showVelocities);
-    
-    roboteam_msgs::World worldMsg;
-    roboteam_msgs::WorldRobot robot;
+
+    std::shared_ptr<w::WorldData>worldMsg;
+    w::Robot robot;
     robot.id = 1;
-    worldMsg.us.push_back(robot);
-    World::set_world(worldMsg);
-    
+    worldMsg->us.push_back(robot);
+    w::world->setWorldData(worldMsg);
+
     EXPECT_EQ(vis->getSelectedRobots().size(), 0);
     EXPECT_FALSE(vis->robotIsSelected(robot));
-    
+
     vis->toggleSelectedRobot(1);
     EXPECT_EQ(vis->getSelectedRobots().size(), 1);
     EXPECT_TRUE(vis->robotIsSelected(robot));
-    
+
     vis->toggleSelectedRobot(1);
     EXPECT_EQ(vis->getSelectedRobots().size(), 0);
     EXPECT_FALSE(vis->robotIsSelected(robot));

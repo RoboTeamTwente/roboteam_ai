@@ -7,13 +7,16 @@
 #include "roboteam_ai/src/world/Field.h"
 #include "../../src/utilities/Coach.h"
 
+namespace rd = rtt::ai::robotDealer;
+namespace w = rtt::ai::world;
+using Vector2 = rtt::Vector2;
 TEST(PassTest, PassTest) {
-    robotDealer::RobotDealer::halt();
+    rd::robotDealer->halt();
 
     roboteam_msgs::GeometryFieldSize field;
     field.field_length = 20;
     field.field_width = 10;
-    rtt::ai::Field::set_field(field);
+    w::field->set_field(field);
 
     roboteam_msgs::World world;
 
@@ -23,7 +26,7 @@ TEST(PassTest, PassTest) {
     robot1.pos.y = 0;
 
     world.us.push_back(robot1);
-    rtt::ai::World::set_world(world);
+    w::world->setWorld(world);
 
     ASSERT_EQ(rtt::ai::coach::Coach::initiatePass(), robot1.id);
 
@@ -32,7 +35,7 @@ TEST(PassTest, PassTest) {
     robot2.pos.x = 3.0;
     robot2.pos.y = 0.0;
     world.us.push_back(robot2);
-    rtt::ai::World::set_world(world);
+    w::world->setWorld(world);
 
     ASSERT_EQ(rtt::ai::coach::Coach::initiatePass(), robot2.id);
 
@@ -42,13 +45,13 @@ TEST(PassTest, PassTest) {
     ball.visible = 1;
     ball.existence = 99999;
     world.ball = ball;
-    rtt::ai::World::set_world(world);
+    w::world->setWorld(world);
 
     auto properties = std::make_shared<bt::Blackboard>();
     properties->setString("ROLE", "testPasser");
 
     // MIGHT NOT WORK
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::closeToBall, "PassTest", "testPasser");
+    rd::robotDealer->claimRobotForTactic(rd::RobotType::closeToBall, "PassTest", "testPasser");
 
     rtt::ai::Pass pass("PassTest", properties);
     pass.initialize();
@@ -63,12 +66,12 @@ TEST(PassTest, PassTest) {
     world2.us.push_back(robot2);
     world2.ball.vel = (Vector2){5, 5};
     world2.ball.existence = 99999;
-    rtt::ai::World::set_world(world2);
+    w::world->setWorld(world2);
 
     ASSERT_EQ(pass.update(), bt::Leaf::Status::Running);
 
     world2.ball.pos = (Vector2){-3, 3};
-    rtt::ai::World::set_world(world2);
+    w::world->setWorld(world2);
     ASSERT_EQ(pass.update(), bt::Leaf::Status::Running);
 
 }

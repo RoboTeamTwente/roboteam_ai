@@ -75,7 +75,8 @@ class RobotDealer {
         int getKeeperID();
 
 };
-RobotDealer* robotDealer;
+extern RobotDealer robotDealerObj;
+extern RobotDealer* robotDealer;
 
 } //robotDealer
 } //ai

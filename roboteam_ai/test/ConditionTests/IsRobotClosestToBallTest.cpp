@@ -5,7 +5,7 @@
 #include <gtest/gtest.h>
 #include "../../src/bt/bt.hpp"
 #include "roboteam_msgs/World.h"
-#include "../../src/utilities/World.h"
+#include "../../src/world/World.h"
 #include "../../src/utilities/RobotDealer.h"
 #include "../../src/conditions/IsRobotClosestToBall.h"
 
@@ -17,7 +17,7 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
 
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->setWorld(worldMsg);
 
     EXPECT_EQ(Node.node_name(), "IsRobotClosestToBall");
 
@@ -35,9 +35,9 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
     worldMsg.ball.pos.y=1.0;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->setWorld(worldMsg);
 
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"IsRobotClosestToBallTestTactic","test");
+    rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::random,"IsRobotClosestToBallTestTactic","test");
     // Test should succeed because one robot is always closest to the ball
     ASSERT_EQ(Node.update(), bt::Node::Status::Success);
 
@@ -47,11 +47,11 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
     robot2.pos.x=0.5;
     robot2.pos.y=0.5;
     worldMsg.us.push_back(robot2);
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->setWorld(worldMsg);
 
     // Test should fail since robot 2 is no longer closest to the ball
     ASSERT_EQ(Node.update(), bt::Node::Status::Failure);
-    robotDealer::RobotDealer::removeTactic("IsRobotClosestToBallTestTactic");
+    rtt::ai::robotDealer::robotDealer->removeTactic("IsRobotClosestToBallTestTactic");
 }
 
 TEST(secondsAhead, IsRobotClosestToBallTest) {
@@ -82,8 +82,8 @@ TEST(secondsAhead, IsRobotClosestToBallTest) {
     worldMsg.ball.vel.y = -1;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::World::set_world(worldMsg);
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"IsRobotClosestToBallTestTactic","test");
+    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::random,"IsRobotClosestToBallTestTactic","test");
     ASSERT_EQ(Node.update(), bt::Node::Status::Success);
-    robotDealer::RobotDealer::removeTactic("IsRobotClosestToBallTestTactic");
+    rtt::ai::robotDealer::robotDealer->removeTactic("IsRobotClosestToBallTestTactic");
 }

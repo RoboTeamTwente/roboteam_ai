@@ -4,15 +4,15 @@
 #include <gtest/gtest.h>
 #include "../../src/bt/bt.hpp"
 #include "../../src/conditions/HasBall.hpp"
-#include "../../src/utilities/World.h"
+#include "../../src/world/World.h"
 #include "../../src/utilities/RobotDealer.h"
 
 TEST(BallTest, IHaveBallTest) {
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->setWorld(worldMsg);
 
-    robotDealer::RobotDealer::halt();
+    rtt::ai::robotDealer::robotDealer->halt();
     auto BB = std::make_shared<bt::Blackboard>();
     BB->setInt("ROBOT_ID", 0);
     BB->setString("ROLE","test");
@@ -34,14 +34,14 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::World::set_world(worldMsg);
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"IHaveBallTestTactic","test");
+    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::random,"IHaveBallTestTactic","test");
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.ball.pos.x = 0.0;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->setWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     //Test if angle checking works
@@ -49,22 +49,22 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.pos.y = 0.1;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->setWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = 0;
     worldMsg.ball.pos.y = - 0.1;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->setWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = - 0.1;
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->setWorld(worldMsg);
     EXPECT_EQ(node.update(),bt::Node::Status::Failure);
 
-    robotDealer::RobotDealer::removeTactic("IHaveBallTestTactic");
+    rtt::ai::robotDealer::robotDealer->removeTactic("IHaveBallTestTactic");
 }

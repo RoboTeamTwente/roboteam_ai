@@ -15,7 +15,7 @@ namespace rtt {
 namespace ai {
 namespace world {
 
-enum WhichRobots {
+enum WhichRobots : short {
   OUR_ROBOTS,
   THEIR_ROBOTS,
   ALL_ROBOTS
@@ -26,10 +26,10 @@ class Robot {
         Robot() = default;
         explicit Robot(const roboteam_msgs::WorldRobot &copy)
                 :
-                id(copy.id), angle(copy.w),
-                pos(copy.pos), vel(copy.vel) { }
+                id(copy.id), angle(copy.angle),
+                pos(copy.pos), vel(copy.vel), angularVelocity(copy.w) { }
 
-        int id = - 1;
+        int id = -1;
         Angle angle = Angle();
         Vector2 pos = Vector2();
         Vector2 vel = Vector2();
@@ -69,6 +69,39 @@ class WorldData {
         std::vector<Robot> us;
         std::vector<Robot> them;
         Ball ball;
+};
+
+class WorldBuffer {
+    private:
+        WorldData* worldBuffer;
+        unsigned int size;
+        int lastIndex;
+    public:
+        explicit WorldBuffer(unsigned int size = 20) {
+            WorldBuffer::size = size;
+            worldBuffer = new WorldData[size];
+            lastIndex = 0;
+        }
+
+        ~WorldBuffer() {
+            delete[] worldBuffer;
+        }
+
+        void addNewWorld(WorldData &world) {
+            worldBuffer[lastIndex --] = world;
+            if (lastIndex < 0) lastIndex = size - 1;
+        }
+
+        void addNewWorld(roboteam_msgs::World &worldMsg) {
+            WorldData worldData = WorldData(worldMsg);
+            addNewWorld(worldData);
+        }
+
+        const WorldData &getPreviousWorld(const unsigned int worldsBack) {
+            unsigned int location = lastIndex + worldsBack + 1;
+            location %= size;
+            return worldBuffer[location];
+        }
 };
 
 }

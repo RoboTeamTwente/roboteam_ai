@@ -7,9 +7,10 @@
 #include <roboteam_ai/src/world/Field.h>
 
 namespace cr=rtt::ai::control;
+using Vector2 = rtt::Vector2;
 
 TEST(ControlUtils, linedistances) {
-    Vector2 A(0, 0), B(0, 2), C(1, 1), D(1, 3), E(0, 4);
+    rtt::Vector2 A(0, 0), B(0, 2), C(1, 1), D(1, 3), E(0, 4);
 
     double dist = cr::ControlUtils::distanceToLine(C, A, B);
     EXPECT_DOUBLE_EQ(dist, 1.0);
@@ -162,7 +163,7 @@ TEST(ControlUtils, project_to_position_within_field) {
     roboteam_msgs::GeometryFieldSize field;
     field.field_width = 20;
     field.field_length = 10;
-    rtt::ai::Field::set_field(field);
+    rtt::ai::world::field->set_field(field);
     { // the middle point should always be within the field.
         Vector2 pos = cr::ControlUtils::projectPositionToWithinField(Vector2(0, 0));
         EXPECT_FLOAT_EQ(pos.x, 0);
