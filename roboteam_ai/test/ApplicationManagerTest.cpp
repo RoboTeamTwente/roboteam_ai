@@ -5,7 +5,9 @@
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/bt/bt.hpp>
 #include <roboteam_ai/src/utilities/Referee.hpp>
+#include <roboteam_ai/src/utilities/Field.h>
 #include "../src/ApplicationManager.h"
+#include "../src/treeinterp/BTFactory.h"
 
 namespace rtt {
 TEST(ApplicationManagerTest, it_handles_ROS_data) {
@@ -40,6 +42,8 @@ TEST(ApplicationManagerTest, it_handles_ROS_data) {
 
     // publish a geometry message
     roboteam_msgs::GeometryData geomMsg;
+    geomMsg.field.field_length = 12;
+    geomMsg.field.field_width = 9;
     geomMsg.field.goal_depth = 30.3;
     geomPub.publish(geomMsg);
 
@@ -59,6 +63,12 @@ TEST(ApplicationManagerTest, it_handles_ROS_data) {
 
     // run a loop
     // now the strategy should not be waiting anymore. (it should be running, failure or success)
+
+    roboteam_msgs::GeometryFieldSize field;
+    field.field_length = 12;
+    field.field_width = 9;
+
+    ai::Field::set_field(field);
     app.runOneLoopCycle();
     rate.sleep();
     EXPECT_NE(app.strategy->getStatus(), bt::Node::Status::Waiting);
@@ -66,12 +76,10 @@ TEST(ApplicationManagerTest, it_handles_ROS_data) {
     app.notifyTreeStatus(bt::Node::Status::Waiting);
     app.notifyTreeStatus(bt::Node::Status::Running);
     app.notifyTreeStatus(bt::Node::Status::Success);
-    EXPECT_EQ(BTFactory::getCurrentTree(), "haltStrategy");
+    EXPECT_EQ(ai::treeinterp::g_btfactory.getCurrentTree(), "haltStrategy");
 
     app.checkForShutdown();
     EXPECT_EQ(app.strategy->getStatus(), bt::Node::Status::Failure);
-
-    df::DangerFinder::instance().stop();
 } // end of test
 
 

@@ -68,10 +68,23 @@ double ControlUtils::distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vec
     return d.length();
 }
 
+bool ControlUtils::clearLine(Vector2 fromPos, Vector2 toPos, roboteam_msgs::World world, double safeDistanceFactor, bool keeper) {
+    double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor * 3;
+
+    for (auto enemy : world.them) {
+        //TODO: Check if the keeper should be taken into account and get it from the referee
+        if (distanceToLineWithEnds(enemy.pos, fromPos, toPos) < minDistance) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 /// See if a robot has a clear vision towards another robot
 /// e.g. there are no obstacles in between.
-bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::World world, int safelyness) {
-    double minDistance = rtt::ai::Constants::ROBOT_RADIUS()*(3*safelyness); // TODO: calibrate Rolf approved
+bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::World world, int safeDistanceFactor) {
+    double minDistance = rtt::ai::Constants::ROBOT_RADIUS()*(3*safeDistanceFactor); // TODO: calibrate Rolf approved
     Vector2 fromPos;
     Vector2 towardsPos;
 
@@ -93,21 +106,29 @@ bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::Worl
     return true;
 }
 
+
 /// Get the distance from PointToCheck towards a line, the line is not infinite.
 double ControlUtils::distanceToLineWithEnds(Vector2 pointToCheck, Vector2 lineStart, Vector2 lineEnd) {
-    Vector2 n = lineEnd - lineStart;
-    Vector2 pa = lineStart - pointToCheck;
-    Vector2 c = n*(n.dot(pa)/n.dot(n));
-    Vector2 d = pa - c;
-    Vector2 A = (pointToCheck - lineStart).project(lineStart, lineEnd);
-    Vector2 B = (pointToCheck - lineEnd).project(lineEnd, lineStart);
-    if ((A.length() + B.length()) > n.length()) {
-        return fmin(pa.length(), (lineEnd - pointToCheck).length());
+    Vector2 line=lineEnd-lineStart;
+    Vector2 diff=pointToCheck-lineStart;
+    double dot=line.x*diff.x+line.y*diff.y;
+    double len_sq=line.y*line.y+line.x*line.x;
+    double param=-1;
+    if (len_sq!=0){
+        param=dot/len_sq;
     }
-    else return d.length();
+    if (param<0){
+        param=0;
+    }
+    else if (param>1){
+        param=1;
+    }
+    Vector2 project=lineStart+line*param;
+    Vector2 distDiff=pointToCheck-project;
+    return distDiff.length();
 }
 
-//https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
+// https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
 // Given three colinear points p, q, r, the function checks if
 // point q lies on line segment 'pr'
 bool ControlUtils::onLineSegment(Vector2 p, Vector2 q, Vector2 r) {
@@ -266,8 +287,7 @@ std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFrom
         std::vector<Vector2> set2) {
 
     std::vector<int> assignments;
-    // compute a distance matrix
-    // initialize it with zeros
+    // compute a distance matrix, initialize it with zeros
     std::vector<std::vector<double>> distanceMatrix(set1.size(), std::vector<double>(set2.size()));
 
     for (unsigned int i = 0; i < set1.size(); i++) {
@@ -284,6 +304,26 @@ std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFrom
         solutionPairs.push_back({set1.at(i), set2.at(assignments.at(i))});
     }
     return solutionPairs;
+}
+
+bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, Vector2 point, double maxDifference) {
+    auto robot = World::getRobotForId(id, ourTeam);
+    if (robot) {
+        double exactAngleTowardsPoint = (point - robot->pos).angle();
+        return (robot->w > constrainAngle(exactAngleTowardsPoint - maxDifference/2)
+            && robot->w < constrainAngle(exactAngleTowardsPoint + maxDifference/2));
+    }
+    return false;
+}
+
+double ControlUtils::twoLineForwardIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2) {
+    double denominator = ( (a1.x - a2.x)*(b1.y - b2.y) - (a1.y - a2.y)*(b1.x - b2.x) );
+    if (denominator != 0) {
+        double numerator = ( (a1.x - b1.x)*(b1.y - b2.y) - (a1.y - b1.y)*(b1.x - b2.x) );
+        double t =  numerator / denominator;
+        return t;
+    }
+    return -1.0;
 }
 
 } // control

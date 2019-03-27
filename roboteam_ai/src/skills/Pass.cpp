@@ -33,6 +33,7 @@ Pass::Status Pass::onUpdate() {
             } else if (!World::ourBotHasBall(robot->id)) {
                 goToType = GoToType::BASIC;
                 targetPos = ball->pos;
+                goToPos.setAvoidBall(false);
             } else {
                 if (coach::g_pass.isReadyToReceivePass()) currentProgress = Progression::KICKING;
                 return Status::Running;
@@ -46,14 +47,23 @@ Pass::Status Pass::onUpdate() {
             break;
         }
         case Progression::KICKING: {
-            if (World::ourBotHasBall(robot->id)) {
+            if (World::ourBotHasBall(robot->id, Constants::MAX_KICK_RANGE())) {
                 command.kicker = 1;
                 command.kicker_forced = 1;
                 distance = ((Vector2)ball->pos - robotToPassTo->pos).length();
                 kicker_vel_multiplier = distance > rtt::ai::Constants::MAX_POWER_KICK_DISTANCE() ? 1.0 : distance / rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
-
                 command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER() * kicker_vel_multiplier);
                 command.id = robot->id;
+
+                goToType = GoToType::BASIC;
+                targetPos = ball->pos;
+                Vector2 velocities = goToPos.goToPos(robot, targetPos, goToType).vel;
+                if (velocities.length() < 0.4) velocities = velocities.stretchToLength(0.4);
+
+                command.x_vel = static_cast<float>(velocities.x);
+                command.y_vel = static_cast<float>(velocities.y);
+                command.w = static_cast<float>(((Vector2) robotToPassTo->pos - ball->pos).angle());
+
                 publishRobotCommand(command);
                 checkTicks = 0;
                 return Status::Running;

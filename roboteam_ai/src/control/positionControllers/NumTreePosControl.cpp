@@ -4,6 +4,7 @@
 // Created by rolf on 5-2-19.
 //
 
+#include "../../utilities/Field.h"
 #include "NumTreePosControl.h"
 
 namespace rtt {

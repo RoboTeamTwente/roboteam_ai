@@ -13,6 +13,7 @@
 #include "../utilities/World.h"
 #include <QMouseEvent>
 #include <gtest/gtest_prod.h>
+#include <roboteam_ai/src/coach/OffensiveCoach.h>
 
 namespace rtt {
 namespace ai {
@@ -37,6 +38,7 @@ class Visualizer : public QWidget {
         void setShowBallPlacementMarker(bool showMarker);
         void setShowDebugValueInTerminal(bool showDebug);
         void toggleSelectedRobot(int robotId);
+        void setShowAvailablePasses(bool showAvailablePasses);
 
     protected:
         void paintEvent(QPaintEvent* event) override;
@@ -55,6 +57,8 @@ class Visualizer : public QWidget {
         void drawDataPoints(QPainter &painter, std::vector<Vector2> points, int pointSize = 3,
                 QColor color = Qt::green);
         void drawDataPoints(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize = 3);
+        void drawPasses(QPainter &painter);
+        void drawCrosses(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, double size = 5);
 
         void drawDrawPoints(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize = 3);
         void drawDrawLines(QPainter &painter, std::vector<std::tuple<Vector2, Vector2, QColor>> lines);
@@ -84,6 +88,7 @@ class Visualizer : public QWidget {
         bool showAllPaths = Constants::STD_SHOW_PATHS_ALL();
         bool showBallPlacementMarker = Constants::STD_SHOW_BALL_PLACEMENT_MARKER();
         bool showDebugValueInTerminal = Constants::STD_SHOW_DEBUG_VALUES();
+        bool showAvailablePasses = Constants::STD_SHOW_AVAILABLE_PASSES();
 };
 
 } // interface

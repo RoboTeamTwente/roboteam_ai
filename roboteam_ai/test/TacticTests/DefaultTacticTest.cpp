@@ -5,7 +5,7 @@
 
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/bt/tactics/DefaultTactic.h>
-#include <roboteam_ai/src/treeinterp/Switches.h>
+#include <roboteam_ai/src/Switches.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include <roboteam_ai/src/utilities/World.h>
 #include "../../src/utilities/RobotDealer.h"
@@ -31,7 +31,7 @@ TEST(DefaultTacticTest, it_takes_robots) {
 
     bt::Blackboard::Ptr bb = std::make_shared<bt::Blackboard>();
 
-    auto factory = BTFactory::getFactory();
+    rtt::ai::treeinterp::BTFactory factory;
     factory.init();
 
     auto strategy = factory.getTree("randomStrategy");

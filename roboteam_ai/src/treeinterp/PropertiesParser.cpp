@@ -5,6 +5,9 @@
 #include "PropertiesParser.h"
 #include "ros/ros.h"
 
+namespace rtt {
+namespace ai {
+namespace treeinterp {
 bt::Blackboard::Ptr PropertiesParser::parse(PropertiesParser::json jsonLeaf) {
 
     bt::Blackboard::Ptr BB = std::make_shared<bt::Blackboard>();
@@ -143,5 +146,7 @@ PropertiesParser::type PropertiesParser::getNumberFromString(std::string strKey,
     }
     else return String; // not starting with a digit
 }
-
+}
+}
+}
 
