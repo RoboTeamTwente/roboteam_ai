@@ -144,7 +144,7 @@ bool GoAroundPos::checkPosition() {
 void GoAroundPos::sendRotateCommand() {
     roboteam_msgs::RobotCommand command;
     Vector2 deltaCommandPos = (commandPos - robot->pos);
-    deltaCommandPos=Control::VelocityLimiter(deltaCommandPos,distanceFromPoint*SPEED,MIN_SPEED);
+    deltaCommandPos= Control::velocityLimiter(deltaCommandPos, distanceFromPoint*SPEED, MIN_SPEED);
     command.id = robot->id;
     command.use_angle = 1;
     command.dribbler = 0;

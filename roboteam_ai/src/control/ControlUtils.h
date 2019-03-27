@@ -38,8 +38,8 @@ class ControlUtils {
         static int lineOrientation(Vector2 p, Vector2 q, Vector2 r);
         static bool lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd, Vector2 lineBStart, Vector2 lineBEnd);
         static rtt::Arc createKeeperArc();
-        static Vector2 VelocityLimiter(Vector2 vel,double maxVel=rtt::ai::Constants::MAX_VEL());
-        static Vector2 VelocityLimiter(Vector2 vel,double maxVel, double minVel);
+        static Vector2 velocityLimiter(Vector2 vel, double maxVel = rtt::ai::Constants::MAX_VEL());
+        static Vector2 velocityLimiter(Vector2 vel, double maxVel, double minVel);
 
         static std::vector<std::pair<Vector2, Vector2>> calculateClosestPathsFromTwoSetsOfPoints(std::vector<Vector2> set1, std::vector<Vector2> set2);
 };
