@@ -47,6 +47,7 @@ void Skill::initialize() {
 void Skill::terminate(Status s) {
     if (! robot) return;
     if (! ball) return;
+    refreshRobotCommand();
     onTerminate(s);
 }
 
