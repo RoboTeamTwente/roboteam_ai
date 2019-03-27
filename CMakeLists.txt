@@ -246,7 +246,7 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/NumTreePosControl.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/NumTreePosControl.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosVelAngle.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PositionControlIncludes.h)
+        roboteam_ai/src/control/positionControllers/BasicPosControl.cpp roboteam_ai/src/control/positionControllers/BasicPosControl.h roboteam_ai/src/control/positionControllers/ForcePosControl.cpp roboteam_ai/src/control/positionControllers/ForcePosControl.h roboteam_ai/src/control/positionControllers/PosController.cpp roboteam_ai/src/control/positionControllers/PosController.h)
 
 
 set(TEST_SOURCES
