@@ -13,6 +13,7 @@ private:
 public:
     void initialize() override;
     Status update() override;
+    void terminate(Status s) override;
     std::string node_name() override { return "MemSequence"; };
 };
 } // bt
