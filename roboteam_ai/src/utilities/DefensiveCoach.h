@@ -28,8 +28,7 @@ class DefensiveCoach {
           int amountOfBlockers();
           PossiblePass(roboteam_msgs::WorldRobot _toBot,Vector2 ballPos );
         };
-        static double scorePossiblePass2(PossiblePass pass, std::vector<Vector2> decidedBlocks);
-        static double scorePossiblePass3(PossiblePass pass, std::vector<Vector2> decidedBlocks);
+        static double scorePossiblePass(PossiblePass pass, std::vector<Vector2> decidedBlocks);
         static Vector2 getPos(std::pair<Vector2,Vector2> line, double aggressionFactor);
     public:
         static std::vector<PossiblePass> getPossiblePassesThem();
