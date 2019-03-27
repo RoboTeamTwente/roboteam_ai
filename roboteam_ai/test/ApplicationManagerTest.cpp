@@ -80,8 +80,6 @@ TEST(ApplicationManagerTest, it_handles_ROS_data) {
 
     app.checkForShutdown();
     EXPECT_EQ(app.strategy->getStatus(), bt::Node::Status::Failure);
-
-    df::DangerFinder::instance().stop();
 } // end of test
 
 

@@ -3,6 +3,7 @@
 
 #include "../bt/Leaf.hpp"
 #include <roboteam_msgs/RobotCommand.h>
+#include <roboteam_utils/Angle.h>
 #include "ros/ros.h"
 #include "../io/IOManager.h"
 #include "roboteam_ai/src/control/PositionController.h"
@@ -37,7 +38,7 @@ class Skill : public bt::Leaf {
         void initialize() override;
         Status update() override;
         void terminate(Status s) override;
-        virtual void onInitialize() { };
+        virtual void onInitialize() {};
         virtual Status onUpdate() = 0;
         virtual void onTerminate(Status s) { };
 };
