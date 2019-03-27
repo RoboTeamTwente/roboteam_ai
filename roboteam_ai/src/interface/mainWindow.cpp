@@ -123,7 +123,7 @@ MainWindow::MainWindow(QWidget* parent)
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [=](const QString &strategyName) {
               // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-              BTFactory::getFactory().init();
+              BTFactory::getFactory().makeTrees();
               BTFactory::setCurrentTree(strategyName.toStdString());
               treeWidget->setHasCorrectTree(false);
             });
@@ -274,7 +274,7 @@ void MainWindow::setSelectStrategyText(QString text) {
     select_strategy->setCurrentText(text);
 }
 void MainWindow::refreshSignal() {
-    BTFactory::getFactory().init();
+    BTFactory::getFactory().makeTrees();
     treeWidget->setHasCorrectTree(false);
 }
 

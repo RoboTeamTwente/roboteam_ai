@@ -40,6 +40,7 @@ bt::Node::Status GoToPos::onUpdate() {
 
     control::PosVelAngle pva = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES);
     pva.vel = control::ControlUtils::VelocityLimiter(pva.vel, maxVel);
+    command.use_angle = 1;
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);
     command.w = static_cast<float>(pva.angle);

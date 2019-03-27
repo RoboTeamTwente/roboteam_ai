@@ -4,10 +4,10 @@
 #ifndef ROBOTEAM_AI_SWITCHES_H
 #define ROBOTEAM_AI_SWITCHES_H
 
-#include "BTImport.h"
+#include "roboteam_ai/src/treeinterp/BTImport.h"
 #include <iostream>
-#include "../utilities/RobotDealer.h"
-#include "../bt/bt.hpp"
+#include "roboteam_ai/src/utilities/RobotDealer.h"
+#include "roboteam_ai/src/bt/bt.hpp"
 
 class Switches {
         using robotType = robotDealer::RobotType;

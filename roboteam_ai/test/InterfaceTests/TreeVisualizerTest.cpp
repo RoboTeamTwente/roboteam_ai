@@ -13,7 +13,7 @@ namespace interface {
 
 TEST(TreeVisualizerTest, it_properly_displays_trees) {
     BTFactory factory;
-    factory.init();
+    factory.makeTrees();
     BTFactory::setCurrentTree("randomStrategy");
     auto window = std::make_shared<MainWindow>();
     TreeVisualizerWidget * treeVis = window->treeWidget;

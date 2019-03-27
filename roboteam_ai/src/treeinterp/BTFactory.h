@@ -13,7 +13,7 @@
 #include <map>
 #include "TreeInterpreter.h"
 #include "BTImport.h"
-#include "Switches.h"
+#include "roboteam_ai/src/Switches.h"
 
 class BTFactory {
 
@@ -29,7 +29,7 @@ class BTFactory {
         static bool initialized;
 
     public:
-        void init();
+        void makeTrees();
 
         static BTFactory &getFactory();
 

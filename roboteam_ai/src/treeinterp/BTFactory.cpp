@@ -19,18 +19,13 @@ BTFactory &BTFactory::getFactory() {
 }
 
 /// Initiate the BTFactory
-void BTFactory::init() {
+void BTFactory::makeTrees() {
 
     std::cout << "Re-Make Trees From Json" << std::endl;
 
     // If you think calling this over and over again is bad or slow you are partially correct. But if you optimize with
     //-O1 flag this takes like 20 ms so it is totally fine.
     interpreter = TreeInterpreter::getInstance();
-
-    tacticsRepo.empty();
-    strategyRepo.empty();
-    keeperRepo.empty();
-
 
     for (const auto &tacticName : Switches::tacticJsonFileNames) {
         auto BB = std::make_shared<bt::Blackboard>(); //TODO maybe make the BB somewhere else that makes sense
