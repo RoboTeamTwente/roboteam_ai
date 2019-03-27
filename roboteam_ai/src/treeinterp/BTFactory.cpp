@@ -10,13 +10,7 @@ std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::keeperRepo;
 std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
 int BTFactory::keeperID;
-bool BTFactory::initialized = false;
 
-/// Returns the Behaviour Tree Factory Singleton
-BTFactory &BTFactory::getFactory() {
-    static BTFactory instance;
-    return instance;
-}
 
 /// Initiate the BTFactory
 void BTFactory::makeTrees() {
@@ -25,7 +19,7 @@ void BTFactory::makeTrees() {
 
     // If you think calling this over and over again is bad or slow you are partially correct. But if you optimize with
     //-O1 flag this takes like 20 ms so it is totally fine.
-    interpreter = TreeInterpreter::getInstance();
+    TreeInterpreter interpreter = TreeInterpreter::getInstance();
 
     for (const auto &tacticName : Switches::tacticJsonFileNames) {
         auto BB = std::make_shared<bt::Blackboard>(); //TODO maybe make the BB somewhere else that makes sense
@@ -43,7 +37,6 @@ void BTFactory::makeTrees() {
         for (auto &it : tempMap) keeperRepo[it.first] = it.second; // may break
     }
 
-    initialized = true;
 }
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     if (strategyRepo.find(treeName) != strategyRepo.end()) {
@@ -66,16 +59,12 @@ void BTFactory::setCurrentTree(const std::string &newTree) {
             BTFactory::currentTree = newTree;
             return;
         }
-        BTFactory::getFactory().getTree(currentTree)->terminate(bt::Node::Status::Success);
+        BTFactory::getTree(currentTree)->terminate(bt::Node::Status::Success);
 
         robotDealer::RobotDealer::halt();
 
         BTFactory::currentTree = newTree;
     }
-}
-
-bool BTFactory::isInitialized() {
-    return BTFactory::initialized;
 }
 
 void BTFactory::setKeeperTree(const std::string &keeperTree_) {
@@ -91,7 +80,7 @@ bt::BehaviorTree::Ptr BTFactory::getKeeperTree() {
 }
 
 void BTFactory::halt() {
-    BTFactory::getFactory().getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
+    BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
     BTFactory::currentTree = "NaN";
     robotDealer::RobotDealer::halt();
 

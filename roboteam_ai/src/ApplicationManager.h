@@ -22,7 +22,6 @@ private:
     roboteam_msgs::RefereeData refereeMsg;
     bt::BehaviorTree::Ptr strategy;
     bt::BehaviorTree::Ptr keeperTree;
-    BTFactory factory;
 
     void updateROSData();
     void handleRefData();

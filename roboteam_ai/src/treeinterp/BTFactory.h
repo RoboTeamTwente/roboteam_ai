@@ -18,22 +18,17 @@
 class BTFactory {
 
         // TODO: have the names of all the project before here
-        TreeInterpreter interpreter;
-
         static std::string currentTree;
 
         static std::string keeperTree;
 
         static int keeperID;
 
-        static bool initialized;
 
     public:
-        void makeTrees();
+        static void makeTrees();
 
-        static BTFactory &getFactory();
-
-        bt::BehaviorTree::Ptr getTree(std::string treeName);
+        static bt::BehaviorTree::Ptr getTree(std::string treeName);
 
         static std::map<std::string, bt::BehaviorTree::Ptr> strategyRepo;
 
@@ -50,8 +45,6 @@ class BTFactory {
         static void setKeeperTree(const std::string &keeperTree);
 
         static void setKeeper(int newID);
-
-        static bool isInitialized();
 
         static void halt();
 };

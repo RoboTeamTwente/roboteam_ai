@@ -39,18 +39,18 @@ void TreeVisualizerWidget::updateContents(){
     }
 
     // initiate a redraw when the actual tree and the tree in the widget are not the same
-    std::string currentTree = BTFactory::getFactory().getCurrentTree();
+    std::string currentTree = BTFactory::getCurrentTree();
     if (QString::fromStdString(currentTree) != parent->getSelectStrategyText()) {
         hasCorrectTree = false;
         parent->setSelectStrategyText(QString::fromStdString(currentTree));
     }
 
     // if the tree did change, clear the treewidget and rebuild it
-    if (!hasCorrectTree && BTFactory::getFactory().isInitialized()) {
+    if (!hasCorrectTree) {
         treeItemMapping.clear();
         this->clear();
         mostTicks = 0;
-        bt::BehaviorTree::Ptr tree = BTFactory::getFactory().getTree(BTFactory::getFactory().getCurrentTree());
+        bt::BehaviorTree::Ptr tree = BTFactory::getTree(BTFactory::getCurrentTree());
 
         if (tree && tree->GetRoot()) {
             auto treeItemRoot = new QTreeWidgetItem(this);

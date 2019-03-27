@@ -18,8 +18,7 @@ namespace rtt {
 
 void ApplicationManager::setup() {
     IOManager = new io::IOManager(true);
-    factory = BTFactory::getFactory();
-    factory.makeTrees();
+    BTFactory::makeTrees();
     BTFactory::setCurrentTree("haltStrategy");
     BTFactory::setKeeperTree("keeperTest1");
 }
@@ -82,7 +81,7 @@ void ApplicationManager::runOneLoopCycle() {
 //        keeperTree = BTFactory::getKeeperTree();
 //        Status keeperStatus = keeperTree->tick();
 
-        strategy = factory.getTree(BTFactory::getCurrentTree());
+        strategy = BTFactory::getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
 
@@ -120,7 +119,7 @@ void ApplicationManager::handleRefData() {
     auto oldStrategy = BTFactory::getCurrentTree();
     std::string strategyName = strategyManager.getCurrentStrategyName(refereeMsg.command);
     if (oldStrategy != strategyName) {
-        BTFactory::getFactory().makeTrees();
+        BTFactory::makeTrees();
     }
     BTFactory::setCurrentTree(strategyName);
 }

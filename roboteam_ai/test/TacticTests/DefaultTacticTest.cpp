@@ -34,7 +34,7 @@ TEST(DefaultTacticTest, it_takes_robots) {
     auto factory = BTFactory::getFactory();
     factory.makeTrees();
 
-    auto strategy = factory.getTree("randomStrategy");
+    auto strategy = BTFactory::getTree("randomStrategy");
     strategy->tick();
 
     auto repeater = strategy->GetRoot();

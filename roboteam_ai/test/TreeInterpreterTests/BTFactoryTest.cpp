@@ -25,11 +25,10 @@ TEST (BT, JsonEditor) {
 
 // Warning: tests depend on functioning of JsonTest and BTtests!!
 TEST(BT, BasicFactoryTest) {
-    BTFactory dummyFactory = BTFactory::getFactory();
-    dummyFactory.makeTrees();
+    BTFactory::makeTrees();
     std::string trace = "";
 
-    bt::BehaviorTree::Ptr strategyTree = dummyFactory.getTree("haltStrategy");
+    bt::BehaviorTree::Ptr strategyTree = BTFactory::getTree("haltStrategy");
     bt::Node::Ptr node = strategyTree->GetRoot();
 
     // add the first node
