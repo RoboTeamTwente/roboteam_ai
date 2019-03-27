@@ -41,8 +41,8 @@ set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/JsonReader.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/PropertiesParser.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/PropertiesParser.h
-        roboteam_ai/src/Switches.cpp
-        roboteam_ai/src/Switches.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/Switches.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/Switches.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/BTImport.h)
 
 set(BT_SOURCES

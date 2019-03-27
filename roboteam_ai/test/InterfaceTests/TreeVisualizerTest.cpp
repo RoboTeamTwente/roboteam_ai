@@ -12,8 +12,9 @@ namespace ai {
 namespace interface {
 
 TEST(TreeVisualizerTest, it_properly_displays_trees) {
-    treeinterp::g_btfactory.init();
-    treeinterp::g_btfactory.setCurrentTree("randomStrategy");
+    BTFactory factory;
+    factory.init();
+    BTFactory::setCurrentTree("randomStrategy");
     auto window = std::make_shared<MainWindow>();
     TreeVisualizerWidget * treeVis = window->treeWidget;
 
@@ -55,7 +56,7 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
     }
 
     // check if it properly switches a strategy
-    treeinterp::g_btfactory.setCurrentTree("haltStrategy");
+    BTFactory::setCurrentTree("haltStrategy");
     treeVis->updateContents();
     EXPECT_TRUE(treeVis->hasCorrectTree);
 

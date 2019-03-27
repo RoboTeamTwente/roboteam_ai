@@ -3,10 +3,10 @@
 #include "roboteam_ai/src/treeinterp/BTFactory.h"
 
 TEST (BT, JsonEditor) {
-    rtt::ai::treeinterp::BTFactory dummyFactory;
+    BTFactory dummyFactory = BTFactory::getFactory();
     std::string testProject = "sample";
     std::string testTree = "sAmPleNamE";
-    rtt::ai::treeinterp::JsonReader pathReader;
+    JsonReader pathReader;
 
     pathReader.editJSON(testProject, testTree, "description", "TESTING");
     json readJson = pathReader.readJSON(testProject);
@@ -25,7 +25,7 @@ TEST (BT, JsonEditor) {
 
 // Warning: tests depend on functioning of JsonTest and BTtests!!
 TEST(BT, BasicFactoryTest) {
-    rtt::ai::treeinterp::BTFactory dummyFactory;
+    BTFactory dummyFactory = BTFactory::getFactory();
     dummyFactory.init();
     std::string trace = "";
 
