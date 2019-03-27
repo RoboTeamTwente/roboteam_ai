@@ -226,94 +226,94 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
     std::map<std::string, std::map<std::string, robotType>> tactics = {
 
             {"haltTactic", {
-                    {"halt0", robotType::random},
-                    {"halt1", robotType::random},
-                    {"halt2", robotType::random},
-                    {"halt3", robotType::random},
-                    {"halt4", robotType::random},
-                    {"halt5", robotType::random},
-                    {"halt6", robotType::random},
-                    {"halt7", robotType::random}
+                    {"halt0", robotType::RANDOM},
+                    {"halt1", robotType::RANDOM},
+                    {"halt2", robotType::RANDOM},
+                    {"halt3", robotType::RANDOM},
+                    {"halt4", robotType::RANDOM},
+                    {"halt5", robotType::RANDOM},
+                    {"halt6", robotType::RANDOM},
+                    {"halt7", robotType::RANDOM}
             }
             },
 
 
             {"OneAttackerTactic", {
-                    {"attacker", robotType::closeToTheirGoal}
+                    {"attacker", robotType::CLOSE_TO_THEIR_GOAL}
             }
             },
             {"OneAttackerOneDefenderTactic", {
-                    {"defender", robotType::closeToOurGoal},
-                    {"attacker", robotType::closeToTheirGoal}
+                    {"defender", robotType::CLOSE_TO_OUR_GOAL},
+                    {"attacker", robotType::CLOSE_TO_THEIR_GOAL}
             }
             },
             {"OneDefenderTactic", {
-                    {"defender", robotType::closeToTheirGoal}
+                    {"defender", robotType::CLOSE_TO_THEIR_GOAL}
             }
             },
             {"TwoDefendersTactic", {
-                    {"defender1", robotType::closeToOurGoal},
-                    {"defender2", robotType::closeToOurGoal},
+                    {"defender1", robotType::CLOSE_TO_OUR_GOAL},
+                    {"defender2", robotType::CLOSE_TO_OUR_GOAL},
             }
             },
             {"Attactic", {
-                    {"atak", robotType::random}
+                    {"atak", robotType::RANDOM}
             }
             },
             {"PassTactic", {
-                    {"passer", robotType::closeToBall},
-                    {"receiver", robotType::random}
+                    {"passer", robotType::CLOSE_TO_BALL},
+                    {"receiver", robotType::RANDOM}
             }
             },
             {"QualificationTactic", {
-                    {"qualRole", robotType::random},
-                    {"eloRlauq", robotType::random}
+                    {"qualRole", robotType::RANDOM},
+                    {"eloRlauq", robotType::RANDOM}
             }
             },
             {"randomTactic", {
-                    {"random1", robotType::random},
-                    {"random2", robotType::random},
-                    {"random3", robotType::random},
-                    {"random4", robotType::random},
-                    {"random5", robotType::random},
-                    {"random6", robotType::random},
-                    {"random7", robotType::random}
+                    {"random1", robotType::RANDOM},
+                    {"random2", robotType::RANDOM},
+                    {"random3", robotType::RANDOM},
+                    {"random4", robotType::RANDOM},
+                    {"random5", robotType::RANDOM},
+                    {"random6", robotType::RANDOM},
+                    {"random7", robotType::RANDOM}
             }
             },
             {"BallPlacementUsTactic",{
-                {"BallPlacementBot",robotType::closeToBall}
+                {"BallPlacementBot",robotType::CLOSE_TO_BALL}
             }
             },
             {"BallPlacementDoubleTactic",{
-                {"BallPlacementPasser",robotType::closeToBall},
-                {"BallPlacementReceiver", robotType::closeToBallPlacementLocation}
+                {"BallPlacementPasser",robotType::CLOSE_TO_BALL},
+                {"BallPlacementReceiver", robotType::BALL_PLACEMENT_RECEIVER}
             }
             },
             {"SingleKeeperTactic",           {
-                     {"Keeper",           robotType::closeToOurGoal}
+                     {"Keeper",           robotType::CLOSE_TO_OUR_GOAL}
              }
             },
             {"DemoAttackerTactic",           {
-                     {"demoAttacker",     robotType::closeToTheirGoal}
+                     {"demoAttacker",     robotType::CLOSE_TO_THEIR_GOAL}
              }
             },
             {"DemoTactic",                   {
-                     {"demoAttacker",     robotType::closeToTheirGoal},
-                     {"demoKeeper", robotType::closeToOurGoal}
+                     {"demoAttacker",     robotType::CLOSE_TO_THEIR_GOAL},
+                     {"demoKeeper", robotType::CLOSE_TO_OUR_GOAL}
              }
             },
             {"SideAttackerTactic", {
-                   {"sideAttacker1", robotType::closeToTheirGoal},
-                   {"sideAttacker2", robotType::closeToTheirGoal},
-                   {"sideAttacker3", robotType::closeToTheirGoal},
-                   {"sideAttacker4", robotType::closeToTheirGoal}
+                   {"sideAttacker1", robotType::CLOSE_TO_THEIR_GOAL},
+                   {"sideAttacker2", robotType::CLOSE_TO_THEIR_GOAL},
+                   {"sideAttacker3", robotType::CLOSE_TO_THEIR_GOAL},
+                   {"sideAttacker4", robotType::CLOSE_TO_THEIR_GOAL}
 
            }
             },
             {"PassAndShootTactic", {
-                   {"midfielder1", robotType::closeToBall},
-                   {"sideAttacker1", robotType::closeToTheirGoal},
-                   {"sideAttacker2", robotType::closeToTheirGoal}
+                   {"midfielder1", robotType::CLOSE_TO_BALL},
+                   {"sideAttacker1", robotType::CLOSE_TO_THEIR_GOAL},
+                   {"sideAttacker2", robotType::CLOSE_TO_THEIR_GOAL}
 
            }
             }

@@ -20,7 +20,7 @@ void PassCoach::resetPass() {
 int PassCoach::initiatePass() {
     resetPass();
 
-    robotBeingPassedTo = determineRobotToPassTo();
+    robotBeingPassedTo = determineReceiver();
     return robotBeingPassedTo;
 }
 
@@ -48,7 +48,7 @@ const Vector2 &PassCoach::getPassPosition() const {
     return passPosition;
 }
 
-int PassCoach::determineRobotToPassTo() {
+int PassCoach::determineReceiver() {
      return g_offensiveCoach.getBestStrikerID();
 }
 

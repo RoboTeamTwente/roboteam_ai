@@ -18,7 +18,7 @@ public:
     rtt::Vector2 getBallPlacementPos();
     rtt::Vector2 getBallPlacementBeforePos(Vector2 ballPos);
     rtt::Vector2 getBallPlacementAfterPos(double RobotAngle);
-    int determineRobotToPassTo() override;
+    int determineReceiver() override;
 };
 
 extern BallplacementCoach g_ballPlacement;

@@ -42,7 +42,7 @@ Vector2 BallplacementCoach::getBallPlacementAfterPos(double RobotAngle){
     return targetPos;
 }
 
-int BallplacementCoach::determineRobotToPassTo() {
+int BallplacementCoach::determineReceiver() {
     return World::getRobotClosestToPoint(getBallPlacementPos(), true)->id;
 }
 

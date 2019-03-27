@@ -17,21 +17,14 @@ public:
     PassCoach() = default;
     void resetPass();
     int initiatePass();
-
     bool isReadyToReceivePass();
     void setReadyToReceivePass(bool readyToReceivePass);
-
     int getRobotBeingPassedTo();
     void setRobotBeingPassedTo(int robotBeingPassedTo);
-
-
-
     bool isPassed();
     void setPassed(bool passed);
-
     const Vector2 &getPassPosition() const;
-
-    virtual int determineRobotToPassTo();
+    virtual int determineReceiver();
 
 private:
     bool readyToReceivePass;
