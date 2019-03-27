@@ -142,10 +142,12 @@ void PositionController::setCanGoOutsideField(bool _canGoOutsideField) {
 PosVelAngle PositionController::pidController(const RobotPtr &robot, PosVelAngle target, bool checkInterface) {
     PosVelAngle pidCommand;
 
-    if (! PIDHasInitialized)
-        initializePID();
+    if (! PIDHasInitialized) initializePID();
+
+    // force that we always check the interface to force the velPID to have proper values!
+    // TODO this should be fixed!
     //if (checkInterface)
-        checkInterfacePID();
+    checkInterfacePID();
 
     Vector2 pidP = Vector2();
     Vector2 pidV = Vector2();
