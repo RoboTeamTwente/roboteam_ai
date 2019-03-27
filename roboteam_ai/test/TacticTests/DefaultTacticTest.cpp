@@ -31,8 +31,7 @@ TEST(DefaultTacticTest, it_takes_robots) {
 
     bt::Blackboard::Ptr bb = std::make_shared<bt::Blackboard>();
 
-    auto factory = BTFactory::getFactory();
-    factory.makeTrees();
+    BTFactory::makeTrees();
 
     auto strategy = BTFactory::getTree("randomStrategy");
     strategy->tick();
