@@ -144,7 +144,7 @@ PosVelAngle PositionController::pidController(const RobotPtr &robot, PosVelAngle
 
     if (! PIDHasInitialized)
         initializePID();
-    if (checkInterface)
+    //if (checkInterface)
         checkInterfacePID();
 
     Vector2 pidP = Vector2();
