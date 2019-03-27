@@ -6,15 +6,16 @@
 #include "BallModel.h"
 namespace rtt {
 namespace ai {
-/// what do we want:
-/// Inelastic collision detection. Kick detection. Chip detection and prediction (maybe even height estimation).
+/// The following can still be done/worked on significantly for more utility and better detection
+/// Chip detection and direction prediction (maybe even height estimation).
 /// Time prediction (deceleration)
+/// Extrapolation
 roboteam_msgs::WorldBall BallModel::currentBall;
-bool BallModel::ballInAir=false;
+bool BallModel::ballInAir = false;
 double BallModel::lastKickVel;
-bool BallModel::collidesNow=false;
-bool BallModel::kickedNow=false;
-bool BallModel::dribbledNow=false;
+bool BallModel::collidesNow = false;
+bool BallModel::kickedNow = false;
+bool BallModel::dribbledNow = false;
 int BallModel::ballStraightTicks = 0;
 void BallModel::updateBallModel(roboteam_msgs::WorldBall newBall) {
     // check for collisions
@@ -25,34 +26,34 @@ void BallModel::updateBallModel(roboteam_msgs::WorldBall newBall) {
     double linearDeviation, orthogonalDeviation;
     //noise rectangle; rectangle within the velocity state diagram where the velocity is still considered 'good'
     //We consider the linear direction (direction the ball is rolling it) and the diretcion orthogonal to the linear direction
-    double linearTreshhold=0.1;
-    double baseLinear=0.1;
-    double linearSlope=0.15;
-    double orthogonaltreshHold=0.1;
-    double baseOrthogo=0.1;
-    double orthogoSlope=0.01;
-    double linearLen=0;
-    if (lastVel.length()!=0&&newVel.length()!=0) {
+    double linearTreshhold = 0.1;
+    double baseLinear = 0.1;
+    double linearSlope = 0.15;
+    double orthogonaltreshHold = 0.1;
+    double baseOrthogo = 0.1;
+    double orthogoSlope = 0.01;
+    double linearLen = 0;
+    if (lastVel.length() != 0 && newVel.length() != 0) {
         Vector2 projection = newVel.project2(lastVel);
         linearLen = projection.length();
     }
-    double hypotLen=newVel.length();
-    double orthogoLen=0;
-    if (hypotLen>=linearLen) {
+    double hypotLen = newVel.length();
+    double orthogoLen = 0;
+    if (hypotLen >= linearLen) {
         orthogoLen = sqrt(hypotLen*hypotLen - linearLen*linearLen);
     }
 
-    if (linearLen<linearTreshhold){
-        linearDeviation=baseLinear;
+    if (linearLen < linearTreshhold) {
+        linearDeviation = baseLinear;
     }
-    else{
-        linearDeviation=baseLinear+linearSlope*(linearLen-linearTreshhold);
+    else {
+        linearDeviation = baseLinear + linearSlope*(linearLen - linearTreshhold);
     }
-    if (orthogoLen<orthogonaltreshHold){
-        orthogonalDeviation=baseOrthogo;
+    if (orthogoLen < orthogonaltreshHold) {
+        orthogonalDeviation = baseOrthogo;
     }
-    else{
-        orthogonalDeviation=baseOrthogo+orthogoSlope*(orthogoLen-orthogonaltreshHold);
+    else {
+        orthogonalDeviation = baseOrthogo + orthogoSlope*(orthogoLen - orthogonaltreshHold);
     }
 
     // defining the rectangle around the velocity for which the deviation is acceptable (is always faced towards the origin)
@@ -65,17 +66,17 @@ void BallModel::updateBallModel(roboteam_msgs::WorldBall newBall) {
     Vector2 point4 = centerHigh + orthogoVec;
 
     // check the noise rectangle
-    if (!control::ControlUtils::pointInRectangle(newVel,point1,point2,point3,point4)) {
+    if (! control::ControlUtils::pointInRectangle(newVel, point1, point2, point3, point4)) {
 
         ballStraightTicks = 0;
         // kicked or collided
-        if (newVel.length() > (lastVel.length()+linearDeviation)) {
+        if (newVel.length() > (lastVel.length() + linearDeviation)) {
             kickedNow = true;
-            std::cout << "KICKED" << std::endl;
+            //std::cout << "KICKED" << std::endl;
         }
         else {
             collidesNow = true;
-            std::cout << "COLLIDED" << std::endl;
+            //std::cout << "COLLIDED" << std::endl;
         }
     }
     else {
@@ -89,46 +90,46 @@ void BallModel::updateBallModel(roboteam_msgs::WorldBall newBall) {
 }
 void BallModel::updateDribbling(roboteam_msgs::WorldBall newBall) {
     // first find the robot that is most likely dribbling the ball. This can possibly be moved to world
-    std::pair<int,bool> bestBot=std::make_pair(-1,true);
+    std::pair<int, bool> bestBot = std::make_pair(- 1, true);
 
     //TODO: tune constants and move to Constants
-    double maxDribbleRange=0.05;
-    double maxSpeedDiff=0.5;
-    double bestRange=maxDribbleRange;
-    for (auto bot :World::get_world().us){
-        if (World::OurBotsBall.find(bot.id)!=World::OurBotsBall.end()){
-            if (World::OurBotsBall[bot.id]<=maxDribbleRange&&World::OurBotsBall[bot.id]<=bestRange){
-                bestRange=World::OurBotsBall[bot.id];
-                bestBot=std::make_pair(bot.id,true);
+    double maxDribbleRange = 0.05;
+    double maxSpeedDiff = 0.5;
+    double bestRange = maxDribbleRange;
+    for (auto bot :World::get_world().us) {
+        if (World::OurBotsBall.find(bot.id) != World::OurBotsBall.end()) {
+            if (World::OurBotsBall[bot.id] <= maxDribbleRange && World::OurBotsBall[bot.id] <= bestRange) {
+                bestRange = World::OurBotsBall[bot.id];
+                bestBot = std::make_pair(bot.id, true);
             }
         }
     }
-    for (auto bot :World::get_world().them){
-        if (World::TheirBotsBall.find(bot.id)!=World::TheirBotsBall.end()){
-            if (World::TheirBotsBall[bot.id]<=maxDribbleRange&&World::TheirBotsBall[bot.id]<=bestRange){
-                bestRange=World::TheirBotsBall[bot.id];
-                bestBot=std::make_pair(bot.id,true);
+    for (auto bot :World::get_world().them) {
+        if (World::TheirBotsBall.find(bot.id) != World::TheirBotsBall.end()) {
+            if (World::TheirBotsBall[bot.id] <= maxDribbleRange && World::TheirBotsBall[bot.id] <= bestRange) {
+                bestRange = World::TheirBotsBall[bot.id];
+                bestBot = std::make_pair(bot.id, true);
             }
         }
     }
-        if (bestBot.first==-1){
-            dribbledNow=false;
-            return;
-        }
-        // Model that compares robot and ball velocities and estimates whether or not the ball is being dribbled
-        std::shared_ptr<roboteam_msgs::WorldRobot> likelyDribblingBot=World::getRobotForId(bestBot.first,bestBot.second);
-        if (!likelyDribblingBot){
-            dribbledNow=false;
-            ROS_ERROR("Could not find the dribbling robot in the worldState!" );
-            return;
-        }
-        Vector2 ballTouchPointVel=likelyDribblingBot->vel;
-        // this is currently commented out because the w is too noisy, but the logic works
-        //ballTouchPointVel=ballTouchPointVel+Vector2((Constants::BALL_RADIUS()+Constants::ROBOT_RADIUS())*2*M_PI*likelyDribblingBot->w,0).rotate(likelyDribblingBot->angle+M_PI_2);// takes into account tha the point on the robot dribbles. can be commented out for now but useful against e.g. zjunlict who rotate with ball
-        dribbledNow= (Vector2(newBall.vel)-ballTouchPointVel).length() <= maxSpeedDiff;
-        if (dribbledNow){
-            std::cout<<"DRIBBLED"<<std::endl;
-        }
+    if (bestBot.first == - 1) {
+        dribbledNow = false;
+        return;
+    }
+    // Model that compares robot and ball velocities and estimates whether or not the ball is being dribbled
+    std::shared_ptr<roboteam_msgs::WorldRobot> likelyDribblingBot = World::getRobotForId(bestBot.first, bestBot.second);
+    if (! likelyDribblingBot) {
+        dribbledNow = false;
+        std::cerr << "Could not find the dribbling robot in the worldState!";
+        return;
+    }
+    Vector2 ballTouchPointVel = likelyDribblingBot->vel;
+    // this is currently commented out because the w is too noisy, but the logic works
+    //ballTouchPointVel=ballTouchPointVel+Vector2((Constants::BALL_RADIUS()+Constants::ROBOT_RADIUS())*2*M_PI*likelyDribblingBot->w,0).rotate(likelyDribblingBot->angle+M_PI_2);// takes into account tha the point on the robot dribbles. can be commented out for now but useful against e.g. zjunlict who rotate with ball
+    dribbledNow = (Vector2(newBall.vel) - ballTouchPointVel).length() <= maxSpeedDiff;
+    if (dribbledNow) {
+        //std::cout<<"DRIBBLED"<<std::endl;
+    }
 }
 
 bool BallModel::ballCollided() {

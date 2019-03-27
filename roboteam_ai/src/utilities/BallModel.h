@@ -24,10 +24,10 @@ class BallModel {
         static bool ballCollided();
         static bool ballKicked();
         static bool ballDribbled();
-        struct simulatedBall{
+        struct simulatedBall {
           Vector2 pos;
           Vector2 vel;
-          int collissions=0;
+          int collissions = 0;
         };
         static std::vector<simulatedBall> extrapolateBallSimple(double timeAhead, double timeStep);
 };

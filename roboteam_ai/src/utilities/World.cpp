@@ -434,30 +434,6 @@ World::ballPossession World::getPossession() {
     return possession;
 }
 
-//bool World::weHaveBall() {
-//    return World::teamHasBall(true);
-//}
-//
-//bool World::theyHaveBall() {
-//    return World::teamHasBall(false);
-//}
-//
-//bool World::teamHasBall(bool ourTeam) {
-//    return getRobotThatHasBall(ourTeam) != nullptr;
-//}
-//
-///// returns the robot that has the ball of given team if it exists, otherwise nullptr
-//std::shared_ptr<roboteam_msgs::WorldRobot> World::getRobotThatHasBall(bool ourTeam) {
-//    std::vector<roboteam_msgs::WorldRobot> robots = ourTeam ? world.us : world.them;
-//
-//    for (auto &robot : robots) {
-//        if (World::robotHasBall(robot, *World::getBall())) {
-//            return std::make_shared<roboteam_msgs::WorldRobot>(robot);
-//        }
-//    }
-//    return nullptr;
-//}
-
 bool World::weHaveBall() {
     return World::teamHasBall(true);
 }

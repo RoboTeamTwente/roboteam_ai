@@ -134,7 +134,8 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Hungarian.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Pause.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Pause.h
-        roboteam_ai/src/utilities/BallModel.cpp roboteam_ai/src/utilities/BallModel.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/BallModel.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/BallModel.h)
 
 
 set(SKILLS_SOURCES
@@ -296,12 +297,12 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/TreeVisualizerWidget.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.h
-        roboteam_ai/src/analysis/GameAnalyzer.cpp
-        roboteam_ai/src/analysis/GameAnalyzer.h
-        roboteam_ai/src/analysis/AnalysisReport.cpp
-        roboteam_ai/src/analysis/AnalysisReport.h
-        roboteam_ai/src/analysis/RobotDanger.cpp
-        roboteam_ai/src/analysis/RobotDanger.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/GameAnalyzer.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/GameAnalyzer.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/AnalysisReport.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/AnalysisReport.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/RobotDanger.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/RobotDanger.h)
 
 set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/CoachHeuristics.h
