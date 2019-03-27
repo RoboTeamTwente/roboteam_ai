@@ -109,11 +109,26 @@ bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::Worl
 
 /// Get the distance from PointToCheck towards a line, the line is not infinite.
 double ControlUtils::distanceToLineWithEnds(Vector2 pointToCheck, Vector2 lineStart, Vector2 lineEnd) {
-    Vector2 projectionPoint = pointToCheck.project(lineStart,lineEnd);
-    return (projectionPoint - pointToCheck).length();
+    Vector2 line=lineEnd-lineStart;
+    Vector2 diff=pointToCheck-lineStart;
+    double dot=line.x*diff.x+line.y*diff.y;
+    double len_sq=line.y*line.y+line.x*line.x;
+    double param=-1;
+    if (len_sq!=0){
+        param=dot/len_sq;
+    }
+    if (param<0){
+        param=0;
+    }
+    else if (param>1){
+        param=1;
+    }
+    Vector2 project=lineStart+line*param;
+    Vector2 distDiff=pointToCheck-project;
+    return distDiff.length();
 }
 
-//https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
+// https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
 // Given three colinear points p, q, r, the function checks if
 // point q lies on line segment 'pr'
 bool ControlUtils::onLineSegment(Vector2 p, Vector2 q, Vector2 r) {
@@ -203,13 +218,15 @@ int ControlUtils::rotateDirection(double currentAngle, double targetAngle){
     else return -1;//backwards
 }
 
-Vector2 ControlUtils::VelocityLimiter(Vector2 vel, double maxVel,double minVel){
+/// Limits velocity to maximum velocity
+
+Vector2 ControlUtils::velocityLimiter(Vector2 vel, double maxVel,double minVel){
     if (vel.length() > maxVel) {
         return vel.stretchToLength(maxVel);
     } else if (vel.length() < minVel){
         return vel.stretchToLength(minVel);
     }
-     return vel;
+    return vel;
 }
 
 
@@ -260,8 +277,7 @@ std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFrom
         std::vector<Vector2> set2) {
 
     std::vector<int> assignments;
-    // compute a distance matrix
-    // initialize it with zeros
+    // compute a distance matrix, initialize it with zeros
     std::vector<std::vector<double>> distanceMatrix(set1.size(), std::vector<double>(set2.size()));
 
     for (unsigned int i = 0; i < set1.size(); i++) {
@@ -278,6 +294,26 @@ std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFrom
         solutionPairs.push_back({set1.at(i), set2.at(assignments.at(i))});
     }
     return solutionPairs;
+}
+
+bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, Vector2 point, double maxDifference) {
+    auto robot = World::getRobotForId(id, ourTeam);
+    if (robot) {
+        double exactAngleTowardsPoint = (point - robot->pos).angle();
+        return (robot->w > constrainAngle(exactAngleTowardsPoint - maxDifference/2)
+            && robot->w < constrainAngle(exactAngleTowardsPoint + maxDifference/2));
+    }
+    return false;
+}
+
+double ControlUtils::twoLineForwardIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2) {
+    double denominator = ( (a1.x - a2.x)*(b1.y - b2.y) - (a1.y - a2.y)*(b1.x - b2.x) );
+    if (denominator != 0) {
+        double numerator = ( (a1.x - b1.x)*(b1.y - b2.y) - (a1.y - b1.y)*(b1.x - b2.x) );
+        double t =  numerator / denominator;
+        return t;
+    }
+    return -1.0;
 }
 
 } // control

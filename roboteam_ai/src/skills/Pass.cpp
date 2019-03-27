@@ -51,7 +51,7 @@ bt::Leaf::Status Pass::getBall() {
     roboteam_msgs::RobotCommand command = getBasicCommand();
 
     control::PosVelAngle pva = goToPos.goToPos(robot, targetPos, GoToType::FORCE);
-    pva.vel = control::ControlUtils::VelocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL(), 0.3);
+    pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL(), 0.3);
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);
     command.w = static_cast<float>( (Vector2(robotToPassTo->pos) - robot->pos).angle());
@@ -89,7 +89,7 @@ void Pass::sendMoveCommand(const Skill::GoToType& goToType, const double minimum
     roboteam_msgs::RobotCommand command = getBasicCommand();
 
     control::PosVelAngle pva = goToPos.goToPos(robot, targetPos, goToType);
-    pva.vel = control::ControlUtils::VelocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL(), minimumSpeed);
+    pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL(), minimumSpeed);
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);
     command.w = static_cast<float>( (targetPos - robot->pos).angle());

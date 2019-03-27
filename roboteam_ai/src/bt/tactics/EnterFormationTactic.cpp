@@ -3,9 +3,8 @@
 //
 
 #include "EnterFormationTactic.h"
-#include "../../utilities/RobotDealer.h"
 
-using dealer = robotDealer::RobotDealer;
+
 
 bt::EnterFormationTactic::EnterFormationTactic(std::string name, bt::Blackboard::Ptr blackboard) {
     this->name = std::move(name);

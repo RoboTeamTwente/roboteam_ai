@@ -6,13 +6,11 @@
 #define ROBOTEAM_AI_APPLICATIONMANAGER_H
 
 #include <gtest/gtest_prod.h>
-#include <roboteam_ai/src/dangerfinder/DangerFinder.h>
 #include <roboteam_ai/src/coach/OffensiveCoach.h>
+
 #include "io/IOManager.h"
 #include "treeinterp/BTFactory.h"
 #include "ros/ros.h"
-
-namespace df = rtt::ai::dangerfinder;
 
 namespace rtt {
 
@@ -25,9 +23,7 @@ private:
     roboteam_msgs::RefereeData refereeMsg;
     bt::BehaviorTree::Ptr strategy;
     bt::BehaviorTree::Ptr keeperTree;
-    df::DangerData dangerData;
     void updateROSData();
-    void updateDangerfinder();
     void handleRefData();
     void notifyTreeStatus(bt::Node::Status status);
     void runOneLoopCycle();

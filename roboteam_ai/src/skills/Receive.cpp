@@ -64,12 +64,11 @@ Receive::Status Receive::onUpdate() {
                 Vector2 interceptPoint = Receive::computeInterceptPoint(ballStartPos, ballEndPos);
 
                 Vector2 velocities = goToPos.goToPos(robot, interceptPoint, GoToType::BASIC).vel;
-                velocities = control::ControlUtils::VelocityLimiter(velocities);
+                velocities = control::ControlUtils::velocityLimiter(velocities);
                 command.x_vel = static_cast<float>(velocities.x);
                 command.y_vel = static_cast<float>(velocities.y);
                 command.dribbler = 1;
             }
-
         }
     }
     publishRobotCommand(command);

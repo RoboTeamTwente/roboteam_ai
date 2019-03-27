@@ -9,6 +9,8 @@
  *    - Getting robots by team
  */
 
+#ifndef ROBOTEAM_AI_WORLD_H
+#define ROBOTEAM_AI_WORLD_H
 
 
 #include "roboteam_utils/Vector2.h"
@@ -18,59 +20,50 @@
 #include <thread>
 #include "Constants.h"
 
-#ifndef ROBOTEAM_AI_WORLD_H
-#define ROBOTEAM_AI_WORLD_H
 
 namespace rtt {
 namespace ai {
 
+typedef std::shared_ptr<roboteam_msgs::WorldRobot> robotPtr;
+
 class World {
 private:
     static roboteam_msgs::World world;
-    static std::mutex worldMutex;
     static std::vector<std::pair<roboteam_msgs::World, double>> futureWorlds;
+    static std::mutex worldMutex;
     static std::map<int,double> OurBotsBall, TheirBotsBall;
     static double findBallDist(roboteam_msgs::WorldRobot &bot, roboteam_msgs::WorldBall &ball);
     static void updateBallPossession(roboteam_msgs::World &_world);
     static roboteam_msgs::WorldBall updateBallPosition(roboteam_msgs::World _world);
 public:
     static void set_world(roboteam_msgs::World world);
-    static const roboteam_msgs::World &get_world();
+    static const roboteam_msgs::World& get_world();
     static std::shared_ptr<roboteam_msgs::WorldBall> getBall();
     static bool didReceiveFirstWorld;
 
-    static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotForId(unsigned int id, bool ourTeam);
-    static std::shared_ptr<roboteam_msgs::WorldRobot>getRobotClosestToPoint(std::vector<roboteam_msgs::WorldRobot> robots,
-            const Vector2& point);
+    static robotPtr getRobotForId(unsigned int id, bool ourTeam);
+    static robotPtr getRobotClosestToPoint(std::vector<roboteam_msgs::WorldRobot> robots, const Vector2& point, const int& myID, const float& t);
+    static robotPtr getRobotClosestToPoint(std::vector<roboteam_msgs::WorldRobot> robots, const Vector2& point, const int& myID);
+    static robotPtr getRobotClosestToPoint(std::vector<roboteam_msgs::WorldRobot> robots, const Vector2& point, const float& t);
+    static robotPtr getRobotClosestToPoint(std::vector<roboteam_msgs::WorldRobot> robots, const Vector2& point);
+    static robotPtr getRobotClosestToPoint(const Vector2& point, const int& myID, const float& t);
+    static robotPtr getRobotClosestToPoint(const Vector2& point, const float& t);
+    static robotPtr getRobotClosestToPoint(const Vector2& point, const int& myID);
+    static robotPtr getRobotClosestToPoint(const Vector2 &point, const bool ourTeam);
+
+    static bool teamHasBall(bool ourTeam);
+    static bool weHaveBall();
+    static bool theyHaveBall();
+    static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotThatHasBall(bool ourTeam);
 
     static bool botHasBall(int id, bool ourTeam, double maxDistToBall = Constants::MAX_BALL_RANGE());
     static bool ourBotHasBall(int id, double maxDistToBall=Constants::MAX_BALL_RANGE());
     static bool theirBotHasBall(int id, double maxDistToBall=Constants::MAX_BALL_RANGE());
     static int whichBotHasBall(bool ourTeam);
+
     static std::vector<roboteam_msgs::WorldRobot> getAllRobots();
     static std::vector<roboteam_msgs::WorldRobot> getRobotsForId(std::set<unsigned int> ids, bool robotsAreOurTeam);
-
-    static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToPoint(
-            std::vector<roboteam_msgs::WorldRobot> robots, const Vector2 &point, const int &myID, const float &t);
-
-    static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToPoint(
-            std::vector<roboteam_msgs::WorldRobot> robots, const Vector2 &point, const int &myID);
-
-    static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToPoint(
-            std::vector<roboteam_msgs::WorldRobot> robots, const Vector2 &point, const float &t);
-
-    static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToPoint(const Vector2 &point,
-            const int &myID, const float &t);
-
-    static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToPoint(const Vector2 &point,
-            const float &t);
-
-    static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToPoint(const Vector2 &point,
-            const int &myID);
     static roboteam_msgs::World futureWorld(double time, double maxTimeOffset = 0.11);
-
-    static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToPoint(const Vector2 &point, const bool ourTeam);
-
     static std::pair<int, bool> getRobotClosestToBall();
 
     static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToBall(bool isOurTeam);
