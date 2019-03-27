@@ -22,6 +22,13 @@ public:
 private:
     control::PositionController gtp;
     double errorMargin = 0.1;
+    enum Formation {
+      Normal,
+      Penalty,
+      FreeKick
+    };
+    Formation formation;
+    void setFormation(std::string property);
 
     static std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> robotsInFormation;
     int robotsInFormationMemory = 0;

@@ -34,6 +34,10 @@ bt::Node::Status MemSequence::update() {
     }
 
     return Status::Success;
-}
 
-} // bt
+}
+void MemSequence::terminate(Node::Status s) {
+    index = 0;
+}
+}
+// bt
