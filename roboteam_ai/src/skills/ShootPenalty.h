@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_SHOOTPENALTY_H
 #define ROBOTEAM_AI_SHOOTPENALTY_H
 
+#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include "Skill.h"
 #include "../utilities/Field.h"
 namespace rtt {
@@ -38,9 +39,7 @@ class ShootPenalty : public Skill {
         bool isPenaltyShot();
         int count = 0;
 
-
-
-        control::PositionController goToPos;
+        control::BasicPosControl goToPos;
 
 
 };

@@ -40,7 +40,7 @@ bt::Node::Status EnterFormation::onUpdate() {
     cmd.use_angle = 1;
 
     if (robotPos.dist(targetLocation) > errorMargin) {
-        auto velocities = gtp.goToPos(robot, targetLocation, control::PosControlType::NUMERIC_TREES);
+        auto velocities = gtp.getPosVelAngle(robot, targetLocation);
         cmd.x_vel = velocities.vel.x;
         cmd.y_vel = velocities.vel.y;
         cmd.w = static_cast<float>((targetLocation-robot->pos).angle());

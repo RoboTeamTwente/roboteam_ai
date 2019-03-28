@@ -2,6 +2,10 @@
 // Created by thijs on 19-11-18.
 //
 
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/positionControllers/ForcePosControl.h>
+#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
+#include <roboteam_ai/src/control/positionControllers/ControlGoToPosBallControl.h>
 #include "SkillGoToPos.h"
 
 namespace rtt {
@@ -15,31 +19,32 @@ SkillGoToPos::SkillGoToPos(string name, bt::Blackboard::Ptr blackboard)
 /// Called when the Skill is Initialized
 void SkillGoToPos::onInitialize() {
     robot = getRobotFromProperties(properties);
-
     targetPos = properties->getVector2("Position");
     goToBall = properties->getBool("goToBall");
-
     std::string gTT = properties->getString("goToType");
-    if (gTT.empty()) {
-        ROS_ERROR("SkillGoToPos::onInitialize -> no goToType set in properties");
-        goToType = control::PosControlType::NO_PREFERENCE;
+    setPosController(gTT);
+}
+
+void SkillGoToPos::setPosController(const string &gTT) {
+    if (gTT == "ballControl") {
+        posController = make_shared<control::ControlGoToPosBallControl>();
     }
-    else if (gTT == "noPreference") goToType = control::PosControlType::NO_PREFERENCE;
-    else if (gTT == "ballControl") goToType = control::PosControlType::BALL_CONTROL;
-    else if (gTT == "basic") goToType = control::PosControlType::BASIC;
-    else if (gTT == "force") goToType = control::PosControlType::FORCE;
+    else if (gTT == "basic") {
+        posController = make_shared<control::BasicPosControl>();
+    }
+    else if (gTT == "force") {
+        posController = make_shared<control::ForcePosControl>();
+    }
     else {
-        ROS_ERROR("SkillGoToPos::onInitialize -> no good goToType set in properties");
-        goToType = control::PosControlType::NO_PREFERENCE;
+        ROS_ERROR("SkillGoToPos::onInitialize -> no good goToType set in properties. Using numtrees");
+        posController = make_shared<control::NumTreePosControl>();
     }
 }
 
 /// Called when the Skill is Updated
 SkillGoToPos::Status SkillGoToPos::onUpdate() {
 
-    control::PositionController goToPos;
-
-    goToPos.goToPos(robot, targetPos, goToType);
+   // goToPos.goToPos(robot, targetPos, goToType);
     // Now check the progress we made
     currentProgress = checkProgression();
     // Send a move command
@@ -63,7 +68,6 @@ void SkillGoToPos::onTerminate(Status s) {
     command.id = robot->id;
     command.use_angle = 0;
     command.w = 0;
-
     command.x_vel = 0;
     command.y_vel = 0;
 

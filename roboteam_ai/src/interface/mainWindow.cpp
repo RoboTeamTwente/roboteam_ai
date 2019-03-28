@@ -74,7 +74,7 @@ MainWindow::MainWindow(QWidget* parent)
     sb_luth_Pos_P = new QDoubleSpinBox();
     sb_luth_Pos_P->setRange(-20, 20);
     sb_luth_Pos_P->setSingleStep(0.1f);
-    sb_luth_Pos_P->setValue(InterfaceValues::setNumTreePosP());
+    sb_luth_Pos_P->setValue(InterfaceValues::getNumTreePosP());
     QObject::connect(sb_luth_Pos_P, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
     spinBoxLayout->addWidget(sb_luth_Pos_P);
 

@@ -37,7 +37,7 @@ Skill::Status ShootFreeKick::onUpdate() {
                 command.id = robot->id;
                 command.use_angle = 1;
                 command.w = static_cast<float>((targetPos - robot->pos).angle());
-                Vector2 velocity = goToPos.goToPos(robot, targetPos, control::PosControlType::BASIC).vel;
+                Vector2 velocity = goToPos.getPosVelAngle(robot, targetPos).vel;
                 command.x_vel = static_cast<float>(velocity.x);
                 command.y_vel = static_cast<float>(velocity.y);
                 publishRobotCommand(command);
@@ -81,7 +81,7 @@ Skill::Status ShootFreeKick::onUpdate() {
                 command.w = static_cast<float>((ballPos - robot->pos).angle());
                 command.chipper = static_cast<unsigned char>(true);
                 command.chipper_vel = 8.0; // Such power much wow
-                Vector2 velocity = goToPos.goToPos(robot, ballPos, control::PosControlType::BASIC).vel;
+                Vector2 velocity = goToPos.getPosVelAngle(robot, ballPos).vel;
                 command.x_vel = static_cast<float>(velocity.x);
                 command.y_vel = static_cast<float>(velocity.y);
                 publishRobotCommand(command);
