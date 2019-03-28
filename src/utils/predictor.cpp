@@ -110,30 +110,4 @@ boost::optional<Position> Predictor::computeRobotVelocity(uint id, bool our_team
     }
 }
 
-// TODO : make use
-
-boost::optional<Position> Predictor::lookahead(const uint bot_id, bool our_team, double seconds) const {
-    Robot robot;
-    if (our_team) {
-        robot = boost::get<Robot>(ourTeamBuffer.at(bot_id).at(ourTeamBuffer.at(bot_id).size()-1).second);
-    } else {
-        robot = boost::get<Robot>(theirTeamBuffer.at(bot_id).at(theirTeamBuffer.at(bot_id).size()-1).second);
-    }
-    Position latestPos = robot.get_position();
-    Position latestVel = robot.get_velocity();
-
-    Position predictedPos = latestPos + latestVel*seconds;
-    return boost::optional<Position>(predictedPos);
-}
-
-boost::optional<Position> Predictor::lookahead_ball(double seconds) const {
-    Ball ball = boost::get<Ball>(ballBuf.at(ballBuf.size()-1).second);
-
-    Position latestPos = ball.get_position();
-    Position latestVel = ball.get_velocity();
-
-    Position predictedPos = latestPos + latestVel*seconds;
-    return boost::optional<Position>(predictedPos);
-}
-
 } // rtt

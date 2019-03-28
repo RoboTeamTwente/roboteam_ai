@@ -10,8 +10,6 @@
 #include "roboteam_world/ball.h"
 #include "roboteam_utils/Position.h"
 
-#define BALL_ID 123456789
-
 namespace rtt {
 
 const int NUM_ROBOTS = 15;
@@ -22,7 +20,6 @@ typedef std::vector<std::pair<double, Ball>> BallBuffer;
 
 class Predictor {
     private:
-    // TODO: make better comments
     // The robots we have on the field
     RobotBuffer ourTeamBuffer;
     // The robots the opponents have on the field
@@ -44,10 +41,6 @@ class Predictor {
     boost::optional<Position> computeBallVelocity();
     /// Compute robot velocity from ourTeamBuffer and theirTeamBuffer data
     boost::optional<Position> computeRobotVelocity(uint id, bool our_team);
-
-    // TODO: fix never used
-    boost::optional<Position> lookahead(const uint bot_id, bool our_team, double dt) const;
-    boost::optional<Position> lookahead_ball(double dt) const;
 };
 
 }

@@ -20,15 +20,11 @@
 
 #include "roboteam_world/world/world_base.h"
 
-// TODO: Make sure the us/them nomenclature also propagates to the buffers
-// TODO: Make sure the us/them stuff is decided by a parameters settable somewhere
-
 namespace rtt {
 
     class FilteredWorld : public WorldBase {
 
     private:
-        //TODO: NOdehandle is not used right now?
         ros::NodeHandle nh;
         /**
          * These buffers store for every camera the robots and balls.
