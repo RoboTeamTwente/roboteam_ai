@@ -93,8 +93,7 @@ MainWindow::MainWindow(QWidget* parent)
     spinBoxLayout->addWidget(sb_luth_Pos_D);
     doubleSpinBoxesGroup_Pos_PID->setLayout(spinBoxLayout);
 
-    vLayout->addLayout(hButtonsLayout);
-    doubleSpinBoxesGroup_Vel_PID = new QGroupBox("GoToPosLuth Velocity PID options");
+r    doubleSpinBoxesGroup_Vel_PID = new QGroupBox("GoToPosLuth Velocity PID options");
     spinBoxLayout =new QHBoxLayout();
     sb_luth_Vel_P = new QDoubleSpinBox();
     sb_luth_Vel_P->setRange(-20, 20);
