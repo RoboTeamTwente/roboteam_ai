@@ -11,12 +11,10 @@
 namespace rtt {
 namespace ai {
 namespace control {
-
-class PosController {
+    class PosController {
 public:
     using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
     explicit PosController();
-    explicit PosController(bool canMoveOutOfField, bool canMoveInDefenseArea, bool avoidBall);
     virtual PosVelAngle getPosVelAngle(RobotPtr robot, Vector2 &targetPos) = 0;
     bool getCanMoveOutOfField() const;
     void setCanMoveOutOfField(bool canMoveOutOfField);
@@ -34,8 +32,8 @@ protected:
     // PID
     PIDController posPID;
     PIDController velPID;
-    tuple<double, double, double> posPIDValues = {0.0, 0.0, 0.0};
-    tuple<double, double, double> velPIDValues = {0.0, 0.0, 0.0};
+    tuple<double, double, double> posPIDValues = std::tuple<double, double, double>(0.0, 0.0, 0.0);
+    tuple<double, double, double> velPIDValues = std::tuple<double, double, double>(0.0, 0.0, 0.0);
     bool getPIDFromInterface = true;
     PosVelAngle controlWithPID(const RobotPtr &robot, PosVelAngle target);
     void checkInterfacePID();
