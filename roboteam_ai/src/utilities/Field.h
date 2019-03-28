@@ -23,22 +23,23 @@ class Field {
         static std::mutex fieldMutex;
 
     public:
-    static const roboteam_msgs::GeometryFieldSize get_field();
-    static void set_field(roboteam_msgs::GeometryFieldSize field);
-    static Vector2 get_our_goal_center();
-    static Vector2 get_their_goal_center();
-    static bool pointIsInDefenceArea(Vector2 point, bool isOurDefenceArea = true, float margin = 0.0, bool outsideField = false);
-    static bool pointIsInField(Vector2 point, float margin = 0.05); //TODO: Remove margin hack
-    static int getRobotClosestToGoal(bool ourRobot, bool ourGoal);
-    static double getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point, std::vector<roboteam_msgs::WorldRobot> botsToCheck=World::getAllRobots(), double collisionRadius=Constants::ROBOT_RADIUS());
-    static std::vector<std::pair<Vector2, Vector2>> getBlockadesMappedToGoal(bool ourGoal, Vector2 point, std::vector<roboteam_msgs::WorldRobot> botsToCheck=World::getAllRobots(),double collisionRadius=Constants::ROBOT_RADIUS());
-    static std::vector<std::pair<Vector2, Vector2>> mergeBlockades(std::vector<std::pair<Vector2, Vector2>> blockades);
-    static std::vector<std::pair<Vector2, Vector2>> getVisiblePartsOfGoal(bool ourGoal, Vector2 point,  std::vector<roboteam_msgs::WorldRobot> botsToCheck=World::getAllRobots(), double collisionRadius=Constants::ROBOT_RADIUS());
-    static std::pair<Vector2, Vector2> getGoalSides(bool ourGoal);
-    static double getTotalGoalAngle(bool ourGoal, Vector2 point);
-    static double getTotalVisibleGoalAngle(bool ourGoal, Vector2 point, std::vector<roboteam_msgs::WorldRobot> botsToCheck=World::getAllRobots(),double collisionRadius=Constants::ROBOT_RADIUS());
-
+        static const roboteam_msgs::GeometryFieldSize get_field();
+        static void set_field(roboteam_msgs::GeometryFieldSize field);
+        static Vector2 get_our_goal_center();
+        static Vector2 get_their_goal_center();
+        static bool pointIsInDefenceArea(Vector2 point, bool isOurDefenceArea = true, float margin = 0.0, bool outsideField = false);
+        static bool pointIsInField(Vector2 point, float margin = 0.05); //TODO: Remove margin hack
+        static int getRobotClosestToGoal(bool ourRobot, bool ourGoal);
+        static double getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point, std::vector<roboteam_msgs::WorldRobot> botsToCheck=World::getAllRobots(), double collisionRadius=Constants::ROBOT_RADIUS());
+        static std::vector<std::pair<Vector2, Vector2>> getBlockadesMappedToGoal(bool ourGoal, Vector2 point, std::vector<roboteam_msgs::WorldRobot> botsToCheck=World::getAllRobots(),double collisionRadius=Constants::ROBOT_RADIUS());
+        static std::vector<std::pair<Vector2, Vector2>> mergeBlockades(std::vector<std::pair<Vector2, Vector2>> blockades);
+        static std::vector<std::pair<Vector2, Vector2>> getVisiblePartsOfGoal(bool ourGoal, Vector2 point,  std::vector<roboteam_msgs::WorldRobot> botsToCheck=World::getAllRobots(), double collisionRadius=Constants::ROBOT_RADIUS());
+        static std::pair<Vector2, Vector2> getGoalSides(bool ourGoal);
+        static double getTotalGoalAngle(bool ourGoal, Vector2 point);
+        static double getTotalVisibleGoalAngle(bool ourGoal, Vector2 point, std::vector<roboteam_msgs::WorldRobot> botsToCheck=World::getAllRobots(),double collisionRadius=Constants::ROBOT_RADIUS());
         static double getDistanceToGoal(bool ourGoal, Vector2 point);
+        static Vector2 getPenaltyPoint(bool ourGoal);
+
 };
 
 } // ai

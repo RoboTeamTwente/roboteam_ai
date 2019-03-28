@@ -29,14 +29,13 @@ void GoToPos::onInitialize() {
 
 /// Get an update on the skill
 bt::Node::Status GoToPos::onUpdate() {
-    if (! robot) return Status::Running;
 
     if ((targetPos - robot->pos).length() < errorMargin) {
         return Status::Success;
     }
 
     control::PosVelAngle pva = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES);
-    pva.vel = control::ControlUtils::VelocityLimiter(pva.vel, maxVel);
+    pva.vel = control::ControlUtils::velocityLimiter(pva.vel, maxVel);
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);
     command.w = static_cast<float>(pva.angle);

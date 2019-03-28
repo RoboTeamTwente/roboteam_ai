@@ -14,7 +14,8 @@ GTPSpecial::GTPSpecial(string name, bt::Blackboard::Ptr blackboard)
 
 void GTPSpecial::onInitialize() {
     if (properties->hasDouble("errorMargin")) {
-        errorMargin = properties->getDouble("errorMargin");    }
+        errorMargin = properties->getDouble("errorMargin");
+    }
 
     type = stringToType(properties->getString("type"));
     switch (type) {
@@ -40,6 +41,10 @@ void GTPSpecial::onInitialize() {
             ROS_WARN("GTPSpecial was not given any type! Defaulting to {0, 0}");
             break;
         }
+//        case fixed: {
+//            targetPos = properties->getVector2("fixedTarget");
+//            break;
+//        }
     }
 
     if (properties->hasDouble("maxVel")) {
@@ -52,10 +57,10 @@ void GTPSpecial::onInitialize() {
 
 Vector2 GTPSpecial::getBallFromSideLocation() {
     roboteam_msgs::GeometryFieldSize field = Field::get_field();
-    double distanceFromTop      = abs(field.field_width / 2 - ball->pos.y);
-    double distanceFromBottom   = abs(-field.field_width / 2 - ball->pos.y);
-    double distanceFromLeft     = abs(-field.field_length / 2 - ball->pos.x);
-    double distanceFromRight    = abs(field.field_length / 2 - ball->pos.x);
+    double distanceFromTop = abs(field.field_width/2 - ball->pos.y);
+    double distanceFromBottom = abs(- field.field_width/2 - ball->pos.y);
+    double distanceFromLeft = abs(- field.field_length/2 - ball->pos.x);
+    double distanceFromRight = abs(field.field_length/2 - ball->pos.x);
 
     double distance = INT_MAX;
     Vector2 pos;
@@ -95,6 +100,9 @@ GTPSpecial::Type GTPSpecial::stringToType(std::string string) {
     else if (string == "getBallFromSide") {
         return getBallFromSide;
     }
+//    else if (string == "fixed") {
+//        return fixed;
+//    }
     else {
         return defaultType;
     }

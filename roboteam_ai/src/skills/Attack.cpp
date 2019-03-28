@@ -71,7 +71,7 @@ bt::Node::Status Attack::onUpdate() {
         velocity = goToPos.goToPos(robot, targetPos, goToType).vel;
     }
 
-    velocity = control::ControlUtils::VelocityLimiter(velocity);
+    velocity = control::ControlUtils::velocityLimiter(velocity);
 
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);

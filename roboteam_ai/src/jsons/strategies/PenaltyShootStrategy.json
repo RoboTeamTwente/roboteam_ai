@@ -1,0 +1,18 @@
+{
+  "name": "PenaltyShootStrategy",
+  "data": {
+    "trees": [
+      {
+        "title": "PenaltyShootStrategy",
+        "root": "qrfa1w3iw4d3w8m",
+        "nodes": {
+          "qrfa1w3iw4d3w8m": {
+            "id": "qrfa1w3iw4d3w8m",
+            "title": "Tactic",
+            "name": "PenaltyShootTactic"
+          }
+        }
+      }
+    ]
+  }
+}

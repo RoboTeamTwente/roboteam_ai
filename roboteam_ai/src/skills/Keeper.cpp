@@ -33,7 +33,7 @@ Keeper::Status Keeper::onUpdate() {
             return Status::Running;
         } else {
             Vector2 velocities = goToPos.goToPos(robot, blockPoint, GoToType::BASIC).vel;
-            velocities = control::ControlUtils::VelocityLimiter(velocities);
+            velocities = control::ControlUtils::velocityLimiter(velocities);
             command.x_vel = static_cast<float>(velocities.x);
             command.y_vel = static_cast<float>(velocities.y);
             publishRobotCommand();
@@ -64,22 +64,24 @@ void Keeper::onTerminate(Status s) {
 void Keeper::sendMoveCommand(Vector2 pos) {
     Vector2 error = pos - robot->pos;
     Vector2 delta = pid.controlPIR(error, robot->vel);
-    Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
 
+    Vector2 deltaLim= control::ControlUtils::velocityLimiter(delta);
     command.x_vel = static_cast<float>(deltaLim.x);
     command.y_vel = static_cast<float>(deltaLim.y);
     command.w = static_cast<float>(M_PI_2);
     publishRobotCommand();
+
 }
+
 void Keeper::sendFineMoveCommand(Vector2 pos) {
     Vector2 error = pos - robot->pos;
     Vector2 delta = finePid.controlPIR(error, robot->vel);
-    Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
-
+    Vector2 deltaLim= control::ControlUtils::velocityLimiter(delta);
     command.x_vel = static_cast<float>(deltaLim.x);
     command.y_vel = static_cast<float>(deltaLim.y);
     command.w = static_cast<float>(M_PI_2);
     publishRobotCommand();
+
 }
 
 void Keeper::sendStopCommand() {

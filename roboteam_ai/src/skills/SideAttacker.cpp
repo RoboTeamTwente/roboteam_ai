@@ -23,8 +23,7 @@ bt::Node::Status SideAttacker::onUpdate() {
 
     auto newPosition = goToPos.goToPos(robot, targetPos);
     Vector2 velocity = newPosition.vel;
-    velocity = control::ControlUtils::VelocityLimiter(velocity);
-
+    velocity = control::ControlUtils::velocityLimiter(velocity);
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     command.w = static_cast<float>(newPosition.angle);

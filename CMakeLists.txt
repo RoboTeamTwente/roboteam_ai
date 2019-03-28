@@ -107,8 +107,10 @@ set(TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/VictoryDanceTactic.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/VictoryDanceTactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DefaultTactic.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DefaultTactic.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/PenaltyTactic.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/PenaltyTactic.h
 
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DefaultTactic.h)
 set(IO_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/IOManager.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/IOManager.cpp)
@@ -183,6 +185,15 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/EnterFormation.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/EnterFormation.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoBehindBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoBehindBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PreparePenalty.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PreparePenalty.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootPenalty.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootPenalty.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootFreeKick.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootFreeKick.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DemoAttack.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DemoAttack.h
