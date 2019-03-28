@@ -43,7 +43,7 @@ namespace rtt {
         }
 
         if (balls.size() > 0) {
-            ball.set_area(balls[0].existence);
+            ball.set_existence(balls[0].existence);
             ball.move_to(balls[0].pos.x, balls[0].pos.y, balls[0].z);
         }
 

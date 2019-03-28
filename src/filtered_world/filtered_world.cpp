@@ -203,7 +203,7 @@ namespace rtt {
             // Move the ball to the one that has best extrapolation
             //ball_world.move_to(ball_buffer[best_camera].pos.x,ball_buffer[best_camera].pos.y,ball_buffer[best_camera].z);
             ball_world.move_to(closestBall.pos.x, closestBall.pos.y, closestBall.z);
-            ball_world.set_area(closestBall.existence);
+            ball_world.set_existence(closestBall.existence);
             ball_world.set_visible(true);
         } else {
             ball_world.set_visible(false);

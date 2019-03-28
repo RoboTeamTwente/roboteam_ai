@@ -30,7 +30,7 @@ TEST(BasicTests, robot) {
 
 TEST(BasicTests, ball) {
     Ball ball;
-    ASSERT_EQ(INVALID_AREA, ball.get_area());
+    ASSERT_EQ(INVALID_AREA, ball.get_existence());
     ASSERT_TRUE(std::isnan(ball.get_position().x));
     ASSERT_TRUE(std::isnan(ball.get_position().y));
     ASSERT_TRUE(std::isnan(ball.get_position().rot));

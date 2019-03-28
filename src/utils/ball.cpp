@@ -3,9 +3,8 @@
 
 namespace rtt {
 
-    /// Create a ball with NAN parameters
     Ball::Ball() {
-        area = INVALID_AREA;
+        existence = INVALID_AREA;
         x = NAN;
         y = NAN;
         z = NAN;
@@ -22,8 +21,9 @@ namespace rtt {
         this->y_vel = y_vel;
     }
 
-    void Ball::set_area(uint area) {
-        this->area = area;
+
+    void Ball::set_existence(uint existence) {
+        this->existence = existence;
     }
 
     void Ball::set_visible(bool visible) {
@@ -31,28 +31,31 @@ namespace rtt {
     }
     
     Position Ball::get_position() const {
-        return {x, y, z};
+        return Position(x, y, z);
     }
     
     Position Ball::get_velocity() const {
-        return {x_vel, y_vel, z_vel};
+        return Position(x_vel, y_vel, z_vel);
     }
     
-    uint Ball::get_area() const {
-        return area;
+    uint Ball::get_existence() const {
+        return existence;
     }
 
     roboteam_msgs::WorldBall Ball::as_message() const {
-
         roboteam_msgs::WorldBall msg;
-        msg.existence = area; // at some point this was made existence do not ask me why
+
+        msg.existence = existence;
+
         msg.pos.x = x;
         msg.pos.y = y;
         msg.z = z;
+
         msg.vel.x = x_vel;
         msg.vel.y = y_vel;
         msg.z_vel = z_vel;
-        msg.visible = static_cast<unsigned char> (visible);
+
+        msg.visible = visible;
 
         return msg;
     }

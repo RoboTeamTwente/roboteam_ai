@@ -9,7 +9,7 @@ namespace rtt {
 
     class Ball {
     private:
-        uint area;
+        uint existence;
         float x;
         float y;
         float z;
@@ -25,13 +25,13 @@ namespace rtt {
 
         void move_to(float x, float y, float z);
         void set_velocity(float x_vel, float y_vel);
-        void set_area(uint area);
+        void set_existence(uint existence);
         void set_visible(bool visible);
 
         Position get_position() const;
         Position get_velocity() const;
-        uint get_area() const;
-        /// Create a message with the ball data
+        uint get_existence() const;
+
         roboteam_msgs::WorldBall as_message() const;
     };
 
