@@ -16,7 +16,7 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name),
 
 void Pass::onInitialize() {
     numTreeGtp.setAvoidBall(true);
-    basicGtp.setAvoidBall(false);
+    forceGtp.setAvoidBall(false);
     robotToPassToID = coach::g_ballPlacement.initiatePass();
 }
 
