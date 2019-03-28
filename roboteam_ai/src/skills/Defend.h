@@ -6,6 +6,7 @@
 #ifndef ROBOTEAM_AI_DEFEND_H
 #define ROBOTEAM_AI_DEFEND_H
 
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include "Skill.h"
 #include "gtest/gtest_prod.h"
 
@@ -21,7 +22,7 @@ public:
     bt::Node::Status onUpdate() override;
     void onTerminate(bt::Node::Status) override;
 private:
-    control::PositionManager gtp;
+    control::NumTreePosControl gtp;
     Vector2 targetLocation;
     static std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> allDefenders;
     Vector2 getDefensivePosition();

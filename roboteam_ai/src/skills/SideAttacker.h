@@ -7,13 +7,14 @@
 
 #include "Skill.h"
 #include <roboteam_ai/src/coach/OffensiveCoach.h>
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 
 namespace rtt {
 namespace ai {
 
 class SideAttacker : public Skill {
     private:
-        control::PositionManager goToPos;
+        control::NumTreePosControl goToPos;
         Vector2 deltaPos;
         Vector2 targetPos;
         bool firstLocationReached;

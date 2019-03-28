@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_ATTACK_H
 #define ROBOTEAM_AI_ATTACK_H
 
-#include <roboteam_ai/src/control/PositionManager.h>
+#include <roboteam_ai/src/control/positionControllers/PosController.h>
 #include "Skill.h"
 
 namespace rtt {
@@ -13,17 +13,15 @@ namespace ai {
 
 class Attack : public Skill {
     private:
-
         const double BEHIND_BALL_CHECK = 0.6;
         const double BEHIND_BALL_TARGET = 0.4;
         const double SWITCH_TO_BASICGTP_DISTANCE = 0.10;
-
-        control::PositionManager goToPos;
         Vector2 deltaPos;
         Vector2 targetPos;
         bool shot = false;
 
-        control::PosControlType goToType;
+        std::shared_ptr<control::PosController> gtp;
+
     public:
         explicit Attack(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;

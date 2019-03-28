@@ -12,6 +12,7 @@ namespace ai {
 namespace control {
 
 class BasicPosControl : public PosController {
+public:
     explicit BasicPosControl() = default;
     PosVelAngle getPosVelAngle(RobotPtr robot, Vector2 &targetPos) override;
 };

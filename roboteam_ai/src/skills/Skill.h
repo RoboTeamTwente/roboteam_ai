@@ -6,7 +6,6 @@
 #include <roboteam_utils/Angle.h>
 #include "ros/ros.h"
 #include "../io/IOManager.h"
-#include "roboteam_ai/src/control/PositionManager.h"
 #include "../control/positionControllers/PosVelAngle.h"
 
 namespace rtt {
@@ -31,7 +30,6 @@ class Skill : public bt::Leaf {
 
         using Control = control::ControlUtils;
         using Status = bt::Node::Status;
-        using GoToType = control::PosControlType;
     public:
         explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
         std::string node_name() override;

@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_GOBEHINDBALL_H
 #define ROBOTEAM_AI_GOBEHINDBALL_H
 
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include "Skill.h"
 #include "../utilities/Field.h"
 
@@ -19,11 +20,10 @@ class GoBehindBall : public Skill {
           freeKick,
           corner
         };
-        control::PositionManager goToPos;
+        control::NumTreePosControl goToPos;
         unit unitType;
         unit stringToUnit(std::string string);
-        // TODO maybe be smarter than Thijs
-        double errorMargin = 0.06;
+        const double errorMargin = 0.06;
         void publishCommand(Vector2 point, Vector2 velocity);
 
     public:

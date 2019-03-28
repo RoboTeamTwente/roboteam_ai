@@ -13,11 +13,6 @@ void NumTreePosControl::clear() {
     path.clear();
 }
 
-/// Turn ball avoidance off and on
-void NumTreePosControl::setAvoidBall(bool _avoidBall) {
-    avoidBall = _avoidBall;
-}
-
 /// Make the Robot able to go outside of the field
 void NumTreePosControl::setCanGoOutsideField(bool _canGoOutsideField) {
     canGoOutsideField = _canGoOutsideField;
@@ -100,7 +95,7 @@ bool NumTreePosControl::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRo
 }
 
 /// finds a path using a numeric model
-PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
+PosVelAngle NumTreePosControl::getPosVelAngle(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 &targetPos) {
     ros::Time begin = ros::Time::now();
     robotID = robot->id;
 

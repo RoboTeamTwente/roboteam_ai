@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_DEMOATTACK_H
 #define ROBOTEAM_AI_DEMOATTACK_H
 
-#include <roboteam_ai/src/control/PositionManager.h>
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include "Skill.h"
 
 namespace rtt {
@@ -18,13 +18,12 @@ private:
     const double BEHIND_BALL_TARGET = 0.4;
     const double SWITCH_TO_BASICGTP_DISTANCE = 0.10;
 
-    control::PositionManager goToPos;
+    std::shared_ptr<control::PosController> goToPos;
+
     Vector2 deltaPos;
     Vector2 targetPos;
     bool ownGoal = false;
     bool shot = false;
-
-    control::PosControlType goToType;
 public:
     explicit DemoAttack(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;

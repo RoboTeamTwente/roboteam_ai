@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_RECEIVE_H
 #define ROBOTEAM_AI_RECEIVE_H
 
+#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include "Skill.h"
 #include "InterceptBall.h"
 
@@ -13,8 +14,7 @@ namespace ai {
 
 class Receive : public Skill {
 private:
-    control::PositionManager goToPos;
-    GoToType goToType;
+    control::BasicPosControl goToPos;
     Vector2 focusPoint;
     Vector2 ballStartPos;
     Vector2 ballEndPos;

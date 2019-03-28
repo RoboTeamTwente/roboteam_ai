@@ -22,7 +22,6 @@ class AvoidBall : public Skill {
         explicit AvoidBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
         bt::Node::Status onUpdate() override;
     private:
-        control::PositionManager gtp;
         enum Progression {
           RUNNING, DONE, FAIL
         };

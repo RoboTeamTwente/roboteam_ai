@@ -14,10 +14,10 @@ namespace control {
 // If there is another way to return a shared pointer from an object to itself that is more pretty let me know
 struct PathPoint : std::enable_shared_from_this<PathPoint> {
 private:
-    const double maxV = 2.0;
-    const double maxAccAtLowV = 6.1;
-    const double maxAccAtHighV = 3.1;
-    const double maxDecelleration = 6.1;
+    double maxV = 2.0;
+    double maxAccAtLowV = 6.1;
+    double maxAccAtHighV = 3.1;
+    double maxDecelleration = 6.1;
 public:
     Vector2 currentTarget;  //Either the endPoint or an in between target
     Vector2 finalTarget;    //Always the endPoint

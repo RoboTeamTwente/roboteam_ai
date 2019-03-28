@@ -51,6 +51,32 @@ void PosController::checkInterfacePID() {
 }
 
 
+// Getters & Setters
+bool PosController::getCanMoveOutOfField() const {
+    return canMoveOutOfField;
+}
+
+void PosController::setCanMoveOutOfField(bool canMoveOutOfField) {
+    this->canMoveOutOfField = canMoveOutOfField;
+}
+
+bool PosController::getCanMoveInDefenseArea() const {
+    return canMoveInDefenseArea;
+}
+
+void PosController::setCanMoveInDefenseArea(bool canMoveInDefenseArea) {
+     this->canMoveInDefenseArea = canMoveInDefenseArea;
+}
+
+bool PosController::getAvoidBall() const {
+    return avoidBall;
+}
+
+void PosController::setAvoidBall(bool avoidBall) {
+    this->avoidBall = avoidBall;
+}
+
+
 } // control
 } // ai
 } // rtt

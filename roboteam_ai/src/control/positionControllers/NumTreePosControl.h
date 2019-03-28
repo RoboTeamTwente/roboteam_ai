@@ -37,8 +37,6 @@ class NumTreePosControl : public PosController {
         bool doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos);
         double remainingStraightLinePathLength(Vector2 currentPos, Vector2 halfwayPos, Vector2 finalPos);
 
-
-
         PosVelAngle computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
 
         std::pair<std::vector<Vector2>, std::shared_ptr<PathPoint>> getNewTargets(
@@ -51,10 +49,10 @@ class NumTreePosControl : public PosController {
 
         std::vector<PathPoint> path;
     public:
+        explicit NumTreePosControl() = default;
         void clear();
         Vector2 finalTargetPos;
-        PosVelAngle goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos);
-        void setAvoidBall(bool _avoidBall);
+        PosVelAngle getPosVelAngle(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 &targetPos) override;
         void setCanGoOutsideField(bool _canGoOutsideField);
 
 };

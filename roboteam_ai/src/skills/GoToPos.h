@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_GOTOPOS_H
 #define ROBOTEAM_AI_GOTOPOS_H
 
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include "Skill.h"
 
 namespace rtt {
@@ -14,8 +15,9 @@ class GoToPos : public Skill {
     public:
         Vector2 targetPos = {0, 0};
         double maxVel = Constants::DEFAULT_MAX_VEL();
-        control::PositionManager goToPos;
         double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
+
+        control::NumTreePosControl gotopos;
 
         explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;

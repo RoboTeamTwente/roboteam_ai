@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_INTERCEPTBALL_H
 #define ROBOTEAM_AI_INTERCEPTBALL_H
 
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include "Skill.h"
 #include "roboteam_ai/src/control/PIDController.h"
 
@@ -34,7 +35,7 @@ class InterceptBall :public Skill {
         bool missedBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel);
         bool ballDeflected();
 
-        control::PositionManager goToPos;
+        control::NumTreePosControl goToPos;
 
         Vector2 ballStartPos, ballStartVel, ballEndPos, interceptPos;
         Vector2 deltaPos;
