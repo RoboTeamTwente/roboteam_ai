@@ -30,7 +30,7 @@ bt::Node::Status Defend::onUpdate() {
         allDefendersMemory = allDefenders.size();
     }
 
-    auto velocities = gtp.goToPos(robot, targetLocation, control::PosControlType::NUMERIC_TREES);
+    auto velocities = gtp.getPosVelAngle(robot, targetLocation);
     roboteam_msgs::RobotCommand cmd;
     cmd.id = robot->id;
     cmd.x_vel = static_cast<float>(velocities.vel.x);

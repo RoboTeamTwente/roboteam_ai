@@ -9,8 +9,6 @@
 #include <roboteam_utils/Vector2.h>
 #include <roboteam_ai/src/utilities/Pause.h>
 
-
-
 namespace rtt {
 namespace ai {
 namespace interface {
@@ -48,7 +46,7 @@ class InterfaceValues {
         static const rtt::Vector2 &getBallPlacementTarget();
         static void setBallPlacementTarget(const rtt::Vector2 &ballPlacementTarget);
 
-        static double setNumTreePosP();
+        static double getNumTreePosP();
         static void setNumTreePosP(double numTreePP);
         static double getNumTreePosI();
         static void setNumTreePosI(double numTreePI);

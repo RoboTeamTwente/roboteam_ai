@@ -2,6 +2,7 @@
 // Created by rolf on 30-1-19.
 //
 
+#include <roboteam_ai/src/control/ControlUtils.h>
 #include "GoAroundPos.h"
 #include "../interface/drawer.h"
 namespace rtt {
