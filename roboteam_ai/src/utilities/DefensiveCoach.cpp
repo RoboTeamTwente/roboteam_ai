@@ -183,7 +183,6 @@ std::vector<std::pair<Vector2, double>> DefensiveCoach::decideDefendersOnDefense
             }
             return {};
         }
-
     }
     if (amount == decidedBlocks.size()) {
         return decidedBlocks;
@@ -203,35 +202,16 @@ std::vector<std::pair<Vector2, double>> DefensiveCoach::decideDefendersOnDefense
     //TODO: add more structured collision avoidance (so no posses within 2 Robot Radii of eachother) to the algorithm
     // we loop until we have as many blocks as we need or until there are no more bots left to cover off
     while (decidedBlocks.size() != amount && ! bots.empty()) {
-        std::vector<std::pair<PossiblePass, double>> passWithScore;
-        // check the passes from the robot towards every other bot and calculate their danger
-        for (auto bot : bots) {
-            PossiblePass pass(bot, World::getBall()->pos);
-            std::vector<Vector2> onlyPositions;
-            for (auto block :decidedBlocks) {
-                onlyPositions.push_back(block.first);
-            }
-            double danger = scorePossiblePass(pass, onlyPositions);
-            std::pair<PossiblePass, double> passPair = std::make_pair(pass, danger);
-            passWithScore.push_back(passPair);
+        std::vector<Vector2> blocks; // this data format is easier to work with
+        for (auto decidedBlock: decidedBlocks){
+            blocks.push_back(decidedBlock.first);
         }
-        //order passes from most dangerous to least dangerous
-        std::sort(passWithScore.begin(), passWithScore.end(),
-                [](std::pair<PossiblePass, double> &left, std::pair<PossiblePass, double> &right) {
-                  return left.second > right.second;
-                });
-
-        // we create virtual bots
-        std::vector<roboteam_msgs::WorldRobot> virtualBots;
-        for (auto blockPos : decidedBlocks) {
-            roboteam_msgs::WorldRobot bot;
-            bot.id = - 1;
-            bot.pos = blockPos.first;
-            bot.w = blockPos.second;
-            virtualBots.push_back(bot);
-        }
-        // for all the passes order them and check if we can block the shot from the pass receive position
+        // create possible passes ordered from most dangerous to least dangerous
+        std::vector<std::pair<PossiblePass, double>> passWithScore=createPassesAndDanger(bots,decidedBlocks);
+        std::vector<roboteam_msgs::WorldRobot> virtualBots=createVirtualBots(blocks);// we create virtual bots
+        // check for all the passes if we can block the shot from the pass receive position
         for (const auto &bestPass: passWithScore) {
+            // find largest visible Part using virtualBots
             std::vector<std::pair<Vector2, Vector2>> visibleParts = Field::getVisiblePartsOfGoal(true,
                     bestPass.first.endPos, virtualBots,
                     Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
@@ -239,8 +219,8 @@ std::vector<std::pair<Vector2, double>> DefensiveCoach::decideDefendersOnDefense
                     [](const std::pair<Vector2, Vector2> &a, const std::pair<Vector2, Vector2> &b) {
                       return abs(a.second.y - a.first.y) > abs(b.second.y - b.first.y);
                     });
+            // compute blockpoint for this point
             std::shared_ptr<Vector2> blockPoint = nullptr;
-            // we block on the defense line
             if (! visibleParts.empty()) {
                 blockPoint = blockOnDefenseLine(visibleParts[0], bestPass.first.endPos);
             }
@@ -268,7 +248,7 @@ std::vector<std::pair<Vector2, double>> DefensiveCoach::decideDefendersOnDefense
     }
     return decidedBlocks;
 }
-
+/// calculates the defender locations for all available defenders
 void DefensiveCoach::updateDefenderLocations() {
     auto start = std::chrono::high_resolution_clock::now();
     // clear the defenderLocations
@@ -371,17 +351,11 @@ std::pair<Vector2, Vector2> DefensiveCoach::shortenLineForDefenseArea(Vector2 li
 /// scores a point based on the largest openGoal angle from that point
 double DefensiveCoach::scoreForOpenGoalAngle(PossiblePass pass, std::vector<Vector2> decidedBlocks) {
     // create the 'virtual bots' that make up the blocks we have already decided on
-    std::vector<roboteam_msgs::WorldRobot> virtualBots;
+    std::vector<roboteam_msgs::WorldRobot> virtualBots=createVirtualBots(decidedBlocks);
     auto keeper = World::getRobotForId(robotDealer::RobotDealer::getKeeperID(),
             true); //TODO: actually make sure keeper is running
     if (keeper) {
         virtualBots.push_back(*keeper);
-    }
-    for (auto blockPos : decidedBlocks) {
-        roboteam_msgs::WorldRobot bot;
-        bot.id = - 1;
-        bot.pos = blockPos;
-        virtualBots.push_back(bot);
     }
     // get the visible parts and sort them from large to small from the end point of the pass (the point of shooting)
     std::vector<std::pair<Vector2, Vector2>> visibleParts = Field::getVisiblePartsOfGoal(true, pass.endPos, virtualBots,
@@ -458,6 +432,36 @@ void DefensiveCoach::visualizePoints(){
         i ++;
     }
     ai::interface::Drawer::setTestPoints(vis2);
+}
+std::vector<roboteam_msgs::WorldRobot> DefensiveCoach::createVirtualBots(std::vector<Vector2> decidedBlocks){
+    std::vector<roboteam_msgs::WorldRobot> virtualBots;
+    for (auto blockPos : decidedBlocks) {
+        roboteam_msgs::WorldRobot bot;
+        bot.id = - 1;
+        bot.pos = blockPos;
+        virtualBots.push_back(bot);
+    }
+    return virtualBots;
+}
+std::vector<std::pair<DefensiveCoach::PossiblePass,double>> DefensiveCoach::createPassesAndDanger(std::vector<roboteam_msgs::WorldRobot> bots, std::vector<Vector2> decidedBlocks){
+    std::vector<std::pair<PossiblePass, double>> passWithScore;
+    // check the passes from the robot towards every other bot and calculate their danger
+    for (auto bot : bots) {
+        PossiblePass pass(bot, World::getBall()->pos);
+        std::vector<Vector2> onlyPositions;
+        for (auto block :decidedBlocks) {
+            onlyPositions.push_back(block);
+        }
+        double danger = scorePossiblePass(pass, onlyPositions);
+        std::pair<PossiblePass, double> passPair = std::make_pair(pass, danger);
+        passWithScore.push_back(passPair);
+    }
+    //order passes from most dangerous to least
+    std::sort(passWithScore.begin(), passWithScore.end(),
+            [](std::pair<PossiblePass, double> &left, std::pair<PossiblePass, double> &right) {
+              return left.second > right.second;
+            });
+    return passWithScore;
 }
 }//coach
 }//ai
