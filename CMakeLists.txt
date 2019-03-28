@@ -56,33 +56,15 @@ include_directories(
 
 add_library(roboteam_world_srcs 
     # src/
-    src/predictor.cpp
-    src/ball.cpp	
-    src/robot.cpp
-    src/ros_handler.cpp
-
-    # src/tracker
-    src/tracker/acceleration_tracker.cpp
-    src/tracker/position_based_tracker.cpp
-    src/tracker/speed_tracker.cpp
-    src/tracker/tracker.cpp
-    src/tracker/tracker_utils.cpp
+        src/utils/predictor.cpp
+        src/utils/ball.cpp
+        src/utils/robot.cpp
+        src/ros_handler.cpp
 
     # src/world
-    src/world/filtered_world.cpp
-    src/world/world_dummy.cpp
+        src/filtered_world/filtered_world.cpp
+        src/dummy_world/world_dummy.cpp
 
-    # src/danger_finder
-    src/danger_finder/DangerData.cpp
-    src/danger_finder/DangerFinder.cpp
-    src/danger_finder/DangerModule.cpp
-    src/danger_finder/DangerFinderConfig.cpp
-    src/danger_finder/DistanceModule.cpp
-    src/danger_finder/OrientationModule.cpp
-    src/danger_finder/FreeModule.cpp
-    src/danger_finder/CanShootModule.cpp
-    src/danger_finder/HasBallModule.cpp
-    src/danger_finder/WillReceiveBallModule.cpp
     )
 
 add_dependencies(roboteam_world_srcs
@@ -98,7 +80,7 @@ target_link_libraries(roboteam_world_srcs
 #################
 
 add_executable(dummy_world
-    src/programs/dummy_world_main.cpp
+        src/dummy_world/dummy_world_main.cpp
     )
 target_link_libraries(dummy_world 
     roboteam_world_srcs
@@ -113,8 +95,8 @@ add_dependencies(dummy_world
 ## Filtered world ##
 ####################
 
-add_executable(filtered_world 
-    src/programs/filtered_world_main.cpp 
+add_executable(filtered_world
+        src/filtered_world/filtered_world_main.cpp
     )
 target_link_libraries(filtered_world
     roboteam_world_srcs
@@ -131,10 +113,11 @@ add_dependencies(filtered_world
 
 catkin_add_gtest(world_test
     test/main.cpp
-    test/Basics.cpp
-    test/Worlds.cpp
-    test/Tracker.cpp
-)
+        test/BasicTest.cpp
+        test/WorldTest.cpp
+        src/filtered_world/filtered_world.cpp
+
+        )
 target_link_libraries(world_test
     roboteam_world_srcs
     ${catkin_LIBRARIES}

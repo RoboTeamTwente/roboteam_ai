@@ -3,14 +3,14 @@
 #include "roboteam_world/ros_handler.h"
 #include "roboteam_world/world/filtered_world.h"
 #include "roboteam_world/predictor.h"
-#include "roboteam_world/danger_finder/DangerFinder.h"
+#include "roboteam_utils/LastWorld.h"
 
-int main(int argc, char **argv)
-{
+int main(int argc, char** argv) {
 
     // Init ros.
     ros::init(argc, argv, "filtered_world");
 
+    //TODO: Fix this geometry hack; initializing a class to subscribe to a ROS topic is bad
     // Create subscribers for world & geom messages
     rtt::WorldAndGeomCallbackCreator cb;
 
@@ -21,9 +21,6 @@ int main(int argc, char **argv)
 
     rtt::RosHandler handler;
     handler.init(&world);
-
-    rtt::df::DangerFinder::world = &world;
-    rtt::df::DangerFinder::instance().start();
 
     ROS_INFO("---- Filtered world ready. ----");
 

@@ -10,7 +10,6 @@ namespace rtt {
         z = NAN;
     }
 
-
     void Ball::move_to(float x, float y, float z) {
         this->x = x;
         this->y = y;
