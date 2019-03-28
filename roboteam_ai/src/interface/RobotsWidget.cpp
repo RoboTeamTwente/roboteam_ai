@@ -20,7 +20,7 @@ RobotsWidget::RobotsWidget(QWidget* parent) : QWidget(parent){
     VLayout = new QVBoxLayout();
     auto scroll = new QScrollArea();
     scroll->setWidgetResizable(true);
-    auto inner = new QFrame();
+    auto inner = new QFrame(scroll);
     inner->setLayout(VLayout);
     scroll->setWidget(inner);
     container->addWidget(scroll);
