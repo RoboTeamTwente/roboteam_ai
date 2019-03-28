@@ -5,7 +5,8 @@
 #ifndef ROBOTEAM_AI_PASS_H
 #define ROBOTEAM_AI_PASS_H
 
-#include <roboteam_ai/src/control/positionControllers/PosController.h>
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include "Skill.h"
 
 namespace rtt {
