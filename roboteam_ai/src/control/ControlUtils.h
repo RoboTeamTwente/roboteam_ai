@@ -36,12 +36,13 @@ class ControlUtils {
         static bool hasClearVision(int from, int towards, roboteam_msgs::World world, int safeDistanceFactor);
         static bool onLineSegment(Vector2 p, Vector2 q, Vector2 r);
         static rtt::Vector2 twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2);
-        static int lineOrientation(Vector2 p, Vector2 q, Vector2 r);
+    static double twoLineForwardIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2);
+    static int lineOrientation(Vector2 p, Vector2 q, Vector2 r);
         static bool lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd, Vector2 lineBStart, Vector2 lineBEnd);
         static rtt::Arc createKeeperArc();
-        static Vector2 VelocityLimiter(Vector2 vel,double maxVel=rtt::ai::Constants::MAX_VEL());
-        static Vector2 VelocityLimiter(Vector2 vel,double maxVel, double minVel);
-
+        static Vector2 velocityLimiter(Vector2 vel, double maxVel = rtt::ai::Constants::MAX_VEL());
+        static Vector2 velocityLimiter(Vector2 vel, double maxVel, double minVel);
+        static bool robotIsAimedAtPoint(int id, bool ourTeam, Vector2 point, double maxDifference = 0.3);
         static std::vector<std::pair<Vector2, Vector2>> calculateClosestPathsFromTwoSetsOfPoints(std::vector<Vector2> set1, std::vector<Vector2> set2);
 };
 

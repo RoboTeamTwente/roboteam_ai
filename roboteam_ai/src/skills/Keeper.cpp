@@ -33,7 +33,7 @@ Keeper::Status Keeper::onUpdate() {
             return Status::Running;
         } else {
             Vector2 velocities = goToPos.goToPos(robot, blockPoint, GoToType::BASIC).vel;
-            velocities = control::ControlUtils::VelocityLimiter(velocities);
+            velocities = control::ControlUtils::velocityLimiter(velocities);
             roboteam_msgs::RobotCommand command;
             command.id = robot->id;
             command.x_vel = static_cast<float>(velocities.x);
@@ -69,7 +69,7 @@ void Keeper::onTerminate(Status s) {
 void Keeper::sendMoveCommand(Vector2 pos) {
     Vector2 error = pos - robot->pos;
     Vector2 delta = pid.controlPIR(error, robot->vel);
-    Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
+    Vector2 deltaLim= control::ControlUtils::velocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
@@ -78,10 +78,11 @@ void Keeper::sendMoveCommand(Vector2 pos) {
     cmd.w = static_cast<float>(M_PI_2);
     publishRobotCommand(cmd);
 }
+
 void Keeper::sendFineMoveCommand(Vector2 pos) {
     Vector2 error = pos - robot->pos;
     Vector2 delta = finePid.controlPIR(error, robot->vel);
-    Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
+    Vector2 deltaLim= control::ControlUtils::velocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
