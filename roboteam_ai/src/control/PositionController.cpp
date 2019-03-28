@@ -48,6 +48,7 @@ PosVelAngle PositionController::goToPos(RobotPtr robot, Vector2 &position, PosCo
     case PosControlType::NUMERIC_TREES:
         return PositionController::numTree(robot, position);
     case PosControlType::NO_PREFERENCE:
+        return PositionController::numTree(robot, position);
     default:
         return PositionController::numTree(robot, position);
     }
@@ -149,7 +150,7 @@ PosVelAngle PositionController::pidController(const RobotPtr &robot, PosVelAngle
     pid = posPID.controlPIR(target.pos-robot->pos, robot->vel);
 
     pidCommand.pos = target.pos;
-    pidCommand.vel += pid.length() < Constants::MAX_VEL() ?
+    pidCommand.vel = pid.length() < Constants::MAX_VEL() ?
                      pid : pid.stretchToLength(Constants::MAX_VEL());
     pidCommand.angle = (target.pos-robot->pos).angle();
 

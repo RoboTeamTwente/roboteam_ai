@@ -20,6 +20,7 @@ void SkillGoToPos::onInitialize() {
     goToBall = properties->getBool("goToBall");
 
     std::string gTT = properties->getString("goToType");
+        goToType = control::PosControlType::FORCE;/*
     if (gTT.empty()) {
         ROS_ERROR("SkillGoToPos::onInitialize -> no goToType set in properties");
         goToType = control::PosControlType::NO_PREFERENCE;
@@ -32,14 +33,23 @@ void SkillGoToPos::onInitialize() {
         ROS_ERROR("SkillGoToPos::onInitialize -> no good goToType set in properties");
         goToType = control::PosControlType::NO_PREFERENCE;
     }
+    */
 }
 
 /// Called when the Skill is Updated
 SkillGoToPos::Status SkillGoToPos::onUpdate() {
 
-    control::PositionController goToPos;
 
-    goToPos.goToPos(robot, targetPos, goToType);
+    auto pva = goToPos.goToPos(robot, targetPos, goToType);
+        roboteam_msgs::RobotCommand command;
+        command.id = robot->id;
+        command.use_angle = 1;
+        command.w = pva.angle;
+
+        command.x_vel = pva.vel.x;
+        command.y_vel = pva.vel.y;
+
+        publishRobotCommand(command);
     // Now check the progress we made
     currentProgress = checkProgression();
     // Send a move command
