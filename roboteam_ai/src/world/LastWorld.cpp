@@ -11,7 +11,7 @@ namespace world {
 LastWorld lastWorldObj;
 LastWorld* lastWorld = &lastWorldObj;
 
-void LastWorld::addWorld(WorldData worldData) {
+void LastWorld::addWorld(const WorldData worldData) {
     worldBuffer.addNewWorld(worldData);
 }
 

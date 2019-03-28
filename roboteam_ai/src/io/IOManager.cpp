@@ -59,6 +59,7 @@ void IOManager::subscribeToRoleFeedback() {
             ros::TransportHints().reliable().tcpNoDelay()
     );
 }
+
 void IOManager::subscribeToRefereeData() {
     //TODO: This constant TOPIC_REFEREE was not used consistently by the previous team, so if stuff goes wrong check if you are reading the correct topic.
     refereeSubscriber = nodeHandle.subscribe<roboteam_msgs::RefereeData>(
@@ -129,6 +130,7 @@ void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
         ROS_ERROR("HALT!");
     }
 }
+
 const roboteam_msgs::DemoRobot &IOManager::getDemoInfo() {
     return this->demoInfoMsg;
 }

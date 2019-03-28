@@ -21,10 +21,10 @@ class ProcessedWorld {
         void updateFutureRobot(Robot &robot, double time);
         void updateFutureBall(Ball &ball, double time);
 
-        void updateBallPosition(WorldData &worldData);
-        void updateBallPossession(WorldData &worldData);
+        void updateBallPosition(const WorldData &worldData);
+        void updateBallPossession(const WorldData &worldData);
     public:
-        void update(WorldData worldData);
+        void update(const WorldData &worldData);
         RobotPtr getRobotClosestToPoint(const Vector2 &point, std::vector<Robot> &robots);
         void updateFutureWorld(WorldData &worldData, double time);
 };

@@ -9,17 +9,18 @@ namespace ai {
 namespace world {
 
 void WorldManager::setup() {
-    IOManager = new io::IOManager(true, true);
+    IOManager = new io::IOManager(true, false);
 }
 
 void WorldManager::loop() {
     while (ros::ok()) {
         updateROSData();
-
-        updateField();
-        updateWorld();
-        updateGameAnalyzer();
-
+        std::cout << worldMsg.time << std::endl;
+        if (lastWorldTime != worldMsg.time) {
+            updateField();
+            updateWorld();
+            updateGameAnalyzer();
+        }
     }
 }
 
@@ -38,6 +39,7 @@ void WorldManager::updateWorld() {
     lastWorld->addWorld(worldDataPtr);
     processedWorld->update(worldDataPtr);
 
+    lastWorldTime = worldMsg.time;
 }
 
 void WorldManager::updateField() {
@@ -45,7 +47,7 @@ void WorldManager::updateField() {
 }
 
 void WorldManager::updateGameAnalyzer() {
-
+    //TODO:
 }
 
 }

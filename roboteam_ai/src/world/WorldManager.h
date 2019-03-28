@@ -19,7 +19,9 @@ namespace world {
 
 class WorldManager {
     private:
+
         io::IOManager* IOManager;
+        double lastWorldTime;
         roboteam_msgs::World worldMsg;
         roboteam_msgs::GeometryData geometryMsg;
         roboteam_msgs::RefereeData refereeMsg;

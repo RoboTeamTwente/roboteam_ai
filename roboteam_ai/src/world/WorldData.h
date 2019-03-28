@@ -87,12 +87,12 @@ class WorldBuffer {
             delete[] worldBuffer;
         }
 
-        void addNewWorld(WorldData &world) {
+        void addNewWorld(const WorldData &world) {
             worldBuffer[lastIndex --] = world;
             if (lastIndex < 0) lastIndex = size - 1;
         }
 
-        void addNewWorld(roboteam_msgs::World &worldMsg) {
+        void addNewWorld(const roboteam_msgs::World &worldMsg) {
             WorldData worldData = WorldData(worldMsg);
             addNewWorld(worldData);
         }

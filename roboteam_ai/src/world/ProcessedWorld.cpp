@@ -12,68 +12,18 @@ namespace world {
 ProcessedWorld processedWorldObj;
 ProcessedWorld* processedWorld = &processedWorldObj;
 
-Ball ProcessedWorld::updateBallPosition(WorldData &worldData) {
-    //TODO:: :: WTF IS THIS CRAP??
-    auto _world = worldData;
-    Ball newBall = _world.ball;
-    if (_world.ball.visible) {
-        return newBall;
-    }
-    // we set the ball velocity to 0
-    newBall.vel.x = 0;
-    newBall.vel.y = 0;
-    // if the ball was dribbled in the previous world_state we set its position to be in front of the robot that was dribbling it
-    if (! OurBotsBall.empty() || ! TheirBotsBall.empty()) { // check if it was dribbled in last world state
-        double maxDist = 100;
-        int bestId = - 1;
-        bool ourTeam = true;
-        for (auto bot: OurBotsBall) {
-            if (bot.second < maxDist) {
-                maxDist = bot.second;
-                bestId = bot.first;
-                ourTeam = true;
-            }
-        }
-        for (auto bot: TheirBotsBall) {
-            if (bot.second < maxDist) {
-                maxDist = bot.second;
-                bestId = bot.first;
-                ourTeam = false;
-            }
-        }
-        if (bestId == - 1) {
-            return newBall;
-        }
-        // I can't use getRobotForId because of deadlocking and because i need to use the world in the packet
-        Robot robot;
-        const std::vector<Robot> &robots = ourTeam ? _world.us : _world.them;
-        for (const auto &bot : robots) {
-            if (bot.id == bestId) {
-                robot = bot;
-                break;
-            }
-        }
-        // put the ball in front of the centre robot that is dribbling it.
-        Vector2 ballPos = Vector2(robot.pos)
-                + Vector2(Constants::CENTRE_TO_FRONT() + Constants::BALL_RADIUS(), 0).rotate(robot.angle);
-        newBall.pos = ballPos;
-    }
-        // else (not visible but not dribbled), we put it at its previous position
-    else {
-        newBall.pos = world.ball.pos;
-    }
-    return newBall;
+void ProcessedWorld::updateBallPosition(const WorldData &worldData) {
+    //TODO:
 
 }
 
-void ProcessedWorld::updateBallPossession(WorldData &worldData) {
-
+void ProcessedWorld::updateBallPossession(const WorldData &worldData) {
+    //TODO:
 }
 
-void ProcessedWorld::update(WorldData worldData) {
+void ProcessedWorld::update(const WorldData &worldData) {
     updateBallPosition(worldData);
     updateBallPossession(worldData);
-
 }
 
 ProcessedWorld::RobotPtr ProcessedWorld::getRobotClosestToPoint(

@@ -13,17 +13,13 @@ namespace world {
 World worldObj;
 World* world = &worldObj;
 
-
 void World::updateWorld(const roboteam_msgs::World &worldMsg) {
     setWorld(worldMsg);
-
-    lastWorld->addWorld(worldData);
-    processedWorld->update(worldData);
 }
 
 roboteam_msgs::WorldRobot World::makeWorldRobotMsg(Robot robot) {
     roboteam_msgs::WorldRobot robotMsg;
-    robotMsg.angle = robot.angle;
+    robotMsg.angle = static_cast<float>(robot.angle);
     robotMsg.w = static_cast<float>(robot.angularVelocity);
     robotMsg.pos = robot.pos;
     robotMsg.vel = robot.vel;
@@ -68,6 +64,12 @@ void World::setWorld(const roboteam_msgs::World &worldMsg) {
     World::worldMsg = worldMsg;
     World::worldData = std::make_shared<WorldData>(WorldData(worldMsg));
 
+}
+
+void World::setBall(const Ball &ball) {
+    std::lock_guard<std::mutex> lock(worldMutex);
+
+    World::worldData->ball = ball;
 }
 
 void World::setWorldData(WorldDataPtr &worldData) {
@@ -227,6 +229,8 @@ const WorldData World::getFutureWorld(double time) {
     processedWorld->updateFutureWorld(worldCopy, time);
     return worldCopy;
 }
+
+
 
 
 //ProcessedWorld* World::getProcessedWorld() {

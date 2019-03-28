@@ -43,6 +43,7 @@ class World {
 
         void updateWorld(const roboteam_msgs::World &world);
 
+        void setBall(const Ball &ball);
         void setWorld(const roboteam_msgs::World &world);
         void setWorldData(WorldDataPtr &world);
 
