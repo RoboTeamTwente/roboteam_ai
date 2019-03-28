@@ -70,7 +70,10 @@ class MainWindow : public QMainWindow {
         QPushButton* toggleColorBtn;
         QComboBox* select_strategy;
 
-    private:
+        QComboBox* select_goalie;
+
+
+private:
         QGroupBox* doubleSpinBoxesGroup_Pos_PID;
         QGroupBox* doubleSpinBoxesGroup_Vel_PID;
         QHBoxLayout* spinBoxLayout;
@@ -85,6 +88,7 @@ class MainWindow : public QMainWindow {
         void configureCheckBox(QString title, QLayout* layout, const QObject* receiver, const char* method,
                 bool defaultState = false);
         int amountOfSelectedRobots = 0;
+        int robotsInField = 0;
         void setToggleColorBtnLayout() const;
 };
 

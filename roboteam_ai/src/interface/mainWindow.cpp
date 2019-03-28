@@ -160,8 +160,22 @@ MainWindow::MainWindow(QWidget* parent)
     auto keeperVLayout = new QVBoxLayout(keeperWidget);
     keeperVLayout->addWidget(keeperTreeWidget);
     auto keeperVSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
-    keeperVLayout->addSpacerItem(cbVSpacer);
+    keeperVLayout->addSpacerItem(keeperVSpacer);
 
+
+    select_goalie = new QComboBox();
+    keeperVLayout->addWidget(select_goalie);
+
+
+
+    QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+                     [=](const QString &goalieId) {
+                         // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+                         treeinterp::g_btfactory.setKeeper(goalieId.toInt());
+                         treeinterp::g_btfactory.init();
+                     });
+
+    keeperVLayout->addWidget(select_goalie);
 
     // add the tab widget
     auto tabWidget = new QTabWidget;
@@ -290,10 +304,21 @@ void MainWindow::refreshSignal() {
 }
 
 void MainWindow::updateTreeWidget() {
-this->treeWidget->updateContents(treeinterp::g_btfactory.getTree(treeinterp::g_btfactory.getCurrentTree()));
+    this->treeWidget->updateContents(treeinterp::g_btfactory.getTree(treeinterp::g_btfactory.getCurrentTree()));
 }
 
 void MainWindow::updateKeeperTreeWidget() {
+
+    if (robotsInField != World::get_world().us.size()) {
+        select_goalie->clear();
+        robotsInField = World::get_world().us.size();
+
+        for (auto robot : World::get_world().us) {
+            std::string txt = to_string(robot.id);
+            select_goalie->addItem(QString::fromStdString(txt));
+        }
+    }
+
    this->keeperTreeWidget->updateContents(treeinterp::g_btfactory.getKeeperTree());
 }
 
