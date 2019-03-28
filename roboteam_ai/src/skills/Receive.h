@@ -13,7 +13,7 @@ namespace ai {
 
 class Receive : public Skill {
 private:
-    control::PositionController goToPos;
+    control::PositionManager goToPos;
     GoToType goToType;
     Vector2 focusPoint;
     Vector2 ballStartPos;

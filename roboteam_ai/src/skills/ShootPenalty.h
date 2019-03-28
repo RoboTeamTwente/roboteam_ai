@@ -40,7 +40,7 @@ class ShootPenalty : public Skill {
 
 
 
-        control::PositionController goToPos;
+        control::PositionManager goToPos;
 
 
 };

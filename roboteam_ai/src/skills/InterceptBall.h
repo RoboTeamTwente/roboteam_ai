@@ -34,7 +34,7 @@ class InterceptBall :public Skill {
         bool missedBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel);
         bool ballDeflected();
 
-        control::PositionController goToPos;
+        control::PositionManager goToPos;
 
         Vector2 ballStartPos, ballStartVel, ballEndPos, interceptPos;
         Vector2 deltaPos;

@@ -20,7 +20,7 @@ public:
     void onTerminate(bt::Node::Status) override;
 
 private:
-    control::PositionController gtp;
+    control::PositionManager gtp;
     double errorMargin = 0.1;
     enum Formation {
       Normal,

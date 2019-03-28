@@ -60,7 +60,6 @@ Vector2 ForcePosControl::calculateForces(const RobotPtr &robot, const Vector2 &t
         }
     }
 
-
     return force;
 }
 

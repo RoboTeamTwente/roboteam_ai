@@ -9,8 +9,6 @@
 #include <roboteam_utils/Vector2.h>
 #include <roboteam_ai/src/utilities/Pause.h>
 
-
-
 namespace rtt {
 namespace ai {
 namespace interface {

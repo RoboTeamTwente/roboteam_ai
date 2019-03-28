@@ -14,50 +14,43 @@ PosController::PosController() {
     posPID.reset();
 }
 
+/// apply a posPID and a velPID over a posVelAngle for better control
 PosVelAngle PosController::controlWithPID(const RobotPtr &robot, PosVelAngle target) {
-    PosVelAngle pidCommand;
-
     if (getPIDFromInterface) checkInterfacePID();
 
-    Vector2 pidP = Vector2();
-    Vector2 pidV = Vector2();
-
-    if (target.pos != Vector2() &&
-        !(posPID.getP() == 0.0 && posPID.getI() == 0.0 && posPID.getD() == 0.0)) {
-        pidP = posPID.controlPID(target.pos - robot->pos);
-    }
-    if (target.vel != Vector2() &&
-        !(velPID.getP() == 0.0 && velPID.getI() == 0.0 && velPID.getD() == 0.0)) {
-        pidV = velPID.controlPIR(target.vel, robot->vel);
-    }
-
+    PosVelAngle pidCommand;
     pidCommand.pos = target.pos;
-    pidCommand.vel = (pidP + pidV).length() < Constants::MAX_VEL() ?
-                     (pidP + pidV) : (pidP + pidV).stretchToLength(Constants::MAX_VEL());
+    pidCommand.vel = control::ControlUtils::velocityLimiter(calculatePIDs(robot, target), Constants::MAX_VEL());
     pidCommand.angle = target.angle;
     return pidCommand;
 }
 
+// actually calculate the pids
+Vector2 PosController::calculatePIDs(const PosController::RobotPtr &robot, PosVelAngle &target) {
+    Vector2 pidP = Vector2();
+    if (target.pos != Vector2() && !posPID.isZero()) {
+        pidP = posPID.controlPID(target.pos - robot->pos);
+    }
+
+    Vector2 pidV = Vector2();
+    if (target.vel != Vector2() && !velPID.isZero()) {
+        pidV = velPID.controlPIR(target.vel, robot->vel);
+    }
+
+    return pidP + pidV;
+}
 
 /// compare current PID values to those set in the interface
 void PosController::checkInterfacePID() {
     using if_values = interface::InterfaceValues;
+    posPID.reset();
+    posPID.setPID(if_values::getNumTreePosP(), if_values::getNumTreePosI(), if_values::getNumTreePosD());
 
-    if (velPID.getP() != if_values::getNumTreeVelP() ||
-        velPID.getI() != if_values::getNumTreeVelI() ||
-        velPID.getD() != if_values::getNumTreeVelD()) {
-
-        velPID.reset();
-        velPID.setPID(if_values::getNumTreeVelP(), if_values::getNumTreeVelI(), if_values::getNumTreeVelD());
-    }
-
-    if (posPID.getP() != if_values::getNumTreePosP() || posPID.getI() != if_values::getNumTreePosI() || posPID.getD() != if_values::getNumTreePosD()) {
-        posPID.reset();
-        posPID.setPID(if_values::setNumTreePosP(), if_values::getNumTreePosI(), if_values::getNumTreePosD());
-    }
+    velPID.reset();
+    velPID.setPID(if_values::getNumTreeVelP(), if_values::getNumTreeVelI(), if_values::getNumTreeVelD());
 }
 
 
-}
-}
-
+} // control
+} // ai
+} // rtt

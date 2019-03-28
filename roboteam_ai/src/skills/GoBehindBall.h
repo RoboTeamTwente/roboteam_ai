@@ -19,7 +19,7 @@ class GoBehindBall : public Skill {
           freeKick,
           corner
         };
-        control::PositionController goToPos;
+        control::PositionManager goToPos;
         unit unitType;
         unit stringToUnit(std::string string);
         // TODO maybe be smarter than Thijs

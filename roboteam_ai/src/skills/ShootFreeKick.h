@@ -31,7 +31,7 @@ class ShootFreeKick : public Skill {
 
         Progress progress;
         Vector2 targetPos;
-        control::PositionController goToPos;
+        control::PositionManager goToPos;
         double errorMarginPos = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS() + 0.03; // Same logic
         bool isShot();
         Vector2 freeKickPos;

@@ -13,7 +13,7 @@ namespace ai {
 
 class SideAttacker : public Skill {
     private:
-        control::PositionController goToPos;
+        control::PositionManager goToPos;
         Vector2 deltaPos;
         Vector2 targetPos;
         bool firstLocationReached;

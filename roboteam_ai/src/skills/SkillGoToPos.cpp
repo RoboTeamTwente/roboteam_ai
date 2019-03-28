@@ -37,7 +37,7 @@ void SkillGoToPos::onInitialize() {
 /// Called when the Skill is Updated
 SkillGoToPos::Status SkillGoToPos::onUpdate() {
 
-    control::PositionController goToPos;
+    control::PositionManager goToPos;
 
     goToPos.goToPos(robot, targetPos, goToType);
     // Now check the progress we made

@@ -239,14 +239,14 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ControlGoToPosBallControl.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ControlGoToPosBallControl.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PositionController.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PositionController.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PositionManager.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PositionManager.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PIDController.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PIDController.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/NumTreePosControl.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/NumTreePosControl.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosVelAngle.h
-        roboteam_ai/src/control/positionControllers/BasicPosControl.cpp roboteam_ai/src/control/positionControllers/BasicPosControl.h roboteam_ai/src/control/positionControllers/ForcePosControl.cpp roboteam_ai/src/control/positionControllers/ForcePosControl.h roboteam_ai/src/control/positionControllers/PosController.cpp roboteam_ai/src/control/positionControllers/PosController.h)
+        roboteam_ai/src/control/positionControllers/BasicPosControl.cpp roboteam_ai/src/control/positionControllers/BasicPosControl.h roboteam_ai/src/control/positionControllers/ForcePosControl.cpp roboteam_ai/src/control/positionControllers/ForcePosControl.h roboteam_ai/src/control/positionControllers/PosController.cpp roboteam_ai/src/control/positionControllers/PosController.h roboteam_ai/src/control/positionControllers/PathPoint.cpp roboteam_ai/src/control/positionControllers/PathPoint.h)
 
 
 set(TEST_SOURCES

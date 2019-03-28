@@ -6,12 +6,15 @@
 #define ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 
 #include <roboteam_ai/src/interface/InterfaceValues.h>
+#include "PosVelAngle.h"
+#include "PosController.h"
+#include "PathPoint.h"
 
 namespace rtt {
 namespace ai {
 namespace control {
 
-class NumTreePosControl {
+class NumTreePosControl : public PosController {
     private:
         const double MAX_CALCULATION_TIME = 5.0;   // Max time in ms
 
@@ -34,52 +37,7 @@ class NumTreePosControl {
         bool doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos);
         double remainingStraightLinePathLength(Vector2 currentPos, Vector2 halfwayPos, Vector2 finalPos);
 
-        // If there is another way to return a shared pointer from an object to itself that is more pretty let me know
-        struct PathPoint : std::enable_shared_from_this<PathPoint> {
-            private:
-                double maxV = 2.0;
-                double maxAccAtLowV = 6.1;
-                double maxAccAtHighV = 3.1;
-                double maxDecelleration = 6.1;
-            public:
-                Vector2 currentTarget;  //Either the endPoint or an in between target
-                Vector2 finalTarget;    //Always the endPoint
-                Vector2 pos;
-                Vector2 vel;
-                Vector2 acc;
 
-                double maxVel() {
-                    double distanceRemaining = (finalTarget - pos).length();
-                    double absoluteMax = sqrt(2.0*maxAcc()*distanceRemaining)*0.8;
-                    return absoluteMax > maxV ? maxV : absoluteMax;
-                }
-                double maxAcc() {
-                    return vel.length() > maxV*0.5 ?
-                           maxAccAtHighV :
-                           maxAccAtLowV - (maxAccAtLowV - maxAccAtHighV)*((maxV - vel.length())/maxV);
-                }
-                double maxDec() {
-                    return maxDecelleration;
-                }
-
-                double t;
-                int collisions;
-                std::shared_ptr<PathPoint> parent;
-                std::vector<std::shared_ptr<PathPoint>> children;
-                std::shared_ptr<PathPoint> backTrack(double backTime);
-                std::shared_ptr<PathPoint> backTrack(int maxCollisionDiff);
-                std::shared_ptr<PathPoint> backTrack(double backTime, int maxCollisionDiff);
-
-                void addChild(std::shared_ptr<PathPoint> &newChild);
-                void addChildren(std::vector<std::shared_ptr<PathPoint>> &newChildren);
-                bool isCollision(Vector2 target, double distance);
-
-                bool branchHasTarget(const Vector2 &target);
-                bool anyBranchHasTarget(const Vector2 &target);
-                bool anyChildHasTarget(const Vector2 &target);
-                bool anyParentHasTarget(const Vector2 &target);
-
-        };
 
         PosVelAngle computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
 

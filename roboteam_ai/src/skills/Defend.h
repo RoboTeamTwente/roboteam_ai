@@ -21,7 +21,7 @@ public:
     bt::Node::Status onUpdate() override;
     void onTerminate(bt::Node::Status) override;
 private:
-    control::PositionController gtp;
+    control::PositionManager gtp;
     Vector2 targetLocation;
     static std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> allDefenders;
     Vector2 getDefensivePosition();

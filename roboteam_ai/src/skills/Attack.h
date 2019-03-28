@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_ATTACK_H
 #define ROBOTEAM_AI_ATTACK_H
 
-#include <roboteam_ai/src/control/PositionController.h>
+#include <roboteam_ai/src/control/PositionManager.h>
 #include "Skill.h"
 
 namespace rtt {
@@ -18,7 +18,7 @@ class Attack : public Skill {
         const double BEHIND_BALL_TARGET = 0.4;
         const double SWITCH_TO_BASICGTP_DISTANCE = 0.10;
 
-        control::PositionController goToPos;
+        control::PositionManager goToPos;
         Vector2 deltaPos;
         Vector2 targetPos;
         bool shot = false;

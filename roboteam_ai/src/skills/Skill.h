@@ -6,7 +6,7 @@
 #include <roboteam_utils/Angle.h>
 #include "ros/ros.h"
 #include "../io/IOManager.h"
-#include "roboteam_ai/src/control/PositionController.h"
+#include "roboteam_ai/src/control/PositionManager.h"
 #include "../control/positionControllers/PosVelAngle.h"
 
 namespace rtt {

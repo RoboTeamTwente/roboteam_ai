@@ -20,7 +20,7 @@ private:
     Progression currentProgress;
 
     Vector2 targetPos;
-    control::PositionController goToPos;
+    control::PositionManager goToPos;
     GoToType goToType;
 
     double distance;

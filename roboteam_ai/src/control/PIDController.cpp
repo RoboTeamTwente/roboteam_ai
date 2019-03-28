@@ -189,6 +189,9 @@ void PIDController::reset() {
     prev_error2 = 0; //only used in the case of 2 input variables
 }
 
+bool PIDController::isZero() {
+    return (getP() == 0.0 && getI() == 0.0 && getD() == 0.0);
+}
 
 
 } // control

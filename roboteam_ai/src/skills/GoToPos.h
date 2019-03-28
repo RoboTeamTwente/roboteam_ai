@@ -14,7 +14,7 @@ class GoToPos : public Skill {
     public:
         Vector2 targetPos = {0, 0};
         double maxVel = Constants::DEFAULT_MAX_VEL();
-        control::PositionController goToPos;
+        control::PositionManager goToPos;
         double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
 
         explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);

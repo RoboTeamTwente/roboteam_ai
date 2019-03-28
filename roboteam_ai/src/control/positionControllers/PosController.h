@@ -33,6 +33,9 @@ protected:
     PosVelAngle controlWithPID(const RobotPtr &robot, PosVelAngle target);
     void checkInterfacePID();
 
+    Vector2 calculatePIDs(const RobotPtr &robot, PosVelAngle &target);
+};
+
 } // control
 } // ai
 } // rtt

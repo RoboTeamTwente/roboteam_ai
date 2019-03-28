@@ -2,7 +2,7 @@
 // Created by thijs on 19-11-18.
 //
 
-#include <roboteam_ai/src/control/PositionController.h>
+#include <roboteam_ai/src/control/PositionManager.h>
 #include "Skill.h"
 
 #ifndef ROBOTEAM_AI_GOTOPOSLUTH_OLD_H
@@ -16,7 +16,7 @@ class SkillGoToPos : public Skill {
         control::PosControlType goToType;
         bool goToBall;
         Vector2 targetPos;
-        control::PositionController goToPos;
+        control::PositionManager goToPos;
 
         enum Progression {
           ON_THE_WAY, DONE, FAIL

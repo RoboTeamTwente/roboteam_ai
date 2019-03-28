@@ -27,7 +27,7 @@ class Keeper : public Skill {
         void sendStopCommand();
         control::PIDController pid, finePid;
 
-        control::PositionController goToPos;
+        control::PositionManager goToPos;
     public:
         explicit Keeper(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;
