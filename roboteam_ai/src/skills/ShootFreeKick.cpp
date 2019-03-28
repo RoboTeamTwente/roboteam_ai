@@ -31,16 +31,12 @@ Skill::Status ShootFreeKick::onUpdate() {
 
             if (deltaPos.length() < errorMarginPos) {
                 progress = TARGETING;
-            }
-            else {
-                roboteam_msgs::RobotCommand command;
-                command.id = robot->id;
-                command.use_angle = 1;
+            } else {
                 command.w = static_cast<float>((targetPos - robot->pos).angle());
                 Vector2 velocity = goToPos.goToPos(robot, targetPos, control::PosControlType::BASIC).vel;
                 command.x_vel = static_cast<float>(velocity.x);
                 command.y_vel = static_cast<float>(velocity.y);
-                publishRobotCommand(command);
+                publishRobotCommand();
 
             }
             return Status::Running;
@@ -75,26 +71,21 @@ Skill::Status ShootFreeKick::onUpdate() {
         case SHOOTING: {
             if (! isShot()) {
                 Vector2 ballPos = rtt::ai::World::getBall()->pos;
-                roboteam_msgs::RobotCommand command;
-                command.id = robot->id;
-                command.use_angle = 1;
                 command.w = static_cast<float>((ballPos - robot->pos).angle());
                 command.chipper = static_cast<unsigned char>(true);
                 command.chipper_vel = 8.0; // Such power much wow
                 Vector2 velocity = goToPos.goToPos(robot, ballPos, control::PosControlType::BASIC).vel;
                 command.x_vel = static_cast<float>(velocity.x);
                 command.y_vel = static_cast<float>(velocity.y);
-                publishRobotCommand(command);
+                publishRobotCommand();
                 return Status::Running;
             }
             else {
                 // Defaults to zero
-                roboteam_msgs::RobotCommand command;
-                command.id = robot->id;
-                command.use_angle = 1;
-                publishRobotCommand(command);
+                publishRobotCommand();
                 return Status::Success;
-            }        }
+            }
+        }
     }
 
     return Status::Waiting;
