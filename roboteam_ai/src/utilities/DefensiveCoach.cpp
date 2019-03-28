@@ -156,7 +156,7 @@ std::vector<std::pair<Vector2, double>> DefensiveCoach::decideDefendersOnDefense
 
     if (World::getBall() && Field::pointIsInField(World::getBall()->pos)) {
         Vector2 mostDangerousPos = World::getBall()->pos; //TODO: add pass detection/ ball possession here for the 'most dangerous position'
-        // if the ball is reasonably on our half double block, otherwise block using only one
+        // if the ball is reasonably on our half double block, otherwise block using only one robot
         if (((goalSides.first - World::getBall()->pos).length() + (goalSides.second - World::getBall()->pos).length())
                 < Field::get_field().field_length*0.85) {
             std::vector<Vector2> blockPositions = doubleBlockOnDefenseLine(goalSides, mostDangerousPos);
@@ -276,7 +276,6 @@ void DefensiveCoach::updateDefenderLocations() {
     std::vector<int> availableDefenders = defenders;
     // decide the locations to defend
     std::vector<std::pair<Vector2, double>> positions = decideDefendersOnDefenseLine(availableDefenders.size());
-
     // the following algorithm takes the closest robot for each available defender to decide which robot goes where.
     // Since the points are ordered on priority from the above algorithm the most important points come first
     // It might be better to use an algorithm that is more complicated (e.g. hungarian) but then we might need some kind of system which gives the first points more 'priority'
@@ -408,6 +407,8 @@ double DefensiveCoach::scoreForOpenGoalAngle(PossiblePass pass, std::vector<Vect
 }
 /// penalize points that cannot be passed to
 double DefensiveCoach::penaltyForBlocks(PossiblePass pass, std::vector<Vector2> decidedBlocks) {
+    // we half the score for every robot that blocks the pass
+    // can be made to also take 'potential intercepts' into account better
     int amountOfBlocks = 0;
     double obstacleFactor = 0.5;
     for (auto block : decidedBlocks) {
