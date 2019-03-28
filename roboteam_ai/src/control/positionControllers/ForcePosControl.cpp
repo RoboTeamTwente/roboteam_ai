@@ -10,53 +10,62 @@ namespace rtt {
 namespace ai {
 namespace control {
 
+ForcePosControl::ForcePosControl() {
+
+}
+
 PosVelAngle ForcePosControl::getPosVelAngle(RobotPtr robot, Vector2 &targetPos) {
     double forceRadius;
-
-    if ((targetPos - robot->pos).length() < 0.1) {
-        if (interface::InterfaceValues::showDebugNumTreeInfo()) {
-            std::cout << "close to target, using basic gtp" << std::endl;
-        }
-        return basic(robot, targetPos);
-
-    } else if ((targetPos - robot->pos).length() < Constants::MIN_DISTANCE_FOR_FORCE()) {
+    bool distanceSmallerThanMinForceDistance = (targetPos - robot->pos).length() < Constants::MIN_DISTANCE_FOR_FORCE();
+    if (distanceSmallerThanMinForceDistance) {
         forceRadius = Constants::ROBOT_RADIUS_MAX() * 2.0;
-        initializePID(3.0, 1.0, 0.2);
+        posPID.setPID(3.0, 1.0, 0.2);
     } else {
         forceRadius = Constants::ROBOT_RADIUS_MAX() * 8.0;
-        initializePID(3.0, 0.5, 1.5);
+        posPID.setPID(3.0, 0.5, 1.5);
     }
 
     PosVelAngle target;
+    auto force = calculateForces(robot, targetPos, forceRadius);
+    target.vel = control::ControlUtils::velocityLimiter(force, 3.0);
+    return controlWithPID(robot, target);
+}
+
+Vector2 ForcePosControl::calculateForces(const RobotPtr &robot, const Vector2 &targetPos, double forceRadius) const {
     roboteam_msgs::World world = World::get_world();
     Vector2 force = (targetPos - robot->pos);
-    force = (force.length() > 3.0) ?
-            force.stretchToLength(3.0) : force;
-
-    for (auto bot : world.us) {
-        force += ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 1, forceRadius);
-    }
-
-    for (auto bot : world.them) {
-        force += ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, 2, forceRadius);
-    }
-
-    if (avoidBall) {
-        force += ControlUtils::calculateForce((Vector2) robot->pos - world.ball.pos, 1, forceRadius);
-    }
-
-    if (!canMoveOutOfField) {
-        force += Field::pointIsInField(robot->pos, 0.5) ?
-                 Vector2() : ControlUtils::calculateForce(Vector2(-1.0, -1.0) / robot->pos, 1, 99.9);
-    }
-
     force = (force.length() > 3.0) ? force.stretchToLength(3.0) : force;
 
-    target.vel = force;
-    return PIDController(robot, target);
+    // avoid our own robots
+    for (auto bot : world.us) {
+        force += ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, FORCE_WEIGHT_US, forceRadius);
+    }
+
+    // avoid their robots
+    for (auto bot : world.them) {
+        force += ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, FORCE_WEIGHT_THEM, forceRadius);
+    }
+
+    // avoid the ball
+    if (avoidBall) {
+        force += ControlUtils::calculateForce((Vector2) robot->pos - world.ball.pos, FORCE_WEIGHT_BALL, forceRadius);
+    }
+
+    // avoid the sides of the field if needed
+    if (!canMoveOutOfField) {
+        bool pointInField = Field::pointIsInField(robot->pos, POINT_IN_FIELD_MARGIN);
+
+        if (!pointInField) {
+            force += ControlUtils::calculateForce(Vector2(-1.0, -1.0) / robot->pos, FORCE_WEIGHT_FIELD_SIDES, 99.9);
+        }
+    }
+
+
+    return force;
 }
 
-}
-}
-}
-}
+
+} // control
+} // ai
+} // rtt
+

@@ -73,6 +73,12 @@ void PIDController::setPID(double P, double I, double D) {
     this->setD(D);
 }
 
+void PIDController::setPID(tuple<double, double, double> pid) {
+    this->setP(std::get<0>(pid));
+    this->setI(std::get<1>(pid));
+    this->setD(std::get<2>(pid));
+}
+
 void PIDController::setPID(double P, double I, double D, double time) {
     this->setP(P);
     this->setI(I);
@@ -182,6 +188,8 @@ void PIDController::reset() {
     prev_error = 0;
     prev_error2 = 0; //only used in the case of 2 input variables
 }
+
+
 
 } // control
 } // ai

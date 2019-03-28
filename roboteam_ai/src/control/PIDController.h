@@ -20,6 +20,7 @@ private:
     double kP = 0;
     double kI = 0;
     double kD = 0;
+
     double timeDiff = 1.0 / Constants::TICK_RATE();
     double initial_I = 0;
     double initial_I2 = 0; //only used in the case of 2 input variables
@@ -43,6 +44,7 @@ public:
     double getD();
 
     void setPID(double P, double I, double D);
+    void setPID(tuple<double, double, double>);
     void setTimeDiff(double time);
     void setInitial(double initial);
     void setPrevErr(double prev);

@@ -12,8 +12,17 @@ namespace ai {
 namespace control {
 
 class ForcePosControl : public PosController {
-    explicit ForcePosControl() = default;
+public:
+    explicit ForcePosControl();
     PosVelAngle getPosVelAngle(RobotPtr robot, Vector2 &targetPos) override;
+    Vector2 calculateForces(const RobotPtr &robot, const Vector2 &targetPos, double forceRadius) const;
+
+private:
+    const double FORCE_WEIGHT_US = 1.0;
+    const double FORCE_WEIGHT_THEM = 2.0;
+    const double FORCE_WEIGHT_BALL = 1.0;
+    const double FORCE_WEIGHT_FIELD_SIDES = 1.0;
+    const double POINT_IN_FIELD_MARGIN = 0.5;
 };
 
 } // control

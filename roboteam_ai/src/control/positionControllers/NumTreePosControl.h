@@ -5,7 +5,6 @@
 #ifndef ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 #define ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 
-#include "PositionControlIncludes.h"
 #include <roboteam_ai/src/interface/InterfaceValues.h>
 
 namespace rtt {
