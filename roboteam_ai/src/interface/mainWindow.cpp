@@ -154,20 +154,12 @@ MainWindow::MainWindow(QWidget* parent)
     cbVLayout->addSpacerItem(cbVSpacer);
     checkboxWidget->setLayout(cbVLayout);
 
-
     // create a keeper widget
     auto keeperWidget = new QWidget;
     auto keeperVLayout = new QVBoxLayout(keeperWidget);
-    keeperVLayout->addWidget(keeperTreeWidget);
-    auto keeperVSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
-    keeperVLayout->addSpacerItem(keeperVSpacer);
-
 
     select_goalie = new QComboBox();
     keeperVLayout->addWidget(select_goalie);
-
-
-
     QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
                      [=](const QString &goalieId) {
                          // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
@@ -176,6 +168,10 @@ MainWindow::MainWindow(QWidget* parent)
                      });
 
     keeperVLayout->addWidget(select_goalie);
+    keeperVLayout->addWidget(keeperTreeWidget);
+
+    auto keeperVSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    keeperVLayout->addSpacerItem(keeperVSpacer);
 
     // add the tab widget
     auto tabWidget = new QTabWidget;
