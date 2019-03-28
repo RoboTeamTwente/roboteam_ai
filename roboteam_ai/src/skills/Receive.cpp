@@ -37,8 +37,6 @@ Receive::Status Receive::onUpdate() {
                                             Vector2(robot->pos)).angle()); //Rotates towards the ball
             currentProgress = RECEIVING;
             coach::g_pass.setReadyToReceivePass(true);
-
-
             /// If receiving
         } else {
             command.w = static_cast<float>((Vector2(ball->pos) -
@@ -56,14 +54,13 @@ Receive::Status Receive::onUpdate() {
                 if (checkTicks >= maxCheckTicks) return Status::Success;
             }
 
-
             double ballAngle = ((Vector2) robot->pos - ball->pos).angle();
             if (Vector2(ball->vel).length() > 0.6 && (ballAngle - Vector2(ball->vel).angle()) < 0.5) {
                 Vector2 ballStartVel = ball->vel;
                 Vector2 ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
                 Vector2 interceptPoint = Receive::computeInterceptPoint(ballStartPos, ballEndPos);
 
-                Vector2 velocities = goToPos.goToPos(robot, interceptPoint, GoToType::BASIC).vel;
+                Vector2 velocities = goToPos.getPosVelAngle(robot, interceptPoint).vel;
                 velocities = control::ControlUtils::velocityLimiter(velocities);
                 command.x_vel = static_cast<float>(velocities.x);
                 command.y_vel = static_cast<float>(velocities.y);

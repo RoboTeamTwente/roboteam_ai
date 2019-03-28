@@ -6,10 +6,6 @@
 
 #define GetCurrentDir getcwd // Needed for the path finding
 
-namespace rtt {
-namespace ai {
-namespace treeinterp {
-
 /// Returns the file path from /home/ to the given json name
 std::string JsonReader::getFilePath(std::string name) {
 
@@ -79,8 +75,3 @@ void JsonReader::editJSON(std::string fileName, std::string treeID, std::string 
     ofs << fileJson;
     ofs.close();
 }
-
-
-} // treeinterp
-} // ai
-} // rtt

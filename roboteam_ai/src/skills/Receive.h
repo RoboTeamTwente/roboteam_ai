@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_RECEIVE_H
 #define ROBOTEAM_AI_RECEIVE_H
 
+#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include "Skill.h"
 #include "InterceptBall.h"
 #include "../coach/GeneralPositionCoach.h"
@@ -21,8 +22,8 @@ private:
 
     Progression currentProgress = POSITIONING;
 
-    control::PositionController goToPos;
-    GoToType goToType;
+    control::BasicPosControl goToPos;
+
     Vector2 focusPoint;
     Vector2 ballStartPos;
     Vector2 ballEndPos;

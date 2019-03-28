@@ -5,6 +5,8 @@
 #ifndef ROBOTEAM_AI_PASS_H
 #define ROBOTEAM_AI_PASS_H
 
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include "Skill.h"
 #include <roboteam_ai/src/coach/PassCoach.h>
 #include <roboteam_ai/src/coach/GeneralPositionCoach.h>
@@ -19,7 +21,9 @@ private:
     std::shared_ptr<roboteam_msgs::WorldRobot> robotToPassTo;
 
     Vector2 targetPos;
-    control::PositionController goToPos;
+
+    control::NumTreePosControl numTreeGtp;
+    control::ForcePosControl forceGtp;
 
     Status getBall();
     Status moveBehindBall();
@@ -31,7 +35,7 @@ public:
     Status onUpdate() override;
 
     roboteam_msgs::RobotCommand getBasicCommand() const;
-    void sendMoveCommand(const GoToType& goToType, double minimumSpeed = 0.0);
+    void sendMoveCommand(double minimumSpeed = 0.0);
 };
 
 } //ai

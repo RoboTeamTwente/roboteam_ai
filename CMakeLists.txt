@@ -109,8 +109,8 @@ set(TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DefaultTactic.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/PenaltyTactic.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/PenaltyTactic.h
-
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DefaultTactic.h)
+
 set(IO_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/IOManager.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/io/IOManager.cpp)
@@ -241,14 +241,19 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ControlGoToPosBallControl.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ControlGoToPosBallControl.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PositionController.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PositionController.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PIDController.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PIDController.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/NumTreePosControl.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/NumTreePosControl.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosVelAngle.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PositionControlIncludes.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/BasicPosControl.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/BasicPosControl.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ForcePosControl.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ForcePosControl.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosController.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosController.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PathPoint.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PathPoint.h)
 
 
 set(TEST_SOURCES

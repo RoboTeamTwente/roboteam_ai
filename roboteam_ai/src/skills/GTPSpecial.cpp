@@ -51,8 +51,8 @@ void GTPSpecial::onInitialize() {
         maxVel = properties->getDouble("maxVel");
     }
 
-    goToPos.setAvoidBall(properties->getBool("avoidBall"));
-    goToPos.setCanGoOutsideField(properties->getBool("canGoOutsideField"));
+    gotopos.setAvoidBall(properties->getBool("avoidBall"));
+    gotopos.setCanGoOutsideField(properties->getBool("canGoOutsideField"));
 }
 
 Vector2 GTPSpecial::getBallFromSideLocation() {

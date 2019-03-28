@@ -3,6 +3,10 @@
 //
 
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
+#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
+#include <roboteam_ai/src/utilities/Constants.h>
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include "Pass.h"
 
 namespace rtt {
@@ -11,6 +15,8 @@ namespace ai {
 Pass::Pass(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) { }
 
 void Pass::onInitialize() {
+    numTreeGtp.setAvoidBall(true);
+    basicGtp.setAvoidBall(false);
     robotToPassToID = coach::g_ballPlacement.initiatePass();
 }
 
@@ -28,6 +34,7 @@ Pass::Status Pass::onUpdate() {
         return Status::Success;
     } else if (isBehindBall) {
         return hasBall ? shoot() : getBall();
+
     }
     return moveBehindBall();
 }
@@ -36,8 +43,7 @@ Pass::Status Pass::onUpdate() {
 bt::Leaf::Status Pass::moveBehindBall() {
     std::cout << "Getting behind ball" << std::endl;
     targetPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.20, robotToPassTo->pos);
-    goToPos.setAvoidBall(true);
-    sendMoveCommand(GoToType::NUMERIC_TREES);
+    sendMoveCommand();
     return bt::Leaf::Status::Running;
 }
 
@@ -46,11 +52,9 @@ bt::Leaf::Status Pass::getBall() {
     std::cout << "Getting ball" << std::endl;
 
     targetPos = ball->pos;
-    goToPos.setAvoidBall(false);
-
     roboteam_msgs::RobotCommand command = getBasicCommand();
 
-    control::PosVelAngle pva = goToPos.goToPos(robot, targetPos, GoToType::FORCE);
+    control::PosVelAngle pva = forceGtp.getPosVelAngle(robot, targetPos);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL(), 0.3);
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);
@@ -85,15 +89,13 @@ roboteam_msgs::RobotCommand Pass::getBasicCommand() const {
 }
 
 /// send a command to move the current robot to targetPos with a certain goToType.
-void Pass::sendMoveCommand(const Skill::GoToType& goToType, const double minimumSpeed) {
+void Pass::sendMoveCommand(const double minimumSpeed) {
     roboteam_msgs::RobotCommand command = getBasicCommand();
-
-    control::PosVelAngle pva = goToPos.goToPos(robot, targetPos, goToType);
+    control::PosVelAngle pva = numTreeGtp.getPosVelAngle(robot, targetPos);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL(), minimumSpeed);
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);
     command.w = static_cast<float>( (targetPos - robot->pos).angle());
-
     publishRobotCommand(command);
 }
 
