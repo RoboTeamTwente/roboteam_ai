@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget* parent)
     auto splitter = new QSplitter(); // the splitter is an horizontal view that allows to be changed by the user
     robotsWidget = new RobotsWidget(this);
     treeWidget = new TreeVisualizerWidget(this);
+    keeperTreeWidget = new TreeVisualizerWidget(this);
 
 
     // functions to select strategies
@@ -153,12 +154,23 @@ MainWindow::MainWindow(QWidget* parent)
     cbVLayout->addSpacerItem(cbVSpacer);
     checkboxWidget->setLayout(cbVLayout);
 
+
+    // create a keeper widget
+    auto keeperWidget = new QWidget;
+    auto keeperVLayout = new QVBoxLayout(keeperWidget);
+    keeperVLayout->addWidget(keeperTreeWidget);
+    auto keeperVSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    keeperVLayout->addSpacerItem(cbVSpacer);
+
+
     // add the tab widget
     auto tabWidget = new QTabWidget;
     tabWidget->addTab(treeWidget, tr("Behaviour trees"));
     tabWidget->addTab(checkboxWidget, tr("Visualisation Settings"));
     tabWidget->addTab(pidWidget, tr("PID"));
     tabWidget->addTab(robotsWidget, tr("Robots"));
+    tabWidget->addTab(keeperWidget, tr("Keeper"));
+
     vLayout->addWidget(tabWidget);
 
 
@@ -185,7 +197,8 @@ MainWindow::MainWindow(QWidget* parent)
     // start the UI update cycles
     // these are slower
     auto * robotsTimer = new QTimer(this);
-    connect(robotsTimer, SIGNAL(timeout()), treeWidget, SLOT(updateContents()));
+    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateTreeWidget()));
+    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateKeeperTreeWidget()));
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget())); // we need to pass the visualizer so thats why a seperate function is used
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updatePause()));
     robotsTimer->start(200); // 5fps
@@ -274,6 +287,14 @@ void MainWindow::setSelectStrategyText(QString text) {
 void MainWindow::refreshSignal() {
     treeinterp::g_btfactory.init();
     treeWidget->setHasCorrectTree(false);
+}
+
+void MainWindow::updateTreeWidget() {
+this->treeWidget->updateContents(treeinterp::g_btfactory.getTree(treeinterp::g_btfactory.getCurrentTree()));
+}
+
+void MainWindow::updateKeeperTreeWidget() {
+   this->keeperTreeWidget->updateContents(treeinterp::g_btfactory.getKeeperTree());
 }
 
 

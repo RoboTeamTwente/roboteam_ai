@@ -48,7 +48,9 @@ class MainWindow : public QMainWindow {
         void updatePause();
         void setUseReferee(bool useRef);
         void updateRobotsWidget();
-        void setShowDebugValueInTerminal(bool showDebug);
+        void updateTreeWidget();
+        void updateKeeperTreeWidget();
+    void setShowDebugValueInTerminal(bool showDebug);
         void refreshSignal();
     private:
         std::shared_ptr<treeinterp::BTFactory> factory;
@@ -60,6 +62,8 @@ class MainWindow : public QMainWindow {
         QVBoxLayout* vLayout;
         RobotsWidget* robotsWidget;
         TreeVisualizerWidget* treeWidget;
+        TreeVisualizerWidget* keeperTreeWidget;
+
         QPushButton* haltBtn;
         QPushButton* refreshBtn;
 
