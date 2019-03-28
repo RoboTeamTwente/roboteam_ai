@@ -13,9 +13,12 @@ namespace control {
 
 class ForcePosControl : public PosController {
 public:
-    explicit ForcePosControl();
+    explicit ForcePosControl() = default;
     PosVelAngle getPosVelAngle(RobotPtr robot, Vector2 &targetPos) override;
     Vector2 calculateForces(const RobotPtr &robot, const Vector2 &targetPos, double forceRadius) const;
+
+protected:
+    PosVelAngle calculateForcePosVelAngle(RobotPtr robot, Vector2 &targetPos);
 
 private:
     const double FORCE_WEIGHT_US = 1.0;

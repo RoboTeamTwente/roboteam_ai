@@ -114,11 +114,11 @@ PosVelAngle NumTreePosControl::getPosVelAngle(std::shared_ptr<roboteam_msgs::Wor
             std::cout << "robot is too close to another robot, trying to use forces instead" << std::endl;
 
         path.clear();
-        return {};
+        return calculateForcePosVelAngle(robot, targetPos);
     }
     if ((targetPos-robot->pos).length() < Constants::MIN_DISTANCE_FOR_FORCE()) {
         path.clear();
-        return {};
+        return calculateForcePosVelAngle(robot, targetPos);
     }
     else if (doRecalculatePath(robot, targetPos)) {
 
@@ -146,12 +146,14 @@ PosVelAngle NumTreePosControl::getPosVelAngle(std::shared_ptr<roboteam_msgs::Wor
     if (InterfaceValues::showDebugNumTreeTimeTaken() && InterfaceValues::showFullDebugNumTreeInfo())
         std::cout << "GoToPosClean tick took: " << (end-begin).toNSec()*0.000001 << " ms" << std::endl;
 
+
+    // check if we have a nice path. use forces otherwise.
     if (nicePath) {
-        return computeCommand(robot);
+        return controlWithPID(robot, computeCommand(robot));
     }
     else {
         path.clear();
-        return {};
+        return calculateForcePosVelAngle(robot, targetPos);
     }
 }
 
