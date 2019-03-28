@@ -3,15 +3,13 @@
 //
 
 #include "ControlGoToPosBallControl.h"
+#include "PosVelAngle.h"
 
 namespace rtt {
 namespace ai {
 namespace control {
 
-
-PosVelAngle ControlGoToPosBallControl::goToPos(ControlGoToPosBallControl::RobotPtr robot,
-        Vector2 &target) {
-
+PosVelAngle ControlGoToPosBallControl::getPosVelAngle(RobotPtr robot, Vector2 &targetPos) {
     return {};
 }
 

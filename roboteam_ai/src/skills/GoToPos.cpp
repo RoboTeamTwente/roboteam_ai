@@ -23,8 +23,8 @@ void GoToPos::onInitialize() {
         maxVel = properties->getDouble("maxVel");
     }
 
-    goToPos.setAvoidBall(properties->getBool("avoidBall"));
-    goToPos.setCanGoOutsideField(properties->getBool("canGoOutsideField"));
+        gotopos.setAvoidBall(properties->getBool("avoidBall"));
+        gotopos.setCanGoOutsideField(properties->getBool("canGoOutsideField"));
 }
 
 /// Get an update on the skill
@@ -34,7 +34,7 @@ bt::Node::Status GoToPos::onUpdate() {
         return Status::Success;
     }
 
-    control::PosVelAngle pva = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES);
+    control::PosVelAngle pva = gotopos.getPosVelAngle(robot, targetPos);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel, maxVel);
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);

@@ -47,7 +47,7 @@ Receive::Status Receive::onUpdate() {
             Vector2 ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
             Vector2 interceptPoint = Receive::computeInterceptPoint(ballStartPos, ballEndPos);
 
-            control::PosVelAngle velocities = goToPos.goToPos(robot, interceptPoint, GoToType::BASIC);
+            control::PosVelAngle velocities = goToPos.getPosVelAngle(robot, interceptPoint);
             velocities.vel = control::ControlUtils::velocityLimiter(velocities.vel);
             command.x_vel = static_cast<float>(velocities.vel.x);
             command.y_vel = static_cast<float>(velocities.vel.y);

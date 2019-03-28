@@ -28,7 +28,7 @@ std::mutex InterfaceValues::ballPlacementMutex;
 std::mutex InterfaceValues::refMutex;
 std::mutex InterfaceValues::showDebugMutex;
 
-double InterfaceValues::setNumTreePosP() {
+double InterfaceValues::getNumTreePosP() {
     std::lock_guard<std::mutex> lock(pidMutex);
     return numTreePosP;
 }

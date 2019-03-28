@@ -1,3 +1,4 @@
+#include <roboteam_ai/src/control/ControlUtils.h>
 #include "Skill.h"
 
 namespace rtt {

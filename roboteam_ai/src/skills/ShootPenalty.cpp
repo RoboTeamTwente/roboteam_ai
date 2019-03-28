@@ -26,7 +26,7 @@ Skill::Status ShootPenalty::onUpdate() {
             } else {
                 command.w = static_cast<float>((ballPos - robot->pos).angle());
                 command.geneva_state = 1;
-                Vector2 velocity = goToPos.goToPos(robot, ballPos, control::PosControlType::BASIC).vel;
+                Vector2 velocity = goToPos.getPosVelAngle(robot, ballPos).vel;
                 command.x_vel = static_cast<float>(velocity.x);
                 command.y_vel = static_cast<float>(velocity.y);
                 publishRobotCommand();
@@ -63,7 +63,7 @@ Skill::Status ShootPenalty::onUpdate() {
                 command.geneva_state = 1;
                 command.kicker = static_cast<unsigned char>(true);
                 command.kicker_vel = Constants::MAX_KICK_POWER();
-                Vector2 velocity = goToPos.goToPos(robot, ballPos, control::PosControlType::BASIC).vel;
+                Vector2 velocity = goToPos.getPosVelAngle(robot, ballPos).vel;
                 command.x_vel = static_cast<float>(velocity.x);
                 command.y_vel = static_cast<float>(velocity.y);
                 publishRobotCommand();

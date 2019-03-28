@@ -37,7 +37,7 @@ bt::Node::Status EnterFormation::onUpdate() {
     Vector2 targetToLookAtLocation = Field::get_their_goal_center();
 
     if (robotPos.dist(targetLocation) > errorMargin) {
-        auto velocities = gtp.goToPos(robot, targetLocation, control::PosControlType::NUMERIC_TREES);
+        auto velocities = gtp.getPosVelAngle(robot, targetLocation);
         command.x_vel = velocities.vel.x;
         command.y_vel = velocities.vel.y;
         command.w = static_cast<float>((targetLocation-robot->pos).angle());

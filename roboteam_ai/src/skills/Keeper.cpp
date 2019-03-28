@@ -32,7 +32,7 @@ Keeper::Status Keeper::onUpdate() {
             std::cout << "Keeper escaping field!" << std::endl;
             return Status::Running;
         } else {
-            Vector2 velocities = goToPos.goToPos(robot, blockPoint, GoToType::BASIC).vel;
+            Vector2 velocities = gtp.getPosVelAngle(robot, blockPoint).vel;
             velocities = control::ControlUtils::velocityLimiter(velocities);
             command.x_vel = static_cast<float>(velocities.x);
             command.y_vel = static_cast<float>(velocities.y);
