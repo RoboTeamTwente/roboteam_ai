@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_ENTERFORMATION_H
 #define ROBOTEAM_AI_ENTERFORMATION_H
 
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include "Skill.h"
 #include "gtest/gtest_prod.h"
 
@@ -20,7 +21,7 @@ public:
     void onTerminate(bt::Node::Status) override;
 
 private:
-    control::PositionController gtp;
+    control::NumTreePosControl gtp;
     double errorMargin = 0.1;
     enum Formation {
       Normal,
@@ -28,7 +29,6 @@ private:
       FreeKick
     };
     Formation formation;
-    void setFormation(std::string property);
 
     static std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> robotsInFormation;
     int robotsInFormationMemory = 0;

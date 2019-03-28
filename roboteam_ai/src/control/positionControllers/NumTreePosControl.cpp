@@ -1,11 +1,8 @@
-#include "../../utilities/Field.h"
-
-//
-// Created by rolf on 5-2-19.
-//
-
+#include <queue>
+#include <roboteam_ai/src/interface/drawer.h>
 #include "../../utilities/Field.h"
 #include "NumTreePosControl.h"
+#include "PosVelAngle.h"
 
 namespace rtt {
 namespace ai {
@@ -14,11 +11,6 @@ namespace control {
 /// Clears data and resets variables
 void NumTreePosControl::clear() {
     path.clear();
-}
-
-/// Turn ball avoidance off and on
-void NumTreePosControl::setAvoidBall(bool _avoidBall) {
-    avoidBall = _avoidBall;
 }
 
 /// Make the Robot able to go outside of the field
@@ -103,7 +95,7 @@ bool NumTreePosControl::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRo
 }
 
 /// finds a path using a numeric model
-PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
+PosVelAngle NumTreePosControl::getPosVelAngle(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 &targetPos) {
     ros::Time begin = ros::Time::now();
     robotID = robot->id;
 
@@ -122,11 +114,11 @@ PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot
             std::cout << "robot is too close to another robot, trying to use forces instead" << std::endl;
 
         path.clear();
-        return {};
+        return calculateForcePosVelAngle(robot, targetPos);
     }
     if ((targetPos-robot->pos).length() < Constants::MIN_DISTANCE_FOR_FORCE()) {
         path.clear();
-        return {};
+        return calculateForcePosVelAngle(robot, targetPos);
     }
     else if (doRecalculatePath(robot, targetPos)) {
 
@@ -154,12 +146,14 @@ PosVelAngle NumTreePosControl::goToPos(std::shared_ptr<roboteam_msgs::WorldRobot
     if (InterfaceValues::showDebugNumTreeTimeTaken() && InterfaceValues::showFullDebugNumTreeInfo())
         std::cout << "GoToPosClean tick took: " << (end-begin).toNSec()*0.000001 << " ms" << std::endl;
 
+
+    // check if we have a nice path. use forces otherwise.
     if (nicePath) {
-        return computeCommand(robot);
+        return controlWithPID(robot, computeCommand(robot));
     }
     else {
         path.clear();
-        return {};
+        return calculateForcePosVelAngle(robot, targetPos);
     }
 }
 
@@ -273,7 +267,7 @@ double NumTreePosControl::remainingStraightLinePathLength(Vector2 currentPos, Ve
 }
 
 /// create a new pathPoint using a linear acceleration ODE
-std::shared_ptr<NumTreePosControl::PathPoint> NumTreePosControl::computeNewPoint(
+std::shared_ptr<PathPoint> NumTreePosControl::computeNewPoint(
         std::shared_ptr<PathPoint> oldPoint, Vector2 subTarget) {
 
 //Copy parent
@@ -311,7 +305,7 @@ std::shared_ptr<NumTreePosControl::PathPoint> NumTreePosControl::computeNewPoint
 bool NumTreePosControl::checkCollision(std::shared_ptr<PathPoint> point, double collisionRadius) {
     roboteam_msgs::World world = World::get_world();
     for (auto bot : world.us) {
-        if (bot.id != (robotID)) {
+        if (bot.id != static_cast<unsigned long>(robotID)) {
             Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
             if (point->isCollision(botPos, collisionRadius))
                 return true;
@@ -366,7 +360,7 @@ Vector2 NumTreePosControl::findCollisionPos(std::shared_ptr<PathPoint> point, do
 }
 
 /// after a collision, get new half-way targets to try to go towards
-std::pair<std::vector<Vector2>, std::shared_ptr<NumTreePosControl::PathPoint>> NumTreePosControl::getNewTargets(
+std::pair<std::vector<Vector2>, std::shared_ptr<PathPoint>> NumTreePosControl::getNewTargets(
         std::shared_ptr<PathPoint> collisionPoint) {
 
     std::shared_ptr<PathPoint> initialBranchStart = collisionPoint->backTrack(collisionPoint->t - 0.91);
@@ -392,48 +386,10 @@ std::pair<std::vector<Vector2>, std::shared_ptr<NumTreePosControl::PathPoint>> N
     return {newTargets, newBranchStart};
 }
 
-/// go back in the path until desired time or until Root
-std::shared_ptr<NumTreePosControl::PathPoint> NumTreePosControl::PathPoint::backTrack(double backTime) {
-    if (! parent)
-        return shared_from_this();
-    else if (backTime > t)
-        return shared_from_this();
-    else
-        return parent->backTrack(backTime);
-}
 
-/// go back in the path until desired collision difference or until Root
-std::shared_ptr<NumTreePosControl::PathPoint> NumTreePosControl::PathPoint::backTrack(int maxCollisionDiff) {
-    if (! parent)
-        return shared_from_this();
-    else if (maxCollisionDiff == 0)
-        return shared_from_this();
-    else
-        return parent->backTrack(collisions - parent->collisions);
-    if (collisions > parent->collisions)
-        return parent->backTrack(maxCollisionDiff - 1);
-    else
-        return parent->backTrack(maxCollisionDiff);
-}
-
-/// go back in the path until desired time, collision difference or until Root
-std::shared_ptr<NumTreePosControl::PathPoint> NumTreePosControl::PathPoint::backTrack(double backTime,
-        int maxCollisionDiff) {
-
-    if (! parent)
-        return shared_from_this();
-    else if (maxCollisionDiff == 0)
-        return shared_from_this();
-    else if (collisions > parent->collisions)
-        return parent->backTrack(maxCollisionDiff - 1);
-    else if (backTime > t)
-        return shared_from_this();
-    else
-        return parent->backTrack(backTime, maxCollisionDiff);
-}
 
 ///backTracks the path from endPoint until it hits root and outputs in order from root->endPoint
-std::vector<NumTreePosControl::PathPoint> NumTreePosControl::backTrackPath(std::shared_ptr<PathPoint> point,
+std::vector<PathPoint> NumTreePosControl::backTrackPath(std::shared_ptr<PathPoint> point,
         std::shared_ptr<PathPoint> root) {
 
     std::vector<PathPoint> path = {};
@@ -484,57 +440,6 @@ void NumTreePosControl::drawCross(Vector2 &pos, QColor color) {
 /// draw a point in the interface
 void NumTreePosControl::drawPoint(Vector2 &pos, QColor color) {
     displayData.emplace_back(pos, color);
-}
-
-/// add a child to the current path
-void NumTreePosControl::PathPoint::addChild(std::shared_ptr<PathPoint> &newChild) {
-    children.push_back(newChild);
-}
-/// add multiple children to the current path
-void NumTreePosControl::PathPoint::addChildren(std::vector<std::shared_ptr<PathPoint>> &newChildren) {
-    children.insert(children.end(), newChildren.begin(), newChildren.end());
-}
-
-/// check if a branch already has the target
-bool NumTreePosControl::PathPoint::branchHasTarget(const Vector2 &target) {
-
-    for (const auto &child : children) {
-        if ((child->currentTarget - target).length() < 0.15) {
-            return true;
-        }
-    }
-    return false;
-}
-
-/// check if ANY branch already has that target
-bool NumTreePosControl::PathPoint::anyBranchHasTarget(const Vector2 &target) {
-    auto root = backTrack(0.0);
-    return root->anyChildHasTarget(target);
-}
-
-/// check if ANY child already has that target
-bool NumTreePosControl::PathPoint::anyChildHasTarget(const Vector2 &target) {
-    for (const auto &child : children) {
-        if ((child->currentTarget - target).length() < 0.15 || child->anyChildHasTarget(target)) {
-            return true;
-        }
-    }
-    return false;
-}
-
-/// check if ANY parent already has that target
-bool NumTreePosControl::PathPoint::anyParentHasTarget(const Vector2 &target) {
-    if (parent) {
-        if ((parent->currentTarget - target).length() < 0.15 || parent->anyParentHasTarget(target)) {
-            return true;
-        }
-    }
-    return false;
-}
-
-/// check if a collision is occuring
-bool NumTreePosControl::PathPoint::isCollision(Vector2 target, double distance) {
-    return (target - pos).length() < distance;
 }
 
 }// control

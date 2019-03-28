@@ -9,6 +9,7 @@
 #include "utilities/Field.h"
 #include <sstream>
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
+#include <roboteam_ai/src/interface/InterfaceValues.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;

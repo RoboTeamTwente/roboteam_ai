@@ -21,7 +21,7 @@ bt::Node::Status SideAttacker::onUpdate() {
     if (! robot) return Status::Running;
     targetPos = coach::g_offensiveCoach.calculatePositionForRobot(robot);
 
-    auto newPosition = goToPos.goToPos(robot, targetPos);
+    auto newPosition = goToPos.getPosVelAngle(robot, targetPos);
     Vector2 velocity = newPosition.vel;
     velocity = control::ControlUtils::velocityLimiter(velocity);
 
