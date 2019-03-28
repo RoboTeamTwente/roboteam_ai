@@ -51,7 +51,9 @@ namespace rtt {
     /// To be called when a detection_frame message is received.
     void FilteredWorld::detection_callback(const roboteam_msgs::DetectionFrame msg) {
         buffer_detection_frame(msg);
+        //std::cout<<msg.camera_id<<std::endl;
         if (is_calculation_needed()) {
+            //std::cout<<"MERGE"<<std::endl;
             // Reset the camera update flags.
             for (auto &cam : world_cams) {
                 cam.second = false;
@@ -167,8 +169,6 @@ namespace rtt {
         // Take the ball from the camera where extrapolation with respect to the world is closest to
         // the extrapolation of the last world state's velocity and position
         if (!ball_buffer.empty()) {
-            ball_world.set_visible(true);
-
             // extrapolation of the last world's state velocity and position
             Position previousBallPos = ball_world.get_position();
             Position previousBallVel = ball_world.get_velocity();
@@ -203,6 +203,8 @@ namespace rtt {
             // Move the ball to the one that has best extrapolation
             //ball_world.move_to(ball_buffer[best_camera].pos.x,ball_buffer[best_camera].pos.y,ball_buffer[best_camera].z);
             ball_world.move_to(closestBall.pos.x, closestBall.pos.y, closestBall.z);
+            ball_world.set_area(closestBall.existence);
+            ball_world.set_visible(true);
         } else {
             ball_world.set_visible(false);
         }
@@ -249,8 +251,7 @@ namespace rtt {
                 if (timeFrameCaptured[buf.first] > last_frame) {
                     last_frame = timeFrameCaptured[buf.first];
                     Vector2 bufPosition = buf.second.pos;
-                    if (previousPosition == zero) {
-                        ROS_WARN("Previous position set to 0!!");
+                    if (previousPosition == zero) {;
                         Extrapolation=bufPosition;
                     }
                     else {
@@ -259,11 +260,15 @@ namespace rtt {
                         Extrapolation = previousPosition + bufVelocity * (timestamp - timeLastUpdated);
                     }
                     w = buf.second.orientation;
-                    if (w>M_PI){
-                        w=w-2*M_PI;
+                    if (w>=M_PI){
+                        while(w>=M_PI){
+                            w=w-2*M_PI;
+                        }
                     }
                     else if(w<-M_PI){
-                        w=w+2*M_PI;
+                        while(w<-M_PI){
+                            w=w+2*M_PI;
+                        }
                     }
                 }
             }

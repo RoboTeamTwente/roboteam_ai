@@ -45,7 +45,7 @@ namespace rtt {
     roboteam_msgs::WorldBall Ball::as_message() const {
 
         roboteam_msgs::WorldBall msg;
-        msg.area = area;
+        msg.existence = area; // at some point this was made existence do not ask me why
         msg.pos.x = x;
         msg.pos.y = y;
         msg.z = z;
