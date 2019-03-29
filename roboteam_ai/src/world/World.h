@@ -64,7 +64,7 @@ class World {
         bool ourRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
         bool theirRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
 
-        std::pair<WhichRobots, int> whichRobotHasBall(WhichRobots whichRobots = OUR_ROBOTS);
+        std::pair<WhichRobots, RobotPtr> whichRobotHasBall();
 
         const WorldData getFutureWorld(double time);
 

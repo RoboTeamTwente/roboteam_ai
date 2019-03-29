@@ -6,7 +6,7 @@
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include "../../src/skills/GoToPos.h"
 #include "roboteam_utils/Vector2.h"
-#include "../../src/utilities/World.h"
+#include "../../src/world/World.h"
 #include "../../src/utilities/RobotDealer.h"
 
 // Empty namespace for ROS errors
@@ -36,8 +36,8 @@ TEST(GoToPos, GoToPosTest) {
     robot.pos.y=0;
     worldMsg.us.push_back(robot);
     worldMsg.ball.existence = 99999;
-    rtt::ai::World::set_world(worldMsg);
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"GoToPosTest","GTPtest");
+    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::random,"GoToPosTest","GTPtest");
     rtt::ai::GoToPos goToPos("GTPtest", bb);
     goToPos.initialize();
 
@@ -48,7 +48,7 @@ TEST(GoToPos, GoToPosTest) {
     robot.pos.y = 6.0;
 
     worldMsg.us[0] = robot;
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->setWorld(worldMsg);
 
     EXPECT_EQ(goToPos.update(), bt::Leaf::Status::Success);
 

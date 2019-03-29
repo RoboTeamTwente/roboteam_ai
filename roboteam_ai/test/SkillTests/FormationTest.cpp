@@ -8,27 +8,29 @@
 
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/utilities/RobotDealer.h>
-#include <roboteam_ai/src/utilities/Field.h>
+#include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/world/World.h>
 #include "../../src/skills/EnterFormation.h"
 #include "../helpers/WorldHelper.h"
+
 
 namespace rtt {
 namespace ai {
 
 TEST(FormationTest, formation_test) {
-    robotDealer::RobotDealer::halt();
+    robotDealer::robotDealer->halt();
 
     // create a field and world
     roboteam_msgs::GeometryFieldSize field;
     field.field_length = 20;
     field.field_width = 10;
-    rtt::ai::Field::set_field(field);
-    rtt::ai::World::set_world(testhelpers::WorldHelper::getWorldMsg(2, 0, true, field));
+    rtt::ai::world::field->set_field(field);
+    rtt::ai::world::world->setWorld(testhelpers::WorldHelper::getWorldMsg(2, 0, true, field));
 
     // generate a robot running the skill
     auto properties = std::make_shared<bt::Blackboard>();
     properties->setString("ROLE", "formationRobot");
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random, "EnterFormationTest", "formationRobot");
+    robotDealer::robotDealer->claimRobotForTactic(robotDealer::RobotType::random, "EnterFormationTest", "formationRobot");
     rtt::ai::EnterFormation enterFormation("EnterFormationTest", properties);
 
     EXPECT_EQ(enterFormation.robotsInFormationMemory, 0);
@@ -46,7 +48,7 @@ TEST(FormationTest, formation_test) {
 // generate a second robot with the same skill
     auto properties2 = std::make_shared<bt::Blackboard>();
     properties2->setString("ROLE", "formationRobot2");
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random, "EnterFormationTest2", "formationRobot2");
+    robotDealer::robotDealer->claimRobotForTactic(robotDealer::RobotType::random, "EnterFormationTest2", "formationRobot2");
     rtt::ai::EnterFormation enterFormation2("EnterFormationTest2", properties2);
 
     EXPECT_EQ(enterFormation.robotsInFormationMemory, 1);
@@ -74,10 +76,6 @@ TEST(FormationTest, formation_test) {
 
     enterFormation2.update(); // propagate the changes (the fact that enterformation1 terminated)
     EXPECT_EQ(enterFormation2.robotsInFormationMemory, 1);
-
-    newPosition = enterFormation2.getFormationPosition();
-    EXPECT_EQ(rememberPosition, newPosition);
-
 }
 
 

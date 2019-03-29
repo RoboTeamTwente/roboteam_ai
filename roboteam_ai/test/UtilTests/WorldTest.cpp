@@ -86,8 +86,8 @@ TEST(WorldTest, bot_has_ball){
     w::world->setWorld(worldMsg);
     EXPECT_TRUE(w::world->ourRobotHasBall(0));
     EXPECT_FALSE(w::world->ourRobotHasBall(0,0.01));
-    EXPECT_EQ(w::world->whichRobotHasBall(),0);
-    EXPECT_EQ(w::world->whichRobotHasBall(),-1);
+    EXPECT_EQ(w::world->whichRobotHasBall().second->id,0);
+    EXPECT_EQ(w::world->whichRobotHasBall().second->id,-1);
     EXPECT_TRUE(w::world->robotHasBall(0, true));
     robot2.id=3;
     robot2.pos.x=0.25;
@@ -97,8 +97,8 @@ TEST(WorldTest, bot_has_ball){
     w::world->setWorld(worldMsg);
     EXPECT_TRUE(w::world->theirRobotHasBall(3));
     EXPECT_FALSE(w::world->theirRobotHasBall(3,0.01));
-    EXPECT_EQ(w::world->whichRobotHasBall(),0);
-    EXPECT_EQ(w::world->whichRobotHasBall(w::WhichRobots::THEIR_ROBOTS),3);
+    EXPECT_EQ(w::world->whichRobotHasBall().second->id,0);
+    EXPECT_EQ(w::world->whichRobotHasBall().second->id,3);
     EXPECT_TRUE(w::world->robotHasBall(3, false));
     EXPECT_TRUE(w::world->robotHasBall(0, true));
 }
@@ -111,7 +111,7 @@ TEST(WorldTest,bot_has_ball_us_repeated){
         std::pair<roboteam_msgs::World,int> worldWithRobot=testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(8,8,true,field);
         w::world->setWorld(worldWithRobot.first);
         EXPECT_TRUE(w::world->ourRobotHasBall(worldWithRobot.second));
-        EXPECT_EQ(w::world->whichRobotHasBall(),worldWithRobot.second);
+        EXPECT_EQ(w::world->whichRobotHasBall().second->id,worldWithRobot.second);
     }
 }
 TEST(WorldTest,bot_has_ball_them_repeated){
@@ -122,7 +122,7 @@ TEST(WorldTest,bot_has_ball_them_repeated){
         std::pair<roboteam_msgs::World,int> worldWithRobot=testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(8,8,false,field);
         w::world->setWorld(worldWithRobot.first);
         EXPECT_TRUE(w::world->theirRobotHasBall(worldWithRobot.second));
-        EXPECT_EQ(w::world->whichRobotHasBall(w::WhichRobots::THEIR_ROBOTS),worldWithRobot.second);
+        EXPECT_EQ(w::world->whichRobotHasBall().second->id,worldWithRobot.second);
     }
 }
 TEST(WorldTest,ball_visibility){
@@ -168,41 +168,5 @@ TEST(WorldTest,ball_visibility){
     w::world->setWorld(worldMsg);
     EXPECT_FALSE(w::world->ourRobotHasBall(3));
     EXPECT_FALSE(w::world->ourRobotHasBall(0));
-}
-
-
-TEST(WorldTest, get_robot_closest_to_ball) {
-    roboteam_msgs::GeometryFieldSize field;
-    field.field_width = 12;
-    field.field_length = 8;
-    rtt::ai::Field::set_field(field);
-
-    using World = rtt::ai::World;
-
-    // create a world with 5v5 and one of our robots has the ball
-    auto world = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(5, 5, true, field);
-    World::set_world(world.first);
-    auto robotThatHasBallId = world.second;
-
-
-    // the right robot is closest
-    EXPECT_EQ(World::getRobotClosestToBall().first, robotThatHasBallId);
-
-    // it is our robot
-    EXPECT_TRUE(World::getRobotClosestToBall().second);
-    EXPECT_EQ(World::getRobotClosestToBall(true)->id, robotThatHasBallId);
-
-    // create a world with 5v5 and one of their robots has the ball
-    world = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(5, 5, false, field);
-    World::set_world(world.first);
-    robotThatHasBallId = world.second;
-
-    // the right robot is closest
-    EXPECT_EQ(World::getRobotClosestToBall().first, robotThatHasBallId);
-
-    // it is our robot
-    EXPECT_FALSE(World::getRobotClosestToBall().second);
-
-    EXPECT_EQ(World::getRobotClosestToBall(false)->id, robotThatHasBallId);
 }
 

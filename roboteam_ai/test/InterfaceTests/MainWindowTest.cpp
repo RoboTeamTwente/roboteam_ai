@@ -79,11 +79,12 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     EXPECT_FALSE(vis->showTactics);
     EXPECT_FALSE(vis->showVelocities);
 
-    std::shared_ptr<w::WorldData>worldMsg;
+    w::WorldData worldMsg;
     w::Robot robot;
     robot.id = 1;
-    worldMsg->us.push_back(robot);
-    w::world->setWorldData(worldMsg);
+    worldMsg.us.push_back(robot);
+    auto wPtr = std::make_shared<w::WorldData>(worldMsg);
+    w::world->setWorldData(wPtr);
 
     EXPECT_EQ(vis->getSelectedRobots().size(), 0);
     EXPECT_FALSE(vis->robotIsSelected(robot));
