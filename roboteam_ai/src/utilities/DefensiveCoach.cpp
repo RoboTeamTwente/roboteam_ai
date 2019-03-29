@@ -207,7 +207,7 @@ std::vector<std::pair<Vector2, double>> DefensiveCoach::decideDefendersOnDefense
             blocks.push_back(decidedBlock.first);
         }
         // create possible passes ordered from most dangerous to least dangerous
-        std::vector<std::pair<PossiblePass, double>> passWithScore=createPassesAndDanger(bots,decidedBlocks);
+        std::vector<std::pair<PossiblePass, double>> passWithScore=createPassesAndDanger(bots,blocks);
         std::vector<roboteam_msgs::WorldRobot> virtualBots=createVirtualBots(blocks);// we create virtual bots
         // check for all the passes if we can block the shot from the pass receive position
         for (const auto &bestPass: passWithScore) {

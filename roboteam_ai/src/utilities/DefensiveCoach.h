@@ -37,7 +37,7 @@ class DefensiveCoach {
         static void visualizePoints();
 
         static std::vector<roboteam_msgs::WorldRobot> createVirtualBots(std::vector<Vector2> decidedBlocks);
-        static std::vector<std::pair<PossiblePass, double>> createPassesAndDanger(std::vector<roboteam_msgs::WorldRobot> bots, std::vector<std::pair<Vector2,double>> decidedBlocks);
+        static std::vector<std::pair<PossiblePass, double>> createPassesAndDanger(std::vector<roboteam_msgs::WorldRobot> bots, std::vector<Vector2> decidedBlocks);
     public:
         static std::shared_ptr<std::pair<Vector2,Vector2>> getBlockLineSegment(std::pair<Vector2,Vector2> openGoalSegment, Vector2 point,double collisionRadius, double margin=-1.0);
         static std::vector<Vector2> doubleBlockOnDefenseLine(std::pair<Vector2, Vector2> openGoalSegment, Vector2 point);
