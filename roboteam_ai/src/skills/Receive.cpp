@@ -68,7 +68,7 @@ bool Receive::isInPosition(Vector2 behindTargetPos) {
     bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->pos, 0.3*M_PI);
 
     if (ballPlacement) {
-        bool isBehindTargetPos = behindTargetPos.dist(robot->pos) < 0.10;
+        bool isBehindTargetPos = behindTargetPos.dist(robot->pos) < 0.03;
 
         std::cout << "behind targetpos: " << isBehindTargetPos << std::endl;
         std::cout << "isAimedAtBall: " << isAimedAtBall << std::endl;

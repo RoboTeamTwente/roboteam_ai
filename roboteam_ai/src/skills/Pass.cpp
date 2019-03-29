@@ -42,9 +42,9 @@ Pass::Status Pass::onUpdate() {
 
     bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos);
     auto behindBallpos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
-    bool isOnLineToBall = control::ControlUtils::distanceToLine(robot->pos, ball->pos, behindBallpos) < 0.02;
+    bool isOnLineToBall = control::ControlUtils::distanceToLine(robot->pos, ball->pos, behindBallpos) < 0.0255;
     bool hasBall = World::ourBotHasBall(robot->id, Constants::MAX_BALL_RANGE());
-    bool ballIsMovingFast = Vector2(World::getBall()->vel).length() > 0.4;
+    bool ballIsMovingFast = Vector2(World::getBall()->vel).length() > 0.8;
 
     if (ballIsMovingFast) {
         coach::g_pass.setPassed(true);
@@ -94,7 +94,12 @@ bt::Leaf::Status Pass::shoot() {
         command.kicker_forced = 1;
         const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
         double distance = (Vector2(ball->pos) - robotToPassTo->pos).length();
-        double kicker_vel_multiplier = distance > maxPowerDist ? 1.0 : distance / (0.9 * maxPowerDist); // kick harder
+
+
+        double kicker_vel_multiplier = distance > maxPowerDist ? 1.0 : distance / maxPowerDist; // kick harder
+
+
+
         command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER() * kicker_vel_multiplier);
         publishRobotCommand();
     } else {

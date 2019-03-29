@@ -31,10 +31,10 @@ protected:
     bool canMoveInDefenseArea = false;
     bool avoidBall = false;
 
-    PID xpid = PID(3.0, 0, 3.0);
-    PID ypid = PID(3.0, 0, 3.0);
+    PID xpid = PID(2.4, 0, 0.0);
+    PID ypid = PID(2.4, 0, 0.0);
 
-    bool getPIDFromInterface = true;
+    bool getPIDFromInterface = false;
     PosVelAngle controlWithPID(const RobotPtr &robot, PosVelAngle target);
     void checkInterfacePID();
 

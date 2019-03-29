@@ -13,7 +13,8 @@ PosVelAngle BasicPosControl::getPosVelAngle(RobotPtr robot, Vector2 &targetPos) 
     PosVelAngle posVelAngle;
     Vector2 error = targetPos - robot->pos;
 
-    posVelAngle.pos = error;
+    posVelAngle.pos = targetPos;
+    posVelAngle.vel = error;
     return controlWithPID(robot, posVelAngle);
 }
 
