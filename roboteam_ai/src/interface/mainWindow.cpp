@@ -4,6 +4,7 @@
 
 #include "mainWindow.h"
 #include "../utilities/Constants.h"
+#include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include "InterfaceValues.h"
 #include "RobotsWidget.h"
 #include <QSplitter>
@@ -93,7 +94,6 @@ MainWindow::MainWindow(QWidget* parent)
     spinBoxLayout->addWidget(sb_luth_Pos_D);
     doubleSpinBoxesGroup_Pos_PID->setLayout(spinBoxLayout);
 
-    vLayout->addLayout(hButtonsLayout);
     doubleSpinBoxesGroup_Vel_PID = new QGroupBox("GoToPosLuth Velocity PID options");
     spinBoxLayout =new QHBoxLayout();
     sb_luth_Vel_P = new QDoubleSpinBox();
@@ -122,8 +122,8 @@ MainWindow::MainWindow(QWidget* parent)
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [=](const QString &strategyName) {
               // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-                treeinterp::g_btfactory.init();
-                treeinterp::g_btfactory.setCurrentTree(strategyName.toStdString());
+              BTFactory::makeTrees();
+              BTFactory::setCurrentTree(strategyName.toStdString());
               treeWidget->setHasCorrectTree(false);
             });
 
@@ -274,7 +274,7 @@ void MainWindow::setSelectStrategyText(QString text) {
     select_strategy->setCurrentText(text);
 }
 void MainWindow::refreshSignal() {
-    treeinterp::g_btfactory.init();
+    BTFactory::makeTrees();
     treeWidget->setHasCorrectTree(false);
 }
 

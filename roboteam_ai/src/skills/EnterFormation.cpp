@@ -35,19 +35,16 @@ bt::Node::Status EnterFormation::onUpdate() {
     }
     auto robotPos = rtt::Vector2(robot->pos);
     Vector2 targetToLookAtLocation = world::field->get_their_goal_center();
-    roboteam_msgs::RobotCommand cmd;
-    cmd.id = robot->id;
-    cmd.use_angle = 1;
 
     if (robotPos.dist(targetLocation) > errorMargin) {
         auto velocities = gtp.getPosVelAngle(robot, targetLocation);
-        cmd.x_vel = velocities.vel.x;
-        cmd.y_vel = velocities.vel.y;
-        cmd.w = static_cast<float>((targetLocation-robot->pos).angle());
+        command.x_vel = velocities.vel.x;
+        command.y_vel = velocities.vel.y;
+        command.w = static_cast<float>((targetLocation-robot->pos).angle());
     } else { // we are at the right location
-        cmd.w = static_cast<float>((targetToLookAtLocation-robot->pos).angle());
+        command.w = static_cast<float>((targetToLookAtLocation-robot->pos).angle());
     }
-    publishRobotCommand(cmd);
+    publishRobotCommand();
     return bt::Node::Status::Running;
 }
 

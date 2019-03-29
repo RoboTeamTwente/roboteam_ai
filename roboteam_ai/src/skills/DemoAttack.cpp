@@ -33,12 +33,8 @@ bt::Node::Status DemoAttack::onUpdate() {
     Vector2 behindBall = coach::g_generalPositionCoach.getPositionBehindBallToGoal(BEHIND_BALL_TARGET, ownGoal);
     Vector2 deltaBall = behindBall - ball;
 
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-
     if (!coach::g_generalPositionCoach.isRobotBehindBallToGoal(BEHIND_BALL_CHECK, ownGoal, robot->pos)) {
         targetPos = behindBall;
-        command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
         goToPos->setAvoidBall(true);
 
@@ -50,7 +46,6 @@ bt::Node::Status DemoAttack::onUpdate() {
     else {
         targetPos = ball;
         goToPos->setAvoidBall(false);
-        command.use_angle = 1;
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
         if (world::world->robotHasBall(robot->id, true)) {
             command.kicker = 1;
@@ -81,20 +76,16 @@ bt::Node::Status DemoAttack::onUpdate() {
 
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
-    publishRobotCommand(command);
+    publishRobotCommand();
 
     return Status::Running;
 }
 
 void DemoAttack::onTerminate(Status s) {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
     command.w = static_cast<float>(deltaPos.angle());
     command.x_vel = 0;
     command.y_vel = 0;
-
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 
 } // ai

@@ -24,27 +24,18 @@ bt::Node::Status SideAttacker::onUpdate() {
     auto newPosition = goToPos.getPosVelAngle(robot, targetPos);
     Vector2 velocity = newPosition.vel;
     velocity = control::ControlUtils::velocityLimiter(velocity);
-
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     command.w = static_cast<float>(newPosition.angle);
-    publishRobotCommand(command);
+    publishRobotCommand();
     return Status::Running;
 }
 
 void SideAttacker::onTerminate(Status s) {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
     command.w = static_cast<float>(deltaPos.angle());
-
     command.x_vel = 0;
     command.y_vel = 0;
-
-    publishRobotCommand(command);
+    publishRobotCommand();
     coach::g_offensiveCoach.releaseRobot(robot->id);
 }
 

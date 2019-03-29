@@ -31,13 +31,10 @@ bt::Node::Status Defend::onUpdate() {
     }
 
     auto velocities = gtp.getPosVelAngle(robot, targetLocation);
-    roboteam_msgs::RobotCommand cmd;
-    cmd.id = robot->id;
-    cmd.x_vel = static_cast<float>(velocities.vel.x);
-    cmd.y_vel = static_cast<float>(velocities.vel.y);
-    cmd.use_angle = 1;
-    cmd.w = static_cast<float>((targetLocation - robot->pos).angle());
-    publishRobotCommand(cmd);
+    command.x_vel = static_cast<float>(velocities.vel.x);
+    command.y_vel = static_cast<float>(velocities.vel.y);
+    command.w = static_cast<float>((targetLocation - robot->pos).angle());
+    publishRobotCommand();
 
     return bt::Node::Status::Running;
 }

@@ -30,12 +30,10 @@ bt::Node::Status TurnGeneva::onUpdate() {
 }
 
 void TurnGeneva::sendGenevaCommand(int genevaState) {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
     // TODO the robot does not kick while turning, do we want to add that to the computer code as well
     command.geneva_state = genevaState;
 
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 
 } // ai

@@ -16,9 +16,9 @@ namespace rtt {
 
 void ApplicationManager::setup() {
     IOManager = new io::IOManager(true);
-    ai::treeinterp::g_btfactory.init();
-    ai::treeinterp::g_btfactory.setCurrentTree("haltStrategy");
-    ai::treeinterp::g_btfactory.setKeeperTree("keeperTest1");
+    BTFactory::makeTrees();
+    BTFactory::setCurrentTree("haltStrategy");
+    BTFactory::setKeeperTree("keeperTest1");
 }
 
 void ApplicationManager::loop() {
@@ -57,7 +57,7 @@ void ApplicationManager::runOneLoopCycle() {
     ros::spinOnce();
 
     if (ai::world::world->weHaveRobots()) {
-        if (ai::treeinterp::g_btfactory.getCurrentTree() == "NaN") {
+        if (BTFactory::getCurrentTree() == "NaN") {
             ROS_INFO("NaN tree probably Halting");
             return;
         }
@@ -69,13 +69,7 @@ void ApplicationManager::runOneLoopCycle() {
         auto demomsg = IOManager->getDemoInfo();
         demo::JoystickDemo::demoLoop(demomsg);
 
-        // TODO: change this later so the referee tells you this
-        // TODO enable for keeper
-//        robotDealer::RobotDealer::setKeeperID(0);
-//        keeperTree = ai::treeinterp::g_btfactory.getKeeperTree();
-//        Status keeperStatus = keeperTree->tick();
-
-        strategy = ai::treeinterp::g_btfactory.getTree(ai::treeinterp::g_btfactory.getCurrentTree());
+        strategy = BTFactory::getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
 
@@ -100,7 +94,7 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     case Status::Running:break;
     case Status::Success:ROS_INFO_STREAM("Status returned: Success");
         ROS_INFO_STREAM(" === TREE CHANGE === ");
-        ai::treeinterp::g_btfactory.setCurrentTree("haltStrategy");
+            BTFactory::setCurrentTree("haltStrategy");
         break;
     case Status::Failure:ROS_INFO_STREAM("Status returned: Failure");
         break;
