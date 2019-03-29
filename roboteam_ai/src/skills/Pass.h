@@ -34,7 +34,6 @@ public:
     void onInitialize() override;
     Status onUpdate() override;
 
-    roboteam_msgs::RobotCommand getBasicCommand() const;
     void sendMoveCommand(double minimumSpeed = 0.0);
 };
 

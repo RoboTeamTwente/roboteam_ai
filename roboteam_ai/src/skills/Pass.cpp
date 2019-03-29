@@ -34,7 +34,6 @@ Pass::Status Pass::onUpdate() {
         return Status::Success;
     } else if (isBehindBall) {
         return hasBall ? shoot() : getBall();
-
     }
     return moveBehindBall();
 }
@@ -52,51 +51,37 @@ bt::Leaf::Status Pass::getBall() {
     std::cout << "Getting ball" << std::endl;
 
     targetPos = ball->pos;
-    roboteam_msgs::RobotCommand command = getBasicCommand();
-
     control::PosVelAngle pva = forceGtp.getPosVelAngle(robot, targetPos);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL(), 0.3);
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);
     command.w = static_cast<float>( (Vector2(robotToPassTo->pos) - robot->pos).angle());
 
-    publishRobotCommand(command);
+    publishRobotCommand();
     return bt::Leaf::Status::Running;
 }
 
 // Now we should have the ball and kick it.
 bt::Leaf::Status Pass::shoot() {
     std::cout << "Kicking" << std::endl;
-
-    auto command = getBasicCommand();
-    command.kicker = 1;
     command.kicker_forced = 1;
     const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
     double distance = (Vector2(ball->pos) - robotToPassTo->pos).length();
     double kicker_vel_multiplier = distance > maxPowerDist ? 1.0 : distance / maxPowerDist;
 
     command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER()*kicker_vel_multiplier);
-    publishRobotCommand(command);
+    publishRobotCommand();
     return Status::Running;
-}
-
-roboteam_msgs::RobotCommand Pass::getBasicCommand() const {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
-    command.dribbler = 0;
-    return command;
 }
 
 /// send a command to move the current robot to targetPos with a certain goToType.
 void Pass::sendMoveCommand(const double minimumSpeed) {
-    roboteam_msgs::RobotCommand command = getBasicCommand();
     control::PosVelAngle pva = numTreeGtp.getPosVelAngle(robot, targetPos);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL(), minimumSpeed);
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);
     command.w = static_cast<float>( (targetPos - robot->pos).angle());
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 
 } // ai

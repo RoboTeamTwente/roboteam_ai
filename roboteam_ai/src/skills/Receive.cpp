@@ -27,10 +27,6 @@ Vector2 Receive::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
 }
 
 Receive::Status Receive::onUpdate() {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
-
     if (!World::ourBotHasBall(robot->id)) {
         if (currentProgress == POSITIONING) {
             command.w = static_cast<float>((Vector2(ball->pos) -
@@ -68,18 +64,15 @@ Receive::Status Receive::onUpdate() {
             }
         }
     }
-    publishRobotCommand(command);
+    publishRobotCommand();
     return Status::Running;
 }
 
 void Receive::onTerminate(Status s) {
-    roboteam_msgs::RobotCommand command;
     command.x_vel = 0;
     command.y_vel = 0;
-    command.id = robot->id;
     command.dribbler = 0;
-
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 
 }
