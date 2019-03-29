@@ -52,14 +52,20 @@ void bt::DefaultTactic::setRoleAmount(int amount) {
 }
 
 bool bt::DefaultTactic::updateRobots() {
-    robotsNeeded = amountToTick - claimedRobots;
+    {
+        std::lock_guard<std::mutex> lock(amountMutex);
+        robotsNeeded = amountToTick - claimedRobots;
+    }
     if (robotsNeeded < 0) {
         disClaimRobots();
         return true;
     }
     else if (robotsNeeded > 0) {
         claimRobots();
-        return (claimedRobots == amountToTick);
+        {
+            std::lock_guard<std::mutex> lock(amountMutex);
+            return (claimedRobots == amountToTick);
+        }
     }
     return true;
 
