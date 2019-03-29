@@ -26,7 +26,7 @@ public:
         Status update() override;
         void askForRobots();
         void terminate(Status s) override;
-        Node::Ptr child = nullptr;
+        std::vector<Node::Ptr> children;
         std::string node_name() override;
         std::string name;
 };

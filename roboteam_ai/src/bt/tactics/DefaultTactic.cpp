@@ -8,24 +8,18 @@
 using dealer = robotDealer::RobotDealer;
 
 bt::Node::Status bt::DefaultTactic::update() {
-    if (claimedRobots != robotsNeeded) {
-        claimRobots();
+    if (!updateRobots()) {
         status = Status::Waiting;
+        return status;
     }
-    else {
-        auto status = child->tick();
 
-        if (status == Status::Success) {
-            return Status::Success;
-        }
-
-        else {
-            return Status::Running;
-        }
+    for (unsigned long i = 0; i < amountToTick; i++) {
+        children.at(i)->tick();
     }
-    return status;
+
+    return status == Status::Success ? status : Status::Running;
+
 }
-
 
 bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboard,
         std::map<std::string, robotType> robots_) {
@@ -37,16 +31,41 @@ bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboar
 }
 
 void bt::DefaultTactic::initialize() {
-    claimRobots();
+    updateRobots();
 }
 
 void bt::DefaultTactic::claimRobots() {
+
+    // TODO claim in a smart way with the map
 
     for (const auto &role : robots) {
         robotIDs.insert(dealer::claimRobotForTactic(role.second, name, role.first));
         if (robotIDs.find(- 1) == robotIDs.end()) claimedRobots ++;
         else robotIDs.erase(- 1);
     }
+}
+
+void bt::DefaultTactic::setRoleAmount(int amount) {
+    std::lock_guard<std::mutex> lock(amountMutex);
+    previousAmount = amountToTick;
+    amountToTick = amount;
+}
+
+bool bt::DefaultTactic::updateRobots() {
+    robotsNeeded = amountToTick - claimedRobots;
+    if (robotsNeeded < 0) {
+        disClaimRobots();
+        return true;
+    }
+    else if (robotsNeeded > 0) {
+        claimRobots();
+        return (claimedRobots == amountToTick);
+    }
+    return true;
+
+}
+void bt::DefaultTactic::disClaimRobots() {
+
 }
 
 
