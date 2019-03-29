@@ -32,12 +32,7 @@ Vector2 PosController::calculatePIDs(const PosController::RobotPtr &robot, PosVe
         pidP = posPID.controlPID(target.pos - robot->pos);
     }
 
-    Vector2 pidV = Vector2();
-    if (target.vel != Vector2() && !velPID.isZero()) {
-        pidV = velPID.controlPIR(target.vel, robot->vel);
-    }
-
-    return pidP + pidV;
+    return pidP;
 }
 
 /// compare current PID values to those set in the interface
@@ -45,9 +40,6 @@ void PosController::checkInterfacePID() {
     using if_values = interface::InterfaceValues;
     posPID.reset();
     posPID.setPID(if_values::getNumTreePosP(), if_values::getNumTreePosI(), if_values::getNumTreePosD());
-
-    velPID.reset();
-    velPID.setPID(if_values::getNumTreeVelP(), if_values::getNumTreeVelI(), if_values::getNumTreeVelD());
 }
 
 

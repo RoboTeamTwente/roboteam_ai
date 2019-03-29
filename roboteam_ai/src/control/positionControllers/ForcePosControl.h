@@ -17,7 +17,7 @@ public:
     PosVelAngle getPosVelAngle(RobotPtr robot, Vector2 &targetPos) override;
     Vector2 calculateForces(const RobotPtr &robot, const Vector2 &targetPos, double forceRadius) const;
 
-protected:
+    protected:
     PosVelAngle calculateForcePosVelAngle(RobotPtr robot, Vector2 &targetPos);
 
 private:

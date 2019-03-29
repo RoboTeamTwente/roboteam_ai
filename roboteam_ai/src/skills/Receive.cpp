@@ -26,10 +26,7 @@ Receive::Status Receive::onUpdate() {
     auto behindTargetPos = coach::g_generalPositionCoach.getPositionBehindPositionToPosition(Constants::ROBOT_RADIUS(),
                                                                                              ballPlacementTarget,
                                                                                              ball->pos);
-
     ballStartPos = ball->pos;
-
-
     Vector2 ballVel = ball->vel;
     if (coach::g_pass.isPassed() && ballVel.length() < 0.1) {
         return Status::Success;
@@ -46,6 +43,8 @@ Receive::Status Receive::onUpdate() {
 
         coach::g_pass.setReadyToReceivePass(true);
     } else {
+        std::cout << "not in position!" << std::endl;
+
         moveToCatchPosition(behindTargetPos);
     }
     return Status::Running;
@@ -66,10 +65,13 @@ Vector2 Receive::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
 
 // check if the robot is in the desired position to catch the ball
 bool Receive::isInPosition(Vector2 behindTargetPos) {
-    bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->pos);
+    bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->pos, 0.3*M_PI);
 
     if (ballPlacement) {
         bool isBehindTargetPos = behindTargetPos.dist(robot->pos) < 0.10;
+
+        std::cout << "behind targetpos: " << isBehindTargetPos << std::endl;
+        std::cout << "isAimedAtBall: " << isAimedAtBall << std::endl;
 
         return isBehindTargetPos  && isAimedAtBall;
     }

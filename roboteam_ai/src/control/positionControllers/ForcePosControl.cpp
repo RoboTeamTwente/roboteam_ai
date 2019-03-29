@@ -51,10 +51,8 @@ PosVelAngle ForcePosControl::calculateForcePosVelAngle(PosController::RobotPtr r
     bool distanceSmallerThanMinForceDistance = (targetPos - robot->pos).length() < Constants::MIN_DISTANCE_FOR_FORCE();
     if (distanceSmallerThanMinForceDistance) {
         forceRadius = Constants::ROBOT_RADIUS_MAX() * 2.0;
-        posPID.setPID(3.0, 1.0, 0.2);
     } else {
         forceRadius = Constants::ROBOT_RADIUS_MAX() * 8.0;
-        posPID.setPID(3.0, 0.5, 1.5);
     }
 
     PosVelAngle target;
@@ -62,7 +60,6 @@ PosVelAngle ForcePosControl::calculateForcePosVelAngle(PosController::RobotPtr r
     target.vel = control::ControlUtils::velocityLimiter(force, 3.0);
     return controlWithPID(robot, target);
 }
-
 
 } // control
 } // ai

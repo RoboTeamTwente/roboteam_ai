@@ -300,8 +300,10 @@ bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, Vector2 point, doub
     auto robot = World::getRobotForId(id, ourTeam);
     if (robot) {
         double exactAngleTowardsPoint = (point - robot->pos).angle();
-        return (robot->w > constrainAngle(exactAngleTowardsPoint - maxDifference/2)
-            && robot->w < constrainAngle(exactAngleTowardsPoint + maxDifference/2));
+
+    // Note: The angles should NOT be constrained here. This is necessary.
+        return (robot->angle > exactAngleTowardsPoint - maxDifference/2
+            && robot->angle < exactAngleTowardsPoint + maxDifference/2);
     }
     return false;
 }
