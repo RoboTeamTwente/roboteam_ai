@@ -24,6 +24,7 @@ private:
 
     control::NumTreePosControl numTreeGtp;
     control::ForcePosControl forceGtp;
+    control::BasicPosControl basicGtp;
 
     Status getBall();
     Status moveBehindBall();
