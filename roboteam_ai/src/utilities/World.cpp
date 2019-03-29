@@ -134,7 +134,7 @@ std::shared_ptr<roboteam_msgs::WorldBall> World::getBall() {
     if (world.ball.existence != 0) // Prevents segfaults
         return std::make_shared<roboteam_msgs::WorldBall>(world.ball);
     else
-        ROS_ERROR("BALL DOES NOT EXIST IN WORLD (AREA = 0)");
+        std::cerr<<"BALL DOES NOT EXIST IN WORLD (AREA = 0)";
 
     return nullptr;
 }

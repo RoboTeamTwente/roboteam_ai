@@ -285,8 +285,9 @@ void DefensiveCoach::updateDefenderLocations() {
     //visualization
     visualizePoints();
     auto stop = std::chrono::high_resolution_clock::now();
-    std::cout << "Computation time:"
-              << (std::chrono::duration_cast<chrono::nanoseconds>(stop - start).count()/1000000.0) << std::endl;
+    //std::cout << "Computation time:"
+    //rtt
+    // << (std::chrono::duration_cast<chrono::nanoseconds>(stop - start).count()/1000000.0) << std::endl;
 }
 
 // functions that communicate with the skill

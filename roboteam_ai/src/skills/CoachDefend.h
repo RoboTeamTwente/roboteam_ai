@@ -4,7 +4,9 @@
 
 #ifndef ROBOTEAM_AI_COACHDEFEND_H
 #define ROBOTEAM_AI_COACHDEFEND_H
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include "Skill.h"
+#include "../control/positionControllers/NumTreePosControl.h"
 namespace rtt{
 namespace ai{
 class CoachDefend : public Skill{
@@ -14,7 +16,7 @@ class CoachDefend : public Skill{
         bt::Node::Status onUpdate() override;
         void onTerminate(bt::Node::Status) override;
     private:
-        control::PositionController gtp;
+        control::NumTreePosControl gtp;
 };
 }
 }

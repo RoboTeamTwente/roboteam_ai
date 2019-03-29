@@ -11,6 +11,7 @@ CoachDefend::CoachDefend(std::string name, bt::Blackboard::Ptr blackboard) : Ski
 
 void CoachDefend::onInitialize() {
 coach::DefensiveCoach::addDefender(robot->id);
+gtp.setCanMoveInDefenseArea(true);
 }
 
 
@@ -21,28 +22,24 @@ bt::Node::Status CoachDefend::onUpdate() {
         std::cerr<<"Could not find the location of defender "<< robot->id<< " in calculated positions!"<<std::endl;
         return bt::Node::Status::Running;
     }
-    auto velocities = gtp.goToPos(robot, targetLocation->first, control::PosControlType::BASIC).vel;
-    velocities=control::ControlUtils::VelocityLimiter(velocities);
-    roboteam_msgs::RobotCommand cmd;
-    cmd.id = robot->id;
-    cmd.use_angle = 1;
-    if ((targetLocation->first-robot->pos).length()<0.02){
-        cmd.x_vel = 0;
-        cmd.y_vel = 0;
-        cmd.w = static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second));
+
+    auto velocities = gtp.getPosVelAngle(robot, targetLocation->first);
+    if ((targetLocation->first-robot->pos).length()<0.09){
+        command.x_vel = 0;
+        command.y_vel = 0;
+        command.w = static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second));
     }
     else if ((targetLocation->first-robot->pos).length()<0.12){
-        cmd.x_vel = static_cast<float>(velocities.x);
-        cmd.y_vel = static_cast<float>(velocities.y);
-        cmd.w = static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second));
+        command.x_vel = static_cast<float>(velocities.vel.x);
+        command.y_vel = static_cast<float>(velocities.vel.y);
+        command.w = static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second));
     }
     else{
-        cmd.x_vel = static_cast<float>(velocities.x);
-        cmd.y_vel = static_cast<float>(velocities.y);
-        cmd.w = static_cast<float>((targetLocation->first - robot->pos).angle());
+        command.x_vel = static_cast<float>(velocities.vel.x);
+        command.y_vel = static_cast<float>(velocities.vel.y);
+        command.w = velocities.angle;
     }
-
-    publishRobotCommand(cmd);
+    publishRobotCommand();
 
     return bt::Node::Status::Running;
 }
