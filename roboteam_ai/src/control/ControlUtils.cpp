@@ -263,7 +263,6 @@ double ControlUtils::twoLineForwardIntersection(Vector2 a1, Vector2 a2, Vector2 
     }
     else
         return -1.0;
-
 }
 /// Returns point in field closest to a given point.
 /// If the point is already in the field it returns the same as the input.
