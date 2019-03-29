@@ -23,17 +23,13 @@ Skill::Status ShootPenalty::onUpdate() {
 
             if (deltaPos.length() < errorMarginPos) {
                 progress = ROTATING;
-            }
-            else {
-                roboteam_msgs::RobotCommand command;
-                command.id = robot->id;
-                command.use_angle = 1;
+            } else {
                 command.w = static_cast<float>((ballPos - robot->pos).angle());
                 command.geneva_state = 1;
                 Vector2 velocity = goToPos.getPosVelAngle(robot, ballPos).vel;
                 command.x_vel = static_cast<float>(velocity.x);
                 command.y_vel = static_cast<float>(velocity.y);
-                publishRobotCommand(command);
+                publishRobotCommand();
 
             }
             return Status::Running;
@@ -41,12 +37,9 @@ Skill::Status ShootPenalty::onUpdate() {
 
         case ROTATING: {
             if ((robot->w - fakeOffset) > errorMarginAng) {
-                roboteam_msgs::RobotCommand command;
-                command.id = robot->id;
-                command.use_angle = 1;
                 command.geneva_state = 1;
                 command.w = static_cast<float>(fakeOffset);
-                publishRobotCommand(command);
+                publishRobotCommand();
 
             }
             else {
@@ -58,10 +51,7 @@ Skill::Status ShootPenalty::onUpdate() {
         }
 
         case READY: {
-            roboteam_msgs::RobotCommand command;
-            command.id = robot->id;
-            command.geneva_state = 1;
-            publishRobotCommand(command);
+            publishRobotCommand();
             progress = SHOOTING;
             return Status::Running;
         }
@@ -69,9 +59,6 @@ Skill::Status ShootPenalty::onUpdate() {
         case SHOOTING: {
             if (! isPenaltyShot()) {
                 Vector2 ballPos = rtt::ai::World::getBall()->pos;
-                roboteam_msgs::RobotCommand command;
-                command.id = robot->id;
-                command.use_angle = 1;
                 command.w = static_cast<float>((ballPos - robot->pos).angle());
                 command.geneva_state = 1;
                 command.kicker = static_cast<unsigned char>(true);
@@ -79,14 +66,11 @@ Skill::Status ShootPenalty::onUpdate() {
                 Vector2 velocity = goToPos.getPosVelAngle(robot, ballPos).vel;
                 command.x_vel = static_cast<float>(velocity.x);
                 command.y_vel = static_cast<float>(velocity.y);
-                publishRobotCommand(command);
+                publishRobotCommand();
                 return Status::Running;
             }
             else {
-                roboteam_msgs::RobotCommand command;
-                command.id = robot->id;
-                command.use_angle = 1;
-                publishRobotCommand(command);
+                publishRobotCommand();
                 return Status::Success;
             }
         }

@@ -50,11 +50,8 @@ Pass::Status Pass::onUpdate() {
                 if (coach::g_pass.isReadyToReceivePass()) currentProgress = Progression::KICKING;
                 return Status::Running;
             }
-
-            command.use_angle = 1;
             command.w = static_cast<float>(((Vector2) robotToPassTo->pos - ball->pos).angle());
             command.dribbler = 0;
-
             break;
         }
         case Progression::KICKING: {
@@ -64,7 +61,6 @@ Pass::Status Pass::onUpdate() {
                 distance = ((Vector2)ball->pos - robotToPassTo->pos).length();
                 kicker_vel_multiplier = distance > rtt::ai::Constants::MAX_POWER_KICK_DISTANCE() ? 1.0 : distance / rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
                 command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER() * kicker_vel_multiplier);
-                command.id = robot->id;
 
                 targetPos = ball->pos;
                 Vector2 velocities = basicGtp.getPosVelAngle(robot, targetPos).vel;
@@ -74,7 +70,7 @@ Pass::Status Pass::onUpdate() {
                 command.y_vel = static_cast<float>(velocities.y);
                 command.w = static_cast<float>(((Vector2) robotToPassTo->pos - ball->pos).angle());
 
-                publishRobotCommand(command);
+                publishRobotCommand();
                 checkTicks = 0;
                 return Status::Running;
             }
@@ -93,8 +89,7 @@ Pass::Status Pass::onUpdate() {
         }
     }
 
-    command.id = robot->id;
-    publishRobotCommand(command);
+    publishRobotCommand();
     return Status::Running;
 }
 
