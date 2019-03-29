@@ -18,15 +18,15 @@ void Pass::onInitialize() {
     numTreeGtp.setAvoidBall(true);
     forceGtp.setAvoidBall(false);
     basicGtp.setAvoidBall(false);
+    numTreeGtp.setCanGoOutsideField(true);
+    numTreeGtp.setCanMoveOutOfField(true);
+    forceGtp.setCanMoveOutOfField(true);
+    basicGtp.setCanMoveOutOfField(true);
+
     robotToPassToID = coach::g_pass.initiatePass();
 
     // the coach is different when we use ballplacement
     ballPlacement = properties->getBool("BallPlacement");
-    if (ballPlacement) {
-
-    } else {
-
-    }
 }
 
 Pass::Status Pass::onUpdate() {
@@ -50,7 +50,7 @@ Pass::Status Pass::onUpdate() {
 
 /// this is the method we call when we are far from the desired position
 bt::Leaf::Status Pass::moveBehindBall(Vector2 behindBallPos) {
-    std::cout << "Getting behind ball" << std::endl;
+  //  std::cout << "Getting behind ball" << std::endl;
     targetPos = behindBallPos;
     sendMoveCommand();
     return bt::Leaf::Status::Running;
@@ -58,7 +58,7 @@ bt::Leaf::Status Pass::moveBehindBall(Vector2 behindBallPos) {
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 bt::Leaf::Status Pass::getBall() {
-    std::cout << "Getting ball" << std::endl;
+   // std::cout << "Getting ball" << std::endl;
 
     targetPos = ball->pos;
     control::PosVelAngle pva = basicGtp.getPosVelAngle(robot, targetPos);
@@ -73,7 +73,7 @@ bt::Leaf::Status Pass::getBall() {
 
 // Now we should have the ball and kick it.
 bt::Leaf::Status Pass::shoot() {
-    std::cout << "Kicking" << std::endl;
+   // std::cout << "Kicking" << std::endl;
 
     if (coach::g_pass.isReadyToReceivePass()) {
 

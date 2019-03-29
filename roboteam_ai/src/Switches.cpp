@@ -290,7 +290,13 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
             {"BallPlacementDoubleTactic",{
                 {"BallPlacementPasser",robotType::CLOSE_TO_BALL},
-                {"BallPlacementReceiver", robotType::BALL_PLACEMENT_RECEIVER}
+                {"BallPlacementReceiver", robotType::BALL_PLACEMENT_RECEIVER},
+                 {"avoid1", robotType::RANDOM},
+                 {"avoid2", robotType::RANDOM},
+                 {"avoid3", robotType::RANDOM},
+                 {"avoid4", robotType::RANDOM},
+                 {"avoid5", robotType::RANDOM},
+                 {"avoid6", robotType::RANDOM}
             }
             },
             {"SingleKeeperTactic", {

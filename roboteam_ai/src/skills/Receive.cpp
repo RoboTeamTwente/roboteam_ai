@@ -23,10 +23,11 @@ Receive::Status Receive::onUpdate() {
     }
 
     Vector2 ballPlacementTarget = coach::g_ballPlacement.getBallPlacementPos();
-    auto behindTargetPos = coach::g_generalPositionCoach.getPositionBehindPositionToPosition(0.10,
+    auto behindTargetPos = coach::g_generalPositionCoach.getPositionBehindPositionToPosition(Constants::ROBOT_RADIUS(),
                                                                                              ballPlacementTarget,
                                                                                              ball->pos);
 
+    ballStartPos = ball->pos;
 
 
     Vector2 ballVel = ball->vel;
@@ -41,6 +42,8 @@ Receive::Status Receive::onUpdate() {
 
 
     if (isInPosition(behindTargetPos)) {
+        std::cout << "receiver in position!" << std::endl;
+
         coach::g_pass.setReadyToReceivePass(true);
     } else {
         moveToCatchPosition(behindTargetPos);
@@ -63,10 +66,10 @@ Vector2 Receive::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
 
 // check if the robot is in the desired position to catch the ball
 bool Receive::isInPosition(Vector2 behindTargetPos) {
-        bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->pos);
+    bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->pos);
 
-        if (ballPlacement) {
-        bool isBehindTargetPos = behindTargetPos.dist(robot->pos) < 0.05;
+    if (ballPlacement) {
+        bool isBehindTargetPos = behindTargetPos.dist(robot->pos) < 0.02;
         return isBehindTargetPos && isAimedAtBall;
     }
     return isAimedAtBall;
@@ -74,11 +77,19 @@ bool Receive::isInPosition(Vector2 behindTargetPos) {
 }
 
 void Receive::moveToCatchPosition(Vector2 position) {
-    control::PosVelAngle pva = basicGtp.getPosVelAngle(robot, position);
+    std::cout << "moving to catch position" << std::endl;
+
+    control::PosVelAngle pva = numTreeGtp.getPosVelAngle(robot, position);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL(), 0.3);
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);
-    command.w = static_cast<float>((position - robot->pos).angle());
+
+    if (position.dist(robot->pos) < 0.2) {
+        command.w = static_cast<float>((Vector2(ball->pos) - robot->pos).angle());
+    } else {
+        command.w = static_cast<float>((position - robot->pos).angle());
+
+    }
     publishRobotCommand();
 }
 
@@ -88,6 +99,8 @@ void Receive::intercept() {
     Vector2 ballStartVel = ball->vel;
         Vector2 ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
         Vector2 interceptPoint = Receive::computeInterceptPoint(ballStartPos, ballEndPos);
+
+        std::cout << "intercepting at: " << interceptPoint << std::endl;
 
         Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel;
         velocities = control::ControlUtils::velocityLimiter(velocities);
