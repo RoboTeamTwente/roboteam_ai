@@ -5,8 +5,10 @@
 #ifndef ROBOTEAM_AI_POSCONTROLLER_H
 #define ROBOTEAM_AI_POSCONTROLLER_H
 
-#include <roboteam_ai/src/control/PIDController.h>
 #include "PosVelAngle.h"
+#include <roboteam_ai/src/utilities/Constants.h>
+#include <roboteam_ai/src/control/pid.h>
+#include "roboteam_msgs/WorldRobot.h"
 
 namespace rtt {
 namespace ai {
@@ -29,11 +31,9 @@ protected:
     bool canMoveInDefenseArea = false;
     bool avoidBall = false;
 
-    // PID
-    PIDController posPID;
-    PIDController velPID;
-    tuple<double, double, double> posPIDValues = std::tuple<double, double, double>(0.0, 0.0, 0.0);
-    tuple<double, double, double> velPIDValues = std::tuple<double, double, double>(0.0, 0.0, 0.0);
+    PID xpid = PID(3.0, 0, 3.0);
+    PID ypid = PID(3.0, 0, 3.0);
+
     bool getPIDFromInterface = true;
     PosVelAngle controlWithPID(const RobotPtr &robot, PosVelAngle target);
     void checkInterfacePID();
