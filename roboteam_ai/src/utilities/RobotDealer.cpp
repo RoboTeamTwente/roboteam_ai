@@ -132,7 +132,12 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
             }
 
             case BALL_PLACEMENT_RECEIVER:{
-                id = rtt::ai::coach::g_ballPlacement.determineReceiver();
+                id = getRobotClosestToPoint(ids, rtt::ai::coach::g_ballPlacement.getBallPlacementPos());
+
+                // force the pass coach to use this receiver
+                rtt::ai::coach::g_pass.resetPass();
+                rtt::ai::coach::g_pass.setRobotBeingPassedTo(id);
+
                 break;
             }
         }

@@ -9,8 +9,8 @@ GetBall,maxTime
 DefendOnRobot
 Attack
 DemoAttack,ownGoal
-Pass
-Receive
+Pass, BallPlacement
+Receive, BallPlacement
 EnterFormation
 DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement,distance
 AvoidBall

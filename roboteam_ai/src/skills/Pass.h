@@ -18,6 +18,7 @@ namespace ai {
 class Pass : public Skill {
 private:
     int robotToPassToID = -1;
+    bool ballPlacement = false;
     std::shared_ptr<roboteam_msgs::WorldRobot> robotToPassTo;
 
     Vector2 targetPos;
@@ -27,9 +28,8 @@ private:
     control::BasicPosControl basicGtp;
 
     Status getBall();
-    Status moveBehindBall();
+    Status moveBehindBall(Vector2 behindBallPos);
     Status shoot();
-
 public:
     explicit Pass(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;

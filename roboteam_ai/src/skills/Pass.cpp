@@ -18,36 +18,40 @@ void Pass::onInitialize() {
     numTreeGtp.setAvoidBall(true);
     forceGtp.setAvoidBall(false);
     basicGtp.setAvoidBall(false);
-    robotToPassToID = coach::g_ballPlacement.initiatePass();
+    robotToPassToID = coach::g_pass.initiatePass();
+
+    // the coach is different when we use ballplacement
+    ballPlacement = properties->getBool("BallPlacement");
+    if (ballPlacement) {
+
+    } else {
+
+    }
 }
 
 Pass::Status Pass::onUpdate() {
     if (robotToPassToID == -1) return Status::Failure;
     robotToPassTo = World::getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
 
+    bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos);
     auto behindBallpos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
-
-
-   // bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.35, robotToPassTo->pos, robot->pos, 0.05);
-    bool isAimed = control::ControlUtils::distanceToLine(robot->pos, ball->pos, behindBallpos) < 0.02;
-
+    bool isOnLineToBall = control::ControlUtils::distanceToLine(robot->pos, ball->pos, behindBallpos) < 0.02;
     bool hasBall = World::ourBotHasBall(robot->id, Constants::MAX_BALL_RANGE());
     bool ballIsMovingFast = Vector2(World::getBall()->vel).length() > 0.4;
 
     if (ballIsMovingFast) {
-        coach::g_ballPlacement.setRobotBeingPassedTo(-1);
-        coach::g_ballPlacement.setPassed(true);
+        coach::g_pass.setPassed(true);
         return Status::Success;
-    } else if (isAimed) {
+    } else if (isOnLineToBall && isBehindBall) {
         return hasBall ? shoot() : getBall();
     }
-    return moveBehindBall();
+    return moveBehindBall(behindBallpos);
 }
 
 /// this is the method we call when we are far from the desired position
-bt::Leaf::Status Pass::moveBehindBall() {
+bt::Leaf::Status Pass::moveBehindBall(Vector2 behindBallPos) {
     std::cout << "Getting behind ball" << std::endl;
-    targetPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
+    targetPos = behindBallPos;
     sendMoveCommand();
     return bt::Leaf::Status::Running;
 }
@@ -71,20 +75,22 @@ bt::Leaf::Status Pass::getBall() {
 bt::Leaf::Status Pass::shoot() {
     std::cout << "Kicking" << std::endl;
 
+    if (coach::g_pass.isReadyToReceivePass()) {
 
         targetPos = robotToPassTo->pos;
         control::PosVelAngle pva = basicGtp.getPosVelAngle(robot, targetPos);
         pva.vel = control::ControlUtils::velocityLimiter(pva.vel, 0.1);
         command.x_vel = static_cast<float>(pva.vel.x);
         command.y_vel = static_cast<float>(pva.vel.y);
-        command.w = static_cast<float>( (Vector2(robotToPassTo->pos) - robot->pos).angle());
+        command.w = static_cast<float>((Vector2(robotToPassTo->pos) - robot->pos).angle());
 
-    command.kicker_forced = 1;
-    const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
-    double distance = (Vector2(ball->pos) - robotToPassTo->pos).length();
-    double kicker_vel_multiplier = distance > maxPowerDist ? 1.0 : distance / maxPowerDist;
-    command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER()*kicker_vel_multiplier);
-    publishRobotCommand();
+        command.kicker_forced = 1;
+        const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
+        double distance = (Vector2(ball->pos) - robotToPassTo->pos).length();
+        double kicker_vel_multiplier = distance > maxPowerDist ? 1.0 : distance / (0.9 * maxPowerDist); // kick harder
+        command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER() * kicker_vel_multiplier);
+        publishRobotCommand();
+    }
     return Status::Running;
 }
 

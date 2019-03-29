@@ -12,13 +12,12 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
-class BallplacementCoach : public PassCoach {
+class BallplacementCoach {
 public:
     explicit BallplacementCoach() = default;
     rtt::Vector2 getBallPlacementPos();
     rtt::Vector2 getBallPlacementBeforePos(Vector2 ballPos);
     rtt::Vector2 getBallPlacementAfterPos(double RobotAngle);
-    int determineReceiver() override;
 };
 
 extern BallplacementCoach g_ballPlacement;

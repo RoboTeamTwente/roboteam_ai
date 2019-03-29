@@ -20,9 +20,14 @@ private:
         RECEIVING
     };
 
+    bool ballPlacement = false;
+    bool hasTargetLocation = false;
+    Vector2 targetLocation;
+
     Progression currentProgress = POSITIONING;
 
-    control::BasicPosControl goToPos;
+    control::NumTreePosControl numTreeGtp;
+    control::BasicPosControl basicGtp;
 
     Vector2 focusPoint;
     Vector2 ballStartPos;
@@ -39,12 +44,18 @@ private:
     Vector2 targetPos;
     Vector2 passPosition;
     bool readyToReceivePass = false;
+
+
+    bool isInPosition(Vector2 behindTargetPos);
+    void moveToCatchPosition(Vector2 position);
+
 public:
     explicit Receive(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;
     Vector2 computeInterceptPoint(Vector2 startBall, Vector2 endBall);
+    void intercept();
 };
 
 } //ai
