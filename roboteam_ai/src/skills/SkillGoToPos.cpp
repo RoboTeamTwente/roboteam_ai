@@ -64,14 +64,11 @@ SkillGoToPos::Status SkillGoToPos::onUpdate() {
 
 /// Called when the Skill is Terminated
 void SkillGoToPos::onTerminate(Status s) {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 0;
     command.w = 0;
     command.x_vel = 0;
     command.y_vel = 0;
 
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 
 SkillGoToPos::Progression SkillGoToPos::checkProgression() {
