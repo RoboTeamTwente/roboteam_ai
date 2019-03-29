@@ -48,15 +48,16 @@ unsigned char WorldManager::updateROSData() {
 
 void WorldManager::updateReferee() {
     if (ai::interface::InterfaceValues::usesRefereeCommands()) {
+
         ai::StrategyManager strategyManager;
         // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
         // might want to build something that verifies this
-        auto oldStrategy = ai::treeinterp::g_btfactory.getCurrentTree();
+        auto oldStrategy = BTFactory::getCurrentTree();
         std::string strategyName = strategyManager.getCurrentStrategyName(refereeMsg.command);
         if (oldStrategy != strategyName) {
-            ai::treeinterp::g_btfactory.init();
+            BTFactory::makeTrees();
         }
-        ai::treeinterp::g_btfactory.setCurrentTree(strategyName);
+        BTFactory::setCurrentTree(strategyName);
     }
 }
 
