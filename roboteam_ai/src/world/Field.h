@@ -38,6 +38,9 @@ class Field {
         std::vector<std::pair<Vector2, Vector2>> mergeBlockades(std::vector<std::pair<Vector2, Vector2>> blockades);
         std::vector<std::pair<Vector2, Vector2>> getVisiblePartsOfGoal(bool ourGoal, Vector2 point);
         std::pair<Vector2, Vector2> getGoalSides(bool ourGoal);
+        double getDistanceToGoal(bool ourGoal, Vector2 point);
+        Vector2 getPenaltyPoint(bool ourGoal);
+
 };
 
 extern Field fieldObj;

@@ -250,6 +250,25 @@ int Field::getRobotClosestToGoal(WhichRobots whichRobots, bool ourGoal) {
     return world->getRobotClosestToPoint(goalCenter, whichRobots)->id;
 }
 
+double Field::getDistanceToGoal(bool ourGoal, Vector2 point) {
+    auto sides = getGoalSides(ourGoal);
+    return control::ControlUtils::distanceToLineWithEnds(point, sides.first, sides.second);
+}
+
+Vector2 Field::getPenaltyPoint(bool ourGoal) {
+    if (ourGoal) {
+        Vector2 begin = get_field().left_penalty_line.begin;
+        Vector2 end = get_field().left_penalty_line.end;
+        return (begin + ((end - begin)*0.5));
+    }
+    else {
+        Vector2 begin = get_field().right_penalty_line.begin;
+        Vector2 end = get_field().right_penalty_line.end;
+        return (begin + ((end - begin)*0.5));
+    }
+
+}
+
 } // world
 } // ai
 } // rtt

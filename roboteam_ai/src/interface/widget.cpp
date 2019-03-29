@@ -420,7 +420,7 @@ void Visualizer::drawPasses(QPainter& painter) {
         if (robotIsSelected(robot.first)) {
             Vector2 robotLocation = toScreenPosition(robot.first.pos);
             for (auto robotToPassToId : robot.second.robotsToPassTo) {
-                auto passRobot = World::getRobotForId(robotToPassToId.first, true);
+                auto passRobot = world::world->getRobotForId(robotToPassToId.first, true);
                 Vector2 passRobotLocation = toScreenPosition(passRobot->pos);
                 double distance = robotToPassToId.second;
                 painter.setBrush(Qt::transparent);

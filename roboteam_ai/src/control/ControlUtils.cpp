@@ -69,7 +69,7 @@ double ControlUtils::distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vec
     return d.length();
 }
 
-bool ControlUtils::clearLine(Vector2 fromPos, Vector2 toPos, roboteam_msgs::World world, double safeDistanceFactor, bool keeper) {
+bool ControlUtils::clearLine(Vector2 fromPos, Vector2 toPos, world::WorldData world, double safeDistanceFactor, bool keeper) {
     double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor * 3;
 
     for (auto enemy : world.them) {
@@ -309,11 +309,11 @@ std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFrom
 }
 
 bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, Vector2 point, double maxDifference) {
-    auto robot = World::getRobotForId(id, ourTeam);
+    auto robot = world::world->getRobotForId(id, ourTeam);
     if (robot) {
         double exactAngleTowardsPoint = (point - robot->pos).angle();
-        return (robot->w > constrainAngle(exactAngleTowardsPoint - maxDifference/2)
-            && robot->w < constrainAngle(exactAngleTowardsPoint + maxDifference/2));
+        return (robot->angularVelocity > constrainAngle(exactAngleTowardsPoint - maxDifference/2)
+            && robot->angularVelocity < constrainAngle(exactAngleTowardsPoint + maxDifference/2));
     }
     return false;
 }

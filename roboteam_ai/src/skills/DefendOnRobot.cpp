@@ -13,7 +13,8 @@ DefendOnRobot::DefendOnRobot(std::string name, bt::Blackboard::Ptr blackboard)
     :Skill(std::move(name), std::move(blackboard)) { }
 
 void DefendOnRobot::onInitialize() {
-    opponentWithBallID = world::world->whichRobotHasBall(world::THEIR_ROBOTS);
+    auto whoHasBall = world::world->whichRobotHasBall();
+    opponentWithBallID = whoHasBall.first == world::WhichRobots::THEIR_ROBOTS && whoHasBall.second;
     if (opponentWithBallID == -1) {
         currentProgress = FAIL;
     }

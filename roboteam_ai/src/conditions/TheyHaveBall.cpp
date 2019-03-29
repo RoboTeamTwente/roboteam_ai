@@ -3,7 +3,7 @@
 //
 
 #include "TheyHaveBall.h"
-#include "../utilities/World.h"
+#include "../world/World.h"
 
 namespace rtt {
 namespace ai {
@@ -12,7 +12,7 @@ TheyHaveBall::TheyHaveBall(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { }
 
 bt::Node::Status TheyHaveBall::onUpdate() {
-    if (world::world->theyHaveBall()) {
+    if (world::world->whichRobotHasBall().first == world::WhichRobots::THEIR_ROBOTS) {
         return bt::Node::Status::Success;
     }
     return bt::Node::Status::Failure;

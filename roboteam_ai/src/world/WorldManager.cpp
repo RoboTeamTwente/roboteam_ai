@@ -3,6 +3,8 @@
 //
 
 #include "WorldManager.h"
+#include <roboteam_ai/src/utilities/StrategyManager.h>
+#include <roboteam_ai/src/interface/InterfaceValues.h>
 
 namespace rtt {
 namespace ai {
@@ -14,40 +16,108 @@ void WorldManager::setup() {
 
 void WorldManager::loop() {
     while (ros::ok()) {
-        updateROSData();
-        std::cout << worldMsg.time << std::endl;
-        if (lastWorldTime != worldMsg.time) {
-            updateField();
-            updateWorld();
-            updateGameAnalyzer();
-        }
+        unsigned char changes = updateROSData();
+
+        if (changes & 0b001) updateReferee();
+        if (changes & 0b010) updateWorld();
+        if (changes & 0b100) updateGeometry();
     }
 }
 
-void WorldManager::updateROSData() {
+unsigned char WorldManager::updateROSData() {
     // make ROS world_state and geometry data globally accessible
+    unsigned char anyMsgHasChanged = 0b000;
+
+    auto oldWorldMsg = worldMsg;
+    auto oldGeometryMsg = geometryMsg;
+    auto oldRefereeMsg = refereeMsg;
+
+    refereeMsg = IOManager->getRefereeData();
     worldMsg = IOManager->getWorldState();
     geometryMsg = IOManager->getGeometryData();
-    refereeMsg = IOManager->getRefereeData();
+
+    // refereeMsg:  0b001
+    anyMsgHasChanged = anyMsgHasChanged | refereeMsgChanged(oldRefereeMsg, refereeMsg);
+    // worldMsg:    0b010
+    anyMsgHasChanged = anyMsgHasChanged | worldMsgChanged(oldWorldMsg, worldMsg);
+    // geometryMsg: 0b100
+    anyMsgHasChanged = anyMsgHasChanged | geometryMsgChanged(worldMsg);
+
+    return anyMsgHasChanged;
+}
+
+void WorldManager::updateReferee() {
+    if (ai::interface::InterfaceValues::usesRefereeCommands()) {
+        ai::StrategyManager strategyManager;
+        // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
+        // might want to build something that verifies this
+        auto oldStrategy = ai::treeinterp::g_btfactory.getCurrentTree();
+        std::string strategyName = strategyManager.getCurrentStrategyName(refereeMsg.command);
+        if (oldStrategy != strategyName) {
+            ai::treeinterp::g_btfactory.init();
+        }
+        ai::treeinterp::g_btfactory.setCurrentTree(strategyName);
+    }
 }
 
 void WorldManager::updateWorld() {
 
     world->setWorld(worldMsg);
 
-    auto worldDataPtr = world->getWorld();
-    lastWorld->addWorld(worldDataPtr);
-    processedWorld->update(worldDataPtr);
+    auto worldData = world->getWorld();
+    lastWorld->addWorld(worldData);
+    processedWorld->update(worldData);
 
-    lastWorldTime = worldMsg.time;
+    updateGameAnalyzer(worldData);
 }
 
-void WorldManager::updateField() {
+void WorldManager::updateGeometry() {
     world::field->set_field(geometryMsg.field);
 }
 
-void WorldManager::updateGameAnalyzer() {
+void WorldManager::updateGameAnalyzer(const WorldData &worldData) {
     //TODO:
+}
+
+
+unsigned char WorldManager::refereeMsgChanged(roboteam_msgs::RefereeData oldR, roboteam_msgs::RefereeData newR) {
+    unsigned char bit = 0b000;
+
+    bool msgChanged = false;
+    msgChanged |= oldR.packet_timestamp != newR.packet_timestamp;
+    msgChanged |= oldR.command_timestamp != newR.command_timestamp;
+
+    if (msgChanged) bit = 0b001;
+
+    return bit;
+}
+
+unsigned char WorldManager::worldMsgChanged(roboteam_msgs::World oldW, roboteam_msgs::World newW) {
+    unsigned char bit = 0b000;
+
+    bool msgChanged = false;
+    msgChanged |= oldW.time != newW.time;
+    msgChanged |= (Vector2)oldW.ball.pos != newW.ball.pos;
+    msgChanged |= (Vector2)oldW.ball.vel != newW.ball.vel;
+
+    if (msgChanged) bit = 0b010;
+
+    return bit;
+}
+
+unsigned char WorldManager::geometryMsgChanged(roboteam_msgs::World newG) {
+    unsigned char bit = 0b000;
+
+    double updateEveryThisManySeconds = 1.0;
+    static double lastUpdatedTime = 0.0;
+    bool msgChanged = newG.time - lastUpdatedTime > updateEveryThisManySeconds;
+
+    if (msgChanged) {
+        lastUpdatedTime = newG.time;
+        bit = 0b100;
+    }
+
+    return bit;
 }
 
 }

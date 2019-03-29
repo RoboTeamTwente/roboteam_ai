@@ -4,9 +4,6 @@
 
 #include <roboteam_ai/src/demo/JoystickDemo.h>
 #include "ApplicationManager.h"
-#include "utilities/Referee.hpp"
-#include "utilities/StrategyManager.h"
-#include "utilities/Field.h"
 #include <sstream>
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include <roboteam_ai/src/interface/InterfaceValues.h>
@@ -72,9 +69,6 @@ void ApplicationManager::runOneLoopCycle() {
         auto demomsg = IOManager->getDemoInfo();
         demo::JoystickDemo::demoLoop(demomsg);
 
-        if (ai::interface::InterfaceValues::usesRefereeCommands()) {
-            this->handleRefData();
-        }
         // TODO: change this later so the referee tells you this
         // TODO enable for keeper
 //        robotDealer::RobotDealer::setKeeperID(0);
@@ -99,29 +93,6 @@ void ApplicationManager::checkForShutdown() {
         strategy->terminate(Status::Running);
     }
     ai::analysis::GameAnalyzer::getInstance().stop();
-}
-//
-//void ApplicationManager::updateROSData() {
-//    // make ROS world_state and geometry data globally accessible
-//    worldMsg = IOManager->getWorldState();
-//    geometryMsg = IOManager->getGeometryData();
-//    refereeMsg = IOManager->getRefereeData();
-//
-//    ai::world::world->setWorld(worldMsg);
-//    ai::world::field->set_field(geometryMsg.field);
-//    ai::Referee::setRefereeData(refereeMsg);
-//}
-
-void ApplicationManager::handleRefData() {
-    ai::StrategyManager strategyManager;
-    // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
-    // might want to build something that verifies this
-    auto oldStrategy = ai::treeinterp::g_btfactory.getCurrentTree();
-    std::string strategyName = strategyManager.getCurrentStrategyName(refereeMsg.command);
-    if (oldStrategy != strategyName) {
-        ai::treeinterp::g_btfactory.init();
-    }
-    ai::treeinterp::g_btfactory.setCurrentTree(strategyName);
 }
 
 void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {

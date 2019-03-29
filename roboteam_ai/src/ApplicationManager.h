@@ -23,10 +23,8 @@ class ApplicationManager {
         bt::BehaviorTree::Ptr strategy;
         bt::BehaviorTree::Ptr keeperTree;
 
-        void handleRefData();
         void notifyTreeStatus(bt::Node::Status status);
         void runOneLoopCycle();
-
     public:
         void setup();
         void loop();

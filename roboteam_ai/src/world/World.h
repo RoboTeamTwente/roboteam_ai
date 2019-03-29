@@ -23,11 +23,12 @@ namespace ai {
 namespace world {
 
 class World {
-    private:
+    public:
         using RobotPtr = std::shared_ptr<Robot>;
         using BallPtr = std::shared_ptr<Ball>;
         using WorldDataPtr = std::shared_ptr<WorldData>;
 
+    private:
         roboteam_msgs::World worldMsg;
         WorldDataPtr worldData;
 
@@ -63,7 +64,7 @@ class World {
         bool ourRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
         bool theirRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
 
-        int whichRobotHasBall(WhichRobots whichRobots = OUR_ROBOTS);
+        std::pair<WhichRobots, int> whichRobotHasBall(WhichRobots whichRobots = OUR_ROBOTS);
 
         const WorldData getFutureWorld(double time);
 

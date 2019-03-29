@@ -1,6 +1,6 @@
 #include <queue>
 #include <roboteam_ai/src/interface/drawer.h>
-#include "../../utilities/Field.h"
+#include "../../world/Field.h"
 #include "NumTreePosControl.h"
 #include "PosVelAngle.h"
 
@@ -95,7 +95,7 @@ bool NumTreePosControl::doRecalculatePath(RobotPtr robot, Vector2 targetPos) {
 }
 
 /// finds a path using a numeric model
-PosVelAngle NumTreePosControl::goToPos(RobotPtr robot, Vector2 targetPos) {
+PosVelAngle NumTreePosControl::getPosVelAngle(RobotPtr robot, Vector2 &targetPos) {
     ros::Time begin = ros::Time::now();
     robotID = robot->id;
 

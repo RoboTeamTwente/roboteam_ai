@@ -12,7 +12,6 @@ namespace bt {
 
 class EnterFormationTactic : public Tactic {
     public:
-        using dealer = robotDealer::RobotDealer;
         std::map<std::string, RobotType> robots;
         EnterFormationTactic(std::string name, Blackboard::Ptr blackboard);
         void initialize() override;

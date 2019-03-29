@@ -254,7 +254,8 @@ void MainWindow::updatePause() {
 }
 
 void MainWindow::updateRobotsWidget() {
-    robotsWidget->updateContents(visualizer);
+    if (world::world->weHaveRobots())
+        robotsWidget->updateContents(visualizer);
 }
 
 void MainWindow::setShowDebugValueInTerminal(bool showDebug) {

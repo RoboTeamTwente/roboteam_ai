@@ -4,7 +4,7 @@
 
 #include <roboteam_ai/src/coach/GeneralPositionCoach.h>
 #include "Attack.h"
-#include <roboteam_ai/src/utilities/Field.h>
+#include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 
@@ -52,7 +52,7 @@ bt::Node::Status Attack::onUpdate() {
         gtp->setAvoidBall(false);
         command.use_angle = 1;
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
-        if (world::world->botHasBall(robot->id, true, Constants::MAX_KICK_RANGE())) {
+        if (world::world->robotHasBall(robot->id, true, Constants::MAX_KICK_RANGE())) {
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
             command.kicker_forced = 1;

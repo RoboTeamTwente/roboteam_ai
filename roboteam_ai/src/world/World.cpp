@@ -214,9 +214,9 @@ bool World::theirRobotHasBall(int id, double maxDist) {
     return false;
 }
 
-int World::whichRobotHasBall(WhichRobots whichRobots) {
+std::pair<WhichRobots, int> World::whichRobotHasBall(WhichRobots whichRobots) {
     //TODO:
-    return 0;
+    return {ALL_ROBOTS, -1};
 }
 
 const WorldData World::getFutureWorld(double time) {

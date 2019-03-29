@@ -3,11 +3,12 @@
 //
 
 #include "ShootPenalty.h"
+
 namespace rtt {
 namespace ai {
 
 void ShootPenalty::onInitialize() {
-    Vector2 ballPos = rtt::ai::World::getBall()->pos;
+    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
     Vector2 robotPos = robot->pos;
     targetPos = ballPos + (robotPos - ballPos).rotate(fakeOffset.getAngle());
     progress = GOING;
@@ -18,7 +19,7 @@ Skill::Status ShootPenalty::onUpdate() {
     switch (progress) {
 
         case GOING: {
-            Vector2 ballPos = rtt::ai::World::getBall()->pos;
+            Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
             Vector2 deltaPos = (ballPos - robot->pos);
 
             if (deltaPos.length() < errorMarginPos) {
@@ -40,7 +41,7 @@ Skill::Status ShootPenalty::onUpdate() {
         }
 
         case ROTATING: {
-            if ((robot->w - fakeOffset) > errorMarginAng) {
+            if ((robot->angularVelocity - fakeOffset) > errorMarginAng) {
                 roboteam_msgs::RobotCommand command;
                 command.id = robot->id;
                 command.use_angle = 1;
@@ -68,7 +69,7 @@ Skill::Status ShootPenalty::onUpdate() {
 
         case SHOOTING: {
             if (! isPenaltyShot()) {
-                Vector2 ballPos = rtt::ai::World::getBall()->pos;
+                Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
                 roboteam_msgs::RobotCommand command;
                 command.id = robot->id;
                 command.use_angle = 1;
@@ -105,8 +106,8 @@ ShootPenalty::ShootPenalty(string name, bt::Blackboard::Ptr blackboard)
 
 }
 bool ShootPenalty::isPenaltyShot() {
-    Vector2 ballPos = rtt::ai::World::getBall()->pos;
-    return ((ballPos - Field::getPenaltyPoint(false)).length() > 0.05);
+    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
+    return ((ballPos - rtt::ai::world::field->getPenaltyPoint(false)).length() > 0.05);
 
 }
 

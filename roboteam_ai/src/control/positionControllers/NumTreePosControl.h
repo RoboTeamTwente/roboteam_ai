@@ -35,16 +35,16 @@ private:
     void redrawInInterface();
 
     std::vector<std::pair<Vector2, QColor>> displayData;
-    bool doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos);
+    bool doRecalculatePath(RobotPtr robot, Vector2 targetPos);
     double remainingStraightLinePathLength(Vector2 currentPos, Vector2 halfwayPos, Vector2 finalPos);
 
-    PosVelAngle computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
+    PosVelAngle computeCommand(RobotPtr robot);
 
     std::pair<std::vector<Vector2>, std::shared_ptr<PathPoint>> getNewTargets(
             std::shared_ptr<PathPoint> collisionPoint);
     bool checkCollision(std::shared_ptr<PathPoint> point, double collisionRadius = 0.27);
     std::shared_ptr<PathPoint> computeNewPoint(std::shared_ptr<PathPoint> oldPoint, Vector2 subTarget);
-    void tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
+    void tracePath(RobotPtr robot);
     std::vector<PathPoint> backTrackPath(std::shared_ptr<PathPoint> point, std::shared_ptr<PathPoint> root);
     Vector2 findCollisionPos(std::shared_ptr<PathPoint> point, double collisionRadius = 0.27);
 
@@ -53,7 +53,7 @@ public:
     explicit NumTreePosControl() = default;
     void clear();
     Vector2 finalTargetPos;
-    PosVelAngle getPosVelAngle(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 &targetPos) override;
+    PosVelAngle getPosVelAngle(RobotPtr robot, Vector2 &targetPos) override;
     void setCanGoOutsideField(bool _canGoOutsideField);
 
 };

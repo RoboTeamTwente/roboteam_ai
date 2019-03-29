@@ -16,6 +16,7 @@ namespace bt {
 
 class Tactic : public Node {
 protected:
+        using dealer = rtt::ai::robotDealer::RobotType;
     int claimedRobots = 0;
     std::set<int> robotIDs;
 public:

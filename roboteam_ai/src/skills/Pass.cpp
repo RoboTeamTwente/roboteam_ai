@@ -40,7 +40,7 @@ Pass::Status Pass::onUpdate() {
                 command.x_vel = static_cast<float>(velocities.vel.x);
                 command.y_vel = static_cast<float>(velocities.vel.y);
 
-            } else if (!World::ourBotHasBall(robot->id)) {
+            } else if (!world::world->ourRobotHasBall(robot->id)) {
                 targetPos = ball->pos;
                 // use basic
                 control::PosVelAngle velocities = basicGtp.getPosVelAngle(robot, targetPos);

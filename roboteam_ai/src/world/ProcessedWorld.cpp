@@ -38,7 +38,7 @@ ProcessedWorld::RobotPtr ProcessedWorld::getRobotClosestToPoint(
             closestRobot = &robot;
         }
     }
-    return RobotPtr(closestRobot);
+    return std::make_shared<Robot>(*closestRobot);
 }
 
 void ProcessedWorld::updateFutureBall(Ball &ball, double time) {
