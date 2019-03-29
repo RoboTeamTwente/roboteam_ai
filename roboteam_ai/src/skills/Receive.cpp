@@ -69,22 +69,21 @@ bool Receive::isInPosition(Vector2 behindTargetPos) {
     bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->pos);
 
     if (ballPlacement) {
-        bool isBehindTargetPos = behindTargetPos.dist(robot->pos) < 0.02;
-        return isBehindTargetPos && isAimedAtBall;
+        bool isBehindTargetPos = behindTargetPos.dist(robot->pos) < 0.10;
+
+        return isBehindTargetPos  && isAimedAtBall;
     }
     return isAimedAtBall;
 
 }
 
 void Receive::moveToCatchPosition(Vector2 position) {
-    std::cout << "moving to catch position" << std::endl;
-
     control::PosVelAngle pva = numTreeGtp.getPosVelAngle(robot, position);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL(), 0.3);
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);
 
-    if (position.dist(robot->pos) < 0.2) {
+    if (position.dist(robot->pos) < 0.6) {
         command.w = static_cast<float>((Vector2(ball->pos) - robot->pos).angle());
     } else {
         command.w = static_cast<float>((position - robot->pos).angle());
@@ -94,20 +93,18 @@ void Receive::moveToCatchPosition(Vector2 position) {
 }
 
 void Receive::intercept() {
-    double ballAngle = ((Vector2) robot->pos - ball->pos).angle();
+    double ballAngle = ((Vector2) ball->pos - robot->pos).angle();
 
     Vector2 ballStartVel = ball->vel;
-        Vector2 ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
-        Vector2 interceptPoint = Receive::computeInterceptPoint(ballStartPos, ballEndPos);
+    Vector2 ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
+    Vector2 interceptPoint = Receive::computeInterceptPoint(ballStartPos, ballEndPos);
 
-        std::cout << "intercepting at: " << interceptPoint << std::endl;
-
-        Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel;
-        velocities = control::ControlUtils::velocityLimiter(velocities);
-        command.x_vel = static_cast<float>(velocities.x);
-        command.y_vel = static_cast<float>(velocities.y);
-        command.w = ballAngle;
-        command.dribbler = 1;
+    Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel;
+    velocities = control::ControlUtils::velocityLimiter(velocities);
+    command.x_vel = static_cast<float>(velocities.x);
+    command.y_vel = static_cast<float>(velocities.y);
+    command.w = ballAngle;
+    command.dribbler = 1;
 
     publishRobotCommand();
 }

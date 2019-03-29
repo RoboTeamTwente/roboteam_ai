@@ -23,10 +23,17 @@ void Pass::onInitialize() {
     forceGtp.setCanMoveOutOfField(true);
     basicGtp.setCanMoveOutOfField(true);
 
-    robotToPassToID = coach::g_pass.initiatePass();
+
 
     // the coach is different when we use ballplacement
     ballPlacement = properties->getBool("BallPlacement");
+
+    if (ballPlacement) {
+        robotToPassToID = coach::g_pass.getRobotBeingPassedTo();
+    } else {
+        robotToPassToID = coach::g_pass.initiatePass();
+    }
+
 }
 
 Pass::Status Pass::onUpdate() {
@@ -73,9 +80,9 @@ bt::Leaf::Status Pass::getBall() {
 
 // Now we should have the ball and kick it.
 bt::Leaf::Status Pass::shoot() {
-   // std::cout << "Kicking" << std::endl;
 
     if (coach::g_pass.isReadyToReceivePass()) {
+        std::cout << "actually Kicking" << std::endl;
 
         targetPos = robotToPassTo->pos;
         control::PosVelAngle pva = basicGtp.getPosVelAngle(robot, targetPos);
@@ -90,6 +97,9 @@ bt::Leaf::Status Pass::shoot() {
         double kicker_vel_multiplier = distance > maxPowerDist ? 1.0 : distance / (0.9 * maxPowerDist); // kick harder
         command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER() * kicker_vel_multiplier);
         publishRobotCommand();
+    } else {
+        std::cout << "I want to kick but the receiver is not ready :( " << std::endl;
+
     }
     return Status::Running;
 }
