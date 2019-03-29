@@ -9,6 +9,8 @@
  *    - Getting robots by team
  */
 
+#ifndef ROBOTEAM_AI_WORLD_H
+#define ROBOTEAM_AI_WORLD_H
 
 
 #include "roboteam_utils/Vector2.h"
@@ -18,8 +20,6 @@
 #include <thread>
 #include "Constants.h"
 
-#ifndef ROBOTEAM_AI_WORLD_H
-#define ROBOTEAM_AI_WORLD_H
 
 namespace rtt {
 namespace ai {

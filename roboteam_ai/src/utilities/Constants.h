@@ -19,8 +19,8 @@ public:
     static bool SHOW_LONGEST_TICK()             { return false;};
     static bool SHOW_TICK_TIME_TAKEN()          { return false;};
     static bool SHOW_NUMTREE_TIME_TAKEN()       { return false;};
-    static bool SHOW_NUMTREE_DEBUG_INFO()       { return false; };
-    static bool SHOW_FULL_NUMTREE_DEBUG_INFO()  { return false; };
+    static bool SHOW_NUMTREE_DEBUG_INFO()       { return true; };
+    static bool SHOW_FULL_NUMTREE_DEBUG_INFO()  { return true; };
 
 
     /// ROBOT AND RELATED ///
@@ -58,11 +58,11 @@ public:
     static double MAX_BALL_RANGE()              { return GRSIM() ? 0.09 : 0.04; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
     static double HAS_BALL_ANGLE()              { return 0.2; }
     static double MAX_KICK_RANGE()              { return GRSIM() ? 0.4 : 0.04; };
-    static double DEFAULT_MAX_VEL()             { return 2.0; };
+    static double DEFAULT_MAX_VEL()             { return 4.0; };
     static double MAX_INTERCEPT_TIME()          { return 2.0; };    // Seconds. Intercept terminates  after this time.
     static double BALL_STILL_VEL()              { return 0.1; };    // If the ball has velocity lower than this in defense area, keeper starts getting it
     static double MIN_DISTANCE_FOR_FORCE()      { return 0.5; };
-    static double GOTOPOS_ERROR_MARGIN()        { return 0.06;} ;
+    static double GOTOPOS_ERROR_MARGIN()        { return 0.1;} ;
 
     /// KEEPER ///
     static double KEEPER_POST_MARGIN()          { return 0.08; };//m
@@ -117,8 +117,7 @@ public:
     static double standardNumTreeVelP()         { return GRSIM() ? 3.0 : 2.8; };
     static double standardNumTreeVelI()         { return GRSIM() ? 0.2 : 0.6; };
     static double standardNumTreeVelD()         { return GRSIM() ? 2.5 : 2.3; };
-
-
+    
 private:
     static bool isInitialized;
     static bool robotOutputTargetGrSim; // Don't use this value. use GRSIM() instead.

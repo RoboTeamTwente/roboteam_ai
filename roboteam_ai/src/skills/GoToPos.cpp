@@ -23,41 +23,32 @@ void GoToPos::onInitialize() {
         maxVel = properties->getDouble("maxVel");
     }
 
-    goToPos.setAvoidBall(properties->getBool("avoidBall"));
-    goToPos.setCanGoOutsideField(properties->getBool("canGoOutsideField"));
+        gotopos.setAvoidBall(properties->getBool("avoidBall"));
+        gotopos.setCanGoOutsideField(properties->getBool("canGoOutsideField"));
 }
 
 /// Get an update on the skill
 bt::Node::Status GoToPos::onUpdate() {
-    if (! robot) return Status::Running;
 
     if ((targetPos - robot->pos).length() < errorMargin) {
         return Status::Success;
     }
 
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-
-    control::PosVelAngle pva = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES);
-    pva.vel = control::ControlUtils::VelocityLimiter(pva.vel, maxVel);
+    control::PosVelAngle pva = gotopos.getPosVelAngle(robot, targetPos);
+    pva.vel = control::ControlUtils::velocityLimiter(pva.vel, maxVel);
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);
     command.w = static_cast<float>(pva.angle);
 
-    publishRobotCommand(command);
+    publishRobotCommand();
     return Status::Running;
 }
 
 void GoToPos::onTerminate(Status s) {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
     command.w = robot->angle;
-
     command.x_vel = 0;
     command.y_vel = 0;
-
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 
 } // ai

@@ -21,29 +21,21 @@ bt::Node::Status SideAttacker::onUpdate() {
     if (! robot) return Status::Running;
     targetPos = coach::g_offensiveCoach.calculatePositionForRobot(robot);
 
-    auto newPosition = goToPos.goToPos(robot, targetPos);
+    auto newPosition = goToPos.getPosVelAngle(robot, targetPos);
     Vector2 velocity = newPosition.vel;
-    velocity = control::ControlUtils::VelocityLimiter(velocity);
-
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
+    velocity = control::ControlUtils::velocityLimiter(velocity);
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     command.w = static_cast<float>(newPosition.angle);
-    publishRobotCommand(command);
+    publishRobotCommand();
     return Status::Running;
 }
 
 void SideAttacker::onTerminate(Status s) {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
     command.w = static_cast<float>(deltaPos.angle());
-
     command.x_vel = 0;
     command.y_vel = 0;
-
-    publishRobotCommand(command);
+    publishRobotCommand();
     coach::g_offensiveCoach.releaseRobot(robot->id);
 }
 

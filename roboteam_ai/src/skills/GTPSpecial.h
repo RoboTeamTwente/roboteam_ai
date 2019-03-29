@@ -5,7 +5,6 @@
 #ifndef ROBOTEAM_AI_BASICGOTOPOS_H
 #define ROBOTEAM_AI_BASICGOTOPOS_H
 
-#include <roboteam_ai/src/control/PositionController.h>
 #include <roboteam_ai/src/coach/GeneralPositionCoach.h>
 #include <roboteam_ai/src/coach/Ballplacement.h>
 #include <roboteam_ai/src/utilities/Field.h>
@@ -24,7 +23,8 @@ class GTPSpecial : public GoToPos {
             ballPlacementBefore,
             ballPlacementAfter,
             getBallFromSide,
-            defaultType
+            defaultType,
+//            fixed
         };
 
         Type type;
