@@ -2,7 +2,11 @@
 // Created by thijs on 17-12-18.
 //
 
+#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
 #include "Attack.h"
+#include <roboteam_ai/src/utilities/Field.h>
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 
 namespace rtt {
 namespace ai {
@@ -12,8 +16,8 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void Attack::onInitialize() {
-    ownGoal = properties->getBool("ownGoal");
-    goToPos.setAvoidBall(true);
+    gtp = std::make_shared<control::NumTreePosControl>();
+    gtp->setAvoidBall(true);
     shot = false;
 }
 
@@ -26,28 +30,29 @@ bt::Node::Status Attack::onUpdate() {
     }
 
     Vector2 ball = world::world->getBall()->pos;
-    Vector2 behindBall = Coach::getPositionBehindBallToGoal(0.4, ownGoal);
+    Vector2 behindBall = coach::g_generalPositionCoach.getPositionBehindBallToGoal(BEHIND_BALL_TARGET, false);
     Vector2 deltaBall = behindBall - ball;
 
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
 
-    if (!Coach::isRobotBehindBallToGoal(0.6, ownGoal, robot->pos)) {
+    if (!coach::g_generalPositionCoach.isRobotBehindBallToGoal(BEHIND_BALL_CHECK, false, robot->pos)) {
         targetPos = behindBall;
         command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
-        goToPos.setAvoidBall(true);
+        gtp->setAvoidBall(true);
 
-        if (abs(((Vector2) robot->pos - targetPos).length()) < 0.10) {
-            goToPos.setAvoidBall(false);
+        if (abs(((Vector2) robot->pos - targetPos).length()) < SWITCH_TO_BASICGTP_DISTANCE) {
+            gtp->setAvoidBall(false);
+            gtp = std::make_shared<control::BasicPosControl>();
         }
     }
     else {
         targetPos = ball;
-        goToPos.setAvoidBall(false);
+        gtp->setAvoidBall(false);
         command.use_angle = 1;
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
-        if (world::world->robotHasBall(robot->id, world::OUR_ROBOTS)) {
+        if (world::world->botHasBall(robot->id, true, Constants::MAX_KICK_RANGE())) {
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
             command.kicker_forced = 1;
@@ -56,23 +61,23 @@ bt::Node::Status Attack::onUpdate() {
 
     }
     Vector2 velocity;
-    if (world::field->pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
+    if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
         velocity = ((Vector2) robot->pos - world::field->get_our_goal_center()).stretchToLength(2.0);
     }
-    else if (world::field->pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
+    else if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
         velocity = ((Vector2) robot->pos - world::field->get_their_goal_center()).stretchToLength(2.0);
     }
-    else if (world::field->pointIsInDefenceArea(ball, ownGoal) || world::field->pointIsInDefenceArea(ball, !ownGoal)) {
+    else if (world::field->pointIsInDefenceArea(ball, false) || world::field->pointIsInDefenceArea(ball, true)) {
         velocity = {0, 0};
     }
-    else if (world::field->pointIsInDefenceArea(targetPos, ownGoal)) {
+    else if (world::field->pointIsInDefenceArea(targetPos, false)) {
         velocity = {0, 0};
     }
     else {
-        velocity = goToPos.goToPos(robot, targetPos, GoToType::NUMERIC_TREES).vel;
+        velocity = gtp->getPosVelAngle(robot, targetPos).vel;
     }
 
-    velocity = control::ControlUtils::VelocityLimiter(velocity);
+    velocity = control::ControlUtils::velocityLimiter(velocity);
 
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);

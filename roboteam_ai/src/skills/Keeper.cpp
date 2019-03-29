@@ -32,8 +32,8 @@ Keeper::Status Keeper::onUpdate() {
             std::cout << "Keeper escaping field!" << std::endl;
             return Status::Running;
         } else {
-            Vector2 velocities = goToPos.goToPos(robot, blockPoint, GoToType::BASIC).vel;
-            velocities = control::ControlUtils::VelocityLimiter(velocities);
+            Vector2 velocities = gtp.getPosVelAngle(robot, blockPoint).vel;
+            velocities = control::ControlUtils::velocityLimiter(velocities);
             roboteam_msgs::RobotCommand command;
             command.id = robot->id;
             command.x_vel = static_cast<float>(velocities.x);
@@ -44,7 +44,7 @@ Keeper::Status Keeper::onUpdate() {
         }
         //double dist=control::ControlUtils::distanceToLine(robot->pos,ballPos,blockPoint);
         double dist = (blockPoint - (Vector2(robot->pos))).length(); //using point distance not line distance.
-        if (dist < Constants::KEEPER_POSDIF()) {
+        if (dist < KEEPER_POSDIF) {
             sendStopCommand();
         }
         else if (dist < 2*Constants::ROBOT_RADIUS()){
@@ -69,7 +69,7 @@ void Keeper::onTerminate(Status s) {
 void Keeper::sendMoveCommand(Vector2 pos) {
     Vector2 error = pos - robot->pos;
     Vector2 delta = pid.controlPIR(error, robot->vel);
-    Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
+    Vector2 deltaLim= control::ControlUtils::velocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
@@ -78,10 +78,11 @@ void Keeper::sendMoveCommand(Vector2 pos) {
     cmd.w = static_cast<float>(M_PI_2);
     publishRobotCommand(cmd);
 }
+
 void Keeper::sendFineMoveCommand(Vector2 pos) {
     Vector2 error = pos - robot->pos;
     Vector2 delta = finePid.controlPIR(error, robot->vel);
-    Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
+    Vector2 deltaLim= control::ControlUtils::velocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;

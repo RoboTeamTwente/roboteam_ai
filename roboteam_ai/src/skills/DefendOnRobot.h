@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_DEFENDONROBOT_H
 #define ROBOTEAM_AI_DEFENDONROBOT_H
 
-#include <roboteam_ai/src/control/PositionController.h>
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include "Skill.h"
 
 namespace rtt {
@@ -13,11 +13,12 @@ namespace ai {
 
 class DefendOnRobot : public Skill {
     private:
-        control::PositionController goToPos;
         double angleBetweenRobots;
         Vector2 newPosition;
-
-        int amountOfCycles{};
+        int pickOpponentToCover();
+        static std::map<int, int> defencePairs;
+        control::NumTreePosControl goToPos;
+    int amountOfCycles{};
     protected:
         enum Progression {
           IDLE, DONE, FAIL

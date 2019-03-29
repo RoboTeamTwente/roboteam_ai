@@ -2,26 +2,30 @@
 // Created by rolf on 30-1-19.
 //
 
+#include <roboteam_ai/src/control/ControlUtils.h>
 #include "GoAroundPos.h"
 #include "../interface/drawer.h"
 namespace rtt {
 namespace ai {
+
 GoAroundPos::GoAroundPos(rtt::string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) { }
+
+
 void GoAroundPos::onInitialize() {
-    if (properties->hasVector2("targetPos")) {
-        ballIsTarget = false;
-        targetPos = properties->getVector2("targetPos");
-    }
-    else {
-        ballIsTarget = true;
+    if (properties->hasBool("ball")) {
         if (ball) {
+            ballIsTarget = true;
             targetPos = ball->pos;
         }
-        else {
-            targetPos = {0, 0};
-            ROS_ERROR_STREAM("GoAroundPos update--> No ball found! Defaulting to {0,0}");
+        else{
+            ROS_ERROR("Get some balls");
         }
+    }
+    else {
+        ballIsTarget = false;
+            targetPos = properties->getVector2("targetPos");
+
     }
     if (properties->hasDouble("targetDir")) {
         endAngle = Control::constrainAngle(properties->getDouble("targetDir"));
@@ -38,7 +42,7 @@ void GoAroundPos::onInitialize() {
     startAngle = deltaPos.angle();
     rotateDir = Control::rotateDirection(startAngle, endAngle);
     if (ballIsTarget){
-        distanceFromPoint=Constants::GOAROUND_BALL_DIST();
+        distanceFromPoint=BALL_DIST;
     }
     else{
         if (properties->hasDouble("RotatingDistance")){
@@ -46,16 +50,21 @@ void GoAroundPos::onInitialize() {
         }
         else{
             ROS_ERROR_STREAM("No rotating distance set! Defaulting to ball distance");
-            distanceFromPoint=Constants::GOAROUND_BALL_DIST();
+            distanceFromPoint=BALL_DIST;
         }
     }
     currentTick = 0;
     angleDif = Control::angleDifference(startAngle, endAngle);
-    maxTick = floor(angleDif/Constants::GOAROUND_SPEED()*Constants::TICK_RATE());
+    maxTick = floor(angleDif/SPEED*Constants::TICK_RATE());
     currentProgress=ROTATING;
 }
+
+
 GoAroundPos::Status GoAroundPos::onUpdate() {
-    if (! robot) { return Status::Failure; }
+    if (! robot) {
+        ROS_ERROR("Robot not found ree:  %s", std::to_string(robot->id).c_str());
+        return Status::Failure;
+    }
     if (ballIsTarget && ! ball) {ROS_ERROR_STREAM("GoAroundPos update -> No ball found!");return Status::Failure; }
     if (ballIsTarget) {
         targetPos = ball->pos;
@@ -114,11 +123,11 @@ GoAroundPos::Progression GoAroundPos::checkProgression() {
         //Done when robot sufficiently close to desired end position and rotation.
         double angDif=Control::angleDifference(deltaPos.angle(),endAngle);
         double posDif=(commandPos-robot->pos).length();
-        if (posDif < Constants::GOAROUND_POS_MARGIN() && angDif < Constants::GOAROUND_ANGLE_MARGIN()){
+        if (posDif < POS_MARGIN && angDif < ANGLE_MARGIN){
             return  DONE;
         }
         //If Robot takes too long to stop, fail
-        if (currentTick>maxTick+Constants::MAX_GOAROUND_STOP_TIME() * Constants::TICK_RATE()){
+        if (currentTick>maxTick+MAX_STOP_TIME * Constants::TICK_RATE()){
             return FAIL;
         }
         else return STOPPING;
@@ -131,17 +140,17 @@ bool GoAroundPos::checkPosition() {
     if (totalSum>angleDif+0.1*M_PI*2){
         return false;
     }
-    return ((deltaPos.length()<=(distanceFromPoint+Constants::GOAROUND_MAX_DIST_DEVIATION()))&&deltaPos.length()>distanceFromPoint-Constants::GOAROUND_MAX_DIST_DEVIATION());
+    return ((deltaPos.length()<=(distanceFromPoint+MAX_DIST_DEVIATION))&&deltaPos.length()>distanceFromPoint-MAX_DIST_DEVIATION);
 }
 void GoAroundPos::sendRotateCommand() {
     roboteam_msgs::RobotCommand command;
     Vector2 deltaCommandPos = (commandPos - robot->pos);
-    deltaCommandPos=Control::VelocityLimiter(deltaCommandPos,distanceFromPoint*Constants::GOAROUND_SPEED(),Constants::GOAROUND_MIN_SPEED());
+    deltaCommandPos= Control::velocityLimiter(deltaCommandPos, distanceFromPoint*SPEED, MIN_SPEED);
     command.id = robot->id;
     command.use_angle = 1;
     command.dribbler = 0;
-    command.x_vel = deltaCommandPos.x;
-    command.y_vel = deltaCommandPos.y;
+    command.x_vel = static_cast<float>(deltaCommandPos.x);
+    command.y_vel = static_cast<float>(deltaCommandPos.y);
     command.w = (float) deltaPos.angle();
     publishRobotCommand(command);
 }

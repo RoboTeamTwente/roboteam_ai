@@ -40,7 +40,7 @@ TEST(ControlUtils, angleDifference) {
 
 TEST(ControlUtils, velocityLimiter) {
     for (int i = 0; i < 200; i ++) {
-        EXPECT_LE(cr::ControlUtils::VelocityLimiter(Vector2(- 102 + i*10, 512 + i*8)).length(),
+        EXPECT_LE(cr::ControlUtils::velocityLimiter(Vector2(- 102 + i*10, 512 + i*8)).length(),
                 rtt::ai::Constants::MAX_VEL() + 0.01);
     }
 }

@@ -9,6 +9,10 @@ namespace rtt{
 namespace ai{
 class DribbleRotate : public Skill{
     private:
+
+        const double WAIT_TIME = 0.2;     // Seconds
+        const double MAX_SPEED = 0.5;     // Rad/second
+
         enum Progression{
           ROTATING,SUCCESS,FAIL
         };

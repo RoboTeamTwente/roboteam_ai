@@ -10,9 +10,9 @@
 TEST(PropertiesParserTest, ParseCorrectVars) {
 
     using json = nlohmann::json;
-    JsonReader reader;
+    rtt::ai::treeinterp::JsonReader reader;
     json jason = reader.readJSON("propertiesparsertest");
-    PropertiesParser parser;
+    rtt::ai::treeinterp::PropertiesParser parser;
     bt::Blackboard::Ptr bb = parser.parse(jason);
 
     EXPECT_EQ(bb->getDouble("double_a"), 7.0);

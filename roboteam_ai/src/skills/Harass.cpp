@@ -1,7 +1,6 @@
 //
 // Created by baris on 12-12-18.
 //
-#include <roboteam_ai/src/utilities/Coach.h>
 #include "Harass.h"
 
 namespace rtt {
@@ -42,7 +41,7 @@ Skill::Status Harass::onUpdate() {
     std::cout << "call gotopos with target pos" << targetPos << std::endl;
     std::cout << "call gotopos with robot pos           " << robot->pos << std::endl;
 
-    goToPos.goToPos(robot, targetPos, control::PosControlType::BASIC);
+    goToPos.getPosVelAngle(robot, targetPos);
 
     if (harassBallOwner && !world::world->theirRobotHasBall(harassmentTarget)) {
         return Status::Success;

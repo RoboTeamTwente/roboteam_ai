@@ -24,6 +24,7 @@
 #include <QtWidgets/QDoubleSpinBox>
 #include "TreeVisualizerWidget.h"
 #include "RobotsWidget.h"
+#include <roboteam_ai/src/treeinterp/BTFactory.h>
 
 namespace rtt {
 namespace ai {
@@ -50,6 +51,8 @@ class MainWindow : public QMainWindow {
         void setShowDebugValueInTerminal(bool showDebug);
         void refreshSignal();
     private:
+        std::shared_ptr<treeinterp::BTFactory> factory;
+
         Visualizer* visualizer;
         QHBoxLayout* horizontalLayout;
         RobotsWidget* robotsLayout;
@@ -64,7 +67,6 @@ class MainWindow : public QMainWindow {
         QComboBox* select_strategy;
 
     private:
-        // TODO: LUKAS, look at if I did this right with pos pid / vel pid :)
         QGroupBox* doubleSpinBoxesGroup_Pos_PID;
         QGroupBox* doubleSpinBoxesGroup_Vel_PID;
         QHBoxLayout* spinBoxLayout;

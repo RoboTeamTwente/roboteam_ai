@@ -2,6 +2,7 @@
 // Created by robzelluf on 1/22/19.
 //
 
+#include <roboteam_ai/src/coach/PassCoach.h>
 #include "Receive.h"
 
 namespace rtt {
@@ -14,7 +15,7 @@ Receive::Receive(string name, bt::Blackboard::Ptr blackboard)
 void Receive::onInitialize() {
     checkTicks = 0;
     initializedBall = false;
-    coach::Coach::setReadyToReceivePass(true);
+    coach::g_pass.setReadyToReceivePass(true);
 };
 
 Vector2 Receive::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
@@ -34,7 +35,7 @@ Receive::Status Receive::onUpdate() {
             ballStartVel = ball->vel;
         }
 
-        if (Coach::isPassed() && Vector2(ball->vel).length() < 0.01) {
+        if (coach::g_pass.isPassed() && Vector2(ball->vel).length() < 0.01) {
             checkTicks++;
             if (checkTicks >= maxCheckTicks) return Status::Success;
         }
@@ -48,8 +49,8 @@ Receive::Status Receive::onUpdate() {
             Vector2 ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
             Vector2 interceptPoint = Receive::computeInterceptPoint(ballStartPos, ballEndPos);
 
-            control::PosVelAngle velocities = goToPos.goToPos(robot, interceptPoint, GoToType::BASIC);
-            velocities.vel = control::ControlUtils::VelocityLimiter(velocities.vel);
+            control::PosVelAngle velocities = goToPos.getPosVelAngle(robot, interceptPoint);
+            velocities.vel = control::ControlUtils::velocityLimiter(velocities.vel);
             command.x_vel = static_cast<float>(velocities.vel.x);
             command.y_vel = static_cast<float>(velocities.vel.y);
             command.dribbler = 1;

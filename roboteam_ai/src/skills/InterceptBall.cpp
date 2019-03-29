@@ -34,7 +34,7 @@ void InterceptBall::onInitialize() {
         currentProgression = BALLMISSED;
         backwards=false;
     }
-    pid.setPID(Constants::INTERCEPT_P(),Constants::INTERCEPT_I(),Constants::INTERCEPT_D(),1.0/Constants::TICK_RATE()); //TODO:magic numbers galore, from the old team. Move to new control library?
+    pid.setPID(INTERCEPT_P,INTERCEPT_I,INTERCEPT_D,1.0/Constants::TICK_RATE()); //TODO:magic numbers galore, from the old team. Move to new control library?
 }
 InterceptBall::Status InterceptBall::onUpdate() {
     ball = world::world->getBall();
@@ -81,8 +81,8 @@ void InterceptBall::sendMoveCommand(Vector2 targetPos) {
     roboteam_msgs::RobotCommand command;
     command.id = robot->id;
 
-    Vector2 velocities = goToPos.goToPos(robot, targetPos).vel;
-    velocities = control::ControlUtils::VelocityLimiter(velocities);
+    Vector2 velocities = goToPos.getPosVelAngle(robot, targetPos).vel;
+    velocities = control::ControlUtils::velocityLimiter(velocities);
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
 
@@ -123,7 +123,7 @@ void InterceptBall::checkProgression() {
         };//If robot is close, switch to closetoPoint
         return;
     case CLOSETOPOINT:
-        if (dist < Constants::INTERCEPT_POSDIF()) {
+        if (dist < INTERCEPT_POSDIF) {
             currentProgression = INPOSITION;
         }//If Robot overshoots, switch to overshoot, if in Position, go there
         else if (dist >= Constants::ROBOT_RADIUS()) {
@@ -131,7 +131,7 @@ void InterceptBall::checkProgression() {
         }
         return;
     case INPOSITION:
-        if (dist < Constants::INTERCEPT_POSDIF()) {
+        if (dist < INTERCEPT_POSDIF) {
             return;
         }
         else {
@@ -199,7 +199,7 @@ bool InterceptBall::ballDeflected() {
     // A ball is deflected if:
     // If ball velocity changes by more than x degrees from the original orientation then it is deflected
     if (abs(control::ControlUtils::constrainAngle(Vector2(ball->vel).angle() - ballStartVel.angle()))
-            > Constants::BALL_DEFLECTION_ANGLE()) {
+            > BALL_DEFLECTION_ANGLE) {
         return true;
     }
     // Ball Position is behind the line orthogonal to the ball velocity going through the ballStartPos
@@ -231,7 +231,7 @@ void InterceptBall::sendStopCommand() {
 void InterceptBall::sendFineInterceptCommand() {
     Vector2 error= interceptPos-robot->pos;
     Vector2 delta = pid.controlPIR(error, robot->vel);
-    Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
+    Vector2 deltaLim= control::ControlUtils::velocityLimiter(delta);
     roboteam_msgs::RobotCommand cmd;
     cmd.use_angle = 1;
     cmd.id = robot->id;
@@ -242,7 +242,7 @@ void InterceptBall::sendFineInterceptCommand() {
 }
 void InterceptBall::sendInterceptCommand() {
     Vector2 delta = pid.controlPIR(interceptPos - robot->pos,robot->vel);
-    Vector2 deltaLim=control::ControlUtils::VelocityLimiter(delta);
+    Vector2 deltaLim= control::ControlUtils::velocityLimiter(delta);
     roboteam_msgs::RobotCommand command;
     command.use_angle = 1;
     command.id = robot->id;
@@ -261,7 +261,7 @@ void InterceptBall::sendInterceptCommand() {
 bool InterceptBall::ballToGoal() {
     Vector2 goalCentre = world::field->get_our_goal_center();
     double goalWidth = world::field->get_field().goal_width;
-    double margin = Constants::BALL_TO_GOAL_MARGIN();
+    double margin = Constants::BALL_RADIUS();
     Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth + margin));
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth + margin);
     Vector2 ballPos = ball->pos;

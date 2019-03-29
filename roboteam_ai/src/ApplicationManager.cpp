@@ -6,7 +6,10 @@
 #include "ApplicationManager.h"
 #include "utilities/Referee.hpp"
 #include "utilities/StrategyManager.h"
+#include "utilities/Field.h"
 #include <sstream>
+#include <roboteam_ai/src/analysis/GameAnalyzer.h>
+#include <roboteam_ai/src/interface/InterfaceValues.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -16,10 +19,9 @@ namespace rtt {
 
 void ApplicationManager::setup() {
     IOManager = new io::IOManager(true);
-    factory = BTFactory::getFactory();
-    factory.init();
-    BTFactory::setCurrentTree("haltStrategy");
-    BTFactory::setKeeperTree("keeperTest1");
+    ai::treeinterp::g_btfactory.init();
+    ai::treeinterp::g_btfactory.setCurrentTree("haltStrategy");
+    ai::treeinterp::g_btfactory.setKeeperTree("keeperTest1");
 }
 
 void ApplicationManager::loop() {
@@ -56,13 +58,14 @@ void ApplicationManager::loop() {
 
 void ApplicationManager::runOneLoopCycle() {
     ros::spinOnce();
-    this->updateDangerfinder();
 
     if (ai::world::world->weHaveRobots()) {
-        if (BTFactory::getCurrentTree() == "NaN") {
+        if (ai::treeinterp::g_btfactory.getCurrentTree() == "NaN") {
             ROS_INFO("NaN tree probably Halting");
             return;
         }
+
+        ai::analysis::GameAnalyzer::getInstance().start();
 
         // Will do things if this is a demo
         // otherwise wastes like 0.1 ms
@@ -75,12 +78,14 @@ void ApplicationManager::runOneLoopCycle() {
         // TODO: change this later so the referee tells you this
         // TODO enable for keeper
 //        robotDealer::RobotDealer::setKeeperID(0);
-//        keeperTree = BTFactory::getKeeperTree();
+//        keeperTree = ai::treeinterp::g_btfactory.getKeeperTree();
 //        Status keeperStatus = keeperTree->tick();
 
-        strategy = factory.getTree(BTFactory::getCurrentTree());
+        strategy = ai::treeinterp::g_btfactory.getTree(ai::treeinterp::g_btfactory.getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
+
+        rtt::ai::coach::g_offensiveCoach.calculateNewPositions();
     }
     else {
         ROS_ERROR("No first world");
@@ -93,6 +98,7 @@ void ApplicationManager::checkForShutdown() {
     if (strategy->getStatus() == Status::Running) {
         strategy->terminate(Status::Running);
     }
+    ai::analysis::GameAnalyzer::getInstance().stop();
 }
 //
 //void ApplicationManager::updateROSData() {
@@ -106,21 +112,16 @@ void ApplicationManager::checkForShutdown() {
 //    ai::Referee::setRefereeData(refereeMsg);
 //}
 
-void ApplicationManager::updateDangerfinder() {
-
-    //TODO:: fix gameanalyzer/dangerfinder
-}
-
 void ApplicationManager::handleRefData() {
     ai::StrategyManager strategyManager;
     // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
     // might want to build something that verifies this
-    auto oldStrategy = BTFactory::getCurrentTree();
+    auto oldStrategy = ai::treeinterp::g_btfactory.getCurrentTree();
     std::string strategyName = strategyManager.getCurrentStrategyName(refereeMsg.command);
     if (oldStrategy != strategyName) {
-        BTFactory::getFactory().init();
+        ai::treeinterp::g_btfactory.init();
     }
-    BTFactory::setCurrentTree(strategyName);
+    ai::treeinterp::g_btfactory.setCurrentTree(strategyName);
 }
 
 void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
@@ -128,7 +129,7 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     case Status::Running:break;
     case Status::Success:ROS_INFO_STREAM("Status returned: Success");
         ROS_INFO_STREAM(" === TREE CHANGE === ");
-            BTFactory::setCurrentTree("haltStrategy");
+        ai::treeinterp::g_btfactory.setCurrentTree("haltStrategy");
         break;
     case Status::Failure:ROS_INFO_STREAM("Status returned: Failure");
         break;

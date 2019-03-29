@@ -2,6 +2,7 @@
 // Created by rolf on 28/11/18.
 //
 
+#include <roboteam_ai/src/coach/Ballplacement.h>
 #include "Dribble.h"
 namespace rtt {
 namespace ai {
@@ -14,7 +15,7 @@ Dribble::Progression Dribble::checkProgression() {
         if (! world::world->ourRobotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
             return FAIL;
         }
-        if (deltaPos.length() <= Constants::DRIBBLE_POSDIF()) {
+        if (deltaPos.length() <= POS_DIF) {
             if (forwardDirection) {
                 stoppingAngle = (float) deltaPos.angle();
             }
@@ -48,7 +49,7 @@ void Dribble::onInitialize() {
         targetPos = properties->getVector2("Position");
     }
     else if (properties->getBool("BallPlacement")){
-        targetPos=Coach::getBallPlacementPos();
+        targetPos=coach::g_ballPlacement.getBallPlacementPos();
     }
 
     if (properties->hasInt("maxTicks")) {
@@ -140,8 +141,8 @@ void Dribble::sendMoveCommand() {
     }
     std::vector<Vector2> dposvec = {deltaPos};
     command.dribbler = 1;
-    command.x_vel=(float) deltaPos.normalize().x * Constants::DRIBBLE_SPEED();
-    command.y_vel=(float) deltaPos.normalize().y * Constants::DRIBBLE_SPEED();
+    command.x_vel= static_cast<float>(deltaPos.normalize().x * SPEED);
+    command.y_vel= static_cast<float>(deltaPos.normalize().y * SPEED);
     publishRobotCommand(command);
 }
 void Dribble::sendStopCommand() {

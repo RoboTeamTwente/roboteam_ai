@@ -41,8 +41,8 @@ set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/JsonReader.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/PropertiesParser.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/PropertiesParser.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/Switches.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/Switches.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/Switches.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/Switches.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/BTImport.h)
 
 set(BT_SOURCES
@@ -92,12 +92,23 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/AvoidBallTactic.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/AvoidBallTactic.h)
 
+set(ANALYSIS_SOURCES
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/GameAnalyzer.cpp
+        ${PROJECT_SOURCE_DIR}/ roboteam_ai/src/analysis/GameAnalyzer.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/AnalysisReport.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/AnalysisReport.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/RobotDanger.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/RobotDanger.h
+        )
+
 set(TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/VictoryDanceTactic.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/VictoryDanceTactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DefaultTactic.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/PenaltyTactic.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/PenaltyTactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DefaultTactic.h)
 
 set(IO_SOURCES
@@ -115,10 +126,6 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Coach.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Coach.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/ApplicationManager.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/ApplicationManager.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Hungarian.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Hungarian.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Pause.cpp
@@ -163,8 +170,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Attack.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleRotate.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleRotate.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BasicGoToPos.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BasicGoToPos.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GTPSpecial.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GTPSpecial.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoAroundPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoAroundPos.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.cpp
@@ -172,7 +179,20 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/EnterFormation.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/EnterFormation.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoBehindBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoBehindBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PreparePenalty.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PreparePenalty.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootPenalty.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootPenalty.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootFreeKick.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootFreeKick.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DemoAttack.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DemoAttack.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SideAttacker.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SideAttacker.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
@@ -204,21 +224,28 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBallCloseToBorder.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBallCloseToBorder.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNearOurGoalLineAndStill.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNearOurGoalLineAndStill.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNearOurGoalLineAndStill.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasClearShot.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasClearShot.h)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ControlGoToPosBallControl.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ControlGoToPosBallControl.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PositionController.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PositionController.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PIDController.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PIDController.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/NumTreePosControl.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/NumTreePosControl.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosVelAngle.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PositionControlIncludes.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/BasicPosControl.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/BasicPosControl.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ForcePosControl.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ForcePosControl.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosController.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosController.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PathPoint.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PathPoint.h)
 
 
 set(TEST_SOURCES
@@ -247,7 +274,6 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TacticTests/DefaultTacticTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/ControllerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/RobotDealerTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/CoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/HungarianTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/InterfaceTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/VisualizerTest.cpp
@@ -261,7 +287,11 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/BallOutOfFieldtest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsBallOnOurSideTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsBallCloseToBorderTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/JoyStickTest.cpp)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/JoyStickTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/GeneralPositionCoachTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/BallPlacementCoachTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/FormationTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendTest.cpp)
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/mainWindow.cpp
@@ -290,6 +320,18 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/ProcessedWorld.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/ProcessedWorld.h)
 
+set(COACH_SOURCES
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/CoachHeuristics.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/CoachHeuristics.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/PassCoach.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/PassCoach.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/Ballplacement.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/Ballplacement.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GeneralPositionCoach.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GeneralPositionCoach.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/OffensiveCoach.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/OffensiveCoach.h)
+
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
 add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -298,14 +340,18 @@ add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 # Main Executable
 add_executable(Roboteam_AI
         roboteam_ai/src/roboteam_ai.cpp
+        roboteam_ai/src/ApplicationManager.cpp
+        roboteam_ai/src/ApplicationManager.h
         ${IO_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
         ${BT_SOURCES}
+        ${ANALYSIS_SOURCES}
         ${SKILLS_SOURCES}
         ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}
+        ${COACH_SOURCES}
         ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES})
@@ -324,8 +370,10 @@ catkin_add_gtest(ai_tests
         ${CONDITIONS_SOURCES}
         ${SKILLS_SOURCES}
         ${CONTROL_SOURCES}
+        ${ANALYSIS_SOURCES}
         ${TACTIC_SOURCES}
         ${DEMO_SOURCES}
+        ${COACH_SOURCES}
         ${INTERFACE_SOURCES}
         ${TEST_SOURCES}
         ${WORLD_SOURCES})
