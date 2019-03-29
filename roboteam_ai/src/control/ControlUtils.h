@@ -45,8 +45,6 @@ class ControlUtils {
         static bool robotIsAimedAtPoint(int id, bool ourTeam, Vector2 point, double maxDifference = 0.3);
 
         static std::vector<std::pair<Vector2, Vector2>> calculateClosestPathsFromTwoSetsOfPoints(std::vector<Vector2> set1, std::vector<Vector2> set2);
-
-        static Vector2 computeSimpleReceivePos(Vector2 startPos,Vector2 robotPos);
 };
 
 } // control

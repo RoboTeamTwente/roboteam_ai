@@ -20,7 +20,7 @@ DefensiveCoach::PossiblePass::PossiblePass(roboteam_msgs::WorldRobot _toBot, Vec
         :
         toBot(_toBot),
         startPos(ballPos),
-        endPos(util::computeSimpleReceivePos(ballPos, _toBot.pos)) { };
+        endPos(computeSimpleReceivePos(ballPos, _toBot.pos)) { };
 
 double DefensiveCoach::PossiblePass::distance() {
     return (endPos - startPos).length();
@@ -149,8 +149,7 @@ std::vector<std::pair<Vector2, double>> DefensiveCoach::decideDefendersOnDefense
         std::cerr << "Can't assign 0 or less Defender locations!!";
         return decidedBlocks;
     }
-    // we decide the lines on which we want the defenders to be
-    //most importantly; make sure the ball can't be kicked into the goal directly; we put one or more robots as a direct block;
+    //first we cover off the most dangerous position
 
     std::pair<Vector2, Vector2> goalSides = Field::getGoalSides(true);
 
@@ -462,6 +461,10 @@ std::vector<std::pair<DefensiveCoach::PossiblePass,double>> DefensiveCoach::crea
               return left.second > right.second;
             });
     return passWithScore;
+}
+Vector2 DefensiveCoach::computeSimpleReceivePos(Vector2 startPos, Vector2 robotPos){
+    Vector2 receivePos=robotPos+(startPos-robotPos).stretchToLength(Constants::CENTRE_TO_FRONT()+Constants::BALL_RADIUS());
+    return receivePos;
 }
 }//coach
 }//ai

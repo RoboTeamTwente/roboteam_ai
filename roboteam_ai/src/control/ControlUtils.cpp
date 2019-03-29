@@ -327,10 +327,7 @@ bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, Vector2 point, doub
     return false;
 }
 
-Vector2 ControlUtils::computeSimpleReceivePos(Vector2 startPos, Vector2 robotPos){
-    Vector2 receivePos=robotPos+(startPos-robotPos).stretchToLength(Constants::CENTRE_TO_FRONT()+Constants::BALL_RADIUS());
-    return receivePos;
-}
+
 } // control
 } // ai
 } // rtt

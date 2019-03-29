@@ -51,7 +51,7 @@ class DefensiveCoach {
 
         static Vector2 getBlockPoint(std::pair<Vector2, Vector2> openGoalSegment,Vector2 point,double collisionRadius);
         static std::pair<Vector2,Vector2> shortenLineForDefenseArea(Vector2 lineStart,Vector2 lineEnd, double defenseMargin);
-
+        static Vector2 computeSimpleReceivePos(Vector2 startPos, Vector2 robotPos);
 };
 
 }
