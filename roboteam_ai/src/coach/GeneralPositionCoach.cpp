@@ -59,12 +59,6 @@ bool GeneralPositionCoach::isRobotBehindBallToRobot(double distanceBehindBall, b
     return false;
 }
 
-// get ball position
-// get aposition behind the ball aimed at a position; e.g. the goal
-// the delta with ball is the difference between the found position and the ball
-
-//
-
 bool GeneralPositionCoach::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position,
         const Vector2 &robotPosition, double angleMargin) {
 
@@ -73,15 +67,13 @@ bool GeneralPositionCoach::isRobotBehindBallToPosition(double distanceBehindBall
     Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, position);
     Vector2 deltaBall = behindBallPosition - ball;
 
-
     Vector2 trianglePoint1 = ball;
-    Vector2 trianglePoint2 = ball + deltaBall.rotate(M_PI*angleMargin).scale(1.2);
-    Vector2 trianglePoint3 = ball + deltaBall.rotate(M_PI*- angleMargin).scale(1.2);
+    Vector2 trianglePoint2 = ball + deltaBall.rotate(M_PI*angleMargin).scale(2.0);
+    Vector2 trianglePoint3 = ball + deltaBall.rotate(M_PI*- angleMargin).scale(2.0);
 
     bool inLargeTriangleOnPosition = control::ControlUtils::pointInTriangle(robotPosition, trianglePoint1, trianglePoint2, trianglePoint3);
-    bool closeToLineBehindball= control::ControlUtils::distanceToLineWithEnds(robotPosition, behindBallPosition, ball) < 0.1;
 
-    return inLargeTriangleOnPosition || closeToLineBehindball;
+    return inLargeTriangleOnPosition;
 }
 
 Vector2 GeneralPositionCoach::getDemoKeeperGetBallPos(Vector2 ballPos){
