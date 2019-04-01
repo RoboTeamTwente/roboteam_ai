@@ -8,6 +8,11 @@ namespace rtt {
 namespace ai {
 namespace control {
 
+BasicPosControl::BasicPosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
+        : PosController(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
+
+}
+
 PosVelAngle BasicPosControl::getPosVelAngle(RobotPtr robot, Vector2 &targetPos) {
 
     PosVelAngle posVelAngle;
@@ -17,6 +22,8 @@ PosVelAngle BasicPosControl::getPosVelAngle(RobotPtr robot, Vector2 &targetPos) 
     posVelAngle.vel = error;
     return controlWithPID(robot, posVelAngle);
 }
+
+
 
 } // control
 } // ai

@@ -8,14 +8,14 @@ namespace rtt {
 namespace ai {
 namespace control {
 
+NumTreePosControl::NumTreePosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
+        : ForcePosControl(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
+
+}
+
 /// Clears data and resets variables
 void NumTreePosControl::clear() {
     path.clear();
-}
-
-/// Make the Robot able to go outside of the field
-void NumTreePosControl::setCanGoOutsideField(bool _canGoOutsideField) {
-    canGoOutsideField = _canGoOutsideField;
 }
 
 /// return the velocity command using two PIDs based on the current position and velocity of the robot compared to the
@@ -321,7 +321,7 @@ bool NumTreePosControl::checkCollision(std::shared_ptr<PathPoint> point, double 
         if (point->isCollision(ballPos, collisionRadius*0.5 + Constants::BALL_RADIUS()))
             return true;
     }
-    if (!canGoOutsideField) {
+    if (!canMoveOutOfField) {
         if (Field::pointIsInField(point->pos))
             return true;
     }
@@ -351,7 +351,7 @@ Vector2 NumTreePosControl::findCollisionPos(std::shared_ptr<PathPoint> point, do
             return ballPos;
         }
     }
-    if (!canGoOutsideField) {
+    if (!canMoveOutOfField) {
         if (Field::pointIsInField(point->pos))
             return point->pos;
     }
@@ -441,6 +441,8 @@ void NumTreePosControl::drawCross(Vector2 &pos, QColor color) {
 void NumTreePosControl::drawPoint(Vector2 &pos, QColor color) {
     displayData.emplace_back(pos, color);
 }
+
+
 
 }// control
 }// ai

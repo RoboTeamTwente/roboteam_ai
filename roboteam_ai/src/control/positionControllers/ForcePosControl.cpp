@@ -11,6 +11,11 @@ namespace rtt {
 namespace ai {
 namespace control {
 
+ForcePosControl::ForcePosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
+        : PosController(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
+
+}
+
 PosVelAngle ForcePosControl::getPosVelAngle(RobotPtr robot, Vector2 &targetPos) {
   return calculateForcePosVelAngle(robot, targetPos);
 }
@@ -62,6 +67,8 @@ PosVelAngle ForcePosControl::calculateForcePosVelAngle(PosController::RobotPtr r
     target.vel = control::ControlUtils::velocityLimiter(force, 3.0);
     return controlWithPID(robot, target);
 }
+
+
 
 } // control
 } // ai

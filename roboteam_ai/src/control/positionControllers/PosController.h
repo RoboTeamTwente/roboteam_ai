@@ -16,7 +16,8 @@ namespace control {
     class PosController {
 public:
     using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
-    explicit PosController();
+    explicit PosController() = default;
+    explicit PosController(bool avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
     virtual PosVelAngle getPosVelAngle(RobotPtr robot, Vector2 &targetPos) = 0;
     bool getCanMoveOutOfField() const;
     void setCanMoveOutOfField(bool canMoveOutOfField);
@@ -27,9 +28,9 @@ public:
 
 protected:
     // settings
+    bool avoidBall = false;
     bool canMoveOutOfField = false;
     bool canMoveInDefenseArea = false;
-    bool avoidBall = false;
 
     PID xpid = PID(2.4, 0, 0.0);
     PID ypid = PID(2.4, 0, 0.0);

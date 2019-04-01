@@ -11,7 +11,8 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-PosController::PosController() {
+PosController::PosController(bool avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea)
+        : avoidBall(avoidBall), canMoveOutOfField(canMoveOutOfField), canMoveInDefenseArea(canMoveInDefenseArea) {
     xpid.setOutputLimits(-8,8);
     xpid.setOutputRampRate(100);
 
@@ -76,6 +77,8 @@ bool PosController::getAvoidBall() const {
 void PosController::setAvoidBall(bool avoidBall) {
     this->avoidBall = avoidBall;
 }
+
+
 
 
 } // control

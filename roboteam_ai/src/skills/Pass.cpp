@@ -16,11 +16,9 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name),
 
 void Pass::onInitialize() {
     numTreeGtp.setAvoidBall(true);
-    forceGtp.setAvoidBall(false);
-    basicGtp.setAvoidBall(false);
-    numTreeGtp.setCanGoOutsideField(true);
     numTreeGtp.setCanMoveOutOfField(true);
-    forceGtp.setCanMoveOutOfField(true);
+
+    basicGtp.setAvoidBall(false);
     basicGtp.setCanMoveOutOfField(true);
 
 

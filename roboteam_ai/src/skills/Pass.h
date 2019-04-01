@@ -24,7 +24,6 @@ private:
     Vector2 targetPos;
 
     control::NumTreePosControl numTreeGtp;
-    control::ForcePosControl forceGtp;
     control::BasicPosControl basicGtp;
 
     Status getBall();
