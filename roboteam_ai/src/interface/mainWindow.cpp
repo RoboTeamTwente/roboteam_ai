@@ -21,10 +21,6 @@ MainWindow::MainWindow(QWidget* parent)
     InterfaceValues::setNumTreePosI(Constants::standardNumTreePosI());
     InterfaceValues::setNumTreePosD(Constants::standardNumTreePosD());
 
-    InterfaceValues::setNumTreeVelP(Constants::standardNumTreeVelP());
-    InterfaceValues::setNumTreeVelI(Constants::standardNumTreeVelI());
-    InterfaceValues::setNumTreeVelD(Constants::standardNumTreeVelD());
-
     InterfaceValues::setUseRefereeCommands(Constants::STD_USE_REFEREE());
 
     setMinimumWidth(800);
@@ -93,31 +89,6 @@ MainWindow::MainWindow(QWidget* parent)
     QObject::connect(sb_luth_Pos_D, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
     spinBoxLayout->addWidget(sb_luth_Pos_D);
     doubleSpinBoxesGroup_Pos_PID->setLayout(spinBoxLayout);
-
-    doubleSpinBoxesGroup_Vel_PID = new QGroupBox("GoToPosLuth Velocity PID options");
-    spinBoxLayout =new QHBoxLayout();
-    sb_luth_Vel_P = new QDoubleSpinBox();
-    sb_luth_Vel_P->setRange(-20, 20);
-    sb_luth_Vel_P->setSingleStep(0.1f);
-    sb_luth_Vel_P->setValue(InterfaceValues::getNumTreeVelP());
-    QObject::connect(sb_luth_Vel_P, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
-    spinBoxLayout->addWidget(sb_luth_Vel_P);
-
-    sb_luth_Vel_I = new QDoubleSpinBox();
-    sb_luth_Vel_I->setRange(-20, 20);
-    sb_luth_Vel_I->setSingleStep(0.1f);
-    sb_luth_Vel_I->setValue(InterfaceValues::getNumTreeVelI());
-    QObject::connect(sb_luth_Vel_I, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
-    spinBoxLayout->addWidget(sb_luth_Vel_I);
-
-    sb_luth_Vel_D = new QDoubleSpinBox();
-    sb_luth_Vel_D->setRange(-20, 20);
-    sb_luth_Vel_D->setSingleStep(0.1f);
-    sb_luth_Vel_D->setValue(InterfaceValues::getNumTreeVelD());
-    QObject::connect(sb_luth_Vel_D, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
-    spinBoxLayout->addWidget(sb_luth_Vel_D);
-
-    doubleSpinBoxesGroup_Vel_PID->setLayout(spinBoxLayout);
 
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [=](const QString &strategyName) {
@@ -229,10 +200,6 @@ void MainWindow::updatePID_luth() {
     InterfaceValues::setNumTreePosP(sb_luth_Pos_P->value());
     InterfaceValues::setNumTreePosI(sb_luth_Pos_I->value());
     InterfaceValues::setNumTreePosD(sb_luth_Pos_D->value());
-
-    InterfaceValues::setNumTreeVelP(sb_luth_Vel_P->value());
-    InterfaceValues::setNumTreeVelI(sb_luth_Vel_I->value());
-    InterfaceValues::setNumTreeVelD(sb_luth_Vel_D->value());
 }
 
 /// send a halt signal to stop all trees from executing

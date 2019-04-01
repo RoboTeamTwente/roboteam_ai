@@ -48,8 +48,15 @@ Vector2 PosController::calculatePIDs(const PosController::RobotPtr &robot, PosVe
 /// compare current PID values to those set in the interface
 void PosController::checkInterfacePID() {
     using if_values = interface::InterfaceValues;
-   xpid.setPID(if_values::getNumTreePosP(), if_values::getNumTreePosI(), if_values::getNumTreePosD());
-   ypid.setPID(if_values::getNumTreePosP(), if_values::getNumTreePosI(), if_values::getNumTreePosD());
+
+    std::tuple<double, double, double> newPid
+    = tuple<double, double, double>(if_values::getNumTreePosP(), if_values::getNumTreePosI(), if_values::getNumTreePosD());
+
+    if (lastPid != newPid) {
+        xpid.setPID(if_values::getNumTreePosP(), if_values::getNumTreePosI(), if_values::getNumTreePosD());
+        ypid.setPID(if_values::getNumTreePosP(), if_values::getNumTreePosI(), if_values::getNumTreePosD());
+        lastPid = newPid;
+    }
 }
 
 

@@ -110,13 +110,9 @@ public:
                                                            {255, 100, 255, 255} }; };
 
 // Default PID values for the interface
-    static double standardNumTreePosP()         { return GRSIM() ? 1.0 : 2.8; };
+    static double standardNumTreePosP()         { return GRSIM() ? 1.65 : 2.8; };
     static double standardNumTreePosI()         { return GRSIM() ? 0.0 : 0.6; };
     static double standardNumTreePosD()         { return GRSIM() ? 0.0 : 2.3; };
-
-    static double standardNumTreeVelP()         { return GRSIM() ? 3.0 : 2.8; };
-    static double standardNumTreeVelI()         { return GRSIM() ? 0.2 : 0.6; };
-    static double standardNumTreeVelD()         { return GRSIM() ? 2.5 : 2.3; };
     
 private:
     static bool isInitialized;

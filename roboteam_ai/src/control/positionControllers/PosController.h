@@ -26,16 +26,18 @@ public:
     bool getAvoidBall() const;
     void setAvoidBall(bool avoidBall);
 
+    std::tuple<double, double, double> lastPid;
+
 protected:
     // settings
     bool avoidBall = false;
     bool canMoveOutOfField = false;
     bool canMoveInDefenseArea = false;
 
-    PID xpid = PID(2.4, 0, 0.0);
-    PID ypid = PID(2.4, 0, 0.0);
+    PID xpid = PID(1.65, 0, 0.0);
+    PID ypid = PID(1.65, 0, 0.0);
 
-    bool getPIDFromInterface = false;
+    bool getPIDFromInterface = true;
     PosVelAngle controlWithPID(const RobotPtr &robot, PosVelAngle target);
     void checkInterfacePID();
 
