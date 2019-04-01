@@ -10,12 +10,12 @@ using dealer = robotDealer::RobotDealer;
 /// call 0638424067 if you need help
 
 bt::Node::Status bt::DefaultTactic::update() {
-    if (!updateRobots()) {
+    if (! updateRobots()) {
         status = Status::Waiting;
         return status;
     }
 
-    for (unsigned long i = 0; i < amountToTick; i++) {
+    for (unsigned long i = 0; i < amountToTick; i ++) {
         children.at(i)->tick();
     }
 
@@ -38,7 +38,7 @@ void bt::DefaultTactic::initialize() {
 
 void bt::DefaultTactic::claimRobots() {
 
-    for (int i = claimedRobots; i < robotsNeeded; i++) {
+    for (int i = claimedRobots; i < robotsNeeded; i ++) {
         auto toClaim = getNextClaim();
         robotIDs.insert(dealer::claimRobotForTactic(toClaim.second, name, toClaim.first));
         if (robotIDs.find(- 1) == robotIDs.end()) claimedRobots ++;
@@ -73,20 +73,32 @@ bool bt::DefaultTactic::updateRobots() {
 
 }
 void bt::DefaultTactic::disClaimRobots() {
-
-    claimIndex--;
+    dealer::releaseRobotForRole(getLastClaim().first);
+    claimedRobots--;
+    claimIndex --;
 
 }
 
 std::pair<std::string, bt::Tactic::robotType> bt::DefaultTactic::getNextClaim() {
     int counter = 0;
     for (auto robot : robots) {
-        if (counter == claimIndex) {
-            claimIndex++;
+        if (counter == (claimIndex + 1)) {
+            claimIndex ++;
             return robot;
         }
         else {
-            counter++;
+            counter ++;
+        }
+    }
+}
+std::pair<std::string, bt::Tactic::robotType> bt::DefaultTactic::getLastClaim() {
+    int counter = 0;
+    for (auto robot : robots) {
+        if (counter == (claimIndex)) {
+            return robot;
+        }
+        else {
+            counter ++;
         }
     }
 }
