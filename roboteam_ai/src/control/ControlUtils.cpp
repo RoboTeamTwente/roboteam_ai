@@ -301,11 +301,21 @@ bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, Vector2 point, doub
     if (robot) {
         double exactAngleTowardsPoint = (point - robot->pos).angle();
 
-    // Note: The angles should NOT be constrained here. This is necessary.
+        // Note: The angles should NOT be constrained here. This is necessary.
         return (robot->angle > exactAngleTowardsPoint - maxDifference/2
             && robot->angle < exactAngleTowardsPoint + maxDifference/2);
     }
     return false;
+}
+
+bool ControlUtils::objectVelocityAimedToPoint(Vector2 objectPosition, Vector2 velocity, Vector2 point, double maxDifference) {
+
+        double exactAngleTowardsPoint = (point - objectPosition).angle();
+
+        // Note: The angles should NOT be constrained here. This is necessary.
+        return ( velocity.angle() > exactAngleTowardsPoint - maxDifference/2
+                &&  velocity.angle()  < exactAngleTowardsPoint + maxDifference/2);
+
 }
 
 double ControlUtils::twoLineForwardIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2) {

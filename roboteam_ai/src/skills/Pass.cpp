@@ -27,9 +27,11 @@ Pass::Status Pass::onUpdate() {
     auto behindBallpos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
     bool isOnLineToBall = control::ControlUtils::distanceToLine(robot->pos, ball->pos, behindBallpos) < 0.0255;
     bool hasBall = World::ourBotHasBall(robot->id, Constants::MAX_BALL_RANGE());
-    bool ballIsMovingFast = Vector2(World::getBall()->vel).length() > 0.8;
 
-    if (ballIsMovingFast) {
+    bool ballIsMovingFast = Vector2(World::getBall()->vel).length() > 0.8;
+    bool ballIsShotTowardsReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, robotToPassTo->pos);
+
+    if (ballIsMovingFast && ballIsShotTowardsReceiver) {
         coach::g_pass.setPassed(true);
         return Status::Success;
     } else if (isOnLineToBall && isBehindBall) {
