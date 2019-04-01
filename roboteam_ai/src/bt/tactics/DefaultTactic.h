@@ -13,6 +13,7 @@ namespace bt {
 class DefaultTactic : public Tactic {
     private:
         std::mutex amountMutex;
+        int previousAmount = -1;
         int amountToTick = -1;
         void claimRobots();
         void disClaimRobots();
