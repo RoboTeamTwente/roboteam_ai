@@ -45,8 +45,9 @@ Receive::Status Receive::onUpdate() {
     } else {
         std::cout << "not in position!" << std::endl;
 
-        moveToCatchPosition(behindTargetPos);
     }
+    moveToCatchPosition(behindTargetPos);
+
     return Status::Running;
 }
 
@@ -81,7 +82,7 @@ bool Receive::isInPosition(Vector2 behindTargetPos) {
 
 void Receive::moveToCatchPosition(Vector2 position) {
     control::PosVelAngle pva = numTreeGtp.getPosVelAngle(robot, position);
-    pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL(), 0.3);
+    pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL());
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);
 
