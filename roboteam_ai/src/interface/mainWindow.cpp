@@ -101,7 +101,6 @@ MainWindow::MainWindow(QWidget* parent)
     auto pidWidget = new QWidget;
     auto pidVLayout = new QVBoxLayout();
     pidVLayout->addWidget(doubleSpinBoxesGroup_Pos_PID);
-    pidVLayout->addWidget(doubleSpinBoxesGroup_Vel_PID);
 
     auto pidSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
     pidVLayout->addSpacerItem(pidSpacer);

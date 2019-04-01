@@ -99,8 +99,14 @@ void Pass::sendMoveCommand(const double minimumSpeed) {
 /// Determine how fast we should kick for a pass at a given distance
 double Pass::determineKickForce(double distance) {
     const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
-    double kicker_vel_multiplier = distance > maxPowerDist ? 1.0 : distance / maxPowerDist;
-    return static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER() * kicker_vel_multiplier);
+
+    // take square root of distance and scale it vertically such that the max kick force and max distance for max kick force are correct.
+    double kickSpeed = distance > maxPowerDist ? rtt::ai::Constants::MAX_KICK_POWER() : sqrt(distance) * rtt::ai::Constants::MAX_KICK_POWER()/sqrt(maxPowerDist) ;
+
+    //    double kicker_vel_multiplier = 1.0 ;
+
+
+        return static_cast<float>(kickSpeed);
 }
 
 } // ai
