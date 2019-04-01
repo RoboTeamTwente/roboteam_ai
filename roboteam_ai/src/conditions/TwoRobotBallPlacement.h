@@ -12,6 +12,8 @@ namespace rtt {
 namespace ai {
 
 class TwoRobotBallPlacement : public Condition {
+private:
+    const double MAX_ONE_ROBOT_BALLPLACEMENT_DIST_TO_TARGET = 2.0;
 public:
     explicit TwoRobotBallPlacement(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
     Status onUpdate() override;

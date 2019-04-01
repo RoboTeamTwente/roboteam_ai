@@ -35,7 +35,7 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"IHaveBallTestTactic","test");
+    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::RANDOM,"IHaveBallTestTactic","test");
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.ball.pos.x = 0.0;

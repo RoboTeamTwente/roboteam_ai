@@ -16,7 +16,11 @@ bt::Node::Status TwoRobotBallPlacement::onUpdate() {
     Vector2 ballPlacementPosition = coach::g_ballPlacement.getBallPlacementPos();
     int robotClosestToBallPlacementPosition = World::getRobotClosestToPoint(ballPlacementPosition, true)->id;
 
-    if (robotClosestToBallID != robotClosestToBallPlacementPosition) {
+    bool robotClosestToBallIsClosestToTarget = robotClosestToBallID == robotClosestToBallPlacementPosition;
+    bool distanceFromBallToTargetIsSmall = ballPlacementPosition.dist(ball->pos) < MAX_ONE_ROBOT_BALLPLACEMENT_DIST_TO_TARGET;
+
+
+    if (!robotClosestToBallIsClosestToTarget && !distanceFromBallToTargetIsSmall) {
         return Status::Success;
     } else {
         return Status::Failure;

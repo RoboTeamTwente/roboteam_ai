@@ -26,16 +26,16 @@ TEST(RobotDealerTest, RobotDealerTest) {
     worldMsg.us.push_back(robot3);
     rtt::ai::World::set_world(worldMsg);
 
-    auto dealbot1 = dealer::claimRobotForTactic(robot::random, "testing1", "role1");
+    auto dealbot1 = dealer::claimRobotForTactic(robot::RANDOM, "testing1", "role1");
 
     EXPECT_TRUE(dealbot1==dealer::findRobotForRole("role1"));
     EXPECT_EQ(dealer::getTacticNameForRole("role1"), "testing1");
     EXPECT_EQ(dealer::getAvailableRobots().size(), (unsigned int) 2);
-    dealer::claimRobotForTactic(robot::random, "testing1", "role2");
+    dealer::claimRobotForTactic(robot::RANDOM, "testing1", "role2");
     EXPECT_EQ(dealer::getAvailableRobots().size(), (unsigned int) 1);
     auto claimedBots1 = dealer::getClaimedRobots()["testing1"];
     EXPECT_EQ(claimedBots1.size(), (unsigned int) 2);
-    auto dealbot3 = dealer::claimRobotForTactic(robot::random, "testing1", "role3");
+    auto dealbot3 = dealer::claimRobotForTactic(robot::RANDOM, "testing1", "role3");
     dealer::releaseRobotForRole("role2");
     auto claimedBots2 = dealer::getClaimedRobots()["testing1"];
     EXPECT_NE(claimedBots1, claimedBots2);

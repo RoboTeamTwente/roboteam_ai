@@ -105,11 +105,7 @@ double Pass::determineKickForce(double distance) {
 
     // take square root of distance and scale it vertically such that the max kick force and max distance for max kick force are correct.
     double kickSpeed = distance > maxPowerDist ? rtt::ai::Constants::MAX_KICK_POWER() : sqrt(distance) * rtt::ai::Constants::MAX_KICK_POWER()/sqrt(maxPowerDist) ;
-
-    //    double kicker_vel_multiplier = 1.0 ;
-
-
-        return static_cast<float>(kickSpeed);
+    return static_cast<float>(kickSpeed);
 }
 
 } // ai
