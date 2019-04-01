@@ -114,17 +114,20 @@ bool OffensiveCoach::compareByScore(OffensivePosition position1, OffensivePositi
 
 /// Get new position for robot, or recalculate it's old one
 Vector2 OffensiveCoach::calculatePositionForRobot(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
-    if ((robotPositions.find(robot->id) == robotPositions.end())) { // not there yet
-        return getClosestOffensivePosition(robot);
+    OffensivePosition newRobotPosition;
+    OffensivePosition currentPosition;
 
+    if ((robotPositions.find(robot->id) == robotPositions.end())) { // not there yet
+        currentPosition.position = robot->pos;
     } else {
-        calculateNewRobotPositions(robot);
-        if ((robotPositions.find(robot->id) == robotPositions.end())) { //not in there
-            return calculatePositionForRobot(robot);
-        } else {
-            return robotPositions[robot->id].position;
-        }
+        currentPosition.position = robotPositions[robot->id].position;
     }
+
+    currentPosition.score = CoachHeuristics::calculatePositionScore(currentPosition.position);
+    newRobotPosition = calculateNewRobotPosition(robot->id, currentPosition);
+    robotPositions[robot->id] = newRobotPosition;
+
+    return newRobotPosition.position;
 }
 
 /// Get closest offensive position to robot
@@ -162,39 +165,34 @@ Vector2 OffensiveCoach::getPositionForRobotID(int robotID) {
 }
 
 /// Calculate new positions close to the robot
-void OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
-    OffensiveCoach::OffensivePosition currentRobotPosition = robotPositions[robot->id];
+OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(int robotID, OffensivePosition currentPosition) {
 
-    Vector2 currentPosition = currentRobotPosition.position;
-    double currentScore = CoachHeuristics::calculatePositionScore(currentPosition);
-
-    OffensivePosition newPosition;
-    bool foundNewPosition = false;
+    OffensivePosition bestPosition = currentPosition;
+    if (currentPosition.position.x < 0) {
+        bestPosition.score = -INT_MAX;
+    }
 
     for (int xDiff = -GRID_SIZE; xDiff <= GRID_SIZE; xDiff++) {
+        if (currentPosition.position.x < 0 && xDiff <= 0) continue;
+
         for (int yDiff = -GRID_SIZE; yDiff <= GRID_SIZE; yDiff++) {
-            newPosition.position.x = currentPosition.x + SEARCH_GRID_ROBOT_POSITIONS * xDiff;
-            newPosition.position.y = currentPosition.y + SEARCH_GRID_ROBOT_POSITIONS * yDiff;
-            if (!Field::pointIsInField(newPosition.position) || Field::pointIsInDefenceArea(newPosition.position, false)) continue;
-
-            if(positionTooCloseToRobotPositions(newPosition, robot->id)) continue;
-
-            newPosition.score = CoachHeuristics::calculatePositionScore(newPosition.position);
-            if (newPosition.score > currentScore && newPosition.score > 0.6 * offensivePositions[maxPositions - 1].score) {
-                currentPosition = newPosition.position;
-                currentScore = newPosition.score;
-                foundNewPosition = true;
+            OffensivePosition newPosition;
+            newPosition.position.x = currentPosition.position.x + SEARCH_GRID_ROBOT_POSITIONS * xDiff;
+            newPosition.position.y = currentPosition.position.y + SEARCH_GRID_ROBOT_POSITIONS * yDiff;
+            if (!Field::pointIsInField(newPosition.position)
+            || Field::pointIsInDefenceArea(newPosition.position, false)) {
+                continue;
             }
 
+            newPosition.score = CoachHeuristics::calculatePositionScore(newPosition.position);
+            newPosition.score = correctScoreForClosestRobot(newPosition, robotID);
+            if (newPosition.score > bestPosition.score) {
+                bestPosition = newPosition;
+            }
         }
     }
-    if (foundNewPosition) {
-        robotPositions[robot->id].position = currentPosition;
-        robotPositions[robot->id].score = currentScore;
-    } else {
-        robotPositions.erase(robot->id);
 
-    }
+    return bestPosition;
 }
 
 vector<OffensiveCoach::OffensivePosition> OffensiveCoach::getRobotPositionVectors() {
@@ -254,6 +252,16 @@ const vector<OffensiveCoach::OffensivePosition> &OffensiveCoach::getOffensivePos
 
 const map<int, OffensiveCoach::OffensivePosition> &OffensiveCoach::getRobotPositions() {
     return robotPositions;
+}
+
+double OffensiveCoach::correctScoreForClosestRobot(OffensiveCoach::OffensivePosition position, int robotID) {
+    auto closestRobot = World::getRobotClosestToPoint(position.position, robotID);
+    double distance = (position.position - closestRobot->pos).length();
+    if (distance < ATTACKER_DISTANCE) {
+        return position.score * pow(distance / ATTACKER_DISTANCE, 2);
+    } else {
+        return position.score;
+    }
 }
 
 }

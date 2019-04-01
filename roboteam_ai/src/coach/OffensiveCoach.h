@@ -21,7 +21,7 @@ public:
     const double ATTACKER_DISTANCE = 1.6;
     const double OFFENSIVE_POSITION_DISTANCE = 0.8;
     const double SEARCH_GRID_ROBOT_POSITIONS = 0.01;
-    const int GRID_SIZE = 2;
+    const int GRID_SIZE = 8;
 
     struct OffensivePosition {
     Vector2 position;
@@ -29,7 +29,7 @@ public:
     };
 
     void calculateNewPositions();
-    void calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
+    OffensivePosition calculateNewRobotPosition(int robotID, OffensivePosition currentPosition);
     Vector2 calculatePositionForRobot(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
     void releaseRobot(int robotID);
     Vector2 getPositionForRobotID(int robotID);
@@ -52,9 +52,9 @@ private:
     void recalculateOffensivePositions();
     OffensivePosition calculateRandomPosition(double xStart, double xEnd, double yStart, double yEnd);
     bool positionTooCloseToRobotPositions(OffensivePosition position, int self = -1);
+    double correctScoreForClosestRobot(OffensivePosition position, int robotID);
 
     void compareToCurrentPositions(const OffensivePosition &position);
-
     Vector2 getClosestOffensivePosition(const shared_ptr<roboteam_msgs::WorldRobot> &robot);
 };
 
