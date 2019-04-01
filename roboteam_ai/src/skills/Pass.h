@@ -17,24 +17,28 @@ namespace ai {
 
 class Pass : public Skill {
 private:
-    int robotToPassToID = -1;
     bool ballPlacement = false;
     std::shared_ptr<roboteam_msgs::WorldRobot> robotToPassTo;
 
     Vector2 targetPos;
-
-    control::NumTreePosControl numTreeGtp;
-    control::BasicPosControl basicGtp;
+    int robotToPassToID = -1;
+    control::NumTreePosControl numTreeGtp = control::NumTreePosControl(true, true, true);
+    control::BasicPosControl basicGtp = control::BasicPosControl (false, true, true);
 
     Status getBall();
     Status moveBehindBall(Vector2 behindBallPos);
     Status shoot();
+
+    double determineKickForce(double distance);
+
 public:
     explicit Pass(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
 
     void sendMoveCommand(double minimumSpeed = 0.0);
+
+    void determineRobotToPassTo();
 };
 
 } //ai

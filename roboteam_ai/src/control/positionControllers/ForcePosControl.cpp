@@ -13,7 +13,6 @@ namespace control {
 
 ForcePosControl::ForcePosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
         : PosController(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
-
 }
 
 PosVelAngle ForcePosControl::getPosVelAngle(RobotPtr robot, Vector2 &targetPos) {

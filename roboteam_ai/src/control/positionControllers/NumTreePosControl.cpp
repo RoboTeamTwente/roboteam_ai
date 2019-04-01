@@ -10,7 +10,6 @@ namespace control {
 
 NumTreePosControl::NumTreePosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
         : ForcePosControl(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
-
 }
 
 /// Clears data and resets variables

@@ -15,23 +15,8 @@ namespace ai {
 Pass::Pass(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) { }
 
 void Pass::onInitialize() {
-    numTreeGtp.setAvoidBall(true);
-    numTreeGtp.setCanMoveOutOfField(true);
-
-    basicGtp.setAvoidBall(false);
-    basicGtp.setCanMoveOutOfField(true);
-
-
-
-    // the coach is different when we use ballplacement
     ballPlacement = properties->getBool("BallPlacement");
-
-    if (ballPlacement) {
-        robotToPassToID = coach::g_pass.getRobotBeingPassedTo();
-    } else {
-        robotToPassToID = coach::g_pass.initiatePass();
-    }
-
+    determineRobotToPassTo();
 }
 
 Pass::Status Pass::onUpdate() {
@@ -53,9 +38,13 @@ Pass::Status Pass::onUpdate() {
     return moveBehindBall(behindBallpos);
 }
 
+/// determine which robot we should pass towards.
+void Pass::determineRobotToPassTo() {
+    robotToPassToID = ballPlacement ? coach::g_pass.getRobotBeingPassedTo() : coach::g_pass.initiatePass();
+}
+
 /// this is the method we call when we are far from the desired position
 bt::Leaf::Status Pass::moveBehindBall(Vector2 behindBallPos) {
-  //  std::cout << "Getting behind ball" << std::endl;
     targetPos = behindBallPos;
     sendMoveCommand();
     return bt::Leaf::Status::Running;
@@ -63,8 +52,6 @@ bt::Leaf::Status Pass::moveBehindBall(Vector2 behindBallPos) {
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 bt::Leaf::Status Pass::getBall() {
-   // std::cout << "Getting ball" << std::endl;
-
     targetPos = ball->pos;
     control::PosVelAngle pva = basicGtp.getPosVelAngle(robot, targetPos);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL(), 0.3);
@@ -76,12 +63,10 @@ bt::Leaf::Status Pass::getBall() {
     return bt::Leaf::Status::Running;
 }
 
-// Now we should have the ball and kick it.
+/// Now we should have the ball and kick it.
 bt::Leaf::Status Pass::shoot() {
 
     if (coach::g_pass.isReadyToReceivePass()) {
-        std::cout << "actually Kicking" << std::endl;
-
         targetPos = robotToPassTo->pos;
         control::PosVelAngle pva = basicGtp.getPosVelAngle(robot, targetPos);
         pva.vel = control::ControlUtils::velocityLimiter(pva.vel, 0.1);
@@ -92,22 +77,16 @@ bt::Leaf::Status Pass::shoot() {
         command.kicker_forced = 1;
         const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
         double distance = (Vector2(ball->pos) - robotToPassTo->pos).length();
-
-
         double kicker_vel_multiplier = distance > maxPowerDist ? 1.0 : distance / maxPowerDist; // kick harder
-
-
-
         command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER() * kicker_vel_multiplier);
         publishRobotCommand();
     } else {
-        std::cout << "I want to kick but the receiver is not ready :( " << std::endl;
-
+        std::cout << "Waiting for receiver to be in place." << std::endl;
     }
     return Status::Running;
 }
 
-/// send a command to move the current robot to targetPos with a certain goToType.
+/// Send a command to move the current robot to targetPos with a certain goToType.
 void Pass::sendMoveCommand(const double minimumSpeed) {
     control::PosVelAngle pva = numTreeGtp.getPosVelAngle(robot, targetPos);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL(), minimumSpeed);
@@ -115,6 +94,13 @@ void Pass::sendMoveCommand(const double minimumSpeed) {
     command.y_vel = static_cast<float>(pva.vel.y);
     command.w = static_cast<float>( (targetPos - robot->pos).angle());
     publishRobotCommand();
+}
+
+/// Determine how fast we should kick for a pass at a given distance
+double Pass::determineKickForce(double distance) {
+
+
+    return 0;
 }
 
 } // ai
