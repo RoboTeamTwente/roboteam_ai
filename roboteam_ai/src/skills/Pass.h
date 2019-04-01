@@ -35,9 +35,6 @@ public:
     explicit Pass(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
-
-    void sendMoveCommand(double minimumSpeed = 0.0);
-
     void determineRobotToPassTo();
 };
 

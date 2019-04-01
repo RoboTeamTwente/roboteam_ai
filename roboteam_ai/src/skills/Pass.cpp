@@ -48,7 +48,20 @@ void Pass::determineRobotToPassTo() {
 /// this is the method we call when we are far from the desired position
 bt::Leaf::Status Pass::moveBehindBall(Vector2 behindBallPos) {
     targetPos = behindBallPos;
-    sendMoveCommand();
+
+    control::PosVelAngle pva = numTreeGtp.getPosVelAngle(robot, targetPos);
+    pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL());
+    command.x_vel = static_cast<float>(pva.vel.x);
+    command.y_vel = static_cast<float>(pva.vel.y);
+
+    if (targetPos.dist(robot->pos) < 0.5) {
+        command.w = static_cast<float>( (Vector2(ball->pos) - robot->pos).angle());
+    } else {
+        command.w = static_cast<float>( (targetPos - robot->pos).angle());
+    }
+
+    publishRobotCommand();
+
     return bt::Leaf::Status::Running;
 }
 
@@ -84,16 +97,6 @@ bt::Leaf::Status Pass::shoot() {
         std::cout << "Waiting for receiver to be in place." << std::endl;
     }
     return Status::Running;
-}
-
-/// Send a command to move the current robot to targetPos with a certain goToType.
-void Pass::sendMoveCommand(const double minimumSpeed) {
-    control::PosVelAngle pva = numTreeGtp.getPosVelAngle(robot, targetPos);
-    pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL(), minimumSpeed);
-    command.x_vel = static_cast<float>(pva.vel.x);
-    command.y_vel = static_cast<float>(pva.vel.y);
-    command.w = static_cast<float>( (targetPos - robot->pos).angle());
-    publishRobotCommand();
 }
 
 /// Determine how fast we should kick for a pass at a given distance
