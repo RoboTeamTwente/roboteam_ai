@@ -2,8 +2,8 @@
 // Created by thijs on 19-11-18.
 //
 
-#include <roboteam_ai/src/control/PositionController.h>
 #include "Skill.h"
+#include "../control/positionControllers/PosController.h"
 
 #ifndef ROBOTEAM_AI_GOTOPOSLUTH_OLD_H
 #define ROBOTEAM_AI_GOTOPOSLUTH_OLD_H
@@ -13,10 +13,9 @@ namespace ai {
 class SkillGoToPos : public Skill {
 
     private:
-        control::PosControlType goToType;
         bool goToBall;
         Vector2 targetPos;
-        control::PositionController goToPos;
+        std::shared_ptr<control::PosController> posController;
 
         enum Progression {
           ON_THE_WAY, DONE, FAIL
@@ -29,6 +28,8 @@ class SkillGoToPos : public Skill {
         void onInitialize() override;
         Status onUpdate() override;
         void onTerminate(Status s) override;
+
+    void setPosController(const string &gTT);
 };
 
 } // ai

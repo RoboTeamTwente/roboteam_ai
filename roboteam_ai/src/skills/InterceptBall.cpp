@@ -78,15 +78,12 @@ InterceptBall::Status InterceptBall::onUpdate() {
 }
 
 void InterceptBall::sendMoveCommand(Vector2 targetPos) {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-
-    Vector2 velocities = goToPos.goToPos(robot, targetPos).vel;
+    Vector2 velocities = goToPos.getPosVelAngle(robot, targetPos).vel;
     velocities = control::ControlUtils::velocityLimiter(velocities);
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
 
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 
 void InterceptBall::checkProgression() {
@@ -218,27 +215,20 @@ bool InterceptBall::ballDeflected() {
     return true;
 }
 void InterceptBall::sendStopCommand() {
-    roboteam_msgs::RobotCommand command;
-    command.use_angle = 1;
-    command.id = robotId;
     command.x_vel = 0;
     command.y_vel = 0;
-    //TODO: Perhaps make the desired end orientation a boolean/switch?
     command.w = static_cast<float>((ballStartPos-interceptPos).angle()); //Rotates orthogonal to the line of the ball
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 
 void InterceptBall::sendFineInterceptCommand() {
     Vector2 error= interceptPos-robot->pos;
     Vector2 delta = pid.controlPIR(error, robot->vel);
     Vector2 deltaLim= control::ControlUtils::velocityLimiter(delta);
-    roboteam_msgs::RobotCommand cmd;
-    cmd.use_angle = 1;
-    cmd.id = robot->id;
-    cmd.x_vel = static_cast<float>(deltaLim.x);
-    cmd.y_vel = static_cast<float>(deltaLim.y);
-    cmd.w = static_cast<float>((Vector2(ball->pos)-Vector2(robot->pos)).angle()); //Rotates towards the ball
-    publishRobotCommand(cmd);
+    command.x_vel = static_cast<float>(deltaLim.x);
+    command.y_vel = static_cast<float>(deltaLim.y);
+    command.w = static_cast<float>((Vector2(ball->pos)-Vector2(robot->pos)).angle()); //Rotates towards the ball
+    publishRobotCommand();
 }
 void InterceptBall::sendInterceptCommand() {
     Vector2 delta = pid.controlPIR(interceptPos - robot->pos,robot->vel);
@@ -254,7 +244,7 @@ void InterceptBall::sendInterceptCommand() {
     else{
         command.w= static_cast<float>(deltaLim.angle());
     }
-    publishRobotCommand(command);
+    publishRobotCommand();
 
 }
 //Checks if the ball is kicked to Goal. Kind of duplicate to the condition, but this uses an extra saftey margin

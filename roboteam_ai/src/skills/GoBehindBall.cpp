@@ -22,7 +22,7 @@ Skill::Status GoBehindBall::onUpdate() {
             auto targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS())) + ball->pos;
             // TODO draw the point in the interface
 
-            Vector2 velocity = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES).vel;
+            Vector2 velocity = goToPos.getPosVelAngle(robot, targetPos).vel;
 
             Vector2 deltaPos = targetPos - robot->pos;
             publishCommand(targetPos, velocity);
@@ -46,7 +46,7 @@ Skill::Status GoBehindBall::onUpdate() {
             auto targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS())) + ball->pos;
             // TODO draw the point in the interface
 
-            Vector2 velocity = goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES).vel;
+            Vector2 velocity = goToPos.getPosVelAngle(robot, targetPos).vel;
 
             Vector2 deltaPos = targetPos - robot->pos;
             publishCommand(targetPos, velocity);
@@ -86,10 +86,6 @@ GoBehindBall::unit GoBehindBall::stringToUnit(std::string string) {
     }
 }
 void GoBehindBall::publishCommand(Vector2 targetPos, Vector2 velocity) {
-
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
     command.w = static_cast<float>((targetPos - robot->pos).angle());
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
@@ -97,7 +93,7 @@ void GoBehindBall::publishCommand(Vector2 targetPos, Vector2 velocity) {
     if (unitType == penalty)
         command.geneva_state = 1;
 
-    publishRobotCommand(command);
+    publishRobotCommand();
 
 }
 }

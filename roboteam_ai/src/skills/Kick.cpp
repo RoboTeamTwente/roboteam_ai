@@ -30,12 +30,10 @@ bt::Node::Status Kick::onUpdate() {
 }
 
 void Kick::sendKickCommand(double kickVel) {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
     command.kicker = (unsigned char) true;
     command.kicker_forced = (unsigned char) true;
     command.kicker_vel = (float) kickVel;
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 
 } // ai

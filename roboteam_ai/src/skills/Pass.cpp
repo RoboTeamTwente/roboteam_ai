@@ -5,6 +5,8 @@
 #include <roboteam_ai/src/coach/PassCoach.h>
 #include <roboteam_ai/src/coach/GeneralPositionCoach.h>
 #include <roboteam_ai/src/utilities/Constants.h>
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include "Pass.h"
 
 namespace rtt {
@@ -14,7 +16,9 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void Pass::onInitialize() {
-    goToPos.setAvoidBall(true);
+    numTreeGtp.setAvoidBall(true);
+    basicGtp.setAvoidBall(false);
+
     robotToPassToID = coach::g_pass.initiatePass();
     currentProgress = Progression::POSITIONING;
 }
@@ -27,23 +31,27 @@ Pass::Status Pass::onUpdate() {
 
     switch(currentProgress) {
         case Progression::POSITIONING: {
+
+
             if (!coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos)) {
-                goToType = GoToType::NUMERIC_TREES;
                 targetPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
+                // use numtree
+                control::PosVelAngle velocities = numTreeGtp.getPosVelAngle(robot, targetPos);
+                command.x_vel = static_cast<float>(velocities.vel.x);
+                command.y_vel = static_cast<float>(velocities.vel.y);
+
             } else if (!World::ourBotHasBall(robot->id)) {
-                goToType = GoToType::BASIC;
                 targetPos = ball->pos;
-                goToPos.setAvoidBall(false);
+                // use basic
+                control::PosVelAngle velocities = basicGtp.getPosVelAngle(robot, targetPos);
+                command.x_vel = static_cast<float>(velocities.vel.x);
+                command.y_vel = static_cast<float>(velocities.vel.y);
             } else {
                 if (coach::g_pass.isReadyToReceivePass()) currentProgress = Progression::KICKING;
                 return Status::Running;
             }
-            command.use_angle = 1;
             command.w = static_cast<float>(((Vector2) robotToPassTo->pos - ball->pos).angle());
             command.dribbler = 0;
-            control::PosVelAngle velocities = goToPos.goToPos(robot, targetPos, goToType);
-            command.x_vel = static_cast<float>(velocities.vel.x);
-            command.y_vel = static_cast<float>(velocities.vel.y);
             break;
         }
         case Progression::KICKING: {
@@ -53,18 +61,16 @@ Pass::Status Pass::onUpdate() {
                 distance = ((Vector2)ball->pos - robotToPassTo->pos).length();
                 kicker_vel_multiplier = distance > rtt::ai::Constants::MAX_POWER_KICK_DISTANCE() ? 1.0 : distance / rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
                 command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER() * kicker_vel_multiplier);
-                command.id = robot->id;
 
-                goToType = GoToType::BASIC;
                 targetPos = ball->pos;
-                Vector2 velocities = goToPos.goToPos(robot, targetPos, goToType).vel;
+                Vector2 velocities = basicGtp.getPosVelAngle(robot, targetPos).vel;
                 if (velocities.length() < 0.4) velocities = velocities.stretchToLength(0.4);
 
                 command.x_vel = static_cast<float>(velocities.x);
                 command.y_vel = static_cast<float>(velocities.y);
                 command.w = static_cast<float>(((Vector2) robotToPassTo->pos - ball->pos).angle());
 
-                publishRobotCommand(command);
+                publishRobotCommand();
                 checkTicks = 0;
                 return Status::Running;
             }
@@ -83,8 +89,7 @@ Pass::Status Pass::onUpdate() {
         }
     }
 
-    command.id = robot->id;
-    publishRobotCommand(command);
+    publishRobotCommand();
     return Status::Running;
 }
 

@@ -117,8 +117,7 @@ public:
     static double standardNumTreeVelP()         { return GRSIM() ? 3.0 : 2.8; };
     static double standardNumTreeVelI()         { return GRSIM() ? 0.2 : 0.6; };
     static double standardNumTreeVelD()         { return GRSIM() ? 2.5 : 2.3; };
-
-
+    
 private:
     static bool isInitialized;
     static bool robotOutputTargetGrSim; // Don't use this value. use GRSIM() instead.

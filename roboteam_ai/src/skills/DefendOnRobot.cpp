@@ -61,7 +61,7 @@ bt::Node::Status DefendOnRobot::onUpdate() {
         Vector2 targetPos = calculateLocation();
 
         std::cout << "Robot:" << robot->id << "TargetPos:" << targetPos << std::endl;
-        goToPos.goToPos(robot, targetPos, control::PosControlType::NUMERIC_TREES);
+        goToPos.getPosVelAngle(robot, targetPos);
 
         return Status::Running;
     } else {

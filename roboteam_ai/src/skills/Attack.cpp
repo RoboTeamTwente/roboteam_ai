@@ -5,6 +5,8 @@
 #include <roboteam_ai/src/coach/GeneralPositionCoach.h>
 #include "Attack.h"
 #include <roboteam_ai/src/utilities/Field.h>
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 
 namespace rtt {
 namespace ai {
@@ -14,9 +16,9 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void Attack::onInitialize() {
-    goToPos.setAvoidBall(true);
+    gtp = std::make_shared<control::NumTreePosControl>();
+    gtp->setAvoidBall(true);
     shot = false;
-    goToType = GoToType::NUMERIC_TREES;
 }
 
 /// Get an update on the skill
@@ -31,25 +33,19 @@ bt::Node::Status Attack::onUpdate() {
     Vector2 behindBall = coach::g_generalPositionCoach.getPositionBehindBallToGoal(BEHIND_BALL_TARGET, false);
     Vector2 deltaBall = behindBall - ball;
 
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-
     if (!coach::g_generalPositionCoach.isRobotBehindBallToGoal(BEHIND_BALL_CHECK, false, robot->pos)) {
         targetPos = behindBall;
-        command.use_angle = 1;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
-        goToPos.setAvoidBall(true);
-        goToType = GoToType::NUMERIC_TREES;
+        gtp->setAvoidBall(true);
 
         if (abs(((Vector2) robot->pos - targetPos).length()) < SWITCH_TO_BASICGTP_DISTANCE) {
-            goToPos.setAvoidBall(false);
-            goToType = GoToType::BASIC;
+            gtp->setAvoidBall(false);
+            gtp = std::make_shared<control::BasicPosControl>();
         }
     }
     else {
         targetPos = ball;
-        goToPos.setAvoidBall(false);
-        command.use_angle = 1;
+        gtp->setAvoidBall(false);
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
         if (World::botHasBall(robot->id, true, Constants::MAX_KICK_RANGE())) {
             command.kicker = 1;
@@ -73,27 +69,26 @@ bt::Node::Status Attack::onUpdate() {
         velocity = {0, 0};
     }
     else {
-        velocity = goToPos.goToPos(robot, targetPos, goToType).vel;
+        velocity = gtp->getPosVelAngle(robot, targetPos).vel;
     }
 
     velocity = control::ControlUtils::velocityLimiter(velocity);
 
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
-    publishRobotCommand(command);
+
+    publishRobotCommand();
 
     return Status::Running;
 }
 
 void Attack::onTerminate(Status s) {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
+
     command.w = static_cast<float>(deltaPos.angle());
     command.x_vel = 0;
     command.y_vel = 0;
 
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 
 } // ai

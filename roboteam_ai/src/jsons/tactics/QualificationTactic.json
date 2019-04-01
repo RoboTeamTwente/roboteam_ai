@@ -48,7 +48,7 @@
               "ROLE": "qualRole",
               "avoidBall": "true",
               "canGoOutsideField": "true",
-              "target": "{1.4, -0.85}"
+              "targetPos": "{-3, -3}"
             }
           },
           "xm1dohkoqeoibxof1": {
@@ -59,7 +59,7 @@
               "ROLE": "qualRole",
               "canGoOutsideField": "true",
               "avoidBall": "true",
-              "target": "{-1.4, 0.85}"
+              "targetPos": "{3, 3}"
             }
           },
           "role2": {
@@ -95,7 +95,7 @@
               "avoidBall": "true",
               "canGoOutsideField": "true",
               "ROLE": "eloRlauq",
-              "target": "{1.4,0.85}"
+              "targetPos": "{-3,3}"
             }
           },
           "gototheposition2121": {
@@ -106,7 +106,7 @@
               "avoidBall": "true",
               "canGoOutsideField": "true",
               "ROLE": "eloRlauq",
-              "target": "{-1.4,-0.85}"
+              "targetPos": "{3,-3}"
             }
           }
         }

@@ -2,6 +2,7 @@
 // Created by rolf on 30-1-19.
 //
 
+#include <roboteam_ai/src/control/ControlUtils.h>
 #include "GoAroundPos.h"
 #include "../interface/drawer.h"
 namespace rtt {
@@ -93,14 +94,11 @@ GoAroundPos::Status GoAroundPos::onUpdate() {
     return Status::Failure;
 }
 void GoAroundPos::onTerminate(rtt::ai::Skill::Status s) {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = 1;
     command.dribbler = 0;
     command.x_vel = 0;
     command.y_vel = 0;
     command.w = (float) deltaPos.angle();
-    publishRobotCommand(command);
+    publishRobotCommand();
 
 }
 GoAroundPos::Progression GoAroundPos::checkProgression() {
@@ -142,16 +140,13 @@ bool GoAroundPos::checkPosition() {
     return ((deltaPos.length()<=(distanceFromPoint+MAX_DIST_DEVIATION))&&deltaPos.length()>distanceFromPoint-MAX_DIST_DEVIATION);
 }
 void GoAroundPos::sendRotateCommand() {
-    roboteam_msgs::RobotCommand command;
     Vector2 deltaCommandPos = (commandPos - robot->pos);
-    deltaCommandPos= Control::velocityLimiter(deltaCommandPos, distanceFromPoint*SPEED, MIN_SPEED);
-    command.id = robot->id;
-    command.use_angle = 1;
+    deltaCommandPos = Control::velocityLimiter(deltaCommandPos, distanceFromPoint*SPEED, MIN_SPEED);
     command.dribbler = 0;
     command.x_vel = static_cast<float>(deltaCommandPos.x);
     command.y_vel = static_cast<float>(deltaCommandPos.y);
     command.w = (float) deltaPos.angle();
-    publishRobotCommand(command);
+    publishRobotCommand();
 }
 }
 }
