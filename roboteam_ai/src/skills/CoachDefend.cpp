@@ -24,7 +24,7 @@ bt::Node::Status CoachDefend::onUpdate() {
     }
 
     auto velocities = gtp.getPosVelAngle(robot, targetLocation->first);
-    if ((targetLocation->first-robot->pos).length()<0.09){
+    if ((targetLocation->first-robot->pos).length()<0.02){
         command.x_vel = 0;
         command.y_vel = 0;
         command.w = static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second));
@@ -32,7 +32,7 @@ bt::Node::Status CoachDefend::onUpdate() {
     else if ((targetLocation->first-robot->pos).length()<0.12){
         command.x_vel = static_cast<float>(velocities.vel.x);
         command.y_vel = static_cast<float>(velocities.vel.y);
-        command.w = static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second));
+        command.w = velocities.angle;
     }
     else{
         command.x_vel = static_cast<float>(velocities.vel.x);
