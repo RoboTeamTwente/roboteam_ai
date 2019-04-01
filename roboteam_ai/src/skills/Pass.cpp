@@ -75,10 +75,8 @@ bt::Leaf::Status Pass::shoot() {
         command.w = static_cast<float>((Vector2(robotToPassTo->pos) - robot->pos).angle());
 
         command.kicker_forced = 1;
-        const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
-        double distance = (Vector2(ball->pos) - robotToPassTo->pos).length();
-        double kicker_vel_multiplier = distance > maxPowerDist ? 1.0 : distance / maxPowerDist; // kick harder
-        command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER() * kicker_vel_multiplier);
+        command.kicker_vel = determineKickForce((Vector2(ball->pos) - robotToPassTo->pos).length());
+
         publishRobotCommand();
     } else {
         std::cout << "Waiting for receiver to be in place." << std::endl;
@@ -98,9 +96,9 @@ void Pass::sendMoveCommand(const double minimumSpeed) {
 
 /// Determine how fast we should kick for a pass at a given distance
 double Pass::determineKickForce(double distance) {
-
-
-    return 0;
+    const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
+    double kicker_vel_multiplier = distance > maxPowerDist ? 1.0 : distance / maxPowerDist;
+    return static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER() * kicker_vel_multiplier);
 }
 
 } // ai
