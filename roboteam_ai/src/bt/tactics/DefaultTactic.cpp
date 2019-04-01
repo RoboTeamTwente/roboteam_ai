@@ -7,6 +7,8 @@
 
 using dealer = robotDealer::RobotDealer;
 
+/// call 0638424067 if you need help
+
 bt::Node::Status bt::DefaultTactic::update() {
     if (!updateRobots()) {
         status = Status::Waiting;
@@ -36,13 +38,13 @@ void bt::DefaultTactic::initialize() {
 
 void bt::DefaultTactic::claimRobots() {
 
-    // TODO claim in a smart way with the map
-
-    for (const auto &role : robots) {
-        robotIDs.insert(dealer::claimRobotForTactic(role.second, name, role.first));
+    for (int i = claimedRobots; i < robotsNeeded; i++) {
+        auto toClaim = getNextClaim();
+        robotIDs.insert(dealer::claimRobotForTactic(toClaim.second, name, toClaim.first));
         if (robotIDs.find(- 1) == robotIDs.end()) claimedRobots ++;
         else robotIDs.erase(- 1);
     }
+
 }
 
 void bt::DefaultTactic::setRoleAmount(int amount) {
@@ -72,6 +74,21 @@ bool bt::DefaultTactic::updateRobots() {
 }
 void bt::DefaultTactic::disClaimRobots() {
 
+    claimIndex--;
+
+}
+
+std::pair<std::string, bt::Tactic::robotType> bt::DefaultTactic::getNextClaim() {
+    int counter = 0;
+    for (auto robot : robots) {
+        if (counter == claimIndex) {
+            claimIndex++;
+            return robot;
+        }
+        else {
+            counter++;
+        }
+    }
 }
 
 
