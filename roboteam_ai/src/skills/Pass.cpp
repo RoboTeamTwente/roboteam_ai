@@ -93,8 +93,6 @@ bt::Leaf::Status Pass::shoot() {
         command.kicker_vel = determineKickForce((Vector2(ball->pos) - robotToPassTo->pos).length());
 
         publishRobotCommand();
-    } else {
-        std::cout << "Waiting for receiver to be in place." << std::endl;
     }
     return Status::Running;
 }
