@@ -10,9 +10,13 @@
 namespace rtt {
 namespace ai {
 Keeper::Keeper(rtt::string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) { }
+        :Skill(std::move(name), std::move(blackboard)) {
+    std::cout << "doing keeper constructor" << std::endl;
+
+}
 
 void Keeper::onInitialize() {
+    std::cout << "doing keeper things" << std::endl;
 
     goalPos = Field::get_our_goal_center();
     goalwidth = Field::get_field().goal_width;
@@ -26,7 +30,9 @@ void Keeper::onInitialize() {
 }
 
 Keeper::Status Keeper::onUpdate() {
-        Vector2 ballPos = World::getBall()->pos;
+    std::cout << "doing keeper things" << std::endl;
+
+    Vector2 ballPos = World::getBall()->pos;
         Vector2 blockPoint = computeBlockPoint(ballPos);
         if (!Field::pointIsInField(blockPoint, static_cast<float>(Constants::OUT_OF_FIELD_MARGIN()))) {
             std::cout << "Keeper escaping field!" << std::endl;
@@ -40,6 +46,8 @@ Keeper::Status Keeper::onUpdate() {
             return Status::Running;
 
         }
+
+
         //double dist=control::ControlUtils::distanceToLine(robot->pos,ballPos,blockPoint);
         double dist = (blockPoint - (Vector2(robot->pos))).length(); //using point distance not line distance.
         if (dist < KEEPER_POSDIF) {

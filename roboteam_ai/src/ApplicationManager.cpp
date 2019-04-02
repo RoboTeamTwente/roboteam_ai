@@ -22,6 +22,8 @@ void ApplicationManager::setup() {
     BTFactory::makeTrees();
     BTFactory::setCurrentTree("haltStrategy");
     BTFactory::setKeeperTree("SingleKeeperTactic");
+    robotDealer::RobotDealer::setKeeperID(0);
+
 }
 
 void ApplicationManager::loop() {
@@ -77,8 +79,6 @@ void ApplicationManager::runOneLoopCycle() {
             this->handleRefData();
         }
         // TODO: change this later so the referee tells you this
-        // TODO enable for keeper
-        robotDealer::RobotDealer::setKeeperID(0);
         keeperTree = BTFactory::getKeeperTree();
         Status keeperStatus = keeperTree->tick();
 

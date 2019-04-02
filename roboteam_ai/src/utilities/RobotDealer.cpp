@@ -373,7 +373,7 @@ void RobotDealer::halt() {
 void RobotDealer::setKeeperID(int ID) {
     keeperID = ID;
     std::lock_guard<std::mutex> lock(robotOwnersLock);
-    addRobotToOwnerList(ID, "keeper", "keeper");
+    addRobotToOwnerList(ID, "Keeper", "Keeper");
 }
 int RobotDealer::getKeeperID() {
     std::lock_guard<std::mutex> lock(robotOwnersLock);
