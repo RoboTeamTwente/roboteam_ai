@@ -368,25 +368,28 @@ std::string RobotDealer::getRoleNameForId(int ID) {
 
 }
 void RobotDealer::halt() {
-    robotOwners.clear();
+    BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
 
-    // we need to reclaim the keeper immediately.
-    setKeeperID(keeperID);
+    robotOwners.clear();
+    std::cout << "setting the keeper" << std::endl;
+    // if the keeper changes we need to remake trees.
+    BTFactory::makeTrees();
 
     RobotDealer::updateFromWorld();
+
+    {
+        std::lock_guard<std::mutex> lock(robotOwnersLock);
+        addRobotToOwnerList(keeperID, "Keeper", "Keeper");
+    }
+    BTFactory::makeTrees();
+
 }
 
 /// set the keeper ID if its different than before
 void RobotDealer::setKeeperID(int ID) {
     if (ID != keeperID) {
-        std::cout << "setting the keeper" << std::endl;
-
         keeperID = ID;
-        std::lock_guard<std::mutex> lock(robotOwnersLock);
-        addRobotToOwnerList(ID, "Keeper", "Keeper");
-
-        // if the keeper changed we need to remake trees.
-        BTFactory::makeTrees();
+        halt();
     }
 }
 int RobotDealer::getKeeperID() {

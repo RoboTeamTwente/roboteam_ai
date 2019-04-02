@@ -25,7 +25,6 @@ void EnterFormation::onInitialize() {
 }
 
 bt::Node::Status EnterFormation::onUpdate() {
-
     /*
      * Calculate the target location at least once, and every time when the amount of robots in the formation change.
      */

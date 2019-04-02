@@ -134,7 +134,6 @@ MainWindow::MainWindow(QWidget* parent)
     QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
                      [=](const QString &goalieId) {
                          // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-                         BTFactory::makeTrees();
                          robotDealer::RobotDealer::setKeeperID(goalieId.toInt());
 
                      });

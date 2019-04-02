@@ -81,7 +81,9 @@ void ApplicationManager::runOneLoopCycle() {
         if (ai::interface::InterfaceValues::usesRefereeCommands()) {
             this->handleRefData();
         } else {
-            robotDealer::RobotDealer::setKeeperID(ai::World::get_world().us.at(0).id);
+            if (robotDealer::RobotDealer::getKeeperID() == -1) {
+                robotDealer::RobotDealer::setKeeperID(ai::World::get_world().us.at(0).id);
+            }
         }
         // TODO: change this later so the referee tells you this
         keeperTree = BTFactory::getKeeperTree();
