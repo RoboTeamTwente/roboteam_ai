@@ -24,7 +24,7 @@ TEST(Defendtest, defend_test) {
     // generate a robot running the skill
     auto properties = std::make_shared<bt::Blackboard>();
     properties->setString("ROLE", "defendRobot");
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random, "DefendTest", "defendRobot");
+    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::RANDOM, "DefendTest", "defendRobot");
     rtt::ai::Defend defend("DefendTest", properties);
 
     EXPECT_EQ(defend.allDefendersMemory, 0);
@@ -42,7 +42,7 @@ TEST(Defendtest, defend_test) {
 // generate a second robot with the same skill
     auto properties2 = std::make_shared<bt::Blackboard>();
     properties2->setString("ROLE", "defendRobot2");
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random, "DefendTest2", "defendRobot2");
+    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::RANDOM, "DefendTest2", "defendRobot2");
     rtt::ai::Defend defend2("DefendTest2", properties2);
 
     EXPECT_EQ(defend.allDefendersMemory, 1);

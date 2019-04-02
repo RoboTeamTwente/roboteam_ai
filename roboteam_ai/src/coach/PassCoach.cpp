@@ -12,17 +12,15 @@ namespace coach {
 PassCoach g_pass;
 
 void PassCoach::resetPass() {
-    setPassed(false);
-    setReadyToReceivePass(false);
-    setRobotBeingPassedTo(-1);
+    passed = false;
+    readyToReceivePass = false;
+    robotBeingPassedTo  = -1;
 }
 
 int PassCoach::initiatePass() {
     resetPass();
 
-    // TODO: More logic to decide which robot to pass to. Possibly split initiate in initiate and findRobotToPassTo
-    int robotBeingPassedTo = g_offensiveCoach.getBestStrikerID();
-    setRobotBeingPassedTo(robotBeingPassedTo);
+    robotBeingPassedTo = determineReceiver();
     return robotBeingPassedTo;
 }
 
@@ -46,8 +44,16 @@ bool PassCoach::isPassed() {
     return passed;
 }
 
+const Vector2 &PassCoach::getPassPosition() const {
+    return passPosition;
+}
+
+int PassCoach::determineReceiver() {
+     return g_offensiveCoach.getBestStrikerID();
+}
+
 void PassCoach::setPassed(bool passed) {
-    this->passed = passed;
+this->passed = passed;
 }
 
 } // coach

@@ -72,15 +72,10 @@ class MainWindow : public QMainWindow {
 private:
 
         QGroupBox* doubleSpinBoxesGroup_Pos_PID;
-        QGroupBox* doubleSpinBoxesGroup_Vel_PID;
         QHBoxLayout* spinBoxLayout;
         QDoubleSpinBox* sb_luth_Pos_P;
         QDoubleSpinBox* sb_luth_Pos_I;
         QDoubleSpinBox* sb_luth_Pos_D;
-
-        QDoubleSpinBox* sb_luth_Vel_P;
-        QDoubleSpinBox* sb_luth_Vel_I;
-        QDoubleSpinBox* sb_luth_Vel_D;
 
         void configureCheckBox(QString title, QLayout* layout, const QObject* receiver, const char* method,
                 bool defaultState = false);

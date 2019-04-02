@@ -27,17 +27,17 @@ void SkillGoToPos::onInitialize() {
 
 void SkillGoToPos::setPosController(const string &gTT) {
     if (gTT == "ballControl") {
-        posController = make_shared<control::ControlGoToPosBallControl>();
+        posController = std::make_shared<control::ControlGoToPosBallControl>();
     }
     else if (gTT == "basic") {
-        posController = make_shared<control::BasicPosControl>();
+        posController = std::make_shared<control::BasicPosControl>();
     }
     else if (gTT == "force") {
-        posController = make_shared<control::ForcePosControl>();
+        posController = std::make_shared<control::ForcePosControl>();
     }
     else {
         ROS_ERROR("SkillGoToPos::onInitialize -> no good goToType set in properties. Using numtrees");
-        posController = make_shared<control::NumTreePosControl>();
+        posController = std::make_shared<control::NumTreePosControl>();
     }
 }
 

@@ -7,6 +7,7 @@
 #include "Field.h"
 #include "ros/ros.h"
 #include <utility>
+#include <roboteam_ai/src/coach/BallplacementCoach.h>
 
 namespace robotDealer {
 
@@ -86,7 +87,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
             default:
                 return - 1;
 
-            case closeToBall: {
+            case CLOSE_TO_BALL: {
                 auto ball = rtt::ai::World::getBall();
                 rtt::Vector2 ballPos;
                 if (ball) {
@@ -98,7 +99,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
                 break;
             }
 
-            case betweenBallAndOurGoal: {
+            case BETWEEN_BALL_AND_OUR_GOAL: {
                 auto ball = rtt::ai::World::getBall();
 
                 rtt::Vector2 ballPos;
@@ -113,23 +114,32 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
                 id = getRobotClosestToLine(ids, ballPos, ourGoal, true);
                 break;
             }
-            case closeToOurGoal: {
+            case CLOSE_TO_OUR_GOAL: {
                 rtt::Vector2 ourGoal = rtt::ai::Field::get_our_goal_center();
                 id = getRobotClosestToPoint(ids, ourGoal);
                 break;
             }
 
-            case closeToTheirGoal: {
+            case CLOSE_TO_THEIR_GOAL: {
                 rtt::Vector2 theirGoal = rtt::ai::Field::get_their_goal_center();
                 id = getRobotClosestToPoint(ids, theirGoal);
                 break;
             }
 
-            case random: {
+            case RANDOM: {
                 id = *ids.begin();
                 break;
             }
 
+            case BALL_PLACEMENT_RECEIVER:{
+                id = getRobotClosestToPoint(ids, rtt::ai::coach::g_ballPlacement.getBallPlacementPos());
+
+                // force the pass coach to use this receiver
+                rtt::ai::coach::g_pass.resetPass();
+                rtt::ai::coach::g_pass.setRobotBeingPassedTo(id);
+
+                break;
+            }
         }
         std::lock_guard<std::mutex> lock(robotOwnersLock);
         RobotDealer::unFreeRobot(id);

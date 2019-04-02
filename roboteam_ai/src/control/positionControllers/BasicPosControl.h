@@ -14,6 +14,8 @@ namespace control {
 class BasicPosControl : public PosController {
 public:
     explicit BasicPosControl() = default;
+    explicit BasicPosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
+
     PosVelAngle getPosVelAngle(RobotPtr robot, Vector2 &targetPos) override;
 };
 
