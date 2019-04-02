@@ -148,7 +148,7 @@ void Visualizer::drawRobot(QPainter &painter, roboteam_msgs::WorldRobot robot, b
         robotColor = weAreYellow ? Constants::ROBOT_COLOR_BLUE() : Constants::ROBOT_COLOR_YELLOW();
     }
 
-    if (robot.id == robotDealer::RobotDealer::getKeeperID()) {
+    if (ourTeam && robot.id == robotDealer::RobotDealer::getKeeperID()) {
         robotColor = QColor(255, 255, 255);
 
     }
