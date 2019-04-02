@@ -164,8 +164,8 @@ MainWindow::MainWindow(QWidget* parent)
     QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
                      [=](const QString &goalieId) {
                          // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-                         treeinterp::g_btfactory.setKeeper(goalieId.toInt());
-                         treeinterp::g_btfactory.init();
+                         BTFactory::setKeeper(goalieId.toInt());
+                         BTFactory::makeTrees();
                      });
 
     keeperVLayout->addWidget(select_goalie);
@@ -301,7 +301,7 @@ void MainWindow::refreshSignal() {
 }
 
 void MainWindow::updateTreeWidget() {
-    this->treeWidget->updateContents(treeinterp::g_btfactory.getTree(treeinterp::g_btfactory.getCurrentTree()));
+    this->treeWidget->updateContents(BTFactory::getTree(BTFactory::getCurrentTree()));
 }
 
 void MainWindow::updateKeeperTreeWidget() {
@@ -316,7 +316,7 @@ void MainWindow::updateKeeperTreeWidget() {
         }
     }
 
-   this->keeperTreeWidget->updateContents(treeinterp::g_btfactory.getKeeperTree());
+   this->keeperTreeWidget->updateContents(BTFactory::getKeeperTree());
 }
 
 

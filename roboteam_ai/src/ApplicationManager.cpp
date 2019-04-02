@@ -21,7 +21,7 @@ void ApplicationManager::setup() {
     IOManager = new io::IOManager(true);
     BTFactory::makeTrees();
     BTFactory::setCurrentTree("haltStrategy");
-    BTFactory::setKeeperTree("keeperTest1");
+    BTFactory::setKeeperTree("SingleKeeperTactic");
 }
 
 void ApplicationManager::loop() {
@@ -78,9 +78,9 @@ void ApplicationManager::runOneLoopCycle() {
         }
         // TODO: change this later so the referee tells you this
         // TODO enable for keeper
-//        robotDealer::RobotDealer::setKeeperID(0);
-//        keeperTree = BTFactory::getKeeperTree();
-//        Status keeperStatus = keeperTree->tick();
+        robotDealer::RobotDealer::setKeeperID(0);
+        keeperTree = BTFactory::getKeeperTree();
+        Status keeperStatus = keeperTree->tick();
 
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
