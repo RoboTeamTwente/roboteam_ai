@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/utilities/OffensiveCoach.h>
+#include "roboteam_ai/src/coach/OffensiveCoach.h"
 #include <roboteam_ai/src/utilities/Field.h>
 #include <roboteam_ai/src/utilities/World.h>
 #include <algorithm>
@@ -18,8 +18,8 @@ TEST(OffensiveCoachTest, calculateNewPositionsTest) {
     field.field_length = 5;
     Field::set_field(field);
 
-    OffensiveCoach::calculateNewPositions();
-    ASSERT_GT(OffensiveCoach::getOffensivePositions().size(), 1);
+    g_offensiveCoach.calculateNewPositions();
+    ASSERT_GT(g_offensiveCoach.getOffensivePositions().size(), 1);
 }
 
 TEST(OffensiveCoachTest, calculatePositionsForRobotTest) {
@@ -28,8 +28,8 @@ TEST(OffensiveCoachTest, calculatePositionsForRobotTest) {
     field.field_length = 5;
     Field::set_field(field);
 
-    OffensiveCoach::calculateNewPositions();
-    ASSERT_GT(OffensiveCoach::getOffensivePositions().size(), 1);
+    g_offensiveCoach.calculateNewPositions();
+    ASSERT_GT(g_offensiveCoach.getOffensivePositions().size(), 1);
 
     roboteam_msgs::World world;
     roboteam_msgs::WorldRobot robot1;
@@ -45,11 +45,11 @@ TEST(OffensiveCoachTest, calculatePositionsForRobotTest) {
 
     World::set_world(world);
 
-    Vector2 robotPosition1 = OffensiveCoach::calculatePositionForRobot(std::make_shared<roboteam_msgs::WorldRobot>(robot1));
-    Vector2 robotPosition2 = OffensiveCoach::calculatePositionForRobot(std::make_shared<roboteam_msgs::WorldRobot>(robot2));
+    Vector2 robotPosition1 = g_offensiveCoach.calculatePositionForRobot(std::make_shared<roboteam_msgs::WorldRobot>(robot1));
+    Vector2 robotPosition2 = g_offensiveCoach.calculatePositionForRobot(std::make_shared<roboteam_msgs::WorldRobot>(robot2));
 
 
-    auto offensivePositions = OffensiveCoach::getOffensivePositions();
+    auto offensivePositions = g_offensiveCoach.getOffensivePositions();
     std::vector<Vector2> offensivePositionVectors;
     for (auto& offensivePosition : offensivePositions) {
         offensivePositionVectors.push_back(offensivePosition.position);
@@ -58,13 +58,13 @@ TEST(OffensiveCoachTest, calculatePositionsForRobotTest) {
     ASSERT_TRUE(std::find(offensivePositionVectors.begin(), offensivePositionVectors.end(), robotPosition1) != offensivePositionVectors.end());
     ASSERT_TRUE(std::find(offensivePositionVectors.begin(), offensivePositionVectors.end(), robotPosition2) != offensivePositionVectors.end());
 
-    bool robot1CloseEnough = std::find(offensivePositionVectors.begin(), offensivePositionVectors.end(), OffensiveCoach::getPositionForRobotID(robot1.id)) != offensivePositionVectors.end();
-    bool robot2CloseEnough = std::find(offensivePositionVectors.begin(), offensivePositionVectors.end(), OffensiveCoach::getPositionForRobotID(robot2.id)) != offensivePositionVectors.end();
+    bool robot1CloseEnough = std::find(offensivePositionVectors.begin(), offensivePositionVectors.end(), g_offensiveCoach.getPositionForRobotID(robot1.id)) != offensivePositionVectors.end();
+    bool robot2CloseEnough = std::find(offensivePositionVectors.begin(), offensivePositionVectors.end(), g_offensiveCoach.getPositionForRobotID(robot2.id)) != offensivePositionVectors.end();
 
-    robotPosition1 = OffensiveCoach::calculatePositionForRobot(std::make_shared<roboteam_msgs::WorldRobot>(robot1));
-    robotPosition2 = OffensiveCoach::calculatePositionForRobot(std::make_shared<roboteam_msgs::WorldRobot>(robot2));
+    robotPosition1 = g_offensiveCoach.calculatePositionForRobot(std::make_shared<roboteam_msgs::WorldRobot>(robot1));
+    robotPosition2 = g_offensiveCoach.calculatePositionForRobot(std::make_shared<roboteam_msgs::WorldRobot>(robot2));
 
-    auto robotPositions = OffensiveCoach::getRobotPositions();
+    auto robotPositions = g_offensiveCoach.getRobotPositions();
 
     if (robot1CloseEnough) {
         ASSERT_TRUE(robotPositions.find(robot1.id) != robotPositions.end());
