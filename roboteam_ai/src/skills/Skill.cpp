@@ -46,8 +46,6 @@ void Skill::initialize() {
 }
 
 void Skill::terminate(Status s) {
-
-    std::cout << "terminating skill" << node_name() << std::endl;
     if (! robot) return;
     if (! ball) return;
     refreshRobotCommand();

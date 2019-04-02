@@ -11,7 +11,6 @@ bool Composite::HasNoChildren() const {
 }
 
 void Composite::terminate(Status s) {
-    std::cout << children.size() << std::endl;
 
     for (auto child : children) {
        // if (child->getStatus() == Status::Running) {

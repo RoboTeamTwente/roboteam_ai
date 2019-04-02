@@ -368,12 +368,8 @@ std::string RobotDealer::getRoleNameForId(int ID) {
 
 }
 void RobotDealer::halt() {
-
     robotOwners.clear();
-
-
     RobotDealer::updateFromWorld();
-
     {
         std::lock_guard<std::mutex> lock(robotOwnersLock);
         addRobotToOwnerList(keeperID, "Keeper", "Keeper");
@@ -386,7 +382,6 @@ void RobotDealer::setKeeperID(int ID) {
         keeperID = ID;
         BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
         robotDealer::RobotDealer::halt();
-
         BTFactory::makeTrees();
     }
 }
