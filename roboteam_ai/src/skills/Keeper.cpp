@@ -9,14 +9,11 @@
 
 namespace rtt {
 namespace ai {
-Keeper::Keeper(rtt::string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) {
-    std::cout << "doing keeper constructor" << std::endl;
 
-}
+Keeper::Keeper(rtt::string name, bt::Blackboard::Ptr blackboard)
+        :Skill(std::move(name), std::move(blackboard)) { }
 
 void Keeper::onInitialize() {
-    std::cout << "doing keeper things" << std::endl;
 
     goalPos = Field::get_our_goal_center();
     goalwidth = Field::get_field().goal_width;
@@ -30,8 +27,6 @@ void Keeper::onInitialize() {
 }
 
 Keeper::Status Keeper::onUpdate() {
-    std::cout << "doing keeper things" << std::endl;
-
     Vector2 ballPos = World::getBall()->pos;
         Vector2 blockPoint = computeBlockPoint(ballPos);
         if (!Field::pointIsInField(blockPoint, static_cast<float>(Constants::OUT_OF_FIELD_MARGIN()))) {

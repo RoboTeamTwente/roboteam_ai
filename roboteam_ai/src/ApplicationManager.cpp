@@ -10,6 +10,7 @@
 #include <sstream>
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include <roboteam_ai/src/interface/InterfaceValues.h>
+#include <roboteam_ai/src/utilities/World.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -22,7 +23,6 @@ void ApplicationManager::setup() {
     BTFactory::makeTrees();
     BTFactory::setCurrentTree("haltStrategy");
     BTFactory::setKeeperTree("SingleKeeperTactic");
-    robotDealer::RobotDealer::setKeeperID(0);
 
 }
 
@@ -68,6 +68,9 @@ void ApplicationManager::runOneLoopCycle() {
             return;
         }
 
+
+
+
         ai::analysis::GameAnalyzer::getInstance().start();
 
         // Will do things if this is a demo
@@ -77,6 +80,8 @@ void ApplicationManager::runOneLoopCycle() {
 
         if (ai::interface::InterfaceValues::usesRefereeCommands()) {
             this->handleRefData();
+        } else {
+            robotDealer::RobotDealer::setKeeperID(ai::World::get_world().us.at(0).id);
         }
         // TODO: change this later so the referee tells you this
         keeperTree = BTFactory::getKeeperTree();
@@ -122,6 +127,11 @@ void ApplicationManager::handleRefData() {
     if (oldStrategy != strategyName) {
         BTFactory::makeTrees();
     }
+
+    int newKeeperId = ai::Referee::getRefereeData().us.goalie;
+    // Let the ref set the goalie
+    robotDealer::RobotDealer::setKeeperID(newKeeperId);
+
     BTFactory::setCurrentTree(strategyName);
 }
 

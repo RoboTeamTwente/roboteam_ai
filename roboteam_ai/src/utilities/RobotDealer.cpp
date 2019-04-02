@@ -8,6 +8,7 @@
 #include "ros/ros.h"
 #include <utility>
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
+#include <roboteam_ai/src/treeinterp/BTFactory.h>
 
 namespace robotDealer {
 
@@ -374,10 +375,18 @@ void RobotDealer::halt() {
 
     RobotDealer::updateFromWorld();
 }
+
+/// set the keeper ID if its different than before
 void RobotDealer::setKeeperID(int ID) {
-    keeperID = ID;
-    std::lock_guard<std::mutex> lock(robotOwnersLock);
-    addRobotToOwnerList(ID, "Keeper", "Keeper");
+    std::cout << "setting the keeper" << std::endl;
+    if (ID != keeperID) {
+        keeperID = ID;
+        std::lock_guard<std::mutex> lock(robotOwnersLock);
+        addRobotToOwnerList(ID, "Keeper", "Keeper");
+
+        // if the keeper changed we need to remake trees.
+        BTFactory::makeTrees();
+    }
 }
 int RobotDealer::getKeeperID() {
     std::lock_guard<std::mutex> lock(robotOwnersLock);
