@@ -15,10 +15,6 @@ double InterfaceValues::numTreePosP = 0;
 double InterfaceValues::numTreePosI = 0;
 double InterfaceValues::numTreePosD = 0;
 
-double InterfaceValues::numTreeVelP = 0;
-double InterfaceValues::numTreeVelI = 0;
-double InterfaceValues::numTreeVelD = 0;
-
 rtt::Vector2 InterfaceValues::ballPlacementTarget = {0, 0}; // initialize on middle of the field
 bool InterfaceValues::useRefereeCommands = false;
 bool InterfaceValues::showDebugValuesInTerminal = true;
@@ -56,36 +52,6 @@ double InterfaceValues::getNumTreePosD() {
 void InterfaceValues::setNumTreePosD(double numTreePD) {
     std::lock_guard<std::mutex> lock(pidMutex);
     InterfaceValues::numTreePosD = numTreePD;
-}
-
-double InterfaceValues::getNumTreeVelP() {
-    std::lock_guard<std::mutex> lock(pidMutex);
-    return numTreeVelP;
-}
-
-void InterfaceValues::setNumTreeVelP(double numTreeVP) {
-    std::lock_guard<std::mutex> lock(pidMutex);
-    InterfaceValues::numTreeVelP = numTreeVP;
-}
-
-double InterfaceValues::getNumTreeVelI() {
-    std::lock_guard<std::mutex> lock(pidMutex);
-    return numTreeVelI;
-}
-
-void InterfaceValues::setNumTreeVelI(double numTreeVI) {
-    std::lock_guard<std::mutex> lock(pidMutex);
-    InterfaceValues::numTreeVelI = numTreeVI;
-}
-
-double InterfaceValues::getNumTreeVelD() {
-    std::lock_guard<std::mutex> lock(pidMutex);
-    return numTreeVelD;
-}
-
-void InterfaceValues::setNumTreeVelD(double numTreeVD) {
-    std::lock_guard<std::mutex> lock(pidMutex);
-    InterfaceValues::numTreeVelD = numTreeVD;
 }
 
 void InterfaceValues::sendHaltCommand() {

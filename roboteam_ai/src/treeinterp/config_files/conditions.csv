@@ -13,3 +13,4 @@ IsCloseToPoint,ball,position,margin
 IsBallCloseToBorder,margin,corner,layingStill
 BallNearOurGoalLineAndStill,margin,outsideField
 HasClearShot
+TwoRobotBallPlacement

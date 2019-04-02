@@ -9,9 +9,17 @@ namespace rtt {
 namespace ai {
 namespace control {
 
+
+ControlGoToPosBallControl::ControlGoToPosBallControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
+                                                     : PosController(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
+
+}
+
 PosVelAngle ControlGoToPosBallControl::getPosVelAngle(RobotPtr robot, Vector2 &targetPos) {
     return {};
 }
+
+
 
 } //control
 } //ai

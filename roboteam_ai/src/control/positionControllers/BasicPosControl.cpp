@@ -8,22 +8,22 @@ namespace rtt {
 namespace ai {
 namespace control {
 
+BasicPosControl::BasicPosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
+        : PosController(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
+
+}
+
 PosVelAngle BasicPosControl::getPosVelAngle(RobotPtr robot, Vector2 &targetPos) {
 
     PosVelAngle posVelAngle;
-    Vector2 error;
-    error.x = targetPos.x - robot->pos.x;
-    error.y = targetPos.y - robot->pos.y;
+    Vector2 error = targetPos - robot->pos;
 
-    if (error.length() < rtt::ai::Constants::ROBOT_RADIUS()) {
-        posPID.setPID(3.0, 1.0, 0.2);
-    } else {
-        posPID.setPID(3.0, 0.5, 1.5);
-    }
-
+    posVelAngle.pos = targetPos;
     posVelAngle.vel = error;
     return controlWithPID(robot, posVelAngle);
 }
+
+
 
 } // control
 } // ai

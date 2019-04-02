@@ -50,8 +50,8 @@ TEST(CoachTest, get_position_behind_ball) {
     EXPECT_TRUE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToGoal(1, false, Vector2(-1, 0))); // robot 1m in front of the
 
     // there should be some margins as well both behind the max position and on the y scale
-    EXPECT_FALSE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToGoal(1, false, Vector2(1.2, 0.2)));
-    EXPECT_TRUE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToGoal(1, false, Vector2(-1.2, 0.2)));
+    EXPECT_FALSE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToGoal(1, false, Vector2(1.1, 0.1)));
+    EXPECT_TRUE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToGoal(1, false, Vector2(-1.1, 0.1)));
 
     // create an empty world
     worldMsg = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
