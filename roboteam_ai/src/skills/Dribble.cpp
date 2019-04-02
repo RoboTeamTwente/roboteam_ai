@@ -2,7 +2,7 @@
 // Created by rolf on 28/11/18.
 //
 
-#include <roboteam_ai/src/coach/Ballplacement.h>
+#include <roboteam_ai/src/coach/BallplacementCoach.h>
 #include "Dribble.h"
 namespace rtt {
 namespace ai {

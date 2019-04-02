@@ -49,7 +49,7 @@ public:
     /// GENERAL SKILLS ///
     static double DEFAULT_KICK_POWER()          { return  5.0; }; // max kick power() { return  100
     static double MAX_KICK_POWER()              { return  8.0; }; //TODO: CHECK
-    static double MAX_POWER_KICK_DISTANCE()     { return 9.0; };
+    static double MAX_POWER_KICK_DISTANCE()     { return 12.0; };
     static int MAX_KICK_CYCLES()                { return 20; };
     static int MAX_GENEVA_CYCLES()              { return 20; };
     static int DEFAULT_GENEVA_STATE()           { return 0; };
@@ -110,13 +110,9 @@ public:
                                                            {255, 100, 255, 255} }; };
 
 // Default PID values for the interface
-    static double standardNumTreePosP()         { return GRSIM() ? 1.0 : 2.8; };
+    static double standardNumTreePosP()         { return GRSIM() ? 1.65 : 2.8; };
     static double standardNumTreePosI()         { return GRSIM() ? 0.0 : 0.6; };
     static double standardNumTreePosD()         { return GRSIM() ? 0.0 : 2.3; };
-
-    static double standardNumTreeVelP()         { return GRSIM() ? 3.0 : 2.8; };
-    static double standardNumTreeVelI()         { return GRSIM() ? 0.2 : 0.6; };
-    static double standardNumTreeVelD()         { return GRSIM() ? 2.5 : 2.3; };
     
 private:
     static bool isInitialized;

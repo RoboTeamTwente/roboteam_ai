@@ -49,6 +49,7 @@ public:
     static robotPtr getRobotClosestToPoint(const Vector2& point, const int& myID, const float& t);
     static robotPtr getRobotClosestToPoint(const Vector2& point, const float& t);
     static robotPtr getRobotClosestToPoint(const Vector2& point, const int& myID);
+    static robotPtr getRobotClosestToPoint(const Vector2 &point, const bool ourTeam);
 
     static bool teamHasBall(bool ourTeam);
     static bool weHaveBall();
@@ -63,8 +64,8 @@ public:
     static std::vector<roboteam_msgs::WorldRobot> getAllRobots();
     static std::vector<roboteam_msgs::WorldRobot> getRobotsForId(std::set<unsigned int> ids, bool robotsAreOurTeam);
     static roboteam_msgs::World futureWorld(double time, double maxTimeOffset = 0.11);
-
     static std::pair<int, bool> getRobotClosestToBall();
+
     static std::shared_ptr<roboteam_msgs::WorldRobot> getRobotClosestToBall(bool isOurTeam);
 };
 
