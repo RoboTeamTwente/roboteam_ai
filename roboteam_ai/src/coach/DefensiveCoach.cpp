@@ -3,24 +3,23 @@
 //
 
 #include "DefensiveCoach.h"
-#include "Field.h"
-#include "../control/ControlUtils.h"
-#include "RobotDealer.h"
-#include "../interface/drawer.h"
+#include "roboteam_ai/src/utilities/Field.h"
+#include "roboteam_ai/src/control/ControlUtils.h"
+#include "roboteam_ai/src/utilities/RobotDealer.h"
+#include "roboteam_ai/src/interface/drawer.h"
 /// This is a class that returns the positions we want our defenders to be at for all defenders
 namespace rtt {
 namespace ai {
 namespace coach {
 using util = control::ControlUtils;
-// initializing static storage
-std::vector<int> DefensiveCoach::defenders;
-std::map<int, std::pair<Vector2, double>> DefensiveCoach::defenderLocations;
+
+DefensiveCoach g_defensiveCoach;
 
 DefensiveCoach::PossiblePass::PossiblePass(roboteam_msgs::WorldRobot _toBot, Vector2 ballPos)
         :
         toBot(_toBot),
         startPos(ballPos),
-        endPos(computeSimpleReceivePos(ballPos, _toBot.pos)) { };
+        endPos(g_defensiveCoach.computeSimpleReceivePos(ballPos, _toBot.pos)) { };
 
 double DefensiveCoach::PossiblePass::distance() {
     return (endPos - startPos).length();

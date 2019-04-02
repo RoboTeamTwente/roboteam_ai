@@ -3,4 +3,4 @@
 //
 
 #include <gtest/gtest.h>
-#include "roboteam_ai/src/utilities/DefensiveCoach.h"
+#include "roboteam_ai/src/coach/DefensiveCoach.h"

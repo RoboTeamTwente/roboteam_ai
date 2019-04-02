@@ -132,8 +132,8 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/ApplicationManager.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/ApplicationManager.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/DefensiveCoach.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/DefensiveCoach.h
+        roboteam_ai/src/coach/DefensiveCoach.cpp
+        roboteam_ai/src/coach/DefensiveCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Hungarian.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Hungarian.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Pause.cpp
