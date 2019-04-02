@@ -198,8 +198,8 @@ void RobotDealer::releaseRobotForRole(std::string roleName) {
         }
     }
     std::cerr << "Cannot release the robot it does not exist in the robotOwners" << std::endl;
-
 }
+
 void RobotDealer::removeTactic(std::string tacticName) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
@@ -368,12 +368,9 @@ std::string RobotDealer::getRoleNameForId(int ID) {
 
 }
 void RobotDealer::halt() {
-    BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
 
     robotOwners.clear();
-    std::cout << "setting the keeper" << std::endl;
-    // if the keeper changes we need to remake trees.
-    BTFactory::makeTrees();
+
 
     RobotDealer::updateFromWorld();
 
@@ -381,15 +378,16 @@ void RobotDealer::halt() {
         std::lock_guard<std::mutex> lock(robotOwnersLock);
         addRobotToOwnerList(keeperID, "Keeper", "Keeper");
     }
-    BTFactory::makeTrees();
-
 }
 
 /// set the keeper ID if its different than before
 void RobotDealer::setKeeperID(int ID) {
     if (ID != keeperID) {
         keeperID = ID;
-        halt();
+        BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
+        robotDealer::RobotDealer::halt();
+
+        BTFactory::makeTrees();
     }
 }
 int RobotDealer::getKeeperID() {

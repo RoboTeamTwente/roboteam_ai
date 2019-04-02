@@ -49,8 +49,6 @@ std::string BTFactory::getCurrentTree() {
 }
 
 void BTFactory::setCurrentTree(const std::string &newTree) {
-
-
     if (newTree != BTFactory::currentTree) {
 
         if (BTFactory::currentTree == "NaN") {
@@ -58,9 +56,7 @@ void BTFactory::setCurrentTree(const std::string &newTree) {
             return;
         }
         BTFactory::getTree(currentTree)->terminate(bt::Node::Status::Success);
-
         robotDealer::RobotDealer::halt();
-
         BTFactory::currentTree = newTree;
     }
 }
