@@ -368,7 +368,10 @@ std::string RobotDealer::getRoleNameForId(int ID) {
 }
 void RobotDealer::halt() {
     robotOwners.clear();
-    setKeeperID(0);
+
+    // we need to reclaim the keeper immediately.
+    setKeeperID(keeperID);
+
     RobotDealer::updateFromWorld();
 }
 void RobotDealer::setKeeperID(int ID) {

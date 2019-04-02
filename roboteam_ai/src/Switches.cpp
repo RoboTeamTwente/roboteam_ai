@@ -296,8 +296,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                  {"avoid2", robotType::RANDOM},
                  {"avoid3", robotType::RANDOM},
                  {"avoid4", robotType::RANDOM},
-                 {"avoid5", robotType::RANDOM},
-                 {"avoid6", robotType::RANDOM}
+                 {"avoid5", robotType::RANDOM}
             }
             },
             {"SingleKeeperTactic", {
