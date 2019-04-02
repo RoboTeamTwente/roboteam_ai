@@ -131,12 +131,13 @@ MainWindow::MainWindow(QWidget* parent)
 
     select_goalie = new QComboBox();
     keeperVLayout->addWidget(select_goalie);
-//    QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
-//                     [=](const QString &goalieId) {
-//                         // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-//                         BTFactory::setKeeper(goalieId.toInt());
-//                       //  BTFactory::makeTrees();
-//                     });
+    QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+                     [=](const QString &goalieId) {
+                         // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+                         BTFactory::makeTrees();
+                         robotDealer::RobotDealer::setKeeperID(goalieId.toInt());
+
+                     });
 
     keeperVLayout->addWidget(select_goalie);
     keeperVLayout->addWidget(keeperTreeWidget);
@@ -239,7 +240,6 @@ void MainWindow::updatePause() {
         haltBtn->setText("Pause");
         haltBtn->setStyleSheet("background-color: #cc0000;");
     }
-
 }
 
 void MainWindow::updateRobotsWidget() {
@@ -263,6 +263,7 @@ void MainWindow::setSelectStrategyText(QString text) {
 }
 void MainWindow::refreshSignal() {
     BTFactory::makeTrees();
+    keeperTreeWidget->setHasCorrectTree(false);
     treeWidget->setHasCorrectTree(false);
 }
 
