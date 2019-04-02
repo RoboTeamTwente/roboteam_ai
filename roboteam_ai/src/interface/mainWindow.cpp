@@ -96,7 +96,10 @@ MainWindow::MainWindow(QWidget* parent)
               // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
               BTFactory::makeTrees();
               BTFactory::setCurrentTree(strategyName.toStdString());
+
+              // the pointers of the trees have changed so the widgets should be notified about this
               treeWidget->setHasCorrectTree(false);
+              keeperTreeWidget->setHasCorrectTree(false);
             });
 
     auto pidWidget = new QWidget;
@@ -135,6 +138,7 @@ MainWindow::MainWindow(QWidget* parent)
                      [=](const QString &goalieId) {
                          // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
                          robotDealer::RobotDealer::setKeeperID(goalieId.toInt());
+                         keeperTreeWidget->setHasCorrectTree(false);
 
                      });
 
@@ -261,6 +265,8 @@ void MainWindow::setSelectStrategyText(QString text) {
     select_strategy->setCurrentText(text);
 }
 void MainWindow::refreshSignal() {
+    robotDealer::RobotDealer::halt();
+
     BTFactory::makeTrees();
     keeperTreeWidget->setHasCorrectTree(false);
     treeWidget->setHasCorrectTree(false);
