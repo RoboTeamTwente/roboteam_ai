@@ -2,8 +2,8 @@
 // Created by thijs on 19-3-19.
 //
 
-#ifndef ROBOTEAM_AI_LASTWORLD_H
-#define ROBOTEAM_AI_LASTWORLD_H
+#ifndef ROBOTEAM_AI_HISTORY_H
+#define ROBOTEAM_AI_HISTORY_H
 
 #include "WorldData.h"
 
@@ -12,8 +12,7 @@ namespace ai {
 namespace world {
 
 
-
-class LastWorld {
+class History {
     private:
         using WorldDataPtr = std::shared_ptr<WorldData>;
 
@@ -24,11 +23,8 @@ class LastWorld {
         const WorldData &getPreviousWorld(unsigned int worldsBack = 1);
 };
 
-extern LastWorld lastWorldObj;
-extern LastWorld* lastWorld;
-
 }
 }
 }
 
-#endif //ROBOTEAM_AI_LASTWORLD_H
+#endif //ROBOTEAM_AI_HISTORY_H

@@ -3,7 +3,7 @@
 //
 
 #include "World.h"
-#include "ProcessedWorld.h"
+#include "FutureWorld.h"
 
 namespace rtt {
 namespace ai {
@@ -13,11 +13,25 @@ namespace world {
 World worldObj;
 World* world = &worldObj;
 
-void World::updateWorld(const roboteam_msgs::World &worldMsg) {
-    setWorld(worldMsg);
+void World::updateWorld(const roboteam_msgs::World &message) {
+    WorldData wd = WorldData(message);
+
+    for (auto &robot : wd.us) {
+        robot.updateRobot(wd.ball);
+    }
+
+    for (auto &robot : wd.them) {
+        robot.updateRobot(wd.ball);
+    }
+
+    Ball oldBall = worldData->ball;
+    wd.ball.updateBallModel(oldBall, wd);
+
+    history.addWorld(wd);
+    worldData = std::make_shared<WorldData>(wd);
 }
 
-roboteam_msgs::WorldRobot World::makeWorldRobotMsg(Robot robot) {
+roboteam_msgs::WorldRobot World::makeWorldRobotMsg(const Robot& robot) {
     roboteam_msgs::WorldRobot robotMsg;
     robotMsg.angle = static_cast<float>(robot.angle);
     robotMsg.w = static_cast<float>(robot.angularVelocity);
@@ -27,7 +41,7 @@ roboteam_msgs::WorldRobot World::makeWorldRobotMsg(Robot robot) {
     return robotMsg;
 }
 
-roboteam_msgs::WorldBall World::makeWorldBallMsg(Ball ball) {
+roboteam_msgs::WorldBall World::makeWorldBallMsg(const Ball& ball) {
     roboteam_msgs::WorldBall ballMsg;
     ballMsg.existence = static_cast<unsigned int>(ball.exists);
     ballMsg.visible = static_cast<unsigned char>(ball.visible);
@@ -36,19 +50,19 @@ roboteam_msgs::WorldBall World::makeWorldBallMsg(Ball ball) {
     return ballMsg;
 }
 
-roboteam_msgs::World World::makeWorldMsg(WorldDataPtr worldData) {
-    roboteam_msgs::World worldMsg;
+roboteam_msgs::World World::makeWorldMsg() {
+    roboteam_msgs::World message;
     for (auto &robot : worldData->us) {
         auto robotMsg = makeWorldRobotMsg(robot);
-        worldMsg.us.push_back(robotMsg);
+        message.us.push_back(robotMsg);
     }
     for (auto &robot : worldData->them) {
         auto robotMsg = makeWorldRobotMsg(robot);
-        worldMsg.them.push_back(robotMsg);
+        message.them.push_back(robotMsg);
     }
-    worldMsg.ball = makeWorldBallMsg(worldData->ball);
-    worldMsg.time = worldData->time;
-    return worldMsg;
+    message.ball = makeWorldBallMsg(worldData->ball);
+    message.time = worldData->time;
+    return message;
 }
 
 bool World::weHaveRobots() {
@@ -57,28 +71,23 @@ bool World::weHaveRobots() {
     return worldData == nullptr ? false : !worldData->us.empty();
 }
 
-void World::setWorld(const roboteam_msgs::World &worldMsg) {
+void World::setWorld(const roboteam_msgs::World &message) {
     std::lock_guard<std::mutex> lockMsg(worldMsgMutex);
     std::lock_guard<std::mutex> lockyLock(worldMutex);
 
-    World::worldMsg = worldMsg;
-    World::worldData = std::make_shared<WorldData>(WorldData(worldMsg));
+    World::worldMsg = message;
+    World::worldData = std::make_shared<WorldData>(WorldData(message));
 
 }
 
-void World::setBall(const Ball &ball) {
-    std::lock_guard<std::mutex> lock(worldMutex);
-
-    World::worldData->ball = ball;
-}
-
-void World::setWorldData(WorldDataPtr &worldData) {
+void World::setWorldData(WorldDataPtr &worldDataPtr) {
     std::lock_guard<std::mutex> lockMsg(worldMsgMutex);
     std::lock_guard<std::mutex> lockyLock(worldMutex);
 
-    World::worldMsg = makeWorldMsg(worldData);
     World::worldData.reset();
-    World::worldData = worldData;
+    World::worldData = worldDataPtr;
+
+    World::worldMsg = makeWorldMsg();
 }
 
 const roboteam_msgs::World &World::getWorldMsg() {
@@ -97,16 +106,16 @@ const WorldData World::getWorld() {
     WorldData worldCopy;
     {
         std::lock_guard<std::mutex> lock(worldMutex);
-        worldCopy = *worldData.get();
+        worldCopy = *worldData;
     }
     return worldCopy;
 }
 
-std::shared_ptr<Ball> World::getBall() {
+const World::BallPtr World::getBall() {
     Ball ballCopy;
     {
         std::lock_guard<std::mutex> lock(worldMutex);
-        ballCopy = worldData.get()->ball;
+        ballCopy = worldData->ball;
     }
     if (ballCopy.exists != 0)
         return std::make_shared<Ball>(ballCopy);
@@ -115,7 +124,7 @@ std::shared_ptr<Ball> World::getBall() {
 
 }
 
-std::shared_ptr<Robot> World::getRobotForId(int id, bool ourTeam) {
+const World::RobotPtr World::getRobotForId(int id, bool ourTeam) {
     WorldDataPtr worldCopy;
     {
         std::lock_guard<std::mutex> lock(worldMutex);
@@ -131,7 +140,7 @@ std::shared_ptr<Robot> World::getRobotForId(int id, bool ourTeam) {
     return RobotPtr(nullptr);
 }
 
-std::vector<std::shared_ptr<Robot>> World::getAllRobots() {
+const std::vector<World::RobotPtr> World::getAllRobots() {
     WorldDataPtr worldCopy;
     {
         std::lock_guard<std::mutex> lock(worldMutex);
@@ -146,7 +155,21 @@ std::vector<std::shared_ptr<Robot>> World::getAllRobots() {
     return allRobots;
 }
 
-World::RobotPtr World::getRobotClosestToPoint(const Vector2 &point, WhichRobots whichRobots) {
+const World::RobotPtr World::getRobotClosestToPoint(const Vector2 &point, std::vector<Robot> robots) {
+
+    if (robots.empty())
+        return RobotPtr(nullptr);
+
+    Robot* closestRobot = &robots[0];
+    for (auto &robot : robots) {
+        if ((robot.pos - point).length() < (closestRobot->pos - point).length()) {
+            closestRobot = &robot;
+        }
+    }
+    return std::make_shared<Robot>(*closestRobot);
+}
+
+const World::RobotPtr World::getRobotClosestToPoint(const Vector2 &point, WhichRobots whichRobots) {
     std::vector<Robot> robotsCopy;
     {
         std::lock_guard<std::mutex> lock(worldMutex);
@@ -166,31 +189,14 @@ World::RobotPtr World::getRobotClosestToPoint(const Vector2 &point, WhichRobots 
         }
     }
 
-    return processedWorld->getRobotClosestToPoint(point, robotsCopy);
+    getRobotClosestToPoint(point, robotsCopy);
 }
 
-World::RobotPtr World::getRobotClosestToRobot(int id, bool ourTeam, WhichRobots whichRobots) {
-    std::vector<Robot> robotsCopy;
-    Vector2 robotPos = Vector2();
-    {
-        std::lock_guard<std::mutex> lock(worldMutex);
-
-        robotsCopy = ourTeam ? worldData->us : worldData->them;
-        for (auto it = robotsCopy.begin(); it != robotsCopy.end(); it++) {
-            if (it->id == id) {
-                robotPos = it->pos;
-                robotsCopy.erase(it);
-            }
-        }
-        robotsCopy.insert(robotsCopy.end(),
-                ourTeam ? worldData->them.begin() : worldData->us.begin(),
-                ourTeam ? worldData->them.end() : worldData->us.end());
-    }
-
-    return processedWorld->getRobotClosestToPoint(robotPos, robotsCopy);
+const World::RobotPtr World::getRobotClosestToRobot(const RobotPtr &robot, WhichRobots whichRobots) {
+    return getRobotClosestToPoint(robot->pos, whichRobots);
 }
 
-World::RobotPtr World::getRobotClosestToBall(WhichRobots whichRobots) {
+const World::RobotPtr World::getRobotClosestToBall(WhichRobots whichRobots) {
     Vector2 ballPos;
     {
         std::lock_guard<std::mutex> lock(worldMutex);
@@ -205,39 +211,64 @@ bool World::robotHasBall(int id, bool ourTeam, double maxDist) {
 }
 
 bool World::ourRobotHasBall(int id, double maxDist) {
-    //TODO:
-    return false;
+    auto robot = getRobotForId(id, true);
+    return robot->hasBall(maxDist);
 }
 
 bool World::theirRobotHasBall(int id, double maxDist) {
-    //TODO:
-    return false;
+    auto robot = getRobotForId(id, false);
+    return robot->hasBall(maxDist);
 }
 
-std::pair<WhichRobots, World::RobotPtr> World::whichRobotHasBall() {
-    //TODO:
-    Robot robot = Robot();
-    return {ALL_ROBOTS, std::make_shared<Robot>(robot)};
+const World::RobotPtr World::whichRobotHasBall() {
+    WorldDataPtr worldCopy;
+    {
+        std::lock_guard<std::mutex> lock(worldMutex);
+        worldCopy = worldData;
+    }
+
+    for (auto robot : worldCopy->us) {
+        if (robot.hasBall()) std::make_shared<Robot>(robot);
+    }
+    for (auto robot : worldCopy->us) {
+        if (robot.hasBall()) std::make_shared<Robot>(robot);
+    }
+    return RobotPtr(nullptr);
 }
 
 const WorldData World::getFutureWorld(double time) {
     WorldData worldCopy;
     {
         std::lock_guard<std::mutex> lock(worldMutex);
-        worldCopy = *worldData.get();
+        worldCopy = *worldData;
+
     }
 
-    processedWorld->updateFutureWorld(worldCopy, time);
+    futureWorld.updateFutureWorld(worldCopy, time);
     return worldCopy;
 }
 
+const World::RobotPtr World::getFutureRobot(int id, bool ourTeam, double time) {
+    RobotPtr robotCopy = getRobotForId(id, ourTeam);
+    if (!robotCopy) {
+        return RobotPtr(nullptr);
+    }
 
+    Robot robot = *robotCopy;
+    futureWorld.updateFutureRobot(robot, time);
+    return std::make_shared<Robot>(robot);
+}
 
+const World::BallPtr World::getFutureBall(double time) {
+    Ball ballCopy;
+    {
+        std::lock_guard<std::mutex> lock(worldMutex);
+        ballCopy = worldData->ball;
+    }
+    futureWorld.updateFutureBall(ballCopy, time);
+    return std::make_shared<Ball>(ballCopy);
+}
 
-//ProcessedWorld* World::getProcessedWorld() {
-//    return processedWorld;
-//}
-//h
 
 } //world
 } //ai

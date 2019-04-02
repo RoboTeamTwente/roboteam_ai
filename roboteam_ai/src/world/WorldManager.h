@@ -10,7 +10,7 @@
 #include "ros/ros.h"
 #include "World.h"
 #include "Field.h"
-#include "ProcessedWorld.h"
+#include "FutureWorld.h"
 #include "WorldData.h"
 
 namespace rtt {

@@ -2,13 +2,12 @@
 // Created by mrlukasbos on 11-1-19.
 //
 
-
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/bt/tactics/DefaultTactic.h>
 #include <roboteam_ai/src/Switches.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include <roboteam_ai/src/world/World.h>
-#include "../../src/utilities/RobotDealer.h"
+#include <roboteam_ai/src/utilities/RobotDealer.h>
 
 namespace w = rtt::ai::world;
 namespace rd = rtt::ai::robotDealer;

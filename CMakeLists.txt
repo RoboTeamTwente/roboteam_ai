@@ -275,7 +275,6 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/RobotDealerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/HungarianTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/InterfaceTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/VisualizerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/MainWindowTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/TreeVisualizerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/ControlUtilsTest.cpp
@@ -307,17 +306,22 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.h)
 
 set(WORLD_SOURCES
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldData.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/Robot.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/Robot.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/Ball.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/Ball.h
+
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/World.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/World.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/Field.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/Field.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldData.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldManager.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldManager.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/LastWorld.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/LastWorld.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/ProcessedWorld.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/ProcessedWorld.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/History.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/History.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/FutureWorld.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/FutureWorld.h)
 
 set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/CoachHeuristics.h

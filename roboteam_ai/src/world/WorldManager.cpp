@@ -63,14 +63,7 @@ void WorldManager::updateReferee() {
 }
 
 void WorldManager::updateWorld() {
-
-    world->setWorld(worldMsg);
-
-    auto worldData = world->getWorld();
-    lastWorld->addWorld(worldData);
-    processedWorld->update(worldData);
-
-    updateGameAnalyzer(worldData);
+    world->updateWorld(worldMsg);
 }
 
 void WorldManager::updateGeometry() {
