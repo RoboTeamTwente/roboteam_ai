@@ -10,7 +10,6 @@
 TEST(BallTest, IHaveBallTest) {
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
-    rtt::ai::world::world->updateWorld(worldMsg);
 
     rtt::ai::robotDealer::robotDealer->halt();
     auto BB = std::make_shared<bt::Blackboard>();
@@ -18,7 +17,6 @@ TEST(BallTest, IHaveBallTest) {
     BB->setString("ROLE","test");
     BB->setBool("our_team", false);
     rtt::ai::HasBall node("Test", BB);
-
     EXPECT_EQ(node.node_name(), "HasBall");
 
     //First test should fail as the robot is not set in the world state yet.
@@ -31,15 +29,19 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.pos.x = 0.1;
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.existence = 99999;
+    worldMsg.ball.existence = 1;
+
     rtt::ai::world::world->updateWorld(worldMsg);
+
     rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::random,"IHaveBallTestTactic","test");
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.ball.pos.x = 0.0;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.existence = 99999;
+    worldMsg.ball.existence = 1;
+
     rtt::ai::world::world->updateWorld(worldMsg);
+
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     //Test if angle checking works
@@ -47,7 +49,9 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.pos.y = 0.1;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
+
     rtt::ai::world::world->updateWorld(worldMsg);
+
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = 0;

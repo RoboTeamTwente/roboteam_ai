@@ -14,28 +14,29 @@ World worldObj;
 World* world = &worldObj;
 
 void World::updateWorld(const roboteam_msgs::World &message) {
-    worldData = WorldData(message);
+    WorldData newWorldData = WorldData(message);
     Ball oldBall;
     {
         std::lock_guard<std::mutex> lock(worldMutex);
 
         if (! worldDataPtr) {
-            worldDataPtr = std::make_shared<WorldData>(worldData);
+            worldDataPtr = std::make_shared<WorldData>(newWorldData);
         }
         oldBall = worldDataPtr->ball;
     }
-    worldData.ball.updateBall(oldBall, worldData);
-    for (auto &robot : worldData.us) {
-        robot.updateRobot(worldData.ball);
+    newWorldData.ball.updateBall(oldBall, newWorldData);
+    for (auto &robot : newWorldData.us) {
+        robot.updateRobot(newWorldData.ball);
     }
-    for (auto &robot : worldData.them) {
-        robot.updateRobot(worldData.ball);
+    for (auto &robot : newWorldData.them) {
+        robot.updateRobot(newWorldData.ball);
     }
     {
         std::lock_guard<std::mutex> lock(worldMutex);
 
-        history.addWorld(worldData);
-        worldDataPtr = std::make_shared<WorldData>(worldData);
+        World::history.addWorld(newWorldData);
+        World::worldData = newWorldData;
+        World::worldDataPtr = std::make_shared<WorldData>(World::worldData);
     }
 }
 
@@ -125,9 +126,10 @@ const World::BallPtr World::getBall() {
         std::lock_guard<std::mutex> lock(worldMutex);
         ballCopy = worldDataPtr->ball;
     }
-    if (ballCopy.exists != 0)
+    if (ballCopy.exists)
         return std::make_shared<Ball>(ballCopy);
 
+    std::cerr << "BALL DOES NOT EXIST!!! (exists == 0 ??? )" << std::endl;
     return BallPtr(nullptr);
 
 }

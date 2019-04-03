@@ -31,7 +31,7 @@ class Ball {
         void updateDribbling(const Ball &oldBall, const WorldData &worldData);
         Robot* getDribblingRobot(const std::vector<Robot> &robots, double maxDribbleRange);
         void updateBallModel(const Ball &oldBall, const WorldData &worldData);
-        void updateBallPosition(const Ball &oldBall);
+        void updateBallPosition(const Ball &oldBall, const WorldData &worldData);
 
     public:
         Ball() = default;

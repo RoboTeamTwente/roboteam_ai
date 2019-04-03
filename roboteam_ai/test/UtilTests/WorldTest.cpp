@@ -146,10 +146,13 @@ TEST(WorldTest, ball_visibility) {
     ball1.pos.x = 0.15;
     ball1.pos.y = 0;
     ball1.visible = true;
+    ball1.existence = true;
     worldMsg.us.push_back(robot0);
     worldMsg.us.push_back(robot3);
     worldMsg.ball = ball1;
+
     w::world->updateWorld(worldMsg);
+
     EXPECT_TRUE(w::world->ourRobotHasBall(0));
     EXPECT_TRUE(w::world->ourRobotHasBall(3));
 
@@ -166,7 +169,9 @@ TEST(WorldTest, ball_visibility) {
     EXPECT_FALSE(w::world->ourRobotHasBall(0));
 
     worldMsg.ball.visible = true;
+
     w::world->updateWorld(worldMsg);
+
     EXPECT_FALSE(w::world->ourRobotHasBall(3));
     EXPECT_FALSE(w::world->ourRobotHasBall(0));
 }

@@ -19,7 +19,7 @@ Ball::Ball(const roboteam_msgs::WorldBall &copy)
 
 void Ball::updateBall(const Ball &oldBall, const WorldData &worldData) {
     updateBallModel(oldBall, worldData);
-    updateBallPosition(oldBall);
+    updateBallPosition(oldBall, worldData);
 }
 
 void Ball::updateBallModel(const Ball &oldBall, const WorldData &worldData) {
@@ -136,14 +136,25 @@ Robot* Ball::getDribblingRobot(const std::vector<Robot> &robots, double maxDribb
     return dribblingRobot;
 }
 
-void Ball::updateBallPosition(const Ball &oldBall) {
+void Ball::updateBallPosition(const Ball &oldBall, const WorldData &worldData) {
     if (visible) {
         return;
     }
     RobotPtr robotWithBall = world->whichRobotHasBall();
     if (robotWithBall) {
-        double distanceInFrontOfRobot = Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS();
-        pos = robotWithBall->pos + robotWithBall->angle.toVector2(distanceInFrontOfRobot);
+        std::pair<int, Robot::Team> newRobotIdTeam = {robotWithBall->id, robotWithBall->team};
+        Robot newRobotWithBall;
+        bool newRobotStillExistsInWorld = false;
+        for (auto &robot : worldData.us) {
+            if (robot.id == newRobotIdTeam.first && robot.team == newRobotIdTeam.second) {
+                newRobotWithBall = robot;
+                newRobotStillExistsInWorld = true;
+            }
+        }
+        if (newRobotStillExistsInWorld) {
+            double distanceInFrontOfRobot = Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS();
+            pos = newRobotWithBall.pos + newRobotWithBall.angle.toVector2(distanceInFrontOfRobot);
+        }
     }
 }
 
