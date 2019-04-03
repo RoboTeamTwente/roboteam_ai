@@ -59,6 +59,7 @@
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
 #include <roboteam_ai/src/skills/EnterFormation.h>
 #include <roboteam_ai/src/skills/AvoidBall.h>
+#include <roboteam_ai/src/skills/Stop.h>
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
 #include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"
