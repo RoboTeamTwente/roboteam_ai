@@ -322,7 +322,7 @@ bool NumTreePosControl::checkCollision(std::shared_ptr<PathPoint> point, double 
     }
     if (stop) {
         Vector2 ballPos = (Vector2) (world.ball.pos) + (Vector2) (world.ball.vel)*point->t;
-        if (point->isCollision(ballPos, collisionRadius*0.5 + Constants::BALL_RADIUS() + 0.55))
+        if (point->isCollision(ballPos, collisionRadius*0.5 + Constants::BALL_RADIUS() + 0.65))
             return true;
     }
     if (!canMoveOutOfField) {
