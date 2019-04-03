@@ -10,12 +10,12 @@ namespace ai {
 std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> SideAttacker::robotsPositioning = {};
 
 SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) {
+    :Skill(std::move(name), std::move(blackboard)) {
 }
 
 void SideAttacker::onInitialize() {
-    for (unsigned int long i = 0; i < robotsPositioning.size(); i++) {
-        if (robotsPositioning.at(i)->id == robot->id) {
+    for (auto & i : robotsPositioning) {
+        if (i->id == robot->id) {
             return;
         }
     } // TODO use std::find here, love best teammate ever
@@ -46,7 +46,8 @@ bt::Node::Status SideAttacker::onUpdate() {
             break;
         }
         case OPTIMIZING: {
-            targetPos = coach::g_offensiveCoach.calculatePositionForRobot(robot);
+            //targetPos = coach::g_offensiveCoach.calculatePositionForRobot(robot);
+            break;
         }
     }
 

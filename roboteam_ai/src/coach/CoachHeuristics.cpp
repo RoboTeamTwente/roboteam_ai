@@ -82,8 +82,15 @@ double CoachHeuristics::calculatePositionScore(const Vector2& position) {
     double behindBallScore = position.x < world.ball.pos.x ? 0.7 : 1.0;
     double distanceFromCornerScore = calculateDistanceFromCornerScore(position, field);
 
-    double score = 2 * closeToGoalScore + 2 * shotAtGoalScore + 3 * passLineScore + closestOpponentScore
-                   + distanceFromBallScore + behindBallScore + distanceFromCornerScore;
+    double score =
+            //closeToGoalScore
+            + 2 * shotAtGoalScore
+            // + 3 * passLineScore
+            + closestOpponentScore
+            // + distanceFromBallScore
+            // + behindBallScore
+            // + distanceFromCornerScore
+            ;
 
     return score;
 }

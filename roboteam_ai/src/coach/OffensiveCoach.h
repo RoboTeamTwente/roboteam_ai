@@ -25,14 +25,11 @@ public:
     const double FURTHER_FROM_GOAL_DISTANCE = 2 * CLOSE_TO_GOAL_DISTANCE;
 
     struct OffensivePosition {
-    Vector2 position;
-    double score;
+        Vector2 position;
+        double score;
     };
 
-    explicit OffensiveCoach();
-
     bool defaultLocationsInitialized;
-    void initializeDefaultPositions();
 
     void calculateNewPositions();
     OffensivePosition calculateNewRobotPosition(int robotID, const OffensivePosition& currentPosition);

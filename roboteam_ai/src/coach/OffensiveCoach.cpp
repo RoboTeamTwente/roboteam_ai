@@ -12,9 +12,6 @@ namespace coach {
 
 OffensiveCoach g_offensiveCoach;
 
-OffensiveCoach::OffensiveCoach() {
-}
-
 /// Recalculate the score of each offensive position, and remove it if it is too close to any of the robotPositions
 void OffensiveCoach::recalculateOffensivePositions() {
     auto it = offensivePositions.begin();
