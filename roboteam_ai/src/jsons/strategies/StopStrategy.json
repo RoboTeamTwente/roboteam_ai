@@ -1,0 +1,18 @@
+{
+  "name": "StopStrategy",
+  "data": {
+    "trees": [
+      {
+        "title": "StopStrategy",
+        "root": "4l64297qku4uz",
+        "nodes": {
+          "4l64297qku4uz": {
+            "id": "4l64297qku4uz",
+            "title": "Tactic",
+            "name": "StopTactic"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -32,9 +32,7 @@ Skill::Status Stop::onUpdate() {
         // TODO go to fixed positions hungarian
     }
 
-
-
-
+    return Status::Running;
 
 
 }
