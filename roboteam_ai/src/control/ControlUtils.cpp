@@ -320,7 +320,7 @@ std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFrom
     return solutionPairs;
 }
 
-bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, Vector2 point, double maxDifference) {
+bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, const Vector2& point, double maxDifference) {
     auto robot = World::getRobotForId(id, ourTeam);
     if (robot) {
         double exactAngleTowardsPoint = (point - robot->pos).angle();

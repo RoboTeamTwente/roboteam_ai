@@ -43,7 +43,7 @@ class ControlUtils {
         static rtt::Arc createKeeperArc();
         static Vector2 velocityLimiter(Vector2 vel, double maxVel = rtt::ai::Constants::MAX_VEL());
         static Vector2 velocityLimiter(Vector2 vel, double maxVel, double minVel);
-        static bool robotIsAimedAtPoint(int id, bool ourTeam, Vector2 point, double maxDifference = 0.3);
+        static bool robotIsAimedAtPoint(int id, bool ourTeam, const Vector2& point, double maxDifference = 0.3);
         static std::vector<std::pair<Vector2, Vector2>> calculateClosestPathsFromTwoSetsOfPoints(std::vector<Vector2> set1, std::vector<Vector2> set2);
 };
 

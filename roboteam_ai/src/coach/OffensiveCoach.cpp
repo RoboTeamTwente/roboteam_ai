@@ -123,7 +123,6 @@ Vector2 OffensiveCoach::calculatePositionForRobot(std::shared_ptr<roboteam_msgs:
     }
 
     currentPosition.score = CoachHeuristics::calculatePositionScore(currentPosition.position);
-    newRobotPosition = calculateNewRobotPosition(robot->id, currentPosition);
     robotPositions[robot->id] = newRobotPosition;
 
     return newRobotPosition.position;
@@ -164,29 +163,36 @@ Vector2 OffensiveCoach::getPositionForRobotID(int robotID) {
 }
 
 /// Calculate new positions close to the robot
-OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(int robotID, const OffensivePosition& currentPosition) {
+OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(const OffensivePosition& currentPosition, const Vector2& defaultPosition) {
 
     OffensivePosition bestPosition = currentPosition;
-    if (currentPosition.position.x < 0) {
-        bestPosition.score = -INT_MAX;
-    }
 
     for (int xDiff = -GRID_SIZE; xDiff <= GRID_SIZE; xDiff++) {
         if (currentPosition.position.x < 0 && xDiff <= 0) continue;
 
         for (int yDiff = -GRID_SIZE; yDiff <= GRID_SIZE; yDiff++) {
             OffensivePosition newPosition;
-            newPosition.position.x = currentPosition.position.x + SEARCH_GRID_ROBOT_POSITIONS * xDiff * pow(xDiff, 1.5);
-            newPosition.position.y = currentPosition.position.y + SEARCH_GRID_ROBOT_POSITIONS * yDiff * pow(yDiff, 1.5);
+            newPosition.position.x = currentPosition.position.x + SEARCH_GRID_ROBOT_POSITIONS * xDiff;
+            newPosition.position.y = currentPosition.position.y + SEARCH_GRID_ROBOT_POSITIONS * yDiff;
 
             if (!Field::pointIsInField(newPosition.position, 0.10)
             || Field::pointIsInDefenceArea(newPosition.position, false)
-            || newPosition.position.x < 0) {
+            || (newPosition.position - defaultPosition).length() > ZONE_RADIUS) {
                 continue;
             }
 
+            bool outsideOfZone = false;
+            for (auto& otherDefaultPosition : getDefaultLocations()) {
+                if (otherDefaultPosition != defaultPosition) {
+                    if ((otherDefaultPosition - newPosition.position).length() < (defaultPosition - newPosition.position).length()) {
+                        outsideOfZone = true;
+                        break;
+                    }
+                }
+            }
+            if (outsideOfZone) continue;
+
             newPosition.score = CoachHeuristics::calculatePositionScore(newPosition.position);
-            newPosition.score = correctScoreForClosestRobot(newPosition, robotID);
             if (newPosition.score > bestPosition.score) {
                 bestPosition = newPosition;
             }
@@ -265,32 +271,52 @@ double OffensiveCoach::correctScoreForClosestRobot(const OffensiveCoach::Offensi
     }
 }
 
-std::vector<Vector2> OffensiveCoach::getDefaultLocations(int numberOfRobots) {
+std::vector<Vector2> OffensiveCoach::getDefaultLocations() {
     roboteam_msgs::GeometryFieldSize field = Field::get_field();
     Vector2 penaltyStretchCorner = field.right_penalty_line.begin;
     penaltyStretchCorner.x = abs(penaltyStretchCorner.x);
     penaltyStretchCorner.y = abs(penaltyStretchCorner.y);
 
-    int counter = 0;
     std::vector<Vector2> defaultPositions;
 
-    while (counter < numberOfRobots) {
-        // Calculate two positions close to goal
-        defaultPositions.emplace_back(penaltyStretchCorner.x - CLOSE_TO_GOAL_DISTANCE, penaltyStretchCorner.y + CLOSE_TO_GOAL_DISTANCE);
-        counter ++;
+    // Calculate two positions close to goal
+    defaultPositions.emplace_back(penaltyStretchCorner.x - CLOSE_TO_GOAL_DISTANCE, penaltyStretchCorner.y + CLOSE_TO_GOAL_DISTANCE);
+    defaultPositions.emplace_back(penaltyStretchCorner.x - CLOSE_TO_GOAL_DISTANCE, -penaltyStretchCorner.y - CLOSE_TO_GOAL_DISTANCE);
 
-        defaultPositions.emplace_back(penaltyStretchCorner.x - CLOSE_TO_GOAL_DISTANCE, -penaltyStretchCorner.y - CLOSE_TO_GOAL_DISTANCE);
-        counter++;
-
-        // Calculate two positions further from goal
-        defaultPositions.emplace_back(penaltyStretchCorner.x - FURTHER_FROM_GOAL_DISTANCE, penaltyStretchCorner.y);
-        counter++;
-
-        defaultPositions.emplace_back(penaltyStretchCorner.x - FURTHER_FROM_GOAL_DISTANCE, -penaltyStretchCorner.y);
-        counter++;
-    }
+    // Calculate two positions further from goal
+    defaultPositions.emplace_back(penaltyStretchCorner.x - FURTHER_FROM_GOAL_DISTANCE, penaltyStretchCorner.y);
+    defaultPositions.emplace_back(penaltyStretchCorner.x - FURTHER_FROM_GOAL_DISTANCE, -penaltyStretchCorner.y);
 
     return defaultPositions;
+}
+
+std::vector<Vector2> OffensiveCoach::getNewOffensivePositions() {
+    std::vector<Vector2> defaultLocations = getDefaultLocations();
+    if (offensivePositions.size() != defaultLocations.size()) {
+        offensivePositions = {};
+        for (auto& defaultLocation : defaultLocations) {
+            OffensivePosition offensivePosition;
+            offensivePosition.position = defaultLocation;
+            offensivePosition.score = CoachHeuristics::calculatePositionScore(defaultLocation);
+            offensivePositions.emplace_back(offensivePosition);
+        }
+    } else {
+        for (int i = 0; i < offensivePositions.size(); i++) {
+            OffensivePosition offensivePosition = offensivePositions[i];
+            Vector2 defaultPosition = defaultLocations[i];
+            offensivePositions[i] = calculateNewRobotPosition(offensivePosition, defaultPosition);
+        }
+    }
+
+    return getOffensivePositionVectors();
+}
+
+std::vector<Vector2> OffensiveCoach::getOffensivePositionVectors() {
+    std::vector<Vector2> positionVectors;
+    for (auto& offensivePosition : offensivePositions) {
+        positionVectors.emplace_back(offensivePosition.position);
+    }
+    return positionVectors;
 }
 
 }

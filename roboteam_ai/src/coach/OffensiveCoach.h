@@ -23,6 +23,7 @@ public:
     const int GRID_SIZE = 9;
     const double CLOSE_TO_GOAL_DISTANCE = 0.95;
     const double FURTHER_FROM_GOAL_DISTANCE = 2 * CLOSE_TO_GOAL_DISTANCE;
+    const double ZONE_RADIUS = 0.8;
 
     struct OffensivePosition {
         Vector2 position;
@@ -32,16 +33,18 @@ public:
     bool defaultLocationsInitialized;
 
     void calculateNewPositions();
-    OffensivePosition calculateNewRobotPosition(int robotID, const OffensivePosition& currentPosition);
+    OffensivePosition calculateNewRobotPosition(const OffensivePosition& currentPosition, const Vector2& defaultPosition);
     Vector2 calculatePositionForRobot(std::shared_ptr<roboteam_msgs::WorldRobot> robot);
     void releaseRobot(int robotID);
     Vector2 getPositionForRobotID(int robotID);
     std::vector<OffensivePosition> getRobotPositionVectors();
+    std::vector<Vector2> getOffensivePositionVectors();
     int getBestStrikerID();
     const vector<OffensivePosition> &getOffensivePositions();
     const map<int, OffensivePosition> &getRobotPositions();
 
-    std::vector<Vector2> getDefaultLocations(int numberOfRobots);
+    std::vector<Vector2> getDefaultLocations();
+    std::vector<Vector2> getNewOffensivePositions();
 
 private:
     double marginFromLines = 0.2;

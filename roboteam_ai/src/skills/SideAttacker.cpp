@@ -65,7 +65,7 @@ bt::Node::Status SideAttacker::onUpdate() {
 Vector2 SideAttacker::getDefaultLocation() {
     auto field = Field::get_field();
 
-    std::vector<Vector2> targetLocations = coach::g_offensiveCoach.getDefaultLocations(robotsPositioning.size());
+    std::vector<Vector2> targetLocations = coach::g_offensiveCoach.getNewOffensivePositions();
     std::vector<Vector2> robotLocations;
 
     for (auto & i : robotsPositioning) {
