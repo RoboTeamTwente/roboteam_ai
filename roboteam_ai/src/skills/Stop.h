@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_STOP_H
 #define ROBOTEAM_AI_STOP_H
 
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include "Skill.h"
 namespace rtt {
 namespace ai {
@@ -16,10 +17,10 @@ class Stop : public Skill {
         Status onUpdate() override;
         void onTerminate(Status s) override;
     private:
-        enum active : short {
-          DEFENSIVE,
-          OFFENSIVE
-        };
+        bool isActive = false;
+        Vector2 getActivePoint();
+        control::NumTreePosControl goToPos;
+
 };
 }}
 

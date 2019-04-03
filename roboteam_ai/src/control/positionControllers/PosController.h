@@ -25,12 +25,14 @@ public:
     void setCanMoveInDefenseArea(bool canMoveInDefenseArea);
     bool getAvoidBall() const;
     void setAvoidBall(bool avoidBall);
+    void setStop(bool stopp);
 
     std::tuple<double, double, double> lastPid;
 
 protected:
     // settings
     bool avoidBall = false;
+    bool stop = false;
     bool canMoveOutOfField = false;
     bool canMoveInDefenseArea = false;
 

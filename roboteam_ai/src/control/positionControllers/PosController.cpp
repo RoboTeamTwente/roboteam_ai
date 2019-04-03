@@ -84,9 +84,9 @@ bool PosController::getAvoidBall() const {
 void PosController::setAvoidBall(bool avoidBall) {
     this->avoidBall = avoidBall;
 }
-
-
-
+void PosController::setStop(bool stopp) {
+    stop = stopp;
+}
 
 } // control
 } // ai

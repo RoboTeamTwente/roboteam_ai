@@ -7,7 +7,7 @@
 namespace rtt {
 namespace ai {
 namespace coach {
-
+FormationCoach g_formation;
 bool FormationCoach::isOffensiveStop(int ID) {
 
     if (!formed) {
