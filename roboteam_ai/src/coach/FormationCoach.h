@@ -7,13 +7,14 @@
 
 
 #include <map>
+#include <roboteam_utils/Vector2.h>
 namespace rtt {
 namespace ai {
 namespace coach {
 
 class FormationCoach {
     public:
-        explicit FormationCoach() = default;
+        explicit FormationCoach();
 
         /// Stop ///
         bool isOffensiveStop(int ID);
@@ -21,9 +22,12 @@ class FormationCoach {
 
     private:
         /// Stop ///
-        std::map<int, bool> robots;
-        bool formed = false;
-        void formStop();
+        // See if it is an active ball follower or just a passive defender
+        std::map<int, bool> robotsStop;
+        // Passive defender positions
+        std::set<Vector2> positionsStop;
+        void makeStopPositions();
+        void makeActiveStopPositions();
 
 
 
