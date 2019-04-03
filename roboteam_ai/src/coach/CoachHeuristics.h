@@ -22,13 +22,13 @@ private:
     static const double DISTANCE_TO_OPPONENTS_WEIGHT;
     static const double DISTANCE_FROM_CORNER_WEIGHT;
 public:
-    static double calculateCloseToGoalScore(Vector2 position);
-    static double calculateShotAtGoalScore(Vector2 position, roboteam_msgs::World world);
-    static double calculatePassLineScore(Vector2 position, roboteam_msgs::World world);
-    static double calculateDistanceToOpponentsScore(Vector2 position, roboteam_msgs::World world);
-    static double calculateDistanceFromCornerScore(Vector2 position, roboteam_msgs::GeometryFieldSize field);
-    static double calculateDistanceFromBallScore(Vector2 position, roboteam_msgs::GeometryFieldSize& field, roboteam_msgs::WorldBall& ball);
-    static double calculatePositionScore(Vector2 position);
+    static double calculateCloseToGoalScore(const Vector2& position);
+    static double calculateShotAtGoalScore(const Vector2& position, roboteam_msgs::World world);
+    static double calculatePassLineScore(const Vector2& position, const roboteam_msgs::World& world);
+    static double calculateDistanceToOpponentsScore(const Vector2& position, const roboteam_msgs::World& world);
+    static double calculateDistanceFromCornerScore(const Vector2& position, roboteam_msgs::GeometryFieldSize field);
+    static double calculateDistanceFromBallScore(const Vector2& position, roboteam_msgs::GeometryFieldSize& field, roboteam_msgs::WorldBall& ball);
+    static double calculatePositionScore(const Vector2& position);
 };
 
 }

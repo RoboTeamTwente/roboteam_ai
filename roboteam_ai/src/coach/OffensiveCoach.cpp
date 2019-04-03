@@ -12,6 +12,22 @@ namespace coach {
 
 OffensiveCoach g_offensiveCoach;
 
+OffensiveCoach::OffensiveCoach() {
+    roboteam_msgs::GeometryFieldSize field = Field::get_field();
+    Vector2 penaltyStretchCorner = field.right_penalty_line.begin;
+    penaltyStretchCorner.x = abs(penaltyStretchCorner.x);
+    penaltyStretchCorner.y = abs(penaltyStretchCorner.y);
+
+    // Calculate two positions close to goal
+    defaultPositions.emplace_back(penaltyStretchCorner.x - CLOSE_TO_GOAL_DISTANCE, penaltyStretchCorner.y + CLOSE_TO_GOAL_DISTANCE);
+    defaultPositions.emplace_back(penaltyStretchCorner.x - CLOSE_TO_GOAL_DISTANCE, -penaltyStretchCorner.y - CLOSE_TO_GOAL_DISTANCE);
+
+    // Calculate two positions further from goal
+    defaultPositions.emplace_back(penaltyStretchCorner.x - FURTHER_FROM_GOAL_DISTANCE, penaltyStretchCorner.y);
+    defaultPositions.emplace_back(penaltyStretchCorner.x - FURTHER_FROM_GOAL_DISTANCE, -penaltyStretchCorner.y);
+
+}
+
 /// Recalculate the score of each offensive position, and remove it if it is too close to any of the robotPositions
 void OffensiveCoach::recalculateOffensivePositions() {
     auto it = offensivePositions.begin();
@@ -80,7 +96,6 @@ void OffensiveCoach::calculateNewPositions() {
             offensivePositions.push_back(position);
             continue;
         }
-
         compareToCurrentPositions(position);
     }
 
@@ -165,7 +180,7 @@ Vector2 OffensiveCoach::getPositionForRobotID(int robotID) {
 }
 
 /// Calculate new positions close to the robot
-OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(int robotID, OffensivePosition currentPosition) {
+OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(int robotID, const OffensivePosition& currentPosition) {
 
     OffensivePosition bestPosition = currentPosition;
     if (currentPosition.position.x < 0) {
@@ -177,10 +192,12 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(int 
 
         for (int yDiff = -GRID_SIZE; yDiff <= GRID_SIZE; yDiff++) {
             OffensivePosition newPosition;
-            newPosition.position.x = currentPosition.position.x + SEARCH_GRID_ROBOT_POSITIONS * xDiff;
-            newPosition.position.y = currentPosition.position.y + SEARCH_GRID_ROBOT_POSITIONS * yDiff;
-            if (!Field::pointIsInField(newPosition.position)
-            || Field::pointIsInDefenceArea(newPosition.position, false)) {
+            newPosition.position.x = currentPosition.position.x + SEARCH_GRID_ROBOT_POSITIONS * xDiff * pow(xDiff, 1.5);
+            newPosition.position.y = currentPosition.position.y + SEARCH_GRID_ROBOT_POSITIONS * yDiff * pow(yDiff, 1.5);
+
+            if (!Field::pointIsInField(newPosition.position, 0.10)
+            || Field::pointIsInDefenceArea(newPosition.position, false)
+            || newPosition.position.x < 0) {
                 continue;
             }
 
@@ -215,7 +232,7 @@ void OffensiveCoach::drawOffensivePoints() {
 
     /// Draw attacker points specific to robot
     displayColorData = {};
-    for (auto robotPosition : robotPositions) {
+    for (const auto& robotPosition : robotPositions) {
         displayColorData.emplace_back(std::make_pair(robotPosition.second.position, Qt::darkYellow));
         interface::Drawer::setAttackerPoints(robotPosition.first, displayColorData);
     }
@@ -254,7 +271,7 @@ const map<int, OffensiveCoach::OffensivePosition> &OffensiveCoach::getRobotPosit
     return robotPositions;
 }
 
-double OffensiveCoach::correctScoreForClosestRobot(OffensiveCoach::OffensivePosition position, int robotID) {
+double OffensiveCoach::correctScoreForClosestRobot(const OffensiveCoach::OffensivePosition& position, int robotID) {
     auto closestRobot = World::getRobotClosestToPoint(position.position, robotID);
     double distance = (position.position - closestRobot->pos).length();
     if (distance < ATTACKER_DISTANCE) {

@@ -81,6 +81,20 @@ bool ControlUtils::clearLine(Vector2 fromPos, Vector2 toPos, roboteam_msgs::Worl
     return true;
 }
 
+double ControlUtils::closestEnemyToLineDistance(Vector2 fromPos, Vector2 toPos, roboteam_msgs::World world) {
+    double shortestDistance = INT_MAX;
+    double currentDistance;
+
+    for (auto enemy : world.them) {
+        //TODO: Check if the keeper should be taken into account and get it from the referee
+        currentDistance = distanceToLineWithEnds(enemy.pos, fromPos, toPos);
+        if (currentDistance < shortestDistance) {
+            shortestDistance = currentDistance;
+        }
+    }
+    return shortestDistance;
+}
+
 /// See if a robot has a clear vision towards another robot
 /// e.g. there are no obstacles in between.
 bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::World world, int safeDistanceFactor) {
