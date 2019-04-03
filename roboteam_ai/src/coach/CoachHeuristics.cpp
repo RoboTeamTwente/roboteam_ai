@@ -1,5 +1,7 @@
 #include <utility>
 
+#include <utility>
+
 //
 // Created by robzelluf on 3/21/19.
 //
@@ -82,15 +84,9 @@ double CoachHeuristics::calculatePositionScore(const Vector2& position) {
     double behindBallScore = position.x < world.ball.pos.x ? 0.7 : 1.0;
     double distanceFromCornerScore = calculateDistanceFromCornerScore(position, field);
 
-    double score =
-            //closeToGoalScore
-            + 2 * shotAtGoalScore
-            // + 3 * passLineScore
-            + closestOpponentScore
-            // + distanceFromBallScore
-            // + behindBallScore
-            // + distanceFromCornerScore
-            ;
+
+    //std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+    double score = 4 * shotAtGoalScore + passLineScore + closeToGoalScore;
 
     return score;
 }

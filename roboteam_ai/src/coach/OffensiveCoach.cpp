@@ -45,7 +45,7 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateRandomPosition(double
 }
 
 /// Check if position is too close to any of the robot positions
-bool OffensiveCoach::positionTooCloseToRobotPositions(OffensivePosition position, int self) {
+bool OffensiveCoach::positionTooCloseToRobotPositions(const OffensivePosition& position, int self) {
     bool tooClose = false;
     for (auto &robotPosition : robotPositions) {
         if (robotPosition.first != self) {
@@ -166,6 +166,7 @@ Vector2 OffensiveCoach::getPositionForRobotID(int robotID) {
 OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(const OffensivePosition& currentPosition, const Vector2& defaultPosition) {
 
     OffensivePosition bestPosition = currentPosition;
+    bestPosition.score = CoachHeuristics::calculatePositionScore(bestPosition.position);
 
     for (int xDiff = -GRID_SIZE; xDiff <= GRID_SIZE; xDiff++) {
         if (currentPosition.position.x < 0 && xDiff <= 0) continue;
@@ -176,21 +177,25 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
             newPosition.position.y = currentPosition.position.y + SEARCH_GRID_ROBOT_POSITIONS * yDiff;
 
             if (!Field::pointIsInField(newPosition.position, 0.10)
-            || Field::pointIsInDefenceArea(newPosition.position, false)
-            || (newPosition.position - defaultPosition).length() > ZONE_RADIUS) {
+            || Field::pointIsInDefenceArea(newPosition.position, false)){
                 continue;
             }
 
-            bool outsideOfZone = false;
+            if ((newPosition.position - defaultPosition).length() > ZONE_RADIUS) {
+                continue;
+            }
+
+            bool tooCloseToOtherZone = false;
             for (auto& otherDefaultPosition : getDefaultLocations()) {
                 if (otherDefaultPosition != defaultPosition) {
                     if ((otherDefaultPosition - newPosition.position).length() < (defaultPosition - newPosition.position).length()) {
-                        outsideOfZone = true;
+                        tooCloseToOtherZone = true;
+                        std::cout << "Too close to other zone" << std::endl;
                         break;
                     }
                 }
             }
-            if (outsideOfZone) continue;
+            if (tooCloseToOtherZone) continue;
 
             newPosition.score = CoachHeuristics::calculatePositionScore(newPosition.position);
             if (newPosition.score > bestPosition.score) {
@@ -273,7 +278,7 @@ double OffensiveCoach::correctScoreForClosestRobot(const OffensiveCoach::Offensi
 
 std::vector<Vector2> OffensiveCoach::getDefaultLocations() {
     roboteam_msgs::GeometryFieldSize field = Field::get_field();
-    Vector2 penaltyStretchCorner = field.right_penalty_line.begin;
+    Vector2 penaltyStretchCorner = field.top_right_penalty_stretch.end;
     penaltyStretchCorner.x = abs(penaltyStretchCorner.x);
     penaltyStretchCorner.y = abs(penaltyStretchCorner.y);
 
@@ -291,8 +296,10 @@ std::vector<Vector2> OffensiveCoach::getDefaultLocations() {
 }
 
 std::vector<Vector2> OffensiveCoach::getNewOffensivePositions() {
+
     std::vector<Vector2> defaultLocations = getDefaultLocations();
     if (offensivePositions.size() != defaultLocations.size()) {
+        std::cout << "Resetting offensive positions!" << std::endl;
         offensivePositions = {};
         for (auto& defaultLocation : defaultLocations) {
             OffensivePosition offensivePosition;
@@ -301,13 +308,16 @@ std::vector<Vector2> OffensiveCoach::getNewOffensivePositions() {
             offensivePositions.emplace_back(offensivePosition);
         }
     } else {
+
         for (int i = 0; i < offensivePositions.size(); i++) {
             OffensivePosition offensivePosition = offensivePositions[i];
             Vector2 defaultPosition = defaultLocations[i];
+
             offensivePositions[i] = calculateNewRobotPosition(offensivePosition, defaultPosition);
         }
     }
 
+    drawOffensivePoints();
     return getOffensivePositionVectors();
 }
 

@@ -4,6 +4,7 @@
 
 
 #include <roboteam_ai/src/utilities/Field.h>
+#include <roboteam_ai/src/utilities/Referee.hpp>
 #include "ControlUtils.h"
 
 namespace rtt {
@@ -81,13 +82,14 @@ bool ControlUtils::clearLine(Vector2 fromPos, Vector2 toPos, roboteam_msgs::Worl
     return true;
 }
 
-double ControlUtils::closestEnemyToLineDistance(Vector2 fromPos, Vector2 toPos, roboteam_msgs::World world) {
+double ControlUtils::closestEnemyToLineDistance(Vector2 fromPos, Vector2 toPos, const roboteam_msgs::World& world, bool keeper) {
     double shortestDistance = INT_MAX;
     double currentDistance;
 
     for (auto enemy : world.them) {
-        //TODO: Check if the keeper should be taken into account and get it from the referee
-        currentDistance = distanceToLineWithEnds(enemy.pos, fromPos, toPos);
+        //if (keeper && enemy.id == rtt::ai::Referee::getRefereeData().them.goalie) continue;
+
+        currentDistance = distanceToLine(enemy.pos, fromPos, toPos);
         if (currentDistance < shortestDistance) {
             shortestDistance = currentDistance;
         }
@@ -97,7 +99,7 @@ double ControlUtils::closestEnemyToLineDistance(Vector2 fromPos, Vector2 toPos, 
 
 /// See if a robot has a clear vision towards another robot
 /// e.g. there are no obstacles in between.
-bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::World world, int safeDistanceFactor) {
+bool ControlUtils::hasClearVision(int fromID, int towardsID, const roboteam_msgs::World& world, int safeDistanceFactor) {
     double minDistance = rtt::ai::Constants::ROBOT_RADIUS()*(3*safeDistanceFactor); // TODO: calibrate Rolf approved
     Vector2 fromPos;
     Vector2 towardsPos;
@@ -122,7 +124,7 @@ bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::Worl
 
 
 /// Get the distance from PointToCheck towards a line, the line is not infinite.
-double ControlUtils::distanceToLineWithEnds(Vector2 pointToCheck, Vector2 lineStart, Vector2 lineEnd) {
+double ControlUtils::distanceToLineWithEnds(const Vector2& pointToCheck, Vector2 lineStart, Vector2 lineEnd) {
     Vector2 line=lineEnd-lineStart;
     Vector2 diff=pointToCheck-lineStart;
     double dot=line.x*diff.x+line.y*diff.y;
@@ -315,7 +317,7 @@ std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFrom
 
     std::vector<std::pair<Vector2, Vector2>> solutionPairs;
     for(unsigned int i = 0; i < assignments.size(); i++) {
-        solutionPairs.push_back({set1.at(i), set2.at(assignments.at(i))});
+        solutionPairs.emplace_back(set1.at(i), set2.at(assignments.at(i)));
     }
     return solutionPairs;
 }

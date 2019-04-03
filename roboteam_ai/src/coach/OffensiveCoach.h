@@ -20,10 +20,10 @@ public:
     const double ATTACKER_DISTANCE = 1.6;
     const double OFFENSIVE_POSITION_DISTANCE = 0.8;
     const double SEARCH_GRID_ROBOT_POSITIONS = 0.02;
-    const int GRID_SIZE = 9;
+    const int GRID_SIZE = 5;
     const double CLOSE_TO_GOAL_DISTANCE = 0.95;
     const double FURTHER_FROM_GOAL_DISTANCE = 2 * CLOSE_TO_GOAL_DISTANCE;
-    const double ZONE_RADIUS = 0.8;
+    const double ZONE_RADIUS = 0.4;
 
     struct OffensivePosition {
         Vector2 position;
@@ -56,7 +56,7 @@ private:
     void drawOffensivePoints();
     void recalculateOffensivePositions();
     OffensivePosition calculateRandomPosition(double xStart, double xEnd, double yStart, double yEnd);
-    bool positionTooCloseToRobotPositions(OffensivePosition position, int self = -1);
+    bool positionTooCloseToRobotPositions(const OffensivePosition& position, int self = -1);
     double correctScoreForClosestRobot(const OffensivePosition& position, int robotID);
 
     void compareToCurrentPositions(const OffensivePosition &position);

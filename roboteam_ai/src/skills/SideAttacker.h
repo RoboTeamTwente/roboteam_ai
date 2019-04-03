@@ -30,7 +30,7 @@ class SideAttacker : public Skill {
 
         Progression currentProgress = DEFAULTING;
 
-        Vector2 getDefaultLocation();
+        Vector2 getOffensivePosition();
 
     public:
         explicit SideAttacker(string name, bt::Blackboard::Ptr blackboard);

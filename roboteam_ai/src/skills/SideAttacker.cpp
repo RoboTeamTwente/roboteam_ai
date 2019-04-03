@@ -3,7 +3,7 @@
 //
 
 #include "SideAttacker.h"
-
+#include <chrono>
 namespace rtt {
 namespace ai {
 
@@ -26,31 +26,17 @@ void SideAttacker::onInitialize() {
 
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
-    switch (currentProgress) {
-        case DEFAULTING: {
-            bool isIn = false;
-            for (auto & i : robotsPositioning) {
-                if (i->id == robot->id) {
-                    isIn = true;
-                }
-            }
 
-            if (!isIn) return Status::Running;
-
-            targetPos = getDefaultLocation();
-
-            if ((targetPos - robot->pos).length() < DEFAULT_DISTANCE_MARGIN) {
-                currentProgress = OPTIMIZING;
-            }
-
-            break;
-        }
-        case OPTIMIZING: {
-            //targetPos = coach::g_offensiveCoach.calculatePositionForRobot(robot);
-            break;
+    bool isIn = false;
+    for (auto & i : robotsPositioning) {
+        if (i->id == robot->id) {
+            isIn = true;
         }
     }
 
+    if (!isIn) return Status::Running;
+
+    targetPos = getOffensivePosition();
     auto newPosition = goToPos.getPosVelAngle(robot, targetPos);
     Vector2 velocity = newPosition.vel;
     velocity = control::ControlUtils::velocityLimiter(velocity);
@@ -58,11 +44,13 @@ bt::Node::Status SideAttacker::onUpdate() {
     command.y_vel = static_cast<float>(velocity.y);
     command.w = static_cast<float>(newPosition.angle);
 
+    command.use_angle = 1;
     publishRobotCommand();
+
     return Status::Running;
 }
 
-Vector2 SideAttacker::getDefaultLocation() {
+Vector2 SideAttacker::getOffensivePosition() {
     auto field = Field::get_field();
 
     std::vector<Vector2> targetLocations = coach::g_offensiveCoach.getNewOffensivePositions();
