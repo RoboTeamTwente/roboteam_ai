@@ -18,7 +18,7 @@ void SideAttacker::onInitialize() {
         if (robotsPositioning.at(i)->id == robot->id) {
             return;
         }
-    }
+    } // TODO use std::find here, love best teammate ever
 
     robotsPositioning.push_back(robot);
 }
