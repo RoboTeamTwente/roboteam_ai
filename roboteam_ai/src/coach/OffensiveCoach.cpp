@@ -13,19 +13,6 @@ namespace coach {
 OffensiveCoach g_offensiveCoach;
 
 OffensiveCoach::OffensiveCoach() {
-    roboteam_msgs::GeometryFieldSize field = Field::get_field();
-    Vector2 penaltyStretchCorner = field.right_penalty_line.begin;
-    penaltyStretchCorner.x = abs(penaltyStretchCorner.x);
-    penaltyStretchCorner.y = abs(penaltyStretchCorner.y);
-
-    // Calculate two positions close to goal
-    defaultPositions.emplace_back(penaltyStretchCorner.x - CLOSE_TO_GOAL_DISTANCE, penaltyStretchCorner.y + CLOSE_TO_GOAL_DISTANCE);
-    defaultPositions.emplace_back(penaltyStretchCorner.x - CLOSE_TO_GOAL_DISTANCE, -penaltyStretchCorner.y - CLOSE_TO_GOAL_DISTANCE);
-
-    // Calculate two positions further from goal
-    defaultPositions.emplace_back(penaltyStretchCorner.x - FURTHER_FROM_GOAL_DISTANCE, penaltyStretchCorner.y);
-    defaultPositions.emplace_back(penaltyStretchCorner.x - FURTHER_FROM_GOAL_DISTANCE, -penaltyStretchCorner.y);
-
 }
 
 /// Recalculate the score of each offensive position, and remove it if it is too close to any of the robotPositions
@@ -279,6 +266,34 @@ double OffensiveCoach::correctScoreForClosestRobot(const OffensiveCoach::Offensi
     } else {
         return position.score;
     }
+}
+
+std::vector<Vector2> OffensiveCoach::getDefaultLocations(int numberOfRobots) {
+    roboteam_msgs::GeometryFieldSize field = Field::get_field();
+    Vector2 penaltyStretchCorner = field.right_penalty_line.begin;
+    penaltyStretchCorner.x = abs(penaltyStretchCorner.x);
+    penaltyStretchCorner.y = abs(penaltyStretchCorner.y);
+
+    int counter = 0;
+    std::vector<Vector2> defaultPositions;
+
+    while (counter < numberOfRobots) {
+        // Calculate two positions close to goal
+        defaultPositions.emplace_back(penaltyStretchCorner.x - CLOSE_TO_GOAL_DISTANCE, penaltyStretchCorner.y + CLOSE_TO_GOAL_DISTANCE);
+        counter ++;
+
+        defaultPositions.emplace_back(penaltyStretchCorner.x - CLOSE_TO_GOAL_DISTANCE, -penaltyStretchCorner.y - CLOSE_TO_GOAL_DISTANCE);
+        counter++;
+
+        // Calculate two positions further from goal
+        defaultPositions.emplace_back(penaltyStretchCorner.x - FURTHER_FROM_GOAL_DISTANCE, penaltyStretchCorner.y);
+        counter++;
+
+        defaultPositions.emplace_back(penaltyStretchCorner.x - FURTHER_FROM_GOAL_DISTANCE, -penaltyStretchCorner.y);
+        counter++;
+    }
+
+    return defaultPositions;
 }
 
 }

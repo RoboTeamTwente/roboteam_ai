@@ -14,10 +14,23 @@ namespace ai {
 
 class SideAttacker : public Skill {
     private:
+        const double DEFAULT_DISTANCE_MARGIN = 0.20;
+
         control::NumTreePosControl goToPos;
         Vector2 deltaPos;
         Vector2 targetPos;
         bool firstLocationReached;
+
+        static vector<std::shared_ptr<roboteam_msgs::WorldRobot>> robotsPositioning;
+        std::vector<Vector2> defaultLocations;
+        enum Progression {
+            DEFAULTING,
+            OPTIMIZING
+        };
+
+        Progression currentProgress = DEFAULTING;
+
+        Vector2 getDefaultLocation();
 
     public:
         explicit SideAttacker(string name, bt::Blackboard::Ptr blackboard);
