@@ -11,7 +11,7 @@ TEST(RobotDealerTest, RobotDealerTest) {
     // Make sure that there is a world and that it is empty
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot1, robot2, robot3;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     rtt::ai::robotDealer::robotDealer->removeTactic("free"); // This is necessary because previous tests create free robots
     EXPECT_TRUE(rtt::ai::robotDealer::robotDealer->getAvailableRobots().empty());
@@ -23,7 +23,7 @@ TEST(RobotDealerTest, RobotDealerTest) {
     worldMsg.us.push_back(robot1);
     worldMsg.us.push_back(robot2);
     worldMsg.us.push_back(robot3);
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     auto dealbot1 = rtt::ai::robotDealer::robotDealer->claimRobotForTactic(robot::random, "testing1", "role1");
 

@@ -18,7 +18,7 @@ TEST(CoachTest, get_position_behind_ball) {
 
     // create a world with one of our robots that has the ball
     auto world = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(1, 0, true, field);
-    w::world->setWorld(world.first);
+    w::world->updateWorld(world.first);
 
     // get position behind ball to our own goal
     auto pos = rtt::ai::coach::g_generalPositionCoach.getPositionBehindBallToGoal(1, true);
@@ -38,7 +38,7 @@ TEST(CoachTest, get_position_behind_ball) {
     worldMsg.ball.pos = Vector2(0, 0);
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 9999;
-    w::world->setWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
 
     // set the robot on the horizontal line from the ball to the goal
     EXPECT_FALSE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToGoal(1.0, true, Vector2(0,0))); // robot on top of the ball: false
@@ -64,7 +64,7 @@ TEST(CoachTest, get_position_behind_ball) {
     robotToPointTo.pos.x = -1;
     robotToPointTo.pos.y = -1;
     worldMsg.them.push_back(robotToPointTo);
-    w::world->setWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
 
     // check for position behind robottopointo, 1 m behind the ball
     // robottopointto is THEIR team

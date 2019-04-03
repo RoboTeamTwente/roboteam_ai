@@ -17,7 +17,7 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
 
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     EXPECT_EQ(Node.node_name(), "IsRobotClosestToBall");
 
@@ -35,7 +35,7 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
     worldMsg.ball.pos.y=1.0;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::random,"IsRobotClosestToBallTestTactic","test");
     // Test should succeed because one robot is always closest to the ball
@@ -47,7 +47,7 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
     robot2.pos.x=0.5;
     robot2.pos.y=0.5;
     worldMsg.us.push_back(robot2);
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     // Test should fail since robot 2 is no longer closest to the ball
     ASSERT_EQ(Node.update(), bt::Node::Status::Failure);
@@ -82,7 +82,7 @@ TEST(secondsAhead, IsRobotClosestToBallTest) {
     worldMsg.ball.vel.y = -1;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::random,"IsRobotClosestToBallTestTactic","test");
     ASSERT_EQ(Node.update(), bt::Node::Status::Success);
     rtt::ai::robotDealer::robotDealer->removeTactic("IsRobotClosestToBallTestTactic");

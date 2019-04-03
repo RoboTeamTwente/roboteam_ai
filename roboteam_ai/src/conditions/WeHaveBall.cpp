@@ -12,10 +12,14 @@ WeHaveBall::WeHaveBall(std::string name, bt::Blackboard::Ptr blackboard)
     : Condition(std::move(name), std::move(blackboard)) { }
 
 bt::Node::Status WeHaveBall::onUpdate() {
-    auto whoHasBall = world::world->whichRobotHasBall();
-    if (whoHasBall.first == world::WhichRobots::OUR_ROBOTS) {
+    RobotPtr robotThatHasBall = world::world->whichRobotHasBall();
+
+    if (!robotThatHasBall)
+        return bt::Node::Status::Failure;
+
+    if (robotThatHasBall->team == Robot::Team::us)
         return bt::Node::Status::Success;
-    }
+
     return bt::Node::Status::Failure;
 }
 

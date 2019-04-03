@@ -34,7 +34,7 @@
 //    robot.pos.y=0;
 //    worldMsg.us.push_back(robot);
 //    worldMsg.ball.existence = 99999;
-//    rtt::ai::world::world->setWorld(worldMsg);
+//    rtt::ai::world::world->updateWorld(worldMsg);
 //    rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::random,"kt","test");
 //    rate.sleep();
 //    ros::spinOnce();
@@ -89,7 +89,7 @@
 //    robot.pos.y=0;
 //    worldMsg.us.push_back(robot);
 //    worldMsg.ball.existence = 99999;
-//    rtt::ai::world::world->setWorld(worldMsg);
+//    rtt::ai::world::world->updateWorld(worldMsg);
 //    rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::random,"KickTest","test");
 //
 //    chip.initialize();

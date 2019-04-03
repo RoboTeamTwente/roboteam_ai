@@ -30,7 +30,9 @@ class World {
 
     private:
         roboteam_msgs::World worldMsg;
-        WorldDataPtr worldData;
+        // Always use worldDataPtr in functions!!!
+        WorldData worldData;
+        WorldDataPtr worldDataPtr;
 
         History history;
         FutureWorld futureWorld;
@@ -44,7 +46,7 @@ class World {
 
         void setWorld(const roboteam_msgs::World &world);
 
-        const RobotPtr getRobotClosestToPoint(const Vector2 &point, std::vector<Robot> robots);
+        Robot getRobotClosestToPoint(const Vector2 &point, std::vector<Robot> robots);
     public:
         bool weHaveRobots();
 
@@ -59,11 +61,14 @@ class World {
 
         const BallPtr getBall();
         const RobotPtr getRobotForId(int id, bool ourTeam = true);
-        const std::vector<RobotPtr> getAllRobots();
+        const std::vector<Robot> getAllRobots();
+        const std::vector<Robot> getUs();
+        const std::vector<Robot> getThem();
 
-        const RobotPtr getRobotClosestToPoint(const Vector2 &point, WhichRobots whichRobots = ALL_ROBOTS);
-        const RobotPtr getRobotClosestToRobot(const RobotPtr &robot, WhichRobots whichRobots = ALL_ROBOTS);
-        const RobotPtr getRobotClosestToBall(WhichRobots whichRobots = ALL_ROBOTS);
+        Robot getRobotClosestToPoint(const Vector2 &point, WhichRobots whichRobots = ALL_ROBOTS);
+        Robot getRobotClosestToRobot(const RobotPtr &robot, WhichRobots whichRobots = ALL_ROBOTS);
+        Robot getRobotClosestToRobot(int id, bool ourTeam, WhichRobots whichRobots = ALL_ROBOTS);
+        Robot getRobotClosestToBall(WhichRobots whichRobots = ALL_ROBOTS);
 
         bool robotHasBall(int id, bool ourTeam, double maxDist = Constants::MAX_BALL_RANGE());
         bool ourRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());

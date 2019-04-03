@@ -34,22 +34,24 @@ TEST(PassTest, PassTest) {
     ball.pos = Vector2(1.0,1.0);
     world.us.push_back(robot1);
     world.ball = ball;
-    w::world->setWorld(world);
+    w::world->updateWorld(world);
 
     rtt::ai::coach::g_offensiveCoach.calculateNewPositions();
 
-    rtt::ai::coach::g_offensiveCoach.calculatePositionForRobot(std::make_shared<rtt::ai::world::Robot>(robot1));
+    w::Robot r1 = w::Robot(robot1, w::Robot::Team::us);
+    std::shared_ptr<w::Robot> robot1Ptr = std::make_shared<rtt::ai::world::Robot>(r1);
+    rtt::ai::coach::g_offensiveCoach.calculatePositionForRobot(robot1Ptr);
 
     ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(), robot1.id);
 
     roboteam_msgs::WorldRobot robot2;
     robot2.id = 1;
-    rtt::ai::world::world->setWorld(world);
+    w::world->updateWorld(world);
 
-    Vector2 bestPos = rtt::ai::coach::g_offensiveCoach.calculatePositionForRobot(std::make_shared<rtt::ai::world::Robot>(robot2));
+    Vector2 bestPos = rtt::ai::coach::g_offensiveCoach.calculatePositionForRobot(std::make_shared<w::Robot>(w::Robot(robot2)));
     robot2.pos = bestPos;
     world.us.push_back(robot2);
-    w::world->setWorld(world);
+    w::world->updateWorld(world);
 
     ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(), robot2.id);
 
@@ -59,7 +61,7 @@ TEST(PassTest, PassTest) {
     ball.visible = 1;
     ball.existence = 99999;
     world.ball = ball;
-    w::world->setWorld(world);
+    w::world->updateWorld(world);
 
     auto properties = std::make_shared<bt::Blackboard>();
     properties->setString("ROLE", "testPasser");
@@ -80,12 +82,12 @@ TEST(PassTest, PassTest) {
     world2.us.push_back(robot2);
     world2.ball.vel = (Vector2){5, 5};
     world2.ball.existence = 99999;
-    w::world->setWorld(world2);
+    w::world->updateWorld(world2);
 
     ASSERT_EQ(pass.update(), bt::Leaf::Status::Running);
 
     world2.ball.pos = (Vector2){-3, 3};
-    w::world->setWorld(world2);
+    w::world->updateWorld(world2);
     ASSERT_EQ(pass.update(), bt::Leaf::Status::Running);
 
 }

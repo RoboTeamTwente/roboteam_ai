@@ -110,7 +110,7 @@ TEST(FieldTest, it_calculates_obstacles) {
 	auto world = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
 	robot.pos = rtt::Vector2(0, 0);
 	world.us.push_back(robot);
-	rtt::ai::world::world->setWorld(world);
+	rtt::ai::world::world->updateWorld(world);
 	auto obstacles = rtt::ai::world::field->getBlockadesMappedToGoal(true, {0, 0});
 	auto visibleParts = rtt::ai::world::field->getVisiblePartsOfGoal(true, {0, 0});
 	EXPECT_EQ(obstacles.size(), 0);
@@ -124,7 +124,7 @@ TEST(FieldTest, it_calculates_obstacles) {
 	world = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
 	robot.pos = rtt::Vector2(-4, 0);
 	world.us.push_back(robot);
-	rtt::ai::world::world->setWorld(world);
+	rtt::ai::world::world->updateWorld(world);
 	obstacles = rtt::ai::world::field->getBlockadesMappedToGoal(true, {0, 0});
 	visibleParts = rtt::ai::world::field->getVisiblePartsOfGoal(true, {0, 0});
 	EXPECT_EQ(obstacles.size(), 1);
@@ -143,7 +143,7 @@ TEST(FieldTest, it_calculates_obstacles) {
 	robot2.pos = rtt::Vector2(4, 0.3);
 	world.us.push_back(robot);
 	world.us.push_back(robot2);
-	rtt::ai::world::world->setWorld(world);
+	rtt::ai::world::world->updateWorld(world);
 	
 	obstacles = rtt::ai::world::field->getBlockadesMappedToGoal(false, {0, 0});
 	visibleParts = rtt::ai::world::field->getVisiblePartsOfGoal(false, {0, 0});
@@ -158,7 +158,7 @@ TEST(FieldTest, it_calculates_obstacles) {
 	robot2.pos = rtt::Vector2(4, 0.05);
 	world.us.push_back(robot);
 	world.us.push_back(robot2);
-	rtt::ai::world::world->setWorld(world);
+	rtt::ai::world::world->updateWorld(world);
 	obstacles = rtt::ai::world::field->getBlockadesMappedToGoal(false, {0, 0});
 	visibleParts = rtt::ai::world::field->getVisiblePartsOfGoal(false, {0, 0});
 	EXPECT_EQ(obstacles.size(), 1);

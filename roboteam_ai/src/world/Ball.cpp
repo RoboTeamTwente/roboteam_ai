@@ -17,6 +17,11 @@ Ball::Ball(const roboteam_msgs::WorldBall &copy)
         exists(copy.existence != 0), visible(copy.visible) { }
 
 
+void Ball::updateBall(const Ball &oldBall, const WorldData &worldData) {
+    updateBallModel(oldBall, worldData);
+    updateBallPosition(oldBall);
+}
+
 void Ball::updateBallModel(const Ball &oldBall, const WorldData &worldData) {
 //TODO: LITERALLY UNREADABLE ???? fix this :)
 
@@ -129,6 +134,17 @@ Robot* Ball::getDribblingRobot(const std::vector<Robot> &robots, double maxDribb
     }
 
     return dribblingRobot;
+}
+
+void Ball::updateBallPosition(const Ball &oldBall) {
+    if (visible) {
+        return;
+    }
+    RobotPtr robotWithBall = world->whichRobotHasBall();
+    if (robotWithBall) {
+        double distanceInFrontOfRobot = Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS();
+        pos = robotWithBall->pos + robotWithBall->angle.toVector2(distanceInFrontOfRobot);
+    }
 }
 
 }

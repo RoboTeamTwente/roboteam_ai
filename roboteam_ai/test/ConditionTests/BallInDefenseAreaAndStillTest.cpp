@@ -42,7 +42,7 @@ TEST(DetectsDefenseArea, BallInDefenseAreaAndStill)
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = 0;
     worldMsg.ball.existence = 99999;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure); // return failure because no ball visible
 
     worldMsg.ball.pos.x = -1.5;
@@ -50,19 +50,19 @@ TEST(DetectsDefenseArea, BallInDefenseAreaAndStill)
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
 
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
     worldMsg.ball.pos.y = -1.1;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
     worldMsg.ball.pos.y = 1.1;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
     worldMsg.ball.pos.y = 0.0;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
     worldMsg.ball.vel.x = 0.11;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 }
 }

@@ -16,7 +16,7 @@ TEST(DefaultTacticTest, it_takes_robots) {
     // Make sure that there is a world and that it is empty
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot1, robot2, robot3, robot4, robot5, robot6, robot7, robot8;
-    w::world->setWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
     rd::robotDealer->removeTactic("free"); // This is necessary because previous tests create free robots
     ASSERT_TRUE(rd::robotDealer->getAvailableRobots().empty());
 
@@ -27,7 +27,7 @@ TEST(DefaultTacticTest, it_takes_robots) {
     worldMsg.us.push_back(robot1);
     worldMsg.us.push_back(robot2);
     worldMsg.us.push_back(robot3);
-    w::world->setWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
 
     bt::Blackboard::Ptr bb = std::make_shared<bt::Blackboard>();
 
@@ -60,7 +60,7 @@ TEST(DefaultTacticTest, it_takes_robots) {
     worldMsg.us.push_back(robot5);
     worldMsg.us.push_back(robot6);
     worldMsg.us.push_back(robot7);
-    w::world->setWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
 
     // now there are enough robots
     ASSERT_EQ(rd::robotDealer->getAvailableRobots().size(), 7);

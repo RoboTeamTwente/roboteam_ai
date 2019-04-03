@@ -27,20 +27,20 @@ TEST(BallOutOfFieldTest, it_detects_ball_out_of_field) {
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    w::world->setWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.y = 5.1;
-    w::world->setWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.ball.pos.y = -4.1;
-    w::world->setWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.pos.x = 3.9;
-    w::world->setWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
 }

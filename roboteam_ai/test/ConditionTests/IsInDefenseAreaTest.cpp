@@ -25,7 +25,7 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
 
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Waiting);
 
     roboteam_msgs::GeometryFieldSize field;
@@ -49,7 +49,7 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
 
     worldMsg.us.push_back(robot);
     worldMsg.ball.existence = 99999;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::random, "IsInDefenseAreaTest", "test");
     node.initialize();
 
@@ -57,13 +57,13 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.us[0].pos.x = -0.7;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     // Should fail since robot is not in out defence area
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.us[0].pos.x = -0.9;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     // Should succeed since robot is within the margin of our defence area
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
@@ -89,7 +89,7 @@ TEST(DetectsInTheirDefenseArea, IsInDefenseAreaTest)
 
     worldMsg.us.push_back(robot);
 
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     EXPECT_EQ(node.update(), bt::Node::Status::Waiting);
 
@@ -110,8 +110,7 @@ TEST(DetectsInTheirDefenseArea, IsInDefenseAreaTest)
     worldMsg.ball.existence = 99999;
     worldMsg.ball.visible = 1;
 
-
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::random, "IsInDefenseAreaTest", "test");
     node.initialize();
 
@@ -119,13 +118,13 @@ TEST(DetectsInTheirDefenseArea, IsInDefenseAreaTest)
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.us[0].pos.x = 0.7;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     // Should fail since robot is not in their defence area
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.us[0].pos.x = 0.9;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     // Should succeed since robot is within the margin of their defence area
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
@@ -144,7 +143,7 @@ TEST(DetectsBallInOurDefenceArea, IsInDefenceAreaTest)
 
     roboteam_msgs::World worldMsg;
 
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     roboteam_msgs::GeometryFieldSize field;
     field.left_penalty_line.begin.x = -1.0f;
@@ -166,19 +165,19 @@ TEST(DetectsBallInOurDefenceArea, IsInDefenceAreaTest)
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     // Should succeed since ball is in our defence area
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.ball.pos.x = -0.7;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     // Should fail since ball is not in out defence area
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = -0.9;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     // Should succeed since ball is within the margin of our defence area
     EXPECT_EQ(node.update(), bt::Node::Status::Success);

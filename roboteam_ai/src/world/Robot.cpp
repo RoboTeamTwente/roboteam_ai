@@ -16,6 +16,11 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team)
         : distanceToBall(-1.0), iHaveBall(false), id(copy.id), angle(copy.angle),
           pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) { }
 
+Robot::Robot()
+        : distanceToBall(-1.0), iHaveBall(false), id(-1), angle(-1.0),
+          pos(Vector2()), vel(Vector2()), angularVelocity(-1.0), team(them){
+}
+
 
 bool Robot::hasBall(double maxDist) {
     return iHaveBall && distanceToBall < maxDist && distanceToBall >= 0.0;
@@ -28,7 +33,7 @@ double Robot::getDistanceToBall() {
 void Robot::updateRobot(const Ball &ball) {
 
     distanceToBall = findBallDistance(ball.pos);
-    iHaveBall = (distanceToBall >= 0);
+    iHaveBall = distanceToBall >= 0.0;
 }
 
 double Robot::findBallDistance(const Vector2 &ballPos) {

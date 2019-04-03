@@ -31,8 +31,8 @@ class OffensiveCoach {
         };
 
         void calculateNewPositions();
-        void calculateNewRobotPositions(RobotPtr robot);
-        Vector2 calculatePositionForRobot(RobotPtr robot);
+        void calculateNewRobotPositions(const RobotPtr &robot);
+        Vector2 calculatePositionForRobot(const RobotPtr &robot);
         void releaseRobot(int robotID);
         Vector2 getPositionForRobotID(int robotID);
         std::vector<OffensivePosition> getRobotPositionVectors();
@@ -56,7 +56,7 @@ class OffensiveCoach {
 
         void compareToCurrentPositions(const OffensivePosition &position);
 
-        Vector2 getClosestOffensivePosition(RobotPtr &robot);
+        Vector2 getClosestOffensivePosition(const RobotPtr &robot);
 };
 
 extern OffensiveCoach g_offensiveCoach;

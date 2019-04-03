@@ -18,6 +18,9 @@ class Robot;
 
 class Ball {
     private:
+        using BallPtr = std::shared_ptr<Ball>;
+        using RobotPtr = std::shared_ptr<Robot>;
+
         bool ballInAir;
         bool collidesNow;
         bool kickedNow;
@@ -27,11 +30,14 @@ class Ball {
 
         void updateDribbling(const Ball &oldBall, const WorldData &worldData);
         Robot* getDribblingRobot(const std::vector<Robot> &robots, double maxDribbleRange);
+        void updateBallModel(const Ball &oldBall, const WorldData &worldData);
+        void updateBallPosition(const Ball &oldBall);
+
     public:
         Ball() = default;
         explicit Ball(const roboteam_msgs::WorldBall &copy);
 
-        void updateBallModel(const Ball &oldBall, const WorldData &worldData);
+        void updateBall(const Ball &oldBall, const WorldData &worldData);
 
         Vector2 pos = Vector2();
         Vector2 vel = Vector2();

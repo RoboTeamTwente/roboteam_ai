@@ -33,34 +33,34 @@ TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side)
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = 0;
     worldMsg.ball.existence = 99999;
-    w::world->setWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure); // return failure because no ball visible
 
     // our side
     worldMsg.ball.pos.x = -1.5;
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
-    w::world->setWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     // our side
     worldMsg.ball.pos.y = -1.1;
-    w::world->setWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     // our side
     worldMsg.ball.pos.y = 1.1;
-    w::world->setWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     // not our side
     worldMsg.ball.pos.x = 0.1;
-    w::world->setWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     // out of field
     worldMsg.ball.pos.x = -6;
-    w::world->setWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 }
 }

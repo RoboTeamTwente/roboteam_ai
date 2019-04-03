@@ -25,6 +25,7 @@ class Robot {
         bool iHaveBall;
 
         double findBallDistance(const Vector2 &ballPos);
+
     public:
 
         enum Team : short {
@@ -33,11 +34,11 @@ class Robot {
         };
 
         void updateRobot(const Ball &ball);
-        bool hasBall(double maxDist = Constants::MAX_BALL_RANGE());
+        bool hasBall(double maxDist = Constants::MAX_BALL_BOUNCE_RANGE());
         double getDistanceToBall();
     
-        Robot(const roboteam_msgs::WorldRobot &copy, Team team);
-        Robot() = default;
+        Robot(const roboteam_msgs::WorldRobot &copy, Team team = us);
+        Robot();
 
         int id = - 1;
         Angle angle = Angle();

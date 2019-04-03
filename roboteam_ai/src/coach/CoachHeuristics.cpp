@@ -52,9 +52,9 @@ double CoachHeuristics::calculatePassLineScore(const Vector2 &position, WorldDat
 
 /// Gives a higher score if the position is far away from enemy robots
 double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &position) {
-    RobotPtr closestRobot = world::world->getRobotClosestToPoint(position, world::WhichRobots::THEIR_ROBOTS);
-    if (closestRobot != nullptr) {
-        double distance = (position - closestRobot->pos).length();
+    Robot closestRobot = world::world->getRobotClosestToPoint(position, world::WhichRobots::THEIR_ROBOTS);
+    if (closestRobot.id != -1) {
+        double distance = (position - closestRobot.pos).length();
         return 1 - exp(DISTANCE_TO_OPPONENTS_WEIGHT * distance);
     } else {
         return 1;

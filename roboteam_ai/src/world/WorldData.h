@@ -27,13 +27,16 @@ class WorldData {
     public:
         WorldData() = default;
         explicit WorldData(const roboteam_msgs::World &copy)
-                :time(copy.time), ball(copy.ball) {
+                : time(copy.time) {
             for (auto &robot : copy.us) {
-                us.emplace_back(robot, Robot::Team::us);
+                Robot r = Robot(robot, Robot::Team::us);
+                us.emplace_back(r);
             }
             for (auto &robot : copy.them) {
-                them.emplace_back(robot, Robot::Team::them);
+                Robot r = Robot(robot, Robot::Team::them);
+                them.emplace_back(r);
             }
+            ball = Ball(copy.ball);
         }
         double time = 0.0;
         std::vector<Robot> us;

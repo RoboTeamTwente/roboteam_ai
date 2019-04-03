@@ -18,16 +18,16 @@ TEST(WorldTest, it_sets_and_gets_the_world) {
     ball.pos.x = 42;
     ball.pos.y = 1;
     ball.vel.x = 100;
-    ball.vel.y = -1;
+    ball.vel.y = - 1;
     ball.visible = 1;
     worldMsg.ball = ball;
-    
-    w::world->setWorld(worldMsg);
+
+    w::world->updateWorld(worldMsg);
     auto w = w::world->getWorld();
     EXPECT_EQ(w.ball.pos.x, 42);
     EXPECT_EQ(w.ball.pos.y, 1);
     EXPECT_EQ(w.ball.vel.x, 100);
-    EXPECT_EQ(w.ball.vel.y, -1);
+    EXPECT_EQ(w.ball.vel.y, - 1);
 }
 
 TEST(WorldTest, it_gets_the_ball) {
@@ -37,7 +37,7 @@ TEST(WorldTest, it_gets_the_ball) {
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
 
-    w::world->setWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
 
     auto ball = w::world->getBall();
     EXPECT_EQ(ball->pos.x, 42);
@@ -56,7 +56,7 @@ TEST(WorldTest, it_gets_the_robot_ID) {
     robots.push_back(robot1);
     robots.push_back(robot2);
     worldMsg.us = robots;
-    w::world->setWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
     EXPECT_TRUE(w::world->weHaveRobots());
 
     EXPECT_FALSE(w::world->getRobotForId(1, true));
@@ -69,103 +69,104 @@ TEST(WorldTest, it_gets_the_robot_ID) {
 
 }
 
-TEST(WorldTest, bot_has_ball){
+TEST(WorldTest, bot_has_ball) {
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot1, robot2;
     roboteam_msgs::WorldBall ball1;
-    robot1.id=0;
-    robot1.pos.x=0.05;
-    robot1.pos.y=0;
-    robot1.angle=0;
+    robot1.id = 0;
+    robot1.pos.x = 0.05;
+    robot1.pos.y = 0;
+    robot1.angle = 0;
 
-    ball1.pos.x=0.15;
-    ball1.pos.y=0;
-    ball1.visible=true;
+    ball1.pos.x = 0.15;
+    ball1.pos.y = 0;
+    ball1.visible = true;
     worldMsg.us.push_back(robot1);
-    worldMsg.ball=ball1;
-    w::world->setWorld(worldMsg);
+    worldMsg.ball = ball1;
+    w::world->updateWorld(worldMsg);
     EXPECT_TRUE(w::world->ourRobotHasBall(0));
-    EXPECT_FALSE(w::world->ourRobotHasBall(0,0.01));
-    EXPECT_EQ(w::world->whichRobotHasBall().second->id,0);
-    EXPECT_EQ(w::world->whichRobotHasBall().second->id,-1);
+    EXPECT_FALSE(w::world->ourRobotHasBall(0, 0.01));
+    EXPECT_EQ(w::world->whichRobotHasBall()->id, 0);
     EXPECT_TRUE(w::world->robotHasBall(0, true));
-    robot2.id=3;
-    robot2.pos.x=0.25;
-    robot2.pos.y=0;
-    robot2.angle=M_PI;
+    robot2.id = 3;
+    robot2.pos.x = 0.25;
+    robot2.pos.y = 0;
+    robot2.angle = M_PI;
     worldMsg.them.push_back(robot2);
-    w::world->setWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
     EXPECT_TRUE(w::world->theirRobotHasBall(3));
-    EXPECT_FALSE(w::world->theirRobotHasBall(3,0.01));
-    EXPECT_EQ(w::world->whichRobotHasBall().second->id,0);
-    EXPECT_EQ(w::world->whichRobotHasBall().second->id,3);
+    EXPECT_FALSE(w::world->theirRobotHasBall(3, 0.01));
+    EXPECT_EQ(w::world->whichRobotHasBall()->id, 3);
     EXPECT_TRUE(w::world->robotHasBall(3, false));
     EXPECT_TRUE(w::world->robotHasBall(0, true));
 }
 
-TEST(WorldTest,bot_has_ball_us_repeated){
+TEST(WorldTest, bot_has_ball_us_repeated) {
     roboteam_msgs::GeometryFieldSize field;
     field.field_length = 12;
     field.field_width = 9;
     for (int j = 0; j < 1000; ++ j) {
-        std::pair<roboteam_msgs::World,int> worldWithRobot=testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(8,8,true,field);
-        w::world->setWorld(worldWithRobot.first);
+        std::pair<roboteam_msgs::World, int> worldWithRobot = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(8,
+                8, true, field);
+        w::world->updateWorld(worldWithRobot.first);
         EXPECT_TRUE(w::world->ourRobotHasBall(worldWithRobot.second));
-        EXPECT_EQ(w::world->whichRobotHasBall().second->id,worldWithRobot.second);
+        EXPECT_EQ(w::world->whichRobotHasBall()->id, worldWithRobot.second);
     }
 }
-TEST(WorldTest,bot_has_ball_them_repeated){
+TEST(WorldTest, bot_has_ball_them_repeated) {
     roboteam_msgs::GeometryFieldSize field;
     field.field_length = 12;
     field.field_width = 9;
     for (int j = 0; j < 1000; ++ j) {
-        std::pair<roboteam_msgs::World,int> worldWithRobot=testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(8,8,false,field);
-        w::world->setWorld(worldWithRobot.first);
+        std::pair<roboteam_msgs::World, int> worldWithRobot = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(8,
+                8, false, field);
+        w::world->updateWorld(worldWithRobot.first);
         EXPECT_TRUE(w::world->theirRobotHasBall(worldWithRobot.second));
-        EXPECT_EQ(w::world->whichRobotHasBall().second->id,worldWithRobot.second);
+        std::shared_ptr<w::Robot> robotPtr = w::world->whichRobotHasBall();
+        EXPECT_EQ(robotPtr->id, worldWithRobot.second);
     }
 }
-TEST(WorldTest,ball_visibility){
+
+TEST(WorldTest, ball_visibility) {
 
     //First normal worldstate where 2 bots ' have the ball'. Robot 3 is closer to it so the ball should move with robot 3
     roboteam_msgs::World worldMsg;
-    roboteam_msgs::WorldRobot robot1, robot2;
+    roboteam_msgs::WorldRobot robot0, robot3;
     roboteam_msgs::WorldBall ball1;
-    robot1.id=0;
-    robot1.pos.x=0.05;
-    robot1.pos.y=0;
-    robot1.angle=0;
+    robot0.id = 0;
+    robot0.pos.x = 0.05;
+    robot0.pos.y = 0;
+    robot0.angle = 0;
 
-    robot2.id=3;
-    robot2.pos.x=0.24;
-    robot2.pos.y=0;
-    robot2.angle=M_PI;
+    robot3.id = 3;
+    robot3.pos.x = 0.24;
+    robot3.pos.y = 0;
+    robot3.angle = M_PI;
 
-    ball1.pos.x=0.15;
-    ball1.pos.y=0;
-    ball1.visible=true;
-    worldMsg.us.push_back(robot1);
-    worldMsg.us.push_back(robot2);
-    worldMsg.ball=ball1;
-    w::world->setWorld(worldMsg);
+    ball1.pos.x = 0.15;
+    ball1.pos.y = 0;
+    ball1.visible = true;
+    worldMsg.us.push_back(robot0);
+    worldMsg.us.push_back(robot3);
+    worldMsg.ball = ball1;
+    w::world->updateWorld(worldMsg);
     EXPECT_TRUE(w::world->ourRobotHasBall(0));
     EXPECT_TRUE(w::world->ourRobotHasBall(3));
 
     worldMsg.us.clear();
-    ball1.visible=false;
-    worldMsg.ball=ball1;
-    robot1.pos.x=3.0;
-    robot1.pos.y=3.0;
-    robot2.pos.x=1.0;
-    robot2.pos.y=2.0;
-    worldMsg.us.push_back(robot1);
-    worldMsg.us.push_back(robot2);
-    w::world->setWorld(worldMsg);
+    worldMsg.ball.visible = false;
+    robot0.pos.x = 3.0;
+    robot0.pos.y = 3.0;
+    robot3.pos.x = 1.0;
+    robot3.pos.y = 2.0;
+    worldMsg.us.push_back(robot0);
+    worldMsg.us.push_back(robot3);
+    w::world->updateWorld(worldMsg);
     EXPECT_TRUE(w::world->ourRobotHasBall(3));
     EXPECT_FALSE(w::world->ourRobotHasBall(0));
 
-    worldMsg.ball.visible=true;
-    w::world->setWorld(worldMsg);
+    worldMsg.ball.visible = true;
+    w::world->updateWorld(worldMsg);
     EXPECT_FALSE(w::world->ourRobotHasBall(3));
     EXPECT_FALSE(w::world->ourRobotHasBall(0));
 }

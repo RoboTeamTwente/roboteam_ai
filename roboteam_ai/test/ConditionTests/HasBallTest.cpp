@@ -10,7 +10,7 @@
 TEST(BallTest, IHaveBallTest) {
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     rtt::ai::robotDealer::robotDealer->halt();
     auto BB = std::make_shared<bt::Blackboard>();
@@ -24,8 +24,6 @@ TEST(BallTest, IHaveBallTest) {
     //First test should fail as the robot is not set in the world state yet.
     EXPECT_EQ(node.update(), bt::Node::Status::Waiting);
 
-
-
     robot.id = 0;
     robot.pos.x = 0;
     robot.pos.y = 0;
@@ -34,14 +32,14 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::random,"IHaveBallTestTactic","test");
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.ball.pos.x = 0.0;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     //Test if angle checking works
@@ -49,21 +47,21 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.pos.y = 0.1;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = 0;
     worldMsg.ball.pos.y = - 0.1;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = - 0.1;
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(),bt::Node::Status::Failure);
 
     rtt::ai::robotDealer::robotDealer->removeTactic("IHaveBallTestTactic");

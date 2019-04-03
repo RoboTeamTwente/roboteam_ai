@@ -15,7 +15,7 @@ TEST(TheyHaveBallTest, TheyHaveBallTest) {
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
 
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     robot.id = 0;
     robot.pos.x = -2;
@@ -27,7 +27,7 @@ TEST(TheyHaveBallTest, TheyHaveBallTest) {
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
@@ -39,7 +39,7 @@ TEST(TheyHaveBallTest, TheyHaveBallTest) {
     robot2.angle = 0;
     worldMsg.them.push_back(robot2);
 
-    rtt::ai::world::world->setWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 }

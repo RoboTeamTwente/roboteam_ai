@@ -113,7 +113,7 @@ bool OffensiveCoach::compareByScore(OffensivePosition position1, OffensivePositi
 }
 
 /// Get new position for robot, or recalculate it's old one
-Vector2 OffensiveCoach::calculatePositionForRobot(RobotPtr robot) {
+Vector2 OffensiveCoach::calculatePositionForRobot(const RobotPtr &robot) {
     if ((robotPositions.find(robot->id) == robotPositions.end())) { // not there yet
         return getClosestOffensivePosition(robot);
 
@@ -128,7 +128,7 @@ Vector2 OffensiveCoach::calculatePositionForRobot(RobotPtr robot) {
 }
 
 /// Get closest offensive position to robot
-Vector2 OffensiveCoach::getClosestOffensivePosition(RobotPtr &robot) {
+Vector2 OffensiveCoach::getClosestOffensivePosition(const RobotPtr &robot) {
     double distance = INT_MAX;
     double currentDistance;
     OffensivePosition newRobotPosition;
@@ -162,7 +162,7 @@ Vector2 OffensiveCoach::getPositionForRobotID(int robotID) {
 }
 
 /// Calculate new positions close to the robot
-void OffensiveCoach::calculateNewRobotPositions(RobotPtr robot) {
+void OffensiveCoach::calculateNewRobotPositions(const RobotPtr &robot) {
     OffensiveCoach::OffensivePosition currentRobotPosition = robotPositions[robot->id];
 
     Vector2 currentPosition = currentRobotPosition.position;

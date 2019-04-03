@@ -6,30 +6,27 @@
 #include "../world/World.h"
 
 namespace rtt {
-namespace ai{
+namespace ai {
 
 IsRobotClosestToBall::IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr blackboard)
 : Condition(std::move(name), std::move(blackboard)) { }
 
 bt::Node::Status IsRobotClosestToBall::onUpdate() {
     auto w = world::world->getWorld();
+    BallPtr ball = world::world->getBall();
     Vector2 ballPos(w.ball.pos);
-    auto robots = w.us;
 
     if (properties->hasDouble("secondsAhead")) {
-        double t_ahead = properties->getDouble("secondsAhead");
+        double t = properties->getDouble("secondsAhead");
         Vector2 ballVel(w.ball.vel);
-        ballPos = ballPos + ballVel.scale(t_ahead);
+        ballPos += ballVel * t;
     }
 
-    auto robotClosestToBallPtr = world::world->getRobotClosestToPoint(ballPos, world::OUR_ROBOTS);
-    if (robotClosestToBallPtr && robot) {
-        if (robot->id == robotClosestToBallPtr->id) {
-            return Status::Success;
-        } else {
-            return Status::Failure;
-        }
-    }
+    Robot robotClosestToBallPtr = world::world->getRobotClosestToBall(world::OUR_ROBOTS);
+
+    if (robotClosestToBallPtr.id == robot->id)
+        return Status::Success;
+
     return Status::Failure;
 }
 
