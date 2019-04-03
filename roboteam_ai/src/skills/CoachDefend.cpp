@@ -30,10 +30,10 @@ bt::Node::Status CoachDefend::onUpdate() {
         command.y_vel = 0;
         command.w = static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second));
     }
-    else if ((targetLocation->first-robot->pos).length()<0.12){
+    else if ((targetLocation->first-robot->pos).length()<0.09){
         command.x_vel = static_cast<float>(velocities.vel.x);
         command.y_vel = static_cast<float>(velocities.vel.y);
-        command.w = velocities.angle;
+        command.w = static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second));
     }
     else{
         command.x_vel = static_cast<float>(velocities.vel.x);

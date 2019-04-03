@@ -168,7 +168,7 @@ std::vector<std::pair<Vector2, double>> DefensiveCoach::decideDefendersOnDefense
             if (blockLineSegment) {
                 // most defensive block
                 decidedBlocks.push_back(std::make_pair(blockLineSegment->second,
-                        (blockLineSegment->second - blockLineSegment->first).angle()));
+                        (blockLineSegment->first - blockLineSegment->second).angle()));
             }
         }
         // we cannot double block with only one robot:
