@@ -39,5 +39,5 @@ TEST(BT, BasicFactoryTest) {
         node = node->getChildren().at(0);
         trace += node->node_name() + "-";
     }
-    EXPECT_EQ(trace, "UntilSuccess-haltTactic-ParallelSequence-halt0-UntilSuccess-Halt-");
+    EXPECT_EQ(trace, "UntilFail-haltTactic-ParallelSequence-halt0-UntilFail-Halt-");
 }
