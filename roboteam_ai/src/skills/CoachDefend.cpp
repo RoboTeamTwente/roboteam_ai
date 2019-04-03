@@ -4,13 +4,14 @@
 
 #include "CoachDefend.h"
 #include "roboteam_ai/src/coach/DefensiveCoach.h"
-
+//#include "roboteam_ai/src/utilities/RobotDealer.h"
 namespace rtt{
 namespace ai{
 CoachDefend::CoachDefend(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void CoachDefend::onInitialize() {
 coach::g_defensiveCoach.addDefender(robot->id);
+
 gtp.setCanMoveInDefenseArea(true);
 }
 

@@ -17,6 +17,7 @@ class DefensiveCoach {
 
         std::map<int, std::pair<Vector2, double>> defenderLocations;
         std::vector<int> defenders;
+        bool doUpdate=true;
         //pass detection
         struct PossiblePass {
           roboteam_msgs::WorldRobot toBot;
@@ -55,6 +56,7 @@ class DefensiveCoach {
         Vector2 getBlockPoint(std::pair<Vector2, Vector2> openGoalSegment, Vector2 point, double collisionRadius);
         std::pair<Vector2, Vector2> shortenLineForDefenseArea(Vector2 lineStart, Vector2 lineEnd, double defenseMargin);
         Vector2 computeSimpleReceivePos(Vector2 startPos, Vector2 robotPos);
+        void setDoUpdate();
 };
 extern DefensiveCoach g_defensiveCoach;
 

@@ -201,12 +201,12 @@ std::vector<std::pair<Vector2, double>> DefensiveCoach::decideDefendersOnDefense
     // we loop until we have as many blocks as we need or until there are no more bots left to cover off
     while (decidedBlocks.size() != amount && ! bots.empty()) {
         std::vector<Vector2> blocks; // this data format is easier to work with
-        for (auto decidedBlock: decidedBlocks){
+        for (auto decidedBlock: decidedBlocks) {
             blocks.push_back(decidedBlock.first);
         }
         // create possible passes ordered from most dangerous to least dangerous
-        std::vector<std::pair<PossiblePass, double>> passWithScore=createPassesAndDanger(bots,blocks);
-        std::vector<roboteam_msgs::WorldRobot> virtualBots=createVirtualBots(blocks);// we create virtual bots
+        std::vector<std::pair<PossiblePass, double>> passWithScore = createPassesAndDanger(bots, blocks);
+        std::vector<roboteam_msgs::WorldRobot> virtualBots = createVirtualBots(blocks);// we create virtual bots
         // check for all the passes if we can block the shot from the pass receive position
         for (const auto &bestPass: passWithScore) {
             // find largest visible Part using virtualBots
@@ -248,45 +248,46 @@ std::vector<std::pair<Vector2, double>> DefensiveCoach::decideDefendersOnDefense
 }
 /// calculates the defender locations for all available defenders
 void DefensiveCoach::updateDefenderLocations() {
-    auto start = std::chrono::high_resolution_clock::now();
-    // clear the defenderLocations
-    defenderLocations.clear();
-    std::vector<int> availableDefenders = defenders;
-    // decide the locations to defend
-    std::vector<std::pair<Vector2, double>> positions = decideDefendersOnDefenseLine(availableDefenders.size());
-    // the following algorithm takes the closest robot for each available defender to decide which robot goes where.
-    // Since the points are ordered on priority from the above algorithm the most important points come first
-    // It might be better to use an algorithm that is more complicated (e.g. hungarian) but then we might need some kind of system which gives the first points more 'priority'
-    for (auto position : positions) {
-        int bestId = - 1;
-        double bestDist = 10000000000;
-        for (int botId : availableDefenders) {
-            auto bot = World::getRobotForId(botId, true);
-            if (bot) {
-                if ((position.first - bot->pos).length() < bestDist) {
-                    bestId = botId;
-                    bestDist = (position.first - bot->pos).length();
+    if (doUpdate) {
+        doUpdate = false;
+        auto start = std::chrono::high_resolution_clock::now();
+        // clear the defenderLocations
+        defenderLocations.clear();
+        std::vector<int> availableDefenders = defenders;
+        // decide the locations to defend
+        std::vector<std::pair<Vector2, double>> positions = decideDefendersOnDefenseLine(availableDefenders.size());
+        // the following algorithm takes the closest robot for each available defender to decide which robot goes where.
+        // Since the points are ordered on priority from the above algorithm the most important points come first
+        // It might be better to use an algorithm that is more complicated (e.g. hungarian) but then we might need some kind of system which gives the first points more 'priority'
+        for (auto position : positions) {
+            int bestId = - 1;
+            double bestDist = 10000000000;
+            for (int botId : availableDefenders) {
+                auto bot = World::getRobotForId(botId, true);
+                if (bot) {
+                    if ((position.first - bot->pos).length() < bestDist) {
+                        bestId = botId;
+                        bestDist = (position.first - bot->pos).length();
+                    }
+                }
+                else {
+                    std::cerr << "Could not find robot " << botId << " to defend!";
                 }
             }
+            if (bestId != - 1) {
+                defenderLocations[bestId] = position;
+                availableDefenders.erase(std::find(availableDefenders.begin(), availableDefenders.end(), bestId));
+            }
             else {
-                std::cerr << "Could not find robot " << botId << " to defend!";
+                std::cerr << "Could not find a robot to defend location!!!";
+                return;
             }
         }
-        if (bestId != - 1) {
-            defenderLocations[bestId] = position;
-            availableDefenders.erase(std::find(availableDefenders.begin(), availableDefenders.end(), bestId));
-        }
-        else {
-            std::cerr << "Could not find a robot to defend location!!!";
-            return;
-        }
+        //visualization
+        visualizePoints();
+        auto stop = std::chrono::high_resolution_clock::now();
+        std::cout << "Computation time:" << (std::chrono::duration_cast<chrono::nanoseconds>(stop - start).count()/1000000.0) << std::endl;
     }
-    //visualization
-    visualizePoints();
-    auto stop = std::chrono::high_resolution_clock::now();
-    //std::cout << "Computation time:"
-    //rtt
-    // << (std::chrono::duration_cast<chrono::nanoseconds>(stop - start).count()/1000000.0) << std::endl;
 }
 
 // functions that communicate with the skill
@@ -295,7 +296,11 @@ void DefensiveCoach::addDefender(int id) {
     bool robotIsRegistered = std::find(defenders.begin(), defenders.end(), id) != defenders.end();
     if (! robotIsRegistered) {
         defenders.push_back(id);
-//        std::cout << "registered defender id:" << id << std::endl;
+        setDoUpdate();
+        //std::cout << "registered defender id:" << id << std::endl;
+    }
+    else {
+        std::cerr << "Defender is already registered, check your tree!!" << std::endl;
     }
 }
 
@@ -304,7 +309,11 @@ void DefensiveCoach::removeDefender(int id) {
     auto defender = std::find(defenders.begin(), defenders.end(), id);
     if (defender != defenders.end()) {
         defenders.erase(defender);
+        setDoUpdate();
 //        std::cout << "removed defender id:" << id << std::endl;
+    }
+    else {
+        std::cerr << "Defender cannot be removed as it is not registered! Check your skill" << std::endl;
     }
 }
 
@@ -350,7 +359,7 @@ std::pair<Vector2, Vector2> DefensiveCoach::shortenLineForDefenseArea(Vector2 li
 /// scores a point based on the largest openGoal angle from that point
 double DefensiveCoach::scoreForOpenGoalAngle(PossiblePass pass, std::vector<Vector2> decidedBlocks) {
     // create the 'virtual bots' that make up the blocks we have already decided on
-    std::vector<roboteam_msgs::WorldRobot> virtualBots=createVirtualBots(decidedBlocks);
+    std::vector<roboteam_msgs::WorldRobot> virtualBots = createVirtualBots(decidedBlocks);
     auto keeper = World::getRobotForId(robotDealer::RobotDealer::getKeeperID(),
             true); //TODO: actually make sure keeper is running
     if (keeper) {
@@ -393,7 +402,7 @@ double DefensiveCoach::penaltyForBlocks(PossiblePass pass, std::vector<Vector2> 
     return pow(obstacleFactor, amountOfBlocks);
 }
 /// penalize points that are far away to pass
-double DefensiveCoach::penaltyForPassDist(PossiblePass pass){
+double DefensiveCoach::penaltyForPassDist(PossiblePass pass) {
     // between goodUntilPassDist and impossiblePassDist we define a linear line that we multiply by the value of the distance with it.
     // e.g. at the halfway point between the two points the penalty is factor 0.5
     double goodUntilPassDist = 6.0;
@@ -403,7 +412,7 @@ double DefensiveCoach::penaltyForPassDist(PossiblePass pass){
     }
     return 1.0;
 }
-void DefensiveCoach::visualizePoints(){
+void DefensiveCoach::visualizePoints() {
     int i = 0;
     std::vector<std::pair<Vector2, QColor>> vis2;
     for (auto location : defenderLocations) {
@@ -432,7 +441,7 @@ void DefensiveCoach::visualizePoints(){
     }
     ai::interface::Drawer::setTestPoints(vis2);
 }
-std::vector<roboteam_msgs::WorldRobot> DefensiveCoach::createVirtualBots(std::vector<Vector2> decidedBlocks){
+std::vector<roboteam_msgs::WorldRobot> DefensiveCoach::createVirtualBots(std::vector<Vector2> decidedBlocks) {
     std::vector<roboteam_msgs::WorldRobot> virtualBots;
     for (auto blockPos : decidedBlocks) {
         roboteam_msgs::WorldRobot bot;
@@ -442,7 +451,8 @@ std::vector<roboteam_msgs::WorldRobot> DefensiveCoach::createVirtualBots(std::ve
     }
     return virtualBots;
 }
-std::vector<std::pair<DefensiveCoach::PossiblePass,double>> DefensiveCoach::createPassesAndDanger(std::vector<roboteam_msgs::WorldRobot> bots, std::vector<Vector2> decidedBlocks){
+std::vector<std::pair<DefensiveCoach::PossiblePass, double>> DefensiveCoach::createPassesAndDanger(
+        std::vector<roboteam_msgs::WorldRobot> bots, std::vector<Vector2> decidedBlocks) {
     std::vector<std::pair<PossiblePass, double>> passWithScore;
     // check the passes from the robot towards every other bot and calculate their danger
     for (auto bot : bots) {
@@ -462,9 +472,13 @@ std::vector<std::pair<DefensiveCoach::PossiblePass,double>> DefensiveCoach::crea
             });
     return passWithScore;
 }
-Vector2 DefensiveCoach::computeSimpleReceivePos(Vector2 startPos, Vector2 robotPos){
-    Vector2 receivePos=robotPos+(startPos-robotPos).stretchToLength(Constants::CENTRE_TO_FRONT()+Constants::BALL_RADIUS());
+Vector2 DefensiveCoach::computeSimpleReceivePos(Vector2 startPos, Vector2 robotPos) {
+    Vector2 receivePos =
+            robotPos + (startPos - robotPos).stretchToLength(Constants::CENTRE_TO_FRONT() + Constants::BALL_RADIUS());
     return receivePos;
+}
+void DefensiveCoach::setDoUpdate() {
+    doUpdate = true;
 }
 }//coach
 }//ai

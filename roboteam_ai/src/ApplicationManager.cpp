@@ -88,6 +88,7 @@ void ApplicationManager::runOneLoopCycle() {
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
 
+        rtt::ai::coach::g_defensiveCoach.setDoUpdate();
         rtt::ai::coach::g_offensiveCoach.calculateNewPositions();
     }
     else {
