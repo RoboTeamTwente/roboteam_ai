@@ -17,6 +17,9 @@ void robotCommandCallback(const roboteam_msgs::RobotCommandConstPtr &cmd) {
     commands.push_back(*cmd);
 }
 
+namespace w = rtt::ai::world;
+namespace rd = rtt::ai::robotDealer;
+
 TEST(GoToPos, GoToPosTest) {
 
     ros::Rate rate(1);
@@ -36,8 +39,8 @@ TEST(GoToPos, GoToPosTest) {
     robot.pos.y=0;
     worldMsg.us.push_back(robot);
     worldMsg.ball.existence = 99999;
-    rtt::ai::world::world->updateWorld(worldMsg);
-    rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::random,"GoToPosTest","GTPtest");
+    w::world->updateWorld(worldMsg);
+    rd::robotDealer->claimRobotForTactic(rd::RobotType::RANDOM,"GoToPosTest","GTPtest");
     rtt::ai::GoToPos goToPos("GTPtest", bb);
     goToPos.initialize();
 
@@ -48,7 +51,7 @@ TEST(GoToPos, GoToPosTest) {
     robot.pos.y = 6.0;
 
     worldMsg.us[0] = robot;
-    rtt::ai::world::world->updateWorld(worldMsg);
+    w::world->updateWorld(worldMsg);
 
     EXPECT_EQ(goToPos.update(), bt::Leaf::Status::Success);
 

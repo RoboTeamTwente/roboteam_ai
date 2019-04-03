@@ -52,7 +52,7 @@ void GTPSpecial::onInitialize() {
     }
 
     gotopos.setAvoidBall(properties->getBool("avoidBall"));
-    gotopos.setCanGoOutsideField(properties->getBool("canGoOutsideField"));
+    gotopos.setCanMoveOutOfField(properties->getBool("canGoOutsideField"));
 }
 
 Vector2 GTPSpecial::getBallFromSideLocation() {

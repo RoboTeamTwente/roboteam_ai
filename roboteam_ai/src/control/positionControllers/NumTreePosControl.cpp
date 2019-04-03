@@ -8,14 +8,13 @@ namespace rtt {
 namespace ai {
 namespace control {
 
+NumTreePosControl::NumTreePosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
+        : ForcePosControl(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
+}
+
 /// Clears data and resets variables
 void NumTreePosControl::clear() {
     path.clear();
-}
-
-/// Make the Robot able to go outside of the field
-void NumTreePosControl::setCanGoOutsideField(bool _canGoOutsideField) {
-    canGoOutsideField = _canGoOutsideField;
 }
 
 /// return the velocity command using two PIDs based on the current position and velocity of the robot compared to the
@@ -303,25 +302,25 @@ std::shared_ptr<PathPoint> NumTreePosControl::computeNewPoint(
 
 /// check if a pathpoint is in a collision with a robot/ball at that timepoint
 bool NumTreePosControl::checkCollision(std::shared_ptr<PathPoint> point, double collisionRadius) {
-    auto w = world::world->getWorld();
-    for (auto bot : w.us) {
-        if (bot.id != static_cast<int>(robotID)) {
+    auto world = world::world->getWorld();
+    for (auto bot : world.us) {
+        if (bot.id != static_cast<unsigned long>(robotID)) {
             Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
             if (point->isCollision(botPos, collisionRadius))
                 return true;
         }
     }
-    for (auto bot: w.them) {
+    for (auto bot: world.them) {
         Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
         if (point->isCollision(botPos, collisionRadius))
             return true;
     }
     if (avoidBall) {
-        Vector2 ballPos = (Vector2) (w.ball.pos) + (Vector2) (w.ball.vel)*point->t;
+        Vector2 ballPos = (Vector2) (world.ball.pos) + (Vector2) (world.ball.vel)*point->t;
         if (point->isCollision(ballPos, collisionRadius*0.5 + Constants::BALL_RADIUS()))
             return true;
     }
-    if (!canGoOutsideField) {
+    if (!canMoveOutOfField) {
         if (world::field->pointIsInField(point->pos))
             return true;
     }
@@ -330,28 +329,28 @@ bool NumTreePosControl::checkCollision(std::shared_ptr<PathPoint> point, double 
 
 /// find the robot corresponding to a collision-position
 Vector2 NumTreePosControl::findCollisionPos(std::shared_ptr<PathPoint> point, double collisionRadius) {
-    auto w = world::world->getWorld();
-    for (auto bot: w.us) {
-        if (bot.id != robotID) {
+    auto world = world::world->getWorld();
+    for (auto bot: world.us) {
+        if (bot.id != static_cast<unsigned long>(robotID)) {
             Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
             if (point->isCollision(botPos, collisionRadius)) {
                 return botPos;
             }
         }
     }
-    for (auto bot: w.them) {
+    for (auto bot: world.them) {
         Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
         if (point->isCollision(botPos, collisionRadius)) {
             return botPos;
         }
     }
     if (avoidBall) {
-        Vector2 ballPos = (Vector2) (w.ball.pos) + (Vector2) (w.ball.vel)*point->t;
+        Vector2 ballPos = (Vector2) (world.ball.pos) + (Vector2) (world.ball.vel)*point->t;
         if (point->isCollision(ballPos, collisionRadius*0.5 + Constants::BALL_RADIUS())) {
             return ballPos;
         }
     }
-    if (!canGoOutsideField) {
+    if (!canMoveOutOfField) {
         if (world::field->pointIsInField(point->pos))
             return point->pos;
     }
@@ -441,6 +440,8 @@ void NumTreePosControl::drawCross(Vector2 &pos, QColor color) {
 void NumTreePosControl::drawPoint(Vector2 &pos, QColor color) {
     displayData.emplace_back(pos, color);
 }
+
+
 
 }// control
 }// ai

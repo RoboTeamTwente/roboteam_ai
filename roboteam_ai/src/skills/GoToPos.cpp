@@ -24,7 +24,7 @@ void GoToPos::onInitialize() {
     }
 
         gotopos.setAvoidBall(properties->getBool("avoidBall"));
-        gotopos.setCanGoOutsideField(properties->getBool("canGoOutsideField"));
+        gotopos.setCanMoveOutOfField(properties->getBool("canGoOutsideField"));
 }
 
 /// Get an update on the skill

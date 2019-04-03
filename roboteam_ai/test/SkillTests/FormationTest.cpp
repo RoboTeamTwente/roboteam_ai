@@ -30,7 +30,7 @@ TEST(FormationTest, formation_test) {
     // generate a robot running the skill
     auto properties = std::make_shared<bt::Blackboard>();
     properties->setString("ROLE", "formationRobot");
-    robotDealer::robotDealer->claimRobotForTactic(robotDealer::RobotType::random, "EnterFormationTest", "formationRobot");
+    robotDealer::robotDealer->claimRobotForTactic(robotDealer::RobotType::RANDOM, "EnterFormationTest", "formationRobot");
     rtt::ai::EnterFormation enterFormation("EnterFormationTest", properties);
 
     EXPECT_EQ(enterFormation.robotsInFormationMemory, 0);
@@ -48,7 +48,7 @@ TEST(FormationTest, formation_test) {
 // generate a second robot with the same skill
     auto properties2 = std::make_shared<bt::Blackboard>();
     properties2->setString("ROLE", "formationRobot2");
-    robotDealer::robotDealer->claimRobotForTactic(robotDealer::RobotType::random, "EnterFormationTest2", "formationRobot2");
+    robotDealer::robotDealer->claimRobotForTactic(robotDealer::RobotType::RANDOM, "EnterFormationTest2", "formationRobot2");
     rtt::ai::EnterFormation enterFormation2("EnterFormationTest2", properties2);
 
     EXPECT_EQ(enterFormation.robotsInFormationMemory, 1);

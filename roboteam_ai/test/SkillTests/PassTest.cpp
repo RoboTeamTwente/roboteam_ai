@@ -67,7 +67,7 @@ TEST(PassTest, PassTest) {
     properties->setString("ROLE", "testPasser");
 
     // MIGHT NOT WORK
-    rd::robotDealer->claimRobotForTactic(rd::RobotType::closeToBall, "PassTest", "testPasser");
+    rd::robotDealer->claimRobotForTactic(rd::RobotType::CLOSE_TO_BALL, "PassTest", "testPasser");
 
     rtt::ai::Pass pass("PassTest", properties);
     pass.initialize();

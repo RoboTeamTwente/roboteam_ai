@@ -19,8 +19,6 @@ namespace coach {
 // create the global object
 GeneralPositionCoach g_generalPositionCoach;
 
-double GeneralPositionCoach::BEHIND_BALL_ANGLE = 0.15;
-
 rtt::Vector2 GeneralPositionCoach::getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal) {
     const Vector2 &goal = (ourGoal ? world::field->get_our_goal_center() : world::field->get_their_goal_center());
     return getPositionBehindBallToPosition(distanceBehindBall, goal);
@@ -40,6 +38,12 @@ Vector2 GeneralPositionCoach::getPositionBehindBallToPosition(double distanceBeh
     return ball + (ball - position).stretchToLength(distanceBehindBall);
 }
 
+Vector2
+GeneralPositionCoach::getPositionBehindPositionToPosition(double distanceBehindBall, const Vector2 &behindPosition,
+                                                          const Vector2 &toPosition) {
+    return behindPosition + (behindPosition - toPosition).stretchToLength(distanceBehindBall);
+}
+
 bool GeneralPositionCoach::isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal, const Vector2 &robotPosition, double angleMargin) {
     const Vector2 &goal = (ourGoal ? world::field->get_our_goal_center() : world::field->get_their_goal_center());
     return isRobotBehindBallToPosition(distanceBehindBall, goal, robotPosition, angleMargin);
@@ -57,12 +61,18 @@ bool GeneralPositionCoach::isRobotBehindBallToRobot(double distanceBehindBall, b
 
 bool GeneralPositionCoach::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position,
         const Vector2 &robotPosition, double angleMargin) {
+
     const Vector2 &ball = static_cast<Vector2>(world::world->getBall()->pos);
     Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, position);
     Vector2 deltaBall = behindBallPosition - ball;
 
-    return (control::ControlUtils::pointInTriangle(robotPosition, ball, ball + (deltaBall).rotate(M_PI*angleMargin).scale(2.0),
-            ball + (deltaBall).rotate(M_PI*- angleMargin).scale(2.0)));
+    Vector2 trianglePoint1 = ball;
+    Vector2 trianglePoint2 = ball + deltaBall.rotate(M_PI*angleMargin).scale(2.0);
+    Vector2 trianglePoint3 = ball + deltaBall.rotate(M_PI*- angleMargin).scale(2.0);
+
+    bool inLargeTriangleOnPosition = control::ControlUtils::pointInTriangle(robotPosition, trianglePoint1, trianglePoint2, trianglePoint3);
+
+    return inLargeTriangleOnPosition;
 }
 
 Vector2 GeneralPositionCoach::getDemoKeeperGetBallPos(Vector2 ballPos){

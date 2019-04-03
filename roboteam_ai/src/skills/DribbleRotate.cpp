@@ -1,7 +1,3 @@
-#include <utility>
-
-#include <utility>
-
 //
 // Created by rolf on 14/12/18.
 //
@@ -10,7 +6,7 @@
 #include "DribbleRotate.h"
 #include "../control/ControlUtils.h"
 #include "roboteam_ai/src/world/Field.h"
-#include "../coach/Ballplacement.h"
+#include "roboteam_ai/src/coach/BallplacementCoach.h"
 
 namespace rtt {
 namespace ai {

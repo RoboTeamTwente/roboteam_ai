@@ -50,7 +50,7 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
     worldMsg.us.push_back(robot);
     worldMsg.ball.existence = 99999;
     rtt::ai::world::world->updateWorld(worldMsg);
-    rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::random, "IsInDefenseAreaTest", "test");
+    rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::RANDOM, "IsInDefenseAreaTest", "test");
     node.initialize();
 
     // Should succeed since robot is in our defence area
@@ -111,7 +111,7 @@ TEST(DetectsInTheirDefenseArea, IsInDefenseAreaTest)
     worldMsg.ball.visible = 1;
 
     rtt::ai::world::world->updateWorld(worldMsg);
-    rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::random, "IsInDefenseAreaTest", "test");
+    rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::RANDOM, "IsInDefenseAreaTest", "test");
     node.initialize();
 
     // Should succeed since robot is in their defence area

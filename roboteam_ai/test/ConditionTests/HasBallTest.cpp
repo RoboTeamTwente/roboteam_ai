@@ -33,7 +33,7 @@ TEST(BallTest, IHaveBallTest) {
 
     rtt::ai::world::world->updateWorld(worldMsg);
 
-    rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::random,"IHaveBallTestTactic","test");
+    rtt::ai::robotDealer::robotDealer->claimRobotForTactic(rtt::ai::robotDealer::RobotType::RANDOM,"IHaveBallTestTactic","test");
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.ball.pos.x = 0.0;

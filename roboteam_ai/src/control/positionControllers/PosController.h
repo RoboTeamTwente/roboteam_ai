@@ -5,24 +5,25 @@
 #ifndef ROBOTEAM_AI_POSCONTROLLER_H
 #define ROBOTEAM_AI_POSCONTROLLER_H
 
-#include <roboteam_ai/src/control/PIDController.h>
 #include "PosVelAngle.h"
-#include "../../world/World.h"
-#include "../../world/WorldData.h"
+#include <roboteam_ai/src/utilities/Constants.h>
+#include <roboteam_ai/src/control/pid.h>
+#include <roboteam_ai/src/world/WorldData.h>
 
 namespace rtt {
 namespace ai {
 namespace control {
 class PosController {
-    public:
+    protected:
         using Robot = world::Robot;
-        using Ball = world::Ball;
-        using WorldData = world::WorldData;
         using RobotPtr = std::shared_ptr<Robot>;
+        using Ball = world::Ball;
         using BallPtr = std::shared_ptr<Ball>;
+        using WorldData = world::WorldData;
         using WorldDataPtr = std::shared_ptr<WorldData>;
-
-        explicit PosController();
+    public:
+        explicit PosController() = default;
+        explicit PosController(bool avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
         virtual PosVelAngle getPosVelAngle(RobotPtr robot, Vector2 &targetPos) = 0;
         bool getCanMoveOutOfField() const;
         void setCanMoveOutOfField(bool canMoveOutOfField);
@@ -31,22 +32,23 @@ class PosController {
         bool getAvoidBall() const;
         void setAvoidBall(bool avoidBall);
 
+        std::tuple<double, double, double> lastPid;
+
     protected:
+
         // settings
+        bool avoidBall = false;
         bool canMoveOutOfField = false;
         bool canMoveInDefenseArea = false;
-        bool avoidBall = false;
 
-        // PID
-        PIDController posPID;
-        PIDController velPID;
-        tuple<double, double, double> posPIDValues = std::tuple<double, double, double>(0.0, 0.0, 0.0);
-        tuple<double, double, double> velPIDValues = std::tuple<double, double, double>(0.0, 0.0, 0.0);
+        PID xpid = PID(1.65, 0, 0.0);
+        PID ypid = PID(1.65, 0, 0.0);
+
         bool getPIDFromInterface = true;
         PosVelAngle controlWithPID(const RobotPtr &robot, PosVelAngle target);
         void checkInterfacePID();
 
-        Vector2 calculatePIDs(const RobotPtr &robot, PosVelAngle &target);
+        virtual Vector2 calculatePIDs(const RobotPtr &robot, PosVelAngle &target);
 };
 
 } // control

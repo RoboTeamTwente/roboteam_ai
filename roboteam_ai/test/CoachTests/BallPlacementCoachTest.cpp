@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/coach/Ballplacement.h>
+#include <roboteam_ai/src/coach/BallplacementCoach.h>
 #include <roboteam_ai/src/interface/InterfaceValues.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/world/World.h>

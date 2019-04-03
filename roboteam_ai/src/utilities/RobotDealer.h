@@ -17,13 +17,14 @@ namespace rtt {
 namespace ai {
 namespace robotDealer {
 
-enum RobotType {
-    closeToBall,
-    farFromBall,
-    closeToOurGoal,
-    betweenBallAndOurGoal,
-    closeToTheirGoal,
-    random
+enum RobotType : short {
+    CLOSE_TO_BALL,
+    FAR_FROM_BALL,
+    CLOSE_TO_OUR_GOAL,
+    BETWEEN_BALL_AND_OUR_GOAL,
+    CLOSE_TO_THEIR_GOAL,
+    BALL_PLACEMENT_RECEIVER,
+    RANDOM
 };
 
 class RobotDealer {

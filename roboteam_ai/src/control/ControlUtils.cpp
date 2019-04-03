@@ -221,24 +221,14 @@ int ControlUtils::rotateDirection(double currentAngle, double targetAngle){
 }
 
 /// Limits velocity to maximum velocity
-Vector2 ControlUtils::velocityLimiter(Vector2 vel, double maxVel) {
-    if (vel.length() > maxVel) {
-        vel = vel.stretchToLength(maxVel);
-        return vel;
-    }
-    else return vel;
-}
 
-Vector2 ControlUtils::velocityLimiter(Vector2 vel, double maxVel, double minVel){
+Vector2 ControlUtils::velocityLimiter(Vector2 vel, double maxVel,double minVel){
     if (vel.length() > maxVel) {
-        vel = vel.stretchToLength(maxVel);
-        return vel;
+        return vel.stretchToLength(maxVel);
+    } else if (vel.length() < minVel){
+        return vel.stretchToLength(minVel);
     }
-    else if (vel.length()<minVel){
-        vel=vel.stretchToLength(minVel);
-        return vel;
-    }
-    else return vel;
+    return vel;
 }
 
 
@@ -312,10 +302,22 @@ bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, Vector2 point, doub
     auto robot = world::world->getRobotForId(id, ourTeam);
     if (robot) {
         double exactAngleTowardsPoint = (point - robot->pos).angle();
-        return (robot->angularVelocity > constrainAngle(exactAngleTowardsPoint - maxDifference/2)
-            && robot->angularVelocity < constrainAngle(exactAngleTowardsPoint + maxDifference/2));
+
+        // Note: The angles should NOT be constrained here. This is necessary.
+        return (robot->angle.getAngle() > exactAngleTowardsPoint - maxDifference/2
+            && robot->angle.getAngle() < exactAngleTowardsPoint + maxDifference/2);
     }
     return false;
+}
+
+bool ControlUtils::objectVelocityAimedToPoint(Vector2 objectPosition, Vector2 velocity, Vector2 point, double maxDifference) {
+
+        double exactAngleTowardsPoint = (point - objectPosition).angle();
+
+        // Note: The angles should NOT be constrained here. This is necessary.
+        return ( velocity.angle() > exactAngleTowardsPoint - maxDifference/2
+                &&  velocity.angle()  < exactAngleTowardsPoint + maxDifference/2);
+
 }
 
 double ControlUtils::twoLineForwardIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2) {
