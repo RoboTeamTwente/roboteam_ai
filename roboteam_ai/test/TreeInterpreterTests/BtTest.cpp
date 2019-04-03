@@ -330,6 +330,8 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
                 "Update: Counter-A",
                 "Terminate: Counter-A",
                 "Terminate: Counter-B"
+//                "Terminate: Counter-A",
+//                "Terminate: Counter-B"
         };
 
         EXPECT_EQ(expectedTrace, traces);
