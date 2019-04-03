@@ -26,8 +26,6 @@ private:
     int robotID = - 1;
     Vector2 pos;
     Vector2 vel;
-    bool avoidBall = false;
-    bool canGoOutsideField = true;
 
     void drawCross(Vector2 &pos, QColor color = Qt::green);
     void drawPoint(Vector2 &pos, QColor color = Qt::green);
@@ -51,11 +49,11 @@ private:
     std::vector<PathPoint> path;
 public:
     explicit NumTreePosControl() = default;
+    explicit NumTreePosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
+
     void clear();
     Vector2 finalTargetPos;
     PosVelAngle getPosVelAngle(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 &targetPos) override;
-    void setCanGoOutsideField(bool _canGoOutsideField);
-
 };
 
 }

@@ -6,7 +6,7 @@
 #include "DribbleRotate.h"
 #include "../control/ControlUtils.h"
 #include "../utilities/Field.h"
-#include "../coach/Ballplacement.h"
+#include "roboteam_ai/src/coach/BallplacementCoach.h"
 
 namespace rtt {
 namespace ai {

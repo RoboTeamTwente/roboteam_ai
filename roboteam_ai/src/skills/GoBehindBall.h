@@ -14,7 +14,6 @@ namespace ai {
 class GoBehindBall : public Skill {
 
     private:
-
         enum unit {
           penalty,
           freeKick,

@@ -37,7 +37,7 @@ TEST(GoToPos, GoToPosTest) {
     worldMsg.us.push_back(robot);
     worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::random,"GoToPosTest","GTPtest");
+    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::RANDOM,"GoToPosTest","GTPtest");
     rtt::ai::GoToPos goToPos("GTPtest", bb);
     goToPos.initialize();
 

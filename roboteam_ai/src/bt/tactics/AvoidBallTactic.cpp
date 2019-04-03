@@ -17,7 +17,7 @@ void bt::AvoidBallTactic::initialize() {
 
     // get the amount of robots to claim
     while (!dealer::getAvailableRobots().empty()) {
-        robotIDs.insert(dealer::claimRobotForTactic(robotType::random, name, roleNames[claimedRobots]));
+        robotIDs.insert(dealer::claimRobotForTactic(robotType::RANDOM, name, roleNames[claimedRobots]));
         if (robotIDs.find(-1) == robotIDs.end()) claimedRobots++;
         else robotIDs.erase(-1);
     }

@@ -133,17 +133,14 @@ Vector2 PIDController::controlP(Vector2 err) {
 Vector2 PIDController::controlI(Vector2 err) {
     Vector2 value_I2;
     value_I2.x = this->controlI(err.x);
-    this->initial_I2 += err.y * this->timeDiff;
-    value_I2.y = this->kI * this->initial_I2;
+    value_I2.y = this->controlI(err.y);
     return value_I2;
 }
 
 Vector2 PIDController::controlD(Vector2 err) {
     Vector2 value_D2;
     value_D2.x = this->controlD(err.x);
-    double rateErr2 = (err.y - this->prev_error2) * this->timeDiff;
-    value_D2.y = this->kD * rateErr2;
-    this->prev_error2 = err.y;
+    value_D2.y = this->controlD(err.y);
     return value_D2;
 }
 
