@@ -302,8 +302,8 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/BallPlacementCoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/FormationTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/DefensiveCoachTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/OffensiveCoachTest.cpp)
+        roboteam_ai/test/CoachTests/DefensiveCoachTest.cpp
+        roboteam_ai/test/CoachTests/OffensiveCoachTest.cpp)
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/mainWindow.cpp
