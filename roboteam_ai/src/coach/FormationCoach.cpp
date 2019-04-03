@@ -8,9 +8,22 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
+bool FormationCoach::isOffensiveStop(int ID) {
 
+    if (!formed) {
+        formStop();
+    }
+    for (auto robot : robots) {
+        if (robot.first == ID) {
+            return robot.second;
+        }
+    }
+    return false;
+}
 
+void FormationCoach::formStop() {
 
+}
 }
 }
 }
