@@ -53,6 +53,7 @@ void FormationCoach::makeActiveStopPositions() {
         robotsStop[closest.first] = true;
         robotsStop[closestest.first] = true;
     }
+}
     void FormationCoach::makeStopPositions() {
         int amount = 0;
         for (auto robot : robotsStop) {
@@ -73,8 +74,8 @@ void FormationCoach::makeActiveStopPositions() {
             positionsStop.insert(startPoint);
             positionsStop.insert(endPoint);
         }
+
     }
-}
 
 }
 }
