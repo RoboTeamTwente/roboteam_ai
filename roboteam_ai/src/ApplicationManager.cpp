@@ -73,6 +73,9 @@ void ApplicationManager::runOneLoopCycle() {
 
         ai::analysis::GameAnalyzer::getInstance().start();
 
+        robotDealer::RobotDealer::setUseSeparateKeeper(true);
+
+
         // Will do things if this is a demo
         // otherwise wastes like 0.1 ms
         auto demomsg = IOManager->getDemoInfo();
@@ -131,6 +134,10 @@ void ApplicationManager::handleRefData() {
     }
 
     int newKeeperId = ai::Referee::getRefereeData().us.goalie;
+
+    // when we have a referee, force that we use a keeper!
+    robotDealer::RobotDealer::setUseSeparateKeeper(true);
+
     // Let the ref set the goalie
     robotDealer::RobotDealer::setKeeperID(newKeeperId);
 

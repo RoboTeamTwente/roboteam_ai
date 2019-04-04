@@ -17,7 +17,7 @@ std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::robotO
 std::mutex RobotDealer::robotOwnersLock;
 
 int RobotDealer::keeperID = -1;
-bool RobotDealer::useSeparateKeeper = rtt::ai::Constants::USE_SEPERATE_KEEPER();
+bool RobotDealer::useSeparateKeeper = false;
 bool RobotDealer::hasClaimedKeeper = false;
 
 /// For internal use
@@ -403,6 +403,14 @@ void RobotDealer::refresh() {
     BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
     BTFactory::makeTrees();
     if (useSeparateKeeper) claimKeeper();
+}
+
+bool RobotDealer::usesSeparateKeeper() {
+    return useSeparateKeeper;
+}
+
+void RobotDealer::setUseSeparateKeeper(bool useSeparateKeeper) {
+    RobotDealer::useSeparateKeeper = useSeparateKeeper;
 }
 
 

@@ -26,7 +26,6 @@ enum RobotType : short {
 class RobotDealer {
 
 private:
-
     static bool useSeparateKeeper;
     static bool hasClaimedKeeper;
     static std::map<std::string, std::set<std::pair<int, std::string>>> robotOwners;
@@ -57,6 +56,9 @@ public:
     static void setKeeperID(int ID);
     static int getKeeperID();
     static void refresh();
+
+    static bool usesSeparateKeeper();
+    static void setUseSeparateKeeper(bool useSeparateKeeper);
 
 };
 }
