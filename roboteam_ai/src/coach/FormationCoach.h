@@ -29,6 +29,7 @@ class FormationCoach {
         std::vector<Vector2> positionsStop;
         void makeStopPositions();
         void makeActiveStopPositions();
+        bool done = false;
 
 
 

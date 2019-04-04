@@ -9,6 +9,7 @@
 namespace rtt {
 namespace ai {
 std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> Stop::robotsInFormation = {};
+int Stop::defensiveOffensive = -1;
 
 Stop::Stop(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
@@ -21,7 +22,15 @@ void Stop::onInitialize() {
 Skill::Status Stop::onUpdate() {
 
     if (isActive) {
-        targetLocation = getActivePoint();
+        if (defensiveOffensive == -1 || defensiveOffensive == robot->id) {
+            defensiveOffensive = robot->id;
+            targetLocation = getDefensiveActivePoint();
+        }
+        else{
+            targetLocation = getOffensiveActivePoint();
+
+
+        }
         command.w = static_cast<float>((targetLocation - robot->pos).angle());
         Vector2 velocityRaw = goToPos.getPosVelAngle(robot, targetLocation).vel;
         Vector2 velocity = control::ControlUtils::velocityLimiter(velocityRaw, 1.2);
@@ -51,13 +60,22 @@ Skill::Status Stop::onUpdate() {
 
     return Status::Running;
 
-
 }
 void Stop::onTerminate(Skill::Status s) {
 
     isActive = false;
 }
-Vector2 Stop::getActivePoint() {
+Vector2 Stop::getOffensiveActivePoint() {
+
+    Vector2 penaltyPos = Field::getPenaltyPoint(false);
+    Vector2 ballPos = rtt::ai::World::getBall()->pos;
+
+    Vector2 offset = (penaltyPos - ballPos).stretchToLength(0.6);
+    return ballPos + offset;
+
+}
+
+Vector2 Stop::getDefensiveActivePoint() {
 
     Vector2 penaltyPos = Field::getPenaltyPoint(true);
     Vector2 ballPos = rtt::ai::World::getBall()->pos;
@@ -66,6 +84,7 @@ Vector2 Stop::getActivePoint() {
     return ballPos + offset;
 
 }
+
 Vector2 Stop::getFormationPosition() {
     // first we calculate all the positions for the defense
     std::vector<Vector2> targetLocations = coach::g_formation.getStopPositions();

@@ -31,7 +31,8 @@ std::string Skill::node_name() {
 Skill::Status Skill::update() {
     updateRobot();
     ball = World::getBall(); // update ball position
-    if (! robot) return Status::Failure;
+    if (! robot)
+        return Status::Failure;
     if (! ball) return Status::Waiting;
     return onUpdate();
 }

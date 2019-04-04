@@ -247,13 +247,13 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
             {"StopTactic", {
-                    {"1", robotType::RANDOM},
-                    {"2", robotType::RANDOM},
-                    {"3", robotType::RANDOM},
-                    {"4", robotType::RANDOM},
-                    {"5", robotType::RANDOM},
-                    {"6", robotType::RANDOM},
-                    {"7", robotType::RANDOM},
+                    {"aa", robotType::RANDOM},
+                    {"bb", robotType::RANDOM},
+                    {"cc", robotType::RANDOM},
+                    {"dd", robotType::RANDOM},
+                    {"ee", robotType::RANDOM},
+                    {"ff", robotType::RANDOM},
+                    {"gg", robotType::RANDOM},
             }
             },
 
