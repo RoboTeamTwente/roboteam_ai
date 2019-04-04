@@ -75,10 +75,12 @@ void ApplicationManager::runOneLoopCycle() {
         this->notifyTreeStatus(status);
 
 
+        rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(false);
         if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
             keeperTree = BTFactory::getKeeperTree();
             Status keeperStatus = keeperTree->tick();
 
+            // if there
             if (ai::robotDealer::RobotDealer::getKeeperID() == -1) {
                 ai::robotDealer::RobotDealer::setKeeperID(ai::world::world->getUs().at(0).id);
             }

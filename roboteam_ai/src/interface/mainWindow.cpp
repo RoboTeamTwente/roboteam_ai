@@ -277,11 +277,11 @@ void MainWindow::updateTreeWidget() {
 
 void MainWindow::updateKeeperTreeWidget() {
 
-    if (robotsInField != World::get_world().us.size()) {
+    if (robotsInField != world::world->getUs().size()) {
         select_goalie->clear();
-        robotsInField = World::get_world().us.size();
+        robotsInField = world::world->getUs().size();
 
-        for (auto robot : World::get_world().us) {
+        for (auto robot : world::world->getUs()) {
             std::string txt = to_string(robot.id);
             select_goalie->addItem(QString::fromStdString(txt));
         }

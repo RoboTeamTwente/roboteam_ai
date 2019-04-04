@@ -322,12 +322,7 @@ bool NumTreePosControl::checkCollision(std::shared_ptr<PathPoint> point, double 
             return true;
     }
     if (!canMoveOutOfField) {
-<<<<<<< HEAD
-        if (!world::field->pointIsInField(point->pos))
-=======
-        if (!Field::pointIsInField(point->pos))
->>>>>>> origin/development
-            return true;
+        if (!world::field->pointIsInField(point->pos)) return true;
     }
     return false;
 }

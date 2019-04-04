@@ -9,8 +9,6 @@ std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
 std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::keeperRepo;
 std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
-int BTFactory::keeperID;
-
 
 /// Initiate the BTFactory
 void BTFactory::makeTrees() {
@@ -69,10 +67,6 @@ void BTFactory::setCurrentTree(const std::string &newTree) {
 
 void BTFactory::setKeeperTree(const std::string &keeperTree_) {
     keeperTree = keeperTree_;
-}
-
-void BTFactory::setKeeper(int newID) {
-    BTFactory::keeperID = newID;
 }
 
 bt::BehaviorTree::Ptr BTFactory::getKeeperTree() {

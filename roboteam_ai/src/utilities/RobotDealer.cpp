@@ -8,6 +8,7 @@
 #include "ros/ros.h"
 #include <utility>
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
+#include <roboteam_ai/src/treeinterp/BTFactory.h>
 
 namespace rtt {
 namespace ai {
@@ -16,7 +17,8 @@ namespace robotDealer {
 std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::robotOwners = {};
 
 int RobotDealer::keeperID = -1;
-
+bool RobotDealer::useSeparateKeeper = false;
+bool RobotDealer::hasClaimedKeeper = false;
 std::mutex RobotDealer::robotOwnersLock;
 
 /// For internal use
@@ -67,7 +69,7 @@ void RobotDealer::updateFromWorld() {
     std::set<int> currentRobots = getRobots();
     for (auto robot : robots) {
         if (currentRobots.find(robot) == currentRobots.end()) {
-            if (robot == keeperID) {
+            if (useSeparateKeeper && robot == keeperID) {
                 ROS_ERROR("The keeper just got registered as a free robot this should never happen");
                 continue;
             }
@@ -139,7 +141,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
         addRobotToOwnerList(id, std::move(tacticName), std::move(roleName));
         return id;
     }
-   // ROS_INFO_STREAM("Found no free robots in robot dealer");
+    ROS_INFO_STREAM("Found no free robots in robot dealer");
     return - 1;
 }
 
@@ -359,18 +361,51 @@ std::string RobotDealer::getRoleNameForId(int ID) {
     return "";
 
 }
+
 void RobotDealer::halt() {
     robotOwners.clear();
-    updateFromWorld();
+    RobotDealer::updateFromWorld();
+    hasClaimedKeeper = false;
 }
+
+/// set the keeper ID if its different than before
 void RobotDealer::setKeeperID(int ID) {
-    keeperID = ID;
-    std::lock_guard<std::mutex> lock(robotOwnersLock);
-    addRobotToOwnerList(ID, "keeper", "keeper");
+    if (useSeparateKeeper && ID != keeperID) {
+        keeperID = ID;
+        hasClaimedKeeper = false;
+        refresh();
+    }
 }
+
 int RobotDealer::getKeeperID() {
     std::lock_guard<std::mutex> lock(robotOwnersLock);
     return keeperID;
+}
+
+void RobotDealer::claimKeeper() {
+    if (!hasClaimedKeeper) {
+        std::cout << "[Robotdealer - claimkeeper] Claiming keeper" << std::endl;
+        std::lock_guard<std::mutex> lock(robotOwnersLock);
+        addRobotToOwnerList(keeperID, "Keeper", "Keeper");
+        hasClaimedKeeper = true;
+    }
+}
+
+void RobotDealer::refresh() {
+    halt();
+    if (BTFactory::getCurrentTree() != "NaN") {
+        BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
+    }
+    BTFactory::makeTrees();
+    if (useSeparateKeeper) claimKeeper();
+}
+
+bool RobotDealer::usesSeparateKeeper() {
+    return useSeparateKeeper;
+}
+
+void RobotDealer::setUseSeparateKeeper(bool useSeparateKeeper) {
+    RobotDealer::useSeparateKeeper = useSeparateKeeper;
 }
 
 } // robotDealer
