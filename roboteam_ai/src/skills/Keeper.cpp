@@ -9,6 +9,7 @@
 
 namespace rtt {
 namespace ai {
+
 Keeper::Keeper(rtt::string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
@@ -40,6 +41,8 @@ Keeper::Status Keeper::onUpdate() {
             return Status::Running;
 
         }
+
+
         //double dist=control::ControlUtils::distanceToLine(robot->pos,ballPos,blockPoint);
         double dist = (blockPoint - (Vector2(robot->pos))).length(); //using point distance not line distance.
         if (dist < KEEPER_POSDIF) {

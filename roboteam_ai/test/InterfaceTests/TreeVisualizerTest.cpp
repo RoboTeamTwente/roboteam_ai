@@ -22,7 +22,7 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
     EXPECT_FALSE(treeVis->hasCorrectTree);
     EXPECT_TRUE(treeVis->treeItemMapping.empty());
 
-    treeVis->updateContents();
+    treeVis->updateContents(BTFactory::getTree(BTFactory::getCurrentTree()));
     EXPECT_TRUE(treeVis->hasCorrectTree);
     EXPECT_EQ(treeVis->treeItemMapping.size(), 24);
 
@@ -41,7 +41,7 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
         it->second->terminate(bt::Node::Status::Running);
     }
 
-    treeVis->updateContents();
+    treeVis->updateContents(BTFactory::getTree(BTFactory::getCurrentTree()));
     for (it = treeVis->treeItemMapping.begin(); it != treeVis->treeItemMapping.end(); it++) {
         std::string node, tree, status;
 
@@ -57,7 +57,7 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
 
     // check if it properly switches a strategy
     BTFactory::setCurrentTree("haltStrategy");
-    treeVis->updateContents();
+    treeVis->updateContents(BTFactory::getTree(BTFactory::getCurrentTree()));
     EXPECT_TRUE(treeVis->hasCorrectTree);
 
     EXPECT_EQ(treeVis->treeItemMapping.size(), 27);

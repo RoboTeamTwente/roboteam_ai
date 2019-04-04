@@ -18,7 +18,8 @@ void ApplicationManager::setup() {
     IOManager = new io::IOManager(true);
     BTFactory::makeTrees();
     BTFactory::setCurrentTree("haltStrategy");
-    BTFactory::setKeeperTree("keeperTest1");
+    BTFactory::setKeeperTree("SingleKeeperTactic");
+
 }
 
 void ApplicationManager::loop() {
@@ -72,6 +73,16 @@ void ApplicationManager::runOneLoopCycle() {
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
+
+
+        if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
+            keeperTree = BTFactory::getKeeperTree();
+            Status keeperStatus = keeperTree->tick();
+
+            if (ai::robotDealer::RobotDealer::getKeeperID() == -1) {
+                ai::robotDealer::RobotDealer::setKeeperID(ai::world::world->getUs().at(0).id);
+            }
+        }
 
         rtt::ai::coach::g_offensiveCoach.calculateNewPositions();
     }

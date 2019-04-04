@@ -7,6 +7,7 @@
 
 #include <QtWidgets/QTreeWidget>
 #include <roboteam_ai/src/bt/Node.hpp>
+#include "../bt/BehaviorTree.hpp"
 
 namespace rtt {
 namespace ai {
@@ -28,7 +29,7 @@ public:
     void setHasCorrectTree(bool hasCorrectTree);
     explicit TreeVisualizerWidget(MainWindow * parent);
 public slots:
-    void updateContents();
+    void updateContents(bt::BehaviorTree::Ptr tree);
     void populateRow(bt::Node::Ptr node, QTreeWidgetItem* row, bool isUpdate = false);
 };
 

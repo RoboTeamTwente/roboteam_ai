@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget* parent)
     auto splitter = new QSplitter(); // the splitter is an horizontal view that allows to be changed by the user
     robotsWidget = new RobotsWidget(this);
     treeWidget = new TreeVisualizerWidget(this);
+    keeperTreeWidget = new TreeVisualizerWidget(this);
 
 
     // functions to select strategies
@@ -93,9 +94,12 @@ MainWindow::MainWindow(QWidget* parent)
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [=](const QString &strategyName) {
               // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-              BTFactory::makeTrees();
               BTFactory::setCurrentTree(strategyName.toStdString());
+              robotDealer::RobotDealer::refresh();
+
+              // the pointers of the trees have changed so the widgets should be notified about this
               treeWidget->setHasCorrectTree(false);
+              keeperTreeWidget->setHasCorrectTree(false);
             });
 
     auto pidWidget = new QWidget;
@@ -124,12 +128,34 @@ MainWindow::MainWindow(QWidget* parent)
     cbVLayout->addSpacerItem(cbVSpacer);
     checkboxWidget->setLayout(cbVLayout);
 
+    // create a keeper widget
+    auto keeperWidget = new QWidget;
+    auto keeperVLayout = new QVBoxLayout(keeperWidget);
+
+    select_goalie = new QComboBox();
+    keeperVLayout->addWidget(select_goalie);
+    QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+                     [=](const QString &goalieId) {
+                         // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+                         robotDealer::RobotDealer::setKeeperID(goalieId.toInt());
+                         keeperTreeWidget->setHasCorrectTree(false);
+
+                     });
+
+    keeperVLayout->addWidget(select_goalie);
+    keeperVLayout->addWidget(keeperTreeWidget);
+
+    auto keeperVSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    keeperVLayout->addSpacerItem(keeperVSpacer);
+
     // add the tab widget
     auto tabWidget = new QTabWidget;
     tabWidget->addTab(treeWidget, tr("Behaviour trees"));
     tabWidget->addTab(checkboxWidget, tr("Visualisation Settings"));
     tabWidget->addTab(pidWidget, tr("PID"));
     tabWidget->addTab(robotsWidget, tr("Robots"));
+    tabWidget->addTab(keeperWidget, tr("Keeper"));
+
     vLayout->addWidget(tabWidget);
 
 
@@ -156,7 +182,8 @@ MainWindow::MainWindow(QWidget* parent)
     // start the UI update cycles
     // these are slower
     auto * robotsTimer = new QTimer(this);
-    connect(robotsTimer, SIGNAL(timeout()), treeWidget, SLOT(updateContents()));
+    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateTreeWidget()));
+    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateKeeperTreeWidget()));
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget())); // we need to pass the visualizer so thats why a seperate function is used
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updatePause()));
     robotsTimer->start(200); // 5fps
@@ -216,7 +243,6 @@ void MainWindow::updatePause() {
         haltBtn->setText("Pause");
         haltBtn->setStyleSheet("background-color: #cc0000;");
     }
-
 }
 
 void MainWindow::updateRobotsWidget() {
@@ -240,8 +266,28 @@ void MainWindow::setSelectStrategyText(QString text) {
     select_strategy->setCurrentText(text);
 }
 void MainWindow::refreshSignal() {
-    BTFactory::makeTrees();
+    robotDealer::RobotDealer::refresh();
+    keeperTreeWidget->setHasCorrectTree(false);
     treeWidget->setHasCorrectTree(false);
+}
+
+void MainWindow::updateTreeWidget() {
+    this->treeWidget->updateContents(BTFactory::getTree(BTFactory::getCurrentTree()));
+}
+
+void MainWindow::updateKeeperTreeWidget() {
+
+    if (robotsInField != World::get_world().us.size()) {
+        select_goalie->clear();
+        robotsInField = World::get_world().us.size();
+
+        for (auto robot : World::get_world().us) {
+            std::string txt = to_string(robot.id);
+            select_goalie->addItem(QString::fromStdString(txt));
+        }
+    }
+
+   this->keeperTreeWidget->updateContents(BTFactory::getKeeperTree());
 }
 
 

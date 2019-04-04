@@ -47,7 +47,9 @@ class MainWindow : public QMainWindow {
         void updatePause();
         void setUseReferee(bool useRef);
         void updateRobotsWidget();
-        void setShowDebugValueInTerminal(bool showDebug);
+        void updateTreeWidget();
+        void updateKeeperTreeWidget();
+    void setShowDebugValueInTerminal(bool showDebug);
         void refreshSignal();
     private:
         Visualizer* visualizer;
@@ -57,14 +59,18 @@ class MainWindow : public QMainWindow {
         QVBoxLayout* vLayout;
         RobotsWidget* robotsWidget;
         TreeVisualizerWidget* treeWidget;
+        TreeVisualizerWidget* keeperTreeWidget;
+
         QPushButton* haltBtn;
         QPushButton* refreshBtn;
 
         QPushButton* toggleColorBtn;
         QComboBox* select_strategy;
 
-    private:
-        // TODO: LUKAS, look at if I did this right with pos pid / vel pid :)
+        QComboBox* select_goalie;
+
+private:
+
         QGroupBox* doubleSpinBoxesGroup_Pos_PID;
         QHBoxLayout* spinBoxLayout;
         QDoubleSpinBox* sb_luth_Pos_P;
@@ -74,6 +80,7 @@ class MainWindow : public QMainWindow {
         void configureCheckBox(QString title, QLayout* layout, const QObject* receiver, const char* method,
                 bool defaultState = false);
         int amountOfSelectedRobots = 0;
+        int robotsInField = 0;
         void setToggleColorBtnLayout() const;
 };
 

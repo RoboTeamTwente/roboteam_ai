@@ -59,6 +59,10 @@ void WorldManager::updateReferee() {
             BTFactory::makeTrees();
         }
         BTFactory::setCurrentTree(strategyName);
+
+        // if there is a referee, we always want to have a separate keeper tree.
+        robotDealer::RobotDealer::setUseSeparateKeeper(true);
+        robotDealer::RobotDealer::setKeeperID(refereeMsg.us.goalie);
     }
 }
 
@@ -78,7 +82,7 @@ void WorldManager::updateGameAnalyzer(const WorldData &worldData) {
 unsigned char WorldManager::refereeMsgChanged(roboteam_msgs::RefereeData oldR, roboteam_msgs::RefereeData newR) {
     unsigned char bit = 0b000;
 
-    bool msgChanged = false;
+    bool msgChanged = true;
     msgChanged |= oldR.packet_timestamp != newR.packet_timestamp;
     msgChanged |= oldR.command_timestamp != newR.command_timestamp;
 

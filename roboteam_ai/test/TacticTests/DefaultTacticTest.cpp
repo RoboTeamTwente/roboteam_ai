@@ -13,6 +13,14 @@ namespace w = rtt::ai::world;
 namespace rd = rtt::ai::robotDealer;
 
 TEST(DefaultTacticTest, it_takes_robots) {
+<<<<<<< HEAD
+=======
+    robotDealer::RobotDealer::setUseSeparateKeeper(false);
+    robotDealer::RobotDealer::refresh();
+
+    using dealer = robotDealer::RobotDealer;
+    using robotType = robotDealer::RobotType;
+>>>>>>> origin/development
     // Make sure that there is a world and that it is empty
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot1, robot2, robot3, robot4, robot5, robot6, robot7, robot8;
@@ -27,7 +35,12 @@ TEST(DefaultTacticTest, it_takes_robots) {
     worldMsg.us.push_back(robot1);
     worldMsg.us.push_back(robot2);
     worldMsg.us.push_back(robot3);
+<<<<<<< HEAD
     w::world->updateWorld(worldMsg);
+=======
+
+    rtt::ai::World::set_world(worldMsg);
+>>>>>>> origin/development
 
     bt::Blackboard::Ptr bb = std::make_shared<bt::Blackboard>();
 

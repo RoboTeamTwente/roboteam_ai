@@ -148,6 +148,11 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
         robotColor = weAreYellow ? Constants::ROBOT_COLOR_BLUE() : Constants::ROBOT_COLOR_YELLOW();
     }
 
+    if (ourTeam && robot.id == robotDealer::RobotDealer::getKeeperID()) {
+        robotColor = QColor(255, 255, 255);
+
+    }
+
     if (showAllPaths) {
         std::vector<rtt::Vector2> gtpltPoints;
         for (auto pair : Drawer::getNumTreePoints(robot.id)) {

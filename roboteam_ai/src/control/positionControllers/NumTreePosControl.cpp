@@ -110,7 +110,7 @@ PosVelAngle NumTreePosControl::getPosVelAngle(RobotPtr robot, Vector2 &targetPos
         if (InterfaceValues::showDebugNumTreeTimeTaken() && InterfaceValues::showFullDebugNumTreeInfo())
             std::cout << "GoToPosClean tick took: " << (end-begin).toNSec()*0.000001 << " ms" << std::endl;
         if (InterfaceValues::showDebugNumTreeInfo())
-            std::cout << "robot is too close to another robot, trying to use forces instead" << std::endl;
+            std::cout << "robot " << robot->id << " is too close to another robot, trying to use forces instead" << std::endl;
 
         path.clear();
         return calculateForcePosVelAngle(robot, targetPos);
@@ -310,6 +310,7 @@ bool NumTreePosControl::checkCollision(std::shared_ptr<PathPoint> point, double 
                 return true;
         }
     }
+
     for (auto bot: world.them) {
         Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
         if (point->isCollision(botPos, collisionRadius))
@@ -321,7 +322,11 @@ bool NumTreePosControl::checkCollision(std::shared_ptr<PathPoint> point, double 
             return true;
     }
     if (!canMoveOutOfField) {
+<<<<<<< HEAD
         if (!world::field->pointIsInField(point->pos))
+=======
+        if (!Field::pointIsInField(point->pos))
+>>>>>>> origin/development
             return true;
     }
     return false;

@@ -278,6 +278,15 @@ Vector2 ControlUtils::calculateForce(rtt::Vector2 vector, double weight, double 
 std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(std::vector<Vector2> set1,
         std::vector<Vector2> set2) {
 
+
+    if (set1.size() != set2.size()) {
+        std::cout << "wrong input for hungarian: unequal" << std::endl;
+        return {};
+    } else if (set1.size() == 0 || set2.size() == 0) {
+        std::cout << "wrong input for hungarian: 0" << std::endl;
+        return {};
+    }
+
     std::vector<int> assignments;
     // compute a distance matrix, initialize it with zeros
     std::vector<std::vector<double>> distanceMatrix(set1.size(), std::vector<double>(set2.size()));
