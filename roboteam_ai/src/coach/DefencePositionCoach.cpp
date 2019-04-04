@@ -2,32 +2,31 @@
 // Created by rolf on 18-2-19.
 //
 
-#include "DefensiveCoach.h"
+#include "DefencePositionCoach.h"
 #include "roboteam_ai/src/utilities/Field.h"
 #include "roboteam_ai/src/control/ControlUtils.h"
 #include "roboteam_ai/src/utilities/RobotDealer.h"
-#include "roboteam_ai/src/interface/drawer.h"
-/// This is a class that returns the positions we want our defenders to be at for all defenders
+/// This is a class that computes useful lines and positions for computing defender positions
 namespace rtt {
 namespace ai {
 namespace coach {
 using util = control::ControlUtils;
 
-DefensiveCoach g_defensiveCoach;
+DefencePositionCoach g_defensiveCoach;
 
-DefensiveCoach::PossiblePass::PossiblePass(roboteam_msgs::WorldRobot _toBot, Vector2 ballPos)
+DefencePositionCoach::PossiblePass::PossiblePass(roboteam_msgs::WorldRobot _toBot, Vector2 ballPos)
         :
         toBot(_toBot),
         startPos(ballPos),
         endPos(g_defensiveCoach.computeSimpleReceivePos(ballPos, _toBot.pos)) { };
 
-double DefensiveCoach::PossiblePass::distance() {
+double DefencePositionCoach::PossiblePass::distance() {
     return (endPos - startPos).length();
 }
-bool DefensiveCoach::PossiblePass::obstacleObstructsPath(Vector2 obstPos, double obstRadius) {
+bool DefencePositionCoach::PossiblePass::obstacleObstructsPath(Vector2 obstPos, double obstRadius) {
     return util::distanceToLineWithEnds(obstPos, startPos, endPos) <= obstRadius;
 }
-int DefensiveCoach::PossiblePass::amountOfBlockers() {
+int DefencePositionCoach::PossiblePass::amountOfBlockers() {
     int total = 0;
     for (auto bot : World::get_world().us) {
         if (obstacleObstructsPath(bot.pos)) {
@@ -37,8 +36,7 @@ int DefensiveCoach::PossiblePass::amountOfBlockers() {
     return total;
 }
 // pick position on the line depending on how aggressive we want to play. aggression factor 1 is very in your face, whilst 0 is as close as possible to the goal
-
-Vector2 DefensiveCoach::getPos(std::pair<Vector2, Vector2> line, double aggressionFactor) {
+Vector2 DefencePositionCoach::getPos(std::pair<Vector2, Vector2> line, double aggressionFactor) {
     if (aggressionFactor < 0) {
         return line.second;
     }
@@ -47,9 +45,15 @@ Vector2 DefensiveCoach::getPos(std::pair<Vector2, Vector2> line, double aggressi
     }
     return line.second + (line.first - line.second)*aggressionFactor;
 }
-//computes a line segment on which the entirety of openGoalSegment is blocked as seen from point with robots with radius collissionRadius
 
-std::shared_ptr<std::pair<Vector2, Vector2>> DefensiveCoach::getBlockLineSegment(
+Vector2 DefencePositionCoach::computeSimpleReceivePos(Vector2 startPos, Vector2 robotPos) {
+    Vector2 receivePos =
+            robotPos + (startPos - robotPos).stretchToLength(Constants::CENTRE_TO_FRONT() + Constants::BALL_RADIUS());
+    return receivePos;
+}
+
+//computes a line segment on which the entirety of openGoalSegment is blocked as seen from point with robots with radius collissionRadius
+std::shared_ptr<std::pair<Vector2, Vector2>> DefencePositionCoach::getBlockLineSegment(
         std::pair<Vector2, Vector2> openGoalSegment, Vector2 point, double collisionRadius, double margin) {
     if (margin == - 1.0) { margin = collisionRadius; }
 
@@ -67,7 +71,7 @@ std::shared_ptr<std::pair<Vector2, Vector2>> DefensiveCoach::getBlockLineSegment
 
 }
 /// computes the intersection of the bisector of the angle to OpenGoalsegment from point and the defence area line
-std::shared_ptr<Vector2> DefensiveCoach::blockOnDefenseLine(std::pair<Vector2, Vector2> openGoalSegment,
+std::shared_ptr<Vector2> DefencePositionCoach::blockOnDefenseLine(std::pair<Vector2, Vector2> openGoalSegment,
         Vector2 point) {
     // margin by which we shift the defence area line forwards
     double margin = 0.15;
@@ -85,7 +89,7 @@ std::shared_ptr<Vector2> DefensiveCoach::blockOnDefenseLine(std::pair<Vector2, V
     return Field::lineIntersectsWithDefenceArea(true, point, endPos, margin);
 }
 /// places two robots as a block such that they are closest to the goal but block
-std::vector<Vector2> DefensiveCoach::doubleBlockOnDefenseLine(
+std::vector<Vector2> DefencePositionCoach::doubleBlockOnDefenseLine(
         std::pair<Vector2, Vector2> openGoalSegment, Vector2 point) {
     std::vector<Vector2> blockPositions;
     double margin = 0.15;
@@ -134,7 +138,7 @@ std::vector<Vector2> DefensiveCoach::doubleBlockOnDefenseLine(
 }
 
 ///scores a possible pass based on the pass and blocks that already have been decided
-double DefensiveCoach::scorePossiblePass(PossiblePass pass, std::vector<Vector2> decidedBlocks) {
+double DefencePositionCoach::scorePossiblePass(PossiblePass pass, std::vector<Vector2> decidedBlocks) {
     double score = 1.0;
     score *= scoreForOpenGoalAngle(pass, decidedBlocks);
     score *= penaltyForBlocks(pass, decidedBlocks);
@@ -142,7 +146,7 @@ double DefensiveCoach::scorePossiblePass(PossiblePass pass, std::vector<Vector2>
     return score;
 }
 
-std::vector<std::pair<Vector2, double>> DefensiveCoach::decideDefendersOnDefenseLine(int amount) {
+std::vector<std::pair<Vector2, double>> DefencePositionCoach::decideDefendersOnDefenseLine(int amount) {
     std::vector<std::pair<Vector2, double>> decidedBlocks;
     if (amount <= 0) {
         std::cerr << "Can't assign 0 or less Defender locations!!";
@@ -246,88 +250,9 @@ std::vector<std::pair<Vector2, double>> DefensiveCoach::decideDefendersOnDefense
     }
     return decidedBlocks;
 }
-/// calculates the defender locations for all available defenders
-void DefensiveCoach::updateDefenderLocations() {
-    if (doUpdate) {
-        doUpdate = false;
-        auto start = std::chrono::high_resolution_clock::now();
-        // clear the defenderLocations
-        defenderLocations.clear();
-        std::vector<int> availableDefenders = defenders;
-        // decide the locations to defend
-        std::vector<std::pair<Vector2, double>> positions = decideDefendersOnDefenseLine(availableDefenders.size());
-        // the following algorithm takes the closest robot for each available defender to decide which robot goes where.
-        // Since the points are ordered on priority from the above algorithm the most important points come first
-        // It might be better to use an algorithm that is more complicated (e.g. hungarian) but then we might need some kind of system which gives the first points more 'priority'
-        for (auto position : positions) {
-            int bestId = - 1;
-            double bestDist = 10000000000;
-            for (int botId : availableDefenders) {
-                auto bot = World::getRobotForId(botId, true);
-                if (bot) {
-                    if ((position.first - bot->pos).length() < bestDist) {
-                        bestId = botId;
-                        bestDist = (position.first - bot->pos).length();
-                    }
-                }
-                else {
-                    std::cerr << "Could not find robot " << botId << " to defend!";
-                }
-            }
-            if (bestId != - 1) {
-                defenderLocations[bestId] = position;
-                availableDefenders.erase(std::find(availableDefenders.begin(), availableDefenders.end(), bestId));
-            }
-            else {
-                std::cerr << "Could not find a robot to defend location!!!";
-                return;
-            }
-        }
-        //visualization
-        visualizePoints();
-        auto stop = std::chrono::high_resolution_clock::now();
-        std::cout << "Computation time:" << (std::chrono::duration_cast<chrono::nanoseconds>(stop - start).count()/1000000.0) << std::endl;
-    }
-}
-
-// functions that communicate with the skill
-/// adds a defender to the available defendersList
-void DefensiveCoach::addDefender(int id) {
-    bool robotIsRegistered = std::find(defenders.begin(), defenders.end(), id) != defenders.end();
-    if (! robotIsRegistered) {
-        defenders.push_back(id);
-        setDoUpdate();
-        //std::cout << "registered defender id:" << id << std::endl;
-    }
-    else {
-        std::cerr << "Defender is already registered, check your tree!!" << std::endl;
-    }
-}
-
-/// removes a defender from the available id's
-void DefensiveCoach::removeDefender(int id) {
-    auto defender = std::find(defenders.begin(), defenders.end(), id);
-    if (defender != defenders.end()) {
-        defenders.erase(defender);
-        setDoUpdate();
-//        std::cout << "removed defender id:" << id << std::endl;
-    }
-    else {
-        std::cerr << "Defender cannot be removed as it is not registered! Check your skill" << std::endl;
-    }
-}
-
-/// get the specific position of a defender with specified id
-std::shared_ptr<std::pair<Vector2, double>> DefensiveCoach::getDefenderPosition(int id) {
-    auto element = defenderLocations.find(id);
-    if (element == defenderLocations.end()) {
-        return nullptr;
-    }
-    else return std::make_shared<std::pair<Vector2, double>>(defenderLocations[id]);
-}
 
 /// gets the furthest position at which an obstacle will block the entire Angle
-Vector2 DefensiveCoach::getBlockPoint(std::pair<Vector2, Vector2> openGoalSegment, Vector2 point,
+Vector2 DefencePositionCoach::getBlockPoint(std::pair<Vector2, Vector2> openGoalSegment, Vector2 point,
         double collisionRadius) {
     //compute the bisector of the angle of point and the two ends of the openGoalSegment
     Vector2 lineToSideOne = openGoalSegment.first - point;
@@ -341,7 +266,7 @@ Vector2 DefensiveCoach::getBlockPoint(std::pair<Vector2, Vector2> openGoalSegmen
     return FurthestBlock;
 }
 
-std::pair<Vector2, Vector2> DefensiveCoach::shortenLineForDefenseArea(Vector2 lineStart, Vector2 lineEnd,
+std::pair<Vector2, Vector2> DefencePositionCoach::shortenLineForDefenseArea(Vector2 lineStart, Vector2 lineEnd,
         double defenseMargin) {
     std::pair<Vector2, Vector2> line;
     std::shared_ptr<Vector2> intersectPos = Field::lineIntersectsWithDefenceArea(true, lineStart, lineEnd,
@@ -357,7 +282,7 @@ std::pair<Vector2, Vector2> DefensiveCoach::shortenLineForDefenseArea(Vector2 li
     return line;
 }
 /// scores a point based on the largest openGoal angle from that point
-double DefensiveCoach::scoreForOpenGoalAngle(PossiblePass pass, std::vector<Vector2> decidedBlocks) {
+double DefencePositionCoach::scoreForOpenGoalAngle(PossiblePass pass, std::vector<Vector2> decidedBlocks) {
     // create the 'virtual bots' that make up the blocks we have already decided on
     std::vector<roboteam_msgs::WorldRobot> virtualBots = createVirtualBots(decidedBlocks);
     auto keeper = World::getRobotForId(robotDealer::RobotDealer::getKeeperID(),
@@ -388,7 +313,7 @@ double DefensiveCoach::scoreForOpenGoalAngle(PossiblePass pass, std::vector<Vect
     return largestOpenGoalAngle;
 }
 /// penalize points that cannot be passed to
-double DefensiveCoach::penaltyForBlocks(PossiblePass pass, std::vector<Vector2> decidedBlocks) {
+double DefencePositionCoach::penaltyForBlocks(PossiblePass pass, std::vector<Vector2> decidedBlocks) {
     // we half the score for every robot that blocks the pass
     // can be made to also take 'potential intercepts' into account better
     int amountOfBlocks = 0;
@@ -402,7 +327,7 @@ double DefensiveCoach::penaltyForBlocks(PossiblePass pass, std::vector<Vector2> 
     return pow(obstacleFactor, amountOfBlocks);
 }
 /// penalize points that are far away to pass
-double DefensiveCoach::penaltyForPassDist(PossiblePass pass) {
+double DefencePositionCoach::penaltyForPassDist(PossiblePass pass) {
     // between goodUntilPassDist and impossiblePassDist we define a linear line that we multiply by the value of the distance with it.
     // e.g. at the halfway point between the two points the penalty is factor 0.5
     double goodUntilPassDist = 6.0;
@@ -412,36 +337,7 @@ double DefensiveCoach::penaltyForPassDist(PossiblePass pass) {
     }
     return 1.0;
 }
-void DefensiveCoach::visualizePoints() {
-    int i = 0;
-    std::vector<std::pair<Vector2, QColor>> vis2;
-    for (auto location : defenderLocations) {
-        std::pair<Vector2, QColor> pair;
-        int colourcount = 6;
-        if (i%colourcount == 0) {
-            pair = make_pair(location.second.first, Qt::green);
-        }
-        else if (i%colourcount == 1) {
-            pair = make_pair(location.second.first, Qt::red);
-        }
-        else if (i%colourcount == 2) {
-            pair = make_pair(location.second.first, Qt::blue);
-        }
-        else if (i%colourcount == 3) {
-            pair = make_pair(location.second.first, Qt::darkYellow);
-        }
-        else if (i%colourcount == 4) {
-            pair = make_pair(location.second.first, Qt::darkMagenta);
-        }
-        else if (i%colourcount == 5) {
-            pair = make_pair(location.second.first, Qt::cyan);
-        }
-        vis2.emplace_back(pair);
-        i ++;
-    }
-    ai::interface::Drawer::setTestPoints(vis2);
-}
-std::vector<roboteam_msgs::WorldRobot> DefensiveCoach::createVirtualBots(std::vector<Vector2> decidedBlocks) {
+std::vector<roboteam_msgs::WorldRobot> DefencePositionCoach::createVirtualBots(std::vector<Vector2> decidedBlocks) {
     std::vector<roboteam_msgs::WorldRobot> virtualBots;
     for (auto blockPos : decidedBlocks) {
         roboteam_msgs::WorldRobot bot;
@@ -451,7 +347,7 @@ std::vector<roboteam_msgs::WorldRobot> DefensiveCoach::createVirtualBots(std::ve
     }
     return virtualBots;
 }
-std::vector<std::pair<DefensiveCoach::PossiblePass, double>> DefensiveCoach::createPassesAndDanger(
+std::vector<std::pair<DefencePositionCoach::PossiblePass, double>> DefencePositionCoach::createPassesAndDanger(
         std::vector<roboteam_msgs::WorldRobot> bots, std::vector<Vector2> decidedBlocks) {
     std::vector<std::pair<PossiblePass, double>> passWithScore;
     // check the passes from the robot towards every other bot and calculate their danger
@@ -471,14 +367,6 @@ std::vector<std::pair<DefensiveCoach::PossiblePass, double>> DefensiveCoach::cre
               return left.second > right.second;
             });
     return passWithScore;
-}
-Vector2 DefensiveCoach::computeSimpleReceivePos(Vector2 startPos, Vector2 robotPos) {
-    Vector2 receivePos =
-            robotPos + (startPos - robotPos).stretchToLength(Constants::CENTRE_TO_FRONT() + Constants::BALL_RADIUS());
-    return receivePos;
-}
-void DefensiveCoach::setDoUpdate() {
-    doUpdate = true;
 }
 }//coach
 }//ai
