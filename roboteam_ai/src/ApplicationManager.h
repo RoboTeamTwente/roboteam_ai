@@ -10,8 +10,6 @@
 #include "io/IOManager.h"
 #include "treeinterp/BTFactory.h"
 #include "ros/ros.h"
-#include "world/World.h"
-#include "world/Field.h"
 
 namespace rtt {
 

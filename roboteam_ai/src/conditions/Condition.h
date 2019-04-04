@@ -2,8 +2,7 @@
 #define ROBOTEAM_AI_CONDITION_H
 
 #include "../bt/Leaf.hpp"
-#include "../world/World.h"
-#include "../world/Field.h"
+
 
 namespace rtt {
 namespace ai {

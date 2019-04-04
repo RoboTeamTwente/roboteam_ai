@@ -2,8 +2,8 @@
 // Created by thijs on 19-3-19.
 //
 
-#ifndef ROBOTEAM_AI_WORLDDDD_H
-#define ROBOTEAM_AI_WORLDDDD_H
+#ifndef ROBOTEAM_AI_WORLD_H
+#define ROBOTEAM_AI_WORLD_H
 
 #include <utility>
 #include <mutex>

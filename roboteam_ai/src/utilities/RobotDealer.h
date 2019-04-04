@@ -2,8 +2,8 @@
 // Created by baris on 16/11/18.
 //
 
-#ifndef ROBOTEAM_AI_ROBOTDEALERR_H
-#define ROBOTEAM_AI_ROBOTDEALERR_H
+#ifndef ROBOTEAM_AI_ROBOTDEALER_H
+#define ROBOTEAM_AI_ROBOTDEALER_H
 
 #include <utility>
 #include <map>

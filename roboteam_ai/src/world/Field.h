@@ -5,8 +5,8 @@
  */
 
 
-#ifndef ROBOTEAM_AI_FIELDD_H
-#define ROBOTEAM_AI_FIELDD_H
+#ifndef ROBOTEAM_AI_FIELD_H
+#define ROBOTEAM_AI_FIELD_H
 
 #include <roboteam_utils/Vector2.h>
 #include "roboteam_msgs/GeometryFieldSize.h"

@@ -2,8 +2,8 @@
 // Created by thijs on 21-3-19.
 //
 
-#ifndef ROBOTEAM_AI_WORLDDATAA_H
-#define ROBOTEAM_AI_WORLDDATAA_H
+#ifndef ROBOTEAM_AI_WORLDDATA_H
+#define ROBOTEAM_AI_WORLDDATA_H
 
 #include "roboteam_msgs/World.h"
 

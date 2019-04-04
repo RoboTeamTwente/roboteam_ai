@@ -34,13 +34,14 @@ Vector2 GeneralPositionCoach::getPositionBehindBallToRobot(double distanceBehind
 }
 
 Vector2 GeneralPositionCoach::getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position) {
-    Vector2 ball = world::world->getBall()->pos;
-    return ball + (ball - position).stretchToLength(distanceBehindBall);
+    auto ball = world::world->getBall();
+    if (!ball) return {};
+    Vector2 ballPos = ball->pos;
+    return ballPos + (ballPos - position).stretchToLength(distanceBehindBall);
 }
 
-Vector2
-GeneralPositionCoach::getPositionBehindPositionToPosition(double distanceBehindBall, const Vector2 &behindPosition,
-                                                          const Vector2 &toPosition) {
+Vector2 GeneralPositionCoach::getPositionBehindPositionToPosition(
+        double distanceBehindBall, const Vector2 &behindPosition, const Vector2 &toPosition) {
     return behindPosition + (behindPosition - toPosition).stretchToLength(distanceBehindBall);
 }
 

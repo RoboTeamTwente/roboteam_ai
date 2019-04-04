@@ -75,7 +75,10 @@ double CoachHeuristics::calculateDistanceFromCornerScore(const Vector2 &position
 }
 
 /// Gives a higher score if the ball is not too far or too close to the ball (parabolic using maxDistanceFromBall)
-double CoachHeuristics::calculateDistanceFromBallScore(const Vector2 &position, roboteam_msgs::GeometryFieldSize &field, BallPtr &ball) {
+double CoachHeuristics::calculateDistanceFromBallScore(const Vector2 &position,
+        roboteam_msgs::GeometryFieldSize &field, BallPtr &ball) {
+
+    if (!ball) return -1.0;
     double distanceFromBall = (position - ball->pos).length();
     return -pow(distanceFromBall / (0.5 * MAX_DISTANCE_FROM_BALL), 2) + 2 * (distanceFromBall / (0.5 * MAX_DISTANCE_FROM_BALL));
 }
@@ -84,6 +87,8 @@ double CoachHeuristics::calculateDistanceFromBallScore(const Vector2 &position, 
 double CoachHeuristics::calculatePositionScore(const Vector2 &position) {
     auto w = world::world->getWorld();
     auto ball = world::world->getBall();
+
+    if (!ball) return -1.0;
 
     roboteam_msgs::GeometryFieldSize field = world::field->get_field();
     double closeToGoalScore = calculateCloseToGoalScore(position);

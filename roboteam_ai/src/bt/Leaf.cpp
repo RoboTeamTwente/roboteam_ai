@@ -1,11 +1,8 @@
 #include <memory>
 
-#include "Node.hpp"
 #include "Leaf.hpp"
 #include "../utilities/RobotDealer.h"
-#include "../world/World.h"
 #include "ros/ros.h"
-
 
 namespace bt {
 

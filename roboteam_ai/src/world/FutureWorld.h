@@ -2,8 +2,8 @@
 // Created by thijs on 19-3-19.
 //
 
-#ifndef ROBOTEAM_AI_PROCESSEDWORLDEE_H
-#define ROBOTEAM_AI_PROCESSEDWORLDEE_H
+#ifndef ROBOTEAM_AI_FUTUREWORLD_H
+#define ROBOTEAM_AI_FUTUREWORLD_H
 
 #include "WorldData.h"
 
