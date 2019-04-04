@@ -19,6 +19,9 @@ void robotCommandCallback(const roboteam_msgs::RobotCommandConstPtr &cmd) {
 
 TEST(GoToPos, GoToPosTest) {
 
+    robotDealer::RobotDealer::setUseSeparateKeeper(false);
+    robotDealer::RobotDealer::refresh();
+
     ros::Rate rate(1);
     commands.clear();
     EXPECT_TRUE(commands.empty());

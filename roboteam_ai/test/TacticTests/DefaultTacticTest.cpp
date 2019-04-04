@@ -11,6 +11,9 @@
 #include "../../src/utilities/RobotDealer.h"
 
 TEST(DefaultTacticTest, it_takes_robots) {
+    robotDealer::RobotDealer::setUseSeparateKeeper(false);
+    robotDealer::RobotDealer::refresh();
+
     using dealer = robotDealer::RobotDealer;
     using robotType = robotDealer::RobotType;
     // Make sure that there is a world and that it is empty
@@ -24,11 +27,9 @@ TEST(DefaultTacticTest, it_takes_robots) {
     robot1.id=1;
     robot2.id=2;
     robot3.id=3;
-    robot4.id=4;
     worldMsg.us.push_back(robot1);
     worldMsg.us.push_back(robot2);
     worldMsg.us.push_back(robot3);
-    worldMsg.us.push_back(robot4);
 
     rtt::ai::World::set_world(worldMsg);
 

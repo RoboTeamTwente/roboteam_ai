@@ -7,6 +7,10 @@
 #include "roboteam_ai/src/utilities/World.h"
 
 TEST(RobotDealerTest, RobotDealerTest) {
+
+    robotDealer::RobotDealer::setUseSeparateKeeper(false);
+    robotDealer::RobotDealer::refresh();
+
     using dealer = robotDealer::RobotDealer;
     using robot = robotDealer::RobotType;
     // Make sure that there is a world and that it is empty
@@ -34,9 +38,9 @@ TEST(RobotDealerTest, RobotDealerTest) {
     // one robot is always immediately claimed for the keeper
     EXPECT_TRUE(dealbot1==dealer::findRobotForRole("role1"));
     EXPECT_EQ(dealer::getTacticNameForRole("role1"), "testing1");
-    EXPECT_EQ(dealer::getAvailableRobots().size(), (unsigned int) 2);
+    EXPECT_EQ(dealer::getAvailableRobots().size(), (unsigned int) 3);
     dealer::claimRobotForTactic(robot::RANDOM, "testing1", "role2");
-    EXPECT_EQ(dealer::getAvailableRobots().size(), (unsigned int) 1);
+    EXPECT_EQ(dealer::getAvailableRobots().size(), (unsigned int) 2);
     auto claimedBots1 = dealer::getClaimedRobots()["testing1"];
     EXPECT_EQ(claimedBots1.size(), (unsigned int) 2);
     auto dealbot3 = dealer::claimRobotForTactic(robot::RANDOM, "testing1", "role3");
@@ -72,5 +76,5 @@ TEST(RobotDealerTest, RobotDealerTest) {
     dealer::releaseRobotForRole("role1");
 
     dealer::removeTactic("testing1");
-    EXPECT_EQ(dealer::getAvailableRobots().size(), (unsigned int) 3);
+    EXPECT_EQ(dealer::getAvailableRobots().size(), (unsigned int) 4);
 }

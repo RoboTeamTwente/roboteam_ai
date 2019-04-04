@@ -68,7 +68,7 @@ void RobotDealer::updateFromWorld() {
     std::set<int> currentRobots = RobotDealer::getRobots();
     for (auto robot : robots) {
         if (currentRobots.find(robot) == currentRobots.end()) {
-            if (robot == keeperID) {
+            if (useSeparateKeeper && robot == keeperID) {
                 ROS_ERROR("The keeper just got registered as a free robot this should never happen");
                 continue;
             }
@@ -400,7 +400,9 @@ void RobotDealer::claimKeeper() {
 
 void RobotDealer::refresh() {
     halt();
-    BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
+    if (BTFactory::getCurrentTree() != "NaN") {
+        BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
+    }
     BTFactory::makeTrees();
     if (useSeparateKeeper) claimKeeper();
 }
