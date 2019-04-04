@@ -28,7 +28,7 @@ private:
       Penalty,
       FreeKick
     };
-    Formation formation;
+    Formation formation = Normal;
 
     static std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> robotsInFormation;
     int robotsInFormationMemory = 0;

@@ -16,8 +16,8 @@ EnterFormation::EnterFormation(std::string name, bt::Blackboard::Ptr blackboard)
 void EnterFormation::onInitialize() {
     robotsInFormationMemory = 0;
     // add the robot if its not already there.
-    for (unsigned long i = 0; i<robotsInFormation.size(); i++) {
-        if (robotsInFormation.at(i)->id == robot->id) {
+    for (auto & current : robotsInFormation) {
+        if (current->id == robot->id) {
             return;
         }
     }
@@ -58,8 +58,8 @@ Vector2 EnterFormation::getFormationPosition() {
 
     for (unsigned int i = 0; i<robotsInFormation.size(); i++) {
         double targetLocationY = ((field.field_width/(robotsInFormation.size() + 1))*(i+1)) - field.field_width/2;
-        targetLocations.push_back({targetLocationX, targetLocationY});
-        robotLocations.push_back(robotsInFormation.at(i)->pos);
+        targetLocations.emplace_back(targetLocationX, targetLocationY);
+        robotLocations.emplace_back(robotsInFormation.at(i)->pos);
     }
 
     // the order of shortestDistances should be the same order as robotLocations

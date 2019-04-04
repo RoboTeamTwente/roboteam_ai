@@ -17,9 +17,15 @@ class Stop : public Skill {
         Status onUpdate() override;
         void onTerminate(Status s) override;
     private:
+        int robotsInFormationMemory = 0;
         bool isActive = false;
-        Vector2 getActivePoint();
+        static Vector2 getActivePoint();
         control::NumTreePosControl goToPos;
+        Vector2 getFormationPosition();
+        Vector2 targetLocation;
+        static std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> robotsInFormation;
+
+
 
 };
 }}

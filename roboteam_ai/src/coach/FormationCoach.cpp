@@ -66,18 +66,18 @@ void FormationCoach::makeStopPositions() {
         auto size = ((startPoint - endPoint).length()/(amount - 2.0));
         Vector2 travel = (endPoint - startPoint).stretchToLength(size);
         for (int i = 0; i <= amount; i ++) {
-            positionsStop.insert((startPoint + (startPoint + travel*i)));
+            positionsStop.push_back((startPoint + (startPoint + travel*i)));
         }
     }
     else {
         // add them, if less is needed they will be looped anyways
-        positionsStop.insert(startPoint);
-        positionsStop.insert(endPoint);
+        positionsStop.push_back(startPoint);
+        positionsStop.push_back(endPoint);
     }
 
 }
 // TODO time
-std::set<Vector2> FormationCoach::getStopPositions() {
+std::vector<Vector2> FormationCoach::getStopPositions() {
     makeStopPositions();
     return positionsStop;
 }

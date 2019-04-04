@@ -328,6 +328,7 @@ double ControlUtils::twoLineForwardIntersection(Vector2 a1, Vector2 a2, Vector2 
     return -1.0;
 }
 
+
 } // control
 } // ai
 } // rtt
