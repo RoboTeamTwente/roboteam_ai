@@ -11,12 +11,11 @@ std::string Condition::node_name() {
 }
 
 void Condition::initialize() {
+    ball = world::world->getBall(); // update ball position
     if (! properties->getString("ROLE").empty()) {
         robot = getRobotFromProperties(properties);
         if (! robot) return;
     }
-
-    ball = world::world->getBall(); // update ball position
     if (! ball) return;
 
     onInitialize();
