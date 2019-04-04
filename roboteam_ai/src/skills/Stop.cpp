@@ -8,6 +8,7 @@
 #include "../control/ControlUtils.h"
 namespace rtt {
 namespace ai {
+std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> Stop::robotsInFormation = {};
 
 Stop::Stop(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
