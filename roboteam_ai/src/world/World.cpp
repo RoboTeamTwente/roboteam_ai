@@ -40,7 +40,7 @@ void World::updateWorld(const roboteam_msgs::World &message) {
         worldDataPtr = std::make_shared<WorldData>(World::worldData);
     }
 }
-
+//TODO:: MAKE THIS IN ROBOT.CPP
 roboteam_msgs::WorldRobot World::makeWorldRobotMsg(const Robot& robot) {
     roboteam_msgs::WorldRobot robotMsg;
     robotMsg.angle = static_cast<float>(robot.angle);
@@ -208,7 +208,25 @@ Robot World::getRobotClosestToPoint(const Vector2 &point, WhichRobots whichRobot
 }
 
 Robot World::getRobotClosestToRobot(const RobotPtr &robot, WhichRobots whichRobots) {
-    return getRobotClosestToPoint(robot->pos, whichRobots);
+    auto allRobots = getAllRobots();
+    if (!robot || allRobots.empty())
+        return {};
+
+    auto robotPos = robot->pos;
+    unsigned int bestIndex = 0;
+    double closestDistance = 9999999;
+    double distanceToCheck;
+
+    for (unsigned int i = 0; i < allRobots.size(); i++) {
+        if (allRobots[i].id == robot->id && allRobots[i].team == robot->team) {
+            distanceToCheck = (allRobots[i].pos - robotPos).length();
+            if (distanceToCheck < closestDistance) {
+                closestDistance = distanceToCheck;
+                bestIndex = i;
+            }
+        }
+    }
+    return allRobots[bestIndex];
 }
 
 Robot World::getRobotClosestToRobot(int id, bool ourTeam, WhichRobots whichRobots) {
@@ -216,7 +234,7 @@ Robot World::getRobotClosestToRobot(int id, bool ourTeam, WhichRobots whichRobot
     if (!robot)
         return {};
 
-    return getRobotClosestToPoint(robot->pos, whichRobots);
+    return getRobotClosestToRobot(robot, whichRobots);
 }
 
 Robot World::getRobotClosestToBall(WhichRobots whichRobots) {
