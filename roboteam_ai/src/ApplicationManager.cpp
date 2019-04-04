@@ -10,6 +10,7 @@
 #include <sstream>
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include <roboteam_ai/src/interface/InterfaceValues.h>
+#include <roboteam_ai/src/utilities/World.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -21,7 +22,8 @@ void ApplicationManager::setup() {
     IOManager = new io::IOManager(true);
     BTFactory::makeTrees();
     BTFactory::setCurrentTree("haltStrategy");
-    BTFactory::setKeeperTree("keeperTest1");
+    BTFactory::setKeeperTree("SingleKeeperTactic");
+
 }
 
 void ApplicationManager::loop() {
@@ -66,7 +68,13 @@ void ApplicationManager::runOneLoopCycle() {
             return;
         }
 
+
+
+
         ai::analysis::GameAnalyzer::getInstance().start();
+
+        robotDealer::RobotDealer::setUseSeparateKeeper(true);
+
 
         // Will do things if this is a demo
         // otherwise wastes like 0.1 ms
@@ -75,12 +83,14 @@ void ApplicationManager::runOneLoopCycle() {
 
         if (ai::interface::InterfaceValues::usesRefereeCommands()) {
             this->handleRefData();
+        } else {
+            if (robotDealer::RobotDealer::getKeeperID() == -1) {
+                robotDealer::RobotDealer::setKeeperID(ai::World::get_world().us.at(0).id);
+            }
         }
         // TODO: change this later so the referee tells you this
-        // TODO enable for keeper
-//        robotDealer::RobotDealer::setKeeperID(0);
-//        keeperTree = BTFactory::getKeeperTree();
-//        Status keeperStatus = keeperTree->tick();
+        keeperTree = BTFactory::getKeeperTree();
+        Status keeperStatus = keeperTree->tick();
 
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
@@ -122,6 +132,15 @@ void ApplicationManager::handleRefData() {
     if (oldStrategy != strategyName) {
         BTFactory::makeTrees();
     }
+
+    int newKeeperId = ai::Referee::getRefereeData().us.goalie;
+
+    // when we have a referee, force that we use a keeper!
+    robotDealer::RobotDealer::setUseSeparateKeeper(true);
+
+    // Let the ref set the goalie
+    robotDealer::RobotDealer::setKeeperID(newKeeperId);
+
     BTFactory::setCurrentTree(strategyName);
 }
 

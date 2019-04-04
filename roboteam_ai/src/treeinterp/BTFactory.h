@@ -19,11 +19,7 @@ class BTFactory {
 
         // TODO: have the names of all the project before here
         static std::string currentTree;
-
         static std::string keeperTree;
-
-        static int keeperID;
-
 
     public:
         static void makeTrees();
@@ -43,8 +39,6 @@ class BTFactory {
         static void setCurrentTree(const std::string &currentTree);
 
         static void setKeeperTree(const std::string &keeperTree);
-
-        static void setKeeper(int newID);
 
         static void halt();
 };

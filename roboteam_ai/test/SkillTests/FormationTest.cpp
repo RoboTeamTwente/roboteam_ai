@@ -23,7 +23,7 @@ TEST(FormationTest, formation_test) {
     field.field_length = 20;
     field.field_width = 10;
     rtt::ai::Field::set_field(field);
-    rtt::ai::World::set_world(testhelpers::WorldHelper::getWorldMsg(2, 0, true, field));
+    rtt::ai::World::set_world(testhelpers::WorldHelper::getWorldMsg(3, 0, true, field));
 
     // generate a robot running the skill
     auto properties = std::make_shared<bt::Blackboard>();

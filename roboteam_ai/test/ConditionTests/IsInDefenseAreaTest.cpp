@@ -9,7 +9,8 @@
 
 TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
 {
-    robotDealer::RobotDealer::halt();
+    robotDealer::RobotDealer::setUseSeparateKeeper(false);
+    robotDealer::RobotDealer::refresh();
 
     bt::Blackboard BB;
     BB.setBool("useRobot", true);
@@ -50,6 +51,7 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
     worldMsg.us.push_back(robot);
     worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
+
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::RANDOM, "IsInDefenseAreaTest", "test");
     node.initialize();
 
