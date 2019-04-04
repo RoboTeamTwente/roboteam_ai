@@ -26,7 +26,7 @@ TreeVisualizerWidget::TreeVisualizerWidget(MainWindow * parent)
 }
 
 // some widgets need to be updated regularly
-void TreeVisualizerWidget::updateContents(){
+void TreeVisualizerWidget::updateContents(bt::BehaviorTree::Ptr tree){
 
     // Iterate through all treeWidget items to update the status if needed
     QTreeWidgetItemIterator iter(this, QTreeWidgetItemIterator::All);
@@ -50,8 +50,7 @@ void TreeVisualizerWidget::updateContents(){
         treeItemMapping.clear();
         this->clear();
         mostTicks = 0;
-        bt::BehaviorTree::Ptr tree = BTFactory::getTree(BTFactory::getCurrentTree());
-
+      
         if (tree && tree->GetRoot()) {
             auto treeItemRoot = new QTreeWidgetItem(this);
             populateRow(tree->GetRoot(), treeItemRoot);

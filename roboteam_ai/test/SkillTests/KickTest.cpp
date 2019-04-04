@@ -18,6 +18,8 @@ void robotCommandCallback(const roboteam_msgs::RobotCommandConstPtr &cmd) {
 }
 
 TEST(KickTest, It_sends_proper_robotcommands) {
+
+
     ros::Rate rate(1);
     commands.clear(); // ensure the vector is empty.
     EXPECT_TRUE(commands.empty());
@@ -36,6 +38,9 @@ TEST(KickTest, It_sends_proper_robotcommands) {
     worldMsg.us.push_back(robot);
     worldMsg.ball.existence = 99999;
     rtt::ai::World::set_world(worldMsg);
+
+        robotDealer::RobotDealer::setUseSeparateKeeper(false);
+        robotDealer::RobotDealer::refresh();
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::RANDOM,"KickTest","test");
     kick.initialize();
     EXPECT_EQ(kick.update(), bt::Leaf::Status::Running);
@@ -71,6 +76,10 @@ TEST(KickTest, It_sends_proper_robotcommands) {
 }
 
 TEST(KickTest, It_chips) {
+
+        robotDealer::RobotDealer::setUseSeparateKeeper(false);
+        robotDealer::RobotDealer::refresh();
+
     ros::Rate rate(60);
     commands.clear(); // ensure the vector is empty.
     EXPECT_TRUE(commands.empty());

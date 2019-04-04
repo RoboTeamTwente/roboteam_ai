@@ -26,6 +26,14 @@ void EnterFormation::onInitialize() {
 
 bt::Node::Status EnterFormation::onUpdate() {
 
+    bool isIn = false;
+    for (unsigned long i = 0; i<robotsInFormation.size(); i++) {
+        if (robotsInFormation.at(i)->id == robot->id) {
+            isIn = true;
+        }
+    }
+
+    if (!isIn) return Status::Running;
     /*
      * Calculate the target location at least once, and every time when the amount of robots in the formation change.
      */
@@ -71,15 +79,23 @@ Vector2 EnterFormation::getFormationPosition() {
             return shortestDistances.at(i).second;
         }
     }
+
+
     return {0, 0};
 }
 
 void EnterFormation::onTerminate(bt::Node::Status s) {
-    for (unsigned long i = 0; i<robotsInFormation.size(); i++) {
+    std::cout<<"removing formationbot" << std::endl;
+
+    for (int i = 0; i < robotsInFormation.size(); i++) {
         if (robotsInFormation.at(i)->id == robot->id) {
             robotsInFormation.erase(robotsInFormation.begin() + i);
         }
     }
+
+
+
+
 }
 } // ai
 } // rtt

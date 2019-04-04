@@ -27,7 +27,6 @@ private:
     void handleRefData();
     void notifyTreeStatus(bt::Node::Status status);
     void runOneLoopCycle();
-
 public:
     void setup();
     void loop();

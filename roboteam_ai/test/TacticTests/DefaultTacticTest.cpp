@@ -11,6 +11,9 @@
 #include "../../src/utilities/RobotDealer.h"
 
 TEST(DefaultTacticTest, it_takes_robots) {
+    robotDealer::RobotDealer::setUseSeparateKeeper(false);
+    robotDealer::RobotDealer::refresh();
+
     using dealer = robotDealer::RobotDealer;
     using robotType = robotDealer::RobotType;
     // Make sure that there is a world and that it is empty
@@ -27,6 +30,7 @@ TEST(DefaultTacticTest, it_takes_robots) {
     worldMsg.us.push_back(robot1);
     worldMsg.us.push_back(robot2);
     worldMsg.us.push_back(robot3);
+
     rtt::ai::World::set_world(worldMsg);
 
     bt::Blackboard::Ptr bb = std::make_shared<bt::Blackboard>();
