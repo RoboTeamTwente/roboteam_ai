@@ -19,7 +19,8 @@ namespace ai {
 HasBall::HasBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), blackboard) { }
 
 bt::Node::Status HasBall::onUpdate() {
-    return world::world->robotHasBall(robot->id,world::OUR_ROBOTS) ? Status::Success : Status::Failure;
+    return world::world->ourRobotHasBall(robot->id) ? Status::Success : Status::Failure;
 }
+
 } // ai
 } // rtt

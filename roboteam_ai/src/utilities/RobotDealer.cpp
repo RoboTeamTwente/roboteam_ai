@@ -61,7 +61,7 @@ void RobotDealer::updateFromWorld() {
     for (auto robot : worldUs) {
         robots.insert(robot.id);
     }
-    std::set<int> currentRobots = RobotDealer::getRobots();
+    std::set<int> currentRobots = getRobots();
     for (auto robot : robots) {
         if (currentRobots.find(robot) == currentRobots.end()) {
             if (robot == keeperID) {
@@ -69,7 +69,7 @@ void RobotDealer::updateFromWorld() {
                 continue;
             }
             std::lock_guard<std::mutex> lock(robotOwnersLock);
-            RobotDealer::addRobotToOwnerList(robot, "free", "free");
+            addRobotToOwnerList(robot, "free", "free");
         }
     }
 
@@ -77,7 +77,7 @@ void RobotDealer::updateFromWorld() {
 
 int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, std::string tacticName) {
 
-    std::set<int> ids = RobotDealer::getAvailableRobots();
+    std::set<int> ids = getAvailableRobots();
     int id;
     if (! ids.empty()) {
 
@@ -132,8 +132,8 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
             }
         }
         std::lock_guard<std::mutex> lock(robotOwnersLock);
-        RobotDealer::unFreeRobot(id);
-        RobotDealer::addRobotToOwnerList(id, std::move(tacticName), std::move(roleName));
+        unFreeRobot(id);
+        addRobotToOwnerList(id, std::move(tacticName), std::move(roleName));
         return id;
     }
    // ROS_INFO_STREAM("Found no free robots in robot dealer");
@@ -156,7 +156,7 @@ std::set<int> RobotDealer::getRobots() {
 }
 std::set<int> RobotDealer::getAvailableRobots() {
 
-    RobotDealer::updateFromWorld();
+    updateFromWorld();
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
@@ -232,7 +232,7 @@ int RobotDealer::findRobotForRole(std::string roleName) {
             }
         }
     }
-    std::cerr << "Cannot find a robot with that Role Name:   " << roleName << std::endl;
+    std::cerr << "Cannot find a robot with that Role Name: " << roleName << std::endl;
     return - 1;
 }
 
