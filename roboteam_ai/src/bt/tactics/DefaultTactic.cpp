@@ -41,7 +41,7 @@ void bt::DefaultTactic::initialize() {
 void bt::DefaultTactic::claimRobots() {
 
     for (auto &role : robots) {
-        robotIDs.insert(rtt::ai::robotDealer::robotDealer->claimRobotForTactic(role.second, name, role.first));
+        robotIDs.insert(rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(role.second, name, role.first));
         if (robotIDs.find(- 1) == robotIDs.end()) claimedRobots ++;
         else robotIDs.erase(- 1);
     }

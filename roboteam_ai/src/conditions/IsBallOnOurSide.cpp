@@ -28,8 +28,10 @@ bt::Node::Status IsBallOnOurSide::onUpdate() {
             } else return Status::Failure;
         } else return Status::Success;
     }
-    else return Status::Failure;
+    else {
+        return Status::Failure;
     }
+}
 
 std::string IsBallOnOurSide::node_name() {return "IsBallOnOurSide";}
 

@@ -307,11 +307,11 @@ void Visualizer::drawDrawLines(QPainter &painter, std::vector<std::tuple<Vector2
 }
 
 std::string Visualizer::getTacticNameForRobot(Robot robot) {
-   return robotDealer::robotDealer->getTacticNameForId(robot.id);
+   return robotDealer::RobotDealer::getTacticNameForId(robot.id);
 }
 
 std::string Visualizer::getRoleNameForRobot(Robot robot) {
-    return robotDealer::robotDealer->getRoleNameForId(robot.id);
+    return robotDealer::RobotDealer::getRoleNameForId(robot.id);
 }
 
 void Visualizer::setShowRoles(bool showRoles) {

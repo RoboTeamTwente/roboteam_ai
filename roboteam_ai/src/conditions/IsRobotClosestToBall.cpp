@@ -12,7 +12,6 @@ IsRobotClosestToBall::IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr
 : Condition(std::move(name), std::move(blackboard)) { }
 
 bt::Node::Status IsRobotClosestToBall::onUpdate() {
-    BallPtr ball = world::world->getBall();
     Vector2 ballPos(ball->pos);
 
     if (properties->hasDouble("secondsAhead")) {
@@ -21,9 +20,9 @@ bt::Node::Status IsRobotClosestToBall::onUpdate() {
         ballPos += ballVel * t;
     }
 
-    Robot robotClosestToBallPtr = world::world->getRobotClosestToPoint(ballPos, world::OUR_ROBOTS);
+    Robot robotClosestToBall = world::world->getRobotClosestToPoint(ballPos, world::OUR_ROBOTS);
 
-    if (robotClosestToBallPtr.id == robot->id)
+    if (robotClosestToBall.id == robot->id)
         return Status::Success;
 
     return Status::Failure;

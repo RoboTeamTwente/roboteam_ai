@@ -12,7 +12,7 @@ namespace w = rtt::ai::world;
 namespace rtt{
 namespace ai {
 TEST(IsBallCloseToBorderTest, is_not_close_to_border) {
-    rd::robotDealer->halt();
+    rd::RobotDealer::halt();
     roboteam_msgs::GeometryFieldSize field;
     field.field_width = 9;
     field.field_length = 12;

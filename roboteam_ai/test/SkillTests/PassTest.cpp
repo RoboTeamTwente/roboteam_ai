@@ -16,7 +16,7 @@ namespace rd = rtt::ai::robotDealer;
 namespace w = rtt::ai::world;
 using Vector2 = rtt::Vector2;
 TEST(PassTest, PassTest) {
-    rd::robotDealer->halt();
+    rd::RobotDealer::halt();
 
     roboteam_msgs::GeometryFieldSize field;
     field.field_length = 20;
@@ -67,7 +67,7 @@ TEST(PassTest, PassTest) {
     properties->setString("ROLE", "testPasser");
 
     // MIGHT NOT WORK
-    rd::robotDealer->claimRobotForTactic(rd::RobotType::CLOSE_TO_BALL, "PassTest", "testPasser");
+    rd::RobotDealer::claimRobotForTactic(rd::RobotType::CLOSE_TO_BALL, "PassTest", "testPasser");
 
     rtt::ai::Pass pass("PassTest", properties);
     pass.initialize();
