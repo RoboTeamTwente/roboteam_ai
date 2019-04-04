@@ -54,28 +54,33 @@ void FormationCoach::makeActiveStopPositions() {
         robotsStop[closestest.first] = true;
     }
 }
-    void FormationCoach::makeStopPositions() {
-        int amount = 0;
-        for (auto robot : robotsStop) {
-            if (! robot.second)
-                amount ++;
-        }
-        Vector2 startPoint = rtt::ai::Field::get_field().left_penalty_line.begin;
-        Vector2 endPoint = rtt::ai::Field::get_field().left_penalty_line.begin;
-        if (amount > 2) {
-            auto size = ((startPoint - endPoint).length()/(amount - 2.0));
-            Vector2 travel = (endPoint - startPoint).stretchToLength(size);
-            for (int i = 0; i <= amount; i ++) {
-                positionsStop.insert((startPoint + (startPoint + travel*i)));
-            }
-        }
-        else {
-            // add them, if less is needed they will be looped anyways
-            positionsStop.insert(startPoint);
-            positionsStop.insert(endPoint);
-        }
-
+void FormationCoach::makeStopPositions() {
+    int amount = 0;
+    for (auto robot : robotsStop) {
+        if (! robot.second)
+            amount ++;
     }
+    Vector2 startPoint = rtt::ai::Field::get_field().left_penalty_line.begin;
+    Vector2 endPoint = rtt::ai::Field::get_field().left_penalty_line.begin;
+    if (amount > 2) {
+        auto size = ((startPoint - endPoint).length()/(amount - 2.0));
+        Vector2 travel = (endPoint - startPoint).stretchToLength(size);
+        for (int i = 0; i <= amount; i ++) {
+            positionsStop.insert((startPoint + (startPoint + travel*i)));
+        }
+    }
+    else {
+        // add them, if less is needed they will be looped anyways
+        positionsStop.insert(startPoint);
+        positionsStop.insert(endPoint);
+    }
+
+}
+// TODO time
+std::set<Vector2> FormationCoach::getStopPositions() {
+    makeStopPositions();
+    return positionsStop;
+}
 
 }
 }

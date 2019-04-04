@@ -18,6 +18,7 @@ class FormationCoach {
 
         /// Stop ///
         bool isOffensiveStop(int ID);
+        std::set<Vector2> getStopPositions();
 
 
     private:

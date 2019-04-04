@@ -29,7 +29,7 @@ Skill::Status Stop::onUpdate() {
         publishRobotCommand();
     }
     else {
-        // TODO go to fixed positions hungarian
+        std::set<Vector2> positions = coach::g_formation.getStopPositions();
     }
 
     return Status::Running;
