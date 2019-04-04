@@ -26,16 +26,16 @@ TEST(RobotDealerTest, RobotDealerTest) {
     worldMsg.us.push_back(robot3);
     rtt::ai::World::set_world(worldMsg);
 
-    auto dealbot1 = dealer::claimRobotForTactic(robot::random, "testing1", "role1");
+    auto dealbot1 = dealer::claimRobotForTactic(robot::RANDOM, "testing1", "role1");
 
     EXPECT_TRUE(dealbot1==dealer::findRobotForRole("role1"));
     EXPECT_EQ(dealer::getTacticNameForRole("role1"), "testing1");
     EXPECT_EQ(dealer::getAvailableRobots().size(), (unsigned int) 2);
-    dealer::claimRobotForTactic(robot::random, "testing1", "role2");
+    dealer::claimRobotForTactic(robot::RANDOM, "testing1", "role2");
     EXPECT_EQ(dealer::getAvailableRobots().size(), (unsigned int) 1);
     auto claimedBots1 = dealer::getClaimedRobots()["testing1"];
     EXPECT_EQ(claimedBots1.size(), (unsigned int) 2);
-    auto dealbot3 = dealer::claimRobotForTactic(robot::random, "testing1", "role3");
+    auto dealbot3 = dealer::claimRobotForTactic(robot::RANDOM, "testing1", "role3");
     dealer::releaseRobotForRole("role2");
     auto claimedBots2 = dealer::getClaimedRobots()["testing1"];
     EXPECT_NE(claimedBots1, claimedBots2);
@@ -51,19 +51,19 @@ TEST(RobotDealerTest, RobotDealerTest) {
     dealer::releaseRobotForRole("role3");
 
     //TODO: test if these functionalities actually pick the right robots
-    dealbot1=dealer::claimRobotForTactic(robot::betweenBallAndOurGoal,"testing1","role1");
+    dealbot1=dealer::claimRobotForTactic(robot::BETWEEN_BALL_AND_OUR_GOAL,"testing1","role1");
     EXPECT_TRUE(dealbot1==dealer::findRobotForRole("role1"));
     dealer::releaseRobotForRole("role1");
-    dealbot1=dealer::claimRobotForTactic(robot::closeToBall,"testing1","role1");
+    dealbot1=dealer::claimRobotForTactic(robot::CLOSE_TO_BALL,"testing1","role1");
     EXPECT_TRUE(dealbot1==dealer::findRobotForRole("role1"));
     dealer::releaseRobotForRole("role1");
-    dealbot1=dealer::claimRobotForTactic(robot::closeToOurGoal,"testing1","role1");
+    dealbot1=dealer::claimRobotForTactic(robot::CLOSE_TO_OUR_GOAL,"testing1","role1");
     EXPECT_TRUE(dealbot1==dealer::findRobotForRole("role1"));
     dealer::releaseRobotForRole("role1");
-    dealbot1=dealer::claimRobotForTactic(robot::closeToTheirGoal,"testing1","role1");
+    dealbot1=dealer::claimRobotForTactic(robot::CLOSE_TO_THEIR_GOAL,"testing1","role1");
     EXPECT_TRUE(dealbot1==dealer::findRobotForRole("role1"));
     dealer::releaseRobotForRole("role1");
-    dealbot1=dealer::claimRobotForTactic(robot::farFromBall,"testing1","role1");
+    dealbot1=dealer::claimRobotForTactic(robot::FAR_FROM_BALL,"testing1","role1");
     EXPECT_TRUE(dealbot1==dealer::findRobotForRole("role1"));
     dealer::releaseRobotForRole("role1");
 

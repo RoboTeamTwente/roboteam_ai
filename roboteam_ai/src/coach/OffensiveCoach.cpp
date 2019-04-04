@@ -71,7 +71,6 @@ void OffensiveCoach::drawOffensivePoints() {
         displayColorData.emplace_back(std::make_pair(robotPosition.second.position, Qt::darkYellow));
         interface::Drawer::setAttackerPoints(robotPosition.first, displayColorData);
     }
-
 }
 
 /// Get robot with highest offensive score

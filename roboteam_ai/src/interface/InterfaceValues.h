@@ -19,10 +19,6 @@ class InterfaceValues {
         static double numTreePosI;
         static double numTreePosD;
 
-        static double numTreeVelP;
-        static double numTreeVelI;
-        static double numTreeVelD;
-
         static std::mutex pidMutex;
         static std::mutex ballPlacementMutex;
         static std::mutex refMutex;
@@ -52,13 +48,6 @@ class InterfaceValues {
         static void setNumTreePosI(double numTreePI);
         static double getNumTreePosD();
         static void setNumTreePosD(double numTreePD);
-
-        static double getNumTreeVelP();
-        static void setNumTreeVelP(double numTreeVP);
-        static double getNumTreeVelI();
-        static void setNumTreeVelI(double numTreeVI);
-        static double getNumTreeVelD();
-        static void setNumTreeVelD(double numTreeVD);
 
         static void sendHaltCommand();
 };
