@@ -120,7 +120,6 @@ std::vector<Vector2> OffensiveCoach::getNewOffensivePositions() {
             offensivePositions.emplace_back(offensivePosition);
         }
     } else {
-
         for (int i = 0; i < offensivePositions.size(); i++) {
             OffensivePosition offensivePosition = offensivePositions[i];
             Vector2 defaultPosition = defaultLocations[i];
