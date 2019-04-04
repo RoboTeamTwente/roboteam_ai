@@ -65,6 +65,7 @@ public:
     static double GOTOPOS_ERROR_MARGIN()        { return 0.1;} ;
 
     /// KEEPER ///
+    static bool USE_SEPERATE_KEEPER()           { return true; };
     static double KEEPER_POST_MARGIN()          { return 0.08; };//m
     static double KEEPER_CENTREGOAL_MARGIN()    { return 0.3; };//m
 

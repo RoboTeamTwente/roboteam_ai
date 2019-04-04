@@ -17,6 +17,8 @@ std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::robotO
 std::mutex RobotDealer::robotOwnersLock;
 
 int RobotDealer::keeperID = -1;
+bool RobotDealer::useSeparateKeeper = rtt::ai::Constants::USE_SEPERATE_KEEPER();
+bool RobotDealer::hasClaimedKeeper = false;
 
 /// For internal use
 /// Removes a robot with an ID from the map and if the tactic then is empty it removes the tactic
@@ -370,25 +372,39 @@ std::string RobotDealer::getRoleNameForId(int ID) {
 void RobotDealer::halt() {
     robotOwners.clear();
     RobotDealer::updateFromWorld();
-    {
-        std::lock_guard<std::mutex> lock(robotOwnersLock);
-        addRobotToOwnerList(keeperID, "Keeper", "Keeper");
-    }
+    hasClaimedKeeper = false;
 }
 
 /// set the keeper ID if its different than before
 void RobotDealer::setKeeperID(int ID) {
-    if (ID != keeperID) {
+    if (useSeparateKeeper && ID != keeperID) {
         keeperID = ID;
-        BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
-        robotDealer::RobotDealer::halt();
-        BTFactory::makeTrees();
+        hasClaimedKeeper = false;
+        refresh();
     }
 }
+
 int RobotDealer::getKeeperID() {
     std::lock_guard<std::mutex> lock(robotOwnersLock);
     return keeperID;
 }
+
+void RobotDealer::claimKeeper() {
+    if (!hasClaimedKeeper) {
+        std::cout << "[Robotdealer - claimkeeper] Claiming keeper" << std::endl;
+        std::lock_guard<std::mutex> lock(robotOwnersLock);
+        addRobotToOwnerList(keeperID, "Keeper", "Keeper");
+        hasClaimedKeeper = true;
+    }
+}
+
+void RobotDealer::refresh() {
+    halt();
+    BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
+    BTFactory::makeTrees();
+    if (useSeparateKeeper) claimKeeper();
+}
+
 
 } // RobotDealer
 
