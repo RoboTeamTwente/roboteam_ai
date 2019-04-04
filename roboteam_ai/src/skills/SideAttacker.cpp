@@ -54,21 +54,28 @@ Vector2 SideAttacker::getOffensivePosition() {
     auto field = Field::get_field();
 
     std::vector<Vector2> targetLocations = coach::g_offensiveCoach.getNewOffensivePositions();
-    std::vector<Vector2> robotLocations;
 
-    for (auto & i : robotsPositioning) {
-        robotLocations.emplace_back(i->pos);
-    }
+    // If not yet assigned to a zone, do so according to the Hungarian
+    if (zone == -1) {
+        std::vector<Vector2> robotLocations;
 
-    auto shortestDistances = control::ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(robotLocations, targetLocations);
-
-    for (unsigned long i = 0; i<robotsPositioning.size(); i++) {
-        if (robotsPositioning.at(i)->id == robot->id) {
-            return shortestDistances.at(i).second;
+        for (auto &i : robotsPositioning) {
+            robotLocations.emplace_back(i->pos);
         }
-    }
 
-    return {0, 0};
+        auto shortestDistances = control::ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(robotLocations,
+                                                                                                 targetLocations);
+
+        for (unsigned long i = 0; i < robotsPositioning.size(); i++) {
+            if (robotsPositioning.at(i)->id == robot->id) {
+                zone = i;
+                return shortestDistances.at(i).second;
+            }
+        }
+    // If already assigned to a zone, stick to it
+    } else {
+        return targetLocations.at(zone);
+    }
 }
 
 void SideAttacker::onTerminate(Status s) {
@@ -76,7 +83,6 @@ void SideAttacker::onTerminate(Status s) {
     command.x_vel = 0;
     command.y_vel = 0;
     publishRobotCommand();
-    coach::g_offensiveCoach.releaseRobot(robot->id);
 }
 
 } // ai

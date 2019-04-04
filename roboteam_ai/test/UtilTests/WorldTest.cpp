@@ -162,6 +162,7 @@ TEST(WorldTest,bot_has_ball_them_repeated){
     roboteam_msgs::GeometryFieldSize field;
     field.field_length = 12;
     field.field_width = 9;
+    rtt::ai::Field::set_field(field);
     for (int j = 0; j < 1000; ++ j) {
         std::pair<roboteam_msgs::World,int> worldWithRobot=testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(8,8,false,field);
         rtt::ai::World::set_world(worldWithRobot.first);

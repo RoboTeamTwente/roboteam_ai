@@ -82,13 +82,14 @@ bool ControlUtils::clearLine(Vector2 fromPos, Vector2 toPos, roboteam_msgs::Worl
     return true;
 }
 
-double ControlUtils::closestEnemyToLineDistance(Vector2 fromPos, Vector2 toPos, const roboteam_msgs::World& world, bool keeper) {
+double ControlUtils::closestEnemyToLineDistance(const Vector2& fromPos, Vector2 toPos, const roboteam_msgs::World& world, bool keeper) {
     double shortestDistance = INT_MAX;
     double currentDistance;
 
     for (auto enemy : world.them) {
-        //if (keeper && enemy.id == rtt::ai::Referee::getRefereeData().them.goalie) continue;
-
+        if (!keeper && enemy.id == rtt::ai::Referee::getRefereeData().them.goalie) {
+            continue;
+        }
         currentDistance = distanceToLine(enemy.pos, fromPos, toPos);
         if (currentDistance < shortestDistance) {
             shortestDistance = currentDistance;
@@ -124,7 +125,7 @@ bool ControlUtils::hasClearVision(int fromID, int towardsID, const roboteam_msgs
 
 
 /// Get the distance from PointToCheck towards a line, the line is not infinite.
-double ControlUtils::distanceToLineWithEnds(const Vector2& pointToCheck, Vector2 lineStart, Vector2 lineEnd) {
+double ControlUtils::distanceToLineWithEnds(const Vector2& pointToCheck, const Vector2& lineStart, Vector2 lineEnd) {
     Vector2 line=lineEnd-lineStart;
     Vector2 diff=pointToCheck-lineStart;
     double dot=line.x*diff.x+line.y*diff.y;

@@ -15,6 +15,7 @@ namespace ai {
 class SideAttacker : public Skill {
     private:
         const double DEFAULT_DISTANCE_MARGIN = 0.20;
+        int zone = -1;
 
         control::NumTreePosControl goToPos;
         Vector2 deltaPos;

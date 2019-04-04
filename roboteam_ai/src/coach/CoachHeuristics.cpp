@@ -28,9 +28,8 @@ double CoachHeuristics::calculateCloseToGoalScore(const Vector2& position) {
 }
 
 /// Gives a higher score if the line between the position and the goal is free
-//TODO: Choose to not take the opponents keeper into account for this calculation
-double CoachHeuristics::calculateShotAtGoalScore(const Vector2& position, roboteam_msgs::World world) {
-    double shortestDistance = control::ControlUtils::closestEnemyToLineDistance(position, Field::get_their_goal_center(), std::move(world));
+double CoachHeuristics::calculateShotAtGoalScore(const Vector2& position, const roboteam_msgs::World& world) {
+    double shortestDistance = control::ControlUtils::closestEnemyToLineDistance(position, Field::get_their_goal_center(), world, true);
 
     return 1 - exp(SHOT_AT_GOAL_WEIGHT * shortestDistance);
 }
@@ -54,7 +53,7 @@ double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2& positio
 }
 
 /// Gives a lower score if the position is too close to the corner of the field
-double CoachHeuristics::calculateDistanceFromCornerScore(const Vector2& position, roboteam_msgs::GeometryFieldSize field) {
+double CoachHeuristics::calculateDistanceFromCornerScore(const Vector2& position, const roboteam_msgs::GeometryFieldSize& field) {
     Vector2 corner;
     corner.x = field.field_length / 2;
     if (position.y > 0) {
@@ -78,19 +77,22 @@ double CoachHeuristics::calculatePositionScore(const Vector2& position) {
     roboteam_msgs::GeometryFieldSize field = Field::get_field();
     double closeToGoalScore = calculateCloseToGoalScore(position);
     double shotAtGoalScore = calculateShotAtGoalScore(position, world);
-    double passLineScore = calculatePassLineScore(position, world);
-    double closestOpponentScore = calculateDistanceToOpponentsScore(position, world);
-    double distanceFromBallScore = calculateDistanceFromBallScore(position, field, world.ball);
-    double behindBallScore = position.x < world.ball.pos.x ? 0.7 : 1.0;
-    double distanceFromCornerScore = calculateDistanceFromCornerScore(position, field);
 
-
-    //std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-    double score = 4 * shotAtGoalScore + passLineScore + closeToGoalScore;
-
+    double score = 3 * shotAtGoalScore + closeToGoalScore;
     return score;
 }
+
+double CoachHeuristics::calculatePassScore(const Vector2 &position) {
+    roboteam_msgs::World world = World::get_world();
+    roboteam_msgs::GeometryFieldSize field = Field::get_field();
+    double closeToGoalScore = calculateCloseToGoalScore(position);
+    double shotAtGoalScore = calculateShotAtGoalScore(position, world);
+    double passLineScore = calculatePassLineScore(position, world);
     
+    double score = closeToGoalScore + 3 * shotAtGoalScore + 2 * passLineScore;
+    return score;
+}
+
 }
 }
 }
