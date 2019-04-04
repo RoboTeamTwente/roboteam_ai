@@ -116,7 +116,9 @@ const WorldData World::getWorld() {
     WorldData worldCopy;
     {
         std::lock_guard<std::mutex> lock(worldMutex);
-        worldCopy = *worldDataPtr;
+        if (worldDataPtr) {
+            worldCopy = *worldDataPtr;
+        }
     }
     return worldCopy;
 }
@@ -124,7 +126,7 @@ const WorldData World::getWorld() {
 const World::BallPtr World::getBall() {
     std::lock_guard<std::mutex> lock(worldMutex);
 
-    if (worldDataPtr->ball.exists)
+    if (worldDataPtr && worldDataPtr->ball.exists)
         return std::make_shared<Ball>(worldDataPtr->ball);
 
     std::cerr << "BALL DOES NOT EXIST!!! (exists == 0 ??? )" << std::endl;
@@ -204,7 +206,7 @@ Robot World::getRobotClosestToPoint(const Vector2 &point, WhichRobots whichRobot
         }
     }
 
-    getRobotClosestToPoint(point, robotsCopy);
+    return getRobotClosestToPoint(point, robotsCopy);
 }
 
 Robot World::getRobotClosestToRobot(const RobotPtr &robot, WhichRobots whichRobots) {

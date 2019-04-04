@@ -13,8 +13,11 @@ namespace rtt {
 namespace ai {
 namespace robotDealer {
 
-RobotDealer robotDealerObj;
-RobotDealer* robotDealer = &robotDealerObj;
+std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::robotOwners = {};
+
+int RobotDealer::keeperID = -1;
+
+std::mutex RobotDealer::robotOwnersLock;
 
 /// For internal use
 /// Removes a robot with an ID from the map and if the tactic then is empty it removes the tactic
@@ -56,7 +59,7 @@ void RobotDealer::addRobotToOwnerList(int ID, std::string roleName, std::string 
 /// Look at the world and see if there are more robots than on the map and if so put them as free
 void RobotDealer::updateFromWorld() {
 
-    auto worldUs = world::world->getWorld().us;
+    auto worldUs = world::world->getUs();
     std::set<int> robots;
     for (auto robot : worldUs) {
         robots.insert(robot.id);

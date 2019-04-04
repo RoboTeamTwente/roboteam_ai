@@ -61,7 +61,7 @@ void BTFactory::setCurrentTree(const std::string &newTree) {
         }
         BTFactory::getTree(currentTree)->terminate(bt::Node::Status::Success);
 
-        rtt::ai::robotDealer::robotDealer->halt();
+        rtt::ai::robotDealer::RobotDealer::halt();
 
         BTFactory::currentTree = newTree;
     }
@@ -82,8 +82,7 @@ bt::BehaviorTree::Ptr BTFactory::getKeeperTree() {
 void BTFactory::halt() {
     BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
     BTFactory::currentTree = "NaN";
-    rtt::ai::robotDealer::robotDealer->halt();
-
+    rtt::ai::robotDealer::RobotDealer::halt();
 
 }
 

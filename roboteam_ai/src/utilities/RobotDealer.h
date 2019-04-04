@@ -31,53 +31,50 @@ class RobotDealer {
 
     private:
 
-        std::map<std::string, std::set<std::pair<int, std::string>>> robotOwners;
+        static std::map<std::string, std::set<std::pair<int, std::string>>> robotOwners;
 
-        int keeperID;
+        static int keeperID;
 
-        std::mutex robotOwnersLock;
+        static std::mutex robotOwnersLock;
 
-        void removeRobotFromOwnerList(int ID);
+        static void removeRobotFromOwnerList(int ID);
 
-        void addRobotToOwnerList(int ID, std::string tacticName, std::string roleName);
+        static void addRobotToOwnerList(int ID, std::string tacticName, std::string roleName);
 
-        void updateFromWorld();
+        static void updateFromWorld();
 
-        std::set<int> getRobots();
+        static std::set<int> getRobots();
 
-        int getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 position);
+        static int getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 position);
 
-        void unFreeRobot(int ID);
+        static void unFreeRobot(int ID);
 
-        int getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 point1, rtt::Vector2 point2,
+        static int getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 point1, rtt::Vector2 point2,
          bool inBetweenPoints);
 
     public:
 
-        int claimRobotForTactic(RobotType feature, std::string tacticName, std::string roleName);
+        static int claimRobotForTactic(RobotType feature, std::string tacticName, std::string roleName);
 
-        std::set<int> getAvailableRobots();
+        static std::set<int> getAvailableRobots();
 
-        std::map<std::string, std::set<std::pair<int, std::string>>> getClaimedRobots();
+        static std::map<std::string, std::set<std::pair<int, std::string>>> getClaimedRobots();
 
-        void releaseRobotForRole(std::string roleName);
+        static void releaseRobotForRole(std::string roleName);
 
-        void removeTactic(std::string tacticName);
+        static void removeTactic(std::string tacticName);
 
-        std::set<int> findRobotsForTactic(std::string tacticName);
+        static std::set<int> findRobotsForTactic(std::string tacticName);
 
-        int findRobotForRole(std::string roleName);
+        static int findRobotForRole(std::string roleName);
 
-        std::string getTacticNameForId(int ID);
-        std::string getRoleNameForId(int ID);
-        std::string getTacticNameForRole(std::string role);
-        void halt();
-        void setKeeperID(int ID);
-        int getKeeperID();
-
+        static std::string getTacticNameForId(int ID);
+        static std::string getRoleNameForId(int ID);
+        static std::string getTacticNameForRole(std::string role);
+        static void halt();
+        static void setKeeperID(int ID);
+        static int getKeeperID();
 };
-extern RobotDealer robotDealerObj;
-extern RobotDealer* robotDealer;
 
 } //robotDealer
 } //ai
