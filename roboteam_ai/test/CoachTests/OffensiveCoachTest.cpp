@@ -24,8 +24,6 @@ TEST(CoachTest, offensive_coach_test) {
     }
 
     for(int i = 0; i < offensivePositions.size(); i++) {
-        if (offensivePositions.at(i) == newOffensivePositions.at(i)) {
-            ASSERT_TRUE(false);
-        }
+        ASSERT_NE(offensivePositions.at(i), newOffensivePositions.at(i));
     }
 }
