@@ -28,7 +28,7 @@ protected:
     io::IOManager ioManager = io::IOManager(false, true);
     void publishRobotCommand();
     void refreshRobotCommand();
-    roboteam_msgs::RobotCommand command; //TODO: Does this properly work?
+    roboteam_msgs::RobotCommand command;
 
     using Control = control::ControlUtils;
     using Status = bt::Node::Status;
