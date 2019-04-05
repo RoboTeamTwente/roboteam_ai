@@ -10,7 +10,7 @@ namespace rtt {
 namespace ai {
 
 using Robot = rtt::ai::world::Robot;
-std::vector<std::shared_ptr<Robot>> Stop::robotsInFormation = {};
+std::vector<int> Stop::robotsInFormation = {};
 int Stop::defensiveOffensive = -1;
 
 Stop::Stop(string name, bt::Blackboard::Ptr blackboard)
@@ -23,14 +23,7 @@ void Stop::onInitialize() {
     if (isActive)
         return;
 
-    robotsInFormationMemory = 0;
-    // add the robot if its not already there.
-    for (auto & current : robotsInFormation) {
-        if (current->id == robot->id) {
-            return;
-        }
-    }
-    robotsInFormation.push_back(robot);
+    robotsInFormation.push_back(robot->id);
 }
 Skill::Status Stop::onUpdate() {
 
@@ -41,8 +34,6 @@ Skill::Status Stop::onUpdate() {
         }
         else{
             targetLocation = getOffensiveActivePoint();
-
-
         }
         command.w = static_cast<float>((targetLocation - robot->pos).angle());
         Vector2 velocityRaw = goToPos.getPosVelAngle(robot, targetLocation).vel;
@@ -53,12 +44,9 @@ Skill::Status Stop::onUpdate() {
     }
     else {
 
-        if (robotsInFormationMemory != robotsInFormation.size()) {
-            targetLocation = getFormationPosition();
-            robotsInFormationMemory = robotsInFormation.size();
-        }
         auto robotPos = rtt::Vector2(robot->pos);
         Vector2 targetToLookAtLocation = rtt::ai::world::field->get_their_goal_center();
+        targetLocation = getFormationPosition();
 
         if (robotPos.dist(targetLocation) > 0.08) {
             auto velocities = goToPos.getPosVelAngle(robot, targetLocation);
@@ -99,25 +87,12 @@ Vector2 Stop::getDefensiveActivePoint() {
 }
 
 Vector2 Stop::getFormationPosition() {
-    // first we calculate all the positions for the defense
-    std::vector<Vector2> targetLocations = coach::g_formation.getStopPositions();
-    std::vector<Vector2> robotLocations;
 
-    for (auto & i : robotsInFormation) {
-        std::cout << "t" << std::endl;
-        robotLocations.emplace_back(i->pos);
-    }
 
-    // Hungarian
-    auto shortestDistances = control::ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(robotLocations, targetLocations);
 
-    // Get the point through the hungarian
-    for (unsigned long i = 0; i<robotsInFormation.size(); i++) {
-        if (robotsInFormation.at(i)->id == robot->id) {
-            return shortestDistances.at(i).second;
-        }
-    }
-    return {0, 0};
+
+
+    return {0,0};
 }
 }
 }
