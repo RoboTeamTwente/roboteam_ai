@@ -41,8 +41,8 @@ set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/JsonReader.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/PropertiesParser.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/PropertiesParser.h
-        roboteam_ai/src/Switches.cpp
-        roboteam_ai/src/Switches.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/Switches.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/Switches.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/BTImport.h)
 
 set(BT_SOURCES
@@ -120,18 +120,12 @@ set(DEMO_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/demo/JoystickDemo.h)
 
 set(UTILS_SOURCES
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/World.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Field.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/ApplicationManager.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/ApplicationManager.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Hungarian.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Hungarian.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Pause.cpp
@@ -271,7 +265,6 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/StrategyManagerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/PropertiesParserTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/ControlUtilsTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ApplicationManagerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/TheyHaveBallTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/WeHaveBallTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/HasBallTest.cpp
@@ -286,7 +279,6 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/RobotDealerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/HungarianTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/InterfaceTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/VisualizerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/MainWindowTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/TreeVisualizerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/ControlUtilsTest.cpp
@@ -302,8 +294,11 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/BallPlacementCoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/FormationTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendTest.cpp
-        roboteam_ai/test/CoachTests/DefensiveCoachTest.cpp
-        roboteam_ai/test/CoachTests/OffensiveCoachTest.cpp)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/DefensiveCoachTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/OffensiveCoachTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/roboteam_utils_Tests/AngleTest.cpp
+
+        )
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/mainWindow.cpp
@@ -317,7 +312,25 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/TreeVisualizerWidget.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/TreeVisualizerWidget.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.h )
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.h)
+
+set(WORLD_SOURCES
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldData.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/Robot.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/Robot.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/Ball.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/Ball.h
+
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/World.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/World.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/Field.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/Field.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldManager.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldManager.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/History.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/History.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/FutureWorld.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/FutureWorld.h)
 
 set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/CoachHeuristics.h
@@ -346,9 +359,12 @@ catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
 add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+
 # Main Executable
 add_executable(Roboteam_AI
         roboteam_ai/src/roboteam_ai.cpp
+        roboteam_ai/src/ApplicationManager.cpp
+        roboteam_ai/src/ApplicationManager.h
         ${IO_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
@@ -360,7 +376,8 @@ add_executable(Roboteam_AI
         ${TACTIC_SOURCES}
         ${COACH_SOURCES}
         ${DEMO_SOURCES}
-        ${INTERFACE_SOURCES})
+        ${INTERFACE_SOURCES}
+        ${WORLD_SOURCES})
 
 add_dependencies(Roboteam_AI ${catkin_EXPORTED_TARGETS})
 target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} Qt5::Widgets Qt5::Gui)
@@ -382,7 +399,9 @@ catkin_add_gtest(ai_tests
         ${COACH_SOURCES}
         ${INTERFACE_SOURCES}
         ${TEST_SOURCES}
-        )
+        ${WORLD_SOURCES})
+
+
 
 target_compile_options(ai_tests PUBLIC --coverage)
 

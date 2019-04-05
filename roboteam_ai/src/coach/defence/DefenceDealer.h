@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_DEFENDASSIGNCOACH_H
 #define ROBOTEAM_AI_DEFENDASSIGNCOACH_H
 #include "roboteam_utils/Vector2.h"
-#include "roboteam_ai/src/utilities/World.h"
+#include "roboteam_ai/src/world/World.h"
 #include "DefencePositionCoach.h"
 
 namespace rtt {

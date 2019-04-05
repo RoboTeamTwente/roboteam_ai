@@ -3,8 +3,9 @@
 //
 
 
-#include <roboteam_ai/src/utilities/Field.h>
+#include <roboteam_ai/src/world/Field.h>
 #include "ControlUtils.h"
+#include "../world/World.h"
 
 namespace rtt {
 namespace ai {
@@ -68,7 +69,7 @@ double ControlUtils::distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vec
     return d.length();
 }
 
-bool ControlUtils::clearLine(Vector2 fromPos, Vector2 toPos, roboteam_msgs::World world, double safeDistanceFactor, bool keeper) {
+bool ControlUtils::clearLine(Vector2 fromPos, Vector2 toPos, world::WorldData world, double safeDistanceFactor, bool keeper) {
     double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor * 3;
 
     for (auto enemy : world.them) {
@@ -88,7 +89,8 @@ bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::Worl
     Vector2 fromPos;
     Vector2 towardsPos;
 
-    for (auto friendly : world.us) {
+    auto w = world::world->getWorld();
+    for (auto friendly : w.us) {
         if (static_cast<int>(friendly.id) == fromID) {
             fromPos = friendly.pos;
         }
@@ -97,7 +99,7 @@ bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::Worl
         }
     }
 
-    for (auto enemy : world.them) {
+    for (auto enemy : w.them) {
         if (distanceToLineWithEnds(enemy.pos, fromPos, towardsPos) < minDistance) {
             return false;
         }
@@ -178,8 +180,8 @@ bool ControlUtils::lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd, V
 
 }
 rtt::Arc ControlUtils::createKeeperArc() {
-    double goalwidth = rtt::ai::Field::get_field().goal_width;
-    Vector2 goalPos = rtt::ai::Field::get_our_goal_center();
+    double goalwidth = rtt::ai::world::field->get_field().goal_width;
+    Vector2 goalPos = rtt::ai::world::field->get_our_goal_center();
     double diff = rtt::ai::Constants::KEEPER_POST_MARGIN() - rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN();
 
     double radius = diff*0.5 + goalwidth*goalwidth/(8*diff); //Pythagoras' theorem.
@@ -257,7 +259,7 @@ double ControlUtils::twoLineForwardIntersection(Vector2 a1, Vector2 a2, Vector2 
 /// Returns point in field closest to a given point.
 /// If the point is already in the field it returns the same as the input.
 Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, float margin) {
-    auto field = Field::get_field();
+    auto field = world::field->get_field();
     double hFieldLength = field.field_length*0.5;
     double hFieldWidth = field.field_width*0.5;
     if (position.x > hFieldLength - margin)
@@ -286,6 +288,15 @@ Vector2 ControlUtils::calculateForce(rtt::Vector2 vector, double weight, double 
 std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(std::vector<Vector2> set1,
         std::vector<Vector2> set2) {
 
+
+    if (set1.size() != set2.size()) {
+        std::cout << "wrong input for hungarian: unequal" << std::endl;
+        return {};
+    } else if (set1.size() == 0 || set2.size() == 0) {
+        std::cout << "wrong input for hungarian: 0" << std::endl;
+        return {};
+    }
+
     std::vector<int> assignments;
     // compute a distance matrix, initialize it with zeros
     std::vector<std::vector<double>> distanceMatrix(set1.size(), std::vector<double>(set2.size()));
@@ -307,13 +318,13 @@ std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFrom
 }
 
 bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, Vector2 point, double maxDifference) {
-    auto robot = World::getRobotForId(id, ourTeam);
+    auto robot = world::world->getRobotForId(id, ourTeam);
     if (robot) {
         double exactAngleTowardsPoint = (point - robot->pos).angle();
 
         // Note: The angles should NOT be constrained here. This is necessary.
-        return (robot->angle > exactAngleTowardsPoint - maxDifference/2
-            && robot->angle < exactAngleTowardsPoint + maxDifference/2);
+        return (robot->angle.getAngle() > exactAngleTowardsPoint - maxDifference/2
+            && robot->angle.getAngle() < exactAngleTowardsPoint + maxDifference/2);
     }
     return false;
 }

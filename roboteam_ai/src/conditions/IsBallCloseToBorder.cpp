@@ -20,13 +20,13 @@ void IsBallCloseToBorder::onInitialize() {
 }
 
 bt::Node::Status IsBallCloseToBorder::onUpdate() {
-    Vector2 ballPos = World::getBall()->pos;
+    Vector2 ballPos = world::world->getBall()->pos;
     if (!properties->getBool("corner")) {
-        if (Field::pointIsInField(ballPos, static_cast<float>(margin))) {
+        if (world::field->pointIsInField(ballPos, static_cast<float>(margin))) {
             return Status::Failure;
         }
     } else {
-        roboteam_msgs::GeometryFieldSize field = Field::get_field();
+        roboteam_msgs::GeometryFieldSize field = world::field->get_field();
         double xDiff = field.field_length / 2 - abs(ballPos.x);
         double yDiff = field.field_width / 2 - abs(ballPos.y);
 

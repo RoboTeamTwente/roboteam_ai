@@ -1,8 +1,12 @@
 #pragma once
 
 #include "Node.hpp"
-#include "roboteam_msgs/WorldRobot.h"
-#include "roboteam_msgs/WorldBall.h"
+#include "roboteam_ai/src/world/WorldData.h"
+#include "roboteam_ai/src/world/World.h"
+#include "roboteam_ai/src/world/Field.h"
+
+#include "roboteam_utils/Vector2.h"
+#include "roboteam_utils/Angle.h"
 
 namespace bt {
 
@@ -13,10 +17,15 @@ class Leaf : public Node {
         std::string name;
 
     protected:
-        std::shared_ptr<roboteam_msgs::WorldRobot> getRobotFromProperties(bt::Blackboard::Ptr properties);
+        using Robot = rtt::ai::world::Robot;
+        using RobotPtr = std::shared_ptr<Robot>;
+        using Ball = rtt::ai::world::Ball;
+        using BallPtr = std::shared_ptr<Ball>;
+
+        std::shared_ptr<rtt::ai::world::Robot> getRobotFromProperties(bt::Blackboard::Ptr properties);
         void updateRobot();
-        std::shared_ptr<roboteam_msgs::WorldRobot> robot;
-        std::shared_ptr<roboteam_msgs::WorldBall> ball;
+        RobotPtr robot;
+        BallPtr ball;
         int robotId = - 1;
 };
 

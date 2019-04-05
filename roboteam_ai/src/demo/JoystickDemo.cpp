@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include "JoystickDemo.h"
+#include "../utilities/Pause.h"
 
 namespace demo {
 
@@ -19,7 +20,7 @@ bool JoystickDemo::isDemo() {
 
 /// Tool to check if demo stuff should happen every loop
 void JoystickDemo::demoLoop(roboteam_msgs::DemoRobot msg) {
-    rtt::ai::Pause pause;
+    rtt::ai::Pause* pause{};
 
     std::lock_guard<std::mutex> lock(demoLock);
     if (msg.reserve && msg.halt == 0) {
@@ -31,11 +32,11 @@ void JoystickDemo::demoLoop(roboteam_msgs::DemoRobot msg) {
     }
 
     if (msg.halt == 1) {
-        pause.setPause(true);
-        pause.haltRobots();
+        pause->setPause(true);
+        pause->haltRobots();
     }
     else if (msg.halt == 2) {
-        pause.setPause(false);
+        pause->setPause(false);
     }
 
 }

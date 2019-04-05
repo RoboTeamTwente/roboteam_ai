@@ -78,6 +78,7 @@
  * specified in the json trees. These are usually the same name as the classes you make for that tactic.
  */
 
+using robotType = rtt::ai::robotDealer::RobotType;
 
 std::vector<std::string> Switches::tacticJsonFileNames = {
         "QualificationTactic",
@@ -126,7 +127,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
 };
 
 std::vector<std::string> Switches::keeperJsonFiles =
-        {"keeperTest1"};
+        {"keeperTest1",
+         "SingleKeeperTactic"};
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
 /// have a look around with the names and see if what you made is on the same level as these are
@@ -241,8 +243,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"halt3", robotType::RANDOM},
                     {"halt4", robotType::RANDOM},
                     {"halt5", robotType::RANDOM},
-                    {"halt6", robotType::RANDOM},
-                    {"halt7", robotType::RANDOM}
+                    {"halt6", robotType::RANDOM}
             }
             },
 
@@ -299,8 +300,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                  {"avoid2", robotType::RANDOM},
                  {"avoid3", robotType::RANDOM},
                  {"avoid4", robotType::RANDOM},
-                 {"avoid5", robotType::RANDOM},
-                 {"avoid6", robotType::RANDOM}
+                 {"avoid5", robotType::RANDOM}
             }
             },
             {"SingleKeeperTactic", {

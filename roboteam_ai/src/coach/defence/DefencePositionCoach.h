@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_DEFENSIVECOACH_H
 #define ROBOTEAM_AI_DEFENSIVECOACH_H
 #include "roboteam_utils/Vector2.h"
-#include "roboteam_ai/src/utilities/World.h"
+#include "roboteam_ai/src/world/World.h"
 #include "PossiblePass.h"
 namespace rtt {
 namespace ai {

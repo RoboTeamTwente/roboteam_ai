@@ -30,7 +30,7 @@ private:
     };
     Formation formation;
 
-    static std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> robotsInFormation;
+    static std::vector<std::shared_ptr<Robot>> robotsInFormation;
     int robotsInFormationMemory = 0;
     Vector2 getFormationPosition();
     Vector2 targetLocation;

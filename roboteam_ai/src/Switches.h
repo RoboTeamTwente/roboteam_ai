@@ -10,10 +10,8 @@
 #include "roboteam_ai/src/bt/bt.hpp"
 
 class Switches {
-        using robotType = robotDealer::RobotType;
-
-    private:
-        static void runErrorHandler(std::map<std::string, std::map<std::string, robotType>> tactics);
+        private:
+    static void runErrorHandler(std::map<std::string, std::map<std::string, rtt::ai::robotDealer::RobotType>> tactics);
 
     public:
 
@@ -28,7 +26,6 @@ class Switches {
         static bt::Node::Ptr leafSwitch(std::string name, bt::Blackboard::Ptr properties);
 
         static bt::Node::Ptr tacticSwitch(std::string name, bt::Blackboard::Ptr properties);
-
 };
 
 #endif //ROBOTEAM_AI_SWITCHES_H

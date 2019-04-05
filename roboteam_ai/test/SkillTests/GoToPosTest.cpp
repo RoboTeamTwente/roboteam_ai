@@ -6,7 +6,7 @@
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include "../../src/skills/GoToPos.h"
 #include "roboteam_utils/Vector2.h"
-#include "../../src/utilities/World.h"
+#include "../../src/world/World.h"
 #include "../../src/utilities/RobotDealer.h"
 
 // Empty namespace for ROS errors
@@ -16,6 +16,9 @@ std::vector<roboteam_msgs::RobotCommand> commands;
 void robotCommandCallback(const roboteam_msgs::RobotCommandConstPtr &cmd) {
     commands.push_back(*cmd);
 }
+
+namespace w = rtt::ai::world;
+namespace rd = rtt::ai::robotDealer;
 
 TEST(GoToPos, GoToPosTest) {
 
@@ -36,8 +39,8 @@ TEST(GoToPos, GoToPosTest) {
     robot.pos.y=0;
     worldMsg.us.push_back(robot);
     worldMsg.ball.existence = 99999;
-    rtt::ai::World::set_world(worldMsg);
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::RANDOM,"GoToPosTest","GTPtest");
+    w::world->updateWorld(worldMsg);
+    rd::RobotDealer::claimRobotForTactic(rd::RobotType::RANDOM,"GoToPosTest","GTPtest");
     rtt::ai::GoToPos goToPos("GTPtest", bb);
     goToPos.initialize();
 
@@ -48,7 +51,7 @@ TEST(GoToPos, GoToPosTest) {
     robot.pos.y = 6.0;
 
     worldMsg.us[0] = robot;
-    rtt::ai::World::set_world(worldMsg);
+    w::world->updateWorld(worldMsg);
 
     EXPECT_EQ(goToPos.update(), bt::Leaf::Status::Success);
 

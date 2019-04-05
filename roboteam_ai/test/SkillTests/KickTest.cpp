@@ -5,7 +5,7 @@
 #include "ros/ros.h"
 #include "../../src/skills/Kick.h"
 #include "../../src/skills/Chip.h"
-#include "../../src/utilities/World.h"
+#include "../../src/world/World.h"
 #include "../../src/utilities/RobotDealer.h"
 #include "../../src/utilities/Constants.h"
 
@@ -16,6 +16,9 @@ std::vector<roboteam_msgs::RobotCommand> commands;
 void robotCommandCallback(const roboteam_msgs::RobotCommandConstPtr &cmd) {
     commands.push_back(*cmd);
 }
+
+namespace w = rtt::ai::world;
+namespace rd = rtt::ai::robotDealer;
 
 TEST(KickTest, It_sends_proper_robotcommands) {
     ros::Rate rate(1);
@@ -35,8 +38,8 @@ TEST(KickTest, It_sends_proper_robotcommands) {
     robot.pos.y=0;
     worldMsg.us.push_back(robot);
     worldMsg.ball.existence = 99999;
-    rtt::ai::World::set_world(worldMsg);
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::RANDOM,"KickTest","test");
+    w::world->updateWorld(worldMsg);
+    rd::RobotDealer::claimRobotForTactic(rd::RobotType::RANDOM,"KickTest","test");
     kick.initialize();
     EXPECT_EQ(kick.update(), bt::Leaf::Status::Running);
 
@@ -67,7 +70,7 @@ TEST(KickTest, It_sends_proper_robotcommands) {
         EXPECT_EQ(kick2.update(), bt::Leaf::Status::Running);
     }
     EXPECT_EQ(kick2.update(), bt::Leaf::Status::Failure);
-    robotDealer::RobotDealer::removeTactic("KickTest");
+    rd::RobotDealer::removeTactic("KickTest");
 }
 
 TEST(KickTest, It_chips) {
@@ -88,8 +91,8 @@ TEST(KickTest, It_chips) {
     robot.pos.y=0;
     worldMsg.us.push_back(robot);
     worldMsg.ball.existence = 99999;
-    rtt::ai::World::set_world(worldMsg);
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::RANDOM,"KickTest","test");
+    w::world->updateWorld(worldMsg);
+    rd::RobotDealer::claimRobotForTactic(rd::RobotType::RANDOM,"KickTest","test");
 
     chip.initialize();
 
@@ -104,7 +107,7 @@ TEST(KickTest, It_chips) {
     EXPECT_TRUE(commands.at(0).chipper);
     EXPECT_TRUE(commands.at(0).chipper_forced);
     EXPECT_EQ(commands.at(0).chipper_vel, rtt::ai::Constants::DEFAULT_KICK_POWER());
-    robotDealer::RobotDealer::removeTactic("KickTest");
+    rd::RobotDealer::removeTactic("KickTest");
 }
 
 }
