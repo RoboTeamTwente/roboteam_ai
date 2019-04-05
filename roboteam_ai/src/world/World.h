@@ -40,17 +40,15 @@ class World {
         std::mutex worldMutex;
         std::mutex worldMsgMutex;
 
-        roboteam_msgs::World makeWorldMsg();
-        roboteam_msgs::WorldRobot makeWorldRobotMsg(const Robot& robot);
-        roboteam_msgs::WorldBall makeWorldBallMsg(const Ball& ball);
-
-        void setWorld(const roboteam_msgs::World &world);
+        const roboteam_msgs::World makeWorldMsg();
+        const roboteam_msgs::WorldRobot makeWorldRobotMsg(const Robot& robot);
+        const roboteam_msgs::WorldBall makeWorldBallMsg(const Ball& ball);
 
         Robot getRobotClosestToPoint(const Vector2 &point, std::vector<Robot> robots);
     public:
-        bool weHaveRobots();
 
         void updateWorld(const roboteam_msgs::World &world);
+        bool weHaveRobots();
 
         void setWorldData(WorldDataPtr &world);
 
@@ -58,7 +56,6 @@ class World {
         const roboteam_msgs::WorldBall &getBallMsg();
 
         const WorldData getWorld();
-
         const BallPtr getBall();
         const RobotPtr getRobotForId(int id, bool ourTeam = true);
         const std::vector<Robot> getAllRobots();
@@ -73,11 +70,11 @@ class World {
         bool robotHasBall(int id, bool ourTeam, double maxDist = Constants::MAX_BALL_RANGE());
         bool ourRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
         bool theirRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
-
         const RobotPtr whichRobotHasBall();
 
         const WorldData getFutureWorld(double time);
         const RobotPtr getFutureRobot(int id, bool ourTeam, double time);
+        const RobotPtr getFutureRobot(const RobotPtr &robot, double time);
         const BallPtr getFutureBall(double time);
 };
 

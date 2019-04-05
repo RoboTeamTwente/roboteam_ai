@@ -21,6 +21,8 @@ void FutureWorld::updateFutureRobot(Robot &robot, double time) {
 
 void FutureWorld::updateFutureWorld(WorldData &worldData, double time) {
     //TODO: take acceleration of the robot into account somehow :)
+
+    // get a predicted future WorldState using linear extrapolation
     worldData.time = time;
     updateFutureBall(worldData.ball, time);
     for (auto &robot : worldData.us) {

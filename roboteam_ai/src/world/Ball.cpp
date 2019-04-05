@@ -12,10 +12,22 @@ namespace rtt {
 namespace ai {
 namespace world {
 
+Ball::Ball()
+    : pos(Vector2()), vel(Vector2()), exists(0), visible(0) { }
+
 Ball::Ball(const roboteam_msgs::WorldBall &copy)
         : pos(copy.pos), vel(copy.vel),
         exists(copy.existence != 0), visible(copy.visible) { }
 
+
+const roboteam_msgs::WorldBall Ball::toMessage() const {
+    roboteam_msgs::WorldBall ballMsg;
+    ballMsg.existence = static_cast<unsigned int>(exists);
+    ballMsg.visible = static_cast<unsigned char>(visible);
+    ballMsg.pos = pos;
+    ballMsg.vel = vel;
+    return ballMsg;
+}
 
 void Ball::updateBall(const Ball &oldBall, const WorldData &worldData) {
     updateBallModel(oldBall, worldData);
@@ -157,6 +169,7 @@ void Ball::updateBallPosition(const Ball &oldBall, const WorldData &worldData) {
         }
     }
 }
+
 
 }
 }

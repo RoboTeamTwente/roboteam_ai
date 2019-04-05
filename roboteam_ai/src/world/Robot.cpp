@@ -21,6 +21,15 @@ Robot::Robot()
           pos(Vector2()), vel(Vector2()), angularVelocity(-1.0), team(them){
 }
 
+const roboteam_msgs::WorldRobot Robot::toMessage() const {
+    roboteam_msgs::WorldRobot robotMsg;
+    robotMsg.angle = static_cast<float>(angle);
+    robotMsg.w = static_cast<float>(angularVelocity);
+    robotMsg.pos = pos;
+    robotMsg.vel = vel;
+    robotMsg.id = static_cast<unsigned int>(id);
+    return robotMsg;
+}
 
 bool Robot::hasBall(double maxDist) {
     return iHaveBall && distanceToBall < maxDist && distanceToBall >= 0.0;
@@ -64,6 +73,7 @@ double Robot::findBallDistance(const Vector2 &ballPos) {
     // if the robot does not have ball
     return -1.0;
 }
+
 
 }
 }
