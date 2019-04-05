@@ -33,9 +33,9 @@ class DefencePositionCoach {
         std::vector<std::pair<Vector2, double>> decideDefendersOnDefenseLine(int amount);
         std::vector<DefenderBot> decidePositions(int amount);
 
-        std::shared_ptr<DefenderBot> createBlockToGoal(const PossiblePass& pass, double aggressionFactor,const roboteam_msgs::World &simulatedWorld);
-        std::shared_ptr<BlockPassBot> createBlockPass(const PossiblePass& pass, const roboteam_msgs::World &simulatedWorld);
-        std::shared_ptr<DefenderBot> createBlockOnLine(const PossiblePass& pass,const roboteam_msgs::World &simulatedWorld);
+        std::shared_ptr<DefenderBot> createBlockToGoal(const PossiblePass& pass, double aggressionFactor,const world::WorldData &simulatedWorld);
+        std::shared_ptr<BlockPassBot> createBlockPass(const PossiblePass& pass, const world::WorldData &simulatedWorld);
+        std::shared_ptr<DefenderBot> createBlockOnLine(const PossiblePass& pass,const world::WorldData &simulatedWorld);
 
         std::shared_ptr<Line> getBlockLineSegment(const Line& openGoalSegment, const Vector2& point, double collisionRadius=Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS(),
                 double margin = - 1.0);
@@ -45,7 +45,7 @@ class DefencePositionCoach {
         Vector2 getPosOnLine(const Line& line, double aggressionFactor);
         double getOrientation(const Line& line);
     private:
-        std::vector<PossiblePass> createPassesSortedByDanger(const roboteam_msgs::World &world);
+        std::vector<PossiblePass> createPassesSortedByDanger(const world::WorldData &world);
 };
 extern DefencePositionCoach g_defensivePositionCoach;
 

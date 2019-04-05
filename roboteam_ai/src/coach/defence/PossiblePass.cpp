@@ -4,7 +4,7 @@
 
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "PossiblePass.h"
-#include "roboteam_ai/src/utilities/Field.h"
+#include "roboteam_ai/src/world/Field.h"
 
 namespace rtt{
 namespace ai{
@@ -15,7 +15,7 @@ double PossiblePass::distance() {
 bool PossiblePass::obstacleObstructsPath(const Vector2 &obstPos, double obstRadius) {
     return control::ControlUtils::distanceToLineWithEnds(obstPos, startPos, endPos) <= obstRadius;
 }
-int PossiblePass::amountOfBlockers(const roboteam_msgs::World &world) {
+int PossiblePass::amountOfBlockers(const world::WorldData &world) {
     int total = 0;
     for (auto bot : world.them) {
         if (obstacleObstructsPath(bot.pos)) {
@@ -30,7 +30,7 @@ int PossiblePass::amountOfBlockers(const roboteam_msgs::World &world) {
     return total;
 }
 
-PossiblePass::PossiblePass(roboteam_msgs::WorldRobot *_toBot, const Vector2 &ballPos) :toBot(_toBot),startPos(ballPos){
+PossiblePass::PossiblePass(world::Robot *_toBot, const Vector2 &ballPos) :toBot(_toBot),startPos(ballPos){
 endPos=botReceivePos(ballPos,_toBot->pos);
 }
 Vector2 PossiblePass::botReceivePos(const Vector2& _startPos, const Vector2& botPos) {
@@ -38,16 +38,16 @@ Vector2 PossiblePass::botReceivePos(const Vector2& _startPos, const Vector2& bot
             botPos + (_startPos - botPos).stretchToLength(Constants::CENTRE_TO_FRONT() + Constants::BALL_RADIUS());
     return receivePos;
 }
-double PossiblePass::score(const roboteam_msgs::World &world) {
+double PossiblePass::score(const world::WorldData &world) {
     double score = 1.0;
     score *= scoreForGoalAngle(world);
     score *= penaltyForBlocks(world);
     score *= penaltyForDistance();
     return score;
 }
-double PossiblePass::scoreForGoalAngle(const roboteam_msgs::World &world) {
+double PossiblePass::scoreForGoalAngle(const world::WorldData &world) {
     // find the largest open angle in the world
-    std::vector<Line> visibleParts = Field::getVisiblePartsOfGoal(true, endPos, world,Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
+    std::vector<Line> visibleParts = world::field->getVisiblePartsOfGoal(true, endPos, world);
     std::sort(visibleParts.begin(), visibleParts.end(),
             [](const Line &a, const Line &b) {
               return abs(a.second.y - a.first.y) > abs(b.second.y - b.first.y);
@@ -55,7 +55,7 @@ double PossiblePass::scoreForGoalAngle(const roboteam_msgs::World &world) {
     // set the largest open angle, we use a minimum of 0.05 of the goal angle
     double largestOpenGoalAngle;
     if (visibleParts.empty()) {
-        largestOpenGoalAngle = Field::getTotalGoalAngle(true, endPos)*0.05;
+        largestOpenGoalAngle = world::field->getTotalGoalAngle(true, endPos)*0.05;
     }
     else {
         double angleOne = (visibleParts[0].first - endPos).angle();
@@ -67,7 +67,7 @@ double PossiblePass::scoreForGoalAngle(const roboteam_msgs::World &world) {
     return largestOpenGoalAngle;
 }
 //Half the score for every robot that blocks the ball
-double PossiblePass::penaltyForBlocks(const roboteam_msgs::World &world) {
+double PossiblePass::penaltyForBlocks(const world::WorldData &world) {
     double obstacleFactor = 0.5;
     return pow(obstacleFactor,amountOfBlockers(world));
 }

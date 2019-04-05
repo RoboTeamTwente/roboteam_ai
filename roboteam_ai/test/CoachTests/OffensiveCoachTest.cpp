@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 #include "roboteam_ai/src/coach/OffensiveCoach.h"
-#include <roboteam_ai/src/utilities/Field.h>
+#include "roboteam_ai/src/world/Field.h"
 #include <roboteam_ai/src/utilities/World.h>
 #include <algorithm>
 

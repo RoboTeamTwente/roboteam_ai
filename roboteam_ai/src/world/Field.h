@@ -1,5 +1,5 @@
 /*
- * Field.h
+ * Field
  * This class maintains the FieldGeometry object, which is a message that contains the field geometry
  *  This class also provides helper functions to interface with it.
  */
@@ -13,12 +13,13 @@
 #include <mutex>
 #include <thread>
 #include "WorldData.h"
+#include "Robot.h"
 #include <roboteam_ai/src/control/ControlUtils.h>
 
 namespace rtt {
 namespace ai {
 namespace world {
-
+using Line=std::pair<Vector2, Vector2>;
 class Field {
     private:
         roboteam_msgs::GeometryFieldSize field;
@@ -29,18 +30,19 @@ class Field {
         void set_field(roboteam_msgs::GeometryFieldSize field);
         Vector2 get_our_goal_center();
         Vector2 get_their_goal_center();
-        bool pointIsInDefenceArea(Vector2 point, bool isOurDefenceArea = true, float margin = 0.0,
+        bool pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea = true, float margin = 0.0,
                 bool outsideField = false);
-        bool pointIsInField(Vector2 point, float margin = 0.05); //TODO: Remove margin hack
+        bool pointIsInField(const Vector2& point, float margin = 0.05); //TODO: Remove margin hack
         int getRobotClosestToGoal(WhichRobots whichRobots, bool ourGoal);
-        double getPercentageOfGoalVisibleFromPoint(bool ourGoal, Vector2 point);
-        std::vector<std::pair<Vector2, Vector2>> getBlockadesMappedToGoal(bool ourGoal, Vector2 point);
-        std::vector<std::pair<Vector2, Vector2>> mergeBlockades(std::vector<std::pair<Vector2, Vector2>> blockades);
-        std::vector<std::pair<Vector2, Vector2>> getVisiblePartsOfGoal(bool ourGoal, Vector2 point);
-        std::pair<Vector2, Vector2> getGoalSides(bool ourGoal);
-        double getDistanceToGoal(bool ourGoal, Vector2 point);
+        double getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& point,const WorldData &world=world::world->getWorld());
+        std::vector<Line> getBlockadesMappedToGoal(bool ourGoal, const Vector2& point, const WorldData &world=world::world->getWorld());
+        std::vector<Line> mergeBlockades(std::vector<Line> blockades);
+        std::vector<Line> getVisiblePartsOfGoal(bool ourGoal, const Vector2& point,const WorldData &world=world::world->getWorld());
+        Line getGoalSides(bool ourGoal);
+        double getDistanceToGoal(bool ourGoal, const Vector2& point);
         Vector2 getPenaltyPoint(bool ourGoal);
-
+        std::shared_ptr<Vector2> lineIntersectsWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin);
+        double getTotalGoalAngle(bool ourGoal, const Vector2& point);
 };
 
 extern Field fieldObj;

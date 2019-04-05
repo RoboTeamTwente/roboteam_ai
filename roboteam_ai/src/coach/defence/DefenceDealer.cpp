@@ -83,19 +83,19 @@ void DefenceDealer::updateDefenderLocations() {
         defenderLocations.clear();
         std::vector<int> availableDefenders = defenders;
         // decide the locations to defend
-        std::vector<std::pair<Vector2, double>> positions = g_defensivePositionCoach.decideDefendersOnDefenseLine(availableDefenders.size());
+        std::vector<DefencePositionCoach::DefenderBot> botposses = g_defensivePositionCoach.decidePositions(availableDefenders.size());
         // the following algorithm takes the closest robot for each available defender to decide which robot goes where.
         // Since the points are ordered on priority from the above algorithm the most important points come first
         // It might be better to use an algorithm that is more complicated (e.g. hungarian) but then we might need some kind of system which gives the first points more 'priority'
-        for (auto position : positions) {
+        for (auto botpos : botposses) {
             int bestId = - 1;
             double bestDist = 10000000000;
             for (int botId : availableDefenders) {
-                auto bot = World::getRobotForId(botId, true);
+                auto bot = world::world->getRobotForId(botId, true);
                 if (bot) {
-                    if ((position.first - bot->pos).length() < bestDist) {
+                    if ((botpos.targetPos - bot->pos).length() < bestDist) {
                         bestId = botId;
-                        bestDist = (position.first - bot->pos).length();
+                        bestDist = (botpos.targetPos - bot->pos).length();
                     }
                 }
                 else {
@@ -103,7 +103,7 @@ void DefenceDealer::updateDefenderLocations() {
                 }
             }
             if (bestId != - 1) {
-                defenderLocations[bestId] = position;
+                defenderLocations[bestId] = {botpos.targetPos,botpos.orientation};
                 availableDefenders.erase(std::find(availableDefenders.begin(), availableDefenders.end(), bestId));
             }
             else {
