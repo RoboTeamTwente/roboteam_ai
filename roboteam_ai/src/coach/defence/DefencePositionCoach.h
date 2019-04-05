@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_DEFENSIVECOACH_H
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_ai/src/utilities/World.h"
+#include "PossiblePass.h"
 namespace rtt {
 namespace ai {
 namespace coach {
@@ -16,22 +17,6 @@ class DefencePositionCoach {
         std::vector<roboteam_msgs::WorldRobot> createVirtualBots(const std::vector<Vector2>& decidedBlocks);
 
     public:
-        struct PossiblePass {
-          roboteam_msgs::WorldRobot toBot;
-          Vector2 startPos;
-          Vector2 endPos;
-          double distance();
-          bool obstacleObstructsPath(const Vector2& obstPos,
-                  double obstRadius = (Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS()));
-          int amountOfBlockers();
-          PossiblePass(roboteam_msgs::WorldRobot _toBot, const Vector2& ballPos);
-        };
-        double scorePossiblePass(const PossiblePass& pass, const std::vector<Vector2>& decidedBlocks);
-        double scoreForOpenGoalAngle(const PossiblePass& pass, const std::vector<Vector2>& decidedBlocks);
-        double penaltyForBlocks(const PossiblePass& pass, const std::vector<Vector2>& decidedBlocks);
-        double penaltyForPassDist(PossiblePass pass);
-        Vector2 computeSimpleReceivePos(const Vector2& startPos, const Vector2& robotPos);
-
         enum botType { BLOCKBALLTOGOAL, BLOCKTOGOAL, WALL, BLOCKPASS, BLOCKONLINE };
         struct DefenderBot {
           int id;
@@ -48,7 +33,7 @@ class DefencePositionCoach {
         std::vector<std::pair<Vector2, double>> decideDefendersOnDefenseLine(int amount);
 
         std::shared_ptr<DefenderBot> createBlockToGoal(const PossiblePass& pass, double aggressionFactor,const Line& goalSegment);
-        std::shared_ptr<BlockPassBot> createBlockPass(PossiblePass pass, double closeToPasserFactor);
+        std::shared_ptr<BlockPassBot> createBlockPass(const PossiblePass& pass, double closeToPasserFactor);
         std::shared_ptr<DefenderBot> createBlockOnLine(const PossiblePass& pass,const Line& goalSegment);
 
         std::shared_ptr<Line> getBlockLineSegment(const Line& openGoalSegment, const Vector2& point, double collisionRadius=Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS(),
@@ -59,8 +44,7 @@ class DefencePositionCoach {
         Vector2 getPosOnLine(const Line& line, double aggressionFactor);
         double getOrientation(const Line& line);
     private:
-        std::vector<std::pair<PossiblePass, double>> createPassesAndDanger(const std::vector<roboteam_msgs::WorldRobot>& bots,
-                const std::vector<Vector2>& decidedBlocks);
+        std::vector<std::pair<PossiblePass, double>> createPassesAndDanger(const roboteam_msgs::World &world);
 };
 extern DefencePositionCoach g_defensivePositionCoach;
 

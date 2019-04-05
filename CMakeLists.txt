@@ -332,12 +332,14 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/OffensiveCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/FormationCoach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/FormationCoach.h
-        roboteam_ai/src/coach/defence/DefencePositionCoach.cpp
-        roboteam_ai/src/coach/defence/DefencePositionCoach.h
-        roboteam_ai/src/coach/defence/DefenceDealer.cpp
-        roboteam_ai/src/coach/defence/DefenceDealer.h
-        roboteam_ai/src/coach/defence/TrumpCoach.cpp
-        roboteam_ai/src/coach/defence/TrumpCoach.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefencePositionCoach.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefencePositionCoach.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefenceDealer.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefenceDealer.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/TrumpCoach.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/TrumpCoach.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/PossiblePass.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/PossiblePass.h
         )
 
 catkin_package()
