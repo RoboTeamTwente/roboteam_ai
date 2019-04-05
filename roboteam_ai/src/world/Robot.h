@@ -33,6 +33,7 @@ class Robot {
           them
         };
 
+        const roboteam_msgs::WorldRobot toMessage() const;
         void updateRobot(const Ball &ball);
         bool hasBall(double maxDist = Constants::MAX_BALL_BOUNCE_RANGE());
         double getDistanceToBall();
