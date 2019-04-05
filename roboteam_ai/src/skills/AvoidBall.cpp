@@ -45,29 +45,16 @@ bt::Node::Status AvoidBall::onUpdate() {
         force = force + cu::calculateForce(wallVector, wallWeight, minWallDistanceForForce);
     }
 
-
-    int ballLineEvasionDistance = minBallDistanceForForce*2;
     Vector2 bpTarget = coach::g_ballPlacement.getBallPlacementPos();
     // if the robot is closer to the ballplacementTarget than the ball
-    if (control::ControlUtils::distanceToLineWithEnds(robot->pos, ball->pos, bpTarget) < ballLineEvasionDistance) {
+    if (control::ControlUtils::distanceToLineWithEnds(robot->pos, ball->pos, bpTarget) < minBallDistanceForForce) {
         Vector2 LineToBallPlacementBallLine = robot->pos - robot->pos.project(bpTarget, ball->pos);
-        force = force + cu::calculateForce(LineToBallPlacementBallLine, ballWeight*3, ballLineEvasionDistance);
+        force = force + cu::calculateForce(LineToBallPlacementBallLine, ballWeight, minBallDistanceForForce);
     }
 
-
-
-
-    // limit the forces
-    // TODO do not always limit the speed for ballplacement only
-   // if (force.length() > Constants::MAX_VEL_BALLPLACEMENT()) force.stretchToLength(Constants::MAX_VEL_BALLPLACEMENT());
-   // if (force.angle() > Constants::MAX_ANGULAR_VELOCITY()) force.stretchToLength(Constants::MAX_ANGULAR_VELOCITY());
-
-
     force = control::ControlUtils::velocityLimiter(force, Constants::MAX_VEL_BALLPLACEMENT());
-
     command.use_angle = 1;
     command.w = static_cast<float>(force.angle());
-
     command.x_vel = static_cast<float>(force.x);
     command.y_vel = static_cast<float>(force.y);
 
