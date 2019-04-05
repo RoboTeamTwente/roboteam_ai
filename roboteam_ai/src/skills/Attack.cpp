@@ -4,7 +4,7 @@
 
 #include <roboteam_ai/src/coach/GeneralPositionCoach.h>
 #include "Attack.h"
-#include <roboteam_ai/src/utilities/Field.h>
+#include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
@@ -26,11 +26,11 @@ void Attack::onInitialize() {
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
 
-    if (shot && !World::botHasBall(robot->id, true)) {
+    if (shot && !world::world->robotHasBall(robot->id, world::OUR_ROBOTS)) {
         return Status::Success;
     }
 
-    Vector2 ball = World::getBall()->pos;
+    Vector2 ball = world::world->getBall()->pos;
     Vector2 behindBall = coach::g_generalPositionCoach.getPositionBehindBallToGoal(BEHIND_BALL_TARGET, false);
     Vector2 deltaBall = behindBall - ball;
 
@@ -48,7 +48,7 @@ bt::Node::Status Attack::onUpdate() {
         targetPos = ball;
         gtp->setAvoidBall(false);
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
-        if (World::botHasBall(robot->id, true, Constants::MAX_KICK_RANGE())) {
+        if (world::world->robotHasBall(robot->id, true, Constants::MAX_KICK_RANGE())) {
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
             command.kicker_forced = 1;
@@ -57,16 +57,16 @@ bt::Node::Status Attack::onUpdate() {
 
     }
     Vector2 velocity;
-    if (Field::pointIsInDefenceArea(robot->pos, false, 0.0)) {
-        velocity = ((Vector2) robot->pos - Field::get_our_goal_center()).stretchToLength(2.0);
+    if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
+        velocity = ((Vector2) robot->pos - world::field->get_our_goal_center()).stretchToLength(2.0);
     }
-    else if (Field::pointIsInDefenceArea(robot->pos, false, 0.0)) {
-        velocity = ((Vector2) robot->pos - Field::get_their_goal_center()).stretchToLength(2.0);
+    else if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
+        velocity = ((Vector2) robot->pos - world::field->get_their_goal_center()).stretchToLength(2.0);
     }
-    else if (Field::pointIsInDefenceArea(ball, false) || Field::pointIsInDefenceArea(ball, true)) {
+    else if (world::field->pointIsInDefenceArea(ball, false) || world::field->pointIsInDefenceArea(ball, true)) {
         velocity = {0, 0};
     }
-    else if (Field::pointIsInDefenceArea(targetPos, false)) {
+    else if (world::field->pointIsInDefenceArea(targetPos, false)) {
         velocity = {0, 0};
     }
     else {

@@ -4,33 +4,32 @@
 
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/coach/GeneralPositionCoach.h>
-#include <roboteam_ai/src/utilities/Field.h>
+#include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "../helpers/WorldHelper.h"
 
-using World = rtt::ai::World;
-using Field = rtt::ai::Field;
+namespace w = rtt::ai::world;
 
 TEST(CoachTest, get_position_behind_ball) {
     roboteam_msgs::GeometryFieldSize field;
     field.field_width = 12;
     field.field_length = 8;
-    Field::set_field(field);
+    w::field->set_field(field);
 
     // create a world with one of our robots that has the ball
     auto world = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(1, 0, true, field);
-    World::set_world(world.first);
+    w::world->updateWorld(world.first);
 
     // get position behind ball to our own goal
     auto pos = rtt::ai::coach::g_generalPositionCoach.getPositionBehindBallToGoal(1, true);
 
     // it should be one meter further than the ball
-    EXPECT_FLOAT_EQ(pos.dist(World::getBall()->pos), 1);
+    EXPECT_FLOAT_EQ(pos.dist(w::world->getBall()->pos), 1);
 
     // it should be the same location as the test position
-    auto ballPos = rtt::Vector2(World::getBall()->pos);
-    auto testPos = ballPos + (ballPos - Field::get_our_goal_center()).stretchToLength(1);
-    EXPECT_FLOAT_EQ(pos.dist(World::getBall()->pos), 1);
+    auto ballPos = rtt::Vector2(w::world->getBall()->pos);
+    auto testPos = ballPos + (ballPos - w::field->get_our_goal_center()).stretchToLength(1);
+    EXPECT_FLOAT_EQ(pos.dist(w::world->getBall()->pos), 1);
     EXPECT_FLOAT_EQ(pos.x, testPos.x);
     EXPECT_FLOAT_EQ(pos.y, testPos.y);
 
@@ -39,7 +38,7 @@ TEST(CoachTest, get_position_behind_ball) {
     worldMsg.ball.pos = Vector2(0, 0);
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 9999;
-    World::set_world(worldMsg);
+    w::world->updateWorld(worldMsg);
 
     // set the robot on the horizontal line from the ball to the goal
     EXPECT_FALSE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToGoal(1.0, true, Vector2(0,0))); // robot on top of the ball: false
@@ -65,7 +64,7 @@ TEST(CoachTest, get_position_behind_ball) {
     robotToPointTo.pos.x = -1;
     robotToPointTo.pos.y = -1;
     worldMsg.them.push_back(robotToPointTo);
-    World::set_world(worldMsg);
+    w::world->updateWorld(worldMsg);
 
     // check for position behind robottopointo, 1 m behind the ball
     // robottopointto is THEIR team

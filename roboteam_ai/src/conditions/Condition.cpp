@@ -11,12 +11,11 @@ std::string Condition::node_name() {
 }
 
 void Condition::initialize() {
+    ball = world::world->getBall(); // update ball position
     if (! properties->getString("ROLE").empty()) {
         robot = getRobotFromProperties(properties);
         if (! robot) return;
     }
-
-    ball = World::getBall(); // update ball position
     if (! ball) return;
 
     onInitialize();
@@ -31,7 +30,7 @@ Condition::Status Condition::update() {
     }
 
     // there should always be a ball
-    ball = World::getBall(); // update ball position
+    ball = world::world->getBall(); // update ball position
     if (! ball) return Status::Waiting;
 
     return onUpdate();

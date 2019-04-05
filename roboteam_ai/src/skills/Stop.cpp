@@ -3,7 +3,7 @@
 //
 
 #include <roboteam_ai/src/coach/FormationCoach.h>
-#include <roboteam_ai/src/utilities/Field.h>
+#include <roboteam_ai/src/world/Field.h>
 #include "Stop.h"
 #include "../control/ControlUtils.h"
 namespace rtt {
@@ -45,7 +45,7 @@ Skill::Status Stop::onUpdate() {
             robotsInFormationMemory = robotsInFormation.size();
         }
         auto robotPos = rtt::Vector2(robot->pos);
-        Vector2 targetToLookAtLocation = Field::get_their_goal_center();
+        Vector2 targetToLookAtLocation = rtt::ai::world::field->get_their_goal_center();
 
         if (robotPos.dist(targetLocation) > 0.08) {
             auto velocities = goToPos.getPosVelAngle(robot, targetLocation);
@@ -67,8 +67,8 @@ void Stop::onTerminate(Skill::Status s) {
 }
 Vector2 Stop::getOffensiveActivePoint() {
 
-    Vector2 penaltyPos = Field::getPenaltyPoint(false);
-    Vector2 ballPos = rtt::ai::World::getBall()->pos;
+    Vector2 penaltyPos = rtt::ai::world::field->getPenaltyPoint(false);
+    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
 
     Vector2 offset = (penaltyPos - ballPos).stretchToLength(0.6);
     return ballPos + offset;
@@ -77,8 +77,8 @@ Vector2 Stop::getOffensiveActivePoint() {
 
 Vector2 Stop::getDefensiveActivePoint() {
 
-    Vector2 penaltyPos = Field::getPenaltyPoint(true);
-    Vector2 ballPos = rtt::ai::World::getBall()->pos;
+    Vector2 penaltyPos = rtt::ai::world::field->getPenaltyPoint(false);
+    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
 
     Vector2 offset = (penaltyPos - ballPos).stretchToLength(0.6);
     return ballPos + offset;

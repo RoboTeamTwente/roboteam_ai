@@ -18,7 +18,7 @@ void Receive::onInitialize() {
 };
 
 Receive::Status Receive::onUpdate() {
-    if (World::ourBotHasBall(robot->id)) {
+    if (world::world->ourRobotHasBall(robot->id)) {
         return Status::Success;
     }
 

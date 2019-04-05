@@ -3,7 +3,7 @@
 //
 
 #include <roboteam_ai/src/interface/InterfaceValues.h>
-#include <roboteam_ai/src/utilities/Field.h>
+#include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "ForcePosControl.h"
 
@@ -20,7 +20,7 @@ PosVelAngle ForcePosControl::getPosVelAngle(RobotPtr robot, Vector2 &targetPos) 
 }
 
 Vector2 ForcePosControl::calculateForces(const RobotPtr &robot, const Vector2 &targetPos, double forceRadius) const {
-    roboteam_msgs::World world = World::get_world();
+    auto world = world::world->getWorld();
     Vector2 force = (targetPos - robot->pos);
     force = (force.length() > 3.0) ? force.stretchToLength(3.0) : force;
 
@@ -41,7 +41,7 @@ Vector2 ForcePosControl::calculateForces(const RobotPtr &robot, const Vector2 &t
 
     // avoid the sides of the field if needed
     if (!canMoveOutOfField) {
-        bool pointInField = Field::pointIsInField(robot->pos, POINT_IN_FIELD_MARGIN);
+        bool pointInField = world::field->pointIsInField(robot->pos, POINT_IN_FIELD_MARGIN);
 
         if (!pointInField) {
             force += ControlUtils::calculateForce(Vector2(-1.0, -1.0) / robot->pos, FORCE_WEIGHT_FIELD_SIDES, 99.9);
@@ -51,7 +51,7 @@ Vector2 ForcePosControl::calculateForces(const RobotPtr &robot, const Vector2 &t
     return force;
 }
 
-PosVelAngle ForcePosControl::calculateForcePosVelAngle(PosController::RobotPtr robot, Vector2 &targetPos) {
+PosVelAngle ForcePosControl::calculateForcePosVelAngle(const PosController::RobotPtr& robot, Vector2 &targetPos) {
     double forceRadius;
     bool distanceSmallerThanMinForceDistance = (targetPos - robot->pos).length() < Constants::MIN_DISTANCE_FOR_FORCE();
     if (distanceSmallerThanMinForceDistance) {

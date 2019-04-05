@@ -8,42 +8,49 @@
 #include "PosVelAngle.h"
 #include <roboteam_ai/src/utilities/Constants.h>
 #include <roboteam_ai/src/control/pid.h>
-#include "roboteam_msgs/WorldRobot.h"
+#include <roboteam_ai/src/world/WorldData.h>
 
 namespace rtt {
 namespace ai {
 namespace control {
-    class PosController {
-public:
-    using RobotPtr = std::shared_ptr<roboteam_msgs::WorldRobot>;
-    explicit PosController() = default;
-    explicit PosController(bool avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
-    virtual PosVelAngle getPosVelAngle(RobotPtr robot, Vector2 &targetPos) = 0;
-    bool getCanMoveOutOfField() const;
-    void setCanMoveOutOfField(bool canMoveOutOfField);
-    bool getCanMoveInDefenseArea() const;
-    void setCanMoveInDefenseArea(bool canMoveInDefenseArea);
-    bool getAvoidBall() const;
-    void setAvoidBall(bool avoidBall);
-    void setStop(bool stopp);
+class PosController {
+    protected:
+        using Robot = world::Robot;
+        using RobotPtr = std::shared_ptr<Robot>;
+        using Ball = world::Ball;
+        using BallPtr = std::shared_ptr<Ball>;
+        using WorldData = world::WorldData;
+        using WorldDataPtr = std::shared_ptr<WorldData>;
+    public:
+        explicit PosController() = default;
+        explicit PosController(bool avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
+        virtual PosVelAngle getPosVelAngle(RobotPtr robot, Vector2 &targetPos) = 0;
+        bool getCanMoveOutOfField() const;
+        void setCanMoveOutOfField(bool canMoveOutOfField);
+        bool getCanMoveInDefenseArea() const;
+        void setCanMoveInDefenseArea(bool canMoveInDefenseArea);
+        bool getAvoidBall() const;
+        void setAvoidBall(bool avoidBall);
+        void setStop(bool stopp);
 
-    std::tuple<double, double, double> lastPid;
+        std::tuple<double, double, double> lastPid;
 
-protected:
-    // settings
-    bool avoidBall = false;
-    bool stop = false;
-    bool canMoveOutOfField = false;
-    bool canMoveInDefenseArea = false;
+    protected:
 
-    PID xpid = PID(1.65, 0, 0.0);
-    PID ypid = PID(1.65, 0, 0.0);
+        // settings
+        bool avoidBall = false;
+        bool canMoveOutOfField = false;
+        bool canMoveInDefenseArea = false;
+        bool stop = false;
 
-    bool getPIDFromInterface = true;
-    PosVelAngle controlWithPID(const RobotPtr &robot, PosVelAngle target);
-    void checkInterfacePID();
+        PID xpid = PID(1.65, 0, 0.0);
+        PID ypid = PID(1.65, 0, 0.0);
 
-    virtual Vector2 calculatePIDs(const RobotPtr &robot, PosVelAngle &target);
+        bool getPIDFromInterface = true;
+        PosVelAngle controlWithPID(const RobotPtr &robot, PosVelAngle target);
+        void checkInterfacePID();
+
+        virtual Vector2 calculatePIDs(const RobotPtr &robot, PosVelAngle &target);
 };
 
 } // control

@@ -4,12 +4,12 @@
 
 #include "EnterFormation.h"
 #include "../control/ControlUtils.h"
-#include "../utilities/Field.h"
+#include "../world/Field.h"
 
 namespace rtt {
 namespace ai {
 
-std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> EnterFormation::robotsInFormation = {};
+std::vector<std::shared_ptr<EnterFormation::Robot>> EnterFormation::robotsInFormation = {};
 
 EnterFormation::EnterFormation(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
@@ -26,6 +26,14 @@ void EnterFormation::onInitialize() {
 
 bt::Node::Status EnterFormation::onUpdate() {
 
+    bool isIn = false;
+    for (unsigned long i = 0; i<robotsInFormation.size(); i++) {
+        if (robotsInFormation.at(i)->id == robot->id) {
+            isIn = true;
+        }
+    }
+
+    if (!isIn) return Status::Running;
     /*
      * Calculate the target location at least once, and every time when the amount of robots in the formation change.
      */
@@ -34,7 +42,7 @@ bt::Node::Status EnterFormation::onUpdate() {
         robotsInFormationMemory = robotsInFormation.size();
     }
     auto robotPos = rtt::Vector2(robot->pos);
-    Vector2 targetToLookAtLocation = Field::get_their_goal_center();
+    Vector2 targetToLookAtLocation = world::field->get_their_goal_center();
 
     if (robotPos.dist(targetLocation) > errorMargin) {
         auto velocities = gtp.getPosVelAngle(robot, targetLocation);
@@ -49,7 +57,7 @@ bt::Node::Status EnterFormation::onUpdate() {
 }
 
 Vector2 EnterFormation::getFormationPosition() {
-    auto field = Field::get_field();
+    auto field = world::field->get_field();
     double targetLocationX = field.field_length/4 - (field.field_length/2);
 
     // first we calculate all the positions for the defense
@@ -71,15 +79,23 @@ Vector2 EnterFormation::getFormationPosition() {
             return shortestDistances.at(i).second;
         }
     }
+
+
     return {0, 0};
 }
 
 void EnterFormation::onTerminate(bt::Node::Status s) {
-    for (unsigned long i = 0; i<robotsInFormation.size(); i++) {
+    std::cout<<"removing formationbot" << std::endl;
+
+    for (int i = 0; i < robotsInFormation.size(); i++) {
         if (robotsInFormation.at(i)->id == robot->id) {
             robotsInFormation.erase(robotsInFormation.begin() + i);
         }
     }
+
+
+
+
 }
 } // ai
 } // rtt

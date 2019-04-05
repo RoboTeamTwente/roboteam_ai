@@ -2,8 +2,8 @@
 // Created by baris on 2-4-19.
 //
 
-#include <roboteam_ai/src/utilities/World.h>
-#include <roboteam_ai/src/utilities/Field.h>
+#include <roboteam_ai/src/world/World.h>
+#include <roboteam_ai/src/world/Field.h>
 #include "FormationCoach.h"
 
 namespace rtt {
@@ -32,8 +32,8 @@ bool FormationCoach::isOffensiveStop(int ID) {
 
 void FormationCoach::makeActiveStopPositions() {
 
-    if (rtt::ai::World::get_world().us.size() < 3) {
-        for (auto robot : rtt::ai::World::get_world().us) {
+    if (rtt::ai::world::world->getUs().size() < 3) {
+        for (auto robot : rtt::ai::world::world->getUs()) {
             robotsStop[robot.id] = false;
         }
     }
@@ -41,9 +41,12 @@ void FormationCoach::makeActiveStopPositions() {
     // get the TWO closest robots to the ball, so as much work as calling the world for it
     std::pair<int, double> closest = {- 1, 999};
     std::pair<int, double> closestest = {- 1, 999};
-    Vector2 ballPos = rtt::ai::World::get_world().ball.pos;
-
-    for (auto robot : rtt::ai::World::get_world().us) {
+    Vector2 ballPos;
+    if (rtt::ai::world::world->getBall())
+        ballPos = rtt::ai::world::world->getBall()->pos;
+    else
+        ballPos = {0,0};
+    for (auto robot : rtt::ai::world::world->getUs()) {
         double dist = (static_cast<Vector2>(robot.pos) - ballPos).length();
         if (dist < closest.second) {
             if (dist < closestest.second) {
@@ -66,8 +69,8 @@ void FormationCoach::makeStopPositions() {
         if (! robot.second)
             amount ++;
     }
-    Vector2 startPoint = rtt::ai::Field::get_field().left_penalty_line.begin;
-    Vector2 endPoint = rtt::ai::Field::get_field().left_penalty_line.begin;
+    Vector2 startPoint = rtt::ai::world::field->get_field().left_penalty_line.begin;
+    Vector2 endPoint = rtt::ai::world::field->get_field().left_penalty_line.begin;
     if (amount > 2) {
         auto size = ((startPoint - endPoint).length()/(amount - 2.0));
         Vector2 travel = (endPoint - startPoint).stretchToLength(size);
