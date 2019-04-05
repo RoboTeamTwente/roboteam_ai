@@ -9,18 +9,11 @@ std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
 std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::keeperRepo;
 std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
-<<<<<<< HEAD
 std::mutex BTFactory::keeperTreeMutex;
-=======
-std::mutex BTFactory::treeLock;
->>>>>>> 9dc5a8ebdb09f9413efbc6057cd42dd283b5e117
 
 /// Initiate the BTFactory
 void BTFactory::makeTrees() {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
-  //  ros::Duration(1).sleep();
-
-    std::lock_guard<std::mutex> lock(treeLock);
     std::cout << "Re-Make Trees From Json" << std::endl;
 
     // If you think calling this over and over again is bad or slow you are partially correct. But if you optimize with
