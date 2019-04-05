@@ -91,6 +91,7 @@ Vector2 Stop::getFormationPosition() {
     std::vector<Vector2> robotLocations;
 
     for (auto & i : robotsInFormation) {
+        std::cout << "t" << std::endl;
         robotLocations.emplace_back(i->pos);
     }
 
