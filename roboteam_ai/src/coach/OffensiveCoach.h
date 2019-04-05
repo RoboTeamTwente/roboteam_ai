@@ -7,9 +7,10 @@
 
 #include <roboteam_utils/Vector2.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/utilities/Field.h>
+#include <roboteam_ai/src/world/Field.h>
 #include <algorithm>
 #include "CoachHeuristics.h"
+#include "../world/WorldData.h"
 
 namespace rtt {
 namespace ai {
@@ -17,8 +18,9 @@ namespace coach {
 
 class OffensiveCoach {
 public:
-    const double ATTACKER_DISTANCE = 1.6;
-    const double OFFENSIVE_POSITION_DISTANCE = 0.8;
+    using Robot = world::Robot;
+    using RobotPtr = std::shared_ptr<Robot>;
+
     const double SEARCH_GRID_ROBOT_POSITIONS = 0.02;
     const int GRID_SIZE = 5;
     const double CLOSE_TO_GOAL_DISTANCE = 0.95;
@@ -51,6 +53,5 @@ extern OffensiveCoach g_offensiveCoach;
 }
 }
 }
-
 
 #endif //ROBOTEAM_AI_OFFENSIVECOACH_H

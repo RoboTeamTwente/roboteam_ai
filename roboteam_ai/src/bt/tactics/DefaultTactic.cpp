@@ -5,8 +5,6 @@
 #include "DefaultTactic.h"
 #include "../../utilities/RobotDealer.h"
 
-using dealer = robotDealer::RobotDealer;
-
 bt::Node::Status bt::DefaultTactic::update() {
     if (claimedRobots != robotsNeeded) {
         claimRobots();
@@ -28,7 +26,7 @@ bt::Node::Status bt::DefaultTactic::update() {
 
 
 bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboard,
-        std::map<std::string, robotType> robots_) {
+        std::map<std::string, RobotType> robots_) {
 
     robots = std::move(robots_);
     globalBB = std::move(blackboard);
@@ -42,8 +40,8 @@ void bt::DefaultTactic::initialize() {
 
 void bt::DefaultTactic::claimRobots() {
 
-    for (const auto &role : robots) {
-        robotIDs.insert(dealer::claimRobotForTactic(role.second, name, role.first));
+    for (auto &role : robots) {
+        robotIDs.insert(rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(role.second, name, role.first));
         if (robotIDs.find(- 1) == robotIDs.end()) claimedRobots ++;
         else robotIDs.erase(- 1);
     }

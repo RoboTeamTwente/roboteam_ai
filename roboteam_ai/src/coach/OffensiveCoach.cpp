@@ -26,8 +26,8 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
             newPosition.position.x = currentPosition.position.x + SEARCH_GRID_ROBOT_POSITIONS * xDiff;
             newPosition.position.y = currentPosition.position.y + SEARCH_GRID_ROBOT_POSITIONS * yDiff;
 
-            if (!Field::pointIsInField(newPosition.position, 0.10)
-            || Field::pointIsInDefenceArea(newPosition.position, false)){
+            if (!world::field->pointIsInField(newPosition.position, 0.10)
+            || world::field->pointIsInDefenceArea(newPosition.position, false)){
                 continue;
             }
 
@@ -77,7 +77,7 @@ void OffensiveCoach::drawOffensivePoints() {
 int OffensiveCoach::getBestStrikerID() {
     double bestScore = 0;
     int bestStriker = -1;
-    for(auto& robot : World::get_world().us) {
+    for(auto& robot : world::world->getWorld().us) {
         if (robot.pos.x > 0) {
             double positionScore = CoachHeuristics::calculatePassScore(robot.pos);
             if (positionScore > bestScore) {
@@ -90,7 +90,7 @@ int OffensiveCoach::getBestStrikerID() {
 }
 
 std::vector<Vector2> OffensiveCoach::getDefaultLocations() {
-    roboteam_msgs::GeometryFieldSize field = Field::get_field();
+    roboteam_msgs::GeometryFieldSize field = world::field->get_field();
     Vector2 penaltyStretchCorner = field.top_right_penalty_stretch.end;
     penaltyStretchCorner.x = abs(penaltyStretchCorner.x);
     penaltyStretchCorner.y = abs(penaltyStretchCorner.y);

@@ -22,7 +22,7 @@ class SideAttacker : public Skill {
         Vector2 targetPos;
         bool firstLocationReached;
 
-        static vector<std::shared_ptr<roboteam_msgs::WorldRobot>> robotsPositioning;
+        static vector<RobotPtr> robotsPositioning;
         std::vector<Vector2> defaultLocations;
         enum Progression {
             DEFAULTING,

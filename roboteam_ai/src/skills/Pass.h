@@ -18,7 +18,7 @@ namespace ai {
 class Pass : public Skill {
 private:
     bool ballPlacement = false;
-    std::shared_ptr<roboteam_msgs::WorldRobot> robotToPassTo;
+    RobotPtr robotToPassTo;
 
     Vector2 targetPos;
     int robotToPassToID = -1;

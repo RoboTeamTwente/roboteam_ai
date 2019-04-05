@@ -7,7 +7,7 @@
 namespace rtt {
 namespace ai {
 
-std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> SideAttacker::robotsPositioning = {};
+std::vector<SideAttacker::RobotPtr> SideAttacker::robotsPositioning = {};
 
 SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard)
     :Skill(std::move(name), std::move(blackboard)) {
@@ -20,7 +20,7 @@ void SideAttacker::onInitialize() {
         }
     } // TODO use std::find here, love best teammate ever
 
-    robotsPositioning.push_back(robot);
+    robotsPositioning.emplace_back(robot);
 }
 
 
@@ -51,7 +51,7 @@ bt::Node::Status SideAttacker::onUpdate() {
 }
 
 Vector2 SideAttacker::getOffensivePosition() {
-    auto field = Field::get_field();
+    auto field = world::field->get_field();
 
     std::vector<Vector2> targetLocations = coach::g_offensiveCoach.getNewOffensivePositions();
 

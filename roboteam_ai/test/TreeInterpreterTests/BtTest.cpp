@@ -299,7 +299,10 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
                 "Update: Counter-A",
                 "Terminate: Counter-A",
                 "Update: Counter-B",
+                "Terminate: Counter-B",
+                "Terminate: Counter-A",
                 "Terminate: Counter-B"
+                // note: the double terminates are expected. the counters should terminate themselves after 2 ticks,
         };
 
         EXPECT_EQ(expectedTrace, traces);
@@ -329,7 +332,7 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
                 "Initialize: Counter-A",
                 "Update: Counter-A",
                 "Terminate: Counter-A",
-                "Terminate: Counter-B"
+                "Terminate: Counter-B",
         };
 
         EXPECT_EQ(expectedTrace, traces);

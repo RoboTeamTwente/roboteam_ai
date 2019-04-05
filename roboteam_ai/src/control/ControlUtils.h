@@ -6,13 +6,13 @@
 #define ROBOTEAM_AI_CONTROLUTILS_H
 
 #include <roboteam_ai/src/utilities/Hungarian.h>
+#include "../world/World.h"
 #include "../utilities/Constants.h"
 #include "roboteam_utils/Vector2.h"
-#include "math.h"
-#include "../utilities/World.h"
+#include <cmath>
 #include "roboteam_utils/Arc.h"
 
-typedef rtt::Vector2 Vector2;
+using Vector2 = rtt::Vector2;
 
 namespace rtt{
 namespace ai {
@@ -26,15 +26,13 @@ class ControlUtils {
         static bool pointInRectangle(Vector2 PointToCheck, Vector2 SP1, Vector2 SP2, Vector2 SP3, Vector2 SP4);
         static double constrainAngle(double angle);
         static double distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vector2 LineEnd);
-        static bool clearLine(Vector2 fromPos, Vector2 toPos, roboteam_msgs::World world, double safeDistanceFactor, bool keeper = true);
-        static double closestEnemyToLineDistance(const Vector2& fromPos, Vector2 toPos, const roboteam_msgs::World& world, bool keeper = false);
-        static double distanceToLineWithEnds(const Vector2& PointToCheck, const Vector2& LineStart, Vector2 LineEnd);
+        static bool clearLine(Vector2 fromPos, Vector2 toPos, world::WorldData world, double safeDistanceFactor, bool keeper = true);
+        static double distanceToLineWithEnds(const Vector2& PointToCheck, Vector2 LineStart, Vector2 LineEnd);
         static double angleDifference(double A1, double A2);
         static int rotateDirection(double currentAngle, double targetAngle);
         static Vector2 projectPositionToWithinField(Vector2 position, float margin = 0.2);
         static Vector2 calculateForce(rtt::Vector2 vector, double weight, double minDistance);
 
-        static bool hasClearVision(int from, int towards, const roboteam_msgs::World& world, int safeDistanceFactor);
         static bool onLineSegment(Vector2 p, Vector2 q, Vector2 r);
         static rtt::Vector2 twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2);
         static double twoLineForwardIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2);
@@ -45,6 +43,9 @@ class ControlUtils {
         static bool robotIsAimedAtPoint(int id, bool ourTeam, Vector2 point, double maxDifference = 0.3);
         static bool objectVelocityAimedToPoint(Vector2 objectPosition, Vector2 velocity, Vector2 point, double maxDifference = 0.3);
         static std::vector<std::pair<Vector2, Vector2>> calculateClosestPathsFromTwoSetsOfPoints(std::vector<Vector2> set1, std::vector<Vector2> set2);
+        static double closestEnemyToLineDistance(const Vector2 &fromPos, Vector2 toPos, world::WorldData world,
+                                                 bool keeper);
+        static bool hasClearVision(int fromID, int towardsID, world::WorldData w, int safeDistanceFactor);
 };
 
 } // control

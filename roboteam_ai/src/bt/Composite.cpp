@@ -11,10 +11,11 @@ bool Composite::HasNoChildren() const {
 }
 
 void Composite::terminate(Status s) {
+
     for (auto child : children) {
-        if (child->getStatus() == Status::Running) {
-            child->terminate(child->getStatus());
-        }
+       // if (child->getStatus() == Status::Running) {
+        child->terminate(child->getStatus());
+       //   }
     }
 
     if (s == Status::Running) {
