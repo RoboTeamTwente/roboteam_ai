@@ -10,6 +10,7 @@
 #include <roboteam_msgs/RobotCommand.h>
 #include "roboteam_msgs/RefereeData.h"
 #include <roboteam_msgs/DemoRobot.h>
+#include <mutex>
 
 namespace rtt {
 namespace ai {
@@ -56,6 +57,8 @@ private:
         const roboteam_msgs::RoleFeedback &getRoleFeedback();
         const roboteam_msgs::RefereeData &getRefereeData();
         const roboteam_msgs::DemoRobot &getDemoInfo();
+
+        static std::mutex mutex;
 };
 
 } // io

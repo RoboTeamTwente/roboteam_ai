@@ -10,9 +10,11 @@
 #include <roboteam_ai/src/utilities/Pause.h>
 #include "IOManager.h"
 
+
 namespace rtt {
 namespace ai {
 namespace io {
+    std::mutex IOManager::mutex;
 
 IOManager::IOManager(bool subscribe, bool advertise) {
     if (subscribe) {
@@ -41,6 +43,7 @@ void IOManager::subscribeToWorldState() {
 }
 
 void IOManager::subscribeToGeometryData() {
+
     geometrySubscriber = nodeHandle.subscribe<roboteam_msgs::GeometryData>(
             rtt::TOPIC_GEOMETRY,
             100,
@@ -82,38 +85,48 @@ void IOManager::subscribeToDemoInfo() {
 }
 
 void IOManager::handleWorldState(const roboteam_msgs::WorldConstPtr &w) {
+    std::lock_guard<std::mutex> lock(mutex);
+
     this->worldMsg = *w;
 }
 
 void IOManager::handleGeometryData(const roboteam_msgs::GeometryDataConstPtr &geometry) {
+    std::lock_guard<std::mutex> lock(mutex);
     this->geometryMsg = *geometry;
 }
 
 void IOManager::handleRobotFeedback(const roboteam_msgs::RoleFeedbackConstPtr &rolefeedback) {
+    std::lock_guard<std::mutex> lock(mutex);
     this->roleFeedbackMsg = *rolefeedback;
 }
 
 void IOManager::handleDemoInfo(const roboteam_msgs::DemoRobotConstPtr &demoInfo) {
+    std::lock_guard<std::mutex> lock(mutex);
     this->demoInfoMsg = *demoInfo;
 }
 
 void IOManager::handleRefereeData(const roboteam_msgs::RefereeDataConstPtr &refData) {
+    std::lock_guard<std::mutex> lock(mutex);
     this->refDataMsg = *refData;
 }
 
 const roboteam_msgs::World &IOManager::getWorldState() {
+    std::lock_guard<std::mutex> lock(mutex);
     return this->worldMsg;
 }
 
 const roboteam_msgs::GeometryData &IOManager::getGeometryData() {
+    std::lock_guard<std::mutex> lock(mutex);
     return this->geometryMsg;
 }
 
 const roboteam_msgs::RoleFeedback &IOManager::getRoleFeedback() {
+    std::lock_guard<std::mutex> lock(mutex);
     return this->roleFeedbackMsg;
 }
 
 const roboteam_msgs::RefereeData &IOManager::getRefereeData() {
+    std::lock_guard<std::mutex> lock(mutex);
     return this->refDataMsg;
 }
 

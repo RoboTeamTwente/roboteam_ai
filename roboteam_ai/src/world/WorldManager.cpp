@@ -16,6 +16,7 @@ void WorldManager::setup() {
 
 void WorldManager::loop() {
     while (ros::ok()) {
+
         unsigned char changes = updateROSData();
         if (changes == 0b000) continue;
         
@@ -62,7 +63,7 @@ void WorldManager::updateReferee() {
 
         // if there is a referee, we always want to have a separate keeper tree.
         robotDealer::RobotDealer::setUseSeparateKeeper(true);
-        robotDealer::RobotDealer::setKeeperID(refereeMsg.us.goalie);
+//        robotDealer::RobotDealer::setKeeperID(refereeMsg.us.goalie);
     }
 }
 

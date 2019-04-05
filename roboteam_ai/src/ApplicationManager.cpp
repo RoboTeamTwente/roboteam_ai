@@ -16,13 +16,13 @@ namespace rtt {
 
 void ApplicationManager::setup() {
     IOManager = new io::IOManager(true);
-    BTFactory::makeTrees();
-    BTFactory::setCurrentTree("haltStrategy");
-    BTFactory::setKeeperTree("SingleKeeperTactic");
 
+    BTFactory::setCurrentTree("QualificationStrategy");
+    BTFactory::setKeeperTree("SingleKeeperTactic");
 }
 
 void ApplicationManager::loop() {
+    std::cout << "loop" << std::endl;
     ros::Rate rate(ai::Constants::TICK_RATE());
     double longestTick = 0.0;
     double timeTaken;
@@ -58,6 +58,7 @@ void ApplicationManager::runOneLoopCycle() {
     ros::spinOnce();
 
     if (ai::world::world->weHaveRobots()) {
+
         if (BTFactory::getCurrentTree() == "NaN") {
             ROS_INFO("NaN tree probably Halting");
             return;
@@ -69,27 +70,30 @@ void ApplicationManager::runOneLoopCycle() {
         // otherwise wastes like 0.1 ms
         auto demomsg = IOManager->getDemoInfo();
         demo::JoystickDemo::demoLoop(demomsg);
+        rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
 
+        if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
+
+            if (ai::robotDealer::RobotDealer::getKeeperID() == -1) {
+                std::cout << "setting keeper id" << std::endl;
+                ai::robotDealer::RobotDealer::setKeeperID(ai::world::world->getUs().at(0).id);
+
+
+            }
+            keeperTree = BTFactory::getKeeperTree();
+            Status keeperStatus = keeperTree->tick();
+        }  else {
+            BTFactory::makeTrees();
+
+        }
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
 
-
-        rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(false);
-        if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
-            keeperTree = BTFactory::getKeeperTree();
-            Status keeperStatus = keeperTree->tick();
-
-            // if there
-            if (ai::robotDealer::RobotDealer::getKeeperID() == -1) {
-                ai::robotDealer::RobotDealer::setKeeperID(ai::world::world->getUs().at(0).id);
-            }
-        }
-
         rtt::ai::coach::g_offensiveCoach.calculateNewPositions();
     }
     else {
-        ROS_ERROR("No first world");
+        std::cout <<"NO FIRST WORLD" << std::endl;
         ros::Duration(0.2).sleep();
     }
 }

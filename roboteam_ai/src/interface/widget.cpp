@@ -419,7 +419,7 @@ void Visualizer::setShowAvailablePasses(bool showAvailablePasses) {
 
 void Visualizer::drawPasses(QPainter& painter) {
     auto report = rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
-
+if (report) {
     std::vector<std::pair<Vector2, Vector2>> lines;
     for (auto &robot : report->ourRobotsSortedOnDanger) {
         if (robotIsSelected(robot.first)) {
@@ -435,7 +435,7 @@ void Visualizer::drawPasses(QPainter& painter) {
             }
         }
     };
-
+}
 }
 
 } // interface

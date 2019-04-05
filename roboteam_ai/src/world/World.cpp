@@ -77,8 +77,7 @@ roboteam_msgs::World World::makeWorldMsg() {
 
 bool World::weHaveRobots() {
     std::lock_guard<std::mutex> lock(worldMutex);
-
-    return worldDataPtr == nullptr ? false : !worldDataPtr->us.empty();
+    return worldDataPtr && !worldDataPtr->us.empty();
 }
 
 void World::setWorld(const roboteam_msgs::World &message) {
@@ -86,7 +85,7 @@ void World::setWorld(const roboteam_msgs::World &message) {
     std::lock_guard<std::mutex> lockyLock(worldMutex);
 
     World::worldMsg = message;
-    World::worldDataPtr = std::make_shared<WorldData>(WorldData(message));
+    World::worldDataPtr = std::make_shared<WorldData>(message);
 
 }
 
@@ -159,12 +158,20 @@ const std::vector<Robot> World::getAllRobots() {
 
 const std::vector<Robot> World::getUs() {
     std::lock_guard<std::mutex> lock(worldMutex);
-    return worldDataPtr->us;
+
+    if (worldDataPtr) {
+        return worldDataPtr->us;
+    }
+    return {};
 }
 
 const std::vector<Robot> World::getThem() {
     std::lock_guard<std::mutex> lock(worldMutex);
-    return worldDataPtr->them;
+
+    if (worldDataPtr) {
+        return worldDataPtr->them;
+    }
+    return {};
 }
 
 Robot World::getRobotClosestToPoint(const Vector2 &point, std::vector<Robot> robots) {

@@ -182,7 +182,7 @@ MainWindow::MainWindow(QWidget* parent)
     // start the UI update cycles
     // these are slower
     auto * robotsTimer = new QTimer(this);
-    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateTreeWidget()));
+     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateTreeWidget()));
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateKeeperTreeWidget()));
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget())); // we need to pass the visualizer so thats why a seperate function is used
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updatePause()));

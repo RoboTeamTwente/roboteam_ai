@@ -393,7 +393,7 @@ void RobotDealer::claimKeeper() {
 
 void RobotDealer::refresh() {
     halt();
-    if (BTFactory::getCurrentTree() != "NaN") {
+    if (BTFactory::getCurrentTree() != "NaN" && BTFactory::getTree(BTFactory::getCurrentTree())) {
         BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
     }
     BTFactory::makeTrees();

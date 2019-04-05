@@ -21,18 +21,24 @@ GameAnalyzer& GameAnalyzer::getInstance() {
 
 /// Generate a report with the game analysis
 std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
-    std::shared_ptr<AnalysisReport> report = std::make_shared<AnalysisReport>();
 
-    report->recommendedPlayStyle = getRecommendedPlayStyle();
-    report->ballPossession = getBallPossessionEstimate(true);
-    report->ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(true);
-    report->theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(false);
-    report->theirRobotSortedOnDanger = getRobotsSortedOnDanger(false);
-    report->ourRobotsSortedOnDanger = getRobotsSortedOnDanger(true);
+    if (world::world->weHaveRobots()) {
+        std::shared_ptr<AnalysisReport> report = std::make_shared<AnalysisReport>();
 
-    std::lock_guard<std::mutex> lock(mutex);
-    mostRecentReport = report;
-    return report;
+        report->recommendedPlayStyle = getRecommendedPlayStyle();
+        report->ballPossession = getBallPossessionEstimate(true);
+        report->ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(true);
+        report->theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(false);
+        report->theirRobotSortedOnDanger = getRobotsSortedOnDanger(false);
+        report->ourRobotsSortedOnDanger = getRobotsSortedOnDanger(true);
+
+        std::lock_guard<std::mutex> lock(mutex);
+        mostRecentReport = report;
+        return report;
+    }
+    std::cout << "NOT A WORLD YET" << std::endl;
+    start(30);
+    return {};
 }
 
 playStyle GameAnalyzer::getRecommendedPlayStyle() {
@@ -160,7 +166,7 @@ bool GameAnalyzer::isClosingInToGoal(Robot robot, bool ourTeam) {
 
 
 void GameAnalyzer::start(int iterationsPerSecond) {
-    if (!running) {
+    if (!running && world::world->weHaveRobots()) {
         ROS_INFO_STREAM_NAMED("GameAnalyzer", "Starting at " << iterationsPerSecond << " iterations per second");
         auto delay = (unsigned) (1000/iterationsPerSecond);
         thread = std::thread(&GameAnalyzer::loop, this, delay);

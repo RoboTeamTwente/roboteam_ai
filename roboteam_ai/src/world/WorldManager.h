@@ -40,7 +40,6 @@ class WorldManager {
     public:
         void setup();
         void loop();
-
 };
 
 }

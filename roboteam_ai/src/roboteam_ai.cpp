@@ -47,9 +47,9 @@ int main(int argc, char* argv[]) {
     ros::init(argc, argv, "Roboteam_AI");
     rtt::ai::Constants::init();
 
-    // start the ros loop in separate thread
     std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
     std::thread worldThread = std::thread(&runWorld);
+
     // initialize the interface
     QApplication a(argc, argv);
     setDarkTheme();
