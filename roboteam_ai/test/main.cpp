@@ -6,6 +6,7 @@
 #include <ros/ros.h>
 #include <QtWidgets/QApplication>
 #include <roboteam_ai/src/utilities/Constants.h>
+#include <roboteam_ai/src/utilities/RobotDealer.h>
 
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
@@ -15,6 +16,9 @@ int main(int argc, char** argv) {
     ros::init(argc, argv, "tester");
     rtt::ai::Constants::init();
     ros::NodeHandle nh;
+
+    rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(false);
+
 
     return RUN_ALL_TESTS();
 }

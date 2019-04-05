@@ -19,7 +19,7 @@ public:
     Vector2 calculateForces(const RobotPtr &robot, const Vector2 &targetPos, double forceRadius) const;
 
 protected:
-    PosVelAngle calculateForcePosVelAngle(RobotPtr robot, Vector2 &targetPos);
+    PosVelAngle calculateForcePosVelAngle(const RobotPtr& robot, Vector2 &targetPos);
 
 private:
     const double FORCE_WEIGHT_US = 1.0;

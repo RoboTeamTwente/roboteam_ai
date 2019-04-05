@@ -28,7 +28,10 @@ class Role : public Node {
 
         std::string node_name() override;
 
-};
+        void terminate(Status s) override;
+
+
+    };
 }
 
 #endif //ROBOTEAM_AI_ROLE_H

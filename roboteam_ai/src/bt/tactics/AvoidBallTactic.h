@@ -11,7 +11,7 @@ namespace bt {
 
 class AvoidBallTactic : public Tactic {
 public:
-    std::map<std::string, robotType> robots;
+    std::map<std::string, RobotType> robots;
     explicit AvoidBallTactic(std::string name, Blackboard::Ptr blackboard);
     void initialize() override;
 };

@@ -2,6 +2,8 @@
 
 #include "Node.hpp"
 #include "Blackboard.hpp"
+#include "mutex"
+
 namespace bt {
 
 class BehaviorTree : public Node {

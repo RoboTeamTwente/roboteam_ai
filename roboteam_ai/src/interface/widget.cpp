@@ -20,7 +20,7 @@ void Visualizer::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
 
     calculateFieldSizeFactor();
-    if (rtt::ai::World::didReceiveFirstWorld) {
+    if (rtt::ai::world::world->weHaveRobots()) {
         drawBackground(painter);
         drawFieldLines(painter);
         if (showAvailablePasses) drawPasses(painter);
@@ -51,7 +51,7 @@ void Visualizer::paintEvent(QPaintEvent* event) {
 
 /// Calculates the factor variable which is used for mapping field coordinates with screen coordinates.
 void Visualizer::calculateFieldSizeFactor() {
-    roboteam_msgs::GeometryFieldSize field = rtt::ai::Field::get_field();
+    roboteam_msgs::GeometryFieldSize field = rtt::ai::world::field->get_field();
     fieldmargin = static_cast<int>(Constants::WINDOW_FIELD_MARGIN() + field.boundary_width);
     float widthFactor = this->size().width()/field.field_length - (2*fieldmargin);
     float heightFactor = this->size().height()/field.field_width - (2*fieldmargin);
@@ -69,14 +69,14 @@ void Visualizer::drawFieldLines(QPainter &painter) {
     painter.setPen(Constants::FIELD_LINE_COLOR());
     painter.setBrush(Qt::transparent);
     // draw lines
-    for (auto &line : rtt::ai::Field::get_field().field_lines) {
+    for (auto &line : rtt::ai::world::field->get_field().field_lines) {
         rtt::Vector2 start = toScreenPosition(line.begin);
         rtt::Vector2 end = toScreenPosition(line.end);
         painter.drawLine(start.x, start.y, end.x, end.y);
     }
 
     // draw the circle in the middle
-    for (auto &arc : rtt::ai::Field::get_field().field_arcs) {
+    for (auto &arc : rtt::ai::world::field->get_field().field_arcs) {
         rtt::Vector2 center = toScreenPosition(arc.center);
         QPointF qcenter(center.x, center.y);
         painter.drawEllipse(qcenter, 50, 50);
@@ -85,9 +85,9 @@ void Visualizer::drawFieldLines(QPainter &painter) {
 
 // draw the ball on the screen
 void Visualizer::drawBall(QPainter &painter) {
-    rtt::Vector2 ballPosition = toScreenPosition(rtt::ai::World::get_world().ball.pos);
+    rtt::Vector2 ballPosition = toScreenPosition(rtt::ai::world::world->getWorld().ball.pos);
     QPointF qballPosition(ballPosition.x, ballPosition.y);
-    if (!rtt::ai::World::get_world().ball.visible){
+    if (!rtt::ai::world::world->getWorld().ball.visible){
         painter.setBrush(Qt::red); // fill
     }
     else{
@@ -101,12 +101,12 @@ void Visualizer::drawBall(QPainter &painter) {
 void Visualizer::drawRobots(QPainter &painter) {
 
     // draw us
-    for (roboteam_msgs::WorldRobot robot : rtt::ai::World::get_world().us) {
+    for (auto &robot : rtt::ai::world::world->getWorld().us) {
         drawRobot(painter, robot, true);
     }
 
     // draw them
-    for (roboteam_msgs::WorldRobot robot : rtt::ai::World::get_world().them) {
+    for (auto &robot : rtt::ai::world::world->getWorld().them) {
         drawRobot(painter, robot, false);
     }
 }
@@ -127,7 +127,7 @@ rtt::Vector2 Visualizer::toFieldPosition(rtt::Vector2 screenPos) {
 }
 
 // draw a single robot
-void Visualizer::drawRobot(QPainter &painter, roboteam_msgs::WorldRobot robot, bool ourTeam) {
+void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
     Vector2 robotpos = toScreenPosition(robot.pos);
     QPointF qrobotPosition(robotpos.x, robotpos.y);
 
@@ -146,6 +146,11 @@ void Visualizer::drawRobot(QPainter &painter, roboteam_msgs::WorldRobot robot, b
     } else {
         // the enemy robot should have the inverse of our_color
         robotColor = weAreYellow ? Constants::ROBOT_COLOR_BLUE() : Constants::ROBOT_COLOR_YELLOW();
+    }
+
+    if (ourTeam && robot.id == robotDealer::RobotDealer::getKeeperID()) {
+        robotColor = QColor(255, 255, 255);
+
     }
 
     if (showAllPaths) {
@@ -204,7 +209,7 @@ void Visualizer::mousePressEvent(QMouseEvent* event) {
     pos.y = event->pos().y();
 
     if (event->button() == Qt::LeftButton) {
-        for (roboteam_msgs::WorldRobot robot : rtt::ai::World::get_world().us) {
+        for (auto &robot : rtt::ai::world::world->getWorld().us) {
             if (pos.dist(toScreenPosition(robot.pos)) < 10) {
                 this->toggleSelectedRobot(robot.id);
             }
@@ -215,7 +220,7 @@ void Visualizer::mousePressEvent(QMouseEvent* event) {
     }
 }
 
-void Visualizer::drawTacticColorForRobot(QPainter &painter, roboteam_msgs::WorldRobot robot) {
+void Visualizer::drawTacticColorForRobot(QPainter &painter, Robot robot) {
     Vector2 robotpos = toScreenPosition(robot.pos);
     QPointF qrobotPosition(robotpos.x, robotpos.y);
     std::string tacticName = getTacticNameForRobot(robot);
@@ -301,11 +306,11 @@ void Visualizer::drawDrawLines(QPainter &painter, std::vector<std::tuple<Vector2
     }
 }
 
-std::string Visualizer::getTacticNameForRobot(roboteam_msgs::WorldRobot robot) {
+std::string Visualizer::getTacticNameForRobot(Robot robot) {
    return robotDealer::RobotDealer::getTacticNameForId(robot.id);
 }
 
-std::string Visualizer::getRoleNameForRobot(roboteam_msgs::WorldRobot robot) {
+std::string Visualizer::getRoleNameForRobot(Robot robot) {
     return robotDealer::RobotDealer::getRoleNameForId(robot.id);
 }
 
@@ -321,7 +326,7 @@ void Visualizer::setShowTacticColors(bool showTacticColors) {
     Visualizer::showTacticColors = showTacticColors;
 }
 
-const std::vector<roboteam_msgs::WorldRobot> &Visualizer::getSelectedRobots() const {
+const std::vector<rtt::ai::world::Robot> &Visualizer::getSelectedRobots() const {
     return selectedRobots;
 }
 
@@ -345,15 +350,15 @@ void Visualizer::toggleSelectedRobot(int robotId) {
     bool robotWasAlreadySelected = false;
 
     for (int i = 0; i < static_cast<int>(selectedRobots.size()); i++) {
-        if (selectedRobots.at(static_cast<unsigned long>(i)).id == static_cast<unsigned int>(robotId)) {
+        if (static_cast<unsigned long>(selectedRobots.at((i)).id) == static_cast<unsigned long>(robotId)) {
             robotWasAlreadySelected = true;
             this->selectedRobots.erase(selectedRobots.begin() + i);
         }
     }
 
     if (!robotWasAlreadySelected) {
-        for (roboteam_msgs::WorldRobot robot : rtt::ai::World::get_world().us) {
-            if (static_cast<int>(robot.id) == robotId) {
+        for (Robot robot : rtt::ai::world::world->getWorld().us) {
+            if (robot.id == robotId) {
                 robotWasAlreadySelected = false;
                 this->selectedRobots.push_back(robot);
             }
@@ -362,7 +367,7 @@ void Visualizer::toggleSelectedRobot(int robotId) {
 
 }
 
-bool Visualizer::robotIsSelected(roboteam_msgs::WorldRobot robotToCheck) {
+bool Visualizer::robotIsSelected(Robot robotToCheck) {
     for (auto robot : selectedRobots) {
         if (robot.id == robotToCheck.id) return true;
     }
@@ -414,13 +419,13 @@ void Visualizer::setShowAvailablePasses(bool showAvailablePasses) {
 
 void Visualizer::drawPasses(QPainter& painter) {
     auto report = rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
-
+if (report) {
     std::vector<std::pair<Vector2, Vector2>> lines;
     for (auto &robot : report->ourRobotsSortedOnDanger) {
         if (robotIsSelected(robot.first)) {
             Vector2 robotLocation = toScreenPosition(robot.first.pos);
             for (auto robotToPassToId : robot.second.robotsToPassTo) {
-                auto passRobot = World::getRobotForId(robotToPassToId.first, true);
+                auto passRobot = world::world->getRobotForId(robotToPassToId.first, true);
                 Vector2 passRobotLocation = toScreenPosition(passRobot->pos);
                 double distance = robotToPassToId.second;
                 painter.setBrush(Qt::transparent);
@@ -430,7 +435,7 @@ void Visualizer::drawPasses(QPainter& painter) {
             }
         }
     };
-
+}
 }
 
 } // interface

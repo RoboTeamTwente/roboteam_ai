@@ -1,11 +1,11 @@
 #include "Defend.h"
-#include "../utilities/Field.h"
+#include "../world/Field.h"
 #include "../control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {
 
-std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> Defend::allDefenders = {};
+std::vector<std::shared_ptr<Defend::Robot>> Defend::allDefenders = {};
 
 Defend::Defend(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
@@ -40,7 +40,7 @@ bt::Node::Status Defend::onUpdate() {
 }
 
 Vector2 Defend::getDefensivePosition() {
-    auto field = Field::get_field();
+    auto field = world::field->get_field();
     double targetLocationX = field.field_length/4 - (field.field_length/2);
 
     // first we calculate all the positions for the defense

@@ -15,8 +15,8 @@ GoBehindBall::GoBehindBall(string name, bt::Blackboard::Ptr blackboard)
 Skill::Status GoBehindBall::onUpdate() {
     switch (unitType) {
         case penalty: {
-            auto ball = ai::World::getBall();
-            auto goal = ai::Field::get_their_goal_center();
+            auto ball = ai::world::world->getBall();
+            auto goal = ai::world::field->get_their_goal_center();
 
             Vector2 v = goal - ball->pos;
             auto targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS())) + ball->pos;
@@ -39,8 +39,8 @@ Skill::Status GoBehindBall::onUpdate() {
 
             // TODO optimize for free kick
 
-            auto ball = ai::World::getBall();
-            auto goal = ai::Field::get_their_goal_center();
+            auto ball = ai::world::world->getBall();
+            auto goal = ai::world::field->get_their_goal_center();
 
             Vector2 v = goal - ball->pos;
             auto targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS())) + ball->pos;

@@ -5,7 +5,7 @@
 #include "AvoidBall.h"
 #include "../control/ControlUtils.h"
 #include <cmath>
-#include "../utilities/Field.h"
+#include "../world/Field.h"
 
 namespace rtt {
 namespace ai {
@@ -20,7 +20,7 @@ bt::Node::Status AvoidBall::onUpdate() {
     Vector2 force = {0, 0};
 
     // forces from robots
-    for (auto otherRobot : World::getAllRobots()) {
+    for (auto &otherRobot : world::world->getAllRobots()) {
         if (otherRobot.id != robot->id) {
             force = force + cu::calculateForce(robotPos - otherRobot.pos, robotWeight, minRobotDistanceForForce);
         }
@@ -29,7 +29,7 @@ bt::Node::Status AvoidBall::onUpdate() {
     force = force + cu::calculateForce(robotPos - ball->pos, ballWeight, minBallDistanceForForce);
 
     // forces from walls
-    auto field = Field::get_field();
+    auto field = world::field->get_field();
     double boundWidth =  field.boundary_width;
     double halfFieldLength = field.field_length/2;
     double halfFieldWidth = field.field_width/2;
