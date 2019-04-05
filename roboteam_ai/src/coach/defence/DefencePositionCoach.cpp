@@ -222,7 +222,6 @@ std::vector<std::pair<Vector2, double>> DefencePositionCoach::decideDefendersOnD
     }
     return decidedBlocks;
 }
-
 /// gets the furthest position at which an obstacle will block the entire Angle
 Vector2 DefencePositionCoach::getBlockPoint(const Line& openGoalSegment, const Vector2& point,
         double collisionRadius) {
@@ -253,24 +252,38 @@ Line DefencePositionCoach::shortenLineForDefenseArea(const Vector2& lineStart, c
     }
     return line;
 }
-std::vector<roboteam_msgs::WorldRobot> DefencePositionCoach::createVirtualBots(const std::vector<Vector2>& decidedBlocks) {
-    std::vector<roboteam_msgs::WorldRobot> virtualBots;
-    for (const auto& blockPos : decidedBlocks) {
-        roboteam_msgs::WorldRobot bot;
-        bot.id = - 1;
-        bot.pos = blockPos;
-        virtualBots.push_back(bot);
+
+std::vector<DefencePositionCoach::DefenderBot> DefencePositionCoach::decidePositions(int amount){
+    std::vector<DefenderBot> defenders;
+    if (amount <0) {
+        std::cerr << "can't assign less than 0 Defender locations!!";
+        return defenders;
     }
-    return virtualBots;
+    roboteam_msgs::World simulatedWorld;
+    while (defenders.size()!=amount){
+        std::vector<PossiblePass> passes =createPassesSortedByDanger(simulatedWorld);
+        if (!passes.empty()){
+            //first we try to create a direct block to the goal
+            auto defender=createBlockToGoal(passes[0],0.0,simulatedWorld);
+            if (defender) {
+                defenders.push_back(*defender);
+                continue;
+            }
+            // if that doesn't work try to directly intercept the pass
+            defender=createBlockPass(passes[0],simulatedWorld);
+        }
+    }
+    return defenders;
 }
-std::vector<std::pair<PossiblePass, double>> DefencePositionCoach::createPassesAndDanger(
+
+std::vector<PossiblePass> DefencePositionCoach::createPassesSortedByDanger(
         const roboteam_msgs::World &world) {
     std::vector<std::pair<PossiblePass, double>> passWithScore;
     // check the passes from the robot towards every other bot and calculate their danger
     for (auto theirBot : world.them) {
         //TODO: ignore robots that we already have covered here
         PossiblePass pass(&theirBot, World::getBall()->pos);
-        double danger = pass.score(world);
+        double danger = pass.score(world); // check how dangerous the pass is in our simulated world
         std::pair<PossiblePass, double> passPair = std::make_pair(pass, danger);
         passWithScore.push_back(passPair);
     }
@@ -279,33 +292,52 @@ std::vector<std::pair<PossiblePass, double>> DefencePositionCoach::createPassesA
             [](std::pair<PossiblePass, double> &left, std::pair<PossiblePass, double> &right) {
               return left.second > right.second;
             });
-    return passWithScore;
+    std::vector<PossiblePass> passes;
+    for (const auto& passScore : passWithScore){
+        passes.push_back(passScore.first);
+    }
+    return passes;
 }
-std::shared_ptr<DefencePositionCoach::DefenderBot> DefencePositionCoach::createBlockToGoal(const PossiblePass& pass, double aggressionFactor,const Line& openGoalSegment) {
+std::shared_ptr<DefencePositionCoach::DefenderBot> DefencePositionCoach::createBlockToGoal(const PossiblePass& pass, double aggressionFactor,const roboteam_msgs::World &simulatedWorld) {
     // get the blockLine segment from the ending position of the pass
-    auto blockLine=getBlockLineSegment(openGoalSegment,pass.endPos);
-    if (blockLine){
-        DefenderBot bot;
-        bot.type=botType::BLOCKTOGOAL;
-        bot.blockFromID=pass.toBot->id;
-        bot.targetPos=getPosOnLine(*blockLine,aggressionFactor);
-        bot.orientation=getOrientation(*blockLine);
-        return std::make_shared<DefenderBot>(bot);
+    auto visibleParts=Field::getVisiblePartsOfGoal(true,pass.endPos,simulatedWorld,Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS());
+    std::sort(visibleParts.begin(), visibleParts.end(),
+            [](const Line &a, const Line &b) {
+              return abs(a.second.y - a.first.y) > abs(b.second.y - b.first.y);
+            });
+    if (!visibleParts.empty()) {
+        auto blockLine = getBlockLineSegment(visibleParts[0], pass.endPos);
+        if (blockLine) {
+            DefenderBot bot;
+            bot.type = botType::BLOCKTOGOAL;
+            bot.blockFromID = pass.toBot->id;
+            bot.targetPos = getPosOnLine(*blockLine, aggressionFactor);
+            bot.orientation = getOrientation(*blockLine);
+            return std::make_shared<DefenderBot>(bot);
+        }
+        return nullptr;
     }
     return nullptr;
 }
-std::shared_ptr<DefencePositionCoach::DefenderBot> DefencePositionCoach::createBlockOnLine(const PossiblePass& pass, const Line& goalSegment) {
-    // get the blockPosition on the goal line
-    auto blockPos=blockOnDefenseLine(goalSegment,pass.endPos);
-    if (blockPos){
-        DefenderBot bot;
-        bot.type=botType::BLOCKONLINE;
-        bot.blockFromID=pass.toBot->id;
-        bot.targetPos=*blockPos;
-        //draw a line for easy orientation computation
-        Line line=std::make_pair(pass.endPos,*blockPos);
-        bot.orientation=getOrientation(line);
-        return std::make_shared<DefenderBot>(bot);
+std::shared_ptr<DefencePositionCoach::DefenderBot> DefencePositionCoach::createBlockOnLine(const PossiblePass& pass, const roboteam_msgs::World &simulatedWorld) {
+    auto visibleParts=Field::getVisiblePartsOfGoal(true,pass.endPos,simulatedWorld,Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS());
+    std::sort(visibleParts.begin(), visibleParts.end(),
+            [](const Line &a, const Line &b) {
+              return abs(a.second.y - a.first.y) > abs(b.second.y - b.first.y);
+            });
+    if (!visibleParts.empty()) {
+        auto blockPos=blockOnDefenseLine(visibleParts[0],pass.endPos);
+        if (blockPos){
+            DefenderBot bot;
+            bot.type=botType::BLOCKONLINE;
+            bot.blockFromID=pass.toBot->id;
+            bot.targetPos=*blockPos;
+            //draw a line for easy orientation computation
+            Line line=std::make_pair(pass.endPos,*blockPos);
+            bot.orientation=getOrientation(line);
+            return std::make_shared<DefenderBot>(bot);
+        }
+        return nullptr;
     }
     return nullptr;
 }
