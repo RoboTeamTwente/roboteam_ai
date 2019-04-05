@@ -332,12 +332,12 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/OffensiveCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/FormationCoach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/FormationCoach.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/DefencePositionCoach.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/DefencePositionCoach.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/DefenceDealer.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/DefenceDealer.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/TrumpCoach.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/TrumpCoach.h
+        roboteam_ai/src/coach/defence/DefencePositionCoach.cpp
+        roboteam_ai/src/coach/defence/DefencePositionCoach.h
+        roboteam_ai/src/coach/defence/DefenceDealer.cpp
+        roboteam_ai/src/coach/defence/DefenceDealer.h
+        roboteam_ai/src/coach/defence/TrumpCoach.cpp
+        roboteam_ai/src/coach/defence/TrumpCoach.h
         )
 
 catkin_package()

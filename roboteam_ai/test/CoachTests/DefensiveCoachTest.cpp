@@ -2,7 +2,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "roboteam_ai/src/coach/DefencePositionCoach.h"
+#include "roboteam_ai/src/coach/defence/DefencePositionCoach.h"
 #include "roboteam_ai/src/utilities/Constants.h"
 namespace cc=rtt::ai::coach;
 namespace w=rtt::ai;

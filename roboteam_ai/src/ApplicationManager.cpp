@@ -4,7 +4,7 @@
 
 
 #include <roboteam_ai/src/demo/JoystickDemo.h>
-#include <roboteam_ai/src/coach/DefenceDealer.h>
+#include <roboteam_ai/src/coach/defence/DefenceDealer.h>
 #include "ApplicationManager.h"
 #include "utilities/Referee.hpp"
 #include "utilities/StrategyManager.h"

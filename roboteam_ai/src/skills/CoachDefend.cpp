@@ -3,7 +3,7 @@
 //
 
 #include "CoachDefend.h"
-#include "roboteam_ai/src/coach/DefenceDealer.h"
+#include "roboteam_ai/src/coach/defence/DefenceDealer.h"
 #include "roboteam_ai/src/control/ControlUtils.h"
 namespace rtt{
 namespace ai{
