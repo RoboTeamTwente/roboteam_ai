@@ -4,15 +4,15 @@
 #include <gtest/gtest.h>
 #include "../../src/bt/bt.hpp"
 #include "../../src/conditions/HasBall.hpp"
-#include "../../src/utilities/World.h"
+#include "../../src/world/World.h"
 #include "../../src/utilities/RobotDealer.h"
 
 TEST(BallTest, IHaveBallTest) {
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
-    robotDealer::RobotDealer::halt();
+    rtt::ai::robotDealer::RobotDealer::halt();
     auto BB = std::make_shared<bt::Blackboard>();
     BB->setInt("ROBOT_ID", 0);
     BB->setString("ROLE","test");
@@ -34,14 +34,16 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::World::set_world(worldMsg);
-    robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::RANDOM,"IHaveBallTestTactic","test");
+    rtt::ai::world::world->updateWorld(worldMsg);
+    rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(
+            rtt::ai::robotDealer::RobotType::RANDOM,"IHaveBallTestTactic","test");
+    node.initialize();
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     worldMsg.ball.pos.x = 0.0;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     //Test if angle checking works
@@ -49,22 +51,101 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.pos.y = 0.1;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = 0;
     worldMsg.ball.pos.y = - 0.1;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = - 0.1;
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(),bt::Node::Status::Failure);
 
-    robotDealer::RobotDealer::removeTactic("IHaveBallTestTactic");
+    rtt::ai::robotDealer::RobotDealer::removeTactic("IHaveBallTestTactic");
 }
+
+////
+//// Created by rolf on 19-10-18.
+////
+//#include <gtest/gtest.h>
+//#include "../../src/bt/bt.hpp"
+//#include "../../src/conditions/HasBall.hpp"
+//#include "../../src/world/World.h"
+//#include "../../src/utilities/RobotDealer.h"
+//
+//TEST(BallTest, IHaveBallTest) {
+//    roboteam_msgs::World worldMsg;
+//    roboteam_msgs::WorldRobot robot;
+//
+//    rtt::ai::world::world->updateWorld(worldMsg);
+//
+//    std::string roleName = "test";
+//    rtt::ai::robotDealer::RobotDealer::halt();
+//    auto BB = std::make_shared<bt::Blackboard>();
+//    BB->setInt("ROBOT_ID", 0);
+//    BB->setString("ROLE",roleName);
+//    BB->setBool("our_team", false);
+//    rtt::ai::HasBall node(roleName, BB);
+//    node.properties->setString("ROLE",roleName);
+//    EXPECT_EQ(node.node_name(), "HasBall");
+//    //First test should fail as the robot is not set in the world state yet.
+//    node.initialize();
+//    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
+//
+//    robot.id = 0;
+//    robot.pos.x = 0;
+//    robot.pos.y = 0;
+//    robot.angle = 0;
+//    worldMsg.us.push_back(robot);
+//    worldMsg.ball.pos.x = 0.1;
+//    worldMsg.ball.pos.y = 0.0;
+//    worldMsg.ball.visible = 1;
+//    worldMsg.ball.existence = 1;
+//
+//    rtt::ai::world::world->updateWorld(worldMsg);
+//    rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(rtt::ai::robotDealer::RobotType::RANDOM, roleName, "IHaveBallTestTactic");
+//    node.initialize();
+//    std::cout << rtt::ai::robotDealer::RobotDealer::findRobotForRole(roleName) << std::endl;
+//    EXPECT_EQ(node.update(), bt::Node::Status::Success);
+//
+//    worldMsg.ball.pos.x = 0.0;
+//    worldMsg.ball.visible = 1;
+//    worldMsg.ball.existence = 1;
+//
+//    rtt::ai::world::world->updateWorld(worldMsg);
+//
+//    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
+//
+//    //Test if angle checking works
+//    worldMsg.ball.pos.x = 0;
+//    worldMsg.ball.pos.y = 0.1;
+//    worldMsg.ball.visible = 1;
+//    worldMsg.ball.existence = 99999;
+//
+//    rtt::ai::world::world->updateWorld(worldMsg);
+//
+//    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
+//
+//    worldMsg.ball.pos.x = 0;
+//    worldMsg.ball.pos.y = - 0.1;
+//    worldMsg.ball.visible = 1;
+//    worldMsg.ball.existence = 99999;
+//    rtt::ai::world::world->updateWorld(worldMsg);
+//    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
+//
+//    worldMsg.ball.pos.x = - 0.1;
+//    worldMsg.ball.pos.y = 0;
+//    worldMsg.ball.visible = 1;
+//    worldMsg.ball.existence = 99999;
+//    rtt::ai::world::world->updateWorld(worldMsg);
+//    EXPECT_EQ(node.update(),bt::Node::Status::Failure);
+//
+//    rtt::ai::robotDealer::RobotDealer::removeTactic("IHaveBallTestTactic");
+//}

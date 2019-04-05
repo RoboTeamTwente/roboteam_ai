@@ -32,8 +32,8 @@ class DefendOnRobot : public Skill {
         Vector2 calculateLocation();
         int opponentWithBallID;
         int opponentToCoverID;
-        std::shared_ptr<roboteam_msgs::WorldRobot> opponentWithBall;
-        std::shared_ptr<roboteam_msgs::WorldRobot> opponentToCover;
+        RobotPtr opponentWithBall;
+        RobotPtr opponentToCover;
 };
 } // ai
 } // rtt

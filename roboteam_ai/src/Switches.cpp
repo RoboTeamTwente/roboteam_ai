@@ -77,6 +77,7 @@
  * specified in the json trees. These are usually the same name as the classes you make for that tactic.
  */
 
+using robotType = rtt::ai::robotDealer::RobotType;
 
 std::vector<std::string> Switches::tacticJsonFileNames = {
         "QualificationTactic",
@@ -238,8 +239,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"halt3", robotType::RANDOM},
                     {"halt4", robotType::RANDOM},
                     {"halt5", robotType::RANDOM},
-                    {"halt6", robotType::RANDOM},
-                    {"halt7", robotType::RANDOM}
+                    {"halt6", robotType::RANDOM}
             }
             },
 

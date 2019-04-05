@@ -4,13 +4,9 @@
 
 #include <roboteam_ai/src/demo/JoystickDemo.h>
 #include "ApplicationManager.h"
-#include "utilities/Referee.hpp"
-#include "utilities/StrategyManager.h"
-#include "utilities/Field.h"
 #include <sstream>
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include <roboteam_ai/src/interface/InterfaceValues.h>
-#include <roboteam_ai/src/utilities/World.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -20,13 +16,13 @@ namespace rtt {
 
 void ApplicationManager::setup() {
     IOManager = new io::IOManager(true);
-    BTFactory::makeTrees();
-    BTFactory::setCurrentTree("haltStrategy");
-    BTFactory::setKeeperTree("SingleKeeperTactic");
 
+    BTFactory::setCurrentTree("QualificationStrategy");
+    BTFactory::setKeeperTree("SingleKeeperTactic");
 }
 
 void ApplicationManager::loop() {
+    std::cout << "loop" << std::endl;
     ros::Rate rate(ai::Constants::TICK_RATE());
     double longestTick = 0.0;
     double timeTaken;
@@ -60,38 +56,36 @@ void ApplicationManager::loop() {
 
 void ApplicationManager::runOneLoopCycle() {
     ros::spinOnce();
-    this->updateROSData();
 
-    if (ai::World::didReceiveFirstWorld) {
+    if (ai::world::world->weHaveRobots()) {
+
         if (BTFactory::getCurrentTree() == "NaN") {
             ROS_INFO("NaN tree probably Halting");
             return;
         }
 
-
-
-
         ai::analysis::GameAnalyzer::getInstance().start();
-
-        robotDealer::RobotDealer::setUseSeparateKeeper(true);
-
 
         // Will do things if this is a demo
         // otherwise wastes like 0.1 ms
         auto demomsg = IOManager->getDemoInfo();
         demo::JoystickDemo::demoLoop(demomsg);
+        rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
 
-        if (ai::interface::InterfaceValues::usesRefereeCommands()) {
-            this->handleRefData();
-        } else {
-            if (robotDealer::RobotDealer::getKeeperID() == -1) {
-                robotDealer::RobotDealer::setKeeperID(ai::World::get_world().us.at(0).id);
+        if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
+
+            if (ai::robotDealer::RobotDealer::getKeeperID() == -1) {
+                std::cout << "setting keeper id" << std::endl;
+                ai::robotDealer::RobotDealer::setKeeperID(ai::world::world->getUs().at(0).id);
+
+
             }
-        }
-        // TODO: change this later so the referee tells you this
-        keeperTree = BTFactory::getKeeperTree();
-        Status keeperStatus = keeperTree->tick();
+            keeperTree = BTFactory::getKeeperTree();
+            Status keeperStatus = keeperTree->tick();
+        }  else {
+            BTFactory::makeTrees();
 
+        }
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
@@ -99,7 +93,7 @@ void ApplicationManager::runOneLoopCycle() {
         rtt::ai::coach::g_offensiveCoach.calculateNewPositions();
     }
     else {
-        ROS_ERROR("No first world");
+        std::cout <<"NO FIRST WORLD" << std::endl;
         ros::Duration(0.2).sleep();
     }
 }
@@ -110,38 +104,6 @@ void ApplicationManager::checkForShutdown() {
         strategy->terminate(Status::Running);
     }
     ai::analysis::GameAnalyzer::getInstance().stop();
-}
-
-void ApplicationManager::updateROSData() {
-    // make ROS world_state and geometry data globally accessible
-    worldMsg = IOManager->getWorldState();
-    geometryMsg = IOManager->getGeometryData();
-    refereeMsg = IOManager->getRefereeData();
-
-    ai::World::set_world(worldMsg);
-    ai::Field::set_field(geometryMsg.field);
-    ai::Referee::setRefereeData(refereeMsg);
-}
-
-void ApplicationManager::handleRefData() {
-    ai::StrategyManager strategyManager;
-    // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
-    // might want to build something that verifies this
-    auto oldStrategy = BTFactory::getCurrentTree();
-    std::string strategyName = strategyManager.getCurrentStrategyName(refereeMsg.command);
-    if (oldStrategy != strategyName) {
-        BTFactory::makeTrees();
-    }
-
-    int newKeeperId = ai::Referee::getRefereeData().us.goalie;
-
-    // when we have a referee, force that we use a keeper!
-    robotDealer::RobotDealer::setUseSeparateKeeper(true);
-
-    // Let the ref set the goalie
-    robotDealer::RobotDealer::setKeeperID(newKeeperId);
-
-    BTFactory::setCurrentTree(strategyName);
 }
 
 void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {

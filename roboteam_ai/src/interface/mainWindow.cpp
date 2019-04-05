@@ -182,7 +182,7 @@ MainWindow::MainWindow(QWidget* parent)
     // start the UI update cycles
     // these are slower
     auto * robotsTimer = new QTimer(this);
-    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateTreeWidget()));
+     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateTreeWidget()));
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateKeeperTreeWidget()));
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget())); // we need to pass the visualizer so thats why a seperate function is used
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updatePause()));
@@ -246,7 +246,8 @@ void MainWindow::updatePause() {
 }
 
 void MainWindow::updateRobotsWidget() {
-    robotsWidget->updateContents(visualizer);
+    if (world::world->weHaveRobots())
+        robotsWidget->updateContents(visualizer);
 }
 
 void MainWindow::setShowDebugValueInTerminal(bool showDebug) {
@@ -276,11 +277,11 @@ void MainWindow::updateTreeWidget() {
 
 void MainWindow::updateKeeperTreeWidget() {
 
-    if (robotsInField != World::get_world().us.size()) {
+    if (robotsInField != world::world->getUs().size()) {
         select_goalie->clear();
-        robotsInField = World::get_world().us.size();
+        robotsInField = world::world->getUs().size();
 
-        for (auto robot : World::get_world().us) {
+        for (auto robot : world::world->getUs()) {
             std::string txt = to_string(robot.id);
             select_goalie->addItem(QString::fromStdString(txt));
         }

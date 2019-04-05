@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
     rtt::ai::Constants::init();
     ros::NodeHandle nh;
 
-    robotDealer::RobotDealer::setUseSeparateKeeper(false);
+    rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(false);
 
 
     return RUN_ALL_TESTS();

@@ -6,8 +6,8 @@ namespace ai {
 
 Skill::Skill(std::string name, bt::Blackboard::Ptr blackboard)
         :bt::Leaf(std::move(name), std::move(blackboard)) {
-    robot = std::make_shared<roboteam_msgs::WorldRobot>();
-    ball = std::make_shared<roboteam_msgs::WorldBall>();
+    robot = std::make_shared<Robot>(Robot());
+    ball = std::make_shared<Ball>(Ball());
 
 }
 void Skill::publishRobotCommand() {
@@ -30,7 +30,7 @@ std::string Skill::node_name() {
 
 Skill::Status Skill::update() {
     updateRobot();
-    ball = World::getBall(); // update ball position
+    ball = world::world->getBall(); // update ball position
     if (! robot) return Status::Failure;
     if (! ball) return Status::Waiting;
     return onUpdate();
@@ -38,7 +38,7 @@ Skill::Status Skill::update() {
 
 void Skill::initialize() {
     robot = getRobotFromProperties(properties);
-    ball = World::getBall();
+    ball = world::world->getBall();
     if (! robot) return;
     if (! ball) return;
     refreshRobotCommand();

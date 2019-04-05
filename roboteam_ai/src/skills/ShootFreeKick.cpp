@@ -13,10 +13,10 @@ ShootFreeKick::ShootFreeKick(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void ShootFreeKick::onInitialize() {
-    Vector2 ballPos = rtt::ai::World::getBall()->pos;
+    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
     Vector2 robotPos = robot->pos;
     freeKickPos = ballPos;
-    Vector2 goal = Field::get_their_goal_center();
+    Vector2 goal = world::field->get_their_goal_center();
     // behind the ball looking at the goal
     targetPos = ballPos + (ballPos - goal).stretchToLength(Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS() + 0.03);
     progress = GOING;
@@ -31,7 +31,8 @@ Skill::Status ShootFreeKick::onUpdate() {
 
             if (deltaPos.length() < errorMarginPos) {
                 progress = TARGETING;
-            } else {
+            }
+            else {
                 command.w = static_cast<float>((targetPos - robot->pos).angle());
                 Vector2 velocity = goToPos.getPosVelAngle(robot, targetPos).vel;
                 command.x_vel = static_cast<float>(velocity.x);
@@ -52,8 +53,8 @@ Skill::Status ShootFreeKick::onUpdate() {
                 // Find a target and draw a vector to it
                 // TODO make targeting functions based on our robots positions maybe coach
                 // TODO for now it shoots at the goal
-                Vector2 target = Field::getPenaltyPoint(false);
-                Vector2 ballPos = rtt::ai::World::getBall()->pos;
+                Vector2 target = rtt::ai::world::field->getPenaltyPoint(false);
+                Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
                 targetPos = ballPos + (ballPos - target).stretchToLength(
                         Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS() + 0.03);
 
@@ -70,7 +71,7 @@ Skill::Status ShootFreeKick::onUpdate() {
 
         case SHOOTING: {
             if (! isShot()) {
-                Vector2 ballPos = rtt::ai::World::getBall()->pos;
+                Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
                 command.w = static_cast<float>((ballPos - robot->pos).angle());
                 command.chipper = static_cast<unsigned char>(true);
                 command.chipper_vel = 8.0; // Such power much wow
@@ -95,7 +96,7 @@ void ShootFreeKick::onTerminate(Skill::Status s) {
 }
 
 bool ShootFreeKick::isShot() {
-    Vector2 ballPos = rtt::ai::World::getBall()->pos;
+    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
     return ((ballPos - freeKickPos).length() > 0.05);
 
 }

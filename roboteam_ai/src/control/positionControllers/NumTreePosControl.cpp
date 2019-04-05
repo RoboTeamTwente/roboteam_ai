@@ -1,6 +1,6 @@
 #include <queue>
 #include <roboteam_ai/src/interface/drawer.h>
-#include "../../utilities/Field.h"
+#include "../../world/Field.h"
 #include "NumTreePosControl.h"
 #include "PosVelAngle.h"
 
@@ -19,7 +19,7 @@ void NumTreePosControl::clear() {
 
 /// return the velocity command using two PIDs based on the current position and velocity of the robot compared to the
 /// position and velocity of the calculated path
-PosVelAngle NumTreePosControl::computeCommand(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
+PosVelAngle NumTreePosControl::computeCommand(RobotPtr robot) {
     if (path.size() < static_cast<unsigned int>(1.01 + 0.30/dt)) {
         path.clear();
         return {};
@@ -39,7 +39,7 @@ PosVelAngle NumTreePosControl::computeCommand(std::shared_ptr<roboteam_msgs::Wor
 
 /// finds a reason to calculate a new path (possible reasons are: on path calculated yet, final target moved,
 /// robot is too far from path or another robot is colliding with current path
-bool NumTreePosControl::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 targetPos) {
+bool NumTreePosControl::doRecalculatePath(RobotPtr robot, Vector2 targetPos) {
     double maxTargetDeviation = 0.3;
     if (path.empty()) {
         if (InterfaceValues::showFullDebugNumTreeInfo())
@@ -94,7 +94,7 @@ bool NumTreePosControl::doRecalculatePath(std::shared_ptr<roboteam_msgs::WorldRo
 }
 
 /// finds a path using a numeric model
-PosVelAngle NumTreePosControl::getPosVelAngle(std::shared_ptr<roboteam_msgs::WorldRobot> robot, Vector2 &targetPos) {
+PosVelAngle NumTreePosControl::getPosVelAngle(RobotPtr robot, Vector2 &targetPos) {
     ros::Time begin = ros::Time::now();
     robotID = robot->id;
 
@@ -156,7 +156,7 @@ PosVelAngle NumTreePosControl::getPosVelAngle(std::shared_ptr<roboteam_msgs::Wor
     }
 }
 
-void NumTreePosControl::tracePath(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
+void NumTreePosControl::tracePath(RobotPtr robot) {
 
 // compAStar compares the amount of collisions first (max 3 diff), then sorts the paths based on an approximation on the
 // length of path that still has to be calculated, using straight lines towards the half-way targets, and the final
@@ -302,7 +302,7 @@ std::shared_ptr<PathPoint> NumTreePosControl::computeNewPoint(
 
 /// check if a pathpoint is in a collision with a robot/ball at that timepoint
 bool NumTreePosControl::checkCollision(std::shared_ptr<PathPoint> point, double collisionRadius) {
-    roboteam_msgs::World world = World::get_world();
+    auto world = world::world->getWorld();
     for (auto bot : world.us) {
         if (bot.id != static_cast<unsigned long>(robotID)) {
             Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
@@ -322,15 +322,14 @@ bool NumTreePosControl::checkCollision(std::shared_ptr<PathPoint> point, double 
             return true;
     }
     if (!canMoveOutOfField) {
-        if (!Field::pointIsInField(point->pos))
-            return true;
+        if (!world::field->pointIsInField(point->pos)) return true;
     }
     return false;
 }
 
 /// find the robot corresponding to a collision-position
 Vector2 NumTreePosControl::findCollisionPos(std::shared_ptr<PathPoint> point, double collisionRadius) {
-    roboteam_msgs::World world = World::get_world();
+    auto world = world::world->getWorld();
     for (auto bot: world.us) {
         if (bot.id != static_cast<unsigned long>(robotID)) {
             Vector2 botPos = (Vector2) (bot.pos) + (Vector2) (bot.vel)*point->t;
@@ -352,7 +351,7 @@ Vector2 NumTreePosControl::findCollisionPos(std::shared_ptr<PathPoint> point, do
         }
     }
     if (!canMoveOutOfField) {
-        if (Field::pointIsInField(point->pos))
+        if (!world::field->pointIsInField(point->pos))
             return point->pos;
     }
     return {- 42, 42};

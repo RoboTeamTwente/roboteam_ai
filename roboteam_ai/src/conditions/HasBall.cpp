@@ -11,7 +11,7 @@
 #include "HasBall.hpp"
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_msgs/WorldBall.h"
-#include "../utilities/World.h"
+#include "../world/World.h"
 
 namespace rtt {
 namespace ai {
@@ -19,7 +19,8 @@ namespace ai {
 HasBall::HasBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), blackboard) { }
 
 bt::Node::Status HasBall::onUpdate() {
-    return World::botHasBall(robot->id,true) ? Status::Success : Status::Failure;
+    return world::world->ourRobotHasBall(robot->id) ? Status::Success : Status::Failure;
 }
+
 } // ai
 } // rtt

@@ -14,9 +14,11 @@ namespace interface {
 
 class RobotsWidget: public QWidget {
 Q_OBJECT
+    public:
+        using Robot = world::Robot;
 private:
     void clearLayout(QLayout* layout);
-    QVBoxLayout* createRobotGroupItem(roboteam_msgs::WorldRobot robot);
+    QVBoxLayout* createRobotGroupItem(Robot robot);
     int amountOfSelectedRobots = 0;
     QVBoxLayout * VLayout;
 public:

@@ -5,12 +5,16 @@
 #ifndef ROBOTEAM_AI_ROBOTDEALER_H
 #define ROBOTEAM_AI_ROBOTDEALER_H
 
+#include <utility>
 #include <map>
 #include <set>
 #include <mutex>
 #include <vector>
 #include "roboteam_utils/Vector2.h"
+#include "ros/ros.h"
 
+namespace rtt {
+namespace ai {
 namespace robotDealer {
 
 enum RobotType : short {
@@ -38,7 +42,7 @@ private:
     static int getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 position);
     static void unFreeRobot(int ID);
     static int getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 point1, rtt::Vector2 point2,
-            bool inBetweenPoints);
+                                     bool inBetweenPoints);
     static void claimKeeper();
 
 public:
@@ -61,5 +65,8 @@ public:
     static void setUseSeparateKeeper(bool useSeparateKeeper);
 
 };
-}
+
+} //robotDealer
+} //ai
+} //rtt
 #endif //ROBOTEAM_AI_ROBOTDEALER_H

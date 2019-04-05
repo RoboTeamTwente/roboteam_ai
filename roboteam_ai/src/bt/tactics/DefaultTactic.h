@@ -12,8 +12,8 @@ namespace bt {
 class DefaultTactic : public Tactic {
     public:
         int robotsNeeded = -1;
-        std::map<std::string, robotType> robots;
-        DefaultTactic(std::string name, Blackboard::Ptr blackboard, std::map<std::string, robotType> robots);
+        std::map<std::string, RobotType> robots;
+        DefaultTactic(std::string name, Blackboard::Ptr blackboard, std::map<std::string, RobotType> robots);
         void initialize() override;
         Node::Status update() override;
         void claimRobots();

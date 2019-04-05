@@ -9,10 +9,11 @@ std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
 std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::keeperRepo;
 std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
-
+std::mutex BTFactory::keeperTreeMutex;
 
 /// Initiate the BTFactory
 void BTFactory::makeTrees() {
+    std::lock_guard<std::mutex> lock(keeperTreeMutex);
     std::cout << "Re-Make Trees From Json" << std::endl;
 
     // If you think calling this over and over again is bad or slow you are partially correct. But if you optimize with
@@ -29,14 +30,16 @@ void BTFactory::makeTrees() {
         auto tempMap = interpreter.getTrees("strategies/" + strategyName);
         for (auto &it : tempMap) strategyRepo[it.first] = it.second; // may break
     }
-
     for (const auto &strategyNameKeeper : Switches::keeperJsonFiles) {
         auto tempMap = interpreter.getTrees("keeper/" + strategyNameKeeper);
         for (auto &it : tempMap) keeperRepo[it.first] = it.second; // may break
     }
+    std::cout << "Done making trees" << std::endl;
 }
 
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
+    std::lock_guard<std::mutex> lock(keeperTreeMutex);
+
     if (strategyRepo.find(treeName) != strategyRepo.end()) {
         return strategyRepo.find(treeName)->second;
     }
@@ -45,58 +48,44 @@ bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
 }
 
 std::string BTFactory::getCurrentTree() {
+    std::lock_guard<std::mutex> lock(keeperTreeMutex);
     return currentTree;
 }
 
 void BTFactory::setCurrentTree(const std::string &newTree) {
-    if (newTree != BTFactory::currentTree) {
+    {
+        std::lock_guard<std::mutex> lock(keeperTreeMutex);
 
-        if (BTFactory::currentTree == "NaN") {
-            BTFactory::currentTree = newTree;
-            return;
+        if (newTree != BTFactory::currentTree) {
+
+            if (BTFactory::currentTree == "NaN") {
+                BTFactory::currentTree = newTree;
+                return;
+            }
         }
-        BTFactory::getTree(currentTree)->terminate(bt::Node::Status::Success);
-        robotDealer::RobotDealer::halt();
-        BTFactory::currentTree = newTree;
     }
+    BTFactory::getTree(currentTree)->terminate(bt::Node::Status::Success);
+    rtt::ai::robotDealer::RobotDealer::halt();
+    BTFactory::currentTree = newTree;
+
 }
 
 void BTFactory::setKeeperTree(const std::string &keeperTree_) {
+    std::lock_guard<std::mutex> lock(keeperTreeMutex);
     keeperTree = keeperTree_;
 }
 
 bt::BehaviorTree::Ptr BTFactory::getKeeperTree() {
+    std::lock_guard<std::mutex> lock(keeperTreeMutex);
     return keeperRepo[keeperTree];
 }
 
 void BTFactory::halt() {
     BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
     BTFactory::currentTree = "NaN";
-    robotDealer::RobotDealer::halt();
-
+    rtt::ai::robotDealer::RobotDealer::halt();
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

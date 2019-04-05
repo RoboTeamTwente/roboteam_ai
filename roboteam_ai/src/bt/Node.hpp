@@ -4,7 +4,6 @@
 #include <vector>
 #include <cstdio>
 #include <cstdarg>
-
 #include "Blackboard.hpp"
 
 namespace bt {

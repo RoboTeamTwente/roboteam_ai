@@ -1,30 +1,26 @@
 #include <memory>
 
-#include "Node.hpp"
 #include "Leaf.hpp"
 #include "../utilities/RobotDealer.h"
-#include "../utilities/World.h"
 #include "ros/ros.h"
-
-using dealer = robotDealer::RobotDealer;
 
 namespace bt {
 
 Leaf::Leaf(std::string name, Blackboard::Ptr blackboard) : name(std::move(name)) {
     setProperties(blackboard);
-    robot = std::make_shared<roboteam_msgs::WorldRobot>();
-    ball = std::make_shared<roboteam_msgs::WorldBall>();
+    robot = std::make_shared<Robot>(Robot());
+    ball = std::make_shared<Ball>(Ball());
 }
 
-std::shared_ptr<roboteam_msgs::WorldRobot> Leaf::getRobotFromProperties(bt::Blackboard::Ptr properties) {
+std::shared_ptr<rtt::ai::world::Robot> Leaf::getRobotFromProperties(bt::Blackboard::Ptr properties) {
     if (properties->hasString("ROLE")) {
         std::string roleName = properties->getString("ROLE");
-        robotId = (unsigned int) dealer::findRobotForRole(roleName);
-        if (rtt::ai::World::getRobotForId(robotId, true)) {
-            return rtt::ai::World::getRobotForId(robotId, true);
+        robotId = rtt::ai::robotDealer::RobotDealer::findRobotForRole(roleName);
+        if (rtt::ai::world::world->getRobotForId(robotId, true)) {
+            return rtt::ai::world::world->getRobotForId(robotId, true);
         }
         else {
-         //   ROS_ERROR("%s Initialize -> robot %i does not exist in world", node_name().c_str(), robotId);
+            ROS_ERROR("%s Initialize -> robot %i does not exist in world", node_name().c_str(), robotId);
         }
     }
     else {
@@ -34,8 +30,8 @@ std::shared_ptr<roboteam_msgs::WorldRobot> Leaf::getRobotFromProperties(bt::Blac
 }
 
 void Leaf::updateRobot() {
-    if (rtt::ai::World::getRobotForId(robotId, true)) {
-        robot = rtt::ai::World::getRobotForId(robotId, true);
+    if (rtt::ai::world::world->getRobotForId(robotId, true)) {
+        robot = rtt::ai::world::world->getRobotForId(robotId, true);
     }
     else {
         ROS_ERROR("%s Update -> robot %i does not exist in world", node_name().c_str(), robotId);

@@ -6,6 +6,7 @@
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
 #include <roboteam_ai/src/interface/InterfaceValues.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
+#include <roboteam_ai/src/world/World.h>
 
 TEST(CoachTest, it_handles_ballplacement_positions) {
     rtt::ai::interface::InterfaceValues::setBallPlacementTarget({2.3, 0.3});
@@ -20,7 +21,7 @@ TEST(CoachTest, it_handles_ballplacement_positions) {
     worldMsg.ball.pos = Vector2(0, 0);
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 9999;
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
-    EXPECT_FLOAT_EQ(Vector2(rtt::ai::World::getBall()->pos).dist(rtt::ai::coach::g_ballPlacement.getBallPlacementBeforePos(rtt::ai::World::getBall()->pos)), rtt::ai::Constants::BP_MOVE_TOWARDS_DIST());
+    EXPECT_FLOAT_EQ(Vector2(rtt::ai::world::world->getBall()->pos).dist(rtt::ai::coach::g_ballPlacement.getBallPlacementBeforePos(rtt::ai::world::world->getBall()->pos)), rtt::ai::Constants::BP_MOVE_TOWARDS_DIST());
 }

@@ -17,14 +17,10 @@ class ApplicationManager {
 private:
     FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
     rtt::ai::io::IOManager * IOManager;
-    roboteam_msgs::World worldMsg;
-    roboteam_msgs::GeometryData geometryMsg;
-    roboteam_msgs::RefereeData refereeMsg;
+
     bt::BehaviorTree::Ptr strategy;
     bt::BehaviorTree::Ptr keeperTree;
 
-    void updateROSData();
-    void handleRefData();
     void notifyTreeStatus(bt::Node::Status status);
     void runOneLoopCycle();
 public:

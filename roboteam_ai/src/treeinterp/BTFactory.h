@@ -1,3 +1,5 @@
+
+
 //
 // Created by baris on 04/10/18.
 //
@@ -18,8 +20,8 @@
 class BTFactory {
 
         // TODO: have the names of all the project before here
-        static std::string currentTree;
-        static std::string keeperTree;
+
+   static std::mutex keeperTreeMutex;
 
     public:
         static void makeTrees();
@@ -41,6 +43,10 @@ class BTFactory {
         static void setKeeperTree(const std::string &keeperTree);
 
         static void halt();
+private:
+    static std::string currentTree;
+    static std::string keeperTree;
 };
 
 #endif //ROBOTEAM_AI_BTFACTORY_H
+
