@@ -8,7 +8,9 @@
 #include "../control/ControlUtils.h"
 namespace rtt {
 namespace ai {
-std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> Stop::robotsInFormation = {};
+
+using Robot = rtt::ai::world::Robot;
+std::vector<std::shared_ptr<Robot>> Stop::robotsInFormation = {};
 int Stop::defensiveOffensive = -1;
 
 Stop::Stop(string name, bt::Blackboard::Ptr blackboard)
@@ -18,6 +20,17 @@ Stop::Stop(string name, bt::Blackboard::Ptr blackboard)
 void Stop::onInitialize() {
     isActive = coach::g_formation.isOffensiveStop(robot->id);
     goToPos.setStop(true);
+    if (isActive)
+        return;
+
+    robotsInFormationMemory = 0;
+    // add the robot if its not already there.
+    for (auto & current : robotsInFormation) {
+        if (current->id == robot->id) {
+            return;
+        }
+    }
+    robotsInFormation.push_back(robot);
 }
 Skill::Status Stop::onUpdate() {
 

@@ -21,11 +21,12 @@ class Stop : public Skill {
         bool isActive = false;
         static Vector2 getOffensiveActivePoint();
         static Vector2 getDefensiveActivePoint();
+        static std::vector<std::shared_ptr<Robot>> robotsInFormation;
+
 
         control::NumTreePosControl goToPos;
         Vector2 getFormationPosition();
         Vector2 targetLocation;
-        static std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> robotsInFormation;
         static int defensiveOffensive;
 
 
