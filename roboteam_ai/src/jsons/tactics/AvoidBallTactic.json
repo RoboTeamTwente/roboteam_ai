@@ -5,9 +5,9 @@
         "nodes": {
           "26r822sjdvjdgtw": {
             "properties": {
-              "ROLE": "avoid8"
+              "ROLE": "avoid6"
             },
-            "name": "avoid8",
+            "name": "avoid6",
             "title": "Role",
             "id": "26r822sjdvjdgtw",
             "role": "AvoidBallRole",
@@ -31,7 +31,7 @@
           },
           "zan75tlxqui2aw": {
             "properties": {
-              "ROLE": "avoid8"
+              "ROLE": "avoid6"
             },
             "title": "UntilSuccess",
             "children": [
@@ -102,7 +102,7 @@
           },
           "jfq7561xq8vbqebt9": {
             "properties": {
-              "ROLE": "avoid8"
+              "ROLE": "avoid6"
             },
             "id": "jfq7561xq8vbqebt9",
             "title": "AvoidBall"
