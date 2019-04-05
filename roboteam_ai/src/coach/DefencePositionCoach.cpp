@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by rolf on 18-2-19.
 //
@@ -12,18 +14,18 @@ namespace ai {
 namespace coach {
 using util = control::ControlUtils;
 
-DefencePositionCoach g_defensiveCoach;
+DefencePositionCoach g_defensivePositionCoach;
 
-DefencePositionCoach::PossiblePass::PossiblePass(roboteam_msgs::WorldRobot _toBot, Vector2 ballPos)
+DefencePositionCoach::PossiblePass::PossiblePass(roboteam_msgs::WorldRobot _toBot, const Vector2& ballPos)
         :
         toBot(_toBot),
         startPos(ballPos),
-        endPos(g_defensiveCoach.computeSimpleReceivePos(ballPos, _toBot.pos)) { };
+        endPos(g_defensivePositionCoach.computeSimpleReceivePos(ballPos, _toBot.pos)) { };
 
 double DefencePositionCoach::PossiblePass::distance() {
     return (endPos - startPos).length();
 }
-bool DefencePositionCoach::PossiblePass::obstacleObstructsPath(Vector2 obstPos, double obstRadius) {
+bool DefencePositionCoach::PossiblePass::obstacleObstructsPath(const Vector2& obstPos, double obstRadius) {
     return util::distanceToLineWithEnds(obstPos, startPos, endPos) <= obstRadius;
 }
 int DefencePositionCoach::PossiblePass::amountOfBlockers() {
@@ -36,7 +38,7 @@ int DefencePositionCoach::PossiblePass::amountOfBlockers() {
     return total;
 }
 // pick position on the line depending on how aggressive we want to play. aggression factor 1 is very in your face, whilst 0 is as close as possible to the goal
-Vector2 DefencePositionCoach::getPos(std::pair<Vector2, Vector2> line, double aggressionFactor) {
+Vector2 DefencePositionCoach::getPosOnLine(const Line& line, double aggressionFactor) {
     if (aggressionFactor < 0) {
         return line.second;
     }
@@ -45,16 +47,20 @@ Vector2 DefencePositionCoach::getPos(std::pair<Vector2, Vector2> line, double ag
     }
     return line.second + (line.first - line.second)*aggressionFactor;
 }
+// get the direction facing towards the end of the Line
+double DefencePositionCoach::getOrientation(const Line& line) {
+    return (line.second-line.first).angle();
 
-Vector2 DefencePositionCoach::computeSimpleReceivePos(Vector2 startPos, Vector2 robotPos) {
+}
+Vector2 DefencePositionCoach::computeSimpleReceivePos(const Vector2& startPos, const Vector2& robotPos) {
     Vector2 receivePos =
             robotPos + (startPos - robotPos).stretchToLength(Constants::CENTRE_TO_FRONT() + Constants::BALL_RADIUS());
     return receivePos;
 }
 
 //computes a line segment on which the entirety of openGoalSegment is blocked as seen from point with robots with radius collissionRadius
-std::shared_ptr<std::pair<Vector2, Vector2>> DefencePositionCoach::getBlockLineSegment(
-        std::pair<Vector2, Vector2> openGoalSegment, Vector2 point, double collisionRadius, double margin) {
+std::shared_ptr<Line> DefencePositionCoach::getBlockLineSegment(
+        const Line& openGoalSegment, const Vector2& point, double collisionRadius, double margin) {
     if (margin == - 1.0) { margin = collisionRadius; }
 
     Vector2 FurthestBlock = getBlockPoint(openGoalSegment, point, collisionRadius);
@@ -65,14 +71,14 @@ std::shared_ptr<std::pair<Vector2, Vector2>> DefencePositionCoach::getBlockLineS
         return nullptr;
     }
     //check intersections with defense area and shorten line if needed
-    std::pair<Vector2, Vector2> line = shortenLineForDefenseArea(startPos, FurthestBlock, margin);
-    std::shared_ptr<std::pair<Vector2, Vector2>> segment = std::make_shared<std::pair<Vector2, Vector2>>(line);
+    Line line = shortenLineForDefenseArea(startPos, FurthestBlock, margin);
+    std::shared_ptr<Line> segment = std::make_shared<Line>(line);
     return segment;
 
 }
 /// computes the intersection of the bisector of the angle to OpenGoalsegment from point and the defence area line
-std::shared_ptr<Vector2> DefencePositionCoach::blockOnDefenseLine(std::pair<Vector2, Vector2> openGoalSegment,
-        Vector2 point) {
+std::shared_ptr<Vector2> DefencePositionCoach::blockOnDefenseLine(const Line& openGoalSegment,
+        const Vector2& point) {
     // margin by which we shift the defence area line forwards
     double margin = 0.15;
     double collisionRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
@@ -90,7 +96,7 @@ std::shared_ptr<Vector2> DefencePositionCoach::blockOnDefenseLine(std::pair<Vect
 }
 /// places two robots as a block such that they are closest to the goal but block
 std::vector<Vector2> DefencePositionCoach::doubleBlockOnDefenseLine(
-        std::pair<Vector2, Vector2> openGoalSegment, Vector2 point) {
+        const Line& openGoalSegment, const Vector2& point) {
     std::vector<Vector2> blockPositions;
     double margin = 0.15;
     double collisionRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
@@ -138,7 +144,7 @@ std::vector<Vector2> DefencePositionCoach::doubleBlockOnDefenseLine(
 }
 
 ///scores a possible pass based on the pass and blocks that already have been decided
-double DefencePositionCoach::scorePossiblePass(PossiblePass pass, std::vector<Vector2> decidedBlocks) {
+double DefencePositionCoach::scorePossiblePass(const PossiblePass& pass, const std::vector<Vector2>& decidedBlocks) {
     double score = 1.0;
     score *= scoreForOpenGoalAngle(pass, decidedBlocks);
     score *= penaltyForBlocks(pass, decidedBlocks);
@@ -154,7 +160,7 @@ std::vector<std::pair<Vector2, double>> DefencePositionCoach::decideDefendersOnD
     }
     //first we cover off the most dangerous position
 
-    std::pair<Vector2, Vector2> goalSides = Field::getGoalSides(true);
+    Line goalSides = Field::getGoalSides(true);
 
     if (World::getBall() && Field::pointIsInField(World::getBall()->pos)) {
         Vector2 mostDangerousPos = World::getBall()->pos; //TODO: add pass detection/ ball possession here for the 'most dangerous position'
@@ -180,7 +186,7 @@ std::vector<std::pair<Vector2, double>> DefencePositionCoach::decideDefendersOnD
             auto segment = getBlockLineSegment(goalSides, mostDangerousPos,
                     Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
             if (segment) {
-                Vector2 pos = getPos(*segment, 0);
+                Vector2 pos = getPosOnLine(*segment, 0);
                 return {std::make_pair(pos, (mostDangerousPos - pos).angle())};
             }
             return {};
@@ -214,11 +220,11 @@ std::vector<std::pair<Vector2, double>> DefencePositionCoach::decideDefendersOnD
         // check for all the passes if we can block the shot from the pass receive position
         for (const auto &bestPass: passWithScore) {
             // find largest visible Part using virtualBots
-            std::vector<std::pair<Vector2, Vector2>> visibleParts = Field::getVisiblePartsOfGoal(true,
+            std::vector<Line> visibleParts = Field::getVisiblePartsOfGoal(true,
                     bestPass.first.endPos, virtualBots,
                     Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
             std::sort(visibleParts.begin(), visibleParts.end(),
-                    [](const std::pair<Vector2, Vector2> &a, const std::pair<Vector2, Vector2> &b) {
+                    [](const Line &a, const Line &b) {
                       return abs(a.second.y - a.first.y) > abs(b.second.y - b.first.y);
                     });
             // compute blockpoint for this point
@@ -252,7 +258,7 @@ std::vector<std::pair<Vector2, double>> DefencePositionCoach::decideDefendersOnD
 }
 
 /// gets the furthest position at which an obstacle will block the entire Angle
-Vector2 DefencePositionCoach::getBlockPoint(std::pair<Vector2, Vector2> openGoalSegment, Vector2 point,
+Vector2 DefencePositionCoach::getBlockPoint(const Line& openGoalSegment, const Vector2& point,
         double collisionRadius) {
     //compute the bisector of the angle of point and the two ends of the openGoalSegment
     Vector2 lineToSideOne = openGoalSegment.first - point;
@@ -266,9 +272,9 @@ Vector2 DefencePositionCoach::getBlockPoint(std::pair<Vector2, Vector2> openGoal
     return FurthestBlock;
 }
 
-std::pair<Vector2, Vector2> DefencePositionCoach::shortenLineForDefenseArea(Vector2 lineStart, Vector2 lineEnd,
+Line DefencePositionCoach::shortenLineForDefenseArea(const Vector2& lineStart, const Vector2& lineEnd,
         double defenseMargin) {
-    std::pair<Vector2, Vector2> line;
+    Line line;
     std::shared_ptr<Vector2> intersectPos = Field::lineIntersectsWithDefenceArea(true, lineStart, lineEnd,
             defenseMargin);
     if (! intersectPos) {
@@ -282,7 +288,7 @@ std::pair<Vector2, Vector2> DefencePositionCoach::shortenLineForDefenseArea(Vect
     return line;
 }
 /// scores a point based on the largest openGoal angle from that point
-double DefencePositionCoach::scoreForOpenGoalAngle(PossiblePass pass, std::vector<Vector2> decidedBlocks) {
+double DefencePositionCoach::scoreForOpenGoalAngle(const PossiblePass& pass, const std::vector<Vector2>& decidedBlocks) {
     // create the 'virtual bots' that make up the blocks we have already decided on
     std::vector<roboteam_msgs::WorldRobot> virtualBots = createVirtualBots(decidedBlocks);
     auto keeper = World::getRobotForId(robotDealer::RobotDealer::getKeeperID(),
@@ -291,10 +297,10 @@ double DefencePositionCoach::scoreForOpenGoalAngle(PossiblePass pass, std::vecto
         virtualBots.push_back(*keeper);
     }
     // get the visible parts and sort them from large to small from the end point of the pass (the point of shooting)
-    std::vector<std::pair<Vector2, Vector2>> visibleParts = Field::getVisiblePartsOfGoal(true, pass.endPos, virtualBots,
+    std::vector<Line> visibleParts = Field::getVisiblePartsOfGoal(true, pass.endPos, virtualBots,
             Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
     std::sort(visibleParts.begin(), visibleParts.end(),
-            [](const std::pair<Vector2, Vector2> &a, const std::pair<Vector2, Vector2> &b) {
+            [](const Line &a, const Line &b) {
               return abs(a.second.y - a.first.y) > abs(b.second.y - b.first.y);
             });
     // set the largest open angle
@@ -313,12 +319,12 @@ double DefencePositionCoach::scoreForOpenGoalAngle(PossiblePass pass, std::vecto
     return largestOpenGoalAngle;
 }
 /// penalize points that cannot be passed to
-double DefencePositionCoach::penaltyForBlocks(PossiblePass pass, std::vector<Vector2> decidedBlocks) {
+double DefencePositionCoach::penaltyForBlocks(const PossiblePass& pass, const std::vector<Vector2>& decidedBlocks) {
     // we half the score for every robot that blocks the pass
     // can be made to also take 'potential intercepts' into account better
     int amountOfBlocks = 0;
     double obstacleFactor = 0.5;
-    for (auto block : decidedBlocks) {
+    for (const auto& block : decidedBlocks) {
         if (util::distanceToLineWithEnds(block, pass.startPos, pass.endPos)
                 <= (Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS())) {
             amountOfBlocks ++;
@@ -337,9 +343,9 @@ double DefencePositionCoach::penaltyForPassDist(PossiblePass pass) {
     }
     return 1.0;
 }
-std::vector<roboteam_msgs::WorldRobot> DefencePositionCoach::createVirtualBots(std::vector<Vector2> decidedBlocks) {
+std::vector<roboteam_msgs::WorldRobot> DefencePositionCoach::createVirtualBots(const std::vector<Vector2>& decidedBlocks) {
     std::vector<roboteam_msgs::WorldRobot> virtualBots;
-    for (auto blockPos : decidedBlocks) {
+    for (const auto& blockPos : decidedBlocks) {
         roboteam_msgs::WorldRobot bot;
         bot.id = - 1;
         bot.pos = blockPos;
@@ -348,7 +354,7 @@ std::vector<roboteam_msgs::WorldRobot> DefencePositionCoach::createVirtualBots(s
     return virtualBots;
 }
 std::vector<std::pair<DefencePositionCoach::PossiblePass, double>> DefencePositionCoach::createPassesAndDanger(
-        std::vector<roboteam_msgs::WorldRobot> bots, std::vector<Vector2> decidedBlocks) {
+        const std::vector<roboteam_msgs::WorldRobot>& bots, const std::vector<Vector2>& decidedBlocks) {
     std::vector<std::pair<PossiblePass, double>> passWithScore;
     // check the passes from the robot towards every other bot and calculate their danger
     for (auto bot : bots) {
@@ -367,6 +373,34 @@ std::vector<std::pair<DefencePositionCoach::PossiblePass, double>> DefencePositi
               return left.second > right.second;
             });
     return passWithScore;
+}
+std::shared_ptr<DefencePositionCoach::DefenderBot> DefencePositionCoach::createBlockToGoal(const PossiblePass& pass, double aggressionFactor,const Line& openGoalSegment) {
+    // get the blockLine segment from the ending position of the pass
+    auto blockLine=getBlockLineSegment(openGoalSegment,pass.endPos);
+    if (blockLine){
+        DefenderBot bot;
+        bot.type=botType::BLOCKTOGOAL;
+        bot.blockFromID=pass.toBot.id;
+        bot.targetPos=getPosOnLine(*blockLine,aggressionFactor);
+        bot.orientation=getOrientation(*blockLine);
+        return std::make_shared<DefenderBot>(bot);
+    }
+    return nullptr;
+}
+std::shared_ptr<DefencePositionCoach::DefenderBot> DefencePositionCoach::createBlockOnLine(const PossiblePass& pass, const Line& goalSegment) {
+    // get the blockPosition on the goal line
+    auto blockPos=blockOnDefenseLine(goalSegment,pass.endPos);
+    if (blockPos){
+        DefenderBot bot;
+        bot.type=botType::BLOCKONLINE;
+        bot.blockFromID=pass.toBot.id;
+        bot.targetPos=*blockPos;
+        //draw a line for easy orientation computation
+        Line line=std::make_pair(pass.endPos,*blockPos);
+        bot.orientation=getOrientation(line);
+        return std::make_shared<DefenderBot>(bot);
+    }
+    return nullptr;
 }
 }//coach
 }//ai

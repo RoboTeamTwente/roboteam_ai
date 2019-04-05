@@ -4,10 +4,10 @@
 
 #include "DefenceDealer.h"
 #include "roboteam_ai/src/interface/drawer.h"
-
 namespace rtt{
 namespace ai{
 namespace coach{
+DefenceDealer g_DefenceDealer;
 void DefenceDealer::setDoUpdate() {
     doUpdate = true;
 }
@@ -83,7 +83,7 @@ void DefenceDealer::updateDefenderLocations() {
         defenderLocations.clear();
         std::vector<int> availableDefenders = defenders;
         // decide the locations to defend
-        std::vector<std::pair<Vector2, double>> positions = decideDefendersOnDefenseLine(availableDefenders.size());
+        std::vector<std::pair<Vector2, double>> positions = g_defensivePositionCoach.decideDefendersOnDefenseLine(availableDefenders.size());
         // the following algorithm takes the closest robot for each available defender to decide which robot goes where.
         // Since the points are ordered on priority from the above algorithm the most important points come first
         // It might be better to use an algorithm that is more complicated (e.g. hungarian) but then we might need some kind of system which gives the first points more 'priority'
@@ -114,7 +114,7 @@ void DefenceDealer::updateDefenderLocations() {
         //visualization
         visualizePoints();
         auto stop = std::chrono::high_resolution_clock::now();
-        std::cout << "Computation time:" << (std::chrono::duration_cast<chrono::nanoseconds>(stop - start).count()/1000000.0) << std::endl;
+        std::cout << "Computation time:" << (std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count()/1000000.0) << std::endl;
     }
 }
 

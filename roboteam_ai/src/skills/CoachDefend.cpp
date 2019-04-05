@@ -3,22 +3,22 @@
 //
 
 #include "CoachDefend.h"
-#include "roboteam_ai/src/coach/DefencePositionCoach.h"
+#include "roboteam_ai/src/coach/DefenceDealer.h"
 #include "roboteam_ai/src/control/ControlUtils.h"
 namespace rtt{
 namespace ai{
 CoachDefend::CoachDefend(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void CoachDefend::onInitialize() {
-coach::g_defensiveCoach.addDefender(robot->id);
+coach::g_DefenceDealer.addDefender(robot->id);
 
 gtp.setCanMoveInDefenseArea(false);
 }
 
 
 bt::Node::Status CoachDefend::onUpdate() {
-    coach::g_defensiveCoach.updateDefenderLocations();
-    auto targetLocation = coach::g_defensiveCoach.getDefenderPosition(robot->id);
+    coach::g_DefenceDealer.updateDefenderLocations();
+    auto targetLocation = coach::g_DefenceDealer.getDefenderPosition(robot->id);
     if (!targetLocation){
         std::cerr<<"Could not find the location of defender "<< robot->id<< " in calculated positions!"<<std::endl;
         return bt::Node::Status::Running;
@@ -46,7 +46,7 @@ bt::Node::Status CoachDefend::onUpdate() {
 }
 
 void CoachDefend::onTerminate(bt::Node::Status s) {
-    coach::g_defensiveCoach.removeDefender(robot->id);
+    coach::g_DefenceDealer.removeDefender(robot->id);
 }
 }
 }

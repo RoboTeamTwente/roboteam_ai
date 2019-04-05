@@ -9,11 +9,11 @@
 namespace rtt {
 namespace ai {
 namespace coach {
+using Line=std::pair<Vector2, Vector2>;
+
 class DefencePositionCoach {
     private:
-        Vector2 getPos(std::pair<Vector2, Vector2> line, double aggressionFactor);
-
-        std::vector<roboteam_msgs::WorldRobot> createVirtualBots(std::vector<Vector2> decidedBlocks);
+        std::vector<roboteam_msgs::WorldRobot> createVirtualBots(const std::vector<Vector2>& decidedBlocks);
 
     public:
         struct PossiblePass {
@@ -21,46 +21,48 @@ class DefencePositionCoach {
           Vector2 startPos;
           Vector2 endPos;
           double distance();
-          bool obstacleObstructsPath(Vector2 obstPos,
+          bool obstacleObstructsPath(const Vector2& obstPos,
                   double obstRadius = (Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS()));
           int amountOfBlockers();
-          PossiblePass(roboteam_msgs::WorldRobot _toBot, Vector2 ballPos);
+          PossiblePass(roboteam_msgs::WorldRobot _toBot, const Vector2& ballPos);
         };
-        double scorePossiblePass(PossiblePass pass, std::vector<Vector2> decidedBlocks);
-        double scoreForOpenGoalAngle(PossiblePass pass, std::vector<Vector2> decidedBlocks);
-        double penaltyForBlocks(PossiblePass pass, std::vector<Vector2> decidedBlocks);
+        double scorePossiblePass(const PossiblePass& pass, const std::vector<Vector2>& decidedBlocks);
+        double scoreForOpenGoalAngle(const PossiblePass& pass, const std::vector<Vector2>& decidedBlocks);
+        double penaltyForBlocks(const PossiblePass& pass, const std::vector<Vector2>& decidedBlocks);
         double penaltyForPassDist(PossiblePass pass);
-        Vector2 computeSimpleReceivePos(Vector2 startPos, Vector2 robotPos);
+        Vector2 computeSimpleReceivePos(const Vector2& startPos, const Vector2& robotPos);
 
-        enum botType{BLOCKBALLTOGOAL,BLOCKTOGOAL,WALL,BLOCKPASS,BLOCKONLINE};
-        struct DefenderBot{
+        enum botType { BLOCKBALLTOGOAL, BLOCKTOGOAL, WALL, BLOCKPASS, BLOCKONLINE };
+        struct DefenderBot {
           int id;
           Vector2 targetPos;
           double orientation;
           int blockFromID;
           botType type;
         };
-        struct BlockPassBot:DefenderBot{
+        struct BlockPassBot : DefenderBot {
           int blockToID;
         };
 
-        std::vector<Vector2> doubleBlockOnDefenseLine(std::pair<Vector2, Vector2> openGoalSegment, Vector2 point);
+        std::vector<Vector2> doubleBlockOnDefenseLine(const std::pair<Vector2, Vector2>& openGoalSegment, const Vector2& point);
         std::vector<std::pair<Vector2, double>> decideDefendersOnDefenseLine(int amount);
 
-        std::shared_ptr<DefenderBot> createBlockToGoal(PossiblePass pass, double aggressionFactor);
-        std::shared_ptr<BlockPassBot> createBlockPass(PossiblePass pass,double closeToPasserFactor);
-        std::shared_ptr<DefenderBot> createBlockOnLine(PossiblePass pass);
+        std::shared_ptr<DefenderBot> createBlockToGoal(const PossiblePass& pass, double aggressionFactor,const Line& goalSegment);
+        std::shared_ptr<BlockPassBot> createBlockPass(PossiblePass pass, double closeToPasserFactor);
+        std::shared_ptr<DefenderBot> createBlockOnLine(const PossiblePass& pass,const Line& goalSegment);
 
-        std::shared_ptr<std::pair<Vector2, Vector2>> getBlockLineSegment(std::pair<Vector2, Vector2> openGoalSegment,
-                Vector2 point, double collisionRadius, double margin = - 1.0);
-        std::shared_ptr<Vector2> blockOnDefenseLine(std::pair<Vector2, Vector2> openGoalSegment, Vector2 point);
-        Vector2 getBlockPoint(std::pair<Vector2, Vector2> openGoalSegment, Vector2 point, double collisionRadius);
-        std::pair<Vector2, Vector2> shortenLineForDefenseArea(Vector2 lineStart, Vector2 lineEnd, double defenseMargin);
+        std::shared_ptr<Line> getBlockLineSegment(const Line& openGoalSegment, const Vector2& point, double collisionRadius=Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS(),
+                double margin = - 1.0);
+        std::shared_ptr<Vector2> blockOnDefenseLine(const Line& openGoalSegment, const Vector2& point);
+        Vector2 getBlockPoint(const Line& openGoalSegment, const Vector2& point, double collisionRadius);
+        Line shortenLineForDefenseArea(const Vector2& lineStart, const Vector2& lineEnd, double defenseMargin);
+        Vector2 getPosOnLine(const Line& line, double aggressionFactor);
+        double getOrientation(const Line& line);
     private:
-        std::vector<std::pair<PossiblePass, double>> createPassesAndDanger(std::vector<roboteam_msgs::WorldRobot> bots,
-                std::vector<Vector2> decidedBlocks);
+        std::vector<std::pair<PossiblePass, double>> createPassesAndDanger(const std::vector<roboteam_msgs::WorldRobot>& bots,
+                const std::vector<Vector2>& decidedBlocks);
 };
-extern DefencePositionCoach g_defensiveCoach;
+extern DefencePositionCoach g_defensivePositionCoach;
 
 }
 }

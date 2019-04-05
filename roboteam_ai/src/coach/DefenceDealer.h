@@ -6,6 +6,8 @@
 #define ROBOTEAM_AI_DEFENDASSIGNCOACH_H
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_ai/src/utilities/World.h"
+#include "DefencePositionCoach.h"
+
 namespace rtt {
 namespace ai {
 namespace coach {
@@ -24,6 +26,8 @@ class DefenceDealer {
         void setDoUpdate();
         void visualizePoints();
 };
+extern DefenceDealer g_DefenceDealer;
+
 }//coach
 }//ai
 }//rtt

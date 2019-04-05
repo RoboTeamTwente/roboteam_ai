@@ -4,7 +4,7 @@
 
 
 #include <roboteam_ai/src/demo/JoystickDemo.h>
-#include <roboteam_ai/src/coach/DefencePositionCoach.h>
+#include <roboteam_ai/src/coach/DefenceDealer.h>
 #include "ApplicationManager.h"
 #include "utilities/Referee.hpp"
 #include "utilities/StrategyManager.h"
@@ -88,7 +88,7 @@ void ApplicationManager::runOneLoopCycle() {
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
 
-        rtt::ai::coach::g_defensiveCoach.setDoUpdate();
+        rtt::ai::coach::g_DefenceDealer.setDoUpdate();
         rtt::ai::coach::g_offensiveCoach.calculateNewPositions();
     }
     else {
