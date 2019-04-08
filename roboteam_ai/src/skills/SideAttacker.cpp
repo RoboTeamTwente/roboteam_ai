@@ -54,6 +54,7 @@ Vector2 SideAttacker::getOffensivePosition() {
     auto field = world::field->get_field();
 
     std::vector<Vector2> targetLocations = coach::g_offensiveCoach.getNewOffensivePositions(robotsPositioning.size());
+    Vector2 position;
 
     std::vector<Vector2> robotLocations;
     std::vector<int> robotIds;
@@ -64,7 +65,7 @@ Vector2 SideAttacker::getOffensivePosition() {
 
     rtt::HungarianAlgorithm hungarian;
     auto shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations);
-    Vector2 position = shortestDistances.at(robot->id);
+    position = shortestDistances.at(robot->id);
 
     return position;
 
