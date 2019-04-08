@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 25-1-19.
 //
 
-#ifndef ROBOTEAM_AI_BALLOUTOFFIELD_H
-#define ROBOTEAM_AI_BALLOUTOFFIELD_H
+#ifndef ROBOTEAM_AI_CANSHOOTTOTARGET_H
+#define ROBOTEAM_AI_CANSHOOTTOTARGET_H
 
 #include "Condition.h"
 #include "roboteam_utils/Vector2.h"

@@ -19,4 +19,5 @@ public:
 
 } // ai
 } // rtt
+
 #endif //ROBOTEAM_AI_BALLOUTOFFIELD_H
