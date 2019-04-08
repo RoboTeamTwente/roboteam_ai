@@ -71,6 +71,7 @@ double CoachHeuristics::calculateDistanceFromBallScore(const Vector2& position, 
 double CoachHeuristics::calculatePositionScore(const Vector2& position) {
     WorldData world = world::world->getWorld();
     roboteam_msgs::GeometryFieldSize field = world::field->get_field();
+
     double closeToGoalScore = calculateCloseToGoalScore(position);
     double shotAtGoalScore = calculateShotAtGoalScore(position, world);
 

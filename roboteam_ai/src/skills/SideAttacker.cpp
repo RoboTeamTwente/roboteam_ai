@@ -8,17 +8,18 @@ namespace rtt {
 namespace ai {
 
 std::vector<SideAttacker::RobotPtr> SideAttacker::robotsPositioning = {};
+int SideAttacker::robotsInMemory = robotsPositioning.size();
 
 SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard)
     :Skill(std::move(name), std::move(blackboard)) {
 }
 
 void SideAttacker::onInitialize() {
-    for (auto & i : robotsPositioning) {
-        if (i->id == robot->id) {
+    for (auto & robotPositioning : robotsPositioning) {
+        if (robotPositioning->id == robot->id) {
             return;
         }
-    } // TODO use std::find here, love best teammate ever
+    }
 
     robotsPositioning.emplace_back(robot);
 }
@@ -26,7 +27,6 @@ void SideAttacker::onInitialize() {
 
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
-
     bool isInRobotsPositioning = false;
     for (auto & robotPositioning : robotsPositioning) {
         if (robotPositioning->id == robot->id) {
@@ -51,22 +51,27 @@ bt::Node::Status SideAttacker::onUpdate() {
 }
 
 Vector2 SideAttacker::getOffensivePosition() {
-    auto field = world::field->get_field();
-
     std::vector<Vector2> targetLocations = coach::g_offensiveCoach.getNewOffensivePositions(robotsPositioning.size());
     Vector2 position;
 
-    std::vector<Vector2> robotLocations;
-    std::vector<int> robotIds;
+    if (zone == -1 || zone > robotsPositioning.size() - 1 || robotsInMemory != robotsPositioning.size()) {
+        std::vector<Vector2> robotLocations;
+        std::vector<int> robotIds;
 
-    for (auto &robotPositioning : robotsPositioning) {
-        robotIds.push_back(robotPositioning->id);
+        for (auto &robotPositioning : robotsPositioning) {
+            robotIds.push_back(robotPositioning->id);
+        }
+
+        rtt::HungarianAlgorithm hungarian;
+        auto shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations);
+
+        zone = std::find(targetLocations.begin(), targetLocations.end(), position) - targetLocations.begin() - 1;
+        position = shortestDistances.at(robot->id);
+    } else {
+        position = targetLocations.at(zone);
     }
 
-    rtt::HungarianAlgorithm hungarian;
-    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations);
-    position = shortestDistances.at(robot->id);
-
+    robotsInMemory = robotsPositioning.size();
     return position;
 
 }
@@ -75,6 +80,8 @@ void SideAttacker::onTerminate(Status s) {
     command.w = static_cast<float>(deltaPos.angle());
     command.x_vel = 0;
     command.y_vel = 0;
+    robotsPositioning.erase(std::remove(robotsPositioning.begin(), robotsPositioning.end(), robot), robotsPositioning.end());
+
     publishRobotCommand();
 }
 

@@ -24,8 +24,8 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
 
         for (int yDiff = -GRID_SIZE; yDiff < GRID_SIZE + 1; yDiff++) {
             OffensivePosition newPosition;
-            newPosition.position.x = currentPosition.position.x + SEARCH_GRID_ROBOT_POSITIONS * xDiff;
-            newPosition.position.y = currentPosition.position.y + SEARCH_GRID_ROBOT_POSITIONS * yDiff;
+            newPosition.position.x = currentPosition.position.x + SEARCH_GRID_ROBOT_POSITIONS * xDiff * pow(xDiff, 2);
+            newPosition.position.y = currentPosition.position.y + SEARCH_GRID_ROBOT_POSITIONS * yDiff * pow(yDiff, 2);
 
             if (!world::field->pointIsInField(newPosition.position, 0.10)
             || world::field->pointIsInDefenceArea(newPosition.position, false)){
@@ -46,8 +46,8 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
                 }
             }
             if (tooCloseToOtherZone) continue;
-
             newPosition.score = CoachHeuristics::calculatePositionScore(newPosition.position);
+
             if (newPosition.score > bestPosition.score) {
                 bestPosition = newPosition;
             }
@@ -107,7 +107,6 @@ std::vector<Vector2> OffensiveCoach::getNewOffensivePositions(int numberOfRobots
         for (int i = 0; i < offensivePositions.size(); i++) {
             OffensivePosition offensivePosition = offensivePositions[i];
             Vector2 defaultPosition = defaultLocations[i];
-
             offensivePositions[i] = calculateNewRobotPosition(offensivePosition, defaultPosition);
         }
     }
