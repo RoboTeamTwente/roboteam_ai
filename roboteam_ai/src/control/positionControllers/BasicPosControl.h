@@ -16,7 +16,7 @@ public:
     explicit BasicPosControl() = default;
     explicit BasicPosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
 
-    PosVelAngle getPosVelAngle(RobotPtr robot, Vector2 &targetPos) override;
+    PosVelAngle getPosVelAngle(const RobotPtr &robot, Vector2 &targetPos) override;
 };
 
 } // control

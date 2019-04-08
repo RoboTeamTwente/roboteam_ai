@@ -16,7 +16,7 @@ class ControlGoToPosBallControl : public PosController {
 public:
     explicit ControlGoToPosBallControl() = default;
     explicit ControlGoToPosBallControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
-    PosVelAngle getPosVelAngle(RobotPtr robot, Vector2 &target) override;
+    PosVelAngle getPosVelAngle(const RobotPtr &robot, Vector2 &target) override;
 };
 
 } //control

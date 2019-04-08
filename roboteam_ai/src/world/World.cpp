@@ -316,10 +316,14 @@ const World::RobotPtr World::getFutureRobot(const RobotPtr &robotPtr, double tim
     if (!robotPtr) {
         return RobotPtr(nullptr);
     }
-
-    Robot robot = *robotPtr;
-    futureWorld.updateFutureRobot(robot, time);
+    Robot robot = getFutureRobot(*robotPtr, time);
     return std::make_shared<Robot>(robot);
+}
+
+const Robot World::getFutureRobot(const Robot &robot, double time) {
+    Robot futureRobot = robot;
+    futureWorld.updateFutureRobot(futureRobot, time);
+    return futureRobot;
 }
 
 const World::BallPtr World::getFutureBall(double time) {

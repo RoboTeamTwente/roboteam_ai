@@ -269,6 +269,29 @@ Vector2 Field::getPenaltyPoint(bool ourGoal) {
 
 }
 
+std::vector<Vector2> Field::getDefenseArea(bool ourDefenseArea) {
+
+    if (ourDefenseArea) {
+        double width = field.field_width;
+        auto leftPenaltyLine = field.left_penalty_line;
+        Vector2 leftPenaltyLineLowerPoint = leftPenaltyLine.begin;
+        Vector2 leftPenaltyLineUpperPoint = leftPenaltyLine.end;
+        Vector2 backLineLowerPoint = {-0.5*width, leftPenaltyLineLowerPoint.y};
+        Vector2 backLineUpperPoint = {-0.5*width, leftPenaltyLineUpperPoint.y};
+        return {leftPenaltyLineLowerPoint, leftPenaltyLineUpperPoint, backLineUpperPoint, backLineLowerPoint};
+    }
+    else {
+        double width = field.field_width;
+        auto rightPenaltyLine = field.right_penalty_line;
+        Vector2 rightPenaltyLineLowerPoint = rightPenaltyLine.begin;
+        Vector2 rightPenaltyLineUpperPoint = rightPenaltyLine.end;
+        Vector2 backLineLowerPoint = {0.5*width, rightPenaltyLineLowerPoint.y};
+        Vector2 backLineUpperPoint = {0.5*width, rightPenaltyLineUpperPoint.y};
+        return {rightPenaltyLineLowerPoint, rightPenaltyLineUpperPoint, backLineUpperPoint, backLineLowerPoint};
+    }
+
+}
+
 } // world
 } // ai
 } // rtt

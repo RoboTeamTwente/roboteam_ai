@@ -7,17 +7,67 @@
 
 #include <memory>
 #include <roboteam_utils/Vector2.h>
+#include "roboteam_ai/src/world/Robot.h"
+#include "roboteam_ai/src/world/Ball.h"
 
 namespace rtt {
 namespace ai {
 namespace control {
+
+class NumTreePosControl;
+
+class Collision {
+    private:
+        world::Robot collisionRobot = {};
+        world::Ball collisionBall = {};
+        Vector2 otherCollision = {};
+    public:
+        Collision()
+                : isCollision(false), collisionRadius(0.0) { }
+
+        const world::Robot &getCollisionRobot() const {
+            return collisionRobot;
+        }
+        void setCollisionRobot(const world::Robot &robot, double distance) {
+            collisionRobot = robot;
+            isCollision = true;
+            collisionRadius = distance;
+        }
+        const world::Ball &getCollisionBall() const {
+            return collisionBall;
+        }
+        void setCollisionBall(const world::Ball &ball, double distance) {
+            Collision::collisionBall = ball;
+            isCollision = true;
+            collisionRadius = distance;
+        }
+        const Vector2 &getOtherCollision() const {
+            return otherCollision;
+        }
+        void setOtherCollision(const Vector2 &collisionPos, double distance) {
+            Collision::otherCollision = collisionPos;
+            isCollision = true;
+            collisionRadius = distance;
+        }
+
+        bool isCollision;
+        double collisionRadius;
+        const Vector2 collisionPosition() const {
+            if      (collisionRobot.id != -1)   return collisionRobot.pos;
+            else if (collisionBall.exists)      return collisionBall.pos;
+            else                                return otherCollision;
+        }
+
+};
+
 // If there is another way to return a shared pointer from an object to itself that is more pretty let me know
-struct PathPoint : std::enable_shared_from_this<PathPoint> {
+class PathPoint : public std::enable_shared_from_this<PathPoint> {
 private:
     double maxV = 2.0;
     double maxAccAtLowV = 6.1;
     double maxAccAtHighV = 3.1;
     double maxDecelleration = 6.1;
+
 public:
     Vector2 currentTarget;  //Either the endPoint or an in between target
     Vector2 finalTarget;    //Always the endPoint
@@ -40,6 +90,7 @@ public:
     double maxDec() {
         return maxDecelleration;
     }
+
     double t;
     int collisions;
     std::shared_ptr <PathPoint> parent;
@@ -49,7 +100,8 @@ public:
     std::shared_ptr <PathPoint> backTrack(double backTime, int maxCollisionDiff);
     void addChild(std::shared_ptr <PathPoint> &newChild);
     void addChildren(std::vector <std::shared_ptr<PathPoint>> &newChildren);
-    bool isCollision(Vector2 target, double distance);
+    bool isCollision(const Vector2 &target, double distance);
+
     bool branchHasTarget(const Vector2 &target);
     bool anyBranchHasTarget(const Vector2 &target);
     bool anyChildHasTarget(const Vector2 &target);

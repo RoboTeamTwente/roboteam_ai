@@ -12,6 +12,7 @@
 #include "roboteam_msgs/GeometryFieldSize.h"
 #include <mutex>
 #include <thread>
+#include <tuple>
 #include "WorldData.h"
 #include <roboteam_ai/src/control/ControlUtils.h>
 
@@ -40,6 +41,7 @@ class Field {
         std::pair<Vector2, Vector2> getGoalSides(bool ourGoal);
         double getDistanceToGoal(bool ourGoal, Vector2 point);
         Vector2 getPenaltyPoint(bool ourGoal);
+        std::vector<Vector2> getDefenseArea(bool ourDefenseArea = true);
 
 };
 

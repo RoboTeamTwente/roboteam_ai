@@ -21,34 +21,33 @@ class PosController {
         using BallPtr = std::shared_ptr<Ball>;
         using WorldData = world::WorldData;
         using WorldDataPtr = std::shared_ptr<WorldData>;
+
+        // settings
+        double avoidBallDistance = 0.0;
+        bool canMoveOutOfField = false;
+        bool canMoveInDefenseArea = false;
+
+        // PID functions
+        PID xpid = PID(1.65, 0, 0.0);
+        PID ypid = PID(1.65, 0, 0.0);
+        bool getPIDFromInterface = true;
+        PosVelAngle controlWithPID(const RobotPtr &robot, PosVelAngle target);
+        void checkInterfacePID();
+        virtual Vector2 calculatePIDs(const RobotPtr &robot, PosVelAngle &target);
+
     public:
         explicit PosController() = default;
-        explicit PosController(bool avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
-        virtual PosVelAngle getPosVelAngle(RobotPtr robot, Vector2 &targetPos) = 0;
+        explicit PosController(double avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
+        virtual PosVelAngle getPosVelAngle(const RobotPtr &robot, Vector2 &targetPos) = 0;
+
         bool getCanMoveOutOfField() const;
         void setCanMoveOutOfField(bool canMoveOutOfField);
         bool getCanMoveInDefenseArea() const;
         void setCanMoveInDefenseArea(bool canMoveInDefenseArea);
-        bool getAvoidBall() const;
-        void setAvoidBall(bool avoidBall);
+        double getAvoidBall() const;
+        void setAvoidBall(double ballDistance = Constants::ROBOT_RADIUS() * 2.0);
 
         std::tuple<double, double, double> lastPid;
-
-    protected:
-
-        // settings
-        bool avoidBall = false;
-        bool canMoveOutOfField = false;
-        bool canMoveInDefenseArea = false;
-
-        PID xpid = PID(1.65, 0, 0.0);
-        PID ypid = PID(1.65, 0, 0.0);
-
-        bool getPIDFromInterface = true;
-        PosVelAngle controlWithPID(const RobotPtr &robot, PosVelAngle target);
-        void checkInterfacePID();
-
-        virtual Vector2 calculatePIDs(const RobotPtr &robot, PosVelAngle &target);
 };
 
 } // control

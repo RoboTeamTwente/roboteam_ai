@@ -15,7 +15,7 @@ ControlGoToPosBallControl::ControlGoToPosBallControl(bool avoidBall, bool canMov
 
 }
 
-PosVelAngle ControlGoToPosBallControl::getPosVelAngle(RobotPtr robot, Vector2 &targetPos) {
+PosVelAngle ControlGoToPosBallControl::getPosVelAngle(const RobotPtr &robot, Vector2 &targetPos) {
     return {};
 }
 
