@@ -5,8 +5,9 @@
 #ifndef ROBOTEAM_AI_GAMEANALYZER_H
 #define ROBOTEAM_AI_GAMEANALYZER_H
 
-#include <roboteam_msgs/WorldRobot.h>
 #include "AnalysisReport.h"
+#include "../world/WorldData.h"
+#include "../world/World.h"
 
 namespace rtt {
 namespace ai {
@@ -26,6 +27,10 @@ public:
     std::shared_ptr<AnalysisReport> generateReportNow();
 
 private:
+        using WorldData = world::WorldData;
+        using Robot = world::Robot;
+        using Ball = world::Ball;
+
     GameAnalyzer();
 
     // Threading
@@ -37,17 +42,17 @@ private:
 
     std::shared_ptr<AnalysisReport> mostRecentReport;
 
-    std::vector<std::pair<roboteam_msgs::WorldRobot, RobotDanger>> getRobotsSortedOnDanger(bool ourTeam);
+    std::vector<std::pair<Robot, RobotDanger>> getRobotsSortedOnDanger(bool ourTeam);
     double getBallPossessionEstimate(bool ourTeam);
     playStyle getRecommendedPlayStyle();
-    double getTeamDistanceToGoalAvg(bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
-    double getTeamGoalVisionAvg(bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
-    RobotDanger evaluateRobotDangerScore(roboteam_msgs::WorldRobot robot, bool ourTeam);
-    std::vector<std::pair<roboteam_msgs::WorldRobot, double>> getAttackersSortedOnGoalVision(bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
+    double getTeamDistanceToGoalAvg(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
+    double getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
+    RobotDanger evaluateRobotDangerScore(Robot robot, bool ourTeam);
+    std::vector<std::pair<Robot, double>> getAttackersSortedOnGoalVision(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
 
-    std::vector<std::pair<int, double>> getRobotsToPassTo(roboteam_msgs::WorldRobot robot, bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
-    double shortestDistToEnemyRobot(roboteam_msgs::WorldRobot robot, bool ourTeam, roboteam_msgs::World simulatedWorld = World::get_world());
-    bool isClosingInToGoal(roboteam_msgs::WorldRobot robot, bool ourTeam);
+    std::vector<std::pair<int, double>> getRobotsToPassTo(Robot robot, bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
+    double shortestDistToEnemyRobot(Robot robot, bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
+    bool isClosingInToGoal(Robot robot, bool ourTeam);
 };
 
 

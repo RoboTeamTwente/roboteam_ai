@@ -1,3 +1,5 @@
+#include <random>
+
 //
 // Created by mrlukasbos on 14-1-19.
 //
@@ -6,7 +8,8 @@
 #include <roboteam_utils/Vector2.h>
 #include <roboteam_msgs/WorldRobot.h>
 #include <roboteam_msgs/World.h>
-#include <roboteam_ai/src/utilities/Field.h>
+#include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/world/World.h>
 #include <random>
 #include <roboteam_ai/src/utilities/Constants.h>
 
@@ -160,20 +163,31 @@ std::pair<roboteam_msgs::World, int> WorldHelper::getWorldMsgWhereRobotHasBall(i
     // first create a message with both teams and a ball
     roboteam_msgs::World msg;
     rtt::Vector2 ballLocation;
-    int robotWithBallId;
-
-    do {
+    int robotWithBallId = -42;
+    int wrongMsg = 0;
+    bool validWorld = false;
+    while (!validWorld) {
         msg = getWorldMsg(amountUs, amountThem, false, field);
         // determine a list with robots of which one should have the ball
         std::vector<roboteam_msgs::WorldRobot> robots = weHaveBall ? msg.us : msg.them;
-        std::random_shuffle(robots.begin(), robots.end());
-        for (auto robot : robots) {
-            ballLocation = getLocationRightBeforeRobot(robot);
-            robotWithBallId = robot.id;
+        std::shuffle(robots.begin(), robots.end(), std::mt19937(std::random_device()()));
+        if (!robots.empty()) {
+            ballLocation = getLocationRightBeforeRobot(robots[0]);
+            robotWithBallId = robots[0].id;
         }
         msg.ball = generateBallAtLocation(ballLocation);
 
-    } while (!allPositionsAreValid(msg, false)); // WITHBALL must be set to false, since the ball is generated next to a robot!
+        validWorld = allPositionsAreValid(msg, false);
+        rtt::ai::world::world->updateWorld(msg);
+        if (rtt::ai::world::world->whichRobotHasBall()->id != robotWithBallId) {
+            wrongMsg ++;
+            validWorld = false;
+        }
+    }
+
+    if (wrongMsg > 10) {
+        return std::make_pair(roboteam_msgs::World(), -42);
+    }
 
     return std::make_pair(msg, robotWithBallId);
 }

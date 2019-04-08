@@ -24,7 +24,7 @@ public:
 private:
     control::NumTreePosControl gtp;
     Vector2 targetLocation;
-    static std::vector<std::shared_ptr<roboteam_msgs::WorldRobot>> allDefenders;
+    static std::vector<std::shared_ptr<Robot>> allDefenders;
     Vector2 getDefensivePosition();
     int allDefendersMemory = 0;
 };

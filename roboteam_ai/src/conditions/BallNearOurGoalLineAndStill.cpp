@@ -15,8 +15,8 @@ void BallNearOurGoalLineAndStill::onInitialize() {
 }
 
 bt::Node::Status BallNearOurGoalLineAndStill::onUpdate() {
-    Vector2 ballPos = World::getBall()->pos;
-    if (ballPos.x<(Field::get_field().left_line.begin.x+margin)&&Vector2(ball->vel).length()<Constants::BALL_STILL_VEL()) {
+    Vector2 ballPos = world::world->getBall()->pos;
+    if (ballPos.x<(world::field->get_field().left_line.begin.x+margin)&&Vector2(ball->vel).length()<Constants::BALL_STILL_VEL()) {
         return Status::Success;
     } else {
         return Status::Failure;

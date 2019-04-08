@@ -3,33 +3,28 @@
 //
 
 #include "IsRobotClosestToBall.h"
-#include "../utilities/World.h"
+#include "../world/World.h"
 
 namespace rtt {
-namespace ai{
+namespace ai {
 
 IsRobotClosestToBall::IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr blackboard)
 : Condition(std::move(name), std::move(blackboard)) { }
 
 bt::Node::Status IsRobotClosestToBall::onUpdate() {
-    roboteam_msgs::World world = World::get_world();
-    Vector2 ballPos(world.ball.pos);
-    std::vector<roboteam_msgs::WorldRobot> robots = world.us;
+    Vector2 ballPos(ball->pos);
 
     if (properties->hasDouble("secondsAhead")) {
-        double t_ahead = properties->getDouble("secondsAhead");
-        Vector2 ballVel(world.ball.vel);
-        ballPos = ballPos + ballVel.scale(t_ahead);
+        double t = properties->getDouble("secondsAhead");
+        Vector2 ballVel = ball->vel;
+        ballPos += ballVel * t;
     }
 
-    auto robotClosestToBallPtr = World::getRobotClosestToPoint(robots, ballPos);
-    if (robotClosestToBallPtr && robot) {
-        if (robot->id == robotClosestToBallPtr->id) {
-            return Status::Success;
-        } else {
-            return Status::Failure;
-        }
-    }
+    Robot robotClosestToBall = world::world->getRobotClosestToPoint(ballPos, world::OUR_ROBOTS);
+
+    if (robotClosestToBall.id == robot->id)
+        return Status::Success;
+
     return Status::Failure;
 }
 

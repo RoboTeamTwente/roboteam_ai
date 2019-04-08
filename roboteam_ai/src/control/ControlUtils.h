@@ -6,19 +6,21 @@
 #define ROBOTEAM_AI_CONTROLUTILS_H
 
 #include <roboteam_ai/src/utilities/Hungarian.h>
+#include "../world/World.h"
 #include "../utilities/Constants.h"
 #include "roboteam_utils/Vector2.h"
-#include "math.h"
-#include "../utilities/World.h"
+#include <cmath>
 #include "roboteam_utils/Arc.h"
 
-typedef rtt::Vector2 Vector2;
+using Vector2 = rtt::Vector2;
 
 namespace rtt{
 namespace ai {
 namespace control {
 
 class ControlUtils {
+    private:
+
     public:
         static double calculateAngularVelocity(double robotAngle, double targetAngle);
         static double TriangleArea(Vector2 A, Vector2 B, Vector2 C);
@@ -26,7 +28,7 @@ class ControlUtils {
         static bool pointInRectangle(Vector2 PointToCheck, Vector2 SP1, Vector2 SP2, Vector2 SP3, Vector2 SP4);
         static double constrainAngle(double angle);
         static double distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vector2 LineEnd);
-        static bool clearLine(Vector2 fromPos, Vector2 toPos, roboteam_msgs::World world, double safeDistanceFactor, bool keeper = true);
+        static bool clearLine(Vector2 fromPos, Vector2 toPos, world::WorldData world, double safeDistanceFactor, bool keeper = true);
         static double distanceToLineWithEnds(Vector2 PointToCheck, Vector2 LineStart, Vector2 LineEnd);
         static double angleDifference(double A1, double A2);
         static int rotateDirection(double currentAngle, double targetAngle);

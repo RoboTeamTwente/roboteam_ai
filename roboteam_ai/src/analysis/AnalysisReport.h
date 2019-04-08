@@ -10,6 +10,7 @@
 
 #include <roboteam_msgs/WorldRobot.h>
 #include "RobotDanger.h"
+#include "../world/WorldData.h"
 
 namespace rtt {
 namespace ai {
@@ -29,8 +30,8 @@ enum playStyle {
 
 struct AnalysisReport {
     bool reportForUs = true;
-    std::vector<std::pair<roboteam_msgs::WorldRobot, RobotDanger>> theirRobotSortedOnDanger;
-    std::vector<std::pair<roboteam_msgs::WorldRobot, RobotDanger>> ourRobotsSortedOnDanger;
+    std::vector<std::pair<world::Robot, RobotDanger>> theirRobotSortedOnDanger;
+    std::vector<std::pair<world::Robot, RobotDanger>> ourRobotsSortedOnDanger;
 
     playStyle recommendedPlayStyle;
     double ballPossession = 0.0;

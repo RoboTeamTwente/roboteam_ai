@@ -21,14 +21,14 @@ void Pass::onInitialize() {
 
 Pass::Status Pass::onUpdate() {
     if (robotToPassToID == -1) return Status::Failure;
-    robotToPassTo = World::getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
+    robotToPassTo = world::world->getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
 
     bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos);
     auto behindBallpos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
     bool isOnLineToBall = control::ControlUtils::distanceToLine(robot->pos, ball->pos, behindBallpos) < 0.0255;
-    bool hasBall = World::ourBotHasBall(robot->id, Constants::MAX_BALL_RANGE());
+    bool hasBall = world::world->ourRobotHasBall(robot->id, Constants::MAX_BALL_RANGE());
 
-    bool ballIsMovingFast = Vector2(World::getBall()->vel).length() > 0.8;
+    bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
     bool ballIsShotTowardsReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, robotToPassTo->pos);
 
     if (ballIsMovingFast && ballIsShotTowardsReceiver) {

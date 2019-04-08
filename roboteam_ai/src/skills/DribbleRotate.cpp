@@ -5,7 +5,7 @@
 // TODO: Make the robot automatically slow down/speed up if the ball is going to one end of the dribbler. Control?
 #include "DribbleRotate.h"
 #include "../control/ControlUtils.h"
-#include "../utilities/Field.h"
+#include "roboteam_ai/src/world/Field.h"
 #include "roboteam_ai/src/coach/BallplacementCoach.h"
 
 namespace rtt {
@@ -15,7 +15,7 @@ DribbleRotate::DribbleRotate(rtt::string name, bt::Blackboard::Ptr blackboard)
 
 void DribbleRotate::checkProgression() {
     double angDif = Control::angleDifference(robot->angle, targetAngle);
-    if (!World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())){ // change to !botHassball() alter
+    if (!world::world->ourRobotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())){ // change to !botHassball() alter
         currentProgression=FAIL;
         return;
     }
@@ -37,7 +37,7 @@ void DribbleRotate::onInitialize() {
         targetAngle = properties->getDouble("Angle");
     }
     else if (properties->getBool("RotateToTheirGoal")){
-        Vector2 theirCentre=Field::get_their_goal_center();
+        Vector2 theirCentre=world::field->get_their_goal_center();
         targetAngle=(theirCentre-robot->pos).angle();
     }
     else if (properties->getBool("BallPlacement")){
@@ -56,11 +56,11 @@ void DribbleRotate::onInitialize() {
     extraTick= static_cast<int>(WAIT_TIME * Constants::TICK_RATE());
     dir=Control::rotateDirection(startAngle,targetAngle);
     maxTick=(int)floor(Control::angleDifference(startAngle,targetAngle)/maxSpeed*Constants::TICK_RATE());
-    if (!World::ourBotHasBall(robot->id,Constants::MAX_BALL_RANGE())){
+    if (!world::world->ourRobotHasBall(robot->id,Constants::MAX_BALL_RANGE())){
         std::cout<<"Robot does not have ball in dribbleRotateInitialize"<<std::endl;
         std::cout<< "Distance"<<(Vector2(robot->pos)-Vector2(ball->pos)).length() - Constants::ROBOT_RADIUS()<< "Max distance:" << Constants::MAX_BALL_RANGE() << std::endl;
         currentProgression=FAIL;
-        std::cout<<robot->angle<<std::endl;
+        std::cout<<robot->angle.getAngle()<<std::endl;
     }
     else {
         std::cout << "Robot has ball in dribbleRotate Initialize" << std::endl;

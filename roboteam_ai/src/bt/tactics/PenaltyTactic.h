@@ -12,8 +12,7 @@ namespace bt {
 
 class PenaltyTactic : public Tactic {
     public:
-        using dealer = robotDealer::RobotDealer;
-        std::map<std::string, robotType> robots;
+        std::map<std::string, rtt::ai::robotDealer::RobotType> robots;
         PenaltyTactic(std::string name, Blackboard::Ptr blackboard);
 
         void initialize() override;

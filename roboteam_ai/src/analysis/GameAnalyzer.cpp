@@ -4,8 +4,8 @@
 
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "GameAnalyzer.h"
-#include "../utilities/World.h"
-#include "../utilities/Field.h"
+#include "../world/World.h"
+#include "../world/Field.h"
 #include "RobotDanger.h"
 
 namespace rtt {
@@ -21,18 +21,24 @@ GameAnalyzer& GameAnalyzer::getInstance() {
 
 /// Generate a report with the game analysis
 std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
-    std::shared_ptr<AnalysisReport> report = std::make_shared<AnalysisReport>();
 
-    report->recommendedPlayStyle = getRecommendedPlayStyle();
-    report->ballPossession = getBallPossessionEstimate(true);
-    report->ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(true);
-    report->theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(false);
-    report->theirRobotSortedOnDanger = getRobotsSortedOnDanger(false);
-    report->ourRobotsSortedOnDanger = getRobotsSortedOnDanger(true);
+    if (world::world->weHaveRobots()) {
+        std::shared_ptr<AnalysisReport> report = std::make_shared<AnalysisReport>();
 
-    std::lock_guard<std::mutex> lock(mutex);
-    mostRecentReport = report;
-    return report;
+        report->recommendedPlayStyle = getRecommendedPlayStyle();
+        report->ballPossession = getBallPossessionEstimate(true);
+        report->ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(true);
+        report->theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(false);
+        report->theirRobotSortedOnDanger = getRobotsSortedOnDanger(false);
+        report->ourRobotsSortedOnDanger = getRobotsSortedOnDanger(true);
+
+        std::lock_guard<std::mutex> lock(mutex);
+        mostRecentReport = report;
+        return report;
+    }
+    std::cout << "NOT A WORLD YET" << std::endl;
+    start(30);
+    return {};
 }
 
 playStyle GameAnalyzer::getRecommendedPlayStyle() {
@@ -44,27 +50,27 @@ double GameAnalyzer::getBallPossessionEstimate(bool ourTeam) {
 }
 
 /// Get the average of the distances of robots to their opponents goal
-double GameAnalyzer::getTeamDistanceToGoalAvg(bool ourTeam, roboteam_msgs::World simulatedWorld ) {
+double GameAnalyzer::getTeamDistanceToGoalAvg(bool ourTeam, WorldData simulatedWorld ) {
     auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     double total = 0.0;
     for (auto robot : robots) {
-        total += Field::getDistanceToGoal(ourTeam, robot.pos);
+        total += world::field->getDistanceToGoal(ourTeam, robot.pos);
     }
     return (total / robots.size());
 }
 
 /// return the attackers of a given team sorted on their vision on their opponents goal
-std::vector<std::pair<roboteam_msgs::WorldRobot, double>> GameAnalyzer::getAttackersSortedOnGoalVision(bool ourTeam, roboteam_msgs::World simulatedWorld ) {
+std::vector<std::pair<GameAnalyzer::Robot, double>> GameAnalyzer::getAttackersSortedOnGoalVision(bool ourTeam, WorldData simulatedWorld ) {
     auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
-    std::vector<std::pair<roboteam_msgs::WorldRobot, double>> robotsWithVisibilities;
+    std::vector<std::pair<Robot, double>> robotsWithVisibilities;
 
     for (auto robot : robots) {
-        robotsWithVisibilities.emplace_back(robot, Field::getPercentageOfGoalVisibleFromPoint(!ourTeam, robot.pos));
+        robotsWithVisibilities.emplace_back(robot, world::field->getPercentageOfGoalVisibleFromPoint(!ourTeam, robot.pos));
     }
 
     // sort on goal visibility
     std::sort(robotsWithVisibilities.begin(), robotsWithVisibilities.end(),
-            [](std::pair<roboteam_msgs::WorldRobot, double> a, std::pair<roboteam_msgs::WorldRobot, double> b){
+            [](std::pair<Robot, double> a, std::pair<Robot, double> b){
        return  a.second < b.second;
     });
 
@@ -72,25 +78,25 @@ std::vector<std::pair<roboteam_msgs::WorldRobot, double>> GameAnalyzer::getAttac
 }
 
 /// return the average goal vision of a given team towards their opponents goal
-double GameAnalyzer::getTeamGoalVisionAvg(bool ourTeam, roboteam_msgs::World simulatedWorld ) {
+double GameAnalyzer::getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld ) {
     auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     double total = 0.0;
     for (auto robot : robots) {
-        total += Field::getPercentageOfGoalVisibleFromPoint(!ourTeam, robot.pos);
+        total += world::field->getPercentageOfGoalVisibleFromPoint(!ourTeam, robot.pos);
     }
     return (total/robots.size());
 }
 
 /// returns a danger score
-RobotDanger GameAnalyzer::evaluateRobotDangerScore(roboteam_msgs::WorldRobot robot, bool ourTeam) {
-    Vector2 goalCenter = ourTeam ? Field::get_our_goal_center() : Field::get_their_goal_center();
+RobotDanger GameAnalyzer::evaluateRobotDangerScore(Robot robot, bool ourTeam) {
+    Vector2 goalCenter = ourTeam ? world::field->get_our_goal_center() : world::field->get_their_goal_center();
 
     RobotDanger danger;
     danger.ourTeam = ourTeam;
     danger.id = robot.id;
-    danger.distanceToGoal = Field::getDistanceToGoal(ourTeam, robot.pos);
+    danger.distanceToGoal = world::field->getDistanceToGoal(ourTeam, robot.pos);
     danger.shortestDistToEnemy = shortestDistToEnemyRobot(robot, ourTeam);
-    danger.goalVisionPercentage = Field::getPercentageOfGoalVisibleFromPoint(!ourTeam, robot.pos);
+    danger.goalVisionPercentage = world::field->getPercentageOfGoalVisibleFromPoint(!ourTeam, robot.pos);
     danger.robotsToPassTo = getRobotsToPassTo(robot, ourTeam);
     danger.closingInToGoal = isClosingInToGoal(robot, ourTeam);
     danger.aimedAtGoal = control::ControlUtils::robotIsAimedAtPoint(robot.id, ourTeam, goalCenter);
@@ -107,7 +113,7 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::getMostRecentReport() {
 /// Check with distanceToLineWithEnds if there are obstructions
 /// Returns all robots that can be passed to, along with the distance
 /// we return robot ids instead of robot object because the objects are incorrect (because of simulated world)
-vector<pair<int, double>> GameAnalyzer::getRobotsToPassTo(roboteam_msgs::WorldRobot robot, bool ourTeam, roboteam_msgs::World simulatedWorld ) {
+vector<pair<int, double>> GameAnalyzer::getRobotsToPassTo(Robot robot, bool ourTeam, WorldData simulatedWorld ) {
     auto ourRobots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     auto enemyRobots = ourTeam ? simulatedWorld.them : simulatedWorld.us;
 
@@ -131,7 +137,7 @@ vector<pair<int, double>> GameAnalyzer::getRobotsToPassTo(roboteam_msgs::WorldRo
 
 /// get the shortest distance to an enemy robot
 /// this is useful to check if a robot stands free
-double GameAnalyzer::shortestDistToEnemyRobot(roboteam_msgs::WorldRobot robot, bool ourTeam, roboteam_msgs::World simulatedWorld ) {
+double GameAnalyzer::shortestDistToEnemyRobot(Robot robot, bool ourTeam, WorldData simulatedWorld ) {
     auto enemyRobots = ourTeam ? simulatedWorld.them : simulatedWorld.us;
     Vector2 robotPos = robot.pos;
     double shortestDist = INT_MAX;
@@ -143,15 +149,15 @@ double GameAnalyzer::shortestDistToEnemyRobot(roboteam_msgs::WorldRobot robot, b
 
 
 /// check if a robot is closing in to our goal.
-bool GameAnalyzer::isClosingInToGoal(roboteam_msgs::WorldRobot robot, bool ourTeam) {
-    double distanceToGoal = Field::getDistanceToGoal(ourTeam, robot.pos);
+bool GameAnalyzer::isClosingInToGoal(Robot robot, bool ourTeam) {
+    double distanceToGoal = world::field->getDistanceToGoal(ourTeam, robot.pos);
 
-    roboteam_msgs::World futureWorld = World::futureWorld(0.2);
+    WorldData futureWorld = world::world->getFutureWorld(0.2);
     auto enemyRobots = ourTeam ? futureWorld.them : futureWorld.us;
 
     // find the robot in the future and look if it is closer than before
     for (auto futureRobot : enemyRobots) {
-        if (futureRobot.id == robot.id && Field::getDistanceToGoal(ourTeam, futureRobot.pos) < distanceToGoal) {
+        if (futureRobot.id == robot.id && world::field->getDistanceToGoal(ourTeam, futureRobot.pos) < distanceToGoal) {
             return true;
         }
     }
@@ -160,9 +166,9 @@ bool GameAnalyzer::isClosingInToGoal(roboteam_msgs::WorldRobot robot, bool ourTe
 
 
 void GameAnalyzer::start(int iterationsPerSecond) {
-    if (!running) {
+    if (!running && world::world->weHaveRobots()) {
         ROS_INFO_STREAM_NAMED("GameAnalyzer", "Starting at " << iterationsPerSecond << " iterations per second");
-        auto delay = (unsigned) (1000/iterationsPerSecond);
+        auto delay = (unsigned) (1000.0/iterationsPerSecond);
         thread = std::thread(&GameAnalyzer::loop, this, delay);
         running = true;
     }
@@ -189,17 +195,17 @@ void GameAnalyzer::loop(unsigned delayMillis) {
     }
 }
 
-std::vector<std::pair<roboteam_msgs::WorldRobot, RobotDanger>> GameAnalyzer::getRobotsSortedOnDanger(bool ourTeam) {
-    auto robots = ourTeam ? World::get_world().us : World::get_world().them;
-    std::vector<std::pair<roboteam_msgs::WorldRobot, RobotDanger>> robotDangers;
+std::vector<std::pair<GameAnalyzer::Robot, RobotDanger>> GameAnalyzer::getRobotsSortedOnDanger(bool ourTeam) {
+    auto robots = ourTeam ? world::world->getWorld().us : world::world->getWorld().them;
+    std::vector<std::pair<Robot, RobotDanger>> robotDangers;
 
     for (auto robot : robots) {
-        robotDangers.emplace_back(std::make_pair(robot, evaluateRobotDangerScore(robot, ourTeam)));
+        robotDangers.emplace_back(robot, evaluateRobotDangerScore(robot, ourTeam));
     }
 
     std::sort(robotDangers.begin(), robotDangers.end(),
-            [](std::pair<roboteam_msgs::WorldRobot, RobotDanger> a,
-                    std::pair<roboteam_msgs::WorldRobot, RobotDanger> b) {
+            [](std::pair<Robot, RobotDanger> a,
+                    std::pair<Robot, RobotDanger> b) {
         return a.second.getTotalDanger() > b.second.getTotalDanger();
     });
 

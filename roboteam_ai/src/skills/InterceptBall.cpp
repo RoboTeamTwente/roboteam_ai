@@ -4,7 +4,7 @@
 
 #include "InterceptBall.h"
 #include "../interface/drawer.h"
-#include "../utilities/Field.h"
+#include "roboteam_ai/src/world/Field.h"
 
 namespace rtt {
 namespace ai {
@@ -37,7 +37,7 @@ void InterceptBall::onInitialize() {
     pid.setPID(INTERCEPT_P,INTERCEPT_I,INTERCEPT_D,1.0/Constants::TICK_RATE()); //TODO:magic numbers galore, from the old team. Move to new control library?
 }
 InterceptBall::Status InterceptBall::onUpdate() {
-    ball = World::getBall();
+    ball = world::world->getBall();
     //The keeper dynamically updates the intercept position as he needs to be responsive and cover the whole goal and this would help against curveballs etc.
     if (keeper) {
         interceptPos = computeInterceptPoint(ball->pos,
@@ -249,8 +249,8 @@ void InterceptBall::sendInterceptCommand() {
 }
 //Checks if the ball is kicked to Goal. Kind of duplicate to the condition, but this uses an extra saftey margin
 bool InterceptBall::ballToGoal() {
-    Vector2 goalCentre = Field::get_our_goal_center();
-    double goalWidth = Field::get_field().goal_width;
+    Vector2 goalCentre = world::field->get_our_goal_center();
+    double goalWidth = world::field->get_field().goal_width;
     double margin = Constants::BALL_RADIUS();
     Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth + margin));
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth + margin);
@@ -260,11 +260,11 @@ bool InterceptBall::ballToGoal() {
 }
 // Checks if the ball is in our Goal (e.g. the opponent scored)
 bool InterceptBall::ballInGoal() {
-    Vector2 goalCentre = Field::get_our_goal_center();
-    double goalWidth = Field::get_field().goal_width;
+    Vector2 goalCentre = world::field->get_our_goal_center();
+    double goalWidth = world::field->get_field().goal_width;
     Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth));
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth);
-    Vector2 depth = Vector2(- Field::get_field().goal_depth, 0.0);
+    Vector2 depth = Vector2(- world::field->get_field().goal_depth, 0.0);
     return control::ControlUtils::pointInRectangle(ball->pos, lowerPost, lowerPost + depth, upperPost + depth, upperPost);
 }
 

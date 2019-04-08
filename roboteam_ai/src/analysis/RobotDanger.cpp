@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 5-3-19.
 //
 
-#include <roboteam_ai/src/utilities/Field.h>
+#include <roboteam_ai/src/world/Field.h>
 #include "RobotDanger.h"
 
 namespace rtt {
@@ -13,7 +13,7 @@ double RobotDanger::getTotalDanger() {
     double total = 0.0;
     if (hasBall) total += 25;
     if (goalVisionPercentage > 20) total += 15;
-    if (distanceToGoal < Field::get_field().field_width/3) total += 20;
+    if (distanceToGoal < world::field->get_field().field_width/3) total += 20;
     if (shortestDistToEnemy > 0.5) total += 15;
     if (aimedAtGoal) total += 10;
     if (closingInToGoal) total += 5;

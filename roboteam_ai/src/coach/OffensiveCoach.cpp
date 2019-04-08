@@ -37,8 +37,8 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateRandomPosition(double
 
     position.position = {x, y};
 
-    if (!Field::pointIsInField(position.position) || Field::pointIsInDefenceArea(position.position, false)) {
-        return calculateRandomPosition(xStart, xEnd, yStart, yEnd);
+    if (!world::field->pointIsInField(position.position) || world::field->pointIsInDefenceArea(position.position, false)) {
+        //return calculateRandomPosition(xStart, xEnd, yStart, yEnd);
     }
 
     return position;
@@ -63,7 +63,7 @@ bool OffensiveCoach::positionTooCloseToRobotPositions(OffensivePosition position
 void OffensiveCoach::calculateNewPositions() {
     recalculateOffensivePositions();
 
-    roboteam_msgs::GeometryFieldSize field = Field::get_field();
+    roboteam_msgs::GeometryFieldSize field = world::field->get_field();
     double xStart = 0 + marginFromLines;
     double xEnd = field.right_penalty_line.begin.x - marginFromLines;
     double yStart = -field.field_width + marginFromLines;
@@ -113,7 +113,7 @@ bool OffensiveCoach::compareByScore(OffensivePosition position1, OffensivePositi
 }
 
 /// Get new position for robot, or recalculate it's old one
-Vector2 OffensiveCoach::calculatePositionForRobot(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
+Vector2 OffensiveCoach::calculatePositionForRobot(const RobotPtr &robot) {
     if ((robotPositions.find(robot->id) == robotPositions.end())) { // not there yet
         return getClosestOffensivePosition(robot);
 
@@ -128,7 +128,7 @@ Vector2 OffensiveCoach::calculatePositionForRobot(std::shared_ptr<roboteam_msgs:
 }
 
 /// Get closest offensive position to robot
-Vector2 OffensiveCoach::getClosestOffensivePosition(const shared_ptr<roboteam_msgs::WorldRobot> &robot) {
+Vector2 OffensiveCoach::getClosestOffensivePosition(const RobotPtr &robot) {
     double distance = INT_MAX;
     double currentDistance;
     OffensivePosition newRobotPosition;
@@ -162,7 +162,7 @@ Vector2 OffensiveCoach::getPositionForRobotID(int robotID) {
 }
 
 /// Calculate new positions close to the robot
-void OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::WorldRobot> robot) {
+void OffensiveCoach::calculateNewRobotPositions(const RobotPtr &robot) {
     OffensiveCoach::OffensivePosition currentRobotPosition = robotPositions[robot->id];
 
     Vector2 currentPosition = currentRobotPosition.position;
@@ -175,7 +175,7 @@ void OffensiveCoach::calculateNewRobotPositions(std::shared_ptr<roboteam_msgs::W
         for (int yDiff = -GRID_SIZE; yDiff <= GRID_SIZE; yDiff++) {
             newPosition.position.x = currentPosition.x + SEARCH_GRID_ROBOT_POSITIONS * xDiff;
             newPosition.position.y = currentPosition.y + SEARCH_GRID_ROBOT_POSITIONS * yDiff;
-            if (!Field::pointIsInField(newPosition.position) || Field::pointIsInDefenceArea(newPosition.position, false)) continue;
+            if (!world::field->pointIsInField(newPosition.position) || world::field->pointIsInDefenceArea(newPosition.position, false)) continue;
 
             if(positionTooCloseToRobotPositions(newPosition, robot->id)) continue;
 
@@ -235,7 +235,7 @@ int OffensiveCoach::getBestStrikerID() {
     }
 
     if (bestRobot == -1) {
-        for (auto& robot : World::get_world().us) {
+        for (auto& robot : world::world->getWorld().us) {
             double score = CoachHeuristics::calculatePositionScore(robot.pos);
             if (score > bestScore) {
                 bestRobot = robot.id;
