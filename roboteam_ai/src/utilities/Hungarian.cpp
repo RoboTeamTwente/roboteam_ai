@@ -17,18 +17,18 @@
 
 namespace rtt {
 
-
-
 std::map<int, Vector2>
 HungarianAlgorithm::getRobotPositions(std::vector<int> robotIds, bool ourTeam, std::vector<Vector2> targetLocations) {
 
     // init a vector with locations with the same size as the robots vector
     std::vector<Vector2> robotLocations (robotIds.size());
     for (int i = 0; i < robotIds.size(); i++) {
-        robotLocations.at(i) = ai::world::world->getRobotForId(robotIds.at(i), ourTeam)->pos;
+        if (ai::world::world->getRobotForId(robotIds.at(i), ourTeam)) {
+            robotLocations.at(i) = ai::world::world->getRobotForId(robotIds.at(i), ourTeam)->pos;
+        }
     }
 
-    auto positionPairs = calculateClosestPathsFromTwoSetsOfPoints(robotLocations, targetLocations);
+    auto positionPairs = calculateClosestPathsFromTwoSetsOfPoints(robotLocations, std::move(targetLocations));
 
     std::map<int, Vector2> output;
     for(int i = 0; i < positionPairs.size(); i++) {
@@ -36,15 +36,13 @@ HungarianAlgorithm::getRobotPositions(std::vector<int> robotIds, bool ourTeam, s
     }
 
     return output;
-
-
 }
 
-bool HungarianAlgorithm::validateInput(std::vector<Vector2> set1, std::vector<Vector2> set2) {
+bool HungarianAlgorithm::validateInput(std::vector<Vector2> const &set1, std::vector<Vector2> const &set2) {
     if (set1.size() != set2.size()) {
         std::cout << "wrong input for hungarian: unequal" << std::endl;
         return false;
-    } else if (set1.size() == 0 || set2.size() == 0) {
+    } else if (set1.empty() || set2.empty()) {
         std::cout << "wrong input for hungarian: 0" << std::endl;
         return false;
     }
