@@ -36,6 +36,8 @@ bt::Node::Status GoToPos::onUpdate() {
 
     control::PosVelAngle pva = gotopos.getPosVelAngle(robot, targetPos);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel, maxVel);
+    double maxAccVel = prevVel + Constants::MAX_ACCEL()/Constants::TICK_RATE();
+    pva.vel = control::ControlUtils::velocityLimiter(pva.vel, maxAccVel);
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);
     command.w = static_cast<float>(pva.angle);
