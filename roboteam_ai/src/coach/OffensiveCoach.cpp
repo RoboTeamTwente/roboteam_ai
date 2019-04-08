@@ -18,10 +18,11 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
     OffensivePosition bestPosition = currentPosition;
     bestPosition.score = CoachHeuristics::calculatePositionScore(bestPosition.position);
 
-    for (int xDiff = -GRID_SIZE; xDiff <= GRID_SIZE; xDiff++) {
+    // Check all positions in a grid around the robot to look for better positions
+    for (int xDiff = -GRID_SIZE; xDiff < GRID_SIZE + 1; xDiff++) {
         if (currentPosition.position.x < 0 && xDiff <= 0) continue;
 
-        for (int yDiff = -GRID_SIZE; yDiff <= GRID_SIZE; yDiff++) {
+        for (int yDiff = -GRID_SIZE; yDiff < GRID_SIZE + 1; yDiff++) {
             OffensivePosition newPosition;
             newPosition.position.x = currentPosition.position.x + SEARCH_GRID_ROBOT_POSITIONS * xDiff;
             newPosition.position.y = currentPosition.position.y + SEARCH_GRID_ROBOT_POSITIONS * yDiff;

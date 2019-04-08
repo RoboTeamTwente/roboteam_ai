@@ -83,8 +83,7 @@ bool ControlUtils::clearLine(Vector2 fromPos, Vector2 toPos, world::WorldData wo
     return true;
 }
 
-double ControlUtils::closestEnemyToLineDistance(const Vector2 &fromPos, Vector2 toPos, const world::WorldData world,
-                                                bool keeper) {
+double ControlUtils::closestEnemyToLineDistance(const Vector2 &fromPos, Vector2 toPos, const world::WorldData world, bool keeper) {
     double shortestDistance = INT_MAX;
     double currentDistance;
 

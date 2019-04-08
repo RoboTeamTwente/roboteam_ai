@@ -27,14 +27,14 @@ void SideAttacker::onInitialize() {
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
 
-    bool isIn = false;
-    for (auto & i : robotsPositioning) {
-        if (i->id == robot->id) {
-            isIn = true;
+    bool isInRobotsPositioning = false;
+    for (auto & robotPositioning : robotsPositioning) {
+        if (robotPositioning->id == robot->id) {
+            isInRobotsPositioning = true;
         }
     }
 
-    if (!isIn) return Status::Running;
+    if (!isInRobotsPositioning) return Status::Running;
 
     targetPos = getOffensivePosition();
     auto newPosition = goToPos.getPosVelAngle(robot, targetPos);
@@ -59,8 +59,8 @@ Vector2 SideAttacker::getOffensivePosition() {
     if (zone == -1) {
         std::vector<Vector2> robotLocations;
 
-        for (auto &i : robotsPositioning) {
-            robotLocations.emplace_back(i->pos);
+        for (auto &robotPositioning : robotsPositioning) {
+            robotLocations.emplace_back(robotPositioning->pos);
         }
 
         auto shortestDistances = control::ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(robotLocations,
