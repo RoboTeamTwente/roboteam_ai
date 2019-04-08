@@ -32,7 +32,7 @@ public:
     static double MIN_ANGLE()                   { return -M_PI; };
     static double MAX_ANGLE()                   { return M_PI; };
     static double MAX_VEL()                     { return 8.0; };
-    static double MAX_ACCEL()                   { return 3.0; };
+    static double MAX_ACC()                     { return 3.0; };
     static double MAX_VEL_BALLPLACEMENT()       { return 3.0; };
     static int DEFAULT_ROBOT_ID()               { return 1; };
     static double MAX_ANGULAR_VELOCITY()        { return 6.0; };    // Rad per second
