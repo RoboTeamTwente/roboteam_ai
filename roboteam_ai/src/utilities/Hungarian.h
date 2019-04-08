@@ -14,6 +14,8 @@
 
 #include <iostream>
 #include <vector>
+#include "../world/Robot.h"
+#include "roboteam_utils/Vector2.h"
 
 using namespace std;
 
@@ -23,8 +25,13 @@ class HungarianAlgorithm {
 public:
     HungarianAlgorithm() = default;
     double Solve(vector<vector<double> >& DistMatrix, vector<int>& Assignment);
+    std::map<int, Vector2> getRobotPositions(std::vector<int> robotIds, bool ourTeam, std::vector<Vector2> targetLocations);
 
 private:
+    std::vector<std::pair<Vector2, Vector2>> calculateClosestPathsFromTwoSetsOfPoints(std::vector<Vector2> set1,
+                                                                                      std::vector<Vector2> set2);
+    bool validateInput(std::vector<Vector2> const &set1, std::vector<Vector2> const &set2);
+
     void assignmentoptimal(int* assignment, double* cost, double* distMatrix, int nOfRows, int nOfColumns);
     void buildassignmentvector(int* assignment, bool* starMatrix, int nOfRows, int nOfColumns);
     void computeassignmentcost(int* assignment, double* cost, double* distMatrix, int nOfRows);
