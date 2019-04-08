@@ -15,6 +15,8 @@ void PassiveStop::onInitialize() {
     goToPos.setStop(true);
     coach::g_formation.registerPassive(robot->id);
 }
+
+
 Skill::Status PassiveStop::onUpdate() {
     return Status::Failure;
 }

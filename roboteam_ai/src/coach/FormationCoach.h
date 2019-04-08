@@ -25,8 +25,9 @@ class FormationCoach {
         /// Stop ///
         std::vector<int> passiveRobots;
         std::vector<Vector2> passivePositions;
+        std::vector<int> activeRobots;
         void makePassivePositions();
-        void makeActiveStopPositions();
+//        void makeActiveStopPositions();
         bool done = false;
         bool passiveDone = false;
 

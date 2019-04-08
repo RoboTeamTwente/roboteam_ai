@@ -19,8 +19,11 @@ class ActiveStop : public Skill {
         void onTerminate(Status s) override;
     private:
         Vector2 targetPos;
-        Vector2 getTargetPos();
         control::NumTreePosControl goToPos;
+        static int attack;
+        bool attacker = false;
+        static Vector2 getOffensiveActivePoint();
+        static Vector2 getDefensiveActivePoint();
 
 };
 }
