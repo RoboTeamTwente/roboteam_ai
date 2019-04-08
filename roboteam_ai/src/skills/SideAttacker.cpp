@@ -58,7 +58,7 @@ Vector2 SideAttacker::getOffensivePosition() {
     std::vector<Vector2> robotLocations;
     std::vector<int> robotIds;
 
-    for (auto & robotPositioning : robotsPositioning) {
+    for (auto &robotPositioning : robotsPositioning) {
         robotIds.push_back(robotPositioning->id);
     }
 
