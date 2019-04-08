@@ -12,9 +12,71 @@
 #include <stdlib.h>
 #include <cfloat> // for DBL_MAX
 #include <cmath>  // for fabs()
+#include <roboteam_ai/src/world/World.h>
 #include "Hungarian.h"
 
 namespace rtt {
+
+std::map<int, Vector2>
+HungarianAlgorithm::getRobotPositions(std::vector<int> robotIds, bool ourTeam, std::vector<Vector2> targetLocations) {
+
+    // init a vector with locations with the same size as the robots vector
+    std::vector<Vector2> robotLocations (robotIds.size());
+    for (int i = 0; i < robotIds.size(); i++) {
+        if (ai::world::world->getRobotForId(robotIds.at(i), ourTeam)) {
+            robotLocations.at(i) = ai::world::world->getRobotForId(robotIds.at(i), ourTeam)->pos;
+        }
+    }
+
+    auto positionPairs = calculateClosestPathsFromTwoSetsOfPoints(robotLocations, std::move(targetLocations));
+
+    std::map<int, Vector2> output;
+    for(int i = 0; i < positionPairs.size(); i++) {
+        output.insert(std::make_pair(robotIds.at(i), positionPairs.at(i).second));
+    }
+
+    return output;
+}
+
+bool HungarianAlgorithm::validateInput(std::vector<Vector2> const &set1, std::vector<Vector2> const &set2) {
+    if (set1.size() != set2.size()) {
+        std::cout << "wrong input for hungarian: unequal" << std::endl;
+        return false;
+    } else if (set1.empty() || set2.empty()) {
+        std::cout << "wrong input for hungarian: 0" << std::endl;
+        return false;
+    }
+
+    return true;
+}
+
+std::vector<std::pair<Vector2, Vector2>> HungarianAlgorithm::calculateClosestPathsFromTwoSetsOfPoints(std::vector<Vector2> set1,
+                                                                                                std::vector<Vector2> set2) {
+    if (validateInput(set1, set2)) {
+        std::vector<int> assignments;
+        // compute a distance matrix, initialize it with zeros
+        std::vector<std::vector<double>> distanceMatrix(set1.size(), std::vector<double>(set2.size()));
+
+        for (unsigned int i = 0; i < set1.size(); i++) {
+            for (unsigned int j = 0; j < set2.size(); j++) {
+                distanceMatrix.at(i).at(j) = static_cast<int>(set1[i].dist(set2[j]));
+            }
+        }
+
+        rtt::HungarianAlgorithm hungarian;
+        hungarian.Solve(distanceMatrix, assignments);
+
+        std::vector<std::pair<Vector2, Vector2>> solutionPairs;
+        for(unsigned int i = 0; i < assignments.size(); i++) {
+            solutionPairs.push_back({set1.at(i), set2.at(assignments.at(i))});
+        }
+        return solutionPairs;
+    }
+    return {};
+}
+
+
+
 
 //********************************************************//
 // A single function wrapper for solving assignment problem.
@@ -376,5 +438,8 @@ void HungarianAlgorithm::step5(int* assignment, double* distMatrix, bool* starMa
     step3(assignment, distMatrix, starMatrix, newStarMatrix, primeMatrix, coveredColumns, coveredRows, nOfRows,
             nOfColumns, minDim);
 }
+
+
+
 
 }
