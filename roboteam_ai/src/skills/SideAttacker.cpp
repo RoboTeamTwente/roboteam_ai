@@ -53,25 +53,21 @@ bt::Node::Status SideAttacker::onUpdate() {
 Vector2 SideAttacker::getOffensivePosition() {
     auto field = world::field->get_field();
 
-    std::vector<Vector2> targetLocations = coach::g_offensiveCoach.getNewOffensivePositions();
+    std::vector<Vector2> targetLocations = coach::g_offensiveCoach.getNewOffensivePositions(robotsPositioning.size());
 
     // If not yet assigned to a zone, do so according to the Hungarian
     if (zone == -1) {
         std::vector<Vector2> robotLocations;
+        std::vector<int> robotIds;
 
-        for (auto &robotPositioning : robotsPositioning) {
-            robotLocations.emplace_back(robotPositioning->pos);
+        for (auto & robotPositioning : robotsPositioning) {
+            robotIds.push_back(robotPositioning->id);
         }
 
-        auto shortestDistances = control::ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(robotLocations,
-                                                                                                 targetLocations);
+        rtt::HungarianAlgorithm hungarian;
+        auto shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations);
+        return shortestDistances.at(robot->id);
 
-        for (unsigned long i = 0; i < robotsPositioning.size(); i++) {
-            if (robotsPositioning.at(i)->id == robot->id) {
-                zone = i;
-                return shortestDistances.at(i).second;
-            }
-        }
     // If already assigned to a zone, stick to it
     } else {
         return targetLocations.at(zone);

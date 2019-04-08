@@ -45,24 +45,18 @@ Vector2 Defend::getDefensivePosition() {
 
     // first we calculate all the positions for the defense
     std::vector<Vector2> targetLocations;
-    std::vector<Vector2> robotLocations;
+    std::vector<int> robotIds;
 
     for (unsigned int i = 0; i<allDefenders.size(); i++) {
         double targetLocationY = ((field.field_width/(allDefenders.size() + 1))*(i+1)) - field.field_width/2;
         targetLocations.push_back({targetLocationX, targetLocationY});
-        robotLocations.push_back(allDefenders.at(i)->pos);
+        robotIds.push_back(allDefenders.at(i)->id);
     }
 
-    // the order of shortestDistances should be the same order as robotLocations
-    // this means that shortestDistances[0] corresponds to defenders[0] etc.
-    auto shortestDistances = control::ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(robotLocations, targetLocations);
+    rtt::HungarianAlgorithm hungarian;
+    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations);
 
-    for (unsigned long i = 0; i<allDefenders.size(); i++) {
-        if (allDefenders.at(i)->id == robot->id) {
-            return shortestDistances.at(i).second;
-        }
-    }
-    return {0, 0};
+    return shortestDistances.at(robot->id);
 }
 
 void Defend::onTerminate(bt::Node::Status s) {

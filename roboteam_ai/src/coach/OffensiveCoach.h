@@ -38,13 +38,11 @@ public:
     static int getBestStrikerID();
 
     std::vector<Vector2> getDefaultLocations();
-    std::vector<Vector2> getNewOffensivePositions();
+    std::vector<Vector2> getNewOffensivePositions(int numberOfRobots);
 
 private:
     std::vector<OffensivePosition> offensivePositions;
     std::map<int, OffensivePosition> robotPositions;
-
-    void drawOffensivePoints();
 
 };
 

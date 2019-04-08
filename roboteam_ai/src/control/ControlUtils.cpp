@@ -204,7 +204,7 @@ rtt::Arc ControlUtils::createKeeperArc() {
     double angle = asin(goalwidth/2/radius); // maximum angle (at which we hit the posts)
     Vector2 center = Vector2(goalPos.x + rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN() + radius, 0);
     if (diff > 0) {
-        return {center, radius, M_PI - angle, angle - M_PI};
+        return rtt::Arc(center, radius, M_PI - angle, angle - M_PI);
     }
     else {
         return rtt::Arc(center, radius, angle,
@@ -291,37 +291,6 @@ Vector2 ControlUtils::calculateForce(rtt::Vector2 vector, double weight, double 
     return {0, 0};
 }
 
-std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(std::vector<Vector2> set1,
-        std::vector<Vector2> set2) {
-
-
-    if (set1.size() != set2.size()) {
-        std::cout << "wrong input for hungarian: unequal" << std::endl;
-        return {};
-    } else if (set1.size() == 0 || set2.size() == 0) {
-        std::cout << "wrong input for hungarian: 0" << std::endl;
-        return {};
-    }
-
-    std::vector<int> assignments;
-    // compute a distance matrix, initialize it with zeros
-    std::vector<std::vector<double>> distanceMatrix(set1.size(), std::vector<double>(set2.size()));
-
-    for (unsigned int i = 0; i < set1.size(); i++) {
-        for (unsigned int j = 0; j < set2.size(); j++) {
-            distanceMatrix.at(i).at(j) = static_cast<int>(set1[i].dist(set2[j]));
-        }
-    }
-
-    rtt::HungarianAlgorithm hungarian;
-    hungarian.Solve(distanceMatrix, assignments);
-
-    std::vector<std::pair<Vector2, Vector2>> solutionPairs;
-    for(unsigned int i = 0; i < assignments.size(); i++) {
-        solutionPairs.emplace_back(set1.at(i), set2.at(assignments.at(i)));
-    }
-    return solutionPairs;
-}
 
 bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, Vector2 point, double maxDifference) {
     auto robot = world::world->getRobotForId(id, ourTeam);

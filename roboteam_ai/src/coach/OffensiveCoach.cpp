@@ -57,23 +57,6 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
     return bestPosition;
 }
 
-/// Set offensive positions to be drawn
-void OffensiveCoach::drawOffensivePoints() {
-    /// Draw general offensive points
-    std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
-    for (auto &offensivePosition : offensivePositions) {
-        displayColorData.emplace_back(std::make_pair(offensivePosition.position, Qt::green));
-    }
-    interface::Drawer::setOffensivePoints(displayColorData);
-
-    /// Draw attacker points specific to robot
-    displayColorData = {};
-    for (const auto& robotPosition : robotPositions) {
-        displayColorData.emplace_back(std::make_pair(robotPosition.second.position, Qt::darkYellow));
-        interface::Drawer::setAttackerPoints(robotPosition.first, displayColorData);
-    }
-}
-
 /// Get robot with highest offensive score
 int OffensiveCoach::getBestStrikerID() {
     double bestScore = 0;
@@ -109,7 +92,7 @@ std::vector<Vector2> OffensiveCoach::getDefaultLocations() {
     return defaultPositions;
 }
 
-std::vector<Vector2> OffensiveCoach::getNewOffensivePositions() {
+std::vector<Vector2> OffensiveCoach::getNewOffensivePositions(int numberOfRobots) {
 
     std::vector<Vector2> defaultLocations = getDefaultLocations();
     if (offensivePositions.size() != defaultLocations.size()) {
@@ -129,8 +112,14 @@ std::vector<Vector2> OffensiveCoach::getNewOffensivePositions() {
         }
     }
 
-    drawOffensivePoints();
-    return getOffensivePositionVectors();
+    std::vector<Vector2> positionVectors = getOffensivePositionVectors();
+
+    if (numberOfRobots >= offensivePositions.size()) {
+        return positionVectors;
+    } else {
+        std::vector<Vector2> newVec(positionVectors.begin(), positionVectors.begin() + numberOfRobots);
+        return newVec;
+    }
 }
 
 std::vector<Vector2> OffensiveCoach::getOffensivePositionVectors() {
