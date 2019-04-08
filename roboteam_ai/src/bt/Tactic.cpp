@@ -17,7 +17,7 @@ void Tactic::addChild(Node::Ptr newChild) {
 }
 
 void Tactic::terminate(Node::Status s) {
-    robotDealer::RobotDealer::removeTactic(name);
+    rtt::ai::robotDealer::RobotDealer::removeTactic(name);
     for (const auto &child : children) {
         child->terminate(child->getStatus());
     }

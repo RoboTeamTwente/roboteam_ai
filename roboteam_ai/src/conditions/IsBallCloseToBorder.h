@@ -7,7 +7,7 @@
 
 #include "Condition.h"
 #include <roboteam_ai/src/utilities/Constants.h>
-#include "../utilities/Field.h"
+#include "roboteam_ai/src/world/Field.h"
 
 namespace rtt {
 namespace ai {

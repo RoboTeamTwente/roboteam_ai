@@ -5,7 +5,8 @@
 #include "AvoidBall.h"
 #include "../control/ControlUtils.h"
 #include <cmath>
-#include "../utilities/Field.h"
+#include <roboteam_ai/src/coach/BallplacementCoach.h>
+#include "../world/Field.h"
 
 namespace rtt {
 namespace ai {
@@ -20,7 +21,7 @@ bt::Node::Status AvoidBall::onUpdate() {
     Vector2 force = {0, 0};
 
     // forces from robots
-    for (auto otherRobot : World::getAllRobots()) {
+    for (auto &otherRobot : world::world->getAllRobots()) {
         if (otherRobot.id != robot->id) {
             force = force + cu::calculateForce(robotPos - otherRobot.pos, robotWeight, minRobotDistanceForForce);
         }
@@ -29,7 +30,7 @@ bt::Node::Status AvoidBall::onUpdate() {
     force = force + cu::calculateForce(robotPos - ball->pos, ballWeight, minBallDistanceForForce);
 
     // forces from walls
-    auto field = Field::get_field();
+    auto field = world::field->get_field();
     double boundWidth =  field.boundary_width;
     double halfFieldLength = field.field_length/2;
     double halfFieldWidth = field.field_width/2;
@@ -44,20 +45,16 @@ bt::Node::Status AvoidBall::onUpdate() {
         force = force + cu::calculateForce(wallVector, wallWeight, minWallDistanceForForce);
     }
 
-    // limit the forces
-    // TODO do not always limit the speed for ballplacement only
-    if (force.length() > Constants::MAX_VEL_BALLPLACEMENT()) force.stretchToLength(Constants::MAX_VEL_BALLPLACEMENT());
-    if (force.angle() > Constants::MAX_ANGULAR_VELOCITY()) force.stretchToLength(Constants::MAX_ANGULAR_VELOCITY());
-
-    if (force.length() < 0.2) {
-        force = {0, 0};
-        command.use_angle = 0;
-        command.w = 0;
-    } else {
-        command.use_angle = 1;
-        command.w = static_cast<float>(force.angle());
+    Vector2 bpTarget = coach::g_ballPlacement.getBallPlacementPos();
+    // if the robot is closer to the ballplacementTarget than the ball
+    if (control::ControlUtils::distanceToLineWithEnds(robot->pos, ball->pos, bpTarget) < minBallDistanceForForce) {
+        Vector2 LineToBallPlacementBallLine = robot->pos - robot->pos.project(bpTarget, ball->pos);
+        force = force + cu::calculateForce(LineToBallPlacementBallLine, ballWeight, minBallDistanceForForce);
     }
 
+    force = control::ControlUtils::velocityLimiter(force, Constants::MAX_VEL_BALLPLACEMENT());
+    command.use_angle = 1;
+    command.w = static_cast<float>(force.angle());
     command.x_vel = static_cast<float>(force.x);
     command.y_vel = static_cast<float>(force.y);
 

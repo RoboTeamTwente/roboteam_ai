@@ -28,7 +28,7 @@ RobotsWidget::RobotsWidget(QWidget* parent) : QWidget(parent){
 }
 
 void RobotsWidget::updateContents(Visualizer* visualizer) {
-    auto us = rtt::ai::World::get_world().us;
+    auto us = rtt::ai::world::world->getWorld().us;
 
     // reload the widgets completely if a robot is added or removed
     // or if the amount of selected robots is not accurate
@@ -65,7 +65,7 @@ void RobotsWidget::updateContents(Visualizer* visualizer) {
 }
 
 /// create a single layout with robot information for a specific robot
-QVBoxLayout* RobotsWidget::createRobotGroupItem(roboteam_msgs::WorldRobot robot) {
+QVBoxLayout* RobotsWidget::createRobotGroupItem(Robot robot) {
     auto vbox = new QVBoxLayout();
 
     auto velLabel = new QLabel(
@@ -82,20 +82,23 @@ QVBoxLayout* RobotsWidget::createRobotGroupItem(roboteam_msgs::WorldRobot robot)
     posLabel->setFixedWidth(250);
     vbox->addWidget(posLabel);
 
-    auto wLabel = new QLabel("w: "+QString::number(robot.w, 'g', 3)+"rad/s");
+    auto wLabel = new QLabel("w: "+QString::number(robot.angularVelocity, 'g', 3)+"rad/s");
     wLabel->setFixedWidth(250);
     vbox->addWidget(wLabel);
 
     auto report = rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
-    analysis::RobotDanger danger = report->getRobotDangerForId(robot.id, true);
+    if (report) {
+        analysis::RobotDanger danger = report->getRobotDangerForId(robot.id, true);
 
-    auto dangerTotalLabel = new QLabel("danger total: "+QString::number(danger.getTotalDanger(), 'g', 3));
-    dangerTotalLabel->setFixedWidth(250);
-    vbox->addWidget(dangerTotalLabel);
 
-    auto goalVisionLabel = new QLabel("goalvision: "+QString::number(danger.goalVisionPercentage, 'g', 3));
-    goalVisionLabel->setFixedWidth(250);
-    vbox->addWidget(goalVisionLabel);
+        auto dangerTotalLabel = new QLabel("danger total: " + QString::number(danger.getTotalDanger(), 'g', 3));
+        dangerTotalLabel->setFixedWidth(250);
+        vbox->addWidget(dangerTotalLabel);
+
+        auto goalVisionLabel = new QLabel("goalvision: " + QString::number(danger.goalVisionPercentage, 'g', 3));
+        goalVisionLabel->setFixedWidth(250);
+        vbox->addWidget(goalVisionLabel);
+    }
 
     return vbox;
 }

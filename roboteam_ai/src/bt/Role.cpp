@@ -43,4 +43,17 @@ std::vector<Node::Ptr> Role::getChildren() {
     return std::vector<Node::Ptr>{child};
 }
 
+
+void Role::terminate(Status s) {
+    for (auto child : getChildren()) {
+        // if (child->getStatus() == Status::Running) {
+        child->terminate(child->getStatus());
+        //   }
+    }
+
+    if (s == Status::Running) {
+        setStatus(Status::Failure);
+    }
+}
+
 }

@@ -19,16 +19,16 @@ class DefaultTactic : public Tactic {
         void disClaimRobots();
         bool updateRobots();
         int claimIndex = 0;
-        std::pair<std::string, robotType> getNextClaim();
-        std::pair<std::string, robotType> getLastClaim();
+        std::pair<std::string, RobotType> getNextClaim();
+        std::pair<std::string, RobotType> getLastClaim();
 
 
 
 
     public:
         int robotsNeeded = -1;
-        std::map<std::string, robotType> robots;
-        DefaultTactic(std::string name, Blackboard::Ptr blackboard, std::map<std::string, robotType> robots);
+        std::map<std::string, RobotType> robots;
+        DefaultTactic(std::string name, Blackboard::Ptr blackboard, std::map<std::string, RobotType> robots);
         void initialize() override;
         Node::Status update() override;
         void setRoleAmount(int amount);

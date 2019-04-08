@@ -5,7 +5,7 @@
 #include "DefaultTactic.h"
 #include "../../utilities/RobotDealer.h"
 
-using dealer = robotDealer::RobotDealer;
+using dealer = rtt::ai::robotDealer::RobotDealer;
 
 /// call 0638424067 if you need help
 
@@ -24,7 +24,7 @@ bt::Node::Status bt::DefaultTactic::update() {
 }
 
 bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboard,
-        std::map<std::string, robotType> robots_) {
+        std::map<std::string, RobotType> robots_) {
 
     robots = std::move(robots_);
     globalBB = std::move(blackboard);
@@ -79,7 +79,7 @@ void bt::DefaultTactic::disClaimRobots() {
 
 }
 
-std::pair<std::string, bt::Tactic::robotType> bt::DefaultTactic::getNextClaim() {
+std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getNextClaim() {
     int counter = 0;
     for (auto robot : robots) {
         if (counter == (claimIndex + 1)) {
@@ -91,7 +91,7 @@ std::pair<std::string, bt::Tactic::robotType> bt::DefaultTactic::getNextClaim() 
         }
     }
 }
-std::pair<std::string, bt::Tactic::robotType> bt::DefaultTactic::getLastClaim() {
+std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getLastClaim() {
     int counter = 0;
     for (auto robot : robots) {
         if (counter == (claimIndex)) {

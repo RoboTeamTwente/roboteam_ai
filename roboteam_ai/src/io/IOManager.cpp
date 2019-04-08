@@ -5,14 +5,16 @@
  * Using this class you don't have to think about callbacks or scoping, or weird ROS parameters.
  */
 
-
 #include <roboteam_msgs/DemoRobot.h>
 #include <roboteam_ai/src/demo/JoystickDemo.h>
+#include <roboteam_ai/src/utilities/Pause.h>
 #include "IOManager.h"
+
 
 namespace rtt {
 namespace ai {
 namespace io {
+    std::mutex IOManager::mutex;
 
 IOManager::IOManager(bool subscribe, bool advertise) {
     if (subscribe) {
@@ -41,6 +43,7 @@ void IOManager::subscribeToWorldState() {
 }
 
 void IOManager::subscribeToGeometryData() {
+
     geometrySubscriber = nodeHandle.subscribe<roboteam_msgs::GeometryData>(
             rtt::TOPIC_GEOMETRY,
             100,
@@ -59,6 +62,7 @@ void IOManager::subscribeToRoleFeedback() {
             ros::TransportHints().reliable().tcpNoDelay()
     );
 }
+
 void IOManager::subscribeToRefereeData() {
     //TODO: This constant TOPIC_REFEREE was not used consistently by the previous team, so if stuff goes wrong check if you are reading the correct topic.
     refereeSubscriber = nodeHandle.subscribe<roboteam_msgs::RefereeData>(
@@ -80,44 +84,54 @@ void IOManager::subscribeToDemoInfo() {
     );
 }
 
-void IOManager::handleWorldState(const roboteam_msgs::WorldConstPtr &world) {
-    this->world = *world;
+void IOManager::handleWorldState(const roboteam_msgs::WorldConstPtr &w) {
+    std::lock_guard<std::mutex> lock(mutex);
+
+    this->worldMsg = *w;
 }
 
 void IOManager::handleGeometryData(const roboteam_msgs::GeometryDataConstPtr &geometry) {
-    this->geometry = *geometry;
+    std::lock_guard<std::mutex> lock(mutex);
+    this->geometryMsg = *geometry;
 }
 
 void IOManager::handleRobotFeedback(const roboteam_msgs::RoleFeedbackConstPtr &rolefeedback) {
-    this->roleFeedback = *rolefeedback;
+    std::lock_guard<std::mutex> lock(mutex);
+    this->roleFeedbackMsg = *rolefeedback;
 }
 
 void IOManager::handleDemoInfo(const roboteam_msgs::DemoRobotConstPtr &demoInfo) {
-    this->demoInfo = *demoInfo;
+    std::lock_guard<std::mutex> lock(mutex);
+    this->demoInfoMsg = *demoInfo;
 }
 
 void IOManager::handleRefereeData(const roboteam_msgs::RefereeDataConstPtr &refData) {
-    this->refData = *refData;
+    std::lock_guard<std::mutex> lock(mutex);
+    this->refDataMsg = *refData;
 }
 
 const roboteam_msgs::World &IOManager::getWorldState() {
-    return this->world;
+    std::lock_guard<std::mutex> lock(mutex);
+    return this->worldMsg;
 }
 
 const roboteam_msgs::GeometryData &IOManager::getGeometryData() {
-    return this->geometry;
+    std::lock_guard<std::mutex> lock(mutex);
+    return this->geometryMsg;
 }
 
 const roboteam_msgs::RoleFeedback &IOManager::getRoleFeedback() {
-    return this->roleFeedback;
+    std::lock_guard<std::mutex> lock(mutex);
+    return this->roleFeedbackMsg;
 }
 
 const roboteam_msgs::RefereeData &IOManager::getRefereeData() {
-    return this->refData;
+    std::lock_guard<std::mutex> lock(mutex);
+    return this->refDataMsg;
 }
 
 void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
-    if (! pause.getPause()) {
+    if (! pause->getPause()) {
         if (demo::JoystickDemo::checkIfDemoSafe(cmd.id)) {
             robotCommandPublisher.publish(cmd);
         }
@@ -129,8 +143,9 @@ void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
         ROS_ERROR("HALT!");
     }
 }
+
 const roboteam_msgs::DemoRobot &IOManager::getDemoInfo() {
-    return this->demoInfo;
+    return this->demoInfoMsg;
 }
 
 

@@ -12,7 +12,7 @@ Dribble::Dribble(string name, bt::Blackboard::Ptr blackboard)
 
 Dribble::Progression Dribble::checkProgression() {
     if (currentProgress == ON_THE_WAY) {
-        if (! World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
+        if (! world::world->ourRobotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
             return FAIL;
         }
         if (deltaPos.length() <= POS_DIF) {
@@ -28,7 +28,7 @@ Dribble::Progression Dribble::checkProgression() {
     else if (currentProgress == STOPPED) {
         count ++;
         //ROS_WARN_STREAM("Stopped ticks #:" << count<<"/"<<maxTicks);
-        if (! World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
+        if (! world::world->ourRobotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
             return FAIL;
         }
         else if (count >= maxTicks) {
@@ -69,7 +69,7 @@ void Dribble::onInitialize() {
         targetPos = (Vector2)robot->pos + Vector2({distance, 0}).rotate(targetAngle);
     }
 
-    if (! World::ourBotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
+    if (!world::world->ourRobotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
         ROS_ERROR("Dribble Initialize -> Robot does not have the ball!");
         currentProgress = Progression::FAIL;
         return;

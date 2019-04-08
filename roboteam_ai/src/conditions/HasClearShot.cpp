@@ -14,12 +14,12 @@ HasClearShot::HasClearShot(std::string name, bt::Blackboard::Ptr blackboard)
 void HasClearShot::onInitialize() {};
 
 HasClearShot::Status HasClearShot::onUpdate() {
-    if (((Vector2)robot->pos - Field::get_their_goal_center()).length() > MAX_SHOOTING_DISTANCE) {
+    if (((Vector2)robot->pos - world::field->get_their_goal_center()).length() > MAX_SHOOTING_DISTANCE) {
         return Status::Failure;
     }
 
-    roboteam_msgs::World world = World::get_world();
-    if (!control::ControlUtils::clearLine(ball->pos, Field::get_their_goal_center(), world, 1, false)) {
+    auto world = world::world->getWorld();
+    if (!control::ControlUtils::clearLine(ball->pos, world::field->get_their_goal_center(), world, 1, false)) {
         return Status::Failure;
     }
 

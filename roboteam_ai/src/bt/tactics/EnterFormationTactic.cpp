@@ -12,11 +12,12 @@ bt::EnterFormationTactic::EnterFormationTactic(std::string name, bt::Blackboard:
 }
 
 void bt::EnterFormationTactic::initialize() {
-    std::vector<std::string> roleNames = {"formation1", "formation2", "formation3", "formation4", "formation5", "formation6", "formation7"};
+    std::vector<std::string> roleNames = {"formation1", "formation2", "formation3", "formation4", "formation5", "formation6", "formation7", "formation8"};
 
     // get the amount of robots to claim
-    while (!dealer::getAvailableRobots().empty()) {
-        robotIDs.insert(dealer::claimRobotForTactic(robotType::RANDOM, name, roleNames[claimedRobots]));
+    while (!rtt::ai::robotDealer::RobotDealer::getAvailableRobots().empty()) {
+        int newId = rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(rtt::ai::robotDealer::RobotType::RANDOM, name, roleNames[claimedRobots]);
+        robotIDs.insert(newId);
         if (robotIDs.find(-1) == robotIDs.end()) claimedRobots++;
         else robotIDs.erase(-1);
     }
