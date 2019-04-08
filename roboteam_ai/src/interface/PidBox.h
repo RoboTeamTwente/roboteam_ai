@@ -23,6 +23,8 @@ private:
     QDoubleSpinBox* select_i;
     QDoubleSpinBox* select_d;
     pidVals pid;
+
+public slots:
     void updatePID();
 
 public:
