@@ -11,9 +11,9 @@ namespace ai {
 namespace interface {
 
 // these values need to be set AFTER ros::init, so they are initialized with values in the constructor of mainwindow
-pidVals InterfaceValues::numTreePID = {0.0, 0.0, 0.0};
-pidVals InterfaceValues::forcePID = {0.0, 0.0, 0.0};
-pidVals InterfaceValues::basicPID = {0.0, 0.0, 0.0};
+pidVals InterfaceValues::numTreePID = pidVals(0.0, 0.0, 0.0);
+pidVals InterfaceValues::forcePID = pidVals(0.0, 0.0, 0.0);
+pidVals InterfaceValues::basicPID = pidVals(0.0, 0.0, 0.0);
 
 
 rtt::Vector2 InterfaceValues::ballPlacementTarget = {0, 0}; // initialize on middle of the field
