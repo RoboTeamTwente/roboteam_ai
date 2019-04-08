@@ -16,6 +16,7 @@ class GoToPos : public Skill {
         Vector2 targetPos = {0, 0};
         double maxAcc = Constants::MAX_ACC_LOWER();
         double maxVel = Constants::DEFAULT_MAX_VEL();
+        double minVel = Constants::MIN_VEL();
         double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
         double prevVel = Vector2(robot->vel).length();
 
