@@ -27,6 +27,7 @@ private:
     const double FORCE_WEIGHT_BALL = 1.0;
     const double FORCE_WEIGHT_FIELD_SIDES = 1.0;
     const float POINT_IN_FIELD_MARGIN = 0.5;
+    void checkInterfacePID() override;
 };
 
 } // control

@@ -441,6 +441,10 @@ void NumTreePosControl::drawPoint(Vector2 &pos, QColor color) {
     displayData.emplace_back(pos, color);
 }
 
+void NumTreePosControl::checkInterfacePID() {
+    auto newPid = interface::InterfaceValues::getNumTreePid();
+    updatePid(newPid);
+}
 
 
 }// control

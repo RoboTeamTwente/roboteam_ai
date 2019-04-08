@@ -48,6 +48,8 @@ class NumTreePosControl : public ForcePosControl {
         Vector2 findCollisionPos(std::shared_ptr<PathPoint> point, double collisionRadius = 0.27);
 
         std::vector<PathPoint> path;
+        void checkInterfacePID() override;
+
     public:
         explicit NumTreePosControl() = default;
         explicit NumTreePosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
