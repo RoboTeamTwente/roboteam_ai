@@ -24,6 +24,7 @@
 #include <QtWidgets/QDoubleSpinBox>
 #include "TreeVisualizerWidget.h"
 #include "RobotsWidget.h"
+#include "PidBox.h"
 
 namespace rtt {
 namespace ai {
@@ -42,7 +43,6 @@ class MainWindow : public QMainWindow {
 
     public slots:
         void toggleOurColorParam();
-        void updatePID_luth();
         void sendHaltSignal();
         void updatePause();
         void setUseReferee(bool useRef);
@@ -70,12 +70,9 @@ class MainWindow : public QMainWindow {
         QComboBox* select_goalie;
 
 private:
-
-        QGroupBox* doubleSpinBoxesGroup_Pos_PID;
-        QHBoxLayout* spinBoxLayout;
-        QDoubleSpinBox* sb_luth_Pos_P;
-        QDoubleSpinBox* sb_luth_Pos_I;
-        QDoubleSpinBox* sb_luth_Pos_D;
+        PidBox * numTreePidBox;
+        PidBox * forcePidBox;
+        PidBox * basicPidBox;
 
         void configureCheckBox(QString title, QLayout* layout, const QObject* receiver, const char* method,
                 bool defaultState = false);

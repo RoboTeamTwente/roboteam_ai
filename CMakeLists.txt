@@ -247,7 +247,9 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosController.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosController.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PathPoint.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PathPoint.h roboteam_ai/src/control/pid.cpp roboteam_ai/src/control/pid.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PathPoint.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/pid.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/pid.h)
 
 
 set(TEST_SOURCES
@@ -310,7 +312,9 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/TreeVisualizerWidget.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/TreeVisualizerWidget.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/PidBox.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/PidBox.h)
 
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldData.h

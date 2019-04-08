@@ -21,6 +21,8 @@ class PosController {
         using BallPtr = std::shared_ptr<Ball>;
         using WorldData = world::WorldData;
         using WorldDataPtr = std::shared_ptr<WorldData>;
+
+        void updatePid(pidVals pid);
     public:
         explicit PosController() = default;
         explicit PosController(bool avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
@@ -46,7 +48,7 @@ class PosController {
 
         bool getPIDFromInterface = true;
         PosVelAngle controlWithPID(const RobotPtr &robot, PosVelAngle target);
-        void checkInterfacePID();
+        virtual void checkInterfacePID() = 0;
 
         virtual Vector2 calculatePIDs(const RobotPtr &robot, PosVelAngle &target);
 };
