@@ -193,8 +193,6 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DemoAttack.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SideAttacker.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SideAttacker.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Stop.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Stop.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ActiveStop.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ActiveStop.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PassiveStop.cpp

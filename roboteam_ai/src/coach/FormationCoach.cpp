@@ -84,6 +84,18 @@ void FormationCoach::registerPassive(int ID) {
     passiveRobots.emplace_back(ID);
 
 }
+std::vector<int> FormationCoach::getPassiveRobots() {
+    return passiveRobots;
+}
+void FormationCoach::terminate() {
+    done = false;
+    passiveDone = false;
+    passiveRobots.clear();
+    passivePositions.clear();
+    activeRobots.clear();
+
+
+}
 
 }
 }

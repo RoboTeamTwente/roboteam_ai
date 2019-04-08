@@ -19,6 +19,9 @@ class PassiveStop : public Skill {
         Vector2 targetPos;
         control::NumTreePosControl goToPos;
         Vector2 getTargetPos();
+        static map<int, Vector2> shortestDistances;
+        static bool done;
+        void checkBall();
 
 };
 }
