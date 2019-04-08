@@ -229,12 +229,22 @@ Vector2 ControlUtils::velocityLimiter(Vector2 vel, double maxVel,double minVel){
 }
 
 
-/// Limits velocity to satisfy maximum acceleration
+/// Limits acceleration to maximum acceleration
 Vector2 ControlUtils::accelerationLimiter(Vector2 vel, double maxAcc,double prevVel){
     if (vel.length() > (prevVel + maxAcc/Constants::TICK_RATE())) {
         return vel.stretchToLength(prevVel + maxAcc/Constants::TICK_RATE());
     }
     return vel;
+}
+
+
+/// Calculate the maximum acceleration based on the direction of driving.
+/// Acceleration is the lowest in the sideways direction and highest in the forward direction.
+double ControlUtils::calculateMaxAcceleration(Vector2 vel, double angle){
+    double angleDiff = ControlUtils::constrainAngle(vel.angle() - angle);
+    angleDiff = (abs(angleDiff) > 0.5*M_PI) ? (M_PI - abs(angleDiff)) : abs(angleDiff); // angle from vel.angle() to local x-axis of the robot
+    double a = angleDiff/(0.5*M_PI); // normalize angle
+    return Constants::MAX_ACC_UPPER() * (1 - a) + Constants::MAX_ACC_LOWER() * a; // linear mapping
 }
 
 
