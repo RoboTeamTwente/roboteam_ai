@@ -23,7 +23,7 @@ void GoToPos::onInitialize() {
         maxVel = properties->getDouble("maxVel");
     }
 
-        gotopos.setAvoidBall(properties->getBool("avoidBall"));
+        gotopos.setAvoidBall(properties->getBool("avoidBall") ? Constants::DEFAULT_BALLCOLLISION_RADIUS() : false);
         gotopos.setCanMoveOutOfField(properties->getBool("canGoOutsideField"));
 }
 

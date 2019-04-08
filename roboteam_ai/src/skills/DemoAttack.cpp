@@ -18,7 +18,7 @@ DemoAttack::DemoAttack(string name, bt::Blackboard::Ptr blackboard)
 void DemoAttack::onInitialize() {
     ownGoal = properties->getBool("ownGoal");
     goToPos = std::make_shared<control::NumTreePosControl>();
-    goToPos->setAvoidBall(true);
+    goToPos->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
     shot = false;
 }
 
