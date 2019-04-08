@@ -59,8 +59,8 @@ std::vector<Node::Ptr> Node::getChildren() {
 
 void Node::setProperties(bt::Blackboard::Ptr blackboard) {
     properties = blackboard;
-
 }
+
 Node::Node() {
     globalBB = std::make_shared<Blackboard>();
 }
@@ -103,6 +103,31 @@ std::string statusToString(bt::Node::Status status) {
         std::cout << "Enum failure in Node::Status overload of to_string\n";
         return "ERROR ERROR!!!";
     }
+}
+
+std::shared_ptr<bool> Node::getBool(std::string name) {
+    return * properties->getBool(name);
+}
+
+std::shared_ptr<std::string> Node::getString(std::string name) {
+    if (properties->hasString(name)) {
+        return properties->getString(name);
+    } 
+    return nullptr;
+}
+
+std::shared_ptr<int> Node::getInt(std::string name) {
+    if (properties->hasInt(name)) {
+        return properties->getInt(name);
+    } 
+    return nullptr;
+}
+
+std::shared_ptr<double> Node::getDouble(std::string name) {
+    if (properties->hasDouble(name)) {
+        return properties->getDouble(name);
+    } 
+    return nullptr;
 }
 
 }

@@ -84,6 +84,12 @@ class Node {
         unsigned long long amountOfTicks = 0; // ticks can increase fast
 
         ros::Time lastTickTime;
+
+        std::shared_ptr<bool> getBool(std::string name);
+        std::shared_ptr<std::string> getString(std::string name);
+        std::shared_ptr<int> getInt(std::string name);
+        std::shared_ptr<double> getDouble(std::string name);
+
 };
 
 std::string statusToString(bt::Node::Status status);

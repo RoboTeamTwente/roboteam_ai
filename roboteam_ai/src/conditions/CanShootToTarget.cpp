@@ -21,7 +21,6 @@ bt::Node::Status CanShootToTarget::onUpdate() {
 	}
 	
 	bool canShoot = control::ControlUtils::clearLine(robot.pos, target, world::world->get_world(), margin, true);
-
 	return canShoot ? bt::Node::Status::Success : bt::Node::Status::Failure;
 }
 
