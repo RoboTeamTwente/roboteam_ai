@@ -45,6 +45,37 @@ TEST(ControlUtils, velocityLimiter) {
     }
 }
 
+TEST(ControlUtils, accelerationLimiter) {
+    rtt::Vector2 testVel;
+    double prevTestVel;
+    for (int i = 1; i < 200; i ++) {
+        testVel = Vector2(5*cos(i/100.0*M_PI), 3*sin(i/30.0*M_PI));
+        prevTestVel = Vector2(5*cos((i-1)/100.0*M_PI), 3*sin((i-1)/30.0*M_PI)).length();
+        EXPECT_LE(cr::ControlUtils::accelerationLimiter(testVel, rtt::ai::Constants::MAX_ACC_UPPER(), prevTestVel).length(),
+                prevTestVel + rtt::ai::Constants::MAX_ACC_UPPER()/rtt::ai::Constants::TICK_RATE() + 0.01);
+        EXPECT_LE(cr::ControlUtils::accelerationLimiter(testVel, rtt::ai::Constants::MAX_ACC_LOWER(), prevTestVel).length(),
+                prevTestVel + rtt::ai::Constants::MAX_ACC_LOWER()/rtt::ai::Constants::TICK_RATE() + 0.01);
+    }
+}
+
+TEST(ControlUtils, calculateMaxAcceleration) {
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(0.5, 0.0), 0.0), rtt::ai::Constants::MAX_ACC_UPPER());
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(0.5, 0.0), 0.5*M_PI), rtt::ai::Constants::MAX_ACC_LOWER());
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(0.5, 0.0), -0.5*M_PI), rtt::ai::Constants::MAX_ACC_LOWER());
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(0.5, 0.0), -0.25*M_PI),
+            (rtt::ai::Constants::MAX_ACC_UPPER()+rtt::ai::Constants::MAX_ACC_LOWER())/2);
+
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(0.5, 0.5), 0.0),
+            (rtt::ai::Constants::MAX_ACC_UPPER()+rtt::ai::Constants::MAX_ACC_LOWER())/2);
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(0.5, 0.5), 0.5*M_PI),
+            (rtt::ai::Constants::MAX_ACC_UPPER()+rtt::ai::Constants::MAX_ACC_LOWER())/2);
+
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(-0.5, -0.5), 0.0),
+            (rtt::ai::Constants::MAX_ACC_UPPER()+rtt::ai::Constants::MAX_ACC_LOWER())/2);
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(-0.5, -0.5), 0.5*M_PI),
+            (rtt::ai::Constants::MAX_ACC_UPPER()+rtt::ai::Constants::MAX_ACC_LOWER())/2);
+}
+
 TEST(ControlUtils, triangleArea) {
     {
         Vector2 A(0, 0), B(0, 2), C(1, 1);
