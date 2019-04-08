@@ -272,21 +272,21 @@ Vector2 Field::getPenaltyPoint(bool ourGoal) {
 std::vector<Vector2> Field::getDefenseArea(bool ourDefenseArea) {
 
     if (ourDefenseArea) {
-        double width = field.field_width;
+        double length = field.field_length;
         auto leftPenaltyLine = field.left_penalty_line;
         Vector2 leftPenaltyLineLowerPoint = leftPenaltyLine.begin;
         Vector2 leftPenaltyLineUpperPoint = leftPenaltyLine.end;
-        Vector2 backLineLowerPoint = {-0.5*width, leftPenaltyLineLowerPoint.y};
-        Vector2 backLineUpperPoint = {-0.5*width, leftPenaltyLineUpperPoint.y};
+        Vector2 backLineLowerPoint = {-0.5*length, leftPenaltyLineLowerPoint.y};
+        Vector2 backLineUpperPoint = {-0.5*length, leftPenaltyLineUpperPoint.y};
         return {leftPenaltyLineLowerPoint, leftPenaltyLineUpperPoint, backLineUpperPoint, backLineLowerPoint};
     }
     else {
-        double width = field.field_width;
+        double length = field.field_length;
         auto rightPenaltyLine = field.right_penalty_line;
         Vector2 rightPenaltyLineLowerPoint = rightPenaltyLine.begin;
         Vector2 rightPenaltyLineUpperPoint = rightPenaltyLine.end;
-        Vector2 backLineLowerPoint = {0.5*width, rightPenaltyLineLowerPoint.y};
-        Vector2 backLineUpperPoint = {0.5*width, rightPenaltyLineUpperPoint.y};
+        Vector2 backLineLowerPoint = {0.5*length, rightPenaltyLineLowerPoint.y};
+        Vector2 backLineUpperPoint = {0.5*length, rightPenaltyLineUpperPoint.y};
         return {rightPenaltyLineLowerPoint, rightPenaltyLineUpperPoint, backLineUpperPoint, backLineLowerPoint};
     }
 
