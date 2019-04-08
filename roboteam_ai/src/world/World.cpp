@@ -124,7 +124,7 @@ const World::BallPtr World::getBall() {
             return std::make_shared<Ball>(worldDataPtr->ball);
 
     // HONESTLY FUCK THIS
-    std::cerr << "BALL DOES NOT EXIST!!! (exists == " << worldDataPtr->ball.exists << std::endl;
+    std::cerr << "BALL DOES NOT EXIST!!! (exists == " << worldDataPtr->ball.exists << ")" << std::endl;
     return BallPtr(nullptr);
 }
 
