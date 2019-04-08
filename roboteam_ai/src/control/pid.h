@@ -5,6 +5,8 @@
 #ifndef ROBOTEAM_AI_PID_H
 #define ROBOTEAM_AI_PID_H
 
+#include <tuple>
+
 class PID{
 public:
     PID(double, double, double);
@@ -14,6 +16,7 @@ public:
     void setD(double);
     void setF(double);
     void setPID(double, double, double);
+    void setPID(std::tuple<double, double, double> pid);
     void setPID(double, double, double, double);
     void setMaxIOutput(double);
     void setOutputLimits(double);

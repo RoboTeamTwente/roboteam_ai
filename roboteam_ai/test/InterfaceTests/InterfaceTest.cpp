@@ -7,15 +7,17 @@
 
 TEST(InterfaceTest, the_interface_values_work) {
     using iv = rtt::ai::interface::InterfaceValues;
-    {
-        iv::setNumTreePosP(12);
-        iv::setNumTreePosI(- 18);
-        iv::setNumTreePosD(33333.2);
-    }
-    {
-        EXPECT_EQ(iv::getNumTreePosP(), 12);
-        EXPECT_EQ(iv::getNumTreePosI(), -18);
-        EXPECT_EQ(iv::getNumTreePosD(), 33333.2);
-    }
+
+    auto pidnum = rtt::ai::pidVals(12, -18, 33333.2);
+    iv::setNumTreePid(pidnum);
+    EXPECT_EQ(iv::getNumTreePid(), pidnum);
+
+    auto pidbasic = rtt::ai::pidVals(12, -22, 12.2);
+    iv::setBasicPid(pidbasic);
+    EXPECT_EQ(iv::getBasicPid(), pidbasic);
+
+    auto pidforce= rtt::ai::pidVals(8888, -7, 8.2);
+    iv::setForcePid(pidforce);
+    EXPECT_EQ(iv::getForcePid(), pidforce);
 }
 
