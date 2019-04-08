@@ -25,7 +25,7 @@ double CoachHeuristics::calculateCloseToGoalScore(const Vector2 &position) {
 
 /// Gives a higher score if the line between the position and the goal is free
 double CoachHeuristics::calculateShotAtGoalScore(const Vector2& position, WorldData world) {
-    double shortestDistance = control::ControlUtils::closestEnemyToLineDistance(position, world::field->get_their_goal_center(), world, true);
+    double shortestDistance = control::ControlUtils::closestEnemyToLineDistance(position, world::field->get_their_goal_center(), world, false);
 
     return 1 - exp(SHOT_AT_GOAL_WEIGHT * shortestDistance);
 }

@@ -55,23 +55,19 @@ Vector2 SideAttacker::getOffensivePosition() {
 
     std::vector<Vector2> targetLocations = coach::g_offensiveCoach.getNewOffensivePositions(robotsPositioning.size());
 
-    // If not yet assigned to a zone, do so according to the Hungarian
-    if (zone == -1) {
-        std::vector<Vector2> robotLocations;
-        std::vector<int> robotIds;
+    std::vector<Vector2> robotLocations;
+    std::vector<int> robotIds;
 
-        for (auto & robotPositioning : robotsPositioning) {
-            robotIds.push_back(robotPositioning->id);
-        }
-
-        rtt::HungarianAlgorithm hungarian;
-        auto shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations);
-        return shortestDistances.at(robot->id);
-
-    // If already assigned to a zone, stick to it
-    } else {
-        return targetLocations.at(zone);
+    for (auto & robotPositioning : robotsPositioning) {
+        robotIds.push_back(robotPositioning->id);
     }
+
+    rtt::HungarianAlgorithm hungarian;
+    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations);
+    Vector2 position = shortestDistances.at(robot->id);
+
+    return position;
+
 }
 
 void SideAttacker::onTerminate(Status s) {

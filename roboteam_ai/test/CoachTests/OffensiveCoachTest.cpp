@@ -12,14 +12,14 @@ TEST(CoachTest, offensive_coach_test) {
     field.field_width = 9;
     rtt::ai::world::field->set_field(field);
 
-    std::vector<Vector2> offensivePositions = rtt::ai::coach::g_offensiveCoach.getNewOffensivePositions();
+    std::vector<Vector2> offensivePositions = rtt::ai::coach::g_offensiveCoach.getNewOffensivePositions(4);
 
     int counter = 0;
     std::vector<Vector2> newOffensivePositions;
 
     // Calculate the next offensive positions 10 times
     while (counter < 10) {
-        newOffensivePositions = rtt::ai::coach::g_offensiveCoach.getNewOffensivePositions();
+        newOffensivePositions = rtt::ai::coach::g_offensiveCoach.getNewOffensivePositions(4);
         counter++;
     }
 

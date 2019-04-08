@@ -14,24 +14,14 @@ namespace ai {
 
 class SideAttacker : public Skill {
     private:
-        const double DEFAULT_DISTANCE_MARGIN = 0.20;
-        int zone = -1;
 
-        control::NumTreePosControl goToPos;
-        Vector2 deltaPos;
-        Vector2 targetPos;
-        bool firstLocationReached;
+    control::NumTreePosControl goToPos;
+    Vector2 deltaPos;
+    Vector2 targetPos;
 
-        static vector<RobotPtr> robotsPositioning;
-        std::vector<Vector2> defaultLocations;
-        enum Progression {
-            DEFAULTING,
-            OPTIMIZING
-        };
+    static vector<RobotPtr> robotsPositioning;
 
-        Progression currentProgress = DEFAULTING;
-
-        Vector2 getOffensivePosition();
+    Vector2 getOffensivePosition();
 
     public:
         explicit SideAttacker(string name, bt::Blackboard::Ptr blackboard);
