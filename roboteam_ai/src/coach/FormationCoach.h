@@ -17,19 +17,18 @@ class FormationCoach {
         explicit FormationCoach();
 
         /// Stop ///
-        bool isOffensiveStop(int ID);
         std::vector<Vector2> getStopPositions();
+        void registerPassive(int ID);
 
 
     private:
         /// Stop ///
-        // See if it is an active ball follower or just a passive defender
-        std::map<int, bool> robotsStop;
-        // Passive defender positions
-        std::vector<Vector2> positionsStop;
-        void makeStopPositions();
+        std::vector<int> passiveRobots;
+        std::vector<Vector2> passivePositions;
+        void makePassivePositions();
         void makeActiveStopPositions();
         bool done = false;
+        bool passiveDone = false;
 
 
 

@@ -60,6 +60,10 @@
 #include <roboteam_ai/src/skills/EnterFormation.h>
 #include <roboteam_ai/src/skills/AvoidBall.h>
 #include <roboteam_ai/src/skills/Stop.h>
+#include <roboteam_ai/src/skills/ActiveStop.h>
+#include <roboteam_ai/src/skills/PassiveStop.h>
+
+
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
 #include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"
@@ -200,6 +204,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["ShootPenalty"] = std::make_shared<rtt::ai::ShootPenalty>(name, properties);
     map["ShootFreeKick"] = std::make_shared<rtt::ai::ShootFreeKick>(name, properties);
     map["Stop"] = std::make_shared<rtt::ai::Stop>(name, properties);
+    map["ActiveStop"] = std::make_shared<rtt::ai::ActiveStop>(name, properties);
+    map["PassiveStop"] = std::make_shared<rtt::ai::PassiveStop>(name, properties);
+
 
 
     // conditions (alphabetic order)

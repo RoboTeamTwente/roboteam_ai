@@ -21,6 +21,8 @@ class Stop : public Skill {
         static Vector2 getOffensiveActivePoint();
         static Vector2 getDefensiveActivePoint();
         static std::vector<int> robotsInFormation;
+        static int numberInFormation;
+        static map<int, Vector2> shortestDistances;
 
 
         control::NumTreePosControl goToPos;

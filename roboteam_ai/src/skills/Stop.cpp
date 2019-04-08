@@ -12,6 +12,8 @@ namespace ai {
 using Robot = rtt::ai::world::Robot;
 std::vector<int> Stop::robotsInFormation = {};
 int Stop::defensiveOffensive = -1;
+int Stop::numberInFormation = 0;
+map<int, Vector2> Stop::shortestDistances ={};
 
 Stop::Stop(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
@@ -88,11 +90,14 @@ Vector2 Stop::getDefensiveActivePoint() {
 
 Vector2 Stop::getFormationPosition() {
 
+if (numberInFormation != robotsInFormation.size()) {
+    rtt::HungarianAlgorithm hungarian;
+    shortestDistances = hungarian.getRobotPositions(robotsInFormation, true, coach::g_formation.getStopPositions());
+    numberInFormation = robotsInFormation.size();
+}
+    return shortestDistances[robot->id];
 
 
-
-
-    return {0,0};
 }
 }
 }

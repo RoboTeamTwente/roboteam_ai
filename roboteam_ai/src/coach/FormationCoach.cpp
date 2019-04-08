@@ -4,6 +4,7 @@
 
 #include <roboteam_ai/src/world/World.h>
 #include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/utilities/RobotDealer.h>
 #include "FormationCoach.h"
 
 namespace rtt {
@@ -12,13 +13,12 @@ namespace coach {
 FormationCoach g_formation;
 
 FormationCoach::FormationCoach() {
-    done = false;
 }
 
 bool FormationCoach::isOffensiveStop(int ID) {
     if (! done) {
         makeActiveStopPositions();
-        makeStopPositions();
+        makePassivePositions();
         done = true;
     }
 
@@ -33,7 +33,7 @@ bool FormationCoach::isOffensiveStop(int ID) {
 void FormationCoach::makeActiveStopPositions() {
 
     if (rtt::ai::world::world->getUs().size() < 3) {
-        for (auto robot : rtt::ai::world::world->getUs()) {
+        for (const auto& robot : rtt::ai::world::world->getUs()) {
             robotsStop[robot.id] = false;
         }
     }
@@ -46,7 +46,12 @@ void FormationCoach::makeActiveStopPositions() {
         ballPos = rtt::ai::world::world->getBall()->pos;
     else
         ballPos = {0,0};
-    for (auto robot : rtt::ai::world::world->getUs()) {
+    for (const auto& robot : rtt::ai::world::world->getUs()) {
+
+        // Skip the keeper
+        if (robot.id == rtt::ai::robotDealer::RobotDealer::getKeeperID())
+            continue;
+
         double dist = (static_cast<Vector2>(robot.pos) - ballPos).length();
         if (dist < closest.second) {
             if (dist < closestest.second) {
@@ -63,32 +68,37 @@ void FormationCoach::makeActiveStopPositions() {
     robotsStop[closestest.first] = true;
 
 }
-void FormationCoach::makeStopPositions() {
-    int amount = 0;
-    for (auto robot : robotsStop) {
-        if (! robot.second)
-            amount ++;
-    }
+void FormationCoach::makePassivePositions() {
+
+    if (passiveDone)
+        return;
+
+    int amount = passiveRobots.size();
+
     Vector2 startPoint = rtt::ai::world::field->get_field().left_penalty_line.begin;
-    Vector2 endPoint = rtt::ai::world::field->get_field().left_penalty_line.begin;
+    Vector2 endPoint = rtt::ai::world::field->get_field().left_penalty_line.end;
     if (amount > 2) {
         auto size = ((startPoint - endPoint).length()/(amount - 2.0));
         Vector2 travel = (endPoint - startPoint).stretchToLength(size);
         for (int i = 0; i <= amount; i ++) {
-            positionsStop.push_back((startPoint + (startPoint + travel*i)));
+            passivePositions.push_back((startPoint + (startPoint + travel*i)));
         }
     }
     else {
         // add them, if less is needed they will be looped anyways
-        positionsStop.push_back(startPoint);
-        positionsStop.push_back(endPoint);
+        passivePositions.push_back(startPoint);
+        passivePositions.push_back(endPoint);
     }
+    passiveDone = true;
 
 }
 // TODO time
 std::vector<Vector2> FormationCoach::getStopPositions() {
-    makeStopPositions();
-    return positionsStop;
+    return passivePositions;
+}
+void FormationCoach::registerPassive(int ID) {
+    passiveRobots.emplace_back(ID);
+
 }
 
 }
