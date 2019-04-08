@@ -10,7 +10,7 @@ TEST(CoachTest, offensive_coach_test) {
     roboteam_msgs::GeometryFieldSize field;
     field.field_length = 12;
     field.field_width = 9;
-    rtt::ai::Field::set_field(field);
+    rtt::ai::world::field->set_field(field);
 
     std::vector<Vector2> offensivePositions = rtt::ai::coach::g_offensiveCoach.getNewOffensivePositions();
 
