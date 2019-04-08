@@ -50,6 +50,7 @@ Vector2 PassiveStop::getTargetPos() {
 
 }
 void PassiveStop::checkBall() {
+    // might osilate no promises
     Vector2 ballPos = (rtt::ai::world::world->getBall()->pos);
 
     if (( ballPos- (robot->pos)).length() < 0.666) {

@@ -15,43 +15,6 @@ FormationCoach g_formation;
 FormationCoach::FormationCoach() {
 }
 
-
-//void FormationCoach::makeActiveStopPositions() {
-//
-//    if (rtt::ai::world::world->getUs().size() < 3) {
-//        return;
-//    }
-//
-//    // get the TWO closest robots to the ball, so as much work as calling the world for it
-//    std::pair<int, double> closest = {- 1, 999};
-//    std::pair<int, double> closestest = {- 1, 999};
-//    Vector2 ballPos;
-//    if (rtt::ai::world::world->getBall())
-//        ballPos = rtt::ai::world::world->getBall()->pos;
-//    else
-//        ballPos = {0,0};
-//    for (const auto& robot : rtt::ai::world::world->getUs()) {
-//
-//        // Skip the keeper
-//        if (robot.id == rtt::ai::robotDealer::RobotDealer::getKeeperID())
-//            continue;
-//
-//        double dist = (static_cast<Vector2>(robot.pos) - ballPos).length();
-//        if (dist < closest.second) {
-//            if (dist < closestest.second) {
-//                closest = closestest;
-//                closestest = {robot.id, dist};
-//            }
-//            else {
-//                closest = {robot.id, dist};
-//            }
-//        }
-//    }
-//    activeRobots.emplace_back(closest.first);
-//    activeRobots.emplace_back(closestest.first);
-//
-//
-//}
 void FormationCoach::makePassivePositions() {
 
     if (passiveDone)
@@ -76,7 +39,6 @@ void FormationCoach::makePassivePositions() {
     passiveDone = true;
 
 }
-// TODO time
 std::vector<Vector2> FormationCoach::getStopPositions() {
     return passivePositions;
 }
