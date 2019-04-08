@@ -6,9 +6,9 @@
 #include "PossiblePass.h"
 #include "roboteam_ai/src/world/Field.h"
 
-namespace rtt{
-namespace ai{
-namespace coach{
+namespace rtt {
+namespace ai {
+namespace coach {
 double PossiblePass::distance() {
     return (endPos - startPos).length();
 }
@@ -17,12 +17,12 @@ bool PossiblePass::obstacleObstructsPath(const Vector2 &obstPos, double obstRadi
 }
 int PossiblePass::amountOfBlockers(const world::WorldData &world) {
     int total = 0;
-    for (auto bot : world.them) {
+    for (const auto& bot : world.them) {
         if (obstacleObstructsPath(bot.pos)) {
             total ++;
         }
     }
-    for (auto bot : world.us) {
+    for (const auto& bot : world.us) {
         if (obstacleObstructsPath(bot.pos)) {
             total ++;
         }
@@ -30,10 +30,11 @@ int PossiblePass::amountOfBlockers(const world::WorldData &world) {
     return total;
 }
 
-PossiblePass::PossiblePass(world::Robot *_toBot, const Vector2 &ballPos) :toBot(_toBot),startPos(ballPos){
-endPos=botReceivePos(ballPos,_toBot->pos);
+PossiblePass::PossiblePass(world::Robot* _toBot, const Vector2 &ballPos)
+        :toBot(_toBot), startPos(ballPos) {
+    endPos = botReceivePos(ballPos, _toBot->pos);
 }
-Vector2 PossiblePass::botReceivePos(const Vector2& _startPos, const Vector2& botPos) {
+Vector2 PossiblePass::botReceivePos(const Vector2 &_startPos, const Vector2 &botPos) {
     Vector2 receivePos =
             botPos + (_startPos - botPos).stretchToLength(Constants::CENTRE_TO_FRONT() + Constants::BALL_RADIUS());
     return receivePos;
@@ -69,7 +70,7 @@ double PossiblePass::scoreForGoalAngle(const world::WorldData &world) {
 //Half the score for every robot that blocks the ball
 double PossiblePass::penaltyForBlocks(const world::WorldData &world) {
     double obstacleFactor = 0.5;
-    return pow(obstacleFactor,amountOfBlockers(world));
+    return pow(obstacleFactor, amountOfBlockers(world));
 }
 double PossiblePass::penaltyForDistance() {
     //we use a ramp function has it's zero at goodUntilPassDist and is 1 and impossible Passdist as a penalty
@@ -79,7 +80,12 @@ double PossiblePass::penaltyForDistance() {
         return (1 - (distance() - goodUntilPassDist)/(impossiblePassDist - goodUntilPassDist));
     }
     return 1.0;
-
+}
+Vector2 PossiblePass::posOnLine(double scale) {
+    return startPos + (endPos - startPos)*scale;
+}
+double PossiblePass::faceLine() {
+    return (endPos - startPos).angle();
 }
 }
 }

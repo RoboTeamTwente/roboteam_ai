@@ -270,9 +270,18 @@ bool World::theirRobotHasBall(int id, double maxDist) {
     return robot->hasBall(maxDist);
 }
 
-const World::RobotPtr World::whichRobotHasBall() {
+const World::RobotPtr World::whichRobotHasBall(WhichRobots whichBots) {
     // checks for all robots which robot has the ball AND is closest to the ball
-    auto allRobots = getAllRobots();
+    std::vector<Robot> allRobots;
+    if (whichBots==WhichRobots::OUR_ROBOTS){
+        allRobots=getUs();
+    }
+    else if (whichBots==WhichRobots::THEIR_ROBOTS){
+        allRobots=getThem();
+    }
+    else{
+        allRobots=getAllRobots();
+    }
     if (allRobots.empty()) {
         return RobotPtr(nullptr);
     }

@@ -22,6 +22,9 @@ class PossiblePass {
         int amountOfBlockers(const world::WorldData& world);
         PossiblePass(world::Robot *_toBot, const Vector2& ballPos);
         double score(const world::WorldData& world);
+        // scale from startPos to EndPos
+        Vector2 posOnLine(double scale);
+        double faceLine();
     private:
         Vector2 botReceivePos(const Vector2& startPos, const Vector2& botPos);
         double penaltyForBlocks(const world::WorldData& world);
