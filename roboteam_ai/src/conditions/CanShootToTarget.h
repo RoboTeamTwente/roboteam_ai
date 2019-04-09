@@ -12,6 +12,7 @@ namespace rtt {
 namespace ai {
 
 class CanShootToTarget : public Condition {
+    const double MAX_DIST_FROM_LINE = Constants::ROBOT_RADIUS();
 public:
     explicit CanShootToTarget(std::string name = "CanShootToTarget", bt::Blackboard::Ptr blackboard = nullptr);
     Status onUpdate() override;
@@ -19,6 +20,7 @@ public:
 
 private:
 	Vector2 target;
+	double margin;
 };
 
 } // ai
