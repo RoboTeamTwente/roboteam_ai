@@ -13,43 +13,45 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
+    typedef std::tuple<double, double, double> pidVals;
+
+
 class InterfaceValues {
-    private:
-        static double numTreePosP;
-        static double numTreePosI;
-        static double numTreePosD;
+private:
+    static pidVals basicPID;
+    static pidVals numTreePID;
+    static pidVals forcePID;
 
-        static std::mutex pidMutex;
-        static std::mutex ballPlacementMutex;
-        static std::mutex refMutex;
-        static std::mutex showDebugMutex;
+    static std::mutex pidMutex;
+    static std::mutex ballPlacementMutex;
+    static std::mutex refMutex;
+    static std::mutex showDebugMutex;
 
-        static rtt::Vector2 ballPlacementTarget;
-        static bool useRefereeCommands;
-        static bool showDebugValuesInTerminal;
+    static rtt::Vector2 ballPlacementTarget;
+    static bool useRefereeCommands;
+    static bool showDebugValuesInTerminal;
 
-    public:
-        static void setShowDebugValues(bool showDebug);
-        static bool getShowDebugValues();
-        static bool showDebugLongestTick();
-        static bool showDebugTickTimeTaken();
-        static bool showDebugNumTreeTimeTaken();
-        static bool showDebugNumTreeInfo();
-        static bool showFullDebugNumTreeInfo();
+public:
+    static void setShowDebugValues(bool showDebug);
+    static bool getShowDebugValues();
+    static bool showDebugLongestTick();
+    static bool showDebugTickTimeTaken();
+    static bool showDebugNumTreeTimeTaken();
+    static bool showDebugNumTreeInfo();
+    static bool showFullDebugNumTreeInfo();
 
-        static bool usesRefereeCommands();
-        static void setUseRefereeCommands(bool useRefereeCommands);
-        static const rtt::Vector2 &getBallPlacementTarget();
-        static void setBallPlacementTarget(const rtt::Vector2 &ballPlacementTarget);
+    static bool usesRefereeCommands();
+    static void setUseRefereeCommands(bool useRefereeCommands);
+    static const rtt::Vector2 &getBallPlacementTarget();
+    static void setBallPlacementTarget(const rtt::Vector2 &ballPlacementTarget);
 
-        static double getNumTreePosP();
-        static void setNumTreePosP(double numTreePP);
-        static double getNumTreePosI();
-        static void setNumTreePosI(double numTreePI);
-        static double getNumTreePosD();
-        static void setNumTreePosD(double numTreePD);
-
-        static void sendHaltCommand();
+    static const pidVals &getNumTreePid();
+    static void setNumTreePid(const pidVals &numTreePid);
+    static const pidVals &getForcePid();
+    static void setForcePid(const pidVals &forcePid);
+    static const pidVals &getBasicPid();
+    static void setBasicPid(const pidVals &basicPid);
+    static void sendHaltCommand();
 };
 
 }

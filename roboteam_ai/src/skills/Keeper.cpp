@@ -20,41 +20,23 @@ void Keeper::onInitialize() {
 
     //Create arc for keeper to drive on
     blockCircle=control::ControlUtils::createKeeperArc();
-    //TODO::magic numbers galore, from the old team. move to new control library
-    double timediff = 1.0/Constants::TICK_RATE();
-    pid.setPID(3.7,1.7,0.8, timediff);
-    finePid.setPID(3.7,1.7,0.8,timediff);
 }
 
 Keeper::Status Keeper::onUpdate() {
-        Vector2 ballPos = world::world->getBall()->pos;
-        Vector2 blockPoint = computeBlockPoint(ballPos);
-        if (!world::field->pointIsInField(blockPoint, static_cast<float>(Constants::OUT_OF_FIELD_MARGIN()))) {
-            std::cout << "Keeper escaping field!" << std::endl;
-            return Status::Running;
-        } else {
-            Vector2 velocities = gtp.getPosVelAngle(robot, blockPoint).vel;
-            velocities = control::ControlUtils::velocityLimiter(velocities);
-            command.x_vel = static_cast<float>(velocities.x);
-            command.y_vel = static_cast<float>(velocities.y);
-            publishRobotCommand();
-            return Status::Running;
+    Vector2 ballPos = world::world->getBall()->pos;
+    Vector2 blockPoint = computeBlockPoint(ballPos);
 
-        }
-
-
-        //double dist=control::ControlUtils::distanceToLine(robot->pos,ballPos,blockPoint);
-        double dist = (blockPoint - (Vector2(robot->pos))).length(); //using point distance not line distance.
-        if (dist < KEEPER_POSDIF) {
-            sendStopCommand();
-        }
-        else if (dist < 2*Constants::ROBOT_RADIUS()){
-            sendFineMoveCommand(blockPoint);
-        }
-        else {
-            sendMoveCommand(blockPoint);
-        }
+    if (!world::field->pointIsInField(blockPoint, static_cast<float>(Constants::OUT_OF_FIELD_MARGIN()))) {
+        std::cout << "Keeper escaping field!" << std::endl;
         return Status::Running;
+    }
+
+    Vector2 velocities = gtp.getPosVelAngle(robot, blockPoint).vel;
+    velocities = control::ControlUtils::velocityLimiter(velocities);
+    command.x_vel = static_cast<float>(velocities.x);
+    command.y_vel = static_cast<float>(velocities.y);
+    publishRobotCommand();
+    return Status::Running;
 }
 
 void Keeper::onTerminate(Status s) {
@@ -64,35 +46,6 @@ void Keeper::onTerminate(Status s) {
     publishRobotCommand();
 }
 
-void Keeper::sendMoveCommand(Vector2 pos) {
-    Vector2 error = pos - robot->pos;
-    Vector2 delta = pid.controlPIR(error, robot->vel);
-
-    Vector2 deltaLim= control::ControlUtils::velocityLimiter(delta);
-    command.x_vel = static_cast<float>(deltaLim.x);
-    command.y_vel = static_cast<float>(deltaLim.y);
-    command.w = static_cast<float>(M_PI_2);
-    publishRobotCommand();
-
-}
-
-void Keeper::sendFineMoveCommand(Vector2 pos) {
-    Vector2 error = pos - robot->pos;
-    Vector2 delta = finePid.controlPIR(error, robot->vel);
-    Vector2 deltaLim= control::ControlUtils::velocityLimiter(delta);
-    command.x_vel = static_cast<float>(deltaLim.x);
-    command.y_vel = static_cast<float>(deltaLim.y);
-    command.w = static_cast<float>(M_PI_2);
-    publishRobotCommand();
-
-}
-
-void Keeper::sendStopCommand() {
-    command.x_vel = static_cast<float>(0.0);
-    command.y_vel = static_cast<float>(0.0);
-    command.w = static_cast<float>(M_PI_2);
-    publishRobotCommand();
-}
 Vector2 Keeper::computeBlockPoint(Vector2 defendPos) {
     Vector2 u1 = (goalPos + Vector2(0.0, goalwidth*0.5) - defendPos).normalize();
     Vector2 u2 = (goalPos + Vector2(0.0, - goalwidth*0.5) - defendPos).normalize();
