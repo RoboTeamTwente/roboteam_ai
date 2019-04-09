@@ -23,9 +23,11 @@ void GoToPos::onInitialize() {
         maxVel = properties->getDouble("maxVel");
     }
 
-        gotopos.setAvoidBall(properties->getBool("avoidBall") ? Constants::DEFAULT_BALLCOLLISION_RADIUS() : false);
-        gotopos.setCanMoveOutOfField(properties->getBool("canGoOutsideField"));
-        gotopos.setCanMoveInDefenseArea(properties->getBool("canMoveInDefenseArea"));
+    gotopos.setAvoidBall(properties->getBool("avoidBall") ? Constants::DEFAULT_BALLCOLLISION_RADIUS() : false);
+    if (properties->hasDouble("avoidBallDistance")) gotopos.setAvoidBall(properties->getDouble("avoidBallDistance"));
+
+    gotopos.setCanMoveOutOfField(properties->getBool("canGoOutsideField"));
+    gotopos.setCanMoveInDefenseArea(properties->getBool("canMoveInDefenseArea"));
 }
 
 /// Get an update on the skill

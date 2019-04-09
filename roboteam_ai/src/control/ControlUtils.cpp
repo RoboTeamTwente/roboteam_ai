@@ -4,6 +4,7 @@
 
 
 #include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/utilities/Referee.hpp>
 #include "ControlUtils.h"
 #include "../world/World.h"
 
@@ -94,17 +95,30 @@ bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos,
     return true;
 }
 
+double ControlUtils::closestEnemyToLineDistance(const Vector2 &fromPos, Vector2 toPos, const world::WorldData world, bool keeper) {
+    double shortestDistance = INT_MAX;
+    double currentDistance;
+
+    for (auto enemy : world.them) {
+        if (!keeper && enemy.id == rtt::ai::Referee::getRefereeData().them.goalie) {
+            continue;
+        }
+        currentDistance = distanceToLine(enemy.pos, fromPos, toPos);
+        if (currentDistance < shortestDistance) {
+            shortestDistance = currentDistance;
+        }
+    }
+    return shortestDistance;
+}
+
 /// See if a robot has a clear vision towards another robot
 /// e.g. there are no obstacles in between.
-bool ControlUtils::hasClearVision(int fromID, int towardsID,
-        const roboteam_msgs::World &world, int safeDistanceFactor) {
-
+bool ControlUtils::hasClearVision(int fromID, int towardsID, world::WorldData w, int safeDistanceFactor) {
     double minDistance = rtt::ai::Constants::ROBOT_RADIUS()*(3*safeDistanceFactor); // TODO: calibrate Rolf approved
     Vector2 fromPos;
     Vector2 towardsPos;
 
-    auto w = world::world->getWorld();
-    for (auto &friendly : w.us) {
+    for (const auto& friendly : w.us) {
         if (static_cast<int>(friendly.id) == fromID) {
             fromPos = friendly.pos;
         }
@@ -113,7 +127,7 @@ bool ControlUtils::hasClearVision(int fromID, int towardsID,
         }
     }
 
-    for (auto &enemy : w.them) {
+    for (const auto& enemy : w.them) {
         if (distanceToLineWithEnds(enemy.pos, fromPos, towardsPos) < minDistance) {
             return false;
         }

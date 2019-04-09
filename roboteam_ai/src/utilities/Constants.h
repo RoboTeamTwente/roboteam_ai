@@ -10,6 +10,8 @@
 namespace rtt {
 namespace ai {
 
+    typedef std::tuple<double, double, double> pidVals;
+
 class Constants {
 public:
     static void init();
@@ -110,10 +112,11 @@ public:
                                                            {255, 120, 180, 255},
                                                            {255, 100, 255, 255} }; };
 
-// Default PID values for the interface
-    static double standardNumTreePosP()         { return GRSIM() ? 1.65 : 2.8; };
-    static double standardNumTreePosI()         { return GRSIM() ? 0.0 : 0.6; };
-    static double standardNumTreePosD()         { return GRSIM() ? 0.0 : 2.3; };
+    // Default PID values for the gotoposses/interface
+    static pidVals standardNumTreePID()         { return GRSIM() ? pidVals(3.2, 0.0, 2.0) : pidVals(2.8, 0.6,2.3); };
+    static pidVals standardForcePID()           { return GRSIM() ? pidVals(1.65, 0.0, 0.0) : pidVals(2.8, 0.6,2.3); };
+    static pidVals standardBasicPID()           { return GRSIM() ? pidVals(1.65, 0.0, 0.0) : pidVals(2.8, 0.6,2.3); };
+
     
 private:
     static bool isInitialized;

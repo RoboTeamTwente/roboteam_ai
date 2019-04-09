@@ -67,7 +67,10 @@ PosVelAngle ForcePosControl::calculateForcePosVelAngle(const PosController::Robo
     return controlWithPID(robot, target);
 }
 
-
+void ForcePosControl::checkInterfacePID() {
+    auto newPid = interface::InterfaceValues::getForcePid();
+    updatePid(newPid);
+}
 
 } // control
 } // ai

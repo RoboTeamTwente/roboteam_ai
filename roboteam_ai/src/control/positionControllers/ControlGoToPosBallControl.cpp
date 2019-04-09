@@ -2,6 +2,7 @@
 // Created by thijs on 18-12-18.
 //
 
+#include <roboteam_ai/src/interface/InterfaceValues.h>
 #include "ControlGoToPosBallControl.h"
 #include "PosVelAngle.h"
 
@@ -19,6 +20,11 @@ PosVelAngle ControlGoToPosBallControl::getPosVelAngle(const RobotPtr &robot, Vec
     return {};
 }
 
+void ControlGoToPosBallControl::checkInterfacePID() {
+    //TODO use other pid than the numtree pid
+    auto newPid = interface::InterfaceValues::getNumTreePid();
+    updatePid(newPid);
+}
 
 
 } //control

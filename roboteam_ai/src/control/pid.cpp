@@ -363,3 +363,7 @@ void PID::checkSigns(){
         if(F<0) F*=-1;
     }
 }
+
+void PID::setPID(std::tuple<double, double, double> pid) {
+  this->setPID(std::get<0>(pid), std::get<1>(pid), std::get<2>(pid));
+}

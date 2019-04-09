@@ -13,6 +13,7 @@
 namespace rtt {
 namespace ai {
 namespace control {
+
 class PosController {
     protected:
         using Robot = world::Robot;
@@ -32,7 +33,8 @@ class PosController {
         PID ypid = PID(1.65, 0, 0.0);
         bool getPIDFromInterface = true;
         PosVelAngle controlWithPID(const RobotPtr &robot, PosVelAngle target);
-        void checkInterfacePID();
+        virtual void checkInterfacePID() = 0;
+
         virtual Vector2 calculatePIDs(const RobotPtr &robot, PosVelAngle &target);
 
     public:
@@ -48,6 +50,8 @@ class PosController {
         void setAvoidBall(double ballDistance = Constants::ROBOT_RADIUS() * 2.0);
 
         std::tuple<double, double, double> lastPid;
+
+        void updatePid(pidVals pid);
 };
 
 } // control

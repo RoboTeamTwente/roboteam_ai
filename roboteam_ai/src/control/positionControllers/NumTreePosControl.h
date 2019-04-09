@@ -27,8 +27,8 @@ class NumTreePosControl : public ForcePosControl {
         Robot robot = {};
         Vector2 finalTargetPos;
 
-        bool doRecalculatePath(const RobotPtr &robot, const Vector2 &targetPos);
-        PosVelAngle computeCommand(const RobotPtr &robot);
+        bool doRecalculatePath(const Vector2 &targetPos);
+        PosVelAngle computeCommand();
 
         // constants
         const double MAX_CALCULATION_TIME = 5.0;         // Max calculation time in ms
@@ -57,6 +57,8 @@ class NumTreePosControl : public ForcePosControl {
         double remainingStraightLinePathLength(
                 const Vector2 &currentPos, const Vector2 &halfwayPos, const Vector2 &finalPos);
         std::vector<PathPoint> path;
+
+        void checkInterfacePID() override;
 
     public:
         explicit NumTreePosControl() = default;

@@ -19,8 +19,6 @@ namespace ai {
 namespace control {
 
 class ControlUtils {
-    private:
-
     public:
         static double calculateAngularVelocity(double robotAngle, double targetAngle);
         static double TriangleArea(const Vector2 &a, const Vector2 &b, const Vector2 &c);
@@ -36,14 +34,13 @@ class ControlUtils {
         static double distanceToLine(const Vector2 &PointToCheck, const Vector2 &LineStart, const Vector2 &LineEnd);
         static bool clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world::WorldData &world,
                 double safeDistanceFactor, bool keeper = true);
-        static double distanceToLineWithEnds(const Vector2 &PointToCheck, const Vector2 &LineStart,
+        static double distanceToLineWithEnds(const Vector2 & PointToCheck, const Vector2 &LineStart,
                 const Vector2 &LineEnd);
         static double angleDifference(double A1, double A2);
         static int rotateDirection(double currentAngle, double targetAngle);
         static Vector2 projectPositionToWithinField(Vector2 position, float margin = 0.2);
         static Vector2 calculateForce(const rtt::Vector2 &vector, double weight, double minDistance);
 
-        static bool hasClearVision(int from, int towards, const roboteam_msgs::World &world, int safeDistanceFactor);
         static bool onLineSegment(const Vector2 &p, const Vector2 &q, const Vector2 &r);
         static rtt::Vector2 twoLineIntersection(const Vector2 &a1, const Vector2 &a2, const Vector2 &b1,
                 const Vector2 &b2);
@@ -60,6 +57,9 @@ class ControlUtils {
                 const Vector2 &point, double maxDifference = 0.3);
         static std::vector<std::pair<Vector2, Vector2>> calculateClosestPathsFromTwoSetsOfPoints(
                 std::vector<Vector2> set1, std::vector<Vector2> set2);
+        static double closestEnemyToLineDistance(const Vector2 &fromPos, Vector2 toPos, world::WorldData world,
+                                                 bool keeper);
+        static bool hasClearVision(int fromID, int towardsID, world::WorldData w, int safeDistanceFactor);
 };
 
 } // control

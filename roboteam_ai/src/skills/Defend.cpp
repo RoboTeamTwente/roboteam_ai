@@ -18,6 +18,7 @@ void Defend::onInitialize() {
         }
     }
     allDefenders.push_back(robot);
+    gtp.setAvoidBall(0.1);
 }
 
 bt::Node::Status Defend::onUpdate() {

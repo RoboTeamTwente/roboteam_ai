@@ -2,6 +2,7 @@
 // Created by mrlukasbos on 27-3-19.
 //
 
+#include <roboteam_ai/src/interface/InterfaceValues.h>
 #include "BasicPosControl.h"
 
 namespace rtt {
@@ -22,6 +23,13 @@ PosVelAngle BasicPosControl::getPosVelAngle(const RobotPtr &robot, Vector2 &targ
     posVelAngle.vel = error;
     return controlWithPID(robot, posVelAngle);
 }
+
+/// compare current PID values to those set in the interface
+void BasicPosControl::checkInterfacePID() {
+    auto newPid = interface::InterfaceValues::getBasicPid();
+    updatePid(newPid);
+}
+
 
 
 
