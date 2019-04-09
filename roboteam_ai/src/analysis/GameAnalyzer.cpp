@@ -25,7 +25,6 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
     if (world::world->weHaveRobots()) {
         std::shared_ptr<AnalysisReport> report = std::make_shared<AnalysisReport>();
 
-        report->recommendedPlayStyle = getRecommendedPlayStyle();
         report->ballPossession = getBallPossessionEstimate(true);
         report->ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(true);
         report->theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(false);
@@ -41,8 +40,30 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
     return {};
 }
 
-double GameAnalyzer::getBallPossessionEstimate(bool ourTeam) {
-    return 0;
+// get an estimation of ballpossession
+BallPossession GameAnalyzer::getBallPossessionEstimate(bool ourTeam) {
+    Robot::Team ourteam = ourTeam ? Robot::Team::us : Robot::Team::them;
+
+    auto robotWithBall = world::world->whichRobotHasBall();
+    if (robotWithBall) {
+        bool weHaveBall = robotWithBall->team == ourteam;
+        return weHaveBall ? WE_HAVE_BALL : THEY_HAVE_BALL;
+    }
+
+    Robot ourRobotClosestToBall = world::world->getRobotClosestToBall(world::WhichRobots::OUR_ROBOTS);
+    Robot theirRobotClosestToBall = world::world->getRobotClosestToBall(world::WhichRobots::THEIR_ROBOTS);
+
+    const double margin = 0.3;
+    bool weAreSignificantlyCloser = ourRobotClosestToBall.getDistanceToBall() > theirRobotClosestToBall.getDistanceToBall() + margin;
+    bool theyAreSignificantlyCloser = theirRobotClosestToBall.getDistanceToBall() > ourRobotClosestToBall.getDistanceToBall() + margin;
+
+    if (weAreSignificantlyCloser) {
+        return WE_HAVE_BALL;
+    } else if (theyAreSignificantlyCloser) {
+        return THEY_HAVE_BALL;
+    }
+
+    return NEUTRAL;
 }
 
 /// Get the average of the distances of robots to their opponents goal

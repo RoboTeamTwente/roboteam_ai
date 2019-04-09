@@ -6,54 +6,40 @@
 #define ROBOTEAM_AI_DECISIONMAKER_H
 
 // define some play styles to influence our decision making
-enum playStyleScore {
-    DEFEND                          = 0,
-    DEFEND_WITH_ALL_MIDFIELDERS     = 1,
-    DEFEND_WITH_SOME_MIDFIELDERS    = 2,
-    UNSURE_DEFENSIVE                = 3,
-    UNSURE_OFFENSIVE                = 4,
-    ATTACK_WITH_SOME_MIDFIELDERS    = 5,
-    ATTACK_WITH_ALL_MIDFIELDERS     = 6,
-    MAKE_THEM_PAY                   = 7,
+enum playStyleScore : short {
+    DEFENSIVE,
+    NEUTRAL,
+    OFFENSIVE
 };
 
 
-struct playStyle {
-    playStyleScore score;
+
+namespace rtt {
+namespace ai {
+namespace analysis {
+
+struct PlayStyle {
     int amountOfDefenders;
     int amountOfMidfielders;
     int amountOfAttackers;
-
-    playStyle(playStyleScore score, int def, int mid, int att)
-        : score(score), amountOfDefenders(def), amountOfMidfielders(mid), amountOfAttackers(att) {};
-
-    playStyleScore getScore() const {
-        return score;
-    }
-
-    int getAmountOfDefenders() const {
-        return amountOfDefenders;
-    }
-
-    int getAmountOfMidfielders() const {
-        return amountOfMidfielders;
-    }
-
-    int getAmountOfAttackers() const {
-        return amountOfAttackers;
-    }
+    PlayStyle(int def, int mid, int att)
+            : amountOfDefenders(def), amountOfMidfielders(mid), amountOfAttackers(att) {};
 };
 
 
 class DecisionMaker {
 public:
     explicit DecisionMaker() = default;
-    playStyle getRecommendedPlayStyle();
+
+    PlayStyle getRecommendedPlayStyle();
 
 private:
-    playStyle currentPlayStyle;
+    PlayStyle currentPlayStyle;
 
 };
 
+} // analysis
+} // ai
+} // rtt
 
 #endif //ROBOTEAM_AI_DECISIONMAKER_H
