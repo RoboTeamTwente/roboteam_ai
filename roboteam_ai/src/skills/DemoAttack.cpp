@@ -37,7 +37,7 @@ bt::Node::Status DemoAttack::onUpdate() {
     if (!coach::g_generalPositionCoach.isRobotBehindBallToGoal(BEHIND_BALL_CHECK, ownGoal, robot->pos)) {
         targetPos = behindBall;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
-        goToPos->setAvoidBall(true);
+        goToPos->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
 
         if (abs(((Vector2) robot->pos - targetPos).length()) < SWITCH_TO_BASICGTP_DISTANCE) {
             goToPos = std::make_shared<control::BasicPosControl>();

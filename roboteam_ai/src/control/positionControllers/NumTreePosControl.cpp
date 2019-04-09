@@ -334,7 +334,7 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     auto ball = world::world->getFutureBall(futureTime);
 
     // check collision with Ball
-    if (point->isCollision(ball->pos, avoidBallDistance > 0.0 ? avoidBallDistance : 9e9)) {
+    if (point->isCollision(ball->pos, avoidBallDistance)) {
         collision.setCollisionBall(*ball, avoidBallDistance);
         return collision;
     }
