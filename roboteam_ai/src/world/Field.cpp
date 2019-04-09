@@ -122,15 +122,14 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
     //robots.emplace_back(data.us);
     // all the obstacles should be robots
     for (auto const &robot : robots) {
-
+        double lenToBot=(point-robot.pos).length();
         // discard already all robots that are not at all between the goal and point, or if a robot is standing on this point
-        bool isRobotItself = point == robot.pos;
+        bool isRobotItself = lenToBot<=robotRadius;
         bool isInPotentialBlockingZone = ourGoal ? robot.pos.x < point.x + robotRadius : robot.pos.x
                 > point.x - robotRadius;
         if (! isRobotItself && isInPotentialBlockingZone) {
 
             // get the left and right sides of the robot
-            double lenToBot=(point-robot.pos).length();
             double theta=asin(robotRadius/lenToBot);
             double length=sqrt(lenToBot*lenToBot-robotRadius*robotRadius);
             Vector2 lowerSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot.pos)-point).angle()-theta);
@@ -220,11 +219,10 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
     std::vector<std::pair<Vector2, Vector2>> mergedBlockades;
     unsigned long iterator = 0;
     while (blockades.size() > (iterator + 1)) {
-        if (util::lineSegmentsIntersect(blockades.at(iterator).first, blockades.at(iterator).second,
-                blockades.at(iterator + 1).first, blockades.at(iterator + 1).second)) {
+        if (blockades.at(iterator).second.y>=blockades.at(iterator + 1).first.y) {
 
             // if the first two elements intercept, merge them
-            auto upperbound = std::max(blockades.at(iterator).second.y, blockades.at(iterator).second.y);
+            auto upperbound = std::max(blockades.at(iterator).second.y, blockades.at(iterator+1).second.y);
 
             // construct a new vector from the lowest to highest blockade value
             auto newBlockade = std::make_pair(blockades.at(iterator).first,

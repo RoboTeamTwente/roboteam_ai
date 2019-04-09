@@ -28,10 +28,9 @@ class DefencePositionCoach {
           int blockToID;
         };
         Vector2 getMostDangerousPos(const world::WorldData &world);
-        std::vector<std::pair<Vector2, double>> decideDefendersOnDefenseLine(int amount);
         std::vector<DefenderBot> decidePositions(int amount);
 
-        DefenderBot createBlockBall(const world::WorldData &simulatedWorld);
+        std::shared_ptr<DefenderBot> createBlockBall(const world::WorldData &simulatedWorld);
         std::shared_ptr<DefenderBot> tryBlockToGoal(const PossiblePass &pass, double aggressionFactor,
                 const world::WorldData &simulatedWorld);
         std::shared_ptr<BlockPassBot> tryBlockPass(PossiblePass &pass, const world::WorldData &simulatedWorld);
@@ -44,6 +43,7 @@ class DefencePositionCoach {
         Line shortenLineForDefenseArea(const Vector2& lineStart, const Vector2& lineEnd, double defenseMargin);
         Vector2 getPosOnLine(const Line& line, double aggressionFactor);
         double getOrientation(const Line& line);
+        Vector2 findPositionForBlockBall(const Line& line);
     private:
         std::vector<PossiblePass> createPassesSortedByDanger(const world::WorldData &world);
         std::vector<PossiblePass> sortPassesByDanger(std::vector<std::pair<PossiblePass,double>> &passesWithDanger);

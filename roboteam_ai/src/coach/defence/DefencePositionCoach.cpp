@@ -124,8 +124,10 @@ std::vector<DefencePositionCoach::DefenderBot> DefencePositionCoach::decidePosit
     world::WorldData simulatedWorld = world::world->getWorld();
     simulatedWorld.us.clear();
     //first we handle the most dangerous position first. This needs to be blocked completely
-    DefenderBot crucialDefender=createBlockBall(simulatedWorld);
-    defenders.push_back(crucialDefender);
+    std::shared_ptr<DefenderBot> crucialDefender = createBlockBall(simulatedWorld);
+    if (crucialDefender){
+        defenders.push_back(*crucialDefender);
+    }
     // for the remainder we look at the possiblePasses and block the most dangerous bots
     std::vector<PossiblePass> passes = createPassesSortedByDanger(simulatedWorld);
     while (defenders.size() != amount && ! passes.empty()) {
@@ -138,36 +140,36 @@ std::vector<DefencePositionCoach::DefenderBot> DefencePositionCoach::decidePosit
             defender = tryBlockPass(passes[0], simulatedWorld); // if that doesn't work try to prevent the pass
         }
         // if we find a defender add it to our queue and our simulatedWorld and update the passes we found
-        if (defender){
+        if (defender) {
             defenders.push_back(*defender);
             simulatedWorld.us.push_back(defender->toRobot());
-            passes=createPassesSortedByDanger(simulatedWorld);
+            passes = createPassesSortedByDanger(simulatedWorld);
         }
-        else{
+        else {
             //remove the attacker from the simulated world as we cannot cover it anyways
-            simulatedWorld=removeBotFromWorld(simulatedWorld,passes[0].toBot->id,false);
+            simulatedWorld = removeBotFromWorld(simulatedWorld, passes[0].toBot->id, false);
         }
     }
     return defenders;
 }
-world::WorldData DefencePositionCoach::removeBotFromWorld(world::WorldData world,int id,bool isUs){
-    std::vector<world::Robot> bots=world.them;
+world::WorldData DefencePositionCoach::removeBotFromWorld(world::WorldData world, int id, bool isUs) {
+    std::vector<world::Robot> bots = world.them;
     if (isUs) {
         bots = world.us;
     }
-    auto endIt=std::remove_if(bots.begin(),bots.end(),[id](const world::Robot &bot){
-      return id==bot.id;
+    auto endIt = std::remove_if(bots.begin(), bots.end(), [id](const world::Robot &bot) {
+      return id == bot.id;
     });
 
-    if (isUs){
+    if (isUs) {
         world.us.clear();
-        for (auto p=bots.begin(); p!=endIt; ++p){
+        for (auto p = bots.begin(); p != endIt; ++ p) {
             world.us.push_back(*p);
         }
     }
-    else{
+    else {
         world.them.clear();
-        for (auto p=bots.begin(); p!=endIt; ++p){
+        for (auto p = bots.begin(); p != endIt; ++ p) {
             world.them.push_back(*p);
         }
     }
@@ -265,16 +267,37 @@ std::shared_ptr<DefencePositionCoach::BlockPassBot> DefencePositionCoach::tryBlo
     }
     return nullptr;
 }
-DefencePositionCoach::DefenderBot DefencePositionCoach::createBlockBall(const world::WorldData &simulatedWorld) {
-    Vector2 mostDangerousPos=getMostDangerousPos(simulatedWorld);
-
-    DefenderBot bot;
-    bot.type=botType::BLOCKBALL;
-    bot.targetPos=getBlockBallPos(mostDangerousPos);
-    bot.blockFromID=-1;
-    bot.blockFromID=world::world->whichRobotHasBall();
-    bot.orientation;
-    return bot;
+std::shared_ptr<DefencePositionCoach::DefenderBot> DefencePositionCoach::createBlockBall(
+        const world::WorldData &simulatedWorld) {
+    Vector2 mostDangerousPos = getMostDangerousPos(simulatedWorld);
+    auto blockLine = getBlockLineSegment(world::field->getGoalSides(true), mostDangerousPos); //try to block
+    // TODO: handle special handling for the case where we can't block (e.g. try to make keeper actively block?)
+    if (blockLine) {
+        DefenderBot bot;
+        bot.type = botType::BLOCKBALL;
+        bot.targetPos = findPositionForBlockBall(*blockLine);
+        bot.blockFromID = world::world->whichRobotHasBall(world::THEIR_ROBOTS) ? (world::world->whichRobotHasBall(
+                world::THEIR_ROBOTS)->id) : (- 1);
+        bot.orientation = getOrientation(*blockLine);
+        return std::make_shared<DefenderBot>(bot);
+    }
+    return nullptr;
+}
+Vector2 DefencePositionCoach::findPositionForBlockBall(const Line &blockLine) {
+    // if the blocking position is way away from our goal keep the robot on our side
+    double maxForwardLineX = - 0.1;
+    if (blockLine.second.x > maxForwardLineX) {
+        double fieldWidth = world::field->get_field().field_width;
+        Vector2 bottomLine(maxForwardLineX, - fieldWidth*0.5), topLine(maxForwardLineX, fieldWidth*0.5);
+        Vector2 intersect = control::ControlUtils::twoLineIntersection(blockLine.first, blockLine.second, bottomLine,
+                topLine);
+        if (intersect.y > fieldWidth*0.5 || intersect.y < - fieldWidth*0.5) {
+            std::cerr << "Please don't send robots outside of the field" << std::endl;
+            return getPosOnLine(blockLine, 0.3);
+        }
+        return intersect;
+    }
+    return getPosOnLine(blockLine, 0.3);
 }
 }//coach
 }//ai
