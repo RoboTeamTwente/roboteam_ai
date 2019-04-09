@@ -30,12 +30,16 @@ class DefencePositionCoach {
         Vector2 getMostDangerousPos(const world::WorldData &world);
         std::vector<DefenderBot> decidePositions(int amount);
 
-        std::shared_ptr<DefenderBot> createBlockBall(const world::WorldData &simulatedWorld);
-        std::shared_ptr<DefenderBot> tryBlockToGoal(const PossiblePass &pass, double aggressionFactor,
-                const world::WorldData &simulatedWorld);
-        std::shared_ptr<BlockPassBot> tryBlockPass(PossiblePass &pass, const world::WorldData &simulatedWorld);
-        std::shared_ptr<DefenderBot> tryBlockOnLine(const PossiblePass &pass, const world::WorldData &simulatedWorld);
+        DefenderBot createBlockBall(const Line &blockLine);
+        DefenderBot createBlockToGoal(const PossiblePass &pass, double aggressionFactor, const Line &blockLine);
+        BlockPassBot createBlockPass(PossiblePass &pass, const Vector2 &blockPoint);
+        DefenderBot createBlockOnLine(const PossiblePass &pass, const Vector2 &blockPos);
 
+        std::shared_ptr<Line> blockToGoalLine(const PossiblePass &pass, const world::WorldData &simulatedWorld);
+        std::shared_ptr<Line> blockBallLine(const world::WorldData &simulatedWorld);
+        std::shared_ptr<Vector2> blockOnPassLine(PossiblePass &pass, const world::WorldData &simulatedWorld);
+        std::shared_ptr<Vector2> blockOnDefenseAreaLine(const PossiblePass &pass,
+                const world::WorldData &simulatedWorld);
         std::shared_ptr<Line> getBlockLineSegment(const Line &openGoalSegment, const Vector2 &point,
                 double collisionRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS(),
                 double margin = - 1.0);
