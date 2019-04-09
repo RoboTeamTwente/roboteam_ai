@@ -34,6 +34,8 @@ bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboar
 
 void bt::DefaultTactic::initialize() {
     updateRobots();
+    parseType(properties->getString("TacticType"));
+    // TODO call the world analysesr thing
 }
 
 void bt::DefaultTactic::claimRobots() {
@@ -101,6 +103,21 @@ std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getLastClaim() 
             counter ++;
         }
     }
+}
+void bt::DefaultTactic::parseType(std::string typee) {
+    if (typee == "Offensive") {
+        thisThype = Offensive;
+    }
+    else if (typee == "Middle") {
+        thisThype = Middle;
+    }
+    else if (typee == "Defensive") {
+        thisThype = Defensive;
+    }
+    else{
+        thisThype = General;
+    }
+
 }
 
 

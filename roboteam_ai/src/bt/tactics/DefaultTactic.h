@@ -21,6 +21,8 @@ class DefaultTactic : public Tactic {
         int claimIndex = 0;
         std::pair<std::string, RobotType> getNextClaim();
         std::pair<std::string, RobotType> getLastClaim();
+        void parseType(std::string typee);
+
 
 
 
@@ -32,6 +34,13 @@ class DefaultTactic : public Tactic {
         void initialize() override;
         Node::Status update() override;
         void setRoleAmount(int amount);
+        enum TacticType : short {
+          Defensive,
+          Middle,
+          Offensive,
+          General
+        };
+        TacticType thisThype;
 
 };
 }
