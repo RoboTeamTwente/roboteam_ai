@@ -26,7 +26,7 @@ TEST(PassTest, PassTest) {
 
     roboteam_msgs::WorldRobot robot1;
     robot1.id = 0;
-    robot1.pos.x = 0;
+    robot1.pos.x = 4;
     robot1.pos.y = 0;
     roboteam_msgs::WorldBall ball;
     ball.existence = 11;
@@ -36,20 +36,14 @@ TEST(PassTest, PassTest) {
     world.ball = ball;
     w::world->updateWorld(world);
 
-    rtt::ai::coach::g_offensiveCoach.calculateNewPositions();
-
-    w::Robot r1 = w::Robot(robot1, w::Robot::Team::us);
-    std::shared_ptr<w::Robot> robot1Ptr = std::make_shared<rtt::ai::world::Robot>(r1);
-    rtt::ai::coach::g_offensiveCoach.calculatePositionForRobot(robot1Ptr);
-
     ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(), robot1.id);
 
     roboteam_msgs::WorldRobot robot2;
     robot2.id = 1;
     w::world->updateWorld(world);
 
-    Vector2 bestPos = rtt::ai::coach::g_offensiveCoach.calculatePositionForRobot(std::make_shared<w::Robot>(w::Robot(robot2)));
-    robot2.pos = bestPos;
+    robot2.pos.x = 6;
+    robot2.pos.y = 0;
     world.us.push_back(robot2);
     w::world->updateWorld(world);
 
