@@ -26,7 +26,6 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         if (showAvailablePasses) drawPasses(painter);
         drawBall(painter);
         drawRobots(painter);
-        drawCrosses(painter, Drawer::getOffensivePoints(), 5);
         drawLines(painter,Drawer::getTestLines());
         drawPoints(painter,Drawer::getTestPoints());
         drawDrawPoints(painter, Drawer::getDrawPoints());
@@ -41,7 +40,6 @@ void Visualizer::paintEvent(QPaintEvent* event) {
                 drawDataPoints(painter, Drawer::getNumTreePoints(robot.id));
                 drawDataPoints(painter, Drawer::getKeeperPoints(robot.id),Constants::KEEPER_HELP_DRAW_SIZE());
                 drawIntercept(painter, Drawer::getInterceptPoints(robot.id));
-                drawCrosses(painter, Drawer::getAttackerPoints(robot.id), 5);
             }
         }
 

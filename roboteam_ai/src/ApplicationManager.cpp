@@ -2,7 +2,6 @@
 // Created by mrlukasbos on 14-1-19.
 //
 
-
 #include <roboteam_ai/src/demo/JoystickDemo.h>
 #include <roboteam_ai/src/coach/defence/DefenceDealer.h>
 #include "ApplicationManager.h"
@@ -93,7 +92,6 @@ void ApplicationManager::runOneLoopCycle() {
         this->notifyTreeStatus(status);
 
         rtt::ai::coach::g_DefenceDealer.setDoUpdate();
-        rtt::ai::coach::g_offensiveCoach.calculateNewPositions();
     }
     else {
         std::cout <<"NO FIRST WORLD" << std::endl;

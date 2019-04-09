@@ -150,15 +150,6 @@ void Drawer::clearDrawPoints() {
     drawP = {};
 }
 
-void Drawer::setAttackerPoints(int id, GTPPoints points) {
-    std::lock_guard<std::mutex> lock(attackerMutex);
-
-    std::pair<int, GTPPoints> pair{id, std::move(points)};
-
-    AttackerPoints.erase(id);
-    AttackerPoints.insert(pair);
-}
-
 Drawer::GTPPoints Drawer::getAttackerPoints(int id) {
     std::lock_guard<std::mutex> lock(attackerMutex);
 
@@ -167,16 +158,6 @@ Drawer::GTPPoints Drawer::getAttackerPoints(int id) {
     }
     return {};
 
-}
-
-void Drawer::setOffensivePoints(GTPPoints points){
-    std::lock_guard<std::mutex> lock(offensiveMutex);
-    OffensivePoints = std::move(points);
-}
-
-Drawer::GTPPoints Drawer::getOffensivePoints(){
-    std::lock_guard<std::mutex> lock(offensiveMutex);
-    return OffensivePoints;
 }
 
 } // interface
