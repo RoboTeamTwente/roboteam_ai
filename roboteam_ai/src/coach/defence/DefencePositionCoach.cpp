@@ -121,6 +121,9 @@ std::vector<DefencePositionCoach::DefenderBot> DefencePositionCoach::decidePosit
         std::cerr << "can't assign less than 0 Defender locations!!";
         return defenders;
     }
+    else if(amount==0){
+        return defenders;
+    }
     world::WorldData simulatedWorld = world::world->getWorld();
     simulatedWorld.us.clear();
     //first we handle the most dangerous position first. This needs to be blocked completely

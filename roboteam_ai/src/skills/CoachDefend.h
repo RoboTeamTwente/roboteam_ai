@@ -4,13 +4,15 @@
 
 #ifndef ROBOTEAM_AI_COACHDEFEND_H
 #define ROBOTEAM_AI_COACHDEFEND_H
+
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include "Skill.h"
 #include "../control/positionControllers/NumTreePosControl.h"
-namespace rtt{
-namespace ai{
-class CoachDefend : public Skill{
+
+namespace rtt {
+namespace ai {
+class CoachDefend : public Skill {
     public:
         explicit CoachDefend(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
         void onInitialize() override;
@@ -21,6 +23,5 @@ class CoachDefend : public Skill{
 };
 }
 }
-
 
 #endif //ROBOTEAM_AI_COACHDEFEND_H
