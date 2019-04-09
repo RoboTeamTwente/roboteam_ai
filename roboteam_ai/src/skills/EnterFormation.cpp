@@ -5,6 +5,7 @@
 #include "EnterFormation.h"
 #include "../control/ControlUtils.h"
 #include "../world/Field.h"
+#include "../utilities/Hungarian.h"
 
 namespace rtt {
 namespace ai {
@@ -62,26 +63,17 @@ Vector2 EnterFormation::getFormationPosition() {
 
     // first we calculate all the positions for the defense
     std::vector<Vector2> targetLocations;
-    std::vector<Vector2> robotLocations;
+    std::vector<int> robotIds;
 
     for (unsigned int i = 0; i<robotsInFormation.size(); i++) {
         double targetLocationY = ((field.field_width/(robotsInFormation.size() + 1))*(i+1)) - field.field_width/2;
         targetLocations.push_back({targetLocationX, targetLocationY});
-        robotLocations.push_back(robotsInFormation.at(i)->pos);
+        robotIds.push_back(robotsInFormation.at(i)->id);
     }
 
-    // the order of shortestDistances should be the same order as robotLocations
-    // this means that shortestDistances[0] corresponds to defenders[0] etc.
-    auto shortestDistances = control::ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(robotLocations, targetLocations);
-
-    for (unsigned long i = 0; i<robotsInFormation.size(); i++) {
-        if (robotsInFormation.at(i)->id == robot->id) {
-            return shortestDistances.at(i).second;
-        }
-    }
-
-
-    return {0, 0};
+    rtt::HungarianAlgorithm hungarian;
+    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations);
+    return shortestDistances.at(robot->id);
 }
 
 void EnterFormation::onTerminate(bt::Node::Status s) {
