@@ -80,6 +80,10 @@ bt::BehaviorTree::Ptr BTFactory::getKeeperTree() {
     return keeperRepo[keeperTree];
 }
 
+std::string BTFactory::getKeeperTreeName() {
+    return BTFactory::keeperTree;
+}
+
 void BTFactory::halt() {
     BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
     BTFactory::currentTree = "NaN";

@@ -58,8 +58,17 @@ void WorldManager::updateReferee() {
         std::string strategyName = strategyManager.getCurrentStrategyName(refereeMsg.command);
         if (oldStrategy != strategyName) {
             BTFactory::makeTrees();
+            BTFactory::setCurrentTree(strategyName);
         }
-        BTFactory::setCurrentTree(strategyName);
+
+
+        auto oldKeeperTree = BTFactory::getKeeperTreeName();
+        std::string keeperTreeName = strategyManager.getCurrentKeeperTreeName(refereeMsg.command);
+        if (oldKeeperTree != keeperTreeName) {
+            BTFactory::makeTrees();
+            BTFactory::setCurrentTree(keeperTreeName);
+        }
+
 
         // if there is a referee, we always want to have a separate keeper tree.
         robotDealer::RobotDealer::setUseSeparateKeeper(true);
