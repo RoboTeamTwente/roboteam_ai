@@ -307,18 +307,22 @@ NumTreePosControl::PathPointer NumTreePosControl::computeNewPoint(
 }
 
 Collision NumTreePosControl::getCollision(const PathPointer &point, double collisionRadius) {
-
+    // check collisions with robots, the ball, out of field, defense area (and more if needed)
     Collision collision;
     double futureTime = point->t;
+
+    // get all robots and extrapolate their position linearly to the time of the PathPoint (future Robot)
     auto allRobots = world::world->getAllRobots();
     for (auto &r : allRobots) {
         r = world::world->getFutureRobot(r, futureTime);
     }
-    auto ball = world::world->getFutureBall(futureTime);
 
     // check collision with Robots
     collision = getRobotCollision(point->pos, allRobots, collisionRadius);
     if (collision.isCollision) return collision;
+
+    // get the future Ball
+    auto ball = world::world->getFutureBall(futureTime);
 
     // check collision with Ball
     if (point->isCollision(ball->pos, avoidBallDistance > 0.0 ? avoidBallDistance : 9e9)) {
@@ -335,10 +339,17 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
         }
     }
 
-    // check collision with Penalty area
+    // check collision with defense area
     if (! canMoveInDefenseArea) {
-        auto defenseArea = world::field->getDefenseArea(true);
-        if (control::ControlUtils::pointInRectangle(point->pos, defenseArea)) {
+        // our defense area
+        auto ourDefenseArea = world::field->getDefenseArea(true, Constants::ROBOT_RADIUS());
+        bool isInOurDefenseArea = control::ControlUtils::pointInRectangle(point->pos, ourDefenseArea);
+
+        // their defense area
+        auto theirDefenseArea = world::field->getDefenseArea(false, Constants::ROBOT_RADIUS());
+        bool isInTheirDefenseArea = control::ControlUtils::pointInRectangle(point->pos, theirDefenseArea);
+
+        if (isInOurDefenseArea || isInTheirDefenseArea) {
             collision.setOtherCollision(point->pos, 0.2);
             return collision;
         }
@@ -350,6 +361,7 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
 Collision NumTreePosControl::getRobotCollision(
         const Vector2 &collisionPos, const std::vector<Robot> &robots, double distance) {
 
+    // for all robots check if the distance to collisionPos is smaller than the set distance
     Collision collision = {};
     for (auto &r : robots) {
         if (r.id == this->robot.id && r.team == this->robot.team) continue;
@@ -375,7 +387,7 @@ std::pair<std::vector<Vector2>, NumTreePosControl::PathPointer> NumTreePosContro
     double collisionRadius = collision.collisionRadius;
     int factor = collisionPoint->collisions - startPoint->collisions;
 
-    // get positions perpendicular to the vector towards collision, next to the collisionPoint
+    // get positions left and right, perpendicular to the vector towards collision, next to the collisionPoint
     Vector2 leftTargetPosition = collisionPoint->pos +
             Vector2(deltaPosition.y, - deltaPosition.x).stretchToLength(collisionRadius*sqrt(factor)*1.2);
     drawCross(leftTargetPosition, Qt::blue);
@@ -384,6 +396,7 @@ std::pair<std::vector<Vector2>, NumTreePosControl::PathPointer> NumTreePosContro
             Vector2(- deltaPosition.y, deltaPosition.x).stretchToLength(collisionRadius*sqrt(factor)*1.2);
     drawCross(rightTargetPosition, Qt::darkBlue);
 
+    // return the new targets
     auto newTargets = {leftTargetPosition, rightTargetPosition};
     return {newTargets, startPoint};
 }
@@ -392,6 +405,7 @@ std::pair<std::vector<Vector2>, NumTreePosControl::PathPointer> NumTreePosContro
 std::vector<PathPoint> NumTreePosControl::backTrackPath(PathPointer point,
         const PathPointer &root) {
 
+    // backtrack the whole path till it hits the root node and return the vector of PathPoints
     std::vector<PathPoint> backTrackedPath = {};
     while (point) {
         backTrackedPath.push_back(*point);

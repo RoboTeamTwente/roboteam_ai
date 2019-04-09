@@ -41,7 +41,7 @@ class Field {
         std::pair<Vector2, Vector2> getGoalSides(bool ourGoal);
         double getDistanceToGoal(bool ourGoal, Vector2 point);
         Vector2 getPenaltyPoint(bool ourGoal);
-        std::vector<Vector2> getDefenseArea(bool ourDefenseArea = true);
+        std::vector<Vector2> getDefenseArea(bool ourDefenseArea = true, double margin = 0.0);
 
 };
 
