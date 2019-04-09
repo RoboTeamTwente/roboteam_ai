@@ -93,7 +93,6 @@ std::vector<Vector2> OffensiveCoach::getDefaultLocations() {
 }
 
 std::vector<Vector2> OffensiveCoach::getNewOffensivePositions(int numberOfRobots) {
-
     std::vector<Vector2> defaultLocations = getDefaultLocations();
     if (offensivePositions.size() != defaultLocations.size()) {
         offensivePositions = {};

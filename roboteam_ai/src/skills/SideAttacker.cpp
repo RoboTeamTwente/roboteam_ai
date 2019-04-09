@@ -20,8 +20,8 @@ void SideAttacker::onInitialize() {
             return;
         }
     }
-
     robotsPositioning.emplace_back(robot);
+    robotsInMemory++;
 }
 
 
@@ -63,10 +63,11 @@ Vector2 SideAttacker::getOffensivePosition() {
         }
 
         rtt::HungarianAlgorithm hungarian;
-        auto shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations);
+        map<int, Vector2> shortestDistances;
+        shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations);
 
         zone = std::find(targetLocations.begin(), targetLocations.end(), position) - targetLocations.begin() - 1;
-        position = shortestDistances.at(robot->id);
+        position = shortestDistances[robot->id];
     } else {
         position = targetLocations.at(zone);
     }
@@ -80,7 +81,21 @@ void SideAttacker::onTerminate(Status s) {
     command.w = static_cast<float>(deltaPos.angle());
     command.x_vel = 0;
     command.y_vel = 0;
-    robotsPositioning.erase(std::remove(robotsPositioning.begin(), robotsPositioning.end(), robot), robotsPositioning.end());
+    int robotsPositioningSize = robotsPositioning.size();
+
+    for (int i = 0; i < robotsPositioning.size(); i++) {
+        if (robotsPositioning.at(i)->id == robot->id) {
+            robotsPositioning.erase(robotsPositioning.begin() + i);
+        }
+    }
+
+    if (robotsPositioningSize == robotsPositioning.size()) {
+        std::cerr << "Robot failed to be removed from robotsPositioning" << std::endl;
+    }
+
+    robotsInMemory--;
+
+    zone = -1;
 
     publishRobotCommand();
 }
