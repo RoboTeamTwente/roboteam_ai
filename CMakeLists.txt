@@ -354,8 +354,6 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefencePositionCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefenceDealer.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefenceDealer.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/TrumpCoach.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/TrumpCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/PossiblePass.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/PossiblePass.h
         )

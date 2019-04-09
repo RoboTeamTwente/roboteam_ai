@@ -36,19 +36,20 @@ class DefencePositionCoach {
         std::shared_ptr<BlockPassBot> tryBlockPass(PossiblePass &pass, const world::WorldData &simulatedWorld);
         std::shared_ptr<DefenderBot> tryBlockOnLine(const PossiblePass &pass, const world::WorldData &simulatedWorld);
 
-        std::shared_ptr<Line> getBlockLineSegment(const Line& openGoalSegment, const Vector2& point, double collisionRadius=Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS(),
+        std::shared_ptr<Line> getBlockLineSegment(const Line &openGoalSegment, const Vector2 &point,
+                double collisionRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS(),
                 double margin = - 1.0);
-        std::shared_ptr<Vector2> blockOnDefenseLine(const Line& openGoalSegment, const Vector2& point);
-        Vector2 getBlockPoint(const Line& openGoalSegment, const Vector2& point, double collisionRadius);
-        Line shortenLineForDefenseArea(const Vector2& lineStart, const Vector2& lineEnd, double defenseMargin);
-        Vector2 getPosOnLine(const Line& line, double aggressionFactor);
-        double getOrientation(const Line& line);
-        Vector2 findPositionForBlockBall(const Line& line);
+        std::shared_ptr<Vector2> blockOnDefenseLine(const Line &openGoalSegment, const Vector2 &point);
+        Vector2 getBlockPoint(const Line &openGoalSegment, const Vector2 &point, double collisionRadius);
+        Line shortenLineForDefenseArea(const Vector2 &lineStart, const Vector2 &lineEnd, double defenseMargin);
+        Vector2 getPosOnLine(const Line &line, double aggressionFactor);
+        double getOrientation(const Line &line);
+        Vector2 findPositionForBlockBall(const Line &line);
     private:
         std::vector<PossiblePass> createPassesSortedByDanger(const world::WorldData &world);
-        std::vector<PossiblePass> sortPassesByDanger(std::vector<std::pair<PossiblePass,double>> &passesWithDanger);
-        std::vector<std::pair<PossiblePass,double>> createPassesAndDanger(const world::WorldData &world);
-        world::WorldData removeBotFromWorld(world::WorldData world,int id, bool isUs);
+        std::vector<PossiblePass> sortPassesByDanger(std::vector<std::pair<PossiblePass, double>> &passesWithDanger);
+        std::vector<std::pair<PossiblePass, double>> createPassesAndDanger(const world::WorldData &world);
+        world::WorldData removeBotFromWorld(world::WorldData world, int id, bool ourTeam);
 
 };
 extern DefencePositionCoach g_defensivePositionCoach;

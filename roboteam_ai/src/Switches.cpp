@@ -353,8 +353,11 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
              {
                      {"def1",robotType::RANDOM},
                      {"def2",robotType::RANDOM},
-                     {"def3",robotType::RANDOM}
-
+                     {"def3",robotType::RANDOM},
+                     {"def4",robotType::RANDOM},
+                     {"def5",robotType::RANDOM},
+                     {"def6",robotType::RANDOM},
+                     {"def7",robotType::RANDOM}
              }
             }
     };

@@ -118,8 +118,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
     std::vector<std::pair<Vector2, Vector2>> blockades = {};
 
     // get all the robots
-    std::vector<Robot> robots=data.them;
-    //robots.emplace_back(data.us);
+    std::vector<Robot> robots=data.us;
     // all the obstacles should be robots
     for (auto const &robot : robots) {
         double lenToBot=(point-robot.pos).length();

@@ -17,12 +17,12 @@ bool PossiblePass::obstacleObstructsPath(const Vector2 &obstPos, double obstRadi
 }
 int PossiblePass::amountOfBlockers(const world::WorldData &world) {
     int total = 0;
-    for (const auto& bot : world.them) {
+    for (const auto &bot : world.them) {
         if (obstacleObstructsPath(bot.pos)) {
             total ++;
         }
     }
-    for (const auto& bot : world.us) {
+    for (const auto &bot : world.us) {
         if (obstacleObstructsPath(bot.pos)) {
             total ++;
         }
@@ -30,9 +30,9 @@ int PossiblePass::amountOfBlockers(const world::WorldData &world) {
     return total;
 }
 
-PossiblePass::PossiblePass(world::Robot* _toBot, const Vector2 &ballPos)
+PossiblePass::PossiblePass(world::Robot _toBot, const Vector2 &ballPos)
         :toBot(_toBot), startPos(ballPos) {
-    endPos = botReceivePos(ballPos, _toBot->pos);
+    endPos = botReceivePos(ballPos, _toBot.pos);
 }
 Vector2 PossiblePass::botReceivePos(const Vector2 &_startPos, const Vector2 &botPos) {
     Vector2 receivePos =
@@ -85,7 +85,7 @@ Vector2 PossiblePass::posOnLine(double scale) {
     return startPos + (endPos - startPos)*scale;
 }
 double PossiblePass::faceLine() {
-    return (endPos - startPos).angle();
+    return (startPos - endPos).angle();
 }
 }
 }
