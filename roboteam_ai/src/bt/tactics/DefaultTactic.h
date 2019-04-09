@@ -40,7 +40,7 @@ class DefaultTactic : public Tactic {
           Offensive,
           General
         };
-        TacticType thisThype;
+        TacticType thisType;
 
 };
 }

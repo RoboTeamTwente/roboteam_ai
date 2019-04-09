@@ -30,12 +30,7 @@ struct PlayStyle {
 class DecisionMaker {
 public:
     explicit DecisionMaker() = default;
-
     PlayStyle getRecommendedPlayStyle();
-
-private:
-    PlayStyle currentPlayStyle;
-
 };
 
 } // analysis

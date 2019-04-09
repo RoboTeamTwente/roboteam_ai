@@ -2,6 +2,7 @@
 // Created by baris on 29-11-18.
 //
 
+#include <roboteam_ai/src/analysis/DecisionMaker.h>
 #include "DefaultTactic.h"
 #include "../../utilities/RobotDealer.h"
 
@@ -33,20 +34,32 @@ bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboar
 }
 
 void bt::DefaultTactic::initialize() {
-    updateRobots();
+
     parseType(properties->getString("TacticType"));
-    // TODO call the world analysesr thing
+
+    rtt::ai::analysis::DecisionMaker maker;
+    rtt::ai::analysis::PlayStyle style = maker.getRecommendedPlayStyle();
+
+    if (thisType == Defensive) {
+        amountToTick = style.amountOfDefenders;
+    } else if (thisType == Middle) {
+        amountToTick = style.amountOfMidfielders;
+    } else if (thisType == Offensive) {
+        amountToTick = style.amountOfAttackers;
+    } else {
+        amountToTick = 7;
+    }
+    robotsNeeded = amountToTick;
+    updateRobots();
 }
 
 void bt::DefaultTactic::claimRobots() {
-
     for (int i = claimedRobots; i < robotsNeeded; i ++) {
         auto toClaim = getNextClaim();
         robotIDs.insert(dealer::claimRobotForTactic(toClaim.second, name, toClaim.first));
         if (robotIDs.find(- 1) == robotIDs.end()) claimedRobots ++;
         else robotIDs.erase(- 1);
     }
-
 }
 
 void bt::DefaultTactic::setRoleAmount(int amount) {
@@ -106,16 +119,16 @@ std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getLastClaim() 
 }
 void bt::DefaultTactic::parseType(std::string typee) {
     if (typee == "Offensive") {
-        thisThype = Offensive;
+        thisType = Offensive;
     }
     else if (typee == "Middle") {
-        thisThype = Middle;
+        thisType = Middle;
     }
     else if (typee == "Defensive") {
-        thisThype = Defensive;
+        thisType = Defensive;
     }
     else{
-        thisThype = General;
+        thisType = General;
     }
 
 }
