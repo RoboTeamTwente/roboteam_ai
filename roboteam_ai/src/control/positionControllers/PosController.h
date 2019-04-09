@@ -13,6 +13,7 @@
 namespace rtt {
 namespace ai {
 namespace control {
+
 class PosController {
     protected:
         using Robot = world::Robot;
@@ -22,35 +23,35 @@ class PosController {
         using WorldData = world::WorldData;
         using WorldDataPtr = std::shared_ptr<WorldData>;
 
-        void updatePid(pidVals pid);
-    public:
-        explicit PosController() = default;
-        explicit PosController(bool avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
-        virtual PosVelAngle getPosVelAngle(RobotPtr robot, Vector2 &targetPos) = 0;
-        bool getCanMoveOutOfField() const;
-        void setCanMoveOutOfField(bool canMoveOutOfField);
-        bool getCanMoveInDefenseArea() const;
-        void setCanMoveInDefenseArea(bool canMoveInDefenseArea);
-        bool getAvoidBall() const;
-        void setAvoidBall(bool avoidBall);
-
-        std::tuple<double, double, double> lastPid;
-
-    protected:
-
         // settings
-        bool avoidBall = false;
+        double avoidBallDistance = 0.0;
         bool canMoveOutOfField = false;
         bool canMoveInDefenseArea = false;
 
+        // PID functions
         PID xpid = PID(1.65, 0, 0.0);
         PID ypid = PID(1.65, 0, 0.0);
-
         bool getPIDFromInterface = true;
         PosVelAngle controlWithPID(const RobotPtr &robot, PosVelAngle target);
         virtual void checkInterfacePID() = 0;
 
         virtual Vector2 calculatePIDs(const RobotPtr &robot, PosVelAngle &target);
+
+    public:
+        explicit PosController() = default;
+        explicit PosController(double avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
+        virtual PosVelAngle getPosVelAngle(const RobotPtr &robot, Vector2 &targetPos) = 0;
+
+        bool getCanMoveOutOfField() const;
+        void setCanMoveOutOfField(bool canMoveOutOfField);
+        bool getCanMoveInDefenseArea() const;
+        void setCanMoveInDefenseArea(bool canMoveInDefenseArea);
+        double getAvoidBall() const;
+        void setAvoidBall(double ballDistance = Constants::ROBOT_RADIUS() * 2.0);
+
+        std::tuple<double, double, double> lastPid;
+
+        void updatePid(pidVals pid);
 };
 
 } // control

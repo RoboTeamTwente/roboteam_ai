@@ -14,7 +14,7 @@ BasicPosControl::BasicPosControl(bool avoidBall, bool canMoveOutsideField, bool 
 
 }
 
-PosVelAngle BasicPosControl::getPosVelAngle(RobotPtr robot, Vector2 &targetPos) {
+PosVelAngle BasicPosControl::getPosVelAngle(const RobotPtr &robot, Vector2 &targetPos) {
 
     PosVelAngle posVelAngle;
     Vector2 error = targetPos - robot->pos;
