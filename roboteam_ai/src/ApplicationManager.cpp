@@ -35,15 +35,17 @@ void ApplicationManager::loop() {
         rate.sleep();
 
         ros::Time end = ros::Time::now();
-        timeTaken = (end - begin).toNSec() * 0.000001; // (ms)
+        timeTaken = (end - begin).toNSec()*0.000001; // (ms)
         timeTakenOverNTicks += timeTaken;
         if (timeTaken > longestTick) {
             longestTick = timeTaken;
         }
-        if (ai::interface::InterfaceValues::showDebugTickTimeTaken() && ++nTicksTaken >= ai::Constants::TICK_RATE()) {
+        if (ai::interface::InterfaceValues::showDebugTickTimeTaken() && ++ nTicksTaken >= ai::Constants::TICK_RATE()) {
             std::stringstream ss;
-            ss << "The last " << nTicksTaken << " ticks took " << timeTakenOverNTicks << " ms, which gives an average of " << timeTakenOverNTicks / nTicksTaken << " ms / tick. The longest tick took " << longestTick << " ms!";
-            if (nTicksTaken * longestTick < 2000 && timeTakenOverNTicks < 1200)
+            ss << "The last " << nTicksTaken << " ticks took " << timeTakenOverNTicks
+               << " ms, which gives an average of " << timeTakenOverNTicks/nTicksTaken
+               << " ms / tick. The longest tick took " << longestTick << " ms!";
+            if (nTicksTaken*longestTick < 2000 && timeTakenOverNTicks < 1200)
                 std::cout << ss.str() << std::endl;
             else
                 std::cerr << ss.str() << std::endl;
@@ -74,15 +76,15 @@ void ApplicationManager::runOneLoopCycle() {
 
         if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
 
-            if (ai::robotDealer::RobotDealer::getKeeperID() == -1) {
+            if (ai::robotDealer::RobotDealer::getKeeperID() == - 1) {
                 std::cout << "setting keeper id" << std::endl;
                 ai::robotDealer::RobotDealer::setKeeperID(ai::world::world->getUs().at(0).id);
-
 
             }
             keeperTree = BTFactory::getKeeperTree();
             Status keeperStatus = keeperTree->tick();
-        }  else {
+        }
+        else {
             BTFactory::makeTrees();
 
         }
@@ -93,7 +95,7 @@ void ApplicationManager::runOneLoopCycle() {
         rtt::ai::coach::g_offensiveCoach.calculateNewPositions();
     }
     else {
-        std::cout <<"NO FIRST WORLD" << std::endl;
+        std::cout << "NO FIRST WORLD" << std::endl;
         ros::Duration(0.2).sleep();
     }
 }
@@ -108,15 +110,23 @@ void ApplicationManager::checkForShutdown() {
 
 void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     switch (status) {
-    case Status::Running:break;
-    case Status::Success:ROS_INFO_STREAM("Status returned: Success");
-        ROS_INFO_STREAM(" === TREE CHANGE === ");
+        case Status::Running: {
+            break;
+        }
+        case Status::Success: {
+            ROS_INFO_STREAM("Status returned: Success");
+            std::cerr << " === TREE CHANGE === " << std::endl;
             BTFactory::setCurrentTree("haltStrategy");
-        break;
-    case Status::Failure:ROS_INFO_STREAM("Status returned: Failure");
-        break;
-    case Status::Waiting:ROS_INFO_STREAM("Status returned: Waiting");
-        break;
+            break;
+        }
+        case Status::Failure: {
+            ROS_INFO_STREAM("Status returned: Failure");
+            break;
+        }
+        case Status::Waiting: {
+            ROS_INFO_STREAM("Status returned: Waiting");
+            break;
+        }
     }
 }
 

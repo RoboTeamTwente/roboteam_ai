@@ -8,7 +8,7 @@ namespace rtt{
 namespace ai {
 
 bool PassiveStop::done = false;
-
+map<int, Vector2> PassiveStop::shortestDistances;
 PassiveStop::PassiveStop(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
 

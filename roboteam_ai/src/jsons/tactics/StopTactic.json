@@ -33,7 +33,7 @@
           },
           "fiw629yk5v63z8u8": {
             "id": "fiw629yk5v63z8u8",
-            "title": "Stop",
+            "title": "PassiveStop",
             "properties": {
               "ROLE": "aa"
             }
@@ -52,7 +52,7 @@
           },
           "cwsb4m6k59eh19": {
             "id": "cwsb4m6k59eh19",
-            "title": "Stop",
+            "title": "PassiveStop",
             "properties": {
               "ROLE": "bb"
             }
@@ -71,7 +71,7 @@
           },
           "6aj5npkdcpnjoeu": {
             "id": "6aj5npkdcpnjoeu",
-            "title": "Stop",
+            "title": "PassiveStop",
             "properties": {
               "ROLE": "cc"
             }
@@ -90,7 +90,7 @@
           },
           "0o83nm9o7kg4x8eh": {
             "id": "0o83nm9o7kg4x8eh",
-            "title": "Stop",
+            "title": "PassiveStop",
             "properties": {
               "ROLE": "dd"
             }
@@ -109,7 +109,7 @@
           },
           "00v0tuk5a3d9o3c": {
             "id": "00v0tuk5a3d9o3c",
-            "title": "Stop",
+            "title": "ActiveStop",
             "properties": {
               "ROLE": "ee"
             }
@@ -128,7 +128,7 @@
           },
           "jo99748jxd992y": {
             "id": "jo99748jxd992y",
-            "title": "Stop",
+            "title": "ActiveStop",
             "properties": {
               "ROLE": "ff"
             }
@@ -147,7 +147,7 @@
           },
           "xonjhq8vt83v93j": {
             "id": "xonjhq8vt83v93j",
-            "title": "Stop",
+            "title": "PassiveStop",
             "properties": {
               "ROLE": "gg"
             }
