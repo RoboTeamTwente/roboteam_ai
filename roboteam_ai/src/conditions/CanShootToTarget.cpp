@@ -8,12 +8,14 @@ CanShootToTarget::CanShootToTarget(std::string name, bt::Blackboard::Ptr blackbo
 
 bt::Node::Status CanShootToTarget::onUpdate() {
 
+    // get the target position to which we want a clear line
     if (properties->hasVector2("target")) {
 		target = properties->getVector2("target");
 	} else {
 		return bt::Node::Status::Failure;
 	}
 
+    // get the margin, which is the min distance from the line
 	if (properties->hasDouble("margin")) {
 		margin = properties->getDouble("margin");
 	} else {
@@ -22,6 +24,10 @@ bt::Node::Status CanShootToTarget::onUpdate() {
 
 	bool canShoot = control::ControlUtils::clearLine(robot->pos, target, world::world->getWorld(), margin, true);
 	return canShoot ? bt::Node::Status::Success : bt::Node::Status::Failure;
+}
+
+std::string CanShootToTarget::node_name() {
+    return "CanShootToTarget";
 }
 
 
