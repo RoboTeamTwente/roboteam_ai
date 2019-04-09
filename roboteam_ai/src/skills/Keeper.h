@@ -22,10 +22,6 @@ class Keeper : public Skill {
         Vector2 computeBlockPoint(Vector2 defendPos);
         Vector2 goalPos;
         double goalwidth;
-        void sendMoveCommand(Vector2 pos);
-        void sendFineMoveCommand(Vector2 pos);
-        void sendStopCommand();
-        control::PIDController pid, finePid;
         control::BasicPosControl gtp;
 
     public:

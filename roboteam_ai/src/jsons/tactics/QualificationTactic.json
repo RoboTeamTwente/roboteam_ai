@@ -48,7 +48,8 @@
               "ROLE": "qualRole",
               "avoidBall": "true",
               "canGoOutsideField": "true",
-              "targetPos": "{-3, -3}"
+              "canMoveInDefenseArea": "false",
+              "targetPos": "{-5.5, -3.0}"
             }
           },
           "xm1dohkoqeoibxof1": {
@@ -59,7 +60,8 @@
               "ROLE": "qualRole",
               "canGoOutsideField": "true",
               "avoidBall": "true",
-              "targetPos": "{3, 3}"
+              "canMoveInDefenseArea": "false",
+              "targetPos": "{-5.5, 3.0}"
             }
           },
           "role2": {

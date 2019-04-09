@@ -10,17 +10,19 @@
 namespace rtt {
 namespace ai {
 
+    typedef std::tuple<double, double, double> pidVals;
+
 class Constants {
 public:
     static void init();
     static bool GRSIM();
 
     /// LOGGING ///
-    static bool SHOW_LONGEST_TICK()             { return false;};
-    static bool SHOW_TICK_TIME_TAKEN()          { return false;};
-    static bool SHOW_NUMTREE_TIME_TAKEN()       { return false;};
-    static bool SHOW_NUMTREE_DEBUG_INFO()       { return true; };
-    static bool SHOW_FULL_NUMTREE_DEBUG_INFO()  { return true; };
+    static bool SHOW_LONGEST_TICK()             { return false; };
+    static bool SHOW_TICK_TIME_TAKEN()          { return false; };
+    static bool SHOW_NUMTREE_TIME_TAKEN()       { return false; };
+    static bool SHOW_NUMTREE_DEBUG_INFO()       { return false; };
+    static bool SHOW_FULL_NUMTREE_DEBUG_INFO()  { return false; };
 
 
     /// ROBOT AND RELATED ///
@@ -65,7 +67,8 @@ public:
     static double MAX_INTERCEPT_TIME()          { return 2.0; };    // Seconds. Intercept terminates  after this time.
     static double BALL_STILL_VEL()              { return 0.1; };    // If the ball has velocity lower than this in defense area, keeper starts getting it
     static double MIN_DISTANCE_FOR_FORCE()      { return 0.5; };
-    static double GOTOPOS_ERROR_MARGIN()        { return 0.1;} ;
+    static double GOTOPOS_ERROR_MARGIN()        { return 0.1; };
+    static double DEFAULT_BALLCOLLISION_RADIUS(){ return 0.27;};
 
     /// KEEPER ///
     static double KEEPER_POST_MARGIN()          { return 0.08; };//m
@@ -112,10 +115,11 @@ public:
                                                            {255, 120, 180, 255},
                                                            {255, 100, 255, 255} }; };
 
-// Default PID values for the interface
-    static double standardNumTreePosP()         { return GRSIM() ? 1.65 : 2.8; };
-    static double standardNumTreePosI()         { return GRSIM() ? 0.0 : 0.6; };
-    static double standardNumTreePosD()         { return GRSIM() ? 0.0 : 2.3; };
+    // Default PID values for the gotoposses/interface
+    static pidVals standardNumTreePID()         { return GRSIM() ? pidVals(3.2, 0.0, 2.0) : pidVals(2.8, 0.6,2.3); };
+    static pidVals standardForcePID()           { return GRSIM() ? pidVals(1.65, 0.0, 0.0) : pidVals(2.8, 0.6,2.3); };
+    static pidVals standardBasicPID()           { return GRSIM() ? pidVals(1.65, 0.0, 0.0) : pidVals(2.8, 0.6,2.3); };
+
     
 private:
     static bool isInitialized;

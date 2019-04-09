@@ -15,46 +15,57 @@ namespace rtt {
 namespace ai {
 namespace control {
 
+class Collision;
+class PathPoint;
+
 class NumTreePosControl : public ForcePosControl {
+    public:
+
     private:
-
-        const double MAX_CALCULATION_TIME = 5.0;   // Max time in ms
-
         using InterfaceValues = interface::InterfaceValues;
+        using PathPointer = std::shared_ptr<PathPoint>;
+        Robot robot = {};
+        Vector2 finalTargetPos;
 
-        const double dt = 0.07;
-        const double defaultRobotCollisionRadius = 3*Constants::ROBOT_RADIUS_MAX();
-        int robotID = - 1;
-        Vector2 pos;
-        Vector2 vel;
+        bool doRecalculatePath(const Vector2 &targetPos);
+        PosVelAngle computeCommand();
 
-        void drawCross(Vector2 &pos, QColor color = Qt::green);
+        // constants
+        const double MAX_CALCULATION_TIME = 5.0;         // Max calculation time in ms
+        const double DT = 0.07;                          // timestep for ODE model
+        static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 0.28; // 3x robot radius
+
+        // interface functions
+        void drawCross(Vector2 &pos, const QColor &color = Qt::green);
         void drawPoint(Vector2 &pos, QColor color = Qt::green);
         void addDataInInterface(std::vector<std::pair<rtt::Vector2, QColor>> displayColorData);
         void redrawInInterface();
-
         std::vector<std::pair<Vector2, QColor>> displayData;
-        bool doRecalculatePath(RobotPtr robot, Vector2 targetPos);
-        double remainingStraightLinePathLength(Vector2 currentPos, Vector2 halfwayPos, Vector2 finalPos);
 
-        PosVelAngle computeCommand(RobotPtr robot);
+        // collisions
+        Collision getCollision(const PathPointer &point, double collisionRadius = DEFAULT_ROBOT_COLLISION_RADIUS);
+        Collision getRobotCollision(const Vector2 &collisionPos, const std::vector<Robot> &robots, double distance);
 
-        std::pair<std::vector<Vector2>, std::shared_ptr<PathPoint>> getNewTargets(
-                std::shared_ptr<PathPoint> collisionPoint);
-        bool checkCollision(std::shared_ptr<PathPoint> point, double collisionRadius = 0.27);
-        std::shared_ptr<PathPoint> computeNewPoint(std::shared_ptr<PathPoint> oldPoint, Vector2 subTarget);
-        void tracePath(RobotPtr robot);
-        std::vector<PathPoint> backTrackPath(std::shared_ptr<PathPoint> point, std::shared_ptr<PathPoint> root);
-        Vector2 findCollisionPos(std::shared_ptr<PathPoint> point, double collisionRadius = 0.27);
+        // new paths
+        PathPointer computeNewPoint(const std::shared_ptr<PathPoint> &oldPoint, const Vector2 &subTarget);
+        std::pair<std::vector<Vector2>, PathPointer> getNewTargets(
+                const PathPointer &collisionPoint, const Collision &collision);
 
+        // paths
+        void tracePath();
+        std::vector<PathPoint> backTrackPath(PathPointer point, const PathPointer &root);
+        double remainingStraightLinePathLength(
+                const Vector2 &currentPos, const Vector2 &halfwayPos, const Vector2 &finalPos);
         std::vector<PathPoint> path;
+
+        void checkInterfacePID() override;
+
     public:
         explicit NumTreePosControl() = default;
         explicit NumTreePosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
 
         void clear();
-        Vector2 finalTargetPos;
-        PosVelAngle getPosVelAngle(RobotPtr robot, Vector2 &targetPos) override;
+        PosVelAngle getPosVelAngle(const RobotPtr &robot, Vector2 &targetPos) override;
 };
 
 }

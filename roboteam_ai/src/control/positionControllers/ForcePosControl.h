@@ -15,7 +15,7 @@ class ForcePosControl : public PosController {
 public:
     explicit ForcePosControl() = default;
     explicit ForcePosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
-    PosVelAngle getPosVelAngle(RobotPtr robot, Vector2 &targetPos) override;
+    PosVelAngle getPosVelAngle(const RobotPtr &robot, Vector2 &targetPos) override;
     Vector2 calculateForces(const RobotPtr &robot, const Vector2 &targetPos, double forceRadius) const;
 
 protected:
@@ -27,6 +27,7 @@ private:
     const double FORCE_WEIGHT_BALL = 1.0;
     const double FORCE_WEIGHT_FIELD_SIDES = 1.0;
     const float POINT_IN_FIELD_MARGIN = 0.5;
+    void checkInterfacePID() override;
 };
 
 } // control

@@ -17,46 +17,33 @@ namespace ai {
 namespace coach {
 
 class OffensiveCoach {
-    public:
-        using Robot = world::Robot;
-        using RobotPtr = std::shared_ptr<Robot>;
-        const double ATTACKER_DISTANCE = 1.6;
-        const double OFFENSIVE_POSITION_DISTANCE = 0.8;
-        const double SEARCH_GRID_ROBOT_POSITIONS = 0.01;
-        const int GRID_SIZE = 2;
+public:
+    using Robot = world::Robot;
+    using RobotPtr = std::shared_ptr<Robot>;
 
-        struct OffensivePosition {
-          Vector2 position;
-          double score;
-        };
+    const double SEARCH_GRID_ROBOT_POSITIONS = 0.02;
+    const int GRID_SIZE = 3;
+    const double CLOSE_TO_GOAL_DISTANCE = 0.95;
+    const double FURTHER_FROM_GOAL_DISTANCE = 2 * CLOSE_TO_GOAL_DISTANCE;
+    const double ZONE_RADIUS = 0.8;
 
-        void calculateNewPositions();
-        void calculateNewRobotPositions(const RobotPtr &robot);
-        Vector2 calculatePositionForRobot(const RobotPtr &robot);
-        void releaseRobot(int robotID);
-        Vector2 getPositionForRobotID(int robotID);
-        std::vector<OffensivePosition> getRobotPositionVectors();
-        int getBestStrikerID();
-        const vector<OffensivePosition> &getOffensivePositions();
-        const map<int, OffensivePosition> &getRobotPositions();
+    struct OffensivePosition {
+        Vector2 position;
+        double score;
+    };
 
-    private:
+    OffensivePosition calculateNewRobotPosition(const OffensivePosition& currentPosition, const Vector2& defaultPosition);
 
-        double marginFromLines = 0.2;
+    std::vector<Vector2> getOffensivePositionVectors();
+    static int getBestStrikerID();
 
-        std::vector<OffensivePosition> offensivePositions;
-        int maxPositions = 4;
-        std::map<int, OffensivePosition> robotPositions;
+    std::vector<Vector2> getDefaultLocations();
+    std::vector<Vector2> getNewOffensivePositions(int numberOfRobots);
 
-        static bool compareByScore(OffensivePosition position1, OffensivePosition position2);
-        void drawOffensivePoints();
-        void recalculateOffensivePositions();
-        OffensivePosition calculateRandomPosition(double xStart, double xEnd, double yStart, double yEnd);
-        bool positionTooCloseToRobotPositions(OffensivePosition position, int self = - 1);
+private:
+    std::vector<OffensivePosition> offensivePositions;
+    std::map<int, OffensivePosition> robotPositions;
 
-        void compareToCurrentPositions(const OffensivePosition &position);
-
-        Vector2 getClosestOffensivePosition(const RobotPtr &robot);
 };
 
 extern OffensiveCoach g_offensiveCoach;

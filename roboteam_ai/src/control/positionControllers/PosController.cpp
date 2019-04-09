@@ -11,8 +11,8 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-PosController::PosController(bool avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea)
-        : avoidBall(avoidBall), canMoveOutOfField(canMoveOutOfField), canMoveInDefenseArea(canMoveInDefenseArea) {
+PosController::PosController(double avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea)
+        : avoidBallDistance(avoidBall), canMoveOutOfField(canMoveOutOfField), canMoveInDefenseArea(canMoveInDefenseArea) {
     xpid.setOutputLimits(-8,8);
     xpid.setOutputRampRate(100);
 
@@ -45,47 +45,38 @@ Vector2 PosController::calculatePIDs(const PosController::RobotPtr &robot, PosVe
     return pidP;
 }
 
-/// compare current PID values to those set in the interface
-void PosController::checkInterfacePID() {
-    using if_values = interface::InterfaceValues;
-
-    std::tuple<double, double, double> newPid
-    = tuple<double, double, double>(if_values::getNumTreePosP(), if_values::getNumTreePosI(), if_values::getNumTreePosD());
-
-    if (lastPid != newPid) {
-        xpid.setPID(if_values::getNumTreePosP(), if_values::getNumTreePosI(), if_values::getNumTreePosD());
-        ypid.setPID(if_values::getNumTreePosP(), if_values::getNumTreePosI(), if_values::getNumTreePosD());
-        lastPid = newPid;
-    }
-}
-
-
 // Getters & Setters
 bool PosController::getCanMoveOutOfField() const {
     return canMoveOutOfField;
 }
 
-void PosController::setCanMoveOutOfField(bool canMoveOutOfField) {
-    this->canMoveOutOfField = canMoveOutOfField;
+void PosController::setCanMoveOutOfField(bool moveOutOfField) {
+    canMoveOutOfField = moveOutOfField;
 }
 
 bool PosController::getCanMoveInDefenseArea() const {
     return canMoveInDefenseArea;
 }
 
-void PosController::setCanMoveInDefenseArea(bool canMoveInDefenseArea) {
-     this->canMoveInDefenseArea = canMoveInDefenseArea;
+void PosController::setCanMoveInDefenseArea(bool moveInDefenseArea) {
+     canMoveInDefenseArea = moveInDefenseArea;
 }
 
-bool PosController::getAvoidBall() const {
-    return avoidBall;
+double PosController::getAvoidBall() const {
+    return avoidBallDistance;
 }
 
-void PosController::setAvoidBall(bool avoidBall) {
-    this->avoidBall = avoidBall;
+void PosController::setAvoidBall(double ballDistance) {
+    avoidBallDistance = ballDistance;
 }
 
-
+void PosController::updatePid(pidVals pid) {
+    if (lastPid != pid) {
+        xpid.setPID(pid);
+        ypid.setPID(pid);
+        lastPid = pid;
+    }
+}
 
 
 } // control

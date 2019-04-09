@@ -27,10 +27,7 @@ class Drawer {
         static void setInterceptPoints(int id, GTPPoints points);
         static GTPPoints getInterceptPoints(int id);
 
-        static void setOffensivePoints(GTPPoints points);
-        static GTPPoints getOffensivePoints();
-        static void setAttackerPoints(int id, GTPPoints points);
-        static GTPPoints getAttackerPoints(int id);
+    static GTPPoints getAttackerPoints(int id);
 
         static std::vector<std::pair<Vector2, QColor>> getDrawPoints();
         static std::vector<std::tuple<Vector2, Vector2, QColor>> getDrawLines();

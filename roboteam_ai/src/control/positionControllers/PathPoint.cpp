@@ -3,6 +3,7 @@
 //
 
 #include "PathPoint.h"
+#include "NumTreePosControl.h"
 
 namespace rtt {
 namespace ai {
@@ -95,7 +96,7 @@ bool PathPoint::anyParentHasTarget(const Vector2 &target) {
 }
 
 /// check if a collision is occuring
-bool PathPoint::isCollision(Vector2 target, double distance) {
+bool PathPoint::isCollision(const Vector2 &target, double distance) {
     return target.dist(pos) < distance;
 }
 
