@@ -81,7 +81,8 @@ bt::BehaviorTree::Ptr BTFactory::getKeeperTree() {
 }
 
 std::string BTFactory::getKeeperTreeName() {
-    return BTFactory::keeperTree;
+    std::lock_guard<std::mutex> lock(keeperTreeMutex);
+    return keeperTree;
 }
 
 void BTFactory::halt() {

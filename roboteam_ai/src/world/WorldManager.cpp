@@ -65,8 +65,9 @@ void WorldManager::updateReferee() {
         auto oldKeeperTree = BTFactory::getKeeperTreeName();
         std::string keeperTreeName = strategyManager.getCurrentKeeperTreeName(refereeMsg.command);
         if (oldKeeperTree != keeperTreeName) {
+            std::cout << oldKeeperTree <<  "vs " << keeperTreeName << std::endl;
             BTFactory::makeTrees();
-            BTFactory::setCurrentTree(keeperTreeName);
+            BTFactory::setKeeperTree(keeperTreeName);
         }
 
 
