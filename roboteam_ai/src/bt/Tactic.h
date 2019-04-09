@@ -16,7 +16,7 @@ namespace bt {
 
 class Tactic : public Node {
 protected:
-        using dealer = rtt::ai::robotDealer::RobotType;
+        using dealer = rtt::ai::robotDealer::RobotDealer;
     int claimedRobots = 0;
     std::set<int> robotIDs;
 public:
@@ -28,7 +28,7 @@ public:
         Status update() override;
         void askForRobots();
         void terminate(Status s) override;
-        Node::Ptr child = nullptr;
+        std::vector<Node::Ptr> children;
         std::string node_name() override;
         std::string name;
 };

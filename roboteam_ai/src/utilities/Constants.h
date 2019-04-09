@@ -21,8 +21,8 @@ public:
     static bool SHOW_LONGEST_TICK()             { return false;};
     static bool SHOW_TICK_TIME_TAKEN()          { return false;};
     static bool SHOW_NUMTREE_TIME_TAKEN()       { return false;};
-    static bool SHOW_NUMTREE_DEBUG_INFO()       { return true; };
-    static bool SHOW_FULL_NUMTREE_DEBUG_INFO()  { return true; };
+    static bool SHOW_NUMTREE_DEBUG_INFO()       { return false; };
+    static bool SHOW_FULL_NUMTREE_DEBUG_INFO()  { return false; };
 
 
     /// ROBOT AND RELATED ///
