@@ -4,6 +4,7 @@
 
 
 #include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/utilities/Referee.hpp>
 #include "ControlUtils.h"
 #include "../world/World.h"
 
@@ -82,15 +83,30 @@ bool ControlUtils::clearLine(Vector2 fromPos, Vector2 toPos, world::WorldData wo
     return true;
 }
 
+double ControlUtils::closestEnemyToLineDistance(const Vector2 &fromPos, Vector2 toPos, const world::WorldData world, bool keeper) {
+    double shortestDistance = INT_MAX;
+    double currentDistance;
+
+    for (auto enemy : world.them) {
+        if (!keeper && enemy.id == rtt::ai::Referee::getRefereeData().them.goalie) {
+            continue;
+        }
+        currentDistance = distanceToLine(enemy.pos, fromPos, toPos);
+        if (currentDistance < shortestDistance) {
+            shortestDistance = currentDistance;
+        }
+    }
+    return shortestDistance;
+}
+
 /// See if a robot has a clear vision towards another robot
 /// e.g. there are no obstacles in between.
-bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::World world, int safeDistanceFactor) {
+bool ControlUtils::hasClearVision(int fromID, int towardsID, world::WorldData w, int safeDistanceFactor) {
     double minDistance = rtt::ai::Constants::ROBOT_RADIUS()*(3*safeDistanceFactor); // TODO: calibrate Rolf approved
     Vector2 fromPos;
     Vector2 towardsPos;
 
-    auto w = world::world->getWorld();
-    for (auto friendly : w.us) {
+    for (const auto& friendly : w.us) {
         if (static_cast<int>(friendly.id) == fromID) {
             fromPos = friendly.pos;
         }
@@ -99,7 +115,7 @@ bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::Worl
         }
     }
 
-    for (auto enemy : w.them) {
+    for (const auto& enemy : w.them) {
         if (distanceToLineWithEnds(enemy.pos, fromPos, towardsPos) < minDistance) {
             return false;
         }
@@ -110,9 +126,9 @@ bool ControlUtils::hasClearVision(int fromID, int towardsID, roboteam_msgs::Worl
 
 
 /// Get the distance from PointToCheck towards a line, the line is not infinite.
-double ControlUtils::distanceToLineWithEnds(Vector2 pointToCheck, Vector2 lineStart, Vector2 lineEnd) {
-    Vector2 line=lineEnd-lineStart;
-    Vector2 diff=pointToCheck-lineStart;
+double ControlUtils::distanceToLineWithEnds(const Vector2& PointToCheck, Vector2 LineStart, Vector2 LineEnd) {
+    Vector2 line=LineEnd-LineStart;
+    Vector2 diff=PointToCheck-LineStart;
     double dot=line.x*diff.x+line.y*diff.y;
     double len_sq=line.y*line.y+line.x*line.x;
     double param=-1;
@@ -125,8 +141,8 @@ double ControlUtils::distanceToLineWithEnds(Vector2 pointToCheck, Vector2 lineSt
     else if (param>1){
         param=1;
     }
-    Vector2 project=lineStart+line*param;
-    Vector2 distDiff=pointToCheck-project;
+    Vector2 project=LineStart+line*param;
+    Vector2 distDiff=PointToCheck-project;
     return distDiff.length();
 }
 

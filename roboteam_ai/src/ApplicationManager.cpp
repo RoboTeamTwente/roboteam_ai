@@ -89,8 +89,6 @@ void ApplicationManager::runOneLoopCycle() {
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
-
-        rtt::ai::coach::g_offensiveCoach.calculateNewPositions();
     }
     else {
         std::cout <<"NO FIRST WORLD" << std::endl;
