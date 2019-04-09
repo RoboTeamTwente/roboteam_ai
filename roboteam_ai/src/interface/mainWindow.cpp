@@ -17,9 +17,9 @@ MainWindow::MainWindow(QWidget* parent)
         :QMainWindow(parent) {
 
     // initialize values for interface to display
-    InterfaceValues::setNumTreePosP(Constants::standardNumTreePosP());
-    InterfaceValues::setNumTreePosI(Constants::standardNumTreePosI());
-    InterfaceValues::setNumTreePosD(Constants::standardNumTreePosD());
+    InterfaceValues::setNumTreePid(Constants::standardNumTreePID());
+    InterfaceValues::setForcePid(Constants::standardForcePID());
+    InterfaceValues::setBasicPid(Constants::standardBasicPID());
 
     InterfaceValues::setUseRefereeCommands(Constants::STD_USE_REFEREE());
 
@@ -66,30 +66,8 @@ MainWindow::MainWindow(QWidget* parent)
     setToggleColorBtnLayout(); // set the btn color and text to the current our_color
 
     vLayout->addLayout(hButtonsLayout);
-    doubleSpinBoxesGroup_Pos_PID = new QGroupBox("GoToPosLuth Position PID options");
-    spinBoxLayout =new QHBoxLayout();
 
-    sb_luth_Pos_P = new QDoubleSpinBox();
-    sb_luth_Pos_P->setRange(-20, 20);
-    sb_luth_Pos_P->setSingleStep(0.1f);
-    sb_luth_Pos_P->setValue(InterfaceValues::getNumTreePosP());
-    QObject::connect(sb_luth_Pos_P, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
-    spinBoxLayout->addWidget(sb_luth_Pos_P);
 
-    sb_luth_Pos_I = new QDoubleSpinBox();
-    sb_luth_Pos_I->setRange(-20, 20);
-    sb_luth_Pos_I->setSingleStep(0.1f);
-    sb_luth_Pos_I->setValue(InterfaceValues::getNumTreePosI());
-    QObject::connect(sb_luth_Pos_I, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
-    spinBoxLayout->addWidget(sb_luth_Pos_I);
-
-    sb_luth_Pos_D = new QDoubleSpinBox();
-    sb_luth_Pos_D->setRange(-20, 20);
-    sb_luth_Pos_D->setSingleStep(0.1f);
-    sb_luth_Pos_D->setValue(InterfaceValues::getNumTreePosD());
-    QObject::connect(sb_luth_Pos_D, SIGNAL(valueChanged(double)), this, SLOT(updatePID_luth()));
-    spinBoxLayout->addWidget(sb_luth_Pos_D);
-    doubleSpinBoxesGroup_Pos_PID->setLayout(spinBoxLayout);
 
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [=](const QString &strategyName) {
@@ -104,7 +82,31 @@ MainWindow::MainWindow(QWidget* parent)
 
     auto pidWidget = new QWidget;
     auto pidVLayout = new QVBoxLayout();
-    pidVLayout->addWidget(doubleSpinBoxesGroup_Pos_PID);
+
+    // create the widgets for the pids
+    numTreePidBox = new PidBox("NumTree");
+    forcePidBox = new PidBox("Force");
+    basicPidBox = new PidBox("Basic");
+
+    // initialize them with the default values
+    numTreePidBox->setPid(InterfaceValues::getNumTreePid());
+    forcePidBox->setPid(InterfaceValues::getForcePid());
+    basicPidBox->setPid(InterfaceValues::getBasicPid());
+
+    QObject::connect(numTreePidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
+                     [=](const pidVals &pid) { InterfaceValues::setNumTreePid(pid); });
+
+    QObject::connect(forcePidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
+                     [=](const pidVals &pid) { InterfaceValues::setNumTreePid(pid); });
+
+    QObject::connect(basicPidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
+                     [=](const pidVals &pid) { InterfaceValues::setNumTreePid(pid); });
+
+    // add the pid widgets to the layout
+    pidVLayout->addWidget(numTreePidBox);
+    pidVLayout->addWidget(forcePidBox);
+    pidVLayout->addWidget(basicPidBox);
+
 
     auto pidSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
     pidVLayout->addSpacerItem(pidSpacer);
@@ -219,13 +221,6 @@ void MainWindow::toggleOurColorParam() {
     nh.setParam("our_color", newParam);
 
     setToggleColorBtnLayout();
-}
-
-/// update the PID values for gotopos Luth
-void MainWindow::updatePID_luth() {
-    InterfaceValues::setNumTreePosP(sb_luth_Pos_P->value());
-    InterfaceValues::setNumTreePosI(sb_luth_Pos_I->value());
-    InterfaceValues::setNumTreePosD(sb_luth_Pos_D->value());
 }
 
 /// send a halt signal to stop all trees from executing
