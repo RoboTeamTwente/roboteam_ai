@@ -41,10 +41,6 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
     return {};
 }
 
-playStyle GameAnalyzer::getRecommendedPlayStyle() {
-    return DEFEND_WITH_ALL;
-}
-
 double GameAnalyzer::getBallPossessionEstimate(bool ourTeam) {
     return 0;
 }

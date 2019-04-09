@@ -99,7 +99,7 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/AnalysisReport.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/RobotDanger.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/RobotDanger.h
-        )
+        roboteam_ai/src/analysis/DecisionMaker.cpp roboteam_ai/src/analysis/DecisionMaker.h)
 
 set(TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.cpp
@@ -345,7 +345,7 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/OffensiveCoach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/OffensiveCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/FormationCoach.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/FormationCoach.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/FormationCoach.h roboteam_ai/src/analysis/DecisionMaker.cpp roboteam_ai/src/analysis/DecisionMaker.h)
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
