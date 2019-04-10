@@ -23,11 +23,21 @@ PosController::PosController(double avoidBall, bool canMoveOutOfField, bool canM
 /// apply a posPID and a velPID over a posVelAngle for better control
 PosVelAngle PosController::controlWithPID(const RobotPtr &robot, PosVelAngle target) {
     if (getPIDFromInterface) checkInterfacePID();
-
     PosVelAngle pidCommand;
     pidCommand.pos = target.pos;
-    pidCommand.vel = control::ControlUtils::velocityLimiter(calculatePIDs(robot, target), Constants::MAX_VEL());
     pidCommand.angle = target.angle;
+
+    // velocity limiter
+    double maxVel = Constants::DEFAULT_MAX_VEL();
+    pidCommand.vel = calculatePIDs(robot, target);
+    pidCommand.vel = control::ControlUtils::velocityLimiter(pidCommand.vel, maxVel);
+
+    // acceleration limiter
+    double maxAcc = control::ControlUtils::calculateMaxAcceleration(pidCommand.vel, pidCommand.angle);
+    pidCommand.vel = control::ControlUtils::accelerationLimiter(pidCommand.vel, maxAcc, prevVel);
+
+    // set previous velocity to the current velocity and return the command.
+    prevVel = pidCommand.vel.length();
     return pidCommand;
 }
 
