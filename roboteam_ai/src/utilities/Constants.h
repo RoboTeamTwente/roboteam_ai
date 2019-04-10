@@ -18,11 +18,11 @@ public:
     static bool GRSIM();
 
     /// LOGGING ///
-    static bool SHOW_LONGEST_TICK()             { return false;};
-    static bool SHOW_TICK_TIME_TAKEN()          { return false;};
-    static bool SHOW_NUMTREE_TIME_TAKEN()       { return false;};
-    static bool SHOW_NUMTREE_DEBUG_INFO()       { return true; };
-    static bool SHOW_FULL_NUMTREE_DEBUG_INFO()  { return true; };
+    static bool SHOW_LONGEST_TICK()             { return false; };
+    static bool SHOW_TICK_TIME_TAKEN()          { return false; };
+    static bool SHOW_NUMTREE_TIME_TAKEN()       { return false; };
+    static bool SHOW_NUMTREE_DEBUG_INFO()       { return false; };
+    static bool SHOW_FULL_NUMTREE_DEBUG_INFO()  { return false; };
 
 
     /// ROBOT AND RELATED ///
@@ -34,6 +34,9 @@ public:
     static double MIN_ANGLE()                   { return -M_PI; };
     static double MAX_ANGLE()                   { return M_PI; };
     static double MAX_VEL()                     { return 8.0; };
+    static double MIN_VEL()                     { return 0.2; };  // Minimum velocity to make the robot move
+    static double MAX_ACC_UPPER()               { return 5.0; };  // Maximum acceleration for moving in the forward direction
+    static double MAX_ACC_LOWER()               { return 3.0; };  // Maximum acceleration for moving in the sideways direction
     static double MAX_VEL_BALLPLACEMENT()       { return 3.0; };
     static int DEFAULT_ROBOT_ID()               { return 1; };
     static double MAX_ANGULAR_VELOCITY()        { return 6.0; };    // Rad per second
@@ -64,7 +67,8 @@ public:
     static double MAX_INTERCEPT_TIME()          { return 2.0; };    // Seconds. Intercept terminates  after this time.
     static double BALL_STILL_VEL()              { return 0.1; };    // If the ball has velocity lower than this in defense area, keeper starts getting it
     static double MIN_DISTANCE_FOR_FORCE()      { return 0.5; };
-    static double GOTOPOS_ERROR_MARGIN()        { return 0.1;} ;
+    static double GOTOPOS_ERROR_MARGIN()        { return 0.1; };
+    static double DEFAULT_BALLCOLLISION_RADIUS(){ return 0.27;};
 
     /// KEEPER ///
     static double KEEPER_POST_MARGIN()          { return 0.08; };//m

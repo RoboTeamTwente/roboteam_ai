@@ -3,6 +3,7 @@
 //
 
 #include <roboteam_ai/src/demo/JoystickDemo.h>
+#include <roboteam_ai/src/coach/defence/DefenceDealer.h>
 #include "ApplicationManager.h"
 #include <sstream>
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
@@ -90,7 +91,7 @@ void ApplicationManager::runOneLoopCycle() {
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
 
-        rtt::ai::coach::g_offensiveCoach.calculateNewPositions();
+        rtt::ai::coach::g_DefenceDealer.setDoUpdate();
     }
     else {
         std::cout <<"NO FIRST WORLD" << std::endl;

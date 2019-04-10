@@ -15,7 +15,7 @@ ForcePosControl::ForcePosControl(bool avoidBall, bool canMoveOutsideField, bool 
         : PosController(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
 }
 
-PosVelAngle ForcePosControl::getPosVelAngle(RobotPtr robot, Vector2 &targetPos) {
+PosVelAngle ForcePosControl::getPosVelAngle(const RobotPtr &robot, Vector2 &targetPos) {
   return calculateForcePosVelAngle(robot, targetPos);
 }
 
@@ -35,7 +35,7 @@ Vector2 ForcePosControl::calculateForces(const RobotPtr &robot, const Vector2 &t
     }
 
     // avoid the ball
-    if (avoidBall) {
+    if (avoidBallDistance > 0.0) {
         force += ControlUtils::calculateForce((Vector2) robot->pos - world.ball.pos, FORCE_WEIGHT_BALL, forceRadius);
     }
 
