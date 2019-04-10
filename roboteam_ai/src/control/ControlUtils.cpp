@@ -290,7 +290,17 @@ Vector2 ControlUtils::twoLineIntersection(const Vector2 &a1, const Vector2 &a2, 
     else
         return Vector2();
 }
-
+/// returns true if the line intersects in the positive extension from point a1 to a2 with the extended line through b1 and b2
+double ControlUtils::twoLineForwardIntersection(const Vector2& a1,const Vector2& a2,const Vector2& b1,const Vector2& b2) {
+    double denominator = ( (a1.x - a2.x)*(b1.y - b2.y) - (a1.y - a2.y)*(b1.x - b2.x) );
+    if (denominator != 0) {
+        double numerator = ( (a1.x - b1.x)*(b1.y - b2.y) - (a1.y - b1.y)*(b1.x - b2.x) );
+        double t =  numerator / denominator;
+        return t;
+    }
+    else
+        return -1.0;
+}
 /// Returns point in field closest to a given point.
 /// If the point is already in the field it returns the same as the input.
 Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, float margin) {
@@ -374,17 +384,6 @@ bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, con
 
 }
 
-double ControlUtils::twoLineForwardIntersection(const Vector2 &a1, const Vector2 &a2,
-        const Vector2 &b1, const Vector2 &b2) {
-
-    double denominator = ((a1.x - a2.x)*(b1.y - b2.y) - (a1.y - a2.y)*(b1.x - b2.x));
-    if (denominator != 0) {
-        double numerator = ((a1.x - b1.x)*(b1.y - b2.y) - (a1.y - b1.y)*(b1.x - b2.x));
-        double t = numerator/denominator;
-        return t;
-    }
-    return - 1.0;
-}
 
 } // control
 } // ai

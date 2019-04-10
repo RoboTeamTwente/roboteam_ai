@@ -13,12 +13,19 @@ std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::NumTreePoints;
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::KeeperPoints;
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::InterceptPoints;
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::AttackerPoints;
+std::vector<std::pair<Vector2, QColor>> Drawer::OffensivePoints;
+
+std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>> Drawer::testLines;
+std::vector<std::pair<Vector2,QColor>> Drawer::testPoints;
 std::vector<std::pair<Vector2, QColor>> Drawer::drawP;
 std::vector<std::tuple<Vector2, Vector2, QColor>> Drawer::drawL;
 
 std::mutex Drawer::keeperMutex;
 std::mutex Drawer::goToPosMutex;
 std::mutex Drawer::interceptMutex;
+std::mutex Drawer::testLineMutex;
+std::mutex Drawer::testPointMutex;
+std::mutex Drawer::offensiveMutex;
 std::mutex Drawer::attackerMutex;
 std::mutex Drawer::drawMutex;
 std::mutex Drawer::drawLinesMutex;
@@ -85,7 +92,25 @@ Drawer::GTPPoints Drawer::getInterceptPoints(int id) {
     return {};
 
 }
-void Drawer::drawPoint(Vector2 position, QColor color) {
+
+void Drawer::setTestLines(std::vector<std::pair<std::pair<rtt::Vector2, rtt::Vector2>, QColor>> lines) {
+    std::lock_guard<std::mutex> lock(testLineMutex);
+    testLines=lines;
+}
+std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>> Drawer::getTestLines() {
+    std::lock_guard<std::mutex> lock(testLineMutex);
+    return testLines;
+}
+void Drawer::setTestPoints(std::vector<std::pair<Vector2, QColor>> points) {
+    std::lock_guard<std::mutex> lock(testPointMutex);
+    testPoints=points;
+}
+std::vector<std::pair<Vector2,QColor>> Drawer::getTestPoints() {
+    std::lock_guard<std::mutex> lock(testPointMutex);
+    return testPoints;
+}
+
+void Drawer::addDrawPoint(Vector2 position, QColor color) {
     std::pair<Vector2, QColor> point = {position, color};
     drawPoint(point);
 }
