@@ -1,2 +1,2 @@
 Tactic,name
-RoleDivider,TacticType
+RoleDivider,*TacticType;Offensive;Middle;Defensive;General
