@@ -8,7 +8,6 @@
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include "Skill.h"
-#include "roboteam_ai/src/control/PIDController.h"
 
 namespace rtt {
 namespace ai {
