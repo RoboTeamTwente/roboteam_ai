@@ -12,6 +12,7 @@
 #include "roboteam_msgs/GeometryFieldSize.h"
 #include <mutex>
 #include <thread>
+#include <tuple>
 #include "WorldData.h"
 #include "Robot.h"
 #include <roboteam_ai/src/control/ControlUtils.h>
@@ -43,6 +44,8 @@ class Field {
         Vector2 getPenaltyPoint(bool ourGoal);
         std::shared_ptr<Vector2> lineIntersectsWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin);
         double getTotalGoalAngle(bool ourGoal, const Vector2& point);
+        std::vector<Vector2> getDefenseArea(bool ourDefenseArea = true, double margin = 0.0);
+
 };
 
 extern Field fieldObj;
