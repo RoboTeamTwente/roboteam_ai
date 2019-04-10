@@ -67,7 +67,7 @@ Node::Node() {
 }
 
 Node::Status Node::NodeUpdate() {
-    auto status = update();
+    status = update();
     return status;
 }
 
