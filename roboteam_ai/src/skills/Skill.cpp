@@ -18,6 +18,8 @@ void Skill::publishRobotCommand() {
 //    if(ourSideParam=="right"){
 //        cmd=rotateRobotCommand(cmd);
 //    }
+
+
     ioManager.publishRobotCommand(command); // We default to our robots being on the left if parameter is not set
 
     // refresh the robotcommand after it has been sent
