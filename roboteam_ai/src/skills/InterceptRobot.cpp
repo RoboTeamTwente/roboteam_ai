@@ -11,7 +11,7 @@ InterceptRobot::InterceptRobot(string name, bt::Blackboard::Ptr blackboard)
 
 }
 Skill::Status InterceptRobot::onUpdate() {
-    RobotPtr robotToIntercept=world::world->getRobotForId(0,true);
+    RobotPtr robotToIntercept=world::world->getRobotForId(1,true);
     if (!robotToIntercept){
         return Status::Failure;
     }
@@ -21,16 +21,19 @@ Skill::Status InterceptRobot::onUpdate() {
     double minDist=2.5*Constants::ROBOT_RADIUS();
     Vector2 interceptPos=robotToIntercept->pos;
     // we stand at a point in front of the robot depending on it's speed
+    Vector2 angle=robotToIntercept->angle.toVector2(1.0);
     if (robotVel.length()<maxVel){
-        interceptPos+=robotVel.stretchToLength(minDist+robotVel.length()*(maxDist-minDist));
+        interceptPos+=angle.stretchToLength(minDist+robotVel.length()*(maxDist-minDist));
     }
     else{
-        interceptPos+=robotVel.stretchToLength(maxDist);
+        interceptPos+=angle.stretchToLength(maxDist);
     }
     control::PosVelAngle velocities=gtp.getPosVelAngle(robot,interceptPos);
-    command.x_vel=velocities.vel.x;
-    command.y_vel=velocities.vel.y;
+    Vector2 XYvel=control::ControlUtils::velocityLimiter(velocities.vel,4.0);
+    command.x_vel=XYvel.x;
+    command.y_vel=XYvel.y;
     command.w=velocities.angle.getAngle();
+
     publishRobotCommand();
     return Status::Running;
 }

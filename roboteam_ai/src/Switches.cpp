@@ -173,7 +173,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
      * sideAttacker
      */
 
-    map["TwoRobotBallPlacement"] =      std::make_shared<rtt::ai::TwoRobotBallPlacement>(name, properties);
+    map["TwoRobotBallPlacement"] = std::make_shared<rtt::ai::TwoRobotBallPlacement>(name, properties);
     map["Attack"] = std::make_shared<rtt::ai::Attack>(name, properties);
     map["AvoidBall"] = std::make_shared<rtt::ai::AvoidBall>(name, properties);
     map["GTPSpecial"] = std::make_shared<rtt::ai::GTPSpecial>(name, properties);
@@ -289,18 +289,18 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"random7", robotType::RANDOM}
             }
             },
-            {"BallPlacementUsTactic",{
-                {"BallPlacementBot",robotType::CLOSE_TO_BALL}
+            {"BallPlacementUsTactic", {
+                    {"BallPlacementBot", robotType::CLOSE_TO_BALL}
             }
             },
-            {"BallPlacementDoubleTactic",{
-                {"BallPlacementPasser",robotType::CLOSE_TO_BALL},
-                {"BallPlacementReceiver", robotType::BALL_PLACEMENT_RECEIVER},
-                 {"avoid1", robotType::RANDOM},
-                 {"avoid2", robotType::RANDOM},
-                 {"avoid3", robotType::RANDOM},
-                 {"avoid4", robotType::RANDOM},
-                 {"avoid5", robotType::RANDOM}
+            {"BallPlacementDoubleTactic", {
+                    {"BallPlacementPasser", robotType::CLOSE_TO_BALL},
+                    {"BallPlacementReceiver", robotType::BALL_PLACEMENT_RECEIVER},
+                    {"avoid1", robotType::RANDOM},
+                    {"avoid2", robotType::RANDOM},
+                    {"avoid3", robotType::RANDOM},
+                    {"avoid4", robotType::RANDOM},
+                    {"avoid5", robotType::RANDOM}
             }
             },
             {"SingleKeeperTactic", {
@@ -320,34 +320,39 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"Keeper", robotType::CLOSE_TO_OUR_GOAL}
             }
             },
-             {"SideAttackerTactic", {
-                     {"sideAttacker1", robotType::CLOSE_TO_THEIR_GOAL},
-                     {"sideAttacker2", robotType::CLOSE_TO_THEIR_GOAL},
-                     {"sideAttacker3", robotType::CLOSE_TO_THEIR_GOAL},
-                     {"sideAttacker4", robotType::CLOSE_TO_THEIR_GOAL}
+            {"SideAttackerTactic", {
+                    {"sideAttacker1", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"sideAttacker2", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"sideAttacker3", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"sideAttacker4", robotType::CLOSE_TO_THEIR_GOAL}
 
-             }
-             },
-             {"PassAndShootTactic", {
-                     {"midfielder1", robotType::CLOSE_TO_BALL},
-                     {"sideAttacker1", robotType::CLOSE_TO_THEIR_GOAL},
-                     {"sideAttacker2", robotType::CLOSE_TO_THEIR_GOAL}
+            }
+            },
+            {"PassAndShootTactic", {
+                    {"midfielder1", robotType::CLOSE_TO_BALL},
+                    {"sideAttacker1", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"sideAttacker2", robotType::CLOSE_TO_THEIR_GOAL}
 
-             }
+            }
 
-             },
-             {"PenaltyShootTactic", {
-                     {"shooter", robotType::RANDOM}
-             }
-             },
-             {"PenaltyTactic", {
-                     {"shooter", robotType::RANDOM}
-             }
-             },
-             {"FreeKickShootTactic", {
-                     {"freeShooter", robotType::RANDOM}
-             }
-             }
+            },
+            {"PenaltyShootTactic", {
+                    {"shooter", robotType::RANDOM}
+            }
+            },
+            {"PenaltyTactic", {
+                    {"shooter", robotType::RANDOM}
+            }
+            },
+            {"FreeKickShootTactic", {
+                    {"freeShooter", robotType::RANDOM}
+            }
+            },
+            {"InterceptRobotTestTactic",{
+                    {"driver",robotType::RANDOM},
+                    {"intercepter",robotType::RANDOM}
+            }
+            }
     };
     runErrorHandler(tactics);
 
