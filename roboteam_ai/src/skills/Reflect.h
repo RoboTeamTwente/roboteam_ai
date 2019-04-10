@@ -6,6 +6,8 @@
 #define ROBOTEAM_AI_REFLECT_H
 
 #include "Skill.h"
+#include <roboteam_ai/src/coach/PassCoach.h>
+#include <roboteam_ai/src/coach/BallplacementCoach.h>
 
 namespace rtt {
 namespace ai {

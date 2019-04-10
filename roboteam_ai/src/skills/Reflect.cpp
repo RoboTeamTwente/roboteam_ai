@@ -14,6 +14,9 @@ Reflect::Reflect(string name, bt::Blackboard::Ptr blackboard)
 void Reflect::onInitialize() {}
 
 Reflect::Status Reflect::onUpdate() {
+    if(coach::g_pass.getRobotBeingPassedTo() != robot->id) return Status::Failure;
+
+
     return Status::Running;
 }
 
