@@ -74,6 +74,7 @@ class World {
 
         const WorldData getFutureWorld(double time);
         const RobotPtr getFutureRobot(int id, bool ourTeam, double time);
+        const Robot getFutureRobot(const Robot &robot, double time);
         const RobotPtr getFutureRobot(const RobotPtr &robot, double time);
         const BallPtr getFutureBall(double time);
 };
