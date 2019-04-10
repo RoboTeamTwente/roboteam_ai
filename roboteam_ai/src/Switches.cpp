@@ -44,6 +44,7 @@
 #include "roboteam_ai/src/skills/ShootPenalty.h"
 #include "roboteam_ai/src/skills/ShootFreeKick.h"
 #include "roboteam_ai/src/skills/DemoAttack.h"
+#include "roboteam_ai/src/skills/InterceptRobot.hpp"
 
 //  ______________________
 //  |                    |
@@ -100,7 +101,8 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "FreeKickShootTactic",
         "SideAttackerTactic",
         "PassAndShootTactic",
-        "BallPlacementDoubleTactic"
+        "BallPlacementDoubleTactic",
+        "InterceptRobotTestTactic"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
@@ -120,7 +122,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "PenaltyStrategy",
         "FreeKickShootStrategy",
         "SideAttackerStrategy",
-        "PassAndShootStrategy"
+        "PassAndShootStrategy",
+        "InterceptRobotTestStrategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles =
@@ -186,6 +189,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["Halt"] = std::make_shared<rtt::ai::Halt>(name, properties);
     map["Harass"] = std::make_shared<rtt::ai::Harass>(name, properties);
     map["InterceptBall"] = std::make_shared<rtt::ai::InterceptBall>(name, properties);
+    map["InterceptRobot"] = std::make_shared<rtt::ai::InterceptRobot>(name, properties);
     map["Keeper"] = std::make_shared<rtt::ai::Keeper>(name, properties);
     map["Kick"] = std::make_shared<rtt::ai::Kick>(name, properties);
     map["Pass"] = std::make_shared<rtt::ai::Pass>(name, properties);
