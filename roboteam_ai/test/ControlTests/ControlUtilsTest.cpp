@@ -45,6 +45,66 @@ TEST(ControlUtils, velocityLimiter) {
     }
 }
 
+TEST(ControlUtils, accelerationLimiter) {
+    rtt::Vector2 testVel;
+    double prevTestVel;
+    for (int i = 1; i < 200; i ++) {
+        testVel = Vector2(5*cos(i/100.0*M_PI), 3*sin(i/30.0*M_PI));
+        prevTestVel = Vector2(5*cos((i - 1)/100.0*M_PI), 3*sin((i - 1)/30.0*M_PI)).length();
+        EXPECT_LE(cr::ControlUtils::accelerationLimiter(testVel, rtt::ai::Constants::MAX_ACC_UPPER(),
+                prevTestVel).length(),
+                prevTestVel + rtt::ai::Constants::MAX_ACC_UPPER()/rtt::ai::Constants::TICK_RATE() + 0.01);
+        EXPECT_LE(cr::ControlUtils::accelerationLimiter(testVel, rtt::ai::Constants::MAX_ACC_LOWER(),
+                prevTestVel).length(),
+                prevTestVel + rtt::ai::Constants::MAX_ACC_LOWER()/rtt::ai::Constants::TICK_RATE() + 0.01);
+    }
+}
+
+TEST(ControlUtils, calculateMaxAcceleration) {
+    double upperAcc = rtt::ai::Constants::MAX_ACC_UPPER();
+    double lowerAcc = rtt::ai::Constants::MAX_ACC_LOWER();
+
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(0.5, 0.0), 0.0), upperAcc);
+
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(0.5, 0.0), 0.5*M_PI), lowerAcc);
+
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(0.5, 0.0), - 0.5*M_PI), lowerAcc);
+
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(0.5, 0.0), - 0.25*M_PI),
+            lowerAcc + 0.5*sqrt(2)*(upperAcc-lowerAcc));
+
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(0.5, 0.5), 0.0),
+            lowerAcc + 0.5*sqrt(2)*(upperAcc-lowerAcc));
+
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(0.5, 0.5), 0.5*M_PI),
+            lowerAcc + 0.5*sqrt(2)*(upperAcc-lowerAcc));
+
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(- 0.5, - 0.5), 0.0),
+            lowerAcc + 0.5*sqrt(2)*(upperAcc-lowerAcc));
+
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(- 0.5, - 0.5), 0.5*M_PI),
+            lowerAcc + 0.5*sqrt(2)*(upperAcc-lowerAcc));
+
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(0.5, 0), M_PI/6),
+            lowerAcc + 0.5*sqrt(3)*(upperAcc-lowerAcc));
+
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(0.5, 0), 5*M_PI/6),
+            lowerAcc + 0.5*sqrt(3)*(upperAcc-lowerAcc));
+
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(0.5, 0), M_PI/3),
+            lowerAcc + 0.5*(upperAcc-lowerAcc));
+
+    EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(0.5, 0), 2*M_PI/3),
+            lowerAcc + 0.5*(upperAcc-lowerAcc));
+
+    int nTests = 100;
+    for (int i = 0; i < nTests; i++) {
+        rtt::Angle robotAngle = static_cast<double>(i * 2.0*M_PI / nTests);
+        double expectedAcc = lowerAcc + abs(cos(robotAngle)) *(upperAcc-lowerAcc);
+        EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(0.5, 0), robotAngle), expectedAcc);
+    }
+}
+
 TEST(ControlUtils, triangleArea) {
     {
         Vector2 A(0, 0), B(0, 2), C(1, 1);
@@ -212,4 +272,11 @@ TEST(ControlUtils, it_calculates_forces) {
     force = cr::ControlUtils::calculateForce(Vector2(0, 1), - 2, 3);
     EXPECT_DOUBLE_EQ(force.x, 0);
     EXPECT_DOUBLE_EQ(force.y, - 2);
+}
+TEST(ControlUtils, forward_line_intersection){
+    Vector2 A(0,0),B(0,3),C(-1,1),D(1,1),E(0,0.5);
+    EXPECT_EQ(cr::ControlUtils::twoLineForwardIntersection(A,B,C,D),1.0/3.0);
+    EXPECT_EQ(cr::ControlUtils::twoLineForwardIntersection(B,A,C,D),2.0/3.0);
+    EXPECT_EQ(cr::ControlUtils::twoLineForwardIntersection(A,E,C,D),2.0);
+    EXPECT_EQ(cr::ControlUtils::twoLineForwardIntersection(E,A,C,D),-1.0);
 }

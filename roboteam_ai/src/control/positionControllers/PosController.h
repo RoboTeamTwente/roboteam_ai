@@ -15,6 +15,8 @@ namespace ai {
 namespace control {
 
 class PosController {
+    private:
+        double prevVel = 0.0;
     protected:
         using Robot = world::Robot;
         using RobotPtr = std::shared_ptr<Robot>;
