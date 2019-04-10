@@ -21,6 +21,7 @@ Skill::Status InterceptRobot::onUpdate() {
     double minDist=2.5*Constants::ROBOT_RADIUS();
     Vector2 interceptPos=robotToIntercept->pos;
     // we stand at a point in front of the robot depending on it's speed
+    // psst don't tell mechanics
     Vector2 angle=robotToIntercept->angle.toVector2(1.0);
     if (robotVel.length()<maxVel){
         interceptPos+=angle.stretchToLength(minDist+robotVel.length()*(maxDist-minDist));
