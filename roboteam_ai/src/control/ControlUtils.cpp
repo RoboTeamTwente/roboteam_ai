@@ -241,13 +241,12 @@ int ControlUtils::rotateDirection(double currentAngle, double targetAngle) {
     double checkForward = constrainAngle(currentAngle + angDif);
     double checkBackward = constrainAngle(currentAngle - angDif);
     if (abs(checkForward - targetAngle) < abs(checkBackward - targetAngle)) {
-        return 1; //forwards
+        return 1;       //forwards
     }
-    else return - 1;//backwards
+    else return - 1;    //backwards
 }
 
 /// Limits velocity to maximum velocity
-
 Vector2 ControlUtils::velocityLimiter(const Vector2 &vel, double maxVel, double minVel) {
     if (vel.length() > maxVel) {
         return vel.stretchToLength(maxVel);
@@ -256,6 +255,27 @@ Vector2 ControlUtils::velocityLimiter(const Vector2 &vel, double maxVel, double 
         return vel.stretchToLength(minVel);
     }
     return vel;
+}
+
+
+/// Limits acceleration to maximum acceleration
+Vector2 ControlUtils::accelerationLimiter(const Vector2 &vel, double maxAcc, double prevVel){
+    if (vel.length() > (prevVel + maxAcc/Constants::TICK_RATE())) {
+        return vel.stretchToLength(prevVel + maxAcc/Constants::TICK_RATE());
+    }
+    return vel;
+}
+
+/// Calculate the maximum acceleration based on the direction of driving.
+/// Acceleration is the lowest in the sideways direction and highest in the forward direction.
+double ControlUtils::calculateMaxAcceleration(const Vector2 &vel, double angle) {
+    // get the angle difference and turn it into a normalized vector
+    Angle angleDiff = vel.toAngle() - angle;
+    Vector2 toVectorDiff = angleDiff.toVector2();
+
+    // get the x-component of the vector and use linear interpolation to get the max acceleration
+    double a = abs(toVectorDiff.x);
+    return Constants::MAX_ACC_UPPER() * (a) + Constants::MAX_ACC_LOWER() * (1-a);
 }
 
 /// Get the intersection of two lines
@@ -269,7 +289,6 @@ Vector2 ControlUtils::twoLineIntersection(const Vector2 &a1, const Vector2 &a2, 
     }
     else
         return Vector2();
-
 }
 
 /// Returns point in field closest to a given point.
