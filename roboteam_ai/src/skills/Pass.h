@@ -30,6 +30,7 @@ private:
     Status shoot();
 
     double determineKickForce(double distance);
+    Vector2 getKicker();
 
 public:
     explicit Pass(string name, bt::Blackboard::Ptr blackboard);

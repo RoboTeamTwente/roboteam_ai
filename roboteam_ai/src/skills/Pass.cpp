@@ -72,7 +72,7 @@ bt::Leaf::Status Pass::getBall() {
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL(), 0.3);
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);
-    command.w = static_cast<float>( (Vector2(robotToPassTo->pos) - robot->pos).angle());
+    command.w = static_cast<float>((getKicker() - robot->pos).angle());
 
     publishRobotCommand();
     return bt::Leaf::Status::Running;
@@ -82,15 +82,15 @@ bt::Leaf::Status Pass::getBall() {
 bt::Leaf::Status Pass::shoot() {
 
     if (coach::g_pass.isReadyToReceivePass()) {
-        targetPos = robotToPassTo->pos;
+        targetPos = getKicker();
         control::PosVelAngle pva = basicGtp.getPosVelAngle(robot, targetPos);
         pva.vel = control::ControlUtils::velocityLimiter(pva.vel, 0.1);
         command.x_vel = static_cast<float>(pva.vel.x);
         command.y_vel = static_cast<float>(pva.vel.y);
-        command.w = static_cast<float>((Vector2(robotToPassTo->pos) - robot->pos).angle());
+        command.w = static_cast<float>((getKicker() - robot->pos).angle());
 
         command.kicker_forced = 1;
-        command.kicker_vel = determineKickForce((Vector2(ball->pos) - robotToPassTo->pos).length());
+        command.kicker_vel = determineKickForce((Vector2(ball->pos) - getKicker()).length());
 
         publishRobotCommand();
     }
@@ -104,6 +104,10 @@ double Pass::determineKickForce(double distance) {
     // take square root of distance and scale it vertically such that the max kick force and max distance for max kick force are correct.
     double kickSpeed = distance > maxPowerDist ? rtt::ai::Constants::MAX_KICK_POWER() : sqrt(distance) * rtt::ai::Constants::MAX_KICK_POWER()/sqrt(maxPowerDist) ;
     return static_cast<float>(kickSpeed);
+}
+Vector2 Pass::getKicker() {
+    Vector2 facing = robotToPassTo->angle.toVector2((Constants::ROBOT_RADIUS()/2.0) + (Constants::BALL_RADIUS()/2.0) + 0.005);
+    return robotToPassTo->pos + facing;
 }
 
 } // ai
