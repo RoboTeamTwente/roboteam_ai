@@ -120,6 +120,9 @@ const World::BallPtr World::getBall() {
     if (worldDataPtr && worldDataPtr->ball.exists)
         return std::make_shared<Ball>(worldDataPtr->ball);
 
+    if (worldDataPtr && worldDataPtr->ball.visible)
+        return std::make_shared<Ball>(worldDataPtr->ball);
+
     std::cerr << "BALL DOES NOT EXIST!!! (exists == 0 ??? )" << std::endl;
     return BallPtr(nullptr);
 }
@@ -316,10 +319,14 @@ const World::RobotPtr World::getFutureRobot(const RobotPtr &robotPtr, double tim
     if (!robotPtr) {
         return RobotPtr(nullptr);
     }
-
-    Robot robot = *robotPtr;
-    futureWorld.updateFutureRobot(robot, time);
+    Robot robot = getFutureRobot(*robotPtr, time);
     return std::make_shared<Robot>(robot);
+}
+
+const Robot World::getFutureRobot(const Robot &robot, double time) {
+    Robot futureRobot = robot;
+    futureWorld.updateFutureRobot(futureRobot, time);
+    return futureRobot;
 }
 
 const World::BallPtr World::getFutureBall(double time) {
