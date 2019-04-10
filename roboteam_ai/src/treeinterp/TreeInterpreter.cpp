@@ -135,7 +135,6 @@ std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fi
 bt::Node::Ptr TreeInterpreter::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
 
     bt::Node::Ptr tacticNode = Switches::tacticSwitch(name, std::move(properties));
-
     // Hacky child abduction
     bt::Node::Ptr kid = tactics.find(name)->second;
     for (const auto& child : kid->getChildren()) {

@@ -86,7 +86,8 @@ unsigned long long Node::getAmountOfTicks() const {
 ros::Time Node::getLastTickTime() {
     return lastTickTime;
 }
-void Node::giveProperty(std::string a, std::string a) {
+void Node::giveProperty(std::string a, std::string b) {
+    std::cerr << "giveProperty in Node.cpp, should never be called" << std::endl;
 
 }
 
