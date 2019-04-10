@@ -52,8 +52,8 @@ class ControlUtils {
         static rtt::Arc createKeeperArc();
         static Vector2 velocityLimiter(const Vector2 &vel, double maxVel = rtt::ai::Constants::MAX_VEL(),
                 double minVel = 0.0);
-        static Vector2 accelerationLimiter(Vector2 vel,double maxAcc, double prevVel);
-        static double calculateMaxAcceleration(Vector2 vel, double angle);
+        static Vector2 accelerationLimiter(const Vector2 &vel,double maxAcc, double prevVel);
+        static double calculateMaxAcceleration(const Vector2 &vel, double angle);
         static bool robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, double maxDifference = 0.3);
         static bool objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity,
                 const Vector2 &point, double maxDifference = 0.3);
