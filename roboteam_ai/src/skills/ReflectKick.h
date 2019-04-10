@@ -2,8 +2,8 @@
 // Created by robzelluf on 4/9/19.
 //
 
-#ifndef ROBOTEAM_AI_REFLECT_H
-#define ROBOTEAM_AI_REFLECT_H
+#ifndef ROBOTEAM_AI_REFLECTKICK_H
+#define ROBOTEAM_AI_REFLECTKICK_H
 
 #include "Skill.h"
 #include <roboteam_ai/src/coach/PassCoach.h>
@@ -12,9 +12,9 @@
 namespace rtt {
 namespace ai {
 
-class Reflect : public Skill {
+class ReflectKick : public Skill {
 public:
-    explicit Reflect(string name, bt::Blackboard::Ptr blackboard);
+    explicit ReflectKick(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;
@@ -24,4 +24,4 @@ public:
 }
 
 
-#endif //ROBOTEAM_AI_REFLECT_H
+#endif //ROBOTEAM_AI_REFLECTKICK_H

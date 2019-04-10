@@ -193,8 +193,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DemoAttack.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SideAttacker.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SideAttacker.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Reflect.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Reflect.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ReflectKick.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ReflectKick.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp

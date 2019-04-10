@@ -2,25 +2,25 @@
 // Created by robzelluf on 4/9/19.
 //
 
-#include "Reflect.h"
+#include "ReflectKick.h"
 
 namespace rtt{
 namespace ai{
 
-Reflect::Reflect(string name, bt::Blackboard::Ptr blackboard)
+ReflectKick::ReflectKick(string name, bt::Blackboard::Ptr blackboard)
     :Skill(std::move(name), std::move(blackboard)) {
 }
 
-void Reflect::onInitialize() {}
+void ReflectKick::onInitialize() {}
 
-Reflect::Status Reflect::onUpdate() {
+ReflectKick::Status ReflectKick::onUpdate() {
     if(coach::g_pass.getRobotBeingPassedTo() != robot->id) return Status::Failure;
 
 
     return Status::Running;
 }
 
-void Reflect::onTerminate(Status s) {}
+void ReflectKick::onTerminate(Status s) {}
 
 }
 }
