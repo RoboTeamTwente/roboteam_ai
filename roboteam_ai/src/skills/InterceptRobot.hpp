@@ -14,11 +14,12 @@ namespace ai{
 class InterceptRobot : public Skill{
     private:
         control::BasicPosControl gtp;
+        Vector2 getInterceptPos(Robot robotToIntercept);
     public:
         explicit InterceptRobot(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;
         void onInitialize() override;
-        void onTerminate(Status s) override;
+
 };
 
 }
