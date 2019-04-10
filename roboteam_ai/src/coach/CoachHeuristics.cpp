@@ -10,8 +10,8 @@ namespace coach {
 
 const double CoachHeuristics::MAX_DISTANCE_FROM_BALL = 6.0;
 const double CoachHeuristics::CLOSE_TO_GOAL_WEIGHT = -0.1;
-const double CoachHeuristics::SHOT_AT_GOAL_WEIGHT = -1.0;
-const double CoachHeuristics::PASS_LINE_WEIGHT = -1.0;
+const double CoachHeuristics::SHOT_AT_GOAL_WEIGHT = -2.0;
+const double CoachHeuristics::PASS_LINE_WEIGHT = -2.0;
 const double CoachHeuristics::DISTANCE_TO_OPPONENTS_WEIGHT = -0.5;
 const double CoachHeuristics::DISTANCE_FROM_CORNER_WEIGHT = -0.05;
 
@@ -24,34 +24,21 @@ double CoachHeuristics::calculateCloseToGoalScore(const Vector2 &position) {
 }
 
 /// Gives a higher score if the line between the position and the goal is free
-//TODO: Choose to not take the opponents keeper into account for this calculation
-double CoachHeuristics::calculateShotAtGoalScore(const Vector2 &position, WorldData world) {
-    double safeDistanceFactor = 3;
-    while (safeDistanceFactor > 0) {
-        if (control::ControlUtils::clearLine(position, world::field->get_their_goal_center(), world, safeDistanceFactor)) {
-            break;
-        }
-        safeDistanceFactor -= 0.5;
-    }
+double CoachHeuristics::calculateShotAtGoalScore(const Vector2& position, WorldData world) {
+    double shortestDistance = control::ControlUtils::closestEnemyToLineDistance(position, world::field->get_their_goal_center(), world, false);
 
-    return 1 - exp(SHOT_AT_GOAL_WEIGHT * safeDistanceFactor);
+    return 1 - exp(SHOT_AT_GOAL_WEIGHT * shortestDistance);
 }
 
 /// Gives a higher score if the distance between the ball and the positions if free (safe pass line)
-double CoachHeuristics::calculatePassLineScore(const Vector2 &position, WorldData world) {
-    double safeDistanceFactor = 3;
-    while (safeDistanceFactor > 0) {
-        if (control::ControlUtils::clearLine(world.ball.pos, position, world, safeDistanceFactor)) {
-            break;
-        }
-        safeDistanceFactor -= 0.5;
-    }
+double CoachHeuristics::calculatePassLineScore(const Vector2& position, WorldData world) {
+    double shortestDistance = control::ControlUtils::closestEnemyToLineDistance(world.ball.pos, position, world, false);
 
-    return 1 - exp(PASS_LINE_WEIGHT * safeDistanceFactor);
+    return 1 - exp(PASS_LINE_WEIGHT * shortestDistance);
 }
 
 /// Gives a higher score if the position is far away from enemy robots
-double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &position) {
+double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &position, const WorldData world) {
     Robot closestRobot = world::world->getRobotClosestToPoint(position, world::WhichRobots::THEIR_ROBOTS);
     if (closestRobot.id != -1) {
         double distance = (position - closestRobot.pos).length();
@@ -62,7 +49,7 @@ double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &positio
 }
 
 /// Gives a lower score if the position is too close to the corner of the field
-double CoachHeuristics::calculateDistanceFromCornerScore(const Vector2 &position, roboteam_msgs::GeometryFieldSize field) {
+double CoachHeuristics::calculateDistanceFromCornerScore(const Vector2& position, const roboteam_msgs::GeometryFieldSize& field) {
     Vector2 corner;
     corner.x = field.field_length / 2;
     if (position.y > 0) {
@@ -75,36 +62,34 @@ double CoachHeuristics::calculateDistanceFromCornerScore(const Vector2 &position
 }
 
 /// Gives a higher score if the ball is not too far or too close to the ball (parabolic using maxDistanceFromBall)
-double CoachHeuristics::calculateDistanceFromBallScore(const Vector2 &position,
-        roboteam_msgs::GeometryFieldSize &field, BallPtr &ball) {
-
-    if (!ball) return -1.0;
-    double distanceFromBall = (position - ball->pos).length();
+double CoachHeuristics::calculateDistanceFromBallScore(const Vector2& position, roboteam_msgs::GeometryFieldSize& field, roboteam_msgs::WorldBall& ball) {
+    double distanceFromBall = (position - ball.pos).length();
     return -pow(distanceFromBall / (0.5 * MAX_DISTANCE_FROM_BALL), 2) + 2 * (distanceFromBall / (0.5 * MAX_DISTANCE_FROM_BALL));
 }
 
 /// Calculates a total score based on all the sub-scores
-double CoachHeuristics::calculatePositionScore(const Vector2 &position) {
-    auto w = world::world->getWorld();
-    auto ball = world::world->getBall();
-
-    if (!ball) return -1.0;
-
+double CoachHeuristics::calculatePositionScore(const Vector2& position) {
+    WorldData world = world::world->getWorld();
     roboteam_msgs::GeometryFieldSize field = world::field->get_field();
+
     double closeToGoalScore = calculateCloseToGoalScore(position);
-    double shotAtGoalScore = calculateShotAtGoalScore(position, w);
-    double passLineScore = calculatePassLineScore(position, w);
-    double closestOpponentScore = calculateDistanceToOpponentsScore(position);
-    double distanceFromBallScore = calculateDistanceFromBallScore(position, field, ball);
-    double behindBallScore = position.x < ball->pos.x ? 0.7 : 1.0;
-    double distanceFromCornerScore = calculateDistanceFromCornerScore(position, field);
+    double shotAtGoalScore = calculateShotAtGoalScore(position, world);
 
-    double score = 2 * closeToGoalScore + 2 * shotAtGoalScore + passLineScore + closestOpponentScore
-                   + distanceFromBallScore + behindBallScore + distanceFromCornerScore;
-
+    double score = 3 * shotAtGoalScore + closeToGoalScore;
     return score;
 }
-    
+
+double CoachHeuristics::calculatePassScore(const Vector2 &position) {
+    WorldData world = world::world->getWorld();
+    roboteam_msgs::GeometryFieldSize field = world::field->get_field();
+    double closeToGoalScore = calculateCloseToGoalScore(position);
+    double shotAtGoalScore = calculateShotAtGoalScore(position, world);
+    double passLineScore = calculatePassLineScore(position, world);
+
+    double score = closeToGoalScore + 3 * shotAtGoalScore + 2 * passLineScore;
+    return score;
+}
+
 }
 }
 }
