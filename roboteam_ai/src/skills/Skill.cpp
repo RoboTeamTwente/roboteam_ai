@@ -15,9 +15,9 @@ void Skill::publishRobotCommand() {
     std::string ourSideParam;
     nh.getParam("our_side", ourSideParam);
 
-//    if(ourSideParam=="right"){
-//        cmd=rotateRobotCommand(cmd);
-//    }
+    if(Constants::GRSIM() && ourSideParam=="right"){
+        command=rotateRobotCommand(command);
+    }
 
 
     ioManager.publishRobotCommand(command); // We default to our robots being on the left if parameter is not set
@@ -66,7 +66,7 @@ void Skill::refreshRobotCommand() {
     roboteam_msgs::RobotCommand emptyCmd;
     emptyCmd.use_angle = 1;
     emptyCmd.id = robot->id;
-    emptyCmd.geneva_state = 3;
+//    emptyCmd.geneva_state = 3;
     command = emptyCmd;
 }
 
