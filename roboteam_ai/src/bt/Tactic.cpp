@@ -42,5 +42,8 @@ std::string Tactic::node_name() {
 std::vector<Node::Ptr> Tactic::getChildren() {
     return children;
 }
+void Tactic::giveProperty(std::string a, std::string b) {
+    properties->setString(a, b);
+}
 
 }

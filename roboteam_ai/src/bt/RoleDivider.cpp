@@ -14,4 +14,7 @@ std::vector<Node::Ptr> RoleDivider::getChildren() {
 std::string RoleDivider::node_name() {
     return name;
 }
+void RoleDivider::giveProperty(std::string a, std::string b) {
+    properties->setString(a, b);
+}
 }

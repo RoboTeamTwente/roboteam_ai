@@ -31,6 +31,8 @@ public:
         std::vector<Node::Ptr> children;
         std::string node_name() override;
         std::string name;
+        void giveProperty(std::string a, std::string b) override;
+
 };
 }
 

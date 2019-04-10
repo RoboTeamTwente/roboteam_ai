@@ -136,10 +136,12 @@ bt::Node::Ptr TreeInterpreter::tacticSwitch(std::string name, bt::Blackboard::Pt
 
     bt::Node::Ptr tacticNode = Switches::tacticSwitch(name, std::move(properties));
 
-    // TODO maybe steal the children of the child
-    for (const auto& child : tactics.find(name)->second->getChildren()) {
+    // Hacky child abduction
+    bt::Node::Ptr kid = tactics.find(name)->second;
+    for (const auto& child : kid->getChildren()) {
         tacticNode->addChild(child);
     }
+    tacticNode->giveProperty("TacticType", kid->properties->getString("TacticType"));
 
     return tacticNode;
 }

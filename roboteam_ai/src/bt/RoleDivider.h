@@ -15,6 +15,7 @@ class RoleDivider : public Node {
         std::vector<Node::Ptr> getChildren() override;
         std::string node_name() override;
         std::string name;
+        void giveProperty(std::string a, std::string b) override;
 
 };
 }

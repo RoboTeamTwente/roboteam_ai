@@ -86,6 +86,9 @@ unsigned long long Node::getAmountOfTicks() const {
 ros::Time Node::getLastTickTime() {
     return lastTickTime;
 }
+void Node::giveProperty(std::string a, std::string a) {
+
+}
 
 std::string statusToString(bt::Node::Status status) {
     if (status == bt::Node::Status::Success) {
