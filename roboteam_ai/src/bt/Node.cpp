@@ -54,6 +54,7 @@ void Node::addChild(bt::Node::Ptr) { }
 
 // testing purpose
 std::vector<Node::Ptr> Node::getChildren() {
+    std::cerr << "Get children in Node.cpp, should never be called" << std::endl;
     return std::vector<Node::Ptr>{};
 }
 

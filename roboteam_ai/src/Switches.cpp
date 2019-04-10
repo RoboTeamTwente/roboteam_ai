@@ -59,6 +59,7 @@
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
 #include <roboteam_ai/src/skills/EnterFormation.h>
 #include <roboteam_ai/src/skills/AvoidBall.h>
+#include <roboteam_ai/src/bt/RoleDivider.h>
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
 #include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"
@@ -145,6 +146,7 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
     map["Succeeder"] = std::make_shared<bt::Succeeder>();
     map["UntilFail"] = std::make_shared<bt::UntilFail>();
     map["UntilSuccess"] = std::make_shared<bt::UntilSuccess>();
+    map["RoleDivider"] = std::make_shared<bt::RoleDivider>();
 
     if (map.find(name) != map.end()) {
         return map[name];

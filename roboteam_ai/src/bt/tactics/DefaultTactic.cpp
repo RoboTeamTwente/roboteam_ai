@@ -48,6 +48,7 @@ void bt::DefaultTactic::initialize() {
         amountToTick = style.amountOfAttackers;
     } else {
         amountToTick = 7;
+        // TODO: maybe look at the field and how many robots we can get instead of this 7.
     }
     robotsNeeded = amountToTick;
     updateRobots();
