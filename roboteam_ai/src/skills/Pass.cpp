@@ -24,7 +24,7 @@ Pass::Status Pass::onUpdate() {
     robotToPassTo = world::world->getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
 
     bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos);
-    auto behindBallPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
+    auto behindBallPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, getKicker());
     bool isOnLineToBall = control::ControlUtils::distanceToLine(robot->pos, ball->pos, behindBallPos) < 0.0255;
     bool hasBall = world::world->ourRobotHasBall(robot->id, Constants::MAX_BALL_RANGE());
 
@@ -90,7 +90,7 @@ bt::Leaf::Status Pass::shoot() {
         command.w = static_cast<float>((getKicker() - robot->pos).angle());
 
         command.kicker_forced = 1;
-        command.kicker_vel = determineKickForce((Vector2(ball->pos) - getKicker()).length());
+        command.kicker_vel = determineKickForce((Vector2(ball->pos) - getKicker()). length());
 
         publishRobotCommand();
     }
@@ -106,8 +106,9 @@ double Pass::determineKickForce(double distance) {
     return static_cast<float>(kickSpeed);
 }
 Vector2 Pass::getKicker() {
-    Vector2 facing = robotToPassTo->angle.toVector2((Constants::ROBOT_RADIUS()/2.0) + (Constants::BALL_RADIUS()/2.0) + 0.005);
-    return robotToPassTo->pos + facing;
+    Vector2 distanceToKicker = {Constants::DISTANCE_TO_KICKER(), 0};
+    std::cout << (robotToPassTo->pos - (robotToPassTo->pos + distanceToKicker.rotate(robotToPassTo->angle))).length() << std::endl;
+    return robotToPassTo->pos + distanceToKicker.rotate(robotToPassTo->angle);
 }
 
 } // ai

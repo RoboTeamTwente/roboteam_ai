@@ -14,6 +14,7 @@ ReflectKick::ReflectKick(string name, bt::Blackboard::Ptr blackboard)
 void ReflectKick::onInitialize() {
     auto field = world::field->get_field();
     goalTarget = getFarSideOfGoal();
+    reflectionPos = robot->pos;
 }
 
 ReflectKick::Status ReflectKick::onUpdate() {
@@ -28,9 +29,10 @@ ReflectKick::Status ReflectKick::onUpdate() {
         if (world::world->ourRobotHasBall(robot->id)) {
             command.kicker = 1;
             command.kicker_forced = 1;
-        } else {
-            intercept();
         }
+//        } else {
+//            intercept();
+//        }
     }
 
     publishRobotCommand();
@@ -41,13 +43,16 @@ ReflectKick::Status ReflectKick::onUpdate() {
 
 // Pick the closest point to the (predicted) line of the ball for any 'regular' interception
 Vector2 ReflectKick::computeInterceptPoint(const Vector2& startBall, const Vector2& endBall) {
-    return Vector2(robot->pos).project(startBall, endBall);
+    Vector2 interceptPoint = reflectionPos.project(startBall, endBall);
+    Vector2 distanceToKicker = {Constants::DISTANCE_TO_KICKER(), 0};
+    return interceptPoint - distanceToKicker.rotate(robot->angle);
 }
 
 void ReflectKick::intercept() {
     ballStartVel = ball->vel;
     ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
+    std::cout << robot->pos << " - " << interceptPoint << std::endl;
 
     Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel;
     velocities = control::ControlUtils::velocityLimiter(velocities);

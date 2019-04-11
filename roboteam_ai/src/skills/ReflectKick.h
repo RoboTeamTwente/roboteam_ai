@@ -20,6 +20,7 @@ private:
     control::BasicPosControl basicGtp;
 
     Vector2 goalTarget;
+    Vector2 reflectionPos;
     Angle angleToGoalTarget;
     Angle angleToBall;
 
