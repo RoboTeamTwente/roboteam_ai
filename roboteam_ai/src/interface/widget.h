@@ -53,6 +53,8 @@ class Visualizer : public QWidget {
         int fieldmargin = Constants::WINDOW_FIELD_MARGIN();
         void drawBackground(QPainter &painter);
         void drawFieldLines(QPainter &painter);
+        void drawFieldHints(QPainter &painter);
+
         void drawRobots(QPainter &painter);
         void drawRobot(QPainter &painter, Robot, bool ourTeam);
         void drawBall(QPainter &painter);

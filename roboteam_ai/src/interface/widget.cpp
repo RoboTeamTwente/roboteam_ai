@@ -22,6 +22,7 @@ void Visualizer::paintEvent(QPaintEvent* event) {
     calculateFieldSizeFactor();
     if (rtt::ai::world::world->weHaveRobots()) {
         drawBackground(painter);
+        drawFieldHints(painter);
         drawFieldLines(painter);
         if (showAvailablePasses) drawPasses(painter);
         drawBall(painter);
@@ -81,6 +82,48 @@ void Visualizer::drawFieldLines(QPainter &painter) {
         QPointF qcenter(center.x, center.y);
         painter.drawEllipse(qcenter, 50, 50);
     }
+}
+
+void Visualizer::drawFieldHints(QPainter &painter) {
+    QPen pen;
+    pen.setWidth(4);
+
+    ros::NodeHandle nh;
+    std::string ourColorParam;
+    nh.getParam("our_color", ourColorParam);
+
+    // update the we are yellow
+    bool weAreYellow = ourColorParam == "yellow";
+
+    auto ourGoalCenter = rtt::ai::world::field->get_our_goal_center();
+    Vector2 ourLineUpper = {ourGoalCenter.x - 0.5, ourGoalCenter.y + 2};
+    Vector2 ourLineLower = {ourGoalCenter.x - 0.5, ourGoalCenter.y - 2};
+
+    ourLineUpper = toScreenPosition(ourLineUpper);
+    ourLineLower = toScreenPosition(ourLineLower);
+
+
+    auto color = weAreYellow ? QColor(255,255,0,255) : QColor(80,80,255,255);
+    pen.setBrush(color);
+    pen.setColor(color);
+    painter.setPen(pen);
+    painter.drawLine(ourLineUpper.x, ourLineUpper.y, ourLineLower.x, ourLineLower.y);
+
+    ///////////
+
+    auto theirGoalCenter = rtt::ai::world::field->get_their_goal_center();
+    Vector2 theirLineUpper = {theirGoalCenter.x + 0.5, theirGoalCenter.y + 2};
+    Vector2 theirLineLower = {theirGoalCenter.x + 0.5, theirGoalCenter.y - 2};
+
+    theirLineUpper = toScreenPosition(theirLineUpper);
+    theirLineLower = toScreenPosition(theirLineLower);
+
+
+    auto theirColor = !weAreYellow ? QColor(255,255,0,255) : QColor(80,80,255,255);
+    pen.setBrush(theirColor);
+    pen.setColor(theirColor);
+    painter.setPen(pen);
+    painter.drawLine(theirLineUpper.x, theirLineUpper.y, theirLineLower.x, theirLineLower.y);
 }
 
 // draw the ball on the screen
@@ -461,6 +504,8 @@ if (report) {
     void Visualizer::setToggleFieldDirection(bool inversed) {
         Visualizer::fieldInversed = inversed;
     }
+
+
 
 } // interface
 } // ai
