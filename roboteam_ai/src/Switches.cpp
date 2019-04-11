@@ -46,7 +46,7 @@
 #include "roboteam_ai/src/skills/DemoAttack.h"
 #include "roboteam_ai/src/skills/InterceptRobot.hpp"
 #include "roboteam_ai/src/skills/CoachDefend.h"
-
+#include "roboteam_ai/src/skills/SlingShot.h"
 //  ______________________
 //  |                    |
 //  | INCLUDE CONDITIONS |
@@ -104,7 +104,8 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "PassAndShootTactic",
         "coachDefenderTactic",
         "BallPlacementDoubleTactic",
-        "InterceptRobotTestTactic"
+        "InterceptRobotTestTactic",
+        "SlingShotTactic"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
@@ -126,7 +127,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "SideAttackerStrategy",
         "PassAndShootStrategy",
         "InterceptRobotTestStrategy",
-        "coachDefenderStrategy"
+        "coachDefenderStrategy",
+        "SlingShotStrategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles =
@@ -204,7 +206,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["GoBehindBall"] = std::make_shared<rtt::ai::GoBehindBall>(name, properties);
     map["ShootPenalty"] = std::make_shared<rtt::ai::ShootPenalty>(name, properties);
     map["ShootFreeKick"] = std::make_shared<rtt::ai::ShootFreeKick>(name, properties);
-
+    map["SlingShot"] = std::make_shared<rtt::ai::SlingShot>(name,properties);
     // conditions (alphabetic order)
     map["BallKickedToOurGoal"] = std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
@@ -367,6 +369,12 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                 "InterceptRobotTestTactic", {
                         {"driver", robotType::RANDOM},
                         {"intercepter", robotType::RANDOM}
+                }
+            },
+            {
+                "SlingShotTactic",
+                {
+                        {"catapult", robotType::RANDOM}
                 }
             }
     };
