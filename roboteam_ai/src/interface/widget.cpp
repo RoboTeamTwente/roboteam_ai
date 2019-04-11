@@ -113,14 +113,19 @@ void Visualizer::drawRobots(QPainter &painter) {
 
 // convert field coordinates to screen coordinates
 rtt::Vector2 Visualizer::toScreenPosition(rtt::Vector2 fieldPos) {
-    return {(fieldPos.x*factor) + static_cast<float>(this->size().width()/2 + fieldmargin),
+    int inv = fieldInversed ? -1 : 1;
+    return {(fieldPos.x*factor * inv) + static_cast<float>(this->size().width()/2 + fieldmargin) ,
             (fieldPos.y*factor*- 1) + static_cast<float>(this->size().height()/2 + fieldmargin)};
+
+
+
 }
 
 // convert field coordinates to screen coordinates
 rtt::Vector2 Visualizer::toFieldPosition(rtt::Vector2 screenPos) {
+        int inv = fieldInversed ? -1 : 1;
 
-    auto x = (screenPos.x - fieldmargin - static_cast<float>(this->size().width()/2)) / factor;
+    auto x = ((screenPos.x * inv) - fieldmargin - static_cast<float>(this->size().width()/2)) / factor;
     auto y = ((screenPos.y - fieldmargin - static_cast<float>(this->size().height()/2)) / factor) * -1;
 
     return {x,y};
@@ -452,6 +457,10 @@ if (report) {
     };
 }
 }
+
+    void Visualizer::setToggleFieldDirection(bool inversed) {
+        Visualizer::fieldInversed = inversed;
+    }
 
 } // interface
 } // ai
