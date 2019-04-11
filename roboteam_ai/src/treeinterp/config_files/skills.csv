@@ -1,5 +1,5 @@
-GoToPos,targetPos,avoidBall,maxVel,canGoOutsideField
-GTPSpecial,type,avoidBall,maxVel,canGoOutsideField,fixedTarget
+GoToPos,targetPos,avoidBall,maxVel,canGoOutsideField,canMoveInDefenseArea
+GTPSpecial,type,avoidBall,maxVel,canGoOutsideField,fixedTarget,canMoveInDefenseArea
 Kick
 Chip
 Dribble,Position,maxTicks,forwardDirection,dribbleOnTerminate,BallPlacement,distance
