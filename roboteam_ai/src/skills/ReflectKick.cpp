@@ -22,12 +22,12 @@ ReflectKick::Status ReflectKick::onUpdate() {
 
     angleToGoalTarget = (goalTarget - getKicker()).toAngle();
     angleToBall = (ball->pos - getKicker()).toAngle();
+    robotAngle = (angleToGoalTarget + ((angleToBall - angleToGoalTarget) / 2)).getAngle();
     command.w = robotAngle;
 
     ballStartPos = ball->pos;
 
     if(!coach::g_pass.isPassed()) {
-        robotAngle = (angleToGoalTarget + ((angleToBall - angleToGoalTarget) / 2)).getAngle();
         reflectionPos = getKicker();
     } else {
         if (world::world->ourRobotHasBall(robot->id)) {
