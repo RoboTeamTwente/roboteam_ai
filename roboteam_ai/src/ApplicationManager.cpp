@@ -18,7 +18,7 @@ namespace rtt {
 void ApplicationManager::setup() {
     IOManager = new io::IOManager(true);
 
-    BTFactory::setCurrentTree("QualificationStrategy");
+    BTFactory::setCurrentTree("coachDefenderStrategy");
     BTFactory::setKeeperTree("SingleKeeperTactic");
 }
 
