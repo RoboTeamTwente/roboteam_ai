@@ -34,6 +34,9 @@ public:
     static double MIN_ANGLE()                   { return -M_PI; };
     static double MAX_ANGLE()                   { return M_PI; };
     static double MAX_VEL()                     { return 8.0; };
+    static double MIN_VEL()                     { return 0.2; };  // Minimum velocity to make the robot move
+    static double MAX_ACC_UPPER()               { return 5.0; };  // Maximum acceleration for moving in the forward direction
+    static double MAX_ACC_LOWER()               { return 3.0; };  // Maximum acceleration for moving in the sideways direction
     static double MAX_VEL_BALLPLACEMENT()       { return 3.0; };
     static int DEFAULT_ROBOT_ID()               { return 1; };
     static double MAX_ANGULAR_VELOCITY()        { return 6.0; };    // Rad per second
