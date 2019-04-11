@@ -135,7 +135,7 @@ void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
         if (demo::JoystickDemo::checkIfDemoSafe(cmd.id)) {
             // sometimes trees are terminated without having a role assigned.
             // It is then possible that a skill gets terminated with an empty robot: and then the id can be for example -1.
-            if (cmd.id > 0 && cmd.id < 16) {
+            if (cmd.id >= 0 && cmd.id < 16) {
                 robotCommandPublisher.publish(cmd);
             }
         }
