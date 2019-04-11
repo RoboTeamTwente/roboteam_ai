@@ -33,5 +33,17 @@ StrategyMap StrategyManager::getStrategyMapForRefGameState(RefGameState commandI
     });
 }
 
+std::string StrategyManager::getCurrentKeeperTreeName(roboteam_msgs::RefereeCommand currentRefCmd) {
+    auto commandFromMostRecentReferee = static_cast<RefGameState>(currentRefCmd.command);
+    currentKeeperMap = getKeeperMapForRefGameState(commandFromMostRecentReferee);
+    return currentKeeperMap.strategyName;
+}
+
+StrategyMap StrategyManager::getKeeperMapForRefGameState(RefGameState commandId) {
+    return *std::find_if(keeperMaps.begin(), keeperMaps.end(), [commandId](StrategyMap map) {
+        return map.commandId == commandId;
+    });
+}
+
 } // ai
 } // rtt
