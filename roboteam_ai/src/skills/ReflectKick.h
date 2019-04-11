@@ -25,6 +25,7 @@ private:
     Angle angleToBall;
     double robotAngle;
     bool kicked = false;
+    bool finalReflectionPointSet = false;
 
     Vector2 ballStartPos;
     Vector2 ballEndPos;

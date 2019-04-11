@@ -52,13 +52,20 @@ ReflectKick::Status ReflectKick::onUpdate() {
 // Pick the closest point to the (predicted) line of the ball for any 'regular' interception
 Vector2 ReflectKick::computeInterceptPoint(const Vector2& startBall, const Vector2& endBall) {
     Vector2 interceptPoint = reflectionPos.project(startBall, endBall);
-    Vector2 distanceToKicker = {0.11, 0};
+    Vector2 distanceToKicker = {Constants::DISTANCE_TO_KICKER(), 0};
     return interceptPoint - distanceToKicker.rotate(robot->angle);
 }
 
 void ReflectKick::intercept() {
     ballStartVel = ball->vel;
     ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
+
+    // As soon as the ball started rolling, set the reflection point for a last time.
+//    if(!finalReflectionPointSet) {
+//        reflectionPos = reflectionPos.project(ballStartPos, ballEndPos);
+//        finalReflectionPointSet = true;
+//    }
+
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
 
     Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel;
@@ -85,7 +92,7 @@ Vector2 ReflectKick::getFarSideOfGoal() {
 }
 
 Vector2 ReflectKick::getKicker() {
-    Vector2 distanceToKicker = {0.11, 0};
+    Vector2 distanceToKicker = {Constants::DISTANCE_TO_KICKER(), 0};
     return robot->pos + distanceToKicker.rotate(robot->angle);
 }
 
