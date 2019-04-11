@@ -72,7 +72,7 @@ class Node {
 
         virtual std::string node_name();
 
-        virtual void giveProperty(std::string a, std::string a);
+        virtual void giveProperty(std::string a, std::string b);
 
         void setProperties(bt::Blackboard::Ptr blackboard);
 

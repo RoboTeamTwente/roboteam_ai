@@ -20,4 +20,10 @@ std::string RoleDivider::node_name() {
 void RoleDivider::giveProperty(std::string a, std::string b) {
     properties->setString(a, b);
 }
+void RoleDivider::initialize() {
+}
+Node::Status RoleDivider::update() {
+}
+void RoleDivider::terminate(Node::Status s) {
+}
 }
