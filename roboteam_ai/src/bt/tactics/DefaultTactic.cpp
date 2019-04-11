@@ -3,6 +3,8 @@
 //
 
 #include <roboteam_ai/src/analysis/DecisionMaker.h>
+#include <roboteam_ai/src/world/WorldData.h>
+#include <roboteam_ai/src/world/World.h>
 #include "DefaultTactic.h"
 #include "../../utilities/RobotDealer.h"
 
@@ -47,8 +49,9 @@ void bt::DefaultTactic::initialize() {
     } else if (thisType == Offensive) {
         amountToTick = style.amountOfAttackers;
     } else {
-        amountToTick = 7;
-        // TODO: maybe look at the field and how many robots we can get instead of this 7.
+        // All robots minus the keeper maybe
+        amountToTick = rtt::ai::world::world->getUs().size() - 1;
+        // amountToTick = 7;
     }
     robotsNeeded = amountToTick;
     updateRobots();
