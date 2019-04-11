@@ -237,7 +237,7 @@ int RobotDealer::findRobotForRole(std::string roleName) {
             }
         }
     }
-    std::cerr << "Cannot find a robot with that Role Name: " << roleName << std::endl;
+   // std::cerr << "Cannot find a robot with that Role Name: " << roleName << std::endl;
     return - 1;
 }
 
