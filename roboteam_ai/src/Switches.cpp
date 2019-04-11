@@ -82,58 +82,61 @@
 using robotType = rtt::ai::robotDealer::RobotType;
 
 std::vector<std::string> Switches::tacticJsonFileNames = {
-        "QualificationTactic",
-        "haltTactic",
-        "OneAttackerTactic",
-        "OneDefenderTactic",
-        "TwoDefendersTactic",
-        "OneAttackerOneDefenderTactic",
-        "Attactic",
-        "PassTactic",
-        "EnterFormationTactic",
-        "BallPlacementUsTactic",
-        "AvoidBallTactic",
-        "SingleKeeperTactic",
-        "DemoAttackerTactic",
-        "DemoTactic",
-        "randomTactic", // used for testing, do not remove it!
-        "PenaltyShootTactic",
-        "PenaltyTactic",
-        "FreeKickShootTactic",
-        "SideAttackerTactic",
-        "PassAndShootTactic",
-        "coachDefenderTactic",
-        "BallPlacementDoubleTactic",
+//        "QualificationTactic",
+//        "haltTactic",
+//        "OneAttackerTactic",
+//        "OneDefenderTactic",
+//        "TwoDefendersTactic",
+//        "OneAttackerOneDefenderTactic",
+//        "Attactic",
+//        "PassTactic",
+//        "EnterFormationTactic",
+//        "BallPlacementUsTactic",
+//        "AvoidBallTactic",
+//        "SingleKeeperTactic",
+//        "DemoAttackerTactic",
+//        "DemoTactic",
+//        "randomTactic", // used for testing, do not remove it!
+//        "PenaltyShootTactic",
+//        "PenaltyTactic",
+//        "FreeKickShootTactic",
+//        "SideAttackerTactic",
+//        "PassAndShootTactic",
+//        "coachDefenderTactic",
+//        "BallPlacementDoubleTactic",
         "TestD",
         "TestO",
         "TestM"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
-        "QualificationStrategy",
-        "haltStrategy",
-        "KeeperStrategy",
-        "DemoStrategy",
-        "PassStrategy",
-        "DemoTeamTwenteStrategy",
-        "twoPlayerStrategyV2",
-        "threePlayerStrategyV2",
-        "EnterFormationStrategy",
-        "BallPlacementUsStrategy",
-        "BallPlacementThemStrategy",
-        "randomStrategy", // used for testing, do not remove it!
-        "PenaltyShootStrategy",
-        "PenaltyStrategy",
-        "FreeKickShootStrategy",
-        "SideAttackerStrategy",
-        "PassAndShootStrategy",
-        "coachDefenderStrategy",
+//        "QualificationStrategy",
+//        "haltStrategy",
+//        "KeeperStrategy",
+//        "DemoStrategy",
+//        "PassStrategy",
+//        "DemoTeamTwenteStrategy",
+//        "twoPlayerStrategyV2",
+//        "threePlayerStrategyV2",
+//        "EnterFormationStrategy",
+//        "BallPlacementUsStrategy",
+//        "BallPlacementThemStrategy",
+//        "randomStrategy", // used for testing, do not remove it!
+//        "PenaltyShootStrategy",
+//        "PenaltyStrategy",
+//        "FreeKickShootStrategy",
+//        "SideAttackerStrategy",
+//        "PassAndShootStrategy",
+//        "coachDefenderStrategy",
         "TestStrategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles =
         {"keeperTest1",
-         "SingleKeeperTactic"};
+         "SingleKeeperTactic",
+         "haltTactic",
+         "AvoidBallTactic"
+        };
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
 /// have a look around with the names and see if what you made is on the same level as these are

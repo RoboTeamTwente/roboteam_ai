@@ -28,9 +28,11 @@ TEST(KickTest, It_sends_proper_robotcommands) {
     ros::Subscriber sub = nh.subscribe<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 0, &robotCommandCallback);
 
     auto bb = std::make_shared<bt::Blackboard>();
-    bb->setInt("ROBOT_ID", 0);
+
     bb->setString("ROLE","test");
     rtt::ai::Kick kick("kicktest", bb);
+
+
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
     robot.id=0;
@@ -81,7 +83,6 @@ TEST(KickTest, It_chips) {
     ros::Subscriber sub = nh.subscribe<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 0, &robotCommandCallback);
 
     auto bb = std::make_shared<bt::Blackboard>();
-    bb->setInt("ROBOT_ID", 0);
     bb->setString("ROLE","test");
     rtt::ai::Chip chip("ChipTest", bb);
     roboteam_msgs::World worldMsg;

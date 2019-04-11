@@ -10,157 +10,160 @@
             "id": "amvk0itwml92hbe0w",
             "title": "RoleDivider",
             "children": [
-              "4gldznt81twkvkp",
-              "tx1wnu9s80bvfdkf",
-              "w7ht1bux382a47syz",
-              "wrb73sx1argx2dll",
-              "0hk74qe227cfr"
-            ]
+              "169dzqq0r801v6y",
+              "caiw9bsnfdxoj",
+              "43a9kiv05lrvl",
+              "1c86qn10a29irev6",
+              "chyzsw5edtgcdf"
+            ],
+            "properties": {
+              "TacticType": "Defensive"
+            }
           },
-          "4gldznt81twkvkp": {
-            "id": "4gldznt81twkvkp",
+          "169dzqq0r801v6y": {
+            "id": "169dzqq0r801v6y",
             "title": "Role",
             "name": "d1",
             "role": "TESTd",
             "children": [
-              "bxbunorigzm3z4"
+              "1gdwfkbi7vxo9kd2b"
             ],
             "properties": {
               "ROLE": "d1"
             }
           },
-          "bxbunorigzm3z4": {
-            "id": "bxbunorigzm3z4",
+          "1gdwfkbi7vxo9kd2b": {
+            "id": "1gdwfkbi7vxo9kd2b",
             "title": "UntilFail",
             "children": [
-              "wd7zghxpee5g4"
+              "79pm8ju62h5yqy6pn"
             ],
             "properties": {
               "ROLE": "d1"
             }
           },
-          "wd7zghxpee5g4": {
-            "id": "wd7zghxpee5g4",
+          "79pm8ju62h5yqy6pn": {
+            "id": "79pm8ju62h5yqy6pn",
             "title": "GoToPos",
             "properties": {
               "targetPos": "{-3, 0}",
               "ROLE": "d1"
             }
           },
-          "tx1wnu9s80bvfdkf": {
-            "id": "tx1wnu9s80bvfdkf",
+          "caiw9bsnfdxoj": {
+            "id": "caiw9bsnfdxoj",
             "title": "Role",
             "name": "d2",
             "role": "TESTd",
             "children": [
-              "t58njm29y3wg6"
+              "5fmjjkx159m9gy0b"
             ],
             "properties": {
               "ROLE": "d2"
             }
           },
-          "t58njm29y3wg6": {
-            "id": "t58njm29y3wg6",
+          "5fmjjkx159m9gy0b": {
+            "id": "5fmjjkx159m9gy0b",
             "title": "UntilFail",
             "children": [
-              "1x7vkq335iq7tq"
+              "rj5zyie1qwvdb2va"
             ],
             "properties": {
               "ROLE": "d2"
             }
           },
-          "1x7vkq335iq7tq": {
-            "id": "1x7vkq335iq7tq",
+          "rj5zyie1qwvdb2va": {
+            "id": "rj5zyie1qwvdb2va",
             "title": "GoToPos",
             "properties": {
               "targetPos": "{-3, 0}",
               "ROLE": "d2"
             }
           },
-          "w7ht1bux382a47syz": {
-            "id": "w7ht1bux382a47syz",
+          "43a9kiv05lrvl": {
+            "id": "43a9kiv05lrvl",
             "title": "Role",
             "name": "d3",
             "role": "TESTd",
             "children": [
-              "tbog4yj034bd9wwiq"
+              "0e2361idsg41ugb"
             ],
             "properties": {
               "ROLE": "d3"
             }
           },
-          "tbog4yj034bd9wwiq": {
-            "id": "tbog4yj034bd9wwiq",
+          "0e2361idsg41ugb": {
+            "id": "0e2361idsg41ugb",
             "title": "UntilFail",
             "children": [
-              "2442fz5m5c8qzlu0g"
+              "nbduylef3k1ksv7"
             ],
             "properties": {
               "ROLE": "d3"
             }
           },
-          "2442fz5m5c8qzlu0g": {
-            "id": "2442fz5m5c8qzlu0g",
+          "nbduylef3k1ksv7": {
+            "id": "nbduylef3k1ksv7",
             "title": "GoToPos",
             "properties": {
               "targetPos": "{-3, 0}",
               "ROLE": "d3"
             }
           },
-          "wrb73sx1argx2dll": {
-            "id": "wrb73sx1argx2dll",
+          "1c86qn10a29irev6": {
+            "id": "1c86qn10a29irev6",
             "title": "Role",
             "name": "d4",
             "role": "TESTd",
             "children": [
-              "hmgg0zusiat8x"
+              "jyz98weyq8u55"
             ],
             "properties": {
               "ROLE": "d4"
             }
           },
-          "hmgg0zusiat8x": {
-            "id": "hmgg0zusiat8x",
+          "jyz98weyq8u55": {
+            "id": "jyz98weyq8u55",
             "title": "UntilFail",
             "children": [
-              "p6ispkjqqd4lsq"
+              "8xh93mi9ynd3rm"
             ],
             "properties": {
               "ROLE": "d4"
             }
           },
-          "p6ispkjqqd4lsq": {
-            "id": "p6ispkjqqd4lsq",
+          "8xh93mi9ynd3rm": {
+            "id": "8xh93mi9ynd3rm",
             "title": "GoToPos",
             "properties": {
               "targetPos": "{-3, 0}",
               "ROLE": "d4"
             }
           },
-          "0hk74qe227cfr": {
-            "id": "0hk74qe227cfr",
+          "chyzsw5edtgcdf": {
+            "id": "chyzsw5edtgcdf",
             "title": "Role",
             "name": "d5",
             "role": "TESTd",
             "children": [
-              "pzfw8cgx94hqwu6"
+              "qlt6p6it7sxdkdn"
             ],
             "properties": {
               "ROLE": "d5"
             }
           },
-          "pzfw8cgx94hqwu6": {
-            "id": "pzfw8cgx94hqwu6",
+          "qlt6p6it7sxdkdn": {
+            "id": "qlt6p6it7sxdkdn",
             "title": "UntilFail",
             "children": [
-              "94qa9f0xaxxv2"
+              "78za0dx4zq0oj9"
             ],
             "properties": {
               "ROLE": "d5"
             }
           },
-          "94qa9f0xaxxv2": {
-            "id": "94qa9f0xaxxv2",
+          "78za0dx4zq0oj9": {
+            "id": "78za0dx4zq0oj9",
             "title": "GoToPos",
             "properties": {
               "targetPos": "{-3, 0}",

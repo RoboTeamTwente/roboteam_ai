@@ -1,1 +1,177 @@
-{"name": "TestO", "data": {"trees": [{"title": "TestO", "root": "di0npe2x8hp7hg0u4", "nodes": {"di0npe2x8hp7hg0u4": {"id": "di0npe2x8hp7hg0u4", "title": "RoleDivider", "children": ["x4iuuuqtb48wdoz", "tkcgceqa9yqjo", "4j63i03sklkq8ud", "bzn4lmbycy4s7n423", "8fvwec77wvrvez5ws"]}, "x4iuuuqtb48wdoz": {"id": "x4iuuuqtb48wdoz", "title": "Role", "name": "o1", "role": "TESTo", "children": ["irooj1414iag3"], "properties": {"ROLE": "o1"}}, "irooj1414iag3": {"id": "irooj1414iag3", "title": "UntilFail", "children": ["ap99ubgoxzpq8"], "properties": {"ROLE": "o1"}}, "ap99ubgoxzpq8": {"id": "ap99ubgoxzpq8", "title": "GoToPos", "properties": {"targetPos": "{3, 0}", "ROLE": "o1"}}, "tkcgceqa9yqjo": {"id": "tkcgceqa9yqjo", "title": "Role", "name": "o2", "role": "TESTo", "children": ["6dopa1izu1fpoautw"], "properties": {"ROLE": "o2"}}, "6dopa1izu1fpoautw": {"id": "6dopa1izu1fpoautw", "title": "UntilFail", "children": ["14ngufvohqf9i7"], "properties": {"ROLE": "o2"}}, "14ngufvohqf9i7": {"id": "14ngufvohqf9i7", "title": "GoToPos", "properties": {"targetPos": "{3, 0}", "ROLE": "o2"}}, "4j63i03sklkq8ud": {"id": "4j63i03sklkq8ud", "title": "Role", "name": "o3", "role": "TESTo", "children": ["m1fi1y8mwc6prp"], "properties": {"ROLE": "o3"}}, "m1fi1y8mwc6prp": {"id": "m1fi1y8mwc6prp", "title": "UntilFail", "children": ["u85fbcb27c5yc"], "properties": {"ROLE": "o3"}}, "u85fbcb27c5yc": {"id": "u85fbcb27c5yc", "title": "GoToPos", "properties": {"targetPos": "{3, 0}", "ROLE": "o3"}}, "bzn4lmbycy4s7n423": {"id": "bzn4lmbycy4s7n423", "title": "Role", "name": "o4", "role": "TESTo", "children": ["w5fs2qikdtpad"], "properties": {"ROLE": "o4"}}, "w5fs2qikdtpad": {"id": "w5fs2qikdtpad", "title": "UntilFail", "children": ["sh3sjjored65wg"], "properties": {"ROLE": "o4"}}, "sh3sjjored65wg": {"id": "sh3sjjored65wg", "title": "GoToPos", "properties": {"targetPos": "{3, 0}", "ROLE": "o4"}}, "8fvwec77wvrvez5ws": {"id": "8fvwec77wvrvez5ws", "title": "Role", "name": "o5", "role": "TESTo", "children": ["h2dkop6gp9krifh"], "properties": {"ROLE": "o5"}}, "h2dkop6gp9krifh": {"id": "h2dkop6gp9krifh", "title": "UntilFail", "children": ["t4x80maz996b0"], "properties": {"ROLE": "o5"}}, "t4x80maz996b0": {"id": "t4x80maz996b0", "title": "GoToPos", "properties": {"targetPos": "{3, 0}", "ROLE": "o5"}}}}]}}
+{
+  "name": "TestO",
+  "data": {
+    "trees": [
+      {
+        "title": "TestO",
+        "root": "di0npe2x8hp7hg0u4",
+        "nodes": {
+          "di0npe2x8hp7hg0u4": {
+            "id": "di0npe2x8hp7hg0u4",
+            "title": "RoleDivider",
+            "children": [
+              "ozjkrbhu2slrk",
+              "my91i8rs8esi51cte",
+              "a6lrxgzk7v24y0",
+              "joe0uaafdph44",
+              "eymtfmwwj3pr4d4"
+            ],
+            "properties": {
+              "TacticType": "Offensive"
+            }
+          },
+          "ozjkrbhu2slrk": {
+            "id": "ozjkrbhu2slrk",
+            "title": "Role",
+            "name": "o1",
+            "role": "TESTo",
+            "children": [
+              "brrqgk50vmi2d52t"
+            ],
+            "properties": {
+              "ROLE": "o1"
+            }
+          },
+          "brrqgk50vmi2d52t": {
+            "id": "brrqgk50vmi2d52t",
+            "title": "UntilFail",
+            "children": [
+              "540i99d59z2okj"
+            ],
+            "properties": {
+              "ROLE": "o1"
+            }
+          },
+          "540i99d59z2okj": {
+            "id": "540i99d59z2okj",
+            "title": "GoToPos",
+            "properties": {
+              "targetPos": "{3, 0}",
+              "ROLE": "o1"
+            }
+          },
+          "my91i8rs8esi51cte": {
+            "id": "my91i8rs8esi51cte",
+            "title": "Role",
+            "name": "o2",
+            "role": "TESTo",
+            "children": [
+              "15p1syfawmgofd"
+            ],
+            "properties": {
+              "ROLE": "o2"
+            }
+          },
+          "15p1syfawmgofd": {
+            "id": "15p1syfawmgofd",
+            "title": "UntilFail",
+            "children": [
+              "u4nfekhespkxla3uh"
+            ],
+            "properties": {
+              "ROLE": "o2"
+            }
+          },
+          "u4nfekhespkxla3uh": {
+            "id": "u4nfekhespkxla3uh",
+            "title": "GoToPos",
+            "properties": {
+              "targetPos": "{3, 0}",
+              "ROLE": "o2"
+            }
+          },
+          "a6lrxgzk7v24y0": {
+            "id": "a6lrxgzk7v24y0",
+            "title": "Role",
+            "name": "o3",
+            "role": "TESTo",
+            "children": [
+              "4q06drwmgkqablc"
+            ],
+            "properties": {
+              "ROLE": "o3"
+            }
+          },
+          "4q06drwmgkqablc": {
+            "id": "4q06drwmgkqablc",
+            "title": "UntilFail",
+            "children": [
+              "gkbjgblc5vpb8"
+            ],
+            "properties": {
+              "ROLE": "o3"
+            }
+          },
+          "gkbjgblc5vpb8": {
+            "id": "gkbjgblc5vpb8",
+            "title": "GoToPos",
+            "properties": {
+              "targetPos": "{3, 0}",
+              "ROLE": "o3"
+            }
+          },
+          "joe0uaafdph44": {
+            "id": "joe0uaafdph44",
+            "title": "Role",
+            "name": "o4",
+            "role": "TESTo",
+            "children": [
+              "5regz3kot90zt83"
+            ],
+            "properties": {
+              "ROLE": "o4"
+            }
+          },
+          "5regz3kot90zt83": {
+            "id": "5regz3kot90zt83",
+            "title": "UntilFail",
+            "children": [
+              "re2jnsclc9ckgma8"
+            ],
+            "properties": {
+              "ROLE": "o4"
+            }
+          },
+          "re2jnsclc9ckgma8": {
+            "id": "re2jnsclc9ckgma8",
+            "title": "GoToPos",
+            "properties": {
+              "targetPos": "{3, 0}",
+              "ROLE": "o4"
+            }
+          },
+          "eymtfmwwj3pr4d4": {
+            "id": "eymtfmwwj3pr4d4",
+            "title": "Role",
+            "name": "o5",
+            "role": "TESTo",
+            "children": [
+              "fjdi8kty4fce2qhbk"
+            ],
+            "properties": {
+              "ROLE": "o5"
+            }
+          },
+          "fjdi8kty4fce2qhbk": {
+            "id": "fjdi8kty4fce2qhbk",
+            "title": "UntilFail",
+            "children": [
+              "ki0p00hl92hls837j"
+            ],
+            "properties": {
+              "ROLE": "o5"
+            }
+          },
+          "ki0p00hl92hls837j": {
+            "id": "ki0p00hl92hls837j",
+            "title": "GoToPos",
+            "properties": {
+              "targetPos": "{3, 0}",
+              "ROLE": "o5"
+            }
+          }
+        }
+      }
+    ]
+  }
+}
