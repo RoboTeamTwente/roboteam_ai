@@ -273,3 +273,10 @@ TEST(ControlUtils, it_calculates_forces) {
     EXPECT_DOUBLE_EQ(force.x, 0);
     EXPECT_DOUBLE_EQ(force.y, - 2);
 }
+TEST(ControlUtils, forward_line_intersection){
+    Vector2 A(0,0),B(0,3),C(-1,1),D(1,1),E(0,0.5);
+    EXPECT_EQ(cr::ControlUtils::twoLineForwardIntersection(A,B,C,D),1.0/3.0);
+    EXPECT_EQ(cr::ControlUtils::twoLineForwardIntersection(B,A,C,D),2.0/3.0);
+    EXPECT_EQ(cr::ControlUtils::twoLineForwardIntersection(A,E,C,D),2.0);
+    EXPECT_EQ(cr::ControlUtils::twoLineForwardIntersection(E,A,C,D),-1.0);
+}

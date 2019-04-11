@@ -43,9 +43,12 @@ class BTFactory {
         static void setKeeperTree(const std::string &keeperTree);
 
         static void halt();
-private:
-    static std::string currentTree;
-    static std::string keeperTree;
+
+        static std::string getKeeperTreeName();
+
+    private:
+        static std::string currentTree;
+        static std::string keeperTree;
 };
 
 #endif //ROBOTEAM_AI_BTFACTORY_H

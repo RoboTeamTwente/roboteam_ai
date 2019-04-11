@@ -34,7 +34,6 @@ ReflectKick::Status ReflectKick::onUpdate() {
             command.kicker = 1;
             command.kicker_forced = 1;
             kicked = true;
-            std::cout << "KICK!" << std::endl;
         } else {
             intercept();
         }
@@ -53,7 +52,7 @@ ReflectKick::Status ReflectKick::onUpdate() {
 // Pick the closest point to the (predicted) line of the ball for any 'regular' interception
 Vector2 ReflectKick::computeInterceptPoint(const Vector2& startBall, const Vector2& endBall) {
     Vector2 interceptPoint = reflectionPos.project(startBall, endBall);
-    Vector2 distanceToKicker = {Constants::DISTANCE_TO_KICKER(), 0};
+    Vector2 distanceToKicker = {0.11, 0};
     return interceptPoint - distanceToKicker.rotate(robot->angle);
 }
 
@@ -86,7 +85,7 @@ Vector2 ReflectKick::getFarSideOfGoal() {
 }
 
 Vector2 ReflectKick::getKicker() {
-    Vector2 distanceToKicker = {Constants::DISTANCE_TO_KICKER(), 0};
+    Vector2 distanceToKicker = {0.11, 0};
     return robot->pos + distanceToKicker.rotate(robot->angle);
 }
 

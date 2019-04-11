@@ -3,6 +3,7 @@
 //
 
 #include <roboteam_ai/src/demo/JoystickDemo.h>
+#include <roboteam_ai/src/coach/defence/DefenceDealer.h>
 #include "ApplicationManager.h"
 #include <sstream>
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
@@ -73,12 +74,9 @@ void ApplicationManager::runOneLoopCycle() {
         rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
 
         if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
-
             if (ai::robotDealer::RobotDealer::getKeeperID() == -1) {
                 std::cout << "setting keeper id" << std::endl;
                 ai::robotDealer::RobotDealer::setKeeperID(ai::world::world->getUs().at(0).id);
-
-
             }
             keeperTree = BTFactory::getKeeperTree();
             Status keeperStatus = keeperTree->tick();
@@ -89,6 +87,8 @@ void ApplicationManager::runOneLoopCycle() {
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
+
+        rtt::ai::coach::g_DefenceDealer.setDoUpdate();
     }
     else {
         std::cout <<"NO FIRST WORLD" << std::endl;
