@@ -74,6 +74,14 @@ double Robot::findBallDistance(const Vector2 &ballPos) {
     return -1.0;
 }
 
+int Robot::getGenevaState() const {
+    return genevaState;
+}
+
+void Robot::setGenevaState(int genevaState) {
+    Robot::genevaState = genevaState;
+}
+
 
 }
 }

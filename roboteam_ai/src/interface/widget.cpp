@@ -236,6 +236,12 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
         painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(getRoleNameForRobot(robot)));
     }
 
+        if (ourTeam) {
+            painter.setPen(Constants::TEXT_COLOR());
+            std::string text = "∠: " + to_string(robot.getGenevaState());
+            painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
+        }
+
     // draw the robots
     QColor color = (robotIsSelected(robot) && ourTeam) ? Constants::SELECTED_ROBOT_COLOR() : robotColor;
     painter.setBrush(color);

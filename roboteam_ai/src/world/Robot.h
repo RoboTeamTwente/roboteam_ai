@@ -23,8 +23,15 @@ class Robot {
 
         double distanceToBall;
         bool iHaveBall;
+        int genevaState = 3;
+public:
+    int getGenevaState() const;
 
-        double findBallDistance(const Vector2 &ballPos);
+    void setGenevaState(int genevaState);
+
+private:
+
+    double findBallDistance(const Vector2 &ballPos);
 
     public:
 
