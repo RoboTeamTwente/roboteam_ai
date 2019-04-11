@@ -24,8 +24,8 @@ Pass::Status Pass::onUpdate() {
     robotToPassTo = world::world->getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
 
     bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos);
-    auto behindBallpos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
-    bool isOnLineToBall = control::ControlUtils::distanceToLine(robot->pos, ball->pos, behindBallpos) < 0.0255;
+    auto behindBallPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
+    bool isOnLineToBall = control::ControlUtils::distanceToLine(robot->pos, ball->pos, behindBallPos) < 0.0255;
     bool hasBall = world::world->ourRobotHasBall(robot->id, Constants::MAX_BALL_RANGE());
 
     bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
@@ -37,7 +37,7 @@ Pass::Status Pass::onUpdate() {
     } else if (isOnLineToBall && isBehindBall) {
         return hasBall ? shoot() : getBall();
     }
-    return moveBehindBall(behindBallpos);
+    return moveBehindBall(behindBallPos);
 }
 
 /// determine which robot we should pass towards.

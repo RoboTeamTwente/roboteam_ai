@@ -18,6 +18,7 @@ public:
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;
+    Vector2 getFarSideOfGoal();
 };
 
 }
