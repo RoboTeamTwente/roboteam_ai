@@ -139,7 +139,11 @@ void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
             if (robot) {
                 robot->setGenevaState(cmd.geneva_state);
             }
-            robotCommandPublisher.publish(cmd);
+            // sometimes trees are terminated without having a role assigned.
+            // It is then possible that a skill gets terminated with an empty robot: and then the id can be for example -1.
+            if (cmd.id >= 0 && cmd.id < 16) {
+                robotCommandPublisher.publish(cmd);
+            }
         }
         else {
             ROS_ERROR("Joystick demo has the robot taken over ID:   %s", std::to_string(cmd.id).c_str());
