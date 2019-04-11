@@ -11,13 +11,57 @@ ReflectKick::ReflectKick(string name, bt::Blackboard::Ptr blackboard)
     :Skill(std::move(name), std::move(blackboard)) {
 }
 
-void ReflectKick::onInitialize() {}
+void ReflectKick::onInitialize() {
+    auto field = world::field->get_field();
+    goalTarget.x = field.field_length / 2;
+    if (robot->pos.y < 0) {
+        goalTarget.y = field.goal_width / 2;
+    } else {
+        goalTarget.y = -field.goal_width / 2;
+    }
+}
 
 ReflectKick::Status ReflectKick::onUpdate() {
     if(coach::g_pass.getRobotBeingPassedTo() != robot->id) return Status::Failure;
 
+    angleToGoalTarget = (goalTarget - robot->pos).toAngle();
+    angleToBall = (ball->pos - robot->pos).toAngle();
+
+    if(!coach::g_pass.isPassed()) {
+        command.w = angleToGoalTarget + ((angleToBall - angleToGoalTarget) / 2);
+    } else {
+        if (world::world->ourRobotHasBall(robot->id)) {
+            command.kicker = 1;
+            command.kicker_forced = 1;
+        } else {
+            intercept();
+        }
+    }
+
+    publishRobotCommand();
+    coach::g_pass.setReadyToReceivePass(true);
 
     return Status::Running;
+}
+
+// Pick the closest point to the (predicted) line of the ball for any 'regular' interception
+Vector2 ReflectKick::computeInterceptPoint(const Vector2& startBall, const Vector2& endBall) {
+    return Vector2(robot->pos).project(startBall, endBall);
+}
+
+void ReflectKick::intercept() {
+    ballStartVel = ball->vel;
+    ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
+    Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
+
+    Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel;
+    velocities = control::ControlUtils::velocityLimiter(velocities);
+    command.x_vel = static_cast<float>(velocities.x);
+    command.y_vel = static_cast<float>(velocities.y);
+    command.w = angleToGoalTarget + ((angleToBall - angleToGoalTarget) / 2);
+    command.dribbler = 1;
+
+    publishRobotCommand();
 }
 
 void ReflectKick::onTerminate(Status s) {}
