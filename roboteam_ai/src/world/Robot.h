@@ -27,7 +27,7 @@ class Robot {
 public:
     int getGenevaState() const;
 
-    void setGenevaState(int genevaState);
+    void setGenevaState(int state);
 
 private:
 
@@ -45,7 +45,7 @@ private:
         bool hasBall(double maxDist = Constants::MAX_BALL_BOUNCE_RANGE());
         double getDistanceToBall();
     
-        Robot(const roboteam_msgs::WorldRobot &copy, Team team = us);
+        explicit Robot(const roboteam_msgs::WorldRobot &copy, Team team = us);
         Robot();
 
         int id = - 1;

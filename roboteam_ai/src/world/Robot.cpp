@@ -78,8 +78,8 @@ int Robot::getGenevaState() const {
     return genevaState;
 }
 
-void Robot::setGenevaState(int genevaState) {
-    Robot::genevaState = genevaState;
+void Robot::setGenevaState(int state) {
+    Robot::genevaState = state;
 }
 
 
