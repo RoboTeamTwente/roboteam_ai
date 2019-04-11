@@ -23,6 +23,8 @@ private:
     Vector2 reflectionPos;
     Angle angleToGoalTarget;
     Angle angleToBall;
+    double robotAngle;
+    bool kicked = false;
 
     Vector2 ballStartPos;
     Vector2 ballEndPos;
@@ -30,6 +32,7 @@ private:
 
     void intercept();
     Vector2 computeInterceptPoint(const Vector2& startBall, const Vector2& endBall);
+    Vector2 getKicker();
 public:
     explicit ReflectKick(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;

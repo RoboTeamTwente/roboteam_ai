@@ -80,7 +80,6 @@ bt::Leaf::Status Pass::getBall() {
 
 /// Now we should have the ball and kick it.
 bt::Leaf::Status Pass::shoot() {
-
     if (coach::g_pass.isReadyToReceivePass()) {
         targetPos = getKicker();
         control::PosVelAngle pva = basicGtp.getPosVelAngle(robot, targetPos);
@@ -107,7 +106,6 @@ double Pass::determineKickForce(double distance) {
 }
 Vector2 Pass::getKicker() {
     Vector2 distanceToKicker = {Constants::DISTANCE_TO_KICKER(), 0};
-    std::cout << (robotToPassTo->pos - (robotToPassTo->pos + distanceToKicker.rotate(robotToPassTo->angle))).length() << std::endl;
     return robotToPassTo->pos + distanceToKicker.rotate(robotToPassTo->angle);
 }
 

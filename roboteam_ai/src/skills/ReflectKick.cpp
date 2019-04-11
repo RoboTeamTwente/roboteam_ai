@@ -20,25 +20,34 @@ void ReflectKick::onInitialize() {
 ReflectKick::Status ReflectKick::onUpdate() {
     if (coach::g_pass.getRobotBeingPassedTo() != robot->id) return Status::Failure;
 
-    angleToGoalTarget = (goalTarget - robot->pos).toAngle();
-    angleToBall = (ball->pos - robot->pos).toAngle();
+    angleToGoalTarget = (goalTarget - getKicker()).toAngle();
+    angleToBall = (ball->pos - getKicker()).toAngle();
+    command.w = robotAngle;
+
+    ballStartPos = ball->pos;
 
     if(!coach::g_pass.isPassed()) {
-        command.w = angleToGoalTarget + ((angleToBall - angleToGoalTarget) / 2);
+        robotAngle = (angleToGoalTarget + ((angleToBall - angleToGoalTarget) / 2)).getAngle();
+        reflectionPos = getKicker();
     } else {
         if (world::world->ourRobotHasBall(robot->id)) {
             command.kicker = 1;
             command.kicker_forced = 1;
+            kicked = true;
+            std::cout << "KICK!" << std::endl;
+        } else {
+            intercept();
         }
-//        } else {
-//            intercept();
-//        }
     }
 
     publishRobotCommand();
     coach::g_pass.setReadyToReceivePass(true);
 
-    return Status::Running;
+    if (kicked) {
+        return Status::Success;
+    } else {
+        return Status::Running;
+    }
 }
 
 // Pick the closest point to the (predicted) line of the ball for any 'regular' interception
@@ -52,16 +61,13 @@ void ReflectKick::intercept() {
     ballStartVel = ball->vel;
     ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
-    std::cout << robot->pos << " - " << interceptPoint << std::endl;
 
     Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel;
     velocities = control::ControlUtils::velocityLimiter(velocities);
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
-    command.w = angleToGoalTarget + ((angleToBall - angleToGoalTarget) / 2);
+    command.w = robotAngle;
     command.dribbler = 1;
-
-    publishRobotCommand();
 }
 
 void ReflectKick::onTerminate(Status s) {}
@@ -77,6 +83,11 @@ Vector2 ReflectKick::getFarSideOfGoal() {
         return {rtt::ai::world::field->get_their_goal_center().x,
                 rtt::ai::world::field->get_their_goal_center().y - cornering};
     }
+}
+
+Vector2 ReflectKick::getKicker() {
+    Vector2 distanceToKicker = {Constants::DISTANCE_TO_KICKER(), 0};
+    return robot->pos + distanceToKicker.rotate(robot->angle);
 }
 
 }
