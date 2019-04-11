@@ -95,13 +95,12 @@ void Visualizer::drawFieldHints(QPainter &painter) {
     // update the we are yellow
     bool weAreYellow = ourColorParam == "yellow";
 
+    // draw the hint for us
     auto ourGoalCenter = rtt::ai::world::field->get_our_goal_center();
     Vector2 ourLineUpper = {ourGoalCenter.x - 0.5, ourGoalCenter.y + 2};
     Vector2 ourLineLower = {ourGoalCenter.x - 0.5, ourGoalCenter.y - 2};
-
     ourLineUpper = toScreenPosition(ourLineUpper);
     ourLineLower = toScreenPosition(ourLineLower);
-
 
     auto color = weAreYellow ? QColor(255,255,0,255) : QColor(80,80,255,255);
     pen.setBrush(color);
@@ -109,15 +108,13 @@ void Visualizer::drawFieldHints(QPainter &painter) {
     painter.setPen(pen);
     painter.drawLine(ourLineUpper.x, ourLineUpper.y, ourLineLower.x, ourLineLower.y);
 
-    ///////////
 
+    // draw the hint for them
     auto theirGoalCenter = rtt::ai::world::field->get_their_goal_center();
     Vector2 theirLineUpper = {theirGoalCenter.x + 0.5, theirGoalCenter.y + 2};
     Vector2 theirLineLower = {theirGoalCenter.x + 0.5, theirGoalCenter.y - 2};
-
     theirLineUpper = toScreenPosition(theirLineUpper);
     theirLineLower = toScreenPosition(theirLineLower);
-
 
     auto theirColor = !weAreYellow ? QColor(255,255,0,255) : QColor(80,80,255,255);
     pen.setBrush(theirColor);
