@@ -15,15 +15,14 @@ namespace ai {
 class SideAttacker : public Skill {
     private:
 
-    control::NumTreePosControl goToPos;
-    Vector2 deltaPos;
-    Vector2 targetPos;
+        control::NumTreePosControl goToPos;
+        Vector2 targetPos;
+        int zone = - 1;
 
-    int zone = -1;
-    static int robotsInMemory;
-    static vector<RobotPtr> robotsPositioning;
+        static int robotsInMemory;
+        static vector<RobotPtr> robotsPositioning;
 
-    Vector2 getOffensivePosition();
+        Vector2 getOffensivePosition();
 
     public:
         explicit SideAttacker(string name, bt::Blackboard::Ptr blackboard);

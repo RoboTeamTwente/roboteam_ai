@@ -17,32 +17,33 @@ namespace ai {
 namespace coach {
 
 class OffensiveCoach {
-public:
-    using Robot = world::Robot;
-    using RobotPtr = std::shared_ptr<Robot>;
+    public:
+        using Robot = world::Robot;
+        using RobotPtr = std::shared_ptr<Robot>;
 
-    const double SEARCH_GRID_ROBOT_POSITIONS = 0.02;
-    const int GRID_SIZE = 3;
-    const double CLOSE_TO_GOAL_DISTANCE = 0.95;
-    const double FURTHER_FROM_GOAL_DISTANCE = 2 * CLOSE_TO_GOAL_DISTANCE;
-    const double ZONE_RADIUS = 0.8;
+        const double SEARCH_GRID_ROBOT_POSITIONS = 0.02;
+        const int GRID_SIZE = 3;
+        const double CLOSE_TO_GOAL_DISTANCE = 0.95;
+        const double FURTHER_FROM_GOAL_DISTANCE = 2.0*CLOSE_TO_GOAL_DISTANCE;
+        const double ZONE_RADIUS = 0.8;
 
-    struct OffensivePosition {
-        Vector2 position;
-        double score;
-    };
+        struct OffensivePosition {
+          Vector2 position;
+          double score;
+        };
 
-    OffensivePosition calculateNewRobotPosition(const OffensivePosition& currentPosition, const Vector2& defaultPosition);
+        OffensivePosition calculateNewRobotPosition(const OffensivePosition &currentPosition,
+                const Vector2 &defaultPosition);
 
-    std::vector<Vector2> getOffensivePositionVectors();
-    static int getBestStrikerID();
+        std::vector<Vector2> getOffensivePositionVectors();
+        static int getBestStrikerID();
 
-    std::vector<Vector2> getDefaultLocations();
-    std::vector<Vector2> getNewOffensivePositions(int numberOfRobots);
+        std::vector<Vector2> getDefaultLocations();
+        std::vector<Vector2> getNewOffensivePositions(int numberOfRobots);
 
-private:
-    std::vector<OffensivePosition> offensivePositions;
-    std::map<int, OffensivePosition> robotPositions;
+    private:
+        std::vector<OffensivePosition> offensivePositions;
+        std::map<int, OffensivePosition> robotPositions;
 
 };
 

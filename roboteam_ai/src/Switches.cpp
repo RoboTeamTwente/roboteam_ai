@@ -15,35 +15,35 @@
 #include "roboteam_ai/src/bt/tactics/AvoidBallTactic.h"
 #include "roboteam_ai/src/bt/tactics/PenaltyTactic.h"
 
-
 //  ______________________
 //  |                    |
 //  |   INCLUDE SKILLS   |
 //  |____________________|
 //
 
-#include "roboteam_ai/src/skills/Chip.h"
-#include "roboteam_ai/src/skills/Dribble.h"
-#include "roboteam_ai/src/skills/SkillGoToPos.h"
-#include "roboteam_ai/src/skills/Halt.h"
-#include "roboteam_ai/src/skills/Harass.h"
-#include "roboteam_ai/src/skills/RotateToAngle.h"
-#include "roboteam_ai/src/skills/GoToPos.h"
-#include "roboteam_ai/src/skills/Keeper.h"
-#include "roboteam_ai/src/skills/GetBall.h"
-#include "roboteam_ai/src/skills/Attack.h"
-#include "roboteam_ai/src/skills/SideAttacker.h"
-#include "roboteam_ai/src/skills/Pass.h"
-#include "roboteam_ai/src/skills/Receive.h"
+#include <roboteam_ai/src/skills/Chip.h>
+#include <roboteam_ai/src/skills/Dribble.h>
+#include <roboteam_ai/src/skills/SkillGoToPos.h>
+#include <roboteam_ai/src/skills/Halt.h>
+#include <roboteam_ai/src/skills/Harass.h>
+#include <roboteam_ai/src/skills/RotateToAngle.h>
+#include <roboteam_ai/src/skills/GoToPos.h>
+#include <roboteam_ai/src/skills/Keeper.h>
+#include <roboteam_ai/src/skills/GetBall.h>
+#include <roboteam_ai/src/skills/Attack.h>
+#include <roboteam_ai/src/skills/SideAttacker.h>
+#include <roboteam_ai/src/skills/Pass.h>
+#include <roboteam_ai/src/skills/Receive.h>
 #include <roboteam_ai/src/skills/DefendOnRobot.h>
-#include "roboteam_ai/src/skills/DribbleRotate.h"
+#include <roboteam_ai/src/skills/DribbleRotate.h>
 #include <roboteam_ai/src/skills/Defend.h>
 #include <roboteam_ai/src/skills/GTPSpecial.h>
-#include "roboteam_ai/src/skills/GoAroundPos.h"
-#include "roboteam_ai/src/skills/GoBehindBall.h"
-#include "roboteam_ai/src/skills/ShootPenalty.h"
-#include "roboteam_ai/src/skills/ShootFreeKick.h"
-#include "roboteam_ai/src/skills/DemoAttack.h"
+#include <roboteam_ai/src/skills/GoAroundPos.h>
+#include <roboteam_ai/src/skills/GoBehindBall.h>
+#include <roboteam_ai/src/skills/ShootPenalty.h>
+#include <roboteam_ai/src/skills/ShootFreeKick.h>
+#include <roboteam_ai/src/skills/DemoAttack.h>
+#include <roboteam_ai/src/skills/MidFieldHarasser.h>
 
 //  ______________________
 //  |                    |
@@ -196,6 +196,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["GoBehindBall"] = std::make_shared<rtt::ai::GoBehindBall>(name, properties);
     map["ShootPenalty"] = std::make_shared<rtt::ai::ShootPenalty>(name, properties);
     map["ShootFreeKick"] = std::make_shared<rtt::ai::ShootFreeKick>(name, properties);
+    map["MidFieldHarasser"] = std::make_shared<rtt::ai::MidFieldHarasser>(name, properties);
 
     // conditions (alphabetic order)
     map["BallKickedToOurGoal"] = std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);

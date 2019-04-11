@@ -191,6 +191,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DemoAttack.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DemoAttack.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/MidFieldHarasser.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/MidFieldHarasser.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SideAttacker.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SideAttacker.h)
 
