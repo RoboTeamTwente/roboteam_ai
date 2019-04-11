@@ -26,6 +26,8 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         if (showAvailablePasses) drawPasses(painter);
         drawBall(painter);
         drawRobots(painter);
+        drawLines(painter,Drawer::getTestLines());
+        drawPoints(painter,Drawer::getTestPoints());
         drawDrawPoints(painter, Drawer::getDrawPoints());
         drawDrawLines(painter, Drawer::getDrawLines());
 
@@ -391,6 +393,21 @@ void Visualizer::drawIntercept(QPainter &painter, std::vector<std::pair<rtt::Vec
 
             }
         }
+    }
+}
+void Visualizer::drawLines(QPainter &painter, std::vector<std::pair<std::pair<rtt::Vector2,rtt::Vector2>,QColor>> lines){
+    for (auto line : lines){
+        Vector2 start=toScreenPosition(line.first.first);
+        Vector2 end=toScreenPosition(line.first.second);
+        painter.setPen(line.second);
+        painter.drawLine(start.x,start.y,end.x,end.y);
+    }
+}
+void Visualizer::drawPoints(QPainter &painter, std::vector<std::pair<Vector2,QColor>> points){
+    for (auto point : points){
+        Vector2 screenPoint=toScreenPosition(point.first);
+        painter.setPen(point.second);
+        painter.drawEllipse(screenPoint.x-2,screenPoint.y-2,4,4);
     }
 }
 
