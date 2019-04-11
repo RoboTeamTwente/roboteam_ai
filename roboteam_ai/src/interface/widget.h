@@ -63,8 +63,12 @@ class Visualizer : public QWidget {
         void drawPasses(QPainter &painter);
         void drawCrosses(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, double size = 5);
 
+        void drawLines(QPainter &painter, std::vector<std::pair<std::pair<rtt::Vector2,rtt::Vector2>,QColor>> lines);
+        void drawPoints(QPainter &painter, std::vector<std::pair<Vector2,QColor>> points);
+
         void drawDrawPoints(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize = 3);
         void drawDrawLines(QPainter &painter, std::vector<std::tuple<Vector2, Vector2, QColor>> lines);
+
 
         // utitlity functions
         std::string getTacticNameForRobot(Robot robot);
