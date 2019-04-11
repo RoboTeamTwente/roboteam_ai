@@ -44,6 +44,7 @@
 #include "roboteam_ai/src/skills/ShootPenalty.h"
 #include "roboteam_ai/src/skills/ShootFreeKick.h"
 #include "roboteam_ai/src/skills/DemoAttack.h"
+#include "roboteam_ai/src/skills/CoachDefend.h"
 
 //  ______________________
 //  |                    |
@@ -100,6 +101,7 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "FreeKickShootTactic",
         "SideAttackerTactic",
         "PassAndShootTactic",
+        "coachDefenderTactic",
         "BallPlacementDoubleTactic"
 };
 
@@ -120,12 +122,16 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "PenaltyStrategy",
         "FreeKickShootStrategy",
         "SideAttackerStrategy",
-        "PassAndShootStrategy"
+        "PassAndShootStrategy",
+        "coachDefenderStrategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles =
         {"keeperTest1",
-         "SingleKeeperTactic"};
+         "SingleKeeperTactic",
+         "haltTactic",
+         "AvoidBallTactic"
+        };
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
 /// have a look around with the names and see if what you made is on the same level as these are
@@ -173,6 +179,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["TwoRobotBallPlacement"] =      std::make_shared<rtt::ai::TwoRobotBallPlacement>(name, properties);
     map["Attack"] = std::make_shared<rtt::ai::Attack>(name, properties);
     map["AvoidBall"] = std::make_shared<rtt::ai::AvoidBall>(name, properties);
+    map["CoachDefend"]= std::make_shared<rtt::ai::CoachDefend>(name,properties);
     map["GTPSpecial"] = std::make_shared<rtt::ai::GTPSpecial>(name, properties);
     map["Defend"] = std::make_shared<rtt::ai::Defend>(name, properties);
     map["DefendOnRobot"] = std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
@@ -343,7 +350,19 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
              {"FreeKickShootTactic", {
                      {"freeShooter", robotType::RANDOM}
              }
+             },
+
+            {"coachDefenderTactic",
+             {
+                     {"def1",robotType::RANDOM},
+                     {"def2",robotType::RANDOM},
+                     {"def3",robotType::RANDOM},
+                     {"def4",robotType::RANDOM},
+                     {"def5",robotType::RANDOM},
+                     {"def6",robotType::RANDOM},
+                     {"def7",robotType::RANDOM}
              }
+            }
     };
     runErrorHandler(tactics);
 

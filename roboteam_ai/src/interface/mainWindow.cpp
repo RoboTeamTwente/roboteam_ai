@@ -65,6 +65,11 @@ MainWindow::MainWindow(QWidget* parent)
     hButtonsLayout->addWidget(toggleColorBtn);
     setToggleColorBtnLayout(); // set the btn color and text to the current our_color
 
+    toggleSideBtn = new QPushButton("Side");
+    QObject::connect(toggleSideBtn, SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
+    hButtonsLayout->addWidget(toggleSideBtn);
+    setToggleColorBtnLayout(); // set the btn color and text to the current our_side
+
     vLayout->addLayout(hButtonsLayout);
 
 
@@ -125,6 +130,7 @@ MainWindow::MainWindow(QWidget* parent)
     configureCheckBox("Show marker for Ball Placement", cbVLayout, visualizer, SLOT(setShowBallPlacementMarker(bool)), Constants::STD_SHOW_BALL_PLACEMENT_MARKER());
     configureCheckBox("show debug values in terminal", cbVLayout, visualizer, SLOT(setShowDebugValueInTerminal(bool)), Constants::STD_SHOW_DEBUG_VALUES());
     configureCheckBox("show passes for selected robots", cbVLayout, visualizer, SLOT(setShowAvailablePasses(bool)), Constants::STD_SHOW_AVAILABLE_PASSES());
+    configureCheckBox("Inverse interface", cbVLayout, visualizer, SLOT(setToggleFieldDirection(bool)), false);
 
     auto cbVSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
     cbVLayout->addSpacerItem(cbVSpacer);
@@ -202,6 +208,20 @@ void MainWindow::setToggleColorBtnLayout() const {
     toggleColorBtn->setText(QString::fromStdString(ourColorParam));
 }
 
+void MainWindow::setToggleSideBtnLayout() const {
+    ros::NodeHandle nh;
+    std::string ourSideParam;
+    nh.getParam("our_side", ourSideParam);
+    if (ourSideParam == "left") {
+        toggleSideBtn->setStyleSheet("background-color: #cc0000;");
+        toggleSideBtn->setText("◀ Left");
+
+    } else {
+        toggleSideBtn->setText("right ▶");
+        toggleSideBtn->setStyleSheet("background-color: #cc0000;");
+    }
+}
+
 /// Set up a checkbox and add it to the layout
 void MainWindow::configureCheckBox(QString title, QLayout * layout, const QObject* receiver, const char* method,
         bool defaultState) {
@@ -222,6 +242,17 @@ void MainWindow::toggleOurColorParam() {
 
     setToggleColorBtnLayout();
 }
+
+/// toggle the ROS param 'our_color'
+    void MainWindow::toggleOurSideParam() {
+        ros::NodeHandle nh;
+        std::string ourColorParam, newParam;
+        nh.getParam("our_side", ourColorParam);
+        newParam = ourColorParam == "left" ? "right" : "left";
+        nh.setParam("our_side", newParam);
+
+        setToggleSideBtnLayout();
+ }
 
 /// send a halt signal to stop all trees from executing
 void MainWindow::sendHaltSignal() {
