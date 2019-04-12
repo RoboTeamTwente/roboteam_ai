@@ -2,6 +2,7 @@
 // Created by mrlukasbos on 23-1-19.
 //
 
+#include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include "EnterFormation.h"
 #include "roboteam_ai/src/control/ControlUtils.h"
 #include "roboteam_ai/src/world/Field.h"
@@ -81,6 +82,10 @@ bool EnterFormation::robotIsInFormation() {
 Vector2 EnterFormation::getFormationPosition() {
     auto field = world::field->get_field();
     double targetLocationX = field.field_length/4 - (field.field_length/2);
+
+
+    // TODO put game analyzer logic here
+
 
     // first we calculate all the positions for the defense
     std::vector<Vector2> targetLocations;
