@@ -74,7 +74,6 @@ Vector2 SideAttacker::getOffensivePosition() {
 
     robotsInMemory = robotsPositioning.size();
     return position;
-
 }
 
 void SideAttacker::onTerminate(Status s) {

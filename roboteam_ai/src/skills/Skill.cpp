@@ -15,9 +15,11 @@ void Skill::publishRobotCommand() {
     std::string ourSideParam;
     nh.getParam("our_side", ourSideParam);
 
-//    if(ourSideParam=="right"){
-//        cmd=rotateRobotCommand(cmd);
-//    }
+    // for GRSIM the commands for the right side need to be reversed.
+    if(Constants::GRSIM() && ourSideParam=="right"){
+        command=rotateRobotCommand(command);
+    }
+
     ioManager.publishRobotCommand(command); // We default to our robots being on the left if parameter is not set
 
     // refresh the robotcommand after it has been sent

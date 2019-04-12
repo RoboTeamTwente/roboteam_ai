@@ -63,7 +63,9 @@ TEST(IOTest, it_subscribes) {
     ros::Subscriber robotCommandSub = nh.subscribe<roboteam_msgs::RobotCommand>(rtt::TOPIC_COMMANDS, 0,
             &robotCommandCallback);
 
+    // without a valid ID no command should be sent
     roboteam_msgs::RobotCommand cmd;
+    cmd.id = -1;
     cmd.x_vel = 10;
     cmd.y_vel = 20;
     ioManager.publishRobotCommand(cmd);
@@ -71,6 +73,16 @@ TEST(IOTest, it_subscribes) {
     rate.sleep();
     ros::spinOnce();
 
+    EXPECT_EQ(robotCommandFromCallback.x_vel, 0);
+    EXPECT_EQ(robotCommandFromCallback.y_vel, 0);
+
+       // with an valid id the command should be propagated properly
+    cmd.id = 2;
+    ioManager.publishRobotCommand(cmd);
+    rate.sleep();
+    ros::spinOnce();
+
+    EXPECT_EQ(robotCommandFromCallback.id, 2);
     EXPECT_EQ(robotCommandFromCallback.x_vel, 10);
     EXPECT_EQ(robotCommandFromCallback.y_vel, 20);
 
