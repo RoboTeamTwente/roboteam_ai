@@ -120,9 +120,6 @@ const World::BallPtr World::getBall() {
     if (worldDataPtr && worldDataPtr->ball.exists)
         return std::make_shared<Ball>(worldDataPtr->ball);
 
-    if (worldDataPtr && worldDataPtr->ball.visible)
-        return std::make_shared<Ball>(worldDataPtr->ball);
-
     std::cerr << "BALL DOES NOT EXIST!!! (exists == 0 ??? )" << std::endl;
     return BallPtr(nullptr);
 }

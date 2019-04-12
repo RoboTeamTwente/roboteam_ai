@@ -182,6 +182,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["AvoidBall"] = std::make_shared<rtt::ai::AvoidBall>(name, properties);
     map["CoachDefend"] = std::make_shared<rtt::ai::CoachDefend>(name, properties);
     map["GTPSpecial"] = std::make_shared<rtt::ai::GTPSpecial>(name, properties);
+    map["Chip"] = std::make_shared<rtt::ai::Chip>(name,properties);
     map["Defend"] = std::make_shared<rtt::ai::Defend>(name, properties);
     map["DefendOnRobot"] = std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
     map["DemoAttack"] = std::make_shared<rtt::ai::DemoAttack>(name, properties);

@@ -42,7 +42,7 @@ bt::Node::Status CoachDefend::onUpdate() {
         }
     }
     publishRobotCommand();
-
+    if (coach::g_DefenceDealer.isBotGettingBall(robot->id)){return Status::Success;}
     return bt::Node::Status::Running;
 }
 

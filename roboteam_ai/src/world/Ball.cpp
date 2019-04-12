@@ -13,12 +13,11 @@ namespace ai {
 namespace world {
 
 Ball::Ball()
-    : pos(Vector2()), vel(Vector2()), exists(false), visible(false) { }
+        :pos(Vector2()), vel(Vector2()), exists(false), visible(false) { }
 
 Ball::Ball(const roboteam_msgs::WorldBall &copy)
-        : pos(copy.pos), vel(copy.vel),
-        exists(copy.existence != 0), visible(copy.visible) { }
-
+        :pos(copy.pos), vel(copy.vel),
+         exists(Vector2(copy.pos).isNotNaN() && Vector2(copy.vel).isNotNaN()), visible(copy.visible) { }
 
 const roboteam_msgs::WorldBall Ball::toMessage() const {
     roboteam_msgs::WorldBall ballMsg;
@@ -124,7 +123,7 @@ void Ball::updateDribbling(const Ball &oldBall, const WorldData &worldData) {
 
     Robot* dribblingRobot = getDribblingRobot(allRobots, maxDribbleRange);
 
-    if (!dribblingRobot) {
+    if (! dribblingRobot) {
         dribbledNow = false;
         return;
     }
@@ -164,12 +163,11 @@ void Ball::updateBallPosition(const Ball &oldBall, const WorldData &worldData) {
             }
         }
         if (newRobotStillExistsInWorld) {
-            double distanceInFrontOfRobot = Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS();
+            double distanceInFrontOfRobot = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
             pos = newRobotWithBall.pos + newRobotWithBall.angle.toVector2(distanceInFrontOfRobot);
         }
     }
 }
-
 
 }
 }
