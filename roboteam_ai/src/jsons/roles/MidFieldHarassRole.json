@@ -1,0 +1,53 @@
+{
+  "name": "MidFieldHarassRole",
+  "data": {
+    "trees": [
+      {
+        "title": "MidFieldHarassRole",
+        "root": "w3anbeile7uf76bk9",
+        "nodes": {
+          "w3anbeile7uf76bk9": {
+            "id": "w3anbeile7uf76bk9",
+            "title": "Repeater",
+            "children": [
+              "gg3hd5pr24nq2q7p"
+            ]
+          },
+          "gg3hd5pr24nq2q7p": {
+            "id": "gg3hd5pr24nq2q7p",
+            "title": "Selector",
+            "children": [
+              "o50oth1386uakrtmu",
+              "nwjqz57xvmn81qo2"
+            ]
+          },
+          "o50oth1386uakrtmu": {
+            "id": "o50oth1386uakrtmu",
+            "title": "MemSequence",
+            "children": [
+              "zqxbu0ktxf3wcnl",
+              "fdkvyxubdyrcb",
+              "8abtair25z6bx"
+            ]
+          },
+          "nwjqz57xvmn81qo2": {
+            "id": "nwjqz57xvmn81qo2",
+            "title": "MidFieldHarasser"
+          },
+          "zqxbu0ktxf3wcnl": {
+            "id": "zqxbu0ktxf3wcnl",
+            "title": "IsBeingPassedTo"
+          },
+          "fdkvyxubdyrcb": {
+            "id": "fdkvyxubdyrcb",
+            "title": "Receive"
+          },
+          "8abtair25z6bx": {
+            "id": "8abtair25z6bx",
+            "title": "Attack"
+          }
+        }
+      }
+    ]
+  }
+}

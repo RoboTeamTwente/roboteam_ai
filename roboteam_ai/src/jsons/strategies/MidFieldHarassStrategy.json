@@ -1,0 +1,25 @@
+{
+  "name": "MidFieldHarassStrategy",
+  "data": {
+    "trees": [
+      {
+        "title": "MidFieldHarassStrategy",
+        "root": "qocc7rkppwamj",
+        "nodes": {
+          "qocc7rkppwamj": {
+            "id": "qocc7rkppwamj",
+            "title": "ParallelSequence",
+            "children": [
+              "p4z4g59rd9at8ikpj"
+            ]
+          },
+          "p4z4g59rd9at8ikpj": {
+            "id": "p4z4g59rd9at8ikpj",
+            "title": "Tactic",
+            "name": "MidFieldHarassTactic"
+          }
+        }
+      }
+    ]
+  }
+}

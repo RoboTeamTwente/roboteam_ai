@@ -1,0 +1,318 @@
+{
+  "name": "MidFieldHarassTactic",
+  "data": {
+    "trees": [
+      {
+        "title": "MidFieldHarassTactic",
+        "root": "rvrqii0cxsvs7dtu",
+        "nodes": {
+          "rvrqii0cxsvs7dtu": {
+            "id": "rvrqii0cxsvs7dtu",
+            "title": "RoleDivider",
+            "children": [
+              "y4mqs9dcpcj8n6pmy",
+              "t7o2ze3577nh0y",
+              "p1tdgnyjarz4l",
+              "dvh5wlnxp66eq"
+            ],
+            "properties": {
+              "TacticType": "Offensive"
+            }
+          },
+          "y4mqs9dcpcj8n6pmy": {
+            "id": "y4mqs9dcpcj8n6pmy",
+            "title": "Role",
+            "name": "mfh0",
+            "role": "MidFieldHarassRole",
+            "children": [
+              "ulwgiay5b7307k8"
+            ],
+            "properties": {
+              "ROLE": "mfh0"
+            }
+          },
+          "ulwgiay5b7307k8": {
+            "id": "ulwgiay5b7307k8",
+            "title": "Repeater",
+            "children": [
+              "unk1zuoaejsudd"
+            ],
+            "properties": {
+              "ROLE": "mfh0"
+            }
+          },
+          "unk1zuoaejsudd": {
+            "id": "unk1zuoaejsudd",
+            "title": "Selector",
+            "children": [
+              "fmsonv8gft27gx",
+              "3ttqsgg3ze7io"
+            ],
+            "properties": {
+              "ROLE": "mfh0"
+            }
+          },
+          "fmsonv8gft27gx": {
+            "id": "fmsonv8gft27gx",
+            "title": "MemSequence",
+            "children": [
+              "78d3y0v4rmm7v",
+              "mfxba3m2nn44oq8",
+              "655v7jir4b5kqy"
+            ],
+            "properties": {
+              "ROLE": "mfh0"
+            }
+          },
+          "3ttqsgg3ze7io": {
+            "id": "3ttqsgg3ze7io",
+            "title": "MidFieldHarasser",
+            "properties": {
+              "ROLE": "mfh0"
+            }
+          },
+          "78d3y0v4rmm7v": {
+            "id": "78d3y0v4rmm7v",
+            "title": "IsBeingPassedTo",
+            "properties": {
+              "ROLE": "mfh0"
+            }
+          },
+          "mfxba3m2nn44oq8": {
+            "id": "mfxba3m2nn44oq8",
+            "title": "Receive",
+            "properties": {
+              "ROLE": "mfh0"
+            }
+          },
+          "655v7jir4b5kqy": {
+            "id": "655v7jir4b5kqy",
+            "title": "Attack",
+            "properties": {
+              "ROLE": "mfh0"
+            }
+          },
+          "t7o2ze3577nh0y": {
+            "id": "t7o2ze3577nh0y",
+            "title": "Role",
+            "name": "mfh1",
+            "role": "MidFieldHarassRole",
+            "children": [
+              "c8brhfwcvo9kku"
+            ],
+            "properties": {
+              "ROLE": "mfh1"
+            }
+          },
+          "c8brhfwcvo9kku": {
+            "id": "c8brhfwcvo9kku",
+            "title": "Repeater",
+            "children": [
+              "i0kko15ums8m9r07"
+            ],
+            "properties": {
+              "ROLE": "mfh1"
+            }
+          },
+          "i0kko15ums8m9r07": {
+            "id": "i0kko15ums8m9r07",
+            "title": "Selector",
+            "children": [
+              "no84ifafxfwqga",
+              "4a7cj3wixguui"
+            ],
+            "properties": {
+              "ROLE": "mfh1"
+            }
+          },
+          "no84ifafxfwqga": {
+            "id": "no84ifafxfwqga",
+            "title": "MemSequence",
+            "children": [
+              "2gy3z7ner5o6s",
+              "hwsvr01bcx6i4hc",
+              "nc5pspj9laczbiud"
+            ],
+            "properties": {
+              "ROLE": "mfh1"
+            }
+          },
+          "4a7cj3wixguui": {
+            "id": "4a7cj3wixguui",
+            "title": "MidFieldHarasser",
+            "properties": {
+              "ROLE": "mfh1"
+            }
+          },
+          "2gy3z7ner5o6s": {
+            "id": "2gy3z7ner5o6s",
+            "title": "IsBeingPassedTo",
+            "properties": {
+              "ROLE": "mfh1"
+            }
+          },
+          "hwsvr01bcx6i4hc": {
+            "id": "hwsvr01bcx6i4hc",
+            "title": "Receive",
+            "properties": {
+              "ROLE": "mfh1"
+            }
+          },
+          "nc5pspj9laczbiud": {
+            "id": "nc5pspj9laczbiud",
+            "title": "Attack",
+            "properties": {
+              "ROLE": "mfh1"
+            }
+          },
+          "p1tdgnyjarz4l": {
+            "id": "p1tdgnyjarz4l",
+            "title": "Role",
+            "name": "mfh2",
+            "role": "MidFieldHarassRole",
+            "children": [
+              "hoev929wrb7tum"
+            ],
+            "properties": {
+              "ROLE": "mfh2"
+            }
+          },
+          "hoev929wrb7tum": {
+            "id": "hoev929wrb7tum",
+            "title": "Repeater",
+            "children": [
+              "amtnwxzukgma16ev"
+            ],
+            "properties": {
+              "ROLE": "mfh2"
+            }
+          },
+          "amtnwxzukgma16ev": {
+            "id": "amtnwxzukgma16ev",
+            "title": "Selector",
+            "children": [
+              "gf8oyfx1mwvrche4",
+              "ks0ld5gao1qw3z4sb"
+            ],
+            "properties": {
+              "ROLE": "mfh2"
+            }
+          },
+          "gf8oyfx1mwvrche4": {
+            "id": "gf8oyfx1mwvrche4",
+            "title": "MemSequence",
+            "children": [
+              "hkah87ccfx49wn0",
+              "plnlz1wpa39fr",
+              "yqoj3yylzv9qv0"
+            ],
+            "properties": {
+              "ROLE": "mfh2"
+            }
+          },
+          "ks0ld5gao1qw3z4sb": {
+            "id": "ks0ld5gao1qw3z4sb",
+            "title": "MidFieldHarasser",
+            "properties": {
+              "ROLE": "mfh2"
+            }
+          },
+          "hkah87ccfx49wn0": {
+            "id": "hkah87ccfx49wn0",
+            "title": "IsBeingPassedTo",
+            "properties": {
+              "ROLE": "mfh2"
+            }
+          },
+          "plnlz1wpa39fr": {
+            "id": "plnlz1wpa39fr",
+            "title": "Receive",
+            "properties": {
+              "ROLE": "mfh2"
+            }
+          },
+          "yqoj3yylzv9qv0": {
+            "id": "yqoj3yylzv9qv0",
+            "title": "Attack",
+            "properties": {
+              "ROLE": "mfh2"
+            }
+          },
+          "dvh5wlnxp66eq": {
+            "id": "dvh5wlnxp66eq",
+            "title": "Role",
+            "name": "mfh3",
+            "role": "MidFieldHarassRole",
+            "children": [
+              "hng6z5meu0obf"
+            ],
+            "properties": {
+              "ROLE": "mfh3"
+            }
+          },
+          "hng6z5meu0obf": {
+            "id": "hng6z5meu0obf",
+            "title": "Repeater",
+            "children": [
+              "aq6dbbgyx27qpzu"
+            ],
+            "properties": {
+              "ROLE": "mfh3"
+            }
+          },
+          "aq6dbbgyx27qpzu": {
+            "id": "aq6dbbgyx27qpzu",
+            "title": "Selector",
+            "children": [
+              "pwqw2a4xvryp5m",
+              "c6cxbp98xormf"
+            ],
+            "properties": {
+              "ROLE": "mfh3"
+            }
+          },
+          "pwqw2a4xvryp5m": {
+            "id": "pwqw2a4xvryp5m",
+            "title": "MemSequence",
+            "children": [
+              "66c710uo3oqkv",
+              "7fx4aetfilc6h",
+              "xvunny6xy3fq3"
+            ],
+            "properties": {
+              "ROLE": "mfh3"
+            }
+          },
+          "c6cxbp98xormf": {
+            "id": "c6cxbp98xormf",
+            "title": "MidFieldHarasser",
+            "properties": {
+              "ROLE": "mfh3"
+            }
+          },
+          "66c710uo3oqkv": {
+            "id": "66c710uo3oqkv",
+            "title": "IsBeingPassedTo",
+            "properties": {
+              "ROLE": "mfh3"
+            }
+          },
+          "7fx4aetfilc6h": {
+            "id": "7fx4aetfilc6h",
+            "title": "Receive",
+            "properties": {
+              "ROLE": "mfh3"
+            }
+          },
+          "xvunny6xy3fq3": {
+            "id": "xvunny6xy3fq3",
+            "title": "Attack",
+            "properties": {
+              "ROLE": "mfh3"
+            }
+          }
+        }
+      }
+    ]
+  }
+}
