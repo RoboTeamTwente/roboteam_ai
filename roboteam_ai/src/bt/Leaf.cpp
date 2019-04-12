@@ -17,6 +17,7 @@ std::shared_ptr<rtt::ai::world::Robot> Leaf::getRobotFromProperties(bt::Blackboa
         std::string roleName = properties->getString("ROLE");
         robotId = rtt::ai::robotDealer::RobotDealer::findRobotForRole(roleName);
         if (rtt::ai::world::world->getRobotForId(robotId, true)) {
+            if (robotId == -1) std::cout << "getting robot for id with id = -1!!!" << std::endl;
             return rtt::ai::world::world->getRobotForId(robotId, true);
         }
         else {
