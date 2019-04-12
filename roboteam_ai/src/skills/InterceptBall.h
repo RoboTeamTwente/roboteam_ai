@@ -6,8 +6,8 @@
 #define ROBOTEAM_AI_INTERCEPTBALL_H
 
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include "Skill.h"
-#include "roboteam_ai/src/control/PIDController.h"
 
 namespace rtt {
 namespace ai {
@@ -17,10 +17,6 @@ class InterceptBall :public Skill {
 
         const double BALL_DEFLECTION_ANGLE = 30.0/180.0*M_PI;    // Angle at which a ball is considered 'deflected'
         const double INTERCEPT_POSDIF = 0.04;    // Meters acceptable deviation
-
-        const double INTERCEPT_P = 5.7;
-        const double INTERCEPT_I = 1.7;
-        const double INTERCEPT_D = 0.0;
 
         enum Progression {
           INTERCEPTING, CLOSETOPOINT, INPOSITION, BALLDEFLECTED, BALLMISSED
@@ -35,13 +31,15 @@ class InterceptBall :public Skill {
         bool missedBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel);
         bool ballDeflected();
 
-        control::NumTreePosControl goToPos;
+        control::NumTreePosControl numtreeGTP;
+        control::BasicPosControl basicGTP;
 
         Vector2 ballStartPos, ballStartVel, ballEndPos, interceptPos;
         Vector2 deltaPos;
         int tickCount, maxTicks;
-        control::PIDController pid,finePid;
         bool backwards;
+
+
 
         // Relevant to keeper only
         bool keeper;
