@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_SLINGSHOT_H
 
 #include "Skill.h"
-
+#include "../control/positionControllers/BasicPosControl.h"
 namespace rtt{
 namespace ai{
 class SlingShot : public Skill {
@@ -19,6 +19,7 @@ class SlingShot : public Skill {
         Vector2 kickPos;
         double kickOrient;
         double rotateAngle;
+        control::BasicPosControl gtp;
         Progression updateProgress(Progression currentProgress);
         bool robotAtAngle();
         bool ballShot();
