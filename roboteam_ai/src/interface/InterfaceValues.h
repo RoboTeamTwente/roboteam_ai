@@ -30,6 +30,9 @@ private:
     static rtt::Vector2 ballPlacementTarget;
     static bool useRefereeCommands;
     static bool showDebugValuesInTerminal;
+    static bool timeOutAtTop;
+public:
+    static bool isTimeOutAtTop();
 
 public:
     static void setShowDebugValues(bool showDebug);
@@ -44,6 +47,7 @@ public:
     static void setUseRefereeCommands(bool useRefereeCommands);
     static const rtt::Vector2 &getBallPlacementTarget();
     static void setBallPlacementTarget(const rtt::Vector2 &ballPlacementTarget);
+    static void setTimeOutTop(bool top);
 
     static const pidVals &getNumTreePid();
     static void setNumTreePid(const pidVals &numTreePid);
