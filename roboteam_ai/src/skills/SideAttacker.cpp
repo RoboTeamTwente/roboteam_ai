@@ -24,7 +24,6 @@ void SideAttacker::onInitialize() {
     robotsInMemory ++;
 }
 
-/// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
     bool isInRobotsPositioning = false;
     for (auto &robotPositioning : robotsPositioning) {

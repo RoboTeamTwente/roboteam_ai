@@ -15,7 +15,7 @@ void Receive::onInitialize() {
     checkTicks = 0;
     initializedBall = false;
     ballPlacement = properties->getBool("BallPlacement");
-};
+}
 
 Receive::Status Receive::onUpdate() {
     if (world::world->ourRobotHasBall(robot->id)) {

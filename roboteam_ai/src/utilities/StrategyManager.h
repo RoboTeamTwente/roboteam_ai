@@ -32,9 +32,13 @@ class StrategyManager {
     public:
         explicit StrategyManager() = default;
         std::string getCurrentStrategyName(roboteam_msgs::RefereeCommand currentRefCmd);
-    private:
+        std::string getCurrentKeeperTreeName(roboteam_msgs::RefereeCommand currentRefCmd);
+
+private:
         StrategyMap currentStrategyMap;
+        StrategyMap currentKeeperMap;
         StrategyMap getStrategyMapForRefGameState(RefGameState commandId);
+        StrategyMap getKeeperMapForRefGameState(RefGameState commandId);
 
         std::vector<StrategyMap> strategyMaps = {
                 {RefGameState::NORMAL_START, "twoPlayerStrategyV2"},
@@ -66,6 +70,37 @@ class StrategyManager {
                 {RefGameState::DEFEND_PENALTY, "EnterFormationStrategy"},
                 {RefGameState::DO_PENALTY, "EnterFormationStrategy"}
         };
+
+    std::vector<StrategyMap> keeperMaps = {
+            {RefGameState::NORMAL_START, "SingleKeeperTactic"},
+            {RefGameState::FORCED_START, "SingleKeeperTactic"},
+            {RefGameState::HALT, "haltTactic"},
+            {RefGameState::STOP, "haltTactic"},
+            {RefGameState::TIMEOUT_US, "haltTactic"},
+            {RefGameState::TIMEOUT_THEM, "haltTactic"},
+            {RefGameState::GOAL_US, "SingleKeeperTactic"},
+            {RefGameState::GOAL_THEM, "SingleKeeperTactic"},
+            {RefGameState::BALL_PLACEMENT_US, "AvoidBallTactic"}, // the keeper should not do ballplacement, we don't want him leaving the goal
+            {RefGameState::BALL_PLACEMENT_THEM, "AvoidBallTactic"},
+
+            // the keeper does not use follow up strategies
+            {RefGameState::PREPARE_KICKOFF_US, "SingleKeeperTactic"},
+            {RefGameState::PREPARE_KICKOFF_THEM, "SingleKeeperTactic"},
+            {RefGameState::PREPARE_PENALTY_US, "SingleKeeperTactic"},
+            {RefGameState::PREPARE_PENALTY_THEM, "SingleKeeperTactic"},
+
+            {RefGameState::DIRECT_FREE_US, "SingleKeeperTactic"},
+            {RefGameState::DIRECT_FREE_THEM, "SingleKeeperTactic"},
+            {RefGameState::INDIRECT_FREE_US, "SingleKeeperTactic"},
+            {RefGameState::INDIRECT_FREE_THEM, "SingleKeeperTactic"},
+
+            // these are called after PREPARE_
+            // these custom strategies need special attention
+            {RefGameState::DO_KICKOFF, "SingleKeeperTactic"},
+            {RefGameState::DEFEND_KICKOFF, "SingleKeeperTactic"},
+            {RefGameState::DEFEND_PENALTY, "SingleKeeperTactic"},
+            {RefGameState::DO_PENALTY, "SingleKeeperTactic"}
+    };
 };
 
 } // ai

@@ -94,6 +94,19 @@ bt::Leaf::Status Pass::shoot() {
 
         publishRobotCommand();
     }
+    if (coach::g_pass.isReadyToReceivePass()) {
+        targetPos = robotToPassTo->pos;
+        control::PosVelAngle pva = basicGtp.getPosVelAngle(robot, targetPos);
+        pva.vel = control::ControlUtils::velocityLimiter(pva.vel, 0.1);
+        command.x_vel = static_cast<float>(pva.vel.x);
+        command.y_vel = static_cast<float>(pva.vel.y);
+        command.w = static_cast<float>((Vector2(robotToPassTo->pos) - robot->pos).angle());
+
+        command.kicker_forced = 1;
+        command.kicker_vel = determineKickForce((Vector2(ball->pos) - robotToPassTo->pos).length());
+
+        publishRobotCommand();
+    }
     return Status::Running;
 }
 

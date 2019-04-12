@@ -21,16 +21,16 @@ class MidFieldHarasser : public Skill {
 
         static int robotsInMemory;
         static vector<RobotPtr> midFieldHarassers;
+
+        Vector2 getHarassPosition();
     public:
         explicit MidFieldHarasser(std::string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;
         Status onUpdate() override;
         void onTerminate(Status s) override;
-        Vector2 getHarassPosition();
+};
 
-        };
-
-}
-}
+} // ai
+} // rtt
 
 #endif //ROBOTEAM_AI_MIDFIELDHARASSER_H

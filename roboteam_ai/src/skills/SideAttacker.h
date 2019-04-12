@@ -8,13 +8,13 @@
 #include "Skill.h"
 #include <roboteam_ai/src/coach/OffensiveCoach.h>
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_utils/Vector2.h>
 
 namespace rtt {
 namespace ai {
 
 class SideAttacker : public Skill {
     private:
-
         control::NumTreePosControl goToPos;
         Vector2 targetPos;
         int zone = - 1;
@@ -23,7 +23,6 @@ class SideAttacker : public Skill {
         static vector<RobotPtr> robotsPositioning;
 
         Vector2 getOffensivePosition();
-
     public:
         explicit SideAttacker(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;
