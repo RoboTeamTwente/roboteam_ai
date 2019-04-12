@@ -79,7 +79,7 @@ bool Receive::isInPosition(const Vector2& behindTargetPos) {
 
     if (ballPlacement) {
         bool isBehindTargetPos = behindTargetPos.dist(robot->pos) < 0.03;
-        return isBehindTargetPos && isAimedAtBall;
+        return isBehindTargetPos  && isAimedAtBall;
     }
     return isAimedAtBall;
 

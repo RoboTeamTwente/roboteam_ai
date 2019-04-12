@@ -29,7 +29,7 @@ void SideAttacker::onInitialize() {
 bt::Node::Status SideAttacker::onUpdate() {
     bool isInRobotsPositioning = false;
     for (auto & robotPositioning : robotsPositioning) {
-        if (robotPositioning->id == robot->id) {
+        if (robotPositioning->id != robot->id) {
             isInRobotsPositioning = true;
         }
     }
@@ -81,16 +81,24 @@ void SideAttacker::onTerminate(Status s) {
     command.x_vel = 0;
     command.y_vel = 0;
 
+    bool safelyRemoved = false;
     for (int i = 0; i < robotsPositioning.size(); i++) {
         if (robotsPositioning[i]->id == robot->id) {
             robotsPositioning.erase(robotsPositioning.begin() + i);
+            safelyRemoved = true;
             break;
         }
+    }
+
+    if (!safelyRemoved) {
+        std::cerr << "Failed to safely remove robot " << robot->id << " from robotsPositioning" << std::endl;
     }
 
     robotsInMemory--;
 
     zone = -1;
+
+    status = Status::Waiting;
 
     publishRobotCommand();
 }
