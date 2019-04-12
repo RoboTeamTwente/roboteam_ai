@@ -53,6 +53,8 @@ void GTPSpecial::onInitialize() {
 
     gotopos.setAvoidBall(properties->getBool("avoidBall") ? Constants::DEFAULT_BALLCOLLISION_RADIUS() : false);
     gotopos.setCanMoveOutOfField(properties->getBool("canGoOutsideField"));
+    gotopos.setCanMoveInDefenseArea(properties->getBool("canMoveInDefenseArea"));
+
 }
 
 Vector2 GTPSpecial::getBallFromSideLocation() {

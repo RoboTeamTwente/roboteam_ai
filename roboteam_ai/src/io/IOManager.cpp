@@ -133,6 +133,12 @@ const roboteam_msgs::RefereeData &IOManager::getRefereeData() {
 void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
     if (! pause->getPause()) {
         if (demo::JoystickDemo::checkIfDemoSafe(cmd.id)) {
+
+            // the geneva cannot be received from world, so we set it when it gets sent.
+            auto robot = world::world->getRobotForId(cmd.id, true);
+            if (robot) {
+                robot->setGenevaState(cmd.geneva_state);
+            }
             // sometimes trees are terminated without having a role assigned.
             // It is then possible that a skill gets terminated with an empty robot: and then the id can be for example -1.
             if (cmd.id >= 0 && cmd.id < 16) {
