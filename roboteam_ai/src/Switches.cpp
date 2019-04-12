@@ -58,9 +58,9 @@
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
-#include <roboteam_ai/src/skills/EnterFormation.h>
+#include <roboteam_ai/src/skills/formations/EnterFormation.h>
 #include <roboteam_ai/src/skills/AvoidBall.h>
-#include <roboteam_ai/src/skills/TimeoutFormation.h>
+#include <roboteam_ai/src/skills/formations/TimeoutFormation.h>
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
 #include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"

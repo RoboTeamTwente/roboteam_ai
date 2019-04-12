@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_TIMEOUTFORMATION_H
 #define ROBOTEAM_AI_TIMEOUTFORMATION_H
 
-#include "EnterFormation.h"
+#include "roboteam_ai/src/skills/formations/EnterFormation.h"
 
 namespace rtt {
 namespace ai {

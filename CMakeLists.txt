@@ -176,8 +176,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoAroundPos.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/EnterFormation.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/EnterFormation.h
+        roboteam_ai/src/skills/formations/EnterFormation.cpp
+        roboteam_ai/src/skills/formations/EnterFormation.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoBehindBall.cpp
@@ -194,7 +194,7 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SideAttacker.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SideAttacker.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/CoachDefend.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/CoachDefend.h roboteam_ai/src/skills/TimeoutFormation.cpp roboteam_ai/src/skills/TimeoutFormation.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/CoachDefend.h roboteam_ai/src/skills/formations/TimeoutFormation.cpp roboteam_ai/src/skills/formations/TimeoutFormation.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
