@@ -102,6 +102,39 @@ void DefenceDealer::updateDefenderLocations() {
     }
 }
 
+bool DefenceDealer::isBotGettingBall(int id) {
+    return id==botIsGettingBallId&&id!=-1;
+}
+void DefenceDealer::checkIfWeShouldGetBall() {
+
+    // if we are not getting the ball right now
+    if (botIsGettingBallId==-1){
+        //if (!theyhaveBall){
+            botIsGettingBallId=botClosestToBall();
+        //}
+    }
+    // some bot is getting the ball right now
+    else{
+        //if (theyhaveBall){
+        //    botIsGettingBallId=-1;
+        //}
+    }
+}
+int DefenceDealer::botClosestToBall(){
+    double closestDist=DBL_MAX;
+    int closestId=-1;
+    for (auto id : defenders){
+        auto robot=world::world->getRobotForId(id,true);
+        if (robot){
+            double distToBall=(robot->pos-world::world->getBall()->pos).length();
+            if (distToBall<closestDist){
+                closestId=id;
+                closestDist=distToBall;
+            }
+        }
+    }
+    return closestId;
+}
 }//coach
 }//ai
 }//rtt

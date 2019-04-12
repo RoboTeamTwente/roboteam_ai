@@ -230,7 +230,9 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasClearShot.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasClearShot.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/TwoRobotBallPlacement.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/TwoRobotBallPlacement.h roboteam_ai/src/conditions/DefenderGettingBall.cpp roboteam_ai/src/conditions/DefenderGettingBall.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/TwoRobotBallPlacement.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsDefenderGettingBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsDefenderGettingBall.h)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
