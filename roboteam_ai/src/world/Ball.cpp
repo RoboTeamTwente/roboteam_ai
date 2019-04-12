@@ -13,7 +13,7 @@ namespace ai {
 namespace world {
 
 Ball::Ball()
-    : pos(Vector2()), vel(Vector2()), exists(0), visible(0) { }
+    : pos(Vector2()), vel(Vector2()), exists(false), visible(false) { }
 
 Ball::Ball(const roboteam_msgs::WorldBall &copy)
         : pos(copy.pos), vel(copy.vel),

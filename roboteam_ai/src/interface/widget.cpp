@@ -22,10 +22,13 @@ void Visualizer::paintEvent(QPaintEvent* event) {
     calculateFieldSizeFactor();
     if (rtt::ai::world::world->weHaveRobots()) {
         drawBackground(painter);
+        drawFieldHints(painter);
         drawFieldLines(painter);
         if (showAvailablePasses) drawPasses(painter);
         drawBall(painter);
         drawRobots(painter);
+        drawLines(painter,Drawer::getTestLines());
+        drawPoints(painter,Drawer::getTestPoints());
         drawDrawPoints(painter, Drawer::getDrawPoints());
         drawDrawLines(painter, Drawer::getDrawLines());
 
@@ -81,6 +84,45 @@ void Visualizer::drawFieldLines(QPainter &painter) {
     }
 }
 
+void Visualizer::drawFieldHints(QPainter &painter) {
+    QPen pen;
+    pen.setWidth(4);
+
+    ros::NodeHandle nh;
+    std::string ourColorParam;
+    nh.getParam("our_color", ourColorParam);
+
+    // update the we are yellow
+    bool weAreYellow = ourColorParam == "yellow";
+
+    // draw the hint for us
+    auto ourGoalCenter = rtt::ai::world::field->get_our_goal_center();
+    Vector2 ourLineUpper = {ourGoalCenter.x - 0.5, ourGoalCenter.y + 2};
+    Vector2 ourLineLower = {ourGoalCenter.x - 0.5, ourGoalCenter.y - 2};
+    ourLineUpper = toScreenPosition(ourLineUpper);
+    ourLineLower = toScreenPosition(ourLineLower);
+
+    auto color = weAreYellow ? QColor(255,255,0,255) : QColor(80,80,255,255);
+    pen.setBrush(color);
+    pen.setColor(color);
+    painter.setPen(pen);
+    painter.drawLine(ourLineUpper.x, ourLineUpper.y, ourLineLower.x, ourLineLower.y);
+
+
+    // draw the hint for them
+    auto theirGoalCenter = rtt::ai::world::field->get_their_goal_center();
+    Vector2 theirLineUpper = {theirGoalCenter.x + 0.5, theirGoalCenter.y + 2};
+    Vector2 theirLineLower = {theirGoalCenter.x + 0.5, theirGoalCenter.y - 2};
+    theirLineUpper = toScreenPosition(theirLineUpper);
+    theirLineLower = toScreenPosition(theirLineLower);
+
+    auto theirColor = !weAreYellow ? QColor(255,255,0,255) : QColor(80,80,255,255);
+    pen.setBrush(theirColor);
+    pen.setColor(theirColor);
+    painter.setPen(pen);
+    painter.drawLine(theirLineUpper.x, theirLineUpper.y, theirLineLower.x, theirLineLower.y);
+}
+
 // draw the ball on the screen
 void Visualizer::drawBall(QPainter &painter) {
     rtt::Vector2 ballPosition = toScreenPosition(rtt::ai::world::world->getWorld().ball.pos);
@@ -111,14 +153,19 @@ void Visualizer::drawRobots(QPainter &painter) {
 
 // convert field coordinates to screen coordinates
 rtt::Vector2 Visualizer::toScreenPosition(rtt::Vector2 fieldPos) {
-    return {(fieldPos.x*factor) + static_cast<float>(this->size().width()/2 + fieldmargin),
+    int inv = fieldInversed ? -1 : 1;
+    return {(fieldPos.x*factor * inv) + static_cast<float>(this->size().width()/2 + fieldmargin) ,
             (fieldPos.y*factor*- 1) + static_cast<float>(this->size().height()/2 + fieldmargin)};
+
+
+
 }
 
 // convert field coordinates to screen coordinates
 rtt::Vector2 Visualizer::toFieldPosition(rtt::Vector2 screenPos) {
+        int inv = fieldInversed ? -1 : 1;
 
-    auto x = (screenPos.x - fieldmargin - static_cast<float>(this->size().width()/2)) / factor;
+    auto x = ((screenPos.x * inv) - fieldmargin - static_cast<float>(this->size().width()/2)) / factor;
     auto y = ((screenPos.y - fieldmargin - static_cast<float>(this->size().height()/2)) / factor) * -1;
 
     return {x,y};
@@ -188,6 +235,12 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
         painter.setPen(Constants::TEXT_COLOR());
         painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(getRoleNameForRobot(robot)));
     }
+
+        if (ourTeam) {
+            painter.setPen(Constants::TEXT_COLOR());
+            std::string text = "∠: " + to_string(robot.getGenevaState());
+            painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
+        }
 
     // draw the robots
     QColor color = (robotIsSelected(robot) && ourTeam) ? Constants::SELECTED_ROBOT_COLOR() : robotColor;
@@ -393,6 +446,21 @@ void Visualizer::drawIntercept(QPainter &painter, std::vector<std::pair<rtt::Vec
         }
     }
 }
+void Visualizer::drawLines(QPainter &painter, std::vector<std::pair<std::pair<rtt::Vector2,rtt::Vector2>,QColor>> lines){
+    for (auto line : lines){
+        Vector2 start=toScreenPosition(line.first.first);
+        Vector2 end=toScreenPosition(line.first.second);
+        painter.setPen(line.second);
+        painter.drawLine(start.x,start.y,end.x,end.y);
+    }
+}
+void Visualizer::drawPoints(QPainter &painter, std::vector<std::pair<Vector2,QColor>> points){
+    for (auto point : points){
+        Vector2 screenPoint=toScreenPosition(point.first);
+        painter.setPen(point.second);
+        painter.drawEllipse(screenPoint.x-2,screenPoint.y-2,4,4);
+    }
+}
 
 void Visualizer::drawBallPlacementTarget(QPainter& painter) {
     Vector2 ballPlacementTarget = toScreenPosition(InterfaceValues::getBallPlacementTarget());
@@ -435,6 +503,12 @@ if (report) {
     };
 }
 }
+
+    void Visualizer::setToggleFieldDirection(bool inversed) {
+        Visualizer::fieldInversed = inversed;
+    }
+
+
 
 } // interface
 } // ai

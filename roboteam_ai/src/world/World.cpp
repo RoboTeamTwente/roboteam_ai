@@ -273,9 +273,18 @@ bool World::theirRobotHasBall(int id, double maxDist) {
     return robot->hasBall(maxDist);
 }
 
-const World::RobotPtr World::whichRobotHasBall() {
+const World::RobotPtr World::whichRobotHasBall(WhichRobots whichBots) {
     // checks for all robots which robot has the ball AND is closest to the ball
-    auto allRobots = getAllRobots();
+    std::vector<Robot> allRobots;
+    if (whichBots==WhichRobots::OUR_ROBOTS){
+        allRobots=getUs();
+    }
+    else if (whichBots==WhichRobots::THEIR_ROBOTS){
+        allRobots=getThem();
+    }
+    else{
+        allRobots=getAllRobots();
+    }
     if (allRobots.empty()) {
         return RobotPtr(nullptr);
     }
@@ -319,10 +328,14 @@ const World::RobotPtr World::getFutureRobot(const RobotPtr &robotPtr, double tim
     if (!robotPtr) {
         return RobotPtr(nullptr);
     }
-
-    Robot robot = *robotPtr;
-    futureWorld.updateFutureRobot(robot, time);
+    Robot robot = getFutureRobot(*robotPtr, time);
     return std::make_shared<Robot>(robot);
+}
+
+const Robot World::getFutureRobot(const Robot &robot, double time) {
+    Robot futureRobot = robot;
+    futureWorld.updateFutureRobot(futureRobot, time);
+    return futureRobot;
 }
 
 const World::BallPtr World::getFutureBall(double time) {

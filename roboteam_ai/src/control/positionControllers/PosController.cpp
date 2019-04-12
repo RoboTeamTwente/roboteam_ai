@@ -11,8 +11,8 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-PosController::PosController(bool avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea)
-        : avoidBall(avoidBall), canMoveOutOfField(canMoveOutOfField), canMoveInDefenseArea(canMoveInDefenseArea) {
+PosController::PosController(double avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea)
+        : avoidBallDistance(avoidBall), canMoveOutOfField(canMoveOutOfField), canMoveInDefenseArea(canMoveInDefenseArea) {
     xpid.setOutputLimits(-8,8);
     xpid.setOutputRampRate(100);
 
@@ -23,11 +23,21 @@ PosController::PosController(bool avoidBall, bool canMoveOutOfField, bool canMov
 /// apply a posPID and a velPID over a posVelAngle for better control
 PosVelAngle PosController::controlWithPID(const RobotPtr &robot, PosVelAngle target) {
     if (getPIDFromInterface) checkInterfacePID();
-
     PosVelAngle pidCommand;
     pidCommand.pos = target.pos;
-    pidCommand.vel = control::ControlUtils::velocityLimiter(calculatePIDs(robot, target), Constants::MAX_VEL());
     pidCommand.angle = target.angle;
+
+    // velocity limiter
+    double maxVel = Constants::DEFAULT_MAX_VEL();
+    pidCommand.vel = calculatePIDs(robot, target);
+    pidCommand.vel = control::ControlUtils::velocityLimiter(pidCommand.vel, maxVel);
+
+    // acceleration limiter
+    double maxAcc = control::ControlUtils::calculateMaxAcceleration(pidCommand.vel, pidCommand.angle);
+    pidCommand.vel = control::ControlUtils::accelerationLimiter(pidCommand.vel, maxAcc, prevVel);
+
+    // set previous velocity to the current velocity and return the command.
+    prevVel = pidCommand.vel.length();
     return pidCommand;
 }
 
@@ -50,24 +60,24 @@ bool PosController::getCanMoveOutOfField() const {
     return canMoveOutOfField;
 }
 
-void PosController::setCanMoveOutOfField(bool canMoveOutOfField) {
-    this->canMoveOutOfField = canMoveOutOfField;
+void PosController::setCanMoveOutOfField(bool moveOutOfField) {
+    canMoveOutOfField = moveOutOfField;
 }
 
 bool PosController::getCanMoveInDefenseArea() const {
     return canMoveInDefenseArea;
 }
 
-void PosController::setCanMoveInDefenseArea(bool canMoveInDefenseArea) {
-     this->canMoveInDefenseArea = canMoveInDefenseArea;
+void PosController::setCanMoveInDefenseArea(bool moveInDefenseArea) {
+     canMoveInDefenseArea = moveInDefenseArea;
 }
 
-bool PosController::getAvoidBall() const {
-    return avoidBall;
+double PosController::getAvoidBall() const {
+    return avoidBallDistance;
 }
 
-void PosController::setAvoidBall(bool avoidBall) {
-    this->avoidBall = avoidBall;
+void PosController::setAvoidBall(double ballDistance) {
+    avoidBallDistance = ballDistance;
 }
 
 void PosController::updatePid(pidVals pid) {
