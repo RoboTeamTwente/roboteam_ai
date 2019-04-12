@@ -61,6 +61,7 @@
 #include <roboteam_ai/src/skills/formations/EnterFormation.h>
 #include <roboteam_ai/src/skills/AvoidBall.h>
 #include <roboteam_ai/src/skills/formations/TimeoutFormation.h>
+#include <roboteam_ai/src/bt/RoleDivider.h>
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
 #include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"
@@ -82,51 +83,58 @@
 using robotType = rtt::ai::robotDealer::RobotType;
 
 std::vector<std::string> Switches::tacticJsonFileNames = {
-        "QualificationTactic",
-        "haltTactic",
-        "OneAttackerTactic",
-        "OneDefenderTactic",
-        "TwoDefendersTactic",
-        "OneAttackerOneDefenderTactic",
-        "Attactic",
-        "PassTactic",
-        "EnterFormationTactic",
-        "BallPlacementUsTactic",
-        "AvoidBallTactic",
-        "SingleKeeperTactic",
-        "DemoAttackerTactic",
-        "DemoTactic",
-        "randomTactic", // used for testing, do not remove it!
-        "PenaltyShootTactic",
-        "PenaltyTactic",
-        "FreeKickShootTactic",
-        "SideAttackerTactic",
-        "PassAndShootTactic",
-        "coachDefenderTactic",
-        "BallPlacementDoubleTactic",
-        "TimeOutTactic"
+//        "QualificationTactic",
+//        "haltTactic",
+//        "OneAttackerTactic",
+//        "OneDefenderTactic",
+//        "TwoDefendersTactic",
+//        "OneAttackerOneDefenderTactic",
+//        "Attactic",
+//        "PassTactic",
+//        "EnterFormationTactic",
+//        "BallPlacementUsTactic",
+//        "AvoidBallTactic",
+//        "SingleKeeperTactic",
+//        "DemoAttackerTactic",
+//        "DemoTactic",
+//        "randomTactic", // used for testing, do not remove it!
+//        "PenaltyShootTactic",
+//        "PenaltyTactic",
+//        "FreeKickShootTactic",
+//        "SideAttackerTactic",
+//        "PassAndShootTactic",
+//        "coachDefenderTactic",
+//        "BallPlacementDoubleTactic",
+                "TimeOutTactic",
+                "EnterFormationTactic",
+
+        "TestD",
+        "TestO",
+        "TestM"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
-        "QualificationStrategy",
-        "haltStrategy",
-        "KeeperStrategy",
-        "DemoStrategy",
-        "PassStrategy",
-        "DemoTeamTwenteStrategy",
-        "twoPlayerStrategyV2",
-        "threePlayerStrategyV2",
-        "EnterFormationStrategy",
-        "BallPlacementUsStrategy",
-        "BallPlacementThemStrategy",
-        "randomStrategy", // used for testing, do not remove it!
-        "PenaltyShootStrategy",
-        "PenaltyStrategy",
-        "FreeKickShootStrategy",
-        "SideAttackerStrategy",
-        "PassAndShootStrategy",
-        "coachDefenderStrategy",
-        "TimeOutFormationStrategy"
+//        "QualificationStrategy",
+//        "haltStrategy",
+//        "KeeperStrategy",
+//        "DemoStrategy",
+//        "PassStrategy",
+//        "DemoTeamTwenteStrategy",
+//        "twoPlayerStrategyV2",
+//        "threePlayerStrategyV2",
+       "EnterFormationStrategy",
+       "TimeOutFormationStrategy",
+
+       //        "BallPlacementUsStrategy",
+//        "BallPlacementThemStrategy",
+//        "randomStrategy", // used for testing, do not remove it!
+//        "PenaltyShootStrategy",
+//        "PenaltyStrategy",
+//        "FreeKickShootStrategy",
+//        "SideAttackerStrategy",
+//        "PassAndShootStrategy",
+//        "coachDefenderStrategy",
+        "TestStrategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles =
@@ -154,6 +162,7 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
     map["Succeeder"] = std::make_shared<bt::Succeeder>();
     map["UntilFail"] = std::make_shared<bt::UntilFail>();
     map["UntilSuccess"] = std::make_shared<bt::UntilSuccess>();
+    map["RoleDivider"] = std::make_shared<bt::RoleDivider>();
 
     if (map.find(name) != map.end()) {
         return map[name];
@@ -307,6 +316,16 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                  {"formation7", robotType::RANDOM}
             }
             },
+            {"EnterFormationTactic", {
+                                      {"formation1", robotType::RANDOM},
+                                      {"formation2", robotType::RANDOM},
+                                      {"formation3", robotType::RANDOM},
+                                      {"formation4", robotType::RANDOM},
+                                      {"formation5", robotType::RANDOM},
+                                      {"formation6", robotType::RANDOM},
+                                      {"formation7", robotType::RANDOM}
+                              }
+            },
             {"BallPlacementUsTactic",{
                 {"BallPlacementBot",robotType::CLOSE_TO_BALL}
             }
@@ -376,6 +395,33 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                      {"def5",robotType::RANDOM},
                      {"def6",robotType::RANDOM},
                      {"def7",robotType::RANDOM}
+             }
+            },
+            {"TestD",
+             {
+                     {"d1",robotType::RANDOM},
+                     {"d2",robotType::RANDOM},
+                     {"d3",robotType::RANDOM},
+                     {"d4",robotType::RANDOM},
+                     {"d5",robotType::RANDOM}
+             }
+            },
+            {"TestM",
+             {
+                     {"m1",robotType::RANDOM},
+                     {"m2",robotType::RANDOM},
+                     {"m3",robotType::RANDOM},
+                     {"m4",robotType::RANDOM},
+                     {"m5",robotType::RANDOM}
+             }
+            },
+            {"TestO",
+             {
+                     {"o1",robotType::RANDOM},
+                     {"o2",robotType::RANDOM},
+                     {"o3",robotType::RANDOM},
+                     {"o4",robotType::RANDOM},
+                     {"o5",robotType::RANDOM}
              }
             }
     };

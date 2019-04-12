@@ -384,7 +384,7 @@ int RobotDealer::getKeeperID() {
 
 void RobotDealer::claimKeeper() {
     if (!hasClaimedKeeper) {
-        std::cout << "[Robotdealer - claimkeeper] Claiming keeper" << std::endl;
+//        std::cout << "[Robotdealer - claimkeeper] Claiming keeper" << std::endl;
         std::lock_guard<std::mutex> lock(robotOwnersLock);
         addRobotToOwnerList(keeperID, "Keeper", "Keeper");
         hasClaimedKeeper = true;

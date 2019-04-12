@@ -5,18 +5,41 @@
 #ifndef ROBOTEAM_AI_DEFAULTTACTIC_H
 #define ROBOTEAM_AI_DEFAULTTACTIC_H
 
+#include <mutex>
 #include "../Tactic.h"
+#include <roboteam_ai/src/analysis/DecisionMaker.h>
+
 
 namespace bt {
 
 class DefaultTactic : public Tactic {
+    private:
+        int amountToTick = -1;
+        void claimRobots();
+        void disClaimRobots();
+        bool updateRobots();
+        int claimIndex = 0;
+        std::pair<std::string, RobotType> getNextClaim();
+        std::pair<std::string, RobotType> getLastClaim();
+        void parseType(std::string typee);
+        void updateStyle();
+        rtt::ai::analysis::DecisionMaker maker;
+        void convert(const std::map<std::string, RobotType>& unit);
+
     public:
-        int robotsNeeded = -1;
-        std::map<std::string, RobotType> robots;
-        DefaultTactic(std::string name, Blackboard::Ptr blackboard, std::map<std::string, RobotType> robots);
+        int robotsNeeded = 0;
+        std::vector<std::tuple<int, std::string, RobotType>> robots;
+        DefaultTactic(std::string name, Blackboard::Ptr blackboard, const std::map<std::string, RobotType>& robots);
         void initialize() override;
         Node::Status update() override;
-        void claimRobots();
+        enum TacticType : short {
+          Defensive,
+          Middle,
+          Offensive,
+          General
+        };
+        TacticType thisType;
+
 };
 }
 

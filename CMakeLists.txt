@@ -84,7 +84,8 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Leaf.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Node.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Node.cpp
-
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/RoleDivider.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/RoleDivider.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/EnterFormationTactic.cpp
@@ -99,7 +100,7 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/AnalysisReport.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/RobotDanger.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/RobotDanger.h
-        )
+        roboteam_ai/src/analysis/DecisionMaker.cpp roboteam_ai/src/analysis/DecisionMaker.h)
 
 set(TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.cpp
@@ -353,7 +354,9 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefenceDealer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/PossiblePass.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/PossiblePass.h
-        )
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/FormationCoach.h
+        roboteam_ai/src/analysis/DecisionMaker.cpp
+        roboteam_ai/src/analysis/DecisionMaker.h)
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})

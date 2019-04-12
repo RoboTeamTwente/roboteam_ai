@@ -3,6 +3,7 @@
 //
 
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
+#include <roboteam_ai/src/analysis/DecisionMaker.h>
 #include "EnterFormation.h"
 #include "roboteam_ai/src/control/ControlUtils.h"
 #include "roboteam_ai/src/world/Field.h"
@@ -87,9 +88,12 @@ Vector2 EnterFormation::getFormationPosition() {
 
     // TODO put game analyzer logic here
 
-    int def = 1;
-    int mid = 2;
-    int att = 4;
+    analysis::DecisionMaker maker;
+    analysis::PlayStyle style = maker.getRecommendedPlayStyle();
+
+    int def = style.amountOfDefenders;
+    int mid = style.amountOfMidfielders;
+    int att = style.amountOfAttackers;
 
     if ((def+mid+att) != robotsInFormation.size()) { return { }; }
 

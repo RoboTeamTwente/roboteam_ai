@@ -1,0 +1,177 @@
+{
+  "name": "TestD",
+  "data": {
+    "trees": [
+      {
+        "title": "TestD",
+        "root": "amvk0itwml92hbe0w",
+        "nodes": {
+          "amvk0itwml92hbe0w": {
+            "id": "amvk0itwml92hbe0w",
+            "title": "RoleDivider",
+            "children": [
+              "169dzqq0r801v6y",
+              "caiw9bsnfdxoj",
+              "43a9kiv05lrvl",
+              "1c86qn10a29irev6",
+              "chyzsw5edtgcdf"
+            ],
+            "properties": {
+              "TacticType": "Defensive"
+            }
+          },
+          "169dzqq0r801v6y": {
+            "id": "169dzqq0r801v6y",
+            "title": "Role",
+            "name": "d1",
+            "role": "TESTd",
+            "children": [
+              "1gdwfkbi7vxo9kd2b"
+            ],
+            "properties": {
+              "ROLE": "d1"
+            }
+          },
+          "1gdwfkbi7vxo9kd2b": {
+            "id": "1gdwfkbi7vxo9kd2b",
+            "title": "UntilFail",
+            "children": [
+              "79pm8ju62h5yqy6pn"
+            ],
+            "properties": {
+              "ROLE": "d1"
+            }
+          },
+          "79pm8ju62h5yqy6pn": {
+            "id": "79pm8ju62h5yqy6pn",
+            "title": "GoToPos",
+            "properties": {
+              "targetPos": "{-3, 0}",
+              "ROLE": "d1"
+            }
+          },
+          "caiw9bsnfdxoj": {
+            "id": "caiw9bsnfdxoj",
+            "title": "Role",
+            "name": "d2",
+            "role": "TESTd",
+            "children": [
+              "5fmjjkx159m9gy0b"
+            ],
+            "properties": {
+              "ROLE": "d2"
+            }
+          },
+          "5fmjjkx159m9gy0b": {
+            "id": "5fmjjkx159m9gy0b",
+            "title": "UntilFail",
+            "children": [
+              "rj5zyie1qwvdb2va"
+            ],
+            "properties": {
+              "ROLE": "d2"
+            }
+          },
+          "rj5zyie1qwvdb2va": {
+            "id": "rj5zyie1qwvdb2va",
+            "title": "GoToPos",
+            "properties": {
+              "targetPos": "{-3, 0}",
+              "ROLE": "d2"
+            }
+          },
+          "43a9kiv05lrvl": {
+            "id": "43a9kiv05lrvl",
+            "title": "Role",
+            "name": "d3",
+            "role": "TESTd",
+            "children": [
+              "0e2361idsg41ugb"
+            ],
+            "properties": {
+              "ROLE": "d3"
+            }
+          },
+          "0e2361idsg41ugb": {
+            "id": "0e2361idsg41ugb",
+            "title": "UntilFail",
+            "children": [
+              "nbduylef3k1ksv7"
+            ],
+            "properties": {
+              "ROLE": "d3"
+            }
+          },
+          "nbduylef3k1ksv7": {
+            "id": "nbduylef3k1ksv7",
+            "title": "GoToPos",
+            "properties": {
+              "targetPos": "{-3, 0}",
+              "ROLE": "d3"
+            }
+          },
+          "1c86qn10a29irev6": {
+            "id": "1c86qn10a29irev6",
+            "title": "Role",
+            "name": "d4",
+            "role": "TESTd",
+            "children": [
+              "jyz98weyq8u55"
+            ],
+            "properties": {
+              "ROLE": "d4"
+            }
+          },
+          "jyz98weyq8u55": {
+            "id": "jyz98weyq8u55",
+            "title": "UntilFail",
+            "children": [
+              "8xh93mi9ynd3rm"
+            ],
+            "properties": {
+              "ROLE": "d4"
+            }
+          },
+          "8xh93mi9ynd3rm": {
+            "id": "8xh93mi9ynd3rm",
+            "title": "GoToPos",
+            "properties": {
+              "targetPos": "{-3, 0}",
+              "ROLE": "d4"
+            }
+          },
+          "chyzsw5edtgcdf": {
+            "id": "chyzsw5edtgcdf",
+            "title": "Role",
+            "name": "d5",
+            "role": "TESTd",
+            "children": [
+              "qlt6p6it7sxdkdn"
+            ],
+            "properties": {
+              "ROLE": "d5"
+            }
+          },
+          "qlt6p6it7sxdkdn": {
+            "id": "qlt6p6it7sxdkdn",
+            "title": "UntilFail",
+            "children": [
+              "78za0dx4zq0oj9"
+            ],
+            "properties": {
+              "ROLE": "d5"
+            }
+          },
+          "78za0dx4zq0oj9": {
+            "id": "78za0dx4zq0oj9",
+            "title": "GoToPos",
+            "properties": {
+              "targetPos": "{-3, 0}",
+              "ROLE": "d5"
+            }
+          }
+        }
+      }
+    ]
+  }
+}
