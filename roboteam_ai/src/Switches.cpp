@@ -44,6 +44,7 @@
 #include "roboteam_ai/src/skills/ShootPenalty.h"
 #include "roboteam_ai/src/skills/ShootFreeKick.h"
 #include "roboteam_ai/src/skills/DemoAttack.h"
+#include "roboteam_ai/src/skills/InterceptRobot.hpp"
 #include "roboteam_ai/src/skills/CoachDefend.h"
 
 //  ______________________
@@ -102,7 +103,8 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "SideAttackerTactic",
         "PassAndShootTactic",
         "coachDefenderTactic",
-        "BallPlacementDoubleTactic"
+        "BallPlacementDoubleTactic",
+        "InterceptRobotTestTactic"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
@@ -123,6 +125,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "FreeKickShootStrategy",
         "SideAttackerStrategy",
         "PassAndShootStrategy",
+        "InterceptRobotTestStrategy",
         "coachDefenderStrategy"
 };
 
@@ -176,10 +179,10 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
      * sideAttacker
      */
 
-    map["TwoRobotBallPlacement"] =      std::make_shared<rtt::ai::TwoRobotBallPlacement>(name, properties);
+    map["TwoRobotBallPlacement"] = std::make_shared<rtt::ai::TwoRobotBallPlacement>(name, properties);
     map["Attack"] = std::make_shared<rtt::ai::Attack>(name, properties);
     map["AvoidBall"] = std::make_shared<rtt::ai::AvoidBall>(name, properties);
-    map["CoachDefend"]= std::make_shared<rtt::ai::CoachDefend>(name,properties);
+    map["CoachDefend"] = std::make_shared<rtt::ai::CoachDefend>(name, properties);
     map["GTPSpecial"] = std::make_shared<rtt::ai::GTPSpecial>(name, properties);
     map["Defend"] = std::make_shared<rtt::ai::Defend>(name, properties);
     map["DefendOnRobot"] = std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
@@ -193,6 +196,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["Halt"] = std::make_shared<rtt::ai::Halt>(name, properties);
     map["Harass"] = std::make_shared<rtt::ai::Harass>(name, properties);
     map["InterceptBall"] = std::make_shared<rtt::ai::InterceptBall>(name, properties);
+    map["InterceptRobot"] = std::make_shared<rtt::ai::InterceptRobot>(name, properties);
     map["Keeper"] = std::make_shared<rtt::ai::Keeper>(name, properties);
     map["Kick"] = std::make_shared<rtt::ai::Kick>(name, properties);
     map["Pass"] = std::make_shared<rtt::ai::Pass>(name, properties);
@@ -292,18 +296,18 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"random7", robotType::RANDOM}
             }
             },
-            {"BallPlacementUsTactic",{
-                {"BallPlacementBot",robotType::CLOSE_TO_BALL}
+            {"BallPlacementUsTactic", {
+                    {"BallPlacementBot", robotType::CLOSE_TO_BALL}
             }
             },
-            {"BallPlacementDoubleTactic",{
-                {"BallPlacementPasser",robotType::CLOSE_TO_BALL},
-                {"BallPlacementReceiver", robotType::BALL_PLACEMENT_RECEIVER},
-                 {"avoid1", robotType::RANDOM},
-                 {"avoid2", robotType::RANDOM},
-                 {"avoid3", robotType::RANDOM},
-                 {"avoid4", robotType::RANDOM},
-                 {"avoid5", robotType::RANDOM}
+            {"BallPlacementDoubleTactic", {
+                    {"BallPlacementPasser", robotType::CLOSE_TO_BALL},
+                    {"BallPlacementReceiver", robotType::BALL_PLACEMENT_RECEIVER},
+                    {"avoid1", robotType::RANDOM},
+                    {"avoid2", robotType::RANDOM},
+                    {"avoid3", robotType::RANDOM},
+                    {"avoid4", robotType::RANDOM},
+                    {"avoid5", robotType::RANDOM}
             }
             },
             {"SingleKeeperTactic", {
@@ -323,45 +327,50 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"Keeper", robotType::CLOSE_TO_OUR_GOAL}
             }
             },
-             {"SideAttackerTactic", {
-                     {"sideAttacker1", robotType::CLOSE_TO_THEIR_GOAL},
-                     {"sideAttacker2", robotType::CLOSE_TO_THEIR_GOAL},
-                     {"sideAttacker3", robotType::CLOSE_TO_THEIR_GOAL},
-                     {"sideAttacker4", robotType::CLOSE_TO_THEIR_GOAL}
+            {"SideAttackerTactic", {
+                    {"sideAttacker1", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"sideAttacker2", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"sideAttacker3", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"sideAttacker4", robotType::CLOSE_TO_THEIR_GOAL}
 
-             }
-             },
-             {"PassAndShootTactic", {
-                     {"midfielder1", robotType::CLOSE_TO_BALL},
-                     {"sideAttacker1", robotType::CLOSE_TO_THEIR_GOAL},
-                     {"sideAttacker2", robotType::CLOSE_TO_THEIR_GOAL}
+            }
+            },
+            {"PassAndShootTactic", {
+                    {"midfielder1", robotType::CLOSE_TO_BALL},
+                    {"sideAttacker1", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"sideAttacker2", robotType::CLOSE_TO_THEIR_GOAL}
 
-             }
+            }
 
-             },
-             {"PenaltyShootTactic", {
-                     {"shooter", robotType::RANDOM}
-             }
-             },
-             {"PenaltyTactic", {
-                     {"shooter", robotType::RANDOM}
-             }
-             },
-             {"FreeKickShootTactic", {
-                     {"freeShooter", robotType::RANDOM}
-             }
-             },
-
+            },
+            {"PenaltyShootTactic", {
+                    {"shooter", robotType::RANDOM}
+            }
+            },
+            {"PenaltyTactic", {
+                    {"shooter", robotType::RANDOM}
+            }
+            },
+            {"FreeKickShootTactic", {
+                    {"freeShooter", robotType::RANDOM}
+            }
+            },
             {"coachDefenderTactic",
              {
-                     {"def1",robotType::RANDOM},
-                     {"def2",robotType::RANDOM},
-                     {"def3",robotType::RANDOM},
-                     {"def4",robotType::RANDOM},
-                     {"def5",robotType::RANDOM},
-                     {"def6",robotType::RANDOM},
-                     {"def7",robotType::RANDOM}
+                     {"def1", robotType::RANDOM},
+                     {"def2", robotType::RANDOM},
+                     {"def3", robotType::RANDOM},
+                     {"def4", robotType::RANDOM},
+                     {"def5", robotType::RANDOM},
+                     {"def6", robotType::RANDOM},
+                     {"def7", robotType::RANDOM}
              }
+            },
+            {
+                "InterceptRobotTestTactic", {
+                        {"driver", robotType::RANDOM},
+                        {"intercepter", robotType::RANDOM}
+                }
             }
     };
     runErrorHandler(tactics);
