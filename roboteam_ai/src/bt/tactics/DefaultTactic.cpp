@@ -13,6 +13,8 @@ using dealer = rtt::ai::robotDealer::RobotDealer;
 /// call 0638424067 if you need help
 
 bt::Node::Status bt::DefaultTactic::update() {
+//    updateStyle();
+
     if (! updateRobots()) {
         status = Status::Waiting;
         return status;
@@ -39,21 +41,7 @@ void bt::DefaultTactic::initialize() {
 
     parseType(properties->getString("TacticType"));
 
-    rtt::ai::analysis::DecisionMaker maker;
-    rtt::ai::analysis::PlayStyle style = maker.getRecommendedPlayStyle();
-
-    if (thisType == Defensive) {
-        amountToTick = style.amountOfDefenders;
-    } else if (thisType == Middle) {
-        amountToTick = style.amountOfMidfielders;
-    } else if (thisType == Offensive) {
-        amountToTick = style.amountOfAttackers;
-    } else {
-        // All robots minus the keeper maybe
-        amountToTick = rtt::ai::world::world->getUs().size() - 1;
-        // amountToTick = 7;
-    }
-    robotsNeeded = amountToTick;
+    updateStyle();
     updateRobots();
 }
 
@@ -101,7 +89,7 @@ void bt::DefaultTactic::disClaimRobots() {
 std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getNextClaim() {
     int counter = 0;
     for (auto robot : robots) {
-        if (counter == (claimIndex + 1)) {
+        if (counter == (claimIndex)) {
             claimIndex ++;
             return robot;
         }
@@ -113,7 +101,7 @@ std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getNextClaim() 
 std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getLastClaim() {
     int counter = 0;
     for (auto robot : robots) {
-        if (counter == (claimIndex)) {
+        if (counter == (claimIndex - 1)) {
             return robot;
         }
         else {
@@ -134,6 +122,28 @@ void bt::DefaultTactic::parseType(std::string typee) {
     else{
         thisType = General;
     }
+
+}
+void bt::DefaultTactic::updateStyle() {
+
+    rtt::ai::analysis::DecisionMaker maker;
+
+    rtt::ai::analysis::PlayStyle style = maker.getRecommendedPlayStyle();
+
+    if (thisType == Defensive) {
+        amountToTick = style.amountOfDefenders;
+    } else if (thisType == Middle) {
+        amountToTick = style.amountOfMidfielders;
+    } else if (thisType == Offensive) {
+        amountToTick = style.amountOfAttackers;
+    } else {
+        // All robots minus the keeper maybe
+        amountToTick = rtt::ai::world::world->getUs().size() - 1;
+        // amountToTick = 7;
+    }
+    std::cout << node_name() << " --- " << amountToTick << std::endl;
+
+    robotsNeeded = amountToTick;
 
 }
 
