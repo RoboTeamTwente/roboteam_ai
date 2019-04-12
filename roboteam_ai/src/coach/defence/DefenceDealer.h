@@ -17,8 +17,10 @@ class DefenceDealer {
         std::map<int, std::pair<Vector2, double>> defenderLocations;
         std::vector<int> defenders;
         bool doUpdate=true;
+        bool botIsGettingBall=false;
     public:
-
+        bool isBotGettingBall(int id);
+        void setBotGettingBall(bool getBall);
         void updateDefenderLocations();
         void addDefender(int id);
         void removeDefender(int id);
