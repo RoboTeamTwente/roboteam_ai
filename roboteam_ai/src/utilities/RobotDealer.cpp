@@ -138,7 +138,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
         }
         std::lock_guard<std::mutex> lock(robotOwnersLock);
         unFreeRobot(id);
-        addRobotToOwnerList(id, std::move(tacticName), std::move(roleName));
+        addRobotToOwnerList(id, std::move(roleName), std::move(tacticName));
         return id;
     }
     ROS_INFO_STREAM("Found no free robots in robot dealer");
@@ -180,6 +180,8 @@ std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::getCla
 void RobotDealer::releaseRobotForRole(std::string roleName) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
+
+    auto test = robotOwners;
 
     // Find the ID
     for (auto tactic : robotOwners) {

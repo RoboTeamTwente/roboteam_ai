@@ -1,8 +1,3 @@
-
-//
-// Created by baris on 29-11-18.
-//
-
 #include <roboteam_ai/src/world/WorldData.h>
 #include <roboteam_ai/src/world/World.h>
 #include "DefaultTactic.h"
@@ -11,18 +6,22 @@
 using dealer = rtt::ai::robotDealer::RobotDealer;
 
 void bt::DefaultTactic::initialize() {
+
+    // determine the tactic
     parseType(properties->getString("TacticType"));
 
+    // determine the amount of robots we need
+    // we store this in the amountToTick variable
     updateStyle();
-    robotsNeeded = amountToTick;
     updateRobots();
 }
 
 bt::Node::Status bt::DefaultTactic::update() {
     updateStyle();
 
-    if (! updateRobots()) {
-        status = Status::Waiting;
+    if (!updateRobots()) {
+        std::cout << "waiting...until more robots are free" << std::endl;
+        status = Status::Running;
         return status;
     }
 
@@ -40,63 +39,67 @@ bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboar
     convert(robots_);
     globalBB = std::move(blackboard);
     this->name = std::move(name);
-    robotsNeeded = static_cast<int>(robots.size());
 }
 
 
 
-void bt::DefaultTactic::claimRobots() {
-    for (int i = 0; i < robotsNeeded; i ++) {
+void bt::DefaultTactic::claimRobots(int amount) {
+
+    // for the amount of robots we still need
+    for (int i = 0; i < amount; i++) {
         auto toClaim = getNextClaim();
-
-
-        robotIDs.insert(dealer::claimRobotForTactic(toClaim.second, name, toClaim.first));
-        if (robotIDs.find(- 1) == robotIDs.end()) {
-            claimedRobots++;
-            claimIndex++;
+        robotIDs.insert(dealer::claimRobotForTactic(toClaim.second, toClaim.first, name));
+        if (robotIDs.find(- 1) != robotIDs.end()) {
+            robotIDs.erase(-1);
         }
-        else robotIDs.erase(- 1);
-
     }
 }
 
 bool bt::DefaultTactic::updateRobots() {
+    int robotsNeeded = amountToTick - robotIDs.size();
 
-    robotsNeeded = amountToTick - claimedRobots;
-
+    // if we need a negative amount of robots we have too much, so we need to disclaim robots
+    // if we have 0 robots needed it is perfect
+    // if we have a positive amount of robots needed we must claim more
     if (robotsNeeded < 0) {
-        disClaimRobots();
-        return true;
+        disClaimRobots(-robotsNeeded);
     }
     else if (robotsNeeded > 0) {
-        claimRobots();
-        return (claimedRobots == amountToTick);
-
+        claimRobots(robotsNeeded);
     }
-    return true;
-
+    return (robotIDs.size() == amountToTick);
 }
-void bt::DefaultTactic::disClaimRobots() {
-    int amount = robotsNeeded*- 1;
+void bt::DefaultTactic::disClaimRobots(int amount) {
     for (int i = 0; i < amount; i ++) {
-        dealer::releaseRobotForRole(getLastClaim().first);
-        claimedRobots --;
-        claimIndex --;
-    }
 
+
+        // ccareful: this order matters!!!
+
+        // THIS IS THE FIX
+        // storing the value of the robot that was last claimed.
+        // findRobotForRole returns -1 when the robot is released first.
+        // but if it is released later, then it is released from robotIDS which makes getLastClaim fail.
+
+        auto thingie = dealer::findRobotForRole(getLastClaim().first);
+
+        dealer::releaseRobotForRole(getLastClaim().first); // free it in robotdealer
+
+        robotIDs.erase(thingie); // erase it in our array as well
+
+
+    }
 }
 
 std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getNextClaim() {
     for (auto robot : robots) {
-        if (std::get<0>(robot) == (claimIndex + 1)) {
-            // claimIndex ++;
+        if (std::get<0>(robot) == (robotIDs.size() +1)) {
             return {std::get<1>(robot), std::get<2>(robot)};
         }
     }
 }
 std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getLastClaim() {
     for (auto robot : robots) {
-        if (std::get<0>(robot) == (claimIndex)) {
+        if (std::get<0>(robot) == (robotIDs.size())) {
             return {std::get<1>(robot), std::get<2>(robot)};
         }
     }
@@ -136,10 +139,9 @@ void bt::DefaultTactic::updateStyle() {
     std::cout << node_name() << " --- " << amountToTick << std::endl;
 
 }
-void bt::DefaultTactic::convert(
-        const std::map<std::string, bt::Tactic::RobotType> &unit) {
+void bt::DefaultTactic::convert(const std::map<std::string, bt::Tactic::RobotType> &unit) {
 
-    int counter = 1; // indexses start at 1 because fuck you
+    int counter = 1;
     for (const auto &robot : unit) {
         std::tuple<int, std::string, RobotType> temp = {counter, robot.first, robot.second};
         robots.push_back(temp);

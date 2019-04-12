@@ -15,10 +15,9 @@ namespace bt {
 class DefaultTactic : public Tactic {
     private:
         int amountToTick = -1;
-        void claimRobots();
-        void disClaimRobots();
+        void claimRobots(int amount);
+        void disClaimRobots(int amount);
         bool updateRobots();
-        int claimIndex = 0;
         std::pair<std::string, RobotType> getNextClaim();
         std::pair<std::string, RobotType> getLastClaim();
         void parseType(std::string typee);
@@ -27,7 +26,6 @@ class DefaultTactic : public Tactic {
         void convert(const std::map<std::string, RobotType>& unit);
 
     public:
-        int robotsNeeded = 0;
         std::vector<std::tuple<int, std::string, RobotType>> robots;
         DefaultTactic(std::string name, Blackboard::Ptr blackboard, const std::map<std::string, RobotType>& robots);
         void initialize() override;
