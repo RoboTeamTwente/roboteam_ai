@@ -16,6 +16,9 @@ namespace ai {
 
 class ReflectKick : public Skill {
 private:
+    const double TOWARDS_GOAL_FACTOR = 0.4;
+    const double SECONDS_AHEAD = 0.09;
+
     control::NumTreePosControl numTreeGtp;
     control::BasicPosControl basicGtp;
 
@@ -25,15 +28,20 @@ private:
     Angle angleToBall;
     double robotAngle;
     bool kicked = false;
-    bool finalReflectionPointSet = false;
 
     Vector2 ballStartPos;
     Vector2 ballEndPos;
     Vector2 ballStartVel;
 
+    Vector2 ballReceiveVel;
+    bool ballReceiveVelSet = false;
+
     void intercept();
     Vector2 computeInterceptPoint(const Vector2& startBall, const Vector2& endBall);
     Vector2 getKicker();
+    double getAngle();
+    bool willHaveBall();
+    bool ballDeflected();
 public:
     explicit ReflectKick(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;

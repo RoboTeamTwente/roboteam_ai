@@ -49,13 +49,13 @@ public:
     static int TICK_RATE()                      { return 60; };
     static double CLOSE_TO_BORDER_DISTANCE()    { return 1.2 * ROBOT_RADIUS(); };
     static int GAME_ANALYSIS_TICK_RATE()        { return 30; };
-    static double DISTANCE_TO_KICKER()          { return 0.091; };
+    static double DISTANCE_TO_KICKER()          { return 0.06; };
 
 
     /// GENERAL SKILLS ///
     static double DEFAULT_KICK_POWER()          { return  5.0; }; // max kick power() { return  100
     static double MAX_KICK_POWER()              { return  8.0; }; //TODO: CHECK
-    static double MAX_POWER_KICK_DISTANCE()     { return 12.0; };
+    static double MAX_POWER_KICK_DISTANCE()     { return 6.0; };
     static int MAX_KICK_CYCLES()                { return 20; };
     static int MAX_GENEVA_CYCLES()              { return 20; };
     static int DEFAULT_GENEVA_STATE()           { return 0; };

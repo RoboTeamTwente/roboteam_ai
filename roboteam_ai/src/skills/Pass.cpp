@@ -40,6 +40,10 @@ Pass::Status Pass::onUpdate() {
     return moveBehindBall(behindBallPos);
 }
 
+void Pass::onTerminate(Status s) {
+    //coach::g_pass.resetPass();
+}
+
 /// determine which robot we should pass towards.
 void Pass::determineRobotToPassTo() {
     robotToPassToID = ballPlacement ? coach::g_pass.getRobotBeingPassedTo() : coach::g_pass.initiatePass();

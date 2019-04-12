@@ -29,7 +29,7 @@ void SideAttacker::onInitialize() {
 bt::Node::Status SideAttacker::onUpdate() {
     bool isInRobotsPositioning = false;
     for (auto & robotPositioning : robotsPositioning) {
-        if (robotPositioning->id != robot->id) {
+        if (robotPositioning->id == robot->id) {
             isInRobotsPositioning = true;
         }
     }
@@ -97,8 +97,6 @@ void SideAttacker::onTerminate(Status s) {
     robotsInMemory--;
 
     zone = -1;
-
-    status = Status::Waiting;
 
     publishRobotCommand();
 }

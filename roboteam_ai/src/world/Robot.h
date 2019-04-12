@@ -29,11 +29,9 @@ public:
 
     void setGenevaState(int state);
 
-private:
-
     double findBallDistance(const Vector2 &ballPos);
 
-    public:
+public:
 
         enum Team : short {
           us,
