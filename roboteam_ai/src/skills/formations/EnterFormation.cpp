@@ -80,21 +80,56 @@ bool EnterFormation::robotIsInFormation() {
 
 // determine the best position for the robot in the formation to be
 Vector2 EnterFormation::getFormationPosition() {
+    std::vector<Vector2> targetLocations;
+    std::vector<int> robotIds;
     auto field = world::field->get_field();
-    double targetLocationX = field.field_length/4 - (field.field_length/2);
-
+    double targetLocationX;
 
     // TODO put game analyzer logic here
 
+    int def = 1;
+    int mid = 2;
+    int att = 4;
 
-    // first we calculate all the positions for the defense
-    std::vector<Vector2> targetLocations;
-    std::vector<int> robotIds;
+    if ((def+mid+att) != robotsInFormation.size()) { return { }; }
 
-    for (unsigned int i = 0; i<robotsInFormation.size(); i++) {
-        double targetLocationY = ((field.field_width/(robotsInFormation.size() + 1))*(i+1)) - field.field_width/2;
+    int count = 0;
+
+
+
+    // set up the defensive locations
+    targetLocationX = - field.field_length/3;
+    for (int i = 0; i < def; i++) {
+        double targetLocationY = ((field.field_width/(def+1))*(i+1)) - field.field_width/2;
         targetLocations.push_back({targetLocationX, targetLocationY});
-        robotIds.push_back(robotsInFormation.at(i)->id);
+
+        if (robotsInFormation.size() > count) {
+            robotIds.push_back(robotsInFormation.at(count)->id);
+            count++;
+        }
+    }
+
+    // set up midfield locations
+    targetLocationX = - field.field_length/5;
+    for (int i = 0; i < mid; i++) {
+        double targetLocationY = (((field.field_width/(mid+1))*(i+1)) - field.field_width/2) * 0.8;
+        targetLocations.push_back({targetLocationX, targetLocationY});
+        if (robotsInFormation.size() > count) {
+            robotIds.push_back(robotsInFormation.at(count)->id);
+            count++;
+        }
+    }
+
+    // set up offensive locations
+    targetLocationX = -field.field_length/16;
+
+    for (int i = 0; i < att; i++) {
+        double targetLocationY = (((field.field_width/(att+1))*(i+1)) - field.field_width/2) * 1.5;
+        targetLocations.push_back({targetLocationX, targetLocationY});
+        if (robotsInFormation.size() > count) {
+            robotIds.push_back(robotsInFormation.at(count)->id);
+            count++;
+        }
     }
 
     rtt::HungarianAlgorithm hungarian;
