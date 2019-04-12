@@ -29,47 +29,47 @@ struct StrategyMap {
 };
 
 class StrategyManager {
-    public:
-        explicit StrategyManager() = default;
-        std::string getCurrentStrategyName(roboteam_msgs::RefereeCommand currentRefCmd);
-        std::string getCurrentKeeperTreeName(roboteam_msgs::RefereeCommand currentRefCmd);
+public:
+    explicit StrategyManager() = default;
+    std::string getCurrentStrategyName(roboteam_msgs::RefereeCommand currentRefCmd);
+    std::string getCurrentKeeperTreeName(roboteam_msgs::RefereeCommand currentRefCmd);
 
 private:
-        StrategyMap currentStrategyMap;
-        StrategyMap currentKeeperMap;
-        StrategyMap getStrategyMapForRefGameState(RefGameState commandId);
-        StrategyMap getKeeperMapForRefGameState(RefGameState commandId);
+    StrategyMap currentStrategyMap;
+    StrategyMap currentKeeperMap;
+    StrategyMap getStrategyMapForRefGameState(RefGameState commandId);
+    StrategyMap getKeeperMapForRefGameState(RefGameState commandId);
 
-        std::vector<StrategyMap> strategyMaps = {
-                {RefGameState::NORMAL_START, "twoPlayerStrategyV2"},
-                {RefGameState::FORCED_START, "threePlayerStrategyV2"},
-                {RefGameState::HALT, "haltStrategy"},
-                {RefGameState::STOP, "haltStrategy"},
-                {RefGameState::TIMEOUT_US, "haltStrategy"},
-                {RefGameState::TIMEOUT_THEM, "haltStrategy"},
-                {RefGameState::GOAL_US, "haltStrategy"},
-                {RefGameState::GOAL_THEM, "haltStrategy"},
-                {RefGameState::BALL_PLACEMENT_US, "BallPlacementUsStrategy"},
-                {RefGameState::BALL_PLACEMENT_THEM, "BallPlacementThemStrategy"},
+    std::vector<StrategyMap> strategyMaps = {
+            {RefGameState::NORMAL_START, "twoPlayerStrategyV2"},
+            {RefGameState::FORCED_START, "threePlayerStrategyV2"},
+            {RefGameState::HALT, "haltStrategy"},
+            {RefGameState::STOP, "haltStrategy"},
+            {RefGameState::TIMEOUT_US, "haltStrategy"},
+            {RefGameState::TIMEOUT_THEM, "haltStrategy"},
+            {RefGameState::GOAL_US, "haltStrategy"},
+            {RefGameState::GOAL_THEM, "haltStrategy"},
+            {RefGameState::BALL_PLACEMENT_US, "BallPlacementUsStrategy"},
+            {RefGameState::BALL_PLACEMENT_THEM, "BallPlacementThemStrategy"},
 
-                //  Strategies with a follow up strategy
-                {RefGameState::PREPARE_KICKOFF_US, "EnterFormationStrategy", RefGameState::DO_KICKOFF},
-                {RefGameState::PREPARE_KICKOFF_THEM, "EnterFormationStrategy", RefGameState::DEFEND_KICKOFF},
-                {RefGameState::PREPARE_PENALTY_US, "BallPlacementUsStrategy", RefGameState::DEFEND_PENALTY},
-                {RefGameState::PREPARE_PENALTY_THEM, "BallPlacementThemStrategy", RefGameState::DO_PENALTY},
+            //  Strategies with a follow up strategy
+            {RefGameState::PREPARE_KICKOFF_US, "EnterFormationStrategy", RefGameState::DO_KICKOFF},
+            {RefGameState::PREPARE_KICKOFF_THEM, "EnterFormationStrategy", RefGameState::DEFEND_KICKOFF},
+            {RefGameState::PREPARE_PENALTY_US, "BallPlacementUsStrategy", RefGameState::DO_PENALTY},
+            {RefGameState::PREPARE_PENALTY_THEM, "BallPlacementThemStrategy", RefGameState::DEFEND_PENALTY},
 
-                {RefGameState::DIRECT_FREE_US, "twoPlayerStrategyV2"},
-                {RefGameState::DIRECT_FREE_THEM, "EnterFormationStrategy"},
-                {RefGameState::INDIRECT_FREE_US, "EnterFormationStrategy"},
-                {RefGameState::INDIRECT_FREE_THEM, "EnterFormationStrategy"},
+            {RefGameState::DIRECT_FREE_US, "twoPlayerStrategyV2"},
+            {RefGameState::DIRECT_FREE_THEM, "EnterFormationStrategy"},
+            {RefGameState::INDIRECT_FREE_US, "EnterFormationStrategy"},
+            {RefGameState::INDIRECT_FREE_THEM, "EnterFormationStrategy"},
 
-                // these are called after PREPARE_
-                // these custom strategies need special attention
-                {RefGameState::DO_KICKOFF, "twoPlayerStrategyV2"},
-                {RefGameState::DEFEND_KICKOFF, "twoPlayerStrategyV2"},
-                {RefGameState::DEFEND_PENALTY, "EnterFormationStrategy"},
-                {RefGameState::DO_PENALTY, "EnterFormationStrategy"}
-        };
+            // these are called after PREPARE_
+            // these custom strategies need special attention
+            {RefGameState::DO_KICKOFF, "twoPlayerStrategyV2"},
+            {RefGameState::DEFEND_KICKOFF, "twoPlayerStrategyV2"},
+            {RefGameState::DEFEND_PENALTY, "EnterFormationStrategy"},
+            {RefGameState::DO_PENALTY, "EnterFormationStrategy"}
+    };
 
     std::vector<StrategyMap> keeperMaps = {
             {RefGameState::NORMAL_START, "SingleKeeperTactic"},
