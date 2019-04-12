@@ -1,4 +1,3 @@
-#include <utility>
 
 //
 // Created by baris on 29-11-18.
@@ -11,7 +10,13 @@
 
 using dealer = rtt::ai::robotDealer::RobotDealer;
 
-/// call 0638424067 if you need help
+void bt::DefaultTactic::initialize() {
+    parseType(properties->getString("TacticType"));
+
+    updateStyle();
+    robotsNeeded = amountToTick;
+    updateRobots();
+}
 
 bt::Node::Status bt::DefaultTactic::update() {
     updateStyle();
@@ -38,22 +43,18 @@ bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboar
     robotsNeeded = static_cast<int>(robots.size());
 }
 
-void bt::DefaultTactic::initialize() {
 
-    parseType(properties->getString("TacticType"));
-
-    updateStyle();
-    robotsNeeded = amountToTick;
-    updateRobots();
-
-}
 
 void bt::DefaultTactic::claimRobots() {
-    for (int i = claimedRobots; i < robotsNeeded; i ++) {
+    for (int i = 0; i < robotsNeeded; i ++) {
         auto toClaim = getNextClaim();
 
+
         robotIDs.insert(dealer::claimRobotForTactic(toClaim.second, name, toClaim.first));
-        if (robotIDs.find(- 1) == robotIDs.end()) claimedRobots ++;
+        if (robotIDs.find(- 1) == robotIDs.end()) {
+            claimedRobots++;
+            claimIndex++;
+        }
         else robotIDs.erase(- 1);
 
     }
@@ -88,7 +89,7 @@ void bt::DefaultTactic::disClaimRobots() {
 std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getNextClaim() {
     for (auto robot : robots) {
         if (std::get<0>(robot) == (claimIndex + 1)) {
-            claimIndex ++;
+            // claimIndex ++;
             return {std::get<1>(robot), std::get<2>(robot)};
         }
     }
@@ -132,7 +133,7 @@ void bt::DefaultTactic::updateStyle() {
         amountToTick = rtt::ai::world::world->getUs().size() - 1;
         // amountToTick = 7;
     }
-//    std::cout << node_name() << " --- " << amountToTick << std::endl;
+    std::cout << node_name() << " --- " << amountToTick << std::endl;
 
 }
 void bt::DefaultTactic::convert(
