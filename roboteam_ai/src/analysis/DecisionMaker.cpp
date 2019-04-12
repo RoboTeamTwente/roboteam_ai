@@ -15,6 +15,7 @@ PlayStyle DecisionMaker::getRecommendedPlayStyle() {
   AnalysisReport report = * GameAnalyzer::getInstance().getMostRecentReport();
   BallPossession possession = report.ballPossession;
 
+
   int amountOfRobots = world::world->getUs().size();
 
   PlayStyle styles[9][3]  = {

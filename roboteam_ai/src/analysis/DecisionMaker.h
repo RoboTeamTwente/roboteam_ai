@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_DECISIONMAKER_H
 #define ROBOTEAM_AI_DECISIONMAKER_H
 
+#include "AnalysisReport.h"
 // define some play styles to influence our decision making
 enum playStyleScore : short {
     DEFENSIVE,
