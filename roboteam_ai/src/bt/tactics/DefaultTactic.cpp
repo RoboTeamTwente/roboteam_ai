@@ -96,7 +96,6 @@ std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getNextClaim() 
 std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getLastClaim() {
     for (auto robot : robots) {
         if (std::get<0>(robot) == (claimIndex)) {
-            claimIndex ++;
             return {std::get<1>(robot), std::get<2>(robot)};
         }
     }
