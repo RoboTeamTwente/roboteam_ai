@@ -46,7 +46,7 @@ private:
     bool readyToReceivePass = false;
 
 
-    bool isInPosition(Vector2 behindTargetPos);
+    bool isInPosition(const Vector2& behindTargetPos = {0, 0});
     void moveToCatchPosition(Vector2 position);
 
 public:
@@ -54,7 +54,7 @@ public:
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;
-    Vector2 computeInterceptPoint(Vector2 startBall, Vector2 endBall);
+    Vector2 computeInterceptPoint(const Vector2& startBall, const Vector2& endBall);
     void intercept();
 };
 
