@@ -29,7 +29,7 @@ ReflectKick::Status ReflectKick::onUpdate() {
         reflectionPos = getKicker();
     } else {
         if (willHaveBall() || kicked) {
-            if(!ballReceiveVelSet && ball->vel.length() > 1) {
+            if(!ballReceiveVelSet) {
                 ballReceiveVel = ball->vel;
                 ballReceiveVelSet = true;
             }
@@ -107,7 +107,7 @@ bool ReflectKick::willHaveBall() {
 }
 
 bool ReflectKick::ballDeflected() {
-    return (ball->vel - ballReceiveVel).toAngle() > 0.1;
+    return (ball->vel - ballReceiveVel).toAngle() > 0.01;
 }
 
 }

@@ -17,7 +17,7 @@ namespace ai {
 class ReflectKick : public Skill {
 private:
     const double TOWARDS_GOAL_FACTOR = 0.4;
-    const double SECONDS_AHEAD = 0.09;
+    const double SECONDS_AHEAD = 0.095;
 
     control::NumTreePosControl numTreeGtp;
     control::BasicPosControl basicGtp;
