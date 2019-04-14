@@ -1,6 +1,6 @@
-//
-// Created by robzelluf on 1/22/19.
-//
+/*
+* Consult the pass coach if the current robot is being passed to. in that case: return SUCCESS. else FAILURE.
+*/
 
 #include <roboteam_ai/src/coach/PassCoach.h>
 #include "IsBeingPassedTo.h"
@@ -15,13 +15,9 @@ IsBeingPassedTo::Status IsBeingPassedTo::onUpdate() {
     if (coach::g_pass.getRobotBeingPassedTo() == static_cast<int>(robot->id)) {
         return Status::Success;
     }
-    else {
-        return Status::Failure;
-    }
+    return Status::Failure;
 }
 
-std::string IsBeingPassedTo::node_name() {return "IsBeingPassedTo";}
-
-}
-}
+} // ai
+} // rtt
 
