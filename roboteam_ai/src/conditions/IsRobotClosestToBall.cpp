@@ -1,6 +1,8 @@
-//
-// Created by robzelluf on 10/18/18.
-//
+/*
+ * Determine the robot closest to ball. return SUCCESS if the robot is closest.
+ * properties:
+ *  - secondsAhead: the amount of seconds to linearly extrapolate the ball position, (to predict which robot will be closest)
+ */ 
 
 #include "IsRobotClosestToBall.h"
 #include "../world/World.h"
@@ -21,9 +23,9 @@ bt::Node::Status IsRobotClosestToBall::onUpdate() {
     }
 
     Robot robotClosestToBall = world::world->getRobotClosestToPoint(ballPos, world::OUR_ROBOTS);
-
-    if (robotClosestToBall.id == robot->id)
+    if (robotClosestToBall.id == robot->id) {
         return Status::Success;
+    }
 
     return Status::Failure;
 }

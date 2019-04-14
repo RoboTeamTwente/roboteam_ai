@@ -33,5 +33,6 @@ IsCloseToPoint::Status IsCloseToPoint::onUpdate() {
     }
     return Status::Success;
 }
-}
-}
+
+} // ai
+} // rtt
