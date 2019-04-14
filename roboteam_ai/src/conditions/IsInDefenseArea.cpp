@@ -15,13 +15,14 @@ IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboar
 : Condition(std::move(name), std::move(blackboard)) { }
 
 void IsInDefenseArea::onInitialize() {
-    point = properties->getBool("useRobot") ? robot->pos : ball->pos;
     ourDefenseArea = properties->getBool("ourDefenseArea");
     outsideField = properties->getBool("outsideField");
     margin = properties->hasDouble("margin") ? static_cast<float>(properties->getDouble("margin")) : 0.0f;
 }
 
 bt::Node::Status IsInDefenseArea::onUpdate() {
+	point = properties->getBool("useRobot") ? robot->pos : ball->pos;
+
     if (world::field->pointIsInDefenceArea(point, ourDefenseArea, margin, outsideField)) {
         return Status::Success;
     }
