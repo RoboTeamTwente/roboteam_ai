@@ -17,7 +17,7 @@ TEST(BallTest, IHaveBallTest) {
     BB->setInt("ROBOT_ID", 0);
     BB->setString("ROLE","test");
     BB->setBool("our_team", false);
-    rtt::ai::HasBall node("Test", BB);
+    rtt::ai::HasBall node("HasBall", BB);
 
     EXPECT_EQ(node.node_name(), "HasBall");
 

@@ -9,7 +9,7 @@
 
 TEST(WeHaveBallTest, WeHaveBallTest) {
     auto BB = std::make_shared<bt::Blackboard>();
-    rtt::ai::WeHaveBall node("Test", BB);
+    rtt::ai::WeHaveBall node("WeHaveBall", BB);
 
     EXPECT_EQ(node.node_name(), "WeHaveBall");
 
