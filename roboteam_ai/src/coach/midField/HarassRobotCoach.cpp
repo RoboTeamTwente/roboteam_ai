@@ -97,7 +97,7 @@ Vector2 HarassRobotCoach::getHarassPosition(const Vector2 &currentLocation, int 
             }
                 // we have ball
             else {
-
+                return standFree();
             }
 
         }
@@ -107,7 +107,6 @@ Vector2 HarassRobotCoach::getHarassPosition(const Vector2 &currentLocation, int 
         }
 
     }
-
 
     // if not in the right x-location yet, go there first
     if (abs(currentLocation.x - bestXPos) > 0.5) {
@@ -146,7 +145,8 @@ Vector2 HarassRobotCoach::harassRobot(int myIndex, int id) {
         target = ball->pos + (ball->pos - robotToHarass->pos).stretchToLength(0.2);
     }
     else {
-        target = (robotToHarass->pos + ball->pos) * 0.5;
+        double a = 0.8;
+        target = (robotToHarass->pos*a + ball->pos*(1-a));
     }
     targetRobotPositions[myIndex] = target;
     targetRobotsToHarass[myIndex] = robotToHarass;
@@ -160,6 +160,12 @@ Vector2 HarassRobotCoach::harassRobot(int myIndex, int id) {
         }
     }
     return target;
+}
+
+Vector2 HarassRobotCoach::standFree() {
+    // do stuff
+
+    return Vector2();
 }
 
 } //coach

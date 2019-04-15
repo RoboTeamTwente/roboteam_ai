@@ -27,6 +27,7 @@ class HarassRobotCoach {
         Vector2 harassRobot(int myIndex, int id = -1);
     public:
         Vector2 getHarassPosition(const Vector2 &currentLocation, int &myIndex);
+        Vector2 standFree();
 };
 
 extern HarassRobotCoach g_harassRobotCoach;
