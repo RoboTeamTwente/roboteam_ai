@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_ENTERFORMATION_H
 
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
-#include "Skill.h"
+#include "roboteam_ai/src/skills/Skill.h"
 #include "gtest/gtest_prod.h"
 
 namespace rtt {
@@ -23,17 +23,19 @@ public:
 protected:
     control::NumTreePosControl gtp;
     double errorMargin = 0.1;
-    enum Formation {
-      Normal,
-      Penalty,
-      FreeKick
-    };
-    Formation formation;
-
     static std::vector<std::shared_ptr<Robot>> robotsInFormation;
     int robotsInFormationMemory = 0;
     virtual Vector2 getFormationPosition();
     Vector2 targetLocation;
+
+    void removeRobotFromFormation();
+    void addRobotToFormation();
+    bool robotIsInFormation();
+    bool formationHasChanged();
+    bool robotIsInPosition();
+    void updateFormation();
+    void moveToTarget();
+    void setFinalAngle();
 };
 
 }

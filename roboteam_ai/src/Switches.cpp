@@ -54,8 +54,9 @@
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
-#include <roboteam_ai/src/skills/EnterFormation.h>
+#include <roboteam_ai/src/skills/formations/EnterFormation.h>
 #include <roboteam_ai/src/skills/AvoidBall.h>
+#include <roboteam_ai/src/skills/formations/TimeoutFormation.h>
 #include <roboteam_ai/src/bt/RoleDivider.h>
 #include <roboteam_ai/src/skills/TimeoutFormation.h>
 
@@ -116,8 +117,10 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
 //        "DemoTeamTwenteStrategy",
 //        "twoPlayerStrategyV2",
 //        "threePlayerStrategyV2",
-//        "EnterFormationStrategy",
-//        "BallPlacementUsStrategy",
+       "EnterFormationStrategy",
+       "TimeOutFormationStrategy",
+
+       //        "BallPlacementUsStrategy",
 //        "BallPlacementThemStrategy",
 //        "randomStrategy", // used for testing, do not remove it!
 //        "PenaltyShootStrategy",
@@ -239,7 +242,6 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
 
 /// If you made a tactic node for a new tactic this is where you add that
 bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
-
 
     // The second one is not a map because we want to keep the order
 
