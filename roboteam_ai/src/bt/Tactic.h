@@ -8,10 +8,6 @@
 #include "Node.hpp"
 #include "roboteam_ai/src/utilities/RobotDealer.h"
 
-namespace robotDealer {
-enum RobotType : short;
-}
-
 namespace bt {
 
 class Tactic : public Node {

@@ -20,7 +20,6 @@ bt::Node::Status bt::DefaultTactic::update() {
     updateStyle();
 
     if (!updateRobots()) {
-        std::cout << "waiting...until more robots are free" << std::endl;
         status = Status::Running;
         return status;
     }
@@ -121,16 +120,13 @@ void bt::DefaultTactic::updateStyle() {
     else if (thisType == Offensive) {
         amountToTick = style.amountOfAttackers;
     }
-    else {
-        // All robots minus the keeper maybe
+    else if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
         amountToTick = rtt::ai::world::world->getUs().size() - 1;
-        // amountToTick = 7;
+    } else {
+        amountToTick = rtt::ai::world::world->getUs().size();
     }
-    std::cout << node_name() << " --- " << amountToTick << std::endl;
-
 }
 void bt::DefaultTactic::convert(const std::map<std::string, bt::Tactic::RobotType> &unit) {
-
     int counter = 1;
     for (const auto &robot : unit) {
         std::tuple<int, std::string, RobotType> temp = {counter, robot.first, robot.second};
