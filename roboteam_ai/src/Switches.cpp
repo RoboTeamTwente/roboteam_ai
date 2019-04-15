@@ -241,6 +241,11 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
 bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
 
     std::map<std::string, std::map<std::string, robotType>> tactics = {
+
+            {"keeper_default_tactic",   {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            {"keeper_avoid_tactic",     {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            {"keeper_halt_tactic",      {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+
             {"halt_tactic", {
                     {"halt0", robotType::RANDOM},
                     {"halt1", robotType::RANDOM},
@@ -311,10 +316,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
              {"avoid5", robotType::RANDOM}
         }
         },
-        {"SingleKeeperTactic", {
-                {"Keeper", robotType::CLOSE_TO_OUR_GOAL}
-        }
-        },
+
         {"DemoAttackerTactic", {
                 {"demoAttacker", robotType::CLOSE_TO_THEIR_GOAL}
         }
@@ -322,10 +324,6 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
         {"DemoTactic", {
                 {"demoAttacker", robotType::CLOSE_TO_THEIR_GOAL},
                 {"demoKeeper", robotType::CLOSE_TO_OUR_GOAL}
-        }
-        },
-        {"SingleKeeperTactic", {
-                {"Keeper", robotType::CLOSE_TO_OUR_GOAL}
         }
         },
          {"SideAttackerTactic", {
