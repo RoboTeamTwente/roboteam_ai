@@ -41,7 +41,7 @@ TEST(KickTest, It_sends_proper_robotcommands) {
     worldMsg.us.push_back(robot);
     worldMsg.ball.existence = 99999;
     w::world->updateWorld(worldMsg);
-    rd::RobotDealer::claimRobotForTactic(rd::RobotType::RANDOM,"KickTest","test");
+    rd::RobotDealer::claimRobotForTactic(rd::RobotType::RANDOM, "test", "KickTest");
     kick.initialize();
     EXPECT_EQ(kick.update(), bt::Leaf::Status::Running);
 
@@ -93,7 +93,7 @@ TEST(KickTest, It_chips) {
     worldMsg.us.push_back(robot);
     worldMsg.ball.existence = 99999;
     w::world->updateWorld(worldMsg);
-    rd::RobotDealer::claimRobotForTactic(rd::RobotType::RANDOM,"KickTest","test");
+    rd::RobotDealer::claimRobotForTactic(rd::RobotType::RANDOM,"test", "KickTest");
 
     chip.initialize();
 
