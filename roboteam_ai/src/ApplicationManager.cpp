@@ -19,7 +19,7 @@ void ApplicationManager::setup() {
     IOManager = new io::IOManager(true);
 
     BTFactory::setCurrentTree("TestStrategy");
-    BTFactory::setKeeperTree("SingleKeeperTactic");
+    BTFactory::setKeeperTree("keeper_default_tactic");
 }
 
 void ApplicationManager::loop() {

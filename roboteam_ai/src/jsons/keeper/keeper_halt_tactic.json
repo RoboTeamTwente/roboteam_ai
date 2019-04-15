@@ -41,9 +41,9 @@
           }
         },
         "root": "sr8fh4psx6uy4ode",
-        "title": "haltTactic"
+        "title": "keeper_halt_tactic"
       }
     ]
   },
-  "name": "haltTactic"
+  "name": "keeper_halt_tactic"
 }

@@ -99,6 +99,10 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
 //        "PassAndShootTactic",
 //        "coachDefenderTactic",
 //        "BallPlacementDoubleTactic",
+        "one_robot_ballplacement_tactic",
+        "two_robot_ballplacement_tactic",
+        "avoid_tactic",
+        "halt_tactic",
         "TestD",
         "TestO",
         "TestM"
@@ -123,14 +127,17 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
 //        "SideAttackerStrategy",
 //        "PassAndShootStrategy",
 //        "coachDefenderStrategy",
+        "ball_placement_us_strategy",
+        "ball_placement_them_strategy",
+        "halt_strategy",
         "TestStrategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles =
-        {"keeperTest1",
-         "SingleKeeperTactic",
-         "haltTactic",
-         "AvoidBallTactic"
+        {
+         "keeper_default_tactic",
+         "keeper_halt_tactic",
+         "keeper_avoid_tactic"
         };
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
@@ -239,17 +246,64 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
 bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
 
     std::map<std::string, std::map<std::string, robotType>> tactics = {
-        {"haltTactic", {
-                {"halt0", robotType::RANDOM},
-                {"halt1", robotType::RANDOM},
-                {"halt2", robotType::RANDOM},
-                {"halt3", robotType::RANDOM},
-                {"halt4", robotType::RANDOM},
-                {"halt5", robotType::RANDOM},
-                {"halt6", robotType::RANDOM}
+
+        // Keeper tactics
+        {"keeper_default_tactic",   {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+        {"keeper_avoid_tactic",     {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+        {"keeper_halt_tactic",      {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+
+        // General tactics
+        {"halt_tactic", {
+            {"halt0", robotType::RANDOM},
+            {"halt1", robotType::RANDOM},
+            {"halt2", robotType::RANDOM},
+            {"halt3", robotType::RANDOM},
+            {"halt4", robotType::RANDOM},
+            {"halt5", robotType::RANDOM},
+            {"halt6", robotType::RANDOM},
+            {"halt7", robotType::RANDOM}
+        },
+        },
+
+        {"avoid_tactic", {
+             {"avoid1", robotType::RANDOM},
+             {"avoid2", robotType::RANDOM},
+             {"avoid3", robotType::RANDOM},
+             {"avoid4", robotType::RANDOM},
+             {"avoid5", robotType::RANDOM},
+             {"avoid6", robotType::RANDOM},
+             {"avoid7", robotType::RANDOM},
+             {"avoid8", robotType::RANDOM}
         }
         },
 
+        {"one_robot_ballplacement_tactic", {
+               {"ballplacementbot", robotType::CLOSE_TO_BALL},
+               {"avoid1", robotType::RANDOM},
+               {"avoid2", robotType::RANDOM},
+               {"avoid3", robotType::RANDOM},
+               {"avoid4", robotType::RANDOM},
+               {"avoid5", robotType::RANDOM},
+               {"avoid6", robotType::RANDOM},
+               {"avoid7", robotType::RANDOM}
+        }
+        },
+
+        {"two_robot_ballplacement_tactic", {
+                {"ball_placement_passer", robotType::CLOSE_TO_BALL},
+                {"ball_placement_receiver", robotType::BALL_PLACEMENT_RECEIVER},
+                {"avoid1", robotType::RANDOM},
+                {"avoid2", robotType::RANDOM},
+                {"avoid3", robotType::RANDOM},
+                {"avoid4", robotType::RANDOM},
+                {"avoid5", robotType::RANDOM},
+                {"avoid6", robotType::RANDOM}
+        }
+        },
+
+
+
+            // other
         {"OneAttackerTactic", {
                 {"attacker", robotType::CLOSE_TO_THEIR_GOAL}
         }
@@ -296,20 +350,8 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             {"BallPlacementBot",robotType::CLOSE_TO_BALL}
         }
         },
-        {"BallPlacementDoubleTactic",{
-            {"BallPlacementPasser",robotType::CLOSE_TO_BALL},
-            {"BallPlacementReceiver", robotType::BALL_PLACEMENT_RECEIVER},
-             {"avoid1", robotType::RANDOM},
-             {"avoid2", robotType::RANDOM},
-             {"avoid3", robotType::RANDOM},
-             {"avoid4", robotType::RANDOM},
-             {"avoid5", robotType::RANDOM}
-        }
-        },
-        {"SingleKeeperTactic", {
-                {"Keeper", robotType::CLOSE_TO_OUR_GOAL}
-        }
-        },
+
+
         {"DemoAttackerTactic", {
                 {"demoAttacker", robotType::CLOSE_TO_THEIR_GOAL}
         }
@@ -317,10 +359,6 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
         {"DemoTactic", {
                 {"demoAttacker", robotType::CLOSE_TO_THEIR_GOAL},
                 {"demoKeeper", robotType::CLOSE_TO_OUR_GOAL}
-        }
-        },
-        {"SingleKeeperTactic", {
-                {"Keeper", robotType::CLOSE_TO_OUR_GOAL}
         }
         },
          {"SideAttackerTactic", {
