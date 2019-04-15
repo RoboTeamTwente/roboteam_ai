@@ -190,14 +190,19 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/CoachDefend.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptRobot.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptRobot.hpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/EnterFormation.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/EnterFormation.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PenaltyHelper.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PenaltyHelper.h
+
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/Formation.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/Formation.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/TimeoutFormation.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/TimeoutFormation.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffUsFormation.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffUsFormation.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffThemFormation.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffThemFormation.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/PenaltyFormation.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/PenaltyFormation.cpp
-        )
-
-
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/PenaltyFormation.cpp)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp

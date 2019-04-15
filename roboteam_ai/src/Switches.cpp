@@ -56,10 +56,11 @@
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
-#include <roboteam_ai/src/skills/formations/EnterFormation.h>
+#include <roboteam_ai/src/skills/formations/KickOffUsFormation.h>
 #include <roboteam_ai/src/skills/AvoidBall.h>
 #include <roboteam_ai/src/skills/formations/TimeoutFormation.h>
 #include <roboteam_ai/src/bt/RoleDivider.h>
+#include <roboteam_ai/src/skills/formations/KickOffThemFormation.h>
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
 #include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"
@@ -99,6 +100,8 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
 //        "PassAndShootTactic",
 //        "coachDefenderTactic",
 //        "BallPlacementDoubleTactic",
+        "kickoff_them_formation_tactic",
+        "kickoff_us_formation_tactic",
         "time_out_tactic",
         "one_robot_ballplacement_tactic",
         "two_robot_ballplacement_tactic",
@@ -121,8 +124,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
 //        "threePlayerStrategyV2",
 //       "EnterFormationStrategy",
 //       "TimeOutFormationStrategy",
-
-        //        "BallPlacementUsStrategy",
+//        "BallPlacementUsStrategy",
 //        "BallPlacementThemStrategy",
 //        "randomStrategy", // used for testing, do not remove it!
 //        "PenaltyShootStrategy",
@@ -131,6 +133,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
 //        "SideAttackerStrategy",
 //        "PassAndShootStrategy",
 //        "coachDefenderStrategy",
+        "kickoff_them_formation_strategy",
+        "kickoff_us_formation_strategy",
         "time_out_strategy",
         "ball_placement_us_strategy",
         "ball_placement_them_strategy",
@@ -141,10 +145,11 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
 
 std::vector<std::string> Switches::keeperJsonFiles =
         {
-                "keeper_default_tactic",
-                "keeper_halt_tactic",
-                "keeper_avoid_tactic",
-                "keeper_time_out_tactic"
+         "keeper_default_tactic",
+         "keeper_halt_tactic",
+         "keeper_avoid_tactic",
+         "keeper_time_out_tactic",
+         "keeper_formation_tactic"
         };
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
@@ -192,8 +197,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["DemoAttack"] = std::make_shared<rtt::ai::DemoAttack>(name, properties);
     map["Dribble"] = std::make_shared<rtt::ai::Dribble>(name, properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
-    map["EnterFormation"] = std::make_shared<rtt::ai::EnterFormation>(name, properties);
     map["TimeoutFormation"] = std::make_shared<rtt::ai::TimeoutFormation>(name, properties);
+    map["KickOffUsFormation"] = std::make_shared<rtt::ai::KickOffUsFormation>(name, properties);
+    map["KickOffThemFormation"] = std::make_shared<rtt::ai::KickOffThemFormation>(name, properties);
 
     map["GetBall"] = std::make_shared<rtt::ai::GetBall>(name, properties);
     map["GoAroundPos"] = std::make_shared<rtt::ai::GoAroundPos>(name, properties);
@@ -252,11 +258,12 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 
     std::map<std::string, std::vector<std::pair<std::string, robotType>>> tactics = {
 
-            // Keeper tactics
-            {"keeper_default_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
-            {"keeper_avoid_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
-            {"keeper_halt_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
-            {"keeper_time_out_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+        // Keeper tactics
+        {"keeper_default_tactic",   {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+        {"keeper_avoid_tactic",     {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+        {"keeper_halt_tactic",      {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+        {"keeper_time_out_tactic",  {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+        {"keeper_formation_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
 
             // General tactics
             {"halt_tactic", {
@@ -318,6 +325,41 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"avoid7", robotType::RANDOM}
             }
             },
+        {"kickoff_them_formation_tactic", {
+             {"kickoff1", robotType::RANDOM},
+             {"kickoff2", robotType::RANDOM},
+             {"kickoff3", robotType::RANDOM},
+             {"kickoff4", robotType::RANDOM},
+             {"kickoff5", robotType::RANDOM},
+             {"kickoff6", robotType::RANDOM},
+             {"kickoff7", robotType::RANDOM},
+             {"kickoff8", robotType::RANDOM}
+        }
+        },
+
+        {"kickoff_us_formation_tactic", {
+             {"kickoff1", robotType::RANDOM},
+             {"kickoff2", robotType::RANDOM},
+             {"kickoff3", robotType::RANDOM},
+             {"kickoff4", robotType::RANDOM},
+             {"kickoff5", robotType::RANDOM},
+             {"kickoff6", robotType::RANDOM},
+             {"kickoff7", robotType::RANDOM},
+             {"kickoff8", robotType::RANDOM}
+        }
+        },
+
+        {"one_robot_ballplacement_tactic", {
+              {"ballplacementbot", robotType::RANDOM},
+              {"avoid1", robotType::RANDOM},
+              {"avoid2", robotType::RANDOM},
+              {"avoid3", robotType::RANDOM},
+              {"avoid4", robotType::RANDOM},
+              {"avoid5", robotType::RANDOM},
+              {"avoid6", robotType::RANDOM},
+              {"avoid7", robotType::RANDOM}
+        }
+        },
 
             {"two_robot_ballplacement_tactic", {
                     {"ball_placement_passer", robotType::RANDOM},

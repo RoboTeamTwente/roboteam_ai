@@ -8,7 +8,7 @@ namespace rtt {
 namespace ai {
 
 TimeoutFormation::TimeoutFormation(std::string name, bt::Blackboard::Ptr blackboard)
-: EnterFormation(name, blackboard) { }
+: Formation(name, blackboard) { }
 
 Vector2 TimeoutFormation::getFormationPosition() {
     auto field = world::field->get_field();

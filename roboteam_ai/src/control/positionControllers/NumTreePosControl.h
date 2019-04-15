@@ -62,7 +62,7 @@ class NumTreePosControl : public ForcePosControl {
 
     public:
         explicit NumTreePosControl() = default;
-        explicit NumTreePosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
+        explicit NumTreePosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
 
         void clear();
         PosVelAngle getPosVelAngle(const RobotPtr &robot, Vector2 &targetPos) override;
