@@ -58,6 +58,7 @@
 #include <roboteam_ai/src/skills/AvoidBall.h>
 #include <roboteam_ai/src/skills/formations/TimeoutFormation.h>
 #include <roboteam_ai/src/bt/RoleDivider.h>
+#include <roboteam_ai/src/skills/formations/KickOffThemFormation.h>
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
 #include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"
@@ -97,6 +98,7 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
 //        "PassAndShootTactic",
 //        "coachDefenderTactic",
 //        "BallPlacementDoubleTactic",
+        "kickoff_them_formation_tactic",
         "time_out_tactic",
         "one_robot_ballplacement_tactic",
         "two_robot_ballplacement_tactic",
@@ -127,6 +129,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
 //        "SideAttackerStrategy",
 //        "PassAndShootStrategy",
 //        "coachDefenderStrategy",
+        "kickoff_them_formation_strategy",
         "time_out_strategy",
         "ball_placement_us_strategy",
         "ball_placement_them_strategy",
@@ -189,6 +192,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
     map["TimeoutFormation"] = std::make_shared<rtt::ai::TimeoutFormation>(name, properties);
     map["KickOffUsFormation"] = std::make_shared<rtt::ai::KickOffUsFormation>(name, properties);
+    map["KickOffThemFormation"] = std::make_shared<rtt::ai::KickOffThemFormation>(name, properties);
 
     map["GetBall"] = std::make_shared<rtt::ai::GetBall>(name, properties);
     map["GoAroundPos"] = std::make_shared<rtt::ai::GoAroundPos>(name, properties);
@@ -285,6 +289,18 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
              {"timeout6", robotType::RANDOM},
              {"timeout7", robotType::RANDOM},
              {"timeout8", robotType::RANDOM}
+        }
+        },
+
+        {"kickoff_them_formation_tactic", {
+            {"kickoff1", robotType::RANDOM},
+            {"kickoff2", robotType::RANDOM},
+            {"kickoff3", robotType::RANDOM},
+            {"kickoff4", robotType::RANDOM},
+            {"kickoff5", robotType::RANDOM},
+            {"kickoff6", robotType::RANDOM},
+            {"kickoff7", robotType::RANDOM},
+            {"kickoff8", robotType::RANDOM}
         }
         },
 

@@ -171,10 +171,6 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoAroundPos.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/Formation.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/Formation.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/TimeoutFormation.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/TimeoutFormation.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoBehindBall.cpp
@@ -195,7 +191,16 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptRobot.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptRobot.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PenaltyHelper.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PenaltyHelper.h roboteam_ai/src/skills/formations/KickOffUsFormation.cpp roboteam_ai/src/skills/formations/KickOffUsFormation.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PenaltyHelper.h
+
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/Formation.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/Formation.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/TimeoutFormation.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/TimeoutFormation.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffUsFormation.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffUsFormation.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffThemFormation.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffThemFormation.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp

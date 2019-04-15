@@ -1,13 +1,13 @@
 #include <roboteam_ai/src/analysis/DecisionMaker.h>
-#include "KickOffUsFormation.h"
+#include "KickOffThemFormation.h"
 
 namespace rtt {
 namespace ai {
 
-KickOffUsFormation::KickOffUsFormation(std::string name, bt::Blackboard::Ptr blackboard)
+KickOffThemFormation::KickOffThemFormation(std::string name, bt::Blackboard::Ptr blackboard)
         : Formation(name, blackboard) { }
 
-Vector2 KickOffUsFormation::getFormationPosition() {
+Vector2 KickOffThemFormation::getFormationPosition() {
     std::vector<Vector2> targetLocations;
     std::vector<int> robotIds;
     auto field = world::field->get_field();
