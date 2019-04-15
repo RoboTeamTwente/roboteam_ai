@@ -126,8 +126,6 @@ void bt::DefaultTactic::updateStyle() {
         amountToTick = rtt::ai::world::world->getUs().size() - 1;
         // amountToTick = 7;
     }
-    std::cout << node_name() << " --- " << amountToTick << std::endl;
-
 }
 void bt::DefaultTactic::convert(const std::map<std::string, bt::Tactic::RobotType> &unit) {
 
