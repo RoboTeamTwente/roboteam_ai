@@ -34,7 +34,6 @@ void InterceptBall::onInitialize() {
         currentProgression = BALLMISSED;
         backwards=false;
     }
-    pid.setPID(INTERCEPT_P,INTERCEPT_I,INTERCEPT_D,1.0/Constants::TICK_RATE()); //TODO:magic numbers galore, from the old team. Move to new control library?
 }
 InterceptBall::Status InterceptBall::onUpdate() {
     ball = world::world->getBall();
@@ -78,7 +77,7 @@ InterceptBall::Status InterceptBall::onUpdate() {
 }
 
 void InterceptBall::sendMoveCommand(Vector2 targetPos) {
-    Vector2 velocities = goToPos.getPosVelAngle(robot, targetPos).vel;
+    Vector2 velocities = numtreeGTP.getPosVelAngle(robot, targetPos).vel;
     velocities = control::ControlUtils::velocityLimiter(velocities);
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
@@ -222,27 +221,25 @@ void InterceptBall::sendStopCommand() {
 }
 
 void InterceptBall::sendFineInterceptCommand() {
-    Vector2 error= interceptPos-robot->pos;
-    Vector2 delta = pid.controlPIR(error, robot->vel);
-    Vector2 deltaLim= control::ControlUtils::velocityLimiter(delta);
-    command.x_vel = static_cast<float>(deltaLim.x);
-    command.y_vel = static_cast<float>(deltaLim.y);
+    auto pva = basicGTP.getPosVelAngle(robot, interceptPos);
+    auto vel = control::ControlUtils::velocityLimiter(pva.vel);
+
+    command.x_vel = vel.x;
+    command.y_vel = vel.y;
     command.w = static_cast<float>((Vector2(ball->pos)-Vector2(robot->pos)).angle()); //Rotates towards the ball
     publishRobotCommand();
 }
 void InterceptBall::sendInterceptCommand() {
-    Vector2 delta = pid.controlPIR(interceptPos - robot->pos,robot->vel);
-    Vector2 deltaLim= control::ControlUtils::velocityLimiter(delta);
-    roboteam_msgs::RobotCommand command;
-    command.use_angle = 1;
-    command.id = robot->id;
-    command.x_vel = static_cast<float>(deltaLim.x);
-    command.y_vel = static_cast<float>(deltaLim.y);
+    auto pva = numtreeGTP.getPosVelAngle(robot, interceptPos);
+    auto vel = control::ControlUtils::velocityLimiter(pva.vel);
+
+    command.x_vel = vel.x;
+    command.y_vel = vel.y;
     if (backwards) {
-        command.w = static_cast<float>(deltaLim.rotate(M_PI).angle());
+        command.w = pva.angle.getAngle() + M_PI;
     }
     else{
-        command.w= static_cast<float>(deltaLim.angle());
+        command.w = pva.angle.getAngle();
     }
     publishRobotCommand();
 
