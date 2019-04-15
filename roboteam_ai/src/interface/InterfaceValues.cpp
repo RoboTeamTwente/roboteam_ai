@@ -19,6 +19,7 @@ pidVals InterfaceValues::basicPID = pidVals(0.0, 0.0, 0.0);
 rtt::Vector2 InterfaceValues::ballPlacementTarget = {0, 0}; // initialize on middle of the field
 bool InterfaceValues::useRefereeCommands = false;
 bool InterfaceValues::showDebugValuesInTerminal = true;
+bool InterfaceValues::timeOutAtTop = Constants::STD_TIMEOUT_TO_TOP();
 
 std::mutex InterfaceValues::pidMutex;
 std::mutex InterfaceValues::ballPlacementMutex;
@@ -111,6 +112,14 @@ bool InterfaceValues::showFullDebugNumTreeInfo() {
 
     void InterfaceValues::setBasicPid(const pidVals &basicPid) {
         basicPID = basicPid;
+    }
+
+    void InterfaceValues::setTimeOutTop(bool top) {
+        timeOutAtTop = top;
+    }
+
+    bool InterfaceValues::isTimeOutAtTop() {
+        return timeOutAtTop;
     }
 
 

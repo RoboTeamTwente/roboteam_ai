@@ -51,8 +51,10 @@ class MainWindow : public QMainWindow {
         void updateRobotsWidget();
         void updateTreeWidget();
         void updateKeeperTreeWidget();
+        void setTimeOutTop(bool top);
         void setShowDebugValueInTerminal(bool showDebug);
         void refreshSignal();
+
     private:
         Visualizer* visualizer;
         QHBoxLayout* horizontalLayout;
@@ -71,6 +73,7 @@ class MainWindow : public QMainWindow {
         QComboBox* select_strategy;
 
         QComboBox* select_goalie;
+
 
 private:
         PidBox * numTreePidBox;
