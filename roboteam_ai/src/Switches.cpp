@@ -101,6 +101,7 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
 //        "PassAndShootTactic",
 //        "coachDefenderTactic",
 //        "BallPlacementDoubleTactic",
+        "time_out_tactic",
         "one_robot_ballplacement_tactic",
         "two_robot_ballplacement_tactic",
         "avoid_tactic",
@@ -129,6 +130,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
 //        "SideAttackerStrategy",
 //        "PassAndShootStrategy",
 //        "coachDefenderStrategy",
+        "time_out_strategy",
         "ball_placement_us_strategy",
         "ball_placement_them_strategy",
         "halt_strategy",
@@ -139,7 +141,8 @@ std::vector<std::string> Switches::keeperJsonFiles =
         {
          "keeper_default_tactic",
          "keeper_halt_tactic",
-         "keeper_avoid_tactic"
+         "keeper_avoid_tactic",
+         "keeper_time_out_tactic"
         };
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
@@ -256,6 +259,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
         {"keeper_default_tactic",   {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
         {"keeper_avoid_tactic",     {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
         {"keeper_halt_tactic",      {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+        {"keeper_time_out_tactic",  {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
 
         // General tactics
         {"halt_tactic", {
@@ -279,6 +283,18 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
              {"avoid6", robotType::RANDOM},
              {"avoid7", robotType::RANDOM},
              {"avoid8", robotType::RANDOM}
+        }
+        },
+
+        {"time_out_tactic", {
+             {"timeout1", robotType::RANDOM},
+             {"timeout2", robotType::RANDOM},
+             {"timeout3", robotType::RANDOM},
+             {"timeout4", robotType::RANDOM},
+             {"timeout5", robotType::RANDOM},
+             {"timeout6", robotType::RANDOM},
+             {"timeout7", robotType::RANDOM},
+             {"timeout8", robotType::RANDOM}
         }
         },
 
@@ -307,8 +323,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
         },
 
 
-
-            // other
+        // other
         {"OneAttackerTactic", {
                 {"attacker", robotType::CLOSE_TO_THEIR_GOAL}
         }
