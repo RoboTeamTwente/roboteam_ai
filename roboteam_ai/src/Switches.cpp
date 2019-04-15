@@ -116,8 +116,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
 //        "DemoTeamTwenteStrategy",
 //        "twoPlayerStrategyV2",
 //        "threePlayerStrategyV2",
-       "EnterFormationStrategy",
-       "TimeOutFormationStrategy",
+//       "EnterFormationStrategy",
+//       "TimeOutFormationStrategy",
 
        //        "BallPlacementUsStrategy",
 //        "BallPlacementThemStrategy",
