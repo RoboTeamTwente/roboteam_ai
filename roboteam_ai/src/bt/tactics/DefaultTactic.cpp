@@ -33,7 +33,7 @@ bt::Node::Status bt::DefaultTactic::update() {
 }
 
 bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboard,
-        const std::map<std::string, RobotType> &robots_) {
+        const std::vector<std::pair<std::string, RobotType>> &robots_) {
 
     convert(robots_);
     globalBB = std::move(blackboard);
@@ -47,6 +47,9 @@ void bt::DefaultTactic::claimRobots(int amount) {
     // for the amount of robots we still need
     for (int i = 0; i < amount; i++) {
         auto toClaim = getNextClaim();
+
+//        std::cout << toClaim.first << std::endl;
+
         robotIDs.insert(dealer::claimRobotForTactic(toClaim.second, toClaim.first, name));
         if (robotIDs.find(- 1) != robotIDs.end()) {
             robotIDs.erase(-1);
@@ -126,7 +129,7 @@ void bt::DefaultTactic::updateStyle() {
         amountToTick = rtt::ai::world::world->getUs().size();
     }
 }
-void bt::DefaultTactic::convert(const std::map<std::string, bt::Tactic::RobotType> &unit) {
+void bt::DefaultTactic::convert(const std::vector<std::pair<std::string, RobotType>> &unit) {
     int counter = 1;
     for (const auto &robot : unit) {
         std::tuple<int, std::string, RobotType> temp = {counter, robot.first, robot.second};

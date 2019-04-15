@@ -253,7 +253,10 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
 /// If you made a tactic node for a new tactic this is where you add that
 bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
 
-    std::map<std::string, std::map<std::string, robotType>> tactics = {
+
+    // The second one is not a map because we want to keep the order
+
+    std::map<std::string, std::vector<std::pair<std::string, robotType>>> tactics = {
 
         // Keeper tactics
         {"keeper_default_tactic",   {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
@@ -299,7 +302,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
         },
 
         {"one_robot_ballplacement_tactic", {
-               {"ballplacementbot", robotType::CLOSE_TO_BALL},
+               {"ballplacementbot", robotType::RANDOM},
                {"avoid1", robotType::RANDOM},
                {"avoid2", robotType::RANDOM},
                {"avoid3", robotType::RANDOM},
@@ -311,14 +314,14 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
         },
 
         {"two_robot_ballplacement_tactic", {
-                {"ball_placement_passer", robotType::CLOSE_TO_BALL},
-                {"ball_placement_receiver", robotType::BALL_PLACEMENT_RECEIVER},
+                {"ball_placement_passer", robotType::RANDOM},
+                {"ball_placement_receiver", robotType::RANDOM},
                 {"avoid1", robotType::RANDOM},
                 {"avoid2", robotType::RANDOM},
                 {"avoid3", robotType::RANDOM},
                 {"avoid4", robotType::RANDOM},
-                {"avoid5", robotType::RANDOM},
-                {"avoid6", robotType::RANDOM}
+                {"avoid5", robotType::RANDOM}
+               // {"avoid6", robotType::RANDOM}
         }
         },
 
@@ -449,7 +452,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
          }
         }
     };
-    runErrorHandler(tactics);
+//    runErrorHandler(tactics);
 
     bt::Node::Ptr node;
     if (tactics.find(name) != tactics.end()) {
