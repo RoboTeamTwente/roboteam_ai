@@ -27,21 +27,6 @@ double CoachHeuristics::calculateCloseToGoalScore(const Vector2 &position) {
 
 /// Gives a higher score if the line between the position and the goal is free
 double CoachHeuristics::calculateShotAtGoalScore(const Vector2& position, WorldData world) {
-//    double smallestAngle = M_PI / 4;
-//
-//    auto goal = world::field->get_their_goal_center();
-//
-//    for(const auto& robot : world.them) {
-//        if(control::ControlUtils::isPointProjectionOnLine(robot.pos, position, goal)) {
-//            double angle = abs((goal - position).toAngle() - (robot.pos - position).toAngle());
-//            if (angle < smallestAngle) {
-//                smallestAngle = angle;
-//            }
-//        }
-//    }
-//
-//    return 1 - exp(SHOT_AT_GOAL_WEIGHT * smallestAngle);
-
     double viewAtGoal = world::field->getPercentageOfGoalVisibleFromPoint(false, position, world) / 100;
     return 1 - exp(SHOT_AT_GOAL_WEIGHT * viewAtGoal);
 
