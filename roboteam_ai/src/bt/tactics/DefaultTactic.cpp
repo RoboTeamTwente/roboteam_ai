@@ -72,21 +72,11 @@ bool bt::DefaultTactic::updateRobots() {
 void bt::DefaultTactic::disClaimRobots(int amount) {
     for (int i = 0; i < amount; i ++) {
 
-
-        // ccareful: this order matters!!!
-
-        // THIS IS THE FIX
-        // storing the value of the robot that was last claimed.
-        // findRobotForRole returns -1 when the robot is released first.
-        // but if it is released later, then it is released from robotIDS which makes getLastClaim fail.
-
-        auto thingie = dealer::findRobotForRole(getLastClaim().first);
-
+        // we need to store the robot id for the robot which we will remove
+        // because after releaseRobotforRole, findRobotforRole will return -1 instead
+        int robotToReleaseId = dealer::findRobotForRole(getLastClaim().first);
         dealer::releaseRobotForRole(getLastClaim().first); // free it in robotdealer
-
-        robotIDs.erase(thingie); // erase it in our array as well
-
-
+        robotIDs.erase(robotToReleaseId); // erase it in our array as well
     }
 }
 
