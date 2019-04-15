@@ -4,7 +4,7 @@
 
 #include "PenaltyFormation.h"
 rtt::ai::PenaltyFormation::PenaltyFormation(std::string name, bt::Blackboard::Ptr blackboard)
-        :EnterFormation(name, blackboard) {
+        :Formation(name, blackboard) {
 
 }
 Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
