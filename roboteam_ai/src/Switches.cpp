@@ -39,6 +39,7 @@
 #include "roboteam_ai/src/skills/ShootPenalty.h"
 #include "roboteam_ai/src/skills/ShootFreeKick.h"
 #include "roboteam_ai/src/skills/DemoAttack.h"
+#include "roboteam_ai/src/skills/InterceptRobot.hpp"
 #include "roboteam_ai/src/skills/CoachDefend.h"
 
 //  ______________________
@@ -56,6 +57,7 @@
 #include <roboteam_ai/src/skills/EnterFormation.h>
 #include <roboteam_ai/src/skills/AvoidBall.h>
 #include <roboteam_ai/src/bt/RoleDivider.h>
+#include <roboteam_ai/src/skills/TimeoutFormation.h>
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
 #include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"
@@ -184,10 +186,10 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
      * sideAttacker
      */
 
-    map["TwoRobotBallPlacement"] =      std::make_shared<rtt::ai::TwoRobotBallPlacement>(name, properties);
+    map["TwoRobotBallPlacement"] = std::make_shared<rtt::ai::TwoRobotBallPlacement>(name, properties);
     map["Attack"] = std::make_shared<rtt::ai::Attack>(name, properties);
     map["AvoidBall"] = std::make_shared<rtt::ai::AvoidBall>(name, properties);
-    map["CoachDefend"]= std::make_shared<rtt::ai::CoachDefend>(name,properties);
+    map["CoachDefend"] = std::make_shared<rtt::ai::CoachDefend>(name, properties);
     map["GTPSpecial"] = std::make_shared<rtt::ai::GTPSpecial>(name, properties);
     map["Defend"] = std::make_shared<rtt::ai::Defend>(name, properties);
     map["DefendOnRobot"] = std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
@@ -195,12 +197,15 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["Dribble"] = std::make_shared<rtt::ai::Dribble>(name, properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
     map["EnterFormation"] = std::make_shared<rtt::ai::EnterFormation>(name, properties);
+    map["TimeoutFormation"] = std::make_shared<rtt::ai::TimeoutFormation>(name, properties);
+
     map["GetBall"] = std::make_shared<rtt::ai::GetBall>(name, properties);
     map["GoAroundPos"] = std::make_shared<rtt::ai::GoAroundPos>(name, properties);
     map["GoToPos"] = std::make_shared<rtt::ai::GoToPos>(name, properties);
     map["Halt"] = std::make_shared<rtt::ai::Halt>(name, properties);
     map["Harass"] = std::make_shared<rtt::ai::Harass>(name, properties);
     map["InterceptBall"] = std::make_shared<rtt::ai::InterceptBall>(name, properties);
+    map["InterceptRobot"] = std::make_shared<rtt::ai::InterceptRobot>(name, properties);
     map["Keeper"] = std::make_shared<rtt::ai::Keeper>(name, properties);
     map["Kick"] = std::make_shared<rtt::ai::Kick>(name, properties);
     map["Pass"] = std::make_shared<rtt::ai::Pass>(name, properties);

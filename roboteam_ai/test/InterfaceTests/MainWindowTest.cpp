@@ -98,7 +98,8 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     EXPECT_FALSE(vis->robotIsSelected(robot));
 }
 
-TEST(MainWindowTest, it_toggles_our_color_param) {
+
+    TEST(MainWindowTest, it_toggles_our_color_param) {
     auto window = std::make_shared<MainWindow>();
 
     ros::NodeHandle nh;
