@@ -88,10 +88,7 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/RoleDivider.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Role.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/EnterFormationTactic.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/EnterFormationTactic.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/AvoidBallTactic.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/AvoidBallTactic.h)
+        )
 
 set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/GameAnalyzer.cpp
@@ -106,11 +103,7 @@ set(ANALYSIS_SOURCES
 set(TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/VictoryDanceTactic.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/VictoryDanceTactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DefaultTactic.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/PenaltyTactic.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/PenaltyTactic.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/tactics/DefaultTactic.h)
 
 set(IO_SOURCES
