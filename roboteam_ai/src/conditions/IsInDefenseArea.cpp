@@ -17,11 +17,11 @@ IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboar
 void IsInDefenseArea::onInitialize() {
     ourDefenseArea = properties->getBool("ourDefenseArea");
     outsideField = properties->getBool("outsideField");
-    margin = properties->hasDouble("margin") ? static_cast<float>(properties->getDouble("margin")) : 0.0f;
 }
 
 bt::Node::Status IsInDefenseArea::onUpdate() {
-	point = properties->getBool("useRobot") ? robot->pos : ball->pos;
+    point = properties->getBool("useRobot") ? robot->pos : ball->pos;
+    margin = properties->hasDouble("margin") ? static_cast<float>(properties->getDouble("margin")) : 0.0f;
 
     if (world::field->pointIsInDefenceArea(point, ourDefenseArea, margin, outsideField)) {
         return Status::Success;
