@@ -335,7 +335,7 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/History.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/History.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/FutureWorld.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/FutureWorld.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/FutureWorld.h roboteam_ai/src/world/BallPossession.cpp roboteam_ai/src/world/BallPossession.h)
 
 set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/CoachHeuristics.h

@@ -25,7 +25,7 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
     if (world::world->weHaveRobots()) {
         std::shared_ptr<AnalysisReport> report = std::make_shared<AnalysisReport>();
 
-        report->ballPossession = getBallPossessionEstimate(true);
+        report->ballPossession = getBallPossessionEstimate();
         report->ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(true);
         report->theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(false);
         report->theirRobotSortedOnDanger = getRobotsSortedOnDanger(false);
@@ -41,8 +41,8 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
 }
 
 // get an estimation of ballpossession
-BallPossession GameAnalyzer::getBallPossessionEstimate(bool ourTeam) {
-    Robot::Team ourteam = ourTeam ? Robot::Team::us : Robot::Team::them;
+BallPossession GameAnalyzer::getBallPossessionEstimate() {
+    Robot::Team ourteam = Robot::Team::us;
 
     auto robotWithBall = world::world->whichRobotHasBall();
     if (robotWithBall) {

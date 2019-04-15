@@ -4,7 +4,7 @@
 
 #include "World.h"
 #include "FutureWorld.h"
-
+#include "BallPossession.h"
 namespace rtt {
 namespace ai {
 namespace world {
@@ -48,6 +48,7 @@ void World::updateWorld(const roboteam_msgs::World &message) {
         history.addWorld(worldData);
         worldDataPtr = std::make_shared<WorldData>(World::worldData);
     }
+    bpTracker->update();
 }
 
 const roboteam_msgs::WorldRobot World::makeWorldRobotMsg(const Robot& robot) {
@@ -350,7 +351,12 @@ const World::BallPtr World::getFutureBall(double time) {
     futureWorld.updateFutureBall(ballCopy, time);
     return std::make_shared<Ball>(ballCopy);
 }
-
+const WorldData World::getPreviousWorld() {
+    return history.getPreviousWorld();
+}
+double World::timeDifference() {
+    return worldDataPtr->time -getPreviousWorld().time;
+}
 } //world
 } //ai
 } //rtt

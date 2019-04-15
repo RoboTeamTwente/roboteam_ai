@@ -72,7 +72,6 @@ void ApplicationManager::runOneLoopCycle() {
         auto demomsg = IOManager->getDemoInfo();
         demo::JoystickDemo::demoLoop(demomsg);
         rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
-
         if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
             if (ai::robotDealer::RobotDealer::getKeeperID() == -1) {
                 std::cout << "setting keeper id" << std::endl;
