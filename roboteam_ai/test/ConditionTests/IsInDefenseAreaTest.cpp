@@ -135,7 +135,7 @@ TEST(DetectsInTheirDefenseArea, IsInDefenseAreaTest)
 TEST(DetectsBallInOurDefenceArea, IsInDefenceAreaTest)
 {
     bt::Blackboard BB;
-    BB.setBool("robot", false);
+    BB.setBool("useRobot", false);
     BB.setDouble("margin", 0.2);
     BB.setString("ROLE", "test");
     BB.setBool("ourDefenseArea", true);
