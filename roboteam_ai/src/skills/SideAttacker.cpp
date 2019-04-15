@@ -64,6 +64,7 @@ Vector2 SideAttacker::getOffensivePosition() {
         map<int, Vector2> shortestDistances;
         shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations);
 
+
         zone = std::find(targetLocations.begin(), targetLocations.end(), position) - targetLocations.begin() - 1;
         position = shortestDistances[robot->id];
     }

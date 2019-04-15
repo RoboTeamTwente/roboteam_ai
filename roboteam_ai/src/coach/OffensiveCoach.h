@@ -17,10 +17,10 @@ namespace ai {
 namespace coach {
 
 class OffensiveCoach {
-    public:
+    private:
         using Robot = world::Robot;
         using RobotPtr = std::shared_ptr<Robot>;
-
+    public:
         const double SEARCH_GRID_ROBOT_POSITIONS = 0.02;
         const int GRID_SIZE = 3;
         const double CLOSE_TO_GOAL_DISTANCE = 0.95;

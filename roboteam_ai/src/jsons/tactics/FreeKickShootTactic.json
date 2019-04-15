@@ -1,1 +1,32 @@
-{"name": "FreeKickShootTactic", "data": {"trees": [{"title": "FreeKickShootTactic", "root": "0fzt89sy7zgsr", "nodes": {"0fzt89sy7zgsr": {"id": "0fzt89sy7zgsr", "title": "Role", "name": "freeShooter", "role": "FreeKickShootRole", "children": ["igyytnasiywe4"], "properties": {"ROLE": "freeShooter"}}, "igyytnasiywe4": {"id": "igyytnasiywe4", "title": "ShootFreeKick", "properties": {"ROLE": "freeShooter"}}}}]}}
+{
+  "name": "FreeKickShootTactic",
+  "data": {
+    "trees": [
+      {
+        "title": "FreeKickShootTactic",
+        "root": "s45qtnljv0e9kdw5s",
+        "nodes": {
+          "s45qtnljv0e9kdw5s": {
+            "id": "s45qtnljv0e9kdw5s",
+            "title": "Role",
+            "name": "freeShooter",
+            "role": "FreeKickShootRole",
+            "children": [
+              "0hmnj1unkzpcngmzl"
+            ],
+            "properties": {
+              "ROLE": "freeShooter"
+            }
+          },
+          "0hmnj1unkzpcngmzl": {
+            "id": "0hmnj1unkzpcngmzl",
+            "title": "ShootFreeKick",
+            "properties": {
+              "ROLE": "freeShooter"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

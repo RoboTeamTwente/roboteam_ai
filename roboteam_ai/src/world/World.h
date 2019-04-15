@@ -70,7 +70,7 @@ class World {
         bool robotHasBall(int id, bool ourTeam, double maxDist = Constants::MAX_BALL_RANGE());
         bool ourRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
         bool theirRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
-        const RobotPtr whichRobotHasBall(WhichRobots bots=ALL_ROBOTS);
+        const RobotPtr whichRobotHasBall(WhichRobots whichRobots = ALL_ROBOTS);
 
         const WorldData getFutureWorld(double time);
         const RobotPtr getFutureRobot(int id, bool ourTeam, double time);

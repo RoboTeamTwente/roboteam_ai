@@ -8,16 +8,13 @@
         "nodes": {
           "rvrqii0cxsvs7dtu": {
             "id": "rvrqii0cxsvs7dtu",
-            "title": "RoleDivider",
+            "title": "ParallelSequence",
             "children": [
               "y4mqs9dcpcj8n6pmy",
               "t7o2ze3577nh0y",
               "p1tdgnyjarz4l",
               "dvh5wlnxp66eq"
-            ],
-            "properties": {
-              "TacticType": "Offensive"
-            }
+            ]
           },
           "y4mqs9dcpcj8n6pmy": {
             "id": "y4mqs9dcpcj8n6pmy",

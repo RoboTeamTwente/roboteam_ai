@@ -355,6 +355,8 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefenceDealer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/PossiblePass.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/PossiblePass.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/midField/HarassRobotCoach.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/midField/HarassRobotCoach.h
         )
 
 catkin_package()

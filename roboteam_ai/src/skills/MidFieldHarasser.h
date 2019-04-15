@@ -17,10 +17,7 @@ class MidFieldHarasser : public Skill {
     private:
         control::NumTreePosControl goToPos;
         Vector2 targetPos;
-        int zone = - 1;
-
-        static int robotsInMemory;
-        static vector<RobotPtr> midFieldHarassers;
+        int myIndex = - 1;
 
         Vector2 getHarassPosition();
     public:
