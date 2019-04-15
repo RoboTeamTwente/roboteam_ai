@@ -20,7 +20,7 @@ public:
     bt::Node::Status onUpdate() override;
     void onTerminate(bt::Node::Status) override;
 
-private:
+protected:
     control::NumTreePosControl gtp;
     double errorMargin = 0.1;
     enum Formation {
@@ -32,7 +32,7 @@ private:
 
     static std::vector<std::shared_ptr<Robot>> robotsInFormation;
     int robotsInFormationMemory = 0;
-    Vector2 getFormationPosition();
+    virtual Vector2 getFormationPosition();
     Vector2 targetLocation;
 };
 

@@ -62,6 +62,7 @@
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
 #include <roboteam_ai/src/skills/EnterFormation.h>
 #include <roboteam_ai/src/skills/AvoidBall.h>
+#include <roboteam_ai/src/skills/TimeoutFormation.h>
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
 #include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"
@@ -105,6 +106,7 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "PassAndShootTactic",
         "coachDefenderTactic",
         "BallPlacementDoubleTactic",
+        "TimeOutTactic",
         "InterceptRobotTestTactic"
 };
 
@@ -126,8 +128,9 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "FreeKickShootStrategy",
         "SideAttackerStrategy",
         "PassAndShootStrategy",
-        "InterceptRobotTestStrategy",
-        "coachDefenderStrategy"
+        "coachDefenderStrategy",
+        "TimeOutFormationStrategy",
+        "InterceptRobotTestStrategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles =
@@ -191,6 +194,8 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["Dribble"] = std::make_shared<rtt::ai::Dribble>(name, properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
     map["EnterFormation"] = std::make_shared<rtt::ai::EnterFormation>(name, properties);
+    map["TimeoutFormation"] = std::make_shared<rtt::ai::TimeoutFormation>(name, properties);
+
     map["GetBall"] = std::make_shared<rtt::ai::GetBall>(name, properties);
     map["GoAroundPos"] = std::make_shared<rtt::ai::GoAroundPos>(name, properties);
     map["GoToPos"] = std::make_shared<rtt::ai::GoToPos>(name, properties);
@@ -298,8 +303,18 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"random7", robotType::RANDOM}
             }
             },
-            {"BallPlacementUsTactic", {
-                    {"BallPlacementBot", robotType::CLOSE_TO_BALL}
+            {"TimeOutTactic", {
+                 {"formation1", robotType::RANDOM},
+                 {"formation2", robotType::RANDOM},
+                 {"formation3", robotType::RANDOM},
+                 {"formation4", robotType::RANDOM},
+                 {"formation5", robotType::RANDOM},
+                 {"formation6", robotType::RANDOM},
+                 {"formation7", robotType::RANDOM}
+            }
+            },
+            {"BallPlacementUsTactic",{
+                {"BallPlacementBot",robotType::CLOSE_TO_BALL}
             }
             },
             {"BallPlacementDoubleTactic", {

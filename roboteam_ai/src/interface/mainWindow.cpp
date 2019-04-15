@@ -72,6 +72,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     vLayout->addLayout(hButtonsLayout);
 
+    configureCheckBox("TimeOut to top", vLayout, this, SLOT(setTimeOutTop(bool)), Constants::STD_TIMEOUT_TO_TOP());
 
 
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
@@ -111,7 +112,6 @@ MainWindow::MainWindow(QWidget* parent)
     pidVLayout->addWidget(numTreePidBox);
     pidVLayout->addWidget(forcePidBox);
     pidVLayout->addWidget(basicPidBox);
-
 
     auto pidSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
     pidVLayout->addSpacerItem(pidSpacer);
@@ -316,6 +316,9 @@ void MainWindow::updateKeeperTreeWidget() {
    this->keeperTreeWidget->updateContents(BTFactory::getKeeperTree());
 }
 
+void MainWindow::setTimeOutTop(bool top) {
+    rtt::ai::interface::InterfaceValues::setTimeOutTop(top);
+}
 
 } // interface
 } // ai
