@@ -1,0 +1,188 @@
+{
+  "name": "stop_tactic",
+  "data": {
+    "trees": [
+      {
+        "title": "stop_tactic",
+        "root": "7d63gzttrgzpk8l1",
+        "nodes": {
+          "7d63gzttrgzpk8l1": {
+            "id": "7d63gzttrgzpk8l1",
+            "title": "RoleDivider",
+            "children": [
+              "2wuifzzuuua4205oz",
+              "xms2c0ddrutkn4ni",
+              "e3nlomj37p1tplk",
+              "lehrf7167acnn7jbj",
+              "tbz1ofhg37zr414",
+              "hr0gtnesqo1a9dd0f",
+              "3nh1jg5hrovp78v",
+              "ttve2qb48sm4uurr"
+            ],
+            "properties": {
+              "TacticType": "General"
+            }
+          },
+          "2wuifzzuuua4205oz": {
+            "id": "2wuifzzuuua4205oz",
+            "title": "Role",
+            "name": "a1",
+            "role": "active_stop_role",
+            "children": [
+              "7ge7brdcps8q3ngz5"
+            ],
+            "properties": {
+              "ROLE": "a1"
+            }
+          },
+          "7ge7brdcps8q3ngz5": {
+            "id": "7ge7brdcps8q3ngz5",
+            "title": "ActiveStop",
+            "properties": {
+              "ROLE": "a1"
+            }
+          },
+          "xms2c0ddrutkn4ni": {
+            "id": "xms2c0ddrutkn4ni",
+            "title": "Role",
+            "name": "a1",
+            "role": "active_stop_role",
+            "children": [
+              "jhrkc48cfedn71btk"
+            ],
+            "properties": {
+              "ROLE": "a1"
+            }
+          },
+          "jhrkc48cfedn71btk": {
+            "id": "jhrkc48cfedn71btk",
+            "title": "ActiveStop",
+            "properties": {
+              "ROLE": "a1"
+            }
+          },
+          "e3nlomj37p1tplk": {
+            "id": "e3nlomj37p1tplk",
+            "title": "Role",
+            "name": "p1",
+            "role": "passive_stop_role",
+            "children": [
+              "koxr2wtk2f14wi9jn"
+            ],
+            "properties": {
+              "ROLE": "p1"
+            }
+          },
+          "koxr2wtk2f14wi9jn": {
+            "id": "koxr2wtk2f14wi9jn",
+            "title": "AvoidBall",
+            "properties": {
+              "Stop": "true",
+              "ROLE": "p1"
+            }
+          },
+          "lehrf7167acnn7jbj": {
+            "id": "lehrf7167acnn7jbj",
+            "title": "Role",
+            "name": "p2",
+            "role": "passive_stop_role",
+            "children": [
+              "errrte13e6ipu"
+            ],
+            "properties": {
+              "ROLE": "p2"
+            }
+          },
+          "errrte13e6ipu": {
+            "id": "errrte13e6ipu",
+            "title": "AvoidBall",
+            "properties": {
+              "Stop": "true",
+              "ROLE": "p2"
+            }
+          },
+          "tbz1ofhg37zr414": {
+            "id": "tbz1ofhg37zr414",
+            "title": "Role",
+            "name": "p3",
+            "role": "passive_stop_role",
+            "children": [
+              "55q6j8zkl6f59783"
+            ],
+            "properties": {
+              "ROLE": "p3"
+            }
+          },
+          "55q6j8zkl6f59783": {
+            "id": "55q6j8zkl6f59783",
+            "title": "AvoidBall",
+            "properties": {
+              "Stop": "true",
+              "ROLE": "p3"
+            }
+          },
+          "hr0gtnesqo1a9dd0f": {
+            "id": "hr0gtnesqo1a9dd0f",
+            "title": "Role",
+            "name": "p4",
+            "role": "passive_stop_role",
+            "children": [
+              "fofvrvnla5dkf107"
+            ],
+            "properties": {
+              "ROLE": "p4"
+            }
+          },
+          "fofvrvnla5dkf107": {
+            "id": "fofvrvnla5dkf107",
+            "title": "AvoidBall",
+            "properties": {
+              "Stop": "true",
+              "ROLE": "p4"
+            }
+          },
+          "3nh1jg5hrovp78v": {
+            "id": "3nh1jg5hrovp78v",
+            "title": "Role",
+            "name": "p5",
+            "role": "passive_stop_role",
+            "children": [
+              "cjyeo0umk0ygyqb"
+            ],
+            "properties": {
+              "ROLE": "p5"
+            }
+          },
+          "cjyeo0umk0ygyqb": {
+            "id": "cjyeo0umk0ygyqb",
+            "title": "AvoidBall",
+            "properties": {
+              "Stop": "true",
+              "ROLE": "p5"
+            }
+          },
+          "ttve2qb48sm4uurr": {
+            "id": "ttve2qb48sm4uurr",
+            "title": "Role",
+            "name": "p6",
+            "role": "passive_stop_role",
+            "children": [
+              "7mxg25hukpcmo"
+            ],
+            "properties": {
+              "ROLE": "p6"
+            }
+          },
+          "7mxg25hukpcmo": {
+            "id": "7mxg25hukpcmo",
+            "title": "AvoidBall",
+            "properties": {
+              "Stop": "true",
+              "ROLE": "p6"
+            }
+          }
+        }
+      }
+    ]
+  }
+}
