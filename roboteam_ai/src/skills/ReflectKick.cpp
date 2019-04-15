@@ -41,6 +41,7 @@ ReflectKick::Status ReflectKick::onUpdate() {
             command.kicker = 1;
             command.kicker_forced = 1;
             kicked = true;
+            kickTicks++;
             std::cout << "KICK!" << std::endl;
         } else {
             intercept();
@@ -50,7 +51,7 @@ ReflectKick::Status ReflectKick::onUpdate() {
     publishRobotCommand();
     coach::g_pass.setReadyToReceivePass(true);
 
-    if (kicked && ballDeflected()) {
+    if (kicked && (ballDeflected() || kickTicks >= MAX_KICK_TICKS)) {
         return Status::Success;
     }
     return Status::Running;
@@ -107,7 +108,7 @@ bool ReflectKick::willHaveBall() {
 }
 
 bool ReflectKick::ballDeflected() {
-    return (ball->vel - ballReceiveVel).toAngle() > 0.01;
+    return (ball->vel - ballReceiveVel).toAngle() > 0.01 || ball->vel.length() < 0.1;
 }
 
 }
