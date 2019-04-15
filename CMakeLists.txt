@@ -171,8 +171,10 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoAroundPos.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.h
-        roboteam_ai/src/skills/formations/EnterFormation.cpp
-        roboteam_ai/src/skills/formations/EnterFormation.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/EnterFormation.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/EnterFormation.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/TimeoutFormation.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/TimeoutFormation.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoBehindBall.cpp
