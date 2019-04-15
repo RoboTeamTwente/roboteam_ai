@@ -21,6 +21,7 @@ void GTPSpecial::onInitialize() {
     switch (type) {
         case goToBall: {
             targetPos = ball->pos;
+            gotopos.setAvoidBall(true);
             break;
         }
         case ballPlacementBefore: {

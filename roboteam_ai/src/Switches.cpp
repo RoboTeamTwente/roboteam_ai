@@ -44,6 +44,7 @@
 #include "roboteam_ai/src/skills/ShootPenalty.h"
 #include "roboteam_ai/src/skills/ShootFreeKick.h"
 #include "roboteam_ai/src/skills/DemoAttack.h"
+#include "roboteam_ai/src/skills/ReflectKick.h"
 #include "roboteam_ai/src/skills/InterceptRobot.hpp"
 #include "roboteam_ai/src/skills/CoachDefend.h"
 
@@ -110,8 +111,8 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
-        "QualificationStrategy",
         "haltStrategy",
+        "QualificationStrategy",
         "KeeperStrategy",
         "DemoStrategy",
         "PassStrategy",
@@ -212,6 +213,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["GoBehindBall"] = std::make_shared<rtt::ai::GoBehindBall>(name, properties);
     map["ShootPenalty"] = std::make_shared<rtt::ai::ShootPenalty>(name, properties);
     map["ShootFreeKick"] = std::make_shared<rtt::ai::ShootFreeKick>(name, properties);
+    map["ReflectKick"] = std::make_shared<rtt::ai::ReflectKick>(name, properties);
 
     // conditions (alphabetic order)
     map["BallKickedToOurGoal"] = std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);

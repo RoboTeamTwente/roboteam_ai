@@ -38,7 +38,7 @@ public:
     static double calculatePassScore(const Vector2& position);
 
     /// Currently not implemented, but might be again later
-    static double calculateDistanceToOpponentsScore(const Vector2 &position, WorldData world);
+    static double calculateDistanceToOpponentsScore(const Vector2 &position, const WorldData& world);
     static double calculateDistanceFromCornerScore(const Vector2 &position, const roboteam_msgs::GeometryFieldSize& field);
     static double calculateDistanceFromBallScore(const Vector2 &position, roboteam_msgs::GeometryFieldSize& field, roboteam_msgs::WorldBall& ball);
 };

@@ -50,7 +50,7 @@ double CoachHeuristics::calculatePassLineScore(const Vector2& position, WorldDat
 }
 
 /// Gives a higher score if the position is far away from enemy robots
-double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &position, const WorldData world) {
+double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &position, const WorldData& world) {
     Robot closestRobot = world::world->getRobotClosestToPoint(position, world::WhichRobots::THEIR_ROBOTS);
     if (closestRobot.id != -1) {
         double distance = (position - closestRobot.pos).length();
