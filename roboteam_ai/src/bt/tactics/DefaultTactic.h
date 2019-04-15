@@ -23,11 +23,11 @@ class DefaultTactic : public Tactic {
         void parseType(std::string typee);
         void updateStyle();
         rtt::ai::analysis::DecisionMaker maker;
-        void convert(const std::map<std::string, RobotType>& unit);
+        void convert(const std::vector<std::pair<std::string, RobotType>>& unit);
 
     public:
         std::vector<std::tuple<int, std::string, RobotType>> robots;
-        DefaultTactic(std::string name, Blackboard::Ptr blackboard, const std::map<std::string, RobotType>& robots);
+        DefaultTactic(std::string name, Blackboard::Ptr blackboard, const std::vector<std::pair<std::string, RobotType>>& robots);
         void initialize() override;
         Node::Status update() override;
         enum TacticType : short {
