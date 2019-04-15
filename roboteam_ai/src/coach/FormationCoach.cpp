@@ -59,13 +59,17 @@ void FormationCoach::terminate() {
 
 }
 std::vector<Vector2> FormationCoach::getPenaltyHelperPositions() {
+    if (penaltyHelperCalculated) return penaltyHelperPositions;
+
+
+
     return vector<Vector2>();
 }
 
 
 
 
-std::vector<Vector2> FormationCoach::calculatePenaltyHelperPositions() {
+void FormationCoach::calculatePenaltyHelperPositions() {
     int amount = rtt::ai::world::world->getUs().size() - 2; // All robots except keeper and the shooter
     int defensiveAmount;
     int offesniveAmount;
@@ -78,7 +82,12 @@ std::vector<Vector2> FormationCoach::calculatePenaltyHelperPositions() {
         defensiveAmount++;
     }
 
-    return vector<Vector2>();
+
+    Vector2 defensiveMiddle = {
+            (rtt::ai::world::field->getPenaltyPoint(true).x / 2.0),
+            0
+    };
+
 }
 
 }

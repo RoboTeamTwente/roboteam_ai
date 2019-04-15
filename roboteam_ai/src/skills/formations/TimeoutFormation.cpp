@@ -24,7 +24,7 @@ Vector2 TimeoutFormation::getFormationPosition() {
 
     for (unsigned int i = 0; i<robotsInFormation.size(); i++) {
         double targetLocationX = - field.field_length/4 * 2*i*Constants::ROBOT_RADIUS_MAX();
-        targetLocations.push_back({targetLocationX, targetLocationY});
+        targetLocations.emplace_back(targetLocationX, targetLocationY);
         robotIds.push_back(robotsInFormation.at(i)->id);
     }
 
