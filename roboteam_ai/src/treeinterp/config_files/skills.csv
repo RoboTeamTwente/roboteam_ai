@@ -14,7 +14,7 @@ Pass,BallPlacement
 Receive,BallPlacement
 Formation
 DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement,distance
-AvoidBall
+AvoidBall,Stop
 Keeper
 GoAroundPos,targetPos,targetDir,towardsTheirGoal,ball
 Halt,ticks
@@ -28,3 +28,4 @@ TimeoutFormation
 KickOffThemFormation
 KickOffUsFormation
 PenaltyFormation,Offensive
+ActiveStop
