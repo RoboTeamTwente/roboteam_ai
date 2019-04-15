@@ -54,7 +54,7 @@
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
-#include <roboteam_ai/src/skills/formations/EnterFormation.h>
+#include <roboteam_ai/src/skills/formations/KickOffUsFormation.h>
 #include <roboteam_ai/src/skills/AvoidBall.h>
 #include <roboteam_ai/src/skills/formations/TimeoutFormation.h>
 #include <roboteam_ai/src/bt/RoleDivider.h>
@@ -118,8 +118,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
 //        "threePlayerStrategyV2",
 //       "EnterFormationStrategy",
 //       "TimeOutFormationStrategy",
-
-       //        "BallPlacementUsStrategy",
+//        "BallPlacementUsStrategy",
 //        "BallPlacementThemStrategy",
 //        "randomStrategy", // used for testing, do not remove it!
 //        "PenaltyShootStrategy",
@@ -188,8 +187,8 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["DemoAttack"] = std::make_shared<rtt::ai::DemoAttack>(name, properties);
     map["Dribble"] = std::make_shared<rtt::ai::Dribble>(name, properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
-    map["EnterFormation"] = std::make_shared<rtt::ai::EnterFormation>(name, properties);
     map["TimeoutFormation"] = std::make_shared<rtt::ai::TimeoutFormation>(name, properties);
+    map["KickOffUsFormation"] = std::make_shared<rtt::ai::KickOffUsFormation>(name, properties);
 
     map["GetBall"] = std::make_shared<rtt::ai::GetBall>(name, properties);
     map["GoAroundPos"] = std::make_shared<rtt::ai::GoAroundPos>(name, properties);

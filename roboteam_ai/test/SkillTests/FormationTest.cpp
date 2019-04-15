@@ -10,7 +10,7 @@
 #include <roboteam_ai/src/utilities/RobotDealer.h>
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/world/World.h>
-#include "roboteam_ai/src/skills/formations/EnterFormation.h"
+#include "roboteam_ai/src/skills/formations/Formation.h"
 #include "../helpers/WorldHelper.h"
 
 
@@ -31,7 +31,7 @@ TEST(FormationTest, formation_test) {
     auto properties = std::make_shared<bt::Blackboard>();
     properties->setString("ROLE", "formationRobot");
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::RANDOM, "formationRobot", "EnterFormationTest");
-    rtt::ai::EnterFormation enterFormation("EnterFormationTest", properties);
+    rtt::ai::Formation enterFormation("EnterFormationTest", properties);
 
     EXPECT_EQ(enterFormation.robotsInFormationMemory, 0);
     EXPECT_EQ(enterFormation.robotsInFormation.size(), 0);
@@ -49,7 +49,7 @@ TEST(FormationTest, formation_test) {
     auto properties2 = std::make_shared<bt::Blackboard>();
     properties2->setString("ROLE", "formationRobot2");
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::RANDOM, "formationRobot2", "EnterFormationTest2");
-    rtt::ai::EnterFormation enterFormation2("EnterFormationTest2", properties2);
+    rtt::ai::Formation enterFormation2("EnterFormationTest2", properties2);
 
     EXPECT_EQ(enterFormation.robotsInFormationMemory, 1);
     EXPECT_EQ(enterFormation2.robotsInFormationMemory, 0);

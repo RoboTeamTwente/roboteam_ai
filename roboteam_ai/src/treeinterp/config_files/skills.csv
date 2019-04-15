@@ -12,7 +12,7 @@ Attack
 DemoAttack,ownGoal
 Pass,BallPlacement
 Receive,BallPlacement
-EnterFormation
+Formation
 DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement,distance
 AvoidBall
 Keeper

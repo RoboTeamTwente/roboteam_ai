@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 23-1-19.
 //
 
-#ifndef ROBOTEAM_AI_ENTERFORMATION_H
-#define ROBOTEAM_AI_ENTERFORMATION_H
+#ifndef ROBOTEAM_AI_FORMATION_H
+#define ROBOTEAM_AI_FORMATION_H
 
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include "roboteam_ai/src/skills/Skill.h"
@@ -12,10 +12,10 @@
 namespace rtt {
 namespace ai {
 
-class EnterFormation : public Skill {
+class Formation : public Skill {
     FRIEND_TEST(FormationTest, formation_test);
 public:
-    explicit EnterFormation(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+    explicit Formation(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
     void onInitialize() override;
     bt::Node::Status onUpdate() override;
     void onTerminate(bt::Node::Status) override;
@@ -25,7 +25,7 @@ protected:
     double errorMargin = 0.1;
     static std::vector<std::shared_ptr<Robot>> robotsInFormation;
     int robotsInFormationMemory = 0;
-    virtual Vector2 getFormationPosition();
+    virtual Vector2 getFormationPosition() =0;
     Vector2 targetLocation;
 
     void removeRobotFromFormation();
@@ -40,4 +40,4 @@ protected:
 
 }
 }
-#endif //ROBOTEAM_AI_ENTERFORMATION_H
+#endif //ROBOTEAM_AI_FORMATION_H
