@@ -55,7 +55,7 @@ bool GeneralPositionCoach::isRobotBehindBallToRobot(double distanceBehindBall, b
     Vector2 robot;
     if (world::world->getRobotForId(robotID, ourRobot)) {
         robot = world::world->getRobotForId(robotID, ourRobot).get()->pos;
-        return isRobotBehindBallToPosition(distanceBehindBall, robot, robotPosition);
+        return isRobotBehindBallToPosition(distanceBehindBall, robot, robotPosition, angleMargin);
     }
     return false;
 }
