@@ -99,6 +99,8 @@ public:
     static bool STD_SHOW_DEBUG_VALUES()         { return true; };
     static bool STD_USE_REFEREE()               { return false; };
     static bool STD_SHOW_AVAILABLE_PASSES()     { return false; };
+    static bool STD_TIMEOUT_TO_TOP()            { return false; };
+
 
     static QColor FIELD_COLOR()                 { return GRSIM() ? QColor(30 , 30 , 30 , 255) :
                                                                    QColor(50 , 0  , 0  , 255); };

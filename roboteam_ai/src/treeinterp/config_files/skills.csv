@@ -5,6 +5,7 @@ Chip
 Dribble,Position,maxTicks,forwardDirection,dribbleOnTerminate,BallPlacement,distance
 RotateToAngle,rotateToBall,Angle,RobotControl
 InterceptBall
+InterceptRobot
 GetBall,maxTime
 DefendOnRobot
 Attack
@@ -23,3 +24,4 @@ ShootPenalty,
 ShootFreeKick
 CoachDefend
 SideAttacker
+TimeoutFormation
