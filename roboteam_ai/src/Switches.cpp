@@ -99,6 +99,7 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
 //        "PassAndShootTactic",
 //        "coachDefenderTactic",
 //        "BallPlacementDoubleTactic",
+        "halt_tactic",
         "TestD",
         "TestO",
         "TestM"
@@ -123,6 +124,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
 //        "SideAttackerStrategy",
 //        "PassAndShootStrategy",
 //        "coachDefenderStrategy",
+        "halt_strategy",
         "TestStrategy"
 };
 
@@ -239,17 +241,17 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
 bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
 
     std::map<std::string, std::map<std::string, robotType>> tactics = {
-        {"haltTactic", {
-                {"halt0", robotType::RANDOM},
-                {"halt1", robotType::RANDOM},
-                {"halt2", robotType::RANDOM},
-                {"halt3", robotType::RANDOM},
-                {"halt4", robotType::RANDOM},
-                {"halt5", robotType::RANDOM},
-                {"halt6", robotType::RANDOM}
-        }
-        },
-
+            {"halt_tactic", {
+                    {"halt0", robotType::RANDOM},
+                    {"halt1", robotType::RANDOM},
+                    {"halt2", robotType::RANDOM},
+                    {"halt3", robotType::RANDOM},
+                    {"halt4", robotType::RANDOM},
+                    {"halt5", robotType::RANDOM},
+                    {"halt6", robotType::RANDOM},
+                    {"halt7", robotType::RANDOM}
+            },
+            },
         {"OneAttackerTactic", {
                 {"attacker", robotType::CLOSE_TO_THEIR_GOAL}
         }
