@@ -250,19 +250,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
 /// If you made a tactic node for a new tactic this is where you add that
 bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
 
-    std::map<std::string, std::vector<std::pair<std::string, robotType>>> tacticss = {
-            {"halt_tactic", {
-                    {"halt0", robotType::RANDOM},
-                    {"halt1", robotType::RANDOM},
-                    {"halt2", robotType::RANDOM},
-                    {"halt3", robotType::RANDOM},
-                    {"halt4", robotType::RANDOM},
-                    {"halt5", robotType::RANDOM},
-                    {"halt6", robotType::RANDOM},
-                    {"halt7", robotType::RANDOM}
-            },
-            }
-    };
+
+    // The second one is not a map because we want to keep the order
+
     std::map<std::string, std::vector<std::pair<std::string, robotType>>> tactics = {
 
         // Keeper tactics
