@@ -11,7 +11,7 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
     if(properties->getBool("Offensive")) {
         auto field = world::field->get_field();
 
-        double targetLocationX = field.field_length/5;
+        double targetLocationX = field.field_length/4;
 
         // first we calculate all the positions for the defense
         std::vector<Vector2> targetLocations;
@@ -20,7 +20,7 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
         for (unsigned int i = 0; i < robotsInFormation.size(); i ++) {
 
             // beautiful magic that works
-            double targetLocationY = - field.field_width/3*3*i*Constants::ROBOT_RADIUS_MAX() + field.field_width/4;
+            double targetLocationY = - field.field_width*i*Constants::ROBOT_RADIUS_MAX() + field.field_width/4;
             targetLocations.emplace_back(targetLocationX, targetLocationY);
 
             robotIds.push_back(robotsInFormation.at(i)->id);
