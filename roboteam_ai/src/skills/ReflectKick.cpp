@@ -19,8 +19,11 @@ void ReflectKick::onInitialize() {
 }
 
 ReflectKick::Status ReflectKick::onUpdate() {
+    // Get the angle between the kicker of the robot and the long corner of the goal (furthest corner from the robot)
     angleToGoalTarget = (goalTarget - getKicker()).toAngle();
     angleToBall = (ball->pos - getKicker()).toAngle();
+
+    // Get the angle that the robot needs to stand at, depended on the TOWARDS_GOAL_FACTOR
     robotAngle = getAngle();
     command.w = robotAngle;
     ballStartPos = ball->pos;
