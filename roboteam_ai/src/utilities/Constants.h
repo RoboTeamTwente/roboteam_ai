@@ -49,8 +49,6 @@ public:
     static int TICK_RATE()                      { return 60; };
     static double CLOSE_TO_BORDER_DISTANCE()    { return 1.2 * ROBOT_RADIUS(); };
     static int GAME_ANALYSIS_TICK_RATE()        { return 30; };
-    static double DISTANCE_TO_KICKER()          { return 0.06; };
-
 
     /// GENERAL SKILLS ///
     static double DEFAULT_KICK_POWER()          { return  5.0; }; // max kick power() { return  100

@@ -109,7 +109,7 @@ double Pass::determineKickForce(double distance) {
     return static_cast<float>(kickSpeed);
 }
 Vector2 Pass::getKicker() {
-    Vector2 distanceToKicker = {Constants::DISTANCE_TO_KICKER(), 0};
+    Vector2 distanceToKicker = {Constants::CENTRE_TO_FRONT(), 0};
     return robotToPassTo->pos + distanceToKicker.rotate(robotToPassTo->angle);
 }
 
