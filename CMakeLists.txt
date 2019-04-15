@@ -192,6 +192,9 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptRobot.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PenaltyHelper.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PenaltyHelper.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ActiveStop.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ActiveStop.h
+
 
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/Formation.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/Formation.h
