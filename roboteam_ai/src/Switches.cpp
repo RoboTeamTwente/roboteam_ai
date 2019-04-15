@@ -122,7 +122,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
 //       "EnterFormationStrategy",
 //       "TimeOutFormationStrategy",
 
-       //        "BallPlacementUsStrategy",
+        //        "BallPlacementUsStrategy",
 //        "BallPlacementThemStrategy",
 //        "randomStrategy", // used for testing, do not remove it!
 //        "PenaltyShootStrategy",
@@ -141,10 +141,10 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
 
 std::vector<std::string> Switches::keeperJsonFiles =
         {
-         "keeper_default_tactic",
-         "keeper_halt_tactic",
-         "keeper_avoid_tactic",
-         "keeper_time_out_tactic"
+                "keeper_default_tactic",
+                "keeper_halt_tactic",
+                "keeper_avoid_tactic",
+                "keeper_time_out_tactic"
         };
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
@@ -252,218 +252,218 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 
     std::map<std::string, std::vector<std::pair<std::string, robotType>>> tactics = {
 
-        // Keeper tactics
-        {"keeper_default_tactic",   {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
-        {"keeper_avoid_tactic",     {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
-        {"keeper_halt_tactic",      {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
-        {"keeper_time_out_tactic",  {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            // Keeper tactics
+            {"keeper_default_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            {"keeper_avoid_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            {"keeper_halt_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            {"keeper_time_out_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
 
-        // General tactics
-        {"halt_tactic", {
-            {"halt0", robotType::RANDOM},
-            {"halt1", robotType::RANDOM},
-            {"halt2", robotType::RANDOM},
-            {"halt3", robotType::RANDOM},
-            {"halt4", robotType::RANDOM},
-            {"halt5", robotType::RANDOM},
-            {"halt6", robotType::RANDOM},
-            {"halt7", robotType::RANDOM}
-        },
-        },
+            // General tactics
+            {"halt_tactic", {
+                    {"halt0", robotType::RANDOM},
+                    {"halt1", robotType::RANDOM},
+                    {"halt2", robotType::RANDOM},
+                    {"halt3", robotType::RANDOM},
+                    {"halt4", robotType::RANDOM},
+                    {"halt5", robotType::RANDOM},
+                    {"halt6", robotType::RANDOM},
+                    {"halt7", robotType::RANDOM}
+            },
+            },
 
-        {"avoid_tactic", {
-             {"avoid1", robotType::RANDOM},
-             {"avoid2", robotType::RANDOM},
-             {"avoid3", robotType::RANDOM},
-             {"avoid4", robotType::RANDOM},
-             {"avoid5", robotType::RANDOM},
-             {"avoid6", robotType::RANDOM},
-             {"avoid7", robotType::RANDOM},
-             {"avoid8", robotType::RANDOM}
-        }
-        },
+            {"avoid_tactic", {
+                    {"avoid1", robotType::RANDOM},
+                    {"avoid2", robotType::RANDOM},
+                    {"avoid3", robotType::RANDOM},
+                    {"avoid4", robotType::RANDOM},
+                    {"avoid5", robotType::RANDOM},
+                    {"avoid6", robotType::RANDOM},
+                    {"avoid7", robotType::RANDOM},
+                    {"avoid8", robotType::RANDOM}
+            }
+            },
 
-        {"time_out_tactic", {
-             {"timeout1", robotType::RANDOM},
-             {"timeout2", robotType::RANDOM},
-             {"timeout3", robotType::RANDOM},
-             {"timeout4", robotType::RANDOM},
-             {"timeout5", robotType::RANDOM},
-             {"timeout6", robotType::RANDOM},
-             {"timeout7", robotType::RANDOM},
-             {"timeout8", robotType::RANDOM}
-        }
-        },
+            {"time_out_tactic", {
+                    {"timeout1", robotType::RANDOM},
+                    {"timeout2", robotType::RANDOM},
+                    {"timeout3", robotType::RANDOM},
+                    {"timeout4", robotType::RANDOM},
+                    {"timeout5", robotType::RANDOM},
+                    {"timeout6", robotType::RANDOM},
+                    {"timeout7", robotType::RANDOM},
+                    {"timeout8", robotType::RANDOM}
+            }
+            },
 
-        {"prepare_penalty_us_tactic", {
-                {"shooter", robotType::CLOSE_TO_BALL},
-                {"pa1", robotType::RANDOM},
-                {"pa2", robotType::RANDOM},
-                {"pa3", robotType::RANDOM},
-                {"pa4", robotType::RANDOM},
-                {"pa5", robotType::RANDOM},
-                {"pa6", robotType::RANDOM},
-                {"pa7", robotType::RANDOM}
-        }
-        },
+            {"prepare_penalty_us_tactic", {
+                    {"shooter", robotType::CLOSE_TO_BALL},
+                    {"pa1", robotType::RANDOM},
+                    {"pa2", robotType::RANDOM},
+                    {"pa3", robotType::RANDOM},
+                    {"pa4", robotType::RANDOM},
+                    {"pa5", robotType::RANDOM},
+                    {"pa6", robotType::RANDOM},
+                    {"pa7", robotType::RANDOM}
+            }
+            },
 
-        {"one_robot_ballplacement_tactic", {
-               {"ballplacementbot", robotType::RANDOM},
-               {"avoid1", robotType::RANDOM},
-               {"avoid2", robotType::RANDOM},
-               {"avoid3", robotType::RANDOM},
-               {"avoid4", robotType::RANDOM},
-               {"avoid5", robotType::RANDOM},
-               {"avoid6", robotType::RANDOM},
-               {"avoid7", robotType::RANDOM}
-        }
-        },
+            {"one_robot_ballplacement_tactic", {
+                    {"ballplacementbot", robotType::RANDOM},
+                    {"avoid1", robotType::RANDOM},
+                    {"avoid2", robotType::RANDOM},
+                    {"avoid3", robotType::RANDOM},
+                    {"avoid4", robotType::RANDOM},
+                    {"avoid5", robotType::RANDOM},
+                    {"avoid6", robotType::RANDOM},
+                    {"avoid7", robotType::RANDOM}
+            }
+            },
 
-        {"two_robot_ballplacement_tactic", {
-                {"ball_placement_passer", robotType::RANDOM},
-                {"ball_placement_receiver", robotType::RANDOM},
-                {"avoid1", robotType::RANDOM},
-                {"avoid2", robotType::RANDOM},
-                {"avoid3", robotType::RANDOM},
-                {"avoid4", robotType::RANDOM},
-                {"avoid5", robotType::RANDOM},
-                {"avoid6", robotType::RANDOM}
-        }
-        },
-
-
-        // other
-        {"OneAttackerTactic", {
-                {"attacker", robotType::CLOSE_TO_THEIR_GOAL}
-        }
-        },
-        {"OneAttackerOneDefenderTactic", {
-                {"defender", robotType::CLOSE_TO_OUR_GOAL},
-                {"attacker", robotType::CLOSE_TO_THEIR_GOAL}
-        }
-        },
-        {"OneDefenderTactic", {
-                {"defender", robotType::CLOSE_TO_THEIR_GOAL}
-        }
-        },
-        {"TwoDefendersTactic", {
-                {"defender1", robotType::CLOSE_TO_OUR_GOAL},
-                {"defender2", robotType::CLOSE_TO_OUR_GOAL},
-        }
-        },
-        {"Attactic", {
-                {"atak", robotType::RANDOM}
-        }
-        },
-        {"PassTactic", {
-                {"passer", robotType::CLOSE_TO_BALL},
-                {"receiver", robotType::RANDOM}
-        }
-        },
-        {"QualificationTactic", {
-                {"qualRole", robotType::RANDOM},
-                {"eloRlauq", robotType::RANDOM}
-        }
-        },
-        {"randomTactic", {
-                {"random1", robotType::RANDOM},
-                {"random2", robotType::RANDOM},
-                {"random3", robotType::RANDOM},
-                {"random4", robotType::RANDOM},
-                {"random5", robotType::RANDOM},
-                {"random6", robotType::RANDOM},
-                {"random7", robotType::RANDOM}
-        }
-        },
-        {"BallPlacementUsTactic",{
-            {"BallPlacementBot",robotType::CLOSE_TO_BALL}
-        }
-        },
+            {"two_robot_ballplacement_tactic", {
+                    {"ball_placement_passer", robotType::RANDOM},
+                    {"ball_placement_receiver", robotType::RANDOM},
+                    {"avoid1", robotType::RANDOM},
+                    {"avoid2", robotType::RANDOM},
+                    {"avoid3", robotType::RANDOM},
+                    {"avoid4", robotType::RANDOM},
+                    {"avoid5", robotType::RANDOM},
+                    {"avoid6", robotType::RANDOM}
+            }
+            },
 
 
-        {"DemoAttackerTactic", {
-                {"demoAttacker", robotType::CLOSE_TO_THEIR_GOAL}
-        }
-        },
-        {"DemoTactic", {
-                {"demoAttacker", robotType::CLOSE_TO_THEIR_GOAL},
-                {"demoKeeper", robotType::CLOSE_TO_OUR_GOAL}
-        }
-        },
-         {"SideAttackerTactic", {
-                 {"sideAttacker1", robotType::CLOSE_TO_THEIR_GOAL},
-                 {"sideAttacker2", robotType::CLOSE_TO_THEIR_GOAL},
-                 {"sideAttacker3", robotType::CLOSE_TO_THEIR_GOAL},
-                 {"sideAttacker4", robotType::CLOSE_TO_THEIR_GOAL}
+            // other
+            {"OneAttackerTactic", {
+                    {"attacker", robotType::CLOSE_TO_THEIR_GOAL}
+            }
+            },
+            {"OneAttackerOneDefenderTactic", {
+                    {"defender", robotType::CLOSE_TO_OUR_GOAL},
+                    {"attacker", robotType::CLOSE_TO_THEIR_GOAL}
+            }
+            },
+            {"OneDefenderTactic", {
+                    {"defender", robotType::CLOSE_TO_THEIR_GOAL}
+            }
+            },
+            {"TwoDefendersTactic", {
+                    {"defender1", robotType::CLOSE_TO_OUR_GOAL},
+                    {"defender2", robotType::CLOSE_TO_OUR_GOAL},
+            }
+            },
+            {"Attactic", {
+                    {"atak", robotType::RANDOM}
+            }
+            },
+            {"PassTactic", {
+                    {"passer", robotType::CLOSE_TO_BALL},
+                    {"receiver", robotType::RANDOM}
+            }
+            },
+            {"QualificationTactic", {
+                    {"qualRole", robotType::RANDOM},
+                    {"eloRlauq", robotType::RANDOM}
+            }
+            },
+            {"randomTactic", {
+                    {"random1", robotType::RANDOM},
+                    {"random2", robotType::RANDOM},
+                    {"random3", robotType::RANDOM},
+                    {"random4", robotType::RANDOM},
+                    {"random5", robotType::RANDOM},
+                    {"random6", robotType::RANDOM},
+                    {"random7", robotType::RANDOM}
+            }
+            },
+            {"BallPlacementUsTactic", {
+                    {"BallPlacementBot", robotType::CLOSE_TO_BALL}
+            }
+            },
 
-         }
-         },
-         {"PassAndShootTactic", {
-                 {"midfielder1", robotType::CLOSE_TO_BALL},
-                 {"sideAttacker1", robotType::CLOSE_TO_THEIR_GOAL},
-                 {"sideAttacker2", robotType::CLOSE_TO_THEIR_GOAL}
+            {"DemoAttackerTactic", {
+                    {"demoAttacker", robotType::CLOSE_TO_THEIR_GOAL}
+            }
+            },
+            {"DemoTactic", {
+                    {"demoAttacker", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"demoKeeper", robotType::CLOSE_TO_OUR_GOAL}
+            }
+            },
+            {"SideAttackerTactic", {
+                    {"sideAttacker1", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"sideAttacker2", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"sideAttacker3", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"sideAttacker4", robotType::CLOSE_TO_THEIR_GOAL}
 
-         }
+            }
+            },
+            {"PassAndShootTactic", {
+                    {"midfielder1", robotType::CLOSE_TO_BALL},
+                    {"sideAttacker1", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"sideAttacker2", robotType::CLOSE_TO_THEIR_GOAL}
 
-         },
-         {"PenaltyShootTactic", {
-                 {"shooter", robotType::RANDOM}
-         }
-         },
-         {"PenaltyTactic", {
-                 {"shooter", robotType::RANDOM}
-         }
-         },
-         {"FreeKickShootTactic", {
-                 {"freeShooter", robotType::RANDOM}
-         }
-         },
+            }
 
-        {"coachDefenderTactic",
-         {
-                 {"def1",robotType::RANDOM},
-                 {"def2",robotType::RANDOM},
-                 {"def3",robotType::RANDOM},
-                 {"def4",robotType::RANDOM},
-                 {"def5",robotType::RANDOM},
-                 {"def6",robotType::RANDOM},
-                 {"def7",robotType::RANDOM}
-         }
-        },
-        {"TestD",
-         {
-                 {"d1",robotType::RANDOM},
-                 {"d2",robotType::RANDOM},
-                 {"d3",robotType::RANDOM},
-                 {"d4",robotType::RANDOM},
-                 {"d5",robotType::RANDOM}
-         }
-        },
-        {"TestM",
-         {
-                 {"m1",robotType::RANDOM},
-                 {"m2",robotType::RANDOM},
-                 {"m3",robotType::RANDOM},
-                 {"m4",robotType::RANDOM},
-                 {"m5",robotType::RANDOM}
-         }
-        },
-        {"TestO",
-         {
-                 {"o1",robotType::RANDOM},
-                 {"o2",robotType::RANDOM},
-                 {"o3",robotType::RANDOM},
-                 {"o4",robotType::RANDOM},
-                 {"o5",robotType::RANDOM}
-         }
-        }
+            },
+            {"PenaltyShootTactic", {
+                    {"shooter", robotType::RANDOM}
+            }
+            },
+            {"PenaltyTactic", {
+                    {"shooter", robotType::RANDOM}
+            }
+            },
+            {"FreeKickShootTactic", {
+                    {"freeShooter", robotType::RANDOM}
+            }
+            },
+
+            {"coachDefenderTactic",
+             {
+                     {"def1", robotType::RANDOM},
+                     {"def2", robotType::RANDOM},
+                     {"def3", robotType::RANDOM},
+                     {"def4", robotType::RANDOM},
+                     {"def5", robotType::RANDOM},
+                     {"def6", robotType::RANDOM},
+                     {"def7", robotType::RANDOM}
+             }
+            },
+            {"TestD",
+             {
+                     {"d1", robotType::RANDOM},
+                     {"d2", robotType::RANDOM},
+                     {"d3", robotType::RANDOM},
+                     {"d4", robotType::RANDOM},
+                     {"d5", robotType::RANDOM}
+             }
+            },
+            {"TestM",
+             {
+                     {"m1", robotType::RANDOM},
+                     {"m2", robotType::RANDOM},
+                     {"m3", robotType::RANDOM},
+                     {"m4", robotType::RANDOM},
+                     {"m5", robotType::RANDOM}
+             }
+            },
+            {"TestO",
+             {
+                     {"o1", robotType::RANDOM},
+                     {"o2", robotType::RANDOM},
+                     {"o3", robotType::RANDOM},
+                     {"o4", robotType::RANDOM},
+                     {"o5", robotType::RANDOM}
+             }
+            }
     };
 //    runErrorHandler(tactics);
 
     bt::Node::Ptr node;
     if (tactics.find(name) != tactics.end()) {
         node = std::make_shared<bt::DefaultTactic>(name, properties, tactics[name]);
-    } else {
+    }
+    else {
         ROS_ERROR("\n\n\nTHE TACTIC DOES NOT HAVE ROBOTS SPECIFIED IN THE SWITCHES:    %s\n\n\n", name.c_str());
     }
     return node;
