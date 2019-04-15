@@ -58,7 +58,6 @@
 #include <roboteam_ai/src/skills/AvoidBall.h>
 #include <roboteam_ai/src/skills/formations/TimeoutFormation.h>
 #include <roboteam_ai/src/bt/RoleDivider.h>
-#include <roboteam_ai/src/skills/TimeoutFormation.h>
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
 #include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"
