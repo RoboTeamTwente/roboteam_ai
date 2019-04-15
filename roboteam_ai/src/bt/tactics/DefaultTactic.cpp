@@ -48,7 +48,7 @@ void bt::DefaultTactic::claimRobots(int amount) {
     for (int i = 0; i < amount; i++) {
         auto toClaim = getNextClaim();
 
-        std::cout << toClaim.first << std::endl;
+//        std::cout << toClaim.first << std::endl;
 
         robotIDs.insert(dealer::claimRobotForTactic(toClaim.second, toClaim.first, name));
         if (robotIDs.find(- 1) != robotIDs.end()) {
