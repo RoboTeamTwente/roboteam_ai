@@ -1,0 +1,200 @@
+{
+  "name": "prepare_penalty_us_tactic",
+  "data": {
+    "trees": [
+      {
+        "title": "prepare_penalty_us_tactic",
+        "root": "et271vmu8pmeglwpf",
+        "nodes": {
+          "et271vmu8pmeglwpf": {
+            "id": "et271vmu8pmeglwpf",
+            "title": "RoleDivider",
+            "children": [
+              "tv4wkbod2m5lis",
+              "xprl861348tr7sbkw",
+              "5rxvcykwduxctm",
+              "1gslzgsvwudeh55",
+              "m0lt9b78a2x9cvj",
+              "enedajsrlgpravrul",
+              "gk0eux3d8j0sgfdd",
+              "r74t670q5f1b8rgi"
+            ],
+            "properties": {
+              "TacticType": "Offensive"
+            }
+          },
+          "tv4wkbod2m5lis": {
+            "id": "tv4wkbod2m5lis",
+            "title": "Role",
+            "name": "shooter",
+            "role": "penalty_shooter_prepare_role",
+            "children": [
+              "310ki6gp1d36g"
+            ],
+            "properties": {
+              "ROLE": "shooter"
+            }
+          },
+          "310ki6gp1d36g": {
+            "id": "310ki6gp1d36g",
+            "title": "MemSequence",
+            "children": [
+              "ku09cb4edtol76ks"
+            ],
+            "properties": {
+              "ROLE": "shooter"
+            }
+          },
+          "ku09cb4edtol76ks": {
+            "id": "ku09cb4edtol76ks",
+            "title": "GoBehindBall",
+            "properties": {
+              " type": "penalty",
+              "ROLE": "shooter"
+            }
+          },
+          "xprl861348tr7sbkw": {
+            "id": "xprl861348tr7sbkw",
+            "title": "Role",
+            "name": "pa1",
+            "role": "penalty_avoid_role",
+            "children": [
+              "082ogzbj3i1yste"
+            ],
+            "properties": {
+              "ROLE": "pa1"
+            }
+          },
+          "082ogzbj3i1yste": {
+            "id": "082ogzbj3i1yste",
+            "title": "PenaltyFormation",
+            "properties": {
+              "Offensive": "true",
+              "ROLE": "pa1"
+            }
+          },
+          "5rxvcykwduxctm": {
+            "id": "5rxvcykwduxctm",
+            "title": "Role",
+            "name": "pa2",
+            "role": "penalty_avoid_role",
+            "children": [
+              "qqdg9lgnuo0f1v1lv"
+            ],
+            "properties": {
+              "ROLE": "pa2"
+            }
+          },
+          "qqdg9lgnuo0f1v1lv": {
+            "id": "qqdg9lgnuo0f1v1lv",
+            "title": "PenaltyFormation",
+            "properties": {
+              "Offensive": "true",
+              "ROLE": "pa2"
+            }
+          },
+          "1gslzgsvwudeh55": {
+            "id": "1gslzgsvwudeh55",
+            "title": "Role",
+            "name": "pa3",
+            "role": "penalty_avoid_role",
+            "children": [
+              "df9tg9m4jhp51ck"
+            ],
+            "properties": {
+              "ROLE": "pa3"
+            }
+          },
+          "df9tg9m4jhp51ck": {
+            "id": "df9tg9m4jhp51ck",
+            "title": "PenaltyFormation",
+            "properties": {
+              "Offensive": "true",
+              "ROLE": "pa3"
+            }
+          },
+          "m0lt9b78a2x9cvj": {
+            "id": "m0lt9b78a2x9cvj",
+            "title": "Role",
+            "name": "pa4",
+            "role": "penalty_avoid_role",
+            "children": [
+              "2ubpg2kkf66jfa94"
+            ],
+            "properties": {
+              "ROLE": "pa4"
+            }
+          },
+          "2ubpg2kkf66jfa94": {
+            "id": "2ubpg2kkf66jfa94",
+            "title": "PenaltyFormation",
+            "properties": {
+              "Offensive": "true",
+              "ROLE": "pa4"
+            }
+          },
+          "enedajsrlgpravrul": {
+            "id": "enedajsrlgpravrul",
+            "title": "Role",
+            "name": "pa5",
+            "role": "penalty_avoid_role",
+            "children": [
+              "ssfxoswt9w19k"
+            ],
+            "properties": {
+              "ROLE": "pa5"
+            }
+          },
+          "ssfxoswt9w19k": {
+            "id": "ssfxoswt9w19k",
+            "title": "PenaltyFormation",
+            "properties": {
+              "Offensive": "true",
+              "ROLE": "pa5"
+            }
+          },
+          "gk0eux3d8j0sgfdd": {
+            "id": "gk0eux3d8j0sgfdd",
+            "title": "Role",
+            "name": "pa6",
+            "role": "penalty_avoid_role",
+            "children": [
+              "wzrf4ekck0zi69v3"
+            ],
+            "properties": {
+              "ROLE": "pa6"
+            }
+          },
+          "wzrf4ekck0zi69v3": {
+            "id": "wzrf4ekck0zi69v3",
+            "title": "PenaltyFormation",
+            "properties": {
+              "Offensive": "true",
+              "ROLE": "pa6"
+            }
+          },
+          "r74t670q5f1b8rgi": {
+            "id": "r74t670q5f1b8rgi",
+            "title": "Role",
+            "name": "pa7",
+            "role": "penalty_avoid_role",
+            "children": [
+              "v6x4l14rxrf7wjz9k"
+            ],
+            "properties": {
+              "ROLE": "pa7"
+            }
+          },
+          "v6x4l14rxrf7wjz9k": {
+            "id": "v6x4l14rxrf7wjz9k",
+            "title": "PenaltyFormation",
+            "properties": {
+              "Offensive": "true",
+              "ROLE": "pa7"
+            }
+          }
+        }
+      }
+    ]
+  }
+}
