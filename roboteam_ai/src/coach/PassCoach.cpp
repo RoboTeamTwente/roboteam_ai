@@ -49,7 +49,17 @@ const Vector2 &PassCoach::getPassPosition() const {
 }
 
 int PassCoach::determineReceiver() {
-     return g_offensiveCoach.getBestStrikerID();
+    double bestScore = 0;
+    int bestRobotID = -1;
+    for(auto &robot : world::world->getUs()) {
+        double score = coach::CoachHeuristics::calculatePassScore(robot.pos);
+        if (score > bestScore) {
+            bestScore = score;
+            bestRobotID = robot.id;
+        }
+    }
+
+    return bestRobotID;
 }
 
 void PassCoach::setPassed(bool passed) {
