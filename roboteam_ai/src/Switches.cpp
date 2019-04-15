@@ -81,10 +81,6 @@ using robotType = rtt::ai::robotDealer::RobotType;
 std::vector<std::string> Switches::tacticJsonFileNames = {
 //        "QualificationTactic",
 //        "haltTactic",
-//        "OneAttackerTactic",
-//        "OneDefenderTactic",
-//        "TwoDefendersTactic",
-//        "OneAttackerOneDefenderTactic",
 //        "Attactic",
 //        "PassTactic",
 //        "EnterFormationTactic",
@@ -179,15 +175,6 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
 /// If you made a skill or a condition this is where you put them to use
 bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr properties) {
     std::map<std::string, bt::Node::Ptr> map;
-
-    // skills (alphabetic order)
-
-    /*
-     * unused skills
-     * chip
-     * shootAtGoal
-     * sideAttacker
-     */
 
     map["TwoRobotBallPlacement"] = std::make_shared<rtt::ai::TwoRobotBallPlacement>(name, properties);
     map["Attack"] = std::make_shared<rtt::ai::Attack>(name, properties);
@@ -320,8 +307,8 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                 {"avoid2", robotType::RANDOM},
                 {"avoid3", robotType::RANDOM},
                 {"avoid4", robotType::RANDOM},
-                {"avoid5", robotType::RANDOM}
-               // {"avoid6", robotType::RANDOM}
+                {"avoid5", robotType::RANDOM},
+                {"avoid6", robotType::RANDOM}
         }
         },
 
