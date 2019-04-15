@@ -32,6 +32,7 @@ class ControlUtils {
 
         static double constrainAngle(double angle);
         static double distanceToLine(const Vector2 &PointToCheck, const Vector2 &LineStart, const Vector2 &LineEnd);
+        static bool isPointProjectionOnLine(const Vector2 &pointToCheck, const Vector2 &lineBegin, const Vector2 &lineEnd);
         static bool clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world::WorldData &world,
                 double safeDistanceFactor, bool keeper = true);
         static double distanceToLineWithEnds(const Vector2 & PointToCheck, const Vector2 &LineStart,

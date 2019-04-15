@@ -28,11 +28,13 @@ private:
     static const double PASS_LINE_WEIGHT;
     static const double DISTANCE_TO_OPPONENTS_WEIGHT;
     static const double DISTANCE_FROM_CORNER_WEIGHT;
+    static const double BEHIND_BALL_WEIGHT;
 public:
     static double calculateCloseToGoalScore(const Vector2& position);
     static double calculateShotAtGoalScore(const Vector2& position, WorldData world);
     static double calculatePassLineScore(const Vector2& position, WorldData world);
-    static double calculatePositionScore(const Vector2& position);
+    static double calculateBehindBallScore(const Vector2& position, WorldData world);
+    static double calculateOffensivePositionScore(const Vector2 &position);
     static double calculatePassScore(const Vector2& position);
 
     /// Currently not implemented, but might be again later
