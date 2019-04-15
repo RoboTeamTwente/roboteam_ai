@@ -33,8 +33,9 @@ class FormationCoach {
 //        void makeActiveStopPositions();
         bool done = false;
         bool passiveDone = false;
-        std::vector<Vector2> calculatePenaltyHelperPositions();
+        void calculatePenaltyHelperPositions();
         bool penaltyHelperCalculated = false;
+        std::vector<Vector2> penaltyHelperPositions;
 
 
 
