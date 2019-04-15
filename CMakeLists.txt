@@ -100,7 +100,8 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/AnalysisReport.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/RobotDanger.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/RobotDanger.h
-        roboteam_ai/src/analysis/DecisionMaker.cpp roboteam_ai/src/analysis/DecisionMaker.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/DecisionMaker.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/analysis/DecisionMaker.h)
 
 set(TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/Tactic.cpp
@@ -356,10 +357,7 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefenceDealer.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefenceDealer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/PossiblePass.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/PossiblePass.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/FormationCoach.h
-        roboteam_ai/src/analysis/DecisionMaker.cpp
-        roboteam_ai/src/analysis/DecisionMaker.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/PossiblePass.h)
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
@@ -406,8 +404,6 @@ catkin_add_gtest(ai_tests
         ${INTERFACE_SOURCES}
         ${TEST_SOURCES}
         ${WORLD_SOURCES})
-
-
 
 target_compile_options(ai_tests PUBLIC --coverage)
 
