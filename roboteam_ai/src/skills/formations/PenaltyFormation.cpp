@@ -19,7 +19,8 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
 
         for (unsigned int i = 0; i < robotsInFormation.size(); i ++) {
 
-            double targetLocationY = - field.field_width/4*2*i*Constants::ROBOT_RADIUS_MAX();
+            // beautiful magic that works
+            double targetLocationY = - field.field_width/3*3*i*Constants::ROBOT_RADIUS_MAX() + field.field_width/4;
             targetLocations.emplace_back(targetLocationX, targetLocationY);
 
             robotIds.push_back(robotsInFormation.at(i)->id);
