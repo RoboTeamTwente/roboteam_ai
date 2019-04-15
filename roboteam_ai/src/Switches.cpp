@@ -129,10 +129,10 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
 };
 
 std::vector<std::string> Switches::keeperJsonFiles =
-        {"keeperTest1",
-         "SingleKeeperTactic",
-         "haltTactic",
-         "AvoidBallTactic"
+        {
+         "keeper_default_tactic",
+         "keeper_halt_tactic",
+         "keeper_avoid_tactic"
         };
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
@@ -252,6 +252,9 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"halt7", robotType::RANDOM}
             },
             },
+
+
+
         {"OneAttackerTactic", {
                 {"attacker", robotType::CLOSE_TO_THEIR_GOAL}
         }
