@@ -22,7 +22,7 @@ private:
 
     Vector2 targetPos;
     int robotToPassToID = -1;
-    control::NumTreePosControl numTreeGtp = control::NumTreePosControl(true, true, true);
+    control::NumTreePosControl numTreeGtp = control::NumTreePosControl(0.1, true, true);
     control::BasicPosControl basicGtp = control::BasicPosControl (false, true, true);
 
     Status getBall();
