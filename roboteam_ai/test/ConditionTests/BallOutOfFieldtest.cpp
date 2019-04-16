@@ -13,7 +13,7 @@ namespace ai {
 TEST(BallOutOfFieldTest, it_detects_ball_out_of_field) {
     auto BBpointer = std::make_shared<bt::Blackboard>();
 
-    rtt::ai::BallOutOfField node("Test", BBpointer);
+    rtt::ai::BallOutOfField node("BallOutOfField", BBpointer);
     EXPECT_EQ(node.node_name(), "BallOutOfField");
 
     roboteam_msgs::GeometryFieldSize field;
