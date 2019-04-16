@@ -17,7 +17,7 @@ TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side)
     bt::Blackboard BB;
     auto BBpointer = std::make_shared<bt::Blackboard>(BB);
     BBpointer->setBool("inField", true);
-    rtt::ai::IsBallOnOurSide node("Test", BBpointer);
+    rtt::ai::IsBallOnOurSide node("IsBallOnOurSide", BBpointer);
 
     // initialize, but because there is no ball it does not succeed initializing. infield stays false.
     node.initialize();
