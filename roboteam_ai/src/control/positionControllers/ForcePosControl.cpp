@@ -11,7 +11,7 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-ForcePosControl::ForcePosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
+ForcePosControl::ForcePosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
         : PosController(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
 }
 

@@ -1,0 +1,1 @@
+{"data": {"trees": [{"nodes": {"7nzu059777qda14": {"id": "7nzu059777qda14", "name": "avoid_tactic", "title": "Tactic"}, "uhyuttn9f0q7ksqi": {"children": ["7nzu059777qda14"], "id": "uhyuttn9f0q7ksqi", "title": "Repeater"}}, "root": "uhyuttn9f0q7ksqi", "title": "ball_placement_them_strategy"}]}, "name": "ball_placement_them_strategy"}

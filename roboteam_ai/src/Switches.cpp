@@ -9,12 +9,7 @@
 //  |____________________|
 //
 
-#include "roboteam_ai/src/bt/tactics/VictoryDanceTactic.h"
 #include "roboteam_ai/src/bt/tactics/DefaultTactic.h"
-#include "roboteam_ai/src/bt/tactics/EnterFormationTactic.h"
-#include "roboteam_ai/src/bt/tactics/AvoidBallTactic.h"
-#include "roboteam_ai/src/bt/tactics/PenaltyTactic.h"
-
 
 //  ______________________
 //  |                    |
@@ -44,8 +39,13 @@
 #include "roboteam_ai/src/skills/ShootPenalty.h"
 #include "roboteam_ai/src/skills/ShootFreeKick.h"
 #include "roboteam_ai/src/skills/DemoAttack.h"
+#include "roboteam_ai/src/skills/ReflectKick.h"
 #include "roboteam_ai/src/skills/InterceptRobot.hpp"
 #include "roboteam_ai/src/skills/CoachDefend.h"
+#include "roboteam_ai/src/skills/formations/PenaltyFormation.h"
+#include "roboteam_ai/src/skills/ActiveStop.h"
+
+
 
 //  ______________________
 //  |                    |
@@ -59,8 +59,11 @@
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
-#include <roboteam_ai/src/skills/EnterFormation.h>
+#include <roboteam_ai/src/skills/formations/KickOffUsFormation.h>
 #include <roboteam_ai/src/skills/AvoidBall.h>
+#include <roboteam_ai/src/skills/formations/TimeoutFormation.h>
+#include <roboteam_ai/src/bt/RoleDivider.h>
+#include <roboteam_ai/src/skills/formations/KickOffThemFormation.h>
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
 #include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"
@@ -82,58 +85,76 @@
 using robotType = rtt::ai::robotDealer::RobotType;
 
 std::vector<std::string> Switches::tacticJsonFileNames = {
-        "QualificationTactic",
-        "haltTactic",
-        "OneAttackerTactic",
-        "OneDefenderTactic",
-        "TwoDefendersTactic",
-        "OneAttackerOneDefenderTactic",
-        "Attactic",
-        "PassTactic",
-        "EnterFormationTactic",
-        "BallPlacementUsTactic",
-        "AvoidBallTactic",
-        "SingleKeeperTactic",
-        "DemoAttackerTactic",
-        "DemoTactic",
-        "randomTactic", // used for testing, do not remove it!
-        "PenaltyShootTactic",
-        "PenaltyTactic",
-        "FreeKickShootTactic",
-        "SideAttackerTactic",
-        "PassAndShootTactic",
-        "coachDefenderTactic",
-        "BallPlacementDoubleTactic",
-        "InterceptRobotTestTactic"
+//        "QualificationTactic",
+//        "haltTactic",
+//        "Attactic",
+//        "PassTactic",
+//        "EnterFormationTactic",
+//        "BallPlacementUsTactic",
+//        "AvoidBallTactic",
+//        "SingleKeeperTactic",
+//        "DemoAttackerTactic",
+//        "DemoTactic",
+//        "randomTactic", // used for testing, do not remove it!
+//        "PenaltyShootTactic",
+//        "PenaltyTactic",
+//        "FreeKickShootTactic",
+//        "SideAttackerTactic",
+//        "PassAndShootTactic",
+//        "coachDefenderTactic",
+//        "BallPlacementDoubleTactic",
+        "kickoff_them_formation_tactic",
+        "kickoff_us_formation_tactic",
+        "time_out_tactic",
+        "one_robot_ballplacement_tactic",
+        "two_robot_ballplacement_tactic",
+        "prepare_penalty_us_tactic",
+        "avoid_tactic",
+        "halt_tactic",
+        "stop_tactic",
+        "TestD",
+        "TestO",
+        "TestM"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
-        "QualificationStrategy",
-        "haltStrategy",
-        "KeeperStrategy",
-        "DemoStrategy",
-        "PassStrategy",
-        "DemoTeamTwenteStrategy",
-        "twoPlayerStrategyV2",
-        "threePlayerStrategyV2",
-        "EnterFormationStrategy",
-        "BallPlacementUsStrategy",
-        "BallPlacementThemStrategy",
-        "randomStrategy", // used for testing, do not remove it!
-        "PenaltyShootStrategy",
-        "PenaltyStrategy",
-        "FreeKickShootStrategy",
-        "SideAttackerStrategy",
-        "PassAndShootStrategy",
-        "InterceptRobotTestStrategy",
-        "coachDefenderStrategy"
+//        "QualificationStrategy",
+//        "haltStrategy",
+//        "KeeperStrategy",
+//        "DemoStrategy",
+//        "PassStrategy",
+//        "DemoTeamTwenteStrategy",
+//        "twoPlayerStrategyV2",
+//        "threePlayerStrategyV2",
+//       "EnterFormationStrategy",
+//       "TimeOutFormationStrategy",
+//        "BallPlacementUsStrategy",
+//        "BallPlacementThemStrategy",
+//        "randomStrategy", // used for testing, do not remove it!
+//        "PenaltyShootStrategy",
+//        "PenaltyStrategy",
+//        "FreeKickShootStrategy",
+//        "SideAttackerStrategy",
+//        "PassAndShootStrategy",
+//        "coachDefenderStrategy",
+        "kickoff_them_formation_strategy",
+        "kickoff_us_formation_strategy",
+        "time_out_strategy",
+        "ball_placement_us_strategy",
+        "ball_placement_them_strategy",
+        "prepare_penalty_us_strategy",
+        "stop_strategy",
+        "halt_strategy",
+        "TestStrategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles =
-        {"keeperTest1",
-         "SingleKeeperTactic",
-         "haltTactic",
-         "AvoidBallTactic"
+        {
+                "keeper_default_tactic",
+                "keeper_halt_tactic",
+                "keeper_avoid_tactic",
+                "keeper_time_out_tactic",
+                "keeper_formation_tactic"
         };
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
@@ -154,6 +175,7 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
     map["Succeeder"] = std::make_shared<bt::Succeeder>();
     map["UntilFail"] = std::make_shared<bt::UntilFail>();
     map["UntilSuccess"] = std::make_shared<bt::UntilSuccess>();
+    map["RoleDivider"] = std::make_shared<bt::RoleDivider>();
 
     if (map.find(name) != map.end()) {
         return map[name];
@@ -170,15 +192,6 @@ bt::Node::Ptr Switches::nonLeafSwitch(std::string name) {
 bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr properties) {
     std::map<std::string, bt::Node::Ptr> map;
 
-    // skills (alphabetic order)
-
-    /*
-     * unused skills
-     * chip
-     * shootAtGoal
-     * sideAttacker
-     */
-
     map["TwoRobotBallPlacement"] = std::make_shared<rtt::ai::TwoRobotBallPlacement>(name, properties);
     map["Attack"] = std::make_shared<rtt::ai::Attack>(name, properties);
     map["AvoidBall"] = std::make_shared<rtt::ai::AvoidBall>(name, properties);
@@ -189,7 +202,10 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["DemoAttack"] = std::make_shared<rtt::ai::DemoAttack>(name, properties);
     map["Dribble"] = std::make_shared<rtt::ai::Dribble>(name, properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
-    map["EnterFormation"] = std::make_shared<rtt::ai::EnterFormation>(name, properties);
+    map["TimeoutFormation"] = std::make_shared<rtt::ai::TimeoutFormation>(name, properties);
+    map["KickOffUsFormation"] = std::make_shared<rtt::ai::KickOffUsFormation>(name, properties);
+    map["KickOffThemFormation"] = std::make_shared<rtt::ai::KickOffThemFormation>(name, properties);
+
     map["GetBall"] = std::make_shared<rtt::ai::GetBall>(name, properties);
     map["GoAroundPos"] = std::make_shared<rtt::ai::GoAroundPos>(name, properties);
     map["GoToPos"] = std::make_shared<rtt::ai::GoToPos>(name, properties);
@@ -207,6 +223,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["GoBehindBall"] = std::make_shared<rtt::ai::GoBehindBall>(name, properties);
     map["ShootPenalty"] = std::make_shared<rtt::ai::ShootPenalty>(name, properties);
     map["ShootFreeKick"] = std::make_shared<rtt::ai::ShootFreeKick>(name, properties);
+    map["PenaltyFormation"] = std::make_shared<rtt::ai::PenaltyFormation>(name, properties);
+    map["ActiveStop"] = std::make_shared<rtt::ai::ActiveStop>(name, properties);
+    map["ReflectKick"] = std::make_shared<rtt::ai::ReflectKick>(name, properties);
 
     // conditions (alphabetic order)
     map["BallKickedToOurGoal"] = std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
@@ -241,19 +260,139 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
 /// If you made a tactic node for a new tactic this is where you add that
 bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
 
-    std::map<std::string, std::map<std::string, robotType>> tactics = {
+    // The second one is not a map because we want to keep the order
 
-            {"haltTactic", {
+    std::map<std::string, std::vector<std::pair<std::string, robotType>>> tactics = {
+
+            // Keeper tactics
+            {"keeper_default_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            {"keeper_avoid_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            {"keeper_halt_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            {"keeper_time_out_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            {"keeper_formation_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+
+            // General tactics
+            {"halt_tactic", {
                     {"halt0", robotType::RANDOM},
                     {"halt1", robotType::RANDOM},
                     {"halt2", robotType::RANDOM},
                     {"halt3", robotType::RANDOM},
                     {"halt4", robotType::RANDOM},
                     {"halt5", robotType::RANDOM},
-                    {"halt6", robotType::RANDOM}
+                    {"halt6", robotType::RANDOM},
+                    {"halt7", robotType::RANDOM}
+            },
+            },
+
+            {"avoid_tactic", {
+                    {"avoid1", robotType::RANDOM},
+                    {"avoid2", robotType::RANDOM},
+                    {"avoid3", robotType::RANDOM},
+                    {"avoid4", robotType::RANDOM},
+                    {"avoid5", robotType::RANDOM},
+                    {"avoid6", robotType::RANDOM},
+                    {"avoid7", robotType::RANDOM},
+                    {"avoid8", robotType::RANDOM}
             }
             },
 
+            {"time_out_tactic", {
+                    {"timeout1", robotType::RANDOM},
+                    {"timeout2", robotType::RANDOM},
+                    {"timeout3", robotType::RANDOM},
+                    {"timeout4", robotType::RANDOM},
+                    {"timeout5", robotType::RANDOM},
+                    {"timeout6", robotType::RANDOM},
+                    {"timeout7", robotType::RANDOM},
+                    {"timeout8", robotType::RANDOM}
+            }
+            },
+
+            {"prepare_penalty_us_tactic", {
+                    {"shooter", robotType::CLOSE_TO_BALL},
+                    {"pa1", robotType::RANDOM},
+                    {"pa2", robotType::RANDOM},
+                    {"pa3", robotType::RANDOM},
+                    {"pa4", robotType::RANDOM},
+                    {"pa5", robotType::RANDOM},
+                    {"pa6", robotType::RANDOM},
+                    {"pa7", robotType::RANDOM}
+            }
+            },
+
+            {"stop_tactic", {
+                    {"a1", robotType::CLOSE_TO_BALL},
+                    {"a2", robotType::CLOSE_TO_BALL},
+                    {"p1", robotType::RANDOM},
+                    {"p2", robotType::RANDOM},
+                    {"p3", robotType::RANDOM},
+                    {"p4", robotType::RANDOM},
+                    {"p5", robotType::RANDOM},
+                    {"p6", robotType::RANDOM}
+            }
+            },
+
+            {"one_robot_ballplacement_tactic", {
+                    {"ballplacementbot", robotType::RANDOM},
+                    {"avoid1", robotType::RANDOM},
+                    {"avoid2", robotType::RANDOM},
+                    {"avoid3", robotType::RANDOM},
+                    {"avoid4", robotType::RANDOM},
+                    {"avoid5", robotType::RANDOM},
+                    {"avoid6", robotType::RANDOM},
+                    {"avoid7", robotType::RANDOM}
+            }
+            },
+            {"kickoff_them_formation_tactic", {
+                    {"kickoff1", robotType::RANDOM},
+                    {"kickoff2", robotType::RANDOM},
+                    {"kickoff3", robotType::RANDOM},
+                    {"kickoff4", robotType::RANDOM},
+                    {"kickoff5", robotType::RANDOM},
+                    {"kickoff6", robotType::RANDOM},
+                    {"kickoff7", robotType::RANDOM},
+                    {"kickoff8", robotType::RANDOM}
+            }
+            },
+
+            {"kickoff_us_formation_tactic", {
+                    {"kickoff1", robotType::RANDOM},
+                    {"kickoff2", robotType::RANDOM},
+                    {"kickoff3", robotType::RANDOM},
+                    {"kickoff4", robotType::RANDOM},
+                    {"kickoff5", robotType::RANDOM},
+                    {"kickoff6", robotType::RANDOM},
+                    {"kickoff7", robotType::RANDOM},
+                    {"kickoff8", robotType::RANDOM}
+            }
+            },
+
+            {"one_robot_ballplacement_tactic", {
+                    {"ballplacementbot", robotType::RANDOM},
+                    {"avoid1", robotType::RANDOM},
+                    {"avoid2", robotType::RANDOM},
+                    {"avoid3", robotType::RANDOM},
+                    {"avoid4", robotType::RANDOM},
+                    {"avoid5", robotType::RANDOM},
+                    {"avoid6", robotType::RANDOM},
+                    {"avoid7", robotType::RANDOM}
+            }
+            },
+
+            {"two_robot_ballplacement_tactic", {
+                    {"ball_placement_passer", robotType::RANDOM},
+                    {"ball_placement_receiver", robotType::RANDOM},
+                    {"avoid1", robotType::RANDOM},
+                    {"avoid2", robotType::RANDOM},
+                    {"avoid3", robotType::RANDOM},
+                    {"avoid4", robotType::RANDOM},
+                    {"avoid5", robotType::RANDOM},
+                    {"avoid6", robotType::RANDOM}
+            }
+            },
+
+
+            // other
             {"OneAttackerTactic", {
                     {"attacker", robotType::CLOSE_TO_THEIR_GOAL}
             }
@@ -300,20 +439,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"BallPlacementBot", robotType::CLOSE_TO_BALL}
             }
             },
-            {"BallPlacementDoubleTactic", {
-                    {"BallPlacementPasser", robotType::CLOSE_TO_BALL},
-                    {"BallPlacementReceiver", robotType::BALL_PLACEMENT_RECEIVER},
-                    {"avoid1", robotType::RANDOM},
-                    {"avoid2", robotType::RANDOM},
-                    {"avoid3", robotType::RANDOM},
-                    {"avoid4", robotType::RANDOM},
-                    {"avoid5", robotType::RANDOM}
-            }
-            },
-            {"SingleKeeperTactic", {
-                    {"Keeper", robotType::CLOSE_TO_OUR_GOAL}
-            }
-            },
+
             {"DemoAttackerTactic", {
                     {"demoAttacker", robotType::CLOSE_TO_THEIR_GOAL}
             }
@@ -321,10 +447,6 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             {"DemoTactic", {
                     {"demoAttacker", robotType::CLOSE_TO_THEIR_GOAL},
                     {"demoKeeper", robotType::CLOSE_TO_OUR_GOAL}
-            }
-            },
-            {"SingleKeeperTactic", {
-                    {"Keeper", robotType::CLOSE_TO_OUR_GOAL}
             }
             },
             {"SideAttackerTactic", {
@@ -355,6 +477,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"freeShooter", robotType::RANDOM}
             }
             },
+
             {"coachDefenderTactic",
              {
                      {"def1", robotType::RANDOM},
@@ -366,31 +489,43 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                      {"def7", robotType::RANDOM}
              }
             },
-            {
-                "InterceptRobotTestTactic", {
-                        {"driver", robotType::RANDOM},
-                        {"intercepter", robotType::RANDOM}
-                }
+            {"TestD",
+             {
+                     {"d1", robotType::RANDOM},
+                     {"d2", robotType::RANDOM},
+                     {"d3", robotType::RANDOM},
+                     {"d4", robotType::RANDOM},
+                     {"d5", robotType::RANDOM}
+             }
+            },
+            {"TestM",
+             {
+                     {"m1", robotType::RANDOM},
+                     {"m2", robotType::RANDOM},
+                     {"m3", robotType::RANDOM},
+                     {"m4", robotType::RANDOM},
+                     {"m5", robotType::RANDOM}
+             }
+            },
+            {"TestO",
+             {
+                     {"o1", robotType::RANDOM},
+                     {"o2", robotType::RANDOM},
+                     {"o3", robotType::RANDOM},
+                     {"o4", robotType::RANDOM},
+                     {"o5", robotType::RANDOM}
+             }
             }
     };
-    runErrorHandler(tactics);
+//    runErrorHandler(tactics);
 
     bt::Node::Ptr node;
-
-    if (name == "VerySpecialTacticThatWouldRequireSpecialClass")
-        node = std::make_shared<bt::VictoryDanceTactic>("VerySpecialTacticThatWouldRequireSpecialClass", properties);
-    else if (tactics.find(name) != tactics.end())
+    if (tactics.find(name) != tactics.end()) {
         node = std::make_shared<bt::DefaultTactic>(name, properties, tactics[name]);
-    else if (name == "EnterFormationTactic")
-        node = std::make_shared<bt::EnterFormationTactic>("EnterFormationTactic", properties);
-    else if (name == "AvoidBallTactic")
-        node = std::make_shared<bt::AvoidBallTactic>("AvoidBallTactic", properties);
-    else if (name == "victoryDanceTactic")
-        node = std::make_shared<bt::VictoryDanceTactic>("victoryDanceTactic", properties);
-    else if (name == "PenaltyTactic")
-        node = std::make_shared<bt::PenaltyTactic>("PenaltyTactic", properties);
-    else
+    }
+    else {
         ROS_ERROR("\n\n\nTHE TACTIC DOES NOT HAVE ROBOTS SPECIFIED IN THE SWITCHES:    %s\n\n\n", name.c_str());
+    }
     return node;
 }
 
