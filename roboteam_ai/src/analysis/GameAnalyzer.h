@@ -43,8 +43,7 @@ private:
     std::shared_ptr<AnalysisReport> mostRecentReport;
 
     std::vector<std::pair<Robot, RobotDanger>> getRobotsSortedOnDanger(bool ourTeam);
-    double getBallPossessionEstimate(bool ourTeam);
-    playStyle getRecommendedPlayStyle();
+    BallPossession getBallPossessionEstimate(bool ourTeam);
     double getTeamDistanceToGoalAvg(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
     double getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
     RobotDanger evaluateRobotDangerScore(Robot robot, bool ourTeam);
