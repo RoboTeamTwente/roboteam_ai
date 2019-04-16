@@ -24,7 +24,7 @@ TEST(BallKickedToOurGoal,BallKickedToOurGoal){
 
     bt::Blackboard BB;
     auto BBpointer = std::make_shared<bt::Blackboard>(BB);
-    rtt::ai::BallKickedToOurGoal node("Test",BBpointer);
+    rtt::ai::BallKickedToOurGoal node("BallKickedToOurGoal",BBpointer);
 
     EXPECT_EQ(node.node_name(), "BallKickedToOurGoal");
 

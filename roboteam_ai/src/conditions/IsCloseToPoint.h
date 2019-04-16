@@ -1,7 +1,3 @@
-//
-// Created by robzelluf on 1/23/19.
-//
-
 #ifndef ROBOTEAM_AI_ISCLOSETOPOINT_H
 #define ROBOTEAM_AI_ISCLOSETOPOINT_H
 
@@ -12,17 +8,15 @@ namespace ai {
 
 class IsCloseToPoint : public Condition {
 private:
-    double margin;
+    double margin = 0.0;
     Vector2 position;
-    bool ballPos;
 public:
     explicit IsCloseToPoint(std::string name = "IsCloseToPoint", bt::Blackboard::Ptr blackboard = nullptr);
     void onInitialize() override;
     Status onUpdate() override;
-    std::string node_name() override;
 };
 
-}
-}
+} // ai 
+} // rtt
 
 #endif //ROBOTEAM_AI_ISCLOSETOPOINT_H
