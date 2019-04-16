@@ -1,6 +1,6 @@
-//
-// Created by rolf on 12/12/18.
-//
+/*
+ * returns SUCCESS if the ball is kicked to the goal. Otherwise FAILURE.
+ */
 
 #include "BallKickedToOurGoal.h"
 #include "../control/ControlUtils.h"
@@ -12,12 +12,21 @@ BallKickedToOurGoal::BallKickedToOurGoal(std::string name, bt::Blackboard::Ptr b
         :Condition(std::move(name), std::move(blackboard)) { };
 
 bt::Node::Status BallKickedToOurGoal::onUpdate() {
-    if ((Vector2(ball->vel)).length() < Constants::BALL_STILL_VEL()) return Status::Failure;
+
+    // Check if the ball is moving at all
+    bool ballIsLayingStill = (Vector2(ball->vel)).length() < Constants::BALL_STILL_VEL();
+    if (ballIsLayingStill) { 
+        return Status::Failure;
+    }
+
+    // determine the goalsides
     Vector2 goalCentre = world::field->get_our_goal_center();
     double goalWidth = world::field->get_field().goal_width;
     double margin = BALL_TO_GOAL_MARGIN;
     Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth/2 + margin));
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth/2 + margin);
+
+    // determine the ball position and predicted ball position
     Vector2 ballPos = ball->pos;
     Vector2 ballPredPos = Vector2(ballPos) + Vector2(ball->vel)*BALL_TO_GOAL_TIME;
    
@@ -26,9 +35,9 @@ bt::Node::Status BallKickedToOurGoal::onUpdate() {
     if (control::ControlUtils::lineSegmentsIntersect(lowerPost, upperPost, ballPos, ballPredPos)) {
         return Status::Success;
     }
-    else {
-        return Status::Failure;
-    }
+    
+    return Status::Failure;
 }
+
 }//ai
 }//rtt
