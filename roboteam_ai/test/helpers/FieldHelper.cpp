@@ -14,13 +14,13 @@ namespace testhelpers {
     field.field_width = field_width;
     field.goal_width = goal_width;
 
-    field = addDefenseAreas(field, defense_area_width, defense_area_length);
-    field = addCenterArc(field, center_circle_radius);
+    addDefenseAreas(field, defense_area_width, defense_area_length);
+    addCenterArc(field, center_circle_radius);
     return field;
 }
 
-    roboteam_msgs::GeometryFieldSize
-FieldHelper::addDefenseAreas(roboteam_msgs::GeometryFieldSize field, double defenseAreaWidth, double defenseAreaDepth) {
+    void
+FieldHelper::addDefenseAreas(roboteam_msgs::GeometryFieldSize &field, double defenseAreaWidth, double defenseAreaDepth) {
     field.top_right_penalty_stretch.begin = Vector2{field.field_length / 2 - defenseAreaDepth, defenseAreaWidth / 2};
     field.top_right_penalty_stretch.end = Vector2{field.field_length / 2, defenseAreaWidth / 2};
     field.bottom_right_penalty_stretch.begin = field.top_right_penalty_stretch.begin;
@@ -30,15 +30,12 @@ FieldHelper::addDefenseAreas(roboteam_msgs::GeometryFieldSize field, double defe
     field.top_left_penalty_stretch.end = Vector2{-field.field_length / 2, defenseAreaWidth / 2};
     field.bottom_left_penalty_stretch.begin = field.top_left_penalty_stretch.begin;
     field.bottom_left_penalty_stretch.end = Vector2{-field.field_length / 2, -defenseAreaWidth / 2};
-    return field;
 }
 
-roboteam_msgs::GeometryFieldSize
-FieldHelper::addCenterArc(roboteam_msgs::GeometryFieldSize field, double radius) {
+void
+FieldHelper::addCenterArc(roboteam_msgs::GeometryFieldSize &field, double radius) {
     field.center_circle.center = Vector2{0, 0};
     field.center_circle.radius = radius;
-
-    return field;
 }
 
 }
