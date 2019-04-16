@@ -1,5 +1,6 @@
 #include <roboteam_ai/src/world/WorldData.h>
 #include <roboteam_ai/src/world/World.h>
+#include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include "DefaultTactic.h"
 #include "../../utilities/RobotDealer.h"
 
@@ -112,7 +113,10 @@ void bt::DefaultTactic::parseType(std::string typee) {
 
 }
 void bt::DefaultTactic::updateStyle() {
-    rtt::ai::analysis::PlayStyle style = maker.getRecommendedPlayStyle();
+
+    rtt::ai::analysis::AnalysisReport report = * rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
+    rtt::ai::analysis::BallPossession possession = report.ballPossession;
+    rtt::ai::analysis::PlayStyle style = maker.getRecommendedPlayStyle(possession);
 
     if (thisType == Defensive) {
         amountToTick = style.amountOfDefenders;

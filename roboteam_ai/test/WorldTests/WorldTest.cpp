@@ -13,6 +13,8 @@ namespace w = rtt::ai::world;
 TEST(WorldTest, it_sets_and_gets_the_world) {
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldBall ball;
+
+    w::world->updateWorld(worldMsg);
     EXPECT_FALSE(w::world->weHaveRobots());
 
     ball.pos.x = 42;
