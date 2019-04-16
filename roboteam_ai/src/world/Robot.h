@@ -23,13 +23,13 @@ private:
     double distanceToBall;
     bool iHaveBall;
     int genevaState = 3;
-    double findBallDistance(const Vector2 &ballPos);
 
 public:
     enum Team : short {
       us,
       them
     };
+    double findBallDistance(const Vector2 &ballPos);
 
     const roboteam_msgs::WorldRobot toMessage() const;
     void updateRobot(const Ball &ball);
