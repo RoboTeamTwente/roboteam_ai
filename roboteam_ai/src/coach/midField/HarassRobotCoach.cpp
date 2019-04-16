@@ -46,7 +46,7 @@ Vector2 HarassRobotCoach::getHarassPosition(const Vector2 &currentLocation, int 
                 // if this robot is closest to the robot with ball, harass that robot
                 int bestIndex = getRobotIndexCloseToEnemyRobot(robotWithBall);
                 if (bestIndex == myIndex) {
-                    return harassRobot(myIndex, robotWithBall->id);
+                    return harassRobot(myIndex, robotWithBall->id, false);
                 }
 
                 // else if this robot already has another robot assigned
@@ -88,7 +88,7 @@ Vector2 HarassRobotCoach::getHarassPosition(const Vector2 &currentLocation, int 
             }
 
         }
-            // nobody has ball
+        // nobody has ball
         else {
 
         }
@@ -133,7 +133,7 @@ int HarassRobotCoach::getRobotIndexCloseToEnemyRobot(const world::World::RobotPt
     return bestIndex;
 }
 
-Vector2 HarassRobotCoach::harassRobot(int myIndex, int id) {
+Vector2 HarassRobotCoach::harassRobot(int myIndex, int id, bool stayInMidField) {
     // (re)set the robot harassed to the robot with that id
     targetRobotsToHarass[myIndex] = RobotPtr(nullptr);
     RobotPtr robotToHarass = world::world->getRobotForId(id, false);
@@ -141,14 +141,18 @@ Vector2 HarassRobotCoach::harassRobot(int myIndex, int id) {
     if (! robotToHarass) return {currentRobotPositions[myIndex]};
     if (! ball) return {robotToHarass->pos.x - 0.3, robotToHarass->pos.y};
 
+    // set target
     Vector2 target;
     if (robotToHarass->getDistanceToBall() >= 0.0) {
         target = ball->pos + (ball->pos - robotToHarass->pos).stretchToLength(0.2);
     }
     else {
-        double a = 0.7;
-        target = {robotToHarass->pos.x*a + ball->pos.x*(1-a), robotToHarass->pos.y*a + ball->pos.y*(1-a)};
+        double a = 0.74;
+        target = robotToHarass->pos*a + ball->pos*(1-a);
+        target.x = target.x > bestXPos + 1.0 ? target.x*a + (bestXPos + 1.0)*(1-a) : target.x;
+        target.x = target.x < bestXPos - 1.0 ? target.x*a + (bestXPos - 1.0)*(1-a) : target.x;
     }
+
     targetRobotPositions[myIndex] = target;
     targetRobotsToHarass[myIndex] = robotToHarass;
     for (int i = 0; i < targetRobotsToHarass.size(); i++) {
