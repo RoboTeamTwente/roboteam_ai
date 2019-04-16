@@ -69,16 +69,15 @@ class MainWindow : public QMainWindow {
         QPushButton* refreshBtn;
 
         QPushButton* toggleColorBtn;
-        QPushButton * toggleSideBtn;
+        QPushButton* toggleSideBtn;
         QComboBox* select_strategy;
-
+        QComboBox* select_keeper_strategy;
         QComboBox* select_goalie;
 
-
 private:
-        PidBox * numTreePidBox;
-        PidBox * forcePidBox;
-        PidBox * basicPidBox;
+        PidBox* numTreePidBox;
+        PidBox* forcePidBox;
+        PidBox* basicPidBox;
 
         void configureCheckBox(QString title, QLayout* layout, const QObject* receiver, const char* method,
                 bool defaultState = false);
