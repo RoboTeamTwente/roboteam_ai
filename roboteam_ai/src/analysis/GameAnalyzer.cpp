@@ -25,7 +25,7 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
     if (world::world->weHaveRobots()) {
         std::shared_ptr<AnalysisReport> report = std::make_shared<AnalysisReport>();
 
-        report->ballPossession = convertPossession(bpTracker->getPossession());
+        report->ballPossession = getBallPossessionEstimate(true);
         report->ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(true);
         report->theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(false);
         report->theirRobotSortedOnDanger = getRobotsSortedOnDanger(false);
@@ -41,8 +41,8 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
 }
 
 // get an estimation of ballpossession
-BallPossession GameAnalyzer::getBallPossessionEstimate() {
-    Robot::Team ourteam = Robot::Team::us;
+BallPossession GameAnalyzer::getBallPossessionEstimate(bool ourTeam) {
+    Robot::Team ourteam = ourTeam ? Robot::Team::us : Robot::Team::them;
 
     auto robotWithBall = world::world->whichRobotHasBall();
     if (robotWithBall) {
@@ -227,15 +227,6 @@ std::vector<std::pair<GameAnalyzer::Robot, RobotDanger>> GameAnalyzer::getRobots
     });
 
     return robotDangers;
-}
-
-BallPossession GameAnalyzer::convertPossession(rtt::ai::BallPossession::Possession possession) {
-    switch(possession){
-    case (rtt::ai::BallPossession::LOOSEBALL):
-    case (rtt::ai::BallPossession::CONTENDEDBALL): return BallPossession::NEUTRAL;
-    case (rtt::ai::BallPossession::THEIRBALL): return BallPossession::THEY_HAVE_BALL;
-    case (rtt::ai::BallPossession::OURBALL): return BallPossession::WE_HAVE_BALL;
-    }
 }
 
 } // analysis

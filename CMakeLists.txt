@@ -171,8 +171,6 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoAroundPos.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/EnterFormation.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/EnterFormation.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GoBehindBall.cpp
@@ -190,14 +188,25 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SideAttacker.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/CoachDefend.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/CoachDefend.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TimeoutFormation.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TimeoutFormation.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptRobot.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptRobot.hpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/CoachDefend.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PenaltyHelper.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PenaltyHelper.h
-        )
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ActiveStop.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ActiveStop.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ReflectKick.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ReflectKick.h
+
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/Formation.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/Formation.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/TimeoutFormation.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/TimeoutFormation.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffUsFormation.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffUsFormation.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffThemFormation.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffThemFormation.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/PenaltyFormation.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/PenaltyFormation.cpp)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
@@ -335,7 +344,7 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/History.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/History.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/FutureWorld.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/FutureWorld.h roboteam_ai/src/world/BallPossession.cpp roboteam_ai/src/world/BallPossession.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/FutureWorld.h)
 
 set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/CoachHeuristics.h
@@ -348,8 +357,6 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GeneralPositionCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/OffensiveCoach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/OffensiveCoach.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/FormationCoach.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/FormationCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefencePositionCoach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefencePositionCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefenceDealer.cpp

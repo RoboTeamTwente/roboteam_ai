@@ -8,7 +8,7 @@
 #include "AnalysisReport.h"
 #include "../world/WorldData.h"
 #include "../world/World.h"
-#include "../world/BallPossession.h"
+
 namespace rtt {
 namespace ai {
 namespace analysis {
@@ -43,8 +43,7 @@ private:
     std::shared_ptr<AnalysisReport> mostRecentReport;
 
     std::vector<std::pair<Robot, RobotDanger>> getRobotsSortedOnDanger(bool ourTeam);
-    BallPossession getBallPossessionEstimate();
-    BallPossession convertPossession(rtt::ai::BallPossession::Possession possession);
+    BallPossession getBallPossessionEstimate(bool ourTeam);
     double getTeamDistanceToGoalAvg(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
     double getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
     RobotDanger evaluateRobotDangerScore(Robot robot, bool ourTeam);

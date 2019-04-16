@@ -5,6 +5,7 @@
 #include "World.h"
 #include "FutureWorld.h"
 #include "BallPossession.h"
+
 namespace rtt {
 namespace ai {
 namespace world {

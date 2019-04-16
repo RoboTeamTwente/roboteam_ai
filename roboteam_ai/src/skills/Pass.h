@@ -22,7 +22,7 @@ private:
 
     Vector2 targetPos;
     int robotToPassToID = -1;
-    control::NumTreePosControl numTreeGtp = control::NumTreePosControl(true, true, true);
+    control::NumTreePosControl numTreeGtp = control::NumTreePosControl(0.1, true, true);
     control::BasicPosControl basicGtp = control::BasicPosControl (false, true, true);
 
     Status getBall();
@@ -30,11 +30,13 @@ private:
     Status shoot();
 
     double determineKickForce(double distance);
+    Vector2 getKicker();
 
 public:
     explicit Pass(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
+    void onTerminate(Status s) override;
     void determineRobotToPassTo();
 };
 

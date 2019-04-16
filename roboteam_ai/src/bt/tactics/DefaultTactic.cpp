@@ -132,7 +132,7 @@ void bt::DefaultTactic::updateStyle() {
 void bt::DefaultTactic::convert(const std::vector<std::pair<std::string, RobotType>> &unit) {
     int counter = 1;
     for (const auto &robot : unit) {
-        std::tuple<int, std::string, RobotType> temp = {counter, robot.first, robot.second};
+        std::tuple<int, std::string, RobotType> temp = std::tuple<int, std::string, RobotType>(counter, robot.first, robot.second);
         robots.push_back(temp);
         counter ++;
     }
