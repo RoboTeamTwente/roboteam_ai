@@ -16,7 +16,7 @@ PlayStyle DecisionMaker::getRecommendedPlayStyle(BallPossession possession) {
 
     // subtract one robot if we need a keeper
     if (robotDealer::RobotDealer::usesSeparateKeeper()) {
-        amountOfRobots -= 1;
+        amountOfRobots = std::max(0, amountOfRobots-1);
     }
 
   PlayStyle styles[9][3]  = {

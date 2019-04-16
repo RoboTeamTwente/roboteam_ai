@@ -14,7 +14,6 @@ namespace analysis {
 
 TEST(DecisionMakerTest, all_setups_have_right_amounts_of_robots) {
 
-    robotDealer::RobotDealer::setUseSeparateKeeper(false);
 
     roboteam_msgs::GeometryFieldSize field;
     field.field_length = 12;
@@ -30,12 +29,20 @@ TEST(DecisionMakerTest, all_setups_have_right_amounts_of_robots) {
         // iterate over the ballplacement enum
         for (int fooInt = THEY_HAVE_BALL; fooInt != WE_HAVE_BALL; fooInt++ ) {
             auto possession = static_cast<BallPossession>(fooInt);
+
+            robotDealer::RobotDealer::setUseSeparateKeeper(false);
+
             DecisionMaker maker;
             PlayStyle style = maker.getRecommendedPlayStyle(possession);
 
             // the total amount of robots from the playstyle should always equal
             int total = style.amountOfAttackers + style.amountOfMidfielders + style.amountOfDefenders;
             EXPECT_EQ(total, amountOfRobots);
+
+            robotDealer::RobotDealer::setUseSeparateKeeper(true);
+            style = maker.getRecommendedPlayStyle(possession);
+            total = style.amountOfAttackers + style.amountOfMidfielders + style.amountOfDefenders;
+            EXPECT_EQ(total, std::max(0, amountOfRobots-1));
         }
     }
 }
