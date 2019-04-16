@@ -9,7 +9,7 @@ namespace ai {
 
 GoBehindBall::GoBehindBall(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
-
+    goToPos.setAvoidBall(0.02);
 }
 
 Skill::Status GoBehindBall::onUpdate() {
@@ -31,6 +31,9 @@ Skill::Status GoBehindBall::onUpdate() {
                 return Status::Running;
             }
             else {
+
+
+
                 return Status::Success;
             }
         }
@@ -55,6 +58,11 @@ Skill::Status GoBehindBall::onUpdate() {
                 return Status::Running;
             }
             else {
+                command.w = robot->angularVelocity;
+                command.x_vel = 0;
+                command.y_vel =0;
+                command.geneva_state = 1;
+                publishRobotCommand();
                 return Status::Success;
             }
         }
