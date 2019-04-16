@@ -54,6 +54,7 @@ class DefencePositionCoach {
         std::vector<PossiblePass> sortPassesByDanger(std::vector<std::pair<PossiblePass, double>> &passesWithDanger);
         std::vector<std::pair<PossiblePass, double>> createPassesAndDanger(const world::WorldData &world);
         world::WorldData removeBotFromWorld(world::WorldData world, int id, bool ourTeam);
+        world::WorldData getTheirAttackers(const world::WorldData& world);
 
 };
 extern DefencePositionCoach g_defensivePositionCoach;

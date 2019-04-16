@@ -127,6 +127,7 @@ std::vector<DefencePositionCoach::DefenderBot> DefencePositionCoach::decidePosit
     // we start by creating a simulated world in which we place our robots according to the most needed positions 1 by 1
     world::WorldData simulatedWorld = world::world->getWorld();
     simulatedWorld.us.clear();
+    simulatedWorld=getTheirAttackers(simulatedWorld);    // we select only the relevant robots
     //first we handle the most dangerous position first. This needs to be blocked completely
     if (auto crucialBlock=blockBallLine(simulatedWorld)){
         DefenderBot crucialDefender=createBlockBall(*crucialBlock);
@@ -160,7 +161,7 @@ std::vector<DefencePositionCoach::DefenderBot> DefencePositionCoach::decidePosit
             passes = createPassesSortedByDanger(simulatedWorld);
         }
         else {
-            //remove the attacker from the simulated world as we cannot cover it anyways
+            //remove the attacker from the simulated world as we cannot cover it anyways. This should almost never happen
             simulatedWorld = removeBotFromWorld(simulatedWorld, passes[0].toBot.id, false);
         }
     }
@@ -318,6 +319,25 @@ Vector2 DefencePositionCoach::findPositionForBlockBall(const Line &blockLine) {
         return intersect;
     }
     return getPosOnLine(blockLine, 0.3);
+}
+
+world::WorldData DefencePositionCoach::getTheirAttackers(const world::WorldData& world) {
+    std::vector<world::Robot> theirAttackers;
+    for (const world::Robot& robot :world.them){
+        // we remove any attackers that are outside of the field or in our defence area
+        if (world::field->pointIsInDefenceArea(robot.pos,true,0.04)){
+            continue;
+        }
+        else if (!world::field->pointIsInField(robot.pos,0.1)){
+            continue;
+        }
+        else{
+            theirAttackers.push_back(robot);
+        }
+    }
+    world::WorldData newWorld=world;
+    newWorld.them=theirAttackers;
+    return newWorld;
 }
 }//coach
 }//ai
