@@ -110,7 +110,7 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "prepare_penalty_us_tactic",
         "avoid_tactic",
         "halt_tactic",
-        "stop_tactic"
+        "stop_tactic",
         "TestD",
         "TestO",
         "TestM"
@@ -142,18 +142,18 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "ball_placement_us_strategy",
         "ball_placement_them_strategy",
         "prepare_penalty_us_strategy",
-        "stop_strategy"
+        "stop_strategy",
         "halt_strategy",
         "TestStrategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles =
         {
-         "keeper_default_tactic",
-         "keeper_halt_tactic",
-         "keeper_avoid_tactic",
-         "keeper_time_out_tactic",
-         "keeper_formation_tactic"
+                "keeper_default_tactic",
+                "keeper_halt_tactic",
+                "keeper_avoid_tactic",
+                "keeper_time_out_tactic",
+                "keeper_formation_tactic"
         };
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
@@ -262,12 +262,12 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 
     std::map<std::string, std::vector<std::pair<std::string, robotType>>> tactics = {
 
-        // Keeper tactics
-        {"keeper_default_tactic",   {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
-        {"keeper_avoid_tactic",     {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
-        {"keeper_halt_tactic",      {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
-        {"keeper_time_out_tactic",  {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
-        {"keeper_formation_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            // Keeper tactics
+            {"keeper_default_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            {"keeper_avoid_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            {"keeper_halt_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            {"keeper_time_out_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            {"keeper_formation_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
 
             // General tactics
             {"halt_tactic", {
@@ -318,20 +318,19 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
 
-        {"stop_tactic", {
-                {"a1", robotType::CLOSE_TO_BALL},
-                {"a2", robotType::CLOSE_TO_BALL},
-                {"p1", robotType::RANDOM},
-                {"p2", robotType::RANDOM},
-                {"p3", robotType::RANDOM},
-                {"p4", robotType::RANDOM},
-                {"p5", robotType::RANDOM},
-                {"p6", robotType::RANDOM}
-        }
-        },
+            {"stop_tactic", {
+                    {"a1", robotType::CLOSE_TO_BALL},
+                    {"a2", robotType::CLOSE_TO_BALL},
+                    {"p1", robotType::RANDOM},
+                    {"p2", robotType::RANDOM},
+                    {"p3", robotType::RANDOM},
+                    {"p4", robotType::RANDOM},
+                    {"p5", robotType::RANDOM},
+                    {"p6", robotType::RANDOM}
+            }
+            },
 
-
-        {"one_robot_ballplacement_tactic", {
+            {"one_robot_ballplacement_tactic", {
                     {"ballplacementbot", robotType::RANDOM},
                     {"avoid1", robotType::RANDOM},
                     {"avoid2", robotType::RANDOM},
@@ -342,41 +341,41 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"avoid7", robotType::RANDOM}
             }
             },
-        {"kickoff_them_formation_tactic", {
-             {"kickoff1", robotType::RANDOM},
-             {"kickoff2", robotType::RANDOM},
-             {"kickoff3", robotType::RANDOM},
-             {"kickoff4", robotType::RANDOM},
-             {"kickoff5", robotType::RANDOM},
-             {"kickoff6", robotType::RANDOM},
-             {"kickoff7", robotType::RANDOM},
-             {"kickoff8", robotType::RANDOM}
-        }
-        },
+            {"kickoff_them_formation_tactic", {
+                    {"kickoff1", robotType::RANDOM},
+                    {"kickoff2", robotType::RANDOM},
+                    {"kickoff3", robotType::RANDOM},
+                    {"kickoff4", robotType::RANDOM},
+                    {"kickoff5", robotType::RANDOM},
+                    {"kickoff6", robotType::RANDOM},
+                    {"kickoff7", robotType::RANDOM},
+                    {"kickoff8", robotType::RANDOM}
+            }
+            },
 
-        {"kickoff_us_formation_tactic", {
-             {"kickoff1", robotType::RANDOM},
-             {"kickoff2", robotType::RANDOM},
-             {"kickoff3", robotType::RANDOM},
-             {"kickoff4", robotType::RANDOM},
-             {"kickoff5", robotType::RANDOM},
-             {"kickoff6", robotType::RANDOM},
-             {"kickoff7", robotType::RANDOM},
-             {"kickoff8", robotType::RANDOM}
-        }
-        },
+            {"kickoff_us_formation_tactic", {
+                    {"kickoff1", robotType::RANDOM},
+                    {"kickoff2", robotType::RANDOM},
+                    {"kickoff3", robotType::RANDOM},
+                    {"kickoff4", robotType::RANDOM},
+                    {"kickoff5", robotType::RANDOM},
+                    {"kickoff6", robotType::RANDOM},
+                    {"kickoff7", robotType::RANDOM},
+                    {"kickoff8", robotType::RANDOM}
+            }
+            },
 
-        {"one_robot_ballplacement_tactic", {
-              {"ballplacementbot", robotType::RANDOM},
-              {"avoid1", robotType::RANDOM},
-              {"avoid2", robotType::RANDOM},
-              {"avoid3", robotType::RANDOM},
-              {"avoid4", robotType::RANDOM},
-              {"avoid5", robotType::RANDOM},
-              {"avoid6", robotType::RANDOM},
-              {"avoid7", robotType::RANDOM}
-        }
-        },
+            {"one_robot_ballplacement_tactic", {
+                    {"ballplacementbot", robotType::RANDOM},
+                    {"avoid1", robotType::RANDOM},
+                    {"avoid2", robotType::RANDOM},
+                    {"avoid3", robotType::RANDOM},
+                    {"avoid4", robotType::RANDOM},
+                    {"avoid5", robotType::RANDOM},
+                    {"avoid6", robotType::RANDOM},
+                    {"avoid7", robotType::RANDOM}
+            }
+            },
 
             {"two_robot_ballplacement_tactic", {
                     {"ball_placement_passer", robotType::RANDOM},
