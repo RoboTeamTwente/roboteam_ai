@@ -19,8 +19,7 @@ namespace testhelpers {
     return field;
 }
 
-    void
-FieldHelper::addDefenseAreas(roboteam_msgs::GeometryFieldSize &field, double defenseAreaWidth, double defenseAreaDepth) {
+void FieldHelper::addDefenseAreas(roboteam_msgs::GeometryFieldSize &field, double defenseAreaWidth, double defenseAreaDepth) {
     field.top_right_penalty_stretch.begin = Vector2{field.field_length / 2 - defenseAreaDepth, defenseAreaWidth / 2};
     field.top_right_penalty_stretch.end = Vector2{field.field_length / 2, defenseAreaWidth / 2};
     field.bottom_right_penalty_stretch.begin = field.top_right_penalty_stretch.begin;
@@ -32,8 +31,7 @@ FieldHelper::addDefenseAreas(roboteam_msgs::GeometryFieldSize &field, double def
     field.bottom_left_penalty_stretch.end = Vector2{-field.field_length / 2, -defenseAreaWidth / 2};
 }
 
-void
-FieldHelper::addCenterArc(roboteam_msgs::GeometryFieldSize &field, double radius) {
+void FieldHelper::addCenterArc(roboteam_msgs::GeometryFieldSize &field, double radius) {
     field.center_circle.center = Vector2{0, 0};
     field.center_circle.radius = radius;
 }
