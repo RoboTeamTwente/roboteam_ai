@@ -56,6 +56,10 @@ class DefencePositionCoach {
         world::WorldData removeBotFromWorld(world::WorldData world, int id, bool ourTeam);
         world::WorldData getTheirAttackers(const world::WorldData& world);
 
+        bool validNewPosition(const Vector2& position,const world::WorldData& world);
+        std::shared_ptr<double> pickNewPosition(const Line& line ,const world::WorldData& world);
+        std::shared_ptr<Vector2> pickNewPosition(PossiblePass pass, const world::WorldData& world);
+
 };
 extern DefencePositionCoach g_defensivePositionCoach;
 

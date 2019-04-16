@@ -127,10 +127,10 @@ std::vector<DefencePositionCoach::DefenderBot> DefencePositionCoach::decidePosit
     // we start by creating a simulated world in which we place our robots according to the most needed positions 1 by 1
     world::WorldData simulatedWorld = world::world->getWorld();
     simulatedWorld.us.clear();
-    simulatedWorld=getTheirAttackers(simulatedWorld);    // we select only the relevant robots
+    simulatedWorld = getTheirAttackers(simulatedWorld);    // we select only the relevant robots
     //first we handle the most dangerous position first. This needs to be blocked completely
-    if (auto crucialBlock=blockBallLine(simulatedWorld)){
-        DefenderBot crucialDefender=createBlockBall(*crucialBlock);
+    if (auto crucialBlock = blockBallLine(simulatedWorld)) {
+        DefenderBot crucialDefender = createBlockBall(*crucialBlock);
         defenders.push_back(crucialDefender);
         simulatedWorld.us.push_back(crucialDefender.toRobot());
     }
@@ -138,21 +138,25 @@ std::vector<DefencePositionCoach::DefenderBot> DefencePositionCoach::decidePosit
     std::vector<PossiblePass> passes = createPassesSortedByDanger(simulatedWorld);
     while (defenders.size() != amount && ! passes.empty()) {
         DefenderBot defender;
-        bool foundPosition=true;
+        bool foundPosition = true;
         // first try blocking the goal vision of the robot being passed to
         // then block on the defense line
         // if that doesn't work try to block the pass itself directly
-        if (auto blockLine=blockToGoalLine(passes[0],simulatedWorld)){
-            defender= createBlockToGoal(passes[0], 0.0, *blockLine);
+        if (auto blockLine = blockToGoalLine(passes[0], simulatedWorld)) {
+            if (auto aggressionFactor = pickNewPosition(*blockLine, simulatedWorld)) {
+                defender = createBlockToGoal(passes[0], *aggressionFactor, *blockLine);
+            }
         }
-        else if(auto blockPos=blockOnDefenseAreaLine(passes[0],simulatedWorld)){
-            defender= createBlockOnLine(passes[0], *blockPos);
+        else if (auto blockPos = blockOnDefenseAreaLine(passes[0], simulatedWorld)) {
+            if (validNewPosition(*blockPos, simulatedWorld)) {
+                defender = createBlockOnLine(passes[0], *blockPos);
+            }
         }
-        else if(auto passBlock=blockOnPassLine(passes[0],simulatedWorld)){
-            defender= createBlockPass(passes[0], *passBlock);
+        else if (auto passBlock = pickNewPosition(passes[0], simulatedWorld)) {
+            defender = createBlockPass(passes[0], *passBlock);
         }
-        else{
-            foundPosition=false;
+        else {
+            foundPosition = false;
         }
         // if we find a defender add it to our queue and our simulatedWorld and update the passes we found
         if (foundPosition) {
@@ -321,23 +325,63 @@ Vector2 DefencePositionCoach::findPositionForBlockBall(const Line &blockLine) {
     return getPosOnLine(blockLine, 0.3);
 }
 
-world::WorldData DefencePositionCoach::getTheirAttackers(const world::WorldData& world) {
+world::WorldData DefencePositionCoach::getTheirAttackers(const world::WorldData &world) {
     std::vector<world::Robot> theirAttackers;
-    for (const world::Robot& robot :world.them){
+    for (const world::Robot &robot :world.them) {
         // we remove any attackers that are outside of the field or in our defence area
-        if (world::field->pointIsInDefenceArea(robot.pos,true,0.04)){
+        if (world::field->pointIsInDefenceArea(robot.pos, true, 0.04)) {
             continue;
         }
-        else if (!world::field->pointIsInField(robot.pos,0.1)){
+        else if (! world::field->pointIsInField(robot.pos, 0.1)) {
             continue;
         }
-        else{
+        else {
             theirAttackers.push_back(robot);
         }
     }
-    world::WorldData newWorld=world;
-    newWorld.them=theirAttackers;
+    world::WorldData newWorld = world;
+    newWorld.them = theirAttackers;
     return newWorld;
+}
+bool DefencePositionCoach::validNewPosition(const Vector2 &position, const world::WorldData &world) {
+    double collisionRadius = 0.15;// a little smaller than 2 robot radii so that we can make solid walls still
+    for (const auto &robot: world.us) {
+        if ((robot.pos - position).length() < collisionRadius) {
+            return false;
+        }
+    }
+    return true;
+}
+std::shared_ptr<double> DefencePositionCoach::pickNewPosition(const Line& line,
+        const world::WorldData &world) {
+    double lineLen=(line.second-line.first).length();
+    double minSkipDist=0.05;
+    double skipDist=max(minSkipDist,lineLen/30.0);
+    // try positions on the line by skipping forward skipDist every time. If one works return
+    for (int aggFac = 0; aggFac <1/skipDist; ++ aggFac) {
+        if(validNewPosition(getPosOnLine(line,aggFac*skipDist),world)){
+            std::shared_ptr<double> point=std::make_shared<double>(aggFac);
+            return point;
+        }
+    }
+    return nullptr;
+
+}
+std::shared_ptr<Vector2> DefencePositionCoach::pickNewPosition(PossiblePass pass,
+        const world::WorldData &world) {
+    std::shared_ptr<Vector2> point = nullptr;
+    double passLen=pass.distance();
+    double segments=30.0;
+    for (int j = 0; j <=segments/2.0; ++ j) {
+        if (validNewPosition(pass.posOnLine(1/2.0+j/segments),world)){
+            return std::make_shared<Vector2>(pass.posOnLine(1/2.0+j/segments));
+        }
+        else if(validNewPosition(pass.posOnLine(1/2.0-j/segments),world)){
+            return std::make_shared<Vector2>(pass.posOnLine(1/2.0-j/segments));
+        }
+    }
+    return nullptr;
+
 }
 }//coach
 }//ai
