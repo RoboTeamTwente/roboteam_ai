@@ -64,6 +64,7 @@ void Receive::onTerminate(Status s) {
     command.y_vel = 0;
     command.dribbler = 0;
     publishRobotCommand();
+    coach::g_pass.setRobotBeingPassedTo(-1);
 }
 
 

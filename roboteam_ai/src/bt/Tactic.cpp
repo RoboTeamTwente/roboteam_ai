@@ -13,12 +13,14 @@ void bt::Tactic::initialize() {
 }
 
 void Tactic::addChild(Node::Ptr newChild) {
-    this->child = newChild;
+    children.push_back(newChild);
 }
 
 void Tactic::terminate(Node::Status s) {
     rtt::ai::robotDealer::RobotDealer::removeTactic(name);
-    child->terminate(child->getStatus());
+    for (const auto &child : children) {
+        child->terminate(child->getStatus());
+    }
     if (s == Status::Running) {
         setStatus(Status::Failure);
     }
@@ -29,16 +31,8 @@ void Tactic::askForRobots() {
 
 }
 Node::Status Tactic::update() {
-    auto status = child->tick();
-
-    if (status == Status::Success) {
-        return Status::Success;
-    }
-
-    else /* if (status == Status::Failure || status == Status::Running) */ {
-        // If the status was anything but success/invalid, keep running
-        return Status::Running;
-    }
+ // should always be overrriden
+    return Status::Failure;
 }
 
 std::string Tactic::node_name() {
@@ -46,7 +40,10 @@ std::string Tactic::node_name() {
 }
 
 std::vector<Node::Ptr> Tactic::getChildren() {
-    return std::vector<Node::Ptr>{child};
+    return children;
+}
+void Tactic::giveProperty(std::string a, std::string b) {
+    properties->setString(a, b);
 }
 
 }

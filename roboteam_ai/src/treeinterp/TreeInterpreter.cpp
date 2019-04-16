@@ -72,7 +72,7 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
     }
 
     if (! jsonReader.checkIfKeyExists("children", nodeJSON)) {
-        ROS_ERROR("Well this is a non leaf node without children and this should never happen. Like really never");
+        std::cerr << "Well this is a non leaf node without children and this should never happen. Like really never" << std::endl;
     }
 
     // Get the children in the node
@@ -134,10 +134,15 @@ std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fi
 
 bt::Node::Ptr TreeInterpreter::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
 
-    bt::Node::Ptr node = Switches::tacticSwitch(name, std::move(properties));
+    bt::Node::Ptr tacticNode = Switches::tacticSwitch(name, std::move(properties));
+    // Hacky child abduction
+    bt::Node::Ptr kid = tactics.find(name)->second;
+    for (const auto& child : kid->getChildren()) {
+        tacticNode->addChild(child);
+    }
+    tacticNode->giveProperty("TacticType", kid->properties->getString("TacticType"));
 
-    node->addChild(tactics.find(name)->second);
-    return node;
+    return tacticNode;
 }
 
 

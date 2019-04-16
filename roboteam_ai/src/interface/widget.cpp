@@ -121,6 +121,21 @@ void Visualizer::drawFieldHints(QPainter &painter) {
     pen.setColor(theirColor);
     painter.setPen(pen);
     painter.drawLine(theirLineUpper.x, theirLineUpper.y, theirLineLower.x, theirLineLower.y);
+
+    // draw the position where robots would be for timeout
+    int inv = rtt::ai::interface::InterfaceValues::isTimeOutAtTop() ? 1 : -1;
+    int lineY = (rtt::ai::world::field->get_field().field_width/2 + 1)* inv;
+
+    pen.setBrush(Qt::gray);
+    pen.setColor(Qt::gray);
+    painter.setPen(pen);
+
+    auto lineStart = toScreenPosition(Vector2(ourGoalCenter.x, lineY));
+    auto lineEnd = toScreenPosition(Vector2(0, lineY));
+
+    painter.drawLine(lineStart.x, lineStart.y, lineEnd.x, lineEnd.y);
+
+
 }
 
 // draw the ball on the screen

@@ -47,7 +47,8 @@ bt::Node::Status Attack::onUpdate() {
     else {
         targetPos = ball;
         gtp->setAvoidBall(false);
-        command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
+        command.w = (world::field->get_their_goal_center() - ball).toAngle().getAngle();
+        //command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
         if (world::world->robotHasBall(robot->id, true, Constants::MAX_KICK_RANGE())) {
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
