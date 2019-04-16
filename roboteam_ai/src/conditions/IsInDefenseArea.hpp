@@ -15,7 +15,6 @@ class IsInDefenseArea : public ai::Condition {
         float margin;
     public:
         explicit IsInDefenseArea(std::string name = "IsInDefenseArea", bt::Blackboard::Ptr blackboard = nullptr);
-        void onInitialize() override;
         Status onUpdate() override;
 };
 

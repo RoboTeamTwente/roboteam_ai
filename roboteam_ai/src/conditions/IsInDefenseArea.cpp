@@ -14,12 +14,9 @@ namespace ai {
 IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboard) 
 : Condition(std::move(name), std::move(blackboard)) { }
 
-void IsInDefenseArea::onInitialize() {
+bt::Node::Status IsInDefenseArea::onUpdate() {
     ourDefenseArea = properties->getBool("ourDefenseArea");
     outsideField = properties->getBool("outsideField");
-}
-
-bt::Node::Status IsInDefenseArea::onUpdate() {
     point = properties->getBool("useRobot") ? robot->pos : ball->pos;
     margin = properties->hasDouble("margin") ? static_cast<float>(properties->getDouble("margin")) : 0.0f;
 
