@@ -49,7 +49,6 @@ const Vector2 &PassCoach::getPassPosition() const {
 }
 
 int PassCoach::determineReceiver() {
-    //TODO: Add filters like offensive, midfield, etc...
     double bestScore = 0;
     int bestRobotID = -1;
     for(auto &robot : world::world->getUs()) {
