@@ -8,7 +8,7 @@
 #include "../helpers/FieldHelper.h"
 
 TEST(CoachTest, offensive_coach_test) {
-    roboteam_msgs::GeometryFieldSize field = testhelpers::FieldHelper::getDivisionAField();
+    roboteam_msgs::GeometryFieldSize field = testhelpers::FieldHelper::generateField();
 
     rtt::ai::world::field->set_field(field);
 

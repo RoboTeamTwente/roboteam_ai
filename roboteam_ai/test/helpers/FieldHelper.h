@@ -13,7 +13,9 @@ namespace testhelpers {
 
 class FieldHelper {
 public:
-    static roboteam_msgs::GeometryFieldSize getDivisionAField();
+    static roboteam_msgs::GeometryFieldSize generateField(double field_length = 12.0, double field_width = 9.0, double goal_width = 1.2, double defense_area_width = 2.4, double defense_area_depth = 1.2, double center_circle_radius);
+    static roboteam_msgs::GeometryFieldSize addDefenseAreas(roboteam_msgs::GeometryFieldSize field, double defenseAreaWidth, double defenseAreaDepth);
+    static roboteam_msgs::GeometryFieldSize addCenterArc(roboteam_msgs::GeometryFieldSize field, double radius = 0.05);
 };
 
 }

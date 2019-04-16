@@ -6,16 +6,21 @@
 
 namespace testhelpers {
 
-roboteam_msgs::GeometryFieldSize FieldHelper::getDivisionAField() {
+// generateField defaults to a A division field
+    roboteam_msgs::GeometryFieldSize FieldHelper::generateField(double field_length, double field_width, double goal_width, double defense_area_width, double defense_area_length, double center_circle_radius) {
     roboteam_msgs::GeometryFieldSize field;
 
-    field.field_length = 12;
-    field.field_width = 9;
-    field.goal_width = 1.2;
+    field.field_length = field_length;
+    field.field_width = field_width;
+    field.goal_width = goal_width;
 
-    double defenseAreaWidth = 2.4;
-    double defenseAreaDepth = 1.2;
+    field = addDefenseAreas(field, defense_area_width, defense_area_length);
+    field = addCenterArc(field, center_circle_radius);
+    return field;
+}
 
+    roboteam_msgs::GeometryFieldSize
+FieldHelper::addDefenseAreas(roboteam_msgs::GeometryFieldSize field, double defenseAreaWidth, double defenseAreaDepth) {
     field.top_right_penalty_stretch.begin = Vector2{field.field_length / 2 - defenseAreaDepth, defenseAreaWidth / 2};
     field.top_right_penalty_stretch.end = Vector2{field.field_length / 2, defenseAreaWidth / 2};
     field.bottom_right_penalty_stretch.begin = field.top_right_penalty_stretch.begin;
@@ -25,6 +30,13 @@ roboteam_msgs::GeometryFieldSize FieldHelper::getDivisionAField() {
     field.top_left_penalty_stretch.end = Vector2{-field.field_length / 2, defenseAreaWidth / 2};
     field.bottom_left_penalty_stretch.begin = field.top_left_penalty_stretch.begin;
     field.bottom_left_penalty_stretch.end = Vector2{-field.field_length / 2, -defenseAreaWidth / 2};
+    return field;
+}
+
+roboteam_msgs::GeometryFieldSize
+FieldHelper::addCenterArc(roboteam_msgs::GeometryFieldSize field, double radius) {
+    field.center_circle.center = Vector2{0, 0};
+    field.center_circle.radius = radius;
 
     return field;
 }
