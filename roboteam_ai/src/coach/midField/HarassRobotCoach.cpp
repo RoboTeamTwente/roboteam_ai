@@ -22,8 +22,9 @@ double HarassRobotCoach::bestXPos = 0;
 
 // update harass-targetPosition based on current position and the position of other robots in the same tactic
 // myIndex is used to keep track of the position of this robot in the static array
-Vector2 HarassRobotCoach::getHarassPosition(const Vector2 &currentLocation, int &myIndex) {
+Vector2 HarassRobotCoach::getHarassPosition(const RobotPtr &thisRobot, int &myIndex) {
 
+    Vector2 currentLocation = thisRobot->pos;
     auto robotWithBall = world::world->whichRobotHasBall();
     if (robotWithBall) bestXPos = robotWithBall->team == world::Robot::them ? - 1.2 : 1.2;
     else bestXPos = 0.0;
@@ -84,13 +85,19 @@ Vector2 HarassRobotCoach::getHarassPosition(const Vector2 &currentLocation, int 
 
             // we have ball
             else {
-                return standFree();
+                return standFree(thisRobot, myIndex, robotWithBall);
             }
 
         }
         // nobody has ball
         else {
-
+            bool canIContest = true; //TODO: check if this robot can contest the ball
+            if (canIContest) {
+                //contestBall();
+            }
+            else {
+                //doWhatever();
+            }
         }
 
     }
@@ -167,10 +174,51 @@ Vector2 HarassRobotCoach::harassRobot(int myIndex, int id, bool stayInMidField) 
     return target;
 }
 
-Vector2 HarassRobotCoach::standFree() {
-    // do stuff
+Vector2 HarassRobotCoach::standFree(const RobotPtr &thisRobot, int myIndex, const RobotPtr &ourRobotWithBall) {
 
-    return Vector2();
+    Vector2 currentLocation = thisRobot->pos;
+    Vector2 passLine = ourRobotWithBall->pos - currentLocation;
+    Angle passAngle = passLine.toAngle();
+    Angle smallestAngle = Angle(M_PI);
+    auto enemyRobots = world::world->getThem();
+    for (auto &robot : enemyRobots) {
+        Vector2 blockLine = ourRobotWithBall->pos - robot.pos;
+        Angle blockAngle = blockLine.toAngle();
+        Angle deltaAngle = blockAngle - passAngle;
+        if (abs(deltaAngle.getAngle()) < abs(smallestAngle.getAngle())) {
+            auto distToLine = control::ControlUtils::distanceToLine(robot.pos, ourRobotWithBall->pos, currentLocation);
+            auto distToLineWithEnds = control::ControlUtils::distanceToLineWithEnds(robot.pos, ourRobotWithBall->pos, currentLocation);
+            if (distToLine == distToLineWithEnds) {
+                smallestAngle = deltaAngle;
+            }
+        }
+    }
+    Vector2 target;
+    Vector2 closeRobotPos = Vector2(42.0, 42.0);
+    for (auto &otherRobot : world::world->getAllRobots()) {
+        if (otherRobot.id == thisRobot->id && otherRobot.team == thisRobot->team) continue;
+
+        if ((otherRobot.pos - currentLocation).length2() < 0.5) {
+            closeRobotPos = otherRobot.pos;
+        }
+    }
+    if (closeRobotPos != Vector2(42.0, 42.0)) {
+        target = currentLocation + (currentLocation-closeRobotPos).normalize();
+    }
+    else if (abs(smallestAngle) > 0.25) {
+        target = currentLocation;
+    }
+    else if (smallestAngle.getAngle() > 0.0) {
+        target = currentLocation + passLine.rotate(M_PI_2).normalize();
+    }
+    else {
+        target = currentLocation - passLine.rotate(M_PI_2).normalize();
+    }
+
+    target.x = target.x < 0.0 ? 0.0 : target.x;
+    targetRobotPositions[myIndex] = target;
+    targetRobotsToHarass[myIndex] = RobotPtr(nullptr);
+    return target;
 }
 
 Vector2 HarassRobotCoach::initialize(const Vector2 &currentLocation, int &myIndex) {

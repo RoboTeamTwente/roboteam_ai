@@ -27,8 +27,8 @@ class HarassRobotCoach {
         Vector2 harassRobot(int myIndex, int id = -1, bool stayInMidfield = true);
         Vector2 initialize(const Vector2 &currentLocation, int &myIndex);
     public:
-        Vector2 getHarassPosition(const Vector2 &currentLocation, int &myIndex);
-        Vector2 standFree();
+        Vector2 getHarassPosition(const RobotPtr &thisRobot, int &myIndex);
+        Vector2 standFree(const RobotPtr &thisRobot, int myIndex, const RobotPtr &ourRobotWithBall);
         int getRobotIndexCloseToEnemyRobot(const RobotPtr &enemyRobot) const;
 };
 

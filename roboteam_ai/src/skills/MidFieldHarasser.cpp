@@ -33,7 +33,7 @@ Skill::Status MidFieldHarasser::onUpdate() {
 }
 
 Vector2 MidFieldHarasser::getHarassPosition() {
-    return coach::g_harassRobotCoach.getHarassPosition(robot->pos, myIndex);
+    return coach::g_harassRobotCoach.getHarassPosition(robot, myIndex);
 }
 
 void MidFieldHarasser::onTerminate(Skill::Status s) {
