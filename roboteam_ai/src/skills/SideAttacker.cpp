@@ -80,16 +80,18 @@ void SideAttacker::onTerminate(Status s) {
     command.w = static_cast<float>(deltaPos.angle());
     command.x_vel = 0;
     command.y_vel = 0;
-    int robotsPositioningSize = robotsPositioning.size();
 
+    bool safelyRemoved = false;
     for (int i = 0; i < robotsPositioning.size(); i++) {
-        if (robotsPositioning.at(i)->id == robot->id) {
+        if (robotsPositioning[i]->id == robot->id) {
             robotsPositioning.erase(robotsPositioning.begin() + i);
+            safelyRemoved = true;
+            break;
         }
     }
 
-    if (robotsPositioningSize == robotsPositioning.size()) {
-        std::cerr << "Robot failed to be removed from robotsPositioning" << std::endl;
+    if (!safelyRemoved) {
+        std::cerr << "Failed to safely remove robot " << robot->id << " from robotsPositioning" << std::endl;
     }
 
     robotsInMemory--;

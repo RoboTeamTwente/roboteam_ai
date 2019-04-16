@@ -17,15 +17,10 @@ namespace ai {
 namespace analysis {
 
 // define some play styles to influence our decision making
-enum playStyle {
-    DEFEND_WITH_ALL                 = 0, // all robots defend
-    DEFEND_WITH_ALL_MIDFIELDERS     = 1, // defenders and midfielders or an attacker defend
-    DEFEND_WITH_SOME_MIDFIELDERS    = 2, // defenders and 1/2 of midfielders or an attacker defend
-    UNSURE_DEFENSIVE                = 3, // standard formation but relatively close to our goal
-    UNSURE_OFFENSIVE                = 4, // standard formation but relatively more wide
-    ATTACK_WITH_SOME_MIDFIELDERS    = 5, // some midfielders attack
-    ATTACK_WITH_ALL_MIDFIELDERS     = 6, // all midfielders and attackers attack
-    MAKE_THEM_PAY                   = 7, // attack with attackers, midfielders and two defenders
+enum BallPossession : short {
+    THEY_HAVE_BALL,
+    NEUTRAL,
+    WE_HAVE_BALL
 };
 
 struct AnalysisReport {
@@ -33,8 +28,7 @@ struct AnalysisReport {
     std::vector<std::pair<world::Robot, RobotDanger>> theirRobotSortedOnDanger;
     std::vector<std::pair<world::Robot, RobotDanger>> ourRobotsSortedOnDanger;
 
-    playStyle recommendedPlayStyle;
-    double ballPossession = 0.0;
+    BallPossession ballPossession = NEUTRAL;
     double ourDistanceToGoalAvg = 0.0;
     double theirDistanceToGoalAvg = 0.0;
 

@@ -29,77 +29,77 @@ struct StrategyMap {
 };
 
 class StrategyManager {
-    public:
-        explicit StrategyManager() = default;
-        std::string getCurrentStrategyName(roboteam_msgs::RefereeCommand currentRefCmd);
-        std::string getCurrentKeeperTreeName(roboteam_msgs::RefereeCommand currentRefCmd);
+public:
+    explicit StrategyManager() = default;
+    std::string getCurrentStrategyName(roboteam_msgs::RefereeCommand currentRefCmd);
+    std::string getCurrentKeeperTreeName(roboteam_msgs::RefereeCommand currentRefCmd);
 
 private:
-        StrategyMap currentStrategyMap;
-        StrategyMap currentKeeperMap;
-        StrategyMap getStrategyMapForRefGameState(RefGameState commandId);
-        StrategyMap getKeeperMapForRefGameState(RefGameState commandId);
+    StrategyMap currentStrategyMap;
+    StrategyMap currentKeeperMap;
+    StrategyMap getStrategyMapForRefGameState(RefGameState commandId);
+    StrategyMap getKeeperMapForRefGameState(RefGameState commandId);
 
-        std::vector<StrategyMap> strategyMaps = {
-                {RefGameState::NORMAL_START, "twoPlayerStrategyV2"},
-                {RefGameState::FORCED_START, "threePlayerStrategyV2"},
-                {RefGameState::HALT, "haltStrategy"},
-                {RefGameState::STOP, "haltStrategy"},
-                {RefGameState::TIMEOUT_US, "haltStrategy"},
-                {RefGameState::TIMEOUT_THEM, "haltStrategy"},
-                {RefGameState::GOAL_US, "haltStrategy"},
-                {RefGameState::GOAL_THEM, "haltStrategy"},
-                {RefGameState::BALL_PLACEMENT_US, "BallPlacementUsStrategy"},
-                {RefGameState::BALL_PLACEMENT_THEM, "BallPlacementThemStrategy"},
+    std::vector<StrategyMap> strategyMaps = {
+            {RefGameState::NORMAL_START, "TestStrategy"},
+            {RefGameState::FORCED_START, "TestStrategy"},
+            {RefGameState::HALT, "halt_strategy"},
+            {RefGameState::STOP, "halt_strategy"},
+            {RefGameState::TIMEOUT_US, "time_out_strategy"},
+            {RefGameState::TIMEOUT_THEM, "time_out_strategy"},
+            {RefGameState::GOAL_US, "kickoff_them_formation_strategy"},
+            {RefGameState::GOAL_THEM, "kickoff_us_formation_strategy"},
+            {RefGameState::BALL_PLACEMENT_US, "ball_placement_us_strategy"},
+            {RefGameState::BALL_PLACEMENT_THEM, "ball_placement_them_strategy"},
 
-                //  Strategies with a follow up strategy
-                {RefGameState::PREPARE_KICKOFF_US, "EnterFormationStrategy", RefGameState::DO_KICKOFF},
-                {RefGameState::PREPARE_KICKOFF_THEM, "EnterFormationStrategy", RefGameState::DEFEND_KICKOFF},
-                {RefGameState::PREPARE_PENALTY_US, "BallPlacementUsStrategy", RefGameState::DEFEND_PENALTY},
-                {RefGameState::PREPARE_PENALTY_THEM, "BallPlacementThemStrategy", RefGameState::DO_PENALTY},
+            //  Strategies with a follow up strategy
+            {RefGameState::PREPARE_KICKOFF_US, "kickoff_us_formation_strategy", RefGameState::DO_KICKOFF},
+            {RefGameState::PREPARE_KICKOFF_THEM, "kickoff_them_formation_strategy", RefGameState::DEFEND_KICKOFF},
+            {RefGameState::PREPARE_PENALTY_US, "prepare_penalty_us_strategy", RefGameState::DO_PENALTY},
+            {RefGameState::PREPARE_PENALTY_THEM, "prepare_penalty_us_strategy", RefGameState::DEFEND_PENALTY},
 
-                {RefGameState::DIRECT_FREE_US, "twoPlayerStrategyV2"},
-                {RefGameState::DIRECT_FREE_THEM, "EnterFormationStrategy"},
-                {RefGameState::INDIRECT_FREE_US, "EnterFormationStrategy"},
-                {RefGameState::INDIRECT_FREE_THEM, "EnterFormationStrategy"},
-
-                // these are called after PREPARE_
-                // these custom strategies need special attention
-                {RefGameState::DO_KICKOFF, "twoPlayerStrategyV2"},
-                {RefGameState::DEFEND_KICKOFF, "twoPlayerStrategyV2"},
-                {RefGameState::DEFEND_PENALTY, "EnterFormationStrategy"},
-                {RefGameState::DO_PENALTY, "EnterFormationStrategy"}
-        };
-
-    std::vector<StrategyMap> keeperMaps = {
-            {RefGameState::NORMAL_START, "SingleKeeperTactic"},
-            {RefGameState::FORCED_START, "SingleKeeperTactic"},
-            {RefGameState::HALT, "haltTactic"},
-            {RefGameState::STOP, "haltTactic"},
-            {RefGameState::TIMEOUT_US, "haltTactic"},
-            {RefGameState::TIMEOUT_THEM, "haltTactic"},
-            {RefGameState::GOAL_US, "SingleKeeperTactic"},
-            {RefGameState::GOAL_THEM, "SingleKeeperTactic"},
-            {RefGameState::BALL_PLACEMENT_US, "AvoidBallTactic"}, // the keeper should not do ballplacement, we don't want him leaving the goal
-            {RefGameState::BALL_PLACEMENT_THEM, "AvoidBallTactic"},
-
-            // the keeper does not use follow up strategies
-            {RefGameState::PREPARE_KICKOFF_US, "SingleKeeperTactic"},
-            {RefGameState::PREPARE_KICKOFF_THEM, "SingleKeeperTactic"},
-            {RefGameState::PREPARE_PENALTY_US, "SingleKeeperTactic"},
-            {RefGameState::PREPARE_PENALTY_THEM, "SingleKeeperTactic"},
-
-            {RefGameState::DIRECT_FREE_US, "SingleKeeperTactic"},
-            {RefGameState::DIRECT_FREE_THEM, "SingleKeeperTactic"},
-            {RefGameState::INDIRECT_FREE_US, "SingleKeeperTactic"},
-            {RefGameState::INDIRECT_FREE_THEM, "SingleKeeperTactic"},
+            {RefGameState::DIRECT_FREE_US, "TestStrategy"},
+            {RefGameState::DIRECT_FREE_THEM, "TestStrategy"},
+            {RefGameState::INDIRECT_FREE_US, "TestStrategy"},
+            {RefGameState::INDIRECT_FREE_THEM, "TestStrategy"},
 
             // these are called after PREPARE_
             // these custom strategies need special attention
-            {RefGameState::DO_KICKOFF, "SingleKeeperTactic"},
-            {RefGameState::DEFEND_KICKOFF, "SingleKeeperTactic"},
-            {RefGameState::DEFEND_PENALTY, "SingleKeeperTactic"},
-            {RefGameState::DO_PENALTY, "SingleKeeperTactic"}
+            {RefGameState::DO_KICKOFF, "TestStrategy"},
+            {RefGameState::DEFEND_KICKOFF, "TestStrategy"},
+            {RefGameState::DEFEND_PENALTY, "TestStrategy"},
+            {RefGameState::DO_PENALTY, "TestStrategy"}
+    };
+
+    std::vector<StrategyMap> keeperMaps = {
+            {RefGameState::NORMAL_START, "keeper_default_tactic"},
+            {RefGameState::FORCED_START, "keeper_default_tactic"},
+            {RefGameState::HALT, "keeper_halt_tactic"},
+            {RefGameState::STOP, "keeper_avoid_tactic"},
+            {RefGameState::TIMEOUT_US, "keeper_time_out_tactic"},
+            {RefGameState::TIMEOUT_THEM, "keeper_halt_tactic"},
+            {RefGameState::GOAL_US, "keeper_formation_tactic"},
+            {RefGameState::GOAL_THEM, "keeper_formation_tactic"},
+            {RefGameState::BALL_PLACEMENT_US, "keeper_avoid_tactic"}, // the keeper should not do ballplacement, we don't want him leaving the goal
+            {RefGameState::BALL_PLACEMENT_THEM, "keeper_avoid_tactic"},
+
+            // the keeper does not use follow up strategies
+            {RefGameState::PREPARE_KICKOFF_US, "keeper_formation_tactic"},
+            {RefGameState::PREPARE_KICKOFF_THEM, "keeper_formation_tactic"},
+            {RefGameState::PREPARE_PENALTY_US, "keeper_formation_tactic"},
+            {RefGameState::PREPARE_PENALTY_THEM, "keeper_formation_tactic"},
+
+            {RefGameState::DIRECT_FREE_US, "keeper_default_tactic"},
+            {RefGameState::DIRECT_FREE_THEM, "keeper_default_tactic"},
+            {RefGameState::INDIRECT_FREE_US, "keeper_default_tactic"},
+            {RefGameState::INDIRECT_FREE_THEM, "keeper_default_tactic"},
+
+            // these are called after PREPARE_
+            // these custom strategies need special attention
+            {RefGameState::DO_KICKOFF, "keeper_default_tactic"},
+            {RefGameState::DEFEND_KICKOFF, "keeper_default_tactic"},
+            {RefGameState::DEFEND_PENALTY, "keeper_default_tactic"},
+            {RefGameState::DO_PENALTY, "keeper_default_tactic"}
     };
 };
 
