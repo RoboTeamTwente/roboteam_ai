@@ -25,9 +25,11 @@ class HarassRobotCoach {
         static std::vector<RobotPtr> targetRobotsToHarass;
 
         Vector2 harassRobot(int myIndex, int id = -1);
+        Vector2 initialize(const Vector2 &currentLocation, int &myIndex);
     public:
         Vector2 getHarassPosition(const Vector2 &currentLocation, int &myIndex);
         Vector2 standFree();
+        int getRobotIndexCloseToEnemyRobot(const RobotPtr &enemyRobot) const;
 };
 
 extern HarassRobotCoach g_harassRobotCoach;

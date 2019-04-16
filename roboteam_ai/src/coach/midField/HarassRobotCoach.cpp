@@ -25,17 +25,12 @@ double HarassRobotCoach::bestXPos = 0;
 Vector2 HarassRobotCoach::getHarassPosition(const Vector2 &currentLocation, int &myIndex) {
 
     auto robotWithBall = world::world->whichRobotHasBall();
-    if (robotWithBall) bestXPos = world::world->whichRobotHasBall()->team == world::Robot::them ? - 1.2 : 1.2;
+    if (robotWithBall) bestXPos = robotWithBall->team == world::Robot::them ? - 1.2 : 1.2;
     else bestXPos = 0.0;
 
     // initialize
     if (myIndex == - 1) {
-        Vector2 target = {bestXPos, currentLocation.y};
-        currentRobotPositions.push_back(currentLocation);
-        targetRobotPositions.push_back(target);
-        targetRobotsToHarass.push_back(RobotPtr(nullptr));
-        myIndex = currentRobotPositions.size() - 1; // set my index (side-effect, but works well tm)
-        return target;
+        return initialize(currentLocation, myIndex);
     }
 
     // update location
@@ -45,20 +40,11 @@ Vector2 HarassRobotCoach::getHarassPosition(const Vector2 &currentLocation, int 
     auto ball = world::world->getBall();
     if (ball) {
         if (robotWithBall) {
+
             // they have ball
             if (robotWithBall->team == world::Robot::them) {
                 // if this robot is closest to the robot with ball, harass that robot
-                double closestDistanceSquared = 9e9;
-                int bestIndex = - 1;
-                for (int i = 0; i < currentRobotPositions.size(); i ++) {
-                    auto &robotPos = currentRobotPositions[i];
-                    double lengthSquared = (robotPos - robotWithBall->pos).length2();
-                    if (lengthSquared < closestDistanceSquared) {
-                        closestDistanceSquared = lengthSquared;
-                        bestIndex = i;
-                    }
-                }
-                // if this robot needs to harass the robot with the ball
+                int bestIndex = getRobotIndexCloseToEnemyRobot(robotWithBall);
                 if (bestIndex == myIndex) {
                     return harassRobot(myIndex, robotWithBall->id);
                 }
@@ -95,7 +81,8 @@ Vector2 HarassRobotCoach::getHarassPosition(const Vector2 &currentLocation, int 
                 // can't get a robot to harass, remove my targetRobot if it was there
                 targetRobotsToHarass[myIndex] = RobotPtr(nullptr);
             }
-                // we have ball
+
+            // we have ball
             else {
                 return standFree();
             }
@@ -132,6 +119,20 @@ Vector2 HarassRobotCoach::getHarassPosition(const Vector2 &currentLocation, int 
     return currentLocation;
 }
 
+int HarassRobotCoach::getRobotIndexCloseToEnemyRobot(const world::World::RobotPtr &enemyRobot) const {
+    double closestDistanceSquared = 9e9;
+    int bestIndex = - 1;
+    for (int i = 0; i < currentRobotPositions.size(); i ++) {
+        auto &robotPos = currentRobotPositions[i];
+        double lengthSquared = (robotPos - enemyRobot->pos).length2();
+        if (lengthSquared < closestDistanceSquared) {
+            closestDistanceSquared = lengthSquared;
+            bestIndex = i;
+        }
+    }
+    return bestIndex;
+}
+
 Vector2 HarassRobotCoach::harassRobot(int myIndex, int id) {
     // (re)set the robot harassed to the robot with that id
     targetRobotsToHarass[myIndex] = RobotPtr(nullptr);
@@ -145,8 +146,8 @@ Vector2 HarassRobotCoach::harassRobot(int myIndex, int id) {
         target = ball->pos + (ball->pos - robotToHarass->pos).stretchToLength(0.2);
     }
     else {
-        double a = 0.8;
-        target = (robotToHarass->pos*a + ball->pos*(1-a));
+        double a = 0.7;
+        target = {robotToHarass->pos.x*a + ball->pos.x*(1-a), robotToHarass->pos.y*a + ball->pos.y*(1-a)};
     }
     targetRobotPositions[myIndex] = target;
     targetRobotsToHarass[myIndex] = robotToHarass;
@@ -166,6 +167,15 @@ Vector2 HarassRobotCoach::standFree() {
     // do stuff
 
     return Vector2();
+}
+
+Vector2 HarassRobotCoach::initialize(const Vector2 &currentLocation, int &myIndex) {
+    Vector2 target = {bestXPos, currentLocation.y};
+    currentRobotPositions.push_back(currentLocation);
+    targetRobotPositions.push_back(target);
+    targetRobotsToHarass.push_back(RobotPtr(nullptr));
+    myIndex = currentRobotPositions.size() - 1; // set my index (side-effect, but works well tm)
+    return target;
 }
 
 } //coach
