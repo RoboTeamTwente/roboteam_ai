@@ -35,7 +35,6 @@ public:
     OffensivePosition calculateNewRobotPosition(const OffensivePosition& currentPosition, const Vector2& defaultPosition);
 
     std::vector<Vector2> getOffensivePositionVectors();
-    static int getBestStrikerID();
 
     std::vector<Vector2> getDefaultLocations();
     std::vector<Vector2> getNewOffensivePositions(int numberOfRobots);

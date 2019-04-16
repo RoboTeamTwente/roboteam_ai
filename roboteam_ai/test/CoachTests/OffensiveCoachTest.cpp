@@ -19,7 +19,7 @@ TEST(CoachTest, offensive_coach_test) {
 
     // Calculate the next offensive positions 10 times
     while (counter < 10) {
-        newOffensivePositions = rtt::ai::coach::g_offensiveCoach.getNewOffensivePositions(4);
+        newOffensivePositions = rtt::ai::coach::g_offensiveCoach.getNewOffensivePositions(3);
         counter++;
     }
 

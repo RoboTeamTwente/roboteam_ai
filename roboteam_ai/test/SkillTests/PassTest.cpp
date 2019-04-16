@@ -50,6 +50,14 @@ TEST(PassTest, PassTest) {
 
     ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(), robot2.id);
 
+    roboteam_msgs::WorldRobot opponent1;
+    opponent1.pos.x = 5.5;
+    opponent1.pos.y = 0;
+
+    world.them.push_back(opponent1);
+    w::world->updateWorld(world);
+
+    ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(), robot1.id);
 
     ball.pos.x = 3;
     ball.pos.y = -3;

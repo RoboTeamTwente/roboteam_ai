@@ -60,25 +60,6 @@ double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &positio
     }
 }
 
-/// Gives a lower score if the position is too close to the corner of the field
-double CoachHeuristics::calculateDistanceFromCornerScore(const Vector2& position, const roboteam_msgs::GeometryFieldSize& field) {
-    Vector2 corner;
-    corner.x = field.field_length / 2;
-    if (position.y > 0) {
-        corner.y = field.field_width / 2;
-    } else {
-        corner.y = -field.field_width / 2;
-    }
-    double distanceFromCorner = (position - corner).length();
-    return 1 - exp(DISTANCE_FROM_CORNER_WEIGHT * distanceFromCorner);
-}
-
-/// Gives a higher score if the ball is not too far or too close to the ball (parabolic using maxDistanceFromBall)
-double CoachHeuristics::calculateDistanceFromBallScore(const Vector2& position, roboteam_msgs::GeometryFieldSize& field, roboteam_msgs::WorldBall& ball) {
-    double distanceFromBall = (position - ball.pos).length();
-    return -pow(distanceFromBall / (0.5 * MAX_DISTANCE_FROM_BALL), 2) + 2 * (distanceFromBall / (0.5 * MAX_DISTANCE_FROM_BALL));
-}
-
 /// Calculates a total score based on all the sub-scores
 double CoachHeuristics::calculateOffensivePositionScore(const Vector2 &position) {
     WorldData world = world::world->getWorld();
