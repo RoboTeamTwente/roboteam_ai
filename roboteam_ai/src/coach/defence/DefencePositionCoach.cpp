@@ -49,7 +49,7 @@ double DefencePositionCoach::getOrientation(const Line &line) {
 //computes a line segment on which the entirety of openGoalSegment is blocked as seen from point with robots with radius collissionRadius
 std::shared_ptr<Line> DefencePositionCoach::getBlockLineSegment(
         const Line &openGoalSegment, const Vector2 &point, double collisionRadius, double margin) {
-    if (margin == - 1.0) { margin = collisionRadius; }
+    if (margin == - 1.0) { margin = 0.15; }
 
     Vector2 FurthestBlock = getBlockPoint(openGoalSegment, point, collisionRadius);
     Vector2 startPos =
