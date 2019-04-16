@@ -26,7 +26,6 @@ private:
     double findBallDistance(const Vector2 &ballPos);
 
 public:
-
     enum Team : short {
       us,
       them
