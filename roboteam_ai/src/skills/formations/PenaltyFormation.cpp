@@ -3,8 +3,12 @@
 //
 
 #include "PenaltyFormation.h"
+
+std::shared_ptr<vector<std::shared_ptr<rtt::ai::world::Robot>>> rtt::ai::PenaltyFormation::robotsInFormation = nullptr;
+
 rtt::ai::PenaltyFormation::PenaltyFormation(std::string name, bt::Blackboard::Ptr blackboard)
         :Formation(name, blackboard) {
+    robotsInFormation = std::make_shared<vector<std::shared_ptr<world::Robot>>>();
 
 }
 Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
@@ -17,13 +21,13 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
         std::vector<Vector2> targetLocations;
         std::vector<int> robotIds;
 
-        for (unsigned int i = 0; i < robotsInFormation.size(); i ++) {
+        for (unsigned int i = 0; i < robotsInFormation->size(); i ++) {
 
             // beautiful magic that works
             double targetLocationY = - field.field_width*i*Constants::ROBOT_RADIUS_MAX() + field.field_width/4;
             targetLocations.emplace_back(targetLocationX, targetLocationY);
 
-            robotIds.push_back(robotsInFormation.at(i)->id);
+            robotIds.push_back(robotsInFormation->at(i)->id);
         }
 
         rtt::HungarianAlgorithm hungarian;
@@ -32,4 +36,8 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
     } else {
         return {};
     }
+}
+
+shared_ptr<vector<shared_ptr<bt::Leaf::Robot>>> rtt::ai::PenaltyFormation::robotsInFormationPtr() {
+    return robotsInFormation;
 }

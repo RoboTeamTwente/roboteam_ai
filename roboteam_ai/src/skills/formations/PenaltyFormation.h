@@ -14,9 +14,12 @@ class PenaltyFormation : public Formation {
         explicit PenaltyFormation(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
     private:
         Vector2 getFormationPosition() override;
-
+        std::shared_ptr<vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
+    static std::shared_ptr<vector<std::shared_ptr<Robot>>> robotsInFormation;
 };
 }
 }
+
+
 
 #endif //ROBOTEAM_AI_PENALTYFORMATION_H
