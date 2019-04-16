@@ -21,6 +21,7 @@ TEST(PassTest, PassTest) {
     roboteam_msgs::GeometryFieldSize field;
     field.field_length = 20;
     field.field_width = 10;
+    field.goal_width = 1;
     rtt::ai::world::field->set_field(field);
     roboteam_msgs::World world;
 
