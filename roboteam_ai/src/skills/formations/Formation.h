@@ -21,11 +21,16 @@ public:
     void onTerminate(bt::Node::Status) override;
 
 protected:
+
+    // these two always need to be overridden
+    virtual Vector2 getFormationPosition() =0;
+    virtual std::shared_ptr<vector<std::shared_ptr<Robot>>> robotsInFormationPtr() =0;
+
     control::NumTreePosControl gtp;
     double errorMargin = 0.1;
     static std::vector<std::shared_ptr<Robot>> robotsInFormation;
     int robotsInFormationMemory = 0;
-    virtual Vector2 getFormationPosition() =0;
+
     Vector2 targetLocation;
 
     void removeRobotFromFormation();

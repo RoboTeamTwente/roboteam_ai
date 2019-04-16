@@ -12,8 +12,6 @@
 namespace rtt {
 namespace ai {
 
-std::vector<std::shared_ptr<Formation::Robot>> Formation::robotsInFormation = {};
-
 Formation::Formation(std::string name, bt::Blackboard::Ptr blackboard)
 : Skill(std::move(name), std::move(blackboard)) {}
 
@@ -54,14 +52,14 @@ void Formation::onTerminate(bt::Node::Status s) {
 // loop through all formationrobots to see if our robot is there.
 // if not, add it.
 void Formation::addRobotToFormation() {
-    if (!robotIsInFormation()) robotsInFormation.push_back(robot);
+    if (!robotIsInFormation()) robotsInFormationPtr()->push_back(robot);
 }
 
 // remove robot from formation
 void Formation::removeRobotFromFormation() {
-    for (int i = 0; i < robotsInFormation.size(); i++) {
-        if (robotsInFormation.at(i)->id == robot->id) {
-            robotsInFormation.erase(robotsInFormation.begin() + i);
+    for (int i = 0; i < robotsInFormationPtr()->size(); i++) {
+        if (robotsInFormationPtr()->at(i)->id == robot->id) {
+            robotsInFormationPtr()->erase(robotsInFormationPtr()->begin() + i);
         }
     }
 }
@@ -71,7 +69,7 @@ void Formation::removeRobotFromFormation() {
 // in that case, use robotIsInPosition()
 bool Formation::robotIsInFormation() {
     bool isIn = false;
-    for (auto const &bot : robotsInFormation) {
+    for (auto const &bot : * robotsInFormationPtr()) {
         if (bot->id == robot->id) {
             isIn = true;
         }
@@ -81,14 +79,14 @@ bool Formation::robotIsInFormation() {
 
 // return true if the number of robots in the formation changed.
 bool Formation::formationHasChanged() {
-    return robotsInFormationMemory != robotsInFormation.size();
+    return robotsInFormationMemory != robotsInFormationPtr()->size();
 }
 
 // adapt to the change of robot amount in formation
 void Formation::updateFormation() {
     if (formationHasChanged()) {
         targetLocation = getFormationPosition();
-        robotsInFormationMemory = robotsInFormation.size();
+        robotsInFormationMemory = robotsInFormationPtr()->size();
     }
 }
 
