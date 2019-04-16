@@ -52,7 +52,7 @@ Vector2 ActiveStop::getOffensiveActivePoint() {
 
 Vector2 ActiveStop::getDefensiveActivePoint() {
 
-    Vector2 penaltyPos = rtt::ai::world::field->getPenaltyPoint(false);
+    Vector2 penaltyPos = rtt::ai::world::field->getPenaltyPoint(true);
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
 
     Vector2 offset = (penaltyPos - ballPos).stretchToLength(0.666); // ssl rule + some buffer + rtt spirit
