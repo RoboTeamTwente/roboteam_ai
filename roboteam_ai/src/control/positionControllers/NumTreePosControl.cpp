@@ -8,7 +8,7 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-NumTreePosControl::NumTreePosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
+NumTreePosControl::NumTreePosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
         :ForcePosControl(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
 }
 

@@ -48,6 +48,12 @@ MainWindow::MainWindow(QWidget* parent)
         select_strategy->addItem(QString::fromStdString(strategyName));
     }
 
+    select_keeper_strategy = new QComboBox();
+    vLayout->addWidget(select_keeper_strategy);
+    for (std::string const &keeperTacticName : Switches::keeperJsonFiles) {
+        select_keeper_strategy->addItem(QString::fromStdString(keeperTacticName));
+    }
+    
     auto hButtonsLayout = new QHBoxLayout();
 
     haltBtn = new QPushButton("Pause");
@@ -85,6 +91,17 @@ MainWindow::MainWindow(QWidget* parent)
               treeWidget->setHasCorrectTree(false);
               keeperTreeWidget->setHasCorrectTree(false);
             });
+
+    QObject::connect(select_keeper_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+                     [=](const QString &keeperStrategyName) {
+                         // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+                         BTFactory::setKeeperTree(keeperStrategyName.toStdString());
+                         robotDealer::RobotDealer::refresh();
+
+                         // the pointers of the trees have changed so the widgets should be notified about this
+                         treeWidget->setHasCorrectTree(false);
+                         keeperTreeWidget->setHasCorrectTree(false);
+                     });
 
     auto pidWidget = new QWidget;
     auto pidVLayout = new QVBoxLayout();
