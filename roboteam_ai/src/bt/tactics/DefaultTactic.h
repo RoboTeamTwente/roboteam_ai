@@ -13,6 +13,7 @@
 namespace bt {
 
 class DefaultTactic : public Tactic {
+    FRIEND_TEST(DefaultTacticTest, default_general_tactic_works);
     private:
         int amountToTick = -1;
         void claimRobots(int amount);

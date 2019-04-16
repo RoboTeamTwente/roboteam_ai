@@ -86,9 +86,10 @@ void bt::DefaultTactic::disClaimRobots(int amount) {
 std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getNextClaim() {
     for (auto robot : robots) {
         if (std::get<0>(robot) == (robotIDs.size() +1)) {
-            return {std::get<1>(robot), std::get<2>(robot)};
+            return std::make_pair(std::get<1>(robot), std::get<2>(robot));
         }
     }
+    return {};
 }
 std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getLastClaim() {
     for (auto robot : robots) {
@@ -96,6 +97,7 @@ std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getLastClaim() 
             return {std::get<1>(robot), std::get<2>(robot)};
         }
     }
+    return {};
 }
 void bt::DefaultTactic::parseType(std::string typee) {
     if (typee == "Offensive") {
