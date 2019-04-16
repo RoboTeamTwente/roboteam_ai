@@ -38,6 +38,8 @@ bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboar
 
     convert(robots_);
     globalBB = std::move(blackboard);
+    properties = globalBB;
+
     this->name = std::move(name);
 }
 

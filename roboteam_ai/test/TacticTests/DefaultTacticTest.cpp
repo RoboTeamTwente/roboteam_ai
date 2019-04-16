@@ -68,22 +68,101 @@ TEST(DefaultTacticTest, default_general_tactic_works) {
     tactic.disClaimRobots(1);
     EXPECT_EQ(tactic.getNextClaim().first, "general1");
 
-
-
     // after initialize it should have claimed all robots
     // NOTE that there is a keeper because  rd::RobotDealer::setUseSeparateKeeper(true);
-
     tactic.initialize();
     EXPECT_EQ(tactic.getLastClaim().first, "general7");
 
-    // lets disclaim 3
-    tactic.disClaimRobots(3);
-    EXPECT_EQ(tactic.getLastClaim().first, "general4");
-    EXPECT_EQ(tactic.getNextClaim().first, "general5");
-
+    // now without a keeper: it should also claim the last robot
+    rd::RobotDealer::setUseSeparateKeeper(false);
+    tactic.updateStyle();
     tactic.initialize();
-    EXPECT_EQ(tactic.getLastClaim().first, "general7");
-
-
-    }
+    EXPECT_EQ(tactic.getLastClaim().first, "general8");
 }
+
+TEST(DefaultTacticTest, offensive_defensive_midfield_tactics_work) {
+    roboteam_msgs::GeometryFieldSize field;
+    field.field_width = 9;
+    field.field_length = 12;
+
+    // set the world with 8 of our robots.
+    w::world->updateWorld(testhelpers::WorldHelper::getWorldMsg(8, 0, false, field));
+
+    // make sure game analyzer has data
+    rtt::ai::analysis::GameAnalyzer::getInstance().start();
+    auto report = rtt::ai::analysis::GameAnalyzer::getInstance().generateReportNow();
+    rd::RobotDealer::refresh();
+
+    // fake robots input as if it were from switches.cpp
+    std::vector<std::pair<std::string, DefaultTactic::RobotType>> defensiveRobots = {
+            {"def1", DefaultTactic::RobotType::RANDOM},
+            {"def2", DefaultTactic::RobotType::RANDOM},
+            {"def3", DefaultTactic::RobotType::RANDOM},
+            {"def4", DefaultTactic::RobotType::RANDOM},
+            {"def5", DefaultTactic::RobotType::RANDOM},
+            {"def6", DefaultTactic::RobotType::RANDOM},
+            {"def7", DefaultTactic::RobotType::RANDOM},
+            {"def8", DefaultTactic::RobotType::RANDOM}
+    };
+
+    // fake robots input as if it were from switches.cpp
+    std::vector<std::pair<std::string, DefaultTactic::RobotType>> midfieldRobots = {
+            {"mid1", DefaultTactic::RobotType::RANDOM},
+            {"mid2", DefaultTactic::RobotType::RANDOM},
+            {"mid3", DefaultTactic::RobotType::RANDOM},
+            {"mid4", DefaultTactic::RobotType::RANDOM},
+            {"mid5", DefaultTactic::RobotType::RANDOM},
+            {"mid6", DefaultTactic::RobotType::RANDOM},
+            {"mid7", DefaultTactic::RobotType::RANDOM},
+            {"mid8", DefaultTactic::RobotType::RANDOM}
+    };
+
+    // fake robots input as if it were from switches.cpp
+    std::vector<std::pair<std::string, DefaultTactic::RobotType>> offensiveRobots = {
+            {"att1", DefaultTactic::RobotType::RANDOM},
+            {"att2", DefaultTactic::RobotType::RANDOM},
+            {"att3", DefaultTactic::RobotType::RANDOM},
+            {"att4", DefaultTactic::RobotType::RANDOM},
+            {"att5", DefaultTactic::RobotType::RANDOM},
+            {"att6", DefaultTactic::RobotType::RANDOM},
+            {"att7", DefaultTactic::RobotType::RANDOM},
+            {"att8", DefaultTactic::RobotType::RANDOM}
+    };
+
+    auto defensiveProperties = std::make_shared<bt::Blackboard>();
+    defensiveProperties->setString("TacticType", "Defensive");
+    DefaultTactic defensiveTactic("Defensivetactic", defensiveProperties, defensiveRobots);
+
+    auto midfieldProperties = std::make_shared<bt::Blackboard>();
+    midfieldProperties->setString("TacticType", "Middle");
+    DefaultTactic midfieldTactic("MidfieldTactic", midfieldProperties, midfieldRobots);
+
+    auto offensiveProperties = std::make_shared<bt::Blackboard>();
+    offensiveProperties->setString("TacticType", "Offensive");
+    DefaultTactic offensiveTactic("OffensiveTactic", offensiveProperties, offensiveRobots);
+
+    // Check the names
+    EXPECT_EQ(defensiveTactic.node_name(), "Defensivetactic");
+    EXPECT_EQ(midfieldTactic.node_name(), "MidfieldTactic");
+    EXPECT_EQ(offensiveTactic.node_name(), "OffensiveTactic");
+
+    // get the playstyle from the decision maker
+    rtt::ai::analysis::DecisionMaker maker;
+    auto style = maker.getRecommendedPlayStyle(report->ballPossession);
+
+    defensiveTactic.initialize();
+    midfieldTactic.initialize();
+    offensiveTactic.initialize();
+
+    // the amounts to tick should be correct
+    EXPECT_EQ(defensiveTactic.amountToTick, style.amountOfDefenders);
+    EXPECT_EQ(midfieldTactic.amountToTick, style.amountOfMidfielders);
+    EXPECT_EQ(offensiveTactic.amountToTick, style.amountOfAttackers);
+
+    // the amounts of robotIds after initialize should be correct
+    EXPECT_EQ(defensiveTactic.robotIDs.size(), style.amountOfDefenders);
+    EXPECT_EQ(midfieldTactic.robotIDs.size(), style.amountOfMidfielders);
+    EXPECT_EQ(offensiveTactic.robotIDs.size(), style.amountOfAttackers);
+}
+
+} // bt
