@@ -20,6 +20,7 @@ class MidFieldHarasser : public Skill {
         int myIndex = - 1;
 
         Vector2 getHarassPosition();
+        Angle getHarassAngle();
     public:
         explicit MidFieldHarasser(std::string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;

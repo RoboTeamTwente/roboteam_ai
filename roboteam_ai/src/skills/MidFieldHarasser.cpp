@@ -25,15 +25,12 @@ Skill::Status MidFieldHarasser::onUpdate() {
     velocity = control::ControlUtils::velocityLimiter(velocity);
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
-    command.w = static_cast<float>(newPosition.angle);
+    //command.w = static_cast<float>(newPosition.angle);
+    command.w = static_cast<float>(getHarassAngle().getAngle());
     command.use_angle = 1;
     publishRobotCommand();
 
     return Status::Running;
-}
-
-Vector2 MidFieldHarasser::getHarassPosition() {
-    return coach::g_harassRobotCoach.getHarassPosition(robot, myIndex);
 }
 
 void MidFieldHarasser::onTerminate(Skill::Status s) {
@@ -44,6 +41,15 @@ void MidFieldHarasser::onTerminate(Skill::Status s) {
     myIndex = - 1;
 
     publishRobotCommand();
+}
+
+
+Vector2 MidFieldHarasser::getHarassPosition() {
+    return coach::g_harassRobotCoach.getHarassPosition(robot, myIndex);
+}
+
+Angle MidFieldHarasser::getHarassAngle() {
+    return coach::g_harassRobotCoach.getHarassAngle(robot, myIndex);
 }
 
 } //ai

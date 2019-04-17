@@ -14,12 +14,6 @@ namespace coach {
 
 HarassRobotCoach g_harassRobotCoach;
 
-std::vector<Vector2> HarassRobotCoach::currentRobotPositions = {};
-std::vector<Vector2> HarassRobotCoach::targetRobotPositions = {};
-std::vector<HarassRobotCoach::RobotPtr> HarassRobotCoach::targetRobotsToHarass = {};
-
-double HarassRobotCoach::bestXPos = 0;
-
 // update harass-targetPosition based on current position and the position of other robots in the same tactic
 // myIndex is used to keep track of the position of this robot in the static array
 Vector2 HarassRobotCoach::getHarassPosition(const RobotPtr &thisRobot, int &myIndex) {
@@ -215,7 +209,7 @@ Vector2 HarassRobotCoach::standFree(const RobotPtr &thisRobot, int myIndex, cons
         target = currentLocation - passLine.rotate(M_PI_2).normalize();
     }
 
-    target.x = target.x < 0.0 ? 0.0 : target.x;
+    target.x = target.x < bestXPos ? bestXPos : target.x;
     targetRobotPositions[myIndex] = target;
     targetRobotsToHarass[myIndex] = RobotPtr(nullptr);
     return target;
@@ -228,6 +222,24 @@ Vector2 HarassRobotCoach::initialize(const Vector2 &currentLocation, int &myInde
     targetRobotsToHarass.push_back(RobotPtr(nullptr));
     myIndex = currentRobotPositions.size() - 1; // set my index (side-effect, but works well tm)
     return target;
+}
+
+Angle HarassRobotCoach::getHarassAngle(const HarassRobotCoach::RobotPtr &thisRobot, int &myIndex) {
+    BallPtr ball = world::world->getBall();
+
+    // if there is a robot to harass
+    if (targetRobotsToHarass[myIndex]) {
+        auto robotToHarass = targetRobotsToHarass[myIndex];
+        if (robotToHarass->hasBall()) {
+            return (ball->pos - thisRobot->pos).toAngle();
+        }
+        else {
+            return (robotToHarass->pos - thisRobot->pos).toAngle();
+        }
+    }
+
+    // else, aim towards the ball
+    return (ball->pos - thisRobot->pos).toAngle();
 }
 
 } //coach
