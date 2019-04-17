@@ -24,8 +24,6 @@ public:
     double calculatePassScore(const Vector2& position);
 };
 
-extern PassScore g_passScore;
-
 }
 }
 }

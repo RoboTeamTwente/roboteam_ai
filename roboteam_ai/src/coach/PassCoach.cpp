@@ -49,11 +49,12 @@ const Vector2 &PassCoach::getPassPosition() const {
 }
 
 int PassCoach::determineReceiver(int passerID) {
+    coach::PassScore passScore;
     double bestScore = 0;
     int bestRobotID = -1;
     for(auto &robot : world::world->getUs()) {
         if (robot.id == robotDealer::RobotDealer::getKeeperID() || robot.id == passerID) continue;
-        double score = coach::g_passScore.calculatePassScore(robot.pos);
+        double score = passScore.calculatePassScore(robot.pos);
         if (score > bestScore) {
             bestScore = score;
             bestRobotID = robot.id;

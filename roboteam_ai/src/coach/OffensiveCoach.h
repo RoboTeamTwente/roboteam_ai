@@ -41,6 +41,7 @@ public:
     std::vector<Vector2> getNewOffensivePositions(int numberOfRobots);
 
 private:
+    coach::OffensiveScore offensiveScore;
     std::vector<OffensivePosition> offensivePositions;
     std::map<int, OffensivePosition> robotPositions;
 

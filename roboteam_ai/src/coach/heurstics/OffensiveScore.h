@@ -23,8 +23,6 @@ public:
     double calculateOffensivePositionScore(const Vector2 &position);
 };
 
-extern OffensiveScore g_offensiveScore;
-
 }
 }
 }

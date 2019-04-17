@@ -8,8 +8,6 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
-PassScore g_passScore;
-
 double PassScore::calculatePassScore(const Vector2 &position) {
     WorldData world = world::world->getWorld();
     roboteam_msgs::GeometryFieldSize field = world::field->get_field();
