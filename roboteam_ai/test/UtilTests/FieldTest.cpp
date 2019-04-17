@@ -33,11 +33,11 @@ TEST(FieldTest, it_gets_points_in_defence_area) {
 
     	// all points should be in our defence area
     	rtt::ai::world::field->set_field(field);
-    	bool inOurDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), true, 0.0);
+    	bool inOurDefenceArea = rtt::ai::world::field->pointIsInDefenseArea(rtt::Vector2(x, y), true, 0.0);
     	EXPECT_TRUE(inOurDefenceArea);
 
     	// the points should not be in their defence area
-    	bool inTheirDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), false, 0.0);
+    	bool inTheirDefenceArea = rtt::ai::world::field->pointIsInDefenseArea(rtt::Vector2(x, y), false, 0.0);
     	EXPECT_FALSE(inTheirDefenceArea);
     }
 
@@ -46,7 +46,7 @@ TEST(FieldTest, it_gets_points_in_defence_area) {
     	auto x = testhelpers::WorldHelper::getRandomValue(-4, 4);
     	auto y = testhelpers::WorldHelper::getRandomValue(0, 8);
     	rtt::ai::world::field->set_field(field);
-    	bool inDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), true, 0.0);
+    	bool inDefenceArea = rtt::ai::world::field->pointIsInDefenseArea(rtt::Vector2(x, y), true, 0.0);
     	EXPECT_FALSE(inDefenceArea);
     }
 }

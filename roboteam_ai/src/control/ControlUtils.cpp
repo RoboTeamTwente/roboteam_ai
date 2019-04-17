@@ -323,10 +323,10 @@ Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, float margi
 Vector2 ControlUtils::calculateForce(const Vector2 &vector, double weight, double minDistance) {
 
     // if the object is close enough, it's forces should affect. Otherwise don't change anything.
-    if (vector.length() < minDistance && vector.length2() > 0) {
+    if (vector.length() < minDistance && vector.length2() > 0.0) {
         return vector.normalize()*(weight/vector.length2());
     }
-    return {0, 0};
+    return Vector2();
 }
 
 std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(

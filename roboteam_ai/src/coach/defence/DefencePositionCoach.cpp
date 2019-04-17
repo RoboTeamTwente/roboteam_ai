@@ -55,7 +55,7 @@ std::shared_ptr<Line> DefencePositionCoach::getBlockLineSegment(
     Vector2 startPos =
             point + (FurthestBlock - point).stretchToLength(collisionRadius);//start should be out of collision radius
     // if the starting position is in the defence area you cannot 'squeeze a robot in between the position and the defence area
-    if (world::field->pointIsInDefenceArea(startPos, true, margin)) {
+    if (world::field->pointIsInDefenseArea(startPos, true, margin)) {
         return nullptr;
     }
     //check intersections with defense area and shorten line if needed
@@ -75,7 +75,7 @@ std::shared_ptr<Vector2> DefencePositionCoach::blockOnDefenseLine(const Line &op
     Vector2 lineToSideTwo = (openGoalSegment.second - point);
     Vector2 startPos = point + (lineToSideOne + lineToSideTwo).stretchToLength(collisionRadius);
     // if starting point is in the defence area there is no room for a robot to squeeze in
-    if (world::field->pointIsInDefenceArea(startPos, true, margin)) {
+    if (world::field->pointIsInDefenseArea(startPos, true, margin)) {
         return nullptr;
     }
     Vector2 endPos = point + (lineToSideOne + lineToSideTwo)*0.5;// this defines the line on which the bisector lies.

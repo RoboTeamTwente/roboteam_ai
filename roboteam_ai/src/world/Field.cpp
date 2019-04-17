@@ -34,13 +34,13 @@ Vector2 Field::get_their_goal_center() {
     return Vector2(field.field_length/2, 0);
 }
 
-bool Field::pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea, float margin, bool outsideField) {
+bool Field::pointIsInDefenseArea(const Vector2 &point, bool isOurDefenseArea, float margin, bool outsideField) {
     roboteam_msgs::GeometryFieldSize _field;
     {
         std::lock_guard<std::mutex> lock(fieldMutex);
         _field = field;
     }
-    auto penaltyLine = isOurDefenceArea ? _field.left_penalty_line : _field.right_penalty_line;
+    auto penaltyLine = isOurDefenseArea ? _field.left_penalty_line : _field.right_penalty_line;
     double yTopBound;
     double yBottomBound;
     double xBound = penaltyLine.begin.x;
@@ -56,7 +56,7 @@ bool Field::pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea, fl
     bool xIsWithinOurDefenceArea = point.x < (xBound + margin);
     bool xIsWithinTheirDefenceArea = point.x > (xBound - margin);
 
-    if (isOurDefenceArea) {
+    if (isOurDefenseArea) {
         if (outsideField) {
             return xIsWithinOurDefenceArea;
         }
@@ -99,6 +99,7 @@ double Field::getTotalGoalAngle(bool ourGoal, const Vector2& point){
     return control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(angleLeft),control::ControlUtils::constrainAngle(angleRight));
 
 }
+
 double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& point, const WorldData &data) {
     double goalWidth = field.goal_width;
     double blockadeLength = 0;

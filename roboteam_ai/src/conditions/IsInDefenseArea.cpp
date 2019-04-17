@@ -21,7 +21,7 @@ bt::Node::Status IsInDefenseArea::onUpdate() {
     if (properties->hasDouble("margin")) margin = static_cast<float>(properties->getDouble("margin"));
     else margin = 0.0f;
 
-    if (world::field->pointIsInDefenceArea(point, ourDefenseArea, margin, outsideField)) {
+    if (world::field->pointIsInDefenseArea(point, ourDefenseArea, margin, outsideField)) {
         return Status::Success;
     }
     return Status::Failure;

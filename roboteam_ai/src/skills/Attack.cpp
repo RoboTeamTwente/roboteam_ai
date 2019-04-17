@@ -58,16 +58,16 @@ bt::Node::Status Attack::onUpdate() {
 
     }
     Vector2 velocity;
-    if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
+    if (world::field->pointIsInDefenseArea(robot->pos, false, 0.0)) {
         velocity = ((Vector2) robot->pos - world::field->get_our_goal_center()).stretchToLength(2.0);
     }
-    else if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
+    else if (world::field->pointIsInDefenseArea(robot->pos, false, 0.0)) {
         velocity = ((Vector2) robot->pos - world::field->get_their_goal_center()).stretchToLength(2.0);
     }
-    else if (world::field->pointIsInDefenceArea(ball, false) || world::field->pointIsInDefenceArea(ball, true)) {
+    else if (world::field->pointIsInDefenseArea(ball, false) || world::field->pointIsInDefenseArea(ball, true)) {
         velocity = {0, 0};
     }
-    else if (world::field->pointIsInDefenceArea(targetPos, false)) {
+    else if (world::field->pointIsInDefenseArea(targetPos, false)) {
         velocity = {0, 0};
     }
     else {

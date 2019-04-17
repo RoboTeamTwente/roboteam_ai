@@ -20,9 +20,9 @@ public:
     /// LOGGING ///
     static bool SHOW_LONGEST_TICK()             { return false; };
     static bool SHOW_TICK_TIME_TAKEN()          { return false; };
-    static bool SHOW_NUMTREE_TIME_TAKEN()       { return false; };
-    static bool SHOW_NUMTREE_DEBUG_INFO()       { return false; };
-    static bool SHOW_FULL_NUMTREE_DEBUG_INFO()  { return false; };
+    static bool SHOW_NUMTREE_TIME_TAKEN()       { return true; };
+    static bool SHOW_NUMTREE_DEBUG_INFO()       { return true; };
+    static bool SHOW_FULL_NUMTREE_DEBUG_INFO()  { return true; };
 
 
     /// ROBOT AND RELATED ///
@@ -117,9 +117,9 @@ public:
                                                            {255, 100, 255, 255} }; };
 
     // Default PID values for the gotoposses/interface
-    static pidVals standardNumTreePID()         { return GRSIM() ? pidVals(3.2, 0.0, 2.0) : pidVals(2.8, 0.6,2.3); };
-    static pidVals standardForcePID()           { return GRSIM() ? pidVals(1.65, 0.0, 0.0) : pidVals(2.8, 0.6,2.3); };
-    static pidVals standardBasicPID()           { return GRSIM() ? pidVals(1.65, 0.0, 0.0) : pidVals(2.8, 0.6,2.3); };
+    static pidVals standardNumTreePID()         { return GRSIM() ? pidVals(3.20, 0.00, 2.00) : pidVals(2.80, 0.60, 2.30); };
+    static pidVals standardForcePID()           { return GRSIM() ? pidVals(1.65, 0.00, 0.00) : pidVals(2.80, 0.60, 2.30); };
+    static pidVals standardBasicPID()           { return GRSIM() ? pidVals(1.65, 0.00, 0.00) : pidVals(2.80, 0.60, 2.30); };
 
     
 private:

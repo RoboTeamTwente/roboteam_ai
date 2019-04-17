@@ -31,7 +31,7 @@ class Field {
         void set_field(roboteam_msgs::GeometryFieldSize field);
         Vector2 get_our_goal_center();
         Vector2 get_their_goal_center();
-        bool pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea = true, float margin = 0.0,
+        bool pointIsInDefenseArea(const Vector2 &point, bool isOurDefenseArea = true, float margin = 0.0,
                 bool outsideField = false);
         bool pointIsInField(const Vector2& point, float margin = 0.05); //TODO: Remove margin hack
         int getRobotClosestToGoal(WhichRobots whichRobots, bool ourGoal);
