@@ -117,10 +117,7 @@ const WorldData World::getWorld() {
 const World::BallPtr World::getBall() {
     std::lock_guard<std::mutex> lock(worldMutex);
 
-    if (worldDataPtr && worldDataPtr->ball.exists)
-        return std::make_shared<Ball>(worldDataPtr->ball);
-
-    if (worldDataPtr && worldDataPtr->ball.visible)
+    if (world::Ball::exists)
         return std::make_shared<Ball>(worldDataPtr->ball);
 
     std::cerr << "BALL DOES NOT EXIST!!! (exists == 0 ??? )" << std::endl;
