@@ -14,9 +14,8 @@ OffensiveCoach g_offensiveCoach;
 
 /// Calculate new positions close to the robot
 OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(const OffensivePosition& currentPosition, const Vector2& defaultPosition) {
-
     OffensivePosition bestPosition = currentPosition;
-    bestPosition.score = CoachHeuristics::calculatePositionScore(bestPosition.position);
+    bestPosition.score = offensiveScore.calculateOffensivePositionScore(bestPosition.position);
 
     // Check all positions in a grid around the robot to look for better positions
     for (int xDiff = -GRID_SIZE; xDiff < GRID_SIZE + 1; xDiff++) {
@@ -46,7 +45,7 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
                 }
             }
             if (tooCloseToOtherZone) continue;
-            newPosition.score = CoachHeuristics::calculatePositionScore(newPosition.position);
+            newPosition.score = offensiveScore.calculateOffensivePositionScore(newPosition.position);
 
             if (newPosition.score > bestPosition.score) {
                 bestPosition = newPosition;
@@ -55,22 +54,6 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
     }
 
     return bestPosition;
-}
-
-/// Get robot with highest offensive score
-int OffensiveCoach::getBestStrikerID() {
-    double bestScore = 0;
-    int bestStriker = -1;
-    for(auto& robot : world::world->getWorld().us) {
-        if (robot.pos.x > 0) {
-            double positionScore = CoachHeuristics::calculatePassScore(robot.pos);
-            if (positionScore > bestScore) {
-                bestScore = positionScore;
-                bestStriker = robot.id;
-            }
-        }
-    }
-    return bestStriker;
 }
 
 std::vector<Vector2> OffensiveCoach::getDefaultLocations() {
@@ -99,7 +82,7 @@ std::vector<Vector2> OffensiveCoach::getNewOffensivePositions(int numberOfRobots
         for (auto &defaultLocation : defaultLocations) {
             OffensivePosition offensivePosition;
             offensivePosition.position = defaultLocation;
-            offensivePosition.score = CoachHeuristics::calculatePositionScore(defaultLocation);
+            offensivePosition.score = offensiveScore.calculateOffensivePositionScore(defaultLocation);
             offensivePositions.emplace_back(offensivePosition);
         }
     } else {
