@@ -81,12 +81,12 @@ bool World::weHaveRobots() {
     return worldDataPtr && !worldDataPtr->us.empty();
 }
 
-void World::setWorldData(WorldDataPtr &worldDataPtr) {
+void World::setWorldData(WorldDataPtr &setWorldDataPtr) {
     std::lock_guard<std::mutex> lockMsg(worldMsgMutex);
     std::lock_guard<std::mutex> lockyLock(worldMutex);
 
     World::worldDataPtr.reset();
-    World::worldDataPtr = worldDataPtr;
+    World::worldDataPtr = setWorldDataPtr;
 
     World::worldMsg = makeWorldMsg();
 }
@@ -117,8 +117,9 @@ const WorldData World::getWorld() {
 const World::BallPtr World::getBall() {
     std::lock_guard<std::mutex> lock(worldMutex);
 
-    if (world::Ball::exists)
+    if (world::Ball::exists) {
         return std::make_shared<Ball>(worldDataPtr->ball);
+    }
 
     std::cerr << "BALL DOES NOT EXIST!!! (exists == 0 ??? )" << std::endl;
     return BallPtr(nullptr);
