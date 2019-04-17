@@ -82,7 +82,11 @@ void Robot::setGenevaState(int state) {
     Robot::genevaState = state;
 }
 
+void Robot::processFeedback(roboteam_msgs::RobotFeedback fb) {
+    Robot::feedback = RobotFeedback(fb);
+}
 
-}
-}
-}
+
+} // world
+} // ai
+} // rtt

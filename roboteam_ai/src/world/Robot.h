@@ -6,10 +6,13 @@
 #define ROBOTEAM_AI_ROBOT_H
 
 #include "roboteam_msgs/WorldRobot.h"
+#include "roboteam_msgs/RobotFeedback.h"
+
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Angle.h"
 
 #include "Ball.h"
+#include "RobotFeedback.h"
 #include <roboteam_ai/src/utilities/Constants.h>
 
 namespace rtt {
@@ -23,6 +26,7 @@ private:
     double distanceToBall;
     bool iHaveBall;
     int genevaState = 3;
+    RobotFeedback feedback;
 
 public:
     enum Team : short {
@@ -37,6 +41,9 @@ public:
     double getDistanceToBall();
     int getGenevaState() const;
     void setGenevaState(int state);
+
+    void processFeedback(roboteam_msgs::RobotFeedback);
+
     explicit Robot(const roboteam_msgs::WorldRobot &copy, Team team = us);
     Robot();
     int id = - 1;
