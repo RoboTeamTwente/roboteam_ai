@@ -1,8 +1,3 @@
-/*
- * returns SUCCESS if the ball is in the given defence area (standard ours) AND if the ball lays still
- * 
- */
-
 #ifndef ROBOTEAM_AI_BALLINDEFENSEAREAANDSTILL_H
 #define ROBOTEAM_AI_BALLINDEFENSEAREAANDSTILL_H
 
@@ -20,7 +15,6 @@ public:
     explicit BallInDefenseAreaAndStill(std::string name = "BallInDefenseAreaAndStill", bt::Blackboard::Ptr blackboard = nullptr);
     void onInitialize() override;
     Status onUpdate() override;
-    std::string node_name() override;
 };
 
 } // ai

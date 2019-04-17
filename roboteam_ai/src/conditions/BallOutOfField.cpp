@@ -1,6 +1,7 @@
-//
-// Created by mrlukasbos on 25-1-19.
-//
+/* 
+ * Return SUCCESS if the ball is out of the field
+ * otherwise FAILURE
+ */
 
 #include "BallOutOfField.h"
 
@@ -17,13 +18,9 @@ bt::Node::Status BallOutOfField::onUpdate() {
     if (abs(ballPos.x) < world::field->get_field().field_length / 2 &&
             abs(ballPos.y) < world::field->get_field().field_width / 2) {
         return Status::Failure;
-    } else {
-        return Status::Success;
-    }
-
+    } 
+    return Status::Success;
 }
-
-std::string BallOutOfField::node_name() {return "BallOutOfField";}
 
 } // ai
 } // rtt

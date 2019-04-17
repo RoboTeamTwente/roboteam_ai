@@ -46,7 +46,6 @@ class World {
 
         Robot getRobotClosestToPoint(const Vector2 &point, std::vector<Robot> robots);
     public:
-
         void updateWorld(const roboteam_msgs::World &world);
         bool weHaveRobots();
 
@@ -56,6 +55,8 @@ class World {
         const roboteam_msgs::WorldBall &getBallMsg();
 
         const WorldData getWorld();
+        const WorldData getPreviousWorld();
+        double timeDifference();
         const BallPtr getBall();
         const RobotPtr getRobotForId(int id, bool ourTeam = true);
         const std::vector<Robot> getAllRobots();

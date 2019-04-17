@@ -1,6 +1,8 @@
-//
-// Created by robzelluf on 3/22/19.
-//
+/*
+ * Determine if it is better that two robots do ballplacement
+ * returns SUCCESS if the robot closest to ball is not the same as the robot closest to the target position,
+ * EXCEPT if that distance is smaller than MAX_ONE_ROBOT_BALLPLACEMENT_DIST_TO_TARGET.
+ */
 
 #include "TwoRobotBallPlacement.h"
 
@@ -22,9 +24,9 @@ bt::Node::Status TwoRobotBallPlacement::onUpdate() {
 
     if (!robotClosestToBallIsClosestToTarget && !distanceFromBallToTargetIsSmall) {
         return Status::Success;
-    } else {
-        return Status::Failure;
-    }
+    } 
+    return Status::Failure;
+    
 }
 
 }

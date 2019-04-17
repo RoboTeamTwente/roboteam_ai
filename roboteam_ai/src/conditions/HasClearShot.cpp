@@ -1,6 +1,10 @@
-//
-// Created by robzelluf on 3/14/19.
-//
+/*
+ * Returns SUCCESS if the robot has a clear shot to their goal
+ * the orientation of the robot is not taken into account. 
+ * it just draws a line from the robot position towards the goal center and looks for obstacles.
+ * otherwise FAILURE
+ */
+
 
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "HasClearShot.h"
@@ -11,22 +15,20 @@ namespace ai {
 HasClearShot::HasClearShot(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) {};
 
-void HasClearShot::onInitialize() {};
-
 HasClearShot::Status HasClearShot::onUpdate() {
-    if (((Vector2)robot->pos - world::field->get_their_goal_center()).length() > MAX_SHOOTING_DISTANCE) {
+
+	// return failure if the robot is too far away for a shot at goal
+    if ((Vector2(robot->pos) - world::field->get_their_goal_center()).length() > MAX_SHOOTING_DISTANCE) {
         return Status::Failure;
     }
 
+    // return success if there is a clear line to their goal 
     auto world = world::world->getWorld();
-    if (!control::ControlUtils::clearLine(ball->pos, world::field->get_their_goal_center(), world, 1, false)) {
-        return Status::Failure;
+    if (control::ControlUtils::clearLine(ball->pos, world::field->get_their_goal_center(), world, 1, false)) {
+        return Status::Success;
     }
-
-    return Status::Success;
+    return Status::Failure;
 }
 
-std::string HasClearShot::node_name() {return "HasClearShot";}
-
-}
-};
+} // ai
+} // rtt
