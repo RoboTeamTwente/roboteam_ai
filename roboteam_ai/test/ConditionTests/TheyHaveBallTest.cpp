@@ -8,7 +8,7 @@
 
 TEST(TheyHaveBallTest, TheyHaveBallTest) {
     auto BB = std::make_shared<bt::Blackboard>();
-    rtt::ai::TheyHaveBall node("Test", BB);
+    rtt::ai::TheyHaveBall node("TheyHaveBall", BB);
 
     EXPECT_EQ(node.node_name(), "TheyHaveBall");
 

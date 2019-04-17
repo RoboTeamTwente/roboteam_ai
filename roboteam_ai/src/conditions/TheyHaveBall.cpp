@@ -1,6 +1,6 @@
-//
-// Created by robzelluf on 10/24/18.
-//
+/*
+* Return SUCCESS if their robots has the ball, otherwise FAILURE
+*/
 
 #include "TheyHaveBall.h"
 #include "../world/World.h"
@@ -14,11 +14,9 @@ TheyHaveBall::TheyHaveBall(std::string name, bt::Blackboard::Ptr blackboard)
 bt::Node::Status TheyHaveBall::onUpdate() {
     RobotPtr robotThatHasBall = world::world->whichRobotHasBall();
 
-    if (!robotThatHasBall)
-        return bt::Node::Status::Failure;
-
-    if (robotThatHasBall->team == Robot::Team::them)
+    if (robotThatHasBall && robotThatHasBall->team == Robot::Team::them) {
         return bt::Node::Status::Success;
+    }
 
     return bt::Node::Status::Failure;
 }
