@@ -16,7 +16,7 @@ class PassCoach {
 public:
     PassCoach() = default;
     void resetPass();
-    int initiatePass();
+    int initiatePass(int passerID);
     bool isReadyToReceivePass();
     void setReadyToReceivePass(bool readyToReceivePass);
     int getRobotBeingPassedTo();
@@ -24,7 +24,7 @@ public:
     bool isPassed();
     void setPassed(bool passed);
     const Vector2 &getPassPosition() const;
-    virtual int determineReceiver();
+    virtual int determineReceiver(int passerID);
 
 private:
     bool readyToReceivePass;

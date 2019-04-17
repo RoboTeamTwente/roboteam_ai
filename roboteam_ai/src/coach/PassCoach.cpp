@@ -17,10 +17,10 @@ void PassCoach::resetPass() {
     robotBeingPassedTo  = -1;
 }
 
-int PassCoach::initiatePass() {
+int PassCoach::initiatePass(int passerID) {
     resetPass();
 
-    robotBeingPassedTo = determineReceiver();
+    robotBeingPassedTo = determineReceiver(passerID);
     return robotBeingPassedTo;
 }
 
@@ -48,10 +48,11 @@ const Vector2 &PassCoach::getPassPosition() const {
     return passPosition;
 }
 
-int PassCoach::determineReceiver() {
+int PassCoach::determineReceiver(int passerID) {
     double bestScore = 0;
     int bestRobotID = -1;
     for(auto &robot : world::world->getUs()) {
+        if (robot.id == robotDealer::RobotDealer::getKeeperID() || robot.id == passerID) continue;
         double score = coach::CoachHeuristics::calculatePassScore(robot.pos);
         if (score > bestScore) {
             bestScore = score;

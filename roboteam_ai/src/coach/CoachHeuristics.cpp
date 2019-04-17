@@ -83,7 +83,7 @@ double CoachHeuristics::calculatePassScore(const Vector2 &position) {
     double behindBallScore = calculateBehindBallScore(position, world);
     double distanceToOpponentScore = calculateDistanceToOpponentsScore(position, world);
 
-    double score = closeToGoalScore + shotAtGoalScore + 2 * passLineScore + behindBallScore + distanceToOpponentScore;
+    double score = closeToGoalScore + shotAtGoalScore + 2 * passLineScore + 4 * behindBallScore + distanceToOpponentScore;
     return score;
 }
 
