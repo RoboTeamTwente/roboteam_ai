@@ -95,14 +95,13 @@ bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos,
     return true;
 }
 
-double ControlUtils::closestEnemyToLineDistance(const Vector2 &fromPos, Vector2 toPos, const world::WorldData world, bool keeper) {
+double ControlUtils::closestEnemyToLineDistance(const Vector2 &fromPos, Vector2 toPos, const world::WorldData &world, bool keeper) {
     double shortestDistance = INT_MAX;
     double currentDistance;
 
-    for (auto enemy : world.them) {
-        if (!keeper && enemy.id == rtt::ai::Referee::getRefereeData().them.goalie) {
-            continue;
-        }
+    for (auto &enemy : world.them) {
+        if (!keeper && enemy.id == static_cast<int>(rtt::ai::Referee::getRefereeData().them.goalie)) continue;
+
         currentDistance = distanceToLine(enemy.pos, fromPos, toPos);
         if (currentDistance < shortestDistance) {
             shortestDistance = currentDistance;

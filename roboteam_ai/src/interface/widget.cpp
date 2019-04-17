@@ -511,7 +511,6 @@ if (report) {
             for (auto robotToPassToId : robot.second.robotsToPassTo) {
                 auto passRobot = world::world->getRobotForId(robotToPassToId.first, true);
                 Vector2 passRobotLocation = toScreenPosition(passRobot->pos);
-                double distance = robotToPassToId.second;
                 painter.setBrush(Qt::transparent);
                 int opacity = static_cast<int>((robotLocation.dist(passRobotLocation) / width()) * 255);
                 painter.setPen({255, 255, 0, 255 - opacity});

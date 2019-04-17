@@ -36,7 +36,7 @@ TEST(PassTest, PassTest) {
     world.ball = ball;
     w::world->updateWorld(world);
 
-    ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(), robot1.id);
+    ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(), static_cast<int>(robot1.id));
 
     roboteam_msgs::WorldRobot robot2;
     robot2.id = 1;
@@ -47,7 +47,7 @@ TEST(PassTest, PassTest) {
     world.us.push_back(robot2);
     w::world->updateWorld(world);
 
-    ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(), robot2.id);
+    ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(), static_cast<int>(robot2.id));
 
 
     ball.pos.x = 3;
