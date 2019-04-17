@@ -269,7 +269,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TreeInterpreterTests/BtTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/JsonTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TreeInterpreterTests/BTFactoryTest.cpp
-        roboteam_ai/test/WorldTests/WorldTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/WorldTests/WorldTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/WorldTests/FieldTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/WorldTests/WorldTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TreeInterpreterTests/BTBlackBoardTest.cpp
@@ -310,6 +310,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/DefensiveCoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/OffensiveCoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/roboteam_utils_Tests/AngleTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/AnalysisTests/DecisionmakerTest.cpp
 
         )
 
@@ -366,7 +367,8 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefenceDealer.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefenceDealer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/PossiblePass.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/PossiblePass.h roboteam_ai/test/AnalysisTests/DecisionmakerTest.cpp)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/PossiblePass.h
+        )
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
