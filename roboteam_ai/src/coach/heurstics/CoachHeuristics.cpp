@@ -9,13 +9,13 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
-const double CoachHeuristics::MAX_DISTANCE_FROM_BALL = 6.0;
 const double CoachHeuristics::CLOSE_TO_GOAL_WEIGHT = -0.1;
 const double CoachHeuristics::SHOT_AT_GOAL_WEIGHT = -3.0;
 const double CoachHeuristics::PASS_LINE_WEIGHT = -3.0;
-const double CoachHeuristics::DISTANCE_TO_OPPONENTS_WEIGHT = -3;
-const double CoachHeuristics::DISTANCE_FROM_CORNER_WEIGHT = -0.05;
+const double CoachHeuristics::DISTANCE_TO_OPPONENTS_WEIGHT = -3.0;
 const double CoachHeuristics::BEHIND_BALL_WEIGHT = -0.1;
+
+const double CoachHeuristics::MAX_INTERCEPT_ANGLE = M_PI / 4;
 
 /// Gives a higher score to positions closer to the oppontents goal
 double CoachHeuristics::calculateCloseToGoalScore(const Vector2 &position) {
@@ -34,11 +34,11 @@ double CoachHeuristics::calculateShotAtGoalScore(const Vector2& position, WorldD
 
 /// Gives a higher score if the distance between the ball and the positions if free (safe pass line)
 double CoachHeuristics::calculatePassLineScore(const Vector2& position, WorldData world) {
-    double smallestAngle = M_PI / 4;
+    double smallestAngle = MAX_INTERCEPT_ANGLE;
     auto ball = world.ball;
 
     for(const auto& robot : world.them) {
-        if(control::ControlUtils::isPointProjectionOnLine(robot.pos, ball.pos, position)) {
+        if(control::ControlUtils::isPointProjectedOnLineSegment(robot.pos, ball.pos, position)) {
             double angle = abs((position - ball.pos).toAngle() - (robot.pos - ball.pos).toAngle());
             if (angle < smallestAngle) {
                 smallestAngle = angle;
@@ -58,33 +58,6 @@ double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &positio
     } else {
         return 1;
     }
-}
-
-/// Calculates a total score based on all the sub-scores
-double CoachHeuristics::calculateOffensivePositionScore(const Vector2 &position) {
-    WorldData world = world::world->getWorld();
-    roboteam_msgs::GeometryFieldSize field = world::field->get_field();
-
-    double closeToGoalScore = calculateCloseToGoalScore(position);
-    double passLineScore = calculatePassLineScore(position, world);
-    double shotAtGoalScore = calculateShotAtGoalScore(position, world);
-    double distanceToOpponentScore = calculateDistanceToOpponentsScore(position, world);
-
-    double score = shotAtGoalScore + passLineScore + closeToGoalScore + distanceToOpponentScore;
-    return score;
-}
-
-double CoachHeuristics::calculatePassScore(const Vector2 &position) {
-    WorldData world = world::world->getWorld();
-    roboteam_msgs::GeometryFieldSize field = world::field->get_field();
-    double closeToGoalScore = calculateCloseToGoalScore(position);
-    double shotAtGoalScore = calculateShotAtGoalScore(position, world);
-    double passLineScore = calculatePassLineScore(position, world);
-    double behindBallScore = calculateBehindBallScore(position, world);
-    double distanceToOpponentScore = calculateDistanceToOpponentsScore(position, world);
-
-    double score = closeToGoalScore + shotAtGoalScore + 2 * passLineScore + 4 * behindBallScore + distanceToOpponentScore;
-    return score;
 }
 
 double CoachHeuristics::calculateBehindBallScore(const Vector2 &position, CoachHeuristics::WorldData world) {

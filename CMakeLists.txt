@@ -352,8 +352,12 @@ set(WORLD_SOURCES
         )
 
 set(COACH_SOURCES
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/CoachHeuristics.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/CoachHeuristics.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/heurstics/CoachHeuristics.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/heurstics/CoachHeuristics.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/heurstics/PassScore.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/heurstics/PassScore.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/heurstics/OffensiveScore.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/heurstics/OffensiveScore.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/PassCoach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/PassCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/BallplacementCoach.cpp

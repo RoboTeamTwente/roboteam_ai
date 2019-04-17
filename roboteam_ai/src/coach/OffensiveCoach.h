@@ -9,8 +9,9 @@
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/world/Field.h>
 #include <algorithm>
-#include "CoachHeuristics.h"
+#include "roboteam_ai/src/coach/heurstics/CoachHeuristics.h"
 #include "../world/WorldData.h"
+#include "heurstics/OffensiveScore.h"
 
 namespace rtt {
 namespace ai {

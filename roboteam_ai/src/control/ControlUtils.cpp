@@ -70,8 +70,8 @@ double ControlUtils::constrainAngle(double angle) {
     return angle - M_PI;
 }
 
-bool ControlUtils::isPointProjectionOnLine(const Vector2 &pointToCheck, const Vector2 &lineBegin,
-                                           const Vector2 &lineEnd) {
+bool ControlUtils::isPointProjectedOnLineSegment(const Vector2 &pointToCheck, const Vector2 &lineBegin,
+                                                 const Vector2 &lineEnd) {
 
     Vector2 projectionPoint = pointToCheck.project(lineBegin, lineEnd);
     double xMin = min(lineBegin.x, lineEnd.x);

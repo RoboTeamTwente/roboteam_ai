@@ -16,7 +16,7 @@ OffensiveCoach g_offensiveCoach;
 OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(const OffensivePosition& currentPosition, const Vector2& defaultPosition) {
 
     OffensivePosition bestPosition = currentPosition;
-    bestPosition.score = CoachHeuristics::calculateOffensivePositionScore(bestPosition.position);
+    bestPosition.score = g_offensiveScore.calculateOffensivePositionScore(bestPosition.position);
 
     // Check all positions in a grid around the robot to look for better positions
     for (int xDiff = -GRID_SIZE; xDiff < GRID_SIZE + 1; xDiff++) {
@@ -46,7 +46,7 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
                 }
             }
             if (tooCloseToOtherZone) continue;
-            newPosition.score = CoachHeuristics::calculateOffensivePositionScore(newPosition.position);
+            newPosition.score = g_offensiveScore.calculateOffensivePositionScore(newPosition.position);
 
             if (newPosition.score > bestPosition.score) {
                 bestPosition = newPosition;
@@ -83,7 +83,7 @@ std::vector<Vector2> OffensiveCoach::getNewOffensivePositions(int numberOfRobots
         for (auto& defaultLocation : defaultLocations) {
             OffensivePosition offensivePosition;
             offensivePosition.position = defaultLocation;
-            offensivePosition.score = CoachHeuristics::calculateOffensivePositionScore(defaultLocation);
+            offensivePosition.score = g_offensiveScore.calculateOffensivePositionScore(defaultLocation);
             offensivePositions.emplace_back(offensivePosition);
         }
     } else {

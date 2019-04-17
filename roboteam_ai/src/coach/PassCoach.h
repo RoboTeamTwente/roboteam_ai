@@ -7,6 +7,7 @@
 
 #include <roboteam_ai/src/coach/OffensiveCoach.h>
 #include <roboteam_ai/src/utilities/RobotDealer.h>
+#include <roboteam_ai/src/coach/heurstics/PassScore.h>
 
 namespace rtt {
 namespace ai {

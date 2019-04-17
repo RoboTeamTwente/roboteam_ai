@@ -53,7 +53,7 @@ int PassCoach::determineReceiver(int passerID) {
     int bestRobotID = -1;
     for(auto &robot : world::world->getUs()) {
         if (robot.id == robotDealer::RobotDealer::getKeeperID() || robot.id == passerID) continue;
-        double score = coach::CoachHeuristics::calculatePassScore(robot.pos);
+        double score = coach::g_passScore.calculatePassScore(robot.pos);
         if (score > bestScore) {
             bestScore = score;
             bestRobotID = robot.id;
