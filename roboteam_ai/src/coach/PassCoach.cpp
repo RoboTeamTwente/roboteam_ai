@@ -18,6 +18,9 @@ void PassCoach::resetPass() {
 }
 
 int PassCoach::initiatePass(int passerID) {
+    if (robotBeingPassedTo != -1) {
+        return -1;
+    }
     resetPass();
 
     robotBeingPassedTo = determineReceiver(passerID);

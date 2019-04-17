@@ -12,10 +12,8 @@ namespace ai {
 Receive::Receive(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void Receive::onInitialize() {
-    checkTicks = 0;
-    initializedBall = false;
     ballPlacement = properties->getBool("BallPlacement");
-};
+}
 
 Receive::Status Receive::onUpdate() {
     if (world::world->ourRobotHasBall(robot->id)) {
@@ -45,16 +43,25 @@ Receive::Status Receive::onUpdate() {
         }
     }
 
-    ballStartPos = ball->pos;
-    Vector2 ballVel = ball->vel;
-    if (coach::g_pass.isPassed() && ballVel.length() < 0.1) {
-        return Status::Success;
-    }
-
     if (coach::g_pass.isPassed()) {
+        // Remember the status of the ball at the moment of passing
+        if(!isBallOnPassedSet) {
+            ballOnPassed = ball;
+            isBallOnPassedSet = true;
+        }
+
+        // Check if the ball was deflected
+        if (ballDeflected()) {
+            command.w = -robot->angle;
+            publishRobotCommand();
+            return Status::Failure;
+        }
+
         intercept();
         return Status::Running;
     }
+
+    std::cout << "Ball is not passed yet!" << std::endl;
 
     return Status::Running;
 }
@@ -64,7 +71,7 @@ void Receive::onTerminate(Status s) {
     command.y_vel = 0;
     command.dribbler = 0;
     publishRobotCommand();
-    coach::g_pass.setRobotBeingPassedTo(-1);
+    coach::g_pass.resetPass();
 }
 
 
@@ -103,18 +110,51 @@ void Receive::moveToCatchPosition(Vector2 position) {
 void Receive::intercept() {
     double ballAngle = ((Vector2) ball->pos - robot->pos).angle();
 
+    ballStartPos = ball->pos;
     ballStartVel = ball->vel;
     ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
     Vector2 interceptPoint = Receive::computeInterceptPoint(ballStartPos, ballEndPos);
 
     Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel;
+
+    velocities = velocities.stretchToLength(velocities.length() * 2);
     velocities = control::ControlUtils::velocityLimiter(velocities);
+
+    if (velocities.length() < 0.5) {
+        velocities = velocities.stretchToLength(0.5);
+    }
+
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
     command.w = ballAngle;
     command.dribbler = 1;
 
     publishRobotCommand();
+}
+
+bool Receive::ballDeflected() {
+    //TODO: Remove print statements and make 1 big if statement
+    if ((ball->vel.toAngle() - ballOnPassed->vel.toAngle()).getAngle() > 0.5) {
+        std::cout << "Ball angle changed!" << std::endl;
+        return true;
+    }
+
+    if (ball->vel.length() < 0.1) {
+        std::cout << "Ball stopped rolling!" << std::endl;
+        return true;
+    }
+
+    if (receiverMissedBall()) {
+        std::cout << "Receiver missed ball!" << std::endl;
+        return true;
+    }
+
+    return false;
+}
+
+bool Receive::receiverMissedBall() {
+    return (ball->pos - ballOnPassed->pos).length() - (robot->pos - ballOnPassed->pos).length() >
+           RECEIVER_MISSED_BALL_MARGIN;
 }
 
 

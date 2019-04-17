@@ -29,7 +29,7 @@ public:
 
 private:
     bool readyToReceivePass;
-    int robotBeingPassedTo;
+    int robotBeingPassedTo = -1;
     bool passed;
     Vector2 passPosition;
 };

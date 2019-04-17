@@ -18,7 +18,7 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 
 void Attack::onInitialize() {
     gtp = std::make_shared<control::NumTreePosControl>();
-    gtp->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
+    //gtp->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
     shot = false;
 }
 
@@ -37,10 +37,9 @@ bt::Node::Status Attack::onUpdate() {
     if (!coach::g_generalPositionCoach.isRobotBehindBallToGoal(BEHIND_BALL_CHECK, false, robot->pos)) {
         targetPos = behindBall;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
-        gtp->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
+        //gtp->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
 
         if (abs(((Vector2) robot->pos - targetPos).length()) < SWITCH_TO_BASICGTP_DISTANCE) {
-            gtp->setAvoidBall(false);
             gtp = std::make_shared<control::BasicPosControl>();
         }
     }
