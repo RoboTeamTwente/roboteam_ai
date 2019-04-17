@@ -9,8 +9,9 @@
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/world/Field.h>
 #include <algorithm>
-#include "CoachHeuristics.h"
+#include "roboteam_ai/src/coach/heurstics/CoachHeuristics.h"
 #include "../world/WorldData.h"
+#include "heurstics/OffensiveScore.h"
 
 namespace rtt {
 namespace ai {
@@ -35,12 +36,12 @@ public:
     OffensivePosition calculateNewRobotPosition(const OffensivePosition& currentPosition, const Vector2& defaultPosition);
 
     std::vector<Vector2> getOffensivePositionVectors();
-    static int getBestStrikerID();
 
     std::vector<Vector2> getDefaultLocations();
     std::vector<Vector2> getNewOffensivePositions(int numberOfRobots);
 
 private:
+    coach::OffensiveScore offensiveScore;
     std::vector<OffensivePosition> offensivePositions;
     std::map<int, OffensivePosition> robotPositions;
 

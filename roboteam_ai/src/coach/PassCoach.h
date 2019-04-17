@@ -7,6 +7,7 @@
 
 #include <roboteam_ai/src/coach/OffensiveCoach.h>
 #include <roboteam_ai/src/utilities/RobotDealer.h>
+#include <roboteam_ai/src/coach/heurstics/PassScore.h>
 
 namespace rtt {
 namespace ai {
@@ -16,7 +17,7 @@ class PassCoach {
 public:
     PassCoach() = default;
     void resetPass();
-    int initiatePass();
+    int initiatePass(int passerID);
     bool isReadyToReceivePass();
     void setReadyToReceivePass(bool readyToReceivePass);
     int getRobotBeingPassedTo();
@@ -24,7 +25,7 @@ public:
     bool isPassed();
     void setPassed(bool passed);
     const Vector2 &getPassPosition() const;
-    virtual int determineReceiver();
+    virtual int determineReceiver(int passerID);
 
 private:
     bool readyToReceivePass;
