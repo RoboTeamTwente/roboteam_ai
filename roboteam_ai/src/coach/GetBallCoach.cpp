@@ -11,11 +11,14 @@ namespace coach{
 GetBallCoach GBCoachObj;
 GetBallCoach* GBCoach=&GBCoachObj;
 bool GetBallCoach::shouldWeGetBall() {
-    // listen to world_state e.g. if ball is loose we try to get it with one of our robots
+    // return true if we want to do some ball handling (e.g. harrassing, getting the ball or so). False in other cases
     return true;
 }
-bool GetBallCoach::areWeGettingBall() {
+bool GetBallCoach::weAreGettingBall() {
     return gettingBall;
+}
+int GetBallCoach::getBallGetterID() {
+    return idGettingBall;
 }
 int GetBallCoach::bestBallGetterID() {
    //robot closest to ball that is not keeper

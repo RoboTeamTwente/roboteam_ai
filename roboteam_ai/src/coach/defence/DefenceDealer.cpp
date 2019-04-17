@@ -11,34 +11,15 @@ namespace coach {
 
 DefenceDealer g_DefenceDealer;
 
-void DefenceDealer::setDoUpdate() {
-    doUpdate = true;
-    checkIfWeShouldGetBall();
-}
-
 /// adds a defender to the available defendersList
 void DefenceDealer::addDefender(int id) {
     bool robotIsRegistered = std::find(defenders.begin(), defenders.end(), id) != defenders.end();
     if (! robotIsRegistered) {
         defenders.push_back(id);
-        doUpdate=true;
-        std::cout << "registered defender id:" << id << std::endl;
+        //std::cout << "registered defender id:" << id << std::endl;
     }
     else {
-        std::cerr << "Defender is already registered, check your tree!!" << std::endl;
-    }
-}
-
-/// removes a defender from the available id's
-void DefenceDealer::removeDefender(int id) {
-    auto defender = std::find(defenders.begin(), defenders.end(), id);
-    if (defender != defenders.end()) {
-        defenders.erase(defender);
-        setDoUpdate();
-        std::cout << "removed defender id:" << id << std::endl;
-    }
-    else {
-        std::cerr << "Defender id "<< id <<"cannot be removed as it is not registered! Check your skill!" << std::endl;
+        //std::cerr << "Defender is already registered, check your tree!!" << std::endl;
     }
 }
 
@@ -63,11 +44,10 @@ void DefenceDealer::visualizePoints() {
 }
 /// calculates the defender locations for all available defenders
 void DefenceDealer::updateDefenderLocations() {
-    if (doUpdate) {
-        doUpdate = false;
         // clear the defenderLocations
         defenderLocations.clear();
         std::vector<int> availableDefenders = defenders;
+        defenders.clear();
         // decide the locations to defend
         std::vector<DefencePositionCoach::DefenderBot> defenderBots = g_defensivePositionCoach.decidePositions(
                 availableDefenders.size());
@@ -100,48 +80,6 @@ void DefenceDealer::updateDefenderLocations() {
         }
         //visualization
         visualizePoints();
-    }
-}
-
-bool DefenceDealer::isBotGettingBall(int id) {
-    return id==botIsGettingBallId&&id!=-1;
-}
-void DefenceDealer::checkIfWeShouldGetBall() {
-    bool theyHaveBall=true;
-    if (world::world->getBall()) {
-        theyHaveBall = world::world->getBall()->pos.x < 0;
-    }
-    // if we are not getting the ball right now
-    if (botIsGettingBallId==-1){
-        if (!theyHaveBall){
-            botIsGettingBallId=botClosestToBall();
-            if (botIsGettingBallId!=-1) {
-                removeDefender(botIsGettingBallId);
-            }
-        }
-    }
-    // some bot is getting the ball right now
-    else{
-        if (theyHaveBall){
-            addDefender(botIsGettingBallId);
-            botIsGettingBallId=-1;
-        }
-    }
-}
-int DefenceDealer::botClosestToBall(){
-    double closestDist=DBL_MAX;
-    int closestId=-1;
-    for (auto id : defenders){
-        auto robot=world::world->getRobotForId(id,true);
-        if (robot){
-            double distToBall=(robot->pos-world::world->getBall()->pos).length();
-            if (distToBall<closestDist){
-                closestId=id;
-                closestDist=distToBall;
-            }
-        }
-    }
-    return closestId;
 }
 }//coach
 }//ai

@@ -15,7 +15,7 @@ class GetBallCoach {
         int bestBallGetterID();
     public:
         void update();
-        bool areWeGettingBall();
+        bool weAreGettingBall();
         int getBallGetterID();
 
 
