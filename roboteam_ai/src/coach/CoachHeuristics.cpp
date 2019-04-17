@@ -25,20 +25,20 @@ double CoachHeuristics::calculateCloseToGoalScore(const Vector2 &position) {
 
 /// Gives a higher score if the line between the position and the goal is free
 double CoachHeuristics::calculateShotAtGoalScore(const Vector2& position, WorldData world) {
-    double shortestDistance = control::ControlUtils::closestEnemyToLineDistance(position, world::field->get_their_goal_center(), world, false);
+    double shortestDistance = control::ControlUtils::closestEnemyToLineDistance(position, world::field->get_their_goal_center(), std::move(world), false);
 
     return 1 - exp(SHOT_AT_GOAL_WEIGHT * shortestDistance);
 }
 
 /// Gives a higher score if the distance between the ball and the positions if free (safe pass line)
-double CoachHeuristics::calculatePassLineScore(const Vector2& position, WorldData world) {
+double CoachHeuristics::calculatePassLineScore(const Vector2& position, const WorldData& world) {
     double shortestDistance = control::ControlUtils::closestEnemyToLineDistance(world.ball.pos, position, world, false);
 
     return 1 - exp(PASS_LINE_WEIGHT * shortestDistance);
 }
 
 /// Gives a higher score if the position is far away from enemy robots
-double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &position, const WorldData world) {
+double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &position, const WorldData& world) {
     Robot closestRobot = world::world->getRobotClosestToPoint(position, world::WhichRobots::THEIR_ROBOTS);
     if (closestRobot.id != -1) {
         double distance = (position - closestRobot.pos).length();
@@ -74,8 +74,9 @@ double CoachHeuristics::calculatePositionScore(const Vector2& position) {
 
     double closeToGoalScore = calculateCloseToGoalScore(position);
     double shotAtGoalScore = calculateShotAtGoalScore(position, world);
+    double passLineScore = calculatePassLineScore(position, world);
 
-    double score = 3 * shotAtGoalScore + closeToGoalScore;
+    double score = shotAtGoalScore + passLineScore + closeToGoalScore;
     return score;
 }
 

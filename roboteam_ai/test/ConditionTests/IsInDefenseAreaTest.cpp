@@ -18,7 +18,7 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
     BB.setDouble("margin", 0.2);
     BB.setBool("ourDefenseArea", true);
     auto BBpointer = std::make_shared<bt::Blackboard>(BB);
-    rtt::ai::IsInDefenseArea node("Test", BBpointer);
+    rtt::ai::IsInDefenseArea node("IsInDefenseArea", BBpointer);
 
     EXPECT_EQ(node.node_name(), "IsInDefenseArea");
 
@@ -51,7 +51,7 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
     worldMsg.ball.existence = 99999;
     worldMsg.ball.pos.x = 0;
     rtt::ai::world::world->updateWorld(worldMsg);
-    rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(rtt::ai::robotDealer::RobotType::RANDOM, "IsInDefenseAreaTest", "test");
+    rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(rtt::ai::robotDealer::RobotType::RANDOM, "test", "IsInDefenseAreaTest");
     node.initialize();
 
     // Should succeed since robot is in our defence area
@@ -80,7 +80,7 @@ TEST(DetectsInTheirDefenseArea, IsInDefenseAreaTest)
     BB.setDouble("margin", 0.2);
     BB.setBool("ourDefenseArea", false);
     auto BBpointer = std::make_shared<bt::Blackboard>(BB);
-    rtt::ai::IsInDefenseArea node("Test", BBpointer);
+    rtt::ai::IsInDefenseArea node("IsInDefenseArea", BBpointer);
 
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
@@ -112,7 +112,7 @@ TEST(DetectsInTheirDefenseArea, IsInDefenseAreaTest)
     worldMsg.ball.visible = 1;
 
     rtt::ai::world::world->updateWorld(worldMsg);
-    rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(rtt::ai::robotDealer::RobotType::RANDOM, "IsInDefenseAreaTest", "test");
+    rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(rtt::ai::robotDealer::RobotType::RANDOM, "test", "IsInDefenseAreaTest");
     node.initialize();
 
     // Should succeed since robot is in their defence area
@@ -135,12 +135,12 @@ TEST(DetectsInTheirDefenseArea, IsInDefenseAreaTest)
 TEST(DetectsBallInOurDefenceArea, IsInDefenceAreaTest)
 {
     bt::Blackboard BB;
-    BB.setBool("robot", false);
+    BB.setBool("useRobot", false);
     BB.setDouble("margin", 0.2);
     BB.setString("ROLE", "test");
     BB.setBool("ourDefenseArea", true);
     auto BBpointer = std::make_shared<bt::Blackboard>(BB);
-    rtt::ai::IsInDefenseArea node("Test", BBpointer);
+    rtt::ai::IsInDefenseArea node("IsInDefenseArea", BBpointer);
 
     roboteam_msgs::World worldMsg;
 

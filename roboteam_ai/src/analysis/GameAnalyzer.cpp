@@ -3,6 +3,7 @@
 //
 
 #include <roboteam_ai/src/control/ControlUtils.h>
+#include <roboteam_ai/src/world/BallPossession.h>
 #include "GameAnalyzer.h"
 #include "../world/World.h"
 #include "../world/Field.h"
@@ -25,8 +26,7 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
     if (world::world->weHaveRobots()) {
         std::shared_ptr<AnalysisReport> report = std::make_shared<AnalysisReport>();
 
-        report->recommendedPlayStyle = getRecommendedPlayStyle();
-        report->ballPossession = getBallPossessionEstimate(true);
+        report->ballPossession = convertPossession(bpTracker->getPossession());
         report->ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(true);
         report->theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(false);
         report->theirRobotSortedOnDanger = getRobotsSortedOnDanger(false);
@@ -41,15 +41,16 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
     return {};
 }
 
-playStyle GameAnalyzer::getRecommendedPlayStyle() {
-    return DEFEND_WITH_ALL;
+BallPossession GameAnalyzer::convertPossession(rtt::ai::BallPossession::Possession possession) {
+    switch(possession){
+        case (rtt::ai::BallPossession::LOOSEBALL):
+        case (rtt::ai::BallPossession::CONTENDEDBALL): return BallPossession::NEUTRAL;
+        case (rtt::ai::BallPossession::THEIRBALL): return BallPossession::THEY_HAVE_BALL;
+        case (rtt::ai::BallPossession::OURBALL): return BallPossession::WE_HAVE_BALL;
+    }
 }
 
-double GameAnalyzer::getBallPossessionEstimate(bool ourTeam) {
-    return 0;
-}
-
-/// Get the average of the distances of robots to their opponents goal
+    /// Get the average of the distances of robots to their opponents goal
 double GameAnalyzer::getTeamDistanceToGoalAvg(bool ourTeam, WorldData simulatedWorld ) {
     auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     double total = 0.0;

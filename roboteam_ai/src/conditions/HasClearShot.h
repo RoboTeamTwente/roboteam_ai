@@ -1,7 +1,3 @@
-//
-// Created by robzelluf on 3/14/19.
-//
-
 #ifndef ROBOTEAM_AI_SHOTATGOAL_H
 #define ROBOTEAM_AI_SHOTATGOAL_H
 
@@ -16,14 +12,11 @@ private:
     const double MAX_SHOOTING_DISTANCE = 3.0;
 public:
     explicit HasClearShot(std::string name = "HasClearShot", bt::Blackboard::Ptr blackboard = nullptr);
-    void onInitialize() override;
     Status onUpdate() override;
-    std::string node_name() override;
-
 };
 
-}
-}
+} // ai
+} // rtt
 
 
 #endif //ROBOTEAM_AI_SHOTATGOAL_H

@@ -17,7 +17,7 @@ TEST(BallTest, IHaveBallTest) {
     BB->setInt("ROBOT_ID", 0);
     BB->setString("ROLE","test");
     BB->setBool("our_team", false);
-    rtt::ai::HasBall node("Test", BB);
+    rtt::ai::HasBall node("HasBall", BB);
 
     EXPECT_EQ(node.node_name(), "HasBall");
 
@@ -36,7 +36,7 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.existence = 99999;
     rtt::ai::world::world->updateWorld(worldMsg);
     rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(
-            rtt::ai::robotDealer::RobotType::RANDOM,"IHaveBallTestTactic","test");
+            rtt::ai::robotDealer::RobotType::RANDOM, "test", "IHaveBallTestTactic");
     node.initialize();
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
