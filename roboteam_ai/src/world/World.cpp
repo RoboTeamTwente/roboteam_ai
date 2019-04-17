@@ -350,12 +350,15 @@ const World::BallPtr World::getFutureBall(double time) {
     futureWorld.updateFutureBall(ballCopy, time);
     return std::make_shared<Ball>(ballCopy);
 }
+
 const WorldData World::getPreviousWorld() {
     return history.getPreviousWorld();
 }
+
 double World::timeDifference() {
-    return worldDataPtr->time -getPreviousWorld().time;
+    return worldDataPtr->time - getPreviousWorld().time;
 }
+
 } //world
 } //ai
 } //rtt
