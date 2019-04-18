@@ -339,6 +339,7 @@ void MainWindow::setTimeOutTop(bool top) {
 
 void MainWindow::setUsesKeeper(bool usekeeper) {
     robotDealer::RobotDealer::setUseSeparateKeeper(usekeeper);
+    robotDealer::RobotDealer::refresh();
 }
 
 
