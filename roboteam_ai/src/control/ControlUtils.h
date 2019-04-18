@@ -61,7 +61,7 @@ class ControlUtils {
                 const Vector2 &point, double maxDifference = 0.3);
         static std::vector<std::pair<Vector2, Vector2>> calculateClosestPathsFromTwoSetsOfPoints(
                 std::vector<Vector2> set1, std::vector<Vector2> set2);
-        static double closestEnemyToLineDistance(const Vector2 &fromPos, Vector2 toPos, world::WorldData world,
+        static double closestEnemyToLineDistance(const Vector2 &fromPos, Vector2 toPos, const world::WorldData &world,
                                                  bool keeper);
         static bool hasClearVision(int fromID, int towardsID, world::WorldData w, int safeDistanceFactor);
 };

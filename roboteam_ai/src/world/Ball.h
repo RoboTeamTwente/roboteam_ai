@@ -44,7 +44,7 @@ class Ball {
         Vector2 vel = Vector2();
         Vector2 acc = Vector2();
         double spin = 0.0;
-        bool exists = false;
+        static bool exists;
         bool visible = false;
 };
 

@@ -32,7 +32,6 @@ bt::Node::Status Attack::onUpdate() {
 
     Vector2 ball = world::world->getBall()->pos;
     Vector2 behindBall = coach::g_generalPositionCoach.getPositionBehindBallToGoal(BEHIND_BALL_TARGET, false);
-    Vector2 deltaBall = behindBall - ball;
 
     if (!coach::g_generalPositionCoach.isRobotBehindBallToGoal(BEHIND_BALL_CHECK, false, robot->pos)) {
         targetPos = behindBall;
