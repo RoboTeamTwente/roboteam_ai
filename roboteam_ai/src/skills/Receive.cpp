@@ -145,10 +145,12 @@ void Receive::intercept() {
 bool Receive::passFailed() {
     //TODO: Remove print statements and make 1 big if statement
     if ((ball->vel.toAngle() - ballOnPassed->vel.toAngle()).getAngle() > 0.5) {
+        std::cout << "Ball deflected!" << std::endl;
         return true;
     }
 
     if (ball->vel.length() < 0.1) {
+        std::cout << "Ball stopped rolling" << std::endl;
         return true;
     }
 

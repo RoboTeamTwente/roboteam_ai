@@ -37,10 +37,6 @@ bt::Node::Status Attack::onUpdate() {
         targetPos = behindBall;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
         gtp->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
-
-        if (abs(((Vector2) robot->pos - targetPos).length()) < SWITCH_TO_BASICGTP_DISTANCE) {
-            gtp = std::make_shared<control::BasicPosControl>();
-        }
     }
     else {
         targetPos = ball;
