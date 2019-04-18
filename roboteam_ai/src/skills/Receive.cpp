@@ -17,7 +17,13 @@ void Receive::onInitialize() {
 
 Receive::Status Receive::onUpdate() {
     if (world::world->ourRobotHasBall(robot->id)) {
+        std::cout << "Robot received ball" << std::endl;
         return Status::Success;
+    }
+
+    if (coach::g_pass.passTakesTooLong()) {
+        std::cout << "Receiver: passing takes too long!" << std::endl;
+        return Status::Failure;
     }
 
     if (ballPlacement) {
@@ -51,7 +57,8 @@ Receive::Status Receive::onUpdate() {
         }
 
         // Check if the ball was deflected
-        if (ballDeflected()) {
+        if (passFailed()) {
+            std::cout << "Pass failed!" << std::endl;
             command.w = -robot->angle;
             publishRobotCommand();
             return Status::Failure;
@@ -61,8 +68,6 @@ Receive::Status Receive::onUpdate() {
         return Status::Running;
     }
 
-    std::cout << "Ball is not passed yet!" << std::endl;
-
     return Status::Running;
 }
 
@@ -71,7 +76,12 @@ void Receive::onTerminate(Status s) {
     command.y_vel = 0;
     command.dribbler = 0;
     publishRobotCommand();
-    coach::g_pass.resetPass();
+
+    //TODO: Remove temporary hack
+    if (robot->id != -1) {
+        std::cout << "Terminating receiver " << robot->id << std::endl;
+        coach::g_pass.resetPass();
+    }
 }
 
 
@@ -132,24 +142,17 @@ void Receive::intercept() {
     publishRobotCommand();
 }
 
-bool Receive::ballDeflected() {
+bool Receive::passFailed() {
     //TODO: Remove print statements and make 1 big if statement
     if ((ball->vel.toAngle() - ballOnPassed->vel.toAngle()).getAngle() > 0.5) {
-        std::cout << "Ball angle changed!" << std::endl;
         return true;
     }
 
     if (ball->vel.length() < 0.1) {
-        std::cout << "Ball stopped rolling!" << std::endl;
         return true;
     }
 
-    if (receiverMissedBall()) {
-        std::cout << "Receiver missed ball!" << std::endl;
-        return true;
-    }
-
-    return false;
+    return receiverMissedBall();
 }
 
 bool Receive::receiverMissedBall() {

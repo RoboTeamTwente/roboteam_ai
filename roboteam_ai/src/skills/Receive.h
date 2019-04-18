@@ -40,7 +40,7 @@ private:
 
     bool isInPosition(const Vector2& behindTargetPos = {0, 0});
     void moveToCatchPosition(Vector2 position);
-    bool ballDeflected();
+    bool passFailed();
     bool receiverMissedBall();
 
 public:

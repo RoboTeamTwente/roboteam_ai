@@ -21,8 +21,12 @@ void Pass::onInitialize() {
 }
 
 Pass::Status Pass::onUpdate() {
+    robotToPassToID = coach::g_pass.getRobotBeingPassedTo();
+
     if (robotToPassToID == -1) return Status::Failure;
     robotToPassTo = world::world->getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
+
+    std::cout << "Passing to robot " << robotToPassToID << std::endl;
 
     bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos);
     auto behindBallPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, getKicker());
@@ -38,6 +42,13 @@ Pass::Status Pass::onUpdate() {
     } else if (isOnLineToBall && isBehindBall) {
         return hasBall ? shoot() : getBall();
     }
+
+//    if (coach::g_pass.passTakesTooLong()) {
+//        std::cout << "Passer: passing takes too long!" << std::endl;
+//        coach::g_pass.resetPass();
+//        return Status::Failure;
+//    }
+
     return moveBehindBall(behindBallPos);
 }
 
