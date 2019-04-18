@@ -25,7 +25,7 @@ bt::Node::Status bt::DefaultTactic::update() {
         return status;
     }
 
-    for (unsigned long i = 0; i < amountToTick; i ++) {
+    for (int i = 0; i < amountToTick; i ++) {
         children.at(i)->tick();
     }
 
@@ -43,16 +43,11 @@ bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboar
     this->name = std::move(name);
 }
 
-
-
 void bt::DefaultTactic::claimRobots(int amount) {
 
     // for the amount of robots we still need
     for (int i = 0; i < amount; i++) {
         auto toClaim = getNextClaim();
-
-//        std::cout << toClaim.first << std::endl;
-
         robotIDs.insert(dealer::claimRobotForTactic(toClaim.second, toClaim.first, name));
         if (robotIDs.find(- 1) != robotIDs.end()) {
             robotIDs.erase(-1);
@@ -72,8 +67,9 @@ bool bt::DefaultTactic::updateRobots() {
     else if (robotsNeeded > 0) {
         claimRobots(robotsNeeded);
     }
-    return (robotIDs.size() == amountToTick);
+    return (static_cast<int>(robotIDs.size()) == amountToTick);
 }
+
 void bt::DefaultTactic::disClaimRobots(int amount) {
     for (int i = 0; i < amount; i ++) {
 
@@ -86,22 +82,24 @@ void bt::DefaultTactic::disClaimRobots(int amount) {
 }
 
 std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getNextClaim() {
-    for (auto robot : robots) {
-        if (std::get<0>(robot) == (robotIDs.size() +1)) {
+    for (auto &robot : robots) {
+        if (std::get<0>(robot) == static_cast<int>(robotIDs.size() +1)) {
             return std::make_pair(std::get<1>(robot), std::get<2>(robot));
         }
     }
     return {};
 }
+
 std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getLastClaim() {
-    for (auto robot : robots) {
-        if (std::get<0>(robot) == (robotIDs.size())) {
-            return {std::get<1>(robot), std::get<2>(robot)};
+    for (auto &robot : robots) {
+        if (std::get<0>(robot) == static_cast<int>(robotIDs.size())) {
+            return std::make_pair(std::get<1>(robot), std::get<2>(robot));
         }
     }
     return {};
 }
-void bt::DefaultTactic::parseType(std::string typee) {
+
+void bt::DefaultTactic::parseType(const std::string& typee) {
     if (typee == "Offensive") {
         thisType = Offensive;
     }
@@ -116,6 +114,7 @@ void bt::DefaultTactic::parseType(std::string typee) {
     }
 
 }
+
 void bt::DefaultTactic::updateStyle() {
 
     rtt::ai::analysis::AnalysisReport report = * rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
@@ -137,6 +136,7 @@ void bt::DefaultTactic::updateStyle() {
         amountToTick = rtt::ai::world::world->getUs().size();
     }
 }
+
 void bt::DefaultTactic::convert(const std::vector<std::pair<std::string, RobotType>> &unit) {
     int counter = 1;
     for (const auto &robot : unit) {

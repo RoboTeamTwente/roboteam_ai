@@ -11,6 +11,7 @@ TEST(BallTest, IHaveBallTest) {
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
     rtt::ai::world::world->updateWorld(worldMsg);
+    rtt::ai::world::Ball::exists = false;
 
     rtt::ai::robotDealer::RobotDealer::halt();
     auto BB = std::make_shared<bt::Blackboard>();
@@ -23,8 +24,6 @@ TEST(BallTest, IHaveBallTest) {
 
     //First test should fail as the robot is not set in the world state yet.
     EXPECT_EQ(node.update(), bt::Node::Status::Waiting);
-
-
 
     robot.id = 0;
     robot.pos.x = 0;

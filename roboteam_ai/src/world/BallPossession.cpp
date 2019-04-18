@@ -8,7 +8,7 @@ namespace rtt {
 namespace ai {
 
 BallPossession bpTrackerObj;
-BallPossession *bpTracker = &bpTrackerObj;
+BallPossession* bpTracker = &bpTrackerObj;
 
 void BallPossession::update() {
     updateTicks();
@@ -22,13 +22,16 @@ void BallPossession::recomputeState() {
     bool weAreFar = farFromUsTime > FAR_TIME_TRESHOLD;
     bool theyAreFar = farFromThemTime > FAR_TIME_TRESHOLD;
 
-    if (weAreClose && !theyAreClose) {
+    if (weAreClose && ! theyAreClose) {
         state = OURBALL;
-    } else if (theyAreClose && !weAreClose) {
+    }
+    else if (theyAreClose && ! weAreClose) {
         state = THEIRBALL;
-    } else if (weAreClose && theyAreClose) {
+    }
+    else if (weAreClose && theyAreClose) {
         state = CONTENDEDBALL;
-    } else if (weAreFar && theyAreFar) {
+    }
+    else if (weAreFar && theyAreFar) {
         state = LOOSEBALL;
     }
     // in the other cases we stay in the same state (so we do nothing)
@@ -76,14 +79,11 @@ BallPossession::Possession BallPossession::getPossession() {
 // convert ballpossession states to strings
 std::string BallPossession::stateAsString() {
     switch (state) {
-        case OURBALL:
-            return "OURBALL";
-        case THEIRBALL:
-            return "THEIRBALL";
-        case CONTENDEDBALL:
-            return "CONTENDEDBALL";
-        case LOOSEBALL:
-            return "LOOSE";
+    case OURBALL:return "OURBALL";
+    case THEIRBALL:return "THEIRBALL";
+    case CONTENDEDBALL:return "CONTENDEDBALL";
+    case LOOSEBALL:return "LOOSE";
+    default:return "LOOSE";
     }
 }
 

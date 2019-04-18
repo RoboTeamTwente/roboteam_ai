@@ -49,7 +49,7 @@ class World {
         void updateWorld(const roboteam_msgs::World &world);
         bool weHaveRobots();
 
-        void setWorldData(WorldDataPtr &world);
+        void setWorldData(WorldDataPtr &setWorldDataPtr);
 
         const roboteam_msgs::World &getWorldMsg();
         const roboteam_msgs::WorldBall &getBallMsg();

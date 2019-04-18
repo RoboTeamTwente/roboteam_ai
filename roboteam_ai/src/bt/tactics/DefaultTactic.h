@@ -22,7 +22,7 @@ class DefaultTactic : public Tactic {
         bool updateRobots();
         std::pair<std::string, RobotType> getNextClaim();
         std::pair<std::string, RobotType> getLastClaim();
-        void parseType(std::string typee);
+        void parseType(const std::string& typee);
         void updateStyle();
         rtt::ai::analysis::DecisionMaker maker;
         void convert(const std::vector<std::pair<std::string, RobotType>>& unit);
