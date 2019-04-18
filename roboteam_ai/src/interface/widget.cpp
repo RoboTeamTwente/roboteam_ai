@@ -170,7 +170,7 @@ void Visualizer::drawRobots(QPainter &painter) {
 rtt::Vector2 Visualizer::toScreenPosition(rtt::Vector2 fieldPos) {
     int inv = fieldInversed ? -1 : 1;
     return {(fieldPos.x*factor * inv) + static_cast<float>(this->size().width()/2 + fieldmargin) ,
-            (fieldPos.y*factor*- 1) + static_cast<float>(this->size().height()/2 + fieldmargin)};
+            (fieldPos.y*factor*- 1 * inv) + static_cast<float>(this->size().height()/2 + fieldmargin)};
 
 
 
@@ -180,10 +180,10 @@ rtt::Vector2 Visualizer::toScreenPosition(rtt::Vector2 fieldPos) {
 rtt::Vector2 Visualizer::toFieldPosition(rtt::Vector2 screenPos) {
         int inv = fieldInversed ? -1 : 1;
 
-    auto x = ((screenPos.x * inv) - fieldmargin - static_cast<float>(this->size().width()/2)) / factor;
+    auto x = (screenPos.x - fieldmargin - static_cast<float>(this->size().width()/2)) / factor;
     auto y = ((screenPos.y - fieldmargin - static_cast<float>(this->size().height()/2)) / factor) * -1;
 
-    return {x,y};
+    return Vector2(x,y) * inv;
 }
 
 // draw a single robot
@@ -208,7 +208,7 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
         robotColor = weAreYellow ? Constants::ROBOT_COLOR_BLUE() : Constants::ROBOT_COLOR_YELLOW();
     }
 
-    if (ourTeam && robot.id == robotDealer::RobotDealer::getKeeperID()) {
+    if (ourTeam && robotDealer::RobotDealer::usesSeparateKeeper() && robot.id == robotDealer::RobotDealer::getKeeperID()) {
         robotColor = QColor(255, 255, 255);
 
     }
@@ -481,6 +481,7 @@ void Visualizer::drawBallPlacementTarget(QPainter& painter) {
     Vector2 ballPlacementTarget = toScreenPosition(InterfaceValues::getBallPlacementTarget());
     painter.setBrush(Qt::transparent);
     painter.setPen(Qt::red);
+
     painter.drawLine(ballPlacementTarget.x - 5, ballPlacementTarget.y - 5, ballPlacementTarget.x + 5, ballPlacementTarget.y + 5);
     painter.drawLine(ballPlacementTarget.x + 5, ballPlacementTarget.y - 5, ballPlacementTarget.x - 5, ballPlacementTarget.y + 5);
 }

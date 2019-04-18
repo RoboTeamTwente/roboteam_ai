@@ -20,6 +20,8 @@ void ApplicationManager::setup() {
 
     BTFactory::setCurrentTree("halt_strategy");
     BTFactory::setKeeperTree("keeper_default_tactic");
+    rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
+
 }
 
 void ApplicationManager::loop() {
@@ -71,7 +73,6 @@ void ApplicationManager::runOneLoopCycle() {
         // otherwise wastes like 0.1 ms
         auto demomsg = IOManager->getDemoInfo();
         demo::JoystickDemo::demoLoop(demomsg);
-        rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
 
         if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
             if (ai::robotDealer::RobotDealer::getKeeperID() == -1) {
@@ -80,9 +81,6 @@ void ApplicationManager::runOneLoopCycle() {
             }
             keeperTree = BTFactory::getKeeperTree();
             Status keeperStatus = keeperTree->tick();
-        }  else {
-            BTFactory::makeTrees();
-
         }
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();

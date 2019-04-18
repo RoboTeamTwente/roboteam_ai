@@ -79,8 +79,8 @@ MainWindow::MainWindow(QWidget* parent)
     vLayout->addLayout(hButtonsLayout);
 
     configureCheckBox("TimeOut to top", vLayout, this, SLOT(setTimeOutTop(bool)), Constants::STD_TIMEOUT_TO_TOP());
-
-
+    configureCheckBox("Use keeper (does not work when referee used)", vLayout, this, SLOT(setUsesKeeper(bool)), robotDealer::RobotDealer::usesSeparateKeeper());
+    
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [=](const QString &strategyName) {
               // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
@@ -336,6 +336,11 @@ void MainWindow::updateKeeperTreeWidget() {
 void MainWindow::setTimeOutTop(bool top) {
     rtt::ai::interface::InterfaceValues::setTimeOutTop(top);
 }
+
+void MainWindow::setUsesKeeper(bool usekeeper) {
+    robotDealer::RobotDealer::setUseSeparateKeeper(usekeeper);
+}
+
 
 } // interface
 } // ai
