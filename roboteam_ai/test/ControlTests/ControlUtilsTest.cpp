@@ -26,7 +26,11 @@ TEST(ControlUtils, linedistances) {
 }
 
 TEST(ControlUtils, rotateDirection) {
-    double ang1 = - 0.8*M_PI, ang2 = 0.8*M_PI, ang3 = - 0.2*M_PI, ang4 = 0.2*M_PI;
+    //TODO: This is not used? what does this test even do?
+    //double ang1 = - 0.8*M_PI;
+    double ang2 = 0.8*M_PI;
+    double ang3 = - 0.2*M_PI;
+    double ang4 = 0.2*M_PI;
     cr::ControlUtils::rotateDirection(ang3, ang4);
     cr::ControlUtils::rotateDirection(ang2, ang4);
 }

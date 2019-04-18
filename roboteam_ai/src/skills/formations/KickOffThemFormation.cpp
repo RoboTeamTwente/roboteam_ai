@@ -24,7 +24,7 @@ Vector2 KickOffThemFormation::getFormationPosition() {
     int mid = style.amountOfMidfielders;
     int att = style.amountOfAttackers;
 
-    if ((def+mid+att) != robotsInFormation->size()) { return { }; }
+    if ((def+mid+att) != static_cast<int>(robotsInFormation->size())) return {};
 
     int count = 0;
 
@@ -32,9 +32,9 @@ Vector2 KickOffThemFormation::getFormationPosition() {
     targetLocationX = - field.field_length/3;
     for (int i = 0; i < def; i++) {
         double targetLocationY = ((field.field_width/(def+1))*(i+1)) - field.field_width/2;
-        targetLocations.push_back({targetLocationX, targetLocationY});
+        targetLocations.emplace_back(targetLocationX, targetLocationY);
 
-        if (robotsInFormation->size() > count) {
+        if (static_cast<int>(robotsInFormation->size()) > count) {
             robotIds.push_back(robotsInFormation->at(count)->id);
             count++;
         }
@@ -44,8 +44,8 @@ Vector2 KickOffThemFormation::getFormationPosition() {
     targetLocationX = - field.field_length/5;
     for (int i = 0; i < mid; i++) {
         double targetLocationY = (((field.field_width/(mid+1))*(i+1)) - field.field_width/2) * 0.8;
-        targetLocations.push_back({targetLocationX, targetLocationY});
-        if (robotsInFormation->size() > count) {
+        targetLocations.emplace_back(targetLocationX, targetLocationY);
+        if (static_cast<int>(robotsInFormation->size()) > count) {
             robotIds.push_back(robotsInFormation->at(count)->id);
             count++;
         }
@@ -56,8 +56,8 @@ Vector2 KickOffThemFormation::getFormationPosition() {
 
     for (int i = 0; i < att; i++) {
         double targetLocationY = (((field.field_width/(att+1))*(i+1)) - field.field_width/2) * 1.5;
-        targetLocations.push_back({targetLocationX, targetLocationY});
-        if (robotsInFormation->size() > count) {
+        targetLocations.emplace_back(targetLocationX, targetLocationY);
+        if (static_cast<int>(robotsInFormation->size()) > count) {
             robotIds.push_back(robotsInFormation->at(count)->id);
             count++;
         }

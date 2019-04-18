@@ -116,6 +116,7 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "TestD",
         "TestO",
         "TestM",
+        "test_pass_tactic",
         "SlingShotTactic"
 };
 
@@ -148,7 +149,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "stop_strategy",
         "halt_strategy",
         "TestStrategy",
-        "SlingShotStrategy"
+        "SlingShotStrategy",
+        "test_pass_strategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles =
@@ -372,7 +374,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
 
             {"one_robot_ballplacement_tactic", {
-                    {"ballplacementbot", robotType::RANDOM},
+                    {"ballplacementbot", robotType::CLOSE_TO_BALL},
                     {"avoid1", robotType::RANDOM},
                     {"avoid2", robotType::RANDOM},
                     {"avoid3", robotType::RANDOM},
@@ -384,8 +386,8 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
 
             {"two_robot_ballplacement_tactic", {
-                    {"ball_placement_passer", robotType::RANDOM},
-                    {"ball_placement_receiver", robotType::RANDOM},
+                    {"ball_placement_passer", robotType::CLOSE_TO_BALL},
+                    {"ball_placement_receiver", robotType::BALL_PLACEMENT_RECEIVER},
                     {"avoid1", robotType::RANDOM},
                     {"avoid2", robotType::RANDOM},
                     {"avoid3", robotType::RANDOM},
@@ -523,6 +525,17 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             {"SlingShotTactic",{
                     {"catapult",robotType::RANDOM}
             }
+            },
+            {"test_pass_tactic",
+             {
+                     {"pass1", robotType::CLOSE_TO_BALL},
+                     {"receive1", robotType::RANDOM},
+                     {"receive2", robotType::RANDOM},
+                     {"receive3", robotType::RANDOM},
+                     {"receive4", robotType::RANDOM},
+                     {"receive5", robotType::RANDOM},
+                     {"receive6", robotType::RANDOM}
+             }
             }
     };
 //    runErrorHandler(tactics);

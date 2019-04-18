@@ -14,7 +14,6 @@ ShootFreeKick::ShootFreeKick(string name, bt::Blackboard::Ptr blackboard)
 
 void ShootFreeKick::onInitialize() {
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
-    Vector2 robotPos = robot->pos;
     freeKickPos = ballPos;
     Vector2 goal = world::field->get_their_goal_center();
     // behind the ball looking at the goal
