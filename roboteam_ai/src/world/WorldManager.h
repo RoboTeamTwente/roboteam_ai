@@ -25,12 +25,14 @@ class WorldManager {
         roboteam_msgs::World worldMsg;
         roboteam_msgs::GeometryData geometryMsg;
         roboteam_msgs::RefereeData refereeMsg;
+        roboteam_msgs::RobotFeedback robotFeedbackMsg;
 
         unsigned char updateROSData();
 
         void updateReferee();
         void updateWorld();
         void updateGeometry();
+        void updateRobotFeedback();
         void updateGameAnalyzer(const WorldData &worldData);
 
         unsigned char refereeMsgChanged(roboteam_msgs::RefereeData oldR, roboteam_msgs::RefereeData newR);

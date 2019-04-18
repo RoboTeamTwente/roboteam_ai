@@ -18,11 +18,12 @@ void WorldManager::loop() {
     while (ros::ok()) {
 
         unsigned char changes = updateROSData();
-        if (changes == 0b000) continue;
+        if (changes == 0b0000) continue;
         
-        if (changes & 0b001) updateReferee();
-        if (changes & 0b010) updateWorld();
-        if (changes & 0b100) updateGeometry();
+        if (changes & 0b0001) updateReferee();
+        if (changes & 0b0010) updateWorld();
+        if (changes & 0b0100) updateGeometry();
+        if (changes & 0b1000) updateRobotFeedback();
     }
 }
 
@@ -33,10 +34,12 @@ unsigned char WorldManager::updateROSData() {
     auto oldWorldMsg = worldMsg;
     auto oldGeometryMsg = geometryMsg;
     auto oldRefereeMsg = refereeMsg;
+    auto oldRobotFeedbackMsg =
 
     refereeMsg = IOManager->getRefereeData();
     worldMsg = IOManager->getWorldState();
     geometryMsg = IOManager->getGeometryData();
+    robotFeedbackMsg = IOManager->getRobotFeedback();
 
     // refereeMsg:  0b001
     anyMsgHasChanged = anyMsgHasChanged | refereeMsgChanged(oldRefereeMsg, refereeMsg);

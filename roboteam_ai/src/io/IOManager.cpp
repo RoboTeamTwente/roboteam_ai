@@ -21,7 +21,7 @@ IOManager::IOManager(bool subscribe, bool advertise) {
         // subscribe to all topics
         this->subscribeToWorldState();
         this->subscribeToGeometryData();
-        this->subscribeToRoleFeedback();
+        this->subscribeToRobotFeedback();
         this->subscribeToRefereeData();
         this->subscribeToDemoInfo();
     }
@@ -53,9 +53,9 @@ void IOManager::subscribeToGeometryData() {
     );
 }
 
-void IOManager::subscribeToRoleFeedback() {
-    roleFeedbackSubscriber = nodeHandle.subscribe<roboteam_msgs::RoleFeedback>(
-            rtt::TOPIC_ROLE_FEEDBACK,
+void IOManager::subscribeToRobotFeedback() {
+    robotFeedbackSubscriber = nodeHandle.subscribe<roboteam_msgs::RobotFeedback>(
+            "robot_feedback", //todo this needs to be checked
             100,
             &IOManager::handleRobotFeedback,
             this,
@@ -95,9 +95,9 @@ void IOManager::handleGeometryData(const roboteam_msgs::GeometryDataConstPtr &ge
     this->geometryMsg = *geometry;
 }
 
-void IOManager::handleRobotFeedback(const roboteam_msgs::RoleFeedbackConstPtr &rolefeedback) {
+void IOManager::handleRobotFeedback(const roboteam_msgs::RobotFeedbackConstPtr &robotfeedback) {
     std::lock_guard<std::mutex> lock(mutex);
-    this->roleFeedbackMsg = *rolefeedback;
+    this->robotFeedbackMsg = *robotfeedback;
 }
 
 void IOManager::handleDemoInfo(const roboteam_msgs::DemoRobotConstPtr &demoInfo) {
@@ -120,9 +120,9 @@ const roboteam_msgs::GeometryData &IOManager::getGeometryData() {
     return this->geometryMsg;
 }
 
-const roboteam_msgs::RoleFeedback &IOManager::getRoleFeedback() {
+const roboteam_msgs::RobotFeedback &IOManager::getRobotFeedback() {
     std::lock_guard<std::mutex> lock(mutex);
-    return this->roleFeedbackMsg;
+    return this->robotFeedbackMsg;
 }
 
 const roboteam_msgs::RefereeData &IOManager::getRefereeData() {
