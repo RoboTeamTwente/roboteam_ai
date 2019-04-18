@@ -26,7 +26,7 @@ private:
     double distanceToBall;
     bool iHaveBall;
     int genevaState = 3;
-    RobotFeedback feedback;
+    std::shared_ptr<RobotFeedback> feedback;
 
 public:
     enum Team : short {

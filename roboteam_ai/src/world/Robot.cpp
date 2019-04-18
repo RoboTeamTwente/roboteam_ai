@@ -14,7 +14,8 @@ namespace world {
 
 Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team)
         : distanceToBall(-1.0), iHaveBall(false), id(copy.id), angle(copy.angle),
-          pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) { }
+          pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
+}
 
 Robot::Robot()
         : distanceToBall(-1.0), iHaveBall(false), id(-1), angle(-1.0),
@@ -83,7 +84,7 @@ void Robot::setGenevaState(int state) {
 }
 
 void Robot::processFeedback(roboteam_msgs::RobotFeedback fb) {
-    Robot::feedback = RobotFeedback(fb);
+    Robot::feedback = std::make_shared<RobotFeedback(fb)>;
 }
 
 
