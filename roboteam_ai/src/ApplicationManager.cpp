@@ -91,7 +91,6 @@ void ApplicationManager::runOneLoopCycle() {
         rtt::ai::coach::GBCoach->update();
         rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
         Status status = strategy->tick();
-        std::cout<<rtt::ai::coach::g_pass.getRobotBeingPassedTo()<<std::endl;
         this->notifyTreeStatus(status);
 
     }
