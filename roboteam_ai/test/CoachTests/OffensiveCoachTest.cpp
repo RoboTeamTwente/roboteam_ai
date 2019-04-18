@@ -23,7 +23,7 @@ TEST(CoachTest, offensive_coach_test) {
         counter++;
     }
 
-    for(int i = 0; i < newOffensivePositions.size(); i++) {
+    for(unsigned int i = 0; i < newOffensivePositions.size(); i++) {
         ASSERT_NE(offensivePositions.at(i), newOffensivePositions.at(i));
     }
 }

@@ -79,14 +79,14 @@ std::vector<Vector2> OffensiveCoach::getNewOffensivePositions(int numberOfRobots
     std::vector<Vector2> defaultLocations = getDefaultLocations();
     if (offensivePositions.size() != defaultLocations.size()) {
         offensivePositions = {};
-        for (auto& defaultLocation : defaultLocations) {
+        for (auto &defaultLocation : defaultLocations) {
             OffensivePosition offensivePosition;
             offensivePosition.position = defaultLocation;
             offensivePosition.score = offensiveScore.calculateOffensivePositionScore(defaultLocation);
             offensivePositions.emplace_back(offensivePosition);
         }
     } else {
-        for (int i = 0; i < offensivePositions.size(); i++) {
+        for (unsigned int i = 0; i < offensivePositions.size(); i++) {
             OffensivePosition offensivePosition = offensivePositions[i];
             Vector2 defaultPosition = defaultLocations[i];
             offensivePositions[i] = calculateNewRobotPosition(offensivePosition, defaultPosition);
@@ -95,7 +95,7 @@ std::vector<Vector2> OffensiveCoach::getNewOffensivePositions(int numberOfRobots
 
     std::vector<Vector2> positionVectors = getOffensivePositionVectors();
 
-    if (numberOfRobots >= offensivePositions.size()) {
+    if (numberOfRobots >= static_cast<int>(offensivePositions.size())) {
         return positionVectors;
     } else {
         std::vector<Vector2> newVec(positionVectors.begin(), positionVectors.begin() + numberOfRobots);

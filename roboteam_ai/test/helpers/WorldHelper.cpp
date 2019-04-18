@@ -59,7 +59,7 @@ bool WorldHelper::allPositionsAreValid(const roboteam_msgs::World &worldMsg, boo
     robots.insert(robots.end(), worldMsg.them.begin(), worldMsg.them.end());
 
     std::vector<std::pair<int, rtt::Vector2>> robotPositions;
-    for (int i = 0; i < robots.size(); i++) {
+    for (unsigned int i = 0; i < robots.size(); i++) {
         robotPositions.emplace_back(std::make_pair(i, robots.at((unsigned long) i).pos));
     }
 
