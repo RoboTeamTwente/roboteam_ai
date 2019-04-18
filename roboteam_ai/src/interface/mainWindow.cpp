@@ -320,7 +320,7 @@ void MainWindow::updateTreeWidget() {
 
 void MainWindow::updateKeeperTreeWidget() {
 
-    if (robotsInField != world::world->getUs().size()) {
+    if (robotsInField != static_cast<int>(world::world->getUs().size())) {
         select_goalie->clear();
         robotsInField = world::world->getUs().size();
 
