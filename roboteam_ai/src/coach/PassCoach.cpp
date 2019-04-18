@@ -12,7 +12,6 @@ namespace coach {
 PassCoach g_pass;
 
 void PassCoach::resetPass() {
-    std::cout << "Reset pass!" << std::endl;
     passed = false;
     readyToReceivePass = false;
     robotBeingPassedTo  = -1;
@@ -20,12 +19,11 @@ void PassCoach::resetPass() {
 }
 
 int PassCoach::initiatePass(int passerID) {
-//    if (robotBeingPassedTo != -1) {
-//        if(!passTakesTooLong()) {
-//            return -1;
-//        }
-//    }
-    std::cout << "Initialize pass!" << std::endl;
+    if (robotBeingPassedTo != -1) {
+        if(!passTakesTooLong()) {
+            return -1;
+        }
+    }
     resetPass();
 
     robotBeingPassedTo = determineReceiver(passerID);
@@ -71,20 +69,20 @@ int PassCoach::determineReceiver(int passerID) {
 void PassCoach::setPassed(bool passed) {
     this->passed = passed;
     if(passed) {
-        start = std::chrono::system_clock::now();
+        start = std::chrono::steady_clock::now();
         timerStarted = true;
     }
 }
 
 bool PassCoach::passTakesTooLong() {
     if (timerStarted) {
-        auto now = chrono::system_clock::now();
+        auto now = chrono::steady_clock::now();
         double elapsedSeconds = chrono::duration_cast<chrono::seconds>(now - start).count();
 
-        if(elapsedSeconds > MAX_PASS_TIME ) {
-            return true;
-        }
+        return elapsedSeconds > MAX_PASS_TIME;
     }
+
+    return false;
 }
 
 } // coach
