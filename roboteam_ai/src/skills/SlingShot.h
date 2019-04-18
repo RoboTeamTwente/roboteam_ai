@@ -11,11 +11,16 @@ namespace rtt{
 namespace ai{
 class SlingShot : public Skill {
     private:
+        //constants
+        const int maxDribbleTicks = 30;
+        const int maxWaitingTicks = 10;
+
         enum Progression{FAIL,DRIBBLING,ROTATINGAWAY,WAITINGFORRESULT,SUCCESS};
         Progression progression;
         int dribbledTicks=0;
         int waitingTicks=0;
         int ballShotTicks=0;
+
         Vector2 kickPos;
         double kickOrient;
         double rotateAngle;
@@ -23,6 +28,7 @@ class SlingShot : public Skill {
         Progression updateProgress(Progression currentProgress);
         bool robotAtAngle();
         bool ballShot();
+        void setRotate();
         void sendDribbleCommand();
         void sendRotateCommand();
         void sendWaitCommand();
@@ -31,7 +37,6 @@ class SlingShot : public Skill {
         explicit SlingShot(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;
         Status onUpdate() override;
-        void onTerminate(Status status) override;
 };
 }
 }
