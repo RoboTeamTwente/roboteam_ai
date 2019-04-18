@@ -17,12 +17,10 @@ void Receive::onInitialize() {
 
 Receive::Status Receive::onUpdate() {
     if (world::world->ourRobotHasBall(robot->id)) {
-        std::cout << "Robot received ball" << std::endl;
         return Status::Success;
     }
 
     if (coach::g_pass.passTakesTooLong()) {
-        std::cout << "Receiver: passing takes too long!" << std::endl;
         return Status::Failure;
     }
 
@@ -58,7 +56,6 @@ Receive::Status Receive::onUpdate() {
 
         // Check if the ball was deflected
         if (passFailed()) {
-            std::cout << "Pass failed!" << std::endl;
             command.w = -robot->angle;
             publishRobotCommand();
             return Status::Failure;
@@ -79,7 +76,6 @@ void Receive::onTerminate(Status s) {
 
     //TODO: Remove temporary hack
     if (robot->id != -1) {
-        std::cout << "Terminating receiver " << robot->id << std::endl;
         coach::g_pass.resetPass();
     }
 }
@@ -144,12 +140,10 @@ void Receive::intercept() {
 bool Receive::passFailed() {
     //TODO: Remove print statements and make 1 big if statement
     if ((ball->vel.toAngle() - ballOnPassed->vel.toAngle()).getAngle() > 0.5) {
-        std::cout << "Ball deflected!" << std::endl;
         return true;
     }
 
     if (ball->vel.length() < 0.1) {
-        std::cout << "Ball stopped rolling" << std::endl;
         return true;
     }
 
