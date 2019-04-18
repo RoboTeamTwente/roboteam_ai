@@ -13,6 +13,8 @@
 namespace bt {
 
 class DefaultTactic : public Tactic {
+    FRIEND_TEST(DefaultTacticTest, default_general_tactic_works);
+    FRIEND_TEST(DefaultTacticTest, offensive_defensive_midfield_tactics_work);
     private:
         int amountToTick = -1;
         void claimRobots(int amount);
@@ -36,7 +38,7 @@ class DefaultTactic : public Tactic {
           Offensive,
           General
         };
-        TacticType thisType;
+        TacticType thisType = TacticType::General;
 
 };
 }

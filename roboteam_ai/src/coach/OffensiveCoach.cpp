@@ -58,22 +58,6 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
     return bestPosition;
 }
 
-/// Get robot with highest offensive score
-int OffensiveCoach::getBestStrikerID() {
-    double bestScore = 0;
-    int bestStriker = - 1;
-    for (auto &robot : world::world->getWorld().us) {
-        if (robot.pos.x > 0) {
-            double positionScore = CoachHeuristics::calculatePassScore(robot.pos);
-            if (positionScore > bestScore) {
-                bestScore = positionScore;
-                bestStriker = robot.id;
-            }
-        }
-    }
-    return bestStriker;
-}
-
 std::vector<Vector2> OffensiveCoach::getDefaultLocations() {
     roboteam_msgs::GeometryFieldSize field = world::field->get_field();
     Vector2 penaltyStretchCorner = field.top_right_penalty_stretch.end;
@@ -104,7 +88,9 @@ std::vector<Vector2> OffensiveCoach::getNewOffensivePositions(int numberOfRobots
             offensivePosition.position = defaultLocation;
             offensivePosition.score = offensiveScore.calculateOffensivePositionScore(defaultLocation);
             offensivePositions.emplace_back(offensivePosition);
-    } else {
+        }
+    }
+    else {
         for (unsigned int i = 0; i < offensivePositions.size(); i++) {
             OffensivePosition offensivePosition = offensivePositions[i];
             Vector2 defaultPosition = defaultLocations[i];
