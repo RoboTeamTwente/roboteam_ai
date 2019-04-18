@@ -18,7 +18,7 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 
 void Attack::onInitialize() {
     gtp = std::make_shared<control::NumTreePosControl>();
-    //gtp->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
+    gtp->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
     shot = false;
 }
 
@@ -37,7 +37,7 @@ bt::Node::Status Attack::onUpdate() {
     if (!coach::g_generalPositionCoach.isRobotBehindBallToGoal(BEHIND_BALL_CHECK, false, robot->pos)) {
         targetPos = behindBall;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
-        //gtp->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
+        gtp->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
 
         if (abs(((Vector2) robot->pos - targetPos).length()) < SWITCH_TO_BASICGTP_DISTANCE) {
             gtp = std::make_shared<control::BasicPosControl>();
@@ -47,7 +47,6 @@ bt::Node::Status Attack::onUpdate() {
         targetPos = ball;
         gtp->setAvoidBall(false);
         command.w = (world::field->get_their_goal_center() - ball).toAngle().getAngle();
-        //command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
         if (world::world->robotHasBall(robot->id, true, Constants::MAX_KICK_RANGE())) {
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());

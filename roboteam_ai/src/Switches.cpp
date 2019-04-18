@@ -522,13 +522,13 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
             {"test_pass_tactic",
              {
+                    {"attacker1", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"attacker2", robotType::CLOSE_TO_THEIR_GOAL},
                      {"receive1", robotType::RANDOM},
                      {"receive2", robotType::RANDOM},
                      {"receive3", robotType::RANDOM},
                      {"receive4", robotType::RANDOM},
-                     {"receive5", robotType::RANDOM},
-                     {"receive6", robotType::RANDOM},
-                    {"receive7", robotType::RANDOM}
+                     {"receive5", robotType::RANDOM}
              }
             }
     };
