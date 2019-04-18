@@ -38,7 +38,7 @@ class DefaultTactic : public Tactic {
           Offensive,
           General
         };
-        TacticType thisType;
+        TacticType thisType = TacticType::General;
 
 };
 }

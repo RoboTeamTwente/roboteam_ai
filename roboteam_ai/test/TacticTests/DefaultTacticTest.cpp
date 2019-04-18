@@ -47,6 +47,7 @@ TEST(DefaultTacticTest, default_general_tactic_works) {
 
     DefaultTactic tactic("GeneralTactic", properties, robots);
 
+    // the type should be defaulted to 'general'
 
     tactic.updateStyle();
     rd::RobotDealer::setUseSeparateKeeper(false);
