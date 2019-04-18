@@ -133,6 +133,10 @@ unsigned char WorldManager::geometryMsgChanged(roboteam_msgs::World newG) {
     return bit;
 }
 
+void WorldManager::updateRobotFeedback() {
+// TODO
+}
+
 }
 }
 }

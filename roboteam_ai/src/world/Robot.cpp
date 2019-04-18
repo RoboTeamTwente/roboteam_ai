@@ -19,7 +19,7 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team)
 
 Robot::Robot()
         : distanceToBall(-1.0), iHaveBall(false), id(-1), angle(-1.0),
-          pos(Vector2()), vel(Vector2()), angularVelocity(-1.0), team(them){
+          pos(Vector2()), vel(Vector2()), angularVelocity(-1.0), team(them) {
 }
 
 const roboteam_msgs::WorldRobot Robot::toMessage() const {
