@@ -18,7 +18,7 @@ TEST(IOTest, it_subscribes) {
     ros::Rate rate(30);
     ros::NodeHandle nh;
     // subscribing
-    ros::Publisher roleFeedbackPub = nh.advertise<roboteam_msgs::RoleFeedback>(rtt::TOPIC_ROLE_FEEDBACK, 1);
+    ros::Publisher robotFeedbackPub = nh.advertise<roboteam_msgs::RobotFeedback>("robot_feedback", 1);
     ros::Publisher worldPub = nh.advertise<roboteam_msgs::World>(rtt::TOPIC_WORLD_STATE, 1);
     ros::Publisher geomPub = nh.advertise<roboteam_msgs::GeometryData>(rtt::TOPIC_GEOMETRY, 1);
     ros::Publisher refPub = nh.advertise<roboteam_msgs::RefereeData>("vision_refbox", 1);
@@ -40,9 +40,9 @@ TEST(IOTest, it_subscribes) {
     geomPub.publish(geomMsg);
 
     // publish role feedback message
-    roboteam_msgs::RoleFeedback roleFeedbackMsg;
-    roleFeedbackMsg.status = 'X';
-    roleFeedbackPub.publish(roleFeedbackMsg);
+    roboteam_msgs::RobotFeedback robotFeedbackMsg;
+    robotFeedbackMsg.id = 11;
+    robotFeedbackPub.publish(robotFeedbackMsg);
 
     // publish role feedback message
     roboteam_msgs::RefereeData refData;
@@ -55,7 +55,7 @@ TEST(IOTest, it_subscribes) {
     EXPECT_FLOAT_EQ(ioManager.getWorldState().ball.pos.x, 10.1);
     EXPECT_FLOAT_EQ(ioManager.getWorldState().ball.pos.y, 20.2);
     EXPECT_FLOAT_EQ(ioManager.getGeometryData().field.goal_depth, 30.3);
-    EXPECT_EQ(ioManager.getRoleFeedback().status, 'X');
+    EXPECT_EQ(ioManager.getRobotFeedback().id, 11);
 
     EXPECT_EQ(ioManager.getRefereeData().command.command, 3);
 

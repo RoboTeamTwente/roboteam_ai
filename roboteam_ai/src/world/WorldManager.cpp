@@ -34,7 +34,7 @@ unsigned char WorldManager::updateROSData() {
     auto oldWorldMsg = worldMsg;
     auto oldGeometryMsg = geometryMsg;
     auto oldRefereeMsg = refereeMsg;
-    auto oldRobotFeedbackMsg =
+    auto oldRobotFeedbackMsg = robotFeedbackMsg;
 
     refereeMsg = IOManager->getRefereeData();
     worldMsg = IOManager->getWorldState();
