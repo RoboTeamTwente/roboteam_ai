@@ -123,6 +123,7 @@ void Receive::intercept() {
 
     Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel;
 
+    //TODO: Fix the times 2 multiplication in goToPos or in a different way
     velocities = velocities.stretchToLength(velocities.length() * 2);
     velocities = control::ControlUtils::velocityLimiter(velocities);
 
