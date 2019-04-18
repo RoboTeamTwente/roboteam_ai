@@ -164,6 +164,9 @@ TEST(DefaultTacticTest, offensive_defensive_midfield_tactics_work) {
     EXPECT_EQ(defensiveTactic.robotIDs.size(), style.amountOfDefenders);
     EXPECT_EQ(midfieldTactic.robotIDs.size(), style.amountOfMidfielders);
     EXPECT_EQ(offensiveTactic.robotIDs.size(), style.amountOfAttackers);
-}
+
+    rtt::ai::analysis::GameAnalyzer::getInstance().stop();
+
+    }
 
 } // bt
