@@ -71,8 +71,8 @@ TEST(AnglesTest, it_computes_angles) {
     EXPECT_DOUBLE_EQ(angle6 - angle5, -1.0);
 
     std::vector<Angle> angles = {-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
-    for (int i = 0; i < angles.size(); i++) {
-        for (int j = i+1; j < angles.size(); j++) {
+    for (unsigned int i = 0; i < angles.size(); i++) {
+        for (unsigned int j = i+1; j < angles.size(); j++) {
             EXPECT_DOUBLE_EQ(angles[i] - angles[j], - (angles[j] - angles[i]) );
             EXPECT_TRUE(abs(angles[i] - angles[j]) <= M_PI);
         }

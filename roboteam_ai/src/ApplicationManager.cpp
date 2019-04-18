@@ -80,7 +80,7 @@ void ApplicationManager::runOneLoopCycle() {
                 ai::robotDealer::RobotDealer::setKeeperID(ai::world::world->getUs().at(0).id);
             }
             keeperTree = BTFactory::getKeeperTree();
-            Status keeperStatus = keeperTree->tick();
+            keeperTree->tick();
         }  else {
             BTFactory::makeTrees();
 

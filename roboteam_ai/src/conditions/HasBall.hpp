@@ -8,9 +8,8 @@ namespace ai {
 
 class HasBall : public Condition {
 public:
-    explicit HasBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+    explicit HasBall(std::string name = "HasBall", bt::Blackboard::Ptr blackboard = nullptr);
     Status onUpdate() override;
-    std::string node_name() override { return "HasBall"; }
 };
 
 } // ai

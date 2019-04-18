@@ -24,6 +24,8 @@ void SideAttacker::onInitialize() {
     robotsInMemory ++;
 }
 
+
+/// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
     bool isInRobotsPositioning = false;
     for (auto &robotPositioning : robotsPositioning) {
@@ -52,7 +54,9 @@ Vector2 SideAttacker::getOffensivePosition() {
     std::vector<Vector2> targetLocations = coach::g_offensiveCoach.getNewOffensivePositions(robotsPositioning.size());
     Vector2 position;
 
-    if (zone == - 1 || zone > robotsPositioning.size() - 1 || robotsInMemory != robotsPositioning.size()) {
+    if (zone == - 1 || zone > static_cast<int>(robotsPositioning.size() - 1) ||
+            robotsInMemory != static_cast<int>(robotsPositioning.size())) {
+
         std::vector<Vector2> robotLocations;
         std::vector<int> robotIds;
 
@@ -82,7 +86,7 @@ void SideAttacker::onTerminate(Status s) {
     command.y_vel = 0;
 
     bool safelyRemoved = false;
-    for (int i = 0; i < robotsPositioning.size(); i ++) {
+    for (unsigned int i = 0; i < robotsPositioning.size(); i ++) {
         if (robotsPositioning[i]->id == robot->id) {
             robotsPositioning.erase(robotsPositioning.begin() + i);
             safelyRemoved = true;
@@ -90,7 +94,7 @@ void SideAttacker::onTerminate(Status s) {
         }
     }
 
-    if (!safelyRemoved) {
+    if (! safelyRemoved) {
         std::cerr << "Failed to safely remove robot " << robot->id << " from robotsPositioning" << std::endl;
     }
 
