@@ -12,6 +12,7 @@ TEST(RobotDealerTest, RobotDealerTest) {
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot1, robot2, robot3;
     rtt::ai::world::world->updateWorld(worldMsg);
+    rtt::ai::robotDealer::RobotDealer::refresh();
 
     rtt::ai::robotDealer::RobotDealer::removeTactic("free"); // This is necessary because previous tests create free robots
     EXPECT_TRUE(rtt::ai::robotDealer::RobotDealer::getAvailableRobots().empty());

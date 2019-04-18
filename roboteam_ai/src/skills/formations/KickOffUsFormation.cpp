@@ -1,4 +1,5 @@
 #include <roboteam_ai/src/analysis/DecisionMaker.h>
+#include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include "KickOffUsFormation.h"
 
 namespace rtt {
@@ -16,9 +17,10 @@ Vector2 KickOffUsFormation::getFormationPosition() {
     std::vector<int> robotIds;
     auto field = world::field->get_field();
     double targetLocationX;
-
+    rtt::ai::analysis::AnalysisReport report = * rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
+    rtt::ai::analysis::BallPossession possession = report.ballPossession;
     analysis::DecisionMaker maker;
-    analysis::PlayStyle style = maker.getRecommendedPlayStyle();
+    analysis::PlayStyle style = maker.getRecommendedPlayStyle(possession);
 
     int def = style.amountOfDefenders;
     int mid = style.amountOfMidfielders;

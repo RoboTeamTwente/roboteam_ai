@@ -1,5 +1,6 @@
 #include <roboteam_ai/src/world/WorldData.h>
 #include <roboteam_ai/src/world/World.h>
+#include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include "DefaultTactic.h"
 #include "../../utilities/RobotDealer.h"
 
@@ -37,6 +38,8 @@ bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboar
 
     convert(robots_);
     globalBB = std::move(blackboard);
+    properties = globalBB;
+
     this->name = std::move(name);
 }
 
@@ -45,9 +48,6 @@ void bt::DefaultTactic::claimRobots(int amount) {
     // for the amount of robots we still need
     for (int i = 0; i < amount; i++) {
         auto toClaim = getNextClaim();
-
-//        std::cout << toClaim.first << std::endl;
-
         robotIDs.insert(dealer::claimRobotForTactic(toClaim.second, toClaim.first, name));
         if (robotIDs.find(- 1) != robotIDs.end()) {
             robotIDs.erase(-1);
@@ -84,7 +84,7 @@ void bt::DefaultTactic::disClaimRobots(int amount) {
 std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getNextClaim() {
     for (auto &robot : robots) {
         if (std::get<0>(robot) == static_cast<int>(robotIDs.size() +1)) {
-            return {std::get<1>(robot), std::get<2>(robot)};
+            return std::make_pair(std::get<1>(robot), std::get<2>(robot));
         }
     }
     return {};
@@ -93,7 +93,7 @@ std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getNextClaim() 
 std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getLastClaim() {
     for (auto &robot : robots) {
         if (std::get<0>(robot) == static_cast<int>(robotIDs.size())) {
-            return {std::get<1>(robot), std::get<2>(robot)};
+            return std::make_pair(std::get<1>(robot), std::get<2>(robot));
         }
     }
     return {};
@@ -116,7 +116,10 @@ void bt::DefaultTactic::parseType(const std::string& typee) {
 }
 
 void bt::DefaultTactic::updateStyle() {
-    rtt::ai::analysis::PlayStyle style = maker.getRecommendedPlayStyle();
+
+    rtt::ai::analysis::AnalysisReport report = * rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
+    rtt::ai::analysis::BallPossession possession = report.ballPossession;
+    rtt::ai::analysis::PlayStyle style = maker.getRecommendedPlayStyle(possession);
 
     if (thisType == Defensive) {
         amountToTick = style.amountOfDefenders;
