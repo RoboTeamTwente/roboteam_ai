@@ -81,7 +81,7 @@ bt::Leaf::Status Pass::moveBehindBall(Vector2 behindBallPos) {
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 bt::Leaf::Status Pass::getBall() {
     targetPos = ball->pos;
-    control::PosVelAngle pva = numTreeGtp.getPosVelAngle(robot, targetPos);
+    control::PosVelAngle pva = basicGtp.getPosVelAngle(robot, targetPos);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL(), 0.3);
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);

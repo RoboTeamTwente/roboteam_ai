@@ -137,7 +137,6 @@ void Receive::intercept() {
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
     command.w = ballAngle;
-    command.dribbler = 1;
 
     publishRobotCommand();
 }

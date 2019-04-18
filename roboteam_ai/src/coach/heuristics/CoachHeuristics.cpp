@@ -37,7 +37,7 @@ double CoachHeuristics::calculatePassLineScore(const Vector2& position, WorldDat
     double smallestAngle = MAX_INTERCEPT_ANGLE;
     auto ball = world.ball;
 
-    for(const auto& robot : world.them) {
+    for(const auto& robot : world::world->getAllRobots()) {
         if(control::ControlUtils::isPointProjectedOnLineSegment(robot.pos, ball.pos, position)) {
             double angle = abs((position - ball.pos).toAngle() - (robot.pos - ball.pos).toAngle());
             if (angle < smallestAngle) {
@@ -62,10 +62,10 @@ double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &positio
 
 double CoachHeuristics::calculateBehindBallScore(const Vector2 &position, CoachHeuristics::WorldData world) {
     double xDistanceBehindBall = world.ball.pos.x - position.x;
-    if (xDistanceBehindBall < 0) {
-        return 1.0;
+    if (xDistanceBehindBall > 0) {
+        return 0.0;
     } else {
-        return exp(BEHIND_BALL_WEIGHT * xDistanceBehindBall);
+        return 1.0;
     }
 }
 
