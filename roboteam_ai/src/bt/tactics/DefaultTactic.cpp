@@ -24,7 +24,7 @@ bt::Node::Status bt::DefaultTactic::update() {
         return status;
     }
 
-    for (unsigned long i = 0; i < amountToTick; i ++) {
+    for (int i = 0; i < amountToTick; i ++) {
         children.at(i)->tick();
     }
 
@@ -39,8 +39,6 @@ bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboar
     globalBB = std::move(blackboard);
     this->name = std::move(name);
 }
-
-
 
 void bt::DefaultTactic::claimRobots(int amount) {
 
@@ -69,8 +67,9 @@ bool bt::DefaultTactic::updateRobots() {
     else if (robotsNeeded > 0) {
         claimRobots(robotsNeeded);
     }
-    return (robotIDs.size() == amountToTick);
+    return (static_cast<int>(robotIDs.size()) == amountToTick);
 }
+
 void bt::DefaultTactic::disClaimRobots(int amount) {
     for (int i = 0; i < amount; i ++) {
 
@@ -83,20 +82,24 @@ void bt::DefaultTactic::disClaimRobots(int amount) {
 }
 
 std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getNextClaim() {
-    for (auto robot : robots) {
-        if (std::get<0>(robot) == (robotIDs.size() +1)) {
+    for (auto &robot : robots) {
+        if (std::get<0>(robot) == static_cast<int>(robotIDs.size() +1)) {
             return {std::get<1>(robot), std::get<2>(robot)};
         }
     }
+    return {};
 }
+
 std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getLastClaim() {
-    for (auto robot : robots) {
-        if (std::get<0>(robot) == (robotIDs.size())) {
+    for (auto &robot : robots) {
+        if (std::get<0>(robot) == static_cast<int>(robotIDs.size())) {
             return {std::get<1>(robot), std::get<2>(robot)};
         }
     }
+    return {};
 }
-void bt::DefaultTactic::parseType(std::string typee) {
+
+void bt::DefaultTactic::parseType(const std::string& typee) {
     if (typee == "Offensive") {
         thisType = Offensive;
     }
@@ -111,6 +114,7 @@ void bt::DefaultTactic::parseType(std::string typee) {
     }
 
 }
+
 void bt::DefaultTactic::updateStyle() {
     rtt::ai::analysis::PlayStyle style = maker.getRecommendedPlayStyle();
 
@@ -129,6 +133,7 @@ void bt::DefaultTactic::updateStyle() {
         amountToTick = rtt::ai::world::world->getUs().size();
     }
 }
+
 void bt::DefaultTactic::convert(const std::vector<std::pair<std::string, RobotType>> &unit) {
     int counter = 1;
     for (const auto &robot : unit) {
