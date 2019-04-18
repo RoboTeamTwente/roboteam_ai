@@ -13,6 +13,8 @@
 namespace bt {
 
 class DefaultTactic : public Tactic {
+    FRIEND_TEST(DefaultTacticTest, default_general_tactic_works);
+    FRIEND_TEST(DefaultTacticTest, offensive_defensive_midfield_tactics_work);
     private:
         int amountToTick = -1;
         void claimRobots(int amount);
@@ -20,7 +22,7 @@ class DefaultTactic : public Tactic {
         bool updateRobots();
         std::pair<std::string, RobotType> getNextClaim();
         std::pair<std::string, RobotType> getLastClaim();
-        void parseType(std::string typee);
+        void parseType(const std::string& typee);
         void updateStyle();
         rtt::ai::analysis::DecisionMaker maker;
         void convert(const std::vector<std::pair<std::string, RobotType>>& unit);
@@ -36,7 +38,7 @@ class DefaultTactic : public Tactic {
           Offensive,
           General
         };
-        TacticType thisType;
+        TacticType thisType = TacticType::General;
 
 };
 }

@@ -8,7 +8,7 @@ namespace rtt {
 namespace ai {
 namespace world {
 
-void History::addWorld(const WorldData worldData) {
+void History::addWorld(const WorldData &worldData) {
     worldBuffer.addNewWorld(worldData);
 }
 

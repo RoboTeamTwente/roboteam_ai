@@ -83,12 +83,12 @@ bool World::weHaveRobots() {
     return worldDataPtr && !worldDataPtr->us.empty();
 }
 
-void World::setWorldData(WorldDataPtr &worldDataPtr) {
+void World::setWorldData(WorldDataPtr &setWorldDataPtr) {
     std::lock_guard<std::mutex> lockMsg(worldMsgMutex);
     std::lock_guard<std::mutex> lockyLock(worldMutex);
 
     World::worldDataPtr.reset();
-    World::worldDataPtr = worldDataPtr;
+    World::worldDataPtr = setWorldDataPtr;
 
     World::worldMsg = makeWorldMsg();
 }
@@ -119,11 +119,9 @@ const WorldData World::getWorld() {
 const World::BallPtr World::getBall() {
     std::lock_guard<std::mutex> lock(worldMutex);
 
-    if (worldDataPtr && worldDataPtr->ball.exists)
+    if (world::Ball::exists) {
         return std::make_shared<Ball>(worldDataPtr->ball);
-
-    if (worldDataPtr && worldDataPtr->ball.visible)
-        return std::make_shared<Ball>(worldDataPtr->ball);
+    }
 
     std::cerr << "BALL DOES NOT EXIST!!! (exists == 0 ??? )" << std::endl;
     return BallPtr(nullptr);
@@ -352,12 +350,15 @@ const World::BallPtr World::getFutureBall(double time) {
     futureWorld.updateFutureBall(ballCopy, time);
     return std::make_shared<Ball>(ballCopy);
 }
+
 const WorldData World::getPreviousWorld() {
     return history.getPreviousWorld();
 }
+
 double World::timeDifference() {
-    return worldDataPtr->time -getPreviousWorld().time;
+    return worldDataPtr->time - getPreviousWorld().time;
 }
+
 } //world
 } //ai
 } //rtt

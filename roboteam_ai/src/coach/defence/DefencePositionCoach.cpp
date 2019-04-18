@@ -128,30 +128,30 @@ std::vector<DefencePositionCoach::DefenderBot> DefencePositionCoach::decidePosit
     world::WorldData simulatedWorld = world::world->getWorld();
     simulatedWorld.us.clear();
     //first we handle the most dangerous position first. This needs to be blocked completely
-    if (auto crucialBlock=blockBallLine(simulatedWorld)){
-        DefenderBot crucialDefender=createBlockBall(*crucialBlock);
+    if (auto crucialBlock = blockBallLine(simulatedWorld)) {
+        DefenderBot crucialDefender = createBlockBall(*crucialBlock);
         defenders.push_back(crucialDefender);
         simulatedWorld.us.push_back(crucialDefender.toRobot());
     }
     // for the remainder we look at the possiblePasses and block the most dangerous bots
     std::vector<PossiblePass> passes = createPassesSortedByDanger(simulatedWorld);
-    while (defenders.size() != amount && ! passes.empty()) {
+    while (static_cast<int>(defenders.size()) != amount && ! passes.empty()) {
         DefenderBot defender;
-        bool foundPosition=true;
+        bool foundPosition = true;
         // first try blocking the goal vision of the robot being passed to
         // then block on the defense line
         // if that doesn't work try to block the pass itself directly
-        if (auto blockLine=blockToGoalLine(passes[0],simulatedWorld)){
-            defender= createBlockToGoal(passes[0], 0.0, *blockLine);
+        if (auto blockLine = blockToGoalLine(passes[0], simulatedWorld)) {
+            defender = createBlockToGoal(passes[0], 0.0, *blockLine);
         }
-        else if(auto blockPos=blockOnDefenseAreaLine(passes[0],simulatedWorld)){
-            defender= createBlockOnLine(passes[0], *blockPos);
+        else if (auto blockPos = blockOnDefenseAreaLine(passes[0], simulatedWorld)) {
+            defender = createBlockOnLine(passes[0], *blockPos);
         }
-        else if(auto passBlock=blockOnPassLine(passes[0],simulatedWorld)){
-            defender= createBlockPass(passes[0], *passBlock);
+        else if (auto passBlock = blockOnPassLine(passes[0], simulatedWorld)) {
+            defender = createBlockPass(passes[0], *passBlock);
         }
-        else{
-            foundPosition=false;
+        else {
+            foundPosition = false;
         }
         // if we find a defender add it to our queue and our simulatedWorld and update the passes we found
         if (foundPosition) {

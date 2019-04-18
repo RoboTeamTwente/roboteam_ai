@@ -21,12 +21,13 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
     rtt::ai::IsInDefenseArea node("IsInDefenseArea", BBpointer);
 
     EXPECT_EQ(node.node_name(), "IsInDefenseArea");
+    rtt::ai::world::Ball::exists = false;
 
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
 
     rtt::ai::world::world->updateWorld(worldMsg);
-    EXPECT_EQ(node.update(), bt::Node::Status::Waiting);
+    EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     roboteam_msgs::GeometryFieldSize field;
     field.left_penalty_line.begin.x = -1.0f;
@@ -73,6 +74,7 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
 
 TEST(DetectsInTheirDefenseArea, IsInDefenseAreaTest)
 {
+    rtt::ai::world::Ball::exists = false;
     bt::Blackboard BB;
     BB.setBool("useRobot", true);
     BB.setInt("ROBOT_ID", 0);
@@ -92,7 +94,7 @@ TEST(DetectsInTheirDefenseArea, IsInDefenseAreaTest)
 
     rtt::ai::world::world->updateWorld(worldMsg);
 
-    EXPECT_EQ(node.update(), bt::Node::Status::Waiting);
+    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     roboteam_msgs::GeometryFieldSize field;
     field.left_penalty_line.begin.x = -1.0f;
@@ -134,6 +136,7 @@ TEST(DetectsInTheirDefenseArea, IsInDefenseAreaTest)
 
 TEST(DetectsBallInOurDefenceArea, IsInDefenceAreaTest)
 {
+    rtt::ai::world::Ball::exists = false;
     bt::Blackboard BB;
     BB.setBool("useRobot", false);
     BB.setDouble("margin", 0.2);
@@ -160,7 +163,7 @@ TEST(DetectsBallInOurDefenceArea, IsInDefenceAreaTest)
     field.right_penalty_line.end.y = 1.0;
     rtt::ai::world::field->set_field(field);
 
-    EXPECT_EQ(node.update(), bt::Node::Status::Waiting);
+    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = -1.1;
     worldMsg.ball.pos.y = 0;

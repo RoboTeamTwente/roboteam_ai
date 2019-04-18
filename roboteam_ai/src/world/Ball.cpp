@@ -13,12 +13,14 @@ namespace ai {
 namespace world {
 
 Ball::Ball()
-    : pos(Vector2()), vel(Vector2()), exists(false), visible(false) { }
+    : pos(Vector2()), vel(Vector2()), visible(false) { }
 
 Ball::Ball(const roboteam_msgs::WorldBall &copy)
         : pos(copy.pos), vel(copy.vel),
-        exists(copy.existence != 0), visible(copy.visible) { }
-
+        visible(copy.visible) {
+    exists = exists || copy.existence || Vector2(copy.pos).isNotNaN();
+    if (!exists) std::cout << "Ball message has existence = 0!!" << std::endl;
+}
 
 const roboteam_msgs::WorldBall Ball::toMessage() const {
     roboteam_msgs::WorldBall ballMsg;
@@ -170,6 +172,7 @@ void Ball::updateBallPosition(const Ball &oldBall, const WorldData &worldData) {
     }
 }
 
+bool Ball::exists = false;
 
 }
 }
