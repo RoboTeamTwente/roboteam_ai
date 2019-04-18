@@ -19,6 +19,7 @@ class HarassRobotCoach {
         using Ball = world::Ball;
         using BallPtr = std::shared_ptr<Ball>;
 
+        BallPtr ball;
         double bestXPos;
         std::vector<Vector2> currentRobotPositions;
         std::vector<Vector2> targetRobotPositions;
@@ -26,8 +27,15 @@ class HarassRobotCoach {
 
         Vector2 harassRobot(int myIndex, int id = -1, bool stayInMidfield = true);
         Vector2 initialize(const Vector2 &currentLocation, int &myIndex);
-        Vector2 standFree(const RobotPtr &thisRobot, int myIndex, const RobotPtr &ourRobotWithBall);
+        Vector2 standFree(const RobotPtr &ourRobotWithBall, const RobotPtr &thisRobot, int myIndex);
         int getRobotIndexCloseToEnemyRobot(const RobotPtr &enemyRobot) const;
+
+        Vector2 getHarassPositionWhereTheyHaveBall(const RobotPtr &robotWithBall,
+                const RobotPtr &thisRobot, int &myIndex);
+        Vector2 getHarassPositionWhereWeHaveBall(const RobotPtr &robotWithBall,
+                const RobotPtr &thisRobot, int &myIndex);
+
+        Vector2 standInMidField(const RobotPtr &thisRobot, int &myIndex);
     public:
         Vector2 getHarassPosition(const RobotPtr &thisRobot, int &myIndex);
         Angle getHarassAngle(const RobotPtr &thisRobot, int &myIndex);
