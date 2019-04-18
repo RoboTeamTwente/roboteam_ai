@@ -84,7 +84,7 @@ void Robot::setGenevaState(int state) {
 }
 
 void Robot::processFeedback(roboteam_msgs::RobotFeedback fb) {
-    Robot::feedback = std::make_shared<RobotFeedback(fb)>;
+    Robot::feedback = RobotFeedback(fb);
 }
 
 

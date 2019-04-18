@@ -26,7 +26,7 @@ private:
     double distanceToBall;
     bool iHaveBall;
     int genevaState = 3;
-    std::shared_ptr<RobotFeedback> feedback;
+    RobotFeedback feedback;
 
 public:
     enum Team : short {
@@ -42,7 +42,7 @@ public:
     int getGenevaState() const;
     void setGenevaState(int state);
 
-    void processFeedback(roboteam_msgs::RobotFeedback);
+    void processFeedback(roboteam_msgs::RobotFeedback fb);
 
     explicit Robot(const roboteam_msgs::WorldRobot &copy, Team team = us);
     Robot();

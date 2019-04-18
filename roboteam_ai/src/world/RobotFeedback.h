@@ -14,6 +14,7 @@ namespace world{
 
 class RobotFeedback {
 public:
+    explicit RobotFeedback();
     explicit RobotFeedback(const roboteam_msgs::RobotFeedback &copy);
 private:
     int robotId = -1;
