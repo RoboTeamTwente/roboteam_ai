@@ -24,9 +24,7 @@ TEST(IsRobotClosestToBallTest, NoSecondsAhead) {
     EXPECT_EQ(node.node_name(), "IsRobotClosestToBall");
 
     // First test should fail since robot is not set in world state yet
-    ASSERT_EQ(node.update(), bt::Node::Status::Waiting);
-
-
+    ASSERT_EQ(node.update(), bt::Node::Status::Failure);
 
     robot.id=0;
     robot.pos.x=0;

@@ -22,7 +22,7 @@ TEST(BallTest, IHaveBallTest) {
     EXPECT_EQ(node.node_name(), "HasBall");
 
     //First test should fail as the robot is not set in the world state yet.
-    EXPECT_EQ(node.update(), bt::Node::Status::Waiting);
+    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
 
 
