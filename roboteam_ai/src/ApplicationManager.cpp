@@ -9,6 +9,7 @@
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include <roboteam_ai/src/interface/InterfaceValues.h>
 #include <roboteam_ai/src/coach/GetBallCoach.h>
+#include "roboteam_ai/src/coach/PassCoach.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -89,8 +90,8 @@ void ApplicationManager::runOneLoopCycle() {
 
         rtt::ai::coach::GBCoach->update();
         rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
-
         Status status = strategy->tick();
+        std::cout<<rtt::ai::coach::g_pass.getRobotBeingPassedTo()<<std::endl;
         this->notifyTreeStatus(status);
 
     }

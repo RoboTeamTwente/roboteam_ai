@@ -12,7 +12,7 @@ GetBallCoach GBCoachObj;
 GetBallCoach* GBCoach=&GBCoachObj;
 bool GetBallCoach::shouldWeGetBall() {
     // return true if we want to do some ball handling (e.g. harrassing, getting the ball or so). False in other cases
-    return true;
+    return world::world->getBall()->pos.x>0;
 }
 bool GetBallCoach::weAreGettingBall() {
     return gettingBall;
