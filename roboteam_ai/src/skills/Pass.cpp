@@ -32,7 +32,6 @@ Pass::Status Pass::onUpdate() {
     bool ballIsShotTowardsReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, robotToPassTo->pos);
 
     if (ballIsMovingFast && ballIsShotTowardsReceiver) {
-        std::cout<<"I PASSED"<<std::endl;
         coach::g_pass.setPassed(true);
         return Status::Success;
     } else if (isOnLineToBall && isBehindBall) {
