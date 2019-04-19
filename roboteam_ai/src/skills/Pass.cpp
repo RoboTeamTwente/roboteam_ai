@@ -62,6 +62,7 @@ void Pass::determineRobotToPassTo() {
 bt::Leaf::Status Pass::moveBehindBall(Vector2 behindBallPos) {
     targetPos = behindBallPos;
 
+    numTreeGtp.setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
     control::PosVelAngle pva = numTreeGtp.getPosVelAngle(robot, targetPos);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL());
     command.x_vel = static_cast<float>(pva.vel.x);
