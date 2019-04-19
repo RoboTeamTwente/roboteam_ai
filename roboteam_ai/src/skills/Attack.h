@@ -24,9 +24,7 @@ class Attack : public Skill {
         control::NumTreePosControl numTreeGtp = control::NumTreePosControl(Constants::DEFAULT_BALLCOLLISION_RADIUS(), false, false);
         control::BasicPosControl basicGtp = control::BasicPosControl (false, false, false);
 
-        void followDefenseLine(Vector2 &velocity);
-
-    public:
+public:
         explicit Attack(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;
         Status onUpdate() override;

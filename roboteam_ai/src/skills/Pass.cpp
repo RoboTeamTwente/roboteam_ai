@@ -29,8 +29,8 @@ Pass::Status Pass::onUpdate() {
     robotToPassTo = world::world->getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
 
 
-    bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos);
-    auto behindBallPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, getKicker());
+    bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(BEHIND_BALL_CHECK, robotToPassTo->pos, robot->pos);
+    auto behindBallPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(BEHIND_BALL_TARGET, getKicker());
     bool isOnLineToBall = control::ControlUtils::distanceToLine(robot->pos, ball->pos, behindBallPos) < 0.0255;
     bool hasBall = world::world->ourRobotHasBall(robot->id, Constants::MAX_BALL_RANGE());
 

@@ -82,13 +82,5 @@ void Attack::onTerminate(Status s) {
     publishRobotCommand();
 }
 
-void Attack::followDefenseLine(Vector2 &velocity) {
-    if(targetPos.x > world::field->getDefenseArea(false)[1].x) {
-        velocity.y = 0;
-    } else {
-        velocity.x = 0;
-    }
-}
-
 } // ai
 } // rtt
