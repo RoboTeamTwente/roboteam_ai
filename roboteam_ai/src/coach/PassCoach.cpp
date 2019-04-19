@@ -19,6 +19,7 @@ void PassCoach::resetPass() {
 }
 
 int PassCoach::initiatePass(int passerID) {
+    // Check whether a pass is already in progress that is not taking too long yet
     if (robotBeingPassedTo != -1) {
         if(!passTakesTooLong()) {
             return -1;
