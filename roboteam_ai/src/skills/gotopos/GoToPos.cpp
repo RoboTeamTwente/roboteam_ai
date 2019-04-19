@@ -63,6 +63,9 @@ void GoToPos::setPositionController(const GoToType &gTT) {
 
 /// Get an update on the skill
 bt::Node::Status GoToPos::onUpdate() {
+    command.x_vel = 0;
+    command.y_vel = 0;
+    command.w = 0;
 
     Status gtpStatus = gtpUpdate();
     switch (gtpStatus) {
@@ -79,19 +82,20 @@ bt::Node::Status GoToPos::onUpdate() {
 
     control::PosVelAngle pva = posController->getPosVelAngle(robot, targetPos);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel, maxVel);
-    command.x_vel = static_cast<float>(pva.vel.x);
-    command.y_vel = static_cast<float>(pva.vel.y);
-    command.w = static_cast<float>(pva.angle);
+
+    // set robotcommands if they have not been set yet in gtpUpdate()
+    command.x_vel = command.x_vel == 0 ? static_cast<float>(pva.vel.x) : command.x_vel;
+    command.y_vel = command.y_vel == 0 ? static_cast<float>(pva.vel.y) : command.y_vel;
+    command.w = command.w == 0 ? static_cast<float>(pva.angle) : command.w;
 
     publishRobotCommand();
     return Status::Running;
 }
 
 void GoToPos::onTerminate(Status s) {
-    command.w = robot->angle;
+    command.w = command.w == 0 ? static_cast<float>(robot->angle) : command.w;
     command.x_vel = 0;
     command.y_vel = 0;
-
     publishRobotCommand();
 }
 

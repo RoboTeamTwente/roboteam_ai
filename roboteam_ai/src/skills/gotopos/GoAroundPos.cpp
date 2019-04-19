@@ -5,13 +5,14 @@
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "GoAroundPos.h"
 #include "roboteam_ai/src/interface/drawer.h"
+
 namespace rtt {
 namespace ai {
 
 GoAroundPos::GoAroundPos(rtt::string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) { }
+        :GoToPos(name, blackboard) { }
 
-void GoAroundPos::onInitialize() {
+void GoAroundPos::gtpInitialize() {
     if (properties->hasBool("ball")) {
         if (ball) {
             ballIsTarget = true;
@@ -24,8 +25,8 @@ void GoAroundPos::onInitialize() {
     else {
         ballIsTarget = false;
         targetPos = properties->getVector2("targetPos");
-
     }
+
     if (properties->hasDouble("targetDir")) {
         endAngle = Control::constrainAngle(properties->getDouble("targetDir"));
     }
@@ -58,7 +59,7 @@ void GoAroundPos::onInitialize() {
     currentProgress = ROTATING;
 }
 
-GoAroundPos::Status GoAroundPos::onUpdate() {
+GoAroundPos::Status GoAroundPos::gtpUpdate() {
     if (! robot) {
         ROS_ERROR("Robot not found ree:  %s", std::to_string(robot->id).c_str());
         return Status::Failure;
@@ -98,14 +99,11 @@ GoAroundPos::Status GoAroundPos::onUpdate() {
     }
     return Status::Failure;
 }
-void GoAroundPos::onTerminate(rtt::ai::Skill::Status s) {
-    command.dribbler = 0;
-    command.x_vel = 0;
-    command.y_vel = 0;
-    command.w = (float) deltaPos.angle();
-    publishRobotCommand();
 
+void GoAroundPos::gtpTerminate(rtt::ai::Skill::Status s) {
+    command.w = (float) deltaPos.angle();
 }
+
 GoAroundPos::Progression GoAroundPos::checkProgression() {
     //Failure condition: If it goes outside of the margin during any phase but stopping (also helps against ball moving etc.)
     if (currentProgress != STOPPING) {
@@ -147,6 +145,7 @@ bool GoAroundPos::checkPosition() {
     return ((deltaPos.length() <= (distanceFromPoint + MAX_DIST_DEVIATION))
             && deltaPos.length() > distanceFromPoint - MAX_DIST_DEVIATION);
 }
+
 void GoAroundPos::sendRotateCommand() {
     Vector2 deltaCommandPos = (commandPos - robot->pos);
     deltaCommandPos = Control::velocityLimiter(deltaCommandPos, distanceFromPoint*SPEED, MIN_SPEED);

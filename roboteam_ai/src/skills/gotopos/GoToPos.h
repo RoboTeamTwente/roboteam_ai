@@ -25,7 +25,7 @@ class GoToPos : public Skill {
         GoToType stringToGoToType(const std::string &gtt);
         void setPositionController(const GoToType &goToType);
 
-        Vector2 targetPos = {0, 0};
+        Vector2 targetPos = {};
         double maxVel;
         double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
 
@@ -40,6 +40,7 @@ class GoToPos : public Skill {
         void onInitialize() override;
         void onTerminate(Status s) override;
 };
+
 } // ai
 } // rtt
 
