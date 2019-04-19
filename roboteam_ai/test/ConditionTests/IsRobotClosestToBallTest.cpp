@@ -11,7 +11,7 @@
 
 TEST(IsRobotClosestToBallTest, NoSecondsAhead) {
 
-
+    rtt::ai::world::Ball::exists = false;
     auto BB = std::make_shared<bt::Blackboard>();
     BB->setInt("ROBOT_ID", 0);
     BB->setString("ROLE","test");

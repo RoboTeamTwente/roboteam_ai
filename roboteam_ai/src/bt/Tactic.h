@@ -14,7 +14,7 @@ class Tactic : public Node {
 protected:
         using dealer = rtt::ai::robotDealer::RobotDealer;
     int claimedRobots = 0;
-    std::set<int> robotIDs;
+    std::set<int> robotIDs = {};
 public:
         void addChild(Node::Ptr newChild) override;
 

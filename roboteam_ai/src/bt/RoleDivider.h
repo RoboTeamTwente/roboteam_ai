@@ -4,7 +4,9 @@
 
 #ifndef ROBOTEAM_AI_ROLEDIVIDER_H
 #define ROBOTEAM_AI_ROLEDIVIDER_H
+
 #include "Node.hpp"
+
 namespace bt {
 
 class RoleDivider : public Node {
@@ -20,7 +22,8 @@ class RoleDivider : public Node {
         Status update() override;
         void terminate(Status s) override;
 
-
 };
+
 }
+
 #endif //ROBOTEAM_AI_ROLEDIVIDER_H

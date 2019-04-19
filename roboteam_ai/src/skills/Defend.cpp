@@ -26,7 +26,7 @@ bt::Node::Status Defend::onUpdate() {
     /*
  * Calculate the target location at least once, and every time when the amount of robots in the formation change.
  */
-    if (allDefendersMemory != allDefenders.size()) {
+    if (allDefendersMemory != static_cast<int>(allDefenders.size())) {
         targetLocation = getDefensivePosition();
         allDefendersMemory = allDefenders.size();
     }
@@ -61,7 +61,8 @@ Vector2 Defend::getDefensivePosition() {
 }
 
 void Defend::onTerminate(bt::Node::Status s) {
-    for (int i = 0; i < allDefenders.size(); i++) {
+    //TODO: this is not how you erase stuff --- maybe defend is not used anymore, skill could be deleted?? ??
+    for (unsigned int i = 0; i < allDefenders.size(); i++) {
         if (allDefenders.at(i)->id == robot->id) {
             allDefenders.erase(allDefenders.begin() + i);
         }

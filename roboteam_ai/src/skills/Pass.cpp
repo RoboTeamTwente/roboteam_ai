@@ -46,7 +46,7 @@ void Pass::onTerminate(Status s) {
 
 /// determine which robot we should pass towards.
 void Pass::determineRobotToPassTo() {
-    robotToPassToID = ballPlacement ? coach::g_pass.getRobotBeingPassedTo() : coach::g_pass.initiatePass();
+    robotToPassToID = ballPlacement ? coach::g_pass.getRobotBeingPassedTo() : coach::g_pass.initiatePass(robot->id);
 }
 
 /// this is the method we call when we are far from the desired position
