@@ -48,6 +48,7 @@ bt::Node::Status AvoidBall::onUpdate() {
         force = force + cu::calculateForce(wallVector, wallWeight, minWallDistanceForForce);
     }
 
+    // https://robocup-ssl.github.io/ssl-rules/sslrules.html#_ball_placement_interference
     Vector2 bpTarget = coach::g_ballPlacement.getBallPlacementPos();
     // if the robot is closer to the ballplacementTarget than the ball
     if (control::ControlUtils::distanceToLineWithEnds(robot->pos, ball->pos, bpTarget) < minBallDistanceForForce) {
