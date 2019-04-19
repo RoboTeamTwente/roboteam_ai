@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
-#include "roboteam_ai/src/skills/gotopos/GoToPos.h"
+#include "roboteam_ai/src/skills/gotopos/SkillGoToPos.h"
 #include "roboteam_utils/Vector2.h"
 #include "../../src/world/World.h"
 #include "../../src/utilities/RobotDealer.h"
@@ -20,7 +20,7 @@ void robotCommandCallback(const roboteam_msgs::RobotCommandConstPtr &cmd) {
 namespace w = rtt::ai::world;
 namespace rd = rtt::ai::robotDealer;
 
-TEST(GoToPos, GoToPosTest) {
+TEST(SkillGoToPos, GoToPosTest) {
 
     ros::Rate rate(1);
     commands.clear();
@@ -41,10 +41,9 @@ TEST(GoToPos, GoToPosTest) {
     worldMsg.ball.existence = 99999;
     w::world->updateWorld(worldMsg);
     rd::RobotDealer::claimRobotForTactic(rd::RobotType::RANDOM,"GTPtest", "GoToPosTest");
-    rtt::ai::GoToPos goToPos("GTPtest", bb);
+    rtt::ai::SkillGoToPos goToPos("GTPtest", bb);
     goToPos.initialize();
 
-    EXPECT_EQ(goToPos.targetPos, bb->getVector2("targetPos"));
     EXPECT_EQ(goToPos.update(), bt::Leaf::Status::Running);
 
     robot.pos.x = 5.0;
