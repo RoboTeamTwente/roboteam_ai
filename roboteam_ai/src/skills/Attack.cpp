@@ -17,8 +17,7 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void Attack::onInitialize() {
-    gtp = std::make_shared<control::NumTreePosControl>();
-    gtp->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
+    numTreeGtp.setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
     shot = false;
 }
 
@@ -33,14 +32,15 @@ bt::Node::Status Attack::onUpdate() {
     Vector2 ball = world::world->getBall()->pos;
     Vector2 behindBall = coach::g_generalPositionCoach.getPositionBehindBallToGoal(BEHIND_BALL_TARGET, false);
 
+    control::PosVelAngle pva;
     if (!coach::g_generalPositionCoach.isRobotBehindBallToGoal(BEHIND_BALL_CHECK, false, robot->pos)) {
         targetPos = behindBall;
-        command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
-        gtp->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
+        pva = numTreeGtp.getPosVelAngle(robot, targetPos);
+        command.w = pva.angle;
     }
     else {
         targetPos = ball;
-        gtp->setAvoidBall(false);
+        pva = basicGtp.getPosVelAngle(robot, targetPos);
         command.w = (world::field->get_their_goal_center() - ball).toAngle().getAngle();
         if (world::world->robotHasBall(robot->id, true, Constants::MAX_KICK_RANGE())) {
             command.kicker = 1;
@@ -50,24 +50,8 @@ bt::Node::Status Attack::onUpdate() {
         }
 
     }
-    Vector2 velocity;
-    if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
-        velocity = ((Vector2) robot->pos - world::field->get_our_goal_center()).stretchToLength(2.0);
-    }
-    else if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
-        velocity = ((Vector2) robot->pos - world::field->get_their_goal_center()).stretchToLength(2.0);
-    }
-    else if (world::field->pointIsInDefenceArea(ball, false) || world::field->pointIsInDefenceArea(ball, true)) {
-        velocity = {0, 0};
-    }
-    else if (world::field->pointIsInDefenceArea(targetPos, false)) {
-        velocity = {0, 0};
-    }
-    else {
-        velocity = gtp->getPosVelAngle(robot, targetPos).vel;
-    }
 
-    velocity = control::ControlUtils::velocityLimiter(velocity);
+    Vector2 velocity = control::ControlUtils::velocityLimiter(pva.vel);
 
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
