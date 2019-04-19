@@ -19,7 +19,7 @@ void WorldManager::loop() {
 
         unsigned char changes = updateROSData();
         if (changes == 0b000) continue;
-        
+
         if (changes & 0b001) updateReferee();
         if (changes & 0b010) updateWorld();
         if (changes & 0b100) updateGeometry();

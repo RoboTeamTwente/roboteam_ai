@@ -140,12 +140,15 @@ void Visualizer::drawFieldHints(QPainter &painter) {
 
 // draw the ball on the screen
 void Visualizer::drawBall(QPainter &painter) {
-    rtt::Vector2 ballPosition = toScreenPosition(rtt::ai::world::world->getWorld().ball.pos);
+    auto ball = world::world->getBall();
+    if (!(ball && world::Ball::exists && ball->pos.isNotNaN())) return;
+
+    rtt::Vector2 ballPosition = toScreenPosition(ball->pos);
     QPointF qballPosition(ballPosition.x, ballPosition.y);
-    if (!rtt::ai::world::world->getWorld().ball.visible){
+    if (!ball->visible){
         painter.setBrush(Qt::red); // fill
     }
-    else{
+    else {
         painter.setBrush(Constants::BALL_COLOR()); // fill
     }
     painter.setPen(Qt::NoPen); // stroke
@@ -508,7 +511,6 @@ if (report) {
             for (auto robotToPassToId : robot.second.robotsToPassTo) {
                 auto passRobot = world::world->getRobotForId(robotToPassToId.first, true);
                 Vector2 passRobotLocation = toScreenPosition(passRobot->pos);
-                double distance = robotToPassToId.second;
                 painter.setBrush(Qt::transparent);
                 int opacity = static_cast<int>((robotLocation.dist(passRobotLocation) / width()) * 255);
                 painter.setPen({255, 255, 0, 255 - opacity});
