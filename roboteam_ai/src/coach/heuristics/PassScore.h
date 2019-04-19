@@ -16,7 +16,7 @@ private:
     const double CLOSE_TO_GOAL_WEIGHT = 1.0;
     const double SHOT_AT_GOAL_WEIGHT = 1.0;
     const double PASS_LINE_WEIGHT = 2.0;
-    const double BEHIND_BALL_WEIGHT = 4.0;
+    const double BEHIND_BALL_WEIGHT = 3.0;
     const double DISTANCE_TO_OPPONENT_WEIGHT = 1.0;
     
 public:
