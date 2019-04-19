@@ -13,7 +13,6 @@ const double CoachHeuristics::CLOSE_TO_GOAL_WEIGHT = -0.1;
 const double CoachHeuristics::SHOT_AT_GOAL_WEIGHT = -3.0;
 const double CoachHeuristics::PASS_LINE_WEIGHT = -3.0;
 const double CoachHeuristics::DISTANCE_TO_OPPONENTS_WEIGHT = -3.0;
-const double CoachHeuristics::BEHIND_BALL_WEIGHT = -0.1;
 
 const double CoachHeuristics::MAX_INTERCEPT_ANGLE = M_PI / 4;
 

@@ -26,7 +26,6 @@ private:
     static const double SHOT_AT_GOAL_WEIGHT;
     static const double PASS_LINE_WEIGHT;
     static const double DISTANCE_TO_OPPONENTS_WEIGHT;
-    static const double BEHIND_BALL_WEIGHT;
     static const double MAX_INTERCEPT_ANGLE; // Maximum angle to check for whether a opponent can intercept the ball
 public:
     static double calculateCloseToGoalScore(const Vector2& position);
