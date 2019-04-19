@@ -1,1 +1,0 @@
-{"data": {"trees": [{"nodes": {"h3ynlc26cycp3yd9": {"id": "h3ynlc26cycp3yd9", "name": "halt_tactic", "title": "Tactic"}, "cfoewmtw7qt482w": {"children": ["h3ynlc26cycp3yd9"], "id": "cfoewmtw7qt482w", "title": "UntilFail"}}, "root": "cfoewmtw7qt482w", "title": "halt_strategy"}]}, "name": "halt_strategy"}

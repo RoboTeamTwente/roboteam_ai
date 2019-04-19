@@ -1,9 +1,0 @@
-{
- "name": "granny",
-  "child": {
-    "name": "nanny",
-    "child": {
-      "name": "minnie"
-    }
-  }
-}

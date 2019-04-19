@@ -1,1 +1,466 @@
-{"name": "test_pass_tactic", "data": {"trees": [{"title": "test_pass_tactic", "root": "qmbcnd81wxy6y", "nodes": {"qmbcnd81wxy6y": {"id": "qmbcnd81wxy6y", "title": "RoleDivider", "children": ["4gr0x12kts5vfjy", "0dmkagdenqtepd2at", "zlmqv3brvh3d9kz10", "irbklg0fr3x2agsn5", "kldy85q68ywc5r20h", "08py0deiu4a5vhxbr", "rbsdy9yo8z01mip61"], "properties": {"TacticType": "General"}}, "4gr0x12kts5vfjy": {"id": "4gr0x12kts5vfjy", "title": "Role", "name": "pass1", "role": "PassRole", "children": ["d5e08vvpymlwu"], "properties": {"ROLE": "pass1"}}, "w1n0odfkmemjxe": {"properties": {"ROLE": "pass1"}, "id": "w1n0odfkmemjxe", "title": "Pass"}, "3wztytycdvoye": {"children": ["ur55r08h7lg2g"], "id": "3wztytycdvoye", "title": "Repeater", "properties": {"ROLE": "pass1"}}, "ur55r08h7lg2g": {"properties": {"ROLE": "pass1"}, "id": "ur55r08h7lg2g", "title": "Halt"}, "d5e08vvpymlwu": {"children": ["w1n0odfkmemjxe", "3wztytycdvoye"], "id": "d5e08vvpymlwu", "title": "MemSequence", "properties": {"ROLE": "pass1"}}, "0dmkagdenqtepd2at": {"id": "0dmkagdenqtepd2at", "title": "Role", "name": "receive1", "role": "test_receive_role", "children": ["hdpw0uoglnjul9zud"], "properties": {"ROLE": "receive1"}}, "hdpw0uoglnjul9zud": {"children": ["f78qfjncjngym09", "pxym8fv8ciz4gbj"], "id": "hdpw0uoglnjul9zud", "title": "Selector", "properties": {"ROLE": "receive1"}}, "zrpfvjgu0zhnkv7ds": {"properties": {"ROLE": "receive1"}, "id": "zrpfvjgu0zhnkv7ds", "title": "Halt"}, "4vm1qh5ubaayjg0j": {"id": "4vm1qh5ubaayjg0j", "title": "IsBeingPassedTo", "properties": {"ROLE": "receive1"}}, "pxym8fv8ciz4gbj": {"children": ["zrpfvjgu0zhnkv7ds"], "id": "pxym8fv8ciz4gbj", "title": "Repeater", "properties": {"ROLE": "receive1"}}, "mu3huehpfmjj1j": {"properties": {"ROLE": "receive1"}, "id": "mu3huehpfmjj1j", "title": "Receive"}, "f78qfjncjngym09": {"children": ["4vm1qh5ubaayjg0j", "mu3huehpfmjj1j"], "id": "f78qfjncjngym09", "title": "MemSequence", "properties": {"ROLE": "receive1"}}, "zlmqv3brvh3d9kz10": {"id": "zlmqv3brvh3d9kz10", "title": "Role", "name": "receive2", "role": "test_receive_role", "children": ["lrtitq8fsuv0f1hu8"], "properties": {"ROLE": "receive2"}}, "lrtitq8fsuv0f1hu8": {"children": ["k45qy12e5t54a", "dtst9w6c9d9ee85a"], "id": "lrtitq8fsuv0f1hu8", "title": "Selector", "properties": {"ROLE": "receive2"}}, "h7rwaicpwo2q80": {"properties": {"ROLE": "receive2"}, "id": "h7rwaicpwo2q80", "title": "Halt"}, "3t3q38ce20np6h": {"id": "3t3q38ce20np6h", "title": "IsBeingPassedTo", "properties": {"ROLE": "receive2"}}, "dtst9w6c9d9ee85a": {"children": ["h7rwaicpwo2q80"], "id": "dtst9w6c9d9ee85a", "title": "Repeater", "properties": {"ROLE": "receive2"}}, "1buo0b6gtgeamzrx5": {"properties": {"ROLE": "receive2"}, "id": "1buo0b6gtgeamzrx5", "title": "Receive"}, "k45qy12e5t54a": {"children": ["3t3q38ce20np6h", "1buo0b6gtgeamzrx5"], "id": "k45qy12e5t54a", "title": "MemSequence", "properties": {"ROLE": "receive2"}}, "irbklg0fr3x2agsn5": {"id": "irbklg0fr3x2agsn5", "title": "Role", "name": "receive3", "role": "test_receive_role", "children": ["8mbyg660zjwo33cc"], "properties": {"ROLE": "receive3"}}, "8mbyg660zjwo33cc": {"children": ["oglwxyv5k49rjt3", "r7e77m1lcjwfo6"], "id": "8mbyg660zjwo33cc", "title": "Selector", "properties": {"ROLE": "receive3"}}, "wix5edff6572s": {"properties": {"ROLE": "receive3"}, "id": "wix5edff6572s", "title": "Halt"}, "lhl3j1prfeebd60": {"id": "lhl3j1prfeebd60", "title": "IsBeingPassedTo", "properties": {"ROLE": "receive3"}}, "r7e77m1lcjwfo6": {"children": ["wix5edff6572s"], "id": "r7e77m1lcjwfo6", "title": "Repeater", "properties": {"ROLE": "receive3"}}, "la5nyj4dh9h0a5v8v": {"properties": {"ROLE": "receive3"}, "id": "la5nyj4dh9h0a5v8v", "title": "Receive"}, "oglwxyv5k49rjt3": {"children": ["lhl3j1prfeebd60", "la5nyj4dh9h0a5v8v"], "id": "oglwxyv5k49rjt3", "title": "MemSequence", "properties": {"ROLE": "receive3"}}, "kldy85q68ywc5r20h": {"id": "kldy85q68ywc5r20h", "title": "Role", "name": "receive4", "role": "test_receive_role", "children": ["nkdxqn49raje8"], "properties": {"ROLE": "receive4"}}, "nkdxqn49raje8": {"children": ["39k6s1kulagzd1", "tu98rplyhlkmt"], "id": "nkdxqn49raje8", "title": "Selector", "properties": {"ROLE": "receive4"}}, "n3xo6ags5pu7y": {"properties": {"ROLE": "receive4"}, "id": "n3xo6ags5pu7y", "title": "Halt"}, "is6wijuk7cmqayj": {"id": "is6wijuk7cmqayj", "title": "IsBeingPassedTo", "properties": {"ROLE": "receive4"}}, "tu98rplyhlkmt": {"children": ["n3xo6ags5pu7y"], "id": "tu98rplyhlkmt", "title": "Repeater", "properties": {"ROLE": "receive4"}}, "7t49uqcvlrcsk": {"properties": {"ROLE": "receive4"}, "id": "7t49uqcvlrcsk", "title": "Receive"}, "39k6s1kulagzd1": {"children": ["is6wijuk7cmqayj", "7t49uqcvlrcsk"], "id": "39k6s1kulagzd1", "title": "MemSequence", "properties": {"ROLE": "receive4"}}, "08py0deiu4a5vhxbr": {"id": "08py0deiu4a5vhxbr", "title": "Role", "name": "receive5", "role": "test_receive_role", "children": ["k37gk8imuob9ykjlu"], "properties": {"ROLE": "receive5"}}, "k37gk8imuob9ykjlu": {"children": ["yijhy3px35fpdx79z", "spywh0rrp3fsc"], "id": "k37gk8imuob9ykjlu", "title": "Selector", "properties": {"ROLE": "receive5"}}, "243zorkvgfux5a": {"properties": {"ROLE": "receive5"}, "id": "243zorkvgfux5a", "title": "Halt"}, "camkr6jkfpawd": {"id": "camkr6jkfpawd", "title": "IsBeingPassedTo", "properties": {"ROLE": "receive5"}}, "spywh0rrp3fsc": {"children": ["243zorkvgfux5a"], "id": "spywh0rrp3fsc", "title": "Repeater", "properties": {"ROLE": "receive5"}}, "knymln3t1ph430p": {"properties": {"ROLE": "receive5"}, "id": "knymln3t1ph430p", "title": "Receive"}, "yijhy3px35fpdx79z": {"children": ["camkr6jkfpawd", "knymln3t1ph430p"], "id": "yijhy3px35fpdx79z", "title": "MemSequence", "properties": {"ROLE": "receive5"}}, "rbsdy9yo8z01mip61": {"id": "rbsdy9yo8z01mip61", "title": "Role", "name": "receive6", "role": "test_receive_role", "children": ["hibu6bdv42p7ju"], "properties": {"ROLE": "receive6"}}, "hibu6bdv42p7ju": {"children": ["dmofiotjkx0fga1", "gw0350015hjar1v1"], "id": "hibu6bdv42p7ju", "title": "Selector", "properties": {"ROLE": "receive6"}}, "qlhtq7nyt6goh0x": {"properties": {"ROLE": "receive6"}, "id": "qlhtq7nyt6goh0x", "title": "Halt"}, "kxfuuf59q33s8": {"id": "kxfuuf59q33s8", "title": "IsBeingPassedTo", "properties": {"ROLE": "receive6"}}, "gw0350015hjar1v1": {"children": ["qlhtq7nyt6goh0x"], "id": "gw0350015hjar1v1", "title": "Repeater", "properties": {"ROLE": "receive6"}}, "oin2afozpz4n9n": {"properties": {"ROLE": "receive6"}, "id": "oin2afozpz4n9n", "title": "Receive"}, "dmofiotjkx0fga1": {"children": ["kxfuuf59q33s8", "oin2afozpz4n9n"], "id": "dmofiotjkx0fga1", "title": "MemSequence", "properties": {"ROLE": "receive6"}}}}]}}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "qrv2qr8aoewamc70y": {
+            "properties": {
+              "ROLE": "receive6"
+            },
+            "title": "Repeater",
+            "children": [
+              "pupygo13zd7ao8"
+            ],
+            "id": "qrv2qr8aoewamc70y"
+          },
+          "mwucitx8oftb7tjn": {
+            "properties": {
+              "ROLE": "pass1"
+            },
+            "name": "pass1",
+            "title": "Role",
+            "id": "mwucitx8oftb7tjn",
+            "role": "PassRole",
+            "children": [
+              "p84eerlfieyoc"
+            ]
+          },
+          "3k3iftl8r34lh": {
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "title": "MemSequence",
+            "children": [
+              "oubv62wsa0u3sq",
+              "g9x2quetnnnh2gc"
+            ],
+            "id": "3k3iftl8r34lh"
+          },
+          "4am15xw4hsbgh2ugq": {
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "title": "MemSequence",
+            "children": [
+              "kxc9mdmmzxsi5",
+              "q0a6uwb6nsty7mi"
+            ],
+            "id": "4am15xw4hsbgh2ugq"
+          },
+          "p84eerlfieyoc": {
+            "properties": {
+              "ROLE": "pass1"
+            },
+            "title": "MemSequence",
+            "children": [
+              "nbpea4ijhq9he",
+              "y97pto2wt13y1ssa9"
+            ],
+            "id": "p84eerlfieyoc"
+          },
+          "bac8h7c6qtdq31i4d": {
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "title": "MemSequence",
+            "children": [
+              "pqu457kurxnvsq",
+              "rnohwoidqn8yuis"
+            ],
+            "id": "bac8h7c6qtdq31i4d"
+          },
+          "2hhcf4xkh2wvs": {
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "title": "Selector",
+            "children": [
+              "3k3iftl8r34lh",
+              "2ld6bidjig08shw"
+            ],
+            "id": "2hhcf4xkh2wvs"
+          },
+          "oubv62wsa0u3sq": {
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "id": "oubv62wsa0u3sq",
+            "title": "IsBeingPassedTo"
+          },
+          "d0mkuvg47gkt7": {
+            "title": "Receive",
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "id": "d0mkuvg47gkt7"
+          },
+          "pqu457kurxnvsq": {
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "id": "pqu457kurxnvsq",
+            "title": "IsBeingPassedTo"
+          },
+          "8b0f8idiqf33oz": {
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "name": "receive3",
+            "title": "Role",
+            "id": "8b0f8idiqf33oz",
+            "role": "test_receive_role",
+            "children": [
+              "p9cqatlj1mfetw"
+            ]
+          },
+          "cpke0lp463vyq": {
+            "title": "Halt",
+            "properties": {
+              "ROLE": "pass1"
+            },
+            "id": "cpke0lp463vyq"
+          },
+          "nbpea4ijhq9he": {
+            "title": "Pass",
+            "properties": {
+              "ROLE": "pass1"
+            },
+            "id": "nbpea4ijhq9he"
+          },
+          "q0a6uwb6nsty7mi": {
+            "title": "Receive",
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "id": "q0a6uwb6nsty7mi"
+          },
+          "kornomeqojpt843": {
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "title": "Repeater",
+            "children": [
+              "u8qtjfj7uzbcco5b3"
+            ],
+            "id": "kornomeqojpt843"
+          },
+          "qmbcnd81wxy6y": {
+            "properties": {
+              "TacticType": "General"
+            },
+            "children": [
+              "mwucitx8oftb7tjn",
+              "fzgwo5pdi46y8kd",
+              "9skh6cmmbp14ko9",
+              "8b0f8idiqf33oz",
+              "sutxyex32eecyq3jk",
+              "fuor7xyosvp2v34",
+              "zmin89jpvez75znq"
+            ],
+            "id": "qmbcnd81wxy6y",
+            "title": "RoleDivider"
+          },
+          "9skh6cmmbp14ko9": {
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "name": "receive2",
+            "title": "Role",
+            "id": "9skh6cmmbp14ko9",
+            "role": "test_receive_role",
+            "children": [
+              "ehpeebyy86m3ke9m"
+            ]
+          },
+          "2ld6bidjig08shw": {
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "title": "Repeater",
+            "children": [
+              "054henn6tilt83wh"
+            ],
+            "id": "2ld6bidjig08shw"
+          },
+          "6szizha0eygfllf": {
+            "title": "Halt",
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "id": "6szizha0eygfllf"
+          },
+          "7ln5gjfnmqlfn38s": {
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "title": "Repeater",
+            "children": [
+              "thj1wsaj0knhzv3"
+            ],
+            "id": "7ln5gjfnmqlfn38s"
+          },
+          "fzgwo5pdi46y8kd": {
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "name": "receive1",
+            "title": "Role",
+            "id": "fzgwo5pdi46y8kd",
+            "role": "test_receive_role",
+            "children": [
+              "37zk0dy6zd3j79e4v"
+            ]
+          },
+          "x5vekrzj5si90ui": {
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "id": "x5vekrzj5si90ui",
+            "title": "IsBeingPassedTo"
+          },
+          "g9x2quetnnnh2gc": {
+            "title": "Receive",
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "id": "g9x2quetnnnh2gc"
+          },
+          "y97pto2wt13y1ssa9": {
+            "properties": {
+              "ROLE": "pass1"
+            },
+            "title": "Repeater",
+            "children": [
+              "cpke0lp463vyq"
+            ],
+            "id": "y97pto2wt13y1ssa9"
+          },
+          "bldwcjuxp7dluin": {
+            "properties": {
+              "ROLE": "receive6"
+            },
+            "id": "bldwcjuxp7dluin",
+            "title": "IsBeingPassedTo"
+          },
+          "7047zckypnzb6lt": {
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "title": "MemSequence",
+            "children": [
+              "0spz6crky3bnb83jz",
+              "rq8lnthb1drhqhg"
+            ],
+            "id": "7047zckypnzb6lt"
+          },
+          "zmin89jpvez75znq": {
+            "properties": {
+              "ROLE": "receive6"
+            },
+            "name": "receive6",
+            "title": "Role",
+            "id": "zmin89jpvez75znq",
+            "role": "test_receive_role",
+            "children": [
+              "kmigum6oearkqds"
+            ]
+          },
+          "p9cqatlj1mfetw": {
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "title": "Selector",
+            "children": [
+              "4am15xw4hsbgh2ugq",
+              "ah6vaj9p0svqn3b5i"
+            ],
+            "id": "p9cqatlj1mfetw"
+          },
+          "ah6vaj9p0svqn3b5i": {
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "title": "Repeater",
+            "children": [
+              "a3sgl5dszow4xdc"
+            ],
+            "id": "ah6vaj9p0svqn3b5i"
+          },
+          "thj1wsaj0knhzv3": {
+            "title": "Halt",
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "id": "thj1wsaj0knhzv3"
+          },
+          "fuor7xyosvp2v34": {
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "name": "receive5",
+            "title": "Role",
+            "id": "fuor7xyosvp2v34",
+            "role": "test_receive_role",
+            "children": [
+              "2hhcf4xkh2wvs"
+            ]
+          },
+          "rq8lnthb1drhqhg": {
+            "title": "Receive",
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "id": "rq8lnthb1drhqhg"
+          },
+          "rnohwoidqn8yuis": {
+            "title": "Receive",
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "id": "rnohwoidqn8yuis"
+          },
+          "1gwle037prh7a2sfo": {
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "title": "Selector",
+            "children": [
+              "7047zckypnzb6lt",
+              "7ln5gjfnmqlfn38s"
+            ],
+            "id": "1gwle037prh7a2sfo"
+          },
+          "kmigum6oearkqds": {
+            "properties": {
+              "ROLE": "receive6"
+            },
+            "title": "Selector",
+            "children": [
+              "gmcyoac8nmcrbhu",
+              "qrv2qr8aoewamc70y"
+            ],
+            "id": "kmigum6oearkqds"
+          },
+          "goab04bxmwnbt": {
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "title": "Repeater",
+            "children": [
+              "6szizha0eygfllf"
+            ],
+            "id": "goab04bxmwnbt"
+          },
+          "pupygo13zd7ao8": {
+            "title": "Halt",
+            "properties": {
+              "ROLE": "receive6"
+            },
+            "id": "pupygo13zd7ao8"
+          },
+          "ehpeebyy86m3ke9m": {
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "title": "Selector",
+            "children": [
+              "bac8h7c6qtdq31i4d",
+              "kornomeqojpt843"
+            ],
+            "id": "ehpeebyy86m3ke9m"
+          },
+          "kxc9mdmmzxsi5": {
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "id": "kxc9mdmmzxsi5",
+            "title": "IsBeingPassedTo"
+          },
+          "a3sgl5dszow4xdc": {
+            "title": "Halt",
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "id": "a3sgl5dszow4xdc"
+          },
+          "37zk0dy6zd3j79e4v": {
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "title": "Selector",
+            "children": [
+              "rw7ydqq7p81cafmj",
+              "goab04bxmwnbt"
+            ],
+            "id": "37zk0dy6zd3j79e4v"
+          },
+          "0spz6crky3bnb83jz": {
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "id": "0spz6crky3bnb83jz",
+            "title": "IsBeingPassedTo"
+          },
+          "sga0o5ttnu398bxqs": {
+            "title": "Receive",
+            "properties": {
+              "ROLE": "receive6"
+            },
+            "id": "sga0o5ttnu398bxqs"
+          },
+          "u8qtjfj7uzbcco5b3": {
+            "title": "Halt",
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "id": "u8qtjfj7uzbcco5b3"
+          },
+          "gmcyoac8nmcrbhu": {
+            "properties": {
+              "ROLE": "receive6"
+            },
+            "title": "MemSequence",
+            "children": [
+              "bldwcjuxp7dluin",
+              "sga0o5ttnu398bxqs"
+            ],
+            "id": "gmcyoac8nmcrbhu"
+          },
+          "sutxyex32eecyq3jk": {
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "name": "receive4",
+            "title": "Role",
+            "id": "sutxyex32eecyq3jk",
+            "role": "test_receive_role",
+            "children": [
+              "1gwle037prh7a2sfo"
+            ]
+          },
+          "rw7ydqq7p81cafmj": {
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "title": "MemSequence",
+            "children": [
+              "x5vekrzj5si90ui",
+              "d0mkuvg47gkt7"
+            ],
+            "id": "rw7ydqq7p81cafmj"
+          },
+          "054henn6tilt83wh": {
+            "title": "Halt",
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "id": "054henn6tilt83wh"
+          }
+        },
+        "root": "qmbcnd81wxy6y",
+        "title": "test_pass_tactic"
+      }
+    ]
+  },
+  "name": "test_pass_tactic"
+}
