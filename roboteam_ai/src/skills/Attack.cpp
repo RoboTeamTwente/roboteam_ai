@@ -58,6 +58,12 @@ bt::Node::Status Attack::onUpdate() {
     else if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
         velocity = ((Vector2) robot->pos - world::field->get_their_goal_center()).stretchToLength(2.0);
     }
+    else if (world::field->pointIsInDefenceArea(ball, false) || world::field->pointIsInDefenceArea(ball, true)) {
+        velocity = {0, 0};
+    }
+    else if (world::field->pointIsInDefenceArea(targetPos, false)) {
+        velocity = {0, 0};
+    }
 
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
