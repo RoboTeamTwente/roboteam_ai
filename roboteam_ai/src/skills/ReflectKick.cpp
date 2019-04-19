@@ -45,7 +45,6 @@ ReflectKick::Status ReflectKick::onUpdate() {
             command.kicker_forced = 1;
             kicked = true;
             kickTicks++;
-            std::cout << "KICK!" << std::endl;
         } else {
             intercept();
         }
