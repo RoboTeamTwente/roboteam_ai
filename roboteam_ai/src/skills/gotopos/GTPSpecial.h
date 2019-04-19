@@ -8,9 +8,9 @@
 #include <roboteam_ai/src/coach/GeneralPositionCoach.h>
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
 #include <roboteam_ai/src/world/Field.h>
-#include "Skill.h"
+#include "roboteam_ai/src/skills/Skill.h"
 #include "GoToPos.h"
-#include "../interface/drawer.h"
+#include "roboteam_ai/src/interface/drawer.h"
 
 
 namespace rtt {
@@ -24,15 +24,16 @@ class GTPSpecial : public GoToPos {
             ballPlacementAfter,
             getBallFromSide,
             defaultType,
-//            fixed
         };
 
         Type type;
-        Type stringToType(std::string string);
+        Type stringToType(const std::string& string);
 
     public:
         explicit GTPSpecial(string name, bt::Blackboard::Ptr blackboard);
-        void onInitialize() override;
+        void gtpInitialize() override;
+        Status gtpUpdate() override;
+        void gtpTerminate(Status s) override;
 
         double getballFromSideMargin = 0.3;
         Vector2 getBallFromSideLocation();

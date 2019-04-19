@@ -19,11 +19,11 @@
 
 #include "roboteam_ai/src/skills/Chip.h"
 #include "roboteam_ai/src/skills/Dribble.h"
-#include "roboteam_ai/src/skills/SkillGoToPos.h"
+#include "roboteam_ai/src/skills/gotopos/SkillGoToPos.h"
 #include "roboteam_ai/src/skills/Halt.h"
 #include "roboteam_ai/src/skills/Harass.h"
 #include "roboteam_ai/src/skills/RotateToAngle.h"
-#include "roboteam_ai/src/skills/GoToPos.h"
+#include "roboteam_ai/src/skills/gotopos/GoToPos.h"
 #include "roboteam_ai/src/skills/Keeper.h"
 #include "roboteam_ai/src/skills/GetBall.h"
 #include "roboteam_ai/src/skills/Attack.h"
@@ -33,9 +33,9 @@
 #include <roboteam_ai/src/skills/DefendOnRobot.h>
 #include "roboteam_ai/src/skills/DribbleRotate.h"
 #include <roboteam_ai/src/skills/Defend.h>
-#include <roboteam_ai/src/skills/GTPSpecial.h>
-#include "roboteam_ai/src/skills/GoAroundPos.h"
-#include "roboteam_ai/src/skills/GoBehindBall.h"
+#include <roboteam_ai/src/skills/gotopos/GTPSpecial.h>
+#include "roboteam_ai/src/skills/gotopos/GoAroundPos.h"
+#include "roboteam_ai/src/skills/gotopos/GoBehindBall.h"
 #include "roboteam_ai/src/skills/ShootPenalty.h"
 #include "roboteam_ai/src/skills/ShootFreeKick.h"
 #include "roboteam_ai/src/skills/DemoAttack.h"
@@ -210,7 +210,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
 
     map["GetBall"] = std::make_shared<rtt::ai::GetBall>(name, properties);
     map["GoAroundPos"] = std::make_shared<rtt::ai::GoAroundPos>(name, properties);
-    map["GoToPos"] = std::make_shared<rtt::ai::GoToPos>(name, properties);
+    map["GoToPos"] = std::make_shared<rtt::ai::SkillGoToPos>(name, properties);
     map["Halt"] = std::make_shared<rtt::ai::Halt>(name, properties);
     map["Harass"] = std::make_shared<rtt::ai::Harass>(name, properties);
     map["InterceptBall"] = std::make_shared<rtt::ai::InterceptBall>(name, properties);

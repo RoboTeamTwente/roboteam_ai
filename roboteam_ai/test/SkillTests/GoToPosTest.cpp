@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
-#include "../../src/skills/GoToPos.h"
+#include "roboteam_ai/src/skills/gotopos/GoToPos.h"
 #include "roboteam_utils/Vector2.h"
 #include "../../src/world/World.h"
 #include "../../src/utilities/RobotDealer.h"
