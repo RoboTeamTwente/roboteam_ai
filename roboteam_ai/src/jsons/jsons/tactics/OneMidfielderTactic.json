@@ -1,0 +1,75 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "9mjqm7jpcj4oca2": {
+            "properties": {
+              "ROLE": ""
+            },
+            "name": "",
+            "title": "Role",
+            "id": "9mjqm7jpcj4oca2",
+            "role": "MidFielderRole",
+            "children": [
+              "92vj2e64auojoi"
+            ]
+          },
+          "db7cas3uc8iol": {
+            "properties": {
+              "ROLE": ""
+            },
+            "id": "db7cas3uc8iol",
+            "title": "Defend"
+          },
+          "vtn4dpw6thv1r8": {
+            "properties": {
+              "ROLE": ""
+            },
+            "id": "vtn4dpw6thv1r8",
+            "title": "Attack"
+          },
+          "njzbww76r6ntp2hk": {
+            "properties": {
+              "ROLE": ""
+            },
+            "id": "njzbww76r6ntp2hk",
+            "title": "IsBallOnOurSide"
+          },
+          "izxz5by8yhf3i": {
+            "properties": {
+              "ROLE": ""
+            },
+            "title": "MemSequence",
+            "children": [
+              "njzbww76r6ntp2hk",
+              "db7cas3uc8iol"
+            ],
+            "id": "izxz5by8yhf3i"
+          },
+          "yaow5rdh2zzx87i7": {
+            "children": [
+              "9mjqm7jpcj4oca2"
+            ],
+            "id": "yaow5rdh2zzx87i7",
+            "title": "Repeater"
+          },
+          "92vj2e64auojoi": {
+            "properties": {
+              "ROLE": ""
+            },
+            "title": "Selector",
+            "children": [
+              "izxz5by8yhf3i",
+              "vtn4dpw6thv1r8"
+            ],
+            "id": "92vj2e64auojoi"
+          }
+        },
+        "root": "yaow5rdh2zzx87i7",
+        "title": "OneMidfielderTactic"
+      }
+    ]
+  },
+  "name": "OneMidfielderTactic"
+}

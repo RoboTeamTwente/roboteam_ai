@@ -1,0 +1,156 @@
+{
+  "name": "GetBallTestTactic",
+  "data": {
+    "trees": [
+      {
+        "title": "GetBallTestTactic",
+        "root": "27ihl9et4u6jj",
+        "nodes": {
+          "27ihl9et4u6jj": {
+            "id": "27ihl9et4u6jj",
+            "title": "Inverter",
+            "children": [
+              "rek60qzwfyt6b"
+            ]
+          },
+          "zhj8zr5tp0ntli": {
+            "id": "zhj8zr5tp0ntli",
+            "title": "Role",
+            "name": "FAKOFF",
+            "children": [
+              "je28knmabxxvtp"
+            ]
+          },
+          "je28knmabxxvtp": {
+            "id": "je28knmabxxvtp",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "zo79490ankbazpnd"
+            ]
+          },
+          "zo79490ankbazpnd": {
+            "id": "zo79490ankbazpnd",
+            "title": "MemSequence",
+            "isRole": false,
+            "children": [
+              "m4gl77s9dcc4dn",
+              "e7e4yan3g5egxk",
+              "ct7clwftgg39b"
+            ]
+          },
+          "m4gl77s9dcc4dn": {
+            "id": "m4gl77s9dcc4dn",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "FAKOFF",
+              "Position": "{0,0}",
+              "goToBall": "true",
+              "random": "false"
+            }
+          },
+          "e7e4yan3g5egxk": {
+            "id": "e7e4yan3g5egxk",
+            "title": "HasBall",
+            "isRole": false,
+            "properties": {
+              "ROLE": "FAKOFF"
+            }
+          },
+          "ct7clwftgg39b": {
+            "id": "ct7clwftgg39b",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "FAKOFF",
+              "Position": "{0,0}",
+              "goToBall": "false",
+              "random": "true"
+            }
+          },
+          "kyivbsoi0s7p7a": {
+            "id": "kyivbsoi0s7p7a",
+            "title": "Role",
+            "name": "FAKOFF",
+            "children": [
+              "w4el40ol1up2ymf"
+            ]
+          },
+          "w4el40ol1up2ymf": {
+            "id": "w4el40ol1up2ymf",
+            "title": "Repeater",
+            "isRole": false,
+            "children": [
+              "zj0gmwcmh7ob8e"
+            ]
+          },
+          "zj0gmwcmh7ob8e": {
+            "id": "zj0gmwcmh7ob8e",
+            "title": "MemSelector",
+            "isRole": false,
+            "children": [
+              "kh8kjw7lqtmrey8x",
+              "gowv3nvwy2ppg"
+            ]
+          },
+          "kh8kjw7lqtmrey8x": {
+            "id": "kh8kjw7lqtmrey8x",
+            "title": "Inverter",
+            "isRole": false,
+            "children": [
+              "ohcm3v4194l0lup0"
+            ]
+          },
+          "gowv3nvwy2ppg": {
+            "id": "gowv3nvwy2ppg",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "FAKOFF",
+              "Position": "{1,1}",
+              "goToBall": "false",
+              "random": "true"
+            }
+          },
+          "ohcm3v4194l0lup0": {
+            "id": "ohcm3v4194l0lup0",
+            "title": "Selector",
+            "isRole": false,
+            "children": [
+              "07n08wts3hfr1z7eu",
+              "u73l6cue261bax"
+            ]
+          },
+          "07n08wts3hfr1z7eu": {
+            "id": "07n08wts3hfr1z7eu",
+            "title": "HasBall",
+            "isRole": false,
+            "properties": {
+              "ROLE": "FAKOFF"
+            }
+          },
+          "u73l6cue261bax": {
+            "id": "u73l6cue261bax",
+            "title": "GoToPosLuTh",
+            "isRole": false,
+            "properties": {
+              "ROLE": "FAKOFF",
+              "Position": "{0,0}",
+              "goToBall": "true",
+              "random": "false"
+            }
+          },
+          "rek60qzwfyt6b": {
+            "id": "rek60qzwfyt6b",
+            "title": "Inverter",
+            "children": [
+              "zhj8zr5tp0ntli",
+              "kyivbsoi0s7p7a"
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

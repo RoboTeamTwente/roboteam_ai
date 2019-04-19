@@ -1,0 +1,37 @@
+{
+  "name": "TestStrategy",
+  "data": {
+    "trees": [
+      {
+        "title": "TestStrategy",
+        "root": "pisji0hogkpsl",
+        "nodes": {
+          "pisji0hogkpsl": {
+            "id": "pisji0hogkpsl",
+            "title": "ParallelSequence",
+            "children": [
+              "2yvvzrjaevfzquee3",
+              "yht15lhq88txu",
+              "gi4gu6xgvpuhym"
+            ]
+          },
+          "2yvvzrjaevfzquee3": {
+            "id": "2yvvzrjaevfzquee3",
+            "title": "Tactic",
+            "name": "TestD"
+          },
+          "yht15lhq88txu": {
+            "id": "yht15lhq88txu",
+            "title": "Tactic",
+            "name": "TestM"
+          },
+          "gi4gu6xgvpuhym": {
+            "id": "gi4gu6xgvpuhym",
+            "title": "Tactic",
+            "name": "TestO"
+          }
+        }
+      }
+    ]
+  }
+}

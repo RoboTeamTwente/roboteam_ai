@@ -269,9 +269,8 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TreeInterpreterTests/BtTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/JsonTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TreeInterpreterTests/BTFactoryTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/WorldTests/WorldTest.cpp
+        #${PROJECT_SOURCE_DIR}/roboteam_ai/test/WorldTests/WorldTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/WorldTests/FieldTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/WorldTests/WorldTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TreeInterpreterTests/BTBlackBoardTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/IOTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/RefereeTest.cpp

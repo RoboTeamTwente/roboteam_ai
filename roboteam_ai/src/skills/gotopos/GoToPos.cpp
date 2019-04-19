@@ -24,7 +24,7 @@ GoToPos::GoToType GoToPos::stringToGoToType(const string &gtt) {
 }
 
 void GoToPos::onInitialize() {
-    targetPos = properties->getVector2("Position");
+    targetPos = properties->getVector2("targetPos");
     if (properties->hasDouble("maxVel")) {
         maxVel = properties->getDouble("maxVel");
     }
