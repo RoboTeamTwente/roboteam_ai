@@ -21,8 +21,10 @@ class Attack : public Skill {
         Vector2 targetPos;
         bool shot = false;
 
-        control::NumTreePosControl numTreeGtp = control::NumTreePosControl(Constants::DEFAULT_BALLCOLLISION_RADIUS(), true, true);
-        control::BasicPosControl basicGtp = control::BasicPosControl (false, true, true);
+        control::NumTreePosControl numTreeGtp = control::NumTreePosControl(Constants::DEFAULT_BALLCOLLISION_RADIUS(), false, false);
+        control::BasicPosControl basicGtp = control::BasicPosControl (false, false, false);
+
+        void followDefenseLine(Vector2 &velocity);
 
     public:
         explicit Attack(string name, bt::Blackboard::Ptr blackboard);

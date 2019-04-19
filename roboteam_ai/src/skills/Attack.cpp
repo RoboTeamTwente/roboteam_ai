@@ -52,6 +52,12 @@ bt::Node::Status Attack::onUpdate() {
     }
 
     Vector2 velocity = control::ControlUtils::velocityLimiter(pva.vel);
+    if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
+        velocity = ((Vector2) robot->pos - world::field->get_our_goal_center()).stretchToLength(2.0);
+    }
+    else if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
+        velocity = ((Vector2) robot->pos - world::field->get_their_goal_center()).stretchToLength(2.0);
+    }
 
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
@@ -68,6 +74,14 @@ void Attack::onTerminate(Status s) {
     command.y_vel = 0;
 
     publishRobotCommand();
+}
+
+void Attack::followDefenseLine(Vector2 &velocity) {
+    if(targetPos.x > world::field->getDefenseArea(false)[1].x) {
+        velocity.y = 0;
+    } else {
+        velocity.x = 0;
+    }
 }
 
 } // ai
