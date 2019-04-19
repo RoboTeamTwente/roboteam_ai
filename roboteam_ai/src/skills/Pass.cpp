@@ -17,11 +17,17 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name),
 void Pass::onInitialize() {
     ballPlacement = properties->getBool("BallPlacement");
     determineRobotToPassTo();
+    numTreeGtp.setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
 }
 
 Pass::Status Pass::onUpdate() {
-    if (robotToPassToID == -1) return Status::Failure;
+    robotToPassToID = coach::g_pass.getRobotBeingPassedTo();
+
+    if (robotToPassToID == -1) {
+        return Status::Failure;
+    }
     robotToPassTo = world::world->getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
+
 
     bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos);
     auto behindBallPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, getKicker());
@@ -37,11 +43,14 @@ Pass::Status Pass::onUpdate() {
     } else if (isOnLineToBall && isBehindBall) {
         return hasBall ? shoot() : getBall();
     }
+
     return moveBehindBall(behindBallPos);
 }
 
 void Pass::onTerminate(Status s) {
-    //coach::g_pass.resetPass();
+    if (!coach::g_pass.isPassed()) {
+        coach::g_pass.resetPass();
+    }
 }
 
 /// determine which robot we should pass towards.
@@ -53,6 +62,7 @@ void Pass::determineRobotToPassTo() {
 bt::Leaf::Status Pass::moveBehindBall(Vector2 behindBallPos) {
     targetPos = behindBallPos;
 
+    numTreeGtp.setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
     control::PosVelAngle pva = numTreeGtp.getPosVelAngle(robot, targetPos);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL());
     command.x_vel = static_cast<float>(pva.vel.x);
@@ -85,6 +95,7 @@ bt::Leaf::Status Pass::getBall() {
 /// Now we should have the ball and kick it.
 bt::Leaf::Status Pass::shoot() {
     if (coach::g_pass.isReadyToReceivePass()) {
+        numTreeGtp.setAvoidBall(false);
         targetPos = getKicker();
         control::PosVelAngle pva = basicGtp.getPosVelAngle(robot, targetPos);
         pva.vel = control::ControlUtils::velocityLimiter(pva.vel, 0.1);

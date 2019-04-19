@@ -34,7 +34,7 @@ bt::Node::Status SideAttacker::onUpdate() {
         }
     }
 
-    if (! isInRobotsPositioning) return Status::Running;
+    if (! isInRobotsPositioning) return Status::Failure;
 
     targetPos = getOffensivePosition();
     auto newPosition = goToPos.getPosVelAngle(robot, targetPos);

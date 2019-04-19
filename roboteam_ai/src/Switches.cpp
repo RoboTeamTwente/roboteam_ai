@@ -80,6 +80,7 @@
 #include "roboteam_ai/src/conditions/IsBallCloseToBorder.h"
 #include "roboteam_ai/src/conditions/BallNearOurGoalLineAndStill.h"
 #include "roboteam_ai/src/conditions/TwoRobotBallPlacement.h"
+#include "roboteam_ai/src/conditions/HasClearShot.h"
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -239,6 +240,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["ActiveStop"] = std::make_shared<rtt::ai::ActiveStop>(name, properties);
     map["ReflectKick"] = std::make_shared<rtt::ai::ReflectKick>(name, properties);
     map["MidFieldHarasser"] = std::make_shared<rtt::ai::MidFieldHarasser>(name, properties);
+    map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
 
     // conditions (alphabetic order)
     map["BallKickedToOurGoal"] = std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
@@ -258,7 +260,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["IsBallOnOurSide"] = std::make_shared<rtt::ai::IsBallOnOurSide>(name, properties);
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
     map["IsInDefenseArea"] = std::make_shared<rtt::ai::IsInDefenseArea>(name, properties);
-    map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
+    map["HasClearShot"] = std::make_shared<rtt::ai::HasClearShot>(name, properties);
 
     if (map.find(name) != map.end()) {
         return map[name];
@@ -539,13 +541,13 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
             {"test_pass_tactic",
              {
-                     {"pass1", robotType::CLOSE_TO_BALL},
+                    {"attacker1", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"attacker2", robotType::CLOSE_TO_THEIR_GOAL},
                      {"receive1", robotType::RANDOM},
                      {"receive2", robotType::RANDOM},
                      {"receive3", robotType::RANDOM},
                      {"receive4", robotType::RANDOM},
-                     {"receive5", robotType::RANDOM},
-                     {"receive6", robotType::RANDOM}
+                     {"receive5", robotType::RANDOM}
              }
             }
     };
