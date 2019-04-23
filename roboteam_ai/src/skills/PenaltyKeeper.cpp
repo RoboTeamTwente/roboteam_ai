@@ -39,15 +39,15 @@ PenaltyKeeper::Status PenaltyKeeper::onUpdate() {
 }
 PenaltyKeeper::PenaltyState PenaltyKeeper::updateState(PenaltyState currentState) {
     if (currentState==WAITING){
-        if (freeToMove()){
-            return FREEMOVE;
-        }
+//        if (freeToMove()){
+//            return FREEMOVE;
+//        }
         return isBallShot() ? BALLSHOT : WAITING;
     }
     else if (currentState==BALLSHOT){
-        if (freeToMove()){
-            return FREEMOVE;
-        }
+//        if (freeToMove()){
+//            return FREEMOVE;
+//        }
         isBallShot()? ballNotShotTicks++ : ballNotShotTicks=0;
         if (ballNotShotTicks>3){
             return WAITING;
@@ -130,7 +130,7 @@ std::pair<Vector2, Vector2> PenaltyKeeper::getGoalLine() {
     return originalLine;
 }
 bool PenaltyKeeper::isBallShot() {
-    return world::world->getBall()->vel.x>-0.4;
+    return world::world->getBall()->vel.x>-0.2;
 }
 bool PenaltyKeeper::freeToMove() {
     return (firstBallPos-world::world->getBall()->pos).length()>0.05;
