@@ -12,9 +12,10 @@ IsBeingPassedTo::IsBeingPassedTo(std::string name, bt::Blackboard::Ptr blackboar
         :Condition(std::move(name), std::move(blackboard)) { };
 
 IsBeingPassedTo::Status IsBeingPassedTo::onUpdate() {
-    if (coach::g_pass.getRobotBeingPassedTo() == static_cast<int>(robot->id)) {
+    if (coach::g_pass.getRobotBeingPassedTo() == robot->id) {
         return Status::Success;
     }
+
     return Status::Failure;
 }
 
