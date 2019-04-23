@@ -359,6 +359,17 @@ double World::timeDifference() {
     return worldDataPtr->time - getPreviousWorld().time;
 }
 
+const std::vector<world::Robot> World::getRobotsForIds(std::vector<int> ids, bool ourTeam) {
+    std::vector<world::Robot> robots;
+    for (auto const &id : ids) {
+        auto robot = getRobotForId(id, ourTeam);
+        if (robot) {
+            robots.push_back(* robot);
+        }
+    }
+    return robots;
+}
+
 } //world
 } //ai
 } //rtt
