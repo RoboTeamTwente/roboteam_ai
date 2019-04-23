@@ -39,7 +39,6 @@ private:
     static void addRobotToOwnerList(int ID, std::string tacticName, std::string roleName);
     static void updateFromWorld();
     static std::set<int> getRobots();
-    static int getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 position);
     static void unFreeRobot(int ID);
 
     static void claimKeeper();

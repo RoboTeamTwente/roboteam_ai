@@ -83,6 +83,11 @@ void RobotDealer::updateFromWorld() {
 int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, std::string tacticName) {
 
     std::set<int> ids = getAvailableRobots();
+
+    // convert the set to a vector here
+    std::vector<int> idVector;
+    idVector.assign(ids.begin(), ids.end());
+
     int id;
     if (! ids.empty()) {
 
@@ -93,32 +98,25 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
 
             case CLOSE_TO_BALL: {
                 auto ball = world::world->getWorld().ball;
-                rtt::Vector2 ballPos;
-                ballPos = ball.pos;
-                id = getRobotClosestToPoint(ids, ballPos);
+                id = world::world->getRobotClosestToPoint(ball.pos, idVector, true).id;
                 break;
             }
 
             case BETWEEN_BALL_AND_OUR_GOAL: {
                 auto ball = world::world->getWorld().ball;
                 rtt::Vector2 ourGoal = world::field->get_our_goal_center();
-
-                // convert the set to a vector here
-                std::vector<int> idVector;
-                idVector.assign(ids.begin(), ids.end());
-
                 id = control::ControlUtils::getRobotClosestToLine(world::world->getRobotsForIds(idVector, true), ball.pos, ourGoal, true).id;
                 break;
             }
             case CLOSE_TO_OUR_GOAL: {
                 rtt::Vector2 ourGoal = world::field->get_our_goal_center();
-                id = world::world->getRobotClosestToPoint(ourGoal, world::WhichRobots::OUR_ROBOTS).id;
+                id = world::world->getRobotClosestToPoint(ourGoal, idVector, true).id;
                 break;
             }
 
             case CLOSE_TO_THEIR_GOAL: {
                 rtt::Vector2 theirGoal = world::field->get_their_goal_center();
-                id = world::world->getRobotClosestToPoint(theirGoal, world::WhichRobots::OUR_ROBOTS).id;
+                id = world::world->getRobotClosestToPoint(theirGoal, idVector, true).id;
                 break;
             }
 
@@ -128,7 +126,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
             }
 
             case BALL_PLACEMENT_RECEIVER:{
-                id = getRobotClosestToPoint(ids, rtt::ai::coach::g_ballPlacement.getBallPlacementPos());
+                id = world::world->getRobotClosestToPoint(rtt::ai::coach::g_ballPlacement.getBallPlacementPos(), idVector, true).id;
 
                 // force the pass coach to use this receiver
                 rtt::ai::coach::g_pass.resetPass();

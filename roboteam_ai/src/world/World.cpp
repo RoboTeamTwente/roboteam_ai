@@ -370,6 +370,21 @@ const std::vector<world::Robot> World::getRobotsForIds(std::vector<int> ids, boo
     return robots;
 }
 
+Robot World::getRobotClosestToPoint(const Vector2 &point, std::vector<int> robotIds, bool ourTeam) {
+
+    Robot closestBot;
+    double maxDist = INT_MAX;
+    for (auto const &id : robotIds) {
+        auto robot = getRobotForId(id, ourTeam);
+        auto dist = robot->pos.dist(point);
+        if (dist < maxDist) {
+            maxDist = dist;
+            closestBot = * robot;
+        }
+    }
+    return closestBot;
+}
+
 } //world
 } //ai
 } //rtt
