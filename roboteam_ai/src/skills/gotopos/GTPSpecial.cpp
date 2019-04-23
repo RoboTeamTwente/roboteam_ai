@@ -12,9 +12,7 @@ GTPSpecial::GTPSpecial(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void GTPSpecial::gtpInitialize() {
-    if (properties->hasDouble("errorMargin")) {
-        errorMargin = properties->getDouble("errorMargin");
-    }
+
     type = stringToType(properties->getString("type"));
     switch (type) {
     case goToBall: {
@@ -96,13 +94,11 @@ GTPSpecial::Type GTPSpecial::stringToType(const std::string &string) {
 }
 
 Skill::Status GTPSpecial::gtpUpdate() {
-    if ((robot->pos - targetPos).length2() < errorMargin) return Status::Success;
-
     switch (type) {
     default:break;
     case goToBall: {
         targetPos = ball->pos;
-        return Status::Running;
+        break;
     }
     case ballPlacementBefore:break;
     case ballPlacementAfter:break;

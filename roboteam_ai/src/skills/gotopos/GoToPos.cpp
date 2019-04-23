@@ -25,6 +25,9 @@ GoToPos::GoToType GoToPos::stringToGoToType(const string &gtt) {
 
 void GoToPos::onInitialize() {
     targetPos = properties->getVector2("targetPos");
+    if (properties->hasDouble("errorMargin")) {
+        errorMargin = properties->getDouble("errorMargin");
+    }
     if (properties->hasDouble("maxVel")) {
         maxVel = properties->getDouble("maxVel");
     }
