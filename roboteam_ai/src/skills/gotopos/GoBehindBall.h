@@ -11,6 +11,7 @@
 
 namespace rtt {
 namespace ai {
+
 class GoBehindBall : public GoToPos {
 
     private:
@@ -32,7 +33,7 @@ class GoBehindBall : public GoToPos {
 
 };
 
-}
-}
+} //ai
+} //rtt
 
 #endif //ROBOTEAM_AI_GOBEHINDBALL_H

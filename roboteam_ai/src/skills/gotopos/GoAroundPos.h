@@ -13,16 +13,15 @@ namespace rtt {
 namespace ai {
 
 class GoAroundPos : public GoToPos {
+    private:
 
         const double MAX_STOP_TIME = 2.0;           // Seconds
         const double MAX_DIST_DEVIATION = 0.2;      // Meters
         const double SPEED = 6.0;                   // Rad/second
         const double BALL_DIST = 0.11;              // Meters
         const double POS_MARGIN = 0.05;             // Meters
-        const double ANGLE_MARGIN = 0.03*M_PI;      //Rad
+        const double ANGLE_MARGIN = 0.03*M_PI;      // Rad
         const double MIN_SPEED = 0.25;              // Meters/second
-
-    private:
 
         enum Progression {
           FAIL,

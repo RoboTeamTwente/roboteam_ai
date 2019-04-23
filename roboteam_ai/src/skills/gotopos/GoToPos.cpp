@@ -45,6 +45,8 @@ void GoToPos::onInitialize() {
     posController->setAvoidBall(avoidBallDistance);
     posController->setCanMoveOutOfField(properties->getBool("canGoOutsideField"));
     posController->setCanMoveInDefenseArea(properties->getBool("canMoveInDefenseArea"));
+
+    gtpInitialize();
 }
 
 void GoToPos::setPositionController(const GoToType &gTT) {
@@ -68,13 +70,7 @@ bt::Node::Status GoToPos::onUpdate() {
     command.w = 0;
 
     Status gtpStatus = gtpUpdate();
-    switch (gtpStatus) {
-    default:
-    case Status::Failure:
-    case Status::Success:
-    case Status::Waiting:return gtpStatus;
-    case Status::Running:break;
-    }
+    if (gtpStatus != Status::Running) return gtpStatus;
 
     if ((targetPos - robot->pos).length2() < errorMargin*errorMargin) {
         return Status::Success;
@@ -93,6 +89,7 @@ bt::Node::Status GoToPos::onUpdate() {
 }
 
 void GoToPos::onTerminate(Status s) {
+    gtpTerminate(s);
     command.w = command.w == 0 ? static_cast<float>(robot->angle) : command.w;
     command.x_vel = 0;
     command.y_vel = 0;

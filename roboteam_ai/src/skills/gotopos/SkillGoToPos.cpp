@@ -23,7 +23,8 @@ void SkillGoToPos::gtpInitialize() {
 /// Called when the Skill is Updated
 SkillGoToPos::Status SkillGoToPos::gtpUpdate() {
 
-   // goToPos.goToPos(robot, targetPos, goToType);
+    if (goToBall) targetPos = ball->pos;
+
     // Now check the progress we made
     currentProgress = checkProgression();
     // Send a move command
@@ -43,11 +44,6 @@ SkillGoToPos::Status SkillGoToPos::gtpUpdate() {
 
 /// Called when the Skill is Terminated
 void SkillGoToPos::gtpTerminate(Status s) {
-    command.w = 0;
-    command.x_vel = 0;
-    command.y_vel = 0;
-
-    publishRobotCommand();
 }
 
 SkillGoToPos::Progression SkillGoToPos::checkProgression() {

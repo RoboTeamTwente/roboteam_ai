@@ -12,22 +12,21 @@
 #include "GoToPos.h"
 #include "roboteam_ai/src/interface/drawer.h"
 
-
 namespace rtt {
 namespace ai {
 
 class GTPSpecial : public GoToPos {
     private:
         enum Type {
-            goToBall,
-            ballPlacementBefore,
-            ballPlacementAfter,
-            getBallFromSide,
-            defaultType,
+          goToBall,
+          ballPlacementBefore,
+          ballPlacementAfter,
+          getBallFromSide,
+          defaultType,
         };
 
         Type type;
-        Type stringToType(const std::string& string);
+        Type stringToType(const std::string &string);
 
     public:
         explicit GTPSpecial(string name, bt::Blackboard::Ptr blackboard);
