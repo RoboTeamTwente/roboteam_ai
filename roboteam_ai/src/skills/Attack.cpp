@@ -25,11 +25,11 @@ void Attack::onInitialize() {
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
 
-    if (shot && !world::world->robotHasBall(robot->id, world::OUR_ROBOTS)) {
+    if (shot && !world::world->ourRobotHasBall(robot->id)) {
+        std::cout << "SUCCESS" << std::endl;
         return Status::Success;
     }
 
-    Vector2 ball = world::world->getBall()->pos;
     Vector2 behindBall = coach::g_generalPositionCoach.getPositionBehindBallToGoal(BEHIND_BALL_TARGET, false);
 
     control::PosVelAngle pva;
@@ -39,16 +39,17 @@ bt::Node::Status Attack::onUpdate() {
         command.w = pva.angle;
     }
     else {
-        targetPos = ball;
+        targetPos = ball->pos;
         pva = basicGtp.getPosVelAngle(robot, targetPos);
-        command.w = (world::field->get_their_goal_center() - ball).toAngle().getAngle();
+        command.w = (world::field->get_their_goal_center() - ball->pos).toAngle().getAngle();
+        std::cout << world::field->get_their_goal_center() << " - " << ball->pos << " - " << command.w << std::endl;
         if (world::world->robotHasBall(robot->id, true, Constants::MAX_KICK_RANGE())) {
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
             command.kicker_forced = 1;
             shot = true;
+            std::cout << "SHOT" << std::endl;
         }
-
     }
 
     Vector2 velocity = control::ControlUtils::velocityLimiter(pva.vel);
@@ -58,7 +59,7 @@ bt::Node::Status Attack::onUpdate() {
     else if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
         velocity = ((Vector2) robot->pos - world::field->get_their_goal_center()).stretchToLength(2.0);
     }
-    else if (world::field->pointIsInDefenceArea(ball, false) || world::field->pointIsInDefenceArea(ball, true)) {
+    else if (world::field->pointIsInDefenceArea(ball->pos, false) || world::field->pointIsInDefenceArea(ball->pos, true)) {
         velocity = {0, 0};
     }
     else if (world::field->pointIsInDefenceArea(targetPos, false)) {

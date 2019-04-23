@@ -68,9 +68,9 @@ class World {
         Robot getRobotClosestToRobot(int id, bool ourTeam, WhichRobots whichRobots = ALL_ROBOTS);
         Robot getRobotClosestToBall(WhichRobots whichRobots = ALL_ROBOTS);
 
-        bool robotHasBall(int id, bool ourTeam, double maxDist = Constants::MAX_BALL_RANGE());
-        bool ourRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
-        bool theirRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
+        bool robotHasBall(int id, bool ourTeam, double maxDist = Constants::HAS_BALL_ANGLE());
+        bool ourRobotHasBall(int id, double maxDist = Constants::HAS_BALL_ANGLE());
+        bool theirRobotHasBall(int id, double maxDist = Constants::HAS_BALL_ANGLE());
         const RobotPtr whichRobotHasBall(WhichRobots bots=ALL_ROBOTS);
 
         const WorldData getFutureWorld(double time);

@@ -60,14 +60,14 @@ public:
     static double OUT_OF_FIELD_MARGIN()         { return 0.03; };
     static double MAX_BALL_BOUNCE_RANGE()       { return GRSIM() ? 0.4 : 0.15; };
     static double MAX_BALL_RANGE()              { return GRSIM() ? 0.09 : 0.04; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
-    static double HAS_BALL_ANGLE()              { return 0.2; }
-    static double MAX_KICK_RANGE()              { return GRSIM() ? 0.4 : 0.04; };
+    static double HAS_BALL_ANGLE()              { return 0.2; };
+    static double MAX_KICK_RANGE()              { return 0.04; };
     static double DEFAULT_MAX_VEL()             { return 4.0; };
     static double MAX_INTERCEPT_TIME()          { return 2.0; };    // Seconds. Intercept terminates  after this time.
     static double BALL_STILL_VEL()              { return 0.1; };    // If the ball has velocity lower than this in defense area, keeper starts getting it
     static double MIN_DISTANCE_FOR_FORCE()      { return 0.5; };
     static double GOTOPOS_ERROR_MARGIN()        { return 0.1; };
-    static double DEFAULT_BALLCOLLISION_RADIUS(){ return 0.27;};
+    static double DEFAULT_BALLCOLLISION_RADIUS(){ return 0.47;};
 
     /// KEEPER ///
     static double KEEPER_POST_MARGIN()          { return 0.08; };//m
