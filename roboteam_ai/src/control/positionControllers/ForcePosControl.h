@@ -27,7 +27,7 @@ private:
     const double FORCE_WEIGHT_BALL = 1.0;
     const double FORCE_WEIGHT_FIELD_SIDES = 0.5;
     const double POINT_IN_FIELD_MARGIN = 0.5;
-    const double FORCE_WEIGHT_DEFENSE_AREA = 4.0;
+    const double FORCE_WEIGHT_DEFENSE_AREA = 5.0;
     const double DEFENSE_AREA_MARGIN = Constants::ROBOT_RADIUS()*4.0;
 
     void checkInterfacePID() override;

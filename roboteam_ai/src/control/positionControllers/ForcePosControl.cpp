@@ -44,7 +44,7 @@ Vector2 ForcePosControl::calculateForces(const RobotPtr &robot, const Vector2 &t
         bool pointInField = world::field->pointIsInField(robot->pos, POINT_IN_FIELD_MARGIN);
 
         if (!pointInField) {
-            force += ControlUtils::calculateForce(Vector2(-1.0, -1.0) / robot->pos, FORCE_WEIGHT_FIELD_SIDES, forceRadius);
+            // force += ControlUtils::calculateForce(Vector2(-1.0, -1.0) / robot->pos, FORCE_WEIGHT_FIELD_SIDES, forceRadius);
         }
     }
 
@@ -53,16 +53,27 @@ Vector2 ForcePosControl::calculateForces(const RobotPtr &robot, const Vector2 &t
         bool pointInOurDefenseArea = ControlUtils::pointInRectangle(robot->pos, ourDefenseArea);
         if (pointInOurDefenseArea) {
             auto ourGoal = world::field->get_our_goal_center();
-            force += ControlUtils::calculateForce(robot->pos - ourGoal, FORCE_WEIGHT_DEFENSE_AREA, 3);
+            force += ControlUtils::calculateForce(robot->pos - ourGoal, FORCE_WEIGHT_DEFENSE_AREA, 1);
         }
         auto theirDefenseArea = world::field->getDefenseArea(false, DEFENSE_AREA_MARGIN);
         bool pointInTheirDefenseArea = ControlUtils::pointInRectangle(robot->pos, theirDefenseArea);
         if (pointInTheirDefenseArea) {
             auto theirGoal = world::field->get_their_goal_center();
+            theirGoal.x = theirGoal.x -0.5;
+            std::vector<Vector2> sortedDefenseAreaPoints = theirDefenseArea;
+            std::sort(sortedDefenseAreaPoints.begin(), sortedDefenseAreaPoints.end(),
+                 [robot](const Vector2 & a, const Vector2 & b) -> bool
+                 {
+                     return a.dist(robot->pos) < b.dist(robot->pos);
+                 });
+
+            double distanceToDefenseArea =
+                    control::ControlUtils::distanceToLineWithEnds(robot->pos, sortedDefenseAreaPoints.at(0), sortedDefenseAreaPoints.at(1));
 
 
 
-            force += ControlUtils::calculateForce(robot->pos - theirGoal, FORCE_WEIGHT_DEFENSE_AREA, 3);
+            force += ControlUtils::calculateForce(
+                    (robot->pos - theirGoal).stretchToLength(distanceToDefenseArea), FORCE_WEIGHT_DEFENSE_AREA, 1);
         }
     }
 
