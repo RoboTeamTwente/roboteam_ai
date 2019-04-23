@@ -470,54 +470,54 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 
             },
             {"PenaltyShootTactic", {
-                    {"shooter", robotType::RANDOM}
+                    {"shooter", robotType::CLOSE_TO_BALL}
             }
             },
             {"PenaltyTactic", {
-                    {"shooter", robotType::RANDOM}
+                    {"shooter", robotType::CLOSE_TO_BALL}
             }
             },
             {"FreeKickShootTactic", {
-                    {"freeShooter", robotType::RANDOM}
+                    {"freeShooter", robotType::CLOSE_TO_BALL}
             }
             },
 
             {"coachDefenderTactic",
              {
-                     {"def1", robotType::RANDOM},
-                     {"def2", robotType::RANDOM},
-                     {"def3", robotType::RANDOM},
-                     {"def4", robotType::RANDOM},
-                     {"def5", robotType::RANDOM},
-                     {"def6", robotType::RANDOM},
-                     {"def7", robotType::RANDOM}
+                     {"def1", robotType::CLOSE_TO_OUR_GOAL},
+                     {"def2", robotType::CLOSE_TO_OUR_GOAL},
+                     {"def3", robotType::CLOSE_TO_OUR_GOAL},
+                     {"def4", robotType::CLOSE_TO_OUR_GOAL},
+                     {"def5", robotType::CLOSE_TO_OUR_GOAL},
+                     {"def6", robotType::CLOSE_TO_OUR_GOAL},
+                     {"def7", robotType::CLOSE_TO_OUR_GOAL}
              }
             },
             {"TestD",
              {
-                     {"d1", robotType::RANDOM},
-                     {"d2", robotType::RANDOM},
-                     {"d3", robotType::RANDOM},
-                     {"d4", robotType::RANDOM},
-                     {"d5", robotType::RANDOM}
+                     {"d1", robotType::CLOSE_TO_OUR_GOAL},
+                     {"d2", robotType::CLOSE_TO_OUR_GOAL},
+                     {"d3", robotType::CLOSE_TO_OUR_GOAL},
+                     {"d4", robotType::CLOSE_TO_OUR_GOAL},
+                     {"d5", robotType::CLOSE_TO_OUR_GOAL}
              }
             },
             {"TestM",
              {
-                     {"m1", robotType::RANDOM},
-                     {"m2", robotType::RANDOM},
-                     {"m3", robotType::RANDOM},
-                     {"m4", robotType::RANDOM},
-                     {"m5", robotType::RANDOM}
+                     {"m1", robotType::CLOSE_TO_OUR_GOAL},
+                     {"m2", robotType::CLOSE_TO_OUR_GOAL},
+                     {"m3", robotType::CLOSE_TO_OUR_GOAL},
+                     {"m4", robotType::CLOSE_TO_OUR_GOAL},
+                     {"m5", robotType::CLOSE_TO_OUR_GOAL}
              }
             },
             {"TestO",
              {
-                     {"o1", robotType::RANDOM},
-                     {"o2", robotType::RANDOM},
-                     {"o3", robotType::RANDOM},
-                     {"o4", robotType::RANDOM},
-                     {"o5", robotType::RANDOM}
+                     {"o1", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"o2", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"o3", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"o4", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"o5", robotType::CLOSE_TO_THEIR_GOAL}
              }
             },
             {"test_pass_tactic",
