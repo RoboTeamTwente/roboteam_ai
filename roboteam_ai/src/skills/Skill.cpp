@@ -20,7 +20,7 @@ void Skill::publishRobotCommand() {
     }
 
     if (command.id == -1) {
-        if (robot->id != -1) {
+        if (robot && robot->id != -1) {
             command.id = robot->id;
             ioManager.publishRobotCommand(command); // We default to our robots being on the left if parameter is not set
 
@@ -40,7 +40,7 @@ std::string Skill::node_name() {
 Skill::Status Skill::update() {
     updateRobot();
     ball = world::world->getBall(); // update ball position
-    if (! robot) return Status::Failure;
+    if (! robot || robot->id == -1) return Status::Failure;
     if (! ball) return Status::Waiting;
     return onUpdate();
 }
@@ -48,14 +48,14 @@ Skill::Status Skill::update() {
 void Skill::initialize() {
     robot = getRobotFromProperties(properties);
     ball = world::world->getBall();
-    if (! robot) return;
+    if (! robot || robot->id == -1) return;
     if (! ball) return;
     refreshRobotCommand();
     onInitialize();
 }
 
 void Skill::terminate(Status s) {
-    if (! robot) return;
+    if (! robot || robot->id == -1) return;
     if (! ball) return;
     refreshRobotCommand();
     onTerminate(s);
@@ -72,7 +72,7 @@ roboteam_msgs::RobotCommand Skill::rotateRobotCommand(roboteam_msgs::RobotComman
 void Skill::refreshRobotCommand() {
     roboteam_msgs::RobotCommand emptyCmd;
     emptyCmd.use_angle = 1;
-    emptyCmd.id = robot->id;
+    emptyCmd.id = robot ? robot->id : -1;
     emptyCmd.geneva_state = 3;
     command = emptyCmd;
 }
