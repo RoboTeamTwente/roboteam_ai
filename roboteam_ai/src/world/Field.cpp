@@ -359,19 +359,22 @@ std::vector<Vector2> Field::getDefenseArea(bool ourDefenseArea, double margin) {
     if (ourDefenseArea) {
         double length = field.field_length;
         auto leftPenaltyLine = field.left_penalty_line;
-        Vector2 leftPenaltyLineLowerPoint = (Vector2)leftPenaltyLine.begin - margin;
-        Vector2 leftPenaltyLineUpperPoint = (Vector2)leftPenaltyLine.end + margin;
-        Vector2 backLineLowerPoint = {-0.5*length, leftPenaltyLineLowerPoint.y - margin};
-        Vector2 backLineUpperPoint = {-0.5*length, leftPenaltyLineUpperPoint.y + margin};
+        Vector2 leftPenaltyLineLowerPoint = {leftPenaltyLine.begin.x + margin, leftPenaltyLine.begin.y - margin};
+        Vector2 leftPenaltyLineUpperPoint = {leftPenaltyLine.end.x + margin, leftPenaltyLine.end.y + margin};
+
+        Vector2 backLineLowerPoint = {(-0.5*length) - margin, leftPenaltyLineLowerPoint.y};
+        Vector2 backLineUpperPoint = {(-0.5*length) - margin, leftPenaltyLineUpperPoint.y};
         return {leftPenaltyLineLowerPoint, leftPenaltyLineUpperPoint, backLineUpperPoint, backLineLowerPoint};
     }
     else {
         double length = field.field_length;
         auto rightPenaltyLine = field.right_penalty_line;
-        Vector2 rightPenaltyLineLowerPoint = (Vector2)rightPenaltyLine.begin - margin;
-        Vector2 rightPenaltyLineUpperPoint = (Vector2)rightPenaltyLine.end + margin;
-        Vector2 backLineLowerPoint = {0.5*length, rightPenaltyLineLowerPoint.y - margin};
-        Vector2 backLineUpperPoint = {0.5*length, rightPenaltyLineUpperPoint.y + margin};
+
+        Vector2 rightPenaltyLineLowerPoint = {rightPenaltyLine.begin.x - margin, rightPenaltyLine.begin.y - margin};
+        Vector2 rightPenaltyLineUpperPoint = {rightPenaltyLine.end.x - margin, rightPenaltyLine.end.y + margin};
+
+        Vector2 backLineLowerPoint = {(0.5*length)+margin, rightPenaltyLineLowerPoint.y };
+        Vector2 backLineUpperPoint = {(0.5*length)+margin, rightPenaltyLineUpperPoint.y };
         return {rightPenaltyLineLowerPoint, rightPenaltyLineUpperPoint, backLineUpperPoint, backLineLowerPoint};
     }
 

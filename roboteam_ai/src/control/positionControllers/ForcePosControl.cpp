@@ -44,23 +44,25 @@ Vector2 ForcePosControl::calculateForces(const RobotPtr &robot, const Vector2 &t
         bool pointInField = world::field->pointIsInField(robot->pos, POINT_IN_FIELD_MARGIN);
 
         if (!pointInField) {
-            force += ControlUtils::calculateForce(Vector2(-1.0, -1.0) / robot->pos, FORCE_WEIGHT_FIELD_SIDES, 9e9);
+            force += ControlUtils::calculateForce(Vector2(-1.0, -1.0) / robot->pos, FORCE_WEIGHT_FIELD_SIDES, forceRadius);
         }
     }
-    //TODO: DEFENSE AREA STUFF DOES NOT WORK TM - NO IDEA WHY - PLS FIX
-    // avoid the penaltyAreas if needed
+
     if (!canMoveInDefenseArea) {
         auto ourDefenseArea = world::field->getDefenseArea(true, DEFENSE_AREA_MARGIN);
         bool pointInOurDefenseArea = ControlUtils::pointInRectangle(robot->pos, ourDefenseArea);
         if (pointInOurDefenseArea) {
             auto ourGoal = world::field->get_our_goal_center();
-            force += ControlUtils::calculateForce(robot->pos - ourGoal, FORCE_WEIGHT_DEFENSE_AREA, 9e9);
+            force += ControlUtils::calculateForce(robot->pos - ourGoal, FORCE_WEIGHT_DEFENSE_AREA, 3);
         }
         auto theirDefenseArea = world::field->getDefenseArea(false, DEFENSE_AREA_MARGIN);
         bool pointInTheirDefenseArea = ControlUtils::pointInRectangle(robot->pos, theirDefenseArea);
         if (pointInTheirDefenseArea) {
             auto theirGoal = world::field->get_their_goal_center();
-            force += ControlUtils::calculateForce(robot->pos - theirGoal, FORCE_WEIGHT_DEFENSE_AREA, 9e9);
+
+
+
+            force += ControlUtils::calculateForce(robot->pos - theirGoal, FORCE_WEIGHT_DEFENSE_AREA, 3);
         }
     }
 
@@ -78,7 +80,7 @@ PosVelAngle ForcePosControl::calculateForcePosVelAngle(const PosController::Robo
 
     PosVelAngle target;
     auto force = calculateForces(robot, targetPos, forceRadius);
-    target.pos = targetPos;
+    target.pos = robot->pos + force;
     target.vel = force;
     return controlWithPID(robot, target);
 }
