@@ -59,7 +59,7 @@ std::vector<std::pair<Vector2, Vector2>> HungarianAlgorithm::calculateClosestPat
 
         for (unsigned int i = 0; i < set1.size(); i++) {
             for (unsigned int j = 0; j < set2.size(); j++) {
-                distanceMatrix.at(i).at(j) = static_cast<double>(set1[i].dist(set2[j]));
+                distanceMatrix.at(i).at(j) = set1[i].dist(set2[j]);
             }
         }
 
