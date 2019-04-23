@@ -206,7 +206,10 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffThemFormation.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffThemFormation.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/PenaltyFormation.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/PenaltyFormation.cpp)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/PenaltyFormation.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/FreeKickFormation.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/FreeKickFormation.h
+        )
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
