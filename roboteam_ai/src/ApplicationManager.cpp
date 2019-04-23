@@ -87,7 +87,7 @@ void ApplicationManager::runOneLoopCycle() {
         }
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
 
-        rtt::ai::coach::GBCoach->update();
+        rtt::ai::coach::getBallCoach->update();
         rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
         Status status = strategy->tick();
         this->notifyTreeStatus(status);

@@ -16,7 +16,7 @@ ShouldHandleBall::Status ShouldHandleBall::onUpdate() {
     if (! robot || ! ball) {
         return Status::Waiting;
     }
-    if (coach::GBCoach->getBallGetterID()==robot->id) {
+    if (coach::getBallCoach->getBallGetterID() == robot->id) {
         return Status::Success;
     }
     return Status::Failure;

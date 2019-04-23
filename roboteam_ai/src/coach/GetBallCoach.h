@@ -22,8 +22,8 @@ class GetBallCoach {
 
 };
 
-extern GetBallCoach GBCoachObj;
-extern GetBallCoach* GBCoach;
+extern GetBallCoach getBallCoachObj;
+extern GetBallCoach* getBallCoach;
 
 }
 }
