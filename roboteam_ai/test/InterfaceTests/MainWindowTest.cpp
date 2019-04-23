@@ -1,6 +1,7 @@
 //
 // Created by mrlukasbos on 28-1-19.
 //
+
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/interface/InterfaceValues.h>
 #include <roboteam_ai/src/interface/widget.h>
@@ -17,7 +18,7 @@ namespace interface {
 TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     auto window = std::make_shared<MainWindow>();
 
-    std::shared_ptr<Visualizer> vis =  std::make_shared<Visualizer>(window.get());
+    std::shared_ptr<Visualizer> vis = std::make_shared<Visualizer>(window.get());
 
     // Initialize
     roboteam_msgs::GeometryFieldSize field;
@@ -27,7 +28,7 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
 
     // check if the conversion factor is calculated properly
     vis->calculateFieldSizeFactor();
-    EXPECT_FLOAT_EQ(vis->factor, -6.666667); // the standard size().width() width is 100
+    EXPECT_FLOAT_EQ(vis->factor, - 6.666667); // the standard size().width() width is 100
 
     // check if coordinate conversions are handled properly
     Vector2 fieldPos = Vector2(0, 0);  // the middle dot on the field, in field coordinates
@@ -86,15 +87,15 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     auto wPtr = std::make_shared<w::WorldData>(worldMsg);
     w::world->setWorldData(wPtr);
 
-    EXPECT_EQ(vis->getSelectedRobots().size(), 0);
+    EXPECT_TRUE(vis->getSelectedRobots().empty());
     EXPECT_FALSE(vis->robotIsSelected(robot));
 
     vis->toggleSelectedRobot(1);
-    EXPECT_EQ(vis->getSelectedRobots().size(), 1);
+    EXPECT_EQ(static_cast<int>(vis->getSelectedRobots().size()), 1);
     EXPECT_TRUE(vis->robotIsSelected(robot));
 
     vis->toggleSelectedRobot(1);
-    EXPECT_EQ(vis->getSelectedRobots().size(), 0);
+    EXPECT_EQ(static_cast<int>(vis->getSelectedRobots().size()), 0);
     EXPECT_FALSE(vis->robotIsSelected(robot));
 }
 

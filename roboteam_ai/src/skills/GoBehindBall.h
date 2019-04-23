@@ -22,7 +22,7 @@ class GoBehindBall : public Skill {
         control::NumTreePosControl goToPos;
         unit unitType;
         unit stringToUnit(std::string string);
-        const double errorMargin = 0.06;
+        const double errorMargin = Constants::ROBOT_RADIUS() + 0.05;
         void publishCommand(Vector2 point, Vector2 velocity);
 
     public:

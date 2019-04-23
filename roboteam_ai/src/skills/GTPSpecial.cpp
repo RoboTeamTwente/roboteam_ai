@@ -21,6 +21,7 @@ void GTPSpecial::onInitialize() {
     switch (type) {
         case goToBall: {
             targetPos = ball->pos;
+            gotopos.setAvoidBall(true);
             break;
         }
         case ballPlacementBefore: {
@@ -53,6 +54,8 @@ void GTPSpecial::onInitialize() {
 
     gotopos.setAvoidBall(properties->getBool("avoidBall") ? Constants::DEFAULT_BALLCOLLISION_RADIUS() : false);
     gotopos.setCanMoveOutOfField(properties->getBool("canGoOutsideField"));
+    gotopos.setCanMoveInDefenseArea(properties->getBool("canMoveInDefenseArea"));
+
 }
 
 Vector2 GTPSpecial::getBallFromSideLocation() {

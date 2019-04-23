@@ -37,7 +37,7 @@ void DefenceDealer::removeDefender(int id) {
 //        std::cout << "removed defender id:" << id << std::endl;
     }
     else {
-        std::cerr << "Defender cannot be removed as it is not registered! Check your skill!" << std::endl;
+      //  std::cerr << "Defender cannot be removed as it is not registered! Check your skill!" << std::endl;
     }
 }
 

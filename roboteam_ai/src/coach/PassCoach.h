@@ -7,6 +7,8 @@
 
 #include <roboteam_ai/src/coach/OffensiveCoach.h>
 #include <roboteam_ai/src/utilities/RobotDealer.h>
+#include <roboteam_ai/src/coach/heuristics/PassScore.h>
+#include <chrono>
 
 namespace rtt {
 namespace ai {
@@ -16,21 +18,24 @@ class PassCoach {
 public:
     PassCoach() = default;
     void resetPass();
-    int initiatePass();
+    int initiatePass(int passerID);
     bool isReadyToReceivePass();
     void setReadyToReceivePass(bool readyToReceivePass);
     int getRobotBeingPassedTo();
     void setRobotBeingPassedTo(int robotBeingPassedTo);
     bool isPassed();
     void setPassed(bool passed);
-    const Vector2 &getPassPosition() const;
-    virtual int determineReceiver();
+
+    virtual int determineReceiver(int passerID);
+    bool passTakesTooLong();
 
 private:
+    std::chrono::time_point<std::chrono::steady_clock> start;
+    bool timerStarted = false;
+    double MAX_PASS_TIME = 10.0; //seconds
     bool readyToReceivePass;
-    int robotBeingPassedTo;
+    int robotBeingPassedTo = -1;
     bool passed;
-    Vector2 passPosition;
 };
 
 extern PassCoach g_pass;

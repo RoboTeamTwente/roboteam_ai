@@ -1,7 +1,3 @@
-//
-// Created by robzelluf on 10/24/18.
-//
-
 #ifndef ROBOTEAM_AI_THEYHAVEBALL_H
 #define ROBOTEAM_AI_THEYHAVEBALL_H
 
@@ -9,22 +5,14 @@
 
 namespace rtt {
 namespace ai {
-/**
- * @class IHaveBall
- * @brief
- */
+
 class TheyHaveBall : public Condition {
     public:
-        explicit TheyHaveBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-        /**
-         * @brief checks if a robot with specific ID given through blackboards has a ball. Uses BB parameters "me/ROBOT_ID" and "our_team"
-         * @return Returns status::success if a robot has a ball, status::failure otherwise.
-         */
+        explicit TheyHaveBall(std::string name = "TheyHaveBall", bt::Blackboard::Ptr blackboard = nullptr);
         Status onUpdate() override;
-        std::string node_name() override { return "TheyHaveBall"; }
-
 };
-}
-}
+
+} // ai
+} // rtt
 
 #endif //ROBOTEAM_AI_THEYHAVEBALL_H

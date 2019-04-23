@@ -32,22 +32,16 @@ bt::Node::Status Attack::onUpdate() {
 
     Vector2 ball = world::world->getBall()->pos;
     Vector2 behindBall = coach::g_generalPositionCoach.getPositionBehindBallToGoal(BEHIND_BALL_TARGET, false);
-    Vector2 deltaBall = behindBall - ball;
 
     if (!coach::g_generalPositionCoach.isRobotBehindBallToGoal(BEHIND_BALL_CHECK, false, robot->pos)) {
         targetPos = behindBall;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
         gtp->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
-
-        if (abs(((Vector2) robot->pos - targetPos).length()) < SWITCH_TO_BASICGTP_DISTANCE) {
-            gtp->setAvoidBall(false);
-            gtp = std::make_shared<control::BasicPosControl>();
-        }
     }
     else {
         targetPos = ball;
         gtp->setAvoidBall(false);
-        command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
+        command.w = (world::field->get_their_goal_center() - ball).toAngle().getAngle();
         if (world::world->robotHasBall(robot->id, true, Constants::MAX_KICK_RANGE())) {
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());

@@ -8,17 +8,13 @@
 #include "Node.hpp"
 #include "roboteam_ai/src/utilities/RobotDealer.h"
 
-namespace robotDealer {
-enum RobotType : short;
-}
-
 namespace bt {
 
 class Tactic : public Node {
 protected:
-        using dealer = rtt::ai::robotDealer::RobotType;
+        using dealer = rtt::ai::robotDealer::RobotDealer;
     int claimedRobots = 0;
-    std::set<int> robotIDs;
+    std::set<int> robotIDs = {};
 public:
         void addChild(Node::Ptr newChild) override;
 
@@ -28,9 +24,11 @@ public:
         Status update() override;
         void askForRobots();
         void terminate(Status s) override;
-        Node::Ptr child = nullptr;
+        std::vector<Node::Ptr> children;
         std::string node_name() override;
         std::string name;
+        void giveProperty(std::string a, std::string b) override;
+
 };
 }
 

@@ -18,8 +18,10 @@ namespace rtt {
 void ApplicationManager::setup() {
     IOManager = new io::IOManager(true);
 
-    BTFactory::setCurrentTree("haltStrategy");
-    BTFactory::setKeeperTree("SingleKeeperTactic");
+    BTFactory::setCurrentTree("halt_strategy");
+    BTFactory::setKeeperTree("keeper_default_tactic");
+    rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
+
 }
 
 void ApplicationManager::loop() {
@@ -71,7 +73,6 @@ void ApplicationManager::runOneLoopCycle() {
         // otherwise wastes like 0.1 ms
         auto demomsg = IOManager->getDemoInfo();
         demo::JoystickDemo::demoLoop(demomsg);
-        rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
 
         if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
             if (ai::robotDealer::RobotDealer::getKeeperID() == -1) {
@@ -79,10 +80,7 @@ void ApplicationManager::runOneLoopCycle() {
                 ai::robotDealer::RobotDealer::setKeeperID(ai::world::world->getUs().at(0).id);
             }
             keeperTree = BTFactory::getKeeperTree();
-            Status keeperStatus = keeperTree->tick();
-        }  else {
-            BTFactory::makeTrees();
-
+            keeperTree->tick();
         }
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();

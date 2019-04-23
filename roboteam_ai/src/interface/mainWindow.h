@@ -43,14 +43,20 @@ class MainWindow : public QMainWindow {
 
     public slots:
         void toggleOurColorParam();
+        void toggleOurSideParam();
+
         void sendHaltSignal();
         void updatePause();
         void setUseReferee(bool useRef);
         void updateRobotsWidget();
         void updateTreeWidget();
         void updateKeeperTreeWidget();
-    void setShowDebugValueInTerminal(bool showDebug);
+        void setTimeOutTop(bool top);
+        void setUsesKeeper(bool usekeeper);
+
+        void setShowDebugValueInTerminal(bool showDebug);
         void refreshSignal();
+
     private:
         Visualizer* visualizer;
         QHBoxLayout* horizontalLayout;
@@ -65,20 +71,22 @@ class MainWindow : public QMainWindow {
         QPushButton* refreshBtn;
 
         QPushButton* toggleColorBtn;
+        QPushButton* toggleSideBtn;
         QComboBox* select_strategy;
-
+        QComboBox* select_keeper_strategy;
         QComboBox* select_goalie;
 
 private:
-        PidBox * numTreePidBox;
-        PidBox * forcePidBox;
-        PidBox * basicPidBox;
+        PidBox* numTreePidBox;
+        PidBox* forcePidBox;
+        PidBox* basicPidBox;
 
         void configureCheckBox(QString title, QLayout* layout, const QObject* receiver, const char* method,
                 bool defaultState = false);
         int amountOfSelectedRobots = 0;
         int robotsInField = 0;
         void setToggleColorBtnLayout() const;
+        void setToggleSideBtnLayout() const;
 };
 
 } // interface

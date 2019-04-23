@@ -54,6 +54,7 @@ void Node::addChild(bt::Node::Ptr) { }
 
 // testing purpose
 std::vector<Node::Ptr> Node::getChildren() {
+//    std::cerr << "Get children in Node.cpp, should never be called" << std::endl;
     return std::vector<Node::Ptr>{};
 }
 
@@ -66,7 +67,7 @@ Node::Node() {
 }
 
 Node::Status Node::NodeUpdate() {
-    auto status = update();
+    status = update();
     return status;
 }
 
@@ -84,6 +85,10 @@ unsigned long long Node::getAmountOfTicks() const {
 
 ros::Time Node::getLastTickTime() {
     return lastTickTime;
+}
+void Node::giveProperty(std::string a, std::string b) {
+    std::cerr << "giveProperty in Node.cpp, should never be called" << std::endl;
+
 }
 
 std::string statusToString(bt::Node::Status status) {

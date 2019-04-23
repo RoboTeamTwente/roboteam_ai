@@ -12,6 +12,7 @@ TEST(RobotDealerTest, RobotDealerTest) {
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot1, robot2, robot3;
     rtt::ai::world::world->updateWorld(worldMsg);
+    rtt::ai::robotDealer::RobotDealer::refresh();
 
     rtt::ai::robotDealer::RobotDealer::removeTactic("free"); // This is necessary because previous tests create free robots
     EXPECT_TRUE(rtt::ai::robotDealer::RobotDealer::getAvailableRobots().empty());
@@ -25,16 +26,17 @@ TEST(RobotDealerTest, RobotDealerTest) {
     worldMsg.us.push_back(robot3);
     rtt::ai::world::world->updateWorld(worldMsg);
 
-    auto dealbot1 = rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(robot::RANDOM, "testing1", "role1");
-
+    auto dealbot1 = rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(robot::RANDOM, "role1", "testing1");
     EXPECT_TRUE(dealbot1==rtt::ai::robotDealer::RobotDealer::findRobotForRole("role1"));
     EXPECT_EQ(rtt::ai::robotDealer::RobotDealer::getTacticNameForRole("role1"), "testing1");
     EXPECT_EQ(rtt::ai::robotDealer::RobotDealer::getAvailableRobots().size(), (unsigned int) 2);
-    rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(robot::RANDOM, "testing1", "role2");
+
+    rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(robot::RANDOM, "role2", "testing1");
     EXPECT_EQ(rtt::ai::robotDealer::RobotDealer::getAvailableRobots().size(), (unsigned int) 1);
     auto claimedBots1 = rtt::ai::robotDealer::RobotDealer::getClaimedRobots()["testing1"];
     EXPECT_EQ(claimedBots1.size(), (unsigned int) 2);
-    auto dealbot3 = rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(robot::RANDOM, "testing1", "role3");
+
+    auto dealbot3 = rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(robot::RANDOM, "role3", "testing1");
     rtt::ai::robotDealer::RobotDealer::releaseRobotForRole("role2");
     auto claimedBots2 = rtt::ai::robotDealer::RobotDealer::getClaimedRobots()["testing1"];
     EXPECT_NE(claimedBots1, claimedBots2);
@@ -50,19 +52,19 @@ TEST(RobotDealerTest, RobotDealerTest) {
     rtt::ai::robotDealer::RobotDealer::releaseRobotForRole("role3");
 
     //TODO: test if these functionalities actually pick the right robots
-    dealbot1=rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(robot::BETWEEN_BALL_AND_OUR_GOAL,"testing1","role1");
+    dealbot1=rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(robot::BETWEEN_BALL_AND_OUR_GOAL, "role1", "testing1");
     EXPECT_TRUE(dealbot1==rtt::ai::robotDealer::RobotDealer::findRobotForRole("role1"));
     rtt::ai::robotDealer::RobotDealer::releaseRobotForRole("role1");
-    dealbot1=rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(robot::CLOSE_TO_BALL,"testing1","role1");
+    dealbot1=rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(robot::CLOSE_TO_BALL, "role1", "testing1");
     EXPECT_TRUE(dealbot1==rtt::ai::robotDealer::RobotDealer::findRobotForRole("role1"));
     rtt::ai::robotDealer::RobotDealer::releaseRobotForRole("role1");
-    dealbot1=rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(robot::CLOSE_TO_OUR_GOAL,"testing1","role1");
+    dealbot1=rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(robot::CLOSE_TO_OUR_GOAL, "role1", "testing1");
     EXPECT_TRUE(dealbot1==rtt::ai::robotDealer::RobotDealer::findRobotForRole("role1"));
     rtt::ai::robotDealer::RobotDealer::releaseRobotForRole("role1");
-    dealbot1=rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(robot::CLOSE_TO_THEIR_GOAL,"testing1","role1");
+    dealbot1=rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(robot::CLOSE_TO_THEIR_GOAL, "role1", "testing1");
     EXPECT_TRUE(dealbot1==rtt::ai::robotDealer::RobotDealer::findRobotForRole("role1"));
     rtt::ai::robotDealer::RobotDealer::releaseRobotForRole("role1");
-    dealbot1=rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(robot::FAR_FROM_BALL,"testing1","role1");
+    dealbot1=rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(robot::FAR_FROM_BALL, "role1", "testing1");
     EXPECT_TRUE(dealbot1==rtt::ai::robotDealer::RobotDealer::findRobotForRole("role1"));
     rtt::ai::robotDealer::RobotDealer::releaseRobotForRole("role1");
 
