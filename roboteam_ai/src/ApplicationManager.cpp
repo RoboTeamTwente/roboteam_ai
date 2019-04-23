@@ -58,7 +58,7 @@ void ApplicationManager::loop() {
 }
 
 void ApplicationManager::runOneLoopCycle() {
-    ros::spinOnce();
+//    ros::spinOnce();
 
     if (ai::world::world->weHaveRobots()) {
 
