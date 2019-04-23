@@ -6,9 +6,9 @@
 #define ROBOTEAM_AI_SHOULDHANDLEBALL_H
 
 #include "Condition.h"
-namespace rtt{
-namespace ai{
-class ShouldHandleBall : public Condition{
+namespace rtt {
+namespace ai {
+class ShouldHandleBall : public Condition {
     public:
         explicit ShouldHandleBall(std::string name = "ShouldHandleBall", bt::Blackboard::Ptr blackboard = nullptr);
         Status onUpdate() override;
@@ -16,6 +16,5 @@ class ShouldHandleBall : public Condition{
 };
 }
 }
-
 
 #endif //ROBOTEAM_AI_SHOULDHANDLEBALL_H
