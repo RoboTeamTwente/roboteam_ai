@@ -26,7 +26,12 @@ PenaltyKeeper::Status PenaltyKeeper::onUpdate() {
         break;
     }
     case FREEMOVE: {
-        sendInterceptCommand();
+        if (isBallShot()){
+            sendFreeMoveCommand();
+        }
+        else{
+            sendWaitCommand();
+        }
         break;
     }
     }
@@ -98,6 +103,24 @@ void PenaltyKeeper::sendInterceptCommand() {
     command.y_vel = delta.y;
     command.w = 0;
     publishRobotCommand();
+}
+void PenaltyKeeper::sendFreeMoveCommand() {
+    Vector2 startBall = world::world->getBall()->pos;
+    Vector2 endBall = world::world->getBall()->pos + world::world->getBall()->vel.stretchToLength(100);
+    Vector2 interceptPos=robot->pos.project(startBall,endBall);
+    if (world::field->pointIsInDefenceArea(interceptPos)){
+        Vector2 delta = gtp.getPosVelAngle(robot, interceptPos).vel;
+        command.x_vel=delta.x;
+        command.y_vel=delta.y;
+        command.w=(endBall-startBall).angle();
+        publishRobotCommand();
+
+    }
+    else{
+        //failsave
+        sendWaitCommand();
+        return;
+    }
 }
 std::pair<Vector2, Vector2> PenaltyKeeper::getGoalLine() {
     std::pair<Vector2, Vector2> originalLine = world::field->getGoalSides(true);
