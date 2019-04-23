@@ -50,11 +50,10 @@ public:
     static double CLOSE_TO_BORDER_DISTANCE()    { return 1.2 * ROBOT_RADIUS(); };
     static int GAME_ANALYSIS_TICK_RATE()        { return 30; };
 
-
     /// GENERAL SKILLS ///
     static double DEFAULT_KICK_POWER()          { return  5.0; }; // max kick power() { return  100
     static double MAX_KICK_POWER()              { return  8.0; }; //TODO: CHECK
-    static double MAX_POWER_KICK_DISTANCE()     { return 12.0; };
+    static double MAX_POWER_KICK_DISTANCE()     { return 9.0; };
     static int MAX_KICK_CYCLES()                { return 20; };
     static int MAX_GENEVA_CYCLES()              { return 20; };
     static int DEFAULT_GENEVA_STATE()           { return 0; };
@@ -99,6 +98,8 @@ public:
     static bool STD_SHOW_DEBUG_VALUES()         { return true; };
     static bool STD_USE_REFEREE()               { return false; };
     static bool STD_SHOW_AVAILABLE_PASSES()     { return false; };
+    static bool STD_TIMEOUT_TO_TOP()            { return false; };
+
 
     static QColor FIELD_COLOR()                 { return GRSIM() ? QColor(30 , 30 , 30 , 255) :
                                                                    QColor(50 , 0  , 0  , 255); };

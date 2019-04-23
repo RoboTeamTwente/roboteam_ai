@@ -48,6 +48,12 @@ MainWindow::MainWindow(QWidget* parent)
         select_strategy->addItem(QString::fromStdString(strategyName));
     }
 
+    select_keeper_strategy = new QComboBox();
+    vLayout->addWidget(select_keeper_strategy);
+    for (std::string const &keeperTacticName : Switches::keeperJsonFiles) {
+        select_keeper_strategy->addItem(QString::fromStdString(keeperTacticName));
+    }
+    
     auto hButtonsLayout = new QHBoxLayout();
 
     haltBtn = new QPushButton("Pause");
@@ -72,8 +78,9 @@ MainWindow::MainWindow(QWidget* parent)
 
     vLayout->addLayout(hButtonsLayout);
 
-
-
+    configureCheckBox("TimeOut to top", vLayout, this, SLOT(setTimeOutTop(bool)), Constants::STD_TIMEOUT_TO_TOP());
+    configureCheckBox("Use keeper (does not work when referee used)", vLayout, this, SLOT(setUsesKeeper(bool)), robotDealer::RobotDealer::usesSeparateKeeper());
+    
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [=](const QString &strategyName) {
               // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
@@ -84,6 +91,17 @@ MainWindow::MainWindow(QWidget* parent)
               treeWidget->setHasCorrectTree(false);
               keeperTreeWidget->setHasCorrectTree(false);
             });
+
+    QObject::connect(select_keeper_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+                     [=](const QString &keeperStrategyName) {
+                         // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+                         BTFactory::setKeeperTree(keeperStrategyName.toStdString());
+                         robotDealer::RobotDealer::refresh();
+
+                         // the pointers of the trees have changed so the widgets should be notified about this
+                         treeWidget->setHasCorrectTree(false);
+                         keeperTreeWidget->setHasCorrectTree(false);
+                     });
 
     auto pidWidget = new QWidget;
     auto pidVLayout = new QVBoxLayout();
@@ -111,7 +129,6 @@ MainWindow::MainWindow(QWidget* parent)
     pidVLayout->addWidget(numTreePidBox);
     pidVLayout->addWidget(forcePidBox);
     pidVLayout->addWidget(basicPidBox);
-
 
     auto pidSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
     pidVLayout->addSpacerItem(pidSpacer);
@@ -303,7 +320,7 @@ void MainWindow::updateTreeWidget() {
 
 void MainWindow::updateKeeperTreeWidget() {
 
-    if (robotsInField != world::world->getUs().size()) {
+    if (robotsInField != static_cast<int>(world::world->getUs().size())) {
         select_goalie->clear();
         robotsInField = world::world->getUs().size();
 
@@ -314,6 +331,15 @@ void MainWindow::updateKeeperTreeWidget() {
     }
 
    this->keeperTreeWidget->updateContents(BTFactory::getKeeperTree());
+}
+
+void MainWindow::setTimeOutTop(bool top) {
+    rtt::ai::interface::InterfaceValues::setTimeOutTop(top);
+}
+
+void MainWindow::setUsesKeeper(bool usekeeper) {
+    robotDealer::RobotDealer::setUseSeparateKeeper(usekeeper);
+    robotDealer::RobotDealer::refresh();
 }
 
 

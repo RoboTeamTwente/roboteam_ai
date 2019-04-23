@@ -9,13 +9,13 @@
 #include "../../src/utilities/RobotDealer.h"
 #include "../../src/conditions/IsRobotClosestToBall.h"
 
-TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
+TEST(IsRobotClosestToBallTest, NoSecondsAhead) {
 
-
+    rtt::ai::world::Ball::exists = false;
     auto BB = std::make_shared<bt::Blackboard>();
     BB->setInt("ROBOT_ID", 0);
     BB->setString("ROLE","test");
-    rtt::ai::IsRobotClosestToBall node("Test", BB);
+    rtt::ai::IsRobotClosestToBall node("IsRobotClosestToBall", BB);
 
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
@@ -24,9 +24,7 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
     EXPECT_EQ(node.node_name(), "IsRobotClosestToBall");
 
     // First test should fail since robot is not set in world state yet
-    ASSERT_EQ(node.update(), bt::Node::Status::Waiting);
-
-
+    ASSERT_EQ(node.update(), bt::Node::Status::Failure);
 
     robot.id=0;
     robot.pos.x=0;
@@ -42,7 +40,7 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
     rtt::ai::robotDealer::RobotDealer::halt();
 
     rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(
-            rtt::ai::robotDealer::RobotType::RANDOM,"IsRobotClosestToBallTestTactic","test");
+            rtt::ai::robotDealer::RobotType::RANDOM, "test", "IsRobotClosestToBallTestTactic");
 
     // Test should succeed because one robot is always closest to the ball
     node.initialize();
@@ -61,7 +59,7 @@ TEST(NoSecondsAhead, IsRobotClosestToBallTest) {
     rtt::ai::robotDealer::RobotDealer::removeTactic("IsRobotClosestToBallTestTactic");
 }
 
-TEST(secondsAhead, IsRobotClosestToBallTest) {
+TEST(IsRobotClosestToBallTest, secondsAhead) {
     bt::Blackboard BB;
     BB.setInt("ROBOT_ID", 0);
     BB.setString("ROLE","test");
@@ -91,7 +89,7 @@ TEST(secondsAhead, IsRobotClosestToBallTest) {
     worldMsg.ball.existence = 99999;
     rtt::ai::world::world->updateWorld(worldMsg);
     rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(
-            rtt::ai::robotDealer::RobotType::RANDOM,"IsRobotClosestToBallTestTactic","test");
+            rtt::ai::robotDealer::RobotType::RANDOM, "test", "IsRobotClosestToBallTestTactic");
 
     node.initialize();
     ASSERT_EQ(node.update(), bt::Node::Status::Success);

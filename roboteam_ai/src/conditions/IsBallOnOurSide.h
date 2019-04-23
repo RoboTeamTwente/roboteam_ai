@@ -1,7 +1,3 @@
-//
-// Created by robzelluf on 1/21/19.
-//
-
 #ifndef ROBOTEAM_AI_ISBALLONOURSIDE_H
 #define ROBOTEAM_AI_ISBALLONOURSIDE_H
 
@@ -18,11 +14,9 @@ private:
         explicit IsBallOnOurSide(std::string name = "IsBallOnOurSide", bt::Blackboard::Ptr blackboard = nullptr);
         void onInitialize() override;
         Status onUpdate() override;
-        std::string node_name() override;
 };
 
 } //ai
 } //rtt
-
 
 #endif //ROBOTEAM_AI_ISBALLONOURSIDE_H

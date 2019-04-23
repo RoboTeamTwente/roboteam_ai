@@ -136,7 +136,7 @@ std::vector<DefencePositionCoach::DefenderBot> DefencePositionCoach::decidePosit
     }
     // for the remainder we look at the possiblePasses and block the most dangerous bots
     std::vector<PossiblePass> passes = createPassesSortedByDanger(simulatedWorld);
-    while (defenders.size() != amount && ! passes.empty()) {
+    while (static_cast<int>(defenders.size()) != amount && ! passes.empty()) {
         DefenderBot defender;
         bool foundPosition = true;
         // first try blocking the goal vision of the robot being passed to
@@ -295,7 +295,10 @@ std::shared_ptr<Line> DefencePositionCoach::blockToGoalLine(const PossiblePass &
 /// searches the most dangerous position and then gets the segment which blocks that (if it exists/is possible)
 std::shared_ptr<Line> DefencePositionCoach::blockBallLine(const world::WorldData &simulatedWorld) {
     Vector2 mostDangerousPos = getMostDangerousPos(simulatedWorld);
-    return getBlockLineSegment(world::field->getGoalSides(true), mostDangerousPos);
+    if (world::field->pointIsInField(mostDangerousPos)){
+        return getBlockLineSegment(world::field->getGoalSides(true), mostDangerousPos);
+    }
+    return nullptr;
 }
 DefencePositionCoach::DefenderBot DefencePositionCoach::createBlockBall(
         const Line &blockLine) {

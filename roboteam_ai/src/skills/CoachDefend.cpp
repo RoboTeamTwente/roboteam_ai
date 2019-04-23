@@ -11,13 +11,11 @@ CoachDefend::CoachDefend(std::string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
 void CoachDefend::onInitialize() {
-    coach::g_DefenceDealer.addDefender(robot->id);
-
     gtp.setCanMoveInDefenseArea(false);
 }
 
 bt::Node::Status CoachDefend::onUpdate() {
-    coach::g_DefenceDealer.updateDefenderLocations();
+    coach::g_DefenceDealer.addDefender(robot->id);
     auto targetLocation = coach::g_DefenceDealer.getDefenderPosition(robot->id);
     if (! targetLocation) {
         std::cerr << "Could not find the location of defender " << robot->id << " in calculated positions!"
@@ -42,12 +40,11 @@ bt::Node::Status CoachDefend::onUpdate() {
         }
     }
     publishRobotCommand();
-    if (coach::g_DefenceDealer.isBotGettingBall(robot->id)){return Status::Success;}
     return bt::Node::Status::Running;
 }
 
 void CoachDefend::onTerminate(bt::Node::Status s) {
-    coach::g_DefenceDealer.removeDefender(robot->id);
+
 }
 }
 }

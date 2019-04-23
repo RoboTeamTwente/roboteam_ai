@@ -22,7 +22,7 @@ HungarianAlgorithm::getRobotPositions(std::vector<int> robotIds, bool ourTeam, s
 
     // init a vector with locations with the same size as the robots vector
     std::vector<Vector2> robotLocations (robotIds.size());
-    for (int i = 0; i < robotIds.size(); i++) {
+    for (unsigned int i = 0; i < robotIds.size(); i++) {
         if (ai::world::world->getRobotForId(robotIds.at(i), ourTeam)) {
             robotLocations.at(i) = ai::world::world->getRobotForId(robotIds.at(i), ourTeam)->pos;
         }
@@ -31,7 +31,7 @@ HungarianAlgorithm::getRobotPositions(std::vector<int> robotIds, bool ourTeam, s
     auto positionPairs = calculateClosestPathsFromTwoSetsOfPoints(robotLocations, std::move(targetLocations));
 
     std::map<int, Vector2> output;
-    for(int i = 0; i < positionPairs.size(); i++) {
+    for(unsigned int i = 0; i < positionPairs.size(); i++) {
         output.insert(std::make_pair(robotIds.at(i), positionPairs.at(i).second));
     }
 
@@ -40,10 +40,10 @@ HungarianAlgorithm::getRobotPositions(std::vector<int> robotIds, bool ourTeam, s
 
 bool HungarianAlgorithm::validateInput(std::vector<Vector2> const &set1, std::vector<Vector2> const &set2) {
     if (set1.size() != set2.size()) {
-        std::cout << "wrong input for hungarian: unequal" << std::endl;
+        std::cerr << "wrong input for hungarian: unequal" << std::endl;
         return false;
     } else if (set1.empty() || set2.empty()) {
-        std::cout << "wrong input for hungarian: 0" << std::endl;
+        std::cerr << "wrong input for hungarian: 0" << std::endl;
         return false;
     }
 

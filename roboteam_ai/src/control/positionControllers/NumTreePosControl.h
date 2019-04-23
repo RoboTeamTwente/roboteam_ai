@@ -31,7 +31,7 @@ class NumTreePosControl : public ForcePosControl {
         PosVelAngle computeCommand();
 
         // constants
-        const double MAX_CALCULATION_TIME = 5.0;         // Max calculation time in ms
+        const double MAX_CALCULATION_TIME = 25.0;         // Max calculation time in ms
         const double DT = 0.07;                          // timestep for ODE model
         static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 0.28; // 3x robot radius
 
@@ -62,7 +62,7 @@ class NumTreePosControl : public ForcePosControl {
 
     public:
         explicit NumTreePosControl() = default;
-        explicit NumTreePosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
+        explicit NumTreePosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
 
         void clear();
         PosVelAngle getPosVelAngle(const RobotPtr &robot, Vector2 &targetPos) override;

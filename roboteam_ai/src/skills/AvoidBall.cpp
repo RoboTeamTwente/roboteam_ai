@@ -14,7 +14,10 @@ namespace ai {
 using cu = control::ControlUtils;
 
 AvoidBall::AvoidBall(std::string name, bt::Blackboard::Ptr blackboard)
-: Skill(std::move(name), std::move(blackboard)) { }
+: Skill(std::move(name), std::move(blackboard)) {
+    stop = properties->getBool("Stop");
+    if(stop) minRobotDistanceForForce *= 1.5;
+}
 
 bt::Node::Status AvoidBall::onUpdate() {
     auto robotPos = rtt::Vector2(robot->pos);

@@ -14,10 +14,11 @@ namespace ai {
 
 TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side)
 {
+    rtt::ai::world::Ball::exists = false;
     bt::Blackboard BB;
     auto BBpointer = std::make_shared<bt::Blackboard>(BB);
     BBpointer->setBool("inField", true);
-    rtt::ai::IsBallOnOurSide node("Test", BBpointer);
+    rtt::ai::IsBallOnOurSide node("IsBallOnOurSide", BBpointer);
 
     // initialize, but because there is no ball it does not succeed initializing. infield stays false.
     node.initialize();
@@ -37,7 +38,7 @@ TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side)
 
     w::world->updateWorld(worldMsg);
     node.initialize();
-    EXPECT_EQ(node.update(), bt::Node::Status::Waiting); // return failure because no ball visible
+    EXPECT_EQ(node.update(), bt::Node::Status::Success); // return failure because no ball visible
 
     // our side
     worldMsg.ball.pos.x = -1.5;
