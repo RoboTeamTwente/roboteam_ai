@@ -34,6 +34,7 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
         auto shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations);
         return shortestDistances.at(robot->id);
     } else {
+        //TODO
         return {};
     }
 }

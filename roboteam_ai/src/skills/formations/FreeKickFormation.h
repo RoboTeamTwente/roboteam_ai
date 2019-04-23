@@ -12,10 +12,13 @@ namespace ai {
 class FreeKickFormation : public Formation {
     public:
         explicit FreeKickFormation(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+        void onInitialize() override;
     private:
         Vector2 getFormationPosition() override;
         std::shared_ptr<vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
         static std::shared_ptr<vector<std::shared_ptr<Robot>>> robotsInFormation;
+        bool offensive;
+
 };
 }
 }
