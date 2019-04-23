@@ -52,6 +52,8 @@ class MainWindow : public QMainWindow {
         void updateTreeWidget();
         void updateKeeperTreeWidget();
         void setTimeOutTop(bool top);
+        void setUsesKeeper(bool usekeeper);
+
         void setShowDebugValueInTerminal(bool showDebug);
         void refreshSignal();
 

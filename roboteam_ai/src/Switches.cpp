@@ -74,6 +74,7 @@
 #include "roboteam_ai/src/conditions/IsBallCloseToBorder.h"
 #include "roboteam_ai/src/conditions/BallNearOurGoalLineAndStill.h"
 #include "roboteam_ai/src/conditions/TwoRobotBallPlacement.h"
+#include "roboteam_ai/src/conditions/HasClearShot.h"
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -230,6 +231,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["PenaltyFormation"] = std::make_shared<rtt::ai::PenaltyFormation>(name, properties);
     map["ActiveStop"] = std::make_shared<rtt::ai::ActiveStop>(name, properties);
     map["ReflectKick"] = std::make_shared<rtt::ai::ReflectKick>(name, properties);
+    map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
 
     // conditions (alphabetic order)
     map["BallKickedToOurGoal"] = std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
@@ -250,7 +252,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["ShouldHandleBall"] = std::make_shared<rtt::ai::ShouldHandleBall>(name,properties);
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
     map["IsInDefenseArea"] = std::make_shared<rtt::ai::IsInDefenseArea>(name, properties);
-    map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
+    map["HasClearShot"] = std::make_shared<rtt::ai::HasClearShot>(name, properties);
 
     if (map.find(name) != map.end()) {
         return map[name];
@@ -492,65 +494,65 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 
             },
             {"PenaltyShootTactic", {
-                    {"shooter", robotType::RANDOM}
+                    {"shooter", robotType::CLOSE_TO_BALL}
             }
             },
             {"PenaltyTactic", {
-                    {"shooter", robotType::RANDOM}
+                    {"shooter", robotType::CLOSE_TO_BALL}
             }
             },
             {"FreeKickShootTactic", {
-                    {"freeShooter", robotType::RANDOM}
+                    {"freeShooter", robotType::CLOSE_TO_BALL}
             }
             },
 
             {"coachDefenderTactic",
              {
-                     {"def1", robotType::RANDOM},
-                     {"def2", robotType::RANDOM},
-                     {"def3", robotType::RANDOM},
-                     {"def4", robotType::RANDOM},
-                     {"def5", robotType::RANDOM},
-                     {"def6", robotType::RANDOM},
-                     {"def7", robotType::RANDOM}
+                     {"def1", robotType::CLOSE_TO_OUR_GOAL},
+                     {"def2", robotType::CLOSE_TO_OUR_GOAL},
+                     {"def3", robotType::CLOSE_TO_OUR_GOAL},
+                     {"def4", robotType::CLOSE_TO_OUR_GOAL},
+                     {"def5", robotType::CLOSE_TO_OUR_GOAL},
+                     {"def6", robotType::CLOSE_TO_OUR_GOAL},
+                     {"def7", robotType::CLOSE_TO_OUR_GOAL}
              }
             },
             {"TestD",
              {
-                     {"d1", robotType::RANDOM},
-                     {"d2", robotType::RANDOM},
-                     {"d3", robotType::RANDOM},
-                     {"d4", robotType::RANDOM},
-                     {"d5", robotType::RANDOM}
+                     {"d1", robotType::CLOSE_TO_OUR_GOAL},
+                     {"d2", robotType::CLOSE_TO_OUR_GOAL},
+                     {"d3", robotType::CLOSE_TO_OUR_GOAL},
+                     {"d4", robotType::CLOSE_TO_OUR_GOAL},
+                     {"d5", robotType::CLOSE_TO_OUR_GOAL}
              }
             },
             {"TestM",
              {
-                     {"m1", robotType::RANDOM},
-                     {"m2", robotType::RANDOM},
-                     {"m3", robotType::RANDOM},
-                     {"m4", robotType::RANDOM},
-                     {"m5", robotType::RANDOM}
+                     {"m1", robotType::CLOSE_TO_OUR_GOAL},
+                     {"m2", robotType::CLOSE_TO_OUR_GOAL},
+                     {"m3", robotType::CLOSE_TO_OUR_GOAL},
+                     {"m4", robotType::CLOSE_TO_OUR_GOAL},
+                     {"m5", robotType::CLOSE_TO_OUR_GOAL}
              }
             },
             {"TestO",
              {
-                     {"o1", robotType::RANDOM},
-                     {"o2", robotType::RANDOM},
-                     {"o3", robotType::RANDOM},
-                     {"o4", robotType::RANDOM},
-                     {"o5", robotType::RANDOM}
+                     {"o1", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"o2", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"o3", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"o4", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"o5", robotType::CLOSE_TO_THEIR_GOAL}
              }
             },
             {"test_pass_tactic",
              {
-                     {"pass1", robotType::CLOSE_TO_BALL},
+                    {"attacker1", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"attacker2", robotType::CLOSE_TO_THEIR_GOAL},
                      {"receive1", robotType::RANDOM},
                      {"receive2", robotType::RANDOM},
                      {"receive3", robotType::RANDOM},
                      {"receive4", robotType::RANDOM},
-                     {"receive5", robotType::RANDOM},
-                     {"receive6", robotType::RANDOM}
+                     {"receive5", robotType::RANDOM}
              }
             }
     };

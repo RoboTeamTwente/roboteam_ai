@@ -27,7 +27,7 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
     roboteam_msgs::WorldRobot robot;
 
     rtt::ai::world::world->updateWorld(worldMsg);
-    EXPECT_EQ(node.update(), bt::Node::Status::Success);
+    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     roboteam_msgs::GeometryFieldSize field;
     field.left_penalty_line.begin.x = -1.0f;
@@ -140,7 +140,6 @@ TEST(DetectsBallInOurDefenceArea, IsInDefenceAreaTest)
     bt::Blackboard BB;
     BB.setBool("useRobot", false);
     BB.setDouble("margin", 0.2);
-    BB.setString("ROLE", "test");
     BB.setBool("ourDefenseArea", true);
     auto BBpointer = std::make_shared<bt::Blackboard>(BB);
     rtt::ai::IsInDefenseArea node("IsInDefenseArea", BBpointer);
