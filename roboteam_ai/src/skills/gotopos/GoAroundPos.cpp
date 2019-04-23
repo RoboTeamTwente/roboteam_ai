@@ -72,28 +72,33 @@ GoAroundPos::Status GoAroundPos::gtpUpdate() {
         targetPos = ball->pos;
     }
     if (currentTick <= maxTick) {
-        commandPos =
-                targetPos + Vector2(distanceFromPoint, 0).rotate(
-                        startAngle + rotateDir*currentTick/maxTick*angleDif + M_PI);
+        commandPos = targetPos + Vector2(distanceFromPoint, 0).rotate(
+                startAngle + rotateDir*currentTick/maxTick*angleDif + M_PI);
     }
     else {
         commandPos = targetPos + Vector2(distanceFromPoint, 0).rotate(endAngle + M_PI);
     }
+
     deltaPos = targetPos - robot->pos;
     currentProgress = checkProgression();
     currentTick ++;
+
     // Visualization
     std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
-    displayColorData.emplace_back(std::make_pair(commandPos, Qt::red));
-    displayColorData.emplace_back(
-            std::make_pair(targetPos + Vector2(distanceFromPoint, 0).rotate(endAngle + M_PI), Qt::red));
+    displayColorData.emplace_back(commandPos, Qt::red);
+    displayColorData.emplace_back(targetPos + Vector2(distanceFromPoint, 0).rotate(endAngle + M_PI), Qt::red);
+
     interface::Drawer::setNumTreePoints(robot->id, displayColorData);
 
     switch (currentProgress) {
-    case ROTATING: sendRotateCommand();
+    case ROTATING: {
+        sendRotateCommand();
         return Status::Running;
-    case STOPPING: sendRotateCommand();
+    }
+    case STOPPING: {
+        sendRotateCommand();
         return Status::Running;
+    }
     case FAIL: return Status::Failure;
     case DONE: return Status::Success;
     }
@@ -112,6 +117,7 @@ GoAroundPos::Progression GoAroundPos::checkProgression() {
             return FAIL;
         }
     }
+
     //Go to stopping if we are done rotating
     if (currentProgress == ROTATING) {
         if (currentTick > maxTick) {
@@ -119,6 +125,7 @@ GoAroundPos::Progression GoAroundPos::checkProgression() {
         }
         else return ROTATING;
     }
+
     if (currentProgress == STOPPING) {
         //Done when robot sufficiently close to desired end position and rotation.
         double angDif = Control::angleDifference(deltaPos.angle(), endAngle);
