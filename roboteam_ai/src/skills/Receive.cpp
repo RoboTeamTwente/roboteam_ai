@@ -13,11 +13,16 @@ Receive::Receive(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(
 
 void Receive::onInitialize() {
     ballPlacement = properties->getBool("BallPlacement");
+    isBallOnPassedSet = false;
 }
 
 Receive::Status Receive::onUpdate() {
     if (world::world->ourRobotHasBall(robot->id)) {
         return Status::Success;
+    }
+
+    if (coach::g_pass.getRobotBeingPassedTo() != robot->id) {
+        return Status::Failure;
     }
 
     if (coach::g_pass.passTakesTooLong()) {
@@ -50,12 +55,13 @@ Receive::Status Receive::onUpdate() {
     if (coach::g_pass.isPassed()) {
         // Remember the status of the ball at the moment of passing
         if(!isBallOnPassedSet) {
+            std::cout << robot->id << " - " << ball->vel << std::endl;
             ballOnPassed = ball;
             isBallOnPassedSet = true;
         }
 
         // Check if the ball was deflected
-        if (passFailed()) {
+        if (isBallOnPassedSet && passFailed()) {
             command.w = -robot->angle;
             publishRobotCommand();
             return Status::Failure;
@@ -141,6 +147,7 @@ void Receive::intercept() {
 bool Receive::passFailed() {
     //TODO: Remove print statements and make 1 big if statement
     if ((ball->vel.toAngle() - ballOnPassed->vel.toAngle()).getAngle() > 0.5) {
+        std::cout << "Ball deflected!" << std::endl;
         return true;
     }
 
@@ -148,7 +155,12 @@ bool Receive::passFailed() {
         return true;
     }
 
-    return receiverMissedBall();
+    if (receiverMissedBall()) {
+        std::cout << "Receiver missed ball" << std::endl;
+        return true;
+    }
+
+    return false;
 }
 
 bool Receive::receiverMissedBall() {
