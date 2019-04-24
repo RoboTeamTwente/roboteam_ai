@@ -126,10 +126,6 @@ void OffensiveCoach::removeSideAttacker(const OffensiveCoach::RobotPtr& robot) {
             sideAttackers.erase(sideAttacker);
         }
     }
-
-    if (size == sideAttackers.size()) {
-        std::cerr << "HELP" << sideAttackers.size() << std::endl;
-    }
 }
 
 }
