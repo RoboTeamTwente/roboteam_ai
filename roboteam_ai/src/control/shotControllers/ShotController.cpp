@@ -27,7 +27,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
     Vector2 behindBallPosition;
 
     // determine the position for the robot to stand and the corresponding geneva angle
-    if (useAutoGeneva) {
+    if (false) {
         auto positionAndGeneva = getGenevePlaceBehindBall(robot, shotTarget);
         behindBallPosition = positionAndGeneva.first;
         genevaState = positionAndGeneva.second;
@@ -37,7 +37,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
     }
 
     // TODO implement precision here
-    bool isOnLineToBall = control::ControlUtils::distanceToLine(robot.pos, ball->pos, behindBallPosition) < 0.0255;
+    bool isOnLineToBall = control::ControlUtils::distanceToLine(robot.pos, ball->pos, behindBallPosition) < 0.02;
 
     // TODO fix for 40 degrees so for wide geneva it will still be pretty crappy. 0.70 radians is 40 degrees
    bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, shotTarget, robot.pos);
@@ -62,13 +62,20 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
 Vector2 ShotController::getPlaceBehindBall(world::Robot robot, Vector2 shotTarget) {
     auto ball = world::world->getBall();
     Vector2 preferredShotVector = ball->pos - shotTarget;
-    double distanceBehindBall = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
-    return robot.pos - preferredShotVector.stretchToLength(distanceBehindBall);
+    double distanceBehindBall = 2.0*Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
+    return robot.pos + preferredShotVector.stretchToLength(distanceBehindBall);
 }
 
 // use Numtree GTP to go to a place behind the ball
 ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition) {
+    auto ball = world::world->getBall();
+
     control::PosVelAngle pva = numTreeGtp.getPosVelAngle(std::make_shared<world::Robot>(robot), robotTargetPosition);
+
+    if (robot.pos.dist(robotTargetPosition) < 0.3) {
+        pva.angle = (ball->pos - robot.pos).angle();
+    }
+
     ShotData shotData(pva);
     return shotData;
 }
@@ -82,7 +89,7 @@ std::pair<Vector2, int> ShotController::getGenevePlaceBehindBall(world::Robot ro
     Vector2 preferredShotVector = ball->pos - shotTarget;
 
     // determine the angle between the robot position and the shotline
-    Angle angleWithShotline = (robotToBall - preferredShotVector).angle();
+    Angle angleWithShotline = robot.angle.getAngle() + (robotToBall - preferredShotVector).angle();
 
     // get the place behind the ball as if no geneva is used
     // we rotate this vector according to the angle with the shotline
@@ -99,10 +106,10 @@ std::pair<Vector2, int> ShotController::getGenevePlaceBehindBall(world::Robot ro
         desiredGeneva = 3;
     } else if (angleWithShotline.getAngle() > control::ControlUtils::degreesToRadians(-15)) {
         desiredGeneva = 2;
-        placeBehindBallVector.rotate(control::ControlUtils::degreesToRadians(20));
+        placeBehindBallVector.rotate(control::ControlUtils::degreesToRadians(10));
     } else {
         desiredGeneva = 1;
-        placeBehindBallVector.rotate(control::ControlUtils::degreesToRadians(10));
+        placeBehindBallVector.rotate(control::ControlUtils::degreesToRadians(20));
     }
 
     return std::make_pair(ball->pos + placeBehindBallVector, desiredGeneva);
@@ -121,7 +128,7 @@ ShotData ShotController::shoot(world::Robot robot, Vector2 shotTarget) {
     auto ball = world::world->getBall();
 
     // move towards the ball
-    control::PosVelAngle pva = basicGtp.getPosVelAngle(std::make_shared<world::Robot>(robot), shotTarget);
+    control::PosVelAngle pva = basicGtp.getPosVelAngle(std::make_shared<world::Robot>(robot), ball->pos);
     ShotData shotData(pva);
 
     // set the kicker and kickforce
