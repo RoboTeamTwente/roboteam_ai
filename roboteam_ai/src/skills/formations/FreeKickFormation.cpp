@@ -9,12 +9,14 @@ namespace ai {
 
 bool FreeKickFormation::calculated = false;
 std::vector<Vector2> FreeKickFormation::posses;
+std::shared_ptr<vector<std::shared_ptr<rtt::ai::world::Robot>>> rtt::ai::FreeKickFormation::robotsInFormation = nullptr;
+
 
 Vector2 FreeKickFormation::getFormationPosition() {
-    if (!calculated) {
-        posses = rtt::ai::coach::g_generalPositionCoach.getFreeKickPositions(robotsInFormation->size());
-        calculated = true;
-    }
+
+    std::cout << robot->id << std::endl;
+
+    posses = rtt::ai::coach::g_generalPositionCoach.getFreeKickPositions(robotsInFormation->size());
     std::vector<int> robotIds;
 
     for (auto & i : *robotsInFormation) {
@@ -23,7 +25,8 @@ Vector2 FreeKickFormation::getFormationPosition() {
 
     rtt::HungarianAlgorithm hungarian;
     auto shortestDistances = hungarian.getRobotPositions(robotIds, true, posses);
-    return shortestDistances.at(robot->id);
+    std::cout << robot->id << shortestDistances[robot->id] << std::endl;
+    return shortestDistances[robot->id];
 }
 shared_ptr<vector<shared_ptr<bt::Leaf::Robot>>> FreeKickFormation::robotsInFormationPtr() {
     return robotsInFormation;
@@ -31,6 +34,11 @@ shared_ptr<vector<shared_ptr<bt::Leaf::Robot>>> FreeKickFormation::robotsInForma
 
 FreeKickFormation::FreeKickFormation(std::string name, bt::Blackboard::Ptr blackboard)
         :Formation(name, blackboard) {
+    robotsInFormation = std::make_shared<vector<std::shared_ptr<world::Robot>>>();
+
+}
+void FreeKickFormation::onTerminate(Skill::Status s) {
+    Formation::onTerminate(s);
 }
 }
 

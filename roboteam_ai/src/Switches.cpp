@@ -43,6 +43,8 @@
 #include "roboteam_ai/src/skills/InterceptRobot.hpp"
 #include "roboteam_ai/src/skills/CoachDefend.h"
 #include "roboteam_ai/src/skills/formations/PenaltyFormation.h"
+#include "roboteam_ai/src/skills/formations/FreeKickFormation.h"
+
 #include "roboteam_ai/src/skills/ActiveStop.h"
 
 
@@ -117,7 +119,8 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "TestO",
         "TestM",
         "test_pass_tactic",
-        "shoot_penalty_us_tactic"
+        "shoot_penalty_us_tactic",
+        "free_kick_formation_tactic"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
@@ -150,7 +153,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "halt_strategy",
         "TestStrategy",
         "test_pass_strategy",
-        "shoot_penalty_us_strategy"
+        "shoot_penalty_us_strategy",
+        "free_kick_formation_strategy"
 
 };
 
@@ -233,6 +237,8 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["ActiveStop"] = std::make_shared<rtt::ai::ActiveStop>(name, properties);
     map["ReflectKick"] = std::make_shared<rtt::ai::ReflectKick>(name, properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
+    map["FreeKickFormation"] = std::make_shared<rtt::ai::FreeKickFormation>(name, properties);
+
 
     // conditions (alphabetic order)
     map["BallKickedToOurGoal"] = std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
@@ -259,7 +265,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     }
     else {
 
-        ROS_ERROR("\n\n\nTHE LEAF IS NOT REGISTERED IN SWITCHES:   %s\n\n\n", name.c_str());
+        std::cerr << "\nTHE LEAF IS NOT REGISTERED IN SWITCHES: "<< name << std::endl;
         return bt::Node::Ptr();
     }
 }
@@ -398,7 +404,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
             {"free_kick_formation_tactic", {
-                    {"kicker", robotType::CLOSE_TO_BALL},
+                    {"kicker", robotType::RANDOM},
                     {"f1", robotType::RANDOM},
                     {"f2", robotType::RANDOM},
                     {"f3", robotType::RANDOM},

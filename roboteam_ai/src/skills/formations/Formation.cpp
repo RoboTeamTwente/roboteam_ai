@@ -21,7 +21,7 @@ void Formation::onInitialize() {
 }
 
 bt::Node::Status Formation::onUpdate() {
-    if (!robotIsInFormation()) return Status::Running;
+    if (!robotIsInFormation()) return Status::Failure;
     updateFormation(); // if the amount of robots in the formation changes, we want to update the locations
 
 

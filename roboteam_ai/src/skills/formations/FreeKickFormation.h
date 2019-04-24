@@ -18,6 +18,7 @@ class FreeKickFormation : public Formation {
         static std::shared_ptr<vector<std::shared_ptr<Robot>>> robotsInFormation;
         static bool calculated;
         static std::vector<Vector2> posses;
+        void onTerminate(Status s) override;
 
 };
 }

@@ -109,17 +109,16 @@ std::vector<Vector2> GeneralPositionCoach::getFreeKickPositions(int number) {
     Vector2 penaltyUs = rtt::ai::world::field->getPenaltyPoint(true);
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
     Vector2 penaltyThem = rtt::ai::world::field->getPenaltyPoint(false);
-    Vector2 recLine = penaltyThem - ballPos;
-    int ballPosMultiplier = (ballPos.y >= 0 ? - 1 : 1);
-    Vector2 lineProgress = {- 0.4, ballPosMultiplier* 0.4};
+    int ballPosMultiplier = (ballPos.y >= 0 ? (- 1) : 1);
+    Vector2 lineProgress = {- 0.4, 0};
 
 
     Vector2 def1 = {penaltyUs.x + lengthOffset/2.0, penaltyUs.y + widthOffset};
-    Vector2 def2 = {penaltyUs.x + lengthOffset/2.0, - penaltyUs.y + widthOffset};
+    Vector2 def2 = {penaltyUs.x + lengthOffset/2.0, - (penaltyUs.y + widthOffset)};
 
-    Vector2 rec = ballPos + recLine.stretchToLength(recLine.length()/2.0);
+    Vector2 rec = penaltyThem + (lineProgress*2);
 
-    Vector2 line1 = {penaltyThem.x - (lengthOffset/2.0), (penaltyThem.y + widthOffset)*ballPosMultiplier};
+    Vector2 line1 = {penaltyThem.x - (lengthOffset/3.0), (penaltyThem.y + widthOffset)*ballPosMultiplier};
     Vector2 line2 = line1 + lineProgress;
     Vector2 line3 = line2 + lineProgress;
 
