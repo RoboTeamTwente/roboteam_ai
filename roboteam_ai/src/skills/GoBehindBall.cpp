@@ -76,6 +76,7 @@ void GoBehindBall::onInitialize() {
     if (properties->hasString("type")) {
         unitType = stringToUnit(properties->getString("type"));
     }
+    goToPos.setAvoidBall(0.10);
 }
 
 void GoBehindBall::onTerminate(Skill::Status s) {

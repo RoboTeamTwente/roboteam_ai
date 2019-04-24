@@ -38,6 +38,7 @@ class ShootPenalty : public Skill {
         double errorMarginAng = 0.0174533; // 1 degrees
         bool isPenaltyShot();
         int count = 0;
+        bool shot = false;
 
         control::BasicPosControl goToPos;
 
