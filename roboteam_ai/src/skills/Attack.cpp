@@ -2,7 +2,7 @@
 // Created by thijs on 17-12-18.
 //
 
-#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
+#include <roboteam_ai/src/control/PositionUtils.h>
 #include "Attack.h"
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
@@ -31,9 +31,9 @@ bt::Node::Status Attack::onUpdate() {
     }
 
     Vector2 ball = world::world->getBall()->pos;
-    Vector2 behindBall = coach::g_generalPositionCoach.getPositionBehindBallToGoal(BEHIND_BALL_TARGET, false);
+    Vector2 behindBall = control::PositionUtils::getPositionBehindBallToGoal(BEHIND_BALL_TARGET, false);
 
-    if (!coach::g_generalPositionCoach.isRobotBehindBallToGoal(BEHIND_BALL_CHECK, false, robot->pos)) {
+    if (!control::PositionUtils::isRobotBehindBallToGoal(BEHIND_BALL_CHECK, false, robot->pos)) {
         targetPos = behindBall;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
         gtp->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());

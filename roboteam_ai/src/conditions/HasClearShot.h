@@ -2,7 +2,7 @@
 #define ROBOTEAM_AI_SHOTATGOAL_H
 
 #include "Condition.h"
-#include "../coach/GeneralPositionCoach.h"
+#include "roboteam_ai/src/control/PositionUtils.h"
 
 namespace rtt {
 namespace ai {

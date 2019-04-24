@@ -2,7 +2,7 @@
 // Created by robzelluf on 3/21/19.
 //
 
-#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
+#include <roboteam_ai/src/control/PositionUtils.h>
 #include "DemoAttack.h"
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
@@ -31,10 +31,10 @@ bt::Node::Status DemoAttack::onUpdate() {
     }
 
     Vector2 ball = world::world->getBall()->pos;
-    Vector2 behindBall = coach::g_generalPositionCoach.getPositionBehindBallToGoal(BEHIND_BALL_TARGET, ownGoal);
+    Vector2 behindBall = control::PositionUtils::getPositionBehindBallToGoal(BEHIND_BALL_TARGET, ownGoal);
     Vector2 deltaBall = behindBall - ball;
 
-    if (!coach::g_generalPositionCoach.isRobotBehindBallToGoal(BEHIND_BALL_CHECK, ownGoal, robot->pos)) {
+    if (!control::PositionUtils::isRobotBehindBallToGoal(BEHIND_BALL_CHECK, ownGoal, robot->pos)) {
         targetPos = behindBall;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
         goToPos->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());

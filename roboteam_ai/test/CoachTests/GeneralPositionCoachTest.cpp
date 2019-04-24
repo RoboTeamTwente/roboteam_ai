@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
+#include <roboteam_ai/src/control/PositionUtils.h>
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "../helpers/WorldHelper.h"

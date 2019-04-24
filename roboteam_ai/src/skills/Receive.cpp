@@ -26,7 +26,7 @@ Receive::Status Receive::onUpdate() {
 
     if (ballPlacement) {
         Vector2 ballPlacementTarget = coach::g_ballPlacement.getBallPlacementPos();
-        auto behindTargetPos = coach::g_generalPositionCoach.getPositionBehindPositionToPosition(
+        auto behindTargetPos = control::PositionUtils::getPositionBehindPositionToPosition(
                 Constants::ROBOT_RADIUS(),
                 ballPlacementTarget,
                 ball->pos);

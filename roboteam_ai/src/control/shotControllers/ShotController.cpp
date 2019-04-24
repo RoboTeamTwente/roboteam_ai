@@ -4,7 +4,7 @@
 
 #include <roboteam_ai/src/world/World.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
+#include <roboteam_ai/src/control/PositionUtils.h>
 #include "ShotController.h"
 
 
@@ -36,7 +36,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
     bool isOnLineToBall = control::ControlUtils::distanceToLine(robot.pos, ball->pos, behindBallPosition) < 0.0255;
 
     //
-    bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot.pos);
+   // bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.30, shotTarget, robot.pos);
 
 
 
@@ -94,7 +94,7 @@ std::pair<Vector2, int> ShotController::getGenevePlaceBehindBall(world::Robot ro
     } else if (angleWithShotline.getAngle() < control::ControlUtils::degreesToRadians(-15)) {
         desiredGeneva = 1;
         placeBehindBallVector.rotate(control::ControlUtils::degreesToRadians(-20));
-    } else if (angleWithShotline.getAngle() > control::ControlUtils::degreesToRadians(-5) {
+    } else if (angleWithShotline.getAngle() > control::ControlUtils::degreesToRadians(-5)) {
         desiredGeneva = 2;
         placeBehindBallVector.rotate(control::ControlUtils::degreesToRadians(-10));
     }

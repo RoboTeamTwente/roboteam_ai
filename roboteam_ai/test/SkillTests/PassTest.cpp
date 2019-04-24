@@ -6,7 +6,7 @@
 #include <roboteam_ai/src/utilities/RobotDealer.h>
 #include "../../src/skills/Pass.h"
 #include "../../src/coach/PassCoach.h"
-#include "../../src/coach/GeneralPositionCoach.h"
+#include "roboteam_ai/src/control/PositionUtils.h"
 #include "../../src/coach/OffensiveCoach.h"
 #include "roboteam_ai/src/world/Field.h"
 #include "roboteam_ai/src/world/World.h"
