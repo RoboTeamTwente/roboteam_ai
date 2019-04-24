@@ -116,8 +116,7 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "TestD",
         "TestO",
         "TestM",
-        "test_pass_tactic",
-        "SlingShotTactic"
+        "test_pass_tactic"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
@@ -149,7 +148,6 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "stop_strategy",
         "halt_strategy",
         "TestStrategy",
-        "SlingShotStrategy",
         "test_pass_strategy"
 };
 
@@ -228,7 +226,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["GoBehindBall"] = std::make_shared<rtt::ai::GoBehindBall>(name, properties);
     map["ShootPenalty"] = std::make_shared<rtt::ai::ShootPenalty>(name, properties);
     map["ShootFreeKick"] = std::make_shared<rtt::ai::ShootFreeKick>(name, properties);
-    map["SlingShot"] = std::make_shared<rtt::ai::SlingShot>(name,properties);
+    map["SlingShot"] = std::make_shared<rtt::ai::SlingShot>(name, properties);
     map["PenaltyFormation"] = std::make_shared<rtt::ai::PenaltyFormation>(name, properties);
     map["ActiveStop"] = std::make_shared<rtt::ai::ActiveStop>(name, properties);
     map["ReflectKick"] = std::make_shared<rtt::ai::ReflectKick>(name, properties);
@@ -521,10 +519,6 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                      {"o4", robotType::RANDOM},
                      {"o5", robotType::RANDOM}
              }
-            },
-            {"SlingShotTactic",{
-                    {"catapult",robotType::RANDOM}
-            }
             },
             {"test_pass_tactic",
              {
