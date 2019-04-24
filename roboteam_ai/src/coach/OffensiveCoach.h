@@ -39,8 +39,8 @@ public:
     void updateOffensivePositions();
     std::vector<Vector2> getOffensivePositions(int numberOfRobots);
 
-    void addSideAttacker(const RobotPtr&);
-    void removeSideAttacker(const RobotPtr&);
+    void addSideAttacker(const RobotPtr& robot);
+    void removeSideAttacker(const RobotPtr& robot);
     Vector2 getPositionForRobotID(int robotID);
     void redistributePositions();
 
