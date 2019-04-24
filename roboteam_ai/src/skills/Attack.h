@@ -15,8 +15,8 @@ namespace ai {
 
 class Attack : public Skill {
     private:
-        const double BEHIND_BALL_CHECK = 0.6;
-        const double BEHIND_BALL_TARGET = 0.4;
+        const double BEHIND_BALL_CHECK = 0.4;
+        const double BEHIND_BALL_TARGET = 0.2;
         Vector2 deltaPos;
         Vector2 targetPos;
         bool shot = false;
