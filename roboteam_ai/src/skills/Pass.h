@@ -17,16 +17,19 @@ namespace ai {
 
 class Pass : public Skill {
 private:
+    const double BEHIND_BALL_CHECK = 0.6;
+    const double BEHIND_BALL_TARGET = 0.4;
+
     bool ballPlacement = false;
     RobotPtr robotToPassTo;
 
     Vector2 targetPos;
     int robotToPassToID = -1;
-    control::NumTreePosControl numTreeGtp = control::NumTreePosControl(0.1, true, true);
+    control::NumTreePosControl numTreeGtp = control::NumTreePosControl(Constants::DEFAULT_BALLCOLLISION_RADIUS(), true, true);
     control::BasicPosControl basicGtp = control::BasicPosControl (false, true, true);
 
     Status getBall();
-    Status moveBehindBall(Vector2 behindBallPos);
+    Status moveBehindBall(const Vector2& behindBallPos);
     Status shoot();
 
     double determineKickForce(double distance);
