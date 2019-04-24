@@ -21,7 +21,8 @@ namespace w = rtt::ai::world;
 namespace rd = rtt::ai::robotDealer;
 
 TEST(SkillGoToPos, GoToPosTest) {
-
+    //this test might fail about 50% of the time... no idea why
+    rd::RobotDealer::halt();
     ros::Rate rate(1);
     commands.clear();
     EXPECT_TRUE(commands.empty());
@@ -30,27 +31,28 @@ TEST(SkillGoToPos, GoToPosTest) {
 
     auto bb = std::make_shared<bt::Blackboard>();
     bb->setInt("ROBOT_ID", 0);
-    bb->setString("ROLE","GTPtest");
-    bb->setVector2("targetPos", rtt::Vector2(5.0,6.0));
+    bb->setString("ROLE", "GTPtest");
+    bb->setVector2("targetPos", rtt::Vector2(5.0, 6.0));
     roboteam_msgs::World worldMsg;
+    w::world->updateWorld(worldMsg);
     roboteam_msgs::WorldRobot robot;
-    robot.id=0;
-    robot.pos.x=0;
-    robot.pos.y=0;
+    robot.id = 0;
+    robot.pos.x = 0;
+    robot.pos.y = 0;
     worldMsg.us.push_back(robot);
     worldMsg.ball.existence = 99999;
     w::world->updateWorld(worldMsg);
-    rd::RobotDealer::claimRobotForTactic(rd::RobotType::RANDOM,"GTPtest", "GoToPosTest");
+    rd::RobotDealer::claimRobotForTactic(rd::RobotType::RANDOM, "GTPtest", "GoToPosTest");
     rtt::ai::SkillGoToPos goToPos("GTPtest", bb);
     goToPos.initialize();
-
     EXPECT_EQ(goToPos.update(), bt::Leaf::Status::Running);
 
     robot.pos.x = 5.0;
     robot.pos.y = 6.0;
+    roboteam_msgs::World w2orldMsg;
 
-    worldMsg.us[0] = robot;
-    w::world->updateWorld(worldMsg);
+    w2orldMsg.us.push_back(robot);
+    w::world->updateWorld(w2orldMsg);
 
     EXPECT_EQ(goToPos.update(), bt::Leaf::Status::Success);
 

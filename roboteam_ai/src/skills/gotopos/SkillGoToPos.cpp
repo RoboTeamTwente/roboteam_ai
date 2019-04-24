@@ -47,14 +47,7 @@ void SkillGoToPos::gtpTerminate(Status s) {
 }
 
 SkillGoToPos::Progression SkillGoToPos::checkProgression() {
-
-    double dx = targetPos.x - robot->pos.x;
-    double dy = targetPos.y - robot->pos.y;
-    Vector2 deltaPos = {dx, dy};
-
-    double maxMargin = 0.3;                        // max offset or something.
-
-    if (deltaPos.length() >= maxMargin) return ON_THE_WAY;
+    if ((targetPos - robot->pos).length2() > errorMargin*errorMargin) return ON_THE_WAY;
     else return DONE;
 }
 

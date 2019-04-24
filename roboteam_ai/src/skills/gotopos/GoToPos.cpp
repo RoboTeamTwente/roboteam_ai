@@ -68,6 +68,7 @@ void GoToPos::setPositionController(const GoToType &gTT) {
 
 /// Get an update on the skill
 bt::Node::Status GoToPos::onUpdate() {
+    //reset velocity and angle commands
     command.x_vel = 0;
     command.y_vel = 0;
     command.w = 0;
