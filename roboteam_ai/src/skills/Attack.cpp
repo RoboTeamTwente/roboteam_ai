@@ -26,7 +26,6 @@ bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
 
     if (shot && !world::world->ourRobotHasBall(robot->id)) {
-        std::cout << "SUCCESS" << std::endl;
         return Status::Success;
     }
 
@@ -48,7 +47,6 @@ bt::Node::Status Attack::onUpdate() {
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
             command.kicker_forced = 1;
             shot = true;
-            std::cout << "SHOT" << std::endl;
         }
     }
 
