@@ -25,37 +25,19 @@ PenaltyKeeper::Status PenaltyKeeper::onUpdate() {
         sendInterceptCommand();
         break;
     }
-    case FREEMOVE: {
-        if (isBallShot()){
-            sendFreeMoveCommand();
-        }
-        else{
-            sendWaitCommand();
-        }
-        break;
-    }
     }
     return Status::Running;
 }
 PenaltyKeeper::PenaltyState PenaltyKeeper::updateState(PenaltyState currentState) {
     if (currentState==WAITING){
-//        if (freeToMove()){
-//            return FREEMOVE;
-//        }
         return isBallShot() ? BALLSHOT : WAITING;
     }
-    else if (currentState==BALLSHOT){
-//        if (freeToMove()){
-//            return FREEMOVE;
-//        }
-        isBallShot()? ballNotShotTicks++ : ballNotShotTicks=0;
-        if (ballNotShotTicks>3){
+    else if (currentState==BALLSHOT) {
+        isBallShot() ? ballNotShotTicks ++ : ballNotShotTicks = 0;
+        if (ballNotShotTicks > 3) {
             return WAITING;
         }
         return BALLSHOT;
-    }
-    else if (currentState==FREEMOVE){
-        return FREEMOVE;
     }
     return WAITING;
 }
@@ -104,24 +86,6 @@ void PenaltyKeeper::sendInterceptCommand() {
     command.w = 0;
     publishRobotCommand();
 }
-void PenaltyKeeper::sendFreeMoveCommand() {
-    Vector2 startBall = world::world->getBall()->pos;
-    Vector2 endBall = world::world->getBall()->pos + world::world->getBall()->vel.stretchToLength(100);
-    Vector2 interceptPos=robot->pos.project(startBall,endBall);
-    if (world::field->pointIsInDefenceArea(interceptPos)){
-        Vector2 delta = gtp.getPosVelAngle(robot, interceptPos).vel;
-        command.x_vel=delta.x;
-        command.y_vel=delta.y;
-        command.w=(endBall-startBall).angle();
-        publishRobotCommand();
-
-    }
-    else{
-        //failsave
-        sendWaitCommand();
-        return;
-    }
-}
 std::pair<Vector2, Vector2> PenaltyKeeper::getGoalLine() {
     std::pair<Vector2, Vector2> originalLine = world::field->getGoalSides(true);
     double forwardX = originalLine.first.x + Constants::KEEPER_PENALTY_LINE_MARGIN();
@@ -131,9 +95,6 @@ std::pair<Vector2, Vector2> PenaltyKeeper::getGoalLine() {
 }
 bool PenaltyKeeper::isBallShot() {
     return world::world->getBall()->vel.x>-0.2;
-}
-bool PenaltyKeeper::freeToMove() {
-    return (firstBallPos-world::world->getBall()->pos).length()>0.05;
 }
 }
 }

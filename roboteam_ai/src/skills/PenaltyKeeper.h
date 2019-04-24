@@ -11,7 +11,7 @@ namespace ai{
 class PenaltyKeeper : public Skill  {
     private:
         // three states, one for waiting until they kick, one for intercepting the kick and one for after the kick
-        enum PenaltyState {WAITING,BALLSHOT,FREEMOVE};
+        enum PenaltyState {WAITING,BALLSHOT};
         PenaltyState state;
         Vector2 firstBallPos;
         int ballNotShotTicks;
@@ -21,11 +21,9 @@ class PenaltyKeeper : public Skill  {
         std::pair<Vector2,Vector2> getGoalLine();
         void sendWaitCommand();
         void sendInterceptCommand();
-        void sendFreeMoveCommand();
         control::BasicPosControl gtp;
         PenaltyState updateState(PenaltyState currentState);
         bool isBallShot();
-        bool freeToMove();
     public:
         explicit PenaltyKeeper(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;
