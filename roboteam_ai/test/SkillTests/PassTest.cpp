@@ -38,26 +38,29 @@ TEST(PassTest, PassTest) {
     w::world->updateWorld(world);
 
     ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(0), static_cast<int>(robot1.id));
+    rtt::ai::coach::g_pass.resetPass();
 
     roboteam_msgs::WorldRobot robot2;
     robot2.id = 2;
     w::world->updateWorld(world);
 
-    robot2.pos.x = 6;
-    robot2.pos.y = 0;
+    robot2.pos.x = 7;
+    robot2.pos.y = 3;
     world.us.push_back(robot2);
     w::world->updateWorld(world);
 
     ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(0), static_cast<int>(robot2.id));
+    rtt::ai::coach::g_pass.resetPass();
 
     roboteam_msgs::WorldRobot opponent1;
-    opponent1.pos.x = 5.5;
-    opponent1.pos.y = 0;
+    opponent1.pos.x = 3.5;
+    opponent1.pos.y = 1.5;
 
     world.them.push_back(opponent1);
     w::world->updateWorld(world);
 
     ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(0), robot1.id);
+    rtt::ai::coach::g_pass.resetPass();
 
     ball.pos.x = 3;
     ball.pos.y = -3;

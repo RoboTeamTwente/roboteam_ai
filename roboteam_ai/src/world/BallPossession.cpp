@@ -35,7 +35,6 @@ void BallPossession::recomputeState() {
         state = LOOSEBALL;
     }
     // in the other cases we stay in the same state (so we do nothing)
-//    std::cout << stateAsString() << std::endl;
 }
 
 void BallPossession::updateTicks() {

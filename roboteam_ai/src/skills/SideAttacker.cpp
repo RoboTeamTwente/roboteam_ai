@@ -7,25 +7,20 @@
 namespace rtt {
 namespace ai {
 
-std::vector<SideAttacker::RobotPtr> SideAttacker::robotsPositioning = {};
-int SideAttacker::robotsInMemory = robotsPositioning.size();
+int SideAttacker::robotsInMemory = coach::g_offensiveCoach.getSideAttackers().size();
 
 SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
 }
 
 void SideAttacker::onInitialize() {
-    for (auto &robotPositioning : robotsPositioning) {
-        if (robotPositioning->id == robot->id) {
-            return;
-        }
-    }
-    robotsPositioning.emplace_back(robot);
+    coach::g_offensiveCoach.addSideAttacker(robot);
     robotsInMemory ++;
 }
 
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
+    auto robotsPositioning = coach::g_offensiveCoach.getSideAttackers();
     bool isInRobotsPositioning = false;
     for (auto &robotPositioning : robotsPositioning) {
         if (robotPositioning->id == robot->id) {
@@ -33,7 +28,7 @@ bt::Node::Status SideAttacker::onUpdate() {
         }
     }
 
-    if (! isInRobotsPositioning) return Status::Running;
+    if (! isInRobotsPositioning) return Status::Failure;
 
     targetPos = getOffensivePosition();
     auto newPosition = goToPos.getPosVelAngle(robot, targetPos);
@@ -50,6 +45,7 @@ bt::Node::Status SideAttacker::onUpdate() {
 }
 
 Vector2 SideAttacker::getOffensivePosition() {
+    auto robotsPositioning = coach::g_offensiveCoach.getSideAttackers();
     std::vector<Vector2> targetLocations = coach::g_offensiveCoach.getNewOffensivePositions(robotsPositioning.size());
     Vector2 position;
 
@@ -83,21 +79,9 @@ void SideAttacker::onTerminate(Status s) {
     command.x_vel = 0;
     command.y_vel = 0;
 
-    bool safelyRemoved = false;
-    for (unsigned int i = 0; i < robotsPositioning.size(); i ++) {
-        if (robotsPositioning[i]->id == robot->id) {
-            robotsPositioning.erase(robotsPositioning.begin() + i);
-            safelyRemoved = true;
-            break;
-        }
-    }
-
-    if (! safelyRemoved) {
-        std::cerr << "Failed to safely remove robot " << robot->id << " from robotsPositioning" << std::endl;
-    }
+    coach::g_offensiveCoach.removeSideAttacker(robot);
 
     robotsInMemory --;
-
     zone = - 1;
 
     publishRobotCommand();

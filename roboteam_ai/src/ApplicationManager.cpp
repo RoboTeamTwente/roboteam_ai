@@ -8,6 +8,7 @@
 #include <sstream>
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include <roboteam_ai/src/interface/InterfaceValues.h>
+#include <roboteam_ai/src/coach/GetBallCoach.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -20,6 +21,8 @@ void ApplicationManager::setup() {
 
     BTFactory::setCurrentTree("halt_strategy");
     BTFactory::setKeeperTree("keeper_default_tactic");
+    rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
+
 }
 
 void ApplicationManager::loop() {
@@ -56,7 +59,7 @@ void ApplicationManager::loop() {
 }
 
 void ApplicationManager::runOneLoopCycle() {
-    ros::spinOnce();
+//    ros::spinOnce();
 
     if (ai::world::world->weHaveRobots()) {
 
@@ -71,7 +74,6 @@ void ApplicationManager::runOneLoopCycle() {
         // otherwise wastes like 0.1 ms
         auto demomsg = IOManager->getDemoInfo();
         demo::JoystickDemo::demoLoop(demomsg);
-        rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
 
         if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
             if (ai::robotDealer::RobotDealer::getKeeperID() == -1) {
@@ -80,15 +82,14 @@ void ApplicationManager::runOneLoopCycle() {
             }
             keeperTree = BTFactory::getKeeperTree();
             keeperTree->tick();
-        }  else {
-            BTFactory::makeTrees();
-
         }
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
+
+        rtt::ai::coach::getBallCoach->update();
+        rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
 
-        rtt::ai::coach::g_DefenceDealer.setDoUpdate();
     }
     else {
         std::cout <<"NO FIRST WORLD" << std::endl;
