@@ -21,7 +21,6 @@ class SideAttacker : public Skill {
 
     int zone = -1;
     static int robotsInMemory;
-    static vector<RobotPtr> robotsPositioning;
 
     Vector2 getOffensivePosition();
 

@@ -13,11 +13,16 @@ Receive::Receive(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(
 
 void Receive::onInitialize() {
     ballPlacement = properties->getBool("BallPlacement");
+    isBallOnPassedSet = false;
 }
 
 Receive::Status Receive::onUpdate() {
     if (world::world->ourRobotHasBall(robot->id)) {
         return Status::Success;
+    }
+
+    if (coach::g_pass.getRobotBeingPassedTo() != robot->id) {
+        return Status::Failure;
     }
 
     if (coach::g_pass.passTakesTooLong()) {
@@ -55,7 +60,7 @@ Receive::Status Receive::onUpdate() {
         }
 
         // Check if the ball was deflected
-        if (passFailed()) {
+        if (isBallOnPassedSet && passFailed()) {
             command.w = -robot->angle;
             publishRobotCommand();
             return Status::Failure;
@@ -149,6 +154,7 @@ bool Receive::passFailed() {
     }
 
     return receiverMissedBall();
+
 }
 
 bool Receive::receiverMissedBall() {
