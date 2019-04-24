@@ -17,6 +17,13 @@ namespace ai {
 
 class Pass : public Skill {
 private:
+    enum Progression {
+        GETTING_TO_BALL,
+        PASSING
+    };
+
+    Progression currentProgress = GETTING_TO_BALL;
+
     const double BEHIND_BALL_CHECK = 0.6;
     const double BEHIND_BALL_TARGET = 0.4;
 
