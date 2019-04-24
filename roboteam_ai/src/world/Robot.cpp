@@ -14,7 +14,9 @@ namespace world {
 
 Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team)
         : distanceToBall(-1.0), iHaveBall(false), id(copy.id), angle(copy.angle),
-          pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) { }
+          pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
+
+}
 
 Robot::Robot()
         : distanceToBall(-1.0), iHaveBall(false), id(-1), angle(-1.0),

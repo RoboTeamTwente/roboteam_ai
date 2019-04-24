@@ -39,7 +39,9 @@ bt::Node::Status Attack::onUpdate() {
     command.w = shotData.angle.getAngle();
     command.kicker = shotData.kick;
     command.kicker_forced = shotData.kick;
-    command.kicker_vel = shotData.kick;
+    command.kicker_vel = shotData.kickSpeed;
+    command.geneva_state = shotData.genevaState;
+
 
 //    Vector2 velocity;
 //    if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
