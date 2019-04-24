@@ -28,13 +28,13 @@ TEST(Defendtest, defend_test) {
     rtt::ai::Defend defend("DefendTest", properties);
 
     EXPECT_EQ(defend.allDefendersMemory, 0);
-    EXPECT_EQ(defend.allDefenders.size(), 0);
+    EXPECT_TRUE(defend.allDefenders.empty());
     defend.initialize();
     EXPECT_EQ(defend.allDefendersMemory, 0);
-    EXPECT_EQ(defend.allDefenders.size(), 1);
+    EXPECT_EQ(static_cast<int>(defend.allDefenders.size()), 1);
     defend.update();
     EXPECT_EQ(defend.allDefendersMemory, 1);
-    EXPECT_EQ(defend.allDefenders.size(), 1);
+    EXPECT_EQ(static_cast<int>(defend.allDefenders.size()), 1);
 
     // get a position and store it
     Vector2 rememberPosition = defend.getDefensivePosition();
@@ -45,10 +45,10 @@ TEST(Defendtest, defend_test) {
     robotDealer::RobotDealer::claimRobotForTactic(robotDealer::RobotType::RANDOM, "defendRobot2", "DefendTest2");
     rtt::ai::Defend defend2("DefendTest2", properties2);
 
-    EXPECT_EQ(defend.allDefendersMemory, 1);
+    EXPECT_EQ(static_cast<int>(defend.allDefendersMemory), 1);
     EXPECT_EQ(defend2.allDefendersMemory, 0);
     // the static vector should be the same
-    EXPECT_EQ(defend2.allDefenders.size(), 1);
+    EXPECT_EQ(static_cast<int>(defend2.allDefenders.size()), 1);
 
 
     defend2.initialize();

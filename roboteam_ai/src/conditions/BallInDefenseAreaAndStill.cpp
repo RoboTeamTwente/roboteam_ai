@@ -1,6 +1,7 @@
-//
-// Created by rolf on 14-1-19.
-//
+/*
+ * returns SUCCESS if the ball is in the given defence area (standard ours) 
+ * AND if the ball lays still
+ */
 
 #include "BallInDefenseAreaAndStill.h"
 #include "../utilities/Constants.h"
@@ -20,15 +21,14 @@ bt::Node::Status BallInDefenseAreaAndStill::onUpdate() {
     Vector2 ballPos = ball->pos;
     Vector2 ballVel=ball->vel;
 
-    if (world::field->pointIsInDefenceArea(ballPos,!theirDefenceArea, outsideField)&&(ballVel.length()<Constants::BALL_STILL_VEL())){
+    bool pointIsInDefenceArea = world::field->pointIsInDefenceArea(ballPos, !theirDefenceArea, outsideField);
+    bool ballIsLayingStill = ballVel.length() < Constants::BALL_STILL_VEL();
+
+    if (pointIsInDefenceArea && ballIsLayingStill){
         return Status::Success;
     }
-    else{
-        return Status::Failure;
-    }
+    return Status::Failure;
 }
-
-std::string BallInDefenseAreaAndStill::node_name() {return "BallInDefenseAreaAndStill";}
 
 } // ai
 } // rtt

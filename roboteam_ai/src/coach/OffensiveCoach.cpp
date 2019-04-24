@@ -14,9 +14,8 @@ OffensiveCoach g_offensiveCoach;
 
 /// Calculate new positions close to the robot
 OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(const OffensivePosition& currentPosition, const Vector2& defaultPosition) {
-
     OffensivePosition bestPosition = currentPosition;
-    bestPosition.score = CoachHeuristics::calculatePositionScore(bestPosition.position);
+    bestPosition.score = offensiveScore.calculateOffensivePositionScore(bestPosition.position);
 
     // Check all positions in a grid around the robot to look for better positions
     for (int xDiff = -GRID_SIZE; xDiff < GRID_SIZE + 1; xDiff++) {
@@ -46,7 +45,7 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
                 }
             }
             if (tooCloseToOtherZone) continue;
-            newPosition.score = CoachHeuristics::calculatePositionScore(newPosition.position);
+            newPosition.score = offensiveScore.calculateOffensivePositionScore(newPosition.position);
 
             if (newPosition.score > bestPosition.score) {
                 bestPosition = newPosition;
@@ -55,22 +54,6 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
     }
 
     return bestPosition;
-}
-
-/// Get robot with highest offensive score
-int OffensiveCoach::getBestStrikerID() {
-    double bestScore = 0;
-    int bestStriker = -1;
-    for(auto& robot : world::world->getWorld().us) {
-        if (robot.pos.x > 0) {
-            double positionScore = CoachHeuristics::calculatePassScore(robot.pos);
-            if (positionScore > bestScore) {
-                bestScore = positionScore;
-                bestStriker = robot.id;
-            }
-        }
-    }
-    return bestStriker;
 }
 
 std::vector<Vector2> OffensiveCoach::getDefaultLocations() {
@@ -96,14 +79,14 @@ std::vector<Vector2> OffensiveCoach::getNewOffensivePositions(int numberOfRobots
     std::vector<Vector2> defaultLocations = getDefaultLocations();
     if (offensivePositions.size() != defaultLocations.size()) {
         offensivePositions = {};
-        for (auto& defaultLocation : defaultLocations) {
+        for (auto &defaultLocation : defaultLocations) {
             OffensivePosition offensivePosition;
             offensivePosition.position = defaultLocation;
-            offensivePosition.score = CoachHeuristics::calculatePositionScore(defaultLocation);
+            offensivePosition.score = offensiveScore.calculateOffensivePositionScore(defaultLocation);
             offensivePositions.emplace_back(offensivePosition);
         }
     } else {
-        for (int i = 0; i < offensivePositions.size(); i++) {
+        for (unsigned int i = 0; i < offensivePositions.size(); i++) {
             OffensivePosition offensivePosition = offensivePositions[i];
             Vector2 defaultPosition = defaultLocations[i];
             offensivePositions[i] = calculateNewRobotPosition(offensivePosition, defaultPosition);
@@ -112,7 +95,7 @@ std::vector<Vector2> OffensiveCoach::getNewOffensivePositions(int numberOfRobots
 
     std::vector<Vector2> positionVectors = getOffensivePositionVectors();
 
-    if (numberOfRobots >= offensivePositions.size()) {
+    if (numberOfRobots >= static_cast<int>(offensivePositions.size())) {
         return positionVectors;
     } else {
         std::vector<Vector2> newVec(positionVectors.begin(), positionVectors.begin() + numberOfRobots);
@@ -126,6 +109,23 @@ std::vector<Vector2> OffensiveCoach::getOffensivePositionVectors() {
         positionVectors.emplace_back(offensivePosition.position);
     }
     return positionVectors;
+}
+
+const set<OffensiveCoach::RobotPtr> &OffensiveCoach::getSideAttackers() const {
+    return sideAttackers;
+}
+
+void OffensiveCoach::addSideAttacker(OffensiveCoach::RobotPtr robot) {
+    sideAttackers.insert(robot);
+}
+
+void OffensiveCoach::removeSideAttacker(const OffensiveCoach::RobotPtr& robot) {
+    int size = sideAttackers.size();
+    for (auto &sideAttacker : sideAttackers) {
+        if(sideAttacker->id == robot->id) {
+            sideAttackers.erase(sideAttacker);
+        }
+    }
 }
 
 }

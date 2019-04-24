@@ -16,41 +16,59 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name),
 
 void Pass::onInitialize() {
     ballPlacement = properties->getBool("BallPlacement");
-    determineRobotToPassTo();
+    currentProgress = GETTING_TO_BALL;
 }
 
 Pass::Status Pass::onUpdate() {
-    if (robotToPassToID == -1) return Status::Failure;
-    robotToPassTo = world::world->getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
 
-    bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos);
-    auto behindBallPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, getKicker());
-    bool isOnLineToBall = control::ControlUtils::distanceToLine(robot->pos, ball->pos, behindBallPos) < 0.0255;
-    bool hasBall = world::world->ourRobotHasBall(robot->id, Constants::MAX_BALL_RANGE());
+    switch (currentProgress) {
 
-    bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
-    bool ballIsShotTowardsReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, robotToPassTo->pos);
+        case GETTING_TO_BALL:
+            if((robot->pos - ball->pos).length() < CLOSE_ENOUGH_TO_BALL) {
+                initiatePass();
+                numTreeGtp.setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
+                currentProgress = PASSING;
+                return Status::Running;
+            }
 
-    if (ballIsMovingFast && ballIsShotTowardsReceiver) {
-        coach::g_pass.setPassed(true);
-        return Status::Success;
-    } else if (isOnLineToBall && isBehindBall) {
-        return hasBall ? shoot() : getBall();
+            return goToBall();
+
+        case PASSING:
+            robotToPassToID = coach::g_pass.getRobotBeingPassedTo();
+
+            if (robotToPassToID == -1) {
+                return Status::Failure;
+            }
+            robotToPassTo = world::world->getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
+
+
+            bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(BEHIND_BALL_CHECK, robotToPassTo->pos, robot->pos);
+            auto behindBallPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(BEHIND_BALL_TARGET, getKicker());
+            bool isOnLineToBall = control::ControlUtils::distanceToLine(robot->pos, ball->pos, behindBallPos) < 0.0255;
+            bool hasBall = world::world->ourRobotHasBall(robot->id, Constants::MAX_BALL_RANGE());
+
+            bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
+            bool ballIsShotTowardsReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, robotToPassTo->pos);
+
+            if (ballIsMovingFast && ballIsShotTowardsReceiver) {
+                coach::g_pass.setPassed(true);
+                return Status::Success;
+            } else if (isOnLineToBall && isBehindBall) {
+                return hasBall ? shoot() : getBall();
+            }
+
+            return moveBehindBall(behindBallPos);
     }
-    return moveBehindBall(behindBallPos);
 }
 
 void Pass::onTerminate(Status s) {
-    //coach::g_pass.resetPass();
-}
-
-/// determine which robot we should pass towards.
-void Pass::determineRobotToPassTo() {
-    robotToPassToID = ballPlacement ? coach::g_pass.getRobotBeingPassedTo() : coach::g_pass.initiatePass();
+    if (!coach::g_pass.isPassed()) {
+        coach::g_pass.resetPass();
+    }
 }
 
 /// this is the method we call when we are far from the desired position
-bt::Leaf::Status Pass::moveBehindBall(Vector2 behindBallPos) {
+bt::Leaf::Status Pass::moveBehindBall(const Vector2& behindBallPos) {
     targetPos = behindBallPos;
 
     control::PosVelAngle pva = numTreeGtp.getPosVelAngle(robot, targetPos);
@@ -111,6 +129,23 @@ double Pass::determineKickForce(double distance) {
 Vector2 Pass::getKicker() {
     Vector2 distanceToKicker = {Constants::CENTRE_TO_FRONT(), 0};
     return robotToPassTo->pos + distanceToKicker.rotate(robotToPassTo->angle);
+}
+
+void Pass::initiatePass() {
+    robotToPassToID = ballPlacement ? coach::g_pass.getRobotBeingPassedTo() : coach::g_pass.initiatePass(robot->id);
+}
+
+Skill::Status Pass::goToBall() {
+    targetPos = ball->pos;
+    numTreeGtp.setAvoidBall(false);
+    control::PosVelAngle pva = numTreeGtp.getPosVelAngle(robot, targetPos);
+    pva.vel = control::ControlUtils::velocityLimiter(pva.vel);
+    command.x_vel = static_cast<float>(pva.vel.x);
+    command.y_vel = static_cast<float>(pva.vel.y);
+    command.w = pva.angle;
+
+    publishRobotCommand();
+    return bt::Leaf::Status::Running;
 }
 
 } // ai

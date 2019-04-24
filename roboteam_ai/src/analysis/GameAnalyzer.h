@@ -5,15 +5,18 @@
 #ifndef ROBOTEAM_AI_GAMEANALYZER_H
 #define ROBOTEAM_AI_GAMEANALYZER_H
 
+#include "gtest/gtest_prod.h"
 #include "AnalysisReport.h"
 #include "../world/WorldData.h"
 #include "../world/World.h"
+#include "../world/BallPossession.h"
 
 namespace rtt {
 namespace ai {
 namespace analysis {
 
 class GameAnalyzer {
+    FRIEND_TEST(GameAnalyzerTest, it_works);
 public:
     // It's a singleton; don't copy it.
     GameAnalyzer(const GameAnalyzer &) = delete;
@@ -33,6 +36,7 @@ private:
 
     GameAnalyzer();
 
+
     // Threading
     std::thread thread;
     std::mutex mutex;
@@ -43,7 +47,7 @@ private:
     std::shared_ptr<AnalysisReport> mostRecentReport;
 
     std::vector<std::pair<Robot, RobotDanger>> getRobotsSortedOnDanger(bool ourTeam);
-    BallPossession getBallPossessionEstimate(bool ourTeam);
+    BallPossession convertPossession(rtt::ai::BallPossession::Possession possession);
     double getTeamDistanceToGoalAvg(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
     double getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
     RobotDanger evaluateRobotDangerScore(Robot robot, bool ourTeam);

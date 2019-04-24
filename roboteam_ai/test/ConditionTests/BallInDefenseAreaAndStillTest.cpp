@@ -19,7 +19,7 @@ TEST(DetectsDefenseArea, BallInDefenseAreaAndStill)
     EXPECT_TRUE(nodeTheirDefenceArea.theirDefenceArea); // check if the property is handled properly
 
     BBpointer->setBool("theirDefenceArea", false);
-    rtt::ai::BallInDefenseAreaAndStill node("Test", BBpointer);
+    rtt::ai::BallInDefenseAreaAndStill node("BallInDefenseAreaAndStill", BBpointer);
     EXPECT_EQ(node.node_name(), "BallInDefenseAreaAndStill");
     EXPECT_FALSE(node.theirDefenceArea);
 
