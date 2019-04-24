@@ -17,6 +17,14 @@ namespace ai {
 
 class Pass : public Skill {
 private:
+    enum Progression {
+        GETTING_TO_BALL,
+        PASSING
+    };
+
+    Progression currentProgress = GETTING_TO_BALL;
+
+    const double CLOSE_ENOUGH_TO_BALL = 0.5;
     const double BEHIND_BALL_CHECK = 0.6;
     const double BEHIND_BALL_TARGET = 0.4;
 
@@ -28,7 +36,9 @@ private:
     control::NumTreePosControl numTreeGtp = control::NumTreePosControl(Constants::DEFAULT_BALLCOLLISION_RADIUS(), true, true);
     control::BasicPosControl basicGtp = control::BasicPosControl (false, true, true);
 
+    void initiatePass();
     Status getBall();
+    Status goToBall();
     Status moveBehindBall(const Vector2& behindBallPos);
     Status shoot();
 
@@ -40,7 +50,6 @@ public:
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;
-    void determineRobotToPassTo();
 };
 
 } //ai
