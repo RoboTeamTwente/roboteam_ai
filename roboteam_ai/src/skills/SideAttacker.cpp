@@ -16,6 +16,7 @@ SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard)
 void SideAttacker::onInitialize() {
     coach::g_offensiveCoach.addSideAttacker(robot);
     robotsInMemory ++;
+    zone = -1;
 }
 
 /// Get an update on the skill
@@ -49,8 +50,7 @@ Vector2 SideAttacker::getOffensivePosition() {
     std::vector<Vector2> targetLocations = coach::g_offensiveCoach.getNewOffensivePositions(robotsPositioning.size());
     Vector2 position;
 
-    if (zone == - 1 || zone > static_cast<int>(robotsPositioning.size() - 1) ||
-            robotsInMemory != static_cast<int>(robotsPositioning.size())) {
+    if (zone == - 1 || robotsInMemory != static_cast<int>(robotsPositioning.size())) {
 
         std::vector<Vector2> robotLocations;
         std::vector<int> robotIds;
@@ -71,6 +71,7 @@ Vector2 SideAttacker::getOffensivePosition() {
     }
 
     robotsInMemory = robotsPositioning.size();
+    std::cout << robot->id << position << std::endl;
     return position;
 }
 

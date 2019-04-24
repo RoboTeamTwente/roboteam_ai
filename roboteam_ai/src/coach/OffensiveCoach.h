@@ -44,11 +44,11 @@ public:
 
     void addSideAttacker(RobotPtr);
     void removeSideAttacker(const RobotPtr&);
+    void updateSideAttackers();
 
 private:
     coach::OffensiveScore offensiveScore;
     std::vector<OffensivePosition> offensivePositions;
-    std::map<int, OffensivePosition> robotPositions;
     std::set<RobotPtr> sideAttackers;
 
 };

@@ -76,6 +76,10 @@ std::vector<Vector2> OffensiveCoach::getDefaultLocations() {
 }
 
 std::vector<Vector2> OffensiveCoach::getNewOffensivePositions(int numberOfRobots) {
+    // Assuming the positions are symmetric (2 close by the goal, left and right, 2 further, both left and right,
+    // always send both so that the hungarian can determine the closest one
+    numberOfRobots += numberOfRobots % 2;
+
     std::vector<Vector2> defaultLocations = getDefaultLocations();
     if (offensivePositions.size() != defaultLocations.size()) {
         offensivePositions = {};
@@ -120,16 +124,15 @@ void OffensiveCoach::addSideAttacker(OffensiveCoach::RobotPtr robot) {
 }
 
 void OffensiveCoach::removeSideAttacker(const OffensiveCoach::RobotPtr& robot) {
-    int size = sideAttackers.size();
     for (auto &sideAttacker : sideAttackers) {
         if(sideAttacker->id == robot->id) {
             sideAttackers.erase(sideAttacker);
         }
     }
+}
 
-    if (size == sideAttackers.size()) {
-        std::cerr << "HELP" << sideAttackers.size() << std::endl;
-    }
+void OffensiveCoach::updateSideAttackers() {
+
 }
 
 }
