@@ -31,7 +31,6 @@ bt::Node::Status Attack::onUpdate() {
     }
 
     Vector2 ball = world::world->getBall()->pos;
-    Vector2 behindBall = control::PositionUtils::getPositionBehindBallToGoal(BEHIND_BALL_TARGET, false);
 
     if (!control::PositionUtils::isRobotBehindBallToGoal(BEHIND_BALL_CHECK, false, robot->pos)) {
         targetPos = behindBall;
@@ -50,6 +49,10 @@ bt::Node::Status Attack::onUpdate() {
         }
 
     }
+
+
+    //control::ShotData
+
     Vector2 velocity;
     if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
         velocity = ((Vector2) robot->pos - world::field->get_our_goal_center()).stretchToLength(2.0);

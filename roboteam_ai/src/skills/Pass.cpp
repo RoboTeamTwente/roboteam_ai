@@ -32,7 +32,8 @@ Pass::Status Pass::onUpdate() {
     bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos);
     auto behindBallPos = control::PositionUtils::getPositionBehindBallToPosition(0.30, getKicker());
     bool isOnLineToBall = control::ControlUtils::distanceToLine(robot->pos, ball->pos, behindBallPos) < 0.0255;
-behinbea
+    bool hasBall = world::world->ourRobotHasBall(robot->id, Constants::MAX_BALL_RANGE());
+
     bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
     bool ballIsShotTowardsReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, robotToPassTo->pos);
 

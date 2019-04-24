@@ -34,13 +34,11 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
     // TODO implement precision here
     bool isOnLineToBall = control::ControlUtils::distanceToLine(robot.pos, ball->pos, behindBallPosition) < 0.0255;
 
-    // TODO fix for 40 degrees so for wide geneva it will still be pretty crappy.
-    // 0.70 radians is 40 degrees
+    // TODO fix for 40 degrees so for wide geneva it will still be pretty crappy. 0.70 radians is 40 degrees
    bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, shotTarget, robot.pos);
    bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_BALL_RANGE());
 
-    ShotData shotData;
-
+   ShotData shotData;
    if (isOnLineToBall && isBehindBall) {
        shotData = hasBall ? shoot(robot, shotTarget) : moveStraightToBall(robot);
    } else {
