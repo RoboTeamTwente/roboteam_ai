@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_SHOTCONTROLLER_H
 
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include "ShotData.h"
 
 namespace rtt {
@@ -21,12 +22,12 @@ enum shotPrecision {
 class ShotController {
 private:
     BasicPosControl basicGtp;
+    NumTreePosControl numTreeGtp;
+
     bool useAutoGeneva;
     shotPrecision precision;
     Vector2 limitBallSpeed;
     Vector2 shotTargetPosition;
-
-    std::shared_ptr<world::Ball> ball;
 
     std::pair<Vector2, int> getGenevePlaceBehindBall(world::Robot robot, Vector2 shotTarget); // the params are the position for the robot and the geneva angle
     Vector2 getPlaceBehindBall(world::Robot robot, Vector2 shotTarget); // the params are the position for the robot and the geneva angle

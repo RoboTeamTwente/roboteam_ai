@@ -14,10 +14,15 @@ namespace control {
 
 ShotController::ShotController(shotPrecision precision, bool useAutoGeneva)
 : precision(precision), useAutoGeneva(useAutoGeneva) {
-   ball = world::worldObj.getBall();
+
+    numTreeGtp.setAvoidBall();
+    numTreeGtp.setCanMoveOutOfField(true);
+    numTreeGtp.setCanMoveInDefenseArea(false);
+
 }
 
 ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
+    auto ball = world::world->getBall();
     int genevaState = 3;
     Vector2 behindBallPosition;
 
@@ -51,19 +56,22 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
 }
 
 Vector2 ShotController::getPlaceBehindBall(world::Robot robot, Vector2 shotTarget) {
+    auto ball = world::world->getBall();
     Vector2 preferredShotVector = ball->pos - shotTarget;
     double distanceBehindBall = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
     return robot.pos - preferredShotVector.stretchToLength(distanceBehindBall);
 }
 
+// use Numtree GTP to go to a place behind the ball
 ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition) {
-    control::PosVelAngle pva = basicGtp.getPosVelAngle(std::make_shared<world::Robot>(robot), robotTargetPosition);
+    control::PosVelAngle pva = numTreeGtp.getPosVelAngle(std::make_shared<world::Robot>(robot), robotTargetPosition);
     ShotData shotData(pva);
     return shotData;
 }
 
 
 std::pair<Vector2, int> ShotController::getGenevePlaceBehindBall(world::Robot robot, Vector2 shotTarget) {
+    auto ball = world::world->getBall();
 
     // determine the shortest position from where to kick the ball
     Vector2 robotToBall = robot.pos - ball->pos;
@@ -91,11 +99,12 @@ std::pair<Vector2, int> ShotController::getGenevePlaceBehindBall(world::Robot ro
         placeBehindBallVector.rotate(control::ControlUtils::degreesToRadians(-10));
     }
 
-    return std::make_pair(placeBehindBallVector, desiredGeneva);
+    return std::make_pair(ball->pos + placeBehindBallVector, desiredGeneva);
 }
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 ShotData ShotController::moveStraightToBall(world::Robot robot) {
+    auto ball = world::world->getBall();
     control::PosVelAngle pva = basicGtp.getPosVelAngle(std::make_shared<world::Robot>(robot),  ball->pos);
     ShotData shotData(pva);
     return shotData;
@@ -103,6 +112,7 @@ ShotData ShotController::moveStraightToBall(world::Robot robot) {
 
 /// Now we should have the ball and kick it.
 ShotData ShotController::shoot(world::Robot robot, Vector2 shotTarget) {
+    auto ball = world::world->getBall();
 
     // move towards the ball
     control::PosVelAngle pva = basicGtp.getPosVelAngle(std::make_shared<world::Robot>(robot), shotTarget);

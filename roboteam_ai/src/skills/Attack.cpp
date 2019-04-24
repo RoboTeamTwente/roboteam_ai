@@ -31,49 +31,37 @@ bt::Node::Status Attack::onUpdate() {
     }
 
     Vector2 ball = world::world->getBall()->pos;
-
-    if (!control::PositionUtils::isRobotBehindBallToGoal(BEHIND_BALL_CHECK, false, robot->pos)) {
-        targetPos = behindBall;
-        command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
-        gtp->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
-    }
-    else {
-        targetPos = ball;
-        gtp->setAvoidBall(false);
-        command.w = (world::field->get_their_goal_center() - ball).toAngle().getAngle();
-        if (world::world->robotHasBall(robot->id, true, Constants::MAX_KICK_RANGE())) {
-            command.kicker = 1;
-            command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
-            command.kicker_forced = 1;
-            shot = true;
-        }
-
-    }
+    control::ShotData shotData = shotControl.getShotData(* robot, world::field->get_their_goal_center());
 
 
-    //control::ShotData
+    command.x_vel = shotData.vel.x;
+    command.y_vel = shotData.vel.y;
+    command.w = shotData.angle.getAngle();
+    command.kicker = shotData.kick;
+    command.kicker_forced = shotData.kick;
+    command.kicker_vel = shotData.kick;
 
-    Vector2 velocity;
-    if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
-        velocity = ((Vector2) robot->pos - world::field->get_our_goal_center()).stretchToLength(2.0);
-    }
-    else if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
-        velocity = ((Vector2) robot->pos - world::field->get_their_goal_center()).stretchToLength(2.0);
-    }
-    else if (world::field->pointIsInDefenceArea(ball, false) || world::field->pointIsInDefenceArea(ball, true)) {
-        velocity = {0, 0};
-    }
-    else if (world::field->pointIsInDefenceArea(targetPos, false)) {
-        velocity = {0, 0};
-    }
-    else {
-        velocity = gtp->getPosVelAngle(robot, targetPos).vel;
-    }
-
-    velocity = control::ControlUtils::velocityLimiter(velocity);
-
-    command.x_vel = static_cast<float>(velocity.x);
-    command.y_vel = static_cast<float>(velocity.y);
+//    Vector2 velocity;
+//    if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
+//        velocity = ((Vector2) robot->pos - world::field->get_our_goal_center()).stretchToLength(2.0);
+//    }
+//    else if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
+//        velocity = ((Vector2) robot->pos - world::field->get_their_goal_center()).stretchToLength(2.0);
+//    }
+//    else if (world::field->pointIsInDefenceArea(ball, false) || world::field->pointIsInDefenceArea(ball, true)) {
+//        velocity = {0, 0};
+//    }
+//    else if (world::field->pointIsInDefenceArea(targetPos, false)) {
+//        velocity = {0, 0};
+//    }
+//    else {
+//        velocity = gtp->getPosVelAngle(robot, targetPos).vel;
+//    }
+//
+//    velocity = control::ControlUtils::velocityLimiter(velocity);
+//
+//    command.x_vel = static_cast<float>(velocity.x);
+//    command.y_vel = static_cast<float>(velocity.y);
 
     publishRobotCommand();
 
