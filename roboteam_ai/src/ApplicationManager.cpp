@@ -8,6 +8,7 @@
 #include <sstream>
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include <roboteam_ai/src/interface/InterfaceValues.h>
+#include <roboteam_ai/src/coach/GetBallCoach.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -58,7 +59,7 @@ void ApplicationManager::loop() {
 }
 
 void ApplicationManager::runOneLoopCycle() {
-    ros::spinOnce();
+//    ros::spinOnce();
 
     if (ai::world::world->weHaveRobots()) {
 
@@ -83,10 +84,12 @@ void ApplicationManager::runOneLoopCycle() {
             keeperTree->tick();
         }
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
+
+        rtt::ai::coach::getBallCoach->update();
+        rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
 
-        rtt::ai::coach::g_DefenceDealer.setDoUpdate();
     }
     else {
         std::cout <<"NO FIRST WORLD" << std::endl;
