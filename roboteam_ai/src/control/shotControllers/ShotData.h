@@ -18,6 +18,7 @@ struct ShotData : public PosVelAngle {
     int genevaState = 3;
 
     ShotData() = default;
+    ShotData(PosVelAngle pva) : PosVelAngle(pva.pos, pva.vel, pva.angle) { };
     ShotData(const Vector2 &p, const Vector2 &v, double a, bool kick, bool chip, double kickSpeed, int genevaState)
     : PosVelAngle(p, v, a), kick(kick), chip(chip), kickSpeed(kickSpeed), genevaState(genevaState)
     { }

@@ -26,9 +26,16 @@ private:
     Vector2 limitBallSpeed;
     Vector2 shotTargetPosition;
 
+    std::shared_ptr<Ball> ball;
+
     std::pair<Vector2, int> getGenevePlaceBehindBall(world::Robot robot, Vector2 shotTarget); // the params are the position for the robot and the geneva angle
     Vector2 getPlaceBehindBall(world::Robot robot, Vector2 shotTarget); // the params are the position for the robot and the geneva angle
     Vector2 robotTargetPosition;
+
+    ShotData goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition);
+    ShotData moveStraightToBall(world::Robot robot);
+    ShotData shoot(world::Robot robot, Vector2 shotTarget);
+    double determineKickForce(double distance);
 
 public:
     explicit ShotController(shotPrecision precision = MEDIUM, bool useAutoGeneva = true);
