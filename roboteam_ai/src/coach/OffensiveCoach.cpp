@@ -75,11 +75,7 @@ std::vector<Vector2> OffensiveCoach::getDefaultLocations() {
     return defaultPositions;
 }
 
-std::vector<Vector2> OffensiveCoach::getNewOffensivePositions(int numberOfRobots) {
-    // Assuming the positions are symmetric (2 close by the goal, left and right, 2 further, both left and right,
-    // always send both so that the hungarian can determine the closest one
-    numberOfRobots += numberOfRobots % 2;
-
+void OffensiveCoach::updateOffensivePositions() {
     std::vector<Vector2> defaultLocations = getDefaultLocations();
     if (offensivePositions.size() != defaultLocations.size()) {
         offensivePositions = {};
@@ -96,43 +92,55 @@ std::vector<Vector2> OffensiveCoach::getNewOffensivePositions(int numberOfRobots
             offensivePositions[i] = calculateNewRobotPosition(offensivePosition, defaultPosition);
         }
     }
-
-    std::vector<Vector2> positionVectors = getOffensivePositionVectors();
-
-    if (numberOfRobots >= static_cast<int>(offensivePositions.size())) {
-        return positionVectors;
-    } else {
-        std::vector<Vector2> newVec(positionVectors.begin(), positionVectors.begin() + numberOfRobots);
-        return newVec;
-    }
 }
 
-std::vector<Vector2> OffensiveCoach::getOffensivePositionVectors() {
-    std::vector<Vector2> positionVectors;
-    for (auto& offensivePosition : offensivePositions) {
-        positionVectors.emplace_back(offensivePosition.position);
-    }
-    return positionVectors;
-}
-
-const set<OffensiveCoach::RobotPtr> &OffensiveCoach::getSideAttackers() const {
-    return sideAttackers;
-}
-
-void OffensiveCoach::addSideAttacker(OffensiveCoach::RobotPtr robot) {
-    sideAttackers.insert(robot);
+void OffensiveCoach::addSideAttacker(const OffensiveCoach::RobotPtr& robot) {
+    sideAttackers[robot->id] = -1;
+    redistributePositions();
 }
 
 void OffensiveCoach::removeSideAttacker(const OffensiveCoach::RobotPtr& robot) {
-    for (auto &sideAttacker : sideAttackers) {
-        if(sideAttacker->id == robot->id) {
-            sideAttackers.erase(sideAttacker);
-        }
+    sideAttackers.erase(robot->id);
+}
+
+Vector2 OffensiveCoach::getPositionForRobotID(int robotID) {
+    if (sideAttackers.find(robotID) != sideAttackers.end() ) {
+        int zone = sideAttackers[robotID];
+        return offensivePositions[zone].position;
+    } else {
+        redistributePositions();
+        return Vector2();
     }
 }
 
-void OffensiveCoach::updateSideAttackers() {
+void OffensiveCoach::redistributePositions() {
+    std::vector<int> robotIDs;
+    for (auto &robot : sideAttackers) {
+        robotIDs.emplace_back(robot.first);
+    }
 
+    updateOffensivePositions();
+    std::vector<Vector2> positions = getOffensivePositions(robotIDs.size());
+
+    rtt::HungarianAlgorithm hungarian;
+    map<int, Vector2> shortestDistances;
+    shortestDistances = hungarian.getRobotPositions(robotIDs, true, positions);
+
+    for(auto &robot : sideAttackers) {
+        int zone = std::find(positions.begin(), positions.end(), shortestDistances[robot.first]) - positions.begin();
+        sideAttackers[robot.first] = zone;
+    }
+}
+
+std::vector<Vector2> OffensiveCoach::getOffensivePositions(int numberOfRobots) {
+    numberOfRobots += numberOfRobots % 2;
+    std::vector<Vector2> positionVectors;
+
+    for(int i=0; i < numberOfRobots; i++) {
+        positionVectors.emplace_back(offensivePositions[i].position);
+    }
+
+    return positionVectors;
 }
 
 }

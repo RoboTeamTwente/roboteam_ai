@@ -45,8 +45,6 @@ bool HungarianAlgorithm::validateInput(std::vector<Vector2> const &set1, std::ve
     } else if (set1.empty() || set2.empty()) {
         std::cerr << "wrong input for hungarian: 0" << std::endl;
         return false;
-    } else if (set1.size() != set2.size()) {
-        std::cerr << "warning: sets not the same size for hungarian" << std::endl;
     }
 
     return true;

@@ -9,6 +9,7 @@ void Node::initialize() {
 }
 
 void Node::terminate(Status s) {
+    init = false;
     // If we're terminating while we're still running,
     // consider the node failed. If it already failed
     // or succeeded, leave it like that.
@@ -21,7 +22,7 @@ Node::Status Node::tick() {
     amountOfTicks++;
     lastTickTime = ros::Time::now();
 
-    if (status != Status::Running) {
+    if (! init) {
         NodeInitialize();
     }
 
@@ -73,10 +74,15 @@ Node::Status Node::NodeUpdate() {
 
 void Node::NodeInitialize() {
     initialize();
+    init = true;
+
+
 }
 
 void Node::NodeTerminate(Status s) {
     terminate(s);
+    init = false;
+
 }
 
 unsigned long long Node::getAmountOfTicks() const {
