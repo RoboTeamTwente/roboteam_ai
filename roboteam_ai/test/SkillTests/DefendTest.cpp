@@ -66,7 +66,7 @@ TEST(Defendtest, defend_test) {
     EXPECT_NE(rememberPosition, newPosition);
 
     // terminate the first node
-    defend.terminate(bt::Node::Status::Success);
+    defend.onTerminate(bt::Node::Status::Success);
 
     defend2.update(); // propagate the changes (the fact that enterformation1 terminated)
     EXPECT_EQ(defend2.allDefendersMemory, 1);
