@@ -26,7 +26,7 @@ Pass::Status Pass::onUpdate() {
         case GETTING_TO_BALL:
             if((robot->pos - ball->pos).length() < CLOSE_ENOUGH_TO_BALL) {
                 initiatePass();
-                numTreeGtp.setAvoidBall(0.5);
+                numTreeGtp.setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
                 currentProgress = PASSING;
                 return Status::Running;
             }
@@ -42,8 +42,8 @@ Pass::Status Pass::onUpdate() {
             robotToPassTo = world::world->getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
 
 
-            bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(BEHIND_BALL_CHECK_PASSING, robotToPassTo->pos, robot->pos);
-            auto behindBallPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(BEHIND_BALL_TARGET_PASSING, getKicker());
+            bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(BEHIND_BALL_CHECK, robotToPassTo->pos, robot->pos);
+            auto behindBallPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(BEHIND_BALL_TARGET, getKicker());
             bool isOnLineToBall = control::ControlUtils::distanceToLine(robot->pos, ball->pos, behindBallPos) < 0.0255;
             bool hasBall = world::world->ourRobotHasBall(robot->id, Constants::MAX_BALL_RANGE());
 
@@ -137,7 +137,7 @@ void Pass::initiatePass() {
 
 Skill::Status Pass::goToBall() {
     targetPos = ball->pos;
-    numTreeGtp.setAvoidBall(0.0);
+    numTreeGtp.setAvoidBall(false);
     control::PosVelAngle pva = numTreeGtp.getPosVelAngle(robot, targetPos);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel);
     command.x_vel = static_cast<float>(pva.vel.x);
