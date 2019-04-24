@@ -67,7 +67,7 @@ public:
     static double BALL_STILL_VEL()              { return 0.1; };    // If the ball has velocity lower than this in defense area, keeper starts getting it
     static double MIN_DISTANCE_FOR_FORCE()      { return 0.5; };
     static double GOTOPOS_ERROR_MARGIN()        { return 0.1; };
-    static double DEFAULT_BALLCOLLISION_RADIUS(){ return 0.47;};
+    static double DEFAULT_BALLCOLLISION_RADIUS(){ return 0.27;};
 
     /// KEEPER ///
     static double KEEPER_POST_MARGIN()          { return 0.08; };//m
