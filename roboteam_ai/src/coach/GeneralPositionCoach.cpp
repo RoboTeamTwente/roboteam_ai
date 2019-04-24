@@ -24,7 +24,8 @@ rtt::Vector2 GeneralPositionCoach::getPositionBehindBallToGoal(double distanceBe
     return getPositionBehindBallToPosition(distanceBehindBall, goal);
 }
 
-Vector2 GeneralPositionCoach::getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID) {
+Vector2 GeneralPositionCoach::getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot,
+        const unsigned int &robotID) {
     Vector2 robot;
     if (world::world->getRobotForId(robotID, ourRobot)) {
         robot = world::world->getRobotForId(robotID, ourRobot).get()->pos;
@@ -35,7 +36,7 @@ Vector2 GeneralPositionCoach::getPositionBehindBallToRobot(double distanceBehind
 
 Vector2 GeneralPositionCoach::getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position) {
     auto ball = world::world->getBall();
-    if (!ball) return {};
+    if (! ball) return {};
     Vector2 ballPos = ball->pos;
     return ballPos + (ballPos - position).stretchToLength(distanceBehindBall);
 }
@@ -45,12 +46,14 @@ Vector2 GeneralPositionCoach::getPositionBehindPositionToPosition(
     return behindPosition + (behindPosition - toPosition).stretchToLength(distanceBehindBall);
 }
 
-bool GeneralPositionCoach::isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal, const Vector2 &robotPosition, double angleMargin) {
+bool GeneralPositionCoach::isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal,
+        const Vector2 &robotPosition, double angleMargin) {
     const Vector2 &goal = (ourGoal ? world::field->get_our_goal_center() : world::field->get_their_goal_center());
     return isRobotBehindBallToPosition(distanceBehindBall, goal, robotPosition, angleMargin);
 }
 
-bool GeneralPositionCoach::isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID,
+bool GeneralPositionCoach::isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot,
+        const unsigned int &robotID,
         const Vector2 &robotPosition, double angleMargin) {
     Vector2 robot;
     if (world::world->getRobotForId(robotID, ourRobot)) {
@@ -71,13 +74,61 @@ bool GeneralPositionCoach::isRobotBehindBallToPosition(double distanceBehindBall
     Vector2 trianglePoint2 = ball + deltaBall.rotate(M_PI*angleMargin).scale(2.0);
     Vector2 trianglePoint3 = ball + deltaBall.rotate(M_PI*- angleMargin).scale(2.0);
 
-    bool inLargeTriangleOnPosition = control::ControlUtils::pointInTriangle(robotPosition, trianglePoint1, trianglePoint2, trianglePoint3);
+    bool inLargeTriangleOnPosition = control::ControlUtils::pointInTriangle(robotPosition, trianglePoint1,
+            trianglePoint2, trianglePoint3);
 
     return inLargeTriangleOnPosition;
 }
 
-Vector2 GeneralPositionCoach::getDemoKeeperGetBallPos(Vector2 ballPos){
-    return ballPos+Vector2(0.2,0);
+Vector2 GeneralPositionCoach::getDemoKeeperGetBallPos(Vector2 ballPos) {
+    return ballPos + Vector2(0.2, 0);
+}
+std::vector<Vector2> GeneralPositionCoach::getPenaltyPositions(int number) {
+
+    auto lengthOffset = rtt::ai::world::field->get_field().field_length/4.0;
+    auto widthOffset = rtt::ai::world::field->get_field().field_width/4.0;
+
+    std::vector<Vector2> temp = {{- lengthOffset, widthOffset},
+                                 {0, widthOffset},
+                                 {lengthOffset, widthOffset},
+                                 {lengthOffset, - widthOffset},
+                                 {0, - widthOffset},
+                                 {- lengthOffset, - widthOffset}};
+
+    std::vector<Vector2> res;
+    for (int i = 0; i < number; i ++) {
+        res.emplace_back(temp.at(i));
+    }
+    return res;
+
+}
+std::vector<Vector2> GeneralPositionCoach::getFreeKickPositions(int number) {
+    // Two defenders, one robot to receive the ball, rest 3 in a diagonal
+    auto lengthOffset = rtt::ai::world::field->get_field().field_length/4.0;
+    auto widthOffset = rtt::ai::world::field->get_field().field_width/4.0;
+    Vector2 penaltyUs = rtt::ai::world::field->getPenaltyPoint(true);
+    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
+    Vector2 penaltyThem = rtt::ai::world::field->getPenaltyPoint(false);
+    Vector2 recLine = penaltyThem - ballPos;
+    int ballPosMultiplier = (ballPos.y >= 0 ? - 1 : 1);
+    Vector2 lineProgress = {- 0.4, ballPosMultiplier* 0.4};
+
+
+    Vector2 def1 = {penaltyUs.x + lengthOffset/2.0, penaltyUs.y + widthOffset};
+    Vector2 def2 = {penaltyUs.x + lengthOffset/2.0, - penaltyUs.y + widthOffset};
+
+    Vector2 rec = ballPos + recLine.stretchToLength(recLine.length()/2.0);
+
+    Vector2 line1 = {penaltyThem.x - (lengthOffset/2.0), (penaltyThem.y + widthOffset)*ballPosMultiplier};
+    Vector2 line2 = line1 + lineProgress;
+    Vector2 line3 = line2 + lineProgress;
+
+    std::vector<Vector2> temp = {rec, line1, def1, def2, line2, line3};
+    std::vector<Vector2> res;
+    for (int i = 0; i < number; i ++) {
+        res.emplace_back(temp.at(i));
+    }
+    return res;
 }
 
 } // coach
