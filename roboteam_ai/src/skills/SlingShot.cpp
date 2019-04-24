@@ -62,7 +62,7 @@ SlingShot::Progression SlingShot::updateProgress(Progression currentProgress) {
         }
     }// if the robot is at the angle we start waiting
     else if (currentProgress == ROTATINGAWAY) {
-        return robotAtAngle() ? WAITINGFORRESULT : ROTATINGAWAY;;
+        return robotAtAngle() ? WAITINGFORRESULT : ROTATINGAWAY;
     }
     else if (currentProgress == WAITINGFORRESULT) {
         waitingTicks ++;
