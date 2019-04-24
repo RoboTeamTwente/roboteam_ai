@@ -111,26 +111,24 @@ std::vector<Vector2> OffensiveCoach::getOffensivePositionVectors() {
     return positionVectors;
 }
 
-const vector<OffensiveCoach::RobotPtr> &OffensiveCoach::getSideAttackers() const {
+const set<OffensiveCoach::RobotPtr> &OffensiveCoach::getSideAttackers() const {
     return sideAttackers;
 }
 
 void OffensiveCoach::addSideAttacker(OffensiveCoach::RobotPtr robot) {
-    for(auto &sideAttacker : sideAttackers) {
-        if (sideAttacker->id == robot->id) {
-            return;
-        }
-    }
-
-    sideAttackers.emplace_back(robot);
+    sideAttackers.insert(robot);
 }
 
 void OffensiveCoach::removeSideAttacker(const OffensiveCoach::RobotPtr& robot) {
-    for (unsigned int i = 0; i < sideAttackers.size(); i ++) {
-        if (sideAttackers[i]->id == robot->id) {
-            sideAttackers.erase(sideAttackers.begin() + i);
-            break;
+    int size = sideAttackers.size();
+    for (auto &sideAttacker : sideAttackers) {
+        if(sideAttacker->id == robot->id) {
+            sideAttackers.erase(sideAttacker);
         }
+    }
+
+    if (size == sideAttackers.size()) {
+        std::cerr << "HELP" << sideAttackers.size() << std::endl;
     }
 }
 

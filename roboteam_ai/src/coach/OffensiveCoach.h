@@ -40,7 +40,7 @@ public:
     std::vector<Vector2> getDefaultLocations();
     std::vector<Vector2> getNewOffensivePositions(int numberOfRobots);
 
-    const vector<RobotPtr> &getSideAttackers() const;
+    const set<RobotPtr> &getSideAttackers() const;
 
     void addSideAttacker(RobotPtr);
     void removeSideAttacker(const RobotPtr&);
@@ -49,7 +49,7 @@ private:
     coach::OffensiveScore offensiveScore;
     std::vector<OffensivePosition> offensivePositions;
     std::map<int, OffensivePosition> robotPositions;
-    std::vector<RobotPtr> sideAttackers;
+    std::set<RobotPtr> sideAttackers;
 
 };
 

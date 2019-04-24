@@ -41,7 +41,6 @@ bt::Node::Status Attack::onUpdate() {
         targetPos = ball->pos;
         pva = basicGtp.getPosVelAngle(robot, targetPos);
         command.w = (world::field->get_their_goal_center() - ball->pos).toAngle().getAngle();
-        std::cout << world::field->get_their_goal_center() << " - " << ball->pos << " - " << command.w << std::endl;
         if (world::world->robotHasBall(robot->id, true, Constants::MAX_KICK_RANGE())) {
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
