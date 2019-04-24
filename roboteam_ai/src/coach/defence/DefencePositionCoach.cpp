@@ -290,7 +290,10 @@ std::shared_ptr<Line> DefencePositionCoach::blockToGoalLine(const PossiblePass &
 /// searches the most dangerous position and then gets the segment which blocks that (if it exists/is possible)
 std::shared_ptr<Line> DefencePositionCoach::blockBallLine(const world::WorldData &simulatedWorld) {
     Vector2 mostDangerousPos = getMostDangerousPos(simulatedWorld);
-    return getBlockLineSegment(world::field->getGoalSides(true), mostDangerousPos);
+    if (world::field->pointIsInField(mostDangerousPos)){
+        return getBlockLineSegment(world::field->getGoalSides(true), mostDangerousPos);
+    }
+    return nullptr;
 }
 DefencePositionCoach::DefenderBot DefencePositionCoach::createBlockBall(
         const Line &blockLine) {
