@@ -57,7 +57,7 @@ void Formation::addRobotToFormation() {
 
 // remove robot from formation
 void Formation::removeRobotFromFormation() {
-    for (int i = 0; i < robotsInFormationPtr()->size(); i++) {
+    for (unsigned int i = 0; i < robotsInFormationPtr()->size(); i++) {
         if (robotsInFormationPtr()->at(i)->id == robot->id) {
             robotsInFormationPtr()->erase(robotsInFormationPtr()->begin() + i);
         }
@@ -79,7 +79,7 @@ bool Formation::robotIsInFormation() {
 
 // return true if the number of robots in the formation changed.
 bool Formation::formationHasChanged() {
-    return robotsInFormationMemory != robotsInFormationPtr()->size();
+    return robotsInFormationMemory != static_cast<int>(robotsInFormationPtr()->size());
 }
 
 // adapt to the change of robot amount in formation

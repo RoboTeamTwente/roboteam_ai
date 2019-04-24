@@ -14,7 +14,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Instruct CMake to run moc automatically when needed
 set(CMAKE_AUTOMOC ON)
 # Create code from a list of Qt designer ui files
-set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOUIC OFF)
 
 # Find the QtWidgets library
 find_package(Qt5Widgets REQUIRED)
@@ -242,7 +242,9 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasClearShot.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasClearShot.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/TwoRobotBallPlacement.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/TwoRobotBallPlacement.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/TwoRobotBallPlacement.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ShouldHandleBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ShouldHandleBall.h)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
@@ -269,8 +271,9 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TreeInterpreterTests/BtTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/JsonTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TreeInterpreterTests/BTFactoryTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/WorldTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/FieldTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/WorldTests/WorldTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/WorldTests/FieldTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/WorldTests/WorldTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TreeInterpreterTests/BTBlackBoardTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/IOTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/RefereeTest.cpp
@@ -297,6 +300,8 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/PassTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/WorldHelper.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/WorldHelper.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/FieldHelper.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/FieldHelper.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/BallOutOfFieldtest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsBallOnOurSideTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsBallCloseToBorderTest.cpp
@@ -309,6 +314,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/DefensiveCoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/OffensiveCoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/roboteam_utils_Tests/AngleTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/AnalysisTests/DecisionmakerTest.cpp
 
         )
 
@@ -351,8 +357,12 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/RobotFeedback.h)
 
 set(COACH_SOURCES
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/CoachHeuristics.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/CoachHeuristics.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/heuristics/CoachHeuristics.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/heuristics/CoachHeuristics.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/heuristics/PassScore.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/heuristics/PassScore.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/heuristics/OffensiveScore.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/heuristics/OffensiveScore.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/PassCoach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/PassCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/BallplacementCoach.cpp
@@ -366,7 +376,9 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefenceDealer.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefenceDealer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/PossiblePass.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/PossiblePass.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/PossiblePass.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GetBallCoach.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GetBallCoach.h)
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})

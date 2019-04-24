@@ -31,7 +31,7 @@ struct PlayStyle {
 class DecisionMaker {
 public:
     explicit DecisionMaker() = default;
-    PlayStyle getRecommendedPlayStyle();
+    PlayStyle getRecommendedPlayStyle(BallPossession possession);
 };
 
 } // analysis

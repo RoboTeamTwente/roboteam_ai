@@ -18,7 +18,7 @@ class History {
 
         WorldBuffer worldBuffer;
     public:
-        void addWorld(WorldData worldData);
+        void addWorld(const WorldData &worldData);
         void addWorld(WorldDataPtr &worldDataPtr);
         const WorldData &getPreviousWorld(unsigned int worldsBack = 1);
 };

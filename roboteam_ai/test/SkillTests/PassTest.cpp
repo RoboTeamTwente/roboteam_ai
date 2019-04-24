@@ -21,11 +21,12 @@ TEST(PassTest, PassTest) {
     roboteam_msgs::GeometryFieldSize field;
     field.field_length = 20;
     field.field_width = 10;
+    field.goal_width = 1;
     rtt::ai::world::field->set_field(field);
     roboteam_msgs::World world;
 
     roboteam_msgs::WorldRobot robot1;
-    robot1.id = 0;
+    robot1.id = 1;
     robot1.pos.x = 4;
     robot1.pos.y = 0;
     roboteam_msgs::WorldBall ball;
@@ -36,19 +37,30 @@ TEST(PassTest, PassTest) {
     world.ball = ball;
     w::world->updateWorld(world);
 
-    ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(), robot1.id);
+    ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(0), static_cast<int>(robot1.id));
+    rtt::ai::coach::g_pass.resetPass();
 
     roboteam_msgs::WorldRobot robot2;
-    robot2.id = 1;
+    robot2.id = 2;
     w::world->updateWorld(world);
 
-    robot2.pos.x = 6;
-    robot2.pos.y = 0;
+    robot2.pos.x = 7;
+    robot2.pos.y = 3;
     world.us.push_back(robot2);
     w::world->updateWorld(world);
 
-    ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(), robot2.id);
+    ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(0), static_cast<int>(robot2.id));
+    rtt::ai::coach::g_pass.resetPass();
 
+    roboteam_msgs::WorldRobot opponent1;
+    opponent1.pos.x = 3.5;
+    opponent1.pos.y = 1.5;
+
+    world.them.push_back(opponent1);
+    w::world->updateWorld(world);
+
+    ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(0), robot1.id);
+    rtt::ai::coach::g_pass.resetPass();
 
     ball.pos.x = 3;
     ball.pos.y = -3;

@@ -15,8 +15,12 @@ void WorldManager::setup() {
 }
 
 void WorldManager::loop() {
-    while (ros::ok()) {
+    ros::Rate rate(4.0 * ai::Constants::TICK_RATE());
 
+
+    while (ros::ok()) {
+        ros::spinOnce();
+        rate.sleep();
         unsigned char changes = updateROSData();
         if (changes == 0b0000) continue;
         

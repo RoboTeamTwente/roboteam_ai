@@ -70,6 +70,18 @@ double ControlUtils::constrainAngle(double angle) {
     return angle - M_PI;
 }
 
+bool ControlUtils::isPointProjectedOnLineSegment(const Vector2 &pointToCheck, const Vector2 &lineBegin,
+                                                 const Vector2 &lineEnd) {
+
+    Vector2 projectionPoint = pointToCheck.project(lineBegin, lineEnd);
+    double xMin = min(lineBegin.x, lineEnd.x);
+    double xMax = max(lineBegin.x, lineEnd.x);
+    double yMin = min(lineBegin.y, lineEnd.y);
+    double yMax = max(lineBegin.y, lineEnd.y);
+
+    return (projectionPoint.x > xMin && projectionPoint.x < xMax && projectionPoint.y > yMin && projectionPoint.y < yMax);
+}
+
 /// Get the distance from PointToCheck towards a line - the line is infinitely long
 //http://www.randygaul.net/2014/07/23/distance-point-to-line-segment/
 double ControlUtils::distanceToLine(const Vector2 &PointToCheck, const Vector2 &LineStart, const Vector2 &LineEnd) {
@@ -95,14 +107,13 @@ bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos,
     return true;
 }
 
-double ControlUtils::closestEnemyToLineDistance(const Vector2 &fromPos, Vector2 toPos, const world::WorldData world, bool keeper) {
+double ControlUtils::closestEnemyToLineDistance(const Vector2 &fromPos, Vector2 toPos, const world::WorldData &world, bool keeper) {
     double shortestDistance = INT_MAX;
     double currentDistance;
 
-    for (auto enemy : world.them) {
-        if (!keeper && enemy.id == rtt::ai::Referee::getRefereeData().them.goalie) {
-            continue;
-        }
+    for (auto &enemy : world.them) {
+        if (!keeper && enemy.id == static_cast<int>(rtt::ai::Referee::getRefereeData().them.goalie)) continue;
+
         currentDistance = distanceToLine(enemy.pos, fromPos, toPos);
         if (currentDistance < shortestDistance) {
             shortestDistance = currentDistance;

@@ -79,8 +79,8 @@ MainWindow::MainWindow(QWidget* parent)
     vLayout->addLayout(hButtonsLayout);
 
     configureCheckBox("TimeOut to top", vLayout, this, SLOT(setTimeOutTop(bool)), Constants::STD_TIMEOUT_TO_TOP());
-
-
+    configureCheckBox("Use keeper (does not work when referee used)", vLayout, this, SLOT(setUsesKeeper(bool)), robotDealer::RobotDealer::usesSeparateKeeper());
+    
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [=](const QString &strategyName) {
               // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
@@ -120,10 +120,10 @@ MainWindow::MainWindow(QWidget* parent)
                      [=](const pidVals &pid) { InterfaceValues::setNumTreePid(pid); });
 
     QObject::connect(forcePidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
-                     [=](const pidVals &pid) { InterfaceValues::setNumTreePid(pid); });
+                     [=](const pidVals &pid) { InterfaceValues::setForcePid(pid); });
 
     QObject::connect(basicPidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
-                     [=](const pidVals &pid) { InterfaceValues::setNumTreePid(pid); });
+                     [=](const pidVals &pid) { InterfaceValues::setBasicPid(pid); });
 
     // add the pid widgets to the layout
     pidVLayout->addWidget(numTreePidBox);
@@ -320,7 +320,7 @@ void MainWindow::updateTreeWidget() {
 
 void MainWindow::updateKeeperTreeWidget() {
 
-    if (robotsInField != world::world->getUs().size()) {
+    if (robotsInField != static_cast<int>(world::world->getUs().size())) {
         select_goalie->clear();
         robotsInField = world::world->getUs().size();
 
@@ -336,6 +336,12 @@ void MainWindow::updateKeeperTreeWidget() {
 void MainWindow::setTimeOutTop(bool top) {
     rtt::ai::interface::InterfaceValues::setTimeOutTop(top);
 }
+
+void MainWindow::setUsesKeeper(bool usekeeper) {
+    robotDealer::RobotDealer::setUseSeparateKeeper(usekeeper);
+    robotDealer::RobotDealer::refresh();
+}
+
 
 } // interface
 } // ai
