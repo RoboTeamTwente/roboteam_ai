@@ -64,6 +64,8 @@ class ControlUtils {
         static double closestEnemyToLineDistance(const Vector2 &fromPos, Vector2 toPos, const world::WorldData &world,
                                                  bool keeper);
         static bool hasClearVision(int fromID, int towardsID, world::WorldData w, int safeDistanceFactor);
+        static double degreesToRadians(double degrees);
+        static double radiansToDegrees(double radians);
 };
 
 } // control

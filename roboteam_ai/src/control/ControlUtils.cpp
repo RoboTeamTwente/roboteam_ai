@@ -395,6 +395,14 @@ bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, con
 
 }
 
+double ControlUtils::degreesToRadians(double degrees) {
+    return degrees * M_PI / 180.0;
+}
+
+double ControlUtils::radiansToDegrees(double radians) {
+    return radians * 180.0 / M_PI;
+}
+
 
 } // control
 } // ai
