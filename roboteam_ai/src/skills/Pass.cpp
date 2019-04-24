@@ -29,8 +29,8 @@ Pass::Status Pass::onUpdate() {
     robotToPassTo = world::world->getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
 
 
-    bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos);
-    auto behindBallPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.30, getKicker());
+    bool isBehindBall = coach::g_generalPositionCoach.isRobotBehindBallToPosition(BEHIND_BALL_CHECK, robotToPassTo->pos, robot->pos);
+    auto behindBallPos = coach::g_generalPositionCoach.getPositionBehindBallToPosition(BEHIND_BALL_TARGET, getKicker());
     bool isOnLineToBall = control::ControlUtils::distanceToLine(robot->pos, ball->pos, behindBallPos) < 0.0255;
     bool hasBall = world::world->ourRobotHasBall(robot->id, Constants::MAX_BALL_RANGE());
 
@@ -59,10 +59,9 @@ void Pass::determineRobotToPassTo() {
 }
 
 /// this is the method we call when we are far from the desired position
-bt::Leaf::Status Pass::moveBehindBall(Vector2 behindBallPos) {
+bt::Leaf::Status Pass::moveBehindBall(const Vector2& behindBallPos) {
     targetPos = behindBallPos;
 
-    numTreeGtp.setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
     control::PosVelAngle pva = numTreeGtp.getPosVelAngle(robot, targetPos);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel, rtt::ai::Constants::MAX_VEL());
     command.x_vel = static_cast<float>(pva.vel.x);
@@ -95,7 +94,6 @@ bt::Leaf::Status Pass::getBall() {
 /// Now we should have the ball and kick it.
 bt::Leaf::Status Pass::shoot() {
     if (coach::g_pass.isReadyToReceivePass()) {
-        numTreeGtp.setAvoidBall(false);
         targetPos = getKicker();
         control::PosVelAngle pva = basicGtp.getPosVelAngle(robot, targetPos);
         pva.vel = control::ControlUtils::velocityLimiter(pva.vel, 0.1);
