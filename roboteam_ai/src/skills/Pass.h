@@ -25,8 +25,8 @@ private:
     Progression currentProgress = GETTING_TO_BALL;
 
     const double CLOSE_ENOUGH_TO_BALL = 0.5;
-    const double BEHIND_BALL_CHECK_PASSING = 0.6;
-    const double BEHIND_BALL_TARGET_PASSING = 0.4;
+    const double BEHIND_BALL_CHECK = 0.6;
+    const double BEHIND_BALL_TARGET = 0.4;
 
     bool ballPlacement = false;
     RobotPtr robotToPassTo;

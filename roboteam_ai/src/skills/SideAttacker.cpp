@@ -5,7 +5,7 @@
 #include "SideAttacker.h"
 
 namespace rtt {
-    namespace ai {
+namespace ai {
 
 SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard)
         : Skill(std::move(name), std::move(blackboard)) {
