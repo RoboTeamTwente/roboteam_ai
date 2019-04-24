@@ -55,7 +55,6 @@ Receive::Status Receive::onUpdate() {
     if (coach::g_pass.isPassed()) {
         // Remember the status of the ball at the moment of passing
         if(!isBallOnPassedSet) {
-            std::cout << robot->id << " - " << ball->vel << std::endl;
             ballOnPassed = ball;
             isBallOnPassedSet = true;
         }
@@ -147,7 +146,6 @@ void Receive::intercept() {
 bool Receive::passFailed() {
     //TODO: Remove print statements and make 1 big if statement
     if ((ball->vel.toAngle() - ballOnPassed->vel.toAngle()).getAngle() > 0.5) {
-        std::cout << "Ball deflected!" << std::endl;
         return true;
     }
 
@@ -155,12 +153,8 @@ bool Receive::passFailed() {
         return true;
     }
 
-    if (receiverMissedBall()) {
-        std::cout << "Receiver missed ball" << std::endl;
-        return true;
-    }
+    return receiverMissedBall();
 
-    return false;
 }
 
 bool Receive::receiverMissedBall() {
