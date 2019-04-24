@@ -397,6 +397,16 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"avoid6", robotType::RANDOM}
             }
             },
+            {"free_kick_formation_tactic", {
+                    {"kicker", robotType::CLOSE_TO_BALL},
+                    {"f1", robotType::RANDOM},
+                    {"f2", robotType::RANDOM},
+                    {"f3", robotType::RANDOM},
+                    {"f4", robotType::RANDOM},
+                    {"f5", robotType::RANDOM},
+                    {"f6", robotType::RANDOM},
+            }
+            },
 
 
             // other
