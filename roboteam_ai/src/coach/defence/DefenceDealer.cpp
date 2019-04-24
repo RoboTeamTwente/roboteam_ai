@@ -11,33 +11,15 @@ namespace coach {
 
 DefenceDealer g_DefenceDealer;
 
-void DefenceDealer::setDoUpdate() {
-    doUpdate = true;
-}
-
 /// adds a defender to the available defendersList
 void DefenceDealer::addDefender(int id) {
     bool robotIsRegistered = std::find(defenders.begin(), defenders.end(), id) != defenders.end();
     if (! robotIsRegistered) {
         defenders.push_back(id);
-        setDoUpdate();
         //std::cout << "registered defender id:" << id << std::endl;
     }
     else {
-        std::cerr << "Defender is already registered, check your tree!!" << std::endl;
-    }
-}
-
-/// removes a defender from the available id's
-void DefenceDealer::removeDefender(int id) {
-    auto defender = std::find(defenders.begin(), defenders.end(), id);
-    if (defender != defenders.end()) {
-        defenders.erase(defender);
-        setDoUpdate();
-//        std::cout << "removed defender id:" << id << std::endl;
-    }
-    else {
-      //  std::cerr << "Defender cannot be removed as it is not registered! Check your skill!" << std::endl;
+        //std::cerr << "Defender is already registered, check your tree!!" << std::endl;
     }
 }
 
@@ -62,11 +44,10 @@ void DefenceDealer::visualizePoints() {
 }
 /// calculates the defender locations for all available defenders
 void DefenceDealer::updateDefenderLocations() {
-    if (doUpdate) {
-        doUpdate = false;
         // clear the defenderLocations
         defenderLocations.clear();
         std::vector<int> availableDefenders = defenders;
+        defenders.clear();
         // decide the locations to defend
         std::vector<DefencePositionCoach::DefenderBot> defenderBots = g_defensivePositionCoach.decidePositions(
                 availableDefenders.size());
@@ -99,9 +80,7 @@ void DefenceDealer::updateDefenderLocations() {
         }
         //visualization
         visualizePoints();
-    }
 }
-
 }//coach
 }//ai
 }//rtt

@@ -120,7 +120,7 @@ public:
     // Default PID values for the gotoposses/interface
     static pidVals standardNumTreePID()         { return GRSIM() ? pidVals(3.2, 0.0, 2.0) : pidVals(2.8, 0.6,2.3); };
     static pidVals standardForcePID()           { return GRSIM() ? pidVals(1.65, 0.0, 0.0) : pidVals(2.8, 0.6,2.3); };
-    static pidVals standardBasicPID()           { return GRSIM() ? pidVals(1.65, 0.0, 0.0) : pidVals(2.8, 0.6,2.3); };
+    static pidVals standardBasicPID()           { return GRSIM() ? pidVals(4.0, 0.0, 2.0) : pidVals(2.8, 0.6,2.3); };
 
     
 private:

@@ -62,6 +62,7 @@
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
 #include <roboteam_ai/src/skills/formations/KickOffUsFormation.h>
 #include <roboteam_ai/src/skills/AvoidBall.h>
+#include "roboteam_ai/src/conditions/ShouldHandleBall.h"
 #include <roboteam_ai/src/skills/formations/TimeoutFormation.h>
 #include <roboteam_ai/src/bt/RoleDivider.h>
 #include <roboteam_ai/src/skills/formations/KickOffThemFormation.h>
@@ -103,7 +104,7 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
 //        "FreeKickShootTactic",
 //        "SideAttackerTactic",
 //        "PassAndShootTactic",
-//        "coachDefenderTactic",
+        "coachDefenderTactic",
 //        "BallPlacementDoubleTactic",
         "kickoff_them_formation_tactic",
         "kickoff_us_formation_tactic",
@@ -139,7 +140,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
 //        "FreeKickShootStrategy",
 //        "SideAttackerStrategy",
 //        "PassAndShootStrategy",
-//        "coachDefenderStrategy",
+        "coachDefenderStrategy",
         "kickoff_them_formation_strategy",
         "kickoff_us_formation_strategy",
         "time_out_strategy",
@@ -202,6 +203,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["AvoidBall"] = std::make_shared<rtt::ai::AvoidBall>(name, properties);
     map["CoachDefend"] = std::make_shared<rtt::ai::CoachDefend>(name, properties);
     map["GTPSpecial"] = std::make_shared<rtt::ai::GTPSpecial>(name, properties);
+    map["Chip"] = std::make_shared<rtt::ai::Chip>(name,properties);
     map["Defend"] = std::make_shared<rtt::ai::Defend>(name, properties);
     map["DefendOnRobot"] = std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
     map["DemoAttack"] = std::make_shared<rtt::ai::DemoAttack>(name, properties);
@@ -249,6 +251,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["IsBeingPassedTo"] = std::make_shared<rtt::ai::IsBeingPassedTo>(name, properties);
     map["IsCloseToPoint"] = std::make_shared<rtt::ai::IsCloseToPoint>(name, properties);
     map["IsBallOnOurSide"] = std::make_shared<rtt::ai::IsBallOnOurSide>(name, properties);
+    map["ShouldHandleBall"] = std::make_shared<rtt::ai::ShouldHandleBall>(name,properties);
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
     map["IsInDefenseArea"] = std::make_shared<rtt::ai::IsInDefenseArea>(name, properties);
     map["HasClearShot"] = std::make_shared<rtt::ai::HasClearShot>(name, properties);
@@ -446,6 +449,20 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
 
+            {"BallPlacementDoubleTactic", {
+                    {"BallPlacementPasser", robotType::CLOSE_TO_BALL},
+                    {"BallPlacementReceiver", robotType::BALL_PLACEMENT_RECEIVER},
+                    {"avoid1", robotType::RANDOM},
+                    {"avoid2", robotType::RANDOM},
+                    {"avoid3", robotType::RANDOM},
+                    {"avoid4", robotType::RANDOM},
+                    {"avoid5", robotType::RANDOM}
+            }
+            },
+            {"SingleKeeperTactic", {
+                    {"Keeper", robotType::CLOSE_TO_OUR_GOAL}
+            }
+            },
             {"DemoAttackerTactic", {
                     {"demoAttacker", robotType::CLOSE_TO_THEIR_GOAL}
             }
@@ -453,6 +470,13 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             {"DemoTactic", {
                     {"demoAttacker", robotType::CLOSE_TO_THEIR_GOAL},
                     {"demoKeeper", robotType::CLOSE_TO_OUR_GOAL}
+            }
+            },
+            {"SideAttackerTactic", {
+                    {"sideAttacker1", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"sideAttacker2", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"sideAttacker3", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"sideAttacker4", robotType::CLOSE_TO_THEIR_GOAL}
             }
             },
             {"SideAttackerTactic", {
