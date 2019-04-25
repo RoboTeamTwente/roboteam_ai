@@ -12,7 +12,8 @@ IsOnPassLine::IsOnPassLine(std::string name, bt::Blackboard::Ptr blackboard)
 
 IsOnPassLine::Status IsOnPassLine::onUpdate() {
     int receiverID = coach::g_pass.getRobotBeingPassedTo();
-    if (receiverID != -1) {
+    int passerID = coach::g_pass.getRobotPassing();
+    if (receiverID != -1 && passerID != robot->id) {
         RobotPtr receiver = world::world->getRobotForId(receiverID, true);
         if (control::ControlUtils::isPointProjectedOnLineSegment(robot->pos, ball->pos, receiver->pos)) {
             return Status::Success;
