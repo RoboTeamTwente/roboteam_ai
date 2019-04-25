@@ -35,21 +35,19 @@ public:
 
     OffensivePosition calculateNewRobotPosition(const OffensivePosition& currentPosition, const Vector2& defaultPosition);
 
-    std::vector<Vector2> getOffensivePositionVectors();
-
     std::vector<Vector2> getDefaultLocations();
-    std::vector<Vector2> getNewOffensivePositions(int numberOfRobots);
+    void updateOffensivePositions();
+    std::vector<Vector2> getOffensivePositions(int numberOfRobots);
 
-    const set<RobotPtr> &getSideAttackers() const;
-
-    void addSideAttacker(RobotPtr);
-    void removeSideAttacker(const RobotPtr&);
+    void addSideAttacker(const RobotPtr& robot);
+    void removeSideAttacker(const RobotPtr& robot);
+    Vector2 getPositionForRobotID(int robotID);
+    void redistributePositions();
 
 private:
     coach::OffensiveScore offensiveScore;
     std::vector<OffensivePosition> offensivePositions;
-    std::map<int, OffensivePosition> robotPositions;
-    std::set<RobotPtr> sideAttackers;
+    std::map<int, int> sideAttackers; // Map from robot ids to zones
 
 };
 

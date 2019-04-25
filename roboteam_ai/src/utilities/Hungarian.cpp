@@ -39,8 +39,8 @@ HungarianAlgorithm::getRobotPositions(std::vector<int> robotIds, bool ourTeam, s
 }
 
 bool HungarianAlgorithm::validateInput(std::vector<Vector2> const &set1, std::vector<Vector2> const &set2) {
-    if (set1.size() != set2.size()) {
-        std::cerr << "wrong input for hungarian: unequal" << std::endl;
+    if (set1.size() > set2.size()) {
+        std::cerr << "wrong input for hungarian: more robots than positions" << std::endl;
         return false;
     } else if (set1.empty() || set2.empty()) {
         std::cerr << "wrong input for hungarian: 0" << std::endl;
