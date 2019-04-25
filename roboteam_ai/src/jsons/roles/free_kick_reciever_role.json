@@ -1,0 +1,1 @@
+{"name": "free_kick_reciever_role", "data": {"trees": [{"title": "free_kick_reciever_role", "root": "ijr33cgb35cqzs1", "nodes": {"ijr33cgb35cqzs1": {"id": "ijr33cgb35cqzs1", "title": "GTPSpecial", "properties": {"type": "freeKick", "avoidBall": "true", "maxVel": "2.0", "canGoOutsideField": "false", "fixedTarget": "false", "canMoveInDefenseArea": "false"}}}}]}}
