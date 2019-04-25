@@ -261,7 +261,10 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PathPoint.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PathPoint.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/pid.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/pid.h roboteam_ai/src/control/shotControllers/ShotController.cpp roboteam_ai/src/control/shotControllers/ShotController.h roboteam_ai/src/control/shotControllers/ShotData.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/pid.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/shotControllers/ShotController.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/shotControllers/ShotController.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/shotControllers/ShotData.h)
 
 
 set(TEST_SOURCES
@@ -313,7 +316,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/OffensiveCoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/roboteam_utils_Tests/AngleTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/AnalysisTests/DecisionmakerTest.cpp
-
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/ShotControllerTest.cpp
         )
 
 set(INTERFACE_SOURCES

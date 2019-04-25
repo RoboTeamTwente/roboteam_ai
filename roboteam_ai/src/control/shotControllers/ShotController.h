@@ -8,38 +8,53 @@
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include "ShotData.h"
+#include "gtest/gtest_prod.h"
 
 namespace rtt {
 namespace ai {
 namespace control {
 
-enum shotPrecision {
-    LOW,
-    MEDIUM,
-    HIGH
+enum ShotPrecision {
+    LOW, // not accurate but fast
+    MEDIUM, // quite accurate and quite fast
+    HIGH // very accurate but slow
+};
+
+// ball speeds
+enum BallSpeed {
+    DRIBBLE_KICK,
+    LAY_STILL_AT_POSITION,
+    PASS,
+    MAX_SPEED
 };
 
 class ShotController {
+    FRIEND_TEST(ShotControllerTest, it_generates_proper_shots);
 private:
+
+    // PositionControllers
     BasicPosControl basicGtp;
     NumTreePosControl numTreeGtp;
 
+    // Parameters
     bool useAutoGeneva;
-    shotPrecision precision;
-    Vector2 limitBallSpeed;
-    Vector2 shotTargetPosition;
+    ShotPrecision precision;
+    BallSpeed ballspeed;
 
+    // Helpers
     std::pair<Vector2, int> getGenevePlaceBehindBall(world::Robot robot, Vector2 shotTarget); // the params are the position for the robot and the geneva angle
     Vector2 getPlaceBehindBall(world::Robot robot, Vector2 shotTarget); // the params are the position for the robot and the geneva angle
     Vector2 robotTargetPosition;
+    bool onLineToBall(const world::Robot &robot, const world::World::BallPtr &ball, const Vector2 &behindBallPosition) const;
+    double determineKickForce(double distance);
 
+    // ShotData calculation
     ShotData goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition);
     ShotData moveStraightToBall(world::Robot robot);
     ShotData shoot(world::Robot robot, Vector2 shotTarget);
-    double determineKickForce(double distance, bool shouldLayStillAtPosition = false);
 
 public:
-    explicit ShotController(shotPrecision precision = MEDIUM, bool useAutoGeneva = true);
+    explicit ShotController(ShotPrecision precision = MEDIUM, BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true);
     ShotData getShotData(world::Robot robot, Vector2 shotTarget);
 };
 
