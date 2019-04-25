@@ -19,9 +19,6 @@ class SideAttacker : public Skill {
     Vector2 deltaPos;
     Vector2 targetPos;
 
-    int zone = -1;
-    static int robotsInMemory;
-
     Vector2 getOffensivePosition();
 
     public:

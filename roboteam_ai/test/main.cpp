@@ -19,6 +19,5 @@ int main(int argc, char** argv) {
 
     rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(false);
 
-
     return RUN_ALL_TESTS();
 }

@@ -35,12 +35,10 @@ bt::Node::Status Attack::onUpdate() {
     if (!coach::g_generalPositionCoach.isRobotBehindBallToGoal(BEHIND_BALL_CHECK, false, robot->pos)) {
         targetPos = behindBall;
         pva = numTreeGtp.getPosVelAngle(robot, targetPos);
-        command.w = pva.angle;
     }
     else {
         targetPos = ball->pos;
         pva = basicGtp.getPosVelAngle(robot, targetPos);
-        command.w = (world::field->get_their_goal_center() - ball->pos).toAngle().getAngle();
         if (world::world->robotHasBall(robot->id, true, Constants::MAX_KICK_RANGE())) {
             command.kicker = 1;
             command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
@@ -65,6 +63,7 @@ bt::Node::Status Attack::onUpdate() {
 
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
+    command.w = (world::field->get_their_goal_center() - ball->pos).toAngle().getAngle();
 
     publishRobotCommand();
 
