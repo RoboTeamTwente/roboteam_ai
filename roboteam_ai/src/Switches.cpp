@@ -45,10 +45,9 @@
 #include "roboteam_ai/src/skills/formations/PenaltyFormation.h"
 #include "roboteam_ai/src/skills/formations/FreeKickFormation.h"
 #include "roboteam_ai/src/skills/formations/DefendFreeKick.h"
-
-
 #include "roboteam_ai/src/skills/ActiveStop.h"
-
+#include "roboteam_ai/src/skills/SlingShot.h"
+#include <roboteam_ai/src/skills/PenaltyKeeper.h>
 
 
 //  ______________________
@@ -172,7 +171,8 @@ std::vector<std::string> Switches::keeperJsonFiles =
                 "keeper_halt_tactic",
                 "keeper_avoid_tactic",
                 "keeper_time_out_tactic",
-                "keeper_formation_tactic"
+                "keeper_formation_tactic",
+                "keeper_penalty_tactic"
         };
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
@@ -242,10 +242,12 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["GoBehindBall"] = std::make_shared<rtt::ai::GoBehindBall>(name, properties);
     map["ShootPenalty"] = std::make_shared<rtt::ai::ShootPenalty>(name, properties);
     map["ShootFreeKick"] = std::make_shared<rtt::ai::ShootFreeKick>(name, properties);
+    map["SlingShot"] = std::make_shared<rtt::ai::SlingShot>(name, properties);
     map["PenaltyFormation"] = std::make_shared<rtt::ai::PenaltyFormation>(name, properties);
     map["ActiveStop"] = std::make_shared<rtt::ai::ActiveStop>(name, properties);
     map["ReflectKick"] = std::make_shared<rtt::ai::ReflectKick>(name, properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
+    map["PenaltyKeeper"] = std::make_shared<rtt::ai::PenaltyKeeper>(name, properties);
     map["FreeKickFormation"] = std::make_shared<rtt::ai::FreeKickFormation>(name, properties);
     map["DefendFreeKick"] = std::make_shared<rtt::ai::DefendFreeKick>(name, properties);
 
@@ -295,7 +297,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             {"keeper_halt_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
             {"keeper_time_out_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
             {"keeper_formation_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
-
+            {"keeper_penalty_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
             // General tactics
             {"halt_tactic", {
                     {"halt0", robotType::RANDOM},

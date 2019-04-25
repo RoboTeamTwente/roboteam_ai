@@ -9,7 +9,7 @@
 namespace rtt {
 namespace ai {
 namespace coach {
-double PossiblePass::distance() {
+const double PossiblePass::distance() {
     return (endPos - startPos).length();
 }
 bool PossiblePass::obstacleObstructsPath(const Vector2 &obstPos, double obstRadius) {
