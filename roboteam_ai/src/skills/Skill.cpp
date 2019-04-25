@@ -55,6 +55,10 @@ void Skill::initialize() {
 }
 
 void Skill::terminate(Status s) {
+    if (!init) {
+        return;
+    }
+    init = false;
     if (! robot || robot->id == -1) return;
     if (! ball) return;
     refreshRobotCommand();

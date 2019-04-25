@@ -7,29 +7,16 @@
 namespace rtt {
 namespace ai {
 
-int SideAttacker::robotsInMemory = coach::g_offensiveCoach.getSideAttackers().size();
-
 SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) {
+        : Skill(std::move(name), std::move(blackboard)) {
 }
 
 void SideAttacker::onInitialize() {
     coach::g_offensiveCoach.addSideAttacker(robot);
-    robotsInMemory ++;
 }
 
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
-    auto robotsPositioning = coach::g_offensiveCoach.getSideAttackers();
-    bool isInRobotsPositioning = false;
-    for (auto &robotPositioning : robotsPositioning) {
-        if (robotPositioning->id == robot->id) {
-            isInRobotsPositioning = true;
-        }
-    }
-
-    if (! isInRobotsPositioning) return Status::Failure;
-
     targetPos = getOffensivePosition();
     auto newPosition = goToPos.getPosVelAngle(robot, targetPos);
     Vector2 velocity = newPosition.vel;
@@ -40,52 +27,22 @@ bt::Node::Status SideAttacker::onUpdate() {
 
     command.use_angle = 1;
     publishRobotCommand();
-
-    return Status::Running;
+    status = Status::Running;
+    return status;
 }
 
 Vector2 SideAttacker::getOffensivePosition() {
-    auto robotsPositioning = coach::g_offensiveCoach.getSideAttackers();
-    std::vector<Vector2> targetLocations = coach::g_offensiveCoach.getNewOffensivePositions(robotsPositioning.size());
-    Vector2 position;
-
-    if (zone == - 1 || zone > static_cast<int>(robotsPositioning.size() - 1) ||
-            robotsInMemory != static_cast<int>(robotsPositioning.size())) {
-
-        std::vector<Vector2> robotLocations;
-        std::vector<int> robotIds;
-
-        for (auto &robotPositioning : robotsPositioning) {
-            robotIds.push_back(robotPositioning->id);
-        }
-
-        rtt::HungarianAlgorithm hungarian;
-        map<int, Vector2> shortestDistances;
-        shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations);
-
-        zone = std::find(targetLocations.begin(), targetLocations.end(), position) - targetLocations.begin() - 1;
-        position = shortestDistances[robot->id];
-    }
-    else {
-        position = targetLocations.at(zone);
-    }
-
-    robotsInMemory = robotsPositioning.size();
-    return position;
+    coach::g_offensiveCoach.updateOffensivePositions();
+    return coach::g_offensiveCoach.getPositionForRobotID(robot->id);
 }
 
 void SideAttacker::onTerminate(Status s) {
     command.w = static_cast<float>(deltaPos.angle());
     command.x_vel = 0;
     command.y_vel = 0;
-
     coach::g_offensiveCoach.removeSideAttacker(robot);
-
-    robotsInMemory --;
-    zone = - 1;
-
     publishRobotCommand();
 }
 
-} // ai
+    } // ai
 } // rtt

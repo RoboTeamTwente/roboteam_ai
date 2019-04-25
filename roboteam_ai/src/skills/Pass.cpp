@@ -103,6 +103,7 @@ bt::Leaf::Status Pass::getBall() {
 /// Now we should have the ball and kick it.
 bt::Leaf::Status Pass::shoot() {
     if (coach::g_pass.isReadyToReceivePass()) {
+        numTreeGtp.setAvoidBall(false);
         targetPos = getKicker();
         control::PosVelAngle pva = basicGtp.getPosVelAngle(robot, targetPos);
         pva.vel = control::ControlUtils::velocityLimiter(pva.vel, 0.1);
