@@ -14,8 +14,7 @@ std::shared_ptr<vector<std::shared_ptr<rtt::ai::world::Robot>>> rtt::ai::FreeKic
 
 Vector2 FreeKickFormation::getFormationPosition() {
 
-    std::cout << robot->id << std::endl;
-
+    update = true;
     posses = rtt::ai::coach::g_generalPositionCoach.getFreeKickPositions(robotsInFormation->size());
     std::vector<int> robotIds;
 
@@ -25,7 +24,6 @@ Vector2 FreeKickFormation::getFormationPosition() {
 
     rtt::HungarianAlgorithm hungarian;
     auto shortestDistances = hungarian.getRobotPositions(robotIds, true, posses);
-    std::cout << robot->id << shortestDistances[robot->id] << std::endl;
     return shortestDistances[robot->id];
 }
 shared_ptr<vector<shared_ptr<bt::Leaf::Robot>>> FreeKickFormation::robotsInFormationPtr() {

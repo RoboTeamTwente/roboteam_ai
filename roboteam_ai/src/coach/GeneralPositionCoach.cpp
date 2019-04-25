@@ -113,16 +113,15 @@ std::vector<Vector2> GeneralPositionCoach::getFreeKickPositions(int number) {
     Vector2 lineProgress = {- 0.4, 0};
 
 
-    Vector2 def1 = {penaltyUs.x + lengthOffset/2.0, penaltyUs.y + widthOffset};
-    Vector2 def2 = {penaltyUs.x + lengthOffset/2.0, - (penaltyUs.y + widthOffset)};
+    Vector2 def1 = {penaltyUs.x + lengthOffset/3.0, penaltyUs.y + widthOffset/1.5};
+    Vector2 def2 = {penaltyUs.x + lengthOffset/3.0, - (penaltyUs.y + widthOffset/1.5)};
 
-    Vector2 rec = penaltyThem + (lineProgress*2);
 
     Vector2 line1 = {penaltyThem.x - (lengthOffset/3.0), (penaltyThem.y + widthOffset)*ballPosMultiplier};
     Vector2 line2 = line1 + lineProgress;
     Vector2 line3 = line2 + lineProgress;
 
-    std::vector<Vector2> temp = {rec, line1, def1, def2, line2, line3};
+    std::vector<Vector2> temp = {line1, def1, def2, line2, line3};
     std::vector<Vector2> res;
     for (int i = 0; i < number; i ++) {
         res.emplace_back(temp.at(i));

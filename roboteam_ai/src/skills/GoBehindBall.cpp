@@ -9,17 +9,18 @@ namespace ai {
 
 GoBehindBall::GoBehindBall(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
-    goToPos.setAvoidBall(0.02);
 }
 
 Skill::Status GoBehindBall::onUpdate() {
+    goToPos.setAvoidBall(0.08);
+
     switch (unitType) {
         case penalty: {
             auto ball = ai::world::world->getBall();
             auto goal = ai::world::field->get_their_goal_center();
 
             Vector2 v = goal - ball->pos;
-            auto targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS())) + ball->pos;
+            auto targetPos = ((v*(- 1.0)).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS() + 0.08)) + ball->pos;
             // TODO draw the point in the interface
 
             Vector2 velocity = goToPos.getPosVelAngle(robot, targetPos).vel;
