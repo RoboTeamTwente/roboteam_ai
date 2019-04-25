@@ -58,17 +58,17 @@ private:
             {RefGameState::PREPARE_PENALTY_US, "prepare_penalty_us_strategy", RefGameState::DO_PENALTY},
             {RefGameState::PREPARE_PENALTY_THEM, "prepare_penalty_us_strategy", RefGameState::DEFEND_PENALTY},
 
-            {RefGameState::DIRECT_FREE_US, "TestStrategy"},
-            {RefGameState::DIRECT_FREE_THEM, "TestStrategy"},
-            {RefGameState::INDIRECT_FREE_US, "TestStrategy"},
-            {RefGameState::INDIRECT_FREE_THEM, "TestStrategy"},
+            {RefGameState::DIRECT_FREE_US, "free_kick_formation_strategy"},
+            {RefGameState::DIRECT_FREE_THEM, "free_kick_them_strategy"},
+            {RefGameState::INDIRECT_FREE_US, "free_kick_formation_strategy"},
+            {RefGameState::INDIRECT_FREE_THEM, "free_kick_them_strategy"},
 
             // these are called after PREPARE_
             // these custom strategies need special attention
             {RefGameState::DO_KICKOFF, "TestStrategy"},
             {RefGameState::DEFEND_KICKOFF, "TestStrategy"},
             {RefGameState::DEFEND_PENALTY, "TestStrategy"},
-            {RefGameState::DO_PENALTY, "TestStrategy"}
+            {RefGameState::DO_PENALTY, "shoot_penalty_us_strategy"}
     };
 
     std::vector<StrategyMap> keeperMaps = {

@@ -27,6 +27,7 @@ public:
     Vector2 getDemoKeeperGetBallPos(Vector2 ballPos);
     std::vector<Vector2> getPenaltyPositions(int number);
     std::vector<Vector2> getFreeKickPositions(int number);
+    std::vector<Vector2> getDefendFreeKick(int number);
 
 };
 

@@ -7,7 +7,6 @@
 namespace rtt {
 namespace ai {
 
-bool FreeKickFormation::calculated = false;
 std::vector<Vector2> FreeKickFormation::posses;
 std::shared_ptr<vector<std::shared_ptr<rtt::ai::world::Robot>>> rtt::ai::FreeKickFormation::robotsInFormation = nullptr;
 
@@ -37,6 +36,7 @@ FreeKickFormation::FreeKickFormation(std::string name, bt::Blackboard::Ptr black
 }
 void FreeKickFormation::onTerminate(Skill::Status s) {
     Formation::onTerminate(s);
+    update = false;
 }
 }
 

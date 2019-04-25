@@ -44,6 +44,8 @@
 #include "roboteam_ai/src/skills/CoachDefend.h"
 #include "roboteam_ai/src/skills/formations/PenaltyFormation.h"
 #include "roboteam_ai/src/skills/formations/FreeKickFormation.h"
+#include "roboteam_ai/src/skills/formations/DefendFreeKick.h"
+
 
 #include "roboteam_ai/src/skills/ActiveStop.h"
 
@@ -122,7 +124,8 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "test_pass_tactic",
         "shoot_penalty_us_tactic",
         "free_kick_formation_tactic",
-        "free_kick_shoot_tactic"
+        "free_kick_shoot_tactic",
+        "free_kick_them_tactic"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
@@ -157,7 +160,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "test_pass_strategy",
         "shoot_penalty_us_strategy",
         "free_kick_formation_strategy",
-        "free_kick_shoot_strategy"
+        "free_kick_shoot_strategy",
+        "free_kick_them_strategy"
 
 
 };
@@ -243,6 +247,8 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["ReflectKick"] = std::make_shared<rtt::ai::ReflectKick>(name, properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
     map["FreeKickFormation"] = std::make_shared<rtt::ai::FreeKickFormation>(name, properties);
+    map["DefendFreeKick"] = std::make_shared<rtt::ai::DefendFreeKick>(name, properties);
+
 
 
     // conditions (alphabetic order)
@@ -427,6 +433,16 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"f4", robotType::RANDOM},
                     {"f5", robotType::RANDOM},
                     {"f6", robotType::RANDOM},
+            }
+            },
+            {"free_kick_them_tactic", {
+                    {"line7", robotType::CLOSE_TO_BALL},
+                    {"line6", robotType::RANDOM},
+                    {"line1", robotType::RANDOM},
+                    {"line2", robotType::RANDOM},
+                    {"line3", robotType::RANDOM},
+                    {"line4", robotType::RANDOM},
+                    {"line5", robotType::RANDOM},
             }
             },
 
