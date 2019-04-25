@@ -13,7 +13,7 @@ Pass,BallPlacement
 Receive,BallPlacement
 Formation
 DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement,distance
-AvoidBall,Stop
+AvoidBall,Stop,type
 Keeper
 GoAroundPos,targetPos,targetDir,towardsTheirGoal,ball
 Halt,ticks
