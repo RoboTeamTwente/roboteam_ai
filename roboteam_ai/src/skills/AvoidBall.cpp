@@ -15,8 +15,16 @@ using cu = control::ControlUtils;
 
 AvoidBall::AvoidBall(std::string name, bt::Blackboard::Ptr blackboard)
 : Skill(std::move(name), std::move(blackboard)) {
+}
+
+void AvoidBall::onInitialize() {
+    minRobotDistanceForForce = 0.7;
     stop = properties->getBool("Stop");
     if(stop) minRobotDistanceForForce *= 1.5;
+    type = stringToType(properties->getString("type"));
+    if (type == PASSING) {
+        receiver = world::world->getRobotForId(coach::g_pass.getRobotBeingPassedTo(), true);
+    }
 }
 
 bt::Node::Status AvoidBall::onUpdate() {
@@ -48,11 +56,22 @@ bt::Node::Status AvoidBall::onUpdate() {
         force = force + cu::calculateForce(wallVector, wallWeight, minWallDistanceForForce);
     }
 
-    Vector2 bpTarget = coach::g_ballPlacement.getBallPlacementPos();
-    // if the robot is closer to the ballplacementTarget than the ball
-    if (control::ControlUtils::distanceToLineWithEnds(robot->pos, ball->pos, bpTarget) < minBallDistanceForForce) {
-        Vector2 LineToBallPlacementBallLine = robot->pos - robot->pos.project(bpTarget, ball->pos);
-        force = force + cu::calculateForce(LineToBallPlacementBallLine, ballWeight, minBallDistanceForForce);
+    if (type == BALLPLACEMENT) {
+        Vector2 bpTarget = coach::g_ballPlacement.getBallPlacementPos();
+        // if the robot is closer to the ballplacementTarget than the ball
+        if (control::ControlUtils::distanceToLineWithEnds(robot->pos, ball->pos, bpTarget) < minBallDistanceForForce) {
+            Vector2 LineToBallPlacementBallLine = robot->pos - robot->pos.project(bpTarget, ball->pos);
+            force = force + cu::calculateForce(LineToBallPlacementBallLine, ballWeight, minBallDistanceForForce);
+        }
+    }
+
+    if (type == PASSING) {
+        // if robot's projection is on the pass line
+        if (control::ControlUtils::isPointProjectedOnLineSegment(robot->pos, ball->pos, receiver->pos)) {
+            Vector2 projectionOnPassLine = robot->pos.project(ball->pos, receiver->pos);
+            Vector2 distanceToProjection = robot->pos - projectionOnPassLine;
+            force = force + cu::calculateForce(distanceToProjection, ballWeight, minBallDistanceForForce);
+        }
     }
 
     force = control::ControlUtils::velocityLimiter(force, Constants::MAX_VEL_BALLPLACEMENT());
@@ -64,6 +83,17 @@ bt::Node::Status AvoidBall::onUpdate() {
     publishRobotCommand();
 
     return Status::Running;
+}
+
+AvoidBall::Type AvoidBall::stringToType(std::string string) {
+    if (string == "ballPlacement") {
+        return BALLPLACEMENT;
+    }
+    else if (string == "passing") {
+        return PASSING;
+    } else {
+        return DEFAULT;
+    }
 }
 
 } // ai
