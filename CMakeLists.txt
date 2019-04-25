@@ -151,8 +151,6 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Receive.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Receive.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DefendOnRobot.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Harass.cpp
@@ -306,7 +304,6 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/MainWindowTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/TreeVisualizerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/ControlUtilsTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendOnRobotTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/PassTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/WorldHelper.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/helpers/WorldHelper.cpp
