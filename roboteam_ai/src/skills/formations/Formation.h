@@ -29,6 +29,8 @@ protected:
     control::NumTreePosControl gtp;
     double errorMargin = 0.1;
     static std::vector<std::shared_ptr<Robot>> robotsInFormation;
+    static bool update;
+    static int updateCount;
     int robotsInFormationMemory = 0;
 
     Vector2 targetLocation;
@@ -41,6 +43,7 @@ protected:
     void updateFormation();
     void moveToTarget();
     void setFinalAngle();
+    bool updateCounter();
 };
 
 }

@@ -1,0 +1,18 @@
+{
+  "name": "shoot_penalty_us_strategy",
+  "data": {
+    "trees": [
+      {
+        "title": "shoot_penalty_us_strategy",
+        "root": "4yfceu9dyc3uw",
+        "nodes": {
+          "4yfceu9dyc3uw": {
+            "id": "4yfceu9dyc3uw",
+            "title": "Tactic",
+            "name": "shoot_penalty_us_tactic"
+          }
+        }
+      }
+    ]
+  }
+}
