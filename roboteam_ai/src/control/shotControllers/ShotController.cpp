@@ -52,17 +52,13 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
 }
 
 /// check if a robot is on a line to a ball
-bool ShotController::onLineToBall(const world::Robot &robot, const world::World::BallPtr &ball,
-                                      const Vector2 &behindBallPosition) const {
-    bool isOnLineToBall;
+bool ShotController::onLineToBall(const world::Robot &robot, const world::World::BallPtr &ball, const Vector2 &behindBallPosition) const {
     if (precision == HIGH) {
-        isOnLineToBall = ControlUtils::distanceToLine(robot.pos, ball->pos, behindBallPosition) < 0.001;
+        return ControlUtils::distanceToLine(robot.pos, ball->pos, behindBallPosition) < 0.001;
     } else if (precision == MEDIUM) {
-        isOnLineToBall = ControlUtils::distanceToLine(robot.pos, ball->pos, behindBallPosition) < 0.005;
-    } else {
-        isOnLineToBall = ControlUtils::distanceToLine(robot.pos, ball->pos, behindBallPosition) < 0.01;
-    };
-    return isOnLineToBall;
+        return ControlUtils::distanceToLine(robot.pos, ball->pos, behindBallPosition) < 0.005;
+    }
+    return ControlUtils::distanceToLine(robot.pos, ball->pos, behindBallPosition) < 0.01;
 }
 
 /// return the place behind the ball targeted towards the ball target position
@@ -171,7 +167,6 @@ double ShotController::determineKickForce(double distance) {
             return rtt::ai::Constants::MAX_KICK_POWER();
     }
 }
-
 
 
 } // control
