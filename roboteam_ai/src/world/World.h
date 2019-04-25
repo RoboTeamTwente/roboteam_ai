@@ -8,12 +8,14 @@
 #include <utility>
 #include <mutex>
 #include <thread>
-#include "../utilities/Constants.h"
+
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Angle.h"
 #include "roboteam_msgs/World.h"
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_msgs/GeometryData.h"
+
+#include "../utilities/Constants.h"
 #include "WorldData.h"
 #include "FutureWorld.h"
 #include "History.h"
@@ -41,8 +43,8 @@ class World {
         std::mutex worldMsgMutex;
 
         const roboteam_msgs::World makeWorldMsg();
-        const roboteam_msgs::WorldRobot makeWorldRobotMsg(const Robot& robot);
-        const roboteam_msgs::WorldBall makeWorldBallMsg(const Ball& ball);
+        const roboteam_msgs::WorldRobot makeWorldRobotMsg(const Robot &robot);
+        const roboteam_msgs::WorldBall makeWorldBallMsg(const Ball &ball);
 
         Robot getRobotClosestToPoint(const Vector2 &point, std::vector<Robot> robots);
     public:
@@ -71,7 +73,7 @@ class World {
         bool robotHasBall(int id, bool ourTeam, double maxDist = Constants::MAX_BALL_RANGE());
         bool ourRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
         bool theirRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
-        const RobotPtr whichRobotHasBall(WhichRobots bots=ALL_ROBOTS);
+        const RobotPtr whichRobotHasBall(WhichRobots whichRobots = ALL_ROBOTS);
 
         const WorldData getFutureWorld(double time);
         const RobotPtr getFutureRobot(int id, bool ourTeam, double time);
