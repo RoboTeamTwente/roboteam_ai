@@ -16,14 +16,10 @@ class DefenceDealer {
     private:
         std::map<int, std::pair<Vector2, double>> defenderLocations;
         std::vector<int> defenders;
-        bool doUpdate=true;
     public:
-
         void updateDefenderLocations();
         void addDefender(int id);
-        void removeDefender(int id);
         std::shared_ptr<std::pair<Vector2, double>> getDefenderPosition(int id);
-        void setDoUpdate();
         void visualizePoints();
 };
 extern DefenceDealer g_DefenceDealer;
