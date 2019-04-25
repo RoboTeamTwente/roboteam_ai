@@ -2,7 +2,6 @@
 // Created by baris on 15-4-19.
 //
 
-#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
 #include "PenaltyFormation.h"
 
 std::shared_ptr<vector<std::shared_ptr<rtt::ai::world::Robot>>> rtt::ai::PenaltyFormation::robotsInFormation = nullptr;

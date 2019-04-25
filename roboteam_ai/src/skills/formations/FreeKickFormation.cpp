@@ -2,7 +2,6 @@
 // Created by baris on 23-4-19.
 //
 
-#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
 #include "FreeKickFormation.h"
 namespace rtt {
 namespace ai {

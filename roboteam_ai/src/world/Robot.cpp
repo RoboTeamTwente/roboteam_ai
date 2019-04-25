@@ -18,12 +18,10 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team)
         : distanceToBall(-1.0), iHaveBall(false), id(copy.id), angle(copy.angle),
           pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
 
-<<<<<<< HEAD
-=======
     if (id != -1 && genevaState.find(id) == genevaState.end()) {
         genevaState[id] = 3;
     }
->>>>>>> origin/development
+
 }
 
 Robot::Robot()

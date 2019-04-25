@@ -6,12 +6,7 @@
 #define ROBOTEAM_AI_ATTACK_H
 
 #include <roboteam_ai/src/control/positionControllers/PosController.h>
-<<<<<<< HEAD
 #include <roboteam_ai/src/control/shotControllers/ShotController.h>
-=======
-#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
-#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
->>>>>>> origin/development
 #include "Skill.h"
 
 namespace rtt {
