@@ -36,7 +36,7 @@ private:
     ShotData goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition);
     ShotData moveStraightToBall(world::Robot robot);
     ShotData shoot(world::Robot robot, Vector2 shotTarget);
-    double determineKickForce(double distance);
+    double determineKickForce(double distance, bool shouldLayStillAtPosition = false);
 
 public:
     explicit ShotController(shotPrecision precision = MEDIUM, bool useAutoGeneva = true);

@@ -145,18 +145,23 @@ ShotData ShotController::shoot(world::Robot robot, Vector2 shotTarget) {
 
     // set the kicker and kickforce
     shotData.kick = true;
-    shotData.kickSpeed = determineKickForce(ball->pos.dist(shotTarget));
+    shotData.kickSpeed = determineKickForce(ball->pos.dist(shotTarget), true);
 
     return shotData;
 }
 
 
 // Determine how fast we should kick for a pass at a given distance
-double ShotController::determineKickForce(double distance) {
+double ShotController::determineKickForce(double distance, bool shouldLayStillAtPosition) {
     const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
 
+    double kickSpeed;
+    if (shouldLayStillAtPosition) {
+        kickSpeed = sqrt(distance) *rtt::ai::Constants::MAX_KICK_POWER()/(sqrt(maxPowerDist)*1.5) ;
+    } else {
+        kickSpeed = distance > maxPowerDist ? rtt::ai::Constants::MAX_KICK_POWER() : sqrt(distance) * rtt::ai::Constants::MAX_KICK_POWER()/sqrt(maxPowerDist) ;
+    }
     // take square root of distance and scale it vertically such that the max kick force and max distance for max kick force are correct.
-    double kickSpeed = distance > maxPowerDist ? rtt::ai::Constants::MAX_KICK_POWER() : sqrt(distance) * rtt::ai::Constants::MAX_KICK_POWER()/sqrt(maxPowerDist) ;
     return static_cast<float>(kickSpeed);
 }
 
