@@ -71,8 +71,11 @@ Skill::Status ShootPenalty::onUpdate() {
                 return Status::Running;
             }
             else {
+                command.x_vel = 0;
+                command.y_vel = 0;
+                command.geneva_state = 0;
                 publishRobotCommand();
-                return Status::Success;
+                return Status::Running;
             }
         }
 
@@ -91,7 +94,11 @@ ShootPenalty::ShootPenalty(string name, bt::Blackboard::Ptr blackboard)
 }
 bool ShootPenalty::isPenaltyShot() {
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
-    return ((ballPos - rtt::ai::world::field->getPenaltyPoint(false)).length() > 0.05);
+    if ((ballPos - rtt::ai::world::field->getPenaltyPoint(false)).length() > 0.30){
+        shot = true;
+        return true;
+    }
+    return false;
 
 }
 

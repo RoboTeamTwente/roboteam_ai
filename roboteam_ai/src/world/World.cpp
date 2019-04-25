@@ -14,18 +14,23 @@ World worldObj;
 World* world = &worldObj;
 
 void World::updateWorld(const roboteam_msgs::World &message) {
-    // convert roboteam_msgs::World into WorldData
-    WorldData newWorldData = WorldData(message);
-
-    // get the old ball from world (if there is a world already)
-    Ball oldBall;
+    // check if there is a previous worldstate
     {
         std::lock_guard<std::mutex> lock(worldMutex);
 
         if (! worldDataPtr) {
-            worldData = newWorldData;
+            worldData = WorldData(message);
             worldDataPtr = std::make_shared<WorldData>(worldData);
         }
+    }
+
+    // convert roboteam_msgs::World into WorldData
+    WorldData newWorldData = WorldData(message);
+
+    // get the old ball from world
+    Ball oldBall;
+    {
+        std::lock_guard<std::mutex> lock(worldMutex);
         oldBall = worldDataPtr->ball;
     }
 
@@ -173,7 +178,7 @@ Robot World::getRobotClosestToPoint(const Vector2 &point, std::vector<Robot> rob
     if (robots.empty()) return {};
 
     unsigned int bestIndex = 0;
-    double closestDistance = 9999999;
+    double closestDistance = 9e9;
     double distanceToCheck;
     for (unsigned int i = 0; i < robots.size(); i ++) {
         distanceToCheck = (robots[i].pos - point).length();
@@ -215,7 +220,7 @@ Robot World::getRobotClosestToRobot(const RobotPtr &robot, WhichRobots whichRobo
 
     auto robotPos = robot->pos;
     unsigned int bestIndex = 0;
-    double closestDistance = 9999999;
+    double closestDistance = 9e9;
     double distanceToCheck;
 
     for (unsigned int i = 0; i < allRobots.size(); i ++) {
@@ -286,7 +291,7 @@ const World::RobotPtr World::whichRobotHasBall(WhichRobots whichRobots) {
         return RobotPtr(nullptr);
     }
 
-    double bestDistance = 999999;
+    double bestDistance = 9e9;
     Robot bestRobot = {};
     for (auto robot : allRobots) {
         if (robot.hasBall()) {
@@ -354,6 +359,32 @@ const WorldData World::getPreviousWorld() {
 
 double World::timeDifference() {
     return worldDataPtr->time - getPreviousWorld().time;
+}
+
+const std::vector<world::Robot> World::getRobotsForIds(std::vector<int> ids, bool ourTeam) {
+    std::vector<world::Robot> robots;
+    for (auto const &id : ids) {
+        auto robot = getRobotForId(id, ourTeam);
+        if (robot) {
+            robots.push_back(* robot);
+        }
+    }
+    return robots;
+}
+
+Robot World::getRobotClosestToPoint(const Vector2 &point, std::vector<int> robotIds, bool ourTeam) {
+
+    Robot closestBot;
+    double maxDist = INT_MAX;
+    for (auto const &id : robotIds) {
+        auto robot = getRobotForId(id, ourTeam);
+        auto dist = robot->pos.dist(point);
+        if (dist < maxDist) {
+            maxDist = dist;
+            closestBot = * robot;
+        }
+    }
+    return closestBot;
 }
 
 } //world
