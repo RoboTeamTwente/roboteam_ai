@@ -31,13 +31,13 @@ class NumTreePosControl : public ForcePosControl {
         PosVelAngle computeCommand();
 
         // constants
-        const double MAX_CALCULATION_TIME = 25.0;         // Max calculation time in ms
-        const double DT = 0.07;                          // timestep for ODE model
-        static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 0.28; // 3x robot radius
+        const double MAX_CALCULATION_TIME = 25.0;                       // Max calculation time in ms
+        const double DT = 0.07;                                         // timestep for ODE model
+        static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 0.28;  // 3x robot radius
 
         // interface functions
-        void drawCross(Vector2 &pos, const QColor &color = Qt::green);
-        void drawPoint(Vector2 &pos, QColor color = Qt::green);
+        void drawCross(const Vector2 &pos, const QColor &color = Qt::green);
+        void drawPoint(const Vector2 &pos, const QColor &color = Qt::green);
         void addDataInInterface(std::vector<std::pair<rtt::Vector2, QColor>> displayColorData);
         void redrawInInterface();
         std::vector<std::pair<Vector2, QColor>> displayData;
@@ -65,7 +65,9 @@ class NumTreePosControl : public ForcePosControl {
         explicit NumTreePosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
 
         void clear();
-        PosVelAngle getPosVelAngle(const RobotPtr &robot, Vector2 &targetPos) override;
+        PosVelAngle getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) override;
+        PosVelAngle getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos) override;
+
 };
 
 }

@@ -6,22 +6,24 @@
 #define ROBOTEAM_AI_BALLHANDLEPOSCONTROL_H
 
 #include <roboteam_utils/Vector2.h>
-#include "PosController.h"
+#include "NumTreePosControl.h"
 
 namespace rtt {
 namespace ai {
 namespace control {
 
 class BallHandlePosControl : public PosController {
-public:
-    BallHandlePosControl() = default;
-    explicit BallHandlePosControl(bool canMoveInDefenseArea);
-    PosVelAngle getPosVelAngle(const RobotPtr &robot, Vector2 &target) override;
-private:
-    void checkInterfacePID() override;
+    private:
+        std::shared_ptr<NumTreePosControl> numTreePosController;
+
+        void checkInterfacePID() override;
+    public:
+        BallHandlePosControl() = default;
+        explicit BallHandlePosControl(bool canMoveInDefenseArea);
+
+        PosVelAngle getPosVelAngle(const RobotPtr &robot, const Vector2 &target, const Angle &targetAngle) override;
+        PosVelAngle getPosVelAngle(const RobotPtr &robot, const Vector2 &target) override;
 };
-
-
 
 } //control
 } //ai

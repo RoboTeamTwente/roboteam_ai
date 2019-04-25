@@ -9,8 +9,7 @@ namespace ai {
 namespace control {
 
 NumTreePosControl::NumTreePosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
-        :ForcePosControl(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
-}
+        :ForcePosControl(avoidBall, canMoveOutsideField, canMoveInDefenseArea) { }
 
 /// Clears data and resets variables
 void NumTreePosControl::clear() {
@@ -96,7 +95,9 @@ bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
 }
 
 /// finds a path using a numeric model
-PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr, Vector2 &targetPos) {
+PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr,
+        const Vector2 &targetPos, const Angle &targetAngle) {
+
     ros::Time begin = ros::Time::now();
 
     if (!robotPtr) return calculateForcePosVelAngle(robotPtr, targetPos);
@@ -446,7 +447,7 @@ void NumTreePosControl::addDataInInterface(std::vector<std::pair<rtt::Vector2, Q
 }
 
 /// draw a cross in the interface
-void NumTreePosControl::drawCross(Vector2 &pos, const QColor &color) {
+void NumTreePosControl::drawCross(const Vector2 &pos, const QColor &color) {
 // draws a cross for the display
     float dist = 0.005f;
     for (int i = - 14; i < 15; i ++) {
@@ -458,13 +459,17 @@ void NumTreePosControl::drawCross(Vector2 &pos, const QColor &color) {
 }
 
 /// draw a point in the interface
-void NumTreePosControl::drawPoint(Vector2 &pos, QColor color) {
+void NumTreePosControl::drawPoint(const Vector2 &pos, const QColor &color) {
     displayData.emplace_back(pos, color);
 }
 
 void NumTreePosControl::checkInterfacePID() {
     auto newPid = interface::InterfaceValues::getNumTreePid();
     updatePid(newPid);
+}
+
+PosVelAngle NumTreePosControl::getPosVelAngle(const PosController::RobotPtr &robot, const Vector2 &targetPos) {
+    return PosController::getPosVelAngle(robot, targetPos);
 }
 
 }// control
