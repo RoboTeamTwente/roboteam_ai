@@ -21,7 +21,8 @@ rtt::Vector2 PositionUtils::getPositionBehindBallToGoal(double distanceBehindBal
     return getPositionBehindBallToPosition(distanceBehindBall, goal);
 }
 
-Vector2 PositionUtils::getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID) {
+Vector2 PositionUtils::getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot,
+        const unsigned int &robotID) {
     Vector2 robot;
     if (world::world->getRobotForId(robotID, ourRobot)) {
         robot = world::world->getRobotForId(robotID, ourRobot).get()->pos;
@@ -32,7 +33,7 @@ Vector2 PositionUtils::getPositionBehindBallToRobot(double distanceBehindBall, b
 
 Vector2 PositionUtils::getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position) {
     auto ball = world::world->getBall();
-    if (!ball) return {};
+    if (! ball) return {};
     Vector2 ballPos = ball->pos;
     return ballPos + (ballPos - position).stretchToLength(distanceBehindBall);
 }
@@ -48,6 +49,7 @@ bool PositionUtils::isRobotBehindBallToGoal(double distanceBehindBall, bool ourG
 }
 
 bool PositionUtils::isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID,
+
         const Vector2 &robotPosition, double angleMargin) {
     Vector2 robot;
     if (world::world->getRobotForId(robotID, ourRobot)) {
@@ -68,14 +70,12 @@ bool PositionUtils::isRobotBehindBallToPosition(double distanceBehindBall, const
     Vector2 trianglePoint2 = ball + deltaBall.rotate(M_PI*angleMargin).scale(2.0);
     Vector2 trianglePoint3 = ball + deltaBall.rotate(M_PI*- angleMargin).scale(2.0);
 
-    bool inLargeTriangleOnPosition = control::ControlUtils::pointInTriangle(robotPosition, trianglePoint1, trianglePoint2, trianglePoint3);
+    bool inLargeTriangleOnPosition = control::ControlUtils::pointInTriangle(robotPosition, trianglePoint1,
+            trianglePoint2, trianglePoint3);
 
     return inLargeTriangleOnPosition;
 }
 
-Vector2 PositionUtils::getDemoKeeperGetBallPos(Vector2 ballPos){
-    return ballPos+Vector2(0.2,0);
-}
 
 } // coach
 } // ai

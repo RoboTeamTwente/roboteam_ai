@@ -17,8 +17,7 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void Attack::onInitialize() {
-    gtp = std::make_shared<control::NumTreePosControl>();
-    gtp->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
+    numTreeGtp.setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
     shot = false;
 }
 
@@ -26,7 +25,7 @@ void Attack::onInitialize() {
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
 
-    if (shot && !world::world->robotHasBall(robot->id, world::OUR_ROBOTS)) {
+    if (shot && !world::world->ourRobotHasBall(robot->id)) {
         return Status::Success;
     }
 
@@ -64,6 +63,7 @@ bt::Node::Status Attack::onUpdate() {
 //
 //    command.x_vel = static_cast<float>(velocity.x);
 //    command.y_vel = static_cast<float>(velocity.y);
+
 
     publishRobotCommand();
 

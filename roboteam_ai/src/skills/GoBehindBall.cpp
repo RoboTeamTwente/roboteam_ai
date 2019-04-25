@@ -9,17 +9,18 @@ namespace ai {
 
 GoBehindBall::GoBehindBall(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
-    goToPos.setAvoidBall(0.02);
 }
 
 Skill::Status GoBehindBall::onUpdate() {
+    goToPos.setAvoidBall(rtt::ai::Constants::ROBOT_RADIUS() + 0.10);
+
     switch (unitType) {
         case penalty: {
             auto ball = ai::world::world->getBall();
             auto goal = ai::world::field->get_their_goal_center();
 
             Vector2 v = goal - ball->pos;
-            auto targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS())) + ball->pos;
+            auto targetPos = ((v*(- 1.0)).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS() + 0.08)) + ball->pos;
             // TODO draw the point in the interface
 
             Vector2 velocity = goToPos.getPosVelAngle(robot, targetPos).vel;
@@ -31,8 +32,6 @@ Skill::Status GoBehindBall::onUpdate() {
                 return Status::Running;
             }
             else {
-
-
 
                 return Status::Success;
             }
@@ -40,14 +39,12 @@ Skill::Status GoBehindBall::onUpdate() {
 
         case freeKick: {
 
-            // TODO optimize for free kick
 
             auto ball = ai::world::world->getBall();
             auto goal = ai::world::field->get_their_goal_center();
 
             Vector2 v = goal - ball->pos;
-            auto targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS())) + ball->pos;
-            // TODO draw the point in the interface
+            auto targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS() + 0.09)) + ball->pos;
 
             Vector2 velocity = goToPos.getPosVelAngle(robot, targetPos).vel;
 
@@ -58,7 +55,6 @@ Skill::Status GoBehindBall::onUpdate() {
                 return Status::Running;
             }
             else {
-                command.w = robot->angularVelocity;
                 command.x_vel = 0;
                 command.y_vel =0;
                 command.geneva_state = 1;
@@ -76,6 +72,7 @@ void GoBehindBall::onInitialize() {
     if (properties->hasString("type")) {
         unitType = stringToUnit(properties->getString("type"));
     }
+    goToPos.setAvoidBall(0.10);
 }
 
 void GoBehindBall::onTerminate(Skill::Status s) {
@@ -94,7 +91,7 @@ GoBehindBall::unit GoBehindBall::stringToUnit(std::string string) {
     }
 }
 void GoBehindBall::publishCommand(Vector2 targetPos, Vector2 velocity) {
-    command.w = static_cast<float>((targetPos - robot->pos).angle());
+    command.w = (rtt::ai::world::field->getPenaltyPoint(false) - rtt::ai::world::world->getBall()->pos).angle();
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
 

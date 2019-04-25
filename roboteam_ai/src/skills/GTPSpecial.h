@@ -24,7 +24,7 @@ class GTPSpecial : public GoToPos {
             ballPlacementAfter,
             getBallFromSide,
             defaultType,
-//            fixed
+            freeKick
         };
 
         Type type;

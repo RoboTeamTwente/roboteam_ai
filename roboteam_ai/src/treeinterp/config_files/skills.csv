@@ -7,7 +7,6 @@ RotateToAngle,rotateToBall,Angle,RobotControl
 InterceptBall
 InterceptRobot
 GetBall,maxTime
-DefendOnRobot
 Attack
 DemoAttack,ownGoal
 Pass,BallPlacement
@@ -30,3 +29,6 @@ KickOffUsFormation
 PenaltyFormation,Offensive
 ActiveStop
 ReflectKick
+PenaltyKeeper
+FreeKickFormation
+DefendFreeKick
