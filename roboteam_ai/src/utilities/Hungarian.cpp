@@ -39,8 +39,8 @@ HungarianAlgorithm::getRobotPositions(std::vector<int> robotIds, bool ourTeam, s
 }
 
 bool HungarianAlgorithm::validateInput(std::vector<Vector2> const &set1, std::vector<Vector2> const &set2) {
-    if (set1.size() != set2.size()) {
-        std::cerr << "wrong input for hungarian: unequal" << std::endl;
+    if (set1.size() > set2.size()) {
+        std::cerr << "wrong input for hungarian: more robots than positions" << std::endl;
         return false;
     } else if (set1.empty() || set2.empty()) {
         std::cerr << "wrong input for hungarian: 0" << std::endl;
@@ -59,7 +59,7 @@ std::vector<std::pair<Vector2, Vector2>> HungarianAlgorithm::calculateClosestPat
 
         for (unsigned int i = 0; i < set1.size(); i++) {
             for (unsigned int j = 0; j < set2.size(); j++) {
-                distanceMatrix.at(i).at(j) = static_cast<int>(set1[i].dist(set2[j]));
+                distanceMatrix.at(i).at(j) = set1[i].dist(set2[j]);
             }
         }
 
