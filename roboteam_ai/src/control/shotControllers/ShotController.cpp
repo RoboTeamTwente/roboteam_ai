@@ -27,7 +27,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
     Vector2 behindBallPosition;
 
     // determine the position for the robot to stand and the corresponding geneva angle
-    if (false) {
+    if (true) {
         auto positionAndGeneva = getGenevePlaceBehindBall(robot, shotTarget);
         behindBallPosition = positionAndGeneva.first;
         genevaState = positionAndGeneva.second;
@@ -36,9 +36,14 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
         genevaState = 3;
     }
 
-    // TODO implement precision here
-    bool isOnLineToBall = control::ControlUtils::distanceToLine(robot.pos, ball->pos, behindBallPosition) < 0.02;
-
+    bool isOnLineToBall;
+    if (precision == HIGH) {
+        isOnLineToBall = control::ControlUtils::distanceToLine(robot.pos, ball->pos, behindBallPosition) < 0.001;
+    } else if (precision == MEDIUM){
+        isOnLineToBall = control::ControlUtils::distanceToLine(robot.pos, ball->pos, behindBallPosition) < 0.005;
+    } else {
+        isOnLineToBall = control::ControlUtils::distanceToLine(robot.pos, ball->pos, behindBallPosition) < 0.01;
+    };
     // TODO fix for 40 degrees so for wide geneva it will still be pretty crappy. 0.70 radians is 40 degrees
    bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, shotTarget, robot.pos);
    bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_BALL_RANGE());
@@ -85,33 +90,39 @@ std::pair<Vector2, int> ShotController::getGenevePlaceBehindBall(world::Robot ro
     auto ball = world::world->getBall();
 
     // determine the shortest position from where to kick the ball
-    Vector2 robotToBall = robot.pos - ball->pos;
-    Vector2 preferredShotVector = ball->pos - shotTarget;
+    Vector2 robotToBall = ball->pos - robot.pos;
+    Vector2 preferredShotVector =  shotTarget - ball->pos;
 
     // determine the angle between the robot position and the shotline
-    Angle angleWithShotline = (robotToBall - preferredShotVector).angle();
-
+    Angle angleWithShotline = robotToBall.toAngle() - preferredShotVector.toAngle();
+ // std::cout << to_string(toDegrees(angleWithShotline.getAngle())) << std::endl;
     // get the place behind the ball as if no geneva is used
     // we rotate this vector according to the angle with the shotline
-    // we intentionally need to remove robot pos because we are rotating the vector
-    Vector2 placeBehindBallVector = getPlaceBehindBall(robot, shotTarget) - robot.pos;
+    // we intentionally need to remove ball pos because we are rotating the vector
+    Vector2 placeBehindBallVector = getPlaceBehindBall(robot, shotTarget) - ball->pos;
+
 
     int desiredGeneva;
-    if (angleWithShotline.getAngle() > control::ControlUtils::degreesToRadians(15)) {
-        desiredGeneva = 1;
-        placeBehindBallVector.rotate(control::ControlUtils::degreesToRadians(20));
-    } else if (angleWithShotline.getAngle() > control::ControlUtils::degreesToRadians(5)) {
-        desiredGeneva = 2;
-        placeBehindBallVector.rotate(control::ControlUtils::degreesToRadians(10));
-    } else if (angleWithShotline.getAngle() > control::ControlUtils::degreesToRadians(-5)) {
-        desiredGeneva = 3;
-    } else if (angleWithShotline.getAngle() > control::ControlUtils::degreesToRadians(-15)) {
-        desiredGeneva = 4;
-        placeBehindBallVector.rotate(control::ControlUtils::degreesToRadians(-10));
-    } else {
-        desiredGeneva = 5;
-        placeBehindBallVector.rotate(control::ControlUtils::degreesToRadians(-20));
-    }
+        if (angleWithShotline.getAngle() > toRadians(15)) {
+                desiredGeneva = 1;
+            placeBehindBallVector = placeBehindBallVector.rotate(toRadians(20));
+
+        } else if (angleWithShotline.getAngle() > toRadians(5)) {
+                desiredGeneva = 2;
+            placeBehindBallVector = placeBehindBallVector.rotate(toRadians(10));
+
+        } else if (angleWithShotline.getAngle() < -toRadians(5)) {
+            desiredGeneva = 5;
+            placeBehindBallVector = placeBehindBallVector.rotate(-toRadians(20));
+
+        } else if (angleWithShotline.getAngle() < -toRadians(15)) {
+            desiredGeneva = 4;
+            placeBehindBallVector = placeBehindBallVector.rotate(-toRadians(10));
+
+        } else {
+            desiredGeneva = 3;
+        }
+
 
     return std::make_pair(ball->pos + placeBehindBallVector, desiredGeneva);
 }
