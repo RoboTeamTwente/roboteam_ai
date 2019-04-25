@@ -188,6 +188,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SideAttacker.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/CoachDefend.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/CoachDefend.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SlingShot.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SlingShot.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptRobot.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptRobot.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PenaltyHelper.cpp
@@ -206,7 +208,7 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffThemFormation.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffThemFormation.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/PenaltyFormation.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/PenaltyFormation.cpp)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/PenaltyFormation.cpp roboteam_ai/src/skills/PenaltyKeeper.cpp roboteam_ai/src/skills/PenaltyKeeper.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
