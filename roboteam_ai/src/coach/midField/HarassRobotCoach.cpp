@@ -7,6 +7,8 @@
 #include <roboteam_ai/src/world/World.h>
 #include "../../world/WorldData.h"
 #include <algorithm> //sort
+#include <roboteam_ai/src/analysis/AnalysisReport.h>
+#include <roboteam_ai/src/analysis/GameAnalyzer.h>
 
 namespace rtt {
 namespace ai {
@@ -19,10 +21,17 @@ HarassRobotCoach g_harassRobotCoach;
 Vector2 HarassRobotCoach::getHarassPosition(const RobotPtr &thisRobot, int &myIndex) {
 
     ball = world::world->getBall();
+    auto field = world::field->get_field();
     Vector2 currentLocation = thisRobot->pos;
-    auto robotWithBall = world::world->whichRobotHasBall();
-    if (robotWithBall) bestXPos = robotWithBall->team == world::Robot::them ? - 1.2 : 1.2;
-    else bestXPos = 0.0;
+    auto report = analysis::GameAnalyzer::getInstance().getMostRecentReport();
+    auto ballPossession = report->ballPossession;
+    if (ballPossession == analysis::WE_HAVE_BALL) {
+        bestXPos = 1.2;
+    } else if (ballPossession == analysis::THEY_HAVE_BALL) {
+        bestXPos = std::min(0.67 * field.field_length, 0.67 * (ball->pos.x + field.field_width));
+    } else {
+        bestXPos = 0.0;
+    }
 
     // initialize
     if (myIndex == - 1) {
@@ -34,26 +43,17 @@ Vector2 HarassRobotCoach::getHarassPosition(const RobotPtr &thisRobot, int &myIn
 
     // get one of the robots to get/defend the ball
     if (ball) {
+        auto robotWithBall = world::world->whichRobotHasBall();
         if (robotWithBall) {
+            // we have ball
+            if (robotWithBall->us) {
+                return getHarassPositionWhereWeHaveBall(robotWithBall, thisRobot, myIndex);
+
             // they have ball
-            if (robotWithBall->team == world::Robot::them) {
+            } else {
                 return getHarassPositionWhereTheyHaveBall(robotWithBall, thisRobot, myIndex);
             }
-                // we have ball
-            else if (robotWithBall->team == world::Robot::us) {
-                return getHarassPositionWhereWeHaveBall(robotWithBall, thisRobot, myIndex);
-            }
         }
-            // nobody has ball
-        else {
-            bool canIContest = true; //TODO: check if this robot can contest the ball
-            if (canIContest) {
-                //contestBall();
-                // get the functionality from some coach I guess
-            }
-
-        }
-
     }
 
     return standInMidField(thisRobot, myIndex);
@@ -107,6 +107,7 @@ Vector2 HarassRobotCoach::harassRobot(int myIndex, int id, bool stayInMidField) 
 }
 
 Vector2 HarassRobotCoach::standFree(const RobotPtr &ourRobotWithBall, const RobotPtr &thisRobot, int myIndex) {
+    std::cout << thisRobot->id << " standing free" << std::endl;
 
     Vector2 currentLocation = thisRobot->pos;
     Vector2 passLine = ourRobotWithBall->pos - currentLocation;
@@ -181,7 +182,7 @@ Angle HarassRobotCoach::getHarassAngle(const HarassRobotCoach::RobotPtr &thisRob
 }
 
 Vector2 HarassRobotCoach::getHarassPositionWhereTheyHaveBall(const RobotPtr &robotWithBall,
-        const RobotPtr &thisRobot, int &myIndex) {
+    const RobotPtr &thisRobot, int &myIndex) {
 
     // if this robot is closest to the robot with ball, harass that robot
     int bestIndex = getRobotIndexCloseToEnemyRobot(robotWithBall);
