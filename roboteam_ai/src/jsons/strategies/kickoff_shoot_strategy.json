@@ -1,0 +1,18 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "tkd24wrw6464sfch": {
+            "id": "tkd24wrw6464sfch",
+            "name": "kickoff_shoot_tactic",
+            "title": "Tactic"
+          }
+        },
+        "root": "tkd24wrw6464sfch",
+        "title": "kickoff_shoot_strategy"
+      }
+    ]
+  },
+  "name": "kickoff_shoot_strategy"
+}
