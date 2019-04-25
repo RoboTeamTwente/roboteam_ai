@@ -43,8 +43,8 @@
 #include "roboteam_ai/src/skills/CoachDefend.h"
 #include "roboteam_ai/src/skills/formations/PenaltyFormation.h"
 #include "roboteam_ai/src/skills/ActiveStop.h"
+#include "roboteam_ai/src/skills/SlingShot.h"
 #include <roboteam_ai/src/skills/PenaltyKeeper.h>
-
 
 
 //  ______________________
@@ -228,6 +228,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["GoBehindBall"] = std::make_shared<rtt::ai::GoBehindBall>(name, properties);
     map["ShootPenalty"] = std::make_shared<rtt::ai::ShootPenalty>(name, properties);
     map["ShootFreeKick"] = std::make_shared<rtt::ai::ShootFreeKick>(name, properties);
+    map["SlingShot"] = std::make_shared<rtt::ai::SlingShot>(name, properties);
     map["PenaltyFormation"] = std::make_shared<rtt::ai::PenaltyFormation>(name, properties);
     map["ActiveStop"] = std::make_shared<rtt::ai::ActiveStop>(name, properties);
     map["ReflectKick"] = std::make_shared<rtt::ai::ReflectKick>(name, properties);
