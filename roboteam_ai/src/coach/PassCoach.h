@@ -34,6 +34,11 @@ private:
     bool timerStarted = false;
     double MAX_PASS_TIME = 10.0; //seconds
     bool readyToReceivePass;
+    int robotPassing = -1;
+public:
+    int getRobotPassing() const;
+
+private:
     int robotBeingPassedTo = -1;
     bool passed;
 };
