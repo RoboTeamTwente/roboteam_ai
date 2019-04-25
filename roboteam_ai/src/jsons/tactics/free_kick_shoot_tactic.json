@@ -1,1 +1,187 @@
-{"name": "free_kick_shoot_tactic", "data": {"trees": [{"title": "free_kick_shoot_tactic", "root": "3h41w9x1eg0nslbe", "nodes": {"3h41w9x1eg0nslbe": {"id": "3h41w9x1eg0nslbe", "title": "RoleDivider", "children": ["0akx3zoqafahq", "zcsuyrns24tnqxiqs", "v3gsmkyzqylogd", "orbk7f97ik0bohs", "xftqgpr1cpox9", "n6hvwwjum9umg57vn", "f9mkmt2kn2ojnul2q"], "properties": {"TacticType": "General"}}, "0akx3zoqafahq": {"id": "0akx3zoqafahq", "title": "Role", "name": "kickerChip", "role": "shoot_free_kick_role", "children": ["3kvj25juvvs0s3"], "properties": {"ROLE": "kickerChip"}}, "3kvj25juvvs0s3": {"id": "3kvj25juvvs0s3", "title": "MemSequence", "children": ["ypkkvkytcciy4apnz", "byzohykw21p1j6v5r"], "properties": {"ROLE": "kickerChip"}}, "ypkkvkytcciy4apnz": {"id": "ypkkvkytcciy4apnz", "title": "GoBehindBall", "properties": {"ROLE": "kickerChip"}}, "byzohykw21p1j6v5r": {"id": "byzohykw21p1j6v5r", "title": "ShootFreeKick", "properties": {"ROLE": "kickerChip"}}, "zcsuyrns24tnqxiqs": {"id": "zcsuyrns24tnqxiqs", "title": "Role", "name": "f1", "role": "free_kick_formation_role", "children": ["i7rmp1su5g5rxfs"], "properties": {"ROLE": "f1"}}, "i7rmp1su5g5rxfs": {"id": "i7rmp1su5g5rxfs", "title": "FreeKickFormation", "properties": {"ROLE": "f1"}}, "v3gsmkyzqylogd": {"id": "v3gsmkyzqylogd", "title": "Role", "name": "f2", "role": "free_kick_formation_role", "children": ["yau4qjvyzd71s"], "properties": {"ROLE": "f2"}}, "yau4qjvyzd71s": {"id": "yau4qjvyzd71s", "title": "FreeKickFormation", "properties": {"ROLE": "f2"}}, "orbk7f97ik0bohs": {"id": "orbk7f97ik0bohs", "title": "Role", "name": "f3", "role": "free_kick_formation_role", "children": ["sjuf02d5x8hmg"], "properties": {"ROLE": "f3"}}, "sjuf02d5x8hmg": {"id": "sjuf02d5x8hmg", "title": "FreeKickFormation", "properties": {"ROLE": "f3"}}, "xftqgpr1cpox9": {"id": "xftqgpr1cpox9", "title": "Role", "name": "f4", "role": "free_kick_formation_role", "children": ["6nrk08bfqkyr01r"], "properties": {"ROLE": "f4"}}, "6nrk08bfqkyr01r": {"id": "6nrk08bfqkyr01r", "title": "FreeKickFormation", "properties": {"ROLE": "f4"}}, "n6hvwwjum9umg57vn": {"id": "n6hvwwjum9umg57vn", "title": "Role", "name": "f5", "role": "free_kick_formation_role", "children": ["0a24v4jvs4xc9avj"], "properties": {"ROLE": "f5"}}, "0a24v4jvs4xc9avj": {"id": "0a24v4jvs4xc9avj", "title": "FreeKickFormation", "properties": {"ROLE": "f5"}}, "f9mkmt2kn2ojnul2q": {"id": "f9mkmt2kn2ojnul2q", "title": "Role", "name": "f6", "role": "free_kick_formation_role", "children": ["zx2ow74ndyems4k"], "properties": {"ROLE": "f6"}}, "zx2ow74ndyems4k": {"id": "zx2ow74ndyems4k", "title": "FreeKickFormation", "properties": {"ROLE": "f6"}}}}]}}
+{
+  "name": "free_kick_shoot_tactic",
+  "data": {
+    "trees": [
+      {
+        "title": "free_kick_shoot_tactic",
+        "root": "3h41w9x1eg0nslbe",
+        "nodes": {
+          "3h41w9x1eg0nslbe": {
+            "id": "3h41w9x1eg0nslbe",
+            "title": "RoleDivider",
+            "children": [
+              "g7e26dij5hxo9wn",
+              "vjuctpzvbxsg9on",
+              "d49ud71xikwfo2",
+              "c0df5z57tln12gvje",
+              "o25ylsywrg3iu",
+              "0q6k559i04fc3f",
+              "i3iai9lu222gcv6j"
+            ],
+            "properties": {
+              "TacticType": "General"
+            }
+          },
+          "g7e26dij5hxo9wn": {
+            "id": "g7e26dij5hxo9wn",
+            "title": "Role",
+            "name": "kickerChip",
+            "role": "shoot_free_kick_role",
+            "children": [
+              "jxt8nh6sk806ps"
+            ],
+            "properties": {
+              "ROLE": "kickerChip"
+            }
+          },
+          "jxt8nh6sk806ps": {
+            "id": "jxt8nh6sk806ps",
+            "title": "MemSequence",
+            "children": [
+              "k0u4x2vidnzdt0uw6",
+              "zt64gdf67943fl"
+            ],
+            "properties": {
+              "ROLE": "kickerChip"
+            }
+          },
+          "k0u4x2vidnzdt0uw6": {
+            "id": "k0u4x2vidnzdt0uw6",
+            "title": "GoBehindBall",
+            "properties": {
+              "ROLE": "kickerChip",
+              "type": "freeKick"
+            }
+          },
+          "zt64gdf67943fl": {
+            "id": "zt64gdf67943fl",
+            "title": "ShootFreeKick",
+            "properties": {
+              "ROLE": "kickerChip"
+            }
+          },
+          "vjuctpzvbxsg9on": {
+            "id": "vjuctpzvbxsg9on",
+            "title": "Role",
+            "name": "f1",
+            "role": "free_kick_reciever_role",
+            "children": [
+              "cs8dcvexrnwfe0"
+            ],
+            "properties": {
+              "ROLE": "f1"
+            }
+          },
+          "cs8dcvexrnwfe0": {
+            "id": "cs8dcvexrnwfe0",
+            "title": "GTPSpecial",
+            "properties": {
+              "type": "freeKick",
+              "avoidBall": "true",
+              "maxVel": "2.0",
+              "canGoOutsideField": "false",
+              "fixedTarget": "false",
+              "canMoveInDefenseArea": "false",
+              "ROLE": "f1"
+            }
+          },
+          "d49ud71xikwfo2": {
+            "id": "d49ud71xikwfo2",
+            "title": "Role",
+            "name": "f2",
+            "role": "free_kick_formation_role",
+            "children": [
+              "uub6ga84l674b"
+            ],
+            "properties": {
+              "ROLE": "f2"
+            }
+          },
+          "uub6ga84l674b": {
+            "id": "uub6ga84l674b",
+            "title": "FreeKickFormation",
+            "properties": {
+              "ROLE": "f2"
+            }
+          },
+          "c0df5z57tln12gvje": {
+            "id": "c0df5z57tln12gvje",
+            "title": "Role",
+            "name": "f3",
+            "role": "free_kick_formation_role",
+            "children": [
+              "os3drvsx2cai6"
+            ],
+            "properties": {
+              "ROLE": "f3"
+            }
+          },
+          "os3drvsx2cai6": {
+            "id": "os3drvsx2cai6",
+            "title": "FreeKickFormation",
+            "properties": {
+              "ROLE": "f3"
+            }
+          },
+          "o25ylsywrg3iu": {
+            "id": "o25ylsywrg3iu",
+            "title": "Role",
+            "name": "f4",
+            "role": "free_kick_formation_role",
+            "children": [
+              "sf7n5sc8wng12k35"
+            ],
+            "properties": {
+              "ROLE": "f4"
+            }
+          },
+          "sf7n5sc8wng12k35": {
+            "id": "sf7n5sc8wng12k35",
+            "title": "FreeKickFormation",
+            "properties": {
+              "ROLE": "f4"
+            }
+          },
+          "0q6k559i04fc3f": {
+            "id": "0q6k559i04fc3f",
+            "title": "Role",
+            "name": "f5",
+            "role": "free_kick_formation_role",
+            "children": [
+              "0vyh4hsfh839un"
+            ],
+            "properties": {
+              "ROLE": "f5"
+            }
+          },
+          "0vyh4hsfh839un": {
+            "id": "0vyh4hsfh839un",
+            "title": "FreeKickFormation",
+            "properties": {
+              "ROLE": "f5"
+            }
+          },
+          "i3iai9lu222gcv6j": {
+            "id": "i3iai9lu222gcv6j",
+            "title": "Role",
+            "name": "f6",
+            "role": "free_kick_formation_role",
+            "children": [
+              "k4390ag7ap18q04"
+            ],
+            "properties": {
+              "ROLE": "f6"
+            }
+          },
+          "k4390ag7ap18q04": {
+            "id": "k4390ag7ap18q04",
+            "title": "FreeKickFormation",
+            "properties": {
+              "ROLE": "f6"
+            }
+          }
+        }
+      }
+    ]
+  }
+}
