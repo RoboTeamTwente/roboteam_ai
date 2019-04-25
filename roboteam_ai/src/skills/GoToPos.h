@@ -16,6 +16,7 @@ class GoToPos : public Skill {
         Vector2 targetPos = {0, 0};
         double maxVel = Constants::DEFAULT_MAX_VEL();
         double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
+        double fixedW = -1;
 
         control::NumTreePosControl gotopos;
 

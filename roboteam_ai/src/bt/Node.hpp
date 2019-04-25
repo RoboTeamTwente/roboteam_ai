@@ -83,6 +83,8 @@ class Node {
     protected:
         Status status = Status::Waiting;
 
+        bool init = false;
+
         unsigned long long amountOfTicks = 0; // ticks can increase fast
 
         ros::Time lastTickTime;

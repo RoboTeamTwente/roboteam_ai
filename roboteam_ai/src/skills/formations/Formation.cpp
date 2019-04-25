@@ -12,6 +12,9 @@
 namespace rtt {
 namespace ai {
 
+bool Formation::update = false;
+int Formation::updateCount = 0;
+
 Formation::Formation(std::string name, bt::Blackboard::Ptr blackboard)
 : Skill(std::move(name), std::move(blackboard)) {}
 
@@ -21,7 +24,7 @@ void Formation::onInitialize() {
 }
 
 bt::Node::Status Formation::onUpdate() {
-    if (!robotIsInFormation()) return Status::Running;
+    if (!robotIsInFormation()) return Status::Failure;
     updateFormation(); // if the amount of robots in the formation changes, we want to update the locations
 
 
@@ -84,7 +87,7 @@ bool Formation::formationHasChanged() {
 
 // adapt to the change of robot amount in formation
 void Formation::updateFormation() {
-    if (formationHasChanged()) {
+    if (formationHasChanged() || updateCounter()) {
         targetLocation = getFormationPosition();
         robotsInFormationMemory = robotsInFormationPtr()->size();
     }
@@ -103,8 +106,15 @@ void Formation::moveToTarget() {
     command.y_vel = velocities.vel.y;
     command.w = static_cast<float>((targetLocation - robot->pos).angle());
 }
+bool Formation::updateCounter() {
+    if (!update) return false;
 
+    updateCount++;
+    if ((updateCount % 200) == 0) {
+        return true;
+    }
 
+}
 
 } // ai
 } // rtt
