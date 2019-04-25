@@ -120,7 +120,6 @@ void OffensiveCoach::addSideAttacker(OffensiveCoach::RobotPtr robot) {
 }
 
 void OffensiveCoach::removeSideAttacker(const OffensiveCoach::RobotPtr& robot) {
-    int size = sideAttackers.size();
     for (auto &sideAttacker : sideAttackers) {
         if(sideAttacker->id == robot->id) {
             sideAttackers.erase(sideAttacker);
