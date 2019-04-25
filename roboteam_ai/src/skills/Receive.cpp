@@ -128,10 +128,8 @@ void Receive::intercept() {
 
     Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel;
 
-    velocities = control::ControlUtils::velocityLimiter(velocities);
-
-    if (velocities.length() < 0.5) {
-        velocities = velocities.stretchToLength(0.5);
+    if (velocities.length() < 0.3 && velocities.length() > 0.05) {
+        velocities = velocities.stretchToLength(0.3);
     }
 
     command.x_vel = static_cast<float>(velocities.x);

@@ -5,7 +5,7 @@
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/ForcePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
-#include <roboteam_ai/src/control/positionControllers/ControlGoToPosBallControl.h>
+#include <roboteam_ai/src/control/positionControllers/BallHandlePosControl.h>
 #include "SkillGoToPos.h"
 
 namespace rtt {
@@ -27,7 +27,7 @@ void SkillGoToPos::onInitialize() {
 
 void SkillGoToPos::setPosController(const string &gTT) {
     if (gTT == "ballControl") {
-        posController = std::make_shared<control::ControlGoToPosBallControl>();
+        posController = std::make_shared<control::BallHandlePosControl>();
     }
     else if (gTT == "basic") {
         posController = std::make_shared<control::BasicPosControl>();
