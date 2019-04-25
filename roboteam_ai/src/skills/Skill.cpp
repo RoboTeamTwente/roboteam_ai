@@ -20,7 +20,7 @@ void Skill::publishRobotCommand() {
     }
 
     if (command.id == -1) {
-        if (robot->id != -1) {
+        if (robot && robot->id != -1) {
             command.id = robot->id;
             ioManager.publishRobotCommand(command); // We default to our robots being on the left if parameter is not set
 
@@ -55,6 +55,10 @@ void Skill::initialize() {
 }
 
 void Skill::terminate(Status s) {
+    if (!init) {
+        return;
+    }
+    init = false;
     if (! robot || robot->id == -1) return;
     if (! ball) return;
     refreshRobotCommand();
@@ -72,7 +76,7 @@ roboteam_msgs::RobotCommand Skill::rotateRobotCommand(roboteam_msgs::RobotComman
 void Skill::refreshRobotCommand() {
     roboteam_msgs::RobotCommand emptyCmd;
     emptyCmd.use_angle = 1;
-    emptyCmd.id = robot->id;
+    emptyCmd.id = robot ? robot->id : -1;
     emptyCmd.geneva_state = 3;
     command = emptyCmd;
 }

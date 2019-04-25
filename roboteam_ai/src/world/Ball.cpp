@@ -126,7 +126,7 @@ void Ball::updateDribbling(const Ball &oldBall, const WorldData &worldData) {
 
     Robot* dribblingRobot = getDribblingRobot(allRobots, maxDribbleRange);
 
-    if (!dribblingRobot) {
+    if (! dribblingRobot) {
         dribbledNow = false;
         return;
     }
@@ -166,7 +166,7 @@ void Ball::updateBallPosition(const Ball &oldBall, const WorldData &worldData) {
             }
         }
         if (newRobotStillExistsInWorld) {
-            double distanceInFrontOfRobot = Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS();
+            double distanceInFrontOfRobot = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
             pos = newRobotWithBall.pos + newRobotWithBall.angle.toVector2(distanceInFrontOfRobot);
         }
     }

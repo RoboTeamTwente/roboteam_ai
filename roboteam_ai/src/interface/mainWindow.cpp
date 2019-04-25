@@ -120,10 +120,10 @@ MainWindow::MainWindow(QWidget* parent)
                      [=](const pidVals &pid) { InterfaceValues::setNumTreePid(pid); });
 
     QObject::connect(forcePidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
-                     [=](const pidVals &pid) { InterfaceValues::setNumTreePid(pid); });
+                     [=](const pidVals &pid) { InterfaceValues::setForcePid(pid); });
 
     QObject::connect(basicPidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
-                     [=](const pidVals &pid) { InterfaceValues::setNumTreePid(pid); });
+                     [=](const pidVals &pid) { InterfaceValues::setBasicPid(pid); });
 
     // add the pid widgets to the layout
     pidVLayout->addWidget(numTreePidBox);
