@@ -133,10 +133,16 @@ void OffensiveCoach::redistributePositions() {
 }
 
 std::vector<Vector2> OffensiveCoach::getOffensivePositions(int numberOfRobots) {
-    numberOfRobots += numberOfRobots % 2;
+    // The offensive positions are symmetric, meaning that there's a position close to the goal, both left and right,
+    // and a position a bit further, left and right. If you have 1 sideAttacker, you want that robot to be able to choose
+    // between the two close positions. If you have 3, you want them to choose from all 4. Hence, the number of positions
+    // is rounded up to a multiple of 2.
+
+    int numberOfPositions = numberOfRobots + numberOfRobots % 2;
+
     std::vector<Vector2> positionVectors;
 
-    for(int i=0; i < numberOfRobots; i++) {
+    for(int i=0; i < numberOfPositions; i++) {
         positionVectors.emplace_back(offensivePositions[i].position);
     }
 
