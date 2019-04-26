@@ -23,6 +23,7 @@ struct PlayStyle {
     int amountOfDefenders;
     int amountOfMidfielders;
     int amountOfAttackers;
+    PlayStyle() =default;
     PlayStyle(int def, int mid, int att)
             : amountOfDefenders(def), amountOfMidfielders(mid), amountOfAttackers(att) {};
 };

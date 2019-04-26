@@ -61,18 +61,21 @@ void WorldManager::updateReferee() {
         auto oldStrategy = BTFactory::getCurrentTree();
         std::string strategyName = strategyManager.getCurrentStrategyName(refereeMsg.command);
         if (oldStrategy != strategyName) {
-            BTFactory::makeTrees();
             BTFactory::setCurrentTree(strategyName);
         }
-
 
         auto oldKeeperTree = BTFactory::getKeeperTreeName();
         std::string keeperTreeName = strategyManager.getCurrentKeeperTreeName(refereeMsg.command);
         if (oldKeeperTree != keeperTreeName) {
             std::cout << oldKeeperTree <<  "vs " << keeperTreeName << std::endl;
-            BTFactory::makeTrees();
             BTFactory::setKeeperTree(keeperTreeName);
         }
+
+        if (oldStrategy != strategyName || oldKeeperTree != keeperTreeName) {
+            robotDealer::RobotDealer::refresh();
+
+        }
+
 
 
         // if there is a referee, we always want to have a separate keeper tree.
@@ -101,7 +104,10 @@ unsigned char WorldManager::refereeMsgChanged(roboteam_msgs::RefereeData oldR, r
     msgChanged |= oldR.packet_timestamp != newR.packet_timestamp;
     msgChanged |= oldR.command_timestamp != newR.command_timestamp;
 
-    if (msgChanged) bit = 0b001;
+    if (msgChanged) {
+        Referee::setRefereeData(newR);
+        bit = 0b001;
+    }
 
     return bit;
 }
