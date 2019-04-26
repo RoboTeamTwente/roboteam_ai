@@ -24,6 +24,9 @@ class PenaltyKeeper : public Skill  {
         control::BasicPosControl gtp;
         PenaltyState updateState(PenaltyState currentState);
         bool isBallShot();
+        //testing:
+        int ballShotTicks;
+        Vector2 initialPos,initialVel;
     public:
         explicit PenaltyKeeper(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;
