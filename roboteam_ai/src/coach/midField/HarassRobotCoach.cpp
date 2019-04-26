@@ -219,30 +219,24 @@ Vector2 HarassRobotCoach::standInMidField(const HarassRobotCoach::RobotPtr &this
     }
 
     // find the best position to receive a pass
-    coach::PassScore passScore;
-    Vector2 bestPosition = thisRobot->pos;
-    double bestScore = passScore.calculatePassScore(bestPosition);
-    double currentX = thisRobot->pos.x;
-    double currentY = thisRobot->pos.y;
-    for (int yDiff = -GRID_SIZE; yDiff < GRID_SIZE; yDiff++) {
-        Vector2 newPos = {currentX, currentY + yDiff * GRID_INTERVAL};
-        double newScore = passScore.calculatePassScore(newPos);
-        if (newScore > bestScore) {
-            bestPosition = newPos;
-            bestScore = newScore;
-        }
-    }
-
-    targetRobotPositions[myIndex] = bestPosition;
+    Vector2 bestReceiveLocation = getBestReceiveLocation(thisRobot);
+    targetRobotPositions[myIndex] = bestReceiveLocation;
 
     // make sure you are not too close to the other midfielders and the side
-    for (int i = 0; i < static_cast<int>(currentRobotPositions.size()); i ++) {
+    return keepDistanceBetweenHarassers(myIndex, currentLocation);
+}
+
+Vector2 HarassRobotCoach::keepDistanceBetweenHarassers(const int &myIndex, Vector2 &currentLocation) {
+    for (int i = 0; i < static_cast<int>(currentRobotPositions.size()); i++) {
         if (i == myIndex) continue;
 
         auto &robotPos = currentRobotPositions[i];
         if ((robotPos - currentLocation).length() < MIN_DISTANCE_BETWEEN_MIDFIELDERS) {
             Vector2 target = {currentLocation.x, currentLocation.y +
-                    (double) (robotPos.y > currentLocation.y ? MIN_DISTANCE_BETWEEN_MIDFIELDERS*- 1.2 : MIN_DISTANCE_BETWEEN_MIDFIELDERS*1.2)};
+                                                 (double) (robotPos.y > currentLocation.y ?
+                                                           MIN_DISTANCE_BETWEEN_MIDFIELDERS * -1.2 :
+                                                           MIN_DISTANCE_BETWEEN_MIDFIELDERS * 1.2)};
+
             targetRobotPositions[myIndex] = target;
 
             if (!world::field->pointIsInField(target, DISTANCE_FROM_SIDES)) {
@@ -260,6 +254,24 @@ Vector2 HarassRobotCoach::standInMidField(const HarassRobotCoach::RobotPtr &this
 
     return currentLocation;
 }
+
+    Vector2 HarassRobotCoach::getBestReceiveLocation(const HarassRobotCoach::RobotPtr &thisRobot) {
+    PassScore passScore;
+    Vector2 bestPosition = thisRobot->pos;
+    double bestScore = passScore.calculatePassScore(bestPosition);
+    double currentX = thisRobot->pos.x;
+    double currentY = thisRobot->pos.y;
+    for (int yDiff = -GRID_SIZE; yDiff < GRID_SIZE; yDiff++) {
+        Vector2 newPos = {currentX, currentY + yDiff * this->GRID_INTERVAL};
+        double newScore = passScore.calculatePassScore(newPos);
+        if (newScore > bestScore) {
+            bestPosition = newPos;
+            bestScore = newScore;
+        }
+    }
+    return bestPosition;
+}
+
 bool HarassRobotCoach::robotAlreadyBeingHarassed(int myIndex, int opponentID) {
     for (int i = 0; i < targetRobotsToHarass.size(); i++) {
         if (targetRobotsToHarass[i]) {
