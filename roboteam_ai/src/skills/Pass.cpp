@@ -17,6 +17,7 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name),
 void Pass::onInitialize() {
     ballPlacement = properties->getBool("BallPlacement");
     currentProgress = GETTING_TO_BALL;
+    shot = false;
 }
 
 Pass::Status Pass::onUpdate() {
@@ -54,7 +55,17 @@ Pass::Status Pass::onUpdate() {
                 coach::g_pass.setPassed(true);
                 return Status::Success;
             } else if (isOnLineToBall && isBehindBall) {
-                return hasBall ? shoot() : getBall();
+
+                if (hasBall) {
+                    shot = true;
+                    return shoot();
+                } else {
+                    if(!shot && !control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
+                        return Status::Failure;
+                    }
+
+                    return getBall();
+                }
             }
 
             return moveBehindBall(behindBallPos);

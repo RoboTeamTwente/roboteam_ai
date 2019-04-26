@@ -28,6 +28,7 @@ private:
     const double BEHIND_BALL_CHECK = 0.6;
     const double BEHIND_BALL_TARGET = 0.4;
 
+    bool shot = false;
     bool ballPlacement = false;
     RobotPtr robotToPassTo;
 
