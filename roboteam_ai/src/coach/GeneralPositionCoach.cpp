@@ -156,24 +156,18 @@ std::vector<Vector2> GeneralPositionCoach::getDefendFreeKick(int number) {
     return res;
 }
 std::vector<Vector2> GeneralPositionCoach::getDefendPenaltyPositions(int number) {
-    auto lengthOffset = rtt::ai::world::field->get_field().field_length/100.0;
-    auto widthOffset = rtt::ai::world::field->get_field().field_width/4.0;
-    Vector2 goalUS = rtt::ai::world::field->get_our_goal_center();
-    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
-    Vector2 penaltyUs = rtt::ai::world::field->getPenaltyPoint(true);
-
     Vector2 lineProgress = {0, 0.4};
-    Vector2 lineBegin = {rtt::ai::world::field->getPenaltyPoint(false).x - 0.5, 0};
 
+    Vector2 lineBegin = {rtt::ai::world::field->getPenaltyPoint(false).x - 0.5, 0};
     Vector2 line2 = lineBegin + lineProgress;
     Vector2 line3 = lineBegin - lineProgress;
     Vector2 line4 = lineBegin - lineProgress*2.0;
     Vector2 line5 = lineBegin + lineProgress*2.0;
 
-    Vector2 def1 = {penaltyUs.x + lengthOffset, penaltyUs.y + widthOffset/2.0};
-    Vector2 def2 = {penaltyUs.x + lengthOffset, - (penaltyUs.y + widthOffset/2.0)};
+    Vector2 atk1 = {0, 0.5};
+    Vector2 atk2 = {0, -0.5};
 
-    std::vector<Vector2> temp = {lineBegin, def1, line3, def2, line2, line4, line5};
+    std::vector<Vector2> temp = {lineBegin, line3, line2, line4, line5, atk1, atk2};
 
     std::vector<Vector2> res;
     for (int i = 0; i < number; i ++) {

@@ -57,7 +57,6 @@ Skill::Status GoBehindBall::onUpdate() {
             else {
                 command.x_vel = 0;
                 command.y_vel =0;
-                command.geneva_state = 3;
                 publishRobotCommand();
                 return Status::Success;
             }
