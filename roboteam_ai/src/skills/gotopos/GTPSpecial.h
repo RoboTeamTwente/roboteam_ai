@@ -18,11 +18,12 @@ namespace ai {
 class GTPSpecial : public GoToPos {
     private:
         enum Type {
-          goToBall,
-          ballPlacementBefore,
-          ballPlacementAfter,
-          getBallFromSide,
-          defaultType,
+            goToBall,
+            ballPlacementBefore,
+            ballPlacementAfter,
+            getBallFromSide,
+            defaultType,
+            freeKick
         };
 
         Type type;

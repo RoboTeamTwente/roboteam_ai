@@ -38,6 +38,14 @@ void GTPSpecial::gtpInitialize() {
         ROS_WARN("GTPSpecial was not given any type! Defaulting to {0, 0}");
         break;
     }
+    case freeKick: {
+        Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
+
+        Vector2 penaltyThem = rtt::ai::world::field->getPenaltyPoint(false);
+        targetPos = (ballPos + (penaltyThem - ballPos).stretchToLength((penaltyThem - ballPos).length() / 2.0));
+        errorMargin = 0.05;
+        break;
+    }
     }
 
 
@@ -88,6 +96,9 @@ GTPSpecial::Type GTPSpecial::stringToType(const std::string &string) {
     else if (string == "getBallFromSide") {
         return getBallFromSide;
     }
+    else if (string == "freeKick") {
+        return freeKick;
+    }
     else {
         return defaultType;
     }
@@ -104,6 +115,9 @@ Skill::Status GTPSpecial::gtpUpdate() {
     case ballPlacementAfter:break;
     case getBallFromSide:break;
     case defaultType:break;
+    case freeKick: {
+        command.w = (ball->pos - robot->pos).angle();
+    }
     }
 
     return Status::Running;

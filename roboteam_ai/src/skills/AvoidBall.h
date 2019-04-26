@@ -12,7 +12,7 @@ namespace ai {
 
 class AvoidBall : public Skill {
         const double robotWeight = 0.09;
-        double minRobotDistanceForForce = 0.7;
+        double minRobotDistanceForForce;
         const double ballWeight = 0.15;
         const double minBallDistanceForForce = 0.7;
         const double wallWeight = 0.05;
@@ -21,12 +21,23 @@ class AvoidBall : public Skill {
 
     public:
         explicit AvoidBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+        void onInitialize() override;
         bt::Node::Status onUpdate() override;
     private:
         enum Progression {
           RUNNING, DONE, FAIL
         };
         Progression currentProgress;
+
+        enum Type {
+            BALLPLACEMENT,
+            PASSING,
+            DEFAULT
+        };
+
+        Type type;
+        Type stringToType(std::string string);
+        RobotPtr receiver;
 
 };
 
