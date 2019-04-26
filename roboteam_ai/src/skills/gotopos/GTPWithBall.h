@@ -12,7 +12,14 @@ namespace ai {
 
 class GTPWithBall : public GoToPos {
     private:
+        enum TargetType {
+          rotateToTheirGoal,
 
+        };
+        TargetType targetType;
+        TargetType stringToTargetType(const std::string &string);
+
+        void updateTarget();
     public:
         explicit GTPWithBall(string name, bt::Blackboard::Ptr blackboard);
 

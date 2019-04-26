@@ -76,8 +76,12 @@ bt::Node::Status GoToPos::onUpdate() {
     Status gtpStatus = gtpUpdate();
     if (gtpStatus != Status::Running) return gtpStatus;
 
+    // check targetPos
     if ((targetPos - robot->pos).length2() < errorMargin*errorMargin) {
-        return Status::Success;
+        // check targetAngle
+        if (targetAngle == 0.0 || abs(targetAngle - robot->angle) < angleErrorMargin) {
+            return Status::Success;
+        }
     }
 
     control::PosVelAngle pva = posController->getPosVelAngle(robot, targetPos, targetAngle);
