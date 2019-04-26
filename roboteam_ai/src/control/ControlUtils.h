@@ -34,7 +34,7 @@ class ControlUtils {
         static bool isPointProjectedOnLineSegment(const Vector2 &pointToCheck, const Vector2 &lineBegin,
                                                   const Vector2 &lineEnd);
         static bool clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world::WorldData &world,
-                double safeDistanceFactor, bool keeper = true);
+                double safeDistanceFactor, bool includeKeeper = true);
         static double distanceToLineWithEnds(const Vector2 & PointToCheck, const Vector2 &LineStart,
                 const Vector2 &LineEnd);
         static double angleDifference(double A1, double A2);

@@ -8,6 +8,8 @@
 #include <roboteam_msgs/DemoRobot.h>
 #include <roboteam_ai/src/demo/JoystickDemo.h>
 #include <roboteam_ai/src/utilities/Pause.h>
+#include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/utilities/Referee.hpp>
 #include "IOManager.h"
 
 
@@ -86,13 +88,14 @@ void IOManager::subscribeToDemoInfo() {
 
 void IOManager::handleWorldState(const roboteam_msgs::WorldConstPtr &w) {
     std::lock_guard<std::mutex> lock(mutex);
-
     this->worldMsg = *w;
+    world::world->updateWorld(this->worldMsg);
 }
 
 void IOManager::handleGeometryData(const roboteam_msgs::GeometryDataConstPtr &geometry) {
     std::lock_guard<std::mutex> lock(mutex);
     this->geometryMsg = *geometry;
+    world::field->set_field(this->geometryMsg.field);
 }
 
 void IOManager::handleRobotFeedback(const roboteam_msgs::RoleFeedbackConstPtr &rolefeedback) {
@@ -108,6 +111,7 @@ void IOManager::handleDemoInfo(const roboteam_msgs::DemoRobotConstPtr &demoInfo)
 void IOManager::handleRefereeData(const roboteam_msgs::RefereeDataConstPtr &refData) {
     std::lock_guard<std::mutex> lock(mutex);
     this->refDataMsg = *refData;
+    Referee::setRefereeData(this->refDataMsg);
 }
 
 const roboteam_msgs::World &IOManager::getWorldState() {

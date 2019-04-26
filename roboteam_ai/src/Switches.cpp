@@ -17,31 +17,24 @@
 //  |____________________|
 //
 
-#include <roboteam_ai/src/skills/Chip.h>
-#include <roboteam_ai/src/skills/Dribble.h>
-#include <roboteam_ai/src/skills/SkillGoToPos.h>
-#include <roboteam_ai/src/skills/Halt.h>
-#include <roboteam_ai/src/skills/Harass.h>
-#include <roboteam_ai/src/skills/RotateToAngle.h>
-#include <roboteam_ai/src/skills/GoToPos.h>
-#include <roboteam_ai/src/skills/Keeper.h>
-#include <roboteam_ai/src/skills/GetBall.h>
-#include <roboteam_ai/src/skills/Attack.h>
-#include <roboteam_ai/src/skills/SideAttacker.h>
-#include <roboteam_ai/src/skills/Pass.h>
-#include <roboteam_ai/src/skills/Receive.h>
-#include <roboteam_ai/src/skills/DribbleRotate.h>
+#include "roboteam_ai/src/skills/Chip.h"
+#include "roboteam_ai/src/skills/Dribble.h"
+#include "roboteam_ai/src/skills/gotopos/SkillGoToPos.h"
+#include "roboteam_ai/src/skills/Halt.h"
+#include "roboteam_ai/src/skills/Harass.h"
+#include "roboteam_ai/src/skills/RotateToAngle.h"
+#include "roboteam_ai/src/skills/gotopos/GoToPos.h"
+#include "roboteam_ai/src/skills/Keeper.h"
+#include "roboteam_ai/src/skills/GetBall.h"
+#include "roboteam_ai/src/skills/Attack.h"
+#include "roboteam_ai/src/skills/SideAttacker.h"
+#include "roboteam_ai/src/skills/Pass.h"
+#include "roboteam_ai/src/skills/Receive.h"
+#include "roboteam_ai/src/skills/DribbleRotate.h"
 #include <roboteam_ai/src/skills/Defend.h>
-#include <roboteam_ai/src/skills/GTPSpecial.h>
-#include <roboteam_ai/src/skills/GoAroundPos.h>
-#include <roboteam_ai/src/skills/GoBehindBall.h>
-#include <roboteam_ai/src/skills/ShootPenalty.h>
-#include <roboteam_ai/src/skills/ShootFreeKick.h>
-#include <roboteam_ai/src/skills/DemoAttack.h>
-#include <roboteam_ai/src/skills/MidFieldHarasser.h>
-#include <roboteam_ai/src/skills/CoachDefend.h>
-#include "roboteam_ai/src/skills/GoAroundPos.h"
-#include "roboteam_ai/src/skills/GoBehindBall.h"
+#include <roboteam_ai/src/skills/gotopos/GTPSpecial.h>
+#include "roboteam_ai/src/skills/gotopos/GoAroundPos.h"
+#include "roboteam_ai/src/skills/gotopos/GoBehindBall.h"
 #include "roboteam_ai/src/skills/ShootPenalty.h"
 #include "roboteam_ai/src/skills/ShootFreeKick.h"
 #include "roboteam_ai/src/skills/DemoAttack.h"
@@ -54,6 +47,7 @@
 #include "roboteam_ai/src/skills/ActiveStop.h"
 #include "roboteam_ai/src/skills/SlingShot.h"
 #include <roboteam_ai/src/skills/PenaltyKeeper.h>
+#include <roboteam_ai/src/skills/MidFieldHarasser.h>
 
 
 //  ______________________
@@ -132,7 +126,8 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "shoot_penalty_us_tactic",
         "free_kick_formation_tactic",
         "free_kick_shoot_tactic",
-        "free_kick_them_tactic"
+        "free_kick_them_tactic",
+        "penalty_them_tactic"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
@@ -170,8 +165,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "free_kick_formation_strategy",
         "free_kick_shoot_strategy",
         "free_kick_them_strategy",
-        "MidFieldHarassStrategy",
-        "test_pass_strategy"
+        "penalty_them_strategy",
+        "MidFieldHarassStrategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles =
@@ -235,7 +230,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
 
     map["GetBall"] = std::make_shared<rtt::ai::GetBall>(name, properties);
     map["GoAroundPos"] = std::make_shared<rtt::ai::GoAroundPos>(name, properties);
-    map["GoToPos"] = std::make_shared<rtt::ai::GoToPos>(name, properties);
+    map["GoToPos"] = std::make_shared<rtt::ai::SkillGoToPos>(name, properties);
     map["Halt"] = std::make_shared<rtt::ai::Halt>(name, properties);
     map["Harass"] = std::make_shared<rtt::ai::Harass>(name, properties);
     map["InterceptBall"] = std::make_shared<rtt::ai::InterceptBall>(name, properties);
@@ -455,6 +450,16 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"line3", robotType::RANDOM},
                     {"line4", robotType::RANDOM},
                     {"line5", robotType::RANDOM},
+            }
+            },
+            {"penalty_them_tactic", {
+                    {"a1", robotType::RANDOM},
+                    {"a2", robotType::RANDOM},
+                    {"a3", robotType::RANDOM},
+                    {"a4", robotType::RANDOM},
+                    {"a5", robotType::RANDOM},
+                    {"a6", robotType::RANDOM},
+                    {"a7", robotType::RANDOM},
             }
             },
 

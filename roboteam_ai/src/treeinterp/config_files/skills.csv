@@ -1,4 +1,5 @@
 GoToPos,targetPos,avoidBall,maxVel,canGoOutsideField,canMoveInDefenseArea
+SkillGoToPos,targetPos,avoidBall,maxVel,canGoOutsideField,canMoveInDefenseArea
 GTPSpecial,type,avoidBall,maxVel,canGoOutsideField,fixedTarget,canMoveInDefenseArea
 Kick
 Chip

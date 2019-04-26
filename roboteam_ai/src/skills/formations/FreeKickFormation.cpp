@@ -14,7 +14,7 @@ std::shared_ptr<vector<std::shared_ptr<rtt::ai::world::Robot>>> rtt::ai::FreeKic
 Vector2 FreeKickFormation::getFormationPosition() {
 
     update = true;
-    posses = rtt::ai::coach::g_generalPositionCoach.getFreeKickPositions(robotsInFormation->size());
+    posses = rtt::ai::coach::GeneralPositionCoach::getFreeKickPositions(robotsInFormation->size());
     std::vector<int> robotIds;
 
     for (auto & i : *robotsInFormation) {

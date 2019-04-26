@@ -36,8 +36,15 @@ double CoachHeuristics::calculatePassLineScore(const Vector2 &position, const Wo
     double smallestAngle = MAX_INTERCEPT_ANGLE;
     auto ball = world.ball;
 
-    for(const auto& robot : world::world->getAllRobots()) {
-        if(control::ControlUtils::isPointProjectedOnLineSegment(robot.pos, ball.pos, position)) {
+    smallestAngle = getClosestOpponentAngleToPassLine(position, ball, smallestAngle);
+
+    return 1 - exp(PASS_LINE_WEIGHT*smallestAngle);
+}
+double CoachHeuristics::getClosestOpponentAngleToPassLine(const Vector2 &position, const Ball &ball,
+        double smallestAngle) {
+
+    for (const auto &robot : world::world->getAllRobots()) {
+        if (control::ControlUtils::isPointProjectedOnLineSegment(robot.pos, ball.pos, position)) {
             double angle = abs((position - ball.pos).toAngle() - (robot.pos - ball.pos).toAngle());
             if (angle < smallestAngle) {
                 smallestAngle = angle;
@@ -45,7 +52,7 @@ double CoachHeuristics::calculatePassLineScore(const Vector2 &position, const Wo
         }
     }
 
-    return 1 - exp(PASS_LINE_WEIGHT*smallestAngle);
+    return smallestAngle;
 }
 
 /// Gives a higher score if the position is far away from enemy robots

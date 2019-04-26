@@ -15,7 +15,7 @@ void robotCommandCallback(const roboteam_msgs::RobotCommandConstPtr &cmd) {
 }
 
 TEST(IOTest, it_subscribes) {
-    ros::Rate rate(30);
+    ros::Rate rate(1);
     ros::NodeHandle nh;
     // subscribing
     ros::Publisher roleFeedbackPub = nh.advertise<roboteam_msgs::RoleFeedback>(rtt::TOPIC_ROLE_FEEDBACK, 1);
@@ -34,15 +34,24 @@ TEST(IOTest, it_subscribes) {
     worldMsg.ball.pos = rtt::Vector2(10.1, 20.2);
     worldPub.publish(worldMsg);
 
+    rate.sleep();
+    ros::spinOnce();
+
     // publish a geometry message
     roboteam_msgs::GeometryData geomMsg;
     geomMsg.field.goal_depth = 30.3;
     geomPub.publish(geomMsg);
 
+    rate.sleep();
+    ros::spinOnce();
+
     // publish role feedback message
     roboteam_msgs::RoleFeedback roleFeedbackMsg;
     roleFeedbackMsg.status = 'X';
     roleFeedbackPub.publish(roleFeedbackMsg);
+
+    rate.sleep();
+    ros::spinOnce();
 
     // publish role feedback message
     roboteam_msgs::RefereeData refData;
