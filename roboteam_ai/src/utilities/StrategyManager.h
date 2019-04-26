@@ -68,7 +68,7 @@ private:
             // these custom strategies need special attention
             {RefGameState::DO_KICKOFF, "kickoff_shoot_strategy"},
             {RefGameState::DEFEND_KICKOFF, "TestStrategy"}, // we do not currently use this.
-            {RefGameState::DEFEND_PENALTY, "TestStrategy"}, // we do not currently use this.
+            {RefGameState::DEFEND_PENALTY, "penalty_them_strategy"},
             {RefGameState::DO_PENALTY, "shoot_penalty_us_strategy"}
     };
 
