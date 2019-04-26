@@ -91,7 +91,7 @@ GoBehindBall::unit GoBehindBall::stringToUnit(std::string string) {
     }
 }
 void GoBehindBall::publishCommand(Vector2 targetPos, Vector2 velocity) {
-    command.w = (rtt::ai::world::field->getPenaltyPoint(false) - rtt::ai::world::world->getBall()->pos).angle();
+    command.w = (rtt::ai::world::field->get_their_goal_center() - robot->pos).angle();
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
 
