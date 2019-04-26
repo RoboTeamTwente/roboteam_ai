@@ -43,8 +43,6 @@ void SkillGoToPos::setPosController(const string &gTT) {
 
 /// Called when the Skill is Updated
 SkillGoToPos::Status SkillGoToPos::onUpdate() {
-
-   // numTreeGoToPos.numTreeGoToPos(robot, targetPos, goToType);
     // Now check the progress we made
     currentProgress = checkProgression();
     // Send a move command
