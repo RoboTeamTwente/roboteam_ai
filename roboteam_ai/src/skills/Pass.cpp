@@ -151,7 +151,6 @@ void Pass::initiatePass() {
 
 Skill::Status Pass::goToBall() {
     targetPos = ball->pos;
-    numTreeGtp.setAvoidBall(false);
     control::PosVelAngle pva = numTreeGtp.getPosVelAngle(robot, targetPos);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel);
     command.x_vel = static_cast<float>(pva.vel.x);

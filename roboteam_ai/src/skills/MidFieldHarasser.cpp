@@ -20,7 +20,7 @@ Skill::Status MidFieldHarasser::onUpdate() {
 
     targetPos = getHarassPosition();
 
-    auto newPosition = goToPos.getPosVelAngle(robot, targetPos);
+    auto newPosition = numTreeGtp.getPosVelAngle(robot, targetPos);
     Vector2 velocity = newPosition.vel;
     velocity = control::ControlUtils::velocityLimiter(velocity);
     command.x_vel = static_cast<float>(velocity.x);

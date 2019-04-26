@@ -15,7 +15,7 @@ namespace ai {
 
 class MidFieldHarasser : public Skill {
     private:
-        control::NumTreePosControl goToPos;
+        control::NumTreePosControl numTreeGtp = control::NumTreePosControl(false, false, false);
         Vector2 targetPos;
         int myIndex = - 1;
 
