@@ -12,7 +12,8 @@ class GetBallCoach {
         bool gettingBall=false;
         int idGettingBall=-1;
         bool shouldWeGetBall();
-        int bestBallGetterID();
+        //TODO: Make this more complex
+        int bestBallGetterID(double secondsAhead = 0.4);
     public:
         void update();
         bool weAreGettingBall();

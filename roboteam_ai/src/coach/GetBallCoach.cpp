@@ -21,14 +21,15 @@ bool GetBallCoach::weAreGettingBall() {
 int GetBallCoach::getBallGetterID() {
     return idGettingBall;
 }
-int GetBallCoach::bestBallGetterID() {
+int GetBallCoach::bestBallGetterID(double secondsAhead) {
     //robot closest to ball that is not keeper
     int closestId = - 1;
-    double closestDist = DBL_MAX;
-    Vector2 ballPos = world::world->getBall()->pos;
+    auto closestDist = DBL_MAX;
+    auto ball = world::world->getBall();
+    Vector2 futureBallPos = ball->pos + ball->vel * secondsAhead;
     for (const auto &robot : world::world->getUs()) {
         if (robot.id != robotDealer::RobotDealer::getKeeperID()) {
-            double distToBall = (robot.pos - ballPos).length();
+            double distToBall = (robot.pos - futureBallPos).length();
             if (distToBall < closestDist) {
                 closestDist = distToBall;
                 closestId = robot.id;
@@ -40,7 +41,7 @@ int GetBallCoach::bestBallGetterID() {
 void GetBallCoach::update() {
     if (shouldWeGetBall()) {
         gettingBall = true;
-        idGettingBall = bestBallGetterID();
+        idGettingBall = bestBallGetterID(0);
     }
     else {
         idGettingBall = - 1;
