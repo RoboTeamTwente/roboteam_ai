@@ -136,8 +136,11 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     case Status::Running:break;
     case Status::Success:ROS_INFO_STREAM("Status returned: Success");
         std::cout << " === TREE CHANGE === " << std::endl;
+
             BTFactory::setCurrentTree("haltStrategy");
-        break;
+            ai::robotDealer::RobotDealer::refresh();
+
+            break;
     case Status::Failure:ROS_INFO_STREAM("Status returned: Failure");
         break;
     case Status::Waiting:ROS_INFO_STREAM("Status returned: Waiting");

@@ -3,27 +3,19 @@
     "trees": [
       {
         "nodes": {
-          "1wrm2x5a8mex15k6": {
-            "children": [
-              "j94geor1mkojpd1w"
-            ],
-            "id": "1wrm2x5a8mex15k6",
-            "properties": {},
-            "title": "Inverter"
-          },
           "j94geor1mkojpd1w": {
             "id": "j94geor1mkojpd1w",
             "properties": {},
             "title": "BallIsMoving"
           },
-          "jq9rt9duiv36nj6l": {
+          "nj6o6l554tqnvx77": {
             "children": [
-              "1wrm2x5a8mex15k6",
+              "j94geor1mkojpd1w",
               "tkd24wrw6464sfch"
             ],
-            "id": "jq9rt9duiv36nj6l",
+            "id": "nj6o6l554tqnvx77",
             "properties": {},
-            "title": "Sequence"
+            "title": "Selector"
           },
           "tkd24wrw6464sfch": {
             "id": "tkd24wrw6464sfch",
@@ -31,7 +23,7 @@
             "title": "Tactic"
           }
         },
-        "root": "jq9rt9duiv36nj6l",
+        "root": "nj6o6l554tqnvx77",
         "title": "kickoff_shoot_strategy"
       }
     ]
