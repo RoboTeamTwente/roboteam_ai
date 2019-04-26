@@ -30,7 +30,6 @@
 #include "roboteam_ai/src/skills/SideAttacker.h"
 #include "roboteam_ai/src/skills/Pass.h"
 #include "roboteam_ai/src/skills/Receive.h"
-#include <roboteam_ai/src/skills/DefendOnRobot.h>
 #include "roboteam_ai/src/skills/DribbleRotate.h"
 #include <roboteam_ai/src/skills/Defend.h>
 #include <roboteam_ai/src/skills/GTPSpecial.h>
@@ -78,6 +77,7 @@
 #include "roboteam_ai/src/conditions/BallNearOurGoalLineAndStill.h"
 #include "roboteam_ai/src/conditions/TwoRobotBallPlacement.h"
 #include "roboteam_ai/src/conditions/HasClearShot.h"
+#include "roboteam_ai/src/conditions/IsOnPassLine.h"
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -217,7 +217,6 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["GTPSpecial"] = std::make_shared<rtt::ai::GTPSpecial>(name, properties);
     map["Chip"] = std::make_shared<rtt::ai::Chip>(name,properties);
     map["Defend"] = std::make_shared<rtt::ai::Defend>(name, properties);
-    map["DefendOnRobot"] = std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
     map["DemoAttack"] = std::make_shared<rtt::ai::DemoAttack>(name, properties);
     map["Dribble"] = std::make_shared<rtt::ai::Dribble>(name, properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
@@ -273,6 +272,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
     map["IsInDefenseArea"] = std::make_shared<rtt::ai::IsInDefenseArea>(name, properties);
     map["HasClearShot"] = std::make_shared<rtt::ai::HasClearShot>(name, properties);
+    map["IsOnPassLine"] = std::make_shared<rtt::ai::IsOnPassLine>(name, properties);
 
     if (map.find(name) != map.end()) {
         return map[name];

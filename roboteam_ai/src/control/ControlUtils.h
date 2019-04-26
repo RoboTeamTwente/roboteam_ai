@@ -20,7 +20,6 @@ namespace control {
 
 class ControlUtils {
     public:
-        static double calculateAngularVelocity(double robotAngle, double targetAngle);
         static double TriangleArea(const Vector2 &a, const Vector2 &b, const Vector2 &c);
 
         static bool pointInTriangle(const Vector2 &pointToCheck,
@@ -59,11 +58,7 @@ class ControlUtils {
         static bool robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, double maxDifference = 0.3);
         static bool objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity,
                 const Vector2 &point, double maxDifference = 0.3);
-        static std::vector<std::pair<Vector2, Vector2>> calculateClosestPathsFromTwoSetsOfPoints(
-                std::vector<Vector2> set1, std::vector<Vector2> set2);
-        static double closestEnemyToLineDistance(const Vector2 &fromPos, Vector2 toPos, const world::WorldData &world,
-                                                 bool keeper);
-        static bool hasClearVision(int fromID, int towardsID, world::WorldData w, int safeDistanceFactor);
+        static world::Robot getRobotClosestToLine(std::vector<world::Robot> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds);
 };
 
 } // control
