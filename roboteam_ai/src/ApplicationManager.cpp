@@ -19,7 +19,7 @@ using Status = bt::Node::Status;
 namespace rtt {
 
 void ApplicationManager::setup() {
-    IOManager = new io::IOManager(true);
+    IOManager = new io::IOManager(true, false);
 
     BTFactory::setCurrentTree("halt_strategy");
     BTFactory::setKeeperTree("keeper_default_tactic");
