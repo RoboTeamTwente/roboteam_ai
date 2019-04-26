@@ -258,7 +258,7 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ShouldHandleBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNotTooClose.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNotTooClose.h
-        )
+        roboteam_ai/src/conditions/BallIsMoving.cpp roboteam_ai/src/conditions/BallIsMoving.h)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
