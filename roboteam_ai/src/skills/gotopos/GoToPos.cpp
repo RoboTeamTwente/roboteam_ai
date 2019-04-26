@@ -80,7 +80,7 @@ bt::Node::Status GoToPos::onUpdate() {
         return Status::Success;
     }
 
-    control::PosVelAngle pva = posController->getPosVelAngle(robot, targetPos);
+    control::PosVelAngle pva = posController->getPosVelAngle(robot, targetPos, targetAngle);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel, maxVel);
 
     // set robotcommands if they have not been set yet in gtpUpdate()

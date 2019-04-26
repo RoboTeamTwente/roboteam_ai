@@ -25,6 +25,7 @@ PosVelAngle BallHandlePosControl::getPosVelAngle(const RobotPtr &robot,
         Vector2 target = ball->pos + (robot->pos - ball->pos).stretchToLength(0.25);
         return numTreePosController->getPosVelAngle(robot, target);
     }
+
     return {};
 }
 

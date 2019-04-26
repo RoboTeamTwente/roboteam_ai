@@ -26,6 +26,7 @@ class GoToPos : public Skill {
         void setPositionController(const GoToType &goToType);
 
         Vector2 targetPos = {};
+        Angle targetAngle = 0;
         double maxVel;
         double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
 
