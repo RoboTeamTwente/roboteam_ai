@@ -24,6 +24,7 @@ HarassRobotCoach::HarassTarget HarassRobotCoach::getHarassPosition(const RobotPt
     Vector2 currentLocation = thisRobot->pos;
     auto report = analysis::GameAnalyzer::getInstance().getMostRecentReport();
     auto ballPossession = report->ballPossession;
+    // find the best x position to stand at based on whether we have the ball or they
     if (ballPossession == analysis::WE_HAVE_BALL) {
         bestXPos = 1.2;
     } else if (ballPossession == analysis::THEY_HAVE_BALL) {
@@ -53,6 +54,7 @@ HarassRobotCoach::HarassTarget HarassRobotCoach::getHarassPosition(const RobotPt
     // else, ball is on our side
     } else {
         if (ballPossession == analysis::WE_HAVE_BALL) {
+            // stand in midfield will just stand free to receive a pass
             HarassTarget harassTarget;
             harassTarget.harassRobot = -1;
             harassTarget.harassPosition = standInMidField(thisRobot, myIndex);
@@ -104,53 +106,6 @@ Vector2 HarassRobotCoach::harassRobot(int myIndex, int id) {
     return target;
 }
 
-Vector2 HarassRobotCoach::standFree(const RobotPtr &ourRobotWithBall, const RobotPtr &thisRobot, int myIndex) {
-    Vector2 currentLocation = thisRobot->pos;
-    Vector2 passLine = ourRobotWithBall->pos - currentLocation;
-    Angle passAngle = passLine.toAngle();
-    Angle smallestAngle = Angle(M_PI);
-    auto enemyRobots = world::world->getThem();
-    for (auto &robot : enemyRobots) {
-        Vector2 blockLine = ourRobotWithBall->pos - robot.pos;
-        Angle blockAngle = blockLine.toAngle();
-        Angle deltaAngle = blockAngle - passAngle;
-        if (abs(deltaAngle.getAngle()) < abs(smallestAngle.getAngle())) {
-            auto distToLine = control::ControlUtils::distanceToLine(robot.pos, ourRobotWithBall->pos, currentLocation);
-            auto distToLineWithEnds = control::ControlUtils::distanceToLineWithEnds(robot.pos, ourRobotWithBall->pos,
-                    currentLocation);
-            if (distToLine == distToLineWithEnds) {
-                smallestAngle = deltaAngle;
-            }
-        }
-    }
-    Vector2 target;
-    Vector2 closeRobotPos = Vector2(42.0, 42.0);
-    for (auto &otherRobot : world::world->getAllRobots()) {
-        if (otherRobot.id == thisRobot->id && otherRobot.team == thisRobot->team) continue;
-
-        if ((otherRobot.pos - currentLocation).length2() < 0.5) {
-            closeRobotPos = otherRobot.pos;
-        }
-    }
-    if (closeRobotPos != Vector2(42.0, 42.0)) {
-        target = currentLocation + (currentLocation - closeRobotPos).normalize();
-    }
-    else if (abs(smallestAngle) > 0.25) {
-        target = currentLocation;
-    }
-    else if (smallestAngle.getAngle() > 0.0) {
-        target = currentLocation + passLine.rotate(M_PI_2).normalize();
-    }
-    else {
-        target = currentLocation - passLine.rotate(M_PI_2).normalize();
-    }
-
-    target.x = target.x < bestXPos ? bestXPos : target.x;
-    targetRobotPositions[myIndex] = target;
-    targetRobotsToHarass[myIndex] = RobotPtr(nullptr);
-    return target;
-}
-
 HarassRobotCoach::HarassTarget HarassRobotCoach::initialize(const Vector2 &currentLocation, int &myIndex) {
     Vector2 target = {bestXPos, currentLocation.y};
     currentRobotPositions.push_back(currentLocation);
@@ -187,39 +142,19 @@ HarassRobotCoach::HarassTarget HarassRobotCoach::findRobotToHarass(const RobotPt
     HarassTarget harassTarget;
 
     // check opponent closest to ball and closest to harasser
-    auto closestRobotToBallDistance = DBL_MAX;
-    RobotPtr closestRobotToBall;
+    double closestRobotToBallDistance;
+    HarassRobotCoach::RobotPtr closestRobotToBall;
+    HarassRobotCoach::RobotPtr closestRobotToHarasser;
+    setClosestRobots(thisRobot, goAfterBall, closestRobotToBallDistance, closestRobotToBall, closestRobotToHarasser);
 
-    auto closestRobotToHarasserDistance = DBL_MAX;
-    RobotPtr closestRobotToHarasser;
-
-    for (auto robot : world::world->getThem()) {
-        if (abs(robot.pos.x) <= HARASS_THRESHOLD) {
-            if (goAfterBall) {
-                // check if robot is closest to ball
-                double distanceToBall = (ball->pos - robot.pos).length();
-                if (distanceToBall < closestRobotToBallDistance) {
-                    closestRobotToBallDistance = distanceToBall;
-                    closestRobotToBall = std::make_shared<Robot>(robot);
-                }
-            }
-
-            // check if robot is closest to the harasser
-            double distanceToHarasser = (thisRobot->pos - robot.pos).length();
-            if (distanceToHarasser < closestRobotToHarasserDistance) {
-                closestRobotToHarasserDistance = distanceToHarasser;
-                closestRobotToHarasser = std::make_shared<Robot>(robot);
-            }
-        }
-    }
-
+    // if robot should go after ball, see if it is close enough and harass it
     if (goAfterBall) {
         // see if opponent is too close to the ball
         if (closestRobotToBallDistance <= TOO_CLOSE_TO_BALL_DISTANCE) {
             // if this robot is closest to the robot with ball, harass that robot
             int bestIndex = getRobotIndexCloseToEnemyRobot(closestRobotToBall);
             if (bestIndex == myIndex) {
-                if (! robotAlreadyBeingHarassed(myIndex, closestRobotToBall->id)) {
+                if (!robotAlreadyBeingHarassed(myIndex, closestRobotToBall->id)) {
                     targetRobotsToHarass[myIndex] = closestRobotToBall;
                     harassTarget.harassRobot = closestRobotToBall->id;
                     harassTarget.harassPosition = harassRobot(myIndex, closestRobotToBall->id);
@@ -230,8 +165,6 @@ HarassRobotCoach::HarassTarget HarassRobotCoach::findRobotToHarass(const RobotPt
     }
 
     // else, harass the opponent closest to the harasser
-
-
     if(!robotAlreadyBeingHarassed(myIndex, closestRobotToHarasser->id)) {
         targetRobotsToHarass[myIndex] = closestRobotToHarasser;
         harassTarget.harassRobot = closestRobotToHarasser->id;
@@ -247,6 +180,34 @@ HarassRobotCoach::HarassTarget HarassRobotCoach::findRobotToHarass(const RobotPt
     return harassTarget;
 }
 
+void HarassRobotCoach::setClosestRobots(const HarassRobotCoach::RobotPtr &thisRobot, bool goAfterBall,
+                                        double &closestRobotToBallDistance,
+                                        HarassRobotCoach::RobotPtr &closestRobotToBall,
+                                        HarassRobotCoach::RobotPtr &closestRobotToHarasser) const {
+
+    closestRobotToBallDistance = DBL_MAX;
+    auto closestRobotToHarasserDistance = DBL_MAX;
+    for (auto robot : world::world->getThem()) {
+        if (abs(robot.pos.x) <= HARASS_THRESHOLD) {
+            if (goAfterBall) {
+                // check if robot is closest to ball
+                double distanceToBall = (ball->pos - robot.pos).length();
+                if (distanceToBall < closestRobotToBallDistance) {
+                    closestRobotToBallDistance = distanceToBall;
+                    closestRobotToBall = make_shared<Robot>(robot);
+                }
+            }
+
+            // check if robot is closest to the harasser
+            double distanceToHarasser = (thisRobot->pos - robot.pos).length();
+            if (distanceToHarasser < closestRobotToHarasserDistance) {
+                closestRobotToHarasserDistance = distanceToHarasser;
+                closestRobotToHarasser = make_shared<Robot>(robot);
+            }
+        }
+    }
+}
+
 Vector2 HarassRobotCoach::standInMidField(const HarassRobotCoach::RobotPtr &thisRobot, int &myIndex) {
     Vector2 currentLocation = thisRobot->pos;
 
@@ -258,30 +219,24 @@ Vector2 HarassRobotCoach::standInMidField(const HarassRobotCoach::RobotPtr &this
     }
 
     // find the best position to receive a pass
-    coach::PassScore passScore;
-    Vector2 bestPosition = thisRobot->pos;
-    double bestScore = passScore.calculatePassScore(bestPosition);
-    double currentX = thisRobot->pos.x;
-    double currentY = thisRobot->pos.y;
-    for (int yDiff = -GRID_SIZE; yDiff < GRID_SIZE; yDiff++) {
-        Vector2 newPos = {currentX, currentY + yDiff * GRID_INTERVAL};
-        double newScore = passScore.calculatePassScore(newPos);
-        if (newScore > bestScore) {
-            bestPosition = newPos;
-            bestScore = newScore;
-        }
-    }
-
-    targetRobotPositions[myIndex] = bestPosition;
+    Vector2 bestReceiveLocation = getBestReceiveLocation(thisRobot);
+    targetRobotPositions[myIndex] = bestReceiveLocation;
 
     // make sure you are not too close to the other midfielders and the side
-    for (int i = 0; i < static_cast<int>(currentRobotPositions.size()); i ++) {
+    return keepDistanceBetweenHarassers(myIndex, currentLocation);
+}
+
+Vector2 HarassRobotCoach::keepDistanceBetweenHarassers(const int &myIndex, Vector2 &currentLocation) {
+    for (int i = 0; i < static_cast<int>(currentRobotPositions.size()); i++) {
         if (i == myIndex) continue;
 
         auto &robotPos = currentRobotPositions[i];
         if ((robotPos - currentLocation).length() < MIN_DISTANCE_BETWEEN_MIDFIELDERS) {
             Vector2 target = {currentLocation.x, currentLocation.y +
-                    (double) (robotPos.y > currentLocation.y ? MIN_DISTANCE_BETWEEN_MIDFIELDERS*- 1.2 : MIN_DISTANCE_BETWEEN_MIDFIELDERS*1.2)};
+                                                 (double) (robotPos.y > currentLocation.y ?
+                                                           MIN_DISTANCE_BETWEEN_MIDFIELDERS * -1.2 :
+                                                           MIN_DISTANCE_BETWEEN_MIDFIELDERS * 1.2)};
+
             targetRobotPositions[myIndex] = target;
 
             if (!world::field->pointIsInField(target, DISTANCE_FROM_SIDES)) {
@@ -299,6 +254,24 @@ Vector2 HarassRobotCoach::standInMidField(const HarassRobotCoach::RobotPtr &this
 
     return currentLocation;
 }
+
+    Vector2 HarassRobotCoach::getBestReceiveLocation(const HarassRobotCoach::RobotPtr &thisRobot) {
+    PassScore passScore;
+    Vector2 bestPosition = thisRobot->pos;
+    double bestScore = passScore.calculatePassScore(bestPosition);
+    double currentX = thisRobot->pos.x;
+    double currentY = thisRobot->pos.y;
+    for (int yDiff = -GRID_SIZE; yDiff < GRID_SIZE; yDiff++) {
+        Vector2 newPos = {currentX, currentY + yDiff * this->GRID_INTERVAL};
+        double newScore = passScore.calculatePassScore(newPos);
+        if (newScore > bestScore) {
+            bestPosition = newPos;
+            bestScore = newScore;
+        }
+    }
+    return bestPosition;
+}
+
 bool HarassRobotCoach::robotAlreadyBeingHarassed(int myIndex, int opponentID) {
     for (int i = 0; i < targetRobotsToHarass.size(); i++) {
         if (targetRobotsToHarass[i]) {

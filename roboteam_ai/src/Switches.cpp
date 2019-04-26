@@ -38,6 +38,7 @@
 #include "roboteam_ai/src/skills/ShootPenalty.h"
 #include "roboteam_ai/src/skills/ShootFreeKick.h"
 #include "roboteam_ai/src/skills/DemoAttack.h"
+#include <roboteam_ai/src/skills/MidFieldHarasser.h>
 #include "roboteam_ai/src/skills/ReflectKick.h"
 #include "roboteam_ai/src/skills/InterceptRobot.hpp"
 #include "roboteam_ai/src/skills/CoachDefend.h"
@@ -109,6 +110,7 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
 //        "PassAndShootTactic",
         "coachDefenderTactic",
 //        "BallPlacementDoubleTactic",
+        "kickoff_shoot_tactic",
         "kickoff_them_formation_tactic",
         "kickoff_us_formation_tactic",
         "time_out_tactic",
@@ -165,8 +167,9 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "free_kick_formation_strategy",
         "free_kick_shoot_strategy",
         "free_kick_them_strategy",
-        "penalty_them_strategy",
-        "MidFieldHarassStrategy"
+        "kickoff_shoot_strategy",
+        "MidFieldHarassStrategy",
+        "penalty_them_strategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles =
@@ -350,6 +353,18 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"pa6", robotType::RANDOM},
                     {"pa7", robotType::RANDOM}
             }
+            },
+
+            {"kickoff_shoot_tactic", {
+                     {"kicker", robotType::CLOSE_TO_BALL},
+                     {"assist1", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"assist2", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"ko1", robotType::RANDOM},
+                     {"ko2", robotType::RANDOM},
+                     {"ko3", robotType::RANDOM},
+                     {"ko4", robotType::RANDOM},
+                     {"ko5", robotType::RANDOM}
+             }
             },
 
             {"stop_tactic", {

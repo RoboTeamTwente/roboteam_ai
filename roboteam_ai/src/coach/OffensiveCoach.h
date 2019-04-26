@@ -33,9 +33,9 @@ public:
         double score;
     };
 
-    OffensivePosition calculateNewRobotPosition(const OffensivePosition& currentPosition, const Vector2& defaultPosition);
+    OffensivePosition calculateNewRobotPosition(const OffensivePosition& currentPosition, const Vector2& zoneLocation);
 
-    std::vector<Vector2> getDefaultLocations();
+    std::vector<Vector2> getZoneLocations();
     void updateOffensivePositions();
     std::vector<Vector2> getOffensivePositions(int numberOfRobots);
 

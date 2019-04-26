@@ -339,6 +339,7 @@ void RobotDealer::refresh() {
         BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
     }
     BTFactory::makeTrees();
+
     if (useSeparateKeeper) claimKeeper();
 }
 

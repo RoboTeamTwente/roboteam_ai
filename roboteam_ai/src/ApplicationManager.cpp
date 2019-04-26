@@ -28,7 +28,6 @@ void ApplicationManager::setup() {
 }
 
 void ApplicationManager::loop() {
-    std::cout << "Starting Loop" << std::endl;
     ros::Rate rate(ai::Constants::TICK_RATE());
 
     double longestTick = 0.0;
@@ -84,19 +83,19 @@ void ApplicationManager::runOneLoopCycle() {
             auto oldStrategy = BTFactory::getCurrentTree();
             std::string strategyName = strategyManager.getCurrentStrategyName(ai::Referee::getRefereeData().command);
             if (oldStrategy != strategyName) {
-                BTFactory::makeTrees();
                 BTFactory::setCurrentTree(strategyName);
             }
-
-
 
             auto oldKeeperTree = BTFactory::getKeeperTreeName();
             std::string keeperTreeName = strategyManager.getCurrentKeeperTreeName(ai::Referee::getRefereeData().command);
             if (oldKeeperTree != keeperTreeName) {
-                std::cout << oldKeeperTree <<  "vs " << keeperTreeName << std::endl;
-                BTFactory::makeTrees();
                 BTFactory::setKeeperTree(keeperTreeName);
             }
+
+            if (oldStrategy != strategyName || oldKeeperTree != keeperTreeName) {
+                ai::robotDealer::RobotDealer::refresh();
+            }
+
             ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
         }
 
@@ -107,7 +106,9 @@ void ApplicationManager::runOneLoopCycle() {
                 ai::robotDealer::RobotDealer::setKeeperID(ai::world::world->getUs().at(0).id);
             }
             keeperTree = BTFactory::getKeeperTree();
-            keeperTree->tick();
+            if (keeperTree) {
+                keeperTree->tick();
+            }
         }
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
 
