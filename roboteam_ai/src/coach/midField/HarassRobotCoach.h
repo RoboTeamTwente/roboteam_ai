@@ -45,8 +45,8 @@ class HarassRobotCoach {
 
         Vector2 harassRobot(int myIndex, int id = - 1);
         HarassTarget initialize(const Vector2 &currentLocation, int &myIndex);
-        Vector2 standFree(const RobotPtr &ourRobotWithBall, const RobotPtr &thisRobot, int myIndex);
-        int getRobotIndexCloseToEnemyRobot(const RobotPtr &enemyRobot) const;
+
+    int getRobotIndexCloseToEnemyRobot(const RobotPtr &enemyRobot) const;
 
         HarassTarget findRobotToHarass(const RobotPtr &thisRobot, int &myIndex, bool goAfterBall);
         bool robotAlreadyBeingHarassed(int myIndex, int opponentID);
