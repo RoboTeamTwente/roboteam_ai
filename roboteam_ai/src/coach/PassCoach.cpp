@@ -59,6 +59,7 @@ int PassCoach::determineReceiver(int passerID) {
     int bestRobotID = -1;
     for(auto &robot : world::world->getUs()) {
         if (robot.id == robotDealer::RobotDealer::getKeeperID() || robot.id == passerID) continue;
+        if (robot.pos.x < -RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE) continue;
         double score = passScore.calculatePassScore(robot.pos);
         if (score > bestScore) {
             bestScore = score;

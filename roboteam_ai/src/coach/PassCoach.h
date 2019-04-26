@@ -30,9 +30,11 @@ public:
     bool passTakesTooLong();
 
 private:
+    const double RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE = 0.75;
+
     std::chrono::time_point<std::chrono::steady_clock> start;
     bool timerStarted = false;
-    double MAX_PASS_TIME = 10.0; //seconds
+    double MAX_PASS_TIME = 5.0; //seconds
     bool readyToReceivePass;
     int robotPassing = -1;
 public:

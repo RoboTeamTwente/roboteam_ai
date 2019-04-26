@@ -15,7 +15,8 @@ namespace ai {
 
 class Receive : public Skill {
 private:
-    const double RECEIVER_MISSED_BALL_MARGIN = 0.10;
+    const double RECEIVER_MISSED_BALL_MARGIN = 1.0;
+    const double BALL_DEFLECTION_ANGLE = M_PI_4;
 
     enum Progression {
         POSITIONING,
@@ -41,7 +42,6 @@ private:
     bool isInPosition(const Vector2& behindTargetPos = {0, 0});
     void moveToCatchPosition(Vector2 position);
     bool passFailed();
-    bool receiverMissedBall();
 
 public:
     explicit Receive(string name, bt::Blackboard::Ptr blackboard);

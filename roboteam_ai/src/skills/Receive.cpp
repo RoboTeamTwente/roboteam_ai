@@ -140,7 +140,7 @@ void Receive::intercept() {
 
 bool Receive::passFailed() {
     //TODO: Remove print statements and make 1 big if statement
-    if ((ball->vel.toAngle() - ballOnPassed->vel.toAngle()).getAngle() > 0.5) {
+    if ((ball->vel.toAngle() - ballOnPassed->vel.toAngle()).getAngle() > BALL_DEFLECTION_ANGLE) {
         return true;
     }
 
@@ -148,13 +148,8 @@ bool Receive::passFailed() {
         return true;
     }
 
-    return receiverMissedBall();
+    return false;
 
-}
-
-bool Receive::receiverMissedBall() {
-    return (ball->pos - ballOnPassed->pos).length() - (robot->pos - ballOnPassed->pos).length() >
-           RECEIVER_MISSED_BALL_MARGIN;
 }
 
 

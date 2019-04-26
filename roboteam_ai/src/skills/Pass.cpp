@@ -54,6 +54,10 @@ Pass::Status Pass::onUpdate() {
                 coach::g_pass.setPassed(true);
                 return Status::Success;
             } else if (isOnLineToBall && isBehindBall) {
+                if(!control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
+                    return Status::Failure;
+                }
+
                 return hasBall ? shoot() : getBall();
             }
 
@@ -116,6 +120,19 @@ bt::Leaf::Status Pass::shoot() {
 
         publishRobotCommand();
     }
+    if (coach::g_pass.isReadyToReceivePass()) {
+        targetPos = robotToPassTo->pos;
+        control::PosVelAngle pva = basicGtp.getPosVelAngle(robot, targetPos);
+        pva.vel = control::ControlUtils::velocityLimiter(pva.vel, 0.1);
+        command.x_vel = static_cast<float>(pva.vel.x);
+        command.y_vel = static_cast<float>(pva.vel.y);
+        command.w = static_cast<float>((Vector2(robotToPassTo->pos) - robot->pos).angle());
+
+        command.kicker_forced = 1;
+        command.kicker_vel = determineKickForce((Vector2(ball->pos) - robotToPassTo->pos).length());
+
+        publishRobotCommand();
+    }
     return Status::Running;
 }
 
@@ -138,7 +155,6 @@ void Pass::initiatePass() {
 
 Skill::Status Pass::goToBall() {
     targetPos = ball->pos;
-    numTreeGtp.setAvoidBall(false);
     control::PosVelAngle pva = numTreeGtp.getPosVelAngle(robot, targetPos);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel);
     command.x_vel = static_cast<float>(pva.vel.x);
