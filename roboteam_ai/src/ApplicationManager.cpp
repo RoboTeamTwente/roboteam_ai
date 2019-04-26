@@ -26,7 +26,6 @@ void ApplicationManager::setup() {
 }
 
 void ApplicationManager::loop() {
-    std::cout << "Starting Loop" << std::endl;
     ros::Rate rate(ai::Constants::TICK_RATE());
 
     double longestTick = 0.0;

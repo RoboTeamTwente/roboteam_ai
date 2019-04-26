@@ -142,39 +142,19 @@ HarassRobotCoach::HarassTarget HarassRobotCoach::findRobotToHarass(const RobotPt
     HarassTarget harassTarget;
 
     // check opponent closest to ball and closest to harasser
-    auto closestRobotToBallDistance = DBL_MAX;
-    RobotPtr closestRobotToBall;
+    double closestRobotToBallDistance;
+    HarassRobotCoach::RobotPtr closestRobotToBall;
+    HarassRobotCoach::RobotPtr closestRobotToHarasser;
+    setClosestRobots(thisRobot, goAfterBall, closestRobotToBallDistance, closestRobotToBall, closestRobotToHarasser);
 
-    auto closestRobotToHarasserDistance = DBL_MAX;
-    RobotPtr closestRobotToHarasser;
-
-    for (auto robot : world::world->getThem()) {
-        if (abs(robot.pos.x) <= HARASS_THRESHOLD) {
-            if (goAfterBall) {
-                // check if robot is closest to ball
-                double distanceToBall = (ball->pos - robot.pos).length();
-                if (distanceToBall < closestRobotToBallDistance) {
-                    closestRobotToBallDistance = distanceToBall;
-                    closestRobotToBall = std::make_shared<Robot>(robot);
-                }
-            }
-
-            // check if robot is closest to the harasser
-            double distanceToHarasser = (thisRobot->pos - robot.pos).length();
-            if (distanceToHarasser < closestRobotToHarasserDistance) {
-                closestRobotToHarasserDistance = distanceToHarasser;
-                closestRobotToHarasser = std::make_shared<Robot>(robot);
-            }
-        }
-    }
-
+    // if robot should go after ball, see if it is close enough and harass it
     if (goAfterBall) {
         // see if opponent is too close to the ball
         if (closestRobotToBallDistance <= TOO_CLOSE_TO_BALL_DISTANCE) {
             // if this robot is closest to the robot with ball, harass that robot
             int bestIndex = getRobotIndexCloseToEnemyRobot(closestRobotToBall);
             if (bestIndex == myIndex) {
-                if (! robotAlreadyBeingHarassed(myIndex, closestRobotToBall->id)) {
+                if (!robotAlreadyBeingHarassed(myIndex, closestRobotToBall->id)) {
                     targetRobotsToHarass[myIndex] = closestRobotToBall;
                     harassTarget.harassRobot = closestRobotToBall->id;
                     harassTarget.harassPosition = harassRobot(myIndex, closestRobotToBall->id);
@@ -185,8 +165,6 @@ HarassRobotCoach::HarassTarget HarassRobotCoach::findRobotToHarass(const RobotPt
     }
 
     // else, harass the opponent closest to the harasser
-
-
     if(!robotAlreadyBeingHarassed(myIndex, closestRobotToHarasser->id)) {
         targetRobotsToHarass[myIndex] = closestRobotToHarasser;
         harassTarget.harassRobot = closestRobotToHarasser->id;
@@ -200,6 +178,34 @@ HarassRobotCoach::HarassTarget HarassRobotCoach::findRobotToHarass(const RobotPt
     harassTarget.harassRobot = -1;
     harassTarget.harassPosition = standInMidField(thisRobot, myIndex);
     return harassTarget;
+}
+
+void HarassRobotCoach::setClosestRobots(const HarassRobotCoach::RobotPtr &thisRobot, bool goAfterBall,
+                                        double &closestRobotToBallDistance,
+                                        HarassRobotCoach::RobotPtr &closestRobotToBall,
+                                        HarassRobotCoach::RobotPtr &closestRobotToHarasser) const {
+
+    closestRobotToBallDistance = DBL_MAX;
+    auto closestRobotToHarasserDistance = DBL_MAX;
+    for (auto robot : world::world->getThem()) {
+        if (abs(robot.pos.x) <= HARASS_THRESHOLD) {
+            if (goAfterBall) {
+                // check if robot is closest to ball
+                double distanceToBall = (ball->pos - robot.pos).length();
+                if (distanceToBall < closestRobotToBallDistance) {
+                    closestRobotToBallDistance = distanceToBall;
+                    closestRobotToBall = make_shared<Robot>(robot);
+                }
+            }
+
+            // check if robot is closest to the harasser
+            double distanceToHarasser = (thisRobot->pos - robot.pos).length();
+            if (distanceToHarasser < closestRobotToHarasserDistance) {
+                closestRobotToHarasserDistance = distanceToHarasser;
+                closestRobotToHarasser = make_shared<Robot>(robot);
+            }
+        }
+    }
 }
 
 Vector2 HarassRobotCoach::standInMidField(const HarassRobotCoach::RobotPtr &thisRobot, int &myIndex) {

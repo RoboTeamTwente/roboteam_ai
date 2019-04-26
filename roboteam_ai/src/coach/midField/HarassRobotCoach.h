@@ -56,6 +56,9 @@ class HarassRobotCoach {
 
         HarassTarget getHarassPosition(const RobotPtr &thisRobot, int &myIndex);
         Angle getHarassAngle(const RobotPtr &thisRobot, int &myIndex);
+
+    void setClosestRobots(const RobotPtr &thisRobot, bool goAfterBall, double &closestRobotToBallDistance,
+                          RobotPtr &closestRobotToBall, RobotPtr &closestRobotToHarasser) const;
 };
 
 extern HarassRobotCoach g_harassRobotCoach;
