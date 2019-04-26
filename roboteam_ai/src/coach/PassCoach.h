@@ -16,7 +16,7 @@ namespace coach {
 
 class PassCoach {
 public:
-    PassCoach() = default;
+    PassCoach();
     void resetPass();
     int initiatePass(int passerID);
     bool isReadyToReceivePass();
@@ -30,19 +30,23 @@ public:
     bool passTakesTooLong();
 
 private:
+
     const double RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE = 0.75;
+
+    const double SMALLEST_MIN_PASS_DISTANCE = 5 * Constants::ROBOT_RADIUS();
+    static double MIN_PASS_DISTANCE;
 
     std::chrono::time_point<std::chrono::steady_clock> start;
     bool timerStarted = false;
     double MAX_PASS_TIME = 5.0; //seconds
-    bool readyToReceivePass;
+    bool readyToReceivePass{};
     int robotPassing = -1;
 public:
     int getRobotPassing() const;
 
 private:
     int robotBeingPassedTo = -1;
-    bool passed;
+    bool passed{};
 };
 
 extern PassCoach g_pass;
