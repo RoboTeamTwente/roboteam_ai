@@ -59,7 +59,7 @@ TEST(PassTest, PassTest) {
     world.them.push_back(opponent1);
     w::world->updateWorld(world);
 
-    ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(0), robot1.id);
+    ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(0), static_cast<int>(robot1.id));
     rtt::ai::coach::g_pass.resetPass();
 
     ball.pos.x = 3;

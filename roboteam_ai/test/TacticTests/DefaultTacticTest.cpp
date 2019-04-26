@@ -51,11 +51,11 @@ TEST(DefaultTacticTest, default_general_tactic_works) {
 
     tactic.updateStyle();
     rd::RobotDealer::setUseSeparateKeeper(false);
-    EXPECT_EQ(tactic.amountToTick, rtt::ai::world::world->getUs().size());
+    EXPECT_EQ(tactic.amountToTick, static_cast<int>(rtt::ai::world::world->getUs().size()));
 
     rd::RobotDealer::setUseSeparateKeeper(true);
     tactic.updateStyle();
-    EXPECT_EQ(tactic.amountToTick, rtt::ai::world::world->getUs().size() - 1);
+    EXPECT_EQ(tactic.amountToTick, static_cast<int>(rtt::ai::world::world->getUs().size() - 1));
 
     EXPECT_EQ(tactic.robots.size(), robots.size());
 
@@ -161,9 +161,9 @@ TEST(DefaultTacticTest, offensive_defensive_midfield_tactics_work) {
     EXPECT_EQ(offensiveTactic.amountToTick, style.amountOfAttackers);
 
     // the amounts of robotIds after initialize should be correct
-    EXPECT_EQ(defensiveTactic.robotIDs.size(), style.amountOfDefenders);
-    EXPECT_EQ(midfieldTactic.robotIDs.size(), style.amountOfMidfielders);
-    EXPECT_EQ(offensiveTactic.robotIDs.size(), style.amountOfAttackers);
+    EXPECT_EQ(static_cast<int>(defensiveTactic.robotIDs.size()), style.amountOfDefenders);
+    EXPECT_EQ(static_cast<int>(midfieldTactic.robotIDs.size()), style.amountOfMidfielders);
+    EXPECT_EQ(static_cast<int>(offensiveTactic.robotIDs.size()), style.amountOfAttackers);
 
     rtt::ai::analysis::GameAnalyzer::getInstance().stop();
 

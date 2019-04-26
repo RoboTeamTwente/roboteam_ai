@@ -9,6 +9,8 @@
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include <roboteam_ai/src/interface/InterfaceValues.h>
 #include <roboteam_ai/src/coach/GetBallCoach.h>
+#include <roboteam_ai/src/utilities/StrategyManager.h>
+#include <roboteam_ai/src/utilities/Referee.hpp>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -17,7 +19,7 @@ using Status = bt::Node::Status;
 namespace rtt {
 
 void ApplicationManager::setup() {
-    IOManager = new io::IOManager(true);
+    IOManager = new io::IOManager(true, false);
 
     BTFactory::setCurrentTree("halt_strategy");
     BTFactory::setKeeperTree("keeper_default_tactic");
@@ -59,10 +61,7 @@ void ApplicationManager::loop() {
 }
 
 void ApplicationManager::runOneLoopCycle() {
-//    ros::spinOnce();
-
     if (ai::world::world->weHaveRobots()) {
-
         if (BTFactory::getCurrentTree() == "NaN") {
             ROS_INFO("NaN tree probably Halting");
             return;
@@ -75,13 +74,41 @@ void ApplicationManager::runOneLoopCycle() {
         auto demomsg = IOManager->getDemoInfo();
         demo::JoystickDemo::demoLoop(demomsg);
 
+
+        if (ai::interface::InterfaceValues::usesRefereeCommands()) {
+
+            ai::StrategyManager strategyManager;
+            // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
+            // might want to build something that verifies this
+            auto oldStrategy = BTFactory::getCurrentTree();
+            std::string strategyName = strategyManager.getCurrentStrategyName(ai::Referee::getRefereeData().command);
+            if (oldStrategy != strategyName) {
+                BTFactory::setCurrentTree(strategyName);
+            }
+
+            auto oldKeeperTree = BTFactory::getKeeperTreeName();
+            std::string keeperTreeName = strategyManager.getCurrentKeeperTreeName(ai::Referee::getRefereeData().command);
+            if (oldKeeperTree != keeperTreeName) {
+                BTFactory::setKeeperTree(keeperTreeName);
+            }
+
+            if (oldStrategy != strategyName || oldKeeperTree != keeperTreeName) {
+                ai::robotDealer::RobotDealer::refresh();
+            }
+
+            ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
+        }
+
+
         if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
             if (ai::robotDealer::RobotDealer::getKeeperID() == -1) {
                 std::cout << "setting keeper id" << std::endl;
                 ai::robotDealer::RobotDealer::setKeeperID(ai::world::world->getUs().at(0).id);
             }
             keeperTree = BTFactory::getKeeperTree();
-            keeperTree->tick();
+            if (keeperTree) {
+                keeperTree->tick();
+            }
         }
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
 

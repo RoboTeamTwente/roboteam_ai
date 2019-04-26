@@ -3,22 +3,15 @@
     "trees": [
       {
         "nodes": {
-          "nyyv5vbo8fadqojs": {
-            "children": [
-              "vfsck6vjykmkg3ar"
-            ],
-            "id": "nyyv5vbo8fadqojs",
-            "title": "UntilSuccess"
-          },
-          "vfsck6vjykmkg3ar": {
-            "id": "vfsck6vjykmkg3ar",
+          "mi4sd6ttw9kdtdh7": {
+            "id": "mi4sd6ttw9kdtdh7",
             "properties": {
-              "BallPlacement": ""
+              "BallPlacement": "false"
             },
             "title": "Pass"
           }
         },
-        "root": "nyyv5vbo8fadqojs",
+        "root": "mi4sd6ttw9kdtdh7",
         "title": "kickoff_kicker_role"
       }
     ]
