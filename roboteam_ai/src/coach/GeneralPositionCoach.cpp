@@ -130,7 +130,7 @@ std::vector<Vector2> GeneralPositionCoach::getFreeKickPositions(int number) {
 }
 std::vector<Vector2> GeneralPositionCoach::getDefendFreeKick(int number) {
     // makes a free kick line
-    auto lengthOffset = rtt::ai::world::field->get_field().field_length/4.0;
+    auto lengthOffset = rtt::ai::world::field->get_field().field_length/100.0;
     auto widthOffset = rtt::ai::world::field->get_field().field_width/4.0;
     Vector2 goalUS = rtt::ai::world::field->get_our_goal_center();
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
@@ -142,12 +142,38 @@ std::vector<Vector2> GeneralPositionCoach::getDefendFreeKick(int number) {
     Vector2 line2 = lineBegin + lineProgress;
     Vector2 line3 = lineBegin - lineProgress;
 
-    Vector2 def1 = {penaltyUs.x + 0.12, penaltyUs.y + widthOffset/2.0};
-    Vector2 def2 = {penaltyUs.x + 0.12, - (penaltyUs.y + widthOffset/2.0)};
+    Vector2 def1 = {penaltyUs.x + lengthOffset, penaltyUs.y + widthOffset/2.0};
+    Vector2 def2 = {penaltyUs.x + lengthOffset, - (penaltyUs.y + widthOffset/2.0)};
     Vector2 def3 = def1 + (def2-def1).stretchToLength((def2-def1).length()/3.0);
     Vector2 def4 = (def2-def3).stretchToLength((def2-def3).length()/2.0) + def3;
 
     std::vector<Vector2> temp = {lineBegin, def1, line3, def2, line2, def3, def4};
+
+    std::vector<Vector2> res;
+    for (int i = 0; i < number; i ++) {
+        res.emplace_back(temp.at(i));
+    }
+    return res;
+}
+std::vector<Vector2> GeneralPositionCoach::getDefendPenaltyPositions(int number) {
+    auto lengthOffset = rtt::ai::world::field->get_field().field_length/100.0;
+    auto widthOffset = rtt::ai::world::field->get_field().field_width/4.0;
+    Vector2 goalUS = rtt::ai::world::field->get_our_goal_center();
+    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
+    Vector2 penaltyUs = rtt::ai::world::field->getPenaltyPoint(true);
+
+    Vector2 lineProgress = {0, 0.4};
+    Vector2 lineBegin = {rtt::ai::world::field->getPenaltyPoint(false).x - 0.5, 0};
+
+    Vector2 line2 = lineBegin + lineProgress;
+    Vector2 line3 = lineBegin - lineProgress;
+    Vector2 line4 = lineBegin - lineProgress*2.0;
+    Vector2 line5 = lineBegin + lineProgress*2.0;
+
+    Vector2 def1 = {penaltyUs.x + lengthOffset, penaltyUs.y + widthOffset/2.0};
+    Vector2 def2 = {penaltyUs.x + lengthOffset, - (penaltyUs.y + widthOffset/2.0)};
+
+    std::vector<Vector2> temp = {lineBegin, def1, line3, def2, line2, line4, line5};
 
     std::vector<Vector2> res;
     for (int i = 0; i < number; i ++) {

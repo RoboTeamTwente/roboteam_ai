@@ -19,14 +19,21 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
         for (auto & i : *robotsInFormation) {
             robotIds.push_back(i->id);
         }
-        auto poses = rtt::ai::coach::g_generalPositionCoach.getPenaltyPositions(robotsInFormation->size());
+        auto poses = rtt::ai::coach::GeneralPositionCoach::getPenaltyPositions(robotsInFormation->size());
 
         rtt::HungarianAlgorithm hungarian;
         auto shortestDistances = hungarian.getRobotPositions(robotIds, true, poses);
         return shortestDistances.at(robot->id);
     } else {
-        //TODO
-        return {};
+        std::vector<int> robotIds;
+        for (auto & i : *robotsInFormation) {
+            robotIds.push_back(i->id);
+        }
+        auto poses = rtt::ai::coach::GeneralPositionCoach::getDefendPenaltyPositions(robotsInFormation->size());
+
+        rtt::HungarianAlgorithm hungarian;
+        auto shortestDistances = hungarian.getRobotPositions(robotIds, true, poses);
+        return shortestDistances.at(robot->id);
     }
 }
 
