@@ -30,16 +30,18 @@ PenaltyKeeper::Status PenaltyKeeper::onUpdate() {
 }
 PenaltyKeeper::PenaltyState PenaltyKeeper::updateState(PenaltyState currentState) {
     if (currentState==WAITING){
-        ballShotTicks=0;
+        //ballShotTicks=0;
         if (isBallShot()){
+            /*
             initialPos=robot->pos;
             initialVel=robot->vel;
+            */
             return BALLSHOT;
         }
         return WAITING;
     }
     else if (currentState==BALLSHOT) {
-        ballShotTicks++;
+        //ballShotTicks++;
         //prints for testing: easy to measure delay/effectiveness of our strategy
 //        std::cout<<"Ball speed: "<<world::world->getBall()->vel<<std::endl;
 //        std::cout<<"Pos diff(m) :" << (robot->pos-initialPos).length() << " Vel diff : " << (robot->vel-initialVel).length() <<" tick: "<<ballShotTicks<<std::endl;
