@@ -7,6 +7,7 @@
 #include <roboteam_ai/src/utilities/Constants.h>
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
+#include <roboteam_ai/src/interface/drawer.h>
 #include "Pass.h"
 
 namespace rtt {
@@ -16,8 +17,12 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name),
 
 void Pass::onInitialize() {
     ballPlacement = properties->getBool("BallPlacement");
-    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::PASS, true);
-
+    robotToPassToID = -1;
+    if (ballPlacement) {
+        shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::PASS, true);
+    } else {
+        shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::MEDIUM, control::BallSpeed::PASS, true);
+    }
 }
 
 Pass::Status Pass::onUpdate() {
@@ -25,12 +30,24 @@ Pass::Status Pass::onUpdate() {
 
     bool closeToBall = robot->pos.dist(ball->pos) < CLOSE_ENOUGH_TO_BALL;
 
-    if(closeToBall || ballPlacement) {
-        initiatePass();
-    }
 
-    if (robotToPassTo) {
-        target = getKicker();
+    if (robotToPassToID != -1) {
+        robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
+        if (robotToPassTo) {
+            target = getKicker();
+
+            bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
+            bool ballIsShotTowardsReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, getKicker());
+
+            if (ballIsMovingFast && ballIsShotTowardsReceiver) {
+                coach::g_pass.setPassed(true);
+                return Status::Success;
+            }
+        }
+    } else if (closeToBall || ballPlacement) {
+        std::cout << "initiating pass" << std::endl;
+        initiatePass();
+        std::cout << "shooting to" << robotToPassToID << std::endl;
 
     }
 
@@ -61,7 +78,6 @@ Vector2 Pass::getKicker() {
 
 void Pass::initiatePass() {
     robotToPassToID = ballPlacement ? coach::g_pass.getRobotBeingPassedTo() : coach::g_pass.initiatePass(robot->id);
-    robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
 }
 
 

@@ -162,7 +162,7 @@ double ShotController::determineKickForce(double distance) {
         case LAY_STILL_AT_POSITION:
             return sqrt(distance) *rtt::ai::Constants::MAX_KICK_POWER()/(sqrt(maxPowerDist)*1.5) ;
         case PASS:
-            return distance > maxPowerDist ? rtt::ai::Constants::MAX_KICK_POWER() : sqrt(distance) * rtt::ai::Constants::MAX_KICK_POWER()/sqrt(maxPowerDist) ;
+            return distance > maxPowerDist ? rtt::ai::Constants::MAX_KICK_POWER() : sqrt(distance) * rtt::ai::Constants::MAX_KICK_POWER()/sqrt(maxPowerDist)*1.2 ;
         case MAX_SPEED:
             return rtt::ai::Constants::MAX_KICK_POWER();
     }

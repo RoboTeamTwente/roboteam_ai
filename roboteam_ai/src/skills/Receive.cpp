@@ -22,6 +22,7 @@ Receive::Status Receive::onUpdate() {
     }
 
     if (coach::g_pass.getRobotBeingPassedTo() != robot->id) {
+        std::cout << " not robot being passed to " << std::endl;
         return Status::Failure;
     }
 
@@ -53,6 +54,7 @@ Receive::Status Receive::onUpdate() {
     }
 
     if (coach::g_pass.isPassed()) {
+        std::cout << "robot " << to_string(robot->id) << " ready to receive " << std::endl;
         // Remember the status of the ball at the moment of passing
         if(!isBallOnPassedSet) {
             ballOnPassed = ball;
@@ -61,6 +63,7 @@ Receive::Status Receive::onUpdate() {
 
         // Check if the ball was deflected
         if (isBallOnPassedSet && passFailed()) {
+            std::cout << "robot " << to_string(robot->id) << " pass failed " << std::endl;
             command.w = -robot->angle;
             publishRobotCommand();
             return Status::Failure;
