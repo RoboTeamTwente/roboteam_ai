@@ -14,6 +14,7 @@ PassCoach g_pass;
 void PassCoach::resetPass() {
     passed = false;
     readyToReceivePass = false;
+    robotPassing = -1;
     robotBeingPassedTo  = -1;
     timerStarted = false;
 }
@@ -28,6 +29,7 @@ int PassCoach::initiatePass(int passerID) {
     resetPass();
 
     robotBeingPassedTo = determineReceiver(passerID);
+    robotPassing = passerID;
     return robotBeingPassedTo;
 }
 
@@ -84,6 +86,10 @@ bool PassCoach::passTakesTooLong() {
     }
 
     return false;
+}
+
+int PassCoach::getRobotPassing() const {
+    return robotPassing;
 }
 
 } // coach

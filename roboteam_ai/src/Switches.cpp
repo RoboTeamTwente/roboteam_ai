@@ -77,6 +77,7 @@
 #include "roboteam_ai/src/conditions/BallNearOurGoalLineAndStill.h"
 #include "roboteam_ai/src/conditions/TwoRobotBallPlacement.h"
 #include "roboteam_ai/src/conditions/HasClearShot.h"
+#include "roboteam_ai/src/conditions/IsOnPassLine.h"
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -271,6 +272,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
     map["IsInDefenseArea"] = std::make_shared<rtt::ai::IsInDefenseArea>(name, properties);
     map["HasClearShot"] = std::make_shared<rtt::ai::HasClearShot>(name, properties);
+    map["IsOnPassLine"] = std::make_shared<rtt::ai::IsOnPassLine>(name, properties);
 
     if (map.find(name) != map.end()) {
         return map[name];
