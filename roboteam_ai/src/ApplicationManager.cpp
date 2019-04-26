@@ -9,7 +9,6 @@
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include <roboteam_ai/src/interface/InterfaceValues.h>
 #include <roboteam_ai/src/coach/GetBallCoach.h>
-#include <roboteam_ai/src/utilities/StrategyManager.h>
 #include <roboteam_ai/src/utilities/Referee.hpp>
 
 namespace io = rtt::ai::io;
@@ -76,22 +75,21 @@ void ApplicationManager::runOneLoopCycle() {
 
         if (ai::interface::InterfaceValues::usesRefereeCommands()) {
 
-            ai::StrategyManager strategyManager;
             // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
             // might want to build something that verifies this
-            auto oldStrategy = BTFactory::getCurrentTree();
             std::string strategyName = strategyManager.getCurrentStrategyName(ai::Referee::getRefereeData().command);
             if (oldStrategy != strategyName) {
                 BTFactory::setCurrentTree(strategyName);
+                oldStrategy = strategyName;
             }
 
-            auto oldKeeperTree = BTFactory::getKeeperTreeName();
             std::string keeperTreeName = strategyManager.getCurrentKeeperTreeName(ai::Referee::getRefereeData().command);
-            if (oldKeeperTree != keeperTreeName) {
+            if (oldKeeperTreeName != keeperTreeName) {
                 BTFactory::setKeeperTree(keeperTreeName);
+                oldKeeperTreeName = keeperTreeName;
             }
 
-            if (oldStrategy != strategyName || oldKeeperTree != keeperTreeName) {
+            if (oldStrategy != strategyName || oldKeeperTreeName != keeperTreeName) {
                 ai::robotDealer::RobotDealer::refresh();
             }
 

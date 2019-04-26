@@ -10,23 +10,20 @@ namespace ai {
 
 std::string StrategyManager::getCurrentStrategyName(roboteam_msgs::RefereeCommand currentRefCmd) {
     auto commandFromMostRecentReferee = static_cast<RefGameState>(currentRefCmd.command);
-    StrategyMap strategy = getStrategyMapForRefGameState(commandFromMostRecentReferee);
-    StrategyMap nextStrategy;
-
-    // trigger only if we have a new command
-    if (commandFromMostRecentReferee != previousRefCmd) {
-        previousRefCmd = commandFromMostRecentReferee;
+    // trigger only if the command changed
+    if (commandFromMostRecentReferee != prevCmd) {
+        auto oldStrategyMap = currentStrategyMap;
 
         // if the command has a followUpCommand and the ref says normalPlay we need to run the followupcommand
-        if (currentStrategyMap.followUpCommandId != RefGameState::UNDEFINED
+        if (oldStrategyMap.followUpCommandId != RefGameState::UNDEFINED
             && commandFromMostRecentReferee == RefGameState::NORMAL_START) {
-            nextStrategy = getStrategyMapForRefGameState(currentStrategyMap.followUpCommandId);
-        } else {
-            nextStrategy = getStrategyMapForRefGameState(commandFromMostRecentReferee);
+            return getStrategyMapForRefGameState(oldStrategyMap.followUpCommandId).strategyName;
         }
-        currentStrategyMap = nextStrategy;
+
+        currentStrategyMap = getStrategyMapForRefGameState(commandFromMostRecentReferee);
+        prevCmd = commandFromMostRecentReferee;
     }
-    return nextStrategy.strategyName;
+    return currentStrategyMap.strategyName;
 }
 
 /// Use an iterator and a lambda to efficiently get the Node for a specified id
