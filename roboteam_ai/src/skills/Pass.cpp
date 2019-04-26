@@ -54,6 +54,10 @@ Pass::Status Pass::onUpdate() {
                 coach::g_pass.setPassed(true);
                 return Status::Success;
             } else if (isOnLineToBall && isBehindBall) {
+                if(!control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
+                    return Status::Failure;
+                }
+
                 return hasBall ? shoot() : getBall();
             }
 

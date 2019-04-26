@@ -35,6 +35,8 @@ public:
 
     /// Currently not implemented, but might be again later
     static double calculateDistanceToOpponentsScore(const Vector2 &position, const WorldData& world);
+        static double getClosestOpponentAngleToPassLine(const Vector2 &position, const Ball &ball,
+                double smallestAngle = DBL_MAX);
 };
 
 }
