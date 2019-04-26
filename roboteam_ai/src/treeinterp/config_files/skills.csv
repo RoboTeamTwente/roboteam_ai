@@ -7,14 +7,13 @@ RotateToAngle,rotateToBall,Angle,RobotControl
 InterceptBall
 InterceptRobot
 GetBall,maxTime
-DefendOnRobot
 Attack
 DemoAttack,ownGoal
 Pass,BallPlacement
 Receive,BallPlacement
 Formation
 DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement,distance
-AvoidBall,Stop
+AvoidBall,Stop,type
 Keeper
 GoAroundPos,targetPos,targetDir,towardsTheirGoal,ball
 Halt,ticks
