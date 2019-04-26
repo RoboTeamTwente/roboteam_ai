@@ -42,7 +42,6 @@ private:
     bool isInPosition(const Vector2& behindTargetPos = {0, 0});
     void moveToCatchPosition(Vector2 position);
     bool passFailed();
-    bool receiverMissedBall();
 
 public:
     explicit Receive(string name, bt::Blackboard::Ptr blackboard);

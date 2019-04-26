@@ -14,7 +14,6 @@ Receive::Receive(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(
 void Receive::onInitialize() {
     ballPlacement = properties->getBool("BallPlacement");
     isBallOnPassedSet = false;
-    std::cerr << "Initialize pass for robot " << robot->id << std::endl;
 }
 
 Receive::Status Receive::onUpdate() {
@@ -27,7 +26,6 @@ Receive::Status Receive::onUpdate() {
     }
 
     if (coach::g_pass.passTakesTooLong()) {
-        std::cerr << "Pass takes too long" << std::endl;
         return Status::Failure;
     }
 
@@ -63,7 +61,6 @@ Receive::Status Receive::onUpdate() {
 
         // Check if the ball was deflected
         if (isBallOnPassedSet && passFailed()) {
-            std::cerr << "Robot " << robot->id << " failed to receive" << std::endl;
             command.w = -robot->angle;
             publishRobotCommand();
             return Status::Failure;
@@ -86,7 +83,6 @@ void Receive::onTerminate(Status s) {
     if (robot->id != -1) {
         coach::g_pass.resetPass();
     }
-    std::cerr << "Terminate pass for robot " << robot->id << std::endl;
 }
 
 
@@ -148,30 +144,15 @@ void Receive::intercept() {
 bool Receive::passFailed() {
     //TODO: Remove print statements and make 1 big if statement
     if ((ball->vel.toAngle() - ballOnPassed->vel.toAngle()).getAngle() > BALL_DEFLECTION_ANGLE) {
-        std::cerr << "Ball deflected" << std::endl;
         return true;
     }
 
     if (ball->vel.length() < 0.1) {
-        std::cerr << "Ball going to slow" << std::endl;
         return true;
     }
 
-//    if (receiverMissedBall()) {
-//        std::cout << "Receiver missed ball!" << std::endl;
-//        std::cout << ballOnPassed->pos << std::endl;
-//        std::cout << ball->pos << std::endl;
-//        std::cout << robot->pos << std::endl;
-//
-//        return true;
-//    }
     return false;
 
-}
-
-bool Receive::receiverMissedBall() {
-    return (ball->pos - ballOnPassed->pos).length() - (robot->pos - ballOnPassed->pos).length() >
-           RECEIVER_MISSED_BALL_MARGIN;
 }
 
 
