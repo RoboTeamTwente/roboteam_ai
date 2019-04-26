@@ -123,8 +123,6 @@ Vector2 HarassRobotCoach::harassRobot(int myIndex, int id, bool stayInMidField) 
 }
 
 Vector2 HarassRobotCoach::standFree(const RobotPtr &ourRobotWithBall, const RobotPtr &thisRobot, int myIndex) {
-    std::cout << thisRobot->id << " standing free" << std::endl;
-
     Vector2 currentLocation = thisRobot->pos;
     Vector2 passLine = ourRobotWithBall->pos - currentLocation;
     Angle passAngle = passLine.toAngle();
@@ -226,7 +224,6 @@ Vector2 HarassRobotCoach::getHarassPositionWhereTheyHaveBall(const RobotPtr &thi
         // if this robot is closest to the robot with ball, harass that robot
         int bestIndex = getRobotIndexCloseToEnemyRobot(closestRobotToBall);
         if (bestIndex == myIndex) {
-            std::cout << thisRobot->id << " - Harass robot that is closest to ball" << std::endl;
             return harassRobot(myIndex, closestRobotToBall->id, false);
         }
     }
@@ -234,7 +231,6 @@ Vector2 HarassRobotCoach::getHarassPositionWhereTheyHaveBall(const RobotPtr &thi
     // else, harass the opponent closest to the harasser if it is close enough to the middle
 
     if (abs(closestRobotToHarasser->pos.x) <= HARASS_THRESHOLD) {
-        std::cout << thisRobot->id << " - Harass robot that is closest to harasser" << std::endl;
         return harassRobot(myIndex, closestRobotToHarasser->id);
     }
 
@@ -278,7 +274,6 @@ Vector2 HarassRobotCoach::getHarassPositionWhereWeHaveBall(const HarassRobotCoac
 }
 
 Vector2 HarassRobotCoach::standInMidField(const HarassRobotCoach::RobotPtr &thisRobot, int &myIndex) {
-    std::cout << "Stand in midfield" << std::endl;
     Vector2 currentLocation = thisRobot->pos;
 
     // if not in the right x-location yet, go there first
