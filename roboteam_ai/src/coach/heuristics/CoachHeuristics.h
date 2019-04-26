@@ -16,6 +16,7 @@ namespace coach {
 
 class CoachHeuristics {
 private:
+
     using WorldData = world::WorldData;
     using Ball = world::Ball;
     using Robot = world::Robot;
@@ -32,6 +33,7 @@ public:
     static double calculateShotAtGoalScore(const Vector2& position, const WorldData &world);
     static double calculatePassLineScore(const Vector2& position, const WorldData &world);
     static double calculateBehindBallScore(const Vector2& position, const WorldData &world);
+
 
     /// Currently not implemented, but might be again later
     static double calculateDistanceToOpponentsScore(const Vector2 &position, const WorldData& world);
