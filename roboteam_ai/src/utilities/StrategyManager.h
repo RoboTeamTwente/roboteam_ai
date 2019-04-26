@@ -35,6 +35,7 @@ public:
     std::string getCurrentKeeperTreeName(roboteam_msgs::RefereeCommand currentRefCmd);
 
 private:
+    RefGameState previousRefCmd = RefGameState::UNDEFINED;
     StrategyMap currentStrategyMap;
     StrategyMap currentKeeperMap;
     StrategyMap getStrategyMapForRefGameState(RefGameState commandId);

@@ -9,21 +9,23 @@ namespace rtt {
 namespace ai {
 
 std::string StrategyManager::getCurrentStrategyName(roboteam_msgs::RefereeCommand currentRefCmd) {
-
     auto commandFromMostRecentReferee = static_cast<RefGameState>(currentRefCmd.command);
     StrategyMap strategy = getStrategyMapForRefGameState(commandFromMostRecentReferee);
     StrategyMap nextStrategy;
 
-    // if the command has a followUpCommand and the ref says normalPlay we need to run the followupcommand
-    if (currentStrategyMap.followUpCommandId != RefGameState::UNDEFINED
-            && commandFromMostRecentReferee == RefGameState::NORMAL_START) {
-        nextStrategy = getStrategyMapForRefGameState(currentStrategyMap.followUpCommandId);
-    }
-    else {
-        nextStrategy = getStrategyMapForRefGameState(commandFromMostRecentReferee);
-    }
+    // trigger only if we have a new command
+    if (commandFromMostRecentReferee != previousRefCmd) {
+        previousRefCmd = commandFromMostRecentReferee;
 
-    currentStrategyMap = nextStrategy;
+        // if the command has a followUpCommand and the ref says normalPlay we need to run the followupcommand
+        if (currentStrategyMap.followUpCommandId != RefGameState::UNDEFINED
+            && commandFromMostRecentReferee == RefGameState::NORMAL_START) {
+            nextStrategy = getStrategyMapForRefGameState(currentStrategyMap.followUpCommandId);
+        } else {
+            nextStrategy = getStrategyMapForRefGameState(commandFromMostRecentReferee);
+        }
+        currentStrategyMap = nextStrategy;
+    }
     return nextStrategy.strategyName;
 }
 
