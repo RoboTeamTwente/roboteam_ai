@@ -23,7 +23,6 @@ void WorldManager::loop() {
     }
 }
 
-
 }
 }
 }
