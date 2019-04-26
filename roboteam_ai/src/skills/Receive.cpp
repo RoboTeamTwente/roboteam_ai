@@ -130,9 +130,6 @@ void Receive::intercept() {
 
     velocities = control::ControlUtils::velocityLimiter(velocities);
 
-    if (velocities.length() < 0.5) {
-        velocities = velocities.stretchToLength(0.5);
-    }
 
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
