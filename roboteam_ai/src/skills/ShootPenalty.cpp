@@ -11,7 +11,7 @@ void ShootPenalty::onInitialize() {
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
     Vector2 robotPos = robot->pos;
     targetPos = ballPos + (robotPos - ballPos).rotate(fakeOffset.getAngle());
-    progress = GOING;
+    progress = ROTATING;
 }
 
 Skill::Status ShootPenalty::onUpdate() {
@@ -23,7 +23,7 @@ Skill::Status ShootPenalty::onUpdate() {
             Vector2 deltaPos = (ballPos - robot->pos);
 
             if (deltaPos.length() < errorMarginPos) {
-                progress = ROTATING;
+                progress = READY;
             } else {
                 command.w = static_cast<float>((ballPos - robot->pos).angle());
                 command.geneva_state = 1;
@@ -44,7 +44,7 @@ Skill::Status ShootPenalty::onUpdate() {
 
             }
             else {
-                progress = READY;
+                progress = GOING;
                 return Status::Running;
             }
 
@@ -73,14 +73,12 @@ Skill::Status ShootPenalty::onUpdate() {
             else {
                 command.x_vel = 0;
                 command.y_vel = 0;
-                command.geneva_state = 0;
+                command.geneva_state = 3;
                 publishRobotCommand();
                 return Status::Running;
             }
         }
-
     }
-
     return Status::Failure;
 }
 
