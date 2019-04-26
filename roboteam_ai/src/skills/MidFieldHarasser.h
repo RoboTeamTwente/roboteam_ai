@@ -15,11 +15,14 @@ namespace ai {
 
 class MidFieldHarasser : public Skill {
     private:
+        const double HARASSING_SAFETY_MARGINS = 1.0;
+
         control::NumTreePosControl numTreeGtp = control::NumTreePosControl(false, false, false);
         Vector2 targetPos;
         int myIndex = - 1;
+        int robotBeingHarassed;
 
-        Vector2 getHarassPosition();
+        Vector2 getHarassTarget();
         Angle getHarassAngle();
     public:
         explicit MidFieldHarasser(std::string name, bt::Blackboard::Ptr blackboard);

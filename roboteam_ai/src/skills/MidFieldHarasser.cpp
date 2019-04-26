@@ -14,15 +14,27 @@ MidFieldHarasser::MidFieldHarasser(string name, bt::Blackboard::Ptr blackboard)
 
 void MidFieldHarasser::onInitialize() {
     myIndex = -1;
+    robotBeingHarassed = -1;
 }
 
 Skill::Status MidFieldHarasser::onUpdate() {
-
-    targetPos = getHarassPosition();
+    targetPos = getHarassTarget();
 
     auto newPosition = numTreeGtp.getPosVelAngle(robot, targetPos);
     Vector2 velocity = newPosition.vel;
-    velocity = control::ControlUtils::velocityLimiter(velocity);
+
+    // If there is a robot being harassed, drive slower than it if too close
+    if (robotBeingHarassed == -1) {
+        velocity = control::ControlUtils::velocityLimiter(velocity);
+    } else {
+        RobotPtr opponent = world::world->getRobotForId(robotBeingHarassed, false);
+        if ((opponent->pos - robot->pos).length() < HARASSING_SAFETY_MARGINS) {
+            double opponentVelocityLength = opponent->vel.length();
+            velocity = control::ControlUtils::velocityLimiter(velocity, opponentVelocityLength*0.8, Constants::MIN_VEL());
+        } else {
+            velocity = control::ControlUtils::velocityLimiter(velocity);
+        }
+    }
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     //command.w = static_cast<float>(newPosition.angle);
@@ -44,8 +56,10 @@ void MidFieldHarasser::onTerminate(Skill::Status s) {
 }
 
 
-Vector2 MidFieldHarasser::getHarassPosition() {
-    return coach::g_harassRobotCoach.getHarassPosition(robot, myIndex);
+Vector2 MidFieldHarasser::getHarassTarget() {
+    auto harassTarget =  coach::g_harassRobotCoach.getHarassPosition(robot, myIndex);
+    robotBeingHarassed = harassTarget.harassRobot;
+    return harassTarget.harassPosition;
 }
 
 Angle MidFieldHarasser::getHarassAngle() {
