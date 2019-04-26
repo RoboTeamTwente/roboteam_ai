@@ -17,20 +17,13 @@ std::string StrategyManager::getCurrentStrategyName(roboteam_msgs::RefereeComman
     // if the command has a followUpCommand and the ref says normalPlay we need to run the followupcommand
     if (currentStrategyMap.followUpCommandId != RefGameState::UNDEFINED
             && commandFromMostRecentReferee == RefGameState::NORMAL_START) {
-
-        // hack to switch refstate
-        if (world::world->getBall()->vel.length() > 1.0) {
-            currentStrategyMap = nextStrategy;
-        }
-        // end hack
-
         nextStrategy = getStrategyMapForRefGameState(currentStrategyMap.followUpCommandId);
     }
     else {
-        currentStrategyMap = nextStrategy;
         nextStrategy = getStrategyMapForRefGameState(commandFromMostRecentReferee);
     }
 
+    currentStrategyMap = nextStrategy;
     return nextStrategy.strategyName;
 }
 
