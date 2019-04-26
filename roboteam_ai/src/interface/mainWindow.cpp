@@ -81,7 +81,7 @@ MainWindow::MainWindow(QWidget* parent)
     configureCheckBox("TimeOut to top", vLayout, this, SLOT(setTimeOutTop(bool)), Constants::STD_TIMEOUT_TO_TOP());
     configureCheckBox("Use keeper (does not work when referee used)", vLayout, this, SLOT(setUsesKeeper(bool)), robotDealer::RobotDealer::usesSeparateKeeper());
     
-    QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+    QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
             [=](const QString &strategyName) {
               // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
               BTFactory::setCurrentTree(strategyName.toStdString());
@@ -92,7 +92,7 @@ MainWindow::MainWindow(QWidget* parent)
               keeperTreeWidget->setHasCorrectTree(false);
             });
 
-    QObject::connect(select_keeper_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+    QObject::connect(select_keeper_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
                      [=](const QString &keeperStrategyName) {
                          // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
                          BTFactory::setKeeperTree(keeperStrategyName.toStdString());
