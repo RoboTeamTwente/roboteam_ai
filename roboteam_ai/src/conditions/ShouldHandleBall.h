@@ -6,6 +6,8 @@
 #define ROBOTEAM_AI_SHOULDHANDLEBALL_H
 
 #include "Condition.h"
+#include "../coach/PassCoach.h"
+
 namespace rtt {
 namespace ai {
 class ShouldHandleBall : public Condition {

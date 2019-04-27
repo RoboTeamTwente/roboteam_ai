@@ -61,7 +61,6 @@ Receive::Status Receive::onUpdate() {
 
         // Check if the ball was deflected
         if (isBallOnPassedSet && passFailed()) {
-            command.w = -robot->angle;
             publishRobotCommand();
             return Status::Failure;
         }
@@ -140,7 +139,7 @@ void Receive::intercept() {
 
 bool Receive::passFailed() {
     //TODO: Remove print statements and make 1 big if statement
-    if ((ball->vel.toAngle() - ballOnPassed->vel.toAngle()).getAngle() > BALL_DEFLECTION_ANGLE) {
+    if (ballDeflected()) {
         return true;
     }
 
@@ -151,7 +150,13 @@ bool Receive::passFailed() {
     return false;
 
 }
+bool Receive::ballDeflected() {
+    Angle robotToBallAngle = (robot->pos - ball->pos).toAngle();
+    Angle ballVelocityAngle = (ball->vel).toAngle();
 
+    return abs(robotToBallAngle - ballVelocityAngle) > BALL_DEFLECTION_ANGLE;
+
+}
 
 } // ai
 } // rtt

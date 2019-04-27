@@ -50,6 +50,7 @@ public:
     void onTerminate(Status s) override;
     Vector2 computeInterceptPoint(const Vector2& startBall, const Vector2& endBall);
     void intercept();
+    bool ballDeflected();
 };
 
 } //ai
