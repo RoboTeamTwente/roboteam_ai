@@ -6,7 +6,7 @@
 #include <roboteam_ai/src/control/PositionUtils.h>
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
-#include "../helpers/WorldHelper.h"
+#include "roboteam_ai/test/helpers/WorldHelper.h"
 
 namespace w = rtt::ai::world;
 
@@ -21,7 +21,7 @@ TEST(CoachTest, get_position_behind_ball) {
     w::world->updateWorld(world.first);
 
     // get position behind ball to our own goal
-    auto pos = rtt::ai::coach::g_generalPositionCoach.getPositionBehindBallToGoal(1, true);
+    auto pos = rtt::ai::control::PositionUtils::getPositionBehindBallToGoal(1, true);
 
     // it should be one meter further than the ball
     EXPECT_FLOAT_EQ(pos.dist(w::world->getBall()->pos), 1);
@@ -41,16 +41,16 @@ TEST(CoachTest, get_position_behind_ball) {
     w::world->updateWorld(worldMsg);
 
     // set the robot on the horizontal line from the ball to the goal
-    EXPECT_FALSE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToGoal(1.0, true, Vector2(0,0))); // robot on top of the ball: false
-    EXPECT_TRUE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToGoal(1, true, Vector2(0.9, 0))); // robot 1 m behind the ball to goal:
-    EXPECT_FALSE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToGoal(1, true, Vector2(-0.9, 0))); // robot 1m in front of the ball
+    EXPECT_FALSE(rtt::ai::control::PositionUtils::isRobotBehindBallToGoal(1.0, true, Vector2(0,0))); // robot on top of the ball: false
+    EXPECT_TRUE(rtt::ai::control::PositionUtils::isRobotBehindBallToGoal(1, true, Vector2(0.9, 0))); // robot 1 m behind the ball to goal:
+    EXPECT_FALSE(rtt::ai::control::PositionUtils::isRobotBehindBallToGoal(1, true, Vector2(-0.9, 0))); // robot 1m in front of the ball
 
-    EXPECT_FALSE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToGoal(1, false, Vector2(1, 0))); // robot 1 m behind the ball to goal:
-    EXPECT_TRUE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToGoal(1, false, Vector2(-1, 0))); // robot 1m in front of the
+    EXPECT_FALSE(rtt::ai::control::PositionUtils::isRobotBehindBallToGoal(1, false, Vector2(1, 0))); // robot 1 m behind the ball to goal:
+    EXPECT_TRUE(rtt::ai::control::PositionUtils::isRobotBehindBallToGoal(1, false, Vector2(-1, 0))); // robot 1m in front of the
 
     // there should be some margins as well both behind the max position and on the y scale
-    EXPECT_FALSE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToGoal(1, false, Vector2(1.1, 0.1)));
-    EXPECT_TRUE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToGoal(1, false, Vector2(-1.1, 0.1)));
+    EXPECT_FALSE(rtt::ai::control::PositionUtils::isRobotBehindBallToGoal(1, false, Vector2(1.1, 0.1)));
+    EXPECT_TRUE(rtt::ai::control::PositionUtils::isRobotBehindBallToGoal(1, false, Vector2(-1.1, 0.1)));
 
     // create an empty world
     worldMsg = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
@@ -68,15 +68,15 @@ TEST(CoachTest, get_position_behind_ball) {
 
     // check for position behind robottopointo, 1 m behind the ball
     // robottopointto is THEIR team
-    EXPECT_TRUE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToRobot(1, false, 3, Vector2(1, 1))); // good
-    EXPECT_TRUE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToRobot(1, false, 3, Vector2(1.2, 1))); // still good
+    EXPECT_TRUE(rtt::ai::control::PositionUtils::isRobotBehindBallToRobot(1, false, 3, Vector2(1, 1))); // good
+    EXPECT_TRUE(rtt::ai::control::PositionUtils::isRobotBehindBallToRobot(1, false, 3, Vector2(1.2, 1))); // still good
 
-    EXPECT_FALSE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToRobot(1, true, 3, Vector2(1, 1))); // wrong team, robot should not exist
-    EXPECT_FALSE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToRobot(1, false, 2, Vector2(1.2, 1))); // wrong id, robot should not exist
-    EXPECT_FALSE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToRobot(1, true, 3, Vector2(-1, 1))); // wrong location
-    EXPECT_FALSE(rtt::ai::coach::g_generalPositionCoach.isRobotBehindBallToRobot(1, false, 2, Vector2(2, 2))); // too far behind ball
+    EXPECT_FALSE(rtt::ai::control::PositionUtils::isRobotBehindBallToRobot(1, true, 3, Vector2(1, 1))); // wrong team, robot should not exist
+    EXPECT_FALSE(rtt::ai::control::PositionUtils::isRobotBehindBallToRobot(1, false, 2, Vector2(1.2, 1))); // wrong id, robot should not exist
+    EXPECT_FALSE(rtt::ai::control::PositionUtils::isRobotBehindBallToRobot(1, true, 3, Vector2(-1, 1))); // wrong location
+    EXPECT_FALSE(rtt::ai::control::PositionUtils::isRobotBehindBallToRobot(1, false, 2, Vector2(2, 2))); // too far behind ball
 
-    auto testPos2 = rtt::ai::coach::g_generalPositionCoach.getPositionBehindBallToRobot(1, false, 3);
+    auto testPos2 = rtt::ai::control::PositionUtils::getPositionBehindBallToRobot(1, false, 3);
     EXPECT_FLOAT_EQ(testPos2.x, sin(M_PI/4));
     EXPECT_FLOAT_EQ(testPos2.y, cos(M_PI/4));
 }
