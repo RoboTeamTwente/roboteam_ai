@@ -1,23 +1,23 @@
+////
+//// Created by mrlukasbos on 20-3-19.
+////
 //
-// Created by mrlukasbos on 20-3-19.
+////
+//// Created by robzelluf on 1/29/19.
+////
 //
-
+//#include <gtest/gtest.h>
+//#include <roboteam_ai/src/utilities/RobotDealer.h>
+//#include <roboteam_ai/src/world/Field.h>
+//#include <roboteam_ai/src/world/World.h>
+//#include "roboteam_ai/src/skills/formations/Formation.h"
+//#include "../helpers/WorldHelper.h"
 //
-// Created by robzelluf on 1/29/19.
 //
-
-#include <gtest/gtest.h>
-#include <roboteam_ai/src/utilities/RobotDealer.h>
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/world/World.h>
-#include "roboteam_ai/src/skills/formations/Formation.h"
-#include "../helpers/WorldHelper.h"
-
-
-namespace rtt {
-namespace ai {
-
-TEST(FormationTest, formation_test) {
+//namespace rtt {
+//namespace ai {
+//
+//TEST(FormationTest, formation_test) {
 //    robotDealer::RobotDealer::halt();
 //
 //    // create a field and world
@@ -76,8 +76,8 @@ TEST(FormationTest, formation_test) {
 //
 //    enterFormation2.update(); // propagate the changes (the fact that enterformation1 terminated)
 //    EXPECT_EQ(enterFormation2.robotsInFormationMemory, 1);
-}
-
-
-}
-}
+//}
+//
+//
+//}
+//}

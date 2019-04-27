@@ -16,6 +16,7 @@ namespace coach {
 
 class CoachHeuristics {
 private:
+
     using WorldData = world::WorldData;
     using Ball = world::Ball;
     using Robot = world::Robot;
@@ -29,17 +30,19 @@ private:
     static const double MAX_INTERCEPT_ANGLE; // Maximum angle to check for whether a opponent can intercept the ball
 public:
     static double calculateCloseToGoalScore(const Vector2& position);
-    static double calculateShotAtGoalScore(const Vector2& position, WorldData world);
-    static double calculatePassLineScore(const Vector2& position, WorldData world);
-    static double calculateBehindBallScore(const Vector2& position, WorldData world);
+    static double calculateShotAtGoalScore(const Vector2& position, const WorldData &world);
+    static double calculatePassLineScore(const Vector2& position, const WorldData &world);
+    static double calculateBehindBallScore(const Vector2& position, const WorldData &world);
+
 
     /// Currently not implemented, but might be again later
     static double calculateDistanceToOpponentsScore(const Vector2 &position, const WorldData& world);
+        static double getClosestOpponentAngleToPassLine(const Vector2 &position, const Ball &ball,
+                double smallestAngle = DBL_MAX);
 };
 
 }
 }
 }
-
 
 #endif //ROBOTEAM_AI_COACHHEURISTICS_H

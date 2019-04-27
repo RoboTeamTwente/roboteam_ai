@@ -49,7 +49,7 @@ class PosController {
         bool getCanMoveInDefenseArea() const;
         void setCanMoveInDefenseArea(bool canMoveInDefenseArea);
         double getAvoidBall() const;
-        void setAvoidBall(double ballDistance = Constants::ROBOT_RADIUS() * 2.0);
+        void setAvoidBall(double ballDistance = Constants::DEFAULT_BALLCOLLISION_RADIUS());
 
         std::tuple<double, double, double> lastPid;
 

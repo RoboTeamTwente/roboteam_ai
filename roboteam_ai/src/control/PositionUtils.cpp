@@ -75,6 +75,98 @@ bool PositionUtils::isRobotBehindBallToPosition(double distanceBehindBall, const
 
     return inLargeTriangleOnPosition;
 }
+std::vector<Vector2> PositionUtils::getPenaltyPositions(int number) {
+
+    auto lengthOffset = rtt::ai::world::field->get_field().field_length/4.0;
+    auto widthOffset = rtt::ai::world::field->get_field().field_width/4.0;
+
+    std::vector<Vector2> temp = {{- lengthOffset, widthOffset},
+                                 {0, widthOffset},
+                                 {lengthOffset, widthOffset},
+                                 {lengthOffset, - widthOffset},
+                                 {0, - widthOffset},
+                                 {- lengthOffset, - widthOffset}};
+
+    std::vector<Vector2> res;
+    for (int i = 0; i < number; i ++) {
+        res.emplace_back(temp.at(i));
+    }
+    return res;
+
+}
+std::vector<Vector2> PositionUtils::getFreeKickPositions(int number) {
+    // Two defenders, one robot to receive the ball, rest 3 in a diagonal
+    auto lengthOffset = rtt::ai::world::field->get_field().field_length/4.0;
+    auto widthOffset = rtt::ai::world::field->get_field().field_width/4.0;
+    Vector2 penaltyUs = rtt::ai::world::field->getPenaltyPoint(true);
+    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
+    Vector2 penaltyThem = rtt::ai::world::field->getPenaltyPoint(false);
+    int ballPosMultiplier = (ballPos.y >= 0 ? (- 1) : 1);
+    Vector2 lineProgress = {- 0.4, 0};
+
+
+    Vector2 def1 = {penaltyUs.x + lengthOffset/3.0, penaltyUs.y + widthOffset/1.5};
+    Vector2 def2 = {penaltyUs.x + lengthOffset/3.0, - (penaltyUs.y + widthOffset/1.5)};
+
+
+    Vector2 line1 = {penaltyThem.x - (lengthOffset/3.0), (penaltyThem.y + widthOffset)*ballPosMultiplier};
+    Vector2 line2 = line1 + lineProgress;
+    Vector2 line3 = line2 + lineProgress;
+
+    std::vector<Vector2> temp = {line1, def1, def2, line2, line3};
+    std::vector<Vector2> res;
+    for (int i = 0; i < number; i ++) {
+        res.emplace_back(temp.at(i));
+    }
+    return res;
+}
+std::vector<Vector2> PositionUtils::getDefendFreeKick(int number) {
+    // makes a free kick line
+    auto lengthOffset = rtt::ai::world::field->get_field().field_length/100.0;
+    auto widthOffset = rtt::ai::world::field->get_field().field_width/4.0;
+    Vector2 goalUS = rtt::ai::world::field->get_our_goal_center();
+    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
+    Vector2 penaltyUs = rtt::ai::world::field->getPenaltyPoint(true);
+
+    Vector2 lineProgress = ((goalUS-ballPos).stretchToLength(0.28)).rotate(M_PI_2);
+    Vector2 lineBegin = ballPos + (goalUS - ballPos).stretchToLength(0.75);
+
+    Vector2 line2 = lineBegin + lineProgress;
+    Vector2 line3 = lineBegin - lineProgress;
+
+    Vector2 def1 = {penaltyUs.x + lengthOffset, penaltyUs.y + widthOffset/2.0};
+    Vector2 def2 = {penaltyUs.x + lengthOffset, - (penaltyUs.y + widthOffset/2.0)};
+    Vector2 def3 = def1 + (def2-def1).stretchToLength((def2-def1).length()/3.0);
+    Vector2 def4 = (def2-def3).stretchToLength((def2-def3).length()/2.0) + def3;
+
+    std::vector<Vector2> temp = {lineBegin, def1, line3, def2, line2, def3, def4};
+
+    std::vector<Vector2> res;
+    for (int i = 0; i < number; i ++) {
+        res.emplace_back(temp.at(i));
+    }
+    return res;
+}
+std::vector<Vector2> PositionUtils::getDefendPenaltyPositions(int number) {
+    Vector2 lineProgress = {0, 0.4};
+
+    Vector2 lineBegin = {rtt::ai::world::field->getPenaltyPoint(false).x - 0.65, 0};
+    Vector2 line2 = lineBegin + lineProgress;
+    Vector2 line3 = lineBegin - lineProgress;
+    Vector2 line4 = lineBegin - lineProgress*2.0;
+    Vector2 line5 = lineBegin + lineProgress*2.0;
+
+    Vector2 atk1 = {0, 0.5};
+    Vector2 atk2 = {0, -0.5};
+
+    std::vector<Vector2> temp = {lineBegin, line3, line2, line4, line5, atk1, atk2};
+
+    std::vector<Vector2> res;
+    for (int i = 0; i < number; i ++) {
+        res.emplace_back(temp.at(i));
+    }
+    return res;
+}
 
 
 } // coach

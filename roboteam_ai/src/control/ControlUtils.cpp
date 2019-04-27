@@ -78,12 +78,13 @@ double ControlUtils::distanceToLine(const Vector2 &PointToCheck, const Vector2 &
 }
 
 bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos,
-        const world::WorldData &world, double safeDistanceFactor, bool keeper) {
+        const world::WorldData &world, double safeDistanceFactor, bool includeKeeper) {
 
-    double minDistance = Constants::ROBOT_RADIUS()*safeDistanceFactor*3;
+    double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor * 3;
+    int keeperID = Referee::getRefereeData().them.goalie;
 
     for (auto &enemy : world.them) {
-        //TODO: Check if the keeper should be taken into account and get it from the referee
+        if(!includeKeeper && enemy.id == keeperID) continue;
         if (distanceToLineWithEnds(enemy.pos, fromPos, toPos) < minDistance) {
             return false;
         }

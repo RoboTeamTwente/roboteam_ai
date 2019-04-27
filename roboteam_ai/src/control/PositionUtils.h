@@ -23,6 +23,10 @@ public:
     static bool isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID, const Vector2 &robotPosition, double angleMargin = 0.15);
     static bool isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position, const Vector2 &robotPosition, double angleMargin = 0.15);
     static Vector2 getDemoKeeperGetBallPos(Vector2 ballPos);
+    static std::vector<Vector2> getPenaltyPositions(int number);
+    static std::vector<Vector2> getFreeKickPositions(int number);
+    static std::vector<Vector2> getDefendFreeKick(int number);
+    static std::vector<Vector2> getDefendPenaltyPositions(int number);
 
 };
 

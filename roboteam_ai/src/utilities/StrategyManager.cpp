@@ -2,6 +2,7 @@
 // Created by mrlukasbos on 9-11-18.
 //
 
+#include <roboteam_ai/src/world/World.h>
 #include "StrategyManager.h"
 
 namespace rtt {
