@@ -33,6 +33,7 @@ public:
     static double calculateShotAtGoalScore(const Vector2& position, const WorldData &world);
     static double calculatePassLineScore(const Vector2& position, const WorldData &world);
     static double calculateBehindBallScore(const Vector2& position, const WorldData &world);
+    static double calculateDistanceToBallScore(const Vector2 &position, const WorldData &world);
 
 
     /// Currently not implemented, but might be again later
