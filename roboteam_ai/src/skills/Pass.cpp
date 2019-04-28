@@ -46,11 +46,13 @@ Pass::Status Pass::onUpdate() {
     } else if (closeToBall || ballPlacement) {
         initiatePass();
     }
+    
+    shotControl->makeCommand(shotControl->getShotData(* robot, target), command);
 
-    command = shotControl->makeCommand(shotControl->getShotData(* robot, world::field->get_their_goal_center()));
     publishRobotCommand();
 
     return Status::Running;
+
 }
 
 void Pass::onTerminate(Status s) {

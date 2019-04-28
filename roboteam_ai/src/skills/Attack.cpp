@@ -18,19 +18,20 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 
 void Attack::onInitialize() {
     shot = false;
+    shotControl = std::make_shared<control::ShotController>();
 }
 
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
 
-    if (shot && !world::world->ourRobotHasBall(robot->id)) {
+    if (shot && ! world::world->ourRobotHasBall(robot->id)) {
         return Status::Success;
     }
 
     Vector2 ball = world::world->getBall()->pos;
 
-    command = shotControl->makeCommand(shotControl->getShotData(* robot, world::field->get_their_goal_center()));
+    shotControl->makeCommand(shotControl->getShotData(*robot, world::field->get_their_goal_center()), command);
 
     publishRobotCommand();
 
