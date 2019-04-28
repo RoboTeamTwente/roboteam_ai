@@ -37,6 +37,12 @@ void InterceptBall::onInitialize() {
 }
 InterceptBall::Status InterceptBall::onUpdate() {
     ball = world::world->getBall();
+
+    // Succeed if the ball lays still
+    if (ball->vel.length() < Constants::BALL_STILL_VEL()) {
+        return Status::Success;
+    }
+
     //The keeper dynamically updates the intercept position as he needs to be responsive and cover the whole goal and this would help against curveballs etc.
     if (keeper) {
         interceptPos = computeInterceptPoint(ball->pos,
