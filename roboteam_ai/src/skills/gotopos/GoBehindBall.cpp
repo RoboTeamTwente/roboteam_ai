@@ -13,7 +13,7 @@ GoBehindBall::GoBehindBall(string name, bt::Blackboard::Ptr blackboard)
 
 Skill::Status GoBehindBall::gtpUpdate() {
 
-    switch (refType) {
+    switch (type) {
     case penalty: {
         auto ball = ai::world::world->getBall();
         auto goal = ai::world::field->get_their_goal_center();
@@ -40,6 +40,27 @@ Skill::Status GoBehindBall::gtpUpdate() {
         }
     }
     case corner:break;
+    case movingBall: {
+        bool ballLayingStill = ball->vel.length() < Constants::BALL_STILL_VEL();
+        bool robotHasBall = world::world->ourRobotHasBall(robot->id, true);
+        if (ballLayingStill || robotHasBall) {
+            return Status::Success;
+        }
+
+        Vector2 ballEndPos = ball->pos + ball->vel * Constants::MAX_INTERCEPT_TIME();
+
+        // If already in ball line, go to the ball
+        if (control::ControlUtils::distanceToLineWithEnds(robot->pos, ball->pos, ballEndPos) < 0.01) {
+            targetPos = ball->pos;
+
+        // else, intercept the ball
+        } else {
+            double timeNeeded = ((ballEndPos - robot->pos).length())/(Constants::MAX_VEL()*0.75);
+            targetPos = ball->pos + ball->vel*timeNeeded;
+        }
+        return Status::Running;
+    }
+
     }
     return Status::Failure;
 }
@@ -47,7 +68,7 @@ Skill::Status GoBehindBall::gtpUpdate() {
 void GoBehindBall::gtpInitialize() {
     posController->setAvoidBall(rtt::ai::Constants::ROBOT_RADIUS() + 0.10);
     if (properties->hasString("type")) {
-        refType = stringToRefType(properties->getString("type"));
+        type = stringToRefType(properties->getString("type"));
     }
 }
 
@@ -63,6 +84,8 @@ GoBehindBall::RefType GoBehindBall::stringToRefType(const std::string &string) {
     }
     else if (string == "freeKick") {
         return freeKick;
+    } else if (string == "movingBall") {
+        return movingBall;
     }
     ROS_ERROR("No string set for the RefType in GoBehindBall Skill!! using freeKick");
     return freeKick;
