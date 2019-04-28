@@ -4,7 +4,6 @@
 
 #include "GoToPos.h"
 #include "roboteam_ai/src/world/Field.h"
-#include "roboteam_ai/src/coach/GeneralPositionCoach.h"
 #include "roboteam_ai/src/control/ControlUtils.h"
 
 namespace rtt {

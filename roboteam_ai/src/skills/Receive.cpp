@@ -31,7 +31,7 @@ Receive::Status Receive::onUpdate() {
 
     if (ballPlacement) {
         Vector2 ballPlacementTarget = coach::g_ballPlacement.getBallPlacementPos();
-        auto behindTargetPos = coach::g_generalPositionCoach.getPositionBehindPositionToPosition(
+        auto behindTargetPos = control::PositionUtils::getPositionBehindPositionToPosition(
                 Constants::ROBOT_RADIUS(),
                 ballPlacementTarget,
                 ball->pos);
@@ -78,7 +78,6 @@ void Receive::onTerminate(Status s) {
     command.dribbler = 0;
     publishRobotCommand();
 
-    //TODO: Remove temporary hack
     if (robot->id != -1) {
         coach::g_pass.resetPass();
     }
