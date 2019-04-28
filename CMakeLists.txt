@@ -323,7 +323,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsBallOnOurSideTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsBallCloseToBorderTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/JoyStickTest.cpp
-        roboteam_ai/test/ControlTests/PositionUtilsTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/PositionUtilsTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/BallPlacementCoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/OffensiveCoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/FormationTest.cpp
@@ -383,8 +383,8 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/PassCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/BallplacementCoach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/BallplacementCoach.h
-        roboteam_ai/src/control/PositionUtils.cpp
-        roboteam_ai/src/control/PositionUtils.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PositionUtils.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PositionUtils.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/OffensiveCoach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/OffensiveCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/defence/DefencePositionCoach.cpp
