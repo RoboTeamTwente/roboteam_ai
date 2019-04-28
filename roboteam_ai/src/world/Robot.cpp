@@ -21,6 +21,7 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team)
     if (id != -1 && genevaState.find(id) == genevaState.end()) {
         genevaState[id] = 3;
     }
+
 }
 
 Robot::Robot()

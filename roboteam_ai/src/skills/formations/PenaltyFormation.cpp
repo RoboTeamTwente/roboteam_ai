@@ -2,7 +2,7 @@
 // Created by baris on 15-4-19.
 //
 
-#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
+#include <roboteam_ai/src/control/PositionUtils.h>
 #include "PenaltyFormation.h"
 
 std::shared_ptr<vector<std::shared_ptr<rtt::ai::world::Robot>>> rtt::ai::PenaltyFormation::robotsInFormation = nullptr;
@@ -19,7 +19,7 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
         for (auto & i : *robotsInFormation) {
             robotIds.push_back(i->id);
         }
-        auto poses = rtt::ai::coach::GeneralPositionCoach::getPenaltyPositions(robotsInFormation->size());
+        auto poses = rtt::ai::control::PositionUtils::getPenaltyPositions(robotsInFormation->size());
 
         rtt::HungarianAlgorithm hungarian;
         auto shortestDistances = hungarian.getRobotPositions(robotIds, true, poses);
@@ -30,7 +30,7 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
         for (auto & i : *robotsInFormation) {
             robotIds.push_back(i->id);
         }
-        auto poses = rtt::ai::coach::GeneralPositionCoach::getDefendPenaltyPositions(robotsInFormation->size());
+        auto poses = rtt::ai::control::PositionUtils::getDefendPenaltyPositions(robotsInFormation->size());
 
         rtt::HungarianAlgorithm hungarian;
         auto shortestDistances = hungarian.getRobotPositions(robotIds, true, poses);
