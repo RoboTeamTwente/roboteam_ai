@@ -39,6 +39,8 @@ class GoToPos : public Skill {
         Status onUpdate() override;
         void onInitialize() override;
         void onTerminate(Status s) override;
+
+        double velocityMultiplier = 1.0;
 };
 
 } // ai

@@ -70,6 +70,10 @@ void GoBehindBall::gtpInitialize() {
     if (properties->hasString("type")) {
         type = stringToRefType(properties->getString("type"));
     }
+
+    if (type == movingBall) {
+        velocityMultiplier = 1.5;
+    }
 }
 
 void GoBehindBall::gtpTerminate(Skill::Status s) {

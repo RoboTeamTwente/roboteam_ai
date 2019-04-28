@@ -41,7 +41,7 @@ int GetBallCoach::bestBallGetterID(double secondsAhead) {
 void GetBallCoach::update() {
     if (shouldWeGetBall()) {
         gettingBall = true;
-        idGettingBall = bestBallGetterID(0);
+        idGettingBall = bestBallGetterID(0.0);
     }
     else {
         idGettingBall = - 1;
