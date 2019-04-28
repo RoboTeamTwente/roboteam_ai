@@ -18,6 +18,7 @@ SkillGoToPos::SkillGoToPos(string name, bt::Blackboard::Ptr blackboard)
 
 /// Called when the Skill is Initialized
 void SkillGoToPos::gtpInitialize() {
+    goToBall = properties->getBool("goToBall");
 }
 
 /// Called when the Skill is Updated

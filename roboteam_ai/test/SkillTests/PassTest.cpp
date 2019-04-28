@@ -25,6 +25,11 @@ TEST(PassTest, PassTest) {
     rtt::ai::world::field->set_field(field);
     roboteam_msgs::World world;
 
+    roboteam_msgs::WorldRobot robot0;
+    robot0.id = 0;
+    robot0.pos = Vector2{0, 0};
+    world.us.push_back(robot0);
+
     roboteam_msgs::WorldRobot robot1;
     robot1.id = 1;
     robot1.pos.x = 4;

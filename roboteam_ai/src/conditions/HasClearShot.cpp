@@ -24,7 +24,7 @@ HasClearShot::Status HasClearShot::onUpdate() {
 
     // return success if there is a clear line to their goal 
     auto world = world::world->getWorld();
-    if (control::ControlUtils::clearLine(ball->pos, world::field->get_their_goal_center(), world, 1, false)) {
+    if (world::field->getPercentageOfGoalVisibleFromPoint(false, ball->pos) > MIN_VIEW_AT_GOAL * 100) {
         return Status::Success;
     }
     return Status::Failure;

@@ -116,11 +116,15 @@ void bt::DefaultTactic::parseType(const std::string& typee) {
 }
 
 void bt::DefaultTactic::updateStyle() {
-
-    rtt::ai::analysis::AnalysisReport report = * rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
-    rtt::ai::analysis::BallPossession possession = report.ballPossession;
-    rtt::ai::analysis::PlayStyle style = maker.getRecommendedPlayStyle(possession);
-
+    auto reportPtr = rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
+    rtt::ai::analysis::PlayStyle style;
+    if (reportPtr) {
+        rtt::ai::analysis::AnalysisReport report = *reportPtr;
+        rtt::ai::analysis::BallPossession possession = report.ballPossession;
+        style = maker.getRecommendedPlayStyle(possession);
+    } else {
+        style = maker.getRecommendedPlayStyle(rtt::ai::analysis::BallPossession::NEUTRAL);
+    }
     if (thisType == Defensive) {
         amountToTick = style.amountOfDefenders;
     }
