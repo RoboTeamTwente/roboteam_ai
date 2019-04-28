@@ -2,7 +2,7 @@
 // Created by baris on 24-4-19.
 //
 
-#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
+#include <roboteam_ai/src/control/PositionUtils.h>
 #include "DefendFreeKick.h"
 namespace rtt {
 namespace ai {
@@ -15,7 +15,7 @@ Vector2 DefendFreeKick::getFormationPosition() {
     gtp.setAvoidBall(0.55);
 
     update = true;
-    posses = rtt::ai::coach::GeneralPositionCoach::getDefendFreeKick(robotsInFormation->size());
+    posses = rtt::ai::control::PositionUtils::getDefendFreeKick(robotsInFormation->size());
     std::vector<int> robotIds;
 
     for (auto & i : *robotsInFormation) {

@@ -10,6 +10,7 @@
 #include "io/IOManager.h"
 #include "treeinterp/BTFactory.h"
 #include "ros/ros.h"
+#include <roboteam_ai/src/utilities/StrategyManager.h>
 
 namespace rtt {
 
@@ -23,6 +24,10 @@ private:
 
     void notifyTreeStatus(bt::Node::Status status);
     void runOneLoopCycle();
+
+    ai::StrategyManager strategyManager;
+    std::string oldKeeperTreeName = "";
+    std::string oldStrategy = "";
 public:
     void setup();
     void loop();

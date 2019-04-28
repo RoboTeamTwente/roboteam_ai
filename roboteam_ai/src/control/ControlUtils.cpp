@@ -309,6 +309,7 @@ bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, con
 
 }
 
+
 world::Robot ControlUtils::getRobotClosestToLine(std::vector<world::Robot> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds) {
     int maxDist = INT_MAX;
     auto closestRobot = robots.at(0);

@@ -15,8 +15,9 @@ class PenaltyFormation : public Formation {
     private:
         Vector2 getFormationPosition() override;
         std::shared_ptr<vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
-    static std::shared_ptr<vector<std::shared_ptr<Robot>>> robotsInFormation;
-};
+        static std::shared_ptr<vector<std::shared_ptr<Robot>>> robotsInFormation;
+        std::vector<Vector2> getPenaltyPositions(int number);
+    };
 }
 }
 

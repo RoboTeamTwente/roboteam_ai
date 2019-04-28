@@ -1,6 +1,6 @@
 Failer
 Inverter
-Repeater
+Repeater,limit
 Succeeder
 UntilFail
 UntilSuccess

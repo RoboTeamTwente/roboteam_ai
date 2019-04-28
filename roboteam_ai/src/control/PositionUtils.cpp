@@ -10,21 +10,18 @@
 
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/world/Field.h>
-#include "GeneralPositionCoach.h"
+#include "PositionUtils.h"
 
 namespace rtt {
 namespace ai {
-namespace coach {
+namespace control {
 
-// create the global object
-GeneralPositionCoach g_generalPositionCoach;
-
-rtt::Vector2 GeneralPositionCoach::getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal) {
+rtt::Vector2 PositionUtils::getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal) {
     const Vector2 &goal = (ourGoal ? world::field->get_our_goal_center() : world::field->get_their_goal_center());
     return getPositionBehindBallToPosition(distanceBehindBall, goal);
 }
 
-Vector2 GeneralPositionCoach::getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot,
+Vector2 PositionUtils::getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot,
         const unsigned int &robotID) {
     Vector2 robot;
     if (world::world->getRobotForId(robotID, ourRobot)) {
@@ -34,26 +31,25 @@ Vector2 GeneralPositionCoach::getPositionBehindBallToRobot(double distanceBehind
     return Vector2();
 }
 
-Vector2 GeneralPositionCoach::getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position) {
+Vector2 PositionUtils::getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position) {
     auto ball = world::world->getBall();
     if (! ball) return {};
     Vector2 ballPos = ball->pos;
     return ballPos + (ballPos - position).stretchToLength(distanceBehindBall);
 }
 
-Vector2 GeneralPositionCoach::getPositionBehindPositionToPosition(
+Vector2 PositionUtils::getPositionBehindPositionToPosition(
         double distanceBehindBall, const Vector2 &behindPosition, const Vector2 &toPosition) {
     return behindPosition + (behindPosition - toPosition).stretchToLength(distanceBehindBall);
 }
 
-bool GeneralPositionCoach::isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal,
-        const Vector2 &robotPosition, double angleMargin) {
+bool PositionUtils::isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal, const Vector2 &robotPosition, double angleMargin) {
     const Vector2 &goal = (ourGoal ? world::field->get_our_goal_center() : world::field->get_their_goal_center());
     return isRobotBehindBallToPosition(distanceBehindBall, goal, robotPosition, angleMargin);
 }
 
-bool GeneralPositionCoach::isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot,
-        const unsigned int &robotID,
+bool PositionUtils::isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID,
+
         const Vector2 &robotPosition, double angleMargin) {
     Vector2 robot;
     if (world::world->getRobotForId(robotID, ourRobot)) {
@@ -63,7 +59,7 @@ bool GeneralPositionCoach::isRobotBehindBallToRobot(double distanceBehindBall, b
     return false;
 }
 
-bool GeneralPositionCoach::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position,
+bool PositionUtils::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position,
         const Vector2 &robotPosition, double angleMargin) {
 
     const Vector2 &ball = static_cast<Vector2>(world::world->getBall()->pos);
@@ -79,11 +75,7 @@ bool GeneralPositionCoach::isRobotBehindBallToPosition(double distanceBehindBall
 
     return inLargeTriangleOnPosition;
 }
-
-Vector2 GeneralPositionCoach::getDemoKeeperGetBallPos(Vector2 ballPos) {
-    return ballPos + Vector2(0.2, 0);
-}
-std::vector<Vector2> GeneralPositionCoach::getPenaltyPositions(int number) {
+std::vector<Vector2> PositionUtils::getPenaltyPositions(int number) {
 
     auto lengthOffset = rtt::ai::world::field->get_field().field_length/4.0;
     auto widthOffset = rtt::ai::world::field->get_field().field_width/4.0;
@@ -102,7 +94,7 @@ std::vector<Vector2> GeneralPositionCoach::getPenaltyPositions(int number) {
     return res;
 
 }
-std::vector<Vector2> GeneralPositionCoach::getFreeKickPositions(int number) {
+std::vector<Vector2> PositionUtils::getFreeKickPositions(int number) {
     // Two defenders, one robot to receive the ball, rest 3 in a diagonal
     auto lengthOffset = rtt::ai::world::field->get_field().field_length/4.0;
     auto widthOffset = rtt::ai::world::field->get_field().field_width/4.0;
@@ -128,7 +120,7 @@ std::vector<Vector2> GeneralPositionCoach::getFreeKickPositions(int number) {
     }
     return res;
 }
-std::vector<Vector2> GeneralPositionCoach::getDefendFreeKick(int number) {
+std::vector<Vector2> PositionUtils::getDefendFreeKick(int number) {
     // makes a free kick line
     auto lengthOffset = rtt::ai::world::field->get_field().field_length/100.0;
     auto widthOffset = rtt::ai::world::field->get_field().field_width/4.0;
@@ -155,10 +147,10 @@ std::vector<Vector2> GeneralPositionCoach::getDefendFreeKick(int number) {
     }
     return res;
 }
-std::vector<Vector2> GeneralPositionCoach::getDefendPenaltyPositions(int number) {
+std::vector<Vector2> PositionUtils::getDefendPenaltyPositions(int number) {
     Vector2 lineProgress = {0, 0.4};
 
-    Vector2 lineBegin = {rtt::ai::world::field->getPenaltyPoint(false).x - 0.65, 0};
+    Vector2 lineBegin = {rtt::ai::world::field->getPenaltyPoint(true).x + 0.65, 0};
     Vector2 line2 = lineBegin + lineProgress;
     Vector2 line3 = lineBegin - lineProgress;
     Vector2 line4 = lineBegin - lineProgress*2.0;
@@ -175,6 +167,7 @@ std::vector<Vector2> GeneralPositionCoach::getDefendPenaltyPositions(int number)
     }
     return res;
 }
+
 
 } // coach
 } // ai
