@@ -39,10 +39,10 @@ private:
     // Parameters
     bool useAutoGeneva;
     ShotPrecision precision;
-    BallSpeed ballspeed;
+    BallSpeed ballSpeed;
 
     // Helpers
-    std::pair<Vector2, int> getGenevePlaceBehindBall(world::Robot robot, Vector2 shotTarget); // the params are the position for the robot and the geneva angle
+    std::pair<Vector2, int> getGenevaPlaceBehindBall(world::Robot robot, Vector2 shotTarget); // the params are the position for the robot and the geneva angle
     Vector2 getPlaceBehindBall(world::Robot robot, Vector2 shotTarget); // the params are the position for the robot and the geneva angle
     Vector2 robotTargetPosition;
     bool onLineToBall(const world::Robot &robot, const world::World::BallPtr &ball, const Vector2 &behindBallPosition) const;

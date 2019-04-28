@@ -12,7 +12,7 @@ namespace ai {
 namespace control {
 
 ShotController::ShotController(ShotPrecision precision, BallSpeed ballspeed, bool useAutoGeneva)
-: precision(precision), ballspeed(ballspeed), useAutoGeneva(useAutoGeneva) {
+: precision(precision), ballSpeed(ballspeed), useAutoGeneva(useAutoGeneva) {
     numTreeGtp.setAvoidBall();
     numTreeGtp.setCanMoveOutOfField(true);
     numTreeGtp.setCanMoveInDefenseArea(false);
@@ -26,7 +26,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
 
     // determine the position for the robot to stand and the corresponding geneva angle
     if (useAutoGeneva) {
-        auto positionAndGeneva = getGenevePlaceBehindBall(robot, shotTarget);
+        auto positionAndGeneva = getGenevaPlaceBehindBall(robot, shotTarget);
         behindBallPosition = positionAndGeneva.first;
         genevaState = positionAndGeneva.second;
     } else {
@@ -40,7 +40,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
 
    ShotData shotData;
    if (isOnLineToBall && isBehindBall) {
-       bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_BALL_RANGE());
+       bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
        shotData = hasBall ? shoot(robot, shotTarget) : moveStraightToBall(robot);
    } else {
        shotData = goToPlaceBehindBall(robot, behindBallPosition);
@@ -84,7 +84,7 @@ ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTa
 }
 
 /// get a position behind the ball for a geneva shot towards the target
-std::pair<Vector2, int> ShotController::getGenevePlaceBehindBall(world::Robot robot, Vector2 shotTarget) {
+std::pair<Vector2, int> ShotController::getGenevaPlaceBehindBall(world::Robot robot, Vector2 shotTarget) {
     auto ball = world::world->getBall();
 
     // determine the shortest position from where to kick the ball
@@ -142,7 +142,7 @@ ShotData ShotController::shoot(world::Robot robot, Vector2 shotTarget) {
     auto ball = world::world->getBall();
 
     // move towards the ball
-    control::PosVelAngle pva = basicGtp.getPosVelAngle(std::make_shared<world::Robot>(robot), ball->pos);
+    control::PosVelAngle pva = basicGtp.getPosVelAngle(std::make_shared<world::Robot>(robot), shotTarget);
     ShotData shotData(pva);
 
     // set the kicker and kickforce
@@ -156,7 +156,7 @@ ShotData ShotController::shoot(world::Robot robot, Vector2 shotTarget) {
 /// Determine how fast we should kick for a pass at a given distance
 double ShotController::determineKickForce(double distance) {
     const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
-    switch(ballspeed) {
+    switch(ballSpeed) {
         case DRIBBLE_KICK:
             return sqrt(distance) *rtt::ai::Constants::MAX_KICK_POWER()/(sqrt(maxPowerDist)*1.5) ;
         case LAY_STILL_AT_POSITION:

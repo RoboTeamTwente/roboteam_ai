@@ -31,7 +31,6 @@ bt::Node::Status Attack::onUpdate() {
     Vector2 ball = world::world->getBall()->pos;
     control::ShotData shotData = shotControl.getShotData(* robot, world::field->get_their_goal_center());
 
-
     command.x_vel = shotData.vel.x;
     command.y_vel = shotData.vel.y;
     command.w = shotData.angle.getAngle();
@@ -39,30 +38,6 @@ bt::Node::Status Attack::onUpdate() {
     command.kicker_forced = shotData.kick;
     command.kicker_vel = shotData.kickSpeed;
     command.geneva_state = shotData.genevaState;
-
-
-//    Vector2 velocity;
-//    if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
-//        velocity = ((Vector2) robot->pos - world::field->get_our_goal_center()).stretchToLength(2.0);
-//    }
-//    else if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
-//        velocity = ((Vector2) robot->pos - world::field->get_their_goal_center()).stretchToLength(2.0);
-//    }
-//    else if (world::field->pointIsInDefenceArea(ball, false) || world::field->pointIsInDefenceArea(ball, true)) {
-//        velocity = {0, 0};
-//    }
-//    else if (world::field->pointIsInDefenceArea(targetPos, false)) {
-//        velocity = {0, 0};
-//    }
-//    else {
-//        velocity = gtp->getPosVelAngle(robot, targetPos).vel;
-//    }
-//
-//    velocity = control::ControlUtils::velocityLimiter(velocity);
-//
-//    command.x_vel = static_cast<float>(velocity.x);
-//    command.y_vel = static_cast<float>(velocity.y);
-
 
     publishRobotCommand();
 

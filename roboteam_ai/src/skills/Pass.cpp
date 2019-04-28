@@ -19,9 +19,9 @@ void Pass::onInitialize() {
     ballPlacement = properties->getBool("BallPlacement");
     robotToPassToID = -1;
     if (ballPlacement) {
-        shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::PASS, true);
+        shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::PASS, false);
     } else {
-        shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::MEDIUM, control::BallSpeed::PASS, true);
+        shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::MEDIUM, control::BallSpeed::PASS, false);
     }
 }
 
@@ -29,7 +29,6 @@ Pass::Status Pass::onUpdate() {
     Vector2 target = world::field->get_their_goal_center();
 
     bool closeToBall = robot->pos.dist(ball->pos) < CLOSE_ENOUGH_TO_BALL;
-
 
     if (robotToPassToID != -1) {
         robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
@@ -45,13 +44,10 @@ Pass::Status Pass::onUpdate() {
             }
         }
     } else if (closeToBall || ballPlacement) {
-        std::cout << "initiating pass" << std::endl;
         initiatePass();
-        std::cout << "shooting to" << robotToPassToID << std::endl;
-
     }
 
-    control::ShotData shotData = shotControl->getShotData(* robot, target);
+    control::ShotData shotData = shotControl->getShotData(*robot, target);
     command.x_vel = shotData.vel.x;
     command.y_vel = shotData.vel.y;
     command.w = shotData.angle.getAngle();
@@ -59,7 +55,6 @@ Pass::Status Pass::onUpdate() {
     command.kicker_forced = shotData.kick;
     command.kicker_vel = shotData.kickSpeed;
     command.geneva_state = shotData.genevaState;
-
     publishRobotCommand();
 
     return Status::Running;

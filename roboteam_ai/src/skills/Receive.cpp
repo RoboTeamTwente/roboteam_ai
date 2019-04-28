@@ -61,7 +61,6 @@ Receive::Status Receive::onUpdate() {
 
         // Check if the ball was deflected
         if (isBallOnPassedSet && passFailed()) {
-            command.w = -robot->angle;
             publishRobotCommand();
             return Status::Failure;
         }
@@ -79,7 +78,6 @@ void Receive::onTerminate(Status s) {
     command.dribbler = 0;
     publishRobotCommand();
 
-    //TODO: Remove temporary hack
     if (robot->id != -1) {
         coach::g_pass.resetPass();
     }
