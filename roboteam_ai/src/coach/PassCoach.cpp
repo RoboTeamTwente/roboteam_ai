@@ -106,7 +106,9 @@ bool PassCoach::passTakesTooLong() {
     if (receiveTimerStarted) {
         auto now = chrono::steady_clock::now();
         double elapsedSeconds = chrono::duration_cast<chrono::seconds>(now - receiveStartTime).count();
-        return elapsedSeconds > MAX_RECEIVE_TIME;
+        if (elapsedSeconds > MAX_RECEIVE_TIME) {
+            return true;
+        }
     }
 
     return false;
