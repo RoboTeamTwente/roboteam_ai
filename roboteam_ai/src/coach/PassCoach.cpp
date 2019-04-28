@@ -24,7 +24,9 @@ void PassCoach::resetPass() {
     readyToReceivePass = false;
     robotPassing = -1;
     robotBeingPassedTo  = -1;
-    timerStarted = false;
+
+    passTimerStarted = false;
+    receiveTimerStarted = false;
 }
 
 int PassCoach::initiatePass(int passerID) {
@@ -35,6 +37,9 @@ int PassCoach::initiatePass(int passerID) {
         }
     }
     resetPass();
+
+    passStartTime = std::chrono::steady_clock::now();
+    passTimerStarted = true;
 
     robotBeingPassedTo = determineReceiver(passerID);
     robotPassing = passerID;
@@ -83,17 +88,25 @@ int PassCoach::determineReceiver(int passerID) {
 void PassCoach::setPassed(bool passed) {
     this->passed = passed;
     if(passed) {
-        start = std::chrono::steady_clock::now();
-        timerStarted = true;
+        receiveStartTime = std::chrono::steady_clock::now();
+        receiveTimerStarted = true;
+        passTimerStarted = false;
     }
 }
 
 bool PassCoach::passTakesTooLong() {
-    if (timerStarted) {
+    if (passTimerStarted && !passed) {
         auto now = chrono::steady_clock::now();
-        double elapsedSeconds = chrono::duration_cast<chrono::seconds>(now - start).count();
+        double elapsedSeconds = chrono::duration_cast<chrono::seconds>(now - passStartTime).count();
+        if (elapsedSeconds > MAX_PASS_TIME) {
+            return true;
+        }
+    }
 
-        return elapsedSeconds > MAX_PASS_TIME;
+    if (receiveTimerStarted) {
+        auto now = chrono::steady_clock::now();
+        double elapsedSeconds = chrono::duration_cast<chrono::seconds>(now - receiveStartTime).count();
+        return elapsedSeconds > MAX_RECEIVE_TIME;
     }
 
     return false;
@@ -101,6 +114,14 @@ bool PassCoach::passTakesTooLong() {
 
 int PassCoach::getRobotPassing() const {
     return robotPassing;
+}
+void PassCoach::updatePassProgression() {
+    if (robotBeingPassedTo != -1) {
+        if (passTakesTooLong()) {
+            resetPass();
+        }
+    }
+
 }
 
 } // coach

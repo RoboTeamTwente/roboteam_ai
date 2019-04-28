@@ -25,10 +25,6 @@ Receive::Status Receive::onUpdate() {
         return Status::Failure;
     }
 
-    if (coach::g_pass.passTakesTooLong()) {
-        return Status::Failure;
-    }
-
     if (ballPlacement) {
         Vector2 ballPlacementTarget = coach::g_ballPlacement.getBallPlacementPos();
         auto behindTargetPos = control::PositionUtils::getPositionBehindPositionToPosition(
