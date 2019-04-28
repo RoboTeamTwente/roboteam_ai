@@ -29,12 +29,8 @@ bt::Node::Status Attack::onUpdate() {
         return Status::Success;
     }
 
-    Vector2 ball = world::world->getBall()->pos;
-
     shotControl->makeCommand(shotControl->getShotData(*robot, world::field->get_their_goal_center()), command);
-
     publishRobotCommand();
-
     return Status::Running;
 }
 
