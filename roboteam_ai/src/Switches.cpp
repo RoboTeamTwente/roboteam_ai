@@ -38,6 +38,7 @@
 #include "roboteam_ai/src/skills/ShootPenalty.h"
 #include "roboteam_ai/src/skills/ShootFreeKick.h"
 #include "roboteam_ai/src/skills/DemoAttack.h"
+#include <roboteam_ai/src/skills/MidFieldHarasser.h>
 #include "roboteam_ai/src/skills/ReflectKick.h"
 #include "roboteam_ai/src/skills/InterceptRobot.hpp"
 #include "roboteam_ai/src/skills/CoachDefend.h"
@@ -47,6 +48,7 @@
 #include "roboteam_ai/src/skills/ActiveStop.h"
 #include "roboteam_ai/src/skills/SlingShot.h"
 #include <roboteam_ai/src/skills/PenaltyKeeper.h>
+#include <roboteam_ai/src/skills/MidFieldHarasser.h>
 
 
 //  ______________________
@@ -122,6 +124,7 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "TestD",
         "TestO",
         "TestM",
+        "MidFieldHarassTactic",
         "test_pass_tactic",
         "shoot_penalty_us_tactic",
         "free_kick_formation_tactic",
@@ -131,6 +134,7 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
+
 //        "QualificationStrategy",
 //        "haltStrategy",
 //        "KeeperStrategy",
@@ -165,6 +169,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "free_kick_shoot_strategy",
         "free_kick_them_strategy",
         "kickoff_shoot_strategy",
+        "MidFieldHarassStrategy",
         "penalty_them_strategy"
 };
 
@@ -248,6 +253,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["PenaltyFormation"] = std::make_shared<rtt::ai::PenaltyFormation>(name, properties);
     map["ActiveStop"] = std::make_shared<rtt::ai::ActiveStop>(name, properties);
     map["ReflectKick"] = std::make_shared<rtt::ai::ReflectKick>(name, properties);
+    map["MidFieldHarasser"] = std::make_shared<rtt::ai::MidFieldHarasser>(name, properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
     map["PenaltyKeeper"] = std::make_shared<rtt::ai::PenaltyKeeper>(name, properties);
     map["FreeKickFormation"] = std::make_shared<rtt::ai::FreeKickFormation>(name, properties);
@@ -312,7 +318,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"halt5", robotType::RANDOM},
                     {"halt6", robotType::RANDOM},
                     {"halt7", robotType::RANDOM}
-            },
+            }
             },
 
             {"avoid_tactic", {
@@ -591,6 +597,15 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                      {"def5", robotType::CLOSE_TO_OUR_GOAL},
                      {"def6", robotType::CLOSE_TO_OUR_GOAL},
                      {"def7", robotType::CLOSE_TO_OUR_GOAL}
+             }
+            },
+
+            {"MidFieldHarassTactic",
+             {
+                     {"mfh0", robotType::RANDOM},
+                     {"mfh1", robotType::RANDOM},
+                     {"mfh2", robotType::RANDOM},
+                     {"mfh3", robotType::RANDOM},
              }
             },
             {"TestD",

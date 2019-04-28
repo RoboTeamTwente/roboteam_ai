@@ -20,9 +20,9 @@ void Halt::onInitialize() {
 Halt::Status Halt::onUpdate() {
     if (tick <= ticks) {
         // send empty command
-        command.use_angle=0;
+        command.use_angle = 0;
         publishRobotCommand();
-        tick++;
+        tick ++;
         return Status::Running;
     }
 
