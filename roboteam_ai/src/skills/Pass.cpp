@@ -46,7 +46,7 @@ Pass::Status Pass::onUpdate() {
     } else if (closeToBall || ballPlacement) {
         initiatePass();
     }
-    
+
     shotControl->makeCommand(shotControl->getShotData(* robot, target), command);
 
     publishRobotCommand();
