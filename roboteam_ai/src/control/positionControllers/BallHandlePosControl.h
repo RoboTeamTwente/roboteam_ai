@@ -8,6 +8,7 @@
 #include <roboteam_utils/Vector2.h>
 #include "NumTreePosControl.h"
 #include "BasicPosControl.h"
+#include "PosController.h"
 
 namespace rtt {
 namespace ai {
@@ -19,7 +20,11 @@ class BallHandlePosControl : public PosController {
     private:
         double errorMargin = 0.05;
         double angleErrorMargin = 0.05;
-        double maxBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
+        double maxBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS()*3.0;
+        double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
+
+        Vector2 targetPos;
+        Angle targetAngle;
 
         std::shared_ptr<NumTreePosControl> numTreePosController;
         std::shared_ptr<BasicPosControl> basicPosController;
