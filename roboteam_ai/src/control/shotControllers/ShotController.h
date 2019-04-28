@@ -56,6 +56,7 @@ private:
 public:
     explicit ShotController(ShotPrecision precision = MEDIUM, BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true);
     ShotData getShotData(world::Robot robot, Vector2 shotTarget);
+    roboteam_msgs::RobotCommand makeCommand(ShotData data);
 };
 
 } // control

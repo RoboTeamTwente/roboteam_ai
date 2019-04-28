@@ -29,15 +29,8 @@ bt::Node::Status Attack::onUpdate() {
     }
 
     Vector2 ball = world::world->getBall()->pos;
-    control::ShotData shotData = shotControl.getShotData(* robot, world::field->get_their_goal_center());
 
-    command.x_vel = shotData.vel.x;
-    command.y_vel = shotData.vel.y;
-    command.w = shotData.angle.getAngle();
-    command.kicker = shotData.kick;
-    command.kicker_forced = shotData.kick;
-    command.kicker_vel = shotData.kickSpeed;
-    command.geneva_state = shotData.genevaState;
+    command = shotControl->makeCommand(shotControl->getShotData(* robot, world::field->get_their_goal_center()));
 
     publishRobotCommand();
 

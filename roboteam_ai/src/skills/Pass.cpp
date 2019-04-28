@@ -47,14 +47,7 @@ Pass::Status Pass::onUpdate() {
         initiatePass();
     }
 
-    control::ShotData shotData = shotControl->getShotData(*robot, target);
-    command.x_vel = shotData.vel.x;
-    command.y_vel = shotData.vel.y;
-    command.w = shotData.angle.getAngle();
-    command.kicker = shotData.kick;
-    command.kicker_forced = shotData.kick;
-    command.kicker_vel = shotData.kickSpeed;
-    command.geneva_state = shotData.genevaState;
+    command = shotControl->makeCommand(shotControl->getShotData(* robot, world::field->get_their_goal_center()));
     publishRobotCommand();
 
     return Status::Running;

@@ -18,7 +18,7 @@ class Attack : public Skill {
         Vector2 targetPos;
         bool shot = false;
         std::shared_ptr<control::PosController> gtp;
-        control::ShotController shotControl;
+        std::shared_ptr<control::ShotController> shotControl;
 
 public:
         explicit Attack(string name, bt::Blackboard::Ptr blackboard);

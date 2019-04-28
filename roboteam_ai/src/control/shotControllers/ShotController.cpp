@@ -167,7 +167,20 @@ double ShotController::determineKickForce(double distance) {
             return rtt::ai::Constants::MAX_KICK_POWER();
     }
 }
+roboteam_msgs::RobotCommand ShotController::makeCommand(ShotData data) {
+    roboteam_msgs::RobotCommand command;
 
+    command.x_vel = data.vel.x;
+    command.y_vel = data.vel.y;
+    command.w = data.angle.getAngle();
+    command.kicker = data.kick;
+    command.kicker_forced = data.kick; // TODO this looks very meh
+    command.kicker_vel = data.kickSpeed;
+    command.geneva_state = data.genevaState;
+
+
+    return command;
+}
 
 } // control
 } // ai
