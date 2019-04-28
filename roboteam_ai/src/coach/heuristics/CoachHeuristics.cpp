@@ -79,7 +79,7 @@ double CoachHeuristics::calculateDistanceToBallScore(const Vector2 &position, co
     auto ball = world.ball;
     double idealDistance = (world::field->get_their_goal_center() - ball.pos).length() * 0.75;
     double distanceFromBall = (position - ball.pos).length();
-    return -pow(distanceFromBall / (0.5 * idealDistance), 2) + 2 * (distanceFromBall / (0.5 * idealDistance));
+    return std::max(0.0, -pow(distanceFromBall / (0.5 * idealDistance), 2) + 2 * (distanceFromBall / (0.5 * idealDistance)));
 }
 
 }
