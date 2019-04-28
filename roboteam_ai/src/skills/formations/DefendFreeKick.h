@@ -18,7 +18,6 @@ private:
     static std::shared_ptr<vector<std::shared_ptr<Robot>>> robotsInFormation;
     static std::vector<Vector2> posses;
     void onTerminate(Status s) override;
-    std::vector<Vector2> getDefendFreeKick(int number);
 };
 }
 }
