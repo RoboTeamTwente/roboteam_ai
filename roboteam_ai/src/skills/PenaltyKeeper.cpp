@@ -30,10 +30,27 @@ PenaltyKeeper::Status PenaltyKeeper::onUpdate() {
 }
 PenaltyKeeper::PenaltyState PenaltyKeeper::updateState(PenaltyState currentState) {
     if (currentState==WAITING){
-        return isBallShot() ? BALLSHOT : WAITING;
+        //ballShotTicks=0;
+        if (isBallShot()){
+            /*
+            initialPos=robot->pos;
+            initialVel=robot->vel;
+            */
+            return BALLSHOT;
+        }
+        return WAITING;
     }
     else if (currentState==BALLSHOT) {
-        isBallShot() ? ballNotShotTicks ++ : ballNotShotTicks = 0;
+        //ballShotTicks++;
+        //prints for testing: easy to measure delay/effectiveness of our strategy
+//        std::cout<<"Ball speed: "<<world::world->getBall()->vel<<std::endl;
+//        std::cout<<"Pos diff(m) :" << (robot->pos-initialPos).length() << " Vel diff : " << (robot->vel-initialVel).length() <<" tick: "<<ballShotTicks<<std::endl;
+        if (isBallShot()){
+            ballNotShotTicks = 0;
+        }
+        else{
+            ballNotShotTicks ++;
+        }
         if (ballNotShotTicks > 3) {
             return WAITING;
         }
@@ -81,6 +98,7 @@ void PenaltyKeeper::sendWaitCommand() {
 void PenaltyKeeper::sendInterceptCommand() {
     Vector2 interceptPos = interceptBallPos();
     Vector2 delta = gtp.getPosVelAngle(robot, interceptPos).vel;
+    delta=delta.stretchToLength(8.0);
     command.x_vel = delta.x;
     command.y_vel = delta.y;
     command.w = 0;
@@ -94,7 +112,7 @@ std::pair<Vector2, Vector2> PenaltyKeeper::getGoalLine() {
     return originalLine;
 }
 bool PenaltyKeeper::isBallShot() {
-    return world::world->getBall()->vel.x>-0.2;
+    return world::world->getBall()->vel.x<-0.2;
 }
 }
 }
