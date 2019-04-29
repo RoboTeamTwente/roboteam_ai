@@ -63,6 +63,10 @@ Skill::Status ShootFreeKick::onUpdate() {
         }
 
         case READY: {
+            if (counter < 200) {
+                counter++;
+                return Status::Running;
+            }
             progress = SHOOTING;
             return Status::Running;
             // TODO inform the coach that we are ready to take the free kick and do some other comm.
@@ -92,6 +96,7 @@ Skill::Status ShootFreeKick::onUpdate() {
 }
 
 void ShootFreeKick::onTerminate(Skill::Status s) {
+    counter = 0;
 }
 
 bool ShootFreeKick::isShot() {

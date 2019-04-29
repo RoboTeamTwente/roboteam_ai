@@ -35,8 +35,9 @@ public:
     std::string getCurrentKeeperTreeName(roboteam_msgs::RefereeCommand currentRefCmd);
 
 private:
-    StrategyMap currentStrategyMap;
-    StrategyMap currentKeeperMap;
+    RefGameState prevCmd = RefGameState::HALT;
+    StrategyMap currentStrategyMap = {RefGameState::HALT, "halt_strategy"};
+    StrategyMap currentKeeperMap = {RefGameState::HALT, "keeper_halt_tactic"};
     StrategyMap getStrategyMapForRefGameState(RefGameState commandId);
     StrategyMap getKeeperMapForRefGameState(RefGameState commandId);
 
@@ -59,9 +60,9 @@ private:
             {RefGameState::PREPARE_KICKOFF_THEM, "kickoff_them_formation_strategy"},
             {RefGameState::PREPARE_PENALTY_THEM, "prepare_penalty_us_strategy"},
 
-            {RefGameState::DIRECT_FREE_US, "free_kick_formation_strategy"},
+            {RefGameState::DIRECT_FREE_US, "free_kick_shoot_strategy"},
             {RefGameState::DIRECT_FREE_THEM, "free_kick_them_strategy"},
-            {RefGameState::INDIRECT_FREE_US, "free_kick_formation_strategy"},
+            {RefGameState::INDIRECT_FREE_US, "free_kick_shoot_strategy"},
             {RefGameState::INDIRECT_FREE_THEM, "free_kick_them_strategy"},
 
             // these are called after PREPARE_
