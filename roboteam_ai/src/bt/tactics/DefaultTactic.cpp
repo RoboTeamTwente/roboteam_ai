@@ -22,6 +22,7 @@ bt::Node::Status bt::DefaultTactic::update() {
 
     if (!updateRobots()) {
         status = Status::Running;
+
         return status;
     }
 

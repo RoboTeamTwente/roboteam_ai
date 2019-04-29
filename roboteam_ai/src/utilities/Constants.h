@@ -73,7 +73,7 @@ public:
     /// KEEPER ///
     static double KEEPER_POST_MARGIN()          { return 0.08; };//m
     static double KEEPER_CENTREGOAL_MARGIN()    { return 0.3; };//m
-    static double KEEPER_PENALTY_LINE_MARGIN()  { return 0.04;}//m
+    static double KEEPER_PENALTY_LINE_MARGIN()  { return 0.06;}//m
 
     /// INTERFACE ///
     static int ROBOT_DRAWING_SIZE()             { return 8; };
