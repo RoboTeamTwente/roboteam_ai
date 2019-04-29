@@ -24,9 +24,7 @@ Skill::Status MidFieldHarasser::onUpdate() {
     Vector2 velocity = newPosition.vel;
 
     // If there is a robot being harassed, drive slower than it if too close
-    if (robotBeingHarassed == -1) {
-        velocity = control::ControlUtils::velocityLimiter(velocity);
-    } else {
+    if (robotBeingHarassed != -1) {
         RobotPtr opponent = world::world->getRobotForId(robotBeingHarassed, false);
         if ((opponent->pos - robot->pos).length() < HARASSING_SAFETY_MARGINS) {
             double opponentVelocityLength = opponent->vel.length();
