@@ -59,7 +59,7 @@ class HarassRobotCoach {
         Angle getHarassAngle(const RobotPtr &thisRobot, int &myIndex);
 
     void setClosestRobots(const RobotPtr &thisRobot, bool goAfterBall, double &closestRobotToBallDistance,
-                          RobotPtr &closestRobotToBall, RobotPtr &closestRobotToHarasser) const;
+                          RobotPtr &closestRobotToBall, RobotPtr &closestRobotToHarasser);
 
     Vector2 keepDistanceBetweenHarassers(const int &myIndex, Vector2 &currentLocation);
 };
