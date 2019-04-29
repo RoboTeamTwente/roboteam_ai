@@ -9,6 +9,7 @@
 #include "roboteam_ai/src/control/PositionUtils.h"
 #include "roboteam_ai/src/world/Field.h"
 #include "roboteam_ai/src/world/World.h"
+#include "../helpers/FieldHelper.h"
 
 
 namespace rd = rtt::ai::robotDealer;
@@ -17,10 +18,7 @@ using Vector2 = rtt::Vector2;
 TEST(PassTest, PassTest) {
     rd::RobotDealer::halt();
 
-    roboteam_msgs::GeometryFieldSize field;
-    field.field_length = 20;
-    field.field_width = 10;
-    field.goal_width = 1;
+    roboteam_msgs::GeometryFieldSize field = testhelpers::FieldHelper::generateField();
     rtt::ai::world::field->set_field(field);
     roboteam_msgs::World world;
 
@@ -31,8 +29,8 @@ TEST(PassTest, PassTest) {
 
     roboteam_msgs::WorldRobot robot1;
     robot1.id = 1;
-    robot1.pos.x = 4;
-    robot1.pos.y = 0;
+    robot1.pos.x = 2;
+    robot1.pos.y = 5;
     roboteam_msgs::WorldBall ball;
     ball.existence = 11;
     ball.visible = static_cast<unsigned char>(true);
@@ -46,10 +44,9 @@ TEST(PassTest, PassTest) {
 
     roboteam_msgs::WorldRobot robot2;
     robot2.id = 2;
-    w::world->updateWorld(world);
 
-    robot2.pos.x = 7;
-    robot2.pos.y = 3;
+    robot2.pos.x = field.field_length / 2 - 1.0;
+    robot2.pos.y = 0;
     world.us.push_back(robot2);
     w::world->updateWorld(world);
 
@@ -57,8 +54,8 @@ TEST(PassTest, PassTest) {
     rtt::ai::coach::g_pass.resetPass();
 
     roboteam_msgs::WorldRobot opponent1;
-    opponent1.pos.x = 3.5;
-    opponent1.pos.y = 1.5;
+    opponent1.pos.x = 4.5;
+    opponent1.pos.y = 0;
 
     world.them.push_back(opponent1);
     w::world->updateWorld(world);
