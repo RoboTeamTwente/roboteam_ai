@@ -1,0 +1,20 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "mi4sd6ttw9kdtdh7": {
+            "id": "mi4sd6ttw9kdtdh7",
+            "properties": {
+              "BallPlacement": "false"
+            },
+            "title": "Pass"
+          }
+        },
+        "root": "mi4sd6ttw9kdtdh7",
+        "title": "kickoff_kicker_role"
+      }
+    ]
+  },
+  "name": "kickoff_kicker_role"
+}

@@ -9,7 +9,15 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
+double PassCoach::MIN_PASS_DISTANCE;
+
 PassCoach g_pass;
+
+PassCoach::PassCoach() {
+    auto field = world::field->get_field();
+    double goalWidth = field.goal_width;
+    MIN_PASS_DISTANCE = std::max(goalWidth / 2, SMALLEST_MIN_PASS_DISTANCE);
+}
 
 void PassCoach::resetPass() {
     passed = false;
@@ -57,8 +65,11 @@ int PassCoach::determineReceiver(int passerID) {
     coach::PassScore passScore;
     double bestScore = 0;
     int bestRobotID = -1;
+    auto passer = world::world->getRobotForId(passerID, true);
     for(auto &robot : world::world->getUs()) {
         if (robot.id == robotDealer::RobotDealer::getKeeperID() || robot.id == passerID) continue;
+        if (robot.pos.x < -RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE) continue;
+        if((passer->pos - robot.pos).length() < MIN_PASS_DISTANCE) continue;
         double score = passScore.calculatePassScore(robot.pos);
         if (score > bestScore) {
             bestScore = score;

@@ -31,7 +31,7 @@ Receive::Status Receive::onUpdate() {
 
     if (ballPlacement) {
         Vector2 ballPlacementTarget = coach::g_ballPlacement.getBallPlacementPos();
-        auto behindTargetPos = coach::g_generalPositionCoach.getPositionBehindPositionToPosition(
+        auto behindTargetPos = control::PositionUtils::getPositionBehindPositionToPosition(
                 Constants::ROBOT_RADIUS(),
                 ballPlacementTarget,
                 ball->pos);
@@ -61,7 +61,6 @@ Receive::Status Receive::onUpdate() {
 
         // Check if the ball was deflected
         if (isBallOnPassedSet && passFailed()) {
-            command.w = -robot->angle;
             publishRobotCommand();
             return Status::Failure;
         }
@@ -79,7 +78,6 @@ void Receive::onTerminate(Status s) {
     command.dribbler = 0;
     publishRobotCommand();
 
-    //TODO: Remove temporary hack
     if (robot->id != -1) {
         coach::g_pass.resetPass();
     }
@@ -130,9 +128,6 @@ void Receive::intercept() {
 
     velocities = control::ControlUtils::velocityLimiter(velocities);
 
-    if (velocities.length() < 0.5) {
-        velocities = velocities.stretchToLength(0.5);
-    }
 
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
@@ -143,7 +138,7 @@ void Receive::intercept() {
 
 bool Receive::passFailed() {
     //TODO: Remove print statements and make 1 big if statement
-    if ((ball->vel.toAngle() - ballOnPassed->vel.toAngle()).getAngle() > 0.5) {
+    if (ballDeflected()) {
         return true;
     }
 
@@ -151,15 +146,16 @@ bool Receive::passFailed() {
         return true;
     }
 
-    return receiverMissedBall();
+    return false;
 
 }
+bool Receive::ballDeflected() {
+    Angle robotToBallAngle = (robot->pos - ball->pos).toAngle();
+    Angle ballVelocityAngle = (ball->vel).toAngle();
 
-bool Receive::receiverMissedBall() {
-    return (ball->pos - ballOnPassed->pos).length() - (robot->pos - ballOnPassed->pos).length() >
-           RECEIVER_MISSED_BALL_MARGIN;
+    return abs(robotToBallAngle - ballVelocityAngle) > BALL_DEFLECTION_ANGLE;
+
 }
-
 
 } // ai
 } // rtt

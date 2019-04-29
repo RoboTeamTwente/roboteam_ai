@@ -2,7 +2,7 @@
 // Created by baris on 23-4-19.
 //
 
-#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
+#include <roboteam_ai/src/control/PositionUtils.h>
 #include "FreeKickFormation.h"
 namespace rtt {
 namespace ai {
@@ -14,7 +14,7 @@ std::shared_ptr<vector<std::shared_ptr<rtt::ai::world::Robot>>> rtt::ai::FreeKic
 Vector2 FreeKickFormation::getFormationPosition() {
 
     update = true;
-    posses = rtt::ai::coach::GeneralPositionCoach::getFreeKickPositions(robotsInFormation->size());
+    posses = rtt::ai::control::PositionUtils::getFreeKickPositions(robotsInFormation->size());
     std::vector<int> robotIds;
 
     for (auto & i : *robotsInFormation) {

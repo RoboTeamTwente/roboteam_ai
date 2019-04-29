@@ -9,40 +9,28 @@
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include "Skill.h"
 #include <roboteam_ai/src/coach/PassCoach.h>
-#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
+#include <roboteam_ai/src/control/PositionUtils.h>
 #include <roboteam_ai/src/utilities/Constants.h>
+#include <roboteam_ai/src/control/shotControllers/ShotController.h>
 
 namespace rtt {
 namespace ai {
 
 class Pass : public Skill {
 private:
-    enum Progression {
-        GETTING_TO_BALL,
-        PASSING
-    };
 
-    Progression currentProgress = GETTING_TO_BALL;
+    const double CLOSE_ENOUGH_TO_BALL = 1.0;
 
-    const double CLOSE_ENOUGH_TO_BALL = 0.5;
-    const double BEHIND_BALL_CHECK = 0.6;
-    const double BEHIND_BALL_TARGET = 0.4;
-
+    bool shot = false;
     bool ballPlacement = false;
     RobotPtr robotToPassTo;
 
     Vector2 targetPos;
     int robotToPassToID = -1;
-    control::NumTreePosControl numTreeGtp = control::NumTreePosControl(Constants::DEFAULT_BALLCOLLISION_RADIUS(), true, true);
-    control::BasicPosControl basicGtp = control::BasicPosControl (false, true, true);
+
+    std::shared_ptr<control::ShotController> shotControl;
 
     void initiatePass();
-    Status getBall();
-    Status goToBall();
-    Status moveBehindBall(const Vector2& behindBallPos);
-    Status shoot();
-
-    double determineKickForce(double distance);
     Vector2 getKicker();
 
 public:

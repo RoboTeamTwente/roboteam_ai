@@ -18,8 +18,8 @@ bt::Node::Status CoachDefend::onUpdate() {
     coach::g_DefenceDealer.addDefender(robot->id);
     auto targetLocation = coach::g_DefenceDealer.getDefenderPosition(robot->id);
     if (! targetLocation) {
-        std::cerr << "Could not find the location of defender " << robot->id << " in calculated positions!"
-                  << std::endl;
+//        std::cerr << "Could not find the location of defender " << robot->id << " in calculated positions!"
+//                  << std::endl;
         return bt::Node::Status::Running;
     }
 

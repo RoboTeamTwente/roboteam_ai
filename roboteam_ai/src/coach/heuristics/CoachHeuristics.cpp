@@ -9,35 +9,42 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
-const double CoachHeuristics::CLOSE_TO_GOAL_WEIGHT = -0.1;
-const double CoachHeuristics::SHOT_AT_GOAL_WEIGHT = -3.0;
-const double CoachHeuristics::PASS_LINE_WEIGHT = -3.0;
-const double CoachHeuristics::DISTANCE_TO_OPPONENTS_WEIGHT = -3.0;
+const double CoachHeuristics::CLOSE_TO_GOAL_WEIGHT = - 0.1;
+const double CoachHeuristics::SHOT_AT_GOAL_WEIGHT = - 3.0;
+const double CoachHeuristics::PASS_LINE_WEIGHT = - 3.0;
+const double CoachHeuristics::DISTANCE_TO_OPPONENTS_WEIGHT = - 3.0;
 
-const double CoachHeuristics::MAX_INTERCEPT_ANGLE = M_PI / 4;
+const double CoachHeuristics::MAX_INTERCEPT_ANGLE = M_PI/4;
 
 /// Gives a higher score to positions closer to the oppontents goal
 double CoachHeuristics::calculateCloseToGoalScore(const Vector2 &position) {
     double distanceFromGoal = (world::field->get_their_goal_center() - position).length();
 
-    double score = exp(CLOSE_TO_GOAL_WEIGHT * distanceFromGoal);
+    double score = exp(CLOSE_TO_GOAL_WEIGHT*distanceFromGoal);
     return score;
 }
 
 /// Gives a higher score if the line between the position and the goal is free
-double CoachHeuristics::calculateShotAtGoalScore(const Vector2& position, WorldData world) {
-    double viewAtGoal = world::field->getPercentageOfGoalVisibleFromPoint(false, position, world) / 100;
-    return 1 - exp(SHOT_AT_GOAL_WEIGHT * viewAtGoal);
+double CoachHeuristics::calculateShotAtGoalScore(const Vector2 &position, const WorldData &world) {
+    double viewAtGoal = world::field->getPercentageOfGoalVisibleFromPoint(false, position, world)/100;
+    return 1 - exp(SHOT_AT_GOAL_WEIGHT*viewAtGoal);
 
-    }
+}
 
 /// Gives a higher score if the distance between the ball and the positions if free (safe pass line)
-double CoachHeuristics::calculatePassLineScore(const Vector2& position, WorldData world) {
+double CoachHeuristics::calculatePassLineScore(const Vector2 &position, const WorldData &world) {
     double smallestAngle = MAX_INTERCEPT_ANGLE;
     auto ball = world.ball;
 
-    for(const auto& robot : world::world->getAllRobots()) {
-        if(control::ControlUtils::isPointProjectedOnLineSegment(robot.pos, ball.pos, position)) {
+    smallestAngle = getClosestOpponentAngleToPassLine(position, ball, smallestAngle);
+
+    return 1 - exp(PASS_LINE_WEIGHT*smallestAngle);
+}
+double CoachHeuristics::getClosestOpponentAngleToPassLine(const Vector2 &position, const Ball &ball,
+        double smallestAngle) {
+
+    for (const auto &robot : world::world->getAllRobots()) {
+        if (control::ControlUtils::isPointProjectedOnLineSegment(robot.pos, ball.pos, position)) {
             double angle = abs((position - ball.pos).toAngle() - (robot.pos - ball.pos).toAngle());
             if (angle < smallestAngle) {
                 smallestAngle = angle;
@@ -45,21 +52,22 @@ double CoachHeuristics::calculatePassLineScore(const Vector2& position, WorldDat
         }
     }
 
-    return 1 - exp(PASS_LINE_WEIGHT * smallestAngle);
+    return smallestAngle;
 }
 
 /// Gives a higher score if the position is far away from enemy robots
-double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &position, const WorldData& world) {
+double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &position, const WorldData &world) {
     Robot closestRobot = world::world->getRobotClosestToPoint(position, world::WhichRobots::THEIR_ROBOTS);
-    if (closestRobot.id != -1) {
+    if (closestRobot.id != - 1) {
         double distance = (position - closestRobot.pos).length();
-        return 1 - exp(DISTANCE_TO_OPPONENTS_WEIGHT * distance);
-    } else {
+        return 1 - exp(DISTANCE_TO_OPPONENTS_WEIGHT*distance);
+    }
+    else {
         return 1;
     }
 }
 
-double CoachHeuristics::calculateBehindBallScore(const Vector2 &position, CoachHeuristics::WorldData world) {
+double CoachHeuristics::calculateBehindBallScore(const Vector2 &position, const CoachHeuristics::WorldData &world) {
     double xDistanceBehindBall = world.ball.pos.x - position.x;
     if (xDistanceBehindBall > 0) {
         return 0.0;
