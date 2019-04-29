@@ -49,7 +49,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
 
 void ShotController::determineGenevaAndPosition(const world::Robot &robot, const Vector2 &shotTarget) {// determine the position for the robot to stand and the corresponding geneva angle
     // only change values if we don't turn the geneva (and are thus able to turn it)
-    if (useAutoGeneva && !genevaIsTurning) {
+    if (useAutoGeneva && !genevaIsTurning && robot.hasWorkingGeneva) {
         auto oldGenevaState = currentDesiredGeneva;
 
         auto positionAndGeneva = getGenevaPlaceBehindBall(robot, shotTarget);
@@ -64,7 +64,7 @@ void ShotController::determineGenevaAndPosition(const world::Robot &robot, const
             secondsToTurnGeneva = genevaDifference * 0.5;
             lastTimeGenevaChanged = ros::Time::now().toSec();
         }
-    } else if (!useAutoGeneva) {
+    } else if (!useAutoGeneva || !robot.hasWorkingGeneva) {
         behindBallPosition = getPlaceBehindBall(robot, shotTarget);
         currentDesiredGeneva = 3;
     }

@@ -106,6 +106,32 @@ public:
     static bool STD_SHOW_AVAILABLE_PASSES()     { return false; };
     static bool STD_TIMEOUT_TO_TOP()            { return false; };
 
+    static std::map<int, bool> ROBOTS_WITH_WORKING_GENEVA() {
+        static std::map<int, bool> workingGenevaRobots;
+        workingGenevaRobots[0] = true;
+        workingGenevaRobots[1] = true;
+        workingGenevaRobots[2] = true;
+        workingGenevaRobots[3] = true;
+        workingGenevaRobots[4] = true;
+        workingGenevaRobots[5] = true;
+        workingGenevaRobots[6] = true;
+        workingGenevaRobots[7] = true;
+        workingGenevaRobots[8] = true;
+        workingGenevaRobots[9] = true;
+        workingGenevaRobots[10] = true;
+        workingGenevaRobots[11] = true;
+        workingGenevaRobots[12] = true;
+        workingGenevaRobots[13] = true;
+        workingGenevaRobots[14] = true;
+        workingGenevaRobots[15] = true;
+
+        return workingGenevaRobots;
+    }
+
+
+    static bool ROBOT_HAS_WORKING_GENEVA(int id) {
+        return ROBOTS_WITH_WORKING_GENEVA()[id];
+    }
 
     static QColor FIELD_COLOR()                 { return GRSIM() ? QColor(30 , 30 , 30 , 255) :
                                                                    QColor(50 , 0  , 0  , 255); };
