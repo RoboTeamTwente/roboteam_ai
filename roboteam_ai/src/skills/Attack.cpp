@@ -8,6 +8,7 @@
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
+#include <roboteam_ai/src/coach/OffensiveCoach.h>
 
 namespace rtt {
 namespace ai {
@@ -48,6 +49,7 @@ bt::Node::Status Attack::onUpdate() {
     }
 
     Vector2 velocity = control::ControlUtils::velocityLimiter(pva.vel);
+    Vector2 aimPoint=coach::g_offensiveCoach.getShootPoint(robot->pos);
     if (world::field->pointIsInDefenceArea(robot->pos, false, 0.0)) {
         velocity = ((Vector2) robot->pos - world::field->get_our_goal_center()).stretchToLength(2.0);
     }
@@ -63,7 +65,7 @@ bt::Node::Status Attack::onUpdate() {
 
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
-    command.w = (world::field->get_their_goal_center() - ball->pos).toAngle().getAngle();
+    command.w = (aimPoint- ball->pos).toAngle().getAngle();
 
     publishRobotCommand();
 
