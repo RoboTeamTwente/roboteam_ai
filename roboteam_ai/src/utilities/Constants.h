@@ -106,8 +106,8 @@ public:
     static bool STD_SHOW_AVAILABLE_PASSES()     { return false; };
     static bool STD_TIMEOUT_TO_TOP()            { return false; };
 
-    static std::vector<bool> ROBOTS_WITH_WORKING_GENEVA() {
-        static std::vector<bool> workingGenevaRobots(16);
+    static std::map<int, bool> ROBOTS_WITH_WORKING_GENEVA() {
+        static std::map<int, bool> workingGenevaRobots;
         workingGenevaRobots[0] = true;
         workingGenevaRobots[1] = true;
         workingGenevaRobots[2] = true;
