@@ -82,7 +82,7 @@ public:
     /// INTERFACE ///
     static int ROBOT_DRAWING_SIZE()             { return 8; };
     static int BALL_DRAWING_SIZE()              { return 5; };
-    static int TACTIC_COLOR_DRAWING_SIZE()      { return 10; };
+    static int TACTIC_COLOR_DRAWING_SIZE()      { return 20; };
     static int WINDOW_FIELD_MARGIN()            { return 5; };
 
     static int KEEPER_HELP_DRAW_SIZE()          { return 7; };
@@ -142,11 +142,11 @@ public:
     static QColor TEXT_COLOR()                  { return Qt::white; };
     static QColor SELECTED_ROBOT_COLOR()        { return Qt::magenta; };
 
-    static std::vector<QColor> TACTIC_COLORS()  { return { {255, 0  , 255, 255},
-                                                           {255, 0  , 255, 255},
-                                                           {255, 255, 0  , 255},
-                                                           {255, 120, 180, 255},
-                                                           {255, 100, 255, 255} }; };
+    static std::vector<QColor> TACTIC_COLORS()  { return { {255, 0  , 255, 50},
+                                                           {0, 255  , 255, 50},
+                                                           {255, 255, 0  , 50},
+                                                           {0, 255, 0, 50},
+                                                           {0, 0, 255, 50} }; };
 
     // Default PID values for the gotoposses/interface
     static pidVals standardNumTreePID()         { return GRSIM() ? pidVals(3.2, 0.0, 2.0) : pidVals(2.8, 0.6,2.3); };

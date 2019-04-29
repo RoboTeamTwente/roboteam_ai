@@ -146,15 +146,26 @@ void Visualizer::drawBall(QPainter &painter) {
 
     rtt::Vector2 ballPosition = toScreenPosition(ball->pos);
     QPointF qballPosition(ballPosition.x, ballPosition.y);
+
+
+
     if (!ball->visible){
         painter.setBrush(Qt::red); // fill
     }
     else {
         painter.setBrush(Constants::BALL_COLOR()); // fill
     }
+        painter.setBrush(Constants::BALL_COLOR()); // fill
+
+        // draw a see-through gradient around the ball to make it more visible
     painter.setPen(Qt::NoPen); // stroke
+    painter.setOpacity(0.5);
     painter.drawEllipse(qballPosition, Constants::BALL_DRAWING_SIZE(), Constants::BALL_DRAWING_SIZE());
-}
+    painter.setOpacity(1);
+    int ballSize = std::min((double)Constants::BALL_DRAWING_SIZE(), Constants::BALL_RADIUS()*factor);
+    painter.drawEllipse(qballPosition, ballSize, ballSize);
+
+    }
 
 // draw the robots
 void Visualizer::drawRobots(QPainter &painter) {
@@ -228,7 +239,7 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
     if (showAngles) {
         Vector2 angle = toScreenPosition({robot.pos.x + cos(robot.angle)/3, robot.pos.y + sin(robot.angle)/3});
         QPen pen;
-        pen.setWidth(4);
+        pen.setWidth(2);
         pen.setBrush(robotColor);
         painter.setPen(pen);
         painter.drawLine(robotpos.x, robotpos.y, angle.x, angle.y);
@@ -271,12 +282,22 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
     QColor color = (robotIsSelected(robot) && ourTeam) ? Constants::SELECTED_ROBOT_COLOR() : robotColor;
     painter.setBrush(color);
     painter.setPen(Qt::transparent);
-    painter.drawEllipse(qrobotPosition, Constants::ROBOT_RADIUS()*factor, Constants::ROBOT_RADIUS()*factor);
+
+
+    painter.setOpacity(0.5);
+    painter.drawEllipse(qrobotPosition, Constants::ROBOT_DRAWING_SIZE(), Constants::ROBOT_DRAWING_SIZE());
+    painter.setOpacity(1);
+
+    int robotDrawSize = Constants::ROBOT_RADIUS()*factor;
+    painter.drawEllipse(qrobotPosition, robotDrawSize, robotDrawSize);
 
     // draw the id in it
     painter.setPen(Qt::black);
+        painter.setFont(QFont("ubuntu",9)); //22 is a number which you have to change
     painter.drawText(robotpos.x - 3, robotpos.y + 5, QString::fromStdString(std::to_string(robot.id)));
-}
+        painter.setFont(QFont("ubuntu",11)); //22 is a number which you have to change
+
+    }
 
 // Handle mousePressEvents
 void Visualizer::mousePressEvent(QMouseEvent* event) {
