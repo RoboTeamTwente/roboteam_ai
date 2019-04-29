@@ -32,7 +32,7 @@ int GetBallCoach::bestBallGetterID() {
     double closestDist = DBL_MAX;
     Vector2 ballPos = world::world->getBall()->pos;
     for (const auto &robot : world::world->getUs()) {
-        if (!(robot.id == robotDealer::RobotDealer::getKeeperID()||checkDefender(robot.id))){
+        if (robot.id != robotDealer::RobotDealer::getKeeperID()){
             double distToBall = (robot.pos - ballPos).length();
             if (distToBall < closestDist) {
                 closestDist = distToBall;
@@ -41,15 +41,6 @@ int GetBallCoach::bestBallGetterID() {
         }
     }
     return closestId;
-}
-bool GetBallCoach::checkDefender(int id) {
-    if (world::world->getBall()->pos.x>g_defensivePositionCoach.maxX()){
-        auto set=robotDealer::RobotDealer::findRobotsForTactic("TestD");
-        if (set.find(id)!=set.end()){
-            return true;
-        }
-    }
-    return false;
 }
 void GetBallCoach::update() {
     if (shouldWeGetBall()) {

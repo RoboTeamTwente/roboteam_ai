@@ -12,7 +12,6 @@ class GetBallCoach {
         bool gettingBall=false;
         int idGettingBall=-1;
         bool shouldWeGetBall();
-        bool checkDefender(int id);
         int bestBallGetterID();
     public:
         void update();
