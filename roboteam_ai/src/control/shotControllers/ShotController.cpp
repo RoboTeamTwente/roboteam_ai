@@ -61,7 +61,7 @@ void ShotController::determineGenevaAndPosition(const world::Robot &robot, const
         if (genevaDifference != 0) {
             genevaIsTurning = true;
             // each turn should increase the time which the geneva is turning
-            secondsToTurnGeneva = genevaDifference * 0.35;
+            secondsToTurnGeneva = genevaDifference * 0.5;
             lastTimeGenevaChanged = ros::Time::now().toSec();
         }
     } else if (!useAutoGeneva) {
@@ -72,7 +72,6 @@ void ShotController::determineGenevaAndPosition(const world::Robot &robot, const
 
 /// check if a robot is on a line to a ball
 bool ShotController::onLineToBall(const world::Robot &robot, const world::World::BallPtr &ball, const Vector2 &behindBallPosition, int genevaState) {
-
     Vector2 lineStart = behindBallPosition; // behindBallposition is already compensated for geneva offset
     Vector2 lineEnd = getGenevaLineOffsetPoint(ball->pos, genevaState);
 
