@@ -34,7 +34,7 @@ private:
 
     int currentDesiredGeneva = -1;
     Vector2 behindBallPosition;
-    bool canUpdateGeneva = true;
+    bool genevaIsTurning = false;
     double secondsToTurnGeneva = 1.5;
 
     ros::Time lastTimeGenevaChanged = ros::Time::now();

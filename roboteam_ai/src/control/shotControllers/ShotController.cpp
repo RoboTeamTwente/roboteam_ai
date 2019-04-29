@@ -21,33 +21,34 @@ ShotController::ShotController(ShotPrecision precision, BallSpeed ballspeed, boo
 /// return a ShotData (which contains data for robotcommands) for a specific robot to shoot at a specific target.
 ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
     auto ball = world::world->getBall();
-    // always set canUpdateGeneva to true if it was 'long ago'.
-    if (ros::Time::now().toNSec() > lastTimeGenevaChanged.toNSec() + 1.5 * 1000 * 1000) {
-      canUpdateGeneva = true;
+    // always set genevaIsTurning to true if it was 'long ago'.
+    if (ros::Time::now().toNSec() > lastTimeGenevaChanged.toNSec() + secondsToTurnGeneva * 1000 * 1000) {
+      genevaIsTurning = false;
     }
 
     // determine the position for the robot to stand and the corresponding geneva angle
     if (useAutoGeneva) {
 
-        if (canUpdateGeneva) {
+        //  only change values if we don't turn the geneva (and are thus able to turn it)
+        if (!genevaIsTurning) {
+            auto oldGenevaState = currentDesiredGeneva;
+
             auto positionAndGeneva = getGenevaPlaceBehindBall(robot, shotTarget);
             behindBallPosition = positionAndGeneva.first;
             currentDesiredGeneva = positionAndGeneva.second;
 
+            int genevaDifference = std::abs(oldGenevaState - currentDesiredGeneva);
 
-
-            canUpdateGeneva = false;
+            // each turn should increase the time which the geneva is turning
+            secondsToTurnGeneva = genevaDifference * 0.35;
+            genevaIsTurning = true;
             lastTimeGenevaChanged = ros::Time::now();
         }
-
-
-
+        // else use the old values
     } else {
         behindBallPosition = getPlaceBehindBall(robot, shotTarget);
         currentDesiredGeneva = 3;
     }
-
-
 
             // check the properties
     bool isOnLineToBall = onLineToBall(robot, ball, behindBallPosition, currentDesiredGeneva);
@@ -56,7 +57,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
    ShotData shotData;
    if (isOnLineToBall && isBehindBall) {
        bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
-       shotData = hasBall ? shoot(robot, shotTarget) : moveStraightToBall(robot, currentDesiredGeneva);
+       shotData = hasBall && !genevaIsTurning ? shoot(robot, shotTarget) : moveStraightToBall(robot, currentDesiredGeneva);
    } else {
        shotData = goToPlaceBehindBall(robot, behindBallPosition, currentDesiredGeneva);
    }
