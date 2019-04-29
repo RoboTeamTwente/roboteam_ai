@@ -23,6 +23,8 @@ void Pass::onInitialize() {
     } else {
         shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::MEDIUM, control::BallSpeed::PASS, false);
     }
+
+    passInitialized = false;
 }
 
 Pass::Status Pass::onUpdate() {
@@ -35,6 +37,10 @@ Pass::Status Pass::onUpdate() {
         if (robotToPassTo) {
             target = getKicker();
 
+            if(closeToBall && !control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
+                return Status::Failure;
+            }
+
             bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
             bool ballIsShotTowardsReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, getKicker());
 
@@ -42,8 +48,15 @@ Pass::Status Pass::onUpdate() {
                 coach::g_pass.setPassed(true);
                 return Status::Success;
             }
+        } else {
+            return Status::Failure;
         }
-    } else if (closeToBall || ballPlacement) {
+    } else if (passInitialized) {
+        return Status::Failure;
+    }
+
+    if ((closeToBall || ballPlacement) && !passInitialized) {
+        passInitialized = true;
         initiatePass();
     }
 
