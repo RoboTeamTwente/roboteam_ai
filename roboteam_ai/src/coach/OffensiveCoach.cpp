@@ -101,20 +101,21 @@ void OffensiveCoach::updateOffensivePositions() {
     }
 }
 
-void OffensiveCoach::addSideAttacker(const OffensiveCoach::RobotPtr& robot) {
-    sideAttackers[robot->id] = -1;
+void OffensiveCoach::addSideAttacker(const OffensiveCoach::RobotPtr &robot) {
+    sideAttackers[robot->id] = - 1;
     redistributePositions();
 }
 
-void OffensiveCoach::removeSideAttacker(const OffensiveCoach::RobotPtr& robot) {
+void OffensiveCoach::removeSideAttacker(const OffensiveCoach::RobotPtr &robot) {
     sideAttackers.erase(robot->id);
 }
 
 Vector2 OffensiveCoach::getPositionForRobotID(int robotID) {
-    if (sideAttackers.find(robotID) != sideAttackers.end() ) {
+    if (sideAttackers.find(robotID) != sideAttackers.end()) {
         int zone = sideAttackers[robotID];
         return offensivePositions[zone].position;
-    } else {
+    }
+    else {
         redistributePositions();
         return Vector2();
     }
@@ -133,7 +134,7 @@ void OffensiveCoach::redistributePositions() {
     map<int, Vector2> shortestDistances;
     shortestDistances = hungarian.getRobotPositions(robotIDs, true, positions);
 
-    for(auto &robot : sideAttackers) {
+    for (auto &robot : sideAttackers) {
         int zone = std::find(positions.begin(), positions.end(), shortestDistances[robot.first]) - positions.begin();
         sideAttackers[robot.first] = zone;
     }
@@ -145,17 +146,55 @@ std::vector<Vector2> OffensiveCoach::getOffensivePositions(int numberOfRobots) {
     // between the two close positions. If you have 3, you want them to choose from all 4. Hence, the number of positions
     // is rounded up to a multiple of 2.
 
-    int numberOfPositions = numberOfRobots + numberOfRobots % 2;
+    int numberOfPositions = numberOfRobots + numberOfRobots%2;
 
     std::vector<Vector2> positionVectors;
 
-    for(int i=0; i < numberOfPositions; i++) {
+    for (int i = 0; i < numberOfPositions; i ++) {
         positionVectors.emplace_back(offensivePositions[i].position);
     }
 
     return positionVectors;
 }
 
+/// this function decides what point in the goal to aim at from a position on which the ball will be/where the robot is
+Vector2 OffensiveCoach::getShootAtGoalPoint(const Vector2 &fromPoint) {
+    std::vector<std::pair<Vector2, Vector2>> openSegments = world::field->getVisiblePartsOfGoal(false, fromPoint);
+    if (! openSegments.empty()) {
+        // sort on size
+        std::sort(openSegments.begin(), openSegments.end(),
+                [](std::pair<Vector2, Vector2> a, std::pair<Vector2, Vector2> b) {
+                  return abs(a.first.y - a.second.y) > abs(b.first.y - b.second.y);
+                });
+        double maxY = max(openSegments[0].first.y, openSegments[0].second.y);
+        double minY = min(openSegments[0].first.y, openSegments[0].second.y);
+
+        // make two aim points which are in the corners.
+        double distFromPost = 0.1*world::field->get_field().goal_width;
+        std::pair<Vector2, Vector2> goalSides = world::field->getGoalSides(false);
+        Vector2 leftPoint(goalSides.first.x, goalSides.first.y + distFromPost);
+        Vector2 rightPoint(goalSides.second.x, goalSides.second.y - distFromPost);
+
+        bool leftPointInSegment = leftPoint.y <= maxY && leftPoint.y >= minY;
+        bool rightPointInSegment = rightPoint.y <= maxY && rightPoint.y >= minY;
+        // if we can aim on only one of the points, aim there, otherwise we want to aim for the centre of the largest open segment
+        if (leftPointInSegment && rightPointInSegment) {
+            // open goal (mostly), so just shoot in the middle of the largest open segment
+            return (openSegments[0].first + openSegments[0].second)*0.5;
+        }
+        else if (leftPointInSegment) {
+            return leftPoint;
+        }
+        else if (rightPointInSegment) {
+            return rightPoint;
+        }
+        else {
+            return (openSegments[0].first + openSegments[0].second)*0.5;
+        }
+    }
+    return world::field->get_their_goal_center();
+
+}
 }
 }
 }
