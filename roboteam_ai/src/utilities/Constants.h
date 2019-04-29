@@ -80,9 +80,9 @@ public:
     static double KEEPER_PENALTY_LINE_MARGIN()  { return 0.06;}//m
 
     /// INTERFACE ///
-    static int ROBOT_DRAWING_SIZE()             { return 8; };
-    static int BALL_DRAWING_SIZE()              { return 5; };
-    static int TACTIC_COLOR_DRAWING_SIZE()      { return 20; };
+    static int ROBOT_DRAWING_SIZE()             { return 6; };
+    static int BALL_DRAWING_SIZE()              { return 4; };
+    static int TACTIC_COLOR_DRAWING_SIZE()      { return 15; };
     static int WINDOW_FIELD_MARGIN()            { return 5; };
 
     static int KEEPER_HELP_DRAW_SIZE()          { return 7; };

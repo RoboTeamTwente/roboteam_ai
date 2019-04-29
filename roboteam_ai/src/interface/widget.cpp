@@ -162,8 +162,9 @@ void Visualizer::drawBall(QPainter &painter) {
     painter.setOpacity(0.5);
     painter.drawEllipse(qballPosition, Constants::BALL_DRAWING_SIZE(), Constants::BALL_DRAWING_SIZE());
     painter.setOpacity(1);
-    int ballSize = std::min((double)Constants::BALL_DRAWING_SIZE(), Constants::BALL_RADIUS()*factor);
+    int ballSize = Constants::BALL_RADIUS()*2*factor;
     painter.drawEllipse(qballPosition, ballSize, ballSize);
+
 
     }
 
@@ -186,14 +187,10 @@ rtt::Vector2 Visualizer::toScreenPosition(rtt::Vector2 fieldPos) {
     int inv = fieldInversed ? -1 : 1;
     return {(fieldPos.x*factor * inv) + static_cast<float>(this->size().width()/2 + fieldmargin) ,
             (fieldPos.y*factor*- 1 * inv) + static_cast<float>(this->size().height()/2 + fieldmargin)};
-
-
-
 }
 
 // convert field coordinates to screen coordinates
-rtt::Vector2 Visualizer::toFieldPosition(rtt::Vector2 screenPos) {
-        int inv = fieldInversed ? -1 : 1;
+rtt::Vector2 Visualizer::toFieldPosition(rtt::Vector2 screenPos) {int inv = fieldInversed ? -1 : 1;
 
     auto x = (screenPos.x - fieldmargin - static_cast<float>(this->size().width()/2)) / factor;
     auto y = ((screenPos.y - fieldmargin - static_cast<float>(this->size().height()/2)) / factor) * -1;
@@ -266,48 +263,41 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
         painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(getRoleNameForRobot(robot)));
     }
 
-
-
-
     // draw the robots
     QColor color = (robotIsSelected(robot) && ourTeam) ? Constants::SELECTED_ROBOT_COLOR() : robotColor;
     painter.setBrush(color);
     painter.setPen(Qt::transparent);
 
-        if (ourTeam) {
-            std::map<int, double> genevaToAngle;
-            genevaToAngle[1] = -20.0;
-            genevaToAngle[2] = -10.0;
-            genevaToAngle[3] = 0.0;
-            genevaToAngle[4] = 10.0;
-            genevaToAngle[5] = 20.0;
+    if (ourTeam) {
+        std::map<int, double> genevaToAngle;
+        genevaToAngle[1] = -20.0;
+        genevaToAngle[2] = -10.0;
+        genevaToAngle[3] = 0.0;
+        genevaToAngle[4] = 10.0;
+        genevaToAngle[5] = 20.0;
 
+        auto genevaAngle = robot.angle + toRadians(genevaToAngle[robot.getGenevaState()]);
 
-            auto genevaAngle = robot.angle + toRadians(genevaToAngle[robot.getGenevaState()]);
+        // draw the angle of the geneva
+        Vector2 angle = toScreenPosition({robot.pos.x + cos(genevaAngle)/4, robot.pos.y + sin(genevaAngle)/4});
+        QPen pen;
+        pen.setWidth(2);
+        pen.setColor(Qt::red);
+        painter.setPen(pen);
 
-            // draw the angle
-            Vector2 angle = toScreenPosition({robot.pos.x + cos(genevaAngle)/5, robot.pos.y + sin(genevaAngle)/5});
-            QPen pen;
-            pen.setWidth(2);
-            pen.setColor(Qt::red);
-            painter.setPen(pen);
+        painter.setBrush(Qt::red);
+        painter.drawLine(robotpos.x, robotpos.y, angle.x, angle.y);
+    }
 
-            painter.setBrush(Qt::red);
-            painter.drawLine(robotpos.x, robotpos.y, angle.x, angle.y);
-        }
+    painter.setBrush(color);
+    painter.setPen(Qt::transparent);
 
-        painter.setBrush(color);
-        painter.setPen(Qt::transparent);
-
-        painter.setOpacity(0.5);
+    painter.setOpacity(0.5);
     painter.drawEllipse(qrobotPosition, Constants::ROBOT_DRAWING_SIZE(), Constants::ROBOT_DRAWING_SIZE());
     painter.setOpacity(1);
 
-    int robotDrawSize = Constants::ROBOT_RADIUS()*factor;
+    int robotDrawSize = std::max(Constants::ROBOT_RADIUS()*factor, (double)Constants::ROBOT_DRAWING_SIZE());
     painter.drawEllipse(qrobotPosition, robotDrawSize, robotDrawSize);
-
-
-
 
     // draw the id in it
     painter.setPen(Qt::black);
