@@ -50,13 +50,16 @@ Skill::Status GoBehindBall::gtpUpdate() {
         Vector2 ballEndPos = ball->pos + ball->vel * Constants::MAX_INTERCEPT_TIME();
 
         // If already in ball line, go to the ball
-        if (control::ControlUtils::distanceToLineWithEnds(robot->pos, ball->pos, ballEndPos) < 0.01) {
+        if (isOnBallLine()) {
             targetPos = ball->pos;
 
         // else, intercept the ball
         } else {
-            double timeNeeded = ((ballEndPos - robot->pos).length())/(Constants::MAX_VEL()*0.69);
+            double timeNeeded = ((ballEndPos - robot->pos).length())/(Constants::MAX_VEL()*0.8);
             targetPos = ball->pos + ball->vel*timeNeeded;
+            if (!world::field->pointIsInField(targetPos)) {
+                return Status::Failure;
+            }
         }
 
         command.w = (ball->pos - robot->pos).toAngle();
@@ -92,6 +95,12 @@ GoBehindBall::RefType GoBehindBall::stringToRefType(const std::string &string) {
     ROS_ERROR("No string set for the RefType in GoBehindBall Skill!! using freeKick");
     return freeKick;
 
+}
+bool GoBehindBall::isOnBallLine() {
+    Angle ballAngle = ball->vel.toAngle();
+    Angle robotToBallAngle = (robot->pos - ball->pos).toAngle();
+    double angleDiff = abs((ballAngle - robotToBallAngle).getAngle());
+    return angleDiff < ANGLE_MARGIN;
 }
 
 }

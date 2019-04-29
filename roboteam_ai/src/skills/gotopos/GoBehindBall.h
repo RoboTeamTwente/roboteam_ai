@@ -25,6 +25,8 @@ class GoBehindBall : public GoToPos {
         RefType type;
         RefType stringToRefType(const std::string &string);
         const double errorMargin = Constants::ROBOT_RADIUS() + 0.05;
+        const double ANGLE_MARGIN = 10 / 180 * M_PI;
+        bool isOnBallLine();
 
     public:
         explicit GoBehindBall(string name, bt::Blackboard::Ptr blackboard);
