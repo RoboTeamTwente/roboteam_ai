@@ -165,11 +165,13 @@ HarassRobotCoach::HarassTarget HarassRobotCoach::findRobotToHarass(const RobotPt
     }
 
     // else, harass the opponent closest to the harasser
-    if(!robotAlreadyBeingHarassed(myIndex, closestRobotToHarasser->id)) {
-        targetRobotsToHarass[myIndex] = closestRobotToHarasser;
-        harassTarget.harassRobot = closestRobotToHarasser->id;
-        harassTarget.harassPosition = harassRobot(myIndex, closestRobotToHarasser->id);
-        return harassTarget;
+    if(closestRobotToHarasser) {
+        if (! robotAlreadyBeingHarassed(myIndex, closestRobotToHarasser->id)) {
+            targetRobotsToHarass[myIndex] = closestRobotToHarasser;
+            harassTarget.harassRobot = closestRobotToHarasser->id;
+            harassTarget.harassPosition = harassRobot(myIndex, closestRobotToHarasser->id);
+            return harassTarget;
+        }
     }
 
     // can't get a robot to harass, remove my targetRobot if it was there
@@ -183,7 +185,7 @@ HarassRobotCoach::HarassTarget HarassRobotCoach::findRobotToHarass(const RobotPt
 void HarassRobotCoach::setClosestRobots(const HarassRobotCoach::RobotPtr &thisRobot, bool goAfterBall,
                                         double &closestRobotToBallDistance,
                                         HarassRobotCoach::RobotPtr &closestRobotToBall,
-                                        HarassRobotCoach::RobotPtr &closestRobotToHarasser) const {
+                                        HarassRobotCoach::RobotPtr &closestRobotToHarasser) {
 
     closestRobotToBallDistance = DBL_MAX;
     auto closestRobotToHarasserDistance = DBL_MAX;
