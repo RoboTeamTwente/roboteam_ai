@@ -278,7 +278,7 @@ DefencePositionCoach::DefenderBot DefencePositionCoach::createBlockBall(
 }
 Vector2 DefencePositionCoach::findPositionForBlockBall(const Line &blockLine) {
     // if the blocking position is way away from our goal keep the robot on our side
-    double maxForwardLineX = - 0.1;
+    double maxForwardLineX = maxX();
     if (blockLine.second.x > maxForwardLineX) {
         double fieldWidth = world::field->get_field().field_width;
         Vector2 bottomLine(maxForwardLineX, - fieldWidth*0.5), topLine(maxForwardLineX, fieldWidth*0.5);
@@ -292,7 +292,9 @@ Vector2 DefencePositionCoach::findPositionForBlockBall(const Line &blockLine) {
     }
     return getPosOnLine(blockLine, 0.3);
 }
-
+double DefencePositionCoach::maxX() {
+    return - world::field->get_field().field_length/5;
+}
 world::WorldData DefencePositionCoach::getTheirAttackers(const world::WorldData &world) {
     std::vector<world::Robot> theirAttackers;
     for (const world::Robot &robot :world.them) {
@@ -307,6 +309,7 @@ world::WorldData DefencePositionCoach::getTheirAttackers(const world::WorldData 
     return newWorld;
 }
 bool DefencePositionCoach::validNewPosition(const Vector2 &position, const world::WorldData &world) {
+    if (position.x > maxX()) { return false; }
     double collisionRadius = calculationCollisionRad;// a little smaller than 2 robot radii so that we can make solid walls still
     for (const auto &robot: world.us) {
         if ((robot.pos - position).length() < collisionRadius) {
