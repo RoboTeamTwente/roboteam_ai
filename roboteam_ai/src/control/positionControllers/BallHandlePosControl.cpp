@@ -26,11 +26,12 @@ PosVelAngle BallHandlePosControl::getPosVelAngle(const PosController::RobotPtr &
 PosVelAngle BallHandlePosControl::getPosVelAngle(const RobotPtr &robot,
         const Vector2 &targetPos, const Angle &targetAngle) {
 
+    auto ball = world::world->getBall();
+    BallHandlePosControl::ball = ball;
     BallHandlePosControl::targetPos = targetPos;
     BallHandlePosControl::targetAngle = targetAngle;
 
-    auto ball = world::world->getBall();
-    if (!ball) {
+    if (! ball) {
         std::cout << "Can't control the ball with no ball, you stupid" << std::endl;
         return {};
     }
@@ -50,7 +51,7 @@ PosVelAngle BallHandlePosControl::getPosVelAngle(const RobotPtr &robot,
     // if we do not have the ball yet, go get it
     {
         bool robotDoesNotHaveBall = ! robot->hasBall();
-        double robotIsTooFarFromBall = (robot->pos - ball->pos).length2() > maxBallDistance;
+        bool robotIsTooFarFromBall = (robot->pos - ball->pos).length2() > maxBallDistance;
 
         if (robotDoesNotHaveBall || robotIsTooFarFromBall) {
             Vector2 target = ball->pos + (robot->pos - ball->pos).stretchToLength(targetBallDistance);
@@ -66,17 +67,17 @@ PosVelAngle BallHandlePosControl::getPosVelAngle(const RobotPtr &robot,
             // rotate TOWARDS the target
             Angle newTargetAngle = targetPos - robot->pos;
             if (abs(newTargetAngle - robot->angle) > angleErrorMargin) {
-                return rotateWithBall(robot, newTargetAngle, defaultRotate);
+                return rotateWithBall(robot, defaultRotate);
             }
             else {
-                return travelWithBall(robot, targetPos, forwards);
+                return travelWithBall(robot, forwards);
             }
         }
     }
 
     // if the distance to the target is small (but d>errorMargin) and the robot cannot rotate around the ball
     {
-        bool robotIsAtLocation = deltaPosSquared < errorMargin * errorMargin;
+        bool robotIsAtLocation = deltaPosSquared < errorMargin*errorMargin;
         bool robotCanRotateAroundBallToTarget = (targetPos - ball->pos).length2() < maxBallDistance;
 
         if (! robotCanRotateAroundBallToTarget && ! robotIsAtLocation) {
@@ -84,26 +85,26 @@ PosVelAngle BallHandlePosControl::getPosVelAngle(const RobotPtr &robot,
             Angle newTargetAngle = (robot->pos - targetPos).toAngle();
             Angle deltaAngle = newTargetAngle - robot->angle;
             if (abs(deltaAngle) > angleErrorMargin) {
-                return rotateWithBall(robot, newTargetAngle, fastest);
+                return rotateWithBall(robot, fastest);
             }
             else {
-                return travelWithBall(robot, targetPos, backwards);
+                return travelWithBall(robot, backwards);
             }
         }
 
-        if (robotCanRotateAroundBallToTarget && !robotIsAtLocation) {
+        if (robotCanRotateAroundBallToTarget && ! robotIsAtLocation) {
             // rotate AROUND the ball
             Angle newTargetAngle = (ball->pos - targetPos).toAngle();
             Angle deltaAngle = newTargetAngle - robot->angle;
             if (abs(deltaAngle) > angleErrorMargin) {
-                return rotateWithBall(robot, newTargetAngle, rotateAroundBall);
+                return rotateWithBall(robot, rotateAroundBall);
             }
         }
 
         if (robotIsAtLocation) {
             Angle deltaAngle = targetAngle - robot->angle;
             if (abs(deltaAngle) > angleErrorMargin) {
-                return rotateWithBall(robot, targetAngle, rotateAroundRobot);
+                return rotateWithBall(robot, rotateAroundRobot);
             }
             else {
                 return {};
@@ -117,8 +118,7 @@ void BallHandlePosControl::checkInterfacePID() {
     updatePid(newPid);
 }
 
-PosVelAngle BallHandlePosControl::rotateWithBall(const PosController::RobotPtr &robot,
-        const Angle &targetAngle, RotateStrategy rotateStrategy) {
+PosVelAngle BallHandlePosControl::rotateWithBall(const PosController::RobotPtr &robot, RotateStrategy rotateStrategy) {
 
     Angle deltaAngle = targetAngle - robot->angle;
 
@@ -127,8 +127,8 @@ PosVelAngle BallHandlePosControl::rotateWithBall(const PosController::RobotPtr &
         PosVelAngle pva;
         pva.pos = robot->pos;
         pva.angle = (ball->pos - robot->pos).toAngle();
-        if (deltaAngle > 0) pva.vel = (ball->pos - robot->pos).rotate(M_PI_2).toAngle();
-        else                pva.vel = (ball->pos - robot->pos).rotate(-M_PI_2).toAngle();
+        if (deltaAngle > 0) pva.vel = (ball->pos - robot->pos).rotate(M_PI_2);
+        else                pva.vel = (ball->pos - robot->pos).rotate(- M_PI_2);
 
         double distanceToBallSquared = (ball->pos - robot->pos).length2();
         if (distanceToBallSquared <= targetBallDistance) pva.vel += robot->pos - ball->pos;
@@ -136,12 +136,15 @@ PosVelAngle BallHandlePosControl::rotateWithBall(const PosController::RobotPtr &
 
         return pva;
     }
+    case rotateAroundRobot:break;
+    case fastest:break;
+    case safest:break;
+    case defaultRotate:break;
     }
     return {};
 }
 
-PosVelAngle BallHandlePosControl::travelWithBall(const PosController::RobotPtr &robot,
-        const Vector2 &targetPos, TravelStrategy travelStrategy) {
+PosVelAngle BallHandlePosControl::travelWithBall(const PosController::RobotPtr &robot, TravelStrategy travelStrategy) {
 
     return {};
 }

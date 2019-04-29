@@ -22,6 +22,7 @@ class BallHandlePosControl : public PosController {
         double angleErrorMargin = 0.05;
         double maxBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS()*3.0;
         double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
+        BallPtr ball;
 
         Vector2 targetPos;
         Angle targetAngle;
@@ -40,8 +41,9 @@ class BallHandlePosControl : public PosController {
           backwards,
           defaultTravel
         };
-        PosVelAngle rotateWithBall(const RobotPtr &robot, const Angle &targetAngle, RotateStrategy rotateStrategy);
-        PosVelAngle travelWithBall(const RobotPtr &robot, const Vector2 &targetPos, TravelStrategy travelStrategy);
+
+        PosVelAngle rotateWithBall(const RobotPtr &robot, RotateStrategy rotateStrategy);
+        PosVelAngle travelWithBall(const RobotPtr &robot, TravelStrategy travelStrategy);
         void checkInterfacePID() override;
 
     public:
