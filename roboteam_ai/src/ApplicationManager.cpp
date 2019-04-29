@@ -78,7 +78,11 @@ void ApplicationManager::runOneLoopCycle() {
 
             // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
             // might want to build something that verifies this
-            std::string strategyName = strategyManager.getCurrentStrategyName(ai::Referee::getRefereeData().command);
+            auto strategy = strategyManager.getCurrentStrategy(ai::Referee::getRefereeData().command);
+
+            std::string strategyName = strategy.strategyName;
+            ai::Referee::setMaxRobotVelocity(strategy.maxVel);
+
             if (oldStrategy != strategyName) {
                 BTFactory::setCurrentTree(strategyName);
                 oldStrategy = strategyName;
@@ -95,6 +99,9 @@ void ApplicationManager::runOneLoopCycle() {
             }
 
             ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
+
+        } else {
+            ai::Referee::setMaxRobotVelocity(ai::Constants::MAX_VEL());
         }
 
 
@@ -112,6 +119,9 @@ void ApplicationManager::runOneLoopCycle() {
 
         rtt::ai::coach::getBallCoach->update();
         rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
+        rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
+        rtt::ai::coach::g_pass.updatePassProgression();
+
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
 

@@ -28,6 +28,7 @@ public:
 
     virtual int determineReceiver(int passerID);
     bool passTakesTooLong();
+    void updatePassProgression();
 
 private:
 
@@ -36,9 +37,15 @@ private:
     const double SMALLEST_MIN_PASS_DISTANCE = 5 * Constants::ROBOT_RADIUS();
     static double MIN_PASS_DISTANCE;
 
-    std::chrono::time_point<std::chrono::steady_clock> start;
-    bool timerStarted = false;
-    double MAX_PASS_TIME = 5.0; //seconds
+    std::chrono::time_point<std::chrono::steady_clock> passStartTime;
+    std::chrono::time_point<std::chrono::steady_clock> receiveStartTime;
+
+    bool passTimerStarted = false;
+    bool receiveTimerStarted = false;
+
+    const double MAX_PASS_TIME = 5.0; //seconds
+    const double MAX_RECEIVE_TIME = 5.0; //seconds
+
     bool readyToReceivePass{};
     int robotPassing = -1;
 public:

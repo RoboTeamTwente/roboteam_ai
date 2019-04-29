@@ -7,6 +7,7 @@
 
 #include <gtest/gtest_prod.h>
 #include <roboteam_ai/src/coach/OffensiveCoach.h>
+#include <roboteam_ai/src/coach/PassCoach.h>
 #include "io/IOManager.h"
 #include "treeinterp/BTFactory.h"
 #include "ros/ros.h"
