@@ -222,7 +222,7 @@ Vector2 ShotController::getGenevaLineOffsetPoint(Vector2 point, int genevaState)
     genevaLineOffset[2] = 0.01;
     genevaLineOffset[4] = -0.01;
     genevaLineOffset[5] = -0.02;
-    point = point + point.rotate(M_PI/2).stretchToLength(genevaLineOffset[genevaState]);
+    point = point + point.rotate(M_PI_2).stretchToLength(genevaLineOffset[genevaState]);
     return point;
 }
 
