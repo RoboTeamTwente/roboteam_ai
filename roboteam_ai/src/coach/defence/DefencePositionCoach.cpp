@@ -293,7 +293,7 @@ Vector2 DefencePositionCoach::findPositionForBlockBall(const Line &blockLine) {
     return getPosOnLine(blockLine, 0.3);
 }
 double DefencePositionCoach::maxX() {
-    return - world::field->get_field().field_length/5;
+    return world::field->get_field().field_length/10.0*-1.0;
 }
 world::WorldData DefencePositionCoach::getTheirAttackers(const world::WorldData &world) {
     std::vector<world::Robot> theirAttackers;
@@ -377,6 +377,17 @@ bool DefencePositionCoach::blockPass(PossiblePass pass) {
         auto aggressionFactor = pickNewPosition(*blockLine, simulatedWorld);
         if (aggressionFactor) {
             DefenderBot defender = createBlockToGoal(pass, *aggressionFactor, *blockLine);
+            addDefender(defender);
+            return true;
+        }
+        // try putting it on the defence Line instead (as the robot is very likely far away
+        double fieldWidth=world::field->get_field().field_width;
+        Vector2 bottomLine(maxX(), - fieldWidth*0.5), topLine(maxX(), fieldWidth*0.5);
+        Vector2 intersectPos=control::ControlUtils::twoLineIntersection(blockLine->first,blockLine->second,bottomLine,topLine);
+        if(validNewPosition(intersectPos,simulatedWorld))
+        {
+            double fracOnLine=(intersectPos-blockLine->first).length()/(blockLine->first-blockLine->second).length();
+            DefenderBot defender = createBlockToGoal(pass,fracOnLine, *blockLine);
             addDefender(defender);
             return true;
         }
