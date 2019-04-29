@@ -21,7 +21,7 @@ private:
 
     const double CLOSE_ENOUGH_TO_BALL = 1.0;
 
-    bool shot = false;
+    bool passInitialized = false;
     bool ballPlacement = false;
     RobotPtr robotToPassTo;
 
