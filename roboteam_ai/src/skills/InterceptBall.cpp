@@ -84,7 +84,6 @@ InterceptBall::Status InterceptBall::onUpdate() {
 
 void InterceptBall::sendMoveCommand(Vector2 targetPos) {
     Vector2 velocities = numtreeGTP.getPosVelAngle(robot, targetPos).vel;
-    velocities = control::ControlUtils::velocityLimiter(velocities);
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
 
@@ -228,19 +227,17 @@ void InterceptBall::sendStopCommand() {
 
 void InterceptBall::sendFineInterceptCommand() {
     auto pva = basicGTP.getPosVelAngle(robot, interceptPos);
-    auto vel = control::ControlUtils::velocityLimiter(pva.vel);
 
-    command.x_vel = vel.x;
-    command.y_vel = vel.y;
+    command.x_vel = pva.vel.x;
+    command.y_vel = pva.vel.y;
     command.w = static_cast<float>((Vector2(ball->pos)-Vector2(robot->pos)).angle()); //Rotates towards the ball
     publishRobotCommand();
 }
 void InterceptBall::sendInterceptCommand() {
     auto pva = numtreeGTP.getPosVelAngle(robot, interceptPos);
-    auto vel = control::ControlUtils::velocityLimiter(pva.vel);
 
-    command.x_vel = vel.x;
-    command.y_vel = vel.y;
+    command.x_vel = pva.vel.x;
+    command.y_vel = pva.vel.y;
     if (backwards) {
         command.w = pva.angle.getAngle() + M_PI;
     }
