@@ -257,10 +257,11 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
         if (ourTeam) {
             painter.setPen(Constants::TEXT_COLOR());
 
+        std::string text;
             if (robot.hasWorkingGeneva) {
-                std::string text = "∠: " + to_string(robot.getGenevaState());
+                text = "∠: " + to_string(robot.getGenevaState());
             } else {
-                std::string text = "∠: X";
+                text = "∠: X";
             }
             painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
         }

@@ -25,7 +25,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
     Vector2 behindBallPosition;
 
     // determine the position for the robot to stand and the corresponding geneva angle
-    if (useAutoGeneva) {
+    if (useAutoGeneva && robot.hasWorkingGeneva) {
         auto positionAndGeneva = getGenevaPlaceBehindBall(robot, shotTarget);
         behindBallPosition = positionAndGeneva.first;
         genevaState = positionAndGeneva.second;

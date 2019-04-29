@@ -107,9 +107,9 @@ public:
     static bool STD_TIMEOUT_TO_TOP()            { return false; };
 
     static std::vector<bool> ROBOTS_WITH_WORKING_GENEVA() {
-        static std::vector<bool> workingGenevaRobots;
-        workingGenevaRobots[0] = true;
-        workingGenevaRobots[1] = true;
+        static std::vector<bool> workingGenevaRobots(16);
+        workingGenevaRobots[0] = false;
+        workingGenevaRobots[1] = false;
         workingGenevaRobots[2] = true;
         workingGenevaRobots[3] = true;
         workingGenevaRobots[4] = true;
