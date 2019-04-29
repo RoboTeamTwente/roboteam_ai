@@ -21,44 +21,66 @@ ShotController::ShotController(ShotPrecision precision, BallSpeed ballspeed, boo
 /// return a ShotData (which contains data for robotcommands) for a specific robot to shoot at a specific target.
 ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
     auto ball = world::world->getBall();
-    int genevaState = 3;
-    Vector2 behindBallPosition;
 
-    // determine the position for the robot to stand and the corresponding geneva angle
-    if (useAutoGeneva && robot.hasWorkingGeneva) {
-        auto positionAndGeneva = getGenevaPlaceBehindBall(robot, shotTarget);
-        behindBallPosition = positionAndGeneva.first;
-        genevaState = positionAndGeneva.second;
-    } else {
-        behindBallPosition = getPlaceBehindBall(robot, shotTarget);
-        genevaState = 3;
+    // always set genevaIsTurning to true if it was 'long ago'.
+    if (ros::Time::now().toSec() > (lastTimeGenevaChanged + secondsToTurnGeneva)) {
+      genevaIsTurning = false;
     }
 
-    // check the properties
-    bool isOnLineToBall = onLineToBall(robot, ball, behindBallPosition);
-    bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, shotTarget, robot.pos);
+    determineGenevaAndPosition(robot, shotTarget);
+
+        // check the properties
+    bool isOnLineToBall = onLineToBall(robot, ball, behindBallPosition, currentDesiredGeneva);
+    bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, shotTarget, robot.pos, 0.3);
 
    ShotData shotData;
    if (isOnLineToBall && isBehindBall) {
        bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
-       shotData = hasBall ? shoot(robot, shotTarget) : moveStraightToBall(robot);
+       shotData = hasBall && !genevaIsTurning ? shoot(robot, shotTarget) : moveStraightToBall(robot, currentDesiredGeneva);
    } else {
-       shotData = goToPlaceBehindBall(robot, behindBallPosition);
+       shotData = goToPlaceBehindBall(robot, behindBallPosition, currentDesiredGeneva);
    }
 
    // Make sure the Geneva state is always correct
-   shotData.genevaState = genevaState;
+   shotData.genevaState = currentDesiredGeneva;
    return shotData;
 }
 
-/// check if a robot is on a line to a ball
-bool ShotController::onLineToBall(const world::Robot &robot, const world::World::BallPtr &ball, const Vector2 &behindBallPosition) const {
-    if (precision == HIGH) {
-        return ControlUtils::distanceToLine(robot.pos, ball->pos, behindBallPosition) < 0.001;
-    } else if (precision == MEDIUM) {
-        return ControlUtils::distanceToLine(robot.pos, ball->pos, behindBallPosition) < 0.005;
+
+void ShotController::determineGenevaAndPosition(const world::Robot &robot, const Vector2 &shotTarget) {// determine the position for the robot to stand and the corresponding geneva angle
+    // only change values if we don't turn the geneva (and are thus able to turn it)
+    if (useAutoGeneva && !genevaIsTurning && robot.hasWorkingGeneva) {
+        auto oldGenevaState = currentDesiredGeneva;
+
+        auto positionAndGeneva = getGenevaPlaceBehindBall(robot, shotTarget);
+        behindBallPosition = positionAndGeneva.first;
+        currentDesiredGeneva = positionAndGeneva.second;
+
+        int genevaDifference = abs(oldGenevaState - currentDesiredGeneva);
+
+        if (genevaDifference != 0) {
+            genevaIsTurning = true;
+            // each turn should increase the time which the geneva is turning
+            secondsToTurnGeneva = genevaDifference * 0.5;
+            lastTimeGenevaChanged = ros::Time::now().toSec();
+        }
+    } else if (!useAutoGeneva || !robot.hasWorkingGeneva) {
+        behindBallPosition = getPlaceBehindBall(robot, shotTarget);
+        currentDesiredGeneva = 3;
     }
-    return ControlUtils::distanceToLine(robot.pos, ball->pos, behindBallPosition) < 0.01;
+}
+
+/// check if a robot is on a line to a ball
+bool ShotController::onLineToBall(const world::Robot &robot, const world::World::BallPtr &ball, const Vector2 &behindBallPosition, int genevaState) {
+    Vector2 lineStart = behindBallPosition; // behindBallposition is already compensated for geneva offset
+    Vector2 lineEnd = getGenevaLineOffsetPoint(ball->pos, genevaState);
+
+    if (precision == HIGH) {
+        return ControlUtils::distanceToLine(robot.pos, lineStart, lineEnd) < 0.001;
+    } else if (precision == MEDIUM) {
+        return ControlUtils::distanceToLine(robot.pos, lineStart, lineEnd) < 0.005;
+    }
+    return ControlUtils::distanceToLine(robot.pos, lineStart, lineEnd) < 0.01;
 }
 
 /// return the place behind the ball targeted towards the ball target position
@@ -70,13 +92,13 @@ Vector2 ShotController::getPlaceBehindBall(world::Robot robot, Vector2 shotTarge
 }
 
 // use Numtree GTP to go to a place behind the ball
-ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition) {
+ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition, int genevaState) {
     auto ball = world::world->getBall();
 
     control::PosVelAngle pva = numTreeGtp.getPosVelAngle(std::make_shared<world::Robot>(robot), robotTargetPosition);
 
     if (robot.pos.dist(robotTargetPosition) < 0.3) {
-        pva.angle = (ball->pos - robot.pos).angle();
+        pva.angle = (getGenevaLineOffsetPoint(ball->pos, genevaState) - robot.pos).angle();
     }
 
     ShotData shotData(pva);
@@ -125,14 +147,16 @@ std::pair<Vector2, int> ShotController::getGenevaPlaceBehindBall(world::Robot ro
         placeBehindBallVector = placeStraightBehindBallVector;
     }
 
-
-    return std::make_pair(ball->pos + placeBehindBallVector, desiredGeneva);
+    Vector2 desiredTarget = getGenevaLineOffsetPoint(ball->pos + placeBehindBallVector, desiredGeneva);
+    return std::make_pair(desiredTarget, desiredGeneva);
 }
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
-ShotData ShotController::moveStraightToBall(world::Robot robot) {
+ShotData ShotController::moveStraightToBall(world::Robot robot, int genevaState) {
     auto ball = world::world->getBall();
-    control::PosVelAngle pva = basicGtp.getPosVelAngle(std::make_shared<world::Robot>(robot),  ball->pos);
+    Vector2 targetPos = getGenevaLineOffsetPoint(ball->pos, genevaState);
+
+    control::PosVelAngle pva = basicGtp.getPosVelAngle(std::make_shared<world::Robot>(robot),  targetPos);
     ShotData shotData(pva);
     return shotData;
 }
@@ -186,6 +210,20 @@ void ShotController::makeCommand(ShotData data, roboteam_msgs::RobotCommand &com
     command.kicker_vel = data.kickSpeed;
     command.geneva_state = data.genevaState;
 
+}
+
+
+Vector2 ShotController::getGenevaLineOffsetPoint(Vector2 point, int genevaState) {
+    if (genevaState == 3) {
+        return point;
+    }
+    std::map<int, double> genevaLineOffset;
+    genevaLineOffset[1] = 0.02;
+    genevaLineOffset[2] = 0.01;
+    genevaLineOffset[4] = -0.01;
+    genevaLineOffset[5] = -0.02;
+    point = point + point.rotate(M_PI_2).stretchToLength(genevaLineOffset[genevaState]);
+    return point;
 }
 
 } // control
