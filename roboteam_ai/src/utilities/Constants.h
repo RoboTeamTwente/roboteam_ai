@@ -59,7 +59,7 @@ public:
     static int DEFAULT_GENEVA_STATE()           { return 0; };
     static double OUT_OF_FIELD_MARGIN()         { return 0.03; };
     static double MAX_BALL_BOUNCE_RANGE()       { return GRSIM() ? 0.4 : 0.15; };
-    static double MAX_BALL_RANGE()              { return GRSIM() ? 0.09 : 0.04; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
+    static double MAX_BALL_RANGE()              { return 0.04; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
     static double HAS_BALL_ANGLE()              { return 0.2; };
     static double MAX_KICK_RANGE()              { return 0.04; };
     static double DEFAULT_MAX_VEL()             { return 4.0; };
@@ -72,7 +72,7 @@ public:
     /// KEEPER ///
     static double KEEPER_POST_MARGIN()          { return 0.08; };//m
     static double KEEPER_CENTREGOAL_MARGIN()    { return 0.3; };//m
-    static double KEEPER_PENALTY_LINE_MARGIN()  { return 0.04;}//m
+    static double KEEPER_PENALTY_LINE_MARGIN()  { return 0.06;}//m
 
     /// INTERFACE ///
     static int ROBOT_DRAWING_SIZE()             { return 8; };

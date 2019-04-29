@@ -9,7 +9,6 @@
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include <roboteam_ai/src/interface/InterfaceValues.h>
 #include <roboteam_ai/src/coach/GetBallCoach.h>
-#include <roboteam_ai/src/utilities/StrategyManager.h>
 #include <roboteam_ai/src/utilities/Referee.hpp>
 
 namespace io = rtt::ai::io;
@@ -28,8 +27,8 @@ void ApplicationManager::setup() {
 }
 
 void ApplicationManager::loop() {
-    std::cout << "loop" << std::endl;
     ros::Rate rate(ai::Constants::TICK_RATE());
+
     double longestTick = 0.0;
     double timeTaken;
     int nTicksTaken = 0;
@@ -77,25 +76,24 @@ void ApplicationManager::runOneLoopCycle() {
 
         if (ai::interface::InterfaceValues::usesRefereeCommands()) {
 
-            ai::StrategyManager strategyManager;
             // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
             // might want to build something that verifies this
-            auto oldStrategy = BTFactory::getCurrentTree();
             std::string strategyName = strategyManager.getCurrentStrategyName(ai::Referee::getRefereeData().command);
             if (oldStrategy != strategyName) {
-                BTFactory::makeTrees();
                 BTFactory::setCurrentTree(strategyName);
+                oldStrategy = strategyName;
             }
 
-
-
-            auto oldKeeperTree = BTFactory::getKeeperTreeName();
             std::string keeperTreeName = strategyManager.getCurrentKeeperTreeName(ai::Referee::getRefereeData().command);
-            if (oldKeeperTree != keeperTreeName) {
-                std::cout << oldKeeperTree <<  "vs " << keeperTreeName << std::endl;
-                BTFactory::makeTrees();
+            if (oldKeeperTreeName != keeperTreeName) {
                 BTFactory::setKeeperTree(keeperTreeName);
+                oldKeeperTreeName = keeperTreeName;
             }
+
+            if (oldStrategy != strategyName || oldKeeperTreeName != keeperTreeName) {
+                ai::robotDealer::RobotDealer::refresh();
+            }
+
             ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
         }
 
@@ -106,7 +104,9 @@ void ApplicationManager::runOneLoopCycle() {
                 ai::robotDealer::RobotDealer::setKeeperID(ai::world::world->getUs().at(0).id);
             }
             keeperTree = BTFactory::getKeeperTree();
-            keeperTree->tick();
+            if (keeperTree) {
+                keeperTree->tick();
+            }
         }
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
 
@@ -134,8 +134,11 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     switch (status) {
     case Status::Running:break;
     case Status::Success:ROS_INFO_STREAM("Status returned: Success");
-        ROS_INFO_STREAM(" === TREE CHANGE === ");
-            BTFactory::setCurrentTree("haltStrategy");
+        std::cout << " === TREE CHANGE === " << std::endl;
+
+        BTFactory::setCurrentTree("TestStrategy");
+        ai::robotDealer::RobotDealer::refresh();
+
         break;
     case Status::Failure:ROS_INFO_STREAM("Status returned: Failure");
         break;

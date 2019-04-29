@@ -35,8 +35,9 @@ public:
     std::string getCurrentKeeperTreeName(roboteam_msgs::RefereeCommand currentRefCmd);
 
 private:
-    StrategyMap currentStrategyMap;
-    StrategyMap currentKeeperMap;
+    RefGameState prevCmd = RefGameState::HALT;
+    StrategyMap currentStrategyMap = {RefGameState::HALT, "halt_strategy"};
+    StrategyMap currentKeeperMap = {RefGameState::HALT, "keeper_halt_tactic"};
     StrategyMap getStrategyMapForRefGameState(RefGameState commandId);
     StrategyMap getKeeperMapForRefGameState(RefGameState commandId);
 
@@ -54,20 +55,21 @@ private:
 
             //  Strategies with a follow up strategy
             {RefGameState::PREPARE_KICKOFF_US, "kickoff_us_formation_strategy", RefGameState::DO_KICKOFF},
-            {RefGameState::PREPARE_KICKOFF_THEM, "kickoff_them_formation_strategy", RefGameState::DEFEND_KICKOFF},
             {RefGameState::PREPARE_PENALTY_US, "prepare_penalty_us_strategy", RefGameState::DO_PENALTY},
-            {RefGameState::PREPARE_PENALTY_THEM, "prepare_penalty_us_strategy", RefGameState::DEFEND_PENALTY},
 
-            {RefGameState::DIRECT_FREE_US, "free_kick_formation_strategy"},
+            {RefGameState::PREPARE_KICKOFF_THEM, "kickoff_them_formation_strategy"},
+            {RefGameState::PREPARE_PENALTY_THEM, "prepare_penalty_us_strategy"},
+
+            {RefGameState::DIRECT_FREE_US, "free_kick_shoot_strategy"},
             {RefGameState::DIRECT_FREE_THEM, "free_kick_them_strategy"},
-            {RefGameState::INDIRECT_FREE_US, "free_kick_formation_strategy"},
+            {RefGameState::INDIRECT_FREE_US, "free_kick_shoot_strategy"},
             {RefGameState::INDIRECT_FREE_THEM, "free_kick_them_strategy"},
 
             // these are called after PREPARE_
             // these custom strategies need special attention
-            {RefGameState::DO_KICKOFF, "TestStrategy"},
-            {RefGameState::DEFEND_KICKOFF, "TestStrategy"},
-            {RefGameState::DEFEND_PENALTY, "TestStrategy"},
+            {RefGameState::DO_KICKOFF, "kickoff_shoot_strategy"},
+            {RefGameState::DEFEND_KICKOFF, "TestStrategy"}, // we do not currently use this.
+            {RefGameState::DEFEND_PENALTY, "penalty_them_strategy"},
             {RefGameState::DO_PENALTY, "shoot_penalty_us_strategy"}
     };
 
