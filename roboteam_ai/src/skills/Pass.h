@@ -23,6 +23,7 @@ private:
 
     bool passInitialized = false;
     bool ballPlacement = false;
+    bool shot = false;
     RobotPtr robotToPassTo;
 
     Vector2 targetPos;

@@ -66,7 +66,7 @@ void DefenceDealer::updateDefenderLocations() {
                     }
                 }
                 else {
-                    std::cerr << "Could not find robot " << botId << " to defend!";
+                    //std::cerr << "Could not find robot " << botId << " to defend!";
                 }
             }
             if (closestId != - 1) {
@@ -74,7 +74,7 @@ void DefenceDealer::updateDefenderLocations() {
                 availableDefenders.erase(std::find(availableDefenders.begin(), availableDefenders.end(), closestId));
             }
             else {
-                std::cerr << "Could not find a robot to defend location!!!";
+                //std::cerr << "Could not find a robot to defend location!!!";
                 return;
             }
         }

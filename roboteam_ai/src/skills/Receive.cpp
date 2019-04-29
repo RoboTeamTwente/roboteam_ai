@@ -22,6 +22,7 @@ Receive::Status Receive::onUpdate() {
     }
 
     if (coach::g_pass.getRobotBeingPassedTo() != robot->id) {
+        std::cout << robot->id << " not being passed to anymore!" << std::endl;
         return Status::Failure;
     }
 
@@ -130,10 +131,12 @@ void Receive::intercept() {
 bool Receive::passFailed() {
     //TODO: Remove print statements and make 1 big if statement
     if (ballDeflected()) {
+        std::cout << robot->id << " ball deflected!" << std::endl;
         return true;
     }
 
     if (ball->vel.length() < 0.1) {
+        std::cout << robot->id << " ball going too slow!" << std::endl;
         return true;
     }
 

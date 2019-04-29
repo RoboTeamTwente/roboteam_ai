@@ -25,6 +25,7 @@ void Pass::onInitialize() {
     }
 
     passInitialized = false;
+    shot = false;
 }
 
 Pass::Status Pass::onUpdate() {
@@ -37,7 +38,7 @@ Pass::Status Pass::onUpdate() {
         if (robotToPassTo) {
             target = getKicker();
 
-            if(closeToBall && !control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
+            if(!shot && closeToBall && !control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
                 return Status::Failure;
             }
 
@@ -61,6 +62,10 @@ Pass::Status Pass::onUpdate() {
     }
 
     shotControl->makeCommand(shotControl->getShotData(* robot, target), command);
+
+    if(command.kicker) {
+        shot = true;
+    }
 
     publishRobotCommand();
 
