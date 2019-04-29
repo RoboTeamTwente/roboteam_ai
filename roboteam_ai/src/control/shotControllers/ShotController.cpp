@@ -21,33 +21,48 @@ ShotController::ShotController(ShotPrecision precision, BallSpeed ballspeed, boo
 /// return a ShotData (which contains data for robotcommands) for a specific robot to shoot at a specific target.
 ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
     auto ball = world::world->getBall();
-    int genevaState = 3;
-    Vector2 behindBallPosition;
+    // always set canUpdateGeneva to true if it was 'long ago'.
+    if (ros::Time::now().toNSec() > lastTimeGenevaChanged.toNSec() + 1.5 * 1000 * 1000) {
+      canUpdateGeneva = true;
+    }
 
     // determine the position for the robot to stand and the corresponding geneva angle
     if (useAutoGeneva) {
-        auto positionAndGeneva = getGenevaPlaceBehindBall(robot, shotTarget);
-        behindBallPosition = positionAndGeneva.first;
-        genevaState = positionAndGeneva.second;
+
+        if (canUpdateGeneva) {
+            auto positionAndGeneva = getGenevaPlaceBehindBall(robot, shotTarget);
+            behindBallPosition = positionAndGeneva.first;
+            currentDesiredGeneva = positionAndGeneva.second;
+
+
+
+            canUpdateGeneva = false;
+            lastTimeGenevaChanged = ros::Time::now();
+        }
+
+
+
     } else {
         behindBallPosition = getPlaceBehindBall(robot, shotTarget);
-        genevaState = 3;
+        currentDesiredGeneva = 3;
     }
 
-    // check the properties
-    bool isOnLineToBall = onLineToBall(robot, ball, behindBallPosition, genevaState);
+
+
+            // check the properties
+    bool isOnLineToBall = onLineToBall(robot, ball, behindBallPosition, currentDesiredGeneva);
     bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, shotTarget, robot.pos, 0.3);
 
    ShotData shotData;
    if (isOnLineToBall && isBehindBall) {
        bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
-       shotData = hasBall ? shoot(robot, shotTarget) : moveStraightToBall(robot, genevaState);
+       shotData = hasBall ? shoot(robot, shotTarget) : moveStraightToBall(robot, currentDesiredGeneva);
    } else {
-       shotData = goToPlaceBehindBall(robot, behindBallPosition, genevaState);
+       shotData = goToPlaceBehindBall(robot, behindBallPosition, currentDesiredGeneva);
    }
 
    // Make sure the Geneva state is always correct
-   shotData.genevaState = genevaState;
+   shotData.genevaState = currentDesiredGeneva;
    return shotData;
 }
 

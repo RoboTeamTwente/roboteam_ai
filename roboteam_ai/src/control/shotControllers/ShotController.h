@@ -32,6 +32,13 @@ class ShotController {
     FRIEND_TEST(ShotControllerTest, it_generates_proper_shots);
 private:
 
+    int currentDesiredGeneva = -1;
+    Vector2 behindBallPosition;
+    bool canUpdateGeneva = true;
+    double secondsToTurnGeneva = 1.5;
+
+    ros::Time lastTimeGenevaChanged = ros::Time::now();
+
     // PositionControllers
     BasicPosControl basicGtp;
     NumTreePosControl numTreeGtp;
