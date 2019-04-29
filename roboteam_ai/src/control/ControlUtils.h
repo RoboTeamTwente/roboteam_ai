@@ -10,6 +10,7 @@
 #include "../utilities/Constants.h"
 #include "roboteam_utils/Vector2.h"
 #include <cmath>
+#include <roboteam_ai/src/utilities/Referee.hpp>
 #include "roboteam_utils/Arc.h"
 
 using Vector2 = rtt::Vector2;
@@ -51,7 +52,7 @@ class ControlUtils {
         static bool lineSegmentsIntersect(const Vector2 &lineAStart, const Vector2 &lineAEnd, const Vector2 &lineBStart,
                 const Vector2 &lineBEnd);
         static rtt::Arc createKeeperArc();
-        static Vector2 velocityLimiter(const Vector2 &vel, double maxVel = rtt::ai::Constants::MAX_VEL(),
+        static Vector2 velocityLimiter(const Vector2 &vel, double maxVel = rtt::ai::Referee::getMaxRobotVelocity(),
                 double minVel = 0.0);
         static Vector2 accelerationLimiter(const Vector2 &vel,double maxAcc, double prevVel);
         static double calculateMaxAcceleration(const Vector2 &vel, double angle);
