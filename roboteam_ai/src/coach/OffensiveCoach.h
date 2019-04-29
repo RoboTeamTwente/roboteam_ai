@@ -44,7 +44,7 @@ public:
     Vector2 getPositionForRobotID(int robotID);
     void redistributePositions();
 
-    Vector2 getShootPoint(const Vector2& fromPoint);
+    Vector2 getShootAtGoalPoint(const Vector2 &fromPoint);
     Vector2 getShootPoint2(const Vector2& fromPoint);
 
 

@@ -158,7 +158,7 @@ std::vector<Vector2> OffensiveCoach::getOffensivePositions(int numberOfRobots) {
 }
 
 /// this function decides what point in the goal to aim at from a position on which the ball will be/where the robot is
-Vector2 OffensiveCoach::getShootPoint(const Vector2 &fromPoint) {
+Vector2 OffensiveCoach::getShootAtGoalPoint(const Vector2 &fromPoint) {
     std::vector<std::pair<Vector2, Vector2>> openSegments = world::field->getVisiblePartsOfGoal(false, fromPoint);
     if (! openSegments.empty()) {
         // sort on size
