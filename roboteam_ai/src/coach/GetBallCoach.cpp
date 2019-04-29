@@ -4,7 +4,9 @@
 
 #include <roboteam_ai/src/world/World.h>
 #include <roboteam_ai/src/utilities/RobotDealer.h>
+#include <roboteam_ai/src/world/Field.h>
 #include "GetBallCoach.h"
+
 namespace rtt {
 namespace ai {
 namespace coach {
@@ -13,7 +15,9 @@ GetBallCoach* getBallCoach = &getBallCoachObj;
 bool GetBallCoach::shouldWeGetBall() {
     // return true if we want to do some ball handling (e.g. harrassing, getting the ball or so). False in other cases
     // should probably listen to ballPossession at some point
-    return true;
+    Vector2 ballPos= world::world->getBall()->pos;
+    return ! (world::field->pointIsInDefenceArea(ballPos, true, 0.04)
+            || world::field->pointIsInDefenceArea(ballPos, false));
 }
 bool GetBallCoach::weAreGettingBall() {
     return gettingBall;

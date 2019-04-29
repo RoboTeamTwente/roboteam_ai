@@ -34,7 +34,7 @@ Vector2 Field::get_their_goal_center() {
     return Vector2(field.field_length/2, 0);
 }
 
-bool Field::pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea, float margin, bool outsideField) {
+bool Field::pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea, float margin, bool includeOutsideField) {
     roboteam_msgs::GeometryFieldSize _field;
     {
         std::lock_guard<std::mutex> lock(fieldMutex);
@@ -57,7 +57,7 @@ bool Field::pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea, fl
     bool xIsWithinTheirDefenceArea = point.x > (xBound - margin);
 
     if (isOurDefenceArea) {
-        if (outsideField) {
+        if (includeOutsideField) {
             return xIsWithinOurDefenceArea;
         }
         else {
@@ -65,7 +65,7 @@ bool Field::pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea, fl
         }
     }
     else {
-        if (outsideField) {
+        if (includeOutsideField) {
             return xIsWithinTheirDefenceArea;
         }
         else {
