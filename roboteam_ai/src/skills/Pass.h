@@ -19,7 +19,7 @@ namespace ai {
 class Pass : public Skill {
 private:
 
-    const double CLOSE_ENOUGH_TO_BALL = 1.0;
+    const double CLOSE_ENOUGH_TO_BALL = 0.7;
 
     bool passInitialized = false;
     bool ballPlacement = false;
