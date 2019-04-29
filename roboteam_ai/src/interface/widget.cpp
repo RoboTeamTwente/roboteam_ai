@@ -25,12 +25,13 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawFieldHints(painter);
         drawFieldLines(painter);
         if (showAvailablePasses) drawPasses(painter);
-        drawBall(painter);
         drawRobots(painter);
         drawLines(painter,Drawer::getTestLines());
         drawPoints(painter,Drawer::getTestPoints());
         drawDrawPoints(painter, Drawer::getDrawPoints());
         drawDrawLines(painter, Drawer::getDrawLines());
+
+        drawBall(painter);
 
         Drawer::clearDrawPoints();
         Drawer::clearDrawLines();
@@ -254,23 +255,23 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
         painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(getRoleNameForRobot(robot)));
     }
 
-        if (ourTeam) {
-            painter.setPen(Constants::TEXT_COLOR());
+    if (ourTeam) {
+        painter.setPen(Constants::TEXT_COLOR());
 
         std::string text;
-            if (robot.hasWorkingGeneva) {
-                text = "∠: " + to_string(robot.getGenevaState());
-            } else {
-                text = "∠: X";
-            }
-            painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
+        if (robot.hasWorkingGeneva) {
+            text = "∠: " + to_string(robot.getGenevaState());
+        } else {
+            text = "∠: X";
         }
+        painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
+    }
 
     // draw the robots
     QColor color = (robotIsSelected(robot) && ourTeam) ? Constants::SELECTED_ROBOT_COLOR() : robotColor;
     painter.setBrush(color);
     painter.setPen(Qt::transparent);
-    painter.drawEllipse(qrobotPosition, Constants::ROBOT_DRAWING_SIZE(), Constants::ROBOT_DRAWING_SIZE());
+    painter.drawEllipse(qrobotPosition, Constants::ROBOT_RADIUS()*factor, Constants::ROBOT_RADIUS()*factor);
 
     // draw the id in it
     painter.setPen(Qt::black);
