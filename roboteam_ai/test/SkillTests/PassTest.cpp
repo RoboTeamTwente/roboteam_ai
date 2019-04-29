@@ -6,8 +6,7 @@
 #include <roboteam_ai/src/utilities/RobotDealer.h>
 #include "../../src/skills/Pass.h"
 #include "../../src/coach/PassCoach.h"
-#include "../../src/coach/GeneralPositionCoach.h"
-#include "../../src/coach/OffensiveCoach.h"
+#include "roboteam_ai/src/control/PositionUtils.h"
 #include "roboteam_ai/src/world/Field.h"
 #include "roboteam_ai/src/world/World.h"
 
@@ -25,6 +24,11 @@ TEST(PassTest, PassTest) {
     rtt::ai::world::field->set_field(field);
     roboteam_msgs::World world;
 
+    roboteam_msgs::WorldRobot robot0;
+    robot0.id = 0;
+    robot0.pos = Vector2{0, 0};
+    world.us.push_back(robot0);
+
     roboteam_msgs::WorldRobot robot1;
     robot1.id = 1;
     robot1.pos.x = 4;
@@ -38,26 +42,29 @@ TEST(PassTest, PassTest) {
     w::world->updateWorld(world);
 
     ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(0), static_cast<int>(robot1.id));
+    rtt::ai::coach::g_pass.resetPass();
 
     roboteam_msgs::WorldRobot robot2;
     robot2.id = 2;
     w::world->updateWorld(world);
 
-    robot2.pos.x = 6;
-    robot2.pos.y = 0;
+    robot2.pos.x = 7;
+    robot2.pos.y = 3;
     world.us.push_back(robot2);
     w::world->updateWorld(world);
 
     ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(0), static_cast<int>(robot2.id));
+    rtt::ai::coach::g_pass.resetPass();
 
     roboteam_msgs::WorldRobot opponent1;
-    opponent1.pos.x = 5.5;
-    opponent1.pos.y = 0;
+    opponent1.pos.x = 3.5;
+    opponent1.pos.y = 1.5;
 
     world.them.push_back(opponent1);
     w::world->updateWorld(world);
 
-    ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(0), robot1.id);
+    ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(0), static_cast<int>(robot1.id));
+    rtt::ai::coach::g_pass.resetPass();
 
     ball.pos.x = 3;
     ball.pos.y = -3;
@@ -77,7 +84,7 @@ TEST(PassTest, PassTest) {
 
     ASSERT_EQ(pass.update(), bt::Leaf::Status::Running);
 
-    robot1.pos = rtt::ai::coach::g_generalPositionCoach.getPositionBehindBallToPosition(0.05, robot2.pos);
+    robot1.pos = rtt::ai::control::PositionUtils::getPositionBehindBallToPosition(0.05, robot2.pos);
     robot1.angle = static_cast<float>(((Vector2)robot1.pos - ball.pos).angle());
 
     roboteam_msgs::World world2;

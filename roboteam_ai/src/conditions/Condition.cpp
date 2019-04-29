@@ -14,7 +14,7 @@ void Condition::initialize() {
     ball = world::world->getBall(); // update ball position
     if (! properties->getString("ROLE").empty()) {
         robot = getRobotFromProperties(properties);
-        if (! robot) return;
+        if (! robot || robot->id == -1) return;
     }
     if (! ball) return;
 
@@ -26,7 +26,7 @@ Condition::Status Condition::update() {
     // get a robot if the condition needs one
     if (! properties->getString("ROLE").empty()) {
         updateRobot();
-        if (! robot) return Status::Failure;
+        if (! robot || robot->id == -1) return Status::Failure;
     }
 
     // there should always be a ball
@@ -37,7 +37,7 @@ Condition::Status Condition::update() {
 }
 
 void Condition::terminate(Condition::Status s) {
-    if (! robot) return;
+    if (! robot || robot->id == -1) return;
     if (! ball) return;
     onTerminate(s);
 }

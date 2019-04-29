@@ -12,21 +12,6 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-/// return the angular velocity for a robot to go from robotAngle to targetAngle
-double ControlUtils::calculateAngularVelocity(double robotAngle, double targetAngle) {
-    double direction = 1;               // counter clockwise rotation
-    double rotFactor = 8;               // how SLOW the robot rotates when it is near its destination angle
-
-    double angleDiff = targetAngle - robotAngle;
-    while (angleDiff < 0) angleDiff += 2*M_PI;
-    while (angleDiff > 2*M_PI) angleDiff -= 2*M_PI;
-    if (angleDiff > M_PI) {
-        angleDiff = 2.0*M_PI - angleDiff;
-        direction = - 1;                //  clockwise rotation
-    }
-    if (angleDiff > 1)angleDiff = 1;
-    return direction*(std::pow(rotFactor, angleDiff - 1)*rtt::ai::Constants::MAX_ANGULAR_VELOCITY() - 1/rotFactor);
-}
 
 // Efficient implementation, see this: https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
 /// Returns if PointToCheck is within the triangle constructed by three points.
@@ -93,53 +78,14 @@ double ControlUtils::distanceToLine(const Vector2 &PointToCheck, const Vector2 &
 }
 
 bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos,
-        const world::WorldData &world, double safeDistanceFactor, bool keeper) {
+        const world::WorldData &world, double safeDistanceFactor, bool includeKeeper) {
 
-    double minDistance = Constants::ROBOT_RADIUS()*safeDistanceFactor*3;
+    double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor * 3;
+    int keeperID = Referee::getRefereeData().them.goalie;
 
     for (auto &enemy : world.them) {
-        //TODO: Check if the keeper should be taken into account and get it from the referee
+        if(!includeKeeper && enemy.id == keeperID) continue;
         if (distanceToLineWithEnds(enemy.pos, fromPos, toPos) < minDistance) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-double ControlUtils::closestEnemyToLineDistance(const Vector2 &fromPos, Vector2 toPos, const world::WorldData &world, bool keeper) {
-    double shortestDistance = INT_MAX;
-    double currentDistance;
-
-    for (auto &enemy : world.them) {
-        if (!keeper && enemy.id == static_cast<int>(rtt::ai::Referee::getRefereeData().them.goalie)) continue;
-
-        currentDistance = distanceToLine(enemy.pos, fromPos, toPos);
-        if (currentDistance < shortestDistance) {
-            shortestDistance = currentDistance;
-        }
-    }
-    return shortestDistance;
-}
-
-/// See if a robot has a clear vision towards another robot
-/// e.g. there are no obstacles in between.
-bool ControlUtils::hasClearVision(int fromID, int towardsID, world::WorldData w, int safeDistanceFactor) {
-    double minDistance = rtt::ai::Constants::ROBOT_RADIUS()*(3*safeDistanceFactor); // TODO: calibrate Rolf approved
-    Vector2 fromPos;
-    Vector2 towardsPos;
-
-    for (const auto& friendly : w.us) {
-        if (static_cast<int>(friendly.id) == fromID) {
-            fromPos = friendly.pos;
-        }
-        else if (static_cast<int>(friendly.id) == towardsID) {
-            towardsPos = friendly.pos;
-        }
-    }
-
-    for (const auto& enemy : w.them) {
-        if (distanceToLineWithEnds(enemy.pos, fromPos, towardsPos) < minDistance) {
             return false;
         }
     }
@@ -340,38 +286,6 @@ Vector2 ControlUtils::calculateForce(const Vector2 &vector, double weight, doubl
     return Vector2();
 }
 
-std::vector<std::pair<Vector2, Vector2>> ControlUtils::calculateClosestPathsFromTwoSetsOfPoints(
-        std::vector<Vector2> set1, std::vector<Vector2> set2) {
-
-    if (set1.size() != set2.size()) {
-        std::cout << "wrong input for hungarian: unequal" << std::endl;
-        return {};
-    }
-    else if (set1.empty() || set2.empty()) {
-        std::cout << "wrong input for hungarian: 0" << std::endl;
-        return {};
-    }
-
-    std::vector<int> assignments;
-    // compute a distance matrix, initialize it with zeros
-    std::vector<std::vector<double>> distanceMatrix(set1.size(), std::vector<double>(set2.size()));
-
-    for (unsigned int i = 0; i < set1.size(); i ++) {
-        for (unsigned int j = 0; j < set2.size(); j ++) {
-            distanceMatrix.at(i).at(j) = static_cast<int>(set1[i].dist(set2[j]));
-        }
-    }
-
-    rtt::HungarianAlgorithm hungarian;
-    hungarian.Solve(distanceMatrix, assignments);
-
-    std::vector<std::pair<Vector2, Vector2>> solutionPairs;
-    for (unsigned int i = 0; i < assignments.size(); i ++) {
-        solutionPairs.emplace_back(set1.at(i), set2.at(assignments.at(i)));
-    }
-    return solutionPairs;
-}
-
 bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, double maxDifference) {
     auto robot = world::world->getRobotForId(id, ourTeam);
     if (robot) {
@@ -393,6 +307,26 @@ bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, con
     return (velocity.angle() > exactAngleTowardsPoint - maxDifference/2
             && velocity.angle() < exactAngleTowardsPoint + maxDifference/2);
 
+}
+
+
+world::Robot ControlUtils::getRobotClosestToLine(std::vector<world::Robot> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds) {
+    int maxDist = INT_MAX;
+    auto closestRobot = robots.at(0);
+    for (auto const & robot : robots) {
+        double dist;
+        if (lineWithEnds) {
+            dist = distanceToLine(robot.pos, lineStart, lineEnd);
+        } else {
+            dist = distanceToLineWithEnds(robot.pos, lineStart, lineEnd);
+        }
+        if (dist > maxDist) {
+            dist = maxDist;
+             closestRobot = robot;
+        }
+    }
+
+    return closestRobot;
 }
 
 

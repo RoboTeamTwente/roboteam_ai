@@ -9,18 +9,35 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
+double PassCoach::MIN_PASS_DISTANCE;
+
 PassCoach g_pass;
+
+PassCoach::PassCoach() {
+    auto field = world::field->get_field();
+    double goalWidth = field.goal_width;
+    MIN_PASS_DISTANCE = std::max(goalWidth / 2, SMALLEST_MIN_PASS_DISTANCE);
+}
 
 void PassCoach::resetPass() {
     passed = false;
     readyToReceivePass = false;
+    robotPassing = -1;
     robotBeingPassedTo  = -1;
+    timerStarted = false;
 }
 
 int PassCoach::initiatePass(int passerID) {
+    // Check whether a pass is already in progress that is not taking too long yet
+    if (robotBeingPassedTo != -1) {
+        if(!passTakesTooLong()) {
+            return -1;
+        }
+    }
     resetPass();
 
     robotBeingPassedTo = determineReceiver(passerID);
+    robotPassing = passerID;
     return robotBeingPassedTo;
 }
 
@@ -44,16 +61,15 @@ bool PassCoach::isPassed() {
     return passed;
 }
 
-const Vector2 &PassCoach::getPassPosition() const {
-    return passPosition;
-}
-
 int PassCoach::determineReceiver(int passerID) {
     coach::PassScore passScore;
     double bestScore = 0;
     int bestRobotID = -1;
+    auto passer = world::world->getRobotForId(passerID, true);
     for(auto &robot : world::world->getUs()) {
         if (robot.id == robotDealer::RobotDealer::getKeeperID() || robot.id == passerID) continue;
+        if (robot.pos.x < -RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE) continue;
+        if((passer->pos - robot.pos).length() < MIN_PASS_DISTANCE) continue;
         double score = passScore.calculatePassScore(robot.pos);
         if (score > bestScore) {
             bestScore = score;
@@ -65,7 +81,26 @@ int PassCoach::determineReceiver(int passerID) {
 }
 
 void PassCoach::setPassed(bool passed) {
-this->passed = passed;
+    this->passed = passed;
+    if(passed) {
+        start = std::chrono::steady_clock::now();
+        timerStarted = true;
+    }
+}
+
+bool PassCoach::passTakesTooLong() {
+    if (timerStarted) {
+        auto now = chrono::steady_clock::now();
+        double elapsedSeconds = chrono::duration_cast<chrono::seconds>(now - start).count();
+
+        return elapsedSeconds > MAX_PASS_TIME;
+    }
+
+    return false;
+}
+
+int PassCoach::getRobotPassing() const {
+    return robotPassing;
 }
 
 } // coach

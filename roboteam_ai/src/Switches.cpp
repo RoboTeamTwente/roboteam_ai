@@ -19,32 +19,36 @@
 
 #include "roboteam_ai/src/skills/Chip.h"
 #include "roboteam_ai/src/skills/Dribble.h"
-#include "roboteam_ai/src/skills/SkillGoToPos.h"
+#include "roboteam_ai/src/skills/gotopos/SkillGoToPos.h"
 #include "roboteam_ai/src/skills/Halt.h"
 #include "roboteam_ai/src/skills/Harass.h"
 #include "roboteam_ai/src/skills/RotateToAngle.h"
-#include "roboteam_ai/src/skills/GoToPos.h"
+#include "roboteam_ai/src/skills/gotopos/GoToPos.h"
 #include "roboteam_ai/src/skills/Keeper.h"
 #include "roboteam_ai/src/skills/GetBall.h"
 #include "roboteam_ai/src/skills/Attack.h"
 #include "roboteam_ai/src/skills/SideAttacker.h"
 #include "roboteam_ai/src/skills/Pass.h"
 #include "roboteam_ai/src/skills/Receive.h"
-#include <roboteam_ai/src/skills/DefendOnRobot.h>
 #include "roboteam_ai/src/skills/DribbleRotate.h"
 #include <roboteam_ai/src/skills/Defend.h>
-#include <roboteam_ai/src/skills/GTPSpecial.h>
-#include "roboteam_ai/src/skills/GoAroundPos.h"
-#include "roboteam_ai/src/skills/GoBehindBall.h"
+#include <roboteam_ai/src/skills/gotopos/GTPSpecial.h>
+#include "roboteam_ai/src/skills/gotopos/GoAroundPos.h"
+#include "roboteam_ai/src/skills/gotopos/GoBehindBall.h"
 #include "roboteam_ai/src/skills/ShootPenalty.h"
 #include "roboteam_ai/src/skills/ShootFreeKick.h"
 #include "roboteam_ai/src/skills/DemoAttack.h"
+#include <roboteam_ai/src/skills/MidFieldHarasser.h>
 #include "roboteam_ai/src/skills/ReflectKick.h"
 #include "roboteam_ai/src/skills/InterceptRobot.hpp"
 #include "roboteam_ai/src/skills/CoachDefend.h"
 #include "roboteam_ai/src/skills/formations/PenaltyFormation.h"
+#include "roboteam_ai/src/skills/formations/FreeKickFormation.h"
+#include "roboteam_ai/src/skills/formations/DefendFreeKick.h"
 #include "roboteam_ai/src/skills/ActiveStop.h"
-
+#include "roboteam_ai/src/skills/SlingShot.h"
+#include <roboteam_ai/src/skills/PenaltyKeeper.h>
+#include <roboteam_ai/src/skills/MidFieldHarasser.h>
 
 
 //  ______________________
@@ -61,9 +65,11 @@
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
 #include <roboteam_ai/src/skills/formations/KickOffUsFormation.h>
 #include <roboteam_ai/src/skills/AvoidBall.h>
+#include "roboteam_ai/src/conditions/ShouldHandleBall.h"
 #include <roboteam_ai/src/skills/formations/TimeoutFormation.h>
 #include <roboteam_ai/src/bt/RoleDivider.h>
 #include <roboteam_ai/src/skills/formations/KickOffThemFormation.h>
+#include <roboteam_ai/src/conditions/BallIsMoving.h>
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
 #include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"
@@ -73,6 +79,8 @@
 #include "roboteam_ai/src/conditions/IsBallCloseToBorder.h"
 #include "roboteam_ai/src/conditions/BallNearOurGoalLineAndStill.h"
 #include "roboteam_ai/src/conditions/TwoRobotBallPlacement.h"
+#include "roboteam_ai/src/conditions/HasClearShot.h"
+#include "roboteam_ai/src/conditions/IsOnPassLine.h"
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -101,8 +109,9 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
 //        "FreeKickShootTactic",
 //        "SideAttackerTactic",
 //        "PassAndShootTactic",
-//        "coachDefenderTactic",
+        "coachDefenderTactic",
 //        "BallPlacementDoubleTactic",
+        "kickoff_shoot_tactic",
         "kickoff_them_formation_tactic",
         "kickoff_us_formation_tactic",
         "time_out_tactic",
@@ -115,10 +124,16 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "TestD",
         "TestO",
         "TestM",
-        "test_pass_tactic"
+        "test_pass_tactic",
+        "shoot_penalty_us_tactic",
+        "free_kick_formation_tactic",
+        "free_kick_shoot_tactic",
+        "free_kick_them_tactic",
+        "penalty_them_tactic"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
+
 //        "QualificationStrategy",
 //        "haltStrategy",
 //        "KeeperStrategy",
@@ -137,7 +152,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
 //        "FreeKickShootStrategy",
 //        "SideAttackerStrategy",
 //        "PassAndShootStrategy",
-//        "coachDefenderStrategy",
+        "coachDefenderStrategy",
         "kickoff_them_formation_strategy",
         "kickoff_us_formation_strategy",
         "time_out_strategy",
@@ -147,7 +162,13 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "stop_strategy",
         "halt_strategy",
         "TestStrategy",
-        "test_pass_strategy"
+        "test_pass_strategy",
+        "shoot_penalty_us_strategy",
+        "free_kick_formation_strategy",
+        "free_kick_shoot_strategy",
+        "free_kick_them_strategy",
+        "kickoff_shoot_strategy",
+        "penalty_them_strategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles =
@@ -156,7 +177,8 @@ std::vector<std::string> Switches::keeperJsonFiles =
                 "keeper_halt_tactic",
                 "keeper_avoid_tactic",
                 "keeper_time_out_tactic",
-                "keeper_formation_tactic"
+                "keeper_formation_tactic",
+                "keeper_penalty_tactic"
         };
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
@@ -199,8 +221,8 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["AvoidBall"] = std::make_shared<rtt::ai::AvoidBall>(name, properties);
     map["CoachDefend"] = std::make_shared<rtt::ai::CoachDefend>(name, properties);
     map["GTPSpecial"] = std::make_shared<rtt::ai::GTPSpecial>(name, properties);
+    map["Chip"] = std::make_shared<rtt::ai::Chip>(name,properties);
     map["Defend"] = std::make_shared<rtt::ai::Defend>(name, properties);
-    map["DefendOnRobot"] = std::make_shared<rtt::ai::DefendOnRobot>(name, properties);
     map["DemoAttack"] = std::make_shared<rtt::ai::DemoAttack>(name, properties);
     map["Dribble"] = std::make_shared<rtt::ai::Dribble>(name, properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
@@ -210,7 +232,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
 
     map["GetBall"] = std::make_shared<rtt::ai::GetBall>(name, properties);
     map["GoAroundPos"] = std::make_shared<rtt::ai::GoAroundPos>(name, properties);
-    map["GoToPos"] = std::make_shared<rtt::ai::GoToPos>(name, properties);
+    map["GoToPos"] = std::make_shared<rtt::ai::SkillGoToPos>(name, properties);
     map["Halt"] = std::make_shared<rtt::ai::Halt>(name, properties);
     map["Harass"] = std::make_shared<rtt::ai::Harass>(name, properties);
     map["InterceptBall"] = std::make_shared<rtt::ai::InterceptBall>(name, properties);
@@ -225,14 +247,23 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["GoBehindBall"] = std::make_shared<rtt::ai::GoBehindBall>(name, properties);
     map["ShootPenalty"] = std::make_shared<rtt::ai::ShootPenalty>(name, properties);
     map["ShootFreeKick"] = std::make_shared<rtt::ai::ShootFreeKick>(name, properties);
+    map["SlingShot"] = std::make_shared<rtt::ai::SlingShot>(name, properties);
     map["PenaltyFormation"] = std::make_shared<rtt::ai::PenaltyFormation>(name, properties);
     map["ActiveStop"] = std::make_shared<rtt::ai::ActiveStop>(name, properties);
     map["ReflectKick"] = std::make_shared<rtt::ai::ReflectKick>(name, properties);
+    map["MidFieldHarasser"] = std::make_shared<rtt::ai::MidFieldHarasser>(name, properties);
+    map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
+    map["PenaltyKeeper"] = std::make_shared<rtt::ai::PenaltyKeeper>(name, properties);
+    map["FreeKickFormation"] = std::make_shared<rtt::ai::FreeKickFormation>(name, properties);
+    map["DefendFreeKick"] = std::make_shared<rtt::ai::DefendFreeKick>(name, properties);
+
+
 
     // conditions (alphabetic order)
     map["BallKickedToOurGoal"] = std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
     map["BallNearOurGoalLineAndStill"] = std::make_shared<rtt::ai::BallNearOurGoalLineAndStill>(name, properties);
+    map["BallIsMoving"] = std::make_shared<rtt::ai::BallIsMoving>(name, properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
     map["HasBall"] = std::make_shared<rtt::ai::HasBall>(name, properties);
     map["IsBallCloseToBorder"] = std::make_shared<rtt::ai::IsBallCloseToBorder>(name, properties);
@@ -245,16 +276,18 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["IsBeingPassedTo"] = std::make_shared<rtt::ai::IsBeingPassedTo>(name, properties);
     map["IsCloseToPoint"] = std::make_shared<rtt::ai::IsCloseToPoint>(name, properties);
     map["IsBallOnOurSide"] = std::make_shared<rtt::ai::IsBallOnOurSide>(name, properties);
+    map["ShouldHandleBall"] = std::make_shared<rtt::ai::ShouldHandleBall>(name,properties);
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
     map["IsInDefenseArea"] = std::make_shared<rtt::ai::IsInDefenseArea>(name, properties);
-    map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
+    map["HasClearShot"] = std::make_shared<rtt::ai::HasClearShot>(name, properties);
+    map["IsOnPassLine"] = std::make_shared<rtt::ai::IsOnPassLine>(name, properties);
 
     if (map.find(name) != map.end()) {
         return map[name];
     }
     else {
 
-        ROS_ERROR("\n\n\nTHE LEAF IS NOT REGISTERED IN SWITCHES:   %s\n\n\n", name.c_str());
+        std::cerr << "\nTHE LEAF IS NOT REGISTERED IN SWITCHES: "<< name << std::endl;
         return bt::Node::Ptr();
     }
 }
@@ -272,7 +305,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             {"keeper_halt_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
             {"keeper_time_out_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
             {"keeper_formation_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
-
+            {"keeper_penalty_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
             // General tactics
             {"halt_tactic", {
                     {"halt0", robotType::RANDOM},
@@ -283,7 +316,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"halt5", robotType::RANDOM},
                     {"halt6", robotType::RANDOM},
                     {"halt7", robotType::RANDOM}
-            },
+            }
             },
 
             {"avoid_tactic", {
@@ -320,6 +353,18 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"pa6", robotType::RANDOM},
                     {"pa7", robotType::RANDOM}
             }
+            },
+
+            {"kickoff_shoot_tactic", {
+                     {"kicker", robotType::CLOSE_TO_BALL},
+                     {"assist1", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"assist2", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"ko1", robotType::RANDOM},
+                     {"ko2", robotType::RANDOM},
+                     {"ko3", robotType::RANDOM},
+                     {"ko4", robotType::RANDOM},
+                     {"ko5", robotType::RANDOM}
+             }
             },
 
             {"stop_tactic", {
@@ -392,6 +437,46 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"avoid6", robotType::RANDOM}
             }
             },
+            {"free_kick_formation_tactic", {
+                    {"kicker", robotType::RANDOM},
+                    {"f1", robotType::RANDOM},
+                    {"f2", robotType::RANDOM},
+                    {"f3", robotType::RANDOM},
+                    {"f4", robotType::RANDOM},
+                    {"f5", robotType::RANDOM},
+                    {"f6", robotType::RANDOM},
+            }
+            },
+            {"free_kick_shoot_tactic", {
+                    {"kickerChip", robotType::CLOSE_TO_BALL},
+                    {"f1", robotType::RANDOM},
+                    {"f2", robotType::RANDOM},
+                    {"f3", robotType::RANDOM},
+                    {"f4", robotType::RANDOM},
+                    {"f5", robotType::RANDOM},
+                    {"f6", robotType::RANDOM},
+            }
+            },
+            {"free_kick_them_tactic", {
+                    {"line7", robotType::CLOSE_TO_BALL},
+                    {"line6", robotType::RANDOM},
+                    {"line1", robotType::RANDOM},
+                    {"line2", robotType::RANDOM},
+                    {"line3", robotType::RANDOM},
+                    {"line4", robotType::RANDOM},
+                    {"line5", robotType::RANDOM},
+            }
+            },
+            {"penalty_them_tactic", {
+                    {"a1", robotType::RANDOM},
+                    {"a2", robotType::RANDOM},
+                    {"a3", robotType::RANDOM},
+                    {"a4", robotType::RANDOM},
+                    {"a5", robotType::RANDOM},
+                    {"a6", robotType::RANDOM},
+                    {"a7", robotType::RANDOM},
+            }
+            },
 
 
             // other
@@ -442,6 +527,20 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
 
+            {"BallPlacementDoubleTactic", {
+                    {"BallPlacementPasser", robotType::CLOSE_TO_BALL},
+                    {"BallPlacementReceiver", robotType::BALL_PLACEMENT_RECEIVER},
+                    {"avoid1", robotType::RANDOM},
+                    {"avoid2", robotType::RANDOM},
+                    {"avoid3", robotType::RANDOM},
+                    {"avoid4", robotType::RANDOM},
+                    {"avoid5", robotType::RANDOM}
+            }
+            },
+            {"SingleKeeperTactic", {
+                    {"Keeper", robotType::CLOSE_TO_OUR_GOAL}
+            }
+            },
             {"DemoAttackerTactic", {
                     {"demoAttacker", robotType::CLOSE_TO_THEIR_GOAL}
             }
@@ -449,6 +548,13 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             {"DemoTactic", {
                     {"demoAttacker", robotType::CLOSE_TO_THEIR_GOAL},
                     {"demoKeeper", robotType::CLOSE_TO_OUR_GOAL}
+            }
+            },
+            {"SideAttackerTactic", {
+                    {"sideAttacker1", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"sideAttacker2", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"sideAttacker3", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"sideAttacker4", robotType::CLOSE_TO_THEIR_GOAL}
             }
             },
             {"SideAttackerTactic", {
@@ -468,66 +574,86 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 
             },
             {"PenaltyShootTactic", {
-                    {"shooter", robotType::RANDOM}
+                    {"shooter", robotType::CLOSE_TO_BALL}
             }
             },
             {"PenaltyTactic", {
-                    {"shooter", robotType::RANDOM}
+                    {"shooter", robotType::CLOSE_TO_BALL}
             }
             },
             {"FreeKickShootTactic", {
-                    {"freeShooter", robotType::RANDOM}
+                    {"freeShooter", robotType::CLOSE_TO_BALL}
             }
             },
 
             {"coachDefenderTactic",
              {
-                     {"def1", robotType::RANDOM},
-                     {"def2", robotType::RANDOM},
-                     {"def3", robotType::RANDOM},
-                     {"def4", robotType::RANDOM},
-                     {"def5", robotType::RANDOM},
-                     {"def6", robotType::RANDOM},
-                     {"def7", robotType::RANDOM}
+                     {"def1", robotType::CLOSE_TO_OUR_GOAL},
+                     {"def2", robotType::CLOSE_TO_OUR_GOAL},
+                     {"def3", robotType::CLOSE_TO_OUR_GOAL},
+                     {"def4", robotType::CLOSE_TO_OUR_GOAL},
+                     {"def5", robotType::CLOSE_TO_OUR_GOAL},
+                     {"def6", robotType::CLOSE_TO_OUR_GOAL},
+                     {"def7", robotType::CLOSE_TO_OUR_GOAL}
+             }
+            },
+
+            {"MidFieldHarassTactic",
+             {
+                     {"mfh0", robotType::RANDOM},
+                     {"mfh1", robotType::RANDOM},
+                     {"mfh2", robotType::RANDOM},
+                     {"mfh3", robotType::RANDOM},
              }
             },
             {"TestD",
              {
-                     {"d1", robotType::RANDOM},
-                     {"d2", robotType::RANDOM},
-                     {"d3", robotType::RANDOM},
-                     {"d4", robotType::RANDOM},
-                     {"d5", robotType::RANDOM}
+                     {"d1", robotType::CLOSE_TO_OUR_GOAL},
+                     {"d2", robotType::CLOSE_TO_OUR_GOAL},
+                     {"d3", robotType::CLOSE_TO_OUR_GOAL},
+                     {"d4", robotType::CLOSE_TO_OUR_GOAL},
+                     {"d5", robotType::CLOSE_TO_OUR_GOAL}
              }
             },
             {"TestM",
              {
-                     {"m1", robotType::RANDOM},
-                     {"m2", robotType::RANDOM},
-                     {"m3", robotType::RANDOM},
-                     {"m4", robotType::RANDOM},
-                     {"m5", robotType::RANDOM}
+                     {"m1", robotType::CLOSE_TO_OUR_GOAL},
+                     {"m2", robotType::CLOSE_TO_OUR_GOAL},
+                     {"m3", robotType::CLOSE_TO_OUR_GOAL},
+                     {"m4", robotType::CLOSE_TO_OUR_GOAL},
+                     {"m5", robotType::CLOSE_TO_OUR_GOAL}
              }
             },
             {"TestO",
              {
-                     {"o1", robotType::RANDOM},
-                     {"o2", robotType::RANDOM},
-                     {"o3", robotType::RANDOM},
-                     {"o4", robotType::RANDOM},
-                     {"o5", robotType::RANDOM}
+                     {"o1", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"o2", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"o3", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"o4", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"o5", robotType::CLOSE_TO_THEIR_GOAL}
              }
             },
             {"test_pass_tactic",
              {
-                     {"pass1", robotType::CLOSE_TO_BALL},
+                    {"attacker1", robotType::CLOSE_TO_THEIR_GOAL},
+                    {"attacker2", robotType::CLOSE_TO_THEIR_GOAL},
                      {"receive1", robotType::RANDOM},
                      {"receive2", robotType::RANDOM},
                      {"receive3", robotType::RANDOM},
                      {"receive4", robotType::RANDOM},
-                     {"receive5", robotType::RANDOM},
-                     {"receive6", robotType::RANDOM}
+                     {"receive5", robotType::RANDOM}
              }
+            },
+            {"shoot_penalty_us_tactic", {
+                    {"penaltyShooter", robotType::CLOSE_TO_BALL},
+                    {"paa1", robotType::RANDOM},
+                    {"paa2", robotType::RANDOM},
+                    {"paa3", robotType::RANDOM},
+                    {"paa4", robotType::RANDOM},
+                    {"paa5", robotType::RANDOM},
+                    {"paa6", robotType::RANDOM},
+                    {"paa7", robotType::RANDOM}
+            }
             }
     };
 //    runErrorHandler(tactics);

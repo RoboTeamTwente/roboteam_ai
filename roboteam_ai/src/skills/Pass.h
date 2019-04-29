@@ -9,27 +9,28 @@
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include "Skill.h"
 #include <roboteam_ai/src/coach/PassCoach.h>
-#include <roboteam_ai/src/coach/GeneralPositionCoach.h>
+#include <roboteam_ai/src/control/PositionUtils.h>
 #include <roboteam_ai/src/utilities/Constants.h>
+#include <roboteam_ai/src/control/shotControllers/ShotController.h>
 
 namespace rtt {
 namespace ai {
 
 class Pass : public Skill {
 private:
+
+    const double CLOSE_ENOUGH_TO_BALL = 1.0;
+
+    bool shot = false;
     bool ballPlacement = false;
     RobotPtr robotToPassTo;
 
     Vector2 targetPos;
     int robotToPassToID = -1;
-    control::NumTreePosControl numTreeGtp = control::NumTreePosControl(0.1, true, true);
-    control::BasicPosControl basicGtp = control::BasicPosControl (false, true, true);
 
-    Status getBall();
-    Status moveBehindBall(Vector2 behindBallPos);
-    Status shoot();
+    std::shared_ptr<control::ShotController> shotControl;
 
-    double determineKickForce(double distance);
+    void initiatePass();
     Vector2 getKicker();
 
 public:
@@ -37,7 +38,6 @@ public:
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;
-    void determineRobotToPassTo();
 };
 
 } //ai

@@ -12,19 +12,26 @@ namespace ai {
 Receive::Receive(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void Receive::onInitialize() {
-    checkTicks = 0;
-    initializedBall = false;
     ballPlacement = properties->getBool("BallPlacement");
-};
+    isBallOnPassedSet = false;
+}
 
 Receive::Status Receive::onUpdate() {
     if (world::world->ourRobotHasBall(robot->id)) {
         return Status::Success;
     }
 
+    if (coach::g_pass.getRobotBeingPassedTo() != robot->id) {
+        return Status::Failure;
+    }
+
+    if (coach::g_pass.passTakesTooLong()) {
+        return Status::Failure;
+    }
+
     if (ballPlacement) {
         Vector2 ballPlacementTarget = coach::g_ballPlacement.getBallPlacementPos();
-        auto behindTargetPos = coach::g_generalPositionCoach.getPositionBehindPositionToPosition(
+        auto behindTargetPos = control::PositionUtils::getPositionBehindPositionToPosition(
                 Constants::ROBOT_RADIUS(),
                 ballPlacementTarget,
                 ball->pos);
@@ -45,13 +52,19 @@ Receive::Status Receive::onUpdate() {
         }
     }
 
-    ballStartPos = ball->pos;
-    Vector2 ballVel = ball->vel;
-    if (coach::g_pass.isPassed() && ballVel.length() < 0.1) {
-        return Status::Success;
-    }
-
     if (coach::g_pass.isPassed()) {
+        // Remember the status of the ball at the moment of passing
+        if(!isBallOnPassedSet) {
+            ballOnPassed = ball;
+            isBallOnPassedSet = true;
+        }
+
+        // Check if the ball was deflected
+        if (isBallOnPassedSet && passFailed()) {
+            publishRobotCommand();
+            return Status::Failure;
+        }
+
         intercept();
         return Status::Running;
     }
@@ -64,7 +77,10 @@ void Receive::onTerminate(Status s) {
     command.y_vel = 0;
     command.dribbler = 0;
     publishRobotCommand();
-    coach::g_pass.setRobotBeingPassedTo(-1);
+
+    if (robot->id != -1) {
+        coach::g_pass.resetPass();
+    }
 }
 
 
@@ -103,20 +119,43 @@ void Receive::moveToCatchPosition(Vector2 position) {
 void Receive::intercept() {
     double ballAngle = ((Vector2) ball->pos - robot->pos).angle();
 
+    ballStartPos = ball->pos;
     ballStartVel = ball->vel;
     ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
     Vector2 interceptPoint = Receive::computeInterceptPoint(ballStartPos, ballEndPos);
 
     Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel;
+
     velocities = control::ControlUtils::velocityLimiter(velocities);
+
+
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
     command.w = ballAngle;
-    command.dribbler = 1;
 
     publishRobotCommand();
 }
 
+bool Receive::passFailed() {
+    //TODO: Remove print statements and make 1 big if statement
+    if (ballDeflected()) {
+        return true;
+    }
+
+    if (ball->vel.length() < 0.1) {
+        return true;
+    }
+
+    return false;
+
+}
+bool Receive::ballDeflected() {
+    Angle robotToBallAngle = (robot->pos - ball->pos).toAngle();
+    Angle ballVelocityAngle = (ball->vel).toAngle();
+
+    return abs(robotToBallAngle - ballVelocityAngle) > BALL_DEFLECTION_ANGLE;
+
+}
 
 } // ai
 } // rtt

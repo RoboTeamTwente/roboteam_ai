@@ -29,6 +29,7 @@ class ShootFreeKick : public Skill {
           READY,
           SHOOTING
         };
+        int counter = 0;
 
         Progress progress;
         Vector2 targetPos;

@@ -53,25 +53,26 @@ public:
     /// GENERAL SKILLS ///
     static double DEFAULT_KICK_POWER()          { return  5.0; }; // max kick power() { return  100
     static double MAX_KICK_POWER()              { return  8.0; }; //TODO: CHECK
-    static double MAX_POWER_KICK_DISTANCE()     { return 6.0; };
+    static double MAX_POWER_KICK_DISTANCE()     { return 9.0; };
     static int MAX_KICK_CYCLES()                { return 20; };
     static int MAX_GENEVA_CYCLES()              { return 20; };
     static int DEFAULT_GENEVA_STATE()           { return 0; };
     static double OUT_OF_FIELD_MARGIN()         { return 0.03; };
     static double MAX_BALL_BOUNCE_RANGE()       { return GRSIM() ? 0.4 : 0.15; };
-    static double MAX_BALL_RANGE()              { return GRSIM() ? 0.09 : 0.04; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
-    static double HAS_BALL_ANGLE()              { return 0.2; }
-    static double MAX_KICK_RANGE()              { return GRSIM() ? 0.4 : 0.04; };
+    static double MAX_BALL_RANGE()              { return 0.04; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
+    static double HAS_BALL_ANGLE()              { return 0.2; };
+    static double MAX_KICK_RANGE()              { return 0.04; };
     static double DEFAULT_MAX_VEL()             { return 4.0; };
     static double MAX_INTERCEPT_TIME()          { return 2.0; };    // Seconds. Intercept terminates  after this time.
     static double BALL_STILL_VEL()              { return 0.1; };    // If the ball has velocity lower than this in defense area, keeper starts getting it
     static double MIN_DISTANCE_FOR_FORCE()      { return 0.5; };
-    static double GOTOPOS_ERROR_MARGIN()        { return 0.1; };
+    static double GOTOPOS_ERROR_MARGIN()        { return 0.03; };
     static double DEFAULT_BALLCOLLISION_RADIUS(){ return 0.27;};
 
     /// KEEPER ///
     static double KEEPER_POST_MARGIN()          { return 0.08; };//m
     static double KEEPER_CENTREGOAL_MARGIN()    { return 0.3; };//m
+    static double KEEPER_PENALTY_LINE_MARGIN()  { return 0.04;}//m
 
     /// INTERFACE ///
     static int ROBOT_DRAWING_SIZE()             { return 8; };
@@ -117,9 +118,9 @@ public:
                                                            {255, 100, 255, 255} }; };
 
     // Default PID values for the gotoposses/interface
-    static pidVals standardNumTreePID()         { return GRSIM() ? pidVals(3.20, 0.00, 2.00) : pidVals(2.80, 0.60, 2.30); };
-    static pidVals standardForcePID()           { return GRSIM() ? pidVals(1.65, 0.00, 0.00) : pidVals(2.80, 0.60, 2.30); };
-    static pidVals standardBasicPID()           { return GRSIM() ? pidVals(1.65, 0.00, 0.00) : pidVals(2.80, 0.60, 2.30); };
+    static pidVals standardNumTreePID()         { return GRSIM() ? pidVals(3.2, 0.0, 2.0) : pidVals(2.8, 0.6,2.3); };
+    static pidVals standardForcePID()           { return GRSIM() ? pidVals(1.65, 0.0, 0.0) : pidVals(2.8, 0.6,2.3); };
+    static pidVals standardBasicPID()           { return GRSIM() ? pidVals(4.0, 0.0, 2.0) : pidVals(2.8, 0.6,2.3); };
 
     
 private:

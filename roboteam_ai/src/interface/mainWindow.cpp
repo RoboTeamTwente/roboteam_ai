@@ -79,9 +79,9 @@ MainWindow::MainWindow(QWidget* parent)
     vLayout->addLayout(hButtonsLayout);
 
     configureCheckBox("TimeOut to top", vLayout, this, SLOT(setTimeOutTop(bool)), Constants::STD_TIMEOUT_TO_TOP());
-
-
-    QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+    configureCheckBox("Use keeper (does not work when referee used)", vLayout, this, SLOT(setUsesKeeper(bool)), robotDealer::RobotDealer::usesSeparateKeeper());
+    
+    QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
             [=](const QString &strategyName) {
               // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
               BTFactory::setCurrentTree(strategyName.toStdString());
@@ -92,7 +92,7 @@ MainWindow::MainWindow(QWidget* parent)
               keeperTreeWidget->setHasCorrectTree(false);
             });
 
-    QObject::connect(select_keeper_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+    QObject::connect(select_keeper_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
                      [=](const QString &keeperStrategyName) {
                          // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
                          BTFactory::setKeeperTree(keeperStrategyName.toStdString());
@@ -120,10 +120,10 @@ MainWindow::MainWindow(QWidget* parent)
                      [=](const pidVals &pid) { InterfaceValues::setNumTreePid(pid); });
 
     QObject::connect(forcePidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
-                     [=](const pidVals &pid) { InterfaceValues::setNumTreePid(pid); });
+                     [=](const pidVals &pid) { InterfaceValues::setForcePid(pid); });
 
     QObject::connect(basicPidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
-                     [=](const pidVals &pid) { InterfaceValues::setNumTreePid(pid); });
+                     [=](const pidVals &pid) { InterfaceValues::setBasicPid(pid); });
 
     // add the pid widgets to the layout
     pidVLayout->addWidget(numTreePidBox);
@@ -336,6 +336,12 @@ void MainWindow::updateKeeperTreeWidget() {
 void MainWindow::setTimeOutTop(bool top) {
     rtt::ai::interface::InterfaceValues::setTimeOutTop(top);
 }
+
+void MainWindow::setUsesKeeper(bool usekeeper) {
+    robotDealer::RobotDealer::setUseSeparateKeeper(usekeeper);
+    robotDealer::RobotDealer::refresh();
+}
+
 
 } // interface
 } // ai

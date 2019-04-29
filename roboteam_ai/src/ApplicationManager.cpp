@@ -8,6 +8,8 @@
 #include <sstream>
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include <roboteam_ai/src/interface/InterfaceValues.h>
+#include <roboteam_ai/src/coach/GetBallCoach.h>
+#include <roboteam_ai/src/utilities/Referee.hpp>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -16,15 +18,17 @@ using Status = bt::Node::Status;
 namespace rtt {
 
 void ApplicationManager::setup() {
-    IOManager = new io::IOManager(true);
+    IOManager = new io::IOManager(true, false);
 
     BTFactory::setCurrentTree("halt_strategy");
     BTFactory::setKeeperTree("keeper_default_tactic");
+    rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
+
 }
 
 void ApplicationManager::loop() {
-    std::cout << "loop" << std::endl;
     ros::Rate rate(ai::Constants::TICK_RATE());
+
     double longestTick = 0.0;
     double timeTaken;
     int nTicksTaken = 0;
@@ -56,10 +60,7 @@ void ApplicationManager::loop() {
 }
 
 void ApplicationManager::runOneLoopCycle() {
-    ros::spinOnce();
-
     if (ai::world::world->weHaveRobots()) {
-
         if (BTFactory::getCurrentTree() == "NaN") {
             ROS_INFO("NaN tree probably Halting");
             return;
@@ -71,7 +72,31 @@ void ApplicationManager::runOneLoopCycle() {
         // otherwise wastes like 0.1 ms
         auto demomsg = IOManager->getDemoInfo();
         demo::JoystickDemo::demoLoop(demomsg);
-        rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
+
+
+        if (ai::interface::InterfaceValues::usesRefereeCommands()) {
+
+            // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
+            // might want to build something that verifies this
+            std::string strategyName = strategyManager.getCurrentStrategyName(ai::Referee::getRefereeData().command);
+            if (oldStrategy != strategyName) {
+                BTFactory::setCurrentTree(strategyName);
+                oldStrategy = strategyName;
+            }
+
+            std::string keeperTreeName = strategyManager.getCurrentKeeperTreeName(ai::Referee::getRefereeData().command);
+            if (oldKeeperTreeName != keeperTreeName) {
+                BTFactory::setKeeperTree(keeperTreeName);
+                oldKeeperTreeName = keeperTreeName;
+            }
+
+            if (oldStrategy != strategyName || oldKeeperTreeName != keeperTreeName) {
+                ai::robotDealer::RobotDealer::refresh();
+            }
+
+            ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
+        }
+
 
         if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
             if (ai::robotDealer::RobotDealer::getKeeperID() == -1) {
@@ -79,16 +104,17 @@ void ApplicationManager::runOneLoopCycle() {
                 ai::robotDealer::RobotDealer::setKeeperID(ai::world::world->getUs().at(0).id);
             }
             keeperTree = BTFactory::getKeeperTree();
-            keeperTree->tick();
-        }  else {
-            BTFactory::makeTrees();
-
+            if (keeperTree) {
+                keeperTree->tick();
+            }
         }
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
+
+        rtt::ai::coach::getBallCoach->update();
+        rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
 
-        rtt::ai::coach::g_DefenceDealer.setDoUpdate();
     }
     else {
         std::cout <<"NO FIRST WORLD" << std::endl;
@@ -108,8 +134,11 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     switch (status) {
     case Status::Running:break;
     case Status::Success:ROS_INFO_STREAM("Status returned: Success");
-        ROS_INFO_STREAM(" === TREE CHANGE === ");
-            BTFactory::setCurrentTree("haltStrategy");
+        std::cout << " === TREE CHANGE === " << std::endl;
+
+        BTFactory::setCurrentTree("TestStrategy");
+        ai::robotDealer::RobotDealer::refresh();
+
         break;
     case Status::Failure:ROS_INFO_STREAM("Status returned: Failure");
         break;

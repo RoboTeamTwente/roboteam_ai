@@ -1,0 +1,30 @@
+{
+  "name": "shoot_penalty_us_strategy",
+  "data": {
+    "trees": [
+      {
+        "title": "shoot_penalty_us_strategy",
+        "root": "eanmst6k16ta1p9q",
+        "nodes": {
+          "eanmst6k16ta1p9q": {
+            "id": "eanmst6k16ta1p9q",
+            "title": "Selector",
+            "children": [
+              "kjsvbjeuyszay1ir",
+              "7s2wpv0nv17otq"
+            ]
+          },
+          "kjsvbjeuyszay1ir": {
+            "id": "kjsvbjeuyszay1ir",
+            "title": "BallIsMoving"
+          },
+          "7s2wpv0nv17otq": {
+            "id": "7s2wpv0nv17otq",
+            "title": "Tactic",
+            "name": "shoot_penalty_us_tactic"
+          }
+        }
+      }
+    ]
+  }
+}

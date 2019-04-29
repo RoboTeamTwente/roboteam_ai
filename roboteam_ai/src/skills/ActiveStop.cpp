@@ -46,6 +46,9 @@ Vector2 ActiveStop::getOffensiveActivePoint() {
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
 
     Vector2 offset = (penaltyPos - ballPos).stretchToLength(0.666); // ssl rule + some buffer + rtt spirit
+    if (rtt::ai::world::field->pointIsInDefenceArea(ballPos + offset)){
+        return ((ballPos+offset).rotate(M_PI).stretchToLength(2));
+    }
     return ballPos + offset;
 
 }
@@ -56,6 +59,9 @@ Vector2 ActiveStop::getDefensiveActivePoint() {
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
 
     Vector2 offset = (penaltyPos - ballPos).stretchToLength(0.666); // ssl rule + some buffer + rtt spirit
+    if (rtt::ai::world::field->pointIsInDefenceArea(ballPos + offset)){
+        return (((ballPos+offset).rotate(M_PI)).stretchToLength(2));
+    }
     return ballPos + offset;
 
 }

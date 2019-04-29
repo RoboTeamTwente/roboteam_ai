@@ -8,6 +8,7 @@
 #include "Skill.h"
 #include <roboteam_ai/src/coach/OffensiveCoach.h>
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_utils/Vector2.h>
 
 namespace rtt {
 namespace ai {
@@ -18,10 +19,6 @@ class SideAttacker : public Skill {
     control::NumTreePosControl goToPos;
     Vector2 deltaPos;
     Vector2 targetPos;
-
-    int zone = -1;
-    static int robotsInMemory;
-    static vector<RobotPtr> robotsPositioning;
 
     Vector2 getOffensivePosition();
 

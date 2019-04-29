@@ -83,6 +83,11 @@ void RobotDealer::updateFromWorld() {
 int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, std::string tacticName) {
 
     std::set<int> ids = getAvailableRobots();
+
+    // convert the set to a vector here
+    std::vector<int> idVector;
+    idVector.assign(ids.begin(), ids.end());
+
     int id;
     if (! ids.empty()) {
 
@@ -93,31 +98,25 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
 
             case CLOSE_TO_BALL: {
                 auto ball = world::world->getWorld().ball;
-                rtt::Vector2 ballPos;
-                ballPos = ball.pos;
-                id = getRobotClosestToPoint(ids, ballPos);
+                id = world::world->getRobotClosestToPoint(ball.pos, idVector, true).id;
                 break;
             }
 
             case BETWEEN_BALL_AND_OUR_GOAL: {
                 auto ball = world::world->getWorld().ball;
-
-                rtt::Vector2 ballPos;
-                ballPos = ball.pos;
-
-                rtt::Vector2 ourGoal = rtt::ai::world::field->get_our_goal_center();
-                id = getRobotClosestToLine(ids, ballPos, ourGoal, true);
+                rtt::Vector2 ourGoal = world::field->get_our_goal_center();
+                id = control::ControlUtils::getRobotClosestToLine(world::world->getRobotsForIds(idVector, true), ball.pos, ourGoal, true).id;
                 break;
             }
             case CLOSE_TO_OUR_GOAL: {
                 rtt::Vector2 ourGoal = world::field->get_our_goal_center();
-                id = getRobotClosestToPoint(ids, ourGoal);
+                id = world::world->getRobotClosestToPoint(ourGoal, idVector, true).id;
                 break;
             }
 
             case CLOSE_TO_THEIR_GOAL: {
                 rtt::Vector2 theirGoal = world::field->get_their_goal_center();
-                id = getRobotClosestToPoint(ids, theirGoal);
+                id = world::world->getRobotClosestToPoint(theirGoal, idVector, true).id;
                 break;
             }
 
@@ -127,7 +126,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
             }
 
             case BALL_PLACEMENT_RECEIVER:{
-                id = getRobotClosestToPoint(ids, rtt::ai::coach::g_ballPlacement.getBallPlacementPos());
+                id = world::world->getRobotClosestToPoint(rtt::ai::coach::g_ballPlacement.getBallPlacementPos(), idVector, true).id;
 
                 // force the pass coach to use this receiver
                 rtt::ai::coach::g_pass.resetPass();
@@ -243,65 +242,6 @@ int RobotDealer::findRobotForRole(std::string roleName) {
     return - 1;
 }
 
-int RobotDealer::getRobotClosestToPoint(std::set<int> &ids, rtt::Vector2 position) {
-    int closestID = - 1;
-    double distance = 100000000.0;
-    for (auto &id : ids) {
-        rtt::Vector2 robotPos = world::world->getRobotForId((unsigned int) id, true).get()->pos;
-        double dRobotToPoint = (robotPos - position).length();
-        if (dRobotToPoint < distance) {
-            closestID = id;
-            distance = dRobotToPoint;
-        }
-    }
-    return closestID;
-}
-
-int RobotDealer::getRobotClosestToLine(std::set<int> &ids, rtt::Vector2 point1, rtt::Vector2 point2,
-        bool inBetweenPoints) {
-
-    // https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
-    int closestID = - 1;
-    double distance = 100000000.0;
-    for (auto &id : ids) {
-        rtt::Vector2 robotPos = world::world->getRobotForId((unsigned int) id, true).get()->pos;
-        //rtt::ai::control::ControlUtils::distanceToLineWithEnds(robotPos,point1,point2) could be used here, perhaps?
-        double deltaY = point2.y - point1.y;
-        double deltaX = point2.x - point1.x;
-        double numerator = abs(deltaY*robotPos.x - deltaX*robotPos.y + point2.x*point1.y - point2.y*point1.x);
-        double denominator = sqrt(deltaY*deltaY + deltaX*deltaX);
-        double dRobotToLine = numerator/denominator;
-        if (dRobotToLine > distance) continue;
-
-        if (inBetweenPoints) {
-            // if we want to check in between the points ...
-            // for variables len**: R = robot, 1 = point 1, 2 = point 2
-            // check if the angle is more than or less than 90 degrees by using pythagoras (in)equality
-            // if it is more, change the distance dRobotToLine to the distance to point 1 or 2
-            // instead of the distance to the line
-
-            double len1R = (point1 - robotPos).length();
-            double len2R = (point1 - robotPos).length();
-            double len12 = (point1 - robotPos).length();
-            if (len1R < len2R) {
-                double pythagoras = len1R*len1R + len12*len12 - len2R*len2R;
-                if (pythagoras < 0) dRobotToLine = len1R;
-                if (dRobotToLine >= distance) continue;
-            }
-            else {
-                double pythagoras = len2R*len2R + len12*len12 - len1R*len1R;
-                if (pythagoras < 0) dRobotToLine = len2R;
-                if (len2R >= distance) continue;
-            }
-        }
-
-        closestID = id;
-        distance = dRobotToLine;
-
-    }
-    return closestID;
-}
-
 /// When robot be free this bad boy anti free
 void RobotDealer::unFreeRobot(int ID) {
 
@@ -399,6 +339,7 @@ void RobotDealer::refresh() {
         BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
     }
     BTFactory::makeTrees();
+
     if (useSeparateKeeper) claimKeeper();
 }
 

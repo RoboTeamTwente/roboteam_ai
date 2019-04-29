@@ -20,7 +20,7 @@ class PossiblePass {
         world::Robot toBot;
         Vector2 startPos;
         Vector2 endPos;
-        double distance();
+        const double distance();
         bool obstacleObstructsPath(const Vector2 &obstPos,
                 double obstRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
         int amountOfBlockers(const world::WorldData &world);

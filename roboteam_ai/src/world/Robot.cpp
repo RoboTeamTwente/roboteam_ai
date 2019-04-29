@@ -12,14 +12,21 @@ namespace rtt {
 namespace ai {
 namespace world {
 
+std::map<int, unsigned char> Robot::genevaState;
+
 Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team)
         : distanceToBall(-1.0), iHaveBall(false), id(copy.id), angle(copy.angle),
-          pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) { }
+          pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
+
+    if (id != -1 && genevaState.find(id) == genevaState.end()) {
+        genevaState[id] = 3;
+    }
+
+}
 
 Robot::Robot()
         : distanceToBall(-1.0), iHaveBall(false), id(-1), angle(-1.0),
-          pos(Vector2()), vel(Vector2()), angularVelocity(-1.0), team(them){
-}
+          angularVelocity(-1.0), team(invalid) { }
 
 const roboteam_msgs::WorldRobot Robot::toMessage() const {
     roboteam_msgs::WorldRobot robotMsg;
@@ -40,7 +47,6 @@ double Robot::getDistanceToBall() {
 }
 
 void Robot::updateRobot(const Ball &ball) {
-
     distanceToBall = findBallDistance(ball.pos);
     iHaveBall = distanceToBall >= 0.0;
 }
@@ -67,6 +73,7 @@ double Robot::findBallDistance(const Vector2 &ballPos) {
     // if the ball is in the rectangle defined by the left/right side of the dribbler and two points in front of these
     if (control::ControlUtils::pointInRectangle(ballPos, leftSideOfDribbler, rightSideOfDribbler,
             leftSideMaxPoint, rightSideMaxPoint)) {
+
         return control::ControlUtils::distanceToLine(ballPos, leftSideOfDribbler, rightSideOfDribbler);
     }
 
@@ -74,15 +81,15 @@ double Robot::findBallDistance(const Vector2 &ballPos) {
     return -1.0;
 }
 
-int Robot::getGenevaState() const {
-    return genevaState;
+unsigned char Robot::getGenevaState() const {
+    return genevaState[id];
 }
 
-void Robot::setGenevaState(int state) {
-    Robot::genevaState = state;
+void Robot::setGenevaState(unsigned char state) {
+    if (id != -1 && state > 0 && state < 6) genevaState[id] = state;
+    else std::cout << "setting invalid geneva state (" << state << ") for robot with id " << id << std::endl;
 }
 
-
-}
-}
-}
+} //world
+} //ai
+} //rtt

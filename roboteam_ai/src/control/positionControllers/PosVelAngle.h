@@ -12,20 +12,19 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-class PosVelAngle {
-    public:
-        Vector2 pos = Vector2();
-        Vector2 vel = Vector2();
-        Angle angle = Angle();
+struct PosVelAngle {
+    Vector2 pos = Vector2();
+    Vector2 vel = Vector2();
+    Angle angle = Angle();
 
-        PosVelAngle() = default;
-        PosVelAngle(const Vector2 &p, const Vector2 &v, double a)
-                :pos(p), vel(v), angle(a) { }
+    PosVelAngle() = default;
+    PosVelAngle(const Vector2 &p, const Vector2 &v, double a)
+            :pos(p), vel(v), angle(a) { }
 
-        bool isZero() { return *this == PosVelAngle(); }
-        bool operator==(const PosVelAngle &other) {
-            return this->pos == other.pos && this->vel == other.vel && this->angle == other.angle;
-        }
+    bool isZero() { return *this == PosVelAngle(); }
+    bool operator==(const PosVelAngle &other) {
+        return this->pos == other.pos && this->vel == other.vel && this->angle == other.angle;
+    }
 };
 
 } // control
