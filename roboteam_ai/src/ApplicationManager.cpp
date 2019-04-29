@@ -119,7 +119,9 @@ void ApplicationManager::runOneLoopCycle() {
 
         rtt::ai::coach::getBallCoach->update();
         rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
+        rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
         rtt::ai::coach::g_pass.updatePassProgression();
+
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
 
