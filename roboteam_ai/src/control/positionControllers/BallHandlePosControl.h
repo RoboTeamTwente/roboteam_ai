@@ -9,6 +9,7 @@
 #include "NumTreePosControl.h"
 #include "BasicPosControl.h"
 #include "PosController.h"
+#include "RobotCommand.h"
 
 namespace rtt {
 namespace ai {
@@ -16,12 +17,17 @@ namespace control {
 
 class NumTreePosControl;
 class BasicposControl;
-class BallHandlePosControl : public PosController {
+class BallHandlePosControl {
     private:
-        double errorMargin = 0.05;
-        double angleErrorMargin = 0.05;
-        double maxBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS()*3.0;
-        double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
+        using BallPtr = std::shared_ptr<world::Ball>;
+        using RobotPtr = std::shared_ptr<world::Robot>;
+
+        const double errorMargin = 0.05;
+        const double angleErrorMargin = 0.05;
+        const double maxBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS()*3.0;
+        const double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
+        bool canMoveInDefenseArea = false;
+
         BallPtr ball;
 
         Vector2 targetPos;
@@ -42,16 +48,13 @@ class BallHandlePosControl : public PosController {
           defaultTravel
         };
 
-        PosVelAngle rotateWithBall(const RobotPtr &robot, RotateStrategy rotateStrategy);
-        PosVelAngle travelWithBall(const RobotPtr &robot, TravelStrategy travelStrategy);
-        void checkInterfacePID() override;
+        RobotCommand rotateWithBall(const RobotPtr &robot, RotateStrategy rotateStrategy);
+        RobotCommand travelWithBall(const RobotPtr &robot, TravelStrategy travelStrategy);
 
     public:
-        BallHandlePosControl() = default;
-        explicit BallHandlePosControl(bool canMoveInDefenseArea);
+        explicit BallHandlePosControl(bool canMoveInDefenseArea = false);
 
-        PosVelAngle getPosVelAngle(const RobotPtr &robot, const Vector2 &target, const Angle &targetAngle) override;
-        PosVelAngle getPosVelAngle(const RobotPtr &robot, const Vector2 &target) override;
+        RobotCommand getPosVelAngle(const RobotPtr &robot, const Vector2 &target, const Angle &targetAngle);
 };
 
 } //control

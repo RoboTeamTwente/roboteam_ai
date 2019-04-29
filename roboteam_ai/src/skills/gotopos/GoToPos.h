@@ -16,7 +16,6 @@ namespace ai {
 class GoToPos : public Skill {
     protected:
         enum GoToType {
-          ballControl,
           basic,
           force,
           numTree

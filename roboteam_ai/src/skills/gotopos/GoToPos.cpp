@@ -14,7 +14,6 @@ GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
 GoToPos::GoToType GoToPos::stringToGoToType(const string &gtt) {
-    if (gtt == "ballControl") return ballControl;
     if (gtt == "basic") return basic;
     if (gtt == "force") return force;
     if (gtt == "numTrees") return numTree;
@@ -56,8 +55,6 @@ void GoToPos::setPositionController(const GoToType &gTT) {
     switch (gTT) {
     default:
     case numTree:posController = std::make_shared<control::NumTreePosControl>();
-        return;
-    case ballControl:posController = std::make_shared<control::BallHandlePosControl>();
         return;
     case basic:posController = std::make_shared<control::BasicPosControl>();
         return;
