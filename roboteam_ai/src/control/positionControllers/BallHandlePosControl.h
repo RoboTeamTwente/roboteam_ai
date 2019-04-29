@@ -16,7 +16,6 @@ namespace ai {
 namespace control {
 
 class NumTreePosControl;
-class BasicposControl;
 class BallHandlePosControl {
     private:
         using BallPtr = std::shared_ptr<world::Ball>;
@@ -26,6 +25,9 @@ class BallHandlePosControl {
         const double angleErrorMargin = 0.05;
         const double maxBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS()*3.0;
         const double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
+        const double maxForwardsVelocity = 0.5;
+        const double maxBackwardsVelocity = 0.5;
+        const double maxAngularVelocity = 0.2;
         bool canMoveInDefenseArea = false;
 
         BallPtr ball;
@@ -33,8 +35,7 @@ class BallHandlePosControl {
         Vector2 targetPos;
         Angle targetAngle;
 
-        std::shared_ptr<NumTreePosControl> numTreePosController;
-        std::shared_ptr<BasicPosControl> basicPosController;
+        NumTreePosControl numTreePosController = NumTreePosControl();
         enum RotateStrategy : short {
           rotateAroundBall,
           rotateAroundRobot,

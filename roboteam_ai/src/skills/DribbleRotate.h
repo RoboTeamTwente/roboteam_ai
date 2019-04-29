@@ -6,11 +6,13 @@
 #define ROBOTEAM_AI_DRIBBLEROTATE_H
 
 #include "Skill.h"
+#include "../control/positionControllers/BallHandlePosControl.h"
 
 namespace rtt {
 namespace ai {
 class DribbleRotate : public Skill {
     private:
+        control::BallHandlePosControl ballHandlePosControl;
 
         const double WAIT_TIME = 0.2;     // Seconds
         const double MAX_SPEED = 0.5;     // Rad/second
@@ -20,7 +22,8 @@ class DribbleRotate : public Skill {
         };
         Progression currentProgression;
         void checkProgression();
-        double startAngle, targetAngle, maxSpeed, incrementAngle, currentAngle, dir;
+        Angle targetAngle;
+        double startAngle, maxSpeed, incrementAngle, currentAngle, dir;
         int currentTick, maxTick, extraTick;
         bool rotateToGoal;
         double computeCommandAngle();

@@ -32,6 +32,8 @@ class RobotCommand {
             message.id = id;
             message.x_vel = vel.x;
             message.y_vel = vel.y;
+            message.use_angle = 1;
+            message.w = angle;
             message.dribbler = dribbler;
             message.geneva_state = geneva;
             message.kicker = kicker;

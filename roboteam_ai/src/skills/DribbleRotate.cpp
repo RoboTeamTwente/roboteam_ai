@@ -14,13 +14,11 @@ DribbleRotate::DribbleRotate(rtt::string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
 void DribbleRotate::checkProgression() {
-    double angDif = Control::angleDifference(robot->angle, targetAngle);
-    if (! world::world->ourRobotHasBall(robot->id,
-            Constants::MAX_BALL_BOUNCE_RANGE())) { // change to !botHassball() alter
+    if (!robot->hasBall()) {
         currentProgression = FAIL;
         return;
     }
-    if (angDif < 0.1*M_PI && currentTick >= maxTick + extraTick) {
+    if (abs(robot->angle - targetAngle) < 0.1*M_PI) {
         currentProgression = SUCCESS;
         return;
     }
@@ -37,16 +35,16 @@ void DribbleRotate::onInitialize() {
         maxSpeed = MAX_SPEED;
     }
     if (properties->hasDouble("Angle")) {
-        targetAngle = properties->getDouble("Angle");
+        targetAngle = Angle(properties->getDouble("Angle"));
     }
     else if (properties->getBool("RotateToTheirGoal")) {
         Vector2 theirCentre = world::field->get_their_goal_center();
-        targetAngle = (theirCentre - robot->pos).angle();
+        targetAngle = (theirCentre - robot->pos).toAngle();
     }
     else if (properties->getBool("BallPlacement")) {
         if (properties->getBool("BallPlacementForwards")) {
         }
-        targetAngle = (Vector2(robot->pos) - coach::g_ballPlacement.getBallPlacementPos()).angle();
+        targetAngle = (Vector2(robot->pos) - coach::g_ballPlacement.getBallPlacementPos()).toAngle();
     }
     if (! properties->hasDouble("Angle") && ! properties->hasBool("RotateToTheirGoal")
             && ! properties->hasBool("BallPlacement")) {
@@ -74,7 +72,9 @@ void DribbleRotate::onInitialize() {
 DribbleRotate::Status DribbleRotate::onUpdate() {
     checkProgression();
     switch (currentProgression) {
-    case ROTATING: sendMoveCommand();
+    case ROTATING:
+        command = ballHandlePosControl.getPosVelAngle(robot, robot->pos, targetAngle).makeRobotCommand();
+        publishRobotCommand();
         return Status::Running;
     case SUCCESS:return Status::Success;
     case FAIL:return Status::Failure;

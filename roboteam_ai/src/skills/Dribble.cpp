@@ -12,10 +12,10 @@ Dribble::Dribble(string name, bt::Blackboard::Ptr blackboard)
 
 Dribble::Progression Dribble::checkProgression() {
     if (currentProgress == ON_THE_WAY) {
-        if (! world::world->ourRobotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
+        if (! robot->hasBall()) {
             return FAIL;
         }
-        if (deltaPos.length() <= POS_DIF) {
+        if (deltaPos.length() < POS_DIF) {
             if (forwardDirection) {
                 stoppingAngle = (float) deltaPos.angle();
             } else {
@@ -28,7 +28,7 @@ Dribble::Progression Dribble::checkProgression() {
     else if (currentProgress == STOPPED) {
         count ++;
         //ROS_WARN_STREAM("Stopped ticks #:" << count<<"/"<<maxTicks);
-        if (! world::world->ourRobotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
+        if (! robot->hasBall()) {
             return FAIL;
         }
         else if (count >= maxTicks) {
@@ -69,7 +69,7 @@ void Dribble::onInitialize() {
         targetPos = (Vector2)robot->pos + Vector2({distance, 0}).rotate(targetAngle);
     }
 
-    if (!world::world->ourRobotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
+    if (!robot->hasBall()) {
         ROS_ERROR("Dribble Initialize -> Robot does not have the ball!");
         currentProgress = Progression::FAIL;
         return;
@@ -82,6 +82,8 @@ void Dribble::onInitialize() {
 }
 
 Dribble::Status Dribble::onUpdate() {
+    currentProgress = checkProgression();
+
     if (currentProgress == Progression::FAIL) {
         return Status::Failure;
     }
@@ -89,13 +91,15 @@ Dribble::Status Dribble::onUpdate() {
         return Status::Waiting;
     }
     deltaPos = targetPos - Vector2(ball->pos);
-    currentProgress = checkProgression();
 
     if (currentProgress == STOPPED) {
         sendStopCommand();
     }
     else if (currentProgress == ON_THE_WAY) {
-        sendMoveCommand();
+        auto c = ballHandlePosControl.getPosVelAngle(robot, targetPos, robot->angle);
+        command = c.makeRobotCommand();
+        publishRobotCommand();
+        //sendMoveCommand();
     }
 
     switch (currentProgress) {
