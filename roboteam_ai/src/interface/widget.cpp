@@ -266,36 +266,54 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
         painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(getRoleNameForRobot(robot)));
     }
 
-    if (ourTeam) {
-        painter.setPen(Constants::TEXT_COLOR());
 
-        std::string text;
-        if (robot.hasWorkingGeneva) {
-            text = "∠: " + to_string(robot.getGenevaState());
-        } else {
-            text = "∠: X";
-        }
-        painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
-    }
+
 
     // draw the robots
     QColor color = (robotIsSelected(robot) && ourTeam) ? Constants::SELECTED_ROBOT_COLOR() : robotColor;
     painter.setBrush(color);
     painter.setPen(Qt::transparent);
 
+        if (ourTeam) {
+            std::map<int, double> genevaToAngle;
+            genevaToAngle[1] = -20.0;
+            genevaToAngle[2] = -10.0;
+            genevaToAngle[3] = 0.0;
+            genevaToAngle[4] = 10.0;
+            genevaToAngle[5] = 20.0;
 
-    painter.setOpacity(0.5);
+
+            auto genevaAngle = robot.angle + toRadians(genevaToAngle[robot.getGenevaState()]);
+
+            // draw the angle
+            Vector2 angle = toScreenPosition({robot.pos.x + cos(genevaAngle)/5, robot.pos.y + sin(genevaAngle)/5});
+            QPen pen;
+            pen.setWidth(2);
+            pen.setColor(Qt::red);
+            painter.setPen(pen);
+
+            painter.setBrush(Qt::red);
+            painter.drawLine(robotpos.x, robotpos.y, angle.x, angle.y);
+        }
+
+        painter.setBrush(color);
+        painter.setPen(Qt::transparent);
+
+        painter.setOpacity(0.5);
     painter.drawEllipse(qrobotPosition, Constants::ROBOT_DRAWING_SIZE(), Constants::ROBOT_DRAWING_SIZE());
     painter.setOpacity(1);
 
     int robotDrawSize = Constants::ROBOT_RADIUS()*factor;
     painter.drawEllipse(qrobotPosition, robotDrawSize, robotDrawSize);
 
+
+
+
     // draw the id in it
     painter.setPen(Qt::black);
-        painter.setFont(QFont("ubuntu",9)); //22 is a number which you have to change
+    painter.setFont(QFont("ubuntu",9)); //22 is a number which you have to change
     painter.drawText(robotpos.x - 3, robotpos.y + 5, QString::fromStdString(std::to_string(robot.id)));
-        painter.setFont(QFont("ubuntu",11)); //22 is a number which you have to change
+    painter.setFont(QFont("ubuntu",11)); //22 is a number which you have to change
 
     }
 
