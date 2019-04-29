@@ -45,13 +45,15 @@ private:
     std::pair<Vector2, int> getGenevaPlaceBehindBall(world::Robot robot, Vector2 shotTarget); // the params are the position for the robot and the geneva angle
     Vector2 getPlaceBehindBall(world::Robot robot, Vector2 shotTarget); // the params are the position for the robot and the geneva angle
     Vector2 robotTargetPosition;
-    bool onLineToBall(const world::Robot &robot, const world::World::BallPtr &ball, const Vector2 &behindBallPosition) const;
+    bool onLineToBall(const world::Robot &robot, const world::World::BallPtr &ball, const Vector2 &behindBallPosition, int genevaState);
     double determineKickForce(double distance);
 
     // ShotData calculation
-    ShotData goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition);
-    ShotData moveStraightToBall(world::Robot robot);
+    ShotData goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition, int genevaState);
+    ShotData moveStraightToBall(world::Robot robot, int genevaState);
     ShotData shoot(world::Robot robot, Vector2 shotTarget);
+
+    Vector2 getGenevaLineOffsetPoint(Vector2 point, int genevaState);
 
 public:
     explicit ShotController(ShotPrecision precision = MEDIUM, BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true);
