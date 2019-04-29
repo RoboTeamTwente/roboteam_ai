@@ -16,7 +16,10 @@ IsOnPassLine::Status IsOnPassLine::onUpdate() {
     if (receiverID != -1 && passerID != robot->id) {
         RobotPtr receiver = world::world->getRobotForId(receiverID, true);
         if (control::ControlUtils::isPointProjectedOnLineSegment(robot->pos, ball->pos, receiver->pos)) {
-            return Status::Success;
+            Vector2 projection = robot->pos.project(ball->pos, receiver->pos);
+            if ((projection - robot->pos).length() < DISTANCE_FROM_PASS_LINE) {
+                return Status::Success;
+            }
         }
     }
 
