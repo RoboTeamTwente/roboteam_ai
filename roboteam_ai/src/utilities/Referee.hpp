@@ -18,8 +18,13 @@ class Referee {
         // we need to store the current and the previous refereedata.
         static roboteam_msgs::RefereeData refMsg;
         static roboteam_msgs::RefereeData previousRefMsg;
+        static double maxRobotVelocity;
+public:
+    static double getMaxRobotVelocity();
 
-    public:
+    static void setMaxRobotVelocity(double maxRobotVelocity);
+
+public:
         static void setRefereeData(roboteam_msgs::RefereeData refMsg);
         static roboteam_msgs::RefereeData getRefereeData();
         static roboteam_msgs::RefereeData getPreviousRefereeData();

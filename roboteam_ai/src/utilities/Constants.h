@@ -33,7 +33,12 @@ public:
     static double MAX_ANGULAR_VEL_CMD()         { return 16*M_PI; };
     static double MIN_ANGLE()                   { return -M_PI; };
     static double MAX_ANGLE()                   { return M_PI; };
+
+
+    // max velocities for refstates
     static double MAX_VEL()                     { return 8.0; };
+    static double MAX_STOP_STATE_VEL()          { return 1.5; };
+
     static double MIN_VEL()                     { return 0.2; };  // Minimum velocity to make the robot move
     static double MAX_ACC_UPPER()               { return 5.0; };  // Maximum acceleration for moving in the forward direction
     static double MAX_ACC_LOWER()               { return 3.0; };  // Maximum acceleration for moving in the sideways direction
@@ -62,7 +67,7 @@ public:
     static double MAX_BALL_RANGE()              { return 0.04; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
     static double HAS_BALL_ANGLE()              { return 0.2; };
     static double MAX_KICK_RANGE()              { return 0.04; };
-    static double DEFAULT_MAX_VEL()             { return 4.0; };
+
     static double MAX_INTERCEPT_TIME()          { return 2.0; };    // Seconds. Intercept terminates  after this time.
     static double BALL_STILL_VEL()              { return 0.1; };    // If the ball has velocity lower than this in defense area, keeper starts getting it
     static double MIN_DISTANCE_FOR_FORCE()      { return 0.5; };
