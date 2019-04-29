@@ -26,9 +26,8 @@ Skill::Status InterceptRobot::onUpdate() {
     }
     Vector2 interceptPos=getInterceptPos(*robotToIntercept);
     control::PosVelAngle velocities=gtp.getPosVelAngle(robot,interceptPos);
-    Vector2 XYvel=control::ControlUtils::velocityLimiter(velocities.vel,4.0);
-    command.x_vel=XYvel.x;
-    command.y_vel=XYvel.y;
+    command.x_vel=velocities.vel.x;
+    command.y_vel=velocities.vel.y;
     command.w=velocities.angle.getAngle();
 
     publishRobotCommand();

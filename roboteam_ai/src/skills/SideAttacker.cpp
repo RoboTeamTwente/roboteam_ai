@@ -21,7 +21,6 @@ bt::Node::Status SideAttacker::onUpdate() {
     targetPos = getOffensivePosition();
     auto newPosition = goToPos.getPosVelAngle(robot, targetPos);
     Vector2 velocity = newPosition.vel;
-    velocity = control::ControlUtils::velocityLimiter(velocity);
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     command.w = static_cast<float>(newPosition.angle);
@@ -33,7 +32,6 @@ bt::Node::Status SideAttacker::onUpdate() {
 }
 
 Vector2 SideAttacker::getOffensivePosition() {
-    coach::g_offensiveCoach.updateOffensivePositions();
     return coach::g_offensiveCoach.getPositionForRobotID(robot->id);
 }
 
