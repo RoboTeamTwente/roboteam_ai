@@ -33,7 +33,6 @@ bt::Node::Status SideAttacker::onUpdate() {
 }
 
 Vector2 SideAttacker::getOffensivePosition() {
-    coach::g_offensiveCoach.updateOffensivePositions();
     return coach::g_offensiveCoach.getPositionForRobotID(robot->id);
 }
 
