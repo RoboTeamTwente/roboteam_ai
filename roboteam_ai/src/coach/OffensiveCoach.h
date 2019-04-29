@@ -44,7 +44,11 @@ public:
     Vector2 getPositionForRobotID(int robotID);
     void redistributePositions();
 
-private:
+    Vector2 getShootAtGoalPoint(const Vector2 &fromPoint);
+    Vector2 getShootPoint2(const Vector2& fromPoint);
+
+
+    private:
     coach::OffensiveScore offensiveScore;
     std::vector<OffensivePosition> offensivePositions;
     std::map<int, int> sideAttackers; // Map from robot ids to zones
