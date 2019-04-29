@@ -55,9 +55,11 @@ Skill::Status GoBehindBall::gtpUpdate() {
 
         // else, intercept the ball
         } else {
-            double timeNeeded = ((ballEndPos - robot->pos).length())/(Constants::MAX_VEL()*0.75);
+            double timeNeeded = ((ballEndPos - robot->pos).length())/(Constants::MAX_VEL()*0.69);
             targetPos = ball->pos + ball->vel*timeNeeded;
         }
+
+        command.w = (ball->pos - robot->pos).toAngle();
         return Status::Running;
     }
 
@@ -66,13 +68,9 @@ Skill::Status GoBehindBall::gtpUpdate() {
 }
 
 void GoBehindBall::gtpInitialize() {
-    posController->setAvoidBall(rtt::ai::Constants::ROBOT_RADIUS() + 0.10);
+    posController->setAvoidBall(rtt::ai::Constants::DEFAULT_BALLCOLLISION_RADIUS());
     if (properties->hasString("type")) {
         type = stringToRefType(properties->getString("type"));
-    }
-
-    if (type == movingBall) {
-        velocityMultiplier = 1.5;
     }
 }
 

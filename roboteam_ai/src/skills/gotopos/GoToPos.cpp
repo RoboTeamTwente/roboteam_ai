@@ -48,7 +48,6 @@ void GoToPos::onInitialize() {
     posController->setCanMoveOutOfField(properties->getBool("canGoOutsideField"));
     posController->setCanMoveInDefenseArea(properties->getBool("canMoveInDefenseArea"));
 
-    velocityMultiplier = 1.0;
     gtpInitialize();
 }
 
@@ -81,7 +80,7 @@ bt::Node::Status GoToPos::onUpdate() {
     }
 
     control::PosVelAngle pva = posController->getPosVelAngle(robot, targetPos);
-    pva.vel = control::ControlUtils::velocityLimiter(pva.vel * velocityMultiplier, maxVel);
+    pva.vel = control::ControlUtils::velocityLimiter(pva.vel, maxVel);
 
     // set robotcommands if they have not been set yet in gtpUpdate()
     command.x_vel = command.x_vel == 0 ? static_cast<float>(pva.vel.x) : command.x_vel;
