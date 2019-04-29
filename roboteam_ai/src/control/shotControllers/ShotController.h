@@ -37,7 +37,7 @@ private:
     bool genevaIsTurning = false;
     double secondsToTurnGeneva = 1.5;
 
-    long lastTimeGenevaChanged = 0;
+    double lastTimeGenevaChanged = 0.0;
 
     // PositionControllers
     BasicPosControl basicGtp;

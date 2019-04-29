@@ -21,43 +21,35 @@ ShotController::ShotController(ShotPrecision precision, BallSpeed ballspeed, boo
 /// return a ShotData (which contains data for robotcommands) for a specific robot to shoot at a specific target.
 ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
     auto ball = world::world->getBall();
+
     // always set genevaIsTurning to true if it was 'long ago'.
     if (ros::Time::now().toSec() > (lastTimeGenevaChanged + secondsToTurnGeneva)) {
-
-        if (genevaIsTurning == true && robot.id == 2) {
-            std::cout << "geneva could be turned again! after " << secondsToTurnGeneva << std::endl;
-        }
       genevaIsTurning = false;
     }
 
     // determine the position for the robot to stand and the corresponding geneva angle
-    if (useAutoGeneva) {
+    // only change values if we don't turn the geneva (and are thus able to turn it)
+    if (useAutoGeneva && !genevaIsTurning) {
+        auto oldGenevaState = currentDesiredGeneva;
 
-        //  only change values if we don't turn the geneva (and are thus able to turn it)
-        if (!genevaIsTurning) {
-            auto oldGenevaState = currentDesiredGeneva;
+        auto positionAndGeneva = getGenevaPlaceBehindBall(robot, shotTarget);
+        behindBallPosition = positionAndGeneva.first;
+        currentDesiredGeneva = positionAndGeneva.second;
 
-            auto positionAndGeneva = getGenevaPlaceBehindBall(robot, shotTarget);
-            behindBallPosition = positionAndGeneva.first;
-            currentDesiredGeneva = positionAndGeneva.second;
+        int genevaDifference = std::abs(oldGenevaState - currentDesiredGeneva);
 
-            int genevaDifference = std::abs(oldGenevaState - currentDesiredGeneva);
-
-            if (genevaDifference != 0) {
-                genevaIsTurning = true;
-                // each turn should increase the time which the geneva is turning
-                secondsToTurnGeneva = genevaDifference * 0.35;
-                lastTimeGenevaChanged = ros::Time::now().toSec();
-            }
-
+        if (genevaDifference != 0) {
+            genevaIsTurning = true;
+            // each turn should increase the time which the geneva is turning
+            secondsToTurnGeneva = genevaDifference * 0.35;
+            lastTimeGenevaChanged = ros::Time::now().toSec();
         }
-        // else use the old values
-    } else {
+    } else if (!useAutoGeneva) {
         behindBallPosition = getPlaceBehindBall(robot, shotTarget);
         currentDesiredGeneva = 3;
     }
 
-            // check the properties
+    // check the properties
     bool isOnLineToBall = onLineToBall(robot, ball, behindBallPosition, currentDesiredGeneva);
     bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, shotTarget, robot.pos, 0.3);
 
