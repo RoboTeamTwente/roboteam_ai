@@ -60,7 +60,7 @@ private:
             {RefGameState::PREPARE_PENALTY_US, "prepare_penalty_us_strategy", rtt::ai::Constants::MAX_VEL(), RefGameState::DO_PENALTY},
 
             {RefGameState::PREPARE_KICKOFF_THEM, "kickoff_them_formation_strategy"},
-            {RefGameState::PREPARE_PENALTY_THEM, "prepare_penalty_us_strategy"},
+            {RefGameState::PREPARE_PENALTY_THEM, "penalty_them_strategy"},
 
             {RefGameState::DIRECT_FREE_US, "free_kick_shoot_strategy"},
             {RefGameState::DIRECT_FREE_THEM, "free_kick_them_strategy"},
