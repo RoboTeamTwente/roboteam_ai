@@ -45,7 +45,7 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
 BallPossession GameAnalyzer::convertPossession(rtt::ai::BallPossession::Possession possession) {
     switch (possession) {
     default:
-    case (rtt::ai::BallPossession::LOOSEBALL):
+    case (rtt::ai::BallPossession::LOOSEBALL): return BallPossession::NEUTRAL;
     case (rtt::ai::BallPossession::CONTENDEDBALL): return BallPossession::NEUTRAL;
     case (rtt::ai::BallPossession::THEIRBALL): return BallPossession::THEY_HAVE_BALL;
     case (rtt::ai::BallPossession::OURBALL): return BallPossession::WE_HAVE_BALL;
