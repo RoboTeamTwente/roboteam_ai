@@ -37,7 +37,7 @@ private:
     bool genevaIsTurning = false;
     double secondsToTurnGeneva = 1.5;
 
-    ros::Time lastTimeGenevaChanged = ros::Time::now();
+    long lastTimeGenevaChanged = 0;
 
     // PositionControllers
     BasicPosControl basicGtp;

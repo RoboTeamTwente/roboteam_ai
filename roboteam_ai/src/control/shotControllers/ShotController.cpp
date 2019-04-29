@@ -22,7 +22,11 @@ ShotController::ShotController(ShotPrecision precision, BallSpeed ballspeed, boo
 ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
     auto ball = world::world->getBall();
     // always set genevaIsTurning to true if it was 'long ago'.
-    if (ros::Time::now().toNSec() > lastTimeGenevaChanged.toNSec() + secondsToTurnGeneva * 1000 * 1000) {
+    if (ros::Time::now().toSec() > (lastTimeGenevaChanged + secondsToTurnGeneva)) {
+
+        if (genevaIsTurning == true && robot.id == 2) {
+            std::cout << "geneva could be turned again! after " << secondsToTurnGeneva << std::endl;
+        }
       genevaIsTurning = false;
     }
 
@@ -39,10 +43,13 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
 
             int genevaDifference = std::abs(oldGenevaState - currentDesiredGeneva);
 
-            // each turn should increase the time which the geneva is turning
-            secondsToTurnGeneva = genevaDifference * 0.35;
-            genevaIsTurning = true;
-            lastTimeGenevaChanged = ros::Time::now();
+            if (genevaDifference != 0) {
+                genevaIsTurning = true;
+                // each turn should increase the time which the geneva is turning
+                secondsToTurnGeneva = genevaDifference * 0.35;
+                lastTimeGenevaChanged = ros::Time::now().toSec();
+            }
+
         }
         // else use the old values
     } else {
