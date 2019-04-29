@@ -156,16 +156,25 @@ ShotData ShotController::shoot(world::Robot robot, Vector2 shotTarget) {
 /// Determine how fast we should kick for a pass at a given distance
 double ShotController::determineKickForce(double distance) {
     const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
+
+    double velocity = 0;
     switch(ballSpeed) {
         case DRIBBLE_KICK:
-            return sqrt(distance) *rtt::ai::Constants::MAX_KICK_POWER()/(sqrt(maxPowerDist)*1.5) ;
+            velocity = sqrt(distance) *rtt::ai::Constants::MAX_KICK_POWER()/(sqrt(maxPowerDist)*1.5);
+            break;
         case LAY_STILL_AT_POSITION:
-            return sqrt(distance) *rtt::ai::Constants::MAX_KICK_POWER()/(sqrt(maxPowerDist)*1.5) ;
+            velocity = sqrt(distance) *rtt::ai::Constants::MAX_KICK_POWER()/(sqrt(maxPowerDist)*1.5) ;
+            break;
         case PASS:
-            return distance > maxPowerDist ? rtt::ai::Constants::MAX_KICK_POWER() : sqrt(distance) * rtt::ai::Constants::MAX_KICK_POWER()/sqrt(maxPowerDist)*1.2 ;
+            velocity = distance > maxPowerDist ? rtt::ai::Constants::MAX_KICK_POWER() : sqrt(distance) * rtt::ai::Constants::MAX_KICK_POWER()/sqrt(maxPowerDist)*1.2;
+            break;
         case MAX_SPEED:
-            return rtt::ai::Constants::MAX_KICK_POWER();
+            velocity = rtt::ai::Constants::MAX_KICK_POWER();
+            break;
     }
+
+    // limit the output to the max kick speed
+    return std::min(velocity, rtt::ai::Constants::MAX_KICK_POWER());
 }
 void ShotController::makeCommand(ShotData data, roboteam_msgs::RobotCommand &command) {
 
