@@ -19,19 +19,21 @@ namespace ai {
 struct StrategyMap {
   RefGameState commandId;
   std::string strategyName;
+  double maxVel;
   RefGameState followUpCommandId;
-  StrategyMap()
-          :commandId(RefGameState::UNDEFINED), strategyName(""), followUpCommandId(RefGameState::UNDEFINED) { }
+
+  StrategyMap() : commandId(RefGameState::UNDEFINED), strategyName(""), maxVel(rtt::ai::Constants::MAX_VEL()), followUpCommandId(RefGameState::UNDEFINED) { }
+
   StrategyMap(RefGameState commandId, std::string strategyName,
+          double maxVel = rtt::ai::Constants::MAX_VEL(),
           RefGameState followUpCommandId = RefGameState::UNDEFINED)
-          :
-          commandId(commandId), strategyName(strategyName), followUpCommandId(followUpCommandId) { }
+          : commandId(commandId), strategyName(strategyName), maxVel(maxVel), followUpCommandId(followUpCommandId) { }
 };
 
 class StrategyManager {
 public:
     explicit StrategyManager() = default;
-    std::string getCurrentStrategyName(roboteam_msgs::RefereeCommand currentRefCmd);
+    StrategyMap getCurrentStrategy(roboteam_msgs::RefereeCommand currentRefCmd);
     std::string getCurrentKeeperTreeName(roboteam_msgs::RefereeCommand currentRefCmd);
 
 private:
@@ -44,18 +46,18 @@ private:
     std::vector<StrategyMap> strategyMaps = {
             {RefGameState::NORMAL_START, "TestStrategy"},
             {RefGameState::FORCED_START, "TestStrategy"},
-            {RefGameState::HALT, "halt_strategy"},
-            {RefGameState::STOP, "halt_strategy"},
+            {RefGameState::HALT, "halt_strategy", 0.0},
+            {RefGameState::STOP, "stop_strategy", Constants::MAX_STOP_STATE_VEL()},
             {RefGameState::TIMEOUT_US, "time_out_strategy"},
             {RefGameState::TIMEOUT_THEM, "time_out_strategy"},
             {RefGameState::GOAL_US, "kickoff_them_formation_strategy"},
             {RefGameState::GOAL_THEM, "kickoff_us_formation_strategy"},
-            {RefGameState::BALL_PLACEMENT_US, "ball_placement_us_strategy"},
-            {RefGameState::BALL_PLACEMENT_THEM, "ball_placement_them_strategy"},
+            {RefGameState::BALL_PLACEMENT_US, "ball_placement_us_strategy", Constants::MAX_VEL_BALLPLACEMENT()},
+            {RefGameState::BALL_PLACEMENT_THEM, "ball_placement_them_strategy", Constants::MAX_VEL_BALLPLACEMENT()},
 
             //  Strategies with a follow up strategy
-            {RefGameState::PREPARE_KICKOFF_US, "kickoff_us_formation_strategy", RefGameState::DO_KICKOFF},
-            {RefGameState::PREPARE_PENALTY_US, "prepare_penalty_us_strategy", RefGameState::DO_PENALTY},
+            {RefGameState::PREPARE_KICKOFF_US, "kickoff_us_formation_strategy", rtt::ai::Constants::MAX_VEL(), RefGameState::DO_KICKOFF},
+            {RefGameState::PREPARE_PENALTY_US, "prepare_penalty_us_strategy", rtt::ai::Constants::MAX_VEL(), RefGameState::DO_PENALTY},
 
             {RefGameState::PREPARE_KICKOFF_THEM, "kickoff_them_formation_strategy"},
             {RefGameState::PREPARE_PENALTY_THEM, "prepare_penalty_us_strategy"},
@@ -100,7 +102,7 @@ private:
             // these custom strategies need special attention
             {RefGameState::DO_KICKOFF, "keeper_default_tactic"},
             {RefGameState::DEFEND_KICKOFF, "keeper_default_tactic"},
-            {RefGameState::DEFEND_PENALTY, "keeper_default_tactic"},
+            {RefGameState::DEFEND_PENALTY, "keeper_penalty_tactic"},
             {RefGameState::DO_PENALTY, "keeper_default_tactic"}
     };
 };

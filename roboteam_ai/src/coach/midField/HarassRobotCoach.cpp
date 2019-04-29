@@ -124,7 +124,7 @@ Angle HarassRobotCoach::getHarassAngle(const HarassRobotCoach::RobotPtr &thisRob
     ball = world::world->getBall();
 
     // if there is a robot to harass
-    if (targetRobotsToHarass[myIndex]) {
+    if (myIndex != -1 && targetRobotsToHarass[myIndex]) {
         auto robotToHarass = targetRobotsToHarass[myIndex];
         if (robotToHarass->hasBall()) {
             return (ball->pos - thisRobot->pos).toAngle();

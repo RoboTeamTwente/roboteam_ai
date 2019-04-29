@@ -26,8 +26,7 @@ Skill::Status ActiveStop::onUpdate() {
         targetPos = getDefensiveActivePoint();
 
     command.w = static_cast<float>((targetPos - robot->pos).angle());
-    Vector2 velocityRaw = goToPos.getPosVelAngle(robot, targetPos).vel;
-    Vector2 velocity = control::ControlUtils::velocityLimiter(velocityRaw, 1.2);
+    Vector2 velocity = goToPos.getPosVelAngle(robot, targetPos).vel;
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     publishRobotCommand();
