@@ -20,6 +20,8 @@ class Pass : public Skill {
 private:
     const double CLOSE_ENOUGH_TO_BALL = 0.7;
 
+    bool chip = false;
+
     bool passInitialized = false;
     bool ballPlacement = false;
     bool shot = false;

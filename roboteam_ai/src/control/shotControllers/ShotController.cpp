@@ -86,11 +86,11 @@ bool ShotController::onLineToBall(const world::Robot &robot, const world::World:
     Vector2 lineEnd = getGenevaLineOffsetPoint(ball->pos, genevaState);
 
     if (precision == HIGH) {
-        return ControlUtils::distanceToLine(robot.pos, lineStart, lineEnd) < 0.001;
+        return ControlUtils::distanceToLine(robot.pos, lineStart, lineEnd) < 0.01;
     } else if (precision == MEDIUM) {
-        return ControlUtils::distanceToLine(robot.pos, lineStart, lineEnd) < 0.005;
+        return ControlUtils::distanceToLine(robot.pos, lineStart, lineEnd) < 0.05;
     }
-    return ControlUtils::distanceToLine(robot.pos, lineStart, lineEnd) < 0.01;
+    return ControlUtils::distanceToLine(robot.pos, lineStart, lineEnd) < 0.1;
 }
 
 /// return the place behind the ball targeted towards the ball target position

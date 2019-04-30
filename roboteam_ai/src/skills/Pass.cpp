@@ -26,6 +26,7 @@ void Pass::onInitialize() {
 
     passInitialized = false;
     shot = false;
+    chip = false;
 }
 
 Pass::Status Pass::onUpdate() {
