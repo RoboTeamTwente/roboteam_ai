@@ -16,6 +16,9 @@ namespace coach {
 
 class PassCoach {
 public:
+    using Robot = world::Robot;
+    using RobotPtr = std::shared_ptr<Robot>;
+
     PassCoach();
     void resetPass(int robotID);
     int initiatePass(int passerID);
@@ -29,6 +32,7 @@ public:
     virtual int determineReceiver(int passerID);
     bool passTakesTooLong();
     void updatePassProgression();
+    bool validReceiver(RobotPtr passer, RobotPtr receiver);
 
 private:
 

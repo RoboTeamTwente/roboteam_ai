@@ -44,6 +44,11 @@ int PassCoach::initiatePass(int passerID) {
     passTimerStarted = true;
 
     robotBeingPassedTo = determineReceiver(passerID);
+    if (robotBeingPassedTo == -1) {
+        resetPass(-1);
+        return -1;
+    }
+
     robotPassing = passerID;
     return robotBeingPassedTo;
 }
@@ -74,9 +79,7 @@ int PassCoach::determineReceiver(int passerID) {
     int bestRobotID = -1;
     auto passer = world::world->getRobotForId(passerID, true);
     for(auto &robot : world::world->getUs()) {
-        if (robot.id == robotDealer::RobotDealer::getKeeperID() || robot.id == passerID) continue;
-        if (robot.pos.x < -RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE) continue;
-        if((passer->pos - robot.pos).length() < MIN_PASS_DISTANCE) continue;
+        if (!validReceiver(passer, std::make_shared<Robot>(robot))) continue;
         double score = passScore.calculatePassScore(robot.pos);
         if (score > bestScore) {
             bestScore = score;
@@ -126,6 +129,21 @@ void PassCoach::updatePassProgression() {
         }
     }
 
+}
+bool PassCoach::validReceiver(RobotPtr passer, RobotPtr receiver) {
+    if (receiver->id == robotDealer::RobotDealer::getKeeperID() || receiver->id == passer->id) {
+        return false;
+    }
+
+    if (receiver->pos.x < -RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE) {
+        return false;
+    }
+
+    if((passer->pos - receiver->pos).length() < MIN_PASS_DISTANCE) {
+        return false;
+    }
+
+    return true;
 }
 
 } // coach

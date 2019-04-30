@@ -70,7 +70,7 @@ void Receive::onTerminate(Status s) {
     command.dribbler = 0;
     publishRobotCommand();
 
-    if (robot->id != -1) {
+    if (passFailed() || coach::g_pass.getRobotBeingPassedTo() != robot->id) {
         coach::g_pass.resetPass(robot->id);
     }
 }

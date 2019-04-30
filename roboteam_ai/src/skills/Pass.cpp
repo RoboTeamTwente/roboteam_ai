@@ -51,6 +51,9 @@ Pass::Status Pass::onUpdate() {
         }
 
         robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
+        if(!coach::g_pass.validReceiver(robot, robotToPassTo)) {
+            return Status::Failure;
+        }
 
         bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
 
