@@ -218,10 +218,10 @@ Vector2 ShotController::getGenevaLineOffsetPoint(Vector2 point, int genevaState)
         return point;
     }
     std::map<int, double> genevaLineOffset;
-    genevaLineOffset[1] = 0.02;
-    genevaLineOffset[2] = 0.01;
-    genevaLineOffset[4] = -0.01;
-    genevaLineOffset[5] = -0.02;
+    genevaLineOffset[1] = Constants::GRSIM() ? 0.01 : 0.02;
+    genevaLineOffset[2] = Constants::GRSIM() ? 0.005 : 0.01;
+    genevaLineOffset[4] = Constants::GRSIM() ? - 0.005 : -0.01;
+    genevaLineOffset[5] = Constants::GRSIM() ? - 0.01 : -0.02;
     point = point + point.rotate(M_PI_2).stretchToLength(genevaLineOffset[genevaState]);
     return point;
 }
