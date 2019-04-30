@@ -27,7 +27,7 @@ class BallHandlePosControl {
         const double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
         const double robotRadius = Constants::ROBOT_RADIUS();
         const double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.0;
-        const double maxBackwardsVelocity = Constants::GRSIM() ? 0.4 : 0.8;
+        const double maxBackwardsVelocity = Constants::GRSIM() ? 0.3 : 0.8;
         const double maxAngularVelocity = 0.2;
         bool canMoveInDefenseArea = false;
 
@@ -68,6 +68,7 @@ class BallHandlePosControl {
         int count = 0;
         Vector2 approachPosition;
         Angle lockedAngle;
+        std::pair<Vector2, Vector2> backwardsDribbleLine;
         void updateBackwardsProgress();
         RobotCommand startTravelBackwards();
         RobotCommand sendTurnCommand();
@@ -78,6 +79,9 @@ class BallHandlePosControl {
 
         RobotCommand rotateWithBall(RotateStrategy rotateStrategy);
         RobotCommand travelWithBall(TravelStrategy travelStrategy);
+
+        Vector2 previousVelocity = Vector2();
+        RobotCommand limitCommand(RobotCommand command);
 
     public:
         explicit BallHandlePosControl(bool canMoveInDefenseArea = false);

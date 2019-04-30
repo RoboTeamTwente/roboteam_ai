@@ -23,7 +23,7 @@ public:
     static bool SHOW_NUMTREE_TIME_TAKEN()       { return false; };
     static bool SHOW_NUMTREE_DEBUG_INFO()       { return true; };
     static bool SHOW_FULL_NUMTREE_DEBUG_INFO()  { return true; };
-
+    static bool SHOW_BALL_HANDLE_DEBUG_INFO()   { return true; };
 
     /// ROBOT AND RELATED ///
     static double MAX_VEL_CMD()                 { return 8.191; };

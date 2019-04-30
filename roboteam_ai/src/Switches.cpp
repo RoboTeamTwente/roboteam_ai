@@ -105,7 +105,7 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
 //        "DemoAttackerTactic",
 //        "DemoTactic",
 //        "randomTactic", // used for testing, do not remove it!
-//        "PenaltyShootTTHE LEAF IS NOT REGISTERED IN SWITCHES: GTPWithBallactic",
+//        "PenaltyShoot",
 //        "PenaltyTactic",
 //        "FreeKickShootTactic",
 //        "SideAttackerTactic",

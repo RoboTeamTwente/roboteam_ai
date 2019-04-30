@@ -44,10 +44,10 @@ void GTPWithBall::updateTarget() {
     default:return;
     case ballPlacement: {
         targetPos = coach::g_ballPlacement.getBallPlacementPos();
-        Angle delta = (targetPos - ball->pos).toAngle();
-        if (fabs(robot->angle - delta) > M_PI_2) {
+        Vector2 delta = (targetPos - ball->pos);
+        if (fabs(robot->angle - delta.toAngle()) < M_PI_2) {
             targetAngle = delta;
-            targetPos += targetAngle.toVector2(Constants::ROBOT_RADIUS());
+            targetPos -= targetAngle.toVector2(Constants::ROBOT_RADIUS());
         }
         else {
             targetAngle = delta + M_PI;
