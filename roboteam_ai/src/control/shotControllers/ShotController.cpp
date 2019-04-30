@@ -36,15 +36,10 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
    ShotData shotData;
    if (isOnLineToBall && isBehindBall) {
        bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
-
-
-       if (hasBall && genevaIsTurning) {
-
-           std::cout << "I WANT TO SHOOT BUT THE GENEVA WONT LET ME. it turns for " << secondsToTurnGeneva << "s" << std::endl;
-       }
-
        if (hasBall && !genevaIsTurning) {
            shotData = shoot(robot, shotTarget);
+       } else if (hasBall && genevaIsTurning) {
+           std::cout << "Not shooting because geneva is turning for " << secondsToTurnGeneva << "s" << std::endl;
        } else {
            shotData = moveStraightToBall(robot, currentDesiredGeneva);
        }
