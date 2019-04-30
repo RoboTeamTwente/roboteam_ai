@@ -44,8 +44,8 @@ private:
     StrategyMap getKeeperMapForRefGameState(RefGameState commandId);
 
     std::vector<StrategyMap> strategyMaps = {
-            {RefGameState::NORMAL_START, "TestStrategy"},
-            {RefGameState::FORCED_START, "TestStrategy"},
+            {RefGameState::NORMAL_START, "normal_play_strategy"},
+            {RefGameState::FORCED_START, "normal_play_strategy"},
             {RefGameState::HALT, "halt_strategy", 0.0},
             {RefGameState::STOP, "stop_strategy", Constants::MAX_STOP_STATE_VEL()},
             {RefGameState::TIMEOUT_US, "time_out_strategy"},
@@ -59,8 +59,8 @@ private:
             {RefGameState::PREPARE_KICKOFF_US, "kickoff_us_formation_strategy", rtt::ai::Constants::MAX_VEL(), RefGameState::DO_KICKOFF},
             {RefGameState::PREPARE_PENALTY_US, "prepare_penalty_us_strategy", rtt::ai::Constants::MAX_VEL(), RefGameState::DO_PENALTY},
 
-            {RefGameState::PREPARE_KICKOFF_THEM, "kickoff_them_formation_strategy"},
-            {RefGameState::PREPARE_PENALTY_THEM, "prepare_penalty_us_strategy"},
+            {RefGameState::PREPARE_KICKOFF_THEM, "kickoff_them_formation_strategy",  rtt::ai::Constants::MAX_VEL(), RefGameState::DEFEND_KICKOFF},
+            {RefGameState::PREPARE_PENALTY_THEM, "penalty_them_strategy"},
 
             {RefGameState::DIRECT_FREE_US, "free_kick_shoot_strategy"},
             {RefGameState::DIRECT_FREE_THEM, "free_kick_them_strategy"},
@@ -70,7 +70,7 @@ private:
             // these are called after PREPARE_
             // these custom strategies need special attention
             {RefGameState::DO_KICKOFF, "kickoff_shoot_strategy"},
-            {RefGameState::DEFEND_KICKOFF, "TestStrategy"}, // we do not currently use this.
+            {RefGameState::DEFEND_KICKOFF, "kickoff_them_strategy"},
             {RefGameState::DEFEND_PENALTY, "penalty_them_strategy"},
             {RefGameState::DO_PENALTY, "shoot_penalty_us_strategy"}
     };
