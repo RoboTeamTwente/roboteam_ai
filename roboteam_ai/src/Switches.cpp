@@ -93,24 +93,6 @@
 using robotType = rtt::ai::robotDealer::RobotType;
 
 std::vector<std::string> Switches::tacticJsonFileNames = {
-//        "QualificationTactic",
-//        "haltTactic",
-//        "Attactic",
-//        "PassTactic",
-//        "EnterFormationTactic",
-//        "BallPlacementUsTactic",
-//        "AvoidBallTactic",
-//        "SingleKeeperTactic",
-//        "DemoAttackerTactic",
-//        "DemoTactic",
-//        "randomTactic", // used for testing, do not remove it!
-//        "PenaltyShootTactic",
-//        "PenaltyTactic", /dev/serial/by-id/usb-RTT_BaseStation_00000000001A-if00
-//        "FreeKickShootTactic",
-//        "SideAttackerTactic",
-//        "PassAndShootTactic",
-        "coachDefenderTactic",
-//        "BallPlacementDoubleTactic",
         "kickoff_shoot_tactic",
         "kickoff_them_tactic",
         "kickoff_them_formation_tactic",
@@ -134,26 +116,6 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
-
-//        "QualificationStrategy",
-//        "haltStrategy",
-//        "KeeperStrategy",
-//        "DemoStrategy",
-//        "PassStrategy",
-//        "DemoTeamTwenteStrategy",
-//        "twoPlayerStrategyV2",
-//        "threePlayerStrategyV2",
-//       "EnterFormationStrategy",
-//       "TimeOutFormationStrategy",
-//        "BallPlacementUsStrategy",
-//        "BallPlacementThemStrategy",
-//        "randomStrategy", // used for testing, do not remove it!
-//        "PenaltyShootStrategy",
-//        "PenaltyStrategy",
-//        "FreeKickShootStrategy",
-//        "SideAttackerStrategy",
-//        "PassAndShootStrategy",
-        "coachDefenderStrategy",
         "kickoff_them_formation_strategy",
         "kickoff_them_strategy",
         "kickoff_us_formation_strategy",
@@ -173,8 +135,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "penalty_them_strategy"
 };
 
-std::vector<std::string> Switches::keeperJsonFiles =
-        {
+std::vector<std::string> Switches::keeperJsonFiles = {
                 "keeper_default_tactic",
                 "keeper_halt_tactic",
                 "keeper_avoid_tactic",
