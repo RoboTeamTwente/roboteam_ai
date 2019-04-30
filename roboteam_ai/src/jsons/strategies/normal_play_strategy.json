@@ -1,9 +1,9 @@
 {
-  "name": "TestStrategy",
+  "name": "normal_play_strategy",
   "data": {
     "trees": [
       {
-        "title": "TestStrategy",
+        "title": "normal_play_strategy",
         "root": "pisji0hogkpsl",
         "nodes": {
           "pisji0hogkpsl": {
@@ -18,17 +18,17 @@
           "2yvvzrjaevfzquee3": {
             "id": "2yvvzrjaevfzquee3",
             "title": "Tactic",
-            "name": "TestD"
+            "name": "normal_play_defense_tactic"
           },
           "yht15lhq88txu": {
             "id": "yht15lhq88txu",
             "title": "Tactic",
-            "name": "TestM"
+            "name": "normal_play_midfield_tactic"
           },
           "gi4gu6xgvpuhym": {
             "id": "gi4gu6xgvpuhym",
             "title": "Tactic",
-            "name": "TestO"
+            "name": "normal_play_offense_tactic"
           }
         }
       }

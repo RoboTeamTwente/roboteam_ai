@@ -1,0 +1,567 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "7udsomp49rkvyghad": {
+            "properties": {
+              "ROLE": "m4"
+            },
+            "title": "Sequence",
+            "children": [
+              "03hy1n7udf85yzh4h",
+              "kwbl6n6xtrjmhtt"
+            ],
+            "id": "7udsomp49rkvyghad"
+          },
+          "u3mi55866y1fzsgfy": {
+            "properties": {
+              "ROLE": "m5"
+            },
+            "name": "m5",
+            "title": "Role",
+            "id": "u3mi55866y1fzsgfy",
+            "role": "MidFieldHarassRole",
+            "children": [
+              "za19v49vv05vd7"
+            ]
+          },
+          "ib0dxtvehyjaf": {
+            "properties": {
+              "ROLE": "m1"
+            },
+            "id": "ib0dxtvehyjaf",
+            "title": "IsOnPassLine"
+          },
+          "q2yb5227y0nfxu": {
+            "properties": {
+              "ROLE": "m1"
+            },
+            "title": "MemSequence",
+            "children": [
+              "42rd50qbf1ydizpg",
+              "xqh7kx1rlvvc87"
+            ],
+            "id": "q2yb5227y0nfxu"
+          },
+          "jrrh149i4b0mqqoh": {
+            "properties": {
+              "ROLE": "m4"
+            },
+            "id": "jrrh149i4b0mqqoh",
+            "title": "MidFieldHarasser"
+          },
+          "nbfqjuihvuffzjffn": {
+            "title": "Receive",
+            "properties": {
+              "ROLE": "m2"
+            },
+            "id": "nbfqjuihvuffzjffn"
+          },
+          "xqh7kx1rlvvc87": {
+            "title": "Receive",
+            "properties": {
+              "ROLE": "m1"
+            },
+            "id": "xqh7kx1rlvvc87"
+          },
+          "0n1vmxprw1igb": {
+            "properties": {
+              "ROLE": "m4"
+            },
+            "title": "Selector",
+            "children": [
+              "65xbyw28a6xaojln",
+              "yr9x2td7nvrpqp1tv",
+              "7udsomp49rkvyghad",
+              "jrrh149i4b0mqqoh"
+            ],
+            "id": "0n1vmxprw1igb"
+          },
+          "ykakbi6x2pui4k8ty": {
+            "title": "Pass",
+            "properties": {
+              "ROLE": "m5"
+            },
+            "id": "ykakbi6x2pui4k8ty"
+          },
+          "co0euzhjqbuhbxcm": {
+            "properties": {
+              "ROLE": "m3"
+            },
+            "id": "co0euzhjqbuhbxcm",
+            "title": "ShouldHandleBall"
+          },
+          "5fpgb7x3c7236p": {
+            "title": "Pass",
+            "properties": {
+              "ROLE": "m1"
+            },
+            "id": "5fpgb7x3c7236p"
+          },
+          "65xbyw28a6xaojln": {
+            "properties": {
+              "ROLE": "m4"
+            },
+            "title": "MemSequence",
+            "children": [
+              "wvlo0l5ysjyw5",
+              "ts4p809lx8domk0c1"
+            ],
+            "id": "65xbyw28a6xaojln"
+          },
+          "ob2r5vrd0jk6f": {
+            "properties": {
+              "ROLE": "m3"
+            },
+            "title": "Sequence",
+            "children": [
+              "dx78p3me6neawrv",
+              "uik351bz5ljl3p1"
+            ],
+            "id": "ob2r5vrd0jk6f"
+          },
+          "n89zmjaapsl6r01g": {
+            "properties": {
+              "ROLE": "m4"
+            },
+            "name": "m4",
+            "title": "Role",
+            "id": "n89zmjaapsl6r01g",
+            "role": "MidFieldHarassRole",
+            "children": [
+              "0n1vmxprw1igb"
+            ]
+          },
+          "rc87p6edi7w62ac": {
+            "title": "Receive",
+            "properties": {
+              "ROLE": "m5"
+            },
+            "id": "rc87p6edi7w62ac"
+          },
+          "xwyje0pyiryma0ia": {
+            "title": "AvoidBall",
+            "properties": {
+              "ROLE": "m5",
+              "type": "passing"
+            },
+            "id": "xwyje0pyiryma0ia"
+          },
+          "4w8u0hhusix8ef5": {
+            "properties": {
+              "ROLE": "m5"
+            },
+            "title": "MemSequence",
+            "children": [
+              "wgkn52s30yxahxhyc",
+              "rc87p6edi7w62ac"
+            ],
+            "id": "4w8u0hhusix8ef5"
+          },
+          "wk7myh3zpzj0oz51": {
+            "properties": {
+              "ROLE": "m1"
+            },
+            "title": "Sequence",
+            "children": [
+              "al6nshekpjo0oro",
+              "5fpgb7x3c7236p"
+            ],
+            "id": "wk7myh3zpzj0oz51"
+          },
+          "gcav9gckobkwzv": {
+            "properties": {
+              "TacticType": "Middle"
+            },
+            "children": [
+              "fpygwov4137vfxu7",
+              "v4rka9u6vs451w",
+              "21uxl60agv644zqt",
+              "n89zmjaapsl6r01g",
+              "u3mi55866y1fzsgfy"
+            ],
+            "id": "gcav9gckobkwzv",
+            "title": "RoleDivider"
+          },
+          "5u9yzb25ivq9s364n": {
+            "properties": {
+              "ROLE": "m3"
+            },
+            "title": "Sequence",
+            "children": [
+              "co0euzhjqbuhbxcm",
+              "bwuqhf1il4ztai7"
+            ],
+            "id": "5u9yzb25ivq9s364n"
+          },
+          "lg0fk7lpzs14wfe1": {
+            "properties": {
+              "ROLE": "m2"
+            },
+            "id": "lg0fk7lpzs14wfe1",
+            "title": "MidFieldHarasser"
+          },
+          "qp1q2u3z7m608ce5d": {
+            "properties": {
+              "ROLE": "m2"
+            },
+            "title": "Sequence",
+            "children": [
+              "wy7vw92jtaf2p",
+              "20bnw2qej5kq3w"
+            ],
+            "id": "qp1q2u3z7m608ce5d"
+          },
+          "bnygyrul01ru26": {
+            "properties": {
+              "ROLE": "m5"
+            },
+            "title": "Sequence",
+            "children": [
+              "w3rub197n8frhezwv",
+              "ykakbi6x2pui4k8ty"
+            ],
+            "id": "bnygyrul01ru26"
+          },
+          "za19v49vv05vd7": {
+            "properties": {
+              "ROLE": "m5"
+            },
+            "title": "Selector",
+            "children": [
+              "4w8u0hhusix8ef5",
+              "23us0dlmb8g82n",
+              "bnygyrul01ru26",
+              "qhx1qt1q00hlb1"
+            ],
+            "id": "za19v49vv05vd7"
+          },
+          "uik351bz5ljl3p1": {
+            "title": "AvoidBall",
+            "properties": {
+              "ROLE": "m3",
+              "type": "passing"
+            },
+            "id": "uik351bz5ljl3p1"
+          },
+          "mzwmbkaprkg3qt": {
+            "properties": {
+              "ROLE": "m2"
+            },
+            "id": "mzwmbkaprkg3qt",
+            "title": "IsBeingPassedTo"
+          },
+          "v4rka9u6vs451w": {
+            "properties": {
+              "ROLE": "m2"
+            },
+            "name": "m2",
+            "title": "Role",
+            "id": "v4rka9u6vs451w",
+            "role": "MidFieldHarassRole",
+            "children": [
+              "558kvj9lap9ii57"
+            ]
+          },
+          "u93s1ycirqtc5iab8": {
+            "properties": {
+              "ROLE": "m5"
+            },
+            "id": "u93s1ycirqtc5iab8",
+            "title": "IsOnPassLine"
+          },
+          "6zo3vawuxt4mjxw": {
+            "properties": {
+              "ROLE": "m1"
+            },
+            "id": "6zo3vawuxt4mjxw",
+            "title": "MidFieldHarasser"
+          },
+          "qhx1qt1q00hlb1": {
+            "properties": {
+              "ROLE": "m5"
+            },
+            "id": "qhx1qt1q00hlb1",
+            "title": "MidFieldHarasser"
+          },
+          "ts4p809lx8domk0c1": {
+            "title": "Receive",
+            "properties": {
+              "ROLE": "m4"
+            },
+            "id": "ts4p809lx8domk0c1"
+          },
+          "e78bsiwpucsk5r": {
+            "properties": {
+              "ROLE": "m3"
+            },
+            "title": "MemSequence",
+            "children": [
+              "slopmslwiu6hax3j",
+              "79j3vqltowcjv4"
+            ],
+            "id": "e78bsiwpucsk5r"
+          },
+          "slopmslwiu6hax3j": {
+            "properties": {
+              "ROLE": "m3"
+            },
+            "id": "slopmslwiu6hax3j",
+            "title": "IsBeingPassedTo"
+          },
+          "wgkn52s30yxahxhyc": {
+            "properties": {
+              "ROLE": "m5"
+            },
+            "id": "wgkn52s30yxahxhyc",
+            "title": "IsBeingPassedTo"
+          },
+          "20bnw2qej5kq3w": {
+            "title": "Pass",
+            "properties": {
+              "ROLE": "m2"
+            },
+            "id": "20bnw2qej5kq3w"
+          },
+          "ux7enjipdj01s9": {
+            "properties": {
+              "ROLE": "m3"
+            },
+            "title": "Selector",
+            "children": [
+              "e78bsiwpucsk5r",
+              "ob2r5vrd0jk6f",
+              "5u9yzb25ivq9s364n",
+              "kda55v9r71lkt"
+            ],
+            "id": "ux7enjipdj01s9"
+          },
+          "21uxl60agv644zqt": {
+            "properties": {
+              "ROLE": "m3"
+            },
+            "name": "m3",
+            "title": "Role",
+            "id": "21uxl60agv644zqt",
+            "role": "MidFieldHarassRole",
+            "children": [
+              "ux7enjipdj01s9"
+            ]
+          },
+          "fpygwov4137vfxu7": {
+            "properties": {
+              "ROLE": "m1"
+            },
+            "name": "m1",
+            "title": "Role",
+            "id": "fpygwov4137vfxu7",
+            "role": "MidFieldHarassRole",
+            "children": [
+              "ttjfrdhcueab5g"
+            ]
+          },
+          "42rd50qbf1ydizpg": {
+            "properties": {
+              "ROLE": "m1"
+            },
+            "id": "42rd50qbf1ydizpg",
+            "title": "IsBeingPassedTo"
+          },
+          "r2yfzmf1593ido7l": {
+            "title": "AvoidBall",
+            "properties": {
+              "ROLE": "m4",
+              "type": "passing"
+            },
+            "id": "r2yfzmf1593ido7l"
+          },
+          "kwbl6n6xtrjmhtt": {
+            "title": "Pass",
+            "properties": {
+              "ROLE": "m4"
+            },
+            "id": "kwbl6n6xtrjmhtt"
+          },
+          "rttv5peixinpk": {
+            "title": "AvoidBall",
+            "properties": {
+              "ROLE": "m1",
+              "type": "passing"
+            },
+            "id": "rttv5peixinpk"
+          },
+          "wy7vw92jtaf2p": {
+            "properties": {
+              "ROLE": "m2"
+            },
+            "id": "wy7vw92jtaf2p",
+            "title": "ShouldHandleBall"
+          },
+          "cu4vz3q2ornf6fh": {
+            "properties": {
+              "ROLE": "m2"
+            },
+            "title": "MemSequence",
+            "children": [
+              "mzwmbkaprkg3qt",
+              "nbfqjuihvuffzjffn"
+            ],
+            "id": "cu4vz3q2ornf6fh"
+          },
+          "kda55v9r71lkt": {
+            "properties": {
+              "ROLE": "m3"
+            },
+            "id": "kda55v9r71lkt",
+            "title": "MidFieldHarasser"
+          },
+          "al6nshekpjo0oro": {
+            "properties": {
+              "ROLE": "m1"
+            },
+            "id": "al6nshekpjo0oro",
+            "title": "ShouldHandleBall"
+          },
+          "bwuqhf1il4ztai7": {
+            "title": "Pass",
+            "properties": {
+              "ROLE": "m3"
+            },
+            "id": "bwuqhf1il4ztai7"
+          },
+          "dd5lio1ijyrv9q91": {
+            "properties": {
+              "ROLE": "m4"
+            },
+            "id": "dd5lio1ijyrv9q91",
+            "title": "IsOnPassLine"
+          },
+          "w3rub197n8frhezwv": {
+            "properties": {
+              "ROLE": "m5"
+            },
+            "id": "w3rub197n8frhezwv",
+            "title": "ShouldHandleBall"
+          },
+          "yr9x2td7nvrpqp1tv": {
+            "properties": {
+              "ROLE": "m4"
+            },
+            "title": "Sequence",
+            "children": [
+              "dd5lio1ijyrv9q91",
+              "r2yfzmf1593ido7l"
+            ],
+            "id": "yr9x2td7nvrpqp1tv"
+          },
+          "23us0dlmb8g82n": {
+            "properties": {
+              "ROLE": "m5"
+            },
+            "title": "Sequence",
+            "children": [
+              "u93s1ycirqtc5iab8",
+              "xwyje0pyiryma0ia"
+            ],
+            "id": "23us0dlmb8g82n"
+          },
+          "03hy1n7udf85yzh4h": {
+            "properties": {
+              "ROLE": "m4"
+            },
+            "id": "03hy1n7udf85yzh4h",
+            "title": "ShouldHandleBall"
+          },
+          "79j3vqltowcjv4": {
+            "title": "Receive",
+            "properties": {
+              "ROLE": "m3"
+            },
+            "id": "79j3vqltowcjv4"
+          },
+          "558kvj9lap9ii57": {
+            "properties": {
+              "ROLE": "m2"
+            },
+            "title": "Selector",
+            "children": [
+              "cu4vz3q2ornf6fh",
+              "gut0jqtohpwu2",
+              "qp1q2u3z7m608ce5d",
+              "lg0fk7lpzs14wfe1"
+            ],
+            "id": "558kvj9lap9ii57"
+          },
+          "dx78p3me6neawrv": {
+            "properties": {
+              "ROLE": "m3"
+            },
+            "id": "dx78p3me6neawrv",
+            "title": "IsOnPassLine"
+          },
+          "gut0jqtohpwu2": {
+            "properties": {
+              "ROLE": "m2"
+            },
+            "title": "Sequence",
+            "children": [
+              "4mfb6xj47ex547",
+              "legrxsqs40opj"
+            ],
+            "id": "gut0jqtohpwu2"
+          },
+          "o9vvqpt7xrdzpyz": {
+            "properties": {
+              "ROLE": "m1"
+            },
+            "title": "Sequence",
+            "children": [
+              "ib0dxtvehyjaf",
+              "rttv5peixinpk"
+            ],
+            "id": "o9vvqpt7xrdzpyz"
+          },
+          "wvlo0l5ysjyw5": {
+            "properties": {
+              "ROLE": "m4"
+            },
+            "id": "wvlo0l5ysjyw5",
+            "title": "IsBeingPassedTo"
+          },
+          "ttjfrdhcueab5g": {
+            "properties": {
+              "ROLE": "m1"
+            },
+            "title": "Selector",
+            "children": [
+              "q2yb5227y0nfxu",
+              "o9vvqpt7xrdzpyz",
+              "wk7myh3zpzj0oz51",
+              "6zo3vawuxt4mjxw"
+            ],
+            "id": "ttjfrdhcueab5g"
+          },
+          "4mfb6xj47ex547": {
+            "properties": {
+              "ROLE": "m2"
+            },
+            "id": "4mfb6xj47ex547",
+            "title": "IsOnPassLine"
+          },
+          "legrxsqs40opj": {
+            "title": "AvoidBall",
+            "properties": {
+              "ROLE": "m2",
+              "type": "passing"
+            },
+            "id": "legrxsqs40opj"
+          }
+        },
+        "root": "gcav9gckobkwzv",
+        "title": "normal_play_midfield_tactic"
+      }
+    ]
+  },
+  "name": "normal_play_midfield_tactic"
+}
