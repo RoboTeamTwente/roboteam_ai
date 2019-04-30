@@ -29,6 +29,7 @@ private:
     int robotToPassToID = -1;
 
     std::shared_ptr<control::ShotController> shotControl;
+    control::NumTreePosControl numTreeGtp;
 
     void initiatePass();
     Vector2 getKicker();

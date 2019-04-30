@@ -16,6 +16,8 @@ namespace ai {
 Pass::Pass(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) { }
 
 void Pass::onInitialize() {
+    std::cout << " " << std::endl;
+    std::cout << "robot " << robot->id << " starts passing" << std::endl;
     ballPlacement = properties->getBool("BallPlacement");
     robotToPassToID = -1;
     if (ballPlacement) {
@@ -29,62 +31,58 @@ void Pass::onInitialize() {
 }
 
 Pass::Status Pass::onUpdate() {
-    Vector2 target = world::field->get_their_goal_center();
+    bool closeToBall = (robot->pos - ball->pos).length() < CLOSE_ENOUGH_TO_BALL;
 
-    bool closeToBall = robot->pos.dist(ball->pos) < CLOSE_ENOUGH_TO_BALL;
+    if(!closeToBall && !passInitialized) {
+        auto pva = numTreeGtp.getPosVelAngle(robot, ball->pos);
+        command.x_vel = pva.vel.x;
+        command.y_vel = pva.vel.y;
+        command.w = pva.angle;
+        publishRobotCommand();
+        return Status::Running;
 
-    if (robotToPassToID != -1) {
+    } else {
+        if(!passInitialized) {
+            passInitialized = true;
+            initiatePass();
+        }
+
         robotToPassToID = coach::g_pass.getRobotBeingPassedTo();
-        robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
-        if (robotToPassTo) {
-            target = getKicker();
-
-            if(!shot && closeToBall && !control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
-                std::cout << "Sadness 3" << std::endl;
-                return Status::Failure;
-            }
-
-            bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
-            bool ballIsShotTowardsReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, getKicker());
-
-            if (shot && ballIsMovingFast && ballIsShotTowardsReceiver) {
-                coach::g_pass.setPassed(true);
-                return Status::Success;
-            }
-        } else {
-            std::cout << "Sadness 2" << std::endl;
-            return Status::Failure;
-        }
-    } else if (passInitialized) {
-        std::cout << "Sadness 1" << std::endl;
-        return Status::Failure;
-    }
-
-    if ((closeToBall || ballPlacement) && !passInitialized) {
-        passInitialized = true;
-        initiatePass();
         if (robotToPassToID == -1) {
-            std::cout << "Sadness 4" << std::endl;
             return Status::Failure;
         }
-    }
 
-    shotControl->makeCommand(shotControl->getShotData(* robot, target), command);
-    if (command.kicker != 0) {
-        std::cout << "SHOT!" << std::endl;
-        shot = true;
+        robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
+
+        bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 1.2;
+
+        if (shot && ballIsMovingFast) {
+            coach::g_pass.setPassed(true);
+            return Status::Success;
+        }
+
+        if(!shot && !control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
+            std::cout << "Line not clear anymore" << std::endl;
+            return Status::Failure;
+        }
+
+        shotControl->makeCommand(shotControl->getShotData(* robot, getKicker()), command);
+        if (command.kicker == true && !shot) {
+            std::cout << robot->id << " SHOT at " << robotToPassToID << std::endl;
+            shot = true;
+        }
     }
 
     publishRobotCommand();
-
     return Status::Running;
-
 }
 
 void Pass::onTerminate(Status s) {
+    shot = false;
+    passInitialized = false;
     if (!coach::g_pass.isPassed()) {
         std::cout << "Passer " << robot->id << " reset pass!" << std::endl;
-        coach::g_pass.resetPass();
+        coach::g_pass.resetPass(robot->id);
     } else if (s == Status::Success) {
         std::cout << robot->id << " Succes!!" << std::endl;
     }
@@ -96,7 +94,11 @@ Vector2 Pass::getKicker() {
 }
 
 void Pass::initiatePass() {
-    robotToPassToID = ballPlacement ? coach::g_pass.getRobotBeingPassedTo() : coach::g_pass.initiatePass(robot->id);
+     if (ballPlacement) {
+         coach::g_pass.getRobotBeingPassedTo();
+     } else {
+         coach::g_pass.initiatePass(robot->id);
+     }
 }
 
 
