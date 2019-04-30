@@ -230,9 +230,7 @@ RobotCommand BallHandlePosControl::travelWithBall(TravelStrategy travelStrategy)
         case overshooting:return sendOvershootCommand();
         case dribbling:return sendDribblingCommand();
         case dribbleBackwards:return sendDribbleBackwardsCommand();
-        case success: {
-            return {};
-        }
+        case success:return sendSuccessCommand();
         case fail: {
             backwardsProgress = start;
             return {};
@@ -301,6 +299,13 @@ RobotCommand BallHandlePosControl::sendDribbleBackwardsCommand() {
 
     command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot);
 
+    return command;
+}
+
+RobotCommand BallHandlePosControl::sendSuccessCommand() {
+    RobotCommand command;
+    command.dribbler = 0;
+    command.angle = lockedAngle;
     return command;
 }
 
@@ -403,6 +408,12 @@ void BallHandlePosControl::updateBackwardsProgress() {
     case fail:
     case start:
     default:return;
+    case success: {
+        if ((robot->pos - finalTargetPos).length2() < errorMargin*errorMargin) {
+            return;
+        }
+        backwardsProgress = start;
+    }
     }
 }
 

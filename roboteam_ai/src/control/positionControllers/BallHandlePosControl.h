@@ -76,6 +76,7 @@ class BallHandlePosControl {
         RobotCommand sendOvershootCommand();
         RobotCommand sendDribblingCommand();
         RobotCommand sendDribbleBackwardsCommand();
+        RobotCommand sendSuccessCommand();
 
         RobotCommand rotateWithBall(RotateStrategy rotateStrategy);
         RobotCommand travelWithBall(TravelStrategy travelStrategy);
