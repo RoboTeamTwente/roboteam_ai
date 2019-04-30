@@ -18,12 +18,10 @@ void Receive::onInitialize() {
 
 Receive::Status Receive::onUpdate() {
     if (world::world->robotHasBall(robot->id, true)) {
-        std::cout << robot->id << " received" << std::endl;
         return Status::Success;
     }
 
     if (coach::g_pass.getRobotBeingPassedTo() != robot->id) {
-        std::cout << robot->id << " not being passed to anymore" << std::endl;
         return Status::Failure;
     }
 
@@ -51,7 +49,6 @@ Receive::Status Receive::onUpdate() {
             intercept();
             return Status::Running;
         }
-        std::cout << "Ball not being passed hellup" << std::endl;
 
         // Check if robot is in position, otherwise turn towards ball
         if (isInPosition()) {
@@ -74,7 +71,6 @@ void Receive::onTerminate(Status s) {
     publishRobotCommand();
 
     if (robot->id != -1) {
-        std::cout << robot->id << " receiver terminated pass" << std::endl;
         coach::g_pass.resetPass(robot->id);
     }
 }
@@ -112,12 +108,11 @@ void Receive::moveToCatchPosition(Vector2 position) {
 
 void Receive::intercept() {
     ball = world::world->getBall();
-    std::cout << robot->id << " intercept " << ball->vel << " - " << ball->vel.angle() << std::endl;
     double ballAngle = (ball->pos - robot->pos).toAngle().getAngle();
 
     ballStartPos = ball->pos;
     ballStartVel = ball->vel;
-    ballEndPos = ballStartPos + ballStartVel * 30;
+    ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
 
     Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel;
@@ -135,7 +130,6 @@ bool Receive::passFailed() {
 //    }
 
     if (ball->vel.length() < 0.1) {
-        std::cout << robot->id << " ball going too slow" << std::endl;
         return true;
     }
 

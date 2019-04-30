@@ -40,8 +40,6 @@ int PassCoach::initiatePass(int passerID) {
             return -1;
         }
     }
-    std::cout << "-----------------------" << std::endl;
-    std::cout << "Initiate pass resets pass" << std::endl;
     resetPass(-1);
 
     passStartTime = std::chrono::steady_clock::now();
@@ -126,7 +124,6 @@ int PassCoach::getRobotPassing() const {
 void PassCoach::updatePassProgression() {
     if (robotBeingPassedTo != -1) {
         if (passTakesTooLong()) {
-            std::cout << "Update pass progression is resetting pass" << std::endl;
             resetPass(-1);
         }
     }

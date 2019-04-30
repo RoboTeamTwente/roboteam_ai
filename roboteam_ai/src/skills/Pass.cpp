@@ -16,8 +16,6 @@ namespace ai {
 Pass::Pass(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) { }
 
 void Pass::onInitialize() {
-    std::cout << " " << std::endl;
-    std::cout << "robot " << robot->id << " starts passing" << std::endl;
     ballPlacement = properties->getBool("BallPlacement");
     robotToPassToID = -1;
     if (ballPlacement) {
@@ -54,21 +52,19 @@ Pass::Status Pass::onUpdate() {
 
         robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
 
-        bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 1.2;
+        bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
 
-        if (shot && !world::world->ourRobotHasBall(robot->id, Constants::MAX_KICK_RANGE() * 1.5)) {
+        if (shot && ballIsMovingFast) {
             coach::g_pass.setPassed(true);
             return Status::Success;
         }
 
         if(!shot && !control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
-            std::cout << "Line not clear anymore" << std::endl;
             return Status::Failure;
         }
 
         shotControl->makeCommand(shotControl->getShotData(* robot, getKicker()), command);
         if (command.kicker == true && !shot) {
-            std::cout << robot->id << " SHOT at " << robotToPassToID << std::endl;
             shot = true;
         }
     }
@@ -81,10 +77,8 @@ void Pass::onTerminate(Status s) {
     shot = false;
     passInitialized = false;
     if (!coach::g_pass.isPassed()) {
-        std::cout << "Passer " << robot->id << " reset pass!" << std::endl;
         coach::g_pass.resetPass(robot->id);
     } else if (s == Status::Success) {
-        std::cout << robot->id << " Succes!!" << std::endl;
     }
 }
 
