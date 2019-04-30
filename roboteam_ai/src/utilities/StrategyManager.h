@@ -44,8 +44,8 @@ private:
     StrategyMap getKeeperMapForRefGameState(RefGameState commandId);
 
     std::vector<StrategyMap> strategyMaps = {
-            {RefGameState::NORMAL_START, "TestStrategy"},
-            {RefGameState::FORCED_START, "TestStrategy"},
+            {RefGameState::NORMAL_START, "normal_play_strategy"},
+            {RefGameState::FORCED_START, "normal_play_strategy"},
             {RefGameState::HALT, "halt_strategy", 0.0},
             {RefGameState::STOP, "stop_strategy", Constants::MAX_STOP_STATE_VEL()},
             {RefGameState::TIMEOUT_US, "time_out_strategy"},
