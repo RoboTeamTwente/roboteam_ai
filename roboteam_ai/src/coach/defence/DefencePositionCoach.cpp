@@ -288,11 +288,11 @@ Vector2 DefencePositionCoach::findPositionForBlockBall(const Line &blockLine) {
                 topLine);
         if (intersect.y > fieldWidth*0.5 || intersect.y < - fieldWidth*0.5) {
             std::cerr << "Please don't send robots outside of the field" << std::endl;
-            return getPosOnLine(blockLine, 0.3);
+            return getPosOnLine(blockLine, 0.1);
         }
         return intersect;
     }
-    return getPosOnLine(blockLine, 0.3);
+    return getPosOnLine(blockLine, 0.1);
 }
 double DefencePositionCoach::maxX() {
     return world::field->get_field().field_length/10.0*-1.0;
