@@ -290,11 +290,9 @@ Vector2 ControlUtils::calculateForce(const Vector2 &vector, double weight, doubl
 bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, double maxDifference) {
     auto robot = world::world->getRobotForId(id, ourTeam);
     if (robot) {
-        double exactAngleTowardsPoint = (point - robot->pos).angle();
+        Angle exactAngleTowardsPoint = (point - robot->pos);
 
-        // Note: The angles should NOT be constrained here. This is necessary.
-        return (robot->angle.getAngle() > exactAngleTowardsPoint - maxDifference/2
-                && robot->angle.getAngle() < exactAngleTowardsPoint + maxDifference/2);
+        return abs(exactAngleTowardsPoint - robot->angle) < maxDifference;
     }
     return false;
 }

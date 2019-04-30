@@ -68,7 +68,7 @@ public:
     static double HAS_BALL_ANGLE()              { return 0.2; };
     static double MAX_KICK_RANGE()              { return 0.04; };
 
-    static double MAX_INTERCEPT_TIME()          { return 2.0; };    // Seconds. Intercept terminates  after this time.
+    static double MAX_INTERCEPT_TIME()          { return 3.0; };    // Seconds. Intercept terminates  after this time.
     static double BALL_STILL_VEL()              { return 0.1; };    // If the ball has velocity lower than this in defense area, keeper starts getting it
     static double MIN_DISTANCE_FOR_FORCE()      { return 0.5; };
     static double GOTOPOS_ERROR_MARGIN()        { return 0.03; };
@@ -80,9 +80,9 @@ public:
     static double KEEPER_PENALTY_LINE_MARGIN()  { return 0.06;}//m
 
     /// INTERFACE ///
-    static int ROBOT_DRAWING_SIZE()             { return 8; };
-    static int BALL_DRAWING_SIZE()              { return 5; };
-    static int TACTIC_COLOR_DRAWING_SIZE()      { return 10; };
+    static int ROBOT_DRAWING_SIZE()             { return 6; };
+    static int BALL_DRAWING_SIZE()              { return 4; };
+    static int TACTIC_COLOR_DRAWING_SIZE()      { return 15; };
     static int WINDOW_FIELD_MARGIN()            { return 5; };
 
     static int KEEPER_HELP_DRAW_SIZE()          { return 7; };
@@ -142,11 +142,11 @@ public:
     static QColor TEXT_COLOR()                  { return Qt::white; };
     static QColor SELECTED_ROBOT_COLOR()        { return Qt::magenta; };
 
-    static std::vector<QColor> TACTIC_COLORS()  { return { {255, 0  , 255, 255},
-                                                           {255, 0  , 255, 255},
-                                                           {255, 255, 0  , 255},
-                                                           {255, 120, 180, 255},
-                                                           {255, 100, 255, 255} }; };
+    static std::vector<QColor> TACTIC_COLORS()  { return { {255, 0  , 255, 50},
+                                                           {0, 255  , 255, 50},
+                                                           {255, 255, 0  , 50},
+                                                           {0, 255, 0, 50},
+                                                           {0, 0, 255, 50} }; };
 
     // Default PID values for the gotoposses/interface
     static pidVals standardNumTreePID()         { return GRSIM() ? pidVals(3.2, 0.0, 2.0) : pidVals(2.8, 0.6,2.3); };
