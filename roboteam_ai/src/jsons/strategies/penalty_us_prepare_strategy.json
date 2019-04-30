@@ -1,9 +1,9 @@
 {
-  "name": "prepare_penalty_us_strategy",
+  "name": "penalty_us_prepare_strategy",
   "data": {
     "trees": [
       {
-        "title": "prepare_penalty_us_strategy",
+        "title": "penalty_us_prepare_strategy",
         "root": "4yfceu9dyc3uw",
         "nodes": {
           "4yfceu9dyc3uw": {

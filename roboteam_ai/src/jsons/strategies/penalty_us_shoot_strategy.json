@@ -1,9 +1,9 @@
 {
-  "name": "shoot_penalty_us_strategy",
+  "name": "penalty_us_shoot_strategy",
   "data": {
     "trees": [
       {
-        "title": "shoot_penalty_us_strategy",
+        "title": "penalty_us_shoot_strategy",
         "root": "eanmst6k16ta1p9q",
         "nodes": {
           "eanmst6k16ta1p9q": {

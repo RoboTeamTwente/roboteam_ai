@@ -122,17 +122,17 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "time_out_strategy",
         "ball_placement_us_strategy",
         "ball_placement_them_strategy",
-        "prepare_penalty_us_strategy",
         "stop_strategy",
         "halt_strategy",
         "normal_play_strategy",
         "test_pass_strategy",
-        "shoot_penalty_us_strategy",
+        "penalty_us_shoot_strategy",
+        "penalty_us_prepare_strategy",
+        "penalty_them_strategy",
         "free_kick_formation_strategy",
         "free_kick_shoot_strategy",
         "free_kick_them_strategy",
-        "kickoff_shoot_strategy",
-        "penalty_them_strategy"
+        "kickoff_shoot_strategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles = {
