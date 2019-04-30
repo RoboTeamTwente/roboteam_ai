@@ -51,6 +51,7 @@ Receive::Status Receive::onUpdate() {
             intercept();
             return Status::Running;
         }
+        std::cout << "Ball not being passed hellup" << std::endl;
 
         // Check if robot is in position, otherwise turn towards ball
         if (isInPosition()) {
@@ -110,18 +111,20 @@ void Receive::moveToCatchPosition(Vector2 position) {
 }
 
 void Receive::intercept() {
+    ball = world::world->getBall();
+    std::cout << robot->id << " intercept " << ball->vel << " - " << ball->vel.angle() << std::endl;
     double ballAngle = (ball->pos - robot->pos).toAngle().getAngle();
 
     ballStartPos = ball->pos;
     ballStartVel = ball->vel;
-    ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
+    ballEndPos = ballStartPos + ballStartVel * 30;
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
 
     Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel;
     velocities = control::ControlUtils::velocityLimiter(velocities);
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
-    command.w = ballAngle;
+    command.w = ball->vel.stretchToLength(-1).toAngle();
     publishRobotCommand();
 }
 

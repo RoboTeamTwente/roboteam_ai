@@ -56,7 +56,7 @@ Pass::Status Pass::onUpdate() {
 
         bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 1.2;
 
-        if (shot && ballIsMovingFast) {
+        if (shot && !world::world->ourRobotHasBall(robot->id, Constants::MAX_KICK_RANGE() * 1.5)) {
             coach::g_pass.setPassed(true);
             return Status::Success;
         }
