@@ -33,48 +33,50 @@ Pass::Status Pass::onUpdate() {
 
     bool closeToBall = robot->pos.dist(ball->pos) < CLOSE_ENOUGH_TO_BALL;
 
-    if (robotToPassToID != -1) {
-        robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
-        if (robotToPassTo) {
-            target = getKicker();
-
-            if(!shot && closeToBall && !control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
-                std::cerr << "Passline not clear anymore" << std::endl;
-                return Status::Failure;
-            }
-
-            bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
-            bool ballIsShotTowardsReceiver = true;//control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, getKicker());
-
-            if (ballIsMovingFast && ballIsShotTowardsReceiver) {
-                coach::g_pass.setPassed(true);
-                return Status::Success;
-            }
-
-        } else {
-            return Status::Failure;
-        }
-    } else if (passInitialized) {
-        return Status::Failure;
-    }
-
-    if ((closeToBall || ballPlacement) && !passInitialized) {
-        passInitialized = true;
-        initiatePass();
-    }
-
-    if (closeToBall) {
-        shotControl->makeCommand(shotControl->getShotData(*robot, target), command);
-    } {
+    if(!closeToBall && !passInitialized) {
         auto pva = numTreeGtp.getPosVelAngle(robot, ball->pos);
         pva.vel = control::ControlUtils::velocityLimiter(pva.vel);
         command.x_vel = pva.vel.x;
         command.y_vel = pva.vel.y;
         command.w = (target - robot->pos).toAngle();
-    }
+    } else {
+        if(!passInitialized) {
+            passInitialized = true;
+            initiatePass();
+        }
 
-    if(command.kicker) {
-        shot = true;
+        robotToPassToID = coach::g_pass.getRobotBeingPassedTo();
+
+        if (robotToPassToID == -1) {
+            std::cout << "Receiver id -1" << std::endl;
+            return Status::Failure;
+        }
+
+        robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
+        if (!coach::g_pass.checkIfValidReceiver(robot->id, robotToPassToID)) {
+            std::cout << "No valid receiver anymore!" << std::endl;
+            return Status::Failure;
+        }
+
+        target = getKicker();
+
+        if (!shot && !control::ControlUtils::clearLine(ball->pos, target, world::world->getWorld(), 1)) {
+            std::cerr << "Passline not clear anymore" << std::endl;
+            return Status::Failure;
+        }
+
+        bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
+        bool ballIsShotTowardsReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, getKicker());
+
+        if (ballIsMovingFast && ballIsShotTowardsReceiver) {
+            coach::g_pass.setPassed(true);
+            return Status::Success;
+        }
+
+        shotControl->makeCommand(shotControl->getShotData(*robot, target), command);
+        if (command.kicker) {
+            shot = true;
+        }
     }
 
     publishRobotCommand();

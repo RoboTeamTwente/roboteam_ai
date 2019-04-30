@@ -72,12 +72,17 @@ int PassCoach::determineReceiver(int passerID) {
     int bestRobotID = -1;
     auto passer = world::world->getRobotForId(passerID, true);
     for(auto &robot : world::world->getUs()) {
-        if(!checkIfValidReceiver(robot.id)) continue;
+        if(robot.id == passerID) continue;
+        if(!checkIfValidReceiver(passerID, robot.id)) continue;
         double score = passScore.calculatePassScore(robot.pos);
         if (score > bestScore) {
             bestScore = score;
             bestRobotID = robot.id;
         }
+    }
+
+    if (bestRobotID == -1) {
+        std::cerr << "Help" << std::endl;
     }
 
     return bestRobotID;
@@ -125,21 +130,22 @@ void PassCoach::updatePassProgression() {
     }
 
 }
-bool PassCoach::checkIfValidReceiver(int receiverId) {
+bool PassCoach::checkIfValidReceiver(int passerId, int receiverId) {
+    auto passer = world::world->getRobotForId(passerId, true);
     auto receiver = world::world->getRobotForId(receiverId, true);
-    if (receiver->id == robotDealer::RobotDealer::getKeeperID() || receiver->id == robotPassing) {
-        return true;
+    if (receiverId == robotDealer::RobotDealer::getKeeperID() || receiverId == passerId) {
+        std::cout << "ERROR" << std::endl;
+        return false;
     }
 
     if (receiver->pos.x < -RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE) {
-        return true;
+        return false;
     }
 
-    if((receiver->pos - receiver->pos).length() < MIN_PASS_DISTANCE) {
-        return true;
-    }
+    return true;
 
-    return false;
+    //return (passer->pos - receiver->pos).length() < MIN_PASS_DISTANCE;
+
 }
 
 } // coach

@@ -26,10 +26,6 @@ Receive::Status Receive::onUpdate() {
         return Status::Failure;
     }
 
-    if (!coach::g_pass.checkIfValidReceiver(robot->id)) {
-        return Status::Failure;
-    }
-
     if (ballPlacement) {
         Vector2 ballPlacementTarget = coach::g_ballPlacement.getBallPlacementPos();
         auto behindTargetPos = control::PositionUtils::getPositionBehindPositionToPosition(
@@ -131,10 +127,10 @@ void Receive::intercept() {
 }
 
 bool Receive::passFailed() {
-    if (ballDeflected()) {
-        std::cout << robot->id << " ball deflected!" << std::endl;
-        return true;
-    }
+//    if (ballDeflected()) {
+//        std::cout << robot->id << " ball deflected!" << std::endl;
+//        return true;
+//    }
 
     if (ball->vel.length() < Constants::BALL_STILL_VEL()) {
         return true;

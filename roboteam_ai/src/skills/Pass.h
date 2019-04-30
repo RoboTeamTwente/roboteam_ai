@@ -18,7 +18,6 @@ namespace ai {
 
 class Pass : public Skill {
 private:
-
     const double CLOSE_ENOUGH_TO_BALL = 0.7;
 
     bool passInitialized = false;

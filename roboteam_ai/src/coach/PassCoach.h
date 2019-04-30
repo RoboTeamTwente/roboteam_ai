@@ -29,11 +29,11 @@ public:
     virtual int determineReceiver(int passerID);
     bool passTakesTooLong();
     void updatePassProgression();
-    bool checkIfValidReceiver(int receiverID);
+    bool checkIfValidReceiver(int passerId, int receiverId);
 
 private:
 
-    const double RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE = 0.75;
+    const double RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE = 0.3;
 
     const double SMALLEST_MIN_PASS_DISTANCE = 5 * Constants::ROBOT_RADIUS();
     static double MIN_PASS_DISTANCE;
