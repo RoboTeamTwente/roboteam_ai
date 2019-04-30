@@ -36,7 +36,18 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
    ShotData shotData;
    if (isOnLineToBall && isBehindBall) {
        bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
-       shotData = hasBall && !genevaIsTurning ? shoot(robot, shotTarget) : moveStraightToBall(robot, currentDesiredGeneva);
+
+
+       if (hasBall && genevaIsTurning) {
+
+           std::cout << "I WANT TO SHOOT BUT THE GENEVA WONT LET ME. it turns for " << secondsToTurnGeneva << "s" << std::endl;
+       }
+
+       if (hasBall && !genevaIsTurning) {
+           shotData = shoot(robot, shotTarget);
+       } else {
+           shotData = moveStraightToBall(robot, currentDesiredGeneva);
+       }
    } else {
        shotData = goToPlaceBehindBall(robot, behindBallPosition, currentDesiredGeneva);
    }
@@ -61,7 +72,7 @@ void ShotController::determineGenevaAndPosition(const world::Robot &robot, const
         if (genevaDifference != 0) {
             genevaIsTurning = true;
             // each turn should increase the time which the geneva is turning
-            secondsToTurnGeneva = genevaDifference * 0.5;
+            secondsToTurnGeneva = genevaDifference * 0.3;
             lastTimeGenevaChanged = ros::Time::now().toSec();
         }
     } else if (!useAutoGeneva || !robot.hasWorkingGeneva) {
