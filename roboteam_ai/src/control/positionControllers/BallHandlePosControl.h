@@ -21,19 +21,24 @@ class BallHandlePosControl {
         using BallPtr = std::shared_ptr<world::Ball>;
         using RobotPtr = std::shared_ptr<world::Robot>;
 
-        const double errorMargin = 0.05;
-        const double angleErrorMargin = 0.05;
+        const double errorMargin = 0.02;
+        const double angleErrorMargin = 0.02;
         const double maxBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS()*3.0;
         const double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
-        const double maxForwardsVelocity = 0.5;
-        const double maxBackwardsVelocity = 0.5;
+        const double robotRadius = Constants::ROBOT_RADIUS();
+        const double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.0;
+        const double maxBackwardsVelocity = Constants::GRSIM() ? 0.4 : 0.8;
         const double maxAngularVelocity = 0.2;
         bool canMoveInDefenseArea = false;
 
+        RobotPtr robot;
         BallPtr ball;
-
+        Vector2 robotToBall;
+        Vector2 ballToRobot;
         Vector2 targetPos;
+        Vector2 finalTargetPos;
         Angle targetAngle;
+        Angle finalTargetAngle;
 
         NumTreePosControl numTreePosController = NumTreePosControl();
         enum RotateStrategy : short {
@@ -48,9 +53,31 @@ class BallHandlePosControl {
           backwards,
           defaultTravel
         };
+        enum BackwardsProgress : short {
+          start,
+          turning,
+          approaching,
+          overshooting,
+          dribbling,
+          dribbleBackwards,
+          success,
+          fail
+        };
+        BackwardsProgress backwardsProgress = start;
 
-        RobotCommand rotateWithBall(const RobotPtr &robot, RotateStrategy rotateStrategy);
-        RobotCommand travelWithBall(const RobotPtr &robot, TravelStrategy travelStrategy);
+        int count = 0;
+        Vector2 approachPosition;
+        Angle lockedAngle;
+        void updateBackwardsProgress();
+        RobotCommand startTravelBackwards();
+        RobotCommand sendTurnCommand();
+        RobotCommand sendApproachCommand();
+        RobotCommand sendOvershootCommand();
+        RobotCommand sendDribblingCommand();
+        RobotCommand sendDribbleBackwardsCommand();
+
+        RobotCommand rotateWithBall(RotateStrategy rotateStrategy);
+        RobotCommand travelWithBall(TravelStrategy travelStrategy);
 
     public:
         explicit BallHandlePosControl(bool canMoveInDefenseArea = false);

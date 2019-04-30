@@ -69,6 +69,7 @@ void DribbleRotate::onInitialize() {
         std::cout << "Robot has ball in dribbleRotate Initialize" << std::endl;
     }
 }
+
 DribbleRotate::Status DribbleRotate::onUpdate() {
     checkProgression();
     switch (currentProgression) {

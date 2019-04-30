@@ -1,6 +1,7 @@
 #include <utility>
 
 #include <utility>
+#include <roboteam_ai/src/coach/BallplacementCoach.h>
 
 //
 // Created by thijs on 26-4-19.
@@ -12,35 +13,46 @@ namespace rtt {
 namespace ai {
 
 GTPWithBall::GTPWithBall(string name, bt::Blackboard::Ptr blackboard)
-        :GoToPos(std::move(name), std::move(blackboard)) { }
+        : Skill(std::move(name), std::move(blackboard)) { }
 
-void GTPWithBall::gtpInitialize() {
-    posController = std::make_shared<control::BallHandlePosControl>();
-    targetType = stringToTargetType(properties->getString("targetType"));
+void GTPWithBall::onInitialize() {
+    targetType = stringToTargetType(properties->getString("type"));
     updateTarget();
 }
 
-Skill::Status GTPWithBall::gtpUpdate() {
-    if (!robot->hasBall()) return Status::Failure;
+Skill::Status GTPWithBall::onUpdate() {
     updateTarget();
+    command = ballHandlePosControl.getPosVelAngle(robot, targetPos, targetAngle).makeRobotCommand();
+    publishRobotCommand();
     return Status::Running;
 }
 
-void GTPWithBall::gtpTerminate(Skill::Status s) {
-
+void GTPWithBall::onTerminate(Skill::Status s) {
+    command.dribbler = 0;
+    command.x_vel = 0;
+    command.y_vel = 0;
+    command.w = robot->angle;
+    publishRobotCommand();
 }
 
 GTPWithBall::TargetType GTPWithBall::stringToTargetType(const std::string &string) {
-    return rotateToTheirGoal;
+    return ballPlacement;
 }
 
 void GTPWithBall::updateTarget() {
     switch (targetType) {
     default:return;
-    case rotateToTheirGoal: {
-        Vector2 targetVector = world::field->get_their_goal_center() - robot->pos;
-        targetPos = robot->pos;
-        targetAngle = targetVector.toAngle();
+    case ballPlacement: {
+        targetPos = coach::g_ballPlacement.getBallPlacementPos();
+        Angle delta = (targetPos - ball->pos).toAngle();
+        if (fabs(robot->angle - delta) > M_PI_2) {
+            targetAngle = delta;
+            targetPos += targetAngle.toVector2(Constants::ROBOT_RADIUS());
+        }
+        else {
+            targetAngle = delta + M_PI;
+            targetPos -= targetAngle.toVector2(Constants::ROBOT_RADIUS());
+        }
         return;
     }
     }

@@ -34,6 +34,7 @@
 #include <roboteam_ai/src/skills/Defend.h>
 #include <roboteam_ai/src/skills/gotopos/GTPSpecial.h>
 #include "roboteam_ai/src/skills/gotopos/GoAroundPos.h"
+#include "roboteam_ai/src/skills/gotopos/GTPWithBall.h"
 #include "roboteam_ai/src/skills/gotopos/GoBehindBall.h"
 #include "roboteam_ai/src/skills/ShootPenalty.h"
 #include "roboteam_ai/src/skills/ShootFreeKick.h"
@@ -104,7 +105,7 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
 //        "DemoAttackerTactic",
 //        "DemoTactic",
 //        "randomTactic", // used for testing, do not remove it!
-//        "PenaltyShootTactic",
+//        "PenaltyShootTTHE LEAF IS NOT REGISTERED IN SWITCHES: GTPWithBallactic",
 //        "PenaltyTactic",
 //        "FreeKickShootTactic",
 //        "SideAttackerTactic",
@@ -256,7 +257,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["PenaltyKeeper"] = std::make_shared<rtt::ai::PenaltyKeeper>(name, properties);
     map["FreeKickFormation"] = std::make_shared<rtt::ai::FreeKickFormation>(name, properties);
     map["DefendFreeKick"] = std::make_shared<rtt::ai::DefendFreeKick>(name, properties);
-
+    map["GTPWithBall"] = std::make_shared<rtt::ai::GTPWithBall>(name, properties);
 
 
     // conditions (alphabetic order)

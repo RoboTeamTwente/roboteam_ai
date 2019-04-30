@@ -5,15 +5,22 @@
 #ifndef ROBOTEAM_AI_GTPWITHBALL_H
 #define ROBOTEAM_AI_GTPWITHBALL_H
 
-#include "GoToPos.h"
+#include "roboteam_ai/src/skills/Skill.h"
+#include "roboteam_ai/src/control/positionControllers/BallHandlePosControl.h"
 
 namespace rtt {
 namespace ai {
 
-class GTPWithBall : public GoToPos {
+/// GTPWithBall should NOT have GoToPos as parent
+class GTPWithBall : public Skill {
     private:
+        control::BallHandlePosControl ballHandlePosControl;
+        Vector2 targetPos;
+        Angle targetAngle;
+
         enum TargetType {
           rotateToTheirGoal,
+          ballPlacement,
 
         };
         TargetType targetType;
@@ -23,9 +30,9 @@ class GTPWithBall : public GoToPos {
     public:
         explicit GTPWithBall(string name, bt::Blackboard::Ptr blackboard);
 
-        void gtpInitialize() override;
-        Status gtpUpdate() override;
-        void gtpTerminate(Status s) override;
+        void onInitialize() override;
+        Status onUpdate() override;
+        void onTerminate(Status s) override;
 };
 
 }

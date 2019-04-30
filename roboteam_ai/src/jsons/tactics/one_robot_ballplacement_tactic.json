@@ -91,6 +91,14 @@
             "id": "q3clui83g6dlch"
           },
           "aighafe6ra99dxk8": {
+            "id:": "aighafe6ra99dxk8",
+            "title": "GTPWithBall",
+            "properties": {
+              "ROLE": "ballplacementbot",
+              "type": "ballplacement"
+            }
+          },
+          "aighafe6ra99dxk8ABCD": {
             "properties": {
               "ROLE": "ballplacementbot"
             },
@@ -102,7 +110,7 @@
               "voze87exp41rwyyp",
               "w0mn3ck4nbswcogkz"
             ],
-            "id": "aighafe6ra99dxk8"
+            "id": "aighafe6ra99dxk8ABCD"
           },
           "s1ec7r7fmrafim": {
             "properties": {
