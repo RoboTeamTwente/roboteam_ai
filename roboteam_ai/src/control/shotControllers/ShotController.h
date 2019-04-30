@@ -36,7 +36,6 @@ private:
     Vector2 behindBallPosition;
     bool genevaIsTurning = false;
     double secondsToTurnGeneva = 1.5;
-
     double lastTimeGenevaChanged = 0.0;
 
     // PositionControllers
