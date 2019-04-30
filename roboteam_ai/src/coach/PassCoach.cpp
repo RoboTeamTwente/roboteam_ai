@@ -28,8 +28,6 @@ void PassCoach::resetPass(int robotID) {
 
         passTimerStarted = false;
         receiveTimerStarted = false;
-    } else {
-        std::cerr << robotID << " tries to reet the pass!" << std::endl;
     }
 }
 
