@@ -3,6 +3,7 @@
 //
 
 #include "BallPossession.h"
+#include <roboteam_ai/src/coach/PassCoach.h>
 
 namespace rtt {
 namespace ai {
@@ -16,6 +17,10 @@ void BallPossession::update() {
 }
 
 void BallPossession::recomputeState() {
+
+    if (coach::g_pass.getRobotBeingPassedTo() != -1) {
+        return;
+    }
 
     bool weAreClose = closeToUsTime > CLOSE_TIME_TRESHOLD;
     bool theyAreClose = closeToThemTime > CLOSE_TIME_TRESHOLD;
