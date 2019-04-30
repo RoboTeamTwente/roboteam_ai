@@ -21,7 +21,7 @@ void ApplicationManager::setup() {
     IOManager = new io::IOManager(true, false);
 
     BTFactory::setCurrentTree("halt_strategy");
-    BTFactory::setKeeperTree("keeper_default_tactic");
+    BTFactory::setKeeperTree("keeper_halt_tactic");
     rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
 
 }
@@ -78,7 +78,11 @@ void ApplicationManager::runOneLoopCycle() {
 
             // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
             // might want to build something that verifies this
-            std::string strategyName = strategyManager.getCurrentStrategyName(ai::Referee::getRefereeData().command);
+            auto strategy = strategyManager.getCurrentStrategy(ai::Referee::getRefereeData().command);
+
+            std::string strategyName = strategy.strategyName;
+            ai::Referee::setMaxRobotVelocity(strategy.maxVel);
+
             if (oldStrategy != strategyName) {
                 BTFactory::setCurrentTree(strategyName);
                 oldStrategy = strategyName;
@@ -95,6 +99,9 @@ void ApplicationManager::runOneLoopCycle() {
             }
 
             ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
+
+        } else {
+            ai::Referee::setMaxRobotVelocity(ai::Constants::MAX_VEL());
         }
 
 
@@ -112,6 +119,9 @@ void ApplicationManager::runOneLoopCycle() {
 
         rtt::ai::coach::getBallCoach->update();
         rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
+        rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
+        rtt::ai::coach::g_pass.updatePassProgression();
+
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
 
@@ -133,14 +143,15 @@ void ApplicationManager::checkForShutdown() {
 void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     switch (status) {
     case Status::Running:break;
-    case Status::Success:ROS_INFO_STREAM("Status returned: Success");
-        std::cout << " === TREE CHANGE === " << std::endl;
-
-        BTFactory::setCurrentTree("TestStrategy");
+    case Status::Success:
+        std::cout << " === TREE SUCCESS -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
+        BTFactory::setCurrentTree("normal_play_strategy");
         ai::robotDealer::RobotDealer::refresh();
-
         break;
-    case Status::Failure:ROS_INFO_STREAM("Status returned: Failure");
+    case Status::Failure:
+        std::cout << " === TREE FAILURE -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
+        BTFactory::setCurrentTree("normal_play_strategy");
+        ai::robotDealer::RobotDealer::refresh();
         break;
     case Status::Waiting:ROS_INFO_STREAM("Status returned: Waiting");
         break;

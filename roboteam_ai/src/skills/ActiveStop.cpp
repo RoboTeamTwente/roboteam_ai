@@ -26,8 +26,7 @@ Skill::Status ActiveStop::onUpdate() {
         targetPos = getDefensiveActivePoint();
 
     command.w = static_cast<float>((targetPos - robot->pos).angle());
-    Vector2 velocityRaw = goToPos.getPosVelAngle(robot, targetPos).vel;
-    Vector2 velocity = control::ControlUtils::velocityLimiter(velocityRaw, 1.2);
+    Vector2 velocity = goToPos.getPosVelAngle(robot, targetPos).vel;
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     publishRobotCommand();
@@ -46,7 +45,7 @@ Vector2 ActiveStop::getOffensiveActivePoint() {
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
 
     Vector2 offset = (penaltyPos - ballPos).stretchToLength(0.666); // ssl rule + some buffer + rtt spirit
-    if (rtt::ai::world::field->pointIsInDefenceArea(ballPos + offset)){
+    if (rtt::ai::world::field->pointIsInDefenseArea(ballPos + offset)){
         return ((ballPos+offset).rotate(M_PI).stretchToLength(2));
     }
     return ballPos + offset;
@@ -59,7 +58,7 @@ Vector2 ActiveStop::getDefensiveActivePoint() {
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
 
     Vector2 offset = (penaltyPos - ballPos).stretchToLength(0.666); // ssl rule + some buffer + rtt spirit
-    if (rtt::ai::world::field->pointIsInDefenceArea(ballPos + offset)){
+    if (rtt::ai::world::field->pointIsInDefenseArea(ballPos + offset)){
         return (((ballPos+offset).rotate(M_PI)).stretchToLength(2));
     }
     return ballPos + offset;

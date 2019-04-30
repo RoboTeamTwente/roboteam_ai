@@ -297,7 +297,7 @@ world::WorldData DefencePositionCoach::getTheirAttackers(const world::WorldData 
     std::vector<world::Robot> theirAttackers;
     for (const world::Robot &robot :world.them) {
         // we remove any attackers that are outside of the field or in our defence area
-        if (! world::field->pointIsInDefenceArea(robot.pos, true, 0.04)
+        if (! world::field->pointIsInDefenseArea(robot.pos, true, 0.04)
                 && world::field->pointIsInField(robot.pos, 0.1)) {
             theirAttackers.push_back(robot);
         }

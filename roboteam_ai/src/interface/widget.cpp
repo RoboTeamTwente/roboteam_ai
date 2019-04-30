@@ -25,12 +25,13 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawFieldHints(painter);
         drawFieldLines(painter);
         if (showAvailablePasses) drawPasses(painter);
-        drawBall(painter);
         drawRobots(painter);
         drawLines(painter,Drawer::getTestLines());
         drawPoints(painter,Drawer::getTestPoints());
         drawDrawPoints(painter, Drawer::getDrawPoints());
         drawDrawLines(painter, Drawer::getDrawLines());
+
+        drawBall(painter);
 
         Drawer::clearDrawPoints();
         Drawer::clearDrawLines();
@@ -145,15 +146,27 @@ void Visualizer::drawBall(QPainter &painter) {
 
     rtt::Vector2 ballPosition = toScreenPosition(ball->pos);
     QPointF qballPosition(ballPosition.x, ballPosition.y);
+
+
+
     if (!ball->visible){
         painter.setBrush(Qt::red); // fill
     }
     else {
         painter.setBrush(Constants::BALL_COLOR()); // fill
     }
+        painter.setBrush(Constants::BALL_COLOR()); // fill
+
+        // draw a see-through gradient around the ball to make it more visible
     painter.setPen(Qt::NoPen); // stroke
+    painter.setOpacity(0.5);
     painter.drawEllipse(qballPosition, Constants::BALL_DRAWING_SIZE(), Constants::BALL_DRAWING_SIZE());
-}
+    painter.setOpacity(1);
+    int ballSize = Constants::BALL_RADIUS()*2*factor;
+    painter.drawEllipse(qballPosition, ballSize, ballSize);
+
+
+    }
 
 // draw the robots
 void Visualizer::drawRobots(QPainter &painter) {
@@ -174,14 +187,10 @@ rtt::Vector2 Visualizer::toScreenPosition(rtt::Vector2 fieldPos) {
     int inv = fieldInversed ? -1 : 1;
     return {(fieldPos.x*factor * inv) + static_cast<float>(this->size().width()/2 + fieldmargin) ,
             (fieldPos.y*factor*- 1 * inv) + static_cast<float>(this->size().height()/2 + fieldmargin)};
-
-
-
 }
 
 // convert field coordinates to screen coordinates
-rtt::Vector2 Visualizer::toFieldPosition(rtt::Vector2 screenPos) {
-        int inv = fieldInversed ? -1 : 1;
+rtt::Vector2 Visualizer::toFieldPosition(rtt::Vector2 screenPos) {int inv = fieldInversed ? -1 : 1;
 
     auto x = (screenPos.x - fieldmargin - static_cast<float>(this->size().width()/2)) / factor;
     auto y = ((screenPos.y - fieldmargin - static_cast<float>(this->size().height()/2)) / factor) * -1;
@@ -227,7 +236,7 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
     if (showAngles) {
         Vector2 angle = toScreenPosition({robot.pos.x + cos(robot.angle)/3, robot.pos.y + sin(robot.angle)/3});
         QPen pen;
-        pen.setWidth(4);
+        pen.setWidth(2);
         pen.setBrush(robotColor);
         painter.setPen(pen);
         painter.drawLine(robotpos.x, robotpos.y, angle.x, angle.y);
@@ -254,22 +263,49 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
         painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(getRoleNameForRobot(robot)));
     }
 
-        if (ourTeam) {
-            painter.setPen(Constants::TEXT_COLOR());
-            std::string text = "∠: " + to_string(robot.getGenevaState());
-            painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
-        }
-
     // draw the robots
     QColor color = (robotIsSelected(robot) && ourTeam) ? Constants::SELECTED_ROBOT_COLOR() : robotColor;
     painter.setBrush(color);
     painter.setPen(Qt::transparent);
+
+    if (ourTeam) {
+        std::map<int, double> genevaToAngle;
+        genevaToAngle[1] = -20.0;
+        genevaToAngle[2] = -10.0;
+        genevaToAngle[3] = 0.0;
+        genevaToAngle[4] = 10.0;
+        genevaToAngle[5] = 20.0;
+
+        auto genevaAngle = robot.angle + toRadians(genevaToAngle[robot.getGenevaState()]);
+
+        // draw the angle of the geneva
+        Vector2 angle = toScreenPosition({robot.pos.x + cos(genevaAngle)/4, robot.pos.y + sin(genevaAngle)/4});
+        QPen pen;
+        pen.setWidth(2);
+        pen.setColor(Qt::red);
+        painter.setPen(pen);
+
+        painter.setBrush(Qt::red);
+        painter.drawLine(robotpos.x, robotpos.y, angle.x, angle.y);
+    }
+
+    painter.setBrush(color);
+    painter.setPen(Qt::transparent);
+
+    painter.setOpacity(0.5);
     painter.drawEllipse(qrobotPosition, Constants::ROBOT_DRAWING_SIZE(), Constants::ROBOT_DRAWING_SIZE());
+    painter.setOpacity(1);
+
+    int robotDrawSize = std::max(Constants::ROBOT_RADIUS()*factor, (double)Constants::ROBOT_DRAWING_SIZE());
+    painter.drawEllipse(qrobotPosition, robotDrawSize, robotDrawSize);
 
     // draw the id in it
     painter.setPen(Qt::black);
+    painter.setFont(QFont("ubuntu",9)); //22 is a number which you have to change
     painter.drawText(robotpos.x - 3, robotpos.y + 5, QString::fromStdString(std::to_string(robot.id)));
-}
+    painter.setFont(QFont("ubuntu",11)); //22 is a number which you have to change
+
+    }
 
 // Handle mousePressEvents
 void Visualizer::mousePressEvent(QMouseEvent* event) {

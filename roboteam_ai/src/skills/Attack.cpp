@@ -8,6 +8,7 @@
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
+#include "roboteam_ai/src/coach/OffensiveCoach.h"
 
 namespace rtt {
 namespace ai {
@@ -29,8 +30,8 @@ bt::Node::Status Attack::onUpdate() {
         return Status::Success;
     }
 
-    shotControl->makeCommand(shotControl->getShotData(*robot, world::field->get_their_goal_center()), command);
-
+    Vector2 aimPoint= coach::g_offensiveCoach.getShootAtGoalPoint(ball->pos);
+    shotControl->makeCommand(shotControl->getShotData(*robot, aimPoint), command);
     publishRobotCommand();
     return Status::Running;
 }

@@ -203,8 +203,9 @@ int ControlUtils::rotateDirection(double currentAngle, double targetAngle) {
     else return - 1;    //backwards
 }
 
-/// Limits velocity to maximum velocity
+/// Limits velocity to maximum velocity. it defaults to the max velocity stored in Referee.
 Vector2 ControlUtils::velocityLimiter(const Vector2 &vel, double maxVel, double minVel) {
+
     if (vel.length() > maxVel) {
         return vel.stretchToLength(maxVel);
     }

@@ -31,7 +31,6 @@ Keeper::Status Keeper::onUpdate() {
     }
 
     Vector2 velocities = gtp.getPosVelAngle(robot, blockPoint).vel;
-    velocities = control::ControlUtils::velocityLimiter(velocities);
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
     publishRobotCommand();
