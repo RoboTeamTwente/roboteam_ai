@@ -1,1 +1,0 @@
-{"data": {"trees": [{"nodes": {"k78qc7cvcu3f4yc": {"children": ["n6bqjuexm6bcatp8"], "id": "k78qc7cvcu3f4yc", "title": "ParallelSequence"}, "n6bqjuexm6bcatp8": {"id": "n6bqjuexm6bcatp8", "name": "EnterFormationTactic", "title": "Tactic"}}, "root": "k78qc7cvcu3f4yc", "title": "EnterFormationStrategy"}]}, "name": "EnterFormationStrategy"}
