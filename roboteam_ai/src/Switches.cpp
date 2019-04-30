@@ -105,7 +105,7 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
 //        "DemoTactic",
 //        "randomTactic", // used for testing, do not remove it!
 //        "PenaltyShootTactic",
-//        "PenaltyTactic",
+//        "PenaltyTactic", /dev/serial/by-id/usb-RTT_BaseStation_00000000001A-if00
 //        "FreeKickShootTactic",
 //        "SideAttackerTactic",
 //        "PassAndShootTactic",
