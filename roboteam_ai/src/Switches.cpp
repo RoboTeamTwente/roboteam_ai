@@ -103,7 +103,7 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "kickoff_them_formation_tactic",
         "kickoff_us_formation_tactic",
         "one_robot_ballplacement_tactic",
-        "penalty_them_tactic"
+        "penalty_them_tactic",
         "prepare_penalty_us_tactic",
         "shoot_penalty_us_tactic",
         "stop_tactic",
