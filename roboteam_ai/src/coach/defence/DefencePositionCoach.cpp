@@ -132,6 +132,8 @@ std::vector<DefencePositionCoach::DefenderBot> DefencePositionCoach::decidePosit
         else {
             // if we cannot find a way to cover it, we remove the attacker from the simulated world (otherwise we get 'stuck')
             simulatedWorld = removeBotFromWorld(simulatedWorld, passes[0].toBot.id, false);
+            // this should pretty much never happen.
+            std::cerr<<"Pass to robot"<< passes[0].toBot.id <<" removed in defensiveCoach!"<<std::endl;
         }
     }
     return defenders;
