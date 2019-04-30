@@ -14,6 +14,7 @@ using Line=std::pair<Vector2, Vector2>;
 
 class DefencePositionCoach {
     public:
+        double maxX();//furthest point forwards the defenders can go
         enum botType { BLOCKBALL, BLOCKTOGOAL, WALL, BLOCKPASS, BLOCKONLINE };
         struct DefenderBot {
           int id;
