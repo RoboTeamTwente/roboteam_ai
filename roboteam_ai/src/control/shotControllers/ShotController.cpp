@@ -29,7 +29,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
 
     determineGenevaAndPosition(robot, shotTarget);
 
-        // check the properties
+    // check the properties
     bool isOnLineToBall = onLineToBall(robot, ball, behindBallPosition, currentDesiredGeneva);
     bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, shotTarget, robot.pos, 0.3);
 
