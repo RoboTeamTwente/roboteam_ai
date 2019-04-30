@@ -19,14 +19,16 @@ PassCoach::PassCoach() {
     MIN_PASS_DISTANCE = std::max(goalWidth / 2, SMALLEST_MIN_PASS_DISTANCE);
 }
 
-void PassCoach::resetPass() {
-    passed = false;
-    readyToReceivePass = false;
-    robotPassing = -1;
-    robotBeingPassedTo  = -1;
+void PassCoach::resetPass(int robotID) {
+    if (robotID == robotBeingPassedTo || robotID == robotPassing || robotID == -1) {
+        passed = false;
+        readyToReceivePass = false;
+        robotPassing = - 1;
+        robotBeingPassedTo = - 1;
 
-    passTimerStarted = false;
-    receiveTimerStarted = false;
+        passTimerStarted = false;
+        receiveTimerStarted = false;
+    }
 }
 
 int PassCoach::initiatePass(int passerID) {
@@ -36,7 +38,7 @@ int PassCoach::initiatePass(int passerID) {
             return -1;
         }
     }
-    resetPass();
+    resetPass(-1);
 
     passStartTime = std::chrono::steady_clock::now();
     passTimerStarted = true;
@@ -120,7 +122,7 @@ int PassCoach::getRobotPassing() const {
 void PassCoach::updatePassProgression() {
     if (robotBeingPassedTo != -1) {
         if (passTakesTooLong()) {
-            resetPass();
+            resetPass(-1);
         }
     }
 

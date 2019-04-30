@@ -25,52 +25,60 @@ void Pass::onInitialize() {
     }
 
     passInitialized = false;
+    shot = false;
 }
 
 Pass::Status Pass::onUpdate() {
-    Vector2 target = world::field->get_their_goal_center();
+    bool closeToBall = (robot->pos - ball->pos).length() < CLOSE_ENOUGH_TO_BALL;
 
-    bool closeToBall = robot->pos.dist(ball->pos) < CLOSE_ENOUGH_TO_BALL;
+    if(!closeToBall && !passInitialized) {
+        auto pva = numTreeGtp.getPosVelAngle(robot, ball->pos);
+        command.x_vel = pva.vel.x;
+        command.y_vel = pva.vel.y;
+        command.w = pva.angle;
+        publishRobotCommand();
+        return Status::Running;
 
-    if (robotToPassToID != -1) {
-        robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
-        if (robotToPassTo) {
-            target = getKicker();
+    } else {
+        if(!passInitialized) {
+            passInitialized = true;
+            initiatePass();
+        }
 
-            if(closeToBall && !control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
-                return Status::Failure;
-            }
-
-            bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
-            bool ballIsShotTowardsReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, getKicker());
-
-            if (ballIsMovingFast && ballIsShotTowardsReceiver) {
-                coach::g_pass.setPassed(true);
-                return Status::Success;
-            }
-        } else {
+        robotToPassToID = coach::g_pass.getRobotBeingPassedTo();
+        if (robotToPassToID == -1) {
             return Status::Failure;
         }
-    } else if (passInitialized) {
-        return Status::Failure;
-    }
 
-    if ((closeToBall || ballPlacement) && !passInitialized) {
-        passInitialized = true;
-        initiatePass();
-    }
+        robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
 
-    shotControl->makeCommand(shotControl->getShotData(* robot, target), command);
+        bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
+
+        if (shot && ballIsMovingFast) {
+            coach::g_pass.setPassed(true);
+            return Status::Success;
+        }
+
+        if(!shot && !control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
+            return Status::Failure;
+        }
+
+        shotControl->makeCommand(shotControl->getShotData(* robot, getKicker()), command);
+        if (command.kicker == true && !shot) {
+            shot = true;
+        }
+    }
 
     publishRobotCommand();
-
     return Status::Running;
-
 }
 
 void Pass::onTerminate(Status s) {
+    shot = false;
+    passInitialized = false;
     if (!coach::g_pass.isPassed()) {
-        coach::g_pass.resetPass();
+        coach::g_pass.resetPass(robot->id);
+    } else if (s == Status::Success) {
     }
 }
 
@@ -80,7 +88,11 @@ Vector2 Pass::getKicker() {
 }
 
 void Pass::initiatePass() {
-    robotToPassToID = ballPlacement ? coach::g_pass.getRobotBeingPassedTo() : coach::g_pass.initiatePass(robot->id);
+     if (ballPlacement) {
+         coach::g_pass.getRobotBeingPassedTo();
+     } else {
+         coach::g_pass.initiatePass(robot->id);
+     }
 }
 
 

@@ -24,6 +24,7 @@ private:
     };
 
     bool ballPlacement = false;
+    bool readyToPassSet = false;
 
     Progression currentProgress = POSITIONING;
 
