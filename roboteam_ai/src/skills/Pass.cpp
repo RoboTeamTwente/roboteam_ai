@@ -25,6 +25,7 @@ void Pass::onInitialize() {
     }
 
     passInitialized = false;
+    shot = false;
 }
 
 Pass::Status Pass::onUpdate() {
@@ -33,34 +34,46 @@ Pass::Status Pass::onUpdate() {
     bool closeToBall = robot->pos.dist(ball->pos) < CLOSE_ENOUGH_TO_BALL;
 
     if (robotToPassToID != -1) {
+        robotToPassToID = coach::g_pass.getRobotBeingPassedTo();
         robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
         if (robotToPassTo) {
             target = getKicker();
 
-            if(closeToBall && !control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
+            if(!shot && closeToBall && !control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
+                std::cout << "Sadness 3" << std::endl;
                 return Status::Failure;
             }
 
             bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
             bool ballIsShotTowardsReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, getKicker());
 
-            if (ballIsMovingFast && ballIsShotTowardsReceiver) {
+            if (shot && ballIsMovingFast && ballIsShotTowardsReceiver) {
                 coach::g_pass.setPassed(true);
                 return Status::Success;
             }
         } else {
+            std::cout << "Sadness 2" << std::endl;
             return Status::Failure;
         }
     } else if (passInitialized) {
+        std::cout << "Sadness 1" << std::endl;
         return Status::Failure;
     }
 
     if ((closeToBall || ballPlacement) && !passInitialized) {
         passInitialized = true;
         initiatePass();
+        if (robotToPassToID == -1) {
+            std::cout << "Sadness 4" << std::endl;
+            return Status::Failure;
+        }
     }
 
     shotControl->makeCommand(shotControl->getShotData(* robot, target), command);
+    if (command.kicker != 0) {
+        std::cout << "SHOT!" << std::endl;
+        shot = true;
+    }
 
     publishRobotCommand();
 
@@ -70,7 +83,10 @@ Pass::Status Pass::onUpdate() {
 
 void Pass::onTerminate(Status s) {
     if (!coach::g_pass.isPassed()) {
+        std::cout << "Passer " << robot->id << " reset pass!" << std::endl;
         coach::g_pass.resetPass();
+    } else if (s == Status::Success) {
+        std::cout << robot->id << " Succes!!" << std::endl;
     }
 }
 

@@ -43,7 +43,7 @@ private:
     bool passTimerStarted = false;
     bool receiveTimerStarted = false;
 
-    const double MAX_PASS_TIME = 5.0; //seconds
+    const double MAX_PASS_TIME = 8.0; //seconds
     const double MAX_RECEIVE_TIME = 5.0; //seconds
 
     bool readyToReceivePass{};

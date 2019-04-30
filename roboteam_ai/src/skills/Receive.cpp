@@ -22,6 +22,7 @@ Receive::Status Receive::onUpdate() {
     }
 
     if (coach::g_pass.getRobotBeingPassedTo() != robot->id) {
+        std::cout << robot->id << " not being passed to anymore" << std::endl;
         return Status::Failure;
     }
 
@@ -33,6 +34,7 @@ Receive::Status Receive::onUpdate() {
                 ball->pos);
 
         moveToCatchPosition(behindTargetPos);
+        std::cerr << "BALL PLACEMENT HUH?" << std::endl;
 
         if (isInPosition(behindTargetPos)) {
             coach::g_pass.setReadyToReceivePass(true);
@@ -112,7 +114,7 @@ void Receive::moveToCatchPosition(Vector2 position) {
 }
 
 void Receive::intercept() {
-    double ballAngle = ((Vector2) ball->pos - robot->pos).angle();
+    double ballAngle = (ball->pos - robot->pos).toAngle();
 
     ballStartPos = ball->pos;
     ballStartVel = ball->vel;
@@ -129,11 +131,12 @@ void Receive::intercept() {
 
 bool Receive::passFailed() {
     //TODO: Remove print statements and make 1 big if statement
-    if (ballDeflected()) {
-        return true;
-    }
+//    if (ballDeflected()) {
+//        return true;
+//    }
 
     if (ball->vel.length() < 0.1) {
+        std::cout << robot->id << " ball going too slow" << std::endl;
         return true;
     }
 
