@@ -107,9 +107,9 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "prepare_penalty_us_tactic",
         "shoot_penalty_us_tactic",
         "stop_tactic",
-        "TestD",
-        "TestM",
-        "TestO",
+        "normal_play_defense_tactic",
+        "normal_play_midfield_tactic",
+        "normal_play_offense_tactic",
         "test_pass_tactic",
         "time_out_tactic",
         "two_robot_ballplacement_tactic"
@@ -452,7 +452,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"a7", robotType::RANDOM},
             }
             },
-            {"TestD",
+            {"normal_play_defense_tactic",
              {
                      {"d1", robotType::CLOSE_TO_OUR_GOAL},
                      {"d2", robotType::CLOSE_TO_OUR_GOAL},
@@ -461,7 +461,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                      {"d5", robotType::CLOSE_TO_OUR_GOAL}
              }
             },
-            {"TestM",
+            {"normal_play_midfield_tactic",
              {
                      {"m1", robotType::CLOSE_TO_OUR_GOAL},
                      {"m2", robotType::CLOSE_TO_OUR_GOAL},
@@ -470,7 +470,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                      {"m5", robotType::CLOSE_TO_OUR_GOAL}
              }
             },
-            {"TestO",
+            {"normal_play_offense_tactic",
              {
                      {"o1", robotType::CLOSE_TO_THEIR_GOAL},
                      {"o2", robotType::CLOSE_TO_THEIR_GOAL},
