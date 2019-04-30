@@ -126,13 +126,14 @@ std::vector<DefencePositionCoach::DefenderBot> DefencePositionCoach::decidePosit
     while (static_cast<int>(defenders.size()) != amount && ! passes.empty()) {
         bool foundNewDefender = blockPass(passes[0]); // we try to cover the most dangerous pass in multiple ways
         // if we find a defender we need to recalculate the danger of our passes to reflect the new robot.
-        if (foundNewDefender) {
-            passes = createPassesSortedByDanger(simulatedWorld);
-        }
-        else {
+        if (!foundNewDefender) {
             // if we cannot find a way to cover it, we remove the attacker from the simulated world (otherwise we get 'stuck')
             simulatedWorld = removeBotFromWorld(simulatedWorld, passes[0].toBot.id, false);
+            // this should pretty much never happen.
+            std::cerr<<"Pass to robot"<< passes[0].toBot.id <<" removed in defensiveCoach!"<<std::endl;
         }
+        passes = createPassesSortedByDanger(simulatedWorld);
+
     }
     return defenders;
 }
@@ -278,7 +279,7 @@ DefencePositionCoach::DefenderBot DefencePositionCoach::createBlockBall(
 }
 Vector2 DefencePositionCoach::findPositionForBlockBall(const Line &blockLine) {
     // if the blocking position is way away from our goal keep the robot on our side
-    double maxForwardLineX = - 0.1;
+    double maxForwardLineX = maxX();
     if (blockLine.second.x > maxForwardLineX) {
         double fieldWidth = world::field->get_field().field_width;
         Vector2 bottomLine(maxForwardLineX, - fieldWidth*0.5), topLine(maxForwardLineX, fieldWidth*0.5);
@@ -286,13 +287,15 @@ Vector2 DefencePositionCoach::findPositionForBlockBall(const Line &blockLine) {
                 topLine);
         if (intersect.y > fieldWidth*0.5 || intersect.y < - fieldWidth*0.5) {
             std::cerr << "Please don't send robots outside of the field" << std::endl;
-            return getPosOnLine(blockLine, 0.3);
+            return getPosOnLine(blockLine, 0.1);
         }
         return intersect;
     }
-    return getPosOnLine(blockLine, 0.3);
+    return getPosOnLine(blockLine, 0.1);
 }
-
+double DefencePositionCoach::maxX() {
+    return world::field->get_field().field_length/10.0*-1.0;
+}
 world::WorldData DefencePositionCoach::getTheirAttackers(const world::WorldData &world) {
     std::vector<world::Robot> theirAttackers;
     for (const world::Robot &robot :world.them) {
@@ -307,6 +310,7 @@ world::WorldData DefencePositionCoach::getTheirAttackers(const world::WorldData 
     return newWorld;
 }
 bool DefencePositionCoach::validNewPosition(const Vector2 &position, const world::WorldData &world) {
+    if (position.x > maxX()) { return false; }
     double collisionRadius = calculationCollisionRad;// a little smaller than 2 robot radii so that we can make solid walls still
     for (const auto &robot: world.us) {
         if ((robot.pos - position).length() < collisionRadius) {
@@ -374,6 +378,17 @@ bool DefencePositionCoach::blockPass(PossiblePass pass) {
         auto aggressionFactor = pickNewPosition(*blockLine, simulatedWorld);
         if (aggressionFactor) {
             DefenderBot defender = createBlockToGoal(pass, *aggressionFactor, *blockLine);
+            addDefender(defender);
+            return true;
+        }
+        // try putting it on the defence Line instead (as the robot is very likely far away
+        double fieldWidth=world::field->get_field().field_width;
+        Vector2 bottomLine(maxX(), - fieldWidth*0.5), topLine(maxX(), fieldWidth*0.5);
+        Vector2 intersectPos=control::ControlUtils::twoLineIntersection(blockLine->first,blockLine->second,bottomLine,topLine);
+        if(validNewPosition(intersectPos,simulatedWorld))
+        {
+            double fracOnLine=(intersectPos-blockLine->first).length()/(blockLine->first-blockLine->second).length();
+            DefenderBot defender = createBlockToGoal(pass,fracOnLine, *blockLine);
             addDefender(defender);
             return true;
         }
