@@ -152,8 +152,6 @@ RobotCommand BallHandlePosControl::rotateWithBall(RotateStrategy rotateStrategy)
                             deltaAngle.getAngle();
 
         robotCommand.vel = robotToBall.rotate(- M_PI_2).stretchToLength(targetVel);
-
-       // robotCommand.vel += (robotToBall - robotToBall.stretchToLength(targetBallDistance))*4.3;
         robotCommand.angle = robotToBall.toAngle();
 
         return limitCommand(robotCommand);
@@ -342,7 +340,7 @@ void BallHandlePosControl::updateBackwardsProgress() {
 
     switch (backwardsProgress) {
     case turning: {
-        targetAngle = (robot->pos - finalTargetPos).toAngle();
+        targetAngle = (ball->pos - finalTargetPos).toAngle();
         if (fabs(targetAngle - robot->angle) < angleErrorMargin) {
             lockedAngle = (ball->pos - finalTargetPos).toAngle();
             backwardsProgress = approaching;
