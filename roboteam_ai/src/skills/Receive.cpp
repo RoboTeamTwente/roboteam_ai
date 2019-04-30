@@ -13,6 +13,7 @@ Receive::Receive(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(
 
 void Receive::onInitialize() {
     ballPlacement = properties->getBool("BallPlacement");
+    numTreeGtp.setAvoidBall(false);
 }
 
 Receive::Status Receive::onUpdate() {
@@ -108,8 +109,8 @@ void Receive::moveToCatchPosition(Vector2 position) {
         command.w = static_cast<float>((Vector2(ball->pos) - robot->pos).angle());
     } else {
         command.w = static_cast<float>((position - robot->pos).angle());
-
     }
+
     publishRobotCommand();
 }
 
@@ -121,7 +122,7 @@ void Receive::intercept() {
     ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
     Vector2 interceptPoint = Receive::computeInterceptPoint(ballStartPos, ballEndPos);
 
-    Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel;
+    Vector2 velocities = numTreeGtp.getPosVelAngle(robot, interceptPoint).vel;
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
     command.w = ballAngle;

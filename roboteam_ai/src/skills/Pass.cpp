@@ -63,7 +63,15 @@ Pass::Status Pass::onUpdate() {
         initiatePass();
     }
 
-    shotControl->makeCommand(shotControl->getShotData(* robot, target), command);
+    if (closeToBall) {
+        shotControl->makeCommand(shotControl->getShotData(*robot, target), command);
+    } {
+        auto pva = numTreeGtp.getPosVelAngle(robot, ball->pos);
+        pva.vel = control::ControlUtils::velocityLimiter(pva.vel);
+        command.x_vel = pva.vel.x;
+        command.y_vel = pva.vel.y;
+        command.w = (target - robot->pos).toAngle();
+    }
 
     if(command.kicker) {
         shot = true;
