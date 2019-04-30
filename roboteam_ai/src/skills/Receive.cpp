@@ -13,16 +13,19 @@ Receive::Receive(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(
 
 void Receive::onInitialize() {
     ballPlacement = properties->getBool("BallPlacement");
-    isBallOnPassedSet = false;
 }
 
 Receive::Status Receive::onUpdate() {
-    if (world::world->ourRobotHasBall(robot->id)) {
+    if (world::world->ourRobotHasBall(robot->id, 0.08)) {
         return Status::Success;
     }
 
     if (coach::g_pass.getRobotBeingPassedTo() != robot->id) {
         std::cout << robot->id << " not being passed to anymore!" << std::endl;
+        return Status::Failure;
+    }
+
+    if (!coach::g_pass.checkIfValidReceiver(robot->id)) {
         return Status::Failure;
     }
 
@@ -51,13 +54,9 @@ Receive::Status Receive::onUpdate() {
 
     if (coach::g_pass.isPassed()) {
         // Remember the status of the ball at the moment of passing
-        if(!isBallOnPassedSet) {
-            ballOnPassed = ball;
-            isBallOnPassedSet = true;
-        }
 
         // Check if the ball was deflected
-        if (isBallOnPassedSet && passFailed()) {
+        if (passFailed()) {
             publishRobotCommand();
             return Status::Failure;
         }
@@ -77,6 +76,8 @@ void Receive::onTerminate(Status s) {
 
     if (robot->id != -1) {
         coach::g_pass.resetPass();
+    } else {
+        std::cerr << "HALP!!" << std::endl;
     }
 }
 
@@ -129,14 +130,12 @@ void Receive::intercept() {
 }
 
 bool Receive::passFailed() {
-    //TODO: Remove print statements and make 1 big if statement
     if (ballDeflected()) {
         std::cout << robot->id << " ball deflected!" << std::endl;
         return true;
     }
 
-    if (ball->vel.length() < 0.1) {
-        std::cout << robot->id << " ball going too slow!" << std::endl;
+    if (ball->vel.length() < Constants::BALL_STILL_VEL()) {
         return true;
     }
 
@@ -148,7 +147,6 @@ bool Receive::ballDeflected() {
     Angle ballVelocityAngle = (ball->vel).toAngle();
 
     return abs(robotToBallAngle - ballVelocityAngle) > BALL_DEFLECTION_ANGLE;
-
 }
 
 } // ai

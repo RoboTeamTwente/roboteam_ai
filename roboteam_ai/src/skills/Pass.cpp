@@ -39,16 +39,18 @@ Pass::Status Pass::onUpdate() {
             target = getKicker();
 
             if(!shot && closeToBall && !control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
+                std::cerr << "Passline not clear anymore" << std::endl;
                 return Status::Failure;
             }
 
             bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
-            bool ballIsShotTowardsReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, getKicker());
+            bool ballIsShotTowardsReceiver = true;//control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, getKicker());
 
             if (ballIsMovingFast && ballIsShotTowardsReceiver) {
                 coach::g_pass.setPassed(true);
                 return Status::Success;
             }
+
         } else {
             return Status::Failure;
         }

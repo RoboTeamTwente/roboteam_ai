@@ -108,6 +108,7 @@ Skill::Status GTPSpecial::gtpUpdate() {
     switch (type) {
     default:break;
     case goToBall: {
+        command.w = (ball->pos - robot->pos).toAngle();
         targetPos = ball->pos;
         break;
     }

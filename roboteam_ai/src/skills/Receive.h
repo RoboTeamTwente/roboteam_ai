@@ -34,9 +34,6 @@ private:
     Vector2 ballEndPos;
     Vector2 ballStartVel;
 
-    BallPtr ballOnPassed;
-    bool isBallOnPassedSet = false;
-
     Vector2 targetPos;
 
     bool isInPosition(const Vector2& behindTargetPos = {0, 0});
