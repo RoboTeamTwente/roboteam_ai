@@ -21,7 +21,7 @@ void ApplicationManager::setup() {
     IOManager = new io::IOManager(true, false);
 
     BTFactory::setCurrentTree("halt_strategy");
-    BTFactory::setKeeperTree("keeper_default_tactic");
+    BTFactory::setKeeperTree("keeper_halt_tactic");
     rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
 
 }
@@ -143,14 +143,15 @@ void ApplicationManager::checkForShutdown() {
 void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     switch (status) {
     case Status::Running:break;
-    case Status::Success:ROS_INFO_STREAM("Status returned: Success");
-        std::cout << " === TREE CHANGE === " << std::endl;
-
-        BTFactory::setCurrentTree("TestStrategy");
+    case Status::Success:
+        std::cout << " === TREE SUCCESS -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
+        BTFactory::setCurrentTree("normal_play_strategy");
         ai::robotDealer::RobotDealer::refresh();
-
         break;
-    case Status::Failure:ROS_INFO_STREAM("Status returned: Failure");
+    case Status::Failure:
+        std::cout << " === TREE FAILURE -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
+        BTFactory::setCurrentTree("normal_play_strategy");
+        ai::robotDealer::RobotDealer::refresh();
         break;
     case Status::Waiting:ROS_INFO_STREAM("Status returned: Waiting");
         break;

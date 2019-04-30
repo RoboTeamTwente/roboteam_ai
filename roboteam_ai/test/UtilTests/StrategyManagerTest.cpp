@@ -11,7 +11,7 @@ TEST(StrategyManagerTest, StrategyManagerTest) {
     roboteam_msgs::RefereeCommand cmd;
 
     cmd.command = static_cast<int>(RefGameState::NORMAL_START);
-    EXPECT_EQ(strategyManager.getCurrentStrategy(cmd).strategyName, "TestStrategy");
+    EXPECT_EQ(strategyManager.getCurrentStrategy(cmd).strategyName, "normal_play_strategy");
 
     cmd.command = static_cast<int>(RefGameState::HALT);
     EXPECT_EQ(strategyManager.getCurrentStrategy(cmd).strategyName, "halt_strategy");
