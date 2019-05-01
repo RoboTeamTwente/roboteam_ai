@@ -93,20 +93,6 @@ void Robot::setGenevaState(unsigned char state) {
     else std::cout << "setting invalid geneva state (" << state << ") for robot with id " << id << std::endl;
 }
 
-const Robot Robot::clone() const {
-    Robot clone;
-    clone.distanceToBall = distanceToBall;
-    clone.iHaveBall = iHaveBall;
-    clone.angle = angle;
-    clone.id = id;
-    clone.pos = pos;
-    clone.vel = vel;
-    clone.acc = acc;
-    clone.angularVelocity = angularVelocity;
-    clone.team = team;
-    return clone;
-}
-
 } //world
 } //ai
 } //rtt

@@ -67,7 +67,7 @@ Pass::Status Pass::onUpdate() {
         }
 
         shotControl->makeCommand(shotControl->getShotData(robot, getKicker()), command);
-        if (command.kicker == true && !shot) {
+        if (command.kicker == 1 && !shot) {
             shot = true;
         }
     }
