@@ -16,8 +16,11 @@ namespace coach {
 
 class PassCoach {
 public:
+    using Robot = world::Robot;
+    using RobotPtr = std::shared_ptr<Robot>;
+
     PassCoach();
-    void resetPass();
+    void resetPass(int robotID);
     int initiatePass(int passerID);
     bool isReadyToReceivePass();
     void setReadyToReceivePass(bool readyToReceivePass);
@@ -29,10 +32,11 @@ public:
     virtual int determineReceiver(int passerID);
     bool passTakesTooLong();
     void updatePassProgression();
+    bool validReceiver(RobotPtr passer, RobotPtr receiver);
 
 private:
 
-    const double RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE = 0.75;
+    const double RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE = 0.2;
 
     const double SMALLEST_MIN_PASS_DISTANCE = 5 * Constants::ROBOT_RADIUS();
     static double MIN_PASS_DISTANCE;
@@ -43,7 +47,7 @@ private:
     bool passTimerStarted = false;
     bool receiveTimerStarted = false;
 
-    const double MAX_PASS_TIME = 5.0; //seconds
+    const double MAX_PASS_TIME = 8.0; //seconds
     const double MAX_RECEIVE_TIME = 5.0; //seconds
 
     bool readyToReceivePass{};

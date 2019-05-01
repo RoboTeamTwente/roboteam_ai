@@ -73,7 +73,6 @@
 #include <roboteam_ai/src/conditions/RobotOutside.h>
 
 
-
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
 #include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"
 #include "roboteam_ai/src/conditions/BallOutOfField.h"

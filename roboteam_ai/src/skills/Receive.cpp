@@ -13,11 +13,11 @@ Receive::Receive(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(
 
 void Receive::onInitialize() {
     ballPlacement = properties->getBool("BallPlacement");
-    isBallOnPassedSet = false;
+    readyToPassSet = false;
 }
 
 Receive::Status Receive::onUpdate() {
-    if (world::world->ourRobotHasBall(robot->id)) {
+    if (world::world->robotHasBall(robot->id, true)) {
         return Status::Success;
     }
 
@@ -33,39 +33,35 @@ Receive::Status Receive::onUpdate() {
                 ball->pos);
 
         moveToCatchPosition(behindTargetPos);
+        std::cerr << "BALL PLACEMENT HUH?" << std::endl;
 
         if (isInPosition(behindTargetPos)) {
             coach::g_pass.setReadyToReceivePass(true);
         }
     } else {
-        // Check if robot is in position, otherwise turn towards ball
-        if (isInPosition()) {
-            coach::g_pass.setReadyToReceivePass(true);
-        } else {
-            command.w = static_cast<float>((Vector2(ball->pos) - robot->pos).angle());
-            publishRobotCommand();
+        if (coach::g_pass.isPassed()) {
+            // Check if the ball was deflected
+            if (passFailed()) {
+                publishRobotCommand();
+                return Status::Failure;
+            }
+
+            intercept();
             return Status::Running;
         }
-    }
 
-    if (coach::g_pass.isPassed()) {
-        // Remember the status of the ball at the moment of passing
-        if(!isBallOnPassedSet) {
-            ballOnPassed = ball;
-            isBallOnPassedSet = true;
+        // Check if robot is in position, otherwise turn towards ball
+        if (isInPosition()) {
+            if (!readyToPassSet) {
+                readyToPassSet = true;
+                coach::g_pass.setReadyToReceivePass(true);
+            }
         }
 
-        // Check if the ball was deflected
-        if (isBallOnPassedSet && passFailed()) {
-            publishRobotCommand();
-            return Status::Failure;
-        }
-
-        intercept();
+        command.w = (ball->pos - robot->pos).toAngle().getAngle();
+        publishRobotCommand();
         return Status::Running;
     }
-
-    return Status::Running;
 }
 
 void Receive::onTerminate(Status s) {
@@ -74,15 +70,15 @@ void Receive::onTerminate(Status s) {
     command.dribbler = 0;
     publishRobotCommand();
 
-    if (robot->id != -1) {
-        coach::g_pass.resetPass();
+    if (passFailed() || coach::g_pass.getRobotBeingPassedTo() != robot->id) {
+        coach::g_pass.resetPass(robot->id);
     }
 }
 
 
 // Pick the closest point to the (predicted) line of the ball for any 'regular' interception
 Vector2 Receive::computeInterceptPoint(const Vector2& startBall, const Vector2& endBall) {
-    return Vector2(robot->pos).project(startBall, endBall);
+    return robot->pos.project(startBall, endBall);
 }
 
 // check if the robot is in the desired position to catch the ball
@@ -106,32 +102,32 @@ void Receive::moveToCatchPosition(Vector2 position) {
         command.w = static_cast<float>((Vector2(ball->pos) - robot->pos).angle());
     } else {
         command.w = static_cast<float>((position - robot->pos).angle());
-
     }
     publishRobotCommand();
 }
 
 void Receive::intercept() {
-    double ballAngle = ((Vector2) ball->pos - robot->pos).angle();
+    ball = world::world->getBall();
+    double ballAngle = (ball->pos - robot->pos).toAngle().getAngle();
 
     ballStartPos = ball->pos;
     ballStartVel = ball->vel;
     ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
-    Vector2 interceptPoint = Receive::computeInterceptPoint(ballStartPos, ballEndPos);
+    Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
 
     Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel;
+    velocities = control::ControlUtils::velocityLimiter(velocities);
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
-    command.w = ballAngle;
-
+    command.w = ball->vel.stretchToLength(-1).toAngle();
     publishRobotCommand();
 }
 
 bool Receive::passFailed() {
     //TODO: Remove print statements and make 1 big if statement
-    if (ballDeflected()) {
-        return true;
-    }
+//    if (ballDeflected()) {
+//        return true;
+//    }
 
     if (ball->vel.length() < 0.1) {
         return true;
