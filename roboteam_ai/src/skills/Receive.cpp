@@ -65,11 +65,6 @@ Receive::Status Receive::onUpdate() {
 }
 
 void Receive::onTerminate(Status s) {
-    command.x_vel = 0;
-    command.y_vel = 0;
-    command.dribbler = 0;
-    publishRobotCommand();
-
     if (passFailed() || coach::g_pass.getRobotBeingPassedTo() != robot->id) {
         coach::g_pass.resetPass(robot->id);
     }
