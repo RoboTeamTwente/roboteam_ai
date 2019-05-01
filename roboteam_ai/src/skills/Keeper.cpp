@@ -23,14 +23,38 @@ void Keeper::onInitialize() {
 
 Keeper::Status Keeper::onUpdate() {
     Vector2 ballPos = world::world->getBall()->pos;
-    Vector2 blockPoint = computeBlockPoint(ballPos);
+    Vector2 blockPoint;
+
+    goalPos = world::field->get_our_goal_center();
+
+    if (ball->pos.x < 0) {
+        auto attacker = world::world->getRobotClosestToPoint(ball->pos, world::THEIR_ROBOTS);
+        if (attacker.id) {
+            std::cout << attacker.id << std::endl;
+            Vector2 start;
+            Vector2 end;
+            double distanceToGoal = ((Vector2)attacker.pos - world::field->get_our_goal_center()).length();
+
+            start = attacker.pos;
+            end = start + (Vector2){distanceToGoal * 1.2, 0}.rotate(attacker.angle);
+
+            auto field = world::field->get_field();
+            Vector2 startGoal = {-field.field_length, -field.goal_width / 2};
+            Vector2 endGoal = {-field.field_length, field.goal_width / 2};
+            if (control::ControlUtils::lineSegmentsIntersect(start, end, startGoal, endGoal)) {
+                goalPos = control::ControlUtils::twoLineIntersection(start, end, startGoal, endGoal);
+                std::cout << "Use facing of attacker" << std::endl;
+            }
+        }
+    }
+
+    blockPoint = computeBlockPoint(ballPos);
 
     if (!world::field->pointIsInField(blockPoint, static_cast<float>(Constants::OUT_OF_FIELD_MARGIN()))) {
-        std::cout << "Keeper escaping field!" << std::endl;
         return Status::Running;
     }
 
-    Vector2 velocities = gtp.getPosVelAngle(robot, blockPoint).vel;
+    Vector2 velocities = basicGtp.getPosVelAngle(robot, blockPoint).vel;
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
     publishRobotCommand();
