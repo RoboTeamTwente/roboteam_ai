@@ -33,7 +33,12 @@ public:
     static double MAX_ANGULAR_VEL_CMD()         { return 16*M_PI; };
     static double MIN_ANGLE()                   { return -M_PI; };
     static double MAX_ANGLE()                   { return M_PI; };
+
+
+    // max velocities for refstates
     static double MAX_VEL()                     { return 8.0; };
+    static double MAX_STOP_STATE_VEL()          { return 1.5; };
+
     static double MIN_VEL()                     { return 0.2; };  // Minimum velocity to make the robot move
     static double MAX_ACC_UPPER()               { return 5.0; };  // Maximum acceleration for moving in the forward direction
     static double MAX_ACC_LOWER()               { return 3.0; };  // Maximum acceleration for moving in the sideways direction
@@ -62,8 +67,8 @@ public:
     static double MAX_BALL_RANGE()              { return 0.04; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
     static double HAS_BALL_ANGLE()              { return 0.2; };
     static double MAX_KICK_RANGE()              { return 0.04; };
-    static double DEFAULT_MAX_VEL()             { return 4.0; };
-    static double MAX_INTERCEPT_TIME()          { return 2.0; };    // Seconds. Intercept terminates  after this time.
+
+    static double MAX_INTERCEPT_TIME()          { return 3.0; };    // Seconds. Intercept terminates  after this time.
     static double BALL_STILL_VEL()              { return 0.1; };    // If the ball has velocity lower than this in defense area, keeper starts getting it
     static double MIN_DISTANCE_FOR_FORCE()      { return 0.5; };
     static double GOTOPOS_ERROR_MARGIN()        { return 0.03; };
@@ -76,9 +81,9 @@ public:
     static double KEEPER_PENALTY_LINE_MARGIN()  { return 0.06;}//m
 
     /// INTERFACE ///
-    static int ROBOT_DRAWING_SIZE()             { return 8; };
-    static int BALL_DRAWING_SIZE()              { return 5; };
-    static int TACTIC_COLOR_DRAWING_SIZE()      { return 10; };
+    static int ROBOT_DRAWING_SIZE()             { return 6; };
+    static int BALL_DRAWING_SIZE()              { return 4; };
+    static int TACTIC_COLOR_DRAWING_SIZE()      { return 15; };
     static int WINDOW_FIELD_MARGIN()            { return 5; };
 
     static int KEEPER_HELP_DRAW_SIZE()          { return 7; };
@@ -102,6 +107,32 @@ public:
     static bool STD_SHOW_AVAILABLE_PASSES()     { return false; };
     static bool STD_TIMEOUT_TO_TOP()            { return false; };
 
+    static std::map<int, bool> ROBOTS_WITH_WORKING_GENEVA() {
+        static std::map<int, bool> workingGenevaRobots;
+        workingGenevaRobots[0] = true;
+        workingGenevaRobots[1] = true;
+        workingGenevaRobots[2] = true;
+        workingGenevaRobots[3] = true;
+        workingGenevaRobots[4] = true;
+        workingGenevaRobots[5] = true;
+        workingGenevaRobots[6] = true;
+        workingGenevaRobots[7] = true;
+        workingGenevaRobots[8] = true;
+        workingGenevaRobots[9] = true;
+        workingGenevaRobots[10] = true;
+        workingGenevaRobots[11] = true;
+        workingGenevaRobots[12] = true;
+        workingGenevaRobots[13] = true;
+        workingGenevaRobots[14] = true;
+        workingGenevaRobots[15] = true;
+
+        return workingGenevaRobots;
+    }
+
+
+    static bool ROBOT_HAS_WORKING_GENEVA(int id) {
+        return ROBOTS_WITH_WORKING_GENEVA()[id];
+    }
 
     static QColor FIELD_COLOR()                 { return GRSIM() ? QColor(30 , 30 , 30 , 255) :
                                                                    QColor(50 , 0  , 0  , 255); };
@@ -112,11 +143,11 @@ public:
     static QColor TEXT_COLOR()                  { return Qt::white; };
     static QColor SELECTED_ROBOT_COLOR()        { return Qt::magenta; };
 
-    static std::vector<QColor> TACTIC_COLORS()  { return { {255, 0  , 255, 255},
-                                                           {255, 0  , 255, 255},
-                                                           {255, 255, 0  , 255},
-                                                           {255, 120, 180, 255},
-                                                           {255, 100, 255, 255} }; };
+    static std::vector<QColor> TACTIC_COLORS()  { return { {255, 0  , 255, 50},
+                                                           {0, 255  , 255, 50},
+                                                           {255, 255, 0  , 50},
+                                                           {0, 255, 0, 50},
+                                                           {0, 0, 255, 50} }; };
 
     // Default PID values for the gotoposses/interface
     static pidVals standardNumTreePID()         { return GRSIM() ? pidVals(3.2, 0.0, 2.0) : pidVals(2.8, 0.6,2.3); };

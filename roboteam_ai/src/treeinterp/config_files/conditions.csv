@@ -16,4 +16,4 @@ HasClearShot
 TwoRobotBallPlacement
 ShouldHandleBall
 IsOnPassLine
-BallIsMoving
+CanPlay

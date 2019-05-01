@@ -370,8 +370,7 @@ void BallHandlePosControl::updateForwardsProgress() {
 RobotCommand BallHandlePosControl::limitCommand(RobotCommand command) {
 
     // velocity limiter
-    double maxVel = Constants::DEFAULT_MAX_VEL();
-    command.vel = control::ControlUtils::velocityLimiter(command.vel, maxVel);
+    command.vel = control::ControlUtils::velocityLimiter(command.vel);
 
     // acceleration limiter
     double maxAcc = control::ControlUtils::calculateMaxAcceleration(command.vel, command.angle);

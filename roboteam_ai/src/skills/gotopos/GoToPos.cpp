@@ -30,7 +30,7 @@ void GoToPos::onInitialize() {
         maxVel = properties->getDouble("maxVel");
     }
     else {
-        maxVel = Constants::DEFAULT_MAX_VEL();
+        maxVel = Constants::MAX_VEL();
     }
 
     goToType = stringToGoToType(properties->getString("goToType"));

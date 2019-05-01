@@ -7,6 +7,7 @@
 
 
 #include <roboteam_ai/src/control/ControlUtils.h>
+#include <roboteam_ai/src/coach/PassCoach.h>
 #include "HasClearShot.h"
 
 namespace rtt{
@@ -18,7 +19,7 @@ HasClearShot::HasClearShot(std::string name, bt::Blackboard::Ptr blackboard)
 HasClearShot::Status HasClearShot::onUpdate() {
 
 	// return failure if the robot is too far away for a shot at goal
-    if ((Vector2(robot->pos) - world::field->get_their_goal_center()).length() > MAX_SHOOTING_DISTANCE) {
+    if ((Vector2(ball->pos) - world::field->get_their_goal_center()).length() > MAX_SHOOTING_DISTANCE) {
         return Status::Failure;
     }
 

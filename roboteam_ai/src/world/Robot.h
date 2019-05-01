@@ -52,6 +52,8 @@ class Robot {
         Vector2 acc = Vector2();
         double angularVelocity = 0.0;
         Team team;
+       bool hasWorkingGeneva = false;
+
 };
 
 } // world

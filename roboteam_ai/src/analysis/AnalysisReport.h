@@ -19,7 +19,9 @@ namespace analysis {
 // define some play styles to influence our decision making
 enum BallPossession : short {
     THEY_HAVE_BALL,
+    DEFENSIVE_NEUTRAL,
     NEUTRAL,
+    OFFENSIVE_NEUTRAL,
     WE_HAVE_BALL
 };
 

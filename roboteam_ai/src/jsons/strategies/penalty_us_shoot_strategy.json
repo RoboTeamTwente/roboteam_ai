@@ -1,9 +1,9 @@
 {
-  "name": "shoot_penalty_us_strategy",
+  "name": "penalty_us_shoot_strategy",
   "data": {
     "trees": [
       {
-        "title": "shoot_penalty_us_strategy",
+        "title": "penalty_us_shoot_strategy",
         "root": "eanmst6k16ta1p9q",
         "nodes": {
           "eanmst6k16ta1p9q": {
@@ -16,7 +16,7 @@
           },
           "kjsvbjeuyszay1ir": {
             "id": "kjsvbjeuyszay1ir",
-            "title": "BallIsMoving"
+            "title": "CanPlay"
           },
           "7s2wpv0nv17otq": {
             "id": "7s2wpv0nv17otq",

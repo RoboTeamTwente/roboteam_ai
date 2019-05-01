@@ -3,13 +3,19 @@
     "trees": [
       {
         "nodes": {
-          "u1e1jo1wyr8qi6hl": {
+          "pmiyhulhtm21c0df": {
             "children": [
+              "rlplfz54378bodpu",
               "wh5q2dwo2f2nc"
             ],
-            "id": "u1e1jo1wyr8qi6hl",
+            "id": "pmiyhulhtm21c0df",
             "properties": {},
-            "title": "Repeater"
+            "title": "Selector"
+          },
+          "rlplfz54378bodpu": {
+            "id": "rlplfz54378bodpu",
+            "properties": {},
+            "title": "CanPlay"
           },
           "wh5q2dwo2f2nc": {
             "id": "wh5q2dwo2f2nc",
@@ -17,7 +23,7 @@
             "title": "Tactic"
           }
         },
-        "root": "u1e1jo1wyr8qi6hl",
+        "root": "pmiyhulhtm21c0df",
         "title": "kickoff_us_formation_strategy"
       }
     ]

@@ -203,8 +203,9 @@ int ControlUtils::rotateDirection(double currentAngle, double targetAngle) {
     else return - 1;    //backwards
 }
 
-/// Limits velocity to maximum velocity
+/// Limits velocity to maximum velocity. it defaults to the max velocity stored in Referee.
 Vector2 ControlUtils::velocityLimiter(const Vector2 &vel, double maxVel, double minVel) {
+
     if (vel.length() > maxVel) {
         return vel.stretchToLength(maxVel);
     }
@@ -289,11 +290,9 @@ Vector2 ControlUtils::calculateForce(const Vector2 &vector, double weight, doubl
 bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, double maxDifference) {
     auto robot = world::world->getRobotForId(id, ourTeam);
     if (robot) {
-        double exactAngleTowardsPoint = (point - robot->pos).angle();
+        Angle exactAngleTowardsPoint = (point - robot->pos);
 
-        // Note: The angles should NOT be constrained here. This is necessary.
-        return (robot->angle.getAngle() > exactAngleTowardsPoint - maxDifference/2
-                && robot->angle.getAngle() < exactAngleTowardsPoint + maxDifference/2);
+        return abs(exactAngleTowardsPoint - robot->angle) < maxDifference;
     }
     return false;
 }

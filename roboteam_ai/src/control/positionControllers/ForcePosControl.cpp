@@ -63,7 +63,7 @@ PosVelAngle ForcePosControl::calculateForcePosVelAngle(const PosController::Robo
     PosVelAngle target;
     auto force = calculateForces(robot, targetPos, forceRadius);
     target.pos = targetPos;
-    target.vel = control::ControlUtils::velocityLimiter(force, 3.0);
+    target.vel = control::ControlUtils::velocityLimiter(force);
     return controlWithPID(robot, target);
 }
 

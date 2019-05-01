@@ -8,7 +8,7 @@
 namespace rtt {
 namespace ai {
 
-std::string StrategyManager::getCurrentStrategyName(roboteam_msgs::RefereeCommand currentRefCmd) {
+StrategyMap StrategyManager::getCurrentStrategy(roboteam_msgs::RefereeCommand currentRefCmd) {
     auto commandFromMostRecentReferee = static_cast<RefGameState>(currentRefCmd.command);
     // trigger only if the command changed
     if (commandFromMostRecentReferee != prevCmd) {
@@ -17,13 +17,13 @@ std::string StrategyManager::getCurrentStrategyName(roboteam_msgs::RefereeComman
         // if the command has a followUpCommand and the ref says normalPlay we need to run the followupcommand
         if (oldStrategyMap.followUpCommandId != RefGameState::UNDEFINED
             && commandFromMostRecentReferee == RefGameState::NORMAL_START) {
-            return getStrategyMapForRefGameState(oldStrategyMap.followUpCommandId).strategyName;
+            return getStrategyMapForRefGameState(oldStrategyMap.followUpCommandId);
         }
 
         currentStrategyMap = getStrategyMapForRefGameState(commandFromMostRecentReferee);
         prevCmd = commandFromMostRecentReferee;
     }
-    return currentStrategyMap.strategyName;
+    return currentStrategyMap;
 }
 
 /// Use an iterator and a lambda to efficiently get the Node for a specified id

@@ -22,6 +22,9 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team)
         genevaState[id] = 3;
     }
 
+    if (id != -1) {
+        hasWorkingGeneva = Constants::ROBOT_HAS_WORKING_GENEVA(id);
+    }
 }
 
 Robot::Robot()
