@@ -57,16 +57,18 @@ private:
     // ShotData calculation
     ShotData goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition, int genevaState);
     ShotData moveStraightToBall(world::Robot robot, int genevaState);
-    ShotData shoot(world::Robot robot, Vector2 shotTarget);
+    ShotData shoot(world::Robot robot, Vector2 shotTarget, bool chip);
 
     Vector2 getGenevaLineOffsetPoint(Vector2 point, int genevaState);
 
 public:
     explicit ShotController(ShotPrecision precision = MEDIUM, BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true);
-    ShotData getShotData(world::Robot robot, Vector2 shotTarget);
+    ShotData getShotData(world::Robot robot, Vector2 shotTarget, bool chip = false);
     void makeCommand(ShotData data, roboteam_msgs::RobotCommand &command);
 
-    void determineGenevaAndPosition(const world::Robot &robot, const Vector2 &shotTarget);
+    void determineGenevaAndPosition(const world::Robot &robot, const Vector2 &shotTarget, bool chip);
+
+    void setGenevaDelay(int genevaDifference);
 };
 
 } // control
