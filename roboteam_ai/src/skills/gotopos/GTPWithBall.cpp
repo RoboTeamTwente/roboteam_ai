@@ -51,15 +51,6 @@ void GTPWithBall::updateTarget() {
         else {
             targetAngle = delta + M_PI;
         }
-        double robotDistanceToTargetSquared = (robot->pos - targetPos).length2();
-        double ballDistanceToTargetSquared = (ball->pos - targetPos).length2();
-        if (robotDistanceToTargetSquared > ballDistanceToTargetSquared) {
-            targetPos = targetPos + robot->pos.stretchToLength(Constants::ROBOT_RADIUS());
-        }
-        else {
-            targetPos = targetPos - robot->pos.stretchToLength(Constants::ROBOT_RADIUS());
-        }
-
         return;
     }
     }

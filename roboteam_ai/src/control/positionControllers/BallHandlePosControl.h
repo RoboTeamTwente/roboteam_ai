@@ -39,18 +39,18 @@ class BallHandlePosControl {
         Vector2 finalTargetPos;
         Angle targetAngle;
         Angle finalTargetAngle;
+        double ballPlacementAccuracy = 0.01;
 
         NumTreePosControl numTreePosController = NumTreePosControl();
         enum RotateStrategy : short {
           rotateAroundBall,
-          rotateAroundRobot,
+          rotateAroundRobot
         };
         void printRotateStrategy(RotateStrategy strategy);
 
         enum TravelStrategy : short {
           forwards,
-          backwards,
-          defaultTravel
+          backwards
         };
         void printTravelStrategy(TravelStrategy strategy);
 
@@ -108,7 +108,7 @@ class BallHandlePosControl {
         RobotCommand F_sendDribbleForwardsCommand();
 
         // general functions
-        RobotCommand goToBall(bool robotDoesNotHaveBall, bool robotIsTooFarFromBall, bool ballIsFarFromTarget);
+        RobotCommand goToBall(bool ballIsFarFromTarget);
         RobotCommand rotateWithBall(RotateStrategy rotateStrategy);
         RobotCommand travelWithBall(TravelStrategy travelStrategy);
         void updateVariables(const RobotPtr &robot, const Vector2 &targetP, const Angle &targetA);
@@ -119,7 +119,7 @@ class BallHandlePosControl {
     public:
         explicit BallHandlePosControl(bool canMoveInDefenseArea = false);
 
-        RobotCommand getPosVelAngle(const RobotPtr &robot, const Vector2 &targetP, const Angle &targetA);
+        RobotCommand getPosVelAngle(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA);
 
         RobotCommand F_sendSuccessCommand();
 };
