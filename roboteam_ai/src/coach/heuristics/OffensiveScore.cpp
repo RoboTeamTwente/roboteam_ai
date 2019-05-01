@@ -19,11 +19,13 @@ double OffensiveScore::calculateOffensivePositionScore(const Vector2 &position) 
     double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);
     double shotAtGoalScore = CoachHeuristics::calculateShotAtGoalScore(position, world);
     double distanceToOpponentScore = CoachHeuristics::calculateDistanceToOpponentsScore(position, world);
+    double distanceToBallScore = CoachHeuristics::calculateDistanceToBallScore(position, world);
 
     double score =  SHOT_AT_GOAL_WEIGHT * shotAtGoalScore +
                     PASS_LINE_WEIGHT * passLineScore +
                     CLOSE_TO_GOAL_WEIGHT * closeToGoalScore +
-                    DISTANCE_TO_OPPONENT_WEIGHT * distanceToOpponentScore;
+                    DISTANCE_TO_OPPONENT_WEIGHT * distanceToOpponentScore +
+                    DISTANCE_TO_BALL_WEIGHT * distanceToBallScore;
     return score;
 }
 
