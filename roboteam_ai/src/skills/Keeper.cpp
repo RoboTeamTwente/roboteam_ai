@@ -29,22 +29,8 @@ Keeper::Status Keeper::onUpdate() {
 
     if (ball->pos.x < 0) {
         auto attacker = world::world->getRobotClosestToPoint(ball->pos, world::THEIR_ROBOTS);
-        if (attacker.id) {
-            std::cout << attacker.id << std::endl;
-            Vector2 start;
-            Vector2 end;
-            double distanceToGoal = ((Vector2)attacker.pos - world::field->get_our_goal_center()).length();
-
-            start = attacker.pos;
-            end = start + (Vector2){distanceToGoal * 1.2, 0}.rotate(attacker.angle);
-
-            auto field = world::field->get_field();
-            Vector2 startGoal = {-field.field_length, -field.goal_width / 2};
-            Vector2 endGoal = {-field.field_length, field.goal_width / 2};
-            if (control::ControlUtils::lineSegmentsIntersect(start, end, startGoal, endGoal)) {
-                goalPos = control::ControlUtils::twoLineIntersection(start, end, startGoal, endGoal);
-                std::cout << "Use facing of attacker" << std::endl;
-            }
+        if ((ball->pos - attacker.pos).length() < 0.5) {
+            setGoalPosWithAttacker(attacker);
         }
     }
 
@@ -112,6 +98,29 @@ Vector2 Keeper::computeBlockPoint(Vector2 defendPos) {
     interface::Drawer::setKeeperPoints(robot->id,displayColorData);
 
     return blockPos;
+}
+
+void Keeper::setGoalPosWithAttacker(world::Robot attacker) {
+    Vector2 start;
+    Vector2 end;
+    double distanceToGoal = ((Vector2)attacker.pos - world::field->get_our_goal_center()).length();
+
+    start = attacker.pos;
+
+    auto goal = world::field->getGoalSides(false);
+    Vector2 attackerToBallV2 = ball->pos - attacker.pos;
+    Vector2 attackerAngleV2 = attacker.angle.toVector2();
+    Vector2 i1 = control::ControlUtils::twoLineIntersection(attackerToBallV2 + attacker.pos, attacker.pos, goal.first, goal.second);
+    Vector2 i2 = control::ControlUtils::twoLineIntersection(attackerAngleV2 + attacker.pos, attacker.pos, goal.first, goal.second);
+    Angle targetAngle = Vector2(attacker.pos - (i1 + i2)*0.5).toAngle();
+    end = start + (Vector2){distanceToGoal * 1.2, 0}.rotate(targetAngle);
+
+    auto field = world::field->get_field();
+    Vector2 startGoal = {-field.field_length / 2, -field.goal_width / 2};
+    Vector2 endGoal = {-field.field_length / 2, field.goal_width / 2};
+    if (control::ControlUtils::lineSegmentsIntersect(start, end, startGoal, endGoal)) {
+        goalPos = control::ControlUtils::twoLineIntersection(start, end, startGoal, endGoal);
+    }
 }
 
 }
