@@ -23,7 +23,7 @@ class BallHandlePosControl {
 
         const double errorMargin = 0.02;
         const double angleErrorMargin = 0.02;
-        const double maxBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS()*3.0;
+        const double maxBallDistance = 0.5;
         const double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
         const double robotRadius = Constants::ROBOT_RADIUS();
         const double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.0;
@@ -108,7 +108,7 @@ class BallHandlePosControl {
         RobotCommand F_sendDribbleForwardsCommand();
 
         // general functions
-        RobotCommand goToBall(bool robotDoesNotHaveBall, bool robotIsTooFarFromBall);
+        RobotCommand goToBall(bool robotDoesNotHaveBall, bool robotIsTooFarFromBall, bool ballIsFarFromTarget);
         RobotCommand rotateWithBall(RotateStrategy rotateStrategy);
         RobotCommand travelWithBall(TravelStrategy travelStrategy);
         void updateVariables(const RobotPtr &robot, const Vector2 &targetP, const Angle &targetA);
