@@ -548,6 +548,10 @@ void BallHandlePosControl::printRotateStrategy(RotateStrategy strategy) {
     std::cout << ss.str() << std::endl;
 }
 
+void BallHandlePosControl::setMaxVelocity(double maxV) {
+    maxForwardsVelocity = maxV > 0.0 && maxV < 8.0 ? maxV : maxForwardsVelocity;
+}
+
 } //control
 } //ai
 } //rtt

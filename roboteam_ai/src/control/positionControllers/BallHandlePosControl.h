@@ -21,12 +21,12 @@ class BallHandlePosControl {
         using BallPtr = std::shared_ptr<world::Ball>;
         using RobotPtr = std::shared_ptr<world::Robot>;
 
+        double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.0;
         const double errorMargin = 0.02;
         const double angleErrorMargin = 0.02;
         const double maxBallDistance = 0.5;
         const double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
         const double robotRadius = Constants::ROBOT_RADIUS();
-        const double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.0;
         const double maxBackwardsVelocity = Constants::GRSIM() ? 0.3 : 0.8;
         const double maxAngularVelocity = 0.2;
         bool canMoveInDefenseArea = false;
@@ -119,8 +119,8 @@ class BallHandlePosControl {
     public:
         explicit BallHandlePosControl(bool canMoveInDefenseArea = false);
 
+        void setMaxVelocity(double maxV);
         RobotCommand getPosVelAngle(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA);
-
         RobotCommand F_sendSuccessCommand();
 };
 
