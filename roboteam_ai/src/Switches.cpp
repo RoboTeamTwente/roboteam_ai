@@ -69,7 +69,7 @@
 #include <roboteam_ai/src/skills/formations/TimeoutFormation.h>
 #include <roboteam_ai/src/bt/RoleDivider.h>
 #include <roboteam_ai/src/skills/formations/KickOffThemFormation.h>
-#include <roboteam_ai/src/conditions/BallIsMoving.h>
+#include <roboteam_ai/src/conditions/CanPlay.h>
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
 #include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"
@@ -226,7 +226,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["BallKickedToOurGoal"] = std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
     map["BallNearOurGoalLineAndStill"] = std::make_shared<rtt::ai::BallNearOurGoalLineAndStill>(name, properties);
-    map["BallIsMoving"] = std::make_shared<rtt::ai::BallIsMoving>(name, properties);
+    map["CanPlay"] = std::make_shared<rtt::ai::CanPlay>(name, properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
     map["HasBall"] = std::make_shared<rtt::ai::HasBall>(name, properties);
     map["IsBallCloseToBorder"] = std::make_shared<rtt::ai::IsBallCloseToBorder>(name, properties);
