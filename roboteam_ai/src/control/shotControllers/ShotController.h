@@ -55,6 +55,7 @@ private:
     bool robotAngleIsGood(world::Robot &robot,std::pair<Vector2,Vector2> lineToDriveOver);
     double determineKickForce(double distance);
 
+    std::pair<Vector2,Vector2> offsetLine(std::pair<Vector2,Vector2> line,int genevaState);
     // ShotData calculation
     ShotData goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition, std::pair<Vector2,Vector2> driveLine);
     ShotData moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver);
