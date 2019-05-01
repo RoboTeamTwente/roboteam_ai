@@ -19,7 +19,7 @@ ShotController::ShotController(ShotPrecision precision, BallSpeed ballspeed, boo
 }
 
 /// return a ShotData (which contains data for robotcommands) for a specific robot to shoot at a specific target.
-ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
+ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, bool chip) {
     auto ball = world::world->getBall();
 
     // always set genevaIsTurning to true if it was 'long ago'.
@@ -27,7 +27,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
       genevaIsTurning = false;
     }
 
-    determineGenevaAndPosition(robot, shotTarget);
+    determineGenevaAndPosition(robot, shotTarget, chip);
 
     // check the properties
     bool isOnLineToBall = onLineToBall(robot, ball, behindBallPosition, currentDesiredGeneva);
@@ -37,7 +37,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
    if (isOnLineToBall && isBehindBall) {
        bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
        if (hasBall && !genevaIsTurning) {
-           shotData = shoot(robot, shotTarget);
+           shotData = shoot(robot, shotTarget, chip);
        } else if (hasBall && genevaIsTurning) {
            std::cout << "Not shooting because geneva is turning for " << secondsToTurnGeneva << "s" << std::endl;
        } else {
@@ -53,30 +53,32 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
 }
 
 
-void ShotController::determineGenevaAndPosition(const world::Robot &robot, const Vector2 &shotTarget) {// determine the position for the robot to stand and the corresponding geneva angle
-
+void ShotController::determineGenevaAndPosition(const world::Robot &robot, const Vector2 &shotTarget, bool chip) {// determine the position for the robot to stand and the corresponding geneva angle
     auto ball = world::world->getBall();
     bool robotAlreadyVeryClose =  robot.pos.dist(ball->pos) < 3.0*Constants::ROBOT_RADIUS();
+    auto oldGenevaState = currentDesiredGeneva;
 
     // only change values if we don't turn the geneva (and are thus able to turn it)
-    if (useAutoGeneva && !genevaIsTurning && robot.hasWorkingGeneva && !robotAlreadyVeryClose) {
-        auto oldGenevaState = currentDesiredGeneva;
-
+    if (useAutoGeneva && !genevaIsTurning && robot.hasWorkingGeneva && !robotAlreadyVeryClose && !chip) {
         auto positionAndGeneva = getGenevaPlaceBehindBall(robot, shotTarget);
         behindBallPosition = positionAndGeneva.first;
         currentDesiredGeneva = positionAndGeneva.second;
-
         int genevaDifference = abs(oldGenevaState - currentDesiredGeneva);
-
-        if (genevaDifference != 0) {
-            genevaIsTurning = true;
-            // each turn should increase the time which the geneva is turning
-            secondsToTurnGeneva = genevaDifference * 0.3;
-            lastTimeGenevaChanged = ros::Time::now().toSec();
-        }
-    } else if (!useAutoGeneva || !robot.hasWorkingGeneva || robotAlreadyVeryClose) {
+        setGenevaDelay(genevaDifference);
+    } else if (!useAutoGeneva || !robot.hasWorkingGeneva || robotAlreadyVeryClose || chip) {
         behindBallPosition = getPlaceBehindBall(robot, shotTarget);
         currentDesiredGeneva = 3;
+        int genevaDifference = abs(oldGenevaState - currentDesiredGeneva);
+        setGenevaDelay(genevaDifference);
+    }
+}
+
+void ShotController::setGenevaDelay(int genevaDifference) {
+    if (genevaDifference != 0) {
+        genevaIsTurning = true;
+        // each turn should increase the time which the geneva is turning
+        secondsToTurnGeneva = genevaDifference * 0.3;
+        lastTimeGenevaChanged = ros::Time::now().toSec();
     }
 }
 
@@ -172,7 +174,7 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, int genevaState)
 }
 
 /// Now we should have the ball and kick it.
-ShotData ShotController::shoot(world::Robot robot, Vector2 shotTarget) {
+ShotData ShotController::shoot(world::Robot robot, Vector2 shotTarget, bool chip) {
     auto ball = world::world->getBall();
 
     // move towards the ball
@@ -180,9 +182,17 @@ ShotData ShotController::shoot(world::Robot robot, Vector2 shotTarget) {
     ShotData shotData(pva);
 
     // set the kicker and kickforce
-    shotData.kick = true;
-    shotData.kickSpeed = determineKickForce(ball->pos.dist(shotTarget));
+    if (chip) {
+        shotData.chip = true;
+        shotData.kick = false;
 
+        // TODO calibrate chip speed
+        shotData.kickSpeed = determineKickForce(ball->pos.dist(shotTarget));
+    } else {
+        shotData.chip = false;
+        shotData.kick = true;
+        shotData.kickSpeed = determineKickForce(ball->pos.dist(shotTarget));
+    }
     return shotData;
 }
 
@@ -211,15 +221,15 @@ double ShotController::determineKickForce(double distance) {
     return std::min(velocity, rtt::ai::Constants::MAX_KICK_POWER());
 }
 void ShotController::makeCommand(ShotData data, roboteam_msgs::RobotCommand &command) {
-
     command.x_vel = data.vel.x;
     command.y_vel = data.vel.y;
     command.w = data.angle.getAngle();
+    command.chipper = data.chip;
+    command.chipper_vel = data.kickSpeed;
     command.kicker = data.kick;
     command.kicker_forced = data.kick;
     command.kicker_vel = data.kickSpeed;
     command.geneva_state = data.genevaState;
-
 }
 
 
