@@ -7,6 +7,7 @@
 
 
 #include <roboteam_ai/src/control/ControlUtils.h>
+#include <roboteam_ai/src/coach/PassCoach.h>
 #include "HasClearShot.h"
 
 namespace rtt{

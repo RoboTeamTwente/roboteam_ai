@@ -126,15 +126,14 @@ std::vector<DefencePositionCoach::DefenderBot> DefencePositionCoach::decidePosit
     while (static_cast<int>(defenders.size()) != amount && ! passes.empty()) {
         bool foundNewDefender = blockPass(passes[0]); // we try to cover the most dangerous pass in multiple ways
         // if we find a defender we need to recalculate the danger of our passes to reflect the new robot.
-        if (foundNewDefender) {
-            passes = createPassesSortedByDanger(simulatedWorld);
-        }
-        else {
+        if (!foundNewDefender) {
             // if we cannot find a way to cover it, we remove the attacker from the simulated world (otherwise we get 'stuck')
             simulatedWorld = removeBotFromWorld(simulatedWorld, passes[0].toBot.id, false);
             // this should pretty much never happen.
             std::cerr<<"Pass to robot"<< passes[0].toBot.id <<" removed in defensiveCoach!"<<std::endl;
         }
+        passes = createPassesSortedByDanger(simulatedWorld);
+
     }
     return defenders;
 }

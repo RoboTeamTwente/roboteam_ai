@@ -18,17 +18,18 @@ namespace ai {
 
 class Pass : public Skill {
 private:
-
     const double CLOSE_ENOUGH_TO_BALL = 0.7;
 
     bool passInitialized = false;
     bool ballPlacement = false;
+    bool shot = false;
     RobotPtr robotToPassTo;
 
     Vector2 targetPos;
     int robotToPassToID = -1;
 
     std::shared_ptr<control::ShotController> shotControl;
+    control::NumTreePosControl numTreeGtp;
 
     void initiatePass();
     Vector2 getKicker();
