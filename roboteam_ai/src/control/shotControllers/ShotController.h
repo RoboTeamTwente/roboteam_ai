@@ -63,6 +63,7 @@ private:
     ShotData goToPlaceBehindBall(const RobotPtr &robot, const Vector2 &robotTargetPosition, int genevaState);
     ShotData moveStraightToBall(const RobotPtr &robot, int genevaState);
     ShotData shoot(const RobotPtr &robot, const Vector2 &shotTarget, bool chip);
+    ShotData backDown(const RobotPtr &robot, int genevaState);
 
     Vector2 getGenevaLineOffsetPoint(const Vector2 &point, int genevaState);
 

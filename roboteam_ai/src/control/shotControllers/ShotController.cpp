@@ -13,7 +13,7 @@ namespace control {
 
 ShotController::ShotController(ShotPrecision precision, BallSpeed ballspeed, bool useAutoGeneva)
 : precision(precision), ballSpeed(ballspeed), useAutoGeneva(useAutoGeneva) {
-    numTreeGtp.setAvoidBall();
+    numTreeGtp.setAvoidBall(Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
     numTreeGtp.setCanMoveOutOfField(true);
     numTreeGtp.setCanMoveInDefenseArea(false);
 }
@@ -39,6 +39,7 @@ ShotData ShotController::getShotData(const RobotPtr &robot, const Vector2 &shotT
        if (hasBall && !genevaIsTurning) {
            shotData = shoot(robot, shotTarget, chip);
        } else if (hasBall && genevaIsTurning) {
+            backDown(robot, currentDesiredGeneva);
            std::cout << "Not shooting because geneva is turning for " << secondsToTurnGeneva << "s" << std::endl;
        } else {
            shotData = moveStraightToBall(robot, currentDesiredGeneva);
@@ -110,7 +111,7 @@ ShotData ShotController::goToPlaceBehindBall(const RobotPtr &robot, const Vector
     Angle targetAngle = (ball->pos - robotTargetPosition).toAngle();
     if (robot->hasBall() && fabs(robot->angle - targetAngle) > 0.1*M_PI) {
         ballHandleGtp.setMaxVelocity(1.5);
-        auto c = ballHandleGtp.getPosVelAngle(robot, ball->pos, targetAngle);
+        auto c = ballHandleGtp.getRobotCommand(robot, ball->pos, targetAngle);
         pva.vel = c.vel;
         pva.angle = c.angle;
     }
@@ -254,6 +255,13 @@ Vector2 ShotController::getGenevaLineOffsetPoint(const Vector2 &point, int genev
     newPoint = point + point.rotate(M_PI_2).stretchToLength(genevaLineOffset[genevaState]);
     return newPoint;
 }
+
+    ShotData ShotController::backDown(const RobotPtr &robot, int genevaState) {
+        // slow down a little bit
+        ShotData shotData = moveStraightToBall(robot, currentDesiredGeneva);
+        shotData.vel = shotData.vel.rotate(M_PI).stretchToLength(0.5);
+        return shotData;
+    }
 
 } // control
 } // ai

@@ -21,7 +21,7 @@ BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea)
 }
 
 /// targetP is the target position of the BALL, targetA is the (final) target angle of the ROBOT
-RobotCommand BallHandlePosControl::getPosVelAngle(const RobotPtr &r,
+RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
         const Vector2 &targetP, const Angle &targetA) {
 
     // update variables
@@ -401,6 +401,9 @@ void BallHandlePosControl::updateForwardsProgress() {
             forwardsProgress = F_approaching;
             return;
         }
+        if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
+            std::cout << "we do not have a ball yet" << std::endl;
+        }
         Angle offsetAngle = (finalTargetPos - robot->pos).toAngle() - robot->angle;
         double maxOffsetAngle = M_PI*0.05;
         if (fabs(offsetAngle) > maxOffsetAngle) {
@@ -411,6 +414,7 @@ void BallHandlePosControl::updateForwardsProgress() {
             forwardsProgress = F_success;
             return;
         }
+
         return;
     }
     case F_fail:

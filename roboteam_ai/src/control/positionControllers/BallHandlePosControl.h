@@ -120,7 +120,7 @@ class BallHandlePosControl {
         explicit BallHandlePosControl(bool canMoveInDefenseArea = false);
 
         void setMaxVelocity(double maxV);
-        RobotCommand getPosVelAngle(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA);
+        RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA);
         RobotCommand F_sendSuccessCommand();
 };
 
