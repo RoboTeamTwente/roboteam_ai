@@ -200,7 +200,15 @@ DefencePositionCoach::DefenderBot DefencePositionCoach::createBlockToGoal(const 
     bot.orientation = getOrientation(blockLine);
     return bot;
 }
-
+DefencePositionCoach::DefenderBot DefencePositionCoach::createBlockToGoal(const PossiblePass &pass,
+        const Vector2 &position, const Line &blockLine) {
+    DefenderBot bot;
+    bot.type = botType::BLOCKTOGOAL;
+    bot.blockFromID = pass.toBot.id;
+    bot.targetPos = position;
+    bot.orientation = getOrientation(blockLine);
+    return bot;
+}
 DefencePositionCoach::DefenderBot DefencePositionCoach::createBlockOnLine(const PossiblePass &pass,
         const Vector2 &blockPos) {
     DefenderBot bot;
@@ -387,8 +395,7 @@ bool DefencePositionCoach::blockPass(PossiblePass pass) {
         Vector2 intersectPos=control::ControlUtils::twoLineIntersection(blockLine->first,blockLine->second,bottomLine,topLine);
         if(validNewPosition(intersectPos,simulatedWorld))
         {
-            double fracOnLine=(intersectPos-blockLine->first).length()/(blockLine->first-blockLine->second).length();
-            DefenderBot defender = createBlockToGoal(pass,fracOnLine, *blockLine);
+            DefenderBot defender = createBlockToGoal(pass,intersectPos, *blockLine);
             addDefender(defender);
             return true;
         }

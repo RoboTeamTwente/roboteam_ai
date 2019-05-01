@@ -30,6 +30,7 @@ class DefencePositionCoach {
 
         DefenderBot createBlockBall(const Line &blockLine);
         DefenderBot createBlockToGoal(const PossiblePass &pass, double aggressionFactor, const Line &blockLine);
+        DefenderBot createBlockToGoal(const PossiblePass &pass, const Vector2 &position, const Line &blockLine);
         DefenderBot createBlockPass(PossiblePass &pass, const Vector2 &blockPoint);
         DefenderBot createBlockOnLine(const PossiblePass &pass, const Vector2 &blockPos);
 
