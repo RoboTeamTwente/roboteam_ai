@@ -43,7 +43,7 @@ RobotCommand BallHandlePosControl::getPosVelAngle(const RobotPtr &r,
             return rotateWithBall(rotateAroundBall);
         }
     }
-
+    
     // if we do not have the ball yet, go get it
     double deltaPosSquared = (finalTargetPos - ball->pos).length2();
     bool ballIsFarFromTarget = deltaPosSquared > 0.5;

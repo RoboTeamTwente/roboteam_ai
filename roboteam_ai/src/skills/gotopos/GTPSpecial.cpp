@@ -15,8 +15,8 @@ void GTPSpecial::gtpInitialize() {
 
     type = stringToType(properties->getString("type"));
     switch (type) {
-    case goToBall: {
-        maxVel = 9e9;
+        case goToBall: {
+            maxVel = 9e9;
         targetPos = ball->pos;
         posController->setAvoidBall(false);
         break;
@@ -45,15 +45,21 @@ void GTPSpecial::gtpInitialize() {
     }
     case freeKick: {
         maxVel = 9e9;
-        Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
+            Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
 
-        Vector2 penaltyThem = rtt::ai::world::field->getPenaltyPoint(false);
-        targetPos = (ballPos + (penaltyThem - ballPos).stretchToLength((penaltyThem - ballPos).length() / 2.0));
-        errorMargin = 0.05;
-        break;
-    }
-    }
+            Vector2 penaltyThem = rtt::ai::world::field->getPenaltyPoint(false);
+            targetPos = (ballPos + (penaltyThem - ballPos).stretchToLength((penaltyThem - ballPos).length()/2.0));
+            errorMargin = 0.05;
+            break;
+        }
+        case getBackIn: {
+            posController->setCanMoveInDefenseArea(true);
 
+            targetPos = {0, 0};
+            break;
+        }
+
+    }
 
 }
 
@@ -105,6 +111,9 @@ GTPSpecial::Type GTPSpecial::stringToType(const std::string &string) {
     else if (string == "freeKick") {
         return freeKick;
     }
+    else if (string == "getBackIn") {
+        return getBackIn;
+    }
     else {
         return defaultType;
     }
@@ -112,20 +121,28 @@ GTPSpecial::Type GTPSpecial::stringToType(const std::string &string) {
 
 Skill::Status GTPSpecial::gtpUpdate() {
     switch (type) {
-    default:break;
-    case goToBall: {
-        maxVel = 9e9;
-        targetPos = ball->pos;
-        break;
-    }
-    case ballPlacementBefore:maxVel = 1.0;break;
-    case ballPlacementAfter:maxVel = 1.0;break;
-    case getBallFromSide:maxVel = 9e9;break;
-    case defaultType:maxVel = 9e9;break;
+        default:
+            break;
+        case goToBall: {
+            maxVel = 9e9;
+        targetPos = ball->pos;break;
+        }
+        case getBackIn: {
+            targetPos = {0, 0};
+            break;
+        }
+        case ballPlacementBefore:
+            maxVel = 1.0;break;
+        case ballPlacementAfter:
+            maxVel = 1.0;break;
+        case getBallFromSide:
+            maxVel = 9e9;break;
+        case defaultType:
+            maxVel = 9e9;break;
     case freeKick: {
         maxVel = 9e9;
-        command.w = (ball->pos - robot->pos).angle();
-    }
+            command.w = (ball->pos - robot->pos).angle();
+        }
     }
 
     return Status::Running;

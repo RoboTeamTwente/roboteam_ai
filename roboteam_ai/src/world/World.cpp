@@ -378,6 +378,7 @@ Robot World::getRobotClosestToPoint(const Vector2 &point, std::vector<int> robot
     double maxDist = INT_MAX;
     for (auto const &id : robotIds) {
         auto robot = getRobotForId(id, ourTeam);
+        if (!robot) continue;
         auto dist = robot->pos.dist(point);
         if (dist < maxDist) {
             maxDist = dist;

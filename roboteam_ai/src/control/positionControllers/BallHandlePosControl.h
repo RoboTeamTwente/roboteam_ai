@@ -24,7 +24,7 @@ class BallHandlePosControl {
         double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.0;
         const double errorMargin = 0.02;
         const double angleErrorMargin = 0.02;
-        const double maxBallDistance = 0.5;
+        const double maxBallDistance = Constants::ROBOT_RADIUS()*2.0;
         const double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
         const double robotRadius = Constants::ROBOT_RADIUS();
         const double maxBackwardsVelocity = Constants::GRSIM() ? 0.3 : 0.8;

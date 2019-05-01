@@ -71,6 +71,8 @@
 #include <roboteam_ai/src/bt/RoleDivider.h>
 #include <roboteam_ai/src/skills/formations/KickOffThemFormation.h>
 #include <roboteam_ai/src/conditions/CanPlay.h>
+#include <roboteam_ai/src/conditions/RobotOutside.h>
+
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
 #include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"
@@ -245,6 +247,8 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["IsInDefenseArea"] = std::make_shared<rtt::ai::IsInDefenseArea>(name, properties);
     map["HasClearShot"] = std::make_shared<rtt::ai::HasClearShot>(name, properties);
     map["IsOnPassLine"] = std::make_shared<rtt::ai::IsOnPassLine>(name, properties);
+    map["RobotOutside"] = std::make_shared<rtt::ai::RobotOutside>(name, properties);
+
 
     if (map.find(name) != map.end()) {
         return map[name];
