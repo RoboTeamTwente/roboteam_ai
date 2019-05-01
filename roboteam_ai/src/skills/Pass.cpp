@@ -25,8 +25,15 @@ void Pass::onInitialize() {
     }
 
     passInitialized = false;
-    shot = false;
+    hasShot = false;
     chip = false;
+
+    fails = 0;
+    if (properties->hasInt("failsUntilChip")) {
+        failsUntilChip = properties->getInt("failsUntilChip");
+    } else {
+        failsUntilChip = -1;
+    }
 }
 
 Pass::Status Pass::onUpdate() {
@@ -58,18 +65,28 @@ Pass::Status Pass::onUpdate() {
 
         bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
 
-        if (shot && ballIsMovingFast) {
+        if (hasShot && ballIsMovingFast) {
             coach::g_pass.setPassed(true);
             return Status::Success;
         }
 
-        if(!shot && !control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
-            return Status::Failure;
+        if(!chip && !hasShot && !control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
+            if (failsUntilChip == -1) {
+                return Status::Failure;
+            } else {
+                fails++;
+                if (fails >= failsUntilChip) {
+                    chip = true;
+                } else {
+                    coach::g_pass.resetPass(robot->id);
+                    initiatePass();
+                }
+            }
         }
 
-        shotControl->makeCommand(shotControl->getShotData(* robot, getKicker()), command);
-        if (command.kicker == true && !shot) {
-            shot = true;
+        shotControl->makeCommand(shotControl->getShotData(* robot, getKicker(), chip), command);
+        if ((command.kicker == true || command.chipper == true) && !hasShot) {
+            hasShot = true;
         }
     }
 
@@ -78,7 +95,7 @@ Pass::Status Pass::onUpdate() {
 }
 
 void Pass::onTerminate(Status s) {
-    shot = false;
+    hasShot = false;
     passInitialized = false;
     if (!coach::g_pass.isPassed()) {
         coach::g_pass.resetPass(robot->id);

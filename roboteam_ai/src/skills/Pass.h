@@ -19,12 +19,14 @@ namespace ai {
 class Pass : public Skill {
 private:
     const double CLOSE_ENOUGH_TO_BALL = 0.7;
-
     bool chip = false;
+
+    int fails = 0;
+    int failsUntilChip = -1;
 
     bool passInitialized = false;
     bool ballPlacement = false;
-    bool shot = false;
+    bool hasShot = false;
     RobotPtr robotToPassTo;
 
     Vector2 targetPos;
