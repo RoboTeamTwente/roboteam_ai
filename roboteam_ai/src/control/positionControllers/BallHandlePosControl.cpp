@@ -42,7 +42,7 @@ RobotCommand BallHandlePosControl::getPosVelAngle(const RobotPtr &r,
     bool robotDoesNotHaveBall = ! robot->hasBall();
     bool robotIsTooFarFromBall = ballToRobot.length2() > maxBallDistance*maxBallDistance;
     if ((robotDoesNotHaveBall || robotIsTooFarFromBall)) {
-        goToBall(robotDoesNotHaveBall, robotIsTooFarFromBall);
+        return goToBall(robotDoesNotHaveBall, robotIsTooFarFromBall);
     }
 
     // check if we are far from the final target
@@ -52,7 +52,7 @@ RobotCommand BallHandlePosControl::getPosVelAngle(const RobotPtr &r,
     }
 
     // if the distance to the target is small
-    travelWithBall(backwards);
+    return travelWithBall(backwards);
 }
 
 RobotCommand BallHandlePosControl::rotateWithBall(RotateStrategy rotateStrategy) {
@@ -63,12 +63,6 @@ RobotCommand BallHandlePosControl::rotateWithBall(RotateStrategy rotateStrategy)
         case rotateAroundBall:ss << "aroundBall";
             break;
         case rotateAroundRobot:ss << "aroundRobot";
-            break;
-        case fastest:ss << "fastest";
-            break;
-        case safest:ss << "safest";
-            break;
-        case defaultRotate:ss << "default";
             break;
         }
         std::cout << ss.str() << std::endl;
@@ -85,33 +79,22 @@ RobotCommand BallHandlePosControl::rotateWithBall(RotateStrategy rotateStrategy)
 
     switch (rotateStrategy) {
     case rotateAroundBall: {
-        double maxV = 0.4;
+        double maxV = maxForwardsVelocity;
         double targetVel = deltaAngle.getAngle() > maxV ? maxV
                                                         : deltaAngle.getAngle() < - maxV ? - maxV :
                                                           deltaAngle.getAngle();
 
-        robotCommand.vel = robotToBall.rotate(- M_PI_2).stretchToLength(targetVel);
+        robotCommand.vel = robotToBall.rotate(- M_PI_2).stretchToLength(targetVel) - previousVelocity*0.2;
         robotCommand.angle = robotToBall.toAngle();
-
+        robotCommand.dribbler = 0;
         return limitCommand(robotCommand);
     }
     case rotateAroundRobot: {
         int direction = targetAngle - robot->angle > 0.0 ? 1 : - 1;
-        robotCommand.angle = Angle(robot->angle + maxAngularVelocity*direction);// + compensationAngle);
+        robotCommand.angle = Angle(robot->angle + maxAngularVelocity*direction);
         robotCommand.dribbler = 1;
         return limitCommand(robotCommand);
     }
-    case fastest: {
-        int direction = targetAngle - robot->angle > 0.0 ? 1 : - 1;
-        robotCommand.angle = Angle(robot->angle + maxAngularVelocity*direction);// + compensationAngle);
-        if ((finalTargetPos - robot->pos).length2() > errorMargin*errorMargin) {
-            robotCommand.vel = compensationVelocity;
-        }
-        robotCommand.dribbler = 1;
-        return limitCommand(robotCommand);
-    }
-    case safest:break;
-    case defaultRotate:break;
     }
     if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
         std::cout << "rotate case not handled" << std::endl;
@@ -135,22 +118,8 @@ RobotCommand BallHandlePosControl::travelWithBall(TravelStrategy travelStrategy)
         std::cout << ss.str() << std::endl;
     }
 
-    RobotCommand robotCommand;
-    Vector2 compensationVelocity = Vector2();
-    Angle ballAngleRelativeToRobot = 0;
-    if (ball->visible) {
-        ballAngleRelativeToRobot = robotToBall.toAngle() - robot->angle;
-    }
-
     switch (travelStrategy) {
-    case forwards: {
-        updateForwardsProgress();
-    }
-
     case backwards: {
-        if (backwardsProgress != B_overshooting && backwardsProgress != B_dribbling) {
-            B_approachPosition = ball->pos + ballToRobot.stretchToLength(0.05);
-        }
         updateBackwardsProgress();
 
         switch (backwardsProgress) {
@@ -167,6 +136,21 @@ RobotCommand BallHandlePosControl::travelWithBall(TravelStrategy travelStrategy)
         }
         }
     }
+    case forwards: {
+        updateForwardsProgress();
+
+        switch (forwardsProgress) {
+        case F_start:return F_startTravelForwards();
+        case F_turning:return F_sendTurnCommand();
+        case F_approaching:return F_sendApproachCommand();
+        case F_dribbleForward:return F_sendDribbleForwardsCommand();
+        case F_success:return F_sendSuccessCommand();
+        case F_fail: {
+            forwardsProgress = F_start;
+            return {};
+        }
+        }
+    }
 
     case defaultTravel:break;
     }
@@ -178,6 +162,9 @@ RobotCommand BallHandlePosControl::travelWithBall(TravelStrategy travelStrategy)
 
 RobotCommand BallHandlePosControl::B_startTravelBackwards() {
     B_count = 0;
+    B_approachPosition = Vector2();
+    B_lockedAngle = Angle();
+    B_backwardsDribbleLine = {};
     backwardsProgress = B_turning;
     return B_sendTurnCommand();
 }
@@ -264,20 +251,24 @@ void BallHandlePosControl::updateBackwardsProgress() {
         std::cout << ss.str() << std::endl;
     }
 
+    // check if we still have ball
+    if (backwardsProgress != B_overshooting && backwardsProgress != B_dribbling) {
+        B_approachPosition = ball->pos + ballToRobot.stretchToLength(0.05);
+    }
     if (robotToBall.length2() > 0.5) {
         backwardsProgress = B_fail;
         return;
     }
     targetAngle = (ball->pos - finalTargetPos).toAngle();
     Angle angleDifference = robot->angle - targetAngle;
-
     if (backwardsProgress != B_dribbling) B_count = 0;
 
+    // update backwards progress
     switch (backwardsProgress) {
     case B_turning: {
         targetAngle = (ball->pos - finalTargetPos).toAngle();
         if (fabs(targetAngle - robot->angle) < angleErrorMargin) {
-            B_lockedAngle = (ball->pos - finalTargetPos).toAngle();
+            B_lockedAngle = targetAngle;
             backwardsProgress = B_approaching;
         }
         return;
@@ -350,22 +341,77 @@ void BallHandlePosControl::updateForwardsProgress() {
         std::stringstream ss;
         ss << "forwards progress:                  ";
         switch (forwardsProgress) {
-        case F_start:
-            ss << "start";
+        case F_start:ss << "start";
             break;
-        case F_turning:
-            ss << "turning";
+        case F_turning:ss << "turning";
             break;
-        case F_approaching:
-            ss << "approaching";
+        case F_approaching:ss << "approaching";
             break;
-        case F_dribbleForward:
-            ss << "dribble forwards";
+        case F_dribbleForward:ss << "dribble forwards";
+            break;
+        case F_success:
+            ss << "success";
+            break;
+        case F_fail:
+            ss << "fail";
             break;
         }
         std::cout << ss.str() << std::endl;
     }
 
+    // check if we still have ball
+    targetAngle = (finalTargetPos - ball->pos).toAngle();
+    Angle angleDifference = robot->angle - targetAngle;
+
+    // update forwards progress
+    switch (forwardsProgress) {
+    case F_turning: {
+        targetAngle = (finalTargetPos - ball->pos).toAngle();
+        if (fabs(targetAngle - robot->angle) < angleErrorMargin) {
+            F_lockedAngle = targetAngle;
+            forwardsProgress = F_approaching;
+        }
+        return;
+    }
+    case F_approaching: {
+        if (fabs(angleDifference) > angleErrorMargin) {
+            forwardsProgress = F_turning;
+            return;
+        }
+        if (robot->hasBall()) {
+            F_forwardsDribbleLine = {robot->pos, finalTargetPos};
+            forwardsProgress = F_dribbleForward;
+            return;
+        }
+        return;
+    }
+    case F_dribbleForward: {
+        if (! robot->hasBall()) {
+            forwardsProgress = F_approaching;
+            return;
+        }
+        Angle offsetAngle = (finalTargetPos - robot->pos).toAngle() - robot->angle;
+        if (offsetAngle > M_PI*0.05) {
+            forwardsProgress = F_start;
+            return;
+        }
+        if ((robot->pos - finalTargetPos).length2() < errorMargin*errorMargin) {
+            forwardsProgress = F_success;
+            return;
+        }
+        return;
+    }
+    case F_fail:
+    case F_start:
+    default:return;
+    case F_success: {
+        if ((robot->pos - finalTargetPos).length2() < errorMargin*errorMargin) {
+            return;
+        }
+        forwardsProgress = F_start;
+    }
+
+    }
 }
 
 RobotCommand BallHandlePosControl::limitCommand(RobotCommand command) {
@@ -391,6 +437,7 @@ RobotCommand BallHandlePosControl::goToBall(bool robotDoesNotHaveBall, bool robo
     auto pva = numTreePosController.getPosVelAngle(robot, target);
     if (robotIsTooFarFromBall) {
         backwardsProgress = B_start;
+        forwardsProgress = F_start;
         robotCommand.angle = pva.angle;
     }
     else {
@@ -411,6 +458,55 @@ void BallHandlePosControl::updateVariables(const RobotPtr &r, const Vector2 &tar
     finalTargetAngle = targetA;
     robotToBall = ball->pos - robot->pos;
     ballToRobot = robot->pos - ball->pos;
+}
+
+RobotCommand BallHandlePosControl::F_startTravelForwards() {
+    F_lockedAngle = Angle();
+    F_forwardsDribbleLine = {};
+    forwardsProgress = F_turning;
+    return F_sendTurnCommand();
+}
+
+RobotCommand BallHandlePosControl::F_sendTurnCommand() {
+    if (fabs(targetAngle - robot->angle) < angleErrorMargin) {
+        F_lockedAngle = targetAngle;
+    }
+    targetPos = finalTargetPos;
+    return rotateWithBall(rotateAroundBall);
+}
+
+RobotCommand BallHandlePosControl::F_sendApproachCommand() {
+    RobotCommand command;
+    command.dribbler = 0;
+    command.vel = ballToRobot.stretchToLength(maxForwardsVelocity);
+    command.angle = F_lockedAngle;
+    return command;
+}
+
+RobotCommand BallHandlePosControl::F_sendDribbleForwardsCommand() {
+    RobotCommand command;
+    command.dribbler = 0;
+    command.angle = F_lockedAngle;
+    command.vel = F_lockedAngle.toVector2(maxForwardsVelocity);
+
+    if (control::ControlUtils::distanceToLine(robot->pos,
+            F_forwardsDribbleLine.first, F_forwardsDribbleLine.second) > errorMargin*2.0) {
+        forwardsProgress = F_turning;
+    }
+
+    Angle ballAngleRelativeToRobot = Angle();
+    if (ball->visible) ballAngleRelativeToRobot = robotToBall.toAngle() - robot->angle;
+
+    command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot);
+
+    return command;
+}
+
+RobotCommand BallHandlePosControl::F_sendSuccessCommand() {
+    RobotCommand command;
+    command.dribbler = 0;
+    command.angle = B_lockedAngle;
+    return command;
 }
 
 } //control

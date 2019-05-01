@@ -47,11 +47,9 @@ void GTPWithBall::updateTarget() {
         Vector2 delta = (targetPos - ball->pos);
         if (fabs(robot->angle - delta.toAngle()) < M_PI_2) {
             targetAngle = delta;
-            targetPos -= targetAngle.toVector2(Constants::ROBOT_RADIUS());
         }
         else {
             targetAngle = delta + M_PI;
-            targetPos -= targetAngle.toVector2(Constants::ROBOT_RADIUS());
         }
         return;
     }

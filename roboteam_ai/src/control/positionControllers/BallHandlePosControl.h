@@ -44,9 +44,6 @@ class BallHandlePosControl {
         enum RotateStrategy : short {
           rotateAroundBall,
           rotateAroundRobot,
-          fastest,
-          safest,
-          defaultRotate
         };
         enum TravelStrategy : short {
           forwards,
@@ -88,15 +85,22 @@ class BallHandlePosControl {
           F_start,
           F_turning,
           F_approaching,
-          F_dribbleForward
+          F_dribbleForward,
+          F_success,
+          F_fail
         };
         ForwardsProgress forwardsProgress = F_start;
 
         // variables for forwards progress
-
+        Angle F_lockedAngle;
+        std::pair<Vector2, Vector2> F_forwardsDribbleLine;
 
         // functions for forwards progress
         void updateForwardsProgress();
+        RobotCommand F_startTravelForwards();
+        RobotCommand F_sendTurnCommand();
+        RobotCommand F_sendApproachCommand();
+        RobotCommand F_sendDribbleForwardsCommand();
 
         // general functions
         RobotCommand goToBall(bool robotDoesNotHaveBall, bool robotIsTooFarFromBall);
@@ -111,6 +115,8 @@ class BallHandlePosControl {
         explicit BallHandlePosControl(bool canMoveInDefenseArea = false);
 
         RobotCommand getPosVelAngle(const RobotPtr &robot, const Vector2 &targetP, const Angle &targetA);
+
+        RobotCommand F_sendSuccessCommand();
 };
 
 } //control
