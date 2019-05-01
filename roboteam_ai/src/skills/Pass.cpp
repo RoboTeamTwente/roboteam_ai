@@ -56,8 +56,9 @@ Pass::Status Pass::onUpdate() {
         }
 
         bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
+        bool ballIsMovingToReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, robotToPassTo->pos);
 
-        if (shot && ballIsMovingFast) {
+        if (shot && ballIsMovingFast && ballIsMovingToReceiver) {
             coach::g_pass.setPassed(true);
             return Status::Success;
         }
