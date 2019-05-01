@@ -5,16 +5,16 @@
  */
 
 #include "../utilities/Constants.h"
-#include "BallIsMoving.h"
+#include "CanPlay.h"
 
 namespace rtt {
 namespace ai {
 
-BallIsMoving::BallIsMoving(std::string name, bt::Blackboard::Ptr blackboard)
+CanPlay::CanPlay(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
 
 
-bt::Node::Status BallIsMoving::onUpdate() {
+bt::Node::Status CanPlay::onUpdate() {
     Vector2 ballVel=ball->vel;
 
     bool ballIsLayingStill = ballVel.length() < Constants::BALL_STILL_VEL();
