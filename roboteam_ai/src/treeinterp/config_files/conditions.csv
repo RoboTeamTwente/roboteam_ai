@@ -17,3 +17,4 @@ TwoRobotBallPlacement
 ShouldHandleBall
 IsOnPassLine
 CanPlay
+RobotOutside
