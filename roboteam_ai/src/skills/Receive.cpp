@@ -50,7 +50,7 @@ Receive::Status Receive::onUpdate() {
 }
 
 void Receive::onTerminate(Status s) {
-    if (passFailed() || coach::g_pass.getRobotBeingPassedTo() != robot->id) {
+    if (passFailed() /* || coach::g_pass.getRobotBeingPassedTo() != robot->id */) {
         coach::g_pass.resetPass(robot->id);
     }
 }
