@@ -11,7 +11,7 @@ CoachDefend::CoachDefend(std::string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
 void CoachDefend::onInitialize() {
-    gtp.setCanMoveInDefenseArea(false);
+    numTreeGtp.setCanMoveInDefenseArea(false);
 }
 
 bt::Node::Status CoachDefend::onUpdate() {
@@ -27,7 +27,7 @@ bt::Node::Status CoachDefend::onUpdate() {
         return bt::Node::Status::Running;
     }
 
-    auto velocities = gtp.getPosVelAngle(robot, targetLocation->first);
+    auto velocities = numTreeGtp.getPosVelAngle(robot, targetLocation->first);
     if ((targetLocation->first - robot->pos).length() < 0.02) {
         command.x_vel = 0;
         command.y_vel = 0;
