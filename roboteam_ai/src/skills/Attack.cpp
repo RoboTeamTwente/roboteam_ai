@@ -24,8 +24,13 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
 }
 
+///TODO: USED TO TEST THE NEW ROBOT, DO NOT USE!!!!!
+///TODO: USED TO TEST THE NEW ROBOT, DO NOT USE!!!!!
+///TODO: USED TO TEST THE NEW ROBOT, DO NOT USE!!!!!
+///TODO: USED TO TEST THE NEW ROBOT, DO NOT USE!!!!!
+
 void Attack::onInitialize() {
-    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::LOW, control::BallSpeed::MAX_SPEED, true);
+    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::LOW, control::BallSpeed::MAX_SPEED, false);
 }
 
 /// Get an update on the skill

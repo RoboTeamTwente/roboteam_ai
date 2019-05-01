@@ -50,6 +50,9 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
 
    // Make sure the Geneva state is always correct
    shotData.genevaState = currentDesiredGeneva;
+
+   ///TODO: DO NOT USE, USED FOR TESTING THE NEW ROBOT
+   shotData.vel = control::ControlUtils::velocityLimiter(shotData.vel, 1.0);
    return shotData;
 }
 
