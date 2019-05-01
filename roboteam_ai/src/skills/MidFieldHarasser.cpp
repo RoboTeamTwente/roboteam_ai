@@ -18,6 +18,7 @@ void MidFieldHarasser::onInitialize() {
 }
 
 Skill::Status MidFieldHarasser::onUpdate() {
+    std::cout << robot->id << " harassing!" << std::endl;
     targetPos = getHarassTarget();
 
     auto newPosition = numTreeGtp.getPosVelAngle(robot, targetPos);
