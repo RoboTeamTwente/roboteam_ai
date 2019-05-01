@@ -71,6 +71,11 @@ Pass::Status Pass::onUpdate() {
             return Status::Success;
         }
 
+        ///Check if:
+        // Not already decided to chip
+        // Not having already tried a shot
+        // If this is both not the case, check if there's a clear line to the target
+        // If not, either ++ fails or fail immediately
         if(!chip && !hasShot && !control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
             if (failsUntilChip == -1) {
                 return Status::Failure;
