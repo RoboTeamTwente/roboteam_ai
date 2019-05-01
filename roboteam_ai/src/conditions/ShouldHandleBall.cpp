@@ -16,7 +16,7 @@ std::string ShouldHandleBall::node_name() { return "ShouldHandleBall"; }
 
 ShouldHandleBall::Status ShouldHandleBall::onUpdate() {
     if (coach::g_pass.getRobotBeingPassedTo() != -1) {
-        if (coach::g_pass.getRobotPassing() == robot->id && !coach::g_pass.isPassed()) {
+        if ((coach::g_pass.getRobotPassing() == robot->id && !coach::g_pass.isPassed()) || robot->hasBall()) {
             return Status::Success;
         } else {
             return Status::Failure;
