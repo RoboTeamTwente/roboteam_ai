@@ -19,9 +19,9 @@ void Pass::onInitialize() {
     ballPlacement = properties->getBool("BallPlacement");
     robotToPassToID = -1;
     if (ballPlacement) {
-        shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::PASS, false);
+        shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::PASS, true);
     } else {
-        shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::MEDIUM, control::BallSpeed::PASS, false);
+        shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::MEDIUM, control::BallSpeed::PASS, true);
     }
 
     passInitialized = false;
@@ -64,6 +64,7 @@ Pass::Status Pass::onUpdate() {
         }
 
         bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
+        bool ballIsMovingToReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, robotToPassTo->pos);
 
         if (hasShot && ballIsMovingFast) {
             coach::g_pass.setPassed(true);
