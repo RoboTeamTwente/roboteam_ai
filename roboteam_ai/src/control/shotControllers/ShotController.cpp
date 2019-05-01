@@ -37,14 +37,17 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
    if (isOnLineToBall && isBehindBall) {
        bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
        if (hasBall && !genevaIsTurning) {
+           std::cout<<": SHOOTCONTROL"<<std::endl;
            shotData = shoot(robot, shotTarget, chip);
        } else if (hasBall && genevaIsTurning) {
            std::cout << "Not shooting because geneva is turning for " << secondsToTurnGeneva << "s" << std::endl;
        } else {
+           std::cout<<"LINECONTROL"<<std::endl;
            shotData = moveStraightToBall(robot, currentDesiredGeneva);
        }
    } else {
        shotData = goToPlaceBehindBall(robot, behindBallPosition, currentDesiredGeneva);
+       std::cout<<std::endl;
    }
 
    // Make sure the Geneva state is always correct
@@ -86,13 +89,14 @@ void ShotController::setGenevaDelay(int genevaDifference) {
 bool ShotController::onLineToBall(const world::Robot &robot, const world::World::BallPtr &ball, const Vector2 &behindBallPosition, int genevaState) {
     Vector2 lineStart = behindBallPosition; // behindBallposition is already compensated for geneva offset
     Vector2 lineEnd = getGenevaLineOffsetPoint(ball->pos, genevaState);
-
+    double dist= ControlUtils::distanceToLine(robot.pos, lineStart, lineEnd);
+    std::cout<<dist<<" ";
     if (precision == HIGH) {
-        return ControlUtils::distanceToLine(robot.pos, lineStart, lineEnd) < 0.001;
+        return dist < 0.001;
     } else if (precision == MEDIUM) {
-        return ControlUtils::distanceToLine(robot.pos, lineStart, lineEnd) < 0.005;
+        return dist < 0.005;
     }
-    return ControlUtils::distanceToLine(robot.pos, lineStart, lineEnd) < 0.01;
+    return dist < 0.01;
 }
 
 /// return the place behind the ball targeted towards the ball target position
