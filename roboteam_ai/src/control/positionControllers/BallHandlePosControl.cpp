@@ -195,15 +195,17 @@ RobotCommand BallHandlePosControl::B_sendDribbleBackwardsCommand() {
     command.angle = B_lockedAngle;
     command.vel = B_lockedAngle.toVector2(- maxBackwardsVelocity);
 
+    // check if the robot is still on the virtual line from ball->pos to the target
     if (control::ControlUtils::distanceToLine(robot->pos, B_backwardsDribbleLine.first, B_backwardsDribbleLine.second)
             > errorMargin*2.0) {
         backwardsProgress = B_turning;
     }
 
-    Angle ballAngleRelativeToRobot = Angle();
-    if (ball->visible) ballAngleRelativeToRobot = robotToBall.toAngle() - robot->angle;
-
-    command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot);
+    // check if the ball is not too far right or too far left of the robot, and try to compensate for that
+    if (ball->visible) {
+        Angle ballAngleRelativeToRobot = robotToBall.toAngle() - robot->angle;
+        command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot);
+    }
 
     return command;
 }
@@ -440,19 +442,22 @@ RobotCommand BallHandlePosControl::F_sendDribbleForwardsCommand() {
     command.angle = F_lockedAngle;
     command.vel = F_lockedAngle.toVector2(maxForwardsVelocity);
 
+    // check if the robot is still on the virtual line from ball->pos to the target
     if (control::ControlUtils::distanceToLine(robot->pos,
             F_forwardsDribbleLine.first, F_forwardsDribbleLine.second) > errorMargin*2.0) {
         forwardsProgress = F_turning;
     }
 
-    Angle ballAngleRelativeToRobot = Angle();
-    if (ball->visible) ballAngleRelativeToRobot = robotToBall.toAngle() - robot->angle;
+    // check if the ball is not too far right or too far left of the robot, and try to compensate for that
+    if (ball->visible) {
+        Angle ballAngleRelativeToRobot = robotToBall.toAngle() - robot->angle;
+        command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot);
+    }
 
-    command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot);
-
+    // limit velocity close to the target
     double distanceRemaining = (finalTargetPos - robot->pos).length();
-    if (distanceRemaining < 0.5) {
-        command.vel.stretchToLength(distanceRemaining*0.5);
+    if (distanceRemaining < 1.0) {
+        command.vel.stretchToLength(distanceRemaining*0.1);
     }
 
     return command;
