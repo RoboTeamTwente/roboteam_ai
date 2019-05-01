@@ -29,7 +29,7 @@ RobotCommand BallHandlePosControl::getPosVelAngle(const RobotPtr &r,
     // check for ball
     if (! ball) {
         if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
-            std::cout << "Can't control the ball with no ball, you stupid" << std::endl;
+            std::cout << "Can't control the ball with no ball" << std::endl;
         }
         return {};
     }
@@ -57,15 +57,7 @@ RobotCommand BallHandlePosControl::getPosVelAngle(const RobotPtr &r,
 
 RobotCommand BallHandlePosControl::rotateWithBall(RotateStrategy rotateStrategy) {
     if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
-        std::stringstream ss;
-        ss << "rotating with strategy: ";
-        switch (rotateStrategy) {
-        case rotateAroundBall:ss << "aroundBall";
-            break;
-        case rotateAroundRobot:ss << "aroundRobot";
-            break;
-        }
-        std::cout << ss.str() << std::endl;
+        printRotateStrategy(rotateStrategy);
     }
 
     RobotCommand robotCommand;
@@ -79,12 +71,19 @@ RobotCommand BallHandlePosControl::rotateWithBall(RotateStrategy rotateStrategy)
 
     switch (rotateStrategy) {
     case rotateAroundBall: {
+
         double maxV = maxForwardsVelocity;
-        double targetVel = deltaAngle.getAngle() > maxV ? maxV
-                                                        : deltaAngle.getAngle() < - maxV ? - maxV :
-                                                          deltaAngle.getAngle();
+        double targetVel = deltaAngle.getAngle();
+        targetVel = targetVel > M_PI_2 ? maxV :
+                    targetVel < - M_PI_2 ? - maxV :
+                    targetVel*maxV/M_PI_2;
 
         robotCommand.vel = robotToBall.rotate(- M_PI_2).stretchToLength(targetVel) - previousVelocity*0.2;
+
+        if (robotToBall.length2() > maxBallDistance*maxBallDistance) {
+            robotCommand.vel += robotToBall - robotToBall.stretchToLength(targetBallDistance);
+        }
+
         robotCommand.angle = robotToBall.toAngle();
         robotCommand.dribbler = 0;
         return limitCommand(robotCommand);
@@ -105,17 +104,7 @@ RobotCommand BallHandlePosControl::rotateWithBall(RotateStrategy rotateStrategy)
 RobotCommand BallHandlePosControl::travelWithBall(TravelStrategy travelStrategy) {
 
     if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
-        std::stringstream ss;
-        ss << "travel with strategy: ";
-        switch (travelStrategy) {
-        case forwards:ss << "forwards";
-            break;
-        case backwards:ss << "backwards";
-            break;
-        case defaultTravel:ss << "default";
-            break;
-        }
-        std::cout << ss.str() << std::endl;
+        printTravelStrategy(travelStrategy);
     }
 
     switch (travelStrategy) {
@@ -228,27 +217,7 @@ RobotCommand BallHandlePosControl::B_sendSuccessCommand() {
 
 void BallHandlePosControl::updateBackwardsProgress() {
     if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
-        std::stringstream ss;
-        ss << "backwards progress:                  ";
-        switch (backwardsProgress) {
-        case B_overshooting:ss << "overshooting";
-            break;
-        case B_dribbling:ss << "dribbling";
-            break;
-        case B_dribbleBackwards:ss << "dribbleBackwards";
-            break;
-        case B_success:ss << "success";
-            break;
-        case B_fail:ss << "fail";
-            break;
-        case B_start:ss << "start";
-            break;
-        case B_turning:ss << "turning";
-            break;
-        case B_approaching:ss << "approaching";
-            break;
-        }
-        std::cout << ss.str() << std::endl;
+        printBackwardsProgress();
     }
 
     // check if we still have ball
@@ -338,25 +307,7 @@ void BallHandlePosControl::updateBackwardsProgress() {
 
 void BallHandlePosControl::updateForwardsProgress() {
     if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
-        std::stringstream ss;
-        ss << "forwards progress:                  ";
-        switch (forwardsProgress) {
-        case F_start:ss << "start";
-            break;
-        case F_turning:ss << "turning";
-            break;
-        case F_approaching:ss << "approaching";
-            break;
-        case F_dribbleForward:ss << "dribble forwards";
-            break;
-        case F_success:
-            ss << "success";
-            break;
-        case F_fail:
-            ss << "fail";
-            break;
-        }
-        std::cout << ss.str() << std::endl;
+        printForwardsProgress();
     }
 
     // check if we still have ball
@@ -429,7 +380,7 @@ RobotCommand BallHandlePosControl::limitCommand(RobotCommand command) {
 
 RobotCommand BallHandlePosControl::goToBall(bool robotDoesNotHaveBall, bool robotIsTooFarFromBall) {
     if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
-        std::cout << "we do not have a ball yet idiot" << std::endl;
+        std::cout << "we do not have a ball yet" << std::endl;
     }
     RobotCommand robotCommand;
 
@@ -449,7 +400,7 @@ RobotCommand BallHandlePosControl::goToBall(bool robotDoesNotHaveBall, bool robo
 }
 
 void BallHandlePosControl::updateVariables(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) {
-    double expectedDelay = 0.06;
+    double expectedDelay = 0.04;
     ball = world::world->getBall();
     robot = world::world->getFutureRobot(r, expectedDelay);
     targetPos = targetP;
@@ -499,6 +450,11 @@ RobotCommand BallHandlePosControl::F_sendDribbleForwardsCommand() {
 
     command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot);
 
+    double distanceRemaining = (finalTargetPos - robot->pos).length();
+    if (distanceRemaining < 0.5) {
+        command.vel.stretchToLength(distanceRemaining*0.5);
+    }
+
     return command;
 }
 
@@ -507,6 +463,76 @@ RobotCommand BallHandlePosControl::F_sendSuccessCommand() {
     command.dribbler = 0;
     command.angle = B_lockedAngle;
     return command;
+}
+
+void BallHandlePosControl::printForwardsProgress() {
+    std::stringstream ss;
+    ss << "forwards progress:                  ";
+    switch (forwardsProgress) {
+    case F_start:ss << "start";
+        break;
+    case F_turning:ss << "turning";
+        break;
+    case F_approaching:ss << "approaching";
+        break;
+    case F_dribbleForward:ss << "dribble forwards";
+        break;
+    case F_success:ss << "success";
+        break;
+    case F_fail:ss << "fail";
+        break;
+    }
+    std::cout << ss.str() << std::endl;
+}
+
+void BallHandlePosControl::printBackwardsProgress() {
+    std::stringstream ss;
+    ss << "backwards progress:                  ";
+    switch (backwardsProgress) {
+    case B_overshooting:ss << "overshooting";
+        break;
+    case B_dribbling:ss << "dribbling";
+        break;
+    case B_dribbleBackwards:ss << "dribbleBackwards";
+        break;
+    case B_success:ss << "success";
+        break;
+    case B_fail:ss << "fail";
+        break;
+    case B_start:ss << "start";
+        break;
+    case B_turning:ss << "turning";
+        break;
+    case B_approaching:ss << "approaching";
+        break;
+    }
+    std::cout << ss.str() << std::endl;
+}
+
+void BallHandlePosControl::printTravelStrategy(TravelStrategy strategy) {
+    std::stringstream ss;
+    ss << "travel with strategy: ";
+    switch (strategy) {
+    case forwards:ss << "forwards";
+        break;
+    case backwards:ss << "backwards";
+        break;
+    case defaultTravel:ss << "default";
+        break;
+    }
+    std::cout << ss.str() << std::endl;
+}
+
+void BallHandlePosControl::printRotateStrategy(RotateStrategy strategy) {
+    std::stringstream ss;
+    ss << "rotating with strategy: ";
+    switch (strategy) {
+    case rotateAroundBall:ss << "aroundBall";
+        break;
+    case rotateAroundRobot:ss << "aroundRobot";
+        break;
+    }
+    std::cout << ss.str() << std::endl;
 }
 
 } //control

@@ -45,11 +45,14 @@ class BallHandlePosControl {
           rotateAroundBall,
           rotateAroundRobot,
         };
+        void printRotateStrategy(RotateStrategy strategy);
+
         enum TravelStrategy : short {
           forwards,
           backwards,
           defaultTravel
         };
+        void printTravelStrategy(TravelStrategy strategy);
 
         // backwards progress
         enum BackwardsProgress : short {
@@ -63,6 +66,7 @@ class BallHandlePosControl {
           B_fail
         };
         BackwardsProgress backwardsProgress = B_start;
+        void printBackwardsProgress();
 
         // variables for backwards progress
         int B_count = 0;
@@ -90,6 +94,7 @@ class BallHandlePosControl {
           F_fail
         };
         ForwardsProgress forwardsProgress = F_start;
+        void printForwardsProgress();
 
         // variables for forwards progress
         Angle F_lockedAngle;
