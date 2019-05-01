@@ -33,7 +33,6 @@ Receive::Status Receive::onUpdate() {
         }
 
         intercept();
-        return Status::Running;
     }
 
     // Check if robot is in position, otherwise turn towards ball
