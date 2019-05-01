@@ -260,8 +260,8 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ShouldHandleBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNotTooClose.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNotTooClose.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallIsMoving.cpp 
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallIsMoving.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanPlay.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanPlay.h)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
