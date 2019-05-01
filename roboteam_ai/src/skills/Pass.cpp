@@ -19,9 +19,9 @@ void Pass::onInitialize() {
     ballPlacement = properties->getBool("BallPlacement");
     robotToPassToID = -1;
     if (ballPlacement) {
-        shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::PASS, false);
+        shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::PASS, true);
     } else {
-        shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::MEDIUM, control::BallSpeed::PASS, false);
+        shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::MEDIUM, control::BallSpeed::PASS, true);
     }
 
     passInitialized = false;
