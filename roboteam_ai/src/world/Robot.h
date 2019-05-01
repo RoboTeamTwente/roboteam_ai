@@ -37,6 +37,8 @@ class Robot {
         double findBallDistance(const Vector2 &ballPos);
 
         const roboteam_msgs::WorldRobot toMessage() const;
+        const Robot clone() const;
+
         void updateRobot(const Ball &ball);
         bool hasBall(double maxDist = Constants::MAX_BALL_BOUNCE_RANGE());
         double getDistanceToBall();

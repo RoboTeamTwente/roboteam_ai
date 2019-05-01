@@ -53,41 +53,64 @@ class BallHandlePosControl {
           backwards,
           defaultTravel
         };
+
+        // backwards progress
         enum BackwardsProgress : short {
-          start,
-          turning,
-          approaching,
-          overshooting,
-          dribbling,
-          dribbleBackwards,
-          success,
-          fail
+          B_start,
+          B_turning,
+          B_approaching,
+          B_overshooting,
+          B_dribbling,
+          B_dribbleBackwards,
+          B_success,
+          B_fail
         };
-        BackwardsProgress backwardsProgress = start;
+        BackwardsProgress backwardsProgress = B_start;
 
-        int count = 0;
-        Vector2 approachPosition;
-        Angle lockedAngle;
-        std::pair<Vector2, Vector2> backwardsDribbleLine;
+        // variables for backwards progress
+        int B_count = 0;
+        Vector2 B_approachPosition;
+        Angle B_lockedAngle;
+        std::pair<Vector2, Vector2> B_backwardsDribbleLine;
+
+        // functions for backwards progress
         void updateBackwardsProgress();
-        RobotCommand startTravelBackwards();
-        RobotCommand sendTurnCommand();
-        RobotCommand sendApproachCommand();
-        RobotCommand sendOvershootCommand();
-        RobotCommand sendDribblingCommand();
-        RobotCommand sendDribbleBackwardsCommand();
-        RobotCommand sendSuccessCommand();
+        RobotCommand B_startTravelBackwards();
+        RobotCommand B_sendTurnCommand();
+        RobotCommand B_sendApproachCommand();
+        RobotCommand B_sendOvershootCommand();
+        RobotCommand B_sendDribblingCommand();
+        RobotCommand B_sendDribbleBackwardsCommand();
+        RobotCommand B_sendSuccessCommand();
 
+        // forwards progress
+        enum ForwardsProgress : short {
+          F_start,
+          F_turning,
+          F_approaching,
+          F_dribbleForward
+        };
+        ForwardsProgress forwardsProgress = F_start;
+
+        // variables for forwards progress
+
+
+        // functions for forwards progress
+        void updateForwardsProgress();
+
+        // general functions
+        RobotCommand goToBall(bool robotDoesNotHaveBall, bool robotIsTooFarFromBall);
         RobotCommand rotateWithBall(RotateStrategy rotateStrategy);
         RobotCommand travelWithBall(TravelStrategy travelStrategy);
+        void updateVariables(const RobotPtr &robot, const Vector2 &targetP, const Angle &targetA);
 
+        // limit velocity & acceleration
         Vector2 previousVelocity = Vector2();
         RobotCommand limitCommand(RobotCommand command);
-
     public:
         explicit BallHandlePosControl(bool canMoveInDefenseArea = false);
 
-        RobotCommand getPosVelAngle(const RobotPtr &robot, const Vector2 &target, const Angle &targetAngle);
+        RobotCommand getPosVelAngle(const RobotPtr &robot, const Vector2 &targetP, const Angle &targetA);
 };
 
 } //control

@@ -335,7 +335,7 @@ const World::RobotPtr World::getFutureRobot(const RobotPtr &robotPtr, double tim
 }
 
 const Robot World::getFutureRobot(const Robot &robot, double time) {
-    Robot futureRobot = robot;
+    Robot futureRobot = robot.clone();
     futureWorld.updateFutureRobot(futureRobot, time);
     return futureRobot;
 }
