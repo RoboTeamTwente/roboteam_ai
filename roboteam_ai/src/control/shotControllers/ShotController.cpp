@@ -39,6 +39,11 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget) {
        if (hasBall && !genevaIsTurning) {
            shotData = shoot(robot, shotTarget);
        } else if (hasBall && genevaIsTurning) {
+
+           // slow down a little bit
+           shotData = moveStraightToBall(robot, currentDesiredGeneva);
+           shotData.vel = shotData.vel.rotate(M_PI).stretchToLength(0.5);
+
            std::cout << "Not shooting because geneva is turning for " << secondsToTurnGeneva << "s" << std::endl;
        } else {
            shotData = moveStraightToBall(robot, currentDesiredGeneva);
