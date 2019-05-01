@@ -20,6 +20,10 @@ bt::Node::Status CoachDefend::onUpdate() {
     if (! targetLocation) {
 //        std::cerr << "Could not find the location of defender " << robot->id << " in calculated positions!"
 //                  << std::endl;
+        command.x_vel = 0;
+        command.y_vel = 0;
+        command.w=0;
+        publishRobotCommand();
         return bt::Node::Status::Running;
     }
 
