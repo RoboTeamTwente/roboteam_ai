@@ -110,7 +110,7 @@ bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, 
     else if (precision == MEDIUM) {
         return dist < 0.10;
     }
-    return dist < 0.15;
+    return dist < 0.10;
 }
 
 /// return the place behind the ball targeted towards the ball target position
