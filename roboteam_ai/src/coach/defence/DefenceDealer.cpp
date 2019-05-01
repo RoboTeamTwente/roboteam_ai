@@ -56,7 +56,7 @@ void DefenceDealer::updateDefenderLocations() {
         // It might be better to use an algorithm that is more complicated (e.g. hungarian) but then we might need some kind of system which gives the first points more 'priority'
         for (const auto &defenderBot : defenderBots) {
             int closestId = - 1;
-            double closestDist = DBL_MAX;
+            auto closestDist = DBL_MAX;
             for (int botId : availableDefenders) {
                 auto bot = world::world->getRobotForId(botId, true);
                 if (bot) {

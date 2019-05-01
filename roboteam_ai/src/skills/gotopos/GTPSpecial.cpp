@@ -47,7 +47,9 @@ void GTPSpecial::gtpInitialize() {
             break;
         }
         case getBackIn: {
-            targetPos = {robot->pos.x, 0};
+            posController->setCanMoveInDefenseArea(true);
+
+            targetPos = {0, 0};
             break;
         }
 
@@ -120,7 +122,7 @@ Skill::Status GTPSpecial::gtpUpdate() {
             break;
         }
         case getBackIn: {
-            targetPos = {robot->pos.x, 0};
+            targetPos = {0, 0};
             break;
         }
         case ballPlacementBefore:
