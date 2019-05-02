@@ -34,7 +34,7 @@ private:
 
     int currentDesiredGeneva = -1;
     Vector2 behindBallPosition;
-    Vector2 correctedBehindBallPosition;
+    Vector2 relativeToBallPosition;
     bool genevaIsTurning = false;
     double secondsToTurnGeneva = 1.5;
     double lastTimeGenevaChanged = 0.0;

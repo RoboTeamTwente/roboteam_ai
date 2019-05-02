@@ -13,7 +13,7 @@ namespace ai {
 namespace control {
 ShotController::ShotController(ShotPrecision precision, BallSpeed ballspeed, bool useAutoGeneva)
         :precision(precision), ballSpeed(ballspeed), useAutoGeneva(useAutoGeneva) {
-    numTreeGtp.setAvoidBall(Constants::BALL_RADIUS());
+    numTreeGtp.setAvoidBall(Constants::BALL_RADIUS() + Constants::ROBOT_RADIUS()*1.5);
     numTreeGtp.setCanMoveOutOfField(true);
     numTreeGtp.setCanMoveInDefenseArea(false);
 }
@@ -31,7 +31,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
      * Get the position where to stand and the geneva state we want to have there
      */
     determineGenevaAndPosition(robot, shotTarget, chip);
-
+       behindBallPosition = ball->pos + relativeToBallPosition;
     /*
      * From that position we want to drive over a line towards the ball
      * This line has a small offset if we use geneva
@@ -58,6 +58,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
 
     ShotData shotData;
     if (isOnLineToBall && isBehindBall && validAngle) {
+        std::cout << "my position is correct, only need to drive forward and/or shoot" << std::endl;
         bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
         if (hasBall && ! genevaIsTurning) {
             shotData = shoot(robot, lineToDriveOver, shotTarget, chip);
@@ -85,13 +86,12 @@ void ShotController::determineGenevaAndPosition(const world::Robot &robot, const
     bool robotAlreadyVeryClose = robot.pos.dist(ball->pos) < 3.0*Constants::ROBOT_RADIUS();
     auto oldGenevaState = currentDesiredGeneva;
 
-
     // only change values if we don't turn the geneva (and are thus able to turn it)
     if (useAutoGeneva && ! genevaIsTurning && robot.hasWorkingGeneva &&  !robotAlreadyVeryClose && ! chip) {
         std::cout << "getting location for GENEVA shot" << std::endl;
 
         auto positionAndGeneva = getGenevaPlaceBehindBall(robot, shotTarget);
-        behindBallPosition = positionAndGeneva.first;
+        relativeToBallPosition = positionAndGeneva.first;
         currentDesiredGeneva = positionAndGeneva.second;
         int genevaDifference = abs(oldGenevaState - currentDesiredGeneva);
         setGenevaDelay(genevaDifference);
@@ -101,7 +101,7 @@ void ShotController::determineGenevaAndPosition(const world::Robot &robot, const
 
         bool shouldWait = true;
         if (currentDesiredGeneva == -1) shouldWait = false;
-        behindBallPosition = getPlaceBehindBall(robot, shotTarget);
+        relativeToBallPosition = getPlaceBehindBall(robot, shotTarget);
         currentDesiredGeneva = 3;
         int genevaDifference = abs(oldGenevaState - currentDesiredGeneva);
         if (shouldWait) setGenevaDelay(genevaDifference);
@@ -200,7 +200,7 @@ std::pair<Vector2, int> ShotController::getGenevaPlaceBehindBall(world::Robot ro
         desiredGeneva = 3;
         placeBehindBallVector = placeStraightBehindBallVector;
     }
-    return std::make_pair(ball->pos + placeBehindBallVector, desiredGeneva);
+    return std::make_pair(placeBehindBallVector, desiredGeneva);
 }
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
