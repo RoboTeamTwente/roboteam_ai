@@ -66,10 +66,11 @@ Pass::Status Pass::onUpdate() {
         bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
         bool ballIsMovingToReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, robotToPassTo->pos);
 
-        if (hasShot && ballIsMovingFast) {
+        if (hasShot && ballIsMovingFast && ballIsMovingToReceiver) {
             coach::g_pass.setPassed(true);
             return Status::Success;
         }
+
 
         ///Check if:
         // Not already decided to chip

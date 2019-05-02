@@ -28,7 +28,7 @@ void ApplicationManager::setup() {
 
 void ApplicationManager::loop() {
     ros::Rate rate(ai::Constants::TICK_RATE());
-
+    BTFactory::makeTrees();
     double longestTick = 0.0;
     double timeTaken;
     int nTicksTaken = 0;
@@ -91,6 +91,7 @@ void ApplicationManager::runOneLoopCycle() {
 
             std::string keeperTreeName = strategyManager.getCurrentKeeperTreeName(ai::Referee::getRefereeData().command);
             if (oldKeeperTreeName != keeperTreeName) {
+                std::cout << "changing keeper tree" << std::endl;
                 BTFactory::setKeeperTree(keeperTreeName);
                 oldKeeperTreeName = keeperTreeName;
             }
