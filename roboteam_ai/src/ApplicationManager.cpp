@@ -21,18 +21,19 @@ void ApplicationManager::setup() {
     IOManager = new io::IOManager(true, false);
 
     BTFactory::setCurrentTree("halt_strategy");
-    BTFactory::setKeeperTree("keeper_halt_tactic");
+    BTFactory::setKeeperTree("keeper_default_tactic");
     rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
 
 }
 
 void ApplicationManager::loop() {
     ros::Rate rate(ai::Constants::TICK_RATE());
-
+    BTFactory::makeTrees();
     double longestTick = 0.0;
     double timeTaken;
     int nTicksTaken = 0;
     double timeTakenOverNTicks = 0.0;
+    BTFactory::makeTrees();
     while (ros::ok()) {
         ros::Time begin = ros::Time::now();
 
@@ -90,6 +91,7 @@ void ApplicationManager::runOneLoopCycle() {
 
             std::string keeperTreeName = strategyManager.getCurrentKeeperTreeName(ai::Referee::getRefereeData().command);
             if (oldKeeperTreeName != keeperTreeName) {
+                std::cout << "changing keeper tree" << std::endl;
                 BTFactory::setKeeperTree(keeperTreeName);
                 oldKeeperTreeName = keeperTreeName;
             }

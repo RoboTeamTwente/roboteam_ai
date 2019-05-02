@@ -13,7 +13,7 @@ namespace control {
 //TODO: HACKY HACK ALWAYS GENEVA OFF
 ShotController::ShotController(ShotPrecision precision, BallSpeed ballspeed, bool useAutoGeneva)
         :precision(precision), ballSpeed(ballspeed), useAutoGeneva(false) {
-    numTreeGtp.setAvoidBall();
+    numTreeGtp.setAvoidBall(Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
     numTreeGtp.setCanMoveOutOfField(true);
     numTreeGtp.setCanMoveInDefenseArea(false);
 }
@@ -308,6 +308,7 @@ std::pair<Vector2,Vector2> ShotController::offsetLine(std::pair<Vector2,Vector2>
 
 
 }
+
 } // control
 } // ai
 } // rtt
