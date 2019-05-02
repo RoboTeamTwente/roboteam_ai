@@ -316,7 +316,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
 
             {"prepare_penalty_us_tactic", {
-                    {"shooter", robotType::CLOSE_TO_BALL},
+                    {"shooter", robotType::WORKING_GENEVA},
                     {"pa1", robotType::RANDOM},
                     {"pa2", robotType::RANDOM},
                     {"pa3", robotType::RANDOM},
