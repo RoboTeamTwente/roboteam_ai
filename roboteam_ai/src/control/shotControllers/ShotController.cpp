@@ -144,9 +144,6 @@ Vector2 ShotController::getPlaceBehindBall(world::Robot robot, Vector2 shotTarge
 ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition,
         std::pair<Vector2, Vector2> line) {
     auto ball = world::world->getBall();
-
-    interface::InterfaceValues::setBallPlacementTarget(robotTargetPosition);
-
     control::PosVelAngle pva = numTreeGtp.getPosVelAngle(std::make_shared<world::Robot>(robot), robotTargetPosition);
     //TODO: if (rotating to this angle from current angle will hit ball) then pva.angle=angle towards ball
     if (robot.pos.dist(robotTargetPosition) < 0.3) {
