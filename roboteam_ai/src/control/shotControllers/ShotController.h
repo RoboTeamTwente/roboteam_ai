@@ -43,7 +43,7 @@ private:
     NumTreePosControl numTreeGtp;
 
     // Parameters
-    bool useAutoGeneva;
+    bool useAutoGeneva =false;
     ShotPrecision precision;
     BallSpeed ballSpeed;
 
@@ -51,14 +51,16 @@ private:
     std::pair<Vector2, int> getGenevaPlaceBehindBall(world::Robot robot, Vector2 shotTarget); // the params are the position for the robot and the geneva angle
     Vector2 getPlaceBehindBall(world::Robot robot, Vector2 shotTarget); // the params are the position for the robot and the geneva angle
     Vector2 robotTargetPosition;
-    bool onLineToBall(const world::Robot &robot, const world::World::BallPtr &ball, const Vector2 &behindBallPosition, int genevaState);
+    bool onLineToBall(const world::Robot &robot, std::pair<Vector2, Vector2> line);
+    bool robotAngleIsGood(world::Robot &robot,std::pair<Vector2,Vector2> lineToDriveOver);
     double determineKickForce(double distance);
 
+    std::pair<Vector2,Vector2> offsetLine(std::pair<Vector2,Vector2> line,int genevaState);
     // ShotData calculation
-    ShotData goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition, int genevaState);
-    ShotData moveStraightToBall(world::Robot robot, int genevaState);
-    ShotData shoot(world::Robot robot, Vector2 shotTarget, bool chip);
-    ShotData backDown(world::Robot robot, int genevaState);
+    ShotData goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition, std::pair<Vector2,Vector2> driveLine);
+    ShotData moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver);
+    ShotData shoot(world::Robot robot,std::pair<Vector2,Vector2> driveLine, Vector2 shotTarget, bool chip);
+
 
     Vector2 getGenevaLineOffsetPoint(Vector2 point, int genevaState);
 
