@@ -151,5 +151,18 @@ void bt::DefaultTactic::convert(const std::vector<std::pair<std::string, RobotTy
     }
 }
 
+void bt::DefaultTactic::terminate(Node::Status s) {
+    robotIDs = {};
+    amountToTick = -1;
+    rtt::ai::robotDealer::RobotDealer::removeTactic(name);
+    for (const auto &child : children) {
+        child->terminate(child->getStatus());
+    }
+    if (s == Status::Running) {
+        setStatus(Status::Failure);
+    }
+    claimedRobots = 0;
+}
+
 
 
