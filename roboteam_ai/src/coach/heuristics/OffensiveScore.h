@@ -17,6 +17,7 @@ private:
     const double SHOT_AT_GOAL_WEIGHT = 1.0;
     const double PASS_LINE_WEIGHT = 2.0;
     const double DISTANCE_TO_OPPONENT_WEIGHT = 1.0;
+    const double DISTANCE_TO_BALL_WEIGHT = 1.0;
 
 public:
     using WorldData = world::WorldData;

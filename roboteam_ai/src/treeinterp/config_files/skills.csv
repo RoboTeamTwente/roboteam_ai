@@ -10,7 +10,7 @@ InterceptRobot
 GetBall,maxTime
 Attack
 DemoAttack,ownGoal
-Pass,BallPlacement
+Pass,BallPlacement,failsUntilChip
 Receive,BallPlacement
 Formation
 DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement,distance

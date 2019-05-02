@@ -58,6 +58,7 @@ private:
     ShotData goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition, int genevaState);
     ShotData moveStraightToBall(world::Robot robot, int genevaState);
     ShotData shoot(world::Robot robot, Vector2 shotTarget, bool chip);
+    ShotData backDown(world::Robot robot, int genevaState);
 
     Vector2 getGenevaLineOffsetPoint(Vector2 point, int genevaState);
 

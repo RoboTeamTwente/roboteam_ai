@@ -21,7 +21,7 @@ void ApplicationManager::setup() {
     IOManager = new io::IOManager(true, false);
 
     BTFactory::setCurrentTree("halt_strategy");
-    BTFactory::setKeeperTree("keeper_halt_tactic");
+    BTFactory::setKeeperTree("keeper_default_tactic");
     rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
 
 }
@@ -33,6 +33,7 @@ void ApplicationManager::loop() {
     double timeTaken;
     int nTicksTaken = 0;
     double timeTakenOverNTicks = 0.0;
+    BTFactory::makeTrees();
     while (ros::ok()) {
         ros::Time begin = ros::Time::now();
 
