@@ -25,8 +25,7 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void Attack::onInitialize() {
-    shot = false;
-    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::LOW ,control::BallSpeed::MAX_SPEED,false);
+    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::MAX_SPEED, true);
 }
 
 /// Get an update on the skill

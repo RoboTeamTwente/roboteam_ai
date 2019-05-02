@@ -61,6 +61,7 @@ private:
     ShotData moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver);
     ShotData shoot(world::Robot robot,std::pair<Vector2,Vector2> driveLine, Vector2 shotTarget, bool chip);
 
+
     Vector2 getGenevaLineOffsetPoint(Vector2 point, int genevaState);
 
 public:
