@@ -25,7 +25,8 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void Attack::onInitialize() {
-    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::LOW, control::BallSpeed::MAX_SPEED, true);
+    shot = false;
+    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::LOW ,control::BallSpeed::MAX_SPEED,false);
 }
 
 /// Get an update on the skill
@@ -39,6 +40,7 @@ bt::Node::Status Attack::onUpdate() {
     }
 
     Vector2 aimPoint= coach::g_offensiveCoach.getShootAtGoalPoint(ball->pos);
+
     shotControl->makeCommand(shotControl->getShotData(*robot, aimPoint), command);
     publishRobotCommand();
     return Status::Running;
