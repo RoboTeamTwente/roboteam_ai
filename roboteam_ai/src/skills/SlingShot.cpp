@@ -23,6 +23,18 @@ void SlingShot::onInitialize() {
     rotateAngle = robot->angle;
     kickOrient = robot->angle;
 }
+void SlingShot::onTerminate(rtt::ai::Skill::Status s) {
+    waitingTicks = 0;
+    dribbledTicks = 0;
+    ballShotTicks = 0;
+    if (! world::world->robotHasBall(robot->id, true)) {
+        progression = FAIL;
+        return;
+    }
+    progression = DRIBBLING;
+    rotateAngle = robot->angle;
+    kickOrient = robot->angle;
+}
 Skill::Status SlingShot::onUpdate() {
     progression = updateProgress(progression);
     switch (progression) {
