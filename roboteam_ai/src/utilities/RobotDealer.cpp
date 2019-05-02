@@ -145,7 +145,10 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
                 }
                 if (test == -1) {
                     id = *ids.begin();
+                    break;
                 }
+                id = test;
+                break;
             }
         }
         std::lock_guard<std::mutex> lock(robotOwnersLock);
