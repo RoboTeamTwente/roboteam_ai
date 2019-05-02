@@ -80,7 +80,7 @@ double ControlUtils::distanceToLine(const Vector2 &PointToCheck, const Vector2 &
 bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos,
         const world::WorldData &world, double safeDistanceFactor, bool includeKeeper) {
 
-    double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor * 3;
+    double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor;
     int keeperID = Referee::getRefereeData().them.goalie;
 
     for (auto &enemy : world.them) {
