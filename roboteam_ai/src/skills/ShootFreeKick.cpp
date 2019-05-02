@@ -97,6 +97,7 @@ Skill::Status ShootFreeKick::onUpdate() {
 
 void ShootFreeKick::onTerminate(Skill::Status s) {
     counter = 0;
+    progress = Progress::GOING;
 }
 
 bool ShootFreeKick::isShot() {

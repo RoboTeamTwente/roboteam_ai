@@ -80,24 +80,25 @@ void ApplicationManager::runOneLoopCycle() {
             // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
             // might want to build something that verifies this
             auto strategy = strategyManager.getCurrentStrategy(ai::Referee::getRefereeData().command);
+            std::string keeperTreeName = strategyManager.getCurrentKeeperTreeName(ai::Referee::getRefereeData().command);
 
             std::string strategyName = strategy.strategyName;
             ai::Referee::setMaxRobotVelocity(strategy.maxVel);
 
+
             if (oldStrategy != strategyName) {
+                ai::robotDealer::RobotDealer::refresh();
+
                 BTFactory::setCurrentTree(strategyName);
                 oldStrategy = strategyName;
             }
 
-            std::string keeperTreeName = strategyManager.getCurrentKeeperTreeName(ai::Referee::getRefereeData().command);
             if (oldKeeperTreeName != keeperTreeName) {
+                ai::robotDealer::RobotDealer::refresh();
+
                 std::cout << "changing keeper tree" << std::endl;
                 BTFactory::setKeeperTree(keeperTreeName);
                 oldKeeperTreeName = keeperTreeName;
-            }
-
-            if (oldStrategy != strategyName || oldKeeperTreeName != keeperTreeName) {
-                ai::robotDealer::RobotDealer::refresh();
             }
 
             ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);

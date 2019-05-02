@@ -51,8 +51,7 @@ void GoBehindBall::gtpInitialize() {
     }
 }
 
-void GoBehindBall::gtpTerminate(Skill::Status s) {
-}
+void GoBehindBall::gtpTerminate(Skill::Status s) { }
 
 GoBehindBall::RefType GoBehindBall::stringToRefType(const std::string &string) {
     if (string == "penalty") {

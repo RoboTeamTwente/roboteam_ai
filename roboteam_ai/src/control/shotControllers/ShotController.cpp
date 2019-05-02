@@ -86,10 +86,13 @@ void ShotController::determineGenevaAndPosition(const world::Robot &robot, const
         setGenevaDelay(genevaDifference);
     }
     else if (! useAutoGeneva || ! robot.hasWorkingGeneva  || chip || currentDesiredGeneva == -1) {
+
+        bool shouldWait = true;
+        if (currentDesiredGeneva == -1) shouldWait = false;
         behindBallPosition = getPlaceBehindBall(robot, shotTarget);
         currentDesiredGeneva = 3;
         int genevaDifference = abs(oldGenevaState - currentDesiredGeneva);
-        setGenevaDelay(genevaDifference);
+        if (shouldWait) setGenevaDelay(genevaDifference);
     }
 }
 
