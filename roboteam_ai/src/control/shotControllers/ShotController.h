@@ -43,7 +43,7 @@ private:
     NumTreePosControl numTreeGtp;
 
     // Parameters
-    bool useAutoGeneva;
+    bool useAutoGeneva =false;
     ShotPrecision precision;
     BallSpeed ballSpeed;
 

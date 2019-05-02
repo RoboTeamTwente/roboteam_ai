@@ -10,9 +10,9 @@
 namespace rtt {
 namespace ai {
 namespace control {
-
+//TODO: HACKY HACK ALWAYS GENEVA OFF
 ShotController::ShotController(ShotPrecision precision, BallSpeed ballspeed, bool useAutoGeneva)
-        :precision(precision), ballSpeed(ballspeed), useAutoGeneva(useAutoGeneva) {
+        :precision(precision), ballSpeed(ballspeed), useAutoGeneva(false) {
     numTreeGtp.setAvoidBall();
     numTreeGtp.setCanMoveOutOfField(true);
     numTreeGtp.setCanMoveInDefenseArea(false);
@@ -34,6 +34,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     bool isOnLineToBall = onLineToBall(robot, lineToDriveOver);
     bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, shotTarget, robot.pos, 0.3);
     bool validAngle = robotAngleIsGood(robot, lineToDriveOver);
+    /*
     Angle aim((lineToDriveOver.second - lineToDriveOver.first).angle());
     if (isBehindBall&&!validAngle&&!isOnLineToBall){
         std::cout<<robot.id<<": WAITING FOR BOTH: "<<"angdif: "<<abs(aim-robot.angle)<< " boxdif|||| "<<control::ControlUtils::distanceToLine(robot.pos,lineToDriveOver.first,lineToDriveOver.second)<<"  |DIST:"<<(robot.pos-ball->pos).length()<<std::endl;
@@ -44,6 +45,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     if (isBehindBall&&isOnLineToBall&&!validAngle){
         std::cout<<robot.id<<": WAITING FOR ANGLE: "<<"angdif: "<<abs(aim-robot.angle)<<"  |DIST:"<<(robot.pos-ball->pos).length()<<std::endl;
     }
+    */
     ShotData shotData;
     if (isOnLineToBall && isBehindBall && validAngle) {
         bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
@@ -75,14 +77,14 @@ void ShotController::determineGenevaAndPosition(const world::Robot &robot, const
     auto oldGenevaState = currentDesiredGeneva;
 
     // only change values if we don't turn the geneva (and are thus able to turn it)
-    if (useAutoGeneva && ! genevaIsTurning && robot.hasWorkingGeneva && ! robotAlreadyVeryClose && ! chip) {
+    if (useAutoGeneva && ! genevaIsTurning && robot.hasWorkingGeneva && !robotAlreadyVeryClose && ! chip) {
         auto positionAndGeneva = getGenevaPlaceBehindBall(robot, shotTarget);
         behindBallPosition = positionAndGeneva.first;
         currentDesiredGeneva = positionAndGeneva.second;
         int genevaDifference = abs(oldGenevaState - currentDesiredGeneva);
         setGenevaDelay(genevaDifference);
     }
-    else if (! useAutoGeneva || ! robot.hasWorkingGeneva || robotAlreadyVeryClose || chip) {
+    else if (! useAutoGeneva || ! robot.hasWorkingGeneva  || chip || currentDesiredGeneva == -1) {
         behindBallPosition = getPlaceBehindBall(robot, shotTarget);
         currentDesiredGeneva = 3;
         int genevaDifference = abs(oldGenevaState - currentDesiredGeneva);
@@ -210,7 +212,7 @@ ShotData ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector2> d
     // move towards the ball
     control::PosVelAngle pva = basicGtp.getPosVelAngle(std::make_shared<world::Robot>(robot), driveLine.second);
     pva.angle = (driveLine.second - driveLine.first).angle();
-    std::cout << robot.id << " shooting::" << abs(robot.angle.getAngle()-pva.angle.getAngle()) << std::endl;
+    //std::cout << robot.id << " shooting::" << abs(robot.angle.getAngle()-pva.angle.getAngle()) << std::endl;
 
     ShotData shotData(pva);
 
