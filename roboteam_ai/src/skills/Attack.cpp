@@ -32,6 +32,12 @@ void Attack::onInitialize() {
 bt::Node::Status Attack::onUpdate() {
     if (!robot) return Status::Running;
 
+    if (world::field->pointIsInDefenceArea(ball->pos, false)) {
+        command.w = robot->angle;
+        publishRobotCommand();
+        return Status::Running;
+    }
+
     Vector2 aimPoint= coach::g_offensiveCoach.getShootAtGoalPoint(ball->pos);
     shotControl->makeCommand(shotControl->getShotData(*robot, aimPoint), command);
     publishRobotCommand();
