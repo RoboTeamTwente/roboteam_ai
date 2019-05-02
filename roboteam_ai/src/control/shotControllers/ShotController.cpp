@@ -45,16 +45,16 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, shotTarget, robot.pos, 0.3);
     bool validAngle = robotAngleIsGood(robot, lineToDriveOver);
 
-    Angle aim((lineToDriveOver.second - lineToDriveOver.first).angle());
-    if (isBehindBall&&!validAngle&&!isOnLineToBall){
-        std::cout<<robot.id<<": WAITING FOR BOTH: "<<"angdif: "<<abs(aim-robot.angle)<< " boxdif|||| "<<control::ControlUtils::distanceToLine(robot.pos,lineToDriveOver.first,lineToDriveOver.second)<<"  |DIST:"<<(robot.pos-ball->pos).length()<<std::endl;
-    }
-    if (validAngle&&isBehindBall&&!isOnLineToBall){
-        std::cout<<robot.id<<": WAITING FOR BOX: "<<" boxdif|||| "<<control::ControlUtils::distanceToLine(robot.pos,lineToDriveOver.first,lineToDriveOver.second)<<"  |DIST:"<<(robot.pos-ball->pos).length()<<std::endl;
-    }
-    if (isBehindBall&&isOnLineToBall&&!validAngle){
-        std::cout<<robot.id<<": WAITING FOR ANGLE: "<<"angdif: "<<abs(aim-robot.angle)<<"  |DIST:"<<(robot.pos-ball->pos).length()<<std::endl;
-    }
+//    Angle aim((lineToDriveOver.second - lineToDriveOver.first).angle());
+//    if (isBehindBall&&!validAngle&&!isOnLineToBall){
+//        std::cout<<robot.id<<": WAITING FOR BOTH: "<<"angdif: "<<abs(aim-robot.angle)<< " boxdif|||| "<<control::ControlUtils::distanceToLine(robot.pos,lineToDriveOver.first,lineToDriveOver.second)<<"  |DIST:"<<(robot.pos-ball->pos).length()<<std::endl;
+//    }
+//    if (validAngle&&isBehindBall&&!isOnLineToBall){
+//        std::cout<<robot.id<<": WAITING FOR BOX: "<<" boxdif|||| "<<control::ControlUtils::distanceToLine(robot.pos,lineToDriveOver.first,lineToDriveOver.second)<<"  |DIST:"<<(robot.pos-ball->pos).length()<<std::endl;
+//    }
+//    if (isBehindBall&&isOnLineToBall&&!validAngle){
+//        std::cout<<robot.id<<": WAITING FOR ANGLE: "<<"angdif: "<<abs(aim-robot.angle)<<"  |DIST:"<<(robot.pos-ball->pos).length()<<std::endl;
+//    }
 
     ShotData shotData;
     if (isOnLineToBall && isBehindBall && validAngle) {
@@ -77,6 +77,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     }
     // Make sure the Geneva state is always correct
     shotData.genevaState = currentDesiredGeneva;
+    std::cout << "geneva: " <<  currentDesiredGeneva << std::endl;
     return shotData;
 }
 
@@ -177,11 +178,12 @@ std::pair<Vector2, int> ShotController::getGenevaPlaceBehindBall(world::Robot ro
     int desiredGeneva;
 
     // handle geneva options
-    if (robotAngleWithLineToGoal > toRadians(15)) {
-        desiredGeneva = 1;
-        placeBehindBallVector = placeStraightBehindBallVector.rotate(toRadians(20));
-
-    } else if (robotAngleWithLineToGoal > toRadians(5)) {
+//    if (robotAngleWithLineToGoal > toRadians(15)) {
+//        desiredGeneva = 1;
+//        placeBehindBallVector = placeStraightBehindBallVector.rotate(toRadians(20));
+//
+//    } else
+        if (robotAngleWithLineToGoal > toRadians(5)) {
         desiredGeneva = 2;
         placeBehindBallVector = placeStraightBehindBallVector.rotate(toRadians(10));
 
@@ -191,11 +193,11 @@ std::pair<Vector2, int> ShotController::getGenevaPlaceBehindBall(world::Robot ro
         placeBehindBallVector = placeStraightBehindBallVector.rotate(- toRadians(10));
 
     }
-    else if (robotAngleWithLineToGoal < - toRadians(15)) {
-        desiredGeneva = 5;
-        placeBehindBallVector = placeStraightBehindBallVector.rotate(- toRadians(20));
-
-    }
+//    else if (robotAngleWithLineToGoal < - toRadians(15)) {
+//        desiredGeneva = 5;
+//        placeBehindBallVector = placeStraightBehindBallVector.rotate(- toRadians(20));
+//
+//    }
     else {
         desiredGeneva = 3;
         placeBehindBallVector = placeStraightBehindBallVector;
