@@ -189,7 +189,7 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector
     // we want to move to lineToDriveOver's end point (second)
     Vector2 projectedPos = robot.pos.project(lineToDriveOver.first, lineToDriveOver.second);
 
-    Vector2 newDir=lineToDriveOver.second-projectedPos+(projectedPos-robot.pos)*5.0;
+    Vector2 newDir=lineToDriveOver.second-projectedPos+(projectedPos-robot.pos)*2.0;
     control::PosVelAngle pva=basicGtp.getPosVelAngle(std::make_shared<world::Robot>(robot),lineToDriveOver.second);
     pva.vel=newDir.stretchToLength(pva.vel.length());
     /*
