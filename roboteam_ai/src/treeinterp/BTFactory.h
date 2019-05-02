@@ -17,16 +17,22 @@
 #include "BTImport.h"
 #include "roboteam_ai/src/Switches.h"
 
+class RepoBuffer;
+
 class BTFactory {
 
         // TODO: have the names of all the project before here
 
-   static std::mutex keeperTreeMutex;
+        static std::mutex keeperTreeMutex;
 
     public:
+        static void createNewTrees();
+
         static void makeTrees();
 
         static bt::BehaviorTree::Ptr getTree(std::string treeName);
+
+        static RepoBuffer* repoBuffer;
 
         static std::map<std::string, bt::BehaviorTree::Ptr> strategyRepo;
 
