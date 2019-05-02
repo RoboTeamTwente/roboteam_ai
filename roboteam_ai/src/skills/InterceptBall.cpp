@@ -140,6 +140,8 @@ void InterceptBall::checkProgression() {
 };
 void InterceptBall::onTerminate(rtt::ai::Skill::Status s) {
     sendStopCommand();
+    tickCount=0;
+    currentProgression=INTERCEPTING;
 }
 
 Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
