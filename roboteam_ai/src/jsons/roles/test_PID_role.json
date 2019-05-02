@@ -1,0 +1,55 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "g0op7egcyzgw6lk": {
+            "properties": {
+              "maxVel": "1.0",
+              "targetPos": "{1.2,-0.7}"
+            },
+            "id": "g0op7egcyzgw6lk",
+            "title": "GoToPos"
+          },
+          "uep5o85l8r4drax3": {
+            "children": [
+              "tmsjgm0q34q9c",
+              "clvw6wjhfu7ocpibw",
+              "2evs62wplsecw9b1",
+              "g0op7egcyzgw6lk"
+            ],
+            "id": "uep5o85l8r4drax3",
+            "title": "MemSequence"
+          },
+          "clvw6wjhfu7ocpibw": {
+            "properties": {
+              "maxVel": "1.0",
+              "targetPos": "{-1.2,0.7}"
+            },
+            "id": "clvw6wjhfu7ocpibw",
+            "title": "GoToPos"
+          },
+          "tmsjgm0q34q9c": {
+            "properties": {
+              "maxVel": "1.0",
+              "targetPos": "{-1.2,-0.7}"
+            },
+            "id": "tmsjgm0q34q9c",
+            "title": "GoToPos"
+          },
+          "2evs62wplsecw9b1": {
+            "properties": {
+              "maxVel": "1.0",
+              "targetPos": "{1.2,0.7}"
+            },
+            "id": "2evs62wplsecw9b1",
+            "title": "GoToPos"
+          }
+        },
+        "root": "uep5o85l8r4drax3",
+        "title": "test_PID_role"
+      }
+    ]
+  },
+  "name": "test_PID_role"
+}

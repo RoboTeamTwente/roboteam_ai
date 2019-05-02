@@ -1,0 +1,83 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "bu1uq4upcobfv0jw": {
+            "title": "GoToPos",
+            "properties": {
+              "ROLE": "test1",
+              "maxVel": "1.0",
+              "targetPos": "{-1.2,0.7}"
+            },
+            "id": "bu1uq4upcobfv0jw"
+          },
+          "nvwgg83mvvmj880": {
+            "title": "GoToPos",
+            "properties": {
+              "ROLE": "test1",
+              "maxVel": "1.0",
+              "targetPos": "{1.2,-0.7}"
+            },
+            "id": "nvwgg83mvvmj880"
+          },
+          "x9kwhppq17jco9": {
+            "properties": {
+              "ROLE": "test1"
+            },
+            "title": "MemSequence",
+            "children": [
+              "duj99ap771zfi5i",
+              "bu1uq4upcobfv0jw",
+              "rm18itobqtlbe",
+              "nvwgg83mvvmj880"
+            ],
+            "id": "x9kwhppq17jco9"
+          },
+          "rm18itobqtlbe": {
+            "title": "GoToPos",
+            "properties": {
+              "ROLE": "test1",
+              "targetPos": "{1.2,0.7}"
+            },
+            "id": "rm18itobqtlbe"
+          },
+          "9q7tlrobvrddvk9v": {
+            "properties": {
+              "ROLE": "test1"
+            },
+            "name": "test1",
+            "title": "Role",
+            "id": "9q7tlrobvrddvk9v",
+            "role": "test_PID_role",
+            "children": [
+              "x9kwhppq17jco9"
+            ]
+          },
+          "qrufx36h4h6eqww3": {
+            "properties": {
+              "TacticType": "General"
+            },
+            "children": [
+              "9q7tlrobvrddvk9v"
+            ],
+            "id": "qrufx36h4h6eqww3",
+            "title": "RoleDivider"
+          },
+          "duj99ap771zfi5i": {
+            "title": "GoToPos",
+            "properties": {
+              "ROLE": "test1",
+              "maxVel": "1.0",
+              "targetPos": "{-1.2,-0.7}"
+            },
+            "id": "duj99ap771zfi5i"
+          }
+        },
+        "root": "qrufx36h4h6eqww3",
+        "title": "test_PID_tactic"
+      }
+    ]
+  },
+  "name": "test_PID_tactic"
+}
