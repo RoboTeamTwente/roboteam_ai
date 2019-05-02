@@ -1,1 +1,31 @@
-{"name": "free_kick_them_strategy", "data": {"trees": [{"title": "free_kick_them_strategy", "root": "o1fdj86kl2onixp", "nodes": {"o1fdj86kl2onixp": {"id": "o1fdj86kl2onixp", "title": "Tactic", "name": "free_kick_them_tactic"}}}]}}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "o1fdj86kl2onixp": {
+            "id": "o1fdj86kl2onixp",
+            "name": "free_kick_them_tactic",
+            "title": "Tactic"
+          },
+          "oqo4giw29j9zloyz": {
+            "children": [
+              "v2v6ytt0h9nle2h5",
+              "o1fdj86kl2onixp"
+            ],
+            "id": "oqo4giw29j9zloyz",
+            "properties": {},
+            "title": "Selector"
+          },
+          "v2v6ytt0h9nle2h5": {
+            "id": "v2v6ytt0h9nle2h5",
+            "title": "ballIsMoving"
+          }
+        },
+        "root": "oqo4giw29j9zloyz",
+        "title": "free_kick_them_strategy"
+      }
+    ]
+  },
+  "name": "free_kick_them_strategy"
+}

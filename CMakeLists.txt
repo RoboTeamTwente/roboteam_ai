@@ -265,7 +265,7 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanPlay.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RobotOutside.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RobotOutside.h
-        roboteam_ai/src/conditions/RefStateIsNormalPlay.cpp roboteam_ai/src/conditions/RefStateIsNormalPlay.h)
+        roboteam_ai/src/conditions/RefStateIsNormalPlay.cpp roboteam_ai/src/conditions/RefStateIsNormalPlay.h roboteam_ai/src/conditions/ballIsMoving.cpp roboteam_ai/src/conditions/ballIsMoving.h)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
