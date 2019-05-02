@@ -24,8 +24,8 @@ public:
 
     const double SEARCH_GRID_ROBOT_POSITIONS = 0.02;
     const int GRID_SIZE = 3;
-    const double CLOSE_TO_GOAL_DISTANCE = 0.95;
-    const double FURTHER_FROM_GOAL_DISTANCE = 2.0 * CLOSE_TO_GOAL_DISTANCE;
+    const double CLOSE_TO_GOAL_DISTANCE = 0.3;
+    const double FURTHER_FROM_GOAL_DISTANCE = 3.0 * CLOSE_TO_GOAL_DISTANCE;
     const double ZONE_RADIUS = 0.8;
 
     struct OffensivePosition {
