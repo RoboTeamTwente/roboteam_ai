@@ -149,11 +149,15 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     case Status::Success:
         std::cout << " === TREE SUCCESS -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
         BTFactory::setCurrentTree("normal_play_strategy");
+        BTFactory::setKeeperTree("keeper_default_tactic");
+
         ai::robotDealer::RobotDealer::refresh();
         break;
     case Status::Failure:
         std::cout << " === TREE FAILURE -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
         BTFactory::setCurrentTree("normal_play_strategy");
+        BTFactory::setKeeperTree("keeper_default_tactic");
+
         ai::robotDealer::RobotDealer::refresh();
         break;
     case Status::Waiting:ROS_INFO_STREAM("Status returned: Waiting");
