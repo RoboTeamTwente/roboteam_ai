@@ -30,6 +30,7 @@ class GoToPos : public Skill {
         double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
 
         std::shared_ptr<control::PosController> posController;
+        control::NumTreePosControl numtreeGtp;
 
         virtual void gtpInitialize() = 0;
         virtual Status gtpUpdate() = 0;
