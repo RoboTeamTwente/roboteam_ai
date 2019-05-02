@@ -19,7 +19,7 @@ class CoachDefend : public Skill {
         bt::Node::Status onUpdate() override;
         void onTerminate(bt::Node::Status) override;
     private:
-        control::NumTreePosControl gtp;
+        control::NumTreePosControl numTreeGtp;
 };
 }
 }

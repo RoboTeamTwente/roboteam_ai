@@ -19,9 +19,9 @@ void Pass::onInitialize() {
     ballPlacement = properties->getBool("BallPlacement");
     robotToPassToID = -1;
     if (ballPlacement) {
-        shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::PASS, false);
+        shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::PASS, true);
     } else {
-        shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::MEDIUM, control::BallSpeed::PASS, false);
+        shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::PASS, true);
     }
 
     passInitialized = false;
@@ -64,12 +64,19 @@ Pass::Status Pass::onUpdate() {
         }
 
         bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
+        bool ballIsMovingToReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, robotToPassTo->pos);
 
         if (hasShot && ballIsMovingFast) {
             coach::g_pass.setPassed(true);
             return Status::Success;
         }
 
+
+        ///Check if:
+        // Not already decided to chip
+        // Not having already tried a shot
+        // If this is both not the case, check if there's a clear line to the target
+        // If not, either ++ fails or fail immediately
         if(!chip && !hasShot && !control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
             if (failsUntilChip == -1) {
                 return Status::Failure;
