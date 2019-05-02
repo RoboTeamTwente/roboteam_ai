@@ -48,13 +48,11 @@ void GTPSpecial::gtpInitialize() {
         }
         case getBackIn: {
             posController->setCanMoveInDefenseArea(world::field->pointIsInDefenceArea(robot->pos));
-            posController->setCanMoveOutOfField(!  world::field->pointIsInField(robot->pos));
+            posController->setCanMoveOutOfField(! world::field->pointIsInField(robot->pos));
             targetPos = {0, 0};
             break;
         }
-
     }
-
 }
 
 Vector2 GTPSpecial::getBallFromSideLocation() {
