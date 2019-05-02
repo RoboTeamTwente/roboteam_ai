@@ -19,12 +19,13 @@ class Collision;
 class PathPoint;
 
 class NumTreePosControl : public ForcePosControl {
-    public:
-
     private:
         using InterfaceValues = interface::InterfaceValues;
         using PathPointer = std::shared_ptr<PathPoint>;
+
         Robot robot = {};
+        Collision currentRobotCollision;
+        double currentMinimumCollisionDistance;
         Vector2 finalTargetPos;
 
         bool doRecalculatePath(const Vector2 &targetPos);
@@ -44,7 +45,7 @@ class NumTreePosControl : public ForcePosControl {
 
         // collisions
         Collision getCollision(const PathPointer &point, double collisionRadius = DEFAULT_ROBOT_COLLISION_RADIUS);
-        Collision getRobotCollision(const Vector2 &collisionPos, const std::vector<Robot> &robots, double distance);
+        Collision getRobotCollision(const PathPointer &point, const std::vector<Robot> &robots, double distance);
 
         // new paths
         PathPointer computeNewPoint(const std::shared_ptr<PathPoint> &oldPoint, const Vector2 &subTarget);

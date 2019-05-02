@@ -9,7 +9,8 @@ namespace ai {
 namespace control {
 
 NumTreePosControl::NumTreePosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
-        :ForcePosControl(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
+        :ForcePosControl(avoidBall, canMoveOutsideField, canMoveInDefenseArea),
+         currentRobotCollision(Collision()), currentMinimumCollisionDistance(0.0) {
 }
 
 /// Clears data and resets variables
@@ -44,18 +45,18 @@ bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
     double maxTargetDeviation = 0.3;
     if (path.empty()) {
         if (InterfaceValues::showFullDebugNumTreeInfo())
-            std::cout << "no path, recalculating" << std::endl;
+            std::cout << "ROBOT " << robot.id << ": no path, recalculating" << std::endl;
         return true;
     }
     else if ((finalTargetPos - targetPos).length() > maxTargetDeviation) {
-        if (InterfaceValues::showDebugNumTreeInfo())
-            std::cout << "target moved too much, recalculating" << std::endl;
+        if (InterfaceValues::showFullDebugNumTreeInfo())
+            std::cout << "ROBOT " << robot.id << ": target moved too much, recalculating" << std::endl;
         return true;
     }
     else if (path.size() < static_cast<unsigned int>(1.01 + 0.80/DT)) {
         if ((path[path.size() - 1].pos - targetPos).length() > maxTargetDeviation) {
             if (InterfaceValues::showFullDebugNumTreeInfo())
-                std::cout << "reached end of path segment, recalculating" << std::endl;
+                std::cout << "ROBOT " << robot.id << ": reached end of path segment, recalculating" << std::endl;
             return true;
         }
     }
@@ -73,7 +74,7 @@ bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
     }
     if (sqrt(distanceSquared) > maxTargetDeviation) {
         if (InterfaceValues::showDebugNumTreeInfo())
-            std::cout << "robot is too far from current path, recalculating" << std::endl;
+            std::cout << "ROBOT " << robot.id << ": is too far from current path, recalculating" << std::endl;
         return true;
     }
     std::vector<std::pair<rtt::Vector2, QColor>> colorData = {{}, {}};
@@ -86,7 +87,8 @@ bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
     for (auto pathPoint : path) {
         if (getCollision(std::make_shared<PathPoint>(pathPoint), 0.8*DEFAULT_ROBOT_COLLISION_RADIUS).isCollision) {
             if (InterfaceValues::showDebugNumTreeInfo())
-                std::cout << "another robot will collide with ours when following this path, recalculating"
+                std::cout << "ROBOT " << robot.id
+                          << ": another robot will collide with ours when following this path, recalculating"
                           << std::endl;
             return true;
         }
@@ -98,8 +100,9 @@ bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
 /// finds a path using a numeric model
 PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr, Vector2 &targetPos) {
     ros::Time begin = ros::Time::now();
+    currentMinimumCollisionDistance = 0.0;
 
-    if (!robotPtr) return calculateForcePosVelAngle(robotPtr, targetPos);
+    if (! robotPtr) return calculateForcePosVelAngle(robotPtr, targetPos);
     robot = *robotPtr;
 
 // Check if the current path is still valid, if not, recalculate
@@ -109,19 +112,31 @@ PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr, Vector2 
     realRobot->pos = robot.pos;
     realRobot->vel = robot.vel;
     realRobot->t = 0;
-    Collision collision = getCollision(realRobot, DEFAULT_ROBOT_COLLISION_RADIUS);
-    if (collision.isCollision) {
-        const Collision::CollisionType type = collision.getCollisionType();
+    currentRobotCollision = Collision();
+    //currentRobotCollision = getCollision(realRobot, DEFAULT_ROBOT_COLLISION_RADIUS);
+    if (currentRobotCollision.isCollision) {
         std::string s;
-        if      (type == Collision::CollisionType::ROBOT)   s = "ROBOT";
-        else if (type == Collision::CollisionType::BALL)    s = "BALL";
-        else                                                s = "OTHER";
+        switch (currentRobotCollision.getCollisionType()) {
+        case Collision::ROBOT: s = "ROBOT          ";
+            currentRobotCollision.getCollisionRobot().acc = robot.vel; // hack hack hack 1 2 3
+            break;
+        case Collision::BALL: s = "BALL           ";
+            break;
+        case Collision::FIELD: s = "FIELD          ";
+            break;
+        case Collision::DEFENSE_AREA: s = "DEFENSE_AREA   ";
+            break;
+        case Collision::OTHER: s = "OTHER          ";
+            break;
+        case Collision::NO_COLLISION: s = "NO COLLISION?!?";
+            break;
+        }
 
         ros::Time end = ros::Time::now();
         if (InterfaceValues::showDebugNumTreeTimeTaken() && InterfaceValues::showFullDebugNumTreeInfo())
             std::cout << "GoToPosClean tick took: " << (end - begin).toNSec()*0.000001 << " ms" << std::endl;
         if (InterfaceValues::showDebugNumTreeInfo())
-            std::cout << "robot " << robot.id << " is too close to " << s << ", trying to use forces instead"
+            std::cout << "ROBOT " << robot.id << ": is too close to " << s << "-> trying to make a path anyways <-"
                       << std::endl;
 
         path.clear();
@@ -136,7 +151,7 @@ PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr, Vector2 
         if (Vector2(robot.vel).length() > 10.0) {
             nicePath = false;
             if (InterfaceValues::showDebugNumTreeInfo())
-                std::cout << "robot is moving too fast, check world_state?" << std::endl;
+                std::cout << "ROBOT " << robot.id << ": is moving too fast, check world_state?" << std::endl;
         }
         else {
             finalTargetPos = targetPos;
@@ -218,7 +233,7 @@ void NumTreePosControl::tracePath() {
         ros::Time now = ros::Time::now();
         if ((now - start).toSec()*1000 > MAX_CALCULATION_TIME) {
             if (InterfaceValues::showDebugNumTreeInfo())
-                std::cout << "Tick took too long!" << std::endl;
+                std::cout << "ROBOT " << robot.id << ": Tick took too long!" << std::endl;
             //( dont clear path?? ) path.clear();
             return;
         }
@@ -269,7 +284,7 @@ void NumTreePosControl::tracePath() {
 
     }
     if (InterfaceValues::showDebugNumTreeInfo())
-        std::cout << "reached end of while loop, no path found" << std::endl;
+        std::cout << "ROBOT " << robot.id << ": reached end of while loop, no path found" << std::endl;
     path = {};
 }
 
@@ -317,7 +332,7 @@ NumTreePosControl::PathPointer NumTreePosControl::computeNewPoint(
 
 Collision NumTreePosControl::getCollision(const PathPointer &point, double collisionRadius) {
     // check collisions with robots, the ball, out of field, defense area (and more if needed)
-    Collision collision;
+
     double futureTime = point->t;
 
     // get all robots and extrapolate their position linearly to the time of the PathPoint (future Robot)
@@ -327,29 +342,53 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     }
 
     // check collision with Robots
-    collision = getRobotCollision(point->pos, allRobots, collisionRadius);
-    if (collision.isCollision) return collision;
+    Collision robotCollision = getRobotCollision(point, allRobots, collisionRadius);
+    if (robotCollision.isCollision) return robotCollision;
 
     // get the future Ball
     auto ball = world::world->getFutureBall(futureTime);
 
     // check collision with Ball
-    if (point->isCollision(ball->pos, avoidBallDistance)) {
-        collision.setCollisionBall(*ball, avoidBallDistance);
-        return collision;
+    Collision ballCollision = Collision();
+    if (currentRobotCollision.getCollisionType() == Collision::BALL) {
+        double robotToBallDistance = (ball->pos - robot.pos).length();
+        double minDistance = std::max(robotToBallDistance, currentMinimumCollisionDistance);
+        if (point->isCollision(ball->pos, minDistance)) {
+            ballCollision.setCollisionBall(*ball, minDistance);
+            return ballCollision;
+        }
+        else {
+            currentMinimumCollisionDistance = std::min(avoidBallDistance, (point->pos - ball->pos).length());
+        }
+    }
+    else {
+        if (point->isCollision(ball->pos, avoidBallDistance)) {
+            ballCollision.setCollisionBall(*ball, avoidBallDistance);
+            return ballCollision;
+        }
     }
 
     // check collision with Edge of field
-    if (! canMoveOutOfField) {
+    Collision fieldCollision = Collision();
+    if ((! canMoveOutOfField && currentRobotCollision.getCollisionType() != Collision::FIELD) ||
+            (currentMinimumCollisionDistance == 0.0 &&
+                    currentRobotCollision.getCollisionType() == Collision::FIELD)) {
+
         if (! world::field->pointIsInField(point->pos)) {
-            collision.isCollision = true;
-            collision.setOtherCollision(point->pos, 0.2);
-            return collision;
+            fieldCollision.setOtherCollision(point->pos, 0.2, Collision::FIELD);
+            return fieldCollision;
+        }
+        else {
+            currentMinimumCollisionDistance = 1.0;
         }
     }
 
     // check collision with defense area
-    if (! canMoveInDefenseArea) {
+    Collision defenseCollision = Collision();
+    if ((! canMoveInDefenseArea && currentRobotCollision.getCollisionType() != Collision::DEFENSE_AREA) ||
+            (currentMinimumCollisionDistance == 0.0 &&
+                    currentRobotCollision.getCollisionType() == Collision::DEFENSE_AREA)) {
+
         // our defense area
         auto ourDefenseArea = world::field->getDefenseArea(true, Constants::ROBOT_RADIUS());
         bool isInOurDefenseArea = control::ControlUtils::pointInRectangle(point->pos, ourDefenseArea);
@@ -359,25 +398,49 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
         bool isInTheirDefenseArea = control::ControlUtils::pointInRectangle(point->pos, theirDefenseArea);
 
         if (isInOurDefenseArea || isInTheirDefenseArea) {
-            collision.setOtherCollision(point->pos, 0.2);
-            return collision;
+            defenseCollision.setOtherCollision(point->pos, 0.2, Collision::DEFENSE_AREA);
+            return defenseCollision;
+        }
+        else {
+            currentMinimumCollisionDistance = 1.0;
         }
     }
 
-    return collision;
+    return {};
 }
 
 Collision NumTreePosControl::getRobotCollision(
-        const Vector2 &collisionPos, const std::vector<Robot> &robots, double distance) {
+        const PathPointer &point, const std::vector<world::Robot> &robots, double distance) {
 
     // for all robots check if the distance to collisionPos is smaller than the set distance
+    world::Robot collisionRobot = world::Robot();
+    if (currentRobotCollision.getCollisionType() == Collision::ROBOT) {
+        collisionRobot = currentRobotCollision.getCollisionRobot();
+    }
     Collision collision = {};
     for (auto &r : robots) {
         if (r.id == this->robot.id && r.team == this->robot.team) continue;
-
-        if ((collisionPos - r.pos).length() < distance) {
-            collision.setCollisionRobot(r, distance);
-            return collision;
+        if (r.id == collisionRobot.id && r.team == collisionRobot.team) {
+            // try to avoid collision with the current colliding robot
+            double robotToRobotDistance = (r.pos - robot.pos).length();
+            double minDistance = std::max(robotToRobotDistance, currentMinimumCollisionDistance);
+            if ((point->pos - r.pos).length() < minDistance) {
+                if ((currentRobotCollision.getCollisionRobot().acc - point->vel).length2() < currentRobotCollision.getCollisionRobot().acc.length2()) {
+                    currentRobotCollision.getCollisionRobot().acc = point->vel;
+                    continue;
+                }
+                collision.setCollisionRobot(r, distance);
+                return collision;
+            }
+            else {
+                currentMinimumCollisionDistance = std::min(distance, (point->pos - r.pos).length());
+            }
+        }
+        else {
+            if ((point->pos - r.pos).length() < distance) {
+                collision.setCollisionRobot(r, distance);
+                return collision;
+            }
         }
     }
     return collision;

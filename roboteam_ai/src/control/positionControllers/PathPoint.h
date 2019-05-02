@@ -18,58 +18,68 @@ class NumTreePosControl;
 
 class Collision {
     private:
-        world::Robot collisionRobot = {};
-        world::Ball collisionBall = {};
-        Vector2 otherCollision = {};
+        world::Robot collisionRobot = world::Robot();
+        world::Ball collisionBall = world::Ball();
+        Vector2 otherCollision = Vector2();
 
     public:
         enum CollisionType : short {
           ROBOT,
           BALL,
-          OTHER
+          FIELD,
+          DEFENSE_AREA,
+          OTHER,
+          NO_COLLISION
         };
     private:
         CollisionType type;
     public:
 
-        Collision()
-                :isCollision(false), collisionRadius(0.0) { }
+        Collision() : type(NO_COLLISION), isCollision(false), collisionRadius(0.0) { }
 
-        const world::Robot &getCollisionRobot() const {
+        bool isCollision;
+        double collisionRadius;
+
+        world::Robot &getCollisionRobot() {
             return collisionRobot;
         }
+
         void setCollisionRobot(const world::Robot &robot, double distance) {
             type = ROBOT;
             collisionRobot = robot;
             isCollision = true;
             collisionRadius = distance;
         }
+
         const world::Ball &getCollisionBall() const {
             return collisionBall;
         }
+
         void setCollisionBall(const world::Ball &ball, double distance) {
             type = BALL;
-            Collision::collisionBall = ball;
-            isCollision = true;
-            collisionRadius = distance;
-        }
-        const Vector2 &getOtherCollision() const {
-            return otherCollision;
-        }
-        void setOtherCollision(const Vector2 &collisionPos, double distance) {
-            type = OTHER;
-            Collision::otherCollision = collisionPos;
+            collisionBall = ball;
+            collisionBall.visible = true;
             isCollision = true;
             collisionRadius = distance;
         }
 
-        bool isCollision;
-        double collisionRadius;
+        const Vector2 &getOtherCollision() const {
+            return otherCollision;
+        }
+
+        void setOtherCollision(const Vector2 &collisionPos, double distance, CollisionType t = OTHER) {
+            type = t;
+            otherCollision = collisionPos;
+            isCollision = true;
+            collisionRadius = distance;
+        }
+
         const Vector2 collisionPosition() const {
             if (collisionRobot.id != - 1) return collisionRobot.pos;
-            else if (collisionBall.exists) return collisionBall.pos;
+            else if (collisionBall.visible) return collisionBall.pos;
             else return otherCollision;
         }
+
         const CollisionType getCollisionType() const {
             return type;
         }
