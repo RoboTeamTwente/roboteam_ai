@@ -116,7 +116,8 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "normal_play_midfield_tactic",
         "normal_play_offense_tactic",
         "time_out_tactic",
-        "two_robot_ballplacement_tactic"
+        "two_robot_ballplacement_tactic",
+        "calibration_tactic"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
@@ -135,7 +136,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "free_kick_formation_strategy",
         "free_kick_shoot_strategy",
         "free_kick_them_strategy",
-        "kickoff_shoot_strategy"
+        "kickoff_shoot_strategy",
+        "calibration_strategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles = {
@@ -506,6 +508,16 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"paa5", robotType::RANDOM},
                     {"paa6", robotType::RANDOM},
                     {"paa7", robotType::RANDOM}
+            }
+            },
+            {"calibration_tactic", {
+                    {"c1", robotType::CLOSE_TO_BALL},
+                    {"c2", robotType::RANDOM},
+                    {"c3", robotType::RANDOM},
+                    {"c4", robotType::RANDOM},
+                    {"c5", robotType::RANDOM},
+                    {"c6", robotType::RANDOM},
+                    {"c7", robotType::RANDOM},
             }
             }
     };
