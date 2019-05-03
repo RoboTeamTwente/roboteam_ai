@@ -16,7 +16,20 @@ void Skill::publishRobotCommand() {
     ros::NodeHandle nh;
     std::string ourSideParam;
     nh.getParam("our_side", ourSideParam);
+    Vector2 vel(command.x_vel,command.y_vel);
+    if (vel.length()==0){
+        command.x_vel=0;
+        command.y_vel=0;
+    }
+    else{
+        vel=control::ControlUtils::velocityLimiter(vel,2.0,0.2);
+        command.x_vel=vel.x;
+        command.y_vel=vel.y;
+    }
 
+    if (command.kicker != 0) {
+        std::cerr << "Kicker   " << node_name() << std::endl;
+    }
     if(Constants::GRSIM() && ourSideParam=="right"){
       command=rotateRobotCommand(command);
     }

@@ -26,7 +26,14 @@ bt::Node::Status bt::DefaultTactic::update() {
         return status;
     }
 
-    for (int i = 0; i < amountToTick; i ++) {
+    int loopAmount;
+    if(amountToTick>children.size()){
+        loopAmount=children.size();
+    }
+    else{
+        loopAmount=amountToTick;
+    }
+    for (int i = 0; i < loopAmount; i ++) {
         children.at(i)->tick();
     }
 

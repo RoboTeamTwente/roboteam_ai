@@ -51,32 +51,39 @@
             "id": "6m3fch8apg3ut",
             "title": "GoToPos",
             "properties": {
-              "targetPos": "{1,1}",
-              "ROLE": "c1"
+              "targetPos": "{3,1.5}",
+              "ROLE": "c1",
+              "goToType": "numTrees"
             }
           },
           "87xcbi7is16nd": {
             "id": "87xcbi7is16nd",
             "title": "GoToPos",
             "properties": {
-              "targetPos": "{1, -1}",
-              "ROLE": "c1"
+              "targetPos": "{3, -1.5}",
+              "ROLE": "c1",
+              "goToType": "numTrees"
+
             }
           },
           "5s74ok2d1letx": {
             "id": "5s74ok2d1letx",
             "title": "GoToPos",
             "properties": {
-              "targetPos": "{-1, -1}",
-              "ROLE": "c1"
+              "targetPos": "{4, -1.5}",
+              "ROLE": "c1",
+              "goToType": "numTrees"
+
             }
           },
           "4n8uam9x517sr83l4": {
             "id": "4n8uam9x517sr83l4",
             "title": "GoToPos",
             "properties": {
-              "targetPos": "{-1, 1}",
-              "ROLE": "c1"
+              "targetPos": "{4, 1.5}",
+              "ROLE": "c1",
+              "goToType": "numTrees"
+
             }
           },
           "92mgu8woxh61q": {

@@ -34,12 +34,8 @@ void GoToPos::onInitialize() {
         maxVel = Constants::MAX_VEL();
     }
 
-    if (properties->hasString("goToType")) {
-        goToType = stringToGoToType(properties->getString("goToType"));
-        setPositionController(goToType);
-    } else {
-        setPositionController(basic);
-    }
+    goToType = stringToGoToType(properties->getString("goToType"));
+    setPositionController(goToType);
 
     double avoidBallDistance = 0.0;
     if (properties->hasDouble("avoidBall")) {
@@ -71,18 +67,21 @@ void GoToPos::setPositionController(const GoToType &gTT) {
 
 /// Get an update on the skill
 bt::Node::Status GoToPos::onUpdate() {
-    Vector2 vel = {1.0, 0};
-    Angle angle = (targetPos - robot->pos).toAngle();
 
-    vel = vel.rotate(angle);
+    Status gtpStatus = gtpUpdate();
+    if (gtpStatus != Status::Running) return gtpStatus;
 
-    command.x_vel = vel.x;
-    command.y_vel = vel.y;
-    command.w = 0.0;
-
-    if ((robot->pos - targetPos).length() < 0.2) {
+    if ((targetPos - robot->pos).length2() < errorMargin*errorMargin) {
         return Status::Success;
     }
+
+    control::PosVelAngle pva = posController->getPosVelAngle(robot, targetPos);
+    pva.vel = control::ControlUtils::velocityLimiter(pva.vel, maxVel);
+
+    // set robotcommands if they have not been set yet in gtpUpdate()
+    command.x_vel = static_cast<float>(pva.vel.x);
+    command.y_vel = static_cast<float>(pva.vel.y);
+    command.w = static_cast<float>(pva.angle);
 
     publishRobotCommand();
     return Status::Running;
@@ -90,10 +89,6 @@ bt::Node::Status GoToPos::onUpdate() {
 
 void GoToPos::onTerminate(Status s) {
     gtpTerminate(s);
-    command.w = command.w == 0 ? static_cast<float>(robot->angle) : command.w;
-    command.x_vel = 0;
-    command.y_vel = 0;
-    publishRobotCommand();
 }
 
 } // ai
