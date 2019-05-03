@@ -69,11 +69,12 @@
 #include <roboteam_ai/src/skills/formations/TimeoutFormation.h>
 #include <roboteam_ai/src/bt/RoleDivider.h>
 #include <roboteam_ai/src/skills/formations/KickOffThemFormation.h>
-#include <roboteam_ai/src/skills/BallPlacementReceive.h>
+#include <roboteam_ai/src/skills/BallPlacement/BallPlacementReceive.h>
 #include <roboteam_ai/src/conditions/CanPlay.h>
 #include <roboteam_ai/src/conditions/RobotOutside.h>
 #include <roboteam_ai/src/conditions/RefStateIsNormalPlay.h>
 #include <roboteam_ai/src/conditions/ballIsMoving.h>
+#include <roboteam_ai/src/skills/BallPlacement/BallPlacementPass.h>
 
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
@@ -225,7 +226,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["FreeKickFormation"] = std::make_shared<rtt::ai::FreeKickFormation>(name, properties);
     map["DefendFreeKick"] = std::make_shared<rtt::ai::DefendFreeKick>(name, properties);
     map["BallPlacementReceive"] = std::make_shared<rtt::ai::BallPlacementReceive>(name, properties);
-
+    map["BallPlacementPass"] = std::make_shared<rtt::ai::BallPlacementPass>(name, properties);
 
 
     // conditions (alphabetic order)

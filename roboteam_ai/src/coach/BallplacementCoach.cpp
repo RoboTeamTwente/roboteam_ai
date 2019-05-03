@@ -23,7 +23,10 @@ BallplacementCoach g_ballPlacement;
 /// it can be set by the referee or the interface.
 Vector2 BallplacementCoach::getBallPlacementPos(){
 
-    // TODO use the referee for this if we use referee
+    // get the ballplacement target from the referee or the interface
+    if (interface::InterfaceValues::usesRefereeCommands()) {
+       return Referee::getRefereeData().designated_position;
+    }
     return interface::InterfaceValues::getBallPlacementTarget();
 }
 

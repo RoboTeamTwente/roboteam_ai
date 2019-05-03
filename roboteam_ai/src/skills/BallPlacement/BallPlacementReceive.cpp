@@ -22,12 +22,17 @@ bt::Node::Status BallPlacementReceive::onUpdate() {
         return Status::Success;
     }
 
+    if (ball->pos.dist(coach::g_ballPlacement.getBallPlacementPos()) < 0.5) {
+        publishRobotCommand();
+        return Status::Success;
+    }
+
     if (coach::g_pass.isPassed()) {
         // Check if the ball was deflected
-        if (passFailed()) {
-            publishRobotCommand(); // halt
-            return Status::Failure;
-        }
+//        if (passFailed()) {
+//            publishRobotCommand(); // halt
+//            return Status::Running;
+//        }
 
         intercept();
     } else {
