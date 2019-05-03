@@ -17,6 +17,7 @@ HasClearShot::HasClearShot(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) {};
 
 HasClearShot::Status HasClearShot::onUpdate() {
+    auto minViewAtGoal = MIN_VIEW_AT_GOAL;
     minViewAtGoal = 0.2;
 
 	// return failure if the robot is too far away for a shot at goal

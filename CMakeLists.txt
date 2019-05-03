@@ -216,8 +216,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/FreeKickFormation.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/DefendFreeKick.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/DefendFreeKick.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementReceive.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementReceive.h)
+        roboteam_ai/src/skills/BallPlacement/BallPlacementReceive.cpp
+        roboteam_ai/src/skills/BallPlacement/BallPlacementReceive.h roboteam_ai/src/skills/BallPlacement/BallPlacementPass.cpp roboteam_ai/src/skills/BallPlacement/BallPlacementPass.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
@@ -265,7 +265,7 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanPlay.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RobotOutside.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RobotOutside.h
-        )
+        roboteam_ai/src/conditions/RefStateIsNormalPlay.cpp roboteam_ai/src/conditions/RefStateIsNormalPlay.h roboteam_ai/src/conditions/ballIsMoving.cpp roboteam_ai/src/conditions/ballIsMoving.h)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp

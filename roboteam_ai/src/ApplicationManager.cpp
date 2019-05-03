@@ -28,7 +28,7 @@ void ApplicationManager::setup() {
 
 void ApplicationManager::loop() {
     ros::Rate rate(ai::Constants::TICK_RATE());
-
+    BTFactory::makeTrees();
     double longestTick = 0.0;
     double timeTaken;
     int nTicksTaken = 0;
@@ -80,23 +80,25 @@ void ApplicationManager::runOneLoopCycle() {
             // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
             // might want to build something that verifies this
             auto strategy = strategyManager.getCurrentStrategy(ai::Referee::getRefereeData().command);
+            std::string keeperTreeName = strategyManager.getCurrentKeeperTreeName(ai::Referee::getRefereeData().command);
 
             std::string strategyName = strategy.strategyName;
             ai::Referee::setMaxRobotVelocity(strategy.maxVel);
 
+
             if (oldStrategy != strategyName) {
+                ai::robotDealer::RobotDealer::refresh();
+
                 BTFactory::setCurrentTree(strategyName);
                 oldStrategy = strategyName;
             }
 
-            std::string keeperTreeName = strategyManager.getCurrentKeeperTreeName(ai::Referee::getRefereeData().command);
             if (oldKeeperTreeName != keeperTreeName) {
+                ai::robotDealer::RobotDealer::refresh();
+
+                std::cout << "changing keeper tree" << std::endl;
                 BTFactory::setKeeperTree(keeperTreeName);
                 oldKeeperTreeName = keeperTreeName;
-            }
-
-            if (oldStrategy != strategyName || oldKeeperTreeName != keeperTreeName) {
-                ai::robotDealer::RobotDealer::refresh();
             }
 
             ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
@@ -147,11 +149,15 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     case Status::Success:
         std::cout << " === TREE SUCCESS -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
         BTFactory::setCurrentTree("normal_play_strategy");
+        BTFactory::setKeeperTree("keeper_default_tactic");
+
         ai::robotDealer::RobotDealer::refresh();
         break;
     case Status::Failure:
         std::cout << " === TREE FAILURE -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
         BTFactory::setCurrentTree("normal_play_strategy");
+        BTFactory::setKeeperTree("keeper_default_tactic");
+
         ai::robotDealer::RobotDealer::refresh();
         break;
     case Status::Waiting:ROS_INFO_STREAM("Status returned: Waiting");
