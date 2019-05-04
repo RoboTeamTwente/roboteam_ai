@@ -111,7 +111,7 @@ void ApplicationManager::runOneLoopCycle() {
         if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
             if (ai::robotDealer::RobotDealer::getKeeperID() == -1) {
                 std::cout << "setting keeper id" << std::endl;
-                ai::robotDealer::RobotDealer::setKeeperID(ai::world::world->getUs().at(0).id);
+                ai::robotDealer::RobotDealer::setKeeperID(ai::Referee::getRefereeData().us.goalie);
             }
             keeperTree = BTFactory::getKeeperTree();
             if (keeperTree) {
