@@ -14,7 +14,7 @@ namespace rtt {
 
         bt::Node::Status ballIsMoving::onUpdate() {
             Vector2 ballVel=ball->vel;
-            bool ballIsLayingStill = ballVel.length() < Constants::BALL_STILL_VEL();
+            bool ballIsLayingStill = ballVel.length() < 0.3;
 
             if (ballIsLayingStill ){
                 return Status::Failure;

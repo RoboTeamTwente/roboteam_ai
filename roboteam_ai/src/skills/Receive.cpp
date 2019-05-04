@@ -16,7 +16,7 @@ void Receive::onInitialize() {
 }
 
 Receive::Status Receive::onUpdate() {
-    if (world::world->robotHasBall(robot->id, true)) {
+    if (world::world->robotHasBall(robot->id, true, Constants::MAX_BALL_RANGE() * 1.5)) {
         return Status::Success;
     }
 
@@ -77,7 +77,7 @@ void Receive::intercept() {
     ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
 
-    Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel;
+    Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel * 1.38;
     velocities = control::ControlUtils::velocityLimiter(velocities);
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);

@@ -17,7 +17,7 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name),
 
 void Pass::onInitialize() {
     robotToPassToID = -1;
-    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::PASS, true);
+    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::PASS, false);
     passInitialized = false;
     hasShot = false;
     chip = false;

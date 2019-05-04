@@ -13,7 +13,7 @@ ShootFreeKick::ShootFreeKick(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void ShootFreeKick::onInitialize() {
-    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::PASS, true);
+    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::PASS, false);
 
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
     freeKickPos = ballPos;

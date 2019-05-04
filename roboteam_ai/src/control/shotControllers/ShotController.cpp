@@ -53,8 +53,9 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     bool validAngle = robotAngleIsGood(robot, lineToDriveOver);
 
     ShotData shotData;
+    std::cout << isOnLineToBall << " " << isBehindBall << "  " << validAngle << std::endl;
     if (isOnLineToBall && isBehindBall && validAngle) {
-        bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
+        bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE()+0.01);
         if (hasBall && !genevaIsTurning) {
             shotData = shoot(robot, lineToDriveOver, shotTarget, chip);
             std::cout<<" SHOOT";
@@ -106,7 +107,7 @@ bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, 
     Vector2 ShotController::getPlaceBehindBall(world::Robot robot, Vector2 shotTarget) {
         auto ball = world::world->getBall();
         Vector2 preferredShotVector = ball->pos - shotTarget;
-        double distanceBehindBall = 2.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
+        double distanceBehindBall = 3.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
         return ball->pos + preferredShotVector.stretchToLength(distanceBehindBall);
     }
 
@@ -165,7 +166,8 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector
 
 /// Determine how fast we should kick for a pass at a given distance
     double ShotController::determineKickForce(double distance) {
-        const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
+//        const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
+        const double maxPowerDist = 12.0;
 
         double velocity = 0;
         switch (ballSpeed) {
@@ -183,12 +185,12 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector
                                                                                             1.2;
                 break;
             case MAX_SPEED:
-                velocity = rtt::ai::Constants::MAX_KICK_POWER();
+                velocity =255.0;
                 break;
         }
 
         // limit the output to the max kick speed
-        return std::min(velocity, rtt::ai::Constants::MAX_KICK_POWER());
+        return std::min(velocity, 255.0);
     }
 
     void ShotController::makeCommand(ShotData data, roboteam_msgs::RobotCommand &command) {

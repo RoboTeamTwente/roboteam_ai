@@ -22,7 +22,7 @@ void Skill::publishRobotCommand() {
         command.y_vel=0;
     }
     else{
-        vel=control::ControlUtils::velocityLimiter(vel,2.0,0.0);
+        vel=control::ControlUtils::velocityLimiter(vel,4.0,0.0);
         command.x_vel=vel.x;
         command.y_vel=vel.y;
     }

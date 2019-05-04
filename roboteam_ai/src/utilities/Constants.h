@@ -115,7 +115,7 @@ public:
         workingGenevaRobots[4] = true;
         workingGenevaRobots[5] = true;
         workingGenevaRobots[6] = true;
-        workingGenevaRobots[7] = true;
+        workingGenevaRobots[7] = false;
         workingGenevaRobots[8] = true;
         workingGenevaRobots[9] = true;
         workingGenevaRobots[10] = true;
