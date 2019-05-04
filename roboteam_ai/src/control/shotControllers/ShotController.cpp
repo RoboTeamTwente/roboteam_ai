@@ -185,12 +185,12 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector
                                                                                             1.2;
                 break;
             case MAX_SPEED:
-                velocity =255.0;
+                velocity = rtt::ai::Constants::MAX_KICK_POWER();
                 break;
         }
 
         // limit the output to the max kick speed
-        return std::min(velocity, 255.0);
+        return std::min(velocity, rtt::ai::Constants::MAX_KICK_POWER());
     }
 
     void ShotController::makeCommand(ShotData data, roboteam_msgs::RobotCommand &command) {
