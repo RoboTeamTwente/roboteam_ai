@@ -8,6 +8,8 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
+std::vector<Drawing> Input::drawings;
+
 // declare static variables
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Input::NumTreePoints;
 std::map<int, std::vector<std::pair<Vector2, QColor>>> Input::KeeperPoints;
@@ -29,6 +31,9 @@ std::mutex Input::offensiveMutex;
 std::mutex Input::attackerMutex;
 std::mutex Input::drawMutex;
 std::mutex Input::drawLinesMutex;
+
+
+    std::mutex Input::drawingMutex;
 
 void Input::setNumTreePoints(int id, GTPPoints points) {
     std::lock_guard<std::mutex> lock(goToPosMutex);
@@ -160,13 +165,24 @@ Input::GTPPoints Input::getAttackerPoints(int id) {
 
 }
 
-void Input::drawData(std::string name, std::vector<Vector2> points, QColor color, Drawing::DrawingMethod method,
+void Input::drawData(std::string const &name, std::vector<Vector2> points, QColor color, Drawing::DrawingMethod method,
                      Drawing::Depth depth) {
-drawings.push_back(Drawing(name, points, color, method, depth));
+    Input::makeDrawing(name, Drawing(name, std::move(points), std::move(color), method, depth));
 }
 
-void Input::makeDrawing(std::string name, Drawing drawing) {
+void Input::makeDrawing(std::string const &name, Drawing const &drawing) {
+    std::lock_guard<std::mutex> lock(drawingMutex);
+    drawings.push_back(drawing);
+}
 
+const std::vector<Drawing> &Input::getDrawings() {
+    std::lock_guard<std::mutex> lock(drawingMutex);
+    return drawings;
+}
+
+void Input::clearDrawings() {
+    std::lock_guard<std::mutex> lock(drawingMutex);
+    drawings = {};
 }
 
 } // interface

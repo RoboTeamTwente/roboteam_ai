@@ -36,6 +36,21 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         Input::clearDrawPoints();
         Input::clearDrawLines();
 
+
+        // draw the drawings from the input
+        for (auto const &drawing : Input::getDrawings()) {
+            if (! drawing.points.empty()) {
+                painter.setPen(Qt::NoPen);
+
+                for (auto const &point : drawing.points) {
+                    painter.setBrush(drawing.color);
+                    Vector2 pointOnScreen = toScreenPosition(point);
+                    painter.drawEllipse(pointOnScreen.x, pointOnScreen.y, 2, 2);
+                }
+            }
+        }
+        Input::clearDrawings();
+
         if (showBallPlacementMarker) drawBallPlacementTarget(painter);
         if (showPath) {
             for (auto robot : selectedRobots) {

@@ -17,7 +17,6 @@ namespace interface {
 
 /*
  * For internal drawing we keep 'drawings' to draw data to the screen in a desired way.
- *
  */
 struct Drawing {
     enum DrawingMethod {LINES_SEPARATE, LINES_CONNECTED, DOTS, CROSSES};
@@ -36,13 +35,12 @@ struct Drawing {
 
 class Input {
     public:
-        static std::vector<Drawing> drawings;
 
-        static void drawData(std::string name, std::vector<Vector2> points, QColor color, Drawing::DrawingMethod method,
+        static void drawData(std::string const &name, std::vector<Vector2> points, QColor color, Drawing::DrawingMethod method,
                              Drawing::Depth depth);
-        static void makeDrawing(std::string name, Drawing drawing);
+        static void makeDrawing(std::string const &name, Drawing const &drawing);
+        static void clearDrawings();
 
-        std::map<QString, bool> showDrawings;
 
 
         explicit Input() = default;
@@ -67,7 +65,14 @@ class Input {
         static void clearDrawPoints();
 
 private:
-        static std::mutex drawMutex,goToPosMutex,keeperMutex,interceptMutex,offensiveMutex,attackerMutex,drawLinesMutex,testLineMutex,testPointMutex;
+
+    static std::vector<Drawing> drawings;
+public:
+    static const std::vector<Drawing> &getDrawings();
+
+private:
+
+    static std::mutex drawingMutex, drawMutex,goToPosMutex,keeperMutex,interceptMutex,offensiveMutex,attackerMutex,drawLinesMutex,testLineMutex,testPointMutex;
         static std::map<int, GTPPoints> GoToPosLuThPoints;
         static std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>> testLines;
         static std::vector<std::pair<Vector2,QColor>> testPoints;
