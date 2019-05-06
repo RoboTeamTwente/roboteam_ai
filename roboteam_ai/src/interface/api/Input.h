@@ -15,36 +15,34 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
-
-    // For internal drawing we keep 'drawings' to draw data to the screen in a desired way.
+/*
+ * For internal drawing we keep 'drawings' to draw data to the screen in a desired way.
+ *
+ */
 struct Drawing {
-    enum DrawingMethod {
-        LINES_SEPARATE, // connect separate pairs only
-        LINES_CONNECTED, // connect all points with a line
-        DOTS,
-        CROSSES
-    };
+    enum DrawingMethod {LINES_SEPARATE, LINES_CONNECTED, DOTS, CROSSES};
+    enum Depth {FRONT, MIDDLE, BACK};
 
-    enum Depth {
-        FRONT,
-        MIDDLE,
-        BACK
-    };
+    Drawing(std::string const &name, std::vector<Vector2> points, QColor color, DrawingMethod method = DOTS, Depth depth = FRONT)
+    : name(QString::fromStdString(name)), points(std::move(points)), color(std::move(color)), method(method), depth(depth) {};
 
+    QString name;
+    std::vector<Vector2> points;
     QColor color;
-    std::vector<Vector2> dataPoints;
-    Depth depth;
     DrawingMethod method;
+    Depth depth;
 };
 
 
 class Input {
     public:
+        static std::vector<Drawing> drawings;
 
+        static void drawData(std::string name, std::vector<Vector2> points, QColor color, Drawing::DrawingMethod method,
+                             Drawing::Depth depth);
+        static void makeDrawing(std::string name, Drawing drawing);
 
-        std::map<std::string, std::pair<QColor, std::vector<Vector2, Vector2>>> drawings;
-
-
+        std::map<QString, bool> showDrawings;
 
 
         explicit Input() = default;

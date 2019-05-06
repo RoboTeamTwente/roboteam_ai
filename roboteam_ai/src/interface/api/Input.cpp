@@ -160,6 +160,15 @@ Input::GTPPoints Input::getAttackerPoints(int id) {
 
 }
 
+void Input::drawData(std::string name, std::vector<Vector2> points, QColor color, Drawing::DrawingMethod method,
+                     Drawing::Depth depth) {
+drawings.push_back(Drawing(name, points, color, method, depth));
+}
+
+void Input::makeDrawing(std::string name, Drawing drawing) {
+
+}
+
 } // interface
 } // ai
 } // rtt
