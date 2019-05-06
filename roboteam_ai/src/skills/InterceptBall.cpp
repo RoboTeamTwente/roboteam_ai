@@ -44,15 +44,9 @@ InterceptBall::Status InterceptBall::onUpdate() {
     }
     deltaPos = interceptPos - robot->pos;
     checkProgression();
-    //interface
-    displayColorData.emplace_back(std::make_pair(interceptPos,Qt::red));
-    displayColorData.emplace_back(std::make_pair(ballStartPos,Qt::red));
-    displayColorData.emplace_back(std::make_pair(ballEndPos,Qt::red));
-    displayColorData.emplace_back(std::make_pair(ball->pos,Qt::green));
-    displayColorData.emplace_back(std::make_pair(Vector2(ball->pos)+ Vector2(ball->vel) * Constants::MAX_INTERCEPT_TIME(),Qt::green));
-   // interface::Input::setInterceptPoints(robot->id,displayColorData);
-    displayColorData.clear();
 
+    interface::Input::drawData("intercept", {ballStartPos, ballEndPos}, Qt::darkCyan, interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData("intercept", {interceptPos}, Qt::cyan, interface::Drawing::DOTS, interface::Drawing::Depth::FRONT, 5, 5);
 
     tickCount ++;
     switch (currentProgression) {
