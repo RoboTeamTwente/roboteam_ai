@@ -12,9 +12,20 @@ namespace interface {
 std::vector<Drawing> Input::drawings;
 std::mutex Input::drawingMutex;
 
-void Input::drawData(std::string const &name, std::vector<Vector2> points, QColor color,
+/*
+ * Draw data to the screen
+ */
+void Input::drawData(std::string const &name, std::vector<Vector2> points, QColor color, int robotId,
         Drawing::DrawingMethod method, Drawing::Depth depth, double width, double height, double strokeWidth) {
-    Input::makeDrawing(Drawing(name, std::move(points), std::move(color), method, depth, width, height, strokeWidth));
+    Input::makeDrawing(Drawing(name, std::move(points), std::move(color), robotId, method, depth, width, height, strokeWidth));
+}
+
+/*
+ * Useful for debugging:  quickly draw a vector of points.
+ */
+void Input::drawDebugData(std::vector<Vector2> points, QColor color, int robotId, Drawing::DrawingMethod method, double width,
+                          double height, double strokeWidth) {
+    Input::makeDrawing(Drawing("debug", std::move(points), std::move(color), robotId, method, Drawing::FRONT, width, height, strokeWidth));
 }
 
 void Input::makeDrawing(Drawing const &drawing) {
@@ -31,6 +42,7 @@ void Input::clearDrawings() {
     std::lock_guard<std::mutex> lock(drawingMutex);
     drawings = {};
 }
+
 
 
 } // interface
