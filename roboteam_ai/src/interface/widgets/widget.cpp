@@ -346,12 +346,27 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
     painter.setBrush(color);
     painter.setPen(Qt::transparent);
 
-    painter.setOpacity(0.5);
-    painter.drawEllipse(qrobotPosition, Constants::ROBOT_DRAWING_SIZE(), Constants::ROBOT_DRAWING_SIZE());
     painter.setOpacity(1);
 
-    int robotDrawSize = std::max(Constants::ROBOT_RADIUS()*factor, (double)Constants::ROBOT_DRAWING_SIZE());
-    painter.drawEllipse(qrobotPosition, robotDrawSize, robotDrawSize);
+    int robotDrawSize = std::max(Constants::ROBOT_RADIUS()*factor, (double)Constants::ROBOT_DRAWING_SIZE()) * 2;
+
+
+    // draw the shape of the robot with the right angle
+    QPainterPath rectPath;
+    rectPath.moveTo(0, -robotDrawSize/2.0);
+    rectPath.arcTo(-robotDrawSize/2.0, -robotDrawSize/2.0, robotDrawSize, robotDrawSize, 90, 270);
+    rectPath.closeSubpath();
+
+    painter.translate(robotpos.x, robotpos.y); // move center of coordinates to the center of robot
+
+    if (fieldInversed) {
+        painter.rotate(-toDegrees(robot.angle) + 45 + 180); // rotate around the center of robot
+    } else {
+        painter.rotate(-toDegrees(robot.angle) + 45); // rotate around the center of robot
+    }
+    painter.drawPath(rectPath);
+    painter.resetTransform(); // reset the translation and rotation
+
 
     // draw the id in it
     painter.setPen(Qt::black);
