@@ -67,6 +67,19 @@ void Visualizer::paintEvent(QPaintEvent* event) {
                         }
                     }
                     break;
+                    case Drawing::CROSSES: {
+                        painter.setPen(drawing.color);
+                        painter.setBrush(Qt::transparent);
+
+                        for (auto const &point : drawing.points) {
+                            Vector2 pointOnScreen = toScreenPosition(point);
+
+                            // draw a cross
+                            painter.drawLine(pointOnScreen.x - drawing.width/2, pointOnScreen.y - drawing.height/2, pointOnScreen.x + drawing.width/2, pointOnScreen.y + drawing.height/2);
+                            painter.drawLine(pointOnScreen.x + drawing.width/2, pointOnScreen.y - drawing.height/2, pointOnScreen.x - drawing.width/2, pointOnScreen.y + drawing.height/2);
+
+                        }
+                    }
                 }
             }
         }
