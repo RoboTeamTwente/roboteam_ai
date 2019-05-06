@@ -62,7 +62,6 @@ void Visualizer::paintEvent(QPaintEvent* event) {
                             for (int i = 1; i < drawing.points.size(); i++) {
                                 Vector2 pointOnScreen = toScreenPosition(drawing.points.at(i));
                                 Vector2 prevPointOnScreen = toScreenPosition(drawing.points.at(i-1));
-
                                 painter.drawLine(pointOnScreen.x, pointOnScreen.y, prevPointOnScreen.x, prevPointOnScreen.y);
                             }
                         }
