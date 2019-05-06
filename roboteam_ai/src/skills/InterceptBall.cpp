@@ -46,7 +46,7 @@ InterceptBall::Status InterceptBall::onUpdate() {
     checkProgression();
 
     interface::Input::drawData("intercept", {ballStartPos, ballEndPos}, Qt::darkCyan, robot->id, interface::Drawing::LINES_CONNECTED);
-    interface::Input::drawData("intercept", {interceptPos}, Qt::cyan, robot->id, interface::Drawing::DOTS, interface::Drawing::Depth::FRONT, 5, 5);
+    interface::Input::drawData("intercept", {interceptPos}, Qt::cyan, robot->id, interface::Drawing::DOTS, 5, 5);
 
     tickCount ++;
     switch (currentProgression) {

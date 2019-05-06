@@ -87,7 +87,7 @@ Vector2 Keeper::computeBlockPoint(Vector2 defendPos) {
                 *signum(defendPos.y)); // Go stand at one of the poles depending on the side the defendPos is on.
     }
 
-    interface::Input::drawData("Keeper", {defendPos, blockPos}, Qt::red, robot->id, interface::Drawing::DrawingMethod::DOTS, interface::Drawing::Depth::FRONT, 5, 5);
+    interface::Input::drawData("Keeper", {defendPos, blockPos}, Qt::red, robot->id, interface::Drawing::DrawingMethod::DOTS, 5, 5);
     return blockPos;
 }
 
