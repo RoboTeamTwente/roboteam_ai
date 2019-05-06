@@ -2,7 +2,7 @@
 // Created by rolf on 10/12/18.
 //
 
-#include <roboteam_ai/src/interface/drawer.h>
+#include <roboteam_ai/src/interface/api/Input.h>
 #include "Keeper.h"
 #include "roboteam_ai/src/world/Field.h"
 
@@ -95,7 +95,7 @@ Vector2 Keeper::computeBlockPoint(Vector2 defendPos) {
     displayColorData.emplace_back(std::make_pair(goalPos + Vector2(0.0, goalwidth*0.5),Qt::green));
     displayColorData.emplace_back(std::make_pair(goalPos - Vector2(0.0, goalwidth*0.5),Qt::green));
     displayColorData.emplace_back(std::make_pair(robot->pos,Qt::blue));
-    interface::Drawer::setKeeperPoints(robot->id,displayColorData);
+    interface::Input::setKeeperPoints(robot->id,displayColorData);
 
     return blockPos;
 }

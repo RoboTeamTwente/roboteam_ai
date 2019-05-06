@@ -1,5 +1,5 @@
 #include <queue>
-#include <roboteam_ai/src/interface/drawer.h>
+#include <roboteam_ai/src/interface/api/Input.h>
 #include "../../world/Field.h"
 #include "NumTreePosControl.h"
 #include "PosVelAngle.h"
@@ -437,12 +437,12 @@ void NumTreePosControl::redrawInInterface() {
     for (auto &displayPath : path) {
         displayColorData.emplace_back(displayPath.pos, Qt::red);
     }
-    interface::Drawer::setNumTreePoints(robot.id, displayColorData);
+    interface::Input::setNumTreePoints(robot.id, displayColorData);
 }
 
 /// add data to interface
 void NumTreePosControl::addDataInInterface(std::vector<std::pair<rtt::Vector2, QColor>> displayColorData) {
-    interface::Drawer::addNumTreePoints(robot.id, std::move(displayColorData));
+    interface::Input::addNumTreePoints(robot.id, std::move(displayColorData));
 }
 
 /// draw a cross in the interface
@@ -463,7 +463,7 @@ void NumTreePosControl::drawPoint(Vector2 &pos, QColor color) {
 }
 
 void NumTreePosControl::checkInterfacePID() {
-    auto newPid = interface::InterfaceValues::getNumTreePid();
+    auto newPid = interface::Output::getNumTreePid();
     updatePid(newPid);
 }
 

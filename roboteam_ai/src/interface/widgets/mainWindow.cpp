@@ -3,9 +3,9 @@
 //
 
 #include "mainWindow.h"
-#include "../utilities/Constants.h"
+#include "roboteam_ai/src/utilities/Constants.h"
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
-#include "InterfaceValues.h"
+#include "roboteam_ai/src/interface/api/Output.h"
 #include "RobotsWidget.h"
 #include <QSplitter>
 
@@ -17,11 +17,11 @@ MainWindow::MainWindow(QWidget* parent)
         :QMainWindow(parent) {
 
     // initialize values for interface to display
-    InterfaceValues::setNumTreePid(Constants::standardNumTreePID());
-    InterfaceValues::setForcePid(Constants::standardForcePID());
-    InterfaceValues::setBasicPid(Constants::standardBasicPID());
+    Output::setNumTreePid(Constants::standardNumTreePID());
+    Output::setForcePid(Constants::standardForcePID());
+    Output::setBasicPid(Constants::standardBasicPID());
 
-    InterfaceValues::setUseRefereeCommands(Constants::STD_USE_REFEREE());
+    Output::setUseRefereeCommands(Constants::STD_USE_REFEREE());
 
     setMinimumWidth(800);
     setMinimumHeight(600);
@@ -112,18 +112,18 @@ MainWindow::MainWindow(QWidget* parent)
     basicPidBox = new PidBox("Basic");
 
     // initialize them with the default values
-    numTreePidBox->setPid(InterfaceValues::getNumTreePid());
-    forcePidBox->setPid(InterfaceValues::getForcePid());
-    basicPidBox->setPid(InterfaceValues::getBasicPid());
+    numTreePidBox->setPid(Output::getNumTreePid());
+    forcePidBox->setPid(Output::getForcePid());
+    basicPidBox->setPid(Output::getBasicPid());
 
     QObject::connect(numTreePidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
-                     [=](const pidVals &pid) { InterfaceValues::setNumTreePid(pid); });
+                     [=](const pidVals &pid) { Output::setNumTreePid(pid); });
 
     QObject::connect(forcePidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
-                     [=](const pidVals &pid) { InterfaceValues::setForcePid(pid); });
+                     [=](const pidVals &pid) { Output::setForcePid(pid); });
 
     QObject::connect(basicPidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
-                     [=](const pidVals &pid) { InterfaceValues::setBasicPid(pid); });
+                     [=](const pidVals &pid) { Output::setBasicPid(pid); });
 
     // add the pid widgets to the layout
     pidVLayout->addWidget(numTreePidBox);
@@ -273,7 +273,7 @@ void MainWindow::toggleOurColorParam() {
 
 /// send a halt signal to stop all trees from executing
 void MainWindow::sendHaltSignal() {
-    InterfaceValues::sendHaltCommand();
+    Output::sendHaltCommand();
 }
 
 void MainWindow::updatePause() {
@@ -294,11 +294,11 @@ void MainWindow::updateRobotsWidget() {
 }
 
 void MainWindow::setShowDebugValueInTerminal(bool showDebug) {
-    InterfaceValues::setShowDebugValues(showDebug);
+    Output::setShowDebugValues(showDebug);
 }
 
 void MainWindow::setUseReferee(bool useRef) {
-    InterfaceValues::setUseRefereeCommands(useRef);
+    Output::setUseRefereeCommands(useRef);
 }
 
 QString MainWindow::getSelectStrategyText() const {
@@ -334,7 +334,7 @@ void MainWindow::updateKeeperTreeWidget() {
 }
 
 void MainWindow::setTimeOutTop(bool top) {
-    rtt::ai::interface::InterfaceValues::setTimeOutTop(top);
+    rtt::ai::interface::Output::setTimeOutTop(top);
 }
 
 void MainWindow::setUsesKeeper(bool usekeeper) {

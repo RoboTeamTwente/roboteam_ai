@@ -4,7 +4,7 @@
 
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "GoAroundPos.h"
-#include "roboteam_ai/src/interface/drawer.h"
+#include "roboteam_ai/src/interface/api/Input.h"
 
 namespace rtt {
 namespace ai {
@@ -88,7 +88,7 @@ GoAroundPos::Status GoAroundPos::gtpUpdate() {
     displayColorData.emplace_back(commandPos, Qt::red);
     displayColorData.emplace_back(targetPos + Vector2(distanceFromPoint, 0).rotate(endAngle + M_PI), Qt::red);
 
-    interface::Drawer::setNumTreePoints(robot->id, displayColorData);
+    interface::Input::setNumTreePoints(robot->id, displayColorData);
 
     switch (currentProgress) {
     case ROTATING: {

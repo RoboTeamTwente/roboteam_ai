@@ -7,7 +7,7 @@
 
 #include <QtWidgets/QTreeWidget>
 #include <roboteam_ai/src/bt/Node.hpp>
-#include "../bt/BehaviorTree.hpp"
+#include "roboteam_ai/src/bt/BehaviorTree.hpp"
 
 namespace rtt {
 namespace ai {

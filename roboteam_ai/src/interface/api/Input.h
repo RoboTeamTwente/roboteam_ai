@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 4-12-18.
 //
 
-#ifndef ROBOTEAM_AI_DRAWER_H
-#define ROBOTEAM_AI_DRAWER_H
+#ifndef ROBOTEAM_AI_INPUT_H
+#define ROBOTEAM_AI_INPUT_H
 
 #include <QtGui/QColor>
 #include <roboteam_utils/Vector2.h>
@@ -15,9 +15,39 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
-class Drawer {
+
+    // For internal drawing we keep 'drawings' to draw data to the screen in a desired way.
+struct Drawing {
+    enum DrawingMethod {
+        LINES_SEPARATE, // connect separate pairs only
+        LINES_CONNECTED, // connect all points with a line
+        DOTS,
+        CROSSES
+    };
+
+    enum Depth {
+        FRONT,
+        MIDDLE,
+        BACK
+    };
+
+    QColor color;
+    std::vector<Vector2> dataPoints;
+    Depth depth;
+    DrawingMethod method;
+};
+
+
+class Input {
     public:
-        explicit Drawer() = default;
+
+
+        std::map<std::string, std::pair<QColor, std::vector<Vector2, Vector2>>> drawings;
+
+
+
+
+        explicit Input() = default;
         using GTPPoints = std::vector<std::pair<Vector2, QColor>>;
         static void setNumTreePoints(int id, GTPPoints points);
         static void addNumTreePoints(int id, GTPPoints points);
@@ -67,4 +97,4 @@ private:
 } // interface
 } // ai
 } // rtt
-#endif //ROBOTEAM_AI_DRAWER_H
+#endif //ROBOTEAM_AI_INPUT_H

@@ -8,9 +8,9 @@
 #include <QWidget>
 #include <QPainter>
 #include <memory>
-#include "../utilities/Constants.h"
+#include "roboteam_ai/src/utilities/Constants.h"
 #include "roboteam_ai/src/world/Field.h"
-#include "../world/World.h"
+#include "roboteam_ai/src/world/World.h"
 #include <QMouseEvent>
 #include <gtest/gtest_prod.h>
 #include "roboteam_ai/src/world/WorldData.h"

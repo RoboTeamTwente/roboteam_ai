@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <QStyleFactory>
 
-#include "interface/mainWindow.h"
+#include "roboteam_ai/src/interface/widgets/mainWindow.h"
 #include "ApplicationManager.h"
 #include "world/WorldManager.h"
 

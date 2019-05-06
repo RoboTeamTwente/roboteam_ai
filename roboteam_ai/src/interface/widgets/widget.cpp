@@ -5,9 +5,9 @@
 #include <roboteam_ai/src/utilities/RobotDealer.h>
 #include <ros/node_handle.h>
 #include "widget.h"
-#include "drawer.h"
-#include "InterfaceValues.h"
-#include "../analysis/GameAnalyzer.h"
+#include "roboteam_ai/src/interface/api/Input.h"
+#include "roboteam_ai/src/interface/api/Output.h"
+#include "roboteam_ai/src/analysis/GameAnalyzer.h"
 
 namespace rtt {
 namespace ai {
@@ -26,22 +26,22 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawFieldLines(painter);
         if (showAvailablePasses) drawPasses(painter);
         drawRobots(painter);
-        drawLines(painter,Drawer::getTestLines());
-        drawPoints(painter,Drawer::getTestPoints());
-        drawDrawPoints(painter, Drawer::getDrawPoints());
-        drawDrawLines(painter, Drawer::getDrawLines());
+        drawLines(painter,Input::getTestLines());
+        drawPoints(painter,Input::getTestPoints());
+        drawDrawPoints(painter, Input::getDrawPoints());
+        drawDrawLines(painter, Input::getDrawLines());
 
         drawBall(painter);
 
-        Drawer::clearDrawPoints();
-        Drawer::clearDrawLines();
+        Input::clearDrawPoints();
+        Input::clearDrawLines();
 
         if (showBallPlacementMarker) drawBallPlacementTarget(painter);
         if (showPath) {
             for (auto robot : selectedRobots) {
-                drawDataPoints(painter, Drawer::getNumTreePoints(robot.id));
-                drawDataPoints(painter, Drawer::getKeeperPoints(robot.id),Constants::KEEPER_HELP_DRAW_SIZE());
-                drawIntercept(painter, Drawer::getInterceptPoints(robot.id));
+                drawDataPoints(painter, Input::getNumTreePoints(robot.id));
+                drawDataPoints(painter, Input::getKeeperPoints(robot.id),Constants::KEEPER_HELP_DRAW_SIZE());
+                drawIntercept(painter, Input::getInterceptPoints(robot.id));
             }
         }
 
@@ -124,7 +124,7 @@ void Visualizer::drawFieldHints(QPainter &painter) {
     painter.drawLine(theirLineUpper.x, theirLineUpper.y, theirLineLower.x, theirLineLower.y);
 
     // draw the position where robots would be for timeout
-    int inv = rtt::ai::interface::InterfaceValues::isTimeOutAtTop() ? 1 : -1;
+    int inv = rtt::ai::interface::Output::isTimeOutAtTop() ? 1 : -1;
     int lineY = (rtt::ai::world::field->get_field().field_width/2 + 1)* inv;
 
     pen.setBrush(Qt::gray);
@@ -227,7 +227,7 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
 
     if (showAllPaths) {
         std::vector<rtt::Vector2> gtpltPoints;
-        for (auto pair : Drawer::getNumTreePoints(robot.id)) {
+        for (auto pair : Input::getNumTreePoints(robot.id)) {
             gtpltPoints.push_back(pair.first);
         }
         drawDataPoints(painter, gtpltPoints, 2, Qt::gray);
@@ -320,7 +320,7 @@ void Visualizer::mousePressEvent(QMouseEvent* event) {
             }
         }
     } else if (event->button() == Qt::RightButton) {
-        InterfaceValues::setBallPlacementTarget(toFieldPosition(pos));
+        Output::setBallPlacementTarget(toFieldPosition(pos));
 
     }
 }
@@ -517,7 +517,7 @@ void Visualizer::drawPoints(QPainter &painter, std::vector<std::pair<Vector2,QCo
 }
 
 void Visualizer::drawBallPlacementTarget(QPainter& painter) {
-    Vector2 ballPlacementTarget = toScreenPosition(InterfaceValues::getBallPlacementTarget());
+    Vector2 ballPlacementTarget = toScreenPosition(Output::getBallPlacementTarget());
     painter.setBrush(Qt::transparent);
     painter.setPen(Qt::red);
 
@@ -531,7 +531,7 @@ void Visualizer::setShowBallPlacementMarker(bool showMarker) {
 
 void Visualizer::setShowDebugValueInTerminal(bool showDebug) {
     Visualizer::showDebugValueInTerminal = showDebug;
-    InterfaceValues::setShowDebugValues(showDebug);
+    Output::setShowDebugValues(showDebug);
 }
 
 void Visualizer::setShowAvailablePasses(bool showAvailablePasses) {

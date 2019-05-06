@@ -3,10 +3,10 @@
 //
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/interface/InterfaceValues.h>
+#include <roboteam_ai/src/interface/api/Output.h>
 
 TEST(InterfaceTest, the_interface_values_work) {
-    using iv = rtt::ai::interface::InterfaceValues;
+    using iv = rtt::ai::interface::Output;
 
     auto pidnum = rtt::ai::pidVals(12, -18, 33333.2);
     iv::setNumTreePid(pidnum);

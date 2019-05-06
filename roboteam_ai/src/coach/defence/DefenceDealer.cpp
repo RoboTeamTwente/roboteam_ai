@@ -3,7 +3,7 @@
 //
 
 #include "DefenceDealer.h"
-#include "roboteam_ai/src/interface/drawer.h"
+#include "roboteam_ai/src/interface/api/Input.h"
 
 namespace rtt {
 namespace ai {
@@ -40,7 +40,7 @@ void DefenceDealer::visualizePoints() {
         vis2.emplace_back(pair);
         i ++;
     }
-    ai::interface::Drawer::setTestPoints(vis2);
+    ai::interface::Input::setTestPoints(vis2);
 }
 /// calculates the defender locations for all available defenders
 void DefenceDealer::updateDefenderLocations() {

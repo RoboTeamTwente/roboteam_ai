@@ -2,42 +2,42 @@
 // Created by mrlukasbos on 4-12-18.
 //
 
-#include "drawer.h"
+#include "Input.h"
 
 namespace rtt {
 namespace ai {
 namespace interface {
 
 // declare static variables
-std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::NumTreePoints;
-std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::KeeperPoints;
-std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::InterceptPoints;
-std::map<int, std::vector<std::pair<Vector2, QColor>>> Drawer::AttackerPoints;
-std::vector<std::pair<Vector2, QColor>> Drawer::OffensivePoints;
+std::map<int, std::vector<std::pair<Vector2, QColor>>> Input::NumTreePoints;
+std::map<int, std::vector<std::pair<Vector2, QColor>>> Input::KeeperPoints;
+std::map<int, std::vector<std::pair<Vector2, QColor>>> Input::InterceptPoints;
+std::map<int, std::vector<std::pair<Vector2, QColor>>> Input::AttackerPoints;
+std::vector<std::pair<Vector2, QColor>> Input::OffensivePoints;
 
-std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>> Drawer::testLines;
-std::vector<std::pair<Vector2,QColor>> Drawer::testPoints;
-std::vector<std::pair<Vector2, QColor>> Drawer::drawP;
-std::vector<std::tuple<Vector2, Vector2, QColor>> Drawer::drawL;
+std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>> Input::testLines;
+std::vector<std::pair<Vector2,QColor>> Input::testPoints;
+std::vector<std::pair<Vector2, QColor>> Input::drawP;
+std::vector<std::tuple<Vector2, Vector2, QColor>> Input::drawL;
 
-std::mutex Drawer::keeperMutex;
-std::mutex Drawer::goToPosMutex;
-std::mutex Drawer::interceptMutex;
-std::mutex Drawer::testLineMutex;
-std::mutex Drawer::testPointMutex;
-std::mutex Drawer::offensiveMutex;
-std::mutex Drawer::attackerMutex;
-std::mutex Drawer::drawMutex;
-std::mutex Drawer::drawLinesMutex;
+std::mutex Input::keeperMutex;
+std::mutex Input::goToPosMutex;
+std::mutex Input::interceptMutex;
+std::mutex Input::testLineMutex;
+std::mutex Input::testPointMutex;
+std::mutex Input::offensiveMutex;
+std::mutex Input::attackerMutex;
+std::mutex Input::drawMutex;
+std::mutex Input::drawLinesMutex;
 
-void Drawer::setNumTreePoints(int id, GTPPoints points) {
+void Input::setNumTreePoints(int id, GTPPoints points) {
     std::lock_guard<std::mutex> lock(goToPosMutex);
 
     //GoToPosLuThPoints.erase(id); //Probably not needed?
     NumTreePoints[id] = std::move(points);
 }
 
-void Drawer::addNumTreePoints(int id, GTPPoints points) {
+void Input::addNumTreePoints(int id, GTPPoints points) {
     std::lock_guard<std::mutex> lock(goToPosMutex);
 
     GTPPoints oldPoints = NumTreePoints[id];
@@ -45,7 +45,7 @@ void Drawer::addNumTreePoints(int id, GTPPoints points) {
     NumTreePoints[id] = oldPoints;
 }
 
-Drawer::GTPPoints Drawer::getNumTreePoints(int id) {
+Input::GTPPoints Input::getNumTreePoints(int id) {
     std::lock_guard<std::mutex> lock(goToPosMutex);
 
     if (NumTreePoints.find(id) != NumTreePoints.end()) {
@@ -55,7 +55,7 @@ Drawer::GTPPoints Drawer::getNumTreePoints(int id) {
 
 }
 
-void Drawer::setKeeperPoints(int id, GTPPoints points) {
+void Input::setKeeperPoints(int id, GTPPoints points) {
     std::lock_guard<std::mutex> lock(keeperMutex);
 
     std::pair<int, GTPPoints> pair{id, std::move(points)};
@@ -64,7 +64,7 @@ void Drawer::setKeeperPoints(int id, GTPPoints points) {
     KeeperPoints.insert(pair);
 }
 
-Drawer::GTPPoints Drawer::getKeeperPoints(int id) {
+Input::GTPPoints Input::getKeeperPoints(int id) {
     std::lock_guard<std::mutex> lock(keeperMutex);
 
     if (KeeperPoints.find(id) != KeeperPoints.end()) {
@@ -74,7 +74,7 @@ Drawer::GTPPoints Drawer::getKeeperPoints(int id) {
 
 }
 
-void Drawer::setInterceptPoints(int id, GTPPoints points) {
+void Input::setInterceptPoints(int id, GTPPoints points) {
     std::lock_guard<std::mutex> lock(interceptMutex);
 
     std::pair<int, GTPPoints> pair{id, std::move(points)};
@@ -83,7 +83,7 @@ void Drawer::setInterceptPoints(int id, GTPPoints points) {
     InterceptPoints.insert(pair);
 }
 
-Drawer::GTPPoints Drawer::getInterceptPoints(int id) {
+Input::GTPPoints Input::getInterceptPoints(int id) {
     std::lock_guard<std::mutex> lock(interceptMutex);
 
     if (InterceptPoints.find(id) != InterceptPoints.end()) {
@@ -93,64 +93,64 @@ Drawer::GTPPoints Drawer::getInterceptPoints(int id) {
 
 }
 
-void Drawer::setTestLines(std::vector<std::pair<std::pair<rtt::Vector2, rtt::Vector2>, QColor>> lines) {
+void Input::setTestLines(std::vector<std::pair<std::pair<rtt::Vector2, rtt::Vector2>, QColor>> lines) {
     std::lock_guard<std::mutex> lock(testLineMutex);
     testLines=lines;
 }
-std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>> Drawer::getTestLines() {
+std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>> Input::getTestLines() {
     std::lock_guard<std::mutex> lock(testLineMutex);
     return testLines;
 }
-void Drawer::setTestPoints(std::vector<std::pair<Vector2, QColor>> points) {
+void Input::setTestPoints(std::vector<std::pair<Vector2, QColor>> points) {
     std::lock_guard<std::mutex> lock(testPointMutex);
     testPoints=points;
 }
-std::vector<std::pair<Vector2,QColor>> Drawer::getTestPoints() {
+std::vector<std::pair<Vector2,QColor>> Input::getTestPoints() {
     std::lock_guard<std::mutex> lock(testPointMutex);
     return testPoints;
 }
 
-void Drawer::addDrawPoint(Vector2 position, QColor color) {
+void Input::addDrawPoint(Vector2 position, QColor color) {
     std::pair<Vector2, QColor> point = {position, color};
     drawPoint(point);
 }
 
-void Drawer::drawPoint(std::pair<Vector2, QColor> point) {
+void Input::drawPoint(std::pair<Vector2, QColor> point) {
     std::lock_guard<std::mutex> lock(drawMutex);
     drawP.push_back(point);
 }
 
-void Drawer::drawPoints(std::vector<std::pair<Vector2, QColor>> points) {
+void Input::drawPoints(std::vector<std::pair<Vector2, QColor>> points) {
     for (auto &point : points) {
         drawPoint(point);
     }
 }
 
-std::vector<std::pair<Vector2, QColor>> Drawer::getDrawPoints() {
+std::vector<std::pair<Vector2, QColor>> Input::getDrawPoints() {
     return drawP;
 }
 
-void Drawer::drawLine(Vector2 pointA, Vector2 pointB, QColor color) {
+void Input::drawLine(Vector2 pointA, Vector2 pointB, QColor color) {
     std::lock_guard<std::mutex> lock(drawLinesMutex);
     drawL.emplace_back(pointA, pointB, color);
 }
 
-std::vector<std::tuple<Vector2, Vector2, QColor>> Drawer::getDrawLines() {
+std::vector<std::tuple<Vector2, Vector2, QColor>> Input::getDrawLines() {
     std::lock_guard<std::mutex> lock(drawLinesMutex);
     return drawL;
 }
 
-void Drawer::clearDrawLines() {
+void Input::clearDrawLines() {
     std::lock_guard<std::mutex> lock(drawLinesMutex);
     drawL = {};
 }
 
-void Drawer::clearDrawPoints() {
+void Input::clearDrawPoints() {
     std::lock_guard<std::mutex> lock(drawMutex);
     drawP = {};
 }
 
-Drawer::GTPPoints Drawer::getAttackerPoints(int id) {
+Input::GTPPoints Input::getAttackerPoints(int id) {
     std::lock_guard<std::mutex> lock(attackerMutex);
 
     if (AttackerPoints.find(id) != AttackerPoints.end()) {

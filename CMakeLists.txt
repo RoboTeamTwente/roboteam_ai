@@ -341,20 +341,20 @@ set(TEST_SOURCES
         )
 
 set(INTERFACE_SOURCES
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/mainWindow.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/mainWindow.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widget.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widget.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/drawer.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/drawer.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/InterfaceValues.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/InterfaceValues.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/TreeVisualizerWidget.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/TreeVisualizerWidget.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/RobotsWidget.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/PidBox.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/PidBox.h)
+        roboteam_ai/src/interface/widgets/mainWindow.cpp
+        roboteam_ai/src/interface/widgets/mainWindow.h
+        roboteam_ai/src/interface/widgets/widget.cpp
+        roboteam_ai/src/interface/widgets/widget.h
+        roboteam_ai/src/interface/api/Input.cpp
+        roboteam_ai/src/interface/api/Input.h
+        roboteam_ai/src/interface/api/Output.cpp
+        roboteam_ai/src/interface/api/Output.h
+        roboteam_ai/src/interface/widgets/TreeVisualizerWidget.cpp
+        roboteam_ai/src/interface/widgets/TreeVisualizerWidget.h
+        roboteam_ai/src/interface/widgets/RobotsWidget.cpp
+        roboteam_ai/src/interface/widgets/RobotsWidget.h
+        roboteam_ai/src/interface/widgets/PidBox.cpp
+        roboteam_ai/src/interface/widgets/PidBox.h)
 
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldData.h

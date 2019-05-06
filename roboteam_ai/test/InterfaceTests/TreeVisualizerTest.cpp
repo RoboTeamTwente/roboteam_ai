@@ -3,8 +3,8 @@
 //
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/interface/TreeVisualizerWidget.h>
-#include <roboteam_ai/src/interface/mainWindow.h>
+#include <roboteam_ai/src/interface/widgets/TreeVisualizerWidget.h>
+#include <roboteam_ai/src/interface/widgets/mainWindow.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
 
 namespace rtt {

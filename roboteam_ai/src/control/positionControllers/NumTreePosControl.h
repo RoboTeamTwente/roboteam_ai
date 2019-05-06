@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 #define ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 
-#include <roboteam_ai/src/interface/InterfaceValues.h>
+#include <roboteam_ai/src/interface/api/Output.h>
 #include "PosVelAngle.h"
 #include "PosController.h"
 #include "PathPoint.h"
@@ -22,7 +22,7 @@ class NumTreePosControl : public ForcePosControl {
     public:
 
     private:
-        using InterfaceValues = interface::InterfaceValues;
+        using InterfaceValues = interface::Output;
         using PathPointer = std::shared_ptr<PathPoint>;
         Robot robot = {};
         Vector2 finalTargetPos;
