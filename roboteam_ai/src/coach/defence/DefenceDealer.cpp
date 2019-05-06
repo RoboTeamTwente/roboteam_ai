@@ -32,15 +32,11 @@ std::shared_ptr<std::pair<Vector2, double>> DefenceDealer::getDefenderPosition(i
     else return std::make_shared<std::pair<Vector2, double>>(defenderLocations[id]);
 }
 void DefenceDealer::visualizePoints() {
-    int i = 0;
-    std::vector<std::pair<Vector2, QColor>> vis2;
+    std::vector<Vector2> visualizationData;
     for (const auto &location : defenderLocations) {
-        std::vector<QColor> colors = {Qt::green, Qt::red, Qt::blue, Qt::darkYellow, Qt::darkMagenta, Qt::cyan};
-        std::pair<Vector2, QColor> pair = std::make_pair(location.second.first, colors[i%colors.size()]);
-        vis2.emplace_back(pair);
-        i ++;
+        visualizationData.emplace_back(location.second.first);
     }
-    ai::interface::Input::setTestPoints(vis2);
+    ai::interface::Input::drawData("defensive positions", visualizationData, Qt::red, ai::interface::Drawing::CIRCLES);
 }
 /// calculates the defender locations for all available defenders
 void DefenceDealer::updateDefenderLocations() {

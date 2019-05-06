@@ -26,16 +26,7 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawFieldLines(painter);
         if (showAvailablePasses) drawPasses(painter);
         drawRobots(painter);
-        drawLines(painter,Input::getTestLines());
-        drawPoints(painter,Input::getTestPoints());
-        drawDrawPoints(painter, Input::getDrawPoints());
-        drawDrawLines(painter, Input::getDrawLines());
-
         drawBall(painter);
-
-        Input::clearDrawPoints();
-        Input::clearDrawLines();
-
 
         // draw the drawings from the input
         for (auto const &drawing : Input::getDrawings()) {
@@ -54,9 +45,9 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         if (showBallPlacementMarker) drawBallPlacementTarget(painter);
         if (showPath) {
             for (auto robot : selectedRobots) {
-                drawDataPoints(painter, Input::getNumTreePoints(robot.id));
-                drawDataPoints(painter, Input::getKeeperPoints(robot.id),Constants::KEEPER_HELP_DRAW_SIZE());
-                drawIntercept(painter, Input::getInterceptPoints(robot.id));
+//                drawDataPoints(painter, Input::getNumTreePoints(robot.id));
+//                drawDataPoints(painter, Input::getKeeperPoints(robot.id),Constants::KEEPER_HELP_DRAW_SIZE());
+//                drawIntercept(painter, Input::getInterceptPoints(robot.id));
             }
         }
 
@@ -241,11 +232,11 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
     }
 
     if (showAllPaths) {
-        std::vector<rtt::Vector2> gtpltPoints;
-        for (auto pair : Input::getNumTreePoints(robot.id)) {
-            gtpltPoints.push_back(pair.first);
-        }
-        drawDataPoints(painter, gtpltPoints, 2, Qt::gray);
+//        std::vector<rtt::Vector2> gtpltPoints;
+//        for (auto pair : Input::getNumTreePoints(robot.id)) {
+//            gtpltPoints.push_back(pair.first);
+//        }
+//        drawDataPoints(painter, gtpltPoints, 2, Qt::gray);
     }
 
     if (showAngles) {

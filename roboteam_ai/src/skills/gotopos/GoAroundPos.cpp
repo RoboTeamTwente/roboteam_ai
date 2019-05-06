@@ -88,7 +88,7 @@ GoAroundPos::Status GoAroundPos::gtpUpdate() {
     displayColorData.emplace_back(commandPos, Qt::red);
     displayColorData.emplace_back(targetPos + Vector2(distanceFromPoint, 0).rotate(endAngle + M_PI), Qt::red);
 
-    interface::Input::setNumTreePoints(robot->id, displayColorData);
+  //  interface::Input::setNumTreePoints(robot->id, displayColorData);
 
     switch (currentProgress) {
     case ROTATING: {

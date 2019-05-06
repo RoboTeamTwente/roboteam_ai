@@ -50,7 +50,7 @@ InterceptBall::Status InterceptBall::onUpdate() {
     displayColorData.emplace_back(std::make_pair(ballEndPos,Qt::red));
     displayColorData.emplace_back(std::make_pair(ball->pos,Qt::green));
     displayColorData.emplace_back(std::make_pair(Vector2(ball->pos)+ Vector2(ball->vel) * Constants::MAX_INTERCEPT_TIME(),Qt::green));
-    interface::Input::setInterceptPoints(robot->id,displayColorData);
+   // interface::Input::setInterceptPoints(robot->id,displayColorData);
     displayColorData.clear();
 
 

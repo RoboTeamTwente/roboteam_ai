@@ -33,8 +33,6 @@ PosVelAngle NumTreePosControl::computeCommand() {
     target.pos = path[pathPoint].pos;
     target.vel = path[pathPoint].vel;
     target.angle = (target.pos - robot.pos).angle();
-    addDataInInterface({{target.pos, Qt::darkMagenta}});
-
     return target;
 }
 
@@ -152,8 +150,14 @@ PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr, Vector2 
         }
 
     }
+        std::vector<Vector2> drawpoints = {};
+        for (auto &displayPath : path) {
+            drawpoints.push_back(displayPath.pos);
+        }
+        interface::Input::drawData("Numtree path", drawpoints, Qt::green, interface::Drawing::LINES_CONNECTED);
 
-    ros::Time end = ros::Time::now();
+
+        ros::Time end = ros::Time::now();
     if (InterfaceValues::showDebugNumTreeTimeTaken() && InterfaceValues::showFullDebugNumTreeInfo())
         std::cout << "GoToPosClean tick took: " << (end - begin).toNSec()*0.000001 << " ms" << std::endl;
 
@@ -437,12 +441,13 @@ void NumTreePosControl::redrawInInterface() {
     for (auto &displayPath : path) {
         displayColorData.emplace_back(displayPath.pos, Qt::red);
     }
-    interface::Input::setNumTreePoints(robot.id, displayColorData);
+
+
 }
 
 /// add data to interface
 void NumTreePosControl::addDataInInterface(std::vector<std::pair<rtt::Vector2, QColor>> displayColorData) {
-    interface::Input::addNumTreePoints(robot.id, std::move(displayColorData));
+    //interface::Input::addNumTreePoints(robot.id, std::move(displayColorData));
 }
 
 /// draw a cross in the interface
