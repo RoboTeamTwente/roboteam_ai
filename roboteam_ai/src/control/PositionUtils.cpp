@@ -85,7 +85,9 @@ std::vector<Vector2> PositionUtils::getPenaltyPositions(int number) {
                                  {lengthOffset, widthOffset},
                                  {lengthOffset, - widthOffset},
                                  {0, - widthOffset},
-                                 {- lengthOffset, - widthOffset}};
+                                 {- lengthOffset, - widthOffset},
+                                 {0,0},
+                                 {0, 1}};
 
     std::vector<Vector2> res;
     for (int i = 0; i < number; i ++) {
