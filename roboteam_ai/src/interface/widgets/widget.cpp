@@ -31,15 +31,51 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         // draw the drawings from the input
         for (auto const &drawing : Input::getDrawings()) {
             if (! drawing.points.empty()) {
-                painter.setPen(Qt::NoPen);
 
-                for (auto const &point : drawing.points) {
-                    painter.setBrush(drawing.color);
-                    Vector2 pointOnScreen = toScreenPosition(point);
-                    painter.drawEllipse(pointOnScreen.x, pointOnScreen.y, 2, 2);
+                switch(drawing.method) {
+
+                    case Drawing::DOTS: {
+                        painter.setPen(Qt::NoPen);
+                        painter.setBrush(drawing.color);
+
+                        for (auto const &point : drawing.points) {
+                            Vector2 pointOnScreen = toScreenPosition(point);
+                            painter.drawEllipse(pointOnScreen.x, pointOnScreen.y, drawing.width, drawing.height);
+                        }
+                    }
+                    break;
+                    case Drawing::CIRCLES: {
+                        painter.setPen(drawing.color);
+                        painter.setBrush(Qt::transparent);
+
+                        for (auto const &point : drawing.points) {
+                            Vector2 pointOnScreen = toScreenPosition(point);
+                            painter.drawEllipse(pointOnScreen.x, pointOnScreen.y, drawing.width, drawing.height);
+                        }
+                    }
+                    break;
+                    case Drawing::LINES_CONNECTED: {
+                        painter.setPen(drawing.color);
+                        painter.setBrush(Qt::transparent);
+
+                        if (drawing.points.size() >= 2) {
+                            for (int i = 1; i < drawing.points.size(); i++) {
+                                Vector2 pointOnScreen = toScreenPosition(drawing.points.at(i));
+                                Vector2 prevPointOnScreen = toScreenPosition(drawing.points.at(i-1));
+
+                                painter.drawLine(pointOnScreen.x, pointOnScreen.y, prevPointOnScreen.x, prevPointOnScreen.y);
+                            }
+                        }
+                    }
+                    break;
                 }
             }
         }
+
+
+
+
+
         Input::clearDrawings();
 
         if (showBallPlacementMarker) drawBallPlacementTarget(painter);

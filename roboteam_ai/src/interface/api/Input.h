@@ -21,7 +21,7 @@ namespace interface {
  * e.g: form, color, size, and depth.
  */
 struct Drawing {
-    enum DrawingMethod {LINES_SEPARATE, LINES_CONNECTED, DOTS, CROSSES, CIRCLES};
+    enum DrawingMethod {LINES_CONNECTED, DOTS, CROSSES, CIRCLES};
     enum Depth {FRONT, MIDDLE, BACK};
 
     Drawing(std::string const &name, std::vector<Vector2> points, QColor color, DrawingMethod method = DOTS, Depth depth = FRONT, double width = 0.0, double height = 0.0, double strokeWidth = 0.0)
