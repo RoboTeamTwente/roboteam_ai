@@ -16,88 +16,51 @@ namespace ai {
 namespace interface {
 
 /*
- * For internal drawing we keep 'drawings' to draw data to the screen in a desired way.
+ * For drawing to the interface we keep 'drawings' to draw data to the screen.
+ * a drawing represents a vector of points and some specifications on how to display those.
+ * e.g: form, color, size, and depth.
  */
 struct Drawing {
-    enum DrawingMethod {LINES_SEPARATE, LINES_CONNECTED, DOTS, CROSSES};
+    enum DrawingMethod {LINES_SEPARATE, LINES_CONNECTED, DOTS, CROSSES, CIRCLES};
     enum Depth {FRONT, MIDDLE, BACK};
 
-    Drawing(std::string const &name, std::vector<Vector2> points, QColor color, DrawingMethod method = DOTS, Depth depth = FRONT)
-    : name(QString::fromStdString(name)), points(std::move(points)), color(std::move(color)), method(method), depth(depth) {};
+    Drawing(std::string const &name, std::vector<Vector2> points, QColor color, DrawingMethod method = DOTS, Depth depth = FRONT, double width = 0.0, double height = 0.0, double strokeWidth = 0.0)
+            : name(QString::fromStdString(name)),
+            points(std::move(points)),
+            color(std::move(color)),
+            method(method),
+            depth(depth),
+            width(width),
+            height(height),
+            strokeWidth(strokeWidth){};
 
     QString name;
     std::vector<Vector2> points;
     QColor color;
     DrawingMethod method;
     Depth depth;
+
+    // these values are used for dots, crosses and circles
+    double width = 4.0;
+    double height = 4.0;
+    double strokeWidth = 2.0;
 };
 
 
 class Input {
-    public:
-
-        static void drawData(std::string const &name, std::vector<Vector2> points, QColor color, Drawing::DrawingMethod method,
-                             Drawing::Depth depth);
-        static void makeDrawing(std::string const &name, Drawing const &drawing);
-        static void clearDrawings();
-
-
-
-        explicit Input() = default;
-        using GTPPoints = std::vector<std::pair<Vector2, QColor>>;
-        static void setNumTreePoints(int id, GTPPoints points);
-        static void addNumTreePoints(int id, GTPPoints points);
-        static GTPPoints getNumTreePoints(int id);
-        static void setKeeperPoints(int id, GTPPoints points);
-        static GTPPoints getKeeperPoints(int id);
-        static void setInterceptPoints(int id, GTPPoints points);
-        static GTPPoints getInterceptPoints(int id);
-
-    static GTPPoints getAttackerPoints(int id);
-
-        static void setTestLines(std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>> lines);
-        static std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>>  getTestLines();
-        static void setTestPoints(std::vector<std::pair<Vector2,QColor>> points);
-        static std::vector<std::pair<Vector2,QColor>>  getTestPoints();
-        static std::vector<std::pair<Vector2, QColor>> getDrawPoints();
-        static std::vector<std::tuple<Vector2, Vector2, QColor>> getDrawLines();
-        static void clearDrawLines();
-        static void clearDrawPoints();
-
-private:
-
-    static std::vector<Drawing> drawings;
 public:
+    explicit Input() = default;
+    static void clearDrawings();
     static const std::vector<Drawing> &getDrawings();
-
+    static void drawData(std::string const &name, std::vector<Vector2> points, QColor color, Drawing::DrawingMethod method = Drawing::DOTS, Drawing::Depth depth = Drawing::FRONT, double width = 0.0, double height = 0.0, double strokeWidth = 0.0);
 private:
-
-    static std::mutex drawingMutex, drawMutex,goToPosMutex,keeperMutex,interceptMutex,offensiveMutex,attackerMutex,drawLinesMutex,testLineMutex,testPointMutex;
-        static std::map<int, GTPPoints> GoToPosLuThPoints;
-        static std::vector<std::pair<std::pair<Vector2,Vector2>,QColor>> testLines;
-        static std::vector<std::pair<Vector2,QColor>> testPoints;
-
-        static void drawPoint(Vector2 point, QColor color = Qt::darkMagenta);
-        static void drawPoint(std::pair<Vector2, QColor> point);
-        static void drawPoints(std::vector<std::pair<Vector2, QColor>> points);
-
-        static void drawLine(Vector2 pointA, Vector2 pointB, QColor color = Qt::darkMagenta);
-        static std::map<int, GTPPoints> NumTreePoints;
-        static std::map<int, GTPPoints> KeeperPoints;
-        static std::map<int, GTPPoints> InterceptPoints;
-        static std::map<int, GTPPoints> AttackerPoints;
-        static GTPPoints OffensivePoints;
-
-        static void addDrawPoint(Vector2 point, QColor color = Qt::darkMagenta);
-        static void addDrawPoint(std::pair<Vector2, QColor> point);
-        static void addDrawPoints(std::vector<std::pair<Vector2, QColor>> points);
-
-        static std::vector<std::pair<Vector2, QColor>> drawP;
-        static std::vector<std::tuple<Vector2, Vector2, QColor>> drawL;
-
+    static std::vector<Drawing> drawings;
+    static std::mutex drawingMutex;
+    static void makeDrawing(Drawing const &drawing);
 };
 
 } // interface
 } // ai
 } // rtt
+
 #endif //ROBOTEAM_AI_INPUT_H
