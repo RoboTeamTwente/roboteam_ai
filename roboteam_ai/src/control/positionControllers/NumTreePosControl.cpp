@@ -40,17 +40,23 @@ PosVelAngle NumTreePosControl::computeCommand() {
 /// robot is too far from path or another robot is colliding with current path
 bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
     double maxTargetDeviation = 0.3;
+
+    // if there is no path
     if (path.empty()) {
         if (InterfaceValues::showFullDebugNumTreeInfo())
             std::cout << "no path, recalculating" << std::endl;
         return true;
     }
-    else if ((finalTargetPos - targetPos).length() > maxTargetDeviation) {
+
+    // if the target moved too much
+    if ((finalTargetPos - targetPos).length() > maxTargetDeviation) {
         if (InterfaceValues::showDebugNumTreeInfo())
             std::cout << "target moved too much, recalculating" << std::endl;
         return true;
     }
-    else if (path.size() < static_cast<unsigned int>(1.01 + 0.80/DT)) {
+
+    // if the end of the path is met
+    if (path.size() < static_cast<unsigned int>(1.01 + 0.80/DT)) {
         if ((path[path.size() - 1].pos - targetPos).length() > maxTargetDeviation) {
             if (InterfaceValues::showFullDebugNumTreeInfo())
                 std::cout << "reached end of path segment, recalculating" << std::endl;

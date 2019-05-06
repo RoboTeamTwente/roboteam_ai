@@ -4,6 +4,7 @@
 
 #include <roboteam_ai/src/utilities/RobotDealer.h>
 #include <ros/node_handle.h>
+#include <roboteam_ai/src/coach/PassCoach.h>
 #include "widget.h"
 #include "roboteam_ai/src/interface/api/Input.h"
 #include "roboteam_ai/src/interface/api/Output.h"
@@ -349,7 +350,6 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
     painter.setOpacity(1);
 
     int robotDrawSize = std::max(Constants::ROBOT_RADIUS()*factor, (double)Constants::ROBOT_DRAWING_SIZE()) * 2;
-
 
     // draw the shape of the robot with the right angle
     QPainterPath rectPath;

@@ -75,9 +75,11 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     else {
         shotData = goToPlaceBehindBall(robot, behindBallPosition, lineToDriveOver);
     }
+
+    interface::Input::drawData("shotcontrol", {ball->pos, shotTarget}, Qt::blue, robot.id, interface::Drawing::LINES_CONNECTED);
+
     // Make sure the Geneva state is always correct
     shotData.genevaState = currentDesiredGeneva;
-    std::cout << "geneva: " <<  currentDesiredGeneva << std::endl;
     return shotData;
 }
 
