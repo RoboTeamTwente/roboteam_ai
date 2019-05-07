@@ -44,7 +44,7 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer * visualizer
 
         std::vector<QString> colors = { "red", "#888800", "green"};
         select->setCurrentIndex(Toggles::toggles[i].defaultShowType);
-        select->setStyleSheet("QComboBox { background-color: " + colors[toggles[i].defaultShowType] + " }");
+        select->setStyleSheet("QComboBox { background-color: " + colors[Toggles::toggles[i].defaultShowType] + " }");
 
         QObject::connect(select, static_cast<void (QComboBox::*)(const int)>(&QComboBox::activated),
                          [=](const int index) {
