@@ -11,9 +11,6 @@ namespace rtt{
 namespace ai{
 
 class CanPlay : public Condition {
-private:
-    bool theirDefenceArea;
-    bool outsideField = false;
 public:
     explicit CanPlay(std::string name = "CanPlay", bt::Blackboard::Ptr blackboard = nullptr);
     Status onUpdate() override;

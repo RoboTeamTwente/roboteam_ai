@@ -24,7 +24,8 @@ class GTPSpecial : public GoToPos {
             getBallFromSide,
             defaultType,
             freeKick,
-            getBackIn
+            getBackIn,
+            ourGoalCenter
         };
 
         Type type;
