@@ -343,6 +343,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/roboteam_utils_Tests/AngleTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/AnalysisTests/DecisionmakerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/ShotControllerTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/MainControlsWidgetTest.cpp
         )
 
 set(INTERFACE_SOURCES

@@ -42,7 +42,6 @@ class Visualizer : public QWidget {
         void setShowBallPlacementMarker(bool showMarker);
         void setShowDebugValueInTerminal(bool showDebug);
         void toggleSelectedRobot(int robotId);
-        void setShowAvailablePasses(bool showAvailablePasses);
         void setToggleFieldDirection(bool inversed);
 
     protected:

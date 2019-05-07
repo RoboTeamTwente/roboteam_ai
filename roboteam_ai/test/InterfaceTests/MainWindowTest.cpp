@@ -99,23 +99,6 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     EXPECT_FALSE(vis->robotIsSelected(robot));
 }
 
-TEST(MainWindowTest, it_toggles_our_color_param) {
-    auto window = std::make_shared<MainWindow>();
-
-    ros::NodeHandle nh;
-    std::string ourColorParam;
-    nh.setParam("our_color", "yellow");
-
-    window->toggleOurColorParam();
-    nh.getParam("our_color", ourColorParam);
-    EXPECT_EQ(ourColorParam, "blue");
-
-    // reverse it again
-    window->toggleOurColorParam();
-    nh.getParam("our_color", ourColorParam);
-    EXPECT_EQ(ourColorParam, "yellow");
-}
-
 }
 }
 }
