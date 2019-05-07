@@ -50,9 +50,8 @@ class MainWindow : public QMainWindow {
         void updateKeeperTreeWidget();
         void setShowDebugValueInTerminal(bool showDebug);
 
-    private:
-        Visualizer* visualizer;
-        QHBoxLayout* horizontalLayout;
+private:
+    QHBoxLayout* horizontalLayout;
         RobotsWidget* robotsLayout;
         QVBoxLayout* mainLayout;
         QVBoxLayout* vLayout;
@@ -60,6 +59,7 @@ class MainWindow : public QMainWindow {
         TreeVisualizerWidget* treeWidget;
         TreeVisualizerWidget* keeperTreeWidget;
 
+    Visualizer* visualizer;
 
         int robotsInField = 0;
 };

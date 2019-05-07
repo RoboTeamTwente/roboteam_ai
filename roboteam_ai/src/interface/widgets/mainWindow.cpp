@@ -9,6 +9,7 @@
 #include "RobotsWidget.h"
 #include "PidsWidget.h"
 #include "MainControlsWidget.h"
+#include "VisualizationSettingsWidget.h"
 #include <QSplitter>
 
 namespace rtt {
@@ -26,48 +27,32 @@ MainWindow::MainWindow(QWidget* parent)
     horizontalLayout = new QHBoxLayout();
     vLayout = new QVBoxLayout();
 
-    // set up the large widgets
-    auto splitter = new QSplitter(); // the splitter is an horizontal view that allows to be changed by the user
+
+
+    auto mainControlsWidget = new MainControlsWidget(this);
+    vLayout->addWidget(mainControlsWidget);
+
     robotsWidget = new RobotsWidget(this);
     treeWidget = new TreeVisualizerWidget(this);
     keeperTreeWidget = new TreeVisualizerWidget(this);
-    auto mainControlsWidget = new MainControlsWidget(this);
 
-    vLayout->addWidget(mainControlsWidget);
+    auto visualizationSettingsWidget = new VisualizationSettingsWidget(visualizer, this);
+    auto pidWidget = new PidsWidget();
 
-
-    auto checkboxWidget = new QWidget;
-
-    auto cbVLayout = new QVBoxLayout();
-    configureCheckBox("show rolenames", cbVLayout, visualizer, SLOT(setShowRoles(bool)), Constants::STD_SHOW_ROLES());
-    configureCheckBox("show tacticnames", cbVLayout, visualizer, SLOT(setShowTactics(bool)), Constants::STD_SHOW_TACTICS());
-    configureCheckBox("show tacticColors", cbVLayout, visualizer, SLOT(setShowTacticColors(bool)), Constants::STD_SHOW_TACTICS_COLORS());
-    configureCheckBox("show angles", cbVLayout, visualizer, SLOT(setShowAngles(bool)), Constants::STD_SHOW_ANGLES());
-    configureCheckBox("show velocities", cbVLayout, visualizer, SLOT(setShowVelocities(bool)), Constants::STD_SHOW_VELOCITIES());
-    configureCheckBox("show path for selected robots", cbVLayout, visualizer, SLOT(setShowPath(bool)), Constants::STD_SHOW_PATHS_CURRENT());
-    configureCheckBox("show path for all robots", cbVLayout, visualizer, SLOT(setShowPathAll(bool)), Constants::STD_SHOW_PATHS_ALL());
-    configureCheckBox("Show marker for Ball Placement", cbVLayout, visualizer, SLOT(setShowBallPlacementMarker(bool)), Constants::STD_SHOW_BALL_PLACEMENT_MARKER());
-    configureCheckBox("show debug values in terminal", cbVLayout, visualizer, SLOT(setShowDebugValueInTerminal(bool)), Constants::STD_SHOW_DEBUG_VALUES());
-    configureCheckBox("show passes for selected robots", cbVLayout, visualizer, SLOT(setShowAvailablePasses(bool)), Constants::STD_SHOW_AVAILABLE_PASSES());
-    configureCheckBox("Inverse interface", cbVLayout, visualizer, SLOT(setToggleFieldDirection(bool)), false);
-
-    auto cbVSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
-    cbVLayout->addSpacerItem(cbVSpacer);
-    checkboxWidget->setLayout(cbVLayout);
 
     // add the tab widget
     auto tabWidget = new QTabWidget;
     tabWidget->addTab(treeWidget, tr("Behaviour trees"));
-    tabWidget->addTab(checkboxWidget, tr("Visualisation Settings"));
+    tabWidget->addTab(visualizationSettingsWidget, tr("Visualisation Settings"));
 
-    auto pidWidget = new PidsWidget();
     tabWidget->addTab(pidWidget, tr("PID"));
     tabWidget->addTab(robotsWidget, tr("Robots"));
     tabWidget->addTab(keeperTreeWidget, tr("Keeper"));
 
     vLayout->addWidget(tabWidget);
 
-
+    // set up the large widgets
+    auto splitter = new QSplitter(); // the splitter is an horizontal view that allows to be changed by the user
     splitter->addWidget(visualizer);
     auto sideBarWidget = new QWidget;
     sideBarWidget->setLayout(vLayout);
@@ -129,7 +114,6 @@ void MainWindow::updateTreeWidget() {
 void MainWindow::updateKeeperTreeWidget() {
    this->keeperTreeWidget->updateContents(BTFactory::getKeeperTree());
 }
-
 
 
 } // interface

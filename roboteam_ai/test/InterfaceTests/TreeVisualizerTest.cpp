@@ -83,6 +83,8 @@ TEST(TreeVisualizerTest, it_sets_proper_color_for_status) {
     EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Waiting), Qt::darkGray);
 }
 
+
+
 } // interface
 } // ai
 } // rtt

@@ -354,7 +354,7 @@ set(INTERFACE_SOURCES
         roboteam_ai/src/interface/widgets/RobotsWidget.cpp
         roboteam_ai/src/interface/widgets/RobotsWidget.h
         roboteam_ai/src/interface/widgets/PidBox.cpp
-        roboteam_ai/src/interface/widgets/PidBox.h roboteam_ai/src/interface/widgets/PidsWidget.cpp roboteam_ai/src/interface/widgets/PidsWidget.h roboteam_ai/src/interface/widgets/MainControlsWidget.cpp roboteam_ai/src/interface/widgets/MainControlsWidget.h)
+        roboteam_ai/src/interface/widgets/PidBox.h roboteam_ai/src/interface/widgets/PidsWidget.cpp roboteam_ai/src/interface/widgets/PidsWidget.h roboteam_ai/src/interface/widgets/MainControlsWidget.cpp roboteam_ai/src/interface/widgets/MainControlsWidget.h roboteam_ai/src/interface/widgets/VisualizationSettingsWidget.cpp roboteam_ai/src/interface/widgets/VisualizationSettingsWidget.h)
 
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldData.h
