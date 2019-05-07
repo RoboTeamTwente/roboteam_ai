@@ -57,7 +57,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
         bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
         if (hasBall && !genevaIsTurning) {
             shotData = shoot(robot, lineToDriveOver, shotTarget, chip);
-            std::cout<<" SHOOT";
+          //  std::cout<<" SHOOT";
         } else if (hasBall && genevaIsTurning) {
             // just stand still at the right angle
             shotData.vel = {0.0, 0.0};
@@ -65,11 +65,11 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
             std::cout << "Not shooting because geneva is turning for " << secondsToTurnGeneva << "s" << std::endl;
         } else {
             shotData = moveStraightToBall(robot, lineToDriveOver);
-            std::cout<<" MOVING";
+            //std::cout<<" MOVING";
         }
     } else {
         shotData = goToPlaceBehindBall(robot, behindBallPosition, lineToDriveOver);
-        std::cout<<" GOING BEHIND";
+       // std::cout<<" GOING BEHIND";
     }
     std::cout<<std::endl;
 
@@ -256,6 +256,6 @@ int ShotController::determineOptimalGenevaState(world::Robot robot, Vector2 shot
     return 3;
 }
 
-    }// control
+}// control
 } // ai
 } // rtt
