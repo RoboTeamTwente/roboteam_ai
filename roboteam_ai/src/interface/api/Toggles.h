@@ -18,6 +18,8 @@ enum Visual {
     PATHFINDING,
     KEEPER,
     INTERCEPT,
+    DEFENSE,
+    SHOTLINES
 };
 
 enum showType {NO_ROBOTS = 0, SELECTED_ROBOTS = 1, ALL_ROBOTS = 2};
@@ -32,6 +34,9 @@ static std::vector<Toggle> toggles = {
         {Visual::PATHFINDING,   showType::SELECTED_ROBOTS,  "Show pathfinding"},
         {Visual::KEEPER,        showType::NO_ROBOTS,       "Show keeper points"},
         {Visual::INTERCEPT,     showType::ALL_ROBOTS,       "Show Interceptions"},
+        {Visual::DEFENSE,       showType::ALL_ROBOTS,       "Show defensive location"},
+        {Visual::SHOTLINES,       showType::ALL_ROBOTS,       "Show desired shotlines"},
+
 };
 
 } // interface

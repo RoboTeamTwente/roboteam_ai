@@ -32,36 +32,48 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         // draw the drawings from the input
         for (auto const &drawing : Input::getDrawings()) {
             if (! drawing.points.empty()) {
+
+                bool shouldShow = false;
+                for (auto toggle : toggles) {
+                    if (drawing.visual == toggle.vis) {
+                        if (toggle.defaultShowType == showType::ALL_ROBOTS) shouldShow = true;
+                        else if (toggle.defaultShowType == showType::SELECTED_ROBOTS) {
+                            shouldShow = robotIsSelected(drawing.robotId);
+                        }
+                    }
+                }
+                if (shouldShow) {
                 switch(drawing.method) {
                     case Drawing::DOTS: {
                         painter.setPen(Qt::NoPen);
                         painter.setBrush(drawing.color);
                         drawPoints(painter, drawing.points, drawing.width, drawing.height);
                     }
-                    break;
+                        break;
                     case Drawing::CIRCLES: {
                         painter.setPen(drawing.color);
                         painter.setBrush(Qt::transparent);
                         drawPoints(painter, drawing.points, drawing.width, drawing.height);
                     }
-                    break;
+                        break;
                     case Drawing::LINES_CONNECTED: {
                         painter.setPen(drawing.color);
                         painter.setBrush(Qt::transparent);
                         drawLines(painter, drawing.points);
                     }
-                    break;
+                        break;
                     case Drawing::CROSSES: {
                         painter.setPen(drawing.color);
                         painter.setBrush(Qt::transparent);
                         drawCrosses(painter, drawing.points, drawing.width, drawing.height);
                     }
-                    break;
+                        break;
                     case Drawing::PLUSSES: {
                         painter.setPen(drawing.color);
                         painter.setBrush(Qt::transparent);
                         drawPlusses(painter, drawing.points, drawing.width, drawing.height);
                     }
+                }
                 }
             }
         }
@@ -446,6 +458,14 @@ bool Visualizer::robotIsSelected(Robot robotToCheck) {
     }
     return false;
 }
+
+    bool Visualizer::robotIsSelected(int id) {
+        for (auto robot : selectedRobots) {
+            if (robot.id == id) return true;
+        }
+        return false;
+    }
+
 
 
 void Visualizer::drawBallPlacementTarget(QPainter& painter) {

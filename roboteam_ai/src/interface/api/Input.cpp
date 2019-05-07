@@ -15,9 +15,9 @@ std::mutex Input::drawingMutex;
 /*
  * Draw data to the screen
  */
-void Input::drawData(std::string const &name, std::vector<Vector2> points, QColor color, int robotId,
+void Input::drawData(Visual visual, std::vector<Vector2> points, QColor color, int robotId,
         Drawing::DrawingMethod method, double width, double height, double strokeWidth) {
-    Input::makeDrawing(Drawing(name, std::move(points), std::move(color), robotId, method, width, height, strokeWidth));
+    Input::makeDrawing(Drawing(visual, std::move(points), std::move(color), robotId, method, width, height, strokeWidth));
 }
 
 /*
@@ -25,7 +25,7 @@ void Input::drawData(std::string const &name, std::vector<Vector2> points, QColo
  */
 void Input::drawDebugData(std::vector<Vector2> points, QColor color, int robotId, Drawing::DrawingMethod method, double width,
                           double height, double strokeWidth) {
-    Input::makeDrawing(Drawing("debug", std::move(points), std::move(color), robotId, method, width, height, strokeWidth));
+    Input::makeDrawing(Drawing(Visual::DEBUG, std::move(points), std::move(color), robotId, method, width, height, strokeWidth));
 }
 
 void Input::makeDrawing(Drawing const &drawing) {

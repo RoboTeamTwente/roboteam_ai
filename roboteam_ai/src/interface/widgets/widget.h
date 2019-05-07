@@ -29,6 +29,7 @@ class Visualizer : public QWidget {
         explicit Visualizer(QWidget* parent = nullptr);
         const  std::vector<Robot> &getSelectedRobots() const;
         bool robotIsSelected(Robot robotToCheck);
+        bool robotIsSelected(int id);
 
     public slots:
         void setShowRoles(bool showRoles);

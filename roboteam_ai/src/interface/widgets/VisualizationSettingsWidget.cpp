@@ -42,10 +42,7 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer * visualizer
         select->addItem("All robots");
 
 
-        std::vector<QString> colors = {
-                "red", "yellow", "green"
-        };
-
+        std::vector<QString> colors = { "red", "#888800", "green"};
         select->setCurrentIndex(toggles[i].defaultShowType);
         select->setStyleSheet("QComboBox { background-color: " + colors[toggles[i].defaultShowType] + " }");
 

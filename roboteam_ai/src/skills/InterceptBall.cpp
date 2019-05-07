@@ -45,8 +45,8 @@ InterceptBall::Status InterceptBall::onUpdate() {
     deltaPos = interceptPos - robot->pos;
     checkProgression();
 
-    interface::Input::drawData("intercept", {ballStartPos, ballEndPos}, Qt::darkCyan, robot->id, interface::Drawing::LINES_CONNECTED);
-    interface::Input::drawData("intercept", {interceptPos}, Qt::cyan, robot->id, interface::Drawing::DOTS, 5, 5);
+    interface::Input::drawData(interface::Visual::INTERCEPT, {ballStartPos, ballEndPos}, Qt::darkCyan, robot->id, interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::INTERCEPT, {interceptPos}, Qt::cyan, robot->id, interface::Drawing::DOTS, 5, 5);
 
     tickCount ++;
     switch (currentProgression) {

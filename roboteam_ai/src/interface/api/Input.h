@@ -10,6 +10,7 @@
 #include <iostream>
 #include <mutex>
 #include <tuple>
+#include "Toggles.h"
 
 namespace rtt {
 namespace ai {
@@ -23,8 +24,8 @@ namespace interface {
 struct Drawing {
     enum DrawingMethod {LINES_CONNECTED, DOTS, CROSSES, CIRCLES, PLUSSES};
 
-    Drawing(std::string const &name, std::vector<Vector2> points, QColor color, int robotId = -1, DrawingMethod method = DOTS, double width = 0.0, double height = 0.0, double strokeWidth = 0.0)
-            : name(QString::fromStdString(name)),
+    Drawing(Visual visual, std::vector<Vector2> points, QColor color, int robotId = -1, DrawingMethod method = DOTS, double width = 0.0, double height = 0.0, double strokeWidth = 0.0)
+            : visual(visual),
             points(std::move(points)),
             color(std::move(color)),
             robotId(robotId),
@@ -33,7 +34,7 @@ struct Drawing {
             height(height),
             strokeWidth(strokeWidth){};
 
-    QString name;
+    Visual visual;
     std::vector<Vector2> points;
     QColor color;
     int robotId;
@@ -51,7 +52,7 @@ public:
     explicit Input() = default;
     static void clearDrawings();
     static const std::vector<Drawing> &getDrawings();
-    static void drawData(std::string const &name, std::vector<Vector2> points, QColor color, int robotId = -1, Drawing::DrawingMethod method = Drawing::DOTS, double width = 4.0, double height = 4.0, double strokeWidth = 2.0);
+    static void drawData(Visual visual, std::vector<Vector2> points, QColor color, int robotId = -1, Drawing::DrawingMethod method = Drawing::DOTS, double width = 4.0, double height = 4.0, double strokeWidth = 2.0);
     static void drawDebugData(std::vector<Vector2> points, QColor color = Qt::yellow, int robotId = -1, Drawing::DrawingMethod method = Drawing::DOTS, double width = 4.0, double height = 4.0, double strokeWidth = 4.0);
 
 private:

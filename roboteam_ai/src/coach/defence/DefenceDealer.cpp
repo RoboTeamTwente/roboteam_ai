@@ -36,7 +36,7 @@ void DefenceDealer::visualizePoints() {
     for (const auto &location : defenderLocations) {
         visualizationData.emplace_back(location.second.first);
     }
-    ai::interface::Input::drawData("defensive positions", visualizationData, Qt::red, -1, ai::interface::Drawing::CIRCLES);
+    ai::interface::Input::drawData(interface::Visual::DEFENSE, visualizationData, Qt::red, -1, ai::interface::Drawing::CIRCLES);
 }
 /// calculates the defender locations for all available defenders
 void DefenceDealer::updateDefenderLocations() {
