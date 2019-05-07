@@ -133,11 +133,10 @@ void Visualizer::drawFieldLines(QPainter &painter) {
     }
 
     // draw the circle in the middle
-    for (auto &arc : rtt::ai::world::field->get_field().field_arcs) {
-        rtt::Vector2 center = toScreenPosition(arc.center);
-        QPointF qcenter(center.x, center.y);
-        painter.drawEllipse(qcenter, 50, 50);
-    }
+    auto centercircle = rtt::ai::world::field->get_field().center_circle;
+    Vector2 screenPos = toScreenPosition({centercircle.center.x, centercircle.center.y});
+    painter.drawEllipse(QPointF(screenPos.x, screenPos.y), centercircle.radius*factor, centercircle.radius*factor);
+
 }
 
 void Visualizer::drawFieldHints(QPainter &painter) {

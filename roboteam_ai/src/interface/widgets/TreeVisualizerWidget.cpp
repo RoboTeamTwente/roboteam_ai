@@ -1,6 +1,11 @@
-//
-// Created by mrlukasbos on 1-2-19.
-//
+/*
+ *
+ * This widget visualizes a behaviour (strategy) tree.
+ *
+ * Update contents updates the statuses, ticktimes and amount of ticks for each node.
+ * The nodes in the tree are not refreshed until the whole tree is invalidated.
+ *
+ */
 
 #include <QtWidgets/QLayoutItem>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
@@ -54,7 +59,10 @@ void TreeVisualizerWidget::updateContents(bt::BehaviorTree::Ptr tree){
         if (tree && tree->GetRoot()) {
             auto treeItemRoot = new QTreeWidgetItem(this);
             populateRow(tree->GetRoot(), treeItemRoot);
+
+            // recursively draw the nodes
             addRootItem(tree->GetRoot(), treeItemRoot);
+
             this->expandAll();
             this->update();
             hasCorrectTree = true;
@@ -141,10 +149,11 @@ QColor TreeVisualizerWidget::getColorForStatus(bt::Node::Status status) {
     }
 }
 
+// make it possible to invalidate the tree to force a reload
 void TreeVisualizerWidget::setHasCorrectTree(bool hasCorrectTree) {
     TreeVisualizerWidget::hasCorrectTree = hasCorrectTree;
 }
 
-}
-}
-}
+} // interface
+} // ai
+} // rtt
