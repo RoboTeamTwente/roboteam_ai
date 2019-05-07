@@ -17,8 +17,6 @@ class VisualizationSettingsWidget : public QWidget {
 Q_OBJECT
 public:
     explicit VisualizationSettingsWidget(Visualizer * visualizer, QWidget * parent = nullptr);
-private:
-    Visualizer * visualizer;
 };
 
 } // interface
