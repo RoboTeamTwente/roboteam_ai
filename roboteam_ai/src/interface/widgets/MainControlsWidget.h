@@ -18,6 +18,8 @@ class MainControlsWidget : public QWidget {
 Q_OBJECT
 public:
     explicit MainControlsWidget(QWidget * parent = nullptr);
+    QString getSelectStrategyText() const;
+    void setSelectStrategyText(QString text);
 
 signals:
     void treeHasChanged();
