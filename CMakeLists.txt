@@ -216,8 +216,10 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/FreeKickFormation.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/DefendFreeKick.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/DefendFreeKick.h
-        roboteam_ai/src/skills/BallPlacement/BallPlacementReceive.cpp
-        roboteam_ai/src/skills/BallPlacement/BallPlacementReceive.h roboteam_ai/src/skills/BallPlacement/BallPlacementPass.cpp roboteam_ai/src/skills/BallPlacement/BallPlacementPass.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacement/BallPlacementReceive.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacement/BallPlacementReceive.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacement/BallPlacementPass.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacement/BallPlacementPass.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
@@ -265,7 +267,10 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanPlay.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RobotOutside.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RobotOutside.h
-        roboteam_ai/src/conditions/RefStateIsNormalPlay.cpp roboteam_ai/src/conditions/RefStateIsNormalPlay.h roboteam_ai/src/conditions/ballIsMoving.cpp roboteam_ai/src/conditions/ballIsMoving.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefStateIsNormalPlay.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefStateIsNormalPlay.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ballIsMoving.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ballIsMoving.h)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
@@ -341,20 +346,28 @@ set(TEST_SOURCES
         )
 
 set(INTERFACE_SOURCES
-        roboteam_ai/src/interface/widgets/mainWindow.cpp
-        roboteam_ai/src/interface/widgets/mainWindow.h
-        roboteam_ai/src/interface/widgets/widget.cpp
-        roboteam_ai/src/interface/widgets/widget.h
-        roboteam_ai/src/interface/api/Input.cpp
-        roboteam_ai/src/interface/api/Input.h
-        roboteam_ai/src/interface/api/Output.cpp
-        roboteam_ai/src/interface/api/Output.h
-        roboteam_ai/src/interface/widgets/TreeVisualizerWidget.cpp
-        roboteam_ai/src/interface/widgets/TreeVisualizerWidget.h
-        roboteam_ai/src/interface/widgets/RobotsWidget.cpp
-        roboteam_ai/src/interface/widgets/RobotsWidget.h
-        roboteam_ai/src/interface/widgets/PidBox.cpp
-        roboteam_ai/src/interface/widgets/PidBox.h roboteam_ai/src/interface/widgets/PidsWidget.cpp roboteam_ai/src/interface/widgets/PidsWidget.h roboteam_ai/src/interface/widgets/MainControlsWidget.cpp roboteam_ai/src/interface/widgets/MainControlsWidget.h roboteam_ai/src/interface/widgets/VisualizationSettingsWidget.cpp roboteam_ai/src/interface/widgets/VisualizationSettingsWidget.h roboteam_ai/src/interface/api/Toggles.h roboteam_ai/src/interface/api/Toggles.cpp)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/mainWindow.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/mainWindow.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/widget.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/widget.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Input.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Input.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Output.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Output.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/TreeVisualizerWidget.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/TreeVisualizerWidget.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RobotsWidget.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RobotsWidget.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/PidBox.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/PidBox.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/PidsWidget.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/PidsWidget.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/MainControlsWidget.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/MainControlsWidget.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/VisualizationSettingsWidget.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/VisualizationSettingsWidget.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Toggles.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Toggles.cpp)
 
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldData.h
