@@ -38,24 +38,17 @@ class MainWindow : public QMainWindow {
         FRIEND_TEST(TreeVisualizerTest, it_sets_proper_color_for_status);
     public:
         explicit MainWindow(QWidget* parent = nullptr);
-        QString getSelectStrategyText() const;
-        void setSelectStrategyText(QString text);
+
+        // this function is useful everywhere
+        static void configureCheckBox(QString title, QLayout* layout, const QObject* receiver, const char* method,
+                                  bool defaultState = false);
 
     public slots:
-        void toggleOurColorParam();
-        void toggleOurSideParam();
 
-        void sendHaltSignal();
-        void updatePause();
-        void setUseReferee(bool useRef);
         void updateRobotsWidget();
         void updateTreeWidget();
         void updateKeeperTreeWidget();
-        void setTimeOutTop(bool top);
-        void setUsesKeeper(bool usekeeper);
-
         void setShowDebugValueInTerminal(bool showDebug);
-        void refreshSignal();
 
     private:
         Visualizer* visualizer;
@@ -67,26 +60,9 @@ class MainWindow : public QMainWindow {
         TreeVisualizerWidget* treeWidget;
         TreeVisualizerWidget* keeperTreeWidget;
 
-        QPushButton* haltBtn;
-        QPushButton* refreshBtn;
 
-        QPushButton* toggleColorBtn;
-        QPushButton* toggleSideBtn;
-        QComboBox* select_strategy;
-        QComboBox* select_keeper_strategy;
         QComboBox* select_goalie;
-
-private:
-        PidBox* numTreePidBox;
-        PidBox* forcePidBox;
-        PidBox* basicPidBox;
-
-        void configureCheckBox(QString title, QLayout* layout, const QObject* receiver, const char* method,
-                bool defaultState = false);
-        int amountOfSelectedRobots = 0;
         int robotsInField = 0;
-        void setToggleColorBtnLayout() const;
-        void setToggleSideBtnLayout() const;
 };
 
 } // interface

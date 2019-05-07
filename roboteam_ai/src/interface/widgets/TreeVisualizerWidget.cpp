@@ -44,11 +44,11 @@ void TreeVisualizerWidget::updateContents(bt::BehaviorTree::Ptr tree){
     }
 
     // initiate a redraw when the actual tree and the tree in the widget are not the same
-    std::string currentTree = BTFactory::getCurrentTree();
-    if (QString::fromStdString(currentTree) != parent->getSelectStrategyText()) {
-        hasCorrectTree = false;
-        parent->setSelectStrategyText(QString::fromStdString(currentTree));
-    }
+//    std::string currentTree = BTFactory::getCurrentTree();
+//    if (QString::fromStdString(currentTree) != parent->getSelectStrategyText()) {
+//        hasCorrectTree = false;
+//        parent->setSelectStrategyText(QString::fromStdString(currentTree));
+//    }
 
     // if the tree did change, clear the treewidget and rebuild it
     if (!hasCorrectTree) {
@@ -152,6 +152,10 @@ QColor TreeVisualizerWidget::getColorForStatus(bt::Node::Status status) {
 // make it possible to invalidate the tree to force a reload
 void TreeVisualizerWidget::setHasCorrectTree(bool hasCorrectTree) {
     TreeVisualizerWidget::hasCorrectTree = hasCorrectTree;
+}
+
+void TreeVisualizerWidget::invalidateTree() {
+    TreeVisualizerWidget::hasCorrectTree = false;
 }
 
 } // interface
