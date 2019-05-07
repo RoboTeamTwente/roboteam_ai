@@ -15,21 +15,13 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
-enum VisualizationType {
-    DEBUG,
-    PATHFINDING,
-    INTERCEPTING,
-    SHOOTING,
-    POSITIONING
-};
-
 /*
  * For drawing to the interface we keep 'drawings' to draw data to the screen.
  * a drawing represents a vector of points and some specifications on how to display those.
  * e.g: form, color, size, and depth.
  */
 struct Drawing {
-    enum DrawingMethod {LINES_CONNECTED, DOTS, CROSSES, CIRCLES};
+    enum DrawingMethod {LINES_CONNECTED, DOTS, CROSSES, CIRCLES, PLUSSES};
 
     Drawing(std::string const &name, std::vector<Vector2> points, QColor color, int robotId = -1, DrawingMethod method = DOTS, double width = 0.0, double height = 0.0, double strokeWidth = 0.0)
             : name(QString::fromStdString(name)),

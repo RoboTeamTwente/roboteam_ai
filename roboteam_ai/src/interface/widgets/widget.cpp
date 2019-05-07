@@ -32,74 +32,42 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         // draw the drawings from the input
         for (auto const &drawing : Input::getDrawings()) {
             if (! drawing.points.empty()) {
-
                 switch(drawing.method) {
-
                     case Drawing::DOTS: {
                         painter.setPen(Qt::NoPen);
                         painter.setBrush(drawing.color);
-
-                        for (auto const &point : drawing.points) {
-                            Vector2 pointOnScreen = toScreenPosition(point);
-                            painter.drawEllipse(pointOnScreen.x, pointOnScreen.y, drawing.width, drawing.height);
-                        }
+                        drawPoints(painter, drawing.points, drawing.width, drawing.height);
                     }
                     break;
                     case Drawing::CIRCLES: {
                         painter.setPen(drawing.color);
                         painter.setBrush(Qt::transparent);
-
-                        for (auto const &point : drawing.points) {
-                            Vector2 pointOnScreen = toScreenPosition(point);
-                            painter.drawEllipse(pointOnScreen.x, pointOnScreen.y, drawing.width, drawing.height);
-                        }
+                        drawPoints(painter, drawing.points, drawing.width, drawing.height);
                     }
                     break;
                     case Drawing::LINES_CONNECTED: {
                         painter.setPen(drawing.color);
                         painter.setBrush(Qt::transparent);
-
-                        if (drawing.points.size() >= 2) {
-                            for (int i = 1; i < drawing.points.size(); i++) {
-                                Vector2 pointOnScreen = toScreenPosition(drawing.points.at(i));
-                                Vector2 prevPointOnScreen = toScreenPosition(drawing.points.at(i-1));
-                                painter.drawLine(pointOnScreen.x, pointOnScreen.y, prevPointOnScreen.x, prevPointOnScreen.y);
-                            }
-                        }
+                        drawLines(painter, drawing.points);
                     }
                     break;
                     case Drawing::CROSSES: {
                         painter.setPen(drawing.color);
                         painter.setBrush(Qt::transparent);
-
-                        for (auto const &point : drawing.points) {
-                            Vector2 pointOnScreen = toScreenPosition(point);
-
-                            // draw a cross
-                            painter.drawLine(pointOnScreen.x - drawing.width/2, pointOnScreen.y - drawing.height/2, pointOnScreen.x + drawing.width/2, pointOnScreen.y + drawing.height/2);
-                            painter.drawLine(pointOnScreen.x + drawing.width/2, pointOnScreen.y - drawing.height/2, pointOnScreen.x - drawing.width/2, pointOnScreen.y + drawing.height/2);
-
-                        }
+                        drawCrosses(painter, drawing.points, drawing.width, drawing.height);
+                    }
+                    break;
+                    case Drawing::PLUSSES: {
+                        painter.setPen(drawing.color);
+                        painter.setBrush(Qt::transparent);
+                        drawPlusses(painter, drawing.points, drawing.width, drawing.height);
                     }
                 }
             }
         }
-
-
-
-
-
         Input::clearDrawings();
 
         if (showBallPlacementMarker) drawBallPlacementTarget(painter);
-        if (showPath) {
-            for (auto robot : selectedRobots) {
-//                drawDataPoints(painter, Input::getNumTreePoints(robot.id));
-//                drawDataPoints(painter, Input::getKeeperPoints(robot.id),Constants::KEEPER_HELP_DRAW_SIZE());
-//                drawIntercept(painter, Input::getInterceptPoints(robot.id));
-            }
-        }
-
     }
     else {
         painter.drawText(24, 24, "Waiting for incoming World State");
@@ -279,14 +247,6 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
 
     }
 
-    if (showAllPaths) {
-//        std::vector<rtt::Vector2> gtpltPoints;
-//        for (auto pair : Input::getNumTreePoints(robot.id)) {
-//            gtpltPoints.push_back(pair.first);
-//        }
-//        drawDataPoints(painter, gtpltPoints, 2, Qt::gray);
-    }
-
     if (showAngles) {
         Vector2 angle = toScreenPosition({robot.pos.x + cos(robot.angle)/3, robot.pos.y + sin(robot.angle)/3});
         QPen pen;
@@ -348,7 +308,7 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
 
     painter.setOpacity(1);
 
-    int robotDrawSize = std::max(Constants::ROBOT_RADIUS()*factor, (double)Constants::ROBOT_DRAWING_SIZE()) * 2;
+    int robotDrawSize = std::max(Constants::ROBOT_RADIUS()*factor*2, (double)Constants::ROBOT_DRAWING_SIZE());
 
     // draw the shape of the robot with the right angle
     QPainterPath rectPath;
@@ -419,66 +379,6 @@ void Visualizer::drawTacticColorForRobot(QPainter &painter, Robot robot) {
     painter.drawEllipse(qrobotPosition, Constants::TACTIC_COLOR_DRAWING_SIZE(), Constants::TACTIC_COLOR_DRAWING_SIZE());
 }
 
-void Visualizer::drawDataPoints(QPainter &painter, std::vector<Vector2> points, int pointSize, QColor color) {
-    if (! points.empty()) {
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(color);
-
-        for (Vector2 point : points) {
-            Vector2 pointOnScreen = toScreenPosition(point);
-            painter.drawEllipse(pointOnScreen.x, pointOnScreen.y, pointSize, pointSize);
-        }
-    }
-}
-
-void Visualizer::drawDataPoints(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize) {
-    if (! points.empty()) {
-        painter.setPen(Qt::NoPen);
-
-        for (auto point : points) {
-            painter.setBrush(point.second);
-            Vector2 pointOnScreen = toScreenPosition(point.first);
-            painter.drawEllipse(pointOnScreen.x, pointOnScreen.y, pointSize, pointSize);
-        }
-    }
-}
-
-void Visualizer::drawCrosses(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, double size) {
-    if (!points.empty()) {
-        for (auto point : points) {
-            painter.setPen(point.second);
-            Vector2 pointOnScreen = toScreenPosition(point.first);
-            painter.drawLine(pointOnScreen.x - size, pointOnScreen.y - size, pointOnScreen.x + size,
-                             pointOnScreen.y + size);
-            painter.drawLine(pointOnScreen.x + size, pointOnScreen.y - size, pointOnScreen.x - size,
-                             pointOnScreen.y + size);
-        }
-    }
-}
-
-void Visualizer::drawDrawPoints(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize) {
-    if (! points.empty()) {
-        painter.setPen(Qt::NoPen);
-
-        for (auto point : points) {
-            painter.setBrush(point.second);
-            Vector2 pointOnScreen = toScreenPosition(point.first);
-            painter.drawEllipse(pointOnScreen.x, pointOnScreen.y, pointSize, pointSize);
-        }
-    }
-}
-
-void Visualizer::drawDrawLines(QPainter &painter, std::vector<std::tuple<Vector2, Vector2, QColor>> lines) {
-    if (!lines.empty()) {
-        for (auto &line : lines) {
-            painter.setPen(std::get<2>(line));
-            Vector2 v1 = toScreenPosition(std::get<0>(line));
-            Vector2 v2 = toScreenPosition(std::get<1>(line));
-            painter.drawLine(v1.x, v1.y, v2.x, v2.y);
-        }
-    }
-}
-
 std::string Visualizer::getTacticNameForRobot(Robot robot) {
    return robotDealer::RobotDealer::getTacticNameForId(robot.id);
 }
@@ -547,42 +447,6 @@ bool Visualizer::robotIsSelected(Robot robotToCheck) {
     return false;
 }
 
-void Visualizer::drawIntercept(QPainter &painter, std::vector<std::pair<rtt::Vector2, QColor>> points) {
-    if (! points.empty()) {
-        for (int j = 0; j < Constants::INTERCEPT_DRAW_VECTOR_SIZE(); ++ j) {
-            //first point needs to be drawn as a standalone (is not a line)
-            if (j < 1) {
-                Vector2 PointZ = toScreenPosition(points[j].first);
-                painter.setPen(points[j].second);
-                painter.drawEllipse(PointZ.x, PointZ.y, Constants::KEEPER_HELP_DRAW_SIZE(),
-                        Constants::KEEPER_HELP_DRAW_SIZE());
-            }
-            else {
-                painter.setPen(points[j].second);
-                Vector2 pointA = toScreenPosition(points[j].first);
-                Vector2 pointB = toScreenPosition(points[j + 1].first);
-                painter.drawLine(pointA.x, pointA.y, pointB.x, pointB.y);
-                ++ j;
-
-            }
-        }
-    }
-}
-void Visualizer::drawLines(QPainter &painter, std::vector<std::pair<std::pair<rtt::Vector2,rtt::Vector2>,QColor>> lines){
-    for (auto line : lines){
-        Vector2 start=toScreenPosition(line.first.first);
-        Vector2 end=toScreenPosition(line.first.second);
-        painter.setPen(line.second);
-        painter.drawLine(start.x,start.y,end.x,end.y);
-    }
-}
-void Visualizer::drawPoints(QPainter &painter, std::vector<std::pair<Vector2,QColor>> points){
-    for (auto point : points){
-        Vector2 screenPoint=toScreenPosition(point.first);
-        painter.setPen(point.second);
-        painter.drawEllipse(screenPoint.x-2,screenPoint.y-2,4,4);
-    }
-}
 
 void Visualizer::drawBallPlacementTarget(QPainter& painter) {
     Vector2 ballPlacementTarget = toScreenPosition(Output::getBallPlacementTarget());
@@ -630,6 +494,42 @@ if (report) {
         Visualizer::fieldInversed = inversed;
     }
 
+
+void Visualizer::drawPlusses(QPainter& painter, std::vector<Vector2> points, double width, double height) {
+    for (auto const &point : points) {
+        Vector2 pointOnScreen = toScreenPosition(point);
+
+        // draw a plus
+        painter.drawLine(0, pointOnScreen.y - height/2, 0, pointOnScreen.y + height/2);
+        painter.drawLine(pointOnScreen.x + width/2, 0, pointOnScreen.x - width/2, 0);
+
+    }
+}
+
+void Visualizer::drawCrosses(QPainter& painter, std::vector<Vector2> points, double width, double height) {
+    for (auto const &point : points) {
+        Vector2 pointOnScreen = toScreenPosition(point);
+        painter.drawLine(pointOnScreen.x - width/2, pointOnScreen.y - height/2, pointOnScreen.x + width/2, pointOnScreen.y + height/2);
+        painter.drawLine(pointOnScreen.x + width/2, pointOnScreen.y - height/2, pointOnScreen.x - width/2, pointOnScreen.y + height/2);
+    }
+}
+
+void Visualizer::drawPoints(QPainter& painter, std::vector<Vector2> points, double width, double height) {
+    for (auto const &point : points) {
+        Vector2 pointOnScreen = toScreenPosition(point);
+        painter.drawEllipse(pointOnScreen.x, pointOnScreen.y, width, height);
+    }
+}
+
+void Visualizer::drawLines(QPainter& painter, std::vector<Vector2> points) {
+    if (points.size() >= 2) {
+        for (int i = 1; i < points.size(); i++) {
+            Vector2 pointOnScreen = toScreenPosition(points.at(i));
+            Vector2 prevPointOnScreen = toScreenPosition(points.at(i-1));
+            painter.drawLine(pointOnScreen.x, pointOnScreen.y, prevPointOnScreen.x, prevPointOnScreen.y);
+        }
+    }
+}
 
 
 } // interface

@@ -7,11 +7,26 @@
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include "roboteam_ai/src/interface/api/Output.h"
 #include "RobotsWidget.h"
+#include "PidsWidget.h"
 #include <QSplitter>
 
 namespace rtt {
 namespace ai {
 namespace interface {
+
+    enum showType {
+        ALWAYS,
+        SELECTED_ROBOTS,
+        NEVER
+    };
+
+    enum VisualizationType {
+        DEBUG,
+        PATHFINDING,
+        INTERCEPTING,
+        SHOOTING,
+        POSITIONING
+    };
 
 MainWindow::MainWindow(QWidget* parent)
         :QMainWindow(parent) {
@@ -103,36 +118,7 @@ MainWindow::MainWindow(QWidget* parent)
                          keeperTreeWidget->setHasCorrectTree(false);
                      });
 
-    auto pidWidget = new QWidget;
-    auto pidVLayout = new QVBoxLayout();
 
-    // create the widgets for the pids
-    numTreePidBox = new PidBox("NumTree");
-    forcePidBox = new PidBox("Force");
-    basicPidBox = new PidBox("Basic");
-
-    // initialize them with the default values
-    numTreePidBox->setPid(Output::getNumTreePid());
-    forcePidBox->setPid(Output::getForcePid());
-    basicPidBox->setPid(Output::getBasicPid());
-
-    QObject::connect(numTreePidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
-                     [=](const pidVals &pid) { Output::setNumTreePid(pid); });
-
-    QObject::connect(forcePidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
-                     [=](const pidVals &pid) { Output::setForcePid(pid); });
-
-    QObject::connect(basicPidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
-                     [=](const pidVals &pid) { Output::setBasicPid(pid); });
-
-    // add the pid widgets to the layout
-    pidVLayout->addWidget(numTreePidBox);
-    pidVLayout->addWidget(forcePidBox);
-    pidVLayout->addWidget(basicPidBox);
-
-    auto pidSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
-    pidVLayout->addSpacerItem(pidSpacer);
-    pidWidget->setLayout(pidVLayout);
 
     auto checkboxWidget = new QWidget;
 
@@ -177,6 +163,8 @@ MainWindow::MainWindow(QWidget* parent)
     auto tabWidget = new QTabWidget;
     tabWidget->addTab(treeWidget, tr("Behaviour trees"));
     tabWidget->addTab(checkboxWidget, tr("Visualisation Settings"));
+
+    auto pidWidget = new PidsWidget();
     tabWidget->addTab(pidWidget, tr("PID"));
     tabWidget->addTab(robotsWidget, tr("Robots"));
     tabWidget->addTab(keeperWidget, tr("Keeper"));
