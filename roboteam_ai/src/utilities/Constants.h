@@ -76,7 +76,7 @@ public:
 
     /// KEEPER ///
     static double KEEPER_POST_MARGIN()          { return 0.08; };//m
-    static double KEEPER_CENTREGOAL_MARGIN()    { return 0.3; };//m
+    static double KEEPER_CENTREGOAL_MARGIN()    { return 0.5; };//m
     static double KEEPER_PENALTY_LINE_MARGIN()  { return 0.06;}//m
 
     /// INTERFACE ///

@@ -29,7 +29,7 @@ Keeper::Status Keeper::onUpdate() {
 
     if (ball->pos.x < 0) {
         auto attacker = world::world->getRobotClosestToPoint(ball->pos, world::THEIR_ROBOTS);
-        if ((ball->pos - attacker.pos).length() < 0.5) {
+        if ((ball->pos - attacker.pos).length() < 0.3) {
             setGoalPosWithAttacker(attacker);
         }
     }
@@ -37,9 +37,13 @@ Keeper::Status Keeper::onUpdate() {
     blockPoint = computeBlockPoint(ballPos);
 
     if (!world::field->pointIsInField(blockPoint, static_cast<float>(Constants::OUT_OF_FIELD_MARGIN()))) {
-        return Status::Running;
+        blockPoint=goalPos;
+        blockPoint.x+=Constants::KEEPER_CENTREGOAL_MARGIN();
+        command.w=0;
     }
-
+    else{
+        command.w=(ballPos-blockPoint).angle();
+    }
     Vector2 velocities = basicGtp.getPosVelAngle(robot, blockPoint).vel;
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
@@ -54,46 +58,56 @@ void Keeper::onTerminate(Status s) {
     publishRobotCommand();
 }
 
-Vector2 Keeper::computeBlockPoint(Vector2 defendPos) {
-    Vector2 u1 = (goalPos + Vector2(0.0, goalwidth*0.5) - defendPos).normalize();
-    Vector2 u2 = (goalPos + Vector2(0.0, - goalwidth*0.5) - defendPos).normalize();
-    double dist = (defendPos - goalPos).length();
-    Vector2 blockLineStart = defendPos + (u1 + u2).stretchToLength(dist);
-    std::pair<boost::optional<Vector2>, boost::optional<Vector2>> intersections = blockCircle.intersectionWithLine(
-            blockLineStart, defendPos);
+Vector2 Keeper::computeBlockPoint(const Vector2& defendPos) {
     Vector2 blockPos, posA, posB;
-    // go stand on the intersection of the lines. Pick the one that is closest to (0,0) if there are multiple
-    if (intersections.first && intersections.second) {
-        posA = *intersections.first;
-        posB = *intersections.second;
-
-        if (!world::field->pointIsInDefenceArea(posA, true)) {
-            blockPos = posB;
+    if (defendPos.x<world::field->get_our_goal_center().x){
+        if (abs(defendPos.y)>=goalwidth) {
+            blockPos = Vector2(goalPos.x + Constants::KEEPER_POST_MARGIN(), goalwidth/2
+                    *signum(defendPos.y));
         }
-
-        if (posA.length() < posB.length()) {
-            blockPos = posA;
+        else {
+            blockPos = goalPos;
+            blockPos.x += Constants::KEEPER_CENTREGOAL_MARGIN();
         }
-        else blockPos = posB;
-    }
-    else if (intersections.first) {
-        blockPos = *intersections.first;
-    }
-    else if (intersections.second) {
-        blockPos = *intersections.second;
     }
     else {
-        blockPos = Vector2(goalPos.x + Constants::KEEPER_POST_MARGIN(), goalwidth/2
-                *signum(defendPos.y)); // Go stand at one of the poles depending on the side the defendPos is on.
+        Vector2 u1 = (goalPos + Vector2(0.0, goalwidth*0.5) - defendPos).normalize();
+        Vector2 u2 = (goalPos + Vector2(0.0, - goalwidth*0.5) - defendPos).normalize();
+        double dist = (defendPos - goalPos).length();
+        Vector2 blockLineStart = defendPos + (u1 + u2).stretchToLength(dist);
+        std::pair<boost::optional<Vector2>, boost::optional<Vector2>> intersections = blockCircle.intersectionWithLine(
+                blockLineStart, defendPos);
+
+        // go stand on the intersection of the lines. Pick the one that is closest to (0,0) if there are multiple
+        if (intersections.first && intersections.second) {
+            posA = *intersections.first;
+            posB = *intersections.second;
+
+            if (! world::field->pointIsInDefenceArea(posA, true)) {
+                blockPos = posB;
+            }
+
+            if (posA.length() < posB.length()) {
+                blockPos = posA;
+            }
+            else blockPos = posB;
+        }
+        else if (intersections.first) {
+            blockPos = *intersections.first;
+        }
+        else if (intersections.second) {
+            blockPos = *intersections.second;
+        }
+        else {
+            blockPos = Vector2(goalPos.x + Constants::KEEPER_POST_MARGIN(), goalwidth/2
+                    *signum(defendPos.y)); // Go stand at one of the poles depending on the side the defendPos is on.
+        }
     }
     //Interface visualization:
     std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
     std::pair<rtt::Vector2, QColor> A=std::make_pair(blockPos,Qt::red);
     displayColorData.push_back(A);
-    displayColorData.emplace_back(std::make_pair(blockLineStart,Qt::red));
     displayColorData.emplace_back(std::make_pair(defendPos,Qt::red));
-    displayColorData.emplace_back(std::make_pair(goalPos + Vector2(0.0, goalwidth*0.5),Qt::green));
-    displayColorData.emplace_back(std::make_pair(goalPos - Vector2(0.0, goalwidth*0.5),Qt::green));
     displayColorData.emplace_back(std::make_pair(robot->pos,Qt::blue));
     interface::Drawer::setKeeperPoints(robot->id,displayColorData);
 
