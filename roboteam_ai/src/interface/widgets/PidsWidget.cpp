@@ -11,6 +11,13 @@ namespace ai {
 namespace interface {
 
 PidsWidget::PidsWidget(QWidget * parent) {
+
+
+    // initialize values for interface to display
+    Output::setNumTreePid(Constants::standardNumTreePID());
+    Output::setForcePid(Constants::standardForcePID());
+    Output::setBasicPid(Constants::standardBasicPID());
+
      auto pidVLayout = new QVBoxLayout();
 
     // create the widgets for the pids

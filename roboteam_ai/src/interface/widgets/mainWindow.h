@@ -61,7 +61,6 @@ class MainWindow : public QMainWindow {
         TreeVisualizerWidget* keeperTreeWidget;
 
 
-        QComboBox* select_goalie;
         int robotsInField = 0;
 };
 

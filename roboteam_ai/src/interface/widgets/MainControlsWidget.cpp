@@ -14,6 +14,9 @@ namespace ai {
 namespace interface {
 
 MainControlsWidget::MainControlsWidget(QWidget * parent) {
+
+    Output::setUseRefereeCommands(Constants::STD_USE_REFEREE());
+
     vLayout = new QVBoxLayout();
 
     // functions to select strategies
@@ -33,6 +36,11 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
         select_keeper_strategy->addItem(QString::fromStdString(keeperTacticName));
     }
 
+    select_goalie = new QComboBox();
+    vLayout->addWidget(select_goalie);
+    for (int i = 0; i < 16; i++) {
+        select_goalie->addItem(QString::fromStdString(to_string(i)));
+    }
     auto hButtonsLayout = new QHBoxLayout();
     haltBtn = new QPushButton("Pause");
     QObject::connect(haltBtn, SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
@@ -77,7 +85,14 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
                          emit treeHasChanged();
                      });
 
-this->setLayout(vLayout);
+    QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+                     [=](const QString &goalieId) {
+                         // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+                         robotDealer::RobotDealer::setKeeperID(goalieId.toInt());
+                         emit treeHasChanged();
+                     });
+
+    this->setLayout(vLayout);
 }
 
 

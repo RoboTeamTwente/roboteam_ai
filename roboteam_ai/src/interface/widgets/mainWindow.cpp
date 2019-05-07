@@ -15,30 +15,8 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
-    enum showType {
-        ALWAYS,
-        SELECTED_ROBOTS,
-        NEVER
-    };
-
-    enum VisualizationType {
-        DEBUG,
-        PATHFINDING,
-        INTERCEPTING,
-        SHOOTING,
-        POSITIONING
-    };
-
 MainWindow::MainWindow(QWidget* parent)
         :QMainWindow(parent) {
-
-    // initialize values for interface to display
-    Output::setNumTreePid(Constants::standardNumTreePID());
-    Output::setForcePid(Constants::standardForcePID());
-    Output::setBasicPid(Constants::standardBasicPID());
-
-    Output::setUseRefereeCommands(Constants::STD_USE_REFEREE());
-
     setMinimumWidth(800);
     setMinimumHeight(600);
 
@@ -77,26 +55,6 @@ MainWindow::MainWindow(QWidget* parent)
     cbVLayout->addSpacerItem(cbVSpacer);
     checkboxWidget->setLayout(cbVLayout);
 
-    // create a keeper widget
-    auto keeperWidget = new QWidget;
-    auto keeperVLayout = new QVBoxLayout(keeperWidget);
-
-    select_goalie = new QComboBox();
-    keeperVLayout->addWidget(select_goalie);
-    QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
-                     [=](const QString &goalieId) {
-                         // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-                         robotDealer::RobotDealer::setKeeperID(goalieId.toInt());
-                         keeperTreeWidget->setHasCorrectTree(false);
-
-                     });
-
-    keeperVLayout->addWidget(select_goalie);
-    keeperVLayout->addWidget(keeperTreeWidget);
-
-    auto keeperVSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
-    keeperVLayout->addSpacerItem(keeperVSpacer);
-
     // add the tab widget
     auto tabWidget = new QTabWidget;
     tabWidget->addTab(treeWidget, tr("Behaviour trees"));
@@ -105,7 +63,7 @@ MainWindow::MainWindow(QWidget* parent)
     auto pidWidget = new PidsWidget();
     tabWidget->addTab(pidWidget, tr("PID"));
     tabWidget->addTab(robotsWidget, tr("Robots"));
-    tabWidget->addTab(keeperWidget, tr("Keeper"));
+    tabWidget->addTab(keeperTreeWidget, tr("Keeper"));
 
     vLayout->addWidget(tabWidget);
 
@@ -130,11 +88,8 @@ MainWindow::MainWindow(QWidget* parent)
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(20); // 50fps
 
-
-
     connect(mainControlsWidget, SIGNAL(treeHasChanged()), treeWidget, SLOT(invalidateTree()));
     connect(mainControlsWidget, SIGNAL(treeHasChanged()), keeperTreeWidget, SLOT(invalidateTree()));
-
 
     // start the UI update cycles
     // these are slower
@@ -167,26 +122,11 @@ void MainWindow::setShowDebugValueInTerminal(bool showDebug) {
     Output::setShowDebugValues(showDebug);
 }
 
-
-
-
-
 void MainWindow::updateTreeWidget() {
     this->treeWidget->updateContents(BTFactory::getTree(BTFactory::getCurrentTree()));
 }
 
 void MainWindow::updateKeeperTreeWidget() {
-
-    if (robotsInField != static_cast<int>(world::world->getUs().size())) {
-        select_goalie->clear();
-        robotsInField = world::world->getUs().size();
-
-        for (auto robot : world::world->getUs()) {
-            std::string txt = to_string(robot.id);
-            select_goalie->addItem(QString::fromStdString(txt));
-        }
-    }
-
    this->keeperTreeWidget->updateContents(BTFactory::getKeeperTree());
 }
 

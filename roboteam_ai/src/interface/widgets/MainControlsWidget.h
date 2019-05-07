@@ -30,8 +30,11 @@ private:
     QPushButton* refreshBtn;
     QPushButton* toggleColorBtn;
     QPushButton* toggleSideBtn;
+
     QComboBox* select_strategy;
     QComboBox* select_keeper_strategy;
+    QComboBox* select_goalie;
+
     void setToggleColorBtnLayout() const;
     void setToggleSideBtnLayout() const;
 
