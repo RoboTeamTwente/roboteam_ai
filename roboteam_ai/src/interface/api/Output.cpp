@@ -90,37 +90,37 @@ bool Output::showFullDebugNumTreeInfo() {
     return getShowDebugValues() && Constants::SHOW_NUMTREE_DEBUG_INFO() && Constants::SHOW_FULL_NUMTREE_DEBUG_INFO();
 }
 
-    const pidVals &Output::getNumTreePid() {
-        return numTreePID;
-    }
+const pidVals &Output::getNumTreePid() {
+    return numTreePID;
+}
 
-    void Output::setNumTreePid(const pidVals &numTreePid) {
-        numTreePID = numTreePid;
-    }
+void Output::setNumTreePid(const pidVals &numTreePid) {
+    numTreePID = numTreePid;
+}
 
-    const pidVals &Output::getForcePid() {
-        return forcePID;
-    }
+const pidVals &Output::getForcePid() {
+    return forcePID;
+}
 
-    void Output::setForcePid(const pidVals &forcePid) {
-        forcePID = forcePid;
-    }
+void Output::setForcePid(const pidVals &forcePid) {
+    forcePID = forcePid;
+}
 
-    const pidVals &Output::getBasicPid() {
-        return basicPID;
-    }
+const pidVals &Output::getBasicPid() {
+    return basicPID;
+}
 
-    void Output::setBasicPid(const pidVals &basicPid) {
-        basicPID = basicPid;
-    }
+void Output::setBasicPid(const pidVals &basicPid) {
+    basicPID = basicPid;
+}
 
-    void Output::setTimeOutTop(bool top) {
-        timeOutAtTop = top;
-    }
+void Output::setTimeOutTop(bool top) {
+    timeOutAtTop = top;
+}
 
-    bool Output::isTimeOutAtTop() {
-        return timeOutAtTop;
-    }
+bool Output::isTimeOutAtTop() {
+    return timeOutAtTop;
+}
 
 
 } // interface
