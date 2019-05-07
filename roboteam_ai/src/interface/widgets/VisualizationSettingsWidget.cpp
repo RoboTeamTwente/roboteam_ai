@@ -24,12 +24,12 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer * visualizer
     MainWindow::configureCheckBox("show passes for selected robots", cbVLayout, visualizer, SLOT(setShowAvailablePasses(bool)), Constants::STD_SHOW_AVAILABLE_PASSES());
     MainWindow::configureCheckBox("Inverse interface", cbVLayout, visualizer, SLOT(setToggleFieldDirection(bool)), false);
 
-    for (int i = 0; i < toggles.size(); i++) {
+    for (int i = 0; i < Toggles::toggles.size(); i++) {
         auto customToggle = new QWidget;
         auto hbox = new QHBoxLayout();
 
         // set the label
-        auto label = new QLabel(toggles[i].title);
+        auto label = new QLabel(Toggles::toggles[i].title);
         hbox->addWidget(label);
 
         // get the strategy names from Switches
@@ -43,12 +43,12 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer * visualizer
 
 
         std::vector<QString> colors = { "red", "#888800", "green"};
-        select->setCurrentIndex(toggles[i].defaultShowType);
+        select->setCurrentIndex(Toggles::toggles[i].defaultShowType);
         select->setStyleSheet("QComboBox { background-color: " + colors[toggles[i].defaultShowType] + " }");
 
         QObject::connect(select, static_cast<void (QComboBox::*)(const int)>(&QComboBox::activated),
                          [=](const int index) {
-                             toggles[i] = {toggles[i].vis, static_cast<showType>(index), toggles[i].title};
+                             Toggles::toggles[i].defaultShowType = static_cast<showType>(index);
                              select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<showType>(index)] + " }");
                          });
 

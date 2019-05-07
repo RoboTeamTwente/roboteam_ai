@@ -34,7 +34,7 @@ void Visualizer::paintEvent(QPaintEvent* event) {
             if (! drawing.points.empty()) {
 
                 bool shouldShow = false;
-                for (auto toggle : toggles) {
+                for (auto const &toggle : Toggles::toggles) {
                     if (drawing.visual == toggle.vis) {
                         if (toggle.defaultShowType == showType::ALL_ROBOTS) shouldShow = true;
                         else if (toggle.defaultShowType == showType::SELECTED_ROBOTS) {
