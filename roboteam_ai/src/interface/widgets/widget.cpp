@@ -25,7 +25,6 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawBackground(painter);
         drawFieldHints(painter);
         drawFieldLines(painter);
-        if (showAvailablePasses) drawPasses(painter);
         drawRobots(painter);
         drawBall(painter);
 
@@ -486,34 +485,9 @@ void Visualizer::setShowDebugValueInTerminal(bool showDebug) {
     Output::setShowDebugValues(showDebug);
 }
 
-void Visualizer::setShowAvailablePasses(bool showAvailablePasses) {
-    Visualizer::showAvailablePasses = showAvailablePasses;
+void Visualizer::setToggleFieldDirection(bool inversed) {
+    Visualizer::fieldInversed = inversed;
 }
-
-void Visualizer::drawPasses(QPainter& painter) {
-    auto report = rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
-if (report) {
-    std::vector<std::pair<Vector2, Vector2>> lines;
-    for (auto &robot : report->ourRobotsSortedOnDanger) {
-        if (robotIsSelected(robot.first)) {
-            Vector2 robotLocation = toScreenPosition(robot.first.pos);
-            for (auto robotToPassToId : robot.second.robotsToPassTo) {
-                auto passRobot = world::world->getRobotForId(robotToPassToId.first, true);
-                Vector2 passRobotLocation = toScreenPosition(passRobot->pos);
-                painter.setBrush(Qt::transparent);
-                int opacity = static_cast<int>((robotLocation.dist(passRobotLocation) / width()) * 255);
-                painter.setPen({255, 255, 0, 255 - opacity});
-                painter.drawLine(robotLocation.x, robotLocation.y, passRobotLocation.x, passRobotLocation.y);
-            }
-        }
-    };
-}
-}
-
-    void Visualizer::setToggleFieldDirection(bool inversed) {
-        Visualizer::fieldInversed = inversed;
-    }
-
 
 void Visualizer::drawPlusses(QPainter& painter, std::vector<Vector2> points, double width, double height) {
     for (auto const &point : points) {

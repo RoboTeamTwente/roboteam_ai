@@ -93,7 +93,6 @@ class Visualizer : public QWidget {
         bool showAllPaths = Constants::STD_SHOW_PATHS_ALL();
         bool showBallPlacementMarker = Constants::STD_SHOW_BALL_PLACEMENT_MARKER();
         bool showDebugValueInTerminal = Constants::STD_SHOW_DEBUG_VALUES();
-        bool showAvailablePasses = Constants::STD_SHOW_AVAILABLE_PASSES();
         bool fieldInversed = false;
 };
 
