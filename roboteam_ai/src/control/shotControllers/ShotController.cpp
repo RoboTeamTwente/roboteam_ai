@@ -36,8 +36,6 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
 
     behindBallPosition = ball->pos + getPlaceBehindBallForGenevaState(robot, shotTarget, currentDesiredGeneva);
 
-    interface::Drawer::setTestPoints({{behindBallPosition, Qt::red}});
-
     // make a line, on which we can drive straight to it
 
     std::pair<Vector2, Vector2> lineToDriveOver = std::make_pair(behindBallPosition, ball->pos);
