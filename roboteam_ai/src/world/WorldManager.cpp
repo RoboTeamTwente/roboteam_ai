@@ -4,7 +4,7 @@
 
 #include "WorldManager.h"
 #include <roboteam_ai/src/utilities/StrategyManager.h>
-#include <roboteam_ai/src/interface/InterfaceValues.h>
+#include <roboteam_ai/src/interface/api/Output.h>
 
 namespace rtt {
 namespace ai {

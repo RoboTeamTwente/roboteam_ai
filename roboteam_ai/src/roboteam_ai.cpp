@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <QStyleFactory>
 
-#include "interface/mainWindow.h"
+#include "roboteam_ai/src/interface/widgets/mainWindow.h"
 #include "ApplicationManager.h"
 #include "world/WorldManager.h"
 
@@ -47,16 +47,14 @@ int main(int argc, char* argv[]) {
     ros::init(argc, argv, "Roboteam_AI");
     rtt::ai::Constants::init();
 
-    std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
     std::thread worldThread = std::thread(&runWorld);
+    std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
 
     // initialize the interface
     QApplication a(argc, argv);
     setDarkTheme();
-
     window = std::make_shared<ui::MainWindow>();
     window->show();
-
     return a.exec();
 }
 

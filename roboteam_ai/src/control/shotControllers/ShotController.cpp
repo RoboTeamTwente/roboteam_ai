@@ -5,7 +5,7 @@
 #include <roboteam_ai/src/world/World.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/control/PositionUtils.h>
-#include <roboteam_ai/src/interface/drawer.h>
+#include <roboteam_ai/src/interface/api/Input.h>
 #include "ShotController.h"
 
 namespace rtt {
@@ -35,8 +35,6 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     }
 
     behindBallPosition = ball->pos + getPlaceBehindBallForGenevaState(robot, shotTarget, currentDesiredGeneva);
-
-    interface::Drawer::setTestPoints({{behindBallPosition, Qt::red}});
 
     // make a line, on which we can drive straight to it
 
@@ -71,11 +69,11 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
         shotData = goToPlaceBehindBall(robot, behindBallPosition, lineToDriveOver);
        // std::cout<<" GOING BEHIND";
     }
-    std::cout<<std::endl;
+
+    interface::Input::drawData(interface::Visual::SHOTLINES, {ball->pos, shotTarget}, Qt::blue, robot.id, interface::Drawing::LINES_CONNECTED);
 
     // Make sure the Geneva state is always correct
     shotData.genevaState = currentDesiredGeneva;
-    //std::cout << "robot id: " << robot.id << "geneva: " << currentDesiredGeneva << std::endl;
     return shotData;
 }
 

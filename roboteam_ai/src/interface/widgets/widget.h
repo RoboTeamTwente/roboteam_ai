@@ -8,9 +8,9 @@
 #include <QWidget>
 #include <QPainter>
 #include <memory>
-#include "../utilities/Constants.h"
+#include "roboteam_ai/src/utilities/Constants.h"
 #include "roboteam_ai/src/world/Field.h"
-#include "../world/World.h"
+#include "roboteam_ai/src/world/World.h"
 #include <QMouseEvent>
 #include <gtest/gtest_prod.h>
 #include "roboteam_ai/src/world/WorldData.h"
@@ -29,6 +29,7 @@ class Visualizer : public QWidget {
         explicit Visualizer(QWidget* parent = nullptr);
         const  std::vector<Robot> &getSelectedRobots() const;
         bool robotIsSelected(Robot robotToCheck);
+        bool robotIsSelected(int id);
 
     public slots:
         void setShowRoles(bool showRoles);
@@ -41,7 +42,6 @@ class Visualizer : public QWidget {
         void setShowBallPlacementMarker(bool showMarker);
         void setShowDebugValueInTerminal(bool showDebug);
         void toggleSelectedRobot(int robotId);
-        void setShowAvailablePasses(bool showAvailablePasses);
         void setToggleFieldDirection(bool inversed);
 
     protected:
@@ -60,17 +60,11 @@ class Visualizer : public QWidget {
         void drawBall(QPainter &painter);
         void drawBallPlacementTarget(QPainter &painter);
         void drawTacticColorForRobot(QPainter &painter, Robot robot);
-        void drawDataPoints(QPainter &painter, std::vector<Vector2> points, int pointSize = 3,
-                QColor color = Qt::green);
-        void drawDataPoints(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize = 3);
         void drawPasses(QPainter &painter);
-        void drawCrosses(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, double size = 5);
-
-        void drawLines(QPainter &painter, std::vector<std::pair<std::pair<rtt::Vector2,rtt::Vector2>,QColor>> lines);
-        void drawPoints(QPainter &painter, std::vector<std::pair<Vector2,QColor>> points);
-
-        void drawDrawPoints(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points, int pointSize = 3);
-        void drawDrawLines(QPainter &painter, std::vector<std::tuple<Vector2, Vector2, QColor>> lines);
+        void drawPlusses(QPainter& painter, std::vector<Vector2> points, double width, double height);
+        void drawCrosses(QPainter& painter, std::vector<Vector2> points, double width, double height);
+        void drawPoints(QPainter& painter, std::vector<Vector2> points, double width, double height);
+        void drawLines(QPainter& painter, std::vector<Vector2> points);
 
 
         // utitlity functions
@@ -80,7 +74,7 @@ class Visualizer : public QWidget {
         rtt::Vector2 toFieldPosition(rtt::Vector2 screenPos);
 
         void calculateFieldSizeFactor();
-        void drawIntercept(QPainter &painter, std::vector<std::pair<Vector2, QColor>> points);
+
         // interface variables
         std::vector<std::pair<std::string,
                               QColor>> tacticColors; // map colors to tactic to visualize which robots work together
@@ -98,7 +92,6 @@ class Visualizer : public QWidget {
         bool showAllPaths = Constants::STD_SHOW_PATHS_ALL();
         bool showBallPlacementMarker = Constants::STD_SHOW_BALL_PLACEMENT_MARKER();
         bool showDebugValueInTerminal = Constants::STD_SHOW_DEBUG_VALUES();
-        bool showAvailablePasses = Constants::STD_SHOW_AVAILABLE_PASSES();
         bool fieldInversed = false;
 };
 

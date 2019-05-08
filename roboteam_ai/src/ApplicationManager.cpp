@@ -7,7 +7,7 @@
 #include "ApplicationManager.h"
 #include <sstream>
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
-#include <roboteam_ai/src/interface/InterfaceValues.h>
+#include <roboteam_ai/src/interface/api/Output.h>
 #include <roboteam_ai/src/coach/GetBallCoach.h>
 #include <roboteam_ai/src/utilities/Referee.hpp>
 
@@ -46,7 +46,7 @@ void ApplicationManager::loop() {
         if (timeTaken > longestTick) {
             longestTick = timeTaken;
         }
-        if (ai::interface::InterfaceValues::showDebugTickTimeTaken() && ++nTicksTaken >= ai::Constants::TICK_RATE()) {
+        if (ai::interface::Output::showDebugTickTimeTaken() && ++nTicksTaken >= ai::Constants::TICK_RATE()) {
             std::stringstream ss;
             ss << "The last " << nTicksTaken << " ticks took " << timeTakenOverNTicks << " ms, which gives an average of " << timeTakenOverNTicks / nTicksTaken << " ms / tick. The longest tick took " << longestTick << " ms!";
             if (nTicksTaken * longestTick < 2000 && timeTakenOverNTicks < 1200)
@@ -75,7 +75,7 @@ void ApplicationManager::runOneLoopCycle() {
         demo::JoystickDemo::demoLoop(demomsg);
 
 
-        if (ai::interface::InterfaceValues::usesRefereeCommands()) {
+        if (ai::interface::Output::usesRefereeCommands()) {
 
             // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
             // might want to build something that verifies this
