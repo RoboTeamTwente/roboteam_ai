@@ -13,6 +13,7 @@ Receive::Receive(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(
 
 void Receive::onInitialize() {
     readyToPassSet = false;
+    basicGtp.setCanMoveInDefenseArea(false);
 }
 
 Receive::Status Receive::onUpdate() {
@@ -86,11 +87,11 @@ void Receive::intercept() {
 
 bool Receive::passFailed() {
     //TODO: Remove print statements and make 1 big if statement
-//    if (ballDeflected()) {
-//        return true;
-//    }
+    if (ballDeflected()) {
+        return true;
+    }
 
-    if (ball->vel.length() < 0.1) {
+    if (ball->vel.length() < 0.3) {
         return true;
     }
 

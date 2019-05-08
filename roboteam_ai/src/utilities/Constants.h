@@ -26,7 +26,7 @@ public:
 
 
     /// ROBOT AND RELATED ///
-    static double MAX_VEL_CMD()                 { return 8.191; };
+    static double MAX_VEL_CMD()                 { return 1.191; };
     static int GENEVA_LEFT()                    { return 0; } ;     //TODO: Might be reversed, please check
     static int GENEVA_RIGHT()                   { return 5; };
     static int MAX_ID_CMD()                     { return 15; };
@@ -36,7 +36,7 @@ public:
 
 
     // max velocities for refstates
-    static double MAX_VEL()                     { return 8.0; };
+    static double MAX_VEL()                     { return 1.0; };
     static double MAX_STOP_STATE_VEL()          { return 1.5; };
 
     static double MIN_VEL()                     { return 0.2; };  // Minimum velocity to make the robot move
@@ -149,9 +149,9 @@ public:
                                                            {0, 0, 255, 50} }; };
 
     // Default PID values for the gotoposses/interface
-    static pidVals standardNumTreePID()         { return GRSIM() ? pidVals(3.2, 0.0, 2.0) : pidVals(2.8, 0.6,2.3); };
-    static pidVals standardForcePID()           { return GRSIM() ? pidVals(1.65, 0.0, 0.0) : pidVals(2.8, 0.6,2.3); };
-    static pidVals standardBasicPID()           { return GRSIM() ? pidVals(4.0, 0.0, 2.0) : pidVals(2.8, 0.6,2.3); };
+    static pidVals standardNumTreePID()         { return GRSIM() ? pidVals(3.2, 0.0, 2.0) : pidVals(3.1, 0.0, 12.0); };
+    static pidVals standardForcePID()           { return GRSIM() ? pidVals(1.65, 0.0, 0.0) : pidVals(2.8, 0.0, 0.0); };
+    static pidVals standardBasicPID()           { return GRSIM() ? pidVals(4.0, 0.0, 2.0) : pidVals(2.8, 0.0, 0.0); };
 
     
 private:
