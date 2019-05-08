@@ -26,6 +26,11 @@ bt::Node::Status bt::DefaultTactic::update() {
         return status;
     }
 
+    if (amountToTick > children.size()) {
+        std::cerr << "Amount to tick is more than the children size in the tree Default Tactic" << std::endl;
+        amountToTick = children.size();
+    }
+
     for (int i = 0; i < amountToTick; i ++) {
         children.at(i)->tick();
     }
