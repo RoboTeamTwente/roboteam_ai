@@ -36,7 +36,7 @@ void RobotDealer::removeRobotFromOwnerList(int ID) {
                     robotOwners.erase(tacticToRemove);
                 }
                 addRobotToOwnerList(ID, "free", "free");
-                return; // TODO: test this function because it did not work before
+                return;
             }
         }
     }
@@ -70,7 +70,7 @@ void RobotDealer::updateFromWorld() {
     for (auto robot : robots) {
         if (currentRobots.find(robot) == currentRobots.end()) {
             if (useSeparateKeeper && robot == keeperID) {
-                ROS_ERROR("The keeper just got registered as a free robot this should never happen");
+                std::cerr << "The keeper just got registered as a free robot this should never happen" << std::endl;
                 continue;
             }
             std::lock_guard<std::mutex> lock(robotOwnersLock);
@@ -80,7 +80,7 @@ void RobotDealer::updateFromWorld() {
 
 }
 
-int RobotDealer::claimRobotForTactic(RobotType feature, const std::string& roleName, std::string tacticName) {
+int RobotDealer::claimRobotForTactic(RobotType feature, const std::string& roleName, const std::string& tacticName) {
 
     std::set<int> ids = getAvailableRobots();
 
@@ -127,9 +127,6 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string& roleN
 
             case BALL_PLACEMENT_RECEIVER:{
                 id = world::world->getRobotClosestToPoint(rtt::ai::coach::g_ballPlacement.getBallPlacementPos(), idVector, true).id;
-
-                // force the pass coach to use this receiver
-                std::cout << "RobotDealer terminates pass" << std::endl;
                 rtt::ai::coach::g_pass.resetPass(-1);
                 rtt::ai::coach::g_pass.setRobotBeingPassedTo(id);
 
@@ -153,10 +150,10 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string& roleN
         }
         std::lock_guard<std::mutex> lock(robotOwnersLock);
         unFreeRobot(id);
-        addRobotToOwnerList(id, roleName, std::move(tacticName));
+        addRobotToOwnerList(id, roleName, tacticName);
         return id;
     }
-    ROS_INFO_STREAM("Found no free robots in robot dealer");
+    std::cerr << "No free robots in robot dealer" << std::endl;
     return - 1;
 }
 
@@ -241,7 +238,6 @@ std::set<int> RobotDealer::findRobotsForTactic(const std::string& tacticName) {
     return ids;
 }
 
-//  TODO: might want to add a tactic name here for confusion
 int RobotDealer::findRobotForRole(const std::string& roleName) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
@@ -254,7 +250,7 @@ int RobotDealer::findRobotForRole(const std::string& roleName) {
             }
         }
     }
-   // std::cerr << "Cannot find a robot with that Role Name: " << roleName << std::endl;
+    std::cerr << "Cannot find a robot with that Role Name: " << roleName << std::endl;
     return - 1;
 }
 
@@ -265,7 +261,7 @@ void RobotDealer::unFreeRobot(int ID) {
         robotOwners["free"].erase({ID, "free"});
     }
     else {
-        ROS_ERROR("Cannot un free an anti free robot");
+        std::cerr << "Cannot un free an anti free robot RobotDealer 269" << std::endl;
     }
 
 }
@@ -285,7 +281,7 @@ std::string RobotDealer::getTacticNameForRole(const std::string& role) {
             }
         }
     }
-    ROS_ERROR("No robot with that role");
+    std::cerr << "No robot with that role" << std::endl;
     return "";
 
 }
@@ -300,7 +296,7 @@ std::string RobotDealer::getTacticNameForId(int ID) {
             }
         }
     }
-  //  ROS_ERROR("No robot with that ID  getTacticNameForId");
+    std::cerr << "No robot with tactic name for that ID: " << ID << std::endl;
     return "";
 }
 
@@ -315,7 +311,7 @@ std::string RobotDealer::getRoleNameForId(int ID) {
             }
         }
     }
-   // ROS_ERROR("No robot with that ID  getRoleNameForId");
+    std::cerr << "No robot with role name for that ID: " << ID << std::endl;
     return "";
 
 }
