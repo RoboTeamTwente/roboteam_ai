@@ -18,7 +18,7 @@ Vector2 TimeoutFormation::getFormationPosition() {
     auto field = world::field->get_field();
 
     // determine if we should be in the top or bottom of the field
-    bool topSideOfField = rtt::ai::interface::InterfaceValues::isTimeOutAtTop();
+    bool topSideOfField = rtt::ai::interface::Output::isTimeOutAtTop();
     int inv = topSideOfField ? 1 : -1;
     double targetLocationY = field.field_width/2 * inv;
 

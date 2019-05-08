@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 18-1-19.
 //
 
-#ifndef ROBOTEAM_AI_INTERFACEVALUES_H
-#define ROBOTEAM_AI_INTERFACEVALUES_H
+#ifndef ROBOTEAM_AI_OUTPUT_H
+#define ROBOTEAM_AI_OUTPUT_H
 
 #include <mutex>
 #include <roboteam_utils/Vector2.h>
@@ -16,7 +16,7 @@ namespace interface {
     typedef std::tuple<double, double, double> pidVals;
 
 
-class InterfaceValues {
+class Output {
 private:
     static pidVals basicPID;
     static pidVals numTreePID;
@@ -62,4 +62,4 @@ public:
 }
 }
 
-#endif //ROBOTEAM_AI_INTERFACEVALUES_H
+#endif //ROBOTEAM_AI_OUTPUT_H
