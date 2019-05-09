@@ -51,7 +51,7 @@
             "id": "6m3fch8apg3ut",
             "title": "GoToPos",
             "properties": {
-              "targetPos": "{1,1}",
+              "targetPos": "{1,0.5}",
               "ROLE": "c1"
             }
           },
@@ -59,7 +59,7 @@
             "id": "87xcbi7is16nd",
             "title": "GoToPos",
             "properties": {
-              "targetPos": "{1, -1}",
+              "targetPos": "{1, -0.5}",
               "ROLE": "c1"
             }
           },
@@ -67,7 +67,7 @@
             "id": "5s74ok2d1letx",
             "title": "GoToPos",
             "properties": {
-              "targetPos": "{-1, -1}",
+              "targetPos": "{-1, -0.5}",
               "ROLE": "c1"
             }
           },
@@ -75,7 +75,7 @@
             "id": "4n8uam9x517sr83l4",
             "title": "GoToPos",
             "properties": {
-              "targetPos": "{-1, 1}",
+              "targetPos": "{-1, 0.5}",
               "ROLE": "c1"
             }
           },

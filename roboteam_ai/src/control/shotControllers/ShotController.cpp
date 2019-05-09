@@ -190,6 +190,7 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector
     }
 
     void ShotController::makeCommand(ShotData data, roboteam_msgs::RobotCommand &command) {
+        data.vel = control::ControlUtils::velocityLimiter(data.vel, Constants::MAX_VEL());
         command.x_vel = data.vel.x;
         command.y_vel = data.vel.y;
         command.w = data.angle.getAngle();
