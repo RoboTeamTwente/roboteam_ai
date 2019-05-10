@@ -47,6 +47,8 @@ bt::Node::Status Attack::onUpdate() {
 }
 
 void Attack::onTerminate(Status s) {
+    shot=false;
+    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::LOW ,control::BallSpeed::MAX_SPEED,false);
 
 }
 

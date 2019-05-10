@@ -78,7 +78,10 @@ void ReflectKick::intercept() {
     command.w = robotAngle;
 }
 
-void ReflectKick::onTerminate(Status s) {}
+void ReflectKick::onTerminate(Status s) {
+    kickTicks=0;
+    kicked = false;
+}
 
 Vector2 ReflectKick::getFarSideOfGoal() {
     Vector2 robotPos = robot->pos;

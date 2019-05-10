@@ -19,6 +19,7 @@ SkillGoToPos::SkillGoToPos(string name, bt::Blackboard::Ptr blackboard)
 /// Called when the Skill is Initialized
 void SkillGoToPos::gtpInitialize() {
     goToBall = properties->getBool("goToBall");
+    currentProgress=ON_THE_WAY;
 }
 
 /// Called when the Skill is Updated
@@ -45,6 +46,7 @@ SkillGoToPos::Status SkillGoToPos::gtpUpdate() {
 
 /// Called when the Skill is Terminated
 void SkillGoToPos::gtpTerminate(Status s) {
+    currentProgress=ON_THE_WAY;
 }
 
 SkillGoToPos::Progression SkillGoToPos::checkProgression() {
