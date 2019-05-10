@@ -110,7 +110,7 @@ bool Constants::robotOutputTargetGrSim = true;
 
     double Constants::KEEPER_POST_MARGIN() { return 0.08; }
 
-    double Constants::KEEPER_CENTREGOAL_MARGIN() { return 0.3; }
+    double Constants::KEEPER_CENTREGOAL_MARGIN() { return 0.5; }
 
     double Constants::KEEPER_PENALTY_LINE_MARGIN() { return 0.06;}
 

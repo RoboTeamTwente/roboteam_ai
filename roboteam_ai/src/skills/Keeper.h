@@ -19,7 +19,7 @@ class Keeper : public Skill {
 
     private:
         Arc blockCircle;
-        Vector2 computeBlockPoint(Vector2 defendPos);
+        Vector2 computeBlockPoint(const Vector2& defendPos);
         Vector2 goalPos;
         double goalwidth;
         control::BasicPosControl basicGtp;
