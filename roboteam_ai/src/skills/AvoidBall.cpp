@@ -20,7 +20,7 @@ AvoidBall::AvoidBall(std::string name, bt::Blackboard::Ptr blackboard)
 void AvoidBall::onInitialize() {
     minRobotDistanceForForce = 0.7;
     stop = properties->getBool("Stop");
-    if(stop) minRobotDistanceForForce *= 1.5;
+    if(stop) minRobotDistanceForForce = 0.7*1.5;
     type = stringToType(properties->getString("type"));
     if (type == PASSING) {
         receiver = world::world->getRobotForId(coach::g_pass.getRobotBeingPassedTo(), true);

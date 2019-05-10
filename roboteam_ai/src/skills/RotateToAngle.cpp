@@ -41,6 +41,7 @@ RotateToAngle::Status RotateToAngle::onUpdate() {
 
 void RotateToAngle::onTerminate(Status s) {
     command.w = targetAngle;
+    currentProgress=ROTATING;
     publishRobotCommand();
 }
 

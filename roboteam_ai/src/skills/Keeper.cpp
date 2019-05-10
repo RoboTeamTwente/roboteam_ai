@@ -2,7 +2,7 @@
 // Created by rolf on 10/12/18.
 //
 
-#include <roboteam_ai/src/interface/drawer.h>
+#include <roboteam_ai/src/interface/api/Input.h>
 #include "Keeper.h"
 #include "roboteam_ai/src/world/Field.h"
 
@@ -103,14 +103,8 @@ Vector2 Keeper::computeBlockPoint(const Vector2& defendPos) {
                     *signum(defendPos.y)); // Go stand at one of the poles depending on the side the defendPos is on.
         }
     }
-    //Interface visualization:
-    std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
-    std::pair<rtt::Vector2, QColor> A=std::make_pair(blockPos,Qt::red);
-    displayColorData.push_back(A);
-    displayColorData.emplace_back(std::make_pair(defendPos,Qt::red));
-    displayColorData.emplace_back(std::make_pair(robot->pos,Qt::blue));
-    interface::Drawer::setKeeperPoints(robot->id,displayColorData);
 
+    interface::Input::drawData(interface::Visual::KEEPER, {defendPos, blockPos}, Qt::red, robot->id, interface::Drawing::DrawingMethod::DOTS, 5, 5);
     return blockPos;
 }
 

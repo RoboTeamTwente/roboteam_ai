@@ -3,10 +3,10 @@
 //
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/interface/InterfaceValues.h>
-#include <roboteam_ai/src/interface/widget.h>
+#include <roboteam_ai/src/interface/api/Output.h>
+#include <roboteam_ai/src/interface/widgets/widget.h>
 #include <QtWidgets/QApplication>
-#include <roboteam_ai/src/interface/mainWindow.h>
+#include <roboteam_ai/src/interface/widgets/mainWindow.h>
 #include <ros/node_handle.h>
 
 namespace w = rtt::ai::world;
@@ -97,23 +97,6 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     vis->toggleSelectedRobot(1);
     EXPECT_EQ(static_cast<int>(vis->getSelectedRobots().size()), 0);
     EXPECT_FALSE(vis->robotIsSelected(robot));
-}
-
-TEST(MainWindowTest, it_toggles_our_color_param) {
-    auto window = std::make_shared<MainWindow>();
-
-    ros::NodeHandle nh;
-    std::string ourColorParam;
-    nh.setParam("our_color", "yellow");
-
-    window->toggleOurColorParam();
-    nh.getParam("our_color", ourColorParam);
-    EXPECT_EQ(ourColorParam, "blue");
-
-    // reverse it again
-    window->toggleOurColorParam();
-    nh.getParam("our_color", ourColorParam);
-    EXPECT_EQ(ourColorParam, "yellow");
 }
 
 }

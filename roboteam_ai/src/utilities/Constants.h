@@ -96,7 +96,7 @@ public:
     static bool STD_SHOW_TACTICS()              { return false; };
     static bool STD_SHOW_TACTICS_COLORS()       { return true; };
     static bool STD_SHOW_VELOCITIES()           { return true; };
-    static bool STD_SHOW_ANGLES()               { return true; };
+    static bool STD_SHOW_ANGLES()               { return false; };
     static bool STD_SHOW_VORONOI()              { return false; };
     static bool STD_SHOW_PATHS_ALL()            { return false; };
     static bool STD_SHOW_PATHS_CURRENT()        { return true; };
