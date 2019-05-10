@@ -15,9 +15,7 @@ bool Constants::robotOutputTargetGrSim = true;
     ros::NodeHandle nh;
     std::string robotOutputTarget;
     nh.getParam("robot_output_target", robotOutputTarget);\
-
-     robotOutputTargetGrSim = false;
-   // robotOutputTargetGrSim = robotOutputTarget != "serial"; // only use serial if it is explicitly defined
+    robotOutputTargetGrSim = robotOutputTarget != "serial"; // only use serial if it is explicitly defined
     std::cout << "robot_output_target = " << (robotOutputTargetGrSim ? "GRSIM" : "SERIAL") << std::endl;
     isInitialized = true;
 }
