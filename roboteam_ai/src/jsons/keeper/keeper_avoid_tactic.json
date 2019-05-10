@@ -1,1 +1,49 @@
-{"data": {"trees": [{"nodes": {"4qu4lwyy2c1fj": {"children": ["nrnba72tq9reh"], "id": "4qu4lwyy2c1fj", "title": "Repeater"}, "k1szj7i0dezzr": {"properties": {"ROLE": "Keeper"}, "id": "k1szj7i0dezzr", "title": "AvoidBall"}, "nrnba72tq9reh": {"properties": {"ROLE": "Keeper"}, "name": "Keeper", "title": "Role", "id": "nrnba72tq9reh", "role": "AvoidBallForBallPlacementRole", "children": ["beqepovyku86vmpn"]}, "beqepovyku86vmpn": {"properties": {"ROLE": "Keeper"}, "title": "UntilSuccess", "children": ["k1szj7i0dezzr"], "id": "beqepovyku86vmpn"}}, "root": "4qu4lwyy2c1fj", "title": "keeper_avoid_tactic"}]}, "name": "keeper_avoid_tactic"}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "4qu4lwyy2c1fj": {
+            "children": [
+              "nrnba72tq9reh"
+            ],
+            "id": "4qu4lwyy2c1fj",
+            "title": "Repeater"
+          },
+          "beqepovyku86vmpn": {
+            "children": [
+              "k1szj7i0dezzr"
+            ],
+            "id": "beqepovyku86vmpn",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "title": "UntilSuccess"
+          },
+          "k1szj7i0dezzr": {
+            "id": "k1szj7i0dezzr",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "title": "AvoidBall"
+          },
+          "nrnba72tq9reh": {
+            "children": [
+              "beqepovyku86vmpn"
+            ],
+            "id": "nrnba72tq9reh",
+            "name": "Keeper",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "role": "AvoidBallForBallPlacementRole",
+            "title": "Role"
+          }
+        },
+        "root": "4qu4lwyy2c1fj",
+        "title": "keeper_avoid_tactic"
+      }
+    ]
+  },
+  "name": "keeper_avoid_tactic"
+}

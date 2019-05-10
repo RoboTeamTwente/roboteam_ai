@@ -48,6 +48,8 @@
 #include "roboteam_ai/src/skills/ActiveStop.h"
 #include "roboteam_ai/src/skills/SlingShot.h"
 #include <roboteam_ai/src/skills/PenaltyKeeper.h>
+#include <roboteam_ai/src/skills/DriveWithInterface.h>
+
 #include <roboteam_ai/src/skills/MidFieldHarasser.h>
 
 
@@ -227,6 +229,8 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["DefendFreeKick"] = std::make_shared<rtt::ai::DefendFreeKick>(name, properties);
     map["BallPlacementReceive"] = std::make_shared<rtt::ai::BallPlacementReceive>(name, properties);
     map["BallPlacementPass"] = std::make_shared<rtt::ai::BallPlacementPass>(name, properties);
+    map["DriveWithInterface"] = std::make_shared<rtt::ai::DriveWithInterface>(name, properties);
+
 
 
     // conditions (alphabetic order)
