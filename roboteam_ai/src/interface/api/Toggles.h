@@ -16,6 +16,7 @@ namespace interface {
 enum Visual {
     DEBUG,
     PATHFINDING,
+    PATHFINDING_DEBUG,
     KEEPER,
     INTERCEPT,
     DEFENSE,

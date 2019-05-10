@@ -511,7 +511,7 @@ void Visualizer::drawCrosses(QPainter& painter, std::vector<Vector2> points, dou
 void Visualizer::drawPoints(QPainter& painter, std::vector<Vector2> points, double width, double height) {
     for (auto const &point : points) {
         Vector2 pointOnScreen = toScreenPosition(point);
-        painter.drawEllipse(pointOnScreen.x, pointOnScreen.y, width, height);
+        painter.drawEllipse(pointOnScreen.x - width/2, pointOnScreen.y - height/2, width, height);
     }
 }
 
