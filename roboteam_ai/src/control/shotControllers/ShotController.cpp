@@ -48,10 +48,9 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     // check the properties
     bool isOnLineToBall = onLineToBall(robot, lineToDriveOver);
     bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, shotTarget, robot.pos, 0.3);
-    bool validAngle = true;//robotAngleIsGood(robot, lineToDriveOver);
+    bool validAngle = robotAngleIsGood(robot, lineToDriveOver);
 
     ShotData shotData;
-    std::cout << isOnLineToBall << isBehindBall << validAngle << std::endl;
     if (isOnLineToBall && isBehindBall && validAngle) {
         bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
         if (hasBall && !genevaIsTurning) {
@@ -112,7 +111,6 @@ bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, 
 // use Numtree GTP to go to a place behind the ball
     ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition,
                                                  std::pair<Vector2, Vector2> line) {
-    std::cout << "Go behind ball" << std::endl;
         auto ball = world::world->getBall();
         control::PosVelAngle pva = numTreeGtp.getPosVelAngle(std::make_shared<world::Robot>(robot),
                                                              robotTargetPosition);
@@ -130,7 +128,6 @@ bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, 
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver) {
-    std::cout << "move straight to ball" << std::endl;
     control::PosVelAngle pva = basicGtp.getPosVelAngle(std::make_shared<world::Robot>(robot), lineToDriveOver.second);
     pva.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
     ShotData shotData(pva);
@@ -148,7 +145,6 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector
             pva.vel = pva.vel.stretchToLength(0.3);
         }
         pva.angle = (driveLine.second - driveLine.first).angle();
-        std::cout << robot.id << " shooting::" << abs(robot.angle.getAngle()-pva.angle.getAngle()) << std::endl;
 
         ShotData shotData(pva);
 
