@@ -43,13 +43,6 @@
             },
             "title": "PenaltyFormation"
           },
-          "e0u9983dd6pmn7js": {
-            "id": "e0u9983dd6pmn7js",
-            "properties": {
-              "ROLE": "penaltyShooter"
-            },
-            "title": "Attack"
-          },
           "et271vmu8pmeglwpf": {
             "children": [
               "vr5v3yvsckf06",
@@ -118,7 +111,7 @@
           "jfiylb9m224kt": {
             "children": [
               "ncje9mubniz4g",
-              "e0u9983dd6pmn7js"
+              "nur1a64w020pe7hu"
             ],
             "id": "jfiylb9m224kt",
             "properties": {
@@ -145,6 +138,13 @@
               "type": "penalty"
             },
             "title": "GoBehindBall"
+          },
+          "nur1a64w020pe7hu": {
+            "id": "nur1a64w020pe7hu",
+            "properties": {
+              "ROLE": "penaltyShooter"
+            },
+            "title": "ShootPenalty"
           },
           "r9ow8uxt0f2evczo6": {
             "children": [

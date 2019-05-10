@@ -1,1 +1,32 @@
-{"data": {"trees": [{"nodes": {"h9cuntvtt0lxrb48y": {"properties": {"ROLE": "Keeper"}, "id": "h9cuntvtt0lxrb48y", "title": "PenaltyKeeper"}, "4kb34gjwg2tkpyvh": {"properties": {"ROLE": "Keeper"}, "name": "Keeper", "title": "Role", "id": "4kb34gjwg2tkpyvh", "role": "penaltyKeeperRole", "children": ["h9cuntvtt0lxrb48y"]}}, "root": "4kb34gjwg2tkpyvh", "title": "keeper_penalty_tactic"}]}, "name": "keeper_penalty_tactic"}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "4kb34gjwg2tkpyvh": {
+            "children": [
+              "h9cuntvtt0lxrb48y"
+            ],
+            "id": "4kb34gjwg2tkpyvh",
+            "name": "Keeper",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "role": "penaltyKeeperRole",
+            "title": "Role"
+          },
+          "h9cuntvtt0lxrb48y": {
+            "id": "h9cuntvtt0lxrb48y",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "title": "PenaltyKeeper"
+          }
+        },
+        "root": "4kb34gjwg2tkpyvh",
+        "title": "keeper_penalty_tactic"
+      }
+    ]
+  },
+  "name": "keeper_penalty_tactic"
+}

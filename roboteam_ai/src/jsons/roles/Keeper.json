@@ -1,1 +1,189 @@
-{"data": {"trees": [{"nodes": {"lfca7jurqev173cy": {"properties": {"canGoOutsideField": "true", "avoidBall": "false", "targetPos": "{-6,0}", "canMoveInDefenseArea": "true"}, "id": "lfca7jurqev173cy", "title": "GoToPos"}, "t84y33e4yp60lhh": {"properties": {"type": "freeKick"}, "id": "t84y33e4yp60lhh", "title": "GoBehindBall"}, "o3jcbqg12iz4ba9": {"children": ["dh25st3ndvyo3hgp"], "id": "o3jcbqg12iz4ba9", "title": "Repeater"}, "ptrfhgkpge7qwc58o": {"id": "ptrfhgkpge7qwc58o", "title": "Keeper"}, "hs0dndiu6xtfhrb": {"children": ["nbtbpzlyt4rce0w", "khsvn7o8p6mx7o"], "id": "hs0dndiu6xtfhrb", "title": "Sequence"}, "vgze2gu8e6uovxjw9": {"properties": {"theirDefenceArea": "false"}, "id": "vgze2gu8e6uovxjw9", "title": "BallInDefenseAreaAndStill"}, "eofpa8scc2bkc": {"properties": {"ourDefenseArea": "true", "useRobot": "true", "outsideField": "false"}, "id": "eofpa8scc2bkc", "title": "IsInDefenseArea"}, "bxxewub4lr2e16v": {"children": ["v97vjfarlmuf9bf5", "8w7xp90rkscayqm"], "id": "bxxewub4lr2e16v", "title": "Sequence"}, "dh25st3ndvyo3hgp": {"children": ["511fm90acccsfk", "xgu1p295kw93qk8", "h2xe4k2qeyxz98", "ptrfhgkpge7qwc58o"], "id": "dh25st3ndvyo3hgp", "title": "Selector"}, "h2xe4k2qeyxz98": {"children": ["vgze2gu8e6uovxjw9", "3r3vdkvrq0qy2k8tq"], "id": "h2xe4k2qeyxz98", "title": "MemSequence"}, "v97vjfarlmuf9bf5": {"id": "v97vjfarlmuf9bf5", "title": "BallKickedToOurGoal"}, "3r3vdkvrq0qy2k8tq": {"children": ["442wnhvzcos5l6fgc", "l3f41xsptc9v4mkp1"], "id": "3r3vdkvrq0qy2k8tq", "title": "Sequence"}, "511fm90acccsfk": {"children": ["vwbroz3967uob", "lfca7jurqev173cy"], "id": "511fm90acccsfk", "title": "Sequence"}, "l3f41xsptc9v4mkp1": {"children": ["t84y33e4yp60lhh", "5xipk403glp2k"], "id": "l3f41xsptc9v4mkp1", "title": "MemSequence"}, "5f53g1cyfsq6s": {"properties": {"Keeper": "true"}, "id": "5f53g1cyfsq6s", "title": "InterceptBall"}, "nbtbpzlyt4rce0w": {"children": ["8l1z6521dfyqr"], "id": "nbtbpzlyt4rce0w", "title": "Inverter"}, "442wnhvzcos5l6fgc": {"properties": {"useRobot": "false", "margin": "0.1", "ourDefenseArea": "true"}, "id": "442wnhvzcos5l6fgc", "title": "IsInDefenseArea"}, "khsvn7o8p6mx7o": {"properties": {}, "id": "khsvn7o8p6mx7o", "title": "GetBall"}, "phgpzxou1ceze6ua": {"id": "phgpzxou1ceze6ua", "title": "HasBall"}, "xgu1p295kw93qk8": {"children": ["bxxewub4lr2e16v", "5f53g1cyfsq6s"], "id": "xgu1p295kw93qk8", "title": "MemSequence"}, "8w7xp90rkscayqm": {"children": ["phgpzxou1ceze6ua"], "id": "8w7xp90rkscayqm", "title": "Inverter"}, "5xipk403glp2k": {"children": ["hs0dndiu6xtfhrb", "p3nhgqwvzwuo9fr"], "id": "5xipk403glp2k", "title": "Selector"}, "8l1z6521dfyqr": {"id": "8l1z6521dfyqr", "title": "HasBall"}, "vwbroz3967uob": {"children": ["eofpa8scc2bkc"], "id": "vwbroz3967uob", "title": "Inverter"}, "p3nhgqwvzwuo9fr": {"id": "p3nhgqwvzwuo9fr", "title": "Chip"}}, "root": "o3jcbqg12iz4ba9", "title": "Keeper"}]}, "name": "Keeper"}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "3r3vdkvrq0qy2k8tq": {
+            "children": [
+              "442wnhvzcos5l6fgc",
+              "l3f41xsptc9v4mkp1"
+            ],
+            "id": "3r3vdkvrq0qy2k8tq",
+            "title": "Sequence"
+          },
+          "442wnhvzcos5l6fgc": {
+            "id": "442wnhvzcos5l6fgc",
+            "properties": {
+              "margin": "0.1",
+              "ourDefenseArea": "true",
+              "useRobot": "false"
+            },
+            "title": "IsInDefenseArea"
+          },
+          "511fm90acccsfk": {
+            "children": [
+              "vwbroz3967uob",
+              "lfca7jurqev173cy"
+            ],
+            "id": "511fm90acccsfk",
+            "title": "Sequence"
+          },
+          "5f53g1cyfsq6s": {
+            "id": "5f53g1cyfsq6s",
+            "properties": {
+              "Keeper": "true"
+            },
+            "title": "InterceptBall"
+          },
+          "5xipk403glp2k": {
+            "children": [
+              "hs0dndiu6xtfhrb",
+              "p3nhgqwvzwuo9fr"
+            ],
+            "id": "5xipk403glp2k",
+            "title": "Selector"
+          },
+          "8l1z6521dfyqr": {
+            "id": "8l1z6521dfyqr",
+            "title": "HasBall"
+          },
+          "8w7xp90rkscayqm": {
+            "children": [
+              "phgpzxou1ceze6ua"
+            ],
+            "id": "8w7xp90rkscayqm",
+            "title": "Inverter"
+          },
+          "bxxewub4lr2e16v": {
+            "children": [
+              "v97vjfarlmuf9bf5",
+              "8w7xp90rkscayqm"
+            ],
+            "id": "bxxewub4lr2e16v",
+            "title": "Sequence"
+          },
+          "dh25st3ndvyo3hgp": {
+            "children": [
+              "511fm90acccsfk",
+              "xgu1p295kw93qk8",
+              "h2xe4k2qeyxz98",
+              "ptrfhgkpge7qwc58o"
+            ],
+            "id": "dh25st3ndvyo3hgp",
+            "title": "Selector"
+          },
+          "eofpa8scc2bkc": {
+            "id": "eofpa8scc2bkc",
+            "properties": {
+              "ourDefenseArea": "true",
+              "outsideField": "false",
+              "useRobot": "true"
+            },
+            "title": "IsInDefenseArea"
+          },
+          "h2xe4k2qeyxz98": {
+            "children": [
+              "vgze2gu8e6uovxjw9",
+              "3r3vdkvrq0qy2k8tq"
+            ],
+            "id": "h2xe4k2qeyxz98",
+            "title": "MemSequence"
+          },
+          "hs0dndiu6xtfhrb": {
+            "children": [
+              "nbtbpzlyt4rce0w",
+              "khsvn7o8p6mx7o"
+            ],
+            "id": "hs0dndiu6xtfhrb",
+            "title": "Sequence"
+          },
+          "khsvn7o8p6mx7o": {
+            "id": "khsvn7o8p6mx7o",
+            "properties": {},
+            "title": "GetBall"
+          },
+          "l3f41xsptc9v4mkp1": {
+            "children": [
+              "t84y33e4yp60lhh",
+              "5xipk403glp2k"
+            ],
+            "id": "l3f41xsptc9v4mkp1",
+            "title": "MemSequence"
+          },
+          "lfca7jurqev173cy": {
+            "id": "lfca7jurqev173cy",
+            "properties": {
+              "avoidBall": "false",
+              "canGoOutsideField": "true",
+              "canMoveInDefenseArea": "true",
+              "targetPos": "{-6,0}"
+            },
+            "title": "GoToPos"
+          },
+          "nbtbpzlyt4rce0w": {
+            "children": [
+              "8l1z6521dfyqr"
+            ],
+            "id": "nbtbpzlyt4rce0w",
+            "title": "Inverter"
+          },
+          "o3jcbqg12iz4ba9": {
+            "children": [
+              "dh25st3ndvyo3hgp"
+            ],
+            "id": "o3jcbqg12iz4ba9",
+            "title": "Repeater"
+          },
+          "p3nhgqwvzwuo9fr": {
+            "id": "p3nhgqwvzwuo9fr",
+            "title": "Chip"
+          },
+          "phgpzxou1ceze6ua": {
+            "id": "phgpzxou1ceze6ua",
+            "title": "HasBall"
+          },
+          "ptrfhgkpge7qwc58o": {
+            "id": "ptrfhgkpge7qwc58o",
+            "title": "Keeper"
+          },
+          "t84y33e4yp60lhh": {
+            "id": "t84y33e4yp60lhh",
+            "properties": {
+              "type": "freeKick"
+            },
+            "title": "GoBehindBall"
+          },
+          "v97vjfarlmuf9bf5": {
+            "id": "v97vjfarlmuf9bf5",
+            "title": "BallKickedToOurGoal"
+          },
+          "vgze2gu8e6uovxjw9": {
+            "id": "vgze2gu8e6uovxjw9",
+            "properties": {
+              "theirDefenceArea": "false"
+            },
+            "title": "BallInDefenseAreaAndStill"
+          },
+          "vwbroz3967uob": {
+            "children": [
+              "eofpa8scc2bkc"
+            ],
+            "id": "vwbroz3967uob",
+            "title": "Inverter"
+          },
+          "xgu1p295kw93qk8": {
+            "children": [
+              "bxxewub4lr2e16v",
+              "5f53g1cyfsq6s"
+            ],
+            "id": "xgu1p295kw93qk8",
+            "title": "MemSequence"
+          }
+        },
+        "root": "o3jcbqg12iz4ba9",
+        "title": "Keeper"
+      }
+    ]
+  },
+  "name": "Keeper"
+}

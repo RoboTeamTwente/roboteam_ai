@@ -1,1 +1,20 @@
-{"name": "penalty_avoid_role", "data": {"trees": [{"title": "penalty_avoid_role", "root": "80u1bfpkcno13wgnh", "nodes": {"80u1bfpkcno13wgnh": {"id": "80u1bfpkcno13wgnh", "title": "PenaltyFormation", "properties": {"Offensive": "true"}}}}]}}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "80u1bfpkcno13wgnh": {
+            "id": "80u1bfpkcno13wgnh",
+            "properties": {
+              "Offensive": "true"
+            },
+            "title": "PenaltyFormation"
+          }
+        },
+        "root": "80u1bfpkcno13wgnh",
+        "title": "penalty_avoid_role"
+      }
+    ]
+  },
+  "name": "penalty_avoid_role"
+}

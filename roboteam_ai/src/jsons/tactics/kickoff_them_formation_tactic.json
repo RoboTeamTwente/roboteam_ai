@@ -1,1 +1,262 @@
-{"name": "kickoff_them_formation_tactic", "data": {"trees": [{"title": "kickoff_them_formation_tactic", "root": "cvow2a21rpf080", "nodes": {"cvow2a21rpf080": {"id": "cvow2a21rpf080", "title": "RoleDivider", "children": ["fe5qkg56kn5twr57s", "42wfp78qraes1", "lw6cx7cm4oahae", "5m9lckz2bbw0d6fk3", "5l4s51cbb92a4k", "70mh5sk7v9ojsg", "1bsu0pcckcy707s", "ydigrjh2noq2ttal"], "properties": {"TacticType": "General"}}, "fe5qkg56kn5twr57s": {"id": "fe5qkg56kn5twr57s", "title": "Role", "name": "kickoff1", "role": "kickoff_them_formation_role", "children": ["2gk91q6p2qq36"], "properties": {"ROLE": "kickoff1"}}, "2gk91q6p2qq36": {"children": ["qzzepvoi9xektni4"], "id": "2gk91q6p2qq36", "title": "Repeater", "properties": {"ROLE": "kickoff1"}}, "qzzepvoi9xektni4": {"id": "qzzepvoi9xektni4", "title": "KickOffThemFormation", "properties": {"ROLE": "kickoff1"}}, "42wfp78qraes1": {"id": "42wfp78qraes1", "title": "Role", "name": "kickoff2", "role": "kickoff_them_formation_role", "children": ["p4gryv3q77qjvo"], "properties": {"ROLE": "kickoff2"}}, "p4gryv3q77qjvo": {"children": ["rm5ljxgxh4hzty8e"], "id": "p4gryv3q77qjvo", "title": "Repeater", "properties": {"ROLE": "kickoff2"}}, "rm5ljxgxh4hzty8e": {"id": "rm5ljxgxh4hzty8e", "title": "KickOffThemFormation", "properties": {"ROLE": "kickoff2"}}, "lw6cx7cm4oahae": {"id": "lw6cx7cm4oahae", "title": "Role", "name": "kickoff3", "role": "kickoff_them_formation_role", "children": ["y2ak7wg0c4uj3hq7"], "properties": {"ROLE": "kickoff3"}}, "y2ak7wg0c4uj3hq7": {"children": ["znmhegxb6x481f5"], "id": "y2ak7wg0c4uj3hq7", "title": "Repeater", "properties": {"ROLE": "kickoff3"}}, "znmhegxb6x481f5": {"id": "znmhegxb6x481f5", "title": "KickOffThemFormation", "properties": {"ROLE": "kickoff3"}}, "5m9lckz2bbw0d6fk3": {"id": "5m9lckz2bbw0d6fk3", "title": "Role", "name": "kickoff4", "role": "kickoff_them_formation_role", "children": ["m0f2mga46emfirx4"], "properties": {"ROLE": "kickoff4"}}, "m0f2mga46emfirx4": {"children": ["ne1dq8l8hzg7x9d70"], "id": "m0f2mga46emfirx4", "title": "Repeater", "properties": {"ROLE": "kickoff4"}}, "ne1dq8l8hzg7x9d70": {"id": "ne1dq8l8hzg7x9d70", "title": "KickOffThemFormation", "properties": {"ROLE": "kickoff4"}}, "5l4s51cbb92a4k": {"id": "5l4s51cbb92a4k", "title": "Role", "name": "kickoff5", "role": "kickoff_them_formation_role", "children": ["syfpjp2o945zg6uei"], "properties": {"ROLE": "kickoff5"}}, "syfpjp2o945zg6uei": {"children": ["2tjjk1x3h7ry1qfo"], "id": "syfpjp2o945zg6uei", "title": "Repeater", "properties": {"ROLE": "kickoff5"}}, "2tjjk1x3h7ry1qfo": {"id": "2tjjk1x3h7ry1qfo", "title": "KickOffThemFormation", "properties": {"ROLE": "kickoff5"}}, "70mh5sk7v9ojsg": {"id": "70mh5sk7v9ojsg", "title": "Role", "name": "kickoff6", "role": "kickoff_them_formation_role", "children": ["z4svmvm2fduo6veh"], "properties": {"ROLE": "kickoff6"}}, "z4svmvm2fduo6veh": {"children": ["6385kpu9177wuss"], "id": "z4svmvm2fduo6veh", "title": "Repeater", "properties": {"ROLE": "kickoff6"}}, "6385kpu9177wuss": {"id": "6385kpu9177wuss", "title": "KickOffThemFormation", "properties": {"ROLE": "kickoff6"}}, "1bsu0pcckcy707s": {"id": "1bsu0pcckcy707s", "title": "Role", "name": "kickoff7", "role": "kickoff_them_formation_role", "children": ["qwrxposmcp2wlc"], "properties": {"ROLE": "kickoff7"}}, "qwrxposmcp2wlc": {"children": ["9yi77cjfzz2nc"], "id": "qwrxposmcp2wlc", "title": "Repeater", "properties": {"ROLE": "kickoff7"}}, "9yi77cjfzz2nc": {"id": "9yi77cjfzz2nc", "title": "KickOffThemFormation", "properties": {"ROLE": "kickoff7"}}, "ydigrjh2noq2ttal": {"id": "ydigrjh2noq2ttal", "title": "Role", "name": "kickoff8", "role": "kickoff_them_formation_role", "children": ["qlrq742s7riwm"], "properties": {"ROLE": "kickoff8"}}, "qlrq742s7riwm": {"children": ["94u4109zcmfup"], "id": "qlrq742s7riwm", "title": "Repeater", "properties": {"ROLE": "kickoff8"}}, "94u4109zcmfup": {"id": "94u4109zcmfup", "title": "KickOffThemFormation", "properties": {"ROLE": "kickoff8"}}}}]}}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "1bsu0pcckcy707s": {
+            "children": [
+              "qwrxposmcp2wlc"
+            ],
+            "id": "1bsu0pcckcy707s",
+            "name": "kickoff7",
+            "properties": {
+              "ROLE": "kickoff7"
+            },
+            "role": "kickoff_them_formation_role",
+            "title": "Role"
+          },
+          "2gk91q6p2qq36": {
+            "children": [
+              "qzzepvoi9xektni4"
+            ],
+            "id": "2gk91q6p2qq36",
+            "properties": {
+              "ROLE": "kickoff1"
+            },
+            "title": "Repeater"
+          },
+          "2tjjk1x3h7ry1qfo": {
+            "id": "2tjjk1x3h7ry1qfo",
+            "properties": {
+              "ROLE": "kickoff5"
+            },
+            "title": "KickOffThemFormation"
+          },
+          "42wfp78qraes1": {
+            "children": [
+              "p4gryv3q77qjvo"
+            ],
+            "id": "42wfp78qraes1",
+            "name": "kickoff2",
+            "properties": {
+              "ROLE": "kickoff2"
+            },
+            "role": "kickoff_them_formation_role",
+            "title": "Role"
+          },
+          "5l4s51cbb92a4k": {
+            "children": [
+              "syfpjp2o945zg6uei"
+            ],
+            "id": "5l4s51cbb92a4k",
+            "name": "kickoff5",
+            "properties": {
+              "ROLE": "kickoff5"
+            },
+            "role": "kickoff_them_formation_role",
+            "title": "Role"
+          },
+          "5m9lckz2bbw0d6fk3": {
+            "children": [
+              "m0f2mga46emfirx4"
+            ],
+            "id": "5m9lckz2bbw0d6fk3",
+            "name": "kickoff4",
+            "properties": {
+              "ROLE": "kickoff4"
+            },
+            "role": "kickoff_them_formation_role",
+            "title": "Role"
+          },
+          "6385kpu9177wuss": {
+            "id": "6385kpu9177wuss",
+            "properties": {
+              "ROLE": "kickoff6"
+            },
+            "title": "KickOffThemFormation"
+          },
+          "70mh5sk7v9ojsg": {
+            "children": [
+              "z4svmvm2fduo6veh"
+            ],
+            "id": "70mh5sk7v9ojsg",
+            "name": "kickoff6",
+            "properties": {
+              "ROLE": "kickoff6"
+            },
+            "role": "kickoff_them_formation_role",
+            "title": "Role"
+          },
+          "94u4109zcmfup": {
+            "id": "94u4109zcmfup",
+            "properties": {
+              "ROLE": "kickoff8"
+            },
+            "title": "KickOffThemFormation"
+          },
+          "9yi77cjfzz2nc": {
+            "id": "9yi77cjfzz2nc",
+            "properties": {
+              "ROLE": "kickoff7"
+            },
+            "title": "KickOffThemFormation"
+          },
+          "cvow2a21rpf080": {
+            "children": [
+              "fe5qkg56kn5twr57s",
+              "42wfp78qraes1",
+              "lw6cx7cm4oahae",
+              "5m9lckz2bbw0d6fk3",
+              "5l4s51cbb92a4k",
+              "70mh5sk7v9ojsg",
+              "1bsu0pcckcy707s",
+              "ydigrjh2noq2ttal"
+            ],
+            "id": "cvow2a21rpf080",
+            "properties": {
+              "TacticType": "General"
+            },
+            "title": "RoleDivider"
+          },
+          "fe5qkg56kn5twr57s": {
+            "children": [
+              "2gk91q6p2qq36"
+            ],
+            "id": "fe5qkg56kn5twr57s",
+            "name": "kickoff1",
+            "properties": {
+              "ROLE": "kickoff1"
+            },
+            "role": "kickoff_them_formation_role",
+            "title": "Role"
+          },
+          "lw6cx7cm4oahae": {
+            "children": [
+              "y2ak7wg0c4uj3hq7"
+            ],
+            "id": "lw6cx7cm4oahae",
+            "name": "kickoff3",
+            "properties": {
+              "ROLE": "kickoff3"
+            },
+            "role": "kickoff_them_formation_role",
+            "title": "Role"
+          },
+          "m0f2mga46emfirx4": {
+            "children": [
+              "ne1dq8l8hzg7x9d70"
+            ],
+            "id": "m0f2mga46emfirx4",
+            "properties": {
+              "ROLE": "kickoff4"
+            },
+            "title": "Repeater"
+          },
+          "ne1dq8l8hzg7x9d70": {
+            "id": "ne1dq8l8hzg7x9d70",
+            "properties": {
+              "ROLE": "kickoff4"
+            },
+            "title": "KickOffThemFormation"
+          },
+          "p4gryv3q77qjvo": {
+            "children": [
+              "rm5ljxgxh4hzty8e"
+            ],
+            "id": "p4gryv3q77qjvo",
+            "properties": {
+              "ROLE": "kickoff2"
+            },
+            "title": "Repeater"
+          },
+          "qlrq742s7riwm": {
+            "children": [
+              "94u4109zcmfup"
+            ],
+            "id": "qlrq742s7riwm",
+            "properties": {
+              "ROLE": "kickoff8"
+            },
+            "title": "Repeater"
+          },
+          "qwrxposmcp2wlc": {
+            "children": [
+              "9yi77cjfzz2nc"
+            ],
+            "id": "qwrxposmcp2wlc",
+            "properties": {
+              "ROLE": "kickoff7"
+            },
+            "title": "Repeater"
+          },
+          "qzzepvoi9xektni4": {
+            "id": "qzzepvoi9xektni4",
+            "properties": {
+              "ROLE": "kickoff1"
+            },
+            "title": "KickOffThemFormation"
+          },
+          "rm5ljxgxh4hzty8e": {
+            "id": "rm5ljxgxh4hzty8e",
+            "properties": {
+              "ROLE": "kickoff2"
+            },
+            "title": "KickOffThemFormation"
+          },
+          "syfpjp2o945zg6uei": {
+            "children": [
+              "2tjjk1x3h7ry1qfo"
+            ],
+            "id": "syfpjp2o945zg6uei",
+            "properties": {
+              "ROLE": "kickoff5"
+            },
+            "title": "Repeater"
+          },
+          "y2ak7wg0c4uj3hq7": {
+            "children": [
+              "znmhegxb6x481f5"
+            ],
+            "id": "y2ak7wg0c4uj3hq7",
+            "properties": {
+              "ROLE": "kickoff3"
+            },
+            "title": "Repeater"
+          },
+          "ydigrjh2noq2ttal": {
+            "children": [
+              "qlrq742s7riwm"
+            ],
+            "id": "ydigrjh2noq2ttal",
+            "name": "kickoff8",
+            "properties": {
+              "ROLE": "kickoff8"
+            },
+            "role": "kickoff_them_formation_role",
+            "title": "Role"
+          },
+          "z4svmvm2fduo6veh": {
+            "children": [
+              "6385kpu9177wuss"
+            ],
+            "id": "z4svmvm2fduo6veh",
+            "properties": {
+              "ROLE": "kickoff6"
+            },
+            "title": "Repeater"
+          },
+          "znmhegxb6x481f5": {
+            "id": "znmhegxb6x481f5",
+            "properties": {
+              "ROLE": "kickoff3"
+            },
+            "title": "KickOffThemFormation"
+          }
+        },
+        "root": "cvow2a21rpf080",
+        "title": "kickoff_them_formation_tactic"
+      }
+    ]
+  },
+  "name": "kickoff_them_formation_tactic"
+}
