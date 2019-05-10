@@ -43,6 +43,26 @@ void World::updateWorld(const roboteam_msgs::World &message) {
         }
 
     }
+
+    for (auto robotMsg : message.them) {
+        // iterate through our known array of robots
+        // if we have it, we should update the data
+        auto robot = find_if(worldDataPtr->them.begin(), worldDataPtr->them.end(), [&robotMsg](const Robot& obj) {
+            return obj.id == robotMsg.id;
+        });
+
+        // if the robot already exists and should be updated
+        if (robot != worldDataPtr->them.end()) {
+            robot->updateRobot(robotMsg, worldDataPtr->ball);
+
+        } else {
+            Robot newRobot(robotMsg, Robot::Team::them);
+            worldDataPtr->them.push_back(newRobot);
+        }
+
+    }
+
+
     bpTracker->update();
 }
 
