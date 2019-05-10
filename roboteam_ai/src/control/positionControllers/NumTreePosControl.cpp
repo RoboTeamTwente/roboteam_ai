@@ -80,10 +80,9 @@ bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
             std::cout << "robot is too far from current path, recalculating" << std::endl;
         return true;
     }
-    std::vector<rtt::Vector2> triedPaths;
     for (int i = 0; i < static_cast<int>(currentIndex); i ++) {
         auto p = path[i];
-        triedPaths.emplace_back(p.pos);
+        triedPaths.push_back(p.pos);
     }
     path.erase(path.begin(), path.begin() + currentIndex);
 
@@ -95,6 +94,7 @@ bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
             return true;
         }
     }
+
 
     return false;
 }
@@ -157,9 +157,10 @@ PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr, Vector2 
             drawpoints.push_back(displayPath.pos);
         }
 
+        interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, triedPaths, Qt::red, robot.id, interface::Drawing::DOTS, 2.0, 2.0);
+        interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot.id, interface::Drawing::DOTS, 3.0, 3.0);
         interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot.id, interface::Drawing::LINES_CONNECTED);
         interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot.id, interface::Drawing::CIRCLES, 8, 8, 4);
-
 
         ros::Time end = ros::Time::now();
     if (InterfaceValues::showDebugNumTreeTimeTaken() && InterfaceValues::showFullDebugNumTreeInfo())
@@ -206,6 +207,7 @@ void NumTreePosControl::tracePath() {
 //    };
 
     path.clear();
+    triedPaths.clear();
 
     PathPointer root = std::make_shared<PathPoint>();
     root->currentTarget = finalTargetPos;
@@ -300,6 +302,8 @@ NumTreePosControl::PathPointer NumTreePosControl::computeNewPoint(
     newPoint->finalTarget = finalTargetPos;
     newPoint->pos = oldPoint->pos;
     newPoint->vel = oldPoint->vel;
+    triedPaths.push_back(newPoint->pos);
+
 
     auto dir = (subTarget - newPoint->pos).normalize();
     auto targetVel = dir*newPoint->maxVel();

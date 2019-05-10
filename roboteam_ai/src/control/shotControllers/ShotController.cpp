@@ -35,7 +35,9 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
         currentDesiredGeneva = 3;
     }
 
-    behindBallPosition = ball->pos + getPlaceBehindBallForGenevaState(robot, shotTarget, currentDesiredGeneva);
+    Vector2 futureBallPos = ball->pos + ball->vel * 0.2;
+
+    behindBallPosition = futureBallPos + getPlaceBehindBallForGenevaState(robot, shotTarget, currentDesiredGeneva);
 
     // make a line, on which we can drive straight to it
 
@@ -75,7 +77,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
        // std::cout<<" GOING BEHIND";
     }
 
-    interface::Input::drawData(interface::Visual::SHOTLINES, {ball->pos, shotTarget}, Qt::blue, robot.id, interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::SHOTLINES, {ball->pos, shotTarget}, Qt::yellow, robot.id, interface::Drawing::LINES_CONNECTED);
 
     // Make sure the Geneva state is always correct
     shotData.genevaState = currentDesiredGeneva;
@@ -98,7 +100,7 @@ bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, 
     double dist = ControlUtils::distanceToLine(robot.pos, line.first, line.second);
     //std::cout<<dist<<" ";
     if (precision == HIGH) {
-        return dist < 0.1;
+        return dist < 0.02;
     } else if (precision == MEDIUM) {
         return dist < 0.15;
     }
@@ -122,13 +124,14 @@ bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, 
         control::PosVelAngle pva = numTreeGtp.getPosVelAngle(std::make_shared<world::Robot>(robot),
                                                              robotTargetPosition);
         //TODO: if (rotating to this angle from current angle will hit ball) then pva.angle=angle towards ball
-        if ((robot.pos - robotTargetPosition).length() < 0.3) {
+        if ((robot.pos - robotTargetPosition).length() < 0.5) {
             pva.angle = (line.second - line.first).toAngle();
         }
-        if (pva.vel.length()<0.3)
-        {
-            pva.vel.stretchToLength(0.3);
+
+        if (pva.vel.length() < 0.3) {
+            pva.vel = pva.vel.stretchToLength(0.3);
         }
+
         ShotData shotData(pva);
         return shotData;
     }
@@ -217,10 +220,10 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector
         Angle aim((lineToDriveOver.second - lineToDriveOver.first).toAngle());
         double diff = abs(aim - robot.angle);
         if (precision == HIGH) {
-            return diff < 0.5;
+            return diff < 0.05;
         }
         if (precision == MEDIUM) {
-            return diff < 0.5;
+            return diff < 0.2;
         }
         return diff < 0.5;
     }
