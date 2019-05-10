@@ -157,7 +157,7 @@ PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr, Vector2 
             drawpoints.push_back(displayPath.pos);
         }
 
-        interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot.id, interface::Drawing::DOTS);
+        interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot.id, interface::Drawing::LINES_CONNECTED);
         interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot.id, interface::Drawing::CIRCLES, 8, 8, 4);
 
 
