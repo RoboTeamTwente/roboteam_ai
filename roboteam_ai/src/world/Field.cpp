@@ -43,7 +43,8 @@ bool Field::pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea, fl
     auto penaltyLine = isOurDefenceArea ? _field.left_penalty_line : _field.right_penalty_line;
     double yTopBound;
     double yBottomBound;
-    double xBound = penaltyLine.begin.x;
+    double xForwardBound = penaltyLine.begin.x;
+    double xBackBound = isOurDefenceArea ? field.field_length/-2.0 : field.field_length/2.0;
     if (penaltyLine.begin.y < penaltyLine.end.y) {
         yBottomBound = penaltyLine.begin.y;
         yTopBound = penaltyLine.end.y;
@@ -53,8 +54,8 @@ bool Field::pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea, fl
         yTopBound = penaltyLine.begin.y;
     }
     bool yIsWithinDefenceArea = point.y<(yTopBound + margin) && point.y>(yBottomBound - margin);
-    bool xIsWithinOurDefenceArea = point.x < (xBound + margin);
-    bool xIsWithinTheirDefenceArea = point.x > (xBound - margin);
+    bool xIsWithinOurDefenceArea = point.x < (xForwardBound + margin) && point.x> (xBackBound-margin);
+    bool xIsWithinTheirDefenceArea = point.x > (xForwardBound - margin) && point.x<(xBackBound+margin);
 
     if (isOurDefenceArea) {
         if (includeOutsideField) {
