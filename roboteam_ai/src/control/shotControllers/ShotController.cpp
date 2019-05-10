@@ -54,11 +54,12 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     std::cout << isOnLineToBall << isBehindBall << validAngle << std::endl;
 
     ShotData shotData;
-    if (isOnLineToBall && isBehindBall && (validAngle || readyToShoot) {
+    if (isOnLineToBall && isBehindBall && (validAngle || readyToShoot)) {
         readyToShoot = true;
         bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
         if (hasBall && !genevaIsTurning) {
             shotData = shoot(robot, lineToDriveOver, shotTarget, chip);
+            readyToShoot = false;
           //  std::cout<<" SHOOT";
         } else if (hasBall && genevaIsTurning) {
             // just stand still at the right angle
