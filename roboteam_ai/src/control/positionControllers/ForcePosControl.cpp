@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 27-3-19.
 //
 
-#include <roboteam_ai/src/interface/InterfaceValues.h>
+#include <roboteam_ai/src/interface/api/Output.h>
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "ForcePosControl.h"
@@ -68,7 +68,7 @@ PosVelAngle ForcePosControl::calculateForcePosVelAngle(const PosController::Robo
 }
 
 void ForcePosControl::checkInterfacePID() {
-    auto newPid = interface::InterfaceValues::getForcePid();
+    auto newPid = interface::Output::getForcePid();
     updatePid(newPid);
 }
 

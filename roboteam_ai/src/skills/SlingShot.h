@@ -37,6 +37,7 @@ class SlingShot : public Skill {
         explicit SlingShot(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;
         Status onUpdate() override;
+        void onTerminate(Status s) override;
 };
 }
 }

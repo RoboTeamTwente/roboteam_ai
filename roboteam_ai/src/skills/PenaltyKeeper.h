@@ -33,6 +33,7 @@ class PenaltyKeeper : public Skill  {
         explicit PenaltyKeeper(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;
         void onInitialize() override;
+        void onTerminate(Status s) override;
 
 };
 }

@@ -10,7 +10,7 @@
 #include <roboteam_ai/src/world/Field.h>
 #include "roboteam_ai/src/skills/Skill.h"
 #include "GoToPos.h"
-#include "roboteam_ai/src/interface/drawer.h"
+#include "roboteam_ai/src/interface/api/Input.h"
 
 namespace rtt {
 namespace ai {
