@@ -11,75 +11,32 @@ void ShootPenalty::onInitialize() {
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
     Vector2 robotPos = robot->pos;
     targetPos = ballPos + (robotPos - ballPos).rotate(fakeOffset.getAngle());
-    progress = ROTATING;
+    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::MAX_SPEED, true);
+    aim();
+
 }
 
 Skill::Status ShootPenalty::onUpdate() {
 
-    switch (progress) {
+    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
+    Vector2 deltaPos = (ballPos - robot->pos);
 
-        case GOING: {
-            Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
-            Vector2 deltaPos = (ballPos - robot->pos);
-
-            if (deltaPos.length() < errorMarginPos) {
-                progress = READY;
-            } else {
-                command.w = static_cast<float>((ballPos - robot->pos).angle());
-                command.geneva_state = 1;
-                Vector2 velocity = goToPos.getPosVelAngle(robot, ballPos).vel;
-                command.x_vel = static_cast<float>(velocity.x);
-                command.y_vel = static_cast<float>(velocity.y);
-                publishRobotCommand();
-
-            }
-            return Status::Running;
-        }
-
-        case ROTATING: {
-            if ((robot->angularVelocity - fakeOffset) > errorMarginAng) {
-                command.geneva_state = 1;
-                command.w = static_cast<float>(fakeOffset);
-                publishRobotCommand();
-
-            }
-            else {
-                progress = GOING;
-                return Status::Running;
-            }
-
-            return Status::Running;
-        }
-
-        case READY: {
-            publishRobotCommand();
-            progress = SHOOTING;
-            return Status::Running;
-        }
-
-        case SHOOTING: {
-            if (! isPenaltyShot()) {
-                Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
-                command.w = static_cast<float>((ballPos - robot->pos).angle());
-                command.geneva_state = 1;
-                command.kicker = static_cast<unsigned char>(true);
-                command.kicker_vel = Constants::MAX_KICK_POWER();
-                Vector2 velocity = goToPos.getPosVelAngle(robot, ballPos).vel;
-                command.x_vel = static_cast<float>(velocity.x);
-                command.y_vel = static_cast<float>(velocity.y);
-                publishRobotCommand();
-                return Status::Running;
-            }
-            else {
-                command.x_vel = 0;
-                command.y_vel = 0;
-                command.geneva_state = 3;
-                publishRobotCommand();
-                return Status::Success;
-            }
-        }
+    if (deltaPos.length() >= errorMarginPos) {
+        command.w = static_cast<float>((ballPos - robot->pos).angle());
+        command.geneva_state = 1;
+        Vector2 velocity = goToPos.getPosVelAngle(robot, ballPos).vel;
+        command.x_vel = static_cast<float>(velocity.x);
+        command.y_vel = static_cast<float>(velocity.y);
+        publishRobotCommand();
     }
-    return Status::Failure;
+    else{
+        shotControl->makeCommand(shotControl->getShotData(*robot, aimPoint), command);
+        publishRobotCommand();
+
+
+    }
+
+
 }
 
 void ShootPenalty::onTerminate(Skill::Status s) {
@@ -97,6 +54,14 @@ bool ShootPenalty::isPenaltyShot() {
         return true;
     }
     return false;
+
+}
+void ShootPenalty::aim() {
+
+    // TODO: make better and smarter by looking at the keeper ant etc.
+    Vector2 goal = rtt::ai::world::field->get_their_goal_center();
+    double goalHalfLength = (goal - rtt::ai::world::field->getPenaltyPoint(false)).length()/2.0;
+    aimPoint = {goal.x, goal.y+goalHalfLength};
 
 }
 
