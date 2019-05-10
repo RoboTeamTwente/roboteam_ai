@@ -50,6 +50,12 @@ double Robot::getDistanceToBall() {
 }
 
 void Robot::updateRobot(const roboteam_msgs::WorldRobot robotMsg, const Ball &ball) {
+    if (robotMsg.id == this->id) {
+        this->pos = robotMsg.pos;
+        this->vel = robotMsg.vel;
+        this->angle = robotMsg.angle;
+        this->angularVelocity = robotMsg.w;
+    }
     distanceToBall = findBallDistance(ball.pos);
     iHaveBall = distanceToBall >= 0.0;
 }

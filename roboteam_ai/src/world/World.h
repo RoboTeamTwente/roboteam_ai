@@ -63,7 +63,7 @@ class World {
         const RobotPtr getRobotForId(int id, bool ourTeam = true);
         const std::vector<world::Robot> getRobotsForIds(std::vector<int> ids, bool ourTeam = true);
 
-    const std::vector<Robot> getAllRobots();
+        const std::vector<Robot> getAllRobots();
         const std::vector<Robot> getUs();
         const std::vector<Robot> getThem();
 
