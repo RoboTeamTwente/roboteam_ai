@@ -7,6 +7,8 @@
 
 #include <roboteam_ai/src/control/positionControllers/PosController.h>
 #include "Skill.h"
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+
 namespace rtt {
 namespace ai {
 
@@ -18,7 +20,7 @@ class DriveWithInterface : public Skill {
         void onTerminate(Status s) override;
 
     private:
-        std::shared_ptr<control::PosController> goToPos;
+        control::NumTreePosControl numTreeGtp;
 
 
 };
