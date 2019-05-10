@@ -28,13 +28,19 @@ Skill::Status ShootPenalty::onUpdate() {
         command.x_vel = static_cast<float>(velocity.x);
         command.y_vel = static_cast<float>(velocity.y);
         publishRobotCommand();
+        return Status::Running;
+
     }
     else{
         shotControl->makeCommand(shotControl->getShotData(*robot, aimPoint), command);
         publishRobotCommand();
-
+    }
+    if (isPenaltyShot()) {
+        publishRobotCommand();
+        return Status::Success;
 
     }
+    return Status::Failure;
 
 
 }
