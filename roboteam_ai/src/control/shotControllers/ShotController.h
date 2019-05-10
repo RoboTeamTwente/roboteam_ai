@@ -32,6 +32,7 @@ class ShotController {
     FRIEND_TEST(ShotControllerTest, it_generates_proper_shots);
 private:
     bool init = false;
+    bool readyToShoot;
     Vector2 behindBallPosition;
     bool genevaIsTurning = false;
     double secondsToTurnGeneva = 1.5;

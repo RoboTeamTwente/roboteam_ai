@@ -16,6 +16,7 @@ ShotController::ShotController(ShotPrecision precision, BallSpeed ballspeed, boo
     numTreeGtp.setAvoidBall(Constants::BALL_RADIUS() + Constants::ROBOT_RADIUS() * 1.5);
     numTreeGtp.setCanMoveOutOfField(true);
     numTreeGtp.setCanMoveInDefenseArea(false);
+    readyToShoot = false;
 }
 
 /// return a ShotData (which contains data for robotcommands) for a specific robot to shoot at a specific target.
@@ -53,7 +54,8 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     std::cout << isOnLineToBall << isBehindBall << validAngle << std::endl;
 
     ShotData shotData;
-    if (isOnLineToBall && isBehindBall && validAngle) {
+    if (isOnLineToBall && isBehindBall && (validAngle || readyToShoot) {
+        readyToShoot = true;
         bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
         if (hasBall && !genevaIsTurning) {
             shotData = shoot(robot, lineToDriveOver, shotTarget, chip);
@@ -214,10 +216,10 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector
         Angle aim((lineToDriveOver.second - lineToDriveOver.first).toAngle());
         double diff = abs(aim - robot.angle);
         if (precision == HIGH) {
-            return diff < 0.05;
+            return diff < 0.5;
         }
         if (precision == MEDIUM) {
-            return diff < 0.2;
+            return diff < 0.5;
         }
         return diff < 0.5;
     }
