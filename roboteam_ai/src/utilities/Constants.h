@@ -36,7 +36,7 @@ public:
 
 
     // max velocities for refstates
-    static double MAX_VEL()                     { return 8.0; };
+    static double MAX_VEL()                     { return 2.0; };
     static double MAX_STOP_STATE_VEL()          { return 1.5; };
 
     static double MIN_VEL()                     { return 0.2; };  // Minimum velocity to make the robot move

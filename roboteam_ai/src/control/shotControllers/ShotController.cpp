@@ -50,6 +50,8 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, shotTarget, robot.pos, 0.3);
     bool validAngle = robotAngleIsGood(robot, lineToDriveOver);
 
+    std::cout << isOnLineToBall << isBehindBall << validAngle << std::endl;
+
     ShotData shotData;
     if (isOnLineToBall && isBehindBall && validAngle) {
         bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
@@ -111,12 +113,14 @@ bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, 
 // use Numtree GTP to go to a place behind the ball
     ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition,
                                                  std::pair<Vector2, Vector2> line) {
+    std::cout << "Go behind ball" << std::endl;
+    std::cout << (robot.pos - robotTargetPosition).length() << std::endl;
         auto ball = world::world->getBall();
         control::PosVelAngle pva = numTreeGtp.getPosVelAngle(std::make_shared<world::Robot>(robot),
                                                              robotTargetPosition);
         //TODO: if (rotating to this angle from current angle will hit ball) then pva.angle=angle towards ball
-        if (robot.pos.dist(robotTargetPosition) < 0.3) {
-            pva.angle = (line.second - line.first).angle();
+        if ((robot.pos - robotTargetPosition).length() < 0.3) {
+            pva.angle = (line.second - line.first).toAngle();
         }
         if (pva.vel.length()<0.3)
         {
@@ -128,8 +132,9 @@ bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, 
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver) {
+    std::cout << "Moving straight to ball" << std::endl;
     control::PosVelAngle pva = basicGtp.getPosVelAngle(std::make_shared<world::Robot>(robot), lineToDriveOver.second);
-    pva.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
+    pva.angle = (lineToDriveOver.second - lineToDriveOver.first).toAngle();
     ShotData shotData(pva);
     return shotData;
 }
@@ -137,6 +142,7 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector
 /// Now we should have the ball and kick it.
     ShotData ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector2> driveLine, Vector2 shotTarget,
                                    bool chip) {
+    std::cout << "Shooting" << std::endl;
         auto ball = world::world->getBall();
 
         // move towards the ball
@@ -144,7 +150,7 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector
         if (pva.vel.length() < 0.3) {
             pva.vel = pva.vel.stretchToLength(0.3);
         }
-        pva.angle = (driveLine.second - driveLine.first).angle();
+        pva.angle = (driveLine.second - driveLine.first).toAngle();
 
         ShotData shotData(pva);
 
@@ -205,7 +211,7 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector
 
     bool ShotController::robotAngleIsGood(world::Robot &robot,
                                           std::pair<Vector2, Vector2> lineToDriveOver) {
-        Angle aim((lineToDriveOver.second - lineToDriveOver.first).angle());
+        Angle aim((lineToDriveOver.second - lineToDriveOver.first).toAngle());
         double diff = abs(aim - robot.angle);
         if (precision == HIGH) {
             return diff < 0.05;
