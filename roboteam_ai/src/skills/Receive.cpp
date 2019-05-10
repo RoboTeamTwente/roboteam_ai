@@ -4,6 +4,7 @@
 
 #include <roboteam_ai/src/coach/PassCoach.h>
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
+#include <roboteam_ai/src/interface/api/Input.h>
 #include "Receive.h"
 
 namespace rtt {
@@ -85,6 +86,10 @@ void Receive::intercept() {
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
     command.w = ball->vel.stretchToLength(-1).toAngle();
+
+    interface::Input::drawData(interface::Visual::INTERCEPT, {ballStartPos, ballEndPos}, Qt::darkCyan, robot->id, interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::INTERCEPT, {interceptPoint}, Qt::cyan, robot->id, interface::Drawing::DOTS, 5, 5);
+
 }
 
 bool Receive::passFailed() {
