@@ -17,13 +17,15 @@ void World::updateWorld(const roboteam_msgs::World &message) {
     // check if there is a previous worldstate
     // otherwise make the worlddata item
   //  std::lock_guard<std::mutex> lock(worldMutex);
+    worldNumber++;
 
+    {
+        std::lock_guard<std::mutex> lock(worldMutex);
     if (! worldDataPtr) {
         worldData = WorldData(message);
         worldDataPtr = std::make_shared<WorldData>(worldData);
     }
 
-    worldDataPtr->ball.updateBall(worldDataPtr->ball, * worldDataPtr);
     worldDataPtr->ball.pos = message.ball.pos;
 
     for (auto robotMsg : message.us) {
@@ -35,13 +37,11 @@ void World::updateWorld(const roboteam_msgs::World &message) {
 
         // if the robot already exists and should be updated
         if (robot != worldDataPtr->us.end()) {
-            robot->updateRobot(robotMsg, worldDataPtr->ball);
-
+            robot->updateRobot(robotMsg, worldDataPtr->ball, worldNumber);
         } else {
             Robot newRobot(robotMsg, Robot::Team::us);
             worldDataPtr->us.push_back(newRobot);
         }
-
     }
 
     for (auto robotMsg : message.them) {
@@ -53,16 +53,24 @@ void World::updateWorld(const roboteam_msgs::World &message) {
 
         // if the robot already exists and should be updated
         if (robot != worldDataPtr->them.end()) {
-            robot->updateRobot(robotMsg, worldDataPtr->ball);
+            robot->updateRobot(robotMsg, worldDataPtr->ball, worldNumber);
 
         } else {
             Robot newRobot(robotMsg, Robot::Team::them);
             worldDataPtr->them.push_back(newRobot);
         }
-
     }
 
 
+        // erase robots from the worldstate if we don't get updates from them
+        worldDataPtr->them.erase(std::remove_if(worldDataPtr->them.begin(), worldDataPtr->them.end(), [=](Robot robot) {
+            return robot.getLastUpdatedWorldNumber() < worldNumber;
+        }));
+
+        worldDataPtr->us.erase(std::remove_if(worldDataPtr->us.begin(), worldDataPtr->us.end(), [=](Robot robot) {
+            return robot.getLastUpdatedWorldNumber() < worldNumber;
+        }));
+    }
     bpTracker->update();
 }
 

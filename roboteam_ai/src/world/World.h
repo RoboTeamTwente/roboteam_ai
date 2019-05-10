@@ -47,6 +47,8 @@ class World {
         const roboteam_msgs::WorldBall makeWorldBallMsg(const Ball &ball);
 
         Robot getRobotClosestToPoint(const Vector2 &point, std::vector<Robot> robots);
+
+        unsigned long worldNumber = 0;
     public:
         void updateWorld(const roboteam_msgs::World &world);
         bool weHaveRobots();
