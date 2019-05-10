@@ -80,7 +80,6 @@ void Receive::intercept() {
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
 
     Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel;
-    velocities = control::ControlUtils::velocityLimiter(velocities);
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
     command.w = ball->vel.stretchToLength(-1).toAngle();

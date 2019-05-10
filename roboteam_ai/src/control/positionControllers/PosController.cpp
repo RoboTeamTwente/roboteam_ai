@@ -29,7 +29,6 @@ PosVelAngle PosController::controlWithPID(const RobotPtr &robot, PosVelAngle tar
 
     // velocity limiter
     pidCommand.vel = calculatePIDs(robot, target);
-    pidCommand.vel = control::ControlUtils::velocityLimiter(pidCommand.vel);
 
     // acceleration limiter
     double maxAcc = control::ControlUtils::calculateMaxAcceleration(pidCommand.vel, pidCommand.angle);

@@ -29,13 +29,10 @@ Skill::Status MidFieldHarasser::onUpdate() {
         if (opponent&&((opponent->pos - robot->pos).length() < HARASSING_SAFETY_MARGINS)) {
             double opponentVelocityLength = opponent->vel.length();
             velocity = control::ControlUtils::velocityLimiter(velocity, opponentVelocityLength*0.8, Constants::MIN_VEL());
-        } else {
-            velocity = control::ControlUtils::velocityLimiter(velocity);
         }
     }
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
-    //command.w = static_cast<float>(newPosition.angle);
     command.w = static_cast<float>(getHarassAngle().getAngle());
     command.use_angle = 1;
     publishRobotCommand();
