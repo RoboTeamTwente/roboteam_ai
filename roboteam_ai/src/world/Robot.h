@@ -23,13 +23,15 @@ class Robot {
         double distanceToBall;
         bool iHaveBall;
         static std::map<int, unsigned char> genevaState;
+        ros::Time timeLastUpdated;
 
-    public:
+public:
         enum Team : short {
           us,
           them,
           invalid
         };
+    bool hasWorkingGeneva = false;
 
         explicit Robot(const roboteam_msgs::WorldRobot &copy, Team team = invalid);
         Robot();
@@ -37,7 +39,7 @@ class Robot {
         double findBallDistance(const Vector2 &ballPos);
 
         const roboteam_msgs::WorldRobot toMessage() const;
-        void updateRobot(const Ball &ball);
+        void updateRobot(const roboteam_msgs::WorldRobot robotMsg, const Ball &ball);
         bool hasBall(double maxDist = Constants::MAX_BALL_BOUNCE_RANGE());
         double getDistanceToBall();
         unsigned char getGenevaState() const;
@@ -47,10 +49,8 @@ class Robot {
         Angle angle = Angle();
         Vector2 pos = Vector2();
         Vector2 vel = Vector2();
-        Vector2 acc = Vector2();
         double angularVelocity = 0.0;
         Team team;
-       bool hasWorkingGeneva = false;
 
 };
 

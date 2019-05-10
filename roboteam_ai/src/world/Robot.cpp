@@ -16,7 +16,7 @@ std::map<int, unsigned char> Robot::genevaState;
 
 Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team)
         : distanceToBall(-1.0), iHaveBall(false), id(copy.id), angle(copy.angle),
-          pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
+          pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team), timeLastUpdated(ros::Time::now()) {
 
     if (id != -1 && genevaState.find(id) == genevaState.end()) {
         genevaState[id] = 3;
@@ -29,7 +29,7 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team)
 
 Robot::Robot()
         : distanceToBall(-1.0), iHaveBall(false), id(-1), angle(-1.0),
-          angularVelocity(-1.0), team(invalid) { }
+          angularVelocity(-1.0), team(invalid), timeLastUpdated(ros::Time::now()) { }
 
 const roboteam_msgs::WorldRobot Robot::toMessage() const {
     roboteam_msgs::WorldRobot robotMsg;
@@ -49,7 +49,7 @@ double Robot::getDistanceToBall() {
     return distanceToBall;
 }
 
-void Robot::updateRobot(const Ball &ball) {
+void Robot::updateRobot(const roboteam_msgs::WorldRobot robotMsg, const Ball &ball) {
     distanceToBall = findBallDistance(ball.pos);
     iHaveBall = distanceToBall >= 0.0;
 }
