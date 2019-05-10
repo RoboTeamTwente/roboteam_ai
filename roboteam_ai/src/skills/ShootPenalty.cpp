@@ -2,6 +2,7 @@
 // Created by baris on 11-3-19.
 //
 
+#include <roboteam_ai/src/interface/api/Input.h>
 #include "ShootPenalty.h"
 
 namespace rtt {
@@ -20,6 +21,7 @@ Skill::Status ShootPenalty::onUpdate() {
 
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
     Vector2 deltaPos = (ballPos - robot->pos);
+    interface::Input::drawDebugData({aimPoint});
 
     if (deltaPos.length() >= errorMarginPos) {
         command.w = static_cast<float>((ballPos - robot->pos).angle());
@@ -61,7 +63,7 @@ void ShootPenalty::aim() {
     // TODO: make better and smarter by looking at the keeper ant etc.
     Vector2 goal = rtt::ai::world::field->get_their_goal_center();
     double goalHalfLength = (goal - rtt::ai::world::field->getPenaltyPoint(false)).length()/2.0;
-    aimPoint = {goal.x, goal.y+goalHalfLength};
+    aimPoint = {goal.x, goal.y+(goalHalfLength*6.0/7.0)};
 
 }
 
