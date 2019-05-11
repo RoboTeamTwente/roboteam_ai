@@ -99,8 +99,6 @@ public:
     static bool STD_TIMEOUT_TO_TOP();
 
     static std::map<int, bool> ROBOTS_WITH_WORKING_GENEVA();
-
-
     static bool ROBOT_HAS_WORKING_GENEVA(int id);
 
     static QColor FIELD_COLOR();
@@ -128,7 +126,7 @@ private:
 } // rtt
 
 
-enum class RefGameState {
+enum class RefCommand {
 // Ref states as dictated by RoboCup SSL
     HALT = 0,
     STOP = 1,
