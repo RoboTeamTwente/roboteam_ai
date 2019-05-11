@@ -62,13 +62,9 @@ public:
 
     // control managers
     std::shared_ptr<control::ShotController> shotController;
-
     const std::shared_ptr<control::ShotController> &getShotController() const;
-
     const std::shared_ptr<control::NumTreePosControl> &getNumtreeGtp() const;
-
     const std::shared_ptr<control::BasicPosControl> &getBasicGtp() const;
-
     std::shared_ptr<control::NumTreePosControl> numtreeGTP;
     std::shared_ptr<control::BasicPosControl> basicGTP;
 };

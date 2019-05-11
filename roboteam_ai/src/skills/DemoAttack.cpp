@@ -17,8 +17,6 @@ DemoAttack::DemoAttack(string name, bt::Blackboard::Ptr blackboard)
 
 void DemoAttack::onInitialize() {
     ownGoal = properties->getBool("ownGoal");
-    goToPos = std::make_shared<control::NumTreePosControl>();
-    goToPos->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
     shot = false;
 }
 
@@ -37,16 +35,16 @@ bt::Node::Status DemoAttack::onUpdate() {
     if (!control::PositionUtils::isRobotBehindBallToGoal(BEHIND_BALL_CHECK, ownGoal, robot->pos)) {
         targetPos = behindBall;
         command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
-        goToPos->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
+        robot->getNumtreeGtp()->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
 
         if (abs(((Vector2) robot->pos - targetPos).length()) < SWITCH_TO_BASICGTP_DISTANCE) {
-            goToPos = std::make_shared<control::BasicPosControl>();
-            goToPos->setAvoidBall(false);
+//            goToPos = std::make_shared<control::BasicPosControl>();
+//            goToPos->setAvoidBall(false);
         }
     }
     else {
         targetPos = ball;
-        goToPos->setAvoidBall(false);
+       // goToPos->setAvoidBall(false);
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
         if (world::world->robotHasBall(robot->id, true)) {
             command.kicker = 1;
@@ -70,7 +68,7 @@ bt::Node::Status DemoAttack::onUpdate() {
         velocity = {0, 0};
     }
     else {
-        velocity = goToPos->getPosVelAngle(robot, targetPos).vel;
+        velocity = robot->getNumtreeGtp()->getPosVelAngle(robot, targetPos).vel;
     }
 
     velocity = control::ControlUtils::velocityLimiter(velocity);

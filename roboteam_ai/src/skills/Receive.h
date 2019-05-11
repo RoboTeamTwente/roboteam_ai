@@ -39,8 +39,6 @@ private:
     virtual bool isInPosition(const Vector2& behindTargetPos = {0, 0});
 
 protected:
-    control::NumTreePosControl numTreeGtp;
-    control::BasicPosControl basicGtp;
     bool passFailed();
 
 public:

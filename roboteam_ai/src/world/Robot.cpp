@@ -106,9 +106,9 @@ void Robot::setGenevaState(unsigned char state) {
     else std::cout << "setting invalid geneva state (" << state << ") for robot with id " << id << std::endl;
 }
 
-    const unsigned long &Robot::getLastUpdatedWorldNumber() const {
-        return lastUpdatedWorldNumber;
-    }
+const unsigned long &Robot::getLastUpdatedWorldNumber() const {
+    return lastUpdatedWorldNumber;
+}
 
 const shared_ptr<control::ShotController> &Robot::getShotController() const {
     return shotController;
