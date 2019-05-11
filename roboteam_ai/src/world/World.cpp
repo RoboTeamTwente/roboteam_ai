@@ -11,18 +11,23 @@ World* world = &worldObj;
 
 void World::updateWorld(const roboteam_msgs::World &message) {
     worldNumber++;
+
     {
         std::lock_guard<std::mutex> lock(worldMutex);
-    if (! worldDataPtr) {
-        worldData = WorldData(message);
-        worldDataPtr = std::make_shared<WorldData>(worldData);
+
+        // create a worldData if there is none
+        if (!worldDataPtr) {
+            std::cout << "Creating first world" << std::endl;
+            worldData = WorldData(message);
+            worldDataPtr = std::make_shared<WorldData>(worldData);
+        }
+
+        // update the worlddata from the newest message
+        worldDataPtr->ball.pos = message.ball.pos;
+        updateRobotsFromData(message.us, worldDataPtr->us, worldDataPtr->ball, worldNumber);
+        updateRobotsFromData(message.them, worldDataPtr->them, worldDataPtr->ball, worldNumber);
     }
 
-    worldDataPtr->ball.pos = message.ball.pos;
-    updateRobotsFromData(message.us, worldDataPtr->us, worldDataPtr->ball, worldNumber);
-    updateRobotsFromData(message.them, worldDataPtr->them, worldDataPtr->ball, worldNumber);
-
-    }
     ballPossessionPtr->update();
 }
 
