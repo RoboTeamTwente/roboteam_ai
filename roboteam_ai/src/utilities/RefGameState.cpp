@@ -7,33 +7,16 @@
 namespace rtt {
 namespace ai {
 
-RefGameState::RefGameState() {}
-
 RefGameState::RefGameState(
-        RefCommand commandId,
-        const std::string &strategyName,
-        const std::string &keeperStrategyName,
-        RefCommand followUpCommandId,
-        double maxRobotVel,
-        double maxCollisionVel,
-        double maxBallVel,
-        bool robotsCanEnterDefenseArea,
-        bool robotsCanGoOutOfField,
-        bool robotsCanTouchBall)
-        : commandId(commandId),
+        std::string strategyName,
+        std::string keeperStrategyName,
+        const RuleSet &ruleSet,
+        RefCommand followUpCommandId)
+        :
         followUpCommandId(followUpCommandId),
-        strategyName(strategyName),
-        keeperStrategyName(keeperStrategyName),
-        maxRobotVel(maxRobotVel),
-        maxCollisionVel(maxCollisionVel),
-        maxBallVel(maxBallVel),
-        robotsCanEnterDefenseArea(robotsCanEnterDefenseArea),
-        robotsCanGoOutOfField(robotsCanGoOutOfField),
-        robotsCanTouchBall(robotsCanTouchBall) {}
-
-RefCommand RefGameState::getCommandId() const {
-    return commandId;
-}
+        strategyName(std::move(strategyName)),
+        keeperStrategyName(std::move(keeperStrategyName)),
+        ruleSet(ruleSet) {}
 
 RefCommand RefGameState::getFollowUpCommandId() const {
     return followUpCommandId;
@@ -47,28 +30,8 @@ const std::string &RefGameState::getKeeperStrategyName() const {
     return keeperStrategyName;
 }
 
-double RefGameState::getMaxRobotVel() const {
-    return maxRobotVel;
-}
-
-double RefGameState::getMaxCollisionVel() const {
-    return maxCollisionVel;
-}
-
-double RefGameState::getMaxBallVel() const {
-    return maxBallVel;
-}
-
-bool RefGameState::isRobotsCanEnterDefenseArea() const {
-    return robotsCanEnterDefenseArea;
-}
-
-bool RefGameState::isRobotsCanGoOutOfField() const {
-    return robotsCanGoOutOfField;
-}
-
-bool RefGameState::isRobotsCanTouchBall() const {
-    return robotsCanTouchBall;
+const RuleSet &RefGameState::getRuleSet() const {
+    return ruleSet;
 }
 
 } // ai
