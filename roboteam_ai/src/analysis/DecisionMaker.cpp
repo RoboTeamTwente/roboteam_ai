@@ -14,13 +14,7 @@ namespace analysis {
 PlayStyle DecisionMaker::getRecommendedPlayStyle(BallPossession possession) {
     int amountOfRobots = world::world->getUs().size();
 
-    // if we use the keeper we should check if it is currently visible
-    // if it is not visible we should claim all robots visible in world
-    // otherwise we should subtract the keeper
-
-
-
-    // subtract one robot if we need a keeper
+    // subtract one robot if we have a keeper
     if (robotDealer::RobotDealer::usesSeparateKeeper() && robotDealer::RobotDealer::keeperExistsInWorld()) {
         amountOfRobots = std::max(0, amountOfRobots-1);
     }
