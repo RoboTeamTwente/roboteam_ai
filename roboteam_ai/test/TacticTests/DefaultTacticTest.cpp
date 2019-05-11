@@ -54,6 +54,13 @@ TEST(DefaultTacticTest, default_general_tactic_works) {
     EXPECT_EQ(tactic.amountToTick, static_cast<int>(rtt::ai::world::world->getUs().size()));
 
     rd::RobotDealer::setUseSeparateKeeper(true);
+    rd::RobotDealer::setKeeperID(-1); // set the keeper id to -1 to mimick a keeper that is not seen by cameras
+    tactic.updateStyle();
+    EXPECT_EQ(tactic.amountToTick, static_cast<int>(rtt::ai::world::world->getUs().size()));
+
+    // with a visible keeper we should subtract one robot to tick
+    // the first robot in our world is always visible so we always make that one the keeper
+    rd::RobotDealer::setKeeperID(rtt::ai::world::world->getUs().at(0).id);
     tactic.updateStyle();
     EXPECT_EQ(tactic.amountToTick, static_cast<int>(rtt::ai::world::world->getUs().size() - 1));
 
@@ -75,7 +82,9 @@ TEST(DefaultTacticTest, default_general_tactic_works) {
     EXPECT_EQ(tactic.getLastClaim().first, "general7");
 
     // now without a keeper: it should also claim the last robot
+    rd::RobotDealer::setKeeperID(-1);
     rd::RobotDealer::setUseSeparateKeeper(false);
+
     tactic.updateStyle();
     tactic.initialize();
     EXPECT_EQ(tactic.getLastClaim().first, "general8");

@@ -20,7 +20,7 @@ TEST(DecisionMakerTest, all_setups_have_right_amounts_of_robots) {
     field.field_width = 9;
 
     // for all possible amounts of robots
-    for (int amountOfRobots = 0; amountOfRobots < 9; amountOfRobots++) {
+    for (int amountOfRobots = 1; amountOfRobots < 9; amountOfRobots++) {
 
         // set up a field
         roboteam_msgs::World worldmsg = testhelpers::WorldHelper::getWorldMsg(amountOfRobots, 0, false, field);
@@ -39,7 +39,19 @@ TEST(DecisionMakerTest, all_setups_have_right_amounts_of_robots) {
             int total = style.amountOfAttackers + style.amountOfMidfielders + style.amountOfDefenders;
             EXPECT_EQ(total, amountOfRobots);
 
+
+            // there is a keeper but it is not visible (the id is set to -1, and robot -1 is never seen, thus mimicking an invisible keeper)
             robotDealer::RobotDealer::setUseSeparateKeeper(true);
+            robotDealer::RobotDealer::setKeeperID(-1);
+
+            style = maker.getRecommendedPlayStyle(possession);
+            total = style.amountOfAttackers + style.amountOfMidfielders + style.amountOfDefenders;
+            EXPECT_EQ(total, std::max(0, amountOfRobots));
+
+            // there is a keeper
+            robotDealer::RobotDealer::setUseSeparateKeeper(true);
+            robotDealer::RobotDealer::setKeeperID(world::world->getUs().at(0).id);
+
             style = maker.getRecommendedPlayStyle(possession);
             total = style.amountOfAttackers + style.amountOfMidfielders + style.amountOfDefenders;
             EXPECT_EQ(total, std::max(0, amountOfRobots-1));
