@@ -81,6 +81,7 @@ TEST(FieldTest, it_gets_points_in_defence_area) {
         // otherwise it should fail.
         inDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), false, 0.0, false);
         EXPECT_FALSE(inDefenceArea);
+
     }
 
 }
