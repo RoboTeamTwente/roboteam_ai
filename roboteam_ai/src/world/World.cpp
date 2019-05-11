@@ -34,14 +34,14 @@ void World::updateWorld(const roboteam_msgs::World &message) {
         std::lock_guard<std::mutex> lock(worldMutex);
 
         worldDataPtr->ball = tempWorldData.ball;
-        updateRobotsFromData(message.us, worldDataPtr->us, worldDataPtr->ball, worldNumber);
-        updateRobotsFromData(message.them, worldDataPtr->them, worldDataPtr->ball, worldNumber);
+        updateRobotsFromData(Robot::us, message.us, worldDataPtr->us, worldDataPtr->ball, worldNumber);
+        updateRobotsFromData(Robot::them, message.them, worldDataPtr->them, worldDataPtr->ball, worldNumber);
     }
 
     ballPossessionPtr->update();
 }
 
-void World::updateRobotsFromData(const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg, std::vector<Robot> &robots, const Ball &ball, unsigned long worldNumber) const {
+void World::updateRobotsFromData(Robot::Team team, const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg, std::vector<Robot> &robots, const Ball &ball, unsigned long worldNumber) const {
     for (auto robotMsg : robotsFromMsg) {
 
         // find robots that are both in the vector and in the message
@@ -55,7 +55,9 @@ void World::updateRobotsFromData(const std::vector<roboteam_msgs::WorldRobot> &r
             robot->updateRobot(robotMsg, ball, worldNumber);
         } else {
             // if no robot exists in world we create a new one
-            Robot newRobot(robotMsg, Robot::us, worldNumber);
+            Robot newRobot(robotMsg, team, worldNumber);
+            newRobot.updateRobot(robotMsg, ball, worldNumber);
+
             std::cout << "Robot " << newRobot.id << " added to world" << std::endl;
             robots.push_back(newRobot);
         }

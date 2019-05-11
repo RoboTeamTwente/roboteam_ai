@@ -29,7 +29,8 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team, unsigned long wor
 
 Robot::Robot()
         : distanceToBall(-1.0), iHaveBall(false), id(-1), angle(-1.0),
-          angularVelocity(-1.0), team(invalid), lastUpdatedWorldNumber(0) { }
+          angularVelocity(-1.0), team(invalid), lastUpdatedWorldNumber(0) {
+}
 
 const roboteam_msgs::WorldRobot Robot::toMessage() const {
     roboteam_msgs::WorldRobot robotMsg;
