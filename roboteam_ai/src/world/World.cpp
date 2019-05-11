@@ -24,6 +24,7 @@ void World::updateWorld(const roboteam_msgs::World &message) {
 
         // update the worlddata from the newest message
         worldDataPtr->ball.pos = message.ball.pos;
+        worldDataPtr->ball.vel = message.ball.vel;
         updateRobotsFromData(message.us, worldDataPtr->us, worldDataPtr->ball, worldNumber);
         updateRobotsFromData(message.them, worldDataPtr->them, worldDataPtr->ball, worldNumber);
     }
