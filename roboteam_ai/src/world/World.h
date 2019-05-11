@@ -86,6 +86,8 @@ class World {
         const Robot getFutureRobot(const Robot &robot, double time);
         const RobotPtr getFutureRobot(const RobotPtr &robot, double time);
         const BallPtr getFutureBall(double time);
+
+    void updateRobotsFromData(const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg, std::vector<Robot> &robots, const Ball &ball, unsigned long worldNumber) const;
 };
 
 extern World worldObj;

@@ -1,7 +1,3 @@
-//
-// Created by thijs on 19-3-19.
-//
-
 #include "World.h"
 #include "FutureWorld.h"
 #include "BallPossession.h"
@@ -14,11 +10,11 @@ World worldObj;
 World* world = &worldObj;
 
 void World::updateWorld(const roboteam_msgs::World &message) {
-    // check if there is a previous worldstate
-    // otherwise make the worlddata item
-  //  std::lock_guard<std::mutex> lock(worldMutex);
+
     worldNumber++;
 
+    // check if there is a previous worldstate
+    // otherwise make the worlddata item
     {
         std::lock_guard<std::mutex> lock(worldMutex);
     if (! worldDataPtr) {
@@ -27,54 +23,39 @@ void World::updateWorld(const roboteam_msgs::World &message) {
     }
 
     worldDataPtr->ball.pos = message.ball.pos;
+    updateRobotsFromData(message.us, worldDataPtr->us, worldDataPtr->ball, worldNumber);
+    updateRobotsFromData(message.them, worldDataPtr->them, worldDataPtr->ball, worldNumber);
 
-    for (auto robotMsg : message.us) {
-        // iterate through our known array of robots
-        // if we have it, we should update the data
-        auto robot = find_if(worldDataPtr->us.begin(), worldDataPtr->us.end(), [&robotMsg](const Robot& obj) {
-            return obj.id == robotMsg.id;
-        });
-
-        // if the robot already exists and should be updated
-        if (robot != worldDataPtr->us.end()) {
-            robot->updateRobot(robotMsg, worldDataPtr->ball, worldNumber);
-        } else {
-            Robot newRobot(robotMsg, Robot::Team::us);
-            worldDataPtr->us.push_back(newRobot);
-        }
-    }
-
-    for (auto robotMsg : message.them) {
-        // iterate through our known array of robots
-        // if we have it, we should update the data
-        auto robot = find_if(worldDataPtr->them.begin(), worldDataPtr->them.end(), [&robotMsg](const Robot& obj) {
-            return obj.id == robotMsg.id;
-        });
-
-        // if the robot already exists and should be updated
-        if (robot != worldDataPtr->them.end()) {
-            robot->updateRobot(robotMsg, worldDataPtr->ball, worldNumber);
-
-        } else {
-            Robot newRobot(robotMsg, Robot::Team::them);
-            worldDataPtr->them.push_back(newRobot);
-        }
-    }
-
-
-        // erase robots from the worldstate if we don't get updates from them
-        worldDataPtr->them.erase(std::remove_if(worldDataPtr->them.begin(), worldDataPtr->them.end(), [=](Robot robot) {
-            return robot.getLastUpdatedWorldNumber() < worldNumber;
-        }));
-
-        worldDataPtr->us.erase(std::remove_if(worldDataPtr->us.begin(), worldDataPtr->us.end(), [=](Robot robot) {
-            return robot.getLastUpdatedWorldNumber() < worldNumber;
-        }));
     }
     bpTracker->update();
 }
 
-const roboteam_msgs::WorldRobot World::makeWorldRobotMsg(const Robot &robot) {
+    void World::updateRobotsFromData(const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg, std::vector<Robot> &robots, const Ball &ball, unsigned long worldNumber) const {
+        for (auto robotMsg : robotsFromMsg) {
+
+            // find robots that are both in the vector and in the message
+            auto robot = find_if(robots.begin(), robots.end(), [&robotMsg](const Robot &obj) {
+                return obj.id == robotMsg.id;
+            });
+
+            bool robotExistsInWorld = robot != robots.end();
+            if (robotExistsInWorld) {
+                // if the robot already exists it should be updated
+                robot->updateRobot(robotMsg, ball, worldNumber);
+            } else {
+                // if no robot exists in world we create a new one
+                Robot newRobot(robotMsg, Robot::us);
+                robots.push_back(newRobot);
+            }
+        }
+
+        // check if some robots don't have new data. In that case remove them
+        robots.erase(std::remove_if(robots.begin(), robots.end(), [=](Robot robot) {
+            return robot.getLastUpdatedWorldNumber() < worldNumber;
+        }), robots.end());
+    }
+
+    const roboteam_msgs::WorldRobot World::makeWorldRobotMsg(const Robot &robot) {
     return robot.toMessage();
 }
 
