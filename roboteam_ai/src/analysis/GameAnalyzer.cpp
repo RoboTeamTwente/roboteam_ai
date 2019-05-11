@@ -27,7 +27,7 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
     if (world::world->weHaveRobots()) {
         std::shared_ptr<AnalysisReport> report = std::make_shared<AnalysisReport>();
 
-        report->ballPossession = convertPossession(bpTracker->getPossession());
+        report->ballPossession = convertPossession(ballPossessionPtr->getPossession());
         report->ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(true);
         report->theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(false);
         report->theirRobotSortedOnDanger = getRobotsSortedOnDanger(false);

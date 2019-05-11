@@ -10,11 +10,7 @@ World worldObj;
 World* world = &worldObj;
 
 void World::updateWorld(const roboteam_msgs::World &message) {
-
     worldNumber++;
-
-    // check if there is a previous worldstate
-    // otherwise make the worlddata item
     {
         std::lock_guard<std::mutex> lock(worldMutex);
     if (! worldDataPtr) {
@@ -27,35 +23,35 @@ void World::updateWorld(const roboteam_msgs::World &message) {
     updateRobotsFromData(message.them, worldDataPtr->them, worldDataPtr->ball, worldNumber);
 
     }
-    bpTracker->update();
+    ballPossessionPtr->update();
 }
 
-    void World::updateRobotsFromData(const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg, std::vector<Robot> &robots, const Ball &ball, unsigned long worldNumber) const {
-        for (auto robotMsg : robotsFromMsg) {
+void World::updateRobotsFromData(const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg, std::vector<Robot> &robots, const Ball &ball, unsigned long worldNumber) const {
+    for (auto robotMsg : robotsFromMsg) {
 
-            // find robots that are both in the vector and in the message
-            auto robot = find_if(robots.begin(), robots.end(), [&robotMsg](const Robot &obj) {
-                return obj.id == robotMsg.id;
-            });
+        // find robots that are both in the vector and in the message
+        auto robot = find_if(robots.begin(), robots.end(), [&robotMsg](const Robot &obj) {
+            return obj.id == robotMsg.id;
+        });
 
-            bool robotExistsInWorld = robot != robots.end();
-            if (robotExistsInWorld) {
-                // if the robot already exists it should be updated
-                robot->updateRobot(robotMsg, ball, worldNumber);
-            } else {
-                // if no robot exists in world we create a new one
-                Robot newRobot(robotMsg, Robot::us);
-                robots.push_back(newRobot);
-            }
+        bool robotExistsInWorld = robot != robots.end();
+        if (robotExistsInWorld) {
+            // if the robot already exists it should be updated
+            robot->updateRobot(robotMsg, ball, worldNumber);
+        } else {
+            // if no robot exists in world we create a new one
+            Robot newRobot(robotMsg, Robot::us);
+            robots.push_back(newRobot);
         }
-
-        // check if some robots don't have new data. In that case remove them
-        robots.erase(std::remove_if(robots.begin(), robots.end(), [=](Robot robot) {
-            return robot.getLastUpdatedWorldNumber() < worldNumber;
-        }), robots.end());
     }
 
-    const roboteam_msgs::WorldRobot World::makeWorldRobotMsg(const Robot &robot) {
+    // check if some robots don't have new data. In that case remove them
+    robots.erase(std::remove_if(robots.begin(), robots.end(), [=](Robot robot) {
+        return robot.getLastUpdatedWorldNumber() < worldNumber;
+    }), robots.end());
+}
+
+const roboteam_msgs::WorldRobot World::makeWorldRobotMsg(const Robot &robot) {
     return robot.toMessage();
 }
 
