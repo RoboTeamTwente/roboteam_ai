@@ -367,6 +367,14 @@ void RobotDealer::setUseSeparateKeeper(bool useSeparateKeeper) {
     RobotDealer::useSeparateKeeper = useSeparateKeeper;
 }
 
+bool RobotDealer::keeperExistsInWorld() {
+    auto us = world::world->getUs();
+
+    return std::find_if(us.begin(), us.end(), [](world::Robot & robot) {
+        return robot.id == getKeeperID();
+    }) != us.end();
+}
+
 } // robotDealer
 } // ai
 } // rtt

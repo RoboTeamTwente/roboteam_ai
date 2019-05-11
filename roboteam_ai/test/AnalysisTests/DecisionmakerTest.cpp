@@ -26,7 +26,7 @@ TEST(DecisionMakerTest, all_setups_have_right_amounts_of_robots) {
         roboteam_msgs::World worldmsg = testhelpers::WorldHelper::getWorldMsg(amountOfRobots, 0, false, field);
         world::world->updateWorld(worldmsg);
 
-        // iterate over the ballplacement enum
+        // iterate over the ballPossession enum
         for (int fooInt = THEY_HAVE_BALL; fooInt != WE_HAVE_BALL; fooInt++ ) {
             auto possession = static_cast<BallPossession>(fooInt);
 
