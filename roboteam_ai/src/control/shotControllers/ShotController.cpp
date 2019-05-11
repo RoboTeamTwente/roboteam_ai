@@ -12,11 +12,7 @@ namespace rtt {
 namespace ai {
 namespace control {
 ShotController::ShotController(ShotPrecision precision, BallSpeed ballspeed, bool useAutoGeneva)
-        : precision(precision), ballSpeed(ballspeed), useAutoGeneva(useAutoGeneva) {
-    numTreeGtp.setAvoidBall(Constants::BALL_RADIUS() + Constants::ROBOT_RADIUS() * 1.5);
-    numTreeGtp.setCanMoveOutOfField(true);
-    numTreeGtp.setCanMoveInDefenseArea(false);
-}
+        : precision(precision), useAutoGeneva(useAutoGeneva), ballSpeed(ballspeed) { }
 
 /// return a ShotData (which contains data for robotcommands) for a specific robot to shoot at a specific target.
 ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, bool chip) {
@@ -112,8 +108,7 @@ bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, 
     ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition,
                                                  std::pair<Vector2, Vector2> line) {
         auto ball = world::world->getBall();
-        control::PosVelAngle pva = numTreeGtp.getPosVelAngle(std::make_shared<world::Robot>(robot),
-                                                             robotTargetPosition);
+        control::PosVelAngle pva = robot.getNumtreeGtp()->getPosVelAngle(std::make_shared<world::Robot>(robot), robotTargetPosition);
         //TODO: if (rotating to this angle from current angle will hit ball) then pva.angle=angle towards ball
         if (robot.pos.dist(robotTargetPosition) < 0.3) {
             pva.angle = (line.second - line.first).angle();
@@ -128,21 +123,19 @@ bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, 
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver) {
-    control::PosVelAngle pva = basicGtp.getPosVelAngle(std::make_shared<world::Robot>(robot), lineToDriveOver.second);
+    control::PosVelAngle pva = robot.getBasicGtp()->getPosVelAngle(std::make_shared<world::Robot>(robot), lineToDriveOver.second);
     pva.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
     ShotData shotData(pva);
     return shotData;
 }
 
 /// Now we should have the ball and kick it.
-    ShotData ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector2> driveLine, Vector2 shotTarget,
-                                   bool chip) {
+    ShotData ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector2> driveLine, Vector2 shotTarget, bool chip) {
         auto ball = world::world->getBall();
 
         // move towards the ball
-        control::PosVelAngle pva = basicGtp.getPosVelAngle(std::make_shared<world::Robot>(robot), driveLine.second);
+        control::PosVelAngle pva = robot.getBasicGtp()->getPosVelAngle(std::make_shared<world::Robot>(robot), driveLine.second);
         pva.angle = (driveLine.second - driveLine.first).angle();
-        //std::cout << robot.id << " shooting::" << abs(robot.angle.getAngle()-pva.angle.getAngle()) << std::endl;
 
         ShotData shotData(pva);
 

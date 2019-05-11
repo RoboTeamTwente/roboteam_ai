@@ -37,10 +37,6 @@ private:
     double secondsToTurnGeneva = 1.5;
     double lastTimeGenevaChanged = 0.0;
 
-    // PositionControllers
-    BasicPosControl basicGtp;
-    NumTreePosControl numTreeGtp;
-
     // Parameters
     bool useAutoGeneva =false;
     ShotPrecision precision;

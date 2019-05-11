@@ -7,6 +7,7 @@
 #include "Ball.h"
 
 #include <roboteam_ai/src/control/ControlUtils.h>
+#include <roboteam_ai/src/control/shotControllers/ShotController.h>
 
 namespace rtt {
 namespace ai {
@@ -15,8 +16,8 @@ namespace world {
 std::map<int, unsigned char> Robot::genevaState;
 
 Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team, unsigned long worldNumber)
-        : distanceToBall(-1.0), iHaveBall(false), id(copy.id), angle(copy.angle),
-          pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team), lastUpdatedWorldNumber(worldNumber) {
+        : distanceToBall(-1.0), iHaveBall(false), lastUpdatedWorldNumber(worldNumber), id(copy.id), angle(copy.angle),
+          pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
 
     if (id != -1 && genevaState.find(id) == genevaState.end()) {
         genevaState[id] = 3;
@@ -25,11 +26,16 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team, unsigned long wor
     if (id != -1) {
         hasWorkingGeneva = Constants::ROBOT_HAS_WORKING_GENEVA(id);
     }
+
+    // set up control controllers
+    shotController = std::make_shared<control::ShotController>();
+    numtreeGTP = std::make_shared<control::NumTreePosControl>();
+    basicGTP = std::make_shared<control::BasicPosControl>();
 }
 
 Robot::Robot()
-        : distanceToBall(-1.0), iHaveBall(false), id(-1), angle(-1.0),
-          angularVelocity(-1.0), team(invalid), lastUpdatedWorldNumber(0) { }
+        : distanceToBall(-1.0), iHaveBall(false), lastUpdatedWorldNumber(0), id(-1), angle(-1.0),
+           angularVelocity(-1.0), team(invalid)  { }
 
 const roboteam_msgs::WorldRobot Robot::toMessage() const {
     roboteam_msgs::WorldRobot robotMsg;
@@ -103,6 +109,18 @@ void Robot::setGenevaState(unsigned char state) {
     const unsigned long &Robot::getLastUpdatedWorldNumber() const {
         return lastUpdatedWorldNumber;
     }
+
+const shared_ptr<control::ShotController> &Robot::getShotController() const {
+    return shotController;
+}
+
+const shared_ptr<control::NumTreePosControl> &Robot::getNumtreeGtp() const {
+    return numtreeGTP;
+}
+
+const shared_ptr<control::BasicPosControl> &Robot::getBasicGtp() const {
+    return basicGTP;
+}
 
 } //world
 } //ai
