@@ -29,9 +29,17 @@ public:
     explicit RefGameState();
     RefCommand getCommandId() const;
 
-    RefGameState(RefCommand commandId, RefCommand followUpCommandId, const std::string &strategyName,
-                 const std::string &keeperStrategyName, double maxRobotVel, double maxCollisionVel, double maxBallVel,
-                 bool robotsCanEnterDefenseArea, bool robotsCanGoOutOfField, bool robotsCanTouchBall);
+    // constructor with
+    RefGameState(RefCommand commandId,
+                 const std::string &strategyName,
+                 const std::string &keeperStrategyName,
+                 RefCommand followUpCommandId = RefCommand::UNDEFINED,
+                 double maxRobotVel = Constants::MAX_VEL(),
+                 double maxCollisionVel = 1.5,
+                 double maxBallVel = Constants::MAX_KICK_POWER(),
+                 bool robotsCanEnterDefenseArea = false,
+                 bool robotsCanGoOutOfField = true,
+                 bool robotsCanTouchBall = true);
 
     RefCommand getFollowUpCommandId() const;
     const std::string &getStrategyName() const;
