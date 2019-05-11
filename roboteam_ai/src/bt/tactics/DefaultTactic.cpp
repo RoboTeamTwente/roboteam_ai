@@ -135,7 +135,7 @@ void bt::DefaultTactic::updateStyle() {
     else if (thisType == Offensive) {
         amountToTick = style.amountOfAttackers;
     }
-    else if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
+    else if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper() && rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
         amountToTick = rtt::ai::world::world->getUs().size() - 1;
     } else {
         amountToTick = rtt::ai::world::world->getUs().size();

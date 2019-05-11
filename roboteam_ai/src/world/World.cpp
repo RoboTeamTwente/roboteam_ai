@@ -12,6 +12,7 @@ World* world = &worldObj;
 void World::updateWorld(const roboteam_msgs::World &message) {
     worldNumber++;
 
+    Ball oldBall;
     {
         std::lock_guard<std::mutex> lock(worldMutex);
 
@@ -22,17 +23,25 @@ void World::updateWorld(const roboteam_msgs::World &message) {
             worldDataPtr = std::make_shared<WorldData>(worldData);
         }
 
-        // update the worlddata from the newest message
-        worldDataPtr->ball.pos = message.ball.pos;
-        worldDataPtr->ball.vel = message.ball.vel;
-        updateRobotsFromData(message.us, worldDataPtr->us, worldDataPtr->ball, worldNumber);
-        updateRobotsFromData(message.them, worldDataPtr->them, worldDataPtr->ball, worldNumber);
+        oldBall = Ball(worldDataPtr->ball);
+    }
+
+   // update ballmodel, dribbling, position if not visible etc.
+    auto tempWorldData = WorldData(message);
+    tempWorldData.ball.updateBall(oldBall, tempWorldData);
+
+    {
+        std::lock_guard<std::mutex> lock(worldMutex);
+
+        worldDataPtr->ball = tempWorldData.ball;
+        updateRobotsFromData(Robot::us, message.us, worldDataPtr->us, worldDataPtr->ball, worldNumber);
+        updateRobotsFromData(Robot::them, message.them, worldDataPtr->them, worldDataPtr->ball, worldNumber);
     }
 
     ballPossessionPtr->update();
 }
 
-void World::updateRobotsFromData(const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg, std::vector<Robot> &robots, const Ball &ball, unsigned long worldNumber) const {
+void World::updateRobotsFromData(Robot::Team team, const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg, std::vector<Robot> &robots, const Ball &ball, unsigned long worldNumber) const {
     for (auto robotMsg : robotsFromMsg) {
 
         // find robots that are both in the vector and in the message
@@ -46,14 +55,21 @@ void World::updateRobotsFromData(const std::vector<roboteam_msgs::WorldRobot> &r
             robot->updateRobot(robotMsg, ball, worldNumber);
         } else {
             // if no robot exists in world we create a new one
-            Robot newRobot(robotMsg, Robot::us);
+            Robot newRobot(robotMsg, team, worldNumber);
+            newRobot.updateRobot(robotMsg, ball, worldNumber);
+
+            std::cout << "Robot " << newRobot.id << " added to world" << std::endl;
             robots.push_back(newRobot);
         }
     }
 
     // check if some robots don't have new data. In that case remove them
     robots.erase(std::remove_if(robots.begin(), robots.end(), [=](Robot robot) {
-        return robot.getLastUpdatedWorldNumber() < worldNumber;
+        if (robot.getLastUpdatedWorldNumber() < worldNumber) {
+            std::cerr << "Robot " << robot.id << " deleted from world" << std::endl;
+            return true;
+        }
+        return false;
     }), robots.end());
 }
 

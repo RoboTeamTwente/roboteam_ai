@@ -33,9 +33,9 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team, unsigned long wor
     basicGTP = std::make_shared<control::BasicPosControl>();
 }
 
-Robot::Robot()
-        : distanceToBall(-1.0), iHaveBall(false), lastUpdatedWorldNumber(0), id(-1), angle(-1.0),
+Robot::Robot() : distanceToBall(-1.0), iHaveBall(false), lastUpdatedWorldNumber(0), id(-1), angle(-1.0),
            angularVelocity(-1.0), team(invalid)  { }
+
 
 const roboteam_msgs::WorldRobot Robot::toMessage() const {
     roboteam_msgs::WorldRobot robotMsg;

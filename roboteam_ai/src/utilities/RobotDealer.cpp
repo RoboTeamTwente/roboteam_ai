@@ -354,9 +354,7 @@ void RobotDealer::refresh() {
     if (BTFactory::getCurrentTree() != "NaN" && BTFactory::getTree(BTFactory::getCurrentTree())) {
         BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
     }
-   // BTFactory::makeTrees();
-
-    if (useSeparateKeeper) claimKeeper();
+    if (useSeparateKeeper && keeperExistsInWorld()) claimKeeper();
 }
 
 bool RobotDealer::usesSeparateKeeper() {
@@ -365,6 +363,14 @@ bool RobotDealer::usesSeparateKeeper() {
 
 void RobotDealer::setUseSeparateKeeper(bool useSeparateKeeper) {
     RobotDealer::useSeparateKeeper = useSeparateKeeper;
+}
+
+bool RobotDealer::keeperExistsInWorld() {
+    auto us = world::world->getUs();
+
+    return std::find_if(us.begin(), us.end(), [](world::Robot & robot) {
+        return robot.id == getKeeperID();
+    }) != us.end();
 }
 
 } // robotDealer
