@@ -93,18 +93,10 @@ void Receive::intercept() {
 }
 
 bool Receive::passFailed() {
-    //TODO: Remove print statements and make 1 big if statement
-    if (ballDeflected()) {
-        return true;
-    }
-
-    if (ball->vel.length() < 0.3) {
-        return true;
-    }
-
-    return false;
-
+    return (ball->vel.length() < 0.3);
 }
+
+
 bool Receive::ballDeflected() {
     Angle robotToBallAngle = (robot->pos - ball->pos).toAngle();
     Angle ballVelocityAngle = (ball->vel).toAngle();
