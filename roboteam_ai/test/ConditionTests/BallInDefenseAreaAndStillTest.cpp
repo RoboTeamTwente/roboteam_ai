@@ -24,6 +24,8 @@ TEST(DetectsDefenseArea, BallInDefenseAreaAndStill)
     EXPECT_FALSE(node.theirDefenceArea);
 
     roboteam_msgs::GeometryFieldSize field;
+    field.field_width = 8;
+    field.field_length = 12;
     field.left_penalty_line.begin.x = -1.0f;
     field.left_penalty_line.end.x = -1.0f;
 

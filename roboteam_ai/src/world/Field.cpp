@@ -44,36 +44,33 @@ bool Field::pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea, fl
     double yTopBound;
     double yBottomBound;
     double xForwardBound = penaltyLine.begin.x;
-    double xBackBound = isOurDefenceArea ? field.field_length/-2.0 : field.field_length/2.0;
+    double xBackBound = isOurDefenceArea ? _field.field_length/-2.0 : _field.field_length/2.0;
     if (penaltyLine.begin.y < penaltyLine.end.y) {
         yBottomBound = penaltyLine.begin.y;
         yTopBound = penaltyLine.end.y;
-    }
-    else {
+    } else {
         yBottomBound = penaltyLine.end.y;
         yTopBound = penaltyLine.begin.y;
     }
     bool yIsWithinDefenceArea = point.y<(yTopBound + margin) && point.y>(yBottomBound - margin);
-    bool xIsWithinOurDefenceArea = point.x < (xForwardBound + margin) && point.x> (xBackBound-margin);
-    bool xIsWithinTheirDefenceArea = point.x > (xForwardBound - margin) && point.x<(xBackBound+margin);
+
+    bool xIsWithinOurDefenceArea;
+    bool xIsWithinTheirDefenceArea;
+    if (includeOutsideField) {
+        // if outside field are included then we don't need the back border
+        xIsWithinOurDefenceArea = point.x<(xForwardBound + margin);
+        xIsWithinTheirDefenceArea = point.x > (xForwardBound - margin);
+    } else {
+        xIsWithinOurDefenceArea = point.x<(xForwardBound + margin) && point.x>(xBackBound - margin);
+        xIsWithinTheirDefenceArea = point.x > (xForwardBound - margin) && point.x < (xBackBound + margin);
+    }
 
     if (isOurDefenceArea) {
-        if (includeOutsideField) {
-            return xIsWithinOurDefenceArea;
-        }
-        else {
-            return xIsWithinOurDefenceArea && yIsWithinDefenceArea;
-        }
+        return xIsWithinOurDefenceArea && yIsWithinDefenceArea;
     }
-    else {
-        if (includeOutsideField) {
-            return xIsWithinTheirDefenceArea;
-        }
-        else {
-            return yIsWithinDefenceArea && xIsWithinTheirDefenceArea;
-        }
-    }
+    return yIsWithinDefenceArea && xIsWithinTheirDefenceArea;
 }
+
 
 // the margin is pointed inside the field!
 bool Field::pointIsInField(const Vector2& point, float margin) {

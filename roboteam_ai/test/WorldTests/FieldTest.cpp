@@ -16,8 +16,8 @@ TEST(FieldTest, it_gets_and_sets_the_field) {
 
 TEST(FieldTest, it_gets_points_in_defence_area) {
     roboteam_msgs::GeometryFieldSize field;
-    field.field_length = 8;
-    field.field_width = 12;
+    field.field_length = 12;
+    field.field_width = 8;
 
     // set the penalty lines
     field.left_penalty_line.begin = rtt::Vector2(- 4, 0);
@@ -25,14 +25,21 @@ TEST(FieldTest, it_gets_points_in_defence_area) {
     field.right_penalty_line.begin = rtt::Vector2(4, 0);
     field.right_penalty_line.end = rtt::Vector2(4, 8);
 
+    // all points should be in our defence area
+    rtt::ai::world::field->set_field(field);
+
     // generate 100 random positions in our defence area
     for (int i = 0; i < 100; i ++) {
         auto x = testhelpers::WorldHelper::getRandomValue(- 6, - 4);
         auto y = testhelpers::WorldHelper::getRandomValue(0, 8);
 
-        // all points should be in our defence area
-        rtt::ai::world::field->set_field(field);
         bool inOurDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), true, 0.0);
+
+        if (!inOurDefenceArea) {
+            std::cout << rtt::Vector2(x, y) << std::endl;
+            bool inOurDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), true, 0.0);
+
+        }
         EXPECT_TRUE(inOurDefenceArea);
 
         // the points should not be in their defence area
@@ -44,7 +51,6 @@ TEST(FieldTest, it_gets_points_in_defence_area) {
     for (int i = 0; i < 100; i ++) {
         auto x = testhelpers::WorldHelper::getRandomValue(- 4, 4);
         auto y = testhelpers::WorldHelper::getRandomValue(0, 8);
-        rtt::ai::world::field->set_field(field);
         bool inDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), true, 0.0);
         EXPECT_FALSE(inDefenceArea);
     }
