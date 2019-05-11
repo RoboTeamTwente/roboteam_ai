@@ -54,6 +54,35 @@ TEST(FieldTest, it_gets_points_in_defence_area) {
         bool inDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), true, 0.0);
         EXPECT_FALSE(inDefenceArea);
     }
+
+    // generate 100 random positions within defense area but outside field
+    for (int i = 0; i < 100; i ++) {
+        auto x = testhelpers::WorldHelper::getRandomValue(- 8, -6);
+        auto y = testhelpers::WorldHelper::getRandomValue(0, 8);
+
+        // it should be fine with includeOutsideField == true
+        bool inDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), true, 0.0, true);
+        EXPECT_TRUE(inDefenceArea);
+
+        // otherwise it should fail.
+        inDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), true, 0.0, false);
+        EXPECT_FALSE(inDefenceArea);
+    }
+
+    // generate 100 random positions within their defense area but outside field
+    for (int i = 0; i < 100; i ++) {
+        auto x = testhelpers::WorldHelper::getRandomValue(6, 8);
+        auto y = testhelpers::WorldHelper::getRandomValue(0, 8);
+
+        // it should be fine with includeOutsideField == true
+        bool inDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), false, 0.0, true);
+        EXPECT_TRUE(inDefenceArea);
+
+        // otherwise it should fail.
+        inDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), false, 0.0, false);
+        EXPECT_FALSE(inDefenceArea);
+    }
+
 }
 
 TEST(FieldTest, it_returns_proper_goal_centers) {
