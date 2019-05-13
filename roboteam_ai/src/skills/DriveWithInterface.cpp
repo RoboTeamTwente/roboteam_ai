@@ -20,6 +20,10 @@ Skill::Status DriveWithInterface::onUpdate() {
     Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
     if ((targetPos - robot->pos).length() < 0.16) {
         std::cout << "Close" << std::endl;
+        command.x_vel = 0;
+        command.y_vel = 0;
+        command.w = robot->angle;
+        publishRobotCommand();
         return Status::Running;
     }
 
@@ -27,7 +31,7 @@ Skill::Status DriveWithInterface::onUpdate() {
     Vector2 velocity = control::ControlUtils::velocityLimiter(pva.vel, Constants::MAX_VEL());
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
-    command.w = pva.angle;
+    command.w = velocity.angle();
     publishRobotCommand();
     return Status::Running;
 }

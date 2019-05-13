@@ -21,7 +21,7 @@ void ApplicationManager::setup() {
     IOManager = new io::IOManager(true, false);
 
     BTFactory::setCurrentTree("halt_strategy");
-    BTFactory::setKeeperTree("keeper_default_tactic");
+    BTFactory::setKeeperTree("keeper_halt_tactic");
     rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
 
 }
