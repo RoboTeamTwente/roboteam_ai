@@ -25,9 +25,16 @@ bt::Node::Status bt::DefaultTactic::update() {
 
         return status;
     }
+    if (amountToTick > children.size()) {
+        amountToTick = children.size();
+    }
 
     for (int i = 0; i < amountToTick; i ++) {
-        children.at(i)->tick();
+        if (children.size() > i && children.at(i)) {
+            children.at(i)->tick();
+        } else {
+            std::cerr << "trying to tick a non-existent robot!" << std::endl;
+        }
     }
 
     return status == Status::Success ? status : Status::Running;

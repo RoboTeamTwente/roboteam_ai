@@ -1,1 +1,27 @@
-{"name": "TESTd", "data": {"trees": [{"title": "TESTd", "root": "o85u9mbwhl27zk3y", "nodes": {"o85u9mbwhl27zk3y": {"id": "o85u9mbwhl27zk3y", "title": "UntilFail", "children": ["nz28rrp1xufj8"]}, "nz28rrp1xufj8": {"id": "nz28rrp1xufj8", "title": "GoToPos", "properties": {"targetPos": "{-3, 0}"}}}}]}}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "nz28rrp1xufj8": {
+            "id": "nz28rrp1xufj8",
+            "properties": {
+              "targetPos": "{-3, 0}"
+            },
+            "title": "GoToPos"
+          },
+          "o85u9mbwhl27zk3y": {
+            "children": [
+              "nz28rrp1xufj8"
+            ],
+            "id": "o85u9mbwhl27zk3y",
+            "title": "UntilFail"
+          }
+        },
+        "root": "o85u9mbwhl27zk3y",
+        "title": "TESTd"
+      }
+    ]
+  },
+  "name": "TESTd"
+}

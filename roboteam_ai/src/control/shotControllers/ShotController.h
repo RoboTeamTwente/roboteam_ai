@@ -37,27 +37,22 @@ private:
     double secondsToTurnGeneva = 1.5;
     double lastTimeGenevaChanged = 0.0;
 
-    // Parameters
-    bool useAutoGeneva =false;
-    ShotPrecision precision;
-    BallSpeed ballSpeed;
-
     // Helpers
     Vector2 getPlaceBehindBallForGenevaState(world::Robot robot, Vector2 shotTarget, int genevaState);
     Vector2 getPlaceBehindBall(world::Robot robot, Vector2 shotTarget); // the params are the position for the robot and the geneva angle
     int determineOptimalGenevaState(world::Robot robot, Vector2 shotTarget);
-    bool onLineToBall(const world::Robot &robot, std::pair<Vector2, Vector2> line);
-    bool robotAngleIsGood(world::Robot &robot,std::pair<Vector2,Vector2> lineToDriveOver);
-    double determineKickForce(double distance);
+    bool onLineToBall(const world::Robot &robot, std::pair<Vector2, Vector2> line, ShotPrecision precision);
+    bool robotAngleIsGood(world::Robot &robot,std::pair<Vector2,Vector2> lineToDriveOver, ShotPrecision precision);
+    double determineKickForce(double distance,  BallSpeed desiredBallSpeed);
 
     // ShotData calculation
     ShotData goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition, std::pair<Vector2,Vector2> driveLine);
     ShotData moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver);
-    ShotData shoot(world::Robot robot,std::pair<Vector2,Vector2> driveLine, Vector2 shotTarget, bool chip);
+    ShotData shoot(world::Robot robot,std::pair<Vector2,Vector2> driveLine, Vector2 shotTarget, bool chip, BallSpeed desiredBallSpeed);
 
 public:
-    explicit ShotController(ShotPrecision precision = MEDIUM, BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true);
-    ShotData getShotData(world::Robot robot, Vector2 shotTarget, bool chip = false);
+    explicit ShotController() = default;
+    ShotData getShotData(world::Robot robot, Vector2 shotTarget, bool chip = false, BallSpeed ballspeed = MAX_SPEED,  bool useAutoGeneva = true, ShotPrecision precision = MEDIUM);
     void makeCommand(ShotData data, roboteam_msgs::RobotCommand &command);
     void setGenevaDelay(int genevaDifference);
 };

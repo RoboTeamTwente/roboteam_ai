@@ -79,7 +79,9 @@ Pass::Status Pass::onUpdate() {
             }
         }
 
-        robot->getShotController()->makeCommand(robot->getShotController()->getShotData(* robot, getKicker(), chip), command);
+        auto shotdata = robot->getShotController()->getShotData(* robot, getKicker(), chip, control::BallSpeed::PASS, true, control::ShotPrecision::MEDIUM);
+        robot->getShotController()->makeCommand(shotdata, command);
+
         if ((command.kicker == true || command.chipper == true) && !hasShot) {
             hasShot = true;
         }

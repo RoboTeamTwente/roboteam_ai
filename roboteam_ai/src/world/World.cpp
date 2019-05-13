@@ -32,10 +32,13 @@ void World::updateWorld(const roboteam_msgs::World &message) {
 
     {
         std::lock_guard<std::mutex> lock(worldMutex);
-
         worldDataPtr->ball = tempWorldData.ball;
         updateRobotsFromData(Robot::us, message.us, worldDataPtr->us, worldDataPtr->ball, worldNumber);
         updateRobotsFromData(Robot::them, message.them, worldDataPtr->them, worldDataPtr->ball, worldNumber);
+
+        // add the worlddata to the history
+        WorldData worldDataCopyForHistory = * worldDataPtr;
+        history.addWorld(worldDataCopyForHistory);
     }
 
     ballPossessionPtr->update();
@@ -58,7 +61,7 @@ void World::updateRobotsFromData(Robot::Team team, const std::vector<roboteam_ms
             Robot newRobot(robotMsg, team, worldNumber);
             newRobot.updateRobot(robotMsg, ball, worldNumber);
 
-            std::cout << "Robot " << newRobot.id << " added to world" << std::endl;
+            // std::cout << "Robot " << newRobot.id << " added to world" << std::endl;
             robots.push_back(newRobot);
         }
     }
@@ -66,7 +69,7 @@ void World::updateRobotsFromData(Robot::Team team, const std::vector<roboteam_ms
     // check if some robots don't have new data. In that case remove them
     robots.erase(std::remove_if(robots.begin(), robots.end(), [=](Robot robot) {
         if (robot.getLastUpdatedWorldNumber() < worldNumber) {
-            std::cerr << "Robot " << robot.id << " deleted from world" << std::endl;
+            // std::cerr << "Robot " << robot.id << " deleted from world" << std::endl;
             return true;
         }
         return false;
@@ -149,16 +152,7 @@ const World::BallPtr World::getBall() {
 }
 
 const World::RobotPtr World::getRobotForId(int id, bool ourTeam) {
-    WorldDataPtr worldCopy;
-    {
-        std::lock_guard<std::mutex> lock(worldMutex);
-        if (! worldDataPtr) {
-            return RobotPtr(nullptr);
-        }
-        worldCopy = worldDataPtr;
-
-    }
-    const std::vector<Robot> robots = ourTeam ? worldCopy->us : worldCopy->them;
+    const std::vector<Robot> robots = ourTeam ? getUs() : getThem();
     for (const auto &robot : robots) {
         if (robot.id == id) {
             return std::make_shared<Robot>(robot);

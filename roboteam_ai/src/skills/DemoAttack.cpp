@@ -12,10 +12,10 @@ namespace rtt {
 namespace ai {
 
 DemoAttack::DemoAttack(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) {
-}
+        :Skill(std::move(name), std::move(blackboard)) { }
 
 void DemoAttack::onInitialize() {
+    robot->getNumtreeGtp()->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
     ownGoal = properties->getBool("ownGoal");
     shot = false;
 }
@@ -38,13 +38,13 @@ bt::Node::Status DemoAttack::onUpdate() {
         robot->getNumtreeGtp()->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
 
         if (abs(((Vector2) robot->pos - targetPos).length()) < SWITCH_TO_BASICGTP_DISTANCE) {
-//            goToPos = std::make_shared<control::BasicPosControl>();
-//            goToPos->setAvoidBall(false);
+            robot->getNumtreeGtp()->setAvoidBall(0);
         }
     }
     else {
         targetPos = ball;
-       // goToPos->setAvoidBall(false);
+        robot->getNumtreeGtp()->setAvoidBall(0);
+
         command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
         if (world::world->robotHasBall(robot->id, true)) {
             command.kicker = 1;

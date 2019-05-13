@@ -30,7 +30,9 @@ Vector2 KickOffUsFormation::getFormationPosition() {
     };
 
     for (auto const &robot : * robotsInFormation) {
-        robotIds.push_back(robot->id);
+        if (robot) {
+            robotIds.push_back(robot->id);
+        }
     }
 
     rtt::HungarianAlgorithm hungarian;

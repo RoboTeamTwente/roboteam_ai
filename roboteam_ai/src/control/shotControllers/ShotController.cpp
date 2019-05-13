@@ -11,11 +11,9 @@
 namespace rtt {
 namespace ai {
 namespace control {
-ShotController::ShotController(ShotPrecision precision, BallSpeed ballspeed, bool useAutoGeneva)
-        : precision(precision), useAutoGeneva(useAutoGeneva), ballSpeed(ballspeed) { }
 
 /// return a ShotData (which contains data for robotcommands) for a specific robot to shoot at a specific target.
-ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, bool chip) {
+ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, bool chip, BallSpeed ballspeed,  bool useAutoGeneva, ShotPrecision precision) {
     auto ball = world::world->getBall();
 
     // only get a new geneva state if we are allowed to get one
@@ -42,15 +40,15 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
         std::cout<<"  goalAngle: "<<(shotTarget-ball->pos).angle();
         */
     // check the properties
-    bool isOnLineToBall = onLineToBall(robot, lineToDriveOver);
+    bool isOnLineToBall = onLineToBall(robot, lineToDriveOver, precision);
     bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, shotTarget, robot.pos, 0.3);
-    bool validAngle = robotAngleIsGood(robot, lineToDriveOver);
+    bool validAngle = robotAngleIsGood(robot, lineToDriveOver, precision);
 
     ShotData shotData;
     if (isOnLineToBall && isBehindBall && validAngle) {
         bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
         if (hasBall && !genevaIsTurning) {
-            shotData = shoot(robot, lineToDriveOver, shotTarget, chip);
+            shotData = shoot(robot, lineToDriveOver, shotTarget, chip, ballspeed);
           //  std::cout<<" SHOOT";
         } else if (hasBall && genevaIsTurning) {
             // just stand still at the right angle
@@ -85,9 +83,8 @@ void ShotController::setGenevaDelay(int genevaDifference) {
 
 /// check if a robot is on a line to a ball
 
-bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, Vector2> line) {
+bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, Vector2> line, ShotPrecision precision) {
     double dist = ControlUtils::distanceToLine(robot.pos, line.first, line.second);
-    //std::cout<<dist<<" ";
     if (precision == HIGH) {
         return dist < 0.1;
     } else if (precision == MEDIUM) {
@@ -130,7 +127,8 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector
 }
 
 /// Now we should have the ball and kick it.
-    ShotData ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector2> driveLine, Vector2 shotTarget, bool chip) {
+    ShotData ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector2> driveLine, Vector2 shotTarget, bool chip, BallSpeed desiredBallSpeed) {
+
         auto ball = world::world->getBall();
 
         // move towards the ball
@@ -145,21 +143,21 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector
             shotData.kick = false;
 
             // TODO calibrate chip speed
-            shotData.kickSpeed = determineKickForce(ball->pos.dist(shotTarget));
+            shotData.kickSpeed = determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
         } else {
             shotData.chip = false;
             shotData.kick = true;
-            shotData.kickSpeed = determineKickForce(ball->pos.dist(shotTarget));
+            shotData.kickSpeed = determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
         }
         return shotData;
     }
 
 /// Determine how fast we should kick for a pass at a given distance
-    double ShotController::determineKickForce(double distance) {
+    double ShotController::determineKickForce(double distance, BallSpeed desiredBallSpeed) {
         const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
 
         double velocity = 0;
-        switch (ballSpeed) {
+        switch (desiredBallSpeed) {
             case DRIBBLE_KICK:
                 velocity = sqrt(distance) * rtt::ai::Constants::MAX_KICK_POWER() / (sqrt(maxPowerDist) * 1.5);
                 break;
@@ -195,7 +193,7 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector
     }
 
     bool ShotController::robotAngleIsGood(world::Robot &robot,
-                                          std::pair<Vector2, Vector2> lineToDriveOver) {
+                                          std::pair<Vector2, Vector2> lineToDriveOver, ShotPrecision precision) {
         Angle aim((lineToDriveOver.second - lineToDriveOver.first).angle());
         double diff = abs(aim - robot.angle);
         if (precision == HIGH) {

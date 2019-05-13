@@ -359,7 +359,7 @@ void Visualizer::mousePressEvent(QMouseEvent* event) {
             }
         }
     } else if (event->button() == Qt::RightButton) {
-        Output::setBallPlacementTarget(toFieldPosition(pos));
+        Output::setMarkerPosition(toFieldPosition(pos));
 
     }
 }
@@ -468,7 +468,7 @@ bool Visualizer::robotIsSelected(Robot robotToCheck) {
 
 
 void Visualizer::drawBallPlacementTarget(QPainter& painter) {
-    Vector2 ballPlacementTarget = toScreenPosition(Output::getBallPlacementTarget());
+    Vector2 ballPlacementTarget = toScreenPosition(Output::getInterfaceMarkerPosition());
     painter.setBrush(Qt::transparent);
     painter.setPen(Qt::red);
 
