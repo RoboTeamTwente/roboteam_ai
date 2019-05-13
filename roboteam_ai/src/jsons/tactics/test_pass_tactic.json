@@ -1,1 +1,1217 @@
-{"name": "test_pass_tactic", "data": {"trees": [{"title": "test_pass_tactic", "root": "qmbcnd81wxy6y", "nodes": {"qmbcnd81wxy6y": {"id": "qmbcnd81wxy6y", "title": "RoleDivider", "children": ["kdqucsumcnjcdh05v", "nugb029tipedtm", "oznyw35rb1mxtxwag", "x57zz0cb28ey1", "jri6r1ycrll5j5i", "gkwx8l2n4677q7", "wdutb1vf5l45lualh"], "properties": {"TacticType": "General"}}, "kdqucsumcnjcdh05v": {"id": "kdqucsumcnjcdh05v", "title": "Role", "name": "receive1", "role": "test_receive_role", "children": ["2hvwut39lpk5k"], "properties": {"ROLE": "receive1"}}, "nyo9fieqqup1xne1m": {"children": ["rpo1klo7dxd6i1", "blyidgz373rbp"], "id": "nyo9fieqqup1xne1m", "title": "Sequence", "properties": {"ROLE": "receive1"}}, "blyidgz373rbp": {"id": "blyidgz373rbp", "title": "Attack", "properties": {"ROLE": "receive1"}}, "zoajyc0pwadl813": {"children": ["xkgd7gjqne5l6", "jor3bi5rh77fjt"], "id": "zoajyc0pwadl813", "title": "Sequence", "properties": {"ROLE": "receive1"}}, "2hvwut39lpk5k": {"children": ["jc59fbncmope3e5", "zoajyc0pwadl813", "tvl3vdsj54qtg"], "id": "2hvwut39lpk5k", "title": "Selector", "properties": {"ROLE": "receive1"}}, "zvske0o3m5hrwb": {"children": ["b1bsvpu22dilsmlfc", "ugy4fltmfpxhw"], "id": "zvske0o3m5hrwb", "title": "MemSequence", "properties": {"ROLE": "receive1"}}, "jc59fbncmope3e5": {"children": ["lniki0tnbj8blwxl2", "voerent414hvh6vj"], "id": "jc59fbncmope3e5", "title": "MemSequence", "properties": {"ROLE": "receive1"}}, "jor3bi5rh77fjt": {"children": ["nyo9fieqqup1xne1m", "zvske0o3m5hrwb"], "id": "jor3bi5rh77fjt", "title": "Selector", "properties": {"ROLE": "receive1"}}, "b1bsvpu22dilsmlfc": {"children": ["n4xwogx8uqib4zmp", "fx57t03jlkxztdfoy"], "id": "b1bsvpu22dilsmlfc", "title": "Selector", "properties": {"ROLE": "receive1"}}, "lniki0tnbj8blwxl2": {"id": "lniki0tnbj8blwxl2", "title": "IsBeingPassedTo", "properties": {"ROLE": "receive1"}}, "n4xwogx8uqib4zmp": {"properties": {"ball": "true", "margin": "0.50", "ROLE": "receive1"}, "id": "n4xwogx8uqib4zmp", "title": "IsCloseToPoint"}, "xkgd7gjqne5l6": {"properties": {"ROLE": "receive1"}, "id": "xkgd7gjqne5l6", "title": "IsRobotClosestToBall"}, "rpo1klo7dxd6i1": {"id": "rpo1klo7dxd6i1", "title": "HasClearShot", "properties": {"ROLE": "receive1"}}, "fx57t03jlkxztdfoy": {"properties": {"type": "goToBall", "avoidBall": "false", "canMoveInDefenseArea": "false", "ROLE": "receive1"}, "id": "fx57t03jlkxztdfoy", "title": "GTPSpecial"}, "tvl3vdsj54qtg": {"children": ["g75wb7qntg0i4gszb"], "id": "tvl3vdsj54qtg", "title": "Repeater", "properties": {"ROLE": "receive1"}}, "g75wb7qntg0i4gszb": {"properties": {"ROLE": "receive1"}, "id": "g75wb7qntg0i4gszb", "title": "Halt"}, "voerent414hvh6vj": {"properties": {"ROLE": "receive1"}, "id": "voerent414hvh6vj", "title": "Receive"}, "ugy4fltmfpxhw": {"properties": {"ROLE": "receive1"}, "id": "ugy4fltmfpxhw", "title": "Pass"}, "nugb029tipedtm": {"id": "nugb029tipedtm", "title": "Role", "name": "receive2", "role": "test_receive_role", "children": ["2qec3y1r1vfajv5lm"], "properties": {"ROLE": "receive2"}}, "kr49f9g2ne1je": {"children": ["icuamq1svsnndn", "lpbt8w7j2d4cyry8a"], "id": "kr49f9g2ne1je", "title": "Sequence", "properties": {"ROLE": "receive2"}}, "lpbt8w7j2d4cyry8a": {"id": "lpbt8w7j2d4cyry8a", "title": "Attack", "properties": {"ROLE": "receive2"}}, "5g0ka2clw1n1qw": {"children": ["d9eq16rinyz7mr0", "71u79v8c0vdcpzfsc"], "id": "5g0ka2clw1n1qw", "title": "Sequence", "properties": {"ROLE": "receive2"}}, "2qec3y1r1vfajv5lm": {"children": ["ey5s4v8me2eet", "5g0ka2clw1n1qw", "ixasw2iki72wt2p3o"], "id": "2qec3y1r1vfajv5lm", "title": "Selector", "properties": {"ROLE": "receive2"}}, "08avpklo9gq5u7": {"children": ["ii8u0kpokjnsfqwqy", "grfjzkqx3s74e8hah"], "id": "08avpklo9gq5u7", "title": "MemSequence", "properties": {"ROLE": "receive2"}}, "ey5s4v8me2eet": {"children": ["ej8psjpvl4plscw25", "jaowrgrfu6dtkoib"], "id": "ey5s4v8me2eet", "title": "MemSequence", "properties": {"ROLE": "receive2"}}, "71u79v8c0vdcpzfsc": {"children": ["kr49f9g2ne1je", "08avpklo9gq5u7"], "id": "71u79v8c0vdcpzfsc", "title": "Selector", "properties": {"ROLE": "receive2"}}, "ii8u0kpokjnsfqwqy": {"children": ["zag1l597dvmkv5m6", "j4xibjueofmee"], "id": "ii8u0kpokjnsfqwqy", "title": "Selector", "properties": {"ROLE": "receive2"}}, "ej8psjpvl4plscw25": {"id": "ej8psjpvl4plscw25", "title": "IsBeingPassedTo", "properties": {"ROLE": "receive2"}}, "zag1l597dvmkv5m6": {"properties": {"ball": "true", "margin": "0.50", "ROLE": "receive2"}, "id": "zag1l597dvmkv5m6", "title": "IsCloseToPoint"}, "d9eq16rinyz7mr0": {"properties": {"ROLE": "receive2"}, "id": "d9eq16rinyz7mr0", "title": "IsRobotClosestToBall"}, "icuamq1svsnndn": {"id": "icuamq1svsnndn", "title": "HasClearShot", "properties": {"ROLE": "receive2"}}, "j4xibjueofmee": {"properties": {"type": "goToBall", "avoidBall": "false", "canMoveInDefenseArea": "false", "ROLE": "receive2"}, "id": "j4xibjueofmee", "title": "GTPSpecial"}, "ixasw2iki72wt2p3o": {"children": ["r9klrdei0q1pe1o7b"], "id": "ixasw2iki72wt2p3o", "title": "Repeater", "properties": {"ROLE": "receive2"}}, "r9klrdei0q1pe1o7b": {"properties": {"ROLE": "receive2"}, "id": "r9klrdei0q1pe1o7b", "title": "Halt"}, "jaowrgrfu6dtkoib": {"properties": {"ROLE": "receive2"}, "id": "jaowrgrfu6dtkoib", "title": "Receive"}, "grfjzkqx3s74e8hah": {"properties": {"ROLE": "receive2"}, "id": "grfjzkqx3s74e8hah", "title": "Pass"}, "oznyw35rb1mxtxwag": {"id": "oznyw35rb1mxtxwag", "title": "Role", "name": "receive3", "role": "test_receive_role", "children": ["eusugz7o1aginp4"], "properties": {"ROLE": "receive3"}}, "xhgzhkr5rgb4r": {"children": ["1c1xfcjrb3sfjw", "p953kesxy6my05q7j"], "id": "xhgzhkr5rgb4r", "title": "Sequence", "properties": {"ROLE": "receive3"}}, "p953kesxy6my05q7j": {"id": "p953kesxy6my05q7j", "title": "Attack", "properties": {"ROLE": "receive3"}}, "hpp0t8ihc83ly8d": {"children": ["44ny2hb96mz8ij78", "b432bns65s4315c7r"], "id": "hpp0t8ihc83ly8d", "title": "Sequence", "properties": {"ROLE": "receive3"}}, "eusugz7o1aginp4": {"children": ["83rvemuey9wfumm", "hpp0t8ihc83ly8d", "xj2c3ywaskbsyhj"], "id": "eusugz7o1aginp4", "title": "Selector", "properties": {"ROLE": "receive3"}}, "8vptnos7zi6b90": {"children": ["61gkwgp0v96bvil", "tlarmtrd74qcfr8z"], "id": "8vptnos7zi6b90", "title": "MemSequence", "properties": {"ROLE": "receive3"}}, "83rvemuey9wfumm": {"children": ["ovpoyoco7u3zo", "zeo2hta0vn05nt"], "id": "83rvemuey9wfumm", "title": "MemSequence", "properties": {"ROLE": "receive3"}}, "b432bns65s4315c7r": {"children": ["xhgzhkr5rgb4r", "8vptnos7zi6b90"], "id": "b432bns65s4315c7r", "title": "Selector", "properties": {"ROLE": "receive3"}}, "61gkwgp0v96bvil": {"children": ["q6mu6v4nyi725", "1mck20i2w7arnjhl"], "id": "61gkwgp0v96bvil", "title": "Selector", "properties": {"ROLE": "receive3"}}, "ovpoyoco7u3zo": {"id": "ovpoyoco7u3zo", "title": "IsBeingPassedTo", "properties": {"ROLE": "receive3"}}, "q6mu6v4nyi725": {"properties": {"ball": "true", "margin": "0.50", "ROLE": "receive3"}, "id": "q6mu6v4nyi725", "title": "IsCloseToPoint"}, "44ny2hb96mz8ij78": {"properties": {"ROLE": "receive3"}, "id": "44ny2hb96mz8ij78", "title": "IsRobotClosestToBall"}, "1c1xfcjrb3sfjw": {"id": "1c1xfcjrb3sfjw", "title": "HasClearShot", "properties": {"ROLE": "receive3"}}, "1mck20i2w7arnjhl": {"properties": {"type": "goToBall", "avoidBall": "false", "canMoveInDefenseArea": "false", "ROLE": "receive3"}, "id": "1mck20i2w7arnjhl", "title": "GTPSpecial"}, "xj2c3ywaskbsyhj": {"children": ["goprfasr9h2649"], "id": "xj2c3ywaskbsyhj", "title": "Repeater", "properties": {"ROLE": "receive3"}}, "goprfasr9h2649": {"properties": {"ROLE": "receive3"}, "id": "goprfasr9h2649", "title": "Halt"}, "zeo2hta0vn05nt": {"properties": {"ROLE": "receive3"}, "id": "zeo2hta0vn05nt", "title": "Receive"}, "tlarmtrd74qcfr8z": {"properties": {"ROLE": "receive3"}, "id": "tlarmtrd74qcfr8z", "title": "Pass"}, "x57zz0cb28ey1": {"id": "x57zz0cb28ey1", "title": "Role", "name": "receive4", "role": "test_receive_role", "children": ["msbkc44tboxv3uzel"], "properties": {"ROLE": "receive4"}}, "d2zssgho94dev": {"children": ["dyee2tthgu74au", "spi5qi20lwhx8tqv"], "id": "d2zssgho94dev", "title": "Sequence", "properties": {"ROLE": "receive4"}}, "spi5qi20lwhx8tqv": {"id": "spi5qi20lwhx8tqv", "title": "Attack", "properties": {"ROLE": "receive4"}}, "d7zia6ucglsoira4": {"children": ["7fkz823h7iplau", "1p0vriy5o9gq4r"], "id": "d7zia6ucglsoira4", "title": "Sequence", "properties": {"ROLE": "receive4"}}, "msbkc44tboxv3uzel": {"children": ["xlz44z8i26pliwiv4", "d7zia6ucglsoira4", "43ilb5fj04yv1f"], "id": "msbkc44tboxv3uzel", "title": "Selector", "properties": {"ROLE": "receive4"}}, "05v7vwyk3svdrqa": {"children": ["frevttl1duhfhvm", "1vfjge6v8z52a"], "id": "05v7vwyk3svdrqa", "title": "MemSequence", "properties": {"ROLE": "receive4"}}, "xlz44z8i26pliwiv4": {"children": ["5rrzta32j8x976hf", "ukpqv3ezbmie90ke"], "id": "xlz44z8i26pliwiv4", "title": "MemSequence", "properties": {"ROLE": "receive4"}}, "1p0vriy5o9gq4r": {"children": ["d2zssgho94dev", "05v7vwyk3svdrqa"], "id": "1p0vriy5o9gq4r", "title": "Selector", "properties": {"ROLE": "receive4"}}, "frevttl1duhfhvm": {"children": ["0z75v8fktidwx24g", "0tcnygawjkx6sd7"], "id": "frevttl1duhfhvm", "title": "Selector", "properties": {"ROLE": "receive4"}}, "5rrzta32j8x976hf": {"id": "5rrzta32j8x976hf", "title": "IsBeingPassedTo", "properties": {"ROLE": "receive4"}}, "0z75v8fktidwx24g": {"properties": {"ball": "true", "margin": "0.50", "ROLE": "receive4"}, "id": "0z75v8fktidwx24g", "title": "IsCloseToPoint"}, "7fkz823h7iplau": {"properties": {"ROLE": "receive4"}, "id": "7fkz823h7iplau", "title": "IsRobotClosestToBall"}, "dyee2tthgu74au": {"id": "dyee2tthgu74au", "title": "HasClearShot", "properties": {"ROLE": "receive4"}}, "0tcnygawjkx6sd7": {"properties": {"type": "goToBall", "avoidBall": "false", "canMoveInDefenseArea": "false", "ROLE": "receive4"}, "id": "0tcnygawjkx6sd7", "title": "GTPSpecial"}, "43ilb5fj04yv1f": {"children": ["xop3bvd660ooc6"], "id": "43ilb5fj04yv1f", "title": "Repeater", "properties": {"ROLE": "receive4"}}, "xop3bvd660ooc6": {"properties": {"ROLE": "receive4"}, "id": "xop3bvd660ooc6", "title": "Halt"}, "ukpqv3ezbmie90ke": {"properties": {"ROLE": "receive4"}, "id": "ukpqv3ezbmie90ke", "title": "Receive"}, "1vfjge6v8z52a": {"properties": {"ROLE": "receive4"}, "id": "1vfjge6v8z52a", "title": "Pass"}, "jri6r1ycrll5j5i": {"id": "jri6r1ycrll5j5i", "title": "Role", "name": "receive5", "role": "test_receive_role", "children": ["htulluqh4att0s"], "properties": {"ROLE": "receive5"}}, "geji48w42xfq4kt": {"children": ["jre8fgk4g9q27usp", "n3m4y947wgw1y"], "id": "geji48w42xfq4kt", "title": "Sequence", "properties": {"ROLE": "receive5"}}, "n3m4y947wgw1y": {"id": "n3m4y947wgw1y", "title": "Attack", "properties": {"ROLE": "receive5"}}, "wrsgiyz1yvzw4f": {"children": ["ymuee5m8fzmymf2s", "9r0i20ql5816wsejf"], "id": "wrsgiyz1yvzw4f", "title": "Sequence", "properties": {"ROLE": "receive5"}}, "htulluqh4att0s": {"children": ["5sdf3g00jg51a", "wrsgiyz1yvzw4f", "rnof86guzhfzq"], "id": "htulluqh4att0s", "title": "Selector", "properties": {"ROLE": "receive5"}}, "w6fi1hkxnuetk5w": {"children": ["o6fwl1k2kxcrl8", "vzxj7usf3nljp9bc"], "id": "w6fi1hkxnuetk5w", "title": "MemSequence", "properties": {"ROLE": "receive5"}}, "5sdf3g00jg51a": {"children": ["blswycqi873oy", "9fhxvogk22kd8"], "id": "5sdf3g00jg51a", "title": "MemSequence", "properties": {"ROLE": "receive5"}}, "9r0i20ql5816wsejf": {"children": ["geji48w42xfq4kt", "w6fi1hkxnuetk5w"], "id": "9r0i20ql5816wsejf", "title": "Selector", "properties": {"ROLE": "receive5"}}, "o6fwl1k2kxcrl8": {"children": ["13d2cwh1419ufue4", "s8l49qmsg1n1a3c1"], "id": "o6fwl1k2kxcrl8", "title": "Selector", "properties": {"ROLE": "receive5"}}, "blswycqi873oy": {"id": "blswycqi873oy", "title": "IsBeingPassedTo", "properties": {"ROLE": "receive5"}}, "13d2cwh1419ufue4": {"properties": {"ball": "true", "margin": "0.50", "ROLE": "receive5"}, "id": "13d2cwh1419ufue4", "title": "IsCloseToPoint"}, "ymuee5m8fzmymf2s": {"properties": {"ROLE": "receive5"}, "id": "ymuee5m8fzmymf2s", "title": "IsRobotClosestToBall"}, "jre8fgk4g9q27usp": {"id": "jre8fgk4g9q27usp", "title": "HasClearShot", "properties": {"ROLE": "receive5"}}, "s8l49qmsg1n1a3c1": {"properties": {"type": "goToBall", "avoidBall": "false", "canMoveInDefenseArea": "false", "ROLE": "receive5"}, "id": "s8l49qmsg1n1a3c1", "title": "GTPSpecial"}, "rnof86guzhfzq": {"children": ["fzf600fnfngpvjyg"], "id": "rnof86guzhfzq", "title": "Repeater", "properties": {"ROLE": "receive5"}}, "fzf600fnfngpvjyg": {"properties": {"ROLE": "receive5"}, "id": "fzf600fnfngpvjyg", "title": "Halt"}, "9fhxvogk22kd8": {"properties": {"ROLE": "receive5"}, "id": "9fhxvogk22kd8", "title": "Receive"}, "vzxj7usf3nljp9bc": {"properties": {"ROLE": "receive5"}, "id": "vzxj7usf3nljp9bc", "title": "Pass"}, "gkwx8l2n4677q7": {"id": "gkwx8l2n4677q7", "title": "Role", "name": "attacker1", "role": "SideAttacker", "children": ["wxds6xzn88a9zbv"], "properties": {"ROLE": "attacker1"}}, "wxds6xzn88a9zbv": {"id": "wxds6xzn88a9zbv", "title": "Selector", "children": ["zmdykt6oq7igac5", "31aikuhdz1k4d0", "6mlujl80cz26l", "kqsq4jrhea672", "p7q3fhildzwwkjdui"], "properties": {"ROLE": "attacker1"}}, "zmdykt6oq7igac5": {"id": "zmdykt6oq7igac5", "title": "Sequence", "children": ["vwjtu9a7qelwb", "wwu4lbtavvue0p3"], "properties": {"ROLE": "attacker1"}}, "31aikuhdz1k4d0": {"id": "31aikuhdz1k4d0", "title": "Sequence", "children": ["hmbec5x7i9b209d", "9mm4ej34vtwoo4qta"], "properties": {"ROLE": "attacker1"}}, "6mlujl80cz26l": {"id": "6mlujl80cz26l", "title": "Sequence", "children": ["mlgj4tkn21r1z27", "dhvqxpq2qpnwphy"], "properties": {"ROLE": "attacker1"}}, "kqsq4jrhea672": {"id": "kqsq4jrhea672", "title": "Sequence", "children": ["18knj972x77u0er", "spben79bfjwz6"], "properties": {"ROLE": "attacker1"}}, "p7q3fhildzwwkjdui": {"id": "p7q3fhildzwwkjdui", "title": "SideAttacker", "properties": {"ROLE": "attacker1"}}, "vwjtu9a7qelwb": {"id": "vwjtu9a7qelwb", "title": "IsBeingPassedTo", "properties": {"ROLE": "attacker1"}}, "wwu4lbtavvue0p3": {"id": "wwu4lbtavvue0p3", "title": "Receive", "properties": {"ROLE": "attacker1"}}, "hmbec5x7i9b209d": {"id": "hmbec5x7i9b209d", "title": "RobotOutside", "properties": {"ROLE": "attacker1"}}, "9mm4ej34vtwoo4qta": {"id": "9mm4ej34vtwoo4qta", "title": "GTPSpecial", "properties": {"type": "getBackIn", "avoidBall": "true", "canGoOutsideField": "true", "canMoveInDefenseArea": "false", "ROLE": "attacker1"}}, "mlgj4tkn21r1z27": {"id": "mlgj4tkn21r1z27", "title": "IsOnPassLine", "properties": {"ROLE": "attacker1"}}, "dhvqxpq2qpnwphy": {"id": "dhvqxpq2qpnwphy", "title": "AvoidBall", "properties": {"type": "passing", "ROLE": "attacker1"}}, "18knj972x77u0er": {"id": "18knj972x77u0er", "title": "ShouldHandleBall", "properties": {"ROLE": "attacker1"}}, "spben79bfjwz6": {"id": "spben79bfjwz6", "title": "Selector", "children": ["1c8vhatl56qmout4", "afh3xaaojpzs4z"], "properties": {"ROLE": "attacker1"}}, "1c8vhatl56qmout4": {"id": "1c8vhatl56qmout4", "title": "Sequence", "children": ["5d9ua8oi9fwgzl6o", "ohzyt948wnjs5mxxk"], "properties": {"ROLE": "attacker1"}}, "afh3xaaojpzs4z": {"id": "afh3xaaojpzs4z", "title": "Pass", "properties": {"ROLE": "attacker1"}}, "5d9ua8oi9fwgzl6o": {"id": "5d9ua8oi9fwgzl6o", "title": "HasClearShot", "properties": {"ROLE": "attacker1"}}, "ohzyt948wnjs5mxxk": {"id": "ohzyt948wnjs5mxxk", "title": "Attack", "properties": {"ROLE": "attacker1"}}, "wdutb1vf5l45lualh": {"id": "wdutb1vf5l45lualh", "title": "Role", "name": "attacker2", "role": "SideAttacker", "children": ["aq556el9ls97dn1"], "properties": {"ROLE": "attacker2"}}, "aq556el9ls97dn1": {"id": "aq556el9ls97dn1", "title": "Selector", "children": ["yfdfk84syd35l", "aecrv4d0ypzaauv50", "pa3l0scjv6fs8e", "0gb7p1ifvoyi47c4b", "24e6lx0pb418a23n1"], "properties": {"ROLE": "attacker2"}}, "yfdfk84syd35l": {"id": "yfdfk84syd35l", "title": "Sequence", "children": ["7wgg10uz5uxor4t0g", "lul08pu9lemluz3n"], "properties": {"ROLE": "attacker2"}}, "aecrv4d0ypzaauv50": {"id": "aecrv4d0ypzaauv50", "title": "Sequence", "children": ["7bpto4a5lw970", "bw1uc071r4msnm"], "properties": {"ROLE": "attacker2"}}, "pa3l0scjv6fs8e": {"id": "pa3l0scjv6fs8e", "title": "Sequence", "children": ["vmmnidn49zf3b", "zveshmkr2tc2bv5n"], "properties": {"ROLE": "attacker2"}}, "0gb7p1ifvoyi47c4b": {"id": "0gb7p1ifvoyi47c4b", "title": "Sequence", "children": ["dvlcr0df9cgpt825", "v9khkmd3hecrbf1a"], "properties": {"ROLE": "attacker2"}}, "24e6lx0pb418a23n1": {"id": "24e6lx0pb418a23n1", "title": "SideAttacker", "properties": {"ROLE": "attacker2"}}, "7wgg10uz5uxor4t0g": {"id": "7wgg10uz5uxor4t0g", "title": "IsBeingPassedTo", "properties": {"ROLE": "attacker2"}}, "lul08pu9lemluz3n": {"id": "lul08pu9lemluz3n", "title": "Receive", "properties": {"ROLE": "attacker2"}}, "7bpto4a5lw970": {"id": "7bpto4a5lw970", "title": "RobotOutside", "properties": {"ROLE": "attacker2"}}, "bw1uc071r4msnm": {"id": "bw1uc071r4msnm", "title": "GTPSpecial", "properties": {"type": "getBackIn", "avoidBall": "true", "canGoOutsideField": "true", "canMoveInDefenseArea": "false", "ROLE": "attacker2"}}, "vmmnidn49zf3b": {"id": "vmmnidn49zf3b", "title": "IsOnPassLine", "properties": {"ROLE": "attacker2"}}, "zveshmkr2tc2bv5n": {"id": "zveshmkr2tc2bv5n", "title": "AvoidBall", "properties": {"type": "passing", "ROLE": "attacker2"}}, "dvlcr0df9cgpt825": {"id": "dvlcr0df9cgpt825", "title": "ShouldHandleBall", "properties": {"ROLE": "attacker2"}}, "v9khkmd3hecrbf1a": {"id": "v9khkmd3hecrbf1a", "title": "Selector", "children": ["mmdtzirnec98b", "sq5gyasc9escx7s"], "properties": {"ROLE": "attacker2"}}, "mmdtzirnec98b": {"id": "mmdtzirnec98b", "title": "Sequence", "children": ["lpd5s10pd4855h", "5uu8asrl1p17nvscp"], "properties": {"ROLE": "attacker2"}}, "sq5gyasc9escx7s": {"id": "sq5gyasc9escx7s", "title": "Pass", "properties": {"ROLE": "attacker2"}}, "lpd5s10pd4855h": {"id": "lpd5s10pd4855h", "title": "HasClearShot", "properties": {"ROLE": "attacker2"}}, "5uu8asrl1p17nvscp": {"id": "5uu8asrl1p17nvscp", "title": "Attack", "properties": {"ROLE": "attacker2"}}}}]}}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "05v7vwyk3svdrqa": {
+            "children": [
+              "frevttl1duhfhvm",
+              "1vfjge6v8z52a"
+            ],
+            "id": "05v7vwyk3svdrqa",
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "title": "MemSequence"
+          },
+          "08avpklo9gq5u7": {
+            "children": [
+              "ii8u0kpokjnsfqwqy",
+              "grfjzkqx3s74e8hah"
+            ],
+            "id": "08avpklo9gq5u7",
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "title": "MemSequence"
+          },
+          "0gb7p1ifvoyi47c4b": {
+            "children": [
+              "dvlcr0df9cgpt825",
+              "v9khkmd3hecrbf1a"
+            ],
+            "id": "0gb7p1ifvoyi47c4b",
+            "properties": {
+              "ROLE": "attacker2"
+            },
+            "title": "Sequence"
+          },
+          "0tcnygawjkx6sd7": {
+            "id": "0tcnygawjkx6sd7",
+            "properties": {
+              "ROLE": "receive4",
+              "avoidBall": "false",
+              "canMoveInDefenseArea": "false",
+              "type": "goToBall"
+            },
+            "title": "GTPSpecial"
+          },
+          "0z75v8fktidwx24g": {
+            "id": "0z75v8fktidwx24g",
+            "properties": {
+              "ROLE": "receive4",
+              "ball": "true",
+              "margin": "0.50"
+            },
+            "title": "IsCloseToPoint"
+          },
+          "13d2cwh1419ufue4": {
+            "id": "13d2cwh1419ufue4",
+            "properties": {
+              "ROLE": "receive5",
+              "ball": "true",
+              "margin": "0.50"
+            },
+            "title": "IsCloseToPoint"
+          },
+          "18knj972x77u0er": {
+            "id": "18knj972x77u0er",
+            "properties": {
+              "ROLE": "attacker1"
+            },
+            "title": "ShouldHandleBall"
+          },
+          "1c1xfcjrb3sfjw": {
+            "id": "1c1xfcjrb3sfjw",
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "title": "HasClearShot"
+          },
+          "1c8vhatl56qmout4": {
+            "children": [
+              "5d9ua8oi9fwgzl6o",
+              "ohzyt948wnjs5mxxk"
+            ],
+            "id": "1c8vhatl56qmout4",
+            "properties": {
+              "ROLE": "attacker1"
+            },
+            "title": "Sequence"
+          },
+          "1mck20i2w7arnjhl": {
+            "id": "1mck20i2w7arnjhl",
+            "properties": {
+              "ROLE": "receive3",
+              "avoidBall": "false",
+              "canMoveInDefenseArea": "false",
+              "type": "goToBall"
+            },
+            "title": "GTPSpecial"
+          },
+          "1p0vriy5o9gq4r": {
+            "children": [
+              "d2zssgho94dev",
+              "05v7vwyk3svdrqa"
+            ],
+            "id": "1p0vriy5o9gq4r",
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "title": "Selector"
+          },
+          "1vfjge6v8z52a": {
+            "id": "1vfjge6v8z52a",
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "title": "Pass"
+          },
+          "24e6lx0pb418a23n1": {
+            "id": "24e6lx0pb418a23n1",
+            "properties": {
+              "ROLE": "attacker2"
+            },
+            "title": "SideAttacker"
+          },
+          "2hvwut39lpk5k": {
+            "children": [
+              "jc59fbncmope3e5",
+              "zoajyc0pwadl813",
+              "tvl3vdsj54qtg"
+            ],
+            "id": "2hvwut39lpk5k",
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "title": "Selector"
+          },
+          "2qec3y1r1vfajv5lm": {
+            "children": [
+              "ey5s4v8me2eet",
+              "5g0ka2clw1n1qw",
+              "ixasw2iki72wt2p3o"
+            ],
+            "id": "2qec3y1r1vfajv5lm",
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "title": "Selector"
+          },
+          "31aikuhdz1k4d0": {
+            "children": [
+              "hmbec5x7i9b209d",
+              "9mm4ej34vtwoo4qta"
+            ],
+            "id": "31aikuhdz1k4d0",
+            "properties": {
+              "ROLE": "attacker1"
+            },
+            "title": "Sequence"
+          },
+          "43ilb5fj04yv1f": {
+            "children": [
+              "xop3bvd660ooc6"
+            ],
+            "id": "43ilb5fj04yv1f",
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "title": "Repeater"
+          },
+          "44ny2hb96mz8ij78": {
+            "id": "44ny2hb96mz8ij78",
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "title": "IsRobotClosestToBall"
+          },
+          "5d9ua8oi9fwgzl6o": {
+            "id": "5d9ua8oi9fwgzl6o",
+            "properties": {
+              "ROLE": "attacker1"
+            },
+            "title": "HasClearShot"
+          },
+          "5g0ka2clw1n1qw": {
+            "children": [
+              "d9eq16rinyz7mr0",
+              "71u79v8c0vdcpzfsc"
+            ],
+            "id": "5g0ka2clw1n1qw",
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "title": "Sequence"
+          },
+          "5rrzta32j8x976hf": {
+            "id": "5rrzta32j8x976hf",
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "title": "IsBeingPassedTo"
+          },
+          "5sdf3g00jg51a": {
+            "children": [
+              "blswycqi873oy",
+              "9fhxvogk22kd8"
+            ],
+            "id": "5sdf3g00jg51a",
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "title": "MemSequence"
+          },
+          "5uu8asrl1p17nvscp": {
+            "id": "5uu8asrl1p17nvscp",
+            "properties": {
+              "ROLE": "attacker2"
+            },
+            "title": "Attack"
+          },
+          "61gkwgp0v96bvil": {
+            "children": [
+              "q6mu6v4nyi725",
+              "1mck20i2w7arnjhl"
+            ],
+            "id": "61gkwgp0v96bvil",
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "title": "Selector"
+          },
+          "6mlujl80cz26l": {
+            "children": [
+              "mlgj4tkn21r1z27",
+              "dhvqxpq2qpnwphy"
+            ],
+            "id": "6mlujl80cz26l",
+            "properties": {
+              "ROLE": "attacker1"
+            },
+            "title": "Sequence"
+          },
+          "71u79v8c0vdcpzfsc": {
+            "children": [
+              "kr49f9g2ne1je",
+              "08avpklo9gq5u7"
+            ],
+            "id": "71u79v8c0vdcpzfsc",
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "title": "Selector"
+          },
+          "7bpto4a5lw970": {
+            "id": "7bpto4a5lw970",
+            "properties": {
+              "ROLE": "attacker2"
+            },
+            "title": "RobotOutside"
+          },
+          "7fkz823h7iplau": {
+            "id": "7fkz823h7iplau",
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "title": "IsRobotClosestToBall"
+          },
+          "7wgg10uz5uxor4t0g": {
+            "id": "7wgg10uz5uxor4t0g",
+            "properties": {
+              "ROLE": "attacker2"
+            },
+            "title": "IsBeingPassedTo"
+          },
+          "83rvemuey9wfumm": {
+            "children": [
+              "ovpoyoco7u3zo",
+              "zeo2hta0vn05nt"
+            ],
+            "id": "83rvemuey9wfumm",
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "title": "MemSequence"
+          },
+          "8vptnos7zi6b90": {
+            "children": [
+              "61gkwgp0v96bvil",
+              "tlarmtrd74qcfr8z"
+            ],
+            "id": "8vptnos7zi6b90",
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "title": "MemSequence"
+          },
+          "9fhxvogk22kd8": {
+            "id": "9fhxvogk22kd8",
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "title": "Receive"
+          },
+          "9mm4ej34vtwoo4qta": {
+            "id": "9mm4ej34vtwoo4qta",
+            "properties": {
+              "ROLE": "attacker1",
+              "avoidBall": "true",
+              "canGoOutsideField": "true",
+              "canMoveInDefenseArea": "false",
+              "type": "getBackIn"
+            },
+            "title": "GTPSpecial"
+          },
+          "9r0i20ql5816wsejf": {
+            "children": [
+              "geji48w42xfq4kt",
+              "w6fi1hkxnuetk5w"
+            ],
+            "id": "9r0i20ql5816wsejf",
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "title": "Selector"
+          },
+          "aecrv4d0ypzaauv50": {
+            "children": [
+              "7bpto4a5lw970",
+              "bw1uc071r4msnm"
+            ],
+            "id": "aecrv4d0ypzaauv50",
+            "properties": {
+              "ROLE": "attacker2"
+            },
+            "title": "Sequence"
+          },
+          "afh3xaaojpzs4z": {
+            "id": "afh3xaaojpzs4z",
+            "properties": {
+              "ROLE": "attacker1"
+            },
+            "title": "Pass"
+          },
+          "aq556el9ls97dn1": {
+            "children": [
+              "yfdfk84syd35l",
+              "aecrv4d0ypzaauv50",
+              "pa3l0scjv6fs8e",
+              "0gb7p1ifvoyi47c4b",
+              "24e6lx0pb418a23n1"
+            ],
+            "id": "aq556el9ls97dn1",
+            "properties": {
+              "ROLE": "attacker2"
+            },
+            "title": "Selector"
+          },
+          "b1bsvpu22dilsmlfc": {
+            "children": [
+              "n4xwogx8uqib4zmp",
+              "fx57t03jlkxztdfoy"
+            ],
+            "id": "b1bsvpu22dilsmlfc",
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "title": "Selector"
+          },
+          "b432bns65s4315c7r": {
+            "children": [
+              "xhgzhkr5rgb4r",
+              "8vptnos7zi6b90"
+            ],
+            "id": "b432bns65s4315c7r",
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "title": "Selector"
+          },
+          "blswycqi873oy": {
+            "id": "blswycqi873oy",
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "title": "IsBeingPassedTo"
+          },
+          "blyidgz373rbp": {
+            "id": "blyidgz373rbp",
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "title": "Attack"
+          },
+          "bw1uc071r4msnm": {
+            "id": "bw1uc071r4msnm",
+            "properties": {
+              "ROLE": "attacker2",
+              "avoidBall": "true",
+              "canGoOutsideField": "true",
+              "canMoveInDefenseArea": "false",
+              "type": "getBackIn"
+            },
+            "title": "GTPSpecial"
+          },
+          "d2zssgho94dev": {
+            "children": [
+              "dyee2tthgu74au",
+              "spi5qi20lwhx8tqv"
+            ],
+            "id": "d2zssgho94dev",
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "title": "Sequence"
+          },
+          "d7zia6ucglsoira4": {
+            "children": [
+              "7fkz823h7iplau",
+              "1p0vriy5o9gq4r"
+            ],
+            "id": "d7zia6ucglsoira4",
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "title": "Sequence"
+          },
+          "d9eq16rinyz7mr0": {
+            "id": "d9eq16rinyz7mr0",
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "title": "IsRobotClosestToBall"
+          },
+          "dhvqxpq2qpnwphy": {
+            "id": "dhvqxpq2qpnwphy",
+            "properties": {
+              "ROLE": "attacker1",
+              "type": "passing"
+            },
+            "title": "AvoidBall"
+          },
+          "dvlcr0df9cgpt825": {
+            "id": "dvlcr0df9cgpt825",
+            "properties": {
+              "ROLE": "attacker2"
+            },
+            "title": "ShouldHandleBall"
+          },
+          "dyee2tthgu74au": {
+            "id": "dyee2tthgu74au",
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "title": "HasClearShot"
+          },
+          "ej8psjpvl4plscw25": {
+            "id": "ej8psjpvl4plscw25",
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "title": "IsBeingPassedTo"
+          },
+          "eusugz7o1aginp4": {
+            "children": [
+              "83rvemuey9wfumm",
+              "hpp0t8ihc83ly8d",
+              "xj2c3ywaskbsyhj"
+            ],
+            "id": "eusugz7o1aginp4",
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "title": "Selector"
+          },
+          "ey5s4v8me2eet": {
+            "children": [
+              "ej8psjpvl4plscw25",
+              "jaowrgrfu6dtkoib"
+            ],
+            "id": "ey5s4v8me2eet",
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "title": "MemSequence"
+          },
+          "frevttl1duhfhvm": {
+            "children": [
+              "0z75v8fktidwx24g",
+              "0tcnygawjkx6sd7"
+            ],
+            "id": "frevttl1duhfhvm",
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "title": "Selector"
+          },
+          "fx57t03jlkxztdfoy": {
+            "id": "fx57t03jlkxztdfoy",
+            "properties": {
+              "ROLE": "receive1",
+              "avoidBall": "false",
+              "canMoveInDefenseArea": "false",
+              "type": "goToBall"
+            },
+            "title": "GTPSpecial"
+          },
+          "fzf600fnfngpvjyg": {
+            "id": "fzf600fnfngpvjyg",
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "title": "Halt"
+          },
+          "g75wb7qntg0i4gszb": {
+            "id": "g75wb7qntg0i4gszb",
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "title": "Halt"
+          },
+          "geji48w42xfq4kt": {
+            "children": [
+              "jre8fgk4g9q27usp",
+              "n3m4y947wgw1y"
+            ],
+            "id": "geji48w42xfq4kt",
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "title": "Sequence"
+          },
+          "gkwx8l2n4677q7": {
+            "children": [
+              "wxds6xzn88a9zbv"
+            ],
+            "id": "gkwx8l2n4677q7",
+            "name": "attacker1",
+            "properties": {
+              "ROLE": "attacker1"
+            },
+            "role": "SideAttacker",
+            "title": "Role"
+          },
+          "goprfasr9h2649": {
+            "id": "goprfasr9h2649",
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "title": "Halt"
+          },
+          "grfjzkqx3s74e8hah": {
+            "id": "grfjzkqx3s74e8hah",
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "title": "Pass"
+          },
+          "hmbec5x7i9b209d": {
+            "id": "hmbec5x7i9b209d",
+            "properties": {
+              "ROLE": "attacker1"
+            },
+            "title": "RobotOutside"
+          },
+          "hpp0t8ihc83ly8d": {
+            "children": [
+              "44ny2hb96mz8ij78",
+              "b432bns65s4315c7r"
+            ],
+            "id": "hpp0t8ihc83ly8d",
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "title": "Sequence"
+          },
+          "htulluqh4att0s": {
+            "children": [
+              "5sdf3g00jg51a",
+              "wrsgiyz1yvzw4f",
+              "rnof86guzhfzq"
+            ],
+            "id": "htulluqh4att0s",
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "title": "Selector"
+          },
+          "icuamq1svsnndn": {
+            "id": "icuamq1svsnndn",
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "title": "HasClearShot"
+          },
+          "ii8u0kpokjnsfqwqy": {
+            "children": [
+              "zag1l597dvmkv5m6",
+              "j4xibjueofmee"
+            ],
+            "id": "ii8u0kpokjnsfqwqy",
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "title": "Selector"
+          },
+          "ixasw2iki72wt2p3o": {
+            "children": [
+              "r9klrdei0q1pe1o7b"
+            ],
+            "id": "ixasw2iki72wt2p3o",
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "title": "Repeater"
+          },
+          "j4xibjueofmee": {
+            "id": "j4xibjueofmee",
+            "properties": {
+              "ROLE": "receive2",
+              "avoidBall": "false",
+              "canMoveInDefenseArea": "false",
+              "type": "goToBall"
+            },
+            "title": "GTPSpecial"
+          },
+          "jaowrgrfu6dtkoib": {
+            "id": "jaowrgrfu6dtkoib",
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "title": "Receive"
+          },
+          "jc59fbncmope3e5": {
+            "children": [
+              "lniki0tnbj8blwxl2",
+              "voerent414hvh6vj"
+            ],
+            "id": "jc59fbncmope3e5",
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "title": "MemSequence"
+          },
+          "jor3bi5rh77fjt": {
+            "children": [
+              "nyo9fieqqup1xne1m",
+              "zvske0o3m5hrwb"
+            ],
+            "id": "jor3bi5rh77fjt",
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "title": "Selector"
+          },
+          "jre8fgk4g9q27usp": {
+            "id": "jre8fgk4g9q27usp",
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "title": "HasClearShot"
+          },
+          "jri6r1ycrll5j5i": {
+            "children": [
+              "htulluqh4att0s"
+            ],
+            "id": "jri6r1ycrll5j5i",
+            "name": "receive5",
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "role": "test_receive_role",
+            "title": "Role"
+          },
+          "kdqucsumcnjcdh05v": {
+            "children": [
+              "2hvwut39lpk5k"
+            ],
+            "id": "kdqucsumcnjcdh05v",
+            "name": "receive1",
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "role": "test_receive_role",
+            "title": "Role"
+          },
+          "kqsq4jrhea672": {
+            "children": [
+              "18knj972x77u0er",
+              "spben79bfjwz6"
+            ],
+            "id": "kqsq4jrhea672",
+            "properties": {
+              "ROLE": "attacker1"
+            },
+            "title": "Sequence"
+          },
+          "kr49f9g2ne1je": {
+            "children": [
+              "icuamq1svsnndn",
+              "lpbt8w7j2d4cyry8a"
+            ],
+            "id": "kr49f9g2ne1je",
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "title": "Sequence"
+          },
+          "lniki0tnbj8blwxl2": {
+            "id": "lniki0tnbj8blwxl2",
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "title": "IsBeingPassedTo"
+          },
+          "lpbt8w7j2d4cyry8a": {
+            "id": "lpbt8w7j2d4cyry8a",
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "title": "Attack"
+          },
+          "lpd5s10pd4855h": {
+            "id": "lpd5s10pd4855h",
+            "properties": {
+              "ROLE": "attacker2"
+            },
+            "title": "HasClearShot"
+          },
+          "lul08pu9lemluz3n": {
+            "id": "lul08pu9lemluz3n",
+            "properties": {
+              "ROLE": "attacker2"
+            },
+            "title": "Receive"
+          },
+          "mlgj4tkn21r1z27": {
+            "id": "mlgj4tkn21r1z27",
+            "properties": {
+              "ROLE": "attacker1"
+            },
+            "title": "IsOnPassLine"
+          },
+          "mmdtzirnec98b": {
+            "children": [
+              "lpd5s10pd4855h",
+              "5uu8asrl1p17nvscp"
+            ],
+            "id": "mmdtzirnec98b",
+            "properties": {
+              "ROLE": "attacker2"
+            },
+            "title": "Sequence"
+          },
+          "msbkc44tboxv3uzel": {
+            "children": [
+              "xlz44z8i26pliwiv4",
+              "d7zia6ucglsoira4",
+              "43ilb5fj04yv1f"
+            ],
+            "id": "msbkc44tboxv3uzel",
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "title": "Selector"
+          },
+          "n3m4y947wgw1y": {
+            "id": "n3m4y947wgw1y",
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "title": "Attack"
+          },
+          "n4xwogx8uqib4zmp": {
+            "id": "n4xwogx8uqib4zmp",
+            "properties": {
+              "ROLE": "receive1",
+              "ball": "true",
+              "margin": "0.50"
+            },
+            "title": "IsCloseToPoint"
+          },
+          "nugb029tipedtm": {
+            "children": [
+              "2qec3y1r1vfajv5lm"
+            ],
+            "id": "nugb029tipedtm",
+            "name": "receive2",
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "role": "test_receive_role",
+            "title": "Role"
+          },
+          "nyo9fieqqup1xne1m": {
+            "children": [
+              "rpo1klo7dxd6i1",
+              "blyidgz373rbp"
+            ],
+            "id": "nyo9fieqqup1xne1m",
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "title": "Sequence"
+          },
+          "o6fwl1k2kxcrl8": {
+            "children": [
+              "13d2cwh1419ufue4",
+              "s8l49qmsg1n1a3c1"
+            ],
+            "id": "o6fwl1k2kxcrl8",
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "title": "Selector"
+          },
+          "ohzyt948wnjs5mxxk": {
+            "id": "ohzyt948wnjs5mxxk",
+            "properties": {
+              "ROLE": "attacker1"
+            },
+            "title": "Attack"
+          },
+          "ovpoyoco7u3zo": {
+            "id": "ovpoyoco7u3zo",
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "title": "IsBeingPassedTo"
+          },
+          "oznyw35rb1mxtxwag": {
+            "children": [
+              "eusugz7o1aginp4"
+            ],
+            "id": "oznyw35rb1mxtxwag",
+            "name": "receive3",
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "role": "test_receive_role",
+            "title": "Role"
+          },
+          "p7q3fhildzwwkjdui": {
+            "id": "p7q3fhildzwwkjdui",
+            "properties": {
+              "ROLE": "attacker1"
+            },
+            "title": "SideAttacker"
+          },
+          "p953kesxy6my05q7j": {
+            "id": "p953kesxy6my05q7j",
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "title": "Attack"
+          },
+          "pa3l0scjv6fs8e": {
+            "children": [
+              "vmmnidn49zf3b",
+              "zveshmkr2tc2bv5n"
+            ],
+            "id": "pa3l0scjv6fs8e",
+            "properties": {
+              "ROLE": "attacker2"
+            },
+            "title": "Sequence"
+          },
+          "q6mu6v4nyi725": {
+            "id": "q6mu6v4nyi725",
+            "properties": {
+              "ROLE": "receive3",
+              "ball": "true",
+              "margin": "0.50"
+            },
+            "title": "IsCloseToPoint"
+          },
+          "qmbcnd81wxy6y": {
+            "children": [
+              "kdqucsumcnjcdh05v",
+              "nugb029tipedtm",
+              "oznyw35rb1mxtxwag",
+              "x57zz0cb28ey1",
+              "jri6r1ycrll5j5i",
+              "gkwx8l2n4677q7",
+              "wdutb1vf5l45lualh"
+            ],
+            "id": "qmbcnd81wxy6y",
+            "properties": {
+              "TacticType": "General"
+            },
+            "title": "RoleDivider"
+          },
+          "r9klrdei0q1pe1o7b": {
+            "id": "r9klrdei0q1pe1o7b",
+            "properties": {
+              "ROLE": "receive2"
+            },
+            "title": "Halt"
+          },
+          "rnof86guzhfzq": {
+            "children": [
+              "fzf600fnfngpvjyg"
+            ],
+            "id": "rnof86guzhfzq",
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "title": "Repeater"
+          },
+          "rpo1klo7dxd6i1": {
+            "id": "rpo1klo7dxd6i1",
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "title": "HasClearShot"
+          },
+          "s8l49qmsg1n1a3c1": {
+            "id": "s8l49qmsg1n1a3c1",
+            "properties": {
+              "ROLE": "receive5",
+              "avoidBall": "false",
+              "canMoveInDefenseArea": "false",
+              "type": "goToBall"
+            },
+            "title": "GTPSpecial"
+          },
+          "spben79bfjwz6": {
+            "children": [
+              "1c8vhatl56qmout4",
+              "afh3xaaojpzs4z"
+            ],
+            "id": "spben79bfjwz6",
+            "properties": {
+              "ROLE": "attacker1"
+            },
+            "title": "Selector"
+          },
+          "spi5qi20lwhx8tqv": {
+            "id": "spi5qi20lwhx8tqv",
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "title": "Attack"
+          },
+          "sq5gyasc9escx7s": {
+            "id": "sq5gyasc9escx7s",
+            "properties": {
+              "ROLE": "attacker2"
+            },
+            "title": "Pass"
+          },
+          "tlarmtrd74qcfr8z": {
+            "id": "tlarmtrd74qcfr8z",
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "title": "Pass"
+          },
+          "tvl3vdsj54qtg": {
+            "children": [
+              "g75wb7qntg0i4gszb"
+            ],
+            "id": "tvl3vdsj54qtg",
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "title": "Repeater"
+          },
+          "ugy4fltmfpxhw": {
+            "id": "ugy4fltmfpxhw",
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "title": "Pass"
+          },
+          "ukpqv3ezbmie90ke": {
+            "id": "ukpqv3ezbmie90ke",
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "title": "Receive"
+          },
+          "v9khkmd3hecrbf1a": {
+            "children": [
+              "mmdtzirnec98b",
+              "sq5gyasc9escx7s"
+            ],
+            "id": "v9khkmd3hecrbf1a",
+            "properties": {
+              "ROLE": "attacker2"
+            },
+            "title": "Selector"
+          },
+          "vmmnidn49zf3b": {
+            "id": "vmmnidn49zf3b",
+            "properties": {
+              "ROLE": "attacker2"
+            },
+            "title": "IsOnPassLine"
+          },
+          "voerent414hvh6vj": {
+            "id": "voerent414hvh6vj",
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "title": "Receive"
+          },
+          "vwjtu9a7qelwb": {
+            "id": "vwjtu9a7qelwb",
+            "properties": {
+              "ROLE": "attacker1"
+            },
+            "title": "IsBeingPassedTo"
+          },
+          "vzxj7usf3nljp9bc": {
+            "id": "vzxj7usf3nljp9bc",
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "title": "Pass"
+          },
+          "w6fi1hkxnuetk5w": {
+            "children": [
+              "o6fwl1k2kxcrl8",
+              "vzxj7usf3nljp9bc"
+            ],
+            "id": "w6fi1hkxnuetk5w",
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "title": "MemSequence"
+          },
+          "wdutb1vf5l45lualh": {
+            "children": [
+              "aq556el9ls97dn1"
+            ],
+            "id": "wdutb1vf5l45lualh",
+            "name": "attacker2",
+            "properties": {
+              "ROLE": "attacker2"
+            },
+            "role": "SideAttacker",
+            "title": "Role"
+          },
+          "wrsgiyz1yvzw4f": {
+            "children": [
+              "ymuee5m8fzmymf2s",
+              "9r0i20ql5816wsejf"
+            ],
+            "id": "wrsgiyz1yvzw4f",
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "title": "Sequence"
+          },
+          "wwu4lbtavvue0p3": {
+            "id": "wwu4lbtavvue0p3",
+            "properties": {
+              "ROLE": "attacker1"
+            },
+            "title": "Receive"
+          },
+          "wxds6xzn88a9zbv": {
+            "children": [
+              "zmdykt6oq7igac5",
+              "31aikuhdz1k4d0",
+              "6mlujl80cz26l",
+              "kqsq4jrhea672",
+              "p7q3fhildzwwkjdui"
+            ],
+            "id": "wxds6xzn88a9zbv",
+            "properties": {
+              "ROLE": "attacker1"
+            },
+            "title": "Selector"
+          },
+          "x57zz0cb28ey1": {
+            "children": [
+              "msbkc44tboxv3uzel"
+            ],
+            "id": "x57zz0cb28ey1",
+            "name": "receive4",
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "role": "test_receive_role",
+            "title": "Role"
+          },
+          "xhgzhkr5rgb4r": {
+            "children": [
+              "1c1xfcjrb3sfjw",
+              "p953kesxy6my05q7j"
+            ],
+            "id": "xhgzhkr5rgb4r",
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "title": "Sequence"
+          },
+          "xj2c3ywaskbsyhj": {
+            "children": [
+              "goprfasr9h2649"
+            ],
+            "id": "xj2c3ywaskbsyhj",
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "title": "Repeater"
+          },
+          "xkgd7gjqne5l6": {
+            "id": "xkgd7gjqne5l6",
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "title": "IsRobotClosestToBall"
+          },
+          "xlz44z8i26pliwiv4": {
+            "children": [
+              "5rrzta32j8x976hf",
+              "ukpqv3ezbmie90ke"
+            ],
+            "id": "xlz44z8i26pliwiv4",
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "title": "MemSequence"
+          },
+          "xop3bvd660ooc6": {
+            "id": "xop3bvd660ooc6",
+            "properties": {
+              "ROLE": "receive4"
+            },
+            "title": "Halt"
+          },
+          "yfdfk84syd35l": {
+            "children": [
+              "7wgg10uz5uxor4t0g",
+              "lul08pu9lemluz3n"
+            ],
+            "id": "yfdfk84syd35l",
+            "properties": {
+              "ROLE": "attacker2"
+            },
+            "title": "Sequence"
+          },
+          "ymuee5m8fzmymf2s": {
+            "id": "ymuee5m8fzmymf2s",
+            "properties": {
+              "ROLE": "receive5"
+            },
+            "title": "IsRobotClosestToBall"
+          },
+          "zag1l597dvmkv5m6": {
+            "id": "zag1l597dvmkv5m6",
+            "properties": {
+              "ROLE": "receive2",
+              "ball": "true",
+              "margin": "0.50"
+            },
+            "title": "IsCloseToPoint"
+          },
+          "zeo2hta0vn05nt": {
+            "id": "zeo2hta0vn05nt",
+            "properties": {
+              "ROLE": "receive3"
+            },
+            "title": "Receive"
+          },
+          "zmdykt6oq7igac5": {
+            "children": [
+              "vwjtu9a7qelwb",
+              "wwu4lbtavvue0p3"
+            ],
+            "id": "zmdykt6oq7igac5",
+            "properties": {
+              "ROLE": "attacker1"
+            },
+            "title": "Sequence"
+          },
+          "zoajyc0pwadl813": {
+            "children": [
+              "xkgd7gjqne5l6",
+              "jor3bi5rh77fjt"
+            ],
+            "id": "zoajyc0pwadl813",
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "title": "Sequence"
+          },
+          "zveshmkr2tc2bv5n": {
+            "id": "zveshmkr2tc2bv5n",
+            "properties": {
+              "ROLE": "attacker2",
+              "type": "passing"
+            },
+            "title": "AvoidBall"
+          },
+          "zvske0o3m5hrwb": {
+            "children": [
+              "b1bsvpu22dilsmlfc",
+              "ugy4fltmfpxhw"
+            ],
+            "id": "zvske0o3m5hrwb",
+            "properties": {
+              "ROLE": "receive1"
+            },
+            "title": "MemSequence"
+          }
+        },
+        "root": "qmbcnd81wxy6y",
+        "title": "test_pass_tactic"
+      }
+    ]
+  },
+  "name": "test_pass_tactic"
+}

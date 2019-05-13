@@ -1,1 +1,17 @@
-{"name": "defend_free_kick_role", "data": {"trees": [{"title": "defend_free_kick_role", "root": "juhg66dlfej945", "nodes": {"juhg66dlfej945": {"id": "juhg66dlfej945", "title": "DefendFreeKick"}}}]}}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "juhg66dlfej945": {
+            "id": "juhg66dlfej945",
+            "title": "DefendFreeKick"
+          }
+        },
+        "root": "juhg66dlfej945",
+        "title": "defend_free_kick_role"
+      }
+    ]
+  },
+  "name": "defend_free_kick_role"
+}

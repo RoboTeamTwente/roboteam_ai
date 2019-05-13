@@ -47,6 +47,8 @@
 #include "roboteam_ai/src/skills/ActiveStop.h"
 #include "roboteam_ai/src/skills/SlingShot.h"
 #include <roboteam_ai/src/skills/PenaltyKeeper.h>
+#include <roboteam_ai/src/skills/DriveWithInterface.h>
+
 #include <roboteam_ai/src/skills/MidFieldHarasser.h>
 
 
@@ -117,7 +119,8 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "normal_play_offense_tactic",
         "time_out_tactic",
         "two_robot_ballplacement_tactic",
-        "calibration_tactic"
+        "calibration_tactic",
+        "follow_interface_tactic"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
@@ -137,7 +140,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "free_kick_shoot_strategy",
         "free_kick_them_strategy",
         "kickoff_shoot_strategy",
-        "calibration_strategy"
+        "calibration_strategy",
+        "interface_drive_strategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles = {
@@ -225,6 +229,8 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["DefendFreeKick"] = std::make_shared<rtt::ai::DefendFreeKick>(name, properties);
     map["BallPlacementReceive"] = std::make_shared<rtt::ai::BallPlacementReceive>(name, properties);
     map["BallPlacementPass"] = std::make_shared<rtt::ai::BallPlacementPass>(name, properties);
+    map["DriveWithInterface"] = std::make_shared<rtt::ai::DriveWithInterface>(name, properties);
+
 
 
     // conditions (alphabetic order)
@@ -299,6 +305,17 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"avoid6", robotType::RANDOM},
                     {"avoid7", robotType::RANDOM},
                     {"avoid8", robotType::RANDOM}
+            }
+            },
+            {"follow_interface_tactic", {
+                    {"follow_interface", robotType::RANDOM},
+                    {"f1", robotType::RANDOM},
+                    {"f2", robotType::RANDOM},
+                    {"f3", robotType::RANDOM},
+                    {"f4", robotType::RANDOM},
+                    {"f5", robotType::RANDOM},
+                    {"f6", robotType::RANDOM},
+                    {"f7", robotType::RANDOM}
             }
             },
 
