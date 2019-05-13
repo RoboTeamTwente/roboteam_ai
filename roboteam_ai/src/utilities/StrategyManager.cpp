@@ -8,6 +8,16 @@
 namespace rtt {
 namespace ai {
 
+void StrategyManager::setCurrentRefGameState(RefCommand command) {
+    if (gameStates.find(command) != gameStates.end()) {
+        this->currentRefGameState = gameStates[command];
+    }
+}
+
+const RefGameState &StrategyManager::getCurrentRefGameState() const {
+    return currentRefGameState;
+}
+
 StrategyManager::StrategyManager() {
      this->gameStates = {
         std::make_pair(RefCommand::NORMAL_START,          RefGameState("normal_play_strategy",               "keeper_default_tactic",        DEFAULT_RULESET)),
@@ -32,19 +42,8 @@ StrategyManager::StrategyManager() {
         std::make_pair(RefCommand::DEFEND_KICKOFF,        RefGameState("kickoff_them_strategy",              "keeper_default_tactic",        DEFAULT_RULESET)),
         std::make_pair(RefCommand::DEFEND_PENALTY,        RefGameState("penalty_them_strategy",              "keeper_penalty_tactic",        DEFAULT_RULESET)),
         std::make_pair(RefCommand::DO_PENALTY,            RefGameState("penalty_us_shoot_strategy",           "keeper_default_tactic",       DEFAULT_RULESET))
-     };
+    };
      this->currentRefGameState = gameStates[RefCommand::HALT];
-}
-
-// process ref commands
-void StrategyManager::setCurrentRefGameState(RefCommand command) {
-    if (gameStates.find(command) != gameStates.end()) {
-        this->currentRefGameState = gameStates[command];
-    }
-}
-
-const RefGameState &StrategyManager::getCurrentRefGameState() const {
-    return currentRefGameState;
 }
 
 } // ai
