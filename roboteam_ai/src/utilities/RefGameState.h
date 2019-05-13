@@ -19,7 +19,7 @@ private:
     RefCommand followUpCommandId;
 
 public:
-    explicit RefGameState(std::string strategyName, std::string keeperStrategyName, const RuleSet &ruleSet,  RefCommand followUpCommandId = RefCommand::UNDEFINED);
+    explicit RefGameState(std::string strategyName, std::string keeperStrategyName, const RuleSet &ruleSet,  RefCommand followUpCommandId);
 
     // getters
     RefCommand getFollowUpCommandId() const;
