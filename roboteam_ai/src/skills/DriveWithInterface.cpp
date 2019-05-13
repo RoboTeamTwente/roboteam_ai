@@ -4,6 +4,7 @@
 
 #include <roboteam_ai/src/interface/api/Output.h>
 #include "DriveWithInterface.h"
+
 namespace rtt {
 namespace ai {
 DriveWithInterface::DriveWithInterface(string name, bt::Blackboard::Ptr blackboard)
@@ -16,7 +17,7 @@ Skill::Status DriveWithInterface::onUpdate() {
     if (interface::Output::usesRefereeCommands()) {
         return Status::Failure;
     }
-    Vector2 targetPos = interface::Output::getBallPlacementTarget();
+    Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
 
     Vector2 velocity = numTreeGtp.getPosVelAngle(robot, targetPos).vel;
     command.x_vel = static_cast<float>(velocity.x);
@@ -24,12 +25,6 @@ Skill::Status DriveWithInterface::onUpdate() {
     command.w = static_cast<float>((targetPos - robot->pos).angle());
     publishRobotCommand();
     return Status::Running;
-}
-void DriveWithInterface::onInitialize() {
-
-}
-void DriveWithInterface::onTerminate(Skill::Status s) {
-    Skill::onTerminate(s);
 }
 }
 }

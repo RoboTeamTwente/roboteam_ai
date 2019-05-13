@@ -5,7 +5,6 @@
 #ifndef ROBOTEAM_AI_DRIVEWITHINTERFACE_H
 #define ROBOTEAM_AI_DRIVEWITHINTERFACE_H
 
-#include <roboteam_ai/src/control/positionControllers/PosController.h>
 #include "Skill.h"
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 
@@ -16,8 +15,6 @@ class DriveWithInterface : public Skill {
     public:
         explicit DriveWithInterface(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;
-        void onInitialize() override;
-        void onTerminate(Status s) override;
 
     private:
         control::NumTreePosControl numTreeGtp;
