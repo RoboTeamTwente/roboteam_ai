@@ -39,7 +39,6 @@ bt::Node::Status Attack::onUpdate() {
     }
 
     Vector2 aimPoint= coach::g_offensiveCoach.getShootAtGoalPoint(ball->pos);
-
     shotControl->makeCommand(shotControl->getShotData(*robot, aimPoint), command);
     publishRobotCommand();
     return Status::Running;

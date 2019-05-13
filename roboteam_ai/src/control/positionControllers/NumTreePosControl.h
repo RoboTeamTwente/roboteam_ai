@@ -22,6 +22,7 @@ class NumTreePosControl : public ForcePosControl {
     private:
         using InterfaceValues = interface::Output;
         using PathPointer = std::shared_ptr<PathPoint>;
+    std::vector<rtt::Vector2> triedPaths;
 
         Robot robot = {};
         Vector2 finalTargetPos;
