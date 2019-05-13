@@ -34,12 +34,6 @@ TEST(FieldTest, it_gets_points_in_defence_area) {
         auto y = testhelpers::WorldHelper::getRandomValue(2, 6);
 
         bool inOurDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), true, 0.0);
-
-        if (!inOurDefenceArea) {
-            std::cout << rtt::Vector2(x, y) << std::endl;
-            bool inOurDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), true, 0.0);
-
-        }
         EXPECT_TRUE(inOurDefenceArea);
 
         // the points should not be in their defence area
