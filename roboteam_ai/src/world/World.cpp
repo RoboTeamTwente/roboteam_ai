@@ -153,16 +153,7 @@ const World::BallPtr World::getBall() {
 }
 
 const World::RobotPtr World::getRobotForId(int id, bool ourTeam) {
-    WorldDataPtr worldCopy;
-    {
-        std::lock_guard<std::mutex> lock(worldMutex);
-        if (! worldDataPtr) {
-            return RobotPtr(nullptr);
-        }
-        worldCopy = worldDataPtr;
-
-    }
-    const std::vector<Robot> robots = ourTeam ? worldCopy->us : worldCopy->them;
+    const std::vector<Robot> robots = ourTeam ? getUs() : getThem();
     for (const auto &robot : robots) {
         if (robot.id == id) {
             return std::make_shared<Robot>(robot);

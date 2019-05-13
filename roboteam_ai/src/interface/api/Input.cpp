@@ -43,6 +43,9 @@ void Input::clearDrawings() {
     drawings = {};
 }
 
+Input::~Input() {
+    clearDrawings();
+}
 
 
 } // interface
