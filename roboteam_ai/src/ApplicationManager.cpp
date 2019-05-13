@@ -77,12 +77,13 @@ void ApplicationManager::runOneLoopCycle() {
 
         if (ai::interface::Output::usesRefereeCommands()) {
 
-            strategyManager.setCurrentRefGameState(static_cast<RefCommand>(ai::Referee::getRefereeData().command.command));
-            auto refGameState = strategyManager.getCurrentRefGameState();
+            // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
+            // might want to build something that verifies this
+            auto strategy = strategyManager.getCurrentStrategy(ai::Referee::getRefereeData().command);
+            std::string keeperTreeName = strategyManager.getCurrentKeeperTreeName(ai::Referee::getRefereeData().command);
 
-            std::string strategyName = refGameState.getStrategyName();
-            std::string keeperTreeName = refGameState.getKeeperStrategyName();
-            ai::Referee::setMaxRobotVelocity(refGameState.getRuleSet().maxRobotVel);
+            std::string strategyName = strategy.strategyName;
+            ai::Referee::setMaxRobotVelocity(strategy.maxVel);
 
 
             if (oldStrategy != strategyName) {
