@@ -60,7 +60,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     }
     else {
         isShooting=false;
-        shotData = goToPlaceBehindBall(robot, behindBallPosition, lineToDriveOver);
+        shotData = goToPlaceBehindBall(robot, behindBallPosition+ball->vel*0.2, lineToDriveOver);
     }
     std::cout<<std::endl;
 
@@ -86,7 +86,7 @@ void ShotController::setGenevaDelay(int genevaDifference) {
 bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, Vector2> line, ShotPrecision precision) {
     double dist = ControlUtils::distanceToLine(robot.pos, line.first, line.second);
     if (precision == HIGH) {
-        return dist < 0.04;
+        return dist < 0.06;
     } else if (precision == MEDIUM) {
         return dist < 0.08;
     }
