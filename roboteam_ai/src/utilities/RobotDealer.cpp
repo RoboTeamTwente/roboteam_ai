@@ -369,11 +369,12 @@ void RobotDealer::setUseSeparateKeeper(bool useSeparateKeeper) {
 }
 
 bool RobotDealer::keeperExistsInWorld() {
-    auto us = world::world->getUs();
-
-    return std::find_if(us.begin(), us.end(), [](world::Robot & robot) {
-        return robot.id == getKeeperID();
-    }) != us.end();
+    for (auto const &robot : world::world->getUs()) {
+        if (robot.id == getKeeperID()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 } // robotDealer
