@@ -36,6 +36,10 @@ void World::updateWorld(const roboteam_msgs::World &message) {
         worldDataPtr->ball = tempWorldData.ball;
         updateRobotsFromData(Robot::us, message.us, worldDataPtr->us, worldDataPtr->ball, worldNumber);
         updateRobotsFromData(Robot::them, message.them, worldDataPtr->them, worldDataPtr->ball, worldNumber);
+
+        // add the worlddata to the history
+        WorldData worldDataCopyForHistory = * worldDataPtr;
+        history.addWorld(worldDataCopyForHistory);
     }
 
     ballPossessionPtr->update();
@@ -58,7 +62,7 @@ void World::updateRobotsFromData(Robot::Team team, const std::vector<roboteam_ms
             Robot newRobot(robotMsg, team, worldNumber);
             newRobot.updateRobot(robotMsg, ball, worldNumber);
 
-            std::cout << "Robot " << newRobot.id << " added to world" << std::endl;
+            // std::cout << "Robot " << newRobot.id << " added to world" << std::endl;
             robots.push_back(newRobot);
         }
     }
@@ -66,7 +70,7 @@ void World::updateRobotsFromData(Robot::Team team, const std::vector<roboteam_ms
     // check if some robots don't have new data. In that case remove them
     robots.erase(std::remove_if(robots.begin(), robots.end(), [=](Robot robot) {
         if (robot.getLastUpdatedWorldNumber() < worldNumber) {
-            std::cerr << "Robot " << robot.id << " deleted from world" << std::endl;
+            // std::cerr << "Robot " << robot.id << " deleted from world" << std::endl;
             return true;
         }
         return false;

@@ -28,12 +28,21 @@ TEST(FieldTest, it_gets_points_in_defence_area) {
     // all points should be in our defence area
     rtt::ai::world::field->set_field(field);
 
+    // all points should be in our defence area
+    rtt::ai::world::field->set_field(field);
+
     // generate 100 random positions in our defence area
     for (int i = 0; i < 100; i ++) {
         auto x = testhelpers::WorldHelper::getRandomValue(- 6, - 4);
         auto y = testhelpers::WorldHelper::getRandomValue(2, 6);
 
         bool inOurDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), true, 0.0);
+
+        if (!inOurDefenceArea) {
+            std::cout << rtt::Vector2(x, y) << std::endl;
+            bool inOurDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), true, 0.0);
+
+        }
         EXPECT_TRUE(inOurDefenceArea);
 
         // the points should not be in their defence area
@@ -61,11 +70,11 @@ TEST(FieldTest, it_gets_points_in_defence_area) {
         EXPECT_FALSE(inDefenceArea);
     }
 
-
     // generate 100 random positions within defense area but outside field
     for (int i = 0; i < 100; i ++) {
         auto x = testhelpers::WorldHelper::getRandomValue(- 8, -6);
         auto y = testhelpers::WorldHelper::getRandomValue(2, 6);
+
 
         // it should be fine with includeOutsideField == true
         bool inDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), true, 0.0, true);

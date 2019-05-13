@@ -26,7 +26,6 @@ protected:
     virtual Vector2 getFormationPosition() =0;
     virtual std::shared_ptr<vector<std::shared_ptr<Robot>>> robotsInFormationPtr() =0;
 
-    control::NumTreePosControl gtp;
     double errorMargin = 0.1;
     static std::vector<std::shared_ptr<Robot>> robotsInFormation;
     static bool update;
