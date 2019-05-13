@@ -47,6 +47,8 @@ class World {
         const roboteam_msgs::WorldBall makeWorldBallMsg(const Ball &ball);
 
         Robot getRobotClosestToPoint(const Vector2 &point, std::vector<Robot> robots);
+
+        unsigned long worldNumber = 0;
     public:
         void updateWorld(const roboteam_msgs::World &world);
         bool weHaveRobots();
@@ -63,7 +65,7 @@ class World {
         const RobotPtr getRobotForId(int id, bool ourTeam = true);
         const std::vector<world::Robot> getRobotsForIds(std::vector<int> ids, bool ourTeam = true);
 
-    const std::vector<Robot> getAllRobots();
+        const std::vector<Robot> getAllRobots();
         const std::vector<Robot> getUs();
         const std::vector<Robot> getThem();
 
@@ -84,6 +86,8 @@ class World {
         const Robot getFutureRobot(const Robot &robot, double time);
         const RobotPtr getFutureRobot(const RobotPtr &robot, double time);
         const BallPtr getFutureBall(double time);
+
+    void updateRobotsFromData(Robot::Team team, const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg, std::vector<Robot> &robots, const Ball &ball, unsigned long worldNumber) const;
 };
 
 extern World worldObj;
