@@ -12,7 +12,9 @@ namespace rtt {
 namespace ai {
 namespace control {
 ShotController::ShotController(ShotPrecision precision, BallSpeed ballspeed, bool useAutoGeneva)
-        : precision(precision), useAutoGeneva(useAutoGeneva), ballSpeed(ballspeed) { }
+        : precision(precision), useAutoGeneva(useAutoGeneva), ballSpeed(ballspeed) {
+
+}
 
 /// return a ShotData (which contains data for robotcommands) for a specific robot to shoot at a specific target.
 ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, bool chip) {
