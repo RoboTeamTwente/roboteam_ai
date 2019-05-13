@@ -7,29 +7,18 @@
 namespace rtt {
 namespace ai {
 
-RefGameState::RefGameState() {}
+RefGameState::RefGameState() { }
 
-RefGameState::RefGameState(
-        RefCommand commandId,
-        const std::string &strategyName,
-        const std::string &keeperStrategyName,
-        RefCommand followUpCommandId,
-        double maxRobotVel,
-        double maxCollisionVel,
-        double maxBallVel,
-        bool robotsCanEnterDefenseArea,
-        bool robotsCanGoOutOfField,
-        bool robotsCanTouchBall)
-        : commandId(commandId),
-        followUpCommandId(followUpCommandId),
-        strategyName(strategyName),
-        keeperStrategyName(keeperStrategyName),
-        maxRobotVel(maxRobotVel),
-        maxCollisionVel(maxCollisionVel),
-        maxBallVel(maxBallVel),
-        robotsCanEnterDefenseArea(robotsCanEnterDefenseArea),
-        robotsCanGoOutOfField(robotsCanGoOutOfField),
-        robotsCanTouchBall(robotsCanTouchBall) {}
+RefGameState::RefGameState(RefCommand commandId, RefCommand followUpCommandId, const std::string &strategyName,
+                           const std::string &keeperStrategyName, double maxRobotVel, bool robotsCanEnterDefenseArea, bool robotsCanGoOutOfField,
+                           bool robotsCanTouchBall)
+                           : commandId(commandId), followUpCommandId(followUpCommandId),
+                          strategyName(strategyName),
+                          keeperStrategyName(keeperStrategyName),
+                          maxRobotVel(maxRobotVel),
+                          robotsCanEnterDefenseArea(robotsCanEnterDefenseArea),
+                          robotsCanGoOutOfField(robotsCanGoOutOfField),
+                          robotsCanTouchBall(robotsCanTouchBall) {}
 
 RefCommand RefGameState::getCommandId() const {
     return commandId;
@@ -70,6 +59,9 @@ bool RefGameState::isRobotsCanGoOutOfField() const {
 bool RefGameState::isRobotsCanTouchBall() const {
     return robotsCanTouchBall;
 }
+
+
+
 
 } // ai
 } // rtt
