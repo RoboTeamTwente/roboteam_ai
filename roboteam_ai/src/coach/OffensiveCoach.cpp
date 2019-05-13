@@ -2,8 +2,8 @@
 // Created by robzelluf on 3/21/19.
 //
 
-#include <roboteam_ai/src/interface/widget.h>
-#include <roboteam_ai/src/interface/drawer.h>
+#include <roboteam_ai/src/interface/widgets/widget.h>
+#include <roboteam_ai/src/interface/api/Input.h>
 #include "OffensiveCoach.h"
 
 namespace rtt {

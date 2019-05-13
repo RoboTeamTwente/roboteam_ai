@@ -7,7 +7,7 @@
 #include "ApplicationManager.h"
 #include <sstream>
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
-#include <roboteam_ai/src/interface/InterfaceValues.h>
+#include <roboteam_ai/src/interface/api/Output.h>
 #include <roboteam_ai/src/coach/GetBallCoach.h>
 #include <roboteam_ai/src/utilities/Referee.hpp>
 
@@ -28,11 +28,12 @@ void ApplicationManager::setup() {
 
 void ApplicationManager::loop() {
     ros::Rate rate(ai::Constants::TICK_RATE());
-
+    BTFactory::makeTrees();
     double longestTick = 0.0;
     double timeTaken;
     int nTicksTaken = 0;
     double timeTakenOverNTicks = 0.0;
+    BTFactory::makeTrees();
     while (ros::ok()) {
         ros::Time begin = ros::Time::now();
 
@@ -45,7 +46,7 @@ void ApplicationManager::loop() {
         if (timeTaken > longestTick) {
             longestTick = timeTaken;
         }
-        if (ai::interface::InterfaceValues::showDebugTickTimeTaken() && ++nTicksTaken >= ai::Constants::TICK_RATE()) {
+        if (ai::interface::Output::showDebugTickTimeTaken() && ++nTicksTaken >= ai::Constants::TICK_RATE()) {
             std::stringstream ss;
             ss << "The last " << nTicksTaken << " ticks took " << timeTakenOverNTicks << " ms, which gives an average of " << timeTakenOverNTicks / nTicksTaken << " ms / tick. The longest tick took " << longestTick << " ms!";
             if (nTicksTaken * longestTick < 2000 && timeTakenOverNTicks < 1200)
@@ -74,28 +75,30 @@ void ApplicationManager::runOneLoopCycle() {
         demo::JoystickDemo::demoLoop(demomsg);
 
 
-        if (ai::interface::InterfaceValues::usesRefereeCommands()) {
+        if (ai::interface::Output::usesRefereeCommands()) {
 
             // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
             // might want to build something that verifies this
             auto strategy = strategyManager.getCurrentStrategy(ai::Referee::getRefereeData().command);
+            std::string keeperTreeName = strategyManager.getCurrentKeeperTreeName(ai::Referee::getRefereeData().command);
 
             std::string strategyName = strategy.strategyName;
             ai::Referee::setMaxRobotVelocity(strategy.maxVel);
 
+
             if (oldStrategy != strategyName) {
+                ai::robotDealer::RobotDealer::refresh();
+
                 BTFactory::setCurrentTree(strategyName);
                 oldStrategy = strategyName;
             }
 
-            std::string keeperTreeName = strategyManager.getCurrentKeeperTreeName(ai::Referee::getRefereeData().command);
             if (oldKeeperTreeName != keeperTreeName) {
+                ai::robotDealer::RobotDealer::refresh();
+
+                std::cout << "changing keeper tree" << std::endl;
                 BTFactory::setKeeperTree(keeperTreeName);
                 oldKeeperTreeName = keeperTreeName;
-            }
-
-            if (oldStrategy != strategyName || oldKeeperTreeName != keeperTreeName) {
-                ai::robotDealer::RobotDealer::refresh();
             }
 
             ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
@@ -146,11 +149,15 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     case Status::Success:
         std::cout << " === TREE SUCCESS -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
         BTFactory::setCurrentTree("normal_play_strategy");
+        BTFactory::setKeeperTree("keeper_default_tactic");
+
         ai::robotDealer::RobotDealer::refresh();
         break;
     case Status::Failure:
         std::cout << " === TREE FAILURE -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
         BTFactory::setCurrentTree("normal_play_strategy");
+        BTFactory::setKeeperTree("keeper_default_tactic");
+
         ai::robotDealer::RobotDealer::refresh();
         break;
     case Status::Waiting:ROS_INFO_STREAM("Status returned: Waiting");

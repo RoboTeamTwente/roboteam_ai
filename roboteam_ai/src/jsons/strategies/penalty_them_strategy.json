@@ -1,1 +1,32 @@
-{"name": "penalty_them_strategy", "data": {"trees": [{"title": "penalty_them_strategy", "root": "4yfceu9dyc3uw", "nodes": {"4yfceu9dyc3uw": {"id": "4yfceu9dyc3uw", "title": "Tactic", "name": "penalty_them_tactic"}}}]}}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "4yfceu9dyc3uw": {
+            "id": "4yfceu9dyc3uw",
+            "name": "penalty_them_tactic",
+            "title": "Tactic"
+          },
+          "wcw9axttoicrfc01": {
+            "id": "wcw9axttoicrfc01",
+            "properties": {},
+            "title": "CanPlay"
+          },
+          "ydeshypxw8pxbeo8": {
+            "children": [
+              "wcw9axttoicrfc01",
+              "4yfceu9dyc3uw"
+            ],
+            "id": "ydeshypxw8pxbeo8",
+            "properties": {},
+            "title": "Selector"
+          }
+        },
+        "root": "ydeshypxw8pxbeo8",
+        "title": "penalty_them_strategy"
+      }
+    ]
+  },
+  "name": "penalty_them_strategy"
+}

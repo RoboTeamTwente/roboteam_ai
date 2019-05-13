@@ -35,7 +35,9 @@ StrategyMap StrategyManager::getStrategyMapForRefGameState(RefGameState commandI
 
 std::string StrategyManager::getCurrentKeeperTreeName(roboteam_msgs::RefereeCommand currentRefCmd) {
     auto commandFromMostRecentReferee = static_cast<RefGameState>(currentRefCmd.command);
-    currentKeeperMap = getKeeperMapForRefGameState(commandFromMostRecentReferee);
+
+    // HACK the keeper now always follows the same 'custom ref command' as the normal strategy
+    currentKeeperMap = getKeeperMapForRefGameState(currentStrategyMap.commandId);
     return currentKeeperMap.strategyName;
 }
 

@@ -2,7 +2,7 @@
 // Created by thijs on 18-12-18.
 //
 
-#include <roboteam_ai/src/interface/InterfaceValues.h>
+#include <roboteam_ai/src/interface/api/Input.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "BallHandlePosControl.h"
 

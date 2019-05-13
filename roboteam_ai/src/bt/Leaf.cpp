@@ -38,4 +38,8 @@ void Leaf::updateRobot() {
         ROS_ERROR("%s Update -> robot %i does not exist in world", node_name().c_str(), robotId);
     }
 }
+
+    void Leaf::terminate(Node::Status status) {
+        robotId = -1;
+    }
 }

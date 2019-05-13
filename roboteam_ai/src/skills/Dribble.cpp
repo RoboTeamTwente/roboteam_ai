@@ -126,6 +126,12 @@ void Dribble::onTerminate(Status s) {
     }
     command.x_vel = 0;
     command.y_vel = 0;
+
+    currentProgress=ON_THE_WAY;
+    count=0;
+    stoppingAngle = robot->angle; // default to the current angle
+    initialAngle = robot->angle;
+
     publishRobotCommand();
 }
 

@@ -9,6 +9,7 @@
 #include "Skill.h"
 #include "roboteam_utils/Arc.h"
 #include "roboteam_utils/Math.h"
+#include <roboteam_ai/src/world/BallPossession.h>
 
 namespace rtt {
 namespace ai {
@@ -18,10 +19,12 @@ class Keeper : public Skill {
 
     private:
         Arc blockCircle;
-        Vector2 computeBlockPoint(Vector2 defendPos);
+        Vector2 computeBlockPoint(const Vector2& defendPos);
         Vector2 goalPos;
         double goalwidth;
-        control::BasicPosControl gtp;
+        control::BasicPosControl basicGtp;
+        Vector2 getBlockLine(Vector2 defendPos);
+        void setGoalPosWithAttacker(world::Robot attacker);
 
     public:
         explicit Keeper(string name, bt::Blackboard::Ptr blackboard);

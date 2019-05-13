@@ -39,7 +39,7 @@ class DefaultTactic : public Tactic {
           General
         };
         TacticType thisType = TacticType::General;
-
+        void terminate(Node::Status s) override;
 };
 }
 

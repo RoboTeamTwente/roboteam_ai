@@ -60,7 +60,7 @@ private:
             {RefGameState::PREPARE_PENALTY_US, "penalty_us_prepare_strategy", rtt::ai::Constants::MAX_VEL(), RefGameState::DO_PENALTY},
 
             {RefGameState::PREPARE_KICKOFF_THEM, "kickoff_them_formation_strategy",  rtt::ai::Constants::MAX_VEL(), RefGameState::DEFEND_KICKOFF},
-            {RefGameState::PREPARE_PENALTY_THEM, "penalty_them_strategy"},
+            {RefGameState::PREPARE_PENALTY_THEM, "penalty_them_strategy", rtt::ai::Constants::MAX_VEL(), RefGameState::DEFEND_PENALTY},
 
             {RefGameState::DIRECT_FREE_US, "free_kick_shoot_strategy"},
             {RefGameState::DIRECT_FREE_THEM, "free_kick_them_strategy"},
@@ -89,9 +89,9 @@ private:
 
             // the keeper does not use follow up strategies
             {RefGameState::PREPARE_KICKOFF_US, "keeper_formation_tactic"},
-            {RefGameState::PREPARE_KICKOFF_THEM, "keeper_formation_tactic"},
+            {RefGameState::PREPARE_KICKOFF_THEM, "keeper_default_tactic"},
             {RefGameState::PREPARE_PENALTY_US, "keeper_formation_tactic"},
-            {RefGameState::PREPARE_PENALTY_THEM, "keeper_formation_tactic"},
+            {RefGameState::PREPARE_PENALTY_THEM, "keeper_penalty_tactic"},
 
             {RefGameState::DIRECT_FREE_US, "keeper_default_tactic"},
             {RefGameState::DIRECT_FREE_THEM, "keeper_default_tactic"},

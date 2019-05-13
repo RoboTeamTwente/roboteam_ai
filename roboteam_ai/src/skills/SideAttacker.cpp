@@ -15,7 +15,6 @@ void SideAttacker::onInitialize() {
     coach::g_offensiveCoach.addSideAttacker(robot);
 }
 
-
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
     targetPos = getOffensivePosition();

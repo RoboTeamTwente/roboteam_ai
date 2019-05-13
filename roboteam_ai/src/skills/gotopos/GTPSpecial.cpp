@@ -58,6 +58,10 @@ void GTPSpecial::gtpInitialize() {
             targetPos = {0, 0};
             break;
         }
+        case ourGoalCenter: {
+            targetPos =  rtt::ai::world::field->get_our_goal_center();
+            break;
+        }
 
     }
 
@@ -114,6 +118,9 @@ GTPSpecial::Type GTPSpecial::stringToType(const std::string &string) {
     else if (string == "getBackIn") {
         return getBackIn;
     }
+    else if (string == "ourGoalCenter") {
+        return ourGoalCenter;
+    }
     else {
         return defaultType;
     }
@@ -133,6 +140,9 @@ Skill::Status GTPSpecial::gtpUpdate() {
         }
         case ballPlacementBefore:
             maxVel = 1.0;break;
+        case ourGoalCenter:
+            targetPos =  rtt::ai::world::field->get_our_goal_center();
+            break;
         case ballPlacementAfter:
             maxVel = 1.0;break;
         case getBallFromSide:

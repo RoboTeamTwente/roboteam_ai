@@ -70,9 +70,12 @@
 #include <roboteam_ai/src/skills/formations/TimeoutFormation.h>
 #include <roboteam_ai/src/bt/RoleDivider.h>
 #include <roboteam_ai/src/skills/formations/KickOffThemFormation.h>
-#include <roboteam_ai/src/skills/BallPlacementReceive.h>
+#include <roboteam_ai/src/skills/BallPlacement/BallPlacementReceive.h>
 #include <roboteam_ai/src/conditions/CanPlay.h>
 #include <roboteam_ai/src/conditions/RobotOutside.h>
+#include <roboteam_ai/src/conditions/RefStateIsNormalPlay.h>
+#include <roboteam_ai/src/conditions/ballIsMoving.h>
+#include <roboteam_ai/src/skills/BallPlacement/BallPlacementPass.h>
 
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
@@ -114,9 +117,9 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "normal_play_defense_tactic",
         "normal_play_midfield_tactic",
         "normal_play_offense_tactic",
-        "test_pass_tactic",
         "time_out_tactic",
-        "two_robot_ballplacement_tactic"
+        "two_robot_ballplacement_tactic",
+        "calibration_tactic"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
@@ -129,14 +132,14 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "stop_strategy",
         "halt_strategy",
         "normal_play_strategy",
-        "test_pass_strategy",
         "penalty_us_shoot_strategy",
         "penalty_us_prepare_strategy",
         "penalty_them_strategy",
         "free_kick_formation_strategy",
         "free_kick_shoot_strategy",
         "free_kick_them_strategy",
-        "kickoff_shoot_strategy"
+        "kickoff_shoot_strategy",
+        "calibration_strategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles = {
@@ -225,7 +228,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["DefendFreeKick"] = std::make_shared<rtt::ai::DefendFreeKick>(name, properties);
     map["GTPWithBall"] = std::make_shared<rtt::ai::GTPWithBall>(name, properties);
     map["BallPlacementReceive"] = std::make_shared<rtt::ai::BallPlacementReceive>(name, properties);
-
+    map["BallPlacementPass"] = std::make_shared<rtt::ai::BallPlacementPass>(name, properties);
 
 
     // conditions (alphabetic order)
@@ -251,7 +254,8 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["HasClearShot"] = std::make_shared<rtt::ai::HasClearShot>(name, properties);
     map["IsOnPassLine"] = std::make_shared<rtt::ai::IsOnPassLine>(name, properties);
     map["RobotOutside"] = std::make_shared<rtt::ai::RobotOutside>(name, properties);
-
+    map["RefStateIsNormalPlay"] = std::make_shared<rtt::ai::RefStateIsNormalPlay>(name, properties);
+    map["ballIsMoving"] = std::make_shared<rtt::ai::ballIsMoving>(name, properties);
 
     if (map.find(name) != map.end()) {
         return map[name];
@@ -315,7 +319,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
 
             {"prepare_penalty_us_tactic", {
-                    {"shooter", robotType::CLOSE_TO_BALL},
+                    {"shooter", robotType::WORKING_GENEVA},
                     {"pa1", robotType::RANDOM},
                     {"pa2", robotType::RANDOM},
                     {"pa3", robotType::RANDOM},
@@ -445,9 +449,9 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"line6", robotType::RANDOM},
                     {"line1", robotType::RANDOM},
                     {"line2", robotType::RANDOM},
-                    {"line3", robotType::RANDOM},
                     {"line4", robotType::RANDOM},
                     {"line5", robotType::RANDOM},
+                    {"line3", robotType::RANDOM}
             }
             },
             {"penalty_them_tactic", {
@@ -507,6 +511,16 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"paa5", robotType::RANDOM},
                     {"paa6", robotType::RANDOM},
                     {"paa7", robotType::RANDOM}
+            }
+            },
+            {"calibration_tactic", {
+                    {"c1", robotType::CLOSE_TO_BALL},
+                    {"c2", robotType::RANDOM},
+                    {"c3", robotType::RANDOM},
+                    {"c4", robotType::RANDOM},
+                    {"c5", robotType::RANDOM},
+                    {"c6", robotType::RANDOM},
+                    {"c7", robotType::RANDOM},
             }
             }
     };

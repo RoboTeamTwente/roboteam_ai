@@ -13,6 +13,8 @@ ShootFreeKick::ShootFreeKick(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void ShootFreeKick::onInitialize() {
+    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::PASS, true);
+
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
     freeKickPos = ballPos;
     Vector2 goal = world::field->get_their_goal_center();
@@ -22,7 +24,7 @@ void ShootFreeKick::onInitialize() {
 }
 
 Skill::Status ShootFreeKick::onUpdate() {
-
+    Vector2 target;
     switch (progress) {
 
         case GOING: {
@@ -63,7 +65,7 @@ Skill::Status ShootFreeKick::onUpdate() {
         }
 
         case READY: {
-            if (counter < 200) {
+            if (counter < 90) {
                 counter++;
                 return Status::Running;
             }
@@ -74,13 +76,8 @@ Skill::Status ShootFreeKick::onUpdate() {
 
         case SHOOTING: {
             if (! isShot()) {
-                Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
-                command.w = static_cast<float>((ballPos - robot->pos).angle());
-                command.chipper = static_cast<unsigned char>(true);
-                command.chipper_vel = 8.0; // Such power much wow
-                Vector2 velocity = goToPos.getPosVelAngle(robot, ballPos).vel;
-                command.x_vel = static_cast<float>(velocity.x);
-                command.y_vel = static_cast<float>(velocity.y);
+                Vector2 target = rtt::ai::world::field->getPenaltyPoint(false);
+                shotControl->makeCommand(shotControl->getShotData(* robot, target, true), command);
                 publishRobotCommand();
                 return Status::Running;
             }
@@ -97,6 +94,7 @@ Skill::Status ShootFreeKick::onUpdate() {
 
 void ShootFreeKick::onTerminate(Skill::Status s) {
     counter = 0;
+    progress=GOING;
 }
 
 bool ShootFreeKick::isShot() {

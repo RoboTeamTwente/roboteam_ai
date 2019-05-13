@@ -86,6 +86,8 @@ DribbleRotate::Status DribbleRotate::onUpdate() {
 void DribbleRotate::onTerminate(Status s) {
     command.dribbler = 1;
     command.w = static_cast<float>(targetAngle);
+    currentProgression=ROTATING;
+    currentTick=0;
     publishRobotCommand();
 }
 

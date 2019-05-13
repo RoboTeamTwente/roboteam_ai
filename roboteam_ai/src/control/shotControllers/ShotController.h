@@ -7,8 +7,6 @@
 
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
-#include <roboteam_ai/src/control/positionControllers/BallHandlePosControl.h>
-
 #include "ShotData.h"
 #include "gtest/gtest_prod.h"
 
@@ -33,10 +31,7 @@ enum BallSpeed {
 class ShotController {
     FRIEND_TEST(ShotControllerTest, it_generates_proper_shots);
 private:
-    using RobotPtr = std::shared_ptr<world::Robot>;
-    using BallPtr = std::shared_ptr<world::Ball>;
-
-    int currentDesiredGeneva = -1;
+    bool init = false;
     Vector2 behindBallPosition;
     bool genevaIsTurning = false;
     double secondsToTurnGeneva = 1.5;
@@ -45,35 +40,29 @@ private:
     // PositionControllers
     BasicPosControl basicGtp;
     NumTreePosControl numTreeGtp;
-    BallHandlePosControl ballHandleGtp;
 
     // Parameters
-    bool useAutoGeneva;
+    bool useAutoGeneva =false;
     ShotPrecision precision;
     BallSpeed ballSpeed;
 
     // Helpers
-    std::pair<Vector2, int> getGenevaPlaceBehindBall(const RobotPtr &robot, const Vector2 &shotTarget); // the params are the position for the robot and the geneva angle
-    Vector2 getPlaceBehindBall(const RobotPtr &robot, const Vector2 &shotTarget); // the params are the position for the robot and the geneva angle
-    Vector2 robotTargetPosition;
-    bool onLineToBall(const RobotPtr &robot, const BallPtr &ball, const Vector2 &behindBallPosition, int genevaState);
+    Vector2 getPlaceBehindBallForGenevaState(world::Robot robot, Vector2 shotTarget, int genevaState);
+    Vector2 getPlaceBehindBall(world::Robot robot, Vector2 shotTarget); // the params are the position for the robot and the geneva angle
+    int determineOptimalGenevaState(world::Robot robot, Vector2 shotTarget);
+    bool onLineToBall(const world::Robot &robot, std::pair<Vector2, Vector2> line);
+    bool robotAngleIsGood(world::Robot &robot,std::pair<Vector2,Vector2> lineToDriveOver);
     double determineKickForce(double distance);
 
     // ShotData calculation
-    ShotData goToPlaceBehindBall(const RobotPtr &robot, const Vector2 &robotTargetPosition, int genevaState);
-    ShotData moveStraightToBall(const RobotPtr &robot, int genevaState);
-    ShotData shoot(const RobotPtr &robot, const Vector2 &shotTarget, bool chip);
-    ShotData backDown(const RobotPtr &robot, int genevaState);
-
-    Vector2 getGenevaLineOffsetPoint(const Vector2 &point, int genevaState);
+    ShotData goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition, std::pair<Vector2,Vector2> driveLine);
+    ShotData moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver);
+    ShotData shoot(world::Robot robot,std::pair<Vector2,Vector2> driveLine, Vector2 shotTarget, bool chip);
 
 public:
     explicit ShotController(ShotPrecision precision = MEDIUM, BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true);
-    ShotData getShotData(const RobotPtr &robot, const Vector2 &shotTarget, bool chip = false);
+    ShotData getShotData(world::Robot robot, Vector2 shotTarget, bool chip = false);
     void makeCommand(ShotData data, roboteam_msgs::RobotCommand &command);
-
-    void determineGenevaAndPosition(const RobotPtr &robot, const Vector2 &shotTarget, bool chip);
-
     void setGenevaDelay(int genevaDifference);
 };
 
