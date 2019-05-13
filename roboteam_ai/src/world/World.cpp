@@ -36,6 +36,10 @@ void World::updateWorld(const roboteam_msgs::World &message) {
         worldDataPtr->ball = tempWorldData.ball;
         updateRobotsFromData(Robot::us, message.us, worldDataPtr->us, worldDataPtr->ball, worldNumber);
         updateRobotsFromData(Robot::them, message.them, worldDataPtr->them, worldDataPtr->ball, worldNumber);
+
+        // add the worlddata to the history
+        WorldData worldDataCopyForHistory = * worldDataPtr;
+        history.addWorld(worldDataCopyForHistory);
     }
 
     ballPossessionPtr->update();
