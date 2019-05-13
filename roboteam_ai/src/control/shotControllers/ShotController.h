@@ -32,12 +32,12 @@ class ShotController {
     FRIEND_TEST(ShotControllerTest, it_generates_proper_shots);
 private:
     bool init = false;
-    bool readyToShoot;
+    bool isShooting;
     Vector2 behindBallPosition;
+    Vector2 aimTarget;
     bool genevaIsTurning = false;
     double secondsToTurnGeneva = 1.5;
     double lastTimeGenevaChanged = 0.0;
-
     // PositionControllers
     BasicPosControl basicGtp;
     NumTreePosControl numTreeGtp;
@@ -59,6 +59,9 @@ private:
     ShotData goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition, std::pair<Vector2,Vector2> driveLine);
     ShotData moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver);
     ShotData shoot(world::Robot robot,std::pair<Vector2,Vector2> driveLine, Vector2 shotTarget, bool chip);
+
+    ShotData moveAndShootSimulator(world::Robot robot, bool chip,std::pair<Vector2,Vector2> lineToDriveOver);
+    ShotData moveAndShootReal(world::Robot robot, bool chip,std::pair<Vector2,Vector2> lineToDriveOver);
 
 public:
     explicit ShotController(ShotPrecision precision = MEDIUM, BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true);
