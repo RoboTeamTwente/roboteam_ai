@@ -1,1 +1,30 @@
-{"data": {"trees": [{"nodes": {"cushb5o5ahhkuo": {"properties": {"canGoOutsideField": "true", "avoidBall": "0.3", "targetPos": "{-6,0}", "canMoveInDefenseArea": "true"}, "id": "cushb5o5ahhkuo", "title": "GoToPos"}, "zp5un8r8v9lhhe7d1": {"children": ["cushb5o5ahhkuo"], "id": "zp5un8r8v9lhhe7d1", "title": "Repeater"}}, "root": "zp5un8r8v9lhhe7d1", "title": "keeper_formation_role"}]}, "name": "keeper_formation_role"}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "cushb5o5ahhkuo": {
+            "id": "cushb5o5ahhkuo",
+            "properties": {
+              "avoidBall": "0.3",
+              "canGoOutsideField": "true",
+              "canMoveInDefenseArea": "true",
+              "targetPos": "{-6,0}"
+            },
+            "title": "GoToPos"
+          },
+          "zp5un8r8v9lhhe7d1": {
+            "children": [
+              "cushb5o5ahhkuo"
+            ],
+            "id": "zp5un8r8v9lhhe7d1",
+            "title": "Repeater"
+          }
+        },
+        "root": "zp5un8r8v9lhhe7d1",
+        "title": "keeper_formation_role"
+      }
+    ]
+  },
+  "name": "keeper_formation_role"
+}

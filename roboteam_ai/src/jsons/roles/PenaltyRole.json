@@ -1,1 +1,36 @@
-{"name": "PenaltyRole", "data": {"trees": [{"title": "PenaltyRole", "root": "zas8ug5zust2zs", "nodes": {"zas8ug5zust2zs": {"id": "zas8ug5zust2zs", "title": "MemSequence", "children": ["5putz3o47miohv", "58fbkydhm5y3tfb"]}, "5putz3o47miohv": {"id": "5putz3o47miohv", "title": "BasicGoToPos", "properties": {"target": "{0,0}", "avoidBall": "true"}}, "58fbkydhm5y3tfb": {"id": "58fbkydhm5y3tfb", "title": "GoBehindBall", "properties": {" type": "penalty"}}}}]}}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "58fbkydhm5y3tfb": {
+            "id": "58fbkydhm5y3tfb",
+            "properties": {
+              " type": "penalty"
+            },
+            "title": "GoBehindBall"
+          },
+          "5putz3o47miohv": {
+            "id": "5putz3o47miohv",
+            "properties": {
+              "avoidBall": "true",
+              "target": "{0,0}"
+            },
+            "title": "BasicGoToPos"
+          },
+          "zas8ug5zust2zs": {
+            "children": [
+              "5putz3o47miohv",
+              "58fbkydhm5y3tfb"
+            ],
+            "id": "zas8ug5zust2zs",
+            "title": "MemSequence"
+          }
+        },
+        "root": "zas8ug5zust2zs",
+        "title": "PenaltyRole"
+      }
+    ]
+  },
+  "name": "PenaltyRole"
+}

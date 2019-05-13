@@ -9,7 +9,7 @@
 #include <roboteam_ai/src/world/World.h>
 
 TEST(CoachTest, it_handles_ballplacement_positions) {
-    rtt::ai::interface::Output::setBallPlacementTarget({2.3, 0.3});
+    rtt::ai::interface::Output::setMarkerPosition({2.3, 0.3});
 
     auto ballplacementTarget = rtt::ai::coach::g_ballPlacement.getBallPlacementPos();
     EXPECT_EQ(ballplacementTarget.x, 2.3);

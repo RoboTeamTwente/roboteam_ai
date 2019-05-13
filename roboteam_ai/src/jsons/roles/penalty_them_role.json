@@ -1,1 +1,20 @@
-{"name": "penalty_them_role", "data": {"trees": [{"title": "penalty_them_role", "root": "80u1bfpkcno13wgnh", "nodes": {"80u1bfpkcno13wgnh": {"id": "80u1bfpkcno13wgnh", "title": "PenaltyFormation", "properties": {"Offensive": "false"}}}}]}}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "80u1bfpkcno13wgnh": {
+            "id": "80u1bfpkcno13wgnh",
+            "properties": {
+              "Offensive": "false"
+            },
+            "title": "PenaltyFormation"
+          }
+        },
+        "root": "80u1bfpkcno13wgnh",
+        "title": "penalty_them_role"
+      }
+    ]
+  },
+  "name": "penalty_them_role"
+}

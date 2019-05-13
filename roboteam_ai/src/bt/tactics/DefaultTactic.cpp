@@ -25,6 +25,9 @@ bt::Node::Status bt::DefaultTactic::update() {
 
         return status;
     }
+    if (amountToTick > children.size()) {
+        amountToTick = children.size();
+    }
 
     for (int i = 0; i < amountToTick; i ++) {
         if (children.size() > i && children.at(i)) {
