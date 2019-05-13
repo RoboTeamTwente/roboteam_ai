@@ -6,26 +6,50 @@
 #define ROBOTEAM_AI_REFGAMESTATE_H
 
 #include "Constants.h"
-#include "RuleSet.h"
 
 namespace rtt {
 namespace ai {
 
 class RefGameState {
 private:
-    std::string strategyName;
-    std::string keeperStrategyName;
-    RuleSet ruleSet;
+    RefCommand commandId;
     RefCommand followUpCommandId;
 
-public:
-    explicit RefGameState(std::string strategyName, std::string keeperStrategyName, const RuleSet &ruleSet,  RefCommand followUpCommandId);
+    std::string strategyName;
+    std::string keeperStrategyName;
 
-    // getters
+    // rules for this specific refgamestate
+    double maxRobotVel;
+    double maxCollisionVel;
+    double maxBallVel;
+    bool robotsCanEnterDefenseArea;
+    bool robotsCanGoOutOfField;
+    bool robotsCanTouchBall;
+public:
+    explicit RefGameState();
+    RefCommand getCommandId() const;
+
+    // constructor with
+    RefGameState(RefCommand commandId,
+                 const std::string &strategyName,
+                 const std::string &keeperStrategyName,
+                 RefCommand followUpCommandId = RefCommand::UNDEFINED,
+                 double maxRobotVel = Constants::MAX_VEL(),
+                 double maxCollisionVel = 1.5,
+                 double maxBallVel = Constants::MAX_KICK_POWER(),
+                 bool robotsCanEnterDefenseArea = false,
+                 bool robotsCanGoOutOfField = true,
+                 bool robotsCanTouchBall = true);
+
     RefCommand getFollowUpCommandId() const;
     const std::string &getStrategyName() const;
     const std::string &getKeeperStrategyName() const;
-    const RuleSet &getRuleSet() const;
+    double getMaxRobotVel() const;
+    double getMaxCollisionVel() const;
+    double getMaxBallVel() const;
+    bool isRobotsCanEnterDefenseArea() const;
+    bool isRobotsCanGoOutOfField() const;
+    bool isRobotsCanTouchBall() const;
 };
 
 } // ai

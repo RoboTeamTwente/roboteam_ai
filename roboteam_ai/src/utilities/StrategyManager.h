@@ -11,11 +11,24 @@
 #include <map>
 #include "Referee.hpp"
 #include "Constants.h"
-#include "RefGameState.h"
 
 namespace rtt {
 namespace ai {
 
+// used for proper parsing of the tree names
+struct StrategyMap {
+  RefCommand commandId;
+  std::string strategyName;
+  double maxVel;
+  RefCommand followUpCommandId;
+
+  StrategyMap() : commandId(RefCommand::UNDEFINED), strategyName(""), maxVel(rtt::ai::Constants::MAX_VEL()), followUpCommandId(RefCommand::UNDEFINED) { }
+
+  StrategyMap(RefCommand commandId, std::string strategyName,
+          double maxVel = rtt::ai::Constants::MAX_VEL(),
+          RefCommand followUpCommandId = RefCommand::UNDEFINED)
+          : commandId(commandId), strategyName(strategyName), maxVel(maxVel), followUpCommandId(followUpCommandId) { }
+};
 
 class StrategyManager {
 public:
@@ -29,11 +42,6 @@ private:
     StrategyMap currentKeeperMap = {RefCommand::HALT, "keeper_halt_tactic"};
     StrategyMap getStrategyMapForRefGameState(RefCommand commandId);
     StrategyMap getKeeperMapForRefGameState(RefCommand commandId);
-
-
-    std::map<RefCommand, RefGameState> gameStates =
-            {RefCommand::NORMAL_START, {"normal_play_strategy", "keeper_default_tactic"}};
-
 
     std::vector<StrategyMap> strategyMaps = {
             {RefCommand::NORMAL_START, "normal_play_strategy"},
