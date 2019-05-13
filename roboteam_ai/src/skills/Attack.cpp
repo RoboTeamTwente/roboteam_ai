@@ -1,7 +1,3 @@
-//
-// Created by thijs on 17-12-18.
-//
-
 #include <roboteam_ai/src/control/PositionUtils.h>
 #include "Attack.h"
 #include <roboteam_ai/src/world/Field.h>
@@ -24,10 +20,6 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
 }
 
-void Attack::onInitialize() {
-    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::MAX_SPEED, false);
-}
-
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {
     if (!robot) return Status::Running;
@@ -39,15 +31,9 @@ bt::Node::Status Attack::onUpdate() {
     }
 
     Vector2 aimPoint= coach::g_offensiveCoach.getShootAtGoalPoint(ball->pos);
-    shotControl->makeCommand(shotControl->getShotData(*robot, aimPoint), command);
+    robot->getShotController()->makeCommand(robot->getShotController()->getShotData(*robot, aimPoint,false,control::BallSpeed::MAX_SPEED,false,control::ShotPrecision::HIGH), command);
     publishRobotCommand();
     return Status::Running;
-}
-
-void Attack::onTerminate(Status s) {
-    shot=false;
-    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::LOW ,control::BallSpeed::MAX_SPEED,false);
-
 }
 
 } // ai

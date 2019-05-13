@@ -70,6 +70,7 @@ double PosController::getAvoidBall() const {
 }
 
 void PosController::setAvoidBall(double ballDistance) {
+    std::cerr << "Manually setting 'avoidball' distance in skill" << std::endl;
     avoidBallDistance = ballDistance;
 }
 

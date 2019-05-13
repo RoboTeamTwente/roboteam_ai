@@ -37,8 +37,8 @@ private:
     bool teamFarFromBall(const world::WorldData& world, bool ourTeam);
 };
 
-extern BallPossession bpTrackerObj;
-extern BallPossession* bpTracker;
+extern BallPossession ballPossession;
+extern BallPossession* ballPossessionPtr;
 
 } // ai
 } // rtt

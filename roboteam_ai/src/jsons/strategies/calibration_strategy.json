@@ -1,18 +1,18 @@
 {
-  "name": "calibration_strategy",
   "data": {
     "trees": [
       {
-        "title": "calibration_strategy",
-        "root": "s144rauavbeg6sy6i",
         "nodes": {
           "s144rauavbeg6sy6i": {
             "id": "s144rauavbeg6sy6i",
-            "title": "Tactic",
-            "name": "calibration_tactic"
+            "name": "calibration_tactic",
+            "title": "Tactic"
           }
-        }
+        },
+        "root": "s144rauavbeg6sy6i",
+        "title": "calibration_strategy"
       }
     ]
-  }
+  },
+  "name": "calibration_strategy"
 }

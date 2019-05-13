@@ -11,16 +11,9 @@
 namespace rtt {
 namespace ai {
 namespace control {
-ShotController::ShotController(ShotPrecision precision, BallSpeed ballspeed, bool useAutoGeneva)
-        : precision(precision), ballSpeed(ballspeed), useAutoGeneva(useAutoGeneva) {
-    numTreeGtp.setAvoidBall(Constants::BALL_RADIUS() + Constants::ROBOT_RADIUS() * 1.5);
-    numTreeGtp.setCanMoveOutOfField(true);
-    numTreeGtp.setCanMoveInDefenseArea(false);
-    isShooting = false;
-}
 
 /// return a ShotData (which contains data for robotcommands) for a specific robot to shoot at a specific target.
-ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, bool chip) {
+ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, bool chip,BallSpeed ballspeed, bool useAutoGeneva, ShotPrecision precision) {
     // we only allow the external command to change the target if we are not already shooting. Otherwise we use the previous command sent
     if (!isShooting) {
         aimTarget = shotTarget;
@@ -46,10 +39,9 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
 
     std::pair<Vector2, Vector2> lineToDriveOver = std::make_pair(behindBallPosition, ball->pos);
     // check the properties
-    bool isOnLineToBall = onLineToBall(robot, lineToDriveOver);
-    bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, aimTarget, robot.pos, 0.3);
-    bool validAngle = robotAngleIsGood(robot, lineToDriveOver);
-
+    bool isOnLineToBall = onLineToBall(robot, lineToDriveOver, precision);
+    bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, shotTarget, robot.pos, 0.3);
+    bool validAngle = robotAngleIsGood(robot, lineToDriveOver, precision);
 
     ShotData shotData;
     std::cout <<"online: "<< isOnLineToBall <<" behind: " <<isBehindBall <<" validAngle: "<< validAngle <<" ready: "<< isShooting <<" target: "<<aimTarget;
@@ -63,7 +55,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
         }
         else{
             isShooting=true;
-            shotData=moveAndShootSimulator(robot,chip,lineToDriveOver);
+            shotData=moveAndShootSimulator(robot,chip,lineToDriveOver,ballspeed);
         }
     }
     else {
@@ -91,9 +83,8 @@ void ShotController::setGenevaDelay(int genevaDifference) {
 
 /// check if a robot is on a line to a ball
 
-bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, Vector2> line) {
+bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, Vector2> line, ShotPrecision precision) {
     double dist = ControlUtils::distanceToLine(robot.pos, line.first, line.second);
-    //std::cout<<dist<<" ";
     if (precision == HIGH) {
         return dist < 0.04;
     } else if (precision == MEDIUM) {
@@ -114,8 +105,7 @@ bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, 
     ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition,
                                                  std::pair<Vector2, Vector2> line) {
         auto ball = world::world->getBall();
-        control::PosVelAngle pva = numTreeGtp.getPosVelAngle(std::make_shared<world::Robot>(robot),
-                                                             robotTargetPosition);
+        control::PosVelAngle pva = robot.getNumtreeGtp()->getPosVelAngle(std::make_shared<world::Robot>(robot), robotTargetPosition);
         //TODO: if (rotating to this angle from current angle will hit ball) then pva.angle=angle towards ball
         if ((robot.pos - robotTargetPosition).length() < 0.5) {
             pva.angle = (line.second - line.first).toAngle();
@@ -127,20 +117,19 @@ bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, 
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver) {
-    control::PosVelAngle pva = basicGtp.getPosVelAngle(std::make_shared<world::Robot>(robot), lineToDriveOver.second);
-    pva.angle = (lineToDriveOver.second - lineToDriveOver.first).toAngle();
+    control::PosVelAngle pva = robot.getBasicGtp()->getPosVelAngle(std::make_shared<world::Robot>(robot), lineToDriveOver.second);
+    pva.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
     ShotData shotData(pva);
     return shotData;
 }
 
 /// Now we should have the ball and kick it.
-    ShotData ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector2> driveLine, Vector2 shotTarget,
-                                   bool chip) {
+    ShotData ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector2> driveLine, Vector2 shotTarget, bool chip, BallSpeed desiredBallSpeed) {
         auto ball = world::world->getBall();
 
         // move towards the ball
-        control::PosVelAngle pva = basicGtp.getPosVelAngle(std::make_shared<world::Robot>(robot), driveLine.second);
-        pva.angle = (driveLine.second - driveLine.first).toAngle();
+        control::PosVelAngle pva = robot.getBasicGtp()->getPosVelAngle(std::make_shared<world::Robot>(robot), driveLine.second);
+        pva.angle = (driveLine.second - driveLine.first).angle();
 
         ShotData shotData(pva);
 
@@ -150,21 +139,21 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector
             shotData.kick = false;
 
             // TODO calibrate chip speed
-            shotData.kickSpeed = determineKickForce(ball->pos.dist(shotTarget));
+            shotData.kickSpeed = determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
         } else {
             shotData.chip = false;
             shotData.kick = true;
-            shotData.kickSpeed = determineKickForce(ball->pos.dist(shotTarget));
+            shotData.kickSpeed = determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
         }
         return shotData;
     }
 
 /// Determine how fast we should kick for a pass at a given distance
-    double ShotController::determineKickForce(double distance) {
+    double ShotController::determineKickForce(double distance, BallSpeed desiredBallSpeed) {
         const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
 
         double velocity = 0;
-        switch (ballSpeed) {
+        switch (desiredBallSpeed) {
             case DRIBBLE_KICK:
                 velocity = sqrt(distance) * rtt::ai::Constants::MAX_KICK_POWER() / (sqrt(maxPowerDist) * 1.5);
                 break;
@@ -200,8 +189,8 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector
     }
 
     bool ShotController::robotAngleIsGood(world::Robot &robot,
-                                          std::pair<Vector2, Vector2> lineToDriveOver) {
-        Angle aim((lineToDriveOver.second - lineToDriveOver.first).toAngle());
+                                          std::pair<Vector2, Vector2> lineToDriveOver, ShotPrecision precision) {
+        Angle aim((lineToDriveOver.second - lineToDriveOver.first).angle());
         double diff = abs(aim - robot.angle);
         if (precision == HIGH) {
             return diff < toRadians(4);
@@ -254,11 +243,11 @@ int ShotController::determineOptimalGenevaState(world::Robot robot, Vector2 shot
     return 3;
 }
 // should only be called if geneva is not turning
-ShotData ShotController::moveAndShootSimulator(world::Robot robot, bool chip,std::pair<Vector2,Vector2> lineToDriveOver) {
+ShotData ShotController::moveAndShootSimulator(world::Robot robot, bool chip,std::pair<Vector2,Vector2> lineToDriveOver,BallSpeed desiredBallSpeed) {
     ShotData shotData;
     bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
     if (hasBall) {
-        shotData = shoot(robot, lineToDriveOver, aimTarget, chip);
+        shotData = shoot(robot, lineToDriveOver, aimTarget, chip,desiredBallSpeed);
         std::cout<<" SHOOT";
     } else {
         shotData = moveStraightToBall(robot, lineToDriveOver);
@@ -270,8 +259,8 @@ ShotData ShotController::moveAndShootSimulator(world::Robot robot, bool chip,std
 
 }
 ShotData ShotController::moveAndShootReal(rtt::ai::world::Robot robot, bool chip,
-        std::pair<Vector2, Vector2> lineToDriveOver) {
-    control::PosVelAngle pva = basicGtp.getPosVelAngle(std::make_shared<world::Robot>(robot), lineToDriveOver.second);
+        std::pair<Vector2, Vector2> lineToDriveOver,BallSpeed desiredBallSpeed) {
+    control::PosVelAngle pva = robot.getBasicGtp()->getPosVelAngle(std::make_shared<world::Robot>(robot), lineToDriveOver.second);
     pva.angle = (lineToDriveOver.second - lineToDriveOver.first).toAngle();
     ShotData shotData(pva);
     auto ball = world::world->getBall();
@@ -279,11 +268,11 @@ ShotData ShotController::moveAndShootReal(rtt::ai::world::Robot robot, bool chip
         shotData.chip = true;
         shotData.kick = false;
         // TODO calibrate chip speed
-        shotData.kickSpeed = determineKickForce(ball->pos.dist(aimTarget));
+        shotData.kickSpeed = determineKickForce(ball->pos.dist(aimTarget),desiredBallSpeed);
     } else {
         shotData.chip = false;
         shotData.kick = true;
-        shotData.kickSpeed = determineKickForce(ball->pos.dist(aimTarget));
+        shotData.kickSpeed = determineKickForce(ball->pos.dist(aimTarget),desiredBallSpeed);
     }
     shotData.forced=false;
     return shotData;
