@@ -1,1 +1,20 @@
-{"name": "free_kick_prepare_role", "data": {"trees": [{"title": "free_kick_prepare_role", "root": "3qcov1hipxs1xe", "nodes": {"3qcov1hipxs1xe": {"id": "3qcov1hipxs1xe", "title": "GoBehindBall", "properties": {"type": "freekick"}}}}]}}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "3qcov1hipxs1xe": {
+            "id": "3qcov1hipxs1xe",
+            "properties": {
+              "type": "freekick"
+            },
+            "title": "GoBehindBall"
+          }
+        },
+        "root": "3qcov1hipxs1xe",
+        "title": "free_kick_prepare_role"
+      }
+    ]
+  },
+  "name": "free_kick_prepare_role"
+}

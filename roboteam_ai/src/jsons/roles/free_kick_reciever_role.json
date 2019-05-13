@@ -1,1 +1,25 @@
-{"name": "free_kick_reciever_role", "data": {"trees": [{"title": "free_kick_reciever_role", "root": "ijr33cgb35cqzs1", "nodes": {"ijr33cgb35cqzs1": {"id": "ijr33cgb35cqzs1", "title": "GTPSpecial", "properties": {"type": "freeKick", "avoidBall": "true", "maxVel": "2.0", "canGoOutsideField": "false", "fixedTarget": "false", "canMoveInDefenseArea": "false"}}}}]}}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "ijr33cgb35cqzs1": {
+            "id": "ijr33cgb35cqzs1",
+            "properties": {
+              "avoidBall": "true",
+              "canGoOutsideField": "false",
+              "canMoveInDefenseArea": "false",
+              "fixedTarget": "false",
+              "maxVel": "2.0",
+              "type": "freeKick"
+            },
+            "title": "GTPSpecial"
+          }
+        },
+        "root": "ijr33cgb35cqzs1",
+        "title": "free_kick_reciever_role"
+      }
+    ]
+  },
+  "name": "free_kick_reciever_role"
+}
