@@ -174,8 +174,34 @@ bool Constants::robotOutputTargetGrSim = true;
         return workingGenevaRobots;
     }
 
-    bool Constants::ROBOT_HAS_WORKING_GENEVA(int id) {
+std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER() {
+    static std::map<int, bool> workingDribblerRobots;
+    workingDribblerRobots[0] = true;
+    workingDribblerRobots[1] = true;
+    workingDribblerRobots[2] = true;
+    workingDribblerRobots[3] = true;
+    workingDribblerRobots[4] = true;
+    workingDribblerRobots[5] = true;
+    workingDribblerRobots[6] = true;
+    workingDribblerRobots[7] = true;
+    workingDribblerRobots[8] = true;
+    workingDribblerRobots[9] = true;
+    workingDribblerRobots[10] = true;
+    workingDribblerRobots[11] = true;
+    workingDribblerRobots[12] = true;
+    workingDribblerRobots[13] = true;
+    workingDribblerRobots[14] = true;
+    workingDribblerRobots[15] = true;
+
+    return workingDribblerRobots;
+}
+
+bool Constants::ROBOT_HAS_WORKING_GENEVA(int id) {
         return ROBOTS_WITH_WORKING_GENEVA()[id];
+    }
+
+    bool Constants::ROBOT_HAS_WORKING_DRIBBLER(int id) {
+        return ROBOTS_WITH_WORKING_DRIBBLER()[id];
     }
 
     QColor Constants::FIELD_COLOR() { return GRSIM() ? QColor(30 , 30 , 30 , 255) :

@@ -12,18 +12,26 @@ namespace rtt {
 namespace ai {
 namespace world {
 
-Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team, unsigned char genevaState, unsigned long worldNumber)
-        :distanceToBall(- 1.0), iHaveBall(false), genevaState(genevaState), lastUpdatedWorldNumber(worldNumber),
+Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
+        unsigned char genevaState, unsigned char dribblerState, unsigned long worldNumber)
+        :distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(worldNumber), genevaState(genevaState),
+         dribblerState(dribblerState),
          id(copy.id), angle(copy.angle), pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
 
-    if (id != - 1) {
+    if (id > - 1 && id < 16) {
         workingGeneva = Constants::ROBOT_HAS_WORKING_GENEVA(id);
+        workingDribbler = Constants::ROBOT_HAS_WORKING_DRIBBLER(id);
+    }
+    else {
+        workingGeneva = false;
+        workingDribbler = false;
     }
 }
 
 Robot::Robot()
-        :distanceToBall(- 1.0), iHaveBall(false), genevaState(0), lastUpdatedWorldNumber(0),
-         id(- 1), angle(- 1.0), angularVelocity(- 1.0), team(invalid) {
+        :distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(0), genevaState(0), workingGeneva(false),
+        dribblerState(0), workingDribbler(false),
+        id(- 1), angle(- 1.0), angularVelocity(- 1.0), team(invalid) {
 }
 
 const roboteam_msgs::WorldRobot Robot::toMessage() const {
@@ -86,6 +94,10 @@ double Robot::findBallDistance(const Vector2 &ballPos) {
     return - 1.0;
 }
 
+const unsigned long Robot::getLastUpdatedWorldNumber() const {
+    return lastUpdatedWorldNumber;
+}
+
 unsigned char Robot::getGenevaState() const {
     return genevaState;
 }
@@ -107,16 +119,43 @@ void Robot::setGenevaState(unsigned char state) {
     }
 }
 
-const unsigned long &Robot::getLastUpdatedWorldNumber() const {
-    return lastUpdatedWorldNumber;
-}
-
 bool Robot::isGenevaReady() const {
-    return world->getTime() - timeGenevaChanged > abs(genevaState - previousGenevaState)*timeToChangeOneGenevaState;
+    return world->getTime() - timeGenevaChanged >
+    abs(genevaState - previousGenevaState)*timeToChangeOneGenevaState;
 }
 
 bool Robot::hasWorkingGeneva() const {
     return workingGeneva;
+}
+
+unsigned char Robot::getDribblerState() const {
+    return dribblerState;
+}
+
+bool Robot::isDribblerReady() const {
+    return world->getTime() - timeDribblerChanged >
+    abs(dribblerState - previousDribblerState)*timeToChangeOneDribblerLevel;
+}
+
+void Robot::setDribblerState(unsigned char dribbler) {
+
+    if (dribbler < 0 || dribbler > 7) {
+        std::cout << "setting invalid dribbler state (" << (int)dribbler <<
+                  ") for robot with id " << id << std::endl;
+    }
+    else if (! workingGeneva) {
+        std::cout << "setting dribbler state (" << (int)dribbler <<
+                  ") for robot without working dribbler with id " << id << std::endl;
+    }
+    else {
+        previousGenevaState = genevaState;
+        genevaState = dribbler;
+        timeGenevaChanged = world::world->getTime();
+    }
+}
+
+bool Robot::hasWorkingDribbler() const {
+    return workingDribbler;
 }
 
 } //world
