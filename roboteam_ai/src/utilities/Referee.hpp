@@ -14,20 +14,20 @@ namespace rtt {
 namespace ai {
 
 class Referee {
-private:
-    // we need to store the current and the previous refereedata.
-    static roboteam_msgs::RefereeData refMsg;
-    static roboteam_msgs::RefereeData previousRefMsg;
-    static double maxRobotVelocity;
-
+    private:
+        // we need to store the current and the previous refereedata.
+        static roboteam_msgs::RefereeData refMsg;
+        static roboteam_msgs::RefereeData previousRefMsg;
+        static double maxRobotVelocity;
 public:
     static double getMaxRobotVelocity();
+
     static void setMaxRobotVelocity(double maxRobotVelocity);
-    static void setRefereeData(roboteam_msgs::RefereeData refMsg);
-    static roboteam_msgs::RefereeData getRefereeData();
-    static roboteam_msgs::RefereeData getPreviousRefereeData();
 
-
+public:
+        static void setRefereeData(roboteam_msgs::RefereeData refMsg);
+        static roboteam_msgs::RefereeData getRefereeData();
+        static roboteam_msgs::RefereeData getPreviousRefereeData();
 };
 
 }//ai

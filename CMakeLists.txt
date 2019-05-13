@@ -125,7 +125,7 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Hungarian.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Pause.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Pause.h
-        roboteam_ai/src/utilities/RefGameState.cpp roboteam_ai/src/utilities/RefGameState.h)
+        )
 
 
 set(SKILLS_SOURCES

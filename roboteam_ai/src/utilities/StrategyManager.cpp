@@ -9,14 +9,14 @@ namespace rtt {
 namespace ai {
 
 StrategyMap StrategyManager::getCurrentStrategy(roboteam_msgs::RefereeCommand currentRefCmd) {
-    auto commandFromMostRecentReferee = static_cast<RefCommand>(currentRefCmd.command);
+    auto commandFromMostRecentReferee = static_cast<RefGameState>(currentRefCmd.command);
     // trigger only if the command changed
     if (commandFromMostRecentReferee != prevCmd) {
         auto oldStrategyMap = currentStrategyMap;
 
         // if the command has a followUpCommand and the ref says normalPlay we need to run the followupcommand
-        if (oldStrategyMap.followUpCommandId != RefCommand::UNDEFINED
-            && commandFromMostRecentReferee == RefCommand::NORMAL_START) {
+        if (oldStrategyMap.followUpCommandId != RefGameState::UNDEFINED
+            && commandFromMostRecentReferee == RefGameState::NORMAL_START) {
             return getStrategyMapForRefGameState(oldStrategyMap.followUpCommandId);
         }
 
@@ -27,21 +27,21 @@ StrategyMap StrategyManager::getCurrentStrategy(roboteam_msgs::RefereeCommand cu
 }
 
 /// Use an iterator and a lambda to efficiently get the Node for a specified id
-StrategyMap StrategyManager::getStrategyMapForRefGameState(RefCommand commandId) {
+StrategyMap StrategyManager::getStrategyMapForRefGameState(RefGameState commandId) {
     return *std::find_if(strategyMaps.begin(), strategyMaps.end(), [commandId](StrategyMap map) {
       return map.commandId == commandId;
     });
 }
 
 std::string StrategyManager::getCurrentKeeperTreeName(roboteam_msgs::RefereeCommand currentRefCmd) {
-    auto commandFromMostRecentReferee = static_cast<RefCommand>(currentRefCmd.command);
+    auto commandFromMostRecentReferee = static_cast<RefGameState>(currentRefCmd.command);
 
     // HACK the keeper now always follows the same 'custom ref command' as the normal strategy
     currentKeeperMap = getKeeperMapForRefGameState(currentStrategyMap.commandId);
     return currentKeeperMap.strategyName;
 }
 
-StrategyMap StrategyManager::getKeeperMapForRefGameState(RefCommand commandId) {
+StrategyMap StrategyManager::getKeeperMapForRefGameState(RefGameState commandId) {
     return *std::find_if(keeperMaps.begin(), keeperMaps.end(), [commandId](StrategyMap map) {
         return map.commandId == commandId;
     });

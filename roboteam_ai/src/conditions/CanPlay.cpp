@@ -18,9 +18,9 @@ bt::Node::Status CanPlay::onUpdate() {
     Vector2 ballVel=ball->vel;
 
     bool ballIsLayingStill = ballVel.length() < Constants::BALL_STILL_VEL();
-    auto refCommand = static_cast<RefCommand>(rtt::ai::Referee::getRefereeData().command.command);
+    auto refCommand = static_cast<RefGameState>(rtt::ai::Referee::getRefereeData().command.command);
 
-    if (ballIsLayingStill || refCommand != RefCommand::NORMAL_START){
+    if (ballIsLayingStill || refCommand != RefGameState::NORMAL_START){
         return Status::Failure;
     }
     return Status::Success;
