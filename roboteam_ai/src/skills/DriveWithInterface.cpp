@@ -18,11 +18,16 @@ Skill::Status DriveWithInterface::onUpdate() {
         return Status::Failure;
     }
     Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
+    if ((targetPos - robot->pos).length() < 0.16) {
+        std::cout << "Close" << std::endl;
+        return Status::Running;
+    }
 
-    Vector2 velocity = numTreeGtp.getPosVelAngle(robot, targetPos).vel;
+    auto pva = numTreeGtp.getPosVelAngle(robot, targetPos);
+    Vector2 velocity = control::ControlUtils::velocityLimiter(pva.vel, Constants::MAX_VEL());
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
-    command.w = static_cast<float>((targetPos - robot->pos).angle());
+    command.w = pva.angle;
     publishRobotCommand();
     return Status::Running;
 }
