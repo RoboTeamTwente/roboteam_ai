@@ -12,24 +12,18 @@ namespace rtt {
 namespace ai {
 namespace world {
 
-std::map<int, unsigned char> Robot::genevaState;
+Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team, unsigned char genevaState, unsigned long worldNumber)
+        :distanceToBall(- 1.0), iHaveBall(false), genevaState(genevaState), lastUpdatedWorldNumber(worldNumber),
+         id(copy.id), angle(copy.angle), pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
 
-Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team, unsigned long worldNumber)
-        : distanceToBall(-1.0), iHaveBall(false), id(copy.id), angle(copy.angle),
-          pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team), lastUpdatedWorldNumber(worldNumber) {
-
-    if (id != -1 && genevaState.find(id) == genevaState.end()) {
-        genevaState[id] = 3;
-    }
-
-    if (id != -1) {
-        hasWorkingGeneva = Constants::ROBOT_HAS_WORKING_GENEVA(id);
+    if (id != - 1) {
+        workingGeneva = Constants::ROBOT_HAS_WORKING_GENEVA(id);
     }
 }
 
 Robot::Robot()
-        : distanceToBall(-1.0), iHaveBall(false), id(-1), angle(-1.0),
-          angularVelocity(-1.0), team(invalid), lastUpdatedWorldNumber(0) {
+        :distanceToBall(- 1.0), iHaveBall(false), genevaState(0), lastUpdatedWorldNumber(0),
+         id(- 1), angle(- 1.0), angularVelocity(- 1.0), team(invalid) {
 }
 
 const roboteam_msgs::WorldRobot Robot::toMessage() const {
@@ -50,7 +44,7 @@ double Robot::getDistanceToBall() {
     return distanceToBall;
 }
 
-void Robot::updateRobot(const roboteam_msgs::WorldRobot robotMsg, const Ball &ball, unsigned long worldNumber) {
+void Robot::updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const Ball &ball, unsigned long worldNumber) {
     if (robotMsg.id == this->id) {
         this->pos = robotMsg.pos;
         this->vel = robotMsg.vel;
@@ -89,21 +83,41 @@ double Robot::findBallDistance(const Vector2 &ballPos) {
     }
 
     // if the robot does not have ball
-    return -1.0;
+    return - 1.0;
 }
 
 unsigned char Robot::getGenevaState() const {
-    return genevaState[id];
+    return genevaState;
 }
 
 void Robot::setGenevaState(unsigned char state) {
-    if (id != -1 && state > 0 && state < 6) genevaState[id] = state;
-    else std::cout << "setting invalid geneva state (" << state << ") for robot with id " << id << std::endl;
+
+    if (state < 0 || state > 5) {
+        std::cout << "setting invalid geneva state (" << (int)state <<
+        ") for robot with id " << id << std::endl;
+    }
+    else if (! workingGeneva) {
+        std::cout << "setting geneva state (" << (int)state <<
+        ") for robot without working geneva with id " << id << std::endl;
+    }
+    else if (state != 0) {
+        previousGenevaState = genevaState;
+        genevaState = state;
+        timeGenevaChanged = world::world->getTime();
+    }
 }
 
-    const unsigned long &Robot::getLastUpdatedWorldNumber() const {
-        return lastUpdatedWorldNumber;
-    }
+const unsigned long &Robot::getLastUpdatedWorldNumber() const {
+    return lastUpdatedWorldNumber;
+}
+
+bool Robot::isGenevaReady() const {
+    return world->getTime() - timeGenevaChanged > abs(genevaState - previousGenevaState)*timeToChangeOneGenevaState;
+}
+
+bool Robot::hasWorkingGeneva() const {
+    return workingGeneva;
+}
 
 } //world
 } //ai
