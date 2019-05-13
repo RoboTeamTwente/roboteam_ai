@@ -12,11 +12,10 @@ namespace rtt {
 namespace ai {
 
 DemoAttack::DemoAttack(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) {
-    robot->getNumtreeGtp()->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
-}
+        :Skill(std::move(name), std::move(blackboard)) { }
 
 void DemoAttack::onInitialize() {
+    robot->getNumtreeGtp()->setAvoidBall(Constants::DEFAULT_BALLCOLLISION_RADIUS());
     ownGoal = properties->getBool("ownGoal");
     shot = false;
 }
