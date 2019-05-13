@@ -22,7 +22,7 @@ void GTPWithBall::onInitialize() {
 
 Skill::Status GTPWithBall::onUpdate() {
     updateTarget();
-    command = ballHandlePosControl.getRobotCommand(robot, targetPos, targetAngle).makeRobotCommand();
+    command = ballHandlePosControl.getRobotCommand(robot, targetPos, targetAngle).makeROSCommand();
     publishRobotCommand();
     return Status::Running;
 }

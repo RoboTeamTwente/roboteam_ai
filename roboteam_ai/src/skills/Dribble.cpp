@@ -97,7 +97,7 @@ Dribble::Status Dribble::onUpdate() {
     }
     else if (currentProgress == ON_THE_WAY) {
         auto c = ballHandlePosControl.getRobotCommand(robot, targetPos, robot->angle);
-        command = c.makeRobotCommand();
+        command = c.makeROSCommand();
         publishRobotCommand();
         //sendMoveCommand();
     }

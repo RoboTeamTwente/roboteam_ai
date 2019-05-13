@@ -27,7 +27,7 @@ class RobotCommand {
         double chipperVel = 0;
         bool chipperForced = false;
 
-        roboteam_msgs::RobotCommand makeRobotCommand() const {
+        const roboteam_msgs::RobotCommand makeROSCommand() const {
             roboteam_msgs::RobotCommand message;
             message.id = id;
             message.x_vel = vel.x;
