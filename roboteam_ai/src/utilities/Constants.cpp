@@ -56,7 +56,7 @@ bool Constants::robotOutputTargetGrSim = true;
 
     double Constants::MAX_ANGLE() { return M_PI; }
 
-    double Constants::MAX_VEL() { return 8.0; }
+    double Constants::MAX_VEL() { return 0.5; }
 
     double Constants::MAX_STOP_STATE_VEL() { return 1.5; }
 
