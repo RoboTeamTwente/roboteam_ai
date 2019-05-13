@@ -30,8 +30,8 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     roboteam_msgs::GeometryFieldSize field;
-    field.field_width = 12;
-    field.field_length = 8;
+    field.field_width = 8;
+    field.field_length = 12;
     field.left_penalty_line.begin.x = -1.0f;
     field.left_penalty_line.end.x = -1.0f;
 
