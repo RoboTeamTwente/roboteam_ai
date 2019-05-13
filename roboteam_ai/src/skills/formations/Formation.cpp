@@ -61,7 +61,7 @@ void Formation::addRobotToFormation() {
 // remove robot from formation
 void Formation::removeRobotFromFormation() {
     for (unsigned int i = 0; i < robotsInFormationPtr()->size(); i++) {
-        if (robotsInFormationPtr()->at(i)->id == robot->id) {
+        if (robotsInFormationPtr()->at(i) && robotsInFormationPtr()->at(i)->id == robot->id) {
             robotsInFormationPtr()->erase(robotsInFormationPtr()->begin() + i);
         }
     }

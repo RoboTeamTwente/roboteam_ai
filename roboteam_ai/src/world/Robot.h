@@ -59,7 +59,6 @@ public:
     unsigned char getGenevaState() const;
     void setGenevaState(unsigned char state = 3);
 
-
     // control managers
     std::shared_ptr<control::ShotController> shotController;
     const std::shared_ptr<control::ShotController> &getShotController() const;
