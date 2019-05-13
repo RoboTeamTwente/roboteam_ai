@@ -321,7 +321,10 @@ std::string RobotDealer::getRoleNameForId(int ID) {
 }
 
 void RobotDealer::halt() {
-    robotOwners.clear();
+    {
+        std::lock_guard<std::mutex> lock(robotOwnersLock);
+        robotOwners.clear();
+    }
     RobotDealer::updateFromWorld();
     hasClaimedKeeper = false;
 }
