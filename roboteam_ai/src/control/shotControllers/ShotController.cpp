@@ -45,7 +45,6 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     bool validAngle = robotAngleIsGood(robot, lineToDriveOver, precision);
 
     ShotData shotData;
-    std::cout <<"online: "<< isOnLineToBall <<" behind: " <<isBehindBall <<" validAngle: "<< validAngle <<" ready: "<< isShooting <<" target: "<<aimTarget;
     if (isOnLineToBall && isBehindBall && (validAngle||isShooting)) {
         if (genevaIsTurning) {
             isShooting=false;
@@ -268,12 +267,9 @@ ShotData ShotController::moveAndShootSimulator(world::Robot robot, bool chip,std
     bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
     if (hasBall) {
         shotData = shoot(robot, lineToDriveOver, aimTarget, chip,desiredBallSpeed);
-        std::cout<<" SHOOT";
     } else {
         shotData = moveStraightToBall(robot, lineToDriveOver);
-        std::cout<<" MOVING";
     }
-    std::cout<<"   robotAngle: "<<robot.angle.getAngle()<<" desiredA:"<<(lineToDriveOver.second - lineToDriveOver.first).toAngle().getAngle();
     shotData.forced=true;
     return shotData;
 
