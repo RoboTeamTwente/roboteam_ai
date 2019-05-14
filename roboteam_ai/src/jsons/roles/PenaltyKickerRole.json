@@ -1,1 +1,35 @@
-{"name": "PenaltyKickerRole", "data": {"trees": [{"title": "PenaltyKickerRole", "root": "ddn7qhyoskdqf2rm", "nodes": {"ddn7qhyoskdqf2rm": {"id": "ddn7qhyoskdqf2rm", "title": "MemSequence", "children": ["mcoa7jiicpw5erpn", "3w116qozibxm3"]}, "mcoa7jiicpw5erpn": {"id": "mcoa7jiicpw5erpn", "title": "GoBehindBall", "properties": {" type": "penalty"}}, "3w116qozibxm3": {"id": "3w116qozibxm3", "title": "GoAroundPos", "properties": {" ball": "true"}}}}]}}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "3w116qozibxm3": {
+            "id": "3w116qozibxm3",
+            "properties": {
+              " ball": "true"
+            },
+            "title": "GoAroundPos"
+          },
+          "ddn7qhyoskdqf2rm": {
+            "children": [
+              "mcoa7jiicpw5erpn",
+              "3w116qozibxm3"
+            ],
+            "id": "ddn7qhyoskdqf2rm",
+            "title": "MemSequence"
+          },
+          "mcoa7jiicpw5erpn": {
+            "id": "mcoa7jiicpw5erpn",
+            "properties": {
+              " type": "penalty"
+            },
+            "title": "GoBehindBall"
+          }
+        },
+        "root": "ddn7qhyoskdqf2rm",
+        "title": "PenaltyKickerRole"
+      }
+    ]
+  },
+  "name": "PenaltyKickerRole"
+}

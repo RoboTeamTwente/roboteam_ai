@@ -14,6 +14,13 @@
 
 namespace rtt {
 namespace ai {
+
+namespace control {
+class ShotController;
+class NumTreePosControl;
+class BasicPosControl;
+}
+
 namespace world {
 
 class Robot {
@@ -55,6 +62,16 @@ class Robot {
         bool isDribblerReady() const;
         void setDribblerState(unsigned char dribbler = 0);
         bool hasWorkingDribbler() const;
+
+        // control managers
+    private:
+        std::shared_ptr<control::ShotController> shotController;
+        std::shared_ptr<control::NumTreePosControl> numtreeGTP;
+        std::shared_ptr<control::BasicPosControl> basicGTP;
+    public:
+        const std::shared_ptr<control::ShotController> &getShotController() const;
+        const std::shared_ptr<control::NumTreePosControl> &getNumtreeGtp() const;
+        const std::shared_ptr<control::BasicPosControl> &getBasicGtp() const;
 
         // general
     public:

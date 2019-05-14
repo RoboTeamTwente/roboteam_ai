@@ -7,6 +7,7 @@
 #include "Ball.h"
 
 #include <roboteam_ai/src/control/ControlUtils.h>
+#include <roboteam_ai/src/control/shotControllers/ShotController.h>
 
 namespace rtt {
 namespace ai {
@@ -26,6 +27,11 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
         workingGeneva = false;
         workingDribbler = false;
     }
+
+    // set up control controllers
+    shotController = std::make_shared<control::ShotController>();
+    numtreeGTP = std::make_shared<control::NumTreePosControl>();
+    basicGTP = std::make_shared<control::BasicPosControl>();
 }
 
 Robot::Robot()
@@ -156,6 +162,18 @@ bool Robot::isDribblerReady() const {
 
 bool Robot::hasWorkingDribbler() const {
     return workingDribbler;
+}
+
+const shared_ptr<control::ShotController> &Robot::getShotController() const {
+    return shotController;
+}
+
+const shared_ptr<control::NumTreePosControl> &Robot::getNumtreeGtp() const {
+    return numtreeGTP;
+}
+
+const shared_ptr<control::BasicPosControl> &Robot::getBasicGtp() const {
+    return basicGTP;
 }
 
 } //world

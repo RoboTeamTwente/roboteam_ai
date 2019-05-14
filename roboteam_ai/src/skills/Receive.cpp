@@ -14,7 +14,7 @@ Receive::Receive(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(
 
 void Receive::onInitialize() {
     readyToPassSet = false;
-    basicGtp.setCanMoveInDefenseArea(false);
+   // basicGtp.setCanMoveInDefenseArea(false);
 }
 
 Receive::Status Receive::onUpdate() {
@@ -81,7 +81,7 @@ void Receive::intercept() {
     ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
 
-    Vector2 velocities = basicGtp.getPosVelAngle(robot, interceptPoint).vel;
+    Vector2 velocities = robot->getBasicGtp()->getPosVelAngle(robot, interceptPoint).vel;
     velocities = control::ControlUtils::velocityLimiter(velocities);
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
