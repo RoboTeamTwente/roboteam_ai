@@ -6,7 +6,7 @@
 #define ROBOTEAM_WORLD_KALMANFILTER_H
 
 
-#include "kalman/KalmanObject.h"
+#include "kalman/kalmanObject.h"
 #include "roboteam_msgs/DetectionFrame.h"
 #include "roboteam_msgs/DetectionRobot.h"
 
