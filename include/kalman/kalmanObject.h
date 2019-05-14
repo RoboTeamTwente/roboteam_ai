@@ -26,7 +26,7 @@ private:
     bool exists;
 
     arma::fmat X(STATE_INDEX, 1);
-    arma::fmat Z(STATE_INDEX, 1);
+    arma::fmat Z(OBSERVATION_INDEX, 1);
     arma::fmat F(STATE_INDEX, STATE_INDEX);
     arma::fmat H(OBSERVATION_INDEX, STATE_INDEX);
     arma::fmat R(OBSERVATION_INDEX, OBSERVATION_INDEX);
