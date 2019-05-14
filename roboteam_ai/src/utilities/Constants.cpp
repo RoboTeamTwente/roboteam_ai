@@ -102,6 +102,8 @@ bool Constants::robotOutputTargetGrSim = true;
 
     double Constants::BALL_STILL_VEL() { return 0.1; }
 
+    double Constants::BALL_MOVING_FAST_VEL(){ return 1.0; }
+
     double Constants::MIN_DISTANCE_FOR_FORCE() { return 0.5; }
 
     double Constants::GOTOPOS_ERROR_MARGIN() { return 0.03; }

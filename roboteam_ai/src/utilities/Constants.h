@@ -64,6 +64,7 @@ public:
 
     static double MAX_INTERCEPT_TIME();    // Seconds. Intercept terminates  after this time.
     static double BALL_STILL_VEL();    // If the ball has velocity lower than this in defense area, keeper starts getting it
+    static double BALL_MOVING_FAST_VEL();   // Minimum velocity the ball needs to first be controlled before passing/attacking
     static double MIN_DISTANCE_FOR_FORCE();
     static double GOTOPOS_ERROR_MARGIN();
     static double DEFAULT_BALLCOLLISION_RADIUS();

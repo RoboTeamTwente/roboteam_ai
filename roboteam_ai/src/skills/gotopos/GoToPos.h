@@ -35,6 +35,8 @@ class GoToPos : public Skill {
         virtual Status gtpUpdate() = 0;
         virtual void gtpTerminate(Status s) = 0;
     public:
+        double velocityOverwrite;
+
         explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;
         void onInitialize() override;

@@ -18,3 +18,4 @@ ShouldHandleBall
 IsOnPassLine
 CanPlay
 RobotOutside
+IsBallMovingFast,minVel

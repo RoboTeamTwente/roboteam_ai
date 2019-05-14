@@ -55,11 +55,11 @@ Skill::Status GoBehindBall::gtpUpdate() {
 
         // else, intercept the ball
         } else {
-            double timeNeeded = ((ballEndPos - robot->pos).length())/(Constants::MAX_VEL()*0.8);
+            double timeNeeded = ((ballEndPos - robot->pos).length())/(Constants::MAX_VEL()*0.4);
             targetPos = ball->pos + ball->vel*timeNeeded;
-            if (!world::field->pointIsInField(targetPos)) {
-                return Status::Failure;
-            }
+//            if (!world::field->pointIsInField(targetPos)) {
+//                return Status::Failure;
+//            }
         }
 
         command.w = (ball->pos - robot->pos).toAngle();
