@@ -14,7 +14,7 @@ Receive::Receive(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(
 
 void Receive::onInitialize() {
     readyToPassSet = false;
-   // basicGtp.setCanMoveInDefenseArea(false);
+    canMoveInDefenseArea=properties->getBool("canMoveInDefenseArea");
 }
 
 Receive::Status Receive::onUpdate() {
@@ -62,7 +62,14 @@ void Receive::onTerminate(Status s) {
 
 // Pick the closest point to the (predicted) line of the ball for any 'regular' interception
 Vector2 Receive::computeInterceptPoint(const Vector2& startBall, const Vector2& endBall) {
-    return robot->pos.project(startBall, endBall);
+    if (canMoveInDefenseArea) {
+        return robot->pos.project(startBall, endBall);
+    }
+    std::vector<Vector2> lines=world::field->getDefenseArea(false,Constants::ROBOT_RADIUS());
+    lines.emplace_back(world::field->getDefenseArea(true,Constants::ROBOT_RADIUS()));
+    std::vector<Vector2> intersections;
+    for (auto line : lines){
+    }
 }
 
 // check if the robot is in the desired position to catch the ball
