@@ -78,12 +78,12 @@ namespace rtt {
                         same += 1;
                 }
             }
-            count += 1;
-//            if (same == STATE_INDEX * OBSERVATION_INDEX) {
-//                count += 1;
-//            } else {
-//                count = 0;
-//            }
+
+            if (same == STATE_INDEX * OBSERVATION_INDEX) {
+                count += 1;
+            } else {
+                count = 0;
+            }
 
             this->K = K_new;
             this->P = P_new;
