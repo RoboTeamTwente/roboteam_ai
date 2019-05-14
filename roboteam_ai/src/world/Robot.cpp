@@ -60,11 +60,11 @@ void Robot::updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const Ball &b
         this->angularVelocity = robotMsg.w;
         this->lastUpdatedWorldNumber = worldNumber;
     }
-    distanceToBall = findBallDistance(ball.pos);
+    distanceToBall = calculateDistanceToBall(ball.pos);
     iHaveBall = distanceToBall >= 0.0;
 }
 
-double Robot::findBallDistance(const Vector2 &ballPos) {
+double Robot::calculateDistanceToBall(const Vector2 &ballPos) {
 
     // the angles of the left/right side of the dribbler
     Angle leftSideAngle = angle - Constants::DRIBBLER_ANGLE_OFFSET();

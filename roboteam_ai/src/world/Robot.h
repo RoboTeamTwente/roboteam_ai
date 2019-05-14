@@ -20,10 +20,15 @@ class Robot {
     public:
         using BallPtr = std::shared_ptr<Ball>;
 
+        // ball possession
     private:
         double distanceToBall;
         bool iHaveBall;
         unsigned long lastUpdatedWorldNumber = 0;
+    public:
+        double calculateDistanceToBall(const Vector2 &ballPos);
+        bool hasBall(double maxDist = Constants::MAX_BALL_BOUNCE_RANGE());
+        double getDistanceToBall();
 
         // geneva
     private:
@@ -51,24 +56,19 @@ class Robot {
         void setDribblerState(unsigned char dribbler = 0);
         bool hasWorkingDribbler() const;
 
+        // general
+    public:
         enum Team : short {
           us,
           them,
           invalid
         };
+        Robot();
         explicit Robot(const roboteam_msgs::WorldRobot &copy, Team team = invalid,
                 unsigned char genevaState = 3, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
-        Robot();
-
-        double findBallDistance(const Vector2 &ballPos);
-        const unsigned long getLastUpdatedWorldNumber() const;
-
-        const roboteam_msgs::WorldRobot toMessage() const;
         void updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const Ball &ball, unsigned long worldNumber);
-        bool hasBall(double maxDist = Constants::MAX_BALL_BOUNCE_RANGE());
-        double getDistanceToBall();
-
-
+        const unsigned long getLastUpdatedWorldNumber() const;
+        const roboteam_msgs::WorldRobot toMessage() const;
 
         int id = - 1;
         Angle angle = Angle();
@@ -76,7 +76,6 @@ class Robot {
         Vector2 vel = Vector2();
         double angularVelocity = 0.0;
         Team team;
-
 };
 
 } // world
