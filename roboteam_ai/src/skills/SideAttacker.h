@@ -15,8 +15,6 @@ namespace ai {
 
 class SideAttacker : public Skill {
     private:
-
-    control::NumTreePosControl goToPos;
     Vector2 deltaPos;
     Vector2 targetPos;
 

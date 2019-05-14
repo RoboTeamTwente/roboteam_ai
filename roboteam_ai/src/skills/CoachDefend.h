@@ -17,9 +17,6 @@ class CoachDefend : public Skill {
         explicit CoachDefend(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
         void onInitialize() override;
         bt::Node::Status onUpdate() override;
-        void onTerminate(bt::Node::Status) override;
-    private:
-        control::NumTreePosControl numTreeGtp;
 };
 }
 }
