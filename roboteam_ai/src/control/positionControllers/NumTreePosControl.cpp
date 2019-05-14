@@ -27,17 +27,17 @@ PosVelAngle NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
         Vector2 deltaPos = exactTargetPos - robot.pos;
         PathPoint pathPoint;
         pathPoint.pos = robot.pos;
-        std::cout << "close to target" << std::endl;
         target.pos = exactTargetPos;
         target.vel = deltaPos.stretchToLength(pathPoint.maxVel());
         target.angle = deltaPos.toAngle();
         return target;
     }
-    std::cout << path.size() << std::endl;
-    target.pos = path[targetPathPoint].pos;
-    target.vel = path[targetPathPoint].vel;
-    target.angle = (target.pos - robot.pos).angle();
-    return target;
+    else {
+        target.pos = path[targetPathPoint].pos;
+        target.vel = path[targetPathPoint].vel;
+        target.angle = (target.pos - robot.pos).angle();
+        return target;
+    }
 }
 
 /// finds a reason to calculate a new path (possible reasons are: no path calculated yet, final target moved,
