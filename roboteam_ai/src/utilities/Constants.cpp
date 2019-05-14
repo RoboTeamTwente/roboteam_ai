@@ -46,7 +46,7 @@ bool Constants::robotOutputTargetGrSim = true;
 
     bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
 
-    double Constants::MAX_VEL_CMD() { return 1.191; }
+    double Constants::MAX_VEL_CMD() { return 8.191; }
 
     int Constants::MAX_ID_CMD() { return 15; }
 
@@ -56,7 +56,7 @@ bool Constants::robotOutputTargetGrSim = true;
 
     double Constants::MAX_ANGLE() { return M_PI; }
 
-    double Constants::MAX_VEL() { return 2.0; }
+    double Constants::MAX_VEL() { return GRSIM()? 4.0 :2.0; }
 
     double Constants::MAX_STOP_STATE_VEL() { return 1.5; }
 
