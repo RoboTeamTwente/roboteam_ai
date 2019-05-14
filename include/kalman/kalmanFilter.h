@@ -10,12 +10,18 @@
 #include "roboteam_msgs/DetectionFrame.h"
 #include "roboteam_msgs/DetectionRobot.h"
 
-void kalmanInit();
+namespace rtt {
 
-void kalmanUpdate();
+    void kalmanInit();
 
-void newFrame();
+    void kalmanUpdate();
 
-kalmanObject robotlist[32];
+    void newFrame();
+
+    position getStates(uint id);
+
+    kalmanObject robotlist[32];
+
+}
 
 #endif //ROBOTEAM_WORLD_KALMANFILTER_H

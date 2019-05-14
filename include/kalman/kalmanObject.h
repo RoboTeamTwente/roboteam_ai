@@ -16,36 +16,70 @@
 #define STATE_VAR 0.5
 #define RAND_VAR 0.5
 
-class kalmanObject {
+namespace rtt {
 
-private:
+    class kalmanObject {
 
-    uint id;
-    double observationTimeStamp;
-    int invisibleCounter;
-    bool exists;
+    private:
 
-    arma::fmat X(STATE_INDEX, 1);
-    arma::fmat Z(OBSERVATION_INDEX, 1);
-    arma::fmat F(STATE_INDEX, STATE_INDEX);
-    arma::fmat H(OBSERVATION_INDEX, STATE_INDEX);
-    arma::fmat R(OBSERVATION_INDEX, OBSERVATION_INDEX);
-    arma::fmat I(STATE_INDEX, STATE_INDEX);
-    arma::fmat P(STATE_INDEX, STATE_INDEX);
-    arma::fmat Q(STATE_INDEX, STATE_INDEX);
-    arma::fmat K(STATE_INDEX, OBSERVATION_INDEX);
+        uint id;
+        double observationTimeStamp;
+        int invisibleCounter;
+        bool exists;
 
-public:
+        arma::fmat X(
 
-    kalmanObject();
-    kalmanObject(uint id);
-    ~kalmanObject();
+        STATE_INDEX, 1);
 
-    void kalmanUpdateK();
-    void kalmanUpdateX();
-    void kalmanUpdateZ(float x, float y, float z, double timeStamp);
-    position kalmanGetState();
-};
+        arma::fmat Z(
 
+        OBSERVATION_INDEX, 1);
+
+        arma::fmat F(
+
+        STATE_INDEX, STATE_INDEX);
+
+        arma::fmat H(
+
+        OBSERVATION_INDEX, STATE_INDEX);
+
+        arma::fmat R(
+
+        OBSERVATION_INDEX, OBSERVATION_INDEX);
+
+        arma::fmat I(
+
+        STATE_INDEX, STATE_INDEX);
+
+        arma::fmat P(
+
+        STATE_INDEX, STATE_INDEX);
+
+        arma::fmat Q(
+
+        STATE_INDEX, STATE_INDEX);
+
+        arma::fmat K(
+
+        STATE_INDEX, OBSERVATION_INDEX);
+
+    public:
+
+        kalmanObject();
+
+        kalmanObject(uint id);
+
+        ~kalmanObject();
+
+        void kalmanUpdateK();
+
+        void kalmanUpdateX();
+
+        void kalmanUpdateZ(float x, float y, float z, double timeStamp);
+
+        position kalmanGetState();
+    };
+
+}
 
 #endif //ROBOTEAM_WORLD_KALMANOBJECT_H
