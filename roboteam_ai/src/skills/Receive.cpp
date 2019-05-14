@@ -69,11 +69,11 @@ Vector2 Receive::computeInterceptPoint(const Vector2& startBall, const Vector2& 
         return projectPos;
     }
     if (world::field->pointIsInDefenceArea(projectPos, true, margin)||world::field->pointIsInDefenceArea(projectPos, false, margin)) {
-        Polygon defUs(world::field->getDefenseArea(true, margin));
-        Polygon defThem(world::field->getDefenseArea(false, margin));
+        Polygon defenceAreaUs(world::field->getDefenseArea(true, margin));
+        Polygon defenceAreaThem(world::field->getDefenseArea(false, margin));
         LineSegment shotLine(startBall, startBall + startBall + (endBall - startBall)*10000);
-        std::vector<Vector2> intersects = defUs.intersections(shotLine);
-        std::vector<Vector2> intersectsThem = defThem.intersections(shotLine);
+        std::vector<Vector2> intersects = defenceAreaUs.intersections(shotLine);
+        std::vector<Vector2> intersectsThem = defenceAreaThem.intersections(shotLine);
         intersects.insert(intersects.end(),intersectsThem.begin(),intersectsThem.end());
         if(intersects.empty()){
             return projectPos;
