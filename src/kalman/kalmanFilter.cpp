@@ -20,10 +20,10 @@ void kalmanUpdate(){
 void newFrame(const roboteam_msgs::DetectionFrame msg){
     double timeCapture = msg.t_capture;
     for (const roboteam_msgs::DetectionRobot robot : msg.them) {
-        robotlist(robot.robot_id).kalmanUpdateZ(robotdata(xyz))
+        robotlist(robot.robot_id).kalmanUpdateZ(robot.pos.x, robot.pos.y, robot.orientation, timeCapture)
     }
     for (const roboteam_msgs::DetectionRobot robot : msg.us) {
-        robotlist(robot.robot_id).kalmanUpdateZ(robotdata(xyz))
+        robotlist(robot.robot_id).kalmanUpdateZ(robot.pos.x, robot.pos.y, robot.orientation, timeCapture)
     }
 }
 
