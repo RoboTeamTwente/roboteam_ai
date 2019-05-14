@@ -140,7 +140,7 @@ unsigned char Robot::getDribblerState() const {
 
 void Robot::setDribblerState(unsigned char dribbler) {
 
-    if (dribbler < 0 || dribbler > 7) {
+    if (dribbler < 0 || dribbler > 31) {
         std::cout << "setting invalid dribbler state (" << (int)dribbler <<
                   ") for robot with id " << id << std::endl;
     }
