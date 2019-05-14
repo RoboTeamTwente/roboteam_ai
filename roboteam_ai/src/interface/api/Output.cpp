@@ -16,13 +16,13 @@ pidVals Output::forcePID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::basicPID = pidVals(0.0, 0.0, 0.0);
 
 
-rtt::Vector2 Output::ballPlacementTarget = {0, 0}; // initialize on middle of the field
+rtt::Vector2 Output::markerPosition = {0, 0}; // initialize on middle of the field
 bool Output::useRefereeCommands = false;
 bool Output::showDebugValuesInTerminal = true;
 bool Output::timeOutAtTop = Constants::STD_TIMEOUT_TO_TOP();
 
 std::mutex Output::pidMutex;
-std::mutex Output::ballPlacementMutex;
+std::mutex Output::markerMutex;
 std::mutex Output::refMutex;
 std::mutex Output::showDebugMutex;
 
@@ -40,14 +40,14 @@ void Output::sendHaltCommand() {
 
 }
 
-const Vector2& Output::getBallPlacementTarget() {
-    std::lock_guard<std::mutex> lock(ballPlacementMutex);
-    return ballPlacementTarget;
+const Vector2& Output::getInterfaceMarkerPosition() {
+    std::lock_guard<std::mutex> lock(markerMutex);
+    return markerPosition;
 }
 
-void Output::setBallPlacementTarget(const Vector2& _ballPlacementTarget) {
-    std::lock_guard<std::mutex> lock(ballPlacementMutex);
-    Output::ballPlacementTarget = _ballPlacementTarget;
+void Output::setMarkerPosition(const Vector2 &ballPlacementTarget) {
+    std::lock_guard<std::mutex> lock(markerMutex);
+    Output::markerPosition = ballPlacementTarget;
 }
 
 bool Output::usesRefereeCommands() {

@@ -14,11 +14,10 @@ namespace analysis {
 PlayStyle DecisionMaker::getRecommendedPlayStyle(BallPossession possession) {
     int amountOfRobots = world::world->getUs().size();
 
-    // subtract one robot if we need a keeper
-    if (robotDealer::RobotDealer::usesSeparateKeeper()) {
+    // subtract one robot if we have a keeper
+    if (robotDealer::RobotDealer::usesSeparateKeeper() && robotDealer::RobotDealer::keeperExistsInWorld()) {
         amountOfRobots = std::max(0, amountOfRobots-1);
     }
-
   PlayStyle styles[9][5]  = {
 
           {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, // 0

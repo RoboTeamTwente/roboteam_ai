@@ -28,11 +28,7 @@ protected:
     Vector2 targetPos;
     virtual void initiatePass();
     bool didShootProperly();
-
     int robotToPassToID = -1;
-
-    std::shared_ptr<control::ShotController> shotControl;
-    control::NumTreePosControl numTreeGtp;
     Vector2 getKicker();
 
 

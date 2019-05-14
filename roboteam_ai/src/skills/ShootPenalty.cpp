@@ -12,7 +12,6 @@ void ShootPenalty::onInitialize() {
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
     Vector2 robotPos = robot->pos;
     targetPos = ballPos + (robotPos - ballPos).rotate(fakeOffset.getAngle());
-    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::MAX_SPEED, true);
     aim();
 
 }
@@ -34,7 +33,7 @@ Skill::Status ShootPenalty::onUpdate() {
 
     }
     else{
-        shotControl->makeCommand(shotControl->getShotData(*robot, aimPoint), command);
+        robot->getShotController()->makeCommand(shotControl->getShotData(*robot, aimPoint), command);
         publishRobotCommand();
     }
     if (isPenaltyShot()) {

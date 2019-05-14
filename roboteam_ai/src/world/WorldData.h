@@ -26,12 +26,12 @@ enum WhichRobots : short {
 class WorldData {
     public:
         WorldData() = default;
-        explicit WorldData(const roboteam_msgs::World &copy)
-                : time(copy.time) {
+        explicit WorldData(const roboteam_msgs::World &copy) : time(copy.time) {
             for (auto &robot : copy.us) {
                 Robot r = Robot(robot, Robot::Team::us);
                 us.emplace_back(r);
             }
+
             for (auto &robot : copy.them) {
                 Robot r = Robot(robot, Robot::Team::them);
                 them.emplace_back(r);

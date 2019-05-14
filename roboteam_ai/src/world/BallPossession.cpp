@@ -8,8 +8,8 @@
 namespace rtt {
 namespace ai {
 
-BallPossession bpTrackerObj;
-BallPossession* bpTracker = &bpTrackerObj;
+BallPossession ballPossession;
+BallPossession* ballPossessionPtr = &ballPossession;
 
 void BallPossession::update() {
     updateTicks();

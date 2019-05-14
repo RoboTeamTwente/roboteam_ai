@@ -179,7 +179,7 @@ std::pair<roboteam_msgs::World, int> WorldHelper::getWorldMsgWhereRobotHasBall(i
 
         validWorld = allPositionsAreValid(msg, false);
         rtt::ai::world::world->updateWorld(msg);
-        if (rtt::ai::world::world->whichRobotHasBall()->id != robotWithBallId) {
+        if (rtt::ai::world::world->whichRobotHasBall() && rtt::ai::world::world->whichRobotHasBall()->id != robotWithBallId) {
             wrongMsg ++;
             validWorld = false;
         }

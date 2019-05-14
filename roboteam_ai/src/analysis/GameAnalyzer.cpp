@@ -27,7 +27,7 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
     if (world::world->weHaveRobots()) {
         std::shared_ptr<AnalysisReport> report = std::make_shared<AnalysisReport>();
 
-        report->ballPossession = convertPossession(bpTracker->getPossession());
+        report->ballPossession = convertPossession(ballPossessionPtr->getPossession());
         report->ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(true);
         report->theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(false);
         report->theirRobotSortedOnDanger = getRobotsSortedOnDanger(false);
@@ -208,7 +208,7 @@ void GameAnalyzer::loop(unsigned delayMillis) {
 }
 
 std::vector<std::pair<GameAnalyzer::Robot, RobotDanger>> GameAnalyzer::getRobotsSortedOnDanger(bool ourTeam) {
-    auto robots = ourTeam ? world::world->getWorld().us : world::world->getWorld().them;
+    auto robots = ourTeam ? world::world->getUs() : world::world->getThem();
     std::vector<std::pair<Robot, RobotDanger>> robotDangers;
 
     for (auto robot : robots) {

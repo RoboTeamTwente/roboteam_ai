@@ -16,7 +16,6 @@ BallPlacementPass::BallPlacementPass(string name, bt::Blackboard::Ptr blackboard
 void BallPlacementPass::onInitialize() {
     robotToPassToID = -1;
     hasShot = false;
-    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::LAY_STILL_AT_POSITION, true);
 }
 
 bt::Node::Status BallPlacementPass::onUpdate() {
@@ -58,9 +57,9 @@ bt::Node::Status BallPlacementPass::onUpdate() {
      */
     if (!coach::g_pass.isPassed() && !hasShot) {
         if (coach::g_pass.isReadyToReceivePass()) {
-            shotControl->makeCommand(shotControl->getShotData(*robot, getKicker(), false), command);
+            robot->getShotController()->makeCommand(robot->getShotController()->getShotData(*robot, getKicker(), false), command);
         } else if (robot->pos.dist(ball->pos) > 0.5) {
-            auto pva = numTreeGtp.getPosVelAngle(robot, ball->pos);
+            auto pva = robot->getNumtreeGtp()->getPosVelAngle(robot, ball->pos);
             command.x_vel = pva.vel.x;
             command.y_vel = pva.vel.y;
             command.w = pva.angle;
