@@ -60,6 +60,8 @@ add_library(roboteam_world_srcs
         src/utils/ball.cpp
         src/utils/robot.cpp
         src/ros_handler.cpp
+        src/kalman/kalmanFilter.cpp
+        src/kalman/kalmanObject.cpp
 
     # src/world
         src/filtered_world/filtered_world.cpp
