@@ -125,7 +125,7 @@ void kalmanObject::kalmanUpdateZ(float x, float y, float z, double timeStamp){
         this->Z(2, 0) = z;
         this->observationTimeStamp = timeStamp;
         this->invisibleCounter = 0;
-        this->exists
+        this->exists = true;
     }
 }
 
