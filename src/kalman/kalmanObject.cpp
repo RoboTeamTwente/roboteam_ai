@@ -2,6 +2,8 @@
 // Created by kjhertenberg on 13-5-19.
 //
 
+#include <kalman/kalmanObject.h>
+
 #include "kalman/kalmanObject.h"
 
 namespace rtt {
@@ -15,8 +17,8 @@ namespace rtt {
         this->observationTimeStamp = 0.0;
         this->invisibleCounter = 0;
         this->exists = false;
-        this->X.zeros();
-        this->Z.zeros();
+        this->X.zeros(STATE_INDEX, 1);
+        this->Z.zeros(OBSERVATION_INDEX, 1);
         this->F = {{1, TIMEDIFF, 0, 0,        0, 0},
                    {0, 1,        0, 0,        0, 0},
                    {0, 0,        1, TIMEDIFF, 0, 0},
@@ -29,7 +31,7 @@ namespace rtt {
         this->R = {{POS_VAR, 0, 0},
                    {0, POS_VAR, 0},
                    {0,       0, POS_VAR}};
-        this->I.eyes();
+        this->I.eye(STATE_INDEX, STATE_INDEX);
         this->P = {{STATE_VAR, 0, 0,         0, 0,         0},
                    {0, STATE_VAR, 0,         0, 0,         0},
                    {0,         0, STATE_VAR, 0, 0,         0},
@@ -47,23 +49,24 @@ namespace rtt {
                                                                                                                       RAND_VAR},
                    {0, 0,                           0,                   0,                             TIMEDIFF *
                                                                                                         RAND_VAR,     RAND_VAR}};
-        this->K.zeros();
+        this->K.zeros(STATE_INDEX, OBSERVATION_INDEX);
+
     }
 
     kalmanObject::~kalmanObject() {
-        delete this->id;
-        delete this->observationTimeStamp;
-        delete this->invisibleCounter;
-        delete this->exists;
-        delete this->X;
-        delete this->Z;
-        delete this->F;
-        delete this->H;
-        delete this->R;
-        delete this->I;
-        delete this->P;
-        delete this->Q;
-        delete this->K;
+        delete &this->id;
+        delete &this->observationTimeStamp;
+        delete &this->invisibleCounter;
+        delete &this->exists;
+        delete &this->X;
+        delete &this->Z;
+        delete &this->F;
+        delete &this->H;
+        delete &this->R;
+        delete &this->I;
+        delete &this->P;
+        delete &this->Q;
+        delete &this->K;
     }
 
     void kalmanObject::kalmanUpdateK() {
@@ -111,7 +114,7 @@ namespace rtt {
         this->invisibleCounter += 1;
         if (this->invisibleCounter > 200) {
             //this->~kalmanObject();
-            this->exists = false
+            this->exists = false;
         } else {
 
             arma::fmat X_predict = this->F * this->X;
@@ -126,7 +129,7 @@ namespace rtt {
     }
 
     void kalmanObject::kalmanUpdateZ(float x, float y, float z, double timeStamp) {
-        if (timestamp > this->observationTimeStamp) {
+        if (timeStamp > this->observationTimeStamp) {
             this->Z(0, 0) = x;
             this->Z(1, 0) = y;
             this->Z(2, 0) = z;
@@ -136,8 +139,10 @@ namespace rtt {
         }
     }
 
-    position kalmanObject::kalmanGetState() {
+    Position kalmanObject::kalmanGetState() {
         return {this->X(0, 0), this->X(2, 0), this->X(4, 0)};
     }
+
+
 
 }
