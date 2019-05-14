@@ -45,9 +45,9 @@ const Vector2& Output::getBallPlacementTarget() {
     return ballPlacementTarget;
 }
 
-void Output::setBallPlacementTarget(const Vector2& ballPlacementTarget) {
+void Output::setBallPlacementTarget(const Vector2& _ballPlacementTarget) {
     std::lock_guard<std::mutex> lock(ballPlacementMutex);
-    Output::ballPlacementTarget = ballPlacementTarget;
+    Output::ballPlacementTarget = _ballPlacementTarget;
 }
 
 bool Output::usesRefereeCommands() {
@@ -55,9 +55,9 @@ bool Output::usesRefereeCommands() {
     return useRefereeCommands;
 }
 
-void Output::setUseRefereeCommands(bool useRefereeCommands) {
+void Output::setUseRefereeCommands(bool _useRefereeCommands) {
     std::lock_guard<std::mutex> lock(refMutex);
-    Output::useRefereeCommands = useRefereeCommands;
+    Output::useRefereeCommands = _useRefereeCommands;
 }
 
 void Output::setShowDebugValues(bool showDebug) {
