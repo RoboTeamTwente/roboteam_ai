@@ -7,6 +7,7 @@
 
 
 #include "kalman/kalmanObject.h"
+#include "roboteam_utils/Position.h"
 #include "roboteam_msgs/DetectionFrame.h"
 #include "roboteam_msgs/DetectionRobot.h"
 
@@ -16,9 +17,9 @@ namespace rtt {
 
     void kalmanUpdate();
 
-    void newFrame();
+    void newFrame(const roboteam_msgs::DetectionFrame msg);
 
-    position getStates(uint id);
+    Position getStates(uint id);
 
     kalmanObject robotlist[32];
 

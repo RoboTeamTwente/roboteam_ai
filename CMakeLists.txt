@@ -115,6 +115,7 @@ add_dependencies(filtered_world
 
 catkin_add_gtest(world_test
     test/main.cpp
+        test/KalmanTest.cpp
         test/BasicTest.cpp
         test/WorldTest.cpp
         src/filtered_world/filtered_world.cpp

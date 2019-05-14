@@ -7,7 +7,7 @@
 namespace rtt {
 
     void kalmanInit() {
-        for (int i = 0; i < 32; ++i) {
+        for (uint i = 0; i < 32; ++i) {
             robotlist[i] = kalmanObject(i);
         }
     }
@@ -29,7 +29,7 @@ namespace rtt {
         }
     }
 
-    position getStates(uint id) {
+    Position getStates(uint id) {
         return robotlist(id).kalmanGetState();
     }
 

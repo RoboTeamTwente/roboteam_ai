@@ -7,6 +7,7 @@
 
 #include <armadillo_bits/arma_forward.hpp>
 #include "armadillo"
+#include "roboteam_utils/Position.h"
 
 #define STATE_INDEX 6
 #define OBSERVATION_INDEX 3
@@ -27,41 +28,23 @@ namespace rtt {
         int invisibleCounter;
         bool exists;
 
-        arma::fmat X(
+        arma::fmat X(STATE_INDEX, 1);
 
-        STATE_INDEX, 1);
+        arma::fmat Z(OBSERVATION_INDEX, 1);
 
-        arma::fmat Z(
+        arma::fmat F(STATE_INDEX, STATE_INDEX);
 
-        OBSERVATION_INDEX, 1);
+        arma::fmat H(OBSERVATION_INDEX, STATE_INDEX);
 
-        arma::fmat F(
+        arma::fmat R(OBSERVATION_INDEX, OBSERVATION_INDEX);
 
-        STATE_INDEX, STATE_INDEX);
+        arma::fmat I(STATE_INDEX, STATE_INDEX);
 
-        arma::fmat H(
+        arma::fmat P(STATE_INDEX, STATE_INDEX);
 
-        OBSERVATION_INDEX, STATE_INDEX);
+        arma::fmat Q(STATE_INDEX, STATE_INDEX);
 
-        arma::fmat R(
-
-        OBSERVATION_INDEX, OBSERVATION_INDEX);
-
-        arma::fmat I(
-
-        STATE_INDEX, STATE_INDEX);
-
-        arma::fmat P(
-
-        STATE_INDEX, STATE_INDEX);
-
-        arma::fmat Q(
-
-        STATE_INDEX, STATE_INDEX);
-
-        arma::fmat K(
-
-        STATE_INDEX, OBSERVATION_INDEX);
+        arma::fmat K(STATE_INDEX, OBSERVATION_INDEX);
 
     public:
 
