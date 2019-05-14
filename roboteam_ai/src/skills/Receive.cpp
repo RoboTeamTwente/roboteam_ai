@@ -69,11 +69,10 @@ Vector2 Receive::computeInterceptPoint(const Vector2& startBall, const Vector2& 
         return projectPos;
     }
     if (world::field->pointIsInDefenceArea(projectPos, true, margin)||world::field->pointIsInDefenceArea(projectPos, false, margin)) {
-        Polygon dUs(world::field->getDefenseArea(false, margin)), dThem(world::field->getDefenseArea(true, margin));
-        interface::Input::drawData(interface::DEBUG,world::field->getDefenseArea(false, margin),Qt::red,-1,interface::Drawing::LINES_CONNECTED);
+        Polygon defUs(world::field->getDefenseArea(true, margin)), defThem(world::field->getDefenseArea(false, margin));
         LineSegment shotLine(startBall, startBall + startBall + (endBall - startBall)*10000);
-        std::vector<Vector2> intersects = dUs.intersections(shotLine);
-        std::vector<Vector2> intersectsThem = dThem.intersections(shotLine);
+        std::vector<Vector2> intersects = defUs.intersections(shotLine);
+        std::vector<Vector2> intersectsThem = defThem.intersections(shotLine);
         intersects.insert(intersects.end(),intersectsThem.begin(),intersectsThem.end());
         if(intersects.empty()){
             return projectPos;
@@ -81,10 +80,12 @@ Vector2 Receive::computeInterceptPoint(const Vector2& startBall, const Vector2& 
         double closestDist=DBL_MAX;
         Vector2 closestPoint=projectPos;
         for(const auto& point :intersects){
-            double dist=point.dist2(projectPos);
-            if(dist<closestDist){
-                closestDist=dist;
-                closestPoint=point;
+            if (world::field->pointIsInField(point,0.01)) {
+                double dist = point.dist2(projectPos);
+                if (dist < closestDist) {
+                    closestDist = dist;
+                    closestPoint = point;
+                }
             }
         }
         return closestPoint;
