@@ -18,48 +18,60 @@
 namespace rtt {
 
     TEST(KalmanTest, Armadillo){
+        //test to see if library is working
 
+        //Initialisation
         arma::mat::fixed<2,2> A = {{1,2},
-                       {3,4}};
+                                   {3,4}};
         arma::mat::fixed<2,2> B = {{1,2},
-                       {3,4}};
+                                   {3,4}};
 
+        //dot product multiplication
         arma::mat::fixed<2,2> C = A * B;
         ASSERT_FLOAT_EQ(C(0, 0), 7);
         ASSERT_FLOAT_EQ(C(0, 1), 10);
         ASSERT_FLOAT_EQ(C(1, 0), 15);
         ASSERT_FLOAT_EQ(C(1, 1), 22);
+        //subtraction
         A = C - B;
         ASSERT_FLOAT_EQ(A(0, 0), 6);
         ASSERT_FLOAT_EQ(A(0, 1), 8);
         ASSERT_FLOAT_EQ(A(1, 0), 12);
         ASSERT_FLOAT_EQ(A(1, 1), 18);
+        //addition
         A = A + B;
         ASSERT_FLOAT_EQ(A(0, 0), C(0,0));
         ASSERT_FLOAT_EQ(A(0, 1), C(0,1));
         ASSERT_FLOAT_EQ(A(1, 0), C(1,0));
         ASSERT_FLOAT_EQ(A(1, 1), C(1,1));
-        arma::mat::fixed<2,2> D = C.t();
-        ASSERT_FLOAT_EQ(D(0, 0), 7);
-        ASSERT_FLOAT_EQ(D(0, 1), 15);
-        ASSERT_FLOAT_EQ(D(1, 0), 10);
-        ASSERT_FLOAT_EQ(D(1, 1), 22);
-        D = D.i();
-        ASSERT_FLOAT_EQ(D(0, 0), 5.5);
-        ASSERT_FLOAT_EQ(D(0, 1), -3.75);
-        ASSERT_FLOAT_EQ(D(1, 0), -2.5);
-        ASSERT_FLOAT_EQ(D(1, 1), 1.75);
+        //transpose
+        arma::mat::fixed<2,3> D = {{1,2,3},
+                                   {4,5,6}};
+        arma::mat::fixed<3,2> E = D.t();
+        ASSERT_FLOAT_EQ(E(0, 0), 1);
+        ASSERT_FLOAT_EQ(E(0, 1), 4);
+        ASSERT_FLOAT_EQ(E(1, 0), 2);
+        ASSERT_FLOAT_EQ(E(1, 1), 5);
+        ASSERT_FLOAT_EQ(E(2, 0), 3);
+        ASSERT_FLOAT_EQ(E(2, 1), 6);
+        //inverse
+        arma::mat::fixed<2,2> F = C.i();
+        ASSERT_FLOAT_EQ(F(0, 0), 5.5);
+        ASSERT_FLOAT_EQ(F(0, 1), -2.5);
+        ASSERT_FLOAT_EQ(F(1, 0), -3.75);
+        ASSERT_FLOAT_EQ(F(1, 1), 1.75);
+        //zero initialisation
         C.zeros();
         ASSERT_FLOAT_EQ(C(0, 0), 0);
         ASSERT_FLOAT_EQ(C(0, 1), 0);
         ASSERT_FLOAT_EQ(C(1, 0), 0);
         ASSERT_FLOAT_EQ(C(1, 1), 0);
+        //identity initialisation
         C.eye();
         ASSERT_FLOAT_EQ(C(0, 0), 1);
         ASSERT_FLOAT_EQ(C(0, 1), 0);
         ASSERT_FLOAT_EQ(C(1, 0), 0);
         ASSERT_FLOAT_EQ(C(1, 1), 1);
-
     }
 
 
