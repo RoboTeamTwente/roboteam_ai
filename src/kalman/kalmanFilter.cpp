@@ -10,6 +10,7 @@ namespace rtt {
         for (uint i = 0; i < 32; ++i) {
             robotlist[i] = kalmanObject(i);
         }
+
     }
 
     void kalmanUpdate() {

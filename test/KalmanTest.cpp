@@ -3,6 +3,7 @@
 //
 
 #include <gtest/gtest.h>
+#include "kalman/kalmanFilter.h"
 #include "roboteam_world/world/filtered_world.h"
 #include "roboteam_world/world/world_dummy.h"
 #include "roboteam_msgs/DetectionFrame.h"
@@ -15,36 +16,16 @@
 
 namespace rtt {
 
-    void dummy_frame(float ballx, float bally, float botx, float boty, float botw, DetectionFrame* frame) {
-        DetectionRobot bot;
-        bot.pos.x = botx;
-        bot.pos.y = boty;
-        bot.orientation = botw;
-        frame->us.push_back(bot);
-        DetectionBall ball;
-        ball.pos.x = ballx;
-        ball.pos.y = bally;
-        frame->balls.push_back(ball);
-    }
+    TEST(KalmanTest, K) {
 
-    void dummy_ball(float ballx, float bally, DetectionFrame* frame){
-        DetectionBall ball;
-        ball.pos.x=ballx;
-        ball.pos.y=bally;
-        frame->balls.push_back(ball);
-    }
-    void dummy_bot(float botx, float boty, float botw, DetectionFrame* frame){
-        DetectionRobot bot;
-        bot.pos.x = botx;
-        bot.pos.y = boty;
-        bot.orientation = botw;
-        frame->us.push_back(bot);
-    }
+        kalmanInit();
 
+        for (int j = 0; j < 1000; ++j) {
+            kalmanUpdate();
+        }
 
-    TEST(KalmanTest, bot) {
-
-
+        Position testX = getStates(1);
+        ASSERT_FLOAT_EQ(testX.x, 0);
 
     }
 }

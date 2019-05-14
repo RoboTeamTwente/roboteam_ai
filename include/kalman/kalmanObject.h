@@ -61,6 +61,7 @@ namespace rtt {
         void kalmanUpdateZ(float x, float y, float z, double timeStamp);
 
         Position kalmanGetState();
+
     };
 
 }
