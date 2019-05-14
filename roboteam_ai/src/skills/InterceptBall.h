@@ -31,24 +31,15 @@ class InterceptBall :public Skill {
         bool missedBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel);
         bool ballDeflected();
 
-        control::NumTreePosControl numtreeGTP;
-        control::BasicPosControl basicGTP;
-
         Vector2 ballStartPos, ballStartVel, ballEndPos, interceptPos;
         Vector2 deltaPos;
         int tickCount, maxTicks;
         bool backwards;
 
-
-
         // Relevant to keeper only
         bool keeper;
         bool ballToGoal();
         bool ballInGoal();
-
-        //Interface
-        std::vector<std::pair<rtt::Vector2, QColor>> displayColorData;
-
     public:
         explicit InterceptBall(string name, bt::Blackboard::Ptr blackboard);
         void sendMoveCommand(Vector2 targetPos);

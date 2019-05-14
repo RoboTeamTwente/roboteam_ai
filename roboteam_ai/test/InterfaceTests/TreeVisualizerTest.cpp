@@ -3,8 +3,8 @@
 //
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/interface/TreeVisualizerWidget.h>
-#include <roboteam_ai/src/interface/mainWindow.h>
+#include <roboteam_ai/src/interface/widgets/TreeVisualizerWidget.h>
+#include <roboteam_ai/src/interface/widgets/mainWindow.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
 
 namespace rtt {
@@ -82,6 +82,8 @@ TEST(TreeVisualizerTest, it_sets_proper_color_for_status) {
     EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Running), QColor("#006600"));
     EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Waiting), Qt::darkGray);
 }
+
+
 
 } // interface
 } // ai

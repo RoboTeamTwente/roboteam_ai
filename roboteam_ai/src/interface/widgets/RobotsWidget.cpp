@@ -7,7 +7,7 @@
 #include <roboteam_msgs/WorldRobot.h>
 #include "RobotsWidget.h"
 #include <QScrollArea>
-#include "../analysis/GameAnalyzer.h"
+#include "roboteam_ai/src/analysis/GameAnalyzer.h"
 
 namespace rtt {
 namespace ai {

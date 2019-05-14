@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 27-3-19.
 //
 
-#include <roboteam_ai/src/interface/InterfaceValues.h>
+#include <roboteam_ai/src/interface/api/Output.h>
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "ForcePosControl.h"
@@ -36,7 +36,7 @@ Vector2 ForcePosControl::calculateForces(const RobotPtr &robot, const Vector2 &t
 
     // avoid the ball
     if (avoidBallDistance > 0.0) {
-        force += ControlUtils::calculateForce((Vector2) robot->pos - world.ball.pos, FORCE_WEIGHT_BALL, forceRadius);
+        force += ControlUtils::calculateForce((Vector2) robot->pos - world.ball.pos, FORCE_WEIGHT_BALL, avoidBallDistance);
     }
 
     // avoid the sides of the field if needed
@@ -68,7 +68,7 @@ PosVelAngle ForcePosControl::calculateForcePosVelAngle(const PosController::Robo
 }
 
 void ForcePosControl::checkInterfacePID() {
-    auto newPid = interface::InterfaceValues::getForcePid();
+    auto newPid = interface::Output::getForcePid();
     updatePid(newPid);
 }
 

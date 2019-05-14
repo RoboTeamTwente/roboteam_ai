@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 #define ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 
-#include <roboteam_ai/src/interface/InterfaceValues.h>
+#include <roboteam_ai/src/interface/api/Output.h>
 #include "PosVelAngle.h"
 #include "PosController.h"
 #include "PathPoint.h"
@@ -19,11 +19,11 @@ class Collision;
 class PathPoint;
 
 class NumTreePosControl : public ForcePosControl {
-    public:
-
     private:
-        using InterfaceValues = interface::InterfaceValues;
+        using InterfaceValues = interface::Output;
         using PathPointer = std::shared_ptr<PathPoint>;
+    std::vector<rtt::Vector2> triedPaths;
+
         Robot robot = {};
         Vector2 finalTargetPos;
 
@@ -34,13 +34,6 @@ class NumTreePosControl : public ForcePosControl {
         const double MAX_CALCULATION_TIME = 25.0;         // Max calculation time in ms
         const double DT = 0.07;                          // timestep for ODE model
         static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 0.28; // 3x robot radius
-
-        // interface functions
-        void drawCross(Vector2 &pos, const QColor &color = Qt::green);
-        void drawPoint(Vector2 &pos, QColor color = Qt::green);
-        void addDataInInterface(std::vector<std::pair<rtt::Vector2, QColor>> displayColorData);
-        void redrawInInterface();
-        std::vector<std::pair<Vector2, QColor>> displayData;
 
         // collisions
         Collision getCollision(const PathPointer &point, double collisionRadius = DEFAULT_ROBOT_COLLISION_RADIUS);

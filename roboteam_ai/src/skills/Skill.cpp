@@ -1,5 +1,7 @@
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "Skill.h"
+#include "../utilities/RobotDealer.h"
+
 
 namespace rtt {
 namespace ai {
@@ -38,6 +40,8 @@ std::string Skill::node_name() {
 }
 
 Skill::Status Skill::update() {
+    std::string roleName = properties->getString("ROLE");
+    robotId = rtt::ai::robotDealer::RobotDealer::findRobotForRole(roleName);
     updateRobot();
     ball = world::world->getBall(); // update ball position
     if (! robot || robot->id == -1) return Status::Failure;

@@ -3,7 +3,7 @@
 //
 
 #include "InterceptBall.h"
-#include "../interface/drawer.h"
+#include "roboteam_ai/src/interface/api/Input.h"
 #include "roboteam_ai/src/world/Field.h"
 
 namespace rtt {
@@ -50,15 +50,9 @@ InterceptBall::Status InterceptBall::onUpdate() {
     }
     deltaPos = interceptPos - robot->pos;
     checkProgression();
-    //interface
-    displayColorData.emplace_back(std::make_pair(interceptPos,Qt::red));
-    displayColorData.emplace_back(std::make_pair(ballStartPos,Qt::red));
-    displayColorData.emplace_back(std::make_pair(ballEndPos,Qt::red));
-    displayColorData.emplace_back(std::make_pair(ball->pos,Qt::green));
-    displayColorData.emplace_back(std::make_pair(Vector2(ball->pos)+ Vector2(ball->vel) * Constants::MAX_INTERCEPT_TIME(),Qt::green));
-    interface::Drawer::setInterceptPoints(robot->id,displayColorData);
-    displayColorData.clear();
 
+    interface::Input::drawData(interface::Visual::INTERCEPT, {ballStartPos, ballEndPos}, Qt::darkCyan, robot->id, interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::INTERCEPT, {interceptPos}, Qt::cyan, robot->id, interface::Drawing::DOTS, 5, 5);
 
     tickCount ++;
     switch (currentProgression) {
@@ -83,7 +77,7 @@ InterceptBall::Status InterceptBall::onUpdate() {
 }
 
 void InterceptBall::sendMoveCommand(Vector2 targetPos) {
-    Vector2 velocities = numtreeGTP.getPosVelAngle(robot, targetPos).vel;
+    Vector2 velocities = robot->getNumtreeGtp()->getPosVelAngle(robot, targetPos).vel;
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
 
@@ -146,6 +140,8 @@ void InterceptBall::checkProgression() {
 };
 void InterceptBall::onTerminate(rtt::ai::Skill::Status s) {
     sendStopCommand();
+    tickCount=0;
+    currentProgression=INTERCEPTING;
 }
 
 Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
@@ -226,7 +222,7 @@ void InterceptBall::sendStopCommand() {
 }
 
 void InterceptBall::sendFineInterceptCommand() {
-    auto pva = basicGTP.getPosVelAngle(robot, interceptPos);
+    auto pva = robot->getBasicGtp()->getPosVelAngle(robot, interceptPos);
 
     command.x_vel = pva.vel.x;
     command.y_vel = pva.vel.y;
@@ -234,7 +230,7 @@ void InterceptBall::sendFineInterceptCommand() {
     publishRobotCommand();
 }
 void InterceptBall::sendInterceptCommand() {
-    auto pva = numtreeGTP.getPosVelAngle(robot, interceptPos);
+    auto pva = robot->getNumtreeGtp()->getPosVelAngle(robot, interceptPos);
 
     command.x_vel = pva.vel.x;
     command.y_vel = pva.vel.y;

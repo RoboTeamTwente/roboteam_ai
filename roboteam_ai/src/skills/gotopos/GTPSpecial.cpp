@@ -15,39 +15,49 @@ void GTPSpecial::gtpInitialize() {
 
     type = stringToType(properties->getString("type"));
     switch (type) {
-    case goToBall: {
-        targetPos = ball->pos;
-        posController->setAvoidBall(false);
-        break;
-    }
-    case ballPlacementBefore: {
-        targetPos = coach::g_ballPlacement.getBallPlacementBeforePos(ball->pos);
-        break;
-    }
-    case ballPlacementAfter: {
-        errorMargin = 0.05;
-        targetPos = coach::g_ballPlacement.getBallPlacementAfterPos(robot->angle);
-        break;
-    }
-    case getBallFromSide: {
-        targetPos = getBallFromSideLocation();
-        break;
-    }
-    case defaultType: {
-        targetPos = {0, 0};
-        ROS_WARN("GTPSpecial was not given any type! Defaulting to {0, 0}");
-        break;
-    }
-    case freeKick: {
-        Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
+        case goToBall: {
+            targetPos = ball->pos;
+            posController->setAvoidBall(false);
+            break;
+        }
+        case ballPlacementBefore: {
+            targetPos = coach::g_ballPlacement.getBallPlacementBeforePos(ball->pos);
+            break;
+        }
+        case ballPlacementAfter: {
+            errorMargin = 0.05;
+            targetPos = coach::g_ballPlacement.getBallPlacementAfterPos(robot->angle);
+            break;
+        }
+        case getBallFromSide: {
+            targetPos = getBallFromSideLocation();
+            break;
+        }
+        case defaultType: {
+            targetPos = {0, 0};
+            ROS_WARN("GTPSpecial was not given any type! Defaulting to {0, 0}");
+            break;
+        }
+        case freeKick: {
+            Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
 
-        Vector2 penaltyThem = rtt::ai::world::field->getPenaltyPoint(false);
-        targetPos = (ballPos + (penaltyThem - ballPos).stretchToLength((penaltyThem - ballPos).length() / 2.0));
-        errorMargin = 0.05;
-        break;
-    }
-    }
+            Vector2 penaltyThem = rtt::ai::world::field->getPenaltyPoint(false);
+            targetPos = (ballPos + (penaltyThem - ballPos).stretchToLength((penaltyThem - ballPos).length()/2.0));
+            errorMargin = 0.05;
+            break;
+        }
+        case getBackIn: {
+            posController->setCanMoveInDefenseArea(true);
 
+            targetPos = {0, 0};
+            break;
+        }
+        case ourGoalCenter: {
+            targetPos =  rtt::ai::world::field->get_our_goal_center();
+            break;
+        }
+
+    }
 
 }
 
@@ -99,6 +109,12 @@ GTPSpecial::Type GTPSpecial::stringToType(const std::string &string) {
     else if (string == "freeKick") {
         return freeKick;
     }
+    else if (string == "getBackIn") {
+        return getBackIn;
+    }
+    else if (string == "ourGoalCenter") {
+        return ourGoalCenter;
+    }
     else {
         return defaultType;
     }
@@ -106,18 +122,30 @@ GTPSpecial::Type GTPSpecial::stringToType(const std::string &string) {
 
 Skill::Status GTPSpecial::gtpUpdate() {
     switch (type) {
-    default:break;
-    case goToBall: {
-        targetPos = ball->pos;
-        break;
-    }
-    case ballPlacementBefore:break;
-    case ballPlacementAfter:break;
-    case getBallFromSide:break;
-    case defaultType:break;
-    case freeKick: {
-        command.w = (ball->pos - robot->pos).angle();
-    }
+        default:
+            break;
+        case goToBall: {
+            targetPos = ball->pos;
+            break;
+        }
+        case getBackIn: {
+            targetPos = {0, 0};
+            break;
+        }
+        case ballPlacementBefore:
+            break;
+        case ourGoalCenter:
+            targetPos =  rtt::ai::world::field->get_our_goal_center();
+            break;
+        case ballPlacementAfter:
+            break;
+        case getBallFromSide:
+            break;
+        case defaultType:
+            break;
+        case freeKick: {
+            command.w = (ball->pos - robot->pos).angle();
+        }
     }
 
     return Status::Running;

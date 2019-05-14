@@ -3,7 +3,7 @@
 //
 
 #include "DefenceDealer.h"
-#include "roboteam_ai/src/interface/drawer.h"
+#include "roboteam_ai/src/interface/api/Input.h"
 
 namespace rtt {
 namespace ai {
@@ -32,15 +32,11 @@ std::shared_ptr<std::pair<Vector2, double>> DefenceDealer::getDefenderPosition(i
     else return std::make_shared<std::pair<Vector2, double>>(defenderLocations[id]);
 }
 void DefenceDealer::visualizePoints() {
-    int i = 0;
-    std::vector<std::pair<Vector2, QColor>> vis2;
+    std::vector<Vector2> visualizationData;
     for (const auto &location : defenderLocations) {
-        std::vector<QColor> colors = {Qt::green, Qt::red, Qt::blue, Qt::darkYellow, Qt::darkMagenta, Qt::cyan};
-        std::pair<Vector2, QColor> pair = std::make_pair(location.second.first, colors[i%colors.size()]);
-        vis2.emplace_back(pair);
-        i ++;
+        visualizationData.emplace_back(location.second.first);
     }
-    ai::interface::Drawer::setTestPoints(vis2);
+    ai::interface::Input::drawData(interface::Visual::DEFENSE, visualizationData, Qt::red, -1, ai::interface::Drawing::CIRCLES);
 }
 /// calculates the defender locations for all available defenders
 void DefenceDealer::updateDefenderLocations() {
@@ -56,7 +52,7 @@ void DefenceDealer::updateDefenderLocations() {
         // It might be better to use an algorithm that is more complicated (e.g. hungarian) but then we might need some kind of system which gives the first points more 'priority'
         for (const auto &defenderBot : defenderBots) {
             int closestId = - 1;
-            double closestDist = DBL_MAX;
+            auto closestDist = DBL_MAX;
             for (int botId : availableDefenders) {
                 auto bot = world::world->getRobotForId(botId, true);
                 if (bot) {

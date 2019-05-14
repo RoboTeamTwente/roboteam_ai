@@ -18,8 +18,6 @@ private:
     const double BEHIND_BALL_TARGET = 0.4;
     const double SWITCH_TO_BASICGTP_DISTANCE = 0.10;
 
-    std::shared_ptr<control::PosController> goToPos;
-
     Vector2 deltaPos;
     Vector2 targetPos;
     bool ownGoal = false;

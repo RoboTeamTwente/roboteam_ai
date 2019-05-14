@@ -17,22 +17,20 @@ namespace rtt {
 namespace ai {
 
 class Pass : public Skill {
-private:
+protected:
     const double CLOSE_ENOUGH_TO_BALL = 0.7;
-
+    bool chip = false;
+    int fails = 0;
+    int failsUntilChip = -1;
     bool passInitialized = false;
-    bool ballPlacement = false;
-    bool shot = false;
+    bool hasShot = false;
     RobotPtr robotToPassTo;
-
     Vector2 targetPos;
+    virtual void initiatePass();
+    bool didShootProperly();
     int robotToPassToID = -1;
-
-    std::shared_ptr<control::ShotController> shotControl;
-    control::NumTreePosControl numTreeGtp;
-
-    void initiatePass();
     Vector2 getKicker();
+
 
 public:
     explicit Pass(string name, bt::Blackboard::Ptr blackboard);

@@ -43,36 +43,34 @@ bool Field::pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea, fl
     auto penaltyLine = isOurDefenceArea ? _field.left_penalty_line : _field.right_penalty_line;
     double yTopBound;
     double yBottomBound;
-    double xBound = penaltyLine.begin.x;
+    double xForwardBound = penaltyLine.begin.x;
+    double xBackBound = isOurDefenceArea ? _field.field_length/-2.0 : _field.field_length/2.0;
     if (penaltyLine.begin.y < penaltyLine.end.y) {
         yBottomBound = penaltyLine.begin.y;
         yTopBound = penaltyLine.end.y;
-    }
-    else {
+    } else {
         yBottomBound = penaltyLine.end.y;
         yTopBound = penaltyLine.begin.y;
     }
     bool yIsWithinDefenceArea = point.y<(yTopBound + margin) && point.y>(yBottomBound - margin);
-    bool xIsWithinOurDefenceArea = point.x < (xBound + margin);
-    bool xIsWithinTheirDefenceArea = point.x > (xBound - margin);
+
+    bool xIsWithinOurDefenceArea;
+    bool xIsWithinTheirDefenceArea;
+    if (includeOutsideField) {
+        // if outside field are included then we don't need the back border
+        xIsWithinOurDefenceArea = point.x<(xForwardBound + margin);
+        xIsWithinTheirDefenceArea = point.x > (xForwardBound - margin);
+    } else {
+        xIsWithinOurDefenceArea = point.x<(xForwardBound + margin) && point.x>(xBackBound - margin);
+        xIsWithinTheirDefenceArea = point.x > (xForwardBound - margin) && point.x < (xBackBound + margin);
+    }
 
     if (isOurDefenceArea) {
-        if (includeOutsideField) {
-            return xIsWithinOurDefenceArea;
-        }
-        else {
-            return xIsWithinOurDefenceArea && yIsWithinDefenceArea;
-        }
+        return xIsWithinOurDefenceArea && yIsWithinDefenceArea;
     }
-    else {
-        if (includeOutsideField) {
-            return xIsWithinTheirDefenceArea;
-        }
-        else {
-            return yIsWithinDefenceArea && xIsWithinTheirDefenceArea;
-        }
-    }
+    return yIsWithinDefenceArea && xIsWithinTheirDefenceArea;
 }
+
 
 // the margin is pointed inside the field!
 bool Field::pointIsInField(const Vector2& point, float margin) {
@@ -100,7 +98,12 @@ double Field::getTotalGoalAngle(bool ourGoal, const Vector2& point){
 
 }
 double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& point, const WorldData &data) {
-    double goalWidth = field.goal_width;
+    roboteam_msgs::GeometryFieldSize _field;
+    {
+        std::lock_guard<std::mutex> lock(fieldMutex);
+        _field = field;
+    }
+    double goalWidth = _field.goal_width;
     double blockadeLength = 0;
     for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point,data)) {
         blockadeLength += blockade.first.dist(blockade.second);
@@ -316,30 +319,36 @@ Vector2 Field::getPenaltyPoint(bool ourGoal) {
 
 }
 std::shared_ptr<Vector2> Field::lineIntersectsWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin) {
+    roboteam_msgs::GeometryFieldSize _field;
+    {
+        std::lock_guard<std::mutex> lock(fieldMutex);
+        _field = field;
+    }
+
     Vector2 goalLinePos1,goalLinePos2,cornerPos1,cornerPos2;
     std::shared_ptr<Vector2> intersectPos= nullptr;
     if (ourGoal) {
-        goalLinePos1 = Vector2(- field.field_length*0.5, field.left_penalty_line.begin.y - margin);
-        goalLinePos2 = Vector2(- field.field_length*0.5, field.left_penalty_line.end.y + margin);
-        cornerPos1 = Vector2(margin, - margin) + field.left_penalty_line.begin;
-        cornerPos2 = Vector2(margin, margin) + field.left_penalty_line.end;
-        if (field.left_penalty_line.begin.y > field.left_penalty_line.end.y) {
-            goalLinePos1 = Vector2(- field.field_length*0.5, field.left_penalty_line.begin.y + margin);
-            goalLinePos2 = Vector2(- field.field_length*0.5, field.left_penalty_line.end.y - margin);
-            cornerPos1 = Vector2(margin, margin) + field.left_penalty_line.begin;
-            cornerPos2 = Vector2(margin, - margin) + field.left_penalty_line.end;
+        goalLinePos1 = Vector2(- _field.field_length*0.5, _field.left_penalty_line.begin.y - margin);
+        goalLinePos2 = Vector2(- _field.field_length*0.5, _field.left_penalty_line.end.y + margin);
+        cornerPos1 = Vector2(margin, - margin) + _field.left_penalty_line.begin;
+        cornerPos2 = Vector2(margin, margin) + _field.left_penalty_line.end;
+        if (_field.left_penalty_line.begin.y > _field.left_penalty_line.end.y) {
+            goalLinePos1 = Vector2(- _field.field_length*0.5, _field.left_penalty_line.begin.y + margin);
+            goalLinePos2 = Vector2(- _field.field_length*0.5, _field.left_penalty_line.end.y - margin);
+            cornerPos1 = Vector2(margin, margin) + _field.left_penalty_line.begin;
+            cornerPos2 = Vector2(margin, - margin) + _field.left_penalty_line.end;
         }
     }
     else{
-        goalLinePos1 = Vector2(field.field_length*0.5, field.right_penalty_line.begin.y - margin);
-        goalLinePos2 = Vector2(field.field_length*0.5, field.right_penalty_line.end.y + margin);
-        cornerPos1 = Vector2(-margin, - margin) + field.right_penalty_line.begin;
-        cornerPos2 = Vector2(-margin, margin) + field.right_penalty_line.end;
-        if (field.right_penalty_line.begin.y > field.right_penalty_line.end.y) {
-            goalLinePos1 = Vector2(field.field_length*0.5, field.right_penalty_line.begin.y + margin);
-            goalLinePos2 = Vector2(field.field_length*0.5, field.right_penalty_line.end.y - margin);
-            cornerPos1 = Vector2(-margin, margin) + field.right_penalty_line.begin;
-            cornerPos2 = Vector2(-margin, - margin) + field.right_penalty_line.end;
+        goalLinePos1 = Vector2(_field.field_length*0.5, _field.right_penalty_line.begin.y - margin);
+        goalLinePos2 = Vector2(_field.field_length*0.5, _field.right_penalty_line.end.y + margin);
+        cornerPos1 = Vector2(-margin, - margin) + _field.right_penalty_line.begin;
+        cornerPos2 = Vector2(-margin, margin) + _field.right_penalty_line.end;
+        if (_field.right_penalty_line.begin.y > _field.right_penalty_line.end.y) {
+            goalLinePos1 = Vector2(_field.field_length*0.5, _field.right_penalty_line.begin.y + margin);
+            goalLinePos2 = Vector2(_field.field_length*0.5, _field.right_penalty_line.end.y - margin);
+            cornerPos1 = Vector2(-margin, margin) + _field.right_penalty_line.begin;
+            cornerPos2 = Vector2(-margin, - margin) + _field.right_penalty_line.end;
         }
     }
     if (util::lineSegmentsIntersect(lineStart,lineEnd , goalLinePos1, cornerPos1)) {
@@ -355,10 +364,14 @@ std::shared_ptr<Vector2> Field::lineIntersectsWithDefenceArea(bool ourGoal, cons
 }
 
 std::vector<Vector2> Field::getDefenseArea(bool ourDefenseArea, double margin) {
-
+    roboteam_msgs::GeometryFieldSize _field;
+    {
+        std::lock_guard<std::mutex> lock(fieldMutex);
+        _field = field;
+    }
     if (ourDefenseArea) {
-        double length = field.field_length;
-        auto leftPenaltyLine = field.left_penalty_line;
+        double length = _field.field_length;
+        auto leftPenaltyLine = _field.left_penalty_line;
         Vector2 leftPenaltyLineLowerPoint = (Vector2)leftPenaltyLine.begin - margin;
         Vector2 leftPenaltyLineUpperPoint = (Vector2)leftPenaltyLine.end + margin;
         Vector2 backLineLowerPoint = {-0.5*length, leftPenaltyLineLowerPoint.y - margin};
@@ -366,8 +379,8 @@ std::vector<Vector2> Field::getDefenseArea(bool ourDefenseArea, double margin) {
         return {leftPenaltyLineLowerPoint, leftPenaltyLineUpperPoint, backLineUpperPoint, backLineLowerPoint};
     }
     else {
-        double length = field.field_length;
-        auto rightPenaltyLine = field.right_penalty_line;
+        double length = _field.field_length;
+        auto rightPenaltyLine = _field.right_penalty_line;
         Vector2 rightPenaltyLineLowerPoint = (Vector2)rightPenaltyLine.begin - margin;
         Vector2 rightPenaltyLineUpperPoint = (Vector2)rightPenaltyLine.end + margin;
         Vector2 backLineLowerPoint = {0.5*length, rightPenaltyLineLowerPoint.y - margin};

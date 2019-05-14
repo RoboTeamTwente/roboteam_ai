@@ -1,1 +1,30 @@
-{"name": "free_kick_shoot_strategy", "data": {"trees": [{"title": "free_kick_shoot_strategy", "root": "x310e8mi48ahhma", "nodes": {"x310e8mi48ahhma": {"id": "x310e8mi48ahhma", "title": "Selector", "children": ["hav7elwi79vnz", "yg46sj515ezyn7iqr"]}, "hav7elwi79vnz": {"id": "hav7elwi79vnz", "title": "CanPlay"}, "yg46sj515ezyn7iqr": {"id": "yg46sj515ezyn7iqr", "title": "Tactic", "name": "free_kick_shoot_tactic"}}}]}}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "n6ioy9iu2f5e5abv": {
+            "id": "n6ioy9iu2f5e5abv",
+            "title": "ballIsMoving"
+          },
+          "x310e8mi48ahhma": {
+            "children": [
+              "n6ioy9iu2f5e5abv",
+              "yg46sj515ezyn7iqr"
+            ],
+            "id": "x310e8mi48ahhma",
+            "title": "Selector"
+          },
+          "yg46sj515ezyn7iqr": {
+            "id": "yg46sj515ezyn7iqr",
+            "name": "free_kick_shoot_tactic",
+            "title": "Tactic"
+          }
+        },
+        "root": "x310e8mi48ahhma",
+        "title": "free_kick_shoot_strategy"
+      }
+    ]
+  },
+  "name": "free_kick_shoot_strategy"
+}

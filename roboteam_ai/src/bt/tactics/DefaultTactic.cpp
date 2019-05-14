@@ -25,9 +25,16 @@ bt::Node::Status bt::DefaultTactic::update() {
 
         return status;
     }
+    if (amountToTick > children.size()) {
+        amountToTick = children.size();
+    }
 
     for (int i = 0; i < amountToTick; i ++) {
-        children.at(i)->tick();
+        if (children.size() > i && children.at(i)) {
+            children.at(i)->tick();
+        } else {
+            std::cerr << "trying to tick a non-existent robot!" << std::endl;
+        }
     }
 
     return status == Status::Success ? status : Status::Running;
@@ -135,7 +142,7 @@ void bt::DefaultTactic::updateStyle() {
     else if (thisType == Offensive) {
         amountToTick = style.amountOfAttackers;
     }
-    else if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
+    else if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper() && rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
         amountToTick = rtt::ai::world::world->getUs().size() - 1;
     } else {
         amountToTick = rtt::ai::world::world->getUs().size();
@@ -149,6 +156,19 @@ void bt::DefaultTactic::convert(const std::vector<std::pair<std::string, RobotTy
         robots.push_back(temp);
         counter ++;
     }
+}
+
+void bt::DefaultTactic::terminate(Node::Status s) {
+    robotIDs = {};
+    amountToTick = -1;
+    rtt::ai::robotDealer::RobotDealer::removeTactic(name);
+    for (const auto &child : children) {
+        child->terminate(child->getStatus());
+    }
+    if (s == Status::Running) {
+        setStatus(Status::Failure);
+    }
+    claimedRobots = 0;
 }
 
 

@@ -1,1 +1,188 @@
-{"data": {"trees": [{"nodes": {"n4u0emi3w73mwg5u": {"properties": {"ROLE": "p2"}, "name": "p2", "title": "Role", "id": "n4u0emi3w73mwg5u", "role": "passive_stop_role", "children": ["zh2fl83sinzgfv0"]}, "mhphxzi5dl95jipuw": {"properties": {"ROLE": "p5"}, "name": "p5", "title": "Role", "id": "mhphxzi5dl95jipuw", "role": "passive_stop_role", "children": ["qprd82nthl2ra4k"]}, "1fh7kwc4goz0tmr0s": {"properties": {"ROLE": "a1"}, "name": "a1", "title": "Role", "id": "1fh7kwc4goz0tmr0s", "role": "active_stop_role", "children": ["q98dysdvqhz58"]}, "eb282ha2j9fvpa5oy": {"properties": {"ROLE": "p3", "Stop": "true"}, "id": "eb282ha2j9fvpa5oy", "title": "AvoidBall"}, "max1j0z8ok3e7nx": {"properties": {"ROLE": "p1", "Stop": "true"}, "id": "max1j0z8ok3e7nx", "title": "AvoidBall"}, "lkj055o1n0s08yg9f": {"properties": {"ROLE": "p3"}, "name": "p3", "title": "Role", "id": "lkj055o1n0s08yg9f", "role": "passive_stop_role", "children": ["eb282ha2j9fvpa5oy"]}, "zh2fl83sinzgfv0": {"properties": {"ROLE": "p2", "Stop": "true"}, "id": "zh2fl83sinzgfv0", "title": "AvoidBall"}, "7d63gzttrgzpk8l1": {"properties": {"TacticType": "General"}, "children": ["1fh7kwc4goz0tmr0s", "opnjrlkw7zcd3u5t", "0t06izkhpitlu01a2", "n4u0emi3w73mwg5u", "lkj055o1n0s08yg9f", "djoofgps2ilyvy", "mhphxzi5dl95jipuw", "l716afjdzjgpzz7wi"], "id": "7d63gzttrgzpk8l1", "title": "RoleDivider"}, "opnjrlkw7zcd3u5t": {"properties": {"ROLE": "a2"}, "name": "a2", "title": "Role", "id": "opnjrlkw7zcd3u5t", "role": "active_stop_role", "children": ["rox9u3mruyrqek"]}, "0t06izkhpitlu01a2": {"properties": {"ROLE": "p1"}, "name": "p1", "title": "Role", "id": "0t06izkhpitlu01a2", "role": "passive_stop_role", "children": ["max1j0z8ok3e7nx"]}, "firoai7plrvjnr6": {"properties": {"ROLE": "p6", "Stop": "true"}, "id": "firoai7plrvjnr6", "title": "AvoidBall"}, "l716afjdzjgpzz7wi": {"properties": {"ROLE": "p6"}, "name": "p6", "title": "Role", "id": "l716afjdzjgpzz7wi", "role": "passive_stop_role", "children": ["firoai7plrvjnr6"]}, "kutq7gnjyuwwm1ta": {"properties": {"ROLE": "p4", "Stop": "true"}, "id": "kutq7gnjyuwwm1ta", "title": "AvoidBall"}, "q98dysdvqhz58": {"properties": {"ROLE": "a1"}, "id": "q98dysdvqhz58", "title": "ActiveStop"}, "rox9u3mruyrqek": {"properties": {"ROLE": "a2"}, "id": "rox9u3mruyrqek", "title": "ActiveStop"}, "djoofgps2ilyvy": {"properties": {"ROLE": "p4"}, "name": "p4", "title": "Role", "id": "djoofgps2ilyvy", "role": "passive_stop_role", "children": ["kutq7gnjyuwwm1ta"]}, "qprd82nthl2ra4k": {"properties": {"ROLE": "p5", "Stop": "true"}, "id": "qprd82nthl2ra4k", "title": "AvoidBall"}}, "root": "7d63gzttrgzpk8l1", "title": "stop_tactic"}]}, "name": "stop_tactic"}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "39ntx60hosbu876d": {
+            "id": "39ntx60hosbu876d",
+            "properties": {
+              "ROLE": "p1",
+              "Stop": "true"
+            },
+            "title": "AvoidBall"
+          },
+          "3hibs4mss4kjd": {
+            "id": "3hibs4mss4kjd",
+            "properties": {
+              "ROLE": "p5",
+              "Stop": "true"
+            },
+            "title": "AvoidBall"
+          },
+          "3zwxw671aawjnakky": {
+            "id": "3zwxw671aawjnakky",
+            "properties": {
+              "ROLE": "p6",
+              "Stop": "true"
+            },
+            "title": "AvoidBall"
+          },
+          "7d63gzttrgzpk8l1": {
+            "children": [
+              "fld5kbvyjbh54e9m",
+              "mt2n171azadcjmh",
+              "v3oyjahi5n7uk",
+              "y91j5e495gviq0uyn",
+              "u4zxdbdr8g7e1n",
+              "loyfo35xyljdtoyb",
+              "dl5ho3nd9995h",
+              "iu4q37h54rdp8o1d"
+            ],
+            "id": "7d63gzttrgzpk8l1",
+            "properties": {
+              "TacticType": "General"
+            },
+            "title": "RoleDivider"
+          },
+          "aex9g4iwuinzh": {
+            "id": "aex9g4iwuinzh",
+            "properties": {
+              "ROLE": "p2",
+              "Stop": "true"
+            },
+            "title": "AvoidBall"
+          },
+          "dl5ho3nd9995h": {
+            "children": [
+              "3hibs4mss4kjd"
+            ],
+            "id": "dl5ho3nd9995h",
+            "name": "p5",
+            "properties": {
+              "ROLE": "p5"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "fld5kbvyjbh54e9m": {
+            "children": [
+              "szb48h6ei5w1j"
+            ],
+            "id": "fld5kbvyjbh54e9m",
+            "name": "a1",
+            "properties": {
+              "ROLE": "a1"
+            },
+            "role": "active_stop_role",
+            "title": "Role"
+          },
+          "g6bsctwbb61yozf": {
+            "id": "g6bsctwbb61yozf",
+            "properties": {
+              "ROLE": "p4",
+              "Stop": "true"
+            },
+            "title": "AvoidBall"
+          },
+          "iu4q37h54rdp8o1d": {
+            "children": [
+              "3zwxw671aawjnakky"
+            ],
+            "id": "iu4q37h54rdp8o1d",
+            "name": "p6",
+            "properties": {
+              "ROLE": "p6"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "j8ptl6yk804sh0": {
+            "id": "j8ptl6yk804sh0",
+            "properties": {
+              "ROLE": "p3",
+              "Stop": "true"
+            },
+            "title": "AvoidBall"
+          },
+          "loyfo35xyljdtoyb": {
+            "children": [
+              "g6bsctwbb61yozf"
+            ],
+            "id": "loyfo35xyljdtoyb",
+            "name": "p4",
+            "properties": {
+              "ROLE": "p4"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "mt2n171azadcjmh": {
+            "children": [
+              "zr3pbqvwpd69evh0f"
+            ],
+            "id": "mt2n171azadcjmh",
+            "name": "a2",
+            "properties": {
+              "ROLE": "a2"
+            },
+            "role": "active_stop_role",
+            "title": "Role"
+          },
+          "szb48h6ei5w1j": {
+            "id": "szb48h6ei5w1j",
+            "properties": {
+              "ROLE": "a1"
+            },
+            "title": "ActiveStop"
+          },
+          "u4zxdbdr8g7e1n": {
+            "children": [
+              "j8ptl6yk804sh0"
+            ],
+            "id": "u4zxdbdr8g7e1n",
+            "name": "p3",
+            "properties": {
+              "ROLE": "p3"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "v3oyjahi5n7uk": {
+            "children": [
+              "39ntx60hosbu876d"
+            ],
+            "id": "v3oyjahi5n7uk",
+            "name": "p1",
+            "properties": {
+              "ROLE": "p1"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "y91j5e495gviq0uyn": {
+            "children": [
+              "aex9g4iwuinzh"
+            ],
+            "id": "y91j5e495gviq0uyn",
+            "name": "p2",
+            "properties": {
+              "ROLE": "p2"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "zr3pbqvwpd69evh0f": {
+            "id": "zr3pbqvwpd69evh0f",
+            "properties": {
+              "ROLE": "a2"
+            },
+            "title": "ActiveStop"
+          }
+        },
+        "root": "7d63gzttrgzpk8l1",
+        "title": "stop_tactic"
+      }
+    ]
+  },
+  "name": "stop_tactic"
+}

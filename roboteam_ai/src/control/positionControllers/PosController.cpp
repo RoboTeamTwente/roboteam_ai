@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 27-3-19.
 //
 
-#include <roboteam_ai/src/interface/InterfaceValues.h>
+#include <roboteam_ai/src/interface/api/Output.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "PosController.h"
 
@@ -33,6 +33,7 @@ PosVelAngle PosController::controlWithPID(const RobotPtr &robot, PosVelAngle tar
 
     // acceleration limiter
     double maxAcc = control::ControlUtils::calculateMaxAcceleration(pidCommand.vel, pidCommand.angle);
+    if (prevVel == 0.0) prevVel = robot->vel.length();
     pidCommand.vel = control::ControlUtils::accelerationLimiter(pidCommand.vel, maxAcc, prevVel);
 
     // set previous velocity to the current velocity and return the command.
@@ -76,6 +77,7 @@ double PosController::getAvoidBall() const {
 }
 
 void PosController::setAvoidBall(double ballDistance) {
+    std::cerr << "Manually setting 'avoidball' distance in skill" << std::endl;
     avoidBallDistance = ballDistance;
 }
 

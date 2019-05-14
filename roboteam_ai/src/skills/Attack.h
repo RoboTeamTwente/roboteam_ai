@@ -13,18 +13,9 @@ namespace rtt {
 namespace ai {
 
 class Attack : public Skill {
-    private:
-        Vector2 deltaPos;
-        Vector2 targetPos;
-        bool shot = false;
-        std::shared_ptr<control::PosController> gtp;
-        std::shared_ptr<control::ShotController> shotControl;
-
 public:
-        explicit Attack(string name, bt::Blackboard::Ptr blackboard);
-        void onInitialize() override;
-        Status onUpdate() override;
-        void onTerminate(Status s) override;
+    explicit Attack(string name, bt::Blackboard::Ptr blackboard);
+    Status onUpdate() override;
 };
 
 } // ai

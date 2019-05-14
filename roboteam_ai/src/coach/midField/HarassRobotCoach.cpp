@@ -175,7 +175,9 @@ HarassRobotCoach::HarassTarget HarassRobotCoach::findRobotToHarass(const RobotPt
     }
 
     // can't get a robot to harass, remove my targetRobot if it was there
-    targetRobotsToHarass[myIndex] = RobotPtr(nullptr);
+    if (myIndex != -1) {
+        targetRobotsToHarass[myIndex] = RobotPtr(nullptr);
+    }
 
     harassTarget.harassRobot = -1;
     harassTarget.harassPosition = standInMidField(thisRobot, myIndex);
@@ -190,6 +192,9 @@ void HarassRobotCoach::setClosestRobots(const HarassRobotCoach::RobotPtr &thisRo
     closestRobotToBallDistance = DBL_MAX;
     auto closestRobotToHarasserDistance = DBL_MAX;
     for (auto robot : world::world->getThem()) {
+        // Never harass the keeper
+        if (robot.id == Referee::getRefereeData().them.goalie) continue;
+
         if (abs(robot.pos.x) <= HARASS_THRESHOLD) {
             if (goAfterBall) {
                 // check if robot is closest to ball

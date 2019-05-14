@@ -15,11 +15,10 @@ void SideAttacker::onInitialize() {
     coach::g_offensiveCoach.addSideAttacker(robot);
 }
 
-
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
     targetPos = getOffensivePosition();
-    auto newPosition = goToPos.getPosVelAngle(robot, targetPos);
+    auto newPosition = robot->getNumtreeGtp()->getPosVelAngle(robot, targetPos);
     Vector2 velocity = newPosition.vel;
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);

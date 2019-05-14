@@ -1,5 +1,5 @@
 #include <queue>
-#include <roboteam_ai/src/interface/drawer.h>
+#include <roboteam_ai/src/interface/api/Input.h>
 #include "../../world/Field.h"
 #include "NumTreePosControl.h"
 #include "PosVelAngle.h"
@@ -33,26 +33,30 @@ PosVelAngle NumTreePosControl::computeCommand() {
     target.pos = path[pathPoint].pos;
     target.vel = path[pathPoint].vel;
     target.angle = (target.pos - robot.pos).angle();
-    addDataInInterface({{target.pos, Qt::darkMagenta}});
-
     return target;
 }
 
-/// finds a reason to calculate a new path (possible reasons are: on path calculated yet, final target moved,
+/// finds a reason to calculate a new path (possible reasons are: no path calculated yet, final target moved,
 /// robot is too far from path or another robot is colliding with current path
 bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
     double maxTargetDeviation = 0.3;
+
+    // if there is no path
     if (path.empty()) {
         if (InterfaceValues::showFullDebugNumTreeInfo())
             std::cout << "no path, recalculating" << std::endl;
         return true;
     }
-    else if ((finalTargetPos - targetPos).length() > maxTargetDeviation) {
+
+    // if the target moved too much
+    if ((finalTargetPos - targetPos).length() > maxTargetDeviation) {
         if (InterfaceValues::showDebugNumTreeInfo())
             std::cout << "target moved too much, recalculating" << std::endl;
         return true;
     }
-    else if (path.size() < static_cast<unsigned int>(1.01 + 0.80/DT)) {
+
+    // if the end of the path is met
+    if (path.size() < static_cast<unsigned int>(1.01 + 0.80/DT)) {
         if ((path[path.size() - 1].pos - targetPos).length() > maxTargetDeviation) {
             if (InterfaceValues::showFullDebugNumTreeInfo())
                 std::cout << "reached end of path segment, recalculating" << std::endl;
@@ -76,10 +80,9 @@ bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
             std::cout << "robot is too far from current path, recalculating" << std::endl;
         return true;
     }
-    std::vector<std::pair<rtt::Vector2, QColor>> colorData = {{}, {}};
     for (int i = 0; i < static_cast<int>(currentIndex); i ++) {
         auto p = path[i];
-        colorData.emplace_back(p.pos, Qt::darkGreen);
+        triedPaths.push_back(p.pos);
     }
     path.erase(path.begin(), path.begin() + currentIndex);
 
@@ -91,7 +94,8 @@ bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
             return true;
         }
     }
-    addDataInInterface(colorData);
+
+
     return false;
 }
 
@@ -143,17 +147,22 @@ PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr, Vector2 
 
 // Calculate new path
             tracePath();
-
-            drawCross(targetPos, Qt::darkRed);
-            redrawInInterface();
-
             if (path.empty())
                 nicePath = false;
         }
 
     }
+        std::vector<Vector2> drawpoints = {};
+        for (auto &displayPath : path) {
+            drawpoints.push_back(displayPath.pos);
+        }
 
-    ros::Time end = ros::Time::now();
+        interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, triedPaths, Qt::red, robot.id, interface::Drawing::DOTS, 2.0, 2.0);
+        interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot.id, interface::Drawing::DOTS, 3.0, 3.0);
+        interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot.id, interface::Drawing::LINES_CONNECTED);
+        interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot.id, interface::Drawing::CIRCLES, 8, 8, 4);
+
+        ros::Time end = ros::Time::now();
     if (InterfaceValues::showDebugNumTreeTimeTaken() && InterfaceValues::showFullDebugNumTreeInfo())
         std::cout << "GoToPosClean tick took: " << (end - begin).toNSec()*0.000001 << " ms" << std::endl;
 
@@ -197,8 +206,8 @@ void NumTreePosControl::tracePath() {
 //                  (remainingStraightLinePathLength(rhs->pos, rhs->currentTarget, finalTargetPos));
 //    };
 
-    displayData.clear();
     path.clear();
+    triedPaths.clear();
 
     PathPointer root = std::make_shared<PathPoint>();
     root->currentTarget = finalTargetPos;
@@ -293,6 +302,8 @@ NumTreePosControl::PathPointer NumTreePosControl::computeNewPoint(
     newPoint->finalTarget = finalTargetPos;
     newPoint->pos = oldPoint->pos;
     newPoint->vel = oldPoint->vel;
+    triedPaths.push_back(newPoint->pos);
+
 
     auto dir = (subTarget - newPoint->pos).normalize();
     auto targetVel = dir*newPoint->maxVel();
@@ -310,8 +321,6 @@ NumTreePosControl::PathPointer NumTreePosControl::computeNewPoint(
     newPoint->pos += newPoint->vel*DT;
 
     newPoint->collisions = oldPoint->collisions;
-    drawPoint(newPoint->pos);
-
     return newPoint;
 }
 
@@ -399,11 +408,9 @@ std::pair<std::vector<Vector2>, NumTreePosControl::PathPointer> NumTreePosContro
     // get positions left and right, perpendicular to the vector towards collision, next to the collisionPoint
     Vector2 leftTargetPosition = collisionPoint->pos +
             Vector2(deltaPosition.y, - deltaPosition.x).stretchToLength(collisionRadius*sqrt(factor)*1.2);
-    drawCross(leftTargetPosition, Qt::blue);
 
     Vector2 rightTargetPosition = collisionPoint->pos +
             Vector2(- deltaPosition.y, deltaPosition.x).stretchToLength(collisionRadius*sqrt(factor)*1.2);
-    drawCross(rightTargetPosition, Qt::darkBlue);
 
     // return the new targets
     auto newTargets = {leftTargetPosition, rightTargetPosition};
@@ -428,42 +435,8 @@ std::vector<PathPoint> NumTreePosControl::backTrackPath(PathPointer point,
     return backTrackedPath;
 }
 
-/// draw all the data in the interface
-void NumTreePosControl::redrawInInterface() {
-    std::vector<std::pair<rtt::Vector2, QColor>> displayColorData = {{{}, {}}};
-    for (auto &displayAll : displayData) {
-        displayColorData.push_back(displayAll);
-    }
-    for (auto &displayPath : path) {
-        displayColorData.emplace_back(displayPath.pos, Qt::red);
-    }
-    interface::Drawer::setNumTreePoints(robot.id, displayColorData);
-}
-
-/// add data to interface
-void NumTreePosControl::addDataInInterface(std::vector<std::pair<rtt::Vector2, QColor>> displayColorData) {
-    interface::Drawer::addNumTreePoints(robot.id, std::move(displayColorData));
-}
-
-/// draw a cross in the interface
-void NumTreePosControl::drawCross(Vector2 &pos, const QColor &color) {
-// draws a cross for the display
-    float dist = 0.005f;
-    for (int i = - 14; i < 15; i ++) {
-        for (int j = - 1; j < 2; j += 2) {
-            Vector2 data = pos + (Vector2) {dist*i, dist*j*i};
-            drawPoint(data, color);
-        }
-    }
-}
-
-/// draw a point in the interface
-void NumTreePosControl::drawPoint(Vector2 &pos, QColor color) {
-    displayData.emplace_back(pos, color);
-}
-
 void NumTreePosControl::checkInterfacePID() {
-    auto newPid = interface::InterfaceValues::getNumTreePid();
+    auto newPid = interface::Output::getNumTreePid();
     updatePid(newPid);
 }
 

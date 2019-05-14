@@ -114,5 +114,10 @@ std::pair<Vector2, Vector2> PenaltyKeeper::getGoalLine() {
 bool PenaltyKeeper::isBallShot() {
     return world::world->getBall()->vel.x<-0.2;
 }
+void PenaltyKeeper::onTerminate(rtt::ai::Skill::Status s) {
+    state=WAITING;
+    ballNotShotTicks=0;
+    goalLine=getGoalLine();
+}
 }
 }

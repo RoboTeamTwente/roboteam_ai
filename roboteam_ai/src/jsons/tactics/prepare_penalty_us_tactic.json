@@ -3,192 +3,192 @@
     "trees": [
       {
         "nodes": {
-          "m7a18xamu25obya": {
+          "15vbqzhj1r5q5": {
+            "id": "15vbqzhj1r5q5",
             "properties": {
-              "ROLE": "shooter"
+              "Offensive": "true",
+              "ROLE": "pa7"
             },
-            "children": [
-              "0z3x4ad8xumaj4"
-            ],
-            "id": "m7a18xamu25obya",
-            "title": "MemSequence"
-          },
-          "et271vmu8pmeglwpf": {
-            "properties": {
-              "TacticType": "General"
-            },
-            "children": [
-              "4z9x87a57sl6c0iw7",
-              "xyomyxvwiqzvlhi",
-              "y00cu4a83nl4vacri",
-              "l5y6tevzd2ew4ocw",
-              "ut8v1yekb28mazgq",
-              "hgsrf4pydqkqe8n3l",
-              "ct1qjfzluba7ws",
-              "hde99ty001qpc87w"
-            ],
-            "id": "et271vmu8pmeglwpf",
-            "title": "RoleDivider"
-          },
-          "vprrba7tu24av": {
-            "properties": {
-              "ROLE": "pa4",
-              "Offensive": "true"
-            },
-            "id": "vprrba7tu24av",
             "title": "PenaltyFormation"
           },
-          "hgsrf4pydqkqe8n3l": {
+          "3d1io7xhmozzs1h5": {
+            "children": [
+              "pmrximlb0lyid7zlp"
+            ],
+            "id": "3d1io7xhmozzs1h5",
+            "name": "pa5",
             "properties": {
               "ROLE": "pa5"
             },
-            "name": "pa5",
-            "title": "Role",
-            "id": "hgsrf4pydqkqe8n3l",
             "role": "penalty_avoid_role",
-            "children": [
-              "1l7pcmbf2hsfbx677"
-            ]
+            "title": "Role"
           },
-          "l5y6tevzd2ew4ocw": {
+          "3jrk99dnwm0c9cc": {
+            "id": "3jrk99dnwm0c9cc",
             "properties": {
-              "ROLE": "pa3"
+              "Offensive": "true",
+              "ROLE": "pa1"
             },
-            "name": "pa3",
-            "title": "Role",
-            "id": "l5y6tevzd2ew4ocw",
-            "role": "penalty_avoid_role",
-            "children": [
-              "ktk8llzowrz2dv"
-            ]
-          },
-          "ktk8llzowrz2dv": {
-            "properties": {
-              "ROLE": "pa3",
-              "Offensive": "true"
-            },
-            "id": "ktk8llzowrz2dv",
             "title": "PenaltyFormation"
           },
-          "ut8v1yekb28mazgq": {
+          "5iz87dmy6asvk": {
+            "children": [
+              "l2r255u54c01bww"
+            ],
+            "id": "5iz87dmy6asvk",
+            "name": "pa4",
             "properties": {
               "ROLE": "pa4"
             },
-            "name": "pa4",
-            "title": "Role",
-            "id": "ut8v1yekb28mazgq",
             "role": "penalty_avoid_role",
-            "children": [
-              "vprrba7tu24av"
-            ]
+            "title": "Role"
           },
-          "4z9x87a57sl6c0iw7": {
+          "6dvzh7nnnzq8k": {
+            "id": "6dvzh7nnnzq8k",
             "properties": {
-              "ROLE": "shooter"
-            },
-            "name": "shooter",
-            "title": "Role",
-            "id": "4z9x87a57sl6c0iw7",
-            "role": "penalty_shooter_prepare_role",
-            "children": [
-              "m7a18xamu25obya"
-            ]
-          },
-          "fy105bv9z609y": {
-            "properties": {
-              "ROLE": "pa1",
-              "Offensive": "true"
-            },
-            "id": "fy105bv9z609y",
-            "title": "PenaltyFormation"
-          },
-          "y00cu4a83nl4vacri": {
-            "properties": {
+              "Offensive": "true",
               "ROLE": "pa2"
             },
-            "name": "pa2",
-            "title": "Role",
-            "id": "y00cu4a83nl4vacri",
-            "role": "penalty_avoid_role",
-            "children": [
-              "qn1otuwjmfeexp"
-            ]
-          },
-          "qn1otuwjmfeexp": {
-            "properties": {
-              "ROLE": "pa2",
-              "Offensive": "true"
-            },
-            "id": "qn1otuwjmfeexp",
             "title": "PenaltyFormation"
           },
-          "ct1qjfzluba7ws": {
-            "properties": {
-              "ROLE": "pa6"
-            },
-            "name": "pa6",
-            "title": "Role",
-            "id": "ct1qjfzluba7ws",
-            "role": "penalty_avoid_role",
+          "a764zarkx1h6hf0io": {
             "children": [
-              "e9g2oy7jh2l5vwf"
-            ]
-          },
-          "0z3x4ad8xumaj4": {
-            "properties": {
-              "ROLE": "shooter",
-              "type": "penalty"
-            },
-            "id": "0z3x4ad8xumaj4",
-            "title": "GoBehindBall"
-          },
-          "1l7pcmbf2hsfbx677": {
-            "properties": {
-              "ROLE": "pa5",
-              "Offensive": "true"
-            },
-            "id": "1l7pcmbf2hsfbx677",
-            "title": "PenaltyFormation"
-          },
-          "hde99ty001qpc87w": {
-            "properties": {
-              "ROLE": "pa7"
-            },
-            "name": "pa7",
-            "title": "Role",
-            "id": "hde99ty001qpc87w",
-            "role": "penalty_avoid_role",
-            "children": [
-              "gks6vegb9sgbe6efk"
-            ]
-          },
-          "gks6vegb9sgbe6efk": {
-            "properties": {
-              "ROLE": "pa7",
-              "Offensive": "true"
-            },
-            "id": "gks6vegb9sgbe6efk",
-            "title": "PenaltyFormation"
-          },
-          "xyomyxvwiqzvlhi": {
+              "3jrk99dnwm0c9cc"
+            ],
+            "id": "a764zarkx1h6hf0io",
+            "name": "pa1",
             "properties": {
               "ROLE": "pa1"
             },
-            "name": "pa1",
-            "title": "Role",
-            "id": "xyomyxvwiqzvlhi",
             "role": "penalty_avoid_role",
-            "children": [
-              "fy105bv9z609y"
-            ]
+            "title": "Role"
           },
-          "e9g2oy7jh2l5vwf": {
+          "bvcr5rsmxggon": {
+            "children": [
+              "rszhznap8ttx70n"
+            ],
+            "id": "bvcr5rsmxggon",
+            "name": "pa6",
             "properties": {
-              "ROLE": "pa6",
-              "Offensive": "true"
+              "ROLE": "pa6"
             },
-            "id": "e9g2oy7jh2l5vwf",
+            "role": "penalty_avoid_role",
+            "title": "Role"
+          },
+          "et271vmu8pmeglwpf": {
+            "children": [
+              "tja9vjm2z3m6ywl8",
+              "a764zarkx1h6hf0io",
+              "h5xhy3k1p8cy8",
+              "jwiw0ydadssz1hc",
+              "5iz87dmy6asvk",
+              "3d1io7xhmozzs1h5",
+              "bvcr5rsmxggon",
+              "ydba7dw3s2czj1"
+            ],
+            "id": "et271vmu8pmeglwpf",
+            "properties": {
+              "TacticType": "General"
+            },
+            "title": "RoleDivider"
+          },
+          "etbmiha8t5qpc8d": {
+            "id": "etbmiha8t5qpc8d",
+            "properties": {
+              " type": "penalty",
+              "ROLE": "shooter"
+            },
+            "title": "GoBehindBall"
+          },
+          "h5xhy3k1p8cy8": {
+            "children": [
+              "6dvzh7nnnzq8k"
+            ],
+            "id": "h5xhy3k1p8cy8",
+            "name": "pa2",
+            "properties": {
+              "ROLE": "pa2"
+            },
+            "role": "penalty_avoid_role",
+            "title": "Role"
+          },
+          "jwiw0ydadssz1hc": {
+            "children": [
+              "l87mvukuyisd0ejfq"
+            ],
+            "id": "jwiw0ydadssz1hc",
+            "name": "pa3",
+            "properties": {
+              "ROLE": "pa3"
+            },
+            "role": "penalty_avoid_role",
+            "title": "Role"
+          },
+          "l2r255u54c01bww": {
+            "id": "l2r255u54c01bww",
+            "properties": {
+              "Offensive": "true",
+              "ROLE": "pa4"
+            },
             "title": "PenaltyFormation"
+          },
+          "l87mvukuyisd0ejfq": {
+            "id": "l87mvukuyisd0ejfq",
+            "properties": {
+              "Offensive": "true",
+              "ROLE": "pa3"
+            },
+            "title": "PenaltyFormation"
+          },
+          "pmrximlb0lyid7zlp": {
+            "id": "pmrximlb0lyid7zlp",
+            "properties": {
+              "Offensive": "true",
+              "ROLE": "pa5"
+            },
+            "title": "PenaltyFormation"
+          },
+          "rszhznap8ttx70n": {
+            "id": "rszhznap8ttx70n",
+            "properties": {
+              "Offensive": "true",
+              "ROLE": "pa6"
+            },
+            "title": "PenaltyFormation"
+          },
+          "s82pupg2ogcbplm": {
+            "children": [
+              "etbmiha8t5qpc8d"
+            ],
+            "id": "s82pupg2ogcbplm",
+            "properties": {
+              "ROLE": "shooter"
+            },
+            "title": "MemSequence"
+          },
+          "tja9vjm2z3m6ywl8": {
+            "children": [
+              "s82pupg2ogcbplm"
+            ],
+            "id": "tja9vjm2z3m6ywl8",
+            "name": "shooter",
+            "properties": {
+              "ROLE": "shooter"
+            },
+            "role": "penalty_shooter_prepare_role",
+            "title": "Role"
+          },
+          "ydba7dw3s2czj1": {
+            "children": [
+              "15vbqzhj1r5q5"
+            ],
+            "id": "ydba7dw3s2czj1",
+            "name": "pa7",
+            "properties": {
+              "ROLE": "pa7"
+            },
+            "role": "penalty_avoid_role",
+            "title": "Role"
           }
         },
         "root": "et271vmu8pmeglwpf",

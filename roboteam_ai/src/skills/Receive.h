@@ -23,13 +23,9 @@ private:
         RECEIVING
     };
 
-    bool ballPlacement = false;
     bool readyToPassSet = false;
 
     Progression currentProgress = POSITIONING;
-
-    control::NumTreePosControl numTreeGtp;
-    control::BasicPosControl basicGtp;
 
     Vector2 ballStartPos;
     Vector2 ballEndPos;
@@ -40,8 +36,9 @@ private:
 
     Vector2 targetPos;
 
-    bool isInPosition(const Vector2& behindTargetPos = {0, 0});
-    void moveToCatchPosition(Vector2 position);
+    virtual bool isInPosition(const Vector2& behindTargetPos = {0, 0});
+
+protected:
     bool passFailed();
 
 public:

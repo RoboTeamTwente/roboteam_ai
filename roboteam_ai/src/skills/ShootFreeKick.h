@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_SHOOTFREEKICK_H
 
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
+#include <roboteam_ai/src/control/shotControllers/ShotController.h>
 #include "Skill.h"
 #include "../world/Field.h"
 
@@ -37,7 +38,6 @@ class ShootFreeKick : public Skill {
         double errorMarginPos = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS() + 0.03; // Same logic
         bool isShot();
         Vector2 freeKickPos;
-
 };
 
 }

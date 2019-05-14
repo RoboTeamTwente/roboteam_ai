@@ -17,6 +17,8 @@ void Tactic::addChild(Node::Ptr newChild) {
 }
 
 void Tactic::terminate(Node::Status s) {
+    std::set<int> robotIDs = {};
+
     rtt::ai::robotDealer::RobotDealer::removeTactic(name);
     for (const auto &child : children) {
         child->terminate(child->getStatus());
@@ -43,6 +45,7 @@ std::vector<Node::Ptr> Tactic::getChildren() {
     return children;
 }
 void Tactic::giveProperty(std::string a, std::string b) {
+
     properties->setString(a, b);
 }
 

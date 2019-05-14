@@ -1,169 +1,169 @@
 {
-  "name": "free_kick_formation_tactic",
   "data": {
     "trees": [
       {
-        "title": "free_kick_formation_tactic",
-        "root": "3h41w9x1eg0nslbe",
         "nodes": {
+          "329pqjq6j0ybgrj": {
+            "id": "329pqjq6j0ybgrj",
+            "properties": {
+              "ROLE": "f5"
+            },
+            "title": "FreeKickFormation"
+          },
           "3h41w9x1eg0nslbe": {
-            "id": "3h41w9x1eg0nslbe",
-            "title": "RoleDivider",
             "children": [
-              "m580x5t7yrewz9g",
-              "8v28k3tzglctsp3j",
-              "1q4svdfid3d65374e",
-              "7a3unxk5rn53k6",
-              "kyg9ibxadl41f",
-              "wosvg7gan1zhsdue4",
-              "arh1fb7ux90b9y"
+              "b3rzo9uo6uync",
+              "tcvsix67k7ur47l",
+              "7ztwfg6slrvws",
+              "ndikqf07i0e64x",
+              "zjm1zxk1jwb4cu",
+              "rwoql3xwvrznd",
+              "l48uxgoo54ojijj"
             ],
+            "id": "3h41w9x1eg0nslbe",
             "properties": {
               "TacticType": "General"
-            }
+            },
+            "title": "RoleDivider"
           },
-          "m580x5t7yrewz9g": {
-            "id": "m580x5t7yrewz9g",
-            "title": "Role",
-            "name": "kicker",
-            "role": "free_kick_prepare_role",
+          "3vep74yojjomrv": {
+            "id": "3vep74yojjomrv",
+            "properties": {
+              "ROLE": "f3"
+            },
+            "title": "FreeKickFormation"
+          },
+          "7ztwfg6slrvws": {
             "children": [
-              "0ypw2nc5tuu4e5"
+              "h92qw09dcp73ugz"
             ],
-            "properties": {
-              "ROLE": "kicker"
-            }
-          },
-          "0ypw2nc5tuu4e5": {
-            "id": "0ypw2nc5tuu4e5",
-            "title": "GoBehindBall",
-            "properties": {
-              "type": "freekick",
-              "ROLE": "kicker"
-            }
-          },
-          "8v28k3tzglctsp3j": {
-            "id": "8v28k3tzglctsp3j",
-            "title": "Role",
-            "name": "f1",
-            "role": "free_kick_reciever_role",
-            "children": [
-              "nagj15humsqc5bcpg"
-            ],
-            "properties": {
-              "ROLE": "f1"
-            }
-          },
-          "nagj15humsqc5bcpg": {
-            "id": "nagj15humsqc5bcpg",
-            "title": "GTPSpecial",
-            "properties": {
-              "type": "freeKick",
-              "avoidBall": "true",
-              "maxVel": "2.0",
-              "canGoOutsideField": "false",
-              "fixedTarget": "false",
-              "canMoveInDefenseArea": "false",
-              "ROLE": "f1"
-            }
-          },
-          "1q4svdfid3d65374e": {
-            "id": "1q4svdfid3d65374e",
-            "title": "Role",
+            "id": "7ztwfg6slrvws",
             "name": "f2",
-            "role": "free_kick_formation_role",
-            "children": [
-              "o6vnqpa8kfjw49l"
-            ],
             "properties": {
               "ROLE": "f2"
-            }
+            },
+            "role": "free_kick_formation_role",
+            "title": "Role"
           },
-          "o6vnqpa8kfjw49l": {
-            "id": "o6vnqpa8kfjw49l",
-            "title": "FreeKickFormation",
+          "b3rzo9uo6uync": {
+            "children": [
+              "gcmi4qzwpbolf"
+            ],
+            "id": "b3rzo9uo6uync",
+            "name": "kicker",
+            "properties": {
+              "ROLE": "kicker"
+            },
+            "role": "free_kick_prepare_role",
+            "title": "Role"
+          },
+          "btdyjbs4qj9j3a0r": {
+            "id": "btdyjbs4qj9j3a0r",
+            "properties": {
+              "ROLE": "f6"
+            },
+            "title": "FreeKickFormation"
+          },
+          "gcmi4qzwpbolf": {
+            "id": "gcmi4qzwpbolf",
+            "properties": {
+              "ROLE": "kicker",
+              "type": "freekick"
+            },
+            "title": "GoBehindBall"
+          },
+          "h92qw09dcp73ugz": {
+            "id": "h92qw09dcp73ugz",
             "properties": {
               "ROLE": "f2"
-            }
+            },
+            "title": "FreeKickFormation"
           },
-          "7a3unxk5rn53k6": {
-            "id": "7a3unxk5rn53k6",
-            "title": "Role",
-            "name": "f3",
-            "role": "free_kick_formation_role",
+          "jke0915ubh8lm178l": {
+            "id": "jke0915ubh8lm178l",
+            "properties": {
+              "ROLE": "f1",
+              "avoidBall": "true",
+              "canGoOutsideField": "false",
+              "canMoveInDefenseArea": "false",
+              "fixedTarget": "false",
+              "maxVel": "2.0",
+              "type": "freeKick"
+            },
+            "title": "GTPSpecial"
+          },
+          "l48uxgoo54ojijj": {
             "children": [
-              "kfjunwzgz9dtp4x"
+              "btdyjbs4qj9j3a0r"
             ],
-            "properties": {
-              "ROLE": "f3"
-            }
-          },
-          "kfjunwzgz9dtp4x": {
-            "id": "kfjunwzgz9dtp4x",
-            "title": "FreeKickFormation",
-            "properties": {
-              "ROLE": "f3"
-            }
-          },
-          "kyg9ibxadl41f": {
-            "id": "kyg9ibxadl41f",
-            "title": "Role",
-            "name": "f4",
-            "role": "free_kick_formation_role",
-            "children": [
-              "fpoe77ogrnqoyt"
-            ],
-            "properties": {
-              "ROLE": "f4"
-            }
-          },
-          "fpoe77ogrnqoyt": {
-            "id": "fpoe77ogrnqoyt",
-            "title": "FreeKickFormation",
-            "properties": {
-              "ROLE": "f4"
-            }
-          },
-          "wosvg7gan1zhsdue4": {
-            "id": "wosvg7gan1zhsdue4",
-            "title": "Role",
-            "name": "f5",
-            "role": "free_kick_formation_role",
-            "children": [
-              "eds6nxyp6vuzqhts"
-            ],
-            "properties": {
-              "ROLE": "f5"
-            }
-          },
-          "eds6nxyp6vuzqhts": {
-            "id": "eds6nxyp6vuzqhts",
-            "title": "FreeKickFormation",
-            "properties": {
-              "ROLE": "f5"
-            }
-          },
-          "arh1fb7ux90b9y": {
-            "id": "arh1fb7ux90b9y",
-            "title": "Role",
+            "id": "l48uxgoo54ojijj",
             "name": "f6",
+            "properties": {
+              "ROLE": "f6"
+            },
             "role": "free_kick_formation_role",
-            "children": [
-              "8pkjm3nte9q1n3w"
-            ],
-            "properties": {
-              "ROLE": "f6"
-            }
+            "title": "Role"
           },
-          "8pkjm3nte9q1n3w": {
-            "id": "8pkjm3nte9q1n3w",
-            "title": "FreeKickFormation",
+          "ndikqf07i0e64x": {
+            "children": [
+              "3vep74yojjomrv"
+            ],
+            "id": "ndikqf07i0e64x",
+            "name": "f3",
             "properties": {
-              "ROLE": "f6"
-            }
+              "ROLE": "f3"
+            },
+            "role": "free_kick_formation_role",
+            "title": "Role"
+          },
+          "rwoql3xwvrznd": {
+            "children": [
+              "329pqjq6j0ybgrj"
+            ],
+            "id": "rwoql3xwvrznd",
+            "name": "f5",
+            "properties": {
+              "ROLE": "f5"
+            },
+            "role": "free_kick_formation_role",
+            "title": "Role"
+          },
+          "tcvsix67k7ur47l": {
+            "children": [
+              "jke0915ubh8lm178l"
+            ],
+            "id": "tcvsix67k7ur47l",
+            "name": "f1",
+            "properties": {
+              "ROLE": "f1"
+            },
+            "role": "free_kick_reciever_role",
+            "title": "Role"
+          },
+          "wiozjsxid84qx1": {
+            "id": "wiozjsxid84qx1",
+            "properties": {
+              "ROLE": "f4"
+            },
+            "title": "FreeKickFormation"
+          },
+          "zjm1zxk1jwb4cu": {
+            "children": [
+              "wiozjsxid84qx1"
+            ],
+            "id": "zjm1zxk1jwb4cu",
+            "name": "f4",
+            "properties": {
+              "ROLE": "f4"
+            },
+            "role": "free_kick_formation_role",
+            "title": "Role"
           }
-        }
+        },
+        "root": "3h41w9x1eg0nslbe",
+        "title": "free_kick_formation_tactic"
       }
     ]
-  }
+  },
+  "name": "free_kick_formation_tactic"
 }

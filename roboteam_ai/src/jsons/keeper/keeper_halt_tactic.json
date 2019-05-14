@@ -3,6 +3,16 @@
     "trees": [
       {
         "nodes": {
+          "ogjaiws3azq41m3": {
+            "children": [
+              "viqjyr5q7fb0rqtv"
+            ],
+            "id": "ogjaiws3azq41m3",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "title": "UntilSuccess"
+          },
           "sr8fh4psx6uy4ode": {
             "children": [
               "woq5vidl9l84vc"
@@ -10,34 +20,24 @@
             "id": "sr8fh4psx6uy4ode",
             "title": "Repeater"
           },
-          "ogjaiws3azq41m3": {
+          "viqjyr5q7fb0rqtv": {
+            "id": "viqjyr5q7fb0rqtv",
             "properties": {
               "ROLE": "Keeper"
             },
-            "title": "UntilSuccess",
-            "children": [
-              "viqjyr5q7fb0rqtv"
-            ],
-            "id": "ogjaiws3azq41m3"
+            "title": "Halt"
           },
           "woq5vidl9l84vc": {
-            "properties": {
-              "ROLE": "Keeper"
-            },
-            "name": "Keeper",
-            "title": "Role",
-            "id": "woq5vidl9l84vc",
-            "role": "haltRole",
             "children": [
               "ogjaiws3azq41m3"
-            ]
-          },
-          "viqjyr5q7fb0rqtv": {
+            ],
+            "id": "woq5vidl9l84vc",
+            "name": "Keeper",
             "properties": {
               "ROLE": "Keeper"
             },
-            "id": "viqjyr5q7fb0rqtv",
-            "title": "Halt"
+            "role": "haltRole",
+            "title": "Role"
           }
         },
         "root": "sr8fh4psx6uy4ode",
