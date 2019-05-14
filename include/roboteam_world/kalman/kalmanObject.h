@@ -13,9 +13,9 @@
 #define OBSERVATION_INDEX 3
 #define TIMEDIFF 0.01
 #define INVALID_ROBOT_ID 99999
-#define POS_VAR 0.5
-#define STATE_VAR 0.5
-#define RAND_VAR 0.5
+#define POS_VAR 1
+#define STATE_VAR 1
+#define RAND_VAR 1
 
 namespace rtt {
 
@@ -52,8 +52,6 @@ namespace rtt {
 
         kalmanObject(uint id);
 
-        ~kalmanObject();
-
         void kalmanUpdateK();
 
         void kalmanUpdateX();
@@ -61,6 +59,8 @@ namespace rtt {
         void kalmanUpdateZ(float x, float y, float z, double timeStamp);
 
         Position kalmanGetState();
+
+        float getK();
 
     };
 

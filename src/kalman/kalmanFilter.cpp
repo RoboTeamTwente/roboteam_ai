@@ -2,7 +2,7 @@
 // Created by kjhertenberg on 13-5-19.
 //
 
-#include "kalman/kalmanFilter.h"
+#include "roboteam_world/kalman/kalmanFilter.h"
 
 namespace rtt {
 
@@ -32,6 +32,14 @@ namespace rtt {
 
     Position getStates(uint id) {
         return robotlist[id].kalmanGetState();
+    }
+
+    float getK(uint id) {
+        return robotlist[id].getK();
+    }
+
+    void setZ(uint id, float x, float y, float z, double timestamp){
+        robotlist[id].kalmanUpdateZ(x, y, z, timestamp);
     }
 
 }

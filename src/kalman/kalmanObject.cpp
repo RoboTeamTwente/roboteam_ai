@@ -2,10 +2,7 @@
 // Created by kjhertenberg on 13-5-19.
 //
 
-#include <kalman/kalmanObject.h>
-
-#include "kalman/kalmanObject.h"
-
+#include <roboteam_world/kalman/kalmanObject.h>
 namespace rtt {
 
     kalmanObject::kalmanObject() {
@@ -53,27 +50,11 @@ namespace rtt {
 
     }
 
-    kalmanObject::~kalmanObject() {
-        delete &this->id;
-        delete &this->observationTimeStamp;
-        delete &this->invisibleCounter;
-        delete &this->exists;
-        delete &this->X;
-        delete &this->Z;
-        delete &this->F;
-        delete &this->H;
-        delete &this->R;
-        delete &this->I;
-        delete &this->P;
-        delete &this->Q;
-        delete &this->K;
-    }
-
     void kalmanObject::kalmanUpdateK() {
 
         static int count = 0;
 
-        if (count < 100) {
+        if (count < 1) {
             arma::fmat F_transpose = this->F.t();
 
             arma::fmat P_predict = (this->F * this->P * F_transpose) + this->Q;
@@ -97,12 +78,12 @@ namespace rtt {
                         same += 1;
                 }
             }
-
-            if (same == STATE_INDEX * OBSERVATION_INDEX) {
-                count += 1;
-            } else {
-                count = 0;
-            }
+            count += 1;
+//            if (same == STATE_INDEX * OBSERVATION_INDEX) {
+//                count += 1;
+//            } else {
+//                count = 0;
+//            }
 
             this->K = K_new;
             this->P = P_new;
@@ -141,6 +122,10 @@ namespace rtt {
 
     Position kalmanObject::kalmanGetState() {
         return {this->X(0, 0), this->X(2, 0), this->X(4, 0)};
+    }
+
+    float kalmanObject::getK(){
+        return this->K(0, 0);
     }
 
 

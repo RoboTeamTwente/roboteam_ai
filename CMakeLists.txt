@@ -15,6 +15,8 @@ find_package(catkin REQUIRED COMPONENTS
   roboteam_msgs
   roboteam_utils
 )
+find_package(Armadillo REQUIRED)
+include_directories(${ARMADILLO_INCLUDE_DIRS})
 
 ## Enable c++11 support.
 set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -g ${CMAKE_CXX_FLAGS} -O0")
@@ -41,6 +43,8 @@ catkin_package(
 ###########
 ## Build ##
 ###########
+
+
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
@@ -84,12 +88,12 @@ target_link_libraries(roboteam_world_srcs
 add_executable(dummy_world
         src/dummy_world/dummy_world_main.cpp
     )
-target_link_libraries(dummy_world 
+target_link_libraries(dummy_world
     roboteam_world_srcs
     ${catkin_LIBRARIES}
     )
-add_dependencies(dummy_world 
-    ${${PROJECT_NAME}_EXPORTED_TARGETS} 
+add_dependencies(dummy_world
+    ${${PROJECT_NAME}_EXPORTED_TARGETS}
     ${catkin_EXPORTED_TARGETS}
     )
 
@@ -102,8 +106,9 @@ add_executable(filtered_world
     )
 target_link_libraries(filtered_world
     roboteam_world_srcs
-    ${catkin_LIBRARIES}
-    )
+    ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES}
+
+        )
 add_dependencies(filtered_world 
     ${${PROJECT_NAME}_EXPORTED_TARGETS} 
     ${catkin_EXPORTED_TARGETS}
@@ -124,7 +129,9 @@ catkin_add_gtest(world_test
 target_link_libraries(world_test
     roboteam_world_srcs
     ${catkin_LIBRARIES}
-    )
+        ${ARMADILLO_LIBRARIES}
+
+        )
 add_dependencies(world_test 
     ${${PROJECT_NAME}_EXPORTED_TARGETS}
     ${catkin_EXPORTED_TARGETS}
