@@ -33,11 +33,12 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     }
 
     Vector2 futureBallPos = ball->pos;
-    behindBallPosition = futureBallPos + getPlaceBehindBallForGenevaState(robot, aimTarget, currentDesiredGeneva);
+    Vector2 behindBallPosition = futureBallPos + getPlaceBehindBallForGenevaState(robot, aimTarget, currentDesiredGeneva);
 
     // make a line, on which we can drive straight to it
 
     std::pair<Vector2, Vector2> lineToDriveOver = std::make_pair(behindBallPosition, ball->pos);
+    lineToDriveOver=shiftLineForGeneva(lineToDriveOver,currentDesiredGeneva);
     // check the properties
     bool isOnLineToBall = onLineToBall(robot, lineToDriveOver, precision);
     bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, shotTarget, robot.pos, 0.3);
@@ -60,7 +61,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     }
     else {
         isShooting=false;
-        shotData = goToPlaceBehindBall(robot, behindBallPosition+ball->vel*0.2, lineToDriveOver);
+        shotData = goToPlaceBehindBall(robot, lineToDriveOver.first+ball->vel*0.2, lineToDriveOver);
     }
     std::cout<<std::endl;
 
@@ -226,6 +227,25 @@ ShotController::getPlaceBehindBallForGenevaState(world::Robot robot, Vector2 sho
     }
 }
 
+std::pair<Vector2,Vector2> ShotController::shiftLineForGeneva(const std::pair<Vector2, Vector2>& line, int genevaState) {
+    std::pair<Vector2,Vector2> shiftedLine=line;
+    double angle=(line.second-line.first).angle();
+    double switchLen=0.0;
+    switch (genevaState){
+    case 1: switchLen=0.02;break;
+    case 2: switchLen=0.01;break;
+    case 3: switchLen=0.0;break;
+    case 4: switchLen=-0.01;break;
+    case 5: switchLen=-0.02;break;
+    default: break;
+
+    }
+    Vector2 shift=Vector2(switchLen,0.0).rotate(angle+M_PI_2);
+    shiftedLine.first+=shift;
+    shiftedLine.second+=shift;
+
+    return shiftedLine;
+}
 int ShotController::determineOptimalGenevaState(world::Robot robot, Vector2 shotTarget) {
     auto ball = world::world->getBall();
 

@@ -33,7 +33,6 @@ class ShotController {
 private:
     bool init = false;
     bool isShooting;
-    Vector2 behindBallPosition;
     Vector2 aimTarget;
     bool genevaIsTurning = false;
     double secondsToTurnGeneva = 1.5;
@@ -46,6 +45,7 @@ private:
     bool onLineToBall(const world::Robot &robot, std::pair<Vector2, Vector2> line, ShotPrecision precision);
     bool robotAngleIsGood(world::Robot &robot,std::pair<Vector2,Vector2> lineToDriveOver, ShotPrecision precision);
     double determineKickForce(double distance,  BallSpeed desiredBallSpeed);
+    std::pair<Vector2,Vector2> shiftLineForGeneva(const std::pair<Vector2,Vector2>& line,int genevaState);
 
     // ShotData calculation
     ShotData goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition, std::pair<Vector2,Vector2> driveLine);
