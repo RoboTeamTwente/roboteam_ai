@@ -27,6 +27,6 @@ void newFrame(const roboteam_msgs::DetectionFrame msg){
     }
 }
 
-void getStates(){
-    //for each Kalman object that exists return it's state;
+position getStates(uint id){
+    return robotlist(id).kalmanGetState();
 }

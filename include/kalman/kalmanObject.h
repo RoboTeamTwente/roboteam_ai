@@ -44,7 +44,7 @@ public:
     void kalmanUpdateK();
     void kalmanUpdateX();
     void kalmanUpdateZ(float x, float y, float z, double timeStamp);
-    void kalmanGetState();
+    position kalmanGetState();
 };
 
 

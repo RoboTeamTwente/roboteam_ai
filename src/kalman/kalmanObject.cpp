@@ -129,6 +129,6 @@ void kalmanObject::kalmanUpdateZ(float x, float y, float z, double timeStamp){
     }
 }
 
-void kalmanObject::kalmanGetState(){
-
+position kalmanObject::kalmanGetState(){
+    return {this->X(0,0), this->X(2,0), this->X(4,0)};
 }
