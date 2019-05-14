@@ -23,6 +23,7 @@ private:
     uint id;
     double observationTimeStamp;
     int invisibleCounter;
+    bool exists;
 
     arma::fmat X(STATE_INDEX, 1);
     arma::fmat Z(STATE_INDEX, 1);

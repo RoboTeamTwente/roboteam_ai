@@ -3,21 +3,28 @@
 //
 
 #include "kalman/kalmanFilter.h"
-#include "kalman/KalmanObject.h"
 
-void kalmanFilterInit(){
-    //create 25 kalman objects (24 robots and 1 ball)
+void kalmanInit(){
+    for (int i = 0; i < 32; ++i) {
+        robotlist[i] = kalmanObject(i);
+    }
 }
 
 void kalmanUpdate(){
-    //for all kalman objects
-    // kalmanUpdateK();
-    // kalmanUpdateX();
+    for (int i = 0; i < 32; ++i) {
+        robotlist[i].kalmanUpdateK();
+        robotlist[i].kalmanUpdateX();
+    }
 }
 
-void newFrame(){
-    //for each kalman object check if it's in the frame and update if the new data is more recent than the old data
-    //kalmanUpdateZ();
+void newFrame(const roboteam_msgs::DetectionFrame msg){
+    double timeCapture = msg.t_capture;
+    for (const roboteam_msgs::DetectionRobot robot : msg.them) {
+        robotlist(robot.robot_id).kalmanUpdateZ(robotdata(xyz))
+    }
+    for (const roboteam_msgs::DetectionRobot robot : msg.us) {
+        robotlist(robot.robot_id).kalmanUpdateZ(robotdata(xyz))
+    }
 }
 
 void getStates(){
