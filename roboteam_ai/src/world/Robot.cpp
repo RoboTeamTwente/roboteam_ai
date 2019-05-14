@@ -132,26 +132,26 @@ unsigned char Robot::getDribblerState() const {
     return dribblerState;
 }
 
-bool Robot::isDribblerReady() const {
-    return world->getTime() - timeDribblerChanged >
-    abs(dribblerState - previousDribblerState)*timeToChangeOneDribblerLevel;
-}
-
 void Robot::setDribblerState(unsigned char dribbler) {
 
     if (dribbler < 0 || dribbler > 7) {
         std::cout << "setting invalid dribbler state (" << (int)dribbler <<
                   ") for robot with id " << id << std::endl;
     }
-    else if (! workingGeneva) {
+    else if (! workingDribbler) {
         std::cout << "setting dribbler state (" << (int)dribbler <<
                   ") for robot without working dribbler with id " << id << std::endl;
     }
     else {
-        previousGenevaState = genevaState;
-        genevaState = dribbler;
-        timeGenevaChanged = world::world->getTime();
+        previousDribblerState = dribblerState;
+        dribblerState = dribbler;
+        timeDribblerChanged = world::world->getTime();
     }
+}
+
+bool Robot::isDribblerReady() const {
+    return world->getTime() - timeDribblerChanged >
+            abs(dribblerState - previousDribblerState)*timeToChangeOneDribblerLevel;
 }
 
 bool Robot::hasWorkingDribbler() const {
