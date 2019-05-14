@@ -18,10 +18,10 @@ Skill::Status DriveWithInterface::onUpdate() {
         return Status::Failure;
     }
     Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
-    if ((targetPos - robot->pos).length() < 0.16) {
-        std::cout << "Close" << std::endl;
-        return Status::Running;
-    }
+//    if ((targetPos - robot->pos).length() < 0.16) {
+//        std::cout << "Close" << std::endl;
+//        return Status::Running;
+//    }
 
     auto pva = numTreeGtp.getPosVelAngle(robot, targetPos);
     Vector2 velocity = control::ControlUtils::velocityLimiter(pva.vel, Constants::MAX_VEL());
