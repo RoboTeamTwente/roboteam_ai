@@ -11,7 +11,6 @@ kalmanObject::kalmanObject(){
 kalmanObject::kalmanObject(uint id){
     this->id = id;
     this->observationTimeStamp = 0.0;
-    this->exists = false;
     this->invisibleCounter = 0;
     this->X.zeros();
     this->Z.zeros();
@@ -41,6 +40,21 @@ kalmanObject::kalmanObject(uint id){
                {0, 0, 0, 0, TIMEDIFF*TIMEDIFF*RAND_VAR, TIMEDIFF*RAND_VAR },
                {0, 0, 0, 0, TIMEDIFF*RAND_VAR, RAND_VAR } };
     this->K.zeros();
+}
+
+kalmanObject::~kalmanObject(){
+    delete this->id;
+    delete this->observationTimeStamp;
+    delete this->invisibleCounter;
+    delete this->X;
+    delete this->Z;
+    delete this->F;
+    delete this->H;
+    delete this->R;
+    delete this->I;
+    delete this->P;
+    delete this->Q;
+    delete this->K;
 }
 
 void kalmanObject::kalmanUpdateK(){
@@ -87,7 +101,7 @@ void kalmanObject::kalmanUpdateX(){
 
     this->invisibleCounter += 1;
     if (this->invisibleCounter>200){
-        this->exists = false;
+        this->~kalmanObject();
     }
 
     arma::fmat X_predict = this->F * this->X;
@@ -106,7 +120,6 @@ void kalmanObject::kalmanUpdateZ(float x, float y, float z, double timeStamp){
         this->Z(1, 0) = y;
         this->Z(2, 0) = z;
         this->observationTimeStamp = timeStamp;
-        this->exists = true;
         this->invisibleCounter = 0;
     }
 }

@@ -22,10 +22,9 @@ private:
 
     uint id;
     double observationTimeStamp;
-    bool exists;
     int invisibleCounter;
 
-    arma::fmat X(STATE_INDEX, 1, fill::zeros);
+    arma::fmat X(STATE_INDEX, 1);
     arma::fmat Z(STATE_INDEX, 1);
     arma::fmat F(STATE_INDEX, STATE_INDEX);
     arma::fmat H(OBSERVATION_INDEX, STATE_INDEX);
@@ -39,6 +38,7 @@ public:
 
     kalmanObject();
     kalmanObject(uint id);
+    ~kalmanObject();
 
     void kalmanUpdateK();
     void kalmanUpdateX();
