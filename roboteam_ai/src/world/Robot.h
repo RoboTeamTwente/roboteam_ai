@@ -55,7 +55,7 @@ class Robot {
         unsigned char dribblerState;
         unsigned char previousDribblerState = 0;
         double timeDribblerChanged = 0;
-        constexpr static double timeToChangeOneDribblerLevel = 0.25;
+        constexpr static double timeToChangeOneDribblerLevel = 0.06;
         bool workingDribbler;
     public:
         unsigned char getDribblerState() const;
