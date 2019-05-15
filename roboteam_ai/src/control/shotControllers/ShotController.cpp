@@ -20,7 +20,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     bool robotAlreadyVeryClose = robot.pos.dist(ball->pos) < 3.0 * Constants::ROBOT_RADIUS();
     int currentDesiredGeneva = robot.getGenevaState();
 
-    if (useAutoGeneva && robot.hasWorkingGeneva && !genevaIsTurning && !robotAlreadyVeryClose) {
+    if (useAutoGeneva && robot.hasWorkingGeneva() && !genevaIsTurning && !robotAlreadyVeryClose) {
         currentDesiredGeneva = determineOptimalGenevaState(robot, shotTarget);
     }
 
