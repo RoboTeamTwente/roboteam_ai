@@ -7,7 +7,7 @@
 
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
-#include <roboteam_ai/src/control/positionControllers/ControlGoToPosBallControl.h>
+#include <roboteam_ai/src/control/positionControllers/BallHandlePosControl.h>
 #include "roboteam_ai/src/skills/Skill.h"
 
 namespace rtt {
@@ -16,7 +16,6 @@ namespace ai {
 class GoToPos : public Skill {
     protected:
         enum GoToType {
-          ballControl,
           basic,
           force,
           numTree
@@ -26,8 +25,10 @@ class GoToPos : public Skill {
         void setPositionController(const GoToType &goToType);
 
         Vector2 targetPos = {};
+        Angle targetAngle = 0.0;
         double maxVel;
         double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
+        double angleErrorMargin = Constants::GOTOPOS_ANGLE_ERROR_MARGIN();
 
         std::shared_ptr<control::PosController> posController;
 

@@ -165,6 +165,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleRotate.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPSpecial.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPSpecial.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPWithBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPWithBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoAroundPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoAroundPos.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.cpp
@@ -220,7 +222,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacement/BallPlacementPass.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DriveWithInterface.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DriveWithInterface.h
-
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementWithInterface.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementWithInterface.h
         )
 
 set(CONDITIONS_SOURCES
@@ -279,10 +282,11 @@ set(CONDITIONS_SOURCES
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ControlGoToPosBallControl.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ControlGoToPosBallControl.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/BallHandlePosControl.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/BallHandlePosControl.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/NumTreePosControl.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/NumTreePosControl.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/RobotCommand.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosVelAngle.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/BasicPosControl.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/BasicPosControl.h
@@ -297,7 +301,6 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/shotControllers/ShotController.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/shotControllers/ShotController.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/shotControllers/ShotData.h)
-
 
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/main.cpp
