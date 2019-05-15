@@ -6,21 +6,20 @@
 
 
 namespace rtt {
-    namespace ai {
+namespace ai {
 
-        ballIsMoving::ballIsMoving(std::string name, bt::Blackboard::Ptr blackboard)
-                :Condition(std::move(name), std::move(blackboard)) { };
+ballIsMoving::ballIsMoving(std::string name, bt::Blackboard::Ptr blackboard)
+        :Condition(std::move(name), std::move(blackboard)) { };
 
 
-        bt::Node::Status ballIsMoving::onUpdate() {
-            Vector2 ballVel=ball->vel;
-            bool ballIsLayingStill = ballVel.length() < Constants::BALL_STILL_VEL();
+bt::Node::Status ballIsMoving::onUpdate() {
+    bool ballIsLayingStill = Referee::getCurrentRefGameState().getBallPositionAtStartOfRefGameState().dist(ball->pos) < 0.05;
 
-            if (ballIsLayingStill ){
-                return Status::Failure;
-            }
-            return Status::Success;
-        }
+    if (ballIsLayingStill ){
+        return Status::Failure;
+    }
+    return Status::Success;
+}
 
-    } // ai
+} // ai
 } // rtt
