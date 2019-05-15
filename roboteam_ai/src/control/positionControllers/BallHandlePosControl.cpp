@@ -359,7 +359,7 @@ void BallHandlePosControl::updateBackwardsProgress() {
         Angle offsetAngle = finalTargetToRobot.toAngle() - robot->angle;
         double maxOffsetAngle = M_PI*0.05;
         if (fabs(offsetAngle) > maxOffsetAngle) {
-            if (finalTargetToRobot.length2() > Constants::ROBOT_RADIUS()*1.2) {
+            if (finalTargetToRobot.length2() > robotRadius*1.2) {
                 backwardsProgress = B_start;
                 return;
             }
@@ -456,6 +456,7 @@ RobotCommand BallHandlePosControl::limitCommand(RobotCommand command) {
     double maxAcc = control::ControlUtils::calculateMaxAcceleration(command.vel, command.angle);
     command.vel = control::ControlUtils::accelerationLimiter(command.vel, maxAcc, previousVelocity.length());
     previousVelocity = command.vel;
+
     return command;
 }
 
@@ -571,6 +572,7 @@ void BallHandlePosControl::printRotateStrategy(RotateStrategy strategy) {
 
 void BallHandlePosControl::setMaxVelocity(double maxV) {
     maxForwardsVelocity = maxV > 0.0 && maxV < 8.0 ? maxV : maxForwardsVelocity;
+    maxBackwardsVelocity = maxV > 0.0 && maxV < 8.0 ? maxV : maxBackwardsVelocity;
 }
 
 } //control
