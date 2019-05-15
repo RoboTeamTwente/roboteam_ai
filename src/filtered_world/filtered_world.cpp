@@ -178,25 +178,19 @@ namespace rtt {
             roboteam_msgs::DetectionBall closestBall = ball_buffer.begin()->second;
             int best_camera = ball_buffer.begin()->first;
             // Initial extrapolation. Does the same as below
-            Position Extrapolation = previousBallPos + (Position(closestBall.pos) - previousBallPos) *
-                    (1 / (timeFrameCaptured[best_camera] - timeLastUpdated)) *
-                    (timestamp - timeLastUpdated);
-            double closestDist2 = Vector2(Extrapolation.x, Extrapolation.y).dist2(
+            double closestDist2 = Vector2(closestBall.pos).dist2(
                     Vector2(predictedPosition.x, predictedPosition.y));
 
             for (auto const &detectedBall : ball_buffer) {
                 // Extrapolate from detectionframe's capture time to current time.
                 Position detectedBallPos = Position(detectedBall.second.pos);
-                Extrapolation = previousBallPos + (detectedBallPos - previousBallPos) *
-                        (1 / (timeFrameCaptured[detectedBall.first] - timeLastUpdated)) *
-                        (timestamp - timeLastUpdated);
-                double dist2 = Vector2(Extrapolation.x, Extrapolation.y).dist2(
+                double dist2 = Vector2(detectedBallPos.x,detectedBallPos.y).dist2(
                         Vector2(predictedPosition.x, predictedPosition.y));
                 // Pick the Extrapolation which works best
                 if (dist2 < closestDist2) {
                     //best_camera=detectedBall.first;
                     closestBall = detectedBall.second;
-                    closestBall.pos = Vector2(Extrapolation.x, Extrapolation.y);
+                    closestBall.pos = Vector2(detectedBallPos.x,detectedBallPos.y);
                     closestDist2 = dist2;
                 }
             }
@@ -243,7 +237,7 @@ namespace rtt {
 
             float w = 0;
 
-            Vector2 Extrapolation;
+            Vector2 robotPos;
             //TODO: Rotation is now fixed to last frames information. Could still be extrapolated?
             Vector2 zero = {0, 0};
             double last_frame = timeLastUpdated;
@@ -251,14 +245,7 @@ namespace rtt {
                 if (timeFrameCaptured[buf.first] > last_frame) {
                     last_frame = timeFrameCaptured[buf.first];
                     Vector2 bufPosition = buf.second.pos;
-                    if (previousPosition == zero) {;
-                        Extrapolation=bufPosition;
-                    }
-                    else {
-                        Vector2 bufVelocity =
-                                (bufPosition - previousPosition) / (timeFrameCaptured[buf.first] - timeLastUpdated);
-                        Extrapolation = previousPosition + bufVelocity * (timestamp - timeLastUpdated);
-                    }
+                    robotPos=bufPosition;
                     w = buf.second.orientation;
                     if (w>=M_PI){
                         while(w>=M_PI){
@@ -273,7 +260,7 @@ namespace rtt {
                 }
             }
             // Assign the robot position and rotation to the extrapolation calculated.
-            robot.move_to((float) Extrapolation.x, (float) Extrapolation.y);
+            robot.move_to((float) robotPos.x, (float) robotPos.y);
             robot.rotate_to(w);
 
             // Send an update and discard old data for buffers used for calculations
