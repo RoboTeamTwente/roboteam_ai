@@ -39,7 +39,7 @@ class Robot {
 
         // geneva
     private:
-        unsigned char genevaState;
+        int genevaState = 3;
         unsigned char previousGenevaState = 0;
         double timeGenevaChanged = 0;
         constexpr static double timeToChangeOneGenevaState = 0.5;
@@ -47,7 +47,7 @@ class Robot {
     public:
         unsigned char getGenevaState() const;
         bool isGenevaReady() const;
-        void setGenevaState(unsigned char state = 3);
+        void setGenevaState(int state);
         bool hasWorkingGeneva() const;
 
         // dribbler
@@ -82,7 +82,7 @@ class Robot {
         };
         Robot();
         explicit Robot(const roboteam_msgs::WorldRobot &copy, Team team = invalid,
-                unsigned char genevaState = 3, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
+                int genevaState = 3, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
         void updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const Ball &ball, unsigned long worldNumber);
         const unsigned long getLastUpdatedWorldNumber() const;
         const roboteam_msgs::WorldRobot toMessage() const;

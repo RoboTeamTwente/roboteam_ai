@@ -67,6 +67,10 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
 
     interface::Input::drawData(interface::Visual::SHOTLINES, {ball->pos, shotTarget}, Qt::yellow, robot.id, interface::Drawing::LINES_CONNECTED);
 
+    if (currentDesiredGeneva > 5) {
+        std::cout << "getting state" << std::endl;
+    }
+
     // Make sure the Geneva state is always correct
     shotData.genevaState = currentDesiredGeneva;
     return shotData;
@@ -87,11 +91,11 @@ void ShotController::setGenevaDelay(int genevaDifference) {
 bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, Vector2> line, ShotPrecision precision) {
     double dist = ControlUtils::distanceToLine(robot.pos, line.first, line.second);
     if (precision == HIGH) {
-        return dist < 0.1;
+        return dist < 0.065;
     } else if (precision == MEDIUM) {
-        return dist < 0.15;
+        return dist < 0.065;
     }
-    return dist < 0.15;
+    return dist < 0.7;
 }
 
 /// return the place behind the ball targeted towards the ball target position
@@ -197,12 +201,12 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector
         Angle aim((lineToDriveOver.second - lineToDriveOver.first).angle());
         double diff = abs(aim - robot.angle);
         if (precision == HIGH) {
-            return diff < 0.05;
-        }
-        if (precision == MEDIUM) {
             return diff < 0.2;
         }
-        return diff < 0.3;
+        if (precision == MEDIUM) {
+            return diff < 0.4;
+        }
+        return diff < 0.5;
     }
 
 

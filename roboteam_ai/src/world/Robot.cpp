@@ -14,7 +14,7 @@ namespace ai {
 namespace world {
 
 Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
-        unsigned char genevaState, unsigned char dribblerState, unsigned long worldNumber)
+        int genevaState, unsigned char dribblerState, unsigned long worldNumber)
         :distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(worldNumber), genevaState(genevaState),
          dribblerState(dribblerState),
          id(copy.id), angle(copy.angle), pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
@@ -108,7 +108,7 @@ unsigned char Robot::getGenevaState() const {
     return genevaState;
 }
 
-void Robot::setGenevaState(unsigned char state) {
+void Robot::setGenevaState(int state) {
 
     if (state < 0 || state > 5) {
         std::cout << "setting invalid geneva state (" << (int)state <<

@@ -15,14 +15,14 @@ Skill::Status GoBehindBall::gtpUpdate() {
 
     switch (refType) {
     case penalty: {
-        auto ball = ai::world::world->getBall();
-        auto goal = ai::world::field->get_their_goal_center();
-
-        Vector2 v = goal - ball->pos;
-        targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS()+0.08)) + ball->pos;
-        command.geneva_state = 4;
-        command.w = (rtt::ai::world::field->get_their_goal_center() - robot->pos).angle();
-        return Status::Running;
+//        auto ball = ai::world::world->getBall();
+//        auto goal = ai::world::field->get_their_goal_center();
+//
+//        Vector2 v = goal - ball->pos;
+//        targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS()+0.08)) + ball->pos;
+////        command.geneva_state = 4;
+//        command.w = (rtt::ai::world::field->get_their_goal_center() - robot->pos).angle();
+        return Status::Success;
     }
     case freeKick: {
         auto ball = ai::world::world->getBall();
@@ -54,7 +54,7 @@ void GoBehindBall::gtpInitialize() {
 void GoBehindBall::gtpTerminate(Skill::Status s) {
     command.x_vel = 0;
     command.y_vel = 0;
-    command.geneva_state = 4;
+//    command.geneva_state = 4;
     publishRobotCommand();
 
 }

@@ -141,6 +141,7 @@ void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
             // the geneva cannot be received from world, so we set it when it gets sent.
             auto robot = world::world->getRobotForId(cmd.id, true);
             if (robot) {
+
                 robot->setGenevaState(cmd.geneva_state);
             }
             // sometimes trees are terminated without having a role assigned.

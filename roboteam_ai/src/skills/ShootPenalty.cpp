@@ -17,21 +17,26 @@ void ShootPenalty::onInitialize() {
 }
 
 Skill::Status ShootPenalty::onUpdate() {
+//
+//    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
+//    Vector2 deltaPos = (ballPos - robot->pos);
+//    interface::Input::drawDebugData({aimPoint});
+//
+//        robot->getShotController()->makeCommand(robot->getShotController()->getShotData(*robot, aimPoint, false, control::BallSpeed::MAX_SPEED, false), command);
+//        command.geneva_state = 4;
+//        publishRobotCommand();
+//
+//    if (isPenaltyShot()) {
+//        publishRobotCommand();
+//        return Status::Success;
+//
+//    }
+//    return Status::Running;
 
-    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
-    Vector2 deltaPos = (ballPos - robot->pos);
-    interface::Input::drawDebugData({aimPoint});
-
-        robot->getShotController()->makeCommand(robot->getShotController()->getShotData(*robot, aimPoint, false, control::BallSpeed::MAX_SPEED, false), command);
-        command.geneva_state = 4;
-        publishRobotCommand();
-
-    if (isPenaltyShot()) {
-        publishRobotCommand();
-        return Status::Success;
-
-    }
+    robot->getShotController()->makeCommand(robot->getShotController()->getShotData(*robot, rtt::ai::world::field->get_their_goal_center()), command);
+    publishRobotCommand();
     return Status::Running;
+
 
 
 }
