@@ -1,1 +1,162 @@
-{"name": "free_kick_them_tactic", "data": {"trees": [{"title": "free_kick_them_tactic", "root": "pto0sscqulqlf1j", "nodes": {"pto0sscqulqlf1j": {"id": "pto0sscqulqlf1j", "title": "RoleDivider", "children": ["cdwojevc9jqw58wzg", "z62b9uxkyjznp", "1kbmnmexkt7417mkc", "wxrp48esurdw122", "0zo8m65orj0j2eg", "z7r0uta7q2bq34gii", "k3d4rs92y507akni"], "properties": {"TacticType": "General"}}, "cdwojevc9jqw58wzg": {"id": "cdwojevc9jqw58wzg", "title": "Role", "name": "line7", "role": "defend_free_kick_role", "children": ["3bhyhaozhgzfnow"], "properties": {"ROLE": "line7"}}, "3bhyhaozhgzfnow": {"id": "3bhyhaozhgzfnow", "title": "DefendFreeKick", "properties": {"ROLE": "line7"}}, "z62b9uxkyjznp": {"id": "z62b9uxkyjznp", "title": "Role", "name": "line6", "role": "defend_free_kick_role", "children": ["60dhi463s3zcsmds"], "properties": {"ROLE": "line6"}}, "60dhi463s3zcsmds": {"id": "60dhi463s3zcsmds", "title": "DefendFreeKick", "properties": {"ROLE": "line6"}}, "1kbmnmexkt7417mkc": {"id": "1kbmnmexkt7417mkc", "title": "Role", "name": "line1", "role": "defend_free_kick_role", "children": ["ivar5ff1j6i2o"], "properties": {"ROLE": "line1"}}, "ivar5ff1j6i2o": {"id": "ivar5ff1j6i2o", "title": "DefendFreeKick", "properties": {"ROLE": "line1"}}, "wxrp48esurdw122": {"id": "wxrp48esurdw122", "title": "Role", "name": "line2", "role": "defend_free_kick_role", "children": ["83tx873j4cnzn"], "properties": {"ROLE": "line2"}}, "83tx873j4cnzn": {"id": "83tx873j4cnzn", "title": "DefendFreeKick", "properties": {"ROLE": "line2"}}, "0zo8m65orj0j2eg": {"id": "0zo8m65orj0j2eg", "title": "Role", "name": "line4", "role": "defend_free_kick_role", "children": ["zj9w33hqryrd1"], "properties": {"ROLE": "line4"}}, "zj9w33hqryrd1": {"id": "zj9w33hqryrd1", "title": "DefendFreeKick", "properties": {"ROLE": "line4"}}, "z7r0uta7q2bq34gii": {"id": "z7r0uta7q2bq34gii", "title": "Role", "name": "line5", "role": "defend_free_kick_role", "children": ["bohad82ryf2rs2l"], "properties": {"ROLE": "line5"}}, "bohad82ryf2rs2l": {"id": "bohad82ryf2rs2l", "title": "DefendFreeKick", "properties": {"ROLE": "line5"}}, "k3d4rs92y507akni": {"id": "k3d4rs92y507akni", "title": "Role", "name": "line3", "role": "defend_free_kick_role", "children": ["4g7w5iijcy5o43"], "properties": {"ROLE": "line3"}}, "4g7w5iijcy5o43": {"id": "4g7w5iijcy5o43", "title": "DefendFreeKick", "properties": {"ROLE": "line3"}}}}]}}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "0zo8m65orj0j2eg": {
+            "children": [
+              "zj9w33hqryrd1"
+            ],
+            "id": "0zo8m65orj0j2eg",
+            "name": "line4",
+            "properties": {
+              "ROLE": "line4"
+            },
+            "role": "defend_free_kick_role",
+            "title": "Role"
+          },
+          "1kbmnmexkt7417mkc": {
+            "children": [
+              "ivar5ff1j6i2o"
+            ],
+            "id": "1kbmnmexkt7417mkc",
+            "name": "line1",
+            "properties": {
+              "ROLE": "line1"
+            },
+            "role": "defend_free_kick_role",
+            "title": "Role"
+          },
+          "3bhyhaozhgzfnow": {
+            "id": "3bhyhaozhgzfnow",
+            "properties": {
+              "ROLE": "line7"
+            },
+            "title": "DefendFreeKick"
+          },
+          "4g7w5iijcy5o43": {
+            "id": "4g7w5iijcy5o43",
+            "properties": {
+              "ROLE": "line3"
+            },
+            "title": "DefendFreeKick"
+          },
+          "60dhi463s3zcsmds": {
+            "id": "60dhi463s3zcsmds",
+            "properties": {
+              "ROLE": "line6"
+            },
+            "title": "DefendFreeKick"
+          },
+          "83tx873j4cnzn": {
+            "id": "83tx873j4cnzn",
+            "properties": {
+              "ROLE": "line2"
+            },
+            "title": "DefendFreeKick"
+          },
+          "bohad82ryf2rs2l": {
+            "id": "bohad82ryf2rs2l",
+            "properties": {
+              "ROLE": "line5"
+            },
+            "title": "DefendFreeKick"
+          },
+          "cdwojevc9jqw58wzg": {
+            "children": [
+              "3bhyhaozhgzfnow"
+            ],
+            "id": "cdwojevc9jqw58wzg",
+            "name": "line7",
+            "properties": {
+              "ROLE": "line7"
+            },
+            "role": "defend_free_kick_role",
+            "title": "Role"
+          },
+          "ivar5ff1j6i2o": {
+            "id": "ivar5ff1j6i2o",
+            "properties": {
+              "ROLE": "line1"
+            },
+            "title": "DefendFreeKick"
+          },
+          "k3d4rs92y507akni": {
+            "children": [
+              "4g7w5iijcy5o43"
+            ],
+            "id": "k3d4rs92y507akni",
+            "name": "line3",
+            "properties": {
+              "ROLE": "line3"
+            },
+            "role": "defend_free_kick_role",
+            "title": "Role"
+          },
+          "pto0sscqulqlf1j": {
+            "children": [
+              "cdwojevc9jqw58wzg",
+              "z62b9uxkyjznp",
+              "1kbmnmexkt7417mkc",
+              "wxrp48esurdw122",
+              "0zo8m65orj0j2eg",
+              "z7r0uta7q2bq34gii",
+              "k3d4rs92y507akni"
+            ],
+            "id": "pto0sscqulqlf1j",
+            "properties": {
+              "TacticType": "General"
+            },
+            "title": "RoleDivider"
+          },
+          "wxrp48esurdw122": {
+            "children": [
+              "83tx873j4cnzn"
+            ],
+            "id": "wxrp48esurdw122",
+            "name": "line2",
+            "properties": {
+              "ROLE": "line2"
+            },
+            "role": "defend_free_kick_role",
+            "title": "Role"
+          },
+          "z62b9uxkyjznp": {
+            "children": [
+              "60dhi463s3zcsmds"
+            ],
+            "id": "z62b9uxkyjznp",
+            "name": "line6",
+            "properties": {
+              "ROLE": "line6"
+            },
+            "role": "defend_free_kick_role",
+            "title": "Role"
+          },
+          "z7r0uta7q2bq34gii": {
+            "children": [
+              "bohad82ryf2rs2l"
+            ],
+            "id": "z7r0uta7q2bq34gii",
+            "name": "line5",
+            "properties": {
+              "ROLE": "line5"
+            },
+            "role": "defend_free_kick_role",
+            "title": "Role"
+          },
+          "zj9w33hqryrd1": {
+            "id": "zj9w33hqryrd1",
+            "properties": {
+              "ROLE": "line4"
+            },
+            "title": "DefendFreeKick"
+          }
+        },
+        "root": "pto0sscqulqlf1j",
+        "title": "free_kick_them_tactic"
+      }
+    ]
+  },
+  "name": "free_kick_them_tactic"
+}

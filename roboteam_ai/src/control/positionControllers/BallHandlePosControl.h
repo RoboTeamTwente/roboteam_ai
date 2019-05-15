@@ -69,7 +69,6 @@ class BallHandlePosControl {
         void printBackwardsProgress();
 
         // variables for backwards progress
-        int B_count = 0;
         Vector2 B_approachPosition;
         Angle B_lockedAngle;
         std::pair<Vector2, Vector2> B_backwardsDribbleLine;
@@ -112,6 +111,8 @@ class BallHandlePosControl {
         RobotCommand rotateWithBall(RotateStrategy rotateStrategy);
         RobotCommand travelWithBall(TravelStrategy travelStrategy);
         void updateVariables(const RobotPtr &robot, const Vector2 &targetP, const Angle &targetA);
+
+        int waitingTicks = 0;
 
         // limit velocity & acceleration
         Vector2 previousVelocity = Vector2();

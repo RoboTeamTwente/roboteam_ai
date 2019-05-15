@@ -38,8 +38,6 @@ class ShootFreeKick : public Skill {
         double errorMarginPos = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS() + 0.03; // Same logic
         bool isShot();
         Vector2 freeKickPos;
-        std::shared_ptr<control::ShotController> shotControl;
-
 };
 
 }

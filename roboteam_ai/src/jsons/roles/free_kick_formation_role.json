@@ -1,1 +1,17 @@
-{"name": "free_kick_formation_role", "data": {"trees": [{"title": "free_kick_formation_role", "root": "okjaaj7izobsb", "nodes": {"okjaaj7izobsb": {"id": "okjaaj7izobsb", "title": "FreeKickFormation"}}}]}}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "okjaaj7izobsb": {
+            "id": "okjaaj7izobsb",
+            "title": "FreeKickFormation"
+          }
+        },
+        "root": "okjaaj7izobsb",
+        "title": "free_kick_formation_role"
+      }
+    ]
+  },
+  "name": "free_kick_formation_role"
+}

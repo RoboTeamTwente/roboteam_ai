@@ -169,8 +169,6 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPWithBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoAroundPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoAroundPos.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Defend.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoBehindBall.cpp
@@ -221,7 +219,12 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacement/BallPlacementReceive.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacement/BallPlacementReceive.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacement/BallPlacementPass.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacement/BallPlacementPass.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacement/BallPlacementPass.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DriveWithInterface.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DriveWithInterface.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementWithInterface.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementWithInterface.h
+        )
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
@@ -339,7 +342,6 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/BallPlacementCoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/OffensiveCoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/FormationTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/DefendTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/DefensiveCoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/OffensiveCoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/roboteam_utils_Tests/AngleTest.cpp

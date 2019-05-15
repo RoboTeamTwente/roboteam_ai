@@ -22,18 +22,18 @@ class NumTreePosControl : public ForcePosControl {
     private:
         using InterfaceValues = interface::Output;
         using PathPointer = std::shared_ptr<PathPoint>;
-    std::vector<rtt::Vector2> triedPaths;
 
+        std::vector<rtt::Vector2> triedPaths;
         Robot robot = {};
         Vector2 finalTargetPos;
 
         bool doRecalculatePath(const Vector2 &targetPos);
-        PosVelAngle computeCommand();
+        PosVelAngle computeCommand(const Vector2 &exactTargetPos);
 
         // constants
-        const double MAX_CALCULATION_TIME = 25.0;                       // Max calculation time in ms
-        const double DT = 0.07;                                         // timestep for ODE model
-        static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 0.28;  // 3x robot radius
+        const double MAX_CALCULATION_TIME = 25.0;         // Max calculation time in ms
+        const double DT = 0.07;                          // timestep for ODE model
+        static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 0.25; // 3x robot radius
 
         // collisions
         Collision getCollision(const PathPointer &point, double collisionRadius = DEFAULT_ROBOT_COLLISION_RADIUS);

@@ -1,1 +1,182 @@
-{"name": "halt_tactic", "data": {"trees": [{"title": "halt_tactic", "root": "x14srkxh2tqy8ij", "nodes": {"x14srkxh2tqy8ij": {"id": "x14srkxh2tqy8ij", "title": "RoleDivider", "children": ["yj3j01p0rlw6kbrr", "ve9vnwe7iwcidulr9", "6zm85bxs9hv6iy5", "x5chf55b3vlyxqqv0", "neem7b2yqyhp6c", "5rrbybn7cnnot2", "i5c37aoaavtp66", "kucbgp1yue8duldv"], "properties": {"TacticType": "General"}}, "yj3j01p0rlw6kbrr": {"id": "yj3j01p0rlw6kbrr", "title": "Role", "name": "halt0", "role": "halt_role", "children": ["b4vymrbroico0sts"], "properties": {"ROLE": "halt0"}}, "b4vymrbroico0sts": {"properties": {"ROLE": "halt0"}, "id": "b4vymrbroico0sts", "title": "Halt"}, "ve9vnwe7iwcidulr9": {"id": "ve9vnwe7iwcidulr9", "title": "Role", "name": "halt1", "role": "halt_role", "children": ["wlulj4ztolm9qy"], "properties": {"ROLE": "halt1"}}, "wlulj4ztolm9qy": {"properties": {"ROLE": "halt1"}, "id": "wlulj4ztolm9qy", "title": "Halt"}, "6zm85bxs9hv6iy5": {"id": "6zm85bxs9hv6iy5", "title": "Role", "name": "halt2", "role": "halt_role", "children": ["fs2fvpdk8528s"], "properties": {"ROLE": "halt2"}}, "fs2fvpdk8528s": {"properties": {"ROLE": "halt2"}, "id": "fs2fvpdk8528s", "title": "Halt"}, "x5chf55b3vlyxqqv0": {"id": "x5chf55b3vlyxqqv0", "title": "Role", "name": "halt3", "role": "halt_role", "children": ["n19hyoidt7yjp5"], "properties": {"ROLE": "halt3"}}, "n19hyoidt7yjp5": {"properties": {"ROLE": "halt3"}, "id": "n19hyoidt7yjp5", "title": "Halt"}, "neem7b2yqyhp6c": {"id": "neem7b2yqyhp6c", "title": "Role", "name": "halt4", "role": "halt_role", "children": ["sy7o06u8hmg22whob"], "properties": {"ROLE": "halt4"}}, "sy7o06u8hmg22whob": {"properties": {"ROLE": "halt4"}, "id": "sy7o06u8hmg22whob", "title": "Halt"}, "5rrbybn7cnnot2": {"id": "5rrbybn7cnnot2", "title": "Role", "name": "halt5", "role": "halt_role", "children": ["x498r2e5s7ror"], "properties": {"ROLE": "halt5"}}, "x498r2e5s7ror": {"properties": {"ROLE": "halt5"}, "id": "x498r2e5s7ror", "title": "Halt"}, "i5c37aoaavtp66": {"id": "i5c37aoaavtp66", "title": "Role", "name": "halt6", "role": "halt_role", "children": ["220ahlnht3z8j"], "properties": {"ROLE": "halt6"}}, "220ahlnht3z8j": {"properties": {"ROLE": "halt6"}, "id": "220ahlnht3z8j", "title": "Halt"}, "kucbgp1yue8duldv": {"id": "kucbgp1yue8duldv", "title": "Role", "name": "halt7", "role": "halt_role", "children": ["ns54a15t5s2trwn"], "properties": {"ROLE": "halt7"}}, "ns54a15t5s2trwn": {"properties": {"ROLE": "halt7"}, "id": "ns54a15t5s2trwn", "title": "Halt"}}}]}}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "220ahlnht3z8j": {
+            "id": "220ahlnht3z8j",
+            "properties": {
+              "ROLE": "halt6"
+            },
+            "title": "Halt"
+          },
+          "5rrbybn7cnnot2": {
+            "children": [
+              "x498r2e5s7ror"
+            ],
+            "id": "5rrbybn7cnnot2",
+            "name": "halt5",
+            "properties": {
+              "ROLE": "halt5"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "6zm85bxs9hv6iy5": {
+            "children": [
+              "fs2fvpdk8528s"
+            ],
+            "id": "6zm85bxs9hv6iy5",
+            "name": "halt2",
+            "properties": {
+              "ROLE": "halt2"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "b4vymrbroico0sts": {
+            "id": "b4vymrbroico0sts",
+            "properties": {
+              "ROLE": "halt0"
+            },
+            "title": "Halt"
+          },
+          "fs2fvpdk8528s": {
+            "id": "fs2fvpdk8528s",
+            "properties": {
+              "ROLE": "halt2"
+            },
+            "title": "Halt"
+          },
+          "i5c37aoaavtp66": {
+            "children": [
+              "220ahlnht3z8j"
+            ],
+            "id": "i5c37aoaavtp66",
+            "name": "halt6",
+            "properties": {
+              "ROLE": "halt6"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "kucbgp1yue8duldv": {
+            "children": [
+              "ns54a15t5s2trwn"
+            ],
+            "id": "kucbgp1yue8duldv",
+            "name": "halt7",
+            "properties": {
+              "ROLE": "halt7"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "n19hyoidt7yjp5": {
+            "id": "n19hyoidt7yjp5",
+            "properties": {
+              "ROLE": "halt3"
+            },
+            "title": "Halt"
+          },
+          "neem7b2yqyhp6c": {
+            "children": [
+              "sy7o06u8hmg22whob"
+            ],
+            "id": "neem7b2yqyhp6c",
+            "name": "halt4",
+            "properties": {
+              "ROLE": "halt4"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "ns54a15t5s2trwn": {
+            "id": "ns54a15t5s2trwn",
+            "properties": {
+              "ROLE": "halt7"
+            },
+            "title": "Halt"
+          },
+          "sy7o06u8hmg22whob": {
+            "id": "sy7o06u8hmg22whob",
+            "properties": {
+              "ROLE": "halt4"
+            },
+            "title": "Halt"
+          },
+          "ve9vnwe7iwcidulr9": {
+            "children": [
+              "wlulj4ztolm9qy"
+            ],
+            "id": "ve9vnwe7iwcidulr9",
+            "name": "halt1",
+            "properties": {
+              "ROLE": "halt1"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "wlulj4ztolm9qy": {
+            "id": "wlulj4ztolm9qy",
+            "properties": {
+              "ROLE": "halt1"
+            },
+            "title": "Halt"
+          },
+          "x14srkxh2tqy8ij": {
+            "children": [
+              "yj3j01p0rlw6kbrr",
+              "ve9vnwe7iwcidulr9",
+              "6zm85bxs9hv6iy5",
+              "x5chf55b3vlyxqqv0",
+              "neem7b2yqyhp6c",
+              "5rrbybn7cnnot2",
+              "i5c37aoaavtp66",
+              "kucbgp1yue8duldv"
+            ],
+            "id": "x14srkxh2tqy8ij",
+            "properties": {
+              "TacticType": "General"
+            },
+            "title": "RoleDivider"
+          },
+          "x498r2e5s7ror": {
+            "id": "x498r2e5s7ror",
+            "properties": {
+              "ROLE": "halt5"
+            },
+            "title": "Halt"
+          },
+          "x5chf55b3vlyxqqv0": {
+            "children": [
+              "n19hyoidt7yjp5"
+            ],
+            "id": "x5chf55b3vlyxqqv0",
+            "name": "halt3",
+            "properties": {
+              "ROLE": "halt3"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "yj3j01p0rlw6kbrr": {
+            "children": [
+              "b4vymrbroico0sts"
+            ],
+            "id": "yj3j01p0rlw6kbrr",
+            "name": "halt0",
+            "properties": {
+              "ROLE": "halt0"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          }
+        },
+        "root": "x14srkxh2tqy8ij",
+        "title": "halt_tactic"
+      }
+    ]
+  },
+  "name": "halt_tactic"
+}

@@ -99,8 +99,10 @@ class Constants {
         static bool STD_TIMEOUT_TO_TOP();
 
         static std::map<int, bool> ROBOTS_WITH_WORKING_GENEVA();
+        static std::map<int, bool> ROBOTS_WITH_WORKING_DRIBBLER();
 
         static bool ROBOT_HAS_WORKING_GENEVA(int id);
+        static bool ROBOT_HAS_WORKING_DRIBBLER(int id);
 
         static QColor FIELD_COLOR();
         static QColor FIELD_LINE_COLOR();
@@ -128,7 +130,7 @@ class Constants {
 
 enum class RefGameState {
 // Ref states as dictated by RoboCup SSL
-                HALT = 0,
+        HALT = 0,
         STOP = 1,
         NORMAL_START = 2,
         FORCED_START = 3,
@@ -149,7 +151,7 @@ enum class RefGameState {
 
 // Custom extended refstates
 // These numbers will never be called from the referee immediately, they can only be used as follow-up commands
-                DO_KICKOFF = 18,
+        DO_KICKOFF = 18,
         DEFEND_KICKOFF = 19,
         DO_PENALTY = 20,
         DEFEND_PENALTY = 21,

@@ -15,7 +15,7 @@ void ReflectKick::onInitialize() {
     auto field = world::field->get_field();
     goalTarget = getFarSideOfGoal();
     reflectionPos = robot->pos;
-    numTreeGtp.setAvoidBall(false);
+    robot->getNumtreeGtp()->setAvoidBall(0);
 }
 
 ReflectKick::Status ReflectKick::onUpdate() {
@@ -72,7 +72,7 @@ void ReflectKick::intercept() {
 
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
 
-    Vector2 velocities = numTreeGtp.getPosVelAngle(robot, interceptPoint).vel;
+    Vector2 velocities = robot->getNumtreeGtp()->getPosVelAngle(robot, interceptPoint).vel;
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
     command.w = robotAngle;
@@ -107,7 +107,7 @@ double ReflectKick::getAngle() {
 
 bool ReflectKick::willHaveBall() {
     Vector2 futureBallPos = ball->pos + ball->vel * SECONDS_AHEAD;
-    double ballDistance = robot->findBallDistance(futureBallPos);
+    double ballDistance = robot->calculateDistanceToBall(futureBallPos);
     return ballDistance < Constants::MAX_KICK_RANGE() && ballDistance >= 0;
 }
 

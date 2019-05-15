@@ -14,21 +14,18 @@ namespace rtt {
 namespace ai {
 
 class MidFieldHarasser : public Skill {
-    private:
-        const double HARASSING_SAFETY_MARGINS = 1.0;
-
-        control::NumTreePosControl numTreeGtp = control::NumTreePosControl(false, false, false);
-        Vector2 targetPos;
-        int myIndex = - 1;
-        int robotBeingHarassed;
-
-        Vector2 getHarassTarget();
-        Angle getHarassAngle();
-    public:
-        explicit MidFieldHarasser(std::string name, bt::Blackboard::Ptr blackboard);
-        void onInitialize() override;
-        Status onUpdate() override;
-        void onTerminate(Status s) override;
+private:
+    const double HARASSING_SAFETY_MARGINS = 1.0;
+    Vector2 targetPos;
+    int myIndex = - 1;
+    int robotBeingHarassed;
+    Vector2 getHarassTarget();
+    Angle getHarassAngle();
+public:
+    explicit MidFieldHarasser(std::string name, bt::Blackboard::Ptr blackboard);
+    void onInitialize() override;
+    Status onUpdate() override;
+    void onTerminate(Status s) override;
 };
 
 } // ai
