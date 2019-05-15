@@ -14,53 +14,71 @@ namespace rtt {
         this->observationTimeStamp = -1.0;
         this->invisibleCounter = 0;
         this->exists = false;
+        this->comparisonCount = 0;
         this->X.zeros();
         this->Z.zeros();
+        this->F = {{1, TIMEDIFF, 0, 0,        0, 0},
+                   {0, 1,        0, 0,        0, 0},
+                   {0, 0,        1, TIMEDIFF, 0, 0},
+                   {0, 0,        0, 1,        0, 0},
+                   {0, 0,        0, 0,        1, TIMEDIFF},
+                   {0, 0,        0, 0,        0, 1}};
+        this->H = {{1, 0, 0, 0, 0, 0},
+                   {0, 0, 1, 0, 0, 0},
+                   {0, 0, 0, 0, 1, 0}};
+        this->R = {{POS_VAR, 0, 0},
+                   {0, POS_VAR, 0},
+                   {0, 0, POS_VAR}};
         this->I.eye();
+        this->P = {{STATE_VAR, 0, 0, 0, 0, 0},
+                   {0, STATE_VAR, 0, 0, 0, 0},
+                   {0, 0, STATE_VAR, 0, 0, 0},
+                   {0, 0, 0, STATE_VAR, 0, 0},
+                   {0, 0, 0, 0, STATE_VAR, 0},
+                   {0, 0, 0, 0, 0, STATE_VAR}};
+        this->Q = {{TIMEDIFF * TIMEDIFF * RAND_VAR, TIMEDIFF * RAND_VAR, 0, 0, 0, 0},
+                   {TIMEDIFF * RAND_VAR, RAND_VAR, 0, 0, 0, 0},
+                   {0, 0, TIMEDIFF * TIMEDIFF * RAND_VAR, TIMEDIFF * RAND_VAR, 0, 0},
+                   {0, 0, TIMEDIFF * RAND_VAR, RAND_VAR, 0, 0},
+                   {0, 0, 0, 0, TIMEDIFF * TIMEDIFF * RAND_VAR, TIMEDIFF * RAND_VAR},
+                   {0, 0, 0, 0, TIMEDIFF * RAND_VAR, RAND_VAR}};
         this->K.zeros();
     }
 
 
-
-
     void kalmanObject::kalmanUpdateK() {
 
-        static int count = 0;
+        if (this->comparisonCount < COMPARISON_COUNT) {
 
-        if (count < 100) {
+            /*
+             * P = FPF^T+Q
+             * S = R + HPH^T
+             * K = PHS^-1
+             * P = (I-KH)P(I-KH)^T+KRK^T
+             */
             arma::fmat::fixed<STATE_INDEX, STATE_INDEX> F_transpose = this->F.t();
-
             arma::fmat::fixed<STATE_INDEX, STATE_INDEX> P_predict = (this->F * this->P * F_transpose) + this->Q;
-
             arma::fmat::fixed<STATE_INDEX, OBSERVATION_INDEX> H_transpose = this->H.t();
-
             arma::fmat::fixed<OBSERVATION_INDEX, OBSERVATION_INDEX> S = this->R + (this->H * P_predict * H_transpose);
-
             arma::fmat::fixed<OBSERVATION_INDEX, OBSERVATION_INDEX> S_inverse = S.i();
-
             arma::fmat::fixed<STATE_INDEX, OBSERVATION_INDEX> K_new = P_predict * H_transpose * S_inverse;
-
             arma::fmat::fixed<OBSERVATION_INDEX, STATE_INDEX> K_new_transpose = K_new.t();
-
             arma::fmat::fixed<STATE_INDEX, STATE_INDEX> IKH = this->I - K_new * this->H;
-
             arma::fmat::fixed<STATE_INDEX, STATE_INDEX> IKH_transpose = IKH.t();
-
             arma::fmat::fixed<STATE_INDEX, STATE_INDEX> P_new = IKH * P_predict * IKH_transpose + K_new * this->R * K_new_transpose;
 
+            //See if the K has changed over the iteration
+            float K_Diff_Max = (this->K - K_new).max();
+            float K_Diff_Min = (this->K - K_new).min();
             int same = 0;
-            for (arma::uword i = 0; i < STATE_INDEX; ++i) {
-                for (arma::uword j = 0; j < OBSERVATION_INDEX; ++j) {
-                    if ((this->K(i, j) - K_new(i, j)) < 0.000001 and (this->K(i, j) - K_new(i, j)) > -0.000001){
-                        same += 1;
-                    }
-                }
+            if ((K_Diff_Max < COMPARISON_MARGIN) and (K_Diff_Min > -COMPARISON_MARGIN)){
+                same += 1;
             }
 
             if (same == STATE_INDEX * OBSERVATION_INDEX) {
-                count += 1;
+                this->comparisonCount += 1;
             } else {
-                count = 0;
+                this->comparisonCount = 0;
             }
 
             for (arma::uword i = 0; i < STATE_INDEX; ++i) {
@@ -77,7 +95,7 @@ namespace rtt {
     void kalmanObject::kalmanUpdateX() {
 
         this->invisibleCounter += 1;
-        if (this->invisibleCounter > 50 || this->exists == false) {
+        if (this->invisibleCounter > TIME_TO_DISAPEAR || !this->exists) {
             //this->~kalmanObject();
             this->exists = false;
         } else {

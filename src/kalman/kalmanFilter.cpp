@@ -7,13 +7,13 @@
 namespace rtt {
 
     kalmanFilter::kalmanFilter() {
-        for (uint i = 0; i < magicnumber; ++i) {
+        for (uint i = 0; i < kalmanObjectAmount; ++i) {
             kalmanlist[i] = kalmanObject(i);
         }
     }
 
     void kalmanFilter::kalmanUpdate() {
-        for (uint i = 0; i < magicnumber; ++i) {
+        for (uint i = 0; i < kalmanObjectAmount; ++i) {
             kalmanlist[i].kalmanUpdateK();
             kalmanlist[i].kalmanUpdateX();
         }
@@ -45,7 +45,7 @@ namespace rtt {
         kalmanlist[id].kalmanUpdateZ(x, y, z, timestamp);
     }
 
-    bool kalmanFilter::getExistance(uint id) {
+    bool kalmanFilter::getExistence(uint id) {
         return kalmanlist[id].getExistance();
     }
 
@@ -54,19 +54,19 @@ namespace rtt {
         Position pos = getPos(id);
         Position vel = getVel(id);
         msg.id = id;
-        msg.pos.x=pos.x;
-        msg.pos.y=pos.y;
+        msg.pos.x = pos.x;
+        msg.pos.y = pos.y;
         msg.angle = pos.rot;
-        msg.vel.x=vel.x;
-        msg.vel.y=vel.y;
+        msg.vel.x = vel.x;
+        msg.vel.y = vel.y;
         msg.w = vel.rot;
         return msg;
     }
 
     roboteam_msgs::World kalmanFilter::getWorld(){
         roboteam_msgs::World world;
-        for (uint i = 0; i < magicnumber; ++i) {
-            if (getExistance(i)) {
+        for (uint i = 0; i < kalmanObjectAmount; ++i) {
+            if (getExistence(i)) {
                 if (i < 16) {
                     world.us.push_back(getRobot(i));
                 }

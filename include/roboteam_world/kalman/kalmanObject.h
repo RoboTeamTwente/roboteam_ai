@@ -13,6 +13,9 @@
 #define OBSERVATION_INDEX 3
 #define TIMEDIFF 0.01
 #define INVALID_ROBOT_ID 99999
+#define COMPARISON_MARGIN 0.000001
+#define COMPARISON_COUNT 100
+#define TIME_TO_DISAPEAR 0.5*100
 #define POS_VAR 0.5
 #define STATE_VAR 1
 #define RAND_VAR 1
@@ -27,42 +30,16 @@ namespace rtt {
         double observationTimeStamp;
         int invisibleCounter;
         bool exists;
+        int comparisonCount;
 
         arma::fvec::fixed<STATE_INDEX> X;
-
         arma::fvec::fixed<OBSERVATION_INDEX> Z;
-
-        arma::fmat::fixed<STATE_INDEX, STATE_INDEX> F = {{1, TIMEDIFF, 0, 0,        0, 0},
-                                                         {0, 1,        0, 0,        0, 0},
-                                                         {0, 0,        1, TIMEDIFF, 0, 0},
-                                                         {0, 0,        0, 1,        0, 0},
-                                                         {0, 0,        0, 0,        1, TIMEDIFF},
-                                                         {0, 0,        0, 0,        0, 1}};
-
-        arma::fmat::fixed<OBSERVATION_INDEX, STATE_INDEX> H = {{1, 0, 0, 0, 0, 0},
-                                                               {0, 0, 1, 0, 0, 0},
-                                                               {0, 0, 0, 0, 1, 0}};
-
-        arma::fmat::fixed<OBSERVATION_INDEX, OBSERVATION_INDEX> R = {{POS_VAR, 0, 0},
-                                                                     {0, POS_VAR, 0},
-                                                                     {0, 0, POS_VAR}};;
-
+        arma::fmat::fixed<STATE_INDEX, STATE_INDEX> F;
+        arma::fmat::fixed<OBSERVATION_INDEX, STATE_INDEX> H;
+        arma::fmat::fixed<OBSERVATION_INDEX, OBSERVATION_INDEX> R;
         arma::fmat::fixed<STATE_INDEX, STATE_INDEX> I;
-
-        arma::fmat::fixed<STATE_INDEX, STATE_INDEX> P = {{STATE_VAR, 0, 0, 0, 0, 0},
-                                                         {0, STATE_VAR, 0, 0, 0, 0},
-                                                         {0, 0, STATE_VAR, 0, 0, 0},
-                                                         {0, 0, 0, STATE_VAR, 0, 0},
-                                                         {0, 0, 0, 0, STATE_VAR, 0},
-                                                         {0, 0, 0, 0, 0, STATE_VAR}};
-
-        arma::fmat::fixed<STATE_INDEX, STATE_INDEX> Q = {{TIMEDIFF * TIMEDIFF * RAND_VAR, TIMEDIFF * RAND_VAR, 0, 0, 0, 0},
-                                                         {TIMEDIFF * RAND_VAR, RAND_VAR, 0, 0, 0, 0},
-                                                         {0, 0, TIMEDIFF * TIMEDIFF * RAND_VAR, TIMEDIFF * RAND_VAR, 0, 0},
-                                                         {0, 0, TIMEDIFF * RAND_VAR, RAND_VAR, 0, 0},
-                                                         {0, 0, 0, 0, TIMEDIFF * TIMEDIFF * RAND_VAR, TIMEDIFF * RAND_VAR},
-                                                         {0, 0, 0, 0, TIMEDIFF * RAND_VAR, RAND_VAR}};
-
+        arma::fmat::fixed<STATE_INDEX, STATE_INDEX> P;
+        arma::fmat::fixed<STATE_INDEX, STATE_INDEX> Q;
         arma::fmat::fixed<STATE_INDEX, OBSERVATION_INDEX> K;
 
     public:

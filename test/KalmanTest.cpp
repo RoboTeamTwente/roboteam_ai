@@ -138,6 +138,4 @@ namespace rtt {
         EXPECT_FLOAT_EQ(testX.rot, 0);
     }
 
-
-
 }

@@ -34,13 +34,13 @@ namespace rtt {
 
         void setZ(uint id, float x, float y, float z, double timestamp);
 
-        bool getExistance(uint id);
+        bool getExistence(uint id);
 
         roboteam_msgs::WorldRobot getRobot(uint id);
 
         roboteam_msgs::World getWorld();
 
-        uint magicnumber = 32;
+        uint kalmanObjectAmount = 32;
 
     };
 }
