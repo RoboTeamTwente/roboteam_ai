@@ -13,7 +13,7 @@ namespace ai {
 class GetBall : public Skill {
 
         const double COLLISION_RADIUS = 0.18;
-        const double ANGLE_SENS = 0.05*M_PI;
+        const double ANGLE_ERROR_MARGIN = 0.05*M_PI;
         const double MAX_RANGE = 0.7;
         const int POSSES_BALL_CYCLES = 25;
         const double SPEED = (Constants::GRSIM() ? 0.4 : 0.8);
@@ -31,8 +31,6 @@ class GetBall : public Skill {
         void sendApproachCommand();
         void sendDribblingCommand();
         void sendOvershootCommand();
-
-        bool botHasLastVisibleBall();
         int count;
         Vector2 deltaPos;
         Vector2 lastVisibleBallPos;
