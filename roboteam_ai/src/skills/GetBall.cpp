@@ -128,7 +128,7 @@ void GetBall::sendTurnCommand() {
     publishRobotCommand();
 }
 void GetBall::sendApproachCommand() {
-    command.dribbler = 1;
+    command.dribbler = 20;
     command.x_vel = (float) deltaPos.normalize().x * SPEED;
     command.y_vel = (float) deltaPos.normalize().y * SPEED;
     command.w = lockedAngle;
@@ -136,14 +136,14 @@ void GetBall::sendApproachCommand() {
 
 }
 void GetBall::sendOvershootCommand() {
-    command.dribbler = 1;
+    command.dribbler = 20;
     command.x_vel = (float) (approachPos-robot->pos).normalize().x * SPEED;
     command.y_vel = (float) (approachPos-robot->pos).normalize().y * SPEED;
     command.w = lockedAngle;
     publishRobotCommand();
 }
 void GetBall::sendDribblingCommand() {
-    command.dribbler = 1;
+    command.dribbler = 20;
     command.x_vel = 0;
     command.y_vel = 0;
     command.w = lockedAngle;
