@@ -36,6 +36,7 @@ private:
     bool genevaIsTurning = false;
     double secondsToTurnGeneva = 1.5;
     double lastTimeGenevaChanged = 0.0;
+    bool penalty = false;
 
     // Helpers
     Vector2 getPlaceBehindBallForGenevaState(world::Robot robot, Vector2 shotTarget, int genevaState);

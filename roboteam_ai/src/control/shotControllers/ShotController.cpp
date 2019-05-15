@@ -24,6 +24,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
         currentDesiredGeneva = determineOptimalGenevaState(robot, shotTarget);
     }
 
+
     if (chip) {
         currentDesiredGeneva = 3;
     }

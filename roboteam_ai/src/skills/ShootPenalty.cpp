@@ -22,20 +22,8 @@ Skill::Status ShootPenalty::onUpdate() {
     Vector2 deltaPos = (ballPos - robot->pos);
     interface::Input::drawDebugData({aimPoint});
 
-    if (deltaPos.length() >= errorMarginPos) {
-        command.w = static_cast<float>((ballPos - robot->pos).angle());
-        command.geneva_state = 1;
-        Vector2 velocity = goToPos.getPosVelAngle(robot, ballPos).vel;
-        command.x_vel = static_cast<float>(velocity.x);
-        command.y_vel = static_cast<float>(velocity.y);
+        robot->getShotController()->makeCommand(robot->getShotController()->getShotData(*robot, aimPoint, false, control::BallSpeed::MAX_SPEED, false), command);
         publishRobotCommand();
-        return Status::Running;
-
-    }
-    else{
-        robot->getShotController()->makeCommand(shotControl->getShotData(*robot, aimPoint), command);
-        publishRobotCommand();
-    }
     if (isPenaltyShot()) {
         publishRobotCommand();
         return Status::Success;
@@ -68,7 +56,7 @@ void ShootPenalty::aim() {
     // TODO: make better and smarter by looking at the keeper ant etc.
     Vector2 goal = rtt::ai::world::field->get_their_goal_center();
     double goalHalfLength = (goal - rtt::ai::world::field->getPenaltyPoint(false)).length()/2.0;
-    aimPoint = {goal.x, goal.y+(goalHalfLength*6.0/7.0)};
+    aimPoint = {goal.x, goal.y+(goalHalfLength*(6.0/7.0))};
 
 }
 
