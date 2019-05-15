@@ -21,13 +21,15 @@ class BallHandlePosControl {
         using BallPtr = std::shared_ptr<world::Ball>;
         using RobotPtr = std::shared_ptr<world::Robot>;
 
+        const double robotRadius = Constants::ROBOT_RADIUS();
+        const double ballRadius = Constants::BALL_RADIUS();
+
         double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.0;
+        double maxBackwardsVelocity = Constants::GRSIM() ? 0.3 : 0.8;
         const double errorMargin = 0.02;
         const double angleErrorMargin = 0.02;
-        const double maxBallDistance = Constants::ROBOT_RADIUS()*2.0;
-        const double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
-        const double robotRadius = Constants::ROBOT_RADIUS();
-        const double maxBackwardsVelocity = Constants::GRSIM() ? 0.3 : 0.8;
+        const double maxBallDistance = robotRadius*2.0;
+        const double targetBallDistance = robotRadius + ballRadius;
         const double maxAngularVelocity = 0.2;
         bool canMoveInDefenseArea = false;
 
@@ -39,7 +41,7 @@ class BallHandlePosControl {
         Vector2 finalTargetPos;
         Angle targetAngle;
         Angle finalTargetAngle;
-        double ballPlacementAccuracy = 0.01;
+        double ballPlacementAccuracy = 0.04;
 
         NumTreePosControl numTreePosController = NumTreePosControl();
         enum RotateStrategy : short {

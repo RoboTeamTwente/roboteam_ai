@@ -1,13 +1,10 @@
-#include <utility>
-
-#include <utility>
-#include <roboteam_ai/src/coach/BallplacementCoach.h>
 
 //
 // Created by thijs on 26-4-19.
 //
 
 #include "GTPWithBall.h"
+#include <roboteam_ai/src/coach/BallplacementCoach.h>
 
 namespace rtt {
 namespace ai {
