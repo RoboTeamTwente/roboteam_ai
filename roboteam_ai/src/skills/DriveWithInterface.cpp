@@ -22,7 +22,6 @@ Skill::Status DriveWithInterface::onUpdate() {
         std::cout << "Close" << std::endl;
         command.x_vel = 0;
         command.y_vel = 0;
-        command.w = robot->angle;
         publishRobotCommand();
         return Status::Running;
     }
@@ -31,7 +30,7 @@ Skill::Status DriveWithInterface::onUpdate() {
     Vector2 velocity = control::ControlUtils::velocityLimiter(pva.vel, Constants::MAX_VEL());
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
-    command.w = velocity.angle();
+    command.w = pva.angle;
     publishRobotCommand();
     return Status::Running;
 }

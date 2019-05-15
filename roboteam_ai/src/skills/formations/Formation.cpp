@@ -61,7 +61,7 @@ void Formation::addRobotToFormation() {
 // remove robot from formation
 void Formation::removeRobotFromFormation() {
     for (unsigned int i = 0; i < robotsInFormationPtr()->size(); i++) {
-        if (robotsInFormationPtr()->at(i)->id == robot->id) {
+        if (robotsInFormationPtr()->at(i) && robotsInFormationPtr()->at(i)->id == robot->id) {
             robotsInFormationPtr()->erase(robotsInFormationPtr()->begin() + i);
         }
     }
@@ -101,7 +101,7 @@ bool Formation::robotIsInPosition() {
 
 // set up the command such that a robot moves towards the targetLocation
 void Formation::moveToTarget() {
-    auto velocities = gtp.getPosVelAngle(robot, targetLocation);
+    auto velocities = robot->getNumtreeGtp()->getPosVelAngle(robot, targetLocation);
     command.x_vel = velocities.vel.x;
     command.y_vel = velocities.vel.y;
     command.w = static_cast<float>((targetLocation - robot->pos).angle());

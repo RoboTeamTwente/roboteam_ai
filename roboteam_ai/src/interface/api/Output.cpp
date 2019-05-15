@@ -55,9 +55,9 @@ bool Output::usesRefereeCommands() {
     return useRefereeCommands;
 }
 
-void Output::setUseRefereeCommands(bool useRefereeCommands) {
+void Output::setUseRefereeCommands(bool _useRefereeCommands) {
     std::lock_guard<std::mutex> lock(refMutex);
-    Output::useRefereeCommands = useRefereeCommands;
+    Output::useRefereeCommands = _useRefereeCommands;
 }
 
 void Output::setShowDebugValues(bool showDebug) {

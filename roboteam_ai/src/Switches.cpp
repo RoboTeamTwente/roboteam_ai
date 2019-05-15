@@ -31,7 +31,6 @@
 #include "roboteam_ai/src/skills/Pass.h"
 #include "roboteam_ai/src/skills/Receive.h"
 #include "roboteam_ai/src/skills/DribbleRotate.h"
-#include <roboteam_ai/src/skills/Defend.h>
 #include <roboteam_ai/src/skills/gotopos/GTPSpecial.h>
 #include "roboteam_ai/src/skills/gotopos/GoAroundPos.h"
 #include "roboteam_ai/src/skills/gotopos/GoBehindBall.h"
@@ -195,7 +194,6 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["CoachDefend"] = std::make_shared<rtt::ai::CoachDefend>(name, properties);
     map["GTPSpecial"] = std::make_shared<rtt::ai::GTPSpecial>(name, properties);
     map["Chip"] = std::make_shared<rtt::ai::Chip>(name,properties);
-    map["Defend"] = std::make_shared<rtt::ai::Defend>(name, properties);
     map["DemoAttack"] = std::make_shared<rtt::ai::DemoAttack>(name, properties);
     map["Dribble"] = std::make_shared<rtt::ai::Dribble>(name, properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);

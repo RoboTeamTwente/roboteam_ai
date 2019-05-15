@@ -118,7 +118,9 @@ std::vector<Vector2> PositionUtils::getFreeKickPositions(int number) {
     std::vector<Vector2> temp = {line1, def1, def2, line2, line3};
     std::vector<Vector2> res;
     for (int i = 0; i < number; i ++) {
-        res.emplace_back(temp.at(i));
+        if (temp.size() > i) {
+            res.emplace_back(temp.at(i));
+        }
     }
     return res;
 }
@@ -165,7 +167,9 @@ std::vector<Vector2> PositionUtils::getDefendPenaltyPositions(int number) {
 
     std::vector<Vector2> res;
     for (int i = 0; i < number; i ++) {
-        res.emplace_back(temp.at(i));
+        if (i < temp.size()) {
+            res.emplace_back(temp.at(i));
+        }
     }
     return res;
 }

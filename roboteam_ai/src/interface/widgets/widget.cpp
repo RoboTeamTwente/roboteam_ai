@@ -205,12 +205,12 @@ void Visualizer::drawBall(QPainter &painter) {
 void Visualizer::drawRobots(QPainter &painter) {
 
     // draw us
-    for (auto &robot : rtt::ai::world::world->getWorld().us) {
+    for (auto &robot : rtt::ai::world::world->getUs()) {
         drawRobot(painter, robot, true);
     }
 
     // draw them
-    for (auto &robot : rtt::ai::world::world->getWorld().them) {
+    for (auto &robot : rtt::ai::world::world->getThem()) {
         drawRobot(painter, robot, false);
     }
 }
@@ -441,7 +441,7 @@ void Visualizer::toggleSelectedRobot(int robotId) {
     }
 
     if (!robotWasAlreadySelected) {
-        for (Robot robot : rtt::ai::world::world->getWorld().us) {
+        for (Robot robot : rtt::ai::world::world->getUs()) {
             if (robot.id == robotId) {
                 robotWasAlreadySelected = false;
                 this->selectedRobots.push_back(robot);
