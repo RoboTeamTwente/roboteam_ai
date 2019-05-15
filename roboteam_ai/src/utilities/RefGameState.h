@@ -13,20 +13,26 @@ namespace ai {
 
 class RefGameState {
 private:
+    RefCommand commandId;
     std::string strategyName;
     std::string keeperStrategyName;
     RuleSet ruleSet;
+    bool isfollowUpCommand;
     RefCommand followUpCommandId;
 
 public:
     explicit RefGameState() = default;
-    explicit RefGameState(std::string strategyName, std::string keeperStrategyName, const RuleSet &ruleSet,  RefCommand followUpCommandId = RefCommand::UNDEFINED);
+    explicit RefGameState(RefCommand commandId, std::string strategyName, std::string keeperStrategyName, const RuleSet &ruleSet,  bool isFollowUpCommand = false, RefCommand followUpCommandId = RefCommand::UNDEFINED);
 
     // getters
     RefCommand getFollowUpCommandId() const;
+    RefCommand getCommandId() const;
     const std::string &getStrategyName() const;
     const std::string &getKeeperStrategyName() const;
     const RuleSet &getRuleSet() const;
+    bool hasFollowUpCommand() const;
+    bool isFollowUpCommand() const;
+
 };
 
 } // ai

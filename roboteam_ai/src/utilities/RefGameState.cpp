@@ -7,16 +7,13 @@
 namespace rtt {
 namespace ai {
 
-RefGameState::RefGameState(
-        std::string strategyName,
-        std::string keeperStrategyName,
-        const RuleSet &ruleSet,
-        RefCommand followUpCommandId)
-        :
-        followUpCommandId(followUpCommandId),
-        strategyName(std::move(strategyName)),
-        keeperStrategyName(std::move(keeperStrategyName)),
-        ruleSet(ruleSet) {}
+RefGameState::RefGameState(RefCommand commandId, std::string strategyName, std::string keeperStrategyName, const RuleSet &ruleSet, bool isFollowUpCommand, RefCommand followUpCommandId)
+: commandId(commandId), strategyName(std::move(strategyName)), keeperStrategyName(std::move(keeperStrategyName)), ruleSet(ruleSet), isfollowUpCommand(isFollowUpCommand), followUpCommandId(followUpCommandId)
+    {}
+
+RefCommand RefGameState::getCommandId() const {
+    return commandId;
+}
 
 RefCommand RefGameState::getFollowUpCommandId() const {
     return followUpCommandId;
@@ -33,6 +30,15 @@ const std::string &RefGameState::getKeeperStrategyName() const {
 const RuleSet &RefGameState::getRuleSet() const {
     return ruleSet;
 }
+
+bool RefGameState::hasFollowUpCommand() const {
+    return getFollowUpCommandId() != RefCommand::UNDEFINED;
+}
+
+bool RefGameState::isFollowUpCommand() const {
+    return isfollowUpCommand;
+}
+
 
 } // ai
 } // rtt
