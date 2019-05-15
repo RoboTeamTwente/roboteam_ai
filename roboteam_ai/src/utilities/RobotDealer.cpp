@@ -138,7 +138,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
             case WORKING_GENEVA:{
                 int test = -1;
                 for (auto r : ids) {
-                    if (rtt::ai::world::world->getRobotForId(r, true)->hasWorkingGeneva) {
+                    if (rtt::ai::world::world->getRobotForId(r, true)->hasWorkingGeneva()) {
                         test = r;
                         break;
                     }

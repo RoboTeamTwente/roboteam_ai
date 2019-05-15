@@ -107,7 +107,7 @@ double ReflectKick::getAngle() {
 
 bool ReflectKick::willHaveBall() {
     Vector2 futureBallPos = ball->pos + ball->vel * SECONDS_AHEAD;
-    double ballDistance = robot->findBallDistance(futureBallPos);
+    double ballDistance = robot->calculateDistanceToBall(futureBallPos);
     return ballDistance < Constants::MAX_KICK_RANGE() && ballDistance >= 0;
 }
 

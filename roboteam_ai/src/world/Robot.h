@@ -15,57 +15,84 @@
 namespace rtt {
 namespace ai {
 
-// control forward declarations
-namespace control{
-    class ShotController;
-    class NumTreePosControl;
-    class BasicPosControl;
+namespace control {
+class ShotController;
+class NumTreePosControl;
+class BasicPosControl;
 }
 
 namespace world {
 
 class Robot {
-private:
-    using BallPtr = std::shared_ptr<Ball>;
-    double distanceToBall;
-    bool iHaveBall;
-    static std::map<int, unsigned char> genevaState;
-    unsigned long lastUpdatedWorldNumber = 0;
+    public:
+        using BallPtr = std::shared_ptr<Ball>;
 
-public:
-    const unsigned long &getLastUpdatedWorldNumber() const;
+        // ball possession
+    private:
+        double distanceToBall;
+        bool iHaveBall;
+        unsigned long lastUpdatedWorldNumber = 0;
+    public:
+        double calculateDistanceToBall(const Vector2 &ballPos);
+        bool hasBall(double maxDist = Constants::MAX_BALL_BOUNCE_RANGE());
+        double getDistanceToBall();
 
-    enum Team : short {
-      us,
-      them,
-      invalid
-    };
+        // geneva
+    private:
+        unsigned char genevaState;
+        unsigned char previousGenevaState = 0;
+        double timeGenevaChanged = 0;
+        constexpr static double timeToChangeOneGenevaState = 0.5;
+        bool workingGeneva;
+    public:
+        unsigned char getGenevaState() const;
+        bool isGenevaReady() const;
+        void setGenevaState(unsigned char state = 3);
+        bool hasWorkingGeneva() const;
 
-    bool hasWorkingGeneva = false;
-    int id = - 1;
-    Angle angle = Angle();
-    Vector2 pos = Vector2();
-    Vector2 vel = Vector2();
-    double angularVelocity = 0.0;
-    Team team;
+        // dribbler
+    private:
+        unsigned char dribblerState;
+        unsigned char previousDribblerState = 0;
+        double timeDribblerChanged = 0;
+        constexpr static double timeToChangeOneDribblerLevel = 0.06;
+        bool workingDribbler;
+    public:
+        unsigned char getDribblerState() const;
+        bool isDribblerReady() const;
+        void setDribblerState(unsigned char dribbler = 0);
+        bool hasWorkingDribbler() const;
 
-    explicit Robot(const roboteam_msgs::WorldRobot &copy, Team team = invalid, unsigned long worldNumber = 0);
-    Robot();
-    double findBallDistance(const Vector2 &ballPos);
-    const roboteam_msgs::WorldRobot toMessage() const;
-    void updateRobot(roboteam_msgs::WorldRobot robotMsg, const Ball &ball, unsigned long worldNumber);
-    bool hasBall(double maxDist = Constants::MAX_BALL_BOUNCE_RANGE());
-    double getDistanceToBall();
-    unsigned char getGenevaState() const;
-    void setGenevaState(unsigned char state = 3);
+        // control managers
+    private:
+        std::shared_ptr<control::ShotController> shotController;
+        std::shared_ptr<control::NumTreePosControl> numtreeGTP;
+        std::shared_ptr<control::BasicPosControl> basicGTP;
+    public:
+        const std::shared_ptr<control::ShotController> &getShotController() const;
+        const std::shared_ptr<control::NumTreePosControl> &getNumtreeGtp() const;
+        const std::shared_ptr<control::BasicPosControl> &getBasicGtp() const;
 
-    // control managers
-    std::shared_ptr<control::ShotController> shotController;
-    const std::shared_ptr<control::ShotController> &getShotController() const;
-    const std::shared_ptr<control::NumTreePosControl> &getNumtreeGtp() const;
-    const std::shared_ptr<control::BasicPosControl> &getBasicGtp() const;
-    std::shared_ptr<control::NumTreePosControl> numtreeGTP;
-    std::shared_ptr<control::BasicPosControl> basicGTP;
+        // general
+    public:
+        enum Team : short {
+          us,
+          them,
+          invalid
+        };
+        Robot();
+        explicit Robot(const roboteam_msgs::WorldRobot &copy, Team team = invalid,
+                unsigned char genevaState = 3, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
+        void updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const Ball &ball, unsigned long worldNumber);
+        const unsigned long getLastUpdatedWorldNumber() const;
+        const roboteam_msgs::WorldRobot toMessage() const;
+
+        int id = - 1;
+        Angle angle = Angle();
+        Vector2 pos = Vector2();
+        Vector2 vel = Vector2();
+        double angularVelocity = 0.0;
+        Team team;
 };
 
 } // world
