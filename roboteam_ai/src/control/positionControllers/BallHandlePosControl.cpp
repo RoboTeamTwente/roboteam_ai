@@ -10,9 +10,6 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-//TODO: receive horizontal position of the ball relative to the robot using feedback <3
-//TODO: delay compensation
-
 BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea)
         :canMoveInDefenseArea(canMoveInDefenseArea) {
     numTreePosController.setCanMoveInDefenseArea(canMoveInDefenseArea);
