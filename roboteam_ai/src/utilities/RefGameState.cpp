@@ -39,6 +39,14 @@ bool RefGameState::isFollowUpCommand() const {
     return isfollowUpCommand;
 }
 
+const Vector2 &RefGameState::getBallPositionAtStartOfRefGameState() const {
+    return ballPositionAtStartOfRefGameState;
+}
+
+void RefGameState::setBallPositionAtStartOfRefGameState(const Vector2 &ballPositionAtStartOfRefGameState) {
+    RefGameState::ballPositionAtStartOfRefGameState = ballPositionAtStartOfRefGameState;
+}
+
 
 } // ai
 } // rtt

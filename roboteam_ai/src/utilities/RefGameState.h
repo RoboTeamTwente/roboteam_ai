@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_REFGAMESTATE_H
 #define ROBOTEAM_AI_REFGAMESTATE_H
 
+#include <roboteam_utils/Vector2.h>
 #include "Constants.h"
 #include "RuleSet.h"
 
@@ -19,6 +20,7 @@ private:
     RuleSet ruleSet;
     bool isfollowUpCommand;
     RefCommand followUpCommandId;
+    Vector2 ballPositionAtStartOfRefGameState;
 
 public:
     explicit RefGameState() = default;
@@ -32,7 +34,8 @@ public:
     const RuleSet &getRuleSet() const;
     bool hasFollowUpCommand() const;
     bool isFollowUpCommand() const;
-
+    const Vector2 &getBallPositionAtStartOfRefGameState() const;
+    void setBallPositionAtStartOfRefGameState(const Vector2 &ballPositionAtStartOfRefGameState);
 };
 
 } // ai

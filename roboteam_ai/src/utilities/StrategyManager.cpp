@@ -12,28 +12,31 @@ namespace ai {
 void StrategyManager::setCurrentRefGameState(RefCommand command) {
 
     // if the command is the same, we don't need to do anything
-    if (command == this->currentRefGameState.getCommandId()) {
+    if (command == Referee::getCurrentRefGameState().getCommandId()) {
         return;
     }
 
     // otherwise, if we are in a followupstate and the refcommand is normal start we don't change a thing
-    if (this->currentRefGameState.isFollowUpCommand() && command == RefCommand::NORMAL_START) {
+    if (Referee::getCurrentRefGameState().isFollowUpCommand() && command == RefCommand::NORMAL_START) {
         return;
     }
 
-    // if there is a follow up command and we go into normal play, execute the follow up command instead
-    // else if there is not a follow up command we can just go to the new gamestate
-    if (this->currentRefGameState.hasFollowUpCommand() && command == RefCommand::NORMAL_START) {
-        this->currentRefGameState = getRefGameStateForRefCommand(this->currentRefGameState.getFollowUpCommandId());
+
+    // we need to change refgamestate here
+    RefGameState newState;
+    if (Referee::getCurrentRefGameState().hasFollowUpCommand() && command == RefCommand::NORMAL_START) {
+        newState = getRefGameStateForRefCommand(Referee::getCurrentRefGameState().getFollowUpCommandId());
     } else {
-        this->currentRefGameState = getRefGameStateForRefCommand(command);
+        newState = getRefGameStateForRefCommand(command);
     }
+    newState.setBallPositionAtStartOfRefGameState(world::world->getBall()->pos);
+    Referee::setCurrentRefGameState(newState);
 }
 
 
 
 const RefGameState &StrategyManager::getCurrentRefGameState() const {
-    return currentRefGameState;
+    return Referee::getCurrentRefGameState();
 }
 
 const RefGameState StrategyManager::getRefGameStateForRefCommand(RefCommand command) {

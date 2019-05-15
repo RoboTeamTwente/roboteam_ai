@@ -11,16 +11,15 @@ namespace rtt {
 namespace ai {
 
 CanPlay::CanPlay(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) { };
-
+        :Condition(std::move(name), std::move(blackboard)) {
+};
 
 bt::Node::Status CanPlay::onUpdate() {
-    Vector2 ballVel=ball->vel;
-
-    bool ballIsLayingStill = ballVel.length() < Constants::BALL_STILL_VEL();
+    bool ballIsLayingStill = Referee::getCurrentRefGameState().getBallPositionAtStartOfRefGameState().dist(ball->pos) < 0.05;
     auto refCommand = static_cast<RefCommand>(rtt::ai::Referee::getRefereeData().command.command);
 
-    if (ballIsLayingStill || refCommand != RefCommand::NORMAL_START){
+    if (ballIsLayingStill || refCommand != RefCommand::NORMAL_START) {
+        // this should keep running, because otherwise the condition would re initialize
         return Status::Failure;
     }
     return Status::Success;

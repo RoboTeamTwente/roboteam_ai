@@ -52,7 +52,7 @@ class ControlUtils {
         static bool lineSegmentsIntersect(const Vector2 &lineAStart, const Vector2 &lineAEnd, const Vector2 &lineBStart,
                 const Vector2 &lineBEnd);
         static rtt::Arc createKeeperArc();
-        static Vector2 velocityLimiter(const Vector2 &vel, double maxVel = rtt::ai::Referee::getMaxRobotVelocity(),
+        static Vector2 velocityLimiter(const Vector2 &vel, double maxVel = Constants::MAX_VEL(),
                 double minVel = 0.0);
         static Vector2 accelerationLimiter(const Vector2 &vel,double maxAcc, double prevVel);
         static double calculateMaxAcceleration(const Vector2 &vel, double angle);

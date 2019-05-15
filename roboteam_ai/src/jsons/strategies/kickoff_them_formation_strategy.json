@@ -3,19 +3,19 @@
     "trees": [
       {
         "nodes": {
-          "lh640awz90crb39d": {
-            "id": "lh640awz90crb39d",
-            "properties": {},
-            "title": "CanPlay"
-          },
-          "nx2y9mz42h3fdqol": {
+          "7ryoc7kz72pnamcx": {
             "children": [
-              "lh640awz90crb39d",
+              "v8i0u8in370m4b4x",
               "wh5q2dwo2f2nc"
             ],
-            "id": "nx2y9mz42h3fdqol",
+            "id": "7ryoc7kz72pnamcx",
             "properties": {},
             "title": "Selector"
+          },
+          "v8i0u8in370m4b4x": {
+            "id": "v8i0u8in370m4b4x",
+            "properties": {},
+            "title": "CanPlay"
           },
           "wh5q2dwo2f2nc": {
             "id": "wh5q2dwo2f2nc",
@@ -23,7 +23,7 @@
             "title": "Tactic"
           }
         },
-        "root": "nx2y9mz42h3fdqol",
+        "root": "7ryoc7kz72pnamcx",
         "title": "kickoff_them_formation_strategy"
       }
     ]

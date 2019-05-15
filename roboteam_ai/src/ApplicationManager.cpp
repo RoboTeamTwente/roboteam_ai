@@ -82,7 +82,7 @@ void ApplicationManager::runOneLoopCycle() {
 
             std::string strategyName = refGameState.getStrategyName();
             std::string keeperTreeName = refGameState.getKeeperStrategyName();
-            ai::Referee::setMaxRobotVelocity(refGameState.getRuleSet().maxRobotVel);
+          //  ai::Referee::setMaxRobotVelocity(refGameState.getRuleSet().maxRobotVel);
 
 
             if (oldStrategy != strategyName) {
@@ -103,7 +103,7 @@ void ApplicationManager::runOneLoopCycle() {
             ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
 
         } else {
-            ai::Referee::setMaxRobotVelocity(ai::Constants::MAX_VEL());
+       //     ai::Referee::setMaxRobotVelocity(ai::Constants::MAX_VEL());
         }
 
 

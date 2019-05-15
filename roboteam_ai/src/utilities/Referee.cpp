@@ -10,7 +10,7 @@ namespace ai {
 // Initialize static variables
 roboteam_msgs::RefereeData Referee::refMsg;
 roboteam_msgs::RefereeData Referee::previousRefMsg;
-double Referee::maxRobotVelocity = 0.0;
+RefGameState Referee::currentRefGameState;
 
 roboteam_msgs::RefereeData Referee::getRefereeData() {
     return Referee::refMsg;
@@ -25,13 +25,14 @@ roboteam_msgs::RefereeData Referee::getPreviousRefereeData() {
     return Referee::previousRefMsg;
 }
 
-double Referee::getMaxRobotVelocity() {
-    return maxRobotVelocity;
+const RefGameState &Referee::getCurrentRefGameState() {
+    return currentRefGameState;
 }
 
-void Referee::setMaxRobotVelocity(double maxRobotVelocity) {
-    Referee::maxRobotVelocity = maxRobotVelocity;
+void Referee::setCurrentRefGameState(const RefGameState &currentRefGameState) {
+    Referee::currentRefGameState = currentRefGameState;
 }
+
 
 }//ai
 }//rtt

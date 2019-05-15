@@ -64,7 +64,6 @@ private:
          RefGameState(RefCommand::DO_PENALTY,           "penalty_us_shoot_strategy",       "keeper_default_tactic",   DEFAULT_RULESET, true),
          RefGameState(RefCommand::DEFEND_PENALTY,       "penalty_them_strategy",           "keeper_penalty_tactic",   DEFAULT_RULESET, true)
     };
-    RefGameState currentRefGameState = gameStates[0];
 };
 
 } // ai

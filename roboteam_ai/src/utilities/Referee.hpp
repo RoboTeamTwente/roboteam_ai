@@ -9,6 +9,7 @@
 
 #include "roboteam_msgs/RefereeData.h"
 #include "ros/ros.h"
+#include "RefGameState.h"
 
 namespace rtt {
 namespace ai {
@@ -18,11 +19,13 @@ private:
     // we need to store the current and the previous refereedata.
     static roboteam_msgs::RefereeData refMsg;
     static roboteam_msgs::RefereeData previousRefMsg;
-    static double maxRobotVelocity;
+    static RefGameState currentRefGameState;
+public:
+    static const RefGameState &getCurrentRefGameState();
+
+    static void setCurrentRefGameState(const RefGameState &currentRefGameState);
 
 public:
-    static double getMaxRobotVelocity();
-    static void setMaxRobotVelocity(double maxRobotVelocity);
     static void setRefereeData(roboteam_msgs::RefereeData refMsg);
     static roboteam_msgs::RefereeData getRefereeData();
     static roboteam_msgs::RefereeData getPreviousRefereeData();
