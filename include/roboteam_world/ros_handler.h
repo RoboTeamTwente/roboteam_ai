@@ -29,7 +29,7 @@ namespace rtt {
     public:
         RosHandler() = default;
         void init(WorldBase* _world);
-        void loop
+        void loop();
         /**
          * Reads the configuration from the parameter server.
          * Updates the configuration of the world and calls a reset.
