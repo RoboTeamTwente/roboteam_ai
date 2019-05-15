@@ -12,7 +12,7 @@
 #define STATE_INDEX 6
 #define OBSERVATION_INDEX 3
 #define TIMEDIFF 0.01
-#define INVALID_ROBOT_ID 99
+#define INVALID_ROBOT_ID 99999
 #define POS_VAR 0.5
 #define STATE_VAR 1
 #define RAND_VAR 1

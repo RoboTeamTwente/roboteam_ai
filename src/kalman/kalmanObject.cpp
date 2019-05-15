@@ -11,7 +11,7 @@ namespace rtt {
 
     kalmanObject::kalmanObject(uint id) {
         this->id = id;
-        this->observationTimeStamp = 0.0;
+        this->observationTimeStamp = -1.0;
         this->invisibleCounter = 0;
         this->exists = false;
         this->X.zeros();
@@ -52,8 +52,6 @@ namespace rtt {
             for (arma::uword i = 0; i < STATE_INDEX; ++i) {
                 for (arma::uword j = 0; j < OBSERVATION_INDEX; ++j) {
                     if ((this->K(i, j) - K_new(i, j)) < 0.000001 and (this->K(i, j) - K_new(i, j)) > -0.000001){
-                        float KT = this->K(i,j);
-                        float KT_new = K_new(i,j);
                         same += 1;
                     }
                 }
@@ -107,6 +105,7 @@ namespace rtt {
             this->exists = true;
         }
     }
+
 
     Position kalmanObject::kalmanGetState() {
         return {this->X(0), this->X(2), this->X(4)};

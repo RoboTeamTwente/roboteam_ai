@@ -14,8 +14,21 @@
 #include "roboteam_msgs/WorldBall.h"
 #include "armadillo"
 #include <vector>
-
 namespace rtt {
+    using namespace roboteam_msgs;
+
+
+    void kalman_dummy_frame(float ballx, float bally, float botx, float boty, float botw, DetectionFrame* frame) {
+        DetectionRobot bot;
+        bot.pos.x = botx;
+        bot.pos.y = boty;
+        bot.orientation = botw;
+        frame->us.push_back(bot);
+        DetectionBall ball;
+        ball.pos.x = ballx;
+        ball.pos.y = bally;
+        frame->balls.push_back(ball);
+    }
 
     TEST(KalmanTest, Armadillo){
         //test to see if library is working
@@ -75,20 +88,56 @@ namespace rtt {
     }
 
 
-    TEST(KalmanTest, K) {
+    TEST(KalmanTest, ZXK) {
 
         kalmanInit();
 
-        setZ(1, 1.0, 1.0, 1.0, 1.0);
-        for (int j = 0; j < 1000; ++j) {
+        setZ(1, 1.0, 2.0, 3.0, 1.0);
+        for (int j = 0; j < 10000; ++j) {
             kalmanUpdate();
         }
 
-        Position testX = getStates(1);
-        EXPECT_FLOAT_EQ(testX.x, 0);
+        float testK1 = getK(1);
 
-        float testK = getK(1);
-        EXPECT_FLOAT_EQ(testK, 0);
+        Position testX = getStates(1);
+        EXPECT_FLOAT_EQ(testX.x, 1);
+        EXPECT_FLOAT_EQ(testX.y, 2);
+        EXPECT_FLOAT_EQ(testX.rot, 3);
+
+        setZ(1, 2.0, 4.0, 6.0, 2.0);
+        for (int j = 0; j < 10000; ++j) {
+            kalmanUpdate();
+        }
+
+        testX = getStates(1);
+        EXPECT_FLOAT_EQ(testX.x, 2);
+        EXPECT_FLOAT_EQ(testX.y, 4);
+        EXPECT_FLOAT_EQ(testX.rot, 6);
+
+        float testK2 = getK(1);
+        EXPECT_FLOAT_EQ(testK1, testK2);
 
     }
+
+    TEST(KalmanTest, frame){
+
+        kalmanInit();
+
+        auto * frame = new DetectionFrame();
+        kalman_dummy_frame(1.0, 1.0, 2.0, 2.0, 0.0, frame);
+
+        newFrame(*frame);
+
+        for (int j = 0; j < 10000; ++j) {
+            kalmanUpdate();
+        }
+
+        Position testX = getStates(0);
+        EXPECT_FLOAT_EQ(testX.x, 2);
+        EXPECT_FLOAT_EQ(testX.y, 2);
+        EXPECT_FLOAT_EQ(testX.rot, 0);
+    }
+
+
+
 }

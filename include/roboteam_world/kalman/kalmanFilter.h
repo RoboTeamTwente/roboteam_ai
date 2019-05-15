@@ -19,13 +19,14 @@ namespace rtt {
 
     void newFrame(const roboteam_msgs::DetectionFrame msg);
 
+    kalmanObject robotlist[32];
+
     Position getStates(uint id);
 
     float getK(uint id);
 
     void setZ(uint id, float x, float y, float z, double timestamp);
 
-    kalmanObject robotlist[1];
 
 }
 
