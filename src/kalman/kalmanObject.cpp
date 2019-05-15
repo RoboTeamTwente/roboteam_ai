@@ -77,7 +77,7 @@ namespace rtt {
     void kalmanObject::kalmanUpdateX() {
 
         this->invisibleCounter += 1;
-        if (this->invisibleCounter > 50 or this->exists = false) {
+        if (this->invisibleCounter > 50 || this->exists == false) {
             //this->~kalmanObject();
             this->exists = false;
         } else {

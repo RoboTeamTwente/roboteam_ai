@@ -54,10 +54,12 @@ namespace rtt {
         Position pos = getPos(id);
         Position vel = getVel(id);
         msg.id = id;
-        msg.pos = {pos.x, pos.y};
+        msg.pos.x=pos.x;
+        msg.pos.y=pos.y;
         msg.angle = pos.rot;
-        msg.vel = {vel.x, vel.y};
-        msg.w = {vel.rot};
+        msg.vel.x=vel.x;
+        msg.vel.y=vel.y;
+        msg.w = vel.rot;
         return msg;
     }
 
