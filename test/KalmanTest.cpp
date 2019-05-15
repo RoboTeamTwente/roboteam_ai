@@ -90,49 +90,49 @@ namespace rtt {
 
     TEST(KalmanTest, ZXK) {
 
-        kalmanInit();
+        kalmanFilter ZXKtest;
 
-        setZ(1, 1.0, 2.0, 3.0, 1.0);
+        ZXKtest.setZ(1, 1.0, 2.0, 3.0, 1.0);
         for (int j = 0; j < 10000; ++j) {
-            kalmanUpdate();
+            ZXKtest.kalmanUpdate();
         }
 
-        float testK1 = getK(1);
+        float testK1 = ZXKtest.getK(1);
 
-        Position testX = getStates(1);
+        Position testX = ZXKtest.getPos(1);
         EXPECT_FLOAT_EQ(testX.x, 1);
         EXPECT_FLOAT_EQ(testX.y, 2);
         EXPECT_FLOAT_EQ(testX.rot, 3);
 
-        setZ(1, 2.0, 4.0, 6.0, 2.0);
+        ZXKtest.setZ(1, 2.0, 4.0, 6.0, 2.0);
         for (int j = 0; j < 10000; ++j) {
-            kalmanUpdate();
+            ZXKtest.kalmanUpdate();
         }
 
-        testX = getStates(1);
+        testX = ZXKtest.getPos(1);
         EXPECT_FLOAT_EQ(testX.x, 2);
         EXPECT_FLOAT_EQ(testX.y, 4);
         EXPECT_FLOAT_EQ(testX.rot, 6);
 
-        float testK2 = getK(1);
+        float testK2 = ZXKtest.getK(1);
         EXPECT_FLOAT_EQ(testK1, testK2);
 
     }
 
     TEST(KalmanTest, frame){
 
-        kalmanInit();
+        kalmanFilter frametest;
 
         auto * frame = new DetectionFrame();
         kalman_dummy_frame(1.0, 1.0, 2.0, 2.0, 0.0, frame);
 
-        newFrame(*frame);
+        frametest.newFrame(*frame);
 
         for (int j = 0; j < 10000; ++j) {
-            kalmanUpdate();
+            frametest.kalmanUpdate();
         }
 
-        Position testX = getStates(0);
+        Position testX = frametest.getPos(0);
         EXPECT_FLOAT_EQ(testX.x, 2);
         EXPECT_FLOAT_EQ(testX.y, 2);
         EXPECT_FLOAT_EQ(testX.rot, 0);

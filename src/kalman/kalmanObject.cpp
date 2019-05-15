@@ -77,7 +77,7 @@ namespace rtt {
     void kalmanObject::kalmanUpdateX() {
 
         this->invisibleCounter += 1;
-        if (this->invisibleCounter > 200) {
+        if (this->invisibleCounter > 50 or this->exists = false) {
             //this->~kalmanObject();
             this->exists = false;
         } else {
@@ -107,14 +107,21 @@ namespace rtt {
     }
 
 
-    Position kalmanObject::kalmanGetState() {
+    Position kalmanObject::kalmanGetPos() {
         return {this->X(0), this->X(2), this->X(4)};
+    }
+
+    Position kalmanObject::kalmanGetVel() {
+        return {this->X(1), this->X(3), this->X(5)};
     }
 
     float kalmanObject::getK(){
         return this->K(0, 0);
     }
 
+    bool kalmanObject::getExistance(){
+        return this->exists;
+    }
 
 
 }

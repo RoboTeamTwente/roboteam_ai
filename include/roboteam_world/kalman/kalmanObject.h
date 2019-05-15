@@ -77,9 +77,13 @@ namespace rtt {
 
         void kalmanUpdateZ(float x, float y, float z, double timeStamp);
 
-        Position kalmanGetState();
+        Position kalmanGetPos();
+
+        Position kalmanGetVel();
 
         float getK();
+
+        bool getExistance();
 
     };
 

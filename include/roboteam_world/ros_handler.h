@@ -11,6 +11,8 @@
 #include "roboteam_world/world/world_dummy.h"
 #include "roboteam_world/world/filtered_world.h"
 
+#include "kalman/kalmanFilter.h"
+
 namespace rtt {
 
     class RosHandler {
@@ -38,7 +40,7 @@ namespace rtt {
         bool reset_callback(std_srvs::Empty::Request& req,
                             std_srvs::Empty::Response& res);
 
-
+        kalmanFilter KF;
     };
 
 }
