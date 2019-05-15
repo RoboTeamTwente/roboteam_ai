@@ -32,12 +32,17 @@ PosVelAngle PosController::controlWithPID(const RobotPtr &robot, PosVelAngle tar
     pidCommand.vel = control::ControlUtils::velocityLimiter(pidCommand.vel);
 
     // acceleration limiter
+    if (prevVel == Vector2(0.0,0.0)) {
+        prevVel = robot->vel;
+    }
+    //OLD
     double maxAcc = control::ControlUtils::calculateMaxAcceleration(pidCommand.vel, pidCommand.angle);
-    if (prevVel == 0.0) prevVel = robot->vel.length();
-    pidCommand.vel = control::ControlUtils::accelerationLimiter(pidCommand.vel, maxAcc, prevVel);
+    pidCommand.vel = control::ControlUtils::accelerationLimiter(pidCommand.vel, maxAcc, prevVel.length());
+    //NEW
+    //pidCommand.vel=control::ControlUtils::accelerationLimiterNew(pidCommand.vel,pidCommand.angle,prevVel);
 
     // set previous velocity to the current velocity and return the command.
-    prevVel = pidCommand.vel.length();
+    prevVel = pidCommand.vel;
     return pidCommand;
 }
 
