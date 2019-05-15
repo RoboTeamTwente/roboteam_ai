@@ -28,12 +28,12 @@ class WorldData {
         WorldData() = default;
         explicit WorldData(const roboteam_msgs::World &copy) : time(copy.time) {
             for (auto &robot : copy.us) {
-                Robot r = Robot(robot, Robot::Team::us, 3);
+                Robot r = Robot(robot, Robot::Team::us, 0);
                 us.emplace_back(r);
             }
 
             for (auto &robot : copy.them) {
-                Robot r = Robot(robot, Robot::Team::them, 3);
+                Robot r = Robot(robot, Robot::Team::them, 0);
                 them.emplace_back(r);
             }
             ball = Ball(copy.ball);

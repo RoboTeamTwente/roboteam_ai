@@ -21,7 +21,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     auto ball = world::world->getBall();
 
     // only get a new geneva state if we are allowed to get one
-    bool robotAlreadyVeryClose = robot.pos.dist(ball->pos) < 3.0 * Constants::ROBOT_RADIUS();
+    bool robotAlreadyVeryClose = robot.pos.dist(ball->pos) < 6.0 * Constants::ROBOT_RADIUS();
     int currentDesiredGeneva = robot.getGenevaState();
 
 
@@ -29,6 +29,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
         currentDesiredGeneva = determineOptimalGenevaState(robot, aimTarget);
     }
 
+    currentDesiredGeneva = 4;
 
     if (chip) {
         currentDesiredGeneva = 3;

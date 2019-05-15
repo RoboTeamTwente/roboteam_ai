@@ -33,7 +33,7 @@ Skill::Status ShootPenalty::onUpdate() {
 //    }
 //    return Status::Running;
 
-    robot->getShotController()->makeCommand(robot->getShotController()->getShotData(*robot, rtt::ai::world::field->get_their_goal_center()), command);
+    robot->getShotController()->makeCommand(robot->getShotController()->getShotData(*robot, rtt::ai::world::field->get_their_goal_center(), false, control::BallSpeed::MAX_SPEED, true, control::ShotPrecision::HIGH), command);
     publishRobotCommand();
     return Status::Running;
 

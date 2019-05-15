@@ -14,7 +14,7 @@ namespace ai {
 namespace world {
 
 Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
-        int genevaState, unsigned char dribblerState, unsigned long worldNumber)
+        unsigned long worldNumber, int genevaState, unsigned char dribblerState)
         :distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(worldNumber), genevaState(genevaState),
          dribblerState(dribblerState),
          id(copy.id), angle(copy.angle), pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
@@ -104,7 +104,7 @@ const unsigned long Robot::getLastUpdatedWorldNumber() const {
     return lastUpdatedWorldNumber;
 }
 
-unsigned char Robot::getGenevaState() const {
+int Robot::getGenevaState() const {
     return genevaState;
 }
 
