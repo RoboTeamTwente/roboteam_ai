@@ -7,14 +7,14 @@
 namespace rtt {
 
     void kalmanInit() {
-        for (uint i = 0; i < 32; ++i) {
+        for (uint i = 0; i < 1; ++i) {
             robotlist[i] = kalmanObject(i);
         }
 
     }
 
     void kalmanUpdate() {
-        for (int i = 0; i < 32; ++i) {
+        for (int i = 0; i < 1; ++i) {
             robotlist[i].kalmanUpdateK();
             robotlist[i].kalmanUpdateX();
         }

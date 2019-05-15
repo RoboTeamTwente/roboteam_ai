@@ -25,7 +25,7 @@ namespace rtt {
 
     void setZ(uint id, float x, float y, float z, double timestamp);
 
-    kalmanObject robotlist[32];
+    kalmanObject robotlist[1];
 
 }
 

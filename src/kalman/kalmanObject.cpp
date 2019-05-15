@@ -14,68 +14,48 @@ namespace rtt {
         this->observationTimeStamp = 0.0;
         this->invisibleCounter = 0;
         this->exists = false;
-        this->X.zeros(STATE_INDEX, 1);
-        this->Z.zeros(OBSERVATION_INDEX, 1);
-        this->F = {{1, TIMEDIFF, 0, 0,        0, 0},
-                   {0, 1,        0, 0,        0, 0},
-                   {0, 0,        1, TIMEDIFF, 0, 0},
-                   {0, 0,        0, 1,        0, 0},
-                   {0, 0,        0, 0,        1, TIMEDIFF},
-                   {0, 0,        0, 0,        0, 1}};
-        this->H = {{1, 0, 0, 0, 0, 0},
-                   {0, 0, 1, 0, 0, 0},
-                   {0, 0, 0, 0, 1, 0}};
-        this->R = {{POS_VAR, 0, 0},
-                   {0, POS_VAR, 0},
-                   {0,       0, POS_VAR}};
-        this->I.eye(STATE_INDEX, STATE_INDEX);
-        this->P = {{STATE_VAR, 0, 0,         0, 0,         0},
-                   {0, STATE_VAR, 0,         0, 0,         0},
-                   {0,         0, STATE_VAR, 0, 0,         0},
-                   {0,         0, 0, STATE_VAR, 0,         0},
-                   {0,         0, 0,         0, STATE_VAR, 0},
-                   {0,         0, 0,         0, 0, STATE_VAR}};
-        this->Q = {{TIMEDIFF * TIMEDIFF * RAND_VAR, TIMEDIFF * RAND_VAR, 0,                   0,                   0, 0},
-                   {TIMEDIFF * RAND_VAR,            RAND_VAR, 0, 0,                                     0, 0},
-                   {0, 0,                                     TIMEDIFF * TIMEDIFF * RAND_VAR, TIMEDIFF *
-                                                                                              RAND_VAR,            0, 0},
-                   {0, 0,                                     TIMEDIFF * RAND_VAR,            RAND_VAR, 0, 0},
-                   {0, 0,                           0,                   0,                             TIMEDIFF *
-                                                                                                        TIMEDIFF *
-                                                                                                        RAND_VAR,     TIMEDIFF *
-                                                                                                                      RAND_VAR},
-                   {0, 0,                           0,                   0,                             TIMEDIFF *
-                                                                                                        RAND_VAR,     RAND_VAR}};
-        this->K.zeros(STATE_INDEX, OBSERVATION_INDEX);
-
+        this->X.zeros();
+        this->Z.zeros();
+        this->I.eye();
+        this->K.zeros();
     }
+
+
+
 
     void kalmanObject::kalmanUpdateK() {
 
         static int count = 0;
 
-        if (count < 1) {
-            arma::fmat F_transpose = this->F.t();
+        if (count < 100) {
+            arma::fmat::fixed<STATE_INDEX, STATE_INDEX> F_transpose = this->F.t();
 
-            arma::fmat P_predict = (this->F * this->P * F_transpose) + this->Q;
+            arma::fmat::fixed<STATE_INDEX, STATE_INDEX> P_predict = (this->F * this->P * F_transpose) + this->Q;
 
-            arma::fmat H_transpose = this->H.t();
+            arma::fmat::fixed<STATE_INDEX, OBSERVATION_INDEX> H_transpose = this->H.t();
 
-            arma::fmat S = this->R + (this->H * P_predict * H_transpose);
+            arma::fmat::fixed<OBSERVATION_INDEX, OBSERVATION_INDEX> S = this->R + (this->H * P_predict * H_transpose);
 
-            arma::fmat S_inverse = S.i();
+            arma::fmat::fixed<OBSERVATION_INDEX, OBSERVATION_INDEX> S_inverse = S.i();
 
-            arma::fmat K_new = P_predict * H_transpose * S_inverse;
+            arma::fmat::fixed<STATE_INDEX, OBSERVATION_INDEX> K_new = P_predict * H_transpose * S_inverse;
 
-            arma::fmat IKH = this->I - K_new * this->H;
+            arma::fmat::fixed<OBSERVATION_INDEX, STATE_INDEX> K_new_transpose = K_new.t();
 
-            arma::fmat P_new = IKH * P_predict * IKH.t() + K_new * this->R * K_new.t();
+            arma::fmat::fixed<STATE_INDEX, STATE_INDEX> IKH = this->I - K_new * this->H;
+
+            arma::fmat::fixed<STATE_INDEX, STATE_INDEX> IKH_transpose = IKH.t();
+
+            arma::fmat::fixed<STATE_INDEX, STATE_INDEX> P_new = IKH * P_predict * IKH_transpose + K_new * this->R * K_new_transpose;
 
             int same = 0;
             for (arma::uword i = 0; i < STATE_INDEX; ++i) {
                 for (arma::uword j = 0; j < OBSERVATION_INDEX; ++j) {
-                    if ((this->K(i, j) - K_new(i, j)) < 0.0000001 && (this->K(i, j) - K_new(i, j)) > 0.0000001)
+                    if ((this->K(i, j) - K_new(i, j)) < 0.000001 and (this->K(i, j) - K_new(i, j)) > -0.000001){
+                        float KT = this->K(i,j);
+                        float KT_new = K_new(i,j);
                         same += 1;
+                    }
                 }
             }
 
@@ -85,8 +65,14 @@ namespace rtt {
                 count = 0;
             }
 
-            this->K = K_new;
-            this->P = P_new;
+            for (arma::uword i = 0; i < STATE_INDEX; ++i) {
+                for (arma::uword j = 0; j < OBSERVATION_INDEX; ++j) {
+                    this->K(i, j) = K_new(i, j);
+                }
+                for (arma::uword k = 0; k < STATE_INDEX; ++k) {
+                    this->P(i,k) = P_new(i,k);
+                }
+            }
         }
     }
 
@@ -98,22 +84,24 @@ namespace rtt {
             this->exists = false;
         } else {
 
-            arma::fmat X_predict = this->F * this->X;
+            arma::fvec::fixed<STATE_INDEX> X_predict = this->F * this->X;
 
-            arma::fmat Y = this->Z - (this->H * X_predict);
+            arma::fmat::fixed<OBSERVATION_INDEX, 1> Y = this->Z - (this->H * X_predict);
 
-            arma::fmat X_new = X_predict + (this->K * Y);
+            arma::fvec::fixed<STATE_INDEX> X_new = X_predict + (this->K * Y);
 
-            this->X = X_new;
+            for (arma::uword i = 0; i < STATE_INDEX; ++i) {
+                this->X(i) = X_new(i);
+            }
 
         }
     }
 
     void kalmanObject::kalmanUpdateZ(float x, float y, float z, double timeStamp) {
         if (timeStamp > this->observationTimeStamp) {
-            this->Z(0, 0) = x;
-            this->Z(1, 0) = y;
-            this->Z(2, 0) = z;
+            this->Z(0) = x;
+            this->Z(1) = y;
+            this->Z(2) = z;
             this->observationTimeStamp = timeStamp;
             this->invisibleCounter = 0;
             this->exists = true;
@@ -121,7 +109,7 @@ namespace rtt {
     }
 
     Position kalmanObject::kalmanGetState() {
-        return {this->X(0, 0), this->X(2, 0), this->X(4, 0)};
+        return {this->X(0), this->X(2), this->X(4)};
     }
 
     float kalmanObject::getK(){
