@@ -170,10 +170,11 @@ Vector2 OffensiveCoach::getShootAtGoalPoint(const Vector2 &fromPoint) {
         double minY = min(openSegments[0].first.y, openSegments[0].second.y);
 
         // make two aim points which are in the corners.
-        double distFromPost = 0.1*world::field->get_field().goal_width;
         std::pair<Vector2, Vector2> goalSides = world::field->getGoalSides(false);
-        Vector2 leftPoint(goalSides.first.x, goalSides.first.y + distFromPost);
-        Vector2 rightPoint(goalSides.second.x, goalSides.second.y - distFromPost);
+        double angleMargin = sin(2.0/180.0*M_PI);
+        double constantMargin=0.05*world::field->get_field().goal_width;
+        Vector2 leftPoint(goalSides.first.x, goalSides.first.y + constantMargin+angleMargin*goalSides.first.dist(fromPoint));
+        Vector2 rightPoint(goalSides.second.x, goalSides.second.y - angleMargin*goalSides.second.dist(fromPoint)-constantMargin);
 
         bool leftPointInSegment = leftPoint.y <= maxY && leftPoint.y >= minY;
         bool rightPointInSegment = rightPoint.y <= maxY && rightPoint.y >= minY;

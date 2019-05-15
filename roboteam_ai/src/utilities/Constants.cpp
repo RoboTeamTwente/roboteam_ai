@@ -46,7 +46,7 @@ bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
 
 bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
 
-double Constants::MAX_VEL_CMD() { return 1.191; }
+double Constants::MAX_VEL_CMD() { return 8.191; }
 
 int Constants::MAX_ID_CMD() { return 15; }
 
@@ -56,7 +56,7 @@ double Constants::MIN_ANGLE() { return - M_PI; }
 
 double Constants::MAX_ANGLE() { return M_PI; }
 
-double Constants::MAX_VEL() { return 8.0; }
+double Constants::MAX_VEL() { return GRSIM()? 4.0 :2.0; }
 
 double Constants::MAX_STOP_STATE_VEL() { return 1.5; }
 
@@ -104,7 +104,7 @@ double Constants::BALL_STILL_VEL() { return 0.1; }
 
 double Constants::MIN_DISTANCE_FOR_FORCE() { return 0.5; }
 
-double Constants::GOTOPOS_ERROR_MARGIN() { return 0.03; }
+double Constants::GOTOPOS_ERROR_MARGIN() { return 0.05; }
 
 double Constants::DEFAULT_BALLCOLLISION_RADIUS() { return 0.27; }
 

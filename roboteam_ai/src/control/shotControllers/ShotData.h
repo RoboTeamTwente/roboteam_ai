@@ -14,6 +14,7 @@ namespace control {
 struct ShotData : public PosVelAngle {
     bool kick = false;
     bool chip = false;
+    bool forced = false;
     double kickSpeed = 0.0;
     int genevaState = 3;
 
@@ -30,7 +31,8 @@ struct ShotData : public PosVelAngle {
                  && this->kick == other.kick
                  && this->chip == other.chip
                  && this->kickSpeed == other.kickSpeed
-                 && this->genevaState == other.genevaState;
+                 && this->genevaState == other.genevaState
+                 && this->forced == other.forced;
     }
 };
 
