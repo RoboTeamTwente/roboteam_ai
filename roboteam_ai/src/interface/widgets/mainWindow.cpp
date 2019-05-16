@@ -37,6 +37,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     auto visualizationSettingsWidget = new VisualizationSettingsWidget(visualizer, this);
     auto pidWidget = new PidsWidget();
     robotsWidget = new RobotsWidget(this);
+    refWidget = new RefereeWidget(this);
 
     // add the tab widget
     auto tabWidget = new QTabWidget;
@@ -45,6 +46,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     tabWidget->addTab(visualizationSettingsWidget, tr("Visualisation Settings"));
     tabWidget->addTab(pidWidget, tr("PID"));
     tabWidget->addTab(robotsWidget, tr("Robots"));
+    tabWidget->addTab(refWidget, tr("Referee"));
+
     vLayout->addWidget(tabWidget);
 
     // set up the general layout structure
@@ -76,6 +79,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     auto * robotsTimer = new QTimer(this);
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateTreeWidget()));
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateKeeperTreeWidget()));
+    connect(robotsTimer, SIGNAL(timeout()), refWidget, SLOT(updateContents()));
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget())); // we need to pass the visualizer so thats why a seperate function is used
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updatePause()));
     robotsTimer->start(200); // 5fps
@@ -89,6 +93,22 @@ void MainWindow::configureCheckBox(QString title, QLayout * layout, const QObjec
     checkbox->setChecked(defaultState);
     layout->addWidget(checkbox);
     QObject::connect(checkbox, SIGNAL(clicked(bool)), receiver, method);
+}
+
+/// delete a layout and its children
+void MainWindow::clearLayout(QLayout* layout)
+{
+    QLayoutItem* item;
+    while ((item = layout->takeAt(0))) {
+        if (item->layout()) {
+            clearLayout(item->layout());
+            delete item->layout();
+        }
+        if (item->widget()) {
+            delete item->widget();
+        }
+        delete item;
+    }
 }
 
 // when updating the robotswidget it needs the current visualizer state

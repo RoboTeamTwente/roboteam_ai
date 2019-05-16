@@ -22,10 +22,7 @@ private:
     static RefGameState currentRefGameState;
 public:
     static const RefGameState &getCurrentRefGameState();
-
     static void setCurrentRefGameState(const RefGameState &currentRefGameState);
-
-public:
     static void setRefereeData(roboteam_msgs::RefereeData refMsg);
     static roboteam_msgs::RefereeData getRefereeData();
     static roboteam_msgs::RefereeData getPreviousRefereeData();
