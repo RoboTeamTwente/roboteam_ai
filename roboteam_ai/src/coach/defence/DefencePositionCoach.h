@@ -11,20 +11,23 @@ namespace rtt {
 namespace ai {
 namespace coach {
 using Line=std::pair<Vector2, Vector2>;
+enum botType { BLOCKBALL, BLOCKTOGOAL, BLOCKPASS, BLOCKONLINE };
+struct DefenderBot {
+  int id;
+  Vector2 targetPos;
+  double orientation;
+  int blockFromID;
+  botType type;
 
+  int coveredCount=0;
+  bool locked =true;
+  world::Robot toRobot();
+  bool validPosition(const world::WorldData &world);
+};
 class DefencePositionCoach {
     public:
-        double maxX();//furthest point forwards the defenders can go
-        enum botType { BLOCKBALL, BLOCKTOGOAL, WALL, BLOCKPASS, BLOCKONLINE };
-        struct DefenderBot {
-          int id;
-          Vector2 targetPos;
-          double orientation;
-          int blockFromID;
-          botType type;
-          world::Robot toRobot();
-          bool validPosition(const world::WorldData &world);
-        };
+        double maxX();//furthest point forwards the availableIDs can go
+
         Vector2 getMostDangerousPos(const world::WorldData &world);
         std::vector<DefenderBot> decidePositions(int amount);
 
@@ -49,6 +52,7 @@ class DefencePositionCoach {
         double getOrientation(const Line &line);
         Vector2 findPositionForBlockBall(const Line &line);
 
+        std::vector<DefenderBot> decidePositionsStable(const std::vector<DefenderBot>& lockedDefenders,std::vector<int> freeRobots);
     private:
         const double defenceLineMargin=0.15; //min distance the points are from defence area. Should atleast be robotradius large.
         const double calculationCollisionRad=0.15; // distance at which our own robots are considered to be colliding in our calculation (prevents robots from stacking up too much)
@@ -67,9 +71,10 @@ class DefencePositionCoach {
         std::shared_ptr<Vector2> pickNewPosition(PossiblePass pass, const world::WorldData& world);
 
         world::WorldData setupSimulatedWorld();
-        void blockMostDangerousPos();
-        bool blockPass(PossiblePass pass);
+        std::shared_ptr<DefenderBot> blockMostDangerousPos();
+        std::shared_ptr<DefenderBot> blockPass(PossiblePass pass);
         void addDefender(DefenderBot defender);
+        void assignIDs(int lockedCount,std::vector<int> freeRobotIDs);
 
 
 };

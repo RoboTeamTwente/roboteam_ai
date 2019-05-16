@@ -14,8 +14,8 @@ namespace coach {
 ///This class keeps track of what all the defenders are doing and assigns them and communicates with them
 class DefenceDealer {
     private:
-        std::map<int, std::pair<Vector2, double>> defenderLocations;
-        std::vector<int> defenders;
+        std::vector<DefenderBot> assignedDefenders;
+        std::vector<int> availableIDs;
     public:
         void updateDefenderLocations();
         void addDefender(int id);

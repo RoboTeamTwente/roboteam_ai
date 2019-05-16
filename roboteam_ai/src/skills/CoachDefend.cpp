@@ -26,7 +26,6 @@ bt::Node::Status CoachDefend::onUpdate() {
         publishRobotCommand();
         return bt::Node::Status::Running;
     }
-
     auto velocities = robot->getNumtreeGtp()->getPosVelAngle(robot, targetLocation->first);
     if ((targetLocation->first - robot->pos).length() < 0.02) {
         command.x_vel = 0;

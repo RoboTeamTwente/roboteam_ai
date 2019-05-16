@@ -119,7 +119,8 @@ void ApplicationManager::runOneLoopCycle() {
             }
         }
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
-
+        static int i=0;
+        i++;
         rtt::ai::coach::getBallCoach->update();
         rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
         rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();

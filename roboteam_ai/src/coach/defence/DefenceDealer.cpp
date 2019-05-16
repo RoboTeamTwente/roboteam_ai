@@ -13,65 +13,61 @@ DefenceDealer g_DefenceDealer;
 
 /// adds a defender to the available defendersList
 void DefenceDealer::addDefender(int id) {
-    bool robotIsRegistered = std::find(defenders.begin(), defenders.end(), id) != defenders.end();
+    bool robotIsRegistered = std::find(availableIDs.begin(), availableIDs.end(), id) != availableIDs.end();
     if (! robotIsRegistered) {
-        defenders.push_back(id);
+        availableIDs.push_back(id);
     }
 }
 
 /// get the specific position of a defender with specified id
 std::shared_ptr<std::pair<Vector2, double>> DefenceDealer::getDefenderPosition(int id) {
-    auto element = defenderLocations.find(id);
-    if (element == defenderLocations.end()) {
-        return nullptr;
+    for (const auto& defender: assignedDefenders) {
+        if (defender.id==id){
+            std::pair<Vector2,double> pos=std::make_pair(defender.targetPos,defender.orientation);
+            return std::make_shared<std::pair<Vector2, double>>(pos);
+        }
     }
-    else return std::make_shared<std::pair<Vector2, double>>(defenderLocations[id]);
+    return nullptr;
 }
 void DefenceDealer::visualizePoints() {
     std::vector<Vector2> visualizationData;
-    for (const auto &location : defenderLocations) {
-        visualizationData.emplace_back(location.second.first);
+    for (const auto& defender : assignedDefenders ) {
+        visualizationData.emplace_back(defender.targetPos);
     }
-    ai::interface::Input::drawData(interface::Visual::DEFENSE, visualizationData, Qt::red, -1, ai::interface::Drawing::CIRCLES);
+    ai::interface::Input::drawData(interface::Visual::DEFENSE, visualizationData, Qt::red, - 1,
+            ai::interface::Drawing::CIRCLES);
 }
 /// calculates the defender locations for all available defenders
 void DefenceDealer::updateDefenderLocations() {
-        // clear the defenderLocations
-        defenderLocations.clear();
-        std::vector<int> availableDefenders = defenders;
-        defenders.clear();
-        // decide the locations to defend
-        std::vector<DefencePositionCoach::DefenderBot> defenderBots = g_defensivePositionCoach.decidePositions(
-                availableDefenders.size());
-        // the following algorithm takes the closest robot for each available defender to decide which robot goes where.
-        // Since the points are ordered on priority from the above algorithm the most important points come first
-        // It might be better to use an algorithm that is more complicated (e.g. hungarian) but then we might need some kind of system which gives the first points more 'priority'
-        for (const auto &defenderBot : defenderBots) {
-            int closestId = - 1;
-            auto closestDist = DBL_MAX;
-            for (int botId : availableDefenders) {
-                auto bot = world::world->getRobotForId(botId, true);
-                if (bot) {
-                    if ((defenderBot.targetPos - bot->pos).length() < closestDist) {
-                        closestId = botId;
-                        closestDist = (defenderBot.targetPos - bot->pos).length();
-                    }
-                }
-                else {
-                    std::cerr << "Could not find robot " << botId << " to defend!"<<std::endl;
-                }
-            }
-            if (closestId != - 1) {
-                defenderLocations[closestId] = {defenderBot.targetPos, defenderBot.orientation};
-                availableDefenders.erase(std::find(availableDefenders.begin(), availableDefenders.end(), closestId));
-            }
-            else {
-                std::cerr << "Could not find a robot to defend location!!!"<<std::endl;
-                return;
+    std::vector<DefenderBot> lockedDefenders;
+    std::vector<int> freeDefenders;
+    for (int id :availableIDs){
+        bool idFound=false;
+        for (const auto& defender: assignedDefenders){
+            if (id==defender.id){
+                defender.locked? lockedDefenders.push_back(defender) : freeDefenders.push_back(defender.id);
+                idFound=true;
+                break;
             }
         }
-        //visualization
-        visualizePoints();
+        if(!idFound){
+            freeDefenders.push_back(id);
+        }
+    }
+    std::cout<<"___________"<<std::endl;
+
+    availableIDs.clear();
+    assignedDefenders=g_defensivePositionCoach.decidePositionsStable(lockedDefenders,freeDefenders);
+    static std::map<int,Vector2> positions;
+    for(const auto& bot : assignedDefenders){
+        std::cout<<"id: "<<bot.id<<" covers: "<< bot.blockFromID<<"type "<<bot.type<<" locked: "<<bot.locked<<" cc: "<<bot.coveredCount<<" diff: "<<(positions[bot.id]-bot.targetPos).length()<<std::endl;
+    }
+    positions.clear();
+    for (const auto& bot :assignedDefenders){
+        positions[bot.id]=bot.targetPos;
+    }
+    //visualization
+    visualizePoints();
 }
 }//coach
 }//ai
