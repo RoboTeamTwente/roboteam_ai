@@ -22,17 +22,18 @@ void GameStateManager::setRefereeData(roboteam_msgs::RefereeData refMsg) {
 
 // Initialize static variables
 GameState GameStateManager::getCurrentGameState() {
+    GameState newGameState;
     if (interface::Output::usesRefereeCommands()) {
-        auto refGameState = static_cast<GameState>(strategymanager.getCurrentRefGameState());
+        newGameState = static_cast<GameState>(strategymanager.getCurrentRefGameState());
 
         // if there is a ref we set the interface gamestate to these values as well
         // this makes sure that when we stop using the referee we don't return to an unknown state,
         // // so now we keep the same.
-        interface::Output::setInterfaceGameState(refGameState);
-        return refGameState;
+        interface::Output::setInterfaceGameState(newGameState);
+    } else {
+        newGameState = interface::Output::getInterfaceGameState();
     }
-
-    return interface::Output::getInterfaceGameState();;
+    return newGameState;
 }
 
 
