@@ -239,7 +239,22 @@ double ControlUtils::calculateMaxAcceleration(const Vector2 &vel, double angle) 
     double a = abs(toVectorDiff.x);
     return Constants::MAX_ACC_UPPER() * (a) + Constants::MAX_ACC_LOWER() * (1-a);
 }
-
+Vector2 ControlUtils::accelerationLimiterNew(const Vector2 &vel,double robotAngle, const Vector2 &prevVel) {
+    // calculate max
+    Vector2 diff=vel-prevVel;
+    Angle angleDiff=diff.angle()-robotAngle;
+    Vector2 toVectorDiff=angleDiff.toVector2();
+    double a=abs(toVectorDiff.x);
+    double max=Constants::MAX_ACC_UPPER() * (a) + Constants::MAX_ACC_LOWER() * (1-a);
+    //limiter
+    double maxChange=max/Constants::TICK_RATE();
+    if (diff.length()>maxChange){
+        return prevVel+diff.stretchToLength(maxChange);
+    }
+    else{
+        return vel;
+    }
+}
 /// Get the intersection of two lines
 Vector2 ControlUtils::twoLineIntersection(const Vector2 &a1, const Vector2 &a2, const Vector2 &b1, const Vector2 &b2) {
     //https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
