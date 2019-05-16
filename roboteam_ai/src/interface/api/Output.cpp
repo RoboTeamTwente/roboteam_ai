@@ -26,7 +26,7 @@ std::mutex Output::markerMutex;
 std::mutex Output::refMutex;
 std::mutex Output::showDebugMutex;
 
-GameState Output::interfaceGameState;
+GameState Output::interfaceGameState("halt_strategy", "keeper_halt_tactic", "default");
 
 void Output::sendHaltCommand() {
     rtt::ai::Pause pause;
