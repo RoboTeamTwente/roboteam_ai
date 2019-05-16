@@ -46,7 +46,9 @@ bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
 
 bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
 
-double Constants::MAX_VEL_CMD() { return 8.191; }
+bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return true; }
+
+double Constants::MAX_VEL_CMD() { return 1.191; }
 
 int Constants::MAX_ID_CMD() { return 15; }
 
@@ -105,6 +107,8 @@ double Constants::BALL_STILL_VEL() { return 0.1; }
 double Constants::MIN_DISTANCE_FOR_FORCE() { return 0.5; }
 
 double Constants::GOTOPOS_ERROR_MARGIN() { return 0.05; }
+
+double Constants::GOTOPOS_ANGLE_ERROR_MARGIN() { return 0.03; }
 
 double Constants::DEFAULT_BALLCOLLISION_RADIUS() { return 0.27; }
 
@@ -194,17 +198,13 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER() {
     workingDribblerRobots[15] = true;
 
     return workingDribblerRobots;
-}
-
-bool Constants::ROBOT_HAS_WORKING_GENEVA(int id) {
+}bool Constants::ROBOT_HAS_WORKING_GENEVA(int id) {
     return ROBOTS_WITH_WORKING_GENEVA()[id];
 }
 
 bool Constants::ROBOT_HAS_WORKING_DRIBBLER(int id) {
     return ROBOTS_WITH_WORKING_DRIBBLER()[id];
-}
-
-QColor Constants::FIELD_COLOR() {
+}QColor Constants::FIELD_COLOR() {
     return GRSIM() ? QColor(30, 30, 30, 255) :
            QColor(50, 0, 0, 255);
 }

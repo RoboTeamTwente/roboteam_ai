@@ -12,13 +12,16 @@ namespace ai {
 namespace control {
 
 class BasicPosControl : public PosController {
-public:
-    explicit BasicPosControl() = default;
-    explicit BasicPosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
+    private:
+        void checkInterfacePID() override;
+    public:
+        explicit BasicPosControl() = default;
+        explicit BasicPosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
 
-    PosVelAngle getPosVelAngle(const RobotPtr &robot, Vector2 &targetPos) override;
-private:
-    void checkInterfacePID() override;
+        PosVelAngle getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) override;
+        PosVelAngle getPosVelAngle(const RobotPtr& robot, const Vector2 &targetPos) override;
+
+
 };
 
 } // control

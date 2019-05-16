@@ -15,7 +15,7 @@ ForcePosControl::ForcePosControl(double avoidBall, bool canMoveOutsideField, boo
         : PosController(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
 }
 
-PosVelAngle ForcePosControl::getPosVelAngle(const RobotPtr &robot, Vector2 &targetPos) {
+PosVelAngle ForcePosControl::getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) {
   return calculateForcePosVelAngle(robot, targetPos);
 }
 
@@ -51,7 +51,7 @@ Vector2 ForcePosControl::calculateForces(const RobotPtr &robot, const Vector2 &t
     return force;
 }
 
-PosVelAngle ForcePosControl::calculateForcePosVelAngle(const PosController::RobotPtr& robot, Vector2 &targetPos) {
+PosVelAngle ForcePosControl::calculateForcePosVelAngle(const PosController::RobotPtr& robot, const Vector2 &targetPos) {
     double forceRadius;
     bool distanceSmallerThanMinForceDistance = (targetPos - robot->pos).length() < Constants::MIN_DISTANCE_FOR_FORCE();
     if (distanceSmallerThanMinForceDistance) {
@@ -69,6 +69,10 @@ PosVelAngle ForcePosControl::calculateForcePosVelAngle(const PosController::Robo
 void ForcePosControl::checkInterfacePID() {
     auto newPid = interface::Output::getForcePid();
     updatePid(newPid);
+}
+
+PosVelAngle ForcePosControl::getPosVelAngle(const PosController::RobotPtr &robot, const Vector2 &targetPos) {
+    return PosController::getPosVelAngle(robot, targetPos);
 }
 
 } // control

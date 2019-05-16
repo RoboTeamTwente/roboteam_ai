@@ -1,18 +1,1 @@
-{
-  "data": {
-    "trees": [
-      {
-        "nodes": {
-          "piote2mmmhu1bd": {
-            "id": "piote2mmmhu1bd",
-            "name": "two_robot_ballplacement_tactic",
-            "title": "Tactic"
-          }
-        },
-        "root": "piote2mmmhu1bd",
-        "title": "ball_placement_us_strategy"
-      }
-    ]
-  },
-  "name": "ball_placement_us_strategy"
-}
+{"data": {"trees": [{"nodes": {"piote2mmmhu1bd": {"id": "piote2mmmhu1bd", "name": "one_robot_ballplacement_tactic", "title": "Tactic"}}, "root": "piote2mmmhu1bd", "title": "ball_placement_us_strategy"}]}, "name": "ball_placement_us_strategy"}

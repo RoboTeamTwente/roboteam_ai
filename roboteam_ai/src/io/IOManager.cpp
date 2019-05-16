@@ -143,6 +143,7 @@ void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
             if (robot) {
 
                 robot->setGenevaState(cmd.geneva_state);
+                robot->setDribblerState(cmd.dribbler);
             }
             // sometimes trees are terminated without having a role assigned.
             // It is then possible that a skill gets terminated with an empty robot: and then the id can be for example -1.

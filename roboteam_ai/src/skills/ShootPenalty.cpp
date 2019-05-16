@@ -17,23 +17,20 @@ void ShootPenalty::onInitialize() {
 }
 
 Skill::Status ShootPenalty::onUpdate() {
-//
-//    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
-//    Vector2 deltaPos = (ballPos - robot->pos);
-//    interface::Input::drawDebugData({aimPoint});
-//
-//        robot->getShotController()->makeCommand(robot->getShotController()->getShotData(*robot, aimPoint, false, control::BallSpeed::MAX_SPEED, false), command);
-//        command.geneva_state = 4;
-//        publishRobotCommand();
-//
-//    if (isPenaltyShot()) {
-//        publishRobotCommand();
-//        return Status::Success;
-//
-//    }
-//    return Status::Running;
 
-    robot->getShotController()->makeCommand(robot->getShotController()->getShotData(*robot, rtt::ai::world::field->get_their_goal_center(), false, control::BallSpeed::MAX_SPEED, true, control::ShotPrecision::HIGH), command);
+    if (isPenaltyShot()) {
+        command.x_vel = 0;
+        command.y_vel = 0;
+        command.geneva_state = 3;
+        command.dribbler = 0;
+        return Status::Success;
+    }
+
+
+    robot->getShotController()->makeCommand(robot->getShotController()->getShotData(*robot,
+            rtt::ai::world::field->get_their_goal_center(), false, control::BallSpeed::MAX_SPEED, true,
+            control::ShotPrecision::HIGH), command);
+
     publishRobotCommand();
     return Status::Running;
 
@@ -51,7 +48,7 @@ ShootPenalty::ShootPenalty(string name, bt::Blackboard::Ptr blackboard)
 }
 bool ShootPenalty::isPenaltyShot() {
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
-    if ((ballPos - rtt::ai::world::field->getPenaltyPoint(false)).length() > 0.30){
+    if ((ballPos - rtt::ai::world::field->getPenaltyPoint(false)).length() > 0.13){
         shot = true;
         return true;
     }
