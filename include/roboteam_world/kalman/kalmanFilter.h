@@ -24,8 +24,6 @@ namespace rtt {
 
         void newFrame(const roboteam_msgs::DetectionFrame msg);
 
-        kalmanObject kalmanlist[32];
-
         Position getPos(uint id);
 
         Position getVel(uint id);
@@ -38,9 +36,13 @@ namespace rtt {
 
         roboteam_msgs::WorldRobot getRobot(uint id);
 
+        roboteam_msgs::WorldBall getBall(uint id);
+
         roboteam_msgs::World getWorld();
 
-        uint kalmanObjectAmount = 32;
+        uint kalmanObjectAmount = 33;
+
+        kalmanObject kalmanlist[33];
 
     };
 }
