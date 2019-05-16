@@ -186,6 +186,7 @@ void MainControlsWidget::setToggleSideBtnLayout() const {
 
 void MainControlsWidget::refreshSignal() {
     robotDealer::RobotDealer::refresh();
+    BTFactory::makeTrees();
     emit treeHasChanged();
 }
 
