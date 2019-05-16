@@ -8,34 +8,18 @@
 #include <roboteam_utils/Vector2.h>
 #include "Constants.h"
 #include "RuleSet.h"
+#include "GameState.h"
 
 namespace rtt {
 namespace ai {
 
-class RefGameState {
-private:
+struct RefGameState : public GameState {
     RefCommand commandId;
-    std::string strategyName;
-    std::string keeperStrategyName;
-    std::string ruleSet;
     bool isfollowUpCommand;
     RefCommand followUpCommandId;
-    Vector2 ballPositionAtStartOfRefGameState;
-
-public:
-    explicit RefGameState() = default;
-    explicit RefGameState(RefCommand commandId, std::string strategyName, std::string keeperStrategyName, std::string ruleSet,  bool isFollowUpCommand = false, RefCommand followUpCommandId = RefCommand::UNDEFINED);
-
-    // getters
-    RefCommand getFollowUpCommandId() const;
-    RefCommand getCommandId() const;
-    const std::string &getStrategyName() const;
-    const std::string &getKeeperStrategyName() const;
-    RuleSet getRuleSet();
+    RefGameState() = default;
+    RefGameState(RefCommand commandId, std::string strategyName, std::string keeperStrategyName, std::string ruleSet,  bool isFollowUpCommand = false, RefCommand followUpCommandId = RefCommand::UNDEFINED);
     bool hasFollowUpCommand() const;
-    bool isFollowUpCommand() const;
-    const Vector2 &getBallPositionAtStartOfRefGameState() const;
-    void setBallPositionAtStartOfRefGameState(const Vector2 &ballPositionAtStartOfRefGameState);
 };
 
 } // ai

@@ -13,7 +13,7 @@ ballIsMoving::ballIsMoving(std::string name, bt::Blackboard::Ptr blackboard)
 
 
 bt::Node::Status ballIsMoving::onUpdate() {
-    bool ballIsLayingStill = GameStateManager::getCurrentRefGameState().getBallPositionAtStartOfRefGameState().dist(ball->pos) < 0.05;
+    bool ballIsLayingStill = GameStateManager::getCurrentGameState().ballPositionAtStartOfGameState.dist(ball->pos) < 0.05;
 
     if (ballIsLayingStill ){
         return Status::Failure;

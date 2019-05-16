@@ -86,8 +86,7 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
                      [=](const QString &strategyName) {
                          // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-                         BTFactory::setCurrentTree(strategyName.toStdString());
-                         robotDealer::RobotDealer::refresh();
+                         interface::Output::setStrategyTree(strategyName.toStdString());
                          emit treeHasChanged();
                      });
 
@@ -95,8 +94,7 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
                      static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
                      [=](const QString &keeperStrategyName) {
 // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-                         BTFactory::setKeeperTree(keeperStrategyName.toStdString());
-                         robotDealer::RobotDealer::refresh();
+                         interface::Output::setKeeperTree(keeperStrategyName.toStdString());
                          emit treeHasChanged();
                      });
 
@@ -111,7 +109,7 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
                      [=](const QString &rulesetName) {
                          // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
                          //robotDealer::RobotDealer::setKeeperID(goalieId.toInt());.
-                         GameStateManager::setCurrentRuleSet(rulesetName.toStdString());
+                         interface::Output::setRuleSetName(rulesetName.toStdString());
                          emit treeHasChanged();
                      });
 
@@ -229,7 +227,7 @@ void MainControlsWidget::updateContents() {
         select_keeper_strategy->setCurrentText(keeperStrategyText);
     }
 
-    auto ruleSetText = QString::fromStdString(GameStateManager::getRuleset().title);
+    auto ruleSetText = QString::fromStdString(GameStateManager::getCurrentGameState().ruleSetName);
     if (ruleSetText != select_ruleset->currentText()) {
         select_ruleset->setCurrentText(ruleSetText);
     }

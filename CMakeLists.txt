@@ -121,11 +121,11 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Hungarian.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Hungarian.h
+        roboteam_ai/src/control/Hungarian.cpp
+        roboteam_ai/src/control/Hungarian.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Pause.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Pause.h
-        roboteam_ai/src/utilities/RefGameState.cpp roboteam_ai/src/utilities/RefGameState.h roboteam_ai/src/utilities/RuleSet.h)
+        roboteam_ai/src/utilities/RefGameState.cpp roboteam_ai/src/utilities/RefGameState.h roboteam_ai/src/utilities/RuleSet.h roboteam_ai/src/utilities/GameState.h)
 
 
 set(SKILLS_SOURCES

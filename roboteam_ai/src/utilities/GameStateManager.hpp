@@ -10,28 +10,19 @@
 #include "roboteam_msgs/RefereeData.h"
 #include "ros/ros.h"
 #include "RefGameState.h"
+#include "StrategyManager.h"
 
 namespace rtt {
 namespace ai {
 
 class GameStateManager {
-private:
-    // we need to store the current and the previous refereedata.
-    static roboteam_msgs::RefereeData refMsg;
-    static roboteam_msgs::RefereeData previousRefMsg;
-    static RefGameState currentRefGameState;
-    static RuleSet ruleset;
 public:
-    static const RuleSet &getRuleset();
-
-public:
-    static RefGameState getCurrentRefGameState();
-    static void setCurrentRefGameState(RefGameState currentRefGameState);
-    static void setCurrentRuleSet(std::string ruleset);
     static void setRefereeData(roboteam_msgs::RefereeData refMsg);
     static roboteam_msgs::RefereeData getRefereeData();
-    static roboteam_msgs::RefereeData getPreviousRefereeData();
-    static RuleSet getRuleSetByName(std::string name);
+    static GameState getCurrentGameState();
+private:
+    static roboteam_msgs::RefereeData refMsg;
+    static StrategyManager strategymanager;
 };
 
 }//ai

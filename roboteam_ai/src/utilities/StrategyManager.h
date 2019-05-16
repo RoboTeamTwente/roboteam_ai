@@ -9,7 +9,6 @@
 
 #include <iostream>
 #include <map>
-#include "GameStateManager.hpp"
 #include "Constants.h"
 #include "RefGameState.h"
 
@@ -58,6 +57,8 @@ private:
          RefGameState(RefCommand::DO_PENALTY,           "penalty_us_shoot_strategy",       "keeper_default_tactic",   "default", true),
          RefGameState(RefCommand::DEFEND_PENALTY,       "penalty_them_strategy",           "keeper_penalty_tactic",   "default", true)
     };
+    RefGameState currentRefGameState = gameStates[0];
+
 };
 
 } // ai

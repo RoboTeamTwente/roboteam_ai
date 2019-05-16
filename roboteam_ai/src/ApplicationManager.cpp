@@ -75,36 +75,33 @@ void ApplicationManager::runOneLoopCycle() {
         demo::JoystickDemo::demoLoop(demomsg);
 
 
-        if (ai::interface::Output::usesRefereeCommands()) {
+        auto gamestate = ai::GameStateManager::getCurrentGameState();
+        std::string strategyName = gamestate.strategyName;
+        std::string keeperTreeName = gamestate.keeperStrategyName;
 
-            strategyManager.setCurrentRefGameState(static_cast<RefCommand>(ai::GameStateManager::getRefereeData().command.command));
-            auto refGameState = strategyManager.getCurrentRefGameState();
+        bool strategyChanged = oldStrategy != strategyName;
+        bool keeperStrategyChanged = oldKeeperTreeName != keeperTreeName;
 
-            std::string strategyName = refGameState.getStrategyName();
-            std::string keeperTreeName = refGameState.getKeeperStrategyName();
-          //  ai::GameStateManager::setMaxRobotVelocity(refGameState.getRuleSet().maxRobotVel);
-
-
-            if (oldStrategy != strategyName) {
-                ai::robotDealer::RobotDealer::refresh();
-
-                BTFactory::setCurrentTree(strategyName);
-                oldStrategy = strategyName;
-            }
-
-            if (oldKeeperTreeName != keeperTreeName) {
-                ai::robotDealer::RobotDealer::refresh();
-
-                std::cout << "changing keeper tree" << std::endl;
-                BTFactory::setKeeperTree(keeperTreeName);
-                oldKeeperTreeName = keeperTreeName;
-            }
-
-            ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
-
-        } else {
-       //     ai::GameStateManager::setMaxRobotVelocity(ai::Constants::MAX_VEL());
+        if (strategyChanged) {
+            BTFactory::setCurrentTree(strategyName);
+            oldStrategy = strategyName;
         }
+
+        if (keeperStrategyChanged) {
+            std::cout << "changing keeper tree" << std::endl;
+            BTFactory::setKeeperTree(keeperTreeName);
+            oldKeeperTreeName = keeperTreeName;
+        }
+
+        if (keeperStrategyChanged || strategyChanged) {
+            ai::robotDealer::RobotDealer::refresh();
+        }
+
+
+
+        ai::robotDealer::RobotDealer::setUseSeparateKeeper(gamestate.useKeeper);
+
+
 
 
         if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {

@@ -4,6 +4,7 @@
 
 #include <roboteam_ai/src/world/World.h>
 #include "StrategyManager.h"
+#include "GameStateManager.hpp"
 
 namespace rtt {
 namespace ai {
@@ -12,36 +13,39 @@ namespace ai {
 void StrategyManager::setCurrentRefGameState(RefCommand command) {
 
     // if the command is the same, we don't need to do anything
-    if (command == GameStateManager::getCurrentRefGameState().getCommandId()) {
+    if (command == currentRefGameState.commandId) {
         return;
     }
 
     // otherwise, if we are in a followupstate and the refcommand is normal start we don't change a thing
-    if (GameStateManager::getCurrentRefGameState().isFollowUpCommand() && command == RefCommand::NORMAL_START) {
+    if (currentRefGameState.isfollowUpCommand && command == RefCommand::NORMAL_START) {
         return;
     }
 
-
     // we need to change refgamestate here
     RefGameState newState;
-    if (GameStateManager::getCurrentRefGameState().hasFollowUpCommand() && command == RefCommand::NORMAL_START) {
-        newState = getRefGameStateForRefCommand(GameStateManager::getCurrentRefGameState().getFollowUpCommandId());
+    if (currentRefGameState.hasFollowUpCommand() && command == RefCommand::NORMAL_START) {
+        newState = getRefGameStateForRefCommand(currentRefGameState.followUpCommandId);
     } else {
         newState = getRefGameStateForRefCommand(command);
     }
-    newState.setBallPositionAtStartOfRefGameState(world::world->getBall()->pos);
-    GameStateManager::setCurrentRefGameState(newState);
+    if (world::world->getBall()) {
+        newState.ballPositionAtStartOfGameState = world::world->getBall()->pos;
+    } else {
+        newState.ballPositionAtStartOfGameState = {0,0};
+    }
+    currentRefGameState = newState;
 }
 
 
 
 RefGameState StrategyManager::getCurrentRefGameState() {
-    return GameStateManager::getCurrentRefGameState();
+    return currentRefGameState;
 }
 
 const RefGameState StrategyManager::getRefGameStateForRefCommand(RefCommand command) {
     for (auto gameState : this->gameStates) {
-        if (gameState.getCommandId() == command) {
+        if (gameState.commandId == command) {
             return gameState;
         }
     }

@@ -26,7 +26,7 @@ void RefereeWidget::updateContents() {
 void RefereeWidget::updateLabels() {
     auto spacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    RuleSet ruleset = GameStateManager::getRuleset();
+    RuleSet ruleset = GameStateManager::getCurrentGameState().getRuleSet();
 
     auto velLabel = new QLabel("Max robot velocity: " + QString::number(ruleset.maxRobotVel, 'G', 3) + " m/s");
     vLayout->addWidget(velLabel);
