@@ -21,13 +21,13 @@ void GetBall::checkProgression() {
     }
     double angleDif = Control::angleDifference(robot->angle, deltaPos.angle());
     if (currentProgress == TURNING) {
-        if (angleDif < ANGLE_SENS) {
+        if (angleDif < ANGLE_ERROR_MARGIN) {
             currentProgress = APPROACHING;
             return;
         }
     }
     else if (currentProgress == APPROACHING) {
-        if (angleDif >= ANGLE_SENS) {
+        if (angleDif >= ANGLE_ERROR_MARGIN) {
             currentProgress = TURNING;
             return;
         }
@@ -148,22 +148,6 @@ void GetBall::sendDribblingCommand() {
     command.y_vel = 0;
     command.w = lockedAngle;
     publishRobotCommand();
-}
-
-bool GetBall::botHasLastVisibleBall(){
-    Vector2 robotPos = robot->pos;
-    double robotOrientation = robot->angle;
-    Vector2 ballPos = lastVisibleBallPos;
-    Vector2 dribbleLeft = robotPos
-            + Vector2(Constants::ROBOT_RADIUS(), 0).rotate(robotOrientation - Constants::DRIBBLER_ANGLE_OFFSET());
-    Vector2 dribbleRight = robotPos
-            + Vector2(Constants::ROBOT_RADIUS(), 0).rotate(robotOrientation + Constants::DRIBBLER_ANGLE_OFFSET());
-    if (control::ControlUtils::pointInTriangle(ballPos, robotPos, dribbleLeft, dribbleRight)) {
-        return true;
-    }
-    else return control::ControlUtils::pointInRectangle(ballPos, dribbleLeft, dribbleRight,
-                dribbleRight + Vector2(Constants::MAX_BALL_BOUNCE_RANGE(), 0).rotate(robotOrientation),
-                dribbleLeft + Vector2(Constants::MAX_BALL_BOUNCE_RANGE(), 0).rotate(robotOrientation));
 }
 
 }//rtt

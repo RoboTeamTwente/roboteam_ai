@@ -8,6 +8,7 @@
 #include "Skill.h"
 #include "../utilities/Constants.h"
 #include "../control/ControlUtils.h"
+#include "../control/positionControllers/BallHandlePosControl.h"
 
 namespace rtt {
 namespace ai {
@@ -19,8 +20,9 @@ class Dribble : public Skill {
 
         const double POS_DIF = 0.05;
         const double SPEED = (Constants::GRSIM() ? 0.4 : 0.8);
-
     private:
+        control::BallHandlePosControl ballHandlePosControl;
+
         enum Progression {
           ON_THE_WAY,
           STOPPING,
