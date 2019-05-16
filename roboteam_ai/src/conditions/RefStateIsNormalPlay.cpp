@@ -14,7 +14,7 @@ RefStateIsNormalPlay::RefStateIsNormalPlay(std::string name, bt::Blackboard::Ptr
         :Condition(std::move(name), std::move(blackboard)) { };
 
 bt::Node::Status RefStateIsNormalPlay::onUpdate() {
-    auto refCommand = static_cast<RefCommand>(rtt::ai::Referee::getRefereeData().command.command);
+    auto refCommand = static_cast<RefCommand>(rtt::ai::GameStateManager::getRefereeData().command.command);
     if (interface::Output::usesRefereeCommands() && refCommand != RefCommand::NORMAL_START){
         return Status::Failure;
     }

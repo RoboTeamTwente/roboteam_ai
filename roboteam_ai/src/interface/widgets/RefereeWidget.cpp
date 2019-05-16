@@ -4,7 +4,7 @@
 
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QSpacerItem>
-#include <roboteam_ai/src/utilities/Referee.hpp>
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include <QtWidgets/QLabel>
 #include "RefereeWidget.h"
 #include "mainWindow.h"
@@ -26,14 +26,13 @@ void RefereeWidget::updateContents() {
 void RefereeWidget::updateLabels() {
     auto spacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    RuleSet ruleset = Referee::getCurrentRefGameState().getRuleSet();
+    RuleSet ruleset = GameStateManager::getRuleset();
 
     auto velLabel = new QLabel("Max robot velocity: " + QString::number(ruleset.maxRobotVel, 'G', 3) + " m/s");
     vLayout->addWidget(velLabel);
 
     auto maxCollisionVelLabel = new QLabel("Max collision velocity: "+QString::number(ruleset.maxCollisionVel, 'G', 3) + " m/s");
     vLayout->addWidget(maxCollisionVelLabel);
-
 
     auto maxBallVelLabel = new QLabel("Max ball velocity: "+QString::number(ruleset.maxBallVel, 'G', 3) + " m/s");
     vLayout->addWidget(maxBallVelLabel);

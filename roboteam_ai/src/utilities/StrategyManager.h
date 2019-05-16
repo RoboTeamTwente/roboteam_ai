@@ -9,7 +9,7 @@
 
 #include <iostream>
 #include <map>
-#include "Referee.hpp"
+#include "GameStateManager.hpp"
 #include "Constants.h"
 #include "RefGameState.h"
 

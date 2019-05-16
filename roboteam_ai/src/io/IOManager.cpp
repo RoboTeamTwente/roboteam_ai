@@ -9,7 +9,7 @@
 #include <roboteam_ai/src/demo/JoystickDemo.h>
 #include <roboteam_ai/src/utilities/Pause.h>
 #include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/utilities/Referee.hpp>
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include "IOManager.h"
 
 
@@ -111,7 +111,7 @@ void IOManager::handleDemoInfo(const roboteam_msgs::DemoRobotConstPtr &demoInfo)
 void IOManager::handleRefereeData(const roboteam_msgs::RefereeDataConstPtr &refData) {
     std::lock_guard<std::mutex> lock(mutex);
     this->refDataMsg = *refData;
-    Referee::setRefereeData(this->refDataMsg);
+    GameStateManager::setRefereeData(this->refDataMsg);
 }
 
 const roboteam_msgs::World &IOManager::getWorldState() {

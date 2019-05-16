@@ -10,7 +10,7 @@
 #include "../utilities/Constants.h"
 #include "roboteam_utils/Vector2.h"
 #include <cmath>
-#include <roboteam_ai/src/utilities/Referee.hpp>
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include "roboteam_utils/Arc.h"
 
 using Vector2 = rtt::Vector2;

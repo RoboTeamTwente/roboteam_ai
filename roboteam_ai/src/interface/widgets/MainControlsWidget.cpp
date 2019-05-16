@@ -111,7 +111,7 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
                      [=](const QString &rulesetName) {
                          // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
                          //robotDealer::RobotDealer::setKeeperID(goalieId.toInt());.
-                         Referee::setCurrentRuleSet(rulesetName.toStdString());
+                         GameStateManager::setCurrentRuleSet(rulesetName.toStdString());
                          emit treeHasChanged();
                      });
 
@@ -229,7 +229,7 @@ void MainControlsWidget::updateContents() {
         select_keeper_strategy->setCurrentText(keeperStrategyText);
     }
 
-    auto ruleSetText = QString::fromStdString(Referee::getCurrentRefGameState().getRuleSet().title);
+    auto ruleSetText = QString::fromStdString(GameStateManager::getRuleset().title);
     if (ruleSetText != select_ruleset->currentText()) {
         select_ruleset->setCurrentText(ruleSetText);
     }

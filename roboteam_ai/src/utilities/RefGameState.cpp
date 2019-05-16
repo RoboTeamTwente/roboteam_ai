@@ -3,7 +3,7 @@
 //
 
 #include "RefGameState.h"
-#include "Referee.hpp"
+#include "GameStateManager.hpp"
 
 namespace rtt {
 namespace ai {
@@ -29,7 +29,7 @@ const std::string &RefGameState::getKeeperStrategyName() const {
 }
 
 RuleSet RefGameState::getRuleSet() {
-    auto set = Referee::getRuleSetByName(ruleSet);
+    auto set = GameStateManager::getRuleSetByName(ruleSet);
     return set;
 }
 

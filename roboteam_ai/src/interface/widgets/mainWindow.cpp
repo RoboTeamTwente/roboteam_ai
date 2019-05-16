@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     tabWidget->addTab(visualizationSettingsWidget, tr("Visualisation Settings"));
     tabWidget->addTab(pidWidget, tr("PID"));
     tabWidget->addTab(robotsWidget, tr("Robots"));
-    tabWidget->addTab(refWidget, tr("Referee"));
+    tabWidget->addTab(refWidget, tr("GameStateManager"));
 
     vLayout->addWidget(tabWidget);
 

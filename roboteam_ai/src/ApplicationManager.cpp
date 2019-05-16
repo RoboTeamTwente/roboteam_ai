@@ -9,7 +9,7 @@
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include <roboteam_ai/src/interface/api/Output.h>
 #include <roboteam_ai/src/coach/GetBallCoach.h>
-#include <roboteam_ai/src/utilities/Referee.hpp>
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -77,12 +77,12 @@ void ApplicationManager::runOneLoopCycle() {
 
         if (ai::interface::Output::usesRefereeCommands()) {
 
-            strategyManager.setCurrentRefGameState(static_cast<RefCommand>(ai::Referee::getRefereeData().command.command));
+            strategyManager.setCurrentRefGameState(static_cast<RefCommand>(ai::GameStateManager::getRefereeData().command.command));
             auto refGameState = strategyManager.getCurrentRefGameState();
 
             std::string strategyName = refGameState.getStrategyName();
             std::string keeperTreeName = refGameState.getKeeperStrategyName();
-          //  ai::Referee::setMaxRobotVelocity(refGameState.getRuleSet().maxRobotVel);
+          //  ai::GameStateManager::setMaxRobotVelocity(refGameState.getRuleSet().maxRobotVel);
 
 
             if (oldStrategy != strategyName) {
@@ -103,7 +103,7 @@ void ApplicationManager::runOneLoopCycle() {
             ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
 
         } else {
-       //     ai::Referee::setMaxRobotVelocity(ai::Constants::MAX_VEL());
+       //     ai::GameStateManager::setMaxRobotVelocity(ai::Constants::MAX_VEL());
         }
 
 

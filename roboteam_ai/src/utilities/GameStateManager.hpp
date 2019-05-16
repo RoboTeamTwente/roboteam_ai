@@ -4,8 +4,8 @@
  *
  */
 
-#ifndef ROBOTEAM_AI_REFEREE_HPP
-#define ROBOTEAM_AI_REFEREE_HPP
+#ifndef ROBOTEAM_AI_GAMESTATEMANAGER_HPP
+#define ROBOTEAM_AI_GAMESTATEMANAGER_HPP
 
 #include "roboteam_msgs/RefereeData.h"
 #include "ros/ros.h"
@@ -14,7 +14,7 @@
 namespace rtt {
 namespace ai {
 
-class Referee {
+class GameStateManager {
 private:
     // we need to store the current and the previous refereedata.
     static roboteam_msgs::RefereeData refMsg;
@@ -22,8 +22,11 @@ private:
     static RefGameState currentRefGameState;
     static RuleSet ruleset;
 public:
+    static const RuleSet &getRuleset();
+
+public:
     static RefGameState getCurrentRefGameState();
-    static void setCurrentRefGameState(const RefGameState &currentRefGameState);
+    static void setCurrentRefGameState(RefGameState currentRefGameState);
     static void setCurrentRuleSet(std::string ruleset);
     static void setRefereeData(roboteam_msgs::RefereeData refMsg);
     static roboteam_msgs::RefereeData getRefereeData();
@@ -33,4 +36,4 @@ public:
 
 }//ai
 }//rtt
-#endif //ROBOTEAM_AI_REFEREE_HPP
+#endif //ROBOTEAM_AI_GAMESTATEMANAGER_HPP
