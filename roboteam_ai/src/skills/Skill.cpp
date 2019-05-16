@@ -19,6 +19,7 @@ void Skill::publishRobotCommand() {
 
     limitVelocityCommands();
 
+
     if(Constants::GRSIM() && ourSideParam=="right"){
       command=rotateRobotCommand(command);
     }

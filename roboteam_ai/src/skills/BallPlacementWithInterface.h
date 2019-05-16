@@ -18,7 +18,9 @@ class BallPlacementWithInterface : public Skill {
 
     private:
         control::BallHandlePosControl ballHandlePosControl;
+        control::BasicPosControl basicPosControl;
 
+        Angle lockedAngle = 0.0;
 
 };
 

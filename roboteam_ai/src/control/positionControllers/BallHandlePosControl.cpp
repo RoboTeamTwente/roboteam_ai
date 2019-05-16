@@ -29,7 +29,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
         if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
             std::cout << "Can't control the ball with no ball" << std::endl;
         }
-        return {};
+        return limitCommand(RobotCommand());
     }
 
     // if the ball is at the targetposition
@@ -86,6 +86,12 @@ RobotCommand BallHandlePosControl::rotateWithBall(RotateStrategy rotateStrategy)
     RobotCommand robotCommand;
     Angle deltaAngle = targetAngle - robot->angle;
 
+    if (fabs(deltaAngle) < angleErrorMargin) {
+        robotCommand.vel = {0, 0};
+        robotCommand.angle = robot->angle;
+        return limitCommand(robotCommand);
+    }
+
     switch (rotateStrategy) {
     case rotateAroundBall: {
         double maxV = maxForwardsVelocity;
@@ -101,20 +107,20 @@ RobotCommand BallHandlePosControl::rotateWithBall(RotateStrategy rotateStrategy)
         }
 
         robotCommand.angle = robotToBall.toAngle();
-        robotCommand.dribbler = 8;
+        robotCommand.dribbler = 0;
         return limitCommand(robotCommand);
     }
     case rotateAroundRobot: {
         int direction = targetAngle - robot->angle > 0.0 ? 1 : - 1;
         robotCommand.angle = Angle(robot->angle + maxAngularVelocity*direction);
-        robotCommand.dribbler = 8;
+        robotCommand.dribbler = 23;
         return limitCommand(robotCommand);
     }
     }
     if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
         std::cout << "rotate case not handled" << std::endl;
     }
-    return {};
+    return limitCommand(RobotCommand());
 }
 
 RobotCommand BallHandlePosControl::travelWithBall(TravelStrategy travelStrategy) {
@@ -137,7 +143,7 @@ RobotCommand BallHandlePosControl::travelWithBall(TravelStrategy travelStrategy)
         case B_success:return B_sendSuccessCommand();
         case B_fail: {
             backwardsProgress = B_start;
-            return {};
+            return limitCommand(RobotCommand());
         }
         }
     }
@@ -152,15 +158,15 @@ RobotCommand BallHandlePosControl::travelWithBall(TravelStrategy travelStrategy)
         case F_success:return F_sendSuccessCommand();
         case F_fail: {
             forwardsProgress = F_start;
-            return {};
+            return limitCommand(RobotCommand());
         }
         }
     }
     }
 
     std::cout << "travel case not handled" << std::endl;
-    return {
-    };
+    return limitCommand(RobotCommand());
+
 }
 
 RobotCommand BallHandlePosControl::B_startTravelBackwards() {
@@ -181,25 +187,25 @@ RobotCommand BallHandlePosControl::B_sendTurnCommand() {
 
 RobotCommand BallHandlePosControl::B_sendApproachCommand() {
     RobotCommand command;
-    command.dribbler = 8;
+    command.dribbler = 12;
     command.vel = robotToBall.stretchToLength(maxBackwardsVelocity);
     command.angle = B_lockedAngle;
-    return command;
+    return limitCommand(command);
 }
 
 RobotCommand BallHandlePosControl::B_sendOvershootCommand() {
     RobotCommand command;
-    command.dribbler = 8;
+    command.dribbler = 15;
     command.vel = (B_approachPosition - robot->pos).stretchToLength(maxBackwardsVelocity);
     command.angle = B_lockedAngle;
-    return command;
+    return limitCommand(command);
 }
 
 RobotCommand BallHandlePosControl::B_sendDribblingCommand() {
     RobotCommand command;
-    command.dribbler = 16;
+    command.dribbler = 20;
     command.angle = B_lockedAngle;
-    return command;
+    return limitCommand(command);
 }
 
 RobotCommand BallHandlePosControl::B_sendDribbleBackwardsCommand() {
@@ -220,14 +226,14 @@ RobotCommand BallHandlePosControl::B_sendDribbleBackwardsCommand() {
         command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot);
     }
 
-    return command;
+    return limitCommand(command);
 }
 
 RobotCommand BallHandlePosControl::B_sendSuccessCommand() {
     RobotCommand command;
     command.dribbler = 0;
     command.angle = B_lockedAngle;
-    return command;
+    return limitCommand(command);
 }
 
 RobotCommand BallHandlePosControl::F_sendTurnCommand() {
@@ -243,12 +249,12 @@ RobotCommand BallHandlePosControl::F_sendApproachCommand() {
     command.dribbler = 0;
     command.vel = ballToRobot.stretchToLength(maxForwardsVelocity);
     command.angle = F_lockedAngle;
-    return command;
+    return limitCommand(command);
 }
 
 RobotCommand BallHandlePosControl::F_sendDribbleForwardsCommand() {
     RobotCommand command;
-    command.dribbler = 8;
+    command.dribbler = 15;
     command.angle = F_lockedAngle;
     command.vel = F_lockedAngle.toVector2(maxForwardsVelocity);
 
@@ -270,14 +276,14 @@ RobotCommand BallHandlePosControl::F_sendDribbleForwardsCommand() {
         command.vel.stretchToLength(distanceRemainingSquared*0.3);
     }
 
-    return command;
+    return limitCommand(command);
 }
 
 RobotCommand BallHandlePosControl::F_sendSuccessCommand() {
     RobotCommand command;
     command.dribbler = 0;
     command.angle = F_lockedAngle;
-    return command;
+    return limitCommand(command);
 }
 
 void BallHandlePosControl::updateBackwardsProgress() {
@@ -327,7 +333,7 @@ void BallHandlePosControl::updateBackwardsProgress() {
             backwardsProgress = B_start;
             return;
         }
-        double overshoot = 0.06;
+        double overshoot = 0.043;
         if (((B_approachPosition - robot->pos)).length() < overshoot) {
             backwardsProgress = B_dribbling;
             return;
@@ -447,13 +453,14 @@ void BallHandlePosControl::updateForwardsProgress() {
 RobotCommand BallHandlePosControl::limitCommand(RobotCommand command) {
 
     // velocity limiter
-    command.vel = control::ControlUtils::velocityLimiter(command.vel);
+    command.vel = control::ControlUtils::velocityLimiter(command.vel, Constants::MAX_VEL(), Constants::MIN_VEL());
 
     // acceleration limiter
     double maxAcc = control::ControlUtils::calculateMaxAcceleration(command.vel, command.angle);
-    command.vel = control::ControlUtils::accelerationLimiter(command.vel, maxAcc, previousVelocity.length());
+    command.vel = control::ControlUtils::accelerationLimiterNew(command.vel, robot->angle, previousVelocity);
     previousVelocity = command.vel;
-
+    command.dribbler = static_cast<unsigned char>(command.dribbler*1.5);
+    command.dribbler = command.dribbler > 30 ? 30 : command.dribbler;
     return command;
 }
 
