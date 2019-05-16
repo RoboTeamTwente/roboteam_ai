@@ -28,6 +28,7 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     for (std::string const &strategyName : Switches::strategyJsonFileNames) {
         select_strategy->addItem(QString::fromStdString(strategyName));
     }
+    select_strategy->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
 
     // get the keeper tree names from Switches
     select_keeper_strategy = new QComboBox();
@@ -35,6 +36,7 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     for (std::string const &keeperTacticName : Switches::keeperJsonFiles) {
         select_keeper_strategy->addItem(QString::fromStdString(keeperTacticName));
     }
+    select_keeper_strategy->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
 
     select_goalie = new QComboBox();
     vLayout->addWidget(select_goalie);
@@ -65,8 +67,13 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     vLayout->addLayout(hButtonsLayout);
 
     MainWindow::configureCheckBox("TimeOut to top", vLayout, this, SLOT(setTimeOutTop(bool)), Constants::STD_TIMEOUT_TO_TOP());
-    MainWindow::configureCheckBox("Use keeper (does not work when referee used)", vLayout, this, SLOT(setUsesKeeper(bool)),
-                      robotDealer::RobotDealer::usesSeparateKeeper());
+
+    useKeeperCheckbox = new QCheckBox("Use keeper");
+    useKeeperCheckbox->setChecked(robotDealer::RobotDealer::usesSeparateKeeper());
+    vLayout->addWidget(useKeeperCheckbox);
+    QObject::connect(useKeeperCheckbox, SIGNAL(clicked(bool)), this, SLOT(setUsesKeeper(bool)));
+    useKeeperCheckbox->setStyleSheet(QString::fromUtf8("QCheckBox:disabled" "{ color: gray }"));
+
 
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
                      [=](const QString &strategyName) {
@@ -115,6 +122,10 @@ void MainControlsWidget::setSelectStrategyText(QString text) {
 
 void MainControlsWidget::setUseReferee(bool useRef) {
     Output::setUseRefereeCommands(useRef);
+
+    select_strategy->setDisabled(useRef);
+    select_keeper_strategy->setDisabled(useRef);
+    useKeeperCheckbox->setDisabled(useRef);
 }
 
 
@@ -187,6 +198,19 @@ void MainControlsWidget::setToggleSideBtnLayout() const {
 void MainControlsWidget::refreshSignal() {
     robotDealer::RobotDealer::refresh();
     emit treeHasChanged();
+}
+
+void MainControlsWidget::updateContents() {
+
+    auto strategyText = QString::fromStdString(BTFactory::getCurrentTree());
+    if (strategyText != select_strategy->currentText()) {
+        select_strategy->setCurrentText(strategyText);
+    }
+
+    auto keeperStrategyText = QString::fromStdString(BTFactory::getKeeperTreeName());
+    if (keeperStrategyText != select_keeper_strategy->currentText()) {
+        select_keeper_strategy->setCurrentText(keeperStrategyText);
+    }
 }
 
 } // interface

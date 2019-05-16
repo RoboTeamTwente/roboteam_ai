@@ -7,6 +7,7 @@
 
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QComboBox>
+#include <QtWidgets/QCheckBox>
 #include "QLayout"
 #include "widget.h"
 
@@ -35,6 +36,8 @@ private:
     QComboBox* select_keeper_strategy;
     QComboBox* select_goalie;
 
+    QCheckBox * useKeeperCheckbox;
+
     void setToggleColorBtnLayout() const;
     void setToggleSideBtnLayout() const;
 
@@ -47,6 +50,7 @@ public slots:
     void updatePause();
     void setUseReferee(bool useRef);
     void refreshSignal();
+    void updateContents();
 };
 } // interface
 } // ai

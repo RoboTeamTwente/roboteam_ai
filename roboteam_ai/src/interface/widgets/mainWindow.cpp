@@ -82,6 +82,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     connect(robotsTimer, SIGNAL(timeout()), refWidget, SLOT(updateContents()));
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget())); // we need to pass the visualizer so thats why a seperate function is used
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updatePause()));
+    connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updateContents()));
+
     robotsTimer->start(200); // 5fps
 }
 
