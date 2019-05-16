@@ -16,10 +16,6 @@ void DefenceDealer::addDefender(int id) {
     bool robotIsRegistered = std::find(defenders.begin(), defenders.end(), id) != defenders.end();
     if (! robotIsRegistered) {
         defenders.push_back(id);
-        //std::cout << "registered defender id:" << id << std::endl;
-    }
-    else {
-        //std::cerr << "Defender is already registered, check your tree!!" << std::endl;
     }
 }
 
