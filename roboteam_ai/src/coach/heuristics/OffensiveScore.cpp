@@ -11,9 +11,8 @@ namespace coach {
 OffensiveScore g_offensiveScore;
 
 /// Calculates a total score based on all the sub-scores
-double OffensiveScore::calculateOffensivePositionScore(const Vector2 &position) {
-    WorldData world = world::world->getWorld();
-    roboteam_msgs::GeometryFieldSize field = world::field->get_field();
+double OffensiveScore::calculateOffensivePositionScore(const Vector2 &position,
+        const WorldData &world, const roboteam_msgs::GeometryFieldSize &field) {
 
     double closeToGoalScore = CoachHeuristics::calculateCloseToGoalScore(position);
     double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);

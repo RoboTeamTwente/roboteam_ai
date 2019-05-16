@@ -5,6 +5,8 @@
 #include <roboteam_ai/src/interface/widgets/widget.h>
 #include <roboteam_ai/src/interface/api/Input.h>
 #include "OffensiveCoach.h"
+#include <roboteam_ai/src/world/World.h>
+#include <roboteam_ai/src/world/Field.h>
 
 namespace rtt {
 namespace ai {
@@ -15,8 +17,10 @@ OffensiveCoach g_offensiveCoach;
 /// Calculate new positions close to the robot
 OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(const OffensivePosition& currentPosition, const Vector2& zoneLocation) {
 
+    auto world = world::world->getWorld();
+    auto field = world::field->get_field();
     OffensivePosition bestPosition = currentPosition;
-    bestPosition.score = offensiveScore.calculateOffensivePositionScore(bestPosition.position);
+    bestPosition.score = offensiveScore.calculateOffensivePositionScore(bestPosition.position, world, field);
 
     // Check all positions in a grid around the robot to look for better positions
     for (int xDiff = - GRID_SIZE; xDiff < GRID_SIZE + 1; xDiff ++) {
@@ -47,7 +51,7 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
                 }
             }
             if (tooCloseToOtherZone) continue;
-            newPosition.score = offensiveScore.calculateOffensivePositionScore(newPosition.position);
+            newPosition.score = offensiveScore.calculateOffensivePositionScore(newPosition.position, world, field);
 
             if (newPosition.score > bestPosition.score) {
                 bestPosition = newPosition;
@@ -82,13 +86,17 @@ std::vector<Vector2> OffensiveCoach::getZoneLocations() {
 }
 
 void OffensiveCoach::updateOffensivePositions() {
+
+    auto world = world::world->getWorld();
+    auto field = world::field->get_field();
+
     std::vector<Vector2> zoneLocations = getZoneLocations();
     if (offensivePositions.size() != zoneLocations.size()) {
         offensivePositions = {};
         for (auto &zoneLocation : zoneLocations) {
             OffensivePosition offensivePosition;
             offensivePosition.position = zoneLocation;
-            offensivePosition.score = offensiveScore.calculateOffensivePositionScore(zoneLocation);
+            offensivePosition.score = offensiveScore.calculateOffensivePositionScore(zoneLocation, world, field);
             offensivePositions.emplace_back(offensivePosition);
         }
     }

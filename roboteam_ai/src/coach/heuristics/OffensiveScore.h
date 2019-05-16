@@ -21,7 +21,8 @@ private:
 
 public:
     using WorldData = world::WorldData;
-    double calculateOffensivePositionScore(const Vector2 &position);
+    double calculateOffensivePositionScore(const Vector2 &position,
+            const WorldData &world, const roboteam_msgs::GeometryFieldSize &field);
 };
 
 }
