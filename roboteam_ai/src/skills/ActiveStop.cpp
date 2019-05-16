@@ -12,7 +12,7 @@ ActiveStop::ActiveStop(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
 }
 void ActiveStop::onInitialize() {
-    robot->getNumtreeGtp()->setAvoidBall(0.8);
+    robot->getNumtreeGtp()->setAvoidBallDistance(0.8);
 
     if (attack == -1) {
         attack = robot->id;

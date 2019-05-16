@@ -43,7 +43,7 @@ void GoToPos::onInitialize() {
     else if (properties->hasBool("avoidBall")) {
         avoidBallDistance = Constants::DEFAULT_BALLCOLLISION_RADIUS();
     }
-    posController->setAvoidBall(avoidBallDistance);
+    posController->setAvoidBallDistance(avoidBallDistance);
     posController->setCanMoveOutOfField(properties->getBool("canGoOutsideField"));
     posController->setCanMoveInDefenseArea(properties->getBool("canMoveInDefenseArea"));
 

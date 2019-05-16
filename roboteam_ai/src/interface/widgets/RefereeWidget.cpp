@@ -43,7 +43,7 @@ void RefereeWidget::updateLabels() {
     auto outOfFieldLabel = new QLabel("Robots can go out of field : " + (ruleset.robotsCanGoOutOfField ? QString("true") : QString("false")));
     vLayout->addWidget(outOfFieldLabel);
 
-    auto touchBallLabel = new QLabel("Robots can touch ball " + (ruleset.robotsCanTouchBall ? QString("true") : QString("false")));
+    auto touchBallLabel = new QLabel("Min distance to ball "+QString::number(ruleset.minDistanceToBall, 'G', 3) + " m");
     vLayout->addWidget(touchBallLabel);
 
     vLayout->addSpacerItem(spacer);

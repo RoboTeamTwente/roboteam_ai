@@ -10,6 +10,8 @@
 #include <roboteam_ai/src/interface/api/Output.h>
 #include <roboteam_ai/src/coach/GetBallCoach.h>
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include <roboteam_ai/src/interface/api/Input.h>
+#include <roboteam_ai/src/interface/api/Toggles.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -97,11 +99,8 @@ void ApplicationManager::runOneLoopCycle() {
             ai::robotDealer::RobotDealer::refresh();
         }
 
-
-
         ai::robotDealer::RobotDealer::setUseSeparateKeeper(gamestate.useKeeper);
         ai::robotDealer::RobotDealer::setKeeperID(gamestate.keeperId);
-
         if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
             keeperTree = BTFactory::getKeeperTree();
             if (keeperTree && rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {

@@ -14,9 +14,9 @@ struct RuleSet {
     double maxRobotVel;
     double maxCollisionVel;
     double maxBallVel;
+    double minDistanceToBall;
     bool robotsCanEnterDefenseArea;
     bool robotsCanGoOutOfField;
-    bool robotsCanTouchBall;
 };
 }
 }
