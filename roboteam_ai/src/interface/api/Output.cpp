@@ -31,6 +31,7 @@ GameState Output::interfaceGameState("halt_strategy", "keeper_halt_tactic", "def
 void Output::sendHaltCommand() {
     rtt::ai::Pause pause;
 
+
     if (pause.getPause()) {
         // Already halted so unhalt
         pause.setPause(false);
@@ -139,6 +140,11 @@ void Output::setRuleSetName(std::string name) {
 
 void Output::setUseKeeper(bool useKeeper) {
     Output::interfaceGameState.useKeeper = useKeeper;
+}
+
+
+void Output::setKeeperId(int id) {
+    Output::interfaceGameState.keeperId = id;
 }
 
 const GameState &Output::getInterfaceGameState() {

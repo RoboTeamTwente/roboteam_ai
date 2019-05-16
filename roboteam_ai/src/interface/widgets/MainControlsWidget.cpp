@@ -98,14 +98,14 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
                          emit treeHasChanged();
                      });
 
-    QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+    QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
                      [=](const QString &goalieId) {
                          // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-                         robotDealer::RobotDealer::setKeeperID(goalieId.toInt());
+                         interface::Output::setKeeperId(goalieId.toInt());
                          emit treeHasChanged();
                      });
 
-    QObject::connect(select_ruleset, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+    QObject::connect(select_ruleset, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
                      [=](const QString &rulesetName) {
                          // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
                          //robotDealer::RobotDealer::setKeeperID(goalieId.toInt());.

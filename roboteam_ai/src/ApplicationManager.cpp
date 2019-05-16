@@ -100,27 +100,24 @@ void ApplicationManager::runOneLoopCycle() {
 
 
         ai::robotDealer::RobotDealer::setUseSeparateKeeper(gamestate.useKeeper);
+        ai::robotDealer::RobotDealer::setKeeperID(gamestate.keeperId);
 
 
 
 
         if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
-            if (ai::robotDealer::RobotDealer::getKeeperID() == -1) {
-                std::cout << "setting keeper id" << std::endl;
-                ai::robotDealer::RobotDealer::setKeeperID(ai::world::world->getUs().at(0).id);
-            }
             keeperTree = BTFactory::getKeeperTree();
             if (keeperTree && rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
                 keeperTree->tick();
             }
         }
-        strategy = BTFactory::getTree(BTFactory::getCurrentTree());
 
         rtt::ai::coach::getBallCoach->update();
         rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
         rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
         rtt::ai::coach::g_pass.updatePassProgression();
 
+        strategy = BTFactory::getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
 

@@ -68,6 +68,7 @@ public:
     static void setStrategyTree(std::string name);
     static void setRuleSetName(std::string name);
     static void setUseKeeper(bool useKeeper);
+    static void setKeeperId(int id);
 };
 
 }
