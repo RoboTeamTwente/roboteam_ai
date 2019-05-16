@@ -10,6 +10,7 @@ namespace ai {
 
 struct RuleSet {
     // rules for this specific refgamestate
+    std::string title;
     double maxRobotVel;
     double maxCollisionVel;
     double maxBallVel;

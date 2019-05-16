@@ -11,6 +11,7 @@ namespace ai {
 roboteam_msgs::RefereeData Referee::refMsg;
 roboteam_msgs::RefereeData Referee::previousRefMsg;
 RefGameState Referee::currentRefGameState;
+RuleSet Referee::ruleset;
 
 roboteam_msgs::RefereeData Referee::getRefereeData() {
     return Referee::refMsg;
@@ -25,12 +26,26 @@ roboteam_msgs::RefereeData Referee::getPreviousRefereeData() {
     return Referee::previousRefMsg;
 }
 
-const RefGameState &Referee::getCurrentRefGameState() {
+RefGameState Referee::getCurrentRefGameState() {
     return currentRefGameState;
 }
 
 void Referee::setCurrentRefGameState(const RefGameState &currentRefGameState) {
     Referee::currentRefGameState = currentRefGameState;
+}
+
+void Referee::setCurrentRuleSet(std::string ruleset) {
+    Referee::ruleset = getRuleSetByName(ruleset);
+}
+
+RuleSet Referee::getRuleSetByName(std::string name) {
+
+    for (auto ruleSet : Constants::ruleSets()) {
+        if (ruleSet.title == name) {
+            return ruleSet;
+        }
+    }
+    return {};
 }
 
 

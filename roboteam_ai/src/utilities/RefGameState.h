@@ -17,21 +17,21 @@ private:
     RefCommand commandId;
     std::string strategyName;
     std::string keeperStrategyName;
-    RuleSet ruleSet;
+    std::string ruleSet;
     bool isfollowUpCommand;
     RefCommand followUpCommandId;
     Vector2 ballPositionAtStartOfRefGameState;
 
 public:
     explicit RefGameState() = default;
-    explicit RefGameState(RefCommand commandId, std::string strategyName, std::string keeperStrategyName, const RuleSet &ruleSet,  bool isFollowUpCommand = false, RefCommand followUpCommandId = RefCommand::UNDEFINED);
+    explicit RefGameState(RefCommand commandId, std::string strategyName, std::string keeperStrategyName, std::string ruleSet,  bool isFollowUpCommand = false, RefCommand followUpCommandId = RefCommand::UNDEFINED);
 
     // getters
     RefCommand getFollowUpCommandId() const;
     RefCommand getCommandId() const;
     const std::string &getStrategyName() const;
     const std::string &getKeeperStrategyName() const;
-    const RuleSet &getRuleSet() const;
+    RuleSet getRuleSet();
     bool hasFollowUpCommand() const;
     bool isFollowUpCommand() const;
     const Vector2 &getBallPositionAtStartOfRefGameState() const;

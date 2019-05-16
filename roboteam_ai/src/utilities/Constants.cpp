@@ -205,5 +205,14 @@ bool Constants::robotOutputTargetGrSim = true;
 
     pidVals Constants::standardForcePID() { return GRSIM() ? pidVals(1.65, 0.0, 0.0) : pidVals(2.8, 0.0, 0.0); }
 
+    std::vector<RuleSet> Constants::ruleSets() {
+        return {
+            {"default", 8.0, 1.5, 6.5, false, true, true},
+            {"halt", 0.0, 0.0, 0.0, true, true, true},
+            {"stop", 1.5, 0.0, 0.0, true, true, false},
+            {"ballplacement",1.5, 0.0, 0.0, true, true, true}
+        };
+    }
+
 }
 }

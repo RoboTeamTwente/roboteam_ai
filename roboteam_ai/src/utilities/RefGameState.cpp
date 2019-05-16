@@ -3,11 +3,12 @@
 //
 
 #include "RefGameState.h"
+#include "Referee.hpp"
 
 namespace rtt {
 namespace ai {
 
-RefGameState::RefGameState(RefCommand commandId, std::string strategyName, std::string keeperStrategyName, const RuleSet &ruleSet, bool isFollowUpCommand, RefCommand followUpCommandId)
+RefGameState::RefGameState(RefCommand commandId, std::string strategyName, std::string keeperStrategyName, std::string ruleSet, bool isFollowUpCommand, RefCommand followUpCommandId)
 : commandId(commandId), strategyName(std::move(strategyName)), keeperStrategyName(std::move(keeperStrategyName)), ruleSet(ruleSet), isfollowUpCommand(isFollowUpCommand), followUpCommandId(followUpCommandId)
     {}
 
@@ -27,8 +28,9 @@ const std::string &RefGameState::getKeeperStrategyName() const {
     return keeperStrategyName;
 }
 
-const RuleSet &RefGameState::getRuleSet() const {
-    return ruleSet;
+RuleSet RefGameState::getRuleSet() {
+    auto set = Referee::getRuleSetByName(ruleSet);
+    return set;
 }
 
 bool RefGameState::hasFollowUpCommand() const {

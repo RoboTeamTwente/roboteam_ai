@@ -35,6 +35,7 @@ private:
     QComboBox* select_strategy;
     QComboBox* select_keeper_strategy;
     QComboBox* select_goalie;
+    QComboBox* select_ruleset;
 
     QCheckBox * useKeeperCheckbox;
 

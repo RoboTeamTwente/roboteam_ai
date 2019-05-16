@@ -35,7 +35,7 @@ void StrategyManager::setCurrentRefGameState(RefCommand command) {
 
 
 
-const RefGameState &StrategyManager::getCurrentRefGameState() const {
+RefGameState StrategyManager::getCurrentRefGameState() {
     return Referee::getCurrentRefGameState();
 }
 

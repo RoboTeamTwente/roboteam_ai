@@ -43,6 +43,14 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     for (int i = 0; i < 16; i++) {
         select_goalie->addItem(QString::fromStdString(to_string(i)));
     }
+
+    select_ruleset = new QComboBox();
+    vLayout->addWidget(select_ruleset);
+    for (RuleSet const &ruleSet : Constants::ruleSets()) {
+        select_ruleset->addItem(QString::fromStdString(ruleSet.title));
+    }
+    select_ruleset->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
+
     auto hButtonsLayout = new QHBoxLayout();
     haltBtn = new QPushButton("Pause");
     QObject::connect(haltBtn, SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
@@ -99,6 +107,14 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
                          emit treeHasChanged();
                      });
 
+    QObject::connect(select_ruleset, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+                     [=](const QString &rulesetName) {
+                         // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+                         //robotDealer::RobotDealer::setKeeperID(goalieId.toInt());.
+                         Referee::setCurrentRuleSet(rulesetName.toStdString());
+                         emit treeHasChanged();
+                     });
+
     this->setLayout(vLayout);
 }
 
@@ -126,6 +142,7 @@ void MainControlsWidget::setUseReferee(bool useRef) {
     select_strategy->setDisabled(useRef);
     select_keeper_strategy->setDisabled(useRef);
     useKeeperCheckbox->setDisabled(useRef);
+    select_ruleset->setDisabled(useRef);
 }
 
 
@@ -210,6 +227,11 @@ void MainControlsWidget::updateContents() {
     auto keeperStrategyText = QString::fromStdString(BTFactory::getKeeperTreeName());
     if (keeperStrategyText != select_keeper_strategy->currentText()) {
         select_keeper_strategy->setCurrentText(keeperStrategyText);
+    }
+
+    auto ruleSetText = QString::fromStdString(Referee::getCurrentRefGameState().getRuleSet().title);
+    if (ruleSetText != select_ruleset->currentText()) {
+        select_ruleset->setCurrentText(ruleSetText);
     }
 }
 

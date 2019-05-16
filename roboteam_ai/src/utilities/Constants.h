@@ -5,6 +5,7 @@
 #include <QColor>
 #include <ros/node_handle.h>
 #include "math.h"
+#include "RuleSet.h"
 
 
 namespace rtt {
@@ -24,6 +25,8 @@ public:
     static bool SHOW_NUMTREE_DEBUG_INFO();
     static bool SHOW_FULL_NUMTREE_DEBUG_INFO();
 
+    // Basic rulesets for rule compliance
+    static std::vector<RuleSet> ruleSets();
 
     /// ROBOT AND RELATED ///
     static double MAX_VEL_CMD();
