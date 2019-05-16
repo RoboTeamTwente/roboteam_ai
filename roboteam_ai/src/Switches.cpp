@@ -34,6 +34,7 @@
 #include "roboteam_ai/src/skills/DribbleRotate.h"
 #include <roboteam_ai/src/skills/gotopos/GTPSpecial.h>
 #include "roboteam_ai/src/skills/gotopos/GoAroundPos.h"
+#include "roboteam_ai/src/skills/gotopos/GTPWithBall.h"
 #include "roboteam_ai/src/skills/gotopos/GoBehindBall.h"
 #include "roboteam_ai/src/skills/ShootPenalty.h"
 #include "roboteam_ai/src/skills/ShootFreeKick.h"
@@ -49,7 +50,7 @@
 #include "roboteam_ai/src/skills/SlingShot.h"
 #include <roboteam_ai/src/skills/PenaltyKeeper.h>
 #include <roboteam_ai/src/skills/DriveWithInterface.h>
-
+#include <roboteam_ai/src/skills/BallPlacementWithInterface.h>
 #include <roboteam_ai/src/skills/MidFieldHarasser.h>
 
 
@@ -121,7 +122,8 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "time_out_tactic",
         "two_robot_ballplacement_tactic",
         "calibration_tactic",
-        "follow_interface_tactic"
+        "follow_interface_tactic",
+        "ball_placement_interface_tactic"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
@@ -142,7 +144,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "free_kick_them_strategy",
         "kickoff_shoot_strategy",
         "calibration_strategy",
-        "interface_drive_strategy"
+        "interface_drive_strategy",
+        "interface_ball_placement_strategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles = {
@@ -229,9 +232,11 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["PenaltyKeeper"] = std::make_shared<rtt::ai::PenaltyKeeper>(name, properties);
     map["FreeKickFormation"] = std::make_shared<rtt::ai::FreeKickFormation>(name, properties);
     map["DefendFreeKick"] = std::make_shared<rtt::ai::DefendFreeKick>(name, properties);
+    map["GTPWithBall"] = std::make_shared<rtt::ai::GTPWithBall>(name, properties);
     map["BallPlacementReceive"] = std::make_shared<rtt::ai::BallPlacementReceive>(name, properties);
     map["BallPlacementPass"] = std::make_shared<rtt::ai::BallPlacementPass>(name, properties);
     map["DriveWithInterface"] = std::make_shared<rtt::ai::DriveWithInterface>(name, properties);
+    map["BallPlacementWithInterface"] = std::make_shared<rtt::ai::BallPlacementWithInterface>(name, properties);
 
 
 
@@ -310,6 +315,17 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
             {"follow_interface_tactic", {
+                    {"follow_interface", robotType::RANDOM},
+                    {"f1", robotType::RANDOM},
+                    {"f2", robotType::RANDOM},
+                    {"f3", robotType::RANDOM},
+                    {"f4", robotType::RANDOM},
+                    {"f5", robotType::RANDOM},
+                    {"f6", robotType::RANDOM},
+                    {"f7", robotType::RANDOM}
+            }
+            },
+            {"ball_placement_interface_tactic", {
                     {"follow_interface", robotType::RANDOM},
                     {"f1", robotType::RANDOM},
                     {"f2", robotType::RANDOM},
