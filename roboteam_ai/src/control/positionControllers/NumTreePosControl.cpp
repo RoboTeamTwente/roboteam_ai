@@ -9,8 +9,7 @@ namespace ai {
 namespace control {
 
 NumTreePosControl::NumTreePosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
-        :ForcePosControl(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
-}
+        :ForcePosControl(avoidBall, canMoveOutsideField, canMoveInDefenseArea) { }
 
 /// Clears data and resets variables
 void NumTreePosControl::clear() {
@@ -104,7 +103,9 @@ bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
 }
 
 /// finds a path using a numeric model
-PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr, Vector2 &targetPos) {
+PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr,
+        const Vector2 &targetPos, const Angle &targetAngle) {
+
     ros::Time begin = ros::Time::now();
 
     if (!robotPtr) return calculateForcePosVelAngle(robotPtr, targetPos);
@@ -445,6 +446,10 @@ std::vector<PathPoint> NumTreePosControl::backTrackPath(PathPointer point,
 void NumTreePosControl::checkInterfacePID() {
     auto newPid = interface::Output::getNumTreePid();
     updatePid(newPid);
+}
+
+PosVelAngle NumTreePosControl::getPosVelAngle(const PosController::RobotPtr &robot, const Vector2 &targetPos) {
+    return PosController::getPosVelAngle(robot, targetPos);
 }
 
 }// control
