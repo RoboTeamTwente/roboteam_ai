@@ -19,9 +19,10 @@ namespace rtt {
 
     }
 
-    void RosHandler::loop() {
+    void RosHandler::kalmanLoop() {
         ros::Rate rate(100);
         while (ros::ok()) {
+            ros::spinOnce();
             KF.kalmanUpdate();
             roboteam_msgs::World world = KF.getWorld();
             world.time = 2;
@@ -29,11 +30,17 @@ namespace rtt {
             rate.sleep();
         }
     }
+    void RosHandler::setKalman(bool on) {
+        kalman=on;
+    }
 
 
     /// Callback function for /vision_detection in ros_handler
     void RosHandler::detection_callback(const roboteam_msgs::DetectionFrame msg) {
-        KF.newFrame(msg);
+        if (kalman) {
+            KF.newFrame(msg);
+            return;
+        }
         world->detection_callback(msg);
 
         if (auto * fworld = dynamic_cast<FilteredWorld*>(world)) {

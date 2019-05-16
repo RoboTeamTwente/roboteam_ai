@@ -23,19 +23,20 @@ namespace rtt {
         ros::Publisher world_pub;
         ros::ServiceServer reset_srv;
         ros::ServiceServer tracker_srv;
-
+        
         WorldBase* world;
-
+        bool kalman;
     public:
         RosHandler() = default;
         void init(WorldBase* _world);
-        void loop();
+        void kalmanLoop();
         /**
          * Reads the configuration from the parameter server.
          * Updates the configuration of the world and calls a reset.
          */
         void update_config();
 
+        void setKalman(bool on);
         void detection_callback(const roboteam_msgs::DetectionFrame msg);
         bool reset_callback(std_srvs::Empty::Request& req,
                             std_srvs::Empty::Response& res);

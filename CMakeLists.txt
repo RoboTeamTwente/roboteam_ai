@@ -114,6 +114,21 @@ add_dependencies(filtered_world
     ${catkin_EXPORTED_TARGETS}
     )
 
+####################
+## Kalman world   ##
+####################
+add_executable(kalman_world
+        src/kalman/kalman_world_main.cpp
+        )
+target_link_libraries(kalman_world
+        roboteam_world_srcs
+        ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES}
+
+        )
+add_dependencies(kalman_world
+        ${${PROJECT_NAME}_EXPORTED_TARGETS}
+        ${catkin_EXPORTED_TARGETS}
+        )
 ###########
 ## Tests ##
 ###########

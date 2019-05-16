@@ -25,7 +25,7 @@ namespace rtt {
             kalmanlist[robot.robot_id].kalmanUpdateZ(robot.pos.x, robot.pos.y, robot.orientation, timeCapture);
         }
         for (const roboteam_msgs::DetectionRobot robot : msg.us) {
-            kalmanlist[robot.robot_id].kalmanUpdateZ(robot.pos.x, robot.pos.y, robot.orientation, timeCapture);
+            kalmanlist[robot.robot_id+16].kalmanUpdateZ(robot.pos.x, robot.pos.y, robot.orientation, timeCapture);
         }
     }
 
@@ -67,10 +67,9 @@ namespace rtt {
         roboteam_msgs::World world;
         for (uint i = 0; i < kalmanObjectAmount; ++i) {
             if (getExistence(i)) {
-                if (i < 16) {
+                if (i <= 15) {
                     world.us.push_back(getRobot(i));
-                }
-                if (i > 16) {
+                } else if (i >= 16) {
                     world.them.push_back(getRobot(i));
                 }
             }
