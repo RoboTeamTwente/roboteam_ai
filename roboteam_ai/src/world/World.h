@@ -31,54 +31,66 @@ class World {
         using WorldDataPtr = std::shared_ptr<WorldData>;
 
     private:
-        roboteam_msgs::World worldMsg;
-        // Always use worldDataPtr in functions!!!
-        WorldData worldData;
         WorldDataPtr worldDataPtr;
+        std::mutex worldMutex;
 
         History history;
         FutureWorld futureWorld;
+        unsigned long worldNumber = 0;
 
-        std::mutex worldMutex;
-        std::mutex worldMsgMutex;
-
+        // make messages
         const roboteam_msgs::World makeWorldMsg();
         const roboteam_msgs::WorldRobot makeWorldRobotMsg(const Robot &robot);
         const roboteam_msgs::WorldBall makeWorldBallMsg(const Ball &ball);
 
-        Robot getRobotClosestToPoint(const Vector2 &point, std::vector<Robot> robots);
+        // update world
+    private:
+        void updateRobotsFromData(Robot::Team team, const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg,
+                std::vector<Robot> &robots, const Ball &ball, unsigned long worldNumber) const;
     public:
         void updateWorld(const roboteam_msgs::World &world);
-        bool weHaveRobots();
-
         void setWorldData(WorldDataPtr &setWorldDataPtr);
 
-        const roboteam_msgs::World &getWorldMsg();
-        const roboteam_msgs::WorldBall &getBallMsg();
+        bool weHaveRobots();
+        double getTimeDifference();
+        double getTime();
+    public:
 
+        // convert to message
+        const roboteam_msgs::World getWorldMsg();
+        const roboteam_msgs::WorldBall getBallMsg();
+
+        // get world
         const WorldData getWorld();
         const WorldData getPreviousWorld();
-        double timeDifference();
-        const BallPtr getBall();
-        const RobotPtr getRobotForId(int id, bool ourTeam = true);
-        const std::vector<world::Robot> getRobotsForIds(std::vector<int> ids, bool ourTeam = true);
 
-    const std::vector<Robot> getAllRobots();
+        // get ball
+        const BallPtr getBall();
+
+        // get robots
+        const RobotPtr getRobotForId(int id, bool ourTeam = true);
+        const std::vector<Robot> getRobotsForIds(std::vector<int> ids, bool ourTeam = true);
+        const std::vector<Robot> getAllRobots();
         const std::vector<Robot> getUs();
         const std::vector<Robot> getThem();
 
-    Robot getRobotClosestToPoint(const Vector2 &point, std::vector<int>robotIds, bool ourTeam);
-
-    Robot getRobotClosestToPoint(const Vector2 &point, WhichRobots whichRobots = ALL_ROBOTS);
+        // closest to point
+    private:
+        Robot getRobotClosestToPoint(const Vector2 &point, std::vector<Robot> robots);
+    public:
+        Robot getRobotClosestToPoint(const Vector2 &point, std::vector<int> robotIds, bool ourTeam);
+        Robot getRobotClosestToPoint(const Vector2 &point, WhichRobots whichRobots = ALL_ROBOTS);
         Robot getRobotClosestToRobot(const RobotPtr &robot, WhichRobots whichRobots = ALL_ROBOTS);
         Robot getRobotClosestToRobot(int id, bool ourTeam, WhichRobots whichRobots = ALL_ROBOTS);
         Robot getRobotClosestToBall(WhichRobots whichRobots = ALL_ROBOTS);
 
+        // has ball
         bool robotHasBall(int id, bool ourTeam, double maxDist = Constants::MAX_BALL_RANGE());
         bool ourRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
         bool theirRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
         const RobotPtr whichRobotHasBall(WhichRobots whichRobots = ALL_ROBOTS);
 
+        // future worlds using linear extrapolation
         const WorldData getFutureWorld(double time);
         const RobotPtr getFutureRobot(int id, bool ourTeam, double time);
         const Robot getFutureRobot(const Robot &robot, double time);

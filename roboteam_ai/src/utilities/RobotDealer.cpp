@@ -135,7 +135,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string& roleN
             case WORKING_GENEVA:{
                 int test = -1;
                 for (auto r : ids) {
-                    if (rtt::ai::world::world->getRobotForId(r, true)->hasWorkingGeneva) {
+                    if (rtt::ai::world::world->getRobotForId(r, true)->hasWorkingGeneva()) {
                         test = r;
                         break;
                     }
@@ -317,7 +317,10 @@ std::string RobotDealer::getRoleNameForId(int ID) {
 }
 
 void RobotDealer::halt() {
-    robotOwners.clear();
+    {
+        std::lock_guard<std::mutex> lock(robotOwnersLock);
+        robotOwners.clear();
+    }
     RobotDealer::updateFromWorld();
     hasClaimedKeeper = false;
 }
@@ -349,8 +352,7 @@ void RobotDealer::refresh() {
     if (BTFactory::getCurrentTree() != "NaN" && BTFactory::getTree(BTFactory::getCurrentTree())) {
         BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
     }
-
-    if (useSeparateKeeper) claimKeeper();
+    if (useSeparateKeeper && keeperExistsInWorld()) claimKeeper();
 }
 
 bool RobotDealer::usesSeparateKeeper() {
@@ -359,6 +361,15 @@ bool RobotDealer::usesSeparateKeeper() {
 
 void RobotDealer::setUseSeparateKeeper(bool useSeparateKeeper_) {
     RobotDealer::useSeparateKeeper = useSeparateKeeper_;
+}
+
+bool RobotDealer::keeperExistsInWorld() {
+    for (auto const &robot : world::world->getUs()) {
+        if (robot.id == getKeeperID()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 } // robotDealer

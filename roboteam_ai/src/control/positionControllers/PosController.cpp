@@ -20,6 +20,11 @@ PosController::PosController(double avoidBall, bool canMoveOutOfField, bool canM
     ypid.setOutputRampRate(100);
 }
 
+PosVelAngle PosController::getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos) {
+    Angle defaultAngle = 0;
+    return getPosVelAngle(robot, targetPos, defaultAngle);
+}
+
 /// apply a posPID and a velPID over a posVelAngle for better control
 PosVelAngle PosController::controlWithPID(const RobotPtr &robot, PosVelAngle target) {
     if (getPIDFromInterface) checkInterfacePID();
@@ -77,6 +82,7 @@ double PosController::getAvoidBall() const {
 }
 
 void PosController::setAvoidBall(double ballDistance) {
+    std::cerr << "Manually setting 'avoidball' distance in skill" << std::endl;
     avoidBallDistance = ballDistance;
 }
 

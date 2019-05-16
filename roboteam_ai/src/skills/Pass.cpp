@@ -17,7 +17,6 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name),
 
 void Pass::onInitialize() {
     robotToPassToID = -1;
-    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::PASS, true);
     passInitialized = false;
     hasShot = false;
     chip = false;
@@ -33,7 +32,7 @@ Pass::Status Pass::onUpdate() {
     bool closeToBall = (robot->pos - ball->pos).length() < CLOSE_ENOUGH_TO_BALL;
 
     if(!closeToBall && !passInitialized) {
-        auto pva = numTreeGtp.getPosVelAngle(robot, ball->pos);
+        auto pva = robot->getNumtreeGtp()->getPosVelAngle(robot, ball->pos);
         command.x_vel = pva.vel.x;
         command.y_vel = pva.vel.y;
         command.w = pva.angle;
@@ -80,7 +79,8 @@ Pass::Status Pass::onUpdate() {
             }
         }
 
-        shotControl->makeCommand(shotControl->getShotData(* robot, getKicker(), chip), command);
+        auto shotdata = robot->getShotController()->getShotData(*robot, getKicker(), chip, control::BallSpeed::PASS, true, control::ShotPrecision::MEDIUM);
+        robot->getShotController()->makeCommand(shotdata, command);
         if ((command.kicker == true || command.chipper == true) && !hasShot) {
             hasShot = true;
         }

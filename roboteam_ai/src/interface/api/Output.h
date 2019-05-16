@@ -23,11 +23,11 @@ private:
     static pidVals forcePID;
 
     static std::mutex pidMutex;
-    static std::mutex ballPlacementMutex;
+    static std::mutex markerMutex;
     static std::mutex refMutex;
     static std::mutex showDebugMutex;
 
-    static rtt::Vector2 ballPlacementTarget;
+    static rtt::Vector2 markerPosition;
     static bool useRefereeCommands;
     static bool showDebugValuesInTerminal;
     static bool timeOutAtTop;
@@ -45,8 +45,8 @@ public:
 
     static bool usesRefereeCommands();
     static void setUseRefereeCommands(bool useRefereeCommands);
-    static const rtt::Vector2 &getBallPlacementTarget();
-    static void setBallPlacementTarget(const rtt::Vector2 &ballPlacementTarget);
+    static const rtt::Vector2 &getInterfaceMarkerPosition();
+    static void setMarkerPosition(const rtt::Vector2 &ballPlacementTarget);
     static void setTimeOutTop(bool top);
 
     static const pidVals &getNumTreePid();

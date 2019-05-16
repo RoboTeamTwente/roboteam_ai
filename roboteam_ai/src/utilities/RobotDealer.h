@@ -61,6 +61,7 @@ public:
     static void refresh();
 
     static bool usesSeparateKeeper();
+    static bool keeperExistsInWorld();
     static void setUseSeparateKeeper(bool useSeparateKeeper);
 
 };

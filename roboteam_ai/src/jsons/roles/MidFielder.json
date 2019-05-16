@@ -1,1 +1,77 @@
-{"data": {"trees": [{"nodes": {"nwehzyc69hg3b20": {"properties": {"canGoOutsideField": "false", "type": "goToBall", "avoidBall": "false"}, "id": "nwehzyc69hg3b20", "title": "GTPSpecial"}, "21iy52sewbnusbx": {"children": ["ztoudkgn68rp93s6x", "nwehzyc69hg3b20"], "id": "21iy52sewbnusbx", "title": "Selector"}, "ea54a5hzyqx2o3bt": {"id": "ea54a5hzyqx2o3bt", "title": "Pass"}, "5hwqz7n1z42qg": {"children": ["zbwpmm6icrhgj2yq"], "id": "5hwqz7n1z42qg", "title": "Repeater"}, "xuqhz22hql231ry": {"children": ["sdsg0jcqp124i", "x8xkl0lh5k63kr7u", "5hwqz7n1z42qg"], "id": "xuqhz22hql231ry", "title": "MemSequence"}, "sdsg0jcqp124i": {"properties": {"ticks": "120"}, "id": "sdsg0jcqp124i", "title": "Halt"}, "ztoudkgn68rp93s6x": {"properties": {"ball": "true", "margin": "0.12"}, "id": "ztoudkgn68rp93s6x", "title": "IsCloseToPoint"}, "x8xkl0lh5k63kr7u": {"children": ["21iy52sewbnusbx", "ea54a5hzyqx2o3bt"], "id": "x8xkl0lh5k63kr7u", "title": "MemSequence"}, "zbwpmm6icrhgj2yq": {"id": "zbwpmm6icrhgj2yq", "title": "Halt"}}, "root": "xuqhz22hql231ry", "title": "MidFielder"}]}, "name": "MidFielder"}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "21iy52sewbnusbx": {
+            "children": [
+              "ztoudkgn68rp93s6x",
+              "nwehzyc69hg3b20"
+            ],
+            "id": "21iy52sewbnusbx",
+            "title": "Selector"
+          },
+          "5hwqz7n1z42qg": {
+            "children": [
+              "zbwpmm6icrhgj2yq"
+            ],
+            "id": "5hwqz7n1z42qg",
+            "title": "Repeater"
+          },
+          "ea54a5hzyqx2o3bt": {
+            "id": "ea54a5hzyqx2o3bt",
+            "title": "Pass"
+          },
+          "nwehzyc69hg3b20": {
+            "id": "nwehzyc69hg3b20",
+            "properties": {
+              "avoidBall": "false",
+              "canGoOutsideField": "false",
+              "type": "goToBall"
+            },
+            "title": "GTPSpecial"
+          },
+          "sdsg0jcqp124i": {
+            "id": "sdsg0jcqp124i",
+            "properties": {
+              "ticks": "120"
+            },
+            "title": "Halt"
+          },
+          "x8xkl0lh5k63kr7u": {
+            "children": [
+              "21iy52sewbnusbx",
+              "ea54a5hzyqx2o3bt"
+            ],
+            "id": "x8xkl0lh5k63kr7u",
+            "title": "MemSequence"
+          },
+          "xuqhz22hql231ry": {
+            "children": [
+              "sdsg0jcqp124i",
+              "x8xkl0lh5k63kr7u",
+              "5hwqz7n1z42qg"
+            ],
+            "id": "xuqhz22hql231ry",
+            "title": "MemSequence"
+          },
+          "zbwpmm6icrhgj2yq": {
+            "id": "zbwpmm6icrhgj2yq",
+            "title": "Halt"
+          },
+          "ztoudkgn68rp93s6x": {
+            "id": "ztoudkgn68rp93s6x",
+            "properties": {
+              "ball": "true",
+              "margin": "0.12"
+            },
+            "title": "IsCloseToPoint"
+          }
+        },
+        "root": "xuqhz22hql231ry",
+        "title": "MidFielder"
+      }
+    ]
+  },
+  "name": "MidFielder"
+}
