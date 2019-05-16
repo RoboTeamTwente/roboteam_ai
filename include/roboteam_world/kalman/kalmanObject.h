@@ -7,24 +7,14 @@
 
 #include "armadillo"
 #include "roboteam_utils/Position.h"
+#include "constantsK.h"
 
-
-#define STATE_INDEX 6
-#define OBSERVATION_INDEX 3
-#define TIMEDIFF 0.01
-#define INVALID_ROBOT_ID 99999
-#define COMPARISON_MARGIN 0.000001
-#define COMPARISON_COUNT 100
-#define TIME_TO_DISAPEAR 0.5*100
-#define POS_VAR 0.5
-#define STATE_VAR 1
-#define RAND_VAR 1
 
 namespace rtt {
 
     class kalmanObject {
 
-    private:
+    protected:
 
         uint id;
         double observationTimeStamp;
@@ -32,21 +22,19 @@ namespace rtt {
         bool exists;
         int comparisonCount;
 
-        arma::fvec::fixed<STATE_INDEX> X;
-        arma::fvec::fixed<OBSERVATION_INDEX> Z;
-        arma::fmat::fixed<STATE_INDEX, STATE_INDEX> F;
-        arma::fmat::fixed<OBSERVATION_INDEX, STATE_INDEX> H;
-        arma::fmat::fixed<OBSERVATION_INDEX, OBSERVATION_INDEX> R;
-        arma::fmat::fixed<STATE_INDEX, STATE_INDEX> I;
-        arma::fmat::fixed<STATE_INDEX, STATE_INDEX> P;
-        arma::fmat::fixed<STATE_INDEX, STATE_INDEX> Q;
-        arma::fmat::fixed<STATE_INDEX, OBSERVATION_INDEX> K;
+        arma::fvec::fixed<stateIndex> X;
+        arma::fvec::fixed<observationIndex> Z;
+        arma::fmat::fixed<stateIndex, stateIndex> F;
+        arma::fmat::fixed<observationIndex, stateIndex> H;
+        arma::fmat::fixed<observationIndex, observationIndex> R;
+        arma::fmat::fixed<stateIndex, stateIndex> I;
+        arma::fmat::fixed<stateIndex, stateIndex> P;
+        arma::fmat::fixed<stateIndex, stateIndex> Q;
+        arma::fmat::fixed<stateIndex, observationIndex> K;
 
     public:
 
         kalmanObject();
-
-        kalmanObject(uint id);
 
         void kalmanUpdateK();
 

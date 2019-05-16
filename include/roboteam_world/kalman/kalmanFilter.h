@@ -7,6 +7,9 @@
 
 
 #include "kalmanObject.h"
+#include "kalmanUs.h"
+#include "kalmanThem.h"
+#include "kalmanBall.h"
 #include "roboteam_utils/Position.h"
 #include "roboteam_msgs/DetectionFrame.h"
 #include "roboteam_msgs/DetectionRobot.h"
@@ -40,9 +43,9 @@ namespace rtt {
 
         roboteam_msgs::World getWorld();
 
-        uint kalmanObjectAmount = 33;
-
         kalmanObject kalmanlist[33];
+
+
 
     };
 }

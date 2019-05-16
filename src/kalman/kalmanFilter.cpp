@@ -7,13 +7,19 @@
 namespace rtt {
 
     kalmanFilter::kalmanFilter() {
-        for (uint i = 0; i < kalmanObjectAmount; ++i) {
-            kalmanlist[i] = kalmanObject(i);
+        for (uint i = 0; i < 33; ++i) {
+            if (i == 32) {
+                kalmanlist[i] = kalmanBall(i);
+            } else if (i <= 15) {
+                kalmanlist[i] = kalmanUs(i);
+            } else if (i >= 16) {
+                kalmanlist[i] = kalmanThem(i);
+            }
         }
     }
 
     void kalmanFilter::kalmanUpdate() {
-        for (uint i = 0; i < kalmanObjectAmount; ++i) {
+        for (uint i = 0; i < 33; ++i) {
             kalmanlist[i].kalmanUpdateK();
             kalmanlist[i].kalmanUpdateX();
         }
@@ -82,7 +88,7 @@ namespace rtt {
 
     roboteam_msgs::World kalmanFilter::getWorld(){
         roboteam_msgs::World world;
-        for (uint i = 0; i < kalmanObjectAmount; ++i) {
+        for (uint i = 0; i < 33; ++i) {
             if (getExistence(i)) {
                 if (i == 32){
                     world.ball = getBall(i);
