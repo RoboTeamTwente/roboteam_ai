@@ -48,12 +48,6 @@ TEST(DefaultTacticTest, default_general_tactic_works) {
     DefaultTactic tactic("GeneralTactic", properties, robots);
 
     // the type should be defaulted to 'general'
-
-    tactic.updateStyle();
-    rd::RobotDealer::setUseSeparateKeeper(false);
-    EXPECT_EQ(tactic.amountToTick, static_cast<int>(rtt::ai::world::world->getUs().size()));
-
-    rd::RobotDealer::setUseSeparateKeeper(true);
     rd::RobotDealer::setKeeperID(-1); // set the keeper id to -1 to mimick a keeper that is not seen by cameras
     tactic.updateStyle();
     EXPECT_EQ(tactic.amountToTick, static_cast<int>(rtt::ai::world::world->getUs().size()));
@@ -83,7 +77,6 @@ TEST(DefaultTacticTest, default_general_tactic_works) {
 
     // now without a keeper: it should also claim the last robot
     rd::RobotDealer::setKeeperID(-1);
-    rd::RobotDealer::setUseSeparateKeeper(false);
 
     tactic.updateStyle();
     tactic.initialize();
