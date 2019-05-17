@@ -8,6 +8,7 @@
 #include "armadillo"
 #include "roboteam_utils/Position.h"
 #include "constantsK.h"
+#include "roboteam_msgs/DetectionRobot.h"
 
 namespace rtt {
 
@@ -37,15 +38,15 @@ class kalmanObject {
 
         void kalmanUpdateX();
 
-        void kalmanUpdateZ(float x, float y, float z, double timeStamp);
+        void kalmanUpdateZ(roboteam_msgs::DetectionRobot robot,double timeStamp);
 
-        Position kalmanGetPos();
+        Position kalmanGetPos() const;
 
-        Position kalmanGetVel();
+        Position kalmanGetVel() const;
 
-        float getK();
+        bool getExistence() const;
 
-        bool getExistence();
+        virtual roboteam_msgs::WorldRobot as_message() const;
 
 };
 

@@ -3,6 +3,7 @@
 //
 
 #include <roboteam_world/kalman/kalmanObject.h>
+#include <roboteam_msgs/DetectionRobot.h>
 namespace rtt {
 
     void kalmanObject::kalmanUpdateK() {
@@ -72,23 +73,23 @@ namespace rtt {
         }
     }
 
-    void kalmanObject::kalmanUpdateZ(float x, float y, float z, double timeStamp) {
+    void kalmanObject::kalmanUpdateZ(roboteam_msgs::DetectionRobot robot, double timeStamp) {
         if (timeStamp > this->observationTimeStamp) {
-            this->Z(0) = x;
-            this->Z(1) = y;
-            this->Z(2) = z;
+            this->id= robot.robot_id;
+            this->Z(0) = robot.pos.x;
+            this->Z(1) = robot.pos.y;
+            this->Z(2) = robot.orientation;
             this->observationTimeStamp = timeStamp;
             this->invisibleCounter = 0;
             this->exists = true;
         }
     }
 
-
-    Position kalmanObject::kalmanGetPos() {
+    Position kalmanObject::kalmanGetPos() const{
         return {this->X(0), this->X(2), this->X(4)};
     }
 
-    Position kalmanObject::kalmanGetVel() {
+    Position kalmanObject::kalmanGetVel() const{
         return {this->X(1), this->X(3), this->X(5)};
     }
 
@@ -96,8 +97,25 @@ namespace rtt {
         return this->K(0, 0);
     }
 
-    bool kalmanObject::getExistence(){
+    bool kalmanObject::getExistence() const{
         return this->exists;
+    }
+    int kalmanObject::getID(){
+        return id;
+    }
+    roboteam_msgs::WorldRobot kalmanObject::as_message() const{
+        roboteam_msgs::WorldRobot msg;
+        Position pos = kalmanGetPos();
+        Position vel = kalmanGetVel();
+        msg.id = id;
+        msg.pos.x = pos.x;
+        msg.pos.y = pos.y;
+        msg.angle = pos.rot;
+        msg.vel.x = vel.x;
+        msg.vel.y = vel.y;
+        msg.w = vel.rot;
+        return msg;
+
     }
 
 

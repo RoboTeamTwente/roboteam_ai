@@ -29,23 +29,11 @@ namespace rtt {
 
         void newFrame(const roboteam_msgs::DetectionFrame& msg);
 
-        Position getPos(uint id);
-
-        Position getVel(uint id);
-
-        float getK(uint id);
-
-        void setZ(uint id, float x, float y, float z, double timestamp);
-
-        bool getExistence(uint id);
-
-        roboteam_msgs::WorldRobot getRobot(uint id);
-
-        roboteam_msgs::WorldBall getBall(uint id);
-
         roboteam_msgs::World getWorld();
 
-        kalmanObject kalmanlist[BOTCOUNT*2+BALLCOUNT];
+        kalmanThem theirBots[BOTCOUNT];
+        kalmanUs ourBots[BOTCOUNT];
+        kalmanBall ball;
 
 
 
