@@ -28,6 +28,8 @@ public:
     const double FURTHER_FROM_GOAL_DISTANCE = 3.0 * CLOSE_TO_GOAL_DISTANCE;
     const double ZONE_RADIUS = 0.8;
 
+    const double DEFENSE_AREA_MARGIN = Constants::ROBOT_RADIUS() * 2;
+
     struct OffensivePosition {
         Vector2 position;
         double score;
