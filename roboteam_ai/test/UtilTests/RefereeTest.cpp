@@ -17,5 +17,4 @@ TEST(RefereeTest, it_gets_and_sets_the_ref) {
     rtt::ai::GameStateManager::setRefereeData(refereeData);
 
     EXPECT_EQ(rtt::ai::GameStateManager::getRefereeData().command.command, 123);
-    EXPECT_EQ(rtt::ai::GameStateManager::getPreviousRefereeData().command.command, 33);
 }

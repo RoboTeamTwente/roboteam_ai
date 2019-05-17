@@ -37,8 +37,6 @@ void StrategyManager::setCurrentRefGameState(RefCommand command) {
     currentRefGameState = newState;
 }
 
-
-
 RefGameState StrategyManager::getCurrentRefGameState() {
     return currentRefGameState;
 }
