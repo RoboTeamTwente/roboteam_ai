@@ -144,7 +144,7 @@ void Output::setUseKeeper(bool useKeeper) {
 
 
 void Output::setKeeperId(int id) {
-    Output::interfaceGameState.keeperId = id;
+    robotDealer::RobotDealer::setKeeperID(id);
 }
 
 const GameState &Output::getInterfaceGameState() {

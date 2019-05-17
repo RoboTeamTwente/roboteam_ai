@@ -92,7 +92,7 @@ void ApplicationManager::runOneLoopCycle() {
         }
 
         ai::robotDealer::RobotDealer::setUseSeparateKeeper(gamestate.useKeeper);
-        ai::robotDealer::RobotDealer::setKeeperID(gamestate.keeperId);
+     //   ai::robotDealer::RobotDealer::setKeeperID(gamestate.keeperId);
         if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
             keeperTree = BTFactory::getKeeperTree();
             if (keeperTree && rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
