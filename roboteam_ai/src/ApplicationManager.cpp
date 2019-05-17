@@ -21,21 +21,18 @@ namespace rtt {
 
 void ApplicationManager::setup() {
     IOManager = new io::IOManager(true, false);
-
-    BTFactory::setCurrentTree("halt_strategy");
-    BTFactory::setKeeperTree("keeper_default_tactic");
-    rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
-
+    ai::GameStateManager::forceNewGameState(RefCommand::HALT);
 }
 
 void ApplicationManager::loop() {
     ros::Rate rate(ai::Constants::TICK_RATE());
+
     BTFactory::makeTrees();
     double longestTick = 0.0;
     double timeTaken;
     int nTicksTaken = 0;
     double timeTakenOverNTicks = 0.0;
-    BTFactory::makeTrees();
+
     while (ros::ok()) {
         ros::Time begin = ros::Time::now();
 
@@ -64,11 +61,6 @@ void ApplicationManager::loop() {
 
 void ApplicationManager::runOneLoopCycle() {
     if (ai::world::world->weHaveRobots()) {
-        if (BTFactory::getCurrentTree() == "NaN") {
-            ROS_INFO("NaN tree probably Halting");
-            return;
-        }
-
         ai::analysis::GameAnalyzer::getInstance().start();
 
         // Will do things if this is a demo
@@ -113,6 +105,11 @@ void ApplicationManager::runOneLoopCycle() {
         rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
         rtt::ai::coach::g_pass.updatePassProgression();
 
+        if (BTFactory::getCurrentTree() == "NaN") {
+            std::cout << "NaN tree probably Halting" << std::endl;
+            return;
+        }
+
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
@@ -137,18 +134,12 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     case Status::Running:break;
     case Status::Success:
         std::cout << " === TREE SUCCESS -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
-        BTFactory::setCurrentTree("normal_play_strategy");
-        BTFactory::setKeeperTree("keeper_default_tactic");
-
-        ai::robotDealer::RobotDealer::refresh();
+        ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
         break;
     case Status::Failure:
         std::cout << " === TREE FAILURE -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
-        BTFactory::setCurrentTree("normal_play_strategy");
-        BTFactory::setKeeperTree("keeper_default_tactic");
-
-        ai::robotDealer::RobotDealer::refresh();
-        break;
+        ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
+      break;
     case Status::Waiting:ROS_INFO_STREAM("Status returned: Waiting");
         break;
     }

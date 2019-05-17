@@ -20,9 +20,11 @@ public:
     static void setRefereeData(roboteam_msgs::RefereeData refMsg);
     static roboteam_msgs::RefereeData getRefereeData();
     static GameState getCurrentGameState();
+    static void forceNewGameState(RefCommand cmd);
 private:
     static roboteam_msgs::RefereeData refMsg;
     static StrategyManager strategymanager;
+
 };
 
 }//ai

@@ -36,6 +36,14 @@ GameState GameStateManager::getCurrentGameState() {
     return newGameState;
 }
 
+void GameStateManager::forceNewGameState(RefCommand cmd) {
+    std::cout << "Forcing new refstate!" << std::endl;
+
+    // overwrite both the interface and the strategy manager.
+    interface::Output::setInterfaceGameState(strategymanager.getRefGameStateForRefCommand(cmd));
+    strategymanager.setCurrentRefGameState(cmd);
+}
+
 
 }//ai
 }//rtt
