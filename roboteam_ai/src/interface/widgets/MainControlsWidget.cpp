@@ -128,6 +128,8 @@ void MainControlsWidget::setUseReferee(bool useRef) {
     select_strategy->setDisabled(useRef);
     select_keeper_strategy->setDisabled(useRef);
     select_ruleset->setDisabled(useRef);
+    select_goalie->setDisabled(useRef);
+
 }
 
 
@@ -217,6 +219,11 @@ void MainControlsWidget::updateContents() {
     auto ruleSetText = QString::fromStdString(GameStateManager::getCurrentGameState().ruleSetName);
     if (ruleSetText != select_ruleset->currentText()) {
         select_ruleset->setCurrentText(ruleSetText);
+    }
+
+    auto goalieIdText = QString::number(GameStateManager::getCurrentGameState().keeperId);
+    if (goalieIdText != select_goalie->currentText()) {
+        select_goalie->setCurrentText(goalieIdText);
     }
 }
 

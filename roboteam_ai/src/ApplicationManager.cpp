@@ -90,6 +90,7 @@ void ApplicationManager::runOneLoopCycle() {
         if (keeperStrategyChanged || strategyChanged) {
             ai::robotDealer::RobotDealer::refresh();
         }
+        rtt::ai::robotDealer::RobotDealer::setKeeperID(gamestate.keeperId);
 
 
         keeperTree = BTFactory::getKeeperTree();

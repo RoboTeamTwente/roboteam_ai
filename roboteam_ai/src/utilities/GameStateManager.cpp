@@ -25,7 +25,7 @@ GameState GameStateManager::getCurrentGameState() {
     GameState newGameState;
     if (interface::Output::usesRefereeCommands()) {
         newGameState = static_cast<GameState>(strategymanager.getCurrentRefGameState());
-
+        newGameState.keeperId = getRefereeData().us.goalie;
         // if there is a ref we set the interface gamestate to these values as well
         // this makes sure that when we stop using the referee we don't return to an unknown state,
         // // so now we keep the same.

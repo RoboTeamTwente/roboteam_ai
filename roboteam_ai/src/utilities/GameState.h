@@ -17,6 +17,7 @@ struct GameState {
     std::string ruleSetName;
     Vector2 ballPositionAtStartOfGameState;
     bool useKeeper = true;
+    int keeperId = -1;
 
     RuleSet getRuleSet() {
         for (auto ruleSet : Constants::ruleSets()) {
