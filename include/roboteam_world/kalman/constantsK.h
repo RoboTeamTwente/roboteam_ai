@@ -23,14 +23,14 @@ const float KMARGIN = 0.000001;
 const int MAXCOMPARISONS = 100;
 
 // constant variance estimates
-const float posVar_us = 0.5;
-const float stateVar_us = 1;
+const float posVar_us = 2;
+const float stateVar_us = 0.5;
 const float randVar_us = 1;
-const float posVar_them = 0.5;
-const float stateVar_them = 1;
+const float posVar_them = 2;
+const float stateVar_them = 0.5;
 const float randVar_them = 1;
-const float posVar_ball = 0.5;
-const float stateVar_ball = 1;
+const float posVar_ball = 2;
+const float stateVar_ball = 0.5;
 const float randVar_ball = 1;
 
 
