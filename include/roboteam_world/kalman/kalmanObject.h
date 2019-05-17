@@ -24,15 +24,15 @@ class kalmanObject {
         double omega;
 
         // see https://en.wikipedia.org/wiki/Kalman_filter for explanation
-        arma::vec::fixed<STATEINDEX> X;
-        arma::vec::fixed<OBSERVATIONINDEX> Z;
-        arma::mat::fixed<STATEINDEX, STATEINDEX> F;
-        arma::mat::fixed<OBSERVATIONINDEX, STATEINDEX> H;
-        arma::mat::fixed<OBSERVATIONINDEX, OBSERVATIONINDEX> R;
-        arma::mat::fixed<STATEINDEX, STATEINDEX> I;
-        arma::mat::fixed<STATEINDEX, STATEINDEX> P;
-        arma::mat::fixed<STATEINDEX, STATEINDEX> Q;
-        arma::mat::fixed<STATEINDEX, OBSERVATIONINDEX> K;
+        arma::fvec::fixed<STATEINDEX> X;
+        arma::fvec::fixed<OBSERVATIONINDEX> Z;
+        arma::fmat::fixed<STATEINDEX, STATEINDEX> F;
+        arma::fmat::fixed<OBSERVATIONINDEX, STATEINDEX> H;
+        arma::fmat::fixed<OBSERVATIONINDEX, OBSERVATIONINDEX> R;
+        arma::fmat::fixed<STATEINDEX, STATEINDEX> I;
+        arma::fmat::fixed<STATEINDEX, STATEINDEX> P;
+        arma::fmat::fixed<STATEINDEX, STATEINDEX> Q;
+        arma::fmat::fixed<STATEINDEX, OBSERVATIONINDEX> K;
 
     public:
 
@@ -46,7 +46,7 @@ class kalmanObject {
 
         Position kalmanGetVel() const;
 
-        double getK();
+        float getK();
 
         bool getExistence() const;
 

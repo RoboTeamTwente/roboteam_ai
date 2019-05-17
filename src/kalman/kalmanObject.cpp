@@ -16,16 +16,16 @@ namespace rtt {
              * K = PHS^-1
              * P = (I-KH)P(I-KH)^T+KRK^T
              */
-            arma::mat::fixed<STATEINDEX, STATEINDEX> F_transpose = this->F.t();
-            arma::mat::fixed<STATEINDEX, STATEINDEX> P_predict = (this->F * this->P * F_transpose) + this->Q;
-            arma::mat::fixed<STATEINDEX, OBSERVATIONINDEX> H_transpose = this->H.t();
-            arma::mat::fixed<OBSERVATIONINDEX, OBSERVATIONINDEX> S = this->R + (this->H * P_predict * H_transpose);
-            arma::mat::fixed<OBSERVATIONINDEX, OBSERVATIONINDEX> S_inverse = S.i();
-            arma::mat::fixed<STATEINDEX, OBSERVATIONINDEX> K_new = P_predict * H_transpose * S_inverse;
-            arma::mat::fixed<OBSERVATIONINDEX, STATEINDEX> K_new_transpose = K_new.t();
-            arma::mat::fixed<STATEINDEX, STATEINDEX> IKH = this->I - K_new * this->H;
-            arma::mat::fixed<STATEINDEX, STATEINDEX> IKH_transpose = IKH.t();
-            arma::mat::fixed<STATEINDEX, STATEINDEX> P_new = IKH * P_predict * IKH_transpose + K_new * this->R * K_new_transpose;
+            arma::fmat::fixed<STATEINDEX, STATEINDEX> F_transpose = this->F.t();
+            arma::fmat::fixed<STATEINDEX, STATEINDEX> P_predict = (this->F * this->P * F_transpose) + this->Q;
+            arma::fmat::fixed<STATEINDEX, OBSERVATIONINDEX> H_transpose = this->H.t();
+            arma::fmat::fixed<OBSERVATIONINDEX, OBSERVATIONINDEX> S = this->R + (this->H * P_predict * H_transpose);
+            arma::fmat::fixed<OBSERVATIONINDEX, OBSERVATIONINDEX> S_inverse = S.i();
+            arma::fmat::fixed<STATEINDEX, OBSERVATIONINDEX> K_new = P_predict * H_transpose * S_inverse;
+            arma::fmat::fixed<OBSERVATIONINDEX, STATEINDEX> K_new_transpose = K_new.t();
+            arma::fmat::fixed<STATEINDEX, STATEINDEX> IKH = this->I - K_new * this->H;
+            arma::fmat::fixed<STATEINDEX, STATEINDEX> IKH_transpose = IKH.t();
+            arma::fmat::fixed<STATEINDEX, STATEINDEX> P_new = IKH * P_predict * IKH_transpose + K_new * this->R * K_new_transpose;
 
             //See if the K has changed over the iteration
             double K_Diff_Max = (this->K - K_new).max();
@@ -60,11 +60,11 @@ namespace rtt {
             this->exists = false;
         } else {
 
-            arma::vec::fixed<STATEINDEX> X_predict = this->F * this->X;
+            arma::fvec::fixed<STATEINDEX> X_predict = this->F * this->X;
 
-            arma::mat::fixed<OBSERVATIONINDEX, 1> Y = this->Z - (this->H * X_predict);
+            arma::fmat::fixed<OBSERVATIONINDEX, 1> Y = this->Z - (this->H * X_predict);
 
-            arma::vec::fixed<STATEINDEX> X_new = X_predict + (this->K * Y);
+            arma::fvec::fixed<STATEINDEX> X_new = X_predict + (this->K * Y);
 
             for (arma::uword i = 0; i < STATEINDEX; ++i) {
                 this->X(i) = X_new(i);
@@ -82,6 +82,11 @@ namespace rtt {
             this->orientation = robot.orientation;
             this->observationTimeStamp = timeStamp;
             this->invisibleCounter = 0;
+            if (!this->exists){
+                this->X.zeros();
+                this->X(0) = robot.pos.x;
+                this->X(2) = robot.pos.y;
+            }
             this->exists = true;
         }
     }
@@ -94,7 +99,7 @@ namespace rtt {
         return {this->X(1), this->X(3), this->omega};
     }
 
-    double kalmanObject::getK(){
+    float kalmanObject::getK(){
         return this->K(0, 0);
     }
 

@@ -22,7 +22,8 @@ namespace rtt{
         this->Z.zeros();
         this->F = {{1, TIMEDIFF, 0, 0       },
                    {0, 1,        0, 0       },
-                   {0, 0,        1, TIMEDIFF}};
+                   {0, 0,        1, TIMEDIFF},
+                   {0, 0,        0, 1       }};
         this->H = {{1, 0, 0, 0},
                    {0, 0, 1, 0}};
         this->R = {{posVar_them, 0},

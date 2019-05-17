@@ -43,7 +43,13 @@ namespace rtt {
             this->orientation = ball.z;
             this->observationTimeStamp = timeStamp;
             this->invisibleCounter = 0;
+            if (!this->exists){
+                this->X.zeros();
+                this->X(0) = ball.pos.x;
+                this->X(2) = ball.pos.y;
+            }
             this->exists = true;
+
         }
     }
     roboteam_msgs::WorldBall kalmanBall::as_ball_message() const{
