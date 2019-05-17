@@ -77,8 +77,8 @@ namespace rtt {
         if (timeStamp > this->observationTimeStamp) {
             if (this->exists){
                 //HAck
-                float errox = robot.pos.x-this->X(0);
-                float erroy = robot.pos.y-this->X(2);
+                float errorx = robot.pos.x-this->X(0);
+                float errory = robot.pos.y-this->X(2);
                 if (errorx*errorx+errory*errory >= 0.2*0.2){
                     return;
                 }
