@@ -76,13 +76,6 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
 
     MainWindow::configureCheckBox("TimeOut to top", vLayout, this, SLOT(setTimeOutTop(bool)), Constants::STD_TIMEOUT_TO_TOP());
 
-    useKeeperCheckbox = new QCheckBox("Use keeper");
-    useKeeperCheckbox->setChecked(robotDealer::RobotDealer::usesSeparateKeeper());
-    vLayout->addWidget(useKeeperCheckbox);
-    QObject::connect(useKeeperCheckbox, SIGNAL(clicked(bool)), this, SLOT(setUsesKeeper(bool)));
-    useKeeperCheckbox->setStyleSheet(QString::fromUtf8("QCheckBox:disabled" "{ color: gray }"));
-
-
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
                      [=](const QString &strategyName) {
                          // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
@@ -121,11 +114,6 @@ void MainControlsWidget::setTimeOutTop(bool top) {
     Output::setTimeOutTop(top);
 }
 
-void MainControlsWidget::setUsesKeeper(bool usekeeper) {
-    robotDealer::RobotDealer::setUseSeparateKeeper(usekeeper);
-    robotDealer::RobotDealer::refresh();
-}
-
 QString MainControlsWidget::getSelectStrategyText() const {
     return select_strategy->currentText();
 }
@@ -139,7 +127,6 @@ void MainControlsWidget::setUseReferee(bool useRef) {
 
     select_strategy->setDisabled(useRef);
     select_keeper_strategy->setDisabled(useRef);
-    useKeeperCheckbox->setDisabled(useRef);
     select_ruleset->setDisabled(useRef);
 }
 

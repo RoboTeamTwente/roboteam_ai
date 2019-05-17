@@ -91,14 +91,12 @@ void ApplicationManager::runOneLoopCycle() {
             ai::robotDealer::RobotDealer::refresh();
         }
 
-        ai::robotDealer::RobotDealer::setUseSeparateKeeper(gamestate.useKeeper);
-     //   ai::robotDealer::RobotDealer::setKeeperID(gamestate.keeperId);
-        if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
-            keeperTree = BTFactory::getKeeperTree();
-            if (keeperTree && rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
-                keeperTree->tick();
-            }
+
+        keeperTree = BTFactory::getKeeperTree();
+        if (keeperTree && rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
+            keeperTree->tick();
         }
+
 
         rtt::ai::coach::getBallCoach->update();
         rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();

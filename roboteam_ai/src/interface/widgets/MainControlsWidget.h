@@ -37,14 +37,11 @@ private:
     QComboBox* select_goalie;
     QComboBox* select_ruleset;
 
-    QCheckBox * useKeeperCheckbox;
-
     void setToggleColorBtnLayout() const;
     void setToggleSideBtnLayout() const;
 
 public slots:
     void setTimeOutTop(bool top);
-    void setUsesKeeper(bool usekeeper);
     void toggleOurColorParam();
     void toggleOurSideParam();
     void sendHaltSignal();
