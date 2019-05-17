@@ -37,6 +37,14 @@ namespace rtt {
     }
     void kalmanBall::kalmanUpdateZ(roboteam_msgs::DetectionBall ball, double timeStamp) {
         if (timeStamp > this->observationTimeStamp) {
+            if (this->exists){
+                //HAck
+                float errox = ball.pos.x-this->X(0);
+                float erroy = ball.pos.y-this->X(2);
+                if (errorx*errorx+errory*errory >= 0.2*0.2){
+                    return;
+                }
+            }
             this->Z(0) = ball.pos.x;
             this->Z(1) = ball.pos.y;
             this->omega = (ball.z - this->orientation)/(timeStamp-this->observationTimeStamp);

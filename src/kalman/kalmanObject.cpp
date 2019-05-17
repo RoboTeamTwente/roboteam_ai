@@ -75,6 +75,14 @@ namespace rtt {
 
     void kalmanObject::kalmanUpdateZ(roboteam_msgs::DetectionRobot robot, double timeStamp) {
         if (timeStamp > this->observationTimeStamp) {
+            if (this->exists){
+                //HAck
+                float errox = robot.pos.x-this->X(0);
+                float erroy = robot.pos.y-this->X(2);
+                if (errorx*errorx+errory*errory >= 0.2*0.2){
+                    return;
+                }
+            }
             this->id= robot.robot_id;
             this->Z(0) = robot.pos.x;
             this->Z(1) = robot.pos.y;
