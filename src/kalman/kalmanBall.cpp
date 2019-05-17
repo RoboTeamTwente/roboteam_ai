@@ -39,8 +39,8 @@ namespace rtt {
         if (timeStamp > this->observationTimeStamp) {
             if (this->exists){
                 //HAck
-                float errox = ball.pos.x-this->X(0);
-                float erroy = ball.pos.y-this->X(2);
+                float errorx = ball.pos.x-this->X(0);
+                float errory = ball.pos.y-this->X(2);
                 if (errorx*errorx+errory*errory >= 0.2*0.2){
                     return;
                 }
