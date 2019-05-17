@@ -1,0 +1,18 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "h9fdw7n9lbd9tttt": {
+            "id": "h9fdw7n9lbd9tttt",
+            "name": "ball_placement_interface_tactic",
+            "title": "Tactic"
+          }
+        },
+        "root": "h9fdw7n9lbd9tttt",
+        "title": "interface_ball_placement_strategy"
+      }
+    ]
+  },
+  "name": "interface_ball_placement_strategy"
+}

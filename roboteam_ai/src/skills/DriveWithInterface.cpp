@@ -18,6 +18,7 @@ Skill::Status DriveWithInterface::onUpdate() {
         return Status::Failure;
     }
     Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
+
     if ((targetPos - robot->pos).length() < 0.16) {
         command.x_vel = 0;
         command.y_vel = 0;
