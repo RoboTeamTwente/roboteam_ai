@@ -19,13 +19,15 @@
 namespace rtt {
 
     class kalmanFilter {
+        private:
+            double lastFrameTime;
 
     public:
         kalmanFilter();
 
         void kalmanUpdate();
 
-        void newFrame(const roboteam_msgs::DetectionFrame msg);
+        void newFrame(const roboteam_msgs::DetectionFrame& msg);
 
         Position getPos(uint id);
 
@@ -43,7 +45,7 @@ namespace rtt {
 
         roboteam_msgs::World getWorld();
 
-        kalmanObject kalmanlist[33];
+        kalmanObject kalmanlist[BOTCOUNT*2+BALLCOUNT];
 
 
 

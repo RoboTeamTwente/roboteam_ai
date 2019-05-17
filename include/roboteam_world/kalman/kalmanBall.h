@@ -10,14 +10,9 @@
 namespace rtt {
 
     class kalmanBall : public kalmanObject{
-
-    private:
-
     public:
 
         kalmanBall();
-
-        kalmanBall(uint id);
     };
 
 }

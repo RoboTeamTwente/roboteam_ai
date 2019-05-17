@@ -6,8 +6,8 @@
 
 namespace rtt{
 
-    kalmanThem::kalmanThem() {
-        kalmanThem(99);
+    kalmanThem::kalmanThem() :kalmanThem(INVALID_ID){
+
     }
 
     kalmanThem::kalmanThem(uint id) {
@@ -18,11 +18,11 @@ namespace rtt{
         this->comparisonCount = 0;
         this->X.zeros();
         this->Z.zeros();
-        this->F = {{1, timeDiff, 0, 0,        0, 0},
+        this->F = {{1, TIMEDIFF, 0, 0,        0, 0},
                    {0, 1,        0, 0,        0, 0},
-                   {0, 0,        1, timeDiff, 0, 0},
+                   {0, 0,        1, TIMEDIFF, 0, 0},
                    {0, 0,        0, 1,        0, 0},
-                   {0, 0,        0, 0,        1, timeDiff},
+                   {0, 0,        0, 0,        1, TIMEDIFF},
                    {0, 0,        0, 0,        0, 1}};
         this->H = {{1, 0, 0, 0, 0, 0},
                    {0, 0, 1, 0, 0, 0},
@@ -37,12 +37,12 @@ namespace rtt{
                    {0, 0, 0, stateVar_them, 0, 0},
                    {0, 0, 0, 0, stateVar_them, 0},
                    {0, 0, 0, 0, 0, stateVar_them}};
-        this->Q = {{timeDiff * timeDiff * randVar_them, timeDiff * randVar_them, 0, 0, 0, 0},
-                   {timeDiff * randVar_them, randVar_them, 0, 0, 0, 0},
-                   {0, 0, timeDiff * timeDiff * randVar_them, timeDiff * randVar_them, 0, 0},
-                   {0, 0, timeDiff * randVar_them, randVar_them, 0, 0},
-                   {0, 0, 0, 0, timeDiff * timeDiff * randVar_them, timeDiff * randVar_them},
-                   {0, 0, 0, 0, timeDiff * randVar_them, randVar_them}};
+        this->Q = {{TIMEDIFF * TIMEDIFF * randVar_them, TIMEDIFF * randVar_them, 0, 0, 0, 0},
+                   {TIMEDIFF * randVar_them, randVar_them, 0, 0, 0, 0},
+                   {0, 0, TIMEDIFF * TIMEDIFF * randVar_them, TIMEDIFF * randVar_them, 0, 0},
+                   {0, 0, TIMEDIFF * randVar_them, randVar_them, 0, 0},
+                   {0, 0, 0, 0, TIMEDIFF * TIMEDIFF * randVar_them, TIMEDIFF * randVar_them},
+                   {0, 0, 0, 0, TIMEDIFF * randVar_them, randVar_them}};
         this->K.zeros();
     }
 

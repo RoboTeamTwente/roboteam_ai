@@ -9,32 +9,29 @@
 #include "roboteam_utils/Position.h"
 #include "constantsK.h"
 
-
 namespace rtt {
 
-    class kalmanObject {
+class kalmanObject {
 
     protected:
-
-        uint id;
+        int id;
         double observationTimeStamp;
         int invisibleCounter;
         bool exists;
         int comparisonCount;
 
-        arma::fvec::fixed<stateIndex> X;
-        arma::fvec::fixed<observationIndex> Z;
-        arma::fmat::fixed<stateIndex, stateIndex> F;
-        arma::fmat::fixed<observationIndex, stateIndex> H;
-        arma::fmat::fixed<observationIndex, observationIndex> R;
-        arma::fmat::fixed<stateIndex, stateIndex> I;
-        arma::fmat::fixed<stateIndex, stateIndex> P;
-        arma::fmat::fixed<stateIndex, stateIndex> Q;
-        arma::fmat::fixed<stateIndex, observationIndex> K;
+        // see https://en.wikipedia.org/wiki/Kalman_filter for explanation
+        arma::fvec::fixed<STATEINDEX> X;
+        arma::fvec::fixed<OBSERVATIONINDEX> Z;
+        arma::fmat::fixed<STATEINDEX, STATEINDEX> F;
+        arma::fmat::fixed<OBSERVATIONINDEX, STATEINDEX> H;
+        arma::fmat::fixed<OBSERVATIONINDEX, OBSERVATIONINDEX> R;
+        arma::fmat::fixed<STATEINDEX, STATEINDEX> I;
+        arma::fmat::fixed<STATEINDEX, STATEINDEX> P;
+        arma::fmat::fixed<STATEINDEX, STATEINDEX> Q;
+        arma::fmat::fixed<STATEINDEX, OBSERVATIONINDEX> K;
 
     public:
-
-        kalmanObject();
 
         void kalmanUpdateK();
 
@@ -48,9 +45,9 @@ namespace rtt {
 
         float getK();
 
-        bool getExistance();
+        bool getExistence();
 
-    };
+};
 
 }
 

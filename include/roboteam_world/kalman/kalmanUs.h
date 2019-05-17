@@ -9,15 +9,14 @@
 
 namespace rtt {
 
-    class kalmanUs : public kalmanObject {
-
+class kalmanUs : public kalmanObject {
     public:
 
         kalmanUs();
 
         kalmanUs(uint id);
 
-    };
+};
 }
 
 #endif //ROBOTEAM_WORLD_KALMANUS_H

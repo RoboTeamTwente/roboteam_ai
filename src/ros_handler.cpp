@@ -20,13 +20,13 @@ namespace rtt {
     }
 
     void RosHandler::kalmanLoop() {
-        ros::Rate rate(100);
+        double TICKRATE=1/TIMEDIFF;
+        ros::Rate rate(TICKRATE);
         while (ros::ok()) {
             ros::spinOnce();
             KF.kalmanUpdate();
-            roboteam_msgs::World world = KF.getWorld();
-            world.time = 2;
-            world_pub.publish(world);
+            roboteam_msgs::World kmWorld = KF.getWorld();
+            world_pub.publish(kmWorld);
             rate.sleep();
         }
     }

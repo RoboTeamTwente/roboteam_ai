@@ -10,8 +10,6 @@
 namespace rtt {
 
     class kalmanThem : public kalmanObject{
-    private:
-
     public:
 
         kalmanThem();

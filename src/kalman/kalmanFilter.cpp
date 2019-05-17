@@ -7,33 +7,36 @@
 namespace rtt {
 
     kalmanFilter::kalmanFilter() {
-        for (uint i = 0; i < 33; ++i) {
-            if (i == 32) {
-                kalmanlist[i] = kalmanBall(i);
-            } else if (i <= 15) {
+        for (uint i = 0; i <TOTALCOUNT; ++i) {
+            if (i < BOTCOUNT) {
                 kalmanlist[i] = kalmanUs(i);
-            } else if (i >= 16) {
+            } else if (i < BOTCOUNT*2) {
                 kalmanlist[i] = kalmanThem(i);
+            }
+            else {
+                kalmanlist[i] = kalmanBall();
             }
         }
     }
 
     void kalmanFilter::kalmanUpdate() {
-        for (uint i = 0; i < 33; ++i) {
+        for (uint i = 0; i < TOTALCOUNT; ++i) {
             kalmanlist[i].kalmanUpdateK();
             kalmanlist[i].kalmanUpdateX();
         }
     }
 
-    void kalmanFilter::newFrame(const roboteam_msgs::DetectionFrame msg) {
+    // if we get a new frame we update our observations
+    void kalmanFilter::newFrame(const roboteam_msgs::DetectionFrame& msg) {
         double timeCapture = msg.t_capture;
+        lastFrameTime=timeCapture;
         for (const roboteam_msgs::DetectionRobot robot : msg.us) {
             kalmanlist[robot.robot_id].kalmanUpdateZ(robot.pos.x, robot.pos.y, robot.orientation, timeCapture);
         }
         for (const roboteam_msgs::DetectionRobot robot : msg.them) {
-            kalmanlist[robot.robot_id + 16].kalmanUpdateZ(robot.pos.x, robot.pos.y, robot.orientation, timeCapture);
+            kalmanlist[robot.robot_id + BOTCOUNT].kalmanUpdateZ(robot.pos.x, robot.pos.y, robot.orientation, timeCapture);
         } for (const roboteam_msgs::DetectionBall ball : msg.balls) {
-            kalmanlist[32].kalmanUpdateZ(ball.pos.x, ball.pos.y, ball.z, timeCapture);
+            kalmanlist[2*BOTCOUNT].kalmanUpdateZ(ball.pos.x, ball.pos.y, ball.z, timeCapture);
         }
     }
 
@@ -54,7 +57,7 @@ namespace rtt {
     }
 
     bool kalmanFilter::getExistence(uint id) {
-        return kalmanlist[id].getExistance();
+        return kalmanlist[id].getExistence();
     }
 
     roboteam_msgs::WorldRobot kalmanFilter::getRobot(uint id){
@@ -83,19 +86,22 @@ namespace rtt {
         msg.vel.x = vel.x;
         msg.vel.y = vel.y;
         msg.z_vel = vel.rot;
+        std::cout<<msg.z<<" (z):"<<msg.z_vel<<" (zvel):"<<std::endl;
         return msg;
     }
 
     roboteam_msgs::World kalmanFilter::getWorld(){
         roboteam_msgs::World world;
-        for (uint i = 0; i < 33; ++i) {
+        world.time=lastFrameTime;
+        for (uint i = 0; i < TOTALCOUNT; ++i) {
             if (getExistence(i)) {
-                if (i == 32){
-                    world.ball = getBall(i);
-                } else if (i <= 15) {
+                if (i < BOTCOUNT) {
                     world.us.push_back(getRobot(i));
-                } else if (i >= 16) {
+                } else if (i<2*BOTCOUNT) {
                     world.them.push_back(getRobot(i));
+                }
+                else{
+                    world.ball=getBall(i);
                 }
             }
         }

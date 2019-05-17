@@ -5,24 +5,19 @@
 #include "roboteam_world/kalman/kalmanBall.h"
 
 namespace rtt {
-
-    kalmanBall::kalmanBall(){
-        kalmanBall(99);
-    }
-
-    kalmanBall::kalmanBall(uint id) {
-        this->id = id;
+    kalmanBall::kalmanBall() {
+        this->id=INVALID_ID;
         this->observationTimeStamp = -1.0;
         this->invisibleCounter = 0;
         this->exists = false;
         this->comparisonCount = 0;
         this->X.zeros();
         this->Z.zeros();
-        this->F = {{1, timeDiff, 0, 0,        0, 0},
+        this->F = {{1, TIMEDIFF, 0, 0,        0, 0},
                    {0, 1,        0, 0,        0, 0},
-                   {0, 0,        1, timeDiff, 0, 0},
+                   {0, 0,        1, TIMEDIFF, 0, 0},
                    {0, 0,        0, 1,        0, 0},
-                   {0, 0,        0, 0,        1, timeDiff},
+                   {0, 0,        0, 0,        1, TIMEDIFF},
                    {0, 0,        0, 0,        0, 1}};
         this->H = {{1, 0, 0, 0, 0, 0},
                    {0, 0, 1, 0, 0, 0},
@@ -37,12 +32,12 @@ namespace rtt {
                    {0, 0, 0, stateVar_ball, 0, 0},
                    {0, 0, 0, 0, stateVar_ball, 0},
                    {0, 0, 0, 0, 0, stateVar_ball}};
-        this->Q = {{timeDiff * timeDiff * randVar_ball, timeDiff * randVar_ball, 0, 0, 0, 0},
-                   {timeDiff * randVar_ball, randVar_ball, 0, 0, 0, 0},
-                   {0, 0, timeDiff * timeDiff * randVar_ball, timeDiff * randVar_ball, 0, 0},
-                   {0, 0, timeDiff * randVar_ball, randVar_ball, 0, 0},
-                   {0, 0, 0, 0, timeDiff * timeDiff * randVar_ball, timeDiff * randVar_ball},
-                   {0, 0, 0, 0, timeDiff * randVar_ball, randVar_ball}};
+        this->Q = {{TIMEDIFF * TIMEDIFF * randVar_ball, TIMEDIFF * randVar_ball, 0, 0, 0, 0},
+                   {TIMEDIFF * randVar_ball, randVar_ball, 0, 0, 0, 0},
+                   {0, 0, TIMEDIFF * TIMEDIFF * randVar_ball, TIMEDIFF * randVar_ball, 0, 0},
+                   {0, 0, TIMEDIFF * randVar_ball, randVar_ball, 0, 0},
+                   {0, 0, 0, 0, TIMEDIFF * TIMEDIFF * randVar_ball, TIMEDIFF * randVar_ball},
+                   {0, 0, 0, 0, TIMEDIFF * randVar_ball, randVar_ball}};
         this->K.zeros();
     }
 

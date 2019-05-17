@@ -6,8 +6,7 @@
 
 namespace rtt{
 
-    kalmanUs::kalmanUs() {
-        kalmanUs(99);
+    kalmanUs::kalmanUs() : kalmanUs(99){
     }
 
     kalmanUs::kalmanUs(uint id) {
@@ -18,11 +17,11 @@ namespace rtt{
         this->comparisonCount = 0;
         this->X.zeros();
         this->Z.zeros();
-        this->F = {{1, timeDiff, 0, 0,        0, 0},
+        this->F = {{1, TIMEDIFF, 0, 0,        0, 0},
                    {0, 1,        0, 0,        0, 0},
-                   {0, 0,        1, timeDiff, 0, 0},
+                   {0, 0,        1, TIMEDIFF, 0, 0},
                    {0, 0,        0, 1,        0, 0},
-                   {0, 0,        0, 0,        1, timeDiff},
+                   {0, 0,        0, 0,        1, TIMEDIFF},
                    {0, 0,        0, 0,        0, 1}};
         this->H = {{1, 0, 0, 0, 0, 0},
                    {0, 0, 1, 0, 0, 0},
@@ -37,12 +36,12 @@ namespace rtt{
                    {0, 0, 0, stateVar_us, 0, 0},
                    {0, 0, 0, 0, stateVar_us, 0},
                    {0, 0, 0, 0, 0, stateVar_us}};
-        this->Q = {{timeDiff * timeDiff * randVar_us, timeDiff * randVar_us, 0, 0, 0, 0},
-                   {timeDiff * randVar_us, randVar_us, 0, 0, 0, 0},
-                   {0, 0, timeDiff * timeDiff * randVar_us, timeDiff * randVar_us, 0, 0},
-                   {0, 0, timeDiff * randVar_us, randVar_us, 0, 0},
-                   {0, 0, 0, 0, timeDiff * timeDiff * randVar_us, timeDiff * randVar_us},
-                   {0, 0, 0, 0, timeDiff * randVar_us, randVar_us}};
+        this->Q = {{TIMEDIFF * TIMEDIFF * randVar_us, TIMEDIFF * randVar_us, 0, 0, 0, 0},
+                   {TIMEDIFF * randVar_us, randVar_us, 0, 0, 0, 0},
+                   {0, 0, TIMEDIFF * TIMEDIFF * randVar_us, TIMEDIFF * randVar_us, 0, 0},
+                   {0, 0, TIMEDIFF * randVar_us, randVar_us, 0, 0},
+                   {0, 0, 0, 0, TIMEDIFF * TIMEDIFF * randVar_us, TIMEDIFF * randVar_us},
+                   {0, 0, 0, 0, TIMEDIFF * randVar_us, randVar_us}};
         this->K.zeros();
     }
 
