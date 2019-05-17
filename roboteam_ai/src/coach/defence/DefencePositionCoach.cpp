@@ -446,7 +446,7 @@ std::vector<DefenderBot> DefencePositionCoach::decidePositionsStable(const std::
                         lockedCount++;
                         newDefender->id=lockedDefender.id;
                         newDefender->coveredCount=lockedDefender.coveredCount+1;
-                        if (newDefender->coveredCount>130){
+                        if (newDefender->coveredCount>20){
                             newDefender->locked=false;
                         }
                         addDefender(*newDefender);
@@ -462,7 +462,7 @@ std::vector<DefenderBot> DefencePositionCoach::decidePositionsStable(const std::
                 lockedCount++;
                 newDefender->id=lockedDefender.id;
                 newDefender->coveredCount=lockedDefender.coveredCount+1;
-                if (newDefender->coveredCount>130){
+                if (newDefender->coveredCount>20){
                     newDefender->locked=false;
                 }
                 addDefender(*newDefender);
@@ -477,7 +477,7 @@ std::vector<DefenderBot> DefencePositionCoach::decidePositionsStable(const std::
     if(defenders.size() + freeRobots.size() != amount){
         std::cerr<<"SOMETHING IS HORRIBLY HORRIBLY WRONG"<<std::endl;
     }
-    if (!blockedMostDangerousPos) {
+    if (!blockedMostDangerousPos&&defenders.size()<amount) {
         auto bot=blockMostDangerousPos(); //first we handle the most dangerous position first
         if (bot){
             addDefender(*bot);
