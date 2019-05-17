@@ -16,20 +16,20 @@ namespace rtt {
              * K = PHS^-1
              * P = (I-KH)P(I-KH)^T+KRK^T
              */
-            arma::fmat::fixed<STATEINDEX, STATEINDEX> F_transpose = this->F.t();
-            arma::fmat::fixed<STATEINDEX, STATEINDEX> P_predict = (this->F * this->P * F_transpose) + this->Q;
-            arma::fmat::fixed<STATEINDEX, OBSERVATIONINDEX> H_transpose = this->H.t();
-            arma::fmat::fixed<OBSERVATIONINDEX, OBSERVATIONINDEX> S = this->R + (this->H * P_predict * H_transpose);
-            arma::fmat::fixed<OBSERVATIONINDEX, OBSERVATIONINDEX> S_inverse = S.i();
-            arma::fmat::fixed<STATEINDEX, OBSERVATIONINDEX> K_new = P_predict * H_transpose * S_inverse;
-            arma::fmat::fixed<OBSERVATIONINDEX, STATEINDEX> K_new_transpose = K_new.t();
-            arma::fmat::fixed<STATEINDEX, STATEINDEX> IKH = this->I - K_new * this->H;
-            arma::fmat::fixed<STATEINDEX, STATEINDEX> IKH_transpose = IKH.t();
-            arma::fmat::fixed<STATEINDEX, STATEINDEX> P_new = IKH * P_predict * IKH_transpose + K_new * this->R * K_new_transpose;
+            arma::mat::fixed<STATEINDEX, STATEINDEX> F_transpose = this->F.t();
+            arma::mat::fixed<STATEINDEX, STATEINDEX> P_predict = (this->F * this->P * F_transpose) + this->Q;
+            arma::mat::fixed<STATEINDEX, OBSERVATIONINDEX> H_transpose = this->H.t();
+            arma::mat::fixed<OBSERVATIONINDEX, OBSERVATIONINDEX> S = this->R + (this->H * P_predict * H_transpose);
+            arma::mat::fixed<OBSERVATIONINDEX, OBSERVATIONINDEX> S_inverse = S.i();
+            arma::mat::fixed<STATEINDEX, OBSERVATIONINDEX> K_new = P_predict * H_transpose * S_inverse;
+            arma::mat::fixed<OBSERVATIONINDEX, STATEINDEX> K_new_transpose = K_new.t();
+            arma::mat::fixed<STATEINDEX, STATEINDEX> IKH = this->I - K_new * this->H;
+            arma::mat::fixed<STATEINDEX, STATEINDEX> IKH_transpose = IKH.t();
+            arma::mat::fixed<STATEINDEX, STATEINDEX> P_new = IKH * P_predict * IKH_transpose + K_new * this->R * K_new_transpose;
 
             //See if the K has changed over the iteration
-            float K_Diff_Max = (this->K - K_new).max();
-            float K_Diff_Min = (this->K - K_new).min();
+            double K_Diff_Max = (this->K - K_new).max();
+            double K_Diff_Min = (this->K - K_new).min();
             int same = 0;
             if ((K_Diff_Max < KMARGIN) and (K_Diff_Min > -KMARGIN)){
                 same += 1;
@@ -60,11 +60,11 @@ namespace rtt {
             this->exists = false;
         } else {
 
-            arma::fvec::fixed<STATEINDEX> X_predict = this->F * this->X;
+            arma::vec::fixed<STATEINDEX> X_predict = this->F * this->X;
 
-            arma::fmat::fixed<OBSERVATIONINDEX, 1> Y = this->Z - (this->H * X_predict);
+            arma::mat::fixed<OBSERVATIONINDEX, 1> Y = this->Z - (this->H * X_predict);
 
-            arma::fvec::fixed<STATEINDEX> X_new = X_predict + (this->K * Y);
+            arma::vec::fixed<STATEINDEX> X_new = X_predict + (this->K * Y);
 
             for (arma::uword i = 0; i < STATEINDEX; ++i) {
                 this->X(i) = X_new(i);
@@ -78,7 +78,8 @@ namespace rtt {
             this->id= robot.robot_id;
             this->Z(0) = robot.pos.x;
             this->Z(1) = robot.pos.y;
-            this->Z(2) = robot.orientation;
+            this->omega = (robot.orientation - this->orientation)/(timeStamp-this->observationTimeStamp);
+            this->orientation = robot.orientation;
             this->observationTimeStamp = timeStamp;
             this->invisibleCounter = 0;
             this->exists = true;
@@ -86,23 +87,21 @@ namespace rtt {
     }
 
     Position kalmanObject::kalmanGetPos() const{
-        return {this->X(0), this->X(2), this->X(4)};
+        return {this->X(0), this->X(2), this->orientation};
     }
 
     Position kalmanObject::kalmanGetVel() const{
-        return {this->X(1), this->X(3), this->X(5)};
+        return {this->X(1), this->X(3), this->omega};
     }
 
-    float kalmanObject::getK(){
+    double kalmanObject::getK(){
         return this->K(0, 0);
     }
 
     bool kalmanObject::getExistence() const{
         return this->exists;
     }
-    int kalmanObject::getID(){
-        return id;
-    }
+
     roboteam_msgs::WorldRobot kalmanObject::as_message() const{
         roboteam_msgs::WorldRobot msg;
         Position pos = kalmanGetPos();

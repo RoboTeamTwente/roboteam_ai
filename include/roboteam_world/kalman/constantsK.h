@@ -7,12 +7,12 @@
 
 namespace rtt {
 // constant dimensions of the calculations
-const int STATEINDEX = 6;
-const int OBSERVATIONINDEX = 3;
+const int STATEINDEX = 4;
+const int OBSERVATIONINDEX = 2;
 // timerate
 const float TIMEDIFF = 0.01;
 // time after which objects disappear
-const float DISAPPEARTIME = 0.5*100; //seconds
+const float DISAPPEARTIME = 0.5/TIMEDIFF; //seconds/TIMEDIFF
 
 // amount of robots and balls per team that we keep track off
 const int BOTCOUNT=16; //id 0-15
@@ -23,9 +23,6 @@ const float KMARGIN = 0.000001;
 const int MAXCOMPARISONS = 100;
 
 // constant variance estimates
-const float posVar = 0.5;
-const float stateVar = 1;
-const float randVar = 1;
 const float posVar_us = 0.5;
 const float stateVar_us = 1;
 const float randVar_us = 1;

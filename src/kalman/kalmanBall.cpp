@@ -12,41 +12,36 @@ namespace rtt {
         this->invisibleCounter = 0;
         this->exists = false;
         this->comparisonCount = 0;
+        this->orientation = 0;
+        this->omega = 0;
         this->X.zeros();
         this->Z.zeros();
-        this->F = {{1, TIMEDIFF, 0, 0,        0, 0},
-                   {0, 1,        0, 0,        0, 0},
-                   {0, 0,        1, TIMEDIFF, 0, 0},
-                   {0, 0,        0, 1,        0, 0},
-                   {0, 0,        0, 0,        1, TIMEDIFF},
-                   {0, 0,        0, 0,        0, 1}};
-        this->H = {{1, 0, 0, 0, 0, 0},
-                   {0, 0, 1, 0, 0, 0},
-                   {0, 0, 0, 0, 1, 0}};
-        this->R = {{posVar_ball, 0, 0},
-                   {0, posVar_ball, 0},
-                   {0, 0, posVar_ball}};
+        this->F = {{1, TIMEDIFF, 0, 0       },
+                   {0, 1,        0, 0       },
+                   {0, 0,        1, TIMEDIFF},
+                   {0, 0,        0, 1       }};
+        this->H = {{1, 0, 0, 0},
+                   {0, 0, 1, 0}};
+        this->R = {{posVar_ball, 0},
+                   {0, posVar_ball}};
         this->I.eye();
-        this->P = {{stateVar_ball, 0, 0, 0, 0, 0},
-                   {0, stateVar_ball, 0, 0, 0, 0},
-                   {0, 0, stateVar_ball, 0, 0, 0},
-                   {0, 0, 0, stateVar_ball, 0, 0},
-                   {0, 0, 0, 0, stateVar_ball, 0},
-                   {0, 0, 0, 0, 0, stateVar_ball}};
-        this->Q = {{TIMEDIFF * TIMEDIFF * randVar_ball, TIMEDIFF * randVar_ball, 0, 0, 0, 0},
-                   {TIMEDIFF * randVar_ball, randVar_ball, 0, 0, 0, 0},
-                   {0, 0, TIMEDIFF * TIMEDIFF * randVar_ball, TIMEDIFF * randVar_ball, 0, 0},
-                   {0, 0, TIMEDIFF * randVar_ball, randVar_ball, 0, 0},
-                   {0, 0, 0, 0, TIMEDIFF * TIMEDIFF * randVar_ball, TIMEDIFF * randVar_ball},
-                   {0, 0, 0, 0, TIMEDIFF * randVar_ball, randVar_ball}};
+        this->P = {{stateVar_ball, 0, 0, 0},
+                   {0, stateVar_ball, 0, 0},
+                   {0, 0, stateVar_ball, 0},
+                   {0, 0, 0, stateVar_ball}};
+        this->Q = {{TIMEDIFF * TIMEDIFF * randVar_ball, TIMEDIFF * randVar_ball, 0, 0},
+                   {TIMEDIFF * randVar_ball, randVar_ball, 0, 0},
+                   {0, 0, TIMEDIFF * TIMEDIFF * randVar_ball, TIMEDIFF * randVar_ball},
+                   {0, 0, TIMEDIFF * randVar_ball, randVar_ball}};
         this->K.zeros();
     }
-    void kalmanBall::kalmanUpdateZ(roboteam_msgs::DetectionBall ball, double timestamp) {
-        if (timestamp > this->observationTimeStamp) {
+    void kalmanBall::kalmanUpdateZ(roboteam_msgs::DetectionBall ball, double timeStamp) {
+        if (timeStamp > this->observationTimeStamp) {
             this->Z(0) = ball.pos.x;
             this->Z(1) = ball.pos.y;
-            this->Z(2) = ball.z;
-            this->observationTimeStamp = timestamp;
+            this->omega = (ball.z - this->orientation)/(timeStamp-this->observationTimeStamp);
+            this->orientation = ball.z;
+            this->observationTimeStamp = timeStamp;
             this->invisibleCounter = 0;
             this->exists = true;
         }

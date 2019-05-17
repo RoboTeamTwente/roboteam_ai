@@ -11,8 +11,8 @@ kalmanFilter::kalmanFilter() {
     for (uint i = 0; i < BOTCOUNT; ++ i) {
         ourBots[i] = kalmanUs(i);
         theirBots[i] = kalmanThem(i);
-        ball = kalmanBall();
     }
+    ball = kalmanBall();
 }
 
 void kalmanFilter::kalmanUpdate() {
