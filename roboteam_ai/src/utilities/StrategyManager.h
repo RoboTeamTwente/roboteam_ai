@@ -20,6 +20,8 @@ public:
     explicit StrategyManager() = default;
     RefGameState getCurrentRefGameState();
     void setCurrentRefGameState(RefCommand command);
+    void forceCurrentRefGameState(RefCommand command);
+
     const RefGameState getRefGameStateForRefCommand(RefCommand command);
 
 private:

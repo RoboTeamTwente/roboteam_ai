@@ -41,7 +41,7 @@ void GameStateManager::forceNewGameState(RefCommand cmd) {
 
     // overwrite both the interface and the strategy manager.
     interface::Output::setInterfaceGameState(strategymanager.getRefGameStateForRefCommand(cmd));
-    strategymanager.setCurrentRefGameState(cmd);
+    strategymanager.forceCurrentRefGameState(cmd);
 }
 
 
