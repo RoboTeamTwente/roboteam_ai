@@ -303,8 +303,9 @@ bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, con
     double exactAngleTowardsPoint = (point - objectPosition).angle();
 
     // Note: The angles should NOT be constrained here. This is necessary.
-    return (velocity.angle() > exactAngleTowardsPoint - maxDifference/2
-            && velocity.angle() < exactAngleTowardsPoint + maxDifference/2);
+    return (velocity.length() > 0
+    && velocity.angle() > exactAngleTowardsPoint - maxDifference/2
+    && velocity.angle() < exactAngleTowardsPoint + maxDifference/2);
 
 }
 
