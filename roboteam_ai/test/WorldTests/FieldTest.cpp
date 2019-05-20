@@ -24,6 +24,7 @@ TEST(FieldTest, it_gets_points_in_defence_area) {
     field.left_penalty_line.end = rtt::Vector2(- 4, 6);
     field.right_penalty_line.begin = rtt::Vector2(4, 2);
     field.right_penalty_line.end = rtt::Vector2(4, 6);
+    field.boundary_width = 2.0;
 
     // all points should be in our defence area
     rtt::ai::world::field->set_field(field);
@@ -226,14 +227,14 @@ TEST(FieldTest, it_calculates_obstacles) {
 
 TEST(FieldTest, line_intersects_with_defence_area) {
     roboteam_msgs::GeometryFieldSize field;
-    field.field_length = 8;
-    field.field_width = 12;
+    field.field_length = 12;
+    field.field_width = 8;
     field.goal_width = 1;
     // set the penalty lines
     field.left_penalty_line.begin = rtt::Vector2(- 4, 2);
-    field.left_penalty_line.end = rtt::Vector2(- 4, 6);
+    field.left_penalty_line.end = rtt::Vector2(- 4, -2);
     field.right_penalty_line.begin = rtt::Vector2(4, 2);
-    field.right_penalty_line.end = rtt::Vector2(4, 6);
+    field.right_penalty_line.end = rtt::Vector2(4, -2);
     rtt::ai::world::field->set_field(field);
    
     EXPECT_TRUE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {0,0}, {-8,0}, 0));
@@ -245,15 +246,14 @@ TEST(FieldTest, line_intersects_with_defence_area) {
     EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {8,0}, {12,0}, 0));
     EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {-8,0}, {-12,0}, 0));
 
-    // exactly on the lines
-    EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {-4,2}, {-4,6}, 0));
-    EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {4,2}, {4,6}, 0));
-
+    // exactly on the lines should return true
+    EXPECT_TRUE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {-4,2}, {-4,6}, 0));
+    EXPECT_TRUE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {4,2}, {4,6}, 0));
 
     // margin should make a difference
-    EXPECT_TRUE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {-4.1,2}, {-4.1,6}, 1));
-    EXPECT_TRUE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {4.1,2}, {4.1,6}, 1));
-    EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {-4.1,2}, {-4.1,6}, 0));
-    EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {4.1,2}, {4.1,6}, 0));
+    EXPECT_TRUE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {-3.9, 0}, {-3.9, 8}, 1.0));
+    EXPECT_TRUE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {3.9, 0}, {3.9, 8}, 1.0));
+    EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {-3.9,0}, {-3.9, 8}, 0.0));
+    EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {3.9,0}, {3.9, 8}, 0.0));
 }
 

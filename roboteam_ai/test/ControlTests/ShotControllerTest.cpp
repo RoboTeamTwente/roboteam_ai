@@ -43,14 +43,14 @@ TEST(ShotControllerTest, it_generates_proper_shots) {
     command.id = robot.id;
     shotController.makeCommand(sd, command);
     EXPECT_EQ(command.id, robot.id);
-    EXPECT_EQ(command.x_vel, sd.vel.x);
-    EXPECT_EQ(command.y_vel, sd.vel.y);
-    EXPECT_EQ(command.w, sd.angle);
+    EXPECT_FLOAT_EQ(command.x_vel, sd.vel.x);
+    EXPECT_FLOAT_EQ(command.y_vel, sd.vel.y);
+    EXPECT_FLOAT_EQ(command.w, sd.angle);
     EXPECT_EQ(command.chipper, sd.chip);
     EXPECT_EQ(command.kicker, sd.kick);
     EXPECT_EQ(command.kicker_forced, sd.kick);
     EXPECT_EQ(command.chipper_forced, sd.kick);
-    EXPECT_EQ(command.kicker_vel, sd.kickSpeed);
+    EXPECT_DOUBLE_EQ(command.kicker_vel, sd.kickSpeed);
     EXPECT_EQ(command.geneva_state, sd.genevaState);
 
 
