@@ -1,7 +1,3 @@
-//
-// Created by rolf on 23-10-18.
-//
-
 #include <roboteam_ai/src/interface/api/Output.h>
 #include "GameStateManager.hpp"
 
