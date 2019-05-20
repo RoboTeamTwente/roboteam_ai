@@ -33,8 +33,8 @@ const float randVar_us = 1;
 const float posVar_them = 2;
 const float stateVar_them = 0.5;
 const float randVar_them = 1;
-const float posVar_ball = 2;
-const float stateVar_ball = 0.5;
+const float posVar_ball = 0.1;
+const float stateVar_ball = 100;
 const float randVar_ball = 1;
 
 
