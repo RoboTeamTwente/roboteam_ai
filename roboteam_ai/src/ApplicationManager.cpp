@@ -65,20 +65,20 @@ void ApplicationManager::runOneLoopCycle() {
 
         // Will do things if this is a demo
         // otherwise wastes like 0.1 ms
-        auto demomsg = IOManager->getDemoInfo();
-        demo::JoystickDemo::demoLoop(demomsg);
+        auto demoMsg = IOManager->getDemoInfo();
+        demo::JoystickDemo::demoLoop(demoMsg);
 
 
-        auto gamestate = ai::GameStateManager::getCurrentGameState();
-        std::string strategyName = gamestate.strategyName;
-        std::string keeperTreeName = gamestate.keeperStrategyName;
+        auto gameState = ai::GameStateManager::getCurrentGameState();
+        std::string strategyName = gameState.strategyName;
+        std::string keeperTreeName = gameState.keeperStrategyName;
 
-        bool strategyChanged = oldStrategy != strategyName;
+        bool strategyChanged = oldStrategyName != strategyName;
         bool keeperStrategyChanged = oldKeeperTreeName != keeperTreeName;
 
         if (strategyChanged) {
             BTFactory::setCurrentTree(strategyName);
-            oldStrategy = strategyName;
+            oldStrategyName = strategyName;
         }
 
         if (keeperStrategyChanged) {
@@ -90,8 +90,7 @@ void ApplicationManager::runOneLoopCycle() {
         if (keeperStrategyChanged || strategyChanged) {
             ai::robotDealer::RobotDealer::refresh();
         }
-        rtt::ai::robotDealer::RobotDealer::setKeeperID(gamestate.keeperId);
-
+        rtt::ai::robotDealer::RobotDealer::setKeeperID(gameState.keeperId);
 
         keeperTree = BTFactory::getKeeperTree();
         if (keeperTree && rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
