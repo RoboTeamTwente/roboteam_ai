@@ -74,6 +74,14 @@ TEST(ControlUtils, velocityLimiter) {
         EXPECT_LE(cr::ControlUtils::velocityLimiter(Vector2(- 102 + i*10, 512 + i*8)).length(),
                 rtt::ai::Constants::MAX_VEL() + 0.01);
     }
+
+    // check the min velocity as well
+    // limit values between 56 and 3000
+    for (int i = 0; i < 200; i ++) {
+        auto limitedVel = cr::ControlUtils::velocityLimiter(Vector2(- 102 + i*10, 512 + i*8), 3000, 56).length();
+        EXPECT_GE(limitedVel, 56 - 0.01);
+        EXPECT_LE(limitedVel, 3000 + 0.01);
+    }
 }
 
 TEST(ControlUtils, accelerationLimiter) {
