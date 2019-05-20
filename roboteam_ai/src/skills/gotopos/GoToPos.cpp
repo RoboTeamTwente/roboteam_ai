@@ -13,7 +13,6 @@ GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
 GoToPos::GoToType GoToPos::stringToGoToType(const string &gtt) {
-    if (gtt == "ballControl") return ballControl;
     if (gtt == "basic") return basic;
     if (gtt == "force") return force;
     if (gtt == "numTrees") return numTree;
@@ -57,12 +56,7 @@ void GoToPos::setPositionController(const GoToType &gTT) {
     case numTree:
         posController = robot->getNumtreeGtp();
         return;
-    case ballControl:
-        std::cout << "ControlGoToPosBallControl does not really work yet " << std::endl;
-        posController = std::make_shared<control::ControlGoToPosBallControl>();
-        return;
-    case basic:
-        posController = robot->getBasicGtp();
+    case basic:posController = std::make_shared<control::BasicPosControl>();
         return;
     case force:
         std::cout << "force pos controller is deprecated " << std::endl;
@@ -81,11 +75,15 @@ bt::Node::Status GoToPos::onUpdate() {
     Status gtpStatus = gtpUpdate();
     if (gtpStatus != Status::Running) return gtpStatus;
 
+    // check targetPos
     if ((targetPos - robot->pos).length2() < errorMargin*errorMargin) {
-        return Status::Success;
+        // check targetAngle
+        if (targetAngle == 0.0 || abs(targetAngle - robot->angle) < angleErrorMargin) {
+            return Status::Success;
+        }
     }
 
-    control::PosVelAngle pva = posController->getPosVelAngle(robot, targetPos);
+    control::PosVelAngle pva = posController->getPosVelAngle(robot, targetPos, targetAngle);
     pva.vel = control::ControlUtils::velocityLimiter(pva.vel, maxVel);
 
     // set robotcommands if they have not been set yet in gtpUpdate()

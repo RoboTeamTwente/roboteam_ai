@@ -20,14 +20,33 @@ class Collision {
     private:
         world::Robot collisionRobot = {};
         world::Ball collisionBall = {};
-        Vector2 otherCollision = {};
+        Vector2 fieldCollision = {};
+        Vector2 defenseAreaCollision = {};
 
     public:
         enum CollisionType : short {
           ROBOT,
           BALL,
-          OTHER
+          FIELD,
+          DEFENSE_AREA,
+          NO_COLLISION
         };
+        std::string collisionTypeToString() {
+            std::string s;
+            switch (getCollisionType()) {
+            case Collision::ROBOT: s = "ROBOT          ";
+                break;
+            case Collision::BALL: s = "BALL           ";
+                break;
+            case Collision::FIELD: s = "FIELD          ";
+                break;
+            case Collision::DEFENSE_AREA: s = "DEFENSE_AREA   ";
+                break;
+            case Collision::NO_COLLISION: s = "NO COLLISION?!?";
+                break;
+            }
+            return s;
+        }
     private:
         CollisionType type;
     public:
@@ -53,12 +72,21 @@ class Collision {
             isCollision = true;
             collisionRadius = distance;
         }
-        const Vector2 &getOtherCollision() const {
-            return otherCollision;
+        const Vector2 &getFieldCollision() const {
+            return fieldCollision;
         }
-        void setOtherCollision(const Vector2 &collisionPos, double distance) {
-            type = OTHER;
-            Collision::otherCollision = collisionPos;
+        const Vector2 &getDefenseAreaCollision() const {
+            return defenseAreaCollision;
+        }
+        void setFieldCollision(const Vector2 &collisionPos, double distance) {
+            type = FIELD;
+            Collision::fieldCollision = collisionPos;
+            isCollision = true;
+            collisionRadius = distance;
+        }
+        void setDefenseAreaCollision(const Vector2 &collisionPos, double distance) {
+            type = DEFENSE_AREA;
+            Collision::defenseAreaCollision = collisionPos;
             isCollision = true;
             collisionRadius = distance;
         }
@@ -67,13 +95,14 @@ class Collision {
         double collisionRadius;
         const Vector2 collisionPosition() const {
             if (collisionRobot.id != - 1) return collisionRobot.pos;
-            else if (collisionBall.exists) return collisionBall.pos;
-            else return otherCollision;
+            else if (collisionBall.visible) return collisionBall.pos;
+            else if (fieldCollision != Vector2()) return fieldCollision;
+            else if (defenseAreaCollision != Vector2()) return defenseAreaCollision;
+            else return {};
         }
         const CollisionType getCollisionType() const {
             return type;
         }
-
 };
 
 // If there is another way to return a shared pointer from an object to itself that is more pretty let me know

@@ -32,7 +32,7 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
             newPosition.position.y = currentPosition.position.y + SEARCH_GRID_ROBOT_POSITIONS*yDiff*pow(yDiff, 2);
 
             if (! world::field->pointIsInField(newPosition.position, 0.10)
-                    || world::field->pointIsInDefenceArea(newPosition.position, false)) {
+                    || world::field->pointIsInDefenceArea(newPosition.position, false, DEFENSE_AREA_MARGIN)) {
                 continue;
             }
 
