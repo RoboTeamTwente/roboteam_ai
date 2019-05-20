@@ -205,12 +205,12 @@ void Visualizer::drawBall(QPainter &painter) {
 void Visualizer::drawRobots(QPainter &painter) {
 
     // draw us
-    for (auto &robot : rtt::ai::world::world->getWorld().us) {
+    for (auto &robot : rtt::ai::world::world->getUs()) {
         drawRobot(painter, robot, true);
     }
 
     // draw them
-    for (auto &robot : rtt::ai::world::world->getWorld().them) {
+    for (auto &robot : rtt::ai::world::world->getThem()) {
         drawRobot(painter, robot, false);
     }
 }
@@ -359,7 +359,7 @@ void Visualizer::mousePressEvent(QMouseEvent* event) {
             }
         }
     } else if (event->button() == Qt::RightButton) {
-        Output::setBallPlacementTarget(toFieldPosition(pos));
+        Output::setMarkerPosition(toFieldPosition(pos));
 
     }
 }
@@ -441,7 +441,7 @@ void Visualizer::toggleSelectedRobot(int robotId) {
     }
 
     if (!robotWasAlreadySelected) {
-        for (Robot robot : rtt::ai::world::world->getWorld().us) {
+        for (Robot robot : rtt::ai::world::world->getUs()) {
             if (robot.id == robotId) {
                 robotWasAlreadySelected = false;
                 this->selectedRobots.push_back(robot);
@@ -468,7 +468,7 @@ bool Visualizer::robotIsSelected(Robot robotToCheck) {
 
 
 void Visualizer::drawBallPlacementTarget(QPainter& painter) {
-    Vector2 ballPlacementTarget = toScreenPosition(Output::getBallPlacementTarget());
+    Vector2 ballPlacementTarget = toScreenPosition(Output::getInterfaceMarkerPosition());
     painter.setBrush(Qt::transparent);
     painter.setPen(Qt::red);
 

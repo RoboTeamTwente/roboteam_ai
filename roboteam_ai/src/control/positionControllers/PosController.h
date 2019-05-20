@@ -42,7 +42,10 @@ class PosController {
     public:
         explicit PosController() = default;
         explicit PosController(double avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
-        virtual PosVelAngle getPosVelAngle(const RobotPtr &robot, Vector2 &targetPos) = 0;
+        virtual PosVelAngle getPosVelAngle(const RobotPtr &robot,
+                const Vector2 &targetPos, const Angle &targetAngle) = 0;
+
+        virtual PosVelAngle getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos);
 
         bool getCanMoveOutOfField() const;
         void setCanMoveOutOfField(bool canMoveOutOfField);

@@ -26,9 +26,16 @@ bt::Node::Status bt::DefaultTactic::update() {
 
         return status;
     }
+    if (amountToTick > children.size()) {
+        amountToTick = children.size();
+    }
 
-    for (int i = 0; i < amountToTick; i++) {
-        children.at(i)->tick();
+    for (int i = 0; i < amountToTick; i ++) {
+        if (children.size() > i && children.at(i)) {
+            children.at(i)->tick();
+        } else {
+            std::cerr << "trying to tick a non-existent robot!" << std::endl;
+        }
     }
 
     return status == Status::Success ? status : Status::Running;
@@ -129,7 +136,8 @@ void bt::DefaultTactic::updateStyle() {
         amountToTick = style.amountOfMidfielders;
     } else if (thisType == Offensive) {
         amountToTick = style.amountOfAttackers;
-    } else if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
+    }
+    else if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper() && rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
         amountToTick = rtt::ai::world::world->getUs().size() - 1;
     } else {
         amountToTick = rtt::ai::world::world->getUs().size();

@@ -1,14 +1,161 @@
 {
-  "name": "calibration_tactic",
   "data": {
     "trees": [
       {
-        "title": "calibration_tactic",
-        "root": "qqhyd6r2z63pcmisl",
         "nodes": {
+          "0ihp8q8j6umvndmec": {
+            "id": "0ihp8q8j6umvndmec",
+            "properties": {
+              "ROLE": "c4"
+            },
+            "title": "Halt"
+          },
+          "3korjo0vvwdiq21b": {
+            "id": "3korjo0vvwdiq21b",
+            "properties": {
+              "ROLE": "c3"
+            },
+            "title": "Halt"
+          },
+          "4n8uam9x517sr83l4": {
+            "id": "4n8uam9x517sr83l4",
+            "properties": {
+              "ROLE": "c1",
+              "targetPos": "{-1, 1}"
+            },
+            "title": "GoToPos"
+          },
+          "5s74ok2d1letx": {
+            "id": "5s74ok2d1letx",
+            "properties": {
+              "ROLE": "c1",
+              "targetPos": "{-1, -1}"
+            },
+            "title": "GoToPos"
+          },
+          "6epyob7nhghg7w7f": {
+            "id": "6epyob7nhghg7w7f",
+            "properties": {
+              "ROLE": "c2"
+            },
+            "title": "Halt"
+          },
+          "6m3fch8apg3ut": {
+            "id": "6m3fch8apg3ut",
+            "properties": {
+              "ROLE": "c1",
+              "targetPos": "{1,1}"
+            },
+            "title": "GoToPos"
+          },
+          "87xcbi7is16nd": {
+            "id": "87xcbi7is16nd",
+            "properties": {
+              "ROLE": "c1",
+              "targetPos": "{1, -1}"
+            },
+            "title": "GoToPos"
+          },
+          "92mgu8woxh61q": {
+            "children": [
+              "6epyob7nhghg7w7f"
+            ],
+            "id": "92mgu8woxh61q",
+            "name": "c2",
+            "properties": {
+              "ROLE": "c2"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "9bjkhmy9wwztg7z": {
+            "children": [
+              "3korjo0vvwdiq21b"
+            ],
+            "id": "9bjkhmy9wwztg7z",
+            "name": "c3",
+            "properties": {
+              "ROLE": "c3"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "bpnvy8zlo52erxh": {
+            "children": [
+              "0ihp8q8j6umvndmec"
+            ],
+            "id": "bpnvy8zlo52erxh",
+            "name": "c4",
+            "properties": {
+              "ROLE": "c4"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "coi0hh80t3uh6tys5": {
+            "id": "coi0hh80t3uh6tys5",
+            "properties": {
+              "ROLE": "c7"
+            },
+            "title": "Halt"
+          },
+          "dl4pbkla30g10ui": {
+            "children": [
+              "zjxb7r7wanfow8yxa"
+            ],
+            "id": "dl4pbkla30g10ui",
+            "name": "c5",
+            "properties": {
+              "ROLE": "c5"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "e6x6qxr1tdqstu7": {
+            "id": "e6x6qxr1tdqstu7",
+            "properties": {
+              "ROLE": "c6"
+            },
+            "title": "Halt"
+          },
+          "iraaasepd5gqa9q": {
+            "children": [
+              "6m3fch8apg3ut",
+              "87xcbi7is16nd",
+              "5s74ok2d1letx",
+              "4n8uam9x517sr83l4"
+            ],
+            "id": "iraaasepd5gqa9q",
+            "properties": {
+              "ROLE": "c1"
+            },
+            "title": "MemSequence"
+          },
+          "ktd3q0pj55lcvdk": {
+            "children": [
+              "e6x6qxr1tdqstu7"
+            ],
+            "id": "ktd3q0pj55lcvdk",
+            "name": "c6",
+            "properties": {
+              "ROLE": "c6"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "pwkndti7y7kmzz5": {
+            "children": [
+              "iraaasepd5gqa9q"
+            ],
+            "id": "pwkndti7y7kmzz5",
+            "name": "c1",
+            "properties": {
+              "ROLE": "c1"
+            },
+            "role": "calibration_role",
+            "title": "Role"
+          },
           "qqhyd6r2z63pcmisl": {
-            "id": "qqhyd6r2z63pcmisl",
-            "title": "RoleDivider",
             "children": [
               "pwkndti7y7kmzz5",
               "92mgu8woxh61q",
@@ -18,183 +165,36 @@
               "ktd3q0pj55lcvdk",
               "w9gy19il9zrvt"
             ],
+            "id": "qqhyd6r2z63pcmisl",
             "properties": {
               "TacticType": "General"
-            }
-          },
-          "pwkndti7y7kmzz5": {
-            "id": "pwkndti7y7kmzz5",
-            "title": "Role",
-            "name": "c1",
-            "role": "calibration_role",
-            "children": [
-              "iraaasepd5gqa9q"
-            ],
-            "properties": {
-              "ROLE": "c1"
-            }
-          },
-          "iraaasepd5gqa9q": {
-            "id": "iraaasepd5gqa9q",
-            "title": "MemSequence",
-            "children": [
-              "6m3fch8apg3ut",
-              "87xcbi7is16nd",
-              "5s74ok2d1letx",
-              "4n8uam9x517sr83l4"
-            ],
-            "properties": {
-              "ROLE": "c1"
-            }
-          },
-          "6m3fch8apg3ut": {
-            "id": "6m3fch8apg3ut",
-            "title": "GoToPos",
-            "properties": {
-              "targetPos": "{1,1}",
-              "ROLE": "c1"
-            }
-          },
-          "87xcbi7is16nd": {
-            "id": "87xcbi7is16nd",
-            "title": "GoToPos",
-            "properties": {
-              "targetPos": "{1, -1}",
-              "ROLE": "c1"
-            }
-          },
-          "5s74ok2d1letx": {
-            "id": "5s74ok2d1letx",
-            "title": "GoToPos",
-            "properties": {
-              "targetPos": "{-1, -1}",
-              "ROLE": "c1"
-            }
-          },
-          "4n8uam9x517sr83l4": {
-            "id": "4n8uam9x517sr83l4",
-            "title": "GoToPos",
-            "properties": {
-              "targetPos": "{-1, 1}",
-              "ROLE": "c1"
-            }
-          },
-          "92mgu8woxh61q": {
-            "id": "92mgu8woxh61q",
-            "title": "Role",
-            "name": "c2",
-            "role": "halt_role",
-            "children": [
-              "6epyob7nhghg7w7f"
-            ],
-            "properties": {
-              "ROLE": "c2"
-            }
-          },
-          "6epyob7nhghg7w7f": {
-            "properties": {
-              "ROLE": "c2"
             },
-            "id": "6epyob7nhghg7w7f",
-            "title": "Halt"
-          },
-          "9bjkhmy9wwztg7z": {
-            "id": "9bjkhmy9wwztg7z",
-            "title": "Role",
-            "name": "c3",
-            "role": "halt_role",
-            "children": [
-              "3korjo0vvwdiq21b"
-            ],
-            "properties": {
-              "ROLE": "c3"
-            }
-          },
-          "3korjo0vvwdiq21b": {
-            "properties": {
-              "ROLE": "c3"
-            },
-            "id": "3korjo0vvwdiq21b",
-            "title": "Halt"
-          },
-          "bpnvy8zlo52erxh": {
-            "id": "bpnvy8zlo52erxh",
-            "title": "Role",
-            "name": "c4",
-            "role": "halt_role",
-            "children": [
-              "0ihp8q8j6umvndmec"
-            ],
-            "properties": {
-              "ROLE": "c4"
-            }
-          },
-          "0ihp8q8j6umvndmec": {
-            "properties": {
-              "ROLE": "c4"
-            },
-            "id": "0ihp8q8j6umvndmec",
-            "title": "Halt"
-          },
-          "dl4pbkla30g10ui": {
-            "id": "dl4pbkla30g10ui",
-            "title": "Role",
-            "name": "c5",
-            "role": "halt_role",
-            "children": [
-              "zjxb7r7wanfow8yxa"
-            ],
-            "properties": {
-              "ROLE": "c5"
-            }
-          },
-          "zjxb7r7wanfow8yxa": {
-            "properties": {
-              "ROLE": "c5"
-            },
-            "id": "zjxb7r7wanfow8yxa",
-            "title": "Halt"
-          },
-          "ktd3q0pj55lcvdk": {
-            "id": "ktd3q0pj55lcvdk",
-            "title": "Role",
-            "name": "c6",
-            "role": "halt_role",
-            "children": [
-              "e6x6qxr1tdqstu7"
-            ],
-            "properties": {
-              "ROLE": "c6"
-            }
-          },
-          "e6x6qxr1tdqstu7": {
-            "properties": {
-              "ROLE": "c6"
-            },
-            "id": "e6x6qxr1tdqstu7",
-            "title": "Halt"
+            "title": "RoleDivider"
           },
           "w9gy19il9zrvt": {
-            "id": "w9gy19il9zrvt",
-            "title": "Role",
-            "name": "c7",
-            "role": "halt_role",
             "children": [
               "coi0hh80t3uh6tys5"
             ],
-            "properties": {
-              "ROLE": "c7"
-            }
-          },
-          "coi0hh80t3uh6tys5": {
+            "id": "w9gy19il9zrvt",
+            "name": "c7",
             "properties": {
               "ROLE": "c7"
             },
-            "id": "coi0hh80t3uh6tys5",
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "zjxb7r7wanfow8yxa": {
+            "id": "zjxb7r7wanfow8yxa",
+            "properties": {
+              "ROLE": "c5"
+            },
             "title": "Halt"
           }
-        }
+        },
+        "root": "qqhyd6r2z63pcmisl",
+        "title": "calibration_tactic"
       }
     ]
-  }
+  },
+  "name": "calibration_tactic"
 }

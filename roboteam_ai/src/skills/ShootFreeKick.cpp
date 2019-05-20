@@ -13,8 +13,6 @@ ShootFreeKick::ShootFreeKick(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void ShootFreeKick::onInitialize() {
-    shotControl = std::make_shared<control::ShotController>(control::ShotPrecision::HIGH, control::BallSpeed::PASS, true);
-
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
     freeKickPos = ballPos;
     Vector2 goal = world::field->get_their_goal_center();
@@ -77,7 +75,7 @@ Skill::Status ShootFreeKick::onUpdate() {
         case SHOOTING: {
             if (! isShot()) {
                 Vector2 target = rtt::ai::world::field->getPenaltyPoint(false);
-                shotControl->makeCommand(shotControl->getShotData(* robot, target, true), command);
+                robot->getShotController()->makeCommand(robot->getShotController()->getShotData(* robot, target, true), command);
                 publishRobotCommand();
                 return Status::Running;
             }

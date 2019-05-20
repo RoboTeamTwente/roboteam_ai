@@ -3,10 +3,6 @@
     "trees": [
       {
         "nodes": {
-          "pko8utq47u56d1lr5": {
-            "id": "pko8utq47u56d1lr5",
-            "title": "Attack"
-          },
           "4w8w2ctxawttk": {
             "id": "4w8w2ctxawttk",
             "title": "IsBallOnOurSide"
@@ -22,6 +18,10 @@
             ],
             "id": "jrt62tk991ze7",
             "title": "Selector"
+          },
+          "pko8utq47u56d1lr5": {
+            "id": "pko8utq47u56d1lr5",
+            "title": "Attack"
           },
           "zhl5jjiw9el65": {
             "children": [

@@ -114,7 +114,7 @@ void ApplicationManager::runOneLoopCycle() {
                 ai::robotDealer::RobotDealer::setKeeperID(ai::world::world->getUs().at(0).id);
             }
             keeperTree = BTFactory::getKeeperTree();
-            if (keeperTree) {
+            if (keeperTree && rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
                 keeperTree->tick();
             }
         }

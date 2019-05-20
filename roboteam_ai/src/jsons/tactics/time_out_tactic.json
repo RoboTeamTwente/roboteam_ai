@@ -1,1 +1,262 @@
-{"name": "time_out_tactic", "data": {"trees": [{"title": "time_out_tactic", "root": "5l9dl7uhahizl88", "nodes": {"5l9dl7uhahizl88": {"id": "5l9dl7uhahizl88", "title": "RoleDivider", "children": ["ksacpt1rv27r8c6s", "6ftlpznrqjihset", "fztzm2ekoog9u", "9ibalbewy4j5y7", "2wfvpaj11ozlqh", "s4ayasg9wzcqi4j9l", "hwmc2zvtsw4hnts73", "dml9bz68aj29xd4e"], "properties": {"TacticType": "General"}}, "ksacpt1rv27r8c6s": {"id": "ksacpt1rv27r8c6s", "title": "Role", "name": "timeout1", "role": "time_out_role", "children": ["7mddtjl1e23g5ou"], "properties": {"ROLE": "timeout1"}}, "59xlsy9rs6xsn4": {"id": "59xlsy9rs6xsn4", "title": "TimeoutFormation", "properties": {"ROLE": "timeout1"}}, "7mddtjl1e23g5ou": {"children": ["59xlsy9rs6xsn4"], "id": "7mddtjl1e23g5ou", "title": "UntilSuccess", "properties": {"ROLE": "timeout1"}}, "6ftlpznrqjihset": {"id": "6ftlpznrqjihset", "title": "Role", "name": "timeout2", "role": "time_out_role", "children": ["68ppb5h475jtg5"], "properties": {"ROLE": "timeout2"}}, "3xtdgl03ognwmrz45": {"id": "3xtdgl03ognwmrz45", "title": "TimeoutFormation", "properties": {"ROLE": "timeout2"}}, "68ppb5h475jtg5": {"children": ["3xtdgl03ognwmrz45"], "id": "68ppb5h475jtg5", "title": "UntilSuccess", "properties": {"ROLE": "timeout2"}}, "fztzm2ekoog9u": {"id": "fztzm2ekoog9u", "title": "Role", "name": "timeout3", "role": "time_out_role", "children": ["xtn5ffksgn2fm04ql"], "properties": {"ROLE": "timeout3"}}, "fbjr7c7c0t0lqytu": {"id": "fbjr7c7c0t0lqytu", "title": "TimeoutFormation", "properties": {"ROLE": "timeout3"}}, "xtn5ffksgn2fm04ql": {"children": ["fbjr7c7c0t0lqytu"], "id": "xtn5ffksgn2fm04ql", "title": "UntilSuccess", "properties": {"ROLE": "timeout3"}}, "9ibalbewy4j5y7": {"id": "9ibalbewy4j5y7", "title": "Role", "name": "timeout4", "role": "time_out_role", "children": ["6b7f6qocvrm6j"], "properties": {"ROLE": "timeout4"}}, "1cqb4u5a0h288": {"id": "1cqb4u5a0h288", "title": "TimeoutFormation", "properties": {"ROLE": "timeout4"}}, "6b7f6qocvrm6j": {"children": ["1cqb4u5a0h288"], "id": "6b7f6qocvrm6j", "title": "UntilSuccess", "properties": {"ROLE": "timeout4"}}, "2wfvpaj11ozlqh": {"id": "2wfvpaj11ozlqh", "title": "Role", "name": "timeout5", "role": "time_out_role", "children": ["op3u88t19zk19ylav"], "properties": {"ROLE": "timeout5"}}, "9wnrdyz8tiu3qwna": {"id": "9wnrdyz8tiu3qwna", "title": "TimeoutFormation", "properties": {"ROLE": "timeout5"}}, "op3u88t19zk19ylav": {"children": ["9wnrdyz8tiu3qwna"], "id": "op3u88t19zk19ylav", "title": "UntilSuccess", "properties": {"ROLE": "timeout5"}}, "s4ayasg9wzcqi4j9l": {"id": "s4ayasg9wzcqi4j9l", "title": "Role", "name": "timeout6", "role": "time_out_role", "children": ["1cgmeu46hevc439"], "properties": {"ROLE": "timeout6"}}, "46eg852t1pzcochw2": {"id": "46eg852t1pzcochw2", "title": "TimeoutFormation", "properties": {"ROLE": "timeout6"}}, "1cgmeu46hevc439": {"children": ["46eg852t1pzcochw2"], "id": "1cgmeu46hevc439", "title": "UntilSuccess", "properties": {"ROLE": "timeout6"}}, "hwmc2zvtsw4hnts73": {"id": "hwmc2zvtsw4hnts73", "title": "Role", "name": "timeout7", "role": "time_out_role", "children": ["jivchw8yii8720p77"], "properties": {"ROLE": "timeout7"}}, "ym8h7jauwfjcbusj8": {"id": "ym8h7jauwfjcbusj8", "title": "TimeoutFormation", "properties": {"ROLE": "timeout7"}}, "jivchw8yii8720p77": {"children": ["ym8h7jauwfjcbusj8"], "id": "jivchw8yii8720p77", "title": "UntilSuccess", "properties": {"ROLE": "timeout7"}}, "dml9bz68aj29xd4e": {"id": "dml9bz68aj29xd4e", "title": "Role", "name": "timeout8", "role": "time_out_role", "children": ["8couag1xnz7j9"], "properties": {"ROLE": "timeout8"}}, "40t9w2vu0x9682l": {"id": "40t9w2vu0x9682l", "title": "TimeoutFormation", "properties": {"ROLE": "timeout8"}}, "8couag1xnz7j9": {"children": ["40t9w2vu0x9682l"], "id": "8couag1xnz7j9", "title": "UntilSuccess", "properties": {"ROLE": "timeout8"}}}}]}}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "1cgmeu46hevc439": {
+            "children": [
+              "46eg852t1pzcochw2"
+            ],
+            "id": "1cgmeu46hevc439",
+            "properties": {
+              "ROLE": "timeout6"
+            },
+            "title": "UntilSuccess"
+          },
+          "1cqb4u5a0h288": {
+            "id": "1cqb4u5a0h288",
+            "properties": {
+              "ROLE": "timeout4"
+            },
+            "title": "TimeoutFormation"
+          },
+          "2wfvpaj11ozlqh": {
+            "children": [
+              "op3u88t19zk19ylav"
+            ],
+            "id": "2wfvpaj11ozlqh",
+            "name": "timeout5",
+            "properties": {
+              "ROLE": "timeout5"
+            },
+            "role": "time_out_role",
+            "title": "Role"
+          },
+          "3xtdgl03ognwmrz45": {
+            "id": "3xtdgl03ognwmrz45",
+            "properties": {
+              "ROLE": "timeout2"
+            },
+            "title": "TimeoutFormation"
+          },
+          "40t9w2vu0x9682l": {
+            "id": "40t9w2vu0x9682l",
+            "properties": {
+              "ROLE": "timeout8"
+            },
+            "title": "TimeoutFormation"
+          },
+          "46eg852t1pzcochw2": {
+            "id": "46eg852t1pzcochw2",
+            "properties": {
+              "ROLE": "timeout6"
+            },
+            "title": "TimeoutFormation"
+          },
+          "59xlsy9rs6xsn4": {
+            "id": "59xlsy9rs6xsn4",
+            "properties": {
+              "ROLE": "timeout1"
+            },
+            "title": "TimeoutFormation"
+          },
+          "5l9dl7uhahizl88": {
+            "children": [
+              "ksacpt1rv27r8c6s",
+              "6ftlpznrqjihset",
+              "fztzm2ekoog9u",
+              "9ibalbewy4j5y7",
+              "2wfvpaj11ozlqh",
+              "s4ayasg9wzcqi4j9l",
+              "hwmc2zvtsw4hnts73",
+              "dml9bz68aj29xd4e"
+            ],
+            "id": "5l9dl7uhahizl88",
+            "properties": {
+              "TacticType": "General"
+            },
+            "title": "RoleDivider"
+          },
+          "68ppb5h475jtg5": {
+            "children": [
+              "3xtdgl03ognwmrz45"
+            ],
+            "id": "68ppb5h475jtg5",
+            "properties": {
+              "ROLE": "timeout2"
+            },
+            "title": "UntilSuccess"
+          },
+          "6b7f6qocvrm6j": {
+            "children": [
+              "1cqb4u5a0h288"
+            ],
+            "id": "6b7f6qocvrm6j",
+            "properties": {
+              "ROLE": "timeout4"
+            },
+            "title": "UntilSuccess"
+          },
+          "6ftlpznrqjihset": {
+            "children": [
+              "68ppb5h475jtg5"
+            ],
+            "id": "6ftlpznrqjihset",
+            "name": "timeout2",
+            "properties": {
+              "ROLE": "timeout2"
+            },
+            "role": "time_out_role",
+            "title": "Role"
+          },
+          "7mddtjl1e23g5ou": {
+            "children": [
+              "59xlsy9rs6xsn4"
+            ],
+            "id": "7mddtjl1e23g5ou",
+            "properties": {
+              "ROLE": "timeout1"
+            },
+            "title": "UntilSuccess"
+          },
+          "8couag1xnz7j9": {
+            "children": [
+              "40t9w2vu0x9682l"
+            ],
+            "id": "8couag1xnz7j9",
+            "properties": {
+              "ROLE": "timeout8"
+            },
+            "title": "UntilSuccess"
+          },
+          "9ibalbewy4j5y7": {
+            "children": [
+              "6b7f6qocvrm6j"
+            ],
+            "id": "9ibalbewy4j5y7",
+            "name": "timeout4",
+            "properties": {
+              "ROLE": "timeout4"
+            },
+            "role": "time_out_role",
+            "title": "Role"
+          },
+          "9wnrdyz8tiu3qwna": {
+            "id": "9wnrdyz8tiu3qwna",
+            "properties": {
+              "ROLE": "timeout5"
+            },
+            "title": "TimeoutFormation"
+          },
+          "dml9bz68aj29xd4e": {
+            "children": [
+              "8couag1xnz7j9"
+            ],
+            "id": "dml9bz68aj29xd4e",
+            "name": "timeout8",
+            "properties": {
+              "ROLE": "timeout8"
+            },
+            "role": "time_out_role",
+            "title": "Role"
+          },
+          "fbjr7c7c0t0lqytu": {
+            "id": "fbjr7c7c0t0lqytu",
+            "properties": {
+              "ROLE": "timeout3"
+            },
+            "title": "TimeoutFormation"
+          },
+          "fztzm2ekoog9u": {
+            "children": [
+              "xtn5ffksgn2fm04ql"
+            ],
+            "id": "fztzm2ekoog9u",
+            "name": "timeout3",
+            "properties": {
+              "ROLE": "timeout3"
+            },
+            "role": "time_out_role",
+            "title": "Role"
+          },
+          "hwmc2zvtsw4hnts73": {
+            "children": [
+              "jivchw8yii8720p77"
+            ],
+            "id": "hwmc2zvtsw4hnts73",
+            "name": "timeout7",
+            "properties": {
+              "ROLE": "timeout7"
+            },
+            "role": "time_out_role",
+            "title": "Role"
+          },
+          "jivchw8yii8720p77": {
+            "children": [
+              "ym8h7jauwfjcbusj8"
+            ],
+            "id": "jivchw8yii8720p77",
+            "properties": {
+              "ROLE": "timeout7"
+            },
+            "title": "UntilSuccess"
+          },
+          "ksacpt1rv27r8c6s": {
+            "children": [
+              "7mddtjl1e23g5ou"
+            ],
+            "id": "ksacpt1rv27r8c6s",
+            "name": "timeout1",
+            "properties": {
+              "ROLE": "timeout1"
+            },
+            "role": "time_out_role",
+            "title": "Role"
+          },
+          "op3u88t19zk19ylav": {
+            "children": [
+              "9wnrdyz8tiu3qwna"
+            ],
+            "id": "op3u88t19zk19ylav",
+            "properties": {
+              "ROLE": "timeout5"
+            },
+            "title": "UntilSuccess"
+          },
+          "s4ayasg9wzcqi4j9l": {
+            "children": [
+              "1cgmeu46hevc439"
+            ],
+            "id": "s4ayasg9wzcqi4j9l",
+            "name": "timeout6",
+            "properties": {
+              "ROLE": "timeout6"
+            },
+            "role": "time_out_role",
+            "title": "Role"
+          },
+          "xtn5ffksgn2fm04ql": {
+            "children": [
+              "fbjr7c7c0t0lqytu"
+            ],
+            "id": "xtn5ffksgn2fm04ql",
+            "properties": {
+              "ROLE": "timeout3"
+            },
+            "title": "UntilSuccess"
+          },
+          "ym8h7jauwfjcbusj8": {
+            "id": "ym8h7jauwfjcbusj8",
+            "properties": {
+              "ROLE": "timeout7"
+            },
+            "title": "TimeoutFormation"
+          }
+        },
+        "root": "5l9dl7uhahizl88",
+        "title": "time_out_tactic"
+      }
+    ]
+  },
+  "name": "time_out_tactic"
+}
