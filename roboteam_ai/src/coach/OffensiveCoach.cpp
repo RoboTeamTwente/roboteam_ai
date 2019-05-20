@@ -207,7 +207,7 @@ OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(cons
     OffensivePosition bestPosition = currentBestPosition;
     for (auto &potentialPosition : positions) {
         // check if the x-position of the point is on their half
-        if (bestPosition.position.x < 0 && potentialPosition.x < bestPosition.position.x) continue;
+        if (currentBestPosition.position.x < 0 && potentialPosition.x < currentBestPosition.position.x) continue;
 
         // check if the point is in the field and out of the defense area
         if (! world::field->pointIsInField(potentialPosition, 0.10) ||
@@ -216,7 +216,8 @@ OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(cons
         }
 
         // check if the point is out of this zone
-        if ((potentialPosition - zoneLocation).length2() > ZONE_RADIUS * ZONE_RADIUS) {
+        if ((potentialPosition - zoneLocation).length2() > (currentBestPosition.position - zoneLocation).length2() &&
+            (potentialPosition - zoneLocation).length2() > ZONE_RADIUS * ZONE_RADIUS) {
             continue;
         }
 

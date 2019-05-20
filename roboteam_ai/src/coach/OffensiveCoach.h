@@ -22,7 +22,7 @@ class OffensiveCoach {
         using Robot = world::Robot;
         using RobotPtr = std::shared_ptr<Robot>;
 
-        const double SEARCH_GRID_ROBOT_POSITIONS = 0.02;
+        const double SEARCH_GRID_ROBOT_POSITIONS = 0.1;
         const int GRID_SIZE = 3;
         const double CLOSE_TO_GOAL_DISTANCE = 0.3;
         const double FURTHER_FROM_GOAL_DISTANCE = 3.0*CLOSE_TO_GOAL_DISTANCE;
