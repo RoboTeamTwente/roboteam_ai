@@ -93,7 +93,7 @@ add_executable(dummy_world
     )
 target_link_libraries(dummy_world
     roboteam_world_srcs
-    ${catkin_LIBRARIES}
+    ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES}
     )
 add_dependencies(dummy_world
     ${${PROJECT_NAME}_EXPORTED_TARGETS}
