@@ -220,3 +220,37 @@ TEST(FieldTest, it_calculates_obstacles) {
             rtt::ai::Constants::ROBOT_RADIUS()); // the obstacle should be greater than robot radius
 }
 
+
+TEST(FieldTest, line_intersects_with_defence_area) {
+    roboteam_msgs::GeometryFieldSize field;
+    field.field_length = 8;
+    field.field_width = 12;
+    field.goal_width = 1;
+    // set the penalty lines
+    field.left_penalty_line.begin = rtt::Vector2(- 4, 2);
+    field.left_penalty_line.end = rtt::Vector2(- 4, 6);
+    field.right_penalty_line.begin = rtt::Vector2(4, 2);
+    field.right_penalty_line.end = rtt::Vector2(4, 6);
+    rtt::ai::world::field->set_field(field);
+   
+    EXPECT_TRUE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {0,0}, {-8,0}, 0));
+    EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {0,0}, {8,0}, 0));
+
+    EXPECT_TRUE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {0,0}, {8,0}, 0));
+    EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {0,0}, {-8,0}, 0));
+
+    EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {8,0}, {12,0}, 0));
+    EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {-8,0}, {-12,0}, 0));
+
+    // exactly on the lines
+    EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {-4,2}, {-4,6}, 0));
+    EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {4,2}, {4,6}, 0));
+
+
+    // margin should make a difference
+    EXPECT_TRUE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {-4.1,2}, {-4.1,6}, 1));
+    EXPECT_TRUE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {4.1,2}, {4.1,6}, 1));
+    EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {-4.1,2}, {-4.1,6}, 0));
+    EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {4.1,2}, {4.1,6}, 0));
+}
+
