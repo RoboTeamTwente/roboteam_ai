@@ -8,7 +8,7 @@ using dealer = rtt::ai::robotDealer::RobotDealer;
 
 namespace bt {
 
-void bt::DefaultTactic::initialize() {
+void DefaultTactic::initialize() {
     // determine the tactic
     parseType(properties->getString("TacticType"));
 
@@ -18,7 +18,7 @@ void bt::DefaultTactic::initialize() {
     updateRobots();
 }
 
-bt::Node::Status bt::DefaultTactic::update() {
+Node::Status DefaultTactic::update() {
     updateStyle();
 
     if (!updateRobots()) {
@@ -42,7 +42,7 @@ bt::Node::Status bt::DefaultTactic::update() {
 
 }
 
-bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboard,
+DefaultTactic::DefaultTactic(std::string name, Blackboard::Ptr blackboard,
                                  const std::vector<std::pair<std::string, RobotType>> &robots_) {
 
     convert(robots_);
@@ -52,7 +52,7 @@ bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboar
     this->name = std::move(name);
 }
 
-void bt::DefaultTactic::claimRobots(int amount) {
+void DefaultTactic::claimRobots(int amount) {
 
     // for the amount of robots we still need
     for (int i = 0; i < amount; i++) {
@@ -64,7 +64,7 @@ void bt::DefaultTactic::claimRobots(int amount) {
     }
 }
 
-bool bt::DefaultTactic::updateRobots() {
+bool DefaultTactic::updateRobots() {
     int robotsNeeded = amountToTick - robotIDs.size();
 
     // if we need a negative amount of robots we have too much, so we need to disclaim robots
@@ -78,7 +78,7 @@ bool bt::DefaultTactic::updateRobots() {
     return (static_cast<int>(robotIDs.size()) == amountToTick);
 }
 
-void bt::DefaultTactic::disClaimRobots(int amount) {
+void DefaultTactic::disClaimRobots(int amount) {
     for (int i = 0; i < amount; i++) {
 
         // we need to store the robot id for the robot which we will remove
@@ -89,7 +89,7 @@ void bt::DefaultTactic::disClaimRobots(int amount) {
     }
 }
 
-std::pair<std::string, rtt::ai::robotDealer::RobotType> bt::DefaultTactic::getNextClaim() {
+std::pair<std::string, rtt::ai::robotDealer::RobotType> DefaultTactic::getNextClaim() {
     for (auto &robot : robots) {
         if (std::get<0>(robot) == static_cast<int>(robotIDs.size() + 1)) {
             return std::make_pair(std::get<1>(robot), std::get<2>(robot));
@@ -98,7 +98,7 @@ std::pair<std::string, rtt::ai::robotDealer::RobotType> bt::DefaultTactic::getNe
     return {};
 }
 
-std::pair<std::string, rtt::ai::robotDealer::RobotType> bt::DefaultTactic::getLastClaim() {
+std::pair<std::string, rtt::ai::robotDealer::RobotType> DefaultTactic::getLastClaim() {
     for (auto &robot : robots) {
         if (std::get<0>(robot) == static_cast<int>(robotIDs.size())) {
             return std::make_pair(std::get<1>(robot), std::get<2>(robot));
@@ -107,7 +107,7 @@ std::pair<std::string, rtt::ai::robotDealer::RobotType> bt::DefaultTactic::getLa
     return {};
 }
 
-void bt::DefaultTactic::parseType(const std::string &typee) {
+void DefaultTactic::parseType(const std::string &typee) {
     if (typee == "Offensive") {
         thisType = Offensive;
     } else if (typee == "Middle") {
@@ -120,7 +120,7 @@ void bt::DefaultTactic::parseType(const std::string &typee) {
 
 }
 
-void bt::DefaultTactic::updateStyle() {
+void DefaultTactic::updateStyle() {
     auto reportPtr = rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
     rtt::ai::analysis::PlayStyle style;
     if (reportPtr) {
@@ -144,7 +144,7 @@ void bt::DefaultTactic::updateStyle() {
     }
 }
 
-void bt::DefaultTactic::convert(const std::vector<std::pair<std::string, RobotType>> &unit) {
+void DefaultTactic::convert(const std::vector<std::pair<std::string, RobotType>> &unit) {
     int counter = 1;
     for (const auto &robot : unit) {
         std::tuple<int, std::string, RobotType> temp = std::tuple<int, std::string, RobotType>(counter, robot.first,
@@ -154,7 +154,7 @@ void bt::DefaultTactic::convert(const std::vector<std::pair<std::string, RobotTy
     }
 }
 
-void bt::DefaultTactic::terminate(Node::Status s) {
+void DefaultTactic::terminate(Node::Status s) {
     robotIDs = {};
     amountToTick = -1;
     rtt::ai::robotDealer::RobotDealer::removeTactic(name);
@@ -173,6 +173,10 @@ std::vector<Node::Ptr> DefaultTactic::getChildren() {
 
 void DefaultTactic::giveProperty(std::string a, std::string b) {
     properties->setString(a, b);
+}
+
+std::string DefaultTactic::node_name() {
+    return this->name;
 }
 
 }

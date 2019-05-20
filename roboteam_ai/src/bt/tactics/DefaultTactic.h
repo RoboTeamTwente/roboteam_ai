@@ -48,6 +48,9 @@ public:
     };
     TacticType thisType = TacticType::General;
     void terminate(Node::Status s) override;
+
+    std::string node_name();
+
 };
 }
 
