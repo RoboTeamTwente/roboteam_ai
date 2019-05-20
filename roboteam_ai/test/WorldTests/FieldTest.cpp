@@ -303,5 +303,17 @@ TEST(FieldTest, penalty_points) {
 
     EXPECT_EQ(penaltyPointThem.x, 4);
     EXPECT_EQ(penaltyPointThem.y, 0);
+}
 
+TEST(FieldTest, goal_angle) {
+    roboteam_msgs::GeometryFieldSize field;
+    field.field_length = 12;
+    field.field_width = 8;
+    field.goal_width = 1;
+    rtt::ai::world::field->set_field(field);
+
+    EXPECT_FLOAT_EQ(rtt::ai::world::field->getTotalGoalAngle(true, {0,0}), 0.16628246);
+    EXPECT_FLOAT_EQ(rtt::ai::world::field->getTotalGoalAngle(false, {0,0}), 0.16628246);
+    EXPECT_EQ(rtt::ai::world::field->getTotalGoalAngle(true, {-6,0}), M_PI);
+    EXPECT_EQ(rtt::ai::world::field->getTotalGoalAngle(true, {-6,4}), 0);
 }
