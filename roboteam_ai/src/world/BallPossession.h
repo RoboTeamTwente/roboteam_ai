@@ -6,11 +6,13 @@
 #define ROBOTEAM_AI_BALLPOSSESSION_H
 
 #include "World.h"
+#include "gtest/gtest_prod.h"
 
 namespace rtt {
 namespace ai {
 
 class BallPossession {
+    FRIEND_TEST(BallPossessionTest, team_far_or_close_to_ball);
 public:
     enum Possession {
         LOOSEBALL,
@@ -21,7 +23,7 @@ public:
     void update();
     Possession getPossession();
     void recomputeState();
-    std::string stateAsString();
+    std::string stateAsString(Possession state);
 
 private:
     const double CLOSE_TIME_TRESHOLD = 0.05;//s
