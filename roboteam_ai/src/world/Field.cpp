@@ -265,11 +265,6 @@ std::pair<Vector2, Vector2> Field::getGoalSides(bool ourGoal) {
     return std::make_pair(lowerGoalSide, upperGoalSide);
 }
 
-int Field::getRobotClosestToGoal(WhichRobots whichRobots, bool ourGoal) {
-    Vector2 goalCenter = ourGoal ? get_our_goal_center() : get_their_goal_center();
-    return world->getRobotClosestToPoint(goalCenter, whichRobots).id;
-}
-
 double Field::getDistanceToGoal(bool ourGoal, const Vector2& point) {
     auto sides = getGoalSides(ourGoal);
     return control::ControlUtils::distanceToLineWithEnds(point, sides.first, sides.second);
