@@ -6,7 +6,8 @@
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
 #include <roboteam_ai/src/interface/api/Input.h>
 #include "Receive.h"
-
+#include "roboteam_utils/Polygon.h"
+#include "roboteam_utils/Line.h"
 namespace rtt {
 namespace ai {
 
@@ -14,7 +15,7 @@ Receive::Receive(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(
 
 void Receive::onInitialize() {
     readyToPassSet = false;
-   // basicGtp.setCanMoveInDefenseArea(false);
+    canMoveInDefenseArea=properties->getBool("canMoveInDefenseArea");
 }
 
 Receive::Status Receive::onUpdate() {
@@ -62,9 +63,39 @@ void Receive::onTerminate(Status s) {
 
 // Pick the closest point to the (predicted) line of the ball for any 'regular' interception
 Vector2 Receive::computeInterceptPoint(const Vector2& startBall, const Vector2& endBall) {
-    return robot->pos.project(startBall, endBall);
-}
+    double margin = 0.3;
+    Vector2 projectPos = Line(startBall,endBall).project(robot->pos);
+    if (canMoveInDefenseArea) {
+        return projectPos;
+    }
+    if (world::field->pointIsInDefenceArea(projectPos, true, margin)||world::field->pointIsInDefenceArea(projectPos, false, margin)) {
+        Polygon defenceAreaUs(world::field->getDefenseArea(true, margin));
+        Polygon defenceAreaThem(world::field->getDefenseArea(false, margin));
+        LineSegment shotLine(startBall, startBall + startBall + (endBall - startBall)*10000);
+        std::vector<Vector2> intersects = defenceAreaUs.intersections(shotLine);
+        std::vector<Vector2> intersectsThem = defenceAreaThem.intersections(shotLine);
+        intersects.insert(intersects.end(),intersectsThem.begin(),intersectsThem.end());
+        if(intersects.empty()){
+            return projectPos;
+        }
+        double closestDist=DBL_MAX;
+        Vector2 closestPoint=projectPos;
+        for(const auto& point :intersects){
+            if (world::field->pointIsInField(point,0.01)) {
+                double dist = point.dist2(projectPos);
+                if (dist < closestDist) {
+                    closestDist = dist;
+                    closestPoint = point;
+                }
+            }
+        }
+        return closestPoint;
+    }
+    else {
+        return projectPos;
+    }
 
+}
 // check if the robot is in the desired position to catch the ball
 bool Receive::isInPosition(const Vector2& behindTargetPos) {
     bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->pos, 0.3*M_PI);
