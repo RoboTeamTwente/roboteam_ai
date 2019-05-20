@@ -56,7 +56,7 @@ class DefencePositionCoach {
     private:
         const double defenceLineMargin=0.15; //min distance the points are from defence area. Should atleast be robotradius large.
         const double calculationCollisionRad=0.15; // distance at which our own robots are considered to be colliding in our calculation (prevents robots from stacking up too much)
-
+        const int LOCKTIME=Constants::TICK_RATE()*3/2; //ticks (integer division is intentional here)
         world::WorldData simulatedWorld;
         std::vector<DefenderBot> defenders;
 

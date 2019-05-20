@@ -295,7 +295,6 @@ Vector2 DefencePositionCoach::findPositionForBlockBall(const Line &blockLine) {
         Vector2 intersect = control::ControlUtils::twoLineIntersection(blockLine.first, blockLine.second, bottomLine,
                 topLine);
         if (intersect.y > fieldWidth*0.5 || intersect.y < - fieldWidth*0.5) {
-            std::cerr << "Please don't send robots outside of the field" << std::endl;
             return getPosOnLine(blockLine, 0.1);
         }
         return intersect;
@@ -385,25 +384,20 @@ std::shared_ptr<DefenderBot> DefencePositionCoach::blockPass(PossiblePass pass) 
     auto blockLine = blockToGoalLine(pass, simulatedWorld);
     if (blockLine) {
         // try to find a position on the line that is valid
-        std::cout<<"Line";
         auto aggressionFactor = pickNewPosition(*blockLine, simulatedWorld);
         if (aggressionFactor) {
             DefenderBot defender = createBlockToGoal(pass, *aggressionFactor, *blockLine);
-            std::cout<<std::endl;
             return std::make_shared<DefenderBot>(defender);
         }
         // try putting it on the defence Line instead (as the robot is very likely far away
         double fieldWidth=world::field->get_field().field_width;
         Vector2 bottomLine(maxX()-0.01, - fieldWidth*0.5), topLine(maxX()-0.01, fieldWidth*0.5);
         Vector2 intersectPos=control::ControlUtils::twoLineIntersection(blockLine->first,blockLine->second,bottomLine,topLine);
-        std::cout<<"intersection";
         if(validNewPosition(intersectPos,simulatedWorld))
         {
             DefenderBot defender = createBlockToGoal(pass,intersectPos, *blockLine);
-            std::cout<<std::endl;
             return std::make_shared<DefenderBot>(defender);
         }
-        std::cerr<<"I really should not be here"<<std::endl;
     }
     // then try blocking on the defense line (closer to the line) if that is possible
     auto blockPos = blockOnDefenseAreaLine(pass, simulatedWorld);
@@ -446,7 +440,7 @@ std::vector<DefenderBot> DefencePositionCoach::decidePositionsStable(const std::
                         lockedCount++;
                         newDefender->id=lockedDefender.id;
                         newDefender->coveredCount=lockedDefender.coveredCount+1;
-                        if (newDefender->coveredCount>20){
+                        if (newDefender->coveredCount>LOCKTIME){
                             newDefender->locked=false;
                         }
                         addDefender(*newDefender);
@@ -462,7 +456,7 @@ std::vector<DefenderBot> DefencePositionCoach::decidePositionsStable(const std::
                 lockedCount++;
                 newDefender->id=lockedDefender.id;
                 newDefender->coveredCount=lockedDefender.coveredCount+1;
-                if (newDefender->coveredCount>20){
+                if (newDefender->coveredCount>LOCKTIME){
                     newDefender->locked=false;
                 }
                 addDefender(*newDefender);
@@ -473,9 +467,6 @@ std::vector<DefenderBot> DefencePositionCoach::decidePositionsStable(const std::
         if (!replacedDefender){
             freeRobots.push_back(lockedDefender.id);// if we somehow cannot cover this robot anymore, we set it to free
         }
-    }
-    if(defenders.size() + freeRobots.size() != amount){
-        std::cerr<<"SOMETHING IS HORRIBLY HORRIBLY WRONG"<<std::endl;
     }
     if (!blockedMostDangerousPos&&defenders.size()<amount) {
         auto bot=blockMostDangerousPos(); //first we handle the most dangerous position first
