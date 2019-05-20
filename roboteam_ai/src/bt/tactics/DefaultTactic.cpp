@@ -184,4 +184,4 @@ void DefaultTactic::addChild(Node::Ptr newChild) {
     children.push_back(newChild);
 }
 
-}
+} // bt
