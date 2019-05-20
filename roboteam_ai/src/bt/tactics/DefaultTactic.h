@@ -32,8 +32,8 @@ private:
     int claimedRobots = 0;
     std::string name;
     std::vector<Node::Ptr> children;
-    void giveProperty(std::string a, std::string b);
-    std::vector<Node::Ptr> getChildren();
+    void giveProperty(std::string a, std::string b) override;
+    std::vector<Node::Ptr> getChildren() override;
 
 public:
     std::vector<std::tuple<int, std::string, RobotType>> robots;
@@ -48,8 +48,8 @@ public:
     };
     TacticType thisType = TacticType::General;
     void terminate(Node::Status s) override;
-
-    std::string node_name();
+    std::string node_name() override;
+    void addChild(Node::Ptr newChild) override;
 
 };
 }

@@ -179,4 +179,9 @@ std::string DefaultTactic::node_name() {
     return this->name;
 }
 
+
+void DefaultTactic::addChild(Node::Ptr newChild) {
+    children.push_back(newChild);
+}
+
 }
