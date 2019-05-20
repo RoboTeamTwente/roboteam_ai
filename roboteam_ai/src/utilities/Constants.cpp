@@ -231,11 +231,22 @@ std::vector<QColor> Constants::TACTIC_COLORS() {
             {0, 0, 255, 100}};
 }
 
-pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(3.2, 0.0, 2.0) : pidVals(3.1, 0.0, 12.0); }
+pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(3.2, 0.0, 2.0) : pidVals(3.1, 0.0, 5.5); }
 
 pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(4.0, 0.0, 2.0) : pidVals(2.8, 0.0, 0.0); }
 
 pidVals Constants::standardForcePID() { return GRSIM() ? pidVals(1.65, 0.0, 0.0) : pidVals(2.8, 0.0, 0.0); }
+
+    std::vector<RuleSet> Constants::ruleSets() {
+        return {
+            {"default",                 8.0, 1.5, 6.5, 0.0, false, true},
+            {"halt",                    0.0, 0.0, 0.0, 0.0, true, true},
+            {"stop",                    1.5, 0.0, 0.0, 0.8, true, false},
+            {"ballplacement_them",      1.5, 0.0, 6.5, 0.8, true, true},
+            {"ballplacement_us",        1.5, 0.0, 6.5, 0.0, true, true},
+            {"kickoff",                 1.5, 0.0, 6.5, 0.5, true, true}
+        };
+    }
 
 }
 }

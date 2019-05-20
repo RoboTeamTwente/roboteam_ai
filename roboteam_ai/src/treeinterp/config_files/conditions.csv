@@ -19,3 +19,4 @@ IsOnPassLine
 CanPlay
 RobotOutside
 IsBallMovingFast,minVel
+RefBallIsMoving

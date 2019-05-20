@@ -76,7 +76,7 @@
 #include <roboteam_ai/src/conditions/CanPlay.h>
 #include <roboteam_ai/src/conditions/RobotOutside.h>
 #include <roboteam_ai/src/conditions/RefStateIsNormalPlay.h>
-#include <roboteam_ai/src/conditions/ballIsMoving.h>
+#include <roboteam_ai/src/conditions/RefBallIsMoving.h>
 #include <roboteam_ai/src/skills/BallPlacement/BallPlacementPass.h>
 
 
@@ -264,7 +264,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["IsOnPassLine"] = std::make_shared<rtt::ai::IsOnPassLine>(name, properties);
     map["RobotOutside"] = std::make_shared<rtt::ai::RobotOutside>(name, properties);
     map["RefStateIsNormalPlay"] = std::make_shared<rtt::ai::RefStateIsNormalPlay>(name, properties);
-    map["ballIsMoving"] = std::make_shared<rtt::ai::ballIsMoving>(name, properties);
+    map["RefBallIsMoving"] = std::make_shared<rtt::ai::RefBallIsMoving>(name, properties);
 
     if (map.find(name) != map.end()) {
         return map[name];

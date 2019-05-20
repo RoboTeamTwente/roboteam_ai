@@ -7,7 +7,7 @@
 #include "Formation.h"
 #include "roboteam_ai/src/control/ControlUtils.h"
 #include "roboteam_ai/src/world/Field.h"
-#include "roboteam_ai/src/utilities/Hungarian.h"
+#include "roboteam_ai/src/control/Hungarian.h"
 
 namespace rtt {
 namespace ai {

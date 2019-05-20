@@ -9,7 +9,9 @@
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include <roboteam_ai/src/interface/api/Output.h>
 #include <roboteam_ai/src/coach/GetBallCoach.h>
-#include <roboteam_ai/src/utilities/Referee.hpp>
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include <roboteam_ai/src/interface/api/Input.h>
+#include <roboteam_ai/src/interface/api/Toggles.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -19,21 +21,18 @@ namespace rtt {
 
 void ApplicationManager::setup() {
     IOManager = new io::IOManager(true, false);
-
-    BTFactory::setCurrentTree("halt_strategy");
-    BTFactory::setKeeperTree("keeper_default_tactic");
-    rtt::ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
-
+    ai::GameStateManager::forceNewGameState(RefCommand::HALT);
 }
 
 void ApplicationManager::loop() {
     ros::Rate rate(ai::Constants::TICK_RATE());
+
     BTFactory::makeTrees();
     double longestTick = 0.0;
     double timeTaken;
     int nTicksTaken = 0;
     double timeTakenOverNTicks = 0.0;
-    BTFactory::makeTrees();
+
     while (ros::ok()) {
         ros::Time begin = ros::Time::now();
 
@@ -62,69 +61,54 @@ void ApplicationManager::loop() {
 
 void ApplicationManager::runOneLoopCycle() {
     if (ai::world::world->weHaveRobots()) {
-        if (BTFactory::getCurrentTree() == "NaN") {
-            ROS_INFO("NaN tree probably Halting");
-            return;
-        }
-
         ai::analysis::GameAnalyzer::getInstance().start();
 
         // Will do things if this is a demo
         // otherwise wastes like 0.1 ms
-        auto demomsg = IOManager->getDemoInfo();
-        demo::JoystickDemo::demoLoop(demomsg);
+        auto demoMsg = IOManager->getDemoInfo();
+        demo::JoystickDemo::demoLoop(demoMsg);
 
 
-        if (ai::interface::Output::usesRefereeCommands()) {
+        auto gameState = ai::GameStateManager::getCurrentGameState();
+        std::string strategyName = gameState.strategyName;
+        std::string keeperTreeName = gameState.keeperStrategyName;
 
-            // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
-            // might want to build something that verifies this
-            auto strategy = strategyManager.getCurrentStrategy(ai::Referee::getRefereeData().command);
-            std::string keeperTreeName = strategyManager.getCurrentKeeperTreeName(ai::Referee::getRefereeData().command);
+        bool strategyChanged = oldStrategyName != strategyName;
+        bool keeperStrategyChanged = oldKeeperTreeName != keeperTreeName;
 
-            std::string strategyName = strategy.strategyName;
-            ai::Referee::setMaxRobotVelocity(strategy.maxVel);
-
-
-            if (oldStrategy != strategyName) {
-                ai::robotDealer::RobotDealer::refresh();
-
-                BTFactory::setCurrentTree(strategyName);
-                oldStrategy = strategyName;
-            }
-
-            if (oldKeeperTreeName != keeperTreeName) {
-                ai::robotDealer::RobotDealer::refresh();
-
-                std::cout << "changing keeper tree" << std::endl;
-                BTFactory::setKeeperTree(keeperTreeName);
-                oldKeeperTreeName = keeperTreeName;
-            }
-
-            ai::robotDealer::RobotDealer::setUseSeparateKeeper(true);
-
-        } else {
-            ai::Referee::setMaxRobotVelocity(ai::Constants::MAX_VEL());
+        if (strategyChanged) {
+            BTFactory::setCurrentTree(strategyName);
+            oldStrategyName = strategyName;
         }
 
-
-        if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
-            if (ai::robotDealer::RobotDealer::getKeeperID() == -1) {
-                std::cout << "setting keeper id" << std::endl;
-                ai::robotDealer::RobotDealer::setKeeperID(ai::world::world->getUs().at(0).id);
-            }
-            keeperTree = BTFactory::getKeeperTree();
-            if (keeperTree && rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
-                keeperTree->tick();
-            }
+        if (keeperStrategyChanged) {
+            std::cout << "changing keeper tree" << std::endl;
+            BTFactory::setKeeperTree(keeperTreeName);
+            oldKeeperTreeName = keeperTreeName;
         }
-        strategy = BTFactory::getTree(BTFactory::getCurrentTree());
+
+        if (keeperStrategyChanged || strategyChanged) {
+            ai::robotDealer::RobotDealer::refresh();
+        }
+        rtt::ai::robotDealer::RobotDealer::setKeeperID(gameState.keeperId);
+
+        keeperTree = BTFactory::getKeeperTree();
+        if (keeperTree && rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
+            keeperTree->tick();
+        }
+
 
         rtt::ai::coach::getBallCoach->update();
         rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
         rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
         rtt::ai::coach::g_pass.updatePassProgression();
 
+        if (BTFactory::getCurrentTree() == "NaN") {
+            std::cout << "NaN tree probably Halting" << std::endl;
+            return;
+        }
+
+        strategy = BTFactory::getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
 
@@ -148,18 +132,12 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     case Status::Running:break;
     case Status::Success:
         std::cout << " === TREE SUCCESS -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
-        BTFactory::setCurrentTree("normal_play_strategy");
-        BTFactory::setKeeperTree("keeper_default_tactic");
-
-        ai::robotDealer::RobotDealer::refresh();
+        ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
         break;
     case Status::Failure:
         std::cout << " === TREE FAILURE -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
-        BTFactory::setCurrentTree("normal_play_strategy");
-        BTFactory::setKeeperTree("keeper_default_tactic");
-
-        ai::robotDealer::RobotDealer::refresh();
-        break;
+        ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
+      break;
     case Status::Waiting:ROS_INFO_STREAM("Status returned: Waiting");
         break;
     }

@@ -13,7 +13,7 @@ namespace rtt{
 namespace ai{
 class InterceptRobot : public Skill{
     private:
-        control::BasicPosControl gtp;
+      //  control::BasicPosControl gtp;
         Vector2 getInterceptPos(Robot robotToIntercept);
     public:
         explicit InterceptRobot(string name, bt::Blackboard::Ptr blackboard);

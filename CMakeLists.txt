@@ -115,17 +115,20 @@ set(DEMO_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/demo/JoystickDemo.h)
 
 set(UTILS_SOURCES
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.hpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Referee.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/GameStateManager.hpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/GameStateManager.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Hungarian.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Hungarian.h
+        roboteam_ai/src/control/Hungarian.cpp
+        roboteam_ai/src/control/Hungarian.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Pause.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Pause.h
-        )
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RefGameState.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RefGameState.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RuleSet.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/GameState.h)
 
 
 set(SKILLS_SOURCES
@@ -276,8 +279,8 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RobotOutside.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefStateIsNormalPlay.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefStateIsNormalPlay.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ballIsMoving.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ballIsMoving.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefBallIsMoving.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefBallIsMoving.h)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
@@ -374,7 +377,9 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/VisualizationSettingsWidget.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/VisualizationSettingsWidget.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Toggles.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Toggles.cpp)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Toggles.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RefereeWidget.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RefereeWidget.h)
 
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldData.h

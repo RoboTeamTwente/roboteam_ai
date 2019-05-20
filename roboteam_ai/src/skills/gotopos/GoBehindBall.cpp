@@ -71,7 +71,7 @@ Skill::Status GoBehindBall::gtpUpdate() {
 }
 
 void GoBehindBall::gtpInitialize() {
-    posController->setAvoidBall(rtt::ai::Constants::DEFAULT_BALLCOLLISION_RADIUS());
+    posController->setAvoidBallDistance(rtt::ai::Constants::DEFAULT_BALLCOLLISION_RADIUS());
     if (properties->hasString("type")) {
         type = stringToRefType(properties->getString("type"));
     }

@@ -28,6 +28,7 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     for (std::string const &strategyName : Switches::strategyJsonFileNames) {
         select_strategy->addItem(QString::fromStdString(strategyName));
     }
+    select_strategy->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
 
     // get the keeper tree names from Switches
     select_keeper_strategy = new QComboBox();
@@ -35,12 +36,22 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     for (std::string const &keeperTacticName : Switches::keeperJsonFiles) {
         select_keeper_strategy->addItem(QString::fromStdString(keeperTacticName));
     }
+    select_keeper_strategy->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
 
     select_goalie = new QComboBox();
     vLayout->addWidget(select_goalie);
     for (int i = 0; i < 16; i++) {
         select_goalie->addItem(QString::fromStdString(to_string(i)));
     }
+    select_goalie->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
+
+    select_ruleset = new QComboBox();
+    vLayout->addWidget(select_ruleset);
+    for (RuleSet const &ruleSet : Constants::ruleSets()) {
+        select_ruleset->addItem(QString::fromStdString(ruleSet.title));
+    }
+    select_ruleset->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
+
     auto hButtonsLayout = new QHBoxLayout();
     haltBtn = new QPushButton("Pause");
     QObject::connect(haltBtn, SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
@@ -65,14 +76,11 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     vLayout->addLayout(hButtonsLayout);
 
     MainWindow::configureCheckBox("TimeOut to top", vLayout, this, SLOT(setTimeOutTop(bool)), Constants::STD_TIMEOUT_TO_TOP());
-    MainWindow::configureCheckBox("Use keeper (does not work when referee used)", vLayout, this, SLOT(setUsesKeeper(bool)),
-                      robotDealer::RobotDealer::usesSeparateKeeper());
 
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
                      [=](const QString &strategyName) {
                          // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-                         BTFactory::setCurrentTree(strategyName.toStdString());
-                         robotDealer::RobotDealer::refresh();
+                         interface::Output::setStrategyTree(strategyName.toStdString());
                          emit treeHasChanged();
                      });
 
@@ -80,15 +88,22 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
                      static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
                      [=](const QString &keeperStrategyName) {
 // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-                         BTFactory::setKeeperTree(keeperStrategyName.toStdString());
-                         robotDealer::RobotDealer::refresh();
+                         interface::Output::setKeeperTree(keeperStrategyName.toStdString());
                          emit treeHasChanged();
                      });
 
-    QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+    QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
                      [=](const QString &goalieId) {
                          // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-                         robotDealer::RobotDealer::setKeeperID(goalieId.toInt());
+                         interface::Output::setKeeperId(goalieId.toInt());
+                         emit treeHasChanged();
+                     });
+
+    QObject::connect(select_ruleset, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
+                     [=](const QString &rulesetName) {
+                         // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+                         //robotDealer::RobotDealer::setKeeperID(goalieId.toInt());.
+                         interface::Output::setRuleSetName(rulesetName.toStdString());
                          emit treeHasChanged();
                      });
 
@@ -98,11 +113,6 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
 
 void MainControlsWidget::setTimeOutTop(bool top) {
     Output::setTimeOutTop(top);
-}
-
-void MainControlsWidget::setUsesKeeper(bool usekeeper) {
-    robotDealer::RobotDealer::setUseSeparateKeeper(usekeeper);
-    robotDealer::RobotDealer::refresh();
 }
 
 QString MainControlsWidget::getSelectStrategyText() const {
@@ -115,6 +125,12 @@ void MainControlsWidget::setSelectStrategyText(QString text) {
 
 void MainControlsWidget::setUseReferee(bool useRef) {
     Output::setUseRefereeCommands(useRef);
+
+    select_strategy->setDisabled(useRef);
+    select_keeper_strategy->setDisabled(useRef);
+    select_ruleset->setDisabled(useRef);
+    select_goalie->setDisabled(useRef);
+
 }
 
 
@@ -187,6 +203,29 @@ void MainControlsWidget::setToggleSideBtnLayout() const {
 void MainControlsWidget::refreshSignal() {
     robotDealer::RobotDealer::refresh();
     emit treeHasChanged();
+}
+
+void MainControlsWidget::updateContents() {
+
+    auto strategyText = QString::fromStdString(BTFactory::getCurrentTree());
+    if (strategyText != select_strategy->currentText()) {
+        select_strategy->setCurrentText(strategyText);
+    }
+
+    auto keeperStrategyText = QString::fromStdString(BTFactory::getKeeperTreeName());
+    if (keeperStrategyText != select_keeper_strategy->currentText()) {
+        select_keeper_strategy->setCurrentText(keeperStrategyText);
+    }
+
+    auto ruleSetText = QString::fromStdString(GameStateManager::getCurrentGameState().ruleSetName);
+    if (ruleSetText != select_ruleset->currentText()) {
+        select_ruleset->setCurrentText(ruleSetText);
+    }
+
+    auto goalieIdText = QString::number(GameStateManager::getCurrentGameState().keeperId);
+    if (goalieIdText != select_goalie->currentText()) {
+        select_goalie->setCurrentText(goalieIdText);
+    }
 }
 
 } // interface
