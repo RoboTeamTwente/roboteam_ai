@@ -30,10 +30,7 @@ TEST(ShotControllerTest, it_generates_proper_shots) {
     roboteam_msgs::WorldBall ball;
     ball.pos.x = 0;
     ball.pos.y = 0;
-
-    // the robot is aimed towards the ball and the point
-    world.ball = testhelpers::WorldHelper::generateBallAtLocation(
-            testhelpers::WorldHelper::getLocationRightBeforeRobot(robot));
+    world.ball = ball;
 
     rtt::ai::world::world->updateWorld(world);
 
@@ -43,6 +40,7 @@ TEST(ShotControllerTest, it_generates_proper_shots) {
 
     // test if it makes proper commands.
     roboteam_msgs::RobotCommand command;
+    command.id = robot.id;
     shotController.makeCommand(sd, command);
     EXPECT_EQ(command.id, robot.id);
     EXPECT_EQ(command.x_vel, sd.vel.x);
@@ -59,25 +57,25 @@ TEST(ShotControllerTest, it_generates_proper_shots) {
     // check if the correct positions behind the ball are found
     // the robot is at -1, 0 and the ball is at 0,0 and the shottarget is 1,0
     Vector2 loc = shotController.getPlaceBehindBallForGenevaState(world::Robot(robot), {1, 0}, 1);
-    EXPECT_EQ(loc.length(), 2.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
-    EXPECT_EQ(loc.angle(), toRadians(20));
+    Vector2 ballPos = ball.pos;
+    EXPECT_FLOAT_EQ(loc.length(), 2.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
+    EXPECT_FLOAT_EQ((ballPos - loc).angle(), toRadians(20));
 
     loc = shotController.getPlaceBehindBallForGenevaState(world::Robot(robot), {1, 0}, 2);
-    EXPECT_EQ(loc.length(), 2.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
-    EXPECT_EQ(loc.angle(), toRadians(10));
+    EXPECT_FLOAT_EQ(loc.length(), 2.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
+    EXPECT_FLOAT_EQ((ballPos - loc).angle(), toRadians(10));
 
     loc = shotController.getPlaceBehindBallForGenevaState(world::Robot(robot), {1, 0}, 3);
-    EXPECT_EQ(loc.length(), 2.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
-    EXPECT_EQ(loc.angle(), toRadians(0));
+    EXPECT_FLOAT_EQ(loc.length(), 2.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
+    EXPECT_FLOAT_EQ((ballPos - loc).angle(), toRadians(0));
 
     loc = shotController.getPlaceBehindBallForGenevaState(world::Robot(robot), {1, 0}, 4);
-    EXPECT_EQ(loc.length(), 2.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
-    EXPECT_EQ(loc.angle(), toRadians(-10));
+    EXPECT_FLOAT_EQ(loc.length(), 2.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
+    EXPECT_FLOAT_EQ((ballPos - loc).angle(), toRadians(-10));
 
     loc = shotController.getPlaceBehindBallForGenevaState(world::Robot(robot), {1, 0}, 5);
-    EXPECT_EQ(loc.length(), 2.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
-    EXPECT_EQ(loc.angle(), toRadians(-20));
-
+    EXPECT_FLOAT_EQ(loc.length(), 2.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
+    EXPECT_FLOAT_EQ((ballPos - loc).angle(), toRadians(-20));
 
 
     // the shotcontroller can determine a proper geneva state
@@ -90,11 +88,11 @@ TEST(ShotControllerTest, it_generates_proper_shots) {
     EXPECT_EQ(shotController.determineKickForce(10.0, BallSpeed::MAX_SPEED), Constants::MAX_KICK_POWER());
     EXPECT_EQ(shotController.determineKickForce(1.0, BallSpeed::MAX_SPEED), Constants::MAX_KICK_POWER());
     EXPECT_EQ(shotController.determineKickForce(10.0, BallSpeed::PASS), Constants::MAX_KICK_POWER());
-    EXPECT_EQ(shotController.determineKickForce(1.0, BallSpeed::PASS), Constants::MAX_KICK_POWER());
-    EXPECT_FLOAT_EQ(shotController.determineKickForce(4.0, BallSpeed::LAY_STILL_AT_POSITION), Constants::MAX_KICK_POWER() / 3.0);
-    EXPECT_FLOAT_EQ(shotController.determineKickForce(1.0, BallSpeed::LAY_STILL_AT_POSITION), Constants::MAX_KICK_POWER() / 6.0);
-    EXPECT_FLOAT_EQ(shotController.determineKickForce(4.0, BallSpeed::DRIBBLE_KICK), Constants::MAX_KICK_POWER() / 3.0);
-    EXPECT_FLOAT_EQ(shotController.determineKickForce(1.0, BallSpeed::DRIBBLE_KICK), Constants::MAX_KICK_POWER() / 6.0);
+    EXPECT_FLOAT_EQ(shotController.determineKickForce(1.0, BallSpeed::PASS), 3.2);
+    EXPECT_FLOAT_EQ(shotController.determineKickForce(4.0, BallSpeed::LAY_STILL_AT_POSITION), Constants::MAX_KICK_POWER() / 2.25);
+    EXPECT_FLOAT_EQ(shotController.determineKickForce(1.0, BallSpeed::LAY_STILL_AT_POSITION), Constants::MAX_KICK_POWER() / 4.5);
+    EXPECT_FLOAT_EQ(shotController.determineKickForce(4.0, BallSpeed::DRIBBLE_KICK), Constants::MAX_KICK_POWER() / 2.25);
+    EXPECT_FLOAT_EQ(shotController.determineKickForce(1.0, BallSpeed::DRIBBLE_KICK), Constants::MAX_KICK_POWER() / 4.5);
 
 
 }
