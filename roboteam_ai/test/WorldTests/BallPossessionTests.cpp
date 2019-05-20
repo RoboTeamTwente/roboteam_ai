@@ -53,5 +53,38 @@ TEST(BallPossessionTest, team_far_or_close_to_ball) {
     EXPECT_FALSE(bp.teamCloseToBall(world::world->getWorld(), false));
 }
 
+TEST(BallPossessionTest, it_properly_computes) {
+    rtt::ai::BallPossession bp;
+    roboteam_msgs::GeometryFieldSize field;
+    field.field_width = 8;
+    field.field_length = 12;
+
+
+    auto worldmsg = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(3, 0, true, field).first;
+    worldmsg.time = 0.0;
+    rtt::ai::world::world->updateWorld(worldmsg);
+
+    worldmsg = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(3, 0, true, field).first;
+    worldmsg.time = 1.0;
+    rtt::ai::world::world->updateWorld(worldmsg);
+
+    bp.update();
+    EXPECT_EQ(bp.closeToUsTime, 1.0);
+    EXPECT_EQ(bp.closeToThemTime, 0.0);
+    EXPECT_EQ(bp.farFromUsTime, 0.0);
+    EXPECT_EQ(bp.getPossession(), BallPossession::OURBALL);
+
+    worldmsg = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(0, 3, false, field).first;
+    worldmsg.time = 2.0;
+    rtt::ai::world::world->updateWorld(worldmsg);
+
+    bp.update();
+    EXPECT_EQ(bp.closeToUsTime, 0.0);
+    EXPECT_EQ(bp.closeToThemTime, 2.0);
+    EXPECT_EQ(bp.getPossession(), BallPossession::THEIRBALL);
+
+
+}
+
 }
 }

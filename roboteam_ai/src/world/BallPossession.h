@@ -13,6 +13,7 @@ namespace ai {
 
 class BallPossession {
     FRIEND_TEST(BallPossessionTest, team_far_or_close_to_ball);
+    FRIEND_TEST(BallPossessionTest, it_properly_computes);
 public:
     enum Possession {
         LOOSEBALL,
