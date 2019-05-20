@@ -42,7 +42,7 @@ bool Constants::SHOW_TICK_TIME_TAKEN() { return false; }
 
 bool Constants::SHOW_NUMTREE_TIME_TAKEN() { return false; }
 
-bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return true; }
+bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
 
 bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
 
