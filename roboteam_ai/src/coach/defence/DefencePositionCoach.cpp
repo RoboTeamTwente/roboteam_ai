@@ -422,6 +422,7 @@ void DefencePositionCoach::addDefender(DefenderBot defender) {
 }
 
 std::vector<DefenderBot> DefencePositionCoach::decidePositionsStable(const std::vector<DefenderBot>& lockedDefenders, std::vector<int> freeRobots) {
+    std::vector<DefenderBot> oldDefenders=defenders;
     defenders.clear(); // we are recomputing the positions again
     int amount=lockedDefenders.size()+freeRobots.size();
     if (amount<=0) { return defenders; } // we don't actually need to calculate now.
@@ -440,9 +441,6 @@ std::vector<DefenderBot> DefencePositionCoach::decidePositionsStable(const std::
                         lockedCount++;
                         newDefender->id=lockedDefender.id;
                         newDefender->coveredCount=lockedDefender.coveredCount+1;
-                        if (newDefender->coveredCount>LOCKTIME){
-                            newDefender->locked=false;
-                        }
                         addDefender(*newDefender);
                         replacedDefender = true;
                     }
@@ -456,9 +454,6 @@ std::vector<DefenderBot> DefencePositionCoach::decidePositionsStable(const std::
                 lockedCount++;
                 newDefender->id=lockedDefender.id;
                 newDefender->coveredCount=lockedDefender.coveredCount+1;
-                if (newDefender->coveredCount>LOCKTIME){
-                    newDefender->locked=false;
-                }
                 addDefender(*newDefender);
                 blockedMostDangerousPos=true;
                 replacedDefender=true;
@@ -490,14 +485,14 @@ std::vector<DefenderBot> DefencePositionCoach::decidePositionsStable(const std::
         }
         passes = createPassesSortedByDanger(simulatedWorld); //recalculate the danger after the new position
     }
-    assignIDs(lockedCount,freeRobots); // divide the ID's of the last robots over the remaining available ID's.
+    assignIDs(lockedCount,freeRobots,oldDefenders); // divide the ID's of the last robots over the remaining available ID's.
     return defenders;
 }
 
 // the following algorithm takes the closest robot for each available defender to decide which robot goes where.
 // Since the points are ordered on priority from the above algorithm the most important points come first
 // It might be better to use an algorithm that is more complicated (e.g. hungarian) but then we might need some kind of system which gives the first points more 'priority'
-void DefencePositionCoach::assignIDs(int lockedCount, std::vector<int> freeRobotIDs) {
+void DefencePositionCoach::assignIDs(int lockedCount, std::vector<int> freeRobotIDs,const std::vector<DefenderBot>& oldDefenders) {
     std::vector<int> freeIDs=freeRobotIDs;
     for (int j = lockedCount; j < defenders.size(); ++ j) {
         int closestId = - 1;
@@ -514,6 +509,13 @@ void DefencePositionCoach::assignIDs(int lockedCount, std::vector<int> freeRobot
         if (closestId != - 1) {
             defenders[j].id=closestId;
             freeIDs.erase(std::find(freeIDs.begin(), freeIDs.end(), closestId));
+            for (const auto& oldDefender : oldDefenders){
+                // if the robot is still covering the same target.
+                if (oldDefender.id==closestId&&oldDefender.blockFromID==defenders[j].blockFromID){
+                    defenders[j].coveredCount=oldDefender.coveredCount+1;
+                    break;
+                }
+            }
         }
     }
 }

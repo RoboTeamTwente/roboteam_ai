@@ -45,7 +45,7 @@ void DefenceDealer::updateDefenderLocations() {
         bool idFound = false;
         for (const auto &defender: assignedDefenders) {
             if (id == defender.id) {
-                defender.locked ? lockedDefenders.push_back(defender) : freeDefenders.push_back(defender.id);
+                defender.coveredCount>LOCKTIME ? lockedDefenders.push_back(defender) : freeDefenders.push_back(defender.id);
                 idFound = true;
                 break;
             }
