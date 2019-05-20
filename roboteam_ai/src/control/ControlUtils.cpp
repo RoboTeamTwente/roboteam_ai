@@ -4,7 +4,7 @@
 
 
 #include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/utilities/Referee.hpp>
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include "ControlUtils.h"
 #include "../world/World.h"
 
@@ -81,7 +81,7 @@ bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos,
         const world::WorldData &world, double safeDistanceFactor, bool includeKeeper) {
 
     double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor;
-    int keeperID = Referee::getRefereeData().them.goalie;
+    int keeperID = GameStateManager::getRefereeData().them.goalie;
 
     for (auto &enemy : world.them) {
         if(!includeKeeper && enemy.id == keeperID) continue;

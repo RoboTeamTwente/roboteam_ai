@@ -3,27 +3,13 @@
     "trees": [
       {
         "nodes": {
-          "lh640awz90crb39d": {
-            "id": "lh640awz90crb39d",
-            "properties": {},
-            "title": "CanPlay"
-          },
-          "nx2y9mz42h3fdqol": {
-            "children": [
-              "lh640awz90crb39d",
-              "wh5q2dwo2f2nc"
-            ],
-            "id": "nx2y9mz42h3fdqol",
-            "properties": {},
-            "title": "Selector"
-          },
           "wh5q2dwo2f2nc": {
             "id": "wh5q2dwo2f2nc",
             "name": "kickoff_them_formation_tactic",
             "title": "Tactic"
           }
         },
-        "root": "nx2y9mz42h3fdqol",
+        "root": "wh5q2dwo2f2nc",
         "title": "kickoff_them_formation_strategy"
       }
     ]

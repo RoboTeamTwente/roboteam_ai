@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 19-2-19.
 //
 
-#include <roboteam_ai/src/utilities/Hungarian.h>
+#include <roboteam_ai/src/control/Hungarian.h>
 #include <gtest/gtest.h>
 #include <roboteam_ai/test/helpers/WorldHelper.h>
 #include <roboteam_ai/src/world/World.h>

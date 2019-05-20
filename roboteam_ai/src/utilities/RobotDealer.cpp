@@ -17,7 +17,6 @@ namespace robotDealer {
 std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::robotOwners = {};
 
 int RobotDealer::keeperID = -1;
-bool RobotDealer::useSeparateKeeper = false;
 bool RobotDealer::hasClaimedKeeper = false;
 std::mutex RobotDealer::robotOwnersLock;
 
@@ -69,7 +68,7 @@ void RobotDealer::updateFromWorld() {
     std::set<int> currentRobots = getRobots();
     for (auto robot : robots) {
         if (currentRobots.find(robot) == currentRobots.end()) {
-            if (useSeparateKeeper && robot == keeperID) {
+            if (robot == keeperID) {
                 ROS_ERROR("The keeper just got registered as a free robot this should never happen");
                 continue;
             }
@@ -331,7 +330,7 @@ void RobotDealer::halt() {
 
 /// set the keeper ID if its different than before
 void RobotDealer::setKeeperID(int ID) {
-    if (useSeparateKeeper && ID != keeperID) {
+    if (ID != keeperID) {
         keeperID = ID;
         hasClaimedKeeper = false;
         refresh();
@@ -357,16 +356,9 @@ void RobotDealer::refresh() {
     if (BTFactory::getCurrentTree() != "NaN" && BTFactory::getTree(BTFactory::getCurrentTree())) {
         BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
     }
-    if (useSeparateKeeper && keeperExistsInWorld()) claimKeeper();
+    if (keeperExistsInWorld()) claimKeeper();
 }
 
-bool RobotDealer::usesSeparateKeeper() {
-    return useSeparateKeeper;
-}
-
-void RobotDealer::setUseSeparateKeeper(bool useSeparateKeeper) {
-    RobotDealer::useSeparateKeeper = useSeparateKeeper;
-}
 
 bool RobotDealer::keeperExistsInWorld() {
     for (auto const &robot : world::world->getUs()) {

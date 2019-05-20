@@ -28,7 +28,7 @@ private:
 
     ai::StrategyManager strategyManager;
     std::string oldKeeperTreeName = "";
-    std::string oldStrategy = "";
+    std::string oldStrategyName = "";
 public:
     void setup();
     void loop();
