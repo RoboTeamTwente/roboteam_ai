@@ -2,6 +2,7 @@
 // Created by mrlukasbos on 19-10-18.
 //
 
+#include <roboteam_utils/Polygon.h>
 #include "Field.h"
 #include "World.h"
 
@@ -324,6 +325,21 @@ std::shared_ptr<Vector2> Field::lineIntersectsWithDefenceArea(bool ourGoal, cons
         std::lock_guard<std::mutex> lock(fieldMutex);
         _field = field;
     }
+
+    Polygon defenceAreaUs(
+            {_field.left_penalty_line.begin,
+             _field.left_penalty_line.end,
+             {- _field.field_length*0.5, _field.left_penalty_line.end.y},
+             {- _field.field_length*0.5, _field.left_penalty_line.begin.y},
+            });
+
+
+    Polygon defenceAreaThem(
+            {_field.right_penalty_line.begin,
+             _field.right_penalty_line.end,
+             {_field.field_length*0.5, _field.right_penalty_line.end.y},
+             {_field.field_length*0.5, _field.right_penalty_line.begin.y},
+            });
 
     Vector2 goalLinePos1,goalLinePos2,cornerPos1,cornerPos2;
     std::shared_ptr<Vector2> intersectPos= nullptr;
