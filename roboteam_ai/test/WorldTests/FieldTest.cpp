@@ -283,3 +283,25 @@ TEST(FieldTest, line_intersects_with_defence_area) {
     EXPECT_FLOAT_EQ(intersection->y, 2);
 }
 
+TEST(FieldTest, penalty_points) {
+    roboteam_msgs::GeometryFieldSize field;
+    field.field_length = 12;
+    field.field_width = 8;
+    field.goal_width = 1;
+    // set the penalty lines
+    field.left_penalty_line.begin = rtt::Vector2(-4, -2);
+    field.left_penalty_line.end = rtt::Vector2(-4, 2);
+    field.right_penalty_line.begin = rtt::Vector2(4, -2);
+    field.right_penalty_line.end = rtt::Vector2(4, 2);
+    rtt::ai::world::field->set_field(field);
+
+    Vector2 penaltyPointUs = rtt::ai::world::field->getPenaltyPoint(true);
+    Vector2 penaltyPointThem = rtt::ai::world::field->getPenaltyPoint(false);
+
+    EXPECT_EQ(penaltyPointUs.x, -4);
+    EXPECT_EQ(penaltyPointUs.y, 0);
+
+    EXPECT_EQ(penaltyPointThem.x, 4);
+    EXPECT_EQ(penaltyPointThem.y, 0);
+
+}
