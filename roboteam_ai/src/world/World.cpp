@@ -32,7 +32,6 @@ void World::updateWorld(const roboteam_msgs::World &message) {
 
     {
         std::lock_guard<std::mutex> lock(worldMutex);
-
         worldDataPtr->ball = tempWorldData.ball;
         updateRobotsFromData(Robot::us, message.us, worldDataPtr->us, worldDataPtr->ball, worldNumber);
         updateRobotsFromData(Robot::them, message.them, worldDataPtr->them, worldDataPtr->ball, worldNumber);

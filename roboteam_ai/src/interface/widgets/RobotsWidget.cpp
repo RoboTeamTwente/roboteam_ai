@@ -8,6 +8,7 @@
 #include "RobotsWidget.h"
 #include <QScrollArea>
 #include "roboteam_ai/src/analysis/GameAnalyzer.h"
+#include "mainWindow.h"
 
 namespace rtt {
 namespace ai {
@@ -35,7 +36,7 @@ void RobotsWidget::updateContents(Visualizer* visualizer) {
     if (VLayout->count()!=static_cast<int>(us.size())
             || amountOfSelectedRobots!=static_cast<int>(visualizer->getSelectedRobots().size())) {
         amountOfSelectedRobots = visualizer->getSelectedRobots().size();
-        clearLayout(VLayout);
+        MainWindow::clearLayout(VLayout);
 
         for (auto robot : us) {
             QGroupBox* groupBox = new QGroupBox("Robot "+QString::number(robot.id));
@@ -52,7 +53,7 @@ void RobotsWidget::updateContents(Visualizer* visualizer) {
         for (int i = 0; i<static_cast<int>(us.size()); i++) {
             if (VLayout->itemAt(i) && VLayout->itemAt(i)->widget()) {
                 auto robotwidget = VLayout->itemAt(i)->widget();
-                clearLayout(robotwidget->layout());
+                MainWindow::clearLayout(robotwidget->layout());
                 delete robotwidget->layout();
                 if (!robotwidget->layout()) {
                     robotwidget->setLayout(createRobotGroupItem(us.at(i)));
@@ -103,21 +104,7 @@ QVBoxLayout* RobotsWidget::createRobotGroupItem(Robot robot) {
     return vbox;
 }
 
-/// delete a layout and its children
-void RobotsWidget::clearLayout(QLayout* layout)
-{
-    QLayoutItem* item;
-    while ((item = layout->takeAt(0))) {
-        if (item->layout()) {
-            clearLayout(item->layout());
-            delete item->layout();
-        }
-        if (item->widget()) {
-            delete item->widget();
-        }
-        delete item;
-    }
-}
+
 
 
 } // interface

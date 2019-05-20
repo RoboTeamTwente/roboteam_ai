@@ -18,7 +18,7 @@ void GTPSpecial::gtpInitialize() {
         case goToBall: {
             maxVel = 9e9;
         targetPos = ball->pos;
-        posController->setAvoidBall(false);
+            posController->setAvoidBallDistance(false);
         break;
     }
     case ballPlacementBefore: {
