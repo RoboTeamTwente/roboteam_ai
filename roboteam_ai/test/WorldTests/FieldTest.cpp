@@ -231,10 +231,10 @@ TEST(FieldTest, line_intersects_with_defence_area) {
     field.field_width = 8;
     field.goal_width = 1;
     // set the penalty lines
-    field.left_penalty_line.begin = rtt::Vector2(- 4, 2);
-    field.left_penalty_line.end = rtt::Vector2(- 4, -2);
-    field.right_penalty_line.begin = rtt::Vector2(4, 2);
-    field.right_penalty_line.end = rtt::Vector2(4, -2);
+    field.left_penalty_line.begin = rtt::Vector2(-4, -2);
+    field.left_penalty_line.end = rtt::Vector2(-4, 2);
+    field.right_penalty_line.begin = rtt::Vector2(4, -2);
+    field.right_penalty_line.end = rtt::Vector2(4, 2);
     rtt::ai::world::field->set_field(field);
    
     EXPECT_TRUE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {0,0}, {-8,0}, 0));
@@ -251,9 +251,35 @@ TEST(FieldTest, line_intersects_with_defence_area) {
     EXPECT_TRUE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {4,2}, {4,6}, 0));
 
     // margin should make a difference
+    // margin for x
     EXPECT_TRUE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {-3.9, 0}, {-3.9, 8}, 1.0));
     EXPECT_TRUE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {3.9, 0}, {3.9, 8}, 1.0));
     EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {-3.9,0}, {-3.9, 8}, 0.0));
     EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {3.9,0}, {3.9, 8}, 0.0));
+
+    // margin for y
+    EXPECT_TRUE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {-8.0, 2.2}, {-3.9, 2.2}, 1.0));
+    EXPECT_TRUE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {8.0, 2.2}, {3.9, 2.2}, 1.0));
+    EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {-8,2.2}, {-3.9, 2.2}, 0.0));
+    EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {8,2.2}, {3.9, 2.2}, 0.0));
+
+
+    // check if the intersection points are correct
+    // when there are multiple intersections, the closest point to lineStart should be returned.
+    auto intersection = rtt::ai::world::field->lineIntersectionWithDefenceArea(true, {-3.9, -8}, {-3.9, 8}, 1.0);
+    EXPECT_FLOAT_EQ(intersection->x, -3.9);
+    EXPECT_FLOAT_EQ(intersection->y, -3.0);
+
+    intersection = rtt::ai::world::field->lineIntersectionWithDefenceArea(true, {-3.9, 8}, {-3.9, -8}, 1.0);
+    EXPECT_FLOAT_EQ(intersection->x, -3.9);
+    EXPECT_FLOAT_EQ(intersection->y, 3.0);
+
+    intersection = rtt::ai::world::field->lineIntersectionWithDefenceArea(false, {5, -8}, {5, 8}, 0.0);
+    EXPECT_FLOAT_EQ(intersection->x, 5);
+    EXPECT_FLOAT_EQ(intersection->y, -2);
+
+    intersection = rtt::ai::world::field->lineIntersectionWithDefenceArea(false, {5, 8}, {5, -8}, 0.0);
+    EXPECT_FLOAT_EQ(intersection->x, 5);
+    EXPECT_FLOAT_EQ(intersection->y, 2);
 }
 
