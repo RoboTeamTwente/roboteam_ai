@@ -12,9 +12,13 @@ namespace rtt {
 
 class kalmanBall : public kalmanObject {
     public:
-        roboteam_msgs::WorldBall as_ball_message() const;
-        void kalmanUpdateZ(roboteam_msgs::DetectionBall ball, double timestamp);
+
         kalmanBall();
+
+        //Same as the KalmanObject function but then for ball message
+        roboteam_msgs::WorldBall as_ball_message() const;
+        //Same as the KalmanObject function but then for ball frame
+        void kalmanUpdateZ(roboteam_msgs::DetectionBall ball, double timestamp);
 };
 
 }

@@ -23,6 +23,10 @@ const float KMARGIN = 0.000001;
 const int MAXCOMPARISONS = 100;
 
 // constant variance estimates
+//posVar: the distrust in the pos observation
+//StateVar: the distrust in the current state
+//RandVar: the amount of expected random input
+//in the future data about them and us might be different so we made different variances
 const float posVar_us = 2;
 const float stateVar_us = 0.5;
 const float randVar_us = 1;

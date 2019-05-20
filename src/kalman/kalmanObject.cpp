@@ -27,7 +27,7 @@ namespace rtt {
             arma::fmat::fixed<STATEINDEX, STATEINDEX> IKH_transpose = IKH.t();
             arma::fmat::fixed<STATEINDEX, STATEINDEX> P_new = IKH * P_predict * IKH_transpose + K_new * this->R * K_new_transpose;
 
-            //See if the K has changed over the iteration
+            //See if the K has changed over the iteration, if it hasn't after 100 iterations then stop calculating it
             double K_Diff_Max = (this->K - K_new).max();
             double K_Diff_Min = (this->K - K_new).min();
             int same = 0;
@@ -56,9 +56,11 @@ namespace rtt {
 
         this->invisibleCounter += 1;
         if (this->invisibleCounter > DISAPPEARTIME || !this->exists) {
-            //this->~kalmanObject();
             this->exists = false;
         } else {
+            // X_predict = FX_current
+            // Y = Z - HX_predict
+            // X_new = X_predict + Ky
 
             arma::fvec::fixed<STATEINDEX> X_predict = this->F * this->X;
 
@@ -75,6 +77,7 @@ namespace rtt {
 
     void kalmanObject::kalmanUpdateZ(roboteam_msgs::DetectionRobot robot, double timeStamp) {
         if (timeStamp > this->observationTimeStamp) {
+            //if the new data is a certain distance from the old data, it's considered a ghost and ignored
             if (this->exists){
                 //HAck
                 float errorx = robot.pos.x-this->X(0);
@@ -90,6 +93,7 @@ namespace rtt {
             this->orientation = robot.orientation;
             this->observationTimeStamp = timeStamp;
             this->invisibleCounter = 0;
+            //if the object comes into being, make the observation it's state, (to prevent jumping)
             if (!this->exists){
                 this->X.zeros();
                 this->X(0) = robot.pos.x;

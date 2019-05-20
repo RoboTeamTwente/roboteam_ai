@@ -18,6 +18,7 @@
 
 namespace rtt {
 
+    //This class is a manager for the different Kalman object classes
     class kalmanFilter {
         private:
             double lastFrameTime;
@@ -34,8 +35,6 @@ namespace rtt {
         kalmanThem theirBots[BOTCOUNT];
         kalmanUs ourBots[BOTCOUNT];
         kalmanBall ball;
-
-
 
     };
 }

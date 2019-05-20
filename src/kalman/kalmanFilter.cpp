@@ -7,6 +7,7 @@
 namespace rtt {
 
 kalmanFilter::kalmanFilter() {
+    //initialise kalman objects
     lastFrameTime = - 1.0;
     for (uint i = 0; i < BOTCOUNT; ++ i) {
         ourBots[i] = kalmanUs(i);
@@ -16,6 +17,8 @@ kalmanFilter::kalmanFilter() {
 }
 
 void kalmanFilter::kalmanUpdate() {
+    //Updates the Kalman gain (K)
+    //Updates the State (X)
     for (uint i = 0; i < BOTCOUNT; ++ i) {
         ourBots[i].kalmanUpdateK();
         ourBots[i].kalmanUpdateX();
@@ -41,6 +44,7 @@ void kalmanFilter::newFrame(const roboteam_msgs::DetectionFrame &msg) {
     }
 }
 
+//Creates a world message with the currently observed objects in it
 roboteam_msgs::World kalmanFilter::getWorld() {
     roboteam_msgs::World world;
     world.time = lastFrameTime;

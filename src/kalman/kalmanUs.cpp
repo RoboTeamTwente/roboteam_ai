@@ -10,6 +10,7 @@ namespace rtt{
     }
 
     kalmanUs::kalmanUs(uint id) {
+        //in the future data about them and us might be different so we made different classes
         this->id = id;
         this->observationTimeStamp = -1.0;
         this->invisibleCounter = 0;

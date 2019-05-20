@@ -10,6 +10,7 @@
 namespace rtt {
 
     class kalmanThem : public kalmanObject{
+    //in the future data about them and us might be different so we made different classes
     public:
 
         kalmanThem();

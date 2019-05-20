@@ -7,7 +7,8 @@
 
 namespace rtt {
     kalmanBall::kalmanBall() {
-        this->id=INVALID_ID;
+        //initialise everything
+        this->id=INVALID_ID; //ball has no id
         this->observationTimeStamp = -1.0;
         this->invisibleCounter = 0;
         this->exists = false;
@@ -35,7 +36,9 @@ namespace rtt {
                    {0, 0, TIMEDIFF * randVar_ball, randVar_ball}};
         this->K.zeros();
     }
+
     void kalmanBall::kalmanUpdateZ(roboteam_msgs::DetectionBall ball, double timeStamp) {
+        //Same as the KalmanObject function but then for ball frame
         if (timeStamp > this->observationTimeStamp) {
             if (this->exists){
                 //HAck
@@ -61,6 +64,7 @@ namespace rtt {
         }
     }
     roboteam_msgs::WorldBall kalmanBall::as_ball_message() const{
+        //Same as the KalmanObject function but then for ball message
         roboteam_msgs::WorldBall msg;
         Position pos =kalmanGetPos();
         Position vel =kalmanGetVel();
