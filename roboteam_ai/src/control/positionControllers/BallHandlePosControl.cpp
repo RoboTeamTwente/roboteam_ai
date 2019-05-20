@@ -13,8 +13,7 @@ namespace control {
 BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea)
         :canMoveInDefenseArea(canMoveInDefenseArea) {
     numTreePosController.setCanMoveInDefenseArea(canMoveInDefenseArea);
-    numTreePosController.setAvoidBall(targetBallDistance*0.95);
-
+    numTreePosController.setAvoidBallDistance(targetBallDistance * 0.95);
 }
 
 /// targetP is the target position of the BALL, targetA is the (final) target angle of the ROBOT

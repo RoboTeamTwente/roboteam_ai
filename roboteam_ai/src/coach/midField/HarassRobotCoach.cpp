@@ -193,7 +193,7 @@ void HarassRobotCoach::setClosestRobots(const HarassRobotCoach::RobotPtr &thisRo
     auto closestRobotToHarasserDistance = DBL_MAX;
     for (auto robot : world::world->getThem()) {
         // Never harass the keeper
-        if (robot.id == Referee::getRefereeData().them.goalie) continue;
+        if (robot.id == GameStateManager::getRefereeData().them.goalie) continue;
 
         if (abs(robot.pos.x) <= HARASS_THRESHOLD) {
             if (goAfterBall) {

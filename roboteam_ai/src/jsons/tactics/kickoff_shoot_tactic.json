@@ -9,35 +9,35 @@
             ],
             "id": "152fp0634tu70ybdr",
             "properties": {
-              "ROLE": "kickoff_us_formation_role"
+              "ROLE": "ko4"
             },
             "title": "Repeater"
           },
           "2d23bslgdti0em": {
             "id": "2d23bslgdti0em",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist2"
             },
             "title": "ShouldHandleBall"
           },
           "2ogexw293pds8": {
             "id": "2ogexw293pds8",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist1"
             },
             "title": "Pass"
           },
           "3amss9r7vtxn9qb": {
             "id": "3amss9r7vtxn9qb",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist2"
             },
             "title": "SideAttacker"
           },
           "3jdfol9bsycgbw": {
             "id": "3jdfol9bsycgbw",
             "properties": {
-              "ROLE": "SideAttacker",
+              "ROLE": "assist1",
               "type": "passing"
             },
             "title": "AvoidBall"
@@ -49,14 +49,14 @@
             ],
             "id": "4jhjl9u7m2b5yc6h",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist2"
             },
             "title": "Selector"
           },
           "4qfc43fovkwkiq": {
             "id": "4qfc43fovkwkiq",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist1"
             },
             "title": "Receive"
           },
@@ -66,7 +66,7 @@
             ],
             "id": "5hgw7owhua197s7n",
             "properties": {
-              "ROLE": "kickoff_us_formation_role"
+              "ROLE": "ko5"
             },
             "title": "Repeater"
           },
@@ -94,7 +94,7 @@
             ],
             "id": "5zcxyk12vcu0ir4xm",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist2"
             },
             "title": "Sequence"
           },
@@ -105,7 +105,7 @@
             ],
             "id": "6xd1gjo92yvn7ie",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist2"
             },
             "title": "Sequence"
           },
@@ -116,7 +116,7 @@
             "id": "8aepwtqyywkk32",
             "name": "SideAttacker",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist1"
             },
             "role": "SideAttacker",
             "title": "Role"
@@ -128,14 +128,14 @@
             ],
             "id": "8d825fxo2673arjq",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist1"
             },
             "title": "Sequence"
           },
           "9k1o28qs278dw": {
             "id": "9k1o28qs278dw",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist1"
             },
             "title": "IsOnPassLine"
           },
@@ -145,21 +145,21 @@
             ],
             "id": "afkugx6ct0qg9z",
             "properties": {
-              "ROLE": "kickoff_us_formation_role"
+              "ROLE": "ko3"
             },
             "title": "Repeater"
           },
           "b04dqgbico9gomw": {
             "id": "b04dqgbico9gomw",
             "properties": {
-              "ROLE": "kickoff_us_formation_role"
+              "ROLE": "ko3"
             },
             "title": "KickOffUsFormation"
           },
           "b8m2tpri91dqdfnji": {
             "id": "b8m2tpri91dqdfnji",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist1"
             },
             "title": "SideAttacker"
           },
@@ -170,14 +170,14 @@
             ],
             "id": "clu6u532r051fkg8l",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist1"
             },
             "title": "Sequence"
           },
           "cviul1n17yr6xh": {
             "id": "cviul1n17yr6xh",
             "properties": {
-              "ROLE": "SideAttacker",
+              "ROLE": "assist2",
               "avoidBall": "true",
               "canGoOutsideField": "true",
               "canMoveInDefenseArea": "false",
@@ -192,14 +192,14 @@
             ],
             "id": "df1yr68fzl2svn",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist1"
             },
             "title": "Selector"
           },
           "dxkadscsxumey5": {
             "id": "dxkadscsxumey5",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist2"
             },
             "title": "RobotOutside"
           },
@@ -209,7 +209,7 @@
             ],
             "id": "f14qeelxver9c9hl",
             "properties": {
-              "ROLE": "kickoff_us_formation_role"
+              "ROLE": "ko1"
             },
             "title": "Repeater"
           },
@@ -220,7 +220,7 @@
             ],
             "id": "g3h14g276rdbm",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist2"
             },
             "title": "Sequence"
           },
@@ -231,7 +231,7 @@
             "id": "gbmfmujwtfc406v37",
             "name": "kickoff_us_formation_role",
             "properties": {
-              "ROLE": "kickoff_us_formation_role"
+              "ROLE": "ko4"
             },
             "role": "kickoff_us_formation_role",
             "title": "Role"
@@ -243,7 +243,7 @@
             "id": "i5yagvyqd065c9cv",
             "name": "kickoff_us_formation_role",
             "properties": {
-              "ROLE": "kickoff_us_formation_role"
+              "ROLE": "ko1"
             },
             "role": "kickoff_us_formation_role",
             "title": "Role"
@@ -251,14 +251,14 @@
           "ikwxv8i5t8nonv5bh": {
             "id": "ikwxv8i5t8nonv5bh",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist2"
             },
             "title": "IsOnPassLine"
           },
           "j2gbxjzfp7ri69y": {
             "id": "j2gbxjzfp7ri69y",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist1"
             },
             "title": "HasClearShot"
           },
@@ -268,21 +268,21 @@
             ],
             "id": "ji1r9oa7e9oerku",
             "properties": {
-              "ROLE": "kickoff_us_formation_role"
+              "ROLE": "ko2"
             },
             "title": "Repeater"
           },
           "jm1cz1546jpzjkstp": {
             "id": "jm1cz1546jpzjkstp",
             "properties": {
-              "ROLE": "kickoff_us_formation_role"
+              "ROLE": "ko4"
             },
             "title": "KickOffUsFormation"
           },
           "k2rt9olfs9c0gr1r": {
             "id": "k2rt9olfs9c0gr1r",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist1"
             },
             "title": "Attack"
           },
@@ -293,7 +293,7 @@
             "id": "k3eot9mc9h4193d",
             "name": "kickoff_us_formation_role",
             "properties": {
-              "ROLE": "kickoff_us_formation_role"
+              "ROLE": "ko5"
             },
             "role": "kickoff_us_formation_role",
             "title": "Role"
@@ -301,21 +301,21 @@
           "l954mhe1r7g7qv20q": {
             "id": "l954mhe1r7g7qv20q",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist1"
             },
             "title": "RobotOutside"
           },
           "msx612r6wyun47": {
             "id": "msx612r6wyun47",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist1"
             },
             "title": "IsBeingPassedTo"
           },
           "oh1l15yq2xne9": {
             "id": "oh1l15yq2xne9",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist2"
             },
             "title": "IsBeingPassedTo"
           },
@@ -326,7 +326,7 @@
             "id": "oi2v9ic77t2mk7nvp",
             "name": "kickoff_kicker_role",
             "properties": {
-              "ROLE": "kickoff_kicker_role"
+              "ROLE": "kicker"
             },
             "role": "kickoff_kicker_role",
             "title": "Role"
@@ -338,14 +338,14 @@
             ],
             "id": "qwp5v2vka5qiurb4",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist2"
             },
             "title": "Sequence"
           },
           "r1mzkqs9xniku": {
             "id": "r1mzkqs9xniku",
             "properties": {
-              "ROLE": "kickoff_us_formation_role"
+              "ROLE": "ko1"
             },
             "title": "KickOffUsFormation"
           },
@@ -356,7 +356,7 @@
             ],
             "id": "sntvt0l6zrpgto",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist1"
             },
             "title": "Sequence"
           },
@@ -367,7 +367,7 @@
             ],
             "id": "sv466wquurhbe",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist1"
             },
             "title": "Sequence"
           },
@@ -378,7 +378,7 @@
             "id": "tu5xt05s5e657xhe",
             "name": "kickoff_us_formation_role",
             "properties": {
-              "ROLE": "kickoff_us_formation_role"
+              "ROLE": "ko3"
             },
             "role": "kickoff_us_formation_role",
             "title": "Role"
@@ -387,21 +387,21 @@
             "id": "ucf1ksbn0qj0r",
             "properties": {
               "BallPlacement": "false",
-              "ROLE": "kickoff_kicker_role"
+              "ROLE": "kicker"
             },
             "title": "Pass"
           },
           "unb0i7akr432rk2f": {
             "id": "unb0i7akr432rk2f",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist2"
             },
             "title": "Pass"
           },
           "upt53fw6bqscd": {
             "id": "upt53fw6bqscd",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist1"
             },
             "title": "ShouldHandleBall"
           },
@@ -412,7 +412,7 @@
             "id": "ur2ypa34bu9j8pky",
             "name": "SideAttacker",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist2"
             },
             "role": "SideAttacker",
             "title": "Role"
@@ -424,7 +424,7 @@
             "id": "uxm015l1h37ypu0s",
             "name": "kickoff_us_formation_role",
             "properties": {
-              "ROLE": "kickoff_us_formation_role"
+              "ROLE": "ko2"
             },
             "role": "kickoff_us_formation_role",
             "title": "Role"
@@ -436,14 +436,14 @@
             ],
             "id": "vwiprzmsk3vav9",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist1"
             },
             "title": "Sequence"
           },
           "w1hy8j51b9i7n": {
             "id": "w1hy8j51b9i7n",
             "properties": {
-              "ROLE": "SideAttacker",
+              "ROLE": "assist2",
               "type": "passing"
             },
             "title": "AvoidBall"
@@ -451,21 +451,21 @@
           "wp6ipjd63eil70": {
             "id": "wp6ipjd63eil70",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist2"
             },
             "title": "HasClearShot"
           },
           "wpjictq5qznp9jx": {
             "id": "wpjictq5qznp9jx",
             "properties": {
-              "ROLE": "kickoff_us_formation_role"
+              "ROLE": "ko2"
             },
             "title": "KickOffUsFormation"
           },
           "wuz6x2upms5xao6u": {
             "id": "wuz6x2upms5xao6u",
             "properties": {
-              "ROLE": "SideAttacker",
+              "ROLE": "assist1",
               "avoidBall": "true",
               "canGoOutsideField": "true",
               "canMoveInDefenseArea": "false",
@@ -483,14 +483,14 @@
             ],
             "id": "x2085fp9sy0jj",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist1"
             },
             "title": "Selector"
           },
           "xjpdxnq5vhctw": {
             "id": "xjpdxnq5vhctw",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist2"
             },
             "title": "Attack"
           },
@@ -504,14 +504,14 @@
             ],
             "id": "xvdk9gcvzajtzxhs",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist2"
             },
             "title": "Selector"
           },
           "xyqik03l0lpwtbmcv": {
             "id": "xyqik03l0lpwtbmcv",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist2"
             },
             "title": "Receive"
           },
@@ -522,14 +522,14 @@
             ],
             "id": "yyegdzym4porg5sg",
             "properties": {
-              "ROLE": "SideAttacker"
+              "ROLE": "assist2"
             },
             "title": "Sequence"
           },
           "zhxhguuo62zfl": {
             "id": "zhxhguuo62zfl",
             "properties": {
-              "ROLE": "kickoff_us_formation_role"
+              "ROLE": "ko5"
             },
             "title": "KickOffUsFormation"
           }

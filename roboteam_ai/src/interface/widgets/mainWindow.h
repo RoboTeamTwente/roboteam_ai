@@ -25,6 +25,7 @@
 #include "TreeVisualizerWidget.h"
 #include "RobotsWidget.h"
 #include "PidBox.h"
+#include "RefereeWidget.h"
 
 namespace rtt {
 namespace ai {
@@ -42,6 +43,7 @@ public:
     // this function is useful everywhere
     static void configureCheckBox(QString title, QLayout* layout, const QObject* receiver, const char* method,
                               bool defaultState = false);
+    static void clearLayout(QLayout* layout);
 
 public slots:
     void updateRobotsWidget();
@@ -53,6 +55,7 @@ private:
     QVBoxLayout* mainLayout;
     QVBoxLayout* vLayout;
     RobotsWidget* robotsWidget;
+    RefereeWidget * refWidget;
     TreeVisualizerWidget* treeWidget;
     TreeVisualizerWidget* keeperTreeWidget;
     Visualizer* visualizer;

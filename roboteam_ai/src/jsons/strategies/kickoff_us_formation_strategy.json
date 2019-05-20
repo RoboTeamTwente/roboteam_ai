@@ -3,27 +3,13 @@
     "trees": [
       {
         "nodes": {
-          "pmiyhulhtm21c0df": {
-            "children": [
-              "rlplfz54378bodpu",
-              "wh5q2dwo2f2nc"
-            ],
-            "id": "pmiyhulhtm21c0df",
-            "properties": {},
-            "title": "Selector"
-          },
-          "rlplfz54378bodpu": {
-            "id": "rlplfz54378bodpu",
-            "properties": {},
-            "title": "CanPlay"
-          },
           "wh5q2dwo2f2nc": {
             "id": "wh5q2dwo2f2nc",
             "name": "kickoff_us_formation_tactic",
             "title": "Tactic"
           }
         },
-        "root": "pmiyhulhtm21c0df",
+        "root": "wh5q2dwo2f2nc",
         "title": "kickoff_us_formation_strategy"
       }
     ]
