@@ -40,7 +40,11 @@ TEST(NumTreePosControlTest, it_obeys_the_referee) {
     gtp.setAvoidBallDistance(0.5);
     EXPECT_EQ(gtp.getAvoidBallDistance(), 0.8);
 
+    gtp.setAvoidBallDistance(1.0);
+    EXPECT_EQ(gtp.getAvoidBallDistance(), 1.0);
+
     GameStateManager::forceNewGameState(RefCommand::BALL_PLACEMENT_US);
+    gtp.setAvoidBallDistance(0.5);
     EXPECT_EQ(gtp.getAvoidBallDistance(), 0.5);
 }
 

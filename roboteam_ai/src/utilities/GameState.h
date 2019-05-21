@@ -16,7 +16,6 @@ struct GameState {
     std::string keeperStrategyName;
     std::string ruleSetName;
     Vector2 ballPositionAtStartOfGameState;
-    bool useKeeper = true;
     int keeperId = 0;
 
     RuleSet getRuleSet() {
@@ -25,7 +24,7 @@ struct GameState {
                 return ruleSet;
             }
         }
-        std::cerr << "Returning empty ruleset, this should never happen!" << std::endl;
+        std::cerr << "Returning empty ruleset with name '" << ruleSetName << "', this should never happen!" << std::endl;
         return {};
     }
 };
