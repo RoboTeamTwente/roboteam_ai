@@ -219,7 +219,7 @@ TEST(ShotControllerTest, getshotdata_test) {
     }
 
     /*
-     * If the robot has no geneva it should ALWAYS use geneva 3
+     * If the robot has no geneva it should ALWAYS keep its initial state
      */
     for (int i = 0; i < 100; i++) {
         auto world = testhelpers::WorldHelper::getWorldMsg(1, 0, true, field);
@@ -229,7 +229,7 @@ TEST(ShotControllerTest, getshotdata_test) {
         robot.setWorkingGeneva(false);
 
         shotdata = shotController.getShotData(robot, testhelpers::WorldHelper::getRandomFieldPosition(field), false, BallSpeed::MAX_SPEED, true, ShotPrecision::HIGH);
-        EXPECT_EQ(shotdata.genevaState, 3);
+        EXPECT_EQ(shotdata.genevaState, 4);
     }
 }
 
