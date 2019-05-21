@@ -14,7 +14,7 @@ namespace rtt{
 namespace ai {
 
 HasClearShot::HasClearShot(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) {};
+        :Condition(std::move(name), std::move(blackboard)) {}
 
 HasClearShot::Status HasClearShot::onUpdate() {
     auto minViewAtGoal = MIN_VIEW_AT_GOAL;

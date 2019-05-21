@@ -13,9 +13,9 @@ InterceptRobot::InterceptRobot(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void InterceptRobot::onInitialize() {
-    gtp.setAvoidBall(false);
-    gtp.setCanMoveInDefenseArea(false);
-    gtp.setCanMoveOutOfField(false);
+//    gtp.setAvoidBallDistance(false);
+//    gtp.setCanMoveInDefenseArea(false);
+//    gtp.setCanMoveOutOfField(false);
 }
 
 Skill::Status InterceptRobot::onUpdate() {
@@ -25,7 +25,7 @@ Skill::Status InterceptRobot::onUpdate() {
         return Status::Failure;
     }
     Vector2 interceptPos=getInterceptPos(*robotToIntercept);
-    control::PosVelAngle velocities=gtp.getPosVelAngle(robot,interceptPos);
+    control::PosVelAngle velocities= robot->getBasicGtp()->getPosVelAngle(robot,interceptPos);
     command.x_vel=velocities.vel.x;
     command.y_vel=velocities.vel.y;
     command.w=velocities.angle.getAngle();

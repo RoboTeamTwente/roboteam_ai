@@ -160,9 +160,9 @@ PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr,
         }
 
         interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, triedPaths, Qt::red, robot.id,
-                interface::Drawing::DOTS, 2.0, 2.0);
+                interface::Drawing::DOTS, 3, 3);
         interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot.id,
-                interface::Drawing::DOTS, 3.0, 3.0);
+                interface::Drawing::DOTS, 4, 4);
         interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot.id,
                 interface::Drawing::LINES_CONNECTED);
         interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot.id,
@@ -351,13 +351,13 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     auto ball = world::world->getFutureBall(futureTime);
 
     // check collision with Ball
-    if (point->isCollision(ball->pos, avoidBallDistance)) {
-        collision.setCollisionBall(*ball, avoidBallDistance);
+    if (point->isCollision(ball->pos, getAvoidBallDistance())) {
+        collision.setCollisionBall(*ball, getAvoidBallDistance());
         return collision;
     }
 
     // check collision with Edge of field
-    if (! canMoveOutOfField) {
+    if (! getCanMoveOutOfField()) {
         if (! world::field->pointIsInField(point->pos)) {
             collision.isCollision = true;
             collision.setFieldCollision(point->pos, 0.2);
@@ -366,7 +366,7 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     }
 
     // check collision with defense area
-    if (! canMoveInDefenseArea) {
+    if (! getCanMoveInDefenseArea()) {
         // our defense area
         auto ourDefenseArea = world::field->getDefenseArea(true, Constants::ROBOT_RADIUS());
         bool isInOurDefenseArea = control::ControlUtils::pointInRectangle(point->pos, ourDefenseArea);

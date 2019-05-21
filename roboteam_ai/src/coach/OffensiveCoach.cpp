@@ -75,7 +75,7 @@ void OffensiveCoach::updateOffensivePositions() {
         for (auto &zoneLocation : zoneLocations) {
             OffensivePosition offensivePosition;
             offensivePosition.position = zoneLocation;
-            offensivePosition.score = offensiveScore.calculateOffensivePositionScore(zoneLocation, world, field);
+            offensivePosition.score = offensiveScore.calculateOffensivePositionScore(zoneLocation, zoneLocation, world, field);
             offensivePositions.emplace_back(offensivePosition);
         }
     }
@@ -213,62 +213,42 @@ const std::pair<Vector2, Vector2> &OffensiveCoach::getLongestSegment(
 OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(const std::vector<Vector2> &positions,
         const OffensiveCoach::OffensivePosition &currentBestPosition, const Vector2 &zoneLocation) {
 
+    // get world & field
     auto world = world::world->getWorld();
     auto field = world::field->get_field();
 
-    interface::Input::drawData(interface::Visual::OFFENSE, positions, Qt::darkMagenta, - 1, interface::Drawing::DOTS,
-            5, 5);
-    interface::Input::drawData(interface::Visual::OFFENSE, {zoneLocation}, Qt::darkMagenta, - 1,
-            interface::Drawing::CIRCLES,
-            ZONE_RADIUS*10, ZONE_RADIUS*10, 4);
+    // draw points
+//    interface::Input::drawData(interface::Visual::OFFENSE, positions, Qt::darkMagenta, - 1, interface::Drawing::DOTS,
+//            5, 5);
+
 
     OffensivePosition bestPosition = currentBestPosition;
-    bestPosition.score = offensiveScore.calculateOffensivePositionScore(bestPosition.position, world, field);
+    bestPosition.score =
+            offensiveScore.calculateOffensivePositionScore(zoneLocation, bestPosition.position, world, field);
 
     for (auto &potentialPosition : positions) {
-
-        // check if the x-position of the point is on their half
-        if (currentBestPosition.position.x < 0 && potentialPosition.x < currentBestPosition.position.x) continue;
-
-        // check if the point is in the field and out of the defense area
-        if (! world::field->pointIsInField(potentialPosition, Constants::ROBOT_RADIUS()*1.3) ||
-                world::field->pointIsInDefenceArea(potentialPosition, false, Constants::ROBOT_RADIUS()*1.3)) {
-            continue;
-        }
-
-        // check if the point is further from the zone than the current position
-        if ((potentialPosition - zoneLocation).length2() > (currentBestPosition.position - zoneLocation).length2()) {
-
-            // check if the point is out of the zone
-            if ((potentialPosition - zoneLocation).length2() > ZONE_RADIUS*ZONE_RADIUS) continue;
-
-            // check if the point is closer to another zone
-            bool isInOtherZone = false;
-            for (auto &otherDefaultPosition : getZoneLocations()) {
-                if (otherDefaultPosition != zoneLocation &&
-                        (otherDefaultPosition - potentialPosition).length2()
-                                < (zoneLocation - potentialPosition).length2()) {
-                    isInOtherZone = true;
-                    break;
-                }
-            }
-            if (isInOtherZone) continue;
-        }
-
-        interface::Input::drawData(interface::Visual::OFFENSE, {potentialPosition}, Qt::red, - 1,
-                interface::Drawing::DOTS, 5, 5);
-
         // check the score and if it is better update the best position
-        double potentialScore = offensiveScore.calculateOffensivePositionScore(potentialPosition, world, field);
+        double potentialScore =
+                offensiveScore.calculateOffensivePositionScore(zoneLocation, potentialPosition, world, field);
+        if (potentialScore > 0.0) {
+            interface::Input::drawData(interface::Visual::OFFENSE, {potentialPosition}, Qt::red, - 1,
+                    interface::Drawing::DOTS, 3, 3);
+        }
         if (potentialScore > bestPosition.score) {
             bestPosition = OffensivePosition(potentialPosition, potentialScore);
         }
-
     }
+
+    // draw zonelocation
+    interface::Input::drawData(interface::Visual::OFFENSE, {zoneLocation}, Qt::darkMagenta, - 1,
+            interface::Drawing::CIRCLES, ZONE_RADIUS*10, ZONE_RADIUS*10, 4);
+    // draw the best point as green
     interface::Input::drawData(interface::Visual::OFFENSE, {bestPosition.position}, Qt::green, - 1,
             interface::Drawing::DOTS, 8, 8);
+
     return bestPosition;
 }
+
 
 }
 }

@@ -5,6 +5,10 @@
 #include <QColor>
 #include <ros/node_handle.h>
 #include "math.h"
+#include "RuleSet.h"
+
+#define falsent true
+#define truent false
 
 namespace rtt {
 namespace ai {
@@ -12,6 +16,7 @@ namespace ai {
 typedef std::tuple<double, double, double> pidVals;
 
 class Constants {
+
     public:
         static void init();
         static bool GRSIM();
@@ -26,6 +31,9 @@ class Constants {
         static bool SHOW_NUMTREE_DEBUG_INFO();
     static bool SHOW_FULL_NUMTREE_DEBUG_INFO();
 static bool SHOW_BALL_HANDLE_DEBUG_INFO();
+
+        // Basic rulesets for rule compliance
+        static std::vector<RuleSet> ruleSets();
 
         /// ROBOT AND RELATED ///
         static double MAX_VEL_CMD();
@@ -132,7 +140,7 @@ private:
 } // rtt
 
 
-enum class RefGameState {
+enum class RefCommand {
 // Ref states as dictated by RoboCup SSL
         HALT = 0,
         STOP = 1,

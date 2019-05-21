@@ -5,12 +5,12 @@
 #ifndef ROBOTEAM_AI_CONTROLUTILS_H
 #define ROBOTEAM_AI_CONTROLUTILS_H
 
-#include <roboteam_ai/src/utilities/Hungarian.h>
+#include <roboteam_ai/src/control/Hungarian.h>
 #include "../world/World.h"
 #include "../utilities/Constants.h"
 #include "roboteam_utils/Vector2.h"
 #include <cmath>
-#include <roboteam_ai/src/utilities/Referee.hpp>
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include "roboteam_utils/Arc.h"
 
 using Vector2 = rtt::Vector2;

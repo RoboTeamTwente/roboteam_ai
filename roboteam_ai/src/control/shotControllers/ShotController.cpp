@@ -125,6 +125,7 @@ ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector
 
 /// Now we should have the ball and kick it.
     ShotData ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector2> driveLine, Vector2 shotTarget, bool chip, BallSpeed desiredBallSpeed) {
+
         auto ball = world::world->getBall();
 
         // move towards the ball

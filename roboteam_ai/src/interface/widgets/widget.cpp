@@ -251,10 +251,8 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
         robotColor = weAreYellow ? Constants::ROBOT_COLOR_BLUE() : Constants::ROBOT_COLOR_YELLOW();
     }
 
-    if (ourTeam && robotDealer::RobotDealer::usesSeparateKeeper()
-            && robot.id == robotDealer::RobotDealer::getKeeperID()) {
+    if (ourTeam && robot.id == robotDealer::RobotDealer::getKeeperID()) {
         robotColor = QColor(255, 255, 255);
-
     }
 
     if (showAngles) {
