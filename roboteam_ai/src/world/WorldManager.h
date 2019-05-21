@@ -5,25 +5,21 @@
 #ifndef ROBOTEAM_AI_WORLDMANAGER_H
 #define ROBOTEAM_AI_WORLDMANAGER_H
 
-#include "../io/IOManager.h"
-#include "../treeinterp/BTFactory.h"
-#include "ros/ros.h"
-#include "World.h"
-#include "Field.h"
-#include "FutureWorld.h"
-#include "WorldData.h"
-
 namespace rtt {
 namespace ai {
+namespace io {
+    class IOManager;
+}
+
 namespace world {
-
 class WorldManager {
-    private:
-        io::IOManager* IOManager;
+private:
+    io::IOManager* IOManager;
 
-    public:
-        void setup();
-        void loop();
+public:
+    WorldManager() = default;
+    void setup();
+    void loop();
 };
 
 }
