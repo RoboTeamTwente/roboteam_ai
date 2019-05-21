@@ -233,7 +233,7 @@ pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(4.5, 0.0, 0.3
 
 pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(1.6, 0.0, 0.15) : pidVals(2.8, 0.0, 0.0); }
 
-pidVals Constants::standardForcePID() { return GRSIM() ? pidVals(1.85, 0.0, 0.2) : pidVals(2.8, 0.0, 0.0); }
+pidVals Constants::standardForcePID() { return GRSIM() ? pidVals(1.85, 0.0, 0.6) : pidVals(2.8, 0.0, 0.0); }
 
     std::vector<RuleSet> Constants::ruleSets() {
         return {
