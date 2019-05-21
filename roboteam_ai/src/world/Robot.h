@@ -85,7 +85,6 @@ class Robot {
                 unsigned char genevaState = 3, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
         void updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const Ball &ball, unsigned long worldNumber);
         const unsigned long getLastUpdatedWorldNumber() const;
-        const roboteam_msgs::WorldRobot toMessage() const;
 
         int id = - 1;
         Angle angle = Angle();
