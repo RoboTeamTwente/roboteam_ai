@@ -184,34 +184,6 @@ Robot World::getRobotClosestToPoint(const Vector2 &point, WhichRobots whichRobot
     return getRobotClosestToPoint(point, robotsCopy);
 }
 
-Robot World::getRobotClosestToRobot(const RobotPtr &robot, WhichRobots whichRobots) {
-    auto allRobots = getAllRobots();
-    if (! robot || allRobots.empty())
-        return {};
-
-    auto robotPos = robot->pos;
-    unsigned int bestIndex = 0;
-    double closestDistance = 9e9;
-    double distanceToCheck;
-
-    for (unsigned int i = 0; i < allRobots.size(); i ++) {
-        if (allRobots[i].id == robot->id && allRobots[i].team == robot->team) {
-            distanceToCheck = (allRobots[i].pos - robotPos).length();
-            if (distanceToCheck < closestDistance) {
-                closestDistance = distanceToCheck;
-                bestIndex = i;
-            }
-        }
-    }
-    return allRobots[bestIndex];
-}
-
-Robot World::getRobotClosestToRobot(int id, bool ourTeam, WhichRobots whichRobots) {
-    RobotPtr robot = getRobotForId(id, ourTeam);
-    if (! robot) return {};
-    return getRobotClosestToRobot(robot, whichRobots);
-}
-
 Robot World::getRobotClosestToBall(WhichRobots whichRobots) {
     Vector2 ballPos;
     {
