@@ -8,7 +8,7 @@
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Angle.h"
-
+#include "gtest/gtest_prod.h"
 #include "Ball.h"
 #include <roboteam_ai/src/utilities/Constants.h>
 
@@ -24,6 +24,7 @@ class BasicPosControl;
 namespace world {
 
 class Robot {
+    FRIEND_TEST(ShotControllerTest, getshotdata_test);
     public:
         using BallPtr = std::shared_ptr<Ball>;
 
@@ -44,7 +45,10 @@ class Robot {
         double timeGenevaChanged = 0;
         constexpr static double timeToChangeOneGenevaState = 0.5;
         bool workingGeneva;
-    public:
+public:
+    void setWorkingGeneva(bool workingGeneva);
+
+public:
         unsigned char getGenevaState() const;
         bool isGenevaReady() const;
         void setGenevaState(unsigned char state = 3);

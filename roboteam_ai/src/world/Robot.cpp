@@ -166,6 +166,10 @@ const shared_ptr<control::BasicPosControl> &Robot::getBasicGtp() const {
     return basicGTP;
 }
 
+void Robot::setWorkingGeneva(bool workingGeneva) {
+    Robot::workingGeneva = workingGeneva;
+}
+
 } //world
 } //ai
 } //rtt
