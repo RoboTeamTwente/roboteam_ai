@@ -25,6 +25,7 @@ struct GameState {
                 return ruleSet;
             }
         }
+        std::cerr << "Returning empty ruleset, this should never happen!" << std::endl;
         return {};
     }
 };

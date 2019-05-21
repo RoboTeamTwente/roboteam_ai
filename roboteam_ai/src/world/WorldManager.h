@@ -7,9 +7,10 @@
 
 namespace rtt {
 namespace ai {
+
 namespace io {
     class IOManager;
-}
+} // io
 
 namespace world {
 class WorldManager {
@@ -22,8 +23,8 @@ public:
     void loop();
 };
 
-}
-}
-}
+} // world
+} // ai
+} // rtt
 
 #endif //ROBOTEAM_AI_WORLDMANAGER_H
