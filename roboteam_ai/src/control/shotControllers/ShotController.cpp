@@ -24,7 +24,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     bool robotAlreadyVeryClose = robot.pos.dist(ball->pos) < 3.0 * Constants::ROBOT_RADIUS();
     int currentDesiredGeneva = robot.getGenevaState();
 
-    if (useAutoGeneva && robot.hasWorkingGeneva && !genevaIsTurning && !robotAlreadyVeryClose) {
+    if (useAutoGeneva && robot.hasWorkingGeneva() && !genevaIsTurning && !robotAlreadyVeryClose) {
         currentDesiredGeneva = determineOptimalGenevaState(robot, aimTarget);
     }
 
@@ -86,7 +86,7 @@ void ShotController::setGenevaDelay(int genevaDifference) {
 bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, Vector2> line, ShotPrecision precision) {
     double dist = ControlUtils::distanceToLine(robot.pos, line.first, line.second);
     if (precision == HIGH) {
-        return dist < 0.06;
+        return dist < 0.04;
     } else if (precision == MEDIUM) {
         return dist < 0.08;
     }

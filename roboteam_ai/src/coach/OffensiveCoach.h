@@ -23,8 +23,8 @@ class OffensiveCoach {
         using RobotPtr = std::shared_ptr<Robot>;
 
         const double SEARCH_GRID_ROBOT_POSITIONS = 0.055;
-        const double CLOSE_TO_GOAL_DISTANCE = 0.55;
-        const double FURTHER_FROM_GOAL_DISTANCE = 4.0*CLOSE_TO_GOAL_DISTANCE;
+        const double CLOSE_TO_GOAL_DISTANCE = 0.37;
+        const double FURTHER_FROM_GOAL_DISTANCE = 6.0*CLOSE_TO_GOAL_DISTANCE;
         const double ZONE_RADIUS = 1.06;
 
         struct OffensivePosition {

@@ -374,19 +374,39 @@ std::vector<Vector2> Field::getDefenseArea(bool ourDefenseArea, double margin) {
     if (ourDefenseArea) {
         double length = _field.field_length;
         auto leftPenaltyLine = _field.left_penalty_line;
-        Vector2 leftPenaltyLineLowerPoint = (Vector2)leftPenaltyLine.begin - margin;
-        Vector2 leftPenaltyLineUpperPoint = (Vector2)leftPenaltyLine.end + margin;
-        Vector2 backLineLowerPoint = {-0.5*length, leftPenaltyLineLowerPoint.y - margin};
-        Vector2 backLineUpperPoint = {-0.5*length, leftPenaltyLineUpperPoint.y + margin};
+        Vector2 leftPenaltyLineLowerPoint = (Vector2)leftPenaltyLine.begin;
+        Vector2 leftPenaltyLineUpperPoint = (Vector2)leftPenaltyLine.end;
+        leftPenaltyLineLowerPoint.x+=margin;
+        leftPenaltyLineUpperPoint.x+=margin;
+        if (leftPenaltyLineLowerPoint.y>0){
+            leftPenaltyLineLowerPoint.y+=margin;
+            leftPenaltyLineUpperPoint.y-=margin;
+        }
+        else{
+            leftPenaltyLineLowerPoint.y-=margin;
+            leftPenaltyLineUpperPoint.y+=margin;
+        }
+        Vector2 backLineLowerPoint = {-0.5*length, leftPenaltyLineLowerPoint.y };
+        Vector2 backLineUpperPoint = {-0.5*length, leftPenaltyLineUpperPoint.y };
         return {leftPenaltyLineLowerPoint, leftPenaltyLineUpperPoint, backLineUpperPoint, backLineLowerPoint};
     }
     else {
         double length = _field.field_length;
         auto rightPenaltyLine = _field.right_penalty_line;
-        Vector2 rightPenaltyLineLowerPoint = (Vector2)rightPenaltyLine.begin - margin;
-        Vector2 rightPenaltyLineUpperPoint = (Vector2)rightPenaltyLine.end + margin;
-        Vector2 backLineLowerPoint = {0.5*length, rightPenaltyLineLowerPoint.y - margin};
-        Vector2 backLineUpperPoint = {0.5*length, rightPenaltyLineUpperPoint.y + margin};
+        Vector2 rightPenaltyLineLowerPoint = (Vector2)rightPenaltyLine.begin;
+        Vector2 rightPenaltyLineUpperPoint = (Vector2)rightPenaltyLine.end;
+        rightPenaltyLineLowerPoint.x-=margin;
+        rightPenaltyLineUpperPoint.x-=margin;
+        if (rightPenaltyLineLowerPoint.y>0){
+            rightPenaltyLineLowerPoint.y+=margin;
+            rightPenaltyLineUpperPoint.y-=margin;
+        }
+        else{
+            rightPenaltyLineLowerPoint.y-=margin;
+            rightPenaltyLineUpperPoint.y+=margin;
+        }
+        Vector2 backLineLowerPoint = {0.5*length, rightPenaltyLineLowerPoint.y };
+        Vector2 backLineUpperPoint = {0.5*length, rightPenaltyLineUpperPoint.y };
         return {rightPenaltyLineLowerPoint, rightPenaltyLineUpperPoint, backLineUpperPoint, backLineLowerPoint};
     }
 

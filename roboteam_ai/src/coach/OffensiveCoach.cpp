@@ -27,12 +27,12 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
     tick++;
     Angle thetaPlus = tick*tick*goldenAngle + targetAngle;
     Angle thetaMinus = -1*tick*tick*goldenAngle + targetAngle;
-    std::vector<Vector2> positions = {bestPosition.position + thetaPlus.toVector2(1.0 *SEARCH_GRID_ROBOT_POSITIONS),
-                                      bestPosition.position + thetaPlus.toVector2(3.0 *SEARCH_GRID_ROBOT_POSITIONS),
-                                      bestPosition.position + thetaPlus.toVector2(12.0 *SEARCH_GRID_ROBOT_POSITIONS),
-                                      bestPosition.position + thetaMinus.toVector2(1.0 *SEARCH_GRID_ROBOT_POSITIONS),
-                                      bestPosition.position + thetaMinus.toVector2(3.0 *SEARCH_GRID_ROBOT_POSITIONS),
-                                      bestPosition.position + thetaMinus.toVector2(12.0*SEARCH_GRID_ROBOT_POSITIONS)};
+    std::vector<Vector2> positions = {bestPosition.position + thetaPlus.toVector2(1.0   * SEARCH_GRID_ROBOT_POSITIONS),
+                                      bestPosition.position + thetaPlus.toVector2(3.0   * SEARCH_GRID_ROBOT_POSITIONS),
+                                      bestPosition.position + thetaPlus.toVector2(12.0  * SEARCH_GRID_ROBOT_POSITIONS),
+                                      bestPosition.position + thetaMinus.toVector2(1.0  * SEARCH_GRID_ROBOT_POSITIONS),
+                                      bestPosition.position + thetaMinus.toVector2(3.0  * SEARCH_GRID_ROBOT_POSITIONS),
+                                      bestPosition.position + thetaMinus.toVector2(12.0 * SEARCH_GRID_ROBOT_POSITIONS)};
 
     auto newPosition = findBestOffensivePosition(positions, bestPosition, zoneLocation);
     if (newPosition.position != currentPosition.position) {
@@ -217,7 +217,7 @@ OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(cons
     auto field = world::field->get_field();
 
     interface::Input::drawData(interface::Visual::OFFENSE, positions, Qt::darkMagenta, - 1, interface::Drawing::DOTS,
-            8, 8, 4);
+            5, 5);
     interface::Input::drawData(interface::Visual::OFFENSE, {zoneLocation}, Qt::darkMagenta, - 1,
             interface::Drawing::CIRCLES,
             ZONE_RADIUS*10, ZONE_RADIUS*10, 4);
@@ -231,8 +231,8 @@ OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(cons
         if (currentBestPosition.position.x < 0 && potentialPosition.x < currentBestPosition.position.x) continue;
 
         // check if the point is in the field and out of the defense area
-        if (! world::field->pointIsInField(potentialPosition, 0.10) ||
-                world::field->pointIsInDefenceArea(potentialPosition, false)) {
+        if (! world::field->pointIsInField(potentialPosition, Constants::ROBOT_RADIUS()*1.3) ||
+                world::field->pointIsInDefenceArea(potentialPosition, false, Constants::ROBOT_RADIUS()*1.3)) {
             continue;
         }
 
@@ -254,18 +254,19 @@ OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(cons
             }
             if (isInOtherZone) continue;
         }
+
+        interface::Input::drawData(interface::Visual::OFFENSE, {potentialPosition}, Qt::red, - 1,
+                interface::Drawing::DOTS, 5, 5);
+
         // check the score and if it is better update the best position
         double potentialScore = offensiveScore.calculateOffensivePositionScore(potentialPosition, world, field);
         if (potentialScore > bestPosition.score) {
             bestPosition = OffensivePosition(potentialPosition, potentialScore);
-            interface::Input::drawData(interface::Visual::OFFENSE, {potentialPosition}, Qt::green, - 1,
-                    interface::Drawing::DOTS, 8, 8, 4);
         }
-        else {
-            interface::Input::drawData(interface::Visual::OFFENSE, {potentialPosition}, Qt::red, - 1,
-                    interface::Drawing::DOTS, 8, 8, 4);
-        }
+
     }
+    interface::Input::drawData(interface::Visual::OFFENSE, {bestPosition.position}, Qt::green, - 1,
+            interface::Drawing::DOTS, 8, 8);
     return bestPosition;
 }
 
