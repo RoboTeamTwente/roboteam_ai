@@ -19,6 +19,11 @@ Skill::Status DriveWithInterface::onUpdate() {
     }
     Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
 
+    if ((targetPos - robot->pos).length() < 0.15) {
+        publishRobotCommand();
+        return Status::Running;
+    }
+
     auto pva = numTreeGtp.getPosVelAngle(robot, targetPos);
     Vector2 velocity = control::ControlUtils::velocityLimiter(pva.vel, Constants::MAX_VEL());
     command.x_vel = static_cast<float>(velocity.x);
