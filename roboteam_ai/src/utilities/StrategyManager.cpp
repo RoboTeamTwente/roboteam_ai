@@ -4,47 +4,62 @@
 
 #include <roboteam_ai/src/world/World.h>
 #include "StrategyManager.h"
+#include "GameStateManager.hpp"
 
 namespace rtt {
 namespace ai {
 
-StrategyMap StrategyManager::getCurrentStrategy(roboteam_msgs::RefereeCommand currentRefCmd) {
-    auto commandFromMostRecentReferee = static_cast<RefGameState>(currentRefCmd.command);
-    // trigger only if the command changed
-    if (commandFromMostRecentReferee != prevCmd) {
-        auto oldStrategyMap = currentStrategyMap;
+// process ref commands
+void StrategyManager::setCurrentRefGameState(RefCommand command) {
 
-        // if the command has a followUpCommand and the ref says normalPlay we need to run the followupcommand
-        if (oldStrategyMap.followUpCommandId != RefGameState::UNDEFINED
-            && commandFromMostRecentReferee == RefGameState::NORMAL_START) {
-            return getStrategyMapForRefGameState(oldStrategyMap.followUpCommandId);
-        }
-
-        currentStrategyMap = getStrategyMapForRefGameState(commandFromMostRecentReferee);
-        prevCmd = commandFromMostRecentReferee;
+    // if the command is the same, we don't need to do anything
+    if (command == currentRefGameState.commandId) {
+        return;
     }
-    return currentStrategyMap;
+
+    // otherwise, if we are in a followupstate and the refcommand is normal start we don't change a thing
+    if (currentRefGameState.isfollowUpCommand && command == RefCommand::NORMAL_START) {
+        return;
+    }
+
+    // we need to change refgamestate here
+    RefGameState newState;
+    if (currentRefGameState.hasFollowUpCommand() && command == RefCommand::NORMAL_START) {
+        newState = getRefGameStateForRefCommand(currentRefGameState.followUpCommandId);
+    } else {
+        newState = getRefGameStateForRefCommand(command);
+    }
+    if (world::world->getBall()) {
+        newState.ballPositionAtStartOfGameState = world::world->getBall()->pos;
+    } else {
+        newState.ballPositionAtStartOfGameState = {0,0};
+    }
+    currentRefGameState = newState;
 }
 
-/// Use an iterator and a lambda to efficiently get the Node for a specified id
-StrategyMap StrategyManager::getStrategyMapForRefGameState(RefGameState commandId) {
-    return *std::find_if(strategyMaps.begin(), strategyMaps.end(), [commandId](StrategyMap map) {
-      return map.commandId == commandId;
-    });
+RefGameState StrategyManager::getCurrentRefGameState() {
+    return currentRefGameState;
 }
 
-std::string StrategyManager::getCurrentKeeperTreeName(roboteam_msgs::RefereeCommand currentRefCmd) {
-    auto commandFromMostRecentReferee = static_cast<RefGameState>(currentRefCmd.command);
-
-    // HACK the keeper now always follows the same 'custom ref command' as the normal strategy
-    currentKeeperMap = getKeeperMapForRefGameState(currentStrategyMap.commandId);
-    return currentKeeperMap.strategyName;
+const RefGameState StrategyManager::getRefGameStateForRefCommand(RefCommand command) {
+    for (auto gameState : this->gameStates) {
+        if (gameState.commandId == command) {
+            return gameState;
+        }
+    }
+    std::cerr << "Returning an undefined refstate! This should never happen!" << std::endl;
+    return gameStates[0];
 }
 
-StrategyMap StrategyManager::getKeeperMapForRefGameState(RefGameState commandId) {
-    return *std::find_if(keeperMaps.begin(), keeperMaps.end(), [commandId](StrategyMap map) {
-        return map.commandId == commandId;
-    });
+void StrategyManager::forceCurrentRefGameState(RefCommand command) {
+    // we need to change refgamestate here
+    RefGameState newState = getRefGameStateForRefCommand(command);
+    if (world::world->getBall()) {
+        newState.ballPositionAtStartOfGameState = world::world->getBall()->pos;
+    } else {
+        newState.ballPositionAtStartOfGameState = {0,0};
+    }
+    currentRefGameState = newState;
 }
 
 } // ai

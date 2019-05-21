@@ -12,7 +12,7 @@ std::shared_ptr<vector<std::shared_ptr<rtt::ai::world::Robot>>> rtt::ai::DefendF
 
 
 Vector2 DefendFreeKick::getFormationPosition() {
-    robot->getNumtreeGtp()->setAvoidBall(0.55);
+    robot->getNumtreeGtp()->setAvoidBallDistance(0.55);
 
     update = true;
     posses = rtt::ai::control::PositionUtils::getDefendFreeKick(robotsInFormation->size());
