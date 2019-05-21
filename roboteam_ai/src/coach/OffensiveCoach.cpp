@@ -83,6 +83,7 @@ std::vector<Vector2> OffensiveCoach::getZoneLocations() {
 
 void OffensiveCoach::updateOffensivePositions() {
     std::vector<Vector2> zoneLocations = getZoneLocations();
+
     if (offensivePositions.size() != zoneLocations.size()) {
         offensivePositions = {};
         for (auto &zoneLocation : zoneLocations) {
@@ -92,6 +93,7 @@ void OffensiveCoach::updateOffensivePositions() {
             offensivePositions.emplace_back(offensivePosition);
         }
     }
+
     else {
         for (unsigned int i = 0; i < offensivePositions.size(); i++) {
             OffensivePosition offensivePosition = offensivePositions[i];

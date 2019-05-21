@@ -13,141 +13,29 @@ namespace ai {
 //GetBall turns the robot to the ball and softly approaches with dribbler on in an attempt to get the ball.
 GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) { }
 
-// Essentially a state transition diagram. Contains much of the logic
-void GetBall::checkProgression() {
-    if (deltaPos.length() > MAX_RANGE ||currentTick>maxTicks) {
-        currentProgress = FAIL;
-        return;
-    }
-    double angleDif = Control::angleDifference(robot->angle, deltaPos.angle());
-    if (currentProgress == TURNING) {
-        if (angleDif < ANGLE_ERROR_MARGIN) {
-            currentProgress = APPROACHING;
-            return;
-        }
-    }
-    else if (currentProgress == APPROACHING) {
-        if (angleDif >= ANGLE_ERROR_MARGIN) {
-            currentProgress = TURNING;
-            return;
-        }
-        if (world::world->ourRobotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
-            currentProgress = OVERSHOOTING;
-            return;
-        }
-        else{
-            return;
-        }
-    }
-    else if (currentProgress == OVERSHOOTING){
-        if (!world::world->ourRobotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
-            currentProgress = TURNING;
-            return;
-        }
-        if (((approachPos-robot->pos)).length()<OVERSHOOT){
-            currentProgress=DRIBBLING;
-            return;
-        }
-    }
-    else if (currentProgress == DRIBBLING) {
-        if (! world::world->ourRobotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())) {
-            currentProgress = APPROACHING;
-            count = 0;
-            return;
-        }
-        count ++;
-        if (count > POSSES_BALL_CYCLES) {
-            currentProgress = SUCCESS;
-            return;
-        }
-    }
-    else if (currentProgress == FAIL || currentProgress == SUCCESS) {
-        return;
-    }
-}
 
-void GetBall::onInitialize() {
-    currentProgress = TURNING;
-    count = 0;
-    double maxTime;
-    if (properties->hasDouble("maxTime")){
-    maxTime=properties->getDouble("maxTime");
-    }
-    else maxTime=1000;
-    currentTick=0;
-    maxTicks= static_cast<int>(floor(maxTime*Constants::TICK_RATE()));
-}
+void GetBall::onInitialize() {}
 
 GetBall::Status GetBall::onUpdate() {
-    if (!ball) return Status::Running;
-    deltaPos = Vector2(ball->pos) - Vector2(robot->pos);
-
-    if(currentProgress!=OVERSHOOTING&&currentProgress!=DRIBBLING){
-        approachPos= Vector2(ball->pos)+(Vector2(robot->pos)-Vector2(ball->pos)).stretchToLength(Constants::CENTRE_TO_FRONT()-0.03);
+    if(robot->hasBall()) {
+        return Status::Success;
     }
 
-    if(!world::world->ourRobotHasBall(robot->id,Constants::MAX_BALL_BOUNCE_RANGE())){
-        lockedAngle=deltaPos.angle();
-    }
-    if (ball->visible){
-        lastVisibleBallPos=ball->pos;
-    }
-    checkProgression();
-    currentTick++;
-    if (currentTick >= maxTicks) return Status::Failure;
-
-    switch (currentProgress) {
-        case TURNING:
-            sendTurnCommand();
-            return Status::Running;
-        case APPROACHING:
-            sendApproachCommand();
-            return Status::Running;
-        case OVERSHOOTING:
-            sendOvershootCommand();
-            return Status::Running;
-        case DRIBBLING:
-            sendDribblingCommand();
-            return Status::Running;
-        case SUCCESS:
-            return Status::Success;
-        case FAIL:
-            return Status::Failure;
-    }
-    return Status::Failure;
+    Vector2 targetPos = ball->pos;
+    auto c = ballControlGtp.getRobotCommand(robot, targetPos, robot->angle);
+    command = c.makeROSCommand();
+    publishRobotCommand();
+    return Status::Running;
 }
 
 void GetBall::onTerminate(Status s) {
-    sendDribblingCommand();
-}
-void GetBall::sendTurnCommand() {
-    command.dribbler = 0;
-    command.x_vel = 0;
-    command.y_vel = 0;
-    command.w = (float) deltaPos.angle();
-    publishRobotCommand();
-}
-void GetBall::sendApproachCommand() {
-    command.dribbler = 1;
-    command.x_vel = (float) deltaPos.normalize().x * SPEED;
-    command.y_vel = (float) deltaPos.normalize().y * SPEED;
-    command.w = lockedAngle;
-    publishRobotCommand();
-
-}
-void GetBall::sendOvershootCommand() {
-    command.dribbler = 1;
-    command.x_vel = (float) (approachPos-robot->pos).normalize().x * SPEED;
-    command.y_vel = (float) (approachPos-robot->pos).normalize().y * SPEED;
-    command.w = lockedAngle;
-    publishRobotCommand();
-}
-void GetBall::sendDribblingCommand() {
-    command.dribbler = 1;
-    command.x_vel = 0;
-    command.y_vel = 0;
-    command.w = lockedAngle;
-    publishRobotCommand();
+    if(properties->getBool("dribbleOnTerminate")) {
+        command.dribbler = 1;
+        command.x_vel = 0;
+        command.y_vel = 0;
+        command.w = robot->angle;
+        publishRobotCommand();
+    }
 }
 
 }//rtt
