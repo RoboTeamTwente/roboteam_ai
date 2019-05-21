@@ -38,7 +38,7 @@ private:
     bool init = false;
     Vector2 behindBallPosition;
     bool genevaIsTurning = false;
-    double secondsToTurnGeneva = 1.5;
+    double secondsToTurnGeneva = 0.0;
     double lastTimeGenevaChanged = 0.0;
 
     // Helpers
