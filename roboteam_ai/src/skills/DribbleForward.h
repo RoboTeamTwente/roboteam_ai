@@ -15,13 +15,6 @@ namespace ai {
 class DribbleForward : public Skill {
 private:
     Vector2 initialBallPos;
-    enum Progression {
-        GETTING_BALL,
-        DRIBBLING
-    };
-
-    Progression currentProgress;
-
     double dribbleDistance = 0.8;
     Vector2 targetPos;
     control::BasicPosControl basicGtp;
