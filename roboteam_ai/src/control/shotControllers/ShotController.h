@@ -32,6 +32,8 @@ class ShotController {
     FRIEND_TEST(ShotControllerTest, it_calculates_kickforce);
     FRIEND_TEST(ShotControllerTest, it_locates_robots_properly);
     FRIEND_TEST(ShotControllerTest, it_sends_proper_shoot_commands);
+    FRIEND_TEST(ShotControllerTest, geneva_turning);
+
 private:
     bool init = false;
     Vector2 behindBallPosition;

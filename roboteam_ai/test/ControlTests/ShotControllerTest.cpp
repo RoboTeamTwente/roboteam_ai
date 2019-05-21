@@ -233,6 +233,23 @@ TEST(ShotControllerTest, getshotdata_test) {
     }
 }
 
+TEST(ShotControllerTest, geneva_turning) {
+    ShotController shotController;
+    shotController.setGenevaDelay(2);
+    EXPECT_FLOAT_EQ(shotController.secondsToTurnGeneva, 0.8);
+    EXPECT_TRUE(shotController.genevaIsTurning);
+
+    ShotController shotController2;
+    shotController2.setGenevaDelay(0);
+    EXPECT_FLOAT_EQ(shotController.secondsToTurnGeneva, 0);
+    EXPECT_FALSE(shotController.genevaIsTurning);
+
+    ShotController shotController3;
+    shotController2.setGenevaDelay(4);
+    EXPECT_FLOAT_EQ(shotController.secondsToTurnGeneva, 2.0);
+    EXPECT_TRUE(shotController.genevaIsTurning);
+}
+
 
 } // control
 } // ai
