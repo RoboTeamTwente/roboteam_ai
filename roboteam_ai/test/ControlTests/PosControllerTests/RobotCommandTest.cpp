@@ -22,15 +22,15 @@ TEST(RobotCommandTest, it_converts_to_ros_command) {
         auto cmd = rc.makeROSCommand();
 
         EXPECT_EQ(cmd.id, rc.id);
-        EXPECT_EQ(cmd.x_vel, rc.vel.x);
-        EXPECT_EQ(cmd.y_vel, rc.vel.y);
-        EXPECT_EQ(cmd.w, rc.angle);
+        EXPECT_FLOAT_EQ(cmd.x_vel, rc.vel.x);
+        EXPECT_FLOAT_EQ(cmd.y_vel, rc.vel.y);
+        EXPECT_FLOAT_EQ(cmd.w, rc.angle);
         EXPECT_EQ(cmd.kicker, rc.kicker);
         EXPECT_EQ(cmd.kicker_forced, rc.kickerForced);
         EXPECT_EQ(cmd.chipper, rc.chipper);
         EXPECT_EQ(cmd.chipper_forced, rc.chipperForced);
         EXPECT_EQ(cmd.geneva_state, rc.geneva);
-        EXPECT_EQ(cmd.kicker_vel, rc.kickerVel);
+        EXPECT_FLOAT_EQ(cmd.kicker_vel, rc.kickerVel);
         EXPECT_EQ(cmd.dribbler, rc.dribbler);
     }
 }
