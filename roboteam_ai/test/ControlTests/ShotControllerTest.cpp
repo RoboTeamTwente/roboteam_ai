@@ -182,11 +182,7 @@ TEST(ShotControllerTest, getshotdata_test) {
     EXPECT_FLOAT_EQ(shotdata.genevaState, 3);
 
 
-    auto world = testhelpers::WorldHelper::getWorldMsg(1, 0, true, field);
-    rtt::ai::world::world->updateWorld(world);
-    auto robot = world::world->getUs().at(0);
-    robot.setGenevaState(3);
-    robot.setWorkingGeneva(true);
+
     /*
      *
      * When the autogeneva is on we should test some things a lot -> in a loop
@@ -194,6 +190,12 @@ TEST(ShotControllerTest, getshotdata_test) {
      * We alternate the target position to see the difference in behaviour
      */
     for (int i = 0; i < 100; i++) {
+        auto world = testhelpers::WorldHelper::getWorldMsg(1, 0, true, field);
+        rtt::ai::world::world->updateWorld(world);
+        auto robot = world::world->getUs().at(0);
+        robot.setGenevaState(3);
+        robot.setWorkingGeneva(true);
+
         shotdata = shotController.getShotData(robot, testhelpers::WorldHelper::getRandomFieldPosition(field),
                                               true, BallSpeed::MAX_SPEED, true, ShotPrecision::HIGH);
         EXPECT_FALSE(shotdata.kick);
@@ -205,6 +207,12 @@ TEST(ShotControllerTest, getshotdata_test) {
      * The geneva state should always stay between 0 and 5
      */
     for (int i = 0; i < 100; i++) {
+        auto world = testhelpers::WorldHelper::getWorldMsg(1, 0, true, field);
+        rtt::ai::world::world->updateWorld(world);
+        auto robot = world::world->getUs().at(0);
+        robot.setGenevaState(3);
+        robot.setWorkingGeneva(true);
+
         shotdata = shotController.getShotData(robot, testhelpers::WorldHelper::getRandomFieldPosition(field), false, BallSpeed::MAX_SPEED, true, ShotPrecision::HIGH);
         EXPECT_GE(shotdata.genevaState, 0);
         EXPECT_LE(shotdata.genevaState, 5);
@@ -213,8 +221,13 @@ TEST(ShotControllerTest, getshotdata_test) {
     /*
      * If the robot has no geneva it should ALWAYS use geneva 3
      */
-    robot.setWorkingGeneva(false);
     for (int i = 0; i < 100; i++) {
+        auto world = testhelpers::WorldHelper::getWorldMsg(1, 0, true, field);
+        rtt::ai::world::world->updateWorld(world);
+        auto robot = world::world->getUs().at(0);
+        robot.setGenevaState(4);
+        robot.setWorkingGeneva(false);
+
         shotdata = shotController.getShotData(robot, testhelpers::WorldHelper::getRandomFieldPosition(field), false, BallSpeed::MAX_SPEED, true, ShotPrecision::HIGH);
         EXPECT_EQ(shotdata.genevaState, 3);
     }
