@@ -241,13 +241,13 @@ TEST(ShotControllerTest, geneva_turning) {
 
     ShotController shotController2;
     shotController2.setGenevaDelay(0);
-    EXPECT_FLOAT_EQ(shotController.secondsToTurnGeneva, 0);
-    EXPECT_FALSE(shotController.genevaIsTurning);
+    EXPECT_FLOAT_EQ(shotController2.secondsToTurnGeneva, 0);
+    EXPECT_FALSE(shotController2.genevaIsTurning);
 
     ShotController shotController3;
-    shotController2.setGenevaDelay(4);
-    EXPECT_FLOAT_EQ(shotController.secondsToTurnGeneva, 2.0);
-    EXPECT_TRUE(shotController.genevaIsTurning);
+    shotController3.setGenevaDelay(4);
+    EXPECT_FLOAT_EQ(shotController3.secondsToTurnGeneva, 2.0);
+    EXPECT_TRUE(shotController3.genevaIsTurning);
 }
 
 
