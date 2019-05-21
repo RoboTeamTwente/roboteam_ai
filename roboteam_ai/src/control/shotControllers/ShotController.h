@@ -29,7 +29,9 @@ enum BallSpeed {
 };
 
 class ShotController {
-    FRIEND_TEST(ShotControllerTest, it_generates_proper_shots);
+    FRIEND_TEST(ShotControllerTest, it_calculates_kickforce);
+    FRIEND_TEST(ShotControllerTest, it_locates_robots_properly);
+    FRIEND_TEST(ShotControllerTest, it_sends_proper_shoot_commands);
 private:
     bool init = false;
     Vector2 behindBallPosition;
