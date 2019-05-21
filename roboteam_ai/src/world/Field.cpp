@@ -97,7 +97,8 @@ double Field::getTotalGoalAngle(bool ourGoal, const Vector2& point){
     return control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(angleLeft),control::ControlUtils::constrainAngle(angleRight));
 
 }
-double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& point, const WorldData &data) {
+/// id and ourteam are for a robot not to be taken into account.
+double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& point, const WorldData &data, int id, bool ourTeam) {
     roboteam_msgs::GeometryFieldSize _field;
     {
         std::lock_guard<std::mutex> lock(fieldMutex);
@@ -105,13 +106,13 @@ double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& p
     }
     double goalWidth = _field.goal_width;
     double blockadeLength = 0;
-    for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point,data)) {
+    for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point, data, id, ourTeam)) {
         blockadeLength += blockade.first.dist(blockade.second);
     }
     return std::max(100 - round(blockadeLength/goalWidth*100), 0.0);
 }
 
-std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, const Vector2& point, const WorldData &data) {
+std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, const Vector2& point, const WorldData &data, int id, bool ourTeam) {
     const double robotRadius = Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS();
 
     Vector2 lowerGoalSide, upperGoalSide;
@@ -125,6 +126,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
     robots.insert(robots.begin(),data.them.begin(),data.them.end());
     // all the obstacles should be robots
     for (auto const &robot : robots) {
+        if (robot.id == id && robot.team == (ourTeam ? Robot::Team::us : Robot::Team::them)) continue;
         double lenToBot=(point-robot.pos).length();
         // discard already all robots that are not at all between the goal and point, or if a robot is standing on this point
         bool isRobotItself = lenToBot<=robotRadius;

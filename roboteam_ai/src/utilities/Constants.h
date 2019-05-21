@@ -20,8 +20,11 @@ public:
     /// LOGGING ///
     static bool SHOW_LONGEST_TICK();
     static bool SHOW_TICK_TIME_TAKEN();
+
     static bool SHOW_NUMTREE_TIME_TAKEN();
-    static bool SHOW_NUMTREE_DEBUG_INFO();
+    static bool SHOW_COACH_TIME_TAKEN();
+
+        static bool SHOW_NUMTREE_DEBUG_INFO();
     static bool SHOW_FULL_NUMTREE_DEBUG_INFO();
 
 
@@ -118,7 +121,7 @@ public:
     static pidVals standardForcePID();
     static pidVals standardBasicPID();
 
-    
+
 private:
     static bool isInitialized;
     static bool robotOutputTargetGrSim; // Don't use this value. use GRSIM() instead.

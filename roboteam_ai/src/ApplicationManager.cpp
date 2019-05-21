@@ -107,7 +107,6 @@ void ApplicationManager::runOneLoopCycle() {
             ai::Referee::setMaxRobotVelocity(ai::Constants::MAX_VEL());
         }
 
-
         if (rtt::ai::robotDealer::RobotDealer::usesSeparateKeeper()) {
             if (ai::robotDealer::RobotDealer::getKeeperID() == -1) {
                 std::cout << "setting keeper id" << std::endl;
@@ -120,10 +119,22 @@ void ApplicationManager::runOneLoopCycle() {
         }
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
 
+        ros::Time begin;
+        ros::Time end;
+        if (ai::interface::Output::showCoachTimeTaken()) {
+            begin = ros::Time::now();
+        }
+
         rtt::ai::coach::getBallCoach->update();
         rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
         rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
         rtt::ai::coach::g_pass.updatePassProgression();
+
+        if (ai::interface::Output::showCoachTimeTaken()) {
+            end = ros::Time::now();
+            double timeTaken = (end - begin).toNSec() * 0.000001; // (ms)
+            std::cout << "The coaches are using " << timeTaken << " ms!" << std::endl;
+        }
 
         Status status = strategy->tick();
         this->notifyTreeStatus(status);

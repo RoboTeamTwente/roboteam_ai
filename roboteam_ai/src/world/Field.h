@@ -35,8 +35,8 @@ class Field {
                 bool includeOutsideField = false);
         bool pointIsInField(const Vector2& point, float margin = 0.05); //TODO: Remove margin hack
         int getRobotClosestToGoal(WhichRobots whichRobots, bool ourGoal);
-        double getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& point,const WorldData &world=world::world->getWorld());
-        std::vector<Line> getBlockadesMappedToGoal(bool ourGoal, const Vector2& point, const WorldData &world=world::world->getWorld());
+        double getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& point,const WorldData &world=world::world->getWorld(), int id = -1, bool ourTeam = false);
+        std::vector<Line> getBlockadesMappedToGoal(bool ourGoal, const Vector2& point, const WorldData &world=world::world->getWorld(), int id = -1, bool ourTeam = false);
         std::vector<Line> mergeBlockades(std::vector<Line> blockades);
         std::vector<Line> getVisiblePartsOfGoal(bool ourGoal, const Vector2& point,const WorldData &world=world::world->getWorld());
         Line getGoalSides(bool ourGoal);

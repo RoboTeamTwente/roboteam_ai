@@ -26,7 +26,8 @@ double CoachHeuristics::calculateCloseToGoalScore(const Vector2 &position) {
 
 /// Gives a higher score if the line between the position and the goal is free
 double CoachHeuristics::calculateShotAtGoalScore(const Vector2 &position, const WorldData &world) {
-    double viewAtGoal = world::field->getPercentageOfGoalVisibleFromPoint(false, position, world)/100;
+    WorldData copy = WorldData({}, world.them, world.ball, world.time);
+    double viewAtGoal = world::field->getPercentageOfGoalVisibleFromPoint(false, position, copy)/100;
     return 1 - exp(SHOT_AT_GOAL_WEIGHT*viewAtGoal);
 
 }
@@ -43,7 +44,7 @@ double CoachHeuristics::calculatePassLineScore(const Vector2 &position, const Wo
 double CoachHeuristics::getClosestOpponentAngleToPassLine(const Vector2 &position, const Ball &ball,
         double smallestAngle) {
 
-    for (const auto &robot : world::world->getAllRobots()) {
+    for (const auto &robot : world::world->getThem()) {
         if (control::ControlUtils::isPointProjectedOnLineSegment(robot.pos, ball.pos, position)) {
             double angle = abs((position - ball.pos).toAngle() - (robot.pos - ball.pos).toAngle());
             if (angle < smallestAngle) {
@@ -71,15 +72,16 @@ double CoachHeuristics::calculateBehindBallScore(const Vector2 &position, const 
     double xDistanceBehindBall = world.ball.pos.x - position.x;
     if (xDistanceBehindBall > 0) {
         return 0.0;
-    } else {
+    }
+    else {
         return 1.0;
     }
 }
-double CoachHeuristics::calculateDistanceToBallScore(const Vector2 &position, const CoachHeuristics::WorldData &world) {\
+double CoachHeuristics::calculateDistanceToBallScore(const Vector2 &position, const CoachHeuristics::WorldData &world) {
     auto ball = world.ball;
-    double idealDistance = (world::field->get_their_goal_center() - ball.pos).length() * 0.75;
+    double idealDistance = (world::field->get_their_goal_center() - ball.pos).length()*0.75;
     double distanceFromBall = (position - ball.pos).length();
-    return std::max(0.0, -pow(distanceFromBall / (0.5 * idealDistance), 2) + 2 * (distanceFromBall / (0.5 * idealDistance)));
+    return std::max(0.0, - pow(distanceFromBall/(0.5*idealDistance), 2) + 2*(distanceFromBall/(0.5*idealDistance)));
 }
 
 }

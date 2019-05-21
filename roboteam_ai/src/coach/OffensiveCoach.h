@@ -22,11 +22,10 @@ class OffensiveCoach {
         using Robot = world::Robot;
         using RobotPtr = std::shared_ptr<Robot>;
 
-        const double SEARCH_GRID_ROBOT_POSITIONS = 0.1;
-        const int GRID_SIZE = 3;
-        const double CLOSE_TO_GOAL_DISTANCE = 0.3;
-        const double FURTHER_FROM_GOAL_DISTANCE = 3.0*CLOSE_TO_GOAL_DISTANCE;
-        const double ZONE_RADIUS = 0.8;
+        const double SEARCH_GRID_ROBOT_POSITIONS = 0.055;
+        const double CLOSE_TO_GOAL_DISTANCE = 0.55;
+        const double FURTHER_FROM_GOAL_DISTANCE = 4.0*CLOSE_TO_GOAL_DISTANCE;
+        const double ZONE_RADIUS = 1.06;
 
         struct OffensivePosition {
           Vector2 position;
@@ -37,7 +36,7 @@ class OffensiveCoach {
         };
 
         OffensivePosition calculateNewRobotPosition(const OffensivePosition &currentPosition,
-                const Vector2 &zoneLocation);
+                const Vector2 &zoneLocation, int &tick, Angle &targetAngle);
 
         std::vector<Vector2> getZoneLocations();
         void updateOffensivePositions();

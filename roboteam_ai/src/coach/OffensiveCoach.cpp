@@ -16,23 +16,30 @@ OffensiveCoach g_offensiveCoach;
 
 /// Calculate new positions close to the robot
 OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(const OffensivePosition &currentPosition,
-        const Vector2 &zoneLocation) {
+        const Vector2 &zoneLocation, int &tick, Angle &targetAngle) {
 
-    auto world = world::world->getWorld();
-    auto field = world::field->get_field();
     OffensivePosition bestPosition = currentPosition;
-    bestPosition.score = offensiveScore.calculateOffensivePositionScore(currentPosition.position, world, field);
-    std::vector<Vector2> positions = {currentPosition.position + Vector2(-3.0*SEARCH_GRID_ROBOT_POSITIONS, 0.0),
-                                      currentPosition.position + Vector2(-1.0*SEARCH_GRID_ROBOT_POSITIONS, 0.0 ),
-                                      currentPosition.position + Vector2( 1.0*SEARCH_GRID_ROBOT_POSITIONS, 0.0 ),
-                                      currentPosition.position + Vector2( 3.0*SEARCH_GRID_ROBOT_POSITIONS, 0.0 ),
-                                      currentPosition.position + Vector2( 0.0, -3.0*SEARCH_GRID_ROBOT_POSITIONS),
-                                      currentPosition.position + Vector2( 0.0, -1.0*SEARCH_GRID_ROBOT_POSITIONS),
-                                      currentPosition.position + Vector2( 0.0,  1.0*SEARCH_GRID_ROBOT_POSITIONS),
-                                      currentPosition.position + Vector2( 0.0,  3.0*SEARCH_GRID_ROBOT_POSITIONS)};
+    // project the current position to the zoneLocation if it is outside
+    if ((bestPosition.position - zoneLocation).length2() > ZONE_RADIUS*ZONE_RADIUS) {
+        bestPosition.position = zoneLocation + (bestPosition.position - zoneLocation).stretchToLength(ZONE_RADIUS);
+    }
+    Angle goldenAngle = 0.01;//2.399963;
+    tick++;
+    Angle thetaPlus = tick*tick*goldenAngle + targetAngle;
+    Angle thetaMinus = -1*tick*tick*goldenAngle + targetAngle;
+    std::vector<Vector2> positions = {bestPosition.position + thetaPlus.toVector2(1.0 *SEARCH_GRID_ROBOT_POSITIONS),
+                                      bestPosition.position + thetaPlus.toVector2(3.0 *SEARCH_GRID_ROBOT_POSITIONS),
+                                      bestPosition.position + thetaPlus.toVector2(12.0 *SEARCH_GRID_ROBOT_POSITIONS),
+                                      bestPosition.position + thetaMinus.toVector2(1.0 *SEARCH_GRID_ROBOT_POSITIONS),
+                                      bestPosition.position + thetaMinus.toVector2(3.0 *SEARCH_GRID_ROBOT_POSITIONS),
+                                      bestPosition.position + thetaMinus.toVector2(12.0*SEARCH_GRID_ROBOT_POSITIONS)};
 
-    bestPosition = findBestOffensivePosition(positions, bestPosition, zoneLocation);
-    return bestPosition;
+    auto newPosition = findBestOffensivePosition(positions, bestPosition, zoneLocation);
+    if (newPosition.position != currentPosition.position) {
+        tick = 0;
+        targetAngle = newPosition.position - currentPosition.position;
+    }
+    return newPosition;
 }
 
 // Gets the centers of the "default locations", the 2 positions close to the goal and the 2 further away
@@ -73,10 +80,15 @@ void OffensiveCoach::updateOffensivePositions() {
         }
     }
     else {
+        static std::map<int, std::pair<int, Angle>> zoneTargets;
         for (unsigned int i = 0; i < offensivePositions.size(); i ++) {
             OffensivePosition offensivePosition = offensivePositions[i];
             Vector2 zoneLocation = zoneLocations[i];
-            offensivePositions[i] = calculateNewRobotPosition(offensivePosition, zoneLocation);
+            if (zoneTargets.find(i) == zoneTargets.end()) {
+                zoneTargets[i] = std::make_pair(0, Angle());
+            }
+            offensivePositions[i] = calculateNewRobotPosition(offensivePosition, zoneLocation,
+                    zoneTargets[i].first, zoneTargets[i].second);
         }
     }
 }
@@ -204,8 +216,17 @@ OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(cons
     auto world = world::world->getWorld();
     auto field = world::field->get_field();
 
+    interface::Input::drawData(interface::Visual::OFFENSE, positions, Qt::darkMagenta, - 1, interface::Drawing::DOTS,
+            8, 8, 4);
+    interface::Input::drawData(interface::Visual::OFFENSE, {zoneLocation}, Qt::darkMagenta, - 1,
+            interface::Drawing::CIRCLES,
+            ZONE_RADIUS*10, ZONE_RADIUS*10, 4);
+
     OffensivePosition bestPosition = currentBestPosition;
+    bestPosition.score = offensiveScore.calculateOffensivePositionScore(bestPosition.position, world, field);
+
     for (auto &potentialPosition : positions) {
+
         // check if the x-position of the point is on their half
         if (currentBestPosition.position.x < 0 && potentialPosition.x < currentBestPosition.position.x) continue;
 
@@ -215,29 +236,37 @@ OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(cons
             continue;
         }
 
-        // check if the point is out of this zone
-        if ((potentialPosition - zoneLocation).length2() > (currentBestPosition.position - zoneLocation).length2() &&
-            (potentialPosition - zoneLocation).length2() > ZONE_RADIUS * ZONE_RADIUS) {
-            continue;
-        }
+        // check if the point is further from the zone than the current position
+        if ((potentialPosition - zoneLocation).length2() > (currentBestPosition.position - zoneLocation).length2()) {
 
-        // check if the point is closer to another zone
-        bool isInOtherZone = false;
-        for (auto &otherDefaultPosition : getZoneLocations()) {
-            if (otherDefaultPosition != zoneLocation &&
-                    (otherDefaultPosition - potentialPosition).length2() < (zoneLocation - potentialPosition).length2()) {
-                isInOtherZone = true;
-                break;
+            // check if the point is out of the zone
+            if ((potentialPosition - zoneLocation).length2() > ZONE_RADIUS*ZONE_RADIUS) continue;
+
+            // check if the point is closer to another zone
+            bool isInOtherZone = false;
+            for (auto &otherDefaultPosition : getZoneLocations()) {
+                if (otherDefaultPosition != zoneLocation &&
+                        (otherDefaultPosition - potentialPosition).length2()
+                                < (zoneLocation - potentialPosition).length2()) {
+                    isInOtherZone = true;
+                    break;
+                }
             }
+            if (isInOtherZone) continue;
         }
-        if (isInOtherZone) continue;
-
         // check the score and if it is better update the best position
         double potentialScore = offensiveScore.calculateOffensivePositionScore(potentialPosition, world, field);
         if (potentialScore > bestPosition.score) {
             bestPosition = OffensivePosition(potentialPosition, potentialScore);
+            interface::Input::drawData(interface::Visual::OFFENSE, {potentialPosition}, Qt::green, - 1,
+                    interface::Drawing::DOTS, 8, 8, 4);
+        }
+        else {
+            interface::Input::drawData(interface::Visual::OFFENSE, {potentialPosition}, Qt::red, - 1,
+                    interface::Drawing::DOTS, 8, 8, 4);
         }
     }
+    return bestPosition;
 }
 
 }
