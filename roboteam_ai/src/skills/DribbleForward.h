@@ -7,6 +7,7 @@
 
 #include "Skill.h"
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
+#include <roboteam_ai/src/control/positionControllers/BallHandlePosControl.h>
 
 namespace rtt {
 namespace ai {
@@ -21,9 +22,10 @@ private:
 
     Progression currentProgress;
 
-    double dribbleDistance = 0.9;
+    double dribbleDistance = 0.8;
     Vector2 targetPos;
     control::BasicPosControl basicGtp;
+    control::BallHandlePosControl ballHandlePosControl;
 public:
     explicit DribbleForward(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;

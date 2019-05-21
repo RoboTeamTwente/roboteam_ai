@@ -12,12 +12,15 @@ DribbleForward::DribbleForward(string name, bt::Blackboard::Ptr blackboard)
 
 void DribbleForward::onInitialize() {
     initialBallPos = ball->pos;
-    currentProgress = GETTING_BALL;
+    currentProgress = DRIBBLING;
     if (properties->hasDouble("dribbleDistance")) {
         dribbleDistance = properties->getDouble("dribbleDistance");
     } else {
         dribbleDistance = 0.9;
     }
+
+    Angle angleToGoal = (world::field->get_their_goal_center() - ball->pos).toAngle();
+    targetPos = ball->pos + Vector2{dribbleDistance, 0}.rotate(angleToGoal);
 }
 
 
@@ -30,7 +33,6 @@ bt::Node::Status DribbleForward::onUpdate() {
                 return Status::Running;
             }
 
-            targetPos = ball->pos;
             auto pva = basicGtp.getPosVelAngle(robot, targetPos);
             command.x_vel = pva.vel.x;
             command.y_vel = pva.vel.y;
@@ -38,15 +40,12 @@ bt::Node::Status DribbleForward::onUpdate() {
             break;
         }
         case DRIBBLING: {
-            if ((robot->pos - targetPos).length() < 0.05) {
+            if ((ball->pos - targetPos).length() < 0.05 || (ball->pos - initialBallPos).length() >= dribbleDistance) {
                 return Status::Success;
             }
 
-            auto pva = basicGtp.getPosVelAngle(robot, targetPos);
-            command.x_vel = pva.vel.x;
-            command.y_vel = pva.vel.y;
-            command.w = (targetPos - robot->pos).toAngle();
-            command.dribbler = 1;
+            auto c = ballHandlePosControl.getRobotCommand(robot, targetPos, robot->angle);
+            command = c.makeROSCommand();
             break;
 
         }
