@@ -24,23 +24,22 @@ Skill::Status MidFieldHarasser::onUpdate() {
     Vector2 velocity = newPosition.vel;
 
     // If there is a robot being harassed, drive slower than it if too close
-    if (robotBeingHarassed != -1) {
+    if (robotBeingHarassed != - 1) {
         RobotPtr opponent = world::world->getRobotForId(robotBeingHarassed, false);
-        if (opponent&&((opponent->pos - robot->pos).length() < HARASSING_SAFETY_MARGINS)) {
+        if (opponent && ((opponent->pos - robot->pos).length() < HARASSING_SAFETY_MARGINS)) {
             double opponentVelocityLength = opponent->vel.length();
-            velocity = control::ControlUtils::velocityLimiter(velocity, opponentVelocityLength*0.8, Constants::MIN_VEL());
-        } else {
-            velocity = control::ControlUtils::velocityLimiter(velocity);
+            velocity = control::ControlUtils::velocityLimiter(velocity, opponentVelocityLength*0.8,
+                    Constants::MIN_VEL());
         }
-    }
-    command.x_vel = static_cast<float>(velocity.x);
-    command.y_vel = static_cast<float>(velocity.y);
-    //command.w = static_cast<float>(newPosition.angle);
-    command.w = static_cast<float>(getHarassAngle().getAngle());
-    command.use_angle = 1;
-    publishRobotCommand();
+        command.x_vel = static_cast<float>(velocity.x);
+        command.y_vel = static_cast<float>(velocity.y);
+        //command.w = static_cast<float>(newPosition.angle);
+        command.w = static_cast<float>(getHarassAngle().getAngle());
+        command.use_angle = 1;
+        publishRobotCommand();
 
-    return Status::Running;
+        return Status::Running;
+    }
 }
 
 void MidFieldHarasser::onTerminate(Skill::Status s) {

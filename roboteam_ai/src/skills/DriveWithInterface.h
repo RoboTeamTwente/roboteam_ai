@@ -17,7 +17,7 @@ class DriveWithInterface : public Skill {
         Status onUpdate() override;
 
     private:
-        control::ForcePosControl numTreeGtp;
+        control::NumTreePosControl numTreeGtp;
 
 
 };

@@ -43,7 +43,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
             robotCommand.vel = {0, 0};
             robotCommand.angle = robot->angle;
             robotCommand.dribbler = 0;
-            return limitCommand(robotCommand);
+            return robotCommand;
         }
         else {
             if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
@@ -101,13 +101,13 @@ RobotCommand BallHandlePosControl::rotateWithBall(RotateStrategy rotateStrategy)
 
         robotCommand.angle = robotToBall.toAngle();
         robotCommand.dribbler = 0;
-        return limitCommand(robotCommand);
+        return robotCommand;
     }
     case rotateAroundRobot: {
         int direction = targetAngle - robot->angle > 0.0 ? 1 : - 1;
         robotCommand.angle = Angle(robot->angle + maxAngularVelocity*direction);
         robotCommand.dribbler = 1;
-        return limitCommand(robotCommand);
+        return robotCommand;
     }
     }
     if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
@@ -443,18 +443,6 @@ void BallHandlePosControl::updateForwardsProgress() {
     }
 }
 
-RobotCommand BallHandlePosControl::limitCommand(RobotCommand command) {
-
-    // velocity limiter
-    command.vel = control::ControlUtils::velocityLimiter(command.vel);
-
-    // acceleration limiter
-    double maxAcc = control::ControlUtils::calculateMaxAcceleration(command.vel, command.angle);
-    command.vel = control::ControlUtils::accelerationLimiter(command.vel, maxAcc, previousVelocity.length());
-    previousVelocity = command.vel;
-
-    return command;
-}
 
 RobotCommand BallHandlePosControl::goToBall(bool ballIsFarFromTarget) {
 
@@ -476,7 +464,7 @@ RobotCommand BallHandlePosControl::goToBall(bool ballIsFarFromTarget) {
     auto pva = numTreePosController.getPosVelAngle(robot, target);
     robotCommand.angle = robotToBall.toAngle();
     robotCommand.vel = pva.vel;
-    return limitCommand(robotCommand);
+    return robotCommand;
 }
 
 void BallHandlePosControl::updateVariables(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) {

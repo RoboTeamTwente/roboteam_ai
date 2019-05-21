@@ -115,10 +115,7 @@ class BallHandlePosControl {
         void updateVariables(const RobotPtr &robot, const Vector2 &targetP, const Angle &targetA);
 
         int waitingTicks = 0;
-
-        // limit velocity & acceleration
         Vector2 previousVelocity = Vector2();
-        RobotCommand limitCommand(RobotCommand command);
     public:
         explicit BallHandlePosControl(bool canMoveInDefenseArea = false);
 

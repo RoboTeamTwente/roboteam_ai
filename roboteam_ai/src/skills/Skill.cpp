@@ -20,6 +20,7 @@ void Skill::publishRobotCommand() {
     if(Constants::GRSIM() && ourSideParam=="right"){
       command=rotateRobotCommand(command);
     }
+    limitRobotCommand();
 
     if (command.id == -1) {
         if (robot && robot->id != -1) {
@@ -83,6 +84,23 @@ void Skill::refreshRobotCommand() {
     emptyCmd.id = robot ? robot->id : -1;
     emptyCmd.geneva_state = 3;
     command = emptyCmd;
+}
+
+/// Velocity and acceleration limiters used on command
+void Skill::limitRobotCommand() {
+
+    Vector2 vel = {command.x_vel, command.y_vel};
+    auto limitedVel = control::ControlUtils::velocityLimiter(vel);
+
+    double maxAcc = control::ControlUtils::calculateMaxAcceleration(limitedVel, command.w);
+    if (robot->pidPreviusVel.length() == 0.0) robot->pidPreviusVel = robot->vel;
+    Vector2 res = control::ControlUtils::accelerationLimiter(limitedVel, maxAcc, robot->pidPreviusVel.length());
+    robot->pidPreviusVel = res;
+
+    command.x_vel = res.x;
+    command.y_vel = res.y;
+
+
 }
 
 } // ai

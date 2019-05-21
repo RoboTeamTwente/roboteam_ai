@@ -32,6 +32,7 @@ protected:
 
     using Control = control::ControlUtils;
     using Status = bt::Node::Status;
+    void limitRobotCommand();
 
 
 public:

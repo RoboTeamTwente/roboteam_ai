@@ -25,9 +25,8 @@ Skill::Status DriveWithInterface::onUpdate() {
     }
 
     auto pva = numTreeGtp.getPosVelAngle(robot, targetPos);
-    Vector2 velocity = control::ControlUtils::velocityLimiter(pva.vel, Constants::MAX_VEL());
-    command.x_vel = static_cast<float>(velocity.x);
-    command.y_vel = static_cast<float>(velocity.y);
+    command.x_vel = static_cast<float>(pva.vel.x);
+    command.y_vel = static_cast<float>(pva.vel.y);
     command.w = pva.angle;
     publishRobotCommand();
     return Status::Running;
