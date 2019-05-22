@@ -22,7 +22,7 @@ void BallNearOurGoalLineAndStill::onInitialize() {
 bt::Node::Status BallNearOurGoalLineAndStill::onUpdate() {
     Vector2 ballPos = world::world->getBall()->pos;
 
-    bool ballNearGoalLine = ballPos.x < (world::field->get_field().left_line.begin.x+margin);
+    bool ballNearGoalLine = ballPos.x < (-world::field->get_field().field_length/2 + margin);
     bool ballIsLayingStill = Vector2(ball->vel).length()<Constants::BALL_STILL_VEL(); 
 
     if (ballNearGoalLine && ballIsLayingStill) {

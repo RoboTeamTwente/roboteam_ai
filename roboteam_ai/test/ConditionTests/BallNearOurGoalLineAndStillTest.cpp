@@ -65,7 +65,7 @@ TEST(BallNearOurGoalLineAndStillTest, BallNearOurGoalLineAndStill) {
         worldMsg.ball.vel.x = 3.0;
         worldMsg.ball.vel.y = 3.0;
         rtt::ai::world::world->updateWorld(worldMsg);
-        EXPECT_EQ(node.update(), bt::Node::Status::Success);
+        EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
 
         // the ball is near the goal line within the margin
