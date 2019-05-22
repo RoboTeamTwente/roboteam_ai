@@ -14,14 +14,11 @@ TEST(CoachTest, offensive_coach_test) {
 
     rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
     std::vector<Vector2> offensivePositions = rtt::ai::coach::g_offensiveCoach.getOffensivePositions(4);
-
-    int counter = 0;
     std::vector<Vector2> newOffensivePositions;
 
-    // Calculate the next offensive positions 10 times
-    while (counter < 10) {
+    // Calculate the next offensive positions 100 times
+    for(int i = 0; i < 100; i++) {
         rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
-        counter++;
     }
     newOffensivePositions = rtt::ai::coach::g_offensiveCoach.getOffensivePositions(4);
 

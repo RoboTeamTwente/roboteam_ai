@@ -4,7 +4,7 @@
 
 
 #include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/utilities/Referee.hpp>
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include "ControlUtils.h"
 #include "../world/World.h"
 
@@ -81,7 +81,7 @@ bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos,
         const world::WorldData &world, double safeDistanceFactor, bool includeKeeper) {
 
     double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor;
-    int keeperID = Referee::getRefereeData().them.goalie;
+    int keeperID = GameStateManager::getRefereeData().them.goalie;
 
     for (auto &enemy : world.them) {
         if(!includeKeeper && enemy.id == keeperID) continue;
@@ -204,8 +204,14 @@ int ControlUtils::rotateDirection(double currentAngle, double targetAngle) {
 }
 
 /// Limits velocity to maximum velocity. it defaults to the max velocity stored in Referee.
-Vector2 ControlUtils::velocityLimiter(const Vector2 &vel, double maxVel, double minVel) {
-
+Vector2 ControlUtils::velocityLimiter(const Vector2 &vel, double maxVel, double minVel, bool listenToReferee) {
+    if (listenToReferee) {
+        double refereeMaxVel = rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
+        if (refereeMaxVel < maxVel) {
+            maxVel = refereeMaxVel;
+        }
+    }
+    
     if (vel.length() > maxVel) {
         return vel.stretchToLength(maxVel);
     }
@@ -303,8 +309,9 @@ bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, con
     double exactAngleTowardsPoint = (point - objectPosition).angle();
 
     // Note: The angles should NOT be constrained here. This is necessary.
-    return (velocity.angle() > exactAngleTowardsPoint - maxDifference/2
-            && velocity.angle() < exactAngleTowardsPoint + maxDifference/2);
+    return (velocity.length() > 0
+    && velocity.angle() > exactAngleTowardsPoint - maxDifference/2
+    && velocity.angle() < exactAngleTowardsPoint + maxDifference/2);
 
 }
 

@@ -12,6 +12,8 @@ std::vector<Toggle> Toggles::toggles = {
         {Visual::INTERCEPT,         showType::ALL_ROBOTS,       "Show Interceptions"},
         {Visual::DEFENSE,           showType::ALL_ROBOTS,       "Show defensive location"},
         {Visual::SHOTLINES,         showType::ALL_ROBOTS,       "Show desired shotlines"},
+        {Visual::OFFENSE,           showType::ALL_ROBOTS,       "Show offensive default locations"},
+
 };
 
 } // interface

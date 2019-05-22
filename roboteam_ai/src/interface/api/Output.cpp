@@ -26,8 +26,11 @@ std::mutex Output::markerMutex;
 std::mutex Output::refMutex;
 std::mutex Output::showDebugMutex;
 
+GameState Output::interfaceGameState("halt_strategy", "keeper_halt_tactic", "default");
+
 void Output::sendHaltCommand() {
     rtt::ai::Pause pause;
+
 
     if (pause.getPause()) {
         // Already halted so unhalt
@@ -82,6 +85,10 @@ bool Output::showDebugNumTreeTimeTaken() {
     return getShowDebugValues() && Constants::SHOW_NUMTREE_TIME_TAKEN();
 }
 
+bool Output::showCoachTimeTaken() {
+    return getShowDebugValues() && Constants::SHOW_COACH_TIME_TAKEN();
+}
+
 bool Output::showDebugNumTreeInfo() {
     return getShowDebugValues() && Constants::SHOW_NUMTREE_DEBUG_INFO();
 }
@@ -120,6 +127,32 @@ void Output::setTimeOutTop(bool top) {
 
 bool Output::isTimeOutAtTop() {
     return timeOutAtTop;
+}
+
+void Output::setKeeperTree(std::string name) {
+    Output::interfaceGameState.keeperStrategyName = std::move(name);
+}
+
+void Output::setStrategyTree(std::string name) {
+    Output::interfaceGameState.strategyName = std::move(name);
+    Output::interfaceGameState.ballPositionAtStartOfGameState = world::world->getBall()->pos;
+}
+
+void Output::setRuleSetName(std::string name) {
+    Output::interfaceGameState.ruleSetName = std::move(name);
+}
+
+
+void Output::setKeeperId(int id) {
+    Output::interfaceGameState.keeperId = id;
+}
+
+const GameState &Output::getInterfaceGameState() {
+    return Output::interfaceGameState;
+}
+
+void Output::setInterfaceGameState(const GameState &interfaceGameState) {
+    Output::interfaceGameState = interfaceGameState;
 }
 
 

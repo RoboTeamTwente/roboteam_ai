@@ -66,12 +66,12 @@ class Visualizer : public QWidget {
         void drawPoints(QPainter& painter, std::vector<Vector2> points, double width, double height);
         void drawLines(QPainter& painter, std::vector<Vector2> points);
 
-
         // utitlity functions
         std::string getTacticNameForRobot(Robot robot);
         std::string getRoleNameForRobot(Robot robot);
         rtt::Vector2 toScreenPosition(rtt::Vector2 fieldPos);
         rtt::Vector2 toFieldPosition(rtt::Vector2 screenPos);
+
 
         void calculateFieldSizeFactor();
 
