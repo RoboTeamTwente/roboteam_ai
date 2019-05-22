@@ -9,6 +9,7 @@ namespace rtt {
 namespace ai {
 
 class BallNearOurGoalLineAndStill : public Condition {
+    FRIEND_TEST(BallNearOurGoalLineAndStillTest, BallNearOurGoalLineAndStill);
 private:
     double margin = Constants::CLOSE_TO_BORDER_DISTANCE();
 public:
