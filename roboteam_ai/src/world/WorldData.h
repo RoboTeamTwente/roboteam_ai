@@ -38,6 +38,16 @@ class WorldData {
             }
             ball = Ball(copy.ball);
         }
+        explicit WorldData(const std::vector<Robot> &copyUs, const std::vector<Robot> &copyThem,
+                const Ball &copyBall, double time) : time(time) {
+            for (auto &robot : copyUs) {
+                us.emplace_back(robot);
+            }
+            for (auto &robot : copyThem) {
+                them.emplace_back(robot);
+            }
+            ball = copyBall;
+        }
         double time = 0.0;
         std::vector<Robot> us;
         std::vector<Robot> them;

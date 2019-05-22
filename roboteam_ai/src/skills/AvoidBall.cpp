@@ -74,7 +74,6 @@ bt::Node::Status AvoidBall::onUpdate() {
         }
     }
 
-    force = control::ControlUtils::velocityLimiter(force);
     command.use_angle = 1;
     command.w = static_cast<float>(force.angle());
     command.x_vel = static_cast<float>(force.x);

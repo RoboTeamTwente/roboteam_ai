@@ -26,6 +26,7 @@ private:
     roboteam_msgs::RobotCommand rotateRobotCommand(roboteam_msgs::RobotCommand &cmd);
 protected:
     io::IOManager ioManager = io::IOManager(false, true);
+    void limitVelocityCommands();
     void publishRobotCommand();
     void refreshRobotCommand();
     roboteam_msgs::RobotCommand command;

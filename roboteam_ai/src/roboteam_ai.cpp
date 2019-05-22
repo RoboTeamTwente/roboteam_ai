@@ -5,7 +5,6 @@
 #include "ApplicationManager.h"
 #include "world/WorldManager.h"
 
-
 namespace ui = rtt::ai::interface;
 std::shared_ptr<ui::MainWindow> window;
 
