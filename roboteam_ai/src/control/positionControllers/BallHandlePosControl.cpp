@@ -79,7 +79,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
 
 RobotCommand BallHandlePosControl::rotateWithBall(RotateStrategy rotateStrategy) {
     if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
-        printRotateStrategy(rotateStrategy);
+        std::cout << "rotating with strategy: " << printRotateStrategy(rotateStrategy) << std::endl;
     }
 
     RobotCommand robotCommand;
@@ -119,7 +119,7 @@ RobotCommand BallHandlePosControl::rotateWithBall(RotateStrategy rotateStrategy)
 RobotCommand BallHandlePosControl::travelWithBall(TravelStrategy travelStrategy) {
 
     if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
-        printTravelStrategy(travelStrategy);
+        std::cout << "travel strategy: " << printTravelStrategy(travelStrategy) << std::endl;
     }
 
     switch (travelStrategy) {
@@ -281,7 +281,7 @@ RobotCommand BallHandlePosControl::F_sendSuccessCommand() {
 
 void BallHandlePosControl::updateBackwardsProgress() {
     if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
-        printBackwardsProgress();
+        std::cout << "backwards progress: " <<  printBackwardsProgress(backwardsProgress) << std::endl;
     }
 
     if (backwardsProgress != B_dribbling) waitingTicks = 25;
@@ -380,7 +380,7 @@ void BallHandlePosControl::updateBackwardsProgress() {
 
 void BallHandlePosControl::updateForwardsProgress() {
     if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
-        printForwardsProgress();
+        std::cout << "forwards progress: " << printForwardsProgress(forwardsProgress) << std::endl;
     }
 
     // check if we still have ball
@@ -498,72 +498,42 @@ RobotCommand BallHandlePosControl::F_startTravelForwards() {
     return F_sendTurnCommand();
 }
 
-void BallHandlePosControl::printForwardsProgress() {
-    std::stringstream ss;
-    ss << "forwards progress:                  ";
-    switch (forwardsProgress) {
-    case F_start:ss << "start";
-        break;
-    case F_turning:ss << "turning";
-        break;
-    case F_approaching:ss << "approaching";
-        break;
-    case F_dribbleForward:ss << "dribble forwards";
-        break;
-    case F_success:ss << "success";
-        break;
-    case F_fail:ss << "fail";
-        break;
+std::string BallHandlePosControl::printForwardsProgress(ForwardsProgress progress) {
+    switch (progress) {
+        case F_start: return "start";
+        case F_turning: return "turning";
+        case F_approaching: return "approaching";
+        case F_dribbleForward: return "dribble forwards";
+        case F_success: return "success";
+        case F_fail: return "fail";
     }
-    std::cout << ss.str() << std::endl;
 }
 
-void BallHandlePosControl::printBackwardsProgress() {
-    std::stringstream ss;
-    ss << "backwards progress:                  ";
-    switch (backwardsProgress) {
-    case B_overshooting:ss << "overshooting";
-        break;
-    case B_dribbling:ss << "dribbling";
-        break;
-    case B_dribbleBackwards:ss << "dribbleBackwards";
-        break;
-    case B_success:ss << "success";
-        break;
-    case B_fail:ss << "fail";
-        break;
-    case B_start:ss << "start";
-        break;
-    case B_turning:ss << "turning";
-        break;
-    case B_approaching:ss << "approaching";
-        break;
+std::string BallHandlePosControl::printBackwardsProgress(BackwardsProgress progress) {
+    switch (progress) {
+        case B_overshooting: return "overshooting";
+        case B_dribbling: return "dribbling";
+        case B_dribbleBackwards: return "dribbleBackwards";
+        case B_success: return "success";
+        case B_fail: return "fail";
+        case B_start: return "start";
+        case B_turning: return "turning";
+        case B_approaching: return "approaching";
     }
-    std::cout << ss.str() << std::endl;
 }
 
-void BallHandlePosControl::printTravelStrategy(TravelStrategy strategy) {
-    std::stringstream ss;
-    ss << "travel with strategy: ";
+std::string BallHandlePosControl::printTravelStrategy(TravelStrategy strategy) {
     switch (strategy) {
-    case forwards:ss << "forwards";
-        break;
-    case backwards:ss << "backwards";
-        break;
+        case forwards: return "forwards";
+        case backwards: return "backwards";
     }
-    std::cout << ss.str() << std::endl;
 }
 
-void BallHandlePosControl::printRotateStrategy(RotateStrategy strategy) {
-    std::stringstream ss;
-    ss << "rotating with strategy: ";
+std::string BallHandlePosControl::printRotateStrategy(RotateStrategy strategy) {
     switch (strategy) {
-    case rotateAroundBall:ss << "aroundBall";
-        break;
-    case rotateAroundRobot:ss << "aroundRobot";
-        break;
+        case rotateAroundBall: return "aroundBall";
+        case rotateAroundRobot: return "aroundRobot";
     }
-    std::cout << ss.str() << std::endl;
 }
 
 void BallHandlePosControl::setMaxVelocity(double maxV) {

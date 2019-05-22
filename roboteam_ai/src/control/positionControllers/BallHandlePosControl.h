@@ -17,7 +17,10 @@ namespace control {
 
 class NumTreePosControl;
 class BallHandlePosControl {
-    private:
+    FRIEND_TEST(BallHandlePosControlTest, it_sends_proper_commands);
+    FRIEND_TEST(BallHandlePosControlTest, it_has_proper_prints);
+
+private:
         using BallPtr = std::shared_ptr<world::Ball>;
         using RobotPtr = std::shared_ptr<world::Robot>;
 
@@ -48,13 +51,13 @@ class BallHandlePosControl {
           rotateAroundBall,
           rotateAroundRobot
         };
-        void printRotateStrategy(RotateStrategy strategy);
+        std::string printRotateStrategy(RotateStrategy strategy);
 
         enum TravelStrategy : short {
           forwards,
           backwards
         };
-        void printTravelStrategy(TravelStrategy strategy);
+        std::string printTravelStrategy(TravelStrategy strategy);
 
         // backwards progress
         enum BackwardsProgress : short {
@@ -68,7 +71,7 @@ class BallHandlePosControl {
           B_fail
         };
         BackwardsProgress backwardsProgress = B_start;
-        void printBackwardsProgress();
+        std::string printBackwardsProgress(BackwardsProgress progress);
 
         // variables for backwards progress
         Vector2 B_approachPosition;
@@ -95,7 +98,7 @@ class BallHandlePosControl {
           F_fail
         };
         ForwardsProgress forwardsProgress = F_start;
-        void printForwardsProgress();
+        std::string printForwardsProgress(ForwardsProgress progress);
 
         // variables for forwards progress
         Angle F_lockedAngle;
