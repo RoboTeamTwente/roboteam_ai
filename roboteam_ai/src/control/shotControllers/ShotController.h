@@ -52,8 +52,10 @@ private:
     ShotData moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver);
     ShotData shoot(world::Robot robot,std::pair<Vector2,Vector2> driveLine, Vector2 shotTarget, bool chip, BallSpeed desiredBallSpeed);
 
-    ShotData moveAndShootSimulator(world::Robot robot, bool chip,std::pair<Vector2,Vector2> lineToDriveOver,BallSpeed desiredBallSpeed);
-    ShotData moveAndShootReal(world::Robot robot, bool chip,std::pair<Vector2,Vector2> lineToDriveOver,BallSpeed desiredBallSpeed);
+    ShotData moveAndShootGrSim(world::Robot robot, bool chip, std::pair<Vector2, Vector2> lineToDriveOver,
+            BallSpeed desiredBallSpeed);
+    ShotData moveAndShoot(world::Robot robot, bool chip, std::pair<Vector2, Vector2> lineToDriveOver,
+            BallSpeed desiredBallSpeed);
 
 public:
     explicit ShotController() = default;

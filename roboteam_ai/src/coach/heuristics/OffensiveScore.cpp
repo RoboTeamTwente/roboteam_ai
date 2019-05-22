@@ -31,7 +31,8 @@ double OffensiveScore::calculateOffensivePositionScore(const Vector2 &zoneLocati
     return score;
 }
 
-bool OffensiveScore::positionIsValid(const Vector2 &zoneLocation, const Vector2 &positionToCheck) {
+/// Check if a position being checked is not outside field, within the correct zone, etc
+bool OffensiveScore::positionIsValid(const Vector2 &defaultZoneLocation, const Vector2 &positionToCheck) {
 
     // check if the point is in the field and out of the defense area
     if (! world::field->pointIsInField(positionToCheck, Constants::ROBOT_RADIUS()*1.3) ||
@@ -39,15 +40,15 @@ bool OffensiveScore::positionIsValid(const Vector2 &zoneLocation, const Vector2 
         return false;
     }
 
-    // check if the point is out of the zone
-    if ((positionToCheck - zoneLocation).length2() > ZONE_RADIUS*ZONE_RADIUS) return false;
+    // check if the point is out of the default zone location
+    if ((positionToCheck - defaultZoneLocation).length2() > ZONE_RADIUS*ZONE_RADIUS) return false;
 
     // check if the point is closer to another zone
     bool isInOtherZone = false;
     for (auto &otherDefaultPosition : g_offensiveCoach.getZoneLocations()) {
-        if (otherDefaultPosition != zoneLocation &&
+        if (otherDefaultPosition != defaultZoneLocation &&
                 (otherDefaultPosition - positionToCheck).length2()
-                        < (zoneLocation - positionToCheck).length2()) {
+                        < (defaultZoneLocation - positionToCheck).length2()) {
             isInOtherZone = true;
             break;
         }

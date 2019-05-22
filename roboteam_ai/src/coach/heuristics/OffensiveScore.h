@@ -20,7 +20,7 @@ private:
     const double DISTANCE_TO_BALL_WEIGHT = 1.0;
     const double ZONE_RADIUS = 1.06;
 
-    bool positionIsValid(const Vector2 &zoneLocation, const Vector2 &positionToCheck);
+    bool positionIsValid(const Vector2 &defaultZoneLocation, const Vector2 &positionToCheck);
 public:
     using WorldData = world::WorldData;
     double calculateOffensivePositionScore(const Vector2 &zoneLocation, const Vector2 &position,
