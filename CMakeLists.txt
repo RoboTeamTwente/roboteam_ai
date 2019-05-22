@@ -166,6 +166,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Attack.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleRotate.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleRotate.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleForward.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleForward.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPSpecial.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPSpecial.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPWithBall.cpp

@@ -131,6 +131,7 @@ void PassCoach::updatePassProgression() {
 
 }
 bool PassCoach::validReceiver(RobotPtr passer, RobotPtr receiver) {
+    auto ball = world::world->getBall();
     if (receiver->id == robotDealer::RobotDealer::getKeeperID() || receiver->id == passer->id) {
         return false;
     }
@@ -140,6 +141,10 @@ bool PassCoach::validReceiver(RobotPtr passer, RobotPtr receiver) {
     }
 
     if((passer->pos - receiver->pos).length() < MIN_PASS_DISTANCE) {
+        return false;
+    }
+
+    if(receiver->pos.x - ball->pos.x < 0) {
         return false;
     }
 
