@@ -15,7 +15,7 @@ void robotCommandCallback(const roboteam_msgs::RobotCommandConstPtr &cmd) {
 }
 
 TEST(IOTest, it_subscribes) {
-    ros::Rate rate(1);
+    ros::Rate rate(60);
     ros::NodeHandle nh;
     // subscribing
     ros::Publisher roleFeedbackPub = nh.advertise<roboteam_msgs::RoleFeedback>(rtt::TOPIC_ROLE_FEEDBACK, 1);

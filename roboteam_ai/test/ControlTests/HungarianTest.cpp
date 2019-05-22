@@ -4,6 +4,8 @@
 
 #include <roboteam_ai/src/control/Hungarian.h>
 #include <gtest/gtest.h>
+#include <roboteam_ai/test/helpers/WorldHelper.h>
+#include <roboteam_ai/src/world/World.h>
 
 TEST(HungarianTest, it_works_properly) {
     std::vector<int> assignments;
@@ -60,4 +62,43 @@ TEST(HungarianTest, it_works_properly) {
 
     EXPECT_EQ(assignments, solution);
     EXPECT_EQ(cost, 20718.0);
+}
+
+TEST(HungarianTest, helper_functions) {
+    std::vector<int> assignments;
+    rtt::HungarianAlgorithm alg;
+    double cost;
+
+    // add three robots to the world at three positions below each other.
+    roboteam_msgs::World world;
+    roboteam_msgs::WorldRobot robot1, robot2, robot3;
+    robot1.id = 1;
+    robot1.pos.x = 0;
+    robot1.pos.y = -1;
+    robot2.id = 2;
+    robot2.pos.x = 0;
+    robot2.pos.y = 0;
+    robot3.id = 3;
+    robot3.pos.x = 0;
+    robot3.pos.y = 1;
+    world.us.push_back(robot1);
+    world.us.push_back(robot2);
+    world.us.push_back(robot3);
+    rtt::ai::world::world->updateWorld(world);
+
+
+    std::vector<int> robotIds = {1,2,3};
+    std::vector<rtt::Vector2> targetLocations = {
+            {1, -1}, // robot 1 should go here
+            {1, 0}, // robot 2 should go here
+            {1, 1} // robot 3 should go here
+    };
+
+
+    auto map = alg.getRobotPositions(robotIds, true, targetLocations);
+
+    EXPECT_EQ(map[1], targetLocations[0]);
+    EXPECT_EQ(map[2], targetLocations[1]);
+    EXPECT_EQ(map[3], targetLocations[2]);
+
 }
