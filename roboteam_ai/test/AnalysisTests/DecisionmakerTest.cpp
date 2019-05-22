@@ -30,26 +30,14 @@ TEST(DecisionMakerTest, all_setups_have_right_amounts_of_robots) {
         for (int fooInt = THEY_HAVE_BALL; fooInt != WE_HAVE_BALL; fooInt++ ) {
             auto possession = static_cast<BallPossession>(fooInt);
 
-            robotDealer::RobotDealer::setUseSeparateKeeper(false);
-
+            // there is a keeper but it is not visible (the id is set to -1, and robot -1 is never seen, thus mimicking an invisible keeper)
+            robotDealer::RobotDealer::setKeeperID(-1);
             DecisionMaker maker;
             PlayStyle style = maker.getRecommendedPlayStyle(possession);
-
-            // the total amount of robots from the playstyle should always equal
             int total = style.amountOfAttackers + style.amountOfMidfielders + style.amountOfDefenders;
-            EXPECT_EQ(total, amountOfRobots);
-
-
-            // there is a keeper but it is not visible (the id is set to -1, and robot -1 is never seen, thus mimicking an invisible keeper)
-            robotDealer::RobotDealer::setUseSeparateKeeper(true);
-            robotDealer::RobotDealer::setKeeperID(-1);
-
-            style = maker.getRecommendedPlayStyle(possession);
-            total = style.amountOfAttackers + style.amountOfMidfielders + style.amountOfDefenders;
             EXPECT_EQ(total, std::max(0, amountOfRobots));
 
             // there is a keeper
-            robotDealer::RobotDealer::setUseSeparateKeeper(true);
             robotDealer::RobotDealer::setKeeperID(world::world->getUs().at(0).id);
 
             style = maker.getRecommendedPlayStyle(possession);

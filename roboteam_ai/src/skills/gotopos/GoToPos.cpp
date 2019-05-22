@@ -43,7 +43,7 @@ void GoToPos::onInitialize() {
     else if (properties->hasBool("avoidBall")) {
         avoidBallDistance = Constants::DEFAULT_BALLCOLLISION_RADIUS();
     }
-    posController->setAvoidBall(avoidBallDistance);
+    posController->setAvoidBallDistance(avoidBallDistance);
     posController->setCanMoveOutOfField(properties->getBool("canGoOutsideField"));
     posController->setCanMoveInDefenseArea(properties->getBool("canMoveInDefenseArea"));
 
@@ -97,10 +97,6 @@ bt::Node::Status GoToPos::onUpdate() {
 
 void GoToPos::onTerminate(Status s) {
     gtpTerminate(s);
-    command.w = command.w == 0 ? static_cast<float>(robot->angle) : command.w;
-    command.x_vel = 0;
-    command.y_vel = 0;
-    publishRobotCommand();
 }
 
 } // ai

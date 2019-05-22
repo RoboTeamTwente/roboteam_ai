@@ -35,12 +35,12 @@ Vector2 ForcePosControl::calculateForces(const RobotPtr &robot, const Vector2 &t
     }
 
     // avoid the ball
-    if (avoidBallDistance > 0.0) {
-        force += ControlUtils::calculateForce((Vector2) robot->pos - world.ball.pos, FORCE_WEIGHT_BALL, avoidBallDistance);
+    if (getAvoidBallDistance() > 0.0) {
+        force += ControlUtils::calculateForce((Vector2) robot->pos - world.ball.pos, FORCE_WEIGHT_BALL, getAvoidBallDistance());
     }
 
     // avoid the sides of the field if needed
-    if (!canMoveOutOfField) {
+    if (!getCanMoveOutOfField()) {
         bool pointInField = world::field->pointIsInField(robot->pos, POINT_IN_FIELD_MARGIN);
 
         if (!pointInField) {
@@ -63,7 +63,6 @@ PosVelAngle ForcePosControl::calculateForcePosVelAngle(const PosController::Robo
     PosVelAngle target;
     auto force = calculateForces(robot, targetPos, forceRadius);
     target.pos = targetPos;
-    target.vel = control::ControlUtils::velocityLimiter(force);
     return controlWithPID(robot, target);
 }
 

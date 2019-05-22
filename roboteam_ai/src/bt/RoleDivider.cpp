@@ -22,14 +22,8 @@ void RoleDivider::giveProperty(std::string a, std::string b) {
     properties->setString(a, b);
 }
 
-void RoleDivider::initialize() {
-}
-
 Node::Status RoleDivider::update() {
     return Status::Waiting;
-}
-
-void RoleDivider::terminate(Node::Status s) {
 }
 
 }
