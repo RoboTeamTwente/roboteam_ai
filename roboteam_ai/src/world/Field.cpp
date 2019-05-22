@@ -2,6 +2,7 @@
 // Created by mrlukasbos on 19-10-18.
 //
 
+#include <roboteam_ai/src/interface/api/Input.h>
 #include "Field.h"
 #include "World.h"
 
@@ -35,40 +36,8 @@ Vector2 Field::get_their_goal_center() {
 }
 
 bool Field::pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea, float margin, bool includeOutsideField) {
-    roboteam_msgs::GeometryFieldSize _field;
-    {
-        std::lock_guard<std::mutex> lock(fieldMutex);
-        _field = field;
-    }
-    auto penaltyLine = isOurDefenceArea ? _field.left_penalty_line : _field.right_penalty_line;
-    double yTopBound;
-    double yBottomBound;
-    double xForwardBound = penaltyLine.begin.x;
-    double xBackBound = isOurDefenceArea ? _field.field_length/-2.0 : _field.field_length/2.0;
-    if (penaltyLine.begin.y < penaltyLine.end.y) {
-        yBottomBound = penaltyLine.begin.y;
-        yTopBound = penaltyLine.end.y;
-    } else {
-        yBottomBound = penaltyLine.end.y;
-        yTopBound = penaltyLine.begin.y;
-    }
-    bool yIsWithinDefenceArea = point.y<(yTopBound + margin) && point.y>(yBottomBound - margin);
-
-    bool xIsWithinOurDefenceArea;
-    bool xIsWithinTheirDefenceArea;
-    if (includeOutsideField) {
-        // if outside field are included then we don't need the back border
-        xIsWithinOurDefenceArea = point.x<(xForwardBound + margin);
-        xIsWithinTheirDefenceArea = point.x > (xForwardBound - margin);
-    } else {
-        xIsWithinOurDefenceArea = point.x<(xForwardBound + margin) && point.x>(xBackBound - margin);
-        xIsWithinTheirDefenceArea = point.x > (xForwardBound - margin) && point.x < (xBackBound + margin);
-    }
-
-    if (isOurDefenceArea) {
-        return xIsWithinOurDefenceArea && yIsWithinDefenceArea;
-    }
-    return yIsWithinDefenceArea && xIsWithinTheirDefenceArea;
+    auto defenseArea = getDefenseArea(isOurDefenceArea, margin, includeOutsideField);
+    return defenseArea.contains(point);
 }
 
 
@@ -89,15 +58,17 @@ bool Field::pointIsInField(const Vector2& point, float margin) {
             point.y > - halfWidth + margin);
 
 }
+
 /// returns the angle the goal points make from a point
 double Field::getTotalGoalAngle(bool ourGoal, const Vector2& point){
     std::pair<Vector2,Vector2> goal=getGoalSides(ourGoal);
     double angleLeft=(goal.first-point).angle();
     double angleRight=(goal.second-point).angle();
     return control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(angleLeft),control::ControlUtils::constrainAngle(angleRight));
-
 }
-double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& point, const WorldData &data) {
+
+/// id and ourteam are for a robot not to be taken into account.
+double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& point, const WorldData &data, int id, bool ourTeam) {
     roboteam_msgs::GeometryFieldSize _field;
     {
         std::lock_guard<std::mutex> lock(fieldMutex);
@@ -105,13 +76,13 @@ double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& p
     }
     double goalWidth = _field.goal_width;
     double blockadeLength = 0;
-    for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point,data)) {
+    for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point, data, id, ourTeam)) {
         blockadeLength += blockade.first.dist(blockade.second);
     }
     return std::max(100 - round(blockadeLength/goalWidth*100), 0.0);
 }
 
-std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, const Vector2& point, const WorldData &data) {
+std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, const Vector2& point, const WorldData &data, int id, bool ourTeam) {
     const double robotRadius = Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS();
 
     Vector2 lowerGoalSide, upperGoalSide;
@@ -125,6 +96,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
     robots.insert(robots.begin(),data.them.begin(),data.them.end());
     // all the obstacles should be robots
     for (auto const &robot : robots) {
+        if (robot.id == id && robot.team == (ourTeam ? Robot::Team::us : Robot::Team::them)) continue;
         double lenToBot=(point-robot.pos).length();
         // discard already all robots that are not at all between the goal and point, or if a robot is standing on this point
         bool isRobotItself = lenToBot<=robotRadius;
@@ -295,11 +267,6 @@ std::pair<Vector2, Vector2> Field::getGoalSides(bool ourGoal) {
     return std::make_pair(lowerGoalSide, upperGoalSide);
 }
 
-int Field::getRobotClosestToGoal(WhichRobots whichRobots, bool ourGoal) {
-    Vector2 goalCenter = ourGoal ? get_our_goal_center() : get_their_goal_center();
-    return world->getRobotClosestToPoint(goalCenter, whichRobots).id;
-}
-
 double Field::getDistanceToGoal(bool ourGoal, const Vector2& point) {
     auto sides = getGoalSides(ourGoal);
     return control::ControlUtils::distanceToLineWithEnds(point, sides.first, sides.second);
@@ -318,76 +285,72 @@ Vector2 Field::getPenaltyPoint(bool ourGoal) {
     }
 
 }
-std::shared_ptr<Vector2> Field::lineIntersectsWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin) {
-    roboteam_msgs::GeometryFieldSize _field;
-    {
-        std::lock_guard<std::mutex> lock(fieldMutex);
-        _field = field;
-    }
 
-    Vector2 goalLinePos1,goalLinePos2,cornerPos1,cornerPos2;
-    std::shared_ptr<Vector2> intersectPos= nullptr;
-    if (ourGoal) {
-        goalLinePos1 = Vector2(- _field.field_length*0.5, _field.left_penalty_line.begin.y - margin);
-        goalLinePos2 = Vector2(- _field.field_length*0.5, _field.left_penalty_line.end.y + margin);
-        cornerPos1 = Vector2(margin, - margin) + _field.left_penalty_line.begin;
-        cornerPos2 = Vector2(margin, margin) + _field.left_penalty_line.end;
-        if (_field.left_penalty_line.begin.y > _field.left_penalty_line.end.y) {
-            goalLinePos1 = Vector2(- _field.field_length*0.5, _field.left_penalty_line.begin.y + margin);
-            goalLinePos2 = Vector2(- _field.field_length*0.5, _field.left_penalty_line.end.y - margin);
-            cornerPos1 = Vector2(margin, margin) + _field.left_penalty_line.begin;
-            cornerPos2 = Vector2(margin, - margin) + _field.left_penalty_line.end;
+shared_ptr<Vector2> Field::lineIntersectionWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin) {
+    auto defenseArea = getDefenseArea(ourGoal, margin);
+    auto intersections = defenseArea.intersections({lineStart, lineEnd});
+
+    if (intersections.size() == 1) {
+        return std::make_shared<Vector2>(intersections.at(0));
+    } else if (intersections.size() > 1) {
+        double closestIntersectionToLineStart = INT_MAX;
+        Vector2 closestIntersection = intersections.at(0);
+        for (auto const &intersection : intersections) {
+            if (lineStart.dist(intersection) < closestIntersectionToLineStart) {
+                closestIntersection = intersection;
+                closestIntersectionToLineStart = lineStart.dist(intersection);
+            }
         }
+        return std::make_shared<Vector2>(closestIntersection);
     }
-    else{
-        goalLinePos1 = Vector2(_field.field_length*0.5, _field.right_penalty_line.begin.y - margin);
-        goalLinePos2 = Vector2(_field.field_length*0.5, _field.right_penalty_line.end.y + margin);
-        cornerPos1 = Vector2(-margin, - margin) + _field.right_penalty_line.begin;
-        cornerPos2 = Vector2(-margin, margin) + _field.right_penalty_line.end;
-        if (_field.right_penalty_line.begin.y > _field.right_penalty_line.end.y) {
-            goalLinePos1 = Vector2(_field.field_length*0.5, _field.right_penalty_line.begin.y + margin);
-            goalLinePos2 = Vector2(_field.field_length*0.5, _field.right_penalty_line.end.y - margin);
-            cornerPos1 = Vector2(-margin, margin) + _field.right_penalty_line.begin;
-            cornerPos2 = Vector2(-margin, - margin) + _field.right_penalty_line.end;
-        }
-    }
-    if (util::lineSegmentsIntersect(lineStart,lineEnd , goalLinePos1, cornerPos1)) {
-        intersectPos = std::make_shared<Vector2>(util::twoLineIntersection(lineStart,lineEnd , goalLinePos1, cornerPos1));
-    }
-    else if (util::lineSegmentsIntersect(lineStart,lineEnd , cornerPos1, cornerPos2)) {
-        intersectPos = std::make_shared<Vector2>(util::twoLineIntersection(lineStart,lineEnd , cornerPos1, cornerPos2));
-    }
-    else if (util::lineSegmentsIntersect(lineStart,lineEnd,cornerPos2, goalLinePos2)) {
-        intersectPos = std::make_shared<Vector2>(util::twoLineIntersection(lineStart,lineEnd , cornerPos2, goalLinePos2));
-    }
-    return intersectPos;
+    return nullptr;
 }
 
-std::vector<Vector2> Field::getDefenseArea(bool ourDefenseArea, double margin) {
+
+bool Field::lineIntersectsWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin) {
+    auto defenseArea = getDefenseArea(ourGoal, margin);
+    return defenseArea.doesIntersect({lineStart, lineEnd});
+}
+
+Polygon Field::getDefenseArea(bool ourDefenseArea, double margin, bool includeOutSideField) {
     roboteam_msgs::GeometryFieldSize _field;
     {
         std::lock_guard<std::mutex> lock(fieldMutex);
         _field = field;
     }
-    if (ourDefenseArea) {
-        double length = _field.field_length;
-        auto leftPenaltyLine = _field.left_penalty_line;
-        Vector2 leftPenaltyLineLowerPoint = (Vector2)leftPenaltyLine.begin - margin;
-        Vector2 leftPenaltyLineUpperPoint = (Vector2)leftPenaltyLine.end + margin;
-        Vector2 backLineLowerPoint = {-0.5*length, leftPenaltyLineLowerPoint.y - margin};
-        Vector2 backLineUpperPoint = {-0.5*length, leftPenaltyLineUpperPoint.y + margin};
-        return {leftPenaltyLineLowerPoint, leftPenaltyLineUpperPoint, backLineUpperPoint, backLineLowerPoint};
-    }
-    else {
-        double length = _field.field_length;
-        auto rightPenaltyLine = _field.right_penalty_line;
-        Vector2 rightPenaltyLineLowerPoint = (Vector2)rightPenaltyLine.begin - margin;
-        Vector2 rightPenaltyLineUpperPoint = (Vector2)rightPenaltyLine.end + margin;
-        Vector2 backLineLowerPoint = {0.5*length, rightPenaltyLineLowerPoint.y - margin};
-        Vector2 backLineUpperPoint = {0.5*length, rightPenaltyLineUpperPoint.y + margin};
-        return {rightPenaltyLineLowerPoint, rightPenaltyLineUpperPoint, backLineUpperPoint, backLineLowerPoint};
-    }
 
+    double backLineUsXCoordinate = includeOutSideField ? - _field.field_length*0.5 -_field.boundary_width : - _field.field_length*0.5 - margin;
+    double backLineThemXCoordinate = includeOutSideField ? _field.field_length*0.5 +_field.boundary_width : _field.field_length*0.5 + margin;
+    Polygon defenceAreaUs({
+          {_field.left_penalty_line.begin.x + margin, _field.left_penalty_line.begin.y - margin},
+          {_field.left_penalty_line.end.x + margin, _field.left_penalty_line.end.y + margin},
+          {backLineUsXCoordinate, _field.left_penalty_line.end.y + margin},
+          {backLineUsXCoordinate, _field.left_penalty_line.begin.y - margin},
+    });
+
+    Polygon defenceAreaThem({
+        {_field.right_penalty_line.begin.x - margin, _field.right_penalty_line.begin.y - margin},
+        {_field.right_penalty_line.end.x - margin, _field.right_penalty_line.end.y + margin},
+        {backLineThemXCoordinate, _field.right_penalty_line.end.y + margin},
+        {backLineThemXCoordinate, _field.right_penalty_line.begin.y - margin},
+    });
+
+
+//    interface::Input::drawDebugData({
+//        {_field.left_penalty_line.begin.x + margin, _field.left_penalty_line.begin.y - margin},
+//        {_field.left_penalty_line.end.x + margin, _field.left_penalty_line.end.y + margin},
+//        {backLineUsXCoordinate, _field.left_penalty_line.end.y + margin},
+//        {backLineUsXCoordinate, _field.left_penalty_line.begin.y - margin},
+//        }, Qt::red, -1, interface::Drawing::LINES_CONNECTED);
+//
+//    interface::Input::drawDebugData({
+//        {_field.right_penalty_line.begin.x - margin, _field.right_penalty_line.begin.y - margin},
+//        {_field.right_penalty_line.end.x - margin, _field.right_penalty_line.end.y + margin},
+//        {backLineThemXCoordinate, _field.right_penalty_line.end.y + margin},
+//        {backLineThemXCoordinate, _field.right_penalty_line.begin.y - margin},
+//    },  Qt::red, -1, interface::Drawing::LINES_CONNECTED);
+
+    return ourDefenseArea ? defenceAreaUs : defenceAreaThem;
 }
 
 } // world

@@ -8,6 +8,7 @@
 #include <mutex>
 #include <roboteam_utils/Vector2.h>
 #include <roboteam_ai/src/utilities/Pause.h>
+#include "../../utilities/GameState.h"
 
 namespace rtt {
 namespace ai {
@@ -31,17 +32,24 @@ private:
     static bool useRefereeCommands;
     static bool showDebugValuesInTerminal;
     static bool timeOutAtTop;
+
+    static GameState interfaceGameState;
 public:
-    static bool isTimeOutAtTop();
+    static void setInterfaceGameState(const GameState &interfaceGameState);
 
 public:
+    static const GameState &getInterfaceGameState();
+
+public:
+    static bool isTimeOutAtTop();
     static void setShowDebugValues(bool showDebug);
     static bool getShowDebugValues();
     static bool showDebugLongestTick();
     static bool showDebugTickTimeTaken();
     static bool showDebugNumTreeTimeTaken();
     static bool showDebugNumTreeInfo();
-    static bool showFullDebugNumTreeInfo();
+        static bool showCoachTimeTaken();
+        static bool showFullDebugNumTreeInfo();
 
     static bool usesRefereeCommands();
     static void setUseRefereeCommands(bool useRefereeCommands);
@@ -56,6 +64,12 @@ public:
     static const pidVals &getBasicPid();
     static void setBasicPid(const pidVals &basicPid);
     static void sendHaltCommand();
+
+    static void setKeeperTree(std::string name);
+    static void setStrategyTree(std::string name);
+    static void setRuleSetName(std::string name);
+    static void setUseKeeper(bool useKeeper);
+    static void setKeeperId(int id);
 };
 
 }

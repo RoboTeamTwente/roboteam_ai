@@ -14,7 +14,7 @@ namespace rtt{
 namespace ai {
 
 HasClearShot::HasClearShot(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) {};
+        :Condition(std::move(name), std::move(blackboard)) {}
 
 HasClearShot::Status HasClearShot::onUpdate() {
     auto minViewAtGoal = MIN_VIEW_AT_GOAL;
@@ -31,10 +31,10 @@ HasClearShot::Status HasClearShot::onUpdate() {
 
     // return success if there is a clear line to their goal 
     auto world = world::world->getWorld();
-    if (world::field->getPercentageOfGoalVisibleFromPoint(false, ball->pos) > minViewAtGoal * 100) {
-        return Status::Success;
-    }
-    return Status::Failure;
+    bool hasClearShot = world::field->getPercentageOfGoalVisibleFromPoint(false, ball->pos, world, robot->id, true) >
+            minViewAtGoal * 100;
+
+    return hasClearShot ? Status::Success : Status::Failure;
 }
 
 } // ai

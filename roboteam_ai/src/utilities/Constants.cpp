@@ -42,13 +42,15 @@ bool Constants::SHOW_TICK_TIME_TAKEN() { return false; }
 
 bool Constants::SHOW_NUMTREE_TIME_TAKEN() { return false; }
 
-bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
+bool Constants::SHOW_COACH_TIME_TAKEN() { return false; }
+
+    bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
 
 bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
 
-bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return true; }
+bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return false; }
 
-double Constants::MAX_VEL_CMD() { return 1.191; }
+double Constants::MAX_VEL_CMD() { return 8.191; }
 
 int Constants::MAX_ID_CMD() { return 15; }
 
@@ -58,7 +60,7 @@ double Constants::MIN_ANGLE() { return - M_PI; }
 
 double Constants::MAX_ANGLE() { return M_PI; }
 
-double Constants::MAX_VEL() { return 8.0; }
+double Constants::MAX_VEL() { return GRSIM() ? 8.0 : 2.0; }
 
 double Constants::MAX_STOP_STATE_VEL() { return 1.5; }
 
@@ -229,11 +231,22 @@ std::vector<QColor> Constants::TACTIC_COLORS() {
             {0, 0, 255, 100}};
 }
 
-pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(3.2, 0.0, 2.0) : pidVals(3.1, 0.0, 12.0); }
+pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(4.5, 0.0, 0.3) : pidVals(3.1, 0.0, 0.3); }
 
 pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(4.0, 0.0, 2.0) : pidVals(2.8, 0.0, 0.0); }
 
 pidVals Constants::standardForcePID() { return GRSIM() ? pidVals(1.65, 0.0, 0.0) : pidVals(2.8, 0.0, 0.0); }
+
+    std::vector<RuleSet> Constants::ruleSets() {
+        return {
+            {"default",                 8.0, 1.5, 6.5, 0.0, false, true},
+            {"halt",                    0.0, 0.0, 0.0, 0.0, true, true},
+            {"stop",                    1.5, 0.0, 0.0, 0.8, true, false},
+            {"ballplacement_them",      1.5, 0.0, 6.5, 0.8, true, true},
+            {"ballplacement_us",        1.5, 0.0, 6.5, 0.0, true, true},
+            {"kickoff",                 1.5, 0.0, 6.5, 0.5, true, true}
+        };
+    }
 
 }
 }
