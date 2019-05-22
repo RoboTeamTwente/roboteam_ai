@@ -35,6 +35,33 @@ TEST(ControlUtils, rotateDirection) {
     cr::ControlUtils::rotateDirection(ang2, ang4);
 }
 
+
+TEST(ControlUtils, point_in_rectangle) {
+    // test a valid rectangle
+    std::vector<Vector2> rectangle = {{0,0},{1,0},{1,1}, {0,1}};
+    EXPECT_TRUE(cr::ControlUtils::pointInRectangle({0.2, 0.2}, rectangle));
+    EXPECT_TRUE(cr::ControlUtils::pointInRectangle({0.8, 0.2}, rectangle));
+    EXPECT_TRUE(cr::ControlUtils::pointInRectangle({0.999, 0.001}, rectangle));
+    EXPECT_FALSE(cr::ControlUtils::pointInRectangle({1.8, 1.2}, rectangle));
+    EXPECT_FALSE(cr::ControlUtils::pointInRectangle({-0.001, 0.2}, rectangle));
+    EXPECT_FALSE(cr::ControlUtils::pointInRectangle({-8, 1.2}, rectangle));
+
+    // test an invalid rectangle
+    std::vector<Vector2> InvalidRectangle = {{0,0},{1,0},{1,1}};
+    EXPECT_FALSE(cr::ControlUtils::pointInRectangle({0.2, 0.2}, InvalidRectangle));
+    EXPECT_FALSE(cr::ControlUtils::pointInRectangle({0.8, 0.2}, InvalidRectangle));
+    EXPECT_FALSE(cr::ControlUtils::pointInRectangle({0.999, 0.001}, InvalidRectangle));
+
+    // test a rectangle with negative coordinates
+    rectangle = {{0,0},{-1,0},{-1,-1}, {0,-1}};
+    EXPECT_TRUE(cr::ControlUtils::pointInRectangle({-0.2, -0.2}, rectangle));
+    EXPECT_TRUE(cr::ControlUtils::pointInRectangle({-0.8, -0.2}, rectangle));
+    EXPECT_TRUE(cr::ControlUtils::pointInRectangle({-0.999, -0.001}, rectangle));
+    EXPECT_FALSE(cr::ControlUtils::pointInRectangle({-1.8, -1.2}, rectangle));
+    EXPECT_FALSE(cr::ControlUtils::pointInRectangle({-0.001, 0.2}, rectangle));
+    EXPECT_FALSE(cr::ControlUtils::pointInRectangle({-8, 1.2}, rectangle));
+}
+
 TEST(ControlUtils, angleDifference) {
     EXPECT_FLOAT_EQ(cr::ControlUtils::angleDifference(0.4, 0.5), 0.1);
     EXPECT_FLOAT_EQ(cr::ControlUtils::angleDifference(- 0.4, 0.5), 0.9);
@@ -46,6 +73,14 @@ TEST(ControlUtils, velocityLimiter) {
     for (int i = 0; i < 200; i ++) {
         EXPECT_LE(cr::ControlUtils::velocityLimiter(Vector2(- 102 + i*10, 512 + i*8)).length(),
                 rtt::ai::Constants::MAX_VEL() + 0.01);
+    }
+
+    // check the min velocity as well
+    // limit values between 56 and 3000
+    for (int i = 0; i < 200; i ++) {
+        auto limitedVel = cr::ControlUtils::velocityLimiter(Vector2(- 102 + i*10, 512 + i*8), 3000, 56).length();
+        EXPECT_GE(limitedVel, 56 - 0.01);
+        EXPECT_LE(limitedVel, 3000 + 0.01);
     }
 }
 
@@ -277,6 +312,27 @@ TEST(ControlUtils, it_calculates_forces) {
     EXPECT_DOUBLE_EQ(force.x, 0);
     EXPECT_DOUBLE_EQ(force.y, - 2);
 }
+
+
+TEST(ControlUtils, object_velocity_aimed_at_point){
+    // With a velocity of 0,0 it should always return false
+    EXPECT_FALSE(cr::ControlUtils::objectVelocityAimedToPoint({0,0}, {0,0}, {1,0}, 0.3));
+    EXPECT_FALSE(cr::ControlUtils::objectVelocityAimedToPoint({0,0}, {0,0}, {-1,0}, 0.3));
+
+    // velocity in wrong direction
+    EXPECT_FALSE(cr::ControlUtils::objectVelocityAimedToPoint({0,0}, {1,1}, {1,0}, 0.3));
+    EXPECT_FALSE(cr::ControlUtils::objectVelocityAimedToPoint({0,0}, {-1,-1}, {-1,0}, 0.3));
+
+    // velocity in same 'wrong' direction but with loose margins, so it should be true
+    EXPECT_TRUE(cr::ControlUtils::objectVelocityAimedToPoint({0,0}, {1,1}, {1,0}, rtt::toRadians(91)));
+    EXPECT_TRUE(cr::ControlUtils::objectVelocityAimedToPoint({0,0}, {-1,-1}, {-1,0}, rtt::toRadians(91)));
+
+    // the margin should be pretty strict
+    EXPECT_FALSE(cr::ControlUtils::objectVelocityAimedToPoint({0,0}, {1,1}, {1,0}, rtt::toRadians(90)));
+    EXPECT_FALSE(cr::ControlUtils::objectVelocityAimedToPoint({0,0}, {-1,-1}, {-1,0}, rtt::toRadians(90)));
+}
+
+
 TEST(ControlUtils, forward_line_intersection){
     Vector2 A(0,0),B(0,3),C(-1,1),D(1,1),E(0,0.5);
     EXPECT_EQ(cr::ControlUtils::twoLineForwardIntersection(A,B,C,D),1.0/3.0);

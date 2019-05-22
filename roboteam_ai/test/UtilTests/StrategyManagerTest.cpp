@@ -27,10 +27,17 @@ TEST(StrategyManagerTest, StrategyManagerTest) {
     strategyManager.setCurrentRefGameState(RefCommand::NORMAL_START);
     EXPECT_EQ(strategyManager.getCurrentRefGameState().strategyName, "kickoff_shoot_strategy");
 
+    // forcing a refgamestate should put it into normal start anyway
+    strategyManager.forceCurrentRefGameState(RefCommand::NORMAL_START);
+    EXPECT_EQ(strategyManager.getCurrentRefGameState().strategyName, "normal_play_strategy");
+
     // prepare command followed up by something else (i.e. command a) than normal start should trigger that command (command a).
     strategyManager.setCurrentRefGameState(RefCommand::PREPARE_KICKOFF_US);
     EXPECT_EQ(strategyManager.getCurrentRefGameState().strategyName, "kickoff_us_formation_strategy");
 
     strategyManager.setCurrentRefGameState(RefCommand::HALT);
     EXPECT_EQ(strategyManager.getCurrentRefGameState().strategyName, "halt_strategy");
+
+
+
 }
