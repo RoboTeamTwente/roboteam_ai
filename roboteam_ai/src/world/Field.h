@@ -16,6 +16,7 @@
 #include "WorldData.h"
 #include "Robot.h"
 #include <roboteam_ai/src/control/ControlUtils.h>
+#include <roboteam_utils/Polygon.h>
 
 namespace rtt {
 namespace ai {
@@ -34,7 +35,6 @@ class Field {
         bool pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea = true, float margin = 0.0,
                 bool includeOutsideField = false);
         bool pointIsInField(const Vector2& point, float margin = 0.05); //TODO: Remove margin hack
-        int getRobotClosestToGoal(WhichRobots whichRobots, bool ourGoal);
         double getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& point,const WorldData &world=world::world->getWorld());
         std::vector<Line> getBlockadesMappedToGoal(bool ourGoal, const Vector2& point, const WorldData &world=world::world->getWorld());
         std::vector<Line> mergeBlockades(std::vector<Line> blockades);
@@ -42,9 +42,10 @@ class Field {
         Line getGoalSides(bool ourGoal);
         double getDistanceToGoal(bool ourGoal, const Vector2& point);
         Vector2 getPenaltyPoint(bool ourGoal);
-        std::shared_ptr<Vector2> lineIntersectsWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin);
+        bool lineIntersectsWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin);
+        shared_ptr<Vector2> lineIntersectionWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin);
         double getTotalGoalAngle(bool ourGoal, const Vector2& point);
-        std::vector<Vector2> getDefenseArea(bool ourDefenseArea = true, double margin = 0.0);
+        Polygon getDefenseArea(bool ourDefenseArea = true, double margin = 0.0, bool includeOutSideField = true);
 
 };
 
