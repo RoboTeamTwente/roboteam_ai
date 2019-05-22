@@ -33,10 +33,12 @@ namespace rtt{
                    {0, stateVar_us, 0, 0},
                    {0, 0, stateVar_us, 0},
                    {0, 0, 0, stateVar_us}};
-        this->Q = {{TIMEDIFF * TIMEDIFF * randVar_us, TIMEDIFF * randVar_us, 0, 0},
-                   {TIMEDIFF * randVar_us, randVar_us, 0, 0},
-                   {0, 0, TIMEDIFF * TIMEDIFF * randVar_us, TIMEDIFF * randVar_us},
-                   {0, 0, TIMEDIFF * randVar_us, randVar_us}}; //this is wrong but works
+        arma::fmat::fixed<STATEINDEX, 2> tempQ = {{TIMEDIFF, 0},
+                                                  {1, 0},
+                                                  {0, TIMEDIFF},
+                                                  {0, 1}};
+        arma::fmat::fixed<2, STATEINDEX> tempQ_t = tempQ.t();
+        this->Q = tempQ * tempQ_t * randVar_us;
         this->K.zeros();
     }
 
