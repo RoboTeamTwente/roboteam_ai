@@ -65,7 +65,6 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
         isShooting = false;
         shotData = goToPlaceBehindBall(robot, lineToDriveOver.first + ball->vel*0.2, lineToDriveOver);
     }
-    std::cout << std::endl;
 
     interface::Input::drawData(interface::Visual::SHOTLINES, {ball->pos, aimTarget}, Qt::yellow, robot.id,
             interface::Drawing::LINES_CONNECTED);
