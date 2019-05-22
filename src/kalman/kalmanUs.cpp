@@ -36,7 +36,7 @@ namespace rtt{
         this->Q = {{TIMEDIFF * TIMEDIFF * randVar_us, TIMEDIFF * randVar_us, 0, 0},
                    {TIMEDIFF * randVar_us, randVar_us, 0, 0},
                    {0, 0, TIMEDIFF * TIMEDIFF * randVar_us, TIMEDIFF * randVar_us},
-                   {0, 0, TIMEDIFF * randVar_us, randVar_us}};
+                   {0, 0, TIMEDIFF * randVar_us, randVar_us}}; //this is wrong but works
         this->K.zeros();
     }
 
