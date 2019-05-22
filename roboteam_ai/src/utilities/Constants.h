@@ -7,9 +7,6 @@
 #include "math.h"
 #include "RuleSet.h"
 
-#define falsent true
-#define truent false
-
 namespace rtt {
 namespace ai {
 

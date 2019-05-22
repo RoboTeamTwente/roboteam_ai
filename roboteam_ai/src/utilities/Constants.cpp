@@ -42,13 +42,13 @@ bool Constants::SHOW_TICK_TIME_TAKEN() { return false; }
 
 bool Constants::SHOW_NUMTREE_TIME_TAKEN() { return false; }
 
-bool Constants::SHOW_COACH_TIME_TAKEN() { return falsent; }
+bool Constants::SHOW_COACH_TIME_TAKEN() { return false; }
 
     bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
 
-bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return truent; }
+bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
 
-bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return falsent; }
+bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return false; }
 
 double Constants::MAX_VEL_CMD() { return 8.191; }
 
