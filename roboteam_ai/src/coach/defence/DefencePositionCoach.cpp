@@ -87,14 +87,15 @@ std::shared_ptr<Vector2> DefencePositionCoach::blockOnDefenseLine(const Line &op
 Vector2 DefencePositionCoach::getBlockPoint(const Line &openGoalSegment, const Vector2 &point,
         double collisionRadius) {
     //compute the bisector of the angle of point and the two ends of the openGoalSegment
-    Vector2 lineToSideOne = openGoalSegment.first - point;
-    Vector2 lineToSideTwo = (openGoalSegment.second - point);
+    Vector2 lineToSideOne = (openGoalSegment.first - point).normalize();
+    Vector2 lineToSideTwo = (openGoalSegment.second - point).normalize();
     Vector2 endPos = point + (lineToSideOne + lineToSideTwo)
             *0.5;// ending point on the bisector, which always just intersects the goalLine
     // compute the furthest distance at which the entire segment is blocked
     double theta = lineToSideOne.angle() - (endPos - point).angle(); // half of the angle of the bisector
     double collisionDist = collisionRadius/sin(theta);
-    Vector2 FurthestBlock = point + Vector2(collisionDist, 0).rotate((endPos - point).angle());
+    double angle=(endPos - point).angle();
+    Vector2 FurthestBlock = point + Vector2(collisionDist, 0).rotate(angle);
     return FurthestBlock;
 }
 
