@@ -16,7 +16,6 @@ double OffensiveScore::calculateOffensivePositionScore(const Vector2 &zoneLocati
         const WorldData &world, const roboteam_msgs::GeometryFieldSize &field) {
 
     if (!positionIsValid(zoneLocation, position)) return 0.0;
-
     double closeToGoalScore = CoachHeuristics::calculateCloseToGoalScore(position);
     double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);
     double shotAtGoalScore = CoachHeuristics::calculateShotAtGoalScore(position, world);

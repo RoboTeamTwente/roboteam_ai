@@ -217,11 +217,6 @@ OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(cons
     auto world = world::world->getWorld();
     auto field = world::field->get_field();
 
-    // draw points
-//    interface::Input::drawData(interface::Visual::OFFENSE, positions, Qt::darkMagenta, - 1, interface::Drawing::DOTS,
-//            5, 5);
-
-
     OffensivePosition bestPosition = currentBestPosition;
     bestPosition.score =
             offensiveScore.calculateOffensivePositionScore(zoneLocation, bestPosition.position, world, field);
