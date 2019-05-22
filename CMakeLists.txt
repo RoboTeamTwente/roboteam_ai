@@ -352,6 +352,10 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/AnalysisTests/DecisionmakerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/ShotControllerTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/InterfaceTests/MainControlsWidgetTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/btTests/RoleDividerTests.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/PosControllerTests/BallHandlePosControlTest.cpp
         )
 
 set(INTERFACE_SOURCES
@@ -425,7 +429,7 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/midField/HarassRobotCoach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/midField/HarassRobotCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GetBallCoach.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GetBallCoach.h roboteam_ai/test/btTests/RoleDividerTests.cpp roboteam_ai/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp roboteam_ai/test/ControlTests/PosControllerTests/RobotCommandTest.cpp roboteam_ai/test/ControlTests/PosControllerTests/BallHandlePosControlTest.cpp)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GetBallCoach.h)
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
