@@ -41,6 +41,7 @@ void DefenceDealer::visualizePoints() {
 void DefenceDealer::updateDefenderLocations() {
     std::vector<DefenderBot> lockedDefenders;
     std::vector<int> freeDefenders;
+    // LockedDefenders are defenders that are locked to a target for atleast LOCKTIME ticks
     for (int id :availableIDs) {
         bool idFound = false;
         for (const auto &defender: assignedDefenders) {
@@ -55,7 +56,7 @@ void DefenceDealer::updateDefenderLocations() {
         }
     }
     availableIDs.clear();
-    assignedDefenders = g_defensivePositionCoach.decidePositionsStable(lockedDefenders, freeDefenders);
+    assignedDefenders = g_defensivePositionCoach.decidePositions(lockedDefenders, freeDefenders);
     visualizePoints();    //visualization
 }
 }//coach
