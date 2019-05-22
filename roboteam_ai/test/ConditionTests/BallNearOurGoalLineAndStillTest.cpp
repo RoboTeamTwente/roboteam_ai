@@ -54,23 +54,36 @@ TEST(BallNearOurGoalLineAndStillTest, BallNearOurGoalLineAndStill) {
         rtt::ai::world::world->updateWorld(worldMsg);
         EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
-        // the ball is not moving and  near the goal line
-        worldMsg.ball.pos.x = -world::field->get_field().field_length/2;
-        rtt::ai::world::world->updateWorld(worldMsg);
-        EXPECT_EQ(node.update(), bt::Node::Status::Success);
-
         // the ball is not moving but near the wrong (their) goal line
         worldMsg.ball.pos.x = world::field->get_field().field_length/2;
         rtt::ai::world::world->updateWorld(worldMsg);
         EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
 
+        // the ball is near the goal line but moving
+        worldMsg.ball.pos.x = -world::field->get_field().field_length/2;
+        worldMsg.ball.vel.x = 3.0;
+        worldMsg.ball.vel.y = 3.0;
+        rtt::ai::world::world->updateWorld(worldMsg);
+        EXPECT_EQ(node.update(), bt::Node::Status::Success);
+
+
+        // the ball is near the goal line within the margin
+        worldMsg.ball.pos.x = -world::field->get_field().field_length/2 + Constants::ROBOT_RADIUS();
+        worldMsg.ball.vel.x = 0.0;
+        worldMsg.ball.vel.y = 0.0;
+        rtt::ai::world::world->updateWorld(worldMsg);
+        EXPECT_EQ(node.update(), bt::Node::Status::Success);
+
+        // the ball is near the goal line outside the margin
+        worldMsg.ball.pos.x = -world::field->get_field().field_length/2 + 2.0 * Constants::ROBOT_RADIUS();
+        rtt::ai::world::world->updateWorld(worldMsg);
+        EXPECT_EQ(node.update(), bt::Node::Status::Failure);
+
         BB->setDouble("margin", 0.1);
         node.setProperties(BB);
         node.initialize();
         EXPECT_EQ(node.margin, 0.1);
-
-
 }
 }
 }
