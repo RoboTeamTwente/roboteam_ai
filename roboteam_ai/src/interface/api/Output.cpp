@@ -138,10 +138,6 @@ void Output::setRuleSetName(std::string name) {
     Output::interfaceGameState.ruleSetName = std::move(name);
 }
 
-void Output::setUseKeeper(bool useKeeper) {
-    Output::interfaceGameState.useKeeper = useKeeper;
-}
-
 
 void Output::setKeeperId(int id) {
     Output::interfaceGameState.keeperId = id;
