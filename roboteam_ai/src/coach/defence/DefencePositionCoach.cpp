@@ -115,23 +115,8 @@ Line DefencePositionCoach::shortenLineForDefenseArea(const Vector2 &lineStart, c
     return line;
 }
 world::WorldData DefencePositionCoach::removeBotFromWorld(world::WorldData world, int id, bool ourTeam) {
-    std::vector<world::Robot> robots = ourTeam ? world.us : world.them;
-    auto endIt = std::remove_if(robots.begin(), robots.end(), [id](const world::Robot &robot) {
-      return id == robot.id;
-    });
-
-    if (ourTeam) {
-        world.us.clear();
-        for (auto p = robots.begin(); p != endIt; ++ p) {
-            world.us.push_back(*p);
-        }
-    }
-    else {
-        world.them.clear();
-        for (auto p = robots.begin(); p != endIt; ++ p) {
-            world.them.push_back(*p);
-        }
-    }
+    std::vector<world::Robot> &robots = ourTeam ? world.us : world.them;
+    robots.erase(std::remove_if(robots.begin(),robots.end(),[id](world::Robot robot){return robot.id==id;}));
     return world;
 }
 Vector2 DefencePositionCoach::getMostDangerousPos(const world::WorldData &world) {
@@ -396,7 +381,40 @@ std::vector<DefenderBot> DefencePositionCoach::decidePositions(const std::vector
     int defenderAmount=lockedDefenders.size()+freeRobots.size();
     if (defenderAmount<=0) { return defenders; } // we don't actually need to calculate now.
     simulatedWorld = setupSimulatedWorld();
-    // first place the locked robots
+    // handle all the locked robots
+    std::tuple<bool,int,std::vector<int>> temp=decideLockedPositions(lockedDefenders,freeRobots);
+    bool blockedMostDangerousPos=get<0>(temp);
+    int lockedCount=get<1>(temp);
+    freeRobots=get<2>(temp);
+    // now we only have free robots left;
+    if (!blockedMostDangerousPos&&defenders.size()<defenderAmount) {
+        auto bot=blockMostDangerousPos(); //first we handle the most dangerous position first
+        if (bot){
+            addDefender(*bot);
+        }
+    }
+    // for the remainder we look at the possiblePasses and block the most dangerous bots
+    std::vector<PossiblePass> passes = createPassesSortedByDanger(simulatedWorld);
+    while ((defenders.size()) != defenderAmount && ! passes.empty()) {
+        auto foundNewDefender = blockPass(passes[0]); // we try to cover the most dangerous pass in multiple ways
+        // if we find a defender we need to recalculate the danger of our passes to reflect the new robot.
+        if (!foundNewDefender) {
+            // if we cannot find a way to cover it, we remove the attacker from the simulated world (otherwise we get 'stuck')
+            simulatedWorld = removeBotFromWorld(simulatedWorld, passes[0].toBot.id, false);
+            // this should pretty much never happen.
+            std::cerr<<"Pass to robot"<< passes[0].toBot.id <<" removed in defensiveCoach!"<<std::endl;
+        }
+        else{
+            addDefender(*foundNewDefender);
+        }
+        passes = createPassesSortedByDanger(simulatedWorld); //recalculate the danger after the new position
+    }
+    assignIDs(lockedCount,freeRobots,oldDefenders); // divide the ID's of the last robots over the remaining available ID's.
+    return defenders;
+}
+
+std::tuple<bool,int,std::vector<int>> DefencePositionCoach::decideLockedPositions(const std::vector<rtt::ai::coach::DefenderBot> &lockedDefenders,
+        std::vector<int> freeRobots) {
     bool blockedMostDangerousPos=false;
     int lockedCount=0;
     std::vector<PossiblePass> passes = createPassesSortedByDanger(simulatedWorld);
@@ -417,6 +435,7 @@ std::vector<DefenderBot> DefencePositionCoach::decidePositions(const std::vector
                 }
             }
         }
+        // we need special handling for if the robot is blocking the most dangerous position
         else {
             auto newDefender=blockMostDangerousPos();
             if (newDefender) {
@@ -432,32 +451,8 @@ std::vector<DefenderBot> DefencePositionCoach::decidePositions(const std::vector
             freeRobots.push_back(lockedDefender.id);// if we somehow cannot cover this robot anymore, we set it to free
         }
     }
-    if (!blockedMostDangerousPos&&defenders.size()<defenderAmount) {
-        auto bot=blockMostDangerousPos(); //first we handle the most dangerous position first
-        if (bot){
-            addDefender(*bot);
-        }
-    }
-    // for the remainder we look at the possiblePasses and block the most dangerous bots
-    passes = createPassesSortedByDanger(simulatedWorld);
-    while ((defenders.size()) != defenderAmount && ! passes.empty()) {
-        auto foundNewDefender = blockPass(passes[0]); // we try to cover the most dangerous pass in multiple ways
-        // if we find a defender we need to recalculate the danger of our passes to reflect the new robot.
-        if (!foundNewDefender) {
-            // if we cannot find a way to cover it, we remove the attacker from the simulated world (otherwise we get 'stuck')
-            simulatedWorld = removeBotFromWorld(simulatedWorld, passes[0].toBot.id, false);
-            // this should pretty much never happen.
-            std::cerr<<"Pass to robot"<< passes[0].toBot.id <<" removed in defensiveCoach!"<<std::endl;
-        }
-        else{
-            addDefender(*foundNewDefender);
-        }
-        passes = createPassesSortedByDanger(simulatedWorld); //recalculate the danger after the new position
-    }
-    assignIDs(lockedCount,freeRobots,oldDefenders); // divide the ID's of the last robots over the remaining available ID's.
-    return defenders;
+    return {blockedMostDangerousPos,lockedCount,freeRobots};
 }
-
 // the following algorithm takes the closest robot for each available defender to decide which robot goes where.
 // Since the points are ordered on priority from the above algorithm the most important points come first
 // It might be better to use an algorithm that is more complicated (e.g. hungarian) but then we might need some kind of system which gives the first points more 'priority'
