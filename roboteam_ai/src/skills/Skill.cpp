@@ -17,6 +17,8 @@ void Skill::publishRobotCommand() {
     std::string ourSideParam;
     nh.getParam("our_side", ourSideParam);
 
+    limitVelocityCommands();
+
     if(Constants::GRSIM() && ourSideParam=="right"){
       command=rotateRobotCommand(command);
     }
@@ -83,6 +85,13 @@ void Skill::refreshRobotCommand() {
     emptyCmd.id = robot ? robot->id : -1;
     emptyCmd.geneva_state = 3;
     command = emptyCmd;
+}
+void Skill::limitVelocityCommands() {
+    Vector2 velocity = {command.x_vel, command.y_vel};
+    velocity = control::ControlUtils::velocityLimiter(velocity);
+    command.x_vel = velocity.x;
+    command.y_vel = velocity.y;
+
 }
 
 } // ai
