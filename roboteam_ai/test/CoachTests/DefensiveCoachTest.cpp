@@ -6,9 +6,7 @@
 #include <roboteam_ai/test/helpers/WorldHelper.h>
 #include "roboteam_ai/src/utilities/Constants.h"
 #include "roboteam_ai/src/coach/defence/DefencePositionCoach.h"
-namespace cc=rtt::ai::coach;
 namespace w=rtt::ai::world;
-namespace a= rtt::ai;
 namespace rtt{
 namespace ai{
 namespace coach{
@@ -30,8 +28,8 @@ TEST(defensive_coach_test,blockPoints){
         for (const auto& robot : w::world->getThem()){
             std::pair<Vector2,Vector2> goal=w::field->getGoalSides(true);
             Vector2 toBlockFrom=w::world->getRobotForId(robot.id,false)->pos;
-            auto lineSegment=cc::g_defensivePositionCoach.getBlockLineSegment(goal,toBlockFrom);
-            auto blockPos=cc::g_defensivePositionCoach.getBlockPoint(goal,toBlockFrom,a::Constants::ROBOT_RADIUS() + a::Constants::BALL_RADIUS());
+            auto lineSegment=g_defensivePositionCoach.getBlockLineSegment(goal,toBlockFrom);
+            auto blockPos=g_defensivePositionCoach.getBlockPoint(goal,toBlockFrom,Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
             testWorld.us.push_back(createRobot(blockPos,robot.id,true));
             auto parts=w::field->getVisiblePartsOfGoal(true,toBlockFrom,testWorld);
             EXPECT_EQ(parts.size(),0);
@@ -43,8 +41,8 @@ TEST(defensive_coach_test,blockPoints){
                 else{
                     EXPECT_EQ(blockPos,lineSegment->second);
                 }
-                EXPECT_FALSE(w::field->pointIsInDefenceArea(lineSegment->first,true,0.15));
-                EXPECT_FALSE(w::field->pointIsInDefenceArea(lineSegment->second,true,0.15));
+                EXPECT_FALSE(w::field->pointIsInDefenceArea(lineSegment->first,true,Constants::ROBOT_RADIUS()));
+                EXPECT_FALSE(w::field->pointIsInDefenceArea(lineSegment->second,true,Constants::ROBOT_RADIUS()));
             }
 
             testWorld.us.clear();
