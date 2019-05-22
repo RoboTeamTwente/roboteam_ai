@@ -9,9 +9,9 @@ env:
   global:
     - toolset_branch: master
     - server_type: travis
-    - ros_release_name: kinetic
-    - ubuntu_version_name: xenial
-    - used_modules: check_cache,check_build,code_style_check,check_install,code_coverage
+    - ros_release_name: melodic
+    - ubuntu_version_name: bionic
+    - used_modules: check_cache,check_build,code_style_check,check_deb_make,codecov_tool
     - remote_shell_script: 'https://raw.githubusercontent.com/shadow-robot/sr-build-tools/$toolset_branch/bin/sr-run-ci-build.sh'
 
 script:
