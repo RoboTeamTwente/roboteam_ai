@@ -61,7 +61,6 @@ TEST(BallHandlePosControlTest, it_sends_proper_commands) {
 //    EXPECT_EQ(msg.vel.angle(), gtp.F_lockedAngle);
 //    EXPECT_FLOAT_EQ(msg.vel.length(), gtp.maxForwardsVelocity);
 
-
     msg = gtp.F_startTravelForwards();
     EXPECT_EQ(gtp.F_lockedAngle, Angle());
     EXPECT_EQ(gtp.F_forwardsDribbleLine.first.x, 0);
@@ -73,6 +72,10 @@ TEST(BallHandlePosControlTest, it_sends_proper_commands) {
 
     msg = gtp.F_sendSuccessCommand();
     EXPECT_EQ(msg.angle, gtp.F_lockedAngle);
+    EXPECT_EQ(msg.dribbler, 0);
+
+    msg = gtp.B_sendSuccessCommand();
+    EXPECT_EQ(msg.angle, gtp.B_lockedAngle);
     EXPECT_EQ(msg.dribbler, 0);
 
     msg = gtp.B_sendDribblingCommand();

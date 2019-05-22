@@ -40,8 +40,12 @@ Role::Role(std::string name) {
 }
 
 std::vector<Node::Ptr> Role::getChildren() {
-    return std::vector<Node::Ptr>{child};
+    if (child) {
+        return std::vector<Node::Ptr>{child};
+    }
+    return {};
 }
+
 
 
 void Role::terminate(Status s) {

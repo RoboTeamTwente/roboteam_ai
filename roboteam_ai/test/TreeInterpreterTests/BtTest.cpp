@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <roboteam_ai/src/bt/Role.h>
 #include "roboteam_ai/src/bt/bt.hpp"
 
 namespace bt {
@@ -511,4 +512,29 @@ TEST(BehaviorTreeTest, it_terminates_nodes) {
     succeeder3.terminate(bt::Node::Status::Failure);
     EXPECT_EQ(succeeder3.getStatus(), bt::Node::Status::Waiting);
 }
+
+TEST(RoleTest, role) {
+    bt::Role role("roboteamRole");
+    EXPECT_EQ(role.node_name(), "roboteamRole");
+    EXPECT_TRUE(role.getChildren().empty());
+
+    std::shared_ptr<bt::Blackboard> bb = std::make_shared<bt::Blackboard>();
+    role.addChild(std::make_shared<Counter>(bt::Node::Status::Failure, "D", 1));
+    EXPECT_FALSE(role.getChildren().empty());
+    EXPECT_EQ(role.update(), bt::Node::Status::Running);
+    role.terminate(bt::Node::Status::Failure);
+
+    bt::Role role2("roboteamRole2");
+    role2.addChild(std::make_shared<Counter>(bt::Node::Status::Waiting, "D", 1));
+    EXPECT_FALSE(role2.getChildren().empty());
+    EXPECT_EQ(role2.update(), bt::Node::Status::Running);
+    role2.terminate(bt::Node::Status::Failure);
+
+    bt::Role role3("roboteamRole3");
+    role3.addChild(std::make_shared<Counter>(bt::Node::Status::Success, "D", 1));
+    EXPECT_FALSE(role3.getChildren().empty());
+    EXPECT_EQ(role3.update(), bt::Node::Status::Success);
+    role3.terminate(bt::Node::Status::Failure);
+}
+
 } // bt
