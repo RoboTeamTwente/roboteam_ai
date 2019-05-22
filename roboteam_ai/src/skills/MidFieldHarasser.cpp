@@ -13,8 +13,8 @@ MidFieldHarasser::MidFieldHarasser(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void MidFieldHarasser::onInitialize() {
-    myIndex = -1;
     robotBeingHarassed = -1;
+    coach::g_harassRobotCoach.initialize(robot);
 }
 
 Skill::Status MidFieldHarasser::onUpdate() {
@@ -48,20 +48,19 @@ void MidFieldHarasser::onTerminate(Skill::Status s) {
     command.use_angle = 1;
     command.x_vel = 0;
     command.y_vel = 0;
-    myIndex = - 1;
 
     publishRobotCommand();
 }
 
 
 Vector2 MidFieldHarasser::getHarassTarget() {
-    auto harassTarget =  coach::g_harassRobotCoach.getHarassPosition(robot, myIndex);
+    auto harassTarget = coach::g_harassRobotCoach.getHarassPosition(robot);
     robotBeingHarassed = harassTarget.harassRobot;
     return harassTarget.harassPosition;
 }
 
 Angle MidFieldHarasser::getHarassAngle() {
-    return coach::g_harassRobotCoach.getHarassAngle(robot, myIndex);
+    return coach::g_harassRobotCoach.getHarassAngle(robot);
 }
 
 } //ai

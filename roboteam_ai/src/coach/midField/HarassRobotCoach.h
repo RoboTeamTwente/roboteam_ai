@@ -39,29 +39,30 @@ class HarassRobotCoach {
 
         BallPtr ball;
         double bestXPos;
-        std::vector<Vector2> currentRobotPositions;
-        std::vector<Vector2> targetRobotPositions;
-        std::vector<RobotPtr> targetRobotsToHarass;
+        std::vector<RobotPtr> currentMidfielders;
+        std::map<int, Vector2> targetPositions;
 
-        Vector2 harassRobot(int myIndex, int id = - 1);
-        HarassTarget initialize(const Vector2 &currentLocation, int &myIndex);
+        std::map<int, RobotPtr> targetRobotsToHarass;
 
-        int getRobotIndexCloseToEnemyRobot(const RobotPtr &enemyRobot) const;
+        Vector2 harassRobot(const RobotPtr &thisRobot, int opponentId = - 1);
+
+        int getRobotIdCloseToEnemyRobot(const RobotPtr &enemyRobot) const;
 
         Vector2 getBestReceiveLocation(const RobotPtr &thisRobot);
-        HarassTarget findRobotToHarass(const RobotPtr &thisRobot, int &myIndex, bool goAfterBall);
-        bool robotAlreadyBeingHarassed(int myIndex, int opponentID);
+        HarassRobotCoach::HarassTarget findRobotToHarass(const RobotPtr &thisRobot, bool goAfterBall);
+        bool robotAlreadyBeingHarassed(int myId, int opponentID);
 
-        Vector2 standInMidField(const RobotPtr &thisRobot, int &myIndex);
+        Vector2 standInMidField(const RobotPtr &thisRobot);
     public:
 
-        HarassTarget getHarassPosition(const RobotPtr &thisRobot, int &myIndex);
-        Angle getHarassAngle(const RobotPtr &thisRobot, int &myIndex);
+        HarassTarget getHarassPosition(const RobotPtr &thisRobot);
+        Angle getHarassAngle(const RobotPtr &thisRobot);
+        HarassTarget initialize(RobotPtr &thisRobot);
 
     void setClosestRobots(const RobotPtr &thisRobot, bool goAfterBall, double &closestRobotToBallDistance,
                           RobotPtr &closestRobotToBall, RobotPtr &closestRobotToHarasser);
 
-    Vector2 keepDistanceBetweenHarassers(const int &myIndex, Vector2 &currentLocation);
+    Vector2 keepDistanceBetweenHarassers(const RobotPtr &thisRobot);
 };
 
 extern HarassRobotCoach g_harassRobotCoach;

@@ -17,7 +17,6 @@ class MidFieldHarasser : public Skill {
 private:
     const double HARASSING_SAFETY_MARGINS = 1.0;
     Vector2 targetPos;
-    int myIndex = - 1;
     int robotBeingHarassed;
     Vector2 getHarassTarget();
     Angle getHarassAngle();
