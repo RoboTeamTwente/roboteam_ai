@@ -14,7 +14,9 @@ namespace coach {
 
 OffensiveCoach g_offensiveCoach;
 
-/// Calculate new positions close to the robot
+/// Calculate new positions close to the robot in the corresponding zone.
+/// In the current implementation, there are 4 zones, which are circles with radius ZONE_RADIUS in the opponent half
+/// of the field. an optimal position is found within these zones using this function.
 OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(const OffensivePosition &currentPosition,
         const Vector2 &zoneLocation, int &tick, Angle &targetAngle) {
 
