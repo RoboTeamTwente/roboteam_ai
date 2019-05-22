@@ -82,7 +82,7 @@ BallPossession::Possession BallPossession::getPossession() {
 }
 
 // convert ballpossession states to strings
-std::string BallPossession::stateAsString() {
+std::string BallPossession::stateAsString(Possession state) {
     switch (state) {
     case OURBALL:return "OURBALL";
     case THEIRBALL:return "THEIRBALL";

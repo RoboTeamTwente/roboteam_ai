@@ -29,13 +29,17 @@ enum BallSpeed {
 };
 
 class ShotController {
-    FRIEND_TEST(ShotControllerTest, it_generates_proper_shots);
+    FRIEND_TEST(ShotControllerTest, it_calculates_kickforce);
+    FRIEND_TEST(ShotControllerTest, it_locates_robots_properly);
+    FRIEND_TEST(ShotControllerTest, it_sends_proper_shoot_commands);
+    FRIEND_TEST(ShotControllerTest, geneva_turning);
+
 private:
     bool init = false;
     bool isShooting;
     Vector2 aimTarget;
     bool genevaIsTurning = false;
-    double secondsToTurnGeneva = 1.5;
+    double secondsToTurnGeneva = 0.0;
     double lastTimeGenevaChanged = 0.0;
 
     // Helpers

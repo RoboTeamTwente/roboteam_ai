@@ -1,10 +1,6 @@
-//
-// Created by thijs on 21-3-19.
-//
-
+#include <roboteam_ai/src/utilities/Constants.h>
 #include "WorldManager.h"
-#include <roboteam_ai/src/utilities/StrategyManager.h>
-#include <roboteam_ai/src/interface/api/Output.h>
+#include "../io/IOManager.h"
 
 namespace rtt {
 namespace ai {
@@ -23,6 +19,6 @@ void WorldManager::loop() {
     }
 }
 
-}
-}
-}
+} // world
+} // ai
+} // rtt

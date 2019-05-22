@@ -71,17 +71,13 @@ class WorldBuffer {
         }
 
         void addNewWorld(const WorldData &world) {
-            worldBuffer[lastIndex --] = world;
-            if (lastIndex < 0) lastIndex = size - 1;
+            lastIndex++;
+            if (lastIndex >= size) lastIndex = 0;
+            worldBuffer[lastIndex] = world;
         }
 
-        void addNewWorld(const roboteam_msgs::World &worldMsg) {
-            WorldData worldData = WorldData(worldMsg);
-            addNewWorld(worldData);
-        }
-
-        const WorldData &getPreviousWorld(const unsigned int worldsBack) {
-            unsigned int location = lastIndex + worldsBack + 1;
+        const WorldData &getPreviousWorld(const int worldsBack) {
+            int location = lastIndex - worldsBack;
             location %= size;
             return worldBuffer[location];
         }
