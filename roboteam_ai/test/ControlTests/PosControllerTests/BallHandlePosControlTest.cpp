@@ -30,19 +30,6 @@ TEST(BallHandlePosControlTest, it_sends_proper_commands) {
     EXPECT_EQ(gtp.targetAngle, M_PI);
     EXPECT_EQ(gtp.finalTargetAngle, M_PI);
 
-
-
-
-
-
-//        RobotCommand B_startTravelBackwards();
-//        RobotCommand B_sendTurnCommand();
-//        RobotCommand B_sendApproachCommand();
-//        RobotCommand B_sendOvershootCommand();
-//        RobotCommand B_sendDribblingCommand();
-//        RobotCommand B_sendDribbleBackwardsCommand();
-//        RobotCommand B_sendSuccessCommand();
-
     // Start Travel backwards resets the approachPosition and the LockedAngle
     auto msg = gtp.B_startTravelBackwards();
     EXPECT_EQ(gtp.backwardsProgress, BallHandlePosControl::B_turning);
@@ -62,11 +49,10 @@ TEST(BallHandlePosControlTest, it_sends_proper_commands) {
     EXPECT_EQ(msg.vel.angle(), (futureRobot->pos - world::world->getBall()->pos).angle());
     EXPECT_EQ(msg.angle, gtp.F_lockedAngle);
 
-    EXPECT_EQ(msg.kicker, false);
-    EXPECT_EQ(msg.chipper, false);
-    EXPECT_EQ(msg.kickerForced, false);
-    EXPECT_EQ(msg.kickerForced, false);
-
+    msg = gtp.B_sendApproachCommand();
+    EXPECT_EQ(msg.dribbler, 1);
+    EXPECT_FLOAT_EQ(msg.vel.length(), gtp.maxBackwardsVelocity);
+    EXPECT_EQ(msg.angle, gtp.B_lockedAngle);
 
     msg = gtp.F_sendDribbleForwardsCommand();
     EXPECT_EQ(msg.dribbler, 8);
@@ -75,10 +61,29 @@ TEST(BallHandlePosControlTest, it_sends_proper_commands) {
 //    EXPECT_EQ(msg.vel.angle(), gtp.F_lockedAngle);
 //    EXPECT_FLOAT_EQ(msg.vel.length(), gtp.maxForwardsVelocity);
 
-    EXPECT_EQ(msg.kicker, false);
-    EXPECT_EQ(msg.chipper, false);
-    EXPECT_EQ(msg.kickerForced, false);
-    EXPECT_EQ(msg.kickerForced, false);
+
+    msg = gtp.F_startTravelForwards();
+    EXPECT_EQ(gtp.F_lockedAngle, Angle());
+    EXPECT_EQ(gtp.F_forwardsDribbleLine.first.x, 0);
+    EXPECT_EQ(gtp.F_forwardsDribbleLine.first.y, 0);
+    EXPECT_EQ(gtp.F_forwardsDribbleLine.second.x, 0);
+    EXPECT_EQ(gtp.F_forwardsDribbleLine.second.y, 0);
+    EXPECT_EQ(gtp.forwardsProgress, BallHandlePosControl::F_turning);
+
+
+    msg = gtp.F_sendSuccessCommand();
+    EXPECT_EQ(msg.angle, gtp.F_lockedAngle);
+    EXPECT_EQ(msg.dribbler, 0);
+
+    msg = gtp.B_sendDribblingCommand();
+    EXPECT_EQ(msg.angle, gtp.B_lockedAngle);
+    EXPECT_EQ(msg.dribbler, 16);
+    EXPECT_EQ(msg.vel.x, 0);
+    EXPECT_EQ(msg.vel.y, 0);
+
+    msg = gtp.B_sendDribbleBackwardsCommand();
+    EXPECT_EQ(msg.angle, gtp.B_lockedAngle);
+    EXPECT_EQ(msg.dribbler, 24);
 
 }
 
@@ -93,6 +98,7 @@ TEST(BallHandlePosControlTest, it_has_proper_prints) {
     EXPECT_EQ(gtp.printForwardsProgress(BallHandlePosControl::F_fail), "fail");
 
     EXPECT_EQ(gtp.printBackwardsProgress(BallHandlePosControl::B_overshooting), "overshooting");
+    EXPECT_EQ(gtp.printBackwardsProgress(BallHandlePosControl::B_dribbleBackwards), "dribbleBackwards");
     EXPECT_EQ(gtp.printBackwardsProgress(BallHandlePosControl::B_dribbling), "dribbling");
     EXPECT_EQ(gtp.printBackwardsProgress(BallHandlePosControl::B_success), "success");
     EXPECT_EQ(gtp.printBackwardsProgress(BallHandlePosControl::B_fail), "fail");
