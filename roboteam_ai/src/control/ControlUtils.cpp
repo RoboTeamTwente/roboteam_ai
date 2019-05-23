@@ -5,6 +5,7 @@
 
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include <roboteam_utils/Line.h>
 #include "ControlUtils.h"
 #include "../world/World.h"
 
@@ -334,6 +335,44 @@ world::Robot ControlUtils::getRobotClosestToLine(std::vector<world::Robot> robot
 
     return closestRobot;
 }
+
+    Vector2 ControlUtils::getInterceptPointOnLegalPosition(Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin) {
+        Vector2 projectPos = line.project(position);
+
+        if (!canMoveOutOfField && !world::field->pointIsInField(projectPos)) {
+            projectPos = projectPositionToWithinField(projectPos, outOfFieldMargin);
+        }
+
+        Polygon defenceAreaUs(world::field->getDefenseArea(true, defenseAreamargin));
+        Polygon defenceAreaThem(world::field->getDefenseArea(false, defenseAreamargin));
+        LineSegment shotLine(line.start, line.end + line.end + (line.end - line.start)*10000);
+
+        std::vector<Vector2> intersects = defenceAreaUs.intersections(shotLine);
+        std::vector<Vector2> intersectsThem = defenceAreaThem.intersections(shotLine);
+
+        intersects.insert(intersects.end(),intersectsThem.begin(),intersectsThem.end());
+        if(intersects.empty()){
+            return projectPos;
+        }
+        double closestDist=DBL_MAX;
+        Vector2 closestPoint=projectPos;
+        for(const auto& point :intersects){
+            if (world::field->pointIsInField(point,0.01)) {
+                double dist = point.dist2(projectPos);
+                if (dist < closestDist) {
+                    closestDist = dist;
+                    closestPoint = point;
+                }
+            }
+        }
+
+        if (!canMoveOutOfField && !world::field->pointIsInField(closestPoint)) {
+            closestPoint = projectPositionToWithinField(closestPoint, outOfFieldMargin);
+        }
+
+        return closestPoint;
+
+    }
 
 
 } // control
