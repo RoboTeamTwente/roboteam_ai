@@ -72,6 +72,7 @@ void OffensiveCoach::updateOffensivePositions() {
     auto field = world::field->get_field();
 
     std::vector<Vector2> zoneLocations = getZoneLocations();
+
     if (offensivePositions.size() != zoneLocations.size()) {
         offensivePositions = {};
         for (auto &zoneLocation : zoneLocations) {
@@ -81,6 +82,7 @@ void OffensiveCoach::updateOffensivePositions() {
             offensivePositions.emplace_back(offensivePosition);
         }
     }
+
     else {
         static std::map<int, std::pair<int, Angle>> zoneTargets;
         for (unsigned int i = 0; i < offensivePositions.size(); i ++) {
