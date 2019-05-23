@@ -451,7 +451,7 @@ std::tuple<bool,int,std::vector<int>> DefencePositionCoach::decideLockedPosition
             freeRobots.push_back(lockedDefender.id);// if we somehow cannot cover this robot anymore, we set it to free
         }
     }
-    return std::make_tuple<bool,int,std::vector<int>>(blockedMostDangerousPos,lockedCount,freeRobots);
+    return std::make_tuple(blockedMostDangerousPos,lockedCount,freeRobots);
 }
 // the following algorithm takes the closest robot for each available defender to decide which robot goes where.
 // Since the points are ordered on priority from the above algorithm the most important points come first
