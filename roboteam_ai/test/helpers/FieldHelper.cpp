@@ -29,6 +29,11 @@ void FieldHelper::addDefenseAreas(roboteam_msgs::GeometryFieldSize &field, doubl
     field.top_left_penalty_stretch.end = Vector2{-field.field_length / 2, defenseAreaWidth / 2};
     field.bottom_left_penalty_stretch.begin = field.top_left_penalty_stretch.begin;
     field.bottom_left_penalty_stretch.end = Vector2{-field.field_length / 2, -defenseAreaWidth / 2};
+
+    field.left_penalty_line.begin = Vector2{(-field.field_length / 2) + defenseAreaDepth, defenseAreaWidth};
+    field.left_penalty_line.end = Vector2{(-field.field_length / 2) + defenseAreaDepth, -defenseAreaWidth};
+    field.right_penalty_line.begin = Vector2{(field.field_length / 2) - defenseAreaDepth, defenseAreaWidth};
+    field.right_penalty_line.end = Vector2{(field.field_length / 2) - defenseAreaDepth, -defenseAreaWidth};
 }
 
 void FieldHelper::addCenterArc(roboteam_msgs::GeometryFieldSize &field, double radius) {
