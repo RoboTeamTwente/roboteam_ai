@@ -108,7 +108,7 @@ class Collision {
 // If there is another way to return a shared pointer from an object to itself that is more pretty let me know
 class PathPoint : public std::enable_shared_from_this<PathPoint> {
     private:
-        double maxV = 2.0;
+        double maxV = 8.0;
         double maxAccAtLowV = 6.1;
         double maxAccAtHighV = 3.1;
         double maxDecelleration = 6.1;
