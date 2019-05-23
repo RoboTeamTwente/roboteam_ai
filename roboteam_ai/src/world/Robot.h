@@ -96,7 +96,7 @@ public:
         Vector2 vel = Vector2();
         double angularVelocity = 0.0;
         Team team;
-        Vector2 pidPreviusVel = Vector2();
+        Vector2 pidPreviousVel = Vector2();
 };
 
 } // world

@@ -26,7 +26,6 @@ void Skill::publishRobotCommand() {
         if (robot && robot->id != -1) {
             command.id = robot->id;
             ioManager.publishRobotCommand(command); // We default to our robots being on the left if parameter is not set
-
         }
     } else {
         ioManager.publishRobotCommand(command); // We default to our robots being on the left if parameter is not set
@@ -93,14 +92,12 @@ void Skill::limitRobotCommand() {
     auto limitedVel = control::ControlUtils::velocityLimiter(vel);
 
     double maxAcc = control::ControlUtils::calculateMaxAcceleration(limitedVel, command.w);
-    if (robot->pidPreviusVel.length() == 0.0) robot->pidPreviusVel = robot->vel;
-    Vector2 res = control::ControlUtils::accelerationLimiter(limitedVel, maxAcc, robot->pidPreviusVel.length());
-    robot->pidPreviusVel = res;
+    if (robot->pidPreviousVel.length() == 0.0) robot->pidPreviousVel = robot->vel;
+    Vector2 res = control::ControlUtils::accelerationLimiter(limitedVel, maxAcc, robot->pidPreviousVel.length());
+    robot->pidPreviousVel = res;
 
     command.x_vel = res.x;
     command.y_vel = res.y;
-
-
 }
 
 } // ai

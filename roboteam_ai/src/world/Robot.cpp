@@ -16,8 +16,8 @@ namespace world {
 Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
         unsigned char genevaState, unsigned char dribblerState, unsigned long worldNumber)
         :distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(worldNumber), genevaState(genevaState),
-         dribblerState(dribblerState),
-         id(copy.id), angle(copy.angle), pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
+         dribblerState(dribblerState), id(copy.id), angle(copy.angle), pos(copy.pos), vel(copy.vel),
+         angularVelocity(copy.w), team(team), pidPreviousVel(copy.vel) {
 
     if (id > - 1 && id < 16) {
         workingGeneva = Constants::ROBOT_HAS_WORKING_GENEVA(id);
