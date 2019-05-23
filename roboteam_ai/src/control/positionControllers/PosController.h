@@ -26,9 +26,9 @@ class PosController {
         using WorldDataPtr = std::shared_ptr<WorldData>;
 
         // settings
-        double avoidBallDistance = 0.0;
-        bool canMoveOutOfField = false;
-        bool canMoveInDefenseArea = false;
+        double customAvoidBallDistance = 0.0;
+        bool customCanMoveOutOfField = false;
+        bool customCanMoveInDefenseArea = false;
 
         // PID functions
         PID xpid = PID(1.65, 0, 0.0);
@@ -51,8 +51,8 @@ class PosController {
         void setCanMoveOutOfField(bool canMoveOutOfField);
         bool getCanMoveInDefenseArea() const;
         void setCanMoveInDefenseArea(bool canMoveInDefenseArea);
-        double getAvoidBall() const;
-        void setAvoidBall(double ballDistance = Constants::DEFAULT_BALLCOLLISION_RADIUS());
+        double getAvoidBallDistance() const;
+        void setAvoidBallDistance(double ballDistance = Constants::DEFAULT_BALLCOLLISION_RADIUS());
 
         std::tuple<double, double, double> lastPid;
 

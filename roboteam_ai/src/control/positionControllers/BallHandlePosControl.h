@@ -31,6 +31,7 @@ class BallHandlePosControl {
         const double maxBallDistance = robotRadius*2.0;
         const double targetBallDistance = robotRadius; // + ballRadius;
         const double maxAngularVelocity = 0.2;
+        const double minVelForMovingball = 0.58;
         bool canMoveInDefenseArea = false;
 
         RobotPtr robot;
@@ -52,7 +53,8 @@ class BallHandlePosControl {
 
         enum TravelStrategy : short {
           forwards,
-          backwards
+          backwards,
+          no_preference
         };
         void printTravelStrategy(TravelStrategy strategy);
 
@@ -72,11 +74,11 @@ class BallHandlePosControl {
 
         // variables for backwards progress
         Vector2 B_approachPosition;
-        Angle B_lockedAngle;
         std::pair<Vector2, Vector2> B_backwardsDribbleLine;
 
         // functions for backwards progress
         void updateBackwardsProgress();
+        RobotCommand sendBackwardsCommand();
         RobotCommand B_startTravelBackwards();
         RobotCommand B_sendTurnCommand();
         RobotCommand B_sendApproachCommand();
@@ -98,23 +100,24 @@ class BallHandlePosControl {
         void printForwardsProgress();
 
         // variables for forwards progress
-        Angle F_lockedAngle;
         std::pair<Vector2, Vector2> F_forwardsDribbleLine;
 
         // functions for forwards progress
         void updateForwardsProgress();
+        RobotCommand sendForwardsCommand();
         RobotCommand F_startTravelForwards();
         RobotCommand F_sendTurnCommand();
         RobotCommand F_sendApproachCommand();
         RobotCommand F_sendDribbleForwardsCommand();
 
         // general functions
-        RobotCommand goToBall(bool ballIsFarFromTarget);
+        RobotCommand goToBall(bool ballIsFarFromTarget, TravelStrategy preferredTravelStrategy = no_preference);
         RobotCommand rotateWithBall(RotateStrategy rotateStrategy);
         RobotCommand travelWithBall(TravelStrategy travelStrategy);
         void updateVariables(const RobotPtr &robot, const Vector2 &targetP, const Angle &targetA);
 
         int waitingTicks = 0;
+        Angle lockedAngle;
 
         // limit velocity & acceleration
         Vector2 previousVelocity = Vector2();
@@ -123,7 +126,8 @@ class BallHandlePosControl {
         explicit BallHandlePosControl(bool canMoveInDefenseArea = false);
 
         void setMaxVelocity(double maxV);
-        RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA);
+        RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA,
+                TravelStrategy preferredTravelStrategy = no_preference);
         RobotCommand F_sendSuccessCommand();
 };
 

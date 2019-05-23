@@ -15,7 +15,7 @@ void ReflectKick::onInitialize() {
     auto field = world::field->get_field();
     goalTarget = getFarSideOfGoal();
     reflectionPos = robot->pos;
-    robot->getNumtreeGtp()->setAvoidBall(0);
+    robot->getNumtreeGtp()->setAvoidBallDistance(0);
 }
 
 ReflectKick::Status ReflectKick::onUpdate() {

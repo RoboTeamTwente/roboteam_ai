@@ -40,16 +40,6 @@ Robot::Robot()
         id(- 1), angle(- 1.0), angularVelocity(- 1.0), team(invalid) {
 }
 
-const roboteam_msgs::WorldRobot Robot::toMessage() const {
-    roboteam_msgs::WorldRobot robotMsg;
-    robotMsg.angle = static_cast<float>(angle);
-    robotMsg.w = static_cast<float>(angularVelocity);
-    robotMsg.pos = pos;
-    robotMsg.vel = vel;
-    robotMsg.id = static_cast<unsigned int>(id);
-    return robotMsg;
-}
-
 bool Robot::hasBall(double maxDist) {
     return iHaveBall && distanceToBall < maxDist && distanceToBall >= 0.0;
 }
@@ -174,6 +164,10 @@ const shared_ptr<control::NumTreePosControl> &Robot::getNumtreeGtp() const {
 
 const shared_ptr<control::BasicPosControl> &Robot::getBasicGtp() const {
     return basicGTP;
+}
+
+void Robot::setWorkingGeneva(bool workingGeneva) {
+    Robot::workingGeneva = workingGeneva;
 }
 
 } //world

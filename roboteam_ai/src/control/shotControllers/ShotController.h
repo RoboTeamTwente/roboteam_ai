@@ -29,13 +29,17 @@ enum BallSpeed {
 };
 
 class ShotController {
-    FRIEND_TEST(ShotControllerTest, it_generates_proper_shots);
+    FRIEND_TEST(ShotControllerTest, it_calculates_kickforce);
+    FRIEND_TEST(ShotControllerTest, it_locates_robots_properly);
+    FRIEND_TEST(ShotControllerTest, it_sends_proper_shoot_commands);
+    FRIEND_TEST(ShotControllerTest, geneva_turning);
+
 private:
     bool init = false;
     bool isShooting;
     Vector2 aimTarget;
     bool genevaIsTurning = false;
-    double secondsToTurnGeneva = 1.5;
+    double secondsToTurnGeneva = 0.0;
     double lastTimeGenevaChanged = 0.0;
     bool penalty = false;
 
@@ -53,8 +57,10 @@ private:
     ShotData moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver);
     ShotData shoot(world::Robot robot,std::pair<Vector2,Vector2> driveLine, Vector2 shotTarget, bool chip, BallSpeed desiredBallSpeed);
 
-    ShotData moveAndShootSimulator(world::Robot robot, bool chip,std::pair<Vector2,Vector2> lineToDriveOver,BallSpeed desiredBallSpeed);
-    ShotData moveAndShootReal(world::Robot robot, bool chip,std::pair<Vector2,Vector2> lineToDriveOver,BallSpeed desiredBallSpeed);
+    ShotData moveAndShootGrSim(world::Robot robot, bool chip, std::pair<Vector2, Vector2> lineToDriveOver,
+            BallSpeed desiredBallSpeed);
+    ShotData moveAndShoot(world::Robot robot, bool chip, std::pair<Vector2, Vector2> lineToDriveOver,
+            BallSpeed desiredBallSpeed);
 
 public:
     explicit ShotController() = default;

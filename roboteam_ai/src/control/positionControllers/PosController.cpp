@@ -11,8 +11,8 @@ namespace ai {
 namespace control {
 
 PosController::PosController(double avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea)
-        :avoidBallDistance(avoidBall), canMoveOutOfField(canMoveOutOfField),
-         canMoveInDefenseArea(canMoveInDefenseArea) {
+        :customAvoidBallDistance(avoidBall), customCanMoveOutOfField(canMoveOutOfField), customCanMoveInDefenseArea(canMoveInDefenseArea) {
+
     xpid.setOutputLimits(- 8, 8);
     xpid.setOutputRampRate(100);
 
@@ -60,28 +60,27 @@ Vector2 PosController::calculatePIDs(const PosController::RobotPtr &robot, PosVe
 
 // Getters & Setters
 bool PosController::getCanMoveOutOfField() const {
-    return canMoveOutOfField;
+    return customCanMoveOutOfField && GameStateManager::getCurrentGameState().getRuleSet().robotsCanGoOutOfField;
 }
 
 void PosController::setCanMoveOutOfField(bool moveOutOfField) {
-    canMoveOutOfField = moveOutOfField;
+    customCanMoveOutOfField = moveOutOfField;
 }
 
 bool PosController::getCanMoveInDefenseArea() const {
-    return canMoveInDefenseArea;
+    return customCanMoveInDefenseArea && GameStateManager::getCurrentGameState().getRuleSet().robotsCanEnterDefenseArea;
 }
 
 void PosController::setCanMoveInDefenseArea(bool moveInDefenseArea) {
-    canMoveInDefenseArea = moveInDefenseArea;
+    customCanMoveInDefenseArea = moveInDefenseArea;
 }
 
-double PosController::getAvoidBall() const {
-    return avoidBallDistance;
+double PosController::getAvoidBallDistance() const {
+    return std::max(customAvoidBallDistance, GameStateManager::getCurrentGameState().getRuleSet().minDistanceToBall);
 }
 
-void PosController::setAvoidBall(double ballDistance) {
-    std::cerr << "Manually setting 'avoidball' distance in skill" << std::endl;
-    avoidBallDistance = ballDistance;
+void PosController::setAvoidBallDistance(double ballDistance) {
+    customAvoidBallDistance = ballDistance;
 }
 
 void PosController::updatePid(pidVals pid) {
