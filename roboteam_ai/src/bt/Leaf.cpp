@@ -6,7 +6,8 @@
 
 namespace bt {
 
-Leaf::Leaf(std::string name, Blackboard::Ptr blackboard) : name(std::move(name)) {
+Leaf::Leaf(std::string name, Blackboard::Ptr blackboard)
+        :name(std::move(name)) {
     setProperties(blackboard);
     robot = std::make_shared<Robot>(Robot());
     ball = std::make_shared<Ball>(Ball());
@@ -17,7 +18,7 @@ std::shared_ptr<rtt::ai::world::Robot> Leaf::getRobotFromProperties(bt::Blackboa
         std::string roleName = properties->getString("ROLE");
         robotId = rtt::ai::robotDealer::RobotDealer::findRobotForRole(roleName);
         if (rtt::ai::world::world->getRobotForId(robotId, true)) {
-            if (robotId == -1) std::cout << "getting robot for id with id = -1!!!" << std::endl;
+            if (robotId == - 1) std::cout << "getting robot for id with id = -1!!!" << std::endl;
             return rtt::ai::world::world->getRobotForId(robotId, true);
         }
         else {
@@ -39,7 +40,8 @@ void Leaf::updateRobot() {
     }
 }
 
-    void Leaf::terminate(Node::Status status) {
-        robotId = -1;
-    }
+void Leaf::terminate(Node::Status status) {
+    robotId = - 1;
+}
+
 }

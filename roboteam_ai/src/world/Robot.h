@@ -28,6 +28,13 @@ class Robot {
     public:
         using BallPtr = std::shared_ptr<Ball>;
 
+        // pid
+    private:
+        Vector2 pidPreviousVel = Vector2();
+    public:
+        void setPidPreviousVel(const Vector2 &vel);
+        const Vector2 &getPidPreviousVel() const;
+
         // ball possession
     private:
         double distanceToBall;
@@ -96,7 +103,6 @@ public:
         Vector2 vel = Vector2();
         double angularVelocity = 0.0;
         Team team;
-        Vector2 pidPreviousVel = Vector2();
 };
 
 } // world

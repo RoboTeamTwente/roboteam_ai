@@ -46,11 +46,11 @@ void World::updateWorld(const roboteam_msgs::World &message) {
 }
 
 void World::updateRobotsFromData(Robot::Team team, const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg, std::vector<Robot> &robots, const Ball &ball, unsigned long worldNumber) const {
-    for (auto robotMsg : robotsFromMsg) {
+    for (auto &robotMsg : robotsFromMsg) {
 
         // find robots that are both in the vector and in the message
-        auto robot = find_if(robots.begin(), robots.end(), [&robotMsg](const Robot &obj) {
-            return obj.id == robotMsg.id;
+        auto robot = find_if(robots.begin(), robots.end(), [&robotMsg](const Robot &robotObj) {
+            return robotObj.id == robotMsg.id;
         });
 
         bool robotExistsInWorld = robot != robots.end();
@@ -69,11 +69,7 @@ void World::updateRobotsFromData(Robot::Team team, const std::vector<roboteam_ms
 
     // check if some robots don't have new data. In that case remove them
     robots.erase(std::remove_if(robots.begin(), robots.end(), [=](Robot robot) {
-        if (robot.getLastUpdatedWorldNumber() < worldNumber) {
-            // std::cerr << "Robot " << robot.id << " deleted from world" << std::endl;
-            return true;
-        }
-        return false;
+      return robot.getLastUpdatedWorldNumber() < worldNumber;
     }), robots.end());
 }
 

@@ -70,6 +70,10 @@ double Constants::MAX_ACC_UPPER() { return 5.0; }
 
 double Constants::MAX_ACC_LOWER() { return 3.0; }
 
+double Constants::MAX_DEC_UPPER() { return MAX_ACC_UPPER() * 1.2; } //magic number
+
+double Constants::MAX_DEC_LOWER() { return MAX_ACC_LOWER() * 1.2; } //magic number
+
 double Constants::MAX_VEL_BALLPLACEMENT() { return 3.0; }
 
 double Constants::DRIBBLER_ANGLE_OFFSET() { return asin(FRONT_LENGTH()/2/ROBOT_RADIUS()); }

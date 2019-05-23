@@ -12,6 +12,7 @@ Skill::Skill(std::string name, bt::Blackboard::Ptr blackboard)
     ball = std::make_shared<Ball>(Ball());
 
 }
+
 void Skill::publishRobotCommand() {
     ros::NodeHandle nh;
     std::string ourSideParam;
@@ -87,16 +88,14 @@ void Skill::refreshRobotCommand() {
 /// Velocity and acceleration limiters used on command
 void Skill::limitRobotCommand() {
 
-    Vector2 vel = {command.x_vel, command.y_vel};
+    auto limitedVel = Vector2(command.x_vel, command.y_vel);
+    std::cout << robot->getPidPreviousVel() << std::endl;
+    limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
+    limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w);
+    robot->setPidPreviousVel({2,2});//limitedVel);
 
-    auto limitedVel = control::ControlUtils::velocityLimiter(vel);
-    double maxAcc = control::ControlUtils::calculateMaxAcceleration(limitedVel, command.w);
-    if (robot->pidPreviousVel.length() == 0.0) robot->pidPreviousVel = robot->vel;
-    Vector2 res = control::ControlUtils::accelerationLimiter(limitedVel, maxAcc, robot->pidPreviousVel.length());
-    robot->pidPreviousVel = res;
-
-    command.x_vel = res.x;
-    command.y_vel = res.y;
+    command.x_vel = limitedVel.x;
+    command.y_vel = limitedVel.y;
 }
 
 } // ai

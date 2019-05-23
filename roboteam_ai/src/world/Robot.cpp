@@ -15,9 +15,9 @@ namespace world {
 
 Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
         unsigned char genevaState, unsigned char dribblerState, unsigned long worldNumber)
-        :distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(worldNumber), genevaState(genevaState),
-         dribblerState(dribblerState), id(copy.id), angle(copy.angle), pos(copy.pos), vel(copy.vel),
-         angularVelocity(copy.w), team(team), pidPreviousVel(copy.vel) {
+        : pidPreviousVel(Vector2()), distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(worldNumber),
+        genevaState(genevaState), dribblerState(dribblerState), id(copy.id),
+        angle(copy.angle), pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
 
     if (id > - 1 && id < 16) {
         workingGeneva = Constants::ROBOT_HAS_WORKING_GENEVA(id);
@@ -166,8 +166,16 @@ const shared_ptr<control::BasicPosControl> &Robot::getBasicGtp() const {
     return basicGTP;
 }
 
-void Robot::setWorkingGeneva(bool workingGeneva) {
-    Robot::workingGeneva = workingGeneva;
+void Robot::setWorkingGeneva(bool genevaIsWorking) {
+    workingGeneva = genevaIsWorking;
+}
+
+const Vector2 &Robot::getPidPreviousVel() const {
+    return pidPreviousVel;
+}
+
+void Robot::setPidPreviousVel(const Vector2 &pidVel) {
+    pidPreviousVel = pidVel;
 }
 
 } //world

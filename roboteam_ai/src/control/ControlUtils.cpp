@@ -223,11 +223,35 @@ Vector2 ControlUtils::velocityLimiter(const Vector2 &vel, double maxVel, double 
 
 
 /// Limits acceleration to maximum acceleration
-Vector2 ControlUtils::accelerationLimiter(const Vector2 &vel, double maxAcc, double prevVel){
-    if (vel.length() > (prevVel + maxAcc/Constants::TICK_RATE())) {
-        return vel.stretchToLength(prevVel + maxAcc/Constants::TICK_RATE());
-    }
-    return vel;
+Vector2 ControlUtils::accelerationLimiter(const Vector2 &targetVel, const Vector2 &prevVel, const Angle &targetAngle) {
+
+    const double sidewaysAcceleration = Constants::MAX_ACC_LOWER() * Constants::TICK_RATE();
+    const double forwardsAcceleration = Constants::MAX_ACC_UPPER() * Constants::TICK_RATE();
+    const double sidewaysDeceleration = Constants::MAX_DEC_LOWER() * Constants::TICK_RATE();
+    const double forwardsDeceleration = Constants::MAX_DEC_UPPER() * Constants::TICK_RATE();
+
+    Vector2 deltaVel = targetVel - prevVel;
+
+    Angle robotAngleDifference = targetVel.toAngle() - targetAngle;
+    Vector2 robotVectorDifference = robotAngleDifference.toVector2();
+    double a = abs(robotVectorDifference.x);
+
+    // a = 0 -> sideways
+    // a = 1 -> forwards
+
+    auto acceleration = sidewaysAcceleration * (1-a) + sidewaysDeceleration * a;
+    auto deceleration = forwardsAcceleration * (1-a) + forwardsDeceleration * a;
+
+    Angle accelerationAngleDifference = deltaVel.toAngle() - (targetVel.toAngle() + M_PI);
+    Vector2 accelerationVectorDifference = accelerationAngleDifference.toVector2();
+    double b = abs(accelerationVectorDifference.x);
+
+    // b = 0 -> deceleration
+    // b = 1 -> acceleration
+
+    auto finalAcceleration = acceleration * b + deceleration * (1-b);
+
+    return prevVel + deltaVel.stretchToLength(finalAcceleration);
 }
 
 /// Calculate the maximum acceleration based on the direction of driving.
