@@ -185,8 +185,8 @@ TEST(FieldTest, it_calculates_obstacles) {
     EXPECT_EQ(static_cast<int>(obstacles.size()), 1);
     EXPECT_EQ(static_cast<int>(visibleParts.size()), 2);
     // the width should be somewhere equal to the width of the robot
-    EXPECT_FLOAT_EQ(rtt::ai::world::field->getPercentageOfGoalVisibleFromPoint(true, {0, 0}),
-            round(100 - 200*(rtt::ai::Constants::ROBOT_RADIUS() + rtt::ai::Constants::BALL_RADIUS())));
+    EXPECT_NEAR(rtt::ai::world::field->getPercentageOfGoalVisibleFromPoint(true, {0, 0}),
+            100 - 200*(rtt::ai::Constants::ROBOT_RADIUS() + rtt::ai::Constants::BALL_RADIUS()),1.0);
     EXPECT_NE(obstacles.at(0).first.dist(obstacles.at(0).second), 2*(rtt::ai::Constants::ROBOT_RADIUS()
             + rtt::ai::Constants::BALL_RADIUS())); // the width of the obstacle is twice robot radius
     // watch their goal from the center of the field
@@ -205,8 +205,8 @@ TEST(FieldTest, it_calculates_obstacles) {
     visibleParts = rtt::ai::world::field->getVisiblePartsOfGoal(false, {0, 0});
     EXPECT_EQ(static_cast<int>(obstacles.size()), 2);
     EXPECT_EQ(static_cast<int>(visibleParts.size()), 3);
-    EXPECT_FLOAT_EQ(rtt::ai::world::field->getPercentageOfGoalVisibleFromPoint(false, {0, 0}),
-            round(100 - 400*(rtt::ai::Constants::ROBOT_RADIUS() + rtt::ai::Constants::BALL_RADIUS())));
+    EXPECT_NEAR(rtt::ai::world::field->getPercentageOfGoalVisibleFromPoint(false, {0, 0}),
+            100 - 400*(rtt::ai::Constants::ROBOT_RADIUS() + rtt::ai::Constants::BALL_RADIUS()),1.0);
 
     // watch their goal from the center of the field
     // there are two robots in between, merged

@@ -124,10 +124,7 @@ TEST(defensive_coach,blockPoints){
                     auto generalBot=g_defensivePositionCoach.blockPass(pass);
                     if (generalBot){
                         EXPECT_LE(generalBot->targetPos.x,g_defensivePositionCoach.maxX());
-                        if (w::field->pointIsInDefenceArea(generalBot->targetPos,true,Constants::ROBOT_RADIUS())){
-                            w::field->pointIsInDefenceArea(generalBot->targetPos,true,Constants::ROBOT_RADIUS());
-                            EXPECT_TRUE(false);
-                        }
+                        EXPECT_FALSE(w::field->pointIsInDefenceArea(generalBot->targetPos,true,Constants::ROBOT_RADIUS()));
                     }
                 }
             }
