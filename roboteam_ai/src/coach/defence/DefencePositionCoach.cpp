@@ -80,7 +80,7 @@ std::shared_ptr<Vector2> DefencePositionCoach::blockOnDefenseLine(const Line &op
     }
     Vector2 endPos = point + (lineToSideOne + lineToSideTwo)*0.5;// this defines the line on which the bisector lies.
     // now compute intersection with the defense area and return this (if it exists)
-    return world::field->lineIntersectsWithDefenceArea(true, point, endPos, margin);
+    return world::field->lineIntersectionWithDefenceArea(true, point, endPos, margin);
 }
 /// gets the furthest position at which an obstacle will block the entire Angle
 /// intuitively you can understand this as the closest point to which a circle of collissionRadius 'fits' in between the two lines
@@ -102,7 +102,7 @@ Vector2 DefencePositionCoach::getBlockPoint(const Line &openGoalSegment, const V
 Line DefencePositionCoach::shortenLineForDefenseArea(const Vector2 &lineStart, const Vector2 &lineEnd,
         double defenseMargin) {
     Line line;
-    std::shared_ptr<Vector2> intersectPos = world::field->lineIntersectsWithDefenceArea(true, lineStart, lineEnd,
+    std::shared_ptr<Vector2> intersectPos = world::field->lineIntersectionWithDefenceArea(true, lineStart, lineEnd,
             defenseMargin);
     if (! intersectPos) {
         // return the original line

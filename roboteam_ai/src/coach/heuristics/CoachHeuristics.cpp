@@ -26,24 +26,23 @@ double CoachHeuristics::calculateCloseToGoalScore(const Vector2 &position) {
 
 /// Gives a higher score if the line between the position and the goal is free
 double CoachHeuristics::calculateShotAtGoalScore(const Vector2 &position, const WorldData &world) {
-    double viewAtGoal = world::field->getPercentageOfGoalVisibleFromPoint(false, position, world)/100;
+    WorldData copy = WorldData({}, world.them, world.ball, world.time);
+    double viewAtGoal = world::field->getPercentageOfGoalVisibleFromPoint(false, position, copy)/100;
     return 1 - exp(SHOT_AT_GOAL_WEIGHT*viewAtGoal);
-
 }
 
 /// Gives a higher score if the distance between the ball and the positions if free (safe pass line)
 double CoachHeuristics::calculatePassLineScore(const Vector2 &position, const WorldData &world) {
     double smallestAngle = MAX_INTERCEPT_ANGLE;
-    auto ball = world.ball;
-
-    smallestAngle = getClosestOpponentAngleToPassLine(position, ball, smallestAngle);
-
+    smallestAngle = getClosestOpponentAngleToPassLine(position, world, smallestAngle);
     return 1 - exp(PASS_LINE_WEIGHT*smallestAngle);
 }
-double CoachHeuristics::getClosestOpponentAngleToPassLine(const Vector2 &position, const Ball &ball,
+
+double CoachHeuristics::getClosestOpponentAngleToPassLine(const Vector2 &position, const WorldData &world,
         double smallestAngle) {
 
-    for (const auto &robot : world::world->getAllRobots()) {
+    auto ball = world.ball;
+    for (const auto &robot : world.them) {
         if (control::ControlUtils::isPointProjectedOnLineSegment(robot.pos, ball.pos, position)) {
             double angle = abs((position - ball.pos).toAngle() - (robot.pos - ball.pos).toAngle());
             if (angle < smallestAngle) {
@@ -51,7 +50,6 @@ double CoachHeuristics::getClosestOpponentAngleToPassLine(const Vector2 &positio
             }
         }
     }
-
     return smallestAngle;
 }
 
@@ -71,15 +69,17 @@ double CoachHeuristics::calculateBehindBallScore(const Vector2 &position, const 
     double xDistanceBehindBall = world.ball.pos.x - position.x;
     if (xDistanceBehindBall > 0) {
         return 0.0;
-    } else {
+    }
+    else {
         return 1.0;
     }
 }
-double CoachHeuristics::calculateDistanceToBallScore(const Vector2 &position, const CoachHeuristics::WorldData &world) {\
+
+double CoachHeuristics::calculateDistanceToBallScore(const Vector2 &position, const CoachHeuristics::WorldData &world) {
     auto ball = world.ball;
-    double idealDistance = (world::field->get_their_goal_center() - ball.pos).length() * 0.75;
+    double idealDistance = (world::field->get_their_goal_center() - ball.pos).length()*0.75;
     double distanceFromBall = (position - ball.pos).length();
-    return std::max(0.0, -pow(distanceFromBall / (0.5 * idealDistance), 2) + 2 * (distanceFromBall / (0.5 * idealDistance)));
+    return std::max(0.0, - pow(distanceFromBall/(0.5*idealDistance), 2) + 2*(distanceFromBall/(0.5*idealDistance)));
 }
 
 }

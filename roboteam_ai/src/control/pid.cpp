@@ -3,6 +3,7 @@
 //
 
 #include "pid.h"
+#include "../../src/utilities/Constants.h"
 
 //**********************************
 //Constructor functions
@@ -211,7 +212,7 @@ double PID::getOutput(double actual, double setpoint){
     //Note, this->is negative. this->actually "slows" the system if it's doing
     //the correct thing, and small values helps prevent output spikes and overshoot 
 
-    Doutput= -D*(actual-lastActual);
+    Doutput= -D*(actual-lastActual)*rtt::ai::Constants::TICK_RATE();
     lastActual=actual;
 
 
@@ -220,7 +221,7 @@ double PID::getOutput(double actual, double setpoint){
     // 1. maxIoutput restricts the amount of output contributed by the Iterm.
     // 2. prevent windup by not increasing errorSum if we're already running against our max Ioutput
     // 3. prevent windup by not increasing errorSum if output is output=maxOutput	
-    Ioutput=I*errorSum;
+    Ioutput=I*errorSum / rtt::ai::Constants::TICK_RATE();
     if(maxIOutput!=0){
         Ioutput=clamp(Ioutput,-maxIOutput,maxIOutput);
     }
