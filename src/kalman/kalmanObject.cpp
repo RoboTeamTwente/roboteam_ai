@@ -89,8 +89,11 @@ namespace rtt {
             this->id= robot.robot_id;
             this->Z(0) = robot.pos.x;
             this->Z(1) = robot.pos.y;
-            this->omega = (robot.orientation - this->orientation)/(timeStamp-this->observationTimeStamp);
-            this->orientation = robot.orientation;
+            double oldOrientation = this->orientation;
+            //Weighted average, with (3/4) it takes 10 frames (1/6 second) to get at 5.6% of the observation if it was constant the whole time
+            // can also do (2/3) 7 frames 5.9%
+            this->orientation = (robot.orientation+this->orientation*3)/4;
+            this->omega = (this->orientation - oldOrientation)/(timeStamp-this->observationTimeStamp);
             this->observationTimeStamp = timeStamp;
             this->invisibleCounter = 0;
             //if the object comes into being, make the observation it's state, (to prevent jumping)
