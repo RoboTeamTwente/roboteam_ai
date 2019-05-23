@@ -365,6 +365,7 @@ TEST(ControlUtils, getInterceptPointOnLegalPosition){
 
         auto newPoint = cr::ControlUtils::getInterceptPointOnLegalPosition(robotpos, line, false, false, 0, 0);
 
+        auto normalProjectedPos = line.project(robotpos);
         if (!rtt::ai::world::field->pointIsInField(newPoint, 0.0)) {
             std::cout << newPoint << std::endl;
             rtt::ai::world::field->pointIsInField(newPoint, 0.0);
@@ -372,10 +373,13 @@ TEST(ControlUtils, getInterceptPointOnLegalPosition){
         EXPECT_TRUE(rtt::ai::world::field->pointIsInField(newPoint, 0));
         EXPECT_FALSE(rtt::ai::world::field->pointIsInDefenceArea(newPoint, true, 0, false));
 
+        // the point should always be quite close
+        EXPECT_LE(newPoint.dist(normalProjectedPos), 3.5);
+
         // without the constraints it should return normal projection values
         newPoint = cr::ControlUtils::getInterceptPointOnLegalPosition(robotpos, line, true, true, 0, 0);
-        EXPECT_FLOAT_EQ(newPoint.x, line.project(robotpos).x);
-        EXPECT_FLOAT_EQ(newPoint.y, line.project(robotpos).y);
+        EXPECT_FLOAT_EQ(newPoint.x, normalProjectedPos.x);
+        EXPECT_FLOAT_EQ(newPoint.y, normalProjectedPos.y);
     }
 }
 
