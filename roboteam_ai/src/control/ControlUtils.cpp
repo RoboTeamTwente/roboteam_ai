@@ -204,8 +204,14 @@ int ControlUtils::rotateDirection(double currentAngle, double targetAngle) {
 }
 
 /// Limits velocity to maximum velocity. it defaults to the max velocity stored in Referee.
-Vector2 ControlUtils::velocityLimiter(const Vector2 &vel, double maxVel, double minVel) {
-
+Vector2 ControlUtils::velocityLimiter(const Vector2 &vel, double maxVel, double minVel, bool listenToReferee) {
+    if (listenToReferee) {
+        double refereeMaxVel = rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
+        if (refereeMaxVel < maxVel) {
+            maxVel = refereeMaxVel;
+        }
+    }
+    
     if (vel.length() > maxVel) {
         return vel.stretchToLength(maxVel);
     }

@@ -6,17 +6,16 @@
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "PosController.h"
 
-
 namespace rtt {
 namespace ai {
 namespace control {
 
 PosController::PosController(double avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea)
-        : customAvoidBallDistance(avoidBall), customCanMoveOutOfField(canMoveOutOfField), customCanMoveInDefenseArea(canMoveInDefenseArea) {
-    xpid.setOutputLimits(-8,8);
+        :customAvoidBallDistance(avoidBall), customCanMoveOutOfField(canMoveOutOfField), customCanMoveInDefenseArea(canMoveInDefenseArea) {
+    xpid.setOutputLimits(- 8, 8);
     xpid.setOutputRampRate(100);
 
-    ypid.setOutputLimits(-8,8);
+    ypid.setOutputLimits(- 8, 8);
     ypid.setOutputRampRate(100);
 }
 
@@ -34,7 +33,6 @@ PosVelAngle PosController::controlWithPID(const RobotPtr &robot, PosVelAngle tar
 
     // velocity limiter
     pidCommand.vel = calculatePIDs(robot, target);
-    pidCommand.vel = control::ControlUtils::velocityLimiter(pidCommand.vel);
 
     // acceleration limiter
     double maxAcc = control::ControlUtils::calculateMaxAcceleration(pidCommand.vel, pidCommand.angle);
@@ -48,15 +46,9 @@ PosVelAngle PosController::controlWithPID(const RobotPtr &robot, PosVelAngle tar
 
 // actually calculate the pids
 Vector2 PosController::calculatePIDs(const PosController::RobotPtr &robot, PosVelAngle &target) {
-    Vector2 pidP = Vector2();
-    if (target.pos != Vector2()) {
-
-        auto x = xpid.getOutput(robot->pos.x, target.pos.x);
-        auto y = ypid.getOutput(robot->pos.y, target.pos.y);
-
-        pidP = {x, y};
-    }
-
+    auto x = xpid.getOutput(robot->pos.x, target.pos.x);
+    auto y = ypid.getOutput(robot->pos.y, target.pos.y);
+    Vector2 pidP(x, y);
     return pidP;
 }
 
@@ -74,7 +66,7 @@ bool PosController::getCanMoveInDefenseArea() const {
 }
 
 void PosController::setCanMoveInDefenseArea(bool moveInDefenseArea) {
-     customCanMoveInDefenseArea = moveInDefenseArea;
+    customCanMoveInDefenseArea = moveInDefenseArea;
 }
 
 double PosController::getAvoidBallDistance() const {
@@ -92,7 +84,6 @@ void PosController::updatePid(pidVals pid) {
         lastPid = pid;
     }
 }
-
 
 } // control
 } // ai
