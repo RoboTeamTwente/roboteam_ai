@@ -29,7 +29,6 @@ void Skill::publishRobotCommand() {
         }
     } else {
         ioManager.publishRobotCommand(command); // We default to our robots being on the left if parameter is not set
-
     }
     // refresh the robotcommand after it has been sent
     refreshRobotCommand();
@@ -89,8 +88,8 @@ void Skill::refreshRobotCommand() {
 void Skill::limitRobotCommand() {
 
     Vector2 vel = {command.x_vel, command.y_vel};
-    auto limitedVel = control::ControlUtils::velocityLimiter(vel);
 
+    auto limitedVel = control::ControlUtils::velocityLimiter(vel);
     double maxAcc = control::ControlUtils::calculateMaxAcceleration(limitedVel, command.w);
     if (robot->pidPreviousVel.length() == 0.0) robot->pidPreviousVel = robot->vel;
     Vector2 res = control::ControlUtils::accelerationLimiter(limitedVel, maxAcc, robot->pidPreviousVel.length());

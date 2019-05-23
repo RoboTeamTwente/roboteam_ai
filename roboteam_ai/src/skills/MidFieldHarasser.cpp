@@ -33,8 +33,7 @@ Skill::Status MidFieldHarasser::onUpdate() {
         }
         command.x_vel = static_cast<float>(velocity.x);
         command.y_vel = static_cast<float>(velocity.y);
-        //command.w = static_cast<float>(newPosition.angle);
-        command.w = static_cast<float>(getHarassAngle().getAngle());
+        command.w =  static_cast<float>(getHarassAngle().getAngle());
         command.use_angle = 1;
         publishRobotCommand();
 

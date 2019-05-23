@@ -36,7 +36,8 @@ class ShotController {
 
 private:
     bool init = false;
-    Vector2 behindBallPosition;
+    bool isShooting;
+    Vector2 aimTarget;
     bool genevaIsTurning = false;
     double secondsToTurnGeneva = 0.0;
     double lastTimeGenevaChanged = 0.0;
@@ -48,11 +49,17 @@ private:
     bool onLineToBall(const world::Robot &robot, std::pair<Vector2, Vector2> line, ShotPrecision precision);
     bool robotAngleIsGood(world::Robot &robot,std::pair<Vector2,Vector2> lineToDriveOver, ShotPrecision precision);
     double determineKickForce(double distance,  BallSpeed desiredBallSpeed);
+    std::pair<Vector2,Vector2> shiftLineForGeneva(const std::pair<Vector2,Vector2>& line,int genevaState);
 
     // ShotData calculation
     ShotData goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition, std::pair<Vector2,Vector2> driveLine);
     ShotData moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver);
     ShotData shoot(world::Robot robot,std::pair<Vector2,Vector2> driveLine, Vector2 shotTarget, bool chip, BallSpeed desiredBallSpeed);
+
+    ShotData moveAndShootGrSim(world::Robot robot, bool chip, std::pair<Vector2, Vector2> lineToDriveOver,
+            BallSpeed desiredBallSpeed);
+    ShotData moveAndShoot(world::Robot robot, bool chip, std::pair<Vector2, Vector2> lineToDriveOver,
+            BallSpeed desiredBallSpeed);
 
 public:
     explicit ShotController() = default;

@@ -24,7 +24,7 @@ PosVelAngle NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
     auto targetPathPoint = static_cast<unsigned long>(goToTimeInFuture/DT);
     if (path.size() < targetPathPoint) {
         Vector2 deltaPos = exactTargetPos - robot.pos;
-        PathPoint pathPoint;
+        PathPoint pathPoint = PathPoint();
         pathPoint.pos = robot.pos;
         target.pos = exactTargetPos;
         target.vel = deltaPos.stretchToLength(pathPoint.maxVel());
@@ -160,9 +160,9 @@ PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr,
         }
 
         interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, triedPaths, Qt::red, robot.id,
-                interface::Drawing::DOTS, 2.0, 2.0);
+                interface::Drawing::DOTS, 3, 3);
         interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot.id,
-                interface::Drawing::DOTS, 3.0, 3.0);
+                interface::Drawing::DOTS, 4, 4);
         interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot.id,
                 interface::Drawing::LINES_CONNECTED);
         interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot.id,

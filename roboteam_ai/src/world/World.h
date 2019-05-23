@@ -38,11 +38,6 @@ class World {
         FutureWorld futureWorld;
         unsigned long worldNumber = 0;
 
-        // make messages
-        const roboteam_msgs::World makeWorldMsg();
-        const roboteam_msgs::WorldRobot makeWorldRobotMsg(const Robot &robot);
-        const roboteam_msgs::WorldBall makeWorldBallMsg(const Ball &ball);
-
         // update world
     private:
         void updateRobotsFromData(Robot::Team team, const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg,
@@ -55,11 +50,6 @@ class World {
         double getTimeDifference();
         double getTime();
     public:
-
-        // convert to message
-        const roboteam_msgs::World getWorldMsg();
-        const roboteam_msgs::WorldBall getBallMsg();
-
         // get world
         const WorldData getWorld();
         const WorldData getPreviousWorld();

@@ -20,6 +20,7 @@ enum Visual {
     KEEPER,
     INTERCEPT,
     DEFENSE,
+    OFFENSE,
     SHOTLINES
 };
 

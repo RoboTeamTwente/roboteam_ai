@@ -108,6 +108,7 @@ class Collision {
 // If there is another way to return a shared pointer from an object to itself that is more pretty let me know
 class PathPoint : public std::enable_shared_from_this<PathPoint> {
     private:
+        using PathPointer = std::shared_ptr<PathPoint>;
         double maxV = 2.0;
         double maxAccAtLowV = 6.1;
         double maxAccAtHighV = 3.1;
@@ -136,15 +137,20 @@ class PathPoint : public std::enable_shared_from_this<PathPoint> {
             return maxDecelleration;
         }
 
-        double t;
-        int collisions;
-        std::shared_ptr<PathPoint> parent;
-        std::vector<std::shared_ptr<PathPoint>> children;
-        std::shared_ptr<PathPoint> backTrack(double backTime);
-        std::shared_ptr<PathPoint> backTrack(int maxCollisionDiff);
-        std::shared_ptr<PathPoint> backTrack(double backTime, int maxCollisionDiff);
-        void addChild(std::shared_ptr<PathPoint> &newChild);
-        void addChildren(std::vector<std::shared_ptr<PathPoint>> &newChildren);
+        explicit PathPoint(
+                double maxV = 2.0, double maxAccAtLowV = 6.1, double maxAccAtHighV = 3.1, double maxDecelleration = 6.1)
+                :maxV(maxV), maxAccAtLowV(maxAccAtLowV),
+                 maxAccAtHighV(maxAccAtHighV), maxDecelleration(maxDecelleration) { }
+
+        double t = 0;
+        int collisions = 0;
+        PathPointer parent = {};
+        std::vector<PathPointer> children = {};
+        PathPointer backTrack(double backTime);
+        PathPointer backTrack(int maxCollisionDiff);
+        PathPointer backTrack(double backTime, int maxCollisionDiff);
+        void addChild(PathPointer &newChild);
+        void addChildren(std::vector<PathPointer> &newChildren);
         bool isCollision(const Vector2 &target, double distance);
 
         bool branchHasTarget(const Vector2 &target);
