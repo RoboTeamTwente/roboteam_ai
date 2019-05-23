@@ -11,13 +11,13 @@ namespace ai {
 
 //TODO: do obstacle checking and return fail if there is an obstacle in the way.
 //GetBall turns the robot to the ball and softly approaches with dribbler on in an attempt to get the ball.
-GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) { }
+GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard)
+        :Skill(std::move(name), std::move(blackboard)) { }
 
-
-void GetBall::onInitialize() {}
+void GetBall::onInitialize() { }
 
 GetBall::Status GetBall::onUpdate() {
-    if(robot->hasBall()) {
+    if (robot->hasBall()) {
         return Status::Success;
     }
 
@@ -29,7 +29,7 @@ GetBall::Status GetBall::onUpdate() {
 }
 
 void GetBall::onTerminate(Status s) {
-    if(properties->getBool("dribbleOnTerminate")) {
+    if (properties->getBool("dribbleOnTerminate")) {
         command.dribbler = 1;
         command.x_vel = 0;
         command.y_vel = 0;
