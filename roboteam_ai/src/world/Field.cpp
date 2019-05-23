@@ -79,7 +79,7 @@ double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& p
     for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point, data, id, ourTeam)) {
         blockadeLength += blockade.first.dist(blockade.second);
     }
-    return std::max(100 - round(blockadeLength/goalWidth*100), 0.0);
+    return std::max(100 - blockadeLength/goalWidth*100, 0.0);
 }
 
 std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, const Vector2& point, const WorldData &data, int id, bool ourTeam) {

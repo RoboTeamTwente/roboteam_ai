@@ -47,15 +47,19 @@ TEST(defensive_coach,blockPoints){
             }
             testWorld.us.clear();
 
-            // testing bot creation
+            // testing bot creation and intended behavior
             if (lineSegment){
                 auto bot1=g_defensivePositionCoach.blockMostDangerousPos();
                 if (bot1){
                     EXPECT_LE(bot1->targetPos.x,g_defensivePositionCoach.maxX()+1e-14); // aargh floating point errors
                     EXPECT_FALSE(w::field->pointIsInDefenceArea(bot1->targetPos,true,Constants::ROBOT_RADIUS()));
                     Vector2 dangerPos=g_defensivePositionCoach.getMostDangerousPos(testWorld);
+                    double percentageBefore=w::field->getPercentageOfGoalVisibleFromPoint(true,dangerPos,testWorld);
                     testWorld.us.push_back(bot1->toRobot());
-                    EXPECT_EQ(w::field->getVisiblePartsOfGoal(true,dangerPos,testWorld).size(),0);
+                    double percentageAfter=w::field->getPercentageOfGoalVisibleFromPoint(true,dangerPos,testWorld);
+                    if (percentageBefore!=0){
+                        EXPECT_LT(percentageAfter,percentageBefore);
+                    }
                     testWorld.us.clear();
                 }
                 auto passes=g_defensivePositionCoach.createPassesSortedByDanger(testWorld);
@@ -115,6 +119,14 @@ TEST(defensive_coach,blockPoints){
                                 EXPECT_TRUE(partsAfter.empty());
                             }
                             testWorld.us.clear();
+                        }
+                    }
+                    auto generalBot=g_defensivePositionCoach.blockPass(pass);
+                    if (generalBot){
+                        EXPECT_LE(generalBot->targetPos.x,g_defensivePositionCoach.maxX());
+                        if (w::field->pointIsInDefenceArea(generalBot->targetPos,true,Constants::ROBOT_RADIUS())){
+                            w::field->pointIsInDefenceArea(generalBot->targetPos,true,Constants::ROBOT_RADIUS());
+                            EXPECT_TRUE(false);
                         }
                     }
                 }
