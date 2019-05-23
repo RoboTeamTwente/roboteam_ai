@@ -65,7 +65,7 @@ double GameAnalyzer::getTeamDistanceToGoalAvg(bool ourTeam, WorldData simulatedW
     auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     double total = 0.0;
     for (auto robot : robots) {
-        total += world::field->getDistanceToGoal(ourTeam, robot.pos);
+        total += world::field->getDistanceToGoal(ourTeam, robot->pos);
     }
     return (total/robots.size());
 }
@@ -78,7 +78,7 @@ std::vector<std::pair<GameAnalyzer::Robot, double>> GameAnalyzer::getAttackersSo
 
     for (auto robot : robots) {
         robotsWithVisibilities.emplace_back(robot,
-                world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot.pos));
+                world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos));
     }
 
     // sort on goal visibility
@@ -95,7 +95,7 @@ double GameAnalyzer::getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld
     auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     double total = 0.0;
     for (auto robot : robots) {
-        total += world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot.pos);
+        total += world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos);
     }
     return (total/robots.size());
 }
@@ -133,7 +133,7 @@ vector<pair<int, double>> GameAnalyzer::getRobotsToPassTo(Robot robot, bool ourT
     for (auto ourRobot : ourRobots) {
         bool canPassToThisRobot = true;
         for (auto theirRobot : enemyRobots) {
-            auto distToLine = control::ControlUtils::distanceToLineWithEnds(theirRobot.pos, Vector2(robot.pos),
+            auto distToLine = control::ControlUtils::distanceToLineWithEnds(theirRobot->pos, Vector2(robot->pos),
                     Vector2(ourRobot.pos));
             if (distToLine < (Constants::ROBOT_RADIUS_MAX() + Constants::BALL_RADIUS())) {
                 canPassToThisRobot = false;
@@ -141,8 +141,8 @@ vector<pair<int, double>> GameAnalyzer::getRobotsToPassTo(Robot robot, bool ourT
             }
         }
         if (canPassToThisRobot) {
-            double distToRobot = (Vector2(ourRobot.pos) - Vector2(robot.pos)).length();
-            robotsToPassTo.emplace_back(make_pair(ourRobot.id, distToRobot));
+            double distToRobot = (Vector2(ourRobot->pos) - Vector2(robot.pos)).length();
+            robotsToPassTo.emplace_back(make_pair(ourRobot->id, distToRobot));
         }
     }
     return robotsToPassTo;
@@ -155,7 +155,7 @@ double GameAnalyzer::shortestDistToEnemyRobot(Robot robot, bool ourTeam, WorldDa
     Vector2 robotPos = robot.pos;
     double shortestDist = INT_MAX;
     for (auto opponent : enemyRobots) {
-        shortestDist = std::min(robotPos.dist(opponent.pos), shortestDist);
+        shortestDist = std::min(robotPos.dist(opponent->pos), shortestDist);
     }
     return shortestDist;
 }

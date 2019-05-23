@@ -63,7 +63,7 @@ void RobotDealer::updateFromWorld() {
     auto worldUs = world::world->getUs();
     std::set<int> robots;
     for (auto robot : worldUs) {
-        robots.insert(robot.id);
+        robots.insert(robot->id);
     }
     std::set<int> currentRobots = getRobots();
     for (auto robot : robots) {

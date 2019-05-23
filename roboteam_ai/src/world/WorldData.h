@@ -24,34 +24,37 @@ enum WhichRobots : short {
 };
 
 class WorldData {
+    private:
+        using RobotPtr = std::shared_ptr<Robot>;
+        using BallPtr = std::shared_ptr<Ball>;
     public:
         WorldData() = default;
         explicit WorldData(const roboteam_msgs::World &copy) : time(copy.time) {
             for (auto &robot : copy.us) {
-                Robot r = Robot(robot, Robot::Team::us, 3);
+                RobotPtr r = std::make_shared<Robot>(Robot(robot, Robot::Team::us, 3));
                 us.emplace_back(r);
             }
 
             for (auto &robot : copy.them) {
-                Robot r = Robot(robot, Robot::Team::them, 3);
+                RobotPtr r = std::make_shared<Robot>(Robot(robot, Robot::Team::them, 3));
                 them.emplace_back(r);
             }
-            ball = Ball(copy.ball);
+            ball = std::make_shared<Ball>(Ball(copy.ball));
         }
         explicit WorldData(const std::vector<Robot> &copyUs, const std::vector<Robot> &copyThem,
                 const Ball &copyBall, double time) : time(time) {
             for (auto &robot : copyUs) {
-                us.emplace_back(robot);
+                us.emplace_back(std::make_shared<Robot>(robot));
             }
             for (auto &robot : copyThem) {
-                them.emplace_back(robot);
+                them.emplace_back(std::make_shared<Robot>(robot));
             }
-            ball = copyBall;
+            ball = std::make_shared<Ball>(copyBall);
         }
         double time = 0.0;
-        std::vector<Robot> us;
-        std::vector<Robot> them;
-        Ball ball;
+        std::vector<RobotPtr> us;
+        std::vector<RobotPtr> them;
+        BallPtr ball;
 };
 
 class WorldBuffer {
