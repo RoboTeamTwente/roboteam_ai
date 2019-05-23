@@ -243,18 +243,16 @@ DefenderBot DefencePositionCoach::createBlockBall(
 Vector2 DefencePositionCoach::findPositionForBlockBall(const Line &blockLine) {
     // if the blocking position is way away from our goal keep the robot on our side
     double maxForwardLineX = maxX();
-    if (blockLine.second.x > maxForwardLineX) {
+    Vector2 position=getPosOnLine(blockLine, 0.1);
+    if (position.x > maxForwardLineX) {
         double fieldWidth = world::field->get_field().field_width;
         Vector2 bottomLine(maxForwardLineX, - fieldWidth*0.5);
         Vector2 topLine(maxForwardLineX, fieldWidth*0.5);
         Vector2 intersect = control::ControlUtils::twoLineIntersection(blockLine.first, blockLine.second, bottomLine,
                 topLine);
-        if (intersect.y > fieldWidth*0.5 || intersect.y < - fieldWidth*0.5) {
-            return getPosOnLine(blockLine, 0.1);
-        }
         return intersect;
     }
-    return getPosOnLine(blockLine, 0.1);
+    return position;
 }
 double DefencePositionCoach::maxX() {
     return world::field->get_field().field_length/10.0*-1.0;
@@ -452,7 +450,7 @@ std::tuple<bool,int,std::vector<int>> DefencePositionCoach::decideLockedPosition
             freeRobots.push_back(lockedDefender.id);// if we somehow cannot cover this robot anymore, we set it to free
         }
     }
-    return {blockedMostDangerousPos,lockedCount,freeRobots};
+    return std::make_tuple(blockedMostDangerousPos,lockedCount,freeRobots);
 }
 // the following algorithm takes the closest robot for each available defender to decide which robot goes where.
 // Since the points are ordered on priority from the above algorithm the most important points come first
