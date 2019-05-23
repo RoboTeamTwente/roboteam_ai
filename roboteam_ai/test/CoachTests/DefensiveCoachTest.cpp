@@ -48,10 +48,16 @@ TEST(defensive_coach,blockPoints){
             testWorld.us.clear();
 
             // testing bot creation
-            //TODO check defence area and other rule compliance
             if (lineSegment){
-                DefenderBot bot1=g_defensivePositionCoach.createBlockBall(*lineSegment);
-                EXPECT_LE(bot1.targetPos.x,g_defensivePositionCoach.maxX()+0.0000001); // aargh floating point errors
+                auto bot1=g_defensivePositionCoach.blockMostDangerousPos();
+                if (bot1){
+                    EXPECT_LE(bot1->targetPos.x,g_defensivePositionCoach.maxX()+1e-14); // aargh floating point errors
+                    EXPECT_FALSE(w::field->pointIsInDefenceArea(bot1->targetPos,true,Constants::ROBOT_RADIUS()));
+                    Vector2 dangerPos=g_defensivePositionCoach.getMostDangerousPos(testWorld);
+                    testWorld.us.push_back(bot1->toRobot());
+                    EXPECT_EQ(w::field->getVisiblePartsOfGoal(true,dangerPos,testWorld).size(),0);
+                    testWorld.us.clear();
+                }
                 auto passes=g_defensivePositionCoach.createPassesSortedByDanger(testWorld);
                 for (auto& pass :passes) {
                     auto blockPosA = g_defensivePositionCoach.blockOnDefenseAreaLine(pass, testWorld);
@@ -59,24 +65,57 @@ TEST(defensive_coach,blockPoints){
                         if (g_defensivePositionCoach.validNewPosition(*blockPosA, testWorld)) {
                             DefenderBot bot2 = g_defensivePositionCoach.createBlockOnLine(pass, *blockPosA);
                             EXPECT_LE(bot2.targetPos.x,g_defensivePositionCoach.maxX());
+                            EXPECT_FALSE(w::field->pointIsInDefenceArea(bot2.targetPos,true,Constants::ROBOT_RADIUS()));
+                            // check if they actually covered the goal
+                            double percentageBefore=w::field->getPercentageOfGoalVisibleFromPoint(true,pass.endPos,testWorld);
+                            testWorld.us.push_back(bot2.toRobot());
+                            double percentageAfter=w::field->getPercentageOfGoalVisibleFromPoint(true,pass.endPos,testWorld);
+                            if(percentageBefore!=0){
+                                EXPECT_LT(percentageAfter,percentageBefore);
+                            }
+                            else{
+                                EXPECT_EQ(percentageAfter,0);
+                            }
+                            testWorld.us.clear();
                         }
                     }
-                    //TODO test block on line
                     auto passBlock = g_defensivePositionCoach.pickNewPosition(pass, testWorld);
                     if (passBlock) {
                         DefenderBot bot3 = g_defensivePositionCoach.createBlockPass(pass, *passBlock);
                         // check if bot3 actually intercepts the pass.
                         EXPECT_LE(control::ControlUtils::distanceToLineWithEnds(bot3.targetPos, pass.startPos,
-                                pass.endPos),1e-14); // give some room for floating point errors
+                                pass.endPos),1e-14); // give some room for floating point errors. This should be more than enough
                         EXPECT_LE(bot3.targetPos.x,g_defensivePositionCoach.maxX());
+                        EXPECT_FALSE(w::field->pointIsInDefenceArea(bot3.targetPos,true,Constants::ROBOT_RADIUS()));
 
                     }
-                    auto aggFac=g_defensivePositionCoach.pickNewPosition(*lineSegment,testWorld);
-                    if (aggFac) {
-                        DefenderBot bot4 = g_defensivePositionCoach.createBlockToGoal(pass,*aggFac,*lineSegment);
-                        EXPECT_LE(bot4.targetPos.x,g_defensivePositionCoach.maxX());
-                        // test if this blocks goal
-
+                    auto blockLine=g_defensivePositionCoach.blockToGoalLine(pass,testWorld);
+                    if (blockLine){
+                        auto aggFac=g_defensivePositionCoach.pickNewPosition(*blockLine,testWorld);
+                        if (aggFac) {
+                            DefenderBot bot4 = g_defensivePositionCoach.createBlockToGoal(pass,*aggFac,*blockLine);
+                            EXPECT_LE(bot4.targetPos.x,g_defensivePositionCoach.maxX());
+                            EXPECT_FALSE(w::field->pointIsInDefenceArea(bot4.targetPos,true,Constants::ROBOT_RADIUS()));
+                            // check if they actually covered the goal
+                            double percentageBefore=w::field->getPercentageOfGoalVisibleFromPoint(true,pass.endPos,testWorld);
+                            auto partsBefore=w::field->getVisiblePartsOfGoal(true,pass.endPos,testWorld);
+                            testWorld.us.push_back(bot4.toRobot());
+                            auto partsAfter=w::field->getVisiblePartsOfGoal(true,pass.endPos,testWorld);
+                            double percentageAfter=w::field->getPercentageOfGoalVisibleFromPoint(true,pass.endPos,testWorld);
+                            if(percentageBefore!=0){
+                                EXPECT_LT(percentageAfter,percentageBefore);
+                            }
+                            else{
+                                EXPECT_EQ(percentageAfter,0);
+                            }
+                            if (!partsBefore.empty()){
+                                EXPECT_LT(partsAfter.size(),partsBefore.size());
+                            }
+                            else {
+                                EXPECT_TRUE(partsAfter.empty());
+                            }
+                            testWorld.us.clear();
+                        }
                     }
                 }
             }

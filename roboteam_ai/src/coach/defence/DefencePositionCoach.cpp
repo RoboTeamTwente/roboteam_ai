@@ -299,11 +299,13 @@ std::shared_ptr<Vector2> DefencePositionCoach::pickNewPosition(PossiblePass pass
     double segments = 30.0;
     // we pick new points on which we can defend preferably as close as possible to the middle of the pass.
     for (int j = 0; j <= segments*0.5; ++ j) {
-        if (validNewPosition(pass.posOnLine(0.5 + j/segments), world)) {
-            return std::make_shared<Vector2>(pass.posOnLine(0.5 + j/segments));
+        Vector2 forwardPosition=pass.posOnLine(0.5 + j/segments);
+        if (validNewPosition(forwardPosition, world)&&!world::field->pointIsInDefenceArea(forwardPosition,true,defenceLineMargin)) {
+            return std::make_shared<Vector2>(forwardPosition);
         }
-        else if (validNewPosition(pass.posOnLine(0.5 - j/segments), world)) {
-            return std::make_shared<Vector2>(pass.posOnLine(0.5 - j/segments));
+        Vector2 backwardPosition=pass.posOnLine(0.5 - j/segments);
+        if (validNewPosition(backwardPosition, world)&&!world::field->pointIsInDefenceArea(forwardPosition,true,defenceLineMargin)) {
+            return std::make_shared<Vector2>(backwardPosition);
         }
     }
     return nullptr;
