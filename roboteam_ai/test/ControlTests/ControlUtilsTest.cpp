@@ -78,9 +78,15 @@ TEST(ControlUtils, velocityLimiter) {
     // check the min velocity as well
     // limit values between 56 and 3000
     for (int i = 0; i < 200; i ++) {
-        auto limitedVel = cr::ControlUtils::velocityLimiter(Vector2(- 102 + i*10, 512 + i*8), 3000, 56).length();
+        auto limitedVel = cr::ControlUtils::velocityLimiter(Vector2(- 102 + i*10, 512 + i*8), 3000, 56, false).length();
         EXPECT_GE(limitedVel, 56 - 0.01);
         EXPECT_LE(limitedVel, 3000 + 0.01);
+    }
+
+    for (int i = 0; i < 200; i ++) {
+        auto limitedVel = cr::ControlUtils::velocityLimiter(Vector2(- 102 + i*10, 512 + i*8), 3000, 56, true).length();
+        EXPECT_GE(limitedVel, 0 - 0.01);
+        EXPECT_LE(limitedVel, 8 + 0.01);
     }
 }
 

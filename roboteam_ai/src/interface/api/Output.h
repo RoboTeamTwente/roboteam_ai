@@ -48,7 +48,8 @@ public:
     static bool showDebugTickTimeTaken();
     static bool showDebugNumTreeTimeTaken();
     static bool showDebugNumTreeInfo();
-    static bool showFullDebugNumTreeInfo();
+        static bool showCoachTimeTaken();
+        static bool showFullDebugNumTreeInfo();
 
     static bool usesRefereeCommands();
     static void setUseRefereeCommands(bool useRefereeCommands);
