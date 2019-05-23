@@ -57,8 +57,10 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
         }
         else {
             isShooting = true;
-            shotData = Constants::GRSIM() ? moveAndShootGrSim(robot, chip, lineToDriveOver, ballspeed)
-                    : moveAndShoot(robot, chip, lineToDriveOver, ballspeed);
+            shotData=moveAndShootGrSim(robot,chip,lineToDriveOver,ballspeed);
+
+            //shotData = Constants::GRSIM() ? moveAndShootGrSim(robot, chip, lineToDriveOver, ballspeed)
+              //      : moveAndShoot(robot, chip, lineToDriveOver, ballspeed);
         }
     }
     else {
@@ -90,12 +92,12 @@ bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, 
         ShotPrecision precision) {
     double dist = ControlUtils::distanceToLine(robot.pos, line.first, line.second);
     if (precision == HIGH) {
-        return dist < 0.04;
+        return dist < 0.06;
     }
     else if (precision == MEDIUM) {
         return dist < 0.08;
     }
-    return dist < 0.15;
+    return dist < 0.9;
 }
 
 /// return the place behind the ball targeted towards the ball target position
