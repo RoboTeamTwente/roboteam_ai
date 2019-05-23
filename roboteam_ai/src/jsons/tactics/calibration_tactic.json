@@ -21,7 +21,7 @@
             "id": "4n8uam9x517sr83l4",
             "properties": {
               "ROLE": "c1",
-              "targetPos": "{-1, 1}"
+              "targetPos": "{-0.6, 0.6}"
             },
             "title": "GoToPos"
           },
@@ -29,7 +29,7 @@
             "id": "5s74ok2d1letx",
             "properties": {
               "ROLE": "c1",
-              "targetPos": "{-1, -1}"
+              "targetPos": "{-0.6, -0.6}"
             },
             "title": "GoToPos"
           },
@@ -44,7 +44,7 @@
             "id": "6m3fch8apg3ut",
             "properties": {
               "ROLE": "c1",
-              "targetPos": "{1,1}"
+              "targetPos": "{0.6,0.6}"
             },
             "title": "GoToPos"
           },
@@ -52,7 +52,7 @@
             "id": "87xcbi7is16nd",
             "properties": {
               "ROLE": "c1",
-              "targetPos": "{1, -1}"
+              "targetPos": "{0.6, -0.6}"
             },
             "title": "GoToPos"
           },
