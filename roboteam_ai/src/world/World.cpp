@@ -57,7 +57,8 @@ void World::updateRobotsFromData(Robot::Team team, const std::vector<roboteam_ms
         if (robotExistsInWorld) {
             // if the robot already exists it should be updated
             robot->updateRobot(robotMsg, ball, worldNumber);
-        } else {
+        }
+        else {
             // if no robot exists in world we create a new one
             Robot newRobot(robotMsg, team, worldNumber);
             newRobot.updateRobot(robotMsg, ball, worldNumber);
