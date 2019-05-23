@@ -23,7 +23,7 @@
           "49ambtpymi4l0bt5": {
             "children": [
               "ogf13zvp37u09",
-              "hat0c2wlomrmur2k"
+              "n2zwlaj03mqjdk66"
             ],
             "id": "49ambtpymi4l0bt5",
             "properties": {},
@@ -81,11 +81,20 @@
           "hat0c2wlomrmur2k": {
             "children": [
               "lsnzin91i3imjek5",
+              "qjjplyhstdpz3jqb",
               "yoj05mrp6npkgkoc"
             ],
             "id": "hat0c2wlomrmur2k",
             "properties": {},
             "title": "MemSequence"
+          },
+          "hv6g7gqxww4w8c85": {
+            "id": "hv6g7gqxww4w8c85",
+            "properties": {
+              "BallPlacement": "",
+              "failsUntilChip": ""
+            },
+            "title": "Pass"
           },
           "iusx0b18cn09c": {
             "children": [
@@ -102,6 +111,15 @@
             },
             "title": "GetBall"
           },
+          "n2zwlaj03mqjdk66": {
+            "children": [
+              "hv6g7gqxww4w8c85",
+              "hat0c2wlomrmur2k"
+            ],
+            "id": "n2zwlaj03mqjdk66",
+            "properties": {},
+            "title": "MemSelector"
+          },
           "nj97vr8c9u47fke2r": {
             "id": "nj97vr8c9u47fke2r",
             "title": "SideAttacker"
@@ -113,6 +131,18 @@
             ],
             "id": "ogf13zvp37u09",
             "title": "Sequence"
+          },
+          "qjjplyhstdpz3jqb": {
+            "id": "qjjplyhstdpz3jqb",
+            "properties": {
+              "BallPlacement": "",
+              "Position": "",
+              "distance": "0.8",
+              "dribbleOnTerminate": "false",
+              "forwardDirection": "true",
+              "maxTicks": ""
+            },
+            "title": "Dribble"
           },
           "xzmk8yg14z1tesq8e": {
             "id": "xzmk8yg14z1tesq8e",

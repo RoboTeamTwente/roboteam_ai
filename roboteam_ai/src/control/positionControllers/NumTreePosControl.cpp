@@ -367,14 +367,8 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
 
     // check collision with defense area
     if (! getCanMoveInDefenseArea()) {
-        // our defense area
-        auto ourDefenseArea = world::field->getDefenseArea(true, Constants::ROBOT_RADIUS());
-        bool isInOurDefenseArea = control::ControlUtils::pointInRectangle(point->pos, ourDefenseArea);
-
-        // their defense area
-        auto theirDefenseArea = world::field->getDefenseArea(false, Constants::ROBOT_RADIUS());
-        bool isInTheirDefenseArea = control::ControlUtils::pointInRectangle(point->pos, theirDefenseArea);
-
+        bool isInOurDefenseArea = world::field->pointIsInDefenceArea(point->pos, true, Constants::ROBOT_RADIUS(), false);
+        bool isInTheirDefenseArea = world::field->pointIsInDefenceArea(point->pos, false, Constants::ROBOT_RADIUS(), false);
         if (isInOurDefenseArea || isInTheirDefenseArea) {
             collision.setDefenseAreaCollision(point->pos, 0.2);
             return collision;

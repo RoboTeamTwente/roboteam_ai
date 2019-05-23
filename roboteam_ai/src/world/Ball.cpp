@@ -22,15 +22,6 @@ Ball::Ball(const roboteam_msgs::WorldBall &copy)
     if (!exists) std::cout << "Ball message has existence = 0!!" << std::endl;
 }
 
-const roboteam_msgs::WorldBall Ball::toMessage() const {
-    roboteam_msgs::WorldBall ballMsg;
-    ballMsg.existence = static_cast<unsigned int>(exists);
-    ballMsg.visible = static_cast<unsigned char>(visible);
-    ballMsg.pos = pos;
-    ballMsg.vel = vel;
-    return ballMsg;
-}
-
 void Ball::updateBall(const Ball &oldBall, const WorldData &worldData) {
     updateBallModel(oldBall, worldData);
     updateBallPosition(oldBall, worldData);
