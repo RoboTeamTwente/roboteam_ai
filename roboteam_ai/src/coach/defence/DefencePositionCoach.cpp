@@ -410,6 +410,7 @@ std::vector<DefenderBot> DefencePositionCoach::decidePositions(const std::vector
         }
         passes = createPassesSortedByDanger(simulatedWorld); //recalculate the danger after the new position
     }
+    // TODO: find a procedure if we cannot really cover all of the robots off, e.g. default positions or such
     assignIDs(lockedCount,freeRobots,oldDefenders); // divide the ID's of the last robots over the remaining available ID's.
     return defenders;
 }
