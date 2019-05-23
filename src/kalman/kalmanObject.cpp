@@ -90,9 +90,9 @@ namespace rtt {
             this->Z(0) = robot.pos.x;
             this->Z(1) = robot.pos.y;
             double oldOrientation = this->orientation;
-            //Weighted average, with (3/4) it takes 10 frames (1/6 second) to get at 5.6% of the observation if it was constant the whole time
-            // can also do (2/3) 7 frames 5.9%
-            this->orientation = (robot.orientation+this->orientation*3)/4;
+            //new orientation is between observation and the old orientation
+            //takes 5 frames to be at 3.1% closeness to an unchanging observed value
+            this->orientation = (robot.orientation+this->orientation)/2;
             this->omega = (this->orientation - oldOrientation)/(timeStamp-this->observationTimeStamp);
             this->observationTimeStamp = timeStamp;
             this->invisibleCounter = 0;
