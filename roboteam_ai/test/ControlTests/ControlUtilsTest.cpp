@@ -354,12 +354,16 @@ TEST(ControlUtils, getInterceptPointOnLegalPosition){
     // create a field of 12X8 with defense area of 4*2
     // the defense area is then for THEM: x = 4 -> 6 and y = -2 -> 2
     // the defense area is then for US: x = -4 -> -6 and y = -2 -> 2
-    auto field = testhelpers::FieldHelper::generateField(12, 8, 1, 1, 4, 2);
+    auto field = testhelpers::FieldHelper::generateField(12, 8, 1, 4, 2);
     rtt::ai::world::field->set_field(field);
 
     for (int i = 0; i < 500; i++) {
         auto robotpos = testhelpers::WorldHelper::getRandomFieldPosition(rtt::ai::world::field->get_field());
-        auto lineStart = testhelpers::WorldHelper::getRandomFieldPosition(rtt::ai::world::field->get_field());
+
+        auto randomX = testhelpers::WorldHelper::getRandomValue(-2, 2);
+        auto randomY = testhelpers::WorldHelper::getRandomValue(-2, 2);
+        Vector2 lineStart = {randomX, randomY};
+
         auto lineEnd = testhelpers::WorldHelper::getRandomFieldPosition(rtt::ai::world::field->get_field());
         rtt::Line line = {lineStart, lineEnd};
 
@@ -375,8 +379,13 @@ TEST(ControlUtils, getInterceptPointOnLegalPosition){
 
         if (rtt::ai::world::field->pointIsInDefenceArea(newPoint, true, 0, false)) {
             std::cout << newPoint << std::endl;
+            rtt::ai::world::field->pointIsInDefenceArea(newPoint, true, 0, false);
         }
 
+        EXPECT_FALSE(rtt::ai::world::field->pointIsInDefenceArea(newPoint, false, 0, false));
+        if (rtt::ai::world::field->pointIsInDefenceArea(newPoint, false, 0, false)) {
+            std::cout << newPoint << std::endl;
+        }
         // without the constraints it should return normal projection values
         newPoint = cr::ControlUtils::getInterceptPointOnLegalPosition(robotpos, line, true, true, 0, 0);
         EXPECT_FLOAT_EQ(newPoint.x, normalProjectedPos.x);

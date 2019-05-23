@@ -321,35 +321,22 @@ Polygon Field::getDefenseArea(bool ourDefenseArea, double margin, bool includeOu
 
     double backLineUsXCoordinate = includeOutSideField ? - _field.field_length*0.5 -_field.boundary_width : - _field.field_length*0.5 - margin;
     double backLineThemXCoordinate = includeOutSideField ? _field.field_length*0.5 +_field.boundary_width : _field.field_length*0.5 + margin;
-    Polygon defenceAreaUs({
-          {_field.left_penalty_line.begin.x + margin, _field.left_penalty_line.begin.y - margin},
-          {_field.left_penalty_line.end.x + margin, _field.left_penalty_line.end.y + margin},
-          {backLineUsXCoordinate, _field.left_penalty_line.end.y + margin},
-          {backLineUsXCoordinate, _field.left_penalty_line.begin.y - margin},
-    });
 
-    Polygon defenceAreaThem({
-        {_field.right_penalty_line.begin.x - margin, _field.right_penalty_line.begin.y - margin},
-        {_field.right_penalty_line.end.x - margin, _field.right_penalty_line.end.y + margin},
-        {backLineThemXCoordinate, _field.right_penalty_line.end.y + margin},
-        {backLineThemXCoordinate, _field.right_penalty_line.begin.y - margin},
-    });
+    std::vector<Vector2> defenceAreaUsPoints = {
+            {_field.left_penalty_line.begin.x + margin, _field.left_penalty_line.begin.y - margin},
+    {_field.left_penalty_line.end.x + margin, _field.left_penalty_line.end.y + margin},
+    {backLineUsXCoordinate, _field.left_penalty_line.end.y + margin},
+    {backLineUsXCoordinate, _field.left_penalty_line.begin.y - margin}};
 
+    Polygon defenceAreaUs(defenceAreaUsPoints);
 
-//    interface::Input::drawDebugData({
-//        {_field.left_penalty_line.begin.x + margin, _field.left_penalty_line.begin.y - margin},
-//        {_field.left_penalty_line.end.x + margin, _field.left_penalty_line.end.y + margin},
-//        {backLineUsXCoordinate, _field.left_penalty_line.end.y + margin},
-//        {backLineUsXCoordinate, _field.left_penalty_line.begin.y - margin},
-//        }, Qt::red, -1, interface::Drawing::LINES_CONNECTED);
-//
-//    interface::Input::drawDebugData({
-//        {_field.right_penalty_line.begin.x - margin, _field.right_penalty_line.begin.y - margin},
-//        {_field.right_penalty_line.end.x - margin, _field.right_penalty_line.end.y + margin},
-//        {backLineThemXCoordinate, _field.right_penalty_line.end.y + margin},
-//        {backLineThemXCoordinate, _field.right_penalty_line.begin.y - margin},
-//    },  Qt::red, -1, interface::Drawing::LINES_CONNECTED);
+    std::vector<Vector2> defenceAreaThemPoints = {
+            {_field.right_penalty_line.begin.x - margin, _field.right_penalty_line.begin.y - margin},
+            {_field.right_penalty_line.end.x - margin, _field.right_penalty_line.end.y + margin},
+            {backLineThemXCoordinate, _field.right_penalty_line.end.y + margin},
+            {backLineThemXCoordinate, _field.right_penalty_line.begin.y - margin}};
 
+    Polygon defenceAreaThem(defenceAreaThemPoints);
     return ourDefenseArea ? defenceAreaUs : defenceAreaThem;
 }
 
