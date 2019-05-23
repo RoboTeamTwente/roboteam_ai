@@ -92,12 +92,12 @@ bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, 
         ShotPrecision precision) {
     double dist = ControlUtils::distanceToLine(robot.pos, line.first, line.second);
     if (precision == HIGH) {
-        return dist < 0.06;
-    }
-    else if (precision == MEDIUM) {
         return dist < 0.08;
     }
-    return dist < 0.9;
+    else if (precision == MEDIUM) {
+        return dist < 0.010;
+    }
+    return dist < 0.15;
 }
 
 /// return the place behind the ball targeted towards the ball target position
@@ -115,7 +115,7 @@ ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTa
     control::PosVelAngle pva = robot.getNumtreeGtp()->getPosVelAngle(std::make_shared<world::Robot>(robot),
             robotTargetPosition);
     //TODO: if (rotating to this angle from current angle will hit ball) then pva.angle=angle towards ball
-    if ((robot.pos - robotTargetPosition).length() < 0.5) {
+    if ((robot.pos - robotTargetPosition).length() < 0.3) {
         pva.angle = (line.second - line.first).toAngle();
     }
 
@@ -203,10 +203,10 @@ bool ShotController::robotAngleIsGood(world::Robot &robot,
     Angle aim((lineToDriveOver.second - lineToDriveOver.first).angle());
     double diff = abs(aim - robot.angle);
     if (precision == HIGH) {
-        return diff < toRadians(4);
+        return diff < toRadians(6);
     }
     if (precision == MEDIUM) {
-        return diff < toRadians(10);
+        return diff < toRadians(12);
     }
     return diff < toRadians(15);
 }
