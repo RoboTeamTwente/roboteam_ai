@@ -5,6 +5,8 @@
 #include "roboteam_ai/src/control/ControlUtils.h"
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/test/helpers/FieldHelper.h>
+#include <roboteam_ai/test/helpers/WorldHelper.h>
 
 namespace cr=rtt::ai::control;
 using Vector2 = rtt::Vector2;
@@ -346,3 +348,34 @@ TEST(ControlUtils, forward_line_intersection){
     EXPECT_EQ(cr::ControlUtils::twoLineForwardIntersection(A,E,C,D),2.0);
     EXPECT_EQ(cr::ControlUtils::twoLineForwardIntersection(E,A,C,D),-1.0);
 }
+
+TEST(ControlUtils, getInterceptPointOnLegalPosition){
+
+    // create a field of 12X8 with defense area of 4*2
+    // the defense area is then for THEM: x = 4 -> 6 and y = -2 -> 2
+    // the defense area is then for US: x = -4 -> -6 and y = -2 -> 2
+    auto field = testhelpers::FieldHelper::generateField(12, 8, 1, 1, 4, 2);
+    rtt::ai::world::field->set_field(field);
+
+    for (int i = 0; i < 500; i++) {
+        auto robotpos = testhelpers::WorldHelper::getRandomFieldPosition(rtt::ai::world::field->get_field());
+        auto lineStart = testhelpers::WorldHelper::getRandomFieldPosition(rtt::ai::world::field->get_field());
+        auto lineEnd = testhelpers::WorldHelper::getRandomFieldPosition(rtt::ai::world::field->get_field());
+        rtt::Line line = {lineStart, lineEnd};
+
+        auto newPoint = cr::ControlUtils::getInterceptPointOnLegalPosition(robotpos, line, false, false, 0, 0);
+
+        if (!rtt::ai::world::field->pointIsInField(newPoint, 0.0)) {
+            std::cout << newPoint << std::endl;
+            rtt::ai::world::field->pointIsInField(newPoint, 0.0);
+        }
+        EXPECT_TRUE(rtt::ai::world::field->pointIsInField(newPoint, 0));
+        EXPECT_FALSE(rtt::ai::world::field->pointIsInDefenceArea(newPoint, true, 0, false));
+
+        // without the constraints it should return normal projection values
+        newPoint = cr::ControlUtils::getInterceptPointOnLegalPosition(robotpos, line, true, true, 0, 0);
+        EXPECT_FLOAT_EQ(newPoint.x, line.project(robotpos).x);
+        EXPECT_FLOAT_EQ(newPoint.y, line.project(robotpos).y);
+    }
+}
+

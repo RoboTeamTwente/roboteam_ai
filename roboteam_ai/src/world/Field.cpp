@@ -52,10 +52,10 @@ bool Field::pointIsInField(const Vector2& point, float margin) {
     float halfLength = _field.field_length*0.5f;
     float halfWidth = _field.field_width*0.5f;
 
-    return (point.x < halfLength - margin &&
-            point.x > - halfLength + margin &&
-            point.y < halfWidth - margin &&
-            point.y > - halfWidth + margin);
+    return (point.x <= halfLength - margin &&
+            point.x >= - halfLength + margin &&
+            point.y <= halfWidth - margin &&
+            point.y >= - halfWidth + margin);
 
 }
 

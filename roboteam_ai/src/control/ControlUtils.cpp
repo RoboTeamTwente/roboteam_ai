@@ -340,11 +340,14 @@ world::Robot ControlUtils::getRobotClosestToLine(std::vector<world::Robot> robot
         Vector2 projectPos = line.project(position);
         Vector2 closestPoint = projectPos;
 
-        if (!canMoveOutOfField && !world::field->pointIsInField(projectPos)) {
+        if (!canMoveOutOfField && !world::field->pointIsInField(projectPos, outOfFieldMargin)) {
             projectPos = projectPositionToWithinField(projectPos, outOfFieldMargin);
         }
 
-        if (!canMoveInDefenseArea && world::field->pointIsInDefenceArea(projectPos)) {
+        bool pointInOurDefenseArea = world::field->pointIsInDefenceArea(projectPos, true, defenseAreamargin);
+        bool pointInTheirDefenseArea = world::field->pointIsInDefenceArea(projectPos, false, defenseAreamargin);
+
+        if (!canMoveInDefenseArea && (pointInOurDefenseArea || pointInTheirDefenseArea)) {
 
             Polygon defenceAreaUs(world::field->getDefenseArea(true, defenseAreamargin));
             Polygon defenceAreaThem(world::field->getDefenseArea(false, defenseAreamargin));
@@ -369,7 +372,7 @@ world::Robot ControlUtils::getRobotClosestToLine(std::vector<world::Robot> robot
             }
         }
 
-        if (!canMoveOutOfField && !world::field->pointIsInField(closestPoint)) {
+        if (!canMoveOutOfField && !world::field->pointIsInField(closestPoint, outOfFieldMargin)) {
             closestPoint = projectPositionToWithinField(closestPoint, outOfFieldMargin);
         }
 
