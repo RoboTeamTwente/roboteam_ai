@@ -98,7 +98,6 @@ namespace rtt {
             this->invisibleCounter = 0;
             //if the object comes into being, make the observation it's state, (to prevent jumping)
             if (!this->exists){
-                this->X.zeros();
                 this->X(0) = robot.pos.x;
                 this->X(2) = robot.pos.y;
             }

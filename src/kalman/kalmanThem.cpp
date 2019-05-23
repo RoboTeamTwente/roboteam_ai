@@ -43,5 +43,4 @@ namespace rtt{
         this->K.zeros();
     }
 
-
 }
