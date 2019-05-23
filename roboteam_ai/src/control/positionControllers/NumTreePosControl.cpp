@@ -24,7 +24,7 @@ PosVelAngle NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
     auto targetPathPoint = static_cast<unsigned long>(goToTimeInFuture/DT);
     if (path.size() < targetPathPoint) {
         Vector2 deltaPos = exactTargetPos - robot.pos;
-        PathPoint pathPoint;
+        PathPoint pathPoint = PathPoint();
         pathPoint.pos = robot.pos;
         target.pos = exactTargetPos;
         target.vel = deltaPos.stretchToLength(pathPoint.maxVel());
