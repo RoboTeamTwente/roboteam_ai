@@ -11,6 +11,7 @@
 #include "roboteam_utils/Vector2.h"
 #include <cmath>
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include <roboteam_utils/Line.h>
 #include "roboteam_utils/Arc.h"
 
 using Vector2 = rtt::Vector2;
@@ -60,6 +61,9 @@ class ControlUtils {
         static bool objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity,
                 const Vector2 &point, double maxDifference = 0.3);
         static const world::World::RobotPtr getRobotClosestToLine(std::vector<world::World::RobotPtr> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds);
+        static Vector2 getInterceptPointOnLegalPosition(
+                Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin);
+        static world::Robot getRobotClosestToLine(std::vector<world::Robot> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds);
 };
 
 } // control

@@ -106,6 +106,9 @@ bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
 PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle) {
 
+       // DT = 0.3 / GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
+    DT = 0.1;
+
     ros::Time begin = ros::Time::now();
 
     if (!robotPtr) return calculateForcePosVelAngle(robotPtr, targetPos);
@@ -412,7 +415,7 @@ std::pair<std::vector<Vector2>, NumTreePosControl::PathPointer> NumTreePosContro
             Vector2(deltaPosition.y, - deltaPosition.x).stretchToLength(collisionRadius*sqrt(factor)*1.2);
 
     Vector2 rightTargetPosition = collisionPoint->pos +
-            Vector2(- deltaPosition.y, deltaPosition.x).stretchToLength(collisionRadius*sqrt(factor)*1.2);
+            Vector2(deltaPosition.y, - deltaPosition.x).stretchToLength(-collisionRadius*sqrt(factor)*1.2);
 
     // return the new targets
     auto newTargets = {leftTargetPosition, rightTargetPosition};
