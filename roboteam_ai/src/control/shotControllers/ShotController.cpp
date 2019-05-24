@@ -47,6 +47,8 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     bool validAngle = robotAngleIsGood(robot, lineToDriveOver, precision);
 
     ShotData shotData;
+    std::cout<<" Online: "<<isOnLineToBall <<" behind: "<<isBehindBall<<" valid: "<<validAngle<<" isShooting: " <<isShooting<<std::endl;
+
     if (isOnLineToBall && isBehindBall && (validAngle || isShooting)) {
         if (genevaIsTurning) {
             isShooting = false;
@@ -92,12 +94,12 @@ bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, 
         ShotPrecision precision) {
     double dist = ControlUtils::distanceToLine(robot.pos, line.first, line.second);
     if (precision == HIGH) {
-        return dist < 0.08;
+        return dist < 0.04;
     }
     else if (precision == MEDIUM) {
-        return dist < 0.010;
+        return dist < 0.05;
     }
-    return dist < 0.15;
+    return dist < 0.08;
 }
 
 /// return the place behind the ball targeted towards the ball target position
@@ -203,12 +205,12 @@ bool ShotController::robotAngleIsGood(world::Robot &robot,
     Angle aim((lineToDriveOver.second - lineToDriveOver.first).angle());
     double diff = abs(aim - robot.angle);
     if (precision == HIGH) {
-        return diff < toRadians(6);
+        return diff < toRadians(3);
     }
     if (precision == MEDIUM) {
-        return diff < toRadians(12);
+        return diff < toRadians(6);
     }
-    return diff < toRadians(15);
+    return diff < toRadians(10);
 }
 
 // get the place behind the ball as if no geneva is used
@@ -268,9 +270,11 @@ ShotData ShotController::moveAndShootGrSim(world::Robot robot, bool chip,
     ShotData shotData;
     bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
     if (hasBall) {
+        std::cout<<"SHOOTING"<<std::endl;
         shotData = shoot(robot, lineToDriveOver, aimTarget, chip, desiredBallSpeed);
     }
     else {
+        std::cout<<"MOVING TO BALL"<<std::endl;
         shotData = moveStraightToBall(robot, lineToDriveOver);
     }
     shotData.forced = true;
