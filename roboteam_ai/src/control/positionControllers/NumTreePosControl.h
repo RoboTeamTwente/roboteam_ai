@@ -32,7 +32,7 @@ class NumTreePosControl : public ForcePosControl {
 
         // constants
         const double MAX_CALCULATION_TIME = 25.0;         // Max calculation time in ms
-        const double DT = 0.07;                          // timestep for ODE model
+        double DT = 0.1;                          // timestep for ODE model
         static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 0.25; // 3x robot radius
 
         // collisions
