@@ -5,6 +5,7 @@
 
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include <roboteam_utils/Line.h>
 #include "ControlUtils.h"
 #include "../world/World.h"
 
@@ -358,6 +359,47 @@ const world::World::RobotPtr ControlUtils::getRobotClosestToLine(std::vector<wor
 
     return closestRobot;
 }
+
+    Vector2 ControlUtils::getInterceptPointOnLegalPosition(Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin) {
+        LineSegment shotLine(line.start, line.end + line.end + (line.end - line.start) * 10000);
+        Vector2 projectPos = shotLine.project(position);
+        Vector2 closestPoint = projectPos;
+
+        bool pointInOurDefenseArea = world::field->pointIsInDefenceArea(projectPos, true, defenseAreamargin);
+        bool pointInTheirDefenseArea = world::field->pointIsInDefenceArea(projectPos, false, defenseAreamargin);
+
+        if (!canMoveInDefenseArea && (pointInOurDefenseArea || pointInTheirDefenseArea)) {
+
+            Polygon defenceAreaUs(world::field->getDefenseArea(true, defenseAreamargin, true));
+            Polygon defenceAreaThem(world::field->getDefenseArea(false, defenseAreamargin, true));
+
+
+            std::vector<Vector2> intersects = defenceAreaUs.intersections(shotLine);
+            std::vector<Vector2> intersectsThem = defenceAreaThem.intersections(shotLine);
+
+            intersects.insert(intersects.end(), intersectsThem.begin(), intersectsThem.end());
+            if (intersects.empty()) {
+                return projectPos;
+            }
+            double closestDist = DBL_MAX;
+            for (const auto &point :intersects) {
+                if (world::field->pointIsInField(point, defenseAreamargin)) {
+                    double dist = point.dist(position);
+                    if (dist < closestDist) {
+                        closestDist = dist;
+                        closestPoint = point;
+                    }
+                }
+            }
+        }
+
+        if (!canMoveOutOfField && !world::field->pointIsInField(closestPoint, defenseAreamargin)) {
+            closestPoint = projectPositionToWithinField(projectPos, defenseAreamargin);
+        }
+
+        return closestPoint;
+
+    }
 
 
 } // control

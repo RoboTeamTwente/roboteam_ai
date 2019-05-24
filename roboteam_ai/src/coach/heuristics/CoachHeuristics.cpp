@@ -56,7 +56,7 @@ double CoachHeuristics::getClosestOpponentAngleToPassLine(const Vector2 &positio
 /// Gives a higher score if the position is far away from enemy robots
 double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &position, const WorldData &world) {
     RobotPtr closestRobot = world::world->getRobotClosestToPoint(position, world::WhichRobots::THEIR_ROBOTS);
-    if (closestRobot->id != - 1) {
+    if (closestRobot && closestRobot->id != - 1) {
         double distance = (position - closestRobot->pos).length();
         return 1 - exp(DISTANCE_TO_OPPONENTS_WEIGHT*distance);
     }
@@ -66,6 +66,8 @@ double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &positio
 }
 
 double CoachHeuristics::calculateBehindBallScore(const Vector2 &position, const CoachHeuristics::WorldData &world) {
+    if (!world.ball) return 0.0;
+
     double xDistanceBehindBall = world.ball->pos.x - position.x;
     if (xDistanceBehindBall > 0) {
         return 0.0;

@@ -22,12 +22,18 @@ void World::updateWorld(const roboteam_msgs::World &message) {
             auto worldData = WorldData(message);
             worldDataPtr = std::make_shared<WorldData>(worldData);
         }
+
+        // copy the ball
         if (worldDataPtr->ball) oldBall = std::make_shared<Ball>(*worldDataPtr->ball);
     }
 
     // update ballmodel, dribbling, position if not visible etc.
     auto tempWorldData = WorldData(message);
-    if (oldBall) tempWorldData.ball->updateBall(oldBall, tempWorldData);
+    if (oldBall)  {
+        tempWorldData.ball->updateBall(oldBall, tempWorldData);
+    } else {
+        tempWorldData.ball = std::make_shared<Ball>(message.ball);
+    }
 
     {
         std::lock_guard<std::mutex> lock(worldMutex);
@@ -82,7 +88,9 @@ bool World::weHaveRobots() {
 }
 
 const WorldData World::getWorld() {
-    return history.getPreviousWorld(0);
+    std::lock_guard<std::mutex> lock(worldMutex);
+    auto thing =  WorldData(* worldDataPtr);
+    return thing;
 }
 
 const World::BallPtr World::getBall() {
