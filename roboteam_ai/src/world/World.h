@@ -34,9 +34,6 @@ class World {
         WorldDataPtr worldDataPtr;
         std::mutex worldMutex;
 
-        const BallPtr NULLBALL = BallPtr(nullptr);
-        const RobotPtr NULLROBOT = RobotPtr(nullptr);
-
         History history;
         FutureWorld futureWorld;
         unsigned long worldNumber = 0;
@@ -58,10 +55,10 @@ class World {
         const WorldData &getPreviousWorld();
 
         // get ball
-        const BallPtr &getBall();
+        const BallPtr getBall();
 
         // get robots
-        const RobotPtr &getRobotForId(int id, bool ourTeam = true);
+        const RobotPtr getRobotForId(int id, bool ourTeam = true);
         const std::vector<RobotPtr> getRobotsForIds(std::vector<int> ids, bool ourTeam = true);
         const std::vector<RobotPtr> getAllRobots();
         const std::vector<RobotPtr> getUs();
@@ -73,15 +70,13 @@ class World {
     public:
         const RobotPtr getRobotClosestToPoint(const Vector2 &point, std::vector<int> robotIds, bool ourTeam);
         const RobotPtr getRobotClosestToPoint(const Vector2 &point, WhichRobots whichRobots = ALL_ROBOTS);
-        const RobotPtr getRobotClosestToRobot(const RobotPtr &robot, WhichRobots whichRobots = ALL_ROBOTS);
-        const RobotPtr getRobotClosestToRobot(int id, bool ourTeam, WhichRobots whichRobots = ALL_ROBOTS);
         const RobotPtr getRobotClosestToBall(WhichRobots whichRobots = ALL_ROBOTS);
 
         // has ball
         bool robotHasBall(int id, bool ourTeam, double maxDist = Constants::MAX_BALL_RANGE());
         bool ourRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
         bool theirRobotHasBall(int id, double maxDist = Constants::MAX_BALL_RANGE());
-        const RobotPtr &whichRobotHasBall(WhichRobots whichRobots = ALL_ROBOTS);
+        const RobotPtr whichRobotHasBall(WhichRobots whichRobots = ALL_ROBOTS);
 
         // future worlds using linear extrapolation
         const WorldData getFutureWorld(double time);
