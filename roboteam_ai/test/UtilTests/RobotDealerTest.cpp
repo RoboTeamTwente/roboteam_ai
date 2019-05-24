@@ -5,12 +5,17 @@
 #include <gtest/gtest.h>
 #include "roboteam_ai/src/utilities/RobotDealer.h"
 #include "roboteam_ai/src/world/World.h"
+#include "../helpers/FieldHelper.h"
 
 TEST(RobotDealerTest, RobotDealerTest) {
     using robot = rtt::ai::robotDealer::RobotType;
     // Make sure that there is a world and that it is empty
     roboteam_msgs::World worldMsg;
+    auto fieldMsg = testhelpers::FieldHelper::generateField();
+    rtt::ai::world::field->set_field(fieldMsg);
+
     roboteam_msgs::WorldRobot robot1, robot2, robot3;
+    roboteam_msgs::WorldBall ball;
     rtt::ai::world::world->updateWorld(worldMsg);
     rtt::ai::robotDealer::RobotDealer::refresh();
 
@@ -19,11 +24,25 @@ TEST(RobotDealerTest, RobotDealerTest) {
 
     //fill the world
     robot1.id = 1;
+    robot1.pos.x = 1;
+    robot1.pos.y = 4;
+
     robot2.id = 2;
+    robot2.pos.x = 1;
+    robot2.pos.y = 2;
+
     robot3.id = 3;
+    robot3.pos.x = 1;
+    robot3.pos.y = -1;
+
+    ball.pos.x = 0;
+    ball.pos.y = 1;
+
     worldMsg.us.push_back(robot1);
     worldMsg.us.push_back(robot2);
     worldMsg.us.push_back(robot3);
+    worldMsg.ball = ball;
+    rtt::ai::world::world->updateWorld(worldMsg);
     rtt::ai::world::world->updateWorld(worldMsg);
 
     auto dealbot1 = rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(robot::RANDOM, "role1", "testing1");
