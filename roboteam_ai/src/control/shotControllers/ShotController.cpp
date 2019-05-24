@@ -57,8 +57,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
         }
         else {
             isShooting = true;
-            shotData = Constants::GRSIM() ? moveAndShootGrSim(robot, chip, lineToDriveOver, ballspeed)
-                    : moveAndShoot(robot, chip, lineToDriveOver, ballspeed);
+            shotData = moveAndShootGrSim(robot, chip, lineToDriveOver, ballspeed);
         }
     }
     else {

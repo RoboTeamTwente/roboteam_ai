@@ -25,7 +25,7 @@ bt::Node::Status Attack::onUpdate() {
     if (!robot) return Status::Running;
 
     if (world::field->pointIsInDefenceArea(ball->pos, false)) {
-        command.w = robot->angle;
+        command.w = 0;
         publishRobotCommand();
         return Status::Running;
     }

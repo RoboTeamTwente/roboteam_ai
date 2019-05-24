@@ -59,7 +59,7 @@ void World::updateRobotsFromData(Robot::Team team, const std::vector<roboteam_ms
             robot->updateRobot(robotMsg, ball, worldNumber);
         } else {
             // if no robot exists in world we create a new one
-            Robot newRobot(robotMsg, team, worldNumber);
+            Robot newRobot(robotMsg, team, 3);
             newRobot.updateRobot(robotMsg, ball, worldNumber);
 
             // std::cout << "Robot " << newRobot.id << " added to world" << std::endl;

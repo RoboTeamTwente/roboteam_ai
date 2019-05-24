@@ -89,6 +89,8 @@ void Skill::refreshRobotCommand() {
 void Skill::limitVelocityCommands() {
     Vector2 velocity = {command.x_vel, command.y_vel};
     velocity = control::ControlUtils::velocityLimiter(velocity);
+    velocity = control::ControlUtils::velocityLimiterLowSpeed(velocity,0.0);
+    std::cout<<"VELOCITY: " <<velocity.length()<<std::endl;
     command.x_vel = velocity.x;
     command.y_vel = velocity.y;
 
