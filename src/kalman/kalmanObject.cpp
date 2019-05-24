@@ -89,11 +89,8 @@ namespace rtt {
             this->id= robot.robot_id;
             this->Z(0) = robot.pos.x;
             this->Z(1) = robot.pos.y;
-            double oldOrientation = this->orientation;
-            //new orientation is between observation and the old orientation
-            //takes 5 frames to be at 3.1% closeness to an unchanging observed value
-            this->orientation = (robot.orientation+this->orientation)/2;
-            this->omega = (this->orientation - oldOrientation)/(timeStamp-this->observationTimeStamp);
+            this->omega = (robot.orientation - this->orientation)/(timeStamp-this->observationTimeStamp);
+            this->orientation = robot.orientation;
             this->observationTimeStamp = timeStamp;
             this->invisibleCounter = 0;
             //if the object comes into being, make the observation it's state, (to prevent jumping)

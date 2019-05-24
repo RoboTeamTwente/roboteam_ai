@@ -46,7 +46,7 @@ namespace rtt {
                 //HAck
                 float errorx = ball.pos.x-this->X(0);
                 float errory = ball.pos.y-this->X(2);
-                if (errorx*errorx+errory*errory >= 1){
+                if (errorx*errorx+errory*errory >= 2){
                     return;
                 }
             }
