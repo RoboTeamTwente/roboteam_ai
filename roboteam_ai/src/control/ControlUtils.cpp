@@ -337,10 +337,9 @@ world::Robot ControlUtils::getRobotClosestToLine(std::vector<world::Robot> robot
 }
 
     Vector2 ControlUtils::getInterceptPointOnLegalPosition(Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin) {
-        Vector2 projectPos = line.project(position);
+        LineSegment shotLine(line.start, line.end + line.end + (line.end - line.start) * 10000);
+        Vector2 projectPos = shotLine.project(position);
         Vector2 closestPoint = projectPos;
-
-
 
         bool pointInOurDefenseArea = world::field->pointIsInDefenceArea(projectPos, true, defenseAreamargin);
         bool pointInTheirDefenseArea = world::field->pointIsInDefenceArea(projectPos, false, defenseAreamargin);
@@ -349,13 +348,14 @@ world::Robot ControlUtils::getRobotClosestToLine(std::vector<world::Robot> robot
 
             Polygon defenceAreaUs(world::field->getDefenseArea(true, defenseAreamargin, true));
             Polygon defenceAreaThem(world::field->getDefenseArea(false, defenseAreamargin, true));
-            LineSegment shotLine(line.start, line.end + line.end + (line.end - line.start) * 10000);
+
 
             std::vector<Vector2> intersects = defenceAreaUs.intersections(shotLine);
             std::vector<Vector2> intersectsThem = defenceAreaThem.intersections(shotLine);
 
             intersects.insert(intersects.end(), intersectsThem.begin(), intersectsThem.end());
             if (intersects.empty()) {
+                std::cout << "no intersects" << projectPos << std::endl;
                 return projectPos;
             }
             double closestDist = DBL_MAX;

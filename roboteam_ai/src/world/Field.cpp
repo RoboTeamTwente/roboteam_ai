@@ -323,7 +323,7 @@ Polygon Field::getDefenseArea(bool ourDefenseArea, double margin, bool includeOu
     double backLineThemXCoordinate = includeOutSideField ? _field.field_length*0.5 +_field.boundary_width : _field.field_length*0.5 + margin;
 
     std::vector<Vector2> defenceAreaUsPoints = {
-            {_field.left_penalty_line.begin.x + margin, _field.left_penalty_line.begin.y - margin},
+    {_field.left_penalty_line.begin.x + margin, _field.left_penalty_line.begin.y - margin},
     {_field.left_penalty_line.end.x + margin, _field.left_penalty_line.end.y + margin},
     {backLineUsXCoordinate, _field.left_penalty_line.end.y + margin},
     {backLineUsXCoordinate, _field.left_penalty_line.begin.y - margin}};

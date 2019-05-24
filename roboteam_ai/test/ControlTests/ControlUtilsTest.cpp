@@ -351,18 +351,21 @@ TEST(ControlUtils, forward_line_intersection){
 
 TEST(ControlUtils, getInterceptPointOnLegalPosition){
 
-    // create a field of 12X8 with defense area of 4*2
-    // the defense area is then for THEM: x = 4 -> 6 and y = -2 -> 2
-    // the defense area is then for US: x = -4 -> -6 and y = -2 -> 2
-    auto field = testhelpers::FieldHelper::generateField(12, 8, 1, 4, 2);
+    roboteam_msgs::GeometryFieldSize field;
+    field.field_length = 12;
+    field.field_width = 8;
+    field.goal_width = 1;
+    // set the penalty lines
+    field.left_penalty_line.begin = rtt::Vector2(-4, -2);
+    field.left_penalty_line.end = rtt::Vector2(-4, 2);
+    field.right_penalty_line.begin = rtt::Vector2(4, -2);
+    field.right_penalty_line.end = rtt::Vector2(4, 2);
+
     rtt::ai::world::field->set_field(field);
 
     for (int i = 0; i < 500; i++) {
 
-        auto randomX2 = testhelpers::WorldHelper::getRandomValue(-3.5, 3.5);
-        auto randomY2 = testhelpers::WorldHelper::getRandomValue(-3.5, 3.5);
-        Vector2 robotpos = {randomX2, randomY2};
-      //  auto robotpos = testhelpers::WorldHelper::getRandomFieldPosition(rtt::ai::world::field->get_field());
+        Vector2 robotpos =  testhelpers::WorldHelper::getRandomFieldPosition(rtt::ai::world::field->get_field());
 
         auto randomX = testhelpers::WorldHelper::getRandomValue(-2, 2);
         auto randomY = testhelpers::WorldHelper::getRandomValue(-2, 2);
@@ -373,7 +376,6 @@ TEST(ControlUtils, getInterceptPointOnLegalPosition){
 
         auto newPoint = cr::ControlUtils::getInterceptPointOnLegalPosition(robotpos, line, false, false, 0, 0.1);
 
-        auto normalProjectedPos = line.project(robotpos);
         if (!rtt::ai::world::field->pointIsInField(newPoint, 0.0)) {
             std::cout << newPoint << std::endl;
             rtt::ai::world::field->pointIsInField(newPoint, 0.0);
@@ -389,11 +391,8 @@ TEST(ControlUtils, getInterceptPointOnLegalPosition){
         EXPECT_FALSE(rtt::ai::world::field->pointIsInDefenceArea(newPoint, false, -0.01, false));
         if (rtt::ai::world::field->pointIsInDefenceArea(newPoint, false, -0.01, false)) {
             std::cout << newPoint << std::endl;
+            rtt::ai::world::field->pointIsInDefenceArea(newPoint, false, -0.01, false);
         }
-        // without the constraints it should return normal projection values
-        newPoint = cr::ControlUtils::getInterceptPointOnLegalPosition(robotpos, line, true, true, 0, 0);
-        EXPECT_FLOAT_EQ(newPoint.x, normalProjectedPos.x);
-        EXPECT_FLOAT_EQ(newPoint.y, normalProjectedPos.y);
     }
 }
 
