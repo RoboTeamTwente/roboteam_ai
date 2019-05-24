@@ -24,6 +24,7 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
         workingDribbler = Constants::ROBOT_HAS_WORKING_DRIBBLER(id);
     }
     else {
+        std::cout << "Warning: creating robot with id = " << id << "!" << std::endl;
         workingGeneva = false;
         workingDribbler = false;
     }
@@ -48,7 +49,7 @@ double Robot::getDistanceToBall() {
     return distanceToBall;
 }
 
-void Robot::updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const Ball &ball, unsigned long worldNumber) {
+void Robot::updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const BallPtr &ball, unsigned long worldNumber) {
     if (robotMsg.id == this->id) {
         this->pos = robotMsg.pos;
         this->vel = robotMsg.vel;
@@ -56,7 +57,7 @@ void Robot::updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const Ball &b
         this->angularVelocity = robotMsg.w;
         this->lastUpdatedWorldNumber = worldNumber;
     }
-    distanceToBall = calculateDistanceToBall(ball.pos);
+    distanceToBall = calculateDistanceToBall(ball->pos);
     iHaveBall = distanceToBall >= 0.0;
 }
 

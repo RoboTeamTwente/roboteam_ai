@@ -8,7 +8,7 @@ namespace rtt {
 namespace ai {
 
 std::vector<Vector2> FreeKickFormation::posses;
-std::shared_ptr<vector<std::shared_ptr<rtt::ai::world::Robot>>> rtt::ai::FreeKickFormation::robotsInFormation = nullptr;
+std::shared_ptr<vector<bt::Leaf::RobotPtr>> rtt::ai::FreeKickFormation::robotsInFormation = nullptr;
 
 
 Vector2 FreeKickFormation::getFormationPosition() {
@@ -25,15 +25,15 @@ Vector2 FreeKickFormation::getFormationPosition() {
     auto shortestDistances = hungarian.getRobotPositions(robotIds, true, posses);
     return shortestDistances[robot->id];
 }
-shared_ptr<vector<shared_ptr<bt::Leaf::Robot>>> FreeKickFormation::robotsInFormationPtr() {
+shared_ptr<vector<bt::Leaf::RobotPtr>> FreeKickFormation::robotsInFormationPtr() {
     return robotsInFormation;
 }
 
 FreeKickFormation::FreeKickFormation(std::string name, bt::Blackboard::Ptr blackboard)
         :Formation(name, blackboard) {
-    robotsInFormation = std::make_shared<vector<std::shared_ptr<world::Robot>>>();
+    robotsInFormation = std::make_shared<vector<bt::Leaf::RobotPtr>>();
 
-}
+};
 void FreeKickFormation::onTerminate(Skill::Status s) {
     Formation::onTerminate(s);
     update = false;

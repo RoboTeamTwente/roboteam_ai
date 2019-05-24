@@ -79,11 +79,11 @@ int PassCoach::determineReceiver(int passerID) {
     int bestRobotID = -1;
     auto passer = world::world->getRobotForId(passerID, true);
     for(auto &robot : world::world->getUs()) {
-        if (!validReceiver(passer, std::make_shared<Robot>(robot))) continue;
-        double score = passScore.calculatePassScore(robot.pos);
+        if (!validReceiver(passer, robot)) continue;
+        double score = passScore.calculatePassScore(robot->pos);
         if (score > bestScore) {
             bestScore = score;
-            bestRobotID = robot.id;
+            bestRobotID = robot->id;
         }
     }
 

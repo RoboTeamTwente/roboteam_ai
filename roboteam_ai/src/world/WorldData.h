@@ -24,40 +24,51 @@ enum WhichRobots : short {
 };
 
 class WorldData {
+    private:
+        using RobotPtr = std::shared_ptr<Robot>;
+        using BallPtr = std::shared_ptr<Ball>;
+        using WorldDataPtr = std::shared_ptr<WorldData>;
     public:
         WorldData() = default;
-        explicit WorldData(const roboteam_msgs::World &copy) : time(copy.time) {
+        explicit WorldData(const roboteam_msgs::World &copy)
+                :time(copy.time) {
             for (auto &robot : copy.us) {
-                Robot r = Robot(robot, Robot::Team::us, 3);
+                RobotPtr r = std::make_shared<Robot>(Robot(robot, Robot::Team::us, 3));
                 us.emplace_back(r);
             }
 
             for (auto &robot : copy.them) {
-                Robot r = Robot(robot, Robot::Team::them, 3);
+                RobotPtr r = std::make_shared<Robot>(Robot(robot, Robot::Team::them, 3));
                 them.emplace_back(r);
             }
-            ball = Ball(copy.ball);
+            ball = std::make_shared<Ball>(Ball(copy.ball));
         }
-        explicit WorldData(const std::vector<Robot> &copyUs, const std::vector<Robot> &copyThem,
-                const Ball &copyBall, double time) : time(time) {
+        explicit WorldData(const std::vector<RobotPtr> &copyUs, const std::vector<RobotPtr> &copyThem,
+                const BallPtr &copyBall, double time)
+                :time(time) {
             for (auto &robot : copyUs) {
-                us.emplace_back(robot);
+                us.emplace_back(std::make_shared<Robot>(*robot));
             }
             for (auto &robot : copyThem) {
-                them.emplace_back(robot);
+                them.emplace_back(std::make_shared<Robot>(*robot));
             }
-            ball = copyBall;
+            if (ball) ball = std::make_shared<Ball>(*copyBall);
         }
+        explicit WorldData(const WorldDataPtr &worldDataPtr)
+                :WorldData(*worldDataPtr) { }
+        WorldData(const WorldData &worldData)
+                :WorldData(worldData.us, worldData.them, worldData.ball, worldData.time) { }
+
         double time = 0.0;
-        std::vector<Robot> us;
-        std::vector<Robot> them;
-        Ball ball;
+        std::vector<RobotPtr> us;
+        std::vector<RobotPtr> them;
+        BallPtr ball;
 };
 
 class WorldBuffer {
     private:
         WorldData* worldBuffer;
-        unsigned int size;
+        int size;
         int lastIndex;
     public:
         explicit WorldBuffer(unsigned int size = 20) {
@@ -71,7 +82,7 @@ class WorldBuffer {
         }
 
         void addNewWorld(const WorldData &world) {
-            lastIndex++;
+            lastIndex ++;
             if (lastIndex >= size) lastIndex = 0;
             worldBuffer[lastIndex] = world;
         }

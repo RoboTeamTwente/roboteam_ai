@@ -59,7 +59,7 @@ class ControlUtils {
         static bool robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, double maxDifference = 0.3);
         static bool objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity,
                 const Vector2 &point, double maxDifference = 0.3);
-        static world::Robot getRobotClosestToLine(std::vector<world::Robot> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds);
+        static const world::World::RobotPtr getRobotClosestToLine(std::vector<world::World::RobotPtr> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds);
 };
 
 } // control

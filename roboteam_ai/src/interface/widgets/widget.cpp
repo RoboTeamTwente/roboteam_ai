@@ -203,12 +203,12 @@ void Visualizer::drawRobots(QPainter &painter) {
 
     // draw us
     for (auto &robot : rtt::ai::world::world->getUs()) {
-        drawRobot(painter, robot, true);
+        drawRobot(painter, *robot, true);
     }
 
     // draw them
     for (auto &robot : rtt::ai::world::world->getThem()) {
-        drawRobot(painter, robot, false);
+        drawRobot(painter, *robot, false);
     }
 }
 
@@ -352,8 +352,8 @@ void Visualizer::mousePressEvent(QMouseEvent* event) {
 
     if (event->button() == Qt::LeftButton) {
         for (auto &robot : rtt::ai::world::world->getWorld().us) {
-            if (pos.dist(toScreenPosition(robot.pos)) < 10) {
-                this->toggleSelectedRobot(robot.id);
+            if (pos.dist(toScreenPosition(robot->pos)) < 10) {
+                this->toggleSelectedRobot(robot->id);
             }
         }
     }
@@ -440,10 +440,10 @@ void Visualizer::toggleSelectedRobot(int robotId) {
     }
 
     if (! robotWasAlreadySelected) {
-        for (Robot robot : rtt::ai::world::world->getUs()) {
-            if (robot.id == robotId) {
+        for (auto  &robot : rtt::ai::world::world->getUs()) {
+            if (robot->id == robotId) {
                 robotWasAlreadySelected = false;
-                this->selectedRobots.push_back(robot);
+                this->selectedRobots.push_back(*robot);
             }
         }
     }

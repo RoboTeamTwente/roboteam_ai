@@ -3,14 +3,15 @@
 #include "Leaf.hpp"
 #include "../utilities/RobotDealer.h"
 #include "ros/ros.h"
+#include "../world/WorldData.h"
 
 namespace bt {
 
 Leaf::Leaf(std::string name, Blackboard::Ptr blackboard)
         :name(std::move(name)) {
     setProperties(blackboard);
-    robot = std::make_shared<Robot>(Robot());
-    ball = std::make_shared<Ball>(Ball());
+    robot = std::make_shared<rtt::ai::world::Robot>(rtt::ai::world::Robot());
+    ball = std::make_shared<rtt::ai::world::Ball>(rtt::ai::world::Ball());
 }
 
 std::shared_ptr<rtt::ai::world::Robot> Leaf::getRobotFromProperties(bt::Blackboard::Ptr properties) {

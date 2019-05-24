@@ -10,146 +10,134 @@ World worldObj;
 World* world = &worldObj;
 
 void World::updateWorld(const roboteam_msgs::World &message) {
-    worldNumber++;
+    worldNumber ++;
 
-    Ball oldBall;
+    BallPtr oldBall = nullptr;
     {
         std::lock_guard<std::mutex> lock(worldMutex);
 
         // create a worldData if there is none
-        if (!worldDataPtr) {
+        if (! worldDataPtr) {
             std::cout << "Creating first world" << std::endl;
             auto worldData = WorldData(message);
             worldDataPtr = std::make_shared<WorldData>(worldData);
         }
-
-        oldBall = Ball(worldDataPtr->ball);
+        if (worldDataPtr->ball) oldBall = std::make_shared<Ball>(*worldDataPtr->ball);
     }
 
-   // update ballmodel, dribbling, position if not visible etc.
+    // update ballmodel, dribbling, position if not visible etc.
     auto tempWorldData = WorldData(message);
-    tempWorldData.ball.updateBall(oldBall, tempWorldData);
+    if (oldBall) tempWorldData.ball->updateBall(oldBall, tempWorldData);
 
     {
         std::lock_guard<std::mutex> lock(worldMutex);
-        worldDataPtr->ball = tempWorldData.ball;
         worldDataPtr->time = message.time;
+        updateBallFromData(tempWorldData.ball);
         updateRobotsFromData(Robot::us, message.us, worldDataPtr->us, worldDataPtr->ball, worldNumber);
         updateRobotsFromData(Robot::them, message.them, worldDataPtr->them, worldDataPtr->ball, worldNumber);
 
         // add the worlddata to the history
-        WorldData worldDataCopyForHistory = * worldDataPtr;
+        WorldData worldDataCopyForHistory = WorldData(worldDataPtr);
         history.addWorld(worldDataCopyForHistory);
     }
 
     ballPossessionPtr->update();
 }
 
-void World::updateRobotsFromData(Robot::Team team, const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg, std::vector<Robot> &robots, const Ball &ball, unsigned long worldNumber) const {
+void World::updateRobotsFromData(Robot::Team team, const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg,
+        std::vector<RobotPtr> &robots, const BallPtr &ball, unsigned long newWorldNumber) const {
     for (auto &robotMsg : robotsFromMsg) {
 
         // find robots that are both in the vector and in the message
-        auto robot = find_if(robots.begin(), robots.end(), [&robotMsg](const Robot &robotObj) {
-            return robotObj.id == robotMsg.id;
-        });
-
-        bool robotExistsInWorld = robot != robots.end();
-        if (robotExistsInWorld) {
-            // if the robot already exists it should be updated
-            robot->updateRobot(robotMsg, ball, worldNumber);
+        bool robotFound = false;
+        for (auto &robot : robots) {
+            if (robot->id == robotMsg.id) {
+                robotFound = true;
+                if (robot) {
+                    // if the robot already exists it should be updated
+                    robot->updateRobot(robotMsg, ball, newWorldNumber);
+                }
+                break;
+            }
         }
-        else {
-            // if no robot exists in world we create a new one
-            Robot newRobot(robotMsg, team, worldNumber);
-            newRobot.updateRobot(robotMsg, ball, worldNumber);
+        // if no robot exists in world we create a new one
+        if (!robotFound) {
+            RobotPtr newRobot = std::make_shared<Robot>(Robot(robotMsg, team, worldNumber));
+            newRobot->updateRobot(robotMsg, ball, worldNumber);
 
-            // std::cout << "Robot " << newRobot.id << " added to world" << std::endl;
-            robots.push_back(newRobot);
+            // std::cout << "RobotPtr " << newRobot.id << " added to world" << std::endl;
+            robots.emplace_back(newRobot);
         }
     }
 
     // check if some robots don't have new data. In that case remove them
-    robots.erase(std::remove_if(robots.begin(), robots.end(), [=](Robot robot) {
-      return robot.getLastUpdatedWorldNumber() < worldNumber;
+    robots.erase(std::remove_if(robots.begin(), robots.end(), [=](RobotPtr robot) {
+      return robot->getLastUpdatedWorldNumber() < worldNumber;
     }), robots.end());
 }
 
 bool World::weHaveRobots() {
     std::lock_guard<std::mutex> lock(worldMutex);
-    return worldDataPtr && ! worldDataPtr->us.empty();
-}
-
-void World::setWorldData(WorldDataPtr &setWorldDataPtr) {
-    std::lock_guard<std::mutex> lock(worldMutex);
-
-    World::worldDataPtr.reset();
-    World::worldDataPtr = setWorldDataPtr;
+    return worldDataPtr && ! worldDataPtr->us.empty() && Ball::exists;
 }
 
 const WorldData World::getWorld() {
-    WorldData worldCopy;
-    {
-        std::lock_guard<std::mutex> lock(worldMutex);
-        if (worldDataPtr) {
-            worldCopy = *worldDataPtr;
-        }
-    }
-    return worldCopy;
+    return history.getPreviousWorld(0);
 }
 
 const World::BallPtr World::getBall() {
     std::lock_guard<std::mutex> lock(worldMutex);
 
     if (world::Ball::exists) {
-        return std::make_shared<Ball>(worldDataPtr->ball);
+        return worldDataPtr->ball;
     }
 
     std::cerr << "BALL DOES NOT EXIST!!! (exists == 0 ??? )" << std::endl;
-    return BallPtr(nullptr);
+    return nullptr;
 }
 
 const World::RobotPtr World::getRobotForId(int id, bool ourTeam) {
-    const std::vector<Robot> robots = ourTeam ? getUs() : getThem();
+    const std::vector<RobotPtr> robots = ourTeam ? getUs() : getThem();
     for (const auto &robot : robots) {
-        if (robot.id == id) {
-            return std::make_shared<Robot>(robot);
+        if (robot->id == id) {
+            return robot;
         }
     }
-    return RobotPtr(nullptr);
+    return nullptr;
 }
 
-const std::vector<Robot> World::getAllRobots() {
+const std::vector<World::RobotPtr> World::getAllRobots() {
     std::lock_guard<std::mutex> lock(worldMutex);
     if (! worldDataPtr) {
-        return {};
+        return {nullptr};
     }
-    std::vector<Robot> allRobots;
+    std::vector<RobotPtr> allRobots;
     allRobots.insert(allRobots.end(), worldDataPtr->us.begin(), worldDataPtr->us.end());
     allRobots.insert(allRobots.end(), worldDataPtr->them.begin(), worldDataPtr->them.end());
     return allRobots;
 }
 
-const std::vector<Robot> World::getUs() {
+const std::vector<World::RobotPtr> World::getUs() {
     std::lock_guard<std::mutex> lock(worldMutex);
-    if (! worldDataPtr) return {};
+    if (! worldDataPtr) return {nullptr};
     return worldDataPtr->us;
 }
 
-const std::vector<Robot> World::getThem() {
+const std::vector<World::RobotPtr> World::getThem() {
     std::lock_guard<std::mutex> lock(worldMutex);
-    if (! worldDataPtr) return {};
+    if (! worldDataPtr) return {nullptr};
     return worldDataPtr->them;
 }
 
-Robot World::getRobotClosestToPoint(const Vector2 &point, std::vector<Robot> robots) {
+const World::RobotPtr World::getRobotClosestToPoint(const Vector2 &point, const std::vector<RobotPtr> &robots) {
 
-    if (robots.empty()) return {};
+    if (robots.empty()) return {nullptr};
 
     unsigned int bestIndex = 0;
     double closestDistance = 9e9;
     double distanceToCheck;
     for (unsigned int i = 0; i < robots.size(); i ++) {
-        distanceToCheck = (robots[i].pos - point).length();
+        distanceToCheck = (robots[i]->pos - point).length();
         if (distanceToCheck < closestDistance) {
             closestDistance = distanceToCheck;
             bestIndex = i;
@@ -159,12 +147,12 @@ Robot World::getRobotClosestToPoint(const Vector2 &point, std::vector<Robot> rob
     return robots[bestIndex];
 }
 
-Robot World::getRobotClosestToPoint(const Vector2 &point, WhichRobots whichRobots) {
-    std::vector<Robot> robotsCopy;
+const World::RobotPtr World::getRobotClosestToPoint(const Vector2 &point, WhichRobots whichRobots) {
+    std::vector<RobotPtr> robotsCopy;
     {
         std::lock_guard<std::mutex> lock(worldMutex);
         if (! worldDataPtr) {
-            return {};
+            return {nullptr};
         }
         switch (whichRobots) {
         case OUR_ROBOTS:robotsCopy = worldDataPtr->us;
@@ -181,17 +169,34 @@ Robot World::getRobotClosestToPoint(const Vector2 &point, WhichRobots whichRobot
     return getRobotClosestToPoint(point, robotsCopy);
 }
 
-Robot World::getRobotClosestToBall(WhichRobots whichRobots) {
+const World::RobotPtr World::getRobotClosestToBall(WhichRobots whichRobots) {
     Vector2 ballPos;
     {
         std::lock_guard<std::mutex> lock(worldMutex);
         if (! worldDataPtr) {
-            return {};
+            return {nullptr};
         }
-        ballPos = worldDataPtr->ball.pos;
+        ballPos = worldDataPtr->ball->pos;
     }
 
     return getRobotClosestToPoint(ballPos, whichRobots);
+}
+
+
+const World::RobotPtr World::getRobotClosestToPoint(const Vector2 &point, std::vector<int> robotIds, bool ourTeam) {
+
+    RobotPtr closestBot;
+    double maxDist = 9e9;
+    for (auto const &id : robotIds) {
+        auto robot = getRobotForId(id, ourTeam);
+        if (! robot) continue;
+        auto dist = robot->pos.dist(point);
+        if (dist < maxDist) {
+            maxDist = dist;
+            closestBot = robot;
+        }
+    }
+    return closestBot;
 }
 
 bool World::robotHasBall(int id, bool ourTeam, double maxDist) {
@@ -216,7 +221,7 @@ bool World::theirRobotHasBall(int id, double maxDist) {
 
 const World::RobotPtr World::whichRobotHasBall(WhichRobots whichRobots) {
     // checks for all robots which robot has the ball AND is closest to the ball
-    std::vector<Robot> allRobots;
+    std::vector<RobotPtr> allRobots;
     switch (whichRobots) {
     default: allRobots = getAllRobots();
         break;
@@ -228,22 +233,21 @@ const World::RobotPtr World::whichRobotHasBall(WhichRobots whichRobots) {
         break;
     }
     if (allRobots.empty()) {
-        return RobotPtr(nullptr);
+        return nullptr;
     }
 
     double bestDistance = 9e9;
-    Robot bestRobot = {};
-    for (auto robot : allRobots) {
-        if (robot.hasBall()) {
-            if (robot.getDistanceToBall() < bestDistance) {
+    RobotPtr bestRobot = nullptr;
+    for (auto &robot : allRobots) {
+        if (robot->hasBall()) {
+            if (robot->getDistanceToBall() < bestDistance) {
                 bestRobot = robot;
             }
         }
     }
-    if (bestRobot.id != - 1)
-        return std::make_shared<Robot>(bestRobot);
+    if (bestRobot) return getRobotForId(bestRobot->id, bestRobot->team == Robot::Team::us);
 
-    return RobotPtr(nullptr);
+    return nullptr;
 }
 
 const WorldData World::getFutureWorld(double time) {
@@ -253,7 +257,7 @@ const WorldData World::getFutureWorld(double time) {
         if (! worldDataPtr) {
             return {};
         }
-        worldCopy = *worldDataPtr;
+        worldCopy = WorldData(worldDataPtr);
 
     }
 
@@ -266,18 +270,11 @@ const World::RobotPtr World::getFutureRobot(int id, bool ourTeam, double time) {
     return getFutureRobot(robotPtr, time);
 }
 
-const World::RobotPtr World::getFutureRobot(const RobotPtr &robotPtr, double time) {
-    if (! robotPtr) {
-        return RobotPtr(nullptr);
-    }
-    Robot robot = getFutureRobot(*robotPtr, time);
-    return std::make_shared<Robot>(robot);
-}
-
-const Robot World::getFutureRobot(const Robot &robot, double time) {
-    Robot futureRobot = robot;
+const World::RobotPtr World::getFutureRobot(const RobotPtr &robot, double time) {
+    if (!robot) return nullptr;
+    Robot futureRobot = *robot;
     futureWorld.updateFutureRobot(futureRobot, time);
-    return futureRobot;
+    return std::make_shared<Robot>(futureRobot);
 }
 
 const World::BallPtr World::getFutureBall(double time) {
@@ -285,9 +282,9 @@ const World::BallPtr World::getFutureBall(double time) {
     {
         std::lock_guard<std::mutex> lock(worldMutex);
         if (! worldDataPtr) {
-            return {};
+            return {nullptr};
         }
-        ballCopy = worldDataPtr->ball;
+        ballCopy = (*worldDataPtr->ball);
     }
     futureWorld.updateFutureBall(ballCopy, time);
     return std::make_shared<Ball>(ballCopy);
@@ -301,35 +298,24 @@ double World::getTimeDifference() {
     return worldDataPtr->time - getPreviousWorld().time;
 }
 
-const std::vector<world::Robot> World::getRobotsForIds(std::vector<int> ids, bool ourTeam) {
-    std::vector<world::Robot> robots;
+const std::vector<World::RobotPtr> World::getRobotsForIds(std::vector<int> ids, bool ourTeam) {
+    std::vector<World::RobotPtr> robots;
     for (auto const &id : ids) {
         auto robot = getRobotForId(id, ourTeam);
         if (robot) {
-            robots.push_back(* robot);
+            robots.push_back(robot);
         }
     }
     return robots;
 }
 
-Robot World::getRobotClosestToPoint(const Vector2 &point, std::vector<int> robotIds, bool ourTeam) {
-
-    Robot closestBot;
-    double maxDist = INT_MAX;
-    for (auto const &id : robotIds) {
-        auto robot = getRobotForId(id, ourTeam);
-        if (!robot) continue;
-        auto dist = robot->pos.dist(point);
-        if (dist < maxDist) {
-            maxDist = dist;
-            closestBot = * robot;
-        }
-    }
-    return closestBot;
-}
 double World::getTime() {
     std::lock_guard<std::mutex> lock(worldMutex);
     return worldDataPtr->time;
+}
+
+void World::updateBallFromData(const World::BallPtr &ball) {
+    if (ball) worldDataPtr->ball = ball;
 }
 
 } //world

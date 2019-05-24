@@ -24,7 +24,7 @@ double CoachHeuristics::calculateCloseToGoalScore(const Vector2 &position) {
     return score;
 }
 
-/// Gives a higher score if the line between the position and the goal is free
+/// Gives a higher score if the line between the position and the goal is free.
 double CoachHeuristics::calculateShotAtGoalScore(const Vector2 &position, const WorldData &world) {
     WorldData copy = WorldData({}, world.them, world.ball, world.time);
     double viewAtGoal = world::field->getPercentageOfGoalVisibleFromPoint(false, position, copy)/100;
@@ -43,8 +43,8 @@ double CoachHeuristics::getClosestOpponentAngleToPassLine(const Vector2 &positio
 
     auto ball = world.ball;
     for (const auto &robot : world.them) {
-        if (control::ControlUtils::isPointProjectedOnLineSegment(robot.pos, ball.pos, position)) {
-            double angle = abs((position - ball.pos).toAngle() - (robot.pos - ball.pos).toAngle());
+        if (control::ControlUtils::isPointProjectedOnLineSegment(robot->pos, ball->pos, position)) {
+            double angle = abs((position - ball->pos).toAngle() - (robot->pos - ball->pos).toAngle());
             if (angle < smallestAngle) {
                 smallestAngle = angle;
             }
@@ -55,9 +55,9 @@ double CoachHeuristics::getClosestOpponentAngleToPassLine(const Vector2 &positio
 
 /// Gives a higher score if the position is far away from enemy robots
 double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &position, const WorldData &world) {
-    Robot closestRobot = world::world->getRobotClosestToPoint(position, world::WhichRobots::THEIR_ROBOTS);
-    if (closestRobot.id != - 1) {
-        double distance = (position - closestRobot.pos).length();
+    RobotPtr closestRobot = world::world->getRobotClosestToPoint(position, world::WhichRobots::THEIR_ROBOTS);
+    if (closestRobot->id != - 1) {
+        double distance = (position - closestRobot->pos).length();
         return 1 - exp(DISTANCE_TO_OPPONENTS_WEIGHT*distance);
     }
     else {
@@ -66,7 +66,7 @@ double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &positio
 }
 
 double CoachHeuristics::calculateBehindBallScore(const Vector2 &position, const CoachHeuristics::WorldData &world) {
-    double xDistanceBehindBall = world.ball.pos.x - position.x;
+    double xDistanceBehindBall = world.ball->pos.x - position.x;
     if (xDistanceBehindBall > 0) {
         return 0.0;
     }
@@ -77,8 +77,8 @@ double CoachHeuristics::calculateBehindBallScore(const Vector2 &position, const 
 
 double CoachHeuristics::calculateDistanceToBallScore(const Vector2 &position, const CoachHeuristics::WorldData &world) {
     auto ball = world.ball;
-    double idealDistance = (world::field->get_their_goal_center() - ball.pos).length()*0.75;
-    double distanceFromBall = (position - ball.pos).length();
+    double idealDistance = (world::field->get_their_goal_center() - ball->pos).length()*0.75;
+    double distanceFromBall = (position - ball->pos).length();
     return std::max(0.0, - pow(distanceFromBall/(0.5*idealDistance), 2) + 2*(distanceFromBall/(0.5*idealDistance)));
 }
 

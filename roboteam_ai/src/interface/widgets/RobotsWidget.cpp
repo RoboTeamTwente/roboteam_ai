@@ -29,7 +29,7 @@ RobotsWidget::RobotsWidget(QWidget* parent) : QWidget(parent){
 }
 
 void RobotsWidget::updateContents(Visualizer* visualizer) {
-    auto us = rtt::ai::world::world->getWorld().us;
+    auto us = rtt::ai::world::world->getUs();
 
     // reload the widgets completely if a robot is added or removed
     // or if the amount of selected robots is not accurate
@@ -38,14 +38,14 @@ void RobotsWidget::updateContents(Visualizer* visualizer) {
         amountOfSelectedRobots = visualizer->getSelectedRobots().size();
         MainWindow::clearLayout(VLayout);
 
-        for (auto robot : us) {
-            QGroupBox* groupBox = new QGroupBox("Robot "+QString::number(robot.id));
+        for (auto &robot : us) {
+            QGroupBox* groupBox = new QGroupBox("RobotPtr "+QString::number(robot->id));
             groupBox->setCheckable(true);
-            groupBox->setChecked(visualizer->robotIsSelected(robot));
+            groupBox->setChecked(visualizer->robotIsSelected((*robot)));
             QObject::connect(groupBox, &QGroupBox::clicked, [=]() {
-                visualizer->toggleSelectedRobot(robot.id);
+                visualizer->toggleSelectedRobot(robot->id);
             });
-            groupBox->setLayout(createRobotGroupItem(robot));
+            groupBox->setLayout(createRobotGroupItem(*robot));
             VLayout->addWidget(groupBox);
         }
     }
@@ -56,7 +56,7 @@ void RobotsWidget::updateContents(Visualizer* visualizer) {
                 MainWindow::clearLayout(robotwidget->layout());
                 delete robotwidget->layout();
                 if (!robotwidget->layout()) {
-                    robotwidget->setLayout(createRobotGroupItem(us.at(i)));
+                    robotwidget->setLayout(createRobotGroupItem(*us.at(i)));
                 }
             }
         }
