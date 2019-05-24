@@ -335,6 +335,16 @@ world::Robot ControlUtils::getRobotClosestToLine(std::vector<world::Robot> robot
     return closestRobot;
 }
 
+Vector2 ControlUtils::velocityLimiterLowSpeed(const Vector2 &vel, double robotAngle) {
+    double minVel=0;
+    double minimumCommandVel=0.3;
+    if (vel.length()<minimumCommandVel&&vel.length()>minVel) {
+        return vel.stretchToLength(minimumCommandVel);
+    }
+    return vel;
+}
+
+}
 
 } // control
 } // ai
