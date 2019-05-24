@@ -340,7 +340,7 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     Collision collision;
     double futureTime = point->t;
 
-    // get all robots and extrapolate their position linearly to the time of the PathPoint (future Robot)
+    // get all robots and extrapolate their position linearly to the time of the PathPoint (future RobotPtr)
     auto allRobots = world::world->getAllRobots();
     for (auto &r : allRobots) {
         r = world::world->getFutureRobot(r, futureTime);
@@ -350,10 +350,10 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     collision = getRobotCollision(point->pos, allRobots, collisionRadius);
     if (collision.isCollision) return collision;
 
-    // get the future Ball
+    // get the future BallPtr
     auto ball = world::world->getFutureBall(futureTime);
 
-    // check collision with Ball
+    // check collision with BallPtr
     if (point->isCollision(ball->pos, getAvoidBallDistance())) {
         collision.setCollisionBall(*ball, getAvoidBallDistance());
         return collision;
@@ -382,14 +382,14 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
 }
 
 Collision NumTreePosControl::getRobotCollision(
-        const Vector2 &collisionPos, const std::vector<Robot> &robots, double distance) {
+        const Vector2 &collisionPos, const std::vector<RobotPtr> &robots, double distance) {
 
     // for all robots check if the distance to collisionPos is smaller than the set distance
     Collision collision = {};
     for (auto &r : robots) {
-        if (r.id == this->robot.id && r.team == this->robot.team) continue;
+        if (r->id == this->robot.id && r->team == this->robot.team) continue;
 
-        if ((collisionPos - r.pos).length() < distance) {
+        if ((collisionPos - r->pos).length() < distance) {
             collision.setCollisionRobot(r, distance);
             return collision;
         }

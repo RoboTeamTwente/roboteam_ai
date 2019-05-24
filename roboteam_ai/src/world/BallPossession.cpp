@@ -56,9 +56,9 @@ void BallPossession::updateTicks() {
 /// return true if given team is relatively close to ball
 bool BallPossession::teamCloseToBall(const world::WorldData &world, bool ourTeam) {
     double closeTreshHoldDist = Constants::MAX_BALL_RANGE();
-    std::vector<world::Robot> robots = ourTeam ? world.us : world.them;
-    for (auto robot : robots) {
-        if (robot.hasBall(closeTreshHoldDist)) {
+    auto robots = ourTeam ? world.us : world.them;
+    for (auto &robot : robots) {
+        if (robot->hasBall(closeTreshHoldDist)) {
             return true;
         }
     }
@@ -67,14 +67,17 @@ bool BallPossession::teamCloseToBall(const world::WorldData &world, bool ourTeam
 
 /// return true if given team is relatively far from ball
 bool BallPossession::teamFarFromBall(const world::WorldData &world, bool ourTeam) {
-    double farThreshHoldDist = 0.4;
-    std::vector<world::Robot> robots = ourTeam ? world.us : world.them;
-    for (const auto &robot :robots) {
-        if ((robot.pos - world.ball.pos).length() < farThreshHoldDist) {
-            return false;
+    if (world.ball) {
+        double farThreshHoldDist = 0.4;
+        auto robots = ourTeam ? world.us : world.them;
+        for (auto &robot : robots) {
+            if ((robot->pos - world.ball->pos).length() < farThreshHoldDist) {
+                return false;
+            }
         }
+        return true;
     }
-    return true;
+    return false;
 }
 
 BallPossession::Possession BallPossession::getPossession() {

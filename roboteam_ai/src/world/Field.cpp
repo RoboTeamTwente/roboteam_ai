@@ -92,23 +92,23 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
     std::vector<std::pair<Vector2, Vector2>> blockades = {};
 
     // get all the robots
-    std::vector<Robot> robots=data.us;
+    auto robots=data.us;
     robots.insert(robots.begin(),data.them.begin(),data.them.end());
     // all the obstacles should be robots
     for (auto const &robot : robots) {
-        if (robot.id == id && robot.team == (ourTeam ? Robot::Team::us : Robot::Team::them)) continue;
-        double lenToBot=(point-robot.pos).length();
+        if (robot->id == id && robot->team == (ourTeam ? Robot::Team::us : Robot::Team::them)) continue;
+        double lenToBot=(point-robot->pos).length();
         // discard already all robots that are not at all between the goal and point, or if a robot is standing on this point
         bool isRobotItself = lenToBot<=robotRadius;
-        bool isInPotentialBlockingZone = ourGoal ? robot.pos.x < point.x + robotRadius : robot.pos.x
+        bool isInPotentialBlockingZone = ourGoal ? robot->pos.x < point.x + robotRadius : robot->pos.x
                 > point.x - robotRadius;
         if (! isRobotItself && isInPotentialBlockingZone) {
 
             // get the left and right sides of the robot
             double theta=asin(robotRadius/lenToBot);
             double length=sqrt(lenToBot*lenToBot-robotRadius*robotRadius);
-            Vector2 lowerSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot.pos)-point).angle()-theta);
-            Vector2 upperSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot.pos)-point).angle()+theta);
+            Vector2 lowerSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot->pos)-point).angle()-theta);
+            Vector2 upperSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot->pos)-point).angle()+theta);
             // map points onto goal line
 
             // the forwardIntersection returns a double which is the scale of the vector projection

@@ -17,7 +17,7 @@ using Vector2 = rtt::Vector2;
 
 TEST(ShotControllerTest, it_generates_robotcommands) {
     ShotController shotController;
-    ShotData sd = shotController.getShotData(world::world->getUs().at(0), {1, 0});
+    ShotData sd = shotController.getShotData(*world::world->getUs().at(0), {1, 0});
 
     roboteam_msgs::WorldRobot robot;
     robot.id = 2;
@@ -193,10 +193,10 @@ TEST(ShotControllerTest, getshotdata_test) {
         auto world = testhelpers::WorldHelper::getWorldMsg(1, 0, true, field);
         rtt::ai::world::world->updateWorld(world);
         auto robot = world::world->getUs().at(0);
-        robot.setGenevaState(3);
-        robot.setWorkingGeneva(true);
+        robot->setGenevaState(3);
+        robot->setWorkingGeneva(true);
 
-        shotdata = shotController.getShotData(robot, testhelpers::WorldHelper::getRandomFieldPosition(field),
+        shotdata = shotController.getShotData(*robot, testhelpers::WorldHelper::getRandomFieldPosition(field),
                                               true, BallSpeed::MAX_SPEED, true, ShotPrecision::HIGH);
         EXPECT_FALSE(shotdata.kick);
         EXPECT_FLOAT_EQ(shotdata.genevaState, 3);
@@ -210,10 +210,10 @@ TEST(ShotControllerTest, getshotdata_test) {
         auto world = testhelpers::WorldHelper::getWorldMsg(1, 0, true, field);
         rtt::ai::world::world->updateWorld(world);
         auto robot = world::world->getUs().at(0);
-        robot.setGenevaState(3);
-        robot.setWorkingGeneva(true);
+        robot->setGenevaState(3);
+        robot->setWorkingGeneva(true);
 
-        shotdata = shotController.getShotData(robot, testhelpers::WorldHelper::getRandomFieldPosition(field), false, BallSpeed::MAX_SPEED, true, ShotPrecision::HIGH);
+        shotdata = shotController.getShotData(*robot, testhelpers::WorldHelper::getRandomFieldPosition(field), false, BallSpeed::MAX_SPEED, true, ShotPrecision::HIGH);
         EXPECT_GE(shotdata.genevaState, 0);
         EXPECT_LE(shotdata.genevaState, 5);
     }
@@ -225,10 +225,10 @@ TEST(ShotControllerTest, getshotdata_test) {
         auto world = testhelpers::WorldHelper::getWorldMsg(1, 0, true, field);
         rtt::ai::world::world->updateWorld(world);
         auto robot = world::world->getUs().at(0);
-        robot.setGenevaState(4);
-        robot.setWorkingGeneva(false);
+        robot->setGenevaState(4);
+        robot->setWorkingGeneva(false);
 
-        shotdata = shotController.getShotData(robot, testhelpers::WorldHelper::getRandomFieldPosition(field), false, BallSpeed::MAX_SPEED, true, ShotPrecision::HIGH);
+        shotdata = shotController.getShotData(*robot, testhelpers::WorldHelper::getRandomFieldPosition(field), false, BallSpeed::MAX_SPEED, true, ShotPrecision::HIGH);
         EXPECT_EQ(shotdata.genevaState, 4);
     }
 }

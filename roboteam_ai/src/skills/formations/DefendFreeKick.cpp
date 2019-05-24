@@ -26,7 +26,7 @@ Vector2 DefendFreeKick::getFormationPosition() {
     auto shortestDistances = hungarian.getRobotPositions(robotIds, true, posses);
     return shortestDistances[robot->id];
 }
-shared_ptr<vector<shared_ptr<bt::Leaf::Robot>>> DefendFreeKick::robotsInFormationPtr() {
+shared_ptr<vector<bt::Leaf::RobotPtr>> DefendFreeKick::robotsInFormationPtr() {
     return robotsInFormation;
 }
 

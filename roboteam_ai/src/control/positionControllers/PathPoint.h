@@ -58,9 +58,9 @@ class Collision {
         const world::Robot &getCollisionRobot() const {
             return collisionRobot;
         }
-        void setCollisionRobot(const world::Robot &robot, double distance) {
+        void setCollisionRobot(const world::Robot::RobotPtr &robot, double distance) {
             type = ROBOT;
-            collisionRobot = robot;
+            collisionRobot = *robot;
             isCollision = true;
             collisionRadius = distance;
         }

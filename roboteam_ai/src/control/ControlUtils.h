@@ -60,6 +60,7 @@ class ControlUtils {
         static bool robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, double maxDifference = 0.3);
         static bool objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity,
                 const Vector2 &point, double maxDifference = 0.3);
+        static const world::World::RobotPtr getRobotClosestToLine(std::vector<world::World::RobotPtr> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds);
         static Vector2 getInterceptPointOnLegalPosition(
                 Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin);
         static world::Robot getRobotClosestToLine(std::vector<world::Robot> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds);
