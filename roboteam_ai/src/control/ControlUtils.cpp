@@ -340,17 +340,15 @@ world::Robot ControlUtils::getRobotClosestToLine(std::vector<world::Robot> robot
         Vector2 projectPos = line.project(position);
         Vector2 closestPoint = projectPos;
 
-        if (!canMoveOutOfField && !world::field->pointIsInField(projectPos, outOfFieldMargin)) {
-            projectPos = projectPositionToWithinField(projectPos, outOfFieldMargin);
-        }
+
 
         bool pointInOurDefenseArea = world::field->pointIsInDefenceArea(projectPos, true, defenseAreamargin);
         bool pointInTheirDefenseArea = world::field->pointIsInDefenceArea(projectPos, false, defenseAreamargin);
 
         if (!canMoveInDefenseArea && (pointInOurDefenseArea || pointInTheirDefenseArea)) {
 
-            Polygon defenceAreaUs(world::field->getDefenseArea(true, defenseAreamargin));
-            Polygon defenceAreaThem(world::field->getDefenseArea(false, defenseAreamargin));
+            Polygon defenceAreaUs(world::field->getDefenseArea(true, defenseAreamargin, true));
+            Polygon defenceAreaThem(world::field->getDefenseArea(false, defenseAreamargin, true));
             LineSegment shotLine(line.start, line.end + line.end + (line.end - line.start) * 10000);
 
             std::vector<Vector2> intersects = defenceAreaUs.intersections(shotLine);
@@ -362,8 +360,8 @@ world::Robot ControlUtils::getRobotClosestToLine(std::vector<world::Robot> robot
             }
             double closestDist = DBL_MAX;
             for (const auto &point :intersects) {
-                if (world::field->pointIsInField(point, 0.01)) {
-                    double dist = point.dist2(projectPos);
+                if (world::field->pointIsInField(point, defenseAreamargin)) {
+                    double dist = point.dist(position);
                     if (dist < closestDist) {
                         closestDist = dist;
                         closestPoint = point;
@@ -372,8 +370,8 @@ world::Robot ControlUtils::getRobotClosestToLine(std::vector<world::Robot> robot
             }
         }
 
-        if (!canMoveOutOfField && !world::field->pointIsInField(closestPoint, outOfFieldMargin)) {
-            closestPoint = projectPositionToWithinField(closestPoint, outOfFieldMargin);
+        if (!canMoveOutOfField && !world::field->pointIsInField(closestPoint, defenseAreamargin)) {
+            closestPoint = projectPositionToWithinField(projectPos, defenseAreamargin);
         }
 
         return closestPoint;

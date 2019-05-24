@@ -358,7 +358,11 @@ TEST(ControlUtils, getInterceptPointOnLegalPosition){
     rtt::ai::world::field->set_field(field);
 
     for (int i = 0; i < 500; i++) {
-        auto robotpos = testhelpers::WorldHelper::getRandomFieldPosition(rtt::ai::world::field->get_field());
+
+        auto randomX2 = testhelpers::WorldHelper::getRandomValue(-3.5, 3.5);
+        auto randomY2 = testhelpers::WorldHelper::getRandomValue(-3.5, 3.5);
+        Vector2 robotpos = {randomX2, randomY2};
+      //  auto robotpos = testhelpers::WorldHelper::getRandomFieldPosition(rtt::ai::world::field->get_field());
 
         auto randomX = testhelpers::WorldHelper::getRandomValue(-2, 2);
         auto randomY = testhelpers::WorldHelper::getRandomValue(-2, 2);
@@ -367,7 +371,7 @@ TEST(ControlUtils, getInterceptPointOnLegalPosition){
         auto lineEnd = testhelpers::WorldHelper::getRandomFieldPosition(rtt::ai::world::field->get_field());
         rtt::Line line = {lineStart, lineEnd};
 
-        auto newPoint = cr::ControlUtils::getInterceptPointOnLegalPosition(robotpos, line, false, false, 0, 0);
+        auto newPoint = cr::ControlUtils::getInterceptPointOnLegalPosition(robotpos, line, false, false, 0, 0.1);
 
         auto normalProjectedPos = line.project(robotpos);
         if (!rtt::ai::world::field->pointIsInField(newPoint, 0.0)) {
@@ -375,15 +379,15 @@ TEST(ControlUtils, getInterceptPointOnLegalPosition){
             rtt::ai::world::field->pointIsInField(newPoint, 0.0);
         }
         EXPECT_TRUE(rtt::ai::world::field->pointIsInField(newPoint, 0));
-        EXPECT_FALSE(rtt::ai::world::field->pointIsInDefenceArea(newPoint, true, 0, false));
+        EXPECT_FALSE(rtt::ai::world::field->pointIsInDefenceArea(newPoint, true, -0.01, false));
 
-        if (rtt::ai::world::field->pointIsInDefenceArea(newPoint, true, 0, false)) {
+        if (rtt::ai::world::field->pointIsInDefenceArea(newPoint, true, -0.01, false)) {
             std::cout << newPoint << std::endl;
-            rtt::ai::world::field->pointIsInDefenceArea(newPoint, true, 0, false);
+            rtt::ai::world::field->pointIsInDefenceArea(newPoint, true, -0.01, false);
         }
 
-        EXPECT_FALSE(rtt::ai::world::field->pointIsInDefenceArea(newPoint, false, 0, false));
-        if (rtt::ai::world::field->pointIsInDefenceArea(newPoint, false, 0, false)) {
+        EXPECT_FALSE(rtt::ai::world::field->pointIsInDefenceArea(newPoint, false, -0.01, false));
+        if (rtt::ai::world::field->pointIsInDefenceArea(newPoint, false, -0.01, false)) {
             std::cout << newPoint << std::endl;
         }
         // without the constraints it should return normal projection values
