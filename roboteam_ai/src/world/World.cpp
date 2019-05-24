@@ -299,6 +299,7 @@ const World::BallPtr World::getFutureBall(double time) {
 }
 
 const WorldData World::getPreviousWorld() {
+
     return history.getPreviousWorld();
 }
 
