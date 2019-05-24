@@ -231,7 +231,7 @@ std::vector<QColor> Constants::TACTIC_COLORS() {
             {0, 0, 255, 100}};
 }
 
-pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(4.5, 0.0, 0.3) : pidVals(3.1, 0.0, 0.3); }
+pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(4.5, 0.0, 0.3) : pidVals(3.1, 0.0, 0.6); }
 
 pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(4.0, 0.0, 2.0) : pidVals(2.8, 0.0, 0.0); }
 

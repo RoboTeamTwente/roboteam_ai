@@ -5,6 +5,8 @@
 #include "roboteam_ai/src/control/ControlUtils.h"
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/test/helpers/FieldHelper.h>
+#include <roboteam_ai/test/helpers/WorldHelper.h>
 
 namespace cr=rtt::ai::control;
 using Vector2 = rtt::Vector2;
@@ -346,3 +348,36 @@ TEST(ControlUtils, forward_line_intersection){
     EXPECT_EQ(cr::ControlUtils::twoLineForwardIntersection(A,E,C,D),2.0);
     EXPECT_EQ(cr::ControlUtils::twoLineForwardIntersection(E,A,C,D),-1.0);
 }
+
+TEST(ControlUtils, getInterceptPointOnLegalPosition){
+
+    roboteam_msgs::GeometryFieldSize field;
+    field.field_length = 12;
+    field.field_width = 8;
+    field.goal_width = 1;
+    // set the penalty lines
+    field.left_penalty_line.begin = rtt::Vector2(-4, -2);
+    field.left_penalty_line.end = rtt::Vector2(-4, 2);
+    field.right_penalty_line.begin = rtt::Vector2(4, -2);
+    field.right_penalty_line.end = rtt::Vector2(4, 2);
+
+    rtt::ai::world::field->set_field(field);
+
+    for (int i = 0; i < 500; i++) {
+
+        Vector2 robotpos =  testhelpers::WorldHelper::getRandomFieldPosition(rtt::ai::world::field->get_field());
+
+        auto randomX = testhelpers::WorldHelper::getRandomValue(-2, 2);
+        auto randomY = testhelpers::WorldHelper::getRandomValue(-2, 2);
+        Vector2 lineStart = {randomX, randomY};
+
+        auto lineEnd = testhelpers::WorldHelper::getRandomFieldPosition(rtt::ai::world::field->get_field());
+        rtt::Line line = {lineStart, lineEnd};
+
+        auto newPoint = cr::ControlUtils::getInterceptPointOnLegalPosition(robotpos, line, false, false, 0, 0.1);
+        EXPECT_TRUE(rtt::ai::world::field->pointIsInField(newPoint, 0));
+        EXPECT_FALSE(rtt::ai::world::field->pointIsInDefenceArea(newPoint, true, -0.01, false));
+        EXPECT_FALSE(rtt::ai::world::field->pointIsInDefenceArea(newPoint, false, -0.01, false));
+    }
+}
+
