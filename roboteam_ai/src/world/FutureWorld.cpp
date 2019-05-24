@@ -24,7 +24,9 @@ void FutureWorld::updateFutureWorld(WorldData &worldData, double time) {
 
     // get a predicted future WorldState using linear extrapolation
     worldData.time = time;
-    if (worldData.ball) updateFutureBall(*worldData.ball, time);
+    if(worldData.ball) {
+        updateFutureBall(*worldData.ball, time);
+    }
     for (auto &robot : worldData.us) {
         updateFutureRobot(*robot, time);
     }

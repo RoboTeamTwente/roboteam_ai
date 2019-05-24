@@ -135,7 +135,9 @@ void Output::setKeeperTree(std::string name) {
 
 void Output::setStrategyTree(std::string name) {
     Output::interfaceGameState.strategyName = std::move(name);
-    Output::interfaceGameState.ballPositionAtStartOfGameState = world::world->getBall()->pos;
+    if (world::world->getBall()) {
+        Output::interfaceGameState.ballPositionAtStartOfGameState = world::world->getBall()->pos;
+    }
 }
 
 void Output::setRuleSetName(std::string name) {
