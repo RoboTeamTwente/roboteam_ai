@@ -355,7 +355,6 @@ world::Robot ControlUtils::getRobotClosestToLine(std::vector<world::Robot> robot
 
             intersects.insert(intersects.end(), intersectsThem.begin(), intersectsThem.end());
             if (intersects.empty()) {
-                std::cout << "no intersects" << projectPos << std::endl;
                 return projectPos;
             }
             double closestDist = DBL_MAX;

@@ -375,24 +375,9 @@ TEST(ControlUtils, getInterceptPointOnLegalPosition){
         rtt::Line line = {lineStart, lineEnd};
 
         auto newPoint = cr::ControlUtils::getInterceptPointOnLegalPosition(robotpos, line, false, false, 0, 0.1);
-
-        if (!rtt::ai::world::field->pointIsInField(newPoint, 0.0)) {
-            std::cout << newPoint << std::endl;
-            rtt::ai::world::field->pointIsInField(newPoint, 0.0);
-        }
         EXPECT_TRUE(rtt::ai::world::field->pointIsInField(newPoint, 0));
         EXPECT_FALSE(rtt::ai::world::field->pointIsInDefenceArea(newPoint, true, -0.01, false));
-
-        if (rtt::ai::world::field->pointIsInDefenceArea(newPoint, true, -0.01, false)) {
-            std::cout << newPoint << std::endl;
-            rtt::ai::world::field->pointIsInDefenceArea(newPoint, true, -0.01, false);
-        }
-
         EXPECT_FALSE(rtt::ai::world::field->pointIsInDefenceArea(newPoint, false, -0.01, false));
-        if (rtt::ai::world::field->pointIsInDefenceArea(newPoint, false, -0.01, false)) {
-            std::cout << newPoint << std::endl;
-            rtt::ai::world::field->pointIsInDefenceArea(newPoint, false, -0.01, false);
-        }
     }
 }
 
