@@ -54,8 +54,8 @@ class World {
     public:
 
         // get world
-        const WorldData getWorld();
-        const WorldData getPreviousWorld();
+        const WorldData &getWorld();
+        const WorldData &getPreviousWorld();
 
         // get ball
         const BallPtr &getBall();

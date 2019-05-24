@@ -29,7 +29,7 @@ class Ball {
         int ballStraightTicks;
 
         void updateDribbling(const Ball &oldBall, const WorldData &worldData);
-        Robot* getDribblingRobot(const std::vector<Robot> &robots, double maxDribbleRange);
+        Robot* getDribblingRobot(const std::vector<RobotPtr> &robots, double maxDribbleRange);
         void updateBallModel(const Ball &oldBall, const WorldData &worldData);
         void updateBallPosition(const Ball &oldBall, const WorldData &worldData);
 

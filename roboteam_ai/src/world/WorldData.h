@@ -27,9 +27,11 @@ class WorldData {
     private:
         using RobotPtr = std::shared_ptr<Robot>;
         using BallPtr = std::shared_ptr<Ball>;
+        using WorldDataPtr = std::shared_ptr<WorldData>;
     public:
         WorldData() = default;
-        explicit WorldData(const roboteam_msgs::World &copy) : time(copy.time) {
+        explicit WorldData(const roboteam_msgs::World &copy)
+                :time(copy.time) {
             for (auto &robot : copy.us) {
                 RobotPtr r = std::make_shared<Robot>(Robot(robot, Robot::Team::us, 3));
                 us.emplace_back(r);
@@ -41,16 +43,22 @@ class WorldData {
             }
             ball = std::make_shared<Ball>(Ball(copy.ball));
         }
-        explicit WorldData(const std::vector<Robot> &copyUs, const std::vector<Robot> &copyThem,
-                const Ball &copyBall, double time) : time(time) {
+        explicit WorldData(const std::vector<RobotPtr> &copyUs, const std::vector<RobotPtr> &copyThem,
+                const BallPtr &copyBall, double time)
+                :time(time) {
             for (auto &robot : copyUs) {
-                us.emplace_back(std::make_shared<Robot>(robot));
+                us.emplace_back(std::make_shared<Robot>(*robot));
             }
             for (auto &robot : copyThem) {
-                them.emplace_back(std::make_shared<Robot>(robot));
+                them.emplace_back(std::make_shared<Robot>(*robot));
             }
-            ball = std::make_shared<Ball>(copyBall);
+            ball = std::make_shared<Ball>(*copyBall);
         }
+        explicit WorldData(const WorldDataPtr &worldDataPtr)
+                :WorldData(*worldDataPtr) { }
+        WorldData(const WorldData &worldData)
+                :WorldData(worldData.us, worldData.them, worldData.ball, worldData.time) { }
+
         double time = 0.0;
         std::vector<RobotPtr> us;
         std::vector<RobotPtr> them;
@@ -74,7 +82,7 @@ class WorldBuffer {
         }
 
         void addNewWorld(const WorldData &world) {
-            lastIndex++;
+            lastIndex ++;
             if (lastIndex >= size) lastIndex = 0;
             worldBuffer[lastIndex] = world;
         }

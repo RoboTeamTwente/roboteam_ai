@@ -43,7 +43,7 @@ PenaltyKeeper::PenaltyState PenaltyKeeper::updateState(PenaltyState currentState
     else if (currentState==BALLSHOT) {
         //ballShotTicks++;
         //prints for testing: easy to measure delay/effectiveness of our strategy
-//        std::cout<<"Ball speed: "<<world::world->getBall()->vel<<std::endl;
+//        std::cout<<"BallPtr speed: "<<world::world->getBall()->vel<<std::endl;
 //        std::cout<<"Pos diff(m) :" << (robot->pos-initialPos).length() << " Vel diff : " << (robot->vel-initialVel).length() <<" tick: "<<ballShotTicks<<std::endl;
         if (isBallShot()){
             ballNotShotTicks = 0;
@@ -61,9 +61,9 @@ PenaltyKeeper::PenaltyState PenaltyKeeper::updateState(PenaltyState currentState
 Vector2 PenaltyKeeper::computeDefendPos() {
     auto attacker = world::world->getRobotClosestToBall(world::THEIR_ROBOTS);
     // we check the line defined by attacker's centre and the ball position
-    Vector2 beginPos = attacker.pos;
-    Vector2 endPos = attacker.pos
-            + (world::world->getBall()->pos - attacker.pos).stretchToLength(world::field->get_field().field_length);
+    Vector2 beginPos = attacker->pos;
+    Vector2 endPos = attacker->pos
+            + (world::world->getBall()->pos - attacker->pos).stretchToLength(world::field->get_field().field_length);
     //std::cout<<endPos<<std::endl;
     if (control::ControlUtils::lineSegmentsIntersect(beginPos, endPos, goalLine.first, goalLine.second)) {
         Vector2 intersect = control::ControlUtils::twoLineIntersection(beginPos, endPos, goalLine.first,

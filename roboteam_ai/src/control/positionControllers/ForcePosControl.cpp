@@ -26,17 +26,17 @@ Vector2 ForcePosControl::calculateForces(const RobotPtr &robot, const Vector2 &t
 
     // avoid our own robots
     for (auto bot : world.us) {
-        force += ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, FORCE_WEIGHT_US, forceRadius);
+        force += ControlUtils::calculateForce((Vector2) robot->pos - bot->pos, FORCE_WEIGHT_US, forceRadius);
     }
 
     // avoid their robots
     for (auto bot : world.them) {
-        force += ControlUtils::calculateForce((Vector2) robot->pos - bot.pos, FORCE_WEIGHT_THEM, forceRadius);
+        force += ControlUtils::calculateForce((Vector2) robot->pos - bot->pos, FORCE_WEIGHT_THEM, forceRadius);
     }
 
     // avoid the ball
     if (getAvoidBallDistance() > 0.0) {
-        force += ControlUtils::calculateForce((Vector2) robot->pos - world.ball.pos, FORCE_WEIGHT_BALL, getAvoidBallDistance());
+        force += ControlUtils::calculateForce((Vector2) robot->pos - world.ball->pos, FORCE_WEIGHT_BALL, getAvoidBallDistance());
     }
 
     // avoid the sides of the field if needed

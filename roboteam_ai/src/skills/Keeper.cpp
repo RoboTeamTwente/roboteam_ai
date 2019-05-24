@@ -29,7 +29,7 @@ Keeper::Status Keeper::onUpdate() {
 
     if (ball->pos.x < 0) {
         auto attacker = world::world->getRobotClosestToPoint(ball->pos, world::THEIR_ROBOTS);
-        if ((ball->pos - attacker.pos).length() < 0.3) {
+        if ((ball->pos - attacker->pos).length() < 0.3) {
             setGoalPosWithAttacker(attacker);
         }
     }
@@ -108,19 +108,19 @@ Vector2 Keeper::computeBlockPoint(const Vector2& defendPos) {
     return blockPos;
 }
 
-void Keeper::setGoalPosWithAttacker(world::Robot attacker) {
+void Keeper::setGoalPosWithAttacker(RobotPtr attacker) {
     Vector2 start;
     Vector2 end;
-    double distanceToGoal = ((Vector2)attacker.pos - world::field->get_our_goal_center()).length();
+    double distanceToGoal = ((Vector2)attacker->pos - world::field->get_our_goal_center()).length();
 
-    start = attacker.pos;
+    start = attacker->pos;
 
     auto goal = world::field->getGoalSides(false);
-    Vector2 attackerToBallV2 = ball->pos - attacker.pos;
-    Vector2 attackerAngleV2 = attacker.angle.toVector2();
-    Vector2 i1 = control::ControlUtils::twoLineIntersection(attackerToBallV2 + attacker.pos, attacker.pos, goal.first, goal.second);
-    Vector2 i2 = control::ControlUtils::twoLineIntersection(attackerAngleV2 + attacker.pos, attacker.pos, goal.first, goal.second);
-    Angle targetAngle = Vector2(attacker.pos - (i1 + i2)*0.5).toAngle();
+    Vector2 attackerToBallV2 = ball->pos - attacker->pos;
+    Vector2 attackerAngleV2 = attacker->angle.toVector2();
+    Vector2 i1 = control::ControlUtils::twoLineIntersection(attackerToBallV2 + attacker->pos, attacker->pos, goal.first, goal.second);
+    Vector2 i2 = control::ControlUtils::twoLineIntersection(attackerAngleV2 + attacker->pos, attacker->pos, goal.first, goal.second);
+    Angle targetAngle = Vector2(attacker->pos - (i1 + i2)*0.5).toAngle();
     end = start + (Vector2){distanceToGoal * 1.2, 0}.rotate(targetAngle);
 
     auto field = world::field->get_field();

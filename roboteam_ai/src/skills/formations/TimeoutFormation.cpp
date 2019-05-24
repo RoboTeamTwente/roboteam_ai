@@ -37,7 +37,7 @@ Vector2 TimeoutFormation::getFormationPosition() {
     return shortestDistances.at(robot->id);
 }
 
-shared_ptr<vector<shared_ptr<bt::Leaf::Robot>>> TimeoutFormation::robotsInFormationPtr() {
+shared_ptr<vector<world::World::RobotPtr>> TimeoutFormation::robotsInFormationPtr() {
     return robotsInFormation;
 }
 

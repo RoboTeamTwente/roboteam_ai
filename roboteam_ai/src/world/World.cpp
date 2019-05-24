@@ -66,7 +66,7 @@ void World::updateRobotsFromData(Robot::Team team, const std::vector<roboteam_ms
             RobotPtr newRobot = std::make_shared<Robot>(Robot(robotMsg, team, worldNumber));
             newRobot->updateRobot(robotMsg, ball, worldNumber);
 
-            // std::cout << "Robot " << newRobot.id << " added to world" << std::endl;
+            // std::cout << "RobotPtr " << newRobot.id << " added to world" << std::endl;
             robots.emplace_back(newRobot);
         }
     }
@@ -82,15 +82,8 @@ bool World::weHaveRobots() {
     return worldDataPtr && ! worldDataPtr->us.empty();
 }
 
-const WorldData World::getWorld() {
-    WorldData worldCopy;
-    {
-        std::lock_guard<std::mutex> lock(worldMutex);
-        if (worldDataPtr) {
-            worldCopy = *worldDataPtr;
-        }
-    }
-    return worldCopy;
+const WorldData &World::getWorld() {
+    return history.getPreviousWorld(0);
 }
 
 const World::BallPtr &World::getBall() {
@@ -253,7 +246,7 @@ const World::RobotPtr &World::whichRobotHasBall(WhichRobots whichRobots) {
             }
         }
     }
-    if (bestRobot->id != - 1) return getRobotForId(bestRobot->id, bestRobot->team == Robot::Team::us);
+    if (bestRobot) return getRobotForId(bestRobot->id, bestRobot->team == Robot::Team::us);
 
     return NULLROBOT;
 }
@@ -265,7 +258,7 @@ const WorldData World::getFutureWorld(double time) {
         if (! worldDataPtr) {
             return {};
         }
-        worldCopy = *worldDataPtr;
+        worldCopy = WorldData(worldDataPtr);
 
     }
 
@@ -297,7 +290,7 @@ const World::BallPtr World::getFutureBall(double time) {
     return std::make_shared<Ball>(ballCopy);
 }
 
-const WorldData World::getPreviousWorld() {
+const WorldData &World::getPreviousWorld() {
     return history.getPreviousWorld();
 }
 

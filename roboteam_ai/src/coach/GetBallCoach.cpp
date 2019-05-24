@@ -32,11 +32,11 @@ int GetBallCoach::bestBallGetterID() {
     double closestDist = DBL_MAX;
     Vector2 ballPos = world::world->getBall()->pos;
     for (const auto &robot : world::world->getUs()) {
-        if (robot.id != robotDealer::RobotDealer::getKeeperID()){
-            double distToBall = (robot.pos - ballPos).length();
+        if (robot->id != robotDealer::RobotDealer::getKeeperID()){
+            double distToBall = (robot->pos - ballPos).length();
             if (distToBall < closestDist) {
                 closestDist = distToBall;
-                closestId = robot.id;
+                closestId = robot->id;
             }
         }
     }

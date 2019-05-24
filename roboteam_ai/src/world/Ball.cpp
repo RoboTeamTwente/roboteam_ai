@@ -19,7 +19,7 @@ Ball::Ball(const roboteam_msgs::WorldBall &copy)
         : pos(copy.pos), vel(copy.vel),
         visible(copy.visible) {
     exists = exists || copy.existence || Vector2(copy.pos).isNotNaN();
-    if (!exists) std::cout << "Ball message has existence = 0!!" << std::endl;
+    if (!exists) std::cout << "BallPtr message has existence = 0!!" << std::endl;
 }
 
 void Ball::updateBall(const Ball &oldBall, const WorldData &worldData) {
@@ -111,7 +111,7 @@ void Ball::updateDribbling(const Ball &oldBall, const WorldData &worldData) {
     double maxDribbleRange = 0.05;
     double maxSpeedDiff = 0.51;
 
-    std::vector<Robot> allRobots;
+    std::vector<RobotPtr> allRobots;
     allRobots.insert(allRobots.end(), worldData.us.begin(), worldData.us.end());
     allRobots.insert(allRobots.end(), worldData.them.begin(), worldData.them.end());
 
@@ -125,15 +125,15 @@ void Ball::updateDribbling(const Ball &oldBall, const WorldData &worldData) {
     // the ball is being dribbled if the speed of the ball is not too different from the speed of the dribbling robot
 }
 
-Robot* Ball::getDribblingRobot(const std::vector<Robot> &robots, double maxDribbleRange) {
+Robot* Ball::getDribblingRobot(const std::vector<RobotPtr> &robots, double maxDribbleRange) {
     double closestDribbleRange = maxDribbleRange;
 
     Robot* dribblingRobot = nullptr;
-    for (auto robot : robots) {
-        if (robot.hasBall(Constants::MAX_BALL_BOUNCE_RANGE())) {
-            if (robot.getDistanceToBall() < closestDribbleRange) {
-                closestDribbleRange = robot.getDistanceToBall();
-                dribblingRobot = &robot;
+    for (auto &robot : robots) {
+        if (robot->hasBall(Constants::MAX_BALL_BOUNCE_RANGE())) {
+            if (robot->getDistanceToBall() < closestDribbleRange) {
+                closestDribbleRange = robot->getDistanceToBall();
+                dribblingRobot = robot.get();
             }
         }
     }
@@ -148,17 +148,17 @@ void Ball::updateBallPosition(const Ball &oldBall, const WorldData &worldData) {
     RobotPtr robotWithBall = world->whichRobotHasBall();
     if (robotWithBall) {
         std::pair<int, Robot::Team> newRobotIdTeam = {robotWithBall->id, robotWithBall->team};
-        Robot newRobotWithBall;
+        RobotPtr newRobotWithBall;
         bool newRobotStillExistsInWorld = false;
         for (auto &robot : worldData.us) {
-            if (robot.id == newRobotIdTeam.first && robot.team == newRobotIdTeam.second) {
+            if (robot->id == newRobotIdTeam.first && robot->team == newRobotIdTeam.second) {
                 newRobotWithBall = robot;
                 newRobotStillExistsInWorld = true;
             }
         }
         if (newRobotStillExistsInWorld) {
             double distanceInFrontOfRobot = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
-            pos = newRobotWithBall.pos + newRobotWithBall.angle.toVector2(distanceInFrontOfRobot);
+            pos = newRobotWithBall->pos + newRobotWithBall->angle.toVector2(distanceInFrontOfRobot);
         }
     }
 }

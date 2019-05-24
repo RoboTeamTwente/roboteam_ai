@@ -27,6 +27,7 @@ class Robot {
     FRIEND_TEST(ShotControllerTest, getshotdata_test);
     public:
         using BallPtr = std::shared_ptr<Ball>;
+        using RobotPtr = std::shared_ptr<Robot>;
 
         // ball possession
     private:
