@@ -24,6 +24,7 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
         workingDribbler = Constants::ROBOT_HAS_WORKING_DRIBBLER(id);
     }
     else {
+        std::cout << "Warning: creating robot with id = " << id << "!" << std::endl;
         workingGeneva = false;
         workingDribbler = false;
     }

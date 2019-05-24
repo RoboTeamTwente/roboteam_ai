@@ -54,7 +54,7 @@ TEST(DefaultTacticTest, default_general_tactic_works) {
 
     // with a visible keeper we should subtract one robot to tick
     // the first robot in our world is always visible so we always make that one the keeper
-    rd::RobotDealer::setKeeperID(rtt::ai::world::world->getUs().at(0).id);
+    rd::RobotDealer::setKeeperID(rtt::ai::world::world->getUs().at(0)->id);
     tactic.updateStyle();
     EXPECT_EQ(tactic.amountToTick, static_cast<int>(rtt::ai::world::world->getUs().size() - 1));
 

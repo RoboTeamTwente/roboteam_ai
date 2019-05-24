@@ -22,9 +22,9 @@ Ball::Ball(const roboteam_msgs::WorldBall &copy)
     if (!exists) std::cout << "BallPtr message has existence = 0!!" << std::endl;
 }
 
-void Ball::updateBall(const Ball &oldBall, const WorldData &worldData) {
-    updateBallModel(oldBall, worldData);
-    updateBallPosition(oldBall, worldData);
+void Ball::updateBall(const BallPtr &oldBall, const WorldData &worldData) {
+    updateBallModel(*oldBall, worldData);
+    updateBallPosition(*oldBall, worldData);
 }
 
 void Ball::updateBallModel(const Ball &oldBall, const WorldData &worldData) {
