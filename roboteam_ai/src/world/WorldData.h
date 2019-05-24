@@ -52,7 +52,7 @@ class WorldData {
             for (auto &robot : copyThem) {
                 them.emplace_back(std::make_shared<Robot>(*robot));
             }
-            if (ball) ball = std::make_shared<Ball>(*copyBall);
+            if (copyBall) ball = std::make_shared<Ball>(*copyBall);
         }
         explicit WorldData(const WorldDataPtr &worldDataPtr)
                 :WorldData(*worldDataPtr) { }

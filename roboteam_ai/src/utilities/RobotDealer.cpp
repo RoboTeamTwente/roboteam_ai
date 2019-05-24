@@ -96,13 +96,13 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
                 return - 1;
 
             case CLOSE_TO_BALL: {
-                auto ball = world::world->getWorld().ball;
+                auto ball = world::world->getBall();
                 id = world::world->getRobotClosestToPoint(ball->pos, idVector, true)->id;
                 break;
             }
 
             case BETWEEN_BALL_AND_OUR_GOAL: {
-                auto ball = world::world->getWorld().ball;
+                auto ball = world::world->getBall();
                 rtt::Vector2 ourGoal = world::field->get_our_goal_center();
                 id = control::ControlUtils::getRobotClosestToLine(world::world->getRobotsForIds(idVector, true), ball->pos, ourGoal, true)->id;
                 break;
