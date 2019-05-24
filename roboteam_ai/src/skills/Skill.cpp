@@ -10,8 +10,8 @@ Skill::Skill(std::string name, bt::Blackboard::Ptr blackboard)
         :bt::Leaf(std::move(name), std::move(blackboard)) {
     robot = std::make_shared<Robot>(Robot());
     ball = std::make_shared<Ball>(Ball());
-
 }
+
 void Skill::publishRobotCommand() {
     ros::NodeHandle nh;
     std::string ourSideParam;

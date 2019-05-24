@@ -12,7 +12,7 @@ World* world = &worldObj;
 void World::updateWorld(const roboteam_msgs::World &message) {
     worldNumber ++;
 
-    Ball oldBall;
+    BallPtr oldBall = nullptr;
     {
         std::lock_guard<std::mutex> lock(worldMutex);
 
@@ -22,13 +22,12 @@ void World::updateWorld(const roboteam_msgs::World &message) {
             auto worldData = WorldData(message);
             worldDataPtr = std::make_shared<WorldData>(worldData);
         }
-
-        oldBall = *worldDataPtr->ball;
+        if (worldDataPtr->ball) oldBall = std::make_shared<Ball>(*worldDataPtr->ball);
     }
 
     // update ballmodel, dribbling, position if not visible etc.
     auto tempWorldData = WorldData(message);
-    tempWorldData.ball->updateBall(oldBall, tempWorldData);
+    if (oldBall) tempWorldData.ball->updateBall(oldBall, tempWorldData);
 
     {
         std::lock_guard<std::mutex> lock(worldMutex);
@@ -38,7 +37,7 @@ void World::updateWorld(const roboteam_msgs::World &message) {
         updateRobotsFromData(Robot::them, message.them, worldDataPtr->them, worldDataPtr->ball, worldNumber);
 
         // add the worlddata to the history
-        WorldData worldDataCopyForHistory = *worldDataPtr;
+        WorldData worldDataCopyForHistory = WorldData(worldDataPtr);
         history.addWorld(worldDataCopyForHistory);
     }
 

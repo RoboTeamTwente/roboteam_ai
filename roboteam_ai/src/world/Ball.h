@@ -36,7 +36,7 @@ class Ball {
     public:
         Ball();
         explicit Ball(const roboteam_msgs::WorldBall &copy);
-        void updateBall(const Ball &oldBall, const WorldData &worldData);
+        void updateBall(const BallPtr &oldBall, const WorldData &worldData);
 
         Vector2 pos = Vector2();
         Vector2 vel = Vector2();
