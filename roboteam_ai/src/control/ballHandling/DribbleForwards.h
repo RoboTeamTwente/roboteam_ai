@@ -14,6 +14,9 @@ namespace rtt {
 namespace ai {
 namespace control {
 
+class DribbleBackwards;
+class RotateAroundBall;
+class RotateAroundRobot;
 class DribbleForwards {
     public:
         enum ForwardsProgress : short {
@@ -27,12 +30,30 @@ class DribbleForwards {
         ForwardsProgress getForwardsProgression();
 
     private:
+        RotateAroundBall* rotateAroundBall;
+        RotateAroundRobot* rotateAroundRobot;
+
+        using RobotPtr = world::Robot::RobotPtr;
+        using BallPtr = world::Ball::BallPtr;
+        RobotPtr robot;
+        BallPtr ball;
+
         ForwardsProgress forwardsProgress = F_start;
         void printForwardsProgress();
 
         // variables for forwards progress
         std::pair<Vector2, Vector2> F_forwardsDribbleLine;
         Angle lockedAngle;
+        Angle targetAngle;
+        Angle finalTargetAngle;
+        Vector2 targetPos;
+        Vector2 finalTargetPos;
+
+        int waitingTicks;
+        const double errorMargin;
+        const double angleErrorMargin;
+        const double ballPlacementAccuracy;
+        const double maxVel;
 
         // functions for forwards progress
         void updateForwardsProgress();
@@ -41,12 +62,16 @@ class DribbleForwards {
         RobotCommand F_sendTurnCommand();
         RobotCommand F_sendApproachCommand();
         RobotCommand F_sendDribbleForwardsCommand();
+        RobotCommand F_sendSuccessCommand();
 
     public:
         RobotCommand getRobotCommand(const world::Robot::RobotPtr &r,
                 const Vector2 &targetP, const Angle &targetA);
         void reset();
-        DribbleForwards() = default;
+
+        explicit DribbleForwards(double errorMargin = 0.02, double angularErrorMargin = 0.02,
+                double ballPlacementAccuracy = 0.04, double maxVel = 0.7);
+
 };
 
 }

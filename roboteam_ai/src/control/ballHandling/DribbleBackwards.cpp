@@ -2,14 +2,24 @@
 // Created by thijs on 25-5-19.
 //
 
-#include "DribbleBackwards.h"
 #include <roboteam_ai/src/control/ControlUtils.h>
+
+#include "DribbleBackwards.h"
+#include "DribbleForwards.h"
+#include "RotateAroundBall.h"
+#include "RotateAroundRobot.h"
 
 namespace rtt {
 namespace ai {
 namespace control {
 
-RobotCommand DribbleBackwards::getRobotCommand(const Robot::RobotPtr &r, const Vector2 &targetP, const Angle &targetA) {
+RobotCommand DribbleBackwards::getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) {
+    robot = r;
+    ball = world::world->getBall();
+    finalTargetAngle = targetA;
+    targetAngle = targetA;
+    finalTargetPos = targetP;
+    targetPos = targetP;
     updateBackwardsProgress();
     return sendBackwardsCommand();
 }
@@ -30,9 +40,9 @@ void DribbleBackwards::updateBackwardsProgress() {
             backwardsProgress != B_dribbling &&
             backwardsProgress != B_dribbleBackwards) {
 
-        B_approachPosition = ball->pos + ballToRobot.stretchToLength(0.05);
+        B_approachPosition = ball->pos + (robot->pos - ball->pos).stretchToLength(0.05);
     }
-    if (robotToBall.length2() > 0.5) {
+    if ((ball->pos - robot->pos).length2() > 0.5) {
         backwardsProgress = B_start;
         return;
     }
@@ -94,7 +104,7 @@ void DribbleBackwards::updateBackwardsProgress() {
         Angle offsetAngle = finalTargetToRobot.toAngle() - robot->angle;
         double maxOffsetAngle = M_PI*0.05;
         if (fabs(offsetAngle) > maxOffsetAngle) {
-            if (finalTargetToRobot.length2() > robotRadius*1.2) {
+            if (finalTargetToRobot.length2() > Constants::ROBOT_RADIUS()*1.2) {
                 backwardsProgress = B_start;
                 return;
             }
@@ -147,13 +157,13 @@ RobotCommand DribbleBackwards::B_sendTurnCommand() {
         lockedAngle = targetAngle;
     }
     targetPos = finalTargetPos;
-    return rotateWithBall(rotateAroundBall);
+    return rotateAroundBall->getRobotCommand(robot, targetPos, targetAngle);
 }
 
 RobotCommand DribbleBackwards::B_sendApproachCommand() {
     RobotCommand command;
     command.dribbler = 1;
-    command.vel = robotToBall.stretchToLength(maxBackwardsVelocity);
+    command.vel = (ball->pos - robot->pos).stretchToLength(maxVel);
     command.angle = lockedAngle;
     return command;
 }
@@ -161,7 +171,7 @@ RobotCommand DribbleBackwards::B_sendApproachCommand() {
 RobotCommand DribbleBackwards::B_sendOvershootCommand() {
     RobotCommand command;
     command.dribbler = 8;
-    command.vel = (B_approachPosition - robot->pos).stretchToLength(maxBackwardsVelocity);
+    command.vel = (B_approachPosition - robot->pos).stretchToLength(maxVel);
     command.angle = lockedAngle;
     return command;
 }
@@ -177,7 +187,7 @@ RobotCommand DribbleBackwards::B_sendDribbleBackwardsCommand() {
     RobotCommand command;
     command.dribbler = 24;
     command.angle = lockedAngle;
-    command.vel = lockedAngle.toVector2(- maxBackwardsVelocity);
+    command.vel = lockedAngle.toVector2(- maxVel);
 
     // check if the robot is still on the virtual line from ball->pos to the target
     if (control::ControlUtils::distanceToLine(robot->pos,
@@ -187,7 +197,7 @@ RobotCommand DribbleBackwards::B_sendDribbleBackwardsCommand() {
 
     // check if the ball is not too far right or too far left of the robot, and try to compensate for that
     if (ball->visible) {
-        Angle ballAngleRelativeToRobot = robotToBall.toAngle() - robot->angle;
+        Angle ballAngleRelativeToRobot = (ball->pos - robot->pos).toAngle() - robot->angle;
         command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot);
     }
 
@@ -225,8 +235,15 @@ void DribbleBackwards::printBackwardsProgress() {
     std::cout << ss.str() << std::endl;
 }
 
-BackwardsProgress DribbleBackwards::getBackwardsProgression() {
+DribbleBackwards::BackwardsProgress DribbleBackwards::getBackwardsProgression() {
     return backwardsProgress;
+}
+
+DribbleBackwards::DribbleBackwards(double errorMargin, double angularErrorMargin, double ballPlacementAccuracy, double maxVel)
+        :waitingTicks(0), errorMargin(errorMargin), angleErrorMargin(angularErrorMargin),
+         ballPlacementAccuracy(ballPlacementAccuracy), maxVel(maxVel) {
+    rotateAroundBall = new RotateAroundBall();
+    rotateAroundRobot = new RotateAroundRobot();
 }
 
 }

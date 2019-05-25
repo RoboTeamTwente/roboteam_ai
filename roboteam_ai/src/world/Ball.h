@@ -17,10 +17,11 @@ class WorldData;
 class Robot;
 
 class Ball {
-    private:
+    public:
         using BallPtr = std::shared_ptr<Ball>;
         using RobotPtr = std::shared_ptr<Robot>;
 
+    private:
         bool ballInAir;
         bool collidesNow;
         bool kickedNow;

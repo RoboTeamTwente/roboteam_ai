@@ -14,6 +14,9 @@ namespace rtt {
 namespace ai {
 namespace control {
 
+class DribbleForwards;
+class RotateAroundBall;
+class RotateAroundRobot;
 class DribbleBackwards {
     public:
         enum BackwardsProgress : short {
@@ -29,6 +32,14 @@ class DribbleBackwards {
         BackwardsProgress getBackwardsProgression();
 
     private:
+        RotateAroundBall* rotateAroundBall;
+        RotateAroundRobot* rotateAroundRobot;
+
+        using RobotPtr = world::Robot::RobotPtr;
+        using BallPtr = world::Ball::BallPtr;
+        RobotPtr robot;
+        BallPtr ball;
+
         BackwardsProgress backwardsProgress = B_start;
         void printBackwardsProgress();
 
@@ -36,6 +47,17 @@ class DribbleBackwards {
         Vector2 B_approachPosition;
         std::pair<Vector2, Vector2> B_backwardsDribbleLine;
         Angle lockedAngle;
+        Angle targetAngle;
+        Angle finalTargetAngle;
+        Vector2 targetPos;
+        Vector2 finalTargetPos;
+
+        // error margins and accuracy
+        int waitingTicks;
+        const double errorMargin;
+        const double angleErrorMargin;
+        const double ballPlacementAccuracy;
+        const double maxVel;
 
         // functions for backwards progress
         void updateBackwardsProgress();
@@ -52,7 +74,10 @@ class DribbleBackwards {
         RobotCommand getRobotCommand(const world::Robot::RobotPtr &r,
                 const Vector2 &targetP, const Angle &targetA);
         void reset();
-        DribbleBackwards() = default;
+
+        explicit DribbleBackwards(double errorMargin = 0.02, double angularErrorMargin = 0.02,
+                double ballPlacementAccuracy = 0.04, double maxVel = 0.4);
+
 };
 
 }

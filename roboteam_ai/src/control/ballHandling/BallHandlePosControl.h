@@ -11,11 +11,6 @@
 #include "roboteam_ai/src/control/positionControllers/PosController.h"
 #include "roboteam_ai/src/control/positionControllers/RobotCommand.h"
 
-#include "DribbleBackwards.h"
-#include "DribbleForwards.h"
-#include "RotateAroundBall.h"
-#include "RotateAroundRobot.h"
-
 namespace rtt {
 namespace ai {
 namespace control {
@@ -23,6 +18,8 @@ namespace control {
 class NumTreePosControl;
 class DribbleBackwards;
 class DribbleForwards;
+class RotateAroundBall;
+class RotateAroundRobot;
 class BallHandlePosControl {
     private:
         using BallPtr = std::shared_ptr<world::Ball>;
@@ -30,18 +27,17 @@ class BallHandlePosControl {
 
         DribbleForwards* dribbleForwards;
         DribbleBackwards* dribbleBackwards;
-
-        const double robotRadius = Constants::ROBOT_RADIUS();
-        const double ballRadius = Constants::BALL_RADIUS();
+        RotateAroundRobot* rotateAroundRobot;
+        RotateAroundBall* rotateAroundBall;
 
         double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.0;
         double maxBackwardsVelocity = Constants::GRSIM() ? 0.3 : 0.8;
         const double errorMargin = 0.02;
         const double angleErrorMargin = 0.02;
-        const double maxBallDistance = robotRadius*2.0;
-        const double targetBallDistance = robotRadius + ballRadius;
-        const double maxAngularVelocity = 0.2;
+        const double maxBallDistance = Constants::ROBOT_RADIUS()*2.0;
+        const double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
         const double minVelForMovingball = 0.58;
+        double ballPlacementAccuracy = 0.04;
         bool canMoveInDefenseArea = false;
 
         RobotPtr robot;
@@ -52,27 +48,17 @@ class BallHandlePosControl {
         Vector2 finalTargetPos;
         Angle targetAngle;
         Angle finalTargetAngle;
-        double ballPlacementAccuracy = 0.04;
 
         NumTreePosControl numTreePosController = NumTreePosControl();
-        enum RotateStrategy : short {
-          rotateAroundBall,
-          rotateAroundRobot
-        };
-        void printRotateStrategy(RotateStrategy strategy);
 
         enum TravelStrategy : short {
           forwards,
           backwards,
           no_preference
         };
-        void printTravelStrategy(TravelStrategy strategy);
 
         // general functions
         RobotCommand goToBall(bool ballIsFarFromTarget, TravelStrategy preferredTravelStrategy = no_preference);
-        RobotCommand rotateWithBall(RotateStrategy rotateStrategy);
-        RobotCommand travelWithBall(TravelStrategy travelStrategy);
-        void updateVariables(const RobotPtr &robot, const Vector2 &targetP, const Angle &targetA);
 
         int waitingTicks = 0;
         Angle lockedAngle;

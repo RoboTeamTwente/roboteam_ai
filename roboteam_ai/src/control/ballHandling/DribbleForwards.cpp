@@ -2,8 +2,12 @@
 // Created by thijs on 25-5-19.
 //
 
-#include "DribbleForwards.h"
 #include <roboteam_ai/src/control/ControlUtils.h>
+
+#include "DribbleBackwards.h"
+#include "DribbleForwards.h"
+#include "RotateAroundBall.h"
+#include "RotateAroundRobot.h"
 
 namespace rtt {
 namespace ai {
@@ -12,7 +16,12 @@ namespace control {
 
 RobotCommand DribbleForwards::getRobotCommand(const world::Robot::RobotPtr &r, const Vector2 &targetP,
         const Angle &targetA) {
-
+    robot = r;
+    ball = world::world->getBall();
+    finalTargetAngle = targetA;
+    targetAngle = targetA;
+    finalTargetPos = targetP;
+    targetPos = targetP;
     updateForwardsProgress();
     return sendForwardsCommand();
 }
@@ -114,13 +123,13 @@ RobotCommand DribbleForwards::F_sendTurnCommand() {
         lockedAngle = targetAngle;
     }
     targetPos = finalTargetPos;
-    return rotateWithBall(rotateAroundBall);
+    return rotateAroundBall->getRobotCommand(robot, targetPos, targetAngle);
 }
 
 RobotCommand DribbleForwards::F_sendApproachCommand() {
     RobotCommand command;
     command.dribbler = 0;
-    command.vel = ballToRobot.stretchToLength(maxForwardsVelocity);
+    command.vel = (robot->pos - ball->pos).stretchToLength(maxVel);
     command.angle = lockedAngle;
     return command;
 }
@@ -129,7 +138,7 @@ RobotCommand DribbleForwards::F_sendDribbleForwardsCommand() {
     RobotCommand command;
     command.dribbler = 8;
     command.angle = lockedAngle;
-    command.vel = lockedAngle.toVector2(maxForwardsVelocity);
+    command.vel = lockedAngle.toVector2(maxVel);
 
     // check if the robot is still on the virtual line from ball->pos to the target
     if (control::ControlUtils::distanceToLine(robot->pos,
@@ -139,7 +148,7 @@ RobotCommand DribbleForwards::F_sendDribbleForwardsCommand() {
 
     // check if the ball is not too far right or too far left of the robot, and try to compensate for that
     if (ball->visible) {
-        Angle ballAngleRelativeToRobot = robotToBall.toAngle() - robot->angle;
+        Angle ballAngleRelativeToRobot = (ball->pos - robot->pos).toAngle() - robot->angle;
         command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot);
     }
 
@@ -181,6 +190,14 @@ void DribbleForwards::printForwardsProgress() {
 
 DribbleForwards::ForwardsProgress DribbleForwards::getForwardsProgression() {
     return forwardsProgress;
+}
+
+
+DribbleForwards::DribbleForwards(double errorMargin, double angularErrorMargin, double ballPlacementAccuracy, double maxVel)
+        :waitingTicks(0), errorMargin(errorMargin), angleErrorMargin(angularErrorMargin),
+         ballPlacementAccuracy(ballPlacementAccuracy), maxVel(maxVel) {
+    rotateAroundBall = new RotateAroundBall();
+    rotateAroundRobot = new RotateAroundRobot();
 }
 
 }
