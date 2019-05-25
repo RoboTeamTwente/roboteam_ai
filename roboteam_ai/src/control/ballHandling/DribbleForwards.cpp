@@ -4,7 +4,6 @@
 
 #include <roboteam_ai/src/control/ControlUtils.h>
 
-#include "DribbleBackwards.h"
 #include "DribbleForwards.h"
 #include "RotateAroundBall.h"
 #include "RotateAroundRobot.h"
@@ -198,6 +197,11 @@ DribbleForwards::DribbleForwards(double errorMargin, double angularErrorMargin, 
          ballPlacementAccuracy(ballPlacementAccuracy), maxVel(maxVel) {
     rotateAroundBall = new RotateAroundBall();
     rotateAroundRobot = new RotateAroundRobot();
+}
+
+DribbleForwards::~DribbleForwards() {
+    delete rotateAroundBall;
+    delete rotateAroundRobot;
 }
 
 }

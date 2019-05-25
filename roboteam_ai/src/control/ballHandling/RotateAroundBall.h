@@ -5,13 +5,12 @@
 #ifndef ROBOTEAM_AI_ROTATEAROUNDBALL_H
 #define ROBOTEAM_AI_ROTATEAROUNDBALL_H
 
+#include "../positionControllers/RobotCommand.h"
+
 namespace rtt {
 namespace ai {
 namespace control {
 
-class DribbleBackwards;
-class DribbleForwards;
-class RotateAroundRobot;
 class RotateAroundBall {
     private:
         using RobotPtr = world::Robot::RobotPtr;

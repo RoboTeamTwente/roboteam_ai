@@ -4,9 +4,6 @@
 
 #include <roboteam_ai/src/control/ControlUtils.h>
 
-#include "DribbleBackwards.h"
-#include "DribbleForwards.h"
-#include "RotateAroundBall.h"
 #include "RotateAroundRobot.h"
 
 namespace rtt {

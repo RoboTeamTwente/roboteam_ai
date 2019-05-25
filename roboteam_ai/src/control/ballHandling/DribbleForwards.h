@@ -14,7 +14,6 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-class DribbleBackwards;
 class RotateAroundBall;
 class RotateAroundRobot;
 class DribbleForwards {
@@ -72,6 +71,7 @@ class DribbleForwards {
         explicit DribbleForwards(double errorMargin = 0.02, double angularErrorMargin = 0.02,
                 double ballPlacementAccuracy = 0.04, double maxVel = 0.7);
 
+        ~DribbleForwards();
 };
 
 }
