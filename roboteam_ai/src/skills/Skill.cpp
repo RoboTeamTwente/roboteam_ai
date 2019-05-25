@@ -22,6 +22,9 @@ void Skill::publishRobotCommand() {
     }
     limitRobotCommand();
 
+    if (command.x_vel != command.x_vel || command.y_vel != command.y_vel) {
+        std::cout << "x or y vel in command is NAN!!!!" << std::endl;
+    }
     if (command.id == -1) {
         if (robot && robot->id != -1) {
             command.id = robot->id;

@@ -3,6 +3,7 @@
 //
 
 #include "roboteam_ai/src/control/ControlUtils.h"
+#include "roboteam_ai/src/utilities/Constants.h"
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/test/helpers/FieldHelper.h>
