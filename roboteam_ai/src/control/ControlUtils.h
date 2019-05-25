@@ -15,6 +15,7 @@
 #include "roboteam_utils/Arc.h"
 
 using Vector2 = rtt::Vector2;
+using Angle = rtt::Angle;
 
 namespace rtt {
 namespace ai {
@@ -56,7 +57,6 @@ class ControlUtils {
         static Vector2 velocityLimiter(const Vector2 &vel, double maxVel = Constants::MAX_VEL(),
                 double minVel = 0.0, bool listenToReferee = true);
         static Vector2 accelerationLimiter(const Vector2 &targetVel, const Vector2 &prevVel, const Angle &targetAngle);
-        static double calculateMaxAcceleration(const Vector2 &vel, double angle);
         static bool robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, double maxDifference = 0.3);
         static bool objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity,
                 const Vector2 &point, double maxDifference = 0.3);
