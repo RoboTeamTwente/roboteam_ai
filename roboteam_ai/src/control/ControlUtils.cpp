@@ -233,25 +233,25 @@ Vector2 ControlUtils::accelerationLimiter(const Vector2 &targetVel, const Vector
 
     Vector2 deltaVel = targetVel - prevVel;
 
+    // calculate if the robot is driving forwards or sideways
     Angle robotAngleDifference = targetVel.toAngle() - targetAngle;
     Vector2 robotVectorDifference = robotAngleDifference.toVector2();
     double a = abs(robotVectorDifference.x);
-
+    auto acceleration = sidewaysAcceleration * (1-a) + forwardsAcceleration * a;
+    auto deceleration = sidewaysDeceleration * (1-a) + forwardsDeceleration * a;
     // a = 0 -> sideways
     // a = 1 -> forwards
 
-    auto acceleration = sidewaysAcceleration * (1-a) + sidewaysDeceleration * a;
-    auto deceleration = forwardsAcceleration * (1-a) + forwardsDeceleration * a;
+    // calculate if the robot is accelerating or decelerating
+    Angle accelerationAngleDifference = deltaVel.toAngle() - targetVel.toAngle();
+    double b = abs(accelerationAngleDifference) * M_1_PI;
+    auto finalAcceleration = acceleration * (1-b) + deceleration * b;
+    // b = 0 -> acceleration
+    // b = 1 -> deceleration
 
-    Angle accelerationAngleDifference = deltaVel.toAngle() - (targetVel.toAngle() + M_PI);
-    Vector2 accelerationVectorDifference = accelerationAngleDifference.toVector2();
-    double b = abs(accelerationVectorDifference.x);
-
-    // b = 0 -> deceleration
-    // b = 1 -> acceleration
-
-    auto finalAcceleration = acceleration * b + deceleration * (1-b);
-
+    if (deltaVel.length() < finalAcceleration) {
+        return targetVel;
+    }
     return prevVel + deltaVel.stretchToLength(finalAcceleration);
 }
 

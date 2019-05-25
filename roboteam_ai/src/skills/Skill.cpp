@@ -88,10 +88,9 @@ void Skill::refreshRobotCommand() {
 void Skill::limitRobotCommand() {
 
     auto limitedVel = Vector2(command.x_vel, command.y_vel);
-    std::cout << robot->getPidPreviousVel() << std::endl;
     limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
     limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w);
-    robot->setPidPreviousVel({2,2});//limitedVel);
+    robot->setPidPreviousVel(limitedVel);
 
     command.x_vel = limitedVel.x;
     command.y_vel = limitedVel.y;

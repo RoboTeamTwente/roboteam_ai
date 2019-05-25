@@ -18,18 +18,7 @@ class Node {
                 Running
         };
 
-        std::string status_print(Status s) {
-            switch (s) {
-                case Status::Waiting:
-                    return " Status : Waiting";
-                case Status::Success:
-                    return " Status : Success";
-                case Status::Failure:
-                    return " Status : Failure";
-                case Status::Running:
-                    return " Status : Running";
-            }
-        }
+        std::string status_print(Status s);
 
         virtual ~Node() = default;
 
@@ -89,7 +78,5 @@ class Node {
 
         ros::Time lastTickTime;
 };
-
-std::string statusToString(bt::Node::Status status);
 
 } // bt

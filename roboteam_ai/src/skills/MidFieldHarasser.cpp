@@ -39,6 +39,7 @@ Skill::Status MidFieldHarasser::onUpdate() {
 
         return Status::Running;
     }
+    return Status::Failure;
 }
 
 void MidFieldHarasser::onTerminate(Skill::Status s) {
