@@ -8,7 +8,7 @@
 #include "Skill.h"
 #include "../utilities/Constants.h"
 #include "../control/ControlUtils.h"
-#include "../control/positionControllers/BallHandlePosControl.h"
+#include "roboteam_ai/src/control/ballHandling/BallHandlePosControl.h"
 
 namespace rtt {
 namespace ai {
