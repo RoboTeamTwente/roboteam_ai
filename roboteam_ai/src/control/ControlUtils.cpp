@@ -223,7 +223,7 @@ Vector2 ControlUtils::velocityLimiter(const Vector2 &vel, double maxVel, double 
 }
 
 
-/// Limits acceleration to maximum acceleration
+/// Limits acceleration
 Vector2 ControlUtils::accelerationLimiter(const Vector2 &targetVel, const Vector2 &prevVel, const Angle &targetAngle) {
 
     const double sidewaysAcceleration = Constants::MAX_ACC_LOWER() * Constants::TICK_RATE();
@@ -253,18 +253,6 @@ Vector2 ControlUtils::accelerationLimiter(const Vector2 &targetVel, const Vector
         return targetVel;
     }
     return prevVel + deltaVel.stretchToLength(finalAcceleration);
-}
-
-/// Calculate the maximum acceleration based on the direction of driving.
-/// Acceleration is the lowest in the sideways direction and highest in the forward direction.
-double ControlUtils::calculateMaxAcceleration(const Vector2 &vel, double angle) {
-    // get the angle difference and turn it into a normalized vector
-    Angle angleDiff = vel.toAngle() - angle;
-    Vector2 toVectorDiff = angleDiff.toVector2();
-
-    // get the x-component of the vector and use linear interpolation to get the max acceleration
-    double a = abs(toVectorDiff.x);
-    return Constants::MAX_ACC_UPPER() * (a) + Constants::MAX_ACC_LOWER() * (1-a);
 }
 
 /// Get the intersection of two lines

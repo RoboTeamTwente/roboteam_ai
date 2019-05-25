@@ -93,23 +93,11 @@ TEST(ControlUtils, velocityLimiter) {
 }
 
 TEST(ControlUtils, accelerationLimiter) {
-    rtt::Vector2 testVel;
-    double prevTestVel;
-    for (int i = 1; i < 200; i ++) {
-        testVel = Vector2(5*cos(i/100.0*M_PI), 3*sin(i/30.0*M_PI));
-        prevTestVel = Vector2(5*cos((i - 1)/100.0*M_PI), 3*sin((i - 1)/30.0*M_PI)).length();
-        EXPECT_LE(cr::ControlUtils::accelerationLimiter(testVel, rtt::ai::Constants::MAX_ACC_UPPER(),
-                prevTestVel).length(),
-                prevTestVel + rtt::ai::Constants::MAX_ACC_UPPER()/rtt::ai::Constants::TICK_RATE() + 0.01);
-        EXPECT_LE(cr::ControlUtils::accelerationLimiter(testVel, rtt::ai::Constants::MAX_ACC_LOWER(),
-                prevTestVel).length(),
-                prevTestVel + rtt::ai::Constants::MAX_ACC_LOWER()/rtt::ai::Constants::TICK_RATE() + 0.01);
-    }
-}
 
-TEST(ControlUtils, calculateMaxAcceleration) {
-    double upperAcc = rtt::ai::Constants::MAX_ACC_UPPER();
-    double lowerAcc = rtt::ai::Constants::MAX_ACC_LOWER();
+    const double sidewaysAcceleration = Constants::MAX_ACC_LOWER() * Constants::TICK_RATE();
+    const double forwardsAcceleration = Constants::MAX_ACC_UPPER() * Constants::TICK_RATE();
+    const double sidewaysDeceleration = Constants::MAX_DEC_LOWER() * Constants::TICK_RATE();
+    const double forwardsDeceleration = Constants::MAX_DEC_UPPER() * Constants::TICK_RATE();
 
     EXPECT_DOUBLE_EQ(cr::ControlUtils::calculateMaxAcceleration(Vector2(0.5, 0.0), 0.0), upperAcc);
 
