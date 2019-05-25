@@ -23,11 +23,13 @@ class BasicPosControl;
 
 namespace world {
 class Ball;
-class Robot {
+class Robot : public std::enable_shared_from_this<Robot> {
     FRIEND_TEST(ShotControllerTest, getshotdata_test);
     public:
         using BallPtr = std::shared_ptr<Ball>;
         using RobotPtr = std::shared_ptr<Robot>;
+
+        const RobotPtr copy() const;
 
         // pid
     private:

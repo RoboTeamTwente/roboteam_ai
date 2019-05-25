@@ -6,10 +6,12 @@
 #define ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 
 #include <roboteam_ai/src/interface/api/Output.h>
-#include "PosVelAngle.h"
-#include "PosController.h"
+#include "roboteam_ai/src/control/positionControllers/PosVelAngle.h"
+#include "roboteam_ai/src/control/positionControllers/PosController.h"
+#include "roboteam_ai/src/control/positionControllers/ForcePosControl.h"
+
 #include "PathPoint.h"
-#include "ForcePosControl.h"
+#include "Collision.h"
 
 namespace rtt {
 namespace ai {
@@ -28,6 +30,12 @@ class NumTreePosControl : public ForcePosControl {
         Vector2 finalTargetPos;
 
         bool doRecalculatePath(const Vector2 &targetPos);
+        bool checkCurrentRobotCollision();
+        bool checkEmptyPath();
+        bool checkIfTargetMoved(double maxTargetDeviation, const Vector2 &targetPos);
+        bool checkIfAtEndOfPath(double maxTargetDeviation, const Vector2 &targetPos);
+        bool checkIfTooFarFromCurrentPath(double maxTargetDeviation, const Vector2 &vector2);
+
         PosVelAngle computeCommand(const Vector2 &exactTargetPos);
 
         // constants
@@ -38,6 +46,7 @@ class NumTreePosControl : public ForcePosControl {
         // collisions
         Collision getCollision(const PathPointer &point, double collisionRadius = DEFAULT_ROBOT_COLLISION_RADIUS);
         Collision getRobotCollision(const Vector2 &collisionPos, const std::vector<RobotPtr> &robots, double distance);
+        Collision currentRobotCollision;
 
         // new paths
         PathPointer computeNewPoint(const std::shared_ptr<PathPoint> &oldPoint, const Vector2 &subTarget);
@@ -62,6 +71,7 @@ class NumTreePosControl : public ForcePosControl {
         PosVelAngle getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) override;
         PosVelAngle getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos) override;
 
+        bool checkIfRobotWillCollideFollowingThisPath();
 };
 
 }

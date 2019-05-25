@@ -5,7 +5,7 @@
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
 #include <roboteam_ai/src/control/PositionUtils.h>
 #include <roboteam_ai/src/utilities/Constants.h>
-#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include <roboteam_ai/src/interface/api/Input.h>
 #include "Pass.h"

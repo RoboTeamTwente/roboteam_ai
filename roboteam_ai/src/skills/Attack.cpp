@@ -1,14 +1,14 @@
 #include <roboteam_ai/src/control/PositionUtils.h>
 #include "Attack.h"
 #include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "roboteam_ai/src/coach/OffensiveCoach.h"
 #include <roboteam_ai/src/control/PositionUtils.h>
 #include "Attack.h"
 #include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "roboteam_ai/src/coach/OffensiveCoach.h"

@@ -9,7 +9,7 @@
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/control/shotControllers/ShotController.h>
 #include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
-#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 
 namespace rtt {
@@ -193,6 +193,10 @@ const Vector2 &Robot::getPidPreviousVel() const {
 
 void Robot::setPidPreviousVel(const Vector2 &pidVel) {
     pidPreviousVel = pidVel;
+}
+
+const Robot::RobotPtr Robot::copy() const {
+    return std::make_shared<Robot>(*this);
 }
 
 } //world

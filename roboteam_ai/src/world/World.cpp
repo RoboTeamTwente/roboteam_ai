@@ -24,7 +24,7 @@ void World::updateWorld(const roboteam_msgs::World &message) {
         }
 
         // copy the ball
-        if (worldDataPtr->ball) oldBall = std::make_shared<Ball>(*worldDataPtr->ball);
+        if (worldDataPtr->ball) oldBall = worldDataPtr->ball->copy();
     }
 
     // update ballmodel, dribbling, position if not visible etc.

@@ -100,6 +100,29 @@ bool PathPoint::isCollision(const Vector2 &target, double distance) {
     return target.dist(pos) < distance;
 }
 
+double PathPoint::maxVel() {
+    double distanceRemaining = (finalTarget - pos).length();
+    double absoluteMax = sqrt(2.0*maxAcc()*distanceRemaining)*0.8;
+    return absoluteMax > maxV ? maxV : absoluteMax;
+}
+
+double PathPoint::maxAcc() {
+    return vel.length() > maxV*0.5 ?
+           maxAccAtHighV :
+           maxAccAtLowV - (maxAccAtLowV - maxAccAtHighV)*((maxV - vel.length())/maxV);
+}
+
+double PathPoint::maxDec() {
+    return maxDecelleration;
+}
+
+PathPoint::PathPoint() {
+    maxV = GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
+    maxAccAtLowV = 6.1;
+    maxAccAtHighV = 3.1;
+    maxDecelleration = 6.1;
+}
+
 } // control
 } // ai
 } // rtt

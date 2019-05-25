@@ -4,7 +4,7 @@
 
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
 
 namespace rtt {
