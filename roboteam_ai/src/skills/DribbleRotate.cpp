@@ -41,13 +41,13 @@ void DribbleRotate::onInitialize() {
         Vector2 theirCentre = world::field->get_their_goal_center();
         targetAngle = (theirCentre - robot->pos).toAngle();
     }
-    else if (properties->getBool("BallPlacement")) {
+    else if (properties->getBool("ballPlacement")) {
         if (properties->getBool("BallPlacementForwards")) {
         }
         targetAngle = (Vector2(robot->pos) - coach::g_ballPlacement.getBallPlacementPos()).toAngle();
     }
     if (! properties->hasDouble("Angle") && ! properties->hasBool("RotateToTheirGoal")
-            && ! properties->hasBool("BallPlacement")) {
+            && ! properties->hasBool("ballPlacement")) {
         ROS_ERROR(" dribbleRotate Initialize -> No good angle set in properties");
         currentProgression = FAIL;
     }

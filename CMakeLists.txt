@@ -219,10 +219,10 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/FreeKickFormation.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/DefendFreeKick.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/DefendFreeKick.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacement/BallPlacementReceive.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacement/BallPlacementReceive.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacement/BallPlacementPass.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacement/BallPlacementPass.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ballPlacement/BallPlacementReceive.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ballPlacement/BallPlacementReceive.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ballPlacement/BallPlacementPass.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ballPlacement/BallPlacementPass.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DriveWithInterface.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DriveWithInterface.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementWithInterface.cpp
