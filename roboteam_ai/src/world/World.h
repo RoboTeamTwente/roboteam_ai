@@ -42,7 +42,6 @@ class World {
     private:
         void updateRobotsFromData(Robot::Team team, const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg,
                 std::vector<RobotPtr> &robots, const BallPtr &ball, unsigned long worldNumber) const;
-        void updateBallFromData(const BallPtr &ball);
     public:
         void updateWorld(const roboteam_msgs::World &world);
 

@@ -37,8 +37,8 @@ void World::updateWorld(const roboteam_msgs::World &message) {
 
     {
         std::lock_guard<std::mutex> lock(worldMutex);
+        worldDataPtr->ball = tempWorldData.ball;
         worldDataPtr->time = message.time;
-        updateBallFromData(tempWorldData.ball);
         updateRobotsFromData(Robot::us, message.us, worldDataPtr->us, worldDataPtr->ball, worldNumber);
         updateRobotsFromData(Robot::them, message.them, worldDataPtr->them, worldDataPtr->ball, worldNumber);
 
@@ -52,7 +52,7 @@ void World::updateWorld(const roboteam_msgs::World &message) {
 
 void World::updateRobotsFromData(Robot::Team team, const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg,
         std::vector<RobotPtr> &robots, const BallPtr &ball, unsigned long newWorldNumber) const {
-    for (auto &robotMsg : robotsFromMsg) {
+    for (auto robotMsg : robotsFromMsg) {
 
         // find robots that are both in the vector and in the message
         bool robotFound = false;
@@ -84,7 +84,7 @@ void World::updateRobotsFromData(Robot::Team team, const std::vector<roboteam_ms
 
 bool World::weHaveRobots() {
     std::lock_guard<std::mutex> lock(worldMutex);
-    return worldDataPtr && ! worldDataPtr->us.empty() && Ball::exists;
+    return worldDataPtr && ! worldDataPtr->us.empty();
 }
 
 const WorldData World::getWorld() {
@@ -299,7 +299,6 @@ const World::BallPtr World::getFutureBall(double time) {
 }
 
 const WorldData World::getPreviousWorld() {
-
     return history.getPreviousWorld();
 }
 
@@ -321,10 +320,6 @@ const std::vector<World::RobotPtr> World::getRobotsForIds(std::vector<int> ids, 
 double World::getTime() {
     std::lock_guard<std::mutex> lock(worldMutex);
     return worldDataPtr->time;
-}
-
-void World::updateBallFromData(const World::BallPtr &ball) {
-    if (ball) worldDataPtr->ball = ball;
 }
 
 } //world
