@@ -81,12 +81,12 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
     }
 
     // check if we are doing something already
-    if (dribbleBackwards->getBackwardsProgression() != DribbleBackwards::B_start) {
+    if (dribbleBackwards->getBackwardsProgression() != DribbleBackwards::START) {
         return dribbleBackwards->getRobotCommand(robot, targetPos, targetAngle);
     }
 
-    if (dribbleForwards->getForwardsProgression() != DribbleForwards::F_start) {
-        dribbleForwards->getRobotCommand(robot, targetPos, targetAngle);
+    if (dribbleForwards->getForwardsProgression() != DribbleForwards::START) {
+        return dribbleForwards->getRobotCommand(robot, targetPos, targetAngle);
     }
 
     switch (preferredTravelStrategy) {

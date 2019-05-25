@@ -42,8 +42,6 @@ class BallHandlePosControl {
 
         RobotPtr robot;
         BallPtr ball;
-        Vector2 robotToBall;
-        Vector2 ballToRobot;
         Vector2 targetPos;
         Vector2 finalTargetPos;
         Angle targetAngle;

@@ -20,12 +20,12 @@ class RotateAroundRobot;
 class DribbleForwards {
     public:
         enum ForwardsProgress : short {
-          F_start,
-          F_turning,
-          F_approaching,
-          F_dribbleForward,
-          F_success,
-          F_fail
+          START,
+          TURNING,
+          APPROACHING,
+          DRIBBLE_FORWARD,
+          SUCCESS,
+          FAIL
         };
         ForwardsProgress getForwardsProgression();
 
@@ -38,11 +38,11 @@ class DribbleForwards {
         RobotPtr robot;
         BallPtr ball;
 
-        ForwardsProgress forwardsProgress = F_start;
+        ForwardsProgress forwardsProgress = START;
         void printForwardsProgress();
 
         // variables for forwards progress
-        std::pair<Vector2, Vector2> F_forwardsDribbleLine;
+        std::pair<Vector2, Vector2> forwardsDribbleLine;
         Angle lockedAngle;
         Angle targetAngle;
         Angle finalTargetAngle;
@@ -58,11 +58,11 @@ class DribbleForwards {
         // functions for forwards progress
         void updateForwardsProgress();
         RobotCommand sendForwardsCommand();
-        RobotCommand F_startTravelForwards();
-        RobotCommand F_sendTurnCommand();
-        RobotCommand F_sendApproachCommand();
-        RobotCommand F_sendDribbleForwardsCommand();
-        RobotCommand F_sendSuccessCommand();
+        RobotCommand startTravelForwards();
+        RobotCommand sendTurnCommand();
+        RobotCommand sendApproachCommand();
+        RobotCommand sendDribbleForwardsCommand();
+        RobotCommand sendSuccessCommand();
 
     public:
         RobotCommand getRobotCommand(const world::Robot::RobotPtr &r,

@@ -20,14 +20,14 @@ class RotateAroundRobot;
 class DribbleBackwards {
     public:
         enum BackwardsProgress : short {
-          B_start,
-          B_turning,
-          B_approaching,
-          B_overshooting,
-          B_dribbling,
-          B_dribbleBackwards,
-          B_success,
-          B_fail
+          START,
+          TURNING,
+          APPROACHING,
+          OVERSHOOTING,
+          DRIBBLING,
+          DRIBBLE_BACKWARDS,
+          SUCCESS,
+          FAIL
         };
         BackwardsProgress getBackwardsProgression();
 
@@ -40,12 +40,12 @@ class DribbleBackwards {
         RobotPtr robot;
         BallPtr ball;
 
-        BackwardsProgress backwardsProgress = B_start;
+        BackwardsProgress backwardsProgress = START;
         void printBackwardsProgress();
 
         // variables for backwards progress
-        Vector2 B_approachPosition;
-        std::pair<Vector2, Vector2> B_backwardsDribbleLine;
+        Vector2 approachPosition;
+        std::pair<Vector2, Vector2> backwardsDribbleLine;
         Angle lockedAngle;
         Angle targetAngle;
         Angle finalTargetAngle;
@@ -62,13 +62,13 @@ class DribbleBackwards {
         // functions for backwards progress
         void updateBackwardsProgress();
         RobotCommand sendBackwardsCommand();
-        RobotCommand B_startTravelBackwards();
-        RobotCommand B_sendTurnCommand();
-        RobotCommand B_sendApproachCommand();
-        RobotCommand B_sendOvershootCommand();
-        RobotCommand B_sendDribblingCommand();
-        RobotCommand B_sendDribbleBackwardsCommand();
-        RobotCommand B_sendSuccessCommand();
+        RobotCommand startTravelBackwards();
+        RobotCommand sendTurnCommand();
+        RobotCommand sendApproachCommand();
+        RobotCommand sendOvershootCommand();
+        RobotCommand sendDribblingCommand();
+        RobotCommand sendDribbleBackwardsCommand();
+        RobotCommand sendSuccessCommand();
 
     public:
         RobotCommand getRobotCommand(const world::Robot::RobotPtr &r,

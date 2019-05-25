@@ -27,7 +27,7 @@ RobotCommand DribbleForwards::getRobotCommand(const world::Robot::RobotPtr &r, c
 }
 
 void DribbleForwards::reset() {
-    forwardsProgress = F_start;
+    forwardsProgress = START;
 }
 
 void DribbleForwards::updateForwardsProgress() {
@@ -41,29 +41,29 @@ void DribbleForwards::updateForwardsProgress() {
 
     // update forwards progress
     switch (forwardsProgress) {
-    case F_turning: {
+    case TURNING: {
         targetAngle = (finalTargetPos - ball->pos).toAngle();
         if (fabs(targetAngle - robot->angle) < angleErrorMargin) {
             lockedAngle = targetAngle;
-            forwardsProgress = F_approaching;
+            forwardsProgress = APPROACHING;
         }
         return;
     }
-    case F_approaching: {
+    case APPROACHING: {
         if (fabs(angleDifference) > angleErrorMargin) {
-            forwardsProgress = F_turning;
+            forwardsProgress = TURNING;
             return;
         }
         if (robot->hasBall()) {
-            F_forwardsDribbleLine = {robot->pos, finalTargetPos};
-            forwardsProgress = F_dribbleForward;
+            forwardsDribbleLine = {robot->pos, finalTargetPos};
+            forwardsProgress = DRIBBLE_FORWARD;
             return;
         }
         return;
     }
-    case F_dribbleForward: {
+    case DRIBBLE_FORWARD: {
         if (! robot->hasBall()) {
-            forwardsProgress = F_approaching;
+            forwardsProgress = APPROACHING;
             return;
         }
         if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
@@ -72,53 +72,53 @@ void DribbleForwards::updateForwardsProgress() {
         Angle offsetAngle = (finalTargetPos - robot->pos).toAngle() - robot->angle;
         double maxOffsetAngle = M_PI*0.05;
         if (fabs(offsetAngle) > maxOffsetAngle) {
-            forwardsProgress = F_start;
+            forwardsProgress = START;
             return;
         }
         if ((ball->pos - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
-            forwardsProgress = F_success;
+            forwardsProgress = SUCCESS;
             return;
         }
 
         return;
     }
-    case F_fail:
-    case F_start:
+    case FAIL:
+    case START:
     default:return;
-    case F_success: {
+    case SUCCESS: {
         if ((ball->pos - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
             return;
         }
-        forwardsProgress = F_start;
+        forwardsProgress = START;
     }
 
     }
 }
 
-RobotCommand DribbleForwards::F_startTravelForwards() {
+RobotCommand DribbleForwards::startTravelForwards() {
     lockedAngle = Angle();
-    F_forwardsDribbleLine = {};
-    forwardsProgress = F_turning;
-    return F_sendTurnCommand();
+    forwardsDribbleLine = {};
+    forwardsProgress = TURNING;
+    return sendTurnCommand();
 }
 
 
 
 RobotCommand DribbleForwards::sendForwardsCommand() {
     switch (forwardsProgress) {
-    case F_start:return F_startTravelForwards();
-    case F_turning:return F_sendTurnCommand();
-    case F_approaching:return F_sendApproachCommand();
-    case F_dribbleForward:return F_sendDribbleForwardsCommand();
-    case F_success:return F_sendSuccessCommand();
-    case F_fail: {
-        forwardsProgress = F_start;
+    case START:return startTravelForwards();
+    case TURNING:return sendTurnCommand();
+    case APPROACHING:return sendApproachCommand();
+    case DRIBBLE_FORWARD:return sendDribbleForwardsCommand();
+    case SUCCESS:return sendSuccessCommand();
+    case FAIL: {
+        forwardsProgress = START;
         return {};
     }
     }
 }
 
-RobotCommand DribbleForwards::F_sendTurnCommand() {
+RobotCommand DribbleForwards::sendTurnCommand() {
     if (fabs(targetAngle - robot->angle) < angleErrorMargin) {
         lockedAngle = targetAngle;
     }
@@ -126,7 +126,7 @@ RobotCommand DribbleForwards::F_sendTurnCommand() {
     return rotateAroundBall->getRobotCommand(robot, targetPos, targetAngle);
 }
 
-RobotCommand DribbleForwards::F_sendApproachCommand() {
+RobotCommand DribbleForwards::sendApproachCommand() {
     RobotCommand command;
     command.dribbler = 0;
     command.vel = (robot->pos - ball->pos).stretchToLength(maxVel);
@@ -134,7 +134,7 @@ RobotCommand DribbleForwards::F_sendApproachCommand() {
     return command;
 }
 
-RobotCommand DribbleForwards::F_sendDribbleForwardsCommand() {
+RobotCommand DribbleForwards::sendDribbleForwardsCommand() {
     RobotCommand command;
     command.dribbler = 8;
     command.angle = lockedAngle;
@@ -142,8 +142,8 @@ RobotCommand DribbleForwards::F_sendDribbleForwardsCommand() {
 
     // check if the robot is still on the virtual line from ball->pos to the target
     if (control::ControlUtils::distanceToLine(robot->pos,
-            F_forwardsDribbleLine.first, F_forwardsDribbleLine.second) > errorMargin*2.5) {
-        forwardsProgress = F_turning;
+            forwardsDribbleLine.first, forwardsDribbleLine.second) > errorMargin*2.5) {
+        forwardsProgress = TURNING;
     }
 
     // check if the ball is not too far right or too far left of the robot, and try to compensate for that
@@ -161,7 +161,7 @@ RobotCommand DribbleForwards::F_sendDribbleForwardsCommand() {
     return command;
 }
 
-RobotCommand DribbleForwards::F_sendSuccessCommand() {
+RobotCommand DribbleForwards::sendSuccessCommand() {
     RobotCommand command;
     command.dribbler = 0;
     command.angle = lockedAngle;
@@ -172,17 +172,17 @@ void DribbleForwards::printForwardsProgress() {
     std::stringstream ss;
     ss << "forwards progress:                  ";
     switch (forwardsProgress) {
-    case F_start:ss << "start";
+    case START:ss << "start";
         break;
-    case F_turning:ss << "turning";
+    case TURNING:ss << "turning";
         break;
-    case F_approaching:ss << "approaching";
+    case APPROACHING:ss << "approaching";
         break;
-    case F_dribbleForward:ss << "dribble forwards";
+    case DRIBBLE_FORWARD:ss << "dribble forwards";
         break;
-    case F_success:ss << "success";
+    case SUCCESS:ss << "success";
         break;
-    case F_fail:ss << "fail";
+    case FAIL:ss << "fail";
         break;
     }
     std::cout << ss.str() << std::endl;
