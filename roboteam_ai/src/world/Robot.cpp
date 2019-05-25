@@ -8,6 +8,9 @@
 
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/control/shotControllers/ShotController.h>
+#include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
+#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 
 namespace rtt {
 namespace ai {
@@ -31,14 +34,23 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
 
     // set up control controllers
     shotController = std::make_shared<control::ShotController>();
-    numtreeGTP = std::make_shared<control::NumTreePosControl>();
-    basicGTP = std::make_shared<control::BasicPosControl>();
+    numTreePosControl = std::make_shared<control::NumTreePosControl>();
+    basicPosControl = std::make_shared<control::BasicPosControl>();
+    ballHandlePosControl = std::make_shared<control::BallHandlePosControl>();
 }
 
 Robot::Robot()
         :distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(0), genevaState(0), workingGeneva(false),
         dribblerState(0), workingDribbler(false),
         id(- 1), angle(- 1.0), angularVelocity(- 1.0), team(invalid) {
+
+    shotController = nullptr;
+    numTreePosControl = nullptr;
+    basicPosControl = nullptr;
+    ballHandlePosControl = nullptr;
+}
+
+Robot::~Robot() {
 }
 
 bool Robot::hasBall(double maxDist) {
@@ -155,16 +167,20 @@ bool Robot::hasWorkingDribbler() const {
     return workingDribbler;
 }
 
-const shared_ptr<control::ShotController> &Robot::getShotController() const {
+const std::shared_ptr<control::ShotController> &Robot::getShotController() const {
     return shotController;
 }
 
-const shared_ptr<control::NumTreePosControl> &Robot::getNumtreeGtp() const {
-    return numtreeGTP;
+const std::shared_ptr<control::NumTreePosControl> &Robot::getNumtreePosControl() const {
+    return numTreePosControl;
 }
 
-const shared_ptr<control::BasicPosControl> &Robot::getBasicGtp() const {
-    return basicGTP;
+const std::shared_ptr<control::BasicPosControl> &Robot::getBasicPosControl() const {
+    return basicPosControl;
+}
+
+const std::shared_ptr<control::BallHandlePosControl> &Robot::getBallHandlePosControl() const {
+    return ballHandlePosControl;
 }
 
 void Robot::setWorkingGeneva(bool genevaIsWorking) {

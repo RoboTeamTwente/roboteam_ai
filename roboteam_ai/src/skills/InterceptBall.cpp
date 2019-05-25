@@ -71,7 +71,7 @@ InterceptBall::Status InterceptBall::onUpdate() {
 }
 
 void InterceptBall::sendMoveCommand(Vector2 targetPos) {
-    Vector2 velocities = robot->getNumtreeGtp()->getPosVelAngle(robot, targetPos).vel;
+    Vector2 velocities = robot->getNumtreePosControl()->getPosVelAngle(robot, targetPos).vel;
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
 
@@ -216,7 +216,7 @@ void InterceptBall::sendStopCommand() {
 }
 
 void InterceptBall::sendFineInterceptCommand() {
-    auto pva = robot->getBasicGtp()->getPosVelAngle(robot, interceptPos);
+    auto pva = robot->getBasicPosControl()->getPosVelAngle(robot, interceptPos);
 
     command.x_vel = pva.vel.x;
     command.y_vel = pva.vel.y;
@@ -224,7 +224,7 @@ void InterceptBall::sendFineInterceptCommand() {
     publishRobotCommand();
 }
 void InterceptBall::sendInterceptCommand() {
-    auto pva = robot->getNumtreeGtp()->getPosVelAngle(robot, interceptPos);
+    auto pva = robot->getNumtreePosControl()->getPosVelAngle(robot, interceptPos);
 
     command.x_vel = pva.vel.x;
     command.y_vel = pva.vel.y;

@@ -8,22 +8,25 @@
 #include "PosVelAngle.h"
 #include <roboteam_ai/src/utilities/Constants.h>
 #include <roboteam_ai/src/control/pid.h>
-#include <roboteam_ai/src/world/WorldData.h>
 
 namespace rtt {
 namespace ai {
+
+namespace world {
+class Robot;
+class WorldData;
+class Ball;
+}
+
 namespace control {
 
 class PosController {
     private:
         double prevVel = 0.0;
     protected:
-        using Robot = world::Robot;
-        using RobotPtr = std::shared_ptr<Robot>;
-        using Ball = world::Ball;
-        using BallPtr = std::shared_ptr<Ball>;
-        using WorldData = world::WorldData;
-        using WorldDataPtr = std::shared_ptr<WorldData>;
+        using RobotPtr = std::shared_ptr<rtt::ai::world::Robot>;
+        using BallPtr = std::shared_ptr<rtt::ai::world::Ball>;
+        using WorldDataPtr = std::shared_ptr<rtt::ai::world::WorldData>;
 
         // settings
         double customAvoidBallDistance = 0.0;
@@ -40,7 +43,8 @@ class PosController {
         virtual Vector2 calculatePIDs(const RobotPtr &robot, PosVelAngle &target);
 
     public:
-        explicit PosController() = default;
+        PosController() = default;
+        virtual ~PosController() = default;
         explicit PosController(double avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
         virtual PosVelAngle getPosVelAngle(const RobotPtr &robot,
                 const Vector2 &targetPos, const Angle &targetAngle) = 0;
