@@ -29,6 +29,7 @@ class BallHandlePosControl {
         DribbleBackwards* dribbleBackwards;
         RotateAroundRobot* rotateAroundRobot;
         RotateAroundBall* rotateAroundBall;
+        NumTreePosControl* numTreePosControl;
 
         double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.0;
         double maxBackwardsVelocity = Constants::GRSIM() ? 0.3 : 0.8;
@@ -46,8 +47,6 @@ class BallHandlePosControl {
         Vector2 finalTargetPos;
         Angle targetAngle;
         Angle finalTargetAngle;
-
-        NumTreePosControl numTreePosController = NumTreePosControl();
 
         enum TravelStrategy : short {
           forwards,

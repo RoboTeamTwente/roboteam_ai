@@ -17,13 +17,15 @@ namespace control {
 
 BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea)
         :canMoveInDefenseArea(canMoveInDefenseArea) {
-    numTreePosController.setCanMoveInDefenseArea(canMoveInDefenseArea);
-    numTreePosController.setAvoidBallDistance(targetBallDistance*0.95);
 
     dribbleForwards = new DribbleForwards(errorMargin, angleErrorMargin, ballPlacementAccuracy, maxForwardsVelocity);
     dribbleBackwards = new DribbleBackwards(errorMargin, angleErrorMargin, ballPlacementAccuracy, maxBackwardsVelocity);
     rotateAroundRobot = new RotateAroundRobot();
     rotateAroundBall = new RotateAroundBall();
+    numTreePosControl = new NumTreePosControl();
+
+    numTreePosControl->setCanMoveInDefenseArea(canMoveInDefenseArea);
+    numTreePosControl->setAvoidBallDistance(targetBallDistance*0.95);
 }
 
 /// targetP is the target position of the BALL, targetA is the (final) target angle of the ROBOT
@@ -131,7 +133,7 @@ RobotCommand BallHandlePosControl::goToBall(bool ballIsFarFromTarget, TravelStra
         target = ball->pos + ballToTarget.stretchToLength(maxBallDistance);
     }
 
-    auto pva = numTreePosController.getPosVelAngle(robot, target);
+    auto pva = numTreePosControl->getPosVelAngle(robot, target);
     robotCommand.angle = (ball->pos - robot->pos).toAngle();
     robotCommand.vel = pva.vel;
     return robotCommand;
@@ -147,6 +149,7 @@ BallHandlePosControl::~BallHandlePosControl() {
     delete dribbleBackwards;
     delete rotateAroundBall;
     delete rotateAroundRobot;
+    delete numTreePosControl;
 }
 
 } //control

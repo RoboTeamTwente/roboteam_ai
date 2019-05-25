@@ -18,7 +18,7 @@ class RotateAroundBall {
         RobotPtr robot;
         BallPtr ball;
 
-        double maxVel = 0.7;
+        double maxVel = 1.3;
         double maxBallDistance = Constants::ROBOT_RADIUS()*2.0;
         double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
         Angle targetAngle;
