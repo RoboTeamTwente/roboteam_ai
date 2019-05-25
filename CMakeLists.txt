@@ -286,9 +286,7 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/pid.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/pid.h
 
-        #PositionControllers
-        roboteam_ai/src/control/numTrees/NumTreePosControl.cpp
-        roboteam_ai/src/control/numTrees/NumTreePosControl.h
+        # PositionControllers
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/RobotCommand.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosVelAngle.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/BasicPosControl.cpp
@@ -297,8 +295,14 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ForcePosControl.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosController.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosController.h
-        roboteam_ai/src/control/numTrees/PathPoint.cpp
-        roboteam_ai/src/control/numTrees/PathPoint.h
+
+        # NumTrees
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/numTrees/NumTreePosControl.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/numTrees/NumTreePosControl.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/numTrees/PathPoint.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/numTrees/PathPoint.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/numTrees/Collision.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/numTrees/Collision.h
 
         # ShotController
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/shotControllers/ShotController.cpp

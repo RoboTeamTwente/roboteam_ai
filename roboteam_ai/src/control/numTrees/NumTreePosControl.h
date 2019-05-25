@@ -17,9 +17,8 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-class Collision;
 class PathPoint;
-
+class Collision;
 class NumTreePosControl : public ForcePosControl {
     private:
         using InterfaceValues = interface::Output;

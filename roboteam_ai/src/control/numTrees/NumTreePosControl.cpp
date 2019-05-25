@@ -10,6 +10,8 @@
 #include "roboteam_ai/src/world/Field.h"
 
 #include "NumTreePosControl.h"
+#include "PathPoint.h"
+#include "Collision.h"
 
 namespace rtt {
 namespace ai {
@@ -288,8 +290,9 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     auto ball = world::world->getFutureBall(futureTime);
 
     // check collision with BallPtr
-    if (point->isCollision(ball->pos, getAvoidBallDistance())) {
-        collision.setCollisionBall(*ball, getAvoidBallDistance());
+    double avoidBallDistance = getAvoidBallDistance();
+    if (point->isCollision(ball->pos, avoidBallDistance)) {
+        collision.setCollisionBall(*ball, avoidBallDistance);
         return collision;
     }
 
@@ -431,6 +434,7 @@ bool NumTreePosControl::checkIfAtEndOfPath(double maxTargetDeviation, const Vect
             return true;
         }
     }
+    return false;
 }
 bool NumTreePosControl::checkIfTooFarFromCurrentPath(double maxTargetDeviation, const Vector2 &vector2) {
     // check if the robot is too far from its current path
@@ -455,6 +459,7 @@ bool NumTreePosControl::checkIfTooFarFromCurrentPath(double maxTargetDeviation, 
         triedPaths.push_back(p.pos);
     }
     path.erase(path.begin(), path.begin() + currentIndex);
+    return false;
 }
 
 bool NumTreePosControl::checkIfRobotWillCollideFollowingThisPath() {

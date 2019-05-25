@@ -3,7 +3,6 @@
 //
 
 #include "PathPoint.h"
-#include "NumTreePosControl.h"
 
 namespace rtt {
 namespace ai {

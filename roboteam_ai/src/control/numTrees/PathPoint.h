@@ -15,7 +15,6 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-class NumTreePosControl;
 class PathPoint : public std::enable_shared_from_this<PathPoint> {
     private:
         double maxV = 8.0;

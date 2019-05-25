@@ -94,6 +94,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
     switch (preferredTravelStrategy) {
     case forwards: return dribbleForwards->getRobotCommand(robot, targetPos, targetAngle);
     case backwards: return dribbleBackwards->getRobotCommand(robot, targetPos, targetAngle);
+    default:
     case no_preference: {
         // choose based on distance from the ball to the target
         if (ballIsFarFromTarget) {
@@ -102,7 +103,6 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
         return dribbleBackwards->getRobotCommand(robot, targetPos, targetAngle);
     }
     }
-
 }
 
 RobotCommand BallHandlePosControl::goToBall(bool ballIsFarFromTarget, TravelStrategy preferredTravelStrategy) {

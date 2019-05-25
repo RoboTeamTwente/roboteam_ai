@@ -62,7 +62,7 @@ double Robot::getDistanceToBall() {
 }
 
 void Robot::updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const BallPtr &ball, unsigned long worldNumber) {
-    if (robotMsg.id == this->id) {
+    if (static_cast<int>(robotMsg.id) == this->id) {
         this->pos = robotMsg.pos;
         this->vel = robotMsg.vel;
         this->angle = robotMsg.angle;

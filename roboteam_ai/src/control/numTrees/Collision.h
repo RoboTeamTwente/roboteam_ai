@@ -15,13 +15,7 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-class NumTreePosControl;
 class Collision {
-    private:
-        world::Robot collisionRobot = {};
-        world::Ball collisionBall = {};
-        Vector2 fieldCollision = {};
-        Vector2 defenseAreaCollision = {};
 
     public:
         enum CollisionType : short {
@@ -34,6 +28,13 @@ class Collision {
         std::string collisionTypeToString();
     private:
         CollisionType type;
+
+        world::Robot collisionRobot = {};
+        world::Ball collisionBall = {};
+        Vector2 fieldCollision = {};
+        Vector2 defenseAreaCollision = {};
+
+
     public:
 
         Collision() : type(NO_COLLISION), isCollision(false), collisionRadius(0.0) { }
