@@ -260,34 +260,25 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     double futureTime = point->t;
 
     // Collision with Robots
-    {
-        auto allRobots = world::world->getAllRobots();
-        for (auto &r : allRobots) {
-            r = world::world->getFutureRobot(r, futureTime);
-        }
-        auto robotCollision = getRobotCollision(point, allRobots, collisionRadius);
-        if (robotCollision.isCollision) return robotCollision;
+    auto allRobots = world::world->getAllRobots();
+    for (auto &r : allRobots) {
+        r = world::world->getFutureRobot(r, futureTime);
     }
+    auto robotCollision = getRobotCollision(point, allRobots, collisionRadius);
+    if (robotCollision.isCollision) return robotCollision;
 
     // Collision with Ball
-    {
-        auto ball = world::world->getFutureBall(futureTime);
-        auto ballCollision = getBallCollision(point, ball);
-        if (ballCollision.isCollision) return ballCollision;
-    }
+    auto ball = world::world->getFutureBall(futureTime);
+    auto ballCollision = getBallCollision(point, ball);
+    if (ballCollision.isCollision) return ballCollision;
 
     // Collision with Edge of Field
-    {
-        auto fieldCollision = getFieldCollision(point);
-        if (fieldCollision.isCollision) return fieldCollision;
-    }
-
+    auto fieldCollision = getFieldCollision(point);
+    if (fieldCollision.isCollision) return fieldCollision;
 
     // Collision with Defense Area
-    {
-        auto defenseAreaCollision = getDefenseAreaCollision(point);
-        if (defenseAreaCollision.isCollision) return defenseAreaCollision;
-    }
+    auto defenseAreaCollision = getDefenseAreaCollision(point);
+    if (defenseAreaCollision.isCollision) return defenseAreaCollision;
 
     return {};
 }
