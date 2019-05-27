@@ -79,7 +79,13 @@ bool DefaultTactic::updateRobots() {
 }
 
 void DefaultTactic::disClaimRobots(int amount) {
-    // Sometimes a robot is lost from vision so you want  to disclaim that robot
+
+    for (auto robot : robotIDs) {
+        if (!rtt::ai::world::world->getRobotForId(robot)) {
+            dealer::refresh();
+            return;
+        }
+    }
 
     for (int i = 0; i < amount; i++) {
 
