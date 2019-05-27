@@ -223,24 +223,36 @@ Vector2 ControlUtils::velocityLimiter(const Vector2 &vel, double maxVel, double 
 }
 
 
-/// Limits acceleration to maximum acceleration
-Vector2 ControlUtils::accelerationLimiter(const Vector2 &vel, double maxAcc, double prevVel){
-    if (vel.length() > (prevVel + maxAcc/Constants::TICK_RATE())) {
-        return vel.stretchToLength(prevVel + maxAcc/Constants::TICK_RATE());
+/// Limits acceleration
+Vector2 ControlUtils::accelerationLimiter(const Vector2 &targetVel, const Vector2 &prevVel, const Angle &targetAngle) {
+
+    const double sidewaysAcceleration = Constants::MAX_ACC_LOWER() / Constants::TICK_RATE();
+    const double forwardsAcceleration = Constants::MAX_ACC_UPPER() / Constants::TICK_RATE();
+    const double sidewaysDeceleration = Constants::MAX_DEC_LOWER() / Constants::TICK_RATE();
+    const double forwardsDeceleration = Constants::MAX_DEC_UPPER() / Constants::TICK_RATE();
+
+    Vector2 deltaVel = targetVel - prevVel;
+
+    // calculate if the robot is driving forwards or sideways
+    Angle robotAngleDifference = targetVel.toAngle() - targetAngle;
+    Vector2 robotVectorDifference = robotAngleDifference.toVector2();
+    double a = abs(robotVectorDifference.x);
+    auto acceleration = sidewaysAcceleration * (1-a) + forwardsAcceleration * a;
+    auto deceleration = sidewaysDeceleration * (1-a) + forwardsDeceleration * a;
+    // a = 0 -> sideways
+    // a = 1 -> forwards
+
+    // calculate if the robot is accelerating or decelerating
+    Angle accelerationAngleDifference = deltaVel.toAngle() - targetVel.toAngle();
+    double b = abs(accelerationAngleDifference) * M_1_PI;
+    auto finalAcceleration = acceleration * (1-b) + deceleration * b;
+    // b = 0 -> acceleration
+    // b = 1 -> deceleration
+
+    if (deltaVel.length() < finalAcceleration) {
+        return targetVel;
     }
-    return vel;
-}
-
-/// Calculate the maximum acceleration based on the direction of driving.
-/// Acceleration is the lowest in the sideways direction and highest in the forward direction.
-double ControlUtils::calculateMaxAcceleration(const Vector2 &vel, double angle) {
-    // get the angle difference and turn it into a normalized vector
-    Angle angleDiff = vel.toAngle() - angle;
-    Vector2 toVectorDiff = angleDiff.toVector2();
-
-    // get the x-component of the vector and use linear interpolation to get the max acceleration
-    double a = abs(toVectorDiff.x);
-    return Constants::MAX_ACC_UPPER() * (a) + Constants::MAX_ACC_LOWER() * (1-a);
+    return prevVel + deltaVel.stretchToLength(finalAcceleration);
 }
 
 /// Get the intersection of two lines
