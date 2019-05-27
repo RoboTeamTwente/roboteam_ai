@@ -70,7 +70,7 @@ void Dribble::onInitialize() {
     }
 
     if (!robot->hasBall()) {
-        ROS_ERROR("Dribble Initialize -> Robot does not have the ball!");
+        ROS_ERROR("Dribble Initialize -> RobotPtr does not have the ball!");
         currentProgress = Progression::FAIL;
         return;
     }

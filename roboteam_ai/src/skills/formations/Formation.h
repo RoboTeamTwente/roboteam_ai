@@ -24,10 +24,10 @@ protected:
 
     // these two always need to be overridden
     virtual Vector2 getFormationPosition() =0;
-    virtual std::shared_ptr<vector<std::shared_ptr<Robot>>> robotsInFormationPtr() =0;
+    virtual std::shared_ptr<vector<RobotPtr>> robotsInFormationPtr() =0;
 
     double errorMargin = 0.1;
-    static std::vector<std::shared_ptr<Robot>> robotsInFormation;
+    static std::vector<RobotPtr> robotsInFormation;
     static bool update;
     static int updateCount;
     int robotsInFormationMemory = 0;

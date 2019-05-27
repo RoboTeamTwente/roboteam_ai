@@ -22,7 +22,7 @@ struct DefenderBot {
   botType type;
 
   int coveredCount = 0;
-  world::Robot toRobot();
+  const world::Robot::RobotPtr toRobot();
   bool validPosition(const world::WorldData &world);
 };
 class DefencePositionCoach {

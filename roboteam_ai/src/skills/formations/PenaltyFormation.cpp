@@ -5,11 +5,11 @@
 #include <roboteam_ai/src/control/PositionUtils.h>
 #include "PenaltyFormation.h"
 
-std::shared_ptr<vector<std::shared_ptr<rtt::ai::world::Robot>>> rtt::ai::PenaltyFormation::robotsInFormation = nullptr;
+std::shared_ptr<vector<bt::Leaf::RobotPtr>> rtt::ai::PenaltyFormation::robotsInFormation = nullptr;
 
 rtt::ai::PenaltyFormation::PenaltyFormation(std::string name, bt::Blackboard::Ptr blackboard)
         :Formation(name, blackboard) {
-    robotsInFormation = std::make_shared<vector<std::shared_ptr<world::Robot>>>();
+    robotsInFormation = std::make_shared<vector<bt::Leaf::RobotPtr>>();
 
 }
 Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
@@ -38,6 +38,6 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
     }
 }
 
-shared_ptr<vector<shared_ptr<bt::Leaf::Robot>>> rtt::ai::PenaltyFormation::robotsInFormationPtr() {
+shared_ptr<vector<bt::Leaf::RobotPtr>> rtt::ai::PenaltyFormation::robotsInFormationPtr() {
     return robotsInFormation;
 }

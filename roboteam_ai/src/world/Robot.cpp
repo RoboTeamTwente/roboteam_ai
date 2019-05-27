@@ -15,15 +15,16 @@ namespace world {
 
 Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
         unsigned char genevaState, unsigned char dribblerState, unsigned long worldNumber)
-        :distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(worldNumber), genevaState(genevaState),
-         dribblerState(dribblerState),
-         id(copy.id), angle(copy.angle), pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
+        : pidPreviousVel(Vector2()), distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(worldNumber),
+        genevaState(genevaState), dribblerState(dribblerState), id(copy.id),
+        angle(copy.angle), pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
 
     if (id > - 1 && id < 16) {
         workingGeneva = Constants::ROBOT_HAS_WORKING_GENEVA(id);
         workingDribbler = Constants::ROBOT_HAS_WORKING_DRIBBLER(id);
     }
     else {
+        std::cout << "Warning: creating robot with id = " << id << "!" << std::endl;
         workingGeneva = false;
         workingDribbler = false;
     }
@@ -48,7 +49,7 @@ double Robot::getDistanceToBall() {
     return distanceToBall;
 }
 
-void Robot::updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const Ball &ball, unsigned long worldNumber) {
+void Robot::updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const BallPtr &ball, unsigned long worldNumber) {
     if (robotMsg.id == this->id) {
         this->pos = robotMsg.pos;
         this->vel = robotMsg.vel;
@@ -56,7 +57,7 @@ void Robot::updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const Ball &b
         this->angularVelocity = robotMsg.w;
         this->lastUpdatedWorldNumber = worldNumber;
     }
-    distanceToBall = calculateDistanceToBall(ball.pos);
+    distanceToBall = calculateDistanceToBall(ball->pos);
     iHaveBall = distanceToBall >= 0.0;
 }
 
@@ -166,8 +167,16 @@ const shared_ptr<control::BasicPosControl> &Robot::getBasicGtp() const {
     return basicGTP;
 }
 
-void Robot::setWorkingGeneva(bool workingGeneva) {
-    Robot::workingGeneva = workingGeneva;
+void Robot::setWorkingGeneva(bool genevaIsWorking) {
+    workingGeneva = genevaIsWorking;
+}
+
+const Vector2 &Robot::getPidPreviousVel() const {
+    return pidPreviousVel;
+}
+
+void Robot::setPidPreviousVel(const Vector2 &pidVel) {
+    pidPreviousVel = pidVel;
 }
 
 } //world

@@ -29,8 +29,8 @@ double WorldHelper::getRandomValue(double min, double max) {
  * Generate a random position on a field
  */
 rtt::Vector2 WorldHelper::getRandomFieldPosition(roboteam_msgs::GeometryFieldSize field) {
-    auto randomX = getRandomValue(-(field.field_width/2), field.field_width/2);
-    auto randomY = getRandomValue(-(field.field_length/2), field.field_length/2);
+    auto randomX = getRandomValue(-(field.field_length/2), field.field_length/2);
+    auto randomY = getRandomValue(-(field.field_width/2), field.field_width/2);
     return {randomX, randomY};
 }
 

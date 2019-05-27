@@ -52,10 +52,10 @@ bool Field::pointIsInField(const Vector2& point, float margin) {
     float halfLength = _field.field_length*0.5f;
     float halfWidth = _field.field_width*0.5f;
 
-    return (point.x < halfLength - margin &&
-            point.x > - halfLength + margin &&
-            point.y < halfWidth - margin &&
-            point.y > - halfWidth + margin);
+    return (point.x <= halfLength - margin &&
+            point.x >= - halfLength + margin &&
+            point.y <= halfWidth - margin &&
+            point.y >= - halfWidth + margin);
 
 }
 
@@ -92,23 +92,23 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
     std::vector<std::pair<Vector2, Vector2>> blockades = {};
 
     // get all the robots
-    std::vector<Robot> robots=data.us;
+    auto robots=data.us;
     robots.insert(robots.begin(),data.them.begin(),data.them.end());
     // all the obstacles should be robots
     for (auto const &robot : robots) {
-        if (robot.id == id && robot.team == (ourTeam ? Robot::Team::us : Robot::Team::them)) continue;
-        double lenToBot=(point-robot.pos).length();
+        if (robot->id == id && robot->team == (ourTeam ? Robot::Team::us : Robot::Team::them)) continue;
+        double lenToBot=(point-robot->pos).length();
         // discard already all robots that are not at all between the goal and point, or if a robot is standing on this point
         bool isRobotItself = lenToBot<=robotRadius;
-        bool isInPotentialBlockingZone = ourGoal ? robot.pos.x < point.x + robotRadius : robot.pos.x
+        bool isInPotentialBlockingZone = ourGoal ? robot->pos.x < point.x + robotRadius : robot->pos.x
                 > point.x - robotRadius;
         if (! isRobotItself && isInPotentialBlockingZone) {
 
             // get the left and right sides of the robot
             double theta=asin(robotRadius/lenToBot);
             double length=sqrt(lenToBot*lenToBot-robotRadius*robotRadius);
-            Vector2 lowerSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot.pos)-point).angle()-theta);
-            Vector2 upperSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot.pos)-point).angle()+theta);
+            Vector2 lowerSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot->pos)-point).angle()-theta);
+            Vector2 upperSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot->pos)-point).angle()+theta);
             // map points onto goal line
 
             // the forwardIntersection returns a double which is the scale of the vector projection
@@ -321,35 +321,22 @@ Polygon Field::getDefenseArea(bool ourDefenseArea, double margin, bool includeOu
 
     double backLineUsXCoordinate = includeOutSideField ? - _field.field_length*0.5 -_field.boundary_width : - _field.field_length*0.5 - margin;
     double backLineThemXCoordinate = includeOutSideField ? _field.field_length*0.5 +_field.boundary_width : _field.field_length*0.5 + margin;
-    Polygon defenceAreaUs({
-          {_field.left_penalty_line.begin.x + margin, _field.left_penalty_line.begin.y - margin},
-          {_field.left_penalty_line.end.x + margin, _field.left_penalty_line.end.y + margin},
-          {backLineUsXCoordinate, _field.left_penalty_line.end.y + margin},
-          {backLineUsXCoordinate, _field.left_penalty_line.begin.y - margin},
-    });
 
-    Polygon defenceAreaThem({
-        {_field.right_penalty_line.begin.x - margin, _field.right_penalty_line.begin.y - margin},
-        {_field.right_penalty_line.end.x - margin, _field.right_penalty_line.end.y + margin},
-        {backLineThemXCoordinate, _field.right_penalty_line.end.y + margin},
-        {backLineThemXCoordinate, _field.right_penalty_line.begin.y - margin},
-    });
+    std::vector<Vector2> defenceAreaUsPoints = {
+    {_field.left_penalty_line.begin.x + margin, _field.left_penalty_line.begin.y - margin},
+    {_field.left_penalty_line.end.x + margin, _field.left_penalty_line.end.y + margin},
+    {backLineUsXCoordinate, _field.left_penalty_line.end.y + margin},
+    {backLineUsXCoordinate, _field.left_penalty_line.begin.y - margin}};
 
+    Polygon defenceAreaUs(defenceAreaUsPoints);
 
-//    interface::Input::drawDebugData({
-//        {_field.left_penalty_line.begin.x + margin, _field.left_penalty_line.begin.y - margin},
-//        {_field.left_penalty_line.end.x + margin, _field.left_penalty_line.end.y + margin},
-//        {backLineUsXCoordinate, _field.left_penalty_line.end.y + margin},
-//        {backLineUsXCoordinate, _field.left_penalty_line.begin.y - margin},
-//        }, Qt::red, -1, interface::Drawing::LINES_CONNECTED);
-//
-//    interface::Input::drawDebugData({
-//        {_field.right_penalty_line.begin.x - margin, _field.right_penalty_line.begin.y - margin},
-//        {_field.right_penalty_line.end.x - margin, _field.right_penalty_line.end.y + margin},
-//        {backLineThemXCoordinate, _field.right_penalty_line.end.y + margin},
-//        {backLineThemXCoordinate, _field.right_penalty_line.begin.y - margin},
-//    },  Qt::red, -1, interface::Drawing::LINES_CONNECTED);
+    std::vector<Vector2> defenceAreaThemPoints = {
+            {_field.right_penalty_line.begin.x - margin, _field.right_penalty_line.begin.y - margin},
+            {_field.right_penalty_line.end.x - margin, _field.right_penalty_line.end.y + margin},
+            {backLineThemXCoordinate, _field.right_penalty_line.end.y + margin},
+            {backLineThemXCoordinate, _field.right_penalty_line.begin.y - margin}};
 
+    Polygon defenceAreaThem(defenceAreaThemPoints);
     return ourDefenseArea ? defenceAreaUs : defenceAreaThem;
 }
 
