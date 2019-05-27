@@ -17,11 +17,7 @@ namespace control {
 
 class PathPoint : public std::enable_shared_from_this<PathPoint> {
     private:
-        double maxV = 8.0;
         using PathPointer = std::shared_ptr<PathPoint>;
-        double maxAccAtLowV = 6.1;
-        double maxAccAtHighV = 3.1;
-        double maxDecelleration = 6.1;
 
     public:
         Vector2 currentTarget;  //Either the endPoint or an in between target
@@ -30,11 +26,13 @@ class PathPoint : public std::enable_shared_from_this<PathPoint> {
         Vector2 vel;
         Vector2 acc;
 
-        double maxVel();
-        double maxAcc();
-        double maxDec();
+        double maxVelocity() { return rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel; }
+        double maxAcceleration() { return Constants::MAX_ACC_UPPER(); }
+        double maxDeceleration() { return Constants::MAX_DEC_UPPER(); }
 
-        explicit PathPoint();
+        double maxVel();
+
+        explicit PathPoint() = default;
 
         double t = 0;
         int collisions = 0;

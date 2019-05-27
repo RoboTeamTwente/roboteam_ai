@@ -224,12 +224,9 @@ Vector2 ControlUtils::velocityLimiter(const Vector2 &vel, double maxVel, double 
 
 
 /// Limits acceleration
-Vector2 ControlUtils::accelerationLimiter(const Vector2 &targetVel, const Vector2 &prevVel, const Angle &targetAngle) {
-
-    const double sidewaysAcceleration = Constants::MAX_ACC_LOWER() / Constants::TICK_RATE();
-    const double forwardsAcceleration = Constants::MAX_ACC_UPPER() / Constants::TICK_RATE();
-    const double sidewaysDeceleration = Constants::MAX_DEC_LOWER() / Constants::TICK_RATE();
-    const double forwardsDeceleration = Constants::MAX_DEC_UPPER() / Constants::TICK_RATE();
+Vector2 ControlUtils::accelerationLimiter(const Vector2 &targetVel, const Vector2 &prevVel, const Angle &targetAngle,
+        double sidewaysAcceleration, double forwardsAcceleration,
+        double sidewaysDeceleration, double forwardsDeceleration) {
 
     Vector2 deltaVel = targetVel - prevVel;
 
@@ -278,6 +275,7 @@ double ControlUtils::twoLineForwardIntersection(const Vector2& a1,const Vector2&
     else
         return -1.0;
 }
+
 /// Returns point in field closest to a given point.
 /// If the point is already in the field it returns the same as the input.
 Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, float margin) {

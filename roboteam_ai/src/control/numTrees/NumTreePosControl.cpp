@@ -45,15 +45,21 @@ PosVelAngle NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
     target.vel = path[targetPathPoint].vel; // Velocity is not used currently!!
     target.angle = (target.pos - robot->pos).angle();
 
-    interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, {target.pos}, Qt::white, robot->id,
-            interface::Drawing::CIRCLES, 8, 8, 6);
-
+    interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, {target.pos}, Qt::green, robot->id,
+            interface::Drawing::DOTS, 12, 12);
+    interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, {target.pos, target.pos + target.vel*0.4}, Qt::red,
+            robot->id,
+            interface::Drawing::LINES_CONNECTED);
     return target;
 }
 
 /// finds a path using a numeric model
 PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle) {
+
+    DT = 0.2/rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
+    if (DT > 0.2) DT = 0.2;
+    if (DT < 0.05) DT = 0.05;
 
     // check if the robot exists
     if (! robotPtr) return {};
@@ -97,7 +103,7 @@ PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr,
     interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot->id,
             interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot->id,
-            interface::Drawing::CIRCLES, 8, 8, 4);
+            interface::Drawing::CIRCLES, 8, 8, 6);
 
     // check if we have a nice path. use forces otherwise.
     if (nicePath) {
@@ -223,18 +229,25 @@ NumTreePosControl::PathPointer NumTreePosControl::computeNewPoint(
     triedPaths.push_back(newPoint->pos);
 
     auto dir = (subTarget - newPoint->pos).normalize();
-    auto targetVel = dir*newPoint->maxVel();
 
-// change acceleration towards the target velocity
-    newPoint->acc = (targetVel - newPoint->vel).stretchToLength(newPoint->maxAcc());
+    // change acceleration towards the target velocity
+    newPoint->acc = (dir*newPoint->maxVel() - newPoint->vel);
 
-// if the current velocity is away (>90 degrees) from the target, accelerate more towards target
-    Angle dAngle = newPoint->vel.toAngle() - dir.toAngle();
-    if (fabs(dAngle) > M_PI_2)
-        newPoint->acc = (newPoint->acc.normalize() - newPoint->vel.normalize())*newPoint->maxAcc();
+    Angle deltaAngle = newPoint->vel.toAngle() - dir.toAngle();
+    if (fabs(deltaAngle) > M_PI_2) {
+        // if the current velocity is away (>90 degrees) from the target, accelerate more towards target
+        newPoint->acc = (newPoint->acc.normalize() - newPoint->vel.normalize());
+    }
+    Vector2 targetVel = newPoint->vel + newPoint->acc.stretchToLength(DT*
+            std::max(newPoint->maxAcceleration(), newPoint->maxDeceleration()));
+    Angle targetAngle = (targetVel - oldPoint->vel).toAngle();
 
-//ODE model to get new position/velocity:
-    newPoint->vel += newPoint->acc*DT;
+    newPoint->vel = ControlUtils::accelerationLimiter(targetVel, oldPoint->vel, targetAngle,
+            newPoint->maxAcceleration()*DT, newPoint->maxAcceleration()*DT,
+            newPoint->maxDeceleration()*DT, newPoint->maxDeceleration()*DT);
+
+    //ODE model to get new position/velocity:
+    //newPoint->vel += newPoint->acc*DT;
     newPoint->pos += newPoint->vel*DT;
 
     newPoint->collisions = oldPoint->collisions;
@@ -275,12 +288,15 @@ Collision NumTreePosControl::getRobotCollision(
     // for all robots check if the distance to collisionPos is smaller than the set distance
     Collision collision = {};
     auto currentRobotCollision = currentCollisionWithRobot.getCollisionRobot();
+    auto currentFinalTargetCollision = currentCollisionWithFinalTarget.getCollisionRobot();
 
     for (auto &r : robots) {
         // cant collide with itself
         if (r->id == this->robot->id && r->team == this->robot->team) continue;
         // don't look at the robot it is colliding with already
         if (r->id == currentRobotCollision->id && r->team == currentRobotCollision->team) continue;
+        // don't look at the final target if the robot is colliding
+        if (r->id == currentFinalTargetCollision->id && r->team == currentFinalTargetCollision->team) continue;
 
         if (point->isCollision(r->pos, distance)) {
             collision.setCollisionRobot(r, distance);
@@ -293,6 +309,7 @@ Collision NumTreePosControl::getRobotCollision(
 Collision NumTreePosControl::getBallCollision(const PathPointer &point, const PosController::BallPtr &ball) {
     Collision collision = {};
     if (currentCollisionWithRobot.getCollisionBall()->visible) return collision;
+    if (currentCollisionWithFinalTarget.getCollisionBall()->visible) return collision;
 
     double avoidBallDistance = getAvoidBallDistance();
     if (point->isCollision(ball->pos, avoidBallDistance)) {
@@ -304,20 +321,22 @@ Collision NumTreePosControl::getBallCollision(const PathPointer &point, const Po
 
 Collision NumTreePosControl::getFieldCollision(const PathPointer &point) {
     Collision collision = {};
-    if (currentCollisionWithRobot.getCollisionFieldPos() == Vector2())
+    if (currentCollisionWithRobot.getCollisionFieldPos() != Vector2()) return collision;
+    if (currentCollisionWithFinalTarget.getCollisionFieldPos() != Vector2()) return collision;
 
-        if (! getCanMoveOutOfField()) {
-            if (! world::field->pointIsInField(point->pos)) {
-                collision.setFieldCollision(point->pos, 0.2);
-                return collision;
-            }
+    if (! getCanMoveOutOfField()) {
+        if (! world::field->pointIsInField(point->pos)) {
+            collision.setFieldCollision(point->pos, 0.2);
+            return collision;
         }
+    }
     return collision;
 }
 
 Collision NumTreePosControl::getDefenseAreaCollision(const PathPointer &point) {
     Collision collision = {};
-    if (currentCollisionWithRobot.getCollisionDefenseAreaPos() == Vector2())
+    if (currentCollisionWithRobot.getCollisionDefenseAreaPos() != Vector2()) return collision;
+    if (currentCollisionWithFinalTarget.getCollisionDefenseAreaPos() != Vector2()) return collision;
 
         if (! getCanMoveInDefenseArea()) {
             bool isInOurDefenseArea = world::field->pointIsInDefenceArea(point->pos, true, Constants::ROBOT_RADIUS(),
@@ -401,18 +420,30 @@ bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
 }
 
 bool NumTreePosControl::checkCurrentRobotCollision() {
-    Collision previousCollision = currentCollisionWithRobot;
+    Collision previousCollisionWithRobot = currentCollisionWithRobot;
+    Collision previousCollisionWithFinalTarget = currentCollisionWithFinalTarget;
+
     currentCollisionWithRobot = Collision();
+    currentCollisionWithFinalTarget = Collision();
 
-    PathPointer realRobot = std::make_shared<PathPoint>();
-    realRobot->pos = robot->pos;
-    realRobot->vel = robot->vel;
-    realRobot->t = 0;
-    currentCollisionWithRobot = getCollision(realRobot, DEFAULT_ROBOT_COLLISION_RADIUS);
-    if (currentCollisionWithRobot.isCollision) {
-        if (previousCollision.getCollisionType() == currentCollisionWithRobot.getCollisionType()) return false;
-        if (pathHasRobotCollision) return false;
+    PathPointer realRobotPoint = std::make_shared<PathPoint>();
+    realRobotPoint->pos = robot->pos;
+    realRobotPoint->vel = robot->vel;
+    realRobotPoint->t = 0;
+    currentCollisionWithRobot = getCollision(realRobotPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
+    PathPointer finalTargetPoint = std::make_shared<PathPoint>();
+    finalTargetPoint->pos = finalTargetPos;
+    finalTargetPoint->vel = Vector2();
+    finalTargetPoint->t = 0;
+    currentCollisionWithFinalTarget = getCollision(finalTargetPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
 
+    bool collision = currentCollisionWithRobot.isCollision &&
+            previousCollisionWithRobot.getCollisionType() != currentCollisionWithRobot.getCollisionType() &&
+            currentCollisionWithFinalTarget.isCollision &&
+            previousCollisionWithFinalTarget.getCollisionType() != currentCollisionWithFinalTarget.getCollisionType() &&
+            !pathHasRobotCollision;
+
+    if (collision) {
         if (InterfaceValues::showDebugNumTreeInfo()) {
             std::string s = currentCollisionWithRobot.collisionTypeToString();
             std::cout << "ROBOT " << robot->id << ": is too close to " << s <<
