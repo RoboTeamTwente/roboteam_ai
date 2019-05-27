@@ -11,11 +11,11 @@ namespace w=rtt::ai::world;
 namespace rtt{
 namespace ai{
 namespace coach{
-w::Robot createRobot(const Vector2& pos,int id, bool ourTeam){
-    w::Robot robot;
-    robot.team=ourTeam? w::Robot::Team::us : w::Robot::Team::them;
-    robot.pos = pos;
-    robot.id=id;
+w::Robot::RobotPtr createRobot(const Vector2& pos,int id, bool ourTeam){
+    w::Robot::RobotPtr robot=std::make_shared<world::Robot>();
+    robot->team=ourTeam? w::Robot::Team::us : w::Robot::Team::them;
+    robot->pos = pos;
+    robot->id=id;
     return robot;
 }
 
@@ -25,18 +25,19 @@ TEST(defensive_coach,blockPoints){
     w::world->updateWorld(testhelpers::WorldHelper::getWorldMsg(0,8,false,field));
     for (int j = 0; j < 500; ++ j) {
         w::world->updateWorld(testhelpers::WorldHelper::getWorldMsg(0,8,false,field));
+        g_defensivePositionCoach.simulatedWorld=g_defensivePositionCoach.setupSimulatedWorld();
         auto testWorld=w::world->getWorld();
         for (const auto& robot : w::world->getThem()){
             std::pair<Vector2,Vector2> goal=w::field->getGoalSides(true);
-            Vector2 toBlockFrom=w::world->getRobotForId(robot.id,false)->pos;
+            Vector2 toBlockFrom=w::world->getRobotForId(robot->id,false)->pos;
             auto lineSegment=g_defensivePositionCoach.getBlockLineSegment(goal,toBlockFrom);
             auto blockPos=g_defensivePositionCoach.getBlockPoint(goal,toBlockFrom,Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
-            testWorld.us.push_back(createRobot(blockPos,robot.id,true));
+            testWorld.us.push_back(createRobot(blockPos,robot->id,true));
             auto parts=w::field->getVisiblePartsOfGoal(true,toBlockFrom,testWorld);
             EXPECT_EQ(parts.size(),0);
 
             if (lineSegment){
-                if (w::field->pointIsInDefenceArea(blockPos,true,0.15)){
+                if (w::field->pointIsInDefenceArea(blockPos,true,0.15)||!w::field->pointIsInField(blockPos)){
                     EXPECT_NE(blockPos,lineSegment->second);
                 }
                 else{
@@ -132,7 +133,6 @@ TEST(defensive_coach,blockPoints){
     }
 }
 // uncomment this once defensivepositions algorithm guarantees to give back positions. Currently will fail but is not to big of an issue
-/*
 TEST(defensive_coach,complete) {
     roboteam_msgs::GeometryFieldSize field = testhelpers::FieldHelper::generateField();
     w::field->set_field(field);
@@ -141,15 +141,14 @@ TEST(defensive_coach,complete) {
         double r = (double) rand()/RAND_MAX;
         w::world->updateWorld(testhelpers::WorldHelper::getWorldMsg(8, 8, r < 0.5, field));
         for (const auto& robot: w::world->getUs()){
-            g_DefenceDealer.addDefender(robot.id);
+            g_DefenceDealer.addDefender(robot->id);
         }
         g_DefenceDealer.updateDefenderLocations();
         for (const auto& robot: w::world->getUs()){
-            EXPECT_NE(g_DefenceDealer.getDefenderPosition(robot.id),nullptr);
+            EXPECT_NE(g_DefenceDealer.getDefenderPosition(robot->id),nullptr);
         }
     }
 }
- */
 
 }
 }
