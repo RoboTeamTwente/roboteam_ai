@@ -79,10 +79,10 @@ bool DefaultTactic::updateRobots() {
 }
 
 void DefaultTactic::disClaimRobots(int amount) {
+    // Sometimes a robot is lost from vision so you want  to disclaim that robot
+
     for (int i = 0; i < amount; i++) {
 
-        // we need to store the robot id for the robot which we will remove
-        // because after releaseRobotforRole, findRobotforRole will return -1 instead
         int robotToReleaseId = dealer::findRobotForRole(getLastClaim().first);
         dealer::releaseRobotForRole(getLastClaim().first); // free it in robotdealer
         robotIDs.erase(robotToReleaseId); // erase it in our array as well
