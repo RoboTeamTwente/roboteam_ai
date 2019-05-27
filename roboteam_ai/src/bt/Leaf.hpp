@@ -17,10 +17,9 @@ class Leaf : public Node {
         std::string name;
 
     protected:
-        using Robot = rtt::ai::world::Robot;
-        using RobotPtr = std::shared_ptr<Robot>;
-        using Ball = rtt::ai::world::Ball;
-        using BallPtr = std::shared_ptr<Ball>;
+
+        using RobotPtr = std::shared_ptr<rtt::ai::world::Robot>;
+        using BallPtr = std::shared_ptr<rtt::ai::world::Ball>;
 
         std::shared_ptr<rtt::ai::world::Robot> getRobotFromProperties(bt::Blackboard::Ptr properties);
         void terminate(Status status) override;

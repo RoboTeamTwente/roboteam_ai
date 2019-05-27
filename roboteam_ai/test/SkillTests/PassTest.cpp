@@ -31,11 +31,18 @@ TEST(PassTest, PassTest) {
     robot1.id = 1;
     robot1.pos.x = 2;
     robot1.pos.y = 5;
+
+    roboteam_msgs::WorldRobot robotThem;
+    robotThem.id = 1;
+    robotThem.pos.x = 5;
+    robotThem.pos.y = 3;
+
     roboteam_msgs::WorldBall ball;
     ball.existence = 11;
     ball.visible = static_cast<unsigned char>(true);
     ball.pos = Vector2(1.0,1.0);
     world.us.push_back(robot1);
+    world.them.push_back(robotThem);
     world.ball = ball;
     w::world->updateWorld(world);
 
