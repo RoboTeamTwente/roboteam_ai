@@ -58,6 +58,7 @@ class NumTreePosControl : public ForcePosControl {
         double remainingStraightLinePathLength(
                 const Vector2 &currentPos, const Vector2 &halfwayPos, const Vector2 &finalPos);
         std::vector<PathPoint> path;
+        bool pathHasRobotCollision = false;
 
         void checkInterfacePID() override;
 

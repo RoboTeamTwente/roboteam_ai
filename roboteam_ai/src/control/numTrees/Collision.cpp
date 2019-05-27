@@ -25,27 +25,28 @@ std::string Collision::collisionTypeToString() {
     return s;
 }
 
-const world::Robot &Collision::getCollisionRobot() const {
+const world::Robot::RobotPtr &Collision::getCollisionRobot() const {
     return collisionRobot;
 }
 
 void Collision::setCollisionRobot(const world::Robot::RobotPtr &robot, double distance) {
     type = ROBOT;
-    collisionRobot = *robot;
+    collisionRobot = robot->copy();
     isCollision = true;
     collisionRadius = distance;
 }
 
-void Collision::setCollisionBall(const world::Ball &ball, double distance) {
+void Collision::setCollisionBall(const world::Ball::BallPtr &ball, double distance) {
     type = BALL;
-    Collision::collisionBall = ball;
+    collisionBall = ball->copy();
+    collisionBall->visible = true;
     isCollision = true;
     collisionRadius = distance;
 }
 
 void Collision::setFieldCollision(const Vector2 &collisionPos, double distance) {
     type = FIELD;
-    Collision::fieldCollision = collisionPos;
+    fieldCollision = collisionPos;
     isCollision = true;
     collisionRadius = distance;
 }
@@ -58,8 +59,8 @@ void Collision::setDefenseAreaCollision(const Vector2 &collisionPos, double dist
 }
 
 const Vector2 Collision::collisionPosition() const {
-    if (collisionRobot.id != - 1) return collisionRobot.pos;
-    else if (collisionBall.visible) return collisionBall.pos;
+    if (collisionRobot->id != - 1) return collisionRobot->pos;
+    else if (collisionBall->visible) return collisionBall->pos;
     else if (fieldCollision != Vector2()) return fieldCollision;
     else if (defenseAreaCollision != Vector2()) return defenseAreaCollision;
     else return {};
@@ -77,7 +78,7 @@ const Vector2 &Collision::getFieldCollision() const {
     return fieldCollision;
 }
 
-const world::Ball &Collision::getCollisionBall() const {
+const world::Ball::BallPtr &Collision::getCollisionBall() const {
     return collisionBall;
 }
 

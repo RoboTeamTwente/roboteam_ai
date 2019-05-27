@@ -29,8 +29,8 @@ class Collision {
     private:
         CollisionType type;
 
-        world::Robot collisionRobot = {};
-        world::Ball collisionBall = {};
+        world::Robot::RobotPtr collisionRobot = {};
+        world::Ball::BallPtr collisionBall = {};
         Vector2 fieldCollision = {};
         Vector2 defenseAreaCollision = {};
 
@@ -39,13 +39,16 @@ class Collision {
 
         Collision() : type(NO_COLLISION), isCollision(false), collisionRadius(0.0) { }
 
-        const world::Robot &getCollisionRobot() const;
+        const world::Robot::RobotPtr &getCollisionRobot() const;
         void setCollisionRobot(const world::Robot::RobotPtr &robot, double distance);
-        const world::Ball &getCollisionBall() const;
-        void setCollisionBall(const world::Ball &ball, double distance);
+
+        const world::Ball::BallPtr &getCollisionBall() const;
+        void setCollisionBall(const world::Ball::BallPtr &ball, double distance);
+
         const Vector2 &getFieldCollision() const;
-        const Vector2 &getDefenseAreaCollision() const;
         void setFieldCollision(const Vector2 &collisionPos, double distance);
+
+        const Vector2 &getDefenseAreaCollision() const;
         void setDefenseAreaCollision(const Vector2 &collisionPos, double distance);
 
         bool isCollision;
