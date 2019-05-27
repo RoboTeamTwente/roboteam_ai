@@ -69,6 +69,9 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
             return rotateAroundBall->getRobotCommand(robot, targetPos, targetAngle);
         }
     }
+    else {
+        lockedAngle = robot->angle;
+    }
 
     // if we do not have the ball yet, go get it
     double deltaPosSquared = (finalTargetPos - ball->pos).length2();

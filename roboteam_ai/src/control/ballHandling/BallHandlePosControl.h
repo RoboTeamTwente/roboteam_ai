@@ -6,9 +6,6 @@
 #define ROBOTEAM_AI_BALLHANDLEPOSCONTROL_H
 
 #include <roboteam_utils/Vector2.h>
-#include "roboteam_ai/src/control/positionControllers/NumTreePosControl.h"
-#include "roboteam_ai/src/control/positionControllers/BasicPosControl.h"
-#include "roboteam_ai/src/control/positionControllers/PosController.h"
 #include "roboteam_ai/src/control/positionControllers/RobotCommand.h"
 
 namespace rtt {
@@ -47,6 +44,7 @@ class BallHandlePosControl {
         Vector2 finalTargetPos;
         Angle targetAngle;
         Angle finalTargetAngle;
+        Angle lockedAngle;
 
         enum TravelStrategy : short {
           forwards,
@@ -56,12 +54,6 @@ class BallHandlePosControl {
 
         // general functions
         RobotCommand goToBall(bool ballIsFarFromTarget, TravelStrategy preferredTravelStrategy = no_preference);
-
-        int waitingTicks = 0;
-        Angle lockedAngle;
-
-        Vector2 previousVelocity = Vector2();
-
     public:
         explicit BallHandlePosControl(bool canMoveInDefenseArea = false);
         ~BallHandlePosControl();
