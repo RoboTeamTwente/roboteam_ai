@@ -51,7 +51,6 @@ public slots:
     void refreshSignal();
     void updateContents();
     void sendHaltSignal();
-    void refreshJsonSignal();
 };
 } // interface
 } // ai
