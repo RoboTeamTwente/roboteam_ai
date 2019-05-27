@@ -43,7 +43,9 @@ void BallPossession::recomputeState() {
 }
 
 void BallPossession::updateTicks() {
-    world::WorldData wd = world::world->getWorld();
+    auto wd = world::world->getWorld();
+    if (!wd.ball) return;
+
     double timeDiff = world::world->getTimeDifference();
 
     // if a team is close or far to the ball increment the timers, otherwise reset them

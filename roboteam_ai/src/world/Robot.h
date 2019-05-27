@@ -29,6 +29,13 @@ class Robot {
         using BallPtr = std::shared_ptr<Ball>;
         using RobotPtr = std::shared_ptr<Robot>;
 
+        // pid
+    private:
+        Vector2 pidPreviousVel = Vector2();
+    public:
+        void setPidPreviousVel(const Vector2 &vel);
+        const Vector2 &getPidPreviousVel() const;
+
         // ball possession
     private:
         double distanceToBall;

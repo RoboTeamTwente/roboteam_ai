@@ -32,13 +32,13 @@ class Skill : public bt::Leaf {
         using WorldData = world::WorldData;
 
         io::IOManager ioManager = io::IOManager(false, true);
-        void limitVelocityCommands();
         void publishRobotCommand();
-        void refreshRobotCommand();
-        roboteam_msgs::RobotCommand command;
+    void refreshRobotCommand();
+    roboteam_msgs::RobotCommand command;
 
         using Control = control::ControlUtils;
         using Status = bt::Node::Status;
+    void limitRobotCommand();
 
     public:
         explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);

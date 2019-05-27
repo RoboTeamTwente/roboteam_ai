@@ -119,9 +119,7 @@ class BallHandlePosControl {
         int waitingTicks = 0;
         Angle lockedAngle;
 
-        // limit velocity & acceleration
         Vector2 previousVelocity = Vector2();
-        RobotCommand limitCommand(RobotCommand command);
     public:
         explicit BallHandlePosControl(bool canMoveInDefenseArea = false);
 

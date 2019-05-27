@@ -68,11 +68,12 @@ class WorldData {
 class WorldBuffer {
     private:
         WorldData* worldBuffer;
-        unsigned int size;
+        int size;
         int lastIndex;
+        int amountOfWorlds;
     public:
-        explicit WorldBuffer(unsigned int size = 20) {
-            WorldBuffer::size = size;
+        explicit WorldBuffer(unsigned int size = 20)
+                :size(size), amountOfWorlds(0) {
             worldBuffer = new WorldData[size];
             lastIndex = 0;
         }
@@ -83,13 +84,17 @@ class WorldBuffer {
 
         void addNewWorld(const WorldData &world) {
             lastIndex ++;
+            amountOfWorlds ++;
             if (lastIndex >= size) lastIndex = 0;
             worldBuffer[lastIndex] = world;
         }
 
-        const WorldData &getPreviousWorld(const int worldsBack) {
+        const WorldData getPreviousWorld(const int worldsBack) {
+            if (worldsBack > amountOfWorlds - 1) return getPreviousWorld(amountOfWorlds - 1);
+
             int location = lastIndex - worldsBack;
             location %= size;
+            if (location < 0) location += 20;
             return worldBuffer[location];
         }
 };
