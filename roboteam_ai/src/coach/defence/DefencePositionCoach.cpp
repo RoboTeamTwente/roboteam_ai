@@ -119,6 +119,7 @@ Line DefencePositionCoach::shortenLineForDefenseArea(const Vector2 &lineStart, c
 world::WorldData DefencePositionCoach::removeBotFromWorld(world::WorldData world, int id, bool ourTeam) {
     auto robots = ourTeam ? world.us : world.them;
     robots.erase(std::remove_if(robots.begin(),robots.end(),[id](world::Robot::RobotPtr robot){return robot->id==id;}));
+    ourTeam ? world.us=robots : world.them=robots;
     return world;
 }
 Vector2 DefencePositionCoach::getMostDangerousPos(const world::WorldData &world) {
