@@ -14,7 +14,7 @@ MidFieldHarasser::MidFieldHarasser(string name, bt::Blackboard::Ptr blackboard)
 
 void MidFieldHarasser::onInitialize() {
     robotBeingHarassed = -1;
-    coach::g_harassRobotCoach.initialize(robot);
+    coach::g_midFieldCoach.addMidFielder(robot);
 }
 
 Skill::Status MidFieldHarasser::onUpdate() {
@@ -28,32 +28,39 @@ Skill::Status MidFieldHarasser::onUpdate() {
         RobotPtr opponent = world::world->getRobotForId(robotBeingHarassed, false);
         if (opponent && ((opponent->pos - robot->pos).length() < HARASSING_SAFETY_MARGINS)) {
             double opponentVelocityLength = opponent->vel.length();
-            velocity = control::ControlUtils::velocityLimiter(velocity, opponentVelocityLength*0.8,
-                    Constants::MIN_VEL());
-        }
-        command.x_vel = static_cast<float>(velocity.x);
-        command.y_vel = static_cast<float>(velocity.y);
-        command.w =  static_cast<float>(getHarassAngle().getAngle());
-        command.use_angle = 1;
-        publishRobotCommand();
 
-        return Status::Running;
+            //TODO: Base this on the actual rules
+            if (opponentVelocityLength > 2.0) {
+                velocity = control::ControlUtils::velocityLimiter(velocity, opponentVelocityLength * 0.8,
+                                                                  Constants::MIN_VEL());
+            }
+        }
     }
-    return Status::Failure;
+
+    command.x_vel = static_cast<float>(velocity.x);
+    command.y_vel = static_cast<float>(velocity.y);
+    command.w = newPosition.angle;
+    command.use_angle = 1;
+    publishRobotCommand();
+
+    return Status::Running;
 }
 
 void MidFieldHarasser::onTerminate(Skill::Status s) {
-    command.w = static_cast<float>(robot->angle);
-    command.use_angle = 1;
-    command.x_vel = 0;
-    command.y_vel = 0;
-
-    publishRobotCommand();
+    coach::g_midFieldCoach.removeMidFielder(robot);
 }
 
 
 Vector2 MidFieldHarasser::getHarassTarget() {
-    auto harassTarget = coach::g_harassRobotCoach.getHarassPosition(robot);
+    auto harassTarget = coach::g_midFieldCoach.getTargetPosition(robot);
+
+    if (!world::field->pointIsInField(harassTarget.harassPosition, 0.20)) {
+        harassTarget.harassPosition = robot->pos;
+    }
+
+    interface::Input::drawData(interface::Visual::PATHFINDING, {harassTarget.harassPosition}, Qt::darkYellow, robot->id,
+                               interface::Drawing::CROSSES, 3, 3);
+
     robotBeingHarassed = harassTarget.harassRobot;
     return harassTarget.harassPosition;
 }

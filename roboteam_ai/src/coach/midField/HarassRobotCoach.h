@@ -25,6 +25,7 @@ class HarassRobotCoach {
         const double HARASS_THRESHOLD = 1.2;
         const double TOO_CLOSE_TO_BALL_DISTANCE = 0.5;
         const double MINIMUM_HARASS_VELOCITY = 1.0;
+        const double DISTANCE_FROM_MIDDLE_LINE = 2.0;
 
         const double DEFAULT_HARASSING_DISTANCE = 0.5;
         const double HARASSER_SECONDS_AHEAD = 0.5;
@@ -39,11 +40,12 @@ class HarassRobotCoach {
 
         BallPtr ball;
         double bestXPos;
+
         std::vector<RobotPtr> currentMidfielders;
         std::map<int, Vector2> targetPositions;
-
         std::map<int, RobotPtr> targetRobotsToHarass;
 
+        bool validOpponent(RobotPtr opponent);
         Vector2 harassRobot(const RobotPtr &thisRobot, int opponentId = - 1);
 
         int getRobotIdCloseToEnemyRobot(const RobotPtr &enemyRobot) const;
@@ -54,7 +56,6 @@ class HarassRobotCoach {
 
         Vector2 standInMidField(const RobotPtr &thisRobot);
     public:
-
         HarassTarget getHarassPosition(const RobotPtr &thisRobot);
         Angle getHarassAngle(const RobotPtr &thisRobot);
         HarassTarget initialize(RobotPtr &thisRobot);

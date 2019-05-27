@@ -18,6 +18,24 @@ HarassRobotCoach g_harassRobotCoach;
 
 // update harass-targetPosition based on current position and the position of other robots in the same tactic
 HarassRobotCoach::HarassTarget HarassRobotCoach::getHarassPosition(const RobotPtr &thisRobot) {
+    HarassTarget harassTarget;
+
+    //Check if robot already has a robot to harass
+    if(targetRobotsToHarass.find(thisRobot->id) != targetRobotsToHarass.end()) {
+        RobotPtr opponent = targetRobotsToHarass[thisRobot->id];
+        // Check if the opponent is still valid
+        if (validOpponent(opponent)) {
+            harassTarget.harassRobot = opponent->id;
+            harassTarget.harassPosition = harassRobot(thisRobot, targetRobotsToHarass[thisRobot->id]->id);
+            return harassTarget;
+        }
+    }
+
+    // If the above does not return, find a new target to go to
+
+
+
+
     ball = world::world->getBall();
     auto field = world::field->get_field();
     auto report = analysis::GameAnalyzer::getInstance().getMostRecentReport();
@@ -76,6 +94,10 @@ Vector2 HarassRobotCoach::harassRobot(const RobotPtr &thisRobot, int opponentId)
     if (world::world->theirRobotHasBall(opponentId)) {
         target = ball->pos;
     } else {
+        // If ball is on our side, harass
+
+
+
 
         if (robotToHarass->vel.length() > MINIMUM_HARASS_VELOCITY) {
             Vector2 harassingDistance = {robotToHarass->vel.length()*HARASSER_SECONDS_AHEAD, 0};
@@ -270,6 +292,10 @@ bool HarassRobotCoach::robotAlreadyBeingHarassed(int myId, int opponentID) {
         }
     }
     return false;
+}
+
+bool HarassRobotCoach::validOpponent(RobotPtr opponent) {
+    return abs(opponent->pos.x) < DISTANCE_FROM_MIDDLE_LINE;
 }
 
 } //coach
