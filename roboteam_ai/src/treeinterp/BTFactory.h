@@ -7,20 +7,10 @@
 #ifndef ROBOTEAM_AI_BTFACTORY_H
 #define ROBOTEAM_AI_BTFACTORY_H
 
-#include "json.h"
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <gtest/gtest_prod.h>
+#include <roboteam_ai/src/bt/BehaviorTree.hpp>
 #include <map>
-#include "TreeInterpreter.h"
-#include "BTImport.h"
-#include "roboteam_ai/src/Switches.h"
 
 class BTFactory {
-
-        // TODO: have the names of all the project before here
-
    static std::mutex keeperTreeMutex;
 
     public:

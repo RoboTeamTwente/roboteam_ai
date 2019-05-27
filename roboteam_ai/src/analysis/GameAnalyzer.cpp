@@ -4,9 +4,8 @@
 
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/world/BallPossession.h>
+#include <roboteam_ai/src/world/Field.h>
 #include "GameAnalyzer.h"
-#include "../world/World.h"
-#include "../world/Field.h"
 #include "RobotDanger.h"
 
 namespace rtt {

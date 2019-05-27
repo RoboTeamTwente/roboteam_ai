@@ -9,8 +9,8 @@
 #define ROBOTEAM_AI_ANALYSISREPORT_H
 
 #include <roboteam_msgs/WorldRobot.h>
+#include <roboteam_ai/src/world/Robot.h>
 #include "RobotDanger.h"
-#include "../world/WorldData.h"
 
 namespace rtt {
 namespace ai {
