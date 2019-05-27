@@ -20,7 +20,7 @@ BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea)
 
     dribbleForwards = new DribbleForwards(errorMargin, angleErrorMargin, ballPlacementAccuracy, maxForwardsVelocity);
     dribbleBackwards = new DribbleBackwards(errorMargin, angleErrorMargin, ballPlacementAccuracy, maxBackwardsVelocity);
-    rotateAroundRobot = new RotateAroundRobot();
+    rotateAroundRobot = new RotateWithBall();
     rotateAroundBall = new RotateAroundBall();
     numTreePosControl = new NumTreePosControl();
 

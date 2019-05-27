@@ -16,7 +16,7 @@ class NumTreePosControl;
 class DribbleBackwards;
 class DribbleForwards;
 class RotateAroundBall;
-class RotateAroundRobot;
+class RotateWithBall;
 class BallHandlePosControl {
     private:
         using BallPtr = std::shared_ptr<world::Ball>;
@@ -24,7 +24,7 @@ class BallHandlePosControl {
 
         DribbleForwards* dribbleForwards;
         DribbleBackwards* dribbleBackwards;
-        RotateAroundRobot* rotateAroundRobot;
+        RotateWithBall* rotateAroundRobot;
         RotateAroundBall* rotateAroundBall;
         NumTreePosControl* numTreePosControl;
 

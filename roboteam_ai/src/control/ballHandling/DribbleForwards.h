@@ -15,7 +15,7 @@ namespace ai {
 namespace control {
 
 class RotateAroundBall;
-class RotateAroundRobot;
+class RotateWithBall;
 class DribbleForwards {
     public:
         enum ForwardsProgress : short {
@@ -30,7 +30,7 @@ class DribbleForwards {
 
     private:
         RotateAroundBall* rotateAroundBall;
-        RotateAroundRobot* rotateAroundRobot;
+        RotateWithBall* rotateAroundRobot;
 
         using RobotPtr = world::Robot::RobotPtr;
         using BallPtr = world::Ball::BallPtr;

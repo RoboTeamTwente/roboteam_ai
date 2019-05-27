@@ -11,7 +11,7 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-class RotateAroundRobot {
+class RotateWithBall {
         using RobotPtr = world::Robot::RobotPtr;
         using BallPtr = world::Ball::BallPtr;
         RobotPtr robot;

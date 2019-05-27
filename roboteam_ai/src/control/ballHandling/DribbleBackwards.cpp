@@ -242,7 +242,7 @@ DribbleBackwards::DribbleBackwards(double errorMargin, double angularErrorMargin
         :waitingTicks(0), errorMargin(errorMargin), angleErrorMargin(angularErrorMargin),
          ballPlacementAccuracy(ballPlacementAccuracy), maxVel(maxVel) {
     rotateAroundBall = new RotateAroundBall();
-    rotateAroundRobot = new RotateAroundRobot();
+    rotateAroundRobot = new RotateWithBall();
 }
 
 DribbleBackwards::~DribbleBackwards() {

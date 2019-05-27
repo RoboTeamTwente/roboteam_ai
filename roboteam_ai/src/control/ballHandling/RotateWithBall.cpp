@@ -10,7 +10,7 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-RobotCommand RotateAroundRobot::getRobotCommand(const world::Robot::RobotPtr &r, const Vector2 &targetP,
+RobotCommand RotateWithBall::getRobotCommand(const world::Robot::RobotPtr &r, const Vector2 &targetP,
         const Angle &targetA) {
 
     RobotCommand robotCommand;
