@@ -13,7 +13,7 @@ RobotDanger AnalysisReport::getRobotDangerForId(int id, bool ourTeam) {
 
     if (!robotDangers.empty()) {
         for (auto const &dangerPair : robotDangers) {
-            if (dangerPair.first.id == id) {
+            if (dangerPair.first->id == id) {
                 return dangerPair.second;
             }
         }

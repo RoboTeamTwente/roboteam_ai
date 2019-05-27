@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "roboteam_ai/src/bt/bt.hpp"
+#include "roboteam_ai/src/skills/Kick.h"
 
 namespace bt {
 
@@ -467,10 +468,11 @@ TEST(BehaviorTreeTest, decorators) {
 }
 
 TEST(BehaviorTreeTest, StatusToString) {
-    EXPECT_EQ(bt::statusToString(bt::Node::Status::Failure), "Failure");
-    EXPECT_EQ(bt::statusToString(bt::Node::Status::Waiting), "Waiting");
-    EXPECT_EQ(bt::statusToString(bt::Node::Status::Success), "Success");
-    EXPECT_EQ(bt::statusToString(bt::Node::Status::Running), "Running");
+    bt::Node::Ptr node = std::make_shared<rtt::ai::Kick>();
+    EXPECT_EQ(node->status_print(bt::Node::Status::Failure), "Failure");
+    EXPECT_EQ(node->status_print(bt::Node::Status::Waiting), "Waiting");
+    EXPECT_EQ(node->status_print(bt::Node::Status::Success), "Success");
+    EXPECT_EQ(node->status_print(bt::Node::Status::Running), "Running");
 }
 
 TEST(BehaviorTreeTest, it_sets_blackboards) {

@@ -53,13 +53,11 @@ void GoToPos::onInitialize() {
 void GoToPos::setPositionController(const GoToType &gTT) {
     switch (gTT) {
     default:
-    case numTree:
-        posController = robot->getNumtreeGtp();
+    case numTree:posController = robot->getNumtreeGtp();
         return;
-    case basic:posController = std::make_shared<control::BasicPosControl>();
+    case basic:posController = robot->getBasicGtp();
         return;
-    case force:
-        std::cout << "force pos controller is deprecated " << std::endl;
+    case force:std::cout << "force pos controller is deprecated " << std::endl;
         posController = std::make_shared<control::ForcePosControl>();
         return;
     }
@@ -82,14 +80,14 @@ bt::Node::Status GoToPos::onUpdate() {
             return Status::Success;
         }
     }
-
+    if (command.x_vel == 0 || command.y_vel == 0 || command.w == 0) {
     control::PosVelAngle pva = posController->getPosVelAngle(robot, targetPos, targetAngle);
-    pva.vel = control::ControlUtils::velocityLimiter(pva.vel, maxVel);
 
-    // set robotcommands if they have not been set yet in gtpUpdate()
-    command.x_vel = command.x_vel == 0 ? static_cast<float>(pva.vel.x) : command.x_vel;
-    command.y_vel = command.y_vel == 0 ? static_cast<float>(pva.vel.y) : command.y_vel;
-    command.w = command.w == 0 ? static_cast<float>(pva.angle) : command.w;
+        // set robotcommands if they have not been set yet in gtpUpdate()
+        command.x_vel = command.x_vel == 0 ? static_cast<float>(pva.vel.x) : command.x_vel;
+        command.y_vel = command.y_vel == 0 ? static_cast<float>(pva.vel.y) : command.y_vel;
+        command.w = command.w == 0 ? static_cast<float>(pva.angle) : command.w;
+    }
 
     publishRobotCommand();
     return Status::Running;

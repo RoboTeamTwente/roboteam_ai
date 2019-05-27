@@ -5,11 +5,11 @@
 namespace rtt {
 namespace ai {
 
-    std::shared_ptr<vector<std::shared_ptr<world::Robot>>> KickOffUsFormation::robotsInFormation = nullptr;
+    std::shared_ptr<vector<bt::Leaf::RobotPtr>> KickOffUsFormation::robotsInFormation = nullptr;
 
     KickOffUsFormation::KickOffUsFormation(std::string name, bt::Blackboard::Ptr blackboard)
         : Formation(name, blackboard) {
-        robotsInFormation = std::make_shared<vector<std::shared_ptr<world::Robot>>>();
+        robotsInFormation = std::make_shared<vector<bt::Leaf::RobotPtr>>();
     }
 
 Vector2 KickOffUsFormation::getFormationPosition() {
@@ -40,7 +40,7 @@ Vector2 KickOffUsFormation::getFormationPosition() {
     return shortestDistances.at(robot->id);
 }
 
-shared_ptr<vector<shared_ptr<bt::Leaf::Robot>>> KickOffUsFormation::robotsInFormationPtr() {
+shared_ptr<vector<bt::Leaf::RobotPtr>> KickOffUsFormation::robotsInFormationPtr() {
     return robotsInFormation;
 }
 

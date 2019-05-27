@@ -18,17 +18,18 @@ DefencePositionCoach g_defensivePositionCoach;
 
 bool DefenderBot::validPosition(const world::WorldData &world) {
     for (const auto &bot : world.us) {
-        if ((bot.pos - targetPos).length() < 2*Constants::ROBOT_RADIUS()) {
+        if ((bot->pos - targetPos).length() < 2*Constants::ROBOT_RADIUS()) {
             return false;
         }
     }
     return true;
 }
-world::Robot DefenderBot::toRobot() {
-    world::Robot robot;
-    robot.id = - 1;
-    robot.pos = targetPos;
-    robot.angle = orientation;
+
+const world::Robot::RobotPtr DefencePositionCoach::DefenderBot::toRobot() {
+    world::Robot::RobotPtr robot = std::make_shared<world::Robot>(world::Robot());
+    robot->id = - 1;
+    robot->pos = targetPos;
+    robot->angle = orientation;
     return robot;
 }
 // pick position on the line depending on how aggressive we want to play. aggression factor 1 is very in your face, whilst 0 is as close as possible to the goal
@@ -115,12 +116,14 @@ Line DefencePositionCoach::shortenLineForDefenseArea(const Vector2 &lineStart, c
     return line;
 }
 world::WorldData DefencePositionCoach::removeBotFromWorld(world::WorldData world, int id, bool ourTeam) {
-    std::vector<world::Robot> &robots = ourTeam ? world.us : world.them;
-    robots.erase(std::remove_if(robots.begin(),robots.end(),[id](world::Robot robot){return robot.id==id;}));
+    auto robots = ourTeam ? world.us : world.them;
+    auto endIt = std::remove_if(robots.begin(), robots.end(), [id](const world::Robot::RobotPtr &robot) {
+      return id == robot->id;
+    });
     return world;
 }
 Vector2 DefencePositionCoach::getMostDangerousPos(const world::WorldData &world) {
-    return world.ball.pos;
+    return world.ball->pos;
 }
 std::vector<std::pair<PossiblePass, double>> DefencePositionCoach::createPassesAndDanger(
         const world::WorldData &world) {
@@ -128,7 +131,7 @@ std::vector<std::pair<PossiblePass, double>> DefencePositionCoach::createPassesA
     // check the passes from the robot towards every other bot and calculate their danger
     for (const auto &theirBot : world.them) {
         //TODO: perhaps ignore robots we have already covered here. The score should be gutted regardless.
-        PossiblePass pass(theirBot, world.ball.pos);
+        PossiblePass pass(*theirBot, world.ball->pos);
         double danger = pass.score(world); // check how dangerous the pass is in our simulated world
         std::pair<PossiblePass, double> passPair = std::make_pair(pass, danger);
         passWithScore.push_back(passPair);
@@ -259,11 +262,11 @@ double DefencePositionCoach::maxX() {
     return world::field->get_field().field_length/10.0*-1.0;
 }
 world::WorldData DefencePositionCoach::getTheirAttackers(const world::WorldData &world) {
-    std::vector<world::Robot> theirAttackers;
-    for (const world::Robot &robot :world.them) {
+    std::vector<world::Robot::RobotPtr> theirAttackers;
+    for (auto &robot :world.them) {
         // we remove any attackers that are outside of the field or in our defence area
-        if (! world::field->pointIsInDefenceArea(robot.pos, true, 0.04)
-                && world::field->pointIsInField(robot.pos, -0.1)) {
+        if (! world::field->pointIsInDefenceArea(robot->pos, true, 0.04)
+                && world::field->pointIsInField(robot->pos, 0.1)) {
             theirAttackers.push_back(robot);
         }
     }
@@ -275,7 +278,7 @@ bool DefencePositionCoach::validNewPosition(const Vector2 &position, const world
     if (position.x > maxX()) { return false; }
     double collisionRadius = calculationCollisionRad;// a little smaller than 2 robot radii so that we can make solid walls still
     for (const auto &robot: world.us) {
-        if ((robot.pos - position).length() < collisionRadius) {
+        if ((robot->pos - position).length() < collisionRadius) {
             return false;
         }
     }

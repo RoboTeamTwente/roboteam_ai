@@ -24,7 +24,7 @@ PosVelAngle NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
     auto targetPathPoint = static_cast<unsigned long>(goToTimeInFuture/DT);
     if (path.size() < targetPathPoint) {
         Vector2 deltaPos = exactTargetPos - robot.pos;
-        PathPoint pathPoint;
+        PathPoint pathPoint = PathPoint();
         pathPoint.pos = robot.pos;
         target.pos = exactTargetPos;
         target.vel = deltaPos.stretchToLength(pathPoint.maxVel());
@@ -105,6 +105,9 @@ bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
 /// finds a path using a numeric model
 PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle) {
+
+       // DT = 0.3 / GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
+    DT = 0.1;
 
     ros::Time begin = ros::Time::now();
 
@@ -337,7 +340,7 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     Collision collision;
     double futureTime = point->t;
 
-    // get all robots and extrapolate their position linearly to the time of the PathPoint (future Robot)
+    // get all robots and extrapolate their position linearly to the time of the PathPoint (future RobotPtr)
     auto allRobots = world::world->getAllRobots();
     for (auto &r : allRobots) {
         r = world::world->getFutureRobot(r, futureTime);
@@ -347,10 +350,10 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     collision = getRobotCollision(point->pos, allRobots, collisionRadius);
     if (collision.isCollision) return collision;
 
-    // get the future Ball
+    // get the future BallPtr
     auto ball = world::world->getFutureBall(futureTime);
 
-    // check collision with Ball
+    // check collision with BallPtr
     if (point->isCollision(ball->pos, getAvoidBallDistance())) {
         collision.setCollisionBall(*ball, getAvoidBallDistance());
         return collision;
@@ -379,14 +382,14 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
 }
 
 Collision NumTreePosControl::getRobotCollision(
-        const Vector2 &collisionPos, const std::vector<Robot> &robots, double distance) {
+        const Vector2 &collisionPos, const std::vector<RobotPtr> &robots, double distance) {
 
     // for all robots check if the distance to collisionPos is smaller than the set distance
     Collision collision = {};
     for (auto &r : robots) {
-        if (r.id == this->robot.id && r.team == this->robot.team) continue;
+        if (r->id == this->robot.id && r->team == this->robot.team) continue;
 
-        if ((collisionPos - r.pos).length() < distance) {
+        if ((collisionPos - r->pos).length() < distance) {
             collision.setCollisionRobot(r, distance);
             return collision;
         }
@@ -412,7 +415,7 @@ std::pair<std::vector<Vector2>, NumTreePosControl::PathPointer> NumTreePosContro
             Vector2(deltaPosition.y, - deltaPosition.x).stretchToLength(collisionRadius*sqrt(factor)*1.2);
 
     Vector2 rightTargetPosition = collisionPoint->pos +
-            Vector2(- deltaPosition.y, deltaPosition.x).stretchToLength(collisionRadius*sqrt(factor)*1.2);
+            Vector2(deltaPosition.y, - deltaPosition.x).stretchToLength(-collisionRadius*sqrt(factor)*1.2);
 
     // return the new targets
     auto newTargets = {leftTargetPosition, rightTargetPosition};

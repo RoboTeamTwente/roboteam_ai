@@ -12,7 +12,7 @@ namespace ai {
 InterceptBall::InterceptBall(rtt::string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { };
 
-//TODO: make prediction for the Robot if it can even intercept the ball at all from the initialization state.
+//TODO: make prediction for the RobotPtr if it can even intercept the ball at all from the initialization state.
 void InterceptBall::onInitialize() {
     keeper = properties->getBool("Keeper");
 
@@ -114,7 +114,7 @@ void InterceptBall::checkProgression() {
     case CLOSETOPOINT:
         if (dist < INTERCEPT_POSDIF) {
             currentProgression = INPOSITION;
-        }//If Robot overshoots, switch to overshoot, if in Position, go there
+        }//If RobotPtr overshoots, switch to overshoot, if in Position, go there
         else if (dist >= Constants::ROBOT_RADIUS()) {
             currentProgression = INTERCEPTING;
         }
@@ -171,7 +171,7 @@ Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall)
     }
     return interceptionPoint;
 }
-// Checks if the Robot already missed the Ball
+// Checks if the RobotPtr already missed the BallPtr
 bool InterceptBall::missedBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel) {
     double interceptDist = (interceptPos - startBall).length();
     double angleDev = tan(Constants::ROBOT_RADIUS()/interceptDist);
@@ -185,7 +185,7 @@ bool InterceptBall::missedBall(Vector2 startBall, Vector2 endBall, Vector2 ballV
             endCentre + rectSide, endCentre - rectSide);
 }
 
-//Checks if the ball was deflected by the Robot
+//Checks if the ball was deflected by the RobotPtr
 bool InterceptBall::ballDeflected() {
     // A ball is deflected if:
     // If ball velocity changes by more than x degrees from the original orientation then it is deflected
@@ -193,7 +193,7 @@ bool InterceptBall::ballDeflected() {
             > BALL_DEFLECTION_ANGLE) {
         return true;
     }
-    // Ball Position is behind the line orthogonal to the ball velocity going through the ballStartPos
+    // BallPtr Position is behind the line orthogonal to the ball velocity going through the ballStartPos
     Vector2 lineEnd = ballStartPos + ballStartVel.rotate(M_PI_2);
     // https://math.stackexchange.com/questions/274712/calculate-on-which-side-of-a-straight-line-is-a-given-point-located
     double ballEndPosSide = (ballEndPos.x - ballStartPos.x)*(lineEnd.y - ballStartPos.y)
