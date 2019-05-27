@@ -60,6 +60,7 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     haltBtn = new QPushButton("Halt");
     QObject::connect(haltBtn, SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
     hButtonsLayout->addWidget(haltBtn);
+    haltBtn->setStyleSheet("background-color: #cc0000;");
 
     pauseBtn = new QPushButton("Pause");
     QObject::connect(pauseBtn, SIGNAL(clicked()), this, SLOT(sendPauseSignal()));
@@ -240,9 +241,13 @@ void MainControlsWidget::updateContents() {
 void MainControlsWidget::sendHaltSignal() {
     if (isHalted) {
         Output::setInterfaceGameState(prevGameState);
+        haltBtn->setText("Halt");
+        haltBtn->setStyleSheet("background-color: #cc0000;");
     } else {
         prevGameState = GameStateManager::getCurrentGameState();
         GameStateManager::forceNewGameState(RefCommand::HALT);
+        haltBtn->setText("unHalt");
+        haltBtn->setStyleSheet("background-color: #00b200;");
     }
     isHalted = !isHalted;
 }
