@@ -25,7 +25,7 @@ bool DefenderBot::validPosition(const world::WorldData &world) {
     return true;
 }
 
-const world::Robot::RobotPtr DefencePositionCoach::DefenderBot::toRobot() {
+const world::Robot::RobotPtr DefenderBot::toRobot() {
     world::Robot::RobotPtr robot = std::make_shared<world::Robot>(world::Robot());
     robot->id = - 1;
     robot->pos = targetPos;
@@ -117,9 +117,7 @@ Line DefencePositionCoach::shortenLineForDefenseArea(const Vector2 &lineStart, c
 }
 world::WorldData DefencePositionCoach::removeBotFromWorld(world::WorldData world, int id, bool ourTeam) {
     auto robots = ourTeam ? world.us : world.them;
-    auto endIt = std::remove_if(robots.begin(), robots.end(), [id](const world::Robot::RobotPtr &robot) {
-      return id == robot->id;
-    });
+    robots.erase(std::remove_if(robots.begin(),robots.end(),[id](world::Robot::RobotPtr robot){return robot->id==id;}));
     return world;
 }
 Vector2 DefencePositionCoach::getMostDangerousPos(const world::WorldData &world) {
@@ -266,7 +264,7 @@ world::WorldData DefencePositionCoach::getTheirAttackers(const world::WorldData 
     for (auto &robot :world.them) {
         // we remove any attackers that are outside of the field or in our defence area
         if (! world::field->pointIsInDefenceArea(robot->pos, true, 0.04)
-                && world::field->pointIsInField(robot->pos, 0.1)) {
+                && world::field->pointIsInField(robot->pos, -0.1)) {
             theirAttackers.push_back(robot);
         }
     }
