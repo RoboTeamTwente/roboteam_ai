@@ -46,7 +46,7 @@ namespace rtt {
                 //HAck
                 float errorx = ball.pos.x-this->X(0);
                 float errory = ball.pos.y-this->X(2);
-                if (errorx*errorx+errory*errory >= 2){
+                if (errorx*errorx+errory*errory >= 2){//So the distance is the root of 2, 1.4 something? just being lazy, though apparently I have the time to write this comment
                     return;
                 }
             }
