@@ -29,15 +29,20 @@ class Collision {
     private:
         CollisionType type;
 
-        world::Robot::RobotPtr collisionRobot = {};
-        world::Ball::BallPtr collisionBall = {};
-        Vector2 fieldCollision = {};
-        Vector2 defenseAreaCollision = {};
+        world::Robot::RobotPtr collisionRobot;
+        world::Ball::BallPtr collisionBall;
+        Vector2 fieldCollision;
+        Vector2 defenseAreaCollision;
 
 
     public:
 
-        Collision() : type(NO_COLLISION), isCollision(false), collisionRadius(0.0) { }
+        Collision() : type(NO_COLLISION), isCollision(false), collisionRadius(0.0) {
+            collisionRobot = std::make_shared<world::Robot>(world::Robot());
+            collisionBall = std::make_shared<world::Ball>(world::Ball());
+            fieldCollision = Vector2();
+            defenseAreaCollision = Vector2();
+        }
 
         const world::Robot::RobotPtr &getCollisionRobot() const;
         void setCollisionRobot(const world::Robot::RobotPtr &robot, double distance);
@@ -45,10 +50,10 @@ class Collision {
         const world::Ball::BallPtr &getCollisionBall() const;
         void setCollisionBall(const world::Ball::BallPtr &ball, double distance);
 
-        const Vector2 &getFieldCollision() const;
+        const Vector2 &getCollisionFieldPos() const;
         void setFieldCollision(const Vector2 &collisionPos, double distance);
 
-        const Vector2 &getDefenseAreaCollision() const;
+        const Vector2 &getCollisionDefenseAreaPos() const;
         void setDefenseAreaCollision(const Vector2 &collisionPos, double distance);
 
         bool isCollision;

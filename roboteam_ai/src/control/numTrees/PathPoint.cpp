@@ -96,7 +96,7 @@ bool PathPoint::anyParentHasTarget(const Vector2 &target) {
 
 /// check if a collision is occuring
 bool PathPoint::isCollision(const Vector2 &target, double distance) {
-    return target.dist(pos) < distance;
+    return pos.dist2(target) < distance*distance;
 }
 
 double PathPoint::maxVel() {

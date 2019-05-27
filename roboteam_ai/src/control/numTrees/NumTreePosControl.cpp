@@ -47,22 +47,6 @@ PosVelAngle NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
     return target;
 }
 
-/// finds a reason to calculate a new path (possible reasons are: no path calculated yet, final target moved,
-/// robot is too far from path or another robot is colliding with current path
-bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
-
-    if (checkCurrentRobotCollision()) return true;
-    if (checkEmptyPath()) return true;
-
-    double maxDeviation = 0.3;
-    if (checkIfTargetMoved(maxDeviation, targetPos)) return true;
-    if (checkIfAtEndOfPath(maxDeviation, targetPos)) return true;
-    if (checkIfTooFarFromCurrentPath(maxDeviation, targetPos)) return true;
-
-    return checkIfRobotWillCollideFollowingThisPath();
-
-}
-
 /// finds a path using a numeric model
 PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle) {
@@ -273,70 +257,101 @@ NumTreePosControl::PathPointer NumTreePosControl::computeNewPoint(
 
 Collision NumTreePosControl::getCollision(const PathPointer &point, double collisionRadius) {
     // check collisions with robots, the ball, out of field, defense area (and more if needed)
-    Collision collision;
     double futureTime = point->t;
 
-    // get all robots and extrapolate their position linearly to the time of the PathPoint (future RobotPtr)
-    auto allRobots = world::world->getAllRobots();
-    for (auto &r : allRobots) {
-        r = world::world->getFutureRobot(r, futureTime);
+    // Collision with Robots
+    {
+        auto allRobots = world::world->getAllRobots();
+        for (auto &r : allRobots) {
+            r = world::world->getFutureRobot(r, futureTime);
+        }
+        auto robotCollision = getRobotCollision(point, allRobots, collisionRadius);
+        if (robotCollision.isCollision) return robotCollision;
     }
 
-    // check collision with Robots
-    collision = getRobotCollision(point->pos, allRobots, collisionRadius);
-    if (collision.isCollision) return collision;
+    // Collision with Ball
+    {
+        auto ball = world::world->getFutureBall(futureTime);
+        auto ballCollision = getBallCollision(point, ball);
+        if (ballCollision.isCollision) return ballCollision;
+    }
 
-    // get the future BallPtr
-    auto ball = world::world->getFutureBall(futureTime);
+    // Collision with Edge of Field
+    {
+        auto fieldCollision = getFieldCollision(point);
+        if (fieldCollision.isCollision) return fieldCollision;
+    }
 
-    // check collision with BallPtr
+
+    // Collision with Defense Area
+    {
+        auto defenseAreaCollision = getDefenseAreaCollision(point);
+        if (defenseAreaCollision.isCollision) return defenseAreaCollision;
+    }
+
+    return {};
+}
+
+Collision NumTreePosControl::getRobotCollision(
+        const PathPointer &point, const std::vector<RobotPtr> &robots, double distance) {
+
+    // for all robots check if the distance to collisionPos is smaller than the set distance
+    Collision collision = {};
+    auto currentRobotCollision = currentCollisionWithRobot.getCollisionRobot();
+
+    for (auto &r : robots) {
+        // cant collide with itself
+        if (r->id == this->robot->id && r->team == this->robot->team) continue;
+        // don't look at the robot it is colliding with already
+        if (r->id == currentRobotCollision->id && r->team == currentRobotCollision->team) continue;
+
+        if (point->isCollision(r->pos, distance)) {
+            collision.setCollisionRobot(r, distance);
+            return collision;
+        }
+    }
+    return collision;
+}
+
+Collision NumTreePosControl::getBallCollision(const PathPointer &point, const PosController::BallPtr &ball) {
+    Collision collision = {};
+    if (currentCollisionWithRobot.getCollisionBall()->visible) return collision;
+
     double avoidBallDistance = getAvoidBallDistance();
     if (point->isCollision(ball->pos, avoidBallDistance)) {
         collision.setCollisionBall(ball, avoidBallDistance);
         return collision;
     }
-
-    // check collision with Edge of field
-    if (! getCanMoveOutOfField()) {
-        if (! world::field->pointIsInField(point->pos)) {
-            collision.isCollision = true;
-            collision.setFieldCollision(point->pos, 0.2);
-            return collision;
-        }
-    }
-
-    // check collision with defense area
-    if (! getCanMoveInDefenseArea()) {
-        bool isInOurDefenseArea = world::field->pointIsInDefenceArea(point->pos, true, Constants::ROBOT_RADIUS(),
-                false);
-        bool isInTheirDefenseArea = world::field->pointIsInDefenceArea(point->pos, false, Constants::ROBOT_RADIUS(),
-                false);
-        if (isInOurDefenseArea || isInTheirDefenseArea) {
-            collision.setDefenseAreaCollision(point->pos, 0.2);
-            return collision;
-        }
-    }
-
     return collision;
 }
 
-Collision NumTreePosControl::getRobotCollision(
-        const Vector2 &collisionPos, const std::vector<RobotPtr> &robots, double distance) {
-
-    // for all robots check if the distance to collisionPos is smaller than the set distance
-    world::Robot::RobotPtr currentCollision = currentRobotCollision.getCollisionRobot();
+Collision NumTreePosControl::getFieldCollision(const PathPointer &point) {
     Collision collision = {};
-    for (auto &r : robots) {
-        // cant collide with itself
-        if (r->id == this->robot->id && r->team == this->robot->team) continue;
-        // don't look at the robot it is colliding with already
-        if (r->id == currentCollision->id && r->team == currentCollision->team) continue;
+    if (currentCollisionWithRobot.getCollisionFieldPos() == Vector2())
 
-        if ((collisionPos - r->pos).length() < distance) {
-            collision.setCollisionRobot(r, distance);
-            return collision;
+        if (! getCanMoveOutOfField()) {
+            if (! world::field->pointIsInField(point->pos)) {
+                collision.setFieldCollision(point->pos, 0.2);
+                return collision;
+            }
         }
-    }
+    return collision;
+}
+
+Collision NumTreePosControl::getDefenseAreaCollision(const PathPointer &point) {
+    Collision collision = {};
+    if (currentCollisionWithRobot.getCollisionDefenseAreaPos() == Vector2())
+
+        if (! getCanMoveInDefenseArea()) {
+            bool isInOurDefenseArea = world::field->pointIsInDefenceArea(point->pos, true, Constants::ROBOT_RADIUS(),
+                    false);
+            bool isInTheirDefenseArea = world::field->pointIsInDefenceArea(point->pos, false, Constants::ROBOT_RADIUS(),
+                    false);
+            if (isInOurDefenseArea || isInTheirDefenseArea) {
+                collision.setDefenseAreaCollision(point->pos, 0.2);
+                return collision;
+            }
+        }
     return collision;
 }
 
@@ -392,27 +407,44 @@ PosVelAngle NumTreePosControl::getPosVelAngle(const PosController::RobotPtr &rob
     return PosController::getPosVelAngle(robot, targetPos);
 }
 
+/// finds a reason to calculate a new path (possible reasons are: no path calculated yet, final target moved,
+/// robot is too far from path or another robot is colliding with current path
+bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
+
+    if (checkCurrentRobotCollision()) return true;
+    if (checkEmptyPath()) return true;
+
+    double maxDeviation = 0.3;
+    if (checkIfTargetMoved(maxDeviation, targetPos)) return true;
+    if (checkIfAtEndOfPath(maxDeviation, targetPos)) return true;
+    if (checkIfTooFarFromCurrentPath(maxDeviation, targetPos)) return true;
+
+    return checkIfRobotWillCollideFollowingThisPath();
+
+}
+
 bool NumTreePosControl::checkCurrentRobotCollision() {
-    currentRobotCollision = {};
+    Collision previousCollision = currentCollisionWithRobot;
+    currentCollisionWithRobot = Collision();
+
     PathPointer realRobot = std::make_shared<PathPoint>();
     realRobot->pos = robot->pos;
     realRobot->vel = robot->vel;
     realRobot->t = 0;
-    currentRobotCollision = getCollision(realRobot, DEFAULT_ROBOT_COLLISION_RADIUS);
-    if (currentRobotCollision.isCollision) {
-        if (pathHasRobotCollision) {
-            return false;
+    currentCollisionWithRobot = getCollision(realRobot, DEFAULT_ROBOT_COLLISION_RADIUS);
+    if (currentCollisionWithRobot.isCollision) {
+        if (previousCollision.getCollisionType() == currentCollisionWithRobot.getCollisionType()) return false;
+        if (pathHasRobotCollision) return false;
+
+        if (InterfaceValues::showDebugNumTreeInfo()) {
+            std::string s = currentCollisionWithRobot.collisionTypeToString();
+            std::cout << "ROBOT " << robot->id << ": is too close to " << s <<
+                      "-> trying to make a path anyways <-" << std::endl;
         }
-        else {
-            if (InterfaceValues::showDebugNumTreeInfo()) {
-                std::string s = currentRobotCollision.collisionTypeToString();
-                std::cout << "ROBOT " << robot->id << ": is too close to " << s <<
-                          "-> trying to make a path anyways <-" << std::endl;
-            }
-            path.clear();
-            pathHasRobotCollision = false;
-            return true;
-        }
+        path.clear();
+        pathHasRobotCollision = false;
+        return true;
+
     }
 
     pathHasRobotCollision = false;
@@ -494,6 +526,6 @@ bool NumTreePosControl::checkIfRobotWillCollideFollowingThisPath() {
     return false;
 }
 
-}// control
-}// ai
-}// rtt
+} // control
+} // ai
+} // rtt

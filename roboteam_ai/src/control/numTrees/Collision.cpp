@@ -70,11 +70,11 @@ const Collision::CollisionType Collision::getCollisionType() const {
     return type;
 }
 
-const Vector2 &Collision::getDefenseAreaCollision() const {
+const Vector2 &Collision::getCollisionDefenseAreaPos() const {
     return defenseAreaCollision;
 }
 
-const Vector2 &Collision::getFieldCollision() const {
+const Vector2 &Collision::getCollisionFieldPos() const {
     return fieldCollision;
 }
 

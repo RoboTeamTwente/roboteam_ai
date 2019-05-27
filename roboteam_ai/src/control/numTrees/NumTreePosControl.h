@@ -44,8 +44,12 @@ class NumTreePosControl : public ForcePosControl {
 
         // collisions
         Collision getCollision(const PathPointer &point, double collisionRadius = DEFAULT_ROBOT_COLLISION_RADIUS);
-        Collision getRobotCollision(const Vector2 &collisionPos, const std::vector<RobotPtr> &robots, double distance);
-        Collision currentRobotCollision;
+        Collision getRobotCollision(const PathPointer &point, const std::vector<RobotPtr> &robots, double distance);
+        Collision getBallCollision(const PathPointer &point, const BallPtr &ball);
+        Collision getFieldCollision(const PathPointer &point);
+        Collision getDefenseAreaCollision(const PathPointer &point);
+
+        Collision currentCollisionWithRobot;
 
         // new paths
         PathPointer computeNewPoint(const std::shared_ptr<PathPoint> &oldPoint, const Vector2 &subTarget);
