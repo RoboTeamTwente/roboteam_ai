@@ -7,6 +7,7 @@
 
 #include <memory>
 #include <roboteam_utils/Vector2.h>
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include "roboteam_ai/src/world/Robot.h"
 #include "roboteam_ai/src/world/Ball.h"
 
@@ -57,9 +58,9 @@ class Collision {
         const world::Robot &getCollisionRobot() const {
             return collisionRobot;
         }
-        void setCollisionRobot(const world::Robot &robot, double distance) {
+        void setCollisionRobot(const world::Robot::RobotPtr &robot, double distance) {
             type = ROBOT;
-            collisionRobot = robot;
+            collisionRobot = *robot;
             isCollision = true;
             collisionRadius = distance;
         }
@@ -108,7 +109,8 @@ class Collision {
 // If there is another way to return a shared pointer from an object to itself that is more pretty let me know
 class PathPoint : public std::enable_shared_from_this<PathPoint> {
     private:
-        double maxV = 2.0;
+        double maxV = 8.0;
+        using PathPointer = std::shared_ptr<PathPoint>;
         double maxAccAtLowV = 6.1;
         double maxAccAtHighV = 3.1;
         double maxDecelleration = 6.1;
@@ -136,15 +138,22 @@ class PathPoint : public std::enable_shared_from_this<PathPoint> {
             return maxDecelleration;
         }
 
-        double t;
-        int collisions;
-        std::shared_ptr<PathPoint> parent;
-        std::vector<std::shared_ptr<PathPoint>> children;
-        std::shared_ptr<PathPoint> backTrack(double backTime);
-        std::shared_ptr<PathPoint> backTrack(int maxCollisionDiff);
-        std::shared_ptr<PathPoint> backTrack(double backTime, int maxCollisionDiff);
-        void addChild(std::shared_ptr<PathPoint> &newChild);
-        void addChildren(std::vector<std::shared_ptr<PathPoint>> &newChildren);
+        explicit PathPoint() {
+            maxV = GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
+            maxAccAtLowV = 6.1;
+            maxAccAtHighV = 3.1;
+            maxDecelleration = 6.1;
+        }
+
+        double t = 0;
+        int collisions = 0;
+        PathPointer parent = {};
+        std::vector<PathPointer> children = {};
+        PathPointer backTrack(double backTime);
+        PathPointer backTrack(int maxCollisionDiff);
+        PathPointer backTrack(double backTime, int maxCollisionDiff);
+        void addChild(PathPointer &newChild);
+        void addChildren(std::vector<PathPointer> &newChildren);
         bool isCollision(const Vector2 &target, double distance);
 
         bool branchHasTarget(const Vector2 &target);

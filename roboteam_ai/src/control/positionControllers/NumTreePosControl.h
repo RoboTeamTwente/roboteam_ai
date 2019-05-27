@@ -32,12 +32,12 @@ class NumTreePosControl : public ForcePosControl {
 
         // constants
         const double MAX_CALCULATION_TIME = 25.0;         // Max calculation time in ms
-        const double DT = 0.07;                          // timestep for ODE model
+        double DT = 0.1;                          // timestep for ODE model
         static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 0.25; // 3x robot radius
 
         // collisions
         Collision getCollision(const PathPointer &point, double collisionRadius = DEFAULT_ROBOT_COLLISION_RADIUS);
-        Collision getRobotCollision(const Vector2 &collisionPos, const std::vector<Robot> &robots, double distance);
+        Collision getRobotCollision(const Vector2 &collisionPos, const std::vector<RobotPtr> &robots, double distance);
 
         // new paths
         PathPointer computeNewPoint(const std::shared_ptr<PathPoint> &oldPoint, const Vector2 &subTarget);

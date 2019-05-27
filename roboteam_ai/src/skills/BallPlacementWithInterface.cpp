@@ -27,9 +27,8 @@ Skill::Status BallPlacementWithInterface::onUpdate() {
     Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
 
     auto rc = ballHandlePosControl.getRobotCommand(robot, targetPos, robot->angle);
-    Vector2 velocity = control::ControlUtils::velocityLimiter(rc.vel, Constants::MAX_VEL());
-    command.x_vel = static_cast<float>(velocity.x);
-    command.y_vel = static_cast<float>(velocity.y);
+    command.x_vel = static_cast<float>(rc.vel.x);
+    command.y_vel = static_cast<float>(rc.vel.y);
     command.w = rc.angle;
     command.dribbler = rc.dribbler;
     publishRobotCommand();

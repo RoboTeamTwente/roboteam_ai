@@ -162,7 +162,7 @@ TEST(FieldTest, it_calculates_obstacles) {
 
     // watch our goal from the center of the field
     // there are no robots in between
-    auto world = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
+    auto world = testhelpers::WorldHelper::getWorldMsg(0, 0, true, field);
     robot.pos = rtt::Vector2(0, 0);
     world.us.push_back(robot);
     rtt::ai::world::world->updateWorld(world);

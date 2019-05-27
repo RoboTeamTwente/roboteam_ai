@@ -24,6 +24,12 @@ TEST(RobotDealerTest, RobotDealerTest) {
     worldMsg.us.push_back(robot1);
     worldMsg.us.push_back(robot2);
     worldMsg.us.push_back(robot3);
+
+    worldMsg.ball.pos.x = 0;
+    worldMsg.ball.pos.y = 0;
+    worldMsg.ball.visible = true;
+    worldMsg.ball.existence = 9999;
+
     rtt::ai::world::world->updateWorld(worldMsg);
 
     auto dealbot1 = rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(robot::RANDOM, "role1", "testing1");

@@ -176,23 +176,23 @@ void HarassRobotCoach::setClosestRobots(const HarassRobotCoach::RobotPtr &thisRo
     auto closestRobotToHarasserDistance = DBL_MAX;
     for (auto robot : world::world->getThem()) {
         // Never harass the keeper
-        if (robot.id == GameStateManager::getRefereeData().them.goalie) continue;
+        if (robot->id == GameStateManager::getRefereeData().them.goalie) continue;
 
-        if (abs(robot.pos.x) <= HARASS_THRESHOLD) {
+        if (abs(robot->pos.x) <= HARASS_THRESHOLD) {
             if (goAfterBall) {
                 // check if robot is closest to ball
-                double distanceToBall = (ball->pos - robot.pos).length();
+                double distanceToBall = (ball->pos - robot->pos).length();
                 if (distanceToBall < closestRobotToBallDistance) {
                     closestRobotToBallDistance = distanceToBall;
-                    closestRobotToBall = make_shared<Robot>(robot);
+                    closestRobotToBall = robot;
                 }
             }
 
             // check if robot is closest to the harasser
-            double distanceToHarasser = (thisRobot->pos - robot.pos).length();
+            double distanceToHarasser = (thisRobot->pos - robot->pos).length();
             if (distanceToHarasser < closestRobotToHarasserDistance) {
                 closestRobotToHarasserDistance = distanceToHarasser;
-                closestRobotToHarasser = make_shared<Robot>(robot);
+                closestRobotToHarasser = robot;
             }
         }
     }

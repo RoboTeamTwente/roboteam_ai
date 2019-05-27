@@ -95,7 +95,7 @@ void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem* row,
     }
 
     // Check if the status is changed and update it if needed.
-    QString status = QString::fromStdString(statusToString(node->getStatus()));
+    QString status = QString::fromStdString(node->status_print(node->getStatus()));//statusToString(node->getStatus()));
     if (row->text(1)!=status) {
         row->setText(1, status);
         row->setTextColor(1, getColorForStatus(node->getStatus()));

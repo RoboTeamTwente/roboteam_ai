@@ -28,6 +28,7 @@ TEST(BallPossessionTest, team_far_or_close_to_ball) {
     // teams close to ball
     auto worldmsg = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(3, 0, true, field);
     rtt::ai::world::world->updateWorld(worldmsg.first);
+
     EXPECT_TRUE(bp.teamCloseToBall(world::world->getWorld(), true));
     EXPECT_FALSE(bp.teamFarFromBall(world::world->getWorld(), true));
     EXPECT_FALSE(bp.teamCloseToBall(world::world->getWorld(), false));

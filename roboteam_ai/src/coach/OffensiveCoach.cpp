@@ -25,7 +25,7 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
     if ((bestPosition.position - zoneLocation).length2() > ZONE_RADIUS*ZONE_RADIUS) {
         bestPosition.position = zoneLocation + (bestPosition.position - zoneLocation).stretchToLength(ZONE_RADIUS);
     }
-    Angle goldenAngle = 0.01;//2.399963;
+    Angle goldenAngle = 0.01;
     tick++;
     Angle thetaPlus = tick*tick*goldenAngle + targetAngle;
     Angle thetaMinus = -1*tick*tick*goldenAngle + targetAngle;
@@ -72,6 +72,7 @@ void OffensiveCoach::updateOffensivePositions() {
     auto field = world::field->get_field();
 
     std::vector<Vector2> zoneLocations = getZoneLocations();
+
     if (offensivePositions.size() != zoneLocations.size()) {
         offensivePositions = {};
         for (auto &zoneLocation : zoneLocations) {
@@ -81,6 +82,7 @@ void OffensiveCoach::updateOffensivePositions() {
             offensivePositions.emplace_back(offensivePosition);
         }
     }
+
     else {
         static std::map<int, std::pair<int, Angle>> zoneTargets;
         for (unsigned int i = 0; i < offensivePositions.size(); i ++) {

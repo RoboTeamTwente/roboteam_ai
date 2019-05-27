@@ -18,15 +18,15 @@ bool Pause::getPause() {
 }
 void Pause::haltRobots() {
 
-    auto us = world::world->getWorld().us;
+    auto us = world::world->getUs();
     for (const auto &robot : us) {
         roboteam_msgs::RobotCommand cmd;
         cmd.x_vel = 0;
         cmd.y_vel = 0;
-        cmd.id = robot.id;
+        cmd.id = robot->id;
         cmd.dribbler = 0;
         cmd.use_angle = 1;
-        cmd.w = static_cast<float>(robot.angle);
+        cmd.w = static_cast<float>(robot->angle);
         IOManager->publishRobotCommand(cmd);
     }
 
