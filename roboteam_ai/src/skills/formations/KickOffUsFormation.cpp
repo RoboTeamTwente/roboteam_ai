@@ -1,5 +1,7 @@
 #include <roboteam_ai/src/analysis/DecisionMaker.h>
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
+#include <roboteam_ai/src/control/Hungarian.h>
+
 #include <roboteam_ai/src/world/Field.h>
 #include "KickOffUsFormation.h"
 
