@@ -125,12 +125,17 @@ namespace rtt {
         msg.id = id;
         msg.pos.x = pos.x;
         msg.pos.y = pos.y;
-        msg.angle = pos.rot;
+        msg.angle = limitRotation(pos.rot);
         msg.vel.x = vel.x;
         msg.vel.y = vel.y;
         msg.w = vel.rot;
         return msg;
 
+    }
+
+    double kalmanObject::limitRotation(double rotation) const{
+        double constRot=fmod(rotation+M_PI, 2*M_PI);
+        return constRot-M_PI;
     }
 
 

@@ -62,6 +62,8 @@ class kalmanObject {
         //Create a message, by default it's a robot message (the ball object overrides this)
         virtual roboteam_msgs::WorldRobot as_message() const;
 
+        double limitRotation(double rotation) const;
+
 };
 
 }
