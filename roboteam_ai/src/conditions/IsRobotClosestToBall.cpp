@@ -22,8 +22,8 @@ bt::Node::Status IsRobotClosestToBall::onUpdate() {
         ballPos += ballVel * t;
     }
 
-    Robot robotClosestToBall = world::world->getRobotClosestToPoint(ballPos, world::OUR_ROBOTS);
-    if (robotClosestToBall.id == robot->id) {
+    RobotPtr robotClosestToBall = world::world->getRobotClosestToPoint(ballPos, world::OUR_ROBOTS);
+    if (robotClosestToBall->id == robot->id) {
         return Status::Success;
     }
 

@@ -25,7 +25,7 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
     if ((bestPosition.position - zoneLocation).length2() > ZONE_RADIUS*ZONE_RADIUS) {
         bestPosition.position = zoneLocation + (bestPosition.position - zoneLocation).stretchToLength(ZONE_RADIUS);
     }
-    Angle goldenAngle = 0.01;//2.399963;
+    Angle goldenAngle = 0.01;
     tick++;
     Angle thetaPlus = tick*tick*goldenAngle + targetAngle;
     Angle thetaMinus = -1*tick*tick*goldenAngle + targetAngle;

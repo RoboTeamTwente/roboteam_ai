@@ -29,14 +29,14 @@ class Ball {
         int ballStraightTicks;
 
         void updateDribbling(const Ball &oldBall, const WorldData &worldData);
-        Robot* getDribblingRobot(const std::vector<Robot> &robots, double maxDribbleRange);
+        Robot* getDribblingRobot(const std::vector<RobotPtr> &robots, double maxDribbleRange);
         void updateBallModel(const Ball &oldBall, const WorldData &worldData);
         void updateBallPosition(const Ball &oldBall, const WorldData &worldData);
 
     public:
         Ball();
         explicit Ball(const roboteam_msgs::WorldBall &copy);
-        void updateBall(const Ball &oldBall, const WorldData &worldData);
+        void updateBall(const BallPtr &oldBall, const WorldData &worldData);
 
         Vector2 pos = Vector2();
         Vector2 vel = Vector2();

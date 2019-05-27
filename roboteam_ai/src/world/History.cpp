@@ -13,11 +13,11 @@ void History::addWorld(const WorldData &worldData) {
 }
 
 void History::addWorld(WorldDataPtr &worldDataPtr) {
-    WorldData worldData = *worldDataPtr.get();
+    WorldData worldData = WorldData(worldDataPtr);
     addWorld(worldData);
 }
 
-const WorldData &History::getPreviousWorld(int worldsBack) {
+const WorldData History::getPreviousWorld(int worldsBack) {
     return worldBuffer.getPreviousWorld(worldsBack);
 }
 

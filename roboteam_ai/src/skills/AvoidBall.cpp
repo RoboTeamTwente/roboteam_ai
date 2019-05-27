@@ -33,8 +33,8 @@ bt::Node::Status AvoidBall::onUpdate() {
 
     // forces from robots
     for (auto &otherRobot : world::world->getAllRobots()) {
-        if (otherRobot.id != robot->id) {
-            force = force + cu::calculateForce(robotPos - otherRobot.pos, robotWeight, minRobotDistanceForForce);
+        if (otherRobot->id != robot->id) {
+            force = force + cu::calculateForce(robotPos - otherRobot->pos, robotWeight, minRobotDistanceForForce);
         }
     }
     // check forces from ball

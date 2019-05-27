@@ -7,6 +7,7 @@
 
 #include <memory>
 #include <roboteam_utils/Vector2.h>
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include "roboteam_ai/src/world/Robot.h"
 #include "roboteam_ai/src/world/Ball.h"
 
@@ -57,9 +58,9 @@ class Collision {
         const world::Robot &getCollisionRobot() const {
             return collisionRobot;
         }
-        void setCollisionRobot(const world::Robot &robot, double distance) {
+        void setCollisionRobot(const world::Robot::RobotPtr &robot, double distance) {
             type = ROBOT;
-            collisionRobot = robot;
+            collisionRobot = *robot;
             isCollision = true;
             collisionRadius = distance;
         }
@@ -108,8 +109,8 @@ class Collision {
 // If there is another way to return a shared pointer from an object to itself that is more pretty let me know
 class PathPoint : public std::enable_shared_from_this<PathPoint> {
     private:
-        using PathPointer = std::shared_ptr<PathPoint>;
         double maxV = 8.0;
+        using PathPointer = std::shared_ptr<PathPoint>;
         double maxAccAtLowV = 6.1;
         double maxAccAtHighV = 3.1;
         double maxDecelleration = 6.1;
@@ -137,10 +138,12 @@ class PathPoint : public std::enable_shared_from_this<PathPoint> {
             return maxDecelleration;
         }
 
-        explicit PathPoint(
-                double maxV = 2.0, double maxAccAtLowV = 6.1, double maxAccAtHighV = 3.1, double maxDecelleration = 6.1)
-                :maxV(maxV), maxAccAtLowV(maxAccAtLowV),
-                 maxAccAtHighV(maxAccAtHighV), maxDecelleration(maxDecelleration) { }
+        explicit PathPoint() {
+            maxV = GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
+            maxAccAtLowV = 6.1;
+            maxAccAtHighV = 3.1;
+            maxDecelleration = 6.1;
+        }
 
         double t = 0;
         int collisions = 0;

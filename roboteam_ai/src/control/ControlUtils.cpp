@@ -5,6 +5,7 @@
 
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include <roboteam_utils/Line.h>
 #include "ControlUtils.h"
 #include "../world/World.h"
 
@@ -84,8 +85,8 @@ bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos,
     int keeperID = GameStateManager::getRefereeData().them.goalie;
 
     for (auto &enemy : world.them) {
-        if(!includeKeeper && enemy.id == keeperID) continue;
-        if (distanceToLineWithEnds(enemy.pos, fromPos, toPos) < minDistance) {
+        if(!includeKeeper && enemy->id == keeperID) continue;
+        if (distanceToLineWithEnds(enemy->pos, fromPos, toPos) < minDistance) {
             return false;
         }
     }
@@ -222,24 +223,36 @@ Vector2 ControlUtils::velocityLimiter(const Vector2 &vel, double maxVel, double 
 }
 
 
-/// Limits acceleration to maximum acceleration
-Vector2 ControlUtils::accelerationLimiter(const Vector2 &vel, double maxAcc, double prevVel){
-    if (vel.length() > (prevVel + maxAcc/Constants::TICK_RATE())) {
-        return vel.stretchToLength(prevVel + maxAcc/Constants::TICK_RATE());
+/// Limits acceleration
+Vector2 ControlUtils::accelerationLimiter(const Vector2 &targetVel, const Vector2 &prevVel, const Angle &targetAngle) {
+
+    const double sidewaysAcceleration = Constants::MAX_ACC_LOWER() / Constants::TICK_RATE();
+    const double forwardsAcceleration = Constants::MAX_ACC_UPPER() / Constants::TICK_RATE();
+    const double sidewaysDeceleration = Constants::MAX_DEC_LOWER() / Constants::TICK_RATE();
+    const double forwardsDeceleration = Constants::MAX_DEC_UPPER() / Constants::TICK_RATE();
+
+    Vector2 deltaVel = targetVel - prevVel;
+
+    // calculate if the robot is driving forwards or sideways
+    Angle robotAngleDifference = targetVel.toAngle() - targetAngle;
+    Vector2 robotVectorDifference = robotAngleDifference.toVector2();
+    double a = abs(robotVectorDifference.x);
+    auto acceleration = sidewaysAcceleration * (1-a) + forwardsAcceleration * a;
+    auto deceleration = sidewaysDeceleration * (1-a) + forwardsDeceleration * a;
+    // a = 0 -> sideways
+    // a = 1 -> forwards
+
+    // calculate if the robot is accelerating or decelerating
+    Angle accelerationAngleDifference = deltaVel.toAngle() - targetVel.toAngle();
+    double b = abs(accelerationAngleDifference) * M_1_PI;
+    auto finalAcceleration = acceleration * (1-b) + deceleration * b;
+    // b = 0 -> acceleration
+    // b = 1 -> deceleration
+
+    if (deltaVel.length() < finalAcceleration) {
+        return targetVel;
     }
-    return vel;
-}
-
-/// Calculate the maximum acceleration based on the direction of driving.
-/// Acceleration is the lowest in the sideways direction and highest in the forward direction.
-double ControlUtils::calculateMaxAcceleration(const Vector2 &vel, double angle) {
-    // get the angle difference and turn it into a normalized vector
-    Angle angleDiff = vel.toAngle() - angle;
-    Vector2 toVectorDiff = angleDiff.toVector2();
-
-    // get the x-component of the vector and use linear interpolation to get the max acceleration
-    double a = abs(toVectorDiff.x);
-    return Constants::MAX_ACC_UPPER() * (a) + Constants::MAX_ACC_LOWER() * (1-a);
+    return prevVel + deltaVel.stretchToLength(finalAcceleration);
 }
 
 /// Get the intersection of two lines
@@ -316,15 +329,15 @@ bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, con
 }
 
 
-world::Robot ControlUtils::getRobotClosestToLine(std::vector<world::Robot> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds) {
+const world::World::RobotPtr ControlUtils::getRobotClosestToLine(std::vector<world::World::RobotPtr> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds) {
     int maxDist = INT_MAX;
     auto closestRobot = robots.at(0);
     for (auto const & robot : robots) {
         double dist;
         if (lineWithEnds) {
-            dist = distanceToLine(robot.pos, lineStart, lineEnd);
+            dist = distanceToLine(robot->pos, lineStart, lineEnd);
         } else {
-            dist = distanceToLineWithEnds(robot.pos, lineStart, lineEnd);
+            dist = distanceToLineWithEnds(robot->pos, lineStart, lineEnd);
         }
         if (dist > maxDist) {
             dist = maxDist;
@@ -334,6 +347,47 @@ world::Robot ControlUtils::getRobotClosestToLine(std::vector<world::Robot> robot
 
     return closestRobot;
 }
+
+    Vector2 ControlUtils::getInterceptPointOnLegalPosition(Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin) {
+        LineSegment shotLine(line.start, line.end + line.end + (line.end - line.start) * 10000);
+        Vector2 projectPos = shotLine.project(position);
+        Vector2 closestPoint = projectPos;
+
+        bool pointInOurDefenseArea = world::field->pointIsInDefenceArea(projectPos, true, defenseAreamargin);
+        bool pointInTheirDefenseArea = world::field->pointIsInDefenceArea(projectPos, false, defenseAreamargin);
+
+        if (!canMoveInDefenseArea && (pointInOurDefenseArea || pointInTheirDefenseArea)) {
+
+            Polygon defenceAreaUs(world::field->getDefenseArea(true, defenseAreamargin, true));
+            Polygon defenceAreaThem(world::field->getDefenseArea(false, defenseAreamargin, true));
+
+
+            std::vector<Vector2> intersects = defenceAreaUs.intersections(shotLine);
+            std::vector<Vector2> intersectsThem = defenceAreaThem.intersections(shotLine);
+
+            intersects.insert(intersects.end(), intersectsThem.begin(), intersectsThem.end());
+            if (intersects.empty()) {
+                return projectPos;
+            }
+            double closestDist = DBL_MAX;
+            for (const auto &point :intersects) {
+                if (world::field->pointIsInField(point, defenseAreamargin)) {
+                    double dist = point.dist(position);
+                    if (dist < closestDist) {
+                        closestDist = dist;
+                        closestPoint = point;
+                    }
+                }
+            }
+        }
+
+        if (!canMoveOutOfField && !world::field->pointIsInField(closestPoint, defenseAreamargin)) {
+            closestPoint = projectPositionToWithinField(projectPos, defenseAreamargin);
+        }
+
+        return closestPoint;
+
+    }
 
 
 } // control

@@ -46,6 +46,9 @@ static bool SHOW_BALL_HANDLE_DEBUG_INFO();
         static double MIN_VEL();  // Minimum velocity to make the robot move
         static double MAX_ACC_UPPER();  // Maximum acceleration for moving in the forward direction
         static double MAX_ACC_LOWER();  // Maximum acceleration for moving in the sideways direction
+        static double MAX_DEC_UPPER();  // Maximum deceleration for moving in the forward direction
+        static double MAX_DEC_LOWER();  // Maximum deceleration for moving in the sideways direction
+
         static double MAX_VEL_BALLPLACEMENT();
         static double MAX_ANGULAR_VELOCITY();    // Rad per second
         static double ROBOT_RADIUS(); // TODO: Need to test if world_state agrees with this definition of the centre of the robot
