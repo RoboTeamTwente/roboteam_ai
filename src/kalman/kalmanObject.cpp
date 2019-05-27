@@ -130,12 +130,14 @@ namespace rtt {
         msg.vel.y = vel.y;
         msg.w = vel.rot;
         return msg;
-
     }
 
     double kalmanObject::limitRotation(double rotation) const{
-        double constRot=fmod(rotation+M_PI, 2*M_PI);
-        return constRot-M_PI;
+        double constRot=fmod(rotation+M_PI, 2*M_PI)-M_PI;
+        if (constRot<-M_PI||constRot>=M_PI){
+            return -M_PI+std::numeric_limits<double>::epsilon();
+        }
+        return constRot;
     }
 
 
