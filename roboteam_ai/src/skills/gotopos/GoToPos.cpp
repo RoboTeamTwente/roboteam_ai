@@ -81,8 +81,7 @@ bt::Node::Status GoToPos::onUpdate() {
         }
     }
     if (command.x_vel == 0 || command.y_vel == 0 || command.w == 0) {
-        control::PosVelAngle pva = posController->getPosVelAngle(robot, targetPos, targetAngle);
-        pva.vel = control::ControlUtils::velocityLimiter(pva.vel, maxVel);
+    control::PosVelAngle pva = posController->getPosVelAngle(robot, targetPos, targetAngle);
 
         // set robotcommands if they have not been set yet in gtpUpdate()
         command.x_vel = command.x_vel == 0 ? static_cast<float>(pva.vel.x) : command.x_vel;

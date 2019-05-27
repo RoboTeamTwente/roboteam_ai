@@ -17,21 +17,21 @@ void Skill::publishRobotCommand() {
     std::string ourSideParam;
     nh.getParam("our_side", ourSideParam);
 
-    limitVelocityCommands();
-
     if(Constants::GRSIM() && ourSideParam=="right"){
       command=rotateRobotCommand(command);
     }
+    limitRobotCommand();
 
+    if (command.x_vel != command.x_vel || command.y_vel != command.y_vel) {
+        std::cout << "x or y vel in command is NAN!!!!" << std::endl;
+    }
     if (command.id == -1) {
         if (robot && robot->id != -1) {
             command.id = robot->id;
             ioManager.publishRobotCommand(command); // We default to our robots being on the left if parameter is not set
-
         }
     } else {
         ioManager.publishRobotCommand(command); // We default to our robots being on the left if parameter is not set
-
     }
     // refresh the robotcommand after it has been sent
     refreshRobotCommand();
@@ -86,12 +86,17 @@ void Skill::refreshRobotCommand() {
     emptyCmd.geneva_state = 3;
     command = emptyCmd;
 }
-void Skill::limitVelocityCommands() {
-    Vector2 velocity = {command.x_vel, command.y_vel};
-    velocity = control::ControlUtils::velocityLimiter(velocity);
-    command.x_vel = velocity.x;
-    command.y_vel = velocity.y;
 
+/// Velocity and acceleration limiters used on command
+void Skill::limitRobotCommand() {
+
+    auto limitedVel = Vector2(command.x_vel, command.y_vel);
+    limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
+    limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w);
+    robot->setPidPreviousVel(limitedVel);
+
+    command.x_vel = limitedVel.x;
+    command.y_vel = limitedVel.y;
 }
 
 } // ai

@@ -155,7 +155,6 @@ bool GoAroundPos::checkPosition() {
 
 void GoAroundPos::sendRotateCommand() {
     Vector2 deltaCommandPos = (commandPos - robot->pos);
-    deltaCommandPos = Control::velocityLimiter(deltaCommandPos, distanceFromPoint*SPEED, MIN_SPEED);
     command.dribbler = 0;
     command.x_vel = static_cast<float>(deltaCommandPos.x);
     command.y_vel = static_cast<float>(deltaCommandPos.y);

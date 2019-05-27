@@ -71,6 +71,7 @@ bt::Node::Status DemoAttack::onUpdate() {
         velocity = robot->getNumtreeGtp()->getPosVelAngle(robot, targetPos).vel;
     }
 
+
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     publishRobotCommand();

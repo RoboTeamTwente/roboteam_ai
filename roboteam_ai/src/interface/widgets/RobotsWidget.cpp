@@ -69,8 +69,11 @@ void RobotsWidget::updateContents(Visualizer* visualizer) {
 QVBoxLayout* RobotsWidget::createRobotGroupItem(Robot robot) {
     auto vbox = new QVBoxLayout();
 
+    auto absVel = robot.vel.length();
+
     auto velLabel = new QLabel(
-            "vel: (x = "+QString::number(robot.vel.x, 'G', 3)+", y = "+QString::number(robot.vel.y, 'g', 3)+") m/s");
+            "vel: {x = "+QString::number(robot.vel.x, 'G', 3)+", y = "+QString::number(robot.vel.y, 'g', 3)+"} m/s,\n"
+                                                                                                            "    absolute: "+QString::number(absVel, 'G', 3)+" m/s");
     velLabel->setFixedWidth(250);
     vbox->addWidget(velLabel);
 

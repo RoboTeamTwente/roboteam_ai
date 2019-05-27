@@ -19,7 +19,7 @@ void Node::terminate(Status s) {
 }
 
 Node::Status Node::tick() {
-    amountOfTicks++;
+    amountOfTicks ++;
     lastTickTime = ros::Time::now();
 
     if (! init) {
@@ -76,7 +76,6 @@ void Node::NodeInitialize() {
     initialize();
     init = true;
 
-
 }
 
 void Node::NodeTerminate(Status s) {
@@ -92,27 +91,20 @@ unsigned long long Node::getAmountOfTicks() const {
 ros::Time Node::getLastTickTime() {
     return lastTickTime;
 }
+
 void Node::giveProperty(std::string a, std::string b) {
     std::cerr << "giveProperty in Node.cpp, should never be called" << std::endl;
 
 }
 
-std::string statusToString(bt::Node::Status status) {
-    if (status == bt::Node::Status::Success) {
-        return "Success";
-    }
-    else if (status == bt::Node::Status::Failure) {
-        return "Failure";
-    }
-    else if (status == bt::Node::Status::Waiting) {
-        return "Waiting";
-    }
-    else if (status == bt::Node::Status::Running) {
-        return "Running";
-    }
-    else {
-        std::cout << "Enum failure in Node::Status overload of to_string\n";
-        return "ERROR ERROR!!!";
+std::string Node::status_print(Node::Status s) {
+    switch (s) {
+    case Status::Waiting:return "Waiting";
+    case Status::Success:return "Success";
+    case Status::Failure:return "Failure";
+    case Status::Running:return "Running";
+    default:std::cout << "Enum failure in Node::Status status_print for node: " << node_name() << std::endl;
+        return "ERROR!!";
     }
 }
 
