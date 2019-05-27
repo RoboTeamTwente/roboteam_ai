@@ -9,7 +9,7 @@
 #include "DribbleBackwards.h"
 #include "DribbleForwards.h"
 #include "RotateAroundBall.h"
-#include "RotateAroundRobot.h"
+#include "RotateWithBall.h"
 
 namespace rtt {
 namespace ai {
@@ -139,17 +139,42 @@ RobotCommand BallHandlePosControl::goToBall(bool ballIsFarFromTarget, TravelStra
     return robotCommand;
 }
 
-void BallHandlePosControl::setMaxVelocity(double maxV) {
-    maxForwardsVelocity = maxV > 0.0 && maxV < 8.0 ? maxV : maxForwardsVelocity;
-    maxBackwardsVelocity = maxV > 0.0 && maxV < 8.0 ? maxV : maxBackwardsVelocity;
-}
-
 BallHandlePosControl::~BallHandlePosControl() {
     delete dribbleForwards;
     delete dribbleBackwards;
     delete rotateAroundBall;
     delete rotateAroundRobot;
     delete numTreePosControl;
+}
+
+void BallHandlePosControl::setMaxVelocity(double maxV) {
+    setMaxForwardsVelocity(maxV);
+    setMaxBackwardsVelocity(maxV);
+}
+
+void BallHandlePosControl::setMaxForwardsVelocity(double maxV) {
+    if (maxV < 0) {
+        std::cout << "Setting invalid max velocity in BallHandlePosControl" << std::endl;
+        return;
+    }
+    if (maxV > RefGameState().getRuleSet().maxRobotVel) {
+        maxV = RefGameState().getRuleSet().maxRobotVel;
+    }
+    maxForwardsVelocity = maxV;
+    dribbleForwards->setMaxVel(maxForwardsVelocity);
+}
+
+void BallHandlePosControl::setMaxBackwardsVelocity(double maxV) {
+    if (maxV < 0) {
+        std::cout << "Setting invalid max velocity in BallHandlePosControl" << std::endl;
+        return;
+    }
+    if (maxV > RefGameState().getRuleSet().maxRobotVel) {
+        maxV = RefGameState().getRuleSet().maxRobotVel;
+    }
+    maxBackwardsVelocity = maxV;
+    dribbleBackwards->setMaxVel(maxBackwardsVelocity);
+
 }
 
 } //control

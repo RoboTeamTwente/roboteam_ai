@@ -66,6 +66,8 @@ class BallHandlePosControl {
         explicit BallHandlePosControl(bool canMoveInDefenseArea = false);
         ~BallHandlePosControl();
         void setMaxVelocity(double maxV);
+        void setMaxForwardsVelocity(double maxV);
+        void setMaxBackwardsVelocity(double maxV);
         RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA,
                 TravelStrategy preferredTravelStrategy = no_preference);
 };

@@ -4,7 +4,7 @@
 
 #include <roboteam_ai/src/control/ControlUtils.h>
 
-#include "RotateAroundRobot.h"
+#include "RotateWithBall.h"
 
 namespace rtt {
 namespace ai {

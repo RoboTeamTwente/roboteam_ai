@@ -6,7 +6,7 @@
 
 #include "DribbleForwards.h"
 #include "RotateAroundBall.h"
-#include "RotateAroundRobot.h"
+#include "RotateWithBall.h"
 
 namespace rtt {
 namespace ai {
@@ -202,6 +202,10 @@ DribbleForwards::DribbleForwards(double errorMargin, double angularErrorMargin, 
 DribbleForwards::~DribbleForwards() {
     delete rotateAroundBall;
     delete rotateAroundRobot;
+}
+
+void DribbleForwards::setMaxVel(double maxV) {
+    maxVel = maxV;
 }
 
 }

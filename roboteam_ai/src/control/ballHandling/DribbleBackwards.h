@@ -53,10 +53,13 @@ class DribbleBackwards {
 
         // error margins and accuracy
         int waitingTicks;
-        const double errorMargin;
-        const double angleErrorMargin;
-        const double ballPlacementAccuracy;
-        const double maxVel;
+        double errorMargin;
+        double angleErrorMargin;
+        double ballPlacementAccuracy;
+        double maxVel;
+    public:
+        void setMaxVel(double maxVel);
+    private:
 
         // functions for backwards progress
         void updateBackwardsProgress();

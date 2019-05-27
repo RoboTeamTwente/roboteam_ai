@@ -314,8 +314,8 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ballHandling/DribbleForwards.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ballHandling/RotateAroundBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ballHandling/RotateAroundBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ballHandling/RotateAroundRobot.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ballHandling/RotateAroundRobot.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ballHandling/RotateWithBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ballHandling/RotateWithBall.h
         )
 
 set(TEST_SOURCES
