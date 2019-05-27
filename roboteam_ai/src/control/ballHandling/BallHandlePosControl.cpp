@@ -10,6 +10,7 @@
 #include "DribbleForwards.h"
 #include "RotateAroundBall.h"
 #include "RotateWithBall.h"
+#include "../positionControllers/NumTreePosControl.h"
 
 namespace rtt {
 namespace ai {
