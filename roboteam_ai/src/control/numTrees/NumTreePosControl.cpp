@@ -41,9 +41,13 @@ PosVelAngle NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
         return target;
     }
 
-    target.pos = path[targetPathPoint].pos;
-    target.vel = path[targetPathPoint].vel;
+    target.pos = robot->pos + (path[targetPathPoint].pos - robot->pos)*1.0;
+    target.vel = path[targetPathPoint].vel; // Velocity is not used currently!!
     target.angle = (target.pos - robot->pos).angle();
+
+    interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, {target.pos}, Qt::white, robot->id,
+            interface::Drawing::CIRCLES, 8, 8, 6);
+
     return target;
 }
 
@@ -82,22 +86,18 @@ PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr,
     }
 
     // draw
-    {
-        std::vector<Vector2> drawpoints = {};
-        for (auto &displayPath : path) {
-            drawpoints.push_back(displayPath.pos);
-        }
-
-        interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, triedPaths, Qt::red, robot->id,
-                interface::Drawing::DOTS, 3, 3);
-        interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot->id,
-                interface::Drawing::DOTS, 4, 4);
-        interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot->id,
-                interface::Drawing::LINES_CONNECTED);
-        interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot->id,
-                interface::Drawing::CIRCLES, 8, 8, 4);
+    std::vector<Vector2> drawpoints = {};
+    for (auto &displayPath : path) {
+        drawpoints.push_back(displayPath.pos);
     }
-
+    interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, triedPaths, Qt::red, robot->id,
+            interface::Drawing::DOTS, 3, 3);
+    interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot->id,
+            interface::Drawing::DOTS, 4, 4);
+    interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot->id,
+            interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot->id,
+            interface::Drawing::CIRCLES, 8, 8, 4);
 
     // check if we have a nice path. use forces otherwise.
     if (nicePath) {
@@ -126,41 +126,27 @@ void NumTreePosControl::tracePath() {
                           + remainingStraightLinePathLength(rhs->pos, rhs->currentTarget, finalTargetPos));
     };
 
-//// compClose compares the amount of collisions first, then sorts the paths based on an approximation on the length of
-//// path that still has to be calculated, using straight lines towards the half-way targets, and then the final target
-//    auto compClose = [this](PathPointer lhs, PathPointer rhs) {
-//      if (lhs->collisions > rhs->collisions)
-//          return true;
-//      else if (rhs->collisions > lhs->collisions)
-//          return false;
-//      else
-//          return (remainingStraightLinePathLength(lhs->pos, lhs->currentTarget, finalTargetPos)) >
-//                  (remainingStraightLinePathLength(rhs->pos, rhs->currentTarget, finalTargetPos));
-//    };
-
     path.clear();
     triedPaths.clear();
 
+    // create a new path with a root
+    std::priority_queue<PathPointer, std::vector<PathPointer>, decltype(compAStar)> pathQueue(compAStar);
     PathPointer root = std::make_shared<PathPoint>();
     root->currentTarget = finalTargetPos;
     root->pos = robot->pos;
     root->vel = robot->vel;
-    root->acc = {0, 0}; //Assumed for now but could be known from world state/previous commands
+    root->acc = Vector2();
     root->t = 0;
     root->collisions = 0;
-
-    std::priority_queue<PathPointer,
-                        std::vector<PathPointer>, decltype(compAStar)> pathQueue(compAStar);
-    //create root of tree:
     pathQueue.push(root);
 
     ros::Time start = ros::Time::now();
     while (! pathQueue.empty()) {
         ros::Time now = ros::Time::now();
         if ((now - start).toSec()*1000 > MAX_CALCULATION_TIME) {
-            if (InterfaceValues::showDebugNumTreeInfo())
+            if (InterfaceValues::showDebugNumTreeInfo()) {
                 std::cout << "ROBOT " << robot->id << ": Tick took too long!" << std::endl;
-            //( dont clear path?? ) path.clear();
+            }
             return;
         }
         PathPointer point = pathQueue.top();
@@ -207,10 +193,10 @@ void NumTreePosControl::tracePath() {
                 break; // break from current while loop, we start looking at different branches again
             }
         }
-
     }
-    if (InterfaceValues::showDebugNumTreeInfo())
+    if (InterfaceValues::showDebugNumTreeInfo()) {
         std::cout << "ROBOT " << robot->id << ": reached end of while loop, no path found" << std::endl;
+    }
     path = {};
 }
 

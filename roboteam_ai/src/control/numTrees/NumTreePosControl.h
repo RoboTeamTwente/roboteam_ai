@@ -38,7 +38,7 @@ class NumTreePosControl : public ForcePosControl {
         PosVelAngle computeCommand(const Vector2 &exactTargetPos);
 
         // constants
-        const double MAX_CALCULATION_TIME = 25.0;         // Max calculation time in ms
+        const double MAX_CALCULATION_TIME = 20.0;         // Max calculation time in ms
         double DT = 0.1;                          // timestep for ODE model
         static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 0.25; // 3x robot radius
 
