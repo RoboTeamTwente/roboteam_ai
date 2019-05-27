@@ -238,7 +238,13 @@ void MainControlsWidget::updateContents() {
 }
 
 void MainControlsWidget::sendHaltSignal() {
-    GameStateManager::forceNewGameState(RefCommand::HALT);
+    if (isHalted) {
+        Output::setInterfaceGameState(prevGameState);
+    } else {
+        prevGameState = GameStateManager::getCurrentGameState();
+        GameStateManager::forceNewGameState(RefCommand::HALT);
+    }
+    isHalted = !isHalted;
 }
 
 } // interface
