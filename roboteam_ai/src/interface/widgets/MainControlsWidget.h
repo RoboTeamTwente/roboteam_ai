@@ -27,10 +27,11 @@ signals:
 
 private:
     QVBoxLayout* vLayout;
-    QPushButton* haltBtn;
+    QPushButton* pauseBtn;
     QPushButton* refreshBtn;
     QPushButton* toggleColorBtn;
     QPushButton* toggleSideBtn;
+    QPushButton* haltBtn;
 
     QComboBox* select_strategy;
     QComboBox* select_keeper_strategy;
@@ -44,11 +45,13 @@ public slots:
     void setTimeOutTop(bool top);
     void toggleOurColorParam();
     void toggleOurSideParam();
-    void sendHaltSignal();
+    void sendPauseSignal();
     void updatePause();
     void setUseReferee(bool useRef);
     void refreshSignal();
     void updateContents();
+    void sendHaltSignal();
+    void refreshJsonSignal();
 };
 } // interface
 } // ai

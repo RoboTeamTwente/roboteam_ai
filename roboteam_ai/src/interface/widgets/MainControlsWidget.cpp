@@ -8,6 +8,9 @@
 #include <roboteam_ai/src/interface/api/Output.h>
 #include "MainControlsWidget.h"
 #include "mainWindow.h"
+#include "../../treeinterp/BTFactory.h"
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
+
 
 namespace rtt {
 namespace ai {
@@ -53,10 +56,15 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     select_ruleset->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
 
     auto hButtonsLayout = new QHBoxLayout();
-    haltBtn = new QPushButton("Pause");
+
+    haltBtn = new QPushButton("Halt");
     QObject::connect(haltBtn, SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
     hButtonsLayout->addWidget(haltBtn);
-    haltBtn->setStyleSheet("background-color: #cc0000;");
+
+    pauseBtn = new QPushButton("Pause");
+    QObject::connect(pauseBtn, SIGNAL(clicked()), this, SLOT(sendPauseSignal()));
+    hButtonsLayout->addWidget(pauseBtn);
+    pauseBtn->setStyleSheet("background-color: #cc0000;");
 
     refreshBtn = new QPushButton("Refresh");
     QObject::connect(refreshBtn, SIGNAL(clicked()), this, SLOT(refreshSignal()));
@@ -157,19 +165,19 @@ void MainControlsWidget::toggleOurSideParam() {
 }
 
 /// send a halt signal to stop all trees from executing
-void MainControlsWidget::sendHaltSignal() {
+void MainControlsWidget::sendPauseSignal() {
     Output::sendHaltCommand();
 }
 
 void MainControlsWidget::updatePause() {
     rtt::ai::Pause pause;
     if (pause.getPause()) {
-        haltBtn->setText("Resume");
-        haltBtn->setStyleSheet("background-color: #00b200;");
+        pauseBtn->setText("Resume");
+        pauseBtn->setStyleSheet("background-color: #00b200;");
     }
     else {
-        haltBtn->setText("Pause");
-        haltBtn->setStyleSheet("background-color: #cc0000;");
+        pauseBtn->setText("Pause");
+        pauseBtn->setStyleSheet("background-color: #cc0000;");
     }
 }
 
@@ -201,6 +209,7 @@ void MainControlsWidget::setToggleSideBtnLayout() const {
 
 
 void MainControlsWidget::refreshSignal() {
+    BTFactory::makeTrees();
     robotDealer::RobotDealer::refresh();
     emit treeHasChanged();
 }
@@ -226,6 +235,10 @@ void MainControlsWidget::updateContents() {
     if (goalieIdText != select_goalie->currentText()) {
         select_goalie->setCurrentText(goalieIdText);
     }
+}
+
+void MainControlsWidget::sendHaltSignal() {
+    GameStateManager::forceNewGameState(RefCommand::HALT);
 }
 
 } // interface
