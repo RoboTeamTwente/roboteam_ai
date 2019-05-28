@@ -37,7 +37,6 @@ class GoToPos : public Skill {
         virtual void gtpTerminate(Status s) = 0;
     public:
         explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
-        ~GoToPos() override;
         Status onUpdate() override;
         void onInitialize() override;
         void onTerminate(Status s) override;

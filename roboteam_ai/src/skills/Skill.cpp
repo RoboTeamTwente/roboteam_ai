@@ -1,7 +1,8 @@
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "Skill.h"
 #include "../utilities/RobotDealer.h"
-
+#include "roboteam_ai/src/world/Robot.h"
+#include "roboteam_ai/src/world/Ball.h"
 
 namespace rtt {
 namespace ai {
@@ -23,7 +24,7 @@ void Skill::publishRobotCommand() {
     limitRobotCommand();
 
     if (command.x_vel != command.x_vel || command.y_vel != command.y_vel) {
-        std::cout << "x or y vel in command is NAN!!!!" << std::endl;
+        std::cout << "ERROR: x or y vel in command is NAN in Skill " << node_name().c_str() << "!" << std::endl;
     }
     if (command.id == -1) {
         if (robot && robot->id != -1) {

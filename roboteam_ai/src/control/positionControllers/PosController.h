@@ -44,7 +44,6 @@ class PosController {
 
     public:
         PosController() = default;
-        virtual ~PosController() = default;
         explicit PosController(double avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
         virtual PosVelAngle getPosVelAngle(const RobotPtr &robot,
                 const Vector2 &targetPos, const Angle &targetAngle) = 0;

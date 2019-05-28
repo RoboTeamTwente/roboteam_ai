@@ -6,7 +6,8 @@
 #define ROBOTEAM_AI_BALLHANDLEPOSCONTROL_H
 
 #include <roboteam_utils/Vector2.h>
-#include "roboteam_ai/src/control/positionControllers/RobotCommand.h"
+#include <roboteam_ai/src/utilities/Constants.h>
+#include <roboteam_ai/src/control/positionControllers/RobotCommand.h>
 
 namespace rtt {
 namespace ai {

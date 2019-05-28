@@ -55,7 +55,6 @@ class NumTreePosControl : public ForcePosControl {
 
     public:
         NumTreePosControl() = default;
-        ~NumTreePosControl() override = default;
         explicit NumTreePosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
 
         void clear();
