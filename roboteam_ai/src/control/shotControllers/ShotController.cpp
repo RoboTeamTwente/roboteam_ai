@@ -47,7 +47,7 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     bool validAngle = robotAngleIsGood(robot, lineToDriveOver, precision);
 
     ShotData shotData;
-    std::cout<<" Online: "<<isOnLineToBall <<" behind: "<<isBehindBall<<" valid: "<<validAngle<<" isShooting: " <<isShooting<<std::endl;
+   // std::cout<<" Online: "<<isOnLineToBall <<" behind: "<<isBehindBall<<" valid: "<<validAngle<<" isShooting: " <<isShooting<<std::endl;
 
     if (isOnLineToBall && isBehindBall && (validAngle || isShooting)) {
         if (genevaIsTurning) {
