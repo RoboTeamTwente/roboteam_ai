@@ -7,6 +7,8 @@
 #include "roboteam_ai/src/utilities/Constants.h"
 #include "roboteam_ai/src/coach/defence/DefencePositionCoach.h"
 #include "roboteam_ai/src/coach/defence/DefenceDealer.h"
+#include "roboteam_ai/src/control/ControlUtils.h"
+
 namespace w=rtt::ai::world;
 namespace rtt{
 namespace ai{
