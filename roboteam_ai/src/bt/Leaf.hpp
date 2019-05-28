@@ -5,12 +5,12 @@
 #include "roboteam_utils/Angle.h"
 
 namespace rtt {
-    namespace ai {
-        namespace world {
-            class Robot;
-            class Ball;
-        }
-    }
+namespace ai {
+namespace world {
+    class Robot;
+    class Ball;
+}
+}
 }
 
 namespace bt {
