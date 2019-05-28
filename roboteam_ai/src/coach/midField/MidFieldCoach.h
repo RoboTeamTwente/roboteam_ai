@@ -26,6 +26,8 @@ class MidFieldCoach {
         const double GRID_RADIUS = 2;
         const double GRID_SIZE = 0.2;
 
+        int tick = 0;
+
         using Robot = world::Robot;
         using RobotPtr = std::shared_ptr<Robot>;
         using Ball = world::Ball;
@@ -54,7 +56,7 @@ class MidFieldCoach {
         MidFieldCoach::Target
         harassRobot(const RobotPtr &thisRobot, const RobotPtr &opponent, HarassType harassType) const;
         Target blockPass(const RobotPtr &thisRobot, const RobotPtr &opponent, const BallPtr &ball) const;
-        Vector2 findBetterPosition(const RobotPtr &thisRobot);
+        Vector2 calculateNewRobotPosition(const RobotPtr &thisRobot);
         double calculateStandingFreeScore(Vector2 position);
     public:
         void addMidFielder(RobotPtr &thisRobot);

@@ -152,7 +152,7 @@ MidFieldCoach::RobotPtr MidFieldCoach::findRobotToHarass(const RobotPtr& thisRob
 MidFieldCoach::Target MidFieldCoach::standFree(const RobotPtr &thisRobot) {
     Target target;
     target.targetRobot = -1;
-    target.targetPosition = thisRobot->pos;
+    target.targetPosition = calculateNewRobotPosition(thisRobot);
     return target;
 }
 
@@ -201,7 +201,7 @@ double MidFieldCoach::calculateStandingFreeScore(Vector2 position) {
     WorldData world = world::world->getWorld();
     roboteam_msgs::GeometryFieldSize field = world::field->get_field();
 
-    double passLineScore = CoachHeuristics::calculatePassLineScore(position);
+    double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);
     double distanceToUsScore = CoachHeuristics::calculateDistanceToClosestTeamMateScore(position);
 
     return passLineScore + distanceToUsScore;
@@ -214,21 +214,24 @@ Vector2 MidFieldCoach::calculateNewRobotPosition(const RobotPtr &thisRobot) {
 
     Angle goldenAngle = 0.01;
     tick++;
-    Angle thetaPlus = tick*tick*goldenAngle + targetAngle;
-    Angle thetaMinus = -1*tick*tick*goldenAngle + targetAngle;
-    std::vector<Vector2> positions = {bestPosition.position + thetaPlus.toVector2(1.0   * GRID_SIZE),
-                                      bestPosition.position + thetaPlus.toVector2(3.0   * GRID_SIZE),
-                                      bestPosition.position + thetaPlus.toVector2(12.0  * GRID_SIZE),
-                                      bestPosition.position + thetaMinus.toVector2(1.0  * GRID_SIZE),
-                                      bestPosition.position + thetaMinus.toVector2(3.0  * GRID_SIZE),
-                                      bestPosition.position + thetaMinus.toVector2(12.0 * GRID_SIZE)};
+    Angle thetaPlus = tick*tick*goldenAngle;
+    Angle thetaMinus = -1*tick*tick*goldenAngle;
+    std::vector<Vector2> positions = {bestPosition + thetaPlus.toVector2(1.0   * GRID_SIZE),
+                                      bestPosition + thetaPlus.toVector2(3.0   * GRID_SIZE),
+                                      bestPosition + thetaPlus.toVector2(12.0  * GRID_SIZE),
+                                      bestPosition + thetaMinus.toVector2(1.0  * GRID_SIZE),
+                                      bestPosition + thetaMinus.toVector2(3.0  * GRID_SIZE),
+                                      bestPosition + thetaMinus.toVector2(12.0 * GRID_SIZE)};
 
-    auto newPosition = findBestOffensivePosition(positions, bestPosition, zoneLocation);
-    if (newPosition.position != currentPosition.position) {
-        tick = 0;
-        targetAngle = newPosition.position - currentPosition.position;
+    for (const auto& position : positions) {
+        double score = calculateStandingFreeScore(position);
+        if (score > highestScore) {
+            highestScore = score;
+            bestPosition = position;
+        }
     }
-    return newPosition;
+
+    return bestPosition;
 }
 
 } //coach
