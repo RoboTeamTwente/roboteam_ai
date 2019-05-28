@@ -155,15 +155,15 @@ bool Robot::hasWorkingDribbler() const {
     return workingDribbler;
 }
 
-const shared_ptr<control::ShotController> &Robot::getShotController() const {
+const std::shared_ptr<control::ShotController> &Robot::getShotController() const {
     return shotController;
 }
 
-const shared_ptr<control::NumTreePosControl> &Robot::getNumtreeGtp() const {
+const std::shared_ptr<control::NumTreePosControl> &Robot::getNumtreeGtp() const {
     return numtreeGTP;
 }
 
-const shared_ptr<control::BasicPosControl> &Robot::getBasicGtp() const {
+const std::shared_ptr<control::BasicPosControl> &Robot::getBasicGtp() const {
     return basicGTP;
 }
 

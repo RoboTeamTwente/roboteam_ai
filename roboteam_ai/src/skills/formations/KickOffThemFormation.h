@@ -15,8 +15,8 @@ public:
     explicit KickOffThemFormation(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
 private:
     Vector2 getFormationPosition() override;
-    std::shared_ptr<vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
-    static std::shared_ptr<vector<std::shared_ptr<Robot>>> robotsInFormation;
+    std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
+    static std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormation;
 };
 
 }
