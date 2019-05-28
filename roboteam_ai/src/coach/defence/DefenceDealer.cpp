@@ -55,8 +55,12 @@ void DefenceDealer::updateDefenderLocations() {
             freeDefenders.push_back(id);
         }
     }
+    auto foundDefenders=g_defensivePositionCoach.decidePositions(lockedDefenders, freeDefenders);
     availableIDs.clear();
-    assignedDefenders = g_defensivePositionCoach.decidePositions(lockedDefenders, freeDefenders);
+    if (foundDefenders.size()<freeDefenders.size()+lockedDefenders.size()){
+        std::cout<<"WTFF"<<std::endl;
+    }
+    assignedDefenders = foundDefenders;
     visualizePoints();    //visualization
 }
 }//coach

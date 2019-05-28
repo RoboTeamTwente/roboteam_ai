@@ -47,6 +47,8 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
     bool validAngle = robotAngleIsGood(robot, lineToDriveOver, precision);
 
     ShotData shotData;
+   // std::cout<<" Online: "<<isOnLineToBall <<" behind: "<<isBehindBall<<" valid: "<<validAngle<<" isShooting: " <<isShooting<<std::endl;
+
     if (isOnLineToBall && isBehindBall && (validAngle || isShooting)) {
         if (genevaIsTurning) {
             isShooting = false;
@@ -57,8 +59,10 @@ ShotData ShotController::getShotData(world::Robot robot, Vector2 shotTarget, boo
         }
         else {
             isShooting = true;
-            shotData = Constants::GRSIM() ? moveAndShootGrSim(robot, chip, lineToDriveOver, ballspeed)
-                    : moveAndShoot(robot, chip, lineToDriveOver, ballspeed);
+            shotData=moveAndShootGrSim(robot,chip,lineToDriveOver,ballspeed);
+
+            //shotData = Constants::GRSIM() ? moveAndShootGrSim(robot, chip, lineToDriveOver, ballspeed)
+              //      : moveAndShoot(robot, chip, lineToDriveOver, ballspeed);
         }
     }
     else {
@@ -93,9 +97,9 @@ bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, 
         return dist < 0.04;
     }
     else if (precision == MEDIUM) {
-        return dist < 0.08;
+        return dist < 0.05;
     }
-    return dist < 0.15;
+    return dist < 0.08;
 }
 
 /// return the place behind the ball targeted towards the ball target position
@@ -113,7 +117,7 @@ ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTa
     control::PosVelAngle pva = robot.getNumtreePosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
             robotTargetPosition);
     //TODO: if (rotating to this angle from current angle will hit ball) then pva.angle=angle towards ball
-    if ((robot.pos - robotTargetPosition).length() < 0.5) {
+    if ((robot.pos - robotTargetPosition).length() < 0.3) {
         pva.angle = (line.second - line.first).toAngle();
     }
 
@@ -201,12 +205,12 @@ bool ShotController::robotAngleIsGood(world::Robot &robot,
     Angle aim((lineToDriveOver.second - lineToDriveOver.first).angle());
     double diff = abs(aim - robot.angle);
     if (precision == HIGH) {
-        return diff < toRadians(4);
+        return diff < toRadians(3);
     }
     if (precision == MEDIUM) {
-        return diff < toRadians(10);
+        return diff < toRadians(6);
     }
-    return diff < toRadians(15);
+    return diff < toRadians(10);
 }
 
 // get the place behind the ball as if no geneva is used
@@ -266,9 +270,11 @@ ShotData ShotController::moveAndShootGrSim(world::Robot robot, bool chip,
     ShotData shotData;
     bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
     if (hasBall) {
+        std::cout<<"SHOOTING"<<std::endl;
         shotData = shoot(robot, lineToDriveOver, aimTarget, chip, desiredBallSpeed);
     }
     else {
+        std::cout<<"MOVING TO BALL"<<std::endl;
         shotData = moveStraightToBall(robot, lineToDriveOver);
     }
     shotData.forced = true;
