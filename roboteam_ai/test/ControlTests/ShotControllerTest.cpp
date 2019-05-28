@@ -17,7 +17,7 @@ using Vector2 = rtt::Vector2;
 
 TEST(ShotControllerTest, it_generates_robotcommands) {
     ShotController shotController;
-    ShotData sd = shotController.getShotData(*world::world->getUs().at(0), {1, 0});
+    RobotComman sd = shotController.getShotData(*world::world->getUs().at(0), {1, 0});
 
     roboteam_msgs::WorldRobot robot;
     robot.id = 2;
@@ -127,7 +127,7 @@ TEST(ShotControllerTest, it_sends_proper_shoot_commands) {
     rtt::ai::world::world->updateWorld(world);
 
     ShotController shotController;
-    ShotData shotdata = shotController.shoot(world::Robot(robot), {robot.pos, ball.pos}, {1, 0}, false, BallSpeed::MAX_SPEED);
+    RobotComman shotdata = shotController.shoot(world::Robot(robot), {robot.pos, ball.pos}, {1, 0}, false, BallSpeed::MAX_SPEED);
     EXPECT_TRUE(shotdata.kick);
     EXPECT_FALSE(shotdata.chip);
     EXPECT_FLOAT_EQ(shotdata.angle, (Vector2(ball.pos) - Vector2(robot.pos)).toAngle());
@@ -168,7 +168,7 @@ TEST(ShotControllerTest, getshotdata_test) {
 
     // kick test
     ShotController shotController;
-    ShotData shotdata = shotController.getShotData(* robotWithBall, simulatedShotTarget, false, BallSpeed::MAX_SPEED, false, ShotPrecision::LOW);
+    RobotComman shotdata = shotController.getShotData(* robotWithBall, simulatedShotTarget, false, BallSpeed::MAX_SPEED, false, ShotPrecision::LOW);
     EXPECT_TRUE(shotdata.kick);
     EXPECT_FALSE(shotdata.chip);
     EXPECT_FLOAT_EQ(shotdata.angle, (Vector2(world::world->getBall()->pos) - Vector2(robotWithBall->pos)).toAngle());

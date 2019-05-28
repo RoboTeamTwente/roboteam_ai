@@ -14,9 +14,9 @@ BasicPosControl::BasicPosControl(bool avoidBall, bool canMoveOutsideField, bool 
 
 }
 
-PosVelAngle BasicPosControl::getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) {
+RobotCommand BasicPosControl::getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) {
 
-    PosVelAngle posVelAngle;
+    RobotCommand posVelAngle;
     Vector2 error = targetPos - robot->pos;
 
     posVelAngle.pos = targetPos;
@@ -30,7 +30,7 @@ void BasicPosControl::checkInterfacePID() {
     auto newPid = interface::Output::getBasicPid();
     updatePid(newPid);
 }
-PosVelAngle BasicPosControl::getPosVelAngle(const PosController::RobotPtr &robot, const Vector2 &targetPos) {
+RobotCommand BasicPosControl::getPosVelAngle(const PosController::RobotPtr &robot, const Vector2 &targetPos) {
     return PosController::getPosVelAngle(robot, targetPos);
 }
 

@@ -2,7 +2,7 @@
 // Created by thijs on 25-5-19.
 //
 
-#include "roboteam_ai/src/control/positionControllers/PosVelAngle.h"
+#include "roboteam_ai/src/control/positionControllers/RobotCommand.h"
 #include "roboteam_ai/src/world/Robot.h"
 #include "roboteam_ai/src/world/Ball.h"
 #include <queue>
@@ -19,7 +19,7 @@ namespace ai {
 namespace control {
 
 NumTreePosControl::NumTreePosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
-        :ForcePosControl(avoidBall, canMoveOutsideField, canMoveInDefenseArea) { }
+        :PosController(avoidBall, canMoveOutsideField, canMoveInDefenseArea) { }
 
 /// Clears data and resets variables
 void NumTreePosControl::clear() {
@@ -28,8 +28,8 @@ void NumTreePosControl::clear() {
 
 /// return the velocity command using two PIDs based on the current position and velocity of the robot compared to the
 /// position and velocity of the calculated path
-PosVelAngle NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
-    PosVelAngle target;
+RobotCommand NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
+    RobotCommand target;
     double goToTimeInFuture = 0.4;
     auto targetPathPoint = static_cast<unsigned long>(goToTimeInFuture/DT);
     if (path.size() < targetPathPoint) {
@@ -55,7 +55,7 @@ PosVelAngle NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
 }
 
 /// finds a path using a numeric model
-PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr,
+RobotCommand NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle) {
 
     DT = 0.2/rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
@@ -106,15 +106,12 @@ PosVelAngle NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr,
     interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot->id,
             interface::Drawing::CIRCLES, 8, 8, 6);
 
-    // check if we have a nice path. use forces otherwise.
-    if (nicePath) {
-        PosVelAngle command = computeCommand(targetPos);
-        return controlWithPID(robotPtr, command);
-    }
-    else {
+    // check if we have a nice path.
+    if (! nicePath) {
         path.clear();
-        return calculateForcePosVelAngle(robotPtr, targetPos);
     }
+    RobotCommand command = computeCommand(targetPos);
+    return controlWithPID(robotPtr, command);
 }
 
 void NumTreePosControl::tracePath() {
@@ -154,6 +151,16 @@ void NumTreePosControl::tracePath() {
             if (InterfaceValues::showDebugNumTreeInfo()) {
                 std::cout << "ROBOT " << robot->id << ": Tick took too long!" << std::endl;
             }
+            PathPointer bestPath = pathQueue.top();
+            pathQueue.pop();
+            while (! pathQueue.empty()) {
+                PathPointer pathPointer = pathQueue.top();
+                if ((finalTargetPos - pathPointer->pos).length2() < (finalTargetPos - bestPath->pos).length2()) {
+                    bestPath = pathPointer;
+                }
+                pathQueue.pop();
+            }
+            path = backTrackPath(bestPath, root);
             return;
         }
         PathPointer point = pathQueue.top();
@@ -218,7 +225,7 @@ double NumTreePosControl::remainingStraightLinePathLength(
 NumTreePosControl::PathPointer NumTreePosControl::computeNewPoint(
         const PathPointer &oldPoint, const Vector2 &subTarget) {
 
-//Copy parent
+    // Copy parent
     PathPointer newPoint = std::make_shared<PathPoint>();
     newPoint->parent = oldPoint;
     oldPoint->addChild(newPoint);
@@ -231,19 +238,15 @@ NumTreePosControl::PathPointer NumTreePosControl::computeNewPoint(
 
     // accelerate towards the target
     // if the current velocity is away (>90 degrees) from the target, accelerate more towards target
-    Vector2 targetDirection = (subTarget - newPoint->pos).normalize();
+    Vector2 targetDirection = (subTarget - newPoint->pos);
     Angle deltaAngle = newPoint->vel.toAngle() - targetDirection.toAngle();
-    if (fabs(deltaAngle) > M_PI_2) {
-        newPoint->acc = ((targetDirection*newPoint->maxVel() - newPoint->vel).normalize() - newPoint->vel.normalize());
-    }
-    else {
-        newPoint->acc = (targetDirection*newPoint->maxVel() - newPoint->vel);
-    }
+
+    newPoint->acc = ((targetDirection.normalize()*newPoint->maxVel() - newPoint->vel).normalize() -
+                newPoint->vel.normalize() * fabs(deltaAngle) * M_2_PI);
 
     Vector2 targetVel = newPoint->vel + newPoint->acc.stretchToLength(DT*
             std::max(newPoint->maxAcceleration(), newPoint->maxDeceleration()));
     Angle targetAngle = (targetVel - oldPoint->vel).toAngle();
-
 
     //ODE model to get new position/velocity:
     newPoint->vel = ControlUtils::accelerationLimiter(targetVel, oldPoint->vel, targetAngle,
@@ -340,12 +343,13 @@ Collision NumTreePosControl::getDefenseAreaCollision(const PathPointer &point) {
     if (currentCollisionWithFinalTarget.getCollisionDefenseAreaPos() != Vector2()) return collision;
 
         if (! getCanMoveInDefenseArea()) {
-            bool isInOurDefenseArea = world::field->pointIsInDefenceArea(point->pos, true, Constants::ROBOT_RADIUS(),
-                    false);
-            bool isInTheirDefenseArea = world::field->pointIsInDefenceArea(point->pos, false, Constants::ROBOT_RADIUS(),
-                    false);
+            auto margin = Constants::ROBOT_RADIUS();
+            bool isInOurDefenseArea = world::field->pointIsInDefenceArea(point->pos, true, margin, false);
+            bool isInTheirDefenseArea = world::field->pointIsInDefenceArea(point->pos, false, margin, false);
             if (isInOurDefenseArea || isInTheirDefenseArea) {
-                collision.setDefenseAreaCollision(point->pos, 0.2);
+                double defenseAreaX = point->pos.x < 0 ? world::field->get_field().left_penalty_line.begin.x :
+                                                         world::field->get_field().right_penalty_line.begin.x;
+                collision.setDefenseAreaCollision(point->pos, (fabs(defenseAreaX - point->pos.x) + margin)*1.1);
                 return collision;
             }
         }
@@ -400,7 +404,7 @@ void NumTreePosControl::checkInterfacePID() {
     updatePid(newPid);
 }
 
-PosVelAngle NumTreePosControl::getPosVelAngle(const PosController::RobotPtr &robot, const Vector2 &targetPos) {
+RobotCommand NumTreePosControl::getPosVelAngle(const PosController::RobotPtr &robot, const Vector2 &targetPos) {
     return PosController::getPosVelAngle(robot, targetPos);
 }
 
@@ -482,7 +486,7 @@ bool NumTreePosControl::checkIfTargetMoved(double maxTargetDeviation, const Vect
 
 bool NumTreePosControl::checkIfAtEndOfPath(double maxTargetDeviation, const Vector2 &targetPos) {
     // if the end of the path is met
-    if (path.size() < static_cast<unsigned int>(1.01 + 0.80/DT)) {
+    if (path.size() < static_cast<unsigned int>(1.01 + 1.0/DT)) {
         if ((path[path.size() - 1].pos - targetPos).length() > maxTargetDeviation) {
             if (InterfaceValues::showFullDebugNumTreeInfo()) {
                 std::cout << "ROBOT " << robot->id << ": reached end of path segment, recalculating" << std::endl;

@@ -36,14 +36,13 @@ Vector2 Field::get_their_goal_center() {
     return Vector2(field.field_length/2, 0);
 }
 
-bool Field::pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea, float margin, bool includeOutsideField) {
+bool Field::pointIsInDefenceArea(const Vector2 &point, bool isOurDefenceArea, float margin, bool includeOutsideField) {
     auto defenseArea = getDefenseArea(isOurDefenceArea, margin, includeOutsideField);
     return defenseArea.contains(point);
 }
 
-
 // the margin is pointed inside the field!
-bool Field::pointIsInField(const Vector2& point, float margin) {
+bool Field::pointIsInField(const Vector2 &point, float margin) {
     roboteam_msgs::GeometryFieldSize _field;
     {
         std::lock_guard<std::mutex> lock(fieldMutex);
@@ -61,15 +60,17 @@ bool Field::pointIsInField(const Vector2& point, float margin) {
 }
 
 /// returns the angle the goal points make from a point
-double Field::getTotalGoalAngle(bool ourGoal, const Vector2& point){
-    std::pair<Vector2,Vector2> goal=getGoalSides(ourGoal);
-    double angleLeft=(goal.first-point).angle();
-    double angleRight=(goal.second-point).angle();
-    return control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(angleLeft),control::ControlUtils::constrainAngle(angleRight));
+double Field::getTotalGoalAngle(bool ourGoal, const Vector2 &point) {
+    std::pair<Vector2, Vector2> goal = getGoalSides(ourGoal);
+    double angleLeft = (goal.first - point).angle();
+    double angleRight = (goal.second - point).angle();
+    return control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(angleLeft),
+            control::ControlUtils::constrainAngle(angleRight));
 }
 
 /// id and ourteam are for a robot not to be taken into account.
-double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& point, const WorldData &data, int id, bool ourTeam) {
+double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2 &point, const WorldData &data, int id,
+        bool ourTeam) {
     roboteam_msgs::GeometryFieldSize _field;
     {
         std::lock_guard<std::mutex> lock(fieldMutex);
@@ -83,8 +84,9 @@ double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& p
     return std::max(100 - round(blockadeLength/goalWidth*100), 0.0);
 }
 
-std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, const Vector2& point, const WorldData &data, int id, bool ourTeam) {
-    const double robotRadius = Constants::ROBOT_RADIUS()+Constants::BALL_RADIUS();
+std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, const Vector2 &point,
+        const WorldData &data, int id, bool ourTeam) {
+    const double robotRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
 
     Vector2 lowerGoalSide, upperGoalSide;
     lowerGoalSide = getGoalSides(ourGoal).first;
@@ -93,84 +95,87 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
     std::vector<std::pair<Vector2, Vector2>> blockades = {};
 
     // get all the robots
-    auto robots=data.us;
-    robots.insert(robots.begin(),data.them.begin(),data.them.end());
+    auto robots = data.us;
+    robots.insert(robots.begin(), data.them.begin(), data.them.end());
     // all the obstacles should be robots
     for (auto const &robot : robots) {
         if (robot->id == id && robot->team == (ourTeam ? Robot::Team::us : Robot::Team::them)) continue;
-        double lenToBot=(point-robot->pos).length();
+        double lenToBot = (point - robot->pos).length();
         // discard already all robots that are not at all between the goal and point, or if a robot is standing on this point
-        bool isRobotItself = lenToBot<=robotRadius;
+        bool isRobotItself = lenToBot <= robotRadius;
         bool isInPotentialBlockingZone = ourGoal ? robot->pos.x < point.x + robotRadius : robot->pos.x
                 > point.x - robotRadius;
         if (! isRobotItself && isInPotentialBlockingZone) {
 
             // get the left and right sides of the robot
-            double theta=asin(robotRadius/lenToBot);
-            double length=sqrt(lenToBot*lenToBot-robotRadius*robotRadius);
-            Vector2 lowerSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot->pos)-point).angle()-theta);
-            Vector2 upperSideOfRobot=point+Vector2(length,0).rotate((Vector2(robot->pos)-point).angle()+theta);
+            double theta = asin(robotRadius/lenToBot);
+            double length = sqrt(lenToBot*lenToBot - robotRadius*robotRadius);
+            Vector2 lowerSideOfRobot = point + Vector2(length, 0).rotate((Vector2(robot->pos) - point).angle() - theta);
+            Vector2 upperSideOfRobot = point + Vector2(length, 0).rotate((Vector2(robot->pos) - point).angle() + theta);
             // map points onto goal line
 
             // the forwardIntersection returns a double which is the scale of the vector projection
             // this returns -1.0 if there is no intersections in the forward direction
-            double point1val = util::twoLineForwardIntersection(point,lowerSideOfRobot,lowerGoalSide,upperGoalSide);
-            double point2val= util::twoLineForwardIntersection(point,upperSideOfRobot,lowerGoalSide,upperGoalSide);
+            double point1val = util::twoLineForwardIntersection(point, lowerSideOfRobot, lowerGoalSide, upperGoalSide);
+            double point2val = util::twoLineForwardIntersection(point, upperSideOfRobot, lowerGoalSide, upperGoalSide);
             // Here is how we calculate the actual intersections using the above values
-            Vector2 point1=point+(lowerSideOfRobot-point)*point1val;
-            Vector2 point2=point+(upperSideOfRobot-point)*point2val;
+            Vector2 point1 = point + (lowerSideOfRobot - point)*point1val;
+            Vector2 point2 = point + (upperSideOfRobot - point)*point2val;
             // we can use the
 
             // remove all obstacles that are completely out of the goal regardless
 
             bool validObstacle;
             //object completely faced the wrong way
-            if (point1val<=0 && point2val<=0){
-                validObstacle=false;
+            if (point1val <= 0 && point2val <= 0) {
+                validObstacle = false;
             }
                 //these following 2 cases are identical in logic but mirrored; one point hits the backline, other does not.
                 // in that case, we pick the appropriate goalPost which would be right for the obstacle as new Point and check if this interval is valid
-            else if(point1val<=0&&point2val>0){
-                validObstacle=true;
-                if (point1.y<point2.y){
-                    point1=upperGoalSide;
+            else if (point1val <= 0 && point2val > 0) {
+                validObstacle = true;
+                if (point1.y < point2.y) {
+                    point1 = upperGoalSide;
                 }
-                else{
-                    point1=lowerGoalSide;
-                }
-            }
-            else if(point2val<=0&&point1val>0){
-                validObstacle=true;
-                if (point2.y<point1.y ){
-                    point2=upperGoalSide;
-                }
-                else{
-                    point2=lowerGoalSide;
+                else {
+                    point1 = lowerGoalSide;
                 }
             }
-            else{
+            else if (point2val <= 0 && point1val > 0) {
+                validObstacle = true;
+                if (point2.y < point1.y) {
+                    point2 = upperGoalSide;
+                }
+                else {
+                    point2 = lowerGoalSide;
+                }
+            }
+            else {
                 //'normal' obstacle; check if the points are at good points
-                validObstacle=true;
+                validObstacle = true;
             }
 
             // check if both points are below or above the goal (this invalidates it again)
-            if (validObstacle){
+            if (validObstacle) {
                 bool bothPointsBelowGoal = point1.y <= lowerGoalSide.y && point2.y <= lowerGoalSide.y;
                 bool bothPointAboveGoal = point1.y >= upperGoalSide.y && point2.y >= upperGoalSide.y;
-                if (bothPointsBelowGoal||bothPointAboveGoal){
-                    validObstacle=false;
+                if (bothPointsBelowGoal || bothPointAboveGoal) {
+                    validObstacle = false;
                 }
             }
-            if (validObstacle ) {
+            if (validObstacle) {
                 // constrain the blockades to within the goal
                 if (point1.y > point2.y) { // point1 is largest
                     point1.y = std::min(point1.y, upperGoalSide.y);
                     point2.y = std::max(point2.y, lowerGoalSide.y);
-                    blockades.emplace_back(std::make_pair(point2,point1)); // the first element in the pair is the smallest
-                } else { // point2 is largest
+                    blockades.emplace_back(
+                            std::make_pair(point2, point1)); // the first element in the pair is the smallest
+                }
+                else { // point2 is largest
                     point2.y = std::min(point2.y, upperGoalSide.y);
                     point1.y = std::max(point1.y, lowerGoalSide.y);
-                    blockades.emplace_back(std::make_pair(point1,point2)); // the first element in the pair is the smallest
+                    blockades.emplace_back(
+                            std::make_pair(point1, point2)); // the first element in the pair is the smallest
                 }
             }
         }
@@ -195,10 +200,10 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
     std::vector<std::pair<Vector2, Vector2>> mergedBlockades;
     unsigned long iterator = 0;
     while (blockades.size() > (iterator + 1)) {
-        if (blockades.at(iterator).second.y>=blockades.at(iterator + 1).first.y) {
+        if (blockades.at(iterator).second.y >= blockades.at(iterator + 1).first.y) {
 
             // if the first two elements intercept, merge them
-            auto upperbound = std::max(blockades.at(iterator).second.y, blockades.at(iterator+1).second.y);
+            auto upperbound = std::max(blockades.at(iterator).second.y, blockades.at(iterator + 1).second.y);
 
             // construct a new vector from the lowest to highest blockade value
             auto newBlockade = std::make_pair(blockades.at(iterator).first,
@@ -218,8 +223,9 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
  * Get the visible parts of a goal
  * This is the inverse of getting the blockades of a goal
  */
-std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGoal, const Vector2& point,const WorldData &data) {
-    auto blockades = getBlockadesMappedToGoal(ourGoal, point,data);
+std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGoal, const Vector2 &point,
+        const WorldData &data) {
+    auto blockades = getBlockadesMappedToGoal(ourGoal, point, data);
 
     auto lower = getGoalSides(ourGoal).first;
     auto upper = getGoalSides(ourGoal).second;
@@ -237,7 +243,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGo
 
         // if the lowerbound is the same as the lower hook then the visible part has a length of 0 and we don't care about it
         // originally used to be != but floating point errors are tears.
-        if (abs(lowerbound-lowerHook.y)>0.000001) {
+        if (abs(lowerbound - lowerHook.y) > 0.000001) {
             visibleParts.emplace_back(std::make_pair(lowerHook, Vector2(blockade.first.x, lowerbound)));
         }
         auto upperbound = std::max(blockade.first.y, blockade.second.y);
@@ -268,7 +274,7 @@ std::pair<Vector2, Vector2> Field::getGoalSides(bool ourGoal) {
     return std::make_pair(lowerGoalSide, upperGoalSide);
 }
 
-double Field::getDistanceToGoal(bool ourGoal, const Vector2& point) {
+double Field::getDistanceToGoal(bool ourGoal, const Vector2 &point) {
     auto sides = getGoalSides(ourGoal);
     return control::ControlUtils::distanceToLineWithEnds(point, sides.first, sides.second);
 }
@@ -287,13 +293,15 @@ Vector2 Field::getPenaltyPoint(bool ourGoal) {
 
 }
 
-std::shared_ptr<Vector2> Field::lineIntersectionWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin) {
+std::shared_ptr<Vector2> Field::lineIntersectionWithDefenceArea(bool ourGoal, const Vector2 &lineStart,
+        const Vector2 &lineEnd, double margin) {
     auto defenseArea = getDefenseArea(ourGoal, margin);
     auto intersections = defenseArea.intersections({lineStart, lineEnd});
 
     if (intersections.size() == 1) {
         return std::make_shared<Vector2>(intersections.at(0));
-    } else if (intersections.size() > 1) {
+    }
+    else if (intersections.size() > 1) {
         double closestIntersectionToLineStart = INT_MAX;
         Vector2 closestIntersection = intersections.at(0);
         for (auto const &intersection : intersections) {
@@ -307,8 +315,8 @@ std::shared_ptr<Vector2> Field::lineIntersectionWithDefenceArea(bool ourGoal, co
     return nullptr;
 }
 
-
-bool Field::lineIntersectsWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin) {
+bool Field::lineIntersectsWithDefenceArea(bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd,
+        double margin) {
     auto defenseArea = getDefenseArea(ourGoal, margin);
     return defenseArea.doesIntersect({lineStart, lineEnd});
 }
@@ -320,14 +328,16 @@ Polygon Field::getDefenseArea(bool ourDefenseArea, double margin, bool includeOu
         _field = field;
     }
 
-    double backLineUsXCoordinate = includeOutSideField ? - _field.field_length*0.5 -_field.boundary_width : - _field.field_length*0.5 - margin;
-    double backLineThemXCoordinate = includeOutSideField ? _field.field_length*0.5 +_field.boundary_width : _field.field_length*0.5 + margin;
+    double backLineUsXCoordinate = includeOutSideField ? - _field.field_length*0.5 - _field.boundary_width :
+                                   - _field.field_length*0.5 - margin;
+    double backLineThemXCoordinate = includeOutSideField ? _field.field_length*0.5 + _field.boundary_width :
+                                     _field.field_length*0.5 + margin;
 
     std::vector<Vector2> defenceAreaUsPoints = {
-    {_field.left_penalty_line.begin.x + margin, _field.left_penalty_line.begin.y - margin},
-    {_field.left_penalty_line.end.x + margin, _field.left_penalty_line.end.y + margin},
-    {backLineUsXCoordinate, _field.left_penalty_line.end.y + margin},
-    {backLineUsXCoordinate, _field.left_penalty_line.begin.y - margin}};
+            {_field.left_penalty_line.begin.x + margin, _field.left_penalty_line.begin.y - margin},
+            {_field.left_penalty_line.end.x + margin, _field.left_penalty_line.end.y + margin},
+            {backLineUsXCoordinate, _field.left_penalty_line.end.y + margin},
+            {backLineUsXCoordinate, _field.left_penalty_line.begin.y - margin}};
 
     Polygon defenceAreaUs(defenceAreaUsPoints);
 

@@ -75,7 +75,8 @@ Skill::Status ShootFreeKick::onUpdate() {
         case SHOOTING: {
             if (! isShot()) {
                 Vector2 target = rtt::ai::world::field->getPenaltyPoint(false);
-                robot->getShotController()->makeCommand(robot->getShotController()->getShotData(* robot, target, true), command);
+                auto shotData = robot->getShotController()->getShotData(* robot, target, true);
+                command = shotData.makeROSCommand();
                 publishRobotCommand();
                 return Status::Running;
             }

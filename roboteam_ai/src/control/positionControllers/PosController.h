@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_POSCONTROLLER_H
 #define ROBOTEAM_AI_POSCONTROLLER_H
 
-#include "PosVelAngle.h"
+#include "RobotCommand.h"
 #include <roboteam_ai/src/utilities/Constants.h>
 #include <roboteam_ai/src/control/pid.h>
 
@@ -37,18 +37,18 @@ class PosController {
         PID xpid = PID(1.65, 0, 0.0);
         PID ypid = PID(1.65, 0, 0.0);
         bool getPIDFromInterface = true;
-        PosVelAngle controlWithPID(const RobotPtr &robot, PosVelAngle target);
+        RobotCommand controlWithPID(const RobotPtr &robot, RobotCommand target);
         virtual void checkInterfacePID() = 0;
 
-        virtual Vector2 calculatePIDs(const RobotPtr &robot, PosVelAngle &target);
+        virtual Vector2 calculatePIDs(const RobotPtr &robot, RobotCommand &target);
 
     public:
         PosController() = default;
         explicit PosController(double avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
-        virtual PosVelAngle getPosVelAngle(const RobotPtr &robot,
+        virtual RobotCommand getPosVelAngle(const RobotPtr &robot,
                 const Vector2 &targetPos, const Angle &targetAngle) = 0;
 
-        virtual PosVelAngle getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos);
+        virtual RobotCommand getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos);
 
         bool getCanMoveOutOfField() const;
         void setCanMoveOutOfField(bool canMoveOutOfField);

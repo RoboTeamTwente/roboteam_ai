@@ -22,7 +22,7 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {
-    if (!robot) return Status::Running;
+    if (! robot) return Status::Running;
 
     if (world::field->pointIsInDefenceArea(ball->pos, false)) {
         command.w = robot->angle;
@@ -30,8 +30,10 @@ bt::Node::Status Attack::onUpdate() {
         return Status::Running;
     }
 
-    Vector2 aimPoint= coach::g_offensiveCoach.getShootAtGoalPoint(ball->pos);
-    robot->getShotController()->makeCommand(robot->getShotController()->getShotData(*robot, aimPoint,false,control::BallSpeed::MAX_SPEED,true,control::ShotPrecision::HIGH), command);
+    Vector2 aimPoint = coach::g_offensiveCoach.getShootAtGoalPoint(ball->pos);
+    auto shotData = robot->getShotController()->getShotData(
+            *robot, aimPoint, false, control::BallSpeed::MAX_SPEED, true, control::ShotPrecision::HIGH);
+    command = shotData.makeROSCommand();
     publishRobotCommand();
     return Status::Running;
 }

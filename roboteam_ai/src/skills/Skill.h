@@ -6,7 +6,7 @@
 #include <roboteam_utils/Angle.h>
 #include "ros/ros.h"
 #include "../io/IOManager.h"
-#include "../control/positionControllers/PosVelAngle.h"
+#include "roboteam_ai/src/control/positionControllers/RobotCommand.h"
 
 namespace rtt {
 namespace ai {
@@ -14,7 +14,7 @@ namespace ai {
 // forward declare control Utils
 namespace control {
 class ControlUtils;
-struct PosVelAngle;
+struct RobotComman;
 }
 
 namespace world {

@@ -6,10 +6,7 @@
 #define ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 
 #include <roboteam_ai/src/interface/api/Output.h>
-#include "roboteam_ai/src/control/positionControllers/PosVelAngle.h"
-#include "roboteam_ai/src/control/positionControllers/PosController.h"
-#include "roboteam_ai/src/control/positionControllers/ForcePosControl.h"
-
+#include "roboteam_ai/src/control/positionControllers/BasicPosControl.h"
 #include "PathPoint.h"
 #include "Collision.h"
 
@@ -19,7 +16,7 @@ namespace control {
 
 class PathPoint;
 class Collision;
-class NumTreePosControl : public ForcePosControl {
+class NumTreePosControl : public PosController {
     private:
         using InterfaceValues = interface::Output;
         using PathPointer = std::shared_ptr<PathPoint>;
@@ -35,7 +32,7 @@ class NumTreePosControl : public ForcePosControl {
         bool checkIfAtEndOfPath(double maxTargetDeviation, const Vector2 &targetPos);
         bool checkIfTooFarFromCurrentPath(double maxTargetDeviation, const Vector2 &vector2);
 
-        PosVelAngle computeCommand(const Vector2 &exactTargetPos);
+        RobotCommand computeCommand(const Vector2 &exactTargetPos);
 
         // constants
         const double MAX_CALCULATION_TIME = 20.0;         // Max calculation time in ms
@@ -72,8 +69,8 @@ class NumTreePosControl : public ForcePosControl {
         explicit NumTreePosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
 
         void clear();
-        PosVelAngle getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) override;
-        PosVelAngle getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos) override;
+        RobotCommand getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) override;
+        RobotCommand getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos) override;
 
         bool checkIfRobotWillCollideFollowingThisPath();
 };

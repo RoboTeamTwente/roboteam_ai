@@ -17,7 +17,6 @@ class GoToPos : public Skill {
     protected:
         enum GoToType {
           basic,
-          force,
           numTree
         };
         GoToType goToType;

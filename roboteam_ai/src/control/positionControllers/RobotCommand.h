@@ -7,7 +7,6 @@
 
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Angle.h"
-
 #include "roboteam_msgs/RobotCommand.h"
 
 namespace rtt {
@@ -15,6 +14,7 @@ namespace rtt {
 class RobotCommand {
     public:
         int id = -1;
+        Vector2 pos = Vector2();
         Vector2 vel = Vector2();
         Angle angle = Angle();
 
