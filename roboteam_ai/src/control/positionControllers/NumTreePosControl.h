@@ -24,7 +24,7 @@ class NumTreePosControl : public ForcePosControl {
         using PathPointer = std::shared_ptr<PathPoint>;
 
         std::vector<rtt::Vector2> triedPaths;
-        Robot robot = {};
+        RobotPtr robot;
         Vector2 finalTargetPos;
 
         bool doRecalculatePath(const Vector2 &targetPos);
@@ -54,7 +54,7 @@ class NumTreePosControl : public ForcePosControl {
         void checkInterfacePID() override;
 
     public:
-        explicit NumTreePosControl() = default;
+        NumTreePosControl() = default;
         explicit NumTreePosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
 
         void clear();

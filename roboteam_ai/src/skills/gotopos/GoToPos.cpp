@@ -53,9 +53,9 @@ void GoToPos::onInitialize() {
 void GoToPos::setPositionController(const GoToType &gTT) {
     switch (gTT) {
     default:
-    case numTree:posController = robot->getNumtreeGtp();
+    case numTree:posController = robot->getNumtreePosControl();
         return;
-    case basic:posController = robot->getBasicGtp();
+    case basic:posController = robot->getBasicPosControl();
         return;
     case force:std::cout << "force pos controller is deprecated " << std::endl;
         posController = std::make_shared<control::ForcePosControl>();
