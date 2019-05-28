@@ -56,6 +56,7 @@ Vector2 MidFieldHarasser::getHarassTarget() {
     std::cout << "Robot" << robot->id << " harassing robot " << harassTarget.harassRobot << std::endl;
 
     if (!world::field->pointIsInField(harassTarget.harassPosition, 0.20)) {
+        std::cerr << "Robot " << robot->id << " harass target " << harassTarget.harassPosition << " is not in field" << std::endl;
         harassTarget.harassPosition = robot->pos;
     }
 

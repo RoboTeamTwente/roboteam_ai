@@ -34,6 +34,7 @@ MidFieldCoach::HarassTarget MidFieldCoach::getTargetPosition(MidFieldCoach::Robo
 
     // If there is a opponent to harass
     if(opponent) {
+        targetRobotsToHarass[thisRobot->id] = opponent;
         return harassRobot(thisRobot, opponent);
     // Else, stand free
     } else {
@@ -68,7 +69,7 @@ void MidFieldCoach::removeMidFielder(MidFieldCoach::RobotPtr &thisRobot) {
 MidFieldCoach::HarassTarget MidFieldCoach::harassRobot(const RobotPtr& thisRobot, const RobotPtr& opponent) {
     auto ball = world::world->getBall();
     HarassTarget harassTarget;
-    harassTarget.harassRobot = -1;
+    harassTarget.harassRobot = opponent->id;
     HarassType harassType = getHarassType(thisRobot, opponent);
     switch (harassType) {
         case HARASS: {
@@ -160,6 +161,7 @@ MidFieldCoach::HarassType MidFieldCoach::getHarassType(const RobotPtr& thisRobot
     } else {
         // Check if ball is on our left
         if (ball->pos.x < thisRobot->pos.x) {
+            std::cout << "Harassing!" << std::endl;
             return HARASS;
             // Else, the ball is on our right
         } else {
