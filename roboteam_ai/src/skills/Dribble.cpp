@@ -47,7 +47,7 @@ void Dribble::onInitialize() {
     if (properties->hasVector2("Position")) {
         targetPos = properties->getVector2("Position");
     }
-    else if (properties->getBool("BallPlacement")){
+    else if (properties->getBool("ballPlacement")){
         targetPos=coach::g_ballPlacement.getBallPlacementPos();
     }
 
@@ -120,7 +120,7 @@ void Dribble::onTerminate(Status s) {
         command.w = (float) stoppingAngle;
     }
     if (properties->getBool("dribbleOnTerminate")){
-        command.dribbler=1;
+        command.dribbler=20;
     } else{
         command.dribbler = 0;
     }
@@ -143,7 +143,7 @@ void Dribble::sendMoveCommand() {
         command.w = (float) Control::constrainAngle(initialAngle);
     }
     std::vector<Vector2> dposvec = {deltaPos};
-    command.dribbler = 1;
+    command.dribbler = 20;
     command.x_vel= static_cast<float>(deltaPos.normalize().x * SPEED);
     command.y_vel= static_cast<float>(deltaPos.normalize().y * SPEED);
     publishRobotCommand();
@@ -152,7 +152,7 @@ void Dribble::sendMoveCommand() {
 void Dribble::sendStopCommand() {
     command.w = stoppingAngle;
     if (properties->getBool("dribbleOnTerminate")){
-        command.dribbler=1;
+        command.dribbler=20;
     } else{
         command.dribbler = 0;
     }

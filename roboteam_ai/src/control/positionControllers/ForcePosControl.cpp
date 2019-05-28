@@ -6,6 +6,7 @@
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "ForcePosControl.h"
+#include "BasicPosControl.h"
 
 namespace rtt {
 namespace ai {
@@ -25,12 +26,12 @@ Vector2 ForcePosControl::calculateForces(const RobotPtr &robot, const Vector2 &t
     force = (force.length() > 3.0) ? force.stretchToLength(3.0) : force;
 
     // avoid our own robots
-    for (auto bot : world.us) {
+    for (auto &bot : world.us) {
         force += ControlUtils::calculateForce((Vector2) robot->pos - bot->pos, FORCE_WEIGHT_US, forceRadius);
     }
 
     // avoid their robots
-    for (auto bot : world.them) {
+    for (auto &bot : world.them) {
         force += ControlUtils::calculateForce((Vector2) robot->pos - bot->pos, FORCE_WEIGHT_THEM, forceRadius);
     }
 
@@ -47,11 +48,13 @@ Vector2 ForcePosControl::calculateForces(const RobotPtr &robot, const Vector2 &t
             force += ControlUtils::calculateForce(Vector2(-1.0, -1.0) / robot->pos, FORCE_WEIGHT_FIELD_SIDES, 99.9);
         }
     }
-
+    force = (force.length() > 3.0) ? force.stretchToLength(3.0) : force;
     return force;
 }
 
 PosVelAngle ForcePosControl::calculateForcePosVelAngle(const PosController::RobotPtr& robot, const Vector2 &targetPos) {
+    BasicPosControl basicPosControl;
+    return basicPosControl.getPosVelAngle(robot, targetPos);
     double forceRadius;
     bool distanceSmallerThanMinForceDistance = (targetPos - robot->pos).length() < Constants::MIN_DISTANCE_FOR_FORCE();
     if (distanceSmallerThanMinForceDistance) {

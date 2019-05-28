@@ -40,6 +40,5 @@ void GameStateManager::forceNewGameState(RefCommand cmd) {
     strategymanager.forceCurrentRefGameState(cmd);
 }
 
-
 }//ai
 }//rtt
