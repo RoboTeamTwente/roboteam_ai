@@ -60,7 +60,7 @@ double Constants::MIN_ANGLE() { return - M_PI; }
 
 double Constants::MAX_ANGLE() { return M_PI; }
 
-double Constants::MAX_VEL() { return GRSIM() ? 8.0 : 2.0; }
+double Constants::MAX_VEL() { return GRSIM() ? 8.0 : 4.0; }
 
 double Constants::MAX_STOP_STATE_VEL() { return 1.5; }
 
@@ -102,7 +102,7 @@ double Constants::MAX_BALL_BOUNCE_RANGE() { return GRSIM() ? 0.4 : 0.15; }
 
 double Constants::MAX_BALL_RANGE() { return 0.04; }
 
-double Constants::MAX_KICK_RANGE() { return 0.04; }
+double Constants::MAX_KICK_RANGE() { return 0.06; }
 
 double Constants::HAS_BALL_ANGLE() { return 0.2; }
 
@@ -174,7 +174,7 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
     workingGenevaRobots[7] = true;
     workingGenevaRobots[8] = true;
     workingGenevaRobots[9] = true;
-    workingGenevaRobots[10] = true;
+    workingGenevaRobots[10] = false;
     workingGenevaRobots[11] = true;
     workingGenevaRobots[12] = true;
     workingGenevaRobots[13] = true;

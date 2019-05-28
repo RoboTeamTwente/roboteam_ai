@@ -97,7 +97,7 @@ std::vector<Vector2> PositionUtils::getPenaltyPositions(int number) {
 
 }
 std::vector<Vector2> PositionUtils::getFreeKickPositions(int number) {
-    // Two defenders, one robot to receive the ball, rest 3 in a diagonal
+    // Two availableIDs, one robot to receive the ball, rest 3 in a diagonal
     auto lengthOffset = rtt::ai::world::field->get_field().field_length/4.0;
     auto widthOffset = rtt::ai::world::field->get_field().field_width/4.0;
     Vector2 penaltyUs = rtt::ai::world::field->getPenaltyPoint(true);
