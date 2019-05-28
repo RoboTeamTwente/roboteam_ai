@@ -3,7 +3,6 @@
 //
 
 #include "MidFieldHarasser.h"
-#include "../coach/midField/HarassRobotCoach.h"
 
 namespace rtt {
 namespace ai {
