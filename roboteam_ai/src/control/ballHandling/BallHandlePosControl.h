@@ -7,9 +7,8 @@
 
 #include <roboteam_utils/Vector2.h>
 #include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
-#include "roboteam_ai/src/control/positionControllers/BasicPosControl.h"
-#include "roboteam_ai/src/control/positionControllers/PosController.h"
 #include "roboteam_ai/src/control/positionControllers/RobotCommand.h"
+#include <roboteam_ai/src/utilities/Constants.h>
 
 namespace rtt {
 namespace ai {
@@ -19,7 +18,7 @@ class NumTreePosControl;
 class DribbleBackwards;
 class DribbleForwards;
 class RotateAroundBall;
-class RotateAroundRobot;
+class RotateWithBall;
 class BallHandlePosControl {
     private:
         using BallPtr = std::shared_ptr<world::Ball>;
@@ -27,7 +26,7 @@ class BallHandlePosControl {
 
         DribbleForwards* dribbleForwards;
         DribbleBackwards* dribbleBackwards;
-        RotateAroundRobot* rotateAroundRobot;
+        RotateWithBall* rotateWithBall;
         RotateAroundBall* rotateAroundBall;
         NumTreePosControl* numTreePosControl;
 
@@ -47,6 +46,7 @@ class BallHandlePosControl {
         Vector2 finalTargetPos;
         Angle targetAngle;
         Angle finalTargetAngle;
+        Angle lockedAngle;
 
         enum TravelStrategy : short {
           forwards,
@@ -56,16 +56,12 @@ class BallHandlePosControl {
 
         // general functions
         RobotCommand goToBall(bool ballIsFarFromTarget, TravelStrategy preferredTravelStrategy = no_preference);
-
-        int waitingTicks = 0;
-        Angle lockedAngle;
-
-        Vector2 previousVelocity = Vector2();
-
     public:
         explicit BallHandlePosControl(bool canMoveInDefenseArea = false);
         ~BallHandlePosControl();
         void setMaxVelocity(double maxV);
+        void setMaxForwardsVelocity(double maxV);
+        void setMaxBackwardsVelocity(double maxV);
         RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA,
                 TravelStrategy preferredTravelStrategy = no_preference);
 };

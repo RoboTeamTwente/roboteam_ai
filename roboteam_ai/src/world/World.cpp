@@ -68,7 +68,7 @@ void World::updateRobotsFromData(Robot::Team team, const std::vector<roboteam_ms
         }
         // if no robot exists in world we create a new one
         if (!robotFound) {
-            RobotPtr newRobot = std::make_shared<Robot>(Robot(robotMsg, team, worldNumber));
+            RobotPtr newRobot = std::make_shared<Robot>(Robot(robotMsg, team, 3, 0, worldNumber));
             newRobot->updateRobot(robotMsg, ball, worldNumber);
 
             // std::cout << "RobotPtr " << newRobot.id << " added to world" << std::endl;

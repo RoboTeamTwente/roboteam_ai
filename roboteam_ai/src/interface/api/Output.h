@@ -35,7 +35,7 @@ private:
 
     static GameState interfaceGameState;
 public:
-    static void setInterfaceGameState(const GameState &interfaceGameState);
+    static void setInterfaceGameState(GameState interfaceGameState);
 
 public:
     static const GameState &getInterfaceGameState();

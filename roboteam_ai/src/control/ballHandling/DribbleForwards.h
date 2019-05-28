@@ -15,7 +15,7 @@ namespace ai {
 namespace control {
 
 class RotateAroundBall;
-class RotateAroundRobot;
+class RotateWithBall;
 class DribbleForwards {
     public:
         enum ForwardsProgress : short {
@@ -30,7 +30,7 @@ class DribbleForwards {
 
     private:
         RotateAroundBall* rotateAroundBall;
-        RotateAroundRobot* rotateAroundRobot;
+        RotateWithBall* rotateAroundRobot;
 
         using RobotPtr = world::Robot::RobotPtr;
         using BallPtr = world::Ball::BallPtr;
@@ -49,10 +49,12 @@ class DribbleForwards {
         Vector2 finalTargetPos;
 
         int waitingTicks;
-        const double errorMargin;
-        const double angleErrorMargin;
-        const double ballPlacementAccuracy;
-        const double maxVel;
+        double errorMargin;
+        double angleErrorMargin;
+        double ballPlacementAccuracy;
+        double maxVel;
+
+    private:
 
         // functions for forwards progress
         void updateForwardsProgress();
@@ -67,11 +69,13 @@ class DribbleForwards {
         RobotCommand getRobotCommand(const world::Robot::RobotPtr &r,
                 const Vector2 &targetP, const Angle &targetA);
         void reset();
+        void setMaxVel(double maxVel);
 
         explicit DribbleForwards(double errorMargin = 0.02, double angularErrorMargin = 0.02,
                 double ballPlacementAccuracy = 0.04, double maxVel = 0.7);
 
         ~DribbleForwards();
+
 };
 
 }

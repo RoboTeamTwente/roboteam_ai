@@ -12,6 +12,7 @@
 #include "NumTreePosControl.h"
 #include "PathPoint.h"
 #include "Collision.h"
+#include "../ControlUtils.h"
 
 namespace rtt {
 namespace ai {
@@ -228,26 +229,26 @@ NumTreePosControl::PathPointer NumTreePosControl::computeNewPoint(
     newPoint->vel = oldPoint->vel;
     triedPaths.push_back(newPoint->pos);
 
-    auto dir = (subTarget - newPoint->pos).normalize();
-
-    // change acceleration towards the target velocity
-    newPoint->acc = (dir*newPoint->maxVel() - newPoint->vel);
-
-    Angle deltaAngle = newPoint->vel.toAngle() - dir.toAngle();
+    // accelerate towards the target
+    // if the current velocity is away (>90 degrees) from the target, accelerate more towards target
+    Vector2 targetDirection = (subTarget - newPoint->pos).normalize();
+    Angle deltaAngle = newPoint->vel.toAngle() - targetDirection.toAngle();
     if (fabs(deltaAngle) > M_PI_2) {
-        // if the current velocity is away (>90 degrees) from the target, accelerate more towards target
-        newPoint->acc = (newPoint->acc.normalize() - newPoint->vel.normalize());
+        newPoint->acc = ((targetDirection*newPoint->maxVel() - newPoint->vel).normalize() - newPoint->vel.normalize());
     }
+    else {
+        newPoint->acc = (targetDirection*newPoint->maxVel() - newPoint->vel);
+    }
+
     Vector2 targetVel = newPoint->vel + newPoint->acc.stretchToLength(DT*
             std::max(newPoint->maxAcceleration(), newPoint->maxDeceleration()));
     Angle targetAngle = (targetVel - oldPoint->vel).toAngle();
 
+
+    //ODE model to get new position/velocity:
     newPoint->vel = ControlUtils::accelerationLimiter(targetVel, oldPoint->vel, targetAngle,
             newPoint->maxAcceleration()*DT, newPoint->maxAcceleration()*DT,
             newPoint->maxDeceleration()*DT, newPoint->maxDeceleration()*DT);
-
-    //ODE model to get new position/velocity:
-    //newPoint->vel += newPoint->acc*DT;
     newPoint->pos += newPoint->vel*DT;
 
     newPoint->collisions = oldPoint->collisions;
@@ -452,7 +453,6 @@ bool NumTreePosControl::checkCurrentRobotCollision() {
         path.clear();
         pathHasRobotCollision = false;
         return true;
-
     }
 
     pathHasRobotCollision = false;

@@ -59,6 +59,7 @@ public:
     static int getKeeperID();
     static void refresh();
     static bool keeperExistsInWorld();
+    static bool hasFree();
 
 };
 

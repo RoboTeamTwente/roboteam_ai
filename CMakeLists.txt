@@ -43,7 +43,7 @@ set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/PropertiesParser.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/Switches.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/Switches.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/BTImport.h)
+        )
 
 set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/MemSelector.hpp
@@ -318,8 +318,8 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ballHandling/DribbleForwards.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ballHandling/RotateAroundBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ballHandling/RotateAroundBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ballHandling/RotateAroundRobot.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ballHandling/RotateAroundRobot.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ballHandling/RotateWithBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ballHandling/RotateWithBall.h
         )
 
 set(TEST_SOURCES

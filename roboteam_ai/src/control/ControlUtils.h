@@ -5,7 +5,6 @@
 #ifndef ROBOTEAM_AI_CONTROLUTILS_H
 #define ROBOTEAM_AI_CONTROLUTILS_H
 
-#include <roboteam_ai/src/control/Hungarian.h>
 #include "../world/World.h"
 #include "../utilities/Constants.h"
 #include "roboteam_utils/Vector2.h"
@@ -56,6 +55,7 @@ class ControlUtils {
         static rtt::Arc createKeeperArc();
         static Vector2 velocityLimiter(const Vector2 &vel, double maxVel = Constants::MAX_VEL(),
                 double minVel = 0.0, bool listenToReferee = true);
+
         static Vector2 accelerationLimiter(const Vector2 &targetVel, const Vector2 &prevVel, const Angle &targetAngle,
                 double sidewaysAcceleration = Constants::MAX_ACC_LOWER() / Constants::TICK_RATE(),
                 double forwardsAcceleration = Constants::MAX_ACC_UPPER() / Constants::TICK_RATE(),

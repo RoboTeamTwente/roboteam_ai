@@ -14,7 +14,6 @@ namespace control {
 class ForcePosControl : public PosController {
     public:
         ForcePosControl() = default;
-        ~ForcePosControl() override = default;
         explicit ForcePosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
 
         PosVelAngle getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) override;

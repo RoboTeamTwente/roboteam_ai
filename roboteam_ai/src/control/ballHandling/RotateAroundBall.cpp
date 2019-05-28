@@ -20,12 +20,11 @@ RobotCommand RotateAroundBall::getRobotCommand(const world::Robot::RobotPtr &r, 
 
     RobotCommand robotCommand;
     Angle deltaAngle = targetA - robot->angle;
+    double targetVel;
 
-    double maxV = maxVel;
-    double targetVel = deltaAngle.getAngle();
-    targetVel = targetVel > M_PI_2 ? maxV :
-                targetVel < - M_PI_2 ? - maxV :
-                targetVel*maxV/M_PI_2;
+    if (deltaAngle.getAngle() > M_PI_2) targetVel = maxVel;
+    else if (deltaAngle.getAngle() < -M_PI_2) targetVel = - maxVel;
+    else targetVel = deltaAngle.getAngle()*maxVel/M_PI_2;
 
     robotCommand.vel = (ball->pos - robot->pos).rotate(- M_PI_2).stretchToLength(targetVel) - previousVelocity*0.2;
 

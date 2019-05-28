@@ -29,7 +29,6 @@ class PathPoint : public std::enable_shared_from_this<PathPoint> {
         double maxVelocity() { return rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel; }
         double maxAcceleration() { return Constants::MAX_ACC_UPPER(); }
         double maxDeceleration() { return Constants::MAX_DEC_UPPER(); }
-
         double maxVel();
 
         explicit PathPoint() = default;

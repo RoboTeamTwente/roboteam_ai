@@ -60,10 +60,10 @@ bool ControlUtils::isPointProjectedOnLineSegment(const Vector2 &pointToCheck, co
                                                  const Vector2 &lineEnd) {
 
     Vector2 projectionPoint = pointToCheck.project(lineBegin, lineEnd);
-    double xMin = min(lineBegin.x, lineEnd.x);
-    double xMax = max(lineBegin.x, lineEnd.x);
-    double yMin = min(lineBegin.y, lineEnd.y);
-    double yMax = max(lineBegin.y, lineEnd.y);
+    double xMin = std::min(lineBegin.x, lineEnd.x);
+    double xMax = std::max(lineBegin.x, lineEnd.x);
+    double yMin = std::min(lineBegin.y, lineEnd.y);
+    double yMax = std::max(lineBegin.y, lineEnd.y);
 
     return (projectionPoint.x > xMin && projectionPoint.x < xMax && projectionPoint.y > yMin && projectionPoint.y < yMax);
 }
@@ -275,7 +275,6 @@ double ControlUtils::twoLineForwardIntersection(const Vector2& a1,const Vector2&
     else
         return -1.0;
 }
-
 /// Returns point in field closest to a given point.
 /// If the point is already in the field it returns the same as the input.
 Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, float margin) {
