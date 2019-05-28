@@ -18,7 +18,7 @@ void MidFieldCoach::addMidFielder(RobotPtr &thisRobot) {
     targetPositions[thisRobot->id] = target;
 }
 
-MidFieldCoach::HarassTarget MidFieldCoach::getTargetPosition(MidFieldCoach::RobotPtr &thisRobot) {
+MidFieldCoach::Target MidFieldCoach::getTargetPosition(MidFieldCoach::RobotPtr &thisRobot) {
     // Check if already having an opponent as target
     if(targetRobotsToHarass.find(thisRobot->id) != targetRobotsToHarass.end()) {
         RobotPtr opponent = targetRobotsToHarass[thisRobot->id];
@@ -34,15 +34,26 @@ MidFieldCoach::HarassTarget MidFieldCoach::getTargetPosition(MidFieldCoach::Robo
 
     // If there is a opponent to harass
     if(opponent) {
-        targetRobotsToHarass[thisRobot->id] = opponent;
-        return harassRobot(thisRobot, opponent);
-    // Else, stand free
+        HarassType harassType = getHarassType(thisRobot, opponent);
+
+        switch (harassType) {
+            case HARASS: {
+                return harassRobot(thisRobot, opponent);
+            }
+            case BLOCK_PASS: {
+                return blockPass(thisRobot, opponent, world::world->getBall());
+            }
+            case BALL: {
+                return getBall(thisRobot, opponent);
+            }
+            case STAND_FREE: {
+                return standFree(thisRobot);
+            }
+        }
     } else {
-        HarassTarget harassTarget;
-        harassTarget.harassRobot = -1;
-        harassTarget.harassPosition = standFree(thisRobot);
-        return harassTarget;
+        return standFree(thisRobot);
     }
+
 }
 
 bool MidFieldCoach::validOpponent(const RobotPtr& opponent) {
@@ -66,48 +77,39 @@ void MidFieldCoach::removeMidFielder(MidFieldCoach::RobotPtr &thisRobot) {
     }
 }
 
-MidFieldCoach::HarassTarget MidFieldCoach::harassRobot(const RobotPtr& thisRobot, const RobotPtr& opponent) {
-    auto ball = world::world->getBall();
-    HarassTarget harassTarget;
-    harassTarget.harassRobot = opponent->id;
-    HarassType harassType = getHarassType(thisRobot, opponent);
-    switch (harassType) {
-        case HARASS: {
-            if(opponent->vel.length() < MIN_OPPONENT_VELOCITY) {
-                harassTarget.harassPosition = opponent->pos - Vector2{DEFAULT_HARASS_DISTANCE, 0};
-            } else {
-                Vector2 futureOpponentPos = opponent->pos + opponent->vel * HARASSER_SECONDS_AHEAD;
-                Vector2 projectionPoint = thisRobot->pos.project(opponent->pos, futureOpponentPos);
+MidFieldCoach::Target MidFieldCoach::blockPass(const RobotPtr &thisRobot, const RobotPtr &opponent, const BallPtr &ball) const {
+    Target target;
+    Vector2 projectionPoint = thisRobot->pos.project(ball->pos, opponent->pos);
+    if (control::ControlUtils::isPointProjectedOnLineSegment(projectionPoint, opponent->pos, ball->pos)) {
+        target.targetPosition = projectionPoint;
+    } else {
+        target.targetPosition = ball->pos;
+    }
+    return target;
+}
 
-                // Check if the projection is actually between the opponent and it's future position
-                // If not, move to the future position
-                if(control::ControlUtils::isPointProjectedOnLineSegment(projectionPoint, opponent->pos, futureOpponentPos)) {
-                    if ((projectionPoint - thisRobot->pos).length() < STAND_STILL_DISTANCE) {
-                        harassTarget.harassPosition = thisRobot->pos;
-                    } else {
-                        harassTarget.harassPosition = projectionPoint;
-                    }
-                } else {
-                    harassTarget.harassPosition = futureOpponentPos;
-                }
-            }
-            break;
-        }
-        case BLOCK_PASS: {
-            Vector2 projectionPoint = thisRobot->pos.project(ball->pos, opponent->pos);
-            if(control::ControlUtils::isPointProjectedOnLineSegment(projectionPoint, opponent->pos, ball->pos)) {
-                harassTarget.harassPosition = projectionPoint;
+MidFieldCoach::Target MidFieldCoach::harassRobot(const RobotPtr &thisRobot, const RobotPtr &opponent) const {
+    Target target;
+    if (opponent->vel.length() < MIN_OPPONENT_VELOCITY) {
+        target.targetPosition = opponent->pos - Vector2{DEFAULT_HARASS_DISTANCE, 0};
+    } else {
+        Vector2 futureOpponentPos = opponent->pos + opponent->vel * HARASSER_SECONDS_AHEAD;
+        Vector2 projectionPoint = thisRobot->pos.project(opponent->pos, futureOpponentPos);
+
+        // Check if the projection is actually between the opponent and it's future position
+        // If not, move to the future position
+        if (control::ControlUtils::isPointProjectedOnLineSegment(projectionPoint, opponent->pos,
+                                                                 futureOpponentPos)) {
+            if ((projectionPoint - thisRobot->pos).length() < STAND_STILL_DISTANCE) {
+                target.targetPosition = thisRobot->pos;
             } else {
-                harassTarget.harassPosition = ball->pos;
+                target.targetPosition = projectionPoint;
             }
-            break;
-        }
-        case BALL: {
-            harassTarget.harassPosition = ball->pos;
-            break;
+        } else {
+            target.targetPosition = futureOpponentPos;
         }
     }
-    return harassTarget;
+    return target;
 }
 
 MidFieldCoach::RobotPtr MidFieldCoach::findRobotToHarass(const RobotPtr& thisRobot) {
@@ -139,35 +141,48 @@ MidFieldCoach::RobotPtr MidFieldCoach::findRobotToHarass(const RobotPtr& thisRob
     return closestRobot;
 }
 
-Vector2 MidFieldCoach::standFree(const RobotPtr& thisRobot) {
-    return thisRobot->pos;
+MidFieldCoach::Target MidFieldCoach::standFree(const RobotPtr &thisRobot) {
+    Target target;
+    target.targetRobot = -1;
+    target.targetPosition = thisRobot->pos;
+    return target;
 }
 
 MidFieldCoach::HarassType MidFieldCoach::getHarassType(const RobotPtr& thisRobot, const RobotPtr& opponent) {
     auto ball = world::world->getBall();
+    BallPossession ballPossession;
+    auto possession = ballPossession.getPossession();
 
     // Check if the opponent is left of us (is being offensive)
     if (opponent->pos.x < thisRobot->pos.x) {
 
         // Check if ball is on our left
         if (ball->pos.x < thisRobot->pos.x) {
-            return BALL;
+            if(possession == BallPossession::OURBALL) {
+                return STAND_FREE;
+            } else {
+                return HARASS;
+            }
             // Else, the ball is on our right
         } else {
-            return BLOCK_PASS;
+            if(ballPossession.getPossession() == BallPossession::OURBALL) {
+                return HARASS;
+            } else {
+                return BLOCK_PASS;
+            }
         }
 
         // Else, the opponent is on our right (being defensive or about to offend)
     } else {
-        // Check if ball is on our left
-        if (ball->pos.x < thisRobot->pos.x) {
-            std::cout << "Harassing!" << std::endl;
-            return HARASS;
-            // Else, the ball is on our right
-        } else {
-            return BALL;
-        }
+        return HARASS;
     }
+}
+
+MidFieldCoach::Target MidFieldCoach::getBall(RobotPtr &thisRobot, const RobotPtr& opponent) {
+    Target target;
+    target.targetRobot = opponent->id;
+    target.targetPosition = world::world->getBall()->pos;
+    return target;
 }
 
 } //coach

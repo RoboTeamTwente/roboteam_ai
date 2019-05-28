@@ -53,22 +53,18 @@ void MidFieldHarasser::onTerminate(Skill::Status s) {
 
 Vector2 MidFieldHarasser::getHarassTarget() {
     auto harassTarget = coach::g_midFieldCoach.getTargetPosition(robot);
-    std::cout << "Robot" << robot->id << " harassing robot " << harassTarget.harassRobot << std::endl;
+    std::cout << "Robot" << robot->id << " harassing robot " << harassTarget.targetRobot << std::endl;
 
-    if (!world::field->pointIsInField(harassTarget.harassPosition, 0.20)) {
-        std::cerr << "Robot " << robot->id << " harass target " << harassTarget.harassPosition << " is not in field" << std::endl;
-        harassTarget.harassPosition = robot->pos;
+    if (!world::field->pointIsInField(harassTarget.targetPosition, 0.20)) {
+        std::cerr << "Robot " << robot->id << " harass target " << harassTarget.targetPosition << " is not in field" << std::endl;
+        harassTarget.targetPosition = robot->pos;
     }
 
-    interface::Input::drawData(interface::Visual::PATHFINDING, {harassTarget.harassPosition}, Qt::darkYellow, robot->id,
+    interface::Input::drawData(interface::Visual::PATHFINDING, {harassTarget.targetPosition}, Qt::darkYellow, robot->id,
                                interface::Drawing::CROSSES, 3, 3);
 
-    robotBeingHarassed = harassTarget.harassRobot;
-    return harassTarget.harassPosition;
-}
-
-Angle MidFieldHarasser::getHarassAngle() {
-    return coach::g_harassRobotCoach.getHarassAngle(robot);
+    robotBeingHarassed = harassTarget.targetRobot;
+    return harassTarget.targetPosition;
 }
 
 } //ai

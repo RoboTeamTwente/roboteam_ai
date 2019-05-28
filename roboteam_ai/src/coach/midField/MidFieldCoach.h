@@ -8,6 +8,7 @@
 #include <roboteam_utils/Vector2.h>
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
+#include <roboteam_ai/src/world/BallPossession.h>
 
 namespace rtt {
 namespace ai {
@@ -26,29 +27,36 @@ class MidFieldCoach {
         using Ball = world::Ball;
         using BallPtr = std::shared_ptr<Ball>;
 
-        struct HarassTarget {
-            Vector2 harassPosition;
-            int harassRobot;
+        struct Target {
+            Vector2 targetPosition;
+            int targetRobot;
         };
 
         enum HarassType {
             HARASS,
             BLOCK_PASS,
-            BALL
+            BALL,
+            STAND_FREE
         };
 
         std::vector<RobotPtr> currentMidfielders;
         std::map<int, Vector2> targetPositions;
         std::map<int, RobotPtr> targetRobotsToHarass;
+
+        Target getBall(RobotPtr &thisRobot, const RobotPtr& opponent);
+        Target standFree(const RobotPtr &thisRobot);
+        Target harassRobot(const RobotPtr &thisRobot, const RobotPtr &opponent) const;
+        Target blockPass(const RobotPtr &thisRobot, const RobotPtr &opponent, const BallPtr &ball) const;
     public:
         void addMidFielder(RobotPtr &thisRobot);
         void removeMidFielder(RobotPtr &thisRobot);
-        HarassTarget getTargetPosition(RobotPtr &thisRobot);
         bool validOpponent(const RobotPtr& opponent);
-        HarassTarget harassRobot(const RobotPtr& thisRobot, const RobotPtr& opponent);
+
         RobotPtr findRobotToHarass(const RobotPtr& thisRobot);
-        Vector2 standFree(const RobotPtr& thisRobot);
         HarassType getHarassType(const RobotPtr& thisRobot, const RobotPtr& opponent);
+
+
+    Target getTargetPosition(RobotPtr &thisRobot);
 };
 
 extern MidFieldCoach g_midFieldCoach;

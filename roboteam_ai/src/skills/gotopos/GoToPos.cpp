@@ -84,8 +84,8 @@ bt::Node::Status GoToPos::onUpdate() {
     control::PosVelAngle pva = posController->getPosVelAngle(robot, targetPos, targetAngle);
 
         // set robotcommands if they have not been set yet in gtpUpdate()
-        command.x_vel = command.x_vel == 0 ? static_cast<float>(pva.vel.x) : command.x_vel;
-        command.y_vel = command.y_vel == 0 ? static_cast<float>(pva.vel.y) : command.y_vel;
+        command.x_vel = command.x_vel == 0 ? pva.vel.x : command.x_vel;
+        command.y_vel = command.y_vel == 0 ? pva.vel.y : command.y_vel;
         command.w = command.w == 0 ? static_cast<float>(pva.angle) : command.w;
     }
 
