@@ -108,8 +108,11 @@ void Formation::moveToTarget() {
 }
 bool Formation::updateCounter() {
     if (!update) return false;
+
     updateCount++;
-    return (updateCount%200) == 0;
+    if ((updateCount % 200) == 0) {
+        return true;
+    }
 
 }
 

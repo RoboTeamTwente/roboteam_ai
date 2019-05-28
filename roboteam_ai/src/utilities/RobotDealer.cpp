@@ -35,6 +35,7 @@ void RobotDealer::removeRobotFromOwnerList(int ID) {
                     robotOwners.erase(tacticToRemove);
                 }
                 addRobotToOwnerList(ID, "free", "free");
+                return; // TODO: test this function because it did not work before
             }
         }
     }
@@ -43,7 +44,7 @@ void RobotDealer::removeRobotFromOwnerList(int ID) {
 
 /// For internal use
 /// Adds a robot to the map with a role and tactic
-void RobotDealer::addRobotToOwnerList(int ID, const std::string& roleName, const std::string& tacticName) {
+void RobotDealer::addRobotToOwnerList(int ID, std::string roleName, std::string tacticName) {
     // If tactic does not exist
     if (robotOwners.find(tacticName) == robotOwners.end()) {
         std::set<std::pair<int, std::string>> set = {{ID, roleName}};
@@ -61,14 +62,14 @@ void RobotDealer::updateFromWorld() {
 
     auto worldUs = world::world->getUs();
     std::set<int> robots;
-    for (const auto& robot : worldUs) {
+    for (auto robot : worldUs) {
         robots.insert(robot->id);
     }
     std::set<int> currentRobots = getRobots();
     for (auto robot : robots) {
         if (currentRobots.find(robot) == currentRobots.end()) {
             if (robot == keeperID) {
-                // For future debugging, there is a 10% chance a bug will be found by putting a debug point here
+                ROS_ERROR("The keeper just got registered as a free robot this should never happen");
                 continue;
             }
             std::lock_guard<std::mutex> lock(robotOwnersLock);
@@ -78,7 +79,7 @@ void RobotDealer::updateFromWorld() {
 
 }
 
-int RobotDealer::claimRobotForTactic(RobotType feature, const std::string& roleName, const std::string& tacticName) {
+int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, std::string tacticName) {
 
     std::set<int> ids = getAvailableRobots();
 
@@ -127,6 +128,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string& roleN
                 id = world::world->getRobotClosestToPoint(rtt::ai::coach::g_ballPlacement.getBallPlacementPos(), idVector, true)->id;
 
                 // force the pass coach to use this receiver
+                std::cout << "RobotDealer terminates pass" << std::endl;
                 rtt::ai::coach::g_pass.resetPass(-1);
                 rtt::ai::coach::g_pass.setRobotBeingPassedTo(id);
 
@@ -150,10 +152,10 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string& roleN
         }
         std::lock_guard<std::mutex> lock(robotOwnersLock);
         unFreeRobot(id);
-        addRobotToOwnerList(id, roleName, tacticName);
+        addRobotToOwnerList(id, std::move(roleName), std::move(tacticName));
         return id;
     }
-    std::cerr << "No free robots in RobotDealer !!!" << std::endl;
+    ROS_INFO_STREAM("Found no free robots in robot dealer");
     return - 1;
 }
 
@@ -163,9 +165,9 @@ std::set<int> RobotDealer::getRobots() {
 
     std::set<int> ids;
 
-    for (const auto& tactic : robotOwners) {
+    for (auto tactic : robotOwners) {
         auto set = tactic.second;
-        for (const auto& pair : set) {
+        for (auto pair : set) {
             ids.insert(pair.first);
         }
     }
@@ -179,7 +181,7 @@ std::set<int> RobotDealer::getAvailableRobots() {
 
     auto set = robotOwners["free"];
     std::set<int> ids;
-    for (const auto& pair : set) {
+    for (auto pair : set) {
         ids.insert(pair.first);
     }
     return ids;
@@ -189,16 +191,16 @@ std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::getCla
     return robotOwners;
 }
 
-void RobotDealer::releaseRobotForRole(const std::string& roleName) {
+void RobotDealer::releaseRobotForRole(std::string roleName) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
     auto test = robotOwners;
 
     // Find the ID
-    for (const auto& tactic : robotOwners) {
+    for (auto tactic : robotOwners) {
         auto set = tactic.second;
-        for (const auto& pair : set) {
+        for (auto pair : set) {
             if (pair.second == roleName) {
                 removeRobotFromOwnerList(pair.first);
                 return;
@@ -208,28 +210,29 @@ void RobotDealer::releaseRobotForRole(const std::string& roleName) {
     std::cerr << "Cannot release the robot it does not exist in the robotOwners" << std::endl;
 
 }
-void RobotDealer::removeTactic(const std::string& tacticName) {
+void RobotDealer::removeTactic(std::string tacticName) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
-    for (const auto& tactic : robotOwners) {
+    for (auto tactic : robotOwners) {
         if (tactic.first == tacticName) {
-            for (const auto& robotPair : tactic.second) {
+            for (auto robotPair : tactic.second) {
                 removeRobotFromOwnerList(robotPair.first);
             }
             robotOwners.erase(tacticName);
             return;
         }
     }
+    std::cerr << "Cannot remove tactic the tactic does not exist:  " << tacticName << std::endl;
 }
-std::set<int> RobotDealer::findRobotsForTactic(const std::string& tacticName) {
+std::set<int> RobotDealer::findRobotsForTactic(std::string tacticName) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
     std::set<int> ids;
-    for (const auto& tactic : robotOwners) {
+    for (auto tactic : robotOwners) {
         if (tactic.first == tacticName) {
-            for (const auto& pair : tactic.second) {
+            for (auto pair : tactic.second) {
                 ids.insert(pair.first);
             }
         }
@@ -237,7 +240,8 @@ std::set<int> RobotDealer::findRobotsForTactic(const std::string& tacticName) {
     return ids;
 }
 
-int RobotDealer::findRobotForRole(const std::string& roleName) {
+//  TODO: might want to add a tactic name here for confusion
+int RobotDealer::findRobotForRole(std::string roleName) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
@@ -249,6 +253,7 @@ int RobotDealer::findRobotForRole(const std::string& roleName) {
             }
         }
     }
+   // std::cerr << "Cannot find a robot with that Role Name: " << roleName << std::endl;
     return - 1;
 }
 
@@ -259,7 +264,7 @@ void RobotDealer::unFreeRobot(int ID) {
         robotOwners["free"].erase({ID, "free"});
     }
     else {
-        std::cerr << "Cannot un free anti free robot" << std::endl;
+        ROS_ERROR("Cannot un free an anti free robot");
     }
 
 }
@@ -268,7 +273,7 @@ void RobotDealer::unFreeRobot(int ID) {
 // std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::robotOwners;
 // map (string, set(pair(int, string)))
 
-std::string RobotDealer::getTacticNameForRole(const std::string& role) {
+std::string RobotDealer::getTacticNameForRole(std::string role) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
@@ -279,7 +284,7 @@ std::string RobotDealer::getTacticNameForRole(const std::string& role) {
             }
         }
     }
-    std::cerr << "No robot with that role!" << std::endl;
+    ROS_ERROR("No robot with that role");
     return "";
 
 }
@@ -294,6 +299,7 @@ std::string RobotDealer::getTacticNameForId(int ID) {
             }
         }
     }
+  //  ROS_ERROR("No robot with that ID  getTacticNameForId");
     return "";
 }
 
@@ -308,6 +314,7 @@ std::string RobotDealer::getRoleNameForId(int ID) {
             }
         }
     }
+   // ROS_ERROR("No robot with that ID  getRoleNameForId");
     return "";
 
 }
@@ -337,6 +344,7 @@ int RobotDealer::getKeeperID() {
 
 void RobotDealer::claimKeeper() {
     if (!hasClaimedKeeper) {
+//        std::cout << "[Robotdealer - claimkeeper] Claiming keeper" << std::endl;
         std::lock_guard<std::mutex> lock(robotOwnersLock);
         addRobotToOwnerList(keeperID, "Keeper", "Keeper");
         hasClaimedKeeper = true;
@@ -356,6 +364,20 @@ bool RobotDealer::keeperExistsInWorld() {
     for (auto const &robot : world::world->getUs()) {
         if (robot->id == getKeeperID()) {
             return true;
+        }
+    }
+    return false;
+}
+bool RobotDealer::hasFree() {
+    std::lock_guard<std::mutex> lock(robotOwnersLock);
+
+    for (const auto &tactic : robotOwners) {
+        auto set = tactic.second;
+        for (const auto &pair : set) {
+            if (pair.second == "free") {
+                std::cerr << "There is a free robot with the ID: " << pair.first << std::endl;
+                return true;
+            }
         }
     }
     return false;
