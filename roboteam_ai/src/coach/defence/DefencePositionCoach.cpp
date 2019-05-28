@@ -88,14 +88,15 @@ std::shared_ptr<Vector2> DefencePositionCoach::blockOnDefenseLine(const Line &op
 Vector2 DefencePositionCoach::getBlockPoint(const Line &openGoalSegment, const Vector2 &point,
         double collisionRadius) {
     //compute the bisector of the angle of point and the two ends of the openGoalSegment
-    Vector2 lineToSideOne = openGoalSegment.first - point;
-    Vector2 lineToSideTwo = (openGoalSegment.second - point);
+    Vector2 lineToSideOne = (openGoalSegment.first - point).normalize();
+    Vector2 lineToSideTwo = (openGoalSegment.second - point).normalize();
     Vector2 endPos = point + (lineToSideOne + lineToSideTwo)
             *0.5;// ending point on the bisector, which always just intersects the goalLine
     // compute the furthest distance at which the entire segment is blocked
     double theta = lineToSideOne.angle() - (endPos - point).angle(); // half of the angle of the bisector
     double collisionDist = collisionRadius/sin(theta);
-    Vector2 FurthestBlock = point + Vector2(collisionDist, 0).rotate((endPos - point).angle());
+    double angle=(endPos - point).angle();
+    Vector2 FurthestBlock = point + Vector2(collisionDist, 0).rotate(angle);
     return FurthestBlock;
 }
 
@@ -118,6 +119,7 @@ Line DefencePositionCoach::shortenLineForDefenseArea(const Vector2 &lineStart, c
 world::WorldData DefencePositionCoach::removeBotFromWorld(world::WorldData world, int id, bool ourTeam) {
     auto robots = ourTeam ? world.us : world.them;
     robots.erase(std::remove_if(robots.begin(),robots.end(),[id](world::Robot::RobotPtr robot){return robot->id==id;}));
+    ourTeam ? world.us=robots : world.them=robots;
     return world;
 }
 Vector2 DefencePositionCoach::getMostDangerousPos(const world::WorldData &world) {
@@ -243,18 +245,16 @@ DefenderBot DefencePositionCoach::createBlockBall(
 Vector2 DefencePositionCoach::findPositionForBlockBall(const Line &blockLine) {
     // if the blocking position is way away from our goal keep the robot on our side
     double maxForwardLineX = maxX();
-    if (blockLine.second.x > maxForwardLineX) {
+    Vector2 position=getPosOnLine(blockLine, 0.1);
+    if (position.x > maxForwardLineX) {
         double fieldWidth = world::field->get_field().field_width;
         Vector2 bottomLine(maxForwardLineX, - fieldWidth*0.5);
         Vector2 topLine(maxForwardLineX, fieldWidth*0.5);
         Vector2 intersect = control::ControlUtils::twoLineIntersection(blockLine.first, blockLine.second, bottomLine,
                 topLine);
-        if (intersect.y > fieldWidth*0.5 || intersect.y < - fieldWidth*0.5) {
-            return getPosOnLine(blockLine, 0.1);
-        }
         return intersect;
     }
-    return getPosOnLine(blockLine, 0.1);
+    return position;
 }
 double DefencePositionCoach::maxX() {
     return world::field->get_field().field_length/10.0*-1.0;
@@ -301,11 +301,13 @@ std::shared_ptr<Vector2> DefencePositionCoach::pickNewPosition(PossiblePass pass
     double segments = 30.0;
     // we pick new points on which we can defend preferably as close as possible to the middle of the pass.
     for (int j = 0; j <= segments*0.5; ++ j) {
-        if (validNewPosition(pass.posOnLine(0.5 + j/segments), world)) {
-            return std::make_shared<Vector2>(pass.posOnLine(0.5 + j/segments));
+        Vector2 forwardPosition=pass.posOnLine(0.5 + j/segments);
+        if (validNewPosition(forwardPosition, world)&&!world::field->pointIsInDefenceArea(forwardPosition,true,defenceLineMargin)) {
+            return std::make_shared<Vector2>(forwardPosition);
         }
-        else if (validNewPosition(pass.posOnLine(0.5 - j/segments), world)) {
-            return std::make_shared<Vector2>(pass.posOnLine(0.5 - j/segments));
+        Vector2 backwardPosition=pass.posOnLine(0.5 - j/segments);
+        if (validNewPosition(backwardPosition, world)&&!world::field->pointIsInDefenceArea(forwardPosition,true,defenceLineMargin)) {
+            return std::make_shared<Vector2>(backwardPosition);
         }
     }
     return nullptr;
@@ -384,6 +386,7 @@ std::vector<DefenderBot> DefencePositionCoach::decidePositions(const std::vector
     simulatedWorld = setupSimulatedWorld();
     // handle all the locked robots
     std::tuple<bool,int,std::vector<int>> temp=decideLockedPositions(lockedDefenders,freeRobots);
+
     bool blockedMostDangerousPos=std::get<0>(temp);
     int lockedCount=std::get<1>(temp);
     freeRobots=std::get<2>(temp);
@@ -410,6 +413,7 @@ std::vector<DefenderBot> DefencePositionCoach::decidePositions(const std::vector
         }
         passes = createPassesSortedByDanger(simulatedWorld); //recalculate the danger after the new position
     }
+    // TODO: find a procedure if we cannot really cover all of the robots off, e.g. default positions or such
     assignIDs(lockedCount,freeRobots,oldDefenders); // divide the ID's of the last robots over the remaining available ID's.
     return defenders;
 }
