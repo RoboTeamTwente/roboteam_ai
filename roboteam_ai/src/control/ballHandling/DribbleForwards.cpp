@@ -115,6 +115,8 @@ RobotCommand DribbleForwards::sendForwardsCommand() {
         return {};
     }
     }
+    std::cerr << "No forward progress case, DribbleForwards::sendForwardsCommand()" << std::endl;
+    return {};
 }
 
 RobotCommand DribbleForwards::sendTurnCommand() {

@@ -1,5 +1,7 @@
 #include <utility>
 
+#include <utility>
+
 //
 // Created by rolf on 18-2-19.
 //
@@ -458,7 +460,7 @@ std::tuple<bool,int,std::vector<int>> DefencePositionCoach::decideLockedPosition
 // Since the points are ordered on priority from the above algorithm the most important points come first
 // It might be better to use an algorithm that is more complicated (e.g. hungarian) but then we might need some kind of system which gives the first points more 'priority'
 void DefencePositionCoach::assignIDs(int lockedCount, std::vector<int> freeRobotIDs,const std::vector<DefenderBot>& oldDefenders) {
-    std::vector<int> freeIDs=freeRobotIDs;
+    std::vector<int> freeIDs=std::move(freeRobotIDs);
     for (int j = lockedCount; j < defenders.size(); ++ j) {
         int closestId = - 1;
         auto closestDist = DBL_MAX;
