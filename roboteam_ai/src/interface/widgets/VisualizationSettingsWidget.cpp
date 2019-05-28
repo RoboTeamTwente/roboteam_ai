@@ -46,10 +46,10 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer * visualizer
         select->setStyleSheet("QComboBox { background-color: " + colors[Toggles::toggles[i].defaultShowType] + " }");
 
         QObject::connect(select, static_cast<void (QComboBox::*)(const int)>(&QComboBox::activated),
-                         [=](const int index) {
-                             Toggles::toggles[i].defaultShowType = static_cast<showType>(index);
-                             select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<showType>(index)] + " }");
-                         });
+                [=](const int index) {
+                  Toggles::toggles[i].defaultShowType = static_cast<showType>(index);
+                  select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<showType>(index)] + " }");
+                });
 
         customToggle->setLayout(hbox);
         cbVLayout->addWidget(customToggle);
