@@ -183,7 +183,7 @@ MidFieldCoach::HarassType MidFieldCoach::getHarassType(const RobotPtr& thisRobot
         // Else, the opponent is on our right (being defensive or about to offend)
     } else {
         if(possession == BallPossession::OURBALL) {
-            return STAND_FREE;
+            return HARASS_OFFENSIVE;
         } else {
             return HARASS_DEFENSIVE;
         }
