@@ -23,12 +23,12 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer * visualizer
     MainWindow::configureCheckBox("show debug values in terminal", cbVLayout, visualizer, SLOT(setShowDebugValueInTerminal(bool)), Constants::STD_SHOW_DEBUG_VALUES());
     MainWindow::configureCheckBox("Inverse interface", cbVLayout, visualizer, SLOT(setToggleFieldDirection(bool)), false);
 
-    for (auto & toggle : Toggles::toggles) {
+    for (int i = 0; i < Toggles::toggles.size(); i++) {
         auto customToggle = new QWidget;
         auto hbox = new QHBoxLayout();
 
         // set the label
-        auto label = new QLabel(toggle.title);
+        auto label = new QLabel(Toggles::toggles[i].title);
         hbox->addWidget(label);
 
         // get the strategy names from Switches
@@ -42,14 +42,14 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer * visualizer
 
 
         std::vector<QString> colors = { "red", "#888800", "green"};
-        select->setCurrentIndex(toggle.defaultShowType);
-        select->setStyleSheet("QComboBox { background-color: " + colors[toggle.defaultShowType] + " }");
+        select->setCurrentIndex(Toggles::toggles[i].defaultShowType);
+        select->setStyleSheet("QComboBox { background-color: " + colors[Toggles::toggles[i].defaultShowType] + " }");
 
         QObject::connect(select, static_cast<void (QComboBox::*)(const int)>(&QComboBox::activated),
-                         [=](const int index) {
-                             toggle.defaultShowType = static_cast<showType>(index);
-                             select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<showType>(index)] + " }");
-                         });
+                [=](const int index) {
+                  Toggles::toggles[i].defaultShowType = static_cast<showType>(index);
+                  select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<showType>(index)] + " }");
+                });
 
         customToggle->setLayout(hbox);
         cbVLayout->addWidget(customToggle);

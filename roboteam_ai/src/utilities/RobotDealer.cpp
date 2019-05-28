@@ -68,7 +68,7 @@ void RobotDealer::updateFromWorld() {
     for (auto robot : robots) {
         if (currentRobots.find(robot) == currentRobots.end()) {
             if (robot == keeperID) {
-                std::cerr << "The keeper got registered as a free robot this should never happen" << std::endl;
+                // For future debugging, there is a 10% chance a bug will be found by putting a debug point here
                 continue;
             }
             std::lock_guard<std::mutex> lock(robotOwnersLock);
