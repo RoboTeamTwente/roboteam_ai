@@ -41,7 +41,7 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     select_goalie = new QComboBox();
     vLayout->addWidget(select_goalie);
     for (int i = 0; i < 16; i++) {
-        select_goalie->addItem(QString::fromStdString(to_string(i)));
+        select_goalie->addItem(QString::fromStdString(std::to_string(i)));
     }
     select_goalie->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
 

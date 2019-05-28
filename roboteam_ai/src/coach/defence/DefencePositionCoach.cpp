@@ -332,7 +332,7 @@ std::shared_ptr<double> DefencePositionCoach::pickNewPosition(const Line &line,
     //search a position on the line on which we can position.
     double lineLen = (line.second - line.first).length();
     double minSkipDist = 0.05;
-    double skipDist = max(minSkipDist, lineLen/30.0);
+    double skipDist = std::max(minSkipDist, lineLen/30.0);
     // try positions on the line by skipping forward skipDist every time. If one works return
     for (int aggresionFactor = 0; aggresionFactor < 1/skipDist; ++ aggresionFactor) {
         if (validNewPosition(getPosOnLine(line, aggresionFactor*skipDist), world)) {

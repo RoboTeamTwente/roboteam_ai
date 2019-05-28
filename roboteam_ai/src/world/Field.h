@@ -10,12 +10,8 @@
 
 #include <roboteam_utils/Vector2.h>
 #include "roboteam_msgs/GeometryFieldSize.h"
-#include <mutex>
-#include <thread>
-#include <tuple>
 #include "WorldData.h"
-#include "Robot.h"
-#include <roboteam_ai/src/control/ControlUtils.h>
+#include "World.h"
 #include <roboteam_utils/Polygon.h>
 
 namespace rtt {
@@ -43,7 +39,7 @@ class Field {
         double getDistanceToGoal(bool ourGoal, const Vector2& point);
         Vector2 getPenaltyPoint(bool ourGoal);
         bool lineIntersectsWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin);
-        shared_ptr<Vector2> lineIntersectionWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin);
+        std::shared_ptr<Vector2> lineIntersectionWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin);
         double getTotalGoalAngle(bool ourGoal, const Vector2& point);
         Polygon getDefenseArea(bool ourDefenseArea = true, double margin = 0.0, bool includeOutSideField = true);
 

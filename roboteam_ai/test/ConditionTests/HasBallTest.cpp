@@ -2,7 +2,6 @@
 // Created by rolf on 19-10-18.
 //
 #include <gtest/gtest.h>
-#include "../../src/bt/bt.hpp"
 #include "../../src/conditions/HasBall.hpp"
 #include "../../src/world/World.h"
 #include "../../src/utilities/RobotDealer.h"
