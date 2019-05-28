@@ -33,7 +33,8 @@ class MidFieldCoach {
         };
 
         enum HarassType {
-            HARASS,
+            HARASS_OFFENSIVE,
+            HARASS_DEFENSIVE,
             BLOCK_PASS,
             BALL,
             STAND_FREE
@@ -45,7 +46,8 @@ class MidFieldCoach {
 
         Target getBall(RobotPtr &thisRobot, const RobotPtr& opponent);
         Target standFree(const RobotPtr &thisRobot);
-        Target harassRobot(const RobotPtr &thisRobot, const RobotPtr &opponent) const;
+        MidFieldCoach::Target
+        harassRobot(const RobotPtr &thisRobot, const RobotPtr &opponent, HarassType harassType) const;
         Target blockPass(const RobotPtr &thisRobot, const RobotPtr &opponent, const BallPtr &ball) const;
     public:
         void addMidFielder(RobotPtr &thisRobot);

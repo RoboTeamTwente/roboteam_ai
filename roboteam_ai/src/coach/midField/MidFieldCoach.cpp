@@ -23,7 +23,7 @@ MidFieldCoach::Target MidFieldCoach::getTargetPosition(MidFieldCoach::RobotPtr &
     if(targetRobotsToHarass.find(thisRobot->id) != targetRobotsToHarass.end()) {
         RobotPtr opponent = targetRobotsToHarass[thisRobot->id];
         if(validOpponent(opponent)) {
-            return harassRobot(thisRobot, opponent);
+            return harassRobot(thisRobot, opponent, HARASS_DEFENSIVE);
         } else {
             targetRobotsToHarass.erase(thisRobot->id);
         }
@@ -37,8 +37,11 @@ MidFieldCoach::Target MidFieldCoach::getTargetPosition(MidFieldCoach::RobotPtr &
         HarassType harassType = getHarassType(thisRobot, opponent);
 
         switch (harassType) {
-            case HARASS: {
-                return harassRobot(thisRobot, opponent);
+            case HARASS_OFFENSIVE: {
+                return harassRobot(thisRobot, opponent, HARASS_OFFENSIVE);
+            }
+            case HARASS_DEFENSIVE: {
+                return harassRobot(thisRobot, opponent, HARASS_DEFENSIVE);
             }
             case BLOCK_PASS: {
                 return blockPass(thisRobot, opponent, world::world->getBall());
@@ -88,10 +91,15 @@ MidFieldCoach::Target MidFieldCoach::blockPass(const RobotPtr &thisRobot, const 
     return target;
 }
 
-MidFieldCoach::Target MidFieldCoach::harassRobot(const RobotPtr &thisRobot, const RobotPtr &opponent) const {
+MidFieldCoach::Target MidFieldCoach::harassRobot(const RobotPtr &thisRobot, const RobotPtr &opponent, HarassType harassType) const {
     Target target;
+    target.targetRobot = opponent->id;
     if (opponent->vel.length() < MIN_OPPONENT_VELOCITY) {
-        target.targetPosition = opponent->pos - Vector2{DEFAULT_HARASS_DISTANCE, 0};
+        if(harassType == HARASS_DEFENSIVE) {
+            target.targetPosition = opponent->pos - Vector2{DEFAULT_HARASS_DISTANCE, 0};
+        } else {
+            target.targetPosition = opponent->pos + Vector2{DEFAULT_HARASS_DISTANCE, 0};
+        }
     } else {
         Vector2 futureOpponentPos = opponent->pos + opponent->vel * HARASSER_SECONDS_AHEAD;
         Vector2 projectionPoint = thisRobot->pos.project(opponent->pos, futureOpponentPos);
@@ -161,12 +169,12 @@ MidFieldCoach::HarassType MidFieldCoach::getHarassType(const RobotPtr& thisRobot
             if(possession == BallPossession::OURBALL) {
                 return STAND_FREE;
             } else {
-                return HARASS;
+                return HARASS_DEFENSIVE;
             }
             // Else, the ball is on our right
         } else {
             if(ballPossession.getPossession() == BallPossession::OURBALL) {
-                return HARASS;
+                return HARASS_OFFENSIVE;
             } else {
                 return BLOCK_PASS;
             }
@@ -174,7 +182,11 @@ MidFieldCoach::HarassType MidFieldCoach::getHarassType(const RobotPtr& thisRobot
 
         // Else, the opponent is on our right (being defensive or about to offend)
     } else {
-        return HARASS;
+        if(possession == BallPossession::OURBALL) {
+            return STAND_FREE;
+        } else {
+            return HARASS_DEFENSIVE;
+        }
     }
 }
 
