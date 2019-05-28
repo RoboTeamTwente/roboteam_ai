@@ -110,7 +110,7 @@ Vector2 ShotController::getPlaceBehindBall(world::Robot robot, Vector2 shotTarge
 ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition,
         std::pair<Vector2, Vector2> line) {
     auto ball = world::world->getBall();
-    control::PosVelAngle pva = robot.getNumtreeGtp()->getPosVelAngle(std::make_shared<world::Robot>(robot),
+    control::PosVelAngle pva = robot.getNumtreePosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
             robotTargetPosition);
     //TODO: if (rotating to this angle from current angle will hit ball) then pva.angle=angle towards ball
     if ((robot.pos - robotTargetPosition).length() < 0.5) {
@@ -123,7 +123,7 @@ ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTa
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver) {
-    control::PosVelAngle pva = robot.getBasicGtp()->getPosVelAngle(std::make_shared<world::Robot>(robot),
+    control::PosVelAngle pva = robot.getBasicPosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
             lineToDriveOver.second);
     pva.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
     ShotData shotData(pva);
@@ -137,7 +137,7 @@ ShotData ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector2> d
     auto ball = world::world->getBall();
 
     // move towards the ball
-    control::PosVelAngle pva = robot.getBasicGtp()->getPosVelAngle(std::make_shared<world::Robot>(robot),
+    control::PosVelAngle pva = robot.getBasicPosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
             driveLine.second);
     pva.angle = (driveLine.second - driveLine.first).angle();
 
@@ -277,7 +277,7 @@ ShotData ShotController::moveAndShootGrSim(world::Robot robot, bool chip,
 }
 ShotData ShotController::moveAndShoot(rtt::ai::world::Robot robot, bool chip,
         std::pair<Vector2, Vector2> lineToDriveOver, BallSpeed desiredBallSpeed) {
-    control::PosVelAngle pva = robot.getBasicGtp()->getPosVelAngle(std::make_shared<world::Robot>(robot),
+    control::PosVelAngle pva = robot.getBasicPosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
             lineToDriveOver.second);
     pva.angle = (lineToDriveOver.second - lineToDriveOver.first).toAngle();
     ShotData shotData(pva);

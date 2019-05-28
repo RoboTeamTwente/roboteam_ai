@@ -15,7 +15,9 @@ namespace bt {
 class DefaultTactic : public Node {
     FRIEND_TEST(DefaultTacticTest, default_general_tactic_works);
     FRIEND_TEST(DefaultTacticTest, offensive_defensive_midfield_tactics_work);
-    using RobotType = rtt::ai::robotDealer::RobotType;
+    FRIEND_TEST(DefaultTacticTest, claim_test);
+
+        using RobotType = rtt::ai::robotDealer::RobotType;
 
 private:
     int amountToTick = -1;

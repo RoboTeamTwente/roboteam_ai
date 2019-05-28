@@ -153,7 +153,10 @@ const GameState &Output::getInterfaceGameState() {
     return Output::interfaceGameState;
 }
 
-void Output::setInterfaceGameState(const GameState &interfaceGameState) {
+void Output::setInterfaceGameState(GameState interfaceGameState) {
+
+    // keep the keeper the same
+    interfaceGameState.keeperId = Output::interfaceGameState.keeperId;
     Output::interfaceGameState = interfaceGameState;
 }
 

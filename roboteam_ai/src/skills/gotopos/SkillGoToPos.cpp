@@ -5,7 +5,7 @@
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/ForcePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
-#include <roboteam_ai/src/control/positionControllers/BallHandlePosControl.h>
+#include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
 #include "SkillGoToPos.h"
 
 namespace rtt {

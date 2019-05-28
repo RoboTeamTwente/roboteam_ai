@@ -47,7 +47,7 @@ void Dribble::onInitialize() {
     if (properties->hasVector2("Position")) {
         targetPos = properties->getVector2("Position");
     }
-    else if (properties->getBool("BallPlacement")){
+    else if (properties->getBool("ballPlacement")){
         targetPos=coach::g_ballPlacement.getBallPlacementPos();
     }
 
