@@ -197,6 +197,40 @@ MidFieldCoach::Target MidFieldCoach::getBall(RobotPtr &thisRobot, const RobotPtr
     return target;
 }
 
+double MidFieldCoach::calculateStandingFreeScore(Vector2 position) {
+    WorldData world = world::world->getWorld();
+    roboteam_msgs::GeometryFieldSize field = world::field->get_field();
+
+    double passLineScore = CoachHeuristics::calculatePassLineScore(position);
+    double distanceToUsScore = CoachHeuristics::calculateDistanceToClosestTeamMateScore(position);
+
+    return passLineScore + distanceToUsScore;
+}
+
+Vector2 MidFieldCoach::calculateNewRobotPosition(const RobotPtr &thisRobot) {
+
+    Vector2 bestPosition = thisRobot->pos;
+    double highestScore = calculateStandingFreeScore(bestPosition);
+
+    Angle goldenAngle = 0.01;
+    tick++;
+    Angle thetaPlus = tick*tick*goldenAngle + targetAngle;
+    Angle thetaMinus = -1*tick*tick*goldenAngle + targetAngle;
+    std::vector<Vector2> positions = {bestPosition.position + thetaPlus.toVector2(1.0   * GRID_SIZE),
+                                      bestPosition.position + thetaPlus.toVector2(3.0   * GRID_SIZE),
+                                      bestPosition.position + thetaPlus.toVector2(12.0  * GRID_SIZE),
+                                      bestPosition.position + thetaMinus.toVector2(1.0  * GRID_SIZE),
+                                      bestPosition.position + thetaMinus.toVector2(3.0  * GRID_SIZE),
+                                      bestPosition.position + thetaMinus.toVector2(12.0 * GRID_SIZE)};
+
+    auto newPosition = findBestOffensivePosition(positions, bestPosition, zoneLocation);
+    if (newPosition.position != currentPosition.position) {
+        tick = 0;
+        targetAngle = newPosition.position - currentPosition.position;
+    }
+    return newPosition;
+}
+
 } //coach
 } //ai
 } //rtt

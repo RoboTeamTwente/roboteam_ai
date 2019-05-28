@@ -9,6 +9,7 @@
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/world/BallPossession.h>
+#include "../heuristics/CoachHeuristics.h"
 
 namespace rtt {
 namespace ai {
@@ -22,10 +23,14 @@ class MidFieldCoach {
         const double MIN_OPPONENT_VELOCITY = 0.5;
         const double DEFAULT_HARASS_DISTANCE = 4 * Constants::ROBOT_RADIUS();
 
+        const double GRID_RADIUS = 2;
+        const double GRID_SIZE = 0.2;
+
         using Robot = world::Robot;
         using RobotPtr = std::shared_ptr<Robot>;
         using Ball = world::Ball;
         using BallPtr = std::shared_ptr<Ball>;
+        using WorldData = world::WorldData;
 
         struct Target {
             Vector2 targetPosition;
@@ -49,6 +54,8 @@ class MidFieldCoach {
         MidFieldCoach::Target
         harassRobot(const RobotPtr &thisRobot, const RobotPtr &opponent, HarassType harassType) const;
         Target blockPass(const RobotPtr &thisRobot, const RobotPtr &opponent, const BallPtr &ball) const;
+        Vector2 findBetterPosition(const RobotPtr &thisRobot);
+        double calculateStandingFreeScore(Vector2 position);
     public:
         void addMidFielder(RobotPtr &thisRobot);
         void removeMidFielder(RobotPtr &thisRobot);

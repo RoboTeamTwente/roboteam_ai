@@ -13,6 +13,7 @@ const double CoachHeuristics::CLOSE_TO_GOAL_WEIGHT = - 0.1;
 const double CoachHeuristics::SHOT_AT_GOAL_WEIGHT = - 3.0;
 const double CoachHeuristics::PASS_LINE_WEIGHT = - 3.0;
 const double CoachHeuristics::DISTANCE_TO_OPPONENTS_WEIGHT = - 3.0;
+const double CoachHeuristics::DISTANCE_TO_US_WEIGHT = - 3.0;
 
 const double CoachHeuristics::MAX_INTERCEPT_ANGLE = M_PI/4;
 
@@ -54,7 +55,7 @@ double CoachHeuristics::getClosestOpponentAngleToPassLine(const Vector2 &positio
 }
 
 /// Gives a higher score if the position is far away from enemy robots
-double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &position, const WorldData &world) {
+double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &position) {
     RobotPtr closestRobot = world::world->getRobotClosestToPoint(position, world::WhichRobots::THEIR_ROBOTS);
     if (closestRobot && closestRobot->id != - 1) {
         double distance = (position - closestRobot->pos).length();
@@ -82,6 +83,17 @@ double CoachHeuristics::calculateDistanceToBallScore(const Vector2 &position, co
     double idealDistance = (world::field->get_their_goal_center() - ball->pos).length()*0.75;
     double distanceFromBall = (position - ball->pos).length();
     return std::max(0.0, - pow(distanceFromBall/(0.5*idealDistance), 2) + 2*(distanceFromBall/(0.5*idealDistance)));
+}
+
+double CoachHeuristics::calculateDistanceToClosestTeamMateScore(const Vector2 &position) {
+    RobotPtr closestRobot = world::world->getRobotClosestToPoint(position, world::WhichRobots::OUR_ROBOTS);
+    if (closestRobot && closestRobot->id != - 1) {
+        double distance = (position - closestRobot->pos).length();
+        return 1 - exp(DISTANCE_TO_OPPONENTS_WEIGHT*distance);
+    }
+    else {
+        return 1;
+    }
 }
 
 }
