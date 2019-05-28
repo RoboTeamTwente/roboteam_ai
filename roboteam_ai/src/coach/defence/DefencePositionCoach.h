@@ -7,6 +7,8 @@
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_ai/src/world/World.h"
 #include "PossiblePass.h"
+#include "gtest/gtest_prod.h"
+
 namespace rtt {
 namespace ai {
 namespace coach {
@@ -24,6 +26,7 @@ struct DefenderBot {
   bool validPosition(const world::WorldData &world);
 };
 class DefencePositionCoach {
+        FRIEND_TEST(defensive_coach,blockPoints);
     public:
         double maxX();//furthest point forwards the availableIDs can go
 
