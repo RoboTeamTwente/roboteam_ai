@@ -155,7 +155,9 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
         addRobotToOwnerList(id, std::move(roleName), std::move(tacticName));
         return id;
     }
-    ROS_INFO_STREAM("Found no free robots in robot dealer");
+    // If a tactics gets here, it probably because it was told it needs one more robot but the other tactic that needs
+    // one less robot hasn't ben ticked yet so it did not disclaim its extra robot. It will be fine the next tick there is
+    // no way around this
     return - 1;
 }
 
