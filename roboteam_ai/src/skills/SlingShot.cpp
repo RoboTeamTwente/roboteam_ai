@@ -2,7 +2,9 @@
 // Created by rolf on 11-4-19.
 //
 
+#include <roboteam_ai/src/world/World.h>
 #include "SlingShot.h"
+#include <roboteam_ai/src/control/ControlUtils.h>
 
 namespace rtt {
 namespace ai {

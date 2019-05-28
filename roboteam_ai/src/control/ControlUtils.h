@@ -5,15 +5,16 @@
 #ifndef ROBOTEAM_AI_CONTROLUTILS_H
 #define ROBOTEAM_AI_CONTROLUTILS_H
 
-#include <roboteam_ai/src/control/Hungarian.h>
 #include "../world/World.h"
 #include "../utilities/Constants.h"
 #include "roboteam_utils/Vector2.h"
 #include <cmath>
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include <roboteam_utils/Line.h>
 #include "roboteam_utils/Arc.h"
 
 using Vector2 = rtt::Vector2;
+using Angle = rtt::Angle;
 
 namespace rtt {
 namespace ai {
@@ -53,12 +54,14 @@ class ControlUtils {
                 const Vector2 &lineBEnd);
         static rtt::Arc createKeeperArc();
         static Vector2 velocityLimiter(const Vector2 &vel, double maxVel = Constants::MAX_VEL(),
-                double minVel = 0.0);
-        static Vector2 accelerationLimiter(const Vector2 &vel,double maxAcc, double prevVel);
-        static double calculateMaxAcceleration(const Vector2 &vel, double angle);
+                double minVel = 0.0, bool listenToReferee = true);
+        static Vector2 accelerationLimiter(const Vector2 &targetVel, const Vector2 &prevVel, const Angle &targetAngle);
         static bool robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, double maxDifference = 0.3);
         static bool objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity,
                 const Vector2 &point, double maxDifference = 0.3);
+        static const world::World::RobotPtr getRobotClosestToLine(std::vector<world::World::RobotPtr> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds);
+        static Vector2 getInterceptPointOnLegalPosition(
+                Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin);
         static world::Robot getRobotClosestToLine(std::vector<world::Robot> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds);
 };
 

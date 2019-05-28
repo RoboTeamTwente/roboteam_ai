@@ -42,13 +42,15 @@ bool Constants::SHOW_TICK_TIME_TAKEN() { return false; }
 
 bool Constants::SHOW_NUMTREE_TIME_TAKEN() { return false; }
 
-bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
+bool Constants::SHOW_COACH_TIME_TAKEN() { return false; }
+
+    bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
 
 bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
 
-bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return true; }
+bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return false; }
 
-double Constants::MAX_VEL_CMD() { return 1.191; }
+double Constants::MAX_VEL_CMD() { return 8.191; }
 
 int Constants::MAX_ID_CMD() { return 15; }
 
@@ -58,7 +60,7 @@ double Constants::MIN_ANGLE() { return - M_PI; }
 
 double Constants::MAX_ANGLE() { return M_PI; }
 
-double Constants::MAX_VEL() { return 8.0; }
+double Constants::MAX_VEL() { return GRSIM() ? 8.0 : 2.0; }
 
 double Constants::MAX_STOP_STATE_VEL() { return 1.5; }
 
@@ -67,6 +69,10 @@ double Constants::MIN_VEL() { return 0.2; }
 double Constants::MAX_ACC_UPPER() { return 5.0; }
 
 double Constants::MAX_ACC_LOWER() { return 3.0; }
+
+double Constants::MAX_DEC_UPPER() { return MAX_ACC_UPPER() * 1.2; } //magic number
+
+double Constants::MAX_DEC_LOWER() { return MAX_ACC_LOWER() * 1.2; } //magic number
 
 double Constants::MAX_VEL_BALLPLACEMENT() { return 3.0; }
 
@@ -229,11 +235,11 @@ std::vector<QColor> Constants::TACTIC_COLORS() {
             {0, 0, 255, 100}};
 }
 
-pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(3.2, 0.0, 2.0) : pidVals(3.1, 0.0, 5.5); }
+pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(3.5, 0.0, 0.6) : pidVals(3.1, 0.0, 0.6); }
 
-pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(4.0, 0.0, 2.0) : pidVals(2.8, 0.0, 0.0); }
+pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(1.6, 0.0, 0.15) : pidVals(2.8, 0.0, 0.0); }
 
-pidVals Constants::standardForcePID() { return GRSIM() ? pidVals(1.65, 0.0, 0.0) : pidVals(2.8, 0.0, 0.0); }
+pidVals Constants::standardForcePID() { return GRSIM() ? pidVals(0.9, 0.0, 0.6) : pidVals(2.8, 0.0, 0.0); }
 
     std::vector<RuleSet> Constants::ruleSets() {
         return {

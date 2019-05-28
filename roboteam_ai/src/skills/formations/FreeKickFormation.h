@@ -14,11 +14,10 @@ public:
     explicit FreeKickFormation(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
 private:
     Vector2 getFormationPosition() override;
-    std::shared_ptr<vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
-    static std::shared_ptr<vector<std::shared_ptr<Robot>>> robotsInFormation;
+    std::shared_ptr<std::vector<RobotPtr>> robotsInFormationPtr() override;
+    static std::shared_ptr<std::vector<RobotPtr>> robotsInFormation;
     static std::vector<Vector2> posses;
     void onTerminate(Status s) override;
-    std::vector<Vector2> getFreeKickPositions(int number);
 };
 }
 }

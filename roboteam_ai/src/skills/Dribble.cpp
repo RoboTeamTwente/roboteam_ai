@@ -47,7 +47,7 @@ void Dribble::onInitialize() {
     if (properties->hasVector2("Position")) {
         targetPos = properties->getVector2("Position");
     }
-    else if (properties->getBool("BallPlacement")){
+    else if (properties->getBool("ballPlacement")){
         targetPos=coach::g_ballPlacement.getBallPlacementPos();
     }
 
@@ -70,7 +70,7 @@ void Dribble::onInitialize() {
     }
 
     if (!robot->hasBall()) {
-        ROS_ERROR("Dribble Initialize -> Robot does not have the ball!");
+        ROS_ERROR("Dribble Initialize -> RobotPtr does not have the ball!");
         currentProgress = Progression::FAIL;
         return;
     }

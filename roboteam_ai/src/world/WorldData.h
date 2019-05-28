@@ -24,34 +24,56 @@ enum WhichRobots : short {
 };
 
 class WorldData {
+    private:
+        using RobotPtr = std::shared_ptr<Robot>;
+        using BallPtr = std::shared_ptr<Ball>;
+        using WorldDataPtr = std::shared_ptr<WorldData>;
     public:
         WorldData() = default;
-        explicit WorldData(const roboteam_msgs::World &copy) : time(copy.time) {
+        explicit WorldData(const roboteam_msgs::World &copy)
+                :time(copy.time) {
             for (auto &robot : copy.us) {
-                Robot r = Robot(robot, Robot::Team::us, 3);
+                RobotPtr r = std::make_shared<Robot>(Robot(robot, Robot::Team::us, 3));
                 us.emplace_back(r);
             }
 
             for (auto &robot : copy.them) {
-                Robot r = Robot(robot, Robot::Team::them, 3);
+                RobotPtr r = std::make_shared<Robot>(Robot(robot, Robot::Team::them, 3));
                 them.emplace_back(r);
             }
-            ball = Ball(copy.ball);
+            ball = std::make_shared<Ball>(Ball(copy.ball));
         }
+        explicit WorldData(const std::vector<RobotPtr> &copyUs, const std::vector<RobotPtr> &copyThem,
+                const BallPtr &copyBall, double time)
+                :time(time) {
+            for (auto &robot : copyUs) {
+                us.emplace_back(std::make_shared<Robot>(*robot));
+            }
+            for (auto &robot : copyThem) {
+                them.emplace_back(std::make_shared<Robot>(*robot));
+            }
+            if (copyBall) ball = std::make_shared<Ball>(*copyBall);
+        }
+        explicit WorldData(const WorldDataPtr &worldDataPtr)
+                :WorldData(*worldDataPtr) { }
+        WorldData(const WorldData &worldData)
+                :WorldData(worldData.us, worldData.them, worldData.ball, worldData.time) { }
+
         double time = 0.0;
-        std::vector<Robot> us;
-        std::vector<Robot> them;
-        Ball ball;
+        std::vector<RobotPtr> us;
+        std::vector<RobotPtr> them;
+        BallPtr ball;
 };
 
 class WorldBuffer {
     private:
         WorldData* worldBuffer;
-        unsigned int size;
+        int size;
         int lastIndex;
+        int amountOfWorlds;
     public:
-        explicit WorldBuffer(unsigned int size = 20) {
-            WorldBuffer::size = size;
+        explicit WorldBuffer(unsigned int size = 20)
+                :size(size), amountOfWorlds(0) {
             worldBuffer = new WorldData[size];
             lastIndex = 0;
         }
@@ -61,18 +83,18 @@ class WorldBuffer {
         }
 
         void addNewWorld(const WorldData &world) {
-            worldBuffer[lastIndex --] = world;
-            if (lastIndex < 0) lastIndex = size - 1;
+            lastIndex ++;
+            amountOfWorlds ++;
+            if (lastIndex >= size) lastIndex = 0;
+            worldBuffer[lastIndex] = world;
         }
 
-        void addNewWorld(const roboteam_msgs::World &worldMsg) {
-            WorldData worldData = WorldData(worldMsg);
-            addNewWorld(worldData);
-        }
+        const WorldData getPreviousWorld(const int worldsBack) {
+            if (worldsBack > amountOfWorlds - 1) return getPreviousWorld(amountOfWorlds - 1);
 
-        const WorldData &getPreviousWorld(const unsigned int worldsBack) {
-            unsigned int location = lastIndex + worldsBack + 1;
+            int location = lastIndex - worldsBack;
             location %= size;
+            if (location < 0) location += 20;
             return worldBuffer[location];
         }
 };

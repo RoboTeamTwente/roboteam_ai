@@ -8,8 +8,7 @@
 #include "roboteam_msgs/WorldRobot.h"
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Angle.h"
-
-#include "Ball.h"
+#include "gtest/gtest_prod.h"
 #include <roboteam_ai/src/utilities/Constants.h>
 
 namespace rtt {
@@ -18,14 +17,24 @@ namespace ai {
 namespace control {
 class ShotController;
 class NumTreePosControl;
+class BallHandlePosControl;
 class BasicPosControl;
 }
 
 namespace world {
-
+class Ball;
 class Robot {
+    FRIEND_TEST(ShotControllerTest, getshotdata_test);
     public:
         using BallPtr = std::shared_ptr<Ball>;
+        using RobotPtr = std::shared_ptr<Robot>;
+
+        // pid
+    private:
+        Vector2 pidPreviousVel = Vector2();
+    public:
+        void setPidPreviousVel(const Vector2 &vel);
+        const Vector2 &getPidPreviousVel() const;
 
         // ball possession
     private:
@@ -44,7 +53,10 @@ class Robot {
         double timeGenevaChanged = 0;
         constexpr static double timeToChangeOneGenevaState = 0.5;
         bool workingGeneva;
-    public:
+public:
+    void setWorkingGeneva(bool workingGeneva);
+
+public:
         unsigned char getGenevaState() const;
         bool isGenevaReady() const;
         void setGenevaState(unsigned char state = 3);
@@ -66,13 +78,14 @@ class Robot {
         // control managers
     private:
         std::shared_ptr<control::ShotController> shotController;
-        std::shared_ptr<control::NumTreePosControl> numtreeGTP;
-        std::shared_ptr<control::BasicPosControl> basicGTP;
+        std::shared_ptr<control::NumTreePosControl> numTreePosControl;
+        std::shared_ptr<control::BasicPosControl> basicPosControl;
+        std::shared_ptr<control::BallHandlePosControl> ballHandlePosControl;
     public:
         const std::shared_ptr<control::ShotController> &getShotController() const;
-        const std::shared_ptr<control::NumTreePosControl> &getNumtreeGtp() const;
-        const std::shared_ptr<control::BasicPosControl> &getBasicGtp() const;
-
+        const std::shared_ptr<control::NumTreePosControl> &getNumtreePosControl() const;
+        const std::shared_ptr<control::BasicPosControl> &getBasicPosControl() const;
+        const std::shared_ptr<control::BallHandlePosControl> &getBallHandlePosControl() const;
         // general
     public:
         enum Team : short {
@@ -83,9 +96,8 @@ class Robot {
         Robot();
         explicit Robot(const roboteam_msgs::WorldRobot &copy, Team team = invalid,
                 unsigned char genevaState = 3, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
-        void updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const Ball &ball, unsigned long worldNumber);
+        void updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const BallPtr &ball, unsigned long worldNumber);
         const unsigned long getLastUpdatedWorldNumber() const;
-        const roboteam_msgs::WorldRobot toMessage() const;
 
         int id = - 1;
         Angle angle = Angle();

@@ -38,7 +38,7 @@ TEST(DecisionMakerTest, all_setups_have_right_amounts_of_robots) {
             EXPECT_EQ(total, std::max(0, amountOfRobots));
 
             // there is a keeper
-            robotDealer::RobotDealer::setKeeperID(world::world->getUs().at(0).id);
+            robotDealer::RobotDealer::setKeeperID(world::world->getUs().at(0)->id);
 
             style = maker.getRecommendedPlayStyle(possession);
             total = style.amountOfAttackers + style.amountOfMidfielders + style.amountOfDefenders;

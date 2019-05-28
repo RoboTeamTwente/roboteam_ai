@@ -43,7 +43,9 @@ void BallPossession::recomputeState() {
 }
 
 void BallPossession::updateTicks() {
-    world::WorldData wd = world::world->getWorld();
+    auto wd = world::world->getWorld();
+    if (!wd.ball) return;
+
     double timeDiff = world::world->getTimeDifference();
 
     // if a team is close or far to the ball increment the timers, otherwise reset them
@@ -56,9 +58,9 @@ void BallPossession::updateTicks() {
 /// return true if given team is relatively close to ball
 bool BallPossession::teamCloseToBall(const world::WorldData &world, bool ourTeam) {
     double closeTreshHoldDist = Constants::MAX_BALL_RANGE();
-    std::vector<world::Robot> robots = ourTeam ? world.us : world.them;
-    for (auto robot : robots) {
-        if (robot.hasBall(closeTreshHoldDist)) {
+    auto robots = ourTeam ? world.us : world.them;
+    for (auto &robot : robots) {
+        if (robot->hasBall(closeTreshHoldDist)) {
             return true;
         }
     }
@@ -67,14 +69,17 @@ bool BallPossession::teamCloseToBall(const world::WorldData &world, bool ourTeam
 
 /// return true if given team is relatively far from ball
 bool BallPossession::teamFarFromBall(const world::WorldData &world, bool ourTeam) {
-    double farThreshHoldDist = 0.4;
-    std::vector<world::Robot> robots = ourTeam ? world.us : world.them;
-    for (const auto &robot :robots) {
-        if ((robot.pos - world.ball.pos).length() < farThreshHoldDist) {
-            return false;
+    if (world.ball) {
+        double farThreshHoldDist = 0.4;
+        auto robots = ourTeam ? world.us : world.them;
+        for (auto &robot : robots) {
+            if ((robot->pos - world.ball->pos).length() < farThreshHoldDist) {
+                return false;
+            }
         }
+        return true;
     }
-    return true;
+    return false;
 }
 
 BallPossession::Possession BallPossession::getPossession() {
@@ -82,7 +87,7 @@ BallPossession::Possession BallPossession::getPossession() {
 }
 
 // convert ballpossession states to strings
-std::string BallPossession::stateAsString() {
+std::string BallPossession::stateAsString(Possession state) {
     switch (state) {
     case OURBALL:return "OURBALL";
     case THEIRBALL:return "THEIRBALL";

@@ -8,6 +8,8 @@
 #include "Receive.h"
 #include "roboteam_utils/Polygon.h"
 #include "roboteam_utils/Line.h"
+#include <roboteam_ai/src/world/Robot.h>
+
 namespace rtt {
 namespace ai {
 
@@ -63,38 +65,9 @@ void Receive::onTerminate(Status s) {
 
 // Pick the closest point to the (predicted) line of the ball for any 'regular' interception
 Vector2 Receive::computeInterceptPoint(const Vector2& startBall, const Vector2& endBall) {
-    double margin = 0.3;
-    Vector2 projectPos = Line(startBall,endBall).project(robot->pos);
-    if (canMoveInDefenseArea) {
-        return projectPos;
-    }
-    if (world::field->pointIsInDefenceArea(projectPos, true, margin)||world::field->pointIsInDefenceArea(projectPos, false, margin)) {
-        Polygon defenceAreaUs(world::field->getDefenseArea(true, margin));
-        Polygon defenceAreaThem(world::field->getDefenseArea(false, margin));
-        LineSegment shotLine(startBall, startBall + startBall + (endBall - startBall)*10000);
-        std::vector<Vector2> intersects = defenceAreaUs.intersections(shotLine);
-        std::vector<Vector2> intersectsThem = defenceAreaThem.intersections(shotLine);
-        intersects.insert(intersects.end(),intersectsThem.begin(),intersectsThem.end());
-        if(intersects.empty()){
-            return projectPos;
-        }
-        double closestDist=DBL_MAX;
-        Vector2 closestPoint=projectPos;
-        for(const auto& point :intersects){
-            if (world::field->pointIsInField(point,0.01)) {
-                double dist = point.dist2(projectPos);
-                if (dist < closestDist) {
-                    closestDist = dist;
-                    closestPoint = point;
-                }
-            }
-        }
-        return closestPoint;
-    }
-    else {
-        return projectPos;
-    }
-
+    double defenseAreaMargin = 0.3;
+    double outOfFieldMargin = -Constants::ROBOT_RADIUS();
+    return control::ControlUtils::getInterceptPointOnLegalPosition(robot->pos, {startBall, endBall}, false, false, defenseAreaMargin, outOfFieldMargin);
 }
 // check if the robot is in the desired position to catch the ball
 bool Receive::isInPosition(const Vector2& behindTargetPos) {
@@ -112,8 +85,7 @@ void Receive::intercept() {
     ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
 
-    Vector2 velocities = robot->getBasicGtp()->getPosVelAngle(robot, interceptPoint).vel;
-    velocities = control::ControlUtils::velocityLimiter(velocities);
+    Vector2 velocities = robot->getBasicPosControl()->getPosVelAngle(robot, interceptPoint).vel;
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
     command.w = ball->vel.stretchToLength(-1).toAngle();

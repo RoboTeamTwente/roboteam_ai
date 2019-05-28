@@ -35,7 +35,7 @@ private:
 
     static GameState interfaceGameState;
 public:
-    static void setInterfaceGameState(const GameState &interfaceGameState);
+    static void setInterfaceGameState(GameState interfaceGameState);
 
 public:
     static const GameState &getInterfaceGameState();
@@ -48,7 +48,8 @@ public:
     static bool showDebugTickTimeTaken();
     static bool showDebugNumTreeTimeTaken();
     static bool showDebugNumTreeInfo();
-    static bool showFullDebugNumTreeInfo();
+        static bool showCoachTimeTaken();
+        static bool showFullDebugNumTreeInfo();
 
     static bool usesRefereeCommands();
     static void setUseRefereeCommands(bool useRefereeCommands);

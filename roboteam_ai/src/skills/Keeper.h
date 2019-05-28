@@ -24,7 +24,7 @@ class Keeper : public Skill {
         double goalwidth;
         control::BasicPosControl basicGtp;
         Vector2 getBlockLine(Vector2 defendPos);
-        void setGoalPosWithAttacker(world::Robot attacker);
+        void setGoalPosWithAttacker(RobotPtr attacker);
 
     public:
         explicit Keeper(string name, bt::Blackboard::Ptr blackboard);

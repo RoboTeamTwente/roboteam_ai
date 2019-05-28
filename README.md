@@ -6,10 +6,11 @@ This repository will hold the logic for decision making and high-level robot con
 
 ###### Master    
 [![Build Status](https://travis-ci.com/RoboTeamTwente/roboteam_ai.svg?branch=master)](https://travis-ci.com/RoboTeamTwente/roboteam_ai)
-[![Coverage Status](https://coveralls.io/repos/github/RoboTeamTwente/roboteam_ai/badge.svg?branch=master)](https://coveralls.io/github/RoboTeamTwente/roboteam_ai?branch=master)
+[![codecov](https://codecov.io/gh/RoboTeamTwente/roboteam_ai/branch/master/graph/badge.svg)](https://codecov.io/gh/RoboTeamTwente/roboteam_ai)
+
 
 ###### Development    
 [![Build Status](https://travis-ci.com/RoboTeamTwente/roboteam_ai.svg?branch=development)](https://travis-ci.com/RoboTeamTwente/roboteam_ai)
-[![Coverage Status](https://coveralls.io/repos/github/RoboTeamTwente/roboteam_ai/badge.svg?branch=development)](https://coveralls.io/github/RoboTeamTwente/roboteam_ai?branch=development)
+[![codecov](https://codecov.io/gh/RoboTeamTwente/roboteam_ai/branch/development/graph/badge.svg)](https://codecov.io/gh/RoboTeamTwente/roboteam_ai)
 
 ---

@@ -6,21 +6,21 @@
 #define ROBOTEAM_AI_BALL_H
 
 #include "roboteam_msgs/WorldBall.h"
-
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Angle.h"
 
 namespace rtt {
 namespace ai {
 namespace world {
+
 class WorldData;
 class Robot;
-
 class Ball {
-    private:
+    public:
         using BallPtr = std::shared_ptr<Ball>;
         using RobotPtr = std::shared_ptr<Robot>;
 
+    private:
         bool ballInAir;
         bool collidesNow;
         bool kickedNow;
@@ -29,16 +29,14 @@ class Ball {
         int ballStraightTicks;
 
         void updateDribbling(const Ball &oldBall, const WorldData &worldData);
-        Robot* getDribblingRobot(const std::vector<Robot> &robots, double maxDribbleRange);
+        Robot* getDribblingRobot(const std::vector<RobotPtr> &robots, double maxDribbleRange);
         void updateBallModel(const Ball &oldBall, const WorldData &worldData);
         void updateBallPosition(const Ball &oldBall, const WorldData &worldData);
 
     public:
         Ball();
         explicit Ball(const roboteam_msgs::WorldBall &copy);
-
-        const roboteam_msgs::WorldBall toMessage() const;
-        void updateBall(const Ball &oldBall, const WorldData &worldData);
+        void updateBall(const BallPtr &oldBall, const WorldData &worldData);
 
         Vector2 pos = Vector2();
         Vector2 vel = Vector2();

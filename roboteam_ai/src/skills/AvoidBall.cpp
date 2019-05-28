@@ -33,8 +33,8 @@ bt::Node::Status AvoidBall::onUpdate() {
 
     // forces from robots
     for (auto &otherRobot : world::world->getAllRobots()) {
-        if (otherRobot.id != robot->id) {
-            force = force + cu::calculateForce(robotPos - otherRobot.pos, robotWeight, minRobotDistanceForForce);
+        if (otherRobot->id != robot->id) {
+            force = force + cu::calculateForce(robotPos - otherRobot->pos, robotWeight, minRobotDistanceForForce);
         }
     }
     // check forces from ball
@@ -74,7 +74,6 @@ bt::Node::Status AvoidBall::onUpdate() {
         }
     }
 
-    force = control::ControlUtils::velocityLimiter(force);
     command.use_angle = 1;
     command.w = static_cast<float>(force.angle());
     command.x_vel = static_cast<float>(force.x);

@@ -1,5 +1,20 @@
 #include <gtest/gtest.h>
-#include "roboteam_ai/src/bt/bt.hpp"
+#include <roboteam_ai/src/bt/BehaviorTree.hpp>
+#include <roboteam_ai/src/bt/composites/MemSequence.hpp>
+#include <roboteam_ai/src/bt/composites/ParallelSequence.hpp>
+#include <roboteam_ai/src/bt/composites/Sequence.hpp>
+#include <roboteam_ai/src/bt/composites/Selector.hpp>
+#include <roboteam_ai/src/bt/composites/MemSelector.hpp>
+#include <roboteam_ai/src/bt/decorators/Repeater.hpp>
+
+#include <roboteam_ai/src/bt/Node.hpp>
+#include <roboteam_ai/src/bt/composites/MemParallelSequence.h>
+#include <roboteam_ai/src/bt/decorators/Inverter.hpp>
+#include <roboteam_ai/src/bt/decorators/Succeeder.hpp>
+#include <roboteam_ai/src/bt/decorators/Failer.hpp>
+#include <roboteam_ai/src/bt/decorators/UntilFail.hpp>
+#include <roboteam_ai/src/bt/decorators/UntilSuccess.hpp>
+#include "roboteam_ai/src/skills/Kick.h"
 
 namespace bt {
 
@@ -467,10 +482,11 @@ TEST(BehaviorTreeTest, decorators) {
 }
 
 TEST(BehaviorTreeTest, StatusToString) {
-    EXPECT_EQ(bt::statusToString(bt::Node::Status::Failure), "Failure");
-    EXPECT_EQ(bt::statusToString(bt::Node::Status::Waiting), "Waiting");
-    EXPECT_EQ(bt::statusToString(bt::Node::Status::Success), "Success");
-    EXPECT_EQ(bt::statusToString(bt::Node::Status::Running), "Running");
+    bt::Node::Ptr node = std::make_shared<rtt::ai::Kick>();
+    EXPECT_EQ(node->status_print(bt::Node::Status::Failure), "Failure");
+    EXPECT_EQ(node->status_print(bt::Node::Status::Waiting), "Waiting");
+    EXPECT_EQ(node->status_print(bt::Node::Status::Success), "Success");
+    EXPECT_EQ(node->status_print(bt::Node::Status::Running), "Running");
 }
 
 TEST(BehaviorTreeTest, it_sets_blackboards) {

@@ -20,7 +20,7 @@ class History {
     public:
         void addWorld(const WorldData &worldData);
         void addWorld(WorldDataPtr &worldDataPtr);
-        const WorldData &getPreviousWorld(unsigned int worldsBack = 1);
+        const WorldData getPreviousWorld(int worldsBack = 1);
 };
 
 }

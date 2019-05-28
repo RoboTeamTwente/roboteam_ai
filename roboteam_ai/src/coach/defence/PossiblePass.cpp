@@ -18,12 +18,12 @@ bool PossiblePass::obstacleObstructsPath(const Vector2 &obstPos, double obstRadi
 int PossiblePass::amountOfBlockers(const world::WorldData &world) {
     int total = 0;
     for (const auto &bot : world.them) {
-        if (obstacleObstructsPath(bot.pos)) {
+        if (obstacleObstructsPath(bot->pos)) {
             total ++;
         }
     }
     for (const auto &bot : world.us) {
-        if (obstacleObstructsPath(bot.pos)) {
+        if (obstacleObstructsPath(bot->pos)) {
             total ++;
         }
     }

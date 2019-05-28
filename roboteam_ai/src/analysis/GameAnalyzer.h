@@ -31,8 +31,8 @@ public:
 
 private:
         using WorldData = world::WorldData;
-        using Robot = world::Robot;
-        using Ball = world::Ball;
+        using RobotPtr = world::World::RobotPtr;
+        using BallPtr = world::World::BallPtr;
 
     GameAnalyzer();
 
@@ -46,16 +46,16 @@ private:
 
     std::shared_ptr<AnalysisReport> mostRecentReport;
 
-    std::vector<std::pair<Robot, RobotDanger>> getRobotsSortedOnDanger(bool ourTeam);
+    std::vector<std::pair<RobotPtr, RobotDanger>> getRobotsSortedOnDanger(bool ourTeam);
     BallPossession convertPossession(rtt::ai::BallPossession::Possession possession);
     double getTeamDistanceToGoalAvg(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
     double getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
-    RobotDanger evaluateRobotDangerScore(Robot robot, bool ourTeam);
-    std::vector<std::pair<Robot, double>> getAttackersSortedOnGoalVision(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
+    RobotDanger evaluateRobotDangerScore(RobotPtr robot, bool ourTeam);
+    std::vector<std::pair<RobotPtr, double>> getAttackersSortedOnGoalVision(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
 
-    std::vector<std::pair<int, double>> getRobotsToPassTo(Robot robot, bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
-    double shortestDistToEnemyRobot(Robot robot, bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
-    bool isClosingInToGoal(Robot robot, bool ourTeam);
+    std::vector<std::pair<int, double>> getRobotsToPassTo(RobotPtr robot, bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
+    double shortestDistToEnemyRobot(RobotPtr robot, bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
+    bool isClosingInToGoal(RobotPtr robot, bool ourTeam);
 };
 
 

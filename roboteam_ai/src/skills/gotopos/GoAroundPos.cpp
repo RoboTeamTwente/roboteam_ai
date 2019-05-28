@@ -61,7 +61,7 @@ void GoAroundPos::gtpInitialize() {
 
 GoAroundPos::Status GoAroundPos::gtpUpdate() {
     if (! robot) {
-        ROS_ERROR("Robot not found ree:  %s", std::to_string(robot->id).c_str());
+        ROS_ERROR("RobotPtr not found ree:  %s", std::to_string(robot->id).c_str());
         return Status::Failure;
     }
     if (ballIsTarget && ! ball) {
@@ -133,7 +133,7 @@ GoAroundPos::Progression GoAroundPos::checkProgression() {
         if (posDif < POS_MARGIN && angDif < ANGLE_MARGIN) {
             return DONE;
         }
-        //If Robot takes too long to stop, fail
+        //If RobotPtr takes too long to stop, fail
         if (currentTick > maxTick + MAX_STOP_TIME*Constants::TICK_RATE()) {
             return FAIL;
         }
@@ -155,7 +155,6 @@ bool GoAroundPos::checkPosition() {
 
 void GoAroundPos::sendRotateCommand() {
     Vector2 deltaCommandPos = (commandPos - robot->pos);
-    deltaCommandPos = Control::velocityLimiter(deltaCommandPos, distanceFromPoint*SPEED, MIN_SPEED);
     command.dribbler = 0;
     command.x_vel = static_cast<float>(deltaCommandPos.x);
     command.y_vel = static_cast<float>(deltaCommandPos.y);

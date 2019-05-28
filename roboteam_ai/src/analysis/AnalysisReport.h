@@ -9,8 +9,8 @@
 #define ROBOTEAM_AI_ANALYSISREPORT_H
 
 #include <roboteam_msgs/WorldRobot.h>
+#include <roboteam_ai/src/world/Robot.h>
 #include "RobotDanger.h"
-#include "../world/WorldData.h"
 
 namespace rtt {
 namespace ai {
@@ -27,8 +27,8 @@ enum BallPossession : short {
 
 struct AnalysisReport {
     bool reportForUs = true;
-    std::vector<std::pair<world::Robot, RobotDanger>> theirRobotSortedOnDanger;
-    std::vector<std::pair<world::Robot, RobotDanger>> ourRobotsSortedOnDanger;
+    std::vector<std::pair<world::Robot::RobotPtr, RobotDanger>> theirRobotSortedOnDanger;
+    std::vector<std::pair<world::Robot::RobotPtr, RobotDanger>> ourRobotsSortedOnDanger;
 
     BallPossession ballPossession = NEUTRAL;
     double ourDistanceToGoalAvg = 0.0;

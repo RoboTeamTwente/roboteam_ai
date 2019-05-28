@@ -85,6 +85,10 @@ bool Output::showDebugNumTreeTimeTaken() {
     return getShowDebugValues() && Constants::SHOW_NUMTREE_TIME_TAKEN();
 }
 
+bool Output::showCoachTimeTaken() {
+    return getShowDebugValues() && Constants::SHOW_COACH_TIME_TAKEN();
+}
+
 bool Output::showDebugNumTreeInfo() {
     return getShowDebugValues() && Constants::SHOW_NUMTREE_DEBUG_INFO();
 }
@@ -131,15 +135,13 @@ void Output::setKeeperTree(std::string name) {
 
 void Output::setStrategyTree(std::string name) {
     Output::interfaceGameState.strategyName = std::move(name);
-    Output::interfaceGameState.ballPositionAtStartOfGameState = world::world->getBall()->pos;
+    if (world::world->getBall()) {
+        Output::interfaceGameState.ballPositionAtStartOfGameState = world::world->getBall()->pos;
+    }
 }
 
 void Output::setRuleSetName(std::string name) {
     Output::interfaceGameState.ruleSetName = std::move(name);
-}
-
-void Output::setUseKeeper(bool useKeeper) {
-    Output::interfaceGameState.useKeeper = useKeeper;
 }
 
 
@@ -151,7 +153,10 @@ const GameState &Output::getInterfaceGameState() {
     return Output::interfaceGameState;
 }
 
-void Output::setInterfaceGameState(const GameState &interfaceGameState) {
+void Output::setInterfaceGameState(GameState interfaceGameState) {
+
+    // keep the keeper the same
+    interfaceGameState.keeperId = Output::interfaceGameState.keeperId;
     Output::interfaceGameState = interfaceGameState;
 }
 

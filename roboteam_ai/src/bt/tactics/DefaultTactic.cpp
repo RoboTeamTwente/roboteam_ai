@@ -6,8 +6,9 @@
 
 using dealer = rtt::ai::robotDealer::RobotDealer;
 
-void bt::DefaultTactic::initialize() {
+namespace bt {
 
+void DefaultTactic::initialize() {
     // determine the tactic
     parseType(properties->getString("TacticType"));
 
@@ -17,7 +18,7 @@ void bt::DefaultTactic::initialize() {
     updateRobots();
 }
 
-bt::Node::Status bt::DefaultTactic::update() {
+Node::Status DefaultTactic::update() {
     updateStyle();
 
     if (!updateRobots()) {
@@ -41,8 +42,8 @@ bt::Node::Status bt::DefaultTactic::update() {
 
 }
 
-bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboard,
-        const std::vector<std::pair<std::string, RobotType>> &robots_) {
+DefaultTactic::DefaultTactic(std::string name, Blackboard::Ptr blackboard,
+                                 const std::vector<std::pair<std::string, RobotType>> &robots_) {
 
     convert(robots_);
     globalBB = std::move(blackboard);
@@ -51,19 +52,19 @@ bt::DefaultTactic::DefaultTactic(std::string name, bt::Blackboard::Ptr blackboar
     this->name = std::move(name);
 }
 
-void bt::DefaultTactic::claimRobots(int amount) {
+void DefaultTactic::claimRobots(int amount) {
 
     // for the amount of robots we still need
     for (int i = 0; i < amount; i++) {
         auto toClaim = getNextClaim();
         robotIDs.insert(dealer::claimRobotForTactic(toClaim.second, toClaim.first, name));
-        if (robotIDs.find(- 1) != robotIDs.end()) {
+        if (robotIDs.find(-1) != robotIDs.end()) {
             robotIDs.erase(-1);
         }
     }
 }
 
-bool bt::DefaultTactic::updateRobots() {
+bool DefaultTactic::updateRobots() {
     int robotsNeeded = amountToTick - robotIDs.size();
 
     // if we need a negative amount of robots we have too much, so we need to disclaim robots
@@ -71,34 +72,39 @@ bool bt::DefaultTactic::updateRobots() {
     // if we have a positive amount of robots needed we must claim more
     if (robotsNeeded < 0) {
         disClaimRobots(-robotsNeeded);
-    }
-    else if (robotsNeeded > 0) {
+    } else if (robotsNeeded > 0) {
         claimRobots(robotsNeeded);
     }
     return (static_cast<int>(robotIDs.size()) == amountToTick);
 }
 
-void bt::DefaultTactic::disClaimRobots(int amount) {
-    for (int i = 0; i < amount; i ++) {
+void DefaultTactic::disClaimRobots(int amount) {
 
-        // we need to store the robot id for the robot which we will remove
-        // because after releaseRobotforRole, findRobotforRole will return -1 instead
+    for (auto robot : robotIDs) {
+        if (!rtt::ai::world::world->getRobotForId(robot)) {
+            dealer::refresh();
+            return;
+        }
+    }
+
+    for (int i = 0; i < amount; i++) {
+
         int robotToReleaseId = dealer::findRobotForRole(getLastClaim().first);
         dealer::releaseRobotForRole(getLastClaim().first); // free it in robotdealer
         robotIDs.erase(robotToReleaseId); // erase it in our array as well
     }
 }
 
-std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getNextClaim() {
+std::pair<std::string, rtt::ai::robotDealer::RobotType> DefaultTactic::getNextClaim() {
     for (auto &robot : robots) {
-        if (std::get<0>(robot) == static_cast<int>(robotIDs.size() +1)) {
+        if (std::get<0>(robot) == static_cast<int>(robotIDs.size() + 1)) {
             return std::make_pair(std::get<1>(robot), std::get<2>(robot));
         }
     }
     return {};
 }
 
-std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getLastClaim() {
+std::pair<std::string, rtt::ai::robotDealer::RobotType> DefaultTactic::getLastClaim() {
     for (auto &robot : robots) {
         if (std::get<0>(robot) == static_cast<int>(robotIDs.size())) {
             return std::make_pair(std::get<1>(robot), std::get<2>(robot));
@@ -107,23 +113,20 @@ std::pair<std::string, bt::Tactic::RobotType> bt::DefaultTactic::getLastClaim() 
     return {};
 }
 
-void bt::DefaultTactic::parseType(const std::string& typee) {
+void DefaultTactic::parseType(const std::string &typee) {
     if (typee == "Offensive") {
         thisType = Offensive;
-    }
-    else if (typee == "Middle") {
+    } else if (typee == "Middle") {
         thisType = Middle;
-    }
-    else if (typee == "Defensive") {
+    } else if (typee == "Defensive") {
         thisType = Defensive;
-    }
-    else {
+    } else {
         thisType = General;
     }
 
 }
 
-void bt::DefaultTactic::updateStyle() {
+void DefaultTactic::updateStyle() {
     auto reportPtr = rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
     rtt::ai::analysis::PlayStyle style;
     if (reportPtr) {
@@ -135,11 +138,9 @@ void bt::DefaultTactic::updateStyle() {
     }
     if (thisType == Defensive) {
         amountToTick = style.amountOfDefenders;
-    }
-    else if (thisType == Middle) {
+    } else if (thisType == Middle) {
         amountToTick = style.amountOfMidfielders;
-    }
-    else if (thisType == Offensive) {
+    } else if (thisType == Offensive) {
         amountToTick = style.amountOfAttackers;
     }
     else if (rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
@@ -149,16 +150,17 @@ void bt::DefaultTactic::updateStyle() {
     }
 }
 
-void bt::DefaultTactic::convert(const std::vector<std::pair<std::string, RobotType>> &unit) {
+void DefaultTactic::convert(const std::vector<std::pair<std::string, RobotType>> &unit) {
     int counter = 1;
     for (const auto &robot : unit) {
-        std::tuple<int, std::string, RobotType> temp = std::tuple<int, std::string, RobotType>(counter, robot.first, robot.second);
+        std::tuple<int, std::string, RobotType> temp = std::tuple<int, std::string, RobotType>(counter, robot.first,
+                                                                                               robot.second);
         robots.push_back(temp);
-        counter ++;
+        counter++;
     }
 }
 
-void bt::DefaultTactic::terminate(Node::Status s) {
+void DefaultTactic::terminate(Node::Status s) {
     robotIDs = {};
     amountToTick = -1;
     rtt::ai::robotDealer::RobotDealer::removeTactic(name);
@@ -171,5 +173,21 @@ void bt::DefaultTactic::terminate(Node::Status s) {
     claimedRobots = 0;
 }
 
+std::vector<Node::Ptr> DefaultTactic::getChildren() {
+    return children;
+}
+
+void DefaultTactic::giveProperty(std::string a, std::string b) {
+    properties->setString(a, b);
+}
+
+std::string DefaultTactic::node_name() {
+    return this->name;
+}
 
 
+void DefaultTactic::addChild(Node::Ptr newChild) {
+    children.push_back(newChild);
+}
+
+} // bt

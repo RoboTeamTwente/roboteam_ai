@@ -1,3 +1,6 @@
+
+
+
 # Generic .travis.yml file for running continuous integration on Travis-CI for
 # any ROS package.
 #
@@ -48,6 +51,7 @@ cache:
   apt: true
   directories:
     - $HOME/.ccache
+    - $HOME/catkin_ws/src
 
 # Build all valid Ubuntu/ROS combinations available on Travis VMs.
 language: generic
@@ -63,7 +67,7 @@ env:
   global:
     - ROS_CI_DESKTOP="`lsb_release -cs`"  # e.g. [precise|trusty|...]
     - CI_SOURCE_PATH=$(pwd)
-    - ROSINSTALL_FILE=$CI_SOURCE_PATH/.travis.rosinstall
+    - ROSINSTALL_FILE=$CI_SOURCE_PATH/repository.rosinstall
     - CATKIN_OPTIONS=$CI_SOURCE_PATH/catkin.options
     - ROS_PARALLEL_JOBS='-j8 -l6'
     # Set the python path manually to include /usr/-/python2.7/dist-packages
@@ -78,8 +82,7 @@ before_install:
   - sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
   - sudo apt update
   - sudo apt-get install dpkg
-  - sudo apt-get install -y ccache python-catkin-pkg python-rosdep python-wstool rubygems ros-kinetic-ros-base cmake libprotobuf-dev protobuf-compiler lcov gcovr qtbase5-dev
-  - gem install coveralls-lcov
+  - sudo apt-get install -y ccache ninja-build python-catkin-pkg python-rosdep python-wstool ros-kinetic-ros-base libprotobuf-dev protobuf-compiler lcov gcovr qtbase5-dev
   - source /opt/ros/$ROS_DISTRO/setup.bash
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
@@ -130,8 +133,8 @@ script:
   - mkdir cmake-build-debug && cd cmake-build-debug
 
   # make and run tests with coverage: this returns success when the coverage report is generated and the tests pass
-  - roscore & cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" .. && cmake --build ~/catkin_ws/src/roboteam_ai/cmake-build-debug --target roboteam_ai_coverage -- -j 8
+  - roscore & cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Ninja" .. && cmake --build ~/catkin_ws/src/roboteam_ai/cmake-build-debug --target roboteam_ai_coverage -- -j 8
 
 after_success:
   - cd ~/catkin_ws/src/roboteam_ai/cmake-build-debug
-  - coveralls-lcov roboteam_ai_coverage.info.cleaned
+  - bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"

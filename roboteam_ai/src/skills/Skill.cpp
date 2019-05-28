@@ -1,7 +1,8 @@
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "Skill.h"
 #include "../utilities/RobotDealer.h"
-
+#include "roboteam_ai/src/world/Robot.h"
+#include "roboteam_ai/src/world/Ball.h"
 
 namespace rtt {
 namespace ai {
@@ -10,8 +11,8 @@ Skill::Skill(std::string name, bt::Blackboard::Ptr blackboard)
         :bt::Leaf(std::move(name), std::move(blackboard)) {
     robot = std::make_shared<Robot>(Robot());
     ball = std::make_shared<Ball>(Ball());
-
 }
+
 void Skill::publishRobotCommand() {
     ros::NodeHandle nh;
     std::string ourSideParam;
@@ -20,16 +21,18 @@ void Skill::publishRobotCommand() {
     if(Constants::GRSIM() && ourSideParam=="right"){
       command=rotateRobotCommand(command);
     }
+    limitRobotCommand();
 
+    if (isnan(command.x_vel) || isnan(command.y_vel)) {
+        std::cout << "ERROR: x or y vel in command is NAN in Skill " << node_name().c_str() << "!" << std::endl;
+    }
     if (command.id == -1) {
         if (robot && robot->id != -1) {
             command.id = robot->id;
             ioManager.publishRobotCommand(command); // We default to our robots being on the left if parameter is not set
-
         }
     } else {
         ioManager.publishRobotCommand(command); // We default to our robots being on the left if parameter is not set
-
     }
     // refresh the robotcommand after it has been sent
     refreshRobotCommand();
@@ -83,6 +86,18 @@ void Skill::refreshRobotCommand() {
     emptyCmd.id = robot ? robot->id : -1;
     emptyCmd.geneva_state = 3;
     command = emptyCmd;
+}
+
+/// Velocity and acceleration limiters used on command
+void Skill::limitRobotCommand() {
+
+    auto limitedVel = Vector2(command.x_vel, command.y_vel);
+    limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
+    limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w);
+    robot->setPidPreviousVel(limitedVel);
+
+    command.x_vel = limitedVel.x;
+    command.y_vel = limitedVel.y;
 }
 
 } // ai

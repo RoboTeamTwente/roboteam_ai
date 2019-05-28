@@ -79,11 +79,11 @@ int PassCoach::determineReceiver(int passerID) {
     int bestRobotID = -1;
     auto passer = world::world->getRobotForId(passerID, true);
     for(auto &robot : world::world->getUs()) {
-        if (!validReceiver(passer, std::make_shared<Robot>(robot))) continue;
-        double score = passScore.calculatePassScore(robot.pos);
+        if (!validReceiver(passer, robot)) continue;
+        double score = passScore.calculatePassScore(robot->pos);
         if (score > bestScore) {
             bestScore = score;
-            bestRobotID = robot.id;
+            bestRobotID = robot->id;
         }
     }
 
@@ -101,16 +101,16 @@ void PassCoach::setPassed(bool passed) {
 
 bool PassCoach::passTakesTooLong() {
     if (passTimerStarted && !passed) {
-        auto now = chrono::steady_clock::now();
-        double elapsedSeconds = chrono::duration_cast<chrono::seconds>(now - passStartTime).count();
+        auto now = std::chrono::steady_clock::now();
+        double elapsedSeconds = std::chrono::duration_cast<std::chrono::seconds>(now - passStartTime).count();
         if (elapsedSeconds > MAX_PASS_TIME) {
             return true;
         }
     }
 
     if (receiveTimerStarted) {
-        auto now = chrono::steady_clock::now();
-        double elapsedSeconds = chrono::duration_cast<chrono::seconds>(now - receiveStartTime).count();
+        auto now = std::chrono::steady_clock::now();
+        double elapsedSeconds = std::chrono::duration_cast<std::chrono::seconds>(now - receiveStartTime).count();
         if (elapsedSeconds > MAX_RECEIVE_TIME) {
             return true;
         }
@@ -131,6 +131,7 @@ void PassCoach::updatePassProgression() {
 
 }
 bool PassCoach::validReceiver(RobotPtr passer, RobotPtr receiver) {
+    auto ball = world::world->getBall();
     if (receiver->id == robotDealer::RobotDealer::getKeeperID() || receiver->id == passer->id) {
         return false;
     }
@@ -140,6 +141,10 @@ bool PassCoach::validReceiver(RobotPtr passer, RobotPtr receiver) {
     }
 
     if((passer->pos - receiver->pos).length() < MIN_PASS_DISTANCE) {
+        return false;
+    }
+
+    if(receiver->pos.x - ball->pos.x < 0) {
         return false;
     }
 

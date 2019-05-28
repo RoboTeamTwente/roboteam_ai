@@ -22,7 +22,7 @@ class DefencePositionCoach {
           double orientation;
           int blockFromID;
           botType type;
-          world::Robot toRobot();
+          const world::Robot::RobotPtr toRobot();
           bool validPosition(const world::WorldData &world);
         };
         Vector2 getMostDangerousPos(const world::WorldData &world);
