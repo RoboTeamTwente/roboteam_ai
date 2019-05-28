@@ -101,7 +101,7 @@ bool Formation::robotIsInPosition() {
 
 // set up the command such that a robot moves towards the targetLocation
 void Formation::moveToTarget() {
-    auto velocities = robot->getNumtreeGtp()->getPosVelAngle(robot, targetLocation);
+    auto velocities = robot->getNumtreePosControl()->getPosVelAngle(robot, targetLocation);
     command.x_vel = velocities.vel.x;
     command.y_vel = velocities.vel.y;
     command.w = static_cast<float>((targetLocation - robot->pos).angle());
