@@ -42,7 +42,8 @@ Role::Role(std::string name) {
 std::vector<Node::Ptr> Role::getChildren() {
     if (child) {
         return std::vector<Node::Ptr>{child};
-    }
+    } 
+    std::cerr << "there is probably something wrong with your JSON tree, the role has no child!" << std::endl;
     return {};
 }
 
