@@ -7,6 +7,7 @@
 #include "OffensiveCoach.h"
 #include <roboteam_ai/src/world/World.h>
 #include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/control/Hungarian.h>
 
 namespace rtt {
 namespace ai {
@@ -127,7 +128,7 @@ void OffensiveCoach::redistributePositions() {
     std::vector<Vector2> positions = getOffensivePositions(robotIDs.size());
 
     rtt::HungarianAlgorithm hungarian;
-    map<int, Vector2> shortestDistances;
+    std::map<int, Vector2> shortestDistances;
     shortestDistances = hungarian.getRobotPositions(robotIDs, true, positions);
 
     for (auto &robot : sideAttackers) {

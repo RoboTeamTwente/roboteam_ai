@@ -3,16 +3,17 @@
 //
 
 #include <roboteam_ai/src/control/PositionUtils.h>
+#include <roboteam_ai/src/control/Hungarian.h>
 #include "PenaltyFormation.h"
 
-std::shared_ptr<vector<bt::Leaf::RobotPtr>> rtt::ai::PenaltyFormation::robotsInFormation = nullptr;
+std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> rtt::ai::PenaltyFormation::robotsInFormation = nullptr;
 
 rtt::ai::PenaltyFormation::PenaltyFormation(std::string name, bt::Blackboard::Ptr blackboard)
         :Formation(name, blackboard) {
-    robotsInFormation = std::make_shared<vector<bt::Leaf::RobotPtr>>();
-
+    robotsInFormation = std::make_shared<std::vector<bt::Leaf::RobotPtr>>();
 }
-Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
+
+rtt::Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
     if(properties->getBool("Offensive")) {
         // first we calculate all the positions for the defense
         std::vector<int> robotIds;
@@ -38,6 +39,6 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
     }
 }
 
-shared_ptr<vector<bt::Leaf::RobotPtr>> rtt::ai::PenaltyFormation::robotsInFormationPtr() {
+std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> rtt::ai::PenaltyFormation::robotsInFormationPtr() {
     return robotsInFormation;
 }
