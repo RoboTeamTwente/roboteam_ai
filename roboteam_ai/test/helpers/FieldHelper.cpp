@@ -3,6 +3,7 @@
 //
 
 #include "FieldHelper.h"
+#include "roboteam_utils/Vector2.h"
 
 namespace testhelpers {
 
@@ -33,11 +34,10 @@ void FieldHelper::addDefenseAreas(roboteam_msgs::GeometryFieldSize &field, doubl
     field.bottom_left_penalty_stretch.end = Vector2{-field.field_length / 2, -defenseAreaWidth / 2};
     field.left_penalty_line.begin=Vector2{-field.field_length / 2 + defenseAreaDepth, -defenseAreaWidth / 2};
     field.left_penalty_line.end=Vector2{-field.field_length / 2 + defenseAreaDepth, defenseAreaWidth / 2};
-
 }
 
 void FieldHelper::addCenterArc(roboteam_msgs::GeometryFieldSize &field, double radius) {
-    field.center_circle.center = Vector2{0, 0};
+    field.center_circle.center = rtt::Vector2{0, 0};
     field.center_circle.radius = radius;
 }
 

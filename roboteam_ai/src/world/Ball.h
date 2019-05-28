@@ -6,21 +6,21 @@
 #define ROBOTEAM_AI_BALL_H
 
 #include "roboteam_msgs/WorldBall.h"
-
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Angle.h"
 
 namespace rtt {
 namespace ai {
 namespace world {
+
 class WorldData;
 class Robot;
-
 class Ball {
-    private:
+    public:
         using BallPtr = std::shared_ptr<Ball>;
         using RobotPtr = std::shared_ptr<Robot>;
 
+    private:
         bool ballInAir;
         bool collidesNow;
         bool kickedNow;

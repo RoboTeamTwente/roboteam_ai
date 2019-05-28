@@ -386,9 +386,10 @@ std::vector<DefenderBot> DefencePositionCoach::decidePositions(const std::vector
     simulatedWorld = setupSimulatedWorld();
     // handle all the locked robots
     std::tuple<bool,int,std::vector<int>> temp=decideLockedPositions(lockedDefenders,freeRobots);
-    bool blockedMostDangerousPos=get<0>(temp);
-    int lockedCount=get<1>(temp);
-    freeRobots=get<2>(temp);
+
+    bool blockedMostDangerousPos=std::get<0>(temp);
+    int lockedCount=std::get<1>(temp);
+    freeRobots=std::get<2>(temp);
     // now we only have free robots left;
     if (!blockedMostDangerousPos&&defenders.size()<defenderAmount) {
         auto bot=blockMostDangerousPos(); //first we handle the most dangerous position first

@@ -24,8 +24,9 @@ bt::Node::Status CoachDefend::onUpdate() {
         publishRobotCommand();
         return bt::Node::Status::Running;
     }
-    auto velocities = robot->getNumtreeGtp()->getPosVelAngle(robot, targetLocation->first);
-    if ((targetLocation->first - robot->pos).length() < 0.01) {
+
+    auto velocities = robot->getNumtreePosControl()->getPosVelAngle(robot, targetLocation->first);
+    if ((targetLocation->first - robot->pos).length() < 0.02) {
         command.x_vel = 0;
         command.y_vel = 0;
         command.w = static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second));
