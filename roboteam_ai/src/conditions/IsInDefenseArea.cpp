@@ -6,6 +6,7 @@
 * - outsideField: if true, the robot 
 */
 
+#include <roboteam_ai/src/world/Field.h>
 #include "IsInDefenseArea.hpp"
 
 namespace rtt {

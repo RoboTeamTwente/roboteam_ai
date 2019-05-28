@@ -101,16 +101,16 @@ void PassCoach::setPassed(bool passed) {
 
 bool PassCoach::passTakesTooLong() {
     if (passTimerStarted && !passed) {
-        auto now = chrono::steady_clock::now();
-        double elapsedSeconds = chrono::duration_cast<chrono::seconds>(now - passStartTime).count();
+        auto now = std::chrono::steady_clock::now();
+        double elapsedSeconds = std::chrono::duration_cast<std::chrono::seconds>(now - passStartTime).count();
         if (elapsedSeconds > MAX_PASS_TIME) {
             return true;
         }
     }
 
     if (receiveTimerStarted) {
-        auto now = chrono::steady_clock::now();
-        double elapsedSeconds = chrono::duration_cast<chrono::seconds>(now - receiveStartTime).count();
+        auto now = std::chrono::steady_clock::now();
+        double elapsedSeconds = std::chrono::duration_cast<std::chrono::seconds>(now - receiveStartTime).count();
         if (elapsedSeconds > MAX_RECEIVE_TIME) {
             return true;
         }
