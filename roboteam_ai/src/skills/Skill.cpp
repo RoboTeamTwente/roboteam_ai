@@ -24,7 +24,7 @@ void Skill::publishRobotCommand() {
     limitRobotCommand();
 
     if (isnan(command.x_vel) || isnan(command.y_vel)) {
-        std::cout << "x or y vel in command is NAN!!!!" << std::endl;
+        std::cout << "ERROR: x or y vel in command is NAN in Skill " << node_name().c_str() << "!" << std::endl;
     }
     if (command.id == -1) {
         if (robot && robot->id != -1) {

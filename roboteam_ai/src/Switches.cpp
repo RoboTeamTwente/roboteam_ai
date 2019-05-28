@@ -72,12 +72,12 @@
 #include <roboteam_ai/src/skills/formations/TimeoutFormation.h>
 #include <roboteam_ai/src/bt/RoleDivider.h>
 #include <roboteam_ai/src/skills/formations/KickOffThemFormation.h>
-#include <roboteam_ai/src/skills/BallPlacement/BallPlacementReceive.h>
+#include <roboteam_ai/src/skills/ballPlacement/BallPlacementReceive.h>
 #include <roboteam_ai/src/conditions/CanPlay.h>
 #include <roboteam_ai/src/conditions/RobotOutside.h>
 #include <roboteam_ai/src/conditions/RefStateIsNormalPlay.h>
 #include <roboteam_ai/src/conditions/RefBallIsMoving.h>
-#include <roboteam_ai/src/skills/BallPlacement/BallPlacementPass.h>
+#include <roboteam_ai/src/skills/ballPlacement/BallPlacementPass.h>
 #include <roboteam_ai/src/bt/composites/MemSelector.hpp>
 #include <roboteam_ai/src/bt/composites/MemSequence.hpp>
 #include <roboteam_ai/src/bt/composites/MemParallelSequence.h>
