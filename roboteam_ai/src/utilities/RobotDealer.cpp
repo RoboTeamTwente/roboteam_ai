@@ -368,6 +368,20 @@ bool RobotDealer::keeperExistsInWorld() {
     }
     return false;
 }
+bool RobotDealer::hasFree() {
+    std::lock_guard<std::mutex> lock(robotOwnersLock);
+
+    for (const auto &tactic : robotOwners) {
+        auto set = tactic.second;
+        for (const auto &pair : set) {
+            if (pair.second == "free") {
+                std::cerr << "There is a free robot with the ID: " << pair.first << std::endl;
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
 } // robotDealer
 } // ai
