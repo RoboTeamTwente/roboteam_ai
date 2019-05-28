@@ -76,20 +76,29 @@ MidFieldCoach::HarassTarget MidFieldCoach::harassRobot(const RobotPtr& thisRobot
                 harassTarget.harassPosition = opponent->pos - Vector2{DEFAULT_HARASS_DISTANCE, 0};
             } else {
                 Vector2 futureOpponentPos = opponent->pos + opponent->vel * HARASSER_SECONDS_AHEAD;
-
-                //TODO: make sure projection is actually in front of opponent
                 Vector2 projectionPoint = thisRobot->pos.project(opponent->pos, futureOpponentPos);
-                if ((projectionPoint - thisRobot->pos).length() < STAND_STILL_DISTANCE) {
-                    harassTarget.harassPosition = thisRobot->pos;
+
+                // Check if the projection is actually between the opponent and it's future position
+                // If not, move to the future position
+                if(control::ControlUtils::isPointProjectedOnLineSegment(projectionPoint, opponent->pos, futureOpponentPos)) {
+                    if ((projectionPoint - thisRobot->pos).length() < STAND_STILL_DISTANCE) {
+                        harassTarget.harassPosition = thisRobot->pos;
+                    } else {
+                        harassTarget.harassPosition = projectionPoint;
+                    }
                 } else {
-                    harassTarget.harassPosition = projectionPoint;
+                    harassTarget.harassPosition = futureOpponentPos;
                 }
             }
             break;
         }
         case BLOCK_PASS: {
-            //TODO: Make sure projection is actually between ball and opponent
-            harassTarget.harassPosition = thisRobot->pos.project(ball->pos, opponent->pos);
+            Vector2 projectionPoint = thisRobot->pos.project(ball->pos, opponent->pos);
+            if(control::ControlUtils::isPointProjectedOnLineSegment(projectionPoint, opponent->pos, ball->pos)) {
+                harassTarget.harassPosition = projectionPoint;
+            } else {
+                harassTarget.harassPosition = ball->pos;
+            }
             break;
         }
         case BALL: {
