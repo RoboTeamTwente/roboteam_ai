@@ -78,6 +78,7 @@ bool Receive::isInPosition(const Vector2& behindTargetPos) {
 
 void Receive::intercept() {
     ball = world::world->getBall();
+    double ballAngle = (ball->pos - robot->pos).toAngle().getAngle();
 
     ballStartPos = ball->pos;
     ballStartVel = ball->vel;

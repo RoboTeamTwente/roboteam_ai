@@ -518,7 +518,7 @@ void Visualizer::drawPoints(QPainter &painter, std::vector<Vector2> points, doub
 
 void Visualizer::drawLines(QPainter &painter, std::vector<Vector2> points) {
     if (points.size() >= 2) {
-        for (auto i = 1; i < points.size(); i ++) {
+        for (int i = 1; i < points.size(); i ++) {
             Vector2 pointOnScreen = toScreenPosition(points.at(i));
             Vector2 prevPointOnScreen = toScreenPosition(points.at(i - 1));
             painter.drawLine(pointOnScreen.x, pointOnScreen.y, prevPointOnScreen.x, prevPointOnScreen.y);
