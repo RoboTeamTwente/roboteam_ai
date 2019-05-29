@@ -91,12 +91,7 @@ void Skill::refreshRobotCommand() {
 
 /// Velocity and acceleration limiters used on command
 void Skill::limitRobotCommand() {
-
-        if (isnan(command.x_vel) || isnan(command.y_vel)) {
-std::cerr << "no" << std::endl;
-        }
-
-            auto limitedVel = Vector2(command.x_vel, command.y_vel);
+    auto limitedVel = Vector2(command.x_vel, command.y_vel);
     limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
     limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w);
     robot->setPidPreviousVel(limitedVel);
