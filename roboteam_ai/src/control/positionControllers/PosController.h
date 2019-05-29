@@ -21,8 +21,6 @@ class Ball;
 namespace control {
 
 class PosController {
-    private:
-        double prevVel = 0.0;
     protected:
         using RobotPtr = std::shared_ptr<rtt::ai::world::Robot>;
         using BallPtr = std::shared_ptr<rtt::ai::world::Ball>;
