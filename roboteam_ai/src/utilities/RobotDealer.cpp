@@ -128,7 +128,6 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string& roleN
                 id = world::world->getRobotClosestToPoint(rtt::ai::coach::g_ballPlacement.getBallPlacementPos(), idVector, true)->id;
 
                 // force the pass coach to use this receiver
-                std::cout << "RobotDealer terminates pass" << std::endl;
                 rtt::ai::coach::g_pass.resetPass(-1);
                 rtt::ai::coach::g_pass.setRobotBeingPassedTo(id);
 
@@ -225,7 +224,6 @@ void RobotDealer::removeTactic(const std::string& tacticName) {
             return;
         }
     }
-    std::cerr << "Cannot remove tactic the tactic does not exist:  " << tacticName << std::endl;
 }
 std::set<int> RobotDealer::findRobotsForTactic(const std::string& tacticName) {
 
