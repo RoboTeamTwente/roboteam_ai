@@ -61,7 +61,7 @@ TEST(defensive_coach,blockPoints){
                     testWorld.us.push_back(bot1->toRobot());
                     double percentageAfter=w::field->getPercentageOfGoalVisibleFromPoint(true,dangerPos,testWorld);
                     if (percentageBefore!=0){
-                        EXPECT_LT(percentageAfter,percentageBefore);
+                        EXPECT_LE(percentageAfter,percentageBefore);
                     }
                     testWorld.us.clear();
                 }
