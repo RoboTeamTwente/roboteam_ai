@@ -14,7 +14,6 @@ namespace ai {
 // forward declare control Utils
 namespace control {
 class ControlUtils;
-class RobotCommand;
 }
 
 namespace world {
