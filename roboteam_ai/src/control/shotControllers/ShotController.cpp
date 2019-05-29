@@ -253,11 +253,9 @@ RobotCommand ShotController::moveAndShootGrSim(world::Robot robot, bool chip,
     RobotCommand shotData;
     bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
     if (hasBall) {
-        std::cout<<"SHOOTING"<<std::endl;
         shotData = shoot(robot, lineToDriveOver, aimTarget, chip, desiredBallSpeed);
     }
     else {
-        std::cout<<"MOVING TO BALL"<<std::endl;
         shotData = moveStraightToBall(robot, lineToDriveOver);
     }
     shotData.kickerForced = true;
