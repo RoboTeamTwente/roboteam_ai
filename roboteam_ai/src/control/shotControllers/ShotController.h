@@ -53,7 +53,7 @@ class ShotController {
         double determineKickForce(double distance, BallSpeed desiredBallSpeed);
         std::pair<Vector2, Vector2> shiftLineForGeneva(const std::pair<Vector2, Vector2> &line, int genevaState);
 
-        // RobotComman calculation
+        // RobotCommand calculation
         RobotCommand goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition,
                 std::pair<Vector2, Vector2> driveLine);
         RobotCommand moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver);
@@ -67,7 +67,7 @@ class ShotController {
 
     public:
         explicit ShotController() = default;
-        RobotCommand getShotData(world::Robot robot, const Vector2& shotTarget, bool chip = false,
+        RobotCommand getPosVelAngle(world::Robot robot, const Vector2 &shotTarget, bool chip = false,
                 BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true, ShotPrecision precision = MEDIUM);
         void setGenevaDelay(int genevaDifference);
 };

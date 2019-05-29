@@ -19,7 +19,7 @@ namespace ai {
 namespace control {
 
 NumTreePosControl::NumTreePosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
-        :PosController(avoidBall, canMoveOutsideField, canMoveInDefenseArea) { }
+        :BasicPosControl(avoidBall, canMoveOutsideField, canMoveInDefenseArea) { }
 
 /// Clears data and resets variables
 void NumTreePosControl::clear() {
@@ -51,8 +51,18 @@ RobotCommand NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
     return target;
 }
 
+RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
+        const Vector2 &targetPos, const Angle &targetAngle, bool illegalPositions) {
+
+    bool tempAllow = allowIllegalPositions;
+    allowIllegalPositions = illegalPositions;
+    RobotCommand robotCommand = NumTreePosControl::getRobotCommand(robotPtr, targetPos, targetAngle);
+    allowIllegalPositions = tempAllow;
+    return robotCommand;
+}
+
 /// finds a path using a numeric model
-RobotCommand NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr,
+RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle) {
 
     DT = 0.3/rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
@@ -401,8 +411,9 @@ void NumTreePosControl::checkInterfacePID() {
     updatePid(newPid);
 }
 
-RobotCommand NumTreePosControl::getPosVelAngle(const PosController::RobotPtr &robot, const Vector2 &targetPos) {
-    return PosController::getPosVelAngle(robot, targetPos);
+RobotCommand NumTreePosControl::getRobotCommand(const PosController::RobotPtr &r, const Vector2 &targetPos) {
+    Angle defaultAngle;
+    return NumTreePosControl::getRobotCommand(r, targetPos, defaultAngle);
 }
 
 /// finds a reason to calculate a new path (possible reasons are: no path calculated yet, final target moved,
@@ -428,16 +439,18 @@ bool NumTreePosControl::checkCurrentRobotCollision() {
     currentCollisionWithRobot = Collision();
     currentCollisionWithFinalTarget = Collision();
 
-    PathPointer realRobotPoint = std::make_shared<PathPoint>();
-    realRobotPoint->pos = robot->pos;
-    realRobotPoint->vel = robot->vel;
-    realRobotPoint->t = 0;
-    currentCollisionWithRobot = getCollision(realRobotPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
-    PathPointer finalTargetPoint = std::make_shared<PathPoint>();
-    finalTargetPoint->pos = finalTargetPos;
-    finalTargetPoint->vel = Vector2();
-    finalTargetPoint->t = 0;
-    currentCollisionWithFinalTarget = getCollision(finalTargetPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
+    if (true) {
+        PathPointer realRobotPoint = std::make_shared<PathPoint>();
+        realRobotPoint->pos = robot->pos;
+        realRobotPoint->vel = robot->vel;
+        realRobotPoint->t = 0;
+        currentCollisionWithRobot = getCollision(realRobotPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
+        PathPointer finalTargetPoint = std::make_shared<PathPoint>();
+        finalTargetPoint->pos = finalTargetPos;
+        finalTargetPoint->vel = Vector2();
+        finalTargetPoint->t = 0;
+        currentCollisionWithFinalTarget = getCollision(finalTargetPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
+    }
 
     bool collision = currentCollisionWithRobot.isCollision &&
             previousCollisionWithRobot.getCollisionType() != currentCollisionWithRobot.getCollisionType() &&

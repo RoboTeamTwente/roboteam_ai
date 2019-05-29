@@ -23,15 +23,26 @@ BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea)
     dribbleBackwards = new DribbleBackwards(errorMargin, angleErrorMargin, ballPlacementAccuracy, maxBackwardsVelocity);
     rotateWithBall = new RotateWithBall();
     rotateAroundBall = new RotateAroundBall();
-    numTreePosControl = new NumTreePosControl();
+}
 
-    numTreePosControl->setCanMoveInDefenseArea(canMoveInDefenseArea);
-    numTreePosControl->setAvoidBallDistance(targetBallDistance*0.95);
+RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vector2 &targetP) {
+    Angle defaultAngle = lockedAngle;
+    return BallHandlePosControl::getRobotCommand(r, targetP, defaultAngle);
+}
+
+RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
+        const Vector2 &targetP, const Angle &targetA, TravelStrategy travelStrategy) {
+
+    TravelStrategy tempTravelStrategy = preferredTravelStrategy;
+    preferredTravelStrategy = travelStrategy;
+    RobotCommand robotCommand = BallHandlePosControl::getRobotCommand(r, targetP, targetA);
+    preferredTravelStrategy = tempTravelStrategy;
+
+    return robotCommand;
 }
 
 /// targetP is the target position of the BALL, targetA is the (final) target angle of the ROBOT
-RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
-        const Vector2 &targetP, const Angle &targetA, TravelStrategy preferredTravelStrategy) {
+RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) {
 
     double expectedDelay = 0.04;
     ball = world::world->getBall();
@@ -110,7 +121,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
 
 }
 
-RobotCommand BallHandlePosControl::goToBall(bool ballIsFarFromTarget, TravelStrategy preferredTravelStrategy) {
+RobotCommand BallHandlePosControl::goToBall(bool ballIsFarFromTarget) {
 
     if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
         std::cout << "we do not have a ball yet" << std::endl;
@@ -138,9 +149,9 @@ RobotCommand BallHandlePosControl::goToBall(bool ballIsFarFromTarget, TravelStra
         target = ball->pos + ballToTarget.stretchToLength(maxBallDistance);
     }
 
-    auto pva = numTreePosControl->getPosVelAngle(robot, target);
+    auto path = NumTreePosControl::getRobotCommand(robot, target);
     robotCommand.angle = (ball->pos - robot->pos).toAngle();
-    robotCommand.vel = pva.vel;
+    robotCommand.vel = path.vel;
     return robotCommand;
 }
 
@@ -149,7 +160,6 @@ BallHandlePosControl::~BallHandlePosControl() {
     delete dribbleBackwards;
     delete rotateAroundBall;
     delete rotateWithBall;
-    delete numTreePosControl;
 }
 
 void BallHandlePosControl::setMaxVelocity(double maxV) {

@@ -31,7 +31,7 @@ bt::Node::Status Attack::onUpdate() {
     }
 
     Vector2 aimPoint = coach::g_offensiveCoach.getShootAtGoalPoint(ball->pos);
-    auto shotData = robot->getShotController()->getShotData(
+    auto shotData = robot->getShotController()->getPosVelAngle(
             *robot, aimPoint, false, control::BallSpeed::MAX_SPEED, true, control::ShotPrecision::HIGH);
     command = shotData.makeROSCommand();
     publishRobotCommand();

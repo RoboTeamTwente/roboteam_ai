@@ -16,7 +16,7 @@ namespace control {
 
 class PathPoint;
 class Collision;
-class NumTreePosControl : public PosController {
+class NumTreePosControl : public BasicPosControl {
     private:
         using InterfaceValues = interface::Output;
         using PathPointer = std::shared_ptr<PathPoint>;
@@ -31,6 +31,7 @@ class NumTreePosControl : public PosController {
         bool checkIfTargetMoved(double maxTargetDeviation, const Vector2 &targetPos);
         bool checkIfAtEndOfPath(double maxTargetDeviation, const Vector2 &targetPos);
         bool checkIfTooFarFromCurrentPath(double maxTargetDeviation, const Vector2 &vector2);
+        bool checkIfRobotWillCollideFollowingThisPath();
 
         RobotCommand computeCommand(const Vector2 &exactTargetPos);
 
@@ -48,6 +49,7 @@ class NumTreePosControl : public PosController {
 
         Collision currentCollisionWithRobot;
         Collision currentCollisionWithFinalTarget;
+        bool allowIllegalPositions = false;
 
         // new paths
         PathPointer computeNewPoint(const std::shared_ptr<PathPoint> &oldPoint, const Vector2 &subTarget);
@@ -69,10 +71,12 @@ class NumTreePosControl : public PosController {
         explicit NumTreePosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
 
         void clear();
-        RobotCommand getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) override;
-        RobotCommand getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos) override;
+        RobotCommand getRobotCommand(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) override;
+        RobotCommand getRobotCommand(const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle,
+                bool illegalPositions);
 
-        bool checkIfRobotWillCollideFollowingThisPath();
+        RobotCommand getRobotCommand(const RobotPtr &robot, const Vector2 &targetPos) override;
+
 };
 
 }

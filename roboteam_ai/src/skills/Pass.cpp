@@ -32,7 +32,7 @@ Pass::Status Pass::onUpdate() {
     bool closeToBall = (robot->pos - ball->pos).length() < CLOSE_ENOUGH_TO_BALL;
 
     if(!closeToBall && !passInitialized) {
-        auto robotCommand = robot->getNumtreePosControl()->getPosVelAngle(robot, ball->pos);
+        auto robotCommand = robot->getNumtreePosControl()->getRobotCommand(robot, ball->pos);
         command.x_vel = robotCommand.vel.x;
         command.y_vel = robotCommand.vel.y;
         command.w = robotCommand.angle;
@@ -79,7 +79,8 @@ Pass::Status Pass::onUpdate() {
             }
         }
 
-        auto shotdata = robot->getShotController()->getShotData(*robot, getKicker(), chip, control::BallSpeed::PASS, true, control::ShotPrecision::MEDIUM);
+        auto shotdata = robot->getShotController()->getPosVelAngle(*robot, getKicker(), chip, control::BallSpeed::PASS,
+                true, control::ShotPrecision::MEDIUM);
         command = shotdata.makeROSCommand();
         if ((command.kicker == true || command.chipper == true) && !hasShot) {
             hasShot = true;

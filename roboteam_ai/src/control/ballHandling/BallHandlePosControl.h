@@ -14,12 +14,11 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-class NumTreePosControl;
 class DribbleBackwards;
 class DribbleForwards;
 class RotateAroundBall;
 class RotateWithBall;
-class BallHandlePosControl {
+class BallHandlePosControl : public NumTreePosControl {
     private:
         using BallPtr = std::shared_ptr<world::Ball>;
         using RobotPtr = std::shared_ptr<world::Robot>;
@@ -28,7 +27,6 @@ class BallHandlePosControl {
         DribbleBackwards* dribbleBackwards;
         RotateWithBall* rotateWithBall;
         RotateAroundBall* rotateAroundBall;
-        NumTreePosControl* numTreePosControl;
 
         double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.0;
         double maxBackwardsVelocity = Constants::GRSIM() ? 0.3 : 0.8;
@@ -46,24 +44,28 @@ class BallHandlePosControl {
         Vector2 finalTargetPos;
         Angle targetAngle;
         Angle finalTargetAngle;
-        Angle lockedAngle;
+        Angle lockedAngle = 0;
 
         enum TravelStrategy : short {
           forwards,
           backwards,
           no_preference
         };
+        TravelStrategy preferredTravelStrategy = no_preference;
 
         // general functions
-        RobotCommand goToBall(bool ballIsFarFromTarget, TravelStrategy preferredTravelStrategy = no_preference);
+        RobotCommand goToBall(bool ballIsFarFromTarget);
     public:
         explicit BallHandlePosControl(bool canMoveInDefenseArea = false);
         ~BallHandlePosControl();
         void setMaxVelocity(double maxV);
         void setMaxForwardsVelocity(double maxV);
         void setMaxBackwardsVelocity(double maxV);
+        RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) override;
         RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA,
-                TravelStrategy preferredTravelStrategy = no_preference);
+                TravelStrategy travelStrategy);
+        RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP) override;
+
 };
 
 } //control

@@ -72,7 +72,7 @@ void ReflectKick::intercept() {
 
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
 
-    Vector2 velocities = robot->getNumtreePosControl()->getPosVelAngle(robot, interceptPoint).vel;
+    Vector2 velocities = robot->getNumtreePosControl()->getRobotCommand(robot, interceptPoint).vel;
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
     command.w = robotAngle;

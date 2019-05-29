@@ -16,9 +16,9 @@ class BasicPosControl : public PosController {
         void checkInterfacePID() override;
     public:
         BasicPosControl() = default;
-        explicit BasicPosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
-        RobotCommand getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) override;
-        RobotCommand getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos) override;
+        explicit BasicPosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
+        RobotCommand getRobotCommand(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) override;
+        RobotCommand getRobotCommand(const RobotPtr &robot, const Vector2 &targetPos) override;
 
 };
 

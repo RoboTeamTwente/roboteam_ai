@@ -77,7 +77,7 @@ bt::Node::Status GoToPos::onUpdate() {
         }
     }
     if (command.x_vel == 0 || command.y_vel == 0 || command.w == 0) {
-    auto robotCommand = posController->getPosVelAngle(robot, targetPos, targetAngle);
+    auto robotCommand = posController->getRobotCommand(robot, targetPos, targetAngle);
 
         // set robotcommands if they have not been set yet in gtpUpdate()
         command.x_vel = command.x_vel == 0 ? static_cast<float>(robotCommand.vel.x) : command.x_vel;

@@ -13,7 +13,8 @@ namespace ai {
 namespace control {
 
 /// return a ShotData (which contains data for robotcommands) for a specific robot to shoot at a specific target.
-RobotCommand ShotController::getShotData(world::Robot robot, const Vector2 &shotTarget, bool chip, BallSpeed ballspeed,
+RobotCommand ShotController::getPosVelAngle(world::Robot robot, const Vector2 &shotTarget, bool chip,
+        BallSpeed ballspeed,
         bool useAutoGeneva, ShotPrecision precision) {
     // we only allow the external command to change the target if we are not already shooting. Otherwise we use the previous command sent
     if (! isShooting) {
@@ -112,7 +113,7 @@ Vector2 ShotController::getPlaceBehindBall(world::Robot robot, Vector2 shotTarge
 RobotCommand ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition,
         std::pair<Vector2, Vector2> line) {
     auto ball = world::world->getBall();
-    auto shotData = robot.getNumtreePosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
+    auto shotData = robot.getNumtreePosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
             robotTargetPosition);
     //TODO: if (rotating to this angle from current angle will hit ball) then pva.angle=angle towards ball
     if ((robot.pos - robotTargetPosition).length() < 0.3) {
@@ -123,7 +124,7 @@ RobotCommand ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 rob
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 RobotCommand ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver) {
-    auto robotCommand = robot.getBasicPosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
+    auto robotCommand = robot.getBasicPosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
             lineToDriveOver.second);
     robotCommand.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
     RobotCommand shotData(robotCommand);
@@ -137,7 +138,7 @@ RobotCommand ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector
     auto ball = world::world->getBall();
 
     // move towards the ball
-    auto robotCommand = robot.getBasicPosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
+    auto robotCommand = robot.getBasicPosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
             driveLine.second);
     robotCommand.angle = (driveLine.second - driveLine.first).angle();
 
@@ -262,9 +263,10 @@ RobotCommand ShotController::moveAndShootGrSim(world::Robot robot, bool chip,
     return shotData;
 
 }
+
 RobotCommand ShotController::moveAndShoot(rtt::ai::world::Robot robot, bool chip,
         std::pair<Vector2, Vector2> lineToDriveOver, BallSpeed desiredBallSpeed) {
-    auto robotCommand = robot.getBasicPosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
+    auto robotCommand = robot.getBasicPosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
             lineToDriveOver.second);
     robotCommand.angle = (lineToDriveOver.second - lineToDriveOver.first).toAngle();
     RobotCommand shotData(robotCommand);

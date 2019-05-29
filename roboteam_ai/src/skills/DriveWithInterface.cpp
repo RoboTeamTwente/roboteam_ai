@@ -19,7 +19,7 @@ Skill::Status DriveWithInterface::onUpdate() {
     }
     Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
 
-    auto robotCommand = numTreeGtp.getPosVelAngle(robot, targetPos);
+    auto robotCommand = numTreeGtp.getRobotCommand(robot, targetPos);
     command.x_vel = static_cast<float>(robotCommand.vel.x);
     command.y_vel = static_cast<float>(robotCommand.vel.y);
     command.w = robotCommand.angle;
