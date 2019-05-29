@@ -477,6 +477,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"f4", robotType::RANDOM},
                     {"f5", robotType::RANDOM},
                     {"f6", robotType::RANDOM},
+                    {"f7", robotType::RANDOM}
             }
             },
             {"free_kick_shoot_tactic", {
@@ -487,6 +488,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"f4", robotType::RANDOM},
                     {"f5", robotType::RANDOM},
                     {"f6", robotType::RANDOM},
+                    {"f7", robotType::RANDOM}
             }
             },
             {"free_kick_them_tactic", {
@@ -496,7 +498,8 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"line2", robotType::RANDOM},
                     {"line4", robotType::RANDOM},
                     {"line5", robotType::RANDOM},
-                    {"line3", robotType::RANDOM}
+                    {"line3", robotType::RANDOM},
+                    {"line8", robotType::RANDOM}
             }
             },
             {"penalty_them_tactic", {
@@ -507,6 +510,8 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"a5", robotType::RANDOM},
                     {"a6", robotType::RANDOM},
                     {"a7", robotType::RANDOM},
+                    {"a8", robotType::RANDOM}
+
             }
             },
             {"normal_play_defense_tactic",

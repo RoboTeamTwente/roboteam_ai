@@ -9,6 +9,8 @@
 #include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
 #include <roboteam_utils/Vector2.h>
 #include <roboteam_utils/Angle.h>
+#include "../coach/midField/MidFieldCoach.h"
+#include <roboteam_ai/src/interface/api/Input.h>
 
 namespace rtt {
 namespace ai {
@@ -17,7 +19,6 @@ class MidFieldHarasser : public Skill {
 private:
     const double HARASSING_SAFETY_MARGINS = 1.0;
     Vector2 targetPos;
-    int myIndex = - 1;
     int robotBeingHarassed;
     Vector2 getHarassTarget();
     Angle getHarassAngle();
