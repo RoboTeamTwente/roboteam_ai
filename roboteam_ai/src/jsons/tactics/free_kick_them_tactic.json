@@ -74,6 +74,18 @@
             "role": "defend_free_kick_role",
             "title": "Role"
           },
+          "eh9g5gw6ak5vzbxh": {
+            "children": [
+              "n3155z6k1ur6le05"
+            ],
+            "id": "eh9g5gw6ak5vzbxh",
+            "name": "defend_free_kick_role",
+            "properties": {
+              "ROLE": "line8"
+            },
+            "role": "defend_free_kick_role",
+            "title": "Role"
+          },
           "ivar5ff1j6i2o": {
             "id": "ivar5ff1j6i2o",
             "properties": {
@@ -93,6 +105,13 @@
             "role": "defend_free_kick_role",
             "title": "Role"
           },
+          "n3155z6k1ur6le05": {
+            "id": "n3155z6k1ur6le05",
+            "properties": {
+              "ROLE": "line8"
+            },
+            "title": "DefendFreeKick"
+          },
           "pto0sscqulqlf1j": {
             "children": [
               "cdwojevc9jqw58wzg",
@@ -101,7 +120,8 @@
               "wxrp48esurdw122",
               "0zo8m65orj0j2eg",
               "z7r0uta7q2bq34gii",
-              "k3d4rs92y507akni"
+              "k3d4rs92y507akni",
+              "eh9g5gw6ak5vzbxh"
             ],
             "id": "pto0sscqulqlf1j",
             "properties": {
