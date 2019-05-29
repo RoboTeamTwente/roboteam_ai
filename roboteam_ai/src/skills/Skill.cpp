@@ -3,6 +3,7 @@
 #include "../utilities/RobotDealer.h"
 #include "roboteam_ai/src/world/Robot.h"
 #include "roboteam_ai/src/world/Ball.h"
+#include <cmath>
 
 namespace rtt {
 namespace ai {
@@ -23,7 +24,7 @@ void Skill::publishRobotCommand() {
     }
     limitRobotCommand();
 
-    if (isnan(command.x_vel) || isnan(command.y_vel)) {
+    if (std::isnan(command.x_vel) || std::isnan(command.y_vel)) {
         std::cout << "ERROR: x or y vel in command is NAN in Skill " << node_name().c_str() << "!" << std::endl;
     }
     if (command.id == -1) {
