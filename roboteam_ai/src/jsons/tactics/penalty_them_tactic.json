@@ -75,7 +75,8 @@
               "8xjqvez5at96t2y",
               "l2ctvnp6uzck07d",
               "dlru5b7cp01rux2k",
-              "wlhhhrigwk7vz"
+              "wlhhhrigwk7vz",
+              "zthtbtgr25ld2jsg"
             ],
             "id": "et271vmu8pmeglwpf",
             "properties": {
@@ -119,6 +120,14 @@
             "role": "penalty_them_role",
             "title": "Role"
           },
+          "p80uqgqn5dodua27": {
+            "id": "p80uqgqn5dodua27",
+            "properties": {
+              "Offensive": "false",
+              "ROLE": "a8"
+            },
+            "title": "PenaltyFormation"
+          },
           "sp69n0pl8skw25awe": {
             "id": "sp69n0pl8skw25awe",
             "properties": {
@@ -155,6 +164,18 @@
             "name": "a7",
             "properties": {
               "ROLE": "a7"
+            },
+            "role": "penalty_them_role",
+            "title": "Role"
+          },
+          "zthtbtgr25ld2jsg": {
+            "children": [
+              "p80uqgqn5dodua27"
+            ],
+            "id": "zthtbtgr25ld2jsg",
+            "name": "penalty_them_role",
+            "properties": {
+              "ROLE": "a8"
             },
             "role": "penalty_them_role",
             "title": "Role"

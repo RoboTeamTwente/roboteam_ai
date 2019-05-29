@@ -510,6 +510,8 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"a5", robotType::RANDOM},
                     {"a6", robotType::RANDOM},
                     {"a7", robotType::RANDOM},
+                    {"a8", robotType::RANDOM}
+
             }
             },
             {"normal_play_defense_tactic",

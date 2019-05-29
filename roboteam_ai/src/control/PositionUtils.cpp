@@ -164,8 +164,9 @@ std::vector<Vector2> PositionUtils::getDefendPenaltyPositions(int number) {
 
     Vector2 atk1 = {0, 0.5};
     Vector2 atk2 = {0, -0.5};
+    Vector2 atk3 = {0, 0};
 
-    std::vector<Vector2> temp = {lineBegin, line3, line2, line4, line5, atk1, atk2};
+    std::vector<Vector2> temp = {lineBegin, line3, line2, line4, line5, atk1, atk2, atk3};
 
     std::vector<Vector2> res;
     for (int i = 0; i < number; i ++) {
