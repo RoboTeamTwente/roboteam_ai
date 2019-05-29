@@ -95,27 +95,42 @@ MidFieldCoach::Target MidFieldCoach::harassRobot(const RobotPtr &thisRobot, cons
     Target target;
     target.targetRobot = opponent->id;
     if (opponent->vel.length() < MIN_OPPONENT_VELOCITY) {
-        if(harassType == HARASS_DEFENSIVE) {
-            target.targetPosition = opponent->pos - Vector2{DEFAULT_HARASS_DISTANCE, 0};
+        target = harassSlowRobot(opponent, harassType, target);
+    } else {
+        target = harassFastRobot(thisRobot, opponent, target);
+
+    }
+    return target;
+}
+
+MidFieldCoach::Target &
+MidFieldCoach::harassFastRobot(const MidFieldCoach::RobotPtr &thisRobot, const MidFieldCoach::RobotPtr &opponent,
+                               MidFieldCoach::Target &target) const {
+    Vector2 futureOpponentPos = opponent->pos + opponent->vel * HARASSER_SECONDS_AHEAD;
+    Vector2 projectionPoint = thisRobot->pos.project(opponent->pos, futureOpponentPos);
+
+    // Check if the projection is actually between the opponent and it's future position
+    // If not, move to the future position
+    if (control::ControlUtils::isPointProjectedOnLineSegment(projectionPoint, opponent->pos,
+                                                             futureOpponentPos)) {
+        if ((projectionPoint - thisRobot->pos).length() < STAND_STILL_DISTANCE) {
+            target.targetPosition = thisRobot->pos;
         } else {
-            target.targetPosition = opponent->pos + Vector2{DEFAULT_HARASS_DISTANCE, 0};
+            target.targetPosition = projectionPoint;
         }
     } else {
-        Vector2 futureOpponentPos = opponent->pos + opponent->vel * HARASSER_SECONDS_AHEAD;
-        Vector2 projectionPoint = thisRobot->pos.project(opponent->pos, futureOpponentPos);
+        target.targetPosition = futureOpponentPos;
+    }
+    return target;
+}
 
-        // Check if the projection is actually between the opponent and it's future position
-        // If not, move to the future position
-        if (control::ControlUtils::isPointProjectedOnLineSegment(projectionPoint, opponent->pos,
-                                                                 futureOpponentPos)) {
-            if ((projectionPoint - thisRobot->pos).length() < STAND_STILL_DISTANCE) {
-                target.targetPosition = thisRobot->pos;
-            } else {
-                target.targetPosition = projectionPoint;
-            }
-        } else {
-            target.targetPosition = futureOpponentPos;
-        }
+MidFieldCoach::Target &
+MidFieldCoach::harassSlowRobot(const MidFieldCoach::RobotPtr &opponent, const MidFieldCoach::HarassType &harassType,
+                               MidFieldCoach::Target &target) const {
+    if (harassType == HARASS_DEFENSIVE) {
+        target.targetPosition = opponent->pos - Vector2{DEFAULT_HARASS_DISTANCE, 0};
+    } else {
+        target.targetPosition = opponent->pos + Vector2{DEFAULT_HARASS_DISTANCE, 0};
     }
     return target;
 }
@@ -129,13 +144,7 @@ MidFieldCoach::RobotPtr MidFieldCoach::findRobotToHarass(const RobotPtr& thisRob
         // If opponent is not valid, ignore it
         if (!validOpponent(opponent)) continue;
 
-        bool alreadyBeingHarassed =false;
-        for(const auto &currentOpponent : targetRobotsToHarass) {
-            if (opponent->id == currentOpponent.second->id) {
-                alreadyBeingHarassed = true;
-                break;
-            }
-        }
+        bool alreadyBeingHarassed = isRobotAlreadyBeingHarassed(opponent);
 
         if(!alreadyBeingHarassed) {
             double distance = (opponent->pos - thisRobot->pos).length();
@@ -147,6 +156,17 @@ MidFieldCoach::RobotPtr MidFieldCoach::findRobotToHarass(const RobotPtr& thisRob
     }
 
     return closestRobot;
+}
+
+bool MidFieldCoach::isRobotAlreadyBeingHarassed(const world::World::RobotPtr &opponent) const {
+    bool alreadyBeingHarassed = false;
+    for (const auto &currentOpponent : targetRobotsToHarass) {
+        if (opponent->id == currentOpponent.second->id) {
+            alreadyBeingHarassed = true;
+            break;
+        }
+    }
+    return alreadyBeingHarassed;
 }
 
 MidFieldCoach::Target MidFieldCoach::standFree(const RobotPtr &thisRobot) {
@@ -163,22 +183,7 @@ MidFieldCoach::HarassType MidFieldCoach::getHarassType(const RobotPtr& thisRobot
 
     // Check if the opponent is left of us (is being offensive)
     if (opponent->pos.x < thisRobot->pos.x) {
-
-        // Check if ball is on our left
-        if (ball->pos.x < thisRobot->pos.x) {
-            if(possession == BallPossession::OURBALL) {
-                return STAND_FREE;
-            } else {
-                return HARASS_DEFENSIVE;
-            }
-            // Else, the ball is on our right
-        } else {
-            if(ballPossession.getPossession() == BallPossession::OURBALL) {
-                return HARASS_OFFENSIVE;
-            } else {
-                return BLOCK_PASS;
-            }
-        }
+        return getHarassTypeIfOpponentIsOnTheLeft(thisRobot, ball, ballPossession, possession);
 
         // Else, the opponent is on our right (being defensive or about to offend)
     } else {
@@ -186,6 +191,26 @@ MidFieldCoach::HarassType MidFieldCoach::getHarassType(const RobotPtr& thisRobot
             return HARASS_OFFENSIVE;
         } else {
             return HARASS_DEFENSIVE;
+        }
+    }
+}
+
+MidFieldCoach::HarassType MidFieldCoach::getHarassTypeIfOpponentIsOnTheLeft(const MidFieldCoach::RobotPtr &thisRobot,
+                                                                                    const world::World::BallPtr &ball,
+                                                                                    BallPossession &ballPossession,
+                                                                                    const BallPossession::Possession &possession) const {
+    if (ball->pos.x < thisRobot->pos.x) {
+        if (possession == BallPossession::OURBALL) {
+            return STAND_FREE;
+        } else {
+            return HARASS_DEFENSIVE;
+        }
+        // Else, the ball is on our right
+    } else {
+        if (ballPossession.getPossession() == BallPossession::OURBALL) {
+            return HARASS_OFFENSIVE;
+        } else {
+            return BLOCK_PASS;
         }
     }
 }
