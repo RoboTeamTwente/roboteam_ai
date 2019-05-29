@@ -30,6 +30,7 @@ void BasicPosControl::checkInterfacePID() {
     auto newPid = interface::Output::getBasicPid();
     updatePid(newPid);
 }
+
 RobotCommand BasicPosControl::getPosVelAngle(const PosController::RobotPtr &robot, const Vector2 &targetPos) {
     return PosController::getPosVelAngle(robot, targetPos);
 }

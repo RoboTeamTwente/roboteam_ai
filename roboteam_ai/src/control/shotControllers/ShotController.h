@@ -47,7 +47,7 @@ class ShotController {
         Vector2 getPlaceBehindBall(world::Robot robot,
                 Vector2 shotTarget); // the params are the position for the robot and the geneva angle
         int determineOptimalGenevaState(world::Robot robot, Vector2 shotTarget);
-        bool onLineToBall(const world::Robot &robot, std::pair<Vector2, Vector2> line, ShotPrecision precision);
+        bool onLineToBall(const world::Robot &robot, const std::pair<Vector2, Vector2>& line, ShotPrecision precision);
         bool robotAngleIsGood(world::Robot &robot, std::pair<Vector2, Vector2> lineToDriveOver,
                 ShotPrecision precision);
         double determineKickForce(double distance, BallSpeed desiredBallSpeed);
@@ -67,9 +67,8 @@ class ShotController {
 
     public:
         explicit ShotController() = default;
-        RobotCommand getShotData(world::Robot robot, Vector2 shotTarget, bool chip = false,
+        RobotCommand getShotData(world::Robot robot, const Vector2& shotTarget, bool chip = false,
                 BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true, ShotPrecision precision = MEDIUM);
-        void makeCommand(RobotCommand data, roboteam_msgs::RobotCommand &command);
         void setGenevaDelay(int genevaDifference);
 };
 

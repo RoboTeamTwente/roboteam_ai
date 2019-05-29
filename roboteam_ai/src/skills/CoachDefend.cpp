@@ -18,8 +18,6 @@ bt::Node::Status CoachDefend::onUpdate() {
     coach::g_DefenceDealer.addDefender(robot->id);
     auto targetLocation = coach::g_DefenceDealer.getDefenderPosition(robot->id);
     if (! targetLocation) {
-//        std::cerr << "Could not find the location of defender " << robot->id << " in calculated positions!"
-//                  << std::endl;
         command.x_vel = 0;
         command.y_vel = 0;
         command.w=0;
@@ -36,7 +34,7 @@ bt::Node::Status CoachDefend::onUpdate() {
     else {
         command.x_vel = static_cast<float>(velocities.vel.x);
         command.y_vel = static_cast<float>(velocities.vel.y);
-        if ((targetLocation->first - robot->pos).length() < 0.09) {
+        if ((targetLocation->first - robot->pos).length() < 2*Constants::ROBOT_RADIUS()) {
             command.w = static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second));
         }
         else {

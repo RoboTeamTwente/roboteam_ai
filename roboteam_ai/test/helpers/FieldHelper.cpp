@@ -23,18 +23,17 @@ namespace testhelpers {
 void FieldHelper::addDefenseAreas(roboteam_msgs::GeometryFieldSize &field, double defenseAreaWidth, double defenseAreaDepth) {
     field.top_right_penalty_stretch.begin = rtt::Vector2{field.field_length / 2 - defenseAreaDepth, defenseAreaWidth / 2};
     field.top_right_penalty_stretch.end = rtt::Vector2{field.field_length / 2, defenseAreaWidth / 2};
-    field.bottom_right_penalty_stretch.begin = field.top_right_penalty_stretch.begin;
+    field.bottom_right_penalty_stretch.begin =  rtt::Vector2{field.field_length / 2 - defenseAreaDepth, -defenseAreaWidth / 2};
     field.bottom_right_penalty_stretch.end = rtt::Vector2{field.field_length / 2, -defenseAreaWidth / 2};
+    field.right_penalty_line.begin=rtt::Vector2{field.field_length / 2 - defenseAreaDepth, -defenseAreaWidth / 2};
+    field.right_penalty_line.end=rtt::Vector2{field.field_length / 2 - defenseAreaDepth, defenseAreaWidth / 2};
 
-    field.top_left_penalty_stretch.begin = rtt::Vector2{-field.field_length / 2 - defenseAreaDepth, defenseAreaWidth / 2};
-    field.top_left_penalty_stretch.end = rtt::Vector2{-field.field_length / 2, defenseAreaWidth / 2};
-    field.bottom_left_penalty_stretch.begin = field.top_left_penalty_stretch.begin;
+    field.top_left_penalty_stretch.begin = rtt::Vector2{-field.field_length / 2 + defenseAreaDepth, defenseAreaWidth / 2};
+    field.top_left_penalty_stretch.end =rtt::Vector2{-field.field_length / 2, defenseAreaWidth / 2};
+    field.bottom_left_penalty_stretch.begin = rtt::Vector2{-field.field_length / 2 + defenseAreaDepth, - defenseAreaWidth / 2};
     field.bottom_left_penalty_stretch.end = rtt::Vector2{-field.field_length / 2, -defenseAreaWidth / 2};
-
-    field.left_penalty_line.begin = rtt::Vector2{(-field.field_length / 2) + defenseAreaDepth, defenseAreaWidth/2};
-    field.left_penalty_line.end = rtt::Vector2{(-field.field_length / 2) + defenseAreaDepth, -defenseAreaWidth/2};
-    field.right_penalty_line.begin = rtt::Vector2{(field.field_length / 2) - defenseAreaDepth, defenseAreaWidth/2};
-    field.right_penalty_line.end = rtt::Vector2{(field.field_length / 2) - defenseAreaDepth, -defenseAreaWidth/2};
+    field.left_penalty_line.begin=rtt::Vector2{-field.field_length / 2 + defenseAreaDepth, -defenseAreaWidth / 2};
+    field.left_penalty_line.end=rtt::Vector2{-field.field_length / 2 + defenseAreaDepth, defenseAreaWidth / 2};
 }
 
 void FieldHelper::addCenterArc(roboteam_msgs::GeometryFieldSize &field, double radius) {

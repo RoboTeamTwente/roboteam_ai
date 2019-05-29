@@ -33,12 +33,9 @@ RobotCommand NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
     double goToTimeInFuture = 0.4;
     auto targetPathPoint = static_cast<unsigned long>(goToTimeInFuture/DT);
     if (path.size() < targetPathPoint) {
-        Vector2 deltaPos = exactTargetPos - robot->pos;
-        PathPoint pathPoint = PathPoint();
-        pathPoint.pos = robot->pos;
         target.pos = exactTargetPos;
-        target.vel = deltaPos.stretchToLength(pathPoint.maxVel());
-        target.angle = deltaPos.toAngle();
+        target.vel = exactTargetPos - robot->pos;
+        target.angle = target.vel.toAngle();
         return target;
     }
 
@@ -58,7 +55,7 @@ RobotCommand NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
 RobotCommand NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle) {
 
-    DT = 0.2/rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
+    DT = 0.3/rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
     if (DT > 0.2) DT = 0.2;
     if (DT < 0.05) DT = 0.05;
 
@@ -67,6 +64,7 @@ RobotCommand NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr,
 
     // make a copy of the robot
     robot = robotPtr->copy();
+    finalTargetPos = targetPos;
 
     // Check if the current path is still valid, if not, recalculate
     ros::Time begin = ros::Time::now();
@@ -78,7 +76,6 @@ RobotCommand NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr,
                 std::cout << "ROBOT " << robot->id << ": is moving too fast, check world_state?" << std::endl;
         }
         else {
-            finalTargetPos = targetPos;
             // Calculate new path
             tracePath();
             if (path.empty()) {
@@ -110,7 +107,7 @@ RobotCommand NumTreePosControl::getPosVelAngle(const RobotPtr &robotPtr,
     if (! nicePath) {
         path.clear();
     }
-    RobotCommand command = computeCommand(targetPos);
+    RobotCommand command = computeCommand(finalTargetPos);
     return controlWithPID(robotPtr, command);
 }
 
@@ -475,7 +472,7 @@ bool NumTreePosControl::checkEmptyPath() {
 
 bool NumTreePosControl::checkIfTargetMoved(double maxTargetDeviation, const Vector2 &targetPos) {
     // if the target moved too much
-    if ((finalTargetPos - targetPos).length() > maxTargetDeviation) {
+    if ((finalTargetPos - targetPos).length2() > maxTargetDeviation*maxTargetDeviation) {
         if (InterfaceValues::showFullDebugNumTreeInfo()) {
             std::cout << "ROBOT " << robot->id << ": target moved too much, recalculating" << std::endl;
         }

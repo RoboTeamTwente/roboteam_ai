@@ -81,7 +81,7 @@ double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2 &p
     for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point, data, id, ourTeam)) {
         blockadeLength += blockade.first.dist(blockade.second);
     }
-    return std::max(100 - round(blockadeLength/goalWidth*100), 0.0);
+    return std::max(100 - blockadeLength/goalWidth*100, 0.0);
 }
 
 std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, const Vector2 &point,
@@ -89,8 +89,9 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
     const double robotRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
 
     Vector2 lowerGoalSide, upperGoalSide;
-    lowerGoalSide = getGoalSides(ourGoal).first;
-    upperGoalSide = getGoalSides(ourGoal).second;
+    auto sides=getGoalSides(ourGoal);
+    lowerGoalSide = sides.first;
+    upperGoalSide = sides.second;
 
     std::vector<std::pair<Vector2, Vector2>> blockades = {};
 
@@ -227,8 +228,9 @@ std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGo
         const WorldData &data) {
     auto blockades = getBlockadesMappedToGoal(ourGoal, point, data);
 
-    auto lower = getGoalSides(ourGoal).first;
-    auto upper = getGoalSides(ourGoal).second;
+    auto sides=getGoalSides(ourGoal);
+    auto lower = sides.first;
+    auto upper =sides.second;
 
     auto lowerHook = lower;
     std::vector<std::pair<Vector2, Vector2>> visibleParts = {};
