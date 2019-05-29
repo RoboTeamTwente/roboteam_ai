@@ -223,7 +223,6 @@ void RobotDealer::removeTactic(std::string tacticName) {
             return;
         }
     }
-    std::cerr << "Cannot remove tactic the tactic does not exist:  " << tacticName << std::endl;
 }
 std::set<int> RobotDealer::findRobotsForTactic(std::string tacticName) {
 
