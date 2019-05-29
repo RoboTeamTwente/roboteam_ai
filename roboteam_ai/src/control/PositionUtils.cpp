@@ -109,13 +109,14 @@ std::vector<Vector2> PositionUtils::getFreeKickPositions(int number) {
 
     Vector2 def1 = {penaltyUs.x + lengthOffset/3.0, penaltyUs.y + widthOffset/1.5};
     Vector2 def2 = {penaltyUs.x + lengthOffset/3.0, - (penaltyUs.y + widthOffset/1.5)};
+    Vector2 def3 = {penaltyUs.x, penaltyUs.y + widthOffset/1.5};
 
 
     Vector2 line1 = {penaltyThem.x - (lengthOffset/3.0), (penaltyThem.y + widthOffset)*ballPosMultiplier};
     Vector2 line2 = line1 + lineProgress;
     Vector2 line3 = line2 + lineProgress;
 
-    std::vector<Vector2> temp = {line1, def1, def2, line2, line3};
+    std::vector<Vector2> temp = {line1, def1, def2, line2, line3, def3};
     std::vector<Vector2> res;
     for (int i = 0; i < number; i ++) {
         if (temp.size() > i) {
@@ -142,8 +143,9 @@ std::vector<Vector2> PositionUtils::getDefendFreeKick(int number) {
     Vector2 def2 = {penaltyUs.x + lengthOffset, - (penaltyUs.y + widthOffset/2.0)};
     Vector2 def3 = def1 + (def2-def1).stretchToLength((def2-def1).length()/3.0);
     Vector2 def4 = (def2-def3).stretchToLength((def2-def3).length()/2.0) + def3;
+    Vector2 def5 = {penaltyUs.x + lengthOffset*1.3, penaltyUs.y};
 
-    std::vector<Vector2> temp = {lineBegin, def1, line3, def2, line2, def3, def4};
+    std::vector<Vector2> temp = {lineBegin, def1, line3, def2, line2, def3, def4, def5};
 
     std::vector<Vector2> res;
     for (int i = 0; i < number; i ++) {
@@ -162,8 +164,9 @@ std::vector<Vector2> PositionUtils::getDefendPenaltyPositions(int number) {
 
     Vector2 atk1 = {0, 0.5};
     Vector2 atk2 = {0, -0.5};
+    Vector2 atk3 = {0, 0};
 
-    std::vector<Vector2> temp = {lineBegin, line3, line2, line4, line5, atk1, atk2};
+    std::vector<Vector2> temp = {lineBegin, line3, line2, line4, line5, atk1, atk2, atk3};
 
     std::vector<Vector2> res;
     for (int i = 0; i < number; i ++) {
