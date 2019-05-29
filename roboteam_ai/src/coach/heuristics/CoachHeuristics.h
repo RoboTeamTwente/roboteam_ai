@@ -38,7 +38,7 @@ class CoachHeuristics {
 
         /// Currently not implemented, but might be again later
         static double calculateDistanceToOpponentsScore(const Vector2 &position);
-        static double calculateDistanceToClosestTeamMateScore(const Vector2 &position);
+        static double calculateDistanceToClosestTeamMateScore(const Vector2 &position, int thisRobotID = -1);
         static double getClosestOpponentAngleToPassLine(const Vector2 &position, const WorldData &world,
                 double smallestAngle = DBL_MAX);
 };

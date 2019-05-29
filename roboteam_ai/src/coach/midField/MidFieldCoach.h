@@ -24,7 +24,7 @@ class MidFieldCoach {
         const double DEFAULT_HARASS_DISTANCE = 4 * Constants::ROBOT_RADIUS();
 
         const double GRID_RADIUS = 2;
-        const double GRID_SIZE = 0.2;
+        const double GRID_SIZE = 0.05;
 
         int tick = 0;
 
@@ -57,7 +57,7 @@ class MidFieldCoach {
         harassRobot(const RobotPtr &thisRobot, const RobotPtr &opponent, HarassType harassType) const;
         Target blockPass(const RobotPtr &thisRobot, const RobotPtr &opponent, const BallPtr &ball) const;
         Vector2 calculateNewRobotPosition(const RobotPtr &thisRobot);
-        double calculateStandingFreeScore(Vector2 position);
+        double calculateStandingFreeScore(const Vector2& position, const RobotPtr &thisRobot);
     public:
         void addMidFielder(RobotPtr &thisRobot);
         void removeMidFielder(RobotPtr &thisRobot);
