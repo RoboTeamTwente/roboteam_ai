@@ -91,7 +91,6 @@ void Skill::refreshRobotCommand() {
 
 /// Velocity and acceleration limiters used on command
 void Skill::limitRobotCommand() {
-
     auto limitedVel = Vector2(command.x_vel, command.y_vel);
     limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
     limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w);
