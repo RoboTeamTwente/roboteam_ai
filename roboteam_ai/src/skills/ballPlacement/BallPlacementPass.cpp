@@ -60,10 +60,10 @@ bt::Node::Status BallPlacementPass::onUpdate() {
             auto shotData = robot->getShotController()->getShotData(*robot, getKicker(), false);
             command = shotData.makeROSCommand();
         } else if (robot->pos.dist(ball->pos) > 0.5) {
-            auto pva = robot->getNumtreePosControl()->getPosVelAngle(robot, ball->pos);
-            command.x_vel = pva.vel.x;
-            command.y_vel = pva.vel.y;
-            command.w = pva.angle;
+            auto robotCommand = robot->getNumtreePosControl()->getPosVelAngle(robot, ball->pos);
+            command.x_vel = robotCommand.vel.x;
+            command.y_vel = robotCommand.vel.y;
+            command.w = robotCommand.angle;
             // empty command
         } else {
             command.w = (ball->pos - robot->pos).angle();

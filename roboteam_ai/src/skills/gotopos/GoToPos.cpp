@@ -77,12 +77,12 @@ bt::Node::Status GoToPos::onUpdate() {
         }
     }
     if (command.x_vel == 0 || command.y_vel == 0 || command.w == 0) {
-    auto pva = posController->getPosVelAngle(robot, targetPos, targetAngle);
+    auto robotCommand = posController->getPosVelAngle(robot, targetPos, targetAngle);
 
         // set robotcommands if they have not been set yet in gtpUpdate()
-        command.x_vel = command.x_vel == 0 ? static_cast<float>(pva.vel.x) : command.x_vel;
-        command.y_vel = command.y_vel == 0 ? static_cast<float>(pva.vel.y) : command.y_vel;
-        command.w = command.w == 0 ? static_cast<float>(pva.angle) : command.w;
+        command.x_vel = command.x_vel == 0 ? static_cast<float>(robotCommand.vel.x) : command.x_vel;
+        command.y_vel = command.y_vel == 0 ? static_cast<float>(robotCommand.vel.y) : command.y_vel;
+        command.w = command.w == 0 ? static_cast<float>(robotCommand.angle) : command.w;
     }
 
     publishRobotCommand();

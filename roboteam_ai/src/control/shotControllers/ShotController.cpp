@@ -123,10 +123,10 @@ RobotCommand ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 rob
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 RobotCommand ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver) {
-    auto pva = robot.getBasicPosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
+    auto robotCommand = robot.getBasicPosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
             lineToDriveOver.second);
-    pva.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
-    RobotCommand shotData(pva);
+    robotCommand.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
+    RobotCommand shotData(robotCommand);
     return shotData;
 }
 
@@ -137,11 +137,11 @@ RobotCommand ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector
     auto ball = world::world->getBall();
 
     // move towards the ball
-    auto pva = robot.getBasicPosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
+    auto robotCommand = robot.getBasicPosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
             driveLine.second);
-    pva.angle = (driveLine.second - driveLine.first).angle();
+    robotCommand.angle = (driveLine.second - driveLine.first).angle();
 
-    RobotCommand shotData(pva);
+    RobotCommand shotData(robotCommand);
 
     // set the kicker and kickforce
     if (chip) {
@@ -264,10 +264,10 @@ RobotCommand ShotController::moveAndShootGrSim(world::Robot robot, bool chip,
 }
 RobotCommand ShotController::moveAndShoot(rtt::ai::world::Robot robot, bool chip,
         std::pair<Vector2, Vector2> lineToDriveOver, BallSpeed desiredBallSpeed) {
-    auto pva = robot.getBasicPosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
+    auto robotCommand = robot.getBasicPosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
             lineToDriveOver.second);
-    pva.angle = (lineToDriveOver.second - lineToDriveOver.first).toAngle();
-    RobotCommand shotData(pva);
+    robotCommand.angle = (lineToDriveOver.second - lineToDriveOver.first).toAngle();
+    RobotCommand shotData(robotCommand);
     auto ball = world::world->getBall();
     if (chip) {
         shotData.chipper = true;

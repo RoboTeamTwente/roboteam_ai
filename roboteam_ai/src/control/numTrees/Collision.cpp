@@ -21,6 +21,7 @@ std::string Collision::collisionTypeToString() {
         break;
     case Collision::NO_COLLISION: s = "NO COLLISION?!?";
         break;
+    default: s = "ERROR! CollisionType does not exist";
     }
     return s;
 }

@@ -19,10 +19,10 @@ Skill::Status DriveWithInterface::onUpdate() {
     }
     Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
 
-    auto pva = numTreeGtp.getPosVelAngle(robot, targetPos);
-    command.x_vel = static_cast<float>(pva.vel.x);
-    command.y_vel = static_cast<float>(pva.vel.y);
-    command.w = pva.angle;
+    auto robotCommand = numTreeGtp.getPosVelAngle(robot, targetPos);
+    command.x_vel = static_cast<float>(robotCommand.vel.x);
+    command.y_vel = static_cast<float>(robotCommand.vel.y);
+    command.w = robotCommand.angle;
     publishRobotCommand();
     return Status::Running;
 }

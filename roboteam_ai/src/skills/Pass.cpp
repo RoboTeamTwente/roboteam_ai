@@ -32,10 +32,10 @@ Pass::Status Pass::onUpdate() {
     bool closeToBall = (robot->pos - ball->pos).length() < CLOSE_ENOUGH_TO_BALL;
 
     if(!closeToBall && !passInitialized) {
-        auto pva = robot->getNumtreePosControl()->getPosVelAngle(robot, ball->pos);
-        command.x_vel = pva.vel.x;
-        command.y_vel = pva.vel.y;
-        command.w = pva.angle;
+        auto robotCommand = robot->getNumtreePosControl()->getPosVelAngle(robot, ball->pos);
+        command.x_vel = robotCommand.vel.x;
+        command.y_vel = robotCommand.vel.y;
+        command.w = robotCommand.angle;
         publishRobotCommand();
         return Status::Running;
 
