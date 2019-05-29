@@ -147,7 +147,7 @@ TEST(defensive_coach,complete) {
         }
         g_DefenceDealer.updateDefenderLocations();
         for (const auto& robot: w::world->getUs()){
-            EXPECT_NE(g_DefenceDealer.getDefenderPosition(robot->id),nullptr);
+            EXPECT_TRUE(g_DefenceDealer.getDefenderPosition(robot->id));
         }
     }
 }
@@ -155,4 +155,3 @@ TEST(defensive_coach,complete) {
 }
 }
 }
-
