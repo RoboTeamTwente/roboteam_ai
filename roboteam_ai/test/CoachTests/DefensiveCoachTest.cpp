@@ -147,7 +147,12 @@ TEST(defensive_coach,complete) {
         }
         g_DefenceDealer.updateDefenderLocations();
         for (const auto& robot: w::world->getUs()){
-            EXPECT_TRUE(g_DefenceDealer.getDefenderPosition(robot->id));
+
+            bool exists = false;
+            if(g_DefenceDealer.getDefenderPosition(robot->id)) {
+                exists = true;
+            }
+            EXPECT_TRUE(exists);
         }
     }
 }
