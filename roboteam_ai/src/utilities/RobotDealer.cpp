@@ -128,7 +128,6 @@ int RobotDealer::claimRobotForTactic(RobotType feature, std::string roleName, st
                 id = world::world->getRobotClosestToPoint(rtt::ai::coach::g_ballPlacement.getBallPlacementPos(), idVector, true)->id;
 
                 // force the pass coach to use this receiver
-                std::cout << "RobotDealer terminates pass" << std::endl;
                 rtt::ai::coach::g_pass.resetPass(-1);
                 rtt::ai::coach::g_pass.setRobotBeingPassedTo(id);
 
