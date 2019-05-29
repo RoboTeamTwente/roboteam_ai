@@ -210,7 +210,7 @@ double MidFieldCoach::calculateStandingFreeScore(const Vector2& position, const 
 Vector2 MidFieldCoach::calculateNewRobotPosition(const RobotPtr &thisRobot) {
 
     Vector2 bestPosition = targetPositions[thisRobot->id];
-    double highestScore = calculateStandingFreeScore(bestPosition);
+    double highestScore = calculateStandingFreeScore(bestPosition, thisRobot);
 
     Angle goldenAngle = 0.01;
     tick++;
@@ -225,7 +225,7 @@ Vector2 MidFieldCoach::calculateNewRobotPosition(const RobotPtr &thisRobot) {
 
     for (const auto& position : positions) {
         if(!world::field->pointIsInField(position, 0.20) || abs(position.x) > DISTANCE_FROM_MIDDLE_LINE) continue;
-        double score = calculateStandingFreeScore(position);
+        double score = calculateStandingFreeScore(position, thisRobot);
         if (score > highestScore) {
             highestScore = score;
             bestPosition = position;

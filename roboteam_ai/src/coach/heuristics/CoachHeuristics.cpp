@@ -86,7 +86,14 @@ double CoachHeuristics::calculateDistanceToBallScore(const Vector2 &position, co
 }
 
 double CoachHeuristics::calculateDistanceToClosestTeamMateScore(const Vector2 &position, int thisRobotID) {
-    RobotPtr closestRobot = world::world->getRobotClosestToPoint(position, world::WhichRobots::OUR_ROBOTS);
+    std::vector<int> idVector;
+    for(auto &robot : world::world->getUs()) {
+        if(robot->id != thisRobotID) {
+            idVector.emplace_back(robot->id);
+        }
+    }
+
+    RobotPtr closestRobot = world::world->getRobotClosestToPoint(position, idVector, true);
     if (closestRobot && closestRobot->id != - 1) {
         double distance = (position - closestRobot->pos).length();
         return 1 - exp(DISTANCE_TO_US_WEIGHT*distance);
