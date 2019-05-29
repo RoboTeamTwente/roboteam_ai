@@ -172,7 +172,7 @@ bool MidFieldCoach::isRobotAlreadyBeingHarassed(const world::World::RobotPtr &op
 MidFieldCoach::Target MidFieldCoach::standFree(const RobotPtr &thisRobot) {
     Target target;
     target.targetRobot = -1;
-    target.targetPosition = calculateNewRobotPosition(thisRobot);
+    target.targetPosition = calculateNewRobotPosition(thisRobot, thisRobot->vel.toAngle());
     return target;
 }
 
@@ -228,11 +228,12 @@ double MidFieldCoach::calculateStandingFreeScore(const Vector2& position, const 
 
     double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);
     double distanceToUsScore = CoachHeuristics::calculateDistanceToClosestTeamMateScore(position, thisRobot->id);
+    double distanceToBallScore = CoachHeuristics::calculateDistanceToBallScore(position, world);
 
-    return passLineScore + distanceToUsScore;
+    return passLineScore + distanceToUsScore + distanceToBallScore;
 }
 
-Vector2 MidFieldCoach::calculateNewRobotPosition(const RobotPtr &thisRobot) {
+Vector2 MidFieldCoach::calculateNewRobotPosition(const RobotPtr &thisRobot, Angle targetAngle) {
 
     Vector2 bestPosition = targetPositions[thisRobot->id];
     double highestScore = calculateStandingFreeScore(bestPosition, thisRobot);

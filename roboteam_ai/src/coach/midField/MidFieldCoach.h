@@ -17,7 +17,7 @@ namespace coach {
 
 class MidFieldCoach {
     private:
-        const double DISTANCE_FROM_MIDDLE_LINE = 3.0;
+        const double DISTANCE_FROM_MIDDLE_LINE = 2.0;
         const double HARASSER_SECONDS_AHEAD = 0.5;
         const double STAND_STILL_DISTANCE = Constants::ROBOT_RADIUS();
         const double MIN_OPPONENT_VELOCITY = 0.5;
@@ -56,7 +56,7 @@ class MidFieldCoach {
         MidFieldCoach::Target
         harassRobot(const RobotPtr &thisRobot, const RobotPtr &opponent, HarassType harassType) const;
         Target blockPass(const RobotPtr &thisRobot, const RobotPtr &opponent, const BallPtr &ball) const;
-        Vector2 calculateNewRobotPosition(const RobotPtr &thisRobot);
+        Vector2 calculateNewRobotPosition(const RobotPtr &thisRobot, Angle targetAngle);
         double calculateStandingFreeScore(const Vector2& position, const RobotPtr &thisRobot);
     public:
         void addMidFielder(RobotPtr &thisRobot);
