@@ -34,8 +34,8 @@ class PosController {
         bool customCanMoveInDefenseArea = false;
 
         // PID functions
-        PID xpid = PID(1.65, 0, 0.0);
-        PID ypid = PID(1.65, 0, 0.0);
+        PID xpid = PID(0.0, 0.0, 0.0);
+        PID ypid = PID(0.0, 0.0, 0.0);
         bool getPIDFromInterface = true;
         RobotCommand controlWithPID(const RobotPtr &robot, RobotCommand target);
         virtual void checkInterfacePID() = 0;
