@@ -68,6 +68,16 @@ class MidFieldCoach {
 
 
     Target getTargetPosition(RobotPtr &thisRobot);
+
+    HarassType
+    getHarassTypeIfOpponentIsOnTheLeft(const RobotPtr &thisRobot, const BallPtr &ball, BallPossession &ballPossession,
+                                       const BallPossession::Possession &possession) const;
+
+    Target &harassSlowRobot(const RobotPtr &opponent, const HarassType &harassType, Target &target) const;
+
+    Target &harassFastRobot(const RobotPtr &thisRobot, const RobotPtr &opponent, Target &target) const;
+
+    bool isRobotAlreadyBeingHarassed(const RobotPtr &opponent) const;
 };
 
 extern MidFieldCoach g_midFieldCoach;
