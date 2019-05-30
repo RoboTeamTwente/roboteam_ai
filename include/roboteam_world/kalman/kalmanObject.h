@@ -25,8 +25,8 @@ class kalmanObject {
         int comparisonCount; //time the iteration of P and K where they are the same
         float orientation; //currently the filter only filters X and Y, du to the coordinate system
         double omega; //""
-        int cameraId;
-        std::vector<Vector2> pastObservation;
+        uint cameraId;
+        std::vector<Position> pastObservation;
 
         // The key matrices (fixed size to prevent side effects)
         arma::fvec::fixed<STATEINDEX> X; //Constains the state of the robot
@@ -66,6 +66,8 @@ class kalmanObject {
         virtual roboteam_msgs::WorldRobot as_message() const;
 
         double limitRotation(double rotation) const;
+
+        Position calculatePos(Vector2 pos, float rot, int camID);
 
 };
 

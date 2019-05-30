@@ -76,7 +76,7 @@ namespace rtt {
     }
 
     void kalmanObject::kalmanUpdateZ(roboteam_msgs::DetectionRobot robot, double timeStamp, int cameraID) {
-        if (timeStamp > this->observationTimeStamp) {
+        if (true) {
             //if the new data is a certain distance from the old data, it's considered a ghost and ignored
             if (this->exists){
                 //HAck
@@ -86,22 +86,13 @@ namespace rtt {
                     return;
                 }
             }
-            if (cameraID != this->cameraId && this->cameraId != INVALID_ID){
-                this->pastObservation.emplace_back(robot.pos);
-            } else {
-                this->pastObservation = {robot.pos};
-            }
+            Position average = calculatePos(robot.pos, robot.orientation, cameraID);
             this->cameraId = cameraID;
             this->id= robot.robot_id;
-            int observations = pastObservation.size();
-            Vector2 observationSum;
-            for (int i = 0; i < observations; ++i) {
-                observationSum += pastObservation[i];
-            }
-            this->Z(0) = observationSum.x/observations;
-            this->Z(1) = observationSum.y/observations;
-            this->omega = (robot.orientation - this->orientation)/(timeStamp-this->observationTimeStamp);
-            this->orientation = robot.orientation;
+            this->Z(0) = average.x;
+            this->Z(1) = average.y;
+            this->omega = (average.rot - this->orientation)/(timeStamp-this->observationTimeStamp);
+            this->orientation = average.rot;
             this->observationTimeStamp = timeStamp;
             this->invisibleCounter = 0;
             //if the object comes into being, make the observation it's state, (to prevent jumping)
@@ -149,6 +140,29 @@ namespace rtt {
             return -M_PI+std::numeric_limits<double>::epsilon();
         }
         return constRot;
+    }
+
+    Position kalmanObject::calculatePos(Vector2 pos, float rot, int camID){
+        Position average = {0,0,0};
+        int amount = this->pastObservation.size();
+        if (camID != this->cameraId && camID<amount){
+            this->pastObservation[camID] = {pos.x, pos.y, rot};
+        } else if (camID != this->cameraId && camID>=amount){
+            this->pastObservation.emplace_back(pos.x, pos.y, rot);
+        } else {
+            this->pastObservation = {{pos.x, pos.y, rot}};
+        }
+
+        amount = this->pastObservation.size();
+        for (int i = 0; i < amount; ++i) {
+            average.x += this->pastObservation[i].x;
+            average.y += this->pastObservation[i].y;
+            average.rot += this->pastObservation[i].rot;
+        }
+        average.y /= amount;
+        average.x /= amount;
+        average.rot /= amount;
+        return average;
     }
 
 
