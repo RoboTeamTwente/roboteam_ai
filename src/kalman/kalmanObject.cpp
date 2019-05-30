@@ -75,33 +75,31 @@ namespace rtt {
         }
     }
 
-    void kalmanObject::kalmanUpdateZ(roboteam_msgs::DetectionRobot robot, double timeStamp, int cameraID) {
-        if (true) {
-            //if the new data is a certain distance from the old data, it's considered a ghost and ignored
-            if (this->exists){
-                //HAck
-                float errorx = robot.pos.x-this->X(0);
-                float errory = robot.pos.y-this->X(2);
-                if (errorx*errorx+errory*errory >= 0.2*0.2){
-                    return;
-                }
+    void kalmanObject::kalmanUpdateZ(roboteam_msgs::DetectionRobot robot, double timeStamp, uint cameraID) {
+        //if the new data is a certain distance from the old data, it's considered a ghost and ignored
+        if (this->exists){
+            //HAck
+            float errorx = robot.pos.x-this->X(0);
+            float errory = robot.pos.y-this->X(2);
+            if (errorx*errorx+errory*errory >= 0.2*0.2){
+                return;
             }
-            Position average = calculatePos(robot.pos, robot.orientation, cameraID);
-            this->cameraId = cameraID;
-            this->id= robot.robot_id;
-            this->Z(0) = average.x;
-            this->Z(1) = average.y;
-            this->omega = (average.rot - this->orientation)/(timeStamp-this->observationTimeStamp);
-            this->orientation = average.rot;
-            this->observationTimeStamp = timeStamp;
-            this->invisibleCounter = 0;
-            //if the object comes into being, make the observation it's state, (to prevent jumping)
-            if (!this->exists){
-                this->X(0) = robot.pos.x;
-                this->X(2) = robot.pos.y;
-            }
-            this->exists = true;
         }
+        Position average = calculatePos(robot.pos, robot.orientation, cameraID);
+        this->cameraId = cameraID;
+        this->id= robot.robot_id;
+        this->Z(0) = average.x;
+        this->Z(1) = average.y;
+        this->omega = (average.rot - this->orientation)/(timeStamp-this->observationTimeStamp);
+        this->orientation = average.rot;
+        this->observationTimeStamp = timeStamp;
+        this->invisibleCounter = 0;
+        //if the object comes into being, make the observation it's state, (to prevent jumping)
+        if (!this->exists){
+            this->X(0) = robot.pos.x;
+            this->X(2) = robot.pos.y;
+        }
+        this->exists = true;
     }
 
     Position kalmanObject::kalmanGetPos() const{
@@ -142,30 +140,24 @@ namespace rtt {
         return constRot;
     }
 
-    Position kalmanObject::calculatePos(Vector2 pos, float rot, int camID){
-        Position average = {0,0,0};
-        if (camID != this->cameraId){
-            this->pastObservation[camID] = {pos.x, pos.y, rot};
-        } else {
+    Position kalmanObject::calculatePos(Vector2 pos, float rot, uint camID){
+        if (camID == this->cameraId){
             this->pastObservation.clear();
+            return {pos.x, pos.y, rot};
+        } else {
             this->pastObservation[camID] = {pos.x, pos.y, rot};
+            Position average = {0, 0, 0};
+            for (auto obs : pastObservation) {
+                average.x += obs.second.x;
+                average.y += obs.second.y;
+                average.rot += obs.second.rot;
+            }
+            float amount = this->pastObservation.size();
+            average.y /= amount;
+            average.x /= amount;
+            average.rot /= amount;
+            return average;
         }
-
-        float amount = this->pastObservation.size();
-//        for (int i = 0; i < amount; ++i) {
-//            average.x += this->pastObservation[i].x;
-//            average.y += this->pastObservation[i].y;
-//            average.rot += this->pastObservation[i].rot;
-//        }
-        for (auto obs : pastObservation) {
-            average.x += obs.second.x;
-            average.y += obs.second.y;
-            average.rot += obs.second.rot;
-        }
-        average.y /= amount;
-        average.x /= amount;
-        average.rot /= amount;
-        return average;
     }
 
 

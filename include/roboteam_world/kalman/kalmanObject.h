@@ -18,7 +18,7 @@ namespace rtt {
 class kalmanObject {
 
     protected:
-        int id; //Id of the object if applicable
+        uint id; //Id of the object if applicable
         double observationTimeStamp; //Time of last observed data used to make sure old data doesn't replace new data
         int invisibleCounter; //count the ticks between observations, after a certain time the object doesn't exist anymore
         bool exists; //if true we consider the object to be existing
@@ -48,7 +48,7 @@ class kalmanObject {
         void kalmanUpdateX();
 
         //if the data is more recent than the current data, import the new observation data
-        void kalmanUpdateZ(roboteam_msgs::DetectionRobot robot,double timeStamp, int cameraID);
+        void kalmanUpdateZ(roboteam_msgs::DetectionRobot robot,double timeStamp, uint cameraID);
 
         //Get X,Y and Orientation
         Position kalmanGetPos() const;
@@ -67,7 +67,7 @@ class kalmanObject {
 
         double limitRotation(double rotation) const;
 
-        Position calculatePos(Vector2 pos, float rot, int camID);
+        Position calculatePos(Vector2 pos, float rot, uint camID);
 
 };
 

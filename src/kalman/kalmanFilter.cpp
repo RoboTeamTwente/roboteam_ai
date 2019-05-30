@@ -33,7 +33,7 @@ void kalmanFilter::kalmanUpdate() {
 void kalmanFilter::newFrame(const roboteam_msgs::DetectionFrame &msg) {
     double timeCapture = msg.t_capture;
     lastFrameTime = timeCapture;
-    int cameraID = msg.camera_id;
+    uint cameraID = msg.camera_id;
     for (const roboteam_msgs::DetectionRobot robot : msg.us) {
         ourBots[robot.robot_id].kalmanUpdateZ(robot, timeCapture, cameraID);
     }
