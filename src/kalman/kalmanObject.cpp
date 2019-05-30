@@ -151,11 +151,16 @@ namespace rtt {
             this->pastObservation[camID] = {pos.x, pos.y, rot};
         }
 
-        int amount = this->pastObservation.size();
-        for (int i = 0; i < amount; ++i) {
-            average.x += this->pastObservation[i].x;
-            average.y += this->pastObservation[i].y;
-            average.rot += this->pastObservation[i].rot;
+        float amount = this->pastObservation.size();
+//        for (int i = 0; i < amount; ++i) {
+//            average.x += this->pastObservation[i].x;
+//            average.y += this->pastObservation[i].y;
+//            average.rot += this->pastObservation[i].rot;
+//        }
+        for (auto obs : pastObservation) {
+            average.x += obs.second.x;
+            average.y += obs.second.y;
+            average.rot += obs.second.rot;
         }
         average.y /= amount;
         average.x /= amount;
