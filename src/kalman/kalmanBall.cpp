@@ -15,6 +15,7 @@ namespace rtt {
         this->comparisonCount = 0;
         this->orientation = 0;
         this->omega = 0;
+        this->cameraId = INVALID_ID;
         this->X.zeros();
         this->Z.zeros();
         this->F = {{1, TIMEDIFF, 0, 0       },

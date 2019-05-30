@@ -9,6 +9,7 @@
 #include "roboteam_utils/Position.h"
 #include "constantsK.h"
 #include "roboteam_msgs/DetectionRobot.h"
+#include "roboteam_utils/Vector2.h"
 
 namespace rtt {
 
@@ -17,13 +18,15 @@ namespace rtt {
 class kalmanObject {
 
     protected:
-        int id; //Id of the object if applicable
+        uint id; //Id of the object if applicable
         double observationTimeStamp; //Time of last observed data used to make sure old data doesn't replace new data
         int invisibleCounter; //count the ticks between observations, after a certain time the object doesn't exist anymore
         bool exists; //if true we consider the object to be existing
         int comparisonCount; //time the iteration of P and K where they are the same
-        double orientation; //currently the filter only filters X and Y, du to the coordinate system
+        float orientation; //currently the filter only filters X and Y, du to the coordinate system
         double omega; //""
+        uint cameraId;
+        std::map<int, Position> pastObservation;
 
         // The key matrices (fixed size to prevent side effects)
         arma::fvec::fixed<STATEINDEX> X; //Constains the state of the robot
@@ -45,7 +48,7 @@ class kalmanObject {
         void kalmanUpdateX();
 
         //if the data is more recent than the current data, import the new observation data
-        void kalmanUpdateZ(roboteam_msgs::DetectionRobot robot,double timeStamp);
+        void kalmanUpdateZ(roboteam_msgs::DetectionRobot robot,double timeStamp, uint cameraID);
 
         //Get X,Y and Orientation
         Position kalmanGetPos() const;
@@ -63,6 +66,8 @@ class kalmanObject {
         virtual roboteam_msgs::WorldRobot as_message() const;
 
         double limitRotation(double rotation) const;
+
+        Position calculatePos(Vector2 pos, float rot, uint camID);
 
 };
 
