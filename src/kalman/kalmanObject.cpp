@@ -28,8 +28,8 @@ namespace rtt {
             arma::fmat::fixed<STATEINDEX, STATEINDEX> P_new = IKH * P_predict * IKH_transpose + K_new * this->R * K_new_transpose;
 
             //See if the K has changed over the iteration, if it hasn't after 100 iterations then stop calculating it
-            double K_Diff_Max = (this->K - K_new).max();
-            double K_Diff_Min = (this->K - K_new).min();
+            float K_Diff_Max = (this->K - K_new).max();
+            float K_Diff_Min = (this->K - K_new).min();
             int same = 0;
             if ((K_Diff_Max < KMARGIN) and (K_Diff_Min > -KMARGIN)){
                 same += 1;
@@ -75,7 +75,7 @@ namespace rtt {
         }
     }
 
-    void kalmanObject::kalmanUpdateZ(roboteam_msgs::DetectionRobot robot, double timeStamp) {
+    void kalmanObject::kalmanUpdateZ(roboteam_msgs::DetectionRobot robot, double timeStamp, int cameraID) {
         if (timeStamp > this->observationTimeStamp) {
             //if the new data is a certain distance from the old data, it's considered a ghost and ignored
             if (this->exists){
@@ -86,9 +86,20 @@ namespace rtt {
                     return;
                 }
             }
+            if (cameraID != this->cameraId && this->cameraId != INVALID_ID){
+                this->pastObservation.emplace_back(robot.pos);
+            } else {
+                this->pastObservation = {robot.pos};
+            }
+            this->cameraId = cameraID;
             this->id= robot.robot_id;
-            this->Z(0) = robot.pos.x;
-            this->Z(1) = robot.pos.y;
+            int observations = pastObservation.size();
+            Vector2 observationSum;
+            for (int i = 0; i < observations; ++i) {
+                observationSum += pastObservation[i];
+            }
+            this->Z(0) = observationSum.x/observations;
+            this->Z(1) = observationSum.y/observations;
             this->omega = (robot.orientation - this->orientation)/(timeStamp-this->observationTimeStamp);
             this->orientation = robot.orientation;
             this->observationTimeStamp = timeStamp;
