@@ -169,14 +169,14 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
                 if (point1.y > point2.y) { // point1 is largest
                     point1.y = std::min(point1.y, upperGoalSide.y);
                     point2.y = std::max(point2.y, lowerGoalSide.y);
-                    blockades.emplace_back(
-                            std::make_pair(point2, point1)); // the first element in the pair is the smallest
+                    // the first element in the pair is the smallest
+                    blockades.emplace_back(std::make_pair(point2, point1));
                 }
                 else { // point2 is largest
                     point2.y = std::min(point2.y, upperGoalSide.y);
                     point1.y = std::max(point1.y, lowerGoalSide.y);
-                    blockades.emplace_back(
-                            std::make_pair(point1, point2)); // the first element in the pair is the smallest
+                    // the first element in the pair is the smallest
+                    blockades.emplace_back(std::make_pair(point1, point2));
                 }
             }
         }
