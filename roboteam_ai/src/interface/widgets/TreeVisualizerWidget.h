@@ -7,6 +7,7 @@
 
 #include <QtWidgets/QTreeWidget>
 #include <roboteam_ai/src/bt/Node.hpp>
+#include <roboteam_ai/src/utilities/GameState.h>
 #include "roboteam_ai/src/bt/BehaviorTree.hpp"
 
 namespace rtt {
@@ -25,6 +26,7 @@ private:
     bool hasCorrectTree = false;
     MainWindow * parent = nullptr;
     unsigned long long mostTicks = 0;
+    GameState recentGameState;
 public:
     explicit TreeVisualizerWidget(MainWindow * parent);
     void setHasCorrectTree(bool hasCorrectTree);

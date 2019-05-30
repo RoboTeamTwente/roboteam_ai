@@ -47,6 +47,9 @@ void Formation::setFinalAngle() {
     command.w = static_cast<float>((targetToLookAtLocation - robot->pos).angle());
 }
 
+void Formation::terminate(Status s) {
+    onTerminate(s);
+}
 
 void Formation::onTerminate(bt::Node::Status s) {
     removeRobotFromFormation();

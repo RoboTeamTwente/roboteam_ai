@@ -2,6 +2,8 @@
 #define ROBOTEAM_AI_GAMESTATE_H
 
 #include <roboteam_utils/Vector2.h>
+#include "RuleSet.h"
+#include "../utilities/Constants.h"
 
 namespace rtt {
 namespace ai {
