@@ -26,7 +26,7 @@ class kalmanObject {
         float orientation; //currently the filter only filters X and Y, du to the coordinate system
         double omega; //""
         uint cameraId;
-        std::vector<Position> pastObservation;
+        std::map<int, Position> pastObservation;
 
         // The key matrices (fixed size to prevent side effects)
         arma::fvec::fixed<STATEINDEX> X; //Constains the state of the robot

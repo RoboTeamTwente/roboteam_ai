@@ -144,16 +144,14 @@ namespace rtt {
 
     Position kalmanObject::calculatePos(Vector2 pos, float rot, int camID){
         Position average = {0,0,0};
-        int amount = this->pastObservation.size();
-        if (camID != this->cameraId && camID<amount){
+        if (camID != this->cameraId){
             this->pastObservation[camID] = {pos.x, pos.y, rot};
-        } else if (camID != this->cameraId && camID>=amount){
-            this->pastObservation.emplace_back(pos.x, pos.y, rot);
         } else {
-            this->pastObservation = {{pos.x, pos.y, rot}};
+            this->pastObservation.clear();
+            this->pastObservation[camID] = {pos.x, pos.y, rot};
         }
 
-        amount = this->pastObservation.size();
+        int amount = this->pastObservation.size();
         for (int i = 0; i < amount; ++i) {
             average.x += this->pastObservation[i].x;
             average.y += this->pastObservation[i].y;
