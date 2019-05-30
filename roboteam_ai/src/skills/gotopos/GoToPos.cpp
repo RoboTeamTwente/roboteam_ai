@@ -93,8 +93,6 @@ void GoToPos::onTerminate(Status s) {
     gtpTerminate(s);
 }
 
-GoToPos::~GoToPos() {
-}
 
 } // ai
 } // rtt

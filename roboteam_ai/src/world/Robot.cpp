@@ -192,8 +192,24 @@ void Robot::setPidPreviousVel(const Vector2 &pidVel) {
     pidPreviousVel = pidVel;
 }
 
-const Robot::RobotPtr Robot::copy() const {
-    return std::make_shared<Robot>(*this);
+const Robot::RobotPtr Robot::deepCopy() const {
+    return std::make_shared<Robot>(Robot(*this));
+}
+
+void Robot::resetShotController() {
+    shotController = std::make_shared<control::ShotController>();
+}
+
+void Robot::resetNumTreePosControl() {
+    numTreePosControl = std::make_shared<control::NumTreePosControl>();
+}
+
+void Robot::resetBasicPosControl() {
+    basicPosControl = std::make_shared<control::BasicPosControl>();
+}
+
+void Robot::resetBallHandlePosControl() {
+    ballHandlePosControl = std::make_shared<control::BallHandlePosControl>();
 }
 
 } //world

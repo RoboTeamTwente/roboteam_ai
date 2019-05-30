@@ -24,7 +24,7 @@ void World::updateWorld(const roboteam_msgs::World &message) {
         }
 
         // copy the ball
-        if (worldDataPtr->ball) oldBall = worldDataPtr->ball->copy();
+        if (worldDataPtr->ball) oldBall = worldDataPtr->ball->deepCopy();
     }
 
     // update ballmodel, dribbling, position if not visible etc.
@@ -280,7 +280,7 @@ const World::RobotPtr World::getFutureRobot(int id, bool ourTeam, double time) {
 
 const World::RobotPtr World::getFutureRobot(const RobotPtr &robot, double time) {
     if (!robot) return nullptr;
-    auto futureRobot = robot->copy();
+    auto futureRobot = robot->deepCopy();
     futureWorld.updateFutureRobot(futureRobot, time);
     return futureRobot;
 }
@@ -292,7 +292,7 @@ const World::BallPtr World::getFutureBall(double time) {
         if (! worldDataPtr || !worldDataPtr->ball) {
             return nullptr;
         }
-        futureBall = worldDataPtr->ball->copy();
+        futureBall = worldDataPtr->ball->deepCopy();
     }
     futureWorld.updateFutureBall(futureBall, time);
     return futureBall;

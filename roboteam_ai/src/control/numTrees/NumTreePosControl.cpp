@@ -66,14 +66,14 @@ RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle) {
 
     DT = 0.3/rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
-    if (DT > 0.2) DT = 0.2;
-    if (DT < 0.05) DT = 0.05;
+    if (DT > 0.12) DT = 0.12;
+    if (DT < 0.06) DT = 0.06;
 
     // check if the robot exists
     if (! robotPtr) return {};
 
     // make a copy of the robot
-    robot = robotPtr->copy();
+    robot = robotPtr->deepCopy();
     finalTargetPos = targetPos;
 
     // Check if the current path is still valid, if not, recalculate

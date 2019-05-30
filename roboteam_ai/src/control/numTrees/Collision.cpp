@@ -32,14 +32,14 @@ const world::Robot::RobotPtr &Collision::getCollisionRobot() const {
 
 void Collision::setCollisionRobot(const world::Robot::RobotPtr &robot, double distance) {
     type = ROBOT;
-    collisionRobot = robot->copy();
+    collisionRobot = robot->deepCopy();
     isCollision = true;
     collisionRadius = distance;
 }
 
 void Collision::setCollisionBall(const world::Ball::BallPtr &ball, double distance) {
     type = BALL;
-    collisionBall = ball->copy();
+    collisionBall = ball->deepCopy();
     collisionBall->visible = true;
     isCollision = true;
     collisionRadius = distance;

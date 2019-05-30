@@ -47,12 +47,12 @@ class WorldData {
                 const BallPtr &copyBall, double time)
                 :time(time) {
             for (auto &robot : copyUs) {
-                us.emplace_back(robot->copy());
+                us.emplace_back(robot->deepCopy());
             }
             for (auto &robot : copyThem) {
-                them.emplace_back(robot->copy());
+                them.emplace_back(robot->deepCopy());
             }
-            if (copyBall) ball = copyBall->copy();
+            if (copyBall) ball = copyBall->deepCopy();
         }
         explicit WorldData(const WorldDataPtr &worldDataPtr)
                 :WorldData(*worldDataPtr) { }

@@ -23,13 +23,13 @@ class BasicPosControl;
 
 namespace world {
 class Ball;
-class Robot : public std::enable_shared_from_this<Robot> {
+class Robot {
     FRIEND_TEST(ShotControllerTest, getshotdata_test);
     public:
         using BallPtr = std::shared_ptr<Ball>;
         using RobotPtr = std::shared_ptr<Robot>;
 
-        const RobotPtr copy() const;
+        const RobotPtr deepCopy() const;
 
         // pid
     private:
@@ -88,6 +88,12 @@ public:
         const std::shared_ptr<control::NumTreePosControl> &getNumtreePosControl() const;
         const std::shared_ptr<control::BasicPosControl> &getBasicPosControl() const;
         const std::shared_ptr<control::BallHandlePosControl> &getBallHandlePosControl() const;
+
+        void resetShotController();
+        void resetNumTreePosControl();
+        void resetBasicPosControl();
+        void resetBallHandlePosControl();
+
         // general
     public:
         enum Team : short {
@@ -96,6 +102,7 @@ public:
           invalid
         };
         Robot();
+        Robot(const Robot &copy) = default;
         explicit Robot(const roboteam_msgs::WorldRobot &copy, Team team = invalid,
                 unsigned char genevaState = 3, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
         void updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const BallPtr &ball, unsigned long worldNumber);

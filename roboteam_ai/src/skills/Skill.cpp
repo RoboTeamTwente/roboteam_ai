@@ -69,6 +69,7 @@ void Skill::terminate(Status s) {
     init = false;
     if (! robot || robot->id == -1) return;
     if (! ball) return;
+    refreshRobotPositionControllers();
     refreshRobotCommand();
     onTerminate(s);
 }
@@ -99,6 +100,13 @@ void Skill::limitRobotCommand() {
 
     command.x_vel = limitedVel.x;
     command.y_vel = limitedVel.y;
+}
+
+void Skill::refreshRobotPositionControllers() {
+    robot->resetNumTreePosControl();
+    robot->resetShotController();
+    robot->resetBallHandlePosControl();
+    robot->resetBasicPosControl();
 }
 
 } // ai

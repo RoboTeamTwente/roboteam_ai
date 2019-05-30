@@ -15,12 +15,12 @@ namespace world {
 
 class WorldData;
 class Robot;
-class Ball : public std::enable_shared_from_this<Ball> {
+class Ball {
     public:
         using BallPtr = std::shared_ptr<Ball>;
         using RobotPtr = std::shared_ptr<Robot>;
 
-        const BallPtr copy() const;
+        const BallPtr deepCopy() const;
 
     private:
         bool ballInAir;
@@ -37,6 +37,7 @@ class Ball : public std::enable_shared_from_this<Ball> {
 
     public:
         Ball();
+        Ball(const Ball &copy) = default;
         explicit Ball(const roboteam_msgs::WorldBall &copy);
         void updateBall(const BallPtr &oldBall, const WorldData &worldData);
 

@@ -52,6 +52,7 @@ class Skill : public bt::Leaf {
         virtual void onInitialize() { };
         virtual Status onUpdate() = 0;
         virtual void onTerminate(Status s) { };
+        void refreshRobotPositionControllers();
 };
 
 } // ai
