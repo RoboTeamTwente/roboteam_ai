@@ -23,7 +23,8 @@
               "1ni5zmdjlvglfaj4",
               "kb9ba5bc2k2acg",
               "w5md61w89ovuz",
-              "3yti41lbaserp5cfj"
+              "3yti41lbaserp5cfj",
+              "9cep094qxc0e4iqk"
             ],
             "id": "3h41w9x1eg0nslbe",
             "properties": {
@@ -63,6 +64,18 @@
             },
             "title": "FreeKickFormation"
           },
+          "9cep094qxc0e4iqk": {
+            "children": [
+              "cofwliqvsy9ptcyi"
+            ],
+            "id": "9cep094qxc0e4iqk",
+            "name": "free_kick_formation_role",
+            "properties": {
+              "ROLE": "f7"
+            },
+            "role": "free_kick_formation_role",
+            "title": "Role"
+          },
           "9wi122lhv3e9pq2eb": {
             "children": [
               "96qwtj0h8ndfb"
@@ -79,6 +92,13 @@
             "id": "b7gwa9ogtcdswo7",
             "properties": {
               "ROLE": "f6"
+            },
+            "title": "FreeKickFormation"
+          },
+          "cofwliqvsy9ptcyi": {
+            "id": "cofwliqvsy9ptcyi",
+            "properties": {
+              "ROLE": "f7"
             },
             "title": "FreeKickFormation"
           },
