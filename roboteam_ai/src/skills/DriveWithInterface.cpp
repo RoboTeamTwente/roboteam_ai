@@ -19,7 +19,7 @@ Skill::Status DriveWithInterface::onUpdate() {
     }
     Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
 
-    if ((targetPos - robot->pos).length() < 0.15) {
+    if ((targetPos - robot->pos).length() < 0.02) {
         publishRobotCommand();
         return Status::Running;
     }

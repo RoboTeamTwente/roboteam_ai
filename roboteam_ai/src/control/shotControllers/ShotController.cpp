@@ -106,20 +106,27 @@ bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, 
 Vector2 ShotController::getPlaceBehindBall(world::Robot robot, Vector2 shotTarget) {
     auto ball = world::world->getBall();
     Vector2 preferredShotVector = ball->pos - shotTarget;
-    double distanceBehindBall = 2.0*Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
+    double distanceBehindBall = 3.0*Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
     return ball->pos + preferredShotVector.stretchToLength(distanceBehindBall);
 }
 
 // use Numtree GTP to go to a place behind the ball
 ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition,
         std::pair<Vector2, Vector2> line) {
+    std::cout << "Going behind ball" << std::endl;
     auto ball = world::world->getBall();
+    robot.getNumtreePosControl()->setAvoidBallDistance(0.25);
     control::PosVelAngle pva = robot.getNumtreePosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
             robotTargetPosition);
-    //TODO: if (rotating to this angle from current angle will hit ball) then pva.angle=angle towards ball
-    if ((robot.pos - robotTargetPosition).length() < 0.3) {
-        pva.angle = (line.second - line.first).toAngle();
+
+    if(pva.vel.length() < 0.5) {
+        pva.vel = pva.vel.stretchToLength(0.5);
     }
+
+    //TODO: if (rotating to this angle from current angle will hit ball) then pva.angle=angle towards ball
+    //if ((robot.pos - robotTargetPosition).length() < 0.3) {
+        pva.angle = (line.second - line.first).toAngle();
+    //}
 
     ShotData shotData(pva);
     return shotData;
@@ -127,6 +134,7 @@ ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTa
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver) {
+    std::cout << "Move straight to ball" << std::endl;
     control::PosVelAngle pva = robot.getBasicPosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
             lineToDriveOver.second);
     pva.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();

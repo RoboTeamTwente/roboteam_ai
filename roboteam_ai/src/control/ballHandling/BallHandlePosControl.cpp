@@ -138,6 +138,12 @@ RobotCommand BallHandlePosControl::goToBall(bool ballIsFarFromTarget, TravelStra
     }
 
     auto pva = numTreePosControl->getPosVelAngle(robot, target);
+
+    //TODO: Hack hack hack
+    if (pva.vel.length() < 0.5) {
+        pva.vel = pva.vel.stretchToLength(0.5);
+    }
+
     robotCommand.angle = (ball->pos - robot->pos).toAngle();
     robotCommand.vel = pva.vel;
     return robotCommand;

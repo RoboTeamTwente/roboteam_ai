@@ -8,6 +8,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QCheckBox>
+#include <QtWidgets/QShortcut>
 #include "QLayout"
 #include "widget.h"
 
@@ -32,6 +33,7 @@ private:
     QPushButton* toggleColorBtn;
     QPushButton* toggleSideBtn;
     QPushButton* haltBtn;
+    QShortcut* spaceClick;
 
     QComboBox* select_strategy;
     QComboBox* select_keeper_strategy;
@@ -43,6 +45,7 @@ private:
 
     void setToggleColorBtnLayout() const;
     void setToggleSideBtnLayout() const;
+    void keyPressEvent(QKeyEvent *event);
 
 public slots:
     void setTimeOutTop(bool top);
