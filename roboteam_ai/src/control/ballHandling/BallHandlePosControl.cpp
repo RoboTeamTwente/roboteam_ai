@@ -23,6 +23,9 @@ BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea)
     dribbleBackwards = new DribbleBackwards(errorMargin, angleErrorMargin, ballPlacementAccuracy, maxBackwardsVelocity);
     rotateWithBall = new RotateWithBall();
     rotateAroundBall = new RotateAroundBall();
+
+    setCanMoveInDefenseArea(canMoveInDefenseArea);
+    setAvoidBallDistance(targetBallDistance*0.95);
 }
 
 RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vector2 &targetP) {

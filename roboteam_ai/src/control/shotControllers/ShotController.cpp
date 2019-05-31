@@ -13,9 +13,8 @@ namespace ai {
 namespace control {
 
 /// return a ShotData (which contains data for robotcommands) for a specific robot to shoot at a specific target.
-RobotCommand ShotController::getPosVelAngle(world::Robot robot, const Vector2 &shotTarget, bool chip,
-        BallSpeed ballspeed,
-        bool useAutoGeneva, ShotPrecision precision) {
+RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &shotTarget, bool chip,
+        BallSpeed ballspeed, bool useAutoGeneva, ShotPrecision precision) {
     // we only allow the external command to change the target if we are not already shooting. Otherwise we use the previous command sent
     if (! isShooting) {
         aimTarget = shotTarget;

@@ -439,7 +439,7 @@ bool NumTreePosControl::checkCurrentRobotCollision() {
     currentCollisionWithRobot = Collision();
     currentCollisionWithFinalTarget = Collision();
 
-    if (true) {
+    if (allowIllegalPositions) {
         PathPointer realRobotPoint = std::make_shared<PathPoint>();
         realRobotPoint->pos = robot->pos;
         realRobotPoint->vel = robot->vel;
