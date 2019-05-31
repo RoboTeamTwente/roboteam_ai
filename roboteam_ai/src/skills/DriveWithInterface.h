@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_DRIVEWITHINTERFACE_H
 
 #include "Skill.h"
-#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 
 namespace rtt {

@@ -10,7 +10,7 @@
 #include "DribbleForwards.h"
 #include "RotateAroundBall.h"
 #include "RotateWithBall.h"
-#include "../positionControllers/NumTreePosControl.h"
+#include "../numTrees/NumTreePosControl.h"
 
 namespace rtt {
 namespace ai {
@@ -21,17 +21,31 @@ BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea)
 
     dribbleForwards = new DribbleForwards(errorMargin, angleErrorMargin, ballPlacementAccuracy, maxForwardsVelocity);
     dribbleBackwards = new DribbleBackwards(errorMargin, angleErrorMargin, ballPlacementAccuracy, maxBackwardsVelocity);
-    rotateAroundRobot = new RotateWithBall();
+    rotateWithBall = new RotateWithBall();
     rotateAroundBall = new RotateAroundBall();
-    numTreePosControl = new NumTreePosControl();
 
-    numTreePosControl->setCanMoveInDefenseArea(canMoveInDefenseArea);
-    numTreePosControl->setAvoidBallDistance(targetBallDistance*0.95);
+    setCanMoveInDefenseArea(canMoveInDefenseArea);
+    setAvoidBallDistance(targetBallDistance*0.95);
+}
+
+RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vector2 &targetP) {
+    Angle defaultAngle = lockedAngle;
+    return BallHandlePosControl::getRobotCommand(r, targetP, defaultAngle);
+}
+
+RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
+        const Vector2 &targetP, const Angle &targetA, TravelStrategy travelStrategy) {
+
+    TravelStrategy tempTravelStrategy = preferredTravelStrategy;
+    preferredTravelStrategy = travelStrategy;
+    RobotCommand robotCommand = BallHandlePosControl::getRobotCommand(r, targetP, targetA);
+    preferredTravelStrategy = tempTravelStrategy;
+
+    return robotCommand;
 }
 
 /// targetP is the target position of the BALL, targetA is the (final) target angle of the ROBOT
-RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
-        const Vector2 &targetP, const Angle &targetA, TravelStrategy preferredTravelStrategy) {
+RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) {
 
     double expectedDelay = 0.04;
     ball = world::world->getBall();
@@ -98,6 +112,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
     switch (preferredTravelStrategy) {
     case forwards: return dribbleForwards->getRobotCommand(robot, targetPos, targetAngle);
     case backwards: return dribbleBackwards->getRobotCommand(robot, targetPos, targetAngle);
+    default:
     case no_preference: {
         // choose based on distance from the ball to the target
         if (ballIsFarFromTarget) {
@@ -109,7 +124,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
 
 }
 
-RobotCommand BallHandlePosControl::goToBall(bool ballIsFarFromTarget, TravelStrategy preferredTravelStrategy) {
+RobotCommand BallHandlePosControl::goToBall(bool ballIsFarFromTarget) {
 
     if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
         std::cout << "we do not have a ball yet" << std::endl;
@@ -137,15 +152,9 @@ RobotCommand BallHandlePosControl::goToBall(bool ballIsFarFromTarget, TravelStra
         target = ball->pos + ballToTarget.stretchToLength(maxBallDistance);
     }
 
-    auto pva = numTreePosControl->getPosVelAngle(robot, target);
-
-    //TODO: Hack hack hack
-    if (pva.vel.length() < 0.5) {
-        pva.vel = pva.vel.stretchToLength(0.5);
-    }
-
+    auto path = NumTreePosControl::getRobotCommand(robot, target);
     robotCommand.angle = (ball->pos - robot->pos).toAngle();
-    robotCommand.vel = pva.vel;
+    robotCommand.vel = path.vel;
     return robotCommand;
 }
 
@@ -153,8 +162,7 @@ BallHandlePosControl::~BallHandlePosControl() {
     delete dribbleForwards;
     delete dribbleBackwards;
     delete rotateAroundBall;
-    delete rotateAroundRobot;
-    delete numTreePosControl;
+    delete rotateWithBall;
 }
 
 void BallHandlePosControl::setMaxVelocity(double maxV) {
