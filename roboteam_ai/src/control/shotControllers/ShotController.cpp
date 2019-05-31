@@ -94,12 +94,12 @@ bool ShotController::onLineToBall(const world::Robot &robot, std::pair<Vector2, 
         ShotPrecision precision) {
     double dist = ControlUtils::distanceToLine(robot.pos, line.first, line.second);
     if (precision == HIGH) {
-        return dist < 0.04;
+        return dist < 0.02;
     }
     else if (precision == MEDIUM) {
-        return dist < 0.05;
+        return dist < 0.02;
     }
-    return dist < 0.08;
+    return dist < 0.02;
 }
 
 /// return the place behind the ball targeted towards the ball target position
@@ -119,14 +119,14 @@ ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTa
     control::PosVelAngle pva = robot.getNumtreePosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
             robotTargetPosition);
 
-    if(pva.vel.length() < 0.5) {
-        pva.vel = pva.vel.stretchToLength(0.5);
+    if(pva.vel.length() < 0.2) {
+        pva.vel = pva.vel.stretchToLength(0.2);
     }
 
     //TODO: if (rotating to this angle from current angle will hit ball) then pva.angle=angle towards ball
-    //if ((robot.pos - robotTargetPosition).length() < 0.3) {
+    if ((robot.pos - robotTargetPosition).length() < 0.3) {
         pva.angle = (line.second - line.first).toAngle();
-    //}
+    }
 
     ShotData shotData(pva);
     return shotData;
@@ -135,10 +135,12 @@ ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTa
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver) {
     std::cout << "Move straight to ball" << std::endl;
-    control::PosVelAngle pva = robot.getBasicPosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
+    auto robotCommand = robot.getBasicPosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
             lineToDriveOver.second);
-    pva.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
-    ShotData shotData(pva);
+    robotCommand.vel=control::ControlUtils::velocityLimiter(robotCommand.vel,0.5,0.0,true);
+    robotCommand.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
+    robotCommand.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
+    ShotData shotData(robotCommand);
     return shotData;
 }
 
@@ -151,6 +153,7 @@ ShotData ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector2> d
     // move towards the ball
     control::PosVelAngle pva = robot.getBasicPosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
             driveLine.second);
+    pva.vel=control::ControlUtils::velocityLimiter(pva.vel,0.5,0.0,true);
     pva.angle = (driveLine.second - driveLine.first).angle();
 
     ShotData shotData(pva);
@@ -213,19 +216,18 @@ bool ShotController::robotAngleIsGood(world::Robot &robot,
     Angle aim((lineToDriveOver.second - lineToDriveOver.first).angle());
     double diff = abs(aim - robot.angle);
     if (precision == HIGH) {
-        return diff < toRadians(3);
+        return diff < toRadians(2);
     }
     if (precision == MEDIUM) {
-        return diff < toRadians(6);
+        return diff < toRadians(2);
     }
-    return diff < toRadians(10);
+    return diff < toRadians(2);
 }
 
 // get the place behind the ball as if no geneva is used
 // we rotate this vector according to the angle with the shotline
 // we intentionally need to remove ball pos because we are rotating the vector
-Vector2
-ShotController::getPlaceBehindBallForGenevaState(world::Robot robot, Vector2 shotTarget, int genevaState) {
+Vector2 ShotController::getPlaceBehindBallForGenevaState(world::Robot robot, Vector2 shotTarget, int genevaState) {
     auto ball = world::world->getBall();
     Vector2 placeStraightBehindBallVector = getPlaceBehindBall(robot, shotTarget) - ball->pos;
 
