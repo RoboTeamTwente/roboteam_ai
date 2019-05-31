@@ -46,6 +46,7 @@ bt::Node::Status BallPlacementPass::onUpdate() {
     if (didShootProperly()) {
         hasShot = true;
         coach::g_pass.setPassed(true);
+        std::cout << "Set passed = true" << std::endl;
         publishRobotCommand();
         return Status::Success;
     }
@@ -58,6 +59,9 @@ bt::Node::Status BallPlacementPass::onUpdate() {
     if (!coach::g_pass.isPassed() && !hasShot) {
         if (coach::g_pass.isReadyToReceivePass()) {
             robot->getShotController()->makeCommand(robot->getShotController()->getShotData(*robot, getKicker(), false), command);
+            if(command.kicker == 1 && !hasShot) {
+                hasShot = true;
+            }
         } else if (robot->pos.dist(ball->pos) > 0.5) {
             auto pva = robot->getNumtreePosControl()->getPosVelAngle(robot, ball->pos);
             command.x_vel = pva.vel.x;

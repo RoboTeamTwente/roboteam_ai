@@ -113,7 +113,7 @@ Vector2 ShotController::getPlaceBehindBall(world::Robot robot, Vector2 shotTarge
 // use Numtree GTP to go to a place behind the ball
 ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition,
         std::pair<Vector2, Vector2> line) {
-    std::cout << "Going behind ball" << std::endl;
+    //std::cout << "Going behind ball" << std::endl;
     auto ball = world::world->getBall();
     robot.getNumtreePosControl()->setAvoidBallDistance(0.25);
     control::PosVelAngle pva = robot.getNumtreePosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
@@ -134,7 +134,7 @@ ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTa
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver) {
-    std::cout << "Move straight to ball" << std::endl;
+    //std::cout << "Move straight to ball" << std::endl;
     control::PosVelAngle pva = robot.getBasicPosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
             lineToDriveOver.second);
     pva.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();

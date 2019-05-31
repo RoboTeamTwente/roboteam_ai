@@ -28,15 +28,9 @@ bt::Node::Status BallPlacementReceive::onUpdate() {
     }
 
     if (coach::g_pass.isPassed()) {
-        // Check if the ball was deflected
-//        if (passFailed()) {
-//            publishRobotCommand(); // halt
-//            return Status::Running;
-//        }
-
+        std::cout << "Intercepting!" << std::endl;
         intercept();
     } else {
-
         Vector2 ballPlacementTarget = coach::g_ballPlacement.getBallPlacementPos();
         auto behindTargetPos = control::PositionUtils::getPositionBehindPositionToPosition(
                 Constants::ROBOT_RADIUS(),
