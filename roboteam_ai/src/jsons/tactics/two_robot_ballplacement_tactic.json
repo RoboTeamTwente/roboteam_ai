@@ -208,6 +208,13 @@
             },
             "title": "GTPSpecial"
           },
+          "jb53sqanxgzzxc40": {
+            "id": "jb53sqanxgzzxc40",
+            "properties": {
+              "ticks": "20"
+            },
+            "title": "Halt"
+          },
           "k2ehme1wbof95tydn": {
             "children": [
               "zxb035z8qb1g71a",
@@ -299,6 +306,7 @@
           "u8xybs7gyd86oxu": {
             "children": [
               "0hn6jrzejz5ziot6",
+              "jb53sqanxgzzxc40",
               "tz0jmrgow6vqwa"
             ],
             "id": "u8xybs7gyd86oxu",
