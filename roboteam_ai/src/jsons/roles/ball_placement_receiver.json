@@ -3,66 +3,36 @@
     "trees": [
       {
         "nodes": {
-          "2aqgzqz0ed5ya": {
-            "id": "2aqgzqz0ed5ya",
-            "properties": {
-              "avoidBall": "true",
-              "canGoOutsideField": "false",
-              "maxVel": "4.0",
-              "type": "ballPlacementAfter"
-            },
-            "title": "GTPSpecial"
-          },
-          "408tyvyhadg59ijmu": {
-            "id": "408tyvyhadg59ijmu",
-            "properties": {
-              "avoidBall": "true",
-              "maxVel": "4.0",
-              "type": "ballPlacementBefore"
-            },
-            "title": "GTPSpecial"
-          },
-          "d0t6qu9pf49x8u3g": {
-            "id": "d0t6qu9pf49x8u3g",
-            "properties": {},
-            "title": "GetBall"
-          },
-          "e2akitserwmaz": {
-            "id": "e2akitserwmaz",
-            "properties": {
-              "BallPlacement": "true"
-            },
-            "title": "Receive"
-          },
-          "fsz08lnlk1gs4": {
+          "2345wilddjig9zsr": {
             "children": [
-              "408tyvyhadg59ijmu",
-              "d0t6qu9pf49x8u3g",
-              "w5j0yc4ez9wa31uw",
-              "2aqgzqz0ed5ya"
+              "fdtfhcwo900ryijn",
+              "o88xm1p6lag0a5ld"
             ],
-            "id": "fsz08lnlk1gs4",
+            "id": "2345wilddjig9zsr",
+            "properties": {
+              "ROLE": "ball_placement_receiver"
+            },
             "title": "MemSequence"
           },
-          "njlz58zg4vxuf": {
-            "children": [
-              "e2akitserwmaz",
-              "fsz08lnlk1gs4"
-            ],
-            "id": "njlz58zg4vxuf",
-            "title": "MemSequence"
+          "fdtfhcwo900ryijn": {
+            "id": "fdtfhcwo900ryijn",
+            "properties": {
+              "ROLE": "ball_placement_receiver"
+            },
+            "title": "BallPlacementReceive"
           },
-          "w5j0yc4ez9wa31uw": {
-            "id": "w5j0yc4ez9wa31uw",
+          "o88xm1p6lag0a5ld": {
+            "id": "o88xm1p6lag0a5ld",
             "properties": {
               "BallPlacement": "true",
+              "ROLE": "ball_placement_receiver",
               "dribbleOnTerminate": "false",
               "forwardDirection": "false"
             },
             "title": "Dribble"
           }
         },
-        "root": "njlz58zg4vxuf",
+        "root": "2345wilddjig9zsr",
         "title": "ball_placement_receiver"
       }
     ]
