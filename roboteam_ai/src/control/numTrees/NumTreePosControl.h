@@ -50,6 +50,8 @@ class NumTreePosControl : public BasicPosControl {
         Collision currentCollisionWithRobot;
         Collision currentCollisionWithFinalTarget;
         bool allowIllegalPositions = false;
+        Vector2 currentlyAvoidingDefenseAreaPosition;
+        bool currentlyAvoidingDefenseArea;
 
         // new paths
         PathPointer computeNewPoint(const std::shared_ptr<PathPoint> &oldPoint, const Vector2 &subTarget);
