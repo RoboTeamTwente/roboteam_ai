@@ -1,1 +1,182 @@
-{"data": {"trees": [{"nodes": {"9279mrjurytrq": {"properties": {"ROLE": "role2"}, "id": "9279mrjurytrq", "title": "Attack"}, "3yabrwxvmkgpg": {"properties": {"ROLE": "role4"}, "id": "3yabrwxvmkgpg", "title": "Attack"}, "256fqoi7vkiga1": {"properties": {"ROLE": "role8"}, "id": "256fqoi7vkiga1", "title": "Attack"}, "f4rd1grrgskpvg6rz": {"properties": {"ROLE": "role3"}, "name": "role3", "title": "Role", "id": "f4rd1grrgskpvg6rz", "role": "new_robot_attacker", "children": ["2j2o65qx8zxfz00k0"]}, "bu5hyihynnsbcipax": {"properties": {"ROLE": "role5"}, "id": "bu5hyihynnsbcipax", "title": "Attack"}, "98qmx0f1tzuv7": {"properties": {"ROLE": "role2"}, "name": "role2", "title": "Role", "id": "98qmx0f1tzuv7", "role": "new_robot_attacker", "children": ["9279mrjurytrq"]}, "v3auu3evvtcpp": {"properties": {"ROLE": "role5"}, "name": "role5", "title": "Role", "id": "v3auu3evvtcpp", "role": "new_robot_attacker", "children": ["bu5hyihynnsbcipax"]}, "2j2o65qx8zxfz00k0": {"properties": {"ROLE": "role3"}, "id": "2j2o65qx8zxfz00k0", "title": "Attack"}, "k7py0tqcyeowo8": {"properties": {"ROLE": "role8"}, "name": "role8", "title": "Role", "id": "k7py0tqcyeowo8", "role": "new_robot_attacker", "children": ["256fqoi7vkiga1"]}, "d2i4gwb54upod": {"properties": {"ROLE": "role7"}, "name": "role7", "title": "Role", "id": "d2i4gwb54upod", "role": "new_robot_attacker", "children": ["13ncl4lkpt82y4p"]}, "pq0klmcpzhxs1": {"properties": {"ROLE": "role1"}, "name": "role1", "title": "Role", "id": "pq0klmcpzhxs1", "role": "new_robot_attacker", "children": ["jilq5bz7klf2m"]}, "jilq5bz7klf2m": {"properties": {"ROLE": "role1"}, "id": "jilq5bz7klf2m", "title": "Attack"}, "77zennj9gigo0": {"properties": {"TacticType": "General"}, "children": ["pq0klmcpzhxs1", "98qmx0f1tzuv7", "f4rd1grrgskpvg6rz", "84f16i6hoqzd6b", "v3auu3evvtcpp", "vvyg5pgrcgyosudn6", "d2i4gwb54upod", "k7py0tqcyeowo8"], "id": "77zennj9gigo0", "title": "RoleDivider"}, "13ncl4lkpt82y4p": {"properties": {"ROLE": "role7"}, "id": "13ncl4lkpt82y4p", "title": "Attack"}, "vvyg5pgrcgyosudn6": {"properties": {"ROLE": "role6"}, "name": "role6", "title": "Role", "id": "vvyg5pgrcgyosudn6", "role": "new_robot_attacker", "children": ["pydyu4o5eo0d89bgs"]}, "84f16i6hoqzd6b": {"properties": {"ROLE": "role4"}, "name": "role4", "title": "Role", "id": "84f16i6hoqzd6b", "role": "new_robot_attacker", "children": ["3yabrwxvmkgpg"]}, "pydyu4o5eo0d89bgs": {"properties": {"ROLE": "role6"}, "id": "pydyu4o5eo0d89bgs", "title": "Attack"}}, "root": "77zennj9gigo0", "title": "new_robot_tactic"}]}, "name": "new_robot_tactic"}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "13ncl4lkpt82y4p": {
+            "id": "13ncl4lkpt82y4p",
+            "properties": {
+              "ROLE": "role7"
+            },
+            "title": "Attack"
+          },
+          "256fqoi7vkiga1": {
+            "id": "256fqoi7vkiga1",
+            "properties": {
+              "ROLE": "role8"
+            },
+            "title": "Attack"
+          },
+          "2j2o65qx8zxfz00k0": {
+            "id": "2j2o65qx8zxfz00k0",
+            "properties": {
+              "ROLE": "role3"
+            },
+            "title": "Attack"
+          },
+          "3yabrwxvmkgpg": {
+            "id": "3yabrwxvmkgpg",
+            "properties": {
+              "ROLE": "role4"
+            },
+            "title": "Attack"
+          },
+          "77zennj9gigo0": {
+            "children": [
+              "pq0klmcpzhxs1",
+              "98qmx0f1tzuv7",
+              "f4rd1grrgskpvg6rz",
+              "84f16i6hoqzd6b",
+              "v3auu3evvtcpp",
+              "vvyg5pgrcgyosudn6",
+              "d2i4gwb54upod",
+              "k7py0tqcyeowo8"
+            ],
+            "id": "77zennj9gigo0",
+            "properties": {
+              "TacticType": "General"
+            },
+            "title": "RoleDivider"
+          },
+          "84f16i6hoqzd6b": {
+            "children": [
+              "3yabrwxvmkgpg"
+            ],
+            "id": "84f16i6hoqzd6b",
+            "name": "role4",
+            "properties": {
+              "ROLE": "role4"
+            },
+            "role": "new_robot_attacker",
+            "title": "Role"
+          },
+          "9279mrjurytrq": {
+            "id": "9279mrjurytrq",
+            "properties": {
+              "ROLE": "role2"
+            },
+            "title": "Attack"
+          },
+          "98qmx0f1tzuv7": {
+            "children": [
+              "9279mrjurytrq"
+            ],
+            "id": "98qmx0f1tzuv7",
+            "name": "role2",
+            "properties": {
+              "ROLE": "role2"
+            },
+            "role": "new_robot_attacker",
+            "title": "Role"
+          },
+          "bu5hyihynnsbcipax": {
+            "id": "bu5hyihynnsbcipax",
+            "properties": {
+              "ROLE": "role5"
+            },
+            "title": "Attack"
+          },
+          "d2i4gwb54upod": {
+            "children": [
+              "13ncl4lkpt82y4p"
+            ],
+            "id": "d2i4gwb54upod",
+            "name": "role7",
+            "properties": {
+              "ROLE": "role7"
+            },
+            "role": "new_robot_attacker",
+            "title": "Role"
+          },
+          "f4rd1grrgskpvg6rz": {
+            "children": [
+              "2j2o65qx8zxfz00k0"
+            ],
+            "id": "f4rd1grrgskpvg6rz",
+            "name": "role3",
+            "properties": {
+              "ROLE": "role3"
+            },
+            "role": "new_robot_attacker",
+            "title": "Role"
+          },
+          "jilq5bz7klf2m": {
+            "id": "jilq5bz7klf2m",
+            "properties": {
+              "ROLE": "role1"
+            },
+            "title": "Attack"
+          },
+          "k7py0tqcyeowo8": {
+            "children": [
+              "256fqoi7vkiga1"
+            ],
+            "id": "k7py0tqcyeowo8",
+            "name": "role8",
+            "properties": {
+              "ROLE": "role8"
+            },
+            "role": "new_robot_attacker",
+            "title": "Role"
+          },
+          "pq0klmcpzhxs1": {
+            "children": [
+              "jilq5bz7klf2m"
+            ],
+            "id": "pq0klmcpzhxs1",
+            "name": "role1",
+            "properties": {
+              "ROLE": "role1"
+            },
+            "role": "new_robot_attacker",
+            "title": "Role"
+          },
+          "pydyu4o5eo0d89bgs": {
+            "id": "pydyu4o5eo0d89bgs",
+            "properties": {
+              "ROLE": "role6"
+            },
+            "title": "Attack"
+          },
+          "v3auu3evvtcpp": {
+            "children": [
+              "bu5hyihynnsbcipax"
+            ],
+            "id": "v3auu3evvtcpp",
+            "name": "role5",
+            "properties": {
+              "ROLE": "role5"
+            },
+            "role": "new_robot_attacker",
+            "title": "Role"
+          },
+          "vvyg5pgrcgyosudn6": {
+            "children": [
+              "pydyu4o5eo0d89bgs"
+            ],
+            "id": "vvyg5pgrcgyosudn6",
+            "name": "role6",
+            "properties": {
+              "ROLE": "role6"
+            },
+            "role": "new_robot_attacker",
+            "title": "Role"
+          }
+        },
+        "root": "77zennj9gigo0",
+        "title": "new_robot_tactic"
+      }
+    ]
+  },
+  "name": "new_robot_tactic"
+}
