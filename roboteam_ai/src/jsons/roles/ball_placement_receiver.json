@@ -3,42 +3,83 @@
     "trees": [
       {
         "nodes": {
-          "0oy9foa31qxmg3gy": {
-            "id": "0oy9foa31qxmg3gy",
+          "1nsu3wem1wfnq1oj": {
+            "children": [
+              "tz8tak4y4pqp2c2a",
+              "2bf2hjj1nacoi6gk"
+            ],
+            "id": "1nsu3wem1wfnq1oj",
+            "properties": {},
+            "title": "Sequence"
+          },
+          "2bf2hjj1nacoi6gk": {
+            "id": "2bf2hjj1nacoi6gk",
             "properties": {
+              "ROLE": "ball_placement_receiver",
+              "avoidBall": "true",
+              "canGoOutsideField": "",
+              "canMoveInDefenseArea": "",
+              "fixedTarget": "",
+              "maxVel": "",
+              "type": "ballPlacementAfter"
+            },
+            "title": "GTPSpecial"
+          },
+          "66aufu6wm5b0fj7z": {
+            "id": "66aufu6wm5b0fj7z",
+            "properties": {
+              "ROLE": "ball_placement_receiver",
               "ticks": "20"
             },
             "title": "Halt"
           },
-          "0qe7n3nropqr65po": {
-            "id": "0qe7n3nropqr65po",
+          "6nn2w7c60ume8hta": {
+            "children": [
+              "jmt3d41rqe4a1zxi"
+            ],
+            "id": "6nn2w7c60ume8hta",
+            "properties": {
+              "limit": ""
+            },
+            "title": "Repeater"
+          },
+          "jmt3d41rqe4a1zxi": {
+            "id": "jmt3d41rqe4a1zxi",
+            "properties": {
+              "ticks": ""
+            },
+            "title": "Halt"
+          },
+          "nkkdk5h67ttbazek": {
+            "children": [
+              "w4j29o6jgi1zay84",
+              "66aufu6wm5b0fj7z",
+              "1nsu3wem1wfnq1oj",
+              "6nn2w7c60ume8hta"
+            ],
+            "id": "nkkdk5h67ttbazek",
             "properties": {
               "ROLE": "ball_placement_receiver"
             },
-            "title": "BallPlacementReceive"
+            "title": "MemSequence"
           },
-          "gdx5ti9p360gw2mz": {
-            "id": "gdx5ti9p360gw2mz",
+          "tz8tak4y4pqp2c2a": {
+            "id": "tz8tak4y4pqp2c2a",
             "properties": {
               "BallPlacement": "true",
               "ROLE": "ball_placement_receiver"
             },
             "title": "Dribble"
           },
-          "gk4smvimapsh67e0": {
-            "children": [
-              "0qe7n3nropqr65po",
-              "0oy9foa31qxmg3gy",
-              "gdx5ti9p360gw2mz"
-            ],
-            "id": "gk4smvimapsh67e0",
+          "w4j29o6jgi1zay84": {
+            "id": "w4j29o6jgi1zay84",
             "properties": {
               "ROLE": "ball_placement_receiver"
             },
-            "title": "MemSequence"
+            "title": "BallPlacementReceive"
           }
         },
-        "root": "gk4smvimapsh67e0",
+        "root": "nkkdk5h67ttbazek",
         "title": "ball_placement_receiver"
       }
     ]
