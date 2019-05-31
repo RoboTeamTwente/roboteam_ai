@@ -32,22 +32,13 @@ bt::Node::Status BallPlacementPass::onUpdate() {
     }
 
     robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
-//    if(!coach::g_pass.validReceiver(robot, robotToPassTo)) {
-//        std::cout << "the receiver is invalid" << std::endl;
-//        publishRobotCommand(); // halt
-//        return Status::Failure;
-//    }
 
-    if (ball->pos.dist(targetPos) < 0.5) {
-        publishRobotCommand();
-        return Status::Running;
+    if ((ball->pos - targetPos).length() < 0.5) {
+        return Status::Success;
     }
 
     if (didShootProperly()) {
-        hasShot = true;
         coach::g_pass.setPassed(true);
-        std::cout << "Set passed = true" << std::endl;
-        publishRobotCommand();
         return Status::Success;
     }
 

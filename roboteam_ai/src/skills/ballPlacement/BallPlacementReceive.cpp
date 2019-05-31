@@ -18,17 +18,18 @@ bt::Node::Status BallPlacementReceive::onUpdate() {
         return Status::Failure;
     }
 
-    if (world::world->robotHasBall(robot->id, true)) {
+    if (world::world->robotHasBall(robot->id, true) && ball->vel.length() <= Constants::BALL_STILL_VEL()) {
         return Status::Success;
     }
 
     if (ball->pos.dist(coach::g_ballPlacement.getBallPlacementPos()) < 0.5) {
-        publishRobotCommand();
         return Status::Success;
     }
 
     if (coach::g_pass.isPassed()) {
-        std::cout << "Intercepting!" << std::endl;
+        if(ballDeflected()) {
+            return Status::Failure;
+        }
         intercept();
     } else {
         Vector2 ballPlacementTarget = coach::g_ballPlacement.getBallPlacementPos();
@@ -47,7 +48,7 @@ bt::Node::Status BallPlacementReceive::onUpdate() {
 }
 
 
-void BallPlacementReceive::moveToCatchPosition(Vector2 position) {
+void BallPlacementReceive::moveToCatchPosition(const Vector2& position) {
     control::PosVelAngle pva = robot->getNumtreePosControl()->getPosVelAngle(robot, position);
     command.x_vel = static_cast<float>(pva.vel.x);
     command.y_vel = static_cast<float>(pva.vel.y);
