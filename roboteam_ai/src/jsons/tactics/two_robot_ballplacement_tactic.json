@@ -83,17 +83,6 @@
             },
             "title": "IsBallCloseToBorder"
           },
-          "851y9xxvsk8fym": {
-            "id": "851y9xxvsk8fym",
-            "properties": {
-              "ROLE": "ball_placement_receiver",
-              "avoidBall": "true",
-              "canGoOutsideField": "false",
-              "maxVel": "4.0",
-              "type": "ballPlacementAfter"
-            },
-            "title": "GTPSpecial"
-          },
           "8vn5rk5099fn493gb": {
             "children": [
               "h9zpcjiknjvrrtm"
@@ -146,19 +135,6 @@
               "ROLE": "ball_placement_passer"
             },
             "title": "Halt"
-          },
-          "foussyt554jxmhi0": {
-            "children": [
-              "mv0lgm5z0b84vy3",
-              "ueewfu1ybxo0xq",
-              "tz0jmrgow6vqwa",
-              "851y9xxvsk8fym"
-            ],
-            "id": "foussyt554jxmhi0",
-            "properties": {
-              "ROLE": "ball_placement_receiver"
-            },
-            "title": "MemSequence"
           },
           "gn6ntr8xnqezpg9": {
             "children": [
@@ -251,16 +227,6 @@
             },
             "title": "AvoidBall"
           },
-          "mv0lgm5z0b84vy3": {
-            "id": "mv0lgm5z0b84vy3",
-            "properties": {
-              "ROLE": "ball_placement_receiver",
-              "avoidBall": "true",
-              "maxVel": "4.0",
-              "type": "ballPlacementBefore"
-            },
-            "title": "GTPSpecial"
-          },
           "o95mw6owa4fb9lbw": {
             "id": "o95mw6owa4fb9lbw",
             "properties": {
@@ -326,29 +292,20 @@
             "id": "tz0jmrgow6vqwa",
             "properties": {
               "BallPlacement": "true",
-              "ROLE": "ball_placement_receiver",
-              "dribbleOnTerminate": "false",
-              "forwardDirection": "false"
+              "ROLE": "ball_placement_receiver"
             },
             "title": "Dribble"
           },
           "u8xybs7gyd86oxu": {
             "children": [
               "0hn6jrzejz5ziot6",
-              "foussyt554jxmhi0"
+              "tz0jmrgow6vqwa"
             ],
             "id": "u8xybs7gyd86oxu",
             "properties": {
               "ROLE": "ball_placement_receiver"
             },
             "title": "MemSequence"
-          },
-          "ueewfu1ybxo0xq": {
-            "id": "ueewfu1ybxo0xq",
-            "properties": {
-              "ROLE": "ball_placement_receiver"
-            },
-            "title": "GetBall"
           },
           "uh32ackxmmczv": {
             "children": [
