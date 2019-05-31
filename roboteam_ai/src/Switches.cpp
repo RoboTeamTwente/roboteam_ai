@@ -412,7 +412,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
 
             {"one_robot_ballplacement_tactic", {
-                    {"ballplacementbot", robotType::RANDOM},
+                    {"ballplacementbot", robotType::CLOSE_TO_BALL},
                     {"avoid1", robotType::RANDOM},
                     {"avoid2", robotType::RANDOM},
                     {"avoid3", robotType::RANDOM},

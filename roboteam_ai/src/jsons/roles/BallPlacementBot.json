@@ -5,7 +5,7 @@
         "nodes": {
           "29w9g4x05z8n6whfs": {
             "children": [
-              "r0tc523tg150l8"
+              "9gh4nscfn3hd6pea"
             ],
             "id": "29w9g4x05z8n6whfs",
             "title": "UntilSuccess"
@@ -13,50 +13,9 @@
           "9gh4nscfn3hd6pea": {
             "id": "9gh4nscfn3hd6pea",
             "properties": {
-              "BallPlacement": "true",
-              "forwardDirection": "false",
-              "maxTicks": "100"
-            },
-            "title": "Dribble"
-          },
-          "feh7bjpvwk2uo": {
-            "id": "feh7bjpvwk2uo",
-            "properties": {
-              "avoidBall": "true",
-              "type": "ballPlacementBefore"
-            },
-            "title": "GTPSpecial"
-          },
-          "g9222y85xo6r62339": {
-            "id": "g9222y85xo6r62339",
-            "properties": {
-              "avoidBall": "true",
-              "type": "ballPlacementAfter"
-            },
-            "title": "GTPSpecial"
-          },
-          "nt5ol0f6e33ihxg": {
-            "id": "nt5ol0f6e33ihxg",
-            "properties": {},
-            "title": "GetBall"
-          },
-          "r0tc523tg150l8": {
-            "children": [
-              "feh7bjpvwk2uo",
-              "nt5ol0f6e33ihxg",
-              "s3gh07fk2fdhy",
-              "g9222y85xo6r62339",
-              "9gh4nscfn3hd6pea"
-            ],
-            "id": "r0tc523tg150l8",
-            "title": "MemSequence"
-          },
-          "s3gh07fk2fdhy": {
-            "id": "s3gh07fk2fdhy",
-            "properties": {
               "BallPlacement": "true"
             },
-            "title": "DribbleRotate"
+            "title": "Dribble"
           }
         },
         "root": "29w9g4x05z8n6whfs",
