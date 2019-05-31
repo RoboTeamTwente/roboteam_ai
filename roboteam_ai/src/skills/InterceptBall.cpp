@@ -54,12 +54,12 @@ InterceptBall::Status InterceptBall::onUpdate() {
     tickCount ++;
     switch (currentProgression) {
     case INTERCEPTING:std::cout << "intercepting" << std::endl;
-        sendInterceptCommand();
-        //sendMoveCommand(interceptPos);
+        //sendInterceptCommand();
+        sendMoveCommand(interceptPos);
         return Status::Running;
     case CLOSETOPOINT:std::cout << "close" << std::endl;
-        sendFineInterceptCommand();
-        //sendMoveCommand(interceptPos);
+        //sendFineInterceptCommand();
+        sendMoveCommand(interceptPos);
         return Status::Running;
     case INPOSITION:std::cout << "InPosition" << std::endl;
         sendStopCommand();
@@ -74,7 +74,7 @@ InterceptBall::Status InterceptBall::onUpdate() {
 }
 
 void InterceptBall::sendMoveCommand(Vector2 targetPos) {
-    Vector2 velocities = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos).vel;
+    Vector2 velocities = robot->getBasicPosControl()->getRobotCommand(robot, targetPos).vel;
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
 
