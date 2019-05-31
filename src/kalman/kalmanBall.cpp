@@ -40,31 +40,29 @@ namespace rtt {
         this->K.zeros();
     }
 
-    void kalmanBall::kalmanUpdateZ(roboteam_msgs::DetectionBall ball, double timeStamp) {
+    void kalmanBall::kalmanUpdateZ(roboteam_msgs::DetectionBall ball, double timeStamp, uint cameraID) {
         //Same as the KalmanObject function but then for ball frame
-        if (timeStamp > this->observationTimeStamp) {
-            if (this->exists){
-                //HAck
-                float errorx = ball.pos.x-this->X(0);
-                float errory = ball.pos.y-this->X(2);
-                if (errorx*errorx+errory*errory >= 2){//So the distance is the root of 2, 1.4 something? just being lazy, though apparently I have the time to write this comment
-                    return;
-                }
+        if (this->exists){
+            //HAck
+            float errorx = ball.pos.x-this->X(0);
+            float errory = ball.pos.y-this->X(2);
+            if (errorx*errorx+errory*errory >= 2){//So the distance is the root of 2, 1.4 something? just being lazy, though apparently I have the time to write this comment
+                return;
             }
-            this->Z(0) = ball.pos.x;
-            this->Z(1) = ball.pos.y;
-            this->omega = (ball.z - this->orientation)/(timeStamp-this->observationTimeStamp);
-            this->orientation = ball.z;
-            this->observationTimeStamp = timeStamp;
-            this->invisibleCounter = 0;
-            if (!this->exists){
-                this->X.zeros();
-                this->X(0) = ball.pos.x;
-                this->X(2) = ball.pos.y;
-            }
-            this->exists = true;
-
         }
+        Position average = calculatePos(ball.pos, ball.z, cameraID);
+        this->Z(0) = average.x;
+        this->Z(1) = average.y;
+        this->omega = (ball.z - this->orientation)/(timeStamp-this->observationTimeStamp);
+        this->orientation = ball.z;
+        this->observationTimeStamp = timeStamp;
+        this->invisibleCounter = 0;
+        if (!this->exists){
+            this->X.zeros();
+            this->X(0) = ball.pos.x;
+            this->X(2) = ball.pos.y;
+        }
+        this->exists = true;
     }
     roboteam_msgs::WorldBall kalmanBall::as_ball_message() const{
         //Same as the KalmanObject function but then for ball message

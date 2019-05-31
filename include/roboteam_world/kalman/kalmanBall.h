@@ -18,7 +18,7 @@ class kalmanBall : public kalmanObject {
         //Same as the KalmanObject function but then for ball message
         roboteam_msgs::WorldBall as_ball_message() const;
         //Same as the KalmanObject function but then for ball frame
-        void kalmanUpdateZ(roboteam_msgs::DetectionBall ball, double timestamp);
+        void kalmanUpdateZ(roboteam_msgs::DetectionBall ball, double timestamp, uint cameraID);
 };
 
 }

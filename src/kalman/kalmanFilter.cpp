@@ -41,7 +41,7 @@ void kalmanFilter::newFrame(const roboteam_msgs::DetectionFrame &msg) {
         theirBots[robot.robot_id].kalmanUpdateZ(robot, timeCapture, cameraID);
     }
     for (const roboteam_msgs::DetectionBall detBall : msg.balls) {
-        ball.kalmanUpdateZ(detBall, timeCapture);
+        ball.kalmanUpdateZ(detBall, timeCapture, cameraID);
     }
 }
 
