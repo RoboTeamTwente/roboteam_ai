@@ -3,22 +3,26 @@
     "trees": [
       {
         "nodes": {
-          "29w9g4x05z8n6whfs": {
-            "children": [
-              "9gh4nscfn3hd6pea"
-            ],
-            "id": "29w9g4x05z8n6whfs",
-            "title": "UntilSuccess"
-          },
-          "9gh4nscfn3hd6pea": {
-            "id": "9gh4nscfn3hd6pea",
+          "9cp393bk4ll3fnu1": {
+            "id": "9cp393bk4ll3fnu1",
             "properties": {
-              "BallPlacement": "true"
+              "ROLE": "ballplacementbot",
+              "ballPlacement": "true"
             },
             "title": "Dribble"
+          },
+          "owbbjm2hzc1gjw2m": {
+            "children": [
+              "9cp393bk4ll3fnu1"
+            ],
+            "id": "owbbjm2hzc1gjw2m",
+            "properties": {
+              "ROLE": "ballplacementbot"
+            },
+            "title": "UntilSuccess"
           }
         },
-        "root": "29w9g4x05z8n6whfs",
+        "root": "owbbjm2hzc1gjw2m",
         "title": "BallPlacementBot"
       }
     ]

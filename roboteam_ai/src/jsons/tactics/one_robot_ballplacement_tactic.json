@@ -72,9 +72,8 @@
           "9gurs7te1c0vt2lw": {
             "id": "9gurs7te1c0vt2lw",
             "properties": {
-              "BallPlacement": "true",
               "ROLE": "ballplacementbot",
-              "forwardDirection": "false"
+              "ballPlacement": "true"
             },
             "title": "Dribble"
           },
