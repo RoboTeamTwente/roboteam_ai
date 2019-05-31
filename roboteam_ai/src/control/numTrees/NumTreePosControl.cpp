@@ -256,7 +256,7 @@ NumTreePosControl::PathPointer NumTreePosControl::computeNewPoint(
     Angle deltaAngle = newPoint->vel.toAngle() - targetDirection.toAngle();
 
     newPoint->acc = ((targetDirection.normalize()*newPoint->maxVel() - newPoint->vel).normalize() -
-                newPoint->vel.normalize() * fabs(deltaAngle) * M_2_PI);
+            newPoint->vel.normalize()*fabs(deltaAngle)*M_2_PI);
 
     Vector2 targetVel = newPoint->vel + newPoint->acc.stretchToLength(DT*
             std::max(newPoint->maxAcceleration(), newPoint->maxDeceleration()));
@@ -356,17 +356,17 @@ Collision NumTreePosControl::getDefenseAreaCollision(const PathPointer &point) {
     if (currentCollisionWithRobot.getCollisionDefenseAreaPos() != Vector2()) return collision;
     if (currentCollisionWithFinalTarget.getCollisionDefenseAreaPos() != Vector2()) return collision;
 
-        if (! getCanMoveInDefenseArea()) {
-            auto margin = Constants::ROBOT_RADIUS();
-            bool isInOurDefenseArea = world::field->pointIsInDefenceArea(point->pos, true, margin, false);
-            bool isInTheirDefenseArea = world::field->pointIsInDefenceArea(point->pos, false, margin, false);
-            if (isInOurDefenseArea || isInTheirDefenseArea) {
-                double defenseAreaX = point->pos.x < 0 ? world::field->get_field().left_penalty_line.begin.x :
-                                                         world::field->get_field().right_penalty_line.begin.x;
-                collision.setDefenseAreaCollision(point->pos, (fabs(defenseAreaX - point->pos.x) + margin)*1.1);
-                return collision;
-            }
+    if (! getCanMoveInDefenseArea()) {
+        auto margin = Constants::ROBOT_RADIUS();
+        bool isInOurDefenseArea = world::field->pointIsInDefenceArea(point->pos, true, margin, false);
+        bool isInTheirDefenseArea = world::field->pointIsInDefenceArea(point->pos, false, margin, false);
+        if (isInOurDefenseArea || isInTheirDefenseArea) {
+            double defenseAreaX = point->pos.x < 0 ? world::field->get_field().left_penalty_line.begin.x :
+                                  world::field->get_field().right_penalty_line.begin.x;
+            collision.setDefenseAreaCollision(point->pos, (fabs(defenseAreaX - point->pos.x) + margin)*1.1);
+            return collision;
         }
+    }
     return collision;
 }
 
@@ -446,24 +446,31 @@ bool NumTreePosControl::checkCurrentRobotCollision() {
     currentCollisionWithRobot = Collision();
     currentCollisionWithFinalTarget = Collision();
 
-    if (allowIllegalPositions) {
-        PathPointer realRobotPoint = std::make_shared<PathPoint>();
-        realRobotPoint->pos = robot->pos;
-        realRobotPoint->vel = robot->vel;
-        realRobotPoint->t = 0;
-        currentCollisionWithRobot = getCollision(realRobotPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
-        PathPointer finalTargetPoint = std::make_shared<PathPoint>();
-        finalTargetPoint->pos = finalTargetPos;
-        finalTargetPoint->vel = Vector2();
-        finalTargetPoint->t = 0;
-        currentCollisionWithFinalTarget = getCollision(finalTargetPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
+    PathPointer realRobotPoint = std::make_shared<PathPoint>();
+    realRobotPoint->pos = robot->pos;
+    realRobotPoint->vel = robot->vel;
+    realRobotPoint->t = 0;
+    currentCollisionWithRobot = getCollision(realRobotPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
+    PathPointer finalTargetPoint = std::make_shared<PathPoint>();
+    finalTargetPoint->pos = finalTargetPos;
+    finalTargetPoint->vel = Vector2();
+    finalTargetPoint->t = 0;
+    currentCollisionWithFinalTarget = getCollision(finalTargetPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
+
+    if (!allowIllegalPositions) {
+        if (currentCollisionWithFinalTarget.getCollisionType() == Collision::DEFENSE_AREA) {
+            pathHasRobotCollision = false;
+            currentCollisionWithFinalTarget = {};
+            path.clear();
+            return true;
+        }
     }
 
     bool collision = currentCollisionWithRobot.isCollision &&
             previousCollisionWithRobot.getCollisionType() != currentCollisionWithRobot.getCollisionType() &&
             currentCollisionWithFinalTarget.isCollision &&
             previousCollisionWithFinalTarget.getCollisionType() != currentCollisionWithFinalTarget.getCollisionType() &&
-            !pathHasRobotCollision;
+            ! pathHasRobotCollision;
 
     if (collision) {
         if (InterfaceValues::showDebugNumTreeInfo()) {
