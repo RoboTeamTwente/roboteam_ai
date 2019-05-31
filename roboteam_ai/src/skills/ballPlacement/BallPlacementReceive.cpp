@@ -13,6 +13,8 @@ BallPlacementReceive::BallPlacementReceive(string name, bt::Blackboard::Ptr blac
 : Receive(std::move(name), std::move(blackboard)) {}
 
 bt::Node::Status BallPlacementReceive::onUpdate() {
+    command.dribbler = 25;
+
 
     if (coach::g_pass.getRobotBeingPassedTo() != robot->id) {
         return Status::Failure;
