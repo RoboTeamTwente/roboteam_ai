@@ -61,6 +61,13 @@ RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
     return robotCommand;
 }
 
+RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
+        const Vector2 &targetPos, bool illegalPositions) {
+
+    Angle defaultAngle = 0;
+    return getRobotCommand(robotPtr, targetPos, defaultAngle, illegalPositions);
+}
+
 /// finds a path using a numeric model
 RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle) {
@@ -411,9 +418,9 @@ void NumTreePosControl::checkInterfacePID() {
     updatePid(newPid);
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(const PosController::RobotPtr &r, const Vector2 &targetPos) {
+RobotCommand NumTreePosControl::getRobotCommand(const PosController::RobotPtr &robotPtr, const Vector2 &targetPos) {
     Angle defaultAngle;
-    return NumTreePosControl::getRobotCommand(r, targetPos, defaultAngle);
+    return NumTreePosControl::getRobotCommand(robotPtr, targetPos, defaultAngle);
 }
 
 /// finds a reason to calculate a new path (possible reasons are: no path calculated yet, final target moved,

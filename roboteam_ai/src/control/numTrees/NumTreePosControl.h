@@ -71,11 +71,13 @@ class NumTreePosControl : public BasicPosControl {
         explicit NumTreePosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
 
         void clear();
-        RobotCommand getRobotCommand(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) override;
+
+        RobotCommand getRobotCommand(const RobotPtr &robotPtr, const Vector2 &targetPos) override;
+        RobotCommand getRobotCommand(const RobotPtr &robotPtr, const Vector2 &targetPos, bool illegalPositions);
+        RobotCommand getRobotCommand(const RobotPtr &robotPtr, const Vector2 &targetPos,
+                const Angle &targetAngle) override;
         RobotCommand getRobotCommand(const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle,
                 bool illegalPositions);
-
-        RobotCommand getRobotCommand(const RobotPtr &robot, const Vector2 &targetPos) override;
 
 };
 
