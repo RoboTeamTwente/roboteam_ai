@@ -135,7 +135,7 @@ ShotData ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTa
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 ShotData ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver) {
     std::cout << "Move straight to ball" << std::endl;
-    auto robotCommand = robot.getBasicPosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
+    auto robotCommand = robot.getBasicPosControl()->getPosVelAngle(std::make_shared<world::Robot>(robot),
             lineToDriveOver.second);
     robotCommand.vel=control::ControlUtils::velocityLimiter(robotCommand.vel,0.5,0.0,true);
     robotCommand.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
