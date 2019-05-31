@@ -26,8 +26,6 @@ bt::Node::Status BallPlacementPass::onUpdate() {
     robotToPassToID = coach::g_pass.getRobotBeingPassedTo();
     if (robotToPassToID == -1) {
         std::cout << "the robot to pass to id is -1" << std::endl;
-        publishRobotCommand(); //halt
-
         return Status::Failure;
     }
 
@@ -47,10 +45,10 @@ bt::Node::Status BallPlacementPass::onUpdate() {
      * Otherwise we can already drive to the position but wait while close
      * When receiver is ready we can shoot
      */
-    if (!coach::g_pass.isPassed() && !hasShot) {
+    if (!coach::g_pass.isPassed()) {
         if (coach::g_pass.isReadyToReceivePass()) {
             robot->getShotController()->makeCommand(robot->getShotController()->getShotData(*robot, getKicker(), false), command);
-            if(command.kicker == 1 && !hasShot) {
+            if(command.kicker == true && !hasShot) {
                 hasShot = true;
             }
         } else if (robot->pos.dist(ball->pos) > 0.5) {
@@ -58,7 +56,6 @@ bt::Node::Status BallPlacementPass::onUpdate() {
             command.x_vel = pva.vel.x;
             command.y_vel = pva.vel.y;
             command.w = pva.angle;
-            // empty command
         } else {
             command.w = (ball->pos - robot->pos).angle();
         }
