@@ -19,10 +19,10 @@ ShouldHandleBall::Status ShouldHandleBall::onUpdate() {
         if ((coach::g_pass.getRobotPassing() == robot->id && !coach::g_pass.isPassed())) {
             return Status::Success;
         }
-    }
-
-    if (coach::getBallCoach->getBallGetterID() == robot->id) {
-        return Status::Success;
+    } else {
+        if (coach::getBallCoach->getBallGetterID() == robot->id) {
+            return Status::Success;
+        }
     }
 
     return Status::Failure;
