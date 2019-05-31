@@ -45,7 +45,9 @@ Keeper::Status Keeper::onUpdate() {
     else{
         command.w=(ballPos-blockPoint).angle();
     }
-    Vector2 velocities = basicGtp.getPosVelAngle(robot, blockPoint).vel;
+    interface::Input::drawData(interface::Visual::KEEPER, {blockPoint}, Qt::darkYellow, robot->id,
+            interface::Drawing::DOTS, 5, 5);
+    Vector2 velocities = robot->getBasicPosControl()->getPosVelAngle(robot, blockPoint).vel;
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
     publishRobotCommand();

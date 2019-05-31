@@ -22,8 +22,6 @@ class Keeper : public Skill {
         Vector2 computeBlockPoint(const Vector2& defendPos);
         Vector2 goalPos;
         double goalwidth;
-        control::BasicPosControl basicGtp;
-        Vector2 getBlockLine(Vector2 defendPos);
         void setGoalPosWithAttacker(RobotPtr attacker);
 
     public:
