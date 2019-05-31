@@ -30,7 +30,7 @@ Keeper::Status Keeper::onUpdate() {
 
     if (ball->pos.x < 0) {
         auto attacker = world::world->getRobotClosestToPoint(ball->pos, world::THEIR_ROBOTS);
-        if ((ball->pos - attacker->pos).length() < 0.3) {
+        if (attacker&&(ball->pos - attacker->pos).length() < 0.3) {
             setGoalPosWithAttacker(attacker);
         }
     }
