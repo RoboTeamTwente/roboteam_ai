@@ -114,7 +114,7 @@ void Robot::setGenevaState(unsigned char state) {
         std::cout << "setting invalid geneva state (" << (int)state <<
         ") for robot with id " << id << std::endl;
     }
-    else if (! workingGeneva) {
+    else if (! workingGeneva && state!=3) {
         std::cout << "setting geneva state (" << (int)state <<
         ") for robot without working geneva with id " << id << std::endl;
     }
