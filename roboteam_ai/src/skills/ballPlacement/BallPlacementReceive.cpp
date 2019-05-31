@@ -13,25 +13,24 @@ BallPlacementReceive::BallPlacementReceive(string name, bt::Blackboard::Ptr blac
 : Receive(std::move(name), std::move(blackboard)) {}
 
 bt::Node::Status BallPlacementReceive::onUpdate() {
-    command.dribbler = 25;
-
 
     if (coach::g_pass.getRobotBeingPassedTo() != robot->id) {
         return Status::Failure;
     }
 
-    if (world::world->robotHasBall(robot->id, true) && ball->vel.length() <= Constants::BALL_STILL_VEL()) {
+    if (coach::g_pass.isPassed() && ball->vel.length() <= Constants::BALL_STILL_VEL()) {
         return Status::Success;
     }
 
-    if (ball->pos.dist(coach::g_ballPlacement.getBallPlacementPos()) < 0.5) {
+    if ((ball->pos - coach::g_ballPlacement.getBallPlacementPos()).length() < 0.15) {
         return Status::Success;
     }
 
     if (coach::g_pass.isPassed()) {
-        if(ballDeflected()) {
-            return Status::Failure;
-        }
+//        if(ballDeflected()) {
+//            return Status::Failure;
+//        }
+        command.dribbler = 25;
         intercept();
     } else {
         Vector2 ballPlacementTarget = coach::g_ballPlacement.getBallPlacementPos();
