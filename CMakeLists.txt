@@ -286,24 +286,24 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/pid.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/pid.h
 
-        #PositionControllers
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/NumTreePosControl.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/NumTreePosControl.h
+        # PositionControllers
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/RobotCommand.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosVelAngle.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/BasicPosControl.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/BasicPosControl.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ForcePosControl.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/ForcePosControl.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosController.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosController.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PathPoint.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PathPoint.h
+
+        # NumTrees
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/numTrees/NumTreePosControl.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/numTrees/NumTreePosControl.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/numTrees/PathPoint.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/numTrees/PathPoint.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/numTrees/Collision.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/numTrees/Collision.h
 
         # ShotController
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/shotControllers/ShotController.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/shotControllers/ShotController.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/shotControllers/ShotData.h
 
         # BallHandling
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ballHandling/BallHandlePosControl.cpp

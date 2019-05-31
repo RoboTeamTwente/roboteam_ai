@@ -5,7 +5,7 @@
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
 #include <roboteam_ai/src/control/PositionUtils.h>
 #include <roboteam_ai/src/utilities/Constants.h>
-#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include <roboteam_ai/src/interface/api/Input.h>
 #include "Pass.h"
@@ -32,10 +32,10 @@ Pass::Status Pass::onUpdate() {
     bool closeToBall = (robot->pos - ball->pos).length() < CLOSE_ENOUGH_TO_BALL;
 
     if(!closeToBall && !passInitialized) {
-        auto pva = robot->getNumtreePosControl()->getPosVelAngle(robot, ball->pos);
-        command.x_vel = pva.vel.x;
-        command.y_vel = pva.vel.y;
-        command.w = pva.angle;
+        auto robotCommand = robot->getNumtreePosControl()->getRobotCommand(robot, ball->pos);
+        command.x_vel = robotCommand.vel.x;
+        command.y_vel = robotCommand.vel.y;
+        command.w = robotCommand.angle;
         publishRobotCommand();
         return Status::Running;
 
@@ -79,8 +79,9 @@ Pass::Status Pass::onUpdate() {
             }
         }
 
-        auto shotdata = robot->getShotController()->getShotData(*robot, getKicker(), chip, control::BallSpeed::PASS, true, control::ShotPrecision::MEDIUM);
-        robot->getShotController()->makeCommand(shotdata, command);
+        auto shotdata = robot->getShotController()->getRobotCommand(*robot, getKicker(), chip, control::BallSpeed::PASS,
+                true, control::ShotPrecision::MEDIUM);
+        command = shotdata.makeROSCommand();
         if ((command.kicker == true || command.chipper == true) && !hasShot) {
             hasShot = true;
         }

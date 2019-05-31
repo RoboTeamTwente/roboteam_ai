@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_INTERCEPTBALL_H
 #define ROBOTEAM_AI_INTERCEPTBALL_H
 
-#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include "Skill.h"
 
