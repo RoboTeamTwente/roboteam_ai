@@ -17,7 +17,7 @@ GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard)
 void GetBall::onInitialize() { }
 
 GetBall::Status GetBall::onUpdate() {
-    if (robot->hasBall()) {
+    if (ballControlGtp.getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
         return Status::Success;
     }
 

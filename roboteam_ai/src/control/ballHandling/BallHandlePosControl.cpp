@@ -47,6 +47,10 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
 /// targetP is the target position of the BALL, targetA is the (final) target angle of the ROBOT
 RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) {
 
+    if (true) {
+        printStatus();
+    }
+
     double expectedDelay = 0.04;
     ball = world::world->getBall();
     robot = world::world->getFutureRobot(r, expectedDelay);
@@ -60,6 +64,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
         if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
             std::cout << "Can't control the ball with no ball" << std::endl;
         }
+        status = FAILURE;
         return {};
     }
 
@@ -75,13 +80,26 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
             robotCommand.vel = {0, 0};
             robotCommand.angle = lockedAngle;
             robotCommand.dribbler = 0;
+            status = FINALIZING;
             return robotCommand;
         }
-        else {
+        else if (fabs(lockedAngle - robot->angle) > angleErrorMargin) {
             if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
                 std::cout << "Rotating robot to final angle" << std::endl;
             }
-            return rotateAroundBall->getRobotCommand(robot, targetPos, targetAngle);
+            status = FINALIZING;
+            return rotateAroundBall->getRobotCommand(robot, targetPos, lockedAngle);
+        }
+        else {
+            if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
+                std::cout << "Success!!" << std::endl;
+            }
+            RobotCommand robotCommand;
+            robotCommand.vel = {0, 0};
+            robotCommand.angle = lockedAngle;
+            robotCommand.dribbler = 0;
+            status = SUCCESS;
+            return robotCommand;
         }
     }
     else {
@@ -97,9 +115,11 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
     bool ballIsMovingTooFast = ball->vel.length2() > minVelForMovingball*minVelForMovingball;
 
     if (robotDoesNotHaveBall && (robotIsTooFarFromBall || ballIsMovingTooFast)) {
+        status = GET_BALL;
         return goToBall(ballIsFarFromTarget);
     }
 
+    status = HANDLING_BALL;
     // check if we are doing something already
     if (dribbleBackwards->getBackwardsProgression() != DribbleBackwards::START) {
         return dribbleBackwards->getRobotCommand(robot, targetPos, targetAngle);
@@ -110,10 +130,10 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
     }
 
     switch (preferredTravelStrategy) {
-    case forwards: return dribbleForwards->getRobotCommand(robot, targetPos, targetAngle);
-    case backwards: return dribbleBackwards->getRobotCommand(robot, targetPos, targetAngle);
+    case FORWARDS: return dribbleForwards->getRobotCommand(robot, targetPos, targetAngle);
+    case BACKWARDS: return dribbleBackwards->getRobotCommand(robot, targetPos, targetAngle);
     default:
-    case no_preference: {
+    case NO_PREFERENCE: {
         // choose based on distance from the ball to the target
         if (ballIsFarFromTarget) {
             return dribbleForwards->getRobotCommand(robot, targetPos, targetAngle);
@@ -122,6 +142,17 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
     }
     }
 
+}
+
+void BallHandlePosControl::printStatus() {
+    switch (status) {
+    case GET_BALL:std::cout << "status: GET_BALL" << std::endl;return;
+    case HANDLING_BALL:std::cout << "status: HANDLING_BALL" << std::endl;return;
+    case FINALIZING:std::cout << "status: FINALIZING" << std::endl;return;
+    case SUCCESS:std::cout << "status: SUCCESS" << std::endl;return;
+    default:
+    case FAILURE:std::cout << "status: FAILURE" << std::endl;return;
+    }
 }
 
 RobotCommand BallHandlePosControl::goToBall(bool ballIsFarFromTarget) {
@@ -139,10 +170,10 @@ RobotCommand BallHandlePosControl::goToBall(bool ballIsFarFromTarget) {
     RobotCommand robotCommand;
     Vector2 target;
     Vector2 ballToTarget = finalTargetPos - ball->pos;
-    if (preferredTravelStrategy == backwards) {
+    if (preferredTravelStrategy == BACKWARDS) {
         target = ball->pos + ballToTarget.stretchToLength(maxBallDistance);
     }
-    else if (preferredTravelStrategy == forwards) {
+    else if (preferredTravelStrategy == FORWARDS) {
         target = ball->pos + ballToTarget.stretchToLength(- maxBallDistance);
     }
     else if (ballIsFarFromTarget) {
@@ -193,6 +224,10 @@ void BallHandlePosControl::setMaxBackwardsVelocity(double maxV) {
     maxBackwardsVelocity = maxV;
     dribbleBackwards->setMaxVel(maxBackwardsVelocity);
 
+}
+
+BallHandlePosControl::Status BallHandlePosControl::getStatus() {
+    return status;
 }
 
 } //control

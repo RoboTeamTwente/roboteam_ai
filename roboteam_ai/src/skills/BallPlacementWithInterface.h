@@ -18,7 +18,7 @@ class BallPlacementWithInterface : public Skill {
 
     private:
         control::BallHandlePosControl ballHandlePosControl;
-
+        Vector2 previousTargetPos = Vector2();
 
 };
 
