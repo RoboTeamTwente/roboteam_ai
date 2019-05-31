@@ -67,6 +67,9 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     hButtonsLayout->addWidget(pauseBtn);
     pauseBtn->setStyleSheet("background-color: #cc0000;");
 
+    spaceClick = new QShortcut(QKeySequence(Qt::Key_Space), this, SLOT(sendPauseSignal()));
+    spaceClick->setAutoRepeat(false);
+
     refreshBtn = new QPushButton("Refresh");
     QObject::connect(refreshBtn, SIGNAL(clicked()), this, SLOT(refreshSignal()));
     hButtonsLayout->addWidget(refreshBtn);
