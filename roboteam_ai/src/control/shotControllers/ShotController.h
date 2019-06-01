@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_SHOTCONTROLLER_H
 
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
-#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
+#include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
 #include "../positionControllers/RobotCommand.h"
 #include "gtest/gtest_prod.h"
 

@@ -8,6 +8,7 @@
 #include <roboteam_ai/src/interface/api/Input.h>
 #include "ShotController.h"
 
+
 namespace rtt {
 namespace ai {
 namespace control {
