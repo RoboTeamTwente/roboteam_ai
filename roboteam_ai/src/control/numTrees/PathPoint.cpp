@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 28-3-19.
 //
 
+#include <roboteam_ai/src/control/ControlUtils.h>
 #include "PathPoint.h"
-#include "NumTreePosControl.h"
 
 namespace rtt {
 namespace ai {
@@ -97,7 +97,13 @@ bool PathPoint::anyParentHasTarget(const Vector2 &target) {
 
 /// check if a collision is occuring
 bool PathPoint::isCollision(const Vector2 &target, double distance) {
-    return target.dist(pos) < distance;
+    return pos.dist2(target) < distance*distance;
+}
+
+double PathPoint::maxVel() {
+    double distanceRemaining = (finalTarget - pos).length();
+    double absoluteMax = sqrt(2.0*Constants::MAX_DEC_UPPER()*distanceRemaining)*0.8;
+    return absoluteMax > maxVelocity() ? maxVelocity() : absoluteMax;
 }
 
 } // control

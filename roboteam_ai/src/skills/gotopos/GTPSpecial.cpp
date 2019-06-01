@@ -27,9 +27,10 @@ void GTPSpecial::gtpInitialize() {
         break;
     }
     case ballPlacementAfter: {
-        maxVel = 1.0;
         errorMargin = 0.05;
-        targetPos = coach::g_ballPlacement.getBallPlacementAfterPos(robot->angle);
+        Vector2 behindBallDistance = {0.6, 0};
+        Angle ballAngleToRobot = (robot->pos - ball->pos).toAngle();
+        targetPos = ball->pos + behindBallDistance.rotate(ballAngleToRobot);
         break;
     }
     case getBallFromSide: {

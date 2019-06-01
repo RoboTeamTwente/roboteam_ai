@@ -26,27 +26,17 @@ bt::Node::Status BallPlacementPass::onUpdate() {
     robotToPassToID = coach::g_pass.getRobotBeingPassedTo();
     if (robotToPassToID == -1) {
         std::cout << "the robot to pass to id is -1" << std::endl;
-        publishRobotCommand(); //halt
-
         return Status::Failure;
     }
 
     robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
-//    if(!coach::g_pass.validReceiver(robot, robotToPassTo)) {
-//        std::cout << "the receiver is invalid" << std::endl;
-//        publishRobotCommand(); // halt
-//        return Status::Failure;
-//    }
 
-    if (ball->pos.dist(targetPos) < 0.5) {
-        publishRobotCommand();
-        return Status::Running;
+    if ((ball->pos - targetPos).length() < 0.5) {
+        return Status::Success;
     }
 
     if (didShootProperly()) {
-        hasShot = true;
         coach::g_pass.setPassed(true);
-        publishRobotCommand();
         return Status::Success;
     }
 
@@ -55,15 +45,18 @@ bt::Node::Status BallPlacementPass::onUpdate() {
      * Otherwise we can already drive to the position but wait while close
      * When receiver is ready we can shoot
      */
-    if (!coach::g_pass.isPassed() && !hasShot) {
+    if (!coach::g_pass.isPassed()) {
         if (coach::g_pass.isReadyToReceivePass()) {
-            robot->getShotController()->makeCommand(robot->getShotController()->getShotData(*robot, getKicker(), false), command);
+            auto shotData = robot->getShotController()->getRobotCommand(*robot, getKicker(), false, control::BallSpeed::PASS, false, control::ShotPrecision::MEDIUM);
+            command = shotData.makeROSCommand();
+            if(command.kicker == true && !hasShot) {
+                hasShot = true;
+            }
         } else if (robot->pos.dist(ball->pos) > 0.5) {
-            auto pva = robot->getNumtreePosControl()->getPosVelAngle(robot, ball->pos);
-            command.x_vel = pva.vel.x;
-            command.y_vel = pva.vel.y;
-            command.w = pva.angle;
-            // empty command
+            auto robotCommand = robot->getNumtreePosControl()->getRobotCommand(robot, ball->pos);
+            command.x_vel = robotCommand.vel.x;
+            command.y_vel = robotCommand.vel.y;
+            command.w = robotCommand.angle;
         } else {
             command.w = (ball->pos - robot->pos).angle();
         }

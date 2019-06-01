@@ -72,7 +72,7 @@ InterceptBall::Status InterceptBall::onUpdate() {
 }
 
 void InterceptBall::sendMoveCommand(Vector2 targetPos) {
-    Vector2 velocities = robot->getNumtreePosControl()->getPosVelAngle(robot, targetPos).vel;
+    Vector2 velocities = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos).vel;
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
 
@@ -217,23 +217,23 @@ void InterceptBall::sendStopCommand() {
 }
 
 void InterceptBall::sendFineInterceptCommand() {
-    auto pva = robot->getBasicPosControl()->getPosVelAngle(robot, interceptPos);
+    auto robotCommand = robot->getBasicPosControl()->getRobotCommand(robot, interceptPos);
 
-    command.x_vel = pva.vel.x;
-    command.y_vel = pva.vel.y;
+    command.x_vel = robotCommand.vel.x;
+    command.y_vel = robotCommand.vel.y;
     command.w = static_cast<float>((Vector2(ball->pos)-Vector2(robot->pos)).angle()); //Rotates towards the ball
     publishRobotCommand();
 }
 void InterceptBall::sendInterceptCommand() {
-    auto pva = robot->getNumtreePosControl()->getPosVelAngle(robot, interceptPos);
+    auto robotCommand = robot->getNumtreePosControl()->getRobotCommand(robot, interceptPos);
 
-    command.x_vel = pva.vel.x;
-    command.y_vel = pva.vel.y;
+    command.x_vel = robotCommand.vel.x;
+    command.y_vel = robotCommand.vel.y;
     if (backwards) {
-        command.w = pva.angle.getAngle() + M_PI;
+        command.w = robotCommand.angle.getAngle() + M_PI;
     }
     else{
-        command.w = pva.angle.getAngle();
+        command.w = robotCommand.angle.getAngle();
     }
     publishRobotCommand();
 

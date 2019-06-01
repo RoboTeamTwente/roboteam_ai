@@ -7,7 +7,7 @@
 
 #include "Skill.h"
 #include <roboteam_ai/src/coach/OffensiveCoach.h>
-#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
 #include <roboteam_utils/Vector2.h>
 
 namespace rtt {

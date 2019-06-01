@@ -9,7 +9,7 @@
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/control/shotControllers/ShotController.h>
 #include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
-#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 
 namespace rtt {
@@ -59,7 +59,7 @@ double Robot::getDistanceToBall() {
 }
 
 void Robot::updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const BallPtr &ball, unsigned long worldNumber) {
-    if (robotMsg.id == this->id) {
+    if (static_cast<int>(robotMsg.id) == this->id) {
         this->pos = robotMsg.pos;
         this->vel = robotMsg.vel;
         this->angle = robotMsg.angle;
@@ -190,6 +190,26 @@ const Vector2 &Robot::getPidPreviousVel() const {
 
 void Robot::setPidPreviousVel(const Vector2 &pidVel) {
     pidPreviousVel = pidVel;
+}
+
+const Robot::RobotPtr Robot::deepCopy() const {
+    return std::make_shared<Robot>(Robot(*this));
+}
+
+void Robot::resetShotController() {
+    shotController = std::make_shared<control::ShotController>();
+}
+
+void Robot::resetNumTreePosControl() {
+    numTreePosControl = std::make_shared<control::NumTreePosControl>();
+}
+
+void Robot::resetBasicPosControl() {
+    basicPosControl = std::make_shared<control::BasicPosControl>();
+}
+
+void Robot::resetBallHandlePosControl() {
+    ballHandlePosControl = std::make_shared<control::BallHandlePosControl>();
 }
 
 } //world
