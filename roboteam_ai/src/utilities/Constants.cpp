@@ -169,7 +169,7 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
     workingGenevaRobots[2] = true;
     workingGenevaRobots[3] = true;
     workingGenevaRobots[4] = true;
-    workingGenevaRobots[5] = true;
+    workingGenevaRobots[5] = false;
     workingGenevaRobots[6] = true;
     workingGenevaRobots[7] = true;
     workingGenevaRobots[8] = true;

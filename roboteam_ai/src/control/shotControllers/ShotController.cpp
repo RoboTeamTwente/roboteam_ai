@@ -117,12 +117,12 @@ RobotCommand ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 rob
     RobotCommand pva = robot.getNumtreePosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
             robotTargetPosition);
 
-    if(pva.vel.length() < 0.2) {
-        pva.vel = pva.vel.stretchToLength(0.2);
+    if(pva.vel.length() < 0.3) {
+        pva.vel = pva.vel.stretchToLength(0.3);
     }
 
     //TODO: if (rotating to this angle from current angle will hit ball) then pva.angle=angle towards ball
-    if ((robot.pos - robotTargetPosition).length() < 0.3) {
+    if ((robot.pos - robotTargetPosition).length() < 0.2) {
         pva.angle = (line.second - line.first).toAngle();
     }
 
@@ -135,6 +135,10 @@ RobotCommand ShotController::moveStraightToBall(world::Robot robot, std::pair<Ve
     //std::cout << "Move straight to ball" << std::endl;
     auto robotCommand = robot.getBasicPosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
             lineToDriveOver.second);
+    // -- small hack by simen --
+    Vector2 vel = (lineToDriveOver.second - lineToDriveOver.first).stretchToLength(0.3);
+    robotCommand.vel = vel;
+    // -------------------------
     robotCommand.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
     RobotCommand shotData(robotCommand);
     return shotData;
@@ -149,6 +153,12 @@ RobotCommand ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector
     // move towards the ball
     auto robotCommand = robot.getBasicPosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
             driveLine.second);
+
+    // -- small hack by simen --
+    Vector2 vel = (driveLine.second - driveLine.first).stretchToLength(0.1);
+    robotCommand.vel = vel;
+    // -------------------------
+
     robotCommand.angle = (driveLine.second - driveLine.first).angle();
 
     RobotCommand shotData(robotCommand);
