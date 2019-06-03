@@ -24,8 +24,6 @@ class InterceptBall :public Skill {
         Progression currentProgression;
         void checkProgression();
 
-        void sendInterceptCommand();
-        void sendFineInterceptCommand();
         void sendStopCommand();
 
         bool missedBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel);

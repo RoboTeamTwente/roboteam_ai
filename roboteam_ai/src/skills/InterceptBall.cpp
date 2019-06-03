@@ -53,20 +53,18 @@ InterceptBall::Status InterceptBall::onUpdate() {
 
     tickCount ++;
     switch (currentProgression) {
-    case INTERCEPTING:std::cout << "intercepting" << std::endl;
-        //sendInterceptCommand();
+    case INTERCEPTING:
         sendMoveCommand(interceptPos);
         return Status::Running;
-    case CLOSETOPOINT:std::cout << "close" << std::endl;
-        //sendFineInterceptCommand();
+    case CLOSETOPOINT:
         sendMoveCommand(interceptPos);
         return Status::Running;
-    case INPOSITION:std::cout << "InPosition" << std::endl;
+    case INPOSITION:
         sendStopCommand();
         return Status::Running;
-    case BALLDEFLECTED:std::cout << "Deflected" << std::endl;
+    case BALLDEFLECTED:
         return Status::Success;
-    case BALLMISSED:std::cout << "missed" << std::endl;
+    case BALLMISSED:
         return Status::Failure;
     }
 
@@ -225,29 +223,6 @@ void InterceptBall::sendStopCommand() {
     publishRobotCommand();
 }
 
-void InterceptBall::sendFineInterceptCommand() {
-    auto robotCommand = robot->getBasicPosControl()->getRobotCommand(robot, interceptPos);
-
-    command.x_vel = robotCommand.vel.x;
-    command.y_vel = robotCommand.vel.y;
-    command.w = static_cast<float>((Vector2(ball->pos) - Vector2(robot->pos)).angle()); //Rotates towards the ball
-    publishRobotCommand();
-}
-void InterceptBall::sendInterceptCommand() {
-    auto robotCommand = robot->getNumtreePosControl()->getRobotCommand(robot, interceptPos);
-
-    command.x_vel = robotCommand.vel.x;
-    command.y_vel = robotCommand.vel.y;
-    if (backwards) {
-        command.w = robotCommand.angle.getAngle() + M_PI;
-    }
-    else {
-        command.w = robotCommand.angle.getAngle();
-    }
-    std::cout << "x: " << command.x_vel << "y" << command.y_vel << std::endl;
-    publishRobotCommand();
-
-}
 //Checks if the ball is kicked to Goal. Kind of duplicate to the condition, but this uses an extra saftey margin
 bool InterceptBall::ballToGoal() {
     Vector2 goalCentre = world::field->get_our_goal_center();
