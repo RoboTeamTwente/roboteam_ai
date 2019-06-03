@@ -78,23 +78,23 @@ TEST(ShotControllerTest, it_locates_robots_properly) {
     // the robot is at -1, 0 and the ball is at 0,0 and the shottarget is 1,0
     Vector2 loc = shotController.getPlaceBehindBallForGenevaState(world::Robot(robot), {1, 0}, 1);
     Vector2 ballPos = ball.pos;
-    EXPECT_FLOAT_EQ(loc.length(), 2.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
+    EXPECT_FLOAT_EQ(loc.length(), 3.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
     EXPECT_FLOAT_EQ((ballPos - loc).angle(), toRadians(20));
 
     loc = shotController.getPlaceBehindBallForGenevaState(world::Robot(robot), {1, 0}, 2);
-    EXPECT_FLOAT_EQ(loc.length(), 2.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
+    EXPECT_FLOAT_EQ(loc.length(), 3.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
     EXPECT_FLOAT_EQ((ballPos - loc).angle(), toRadians(10));
 
     loc = shotController.getPlaceBehindBallForGenevaState(world::Robot(robot), {1, 0}, 3);
-    EXPECT_FLOAT_EQ(loc.length(), 2.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
+    EXPECT_FLOAT_EQ(loc.length(), 3.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
     EXPECT_FLOAT_EQ((ballPos - loc).angle(), toRadians(0));
 
     loc = shotController.getPlaceBehindBallForGenevaState(world::Robot(robot), {1, 0}, 4);
-    EXPECT_FLOAT_EQ(loc.length(), 2.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
+    EXPECT_FLOAT_EQ(loc.length(), 3.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
     EXPECT_FLOAT_EQ((ballPos - loc).angle(), toRadians(-10));
 
     loc = shotController.getPlaceBehindBallForGenevaState(world::Robot(robot), {1, 0}, 5);
-    EXPECT_FLOAT_EQ(loc.length(), 2.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
+    EXPECT_FLOAT_EQ(loc.length(), 3.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
     EXPECT_FLOAT_EQ((ballPos - loc).angle(), toRadians(-20));
 
 
