@@ -19,18 +19,15 @@ void Halt::onInitialize() {
 
 Halt::Status Halt::onUpdate() {
     if (tick <= ticks) {
-        std::cout<<"COMMAND"<<std::endl;
         // send slowing down command
         command.use_angle = 0;
         publishRobotCommand();
         tick ++;
         return Status::Running;
     }
-    else{
-        // do not send a command
-        std::cout<<"NO COMMAND"<<std::endl;
-        return Status::Running;
-    }
+    // do not send a command
+    return Status::Running;
+}
 }
 
 } // ai
