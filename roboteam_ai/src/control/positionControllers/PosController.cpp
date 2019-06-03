@@ -40,16 +40,16 @@ Vector2 PosController::calculatePIDs(const PosController::RobotPtr &robot, Robot
 }
 
 // Getters & Setters
-bool PosController::getCanMoveOutOfField() const {
-    return customCanMoveOutOfField && GameStateManager::getCurrentGameState().getRuleSet().robotsCanGoOutOfField;
+bool PosController::getCanMoveOutOfField(int robotID) const {
+    return customCanMoveOutOfField && GameStateManager::canMoveOutsideField(robotID);
 }
 
 void PosController::setCanMoveOutOfField(bool moveOutOfField) {
     customCanMoveOutOfField = moveOutOfField;
 }
 
-bool PosController::getCanMoveInDefenseArea() const {
-    return customCanMoveInDefenseArea && GameStateManager::getCurrentGameState().getRuleSet().robotsCanEnterDefenseArea;
+bool PosController::getCanMoveInDefenseArea(int robotID) const {
+    return customCanMoveInDefenseArea && GameStateManager::canEnterDefenseArea(robotID);
 }
 
 void PosController::setCanMoveInDefenseArea(bool moveInDefenseArea) {

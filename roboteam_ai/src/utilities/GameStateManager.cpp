@@ -39,6 +39,19 @@ void GameStateManager::forceNewGameState(RefCommand cmd) {
     interface::Output::setInterfaceGameState(strategymanager.getRefGameStateForRefCommand(cmd));
     strategymanager.forceCurrentRefGameState(cmd);
 }
-
+bool GameStateManager::canEnterDefenseArea(int robotId) {
+    GameState currentState=getCurrentGameState();
+    if (robotId!=currentState.keeperId){
+        return currentState.getRuleSet().robotsCanEnterDefenseArea;
+    }
+    return true;
+}
+bool GameStateManager::canMoveOutsideField(int robotId) {
+    GameState currentState=getCurrentGameState();
+    if (robotId!=currentState.keeperId){
+        return currentState.getRuleSet().robotsCanGoOutOfField;
+    }
+    return true;
+}
 }//ai
 }//rtt

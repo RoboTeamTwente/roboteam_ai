@@ -342,7 +342,7 @@ Collision NumTreePosControl::getFieldCollision(const PathPointer &point) {
     if (currentCollisionWithRobot.getCollisionFieldPos() != Vector2()) return collision;
     if (currentCollisionWithFinalTarget.getCollisionFieldPos() != Vector2()) return collision;
 
-    if (! getCanMoveOutOfField()) {
+    if (! getCanMoveOutOfField(robot->id)) {
         if (! world::field->pointIsInField(point->pos)) {
             collision.setFieldCollision(point->pos, 0.2);
             return collision;
@@ -356,7 +356,7 @@ Collision NumTreePosControl::getDefenseAreaCollision(const PathPointer &point) {
     if (currentCollisionWithRobot.getCollisionDefenseAreaPos() != Vector2()) return collision;
     if (currentCollisionWithFinalTarget.getCollisionDefenseAreaPos() != Vector2()) return collision;
 
-    if (! getCanMoveInDefenseArea()) {
+    if (! getCanMoveInDefenseArea(robot->id)) {
         auto margin = Constants::ROBOT_RADIUS();
         bool isInOurDefenseArea = world::field->pointIsInDefenceArea(point->pos, true, margin, false);
         bool isInTheirDefenseArea = world::field->pointIsInDefenceArea(point->pos, false, margin, false);

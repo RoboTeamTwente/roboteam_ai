@@ -48,9 +48,9 @@ class PosController {
 
         virtual RobotCommand getRobotCommand(const RobotPtr &robot, const Vector2 &targetPos) = 0;
 
-        bool getCanMoveOutOfField() const;
+        bool getCanMoveOutOfField(int robotID) const;
         void setCanMoveOutOfField(bool canMoveOutOfField);
-        bool getCanMoveInDefenseArea() const;
+        bool getCanMoveInDefenseArea(int robotID) const;
         void setCanMoveInDefenseArea(bool canMoveInDefenseArea);
         double getAvoidBallDistance() const;
         void setAvoidBallDistance(double ballDistance = Constants::DEFAULT_BALLCOLLISION_RADIUS());

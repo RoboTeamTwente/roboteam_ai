@@ -143,7 +143,8 @@ Skill::Status GTPSpecial::gtpUpdate() {
         break;
     case ourGoalCenter: {
         targetPos = rtt::ai::world::field->get_our_goal_center();
-        command = numTreePosControl.getRobotCommand(robot, targetPos, true).makeROSCommand();
+        robot->getNumtreePosControl()->setCanMoveInDefenseArea(true);
+        command = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos, true).makeROSCommand();
         break;
     }
     case ballPlacementAfter:
