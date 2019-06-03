@@ -47,7 +47,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
 /// targetP is the target position of the BALL, targetA is the (final) target angle of the ROBOT
 RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) {
 
-    if (true) {
+    if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
         printStatus();
     }
 
@@ -61,7 +61,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
 
     // check for ball
     if (! ball) {
-        if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
+        if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
             std::cout << "Can't control the ball with no ball" << std::endl;
         }
         status = FAILURE;
@@ -73,7 +73,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
         dribbleBackwards->reset();
         dribbleForwards->reset();
         if (robot->getDribblerState() > 0 || ! robot->isDribblerReady()) {
-            if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
+            if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
                 std::cout << "Waiting for the dribbler to stop" << std::endl;
             }
             RobotCommand robotCommand;
@@ -84,14 +84,14 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
             return robotCommand;
         }
         else if (fabs(lockedAngle - robot->angle) > angleErrorMargin) {
-            if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
+            if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
                 std::cout << "Rotating robot to final angle" << std::endl;
             }
             status = FINALIZING;
             return rotateAroundBall->getRobotCommand(robot, targetPos, lockedAngle);
         }
         else {
-            if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
+            if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
                 std::cout << "Success!!" << std::endl;
             }
             RobotCommand robotCommand;
@@ -157,7 +157,7 @@ void BallHandlePosControl::printStatus() {
 
 RobotCommand BallHandlePosControl::goToBall(bool ballIsFarFromTarget) {
 
-    if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
+    if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
         std::cout << "we do not have a ball yet" << std::endl;
     }
 
