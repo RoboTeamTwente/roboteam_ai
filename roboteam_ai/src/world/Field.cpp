@@ -246,7 +246,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGo
         // if the lowerbound is the same as the lower hook then the visible part has a length of 0 and we don't care about it
         // originally used to be != but floating point errors are tears.
         if (abs(lowerbound - lowerHook.y) > 0.000001) {
-            visibleParts.emplace_back(std::make_pair(lowerHook, Vector2(blockade.first.x, lowerbound)));
+            visibleParts.push_back(std::make_pair(lowerHook, Vector2(blockade.first.x, lowerbound)));
         }
         auto upperbound = std::max(blockade.first.y, blockade.second.y);
         lowerHook = Vector2(blockade.first.x, upperbound);
@@ -254,7 +254,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGo
 
     // if the last lowerhook is the same as the upper goal side then the visible part has a length of 0 and we don't care about it
     if (lowerHook != upper) {
-        visibleParts.emplace_back(std::make_pair(lowerHook, upper));
+        visibleParts.push_back(std::make_pair(lowerHook, upper));
     }
     return visibleParts;
 }
