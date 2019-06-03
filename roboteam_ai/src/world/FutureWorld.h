@@ -18,8 +18,8 @@ class FutureWorld {
         using WorldDataPtr = std::shared_ptr<WorldData>;
 
     public:
-        void updateFutureRobot(Robot &robot, double time);
-        void updateFutureBall(Ball &ball, double time);
+        void updateFutureRobot(RobotPtr &robot, double time);
+        void updateFutureBall(BallPtr &ball, double time);
         void updateFutureWorld(WorldData &worldData, double time);
 };
 
