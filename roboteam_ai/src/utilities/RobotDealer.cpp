@@ -199,6 +199,7 @@ void RobotDealer::releaseRobotForRole(const std::string& roleName) {
     auto test = robotOwners;
 
     // Find the ID
+    /// Do NOT ctrl-alt-enter->(const auto &) this function !!
     for (auto tactic : robotOwners) {
         auto set = tactic.second;
         for (auto pair : set) {
@@ -214,7 +215,7 @@ void RobotDealer::releaseRobotForRole(const std::string& roleName) {
 void RobotDealer::removeTactic(const std::string& tacticName) {
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
-
+    /// Do NOT ctrl-alt-enter->(const auto &) this function !!
     for (auto tactic : robotOwners) {
         if (tactic.first == tacticName) {
             for (auto robotPair : tactic.second) {
