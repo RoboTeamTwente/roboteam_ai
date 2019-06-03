@@ -24,7 +24,7 @@ void World::updateWorld(const roboteam_msgs::World &message) {
         }
 
         // copy the ball
-        if (worldDataPtr->ball) oldBall = std::make_shared<Ball>(*worldDataPtr->ball);
+        if (worldDataPtr->ball) oldBall = worldDataPtr->ball->deepCopy();
     }
 
     // update ballmodel, dribbling, position if not visible etc.
@@ -266,7 +266,6 @@ const WorldData World::getFutureWorld(double time) {
             return {};
         }
         worldCopy = WorldData(worldDataPtr);
-
     }
 
     futureWorld.updateFutureWorld(worldCopy, time);
@@ -275,27 +274,28 @@ const WorldData World::getFutureWorld(double time) {
 
 const World::RobotPtr World::getFutureRobot(int id, bool ourTeam, double time) {
     RobotPtr robotPtr = getRobotForId(id, ourTeam);
+    if (!robotPtr) return nullptr;
     return getFutureRobot(robotPtr, time);
 }
 
 const World::RobotPtr World::getFutureRobot(const RobotPtr &robot, double time) {
     if (!robot) return nullptr;
-    Robot futureRobot = *robot;
+    auto futureRobot = robot->deepCopy();
     futureWorld.updateFutureRobot(futureRobot, time);
-    return std::make_shared<Robot>(futureRobot);
+    return futureRobot;
 }
 
 const World::BallPtr World::getFutureBall(double time) {
-    Ball ballCopy;
+    BallPtr futureBall;
     {
         std::lock_guard<std::mutex> lock(worldMutex);
-        if (! worldDataPtr) {
-            return {nullptr};
+        if (! worldDataPtr || !worldDataPtr->ball) {
+            return nullptr;
         }
-        ballCopy = (*worldDataPtr->ball);
+        futureBall = worldDataPtr->ball->deepCopy();
     }
-    futureWorld.updateFutureBall(ballCopy, time);
-    return std::make_shared<Ball>(ballCopy);
+    futureWorld.updateFutureBall(futureBall, time);
+    return futureBall;
 }
 
 const WorldData World::getPreviousWorld() {

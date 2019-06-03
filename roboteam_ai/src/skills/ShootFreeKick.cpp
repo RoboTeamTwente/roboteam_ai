@@ -33,7 +33,7 @@ Skill::Status ShootFreeKick::onUpdate() {
             }
             else {
                 command.w = static_cast<float>((targetPos - robot->pos).angle());
-                Vector2 velocity = goToPos.getPosVelAngle(robot, targetPos).vel;
+                Vector2 velocity = goToPos.getRobotCommand(robot, targetPos).vel;
                 command.x_vel = static_cast<float>(velocity.x);
                 command.y_vel = static_cast<float>(velocity.y);
                 publishRobotCommand();
@@ -75,7 +75,8 @@ Skill::Status ShootFreeKick::onUpdate() {
         case SHOOTING: {
             if (! isShot()) {
                 Vector2 target = rtt::ai::world::field->getPenaltyPoint(false);
-                robot->getShotController()->makeCommand(robot->getShotController()->getShotData(* robot, target, true), command);
+                auto shotData = robot->getShotController()->getRobotCommand(*robot, target, true);
+                command = shotData.makeROSCommand();
                 publishRobotCommand();
                 return Status::Running;
             }

@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_GOTOPOS_H
 #define ROBOTEAM_AI_GOTOPOS_H
 
-#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
 #include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
 #include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
 #include "roboteam_ai/src/skills/Skill.h"
@@ -17,7 +17,6 @@ class GoToPos : public Skill {
     protected:
         enum GoToType {
           basic,
-          force,
           numTree
         };
         GoToType goToType;

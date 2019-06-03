@@ -17,7 +17,7 @@ using Vector2 = rtt::Vector2;
 
 TEST(ShotControllerTest, it_generates_robotcommands) {
     ShotController shotController;
-    ShotData sd = shotController.getShotData(*world::world->getUs().at(0), {1, 0});
+    RobotCommand sd = shotController.getRobotCommand(*world::world->getUs().at(0), {1, 0});
 
     roboteam_msgs::WorldRobot robot;
     robot.id = 2;
@@ -25,19 +25,18 @@ TEST(ShotControllerTest, it_generates_robotcommands) {
     robot.pos.y = 0;
     robot.angle = 0;
 
-    roboteam_msgs::RobotCommand command;
+    roboteam_msgs::RobotCommand command = sd.makeROSCommand();
     command.id = robot.id;
-    shotController.makeCommand(sd, command);
     EXPECT_EQ(command.id, robot.id);
     EXPECT_FLOAT_EQ(command.x_vel, sd.vel.x);
     EXPECT_FLOAT_EQ(command.y_vel, sd.vel.y);
     EXPECT_FLOAT_EQ(command.w, sd.angle);
-    EXPECT_EQ(command.chipper, sd.chip);
-    EXPECT_EQ(command.kicker, sd.kick);
-    EXPECT_EQ(command.kicker_forced, sd.kick);
-    EXPECT_EQ(command.chipper_forced, sd.kick);
-    EXPECT_DOUBLE_EQ(command.kicker_vel, sd.kickSpeed);
-    EXPECT_EQ(command.geneva_state, sd.genevaState);
+    EXPECT_EQ(command.chipper, sd.chipper);
+    EXPECT_EQ(command.kicker, sd.kicker);
+    EXPECT_EQ(command.kicker_forced, sd.kicker);
+    EXPECT_EQ(command.chipper_forced, sd.kicker);
+    EXPECT_DOUBLE_EQ(command.kicker_vel, sd.kickerVel);
+    EXPECT_EQ(command.geneva_state, sd.geneva);
 }
 
 TEST(ShotControllerTest, it_calculates_kickforce) {
@@ -127,26 +126,26 @@ TEST(ShotControllerTest, it_sends_proper_shoot_commands) {
     rtt::ai::world::world->updateWorld(world);
 
     ShotController shotController;
-    ShotData shotdata = shotController.shoot(world::Robot(robot), {robot.pos, ball.pos}, {1, 0}, false, BallSpeed::MAX_SPEED);
-    EXPECT_TRUE(shotdata.kick);
-    EXPECT_FALSE(shotdata.chip);
+    RobotCommand shotdata = shotController.shoot(world::Robot(robot), {robot.pos, ball.pos}, {1, 0}, false, BallSpeed::MAX_SPEED);
+    EXPECT_TRUE(shotdata.kicker);
+    EXPECT_FALSE(shotdata.chipper);
     EXPECT_FLOAT_EQ(shotdata.angle, (Vector2(ball.pos) - Vector2(robot.pos)).toAngle());
-    EXPECT_FLOAT_EQ(shotdata.kickSpeed, Constants::MAX_KICK_POWER());
+    EXPECT_FLOAT_EQ(shotdata.kickerVel, Constants::MAX_KICK_POWER());
 
     shotdata = shotController.shoot(world::Robot(robot), {robot.pos, ball.pos}, {1, 0}, true, BallSpeed::PASS);
-    EXPECT_FALSE(shotdata.kick);
-    EXPECT_TRUE(shotdata.chip);
+    EXPECT_FALSE(shotdata.kicker);
+    EXPECT_TRUE(shotdata.chipper);
     EXPECT_FLOAT_EQ(shotdata.angle, (Vector2(ball.pos) - Vector2(robot.pos)).toAngle());
-    EXPECT_FLOAT_EQ(shotdata.kickSpeed, 3.2);
+    EXPECT_FLOAT_EQ(shotdata.kickerVel, 3.2);
 
     shotdata = shotController.moveStraightToBall(world::Robot(robot), {robot.pos, ball.pos});
-    EXPECT_FALSE(shotdata.kick);
-    EXPECT_FALSE(shotdata.chip);
+    EXPECT_FALSE(shotdata.kicker);
+    EXPECT_FALSE(shotdata.chipper);
     EXPECT_FLOAT_EQ(shotdata.angle, (Vector2(ball.pos) - Vector2(robot.pos)).toAngle());
 
     shotdata = shotController.moveStraightToBall(world::Robot(robot), {robot.pos, ball.pos});
-    EXPECT_FALSE(shotdata.kick);
-    EXPECT_FALSE(shotdata.chip);
+    EXPECT_FALSE(shotdata.kicker);
+    EXPECT_FALSE(shotdata.chipper);
     EXPECT_FLOAT_EQ(shotdata.angle, (Vector2(ball.pos) - Vector2(robot.pos)).toAngle());
 }
 
@@ -168,18 +167,20 @@ TEST(ShotControllerTest, getshotdata_test) {
 
     // kick test
     ShotController shotController;
-    ShotData shotdata = shotController.getShotData(* robotWithBall, simulatedShotTarget, false, BallSpeed::MAX_SPEED, false, ShotPrecision::LOW);
-    EXPECT_TRUE(shotdata.kick);
-    EXPECT_FALSE(shotdata.chip);
+    RobotCommand shotdata = shotController.getRobotCommand(*robotWithBall, simulatedShotTarget, false,
+            BallSpeed::MAX_SPEED, false, ShotPrecision::LOW);
+    EXPECT_TRUE(shotdata.kicker);
+    EXPECT_FALSE(shotdata.chipper);
     EXPECT_FLOAT_EQ(shotdata.angle, (Vector2(world::world->getBall()->pos) - Vector2(robotWithBall->pos)).toAngle());
-    EXPECT_FLOAT_EQ(shotdata.genevaState, 3);
+    EXPECT_FLOAT_EQ(shotdata.geneva, 3);
 
     // chip test
-    shotdata = shotController.getShotData(* robotWithBall, simulatedShotTarget, true, BallSpeed::MAX_SPEED, false, ShotPrecision::LOW);
-    EXPECT_FALSE(shotdata.kick);
-    EXPECT_TRUE(shotdata.chip);
+    shotdata = shotController.getRobotCommand(*robotWithBall, simulatedShotTarget, true, BallSpeed::MAX_SPEED, false,
+            ShotPrecision::LOW);
+    EXPECT_FALSE(shotdata.kicker);
+    EXPECT_TRUE(shotdata.chipper);
     EXPECT_FLOAT_EQ(shotdata.angle, (Vector2(world::world->getBall()->pos) - Vector2(robotWithBall->pos)).toAngle());
-    EXPECT_FLOAT_EQ(shotdata.genevaState, 3);
+    EXPECT_FLOAT_EQ(shotdata.geneva, 3);
 
 
 
@@ -196,10 +197,10 @@ TEST(ShotControllerTest, getshotdata_test) {
         robot->setGenevaState(3);
         robot->setWorkingGeneva(true);
 
-        shotdata = shotController.getShotData(*robot, testhelpers::WorldHelper::getRandomFieldPosition(field),
-                                              true, BallSpeed::MAX_SPEED, true, ShotPrecision::HIGH);
-        EXPECT_FALSE(shotdata.kick);
-        EXPECT_FLOAT_EQ(shotdata.genevaState, 3);
+        shotdata = shotController.getRobotCommand(*robot, testhelpers::WorldHelper::getRandomFieldPosition(field),
+                true, BallSpeed::MAX_SPEED, true, ShotPrecision::HIGH);
+        EXPECT_FALSE(shotdata.kicker);
+        EXPECT_FLOAT_EQ(shotdata.geneva, 3);
     }
 
     /*
@@ -213,9 +214,11 @@ TEST(ShotControllerTest, getshotdata_test) {
         robot->setGenevaState(3);
         robot->setWorkingGeneva(true);
 
-        shotdata = shotController.getShotData(*robot, testhelpers::WorldHelper::getRandomFieldPosition(field), false, BallSpeed::MAX_SPEED, true, ShotPrecision::HIGH);
-        EXPECT_GE(shotdata.genevaState, 0);
-        EXPECT_LE(shotdata.genevaState, 5);
+        shotdata = shotController.getRobotCommand(*robot, testhelpers::WorldHelper::getRandomFieldPosition(field),
+                false,
+                BallSpeed::MAX_SPEED, true, ShotPrecision::HIGH);
+        EXPECT_GE(shotdata.geneva, 0);
+        EXPECT_LE(shotdata.geneva, 5);
     }
 
     /*
@@ -228,8 +231,10 @@ TEST(ShotControllerTest, getshotdata_test) {
         robot->setGenevaState(4);
         robot->setWorkingGeneva(false);
 
-        shotdata = shotController.getShotData(*robot, testhelpers::WorldHelper::getRandomFieldPosition(field), false, BallSpeed::MAX_SPEED, true, ShotPrecision::HIGH);
-        EXPECT_EQ(shotdata.genevaState, 4);
+        shotdata = shotController.getRobotCommand(*robot, testhelpers::WorldHelper::getRandomFieldPosition(field),
+                false,
+                BallSpeed::MAX_SPEED, true, ShotPrecision::HIGH);
+        EXPECT_EQ(shotdata.geneva, 4);
     }
 }
 

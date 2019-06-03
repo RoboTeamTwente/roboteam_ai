@@ -9,14 +9,14 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-BasicPosControl::BasicPosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
+BasicPosControl::BasicPosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
         : PosController(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
 
 }
 
-PosVelAngle BasicPosControl::getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) {
+RobotCommand BasicPosControl::getRobotCommand(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) {
 
-    PosVelAngle posVelAngle;
+    RobotCommand posVelAngle;
     Vector2 error = targetPos - robot->pos;
 
     posVelAngle.pos = targetPos;
@@ -30,8 +30,10 @@ void BasicPosControl::checkInterfacePID() {
     auto newPid = interface::Output::getBasicPid();
     updatePid(newPid);
 }
-PosVelAngle BasicPosControl::getPosVelAngle(const PosController::RobotPtr &robot, const Vector2 &targetPos) {
-    return PosController::getPosVelAngle(robot, targetPos);
+
+RobotCommand BasicPosControl::getRobotCommand(const PosController::RobotPtr &robot, const Vector2 &targetPos) {
+    Angle defaultAngle = 0;
+    return getRobotCommand(robot, targetPos, defaultAngle);
 }
 
 } // control

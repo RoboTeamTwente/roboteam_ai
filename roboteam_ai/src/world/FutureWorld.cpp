@@ -11,12 +11,12 @@ namespace rtt {
 namespace ai {
 namespace world {
 
-void FutureWorld::updateFutureBall(Ball &ball, double time) {
-    ball.pos += ball.vel*time;
+void FutureWorld::updateFutureBall(BallPtr &ball, double time) {
+    ball->pos += ball->vel*time;
 }
 
-void FutureWorld::updateFutureRobot(Robot &robot, double time) {
-    robot.pos += robot.vel*time;
+void FutureWorld::updateFutureRobot(RobotPtr &robot, double time) {
+    robot->pos += robot->vel*time;
 }
 
 void FutureWorld::updateFutureWorld(WorldData &worldData, double time) {
@@ -25,13 +25,13 @@ void FutureWorld::updateFutureWorld(WorldData &worldData, double time) {
     // get a predicted future WorldState using linear extrapolation
     worldData.time = time;
     if(worldData.ball) {
-        updateFutureBall(*worldData.ball, time);
+        updateFutureBall(worldData.ball, time);
     }
     for (auto &robot : worldData.us) {
-        updateFutureRobot(*robot, time);
+        updateFutureRobot(robot, time);
     }
     for (auto &robot : worldData.them) {
-        updateFutureRobot(*robot, time);
+        updateFutureRobot(robot, time);
     }
 }
 
