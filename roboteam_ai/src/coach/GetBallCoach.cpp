@@ -18,7 +18,7 @@ bool GetBallCoach::shouldWeGetBall() {
     // should probably listen to ballPossession at some point
     Vector2 ballPos= world::world->getBall()->pos;
     return ! (world::field->pointIsInDefenceArea(ballPos, true, 0.04)
-            || world::field->pointIsInDefenceArea(ballPos, false)||!world::field->pointIsInField(ballPos,0.05));
+            || world::field->pointIsInDefenceArea(ballPos, false)||!world::field->pointIsInField(ballPos,-0.05));
 }
 bool GetBallCoach::weAreGettingBall() {
     return gettingBall;
