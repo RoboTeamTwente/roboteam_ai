@@ -225,7 +225,7 @@ TEST(DefaultTacticTest, claim_test) {
     rtt::ai::robotDealer::RobotDealer::getAvailableRobots();
     tactic.tick();
     tactic.tick();
-    EXPECT_EQ(static_cast<int>(tactic.robotIDs.size()), 1);
+    EXPECT_EQ(static_cast<int>(tactic.robotIDs.size()), 2);
     EXPECT_EQ(*tactic.robotIDs.begin(), rtt::ai::world::world->getUs().at(0).get()->id);
 
 
@@ -245,8 +245,8 @@ TEST(DefaultTacticTest, claim_test) {
     w::world->updateWorld(newWorld3);
     rtt::ai::robotDealer::RobotDealer::getAvailableRobots();
     tactic.tick();
-    EXPECT_EQ(static_cast<int>(tactic.robotIDs.size()), 1);
-    EXPECT_EQ(*tactic.robotIDs.begin(), 2);
+    EXPECT_EQ(static_cast<int>(tactic.robotIDs.size()), 2);
+    EXPECT_EQ(*tactic.robotIDs.begin(), 1);
 
 
     EXPECT_TRUE(rtt::ai::robotDealer::RobotDealer::hasFree());
