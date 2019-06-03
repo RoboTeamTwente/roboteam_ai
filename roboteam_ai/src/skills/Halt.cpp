@@ -28,7 +28,6 @@ Halt::Status Halt::onUpdate() {
     // do not send a command
     return Status::Running;
 }
-}
 
 } // ai
 } // rtt
