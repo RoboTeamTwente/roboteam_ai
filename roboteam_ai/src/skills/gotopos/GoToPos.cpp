@@ -80,6 +80,7 @@ bt::Node::Status GoToPos::onUpdate() {
     auto robotCommand = posController->getRobotCommand(robot, targetPos, targetAngle);
 
         // set robotcommands if they have not been set yet in gtpUpdate()
+
         command.x_vel = command.x_vel == 0 ? static_cast<float>(robotCommand.vel.x) : command.x_vel;
         command.y_vel = command.y_vel == 0 ? static_cast<float>(robotCommand.vel.y) : command.y_vel;
         command.w = command.w == 0 ? static_cast<float>(robotCommand.angle) : command.w;
