@@ -8,7 +8,7 @@
         <param name="our_color" type="str" value="yellow" />
 
         <node pkg="roboteam_vision" type="roboteam_vision" name="vision" />
-        <node pkg="roboteam_world" type="filtered_world" name="world" />
+        <node pkg="roboteam_world" type="kalman_world" name="world" />
         <node pkg="roboteam_robothub" type="roboteam_robothub" name="robothub" output="screen"/>
         <node name="Roboteam_AI" pkg="roboteam_ai" type="Roboteam_AI" cwd="node"/>
     </group>
@@ -22,7 +22,7 @@
         <param name="our_color" type="str" value="blue" />
 
         <node pkg="roboteam_vision" type="roboteam_vision" name="vision" />
-        <node pkg="roboteam_world" type="filtered_world" name="world"  />
+        <node pkg="roboteam_world" type="kalman_world" name="world"  />
         <node pkg="roboteam_robothub" type="roboteam_robothub" name="robothub" output="screen"/>
         <node name="Roboteam_AI" pkg="roboteam_ai" type="Roboteam_AI" cwd="node" />
 
