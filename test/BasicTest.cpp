@@ -35,8 +35,8 @@ TEST(BasicTests, ball) {
     ASSERT_TRUE(std::isnan(ball.get_position().y));
     ASSERT_TRUE(std::isnan(ball.get_position().rot));
 
-    ball.set_area(4);
-    ASSERT_EQ(4, ball.get_area());
+    ball.set_existence(4);
+    ASSERT_EQ(4, ball.get_existence());
 
     ball.move_to(1.0, -2.0, 3.1415);
     ASSERT_FLOAT_EQ(1.0, ball.get_position().x);

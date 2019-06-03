@@ -19,8 +19,28 @@ namespace rtt {
 
     }
 
+    void RosHandler::kalmanLoop() {
+        double TICKRATE=1/TIMEDIFF;
+        ros::Rate rate(TICKRATE);
+        while (ros::ok()) {
+            ros::spinOnce();
+            KF.kalmanUpdate();
+            roboteam_msgs::World kmWorld = KF.getWorld();
+            world_pub.publish(kmWorld);
+            rate.sleep();
+        }
+    }
+    void RosHandler::setKalman(bool on) {
+        kalman=on;
+    }
+
+
     /// Callback function for /vision_detection in ros_handler
     void RosHandler::detection_callback(const roboteam_msgs::DetectionFrame msg) {
+        if (kalman) {
+            KF.newFrame(msg);
+            return;
+        }
         world->detection_callback(msg);
 
         if (auto * fworld = dynamic_cast<FilteredWorld*>(world)) {
@@ -36,6 +56,7 @@ namespace rtt {
             world_pub.publish(world_msg);
         }
     }
+
 
     bool RosHandler::reset_callback(
             std_srvs::Empty::Request& req,

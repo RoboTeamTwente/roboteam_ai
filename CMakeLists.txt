@@ -15,6 +15,8 @@ find_package(catkin REQUIRED COMPONENTS
   roboteam_msgs
   roboteam_utils
 )
+find_package(Armadillo REQUIRED)
+include_directories(${ARMADILLO_INCLUDE_DIRS})
 
 ## Enable c++11 support.
 set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -g ${CMAKE_CXX_FLAGS} -O0")
@@ -42,6 +44,8 @@ catkin_package(
 ## Build ##
 ###########
 
+
+
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 # include_directories(include)
@@ -60,6 +64,11 @@ add_library(roboteam_world_srcs
         src/utils/ball.cpp
         src/utils/robot.cpp
         src/ros_handler.cpp
+        src/kalman/kalmanFilter.cpp
+        src/kalman/kalmanObject.cpp
+        src/kalman/kalmanBall.cpp
+        src/kalman/kalmanUs.cpp
+        src/kalman/kalmanThem.cpp
 
     # src/world
         src/filtered_world/filtered_world.cpp
@@ -82,12 +91,12 @@ target_link_libraries(roboteam_world_srcs
 add_executable(dummy_world
         src/dummy_world/dummy_world_main.cpp
     )
-target_link_libraries(dummy_world 
+target_link_libraries(dummy_world
     roboteam_world_srcs
-    ${catkin_LIBRARIES}
+    ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES}
     )
-add_dependencies(dummy_world 
-    ${${PROJECT_NAME}_EXPORTED_TARGETS} 
+add_dependencies(dummy_world
+    ${${PROJECT_NAME}_EXPORTED_TARGETS}
     ${catkin_EXPORTED_TARGETS}
     )
 
@@ -100,19 +109,36 @@ add_executable(filtered_world
     )
 target_link_libraries(filtered_world
     roboteam_world_srcs
-    ${catkin_LIBRARIES}
-    )
+    ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES}
+
+        )
 add_dependencies(filtered_world 
     ${${PROJECT_NAME}_EXPORTED_TARGETS} 
     ${catkin_EXPORTED_TARGETS}
     )
 
+####################
+## Kalman world   ##
+####################
+add_executable(kalman_world
+        src/kalman/kalman_world_main.cpp
+        )
+target_link_libraries(kalman_world
+        roboteam_world_srcs
+        ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES}
+
+        )
+add_dependencies(kalman_world
+        ${${PROJECT_NAME}_EXPORTED_TARGETS}
+        ${catkin_EXPORTED_TARGETS}
+        )
 ###########
 ## Tests ##
 ###########
 
 catkin_add_gtest(world_test
     test/main.cpp
+        test/KalmanTest.cpp
         test/BasicTest.cpp
         test/WorldTest.cpp
         src/filtered_world/filtered_world.cpp
@@ -121,7 +147,9 @@ catkin_add_gtest(world_test
 target_link_libraries(world_test
     roboteam_world_srcs
     ${catkin_LIBRARIES}
-    )
+        ${ARMADILLO_LIBRARIES}
+
+        )
 add_dependencies(world_test 
     ${${PROJECT_NAME}_EXPORTED_TARGETS}
     ${catkin_EXPORTED_TARGETS}
