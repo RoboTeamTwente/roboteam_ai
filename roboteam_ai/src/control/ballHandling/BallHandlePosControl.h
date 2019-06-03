@@ -28,9 +28,6 @@ class   BallHandlePosControl : public NumTreePosControl {
         RotateWithBall* rotateWithBall;
         RotateAroundBall* rotateAroundBall;
 
-        // general functions
-        RobotCommand goToBall(bool ballIsFarFromTarget);
-
         double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.0;
         double maxBackwardsVelocity = Constants::GRSIM() ? 0.3 : 0.8;
         const double errorMargin = 0.02;
@@ -49,12 +46,19 @@ class   BallHandlePosControl : public NumTreePosControl {
         Angle finalTargetAngle;
         Angle lockedAngle = 0;
 
+    public:
         enum TravelStrategy : short {
           FORWARDS,
           BACKWARDS,
           NO_PREFERENCE
         };
+    private:
         TravelStrategy preferredTravelStrategy = NO_PREFERENCE;
+
+        // general functions
+        RobotCommand handleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy,
+                bool shouldHandleBall, bool ballIsFarFromTarget = true);
+        RobotCommand goToBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy, bool ballIsFarFromTarget);
 
         // get status of ball handling
     public:
@@ -71,7 +75,7 @@ class   BallHandlePosControl : public NumTreePosControl {
         void printStatus();
 
     public:
-        explicit BallHandlePosControl(bool canMoveInDefenseArea = false);
+        explicit BallHandlePosControl(bool canMoveInDefenseArea = true);
         ~BallHandlePosControl();
         void setMaxVelocity(double maxV);
         void setMaxForwardsVelocity(double maxV);
