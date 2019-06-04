@@ -8,8 +8,6 @@
 #include "Receive.h"
 #include "roboteam_utils/Polygon.h"
 #include "roboteam_utils/Line.h"
-#include <roboteam_ai/src/world/Robot.h>
-
 namespace rtt {
 namespace ai {
 

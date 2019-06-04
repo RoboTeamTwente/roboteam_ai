@@ -9,12 +9,14 @@
 #include "JsonReader.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <gtest/gtest_prod.h>
 #include "vector"
 #include <map>
 #include <unistd.h>
-#include <roboteam_ai/src/bt/BehaviorTree.hpp>
+#include "BTImport.h"
 #include "PropertiesParser.h"
+#include "../bt/Role.h"
 #include "roboteam_ai/src/Switches.h"
 #include "../skills/Skill.h"
 

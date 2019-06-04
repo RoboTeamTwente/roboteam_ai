@@ -2,7 +2,6 @@
 // Created by robzelluf on 5/13/19.
 //
 
-#include <roboteam_ai/src/world/Field.h>
 #include "DribbleForward.h"
 
 namespace rtt {

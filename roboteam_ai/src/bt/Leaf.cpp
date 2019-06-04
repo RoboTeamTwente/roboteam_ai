@@ -1,5 +1,4 @@
 #include <memory>
-#include <roboteam_ai/src/world/World.h>
 
 #include "Leaf.hpp"
 #include "../utilities/RobotDealer.h"
