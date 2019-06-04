@@ -60,10 +60,6 @@ class ShotController {
         RobotCommand shoot(world::Robot robot, std::pair<Vector2, Vector2> driveLine, Vector2 shotTarget, bool chip,
                 BallSpeed desiredBallSpeed);
 
-        RobotCommand moveAndShootGrSim(world::Robot robot, bool chip, std::pair<Vector2, Vector2> lineToDriveOver,
-                BallSpeed desiredBallSpeed);
-        RobotCommand moveAndShoot(world::Robot robot, bool chip, std::pair<Vector2, Vector2> lineToDriveOver,
-                BallSpeed desiredBallSpeed);
 
     public:
         explicit ShotController() = default;

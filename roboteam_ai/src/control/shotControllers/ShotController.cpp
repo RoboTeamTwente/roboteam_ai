@@ -59,10 +59,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
         }
         else {
             isShooting = true;
-            shotData = moveAndShootGrSim(robot,chip,lineToDriveOver,ballspeed);
-
-            //shotData = Constants::GRSIM() ? moveAndShootGrSim(robot, chip, lineToDriveOver, ballspeed)
-              //      : moveAndShoot(robot, chip, lineToDriveOver, ballspeed);
+            shotData = shoot(robot, lineToDriveOver, aimTarget, chip, ballspeed);
         }
     }
     else {
@@ -248,43 +245,7 @@ int ShotController::determineOptimalGenevaState(world::Robot robot, Vector2 shot
     }
     return 3;
 }
-// should only be called if geneva is not turning
-RobotCommand ShotController::moveAndShootGrSim(world::Robot robot, bool chip,
-        std::pair<Vector2, Vector2> lineToDriveOver, BallSpeed desiredBallSpeed) {
-    RobotCommand shotData;
-    bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
-    if (hasBall) {
-        shotData = shoot(robot, lineToDriveOver, aimTarget, chip, desiredBallSpeed);
-    }
-    else {
-        shotData = moveStraightToBall(robot, lineToDriveOver);
-    }
-    shotData.kickerForced = true;
-    return shotData;
 
-}
-
-RobotCommand ShotController::moveAndShoot(rtt::ai::world::Robot robot, bool chip,
-        std::pair<Vector2, Vector2> lineToDriveOver, BallSpeed desiredBallSpeed) {
-    auto robotCommand = robot.getBasicPosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
-            lineToDriveOver.second);
-    robotCommand.angle = (lineToDriveOver.second - lineToDriveOver.first).toAngle();
-    RobotCommand shotData(robotCommand);
-    auto ball = world::world->getBall();
-    if (chip) {
-        shotData.chipper = true;
-        shotData.kicker = false;
-        // TODO calibrate chip speed
-        shotData.kickerVel = determineKickForce(ball->pos.dist(aimTarget), desiredBallSpeed);
-    }
-    else {
-        shotData.chipper = false;
-        shotData.kicker = true;
-        shotData.kickerVel = determineKickForce(ball->pos.dist(aimTarget), desiredBallSpeed);
-    }
-    shotData.kickerForced = false;
-    return shotData;
-}
 
 }// control
 } // ai
