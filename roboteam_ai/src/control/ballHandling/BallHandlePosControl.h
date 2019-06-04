@@ -18,7 +18,7 @@ class DribbleBackwards;
 class DribbleForwards;
 class RotateAroundBall;
 class RotateWithBall;
-class BallHandlePosControl : public NumTreePosControl {
+class   BallHandlePosControl : public NumTreePosControl {
     private:
         using BallPtr = std::shared_ptr<world::Ball>;
         using RobotPtr = std::shared_ptr<world::Robot>;
@@ -46,17 +46,36 @@ class BallHandlePosControl : public NumTreePosControl {
         Angle finalTargetAngle;
         Angle lockedAngle = 0;
 
+    public:
         enum TravelStrategy : short {
-          forwards,
-          backwards,
-          no_preference
+          FORWARDS,
+          BACKWARDS,
+          NO_PREFERENCE
         };
-        TravelStrategy preferredTravelStrategy = no_preference;
+    private:
+        TravelStrategy preferredTravelStrategy = NO_PREFERENCE;
 
         // general functions
-        RobotCommand goToBall(bool ballIsFarFromTarget);
+        RobotCommand handleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy,
+                bool shouldHandleBall, bool ballIsFarFromTarget = true);
+        RobotCommand goToBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy, bool ballIsFarFromTarget);
+
+        // get status of ball handling
     public:
-        explicit BallHandlePosControl(bool canMoveInDefenseArea = false);
+        enum Status : short {
+          GET_BALL,
+          HANDLING_BALL,
+          FINALIZING,
+          SUCCESS,
+          FAILURE
+        };
+        Status getStatus();
+    private:
+        Status status = GET_BALL;
+        void printStatus();
+
+    public:
+        explicit BallHandlePosControl(bool canMoveInDefenseArea = true);
         ~BallHandlePosControl();
         void setMaxVelocity(double maxV);
         void setMaxForwardsVelocity(double maxV);
