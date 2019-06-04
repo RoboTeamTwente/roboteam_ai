@@ -19,14 +19,14 @@ void Halt::onInitialize() {
 
 Halt::Status Halt::onUpdate() {
     if (tick <= ticks) {
-        // send empty command
+        // send slowing down command
         command.use_angle = 0;
         publishRobotCommand();
         tick ++;
         return Status::Running;
     }
-
-    return Status::Success;
+    // do not send a command
+    return Status::Running;
 }
 
 } // ai

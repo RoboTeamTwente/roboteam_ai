@@ -66,7 +66,7 @@ public:
 
         // dribbler
     private:
-        unsigned char dribblerState;
+        unsigned char dribblerState = 0;
         unsigned char previousDribblerState = 0;
         double timeDribblerChanged = 0;
         constexpr static double timeToChangeOneDribblerLevel = 0.06;
