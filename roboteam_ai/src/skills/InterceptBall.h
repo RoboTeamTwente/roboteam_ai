@@ -33,7 +33,8 @@ class InterceptBall :public Skill {
         Vector2 deltaPos;
         int tickCount, maxTicks;
         bool backwards;
-
+        bool stayAtOrientation=false;
+        control::BasicPosControl poscontroller;
         // Relevant to keeper only
         bool keeper;
         bool ballToGoal();

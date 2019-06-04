@@ -63,7 +63,9 @@ double PosController::getAvoidBallDistance() const {
 void PosController::setAvoidBallDistance(double ballDistance) {
     customAvoidBallDistance = ballDistance;
 }
-
+void PosController::setListenToInterface(bool listenToInterface) {
+    getPIDFromInterface=listenToInterface;
+}
 void PosController::updatePid(pidVals pid) {
     if (lastPid != pid) {
         xpid.setPID(pid);

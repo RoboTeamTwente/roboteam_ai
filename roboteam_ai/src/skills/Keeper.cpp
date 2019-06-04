@@ -18,7 +18,8 @@ void Keeper::onInitialize() {
     goalwidth = world::field->get_field().goal_width;
     //Create arc for keeper to drive on
     blockCircle=control::ControlUtils::createKeeperArc();
-
+    posController.setListenToInterface(false);
+    posController.updatePid(Constants::GRSIM() ? Constants::standardBasicPID(): std::make_tuple(5.0,0.0,0.4));
 }
 
 Keeper::Status Keeper::onUpdate() {
@@ -46,7 +47,7 @@ Keeper::Status Keeper::onUpdate() {
     }
     interface::Input::drawData(interface::Visual::KEEPER, {blockPoint}, Qt::darkYellow, robot->id,
             interface::Drawing::DOTS, 5, 5);
-    Vector2 velocities = robot->getBasicPosControl()->getRobotCommand(robot, blockPoint).vel;
+    Vector2 velocities = posController.getRobotCommand(robot, blockPoint).vel;
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
     publishRobotCommand();

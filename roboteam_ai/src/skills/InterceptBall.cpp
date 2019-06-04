@@ -16,15 +16,16 @@ InterceptBall::InterceptBall(rtt::string name, bt::Blackboard::Ptr blackboard)
 //TODO: make prediction for the RobotPtr if it can even intercept the ball at all from the initialization state.
 void InterceptBall::onInitialize() {
     keeper = properties->getBool("Keeper");
-
+    if (keeper){
+        poscontroller.setListenToInterface(false);
+        poscontroller.updatePid({6.0,0.0,1.2});
+    }
     currentProgression = INTERCEPTING;
-
     tickCount = 0;
     maxTicks = static_cast<int>(floor(Constants::MAX_INTERCEPT_TIME()*Constants::TICK_RATE()));
     ballStartPos = ball->pos;
     ballStartVel = ball->vel;
     ballEndPos = ballStartPos + ballStartVel*Constants::MAX_INTERCEPT_TIME();
-
     if (robot) {
         interceptPos = computeInterceptPoint(ballStartPos, ballEndPos);
         deltaPos = interceptPos - robot->pos;
@@ -50,7 +51,11 @@ InterceptBall::Status InterceptBall::onUpdate() {
             interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::INTERCEPT, {interceptPos}, Qt::cyan, robot->id,
             interface::Drawing::DOTS, 5, 5);
-
+    // if we are not already rotating
+    if (currentProgression!=INPOSITION&&deltaPos.length()>0.05) {
+        // update if we want to rotate or not
+        stayAtOrientation = ball->vel.length()*0.3 > (interceptPos - ball->pos).length();
+    }
     tickCount ++;
     switch (currentProgression) {
     case INTERCEPTING:
@@ -74,18 +79,23 @@ InterceptBall::Status InterceptBall::onUpdate() {
 void InterceptBall::sendMoveCommand(Vector2 targetPos) {
     Vector2 velocities;
     if (keeper) {
-        velocities = robot->getBasicPosControl()->getRobotCommand(robot, targetPos).vel;
+        velocities = poscontroller.getRobotCommand(robot, targetPos).vel;
     }
     else{
         velocities = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos).vel;
     }
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
-    if (currentProgression==INTERCEPTING){
-        command.w= Angle((interceptPos-robot->pos).angle()+M_PI).getAngle();
+    if (deltaPos.length()>0.05){
+        auto blockAngle=Angle((interceptPos-robot->pos).angle());
+        command.w = !backwards? blockAngle.getAngle() : Angle(blockAngle+M_PI).getAngle();
     }
     else{
-        command.w =(ballStartPos-ballEndPos).angle();
+        if (!stayAtOrientation) {
+            command.w = (ballStartPos - interceptPos).angle();
+        }else{
+            command.w = Angle((ballStartPos - interceptPos).angle()+M_PI_2);
+        }
     }
     publishRobotCommand();
 }
@@ -224,7 +234,12 @@ bool InterceptBall::ballDeflected() {
 void InterceptBall::sendStopCommand() {
     command.x_vel = 0;
     command.y_vel = 0;
-    command.w = static_cast<float>((ballStartPos - interceptPos).angle()); //Rotates orthogonal to the line of the ball
+    if (!stayAtOrientation){
+        command.w = static_cast<float>((ballStartPos - interceptPos).angle()); //Rotates orthogonal to the line of the ball
+    }
+    else{
+        command.w=Angle((ballStartPos - interceptPos).angle()+M_PI_2).getAngle();
+    }
     publishRobotCommand();
 }
 
