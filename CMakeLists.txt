@@ -43,7 +43,7 @@ set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/PropertiesParser.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/Switches.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/Switches.h
-        )
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/BTImport.h)
 
 set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/MemSelector.hpp

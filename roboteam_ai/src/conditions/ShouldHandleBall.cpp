@@ -8,7 +8,7 @@
 namespace rtt {
 namespace ai {
 
-ShouldHandleBall::ShouldHandleBall(std::string name, bt::Blackboard::Ptr blackboard)
+ShouldHandleBall::ShouldHandleBall(string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) {
 }
 

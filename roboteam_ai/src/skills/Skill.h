@@ -14,13 +14,7 @@ namespace ai {
 // forward declare control Utils
 namespace control {
 class ControlUtils;
-struct PosVelAngle;
-}
-
-namespace world {
-    class Robot;
-    class Ball;
-    class WorldData;
+class PosVelAngle;
 }
 
 /**
@@ -33,6 +27,8 @@ class Skill : public bt::Leaf {
     protected:
         using Robot = world::Robot;
         using Ball = world::Ball;
+        using RobotPtr = world::World::RobotPtr;
+        using BallPtr = world::World::BallPtr;
         using WorldData = world::WorldData;
 
         io::IOManager ioManager = io::IOManager(false, true);

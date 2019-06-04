@@ -6,11 +6,11 @@
 #include "World.h"
 #include "Ball.h"
 
-#include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/control/shotControllers/ShotController.h>
-#include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
-#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
-#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
+#include "roboteam_ai/src/control/ControlUtils.h"
+#include "roboteam_ai/src/control/shotControllers/ShotController.h"
+#include "roboteam_ai/src/control/ballHandling/BallHandlePosControl.h"
+#include "roboteam_ai/src/control/positionControllers/NumTreePosControl.h"
+#include "roboteam_ai/src/control/positionControllers/BasicPosControl.h"
 
 namespace rtt {
 namespace ai {
@@ -164,7 +164,7 @@ bool Robot::hasWorkingDribbler() const {
     return workingDribbler;
 }
 
-const std::shared_ptr<control::ShotController> &Robot::getShotController() const {
+const shared_ptr<control::ShotController> &Robot::getShotController() const {
     return shotController;
 }
 
