@@ -3,7 +3,6 @@
 //
 
 #include "BTFactory.h"
-#include "TreeInterpreter.h"
 
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
 std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
