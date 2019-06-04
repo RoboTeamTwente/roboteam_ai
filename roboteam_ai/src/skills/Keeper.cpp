@@ -37,13 +37,13 @@ Keeper::Status Keeper::onUpdate() {
 
     blockPoint = computeBlockPoint(ballPos);
 
-    if (!world::field->pointIsInField(blockPoint, static_cast<float>(Constants::OUT_OF_FIELD_MARGIN()))) {
+    if (!world::field->pointIsInField(blockPoint, -static_cast<float>(Constants::OUT_OF_FIELD_MARGIN()))) {
         blockPoint=goalPos;
         blockPoint.x+=Constants::KEEPER_CENTREGOAL_MARGIN();
         command.w=0;
     }
     else{
-        command.w=(ballPos-blockPoint).angle();
+        command.w=Angle((ballPos-blockPoint).angle()+M_PI_2).getAngle();
     }
     interface::Input::drawData(interface::Visual::KEEPER, {blockPoint}, Qt::darkYellow, robot->id,
             interface::Drawing::DOTS, 5, 5);

@@ -81,7 +81,12 @@ void InterceptBall::sendMoveCommand(Vector2 targetPos) {
     }
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
-
+    if (currentProgression==INTERCEPTING){
+        command.w= Angle((interceptPos-robot->pos).angle()+M_PI).getAngle();
+    }
+    else{
+        command.w =(ballStartPos-ballEndPos).angle();
+    }
     publishRobotCommand();
 }
 
@@ -114,7 +119,7 @@ void InterceptBall::checkProgression() {
     //Update the state of the robot
     switch (currentProgression) {
     case INTERCEPTING:
-        if (dist < 2.5*Constants::ROBOT_RADIUS()) {
+        if (dist < Constants::ROBOT_RADIUS()) {
             currentProgression = CLOSETOPOINT;
         };//If robot is close, switch to closetoPoint
         return;
