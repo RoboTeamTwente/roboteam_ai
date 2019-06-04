@@ -21,7 +21,8 @@ class RotateWithBall {
         Vector2 targetPos;
 
     public:
-        RobotCommand getRobotCommand(const world::Robot::RobotPtr &r,
+        RotateWithBall() = default;
+        RobotCommand getRobotCommand(world::Robot::RobotPtr r,
                 const Vector2 &targetP, const Angle &targetA);
 };
 

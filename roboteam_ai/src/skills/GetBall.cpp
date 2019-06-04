@@ -14,16 +14,20 @@ namespace ai {
 GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
-void GetBall::onInitialize() { }
+void GetBall::onInitialize() {
+    ballHandlePosControl = std::make_shared<control::BallHandlePosControl>(
+            control::BallHandlePosControl(properties->getBool("canMoveInDefenseArea")));
+}
 
 GetBall::Status GetBall::onUpdate() {
-    if (ballControlGtp.getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
+    if (ballHandlePosControl->getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
         return Status::Success;
     }
 
-    Vector2 targetPos = ball->pos;
-    auto c = ballControlGtp.getRobotCommand(robot, targetPos, robot->angle);
-    command = c.makeROSCommand();
+    if ((lockedTargetPos - ball->pos).length() > 0.2) {
+        lockedTargetPos = ball->pos + (robot->pos - ball->pos).stretchToLength(0.1);
+    }
+    command = ballHandlePosControl->getRobotCommand(robot, lockedTargetPos, robot->angle).makeROSCommand();
     publishRobotCommand();
     return Status::Running;
 }

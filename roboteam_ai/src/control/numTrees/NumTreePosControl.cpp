@@ -451,6 +451,7 @@ bool NumTreePosControl::checkCurrentRobotCollision() {
     realRobotPoint->vel = robot->vel;
     realRobotPoint->t = 0;
     currentCollisionWithRobot = getCollision(realRobotPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
+
     PathPointer finalTargetPoint = std::make_shared<PathPoint>();
     finalTargetPoint->pos = finalTargetPos;
     finalTargetPoint->vel = Vector2();

@@ -13,6 +13,7 @@ void World::updateWorld(const roboteam_msgs::World &message) {
     worldNumber ++;
 
     BallPtr oldBall = nullptr;
+    WorldData tempWorldData;
     {
         std::lock_guard<std::mutex> lock(worldMutex);
 
@@ -26,15 +27,16 @@ void World::updateWorld(const roboteam_msgs::World &message) {
         // copy the ball
         if (worldDataPtr->ball) oldBall = worldDataPtr->ball->deepCopy();
     }
-
-    // update ballmodel, dribbling, position if not visible etc.
-    auto tempWorldData = WorldData(message);
-    if (oldBall)  {
-        tempWorldData.ball->updateBall(oldBall, tempWorldData);
-    } else {
-        tempWorldData.ball = std::make_shared<Ball>(message.ball);
+    {
+        // update ballmodel, dribbling, position if not visible etc.
+        tempWorldData = WorldData(message);
+        if (oldBall) {
+            tempWorldData.ball->updateBall(oldBall, tempWorldData);
+        }
+        else {
+            tempWorldData.ball = std::make_shared<Ball>(message.ball);
+        }
     }
-
     {
         std::lock_guard<std::mutex> lock(worldMutex);
         worldDataPtr->ball = tempWorldData.ball;
@@ -67,7 +69,7 @@ void World::updateRobotsFromData(Robot::Team team, const std::vector<roboteam_ms
             }
         }
         // if no robot exists in world we create a new one
-        if (!robotFound) {
+        if (! robotFound) {
             RobotPtr newRobot = std::make_shared<Robot>(Robot(robotMsg, team, 3, 0, worldNumber));
             newRobot->updateRobot(robotMsg, ball, worldNumber);
 
@@ -89,7 +91,7 @@ bool World::weHaveRobots() {
 
 const WorldData World::getWorld() {
     std::lock_guard<std::mutex> lock(worldMutex);
-    auto thing =  WorldData(* worldDataPtr);
+    auto thing = WorldData(*worldDataPtr);
     return thing;
 }
 
@@ -190,7 +192,6 @@ const World::RobotPtr World::getRobotClosestToBall(WhichRobots whichRobots) {
     return getRobotClosestToPoint(ballPos, whichRobots);
 }
 
-
 const World::RobotPtr World::getRobotClosestToPoint(const Vector2 &point, std::vector<int> robotIds, bool ourTeam) {
 
     RobotPtr closestBot;
@@ -274,12 +275,12 @@ const WorldData World::getFutureWorld(double time) {
 
 const World::RobotPtr World::getFutureRobot(int id, bool ourTeam, double time) {
     RobotPtr robotPtr = getRobotForId(id, ourTeam);
-    if (!robotPtr) return nullptr;
+    if (! robotPtr) return nullptr;
     return getFutureRobot(robotPtr, time);
 }
 
 const World::RobotPtr World::getFutureRobot(const RobotPtr &robot, double time) {
-    if (!robot) return nullptr;
+    if (! robot) return nullptr;
     auto futureRobot = robot->deepCopy();
     futureWorld.updateFutureRobot(futureRobot, time);
     return futureRobot;
@@ -289,7 +290,7 @@ const World::BallPtr World::getFutureBall(double time) {
     BallPtr futureBall;
     {
         std::lock_guard<std::mutex> lock(worldMutex);
-        if (! worldDataPtr || !worldDataPtr->ball) {
+        if (! worldDataPtr || ! worldDataPtr->ball) {
             return nullptr;
         }
         futureBall = worldDataPtr->ball->deepCopy();

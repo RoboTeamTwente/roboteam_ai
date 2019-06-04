@@ -20,17 +20,17 @@ TEST(NumTreePosControlTest, it_obeys_the_referee) {
      */
     GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
     gtp.setCanMoveInDefenseArea(false);
-    EXPECT_FALSE(gtp.getCanMoveInDefenseArea());
+    EXPECT_FALSE(gtp.getCanMoveInDefenseArea(-1));
     gtp.setCanMoveInDefenseArea(true);
-    EXPECT_FALSE(gtp.getCanMoveInDefenseArea());
+    EXPECT_FALSE(gtp.getCanMoveInDefenseArea(-1));
     GameStateManager::forceNewGameState(RefCommand::BALL_PLACEMENT_US);
     gtp.setCanMoveInDefenseArea(true);
-    EXPECT_TRUE(gtp.getCanMoveInDefenseArea());
+    EXPECT_TRUE(gtp.getCanMoveInDefenseArea(-1));
 
     gtp.setCanMoveOutOfField(false);
-    EXPECT_FALSE(gtp.getCanMoveOutOfField());
+    EXPECT_FALSE(gtp.getCanMoveOutOfField(-1));
     gtp.setCanMoveOutOfField(true);
-    EXPECT_TRUE(gtp.getCanMoveOutOfField());
+    EXPECT_TRUE(gtp.getCanMoveOutOfField(-1));
 
     /*
      * Set the gamestate to normal play such that we are not allowed to get close to the ball

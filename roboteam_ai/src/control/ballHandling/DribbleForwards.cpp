@@ -13,10 +13,10 @@ namespace ai {
 namespace control {
 
 
-RobotCommand DribbleForwards::getRobotCommand(const world::Robot::RobotPtr &r, const Vector2 &targetP,
+RobotCommand DribbleForwards::getRobotCommand(world::Robot::RobotPtr r, const Vector2 &targetP,
         const Angle &targetA) {
-    robot = r;
-    ball = world::world->getBall();
+    robot = std::move(r);
+    ball = world::world->getBall()->deepCopy();;
     finalTargetAngle = targetA;
     targetAngle = targetA;
     finalTargetPos = targetP;

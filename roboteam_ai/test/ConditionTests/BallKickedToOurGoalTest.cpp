@@ -42,8 +42,12 @@ TEST(BallKickedToOurGoal,BallKickedToOurGoal){
     rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(),bt::Node::Status::Success);
     worldMsg.ball.vel.x=-4.0f;
-    worldMsg.ball.vel.y=-1.0f;
+    worldMsg.ball.vel.y=-2.0f;
     rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(),bt::Node::Status::Failure);
+    worldMsg.ball.vel.x=-4.0f;
+    worldMsg.ball.vel.y=1.0f;
+    rtt::ai::world::world->updateWorld(worldMsg);
+    EXPECT_EQ(node.update(),bt::Node::Status::Success);
 
 }

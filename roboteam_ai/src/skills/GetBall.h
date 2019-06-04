@@ -12,9 +12,10 @@ namespace rtt {
 namespace ai {
 
 class GetBall : public Skill {
-        const double SPEED = (Constants::GRSIM() ? 0.4 : 0.8);
     private:
-        control::BallHandlePosControl ballControlGtp = control::BallHandlePosControl(false);
+        std::shared_ptr<control::BallHandlePosControl> ballHandlePosControl;
+
+        Vector2 lockedTargetPos = Vector2();
 
     public:
         explicit GetBall(string name, bt::Blackboard::Ptr blackboard);
