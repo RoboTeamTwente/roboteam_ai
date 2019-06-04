@@ -14,12 +14,11 @@ Keeper::Keeper(rtt::string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
 void Keeper::onInitialize() {
-
     goalPos = world::field->get_our_goal_center();
     goalwidth = world::field->get_field().goal_width;
-
     //Create arc for keeper to drive on
     blockCircle=control::ControlUtils::createKeeperArc();
+
 }
 
 Keeper::Status Keeper::onUpdate() {
@@ -55,10 +54,6 @@ Keeper::Status Keeper::onUpdate() {
 }
 
 void Keeper::onTerminate(Status s) {
-    command.x_vel = 0;
-    command.y_vel = 0;
-    command.w = static_cast<float>(M_PI_2);
-    publishRobotCommand();
 }
 
 Vector2 Keeper::computeBlockPoint(const Vector2& defendPos) {
