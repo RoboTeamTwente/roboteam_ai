@@ -1,0 +1,18 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "76fk8lzzuhvovw9q": {
+            "id": "76fk8lzzuhvovw9q",
+            "name": "attackerTestTactic",
+            "title": "Tactic"
+          }
+        },
+        "root": "76fk8lzzuhvovw9q",
+        "title": "attackTestStrategy"
+      }
+    ]
+  },
+  "name": "attackTestStrategy"
+}

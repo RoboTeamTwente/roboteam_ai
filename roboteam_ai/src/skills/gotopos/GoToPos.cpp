@@ -14,7 +14,6 @@ GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
 
 GoToPos::GoToType GoToPos::stringToGoToType(const string &gtt) {
     if (gtt == "basic") return basic;
-    if (gtt == "force") return force;
     if (gtt == "numTrees") return numTree;
 
     ROS_ERROR("SkillGoToPos::onInitialize -> no good goToType set in properties. Using numtrees");
@@ -53,12 +52,9 @@ void GoToPos::onInitialize() {
 void GoToPos::setPositionController(const GoToType &gTT) {
     switch (gTT) {
     default:
-    case numTree:posController = robot->getNumtreeGtp();
+    case numTree:posController = robot->getNumtreePosControl();
         return;
-    case basic:posController = robot->getBasicGtp();
-        return;
-    case force:std::cout << "force pos controller is deprecated " << std::endl;
-        posController = std::make_shared<control::ForcePosControl>();
+    case basic:posController = robot->getBasicPosControl();
         return;
     }
 }
@@ -81,12 +77,13 @@ bt::Node::Status GoToPos::onUpdate() {
         }
     }
     if (command.x_vel == 0 || command.y_vel == 0 || command.w == 0) {
-    control::PosVelAngle pva = posController->getPosVelAngle(robot, targetPos, targetAngle);
+    auto robotCommand = posController->getRobotCommand(robot, targetPos, targetAngle);
 
         // set robotcommands if they have not been set yet in gtpUpdate()
-        command.x_vel = command.x_vel == 0 ? static_cast<float>(pva.vel.x) : command.x_vel;
-        command.y_vel = command.y_vel == 0 ? static_cast<float>(pva.vel.y) : command.y_vel;
-        command.w = command.w == 0 ? static_cast<float>(pva.angle) : command.w;
+
+        command.x_vel = command.x_vel == 0 ? static_cast<float>(robotCommand.vel.x) : command.x_vel;
+        command.y_vel = command.y_vel == 0 ? static_cast<float>(robotCommand.vel.y) : command.y_vel;
+        command.w = command.w == 0 ? static_cast<float>(robotCommand.angle) : command.w;
     }
 
     publishRobotCommand();
@@ -96,6 +93,7 @@ bt::Node::Status GoToPos::onUpdate() {
 void GoToPos::onTerminate(Status s) {
     gtpTerminate(s);
 }
+
 
 } // ai
 } // rtt

@@ -18,7 +18,8 @@
               "ndikqf07i0e64x",
               "zjm1zxk1jwb4cu",
               "rwoql3xwvrznd",
-              "l48uxgoo54ojijj"
+              "l48uxgoo54ojijj",
+              "7bt9wk4zhw9oejxq"
             ],
             "id": "3h41w9x1eg0nslbe",
             "properties": {
@@ -32,6 +33,18 @@
               "ROLE": "f3"
             },
             "title": "FreeKickFormation"
+          },
+          "7bt9wk4zhw9oejxq": {
+            "children": [
+              "v7nmbpkqsymz1x6y"
+            ],
+            "id": "7bt9wk4zhw9oejxq",
+            "name": "free_kick_formation_role",
+            "properties": {
+              "ROLE": "f7"
+            },
+            "role": "free_kick_formation_role",
+            "title": "Role"
           },
           "7ztwfg6slrvws": {
             "children": [
@@ -139,6 +152,13 @@
             },
             "role": "free_kick_reciever_role",
             "title": "Role"
+          },
+          "v7nmbpkqsymz1x6y": {
+            "id": "v7nmbpkqsymz1x6y",
+            "properties": {
+              "ROLE": "f7"
+            },
+            "title": "FreeKickFormation"
           },
           "wiozjsxid84qx1": {
             "id": "wiozjsxid84qx1",

@@ -15,12 +15,10 @@ class BasicPosControl : public PosController {
     private:
         void checkInterfacePID() override;
     public:
-        explicit BasicPosControl() = default;
-        explicit BasicPosControl(bool avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
-
-        PosVelAngle getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) override;
-        PosVelAngle getPosVelAngle(const RobotPtr& robot, const Vector2 &targetPos) override;
-
+        BasicPosControl() = default;
+        explicit BasicPosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
+        RobotCommand getRobotCommand(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) override;
+        RobotCommand getRobotCommand(const RobotPtr &robot, const Vector2 &targetPos) override;
 
 };
 

@@ -44,7 +44,7 @@ Keeper::Status Keeper::onUpdate() {
     else{
         command.w=(ballPos-blockPoint).angle();
     }
-    Vector2 velocities = basicGtp.getPosVelAngle(robot, blockPoint).vel;
+    Vector2 velocities = basicGtp.getRobotCommand(robot, blockPoint).vel;
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
     publishRobotCommand();

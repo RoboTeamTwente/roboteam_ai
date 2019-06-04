@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_FORMATION_H
 #define ROBOTEAM_AI_FORMATION_H
 
-#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
 #include "roboteam_ai/src/skills/Skill.h"
 #include "gtest/gtest_prod.h"
 
@@ -19,6 +19,7 @@ public:
     void onInitialize() override;
     bt::Node::Status onUpdate() override;
     void onTerminate(bt::Node::Status) override;
+    void terminate(bt::Node::Status) override;
 
 protected:
 

@@ -72,12 +72,24 @@
 #include <roboteam_ai/src/skills/formations/TimeoutFormation.h>
 #include <roboteam_ai/src/bt/RoleDivider.h>
 #include <roboteam_ai/src/skills/formations/KickOffThemFormation.h>
-#include <roboteam_ai/src/skills/BallPlacement/BallPlacementReceive.h>
+#include <roboteam_ai/src/skills/ballPlacement/BallPlacementReceive.h>
 #include <roboteam_ai/src/conditions/CanPlay.h>
 #include <roboteam_ai/src/conditions/RobotOutside.h>
 #include <roboteam_ai/src/conditions/RefStateIsNormalPlay.h>
 #include <roboteam_ai/src/conditions/RefBallIsMoving.h>
-#include <roboteam_ai/src/skills/BallPlacement/BallPlacementPass.h>
+#include <roboteam_ai/src/skills/ballPlacement/BallPlacementPass.h>
+#include <roboteam_ai/src/bt/composites/MemSelector.hpp>
+#include <roboteam_ai/src/bt/composites/MemSequence.hpp>
+#include <roboteam_ai/src/bt/composites/MemParallelSequence.h>
+#include <roboteam_ai/src/bt/decorators/Failer.hpp>
+#include <roboteam_ai/src/bt/decorators/UntilFail.hpp>
+#include <roboteam_ai/src/bt/decorators/UntilSuccess.hpp>
+#include <roboteam_ai/src/bt/composites/Selector.hpp>
+#include <roboteam_ai/src/bt/composites/ParallelSequence.hpp>
+#include <roboteam_ai/src/bt/decorators/Succeeder.hpp>
+#include <roboteam_ai/src/bt/decorators/Repeater.hpp>
+#include <roboteam_ai/src/bt/decorators/Inverter.hpp>
+#include <roboteam_ai/src/bt/composites/Sequence.hpp>
 
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
@@ -123,7 +135,8 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "two_robot_ballplacement_tactic",
         "calibration_tactic",
         "follow_interface_tactic",
-        "ball_placement_interface_tactic"
+        "ball_placement_interface_tactic",
+        "attackerTestTactic"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
@@ -145,7 +158,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "kickoff_shoot_strategy",
         "calibration_strategy",
         "interface_drive_strategy",
-        "interface_ball_placement_strategy"
+        "interface_ball_placement_strategy",
+        "attackTestStrategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles = {
@@ -463,6 +477,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"f4", robotType::RANDOM},
                     {"f5", robotType::RANDOM},
                     {"f6", robotType::RANDOM},
+                    {"f7", robotType::RANDOM}
             }
             },
             {"free_kick_shoot_tactic", {
@@ -473,6 +488,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"f4", robotType::RANDOM},
                     {"f5", robotType::RANDOM},
                     {"f6", robotType::RANDOM},
+                    {"f7", robotType::RANDOM}
             }
             },
             {"free_kick_them_tactic", {
@@ -482,7 +498,8 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"line2", robotType::RANDOM},
                     {"line4", robotType::RANDOM},
                     {"line5", robotType::RANDOM},
-                    {"line3", robotType::RANDOM}
+                    {"line3", robotType::RANDOM},
+                    {"line8", robotType::RANDOM}
             }
             },
             {"penalty_them_tactic", {
@@ -493,6 +510,8 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"a5", robotType::RANDOM},
                     {"a6", robotType::RANDOM},
                     {"a7", robotType::RANDOM},
+                    {"a8", robotType::RANDOM}
+
             }
             },
             {"normal_play_defense_tactic",
@@ -552,6 +571,17 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"c5", robotType::RANDOM},
                     {"c6", robotType::RANDOM},
                     {"c7", robotType::RANDOM},
+            }
+            },
+            {"attackerTestTactic",{
+                    {"attackTest", robotType::CLOSE_TO_BALL},
+                    {"halt1",robotType::RANDOM},
+                    {"halt2",robotType::RANDOM},
+                    {"halt3",robotType::RANDOM},
+                    {"halt4",robotType::RANDOM},
+                    {"halt5",robotType::RANDOM},
+                    {"halt6",robotType::RANDOM},
+                    {"halt7",robotType::RANDOM}
             }
             }
     };

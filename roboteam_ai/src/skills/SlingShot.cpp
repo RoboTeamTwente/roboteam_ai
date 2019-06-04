@@ -103,7 +103,7 @@ bool SlingShot::robotAtAngle() {
             control::ControlUtils::constrainAngle(rotateAngle)) < margin;
 }
 void SlingShot::sendDribbleCommand() {
-    command.dribbler = 7; //TODO:check if we can control velocities
+    command.dribbler = 20; //TODO:check if we can control velocities
     command.x_vel = 0;
     command.y_vel = 0;
     command.w = robot->angle;
@@ -111,7 +111,7 @@ void SlingShot::sendDribbleCommand() {
 }
 void SlingShot::sendRotateCommand() {
     Vector2 position = kickPos + Vector2(0.2, 0).rotate(rotateAngle + M_PI);
-    auto velocities = gtp.getPosVelAngle(robot, position).vel;
+    auto velocities = gtp.getRobotCommand(robot, position).vel;
     velocities = control::ControlUtils::velocityLimiter(velocities, 1.5);
     command.dribbler = false;
     command.x_vel = velocities.x;

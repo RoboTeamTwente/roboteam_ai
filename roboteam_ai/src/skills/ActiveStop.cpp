@@ -12,7 +12,7 @@ ActiveStop::ActiveStop(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
 }
 void ActiveStop::onInitialize() {
-    robot->getNumtreeGtp()->setAvoidBallDistance(0.8);
+    robot->getNumtreePosControl()->setAvoidBallDistance(0.8);
 
     if (attack == -1) {
         attack = robot->id;
@@ -27,7 +27,7 @@ Skill::Status ActiveStop::onUpdate() {
         targetPos = getDefensiveActivePoint();
 
     command.w = static_cast<float>((targetPos - robot->pos).angle());
-    Vector2 velocity = robot->getNumtreeGtp()->getPosVelAngle(robot, targetPos).vel;
+    Vector2 velocity = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos).vel;
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     publishRobotCommand();

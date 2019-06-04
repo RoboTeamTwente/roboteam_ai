@@ -25,7 +25,7 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
         auto shortestDistances = hungarian.getRobotPositions(robotIds, true, poses);
         return shortestDistances.at(robot->id);
     } else {
-        robot->getNumtreeGtp()->setAvoidBallDistance(0.4);
+        robot->getNumtreePosControl()->setAvoidBallDistance(0.4);
         std::vector<int> robotIds;
         for (auto & i : *robotsInFormation) {
             robotIds.push_back(i->id);

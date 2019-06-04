@@ -6,8 +6,11 @@
 #include "World.h"
 #include "Ball.h"
 
-#include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/control/shotControllers/ShotController.h>
+#include "roboteam_ai/src/control/ControlUtils.h"
+#include "roboteam_ai/src/control/shotControllers/ShotController.h"
+#include "roboteam_ai/src/control/ballHandling/BallHandlePosControl.h"
+#include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
+#include "roboteam_ai/src/control/positionControllers/BasicPosControl.h"
 
 namespace rtt {
 namespace ai {
@@ -15,9 +18,9 @@ namespace world {
 
 Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
         unsigned char genevaState, unsigned char dribblerState, unsigned long worldNumber)
-        : pidPreviousVel(Vector2()), distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(worldNumber),
-        genevaState(genevaState), dribblerState(dribblerState), id(copy.id),
-        angle(copy.angle), pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
+        :pidPreviousVel(Vector2()), distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(worldNumber),
+         genevaState(genevaState), dribblerState(dribblerState), id(copy.id),
+         angle(copy.angle), pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
 
     if (id > - 1 && id < 16) {
         workingGeneva = Constants::ROBOT_HAS_WORKING_GENEVA(id);
@@ -31,14 +34,20 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
 
     // set up control controllers
     shotController = std::make_shared<control::ShotController>();
-    numtreeGTP = std::make_shared<control::NumTreePosControl>();
-    basicGTP = std::make_shared<control::BasicPosControl>();
+    numTreePosControl = std::make_shared<control::NumTreePosControl>();
+    basicPosControl = std::make_shared<control::BasicPosControl>();
+    ballHandlePosControl = std::make_shared<control::BallHandlePosControl>();
 }
 
 Robot::Robot()
         :distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(0), genevaState(0), workingGeneva(false),
-        dribblerState(0), workingDribbler(false),
-        id(- 1), angle(- 1.0), angularVelocity(- 1.0), team(invalid) {
+         dribblerState(0), workingDribbler(false),
+         id(- 1), angle(- 1.0), angularVelocity(- 1.0), team(invalid) {
+
+    shotController = nullptr;
+    numTreePosControl = nullptr;
+    basicPosControl = nullptr;
+    ballHandlePosControl = nullptr;
 }
 
 bool Robot::hasBall(double maxDist) {
@@ -50,7 +59,7 @@ double Robot::getDistanceToBall() {
 }
 
 void Robot::updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const BallPtr &ball, unsigned long worldNumber) {
-    if (robotMsg.id == this->id) {
+    if (static_cast<int>(robotMsg.id) == this->id) {
         this->pos = robotMsg.pos;
         this->vel = robotMsg.vel;
         this->angle = robotMsg.angle;
@@ -102,12 +111,12 @@ unsigned char Robot::getGenevaState() const {
 void Robot::setGenevaState(unsigned char state) {
 
     if (state < 0 || state > 5) {
-        std::cout << "setting invalid geneva state (" << (int)state <<
-        ") for robot with id " << id << std::endl;
+        std::cout << "setting invalid geneva state (" << (int) state <<
+                  ") for robot with id " << id << std::endl;
     }
     else if (! workingGeneva) {
-        std::cout << "setting geneva state (" << (int)state <<
-        ") for robot without working geneva with id " << id << std::endl;
+        std::cout << "setting geneva state (" << (int) state <<
+                  ") for robot without working geneva with id " << id << std::endl;
     }
     else if (state != 0) {
         previousGenevaState = genevaState;
@@ -118,7 +127,7 @@ void Robot::setGenevaState(unsigned char state) {
 
 bool Robot::isGenevaReady() const {
     return world->getTime() - timeGenevaChanged >
-    abs(genevaState - previousGenevaState)*timeToChangeOneGenevaState;
+            abs(genevaState - previousGenevaState)*timeToChangeOneGenevaState;
 }
 
 bool Robot::hasWorkingGeneva() const {
@@ -132,22 +141,28 @@ unsigned char Robot::getDribblerState() const {
 void Robot::setDribblerState(unsigned char dribbler) {
 
     if (dribbler < 0 || dribbler > 31) {
-        std::cout << "setting invalid dribbler state (" << (int)dribbler <<
+        std::cout << "setting invalid dribbler state (" << (int) dribbler <<
                   ") for robot with id " << id << std::endl;
     }
     else if (! workingDribbler) {
-        std::cout << "setting dribbler state (" << (int)dribbler <<
+        std::cout << "setting dribbler state (" << (int) dribbler <<
                   ") for robot without working dribbler with id " << id << std::endl;
     }
     else {
-        previousDribblerState = dribblerState;
+        if (previousDribblerState != dribblerState) {
+            auto maxStatesChanged = static_cast<int>(
+                    (world::world->getTime() - timeDribblerChanged)/timeToChangeOneDribblerLevel);
+            auto statesChanged = std::max(abs(previousDribblerState - dribblerState), maxStatesChanged);
+            previousDribblerState = previousDribblerState +
+                    abs(previousDribblerState - dribblerState)/(previousDribblerState - dribblerState)*statesChanged;
+        }
         dribblerState = dribbler;
         timeDribblerChanged = world::world->getTime();
     }
 }
 
 bool Robot::isDribblerReady() const {
-    return world->getTime() - timeDribblerChanged >
+    return (world::world->getTime() - timeDribblerChanged) >
             abs(dribblerState - previousDribblerState)*timeToChangeOneDribblerLevel;
 }
 
@@ -159,12 +174,16 @@ const shared_ptr<control::ShotController> &Robot::getShotController() const {
     return shotController;
 }
 
-const shared_ptr<control::NumTreePosControl> &Robot::getNumtreeGtp() const {
-    return numtreeGTP;
+const std::shared_ptr<control::NumTreePosControl> &Robot::getNumtreePosControl() const {
+    return numTreePosControl;
 }
 
-const shared_ptr<control::BasicPosControl> &Robot::getBasicGtp() const {
-    return basicGTP;
+const std::shared_ptr<control::BasicPosControl> &Robot::getBasicPosControl() const {
+    return basicPosControl;
+}
+
+const std::shared_ptr<control::BallHandlePosControl> &Robot::getBallHandlePosControl() const {
+    return ballHandlePosControl;
 }
 
 void Robot::setWorkingGeneva(bool genevaIsWorking) {
@@ -177,6 +196,26 @@ const Vector2 &Robot::getPidPreviousVel() const {
 
 void Robot::setPidPreviousVel(const Vector2 &pidVel) {
     pidPreviousVel = pidVel;
+}
+
+const Robot::RobotPtr Robot::deepCopy() const {
+    return std::make_shared<Robot>(Robot(*this));
+}
+
+void Robot::resetShotController() {
+    shotController = std::make_shared<control::ShotController>();
+}
+
+void Robot::resetNumTreePosControl() {
+    numTreePosControl = std::make_shared<control::NumTreePosControl>();
+}
+
+void Robot::resetBasicPosControl() {
+    basicPosControl = std::make_shared<control::BasicPosControl>();
+}
+
+void Robot::resetBallHandlePosControl() {
+    ballHandlePosControl = std::make_shared<control::BallHandlePosControl>();
 }
 
 } //world

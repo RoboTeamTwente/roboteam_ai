@@ -1,7 +1,9 @@
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "Skill.h"
 #include "../utilities/RobotDealer.h"
-
+#include "roboteam_ai/src/world/Robot.h"
+#include "roboteam_ai/src/world/Ball.h"
+#include <cmath>
 
 namespace rtt {
 namespace ai {
@@ -22,8 +24,8 @@ void Skill::publishRobotCommand() {
     }
     limitRobotCommand();
 
-    if (command.x_vel != command.x_vel || command.y_vel != command.y_vel) {
-        std::cout << "x or y vel in command is NAN!!!!" << std::endl;
+    if (std::isnan(command.x_vel) || std::isnan(command.y_vel)) {
+        std::cout << "ERROR: x or y vel in command is NAN in Skill " << node_name().c_str() << "!" << std::endl;
     }
     if (command.id == -1) {
         if (robot && robot->id != -1) {
@@ -67,6 +69,7 @@ void Skill::terminate(Status s) {
     init = false;
     if (! robot || robot->id == -1) return;
     if (! ball) return;
+    refreshRobotPositionControllers();
     refreshRobotCommand();
     onTerminate(s);
 }
@@ -89,7 +92,6 @@ void Skill::refreshRobotCommand() {
 
 /// Velocity and acceleration limiters used on command
 void Skill::limitRobotCommand() {
-
     auto limitedVel = Vector2(command.x_vel, command.y_vel);
     limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
     limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w);
@@ -97,6 +99,13 @@ void Skill::limitRobotCommand() {
 
     command.x_vel = limitedVel.x;
     command.y_vel = limitedVel.y;
+}
+
+void Skill::refreshRobotPositionControllers() {
+    robot->resetNumTreePosControl();
+    robot->resetShotController();
+    robot->resetBallHandlePosControl();
+    robot->resetBasicPosControl();
 }
 
 } // ai

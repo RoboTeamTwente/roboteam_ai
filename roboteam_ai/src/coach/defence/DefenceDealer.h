@@ -14,14 +14,10 @@ namespace coach {
 ///This class keeps track of what all the defenders are doing and assigns them and communicates with them
 class DefenceDealer {
     private:
-        std::map<int, std::pair<Vector2, double>> defenderLocations;
-        std::vector<int> defenders;
-        bool doUpdate=true;
-        int botIsGettingBallId=-1;
+        const int LOCKTIME=Constants::TICK_RATE()*2/3;
+        std::vector<DefenderBot> assignedDefenders;
+        std::vector<int> availableIDs;
     public:
-        bool isBotGettingBall(int id);
-        void checkIfWeShouldGetBall();
-        int  botClosestToBall();
         void updateDefenderLocations();
         void addDefender(int id);
         std::shared_ptr<std::pair<Vector2, double>> getDefenderPosition(int id);
