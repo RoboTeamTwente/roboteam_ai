@@ -57,7 +57,7 @@ class   BallHandlePosControl : public NumTreePosControl {
 
         // general functions
         RobotCommand handleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy,
-                bool shouldHandleBall, bool ballIsFarFromTarget = true);
+                bool shouldGetBall, bool ballIsFarFromTarget = true);
         RobotCommand goToBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy, bool ballIsFarFromTarget);
 
         // get status of ball handling
@@ -81,6 +81,7 @@ class   BallHandlePosControl : public NumTreePosControl {
         void setMaxForwardsVelocity(double maxV);
         void setMaxBackwardsVelocity(double maxV);
         RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) override;
+        RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP, TravelStrategy travelStrategy);
         RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA,
                 TravelStrategy travelStrategy);
         RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP) override;

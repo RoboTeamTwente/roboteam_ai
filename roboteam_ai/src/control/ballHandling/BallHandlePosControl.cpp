@@ -34,6 +34,19 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
     return BallHandlePosControl::getRobotCommand(r, targetP, defaultAngle);
 }
 
+
+RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
+        const Vector2 &targetP, TravelStrategy travelStrategy) {
+
+    TravelStrategy tempTravelStrategy = preferredTravelStrategy;
+    preferredTravelStrategy = travelStrategy;
+    Angle targetA = 0;
+    RobotCommand robotCommand = BallHandlePosControl::getRobotCommand(r, targetP, targetA);
+    preferredTravelStrategy = tempTravelStrategy;
+
+    return robotCommand;
+}
+
 RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
         const Vector2 &targetP, const Angle &targetA, TravelStrategy travelStrategy) {
 
@@ -120,7 +133,6 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
     bool shouldGetBall = robotDoesNotHaveBall && (robotIsTooFarFromBall || ballIsMovingTooFast);
 
     if (ballIsOutsideField) {
-        status = HANDLING_BALL;
         Vector2 targetBallPos = ControlUtils::projectPositionToWithinField(ball->pos, 1.0);
         return handleBall(targetBallPos, BACKWARDS, shouldGetBall);
     }
@@ -224,9 +236,9 @@ BallHandlePosControl::Status BallHandlePosControl::getStatus() {
 }
 
 RobotCommand BallHandlePosControl::handleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy,
-        bool shouldHandleBall, bool ballIsFarFromTarget) {
+        bool shouldGetBall, bool ballIsFarFromTarget) {
 
-    if (shouldHandleBall) {
+    if (shouldGetBall) {
         status = GET_BALL;
         return goToBall(targetBallPos, travelStrategy, ballIsFarFromTarget);
     }

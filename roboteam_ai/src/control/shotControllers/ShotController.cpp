@@ -35,8 +35,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
     interface::Input::drawData(interface::Visual::SHOTLINES, {ball->pos, aimTarget}, Qt::yellow, robot.id,
             interface::Drawing::LINES_CONNECTED);
 
-    if (robot.getBallHandlePosControl()->getStatus() == control::BallHandlePosControl::Status::HANDLING_BALL ||
-            robot.getBallHandlePosControl()->getStatus() == control::BallHandlePosControl::Status::FINALIZING ||
+    if (robot.getBallHandlePosControl()->getStatus() == control::BallHandlePosControl::Status::FINALIZING ||
             robot.getBallHandlePosControl()->getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
 
     }
