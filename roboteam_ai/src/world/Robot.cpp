@@ -18,9 +18,9 @@ namespace world {
 
 Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
         unsigned char genevaState, unsigned char dribblerState, unsigned long worldNumber)
-        : pidPreviousVel(Vector2()), distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(worldNumber),
-        genevaState(genevaState), dribblerState(dribblerState), id(copy.id),
-        angle(copy.angle), pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
+        :pidPreviousVel(Vector2()), distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(worldNumber),
+         genevaState(genevaState), dribblerState(dribblerState), id(copy.id),
+         angle(copy.angle), pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
 
     if (id > - 1 && id < 16) {
         workingGeneva = Constants::ROBOT_HAS_WORKING_GENEVA(id);
@@ -41,8 +41,8 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
 
 Robot::Robot()
         :distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(0), genevaState(0), workingGeneva(false),
-        dribblerState(0), workingDribbler(false),
-        id(- 1), angle(- 1.0), angularVelocity(- 1.0), team(invalid) {
+         dribblerState(0), workingDribbler(false),
+         id(- 1), angle(- 1.0), angularVelocity(- 1.0), team(invalid) {
 
     shotController = nullptr;
     numTreePosControl = nullptr;
@@ -111,12 +111,12 @@ unsigned char Robot::getGenevaState() const {
 void Robot::setGenevaState(unsigned char state) {
 
     if (state < 0 || state > 5) {
-        std::cout << "setting invalid geneva state (" << (int)state <<
-        ") for robot with id " << id << std::endl;
+        std::cout << "setting invalid geneva state (" << (int) state <<
+                  ") for robot with id " << id << std::endl;
     }
     else if (! workingGeneva) {
-        std::cout << "setting geneva state (" << (int)state <<
-        ") for robot without working geneva with id " << id << std::endl;
+        std::cout << "setting geneva state (" << (int) state <<
+                  ") for robot without working geneva with id " << id << std::endl;
     }
     else if (state != 0) {
         previousGenevaState = genevaState;
@@ -127,7 +127,7 @@ void Robot::setGenevaState(unsigned char state) {
 
 bool Robot::isGenevaReady() const {
     return world->getTime() - timeGenevaChanged >
-    abs(genevaState - previousGenevaState)*timeToChangeOneGenevaState;
+            abs(genevaState - previousGenevaState)*timeToChangeOneGenevaState;
 }
 
 bool Robot::hasWorkingGeneva() const {
@@ -141,22 +141,28 @@ unsigned char Robot::getDribblerState() const {
 void Robot::setDribblerState(unsigned char dribbler) {
 
     if (dribbler < 0 || dribbler > 31) {
-        std::cout << "setting invalid dribbler state (" << (int)dribbler <<
+        std::cout << "setting invalid dribbler state (" << (int) dribbler <<
                   ") for robot with id " << id << std::endl;
     }
     else if (! workingDribbler) {
-        std::cout << "setting dribbler state (" << (int)dribbler <<
+        std::cout << "setting dribbler state (" << (int) dribbler <<
                   ") for robot without working dribbler with id " << id << std::endl;
     }
     else {
-        previousDribblerState = dribblerState;
+        if (previousDribblerState != dribblerState) {
+            auto maxStatesChanged = static_cast<int>(
+                    (world::world->getTime() - timeDribblerChanged)/timeToChangeOneDribblerLevel);
+            auto statesChanged = std::max(abs(previousDribblerState - dribblerState), maxStatesChanged);
+            previousDribblerState = previousDribblerState +
+                    abs(previousDribblerState - dribblerState)/(previousDribblerState - dribblerState)*statesChanged;
+        }
         dribblerState = dribbler;
         timeDribblerChanged = world::world->getTime();
     }
 }
 
 bool Robot::isDribblerReady() const {
-    return world->getTime() - timeDribblerChanged >
+    return (world::world->getTime() - timeDribblerChanged) >
             abs(dribblerState - previousDribblerState)*timeToChangeOneDribblerLevel;
 }
 

@@ -18,16 +18,17 @@ class Constants {
         static void init();
         static bool GRSIM();
 
-    /// LOGGING ///
-    static bool SHOW_LONGEST_TICK();
-    static bool SHOW_TICK_TIME_TAKEN();
+        /// LOGGING ///
+        static bool SHOW_LONGEST_TICK();
+        static bool SHOW_TICK_TIME_TAKEN();
 
-    static bool SHOW_NUMTREE_TIME_TAKEN();
-    static bool SHOW_COACH_TIME_TAKEN();
+        static bool SHOW_NUMTREE_TIME_TAKEN();
+        static bool SHOW_COACH_TIME_TAKEN();
 
         static bool SHOW_NUMTREE_DEBUG_INFO();
-    static bool SHOW_FULL_NUMTREE_DEBUG_INFO();
-static bool SHOW_BALL_HANDLE_DEBUG_INFO();
+        static bool SHOW_FULL_NUMTREE_DEBUG_INFO();
+        static bool SHOW_BALL_HANDLE_DEBUG_INFO();
+        static bool SHOW_FULL_BALL_HANDLE_DEBUG_INFO();
 
         // Basic rulesets for rule compliance
         static std::vector<RuleSet> ruleSets();
@@ -130,10 +131,9 @@ static bool SHOW_BALL_HANDLE_DEBUG_INFO();
         static pidVals standardForcePID();
         static pidVals standardBasicPID();
 
-
-private:
-    static bool isInitialized;
-    static bool robotOutputTargetGrSim; // Don't use this value. use GRSIM() instead.
+    private:
+        static bool isInitialized;
+        static bool robotOutputTargetGrSim; // Don't use this value. use GRSIM() instead.
 };
 
 } // ai
@@ -142,6 +142,7 @@ private:
 
 enum class RefCommand {
 // Ref states as dictated by RoboCup SSL
+
         HALT = 0,
         STOP = 1,
         NORMAL_START = 2,
@@ -163,6 +164,7 @@ enum class RefCommand {
 
 // Custom extended refstates
 // These numbers will never be called from the referee immediately, they can only be used as follow-up commands
+
         DO_KICKOFF = 18,
         DEFEND_KICKOFF = 19,
         DO_PENALTY = 20,
