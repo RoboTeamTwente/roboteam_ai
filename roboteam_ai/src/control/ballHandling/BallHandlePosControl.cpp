@@ -17,8 +17,7 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea)
-        :canMoveInDefenseArea(canMoveInDefenseArea) {
+BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea) {
 
     dribbleForwards = new DribbleForwards(errorMargin, angleErrorMargin, ballPlacementAccuracy, maxForwardsVelocity);
     dribbleBackwards = new DribbleBackwards(errorMargin, angleErrorMargin, ballPlacementAccuracy, maxBackwardsVelocity);
@@ -53,7 +52,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
     }
 
     double expectedDelay = 0.04;
-    ball = world::world->getBall()->deepCopy();
+    ball = world::world->getBall();
     robot = world::world->getFutureRobot(r, expectedDelay);
     targetPos = targetP;
     finalTargetPos = targetP;

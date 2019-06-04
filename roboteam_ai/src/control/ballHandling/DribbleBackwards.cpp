@@ -15,8 +15,7 @@ namespace control {
 RobotCommand DribbleBackwards::getRobotCommand(RobotPtr r, const Vector2 &targetP, const Angle &targetA) {
 
     robot = r;
-    auto b = world::world->getBall();
-    ball = b;
+    ball = world::world->getBall();
     finalTargetAngle = targetA;
     targetAngle = targetA;
     finalTargetPos = targetP;

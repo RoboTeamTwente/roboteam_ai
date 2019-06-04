@@ -32,14 +32,14 @@ const world::Robot::RobotPtr &Collision::getCollisionRobot() const {
 
 void Collision::setCollisionRobot(const world::Robot::RobotPtr &robot, double distance) {
     type = ROBOT;
-    collisionRobot = robot->deepCopy();
+    collisionRobot = std::make_shared<world::Robot>(world::Robot(*robot));
     isCollision = true;
     collisionRadius = distance;
 }
 
 void Collision::setCollisionBall(const world::Ball::BallPtr &ball, double distance) {
     type = BALL;
-    collisionBall = ball->deepCopy();
+    collisionBall = std::make_shared<world::Ball>(world::Ball(*ball));
     collisionBall->visible = true;
     isCollision = true;
     collisionRadius = distance;

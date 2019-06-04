@@ -16,7 +16,7 @@ namespace control {
 RobotCommand DribbleForwards::getRobotCommand(world::Robot::RobotPtr r, const Vector2 &targetP,
         const Angle &targetA) {
     robot = std::move(r);
-    ball = world::world->getBall()->deepCopy();;
+    ball = world::world->getBall();
     finalTargetAngle = targetA;
     targetAngle = targetA;
     finalTargetPos = targetP;

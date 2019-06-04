@@ -37,7 +37,7 @@ class DribbleBackwards {
         using RobotPtr = world::Robot::RobotPtr;
         using BallPtr = world::Ball::BallPtr;
         RobotPtr robot = nullptr;
-        BallPtr ball = nullptr;
+        std::shared_ptr<world::Ball> ball;
 
         BackwardsProgress backwardsProgress = START;
         void printBackwardsProgress();

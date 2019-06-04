@@ -80,7 +80,7 @@ RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
     if (! robotPtr) return {};
 
     // make a copy of the robot
-    robot = robotPtr->deepCopy();
+    robot = std::make_shared<world::Robot>(world::Robot(*robotPtr));
     finalTargetPos = targetPos;
 
     // Check if the current path is still valid, if not, recalculate

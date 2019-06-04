@@ -55,7 +55,7 @@ class World {
         const WorldData getPreviousWorld();
 
         // get ball
-        const BallPtr getBall();
+        BallPtr getBall();
 
         // get robots
         const RobotPtr getRobotForId(int id, bool ourTeam = true);
