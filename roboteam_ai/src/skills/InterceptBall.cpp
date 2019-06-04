@@ -17,7 +17,7 @@ void InterceptBall::onInitialize() {
     keeper = properties->getBool("Keeper");
     if (keeper){
         poscontroller.setListenToInterface(false);
-        poscontroller.updatePid({6.0,0.0,1.2});
+        poscontroller.updatePid(std::make_tuple(6.0,0.0,1.2));
     }
     currentProgression = INTERCEPTING;
     tickCount = 0;
