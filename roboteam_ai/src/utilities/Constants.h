@@ -142,7 +142,8 @@ class Constants {
 
 enum class RefCommand {
 // Ref states as dictated by RoboCup SSL
-                HALT = 0,
+
+        HALT = 0,
         STOP = 1,
         NORMAL_START = 2,
         FORCED_START = 3,
@@ -163,7 +164,8 @@ enum class RefCommand {
 
 // Custom extended refstates
 // These numbers will never be called from the referee immediately, they can only be used as follow-up commands
-                DO_KICKOFF = 18,
+
+        DO_KICKOFF = 18,
         DEFEND_KICKOFF = 19,
         DO_PENALTY = 20,
         DEFEND_PENALTY = 21,
