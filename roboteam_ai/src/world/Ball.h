@@ -20,7 +20,7 @@ class Ball {
         using BallPtr = std::shared_ptr<Ball>;
         using RobotPtr = std::shared_ptr<Robot>;
 
-        const BallPtr deepCopy() const;
+        BallPtr deepCopy() const;
 
     private:
         bool ballInAir = false;

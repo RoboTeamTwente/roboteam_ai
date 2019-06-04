@@ -25,9 +25,11 @@ GetBall::Status GetBall::onUpdate() {
     }
 
     if ((lockedTargetPos - ball->pos).length() > 0.2) {
-        lockedTargetPos = ball->pos + (robot->pos - ball->pos).stretchToLength(0.1);
+        lockedTargetPos = ball->pos + (ball->pos - robot->pos).stretchToLength(0.1);
     }
-    command = ballHandlePosControl->getRobotCommand(robot, lockedTargetPos, robot->angle).makeROSCommand();
+    command = ballHandlePosControl->getRobotCommand(
+            robot, lockedTargetPos, control::BallHandlePosControl::TravelStrategy::BACKWARDS).makeROSCommand();
+
     publishRobotCommand();
     return Status::Running;
 }

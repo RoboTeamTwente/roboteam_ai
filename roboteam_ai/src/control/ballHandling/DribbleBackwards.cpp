@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by thijs on 25-5-19.
 //
@@ -14,7 +16,7 @@ namespace control {
 
 RobotCommand DribbleBackwards::getRobotCommand(RobotPtr r, const Vector2 &targetP, const Angle &targetA) {
 
-    robot = r;
+    robot = std::move(r);
     auto b = world::world->getBall();
     ball = b;
     finalTargetAngle = targetA;
@@ -244,6 +246,9 @@ DribbleBackwards::BackwardsProgress DribbleBackwards::getBackwardsProgression() 
 DribbleBackwards::DribbleBackwards(double errorMargin, double angularErrorMargin, double ballPlacementAccuracy, double maxVel)
         :waitingTicks(0), errorMargin(errorMargin), angleErrorMargin(angularErrorMargin),
          ballPlacementAccuracy(ballPlacementAccuracy), maxVel(maxVel) {
+
+    robot = std::make_shared<world::Robot>(world::Robot());
+    ball = std::make_shared<world::Ball>(world::Ball());
 
     rotateAroundBall = new RotateAroundBall();
     rotateAroundRobot = new RotateWithBall();

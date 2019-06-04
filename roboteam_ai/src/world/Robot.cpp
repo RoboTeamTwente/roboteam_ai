@@ -198,7 +198,7 @@ void Robot::setPidPreviousVel(const Vector2 &pidVel) {
     pidPreviousVel = pidVel;
 }
 
-const Robot::RobotPtr Robot::deepCopy() const {
+Robot::RobotPtr Robot::deepCopy() const {
     return std::make_shared<Robot>(Robot(*this));
 }
 

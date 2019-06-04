@@ -29,7 +29,7 @@ class Robot {
         using BallPtr = std::shared_ptr<Ball>;
         using RobotPtr = std::shared_ptr<Robot>;
 
-        const RobotPtr deepCopy() const;
+        RobotPtr deepCopy() const;
 
         // pid
     private:

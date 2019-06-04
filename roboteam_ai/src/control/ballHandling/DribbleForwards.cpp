@@ -15,6 +15,7 @@ namespace control {
 
 RobotCommand DribbleForwards::getRobotCommand(world::Robot::RobotPtr r, const Vector2 &targetP,
         const Angle &targetA) {
+
     robot = std::move(r);
     ball = world::world->getBall()->deepCopy();;
     finalTargetAngle = targetA;
@@ -195,6 +196,10 @@ DribbleForwards::ForwardsProgress DribbleForwards::getForwardsProgression() {
 DribbleForwards::DribbleForwards(double errorMargin, double angularErrorMargin, double ballPlacementAccuracy, double maxVel)
         :waitingTicks(0), errorMargin(errorMargin), angleErrorMargin(angularErrorMargin),
          ballPlacementAccuracy(ballPlacementAccuracy), maxVel(maxVel) {
+
+    robot = std::make_shared<world::Robot>(world::Robot());
+    ball = std::make_shared<world::Ball>(world::Ball());
+
     rotateAroundBall = new RotateAroundBall();
     rotateAroundRobot = new RotateWithBall();
 }
