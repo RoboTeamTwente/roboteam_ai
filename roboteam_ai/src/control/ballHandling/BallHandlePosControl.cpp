@@ -70,7 +70,9 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
     }
 
     // if the ball is at the targetposition
-    if ((ball->pos - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
+    bool ballIsAtTarget = (ball->pos - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy;
+
+    if (ballIsAtTarget) {
         dribbleBackwards->reset();
         dribbleForwards->reset();
         if (robot->getDribblerState() > 0 || ! robot->isDribblerReady()) {

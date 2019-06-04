@@ -6,8 +6,8 @@
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/control/PositionUtils.h>
 #include <roboteam_ai/src/interface/api/Input.h>
+#include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
 #include "ShotController.h"
-
 
 namespace rtt {
 namespace ai {
@@ -16,6 +16,7 @@ namespace control {
 /// return a ShotData (which contains data for robotcommands) for a specific robot to shoot at a specific target.
 RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &shotTarget, bool chip,
         BallSpeed ballspeed, bool useAutoGeneva, ShotPrecision precision) {
+
     // we only allow the external command to change the target if we are not already shooting. Otherwise we use the previous command sent
     if (! isShooting) {
         aimTarget = shotTarget;
@@ -24,59 +25,40 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
 
     // only get a new geneva state if we are allowed to get one
     bool robotAlreadyVeryClose = robot.pos.dist(ball->pos) < 3.0*Constants::ROBOT_RADIUS();
-    int currentDesiredGeneva = robot.getGenevaState();
 
-    if (useAutoGeneva && robot.hasWorkingGeneva() && ! genevaIsTurning && ! robotAlreadyVeryClose) {
-        currentDesiredGeneva = determineOptimalGenevaState(robot, aimTarget);
+    int currentDesiredGeneva = updateDesiredGenevaState(robot, useAutoGeneva, robotAlreadyVeryClose, chip);
+
+    Vector2 genevaBehindBallPosition = getPlaceBehindBallForGenevaState(robot, aimTarget, currentDesiredGeneva);
+    Vector2 behindBallPosition = ball->pos + genevaBehindBallPosition;
+    Vector2 inFrontOfBallPosition = ball->pos - genevaBehindBallPosition;
+
+    interface::Input::drawData(interface::Visual::SHOTLINES, {ball->pos, aimTarget}, Qt::yellow, robot.id,
+            interface::Drawing::LINES_CONNECTED);
+
+    if (robot.getBallHandlePosControl()->getStatus() == control::BallHandlePosControl::Status::HANDLING_BALL ||
+            robot.getBallHandlePosControl()->getStatus() == control::BallHandlePosControl::Status::FINALIZING ||
+            robot.getBallHandlePosControl()->getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
+
+    }
+    else {
+        return robot.getBallHandlePosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
+                inFrontOfBallPosition, control::BallHandlePosControl::TravelStrategy::FORWARDS);
     }
 
+}
+
+int ShotController::updateDesiredGenevaState(world::Robot robot, bool useAutoGeneva, bool robotAlreadyVeryClose,
+        bool chip) {
+
+    int currentDesiredGeneva = robot.getGenevaState();
+    if (useAutoGeneva && robot.hasWorkingGeneva() && ! genevaIsTurning && ! close) {
+        currentDesiredGeneva = determineOptimalGenevaState(robot, aimTarget);
+    }
     if (chip) {
         currentDesiredGeneva = 3;
     }
 
-    Vector2 futureBallPos = ball->pos;
-    Vector2 behindBallPosition =
-            futureBallPos + getPlaceBehindBallForGenevaState(robot, aimTarget, currentDesiredGeneva);
-
-    // make a line, on which we can drive straight to it
-
-    std::pair<Vector2, Vector2> lineToDriveOver = std::make_pair(behindBallPosition, ball->pos);
-    lineToDriveOver = shiftLineForGeneva(lineToDriveOver, currentDesiredGeneva);
-    // check the properties
-    bool isOnLineToBall = onLineToBall(robot, lineToDriveOver, precision);
-    bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, shotTarget, robot.pos, 0.3);
-    bool validAngle = robotAngleIsGood(robot, lineToDriveOver, precision);
-
-    RobotCommand shotData;
-    // std::cout<<" Online: "<<isOnLineToBall <<" behind: "<<isBehindBall<<" valid: "<<validAngle<<" isShooting: " <<isShooting<<std::endl;
-    if (isOnLineToBall && isBehindBall && (validAngle || isShooting)) {
-        if (genevaIsTurning) {
-            isShooting = false;
-            // just stand still at the right angle
-            shotData.vel = {0.0, 0.0};
-            shotData.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
-            std::cout << "Not shooting because geneva is turning for " << secondsToTurnGeneva << "s" << std::endl;
-        }
-        else {
-            isShooting = true;
-            shotData = moveAndShootGrSim(robot,chip,lineToDriveOver,ballspeed);
-
-            //shotData = Constants::GRSIM() ? moveAndShootGrSim(robot, chip, lineToDriveOver, ballspeed)
-              //      : moveAndShoot(robot, chip, lineToDriveOver, ballspeed);
-        }
-    }
-    else {
-        isShooting = false;
-        shotData = goToPlaceBehindBall(robot, lineToDriveOver.first + ball->vel*0.2, lineToDriveOver);
-    }
-
-    interface::Input::drawData(interface::Visual::SHOTLINES, {ball->pos, aimTarget}, Qt::yellow, robot.id,
-            interface::Drawing::LINES_CONNECTED);
-    interface::Input::drawData(interface::Visual::DEBUG, {lineToDriveOver.first, lineToDriveOver.second}, Qt::red,
-            robot.id, interface::Drawing::LINES_CONNECTED);
-    // Make sure the Geneva state is always correct
-    shotData.geneva = currentDesiredGeneva;
-    return shotData;
+    return currentDesiredGeneva;
 }
 
 void ShotController::setGenevaDelay(int genevaDifference) {
@@ -132,7 +114,8 @@ RobotCommand ShotController::moveStraightToBall(world::Robot robot, std::pair<Ve
 }
 
 /// Now we should have the ball and kick it.
-RobotCommand ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector2> driveLine, Vector2 shotTarget, bool chip,
+RobotCommand ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector2> driveLine, Vector2 shotTarget,
+        bool chip,
         BallSpeed desiredBallSpeed) {
 
     auto ball = world::world->getBall();
@@ -222,7 +205,7 @@ std::pair<Vector2, Vector2> ShotController::shiftLineForGeneva(const std::pair<V
     if (genevaState < 1 || genevaState > 5) return shiftedLine;
 
     // move the ball left or right {2,1,0,-1,-2} cm for genevastates {1,2,3,4,5}
-    double moveLength = (3-genevaState) * 0.01;
+    double moveLength = (3 - genevaState)*0.01;
 
     // get the angle perpendicular to the line, then shift the line by the moveLength
     Angle angle = (line.second - line.first).toAngle() + M_PI_2;

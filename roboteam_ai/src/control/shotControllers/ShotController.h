@@ -70,6 +70,7 @@ class ShotController {
         RobotCommand getRobotCommand(world::Robot robot, const Vector2 &shotTarget, bool chip = false,
                 BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true, ShotPrecision precision = MEDIUM);
         void setGenevaDelay(int genevaDifference);
+        int updateDesiredGenevaState(world::Robot robot, bool geneva, bool close, bool chip);
 };
 
 } // control
