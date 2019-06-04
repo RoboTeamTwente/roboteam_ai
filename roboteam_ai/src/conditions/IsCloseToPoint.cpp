@@ -7,8 +7,6 @@
 */
 
 #include "IsCloseToPoint.h"
-#include "../world/Ball.h"
-#include "../world/Robot.h"
 
 namespace rtt {
 namespace ai {

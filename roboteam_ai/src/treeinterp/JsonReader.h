@@ -5,6 +5,16 @@
 #ifndef ROBOTEAM_AI_JSONREADER_H
 #define ROBOTEAM_AI_JSONREADER_H
 
+#include "json.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <gtest/gtest_prod.h>
+#include "vector"
+#include <map>
+#include <unistd.h>
+#include "BTImport.h"
+#include <stdio.h>  /* defines FILENAME_MAX */
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -12,8 +22,6 @@
 #else
 
 #include <unistd.h>
-#include "json.h"
-#include "gtest/gtest_prod.h"
 
 #define GetCurrentDir getcwd
 #endif

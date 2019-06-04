@@ -2,11 +2,7 @@
 // Created by rolf on 23-4-19.
 //
 
-#include <roboteam_ai/src/world/World.h>
-#include <roboteam_ai/src/world/Field.h>
 #include "PenaltyKeeper.h"
-#include <roboteam_ai/src/control/ControlUtils.h>
-
 namespace rtt {
 namespace ai {
 PenaltyKeeper::PenaltyKeeper(string name, bt::Blackboard::Ptr blackboard)
