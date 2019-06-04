@@ -111,7 +111,7 @@ void SlingShot::sendDribbleCommand() {
 }
 void SlingShot::sendRotateCommand() {
     Vector2 position = kickPos + Vector2(0.2, 0).rotate(rotateAngle + M_PI);
-    auto velocities = gtp.getPosVelAngle(robot, position).vel;
+    auto velocities = gtp.getRobotCommand(robot, position).vel;
     velocities = control::ControlUtils::velocityLimiter(velocities, 1.5);
     command.dribbler = false;
     command.x_vel = velocities.x;

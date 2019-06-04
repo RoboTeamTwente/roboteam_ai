@@ -43,12 +43,11 @@ void TreeVisualizerWidget::updateContents(bt::BehaviorTree::Ptr tree){
         ++iter;
     }
 
-    // initiate a redraw when the actual tree and the tree in the widget are not the same
-//    std::string currentTree = BTFactory::getCurrentTree();
-//    if (QString::fromStdString(currentTree) != parent->getSelectStrategyText()) {
-//        hasCorrectTree = false;
-//        parent->setSelectStrategyText(QString::fromStdString(currentTree));
-//    }
+    GameState state = GameStateManager::getCurrentGameState();
+    if (recentGameState.strategyName != state.strategyName) {
+        hasCorrectTree = false;
+        recentGameState = state;
+    }
 
     // if the tree did change, clear the treewidget and rebuild it
     if (!hasCorrectTree) {

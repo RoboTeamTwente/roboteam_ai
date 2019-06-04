@@ -15,13 +15,12 @@ ShouldHandleBall::ShouldHandleBall(string name, bt::Blackboard::Ptr blackboard)
 std::string ShouldHandleBall::node_name() { return "ShouldHandleBall"; }
 
 ShouldHandleBall::Status ShouldHandleBall::onUpdate() {
-    if (coach::g_pass.getRobotBeingPassedTo() != -1) {
-        if ((coach::g_pass.getRobotPassing() == robot->id && !coach::g_pass.isPassed())) {
-            return Status::Success;
-        }
+    bool passExists=coach::g_pass.getRobotBeingPassedTo()!=-1&&!coach::g_pass.isPassed();
+    if (passExists&&coach::g_pass.getRobotPassing() == robot->id) {
+        return Status::Success;
     }
 
-    if (coach::getBallCoach->getBallGetterID() == robot->id) {
+    if (!passExists&&coach::getBallCoach->getBallGetterID() == robot->id) {
         return Status::Success;
     }
 

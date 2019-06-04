@@ -82,7 +82,6 @@ void ApplicationManager::runOneLoopCycle() {
         }
 
         if (keeperStrategyChanged) {
-            std::cout << "changing keeper tree" << std::endl;
             BTFactory::setKeeperTree(keeperTreeName);
             oldKeeperTreeName = keeperTreeName;
         }

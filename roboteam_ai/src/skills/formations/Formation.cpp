@@ -47,6 +47,9 @@ void Formation::setFinalAngle() {
     command.w = static_cast<float>((targetToLookAtLocation - robot->pos).angle());
 }
 
+void Formation::terminate(Status s) {
+    onTerminate(s);
+}
 
 void Formation::onTerminate(bt::Node::Status s) {
     removeRobotFromFormation();
@@ -101,19 +104,15 @@ bool Formation::robotIsInPosition() {
 
 // set up the command such that a robot moves towards the targetLocation
 void Formation::moveToTarget() {
-    auto velocities = robot->getNumtreePosControl()->getPosVelAngle(robot, targetLocation);
+    auto velocities = robot->getNumtreePosControl()->getRobotCommand(robot, targetLocation);
     command.x_vel = velocities.vel.x;
     command.y_vel = velocities.vel.y;
     command.w = static_cast<float>((targetLocation - robot->pos).angle());
 }
+
 bool Formation::updateCounter() {
     if (!update) return false;
-
-    updateCount++;
-    if ((updateCount % 200) == 0) {
-        return true;
-    }
-
+    return (++updateCount%200) == 0;
 }
 
 } // ai

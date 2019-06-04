@@ -19,15 +19,10 @@ PosController::PosController(double avoidBall, bool canMoveOutOfField, bool canM
     ypid.setOutputRampRate(100);
 }
 
-PosVelAngle PosController::getPosVelAngle(const RobotPtr &robot, const Vector2 &targetPos) {
-    Angle defaultAngle = 0;
-    return getPosVelAngle(robot, targetPos, defaultAngle);
-}
-
 /// apply a posPID and a velPID over a posVelAngle for better control
-PosVelAngle PosController::controlWithPID(const RobotPtr &robot, PosVelAngle target) {
+RobotCommand PosController::controlWithPID(const RobotPtr &robot, RobotCommand target) {
     if (getPIDFromInterface) checkInterfacePID();
-    PosVelAngle pidCommand;
+    RobotCommand pidCommand;
     pidCommand.pos = target.pos;
     pidCommand.angle = target.angle;
     pidCommand.vel = calculatePIDs(robot, target);
@@ -37,7 +32,7 @@ PosVelAngle PosController::controlWithPID(const RobotPtr &robot, PosVelAngle tar
 }
 
 // actually calculate the pids
-Vector2 PosController::calculatePIDs(const PosController::RobotPtr &robot, PosVelAngle &target) {
+Vector2 PosController::calculatePIDs(const PosController::RobotPtr &robot, RobotCommand &target) {
     auto x = xpid.getOutput(robot->pos.x, target.pos.x);
     auto y = ypid.getOutput(robot->pos.y, target.pos.y);
     Vector2 pidP(x, y);

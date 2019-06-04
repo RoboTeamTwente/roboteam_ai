@@ -30,7 +30,7 @@ void DribbleForwards::reset() {
 }
 
 void DribbleForwards::updateForwardsProgress() {
-    if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
+    if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
         printForwardsProgress();
     }
 
@@ -65,7 +65,7 @@ void DribbleForwards::updateForwardsProgress() {
             forwardsProgress = APPROACHING;
             return;
         }
-        if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
+        if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
             std::cout << "we do not have a ball yet" << std::endl;
         }
         Angle offsetAngle = (finalTargetPos - robot->pos).toAngle() - robot->angle;

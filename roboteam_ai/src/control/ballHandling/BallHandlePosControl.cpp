@@ -4,13 +4,14 @@
 
 #include <roboteam_ai/src/interface/api/Input.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
+#include <roboteam_ai/src/world/Field.h>
 
 #include "BallHandlePosControl.h"
 #include "DribbleBackwards.h"
 #include "DribbleForwards.h"
 #include "RotateAroundBall.h"
 #include "RotateWithBall.h"
-#include "../positionControllers/NumTreePosControl.h"
+#include "../numTrees/NumTreePosControl.h"
 
 namespace rtt {
 namespace ai {
@@ -21,20 +22,38 @@ BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea)
 
     dribbleForwards = new DribbleForwards(errorMargin, angleErrorMargin, ballPlacementAccuracy, maxForwardsVelocity);
     dribbleBackwards = new DribbleBackwards(errorMargin, angleErrorMargin, ballPlacementAccuracy, maxBackwardsVelocity);
-    rotateAroundRobot = new RotateWithBall();
+    rotateWithBall = new RotateWithBall();
     rotateAroundBall = new RotateAroundBall();
-    numTreePosControl = new NumTreePosControl();
 
-    numTreePosControl->setCanMoveInDefenseArea(canMoveInDefenseArea);
-    numTreePosControl->setAvoidBallDistance(targetBallDistance*0.95);
+    setCanMoveInDefenseArea(canMoveInDefenseArea);
+    setAvoidBallDistance(targetBallDistance*0.95);
+}
+
+RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vector2 &targetP) {
+    Angle defaultAngle = lockedAngle;
+    return BallHandlePosControl::getRobotCommand(r, targetP, defaultAngle);
+}
+
+RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
+        const Vector2 &targetP, const Angle &targetA, TravelStrategy travelStrategy) {
+
+    TravelStrategy tempTravelStrategy = preferredTravelStrategy;
+    preferredTravelStrategy = travelStrategy;
+    RobotCommand robotCommand = BallHandlePosControl::getRobotCommand(r, targetP, targetA);
+    preferredTravelStrategy = tempTravelStrategy;
+
+    return robotCommand;
 }
 
 /// targetP is the target position of the BALL, targetA is the (final) target angle of the ROBOT
-RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
-        const Vector2 &targetP, const Angle &targetA, TravelStrategy preferredTravelStrategy) {
+RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) {
+
+    if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
+        printStatus();
+    }
 
     double expectedDelay = 0.04;
-    ball = world::world->getBall();
+    ball = world::world->getBall()->deepCopy();
     robot = world::world->getFutureRobot(r, expectedDelay);
     targetPos = targetP;
     finalTargetPos = targetP;
@@ -43,9 +62,10 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
 
     // check for ball
     if (! ball) {
-        if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
+        if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
             std::cout << "Can't control the ball with no ball" << std::endl;
         }
+        status = FAILURE;
         return {};
     }
 
@@ -54,20 +74,33 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
         dribbleBackwards->reset();
         dribbleForwards->reset();
         if (robot->getDribblerState() > 0 || ! robot->isDribblerReady()) {
-            if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
+            if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
                 std::cout << "Waiting for the dribbler to stop" << std::endl;
             }
             RobotCommand robotCommand;
             robotCommand.vel = {0, 0};
             robotCommand.angle = lockedAngle;
             robotCommand.dribbler = 0;
+            status = FINALIZING;
             return robotCommand;
         }
-        else {
-            if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
+        else if (fabs(lockedAngle - robot->angle) > angleErrorMargin) {
+            if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
                 std::cout << "Rotating robot to final angle" << std::endl;
             }
-            return rotateAroundBall->getRobotCommand(robot, targetPos, targetAngle);
+            status = FINALIZING;
+            return rotateAroundBall->getRobotCommand(robot, targetPos, lockedAngle);
+        }
+        else {
+            if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
+                std::cout << "Success!!" << std::endl;
+            }
+            RobotCommand robotCommand;
+            robotCommand.vel = {0, 0};
+            robotCommand.angle = lockedAngle;
+            robotCommand.dribbler = 0;
+            status = SUCCESS;
+            return robotCommand;
         }
     }
     else {
@@ -77,57 +110,61 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r,
     // if we do not have the ball yet, go get it
     double deltaPosSquared = (finalTargetPos - ball->pos).length2();
     bool ballIsFarFromTarget = deltaPosSquared > 0.5;
+    bool ballIsOutsideField = ! world::field->pointIsInField(ball->pos, 0.0);
 
     bool robotDoesNotHaveBall = ! robot->hasBall();
     bool robotIsTooFarFromBall = (robot->pos - ball->pos).length2() > maxBallDistance*maxBallDistance;
     bool ballIsMovingTooFast = ball->vel.length2() > minVelForMovingball*minVelForMovingball;
+    bool shouldGetBall = robotDoesNotHaveBall && (robotIsTooFarFromBall || ballIsMovingTooFast);
 
-    if (robotDoesNotHaveBall && (robotIsTooFarFromBall || ballIsMovingTooFast)) {
-        return goToBall(ballIsFarFromTarget);
+    if (ballIsOutsideField) {
+        status = HANDLING_BALL;
+        Vector2 targetBallPos = ControlUtils::projectPositionToWithinField(ball->pos, 1.0);
+        return handleBall(targetBallPos, BACKWARDS, shouldGetBall);
     }
 
-    // check if we are doing something already
-    if (dribbleBackwards->getBackwardsProgression() != DribbleBackwards::START) {
-        return dribbleBackwards->getRobotCommand(robot, targetPos, targetAngle);
-    }
+    if (preferredTravelStrategy == NO_PREFERENCE) {
+        if ((ballIsFarFromTarget && dribbleBackwards->getBackwardsProgression() !=
+            DribbleBackwards::BackwardsProgress::START)) {
 
-    if (dribbleForwards->getForwardsProgression() != DribbleForwards::START) {
-        return dribbleForwards->getRobotCommand(robot, targetPos, targetAngle);
-    }
-
-    switch (preferredTravelStrategy) {
-    case forwards: return dribbleForwards->getRobotCommand(robot, targetPos, targetAngle);
-    case backwards: return dribbleBackwards->getRobotCommand(robot, targetPos, targetAngle);
-    case no_preference: {
-        // choose based on distance from the ball to the target
-        if (ballIsFarFromTarget) {
-            return dribbleForwards->getRobotCommand(robot, targetPos, targetAngle);
+            dribbleBackwards->reset();
         }
-        return dribbleBackwards->getRobotCommand(robot, targetPos, targetAngle);
     }
-    }
+
+    return handleBall(targetPos, preferredTravelStrategy, shouldGetBall, ballIsFarFromTarget);
 
 }
 
-RobotCommand BallHandlePosControl::goToBall(bool ballIsFarFromTarget, TravelStrategy preferredTravelStrategy) {
+void BallHandlePosControl::printStatus() {
+    switch (status) {
+    case GET_BALL:std::cout << "status: GET_BALL" << std::endl;return;
+    case HANDLING_BALL:std::cout << "status: HANDLING_BALL" << std::endl;return;
+    case FINALIZING:std::cout << "status: FINALIZING" << std::endl;return;
+    case SUCCESS:std::cout << "status: SUCCESS" << std::endl;return;
+    default:
+    case FAILURE:std::cout << "status: FAILURE" << std::endl;return;
+    }
+}
 
-    if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
+RobotCommand BallHandlePosControl::goToBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy, bool ballIsFarFromTarget) {
+
+    if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
         std::cout << "we do not have a ball yet" << std::endl;
     }
 
     if (ball->vel.length2() > minVelForMovingball*minVelForMovingball) {
-        ball->pos += (ball->vel*0.5 + ball->vel.stretchToLength(pow(ball->vel.length2(), 1.0/8.0)));
+        ball->pos += (ball->vel*0.5 + ball->vel.stretchToLength(pow(ball->vel.length2(), 1.0/16.0)));
     }
 
     dribbleBackwards->reset();
     dribbleForwards->reset();
     RobotCommand robotCommand;
     Vector2 target;
-    Vector2 ballToTarget = finalTargetPos - ball->pos;
-    if (preferredTravelStrategy == backwards) {
+    Vector2 ballToTarget = targetBallPos - ball->pos;
+    if (travelStrategy == BACKWARDS) {
         target = ball->pos + ballToTarget.stretchToLength(maxBallDistance);
     }
-    else if (preferredTravelStrategy == forwards) {
+    else if (travelStrategy == FORWARDS) {
         target = ball->pos + ballToTarget.stretchToLength(- maxBallDistance);
     }
     else if (ballIsFarFromTarget) {
@@ -137,9 +174,9 @@ RobotCommand BallHandlePosControl::goToBall(bool ballIsFarFromTarget, TravelStra
         target = ball->pos + ballToTarget.stretchToLength(maxBallDistance);
     }
 
-    auto pva = numTreePosControl->getPosVelAngle(robot, target);
+    auto path = NumTreePosControl::getRobotCommand(robot, target);
     robotCommand.angle = (ball->pos - robot->pos).toAngle();
-    robotCommand.vel = pva.vel;
+    robotCommand.vel = path.vel;
     return robotCommand;
 }
 
@@ -147,8 +184,7 @@ BallHandlePosControl::~BallHandlePosControl() {
     delete dribbleForwards;
     delete dribbleBackwards;
     delete rotateAroundBall;
-    delete rotateAroundRobot;
-    delete numTreePosControl;
+    delete rotateWithBall;
 }
 
 void BallHandlePosControl::setMaxVelocity(double maxV) {
@@ -178,6 +214,43 @@ void BallHandlePosControl::setMaxBackwardsVelocity(double maxV) {
     }
     maxBackwardsVelocity = maxV;
     dribbleBackwards->setMaxVel(maxBackwardsVelocity);
+
+}
+
+BallHandlePosControl::Status BallHandlePosControl::getStatus() {
+    return status;
+}
+
+RobotCommand BallHandlePosControl::handleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy,
+        bool shouldHandleBall, bool ballIsFarFromTarget) {
+
+    if (shouldHandleBall) {
+        status = GET_BALL;
+        return goToBall(targetBallPos, travelStrategy, ballIsFarFromTarget);
+    }
+
+    status = HANDLING_BALL;
+    // check if we are doing something already
+    if (dribbleBackwards->getBackwardsProgression() != DribbleBackwards::START) {
+        return dribbleBackwards->getRobotCommand(robot, targetBallPos, targetAngle);
+    }
+
+    if (dribbleForwards->getForwardsProgression() != DribbleForwards::START) {
+        return dribbleForwards->getRobotCommand(robot, targetBallPos, targetAngle);
+    }
+
+    switch (travelStrategy) {
+    case FORWARDS: return dribbleForwards->getRobotCommand(robot, targetBallPos, targetAngle);
+    case BACKWARDS: return dribbleBackwards->getRobotCommand(robot, targetBallPos, targetAngle);
+    default:
+    case NO_PREFERENCE: {
+        // choose based on distance from the ball to the target
+        if (ballIsFarFromTarget) {
+            return dribbleForwards->getRobotCommand(robot, targetBallPos, targetAngle);
+        }
+        return dribbleBackwards->getRobotCommand(robot, targetBallPos, targetAngle);
+    }
+    }
 
 }
 
