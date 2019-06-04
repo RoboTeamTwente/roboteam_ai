@@ -28,8 +28,8 @@ class PosController {
 
         // settings
         double customAvoidBallDistance = 0.0;
-        bool customCanMoveOutOfField = false;
-        bool customCanMoveInDefenseArea = false;
+        bool customCanMoveOutOfField = true;
+        bool customCanMoveInDefenseArea = true;
 
         // PID functions
         PID xpid = PID(0.0, 0.0, 0.0);
