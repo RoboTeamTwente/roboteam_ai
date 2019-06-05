@@ -3,6 +3,7 @@
 //
 
 #include <roboteam_ai/src/interface/api/Input.h>
+#include <roboteam_ai/src/interface/api/Output.h>
 #include "Keeper.h"
 #include "roboteam_ai/src/world/Field.h"
 
@@ -17,8 +18,9 @@ void Keeper::onInitialize() {
     goalwidth = world::field->get_field().goal_width;
     //Create arc for keeper to drive on
     blockCircle=control::ControlUtils::createKeeperArc();
+    //explicitly set this local PID controller to not listen to the basicGTP PID values!!
     posController.setListenToInterface(false);
-    posController.updatePid(Constants::GRSIM() ? Constants::standardBasicPID(): std::make_tuple(5.0,0.0,0.4));
+    posController.updatePid(Constants::standardKeeperPID());
 }
 
 Keeper::Status Keeper::onUpdate() {
@@ -46,6 +48,8 @@ Keeper::Status Keeper::onUpdate() {
     }
     interface::Input::drawData(interface::Visual::KEEPER, {blockPoint}, Qt::darkYellow, robot->id,
             interface::Drawing::DOTS, 5, 5);
+    // check interface PID values before we call the posController
+    posController.updatePid(interface::Output::getKeeperPid());
     Vector2 velocities = posController.getRobotCommand(robot, blockPoint).vel;
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
