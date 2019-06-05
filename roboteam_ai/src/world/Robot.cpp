@@ -10,7 +10,7 @@
 #include "roboteam_ai/src/control/shotControllers/ShotController.h"
 #include "roboteam_ai/src/control/ballHandling/BallHandlePosControl.h"
 #include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
-#include "roboteam_ai/src/control/positionControllers/BasicPosControl.h"
+#include "roboteam_ai/src/control/BasicPosControl.h"
 
 namespace rtt {
 namespace ai {

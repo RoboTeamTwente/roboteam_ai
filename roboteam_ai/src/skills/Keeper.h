@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_KEEPER_H
 #define ROBOTEAM_AI_KEEPER_H
 
-#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
+#include <roboteam_ai/src/control/BasicPosControl.h>
 #include "Skill.h"
 #include "roboteam_utils/Arc.h"
 #include "roboteam_utils/Math.h"

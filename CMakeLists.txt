@@ -287,11 +287,11 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/pid.h
 
         # PositionControllers
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/RobotCommand.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/BasicPosControl.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/BasicPosControl.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosController.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosController.h
+        roboteam_ai/src/control/RobotCommand.h
+        roboteam_ai/src/control/BasicPosControl.cpp
+        roboteam_ai/src/control/BasicPosControl.h
+        roboteam_ai/src/control/PosController.cpp
+        roboteam_ai/src/control/PosController.h
 
         # NumTrees
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/numTrees/NumTreePosControl.cpp
