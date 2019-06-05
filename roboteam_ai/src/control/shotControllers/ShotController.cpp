@@ -150,7 +150,7 @@ RobotCommand ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector
         shotData.kicker = false;
 
         // TODO calibrate chip speed
-        shotData.chipperVel = determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
+        shotData.kickerVel = determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
     }
     else {
         shotData.chipper = false;
