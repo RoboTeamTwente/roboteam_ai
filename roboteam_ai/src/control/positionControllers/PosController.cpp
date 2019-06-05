@@ -63,9 +63,13 @@ double PosController::getAvoidBallDistance() const {
 void PosController::setAvoidBallDistance(double ballDistance) {
     customAvoidBallDistance = ballDistance;
 }
-void PosController::setListenToInterface(bool listenToInterface) {
+
+///This function should NEVER be called except for the keeper. If you find yourself needing to do this you are probably doing something wrong
+///This is a temporary fix for the keeperPID and keeper intercept PID's. In the future should probalby be properly refactored
+void PosController::setAutoListenToInterface(bool listenToInterface) {
     getPIDFromInterface=listenToInterface;
 }
+
 void PosController::updatePid(pidVals pid) {
     if (lastPid != pid) {
         xpid.setPID(pid);

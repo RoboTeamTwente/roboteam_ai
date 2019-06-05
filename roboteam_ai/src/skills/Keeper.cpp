@@ -18,8 +18,9 @@ void Keeper::onInitialize() {
     goalwidth = world::field->get_field().goal_width;
     //Create arc for keeper to drive on
     blockCircle = control::ControlUtils::createKeeperArc();
-    //explicitly set this local PID controller to not listen to the basicGTP PID values!!
-    posController.setListenToInterface(false);
+    
+    /// This function is hacky; we need to manually update the PID now everytime.
+    posController.setAutoListenToInterface(false);
     posController.updatePid(Constants::standardKeeperPID());
 }
 
@@ -48,7 +49,7 @@ Keeper::Status Keeper::onUpdate() {
     }
     interface::Input::drawData(interface::Visual::KEEPER, {blockPoint}, Qt::darkYellow, robot->id,
             interface::Drawing::DOTS, 5, 5);
-    // check interface PID values before we call the posController
+    /// Manual PID value update. Ugly and should be refactored in the future.
     posController.updatePid(interface::Output::getKeeperPid());
     Vector2 velocities = posController.getRobotCommand(robot, blockPoint).vel;
     command.x_vel = static_cast<float>(velocities.x);

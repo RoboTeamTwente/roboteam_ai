@@ -54,7 +54,7 @@ class PosController {
         void setCanMoveInDefenseArea(bool canMoveInDefenseArea);
         double getAvoidBallDistance() const;
         void setAvoidBallDistance(double ballDistance = Constants::DEFAULT_BALLCOLLISION_RADIUS());
-        void setListenToInterface(bool listenToInterface);
+        void setAutoListenToInterface(bool listenToInterface);
         std::tuple<double, double, double> lastPid;
 
         void updatePid(pidVals pid);

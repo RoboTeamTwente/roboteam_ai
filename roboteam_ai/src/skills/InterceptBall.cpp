@@ -16,7 +16,8 @@ InterceptBall::InterceptBall(rtt::string name, bt::Blackboard::Ptr blackboard)
 void InterceptBall::onInitialize() {
     keeper = properties->getBool("Keeper");
     if (keeper) {
-        poscontroller.setListenToInterface(false);
+        /// This function is hacky; we need to manually update the PID now everytime.
+        poscontroller.setAutoListenToInterface(false);
         poscontroller.updatePid(Constants::standardKeeperInterceptPID());
     }
     currentProgression = INTERCEPTING;
@@ -72,6 +73,7 @@ InterceptBall::Status InterceptBall::onUpdate() {
 void InterceptBall::sendMoveCommand(Vector2 targetPos) {
     Vector2 velocities;
     if (keeper) {
+        /// Manual PID value update. Ugly and should be refactored in the future.
         poscontroller.updatePid(interface::Output::getKeeperInterceptPid());
         velocities = poscontroller.getRobotCommand(robot, targetPos).vel;
     }
