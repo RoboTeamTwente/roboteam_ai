@@ -103,8 +103,7 @@ class Constants {
         static bool STD_SHOW_TACTICS_COLORS();
         static bool STD_SHOW_VELOCITIES();
         static bool STD_SHOW_ANGLES();
-        static bool STD_SHOW_PATHS_ALL();
-        static bool STD_SHOW_PATHS_CURRENT();
+        static bool STD_SHOW_ROBOT_INVALIDS();
         static bool STD_SHOW_BALL_PLACEMENT_MARKER();
         static bool STD_SHOW_DEBUG_VALUES();
         static bool STD_USE_REFEREE();
@@ -113,8 +112,8 @@ class Constants {
         static std::map<int, bool> ROBOTS_WITH_WORKING_GENEVA();
         static std::map<int, bool> ROBOTS_WITH_WORKING_DRIBBLER();
 
-        static bool ROBOT_HAS_WORKING_GENEVA(int id);
-        static bool ROBOT_HAS_WORKING_DRIBBLER(int id);
+        static constexpr bool ROBOT_HAS_WORKING_GENEVA(int id);
+        static constexpr bool ROBOT_HAS_WORKING_DRIBBLER(int id);
 
         static QColor FIELD_COLOR();
         static QColor FIELD_LINE_COLOR();
