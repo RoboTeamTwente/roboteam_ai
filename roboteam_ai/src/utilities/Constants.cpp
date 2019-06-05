@@ -164,15 +164,15 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
     static std::map<int, bool> workingGenevaRobots;
     workingGenevaRobots[0] = true;
     workingGenevaRobots[1] = true;
-    workingGenevaRobots[2] = false;
-    workingGenevaRobots[3] = false;
+    workingGenevaRobots[2] = true;
+    workingGenevaRobots[3] = true;
     workingGenevaRobots[4] = true;
     workingGenevaRobots[5] = true;
     workingGenevaRobots[6] = true;
     workingGenevaRobots[7] = true;
     workingGenevaRobots[8] = true;
     workingGenevaRobots[9] = true;
-    workingGenevaRobots[10] = false;
+    workingGenevaRobots[10] = true;
     workingGenevaRobots[11] = true;
     workingGenevaRobots[12] = true;
     workingGenevaRobots[13] = true;
@@ -184,9 +184,9 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
 
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER() {
     static std::map<int, bool> workingDribblerRobots;
-    workingDribblerRobots[0] = false;
-    workingDribblerRobots[1] = false;
-    workingDribblerRobots[2] = false;
+    workingDribblerRobots[0] = true;
+    workingDribblerRobots[1] = true;
+    workingDribblerRobots[2] = true;
     workingDribblerRobots[3] = true;
     workingDribblerRobots[4] = true;
     workingDribblerRobots[5] = true;
