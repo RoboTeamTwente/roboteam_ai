@@ -49,7 +49,7 @@ void PosController::setCanMoveOutOfField(bool moveOutOfField) {
 }
 
 bool PosController::getCanMoveInDefenseArea() const {
-    return customCanMoveInDefenseArea && GameStateManager::getCurrentGameState().getRuleSet().robotsCanEnterDefenseArea;
+    return customCanMoveInDefenseArea && GameStateManager::getCurrentGameState().getRuleSet().robotsCanEnterDefenseArea();
 }
 
 void PosController::setCanMoveInDefenseArea(bool moveInDefenseArea) {

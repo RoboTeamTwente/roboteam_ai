@@ -397,8 +397,8 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/VisualizationSettingsWidget.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Toggles.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Toggles.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RefereeWidget.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RefereeWidget.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RuleSetWidget.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RuleSetWidget.h)
 
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldData.h
