@@ -55,9 +55,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
     ball = std::make_shared<world::Ball>(world::Ball(*world::world->getBall()));
     robot = world::world->getFutureRobot(r, expectedDelay);
     targetPos = targetP;
-    finalTargetPos = targetP;
     targetAngle = targetA;
-    finalTargetAngle = targetA;
 
     // check for ball
     if (! ball) {
@@ -69,67 +67,68 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
     }
 
     // if the ball is at the targetposition
-    if ((ball->pos - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
-        dribbleBackwards->reset();
-        dribbleForwards->reset();
-        if (robot->getDribblerState() > 0 || ! robot->isDribblerReady()) {
-            if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
-                std::cout << "Waiting for the dribbler to stop" << std::endl;
-            }
-            RobotCommand robotCommand;
-            robotCommand.vel = {0, 0};
-            robotCommand.angle = lockedAngle;
-            robotCommand.dribbler = 0;
-            status = FINALIZING;
-            return robotCommand;
-        }
-        else if (fabs(lockedAngle - robot->angle) > angleErrorMargin) {
-            if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
-                std::cout << "Rotating robot to final angle" << std::endl;
-            }
-            status = FINALIZING;
-            return rotateAroundBall->getRobotCommand(robot, targetPos, lockedAngle);
-        }
-        else {
-            if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
-                std::cout << "Success!!" << std::endl;
-            }
-            RobotCommand robotCommand;
-            robotCommand.vel = {0, 0};
-            robotCommand.angle = lockedAngle;
-            robotCommand.dribbler = 0;
-            status = SUCCESS;
-            return robotCommand;
-        }
+    bool ballIsAtTargetPosition = (ball->pos - targetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy;
+    if (ballIsAtTargetPosition) {
+        return finalizeBallHandle();
     }
-    else {
-        lockedAngle = robot->angle;
-    }
+
+    lockedAngle = robot->angle;
 
     // if we do not have the ball yet, go get it
-    double deltaPosSquared = (finalTargetPos - ball->pos).length2();
-    bool ballIsFarFromTarget = deltaPosSquared > 0.5;
-    bool ballIsOutsideField = ! world::field->pointIsInField(ball->pos, 0.0);
-
     bool robotDoesNotHaveBall = ! robot->hasBall();
     bool robotIsTooFarFromBall = (robot->pos - ball->pos).length2() > maxBallDistance*maxBallDistance;
     bool ballIsMovingTooFast = ball->vel.length2() > minVelForMovingball*minVelForMovingball;
     bool shouldGetBall = robotDoesNotHaveBall && (robotIsTooFarFromBall || ballIsMovingTooFast);
 
-    bool dribbleBackwardsWhileFarFromTarget = (preferredTravelStrategy == NO_PREFERENCE) && (ballIsFarFromTarget) &&
-            (dribbleBackwards->getBackwardsProgression() != DribbleBackwards::BackwardsProgress::START);
-
+    bool ballIsOutsideField = ! world::field->pointIsInField(ball->pos, 0.0);
     if (ballIsOutsideField) {
         status = HANDLING_BALL;
         Vector2 targetBallPos = ControlUtils::projectPositionToWithinField(ball->pos, 1.0);
         return handleBall(targetBallPos, BACKWARDS, shouldGetBall);
     }
-    else if (dribbleBackwardsWhileFarFromTarget) {
+
+    bool ballIsFarFromTarget = (targetPos - ball->pos).length2() > 0.5;
+    bool dribbleBackwardsWhileFarFromTarget = (preferredTravelStrategy == NO_PREFERENCE) && (ballIsFarFromTarget) &&
+            (dribbleBackwards->getBackwardsProgression() != DribbleBackwards::BackwardsProgress::START);
+
+    if (dribbleBackwardsWhileFarFromTarget) {
         dribbleBackwards->reset();
     }
-
     return handleBall(targetPos, preferredTravelStrategy, shouldGetBall, ballIsFarFromTarget);
+}
 
+RobotCommand BallHandlePosControl::finalizeBallHandle() {
+    dribbleBackwards->reset();
+    dribbleForwards->reset();
+    if (robot->getDribblerState() > 0 || ! robot->isDribblerReady()) {
+        if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
+            cout << "Waiting for the dribbler to stop" << endl;
+        }
+        RobotCommand robotCommand;
+        robotCommand.vel = {0, 0};
+        robotCommand.angle = lockedAngle;
+        robotCommand.dribbler = 0;
+        status = FINALIZING;
+        return robotCommand;
+    }
+    else if (fabs(lockedAngle - robot->angle) > angleErrorMargin) {
+        if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
+            cout << "Rotating robot to final angle" << endl;
+        }
+        status = FINALIZING;
+        return rotateAroundBall->getRobotCommand(robot, targetPos, lockedAngle);
+    }
+    else {
+        if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
+            cout << "Success!!" << endl;
+        }
+        RobotCommand robotCommand;
+        robotCommand.vel = {0, 0};
+        robotCommand.angle = lockedAngle;
+        robotCommand.dribbler = 0;
+        status = SUCCESS;
+        return robotCommand;
+    }
 }
 
 void BallHandlePosControl::printStatus() {
@@ -248,6 +247,7 @@ RobotCommand BallHandlePosControl::goToBall(const Vector2 &targetBallPos, Travel
 RobotCommand BallHandlePosControl::goToMovingBall() {
     Vector2 numTreesTarget;
 
+
     bool robotIsBehindBall = fabs((robot->pos - ball->pos).toAngle() - ball->vel.toAngle()) < M_PI*0.1;
 
     if (robotIsBehindBall) {
@@ -255,8 +255,12 @@ RobotCommand BallHandlePosControl::goToMovingBall() {
         targetPosToCatchBall = ballLine.project(robot->pos);
     }
     else {
-        Vector2 ballTarget = ball->pos + (ball->vel.stretchToLength(sqrt(ball->vel.length())));
-        targetPosToCatchBall = ballTarget;
+        Vector2 ballTarget;
+        double ballVel = ball->vel.length();
+        double frictionCoefficient = 0.8;
+        ballTarget = ball->pos + ball->vel.stretchToLength(frictionCoefficient*ballVel*ballVel);
+        double a = 0.1;
+        targetPosToCatchBall = (targetPosToCatchBall*(1-a) + ballTarget*a);
     }
     numTreesTarget = targetPosToCatchBall;
 

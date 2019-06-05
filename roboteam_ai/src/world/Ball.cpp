@@ -6,11 +6,14 @@
 #include "World.h"
 #include "WorldData.h"
 
+#include <roboteam_ai/src/interface/api/Input.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 
 namespace rtt {
 namespace ai {
 namespace world {
+
+bool Ball::exists = false;
 
 Ball::Ball()
     : pos(Vector2()), vel(Vector2()), visible(false) { }
@@ -24,6 +27,7 @@ Ball::Ball(const roboteam_msgs::WorldBall &copy)
 
 void Ball::updateBall(const BallPtr &oldBall, const WorldData &worldData) {
     updateBallModel(*oldBall, worldData);
+    updateExpectedPositionWhereBallIsStill(*oldBall, worldData);
     updateBallPosition(*oldBall, worldData);
 }
 
@@ -163,8 +167,28 @@ void Ball::updateBallPosition(const Ball &oldBall, const WorldData &worldData) {
     }
 }
 
-bool Ball::exists = false;
+void Ball::updateExpectedPositionWhereBallIsStill(const Ball &oldBall, const WorldData &worldData) {
+    auto ball = worldData.ball;
+    double ballVel = ball->vel.length();
+    double frictionCoefficient = 0.8;
 
+    Vector2 expectedBallStillPosition = ball->pos + ball->vel.stretchToLength(frictionCoefficient*ballVel*ballVel);
+    const Vector2 &previousBallStillPosition = oldBall.getBallStillPosition();
+
+    double a = 0.05;
+    if ((expectedBallStillPosition - previousBallStillPosition).length() > 1.0) {
+        a = 0.5;
+    }
+    ballStillPosition = (previousBallStillPosition*(1-a) + expectedBallStillPosition*a);
+
+    interface::Input::drawData(interface::Visual::BALL_DATA, {ballStillPosition}, Constants::BALL_COLOR(), -1,
+            interface::Drawing::CIRCLES, 8, 8, 6);
 }
+
+const Vector2 &Ball::getBallStillPosition() const {
+    return ballStillPosition;
 }
-}
+
+} //world
+} //ai
+} //rtt

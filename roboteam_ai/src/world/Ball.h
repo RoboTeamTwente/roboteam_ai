@@ -27,6 +27,7 @@ class Ball {
         bool dribbledNow = false;
         double lastKickVel = 0;
         int ballStraightTicks = 0;
+        Vector2 ballStillPosition = Vector2();
 
         void updateDribbling(const Ball &oldBall, const WorldData &worldData);
         Robot* getDribblingRobot(const std::vector<RobotPtr> &robots, double maxDribbleRange);
@@ -39,12 +40,14 @@ class Ball {
         explicit Ball(const roboteam_msgs::WorldBall &copy);
         void updateBall(const BallPtr &oldBall, const WorldData &worldData);
 
+        const Vector2 &getBallStillPosition() const;
         Vector2 pos = Vector2();
         Vector2 vel = Vector2();
         Vector2 acc = Vector2();
         double spin = 0.0;
         static bool exists;
         bool visible = false;
+        void updateExpectedPositionWhereBallIsStill(const Ball &oldBall, const WorldData &worldData);
 };
 
 }

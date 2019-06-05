@@ -40,10 +40,9 @@ class BallHandlePosControl : public NumTreePosControl {
         RobotPtr robot;
         BallPtr ball;
         Vector2 targetPos;
-        Vector2 finalTargetPos;
-        Vector2 targetPosToCatchBall = Vector2();
         Angle targetAngle;
-        Angle finalTargetAngle;
+
+        Vector2 targetPosToCatchBall = Vector2();
         Angle lockedAngle = 0;
 
     public:
@@ -88,6 +87,7 @@ class BallHandlePosControl : public NumTreePosControl {
         RobotCommand goToMovingBall();
         RobotCommand goToIdleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy,
                 bool ballIsFarFromTarget);
+        RobotCommand finalizeBallHandle();
 };
 
 } //control

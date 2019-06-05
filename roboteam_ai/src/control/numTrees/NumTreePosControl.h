@@ -52,6 +52,7 @@ class NumTreePosControl : public BasicPosControl {
         bool allowIllegalPositions = false;
         Vector2 currentlyAvoidingDefenseAreaPosition;
         bool currentlyAvoidingDefenseArea = false;
+        double currentMaxRobotVel = 0;
 
         // new paths
         PathPointer computeNewPoint(const std::shared_ptr<PathPoint> &oldPoint, const Vector2 &subTarget);
@@ -81,6 +82,7 @@ class NumTreePosControl : public BasicPosControl {
         RobotCommand getRobotCommand(const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle,
                 bool illegalPositions);
 
+        bool checkChangeInMaxRobotVel();
 };
 
 }

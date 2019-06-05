@@ -433,6 +433,7 @@ RobotCommand NumTreePosControl::getRobotCommand(const PosController::RobotPtr &r
 /// finds a reason to calculate a new path (possible reasons are: no path calculated yet, final target moved,
 /// robot is too far from path or another robot is colliding with current path
 bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
+    if (checkChangeInMaxRobotVel()) return true;
     if (checkEmptyPath()) return true;
 
     double maxDeviation = 0.3;
@@ -443,7 +444,6 @@ bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
     if (checkCurrentRobotCollision()) return true;
 
     return checkIfRobotWillCollideFollowingThisPath();
-
 }
 
 bool NumTreePosControl::checkCurrentRobotCollision() {
@@ -582,6 +582,14 @@ bool NumTreePosControl::checkIfRobotWillCollideFollowingThisPath() {
             }
             return true;
         }
+    }
+    return false;
+}
+bool NumTreePosControl::checkChangeInMaxRobotVel() {
+    double newMaxRobotVel = rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
+    if (newMaxRobotVel != currentMaxRobotVel) {
+        currentMaxRobotVel = newMaxRobotVel;
+        return true;
     }
     return false;
 }
