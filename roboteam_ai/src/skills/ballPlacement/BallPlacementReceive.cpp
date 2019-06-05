@@ -5,6 +5,7 @@
 #include <roboteam_ai/src/coach/PassCoach.h>
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
 #include "BallPlacementReceive.h"
+#include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
 
 namespace rtt {
 namespace ai {
@@ -18,25 +19,21 @@ bt::Node::Status BallPlacementReceive::onUpdate() {
         return Status::Failure;
     }
 
-    if (world::world->robotHasBall(robot->id, true)) {
+    if (coach::g_pass.isPassed() && ball->vel.length() <= Constants::BALL_STILL_VEL()) {
         return Status::Success;
     }
 
-    if (ball->pos.dist(coach::g_ballPlacement.getBallPlacementPos()) < 0.5) {
-        publishRobotCommand();
+    if ((ball->pos - coach::g_ballPlacement.getBallPlacementPos()).length() < 0.15) {
         return Status::Success;
     }
 
     if (coach::g_pass.isPassed()) {
-        // Check if the ball was deflected
-//        if (passFailed()) {
-//            publishRobotCommand(); // halt
-//            return Status::Running;
+//        if(ballDeflected()) {
+//            return Status::Failure;
 //        }
-
+        command.dribbler = 25;
         intercept();
     } else {
-
         Vector2 ballPlacementTarget = coach::g_ballPlacement.getBallPlacementPos();
         auto behindTargetPos = control::PositionUtils::getPositionBehindPositionToPosition(
                 Constants::ROBOT_RADIUS(),
@@ -53,7 +50,7 @@ bt::Node::Status BallPlacementReceive::onUpdate() {
 }
 
 
-void BallPlacementReceive::moveToCatchPosition(Vector2 position) {
+void BallPlacementReceive::moveToCatchPosition(const Vector2& position) {
     auto robotCommand = robot->getNumtreePosControl()->getRobotCommand(robot, position);
     command.x_vel = static_cast<float>(robotCommand.vel.x);
     command.y_vel = static_cast<float>(robotCommand.vel.y);

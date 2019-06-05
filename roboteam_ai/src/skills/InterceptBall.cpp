@@ -15,15 +15,17 @@ InterceptBall::InterceptBall(rtt::string name, bt::Blackboard::Ptr blackboard)
 //TODO: make prediction for the RobotPtr if it can even intercept the ball at all from the initialization state.
 void InterceptBall::onInitialize() {
     keeper = properties->getBool("Keeper");
-
+    if (keeper) {
+        /// This function is hacky; we need to manually update the PID now everytime.
+        poscontroller.setAutoListenToInterface(false);
+        poscontroller.updatePid(Constants::standardKeeperInterceptPID());
+    }
     currentProgression = INTERCEPTING;
-
     tickCount = 0;
     maxTicks = static_cast<int>(floor(Constants::MAX_INTERCEPT_TIME()*Constants::TICK_RATE()));
     ballStartPos = ball->pos;
     ballStartVel = ball->vel;
     ballEndPos = ballStartPos + ballStartVel*Constants::MAX_INTERCEPT_TIME();
-
     if (robot) {
         interceptPos = computeInterceptPoint(ballStartPos, ballEndPos);
         deltaPos = interceptPos - robot->pos;
@@ -49,22 +51,20 @@ InterceptBall::Status InterceptBall::onUpdate() {
             interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::INTERCEPT, {interceptPos}, Qt::cyan, robot->id,
             interface::Drawing::DOTS, 5, 5);
-
+    // if we are not already rotating
+    if (currentProgression != INPOSITION && deltaPos.length() > TURNING_DISTANCE) {
+        // update if we want to rotate or not; if we have time to turn we do so, otherwise not.
+        // this assumes we are at 90 to 180 degrees difference with the target angle; can be improved by measuring average turn time under keeper circumstances
+        stayAtOrientation = ball->vel.length()*TURN_TIME> (interceptPos - ball->pos).length();
+    }
     tickCount ++;
     switch (currentProgression) {
-    case INTERCEPTING:
-        sendMoveCommand(interceptPos);
+    case INTERCEPTING:sendMoveCommand(interceptPos);
         return Status::Running;
-    case CLOSETOPOINT:
-        sendMoveCommand(interceptPos);
+    case INPOSITION:sendStopCommand();
         return Status::Running;
-    case INPOSITION:
-        sendStopCommand();
-        return Status::Running;
-    case BALLDEFLECTED:
-        return Status::Success;
-    case BALLMISSED:
-        return Status::Failure;
+    case BALLDEFLECTED:return Status::Success;
+    case BALLMISSED:return Status::Failure;
     }
 
     return Status::Failure;
@@ -73,14 +73,27 @@ InterceptBall::Status InterceptBall::onUpdate() {
 void InterceptBall::sendMoveCommand(Vector2 targetPos) {
     Vector2 velocities;
     if (keeper) {
-        velocities = robot->getBasicPosControl()->getRobotCommand(robot, targetPos).vel;
+        /// Manual PID value update. Ugly and should be refactored in the future.
+        poscontroller.updatePid(interface::Output::getKeeperInterceptPid());
+        velocities = poscontroller.getRobotCommand(robot, targetPos).vel;
     }
-    else{
+    else {
         velocities = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos).vel;
     }
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
-
+    if (deltaPos.length() > 0.05) {
+        auto blockAngle = Angle((interceptPos - robot->pos).angle());
+        command.w = ! backwards ? blockAngle.getAngle() : Angle(blockAngle + M_PI).getAngle();
+    }
+    else {
+        if (! stayAtOrientation) {
+            command.w = (ballStartPos - interceptPos).angle();
+        }
+        else {
+            command.w = Angle((ballStartPos - interceptPos).angle() + M_PI_2);
+        }
+    }
     publishRobotCommand();
 }
 
@@ -113,24 +126,15 @@ void InterceptBall::checkProgression() {
     //Update the state of the robot
     switch (currentProgression) {
     case INTERCEPTING:
-        if (dist < 2.5*Constants::ROBOT_RADIUS()) {
-            currentProgression = CLOSETOPOINT;
-        };//If robot is close, switch to closetoPoint
-        return;
-    case CLOSETOPOINT:
         if (dist < INTERCEPT_POSDIF) {
             currentProgression = INPOSITION;
-        }//If RobotPtr overshoots, switch to overshoot, if in Position, go there
-        else if (dist >= Constants::ROBOT_RADIUS()) {
-            currentProgression = INTERCEPTING;
         }
-        return;
     case INPOSITION:
         if (dist < INTERCEPT_POSDIF) {
             return;
         }
         else {
-            currentProgression = CLOSETOPOINT;
+            currentProgression = INTERCEPTING;
             return;
         }// Stay here until either ball misses or is deflected;
     case BALLDEFLECTED: return;
@@ -147,7 +151,6 @@ void InterceptBall::onTerminate(rtt::ai::Skill::Status s) {
 Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
     Vector2 interceptionPoint;
     if (keeper) {
-        //This is done in control library as it is needed in intercept too
         // Depends on two keeper Constants in Constants!
         Arc keeperCircle = control::ControlUtils::createKeeperArc();
         std::pair<boost::optional<Vector2>, boost::optional<Vector2>> intersections = keeperCircle.intersectionWithLine(
@@ -169,12 +172,14 @@ Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall)
         else {
             // if the Line does not intercept it usually means the ball is coming from one of the corners-ish to the keeper
             // For now we pick the closest point to the (predicted) line of the ball
-            interceptionPoint = Vector2(robot->pos).project(startBall, endBall);
+            Line shotLine(startBall,endBall);
+            interceptionPoint =shotLine.project(robot->pos);
         }
     }
     else {
         // For now we pick the closest point to the (predicted) line of the ball for any 'regular' interception
-        interceptionPoint = Vector2(robot->pos).project(startBall, endBall);
+        Line shotLine(startBall,endBall);
+        interceptionPoint =shotLine.project(robot->pos);
     }
     return interceptionPoint;
 }
@@ -218,7 +223,13 @@ bool InterceptBall::ballDeflected() {
 void InterceptBall::sendStopCommand() {
     command.x_vel = 0;
     command.y_vel = 0;
-    command.w = static_cast<float>((ballStartPos - interceptPos).angle()); //Rotates orthogonal to the line of the ball
+    if (! stayAtOrientation) {
+        command.w = static_cast<float>((ballStartPos
+                - interceptPos).angle()); //Rotates orthogonal to the line of the ball
+    }
+    else {
+        command.w = Angle((ballStartPos - interceptPos).angle() + M_PI_2).getAngle();
+    }
     publishRobotCommand();
 }
 
@@ -226,9 +237,8 @@ void InterceptBall::sendStopCommand() {
 bool InterceptBall::ballToGoal() {
     Vector2 goalCentre = world::field->get_our_goal_center();
     double goalWidth = world::field->get_field().goal_width;
-    double margin = Constants::BALL_RADIUS() + 0.1;
-    Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth + margin));
-    Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth + margin);
+    Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth + GOAL_MARGIN));
+    Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth + GOAL_MARGIN);
     LineSegment goal(lowerPost, upperPost);
     Vector2 ballPos = ball->pos;
     Vector2 ballPredPos = Vector2(ball->pos) + Vector2(ball->vel)*Constants::MAX_INTERCEPT_TIME();

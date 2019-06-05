@@ -150,9 +150,7 @@ bool Constants::STD_SHOW_VELOCITIES() { return true; }
 
 bool Constants::STD_SHOW_ANGLES() { return false; }
 
-bool Constants::STD_SHOW_PATHS_ALL() { return false; }
-
-bool Constants::STD_SHOW_PATHS_CURRENT() { return true; }
+bool Constants::STD_SHOW_ROBOT_INVALIDS() { return true; }
 
 bool Constants::STD_SHOW_BALL_PLACEMENT_MARKER() { return true; }
 
@@ -174,7 +172,7 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
     workingGenevaRobots[7] = true;
     workingGenevaRobots[8] = true;
     workingGenevaRobots[9] = true;
-    workingGenevaRobots[10] = false;
+    workingGenevaRobots[10] = true;
     workingGenevaRobots[11] = true;
     workingGenevaRobots[12] = true;
     workingGenevaRobots[13] = true;
@@ -241,7 +239,9 @@ pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(4.2, 0.0, 1.4
 
 pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(3.4, 0.0, 0.4); }
 
-pidVals Constants::standardForcePID() { return GRSIM() ? pidVals(0.9, 0.0, 0.6) : pidVals(2.8, 0.0, 0.0); }
+pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(5.0, 0.0, 0.4) : pidVals(5.0, 0.0, 0.4); }
+
+pidVals Constants::standardKeeperInterceptPID() { return GRSIM() ? pidVals(6.0, 0.0, 1.2) : pidVals(6.0, 0.0, 1.2); }
 
 std::vector<RuleSet> Constants::ruleSets() {
     return {
@@ -253,6 +253,8 @@ std::vector<RuleSet> Constants::ruleSets() {
             {"kickoff",             1.5, 0.0, 6.5, 0.5, true,   true }
     };
 }
+
+
 
 }
 }
