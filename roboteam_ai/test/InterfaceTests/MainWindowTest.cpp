@@ -46,8 +46,7 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     vis->setShowRoles(true);
     vis->setShowBallPlacementMarker(true);
     vis->setShowDebugValueInTerminal(true);
-    vis->setShowPath(true);
-    vis->setShowPathAll(true);
+        vis->setShowRobotInvalids(true);
     vis->setShowTacticColors(true);
     vis->setShowTactics(true);
     vis->setShowVelocities(true);
@@ -55,8 +54,7 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     EXPECT_TRUE(vis->showAngles);
     EXPECT_TRUE(vis->showRoles);
     EXPECT_TRUE(vis->showBallPlacementMarker);
-    EXPECT_TRUE(vis->showPath);
-    EXPECT_TRUE(vis->showAllPaths);
+    EXPECT_TRUE(vis->showRobotInvalids);
     EXPECT_TRUE(vis->showTacticColors);
     EXPECT_TRUE(vis->showTactics);
     EXPECT_TRUE(vis->showVelocities);
@@ -65,8 +63,7 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     vis->setShowRoles(false);
     vis->setShowBallPlacementMarker(false);
     vis->setShowDebugValueInTerminal(false);
-    vis->setShowPath(false);
-    vis->setShowPathAll(false);
+        vis->setShowRobotInvalids(false);
     vis->setShowTacticColors(false);
     vis->setShowTactics(false);
     vis->setShowVelocities(false);
@@ -74,8 +71,7 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     EXPECT_FALSE(vis->showAngles);
     EXPECT_FALSE(vis->showRoles);
     EXPECT_FALSE(vis->showBallPlacementMarker);
-    EXPECT_FALSE(vis->showPath);
-    EXPECT_FALSE(vis->showAllPaths);
+    EXPECT_FALSE(vis->showRobotInvalids);
     EXPECT_FALSE(vis->showTacticColors);
     EXPECT_FALSE(vis->showTactics);
     EXPECT_FALSE(vis->showVelocities);

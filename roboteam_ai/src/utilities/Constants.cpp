@@ -150,9 +150,7 @@ bool Constants::STD_SHOW_VELOCITIES() { return true; }
 
 bool Constants::STD_SHOW_ANGLES() { return false; }
 
-bool Constants::STD_SHOW_PATHS_ALL() { return false; }
-
-bool Constants::STD_SHOW_PATHS_CURRENT() { return true; }
+bool Constants::STD_SHOW_ROBOT_INVALIDS() { return true; }
 
 bool Constants::STD_SHOW_BALL_PLACEMENT_MARKER() { return true; }
 
@@ -174,7 +172,7 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
     workingGenevaRobots[7] = true;
     workingGenevaRobots[8] = true;
     workingGenevaRobots[9] = true;
-    workingGenevaRobots[10] = false;
+    workingGenevaRobots[10] = true;
     workingGenevaRobots[11] = true;
     workingGenevaRobots[12] = true;
     workingGenevaRobots[13] = true;
