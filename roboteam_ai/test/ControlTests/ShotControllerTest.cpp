@@ -171,7 +171,7 @@ TEST(ShotControllerTest, getshotdata_test) {
             BallSpeed::MAX_SPEED, false, ShotPrecision::LOW);
     EXPECT_TRUE(shotdata.kicker);
     EXPECT_FALSE(shotdata.chipper);
-    EXPECT_FLOAT_EQ(shotdata.angle, (Vector2(world::world->getBall()->pos) - Vector2(robotWithBall->pos)).toAngle());
+    EXPECT_FLOAT_EQ(shotdata.angle, (world::world->getBall()->pos - robotWithBall->pos).toAngle());
     EXPECT_FLOAT_EQ(shotdata.geneva, 3);
 
     // chip test
@@ -179,7 +179,7 @@ TEST(ShotControllerTest, getshotdata_test) {
             ShotPrecision::LOW);
     EXPECT_FALSE(shotdata.kicker);
     EXPECT_TRUE(shotdata.chipper);
-    EXPECT_FLOAT_EQ(shotdata.angle, (Vector2(world::world->getBall()->pos) - Vector2(robotWithBall->pos)).toAngle());
+    EXPECT_FLOAT_EQ(shotdata.angle, (world::world->getBall()->pos - robotWithBall->pos).toAngle());
     EXPECT_FLOAT_EQ(shotdata.geneva, 3);
 
 

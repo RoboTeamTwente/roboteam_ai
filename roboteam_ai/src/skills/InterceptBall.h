@@ -12,15 +12,16 @@
 namespace rtt {
 namespace ai {
 
-class InterceptBall :public Skill {
+class InterceptBall : public Skill {
     private:
 
         const double BALL_DEFLECTION_ANGLE = 30.0/180.0*M_PI;    // Angle at which a ball is considered 'deflected'
-        const double INTERCEPT_POSDIF = 0.04;    // Meters acceptable deviation
-
+        const double INTERCEPT_POSDIF = 0.015;    // Meters acceptable deviation
+        const double TURNING_DISTANCE = 0.05; // m distance at which we start turning towards the target angle (if desired)
+        const double TURN_TIME = 0.3; //estimated time to make a large rotation (90 to 180 degrees) on the current robot
+        const double GOAL_MARGIN = Constants::BALL_RADIUS() + 0.05; // if the ball is shot next to the goal within this margin we still try to intercept
         enum Progression {
           INTERCEPTING,
-          CLOSETOPOINT,
           INPOSITION,
           BALLDEFLECTED,
           BALLMISSED
@@ -39,9 +40,11 @@ class InterceptBall :public Skill {
         Vector2 interceptPos;
 
         Vector2 deltaPos;
-        int tickCount, maxTicks;
+        int tickCount;
+        int maxTicks;
         bool backwards;
-
+        bool stayAtOrientation = false;
+        control::BasicPosControl poscontroller;
         // Relevant to keeper only
         bool keeper;
         bool ballToGoal();
