@@ -36,28 +36,28 @@ class ShotController {
 
     private:
         bool init = false;
-        bool isShooting;
+        bool isShooting = false;
         Vector2 aimTarget;
         bool genevaIsTurning = false;
         double secondsToTurnGeneva = 0.0;
         double lastTimeGenevaChanged = 0.0;
 
         // Helpers
-        Vector2 getPlaceBehindBallForGenevaState(world::Robot robot, Vector2 shotTarget, int genevaState);
-        Vector2 getPlaceBehindBall(world::Robot robot,
-                Vector2 shotTarget); // the params are the position for the robot and the geneva angle
-        int determineOptimalGenevaState(world::Robot robot, Vector2 shotTarget);
+        Vector2 getPlaceBehindBallForGenevaState(const world::Robot& robot, const Vector2& shotTarget, int genevaState);
+        Vector2 getPlaceBehindBall(const world::Robot& robot,
+                const Vector2& shotTarget); // the params are the position for the robot and the geneva angle
+        int determineOptimalGenevaState(const world::Robot& robot, const Vector2& shotTarget);
         bool onLineToBall(const world::Robot &robot, const std::pair<Vector2, Vector2>& line, ShotPrecision precision);
-        bool robotAngleIsGood(world::Robot &robot, std::pair<Vector2, Vector2> lineToDriveOver,
+        bool robotAngleIsGood(world::Robot &robot, const std::pair<Vector2, Vector2>& lineToDriveOver,
                 ShotPrecision precision);
         double determineKickForce(double distance, BallSpeed desiredBallSpeed);
         std::pair<Vector2, Vector2> shiftLineForGeneva(const std::pair<Vector2, Vector2> &line, int genevaState);
 
         // RobotCommand calculation
-        RobotCommand goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition,
-                std::pair<Vector2, Vector2> driveLine);
-        RobotCommand moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver);
-        RobotCommand shoot(world::Robot robot, std::pair<Vector2, Vector2> driveLine, Vector2 shotTarget, bool chip,
+        RobotCommand goToPlaceBehindBall(world::Robot robot, const Vector2& robotTargetPosition,
+                const std::pair<Vector2, Vector2>& driveLine);
+        RobotCommand moveStraightToBall(world::Robot robot, const std::pair<Vector2, Vector2>& lineToDriveOver);
+        RobotCommand shoot(world::Robot robot, const std::pair<Vector2, Vector2>& driveLine, const Vector2& shotTarget, bool chip,
                 BallSpeed desiredBallSpeed);
 
 

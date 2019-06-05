@@ -99,7 +99,7 @@ bool ShotController::onLineToBall(const world::Robot &robot, const std::pair<Vec
 }
 
 /// return the place behind the ball targeted towards the ball target position
-Vector2 ShotController::getPlaceBehindBall(world::Robot robot, Vector2 shotTarget) {
+Vector2 ShotController::getPlaceBehindBall(const world::Robot& robot, const Vector2& shotTarget) {
     auto ball = world::world->getBall();
     Vector2 preferredShotVector = ball->pos - shotTarget;
     double distanceBehindBall = 2.0*Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
@@ -107,8 +107,8 @@ Vector2 ShotController::getPlaceBehindBall(world::Robot robot, Vector2 shotTarge
 }
 
 /// use Numtree GTP to go to a place behind the ball
-RobotCommand ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition,
-        std::pair<Vector2, Vector2> line) {
+RobotCommand ShotController::goToPlaceBehindBall(world::Robot robot, const Vector2& robotTargetPosition,
+        const std::pair<Vector2, Vector2>& line) {
     auto ball = world::world->getBall();
     auto shotData = robot.getNumtreePosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
             robotTargetPosition);
@@ -120,7 +120,7 @@ RobotCommand ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 rob
 }
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
-RobotCommand ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver) {
+RobotCommand ShotController::moveStraightToBall(world::Robot robot, const std::pair<Vector2, Vector2>& lineToDriveOver) {
     auto robotCommand = robot.getBasicPosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
             lineToDriveOver.second);
     robotCommand.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
@@ -129,7 +129,7 @@ RobotCommand ShotController::moveStraightToBall(world::Robot robot, std::pair<Ve
 }
 
 /// Now we should have the ball and kick it.
-RobotCommand ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector2> driveLine, Vector2 shotTarget, bool chip,
+RobotCommand ShotController::shoot(world::Robot robot, const std::pair<Vector2, Vector2>& driveLine, const Vector2& shotTarget, bool chip,
         BallSpeed desiredBallSpeed) {
 
     auto ball = world::world->getBall();
@@ -183,7 +183,7 @@ double ShotController::determineKickForce(double distance, BallSpeed desiredBall
 }
 
 bool ShotController::robotAngleIsGood(world::Robot &robot,
-        std::pair<Vector2, Vector2> lineToDriveOver, ShotPrecision precision) {
+        const std::pair<Vector2, Vector2>& lineToDriveOver, ShotPrecision precision) {
     Angle aim((lineToDriveOver.second - lineToDriveOver.first).angle());
     double diff = abs(aim - robot.angle);
     if (precision == HIGH) {
@@ -196,9 +196,9 @@ bool ShotController::robotAngleIsGood(world::Robot &robot,
 }
 
 // get the place behind the ball as if no geneva is used
-// we rotate this vector according to the angle with the shotline
+// we rotate this vector according to the angle with the shot line
 // we intentionally need to remove ball pos because we are rotating the vector
-Vector2 ShotController::getPlaceBehindBallForGenevaState(world::Robot robot, Vector2 shotTarget, int genevaState) {
+Vector2 ShotController::getPlaceBehindBallForGenevaState(const world::Robot& robot, const Vector2& shotTarget, int genevaState) {
     auto ball = world::world->getBall();
     Vector2 placeStraightBehindBallVector = getPlaceBehindBall(robot, shotTarget) - ball->pos;
 
@@ -218,7 +218,7 @@ std::pair<Vector2, Vector2> ShotController::shiftLineForGeneva(const std::pair<V
     std::pair<Vector2, Vector2> shiftedLine = line;
     if (genevaState < 1 || genevaState > 5) return shiftedLine;
 
-    // move the ball left or right {2,1,0,-1,-2} cm for genevastates {1,2,3,4,5}
+    // move the ball left or right {2,1,0,-1,-2} cm for geneva states {1,2,3,4,5}
     double moveLength = (3-genevaState) * 0.01;
 
     // get the angle perpendicular to the line, then shift the line by the moveLength
@@ -228,14 +228,14 @@ std::pair<Vector2, Vector2> ShotController::shiftLineForGeneva(const std::pair<V
     return shiftedLine;
 }
 
-int ShotController::determineOptimalGenevaState(world::Robot robot, Vector2 shotTarget) {
+int ShotController::determineOptimalGenevaState(const world::Robot& robot, const Vector2& shotTarget) {
     auto ball = world::world->getBall();
 
     // determine the shortest position from where to kick the ball
     Vector2 robotToBall = ball->pos - robot.pos;
     Vector2 preferredShotVector = shotTarget - ball->pos;
 
-    // determine the angle between the robot position and the shotline
+    // determine the angle between the robot position and the shot line
     Angle angleWithShotline = robotToBall.toAngle() - preferredShotVector.toAngle();
     if (angleWithShotline.getAngle() > toRadians(20)) {
         return 2;
