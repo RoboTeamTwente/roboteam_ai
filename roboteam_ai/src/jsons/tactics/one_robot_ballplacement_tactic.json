@@ -3,6 +3,16 @@
     "trees": [
       {
         "nodes": {
+          "04rnbv2q7vjwbo6n": {
+            "children": [
+              "qigey30lgf0guo4e"
+            ],
+            "id": "04rnbv2q7vjwbo6n",
+            "properties": {
+              "ROLE": "ballplacementbot"
+            },
+            "title": "UntilSuccess"
+          },
           "0kjuzbc754ybfonh": {
             "children": [
               "dg8rtsej3bbbevagh"
@@ -24,22 +34,6 @@
               "ROLE": "avoid2"
             },
             "title": "UntilSuccess"
-          },
-          "3m0hbribclinc": {
-            "id": "3m0hbribclinc",
-            "properties": {
-              "ROLE": "ballplacementbot",
-              "avoidBall": "true",
-              "type": "ballPlacementAfter"
-            },
-            "title": "GTPSpecial"
-          },
-          "44c3t6e5sq5o2": {
-            "id": "44c3t6e5sq5o2",
-            "properties": {
-              "ROLE": "ballplacementbot"
-            },
-            "title": "GetBall"
           },
           "4x2wee2zraep5fx": {
             "id": "4x2wee2zraep5fx",
@@ -96,20 +90,6 @@
             },
             "role": "avoid_role",
             "title": "Role"
-          },
-          "a35r11c1wtghf8o2v": {
-            "children": [
-              "pkkrbof7nianp1",
-              "44c3t6e5sq5o2",
-              "o6g29yu4kcrbcre",
-              "3m0hbribclinc",
-              "zywtpo094azrvfjdw"
-            ],
-            "id": "a35r11c1wtghf8o2v",
-            "properties": {
-              "ROLE": "ballplacementbot"
-            },
-            "title": "MemSequence"
           },
           "bc0rxpielnyke": {
             "children": [
@@ -199,6 +179,19 @@
             },
             "title": "AvoidBall"
           },
+          "fpy9lv45xubewbm6": {
+            "id": "fpy9lv45xubewbm6",
+            "properties": {
+              "ROLE": "ballplacementbot",
+              "avoidBall": "true",
+              "canGoOutsideField": "",
+              "canMoveInDefenseArea": "",
+              "fixedTarget": "",
+              "maxVel": "",
+              "type": "ballPlacementAfter"
+            },
+            "title": "GTPSpecial"
+          },
           "grfk3k408lgew": {
             "id": "grfk3k408lgew",
             "properties": {
@@ -209,7 +202,7 @@
           },
           "hng84qswzcopzk": {
             "children": [
-              "n67k43pgj0k0e"
+              "04rnbv2q7vjwbo6n"
             ],
             "id": "hng84qswzcopzk",
             "name": "ballplacementbot",
@@ -218,6 +211,14 @@
             },
             "role": "BallPlacementBot",
             "title": "Role"
+          },
+          "iyfrgqqvnbfabvzu": {
+            "id": "iyfrgqqvnbfabvzu",
+            "properties": {
+              "ROLE": "ballplacementbot",
+              "ballPlacement": "true"
+            },
+            "title": "Dribble"
           },
           "jpbyopqmk9o47": {
             "id": "jpbyopqmk9o47",
@@ -245,24 +246,6 @@
             },
             "title": "AvoidBall"
           },
-          "n67k43pgj0k0e": {
-            "children": [
-              "a35r11c1wtghf8o2v"
-            ],
-            "id": "n67k43pgj0k0e",
-            "properties": {
-              "ROLE": "ballplacementbot"
-            },
-            "title": "UntilSuccess"
-          },
-          "o6g29yu4kcrbcre": {
-            "id": "o6g29yu4kcrbcre",
-            "properties": {
-              "BallPlacement": "true",
-              "ROLE": "ballplacementbot"
-            },
-            "title": "DribbleRotate"
-          },
           "osrcm7r61wn9lvu": {
             "children": [
               "d7vl5pdrhle9s"
@@ -273,14 +256,40 @@
             },
             "title": "UntilSuccess"
           },
-          "pkkrbof7nianp1": {
-            "id": "pkkrbof7nianp1",
+          "qigey30lgf0guo4e": {
+            "children": [
+              "vmhzc6f21204n3q3",
+              "uw0edvdvfppcio41"
+            ],
+            "id": "qigey30lgf0guo4e",
+            "properties": {},
+            "title": "MemSequence"
+          },
+          "uw0edvdvfppcio41": {
+            "children": [
+              "y1ow502ecim3q4m4"
+            ],
+            "id": "uw0edvdvfppcio41",
             "properties": {
-              "ROLE": "ballplacementbot",
-              "avoidBall": "true",
-              "type": "ballPlacementBefore"
+              "limit": ""
             },
-            "title": "GTPSpecial"
+            "title": "Repeater"
+          },
+          "vmhzc6f21204n3q3": {
+            "children": [
+              "iyfrgqqvnbfabvzu",
+              "fpy9lv45xubewbm6"
+            ],
+            "id": "vmhzc6f21204n3q3",
+            "properties": {},
+            "title": "Sequence"
+          },
+          "y1ow502ecim3q4m4": {
+            "id": "y1ow502ecim3q4m4",
+            "properties": {
+              "ticks": ""
+            },
+            "title": "Halt"
           },
           "z7gb23riaa8y2": {
             "children": [
@@ -298,16 +307,6 @@
               "TacticType": "General"
             },
             "title": "RoleDivider"
-          },
-          "zywtpo094azrvfjdw": {
-            "id": "zywtpo094azrvfjdw",
-            "properties": {
-              "BallPlacement": "true",
-              "ROLE": "ballplacementbot",
-              "forwardDirection": "false",
-              "maxTicks": "100"
-            },
-            "title": "Dribble"
           }
         },
         "root": "z7gb23riaa8y2",

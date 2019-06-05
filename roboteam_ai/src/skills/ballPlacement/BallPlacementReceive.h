@@ -17,7 +17,7 @@ public:
     bt::Node::Status onUpdate() override;
 private:
     bool isInPosition(const Vector2 &behindTargetPos) override;
-    void moveToCatchPosition(Vector2 position);
+    void moveToCatchPosition(const Vector2& position);
 
 };
 }
