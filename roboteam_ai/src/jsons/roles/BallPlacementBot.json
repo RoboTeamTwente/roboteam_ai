@@ -26,6 +26,13 @@
             },
             "title": "UntilSuccess"
           },
+          "2hm17q8247o6vkts": {
+            "id": "2hm17q8247o6vkts",
+            "properties": {
+              "seconds": "0.5"
+            },
+            "title": "Wait"
+          },
           "2xt3b79mhzo90qt3": {
             "children": [
               "4sudkbnox9latui9"
@@ -45,7 +52,7 @@
           },
           "58btfcqrqqgxtyzq": {
             "children": [
-              "vxffwrnvjvv1caky",
+              "2hm17q8247o6vkts",
               "23ovtu8zknfw3l3h"
             ],
             "id": "58btfcqrqqgxtyzq",
@@ -77,14 +84,6 @@
             "id": "us0vle7bs8h4e2wz",
             "properties": {},
             "title": "MemSequence"
-          },
-          "vxffwrnvjvv1caky": {
-            "id": "vxffwrnvjvv1caky",
-            "properties": {
-              "ROLE": "ballplacementbot",
-              "ticks": "30"
-            },
-            "title": "Halt"
           }
         },
         "root": "29j9gjg1payfmglu",

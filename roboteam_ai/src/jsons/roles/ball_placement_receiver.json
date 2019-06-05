@@ -3,18 +3,10 @@
     "trees": [
       {
         "nodes": {
-          "53sq4ux0n0ojlroz": {
-            "id": "53sq4ux0n0ojlroz",
-            "properties": {
-              "ROLE": "ball_placement_receiver",
-              "ticks": "20"
-            },
-            "title": "Halt"
-          },
           "6pfnmm91bzgifoms": {
             "children": [
               "gz40youirstbwq9d",
-              "53sq4ux0n0ojlroz",
+              "b90iu9ue6cq7nmtg",
               "nlogi6qtm712fkip",
               "autwbjkg9sz2lks1"
             ],
@@ -46,6 +38,13 @@
               "limit": ""
             },
             "title": "Repeater"
+          },
+          "b90iu9ue6cq7nmtg": {
+            "id": "b90iu9ue6cq7nmtg",
+            "properties": {
+              "seconds": "0.5"
+            },
+            "title": "Wait"
           },
           "gz40youirstbwq9d": {
             "id": "gz40youirstbwq9d",
