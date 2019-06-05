@@ -45,7 +45,6 @@ private:
 
     void setToggleColorBtnLayout() const;
     void setToggleSideBtnLayout() const;
-    void keyPressEvent(QKeyEvent *event);
 
 public slots:
     void setTimeOutTop(bool top);
