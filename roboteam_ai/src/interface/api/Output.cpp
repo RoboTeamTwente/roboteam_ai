@@ -21,7 +21,6 @@ bool Output::useRefereeCommands = false;
 bool Output::showDebugValuesInTerminal = true;
 bool Output::timeOutAtTop = Constants::STD_TIMEOUT_TO_TOP();
 
-std::mutex Output::pidMutex;
 std::mutex Output::markerMutex;
 std::mutex Output::refMutex;
 std::mutex Output::showDebugMutex;
