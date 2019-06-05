@@ -21,7 +21,10 @@ class InterceptBall :public Skill {
         const double TURN_TIME=0.3; //estimated time to make a large rotation (90 to 180 degrees) on the current robot
         const double GOAL_MARGIN=Constants::BALL_RADIUS()+0.05;// if the ball is shot next to the goal within this margin we still try to intercept
         enum Progression {
-          INTERCEPTING, INPOSITION, BALLDEFLECTED, BALLMISSED
+          INTERCEPTING,
+          INPOSITION,
+          BALLDEFLECTED,
+          BALLMISSED
         };
         Progression currentProgression;
         void checkProgression();
@@ -33,7 +36,8 @@ class InterceptBall :public Skill {
 
         Vector2 ballStartPos, ballStartVel, ballEndPos, interceptPos;
         Vector2 deltaPos;
-        int tickCount, maxTicks;
+        int tickCount;
+        int maxTicks;
         bool backwards;
         bool stayAtOrientation=false;
         control::BasicPosControl poscontroller;

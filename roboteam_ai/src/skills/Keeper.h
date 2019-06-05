@@ -16,6 +16,7 @@ namespace ai {
 class Keeper : public Skill {
 
         const double KEEPER_POSDIF = 0.01;
+        const double MIN_ATTACKER_DIST=0.3;
 
     private:
         Arc blockCircle;

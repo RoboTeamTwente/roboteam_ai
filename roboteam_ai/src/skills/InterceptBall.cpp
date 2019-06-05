@@ -170,12 +170,14 @@ Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall)
         else {
             // if the Line does not intercept it usually means the ball is coming from one of the corners-ish to the keeper
             // For now we pick the closest point to the (predicted) line of the ball
-            interceptionPoint = Vector2(robot->pos).project(startBall, endBall);
+            Line shotLine(startBall,endBall);
+            interceptionPoint =shotLine.project(robot->pos);
         }
     }
     else {
         // For now we pick the closest point to the (predicted) line of the ball for any 'regular' interception
-        interceptionPoint = Vector2(robot->pos).project(startBall, endBall);
+        Line shotLine(startBall,endBall);
+        interceptionPoint =shotLine.project(robot->pos);
     }
     return interceptionPoint;
 }
