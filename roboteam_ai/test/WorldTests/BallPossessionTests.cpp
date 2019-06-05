@@ -6,6 +6,7 @@
 #include <gtest/gtest.h>
 #include <roboteam_ai/test/helpers/WorldHelper.h>
 #include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/coach/PassCoach.h>
 #include "../../src/world/BallPossession.h"
 
 namespace rtt {
@@ -61,13 +62,6 @@ TEST(BallPossessionTest, it_properly_computes) {
     field.field_width = 8;
     field.field_length = 12;
     rtt::ai::world::field->set_field(field);
-
-    roboteam_msgs::World emptyWorld;
-
-    for(int i=0; i<20; i++) {
-        rtt::ai::world::world->updateWorld(emptyWorld);
-    }
-
     auto worldmsg = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(3, 0, true, field).first;
     worldmsg.time = 0.0;
     rtt::ai::world::world->updateWorld(worldmsg);
