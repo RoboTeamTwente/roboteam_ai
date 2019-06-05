@@ -48,5 +48,6 @@ TEST(IsBeingPassedTo, IsBeingPassedToTest) {
     node.initialize();
 
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
+    rtt::ai::coach::g_pass.resetPass(0);
 
 }

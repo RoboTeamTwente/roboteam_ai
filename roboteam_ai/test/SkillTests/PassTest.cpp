@@ -103,4 +103,5 @@ TEST(PassTest, PassTest) {
     w::world->updateWorld(world2);
     ASSERT_EQ(pass.update(), bt::Leaf::Status::Running);
 
+    rtt::ai::coach::g_pass.resetPass(0);
 }
