@@ -15,6 +15,7 @@ namespace interface {
 
 enum Visual {
     DEBUG,
+    BALL_DATA,
     PATHFINDING,
     PATHFINDING_DEBUG,
     KEEPER,
