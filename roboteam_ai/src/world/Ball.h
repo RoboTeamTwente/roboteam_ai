@@ -33,6 +33,7 @@ class Ball {
         Robot* getDribblingRobot(const std::vector<RobotPtr> &robots, double maxDribbleRange);
         void updateBallModel(const Ball &oldBall, const WorldData &worldData);
         void updateBallPosition(const Ball &oldBall, const WorldData &worldData);
+        void updateExpectedPositionWhereBallIsStill(const Ball &oldBall, const WorldData &worldData);
 
     public:
         Ball();
@@ -47,7 +48,6 @@ class Ball {
         double spin = 0.0;
         static bool exists;
         bool visible = false;
-        void updateExpectedPositionWhereBallIsStill(const Ball &oldBall, const WorldData &worldData);
 };
 
 }

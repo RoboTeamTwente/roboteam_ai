@@ -16,13 +16,13 @@ namespace world {
 bool Ball::exists = false;
 
 Ball::Ball()
-    : pos(Vector2()), vel(Vector2()), visible(false) { }
+        :pos(Vector2()), vel(Vector2()), visible(false) { }
 
 Ball::Ball(const roboteam_msgs::WorldBall &copy)
-        : pos(copy.pos), vel(copy.vel),
-        visible(copy.visible) {
+        :pos(copy.pos), vel(copy.vel),
+         visible(copy.visible) {
     exists = exists || copy.existence || Vector2(copy.pos).isNotNaN();
-    if (!exists) std::cout << "BallPtr message has existence = 0!!" << std::endl;
+    if (! exists) std::cout << "BallPtr message has existence = 0!!" << std::endl;
 }
 
 void Ball::updateBall(const BallPtr &oldBall, const WorldData &worldData) {
@@ -175,13 +175,13 @@ void Ball::updateExpectedPositionWhereBallIsStill(const Ball &oldBall, const Wor
     Vector2 expectedBallStillPosition = ball->pos + ball->vel.stretchToLength(frictionCoefficient*ballVel*ballVel);
     const Vector2 &previousBallStillPosition = oldBall.getBallStillPosition();
 
-    double a = 0.05;
-    if ((expectedBallStillPosition - previousBallStillPosition).length() > 1.0) {
-        a = 0.5;
-    }
-    ballStillPosition = (previousBallStillPosition*(1-a) + expectedBallStillPosition*a);
+    double ballStillPositionDifference = (expectedBallStillPosition - previousBallStillPosition).length();
 
-    interface::Input::drawData(interface::Visual::BALL_DATA, {ballStillPosition}, Constants::BALL_COLOR(), -1,
+    double b = 3.0;
+    double a = ballStillPositionDifference > b ? 1.0 : ballStillPositionDifference/b;
+    ballStillPosition = (previousBallStillPosition*(1 - a) + expectedBallStillPosition*a);
+
+    interface::Input::drawData(interface::Visual::BALL_DATA, {ballStillPosition}, Constants::BALL_COLOR(), - 1,
             interface::Drawing::CIRCLES, 8, 8, 6);
 }
 

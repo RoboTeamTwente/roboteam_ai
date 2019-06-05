@@ -247,32 +247,21 @@ RobotCommand BallHandlePosControl::goToBall(const Vector2 &targetBallPos, Travel
 RobotCommand BallHandlePosControl::goToMovingBall() {
     Vector2 numTreesTarget;
 
+    Vector2 ballStillPosition = ball->getBallStillPosition();
 
     bool robotIsBehindBall = fabs((robot->pos - ball->pos).toAngle() - ball->vel.toAngle()) < M_PI*0.1;
 
     if (robotIsBehindBall) {
         LineSegment ballLine = LineSegment(ball->pos, ball->pos + ball->vel);
-        targetPosToCatchBall = ballLine.project(robot->pos);
-    }
-    else {
-        Vector2 ballTarget;
-        double ballVel = ball->vel.length();
-        double frictionCoefficient = 0.8;
-        ballTarget = ball->pos + ball->vel.stretchToLength(frictionCoefficient*ballVel*ballVel);
-        double a = 0.1;
-        targetPosToCatchBall = (targetPosToCatchBall*(1-a) + ballTarget*a);
-    }
-    numTreesTarget = targetPosToCatchBall;
-
-    auto robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
-
-    if (robotIsBehindBall) {
+        numTreesTarget = ballLine.project(robot->pos);
+        auto robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
         robotCommand.angle = (ball->pos - robot->pos).toAngle();
-    }
-    else {
-        robotCommand.vel += std::max(ball->vel, ball->vel.normalize());
+        return robotCommand;
     }
 
+    numTreesTarget = ballStillPosition;
+    auto robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
+    robotCommand.vel += std::max(ball->vel, ball->vel.normalize());
     return robotCommand;
 }
 

@@ -41,8 +41,6 @@ class BallHandlePosControl : public NumTreePosControl {
         BallPtr ball;
         Vector2 targetPos;
         Angle targetAngle;
-
-        Vector2 targetPosToCatchBall = Vector2();
         Angle lockedAngle = 0;
 
     public:
