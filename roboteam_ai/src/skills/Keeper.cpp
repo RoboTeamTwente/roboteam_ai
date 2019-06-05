@@ -18,7 +18,7 @@ void Keeper::onInitialize() {
     goalwidth = world::field->get_field().goal_width;
     //Create arc for keeper to drive on
     blockCircle = control::ControlUtils::createKeeperArc();
-    
+
     /// This function is hacky; we need to manually update the PID now everytime.
     posController.setAutoListenToInterface(false);
     posController.updatePid(Constants::standardKeeperPID());
