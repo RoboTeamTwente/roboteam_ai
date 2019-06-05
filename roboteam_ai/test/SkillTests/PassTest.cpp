@@ -16,8 +16,6 @@ namespace rd = rtt::ai::robotDealer;
 namespace w = rtt::ai::world;
 using Vector2 = rtt::Vector2;
 TEST(PassTest, PassTest) {
-    rd::RobotDealer::halt();
-
     roboteam_msgs::GeometryFieldSize field = testhelpers::FieldHelper::generateField();
     rtt::ai::world::field->set_field(field);
     roboteam_msgs::World world;
@@ -46,6 +44,7 @@ TEST(PassTest, PassTest) {
     world.ball = ball;
     w::world->updateWorld(world);
 
+    rtt::ai::coach::g_pass.resetPass(0);
     ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(0), static_cast<int>(robot1.id));
     rtt::ai::coach::g_pass.resetPass(0);
 
