@@ -14,7 +14,8 @@ namespace interface {
 pidVals Output::numTreePID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::forcePID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::basicPID = pidVals(0.0, 0.0, 0.0);
-
+pidVals Output::keeperPID = pidVals(0.0, 0.0, 0.0);
+pidVals Output::keeperInterceptPID = pidVals(0.0, 0.0, 0.0);
 
 rtt::Vector2 Output::markerPosition = {0, 0}; // initialize on middle of the field
 bool Output::useRefereeCommands = false;

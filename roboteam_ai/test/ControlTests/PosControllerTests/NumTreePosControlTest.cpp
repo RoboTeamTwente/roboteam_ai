@@ -6,6 +6,7 @@
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include <roboteam_ai/src/utilities/RobotDealer.h>
 
 namespace rtt {
 namespace ai {
@@ -18,19 +19,25 @@ TEST(NumTreePosControlTest, it_obeys_the_referee) {
      * Set the gamestate to normal play such that we are not allowed to move in the defense area
      * even if we want to. Then change the state to ballplacement where it is allowed and then it should be possible.
      */
+
+    robotDealer::RobotDealer::setKeeperID(0);
+
     GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
     gtp.setCanMoveInDefenseArea(false);
-    EXPECT_FALSE(gtp.getCanMoveInDefenseArea());
+    EXPECT_FALSE(gtp.getCanMoveInDefenseArea(1));
+    EXPECT_TRUE(gtp.getCanMoveInDefenseArea(0)); // the keeper can always move in the defense area
+
     gtp.setCanMoveInDefenseArea(true);
-    EXPECT_FALSE(gtp.getCanMoveInDefenseArea());
+    EXPECT_FALSE(gtp.getCanMoveInDefenseArea(1));
+    EXPECT_TRUE(gtp.getCanMoveInDefenseArea(0)); // the keeper can always move in the defense area
     GameStateManager::forceNewGameState(RefCommand::BALL_PLACEMENT_US);
     gtp.setCanMoveInDefenseArea(true);
-    EXPECT_TRUE(gtp.getCanMoveInDefenseArea());
+    EXPECT_TRUE(gtp.getCanMoveInDefenseArea(1));
 
     gtp.setCanMoveOutOfField(false);
-    EXPECT_FALSE(gtp.getCanMoveOutOfField());
+    EXPECT_FALSE(gtp.getCanMoveOutOfField(1));
     gtp.setCanMoveOutOfField(true);
-    EXPECT_TRUE(gtp.getCanMoveOutOfField());
+    EXPECT_TRUE(gtp.getCanMoveOutOfField(1));
 
     /*
      * Set the gamestate to normal play such that we are not allowed to get close to the ball
