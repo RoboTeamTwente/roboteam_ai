@@ -18,7 +18,7 @@ class DribbleBackwards;
 class DribbleForwards;
 class RotateAroundBall;
 class RotateWithBall;
-class   BallHandlePosControl : public NumTreePosControl {
+class BallHandlePosControl : public NumTreePosControl {
     private:
         using BallPtr = std::shared_ptr<world::Ball>;
         using RobotPtr = std::shared_ptr<world::Robot>;
@@ -34,14 +34,14 @@ class   BallHandlePosControl : public NumTreePosControl {
         const double angleErrorMargin = 0.02;
         const double maxBallDistance = Constants::ROBOT_RADIUS()*2.0;
         const double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
-        const double minVelForMovingball = 0.58;
+        const double minVelForMovingball = 0.19;
         double ballPlacementAccuracy = 0.04;
-        bool canMoveInDefenseArea = false;
 
         RobotPtr robot;
         BallPtr ball;
         Vector2 targetPos;
         Vector2 finalTargetPos;
+        Vector2 targetPosToCatchBall = Vector2();
         Angle targetAngle;
         Angle finalTargetAngle;
         Angle lockedAngle = 0;
@@ -57,7 +57,7 @@ class   BallHandlePosControl : public NumTreePosControl {
 
         // general functions
         RobotCommand handleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy,
-                bool shouldHandleBall, bool ballIsFarFromTarget = true);
+                bool shouldGoToBall, bool ballIsFarFromTarget = true);
         RobotCommand goToBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy, bool ballIsFarFromTarget);
 
         // get status of ball handling
@@ -85,6 +85,9 @@ class   BallHandlePosControl : public NumTreePosControl {
                 TravelStrategy travelStrategy);
         RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP) override;
 
+        RobotCommand goToMovingBall();
+        RobotCommand goToIdleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy,
+                bool ballIsFarFromTarget);
 };
 
 } //control

@@ -1,7 +1,6 @@
 //
 // Created by baris on 12-12-18.
 //
-#include <roboteam_ai/src/world/World.h>
 #include "Harass.h"
 
 namespace rtt {

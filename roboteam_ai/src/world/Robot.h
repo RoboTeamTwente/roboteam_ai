@@ -28,9 +28,6 @@ class Robot {
     public:
         using BallPtr = std::shared_ptr<Ball>;
         using RobotPtr = std::shared_ptr<Robot>;
-
-        RobotPtr deepCopy() const;
-
         // pid
     private:
         Vector2 pidPreviousVel = Vector2();

@@ -15,19 +15,18 @@ GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
 void GetBall::onInitialize() {
-    ballHandlePosControl = std::make_shared<control::BallHandlePosControl>(
-            control::BallHandlePosControl(properties->getBool("canMoveInDefenseArea")));
+    ballHandlePosControl.setCanMoveInDefenseArea(properties->getBool("canMoveInDefenseArea"));
 }
 
 GetBall::Status GetBall::onUpdate() {
-    if (ballHandlePosControl->getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
+    if (ballHandlePosControl.getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
         return Status::Success;
     }
 
     if ((lockedTargetPos - ball->pos).length() > 0.2) {
         lockedTargetPos = ball->pos + (ball->pos - robot->pos).stretchToLength(0.1);
     }
-    command = ballHandlePosControl->getRobotCommand(
+    command = ballHandlePosControl.getRobotCommand(
             robot, lockedTargetPos, control::BallHandlePosControl::TravelStrategy::BACKWARDS).makeROSCommand();
 
     publishRobotCommand();

@@ -163,10 +163,6 @@ void Ball::updateBallPosition(const Ball &oldBall, const WorldData &worldData) {
     }
 }
 
-Ball::BallPtr Ball::deepCopy() const {
-    return std::make_shared<Ball>(Ball(*this));
-}
-
 bool Ball::exists = false;
 
 }

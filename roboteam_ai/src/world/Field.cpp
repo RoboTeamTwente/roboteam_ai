@@ -3,7 +3,6 @@
 //
 
 #include <roboteam_ai/src/interface/api/Input.h>
-#include <roboteam_ai/src/control/ControlUtils.h>
 #include "Field.h"
 #include "World.h"
 
@@ -295,8 +294,7 @@ Vector2 Field::getPenaltyPoint(bool ourGoal) {
 
 }
 
-std::shared_ptr<Vector2> Field::lineIntersectionWithDefenceArea(bool ourGoal, const Vector2 &lineStart,
-        const Vector2 &lineEnd, double margin) {
+shared_ptr<Vector2> Field::lineIntersectionWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin) {
     auto defenseArea = getDefenseArea(ourGoal, margin);
     auto intersections = defenseArea.intersections({lineStart, lineEnd});
 

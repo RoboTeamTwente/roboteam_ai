@@ -2,12 +2,7 @@
 // Created by baris on 09/10/18.
 //
 
-#include <string>
-#include <iostream>
-#include <vector>
-#include <fstream>
 #include "JsonReader.h"
-
 
 #define GetCurrentDir getcwd // Needed for the path finding
 

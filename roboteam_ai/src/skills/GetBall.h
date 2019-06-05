@@ -13,8 +13,7 @@ namespace ai {
 
 class GetBall : public Skill {
     private:
-        std::shared_ptr<control::BallHandlePosControl> ballHandlePosControl;
-
+        control::BallHandlePosControl ballHandlePosControl;
         Vector2 lockedTargetPos = Vector2();
 
     public:

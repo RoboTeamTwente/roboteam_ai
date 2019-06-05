@@ -77,16 +77,21 @@ RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
     if (DT < 0.06) DT = 0.06;
 
     // check if the robot exists
-    if (! robotPtr) return {};
+    if (! robotPtr) {
+        std::cerr << "NO ROBOT IN NUMTREES!!" << std::endl;
+        return {};
+    }
 
     // make a copy of the robot
-    robot = robotPtr->deepCopy();
-    finalTargetPos = targetPos;
+    robot = std::make_shared<world::Robot>(world::Robot(*robotPtr));
+    ros::Time begin = ros::Time::now();
 
     // Check if the current path is still valid, if not, recalculate
-    ros::Time begin = ros::Time::now();
     bool nicePath = true;
-    if (doRecalculatePath(targetPos)) {
+    bool recalculate = doRecalculatePath(targetPos);
+    if (recalculate) {
+        finalTargetPos = targetPos;
+
         if (Vector2(robot->vel).length() > Constants::MAX_VEL_CMD()) {
             nicePath = false;
             if (InterfaceValues::showDebugNumTreeInfo())
@@ -119,12 +124,14 @@ RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
             interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot->id,
             interface::Drawing::CIRCLES, 8, 8, 6);
+    interface::Input::drawData(interface::Visual::PATHFINDING, {finalTargetPos}, Qt::darkYellow, robot->id,
+            interface::Drawing::CIRCLES, 8, 8, 6);
 
     // check if we have a nice path.
     if (! nicePath) {
         path.clear();
     }
-    RobotCommand command = computeCommand(finalTargetPos);
+    RobotCommand command = computeCommand(targetPos);
     return controlWithPID(robotPtr, command);
 }
 
@@ -426,14 +433,14 @@ RobotCommand NumTreePosControl::getRobotCommand(const PosController::RobotPtr &r
 /// finds a reason to calculate a new path (possible reasons are: no path calculated yet, final target moved,
 /// robot is too far from path or another robot is colliding with current path
 bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
-
-    if (checkCurrentRobotCollision()) return true;
     if (checkEmptyPath()) return true;
 
     double maxDeviation = 0.3;
     if (checkIfTargetMoved(maxDeviation, targetPos)) return true;
     if (checkIfAtEndOfPath(maxDeviation, targetPos)) return true;
     if (checkIfTooFarFromCurrentPath(maxDeviation, targetPos)) return true;
+
+    if (checkCurrentRobotCollision()) return true;
 
     return checkIfRobotWillCollideFollowingThisPath();
 

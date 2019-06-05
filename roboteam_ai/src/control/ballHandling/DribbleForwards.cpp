@@ -17,7 +17,7 @@ RobotCommand DribbleForwards::getRobotCommand(world::Robot::RobotPtr r, const Ve
         const Angle &targetA) {
 
     robot = std::move(r);
-    ball = world::world->getBall()->deepCopy();;
+    ball = world::world->getBall();
     finalTargetAngle = targetA;
     targetAngle = targetA;
     finalTargetPos = targetP;

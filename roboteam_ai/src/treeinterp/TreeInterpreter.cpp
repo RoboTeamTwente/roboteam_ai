@@ -2,8 +2,6 @@
 // Created by baris on 01/10/18.
 //
 
-#include <roboteam_ai/src/bt/Node.hpp>
-#include <roboteam_ai/src/bt/Role.h>
 #include "TreeInterpreter.h"
 
 /// Return a TreeInterpreter singleton

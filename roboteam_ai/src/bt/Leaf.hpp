@@ -1,21 +1,14 @@
 #pragma once
 
 #include "Node.hpp"
+#include "roboteam_ai/src/world/WorldData.h"
+#include "roboteam_ai/src/world/World.h"
+#include "roboteam_ai/src/world/Field.h"
+
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Angle.h"
 
-namespace rtt {
-namespace ai {
-namespace world {
-    class Robot;
-    class Ball;
-}
-}
-}
-
 namespace bt {
-
-
 
 class Leaf : public Node {
     public:
@@ -31,8 +24,8 @@ class Leaf : public Node {
         std::shared_ptr<rtt::ai::world::Robot> getRobotFromProperties(bt::Blackboard::Ptr properties);
         void terminate(Status status) override;
         void updateRobot();
-        std::shared_ptr<rtt::ai::world::Robot> robot;
-        std::shared_ptr<rtt::ai::world::Ball> ball;
+        RobotPtr robot;
+        BallPtr ball;
         int robotId = - 1;
 };
 

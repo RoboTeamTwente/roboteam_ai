@@ -6,11 +6,11 @@
 #include "World.h"
 #include "Ball.h"
 
-#include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/control/shotControllers/ShotController.h>
-#include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
-#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
-#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
+#include "roboteam_ai/src/control/ControlUtils.h"
+#include "roboteam_ai/src/control/shotControllers/ShotController.h"
+#include "roboteam_ai/src/control/ballHandling/BallHandlePosControl.h"
+#include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
+#include "roboteam_ai/src/control/positionControllers/BasicPosControl.h"
 
 namespace rtt {
 namespace ai {
@@ -170,7 +170,7 @@ bool Robot::hasWorkingDribbler() const {
     return workingDribbler;
 }
 
-const std::shared_ptr<control::ShotController> &Robot::getShotController() const {
+const shared_ptr<control::ShotController> &Robot::getShotController() const {
     return shotController;
 }
 
@@ -198,9 +198,6 @@ void Robot::setPidPreviousVel(const Vector2 &pidVel) {
     pidPreviousVel = pidVel;
 }
 
-Robot::RobotPtr Robot::deepCopy() const {
-    return std::make_shared<Robot>(Robot(*this));
-}
 
 void Robot::resetShotController() {
     shotController = std::make_shared<control::ShotController>();

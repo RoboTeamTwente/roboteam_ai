@@ -2,18 +2,16 @@
 // Created by mrlukasbos on 12-4-19.
 //
 
-#include <roboteam_ai/src/world/Field.h>
 #include "TimeoutFormation.h"
-#include <roboteam_ai/src/control/Hungarian.h>
 
 namespace rtt {
 namespace ai {
 
-    std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> TimeoutFormation::robotsInFormation = nullptr;
+    std::shared_ptr<vector<std::shared_ptr<world::Robot>>> TimeoutFormation::robotsInFormation = nullptr;
 
     TimeoutFormation::TimeoutFormation(std::string name, bt::Blackboard::Ptr blackboard)
 : Formation(name, blackboard) {
-        robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
+        robotsInFormation = std::make_shared<vector<std::shared_ptr<world::Robot>>>();
     }
 
 Vector2 TimeoutFormation::getFormationPosition() {
@@ -39,7 +37,7 @@ Vector2 TimeoutFormation::getFormationPosition() {
     return shortestDistances.at(robot->id);
 }
 
-std::shared_ptr<std::vector<world::World::RobotPtr>> TimeoutFormation::robotsInFormationPtr() {
+shared_ptr<vector<world::World::RobotPtr>> TimeoutFormation::robotsInFormationPtr() {
     return robotsInFormation;
 }
 
