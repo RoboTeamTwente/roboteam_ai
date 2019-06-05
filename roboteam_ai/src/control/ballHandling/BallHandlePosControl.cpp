@@ -248,15 +248,14 @@ RobotCommand BallHandlePosControl::goToBall(const Vector2 &targetBallPos, Travel
 RobotCommand BallHandlePosControl::goToMovingBall() {
     Vector2 numTreesTarget;
 
-    Vector2 ballTarget = ball->pos + (ball->vel.stretchToLength( sqrt(ball->vel.length()) ));
-    bool targetChanged = true;//(targetPosToCatchBall - ballTarget).length2() > 0.3*0.3;
     bool robotIsBehindBall = fabs((robot->pos - ball->pos).toAngle() - ball->vel.toAngle()) < M_PI*0.1;
 
     if (robotIsBehindBall) {
         LineSegment ballLine = LineSegment(ball->pos, ball->pos + ball->vel);
         targetPosToCatchBall = ballLine.project(robot->pos);
     }
-    else if (targetChanged) {
+    else {
+        Vector2 ballTarget = ball->pos + (ball->vel.stretchToLength(sqrt(ball->vel.length())));
         targetPosToCatchBall = ballTarget;
     }
     numTreesTarget = targetPosToCatchBall;

@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by thijs on 25-5-19.
 //
@@ -14,7 +16,7 @@ namespace control {
 
 RobotCommand DribbleBackwards::getRobotCommand(RobotPtr r, const Vector2 &targetP, const Angle &targetA) {
 
-    robot = r;
+    robot = std::move(r);
     ball = world::world->getBall();
     finalTargetAngle = targetA;
     targetAngle = targetA;

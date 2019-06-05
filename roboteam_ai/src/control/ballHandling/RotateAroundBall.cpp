@@ -1,5 +1,3 @@
-#include <utility>
-
 //
 // Created by thijs on 25-5-19.
 //
@@ -12,7 +10,7 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-RobotCommand RotateAroundBall::getRobotCommand(const world::Robot::RobotPtr &robot, const Vector2 &targetP,
+RobotCommand RotateAroundBall::getRobotCommand(RobotPtr robot, const Vector2 &targetP,
         const Angle &targetA) {
 
     auto ball = world::world->getBall();

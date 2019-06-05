@@ -24,7 +24,7 @@ class RotateAroundBall {
         Vector2 previousVelocity = Vector2();
     public:
         RotateAroundBall() = default;
-        RobotCommand getRobotCommand(const world::Robot::RobotPtr& r,
+        RobotCommand getRobotCommand(RobotPtr r,
                 const Vector2 &targetP, const Angle &targetA);
 };
 
