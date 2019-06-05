@@ -170,15 +170,15 @@ void Ball::updateBallPosition(const Ball &oldBall, const WorldData &worldData) {
 void Ball::updateExpectedPositionWhereBallIsStill(const Ball &oldBall, const WorldData &worldData) {
     auto ball = worldData.ball;
     double ballVel = ball->vel.length();
-    double frictionCoefficient = 0.8;
+    const double frictionCoefficient = 1.22;
 
-    Vector2 expectedBallStillPosition = ball->pos + ball->vel.stretchToLength(frictionCoefficient*ballVel*ballVel);
+    Vector2 expectedBallStillPosition = ball->pos + ball->vel.stretchToLength(ballVel*ballVel / frictionCoefficient);
     const Vector2 &previousBallStillPosition = oldBall.getBallStillPosition();
 
     double ballStillPositionDifference = (expectedBallStillPosition - previousBallStillPosition).length();
 
-    double b = 3.0;
-    double a = ballStillPositionDifference > b ? 1.0 : ballStillPositionDifference/b;
+    double b = 8.0;
+    double a = sqrt(ballStillPositionDifference) > b ? 1.0 : sqrt(ballStillPositionDifference)/b;
     ballStillPosition = (previousBallStillPosition*(1 - a) + expectedBallStillPosition*a);
 
     interface::Input::drawData(interface::Visual::BALL_DATA, {ballStillPosition}, Constants::BALL_COLOR(), - 1,

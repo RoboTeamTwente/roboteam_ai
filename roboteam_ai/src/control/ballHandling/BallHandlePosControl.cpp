@@ -12,6 +12,7 @@
 #include "RotateAroundBall.h"
 #include "RotateWithBall.h"
 #include "../numTrees/NumTreePosControl.h"
+#include "../positionControllers/BasicPosControl.h"
 
 namespace rtt {
 namespace ai {
@@ -133,21 +134,16 @@ RobotCommand BallHandlePosControl::finalizeBallHandle() {
 
 void BallHandlePosControl::printStatus() {
     switch (status) {
-    case GET_BALL:
-        std::cout << "status: GET_BALL" << std::endl;
+    case GET_BALL:std::cout << "status: GET_BALL" << std::endl;
         return;
-    case HANDLING_BALL:
-        std::cout << "status: HANDLING_BALL" << std::endl;
+    case HANDLING_BALL:std::cout << "status: HANDLING_BALL" << std::endl;
         return;
-    case FINALIZING:
-        std::cout << "status: FINALIZING" << std::endl;
+    case FINALIZING:std::cout << "status: FINALIZING" << std::endl;
         return;
-    case SUCCESS:
-        std::cout << "status: SUCCESS" << std::endl;
+    case SUCCESS:std::cout << "status: SUCCESS" << std::endl;
         return;
     default:
-    case FAILURE:
-        std::cout << "status: FAILURE" << std::endl;
+    case FAILURE:std::cout << "status: FAILURE" << std::endl;
         return;
     }
 }
@@ -249,18 +245,33 @@ RobotCommand BallHandlePosControl::goToMovingBall() {
 
     Vector2 ballStillPosition = ball->getBallStillPosition();
 
-    bool robotIsBehindBall = fabs((robot->pos - ball->pos).toAngle() - ball->vel.toAngle()) < M_PI*0.1;
+    LineSegment ballLine = LineSegment(ball->pos, ball->pos + ball->vel);
+    Vector2 projectionPosition = ballLine.project(robot->pos);
+    double robotToProjectionDistance = (projectionPosition - robot->pos).length();
+    double ballToProjectionDistance = (projectionPosition - ball->pos).length();
+    const double interceptionConstant = 2.0;
 
-    if (robotIsBehindBall) {
-        LineSegment ballLine = LineSegment(ball->pos, ball->pos + ball->vel);
-        numTreesTarget = ballLine.project(robot->pos);
+    Angle robotAngleTowardsBallVel = (robot->pos - ball->pos).toAngle() - ball->vel.toAngle();
+    bool robotIsBehindBall = fabs(robotAngleTowardsBallVel) < M_PI_4;
+
+    bool robotCanInterceptBall = robotToProjectionDistance <
+            interceptionConstant*ballToProjectionDistance/ball->vel.length();
+
+    if (robotIsBehindBall && robotCanInterceptBall) {
+        numTreesTarget = projectionPosition;
         auto robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
+
         robotCommand.angle = (ball->pos - robot->pos).toAngle();
+        if (fabs(robotAngleTowardsBallVel) > 0.1) {
+            robotCommand.vel += ball->vel.stretchToLength(
+                    fabs((robot->pos - ball->pos).toAngle() - ball->vel.toAngle()));
+        }
         return robotCommand;
     }
 
     numTreesTarget = ballStillPosition;
     auto robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
+
     robotCommand.vel += std::max(ball->vel, ball->vel.normalize());
     return robotCommand;
 }
