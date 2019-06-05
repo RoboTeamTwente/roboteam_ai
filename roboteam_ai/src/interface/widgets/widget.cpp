@@ -289,6 +289,18 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
         painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(getRoleNameForRobot(robot)));
     }
 
+    if (showRobotInvalids && ourTeam) {
+        painter.setPen(Qt::red);
+        std::string text;
+        if (!robot.hasWorkingGeneva()) {
+            text += "G ";
+        }
+        if (!robot.hasWorkingDribbler()) {
+            text += "D ";
+        }
+        painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
+    }
+
     // draw the robots
     QColor color = (robotIsSelected(robot) && ourTeam) ? Constants::SELECTED_ROBOT_COLOR() : robotColor;
     painter.setBrush(color);
@@ -425,12 +437,8 @@ void Visualizer::setShowVelocities(bool showVelocities) {
     Visualizer::showVelocities = showVelocities;
 }
 
-void Visualizer::setShowPath(bool showPath) {
-    Visualizer::showPath = showPath;
-}
-
-void Visualizer::setShowPathAll(bool showPaths) {
-    Visualizer::showAllPaths = showPaths;
+void Visualizer::setShowRobotInvalids(bool show) {
+    Visualizer::showRobotInvalids = show;
 }
 
 void Visualizer::toggleSelectedRobot(int robotId) {
