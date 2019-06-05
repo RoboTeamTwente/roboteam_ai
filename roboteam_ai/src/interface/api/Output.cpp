@@ -12,7 +12,6 @@ namespace interface {
 
 // these values need to be set AFTER ros::init, so they are initialized with values in the constructor of mainwindow
 pidVals Output::numTreePID = pidVals(0.0, 0.0, 0.0);
-pidVals Output::forcePID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::basicPID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::keeperPID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::keeperInterceptPID = pidVals(0.0, 0.0, 0.0);
@@ -103,14 +102,6 @@ const pidVals &Output::getNumTreePid() {
 
 void Output::setNumTreePid(const pidVals &numTreePid) {
     numTreePID = numTreePid;
-}
-
-const pidVals &Output::getForcePid() {
-    return forcePID;
-}
-
-void Output::setForcePid(const pidVals &forcePid) {
-    forcePID = forcePid;
 }
 
 const pidVals &Output::getBasicPid() {

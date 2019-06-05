@@ -128,7 +128,6 @@ class Constants {
 
         // Default PID values for the gotoposses/interface
         static pidVals standardNumTreePID();
-        static pidVals standardForcePID();
         static pidVals standardBasicPID();
         static pidVals standardKeeperPID();
         static pidVals standardKeeperInterceptPID();

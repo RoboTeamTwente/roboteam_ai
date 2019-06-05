@@ -241,8 +241,6 @@ pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(4.2, 0.0, 1.4
 
 pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(3.4, 0.0, 0.4); }
 
-pidVals Constants::standardForcePID() { return GRSIM() ? pidVals(0.9, 0.0, 0.6) : pidVals(2.8, 0.0, 0.0); }
-
 pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(3.4, 0.0, 0.4); }
 
 pidVals Constants::standardKeeperInterceptPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(3.4, 0.0, 0.4); }
