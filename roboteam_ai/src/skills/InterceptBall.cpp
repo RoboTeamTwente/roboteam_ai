@@ -233,9 +233,8 @@ void InterceptBall::sendStopCommand() {
 bool InterceptBall::ballToGoal() {
     Vector2 goalCentre = world::field->get_our_goal_center();
     double goalWidth = world::field->get_field().goal_width;
-    double margin = Constants::BALL_RADIUS() + 0.1;
-    Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth + margin));
-    Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth + margin);
+    Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth + GOAL_MARGIN));
+    Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth + GOAL_MARGIN);
     LineSegment goal(lowerPost, upperPost);
     Vector2 ballPos = ball->pos;
     Vector2 ballPredPos = Vector2(ball->pos) + Vector2(ball->vel)*Constants::MAX_INTERCEPT_TIME();
