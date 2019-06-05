@@ -243,6 +243,10 @@ pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) 
 
 pidVals Constants::standardForcePID() { return GRSIM() ? pidVals(0.9, 0.0, 0.6) : pidVals(2.8, 0.0, 0.0); }
 
+pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(3.4, 0.0, 0.4); }
+
+pidVals Constants::standardKeeperInterceptPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(3.4, 0.0, 0.4); }
+
 std::vector<RuleSet> Constants::ruleSets() {
     return {
             {"default",             8.0, 1.5, 6.5, 0.0, false,  true },
@@ -253,6 +257,8 @@ std::vector<RuleSet> Constants::ruleSets() {
             {"kickoff",             1.5, 0.0, 6.5, 0.5, true,   true }
     };
 }
+
+
 
 }
 }

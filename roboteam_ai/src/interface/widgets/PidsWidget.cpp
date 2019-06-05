@@ -17,6 +17,8 @@ PidsWidget::PidsWidget(QWidget * parent) {
     Output::setNumTreePid(Constants::standardNumTreePID());
     Output::setForcePid(Constants::standardForcePID());
     Output::setBasicPid(Constants::standardBasicPID());
+    Output::setKeeperPid(Constants::standardKeeperPID());
+    Output::setKeeperInterceptPid(Constants::standardKeeperInterceptPID());
 
      auto pidVLayout = new QVBoxLayout();
 
