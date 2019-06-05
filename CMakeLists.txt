@@ -227,6 +227,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DriveWithInterface.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementWithInterface.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementWithInterface.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Wait.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Wait.h
         )
 
 set(CONDITIONS_SOURCES

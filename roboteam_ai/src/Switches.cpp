@@ -52,6 +52,7 @@
 #include <roboteam_ai/src/skills/DriveWithInterface.h>
 #include <roboteam_ai/src/skills/BallPlacementWithInterface.h>
 #include <roboteam_ai/src/skills/MidFieldHarasser.h>
+#include <roboteam_ai/src/skills/Wait.h>
 
 
 //  ______________________
@@ -251,6 +252,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["BallPlacementPass"] = std::make_shared<rtt::ai::BallPlacementPass>(name, properties);
     map["DriveWithInterface"] = std::make_shared<rtt::ai::DriveWithInterface>(name, properties);
     map["BallPlacementWithInterface"] = std::make_shared<rtt::ai::BallPlacementWithInterface>(name, properties);
+    map["Wait"] = std::make_shared<rtt::ai::Wait>(name, properties);
 
 
 
@@ -412,7 +414,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
 
             {"one_robot_ballplacement_tactic", {
-                    {"ballplacementbot", robotType::RANDOM},
+                    {"ballplacementbot", robotType::CLOSE_TO_BALL},
                     {"avoid1", robotType::RANDOM},
                     {"avoid2", robotType::RANDOM},
                     {"avoid3", robotType::RANDOM},
