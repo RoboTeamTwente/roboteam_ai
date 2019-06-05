@@ -293,11 +293,12 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
         painter.setPen(Qt::red);
         std::string text;
         if (!robot.hasWorkingGeneva()) {
-            painter.drawText(robotpos.x, ypos += 20, "G");
+            text += "G ";
         }
         if (!robot.hasWorkingDribbler()) {
-            painter.drawText(robotpos.x, ypos += 20, "D");
+            text += "D ";
         }
+        painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
     }
 
     // draw the robots
