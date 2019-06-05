@@ -2,11 +2,7 @@
 // Created by rolf on 23-4-19.
 //
 
-#include <roboteam_ai/src/world/World.h>
-#include <roboteam_ai/src/world/Field.h>
 #include "PenaltyKeeper.h"
-#include <roboteam_ai/src/control/ControlUtils.h>
-
 namespace rtt {
 namespace ai {
 PenaltyKeeper::PenaltyKeeper(string name, bt::Blackboard::Ptr blackboard)
@@ -93,7 +89,7 @@ Vector2 PenaltyKeeper::interceptBallPos() {
 void PenaltyKeeper::sendWaitCommand() {
     Vector2 targetPos = computeDefendPos();
     targetPos.y=targetPos.y*0.5;
-    Vector2 delta = gtp.getPosVelAngle(robot, targetPos).vel;
+    Vector2 delta = gtp.getRobotCommand(robot, targetPos).vel;
     command.x_vel = delta.x;
     command.y_vel = delta.y;
     command.w = 0;
@@ -101,7 +97,7 @@ void PenaltyKeeper::sendWaitCommand() {
 }
 void PenaltyKeeper::sendInterceptCommand() {
     Vector2 interceptPos = interceptBallPos();
-    Vector2 delta = gtp.getPosVelAngle(robot, interceptPos).vel;
+    Vector2 delta = gtp.getRobotCommand(robot, interceptPos).vel;
     delta=delta.stretchToLength(8.0);
     command.x_vel = delta.x;
     command.y_vel = delta.y;

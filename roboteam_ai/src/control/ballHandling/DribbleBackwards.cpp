@@ -28,7 +28,7 @@ void DribbleBackwards::reset() {
 }
 
 void DribbleBackwards::updateBackwardsProgress() {
-    if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
+    if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
         printBackwardsProgress();
     }
 

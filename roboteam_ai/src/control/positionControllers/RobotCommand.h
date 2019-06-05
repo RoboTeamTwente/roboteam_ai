@@ -7,17 +7,16 @@
 
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Angle.h"
-
 #include "roboteam_msgs/RobotCommand.h"
 
 namespace rtt {
 
 class RobotCommand {
     public:
-        int id = -1;
+        int id = - 1;
+        Vector2 pos = Vector2();
         Vector2 vel = Vector2();
         Angle angle = Angle();
-
         unsigned char dribbler = 0;
         unsigned char geneva = 3;
         bool kicker = false;
@@ -26,6 +25,11 @@ class RobotCommand {
         bool chipper = false;
         double chipperVel = 0;
         bool chipperForced = false;
+
+        RobotCommand() = default;
+        RobotCommand(const RobotCommand &robotCommand) = default;
+        constexpr RobotCommand(const Vector2 &pos, const Vector2 &vel, const Angle &angle)
+                :pos(pos), vel(vel), angle(angle) { }
 
         const roboteam_msgs::RobotCommand makeROSCommand() const {
             roboteam_msgs::RobotCommand message;

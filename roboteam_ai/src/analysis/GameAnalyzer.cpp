@@ -4,8 +4,9 @@
 
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/world/BallPossession.h>
-#include <roboteam_ai/src/world/Field.h>
 #include "GameAnalyzer.h"
+#include "../world/World.h"
+#include "../world/Field.h"
 #include "RobotDanger.h"
 
 namespace rtt {
@@ -124,12 +125,11 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::getMostRecentReport() {
 /// Check with distanceToLineWithEnds if there are obstructions
 /// Returns all robots that can be passed to, along with the distance
 /// we return robot ids instead of robot object because the objects are incorrect (because of simulated world)
-std::vector<std::pair<int, double>> GameAnalyzer::getRobotsToPassTo(RobotPtr robot, bool ourTeam, WorldData simulatedWorld) {
+vector<pair<int, double>> GameAnalyzer::getRobotsToPassTo(RobotPtr robot, bool ourTeam, WorldData simulatedWorld) {
     auto ourRobots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     auto enemyRobots = ourTeam ? simulatedWorld.them : simulatedWorld.us;
 
-
-    std::vector<std::pair<int, double>> robotsToPassTo;
+    vector<pair<int, double>> robotsToPassTo;
     for (auto ourRobot : ourRobots) {
         bool canPassToThisRobot = true;
         for (auto theirRobot : enemyRobots) {
@@ -142,7 +142,7 @@ std::vector<std::pair<int, double>> GameAnalyzer::getRobotsToPassTo(RobotPtr rob
         }
         if (canPassToThisRobot) {
             double distToRobot = (Vector2(ourRobot->pos) - Vector2(robot->pos)).length();
-            robotsToPassTo.emplace_back(std::make_pair(ourRobot->id, distToRobot));
+            robotsToPassTo.emplace_back(make_pair(ourRobot->id, distToRobot));
         }
     }
     return robotsToPassTo;

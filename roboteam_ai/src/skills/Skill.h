@@ -6,7 +6,6 @@
 #include <roboteam_utils/Angle.h>
 #include "ros/ros.h"
 #include "../io/IOManager.h"
-#include "../control/positionControllers/PosVelAngle.h"
 
 namespace rtt {
 namespace ai {
@@ -14,7 +13,6 @@ namespace ai {
 // forward declare control Utils
 namespace control {
 class ControlUtils;
-struct PosVelAngle;
 }
 
 namespace world {
@@ -33,16 +31,18 @@ class Skill : public bt::Leaf {
     protected:
         using Robot = world::Robot;
         using Ball = world::Ball;
+        using RobotPtr = world::World::RobotPtr;
+        using BallPtr = world::World::BallPtr;
         using WorldData = world::WorldData;
 
         io::IOManager ioManager = io::IOManager(false, true);
         void publishRobotCommand();
-    void refreshRobotCommand();
-    roboteam_msgs::RobotCommand command;
+        void refreshRobotCommand();
+        roboteam_msgs::RobotCommand command;
 
         using Control = control::ControlUtils;
         using Status = bt::Node::Status;
-    void limitRobotCommand();
+        void limitRobotCommand();
 
     public:
         explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
@@ -53,6 +53,7 @@ class Skill : public bt::Leaf {
         virtual void onInitialize() { };
         virtual Status onUpdate() = 0;
         virtual void onTerminate(Status s) { };
+        void refreshRobotPositionControllers();
 };
 
 } // ai

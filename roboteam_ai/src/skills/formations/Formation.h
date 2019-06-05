@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_FORMATION_H
 #define ROBOTEAM_AI_FORMATION_H
 
-#include <roboteam_ai/src/control/positionControllers/NumTreePosControl.h>
+#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
 #include "roboteam_ai/src/skills/Skill.h"
 #include "gtest/gtest_prod.h"
 
@@ -25,7 +25,7 @@ protected:
 
     // these two always need to be overridden
     virtual Vector2 getFormationPosition() =0;
-    virtual std::shared_ptr<std::vector<RobotPtr>> robotsInFormationPtr() =0;
+    virtual std::shared_ptr<vector<RobotPtr>> robotsInFormationPtr() =0;
 
     double errorMargin = 0.1;
     static std::vector<RobotPtr> robotsInFormation;

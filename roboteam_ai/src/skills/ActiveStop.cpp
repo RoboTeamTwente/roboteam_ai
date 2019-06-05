@@ -2,7 +2,6 @@
 // Created by baris on 8-4-19.
 //
 
-#include <roboteam_ai/src/world/Field.h>
 #include "ActiveStop.h"
 namespace rtt{
 namespace ai {
@@ -28,7 +27,7 @@ Skill::Status ActiveStop::onUpdate() {
         targetPos = getDefensiveActivePoint();
 
     command.w = static_cast<float>((targetPos - robot->pos).angle());
-    Vector2 velocity = robot->getNumtreePosControl()->getPosVelAngle(robot, targetPos).vel;
+    Vector2 velocity = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos).vel;
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     publishRobotCommand();

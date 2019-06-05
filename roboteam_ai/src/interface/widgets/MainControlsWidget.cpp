@@ -44,7 +44,7 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     select_goalie = new QComboBox();
     vLayout->addWidget(select_goalie);
     for (int i = 0; i < 16; i++) {
-        select_goalie->addItem(QString::fromStdString(std::to_string(i)));
+        select_goalie->addItem(QString::fromStdString(to_string(i)));
     }
     select_goalie->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
 
@@ -66,6 +66,9 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     QObject::connect(pauseBtn, SIGNAL(clicked()), this, SLOT(sendPauseSignal()));
     hButtonsLayout->addWidget(pauseBtn);
     pauseBtn->setStyleSheet("background-color: #cc0000;");
+
+    spaceClick = new QShortcut(QKeySequence(Qt::Key_Space), this, SLOT(sendPauseSignal()));
+    spaceClick->setAutoRepeat(false);
 
     refreshBtn = new QPushButton("Refresh");
     QObject::connect(refreshBtn, SIGNAL(clicked()), this, SLOT(refreshSignal()));

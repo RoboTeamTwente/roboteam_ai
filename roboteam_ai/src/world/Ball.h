@@ -20,6 +20,8 @@ class Ball {
         using BallPtr = std::shared_ptr<Ball>;
         using RobotPtr = std::shared_ptr<Robot>;
 
+        const BallPtr deepCopy() const;
+
     private:
         bool ballInAir;
         bool collidesNow;
@@ -35,6 +37,7 @@ class Ball {
 
     public:
         Ball();
+        Ball(const Ball &copy) = default;
         explicit Ball(const roboteam_msgs::WorldBall &copy);
         void updateBall(const BallPtr &oldBall, const WorldData &worldData);
 

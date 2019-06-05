@@ -14,6 +14,7 @@ const double CoachHeuristics::SHOT_AT_GOAL_WEIGHT = - 3.0;
 const double CoachHeuristics::PASS_LINE_WEIGHT = - 3.0;
 const double CoachHeuristics::DISTANCE_TO_OPPONENTS_WEIGHT = - 3.0;
 const double CoachHeuristics::DISTANCE_TO_US_WEIGHT = - 3.0;
+const double CoachHeuristics::ANGLE_TO_GOAL_WEIGHT = -1.0;
 
 const double CoachHeuristics::MAX_INTERCEPT_ANGLE = M_PI/4;
 
@@ -101,6 +102,17 @@ double CoachHeuristics::calculateDistanceToClosestTeamMateScore(const Vector2 &p
     else {
         return 1;
     }
+}
+
+double CoachHeuristics::calculateAngleToGoalScore(const Vector2 &position) {
+    auto goalSides = world::field->getGoalSides(false);
+    Angle angle1 = (goalSides.first - position).toAngle();
+    Angle angle2 = (goalSides.second - position).toAngle();
+
+    Angle angleToGoal = abs(angle2 - angle1);
+
+    return 1 - exp(ANGLE_TO_GOAL_WEIGHT * angleToGoal);
+
 }
 
 }

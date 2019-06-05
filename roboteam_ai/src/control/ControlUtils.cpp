@@ -60,10 +60,10 @@ bool ControlUtils::isPointProjectedOnLineSegment(const Vector2 &pointToCheck, co
                                                  const Vector2 &lineEnd) {
 
     Vector2 projectionPoint = pointToCheck.project(lineBegin, lineEnd);
-    double xMin = std::min(lineBegin.x, lineEnd.x);
-    double xMax = std::max(lineBegin.x, lineEnd.x);
-    double yMin = std::min(lineBegin.y, lineEnd.y);
-    double yMax = std::max(lineBegin.y, lineEnd.y);
+    double xMin = min(lineBegin.x, lineEnd.x);
+    double xMax = max(lineBegin.x, lineEnd.x);
+    double yMin = min(lineBegin.y, lineEnd.y);
+    double yMax = max(lineBegin.y, lineEnd.y);
 
     return (projectionPoint.x > xMin && projectionPoint.x < xMax && projectionPoint.y > yMin && projectionPoint.y < yMax);
 }
@@ -224,12 +224,9 @@ Vector2 ControlUtils::velocityLimiter(const Vector2 &vel, double maxVel, double 
 
 
 /// Limits acceleration
-Vector2 ControlUtils::accelerationLimiter(const Vector2 &targetVel, const Vector2 &prevVel, const Angle &targetAngle) {
-
-    const double sidewaysAcceleration = Constants::MAX_ACC_LOWER() / Constants::TICK_RATE();
-    const double forwardsAcceleration = Constants::MAX_ACC_UPPER() / Constants::TICK_RATE();
-    const double sidewaysDeceleration = Constants::MAX_DEC_LOWER() / Constants::TICK_RATE();
-    const double forwardsDeceleration = Constants::MAX_DEC_UPPER() / Constants::TICK_RATE();
+Vector2 ControlUtils::accelerationLimiter(const Vector2 &targetVel, const Vector2 &prevVel, const Angle &targetAngle,
+        double sidewaysAcceleration, double forwardsAcceleration,
+        double sidewaysDeceleration, double forwardsDeceleration) {
 
     Vector2 deltaVel = targetVel - prevVel;
 

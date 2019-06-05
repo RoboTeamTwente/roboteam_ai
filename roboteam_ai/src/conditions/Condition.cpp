@@ -1,4 +1,3 @@
-#include <roboteam_ai/src/world/World.h>
 #include "Condition.h"
 
 namespace rtt {
