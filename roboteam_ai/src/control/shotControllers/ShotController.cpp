@@ -24,13 +24,10 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
     auto ball = world::world->getBall();
 
     // only get a new geneva state if we are allowed to get one
-    bool robotAlreadyVeryClose = robot.pos.dist(ball->pos) < 3.0*Constants::ROBOT_RADIUS();
+    bool robotAlreadyVeryClose = (robot.pos - ball->pos).length() < 3.0*Constants::ROBOT_RADIUS();
 
     int currentDesiredGeneva = updateDesiredGenevaState(robot, useAutoGeneva, robotAlreadyVeryClose, chip);
-
-    Vector2 genevaBehindBallPosition = getPlaceBehindBallForGenevaState(robot, aimTarget, currentDesiredGeneva);
-    Vector2 behindBallPosition = ball->pos + genevaBehindBallPosition;
-    Vector2 inFrontOfBallPosition = ball->pos - genevaBehindBallPosition;
+    genevaAimTarget = updateGenevaAimTarget(currentDesiredGeneva);
 
     interface::Input::drawData(interface::Visual::SHOTLINES, {ball->pos, aimTarget}, Qt::yellow, robot.id,
             interface::Drawing::LINES_CONNECTED);
@@ -38,19 +35,20 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
     if (robot.getBallHandlePosControl()->getStatus() == control::BallHandlePosControl::Status::FINALIZING ||
             robot.getBallHandlePosControl()->getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
 
+        //TODO: shoot!
     }
     else {
         return robot.getBallHandlePosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
-                inFrontOfBallPosition, control::BallHandlePosControl::TravelStrategy::FORWARDS);
+                genevaAimTarget, control::BallHandlePosControl::TravelStrategy::FORWARDS);
     }
 
 }
 
-int ShotController::updateDesiredGenevaState(world::Robot robot, bool useAutoGeneva, bool robotAlreadyVeryClose,
+int ShotController::updateDesiredGenevaState(const world::Robot &robot, bool useAutoGeneva, bool robotAlreadyVeryClose,
         bool chip) {
 
     int currentDesiredGeneva = robot.getGenevaState();
-    if (useAutoGeneva && robot.hasWorkingGeneva() && ! genevaIsTurning && ! close) {
+    if (useAutoGeneva && robot.hasWorkingGeneva() && ! genevaIsTurning && ! robotAlreadyVeryClose) {
         currentDesiredGeneva = determineOptimalGenevaState(robot, aimTarget);
     }
     if (chip) {
@@ -268,6 +266,20 @@ RobotCommand ShotController::moveAndShoot(rtt::ai::world::Robot robot, bool chip
     return shotData;
 }
 
-}// control
+Vector2 ShotController::updateGenevaAimTarget(int geneva) {
+    auto ball = world::world->getBall();
+    Vector2 ballToAimTarget = aimTarget - ball->pos;
+
+    switch (geneva) {
+    case 1: return ball->pos + ballToAimTarget.rotate(toRadians(20));
+    case 2: return ball->pos + ballToAimTarget.rotate(toRadians(10));
+    case 3: return ball->pos + ballToAimTarget;
+    case 4: return ball->pos + ballToAimTarget.rotate(- toRadians(10));
+    case 5: return ball->pos + ballToAimTarget.rotate(- toRadians(20));
+    default:return ball->pos + ballToAimTarget;
+    }
+}
+
+} // control
 } // ai
 } // rtt

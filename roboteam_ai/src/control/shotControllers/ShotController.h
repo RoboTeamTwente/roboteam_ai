@@ -38,6 +38,7 @@ class ShotController {
         bool init = false;
         bool isShooting;
         Vector2 aimTarget;
+        Vector2 genevaAimTarget;
         bool genevaIsTurning = false;
         double secondsToTurnGeneva = 0.0;
         double lastTimeGenevaChanged = 0.0;
@@ -70,7 +71,8 @@ class ShotController {
         RobotCommand getRobotCommand(world::Robot robot, const Vector2 &shotTarget, bool chip = false,
                 BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true, ShotPrecision precision = MEDIUM);
         void setGenevaDelay(int genevaDifference);
-        int updateDesiredGenevaState(world::Robot robot, bool geneva, bool close, bool chip);
+        int updateDesiredGenevaState(const world::Robot& robot, bool geneva, bool close, bool chip);
+        Vector2 updateGenevaAimTarget(int geneva);
 };
 
 } // control
