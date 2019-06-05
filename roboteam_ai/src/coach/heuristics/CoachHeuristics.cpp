@@ -13,6 +13,7 @@ const double CoachHeuristics::CLOSE_TO_GOAL_WEIGHT = - 0.1;
 const double CoachHeuristics::SHOT_AT_GOAL_WEIGHT = - 3.0;
 const double CoachHeuristics::PASS_LINE_WEIGHT = - 3.0;
 const double CoachHeuristics::DISTANCE_TO_OPPONENTS_WEIGHT = - 3.0;
+const double CoachHeuristics::ANGLE_TO_GOAL_WEIGHT = -1.0;
 
 const double CoachHeuristics::MAX_INTERCEPT_ANGLE = M_PI/4;
 
@@ -82,6 +83,17 @@ double CoachHeuristics::calculateDistanceToBallScore(const Vector2 &position, co
     double idealDistance = (world::field->get_their_goal_center() - ball->pos).length()*0.75;
     double distanceFromBall = (position - ball->pos).length();
     return std::max(0.0, - pow(distanceFromBall/(0.5*idealDistance), 2) + 2*(distanceFromBall/(0.5*idealDistance)));
+}
+
+double CoachHeuristics::calculateAngleToGoalScore(const Vector2 &position) {
+    auto goalSides = world::field->getGoalSides(false);
+    Angle angle1 = (goalSides.first - position).toAngle();
+    Angle angle2 = (goalSides.second - position).toAngle();
+
+    Angle angleToGoal = abs(angle2 - angle1);
+
+    return 1 - exp(ANGLE_TO_GOAL_WEIGHT * angleToGoal);
+
 }
 
 }
