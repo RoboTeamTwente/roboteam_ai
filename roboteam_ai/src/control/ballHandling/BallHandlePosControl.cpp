@@ -79,7 +79,8 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
     bool robotDoesNotHaveBall = ! robot->hasBall();
     bool robotIsTooFarFromBall = (robot->pos - ball->pos).length2() > maxBallDistance*maxBallDistance;
     bool ballIsMovingTooFast = ball->vel.length2() > minVelForMovingball*minVelForMovingball;
-    bool shouldGetBall = robotDoesNotHaveBall && (robotIsTooFarFromBall || ballIsMovingTooFast);
+    bool shouldGetBall = (robotDoesNotHaveBall && robotIsTooFarFromBall) ||
+            (ballIsMovingTooFast && robotDoesNotHaveBall);
 
     bool ballIsOutsideField = ! world::field->pointIsInField(ball->pos, 0.0);
     if (ballIsOutsideField) {
@@ -249,30 +250,34 @@ RobotCommand BallHandlePosControl::goToMovingBall() {
     Vector2 projectionPosition = ballLine.project(robot->pos);
     double robotToProjectionDistance = (projectionPosition - robot->pos).length();
     double ballToProjectionDistance = (projectionPosition - ball->pos).length();
-    const double interceptionConstant = 2.0;
+    const double averageRobotVelocity = 1.5; // ms-1
 
     Angle robotAngleTowardsBallVel = (robot->pos - ball->pos).toAngle() - ball->vel.toAngle();
     bool robotIsBehindBall = fabs(robotAngleTowardsBallVel) < M_PI_4;
 
-    bool robotCanInterceptBall = robotToProjectionDistance <
-            interceptionConstant*ballToProjectionDistance/ball->vel.length();
+    bool robotCanInterceptBall = robotToProjectionDistance/averageRobotVelocity <
+            ballToProjectionDistance/ball->vel.length();
 
     if (robotIsBehindBall && robotCanInterceptBall) {
         numTreesTarget = projectionPosition;
         auto robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
 
         robotCommand.angle = (ball->pos - robot->pos).toAngle();
-        if (fabs(robotAngleTowardsBallVel) > 0.1) {
+        if (fabs(robotAngleTowardsBallVel) > M_PI*0.05) {
             robotCommand.vel += ball->vel.stretchToLength(
                     fabs((robot->pos - ball->pos).toAngle() - ball->vel.toAngle()));
         }
+        else if (ballToProjectionDistance/ball->vel.length() > 0.8) {
+            robotCommand.vel -= ball->vel;
+        }
+
         return robotCommand;
     }
 
     numTreesTarget = ballStillPosition;
     auto robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
 
-    robotCommand.vel += std::max(ball->vel, ball->vel.normalize());
+    robotCommand.vel += ball->vel;
     return robotCommand;
 }
 
