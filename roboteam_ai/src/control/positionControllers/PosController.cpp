@@ -41,7 +41,10 @@ Vector2 PosController::calculatePIDs(const PosController::RobotPtr &robot, Robot
 
 // Getters & Setters
 bool PosController::getCanMoveOutOfField(int robotID) const {
-    return customCanMoveOutOfField && GameStateManager::canMoveOutsideField(robotID);
+    if (GameStateManager::canMoveOutsideField(robotID)){
+        return customCanMoveOutOfField;
+    }
+    return false;
 }
 
 void PosController::setCanMoveOutOfField(bool moveOutOfField) {
@@ -49,7 +52,10 @@ void PosController::setCanMoveOutOfField(bool moveOutOfField) {
 }
 
 bool PosController::getCanMoveInDefenseArea(int robotID) const {
-    return customCanMoveInDefenseArea && GameStateManager::canEnterDefenseArea(robotID);
+    if (GameStateManager::canEnterDefenseArea(robotID)){
+        return customCanMoveInDefenseArea;
+    }
+    return false;
 }
 
 void PosController::setCanMoveInDefenseArea(bool moveInDefenseArea) {

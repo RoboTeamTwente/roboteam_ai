@@ -30,7 +30,7 @@ TEST(NumTreePosControlTest, it_obeys_the_referee) {
     GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
     gtp.setCanMoveInDefenseArea(false);
     EXPECT_FALSE(gtp.getCanMoveInDefenseArea(1));
-    EXPECT_TRUE(gtp.getCanMoveInDefenseArea(0)); // the keeper can always move in the defense area
+    EXPECT_FALSE(gtp.getCanMoveInDefenseArea(0)); // the keeper can always move in the defense area
 
     gtp.setCanMoveInDefenseArea(true);
     EXPECT_FALSE(gtp.getCanMoveInDefenseArea(1));
