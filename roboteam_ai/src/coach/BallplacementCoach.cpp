@@ -40,9 +40,11 @@ Vector2 BallplacementCoach::getBallPlacementBeforePos(Vector2 ballPos){
 
 /// get the position where the robot should locate himself after the ballplacement
 /// e.g. it makes sure it does not accidentally hit the ball when driving away.
-Vector2 BallplacementCoach::getBallPlacementAfterPos(double RobotAngle){
-    Vector2 targetPos=interface::Output::getInterfaceMarkerPosition() + Vector2(Constants::BP_MOVE_BACK_DIST(),0).rotate(RobotAngle+M_PI);
-    return targetPos;
+Vector2 BallplacementCoach::getBallPlacementAfterPos(const shared_ptr<world::Robot>& robot) {
+    Vector2 behindBallDistance = {0.7, 0};
+    auto ball = world::world->getBall();
+    Angle ballAngleToRobot = ((Vector2)robot->pos - ball->pos).toAngle();
+    return ball->pos + behindBallDistance.rotate(ballAngleToRobot);
 }
 
 } // coach

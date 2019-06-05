@@ -247,8 +247,8 @@
           "loe76h3kj0tgqj00": {
             "id": "loe76h3kj0tgqj00",
             "properties": {
-              "BallPlacement": "true",
-              "ROLE": "ball_placement_receiver"
+              "ROLE": "ball_placement_receiver",
+              "ballPlacement": "true"
             },
             "title": "Dribble"
           },

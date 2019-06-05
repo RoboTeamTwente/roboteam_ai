@@ -25,6 +25,14 @@
             "role": "avoid_role",
             "title": "Role"
           },
+          "1w0vslfcym7d8neb": {
+            "id": "1w0vslfcym7d8neb",
+            "properties": {
+              "ROLE": "ballplacementbot",
+              "ticks": "30"
+            },
+            "title": "Halt"
+          },
           "2ygm44tc6heawczw": {
             "children": [
               "jpbyopqmk9o47"
@@ -192,6 +200,15 @@
             },
             "title": "GTPSpecial"
           },
+          "fuyan1vfx28sd8m5": {
+            "children": [
+              "iyfrgqqvnbfabvzu",
+              "pbhaea837xvq3qv3"
+            ],
+            "id": "fuyan1vfx28sd8m5",
+            "properties": {},
+            "title": "Sequence"
+          },
           "grfk3k408lgew": {
             "id": "grfk3k408lgew",
             "properties": {
@@ -256,9 +273,18 @@
             },
             "title": "UntilSuccess"
           },
+          "pbhaea837xvq3qv3": {
+            "children": [
+              "1w0vslfcym7d8neb",
+              "fpy9lv45xubewbm6"
+            ],
+            "id": "pbhaea837xvq3qv3",
+            "properties": {},
+            "title": "MemSequence"
+          },
           "qigey30lgf0guo4e": {
             "children": [
-              "vmhzc6f21204n3q3",
+              "fuyan1vfx28sd8m5",
               "uw0edvdvfppcio41"
             ],
             "id": "qigey30lgf0guo4e",
@@ -274,15 +300,6 @@
               "limit": ""
             },
             "title": "Repeater"
-          },
-          "vmhzc6f21204n3q3": {
-            "children": [
-              "iyfrgqqvnbfabvzu",
-              "fpy9lv45xubewbm6"
-            ],
-            "id": "vmhzc6f21204n3q3",
-            "properties": {},
-            "title": "Sequence"
           },
           "y1ow502ecim3q4m4": {
             "id": "y1ow502ecim3q4m4",

@@ -27,10 +27,7 @@ void GTPSpecial::gtpInitialize() {
         break;
     }
     case ballPlacementAfter: {
-        errorMargin = 0.05;
-        Vector2 behindBallDistance = {0.6, 0};
-        Angle ballAngleToRobot = (robot->pos - ball->pos).toAngle();
-        targetPos = ball->pos + behindBallDistance.rotate(ballAngleToRobot);
+        targetPos = coach::g_ballPlacement.getBallPlacementAfterPos(robot);
         break;
     }
     case getBallFromSide: {
@@ -144,8 +141,14 @@ Skill::Status GTPSpecial::gtpUpdate() {
         case ourGoalCenter:
             targetPos =  rtt::ai::world::field->get_our_goal_center();
             break;
-        case ballPlacementAfter:
-            maxVel = 1.0;break;
+        case ballPlacementAfter: {
+            targetPos = coach::g_ballPlacement.getBallPlacementAfterPos(robot);
+            auto c = robot->getBasicPosControl()->getRobotCommand(robot, targetPos);
+            command = c.makeROSCommand();
+            command.w = (ball->pos - robot->pos).toAngle();
+            maxVel = 2.0;
+            break;
+        }
         case getBallFromSide:
             maxVel = 9e9;break;
         case defaultType:
