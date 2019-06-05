@@ -237,9 +237,11 @@ std::vector<QColor> Constants::TACTIC_COLORS() {
 
 pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(4.2, 0.0, 1.4) : pidVals(3.1, 0.0, 0.6); }
 
-pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(1.6, 0.0, 0.15) : pidVals(2.8, 0.0, 0.0); }
+pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(3.4, 0.0, 0.4); }
 
-pidVals Constants::standardForcePID() { return GRSIM() ? pidVals(0.9, 0.0, 0.6) : pidVals(2.8, 0.0, 0.0); }
+pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(5.0, 0.0, 0.4) : pidVals(5.0, 0.0, 0.4); }
+
+pidVals Constants::standardKeeperInterceptPID() { return GRSIM() ? pidVals(6.0, 0.0, 1.2) : pidVals(6.0, 0.0, 1.2); }
 
 std::vector<RuleSet> Constants::ruleSets() {
     return {
@@ -251,6 +253,8 @@ std::vector<RuleSet> Constants::ruleSets() {
             {"kickoff",             1.5, 0.0, 6.5, 0.5, true,   true }
     };
 }
+
+
 
 }
 }

@@ -42,6 +42,7 @@
 #include <roboteam_ai/src/skills/MidFieldHarasser.h>
 #include "roboteam_ai/src/skills/ReflectKick.h"
 #include "roboteam_ai/src/skills/InterceptRobot.hpp"
+#include "roboteam_ai/src/skills/InterceptBall.h"
 #include "roboteam_ai/src/skills/CoachDefend.h"
 #include "roboteam_ai/src/skills/formations/PenaltyFormation.h"
 #include "roboteam_ai/src/skills/formations/FreeKickFormation.h"
