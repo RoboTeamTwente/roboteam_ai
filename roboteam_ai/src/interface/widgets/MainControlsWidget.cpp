@@ -184,6 +184,11 @@ void MainControlsWidget::updatePause() {
         pauseBtn->setStyleSheet("background-color: #cc0000;");
     }
 }
+void MainControlsWidget::keyPressEvent(QKeyEvent *event) {
+    if(event->key() == Qt::Key_Space) {
+        sendPauseSignal();
+    }
+}
 
 void MainControlsWidget::setToggleColorBtnLayout() const {
     ros::NodeHandle nh;
