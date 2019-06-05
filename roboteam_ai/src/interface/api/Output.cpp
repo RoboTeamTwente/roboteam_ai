@@ -160,6 +160,22 @@ void Output::setInterfaceGameState(GameState interfaceGameState) {
     Output::interfaceGameState = interfaceGameState;
 }
 
+const pidVals &Output::getKeeperPid() {
+    return keeperPID;
+}
+
+void Output::setKeeperPid(const pidVals &keeperPid) {
+    keeperPID = keeperPid;
+}
+
+const pidVals &Output::getKeeperInterceptPid() {
+    return keeperInterceptPID;
+}
+
+void Output::setKeeperInterceptPid(const pidVals &keeperInterceptPid) {
+    keeperInterceptPID = keeperInterceptPid;
+}
+
 
 } // interface
 } // ai

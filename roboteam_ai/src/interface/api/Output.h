@@ -23,7 +23,19 @@ private:
     static pidVals numTreePID;
     static pidVals forcePID;
 
-    static std::mutex pidMutex;
+    static pidVals keeperPID;
+public:
+    static const pidVals &getKeeperPid();
+
+    static void setKeeperPid(const pidVals &keeperPid);
+
+    static const pidVals &getKeeperInterceptPid();
+
+    static void setKeeperInterceptPid(const pidVals &keeperInterceptPid);
+
+private:
+    static pidVals keeperInterceptPID;
+
     static std::mutex markerMutex;
     static std::mutex refMutex;
     static std::mutex showDebugMutex;
@@ -68,7 +80,6 @@ public:
     static void setKeeperTree(std::string name);
     static void setStrategyTree(std::string name);
     static void setRuleSetName(std::string name);
-    static void setUseKeeper(bool useKeeper);
     static void setKeeperId(int id);
 };
 
