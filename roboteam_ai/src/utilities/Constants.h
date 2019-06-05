@@ -130,6 +130,7 @@ class Constants {
         static pidVals standardNumTreePID();
         static pidVals standardForcePID();
         static pidVals standardBasicPID();
+        static pidVals standardShotControllerPID();
 
     private:
         static bool isInitialized;

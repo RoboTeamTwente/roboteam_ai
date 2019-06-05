@@ -243,6 +243,8 @@ pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(1.6, 0.0, 0.15)
 
 pidVals Constants::standardForcePID() { return GRSIM() ? pidVals(0.9, 0.0, 0.6) : pidVals(2.8, 0.0, 0.0); }
 
+pidVals Constants::standardShotControllerPID() { return GRSIM() ? pidVals(5.0, 0.5, 0.0) : pidVals(5.0, 0.5, 0.0); }
+
 std::vector<RuleSet> Constants::ruleSets() {
     return {
             {"default",             8.0, 1.5, 6.5, 0.0, false,  true },

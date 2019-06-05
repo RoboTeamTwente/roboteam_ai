@@ -124,8 +124,24 @@ RobotCommand ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 rob
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 RobotCommand ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver) {
-    auto robotCommand = robot.getBasicPosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
-            lineToDriveOver.second);
+
+    RobotCommand robotCommand;
+
+    Vector2 vel = (lineToDriveOver.second - lineToDriveOver.first).stretchToLength(0.3); // constant velocity in along the lineToDriveOver
+    Vector2 lineUnitVector = (lineToDriveOver.second - lineToDriveOver.first).normalize(); // unit vector in the direction of the lineToDriveOver
+    Vector2 err = lineUnitVector.scale(lineUnitVector.dot(robot.pos - lineToDriveOver.first)) - (robot.pos - lineToDriveOver.first); // vector from the robot position to the lineToDriveOver
+
+    // check on which side of the line the robot is
+    double angle = ((robot.pos - lineToDriveOver.first).toAngle() - lineUnitVector.toAngle());
+    double sign = angle == 0 ? 1 : angle/abs(angle);
+
+    // use PID to compensate for the error with respect to the line
+    //auto newPid = interface::Output::getNumTreePid();
+    auto newPidValues = Constants::standardShotControllerPID();
+    updatePid(newPidValues);
+    double pidOutput = pid.getOutput(err.length() * sign, 0);
+
+    robotCommand.vel = vel + err.stretchToLength(abs(pidOutput));
     robotCommand.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
     RobotCommand shotData(robotCommand);
     return shotData;
@@ -138,8 +154,8 @@ RobotCommand ShotController::shoot(world::Robot robot, std::pair<Vector2, Vector
     auto ball = world::world->getBall();
 
     // move towards the ball
-    auto robotCommand = robot.getBasicPosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
-            driveLine.second);
+    RobotCommand robotCommand;
+    robotCommand.vel = (driveLine.second - driveLine.first).stretchToLength(0.1); // very small constant velocity along the driveLine
     robotCommand.angle = (driveLine.second - driveLine.first).angle();
 
     RobotCommand shotData(robotCommand);
@@ -284,6 +300,13 @@ RobotCommand ShotController::moveAndShoot(rtt::ai::world::Robot robot, bool chip
     }
     shotData.kickerForced = false;
     return shotData;
+}
+
+void ShotController::updatePid(pidVals pidValues) {
+    if (lastPid != pidValues) {
+        pid.setPID(pidValues);
+        lastPid = pidValues;
+    }
 }
 
 }// control

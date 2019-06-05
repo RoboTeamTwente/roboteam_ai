@@ -42,6 +42,12 @@ class ShotController {
         double secondsToTurnGeneva = 0.0;
         double lastTimeGenevaChanged = 0.0;
 
+        // PID variables
+        PID pid  = PID(0.0, 0.0, 0.0);
+        bool getPIDFromInterface = true;
+        pidVals lastPid;
+        void updatePid(pidVals pidValues);
+
         // Helpers
         Vector2 getPlaceBehindBallForGenevaState(world::Robot robot, Vector2 shotTarget, int genevaState);
         Vector2 getPlaceBehindBall(world::Robot robot,
