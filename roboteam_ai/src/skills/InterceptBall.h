@@ -19,7 +19,11 @@ class InterceptBall :public Skill {
         const double INTERCEPT_POSDIF = 0.04;    // Meters acceptable deviation
 
         enum Progression {
-          INTERCEPTING, CLOSETOPOINT, INPOSITION, BALLDEFLECTED, BALLMISSED
+          INTERCEPTING,
+          CLOSETOPOINT,
+          INPOSITION,
+          BALLDEFLECTED,
+          BALLMISSED
         };
         Progression currentProgression;
         void checkProgression();
@@ -29,7 +33,11 @@ class InterceptBall :public Skill {
         bool missedBall(Vector2 startBall, Vector2 endBall, Vector2 ballVel);
         bool ballDeflected();
 
-        Vector2 ballStartPos, ballStartVel, ballEndPos, interceptPos;
+        Vector2 ballStartPos;
+        Vector2 ballStartVel;
+        Vector2 ballEndPos;
+        Vector2 interceptPos;
+
         Vector2 deltaPos;
         int tickCount, maxTicks;
         bool backwards;
