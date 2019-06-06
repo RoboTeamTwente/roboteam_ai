@@ -76,7 +76,7 @@ bt::Node::Status GoToPos::onUpdate() {
             return Status::Success;
         }
     }
-    if (command.x_vel == 0 || command.y_vel == 0 || command.w == 0) {
+    if (command.x_vel == 0 && command.y_vel == 0 && command.w == 0) {
     auto robotCommand = posController->getRobotCommand(robot, targetPos, targetAngle);
 
         // set robotcommands if they have not been set yet in gtpUpdate()

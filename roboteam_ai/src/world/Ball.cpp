@@ -6,24 +6,28 @@
 #include "World.h"
 #include "WorldData.h"
 
+#include <roboteam_ai/src/interface/api/Input.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 
 namespace rtt {
 namespace ai {
 namespace world {
 
+bool Ball::exists = false;
+
 Ball::Ball()
-    : pos(Vector2()), vel(Vector2()), visible(false) { }
+        :pos(Vector2()), vel(Vector2()), visible(false) { }
 
 Ball::Ball(const roboteam_msgs::WorldBall &copy)
-        : pos(copy.pos), vel(copy.vel),
-        visible(copy.visible) {
+        :pos(copy.pos), vel(copy.vel),
+         visible(copy.visible) {
     exists = exists || copy.existence || Vector2(copy.pos).isNotNaN();
-    if (!exists) std::cout << "BallPtr message has existence = 0!!" << std::endl;
+    if (! exists) std::cout << "BallPtr message has existence = 0!!" << std::endl;
 }
 
 void Ball::updateBall(const BallPtr &oldBall, const WorldData &worldData) {
     updateBallModel(*oldBall, worldData);
+    updateExpectedPositionWhereBallIsStill(*oldBall, worldData);
     updateBallPosition(*oldBall, worldData);
 }
 
@@ -163,12 +167,28 @@ void Ball::updateBallPosition(const Ball &oldBall, const WorldData &worldData) {
     }
 }
 
-const Ball::BallPtr Ball::deepCopy() const {
-    return std::make_shared<Ball>(Ball(*this));
+void Ball::updateExpectedPositionWhereBallIsStill(const Ball &oldBall, const WorldData &worldData) {
+    auto ball = worldData.ball;
+    double ballVel = ball->vel.length();
+    const double frictionCoefficient = 1.22;
+
+    Vector2 expectedBallStillPosition = ball->pos + ball->vel.stretchToLength(ballVel*ballVel / frictionCoefficient);
+    const Vector2 &previousBallStillPosition = oldBall.getBallStillPosition();
+
+    double ballStillPositionDifference = (expectedBallStillPosition - previousBallStillPosition).length();
+
+    double b = 8.0;
+    double a = sqrt(ballStillPositionDifference) > b ? 1.0 : sqrt(ballStillPositionDifference)/b;
+    ballStillPosition = (previousBallStillPosition*(1 - a) + expectedBallStillPosition*a);
+
+    interface::Input::drawData(interface::Visual::BALL_DATA, {ballStillPosition}, Constants::BALL_COLOR(), - 1,
+            interface::Drawing::CIRCLES, 8, 8, 6);
 }
 
-bool Ball::exists = false;
+const Vector2 &Ball::getBallStillPosition() const {
+    return ballStillPosition;
+}
 
-}
-}
-}
+} //world
+} //ai
+} //rtt

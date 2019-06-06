@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by thijs on 25-5-19.
 //
@@ -12,13 +14,15 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-RobotCommand DribbleBackwards::getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) {
-    robot = r;
+RobotCommand DribbleBackwards::getRobotCommand(RobotPtr r, const Vector2 &targetP, const Angle &targetA) {
+
+    robot = std::move(r);
     ball = world::world->getBall();
     finalTargetAngle = targetA;
     targetAngle = targetA;
     finalTargetPos = targetP;
     targetPos = targetP;
+
     updateBackwardsProgress();
     return sendBackwardsCommand();
 }
@@ -241,6 +245,7 @@ DribbleBackwards::BackwardsProgress DribbleBackwards::getBackwardsProgression() 
 DribbleBackwards::DribbleBackwards(double errorMargin, double angularErrorMargin, double ballPlacementAccuracy, double maxVel)
         :waitingTicks(0), errorMargin(errorMargin), angleErrorMargin(angularErrorMargin),
          ballPlacementAccuracy(ballPlacementAccuracy), maxVel(maxVel) {
+
     rotateAroundBall = new RotateAroundBall();
     rotateAroundRobot = new RotateWithBall();
 }

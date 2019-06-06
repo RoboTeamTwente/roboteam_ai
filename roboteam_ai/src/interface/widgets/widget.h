@@ -37,8 +37,7 @@ class Visualizer : public QWidget {
         void setShowTacticColors(bool showTacticColors);
         void setShowAngles(bool showAngles);
         void setShowVelocities(bool showVelocities);
-        void setShowPath(bool showPath);
-        void setShowPathAll(bool showPaths);
+        void setShowRobotInvalids(bool showPath);
         void setShowBallPlacementMarker(bool showMarker);
         void setShowDebugValueInTerminal(bool showDebug);
         void toggleSelectedRobot(int robotId);
@@ -60,7 +59,6 @@ class Visualizer : public QWidget {
         void drawBall(QPainter &painter);
         void drawBallPlacementTarget(QPainter &painter);
         void drawTacticColorForRobot(QPainter &painter, Robot robot);
-        void drawPasses(QPainter &painter);
         void drawPlusses(QPainter& painter, std::vector<Vector2> points, double width, double height);
         void drawCrosses(QPainter& painter, std::vector<Vector2> points, double width, double height);
         void drawPoints(QPainter& painter, std::vector<Vector2> points, double width, double height);
@@ -88,8 +86,7 @@ class Visualizer : public QWidget {
         bool showTacticColors = Constants::STD_SHOW_TACTICS_COLORS();
         bool showAngles = Constants::STD_SHOW_ANGLES();
         bool showVelocities = Constants::STD_SHOW_VELOCITIES();
-        bool showPath = Constants::STD_SHOW_PATHS_CURRENT();
-        bool showAllPaths = Constants::STD_SHOW_PATHS_ALL();
+        bool showRobotInvalids = Constants::STD_SHOW_ROBOT_INVALIDS();
         bool showBallPlacementMarker = Constants::STD_SHOW_BALL_PLACEMENT_MARKER();
         bool showDebugValueInTerminal = Constants::STD_SHOW_DEBUG_VALUES();
         bool fieldInversed = false;
