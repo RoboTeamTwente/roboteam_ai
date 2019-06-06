@@ -12,7 +12,7 @@
 #include "RotateAroundBall.h"
 #include "RotateWithBall.h"
 #include "../numTrees/NumTreePosControl.h"
-#include "../positionControllers/BasicPosControl.h"
+#include "../BasicPosControl.h"
 
 namespace rtt {
 namespace ai {

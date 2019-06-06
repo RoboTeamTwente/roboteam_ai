@@ -7,7 +7,7 @@
 
 #include <roboteam_utils/Vector2.h>
 #include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
-#include "roboteam_ai/src/control/positionControllers/RobotCommand.h"
+#include "roboteam_ai/src/control/RobotCommand.h"
 #include <roboteam_ai/src/utilities/Constants.h>
 
 namespace rtt {

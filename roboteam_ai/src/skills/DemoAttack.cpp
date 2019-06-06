@@ -5,7 +5,7 @@
 #include <roboteam_ai/src/control/PositionUtils.h>
 #include "DemoAttack.h"
 #include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
+#include <roboteam_ai/src/control/BasicPosControl.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 
 namespace rtt {

@@ -6,7 +6,7 @@
 #include <roboteam_ai/src/control/PositionUtils.h>
 #include <roboteam_ai/src/utilities/Constants.h>
 #include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
-#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
+#include <roboteam_ai/src/control/BasicPosControl.h>
 #include <roboteam_ai/src/interface/api/Input.h>
 #include <roboteam_ai/src/world/Robot.h>
 #include "Pass.h"

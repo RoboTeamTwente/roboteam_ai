@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_SHOOTPENALTY_H
 #define ROBOTEAM_AI_SHOOTPENALTY_H
 
-#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
+#include <roboteam_ai/src/control/BasicPosControl.h>
 #include "Skill.h"
 #include "../world/Field.h"
 namespace rtt {
