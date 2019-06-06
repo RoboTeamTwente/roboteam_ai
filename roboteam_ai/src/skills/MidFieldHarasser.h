@@ -21,7 +21,6 @@ private:
     Vector2 targetPos;
     int robotBeingHarassed;
     Vector2 getHarassTarget();
-    Angle getHarassAngle();
 public:
     explicit MidFieldHarasser(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
