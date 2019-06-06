@@ -164,8 +164,8 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
     static std::map<int, bool> workingGenevaRobots;
     workingGenevaRobots[0] = true;
     workingGenevaRobots[1] = true;
-    workingGenevaRobots[2] = true;
-    workingGenevaRobots[3] = true;
+    workingGenevaRobots[2] = false;
+    workingGenevaRobots[3] = false;
     workingGenevaRobots[4] = true;
     workingGenevaRobots[5] = true;
     workingGenevaRobots[6] = true;
@@ -184,9 +184,9 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
 
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER() {
     static std::map<int, bool> workingDribblerRobots;
-    workingDribblerRobots[0] = true;
-    workingDribblerRobots[1] = true;
-    workingDribblerRobots[2] = true;
+    workingDribblerRobots[0] = false;
+    workingDribblerRobots[1] = false;
+    workingDribblerRobots[2] = false;
     workingDribblerRobots[3] = true;
     workingDribblerRobots[4] = true;
     workingDribblerRobots[5] = true;
@@ -270,12 +270,12 @@ pidVals Constants::standardKeeperInterceptPID() { return GRSIM() ? pidVals(6.0, 
 
 std::vector<RuleSet> Constants::ruleSets() {
     return {
-            {"default",             8.0, 1.5, 6.5, 0.0, false,  true },
-            {"halt",                0.0, 0.0, 0.0, 0.0, true,   true },
-            {"stop",                1.5, 0.0, 0.0, 0.8, true,   false},
-            {"ballplacement_them",  1.5, 0.0, 6.5, 0.8, true,   true },
-            {"ballplacement_us",    1.5, 0.0, 6.5, 0.0, true,   true },
-            {"kickoff",             1.5, 0.0, 6.5, 0.5, true,   true }
+            {"default",             8.0, 6.5, 0.0, ROBOT_RADIUS(),  true },
+            {"halt",                0.0, 0.0, 0.0, -1,              true },
+            {"stop",                1.5, 0.0, 0.8, -1,              false},
+            {"ballplacement_them",  1.5, 6.5, 0.8, -1,              true },
+            {"ballplacement_us",    1.5, 6.5, 0.0, -1,              true },
+            {"kickoff",             1.5, 6.5, 0.5, 0.0,             true }
     };
 }
 

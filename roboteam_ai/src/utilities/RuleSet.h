@@ -9,15 +9,30 @@ namespace rtt {
 namespace ai {
 
 struct RuleSet {
+    RuleSet() = default;
+    RuleSet(std::string title, double maxRobotVel, double maxBallVel, double minDistanceToBall, double minDistanceToDefenseArea, bool robotsCanGoOutOfField) :
+    title(std::move(title)),
+    maxRobotVel(maxRobotVel),
+    maxBallVel(maxBallVel),
+    minDistanceToBall(minDistanceToBall),
+    minDistanceToDefenseArea(minDistanceToDefenseArea),
+    robotsCanGoOutOfField(robotsCanGoOutOfField)
+    { }
+
     // rules for this specific refgamestate
     std::string title;
     double maxRobotVel;
-    double maxCollisionVel;
     double maxBallVel;
     double minDistanceToBall;
-    bool robotsCanEnterDefenseArea;
+    double minDistanceToDefenseArea;
     bool robotsCanGoOutOfField;
+
+    bool robotsCanEnterDefenseArea() {
+        return minDistanceToDefenseArea == -1;
+    }
+
 };
+
 }
 }
 
