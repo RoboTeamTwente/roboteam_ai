@@ -20,6 +20,8 @@ public:
     static void setRefereeData(roboteam_msgs::RefereeData refMsg);
     static roboteam_msgs::RefereeData getRefereeData();
     static GameState getCurrentGameState();
+    static bool canEnterDefenseArea(int robotId);
+    static bool canMoveOutsideField(int robotId);
     static void forceNewGameState(RefCommand cmd);
 private:
     static roboteam_msgs::RefereeData refMsg;

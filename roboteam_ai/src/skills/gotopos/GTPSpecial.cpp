@@ -15,10 +15,10 @@ void GTPSpecial::gtpInitialize() {
 
     type = stringToType(properties->getString("type"));
     switch (type) {
-        case goToBall: {
-            maxVel = 9e9;
+    case goToBall: {
+        maxVel = 9e9;
         targetPos = ball->pos;
-            posController->setAvoidBallDistance(false);
+        posController->setAvoidBallDistance(false);
         break;
     }
     case ballPlacementBefore: {
@@ -43,23 +43,23 @@ void GTPSpecial::gtpInitialize() {
     }
     case freeKick: {
         maxVel = 9e9;
-            Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
+        Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
 
-            Vector2 penaltyThem = rtt::ai::world::field->getPenaltyPoint(false);
-            targetPos = (ballPos + (penaltyThem - ballPos).stretchToLength((penaltyThem - ballPos).length()/2.0));
-            errorMargin = 0.05;
-            break;
-        }
-        case getBackIn: {
-            posController->setCanMoveInDefenseArea(true);
+        Vector2 penaltyThem = rtt::ai::world::field->getPenaltyPoint(false);
+        targetPos = (ballPos + (penaltyThem - ballPos).stretchToLength((penaltyThem - ballPos).length()/2.0));
+        errorMargin = 0.05;
+        break;
+    }
+    case getBackIn: {
+        posController->setCanMoveInDefenseArea(true);
 
-            targetPos = {0, 0};
-            break;
-        }
-        case ourGoalCenter: {
-            targetPos =  rtt::ai::world::field->get_our_goal_center();
-            break;
-        }
+        targetPos = {0, 0};
+        break;
+    }
+    case ourGoalCenter: {
+        targetPos = rtt::ai::world::field->get_our_goal_center();
+        break;
+    }
 
     }
 
@@ -126,37 +126,43 @@ GTPSpecial::Type GTPSpecial::stringToType(const std::string &string) {
 
 Skill::Status GTPSpecial::gtpUpdate() {
     switch (type) {
-        default:
-            break;
-        case goToBall: {
-            maxVel = 9e9;
-        targetPos = ball->pos;break;
-        }
-        case getBackIn: {
-            targetPos = {0, 0};
-            break;
-        }
-        case ballPlacementBefore:
-            maxVel = 1.0;break;
-        case ourGoalCenter:
-            targetPos =  rtt::ai::world::field->get_our_goal_center();
-            break;
-        case ballPlacementAfter: {
-            targetPos = coach::g_ballPlacement.getBallPlacementAfterPos(robot);
+    default:break;
+    case goToBall: {
+        maxVel = 9e9;
+        targetPos = ball->pos;
+        break;
+    }
+    case getBackIn: {
+        targetPos = {0, 0};
+        break;
+    }
+    case ballPlacementBefore:
+        maxVel = 1.0;
+        break;
+    case ourGoalCenter: {
+        targetPos = rtt::ai::world::field->get_our_goal_center();
+        robot->getNumtreePosControl()->setCanMoveInDefenseArea(true);
+        command = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos, true).makeROSCommand();
+        break;
+    }
+    case ballPlacementAfter:{
+        targetPos = coach::g_ballPlacement.getBallPlacementAfterPos(robot);
             auto c = robot->getBasicPosControl()->getRobotCommand(robot, targetPos);
             command = c.makeROSCommand();
             command.w = (ball->pos - robot->pos).toAngle();
             maxVel = 2.0;
-            break;
-        }
-        case getBallFromSide:
-            maxVel = 9e9;break;
-        case defaultType:
-            maxVel = 9e9;break;
+        break;
+    }
+    case getBallFromSide:
+        maxVel = 9e9;
+        break;
+    case defaultType:
+        maxVel = 9e9;
+        break;
     case freeKick: {
         maxVel = 9e9;
-            command.w = (ball->pos - robot->pos).angle();
-        }
+        command.w = (ball->pos - robot->pos).angle();
+    }
     }
 
     return Status::Running;
