@@ -126,9 +126,6 @@ RobotCommand ShotController::goToPlaceBehindBall(world::Robot robot, const Vecto
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 RobotCommand ShotController::moveStraightToBall(world::Robot robot, const std::pair<Vector2, Vector2>& lineToDriveOver) {
-    auto robotCommand = robot.getBasicPosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
-            lineToDriveOver.second);
-RobotCommand ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver) {
     /*
      * Moving straight to the ball should be possible by driving forward at a small velocity as soon as you are at the
      * point behind the ball. That is, under normal circumstances. If one if the wheels resists more than the others,
