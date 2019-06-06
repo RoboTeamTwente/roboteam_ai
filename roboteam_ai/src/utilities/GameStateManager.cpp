@@ -26,7 +26,8 @@ GameState GameStateManager::getCurrentGameState() {
         // this makes sure that when we stop using the referee we don't return to an unknown state,
         // // so now we keep the same.
         interface::Output::setInterfaceGameState(newGameState);
-    } else {
+    }
+    else {
         newGameState = interface::Output::getInterfaceGameState();
     }
     return newGameState;
@@ -40,5 +41,20 @@ void GameStateManager::forceNewGameState(RefCommand cmd) {
     strategymanager.forceCurrentRefGameState(cmd);
 }
 
+bool GameStateManager::canEnterDefenseArea(int robotId) {
+    GameState currentState = getCurrentGameState();
+    if (robotId != currentState.keeperId) {
+        return currentState.getRuleSet().robotsCanEnterDefenseArea();
+    }
+    return true;
+}
+
+bool GameStateManager::canMoveOutsideField(int robotId) {
+    GameState currentState = getCurrentGameState();
+    if (robotId != currentState.keeperId) {
+        return currentState.getRuleSet().robotsCanGoOutOfField;
+    }
+    return true;
+}
 }//ai
 }//rtt

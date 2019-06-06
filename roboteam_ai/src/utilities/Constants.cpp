@@ -150,9 +150,7 @@ bool Constants::STD_SHOW_VELOCITIES() { return true; }
 
 bool Constants::STD_SHOW_ANGLES() { return false; }
 
-bool Constants::STD_SHOW_PATHS_ALL() { return false; }
-
-bool Constants::STD_SHOW_PATHS_CURRENT() { return true; }
+bool Constants::STD_SHOW_ROBOT_INVALIDS() { return true; }
 
 bool Constants::STD_SHOW_BALL_PLACEMENT_MARKER() { return true; }
 
@@ -166,15 +164,15 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
     static std::map<int, bool> workingGenevaRobots;
     workingGenevaRobots[0] = true;
     workingGenevaRobots[1] = true;
-    workingGenevaRobots[2] = true;
-    workingGenevaRobots[3] = true;
+    workingGenevaRobots[2] = false;
+    workingGenevaRobots[3] = false;
     workingGenevaRobots[4] = true;
     workingGenevaRobots[5] = true;
     workingGenevaRobots[6] = true;
     workingGenevaRobots[7] = true;
     workingGenevaRobots[8] = true;
     workingGenevaRobots[9] = true;
-    workingGenevaRobots[10] = false;
+    workingGenevaRobots[10] = true;
     workingGenevaRobots[11] = true;
     workingGenevaRobots[12] = true;
     workingGenevaRobots[13] = true;
@@ -186,9 +184,9 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
 
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER() {
     static std::map<int, bool> workingDribblerRobots;
-    workingDribblerRobots[0] = true;
-    workingDribblerRobots[1] = true;
-    workingDribblerRobots[2] = true;
+    workingDribblerRobots[0] = false;
+    workingDribblerRobots[1] = false;
+    workingDribblerRobots[2] = false;
     workingDribblerRobots[3] = true;
     workingDribblerRobots[4] = true;
     workingDribblerRobots[5] = true;
@@ -207,6 +205,31 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER() {
 }
 bool Constants::ROBOT_HAS_WORKING_GENEVA(int id) {
     return ROBOTS_WITH_WORKING_GENEVA()[id];
+}
+
+std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
+    static std::map<int, bool> workingBallSensorRobots;
+    workingBallSensorRobots[0] = false;
+    workingBallSensorRobots[1] = true;
+    workingBallSensorRobots[2] = true;
+    workingBallSensorRobots[3] = true;
+    workingBallSensorRobots[4] = true;
+    workingBallSensorRobots[5] = true;
+    workingBallSensorRobots[6] = true;
+    workingBallSensorRobots[7] = true;
+    workingBallSensorRobots[8] = true;
+    workingBallSensorRobots[9] = true;
+    workingBallSensorRobots[10] = true;
+    workingBallSensorRobots[11] = true;
+    workingBallSensorRobots[12] = true;
+    workingBallSensorRobots[13] = true;
+    workingBallSensorRobots[14] = true;
+    workingBallSensorRobots[15] = true;
+
+    return workingBallSensorRobots;
+}
+bool Constants::ROBOT_HAS_WORKING_BALL_SENSOR(int id) {
+    return ROBOTS_WITH_WORKING_BALL_SENSOR()[id];
 }
 
 bool Constants::ROBOT_HAS_WORKING_DRIBBLER(int id) {
@@ -239,20 +262,24 @@ std::vector<QColor> Constants::TACTIC_COLORS() {
 
 pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(4.2, 0.0, 1.4) : pidVals(3.1, 0.0, 0.6); }
 
-pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(1.6, 0.0, 0.15) : pidVals(2.8, 0.0, 0.0); }
+pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(3.4, 0.0, 0.4); }
 
-pidVals Constants::standardForcePID() { return GRSIM() ? pidVals(0.9, 0.0, 0.6) : pidVals(2.8, 0.0, 0.0); }
+pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(5.0, 0.0, 0.4) : pidVals(5.0, 0.0, 0.4); }
+
+pidVals Constants::standardKeeperInterceptPID() { return GRSIM() ? pidVals(6.0, 0.0, 1.2) : pidVals(6.0, 0.0, 1.2); }
 
 std::vector<RuleSet> Constants::ruleSets() {
     return {
-            {"default",             8.0, 1.5, 6.5, 0.0, false,  true },
-            {"halt",                0.0, 0.0, 0.0, 0.0, true,   true },
-            {"stop",                1.5, 0.0, 0.0, 0.8, true,   false},
-            {"ballplacement_them",  1.5, 0.0, 6.5, 0.8, true,   true },
-            {"ballplacement_us",    1.5, 0.0, 6.5, 0.0, true,   true },
-            {"kickoff",             1.5, 0.0, 6.5, 0.5, true,   true }
+            {"default",             8.0, 6.5, 0.0, ROBOT_RADIUS(),  true },
+            {"halt",                0.0, 0.0, 0.0, -1,              true },
+            {"stop",                1.5, 0.0, 0.8, -1,              false},
+            {"ballplacement_them",  1.5, 6.5, 0.8, -1,              true },
+            {"ballplacement_us",    1.5, 6.5, 0.0, -1,              true },
+            {"kickoff",             1.5, 6.5, 0.5, 0.0,             true }
     };
 }
+
+
 
 }
 }

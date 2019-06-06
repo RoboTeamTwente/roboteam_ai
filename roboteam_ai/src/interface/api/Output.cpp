@@ -12,16 +12,15 @@ namespace interface {
 
 // these values need to be set AFTER ros::init, so they are initialized with values in the constructor of mainwindow
 pidVals Output::numTreePID = pidVals(0.0, 0.0, 0.0);
-pidVals Output::forcePID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::basicPID = pidVals(0.0, 0.0, 0.0);
-
+pidVals Output::keeperPID = pidVals(0.0, 0.0, 0.0);
+pidVals Output::keeperInterceptPID = pidVals(0.0, 0.0, 0.0);
 
 rtt::Vector2 Output::markerPosition = {0, 0}; // initialize on middle of the field
 bool Output::useRefereeCommands = false;
 bool Output::showDebugValuesInTerminal = true;
 bool Output::timeOutAtTop = Constants::STD_TIMEOUT_TO_TOP();
 
-std::mutex Output::pidMutex;
 std::mutex Output::markerMutex;
 std::mutex Output::refMutex;
 std::mutex Output::showDebugMutex;
@@ -105,14 +104,6 @@ void Output::setNumTreePid(const pidVals &numTreePid) {
     numTreePID = numTreePid;
 }
 
-const pidVals &Output::getForcePid() {
-    return forcePID;
-}
-
-void Output::setForcePid(const pidVals &forcePid) {
-    forcePID = forcePid;
-}
-
 const pidVals &Output::getBasicPid() {
     return basicPID;
 }
@@ -158,6 +149,22 @@ void Output::setInterfaceGameState(GameState interfaceGameState) {
     // keep the keeper the same
     interfaceGameState.keeperId = Output::interfaceGameState.keeperId;
     Output::interfaceGameState = interfaceGameState;
+}
+
+const pidVals &Output::getKeeperPid() {
+    return keeperPID;
+}
+
+void Output::setKeeperPid(const pidVals &keeperPid) {
+    keeperPID = keeperPid;
+}
+
+const pidVals &Output::getKeeperInterceptPid() {
+    return keeperInterceptPID;
+}
+
+void Output::setKeeperInterceptPid(const pidVals &keeperInterceptPid) {
+    keeperInterceptPID = keeperInterceptPid;
 }
 
 

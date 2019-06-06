@@ -41,18 +41,18 @@ class WorldData {
                 RobotPtr r = std::make_shared<Robot>(Robot(robot, Robot::Team::them, 3));
                 them.emplace_back(r);
             }
-            ball = std::make_shared<Ball>(Ball(copy.ball));
+            ball = std::make_shared<Ball>(copy.ball);
         }
         explicit WorldData(const std::vector<RobotPtr> &copyUs, const std::vector<RobotPtr> &copyThem,
                 const BallPtr &copyBall, double time)
                 :time(time) {
             for (auto &robot : copyUs) {
-                us.emplace_back(robot->deepCopy());
+                us.emplace_back(std::make_shared<world::Robot>(Robot(*robot)));
             }
             for (auto &robot : copyThem) {
-                them.emplace_back(robot->deepCopy());
+                them.emplace_back(std::make_shared<world::Robot>(Robot(*robot)));
             }
-            if (copyBall) ball = copyBall->deepCopy();
+            if (copyBall) ball = std::make_shared<world::Ball>(Ball(*copyBall));
         }
         explicit WorldData(const WorldDataPtr &worldDataPtr)
                 :WorldData(*worldDataPtr) { }

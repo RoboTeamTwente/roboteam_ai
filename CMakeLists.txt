@@ -227,6 +227,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DriveWithInterface.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementWithInterface.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementWithInterface.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Wait.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Wait.h
         )
 
 set(CONDITIONS_SOURCES
@@ -336,6 +338,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/HasBallTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsRobotClosestToBallTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsBeingPassedToTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/BallInDefenseAreaAndStillTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/BallKickedToOurGoalTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/KickTest.cpp
@@ -359,6 +362,8 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsBallCloseToBorderTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/JoyStickTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/PositionUtilsTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/BallPlacementCoachTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/OffensiveCoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/FormationTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/BallPlacementCoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/DefensiveCoachTest.cpp
@@ -394,8 +399,8 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/VisualizationSettingsWidget.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Toggles.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Toggles.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RefereeWidget.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RefereeWidget.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RuleSetWidget.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RuleSetWidget.h)
 
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldData.h
