@@ -54,12 +54,13 @@ class Robot {
         bool workingGeneva;
 public:
     void setWorkingGeneva(bool workingGeneva);
-
+    void setHasWorkingBallSensor(bool hasWorkingBallSensor);
 public:
         unsigned char getGenevaState() const;
         bool isGenevaReady() const;
         void setGenevaState(unsigned char state = 3);
         bool hasWorkingGeneva() const;
+        bool hasWorkingBallSensor() const;
 
         // dribbler
     private:
@@ -68,6 +69,7 @@ public:
         double timeDribblerChanged = 0;
         constexpr static double timeToChangeOneDribblerLevel = 0.06;
         bool workingDribbler;
+        bool workingBallSensor;
     public:
         unsigned char getDribblerState() const;
         bool isDribblerReady() const;
