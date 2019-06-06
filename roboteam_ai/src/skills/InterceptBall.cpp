@@ -55,7 +55,7 @@ InterceptBall::Status InterceptBall::onUpdate() {
     if (currentProgression != INPOSITION && deltaPos.length() > TURNING_DISTANCE) {
         // update if we want to rotate or not; if we have time to turn we do so, otherwise not.
         // this assumes we are at 90 to 180 degrees difference with the target angle; can be improved by measuring average turn time under keeper circumstances
-        stayAtOrientation = ball->vel.length()*TURN_TIME> (interceptPos - ball->pos).length();
+        stayAtOrientation = ball->vel.length()*TURN_TIME > (interceptPos - ball->pos).length();
     }
     tickCount ++;
     switch (currentProgression) {
@@ -161,7 +161,9 @@ Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall)
             if (dist2 < dist1) {
                 interceptionPoint = *intersections.second;
             }
-            else { interceptionPoint = *intersections.first; }
+            else {
+                interceptionPoint = *intersections.first;
+            }
         }
         else if (intersections.first) {
             interceptionPoint = *intersections.first;
@@ -172,14 +174,14 @@ Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall)
         else {
             // if the Line does not intercept it usually means the ball is coming from one of the corners-ish to the keeper
             // For now we pick the closest point to the (predicted) line of the ball
-            Line shotLine(startBall,endBall);
-            interceptionPoint =shotLine.project(robot->pos);
+            Line shotLine(startBall, endBall);
+            interceptionPoint = shotLine.project(robot->pos);
         }
     }
     else {
         // For now we pick the closest point to the (predicted) line of the ball for any 'regular' interception
-        Line shotLine(startBall,endBall);
-        interceptionPoint =shotLine.project(robot->pos);
+        Line shotLine(startBall, endBall);
+        interceptionPoint = shotLine.project(robot->pos);
     }
     return interceptionPoint;
 }

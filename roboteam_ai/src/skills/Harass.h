@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_HARASS_H
 #define ROBOTEAM_AI_HARASS_H
 
-#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
+#include <roboteam_ai/src/control/BasicPosControl.h>
 #include "Skill.h"
 
 namespace rtt {

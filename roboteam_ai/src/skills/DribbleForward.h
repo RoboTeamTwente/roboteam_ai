@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_DRIBBLEFORWARD_H
 
 #include "Skill.h"
-#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
+#include <roboteam_ai/src/control/BasicPosControl.h>
 #include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
 
 namespace rtt {

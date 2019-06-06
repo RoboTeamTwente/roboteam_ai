@@ -10,7 +10,7 @@
 #include "roboteam_ai/src/control/shotControllers/ShotController.h"
 #include "roboteam_ai/src/control/ballHandling/BallHandlePosControl.h"
 #include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
-#include "roboteam_ai/src/control/positionControllers/BasicPosControl.h"
+#include "roboteam_ai/src/control/BasicPosControl.h"
 
 namespace rtt {
 namespace ai {
@@ -25,11 +25,13 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
     if (id > - 1 && id < 16) {
         workingGeneva = Constants::ROBOT_HAS_WORKING_GENEVA(id);
         workingDribbler = Constants::ROBOT_HAS_WORKING_DRIBBLER(id);
+        workingBallSensor = Constants::ROBOT_HAS_WORKING_BALL_SENSOR(id);
     }
     else {
         std::cout << "Warning: creating robot with id = " << id << "!" << std::endl;
         workingGeneva = false;
         workingDribbler = false;
+        workingBallSensor = false;
     }
 
     // set up control controllers
@@ -41,7 +43,7 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
 
 Robot::Robot()
         :distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(0), genevaState(0), workingGeneva(false),
-         dribblerState(0), workingDribbler(false),
+         dribblerState(0), workingDribbler(false), workingBallSensor(false),
          id(- 1), angle(- 1.0), angularVelocity(- 1.0), team(invalid) {
 
     shotController = nullptr;
@@ -213,6 +215,14 @@ void Robot::resetBasicPosControl() {
 
 void Robot::resetBallHandlePosControl() {
     ballHandlePosControl = std::make_shared<control::BallHandlePosControl>();
+}
+
+bool Robot::hasWorkingBallSensor() const {
+    return workingBallSensor;
+}
+
+void Robot::setHasWorkingBallSensor(bool hasWorkingBallSensor) {
+    workingBallSensor = hasWorkingBallSensor;
 }
 
 } //world

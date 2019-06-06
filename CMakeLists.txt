@@ -289,11 +289,11 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/pid.h
 
         # PositionControllers
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/RobotCommand.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/BasicPosControl.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/BasicPosControl.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosController.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosController.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/RobotCommand.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/BasicPosControl.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/BasicPosControl.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PosController.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PosController.h
 
         # NumTrees
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/numTrees/NumTreePosControl.cpp
@@ -399,8 +399,8 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/VisualizationSettingsWidget.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Toggles.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Toggles.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RefereeWidget.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RefereeWidget.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RuleSetWidget.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RuleSetWidget.h)
 
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldData.h
