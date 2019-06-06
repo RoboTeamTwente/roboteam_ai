@@ -55,14 +55,14 @@ class ShotController {
 
         // RobotCommand calculation
         RobotCommand goToPlaceBehindBall(world::Robot robot, const Vector2& robotTargetPosition,
-                const std::pair<Vector2, Vector2>& driveLine);
+                const std::pair<Vector2, Vector2>& driveLine, int geneva);
         RobotCommand moveStraightToBall(world::Robot robot, const std::pair<Vector2, Vector2>& lineToDriveOver);
         RobotCommand shoot(world::Robot robot, const std::pair<Vector2, Vector2>& driveLine, const Vector2& shotTarget, bool chip,
                 BallSpeed desiredBallSpeed);
 
         RobotCommand shootWithoutBallSensor(const world::Robot& robot, const std::pair<Vector2, Vector2>& driveLine, const Vector2& shotTarget, bool chip,
                                             BallSpeed desiredBallSpeed);
-
+    Vector2 updateGenevaAimTarget(int geneva);
 
     public:
         explicit ShotController() = default;
