@@ -25,7 +25,7 @@
 #include "TreeVisualizerWidget.h"
 #include "RobotsWidget.h"
 #include "PidBox.h"
-#include "RefereeWidget.h"
+#include "RuleSetWidget.h"
 
 namespace rtt {
 namespace ai {
@@ -55,7 +55,7 @@ private:
     QVBoxLayout* mainLayout;
     QVBoxLayout* vLayout;
     RobotsWidget* robotsWidget;
-    RefereeWidget * refWidget;
+    RuleSetWidget * refWidget;
     TreeVisualizerWidget* treeWidget;
     TreeVisualizerWidget* keeperTreeWidget;
     Visualizer* visualizer;

@@ -44,7 +44,7 @@ void GameStateManager::forceNewGameState(RefCommand cmd) {
 bool GameStateManager::canEnterDefenseArea(int robotId) {
     GameState currentState = getCurrentGameState();
     if (robotId != currentState.keeperId) {
-        return currentState.getRuleSet().robotsCanEnterDefenseArea;
+        return currentState.getRuleSet().robotsCanEnterDefenseArea();
     }
     return true;
 }
