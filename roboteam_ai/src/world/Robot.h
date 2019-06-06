@@ -28,9 +28,6 @@ class Robot {
     public:
         using BallPtr = std::shared_ptr<Ball>;
         using RobotPtr = std::shared_ptr<Robot>;
-
-        const RobotPtr deepCopy() const;
-
         // pid
     private:
         Vector2 pidPreviousVel = Vector2();
@@ -57,12 +54,13 @@ class Robot {
         bool workingGeneva;
 public:
     void setWorkingGeneva(bool workingGeneva);
-
+    void setHasWorkingBallSensor(bool hasWorkingBallSensor);
 public:
         unsigned char getGenevaState() const;
         bool isGenevaReady() const;
         void setGenevaState(unsigned char state = 3);
         bool hasWorkingGeneva() const;
+        bool hasWorkingBallSensor() const;
 
         // dribbler
     private:
@@ -71,6 +69,7 @@ public:
         double timeDribblerChanged = 0;
         constexpr static double timeToChangeOneDribblerLevel = 0.06;
         bool workingDribbler;
+        bool workingBallSensor;
     public:
         unsigned char getDribblerState() const;
         bool isDribblerReady() const;
@@ -102,7 +101,7 @@ public:
           invalid
         };
         Robot();
-        Robot(const Robot &copy) = default;
+//        Robot(const Robot &copy) = default;
         explicit Robot(const roboteam_msgs::WorldRobot &copy, Team team = invalid,
                 unsigned char genevaState = 3, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
         void updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const BallPtr &ball, unsigned long worldNumber);

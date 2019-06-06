@@ -9,7 +9,7 @@ namespace rtt {
 namespace ai {
 
 struct GameState {
-    GameState() { };
+    GameState() = default;
     GameState(std::string strategyName, std::string keeperStrategyName, std::string ruleSetName)
             : strategyName(std::move(strategyName)), keeperStrategyName(std::move(keeperStrategyName)), ruleSetName(std::move(ruleSetName))
             { };

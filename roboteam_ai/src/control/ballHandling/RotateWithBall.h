@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_ROTATEAROUNDROBOT_H
 #define ROBOTEAM_AI_ROTATEAROUNDROBOT_H
 
-#include "../positionControllers/RobotCommand.h"
+#include "roboteam_ai/src/control/RobotCommand.h"
 
 namespace rtt {
 namespace ai {
@@ -21,7 +21,8 @@ class RotateWithBall {
         Vector2 targetPos;
 
     public:
-        RobotCommand getRobotCommand(const world::Robot::RobotPtr &r,
+        RotateWithBall();
+        RobotCommand getRobotCommand(world::Robot::RobotPtr r,
                 const Vector2 &targetP, const Angle &targetA);
 };
 

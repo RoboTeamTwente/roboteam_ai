@@ -12,8 +12,9 @@ namespace interface {
 
 // these values need to be set AFTER ros::init, so they are initialized with values in the constructor of mainwindow
 pidVals Output::numTreePID = pidVals(0.0, 0.0, 0.0);
-pidVals Output::forcePID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::basicPID = pidVals(0.0, 0.0, 0.0);
+pidVals Output::keeperPID = pidVals(0.0, 0.0, 0.0);
+pidVals Output::keeperInterceptPID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::shotControllerPID = pidVals(0.0, 0.0, 0.0);
 
 
@@ -22,7 +23,6 @@ bool Output::useRefereeCommands = false;
 bool Output::showDebugValuesInTerminal = true;
 bool Output::timeOutAtTop = Constants::STD_TIMEOUT_TO_TOP();
 
-std::mutex Output::pidMutex;
 std::mutex Output::markerMutex;
 std::mutex Output::refMutex;
 std::mutex Output::showDebugMutex;
@@ -106,14 +106,6 @@ void Output::setNumTreePid(const pidVals &numTreePid) {
     numTreePID = numTreePid;
 }
 
-const pidVals &Output::getForcePid() {
-    return forcePID;
-}
-
-void Output::setForcePid(const pidVals &forcePid) {
-    forcePID = forcePid;
-}
-
 const pidVals &Output::getBasicPid() {
     return basicPID;
 }
@@ -166,6 +158,23 @@ const pidVals &Output::getShotControllerPID() {
 void Output::setShotControllerPID(const pidVals &shotControllerPID) {
     Output::shotControllerPID = shotControllerPID;
 }
+
+const pidVals &Output::getKeeperPid() {
+    return keeperPID;
+}
+
+void Output::setKeeperPid(const pidVals &keeperPid) {
+    keeperPID = keeperPid;
+}
+
+const pidVals &Output::getKeeperInterceptPid() {
+    return keeperInterceptPID;
+}
+
+void Output::setKeeperInterceptPid(const pidVals &keeperInterceptPid) {
+    keeperInterceptPID = keeperInterceptPid;
+}
+
 
 } // interface
 } // ai

@@ -5,9 +5,9 @@
 #ifndef ROBOTEAM_AI_SHOTCONTROLLER_H
 #define ROBOTEAM_AI_SHOTCONTROLLER_H
 
-#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
+#include <roboteam_ai/src/control/BasicPosControl.h>
 #include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
-#include "../positionControllers/RobotCommand.h"
+#include "roboteam_ai/src/control/RobotCommand.h"
 #include "gtest/gtest_prod.h"
 
 namespace rtt {
@@ -36,7 +36,7 @@ class ShotController {
 
     private:
         bool init = false;
-        bool isShooting;
+        bool isShooting = false;
         Vector2 aimTarget;
         bool genevaIsTurning = false;
         double secondsToTurnGeneva = 0.0;
@@ -49,27 +49,26 @@ class ShotController {
         void updatePid(pidVals pidValues);
 
         // Helpers
-        Vector2 getPlaceBehindBallForGenevaState(world::Robot robot, Vector2 shotTarget, int genevaState);
-        Vector2 getPlaceBehindBall(world::Robot robot,
-                Vector2 shotTarget); // the params are the position for the robot and the geneva angle
-        int determineOptimalGenevaState(world::Robot robot, Vector2 shotTarget);
+        Vector2 getPlaceBehindBallForGenevaState(const world::Robot& robot, const Vector2& shotTarget, int genevaState);
+        Vector2 getPlaceBehindBall(const world::Robot& robot,
+                const Vector2& shotTarget); // the params are the position for the robot and the geneva angle
+        int determineOptimalGenevaState(const world::Robot& robot, const Vector2& shotTarget);
         bool onLineToBall(const world::Robot &robot, const std::pair<Vector2, Vector2>& line, ShotPrecision precision);
-        bool robotAngleIsGood(world::Robot &robot, std::pair<Vector2, Vector2> lineToDriveOver,
+        bool robotAngleIsGood(world::Robot &robot, const std::pair<Vector2, Vector2>& lineToDriveOver,
                 ShotPrecision precision);
         double determineKickForce(double distance, BallSpeed desiredBallSpeed);
         std::pair<Vector2, Vector2> shiftLineForGeneva(const std::pair<Vector2, Vector2> &line, int genevaState);
 
         // RobotCommand calculation
-        RobotCommand goToPlaceBehindBall(world::Robot robot, Vector2 robotTargetPosition,
-                std::pair<Vector2, Vector2> driveLine);
-        RobotCommand moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver);
-        RobotCommand shoot(world::Robot robot, std::pair<Vector2, Vector2> driveLine, Vector2 shotTarget, bool chip,
+        RobotCommand goToPlaceBehindBall(world::Robot robot, const Vector2& robotTargetPosition,
+                const std::pair<Vector2, Vector2>& driveLine);
+        RobotCommand moveStraightToBall(world::Robot robot, const std::pair<Vector2, Vector2>& lineToDriveOver);
+        RobotCommand shoot(world::Robot robot, const std::pair<Vector2, Vector2>& driveLine, const Vector2& shotTarget, bool chip,
                 BallSpeed desiredBallSpeed);
 
-        RobotCommand moveAndShootGrSim(world::Robot robot, bool chip, std::pair<Vector2, Vector2> lineToDriveOver,
-                BallSpeed desiredBallSpeed);
-        RobotCommand moveAndShoot(world::Robot robot, bool chip, std::pair<Vector2, Vector2> lineToDriveOver,
-                BallSpeed desiredBallSpeed);
+        RobotCommand shootWithoutBallSensor(const world::Robot& robot, const std::pair<Vector2, Vector2>& driveLine, const Vector2& shotTarget, bool chip,
+                                            BallSpeed desiredBallSpeed);
+
 
     public:
         explicit ShotController() = default;

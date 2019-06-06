@@ -2,7 +2,7 @@
 // Created by thijs on 25-5-19.
 //
 
-#include "roboteam_ai/src/control/positionControllers/RobotCommand.h"
+#include "roboteam_ai/src/control/RobotCommand.h"
 #include "roboteam_ai/src/world/Robot.h"
 #include "roboteam_ai/src/world/Ball.h"
 #include <queue>
@@ -77,16 +77,21 @@ RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
     if (DT < 0.06) DT = 0.06;
 
     // check if the robot exists
-    if (! robotPtr) return {};
+    if (! robotPtr) {
+        std::cerr << "NO ROBOT IN NUMTREES!!" << std::endl;
+        return {};
+    }
 
     // make a copy of the robot
-    robot = robotPtr->deepCopy();
-    finalTargetPos = targetPos;
+    robot = std::make_shared<world::Robot>(world::Robot(*robotPtr));
+    ros::Time begin = ros::Time::now();
 
     // Check if the current path is still valid, if not, recalculate
-    ros::Time begin = ros::Time::now();
     bool nicePath = true;
-    if (doRecalculatePath(targetPos)) {
+    bool recalculate = doRecalculatePath(targetPos);
+    if (recalculate) {
+        finalTargetPos = targetPos;
+
         if (Vector2(robot->vel).length() > Constants::MAX_VEL_CMD()) {
             nicePath = false;
             if (InterfaceValues::showDebugNumTreeInfo())
@@ -119,12 +124,14 @@ RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
             interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot->id,
             interface::Drawing::CIRCLES, 8, 8, 6);
+    interface::Input::drawData(interface::Visual::PATHFINDING, {finalTargetPos}, Qt::darkYellow, robot->id,
+            interface::Drawing::CIRCLES, 8, 8, 6);
 
     // check if we have a nice path.
     if (! nicePath) {
         path.clear();
     }
-    RobotCommand command = computeCommand(finalTargetPos);
+    RobotCommand command = computeCommand(targetPos);
     return controlWithPID(robotPtr, command);
 }
 
@@ -342,7 +349,7 @@ Collision NumTreePosControl::getFieldCollision(const PathPointer &point) {
     if (currentCollisionWithRobot.getCollisionFieldPos() != Vector2()) return collision;
     if (currentCollisionWithFinalTarget.getCollisionFieldPos() != Vector2()) return collision;
 
-    if (! getCanMoveOutOfField()) {
+    if (! getCanMoveOutOfField(robot->id)) {
         if (! world::field->pointIsInField(point->pos)) {
             collision.setFieldCollision(point->pos, 0.2);
             return collision;
@@ -356,7 +363,7 @@ Collision NumTreePosControl::getDefenseAreaCollision(const PathPointer &point) {
     if (currentCollisionWithRobot.getCollisionDefenseAreaPos() != Vector2()) return collision;
     if (currentCollisionWithFinalTarget.getCollisionDefenseAreaPos() != Vector2()) return collision;
 
-    if (! getCanMoveInDefenseArea()) {
+    if (! getCanMoveInDefenseArea(robot->id)) {
         auto margin = Constants::ROBOT_RADIUS();
         bool isInOurDefenseArea = world::field->pointIsInDefenceArea(point->pos, true, margin, false);
         bool isInTheirDefenseArea = world::field->pointIsInDefenceArea(point->pos, false, margin, false);
@@ -426,8 +433,7 @@ RobotCommand NumTreePosControl::getRobotCommand(const PosController::RobotPtr &r
 /// finds a reason to calculate a new path (possible reasons are: no path calculated yet, final target moved,
 /// robot is too far from path or another robot is colliding with current path
 bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
-
-    if (checkCurrentRobotCollision()) return true;
+    if (checkChangeInMaxRobotVel()) return true;
     if (checkEmptyPath()) return true;
 
     double maxDeviation = 0.3;
@@ -435,8 +441,9 @@ bool NumTreePosControl::doRecalculatePath(const Vector2 &targetPos) {
     if (checkIfAtEndOfPath(maxDeviation, targetPos)) return true;
     if (checkIfTooFarFromCurrentPath(maxDeviation, targetPos)) return true;
 
-    return checkIfRobotWillCollideFollowingThisPath();
+    if (checkCurrentRobotCollision()) return true;
 
+    return checkIfRobotWillCollideFollowingThisPath();
 }
 
 bool NumTreePosControl::checkCurrentRobotCollision() {
@@ -451,6 +458,7 @@ bool NumTreePosControl::checkCurrentRobotCollision() {
     realRobotPoint->vel = robot->vel;
     realRobotPoint->t = 0;
     currentCollisionWithRobot = getCollision(realRobotPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
+
     PathPointer finalTargetPoint = std::make_shared<PathPoint>();
     finalTargetPoint->pos = finalTargetPos;
     finalTargetPoint->vel = Vector2();
@@ -574,6 +582,14 @@ bool NumTreePosControl::checkIfRobotWillCollideFollowingThisPath() {
             }
             return true;
         }
+    }
+    return false;
+}
+bool NumTreePosControl::checkChangeInMaxRobotVel() {
+    double newMaxRobotVel = rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
+    if (newMaxRobotVel != currentMaxRobotVel) {
+        currentMaxRobotVel = newMaxRobotVel;
+        return true;
     }
     return false;
 }

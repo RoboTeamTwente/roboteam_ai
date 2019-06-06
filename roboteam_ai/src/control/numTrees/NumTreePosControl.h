@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 
 #include <roboteam_ai/src/interface/api/Output.h>
-#include "roboteam_ai/src/control/positionControllers/BasicPosControl.h"
+#include "roboteam_ai/src/control/BasicPosControl.h"
 #include "PathPoint.h"
 #include "Collision.h"
 
@@ -36,7 +36,7 @@ class NumTreePosControl : public BasicPosControl {
         RobotCommand computeCommand(const Vector2 &exactTargetPos);
 
         // constants
-        const double MAX_CALCULATION_TIME = 20.0;         // Max calculation time in ms
+        static constexpr double MAX_CALCULATION_TIME = 20.0;         // Max calculation time in ms
         double DT = 0.1;                          // timestep for ODE model
         static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 0.25; // 3x robot radius
 
@@ -52,6 +52,7 @@ class NumTreePosControl : public BasicPosControl {
         bool allowIllegalPositions = false;
         Vector2 currentlyAvoidingDefenseAreaPosition;
         bool currentlyAvoidingDefenseArea = false;
+        double currentMaxRobotVel = 0;
 
         // new paths
         PathPointer computeNewPoint(const std::shared_ptr<PathPoint> &oldPoint, const Vector2 &subTarget);
@@ -81,6 +82,7 @@ class NumTreePosControl : public BasicPosControl {
         RobotCommand getRobotCommand(const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle,
                 bool illegalPositions);
 
+        bool checkChangeInMaxRobotVel();
 };
 
 }
