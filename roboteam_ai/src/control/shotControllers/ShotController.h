@@ -60,6 +60,9 @@ class ShotController {
         RobotCommand shoot(world::Robot robot, const std::pair<Vector2, Vector2>& driveLine, const Vector2& shotTarget, bool chip,
                 BallSpeed desiredBallSpeed);
 
+        RobotCommand shootWithoutBallSensor(const world::Robot& robot, const std::pair<Vector2, Vector2>& driveLine, const Vector2& shotTarget, bool chip,
+                                            BallSpeed desiredBallSpeed);
+
 
     public:
         explicit ShotController() = default;

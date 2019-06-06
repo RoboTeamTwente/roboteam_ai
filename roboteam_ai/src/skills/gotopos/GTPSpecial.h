@@ -27,7 +27,6 @@ class GTPSpecial : public GoToPos {
             getBackIn,
             ourGoalCenter
         };
-
         Type type;
         Type stringToType(const std::string &string);
 

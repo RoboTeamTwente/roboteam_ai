@@ -59,7 +59,12 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
         }
         else {
             isShooting = true;
-            shotData = shoot(robot, lineToDriveOver, aimTarget, chip, ballspeed);
+
+            if (robot.hasWorkingBallSensor()) {
+                shotData = shoot(robot, lineToDriveOver, aimTarget, chip, ballspeed);
+            } else {
+                shotData = shootWithoutBallSensor(robot, lineToDriveOver, aimTarget, chip, ballspeed);
+            }
         }
     }
     else {
@@ -244,6 +249,17 @@ int ShotController::determineOptimalGenevaState(const world::Robot& robot, const
         return 4;
     }
     return 3;
+}
+
+RobotCommand ShotController::shootWithoutBallSensor(const world::Robot& robot, const std::pair<Vector2, Vector2> &driveLine,
+                                       const Vector2 &shotTarget, bool chip, BallSpeed desiredBallSpeed) {
+
+    bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
+    if (hasBall) {
+        return shoot(robot, driveLine, shotTarget, chip, desiredBallSpeed);
+    } else {
+        return moveStraightToBall(robot, driveLine);
+    }
 }
 
 

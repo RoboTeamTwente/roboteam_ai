@@ -66,7 +66,7 @@ class DribbleForwards {
         RobotCommand sendSuccessCommand();
 
     public:
-        RobotCommand getRobotCommand(const world::Robot::RobotPtr &r,
+        RobotCommand getRobotCommand(world::Robot::RobotPtr r,
                 const Vector2 &targetP, const Angle &targetA);
         void reset();
         void setMaxVel(double maxVel);
