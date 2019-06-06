@@ -6,24 +6,24 @@
 #include <QtWidgets/QSpacerItem>
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include <QtWidgets/QLabel>
-#include "RefereeWidget.h"
+#include "RuleSetWidget.h"
 #include "mainWindow.h"
 
 namespace rtt {
 namespace ai {
 namespace interface {
 
-RefereeWidget::RefereeWidget(QWidget * parent) {
+RuleSetWidget::RuleSetWidget(QWidget * parent) {
     vLayout = new QVBoxLayout();
     this->setLayout(vLayout);
 }
 
-void RefereeWidget::updateContents() {
+void RuleSetWidget::updateContents() {
     MainWindow::clearLayout(vLayout);
     updateLabels();
 }
 
-void RefereeWidget::updateLabels() {
+void RuleSetWidget::updateLabels() {
     auto spacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     RuleSet ruleset = GameStateManager::getCurrentGameState().getRuleSet();
@@ -31,13 +31,13 @@ void RefereeWidget::updateLabels() {
     auto velLabel = new QLabel("Max robot velocity: " + QString::number(ruleset.maxRobotVel, 'G', 3) + " m/s");
     vLayout->addWidget(velLabel);
 
-    auto maxCollisionVelLabel = new QLabel("Max collision velocity: "+QString::number(ruleset.maxCollisionVel, 'G', 3) + " m/s");
-    vLayout->addWidget(maxCollisionVelLabel);
-
     auto maxBallVelLabel = new QLabel("Max ball velocity: "+QString::number(ruleset.maxBallVel, 'G', 3) + " m/s");
     vLayout->addWidget(maxBallVelLabel);
 
-    auto enterDefenseLabel = new QLabel("Robots can enter defense area: " + (ruleset.robotsCanEnterDefenseArea ? QString("true") : QString("false")));
+    auto distDefenceArea = new QLabel("Min distance to defense area "+QString::number(ruleset.minDistanceToDefenseArea, 'G', 3) + " m");
+    vLayout->addWidget(distDefenceArea);
+
+    auto enterDefenseLabel = new QLabel("Robots can enter defense area: " + (ruleset.robotsCanEnterDefenseArea() ? QString("true") : QString("false")));
     vLayout->addWidget(enterDefenseLabel);
 
     auto outOfFieldLabel = new QLabel("Robots can go out of field : " + (ruleset.robotsCanGoOutOfField ? QString("true") : QString("false")));

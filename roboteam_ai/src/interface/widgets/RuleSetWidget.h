@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 15-5-19.
 //
 
-#ifndef ROBOTEAM_AI_REFEREEWIDGET_H
-#define ROBOTEAM_AI_REFEREEWIDGET_H
+#ifndef ROBOTEAM_AI_RULESETWIDGET_H
+#define ROBOTEAM_AI_RULESETWIDGET_H
 
 #include <QtWidgets/QWidget>
 
@@ -11,7 +11,7 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
-class RefereeWidget : public QWidget {
+class RuleSetWidget : public QWidget {
     Q_OBJECT
 
 private:
@@ -19,7 +19,7 @@ private:
     void updateLabels();
     QWidget * contentsWidget;
 public:
-    explicit RefereeWidget(QWidget * parent = nullptr);
+    explicit RuleSetWidget(QWidget * parent = nullptr);
 
 public slots:
     void updateContents();
@@ -31,4 +31,4 @@ public slots:
 } // rtt
 
 
-#endif //ROBOTEAM_AI_REFEREEWIDGET_H
+#endif //ROBOTEAM_AI_RULESETWIDGET_H
