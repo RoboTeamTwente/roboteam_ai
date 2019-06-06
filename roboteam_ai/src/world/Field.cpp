@@ -351,6 +351,34 @@ Polygon Field::getDefenseArea(bool ourDefenseArea, double margin, bool includeOu
     return ourDefenseArea ? defenceAreaUs : defenceAreaThem;
 }
 
+Polygon Field::getGoalArea(bool ourGoal) {
+    roboteam_msgs::GeometryFieldSize _field;
+    {
+        std::lock_guard<std::mutex> lock(fieldMutex);
+        _field = field;
+    }
+
+    auto goalDepth = _field.goal_depth;
+    if (ourGoal) {
+        auto ourGoalSides = getGoalSides(true);
+        std::vector<Vector2> areaUsPoints = {
+                {ourGoalSides.first.x,              ourGoalSides.first.y},
+                {ourGoalSides.first.x - goalDepth,  ourGoalSides.first.y},
+                {ourGoalSides.second.x - goalDepth, ourGoalSides.second.y},
+                {ourGoalSides.second.x,             ourGoalSides.second.y}};
+
+        return Polygon(areaUsPoints);
+    }
+
+    auto theirGoalSides = getGoalSides(false);
+    std::vector<Vector2> areaThemPoints = {
+            {theirGoalSides.first.x,              theirGoalSides.first.y},
+            {theirGoalSides.first.x + goalDepth,  theirGoalSides.first.y},
+            {theirGoalSides.second.x + goalDepth, theirGoalSides.second.y},
+            {theirGoalSides.second.x,             theirGoalSides.second.y}};
+    return Polygon(areaThemPoints);
+}
+
 } // world
 } // ai
 } // rtt

@@ -138,7 +138,7 @@
             "properties": {
               "ROLE": "Keeper",
               "avoidBall": "true",
-              "canGoOutsideField": "false",
+              "canGoOutsideField": "true",
               "canMoveInDefenseArea": "true",
               "type": "ourGoalCenter"
             },
