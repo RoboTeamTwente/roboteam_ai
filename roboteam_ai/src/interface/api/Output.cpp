@@ -14,6 +14,7 @@ namespace interface {
 pidVals Output::numTreePID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::forcePID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::basicPID = pidVals(0.0, 0.0, 0.0);
+pidVals Output::shotControllerPID = pidVals(0.0, 0.0, 0.0);
 
 
 rtt::Vector2 Output::markerPosition = {0, 0}; // initialize on middle of the field
@@ -159,7 +160,12 @@ void Output::setInterfaceGameState(GameState interfaceGameState) {
     interfaceGameState.keeperId = Output::interfaceGameState.keeperId;
     Output::interfaceGameState = interfaceGameState;
 }
-
+const pidVals &Output::getShotControllerPID() {
+    return shotControllerPID;
+}
+void Output::setShotControllerPID(const pidVals &shotControllerPID) {
+    Output::shotControllerPID = shotControllerPID;
+}
 
 } // interface
 } // ai

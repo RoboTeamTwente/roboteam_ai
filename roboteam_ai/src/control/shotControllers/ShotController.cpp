@@ -137,7 +137,7 @@ RobotCommand ShotController::moveStraightToBall(world::Robot robot, std::pair<Ve
 
     // use PID to compensate for the error with respect to the line
     //auto newPid = interface::Output::getNumTreePid();
-    auto newPidValues = Constants::standardShotControllerPID();
+    auto newPidValues = interface::Output::getShotControllerPID();
     updatePid(newPidValues);
     double pidOutput = pid.getOutput(err.length() * sign, 0);
 

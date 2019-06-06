@@ -22,8 +22,13 @@ private:
     static pidVals basicPID;
     static pidVals numTreePID;
     static pidVals forcePID;
+    static pidVals shotControllerPID;
+    public:
+        static const pidVals &getShotControllerPID();
+        static void setShotControllerPID(const pidVals &shotControllerPID);
+    private:
 
-    static std::mutex pidMutex;
+        static std::mutex pidMutex;
     static std::mutex markerMutex;
     static std::mutex refMutex;
     static std::mutex showDebugMutex;
