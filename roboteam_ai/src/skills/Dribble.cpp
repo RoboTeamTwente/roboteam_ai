@@ -51,7 +51,7 @@ Dribble::Status Dribble::onUpdate() {
         targetPos = coach::g_ballPlacement.getBallPlacementPos();
     }
 
-    if((ball->pos - targetPos).length() < 0.15) {
+    if(ballHandlePosControl.getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
         return Status::Success;
     }
 
