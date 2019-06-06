@@ -183,6 +183,9 @@ void Ball::updateExpectedPositionWhereBallIsStill(const Ball &oldBall, const Wor
 
     interface::Input::drawData(interface::Visual::BALL_DATA, {ballStillPosition}, Constants::BALL_COLOR(), - 1,
             interface::Drawing::CIRCLES, 8, 8, 6);
+
+    interface::Input::drawData(interface::Visual::BALL_DATA, {pos, ballStillPosition}, Constants::BALL_COLOR(), - 1,
+            interface::Drawing::LINES_CONNECTED, 8, 8, 6);
 }
 
 const Vector2 &Ball::getBallStillPosition() const {
