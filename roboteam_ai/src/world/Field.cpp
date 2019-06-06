@@ -42,11 +42,7 @@ bool Field::pointIsInDefenceArea(const Vector2 &point, bool isOurDefenceArea, fl
 
 // the margin is pointed inside the field!
 bool Field::pointIsInField(const Vector2 &point, float margin) {
-    roboteam_msgs::GeometryFieldSize _field;
-    {
-        std::lock_guard<std::mutex> lock(fieldMutex);
-        _field = field;
-    }
+    roboteam_msgs::GeometryFieldSize _field = get_field();
 
     float halfLength = _field.field_length*0.5f;
     float halfWidth = _field.field_width*0.5f;
@@ -260,11 +256,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGo
 
 // Returns the sides of the goal. The first vector is the the lower side and the second is the upper side.
 std::pair<Vector2, Vector2> Field::getGoalSides(bool ourGoal) {
-    roboteam_msgs::GeometryFieldSize _field;
-    {
-        std::lock_guard<std::mutex> lock(fieldMutex);
-        _field = field;
-    }
+    roboteam_msgs::GeometryFieldSize _field = get_field();
 
     // get the sides of the goal
     double goalWidth = _field.goal_width;
@@ -322,11 +314,7 @@ bool Field::lineIntersectsWithDefenceArea(bool ourGoal, const Vector2 &lineStart
 }
 
 Polygon Field::getDefenseArea(bool ourDefenseArea, double margin, bool includeOutSideField) {
-    roboteam_msgs::GeometryFieldSize _field;
-    {
-        std::lock_guard<std::mutex> lock(fieldMutex);
-        _field = field;
-    }
+    roboteam_msgs::GeometryFieldSize _field = get_field();
 
     double backLineUsXCoordinate = includeOutSideField ? - _field.field_length*0.5 - _field.boundary_width :
                                    - _field.field_length*0.5 - margin;
@@ -351,31 +339,31 @@ Polygon Field::getDefenseArea(bool ourDefenseArea, double margin, bool includeOu
     return ourDefenseArea ? defenceAreaUs : defenceAreaThem;
 }
 
-Polygon Field::getGoalArea(bool ourGoal) {
-    roboteam_msgs::GeometryFieldSize _field;
-    {
-        std::lock_guard<std::mutex> lock(fieldMutex);
-        _field = field;
-    }
+Polygon Field::getGoalArea(bool ourGoal, double margin, bool hasBackMargin) {
+    roboteam_msgs::GeometryFieldSize _field = get_field();
 
-    auto goalDepth = _field.goal_depth;
+    double marginBackside = hasBackMargin ? margin : 0.0;
+    auto goalDepth = _field.goal_depth + marginBackside;
+
     if (ourGoal) {
         auto ourGoalSides = getGoalSides(true);
         std::vector<Vector2> areaUsPoints = {
-                {ourGoalSides.first.x,              ourGoalSides.first.y},
-                {ourGoalSides.first.x - goalDepth,  ourGoalSides.first.y},
-                {ourGoalSides.second.x - goalDepth, ourGoalSides.second.y},
-                {ourGoalSides.second.x,             ourGoalSides.second.y}};
+                {ourGoalSides.first.x + margin,              ourGoalSides.first.y - margin},
+                {ourGoalSides.first.x - goalDepth,           ourGoalSides.first.y - margin},
+                {ourGoalSides.second.x - goalDepth,          ourGoalSides.second.y + margin},
+                {ourGoalSides.second.x + margin,             ourGoalSides.second.y + margin}};
 
+        interface::Input::drawDebugData(areaUsPoints, Qt::green, interface::Drawing::LINES_CONNECTED);
         return Polygon(areaUsPoints);
     }
 
     auto theirGoalSides = getGoalSides(false);
     std::vector<Vector2> areaThemPoints = {
-            {theirGoalSides.first.x,              theirGoalSides.first.y},
-            {theirGoalSides.first.x + goalDepth,  theirGoalSides.first.y},
-            {theirGoalSides.second.x + goalDepth, theirGoalSides.second.y},
-            {theirGoalSides.second.x,             theirGoalSides.second.y}};
+            {theirGoalSides.first.x - margin,              theirGoalSides.first.y - margin},
+            {theirGoalSides.first.x + goalDepth,           theirGoalSides.first.y - margin},
+            {theirGoalSides.second.x + goalDepth,          theirGoalSides.second.y + margin},
+            {theirGoalSides.second.x - margin,             theirGoalSides.second.y + margin}};
+    interface::Input::drawDebugData(areaThemPoints, Qt::red, interface::Drawing::LINES_CONNECTED);
     return Polygon(areaThemPoints);
 }
 

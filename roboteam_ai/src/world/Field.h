@@ -46,7 +46,7 @@ class Field {
         shared_ptr<Vector2> lineIntersectionWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin);
         double getTotalGoalAngle(bool ourGoal, const Vector2& point);
         Polygon getDefenseArea(bool ourDefenseArea = true, double margin = 0.0, bool includeOutSideField = true);
-        Polygon getGoalArea(bool ourGoal = true);
+        Polygon getGoalArea(bool ourGoal = true, double margin = 0.0, bool hasBackMargin = false);
 
 };
 

@@ -140,7 +140,7 @@
               "avoidBall": "true",
               "canGoOutsideField": "true",
               "canMoveInDefenseArea": "true",
-              "type": "ourGoalCenter"
+              "type": "ourDefenseAreaCenter"
             },
             "title": "GTPSpecial"
           },
