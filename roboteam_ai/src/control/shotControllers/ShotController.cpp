@@ -124,10 +124,16 @@ RobotCommand ShotController::goToPlaceBehindBall(world::Robot robot, Vector2 rob
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 RobotCommand ShotController::moveStraightToBall(world::Robot robot, std::pair<Vector2, Vector2> lineToDriveOver) {
+    /*
+     * Moving straight to the ball should be possible by driving forward at a small velocity as soon as you are at the
+     * point behind the ball. That is, under normal circumstances. If one if the wheels resists more than the others,
+     * the robot might drift and miss the ball. To solve that issue, a PID controller is used to pull the robot towards
+     * the line behind the ball.
+     */
 
     RobotCommand robotCommand;
 
-    Vector2 vel = (lineToDriveOver.second - lineToDriveOver.first).stretchToLength(0.3); // constant velocity in along the lineToDriveOver
+    Vector2 vel = (lineToDriveOver.second - lineToDriveOver.first).stretchToLength(0.3); // small constant velocity in along the lineToDriveOver
     Vector2 lineUnitVector = (lineToDriveOver.second - lineToDriveOver.first).normalize(); // unit vector in the direction of the lineToDriveOver
     Vector2 err = lineUnitVector.scale(lineUnitVector.dot(robot.pos - lineToDriveOver.first)) - (robot.pos - lineToDriveOver.first); // vector from the robot position to the lineToDriveOver
 
