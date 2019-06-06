@@ -111,9 +111,11 @@ class Constants {
 
         static std::map<int, bool> ROBOTS_WITH_WORKING_GENEVA();
         static std::map<int, bool> ROBOTS_WITH_WORKING_DRIBBLER();
+        static std::map<int, bool> ROBOTS_WITH_WORKING_BALL_SENSOR();
 
         static bool ROBOT_HAS_WORKING_GENEVA(int id);
         static bool ROBOT_HAS_WORKING_DRIBBLER(int id);
+        static bool ROBOT_HAS_WORKING_BALL_SENSOR(int id);
 
         static QColor FIELD_COLOR();
         static QColor FIELD_LINE_COLOR();
