@@ -19,6 +19,8 @@ std::string Collision::collisionTypeToString() {
         break;
     case Collision::DEFENSE_AREA: s = "DEFENSE_AREA   ";
         break;
+    case Collision::GOAL: s = "GOAL   ";
+        break;
     case Collision::NO_COLLISION: s = "NO COLLISION?!?";
         break;
     default: s = "ERROR! CollisionType does not exist";
