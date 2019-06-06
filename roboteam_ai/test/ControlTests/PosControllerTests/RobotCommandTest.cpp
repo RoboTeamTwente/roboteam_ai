@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/control/positionControllers/RobotCommand.h>
+#include <roboteam_ai/src/control/RobotCommand.h>
 #include <roboteam_ai/test/helpers/WorldHelper.h>
 
 namespace rtt {

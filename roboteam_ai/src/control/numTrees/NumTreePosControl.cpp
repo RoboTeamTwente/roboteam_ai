@@ -2,7 +2,7 @@
 // Created by thijs on 25-5-19.
 //
 
-#include "roboteam_ai/src/control/positionControllers/RobotCommand.h"
+#include "roboteam_ai/src/control/RobotCommand.h"
 #include "roboteam_ai/src/world/Robot.h"
 #include "roboteam_ai/src/world/Ball.h"
 #include <queue>
