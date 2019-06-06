@@ -3,6 +3,7 @@
 //
 
 #include "ReflectKick.h"
+#include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
 
 namespace rtt {
 namespace ai {
