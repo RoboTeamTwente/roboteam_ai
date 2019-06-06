@@ -28,14 +28,14 @@ const int MAXCOMPARISONS = 100;
 //RandVar: the amount of expected random input
 //in the future data about them and us might be different so we made different variances
 const float posVar_us = 2;
-const float stateVar_us = 0.5;
+const float stateVar_us = posVar_us;
 const float randVar_us = 1;
 const float posVar_them = 2;
-const float stateVar_them = 0.5;
+const float stateVar_them = posVar_them;
 const float randVar_them = 1;
 const float posVar_ball = 0.1;
-const float stateVar_ball = 100;
-const float randVar_ball = 1;
+const float stateVar_ball = posVar_ball;
+const float randVar_ball = 20;
 
 
 const unsigned int INVALID_ID = - 1;
