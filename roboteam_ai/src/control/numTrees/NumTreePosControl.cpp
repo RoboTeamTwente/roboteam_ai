@@ -385,8 +385,8 @@ Collision NumTreePosControl::getGoalCollision(const NumTreePosControl::PathPoint
     if (currentCollisionWithRobot.getCollisionGoalPos() != Vector2()) return collision;
     if (currentCollisionWithFinalTarget.getCollisionGoalPos() != Vector2()) return collision;
 
-    bool collidesWithOurGoal = world::field->getGoalArea(true, Constants::ROBOT_RADIUS(), false).contains(point->pos);
-    bool collidesWithTheirGoal = world::field->getGoalArea(false, Constants::ROBOT_RADIUS(), false).contains(point->pos);
+    bool collidesWithOurGoal = world::field->getGoalArea(true, Constants::ROBOT_RADIUS(), true).contains(point->pos);
+    bool collidesWithTheirGoal = world::field->getGoalArea(false, Constants::ROBOT_RADIUS(), true).contains(point->pos);
 
     if (collidesWithOurGoal || collidesWithTheirGoal) {
         collision.setGoalCollision(point->pos, world::field->get_field().goal_width/2 - fabs(point->pos.y) * 1.1);
