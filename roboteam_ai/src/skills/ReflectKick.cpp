@@ -26,29 +26,22 @@ ReflectKick::Status ReflectKick::onUpdate() {
 
     // Get the angle that the robot needs to stand at, depended on the TOWARDS_GOAL_FACTOR
     robotAngle = getAngle();
-    command.w = robotAngle;
     ballStartPos = ball->pos;
 
-    if(!coach::g_pass.isPassed()) {
+    if(coach::g_pass.isPassed()) {
         reflectionPos = getKicker();
-    } else {
-        if (willHaveBall() || kicked) {
-            if(!ballReceiveVelSet) {
-                ballReceiveVel = ball->vel;
-                ballReceiveVelSet = true;
-            }
-            Vector2 velocity = {2, 0};
-            velocity = velocity.rotate(robot->angle);
-
-            command.x_vel = velocity.x;
-            command.y_vel = velocity.y;
-            command.kicker = 1;
-            command.kicker_forced = 1;
-            kicked = true;
-            kickTicks++;
-        } else {
-            intercept();
+        if (!ballReceiveVelSet) {
+            ballReceiveVel = ball->vel;
+            ballReceiveVelSet = true;
         }
+
+        command.kicker = 1;
+        command.kicker_forced = 0;
+        intercept();
+    } else {
+        command.w = robotAngle;
+        command.x_vel = 0.0;
+        command.y_vel = 0.0;
     }
 
     publishRobotCommand();
@@ -73,7 +66,7 @@ void ReflectKick::intercept() {
 
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
 
-    Vector2 velocities = robot->getNumtreePosControl()->getRobotCommand(robot, interceptPoint).vel;
+    Vector2 velocities = robot->getBasicPosControl()->getRobotCommand(robot, interceptPoint).vel;
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
     command.w = robotAngle;

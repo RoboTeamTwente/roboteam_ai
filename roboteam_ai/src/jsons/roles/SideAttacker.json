@@ -7,11 +7,6 @@
             "id": "0e6iz68rgjzkplug",
             "title": "HasClearShot"
           },
-          "2zn719n8tg8z3l": {
-            "id": "2zn719n8tg8z3l",
-            "properties": {},
-            "title": "Receive"
-          },
           "40gzcpiku966ab8s": {
             "children": [
               "6v218u1mdnl8zb",
@@ -61,7 +56,7 @@
           "e9d5w74uo465zkp": {
             "children": [
               "fwx01iov5wuf2zl9e",
-              "2zn719n8tg8z3l"
+              "i7sopycxasrt3eku"
             ],
             "id": "e9d5w74uo465zkp",
             "title": "Sequence"
@@ -95,6 +90,11 @@
               "failsUntilChip": ""
             },
             "title": "Pass"
+          },
+          "i7sopycxasrt3eku": {
+            "id": "i7sopycxasrt3eku",
+            "properties": {},
+            "title": "ReflectKick"
           },
           "iusx0b18cn09c": {
             "children": [
