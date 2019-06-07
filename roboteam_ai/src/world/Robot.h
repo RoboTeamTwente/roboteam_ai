@@ -50,8 +50,12 @@ class Robot {
         int genevaState;
         int previousGenevaState = 0;
         double timeGenevaChanged = 0;
-        constexpr static double timeToChangeOneGenevaState = 0.2;
-        bool workingGeneva;
+        double timeToChangeOneGenevaState = 0.2;
+public:
+    void setTimeToChangeOneGenevaState(double timeToChangeOneGenevaState);
+
+private:
+    bool workingGeneva;
 public:
     void setWorkingGeneva(bool workingGeneva);
     void setHasWorkingBallSensor(bool hasWorkingBallSensor);

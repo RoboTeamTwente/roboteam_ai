@@ -144,7 +144,7 @@ void Robot::setGenevaState(int state) {
 }
 
 bool Robot::isGenevaReady() const {
-    return world->getTime() - timeGenevaChanged >
+    return world->getTime() - timeGenevaChanged >=
             abs(genevaState - previousGenevaState)*timeToChangeOneGenevaState;
 }
 
@@ -239,6 +239,10 @@ bool Robot::hasWorkingBallSensor() const {
 
 void Robot::setHasWorkingBallSensor(bool hasWorkingBallSensor) {
     workingBallSensor = hasWorkingBallSensor;
+}
+
+void Robot::setTimeToChangeOneGenevaState(double timeToChangeOneGenevaState) {
+    Robot::timeToChangeOneGenevaState = timeToChangeOneGenevaState;
 }
 
 } //world

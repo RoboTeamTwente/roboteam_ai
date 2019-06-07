@@ -157,7 +157,7 @@ TEST(ShotControllerTest, getshotdata_test) {
     auto robotWithBall = world::world->getRobotForId(robotWithBallId, true);
     robotWithBall->setGenevaState(3);
     robotWithBall->setWorkingGeneva(true);
-
+    robotWithBall->setTimeToChangeOneGenevaState(-1);
     rtt::ai::world::world->updateWorld(worldRobotPair.first);
     Vector2 shotVector = world::world->getBall()->pos - robotWithBall->pos;
     Vector2 simulatedShotTarget = world::world->getBall()->pos + shotVector.stretchToLength(1.0);
@@ -196,6 +196,7 @@ TEST(ShotControllerTest, getshotdata_test) {
         auto robot = world::world->getUs().at(0);
         robot->setGenevaState(3);
         robot->setWorkingGeneva(true);
+        robot->setTimeToChangeOneGenevaState(-1);
 
         shotdata = shotController.getRobotCommand(*robot, testhelpers::WorldHelper::getRandomFieldPosition(field),
                 true, BallSpeed::MAX_SPEED, true, ShotPrecision::HIGH);
@@ -213,6 +214,7 @@ TEST(ShotControllerTest, getshotdata_test) {
         auto robot = world::world->getUs().at(0);
         robot->setGenevaState(3);
         robot->setWorkingGeneva(true);
+        robot->setTimeToChangeOneGenevaState(-1);
 
         shotdata = shotController.getRobotCommand(*robot, testhelpers::WorldHelper::getRandomFieldPosition(field),
                 false,
@@ -230,6 +232,7 @@ TEST(ShotControllerTest, getshotdata_test) {
         auto robot = world::world->getUs().at(0);
         robot->setGenevaState(4);
         robot->setWorkingGeneva(false);
+        robot->setTimeToChangeOneGenevaState(-1);
 
         shotdata = shotController.getRobotCommand(*robot, testhelpers::WorldHelper::getRandomFieldPosition(field),
                 false,
