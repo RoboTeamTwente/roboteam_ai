@@ -57,7 +57,11 @@ void GTPSpecial::gtpInitialize() {
         break;
     }
     case ourGoalCenter: {
-        targetPos = rtt::ai::world::field->get_our_goal_center();
+        targetPos = world::field->get_our_goal_center();
+        break;
+    }
+    case ourDefenseAreaCenter: {
+        targetPos = world::field->getDefenseArea().centroid();
         break;
     }
 
@@ -119,6 +123,9 @@ GTPSpecial::Type GTPSpecial::stringToType(const std::string &string) {
     else if (string == "ourGoalCenter") {
         return ourGoalCenter;
     }
+    else if (string == "ourDefenseAreaCenter") {
+        return ourDefenseAreaCenter;
+    }
     else {
         return defaultType;
     }
@@ -140,7 +147,13 @@ Skill::Status GTPSpecial::gtpUpdate() {
         maxVel = 1.0;
         break;
     case ourGoalCenter: {
-        targetPos = rtt::ai::world::field->get_our_goal_center();
+        targetPos = world::field->get_our_goal_center();
+        robot->getNumtreePosControl()->setCanMoveInDefenseArea(true);
+        command = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos, true).makeROSCommand();
+        break;
+    }
+    case ourDefenseAreaCenter: {
+        targetPos = rtt::ai::world::field->getDefenseArea().centroid();
         robot->getNumtreePosControl()->setCanMoveInDefenseArea(true);
         command = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos, true).makeROSCommand();
         break;
