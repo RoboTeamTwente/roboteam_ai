@@ -304,6 +304,9 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     auto defenseAreaCollision = getDefenseAreaCollision(point);
     if (defenseAreaCollision.isCollision) return defenseAreaCollision;
 
+    auto goalCollision = getGoalCollision(point);
+    if (goalCollision.isCollision) return goalCollision;
+
     return {};
 }
 
@@ -374,6 +377,21 @@ Collision NumTreePosControl::getDefenseAreaCollision(const PathPointer &point) {
             return collision;
         }
     }
+    return collision;
+}
+
+Collision NumTreePosControl::getGoalCollision(const NumTreePosControl::PathPointer &point) {
+    Collision collision = {};
+    if (currentCollisionWithRobot.getCollisionGoalPos() != Vector2()) return collision;
+    if (currentCollisionWithFinalTarget.getCollisionGoalPos() != Vector2()) return collision;
+
+    bool collidesWithOurGoal = world::field->getGoalArea(true, Constants::ROBOT_RADIUS(), true).contains(point->pos);
+    bool collidesWithTheirGoal = world::field->getGoalArea(false, Constants::ROBOT_RADIUS(), true).contains(point->pos);
+
+    if (collidesWithOurGoal || collidesWithTheirGoal) {
+        collision.setGoalCollision(point->pos, world::field->get_field().goal_width/2 - fabs(point->pos.y) * 1.1);
+    }
+
     return collision;
 }
 
@@ -593,6 +611,8 @@ bool NumTreePosControl::checkChangeInMaxRobotVel() {
     }
     return false;
 }
+
+
 
 } // control
 } // ai
