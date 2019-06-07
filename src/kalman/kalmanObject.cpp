@@ -85,6 +85,12 @@ namespace rtt {
                 return;
             }
         }
+        //if the object comes into being, make the observation it's state, (to prevent jumping)
+        if (!this->exists){
+            this->pastObservation.clear();
+            this->X(0) = robot.pos.x;
+            this->X(2) = robot.pos.y;
+        }
         Position average = calculatePos(robot.pos, robot.orientation, cameraID);
         this->cameraId = cameraID;
         this->id= robot.robot_id;
@@ -94,11 +100,6 @@ namespace rtt {
         this->orientation = average.rot;
         this->observationTimeStamp = timeStamp;
         this->invisibleCounter = 0;
-        //if the object comes into being, make the observation it's state, (to prevent jumping)
-        if (!this->exists){
-            this->X(0) = robot.pos.x;
-            this->X(2) = robot.pos.y;
-        }
         this->exists = true;
     }
 

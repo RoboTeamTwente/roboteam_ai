@@ -50,6 +50,12 @@ namespace rtt {
                 return;
             }
         }
+        if (!this->exists){
+            this->pastObservation.clear();
+            this->X.zeros();
+            this->X(0) = ball.pos.x;
+            this->X(2) = ball.pos.y;
+        }
         Position average = calculatePos(ball.pos, ball.z, cameraID);
         this->cameraId = cameraID;
         this->Z(0) = average.x;
@@ -58,11 +64,6 @@ namespace rtt {
         this->orientation = average.rot;
         this->observationTimeStamp = timeStamp;
         this->invisibleCounter = 0;
-        if (!this->exists){
-            this->X.zeros();
-            this->X(0) = ball.pos.x;
-            this->X(2) = ball.pos.y;
-        }
         this->exists = true;
     }
     roboteam_msgs::WorldBall kalmanBall::as_ball_message() const{
