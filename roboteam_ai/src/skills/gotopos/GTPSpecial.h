@@ -25,7 +25,8 @@ class GTPSpecial : public GoToPos {
             defaultType,
             freeKick,
             getBackIn,
-            ourGoalCenter
+            ourGoalCenter,
+            ourDefenseAreaCenter
         };
         Type type;
         Type stringToType(const std::string &string);
