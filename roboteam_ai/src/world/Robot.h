@@ -58,7 +58,7 @@ public:
 public:
         unsigned char getGenevaState() const;
         bool isGenevaReady() const;
-        void setGenevaState(unsigned char state = 3);
+        void setGenevaState(unsigned char state);
         bool hasWorkingGeneva() const;
         bool hasWorkingBallSensor() const;
 
