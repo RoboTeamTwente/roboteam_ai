@@ -43,11 +43,12 @@ class BallHandlePosControl : public NumTreePosControl {
         Angle targetAngle;
         Angle lockedAngle = 0;
 
-        pidfVals pidf = std::make_tuple(1.0, 0.0, 0.25, 1.0);
-        PID xGoToBallPID = PID(pidf);
-        PID yGoToBallPID = PID(pidf);
-        PID xBallHandlePID = PID(pidf);
-        PID yBallHandlePID = PID(pidf);
+        pidfVals pidfBallHandle = std::make_tuple(1.5, 0.0, 1.0, 1.0);
+        pidfVals pidfGoToBall = std::make_tuple(1.0, 0.0, 0.25, 1.0);
+        PID xGoToBallPID = PID(pidfBallHandle);
+        PID yGoToBallPID = PID(pidfBallHandle);
+        PID xBallHandlePID = PID(pidfBallHandle);
+        PID yBallHandlePID = PID(pidfBallHandle);
     public:
         RobotCommand updatePID(PID &xpid, PID &ypid, const RobotCommand &robotCommand);
 

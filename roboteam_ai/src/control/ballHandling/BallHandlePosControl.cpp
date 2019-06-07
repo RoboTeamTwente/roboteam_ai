@@ -78,13 +78,17 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
     // if we do not have the ball yet, go get it
     bool robotDoesNotHaveBall = ! robot->hasBall();
     bool robotIsTooFarFromBall = (robot->pos - ball->pos).length2() > maxBallDistance*maxBallDistance;
+    bool robotIsTouchingBall =
+            (robot->pos - ball->pos).length() < (Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS())*1.05;
+
     bool ballIsMovingTooFast = ball->vel.length2() > minVelForMovingball*minVelForMovingball;
     bool alreadyDribbling = (
             dribbleBackwards->getBackwardsProgression() != DribbleBackwards::BackwardsProgress::START ||
-            dribbleForwards->getForwardsProgression() != DribbleForwards::ForwardsProgress::START);
+                    dribbleForwards->getForwardsProgression() != DribbleForwards::ForwardsProgress::START);
 
-    bool shouldGetBall = (alreadyDribbling && ballIsMovingTooFast && robotIsTooFarFromBall && robotDoesNotHaveBall) ||
-            (! alreadyDribbling && (ballIsMovingTooFast || robotIsTooFarFromBall || robotDoesNotHaveBall));
+    bool shouldGetBall = alreadyDribbling ?
+            (ballIsMovingTooFast && ! robotIsTouchingBall) && robotDoesNotHaveBall && robotIsTooFarFromBall :
+            (ballIsMovingTooFast && ! robotIsTouchingBall) || robotDoesNotHaveBall || robotIsTooFarFromBall;
 
     bool ballIsOutsideField = ! world::field->pointIsInField(ball->pos, 0.0);
     if (ballIsOutsideField) {
@@ -216,11 +220,13 @@ RobotCommand BallHandlePosControl::handleBall(const Vector2 &targetBallPos, Trav
     }
 
     switch (travelStrategy) {
-    case FORWARDS: return updatePID(xBallHandlePID, yBallHandlePID,
-            dribbleForwards->getRobotCommand(robot, targetBallPos, targetAngle));
+    case FORWARDS:
+        return updatePID(xBallHandlePID, yBallHandlePID,
+                dribbleForwards->getRobotCommand(robot, targetBallPos, targetAngle));
 
-    case BACKWARDS: return updatePID(xBallHandlePID, yBallHandlePID,
-            dribbleBackwards->getRobotCommand(robot, targetBallPos, targetAngle));
+    case BACKWARDS:
+        return updatePID(xBallHandlePID, yBallHandlePID,
+                dribbleBackwards->getRobotCommand(robot, targetBallPos, targetAngle));
 
     default:
     case NO_PREFERENCE: {
@@ -287,8 +293,12 @@ RobotCommand BallHandlePosControl::goToMovingBall() {
         return robotCommand;
     }
 
-    numTreesTarget = ballStillPosition;
+    numTreesTarget = ControlUtils::projectPositionToWithinField(ballStillPosition);
     auto robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
+
+    if (NumTreePosControl::getCurrentCollisionWithRobot().getCollisionType() == Collision::CollisionType::BALL) {
+        robotCommand.vel = (ball->pos - robot->pos).stretchToLength(ball->vel.length());
+    }
 
     robotCommand.vel += ball->vel;
     return robotCommand;
