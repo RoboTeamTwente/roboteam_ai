@@ -11,6 +11,7 @@ namespace rtt {
 namespace ai {
 
 typedef std::tuple<double, double, double> pidVals;
+typedef std::tuple<double, double, double, double> pidfVals;
 
 class Constants {
 

@@ -44,12 +44,11 @@ class BallHandlePosControl : public NumTreePosControl {
         Angle lockedAngle = 0;
 
 
-        double p = 1.5, i = 0, d = 0.5, f = 1;
-
-        PID xGoToBallPID = PID(p, i, d, f);
-        PID yGoToBallPID = PID(p, i, d, f);
-        PID xBallHandlePID = PID(p, i, d, f);
-        PID yBallHandlePID = PID(p, i, d, f);
+        pidfVals pidf = {1.0, 0.0, 0.25, 1.0};
+        PID xGoToBallPID = PID(pidf);
+        PID yGoToBallPID = PID(pidf);
+        PID xBallHandlePID = PID(pidf);
+        PID yBallHandlePID = PID(pidf);
     public:
         RobotCommand updatePID(PID &xpid, PID &ypid, const RobotCommand &robotCommand);
 

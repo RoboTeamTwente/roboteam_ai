@@ -16,6 +16,18 @@ PID::PID(double p, double i, double d, double f){
     init();
     P=p; I=i; D=d; F=f;
 }
+
+PID::PID(std::tuple<double, double, double> pid)
+        :PID(std::get<0>(pid), std::get<1>(pid), std::get<2>(pid)) {
+
+}
+
+PID::PID(std::tuple<double, double, double, double> pidf)
+        :PID(std::get<0>(pidf), std::get<1>(pidf), std::get<2>(pidf), std::get<3>(pidf)) {
+
+}
+
+
 void PID::init(){
     P=0;
     I=0;
