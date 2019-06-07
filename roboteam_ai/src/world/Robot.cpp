@@ -159,7 +159,7 @@ void Robot::setDribblerState(unsigned char dribbler) {
         std::cout << "setting invalid dribbler state (" << (int) dribbler <<
                   ") for robot with id " << id << std::endl;
     }
-    else if (! workingDribbler) {
+    else if (! workingDribbler && dribbler != 0) {
         std::cout << "setting dribbler state (" << (int) dribbler <<
                   ") for robot without working dribbler with id " << id << std::endl;
     }
