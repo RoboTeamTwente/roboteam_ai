@@ -43,7 +43,16 @@ class BallHandlePosControl : public NumTreePosControl {
         Angle targetAngle;
         Angle lockedAngle = 0;
 
+
+        double p = 1.5, i = 0, d = 0.5, f = 1;
+
+        PID xGoToBallPID = PID(p, i, d, f);
+        PID yGoToBallPID = PID(p, i, d, f);
+        PID xBallHandlePID = PID(p, i, d, f);
+        PID yBallHandlePID = PID(p, i, d, f);
     public:
+        RobotCommand updatePID(PID &xpid, PID &ypid, const RobotCommand &robotCommand);
+
         enum TravelStrategy : short {
           FORWARDS,
           BACKWARDS,

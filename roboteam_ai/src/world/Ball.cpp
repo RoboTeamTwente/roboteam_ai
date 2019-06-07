@@ -186,6 +186,9 @@ void Ball::updateExpectedPositionWhereBallIsStill(const Ball &oldBall, const Wor
 
     interface::Input::drawData(interface::Visual::BALL_DATA, {pos, ballStillPosition}, Constants::BALL_COLOR(), - 1,
             interface::Drawing::LINES_CONNECTED);
+
+    //TODO: Add ball-robot collision detection and rebounce direction
+    //      Do not remove the comments, it's a failed attempt but keep it :) tyty <3
 //
 //    LineSegment ballLine = LineSegment(pos, ballStillPosition);
 //    double collisionDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
