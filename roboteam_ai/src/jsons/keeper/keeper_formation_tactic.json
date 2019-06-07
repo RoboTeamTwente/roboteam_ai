@@ -8,10 +8,10 @@
             "properties": {
               "ROLE": "Keeper",
               "avoidBall": "true",
-              "canGoOutsideField": "false",
+              "canGoOutsideField": "true",
               "canMoveInDefenseArea": "true",
               "fixedTarget": "",
-              "type": "ourGoalCenter"
+              "type": "ourDefenseAreaCenter"
             },
             "title": "GTPSpecial"
           },
