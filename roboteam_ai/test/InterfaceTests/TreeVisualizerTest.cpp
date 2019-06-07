@@ -6,7 +6,7 @@
 #include <roboteam_ai/src/interface/widgets/TreeVisualizerWidget.h>
 #include <roboteam_ai/src/interface/widgets/mainWindow.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
-#include <roboteam_ai/src/skills/Kick.h>
+#include <roboteam_ai/src/skills/Halt.h>
 
 namespace rtt {
 namespace ai {
@@ -36,7 +36,8 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
         node = it->second->node_name();
 
         // check if the pairs of layout and nodes are properly connected
-        bt::Node::Ptr n = std::make_shared<rtt::ai::Kick>();
+        auto properties = std::make_shared<bt::Blackboard>();
+        bt::Node::Ptr n = std::make_shared<rtt::ai::Halt>("halt", properties);
         EXPECT_EQ(tree, node);
         EXPECT_EQ(status, n->status_print(it->second->getStatus()));
 
@@ -51,8 +52,9 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
         status = it->first->text(1).toStdString();
         node = it->second->node_name();
 
+        auto properties = std::make_shared<bt::Blackboard>();
+        bt::Node::Ptr n = std::make_shared<rtt::ai::Halt>("halt", properties);
         // check if the pairs of layout and nodes are properly connected
-        bt::Node::Ptr n = std::make_shared<rtt::ai::Kick>();
         EXPECT_EQ(tree, node);
         EXPECT_EQ(status, n->status_print(it->second->getStatus()));
         EXPECT_TRUE(status == "Failure" || status == "Waiting");
@@ -72,7 +74,8 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
         nodeTrace = it->second->node_name();
 
         // check if the pairs of layout and nodes are properly connected
-        bt::Node::Ptr n = std::make_shared<rtt::ai::Kick>();
+        auto properties = std::make_shared<bt::Blackboard>();
+        bt::Node::Ptr n = std::make_shared<rtt::ai::Halt>("halt", properties);
         EXPECT_EQ(treeTrace, nodeTrace);
         EXPECT_EQ(statusTrace, n->status_print(it->second->getStatus()));
     }
