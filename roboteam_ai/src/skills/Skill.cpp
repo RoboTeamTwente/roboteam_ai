@@ -91,7 +91,7 @@ void Skill::refreshRobotCommand() {
     roboteam_msgs::RobotCommand emptyCmd;
     emptyCmd.use_angle = 1;
     emptyCmd.id = robot ? robot->id : -1;
-    emptyCmd.geneva_state = 3;
+    emptyCmd.geneva_state = 0;
     command = emptyCmd;
 }
 

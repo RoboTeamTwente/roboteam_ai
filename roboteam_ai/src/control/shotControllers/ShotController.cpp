@@ -31,6 +31,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
     }
 
     if (chip) {
+        std::cout << "chipping -> simulate shotcontroller to use geneva 3" << std::endl;
         currentDesiredGeneva = 3;
     }
 
@@ -50,7 +51,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
     RobotCommand shotData;
     // std::cout<<" Online: "<<isOnLineToBall <<" behind: "<<isBehindBall<<" valid: "<<validAngle<<" isShooting: " <<isShooting<<std::endl;
     if (isOnLineToBall && isBehindBall && (validAngle || isShooting)) {
-        if (!robot.isGenevaReady()) {
+        if (!robot.isGenevaReady() && !chip) {
             isShooting = false;
             // just stand still at the right angle
             shotData.vel = {0.0, 0.0};
@@ -76,6 +77,12 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
             interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::DEBUG, {lineToDriveOver.first, lineToDriveOver.second}, Qt::red,
             robot.id, interface::Drawing::LINES_CONNECTED);
+
+    // if we are chipping then the geneva state of 3 was actually just a way of proper positioning
+    // we can secretly just keep it's state
+    if (chip) currentDesiredGeneva = robot.getGenevaState();
+
+
     // Make sure the Geneva state is always correct
     shotData.geneva = currentDesiredGeneva;
     return shotData;

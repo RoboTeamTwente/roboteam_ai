@@ -106,11 +106,11 @@ const unsigned long Robot::getLastUpdatedWorldNumber() const {
     return lastUpdatedWorldNumber;
 }
 
-unsigned char Robot::getGenevaState() const {
+int Robot::getGenevaState() const {
     return genevaState;
 }
 
-void Robot::setGenevaState(unsigned char state) {
+void Robot::setGenevaState(int state) {
 
     // if the state is the same (or with 0 it is specifically said to stay the same) don't do anything.
     if (state == genevaState || state == 0) {
@@ -132,7 +132,9 @@ void Robot::setGenevaState(unsigned char state) {
     // if the geneva is turning currently
     if (! isGenevaReady()) {
         std::cout << "The geneva is not ready yet. for robot with id " << id << std::endl;
-        std::cout << "still turning for " << world->getTime() - timeGenevaChanged << " s";
+        std::cout << "still turning for " << world->getTime() - timeGenevaChanged << " s" << std::endl;
+        std::cout << "turning from " << genevaState << " to " << state << std::endl;
+
         return;
     }
 

@@ -47,8 +47,8 @@ class Robot {
 
         // geneva
     private:
-        unsigned char genevaState;
-        unsigned char previousGenevaState = 0;
+        int genevaState;
+        int previousGenevaState = 0;
         double timeGenevaChanged = 0;
         constexpr static double timeToChangeOneGenevaState = 0.5;
         bool workingGeneva;
@@ -56,9 +56,9 @@ public:
     void setWorkingGeneva(bool workingGeneva);
     void setHasWorkingBallSensor(bool hasWorkingBallSensor);
 public:
-        unsigned char getGenevaState() const;
+        int getGenevaState() const;
         bool isGenevaReady() const;
-        void setGenevaState(unsigned char state);
+        void setGenevaState(int state);
         bool hasWorkingGeneva() const;
         bool hasWorkingBallSensor() const;
 
