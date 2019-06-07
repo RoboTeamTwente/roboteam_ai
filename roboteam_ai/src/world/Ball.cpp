@@ -170,7 +170,7 @@ void Ball::updateBallPosition(const Ball &oldBall, const WorldData &worldData) {
 void Ball::updateExpectedPositionWhereBallIsStill(const Ball &oldBall, const WorldData &worldData) {
     auto ball = worldData.ball;
     double ballVel = ball->vel.length();
-    const double frictionCoefficient = 1.22;
+    const double frictionCoefficient = Constants::GRSIM() ? 1.22 : 0.61;
 
     Vector2 expectedBallStillPosition = ball->pos + ball->vel.stretchToLength(ballVel*ballVel / frictionCoefficient);
     const Vector2 &previousBallStillPosition = oldBall.getBallStillPosition();

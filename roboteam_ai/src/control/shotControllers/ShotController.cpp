@@ -99,7 +99,7 @@ bool ShotController::onLineToBall(const world::Robot &robot, const std::pair<Vec
         ShotPrecision precision) {
     double dist = ControlUtils::distanceToLine(robot.pos, line.first, line.second);
     if (precision == HIGH) {
-        return dist < 0.04;
+        return dist < 0.02;
     }
     else if (precision == MEDIUM) {
         return dist < 0.05;
@@ -125,12 +125,12 @@ RobotCommand ShotController::goToPlaceBehindBall(world::Robot robot, const Vecto
     auto shotData = robot.getBallHandlePosControl()->getRobotCommand(std::make_shared<world::Robot>(robot), aimAt, robot.angle, control::BallHandlePosControl::TravelStrategy::FORWARDS);
 
     //TODO: if (rotating to this angle from current angle will hit ball) then pva.angle=angle towards ball
-    if ((robot.pos - robotTargetPosition).length() < 0.3) {
+    if ((robot.pos - robotTargetPosition).length() < 0.2) {
         shotData.angle = (line.second - line.first).toAngle();
     }
 
-    if (shotData.vel.length() < 0.2) {
-        shotData.vel = shotData.vel.stretchToLength(0.2);
+    if (shotData.vel.length() < 0.3) {
+        shotData.vel = shotData.vel.stretchToLength(0.3);
     }
 
     return shotData;

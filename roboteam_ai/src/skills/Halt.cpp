@@ -18,13 +18,10 @@ void Halt::onInitialize() {
 }
 
 Halt::Status Halt::onUpdate() {
-    if (tick <= ticks) {
-        // send slowing down command
-        command.use_angle = 0;
-        publishRobotCommand();
-        tick ++;
-        return Status::Running;
-    }
+
+    // send slowing down command
+    publishRobotCommand();
+
     // do not send a command
     return Status::Running;
 }
