@@ -4,7 +4,7 @@
 
 #include <roboteam_ai/src/utilities/RobotDealer.h>
 #include <ros/node_handle.h>
-#include <roboteam_ai/src/coach/PassCoach.h>
+#include <roboteam_ai/src/coach/pass/PassCoach.h>
 #include "widget.h"
 #include "roboteam_ai/src/interface/api/Input.h"
 #include "roboteam_ai/src/interface/api/Output.h"

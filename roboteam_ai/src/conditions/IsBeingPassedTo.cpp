@@ -2,7 +2,7 @@
 * Consult the pass coach if the current robot is being passed to. in that case: return SUCCESS. else FAILURE.
 */
 
-#include <roboteam_ai/src/coach/PassCoach.h>
+#include <roboteam_ai/src/coach/pass/PassCoach.h>
 #include "IsBeingPassedTo.h"
 
 namespace rtt {

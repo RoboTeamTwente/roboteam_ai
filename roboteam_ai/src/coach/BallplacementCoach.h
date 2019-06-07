@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_BALLPLACEMENT_H
 
 #include "roboteam_utils/Vector2.h"
-#include "PassCoach.h"
+#include "roboteam_ai/src/coach/pass/PassCoach.h"
 
 namespace rtt {
 namespace ai {

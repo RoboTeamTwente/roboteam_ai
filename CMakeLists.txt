@@ -430,8 +430,8 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/heuristics/PassScore.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/heuristics/OffensiveScore.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/heuristics/OffensiveScore.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/PassCoach.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/PassCoach.h
+        roboteam_ai/src/coach/pass/PassCoach.cpp
+        roboteam_ai/src/coach/pass/PassCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/BallplacementCoach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/BallplacementCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PositionUtils.cpp
@@ -447,7 +447,7 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/midField/MidFieldCoach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/midField/MidFieldCoach.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GetBallCoach.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GetBallCoach.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GetBallCoach.h roboteam_ai/src/coach/pass/Pass.cpp roboteam_ai/src/coach/pass/Pass.h)
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})

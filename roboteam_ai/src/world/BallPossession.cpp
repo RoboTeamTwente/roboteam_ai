@@ -3,7 +3,7 @@
 //
 
 #include "BallPossession.h"
-#include <roboteam_ai/src/coach/PassCoach.h>
+#include <roboteam_ai/src/coach/pass/PassCoach.h>
 
 namespace rtt {
 namespace ai {

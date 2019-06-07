@@ -7,7 +7,7 @@
 
 #include <roboteam_ai/src/control/BasicPosControl.h>
 #include "Skill.h"
-#include <roboteam_ai/src/coach/PassCoach.h>
+#include <roboteam_ai/src/coach/pass/PassCoach.h>
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
 
 namespace rtt {

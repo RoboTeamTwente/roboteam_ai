@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_SHOULDHANDLEBALL_H
 
 #include "Condition.h"
-#include "../coach/PassCoach.h"
+#include "roboteam_ai/src/coach/pass/PassCoach.h"
 
 namespace rtt {
 namespace ai {

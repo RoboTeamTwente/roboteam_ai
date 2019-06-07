@@ -3,7 +3,7 @@
 //
 
 #include "Condition.h"
-#include <roboteam_ai/src/coach/PassCoach.h>
+#include <roboteam_ai/src/coach/pass/PassCoach.h>
 
 #ifndef ROBOTEAM_AI_ISPASSHAPPENING_H
 #define ROBOTEAM_AI_ISPASSHAPPENING_H

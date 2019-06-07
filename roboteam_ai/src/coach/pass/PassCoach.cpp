@@ -3,7 +3,7 @@
 //
 
 #include "PassCoach.h"
-#include "../world/Field.h"
+#include "roboteam_ai/src/world/Field.h"
 
 namespace rtt {
 namespace ai {

@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 1-5-19.
 //
 
-#include <roboteam_ai/src/coach/PassCoach.h>
+#include <roboteam_ai/src/coach/pass/PassCoach.h>
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
 #include "BallPlacementReceive.h"
 #include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
