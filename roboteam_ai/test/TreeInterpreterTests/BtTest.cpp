@@ -468,7 +468,8 @@ TEST(BehaviorTreeTest, decorators) {
 }
 
 TEST(BehaviorTreeTest, StatusToString) {
-    bt::Node::Ptr node = std::make_shared<rtt::ai::Halt>();
+    bt::Blackboard::Ptr bb = std::make_shared<bt::Blackboard>();
+    bt::Node::Ptr node = std::make_shared<rtt::ai::Halt>("halt", bb);
     EXPECT_EQ(node->status_print(bt::Node::Status::Failure), "Failure");
     EXPECT_EQ(node->status_print(bt::Node::Status::Waiting), "Waiting");
     EXPECT_EQ(node->status_print(bt::Node::Status::Success), "Success");
