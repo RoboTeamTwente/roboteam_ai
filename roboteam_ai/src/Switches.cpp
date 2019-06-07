@@ -523,7 +523,10 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                      {"d2", robotType::CLOSE_TO_OUR_GOAL},
                      {"d3", robotType::CLOSE_TO_OUR_GOAL},
                      {"d4", robotType::CLOSE_TO_OUR_GOAL},
-                     {"d5", robotType::CLOSE_TO_OUR_GOAL}
+                     {"d5", robotType::CLOSE_TO_OUR_GOAL},
+                     {"d6", robotType::CLOSE_TO_OUR_GOAL},
+                     {"d7", robotType::CLOSE_TO_OUR_GOAL},
+                     {"d8", robotType::CLOSE_TO_OUR_GOAL}
              }
             },
             {"normal_play_midfield_tactic",
@@ -532,7 +535,10 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                      {"m2", robotType::CLOSE_TO_OUR_GOAL},
                      {"m3", robotType::CLOSE_TO_OUR_GOAL},
                      {"m4", robotType::CLOSE_TO_OUR_GOAL},
-                     {"m5", robotType::CLOSE_TO_OUR_GOAL}
+                     {"m5", robotType::CLOSE_TO_OUR_GOAL},
+                     {"m6", robotType::CLOSE_TO_OUR_GOAL},
+                     {"m7", robotType::CLOSE_TO_OUR_GOAL},
+                     {"m8", robotType::CLOSE_TO_OUR_GOAL}
              }
             },
             {"normal_play_offense_tactic",
@@ -541,7 +547,10 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                      {"o2", robotType::CLOSE_TO_THEIR_GOAL},
                      {"o3", robotType::CLOSE_TO_THEIR_GOAL},
                      {"o4", robotType::CLOSE_TO_THEIR_GOAL},
-                     {"o5", robotType::CLOSE_TO_THEIR_GOAL}
+                     {"o5", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"o6", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"o7", robotType::CLOSE_TO_THEIR_GOAL},
+                     {"o8", robotType::CLOSE_TO_THEIR_GOAL}
              }
             },
             {"test_pass_tactic",
