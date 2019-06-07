@@ -132,6 +132,7 @@ void Robot::setGenevaState(unsigned char state) {
     // if the geneva is turning currently
     if (! isGenevaReady()) {
         std::cout << "The geneva is not ready yet. for robot with id " << id << std::endl;
+        std::cout << "still turning for " << world->getTime() - timeGenevaChanged << " s";
         return;
     }
 
