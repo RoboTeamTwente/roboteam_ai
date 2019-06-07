@@ -51,10 +51,11 @@ namespace rtt {
             }
         }
         Position average = calculatePos(ball.pos, ball.z, cameraID);
+        this->cameraId = cameraID;
         this->Z(0) = average.x;
         this->Z(1) = average.y;
-        this->omega = (ball.z - this->orientation)/(timeStamp-this->observationTimeStamp);
-        this->orientation = ball.z;
+        this->omega = (average.rot - this->orientation)/(timeStamp-this->observationTimeStamp);
+        this->orientation = average.rot;
         this->observationTimeStamp = timeStamp;
         this->invisibleCounter = 0;
         if (!this->exists){
