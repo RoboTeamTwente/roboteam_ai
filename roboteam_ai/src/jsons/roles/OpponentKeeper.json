@@ -39,7 +39,7 @@
           "7hh3yly0xkmbez5k": {
             "children": [
               "s5dwjanolstng7rp",
-              "hm743v4lczxjnk0x"
+              "xp49u4m0hel35xz9"
             ],
             "id": "7hh3yly0xkmbez5k",
             "properties": {
@@ -101,14 +101,6 @@
             },
             "title": "Halt"
           },
-          "hm743v4lczxjnk0x": {
-            "id": "hm743v4lczxjnk0x",
-            "properties": {
-              "Keeper": "true",
-              "ROLE": "Keeper"
-            },
-            "title": "DemoInterceptBall"
-          },
           "kwg0s6j42w969x2q": {
             "children": [
               "gd0g5n47kimi2lql"
@@ -164,6 +156,13 @@
               "ROLE": "Keeper"
             },
             "title": "HasBall"
+          },
+          "xp49u4m0hel35xz9": {
+            "id": "xp49u4m0hel35xz9",
+            "properties": {
+              "Keeper": "true"
+            },
+            "title": "OpponentInterceptBall"
           }
         },
         "root": "pcqg6pkinlob4uns",

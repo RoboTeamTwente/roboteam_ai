@@ -44,7 +44,7 @@
 #include "roboteam_ai/src/skills/ReflectKick.h"
 #include "roboteam_ai/src/skills/InterceptRobot.hpp"
 #include "roboteam_ai/src/skills/InterceptBall.h"
-#include "roboteam_ai/src/skills/DemoInterceptBall.h"
+#include "roboteam_ai/src/skills/OpponentInterceptBall.h"
 #include "roboteam_ai/src/skills/CoachDefend.h"
 #include "roboteam_ai/src/skills/formations/PenaltyFormation.h"
 #include "roboteam_ai/src/skills/formations/FreeKickFormation.h"
@@ -232,7 +232,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["Halt"] = std::make_shared<rtt::ai::Halt>(name, properties);
     map["Harass"] = std::make_shared<rtt::ai::Harass>(name, properties);
     map["InterceptBall"] = std::make_shared<rtt::ai::InterceptBall>(name, properties);
-    map["DemoInterceptBall"] = std::make_shared<rtt::ai::DemoInterceptBall>(name, properties);
+    map["OpponentInterceptBall"] = std::make_shared<rtt::ai::OpponentInterceptBall>(name, properties);
     map["InterceptRobot"] = std::make_shared<rtt::ai::InterceptRobot>(name, properties);
     map["Keeper"] = std::make_shared<rtt::ai::Keeper>(name, properties);
     map["OpponentKeeper"] = std::make_shared<rtt::ai::OpponentKeeper>(name, properties);
