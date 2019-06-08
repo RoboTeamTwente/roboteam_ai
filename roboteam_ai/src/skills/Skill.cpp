@@ -107,7 +107,10 @@ void Skill::limitRobotCommand() {
     limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
     limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w);
     robot->setPidPreviousVel(limitedVel);
-
+    if (std::isnan(robot->getPidPreviousVel().x) || (std::isnan(robot->getPidPreviousVel().y))) {
+        std::cerr << "PID PREVIOUS VEL OF ROBOT " << robot->id << " is NaN!!! ";
+        robot->setPidPreviousVel(Vector2());
+    }
     command.x_vel = limitedVel.x;
     command.y_vel = limitedVel.y;
 }

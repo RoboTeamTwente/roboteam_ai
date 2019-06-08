@@ -164,7 +164,7 @@ RobotCommand ShotController::moveStraightToBall(world::Robot robot, const std::p
     updatePid(newPidValues);
     double pidOutput = pid.getOutput(err.length() * sign, 0);
 
-    robotCommand.vel = vel;// + err.stretchToLength(abs(pidOutput));
+    robotCommand.vel = vel + err.stretchToLength(abs(pidOutput));
 //    robotCommand.vel = robotCommand.vel.stretchToLength(robotCommand.vel.length() > 0.3 ? 0.3 : 1);
     robotCommand.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
     RobotCommand shotData(robotCommand);
