@@ -566,7 +566,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
              }
             },
             {"shoot_penalty_us_tactic", {
-                    {"penaltyShooter", robotType::CLOSE_TO_BALL},
+                    {"penaltyShooter", robotType::WORKING_GENEVA},
                     {"paa1", robotType::RANDOM},
                     {"paa2", robotType::RANDOM},
                     {"paa3", robotType::RANDOM},
