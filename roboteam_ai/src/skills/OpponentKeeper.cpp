@@ -30,7 +30,7 @@ OpponentKeeper::Status OpponentKeeper::onUpdate() {
 
     goalPos = world::field->get_their_goal_center();
 
-    if (ball->pos.x < 0) {
+    if (ball->pos.x > 0) {
         auto attacker = world::world->getRobotClosestToPoint(ball->pos, world::OUR_ROBOTS);
         if (attacker && (ball->pos - attacker->pos).length() < MIN_ATTACKER_DIST) {
             setGoalPosWithAttacker(attacker);
@@ -63,7 +63,7 @@ void OpponentKeeper::onTerminate(Status s) {
 
 Vector2 OpponentKeeper::computeBlockPoint(const Vector2 &defendPos) {
     Vector2 blockPos, posA, posB;
-    if (defendPos.x < world::field->get_their_goal_center().x) {
+    if (defendPos.x > world::field->get_their_goal_center().x) {
         if (abs(defendPos.y) >= goalwidth) {
             blockPos = Vector2(goalPos.x - Constants::KEEPER_POST_MARGIN(), goalwidth/2
                     *signum(defendPos.y));
@@ -146,8 +146,8 @@ Arc OpponentKeeper::createKeeperArc() {
     double angle = asin(goalwidth/2/radius); // maximum angle (at which we hit the posts)
     Vector2 center = Vector2(goalPos.x - rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN() - radius, 0);
 
-    return diff > 0 ? rtt::Arc(center, radius, M_PI - angle, angle - M_PI) :
-           rtt::Arc(center, radius, angle, - angle);
+    return diff > 0 ? rtt::Arc(center, radius, - M_PI + angle,  - angle + M_PI) :
+           rtt::Arc(center, radius, - angle, angle);
 }
 
 }

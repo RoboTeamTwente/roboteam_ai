@@ -3,175 +3,173 @@
     "trees": [
       {
         "nodes": {
-          "1g71th9k72bd2v1l": {
-            "id": "1g71th9k72bd2v1l",
-            "properties": {
-              "ROLE": "Keeper"
-            },
-            "title": "OpponentKeeper"
-          },
-          "5wksvvawgvkt2k36": {
-            "id": "5wksvvawgvkt2k36",
+          "2pkwgzg8vjgnuiwr": {
+            "id": "2pkwgzg8vjgnuiwr",
             "properties": {
               "ROLE": "Keeper",
               "avoidBall": "true",
               "canGoOutsideField": "false",
               "canMoveInDefenseArea": "true",
-              "type": "ourGoalCenter"
+              "type": "theirGoalCenter"
             },
             "title": "GTPSpecial"
           },
-          "8bmcqx2q22bcesl1": {
-            "id": "8bmcqx2q22bcesl1",
-            "properties": {
-              "ROLE": "Keeper",
-              "ourDefenseArea": "true",
-              "outsideField": "false",
-              "useRobot": "true"
-            },
-            "title": "IsInDefenseArea"
-          },
-          "979ma19q271v1n5a": {
-            "id": "979ma19q271v1n5a",
-            "properties": {
-              "Keeper": "true",
-              "ROLE": "Keeper"
-            },
-            "title": "DemoInterceptBall"
-          },
-          "ed6dumnqb0tevgm5": {
+          "3r47wxh5uotk39a1": {
             "children": [
-              "8bmcqx2q22bcesl1"
+              "9pkcdk1zdkg4sy5m",
+              "2pkwgzg8vjgnuiwr"
             ],
-            "id": "ed6dumnqb0tevgm5",
+            "id": "3r47wxh5uotk39a1",
             "properties": {
               "ROLE": "Keeper"
             },
-            "title": "Inverter"
+            "title": "Sequence"
           },
-          "fu04b2d0erzq83oy": {
-            "id": "fu04b2d0erzq83oy",
-            "properties": {
-              "Role": "Keeper"
-            },
-            "title": "BallKickedToOurGoal"
-          },
-          "i26vxq535e6wtmuu": {
-            "id": "i26vxq535e6wtmuu",
-            "properties": {
-              "ROLE": "Keeper",
-              "ticks": ""
-            },
-            "title": "Halt"
-          },
-          "ipgoomyn351ydyfx": {
-            "id": "ipgoomyn351ydyfx",
-            "properties": {
-              "ROLE": "Keeper"
-            },
-            "title": "HasBall"
-          },
-          "jx5d191unxwqhhmg": {
+          "4it4jr8bn99216bk": {
             "children": [
-              "i26vxq535e6wtmuu"
+              "84sqhotyhsdm794u",
+              "kwg0s6j42w969x2q"
             ],
-            "id": "jx5d191unxwqhhmg",
+            "id": "4it4jr8bn99216bk",
             "properties": {
-              "ROLE": "Keeper",
-              "limit": ""
+              "ROLE": "Keeper"
             },
-            "title": "Repeater"
+            "title": "Sequence"
           },
-          "lquum844i4vttcsi": {
-            "id": "lquum844i4vttcsi",
+          "7hh3yly0xkmbez5k": {
+            "children": [
+              "s5dwjanolstng7rp",
+              "hm743v4lczxjnk0x"
+            ],
+            "id": "7hh3yly0xkmbez5k",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "title": "MemSequence"
+          },
+          "81pryvwfk9i4emie": {
+            "id": "81pryvwfk9i4emie",
+            "properties": {},
+            "title": "BallKickedToTheirGoal"
+          },
+          "84sqhotyhsdm794u": {
+            "id": "84sqhotyhsdm794u",
             "properties": {
               "ROLE": "Keeper",
               "theirDefenceArea": "true"
             },
             "title": "BallInDefenseAreaAndStill"
           },
-          "nce56kz2ta75x0be": {
+          "9pkcdk1zdkg4sy5m": {
             "children": [
-              "fu04b2d0erzq83oy",
-              "yuwzfy849pvt0o0h"
+              "qewjq9fhybrqtmsi"
             ],
-            "id": "nce56kz2ta75x0be",
+            "id": "9pkcdk1zdkg4sy5m",
             "properties": {
               "ROLE": "Keeper"
             },
-            "title": "Sequence"
+            "title": "Inverter"
           },
-          "pzvbkd0pwmec7h20": {
+          "al3uac8nwqt17rhe": {
             "children": [
-              "lquum844i4vttcsi",
-              "jx5d191unxwqhhmg"
+              "xoexn7gj72cb4q62"
             ],
-            "id": "pzvbkd0pwmec7h20",
+            "id": "al3uac8nwqt17rhe",
             "properties": {
               "ROLE": "Keeper"
             },
-            "title": "Sequence"
+            "title": "Inverter"
           },
-          "qadahr42fdar08si": {
+          "cxb952gxm1f0mpz9": {
             "children": [
-              "qbp0hbyrz27c6q97"
+              "3r47wxh5uotk39a1",
+              "7hh3yly0xkmbez5k",
+              "4it4jr8bn99216bk",
+              "mw6k6iy4zkit5l0j"
             ],
-            "id": "qadahr42fdar08si",
-            "properties": {
-              "ROLE": "Keeper"
-            },
-            "title": "Repeater"
-          },
-          "qbp0hbyrz27c6q97": {
-            "children": [
-              "usmo4os9nslc45zu",
-              "sku068f6f925vho5",
-              "pzvbkd0pwmec7h20",
-              "1g71th9k72bd2v1l"
-            ],
-            "id": "qbp0hbyrz27c6q97",
+            "id": "cxb952gxm1f0mpz9",
             "properties": {
               "ROLE": "Keeper"
             },
             "title": "Selector"
           },
-          "sku068f6f925vho5": {
+          "gd0g5n47kimi2lql": {
+            "id": "gd0g5n47kimi2lql",
+            "properties": {
+              "ROLE": "Keeper",
+              "ticks": ""
+            },
+            "title": "Halt"
+          },
+          "hm743v4lczxjnk0x": {
+            "id": "hm743v4lczxjnk0x",
+            "properties": {
+              "Keeper": "true",
+              "ROLE": "Keeper"
+            },
+            "title": "DemoInterceptBall"
+          },
+          "kwg0s6j42w969x2q": {
             "children": [
-              "nce56kz2ta75x0be",
-              "979ma19q271v1n5a"
+              "gd0g5n47kimi2lql"
             ],
-            "id": "sku068f6f925vho5",
+            "id": "kwg0s6j42w969x2q",
+            "properties": {
+              "ROLE": "Keeper",
+              "limit": ""
+            },
+            "title": "Repeater"
+          },
+          "mw6k6iy4zkit5l0j": {
+            "id": "mw6k6iy4zkit5l0j",
             "properties": {
               "ROLE": "Keeper"
             },
-            "title": "MemSequence"
+            "title": "OpponentKeeper"
           },
-          "usmo4os9nslc45zu": {
+          "pcqg6pkinlob4uns": {
             "children": [
-              "ed6dumnqb0tevgm5",
-              "5wksvvawgvkt2k36"
+              "cxb952gxm1f0mpz9"
             ],
-            "id": "usmo4os9nslc45zu",
+            "id": "pcqg6pkinlob4uns",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "title": "Repeater"
+          },
+          "qewjq9fhybrqtmsi": {
+            "id": "qewjq9fhybrqtmsi",
+            "properties": {
+              "ROLE": "Keeper",
+              "ourDefenseArea": "false",
+              "outsideField": "false",
+              "useRobot": "true"
+            },
+            "title": "IsInDefenseArea"
+          },
+          "s5dwjanolstng7rp": {
+            "children": [
+              "81pryvwfk9i4emie",
+              "al3uac8nwqt17rhe"
+            ],
+            "id": "s5dwjanolstng7rp",
             "properties": {
               "ROLE": "Keeper"
             },
             "title": "Sequence"
           },
-          "yuwzfy849pvt0o0h": {
-            "children": [
-              "ipgoomyn351ydyfx"
-            ],
-            "id": "yuwzfy849pvt0o0h",
+          "xoexn7gj72cb4q62": {
+            "id": "xoexn7gj72cb4q62",
             "properties": {
               "ROLE": "Keeper"
             },
-            "title": "Inverter"
+            "title": "HasBall"
           }
         },
-        "root": "qadahr42fdar08si",
-        "title": "Keeper"
+        "root": "pcqg6pkinlob4uns",
+        "title": "OpponentKeeper"
       }
     ]
   },
-  "name": "Keeper"
+  "name": "OpponentKeeper"
 }
