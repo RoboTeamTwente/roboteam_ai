@@ -71,7 +71,7 @@
           "e3ankund5cmp6x5a": {
             "id": "e3ankund5cmp6x5a",
             "properties": {
-              "secondsAhead": "0.7"
+              "secondsAhead": "0.4"
             },
             "title": "BallOutOfField"
           },
@@ -135,7 +135,7 @@
               "margin": "",
               "ourDefenseArea": "false",
               "outsideField": "true",
-              "secondsAhead": "0.7",
+              "secondsAhead": "0.4",
               "useRobot": "false"
             },
             "title": "IsInDefenseArea"
