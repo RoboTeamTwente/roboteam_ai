@@ -12,9 +12,18 @@
             "properties": {},
             "title": "Receive"
           },
+          "338k1uomjjg7lsdj": {
+            "children": [
+              "kaxvn1rsvevzy3rq"
+            ],
+            "id": "338k1uomjjg7lsdj",
+            "properties": {},
+            "title": "Inverter"
+          },
           "40gzcpiku966ab8s": {
             "children": [
               "6v218u1mdnl8zb",
+              "338k1uomjjg7lsdj",
               "49ambtpymi4l0bt5"
             ],
             "id": "40gzcpiku966ab8s",
@@ -103,6 +112,17 @@
             ],
             "id": "iusx0b18cn09c",
             "title": "Sequence"
+          },
+          "kaxvn1rsvevzy3rq": {
+            "id": "kaxvn1rsvevzy3rq",
+            "properties": {
+              "margin": "",
+              "ourDefenseArea": "false",
+              "outsideField": "true",
+              "secondsAhead": "0.7",
+              "useRobot": "false"
+            },
+            "title": "IsInDefenseArea"
           },
           "lsnzin91i3imjek5": {
             "id": "lsnzin91i3imjek5",
