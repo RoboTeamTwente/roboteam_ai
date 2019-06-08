@@ -111,7 +111,7 @@ bool ShotController::onLineToBall(const world::Robot &robot, const std::pair<Vec
 Vector2 ShotController::getPlaceBehindBall(const world::Robot& robot, const Vector2& shotTarget) {
     auto ball = world::world->getBall();
     Vector2 preferredShotVector = ball->pos - shotTarget;
-    double distanceBehindBall = 2.0*Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
+    double distanceBehindBall = 1.5 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
     return ball->pos + preferredShotVector.stretchToLength(distanceBehindBall);
 }
 
@@ -122,7 +122,8 @@ RobotCommand ShotController::goToPlaceBehindBall(world::Robot robot, const Vecto
     auto ball = world::world->getBall();
 
        Vector2 aimAt = updateGenevaAimTarget(geneva);
-    auto shotData = robot.getBallHandlePosControl()->getRobotCommand(std::make_shared<world::Robot>(robot), aimAt, robot.angle, control::BallHandlePosControl::TravelStrategy::FORWARDS);
+    auto shotData = robot.getBallHandlePosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
+            aimAt, robot.angle, control::BallHandlePosControl::TravelStrategy::FORWARDS);
 
     //TODO: if (rotating to this angle from current angle will hit ball) then pva.angle=angle towards ball
     if ((robot.pos - robotTargetPosition).length() < 0.2) {

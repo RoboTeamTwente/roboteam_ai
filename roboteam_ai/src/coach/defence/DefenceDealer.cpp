@@ -46,7 +46,8 @@ void DefenceDealer::updateDefenderLocations() {
         bool idFound = false;
         for (const auto &defender: assignedDefenders) {
             if (id == defender.id) {
-                defender.coveredCount>LOCKTIME ? lockedDefenders.push_back(defender) : freeDefenders.push_back(defender.id);
+                defender.coveredCount > LOCKTIME ? lockedDefenders.push_back(defender) : freeDefenders.push_back(
+                        defender.id);
                 idFound = true;
                 break;
             }
@@ -55,10 +56,10 @@ void DefenceDealer::updateDefenderLocations() {
             freeDefenders.push_back(id);
         }
     }
-    auto foundDefenders=g_defensivePositionCoach.decidePositions(lockedDefenders, freeDefenders);
+    auto foundDefenders = g_defensivePositionCoach.decidePositions(lockedDefenders, freeDefenders);
     availableIDs.clear();
-    if (foundDefenders.size()<freeDefenders.size()+lockedDefenders.size()){
-        std::cout<<"WTFF"<<std::endl;
+    if (foundDefenders.size() < freeDefenders.size() + lockedDefenders.size()) {
+        std::cout << "WTFF" << std::endl;
     }
     assignedDefenders = foundDefenders;
     visualizePoints();    //visualization
