@@ -149,7 +149,9 @@ RobotCommand ShotController::moveStraightToBall(world::Robot robot, const std::p
 
     Vector2 vel = (lineToDriveOver.second - lineToDriveOver.first).stretchToLength(0.3); // small constant velocity along the lineToDriveOver
     Vector2 lineUnitVector = (lineToDriveOver.second - lineToDriveOver.first).normalize(); // unit vector in the direction of the lineToDriveOver
-    Vector2 err = lineUnitVector.scale(lineUnitVector.dot(robot.pos - lineToDriveOver.first)) - (robot.pos - lineToDriveOver.first); // vector from the robot position to the lineToDriveOver
+
+    Vector2 projection = robot.pos.project(lineToDriveOver.first, lineToDriveOver.second);
+    Vector2 err = projection - robot.pos;
 
     // check on which side of the line the robot is
     double angle = ((robot.pos - lineToDriveOver.first).toAngle() - lineUnitVector.toAngle());
@@ -161,7 +163,8 @@ RobotCommand ShotController::moveStraightToBall(world::Robot robot, const std::p
     updatePid(newPidValues);
     double pidOutput = pid.getOutput(err.length() * sign, 0);
 
-    robotCommand.vel = vel + err.stretchToLength(abs(pidOutput));
+    robotCommand.vel = vel;// + err.stretchToLength(abs(pidOutput));
+//    robotCommand.vel = robotCommand.vel.stretchToLength(robotCommand.vel.length() > 0.3 ? 0.3 : 1);
     robotCommand.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
     RobotCommand shotData(robotCommand);
     return shotData;
@@ -179,14 +182,16 @@ RobotCommand ShotController::shoot(RobotCommand shotData, world::Robot robot, co
         shotData.kicker = false;
 
         // TODO calibrate chip speed
-        shotData.kickerVel = determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
+        shotData.kickerVel = 6;//determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
     }
     else {
         shotData.chipper = false;
         shotData.kicker = true;
-        shotData.kickerVel = determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
+        shotData.kickerVel = 6;//determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
     }
     shotData.kickerForced = !robot.hasWorkingBallSensor(); // force kick when ball sensor is not working
+
+    std::cout << "shooting " << (shotData.kickerForced ? "without " : "with ") << "ballsensor" << std::endl;
     return shotData;
 }
 
