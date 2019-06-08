@@ -28,7 +28,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
 
     if (robot.hasWorkingGeneva() && !genevaIsTurning) {
         // If using fixed geneva, set it to that
-        if (fixedGeneva != -1) {
+        if (fixedGeneva >= 1 && fixedGeneva <= 5) {
             currentDesiredGeneva = fixedGeneva;
         } else if (useAutoGeneva && !robotAlreadyVeryClose) {
             currentDesiredGeneva = determineOptimalGenevaState(robot, aimTarget);
