@@ -87,8 +87,8 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
                     dribbleForwards->getForwardsProgression() != DribbleForwards::ForwardsProgress::START);
 
     bool shouldGetBall = alreadyDribbling ?
-            (ballIsMovingTooFast && ! robotIsTouchingBall) && robotDoesNotHaveBall && robotIsTooFarFromBall :
-            (ballIsMovingTooFast && ! robotIsTouchingBall) || robotDoesNotHaveBall || robotIsTooFarFromBall;
+            (ballIsMovingTooFast && ! robotIsTouchingBall) || (robotDoesNotHaveBall && robotIsTooFarFromBall) :
+            (ballIsMovingTooFast && ! robotIsTouchingBall) || (robotDoesNotHaveBall || robotIsTooFarFromBall);
 
     bool ballIsOutsideField = ! world::field->pointIsInField(ball->pos, 0.0);
     if (ballIsOutsideField) {
