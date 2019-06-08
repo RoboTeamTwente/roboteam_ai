@@ -24,6 +24,7 @@
             "children": [
               "6v218u1mdnl8zb",
               "338k1uomjjg7lsdj",
+              "fb9v0hgjiktxkb7f",
               "49ambtpymi4l0bt5"
             ],
             "id": "40gzcpiku966ab8s",
@@ -67,6 +68,13 @@
             },
             "title": "GTPSpecial"
           },
+          "e3ankund5cmp6x5a": {
+            "id": "e3ankund5cmp6x5a",
+            "properties": {
+              "secondsAhead": "0.7"
+            },
+            "title": "BallOutOfField"
+          },
           "e9d5w74uo465zkp": {
             "children": [
               "fwx01iov5wuf2zl9e",
@@ -74,6 +82,14 @@
             ],
             "id": "e9d5w74uo465zkp",
             "title": "Sequence"
+          },
+          "fb9v0hgjiktxkb7f": {
+            "children": [
+              "e3ankund5cmp6x5a"
+            ],
+            "id": "fb9v0hgjiktxkb7f",
+            "properties": {},
+            "title": "Inverter"
           },
           "fwx01iov5wuf2zl9e": {
             "id": "fwx01iov5wuf2zl9e",
