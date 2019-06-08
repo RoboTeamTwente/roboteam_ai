@@ -15,7 +15,7 @@ namespace control {
 
 /// return a ShotData (which contains data for robotcommands) for a specific robot to shoot at a specific target.
 RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &shotTarget, bool chip,
-        BallSpeed ballspeed, bool useAutoGeneva, ShotPrecision precision) {
+        BallSpeed ballspeed, bool useAutoGeneva, ShotPrecision precision, int fixedGeneva) {
     // we only allow the external command to change the target if we are not already shooting. Otherwise we use the previous command sent
     if (! isShooting) {
         aimTarget = shotTarget;
@@ -26,8 +26,13 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
     bool robotAlreadyVeryClose = robot.pos.dist(ball->pos) < 3.0*Constants::ROBOT_RADIUS();
     int currentDesiredGeneva = robot.getGenevaState();
 
-    if (useAutoGeneva && robot.hasWorkingGeneva() && ! genevaIsTurning && ! robotAlreadyVeryClose) {
-        currentDesiredGeneva = determineOptimalGenevaState(robot, aimTarget);
+    if (robot.hasWorkingGeneva() && !genevaIsTurning) {
+        // If using fixed geneva, set it to that
+        if (fixedGeneva != -1) {
+            currentDesiredGeneva = fixedGeneva;
+        } else if (useAutoGeneva && !robotAlreadyVeryClose) {
+            currentDesiredGeneva = determineOptimalGenevaState(robot, aimTarget);
+        }
     }
 
     if (chip) {
@@ -63,7 +68,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
             if (robot.hasWorkingBallSensor()) {
                 shotData = shoot(robot, lineToDriveOver, aimTarget, chip, ballspeed);
             } else {
-                shotData = shootWithoutBallSensor(robot, lineToDriveOver, aimTarget, chip, ballspeed);
+                shotData = shoot(robot, lineToDriveOver, aimTarget, chip, ballspeed);
             }
         }
     }
@@ -107,7 +112,7 @@ bool ShotController::onLineToBall(const world::Robot &robot, const std::pair<Vec
 Vector2 ShotController::getPlaceBehindBall(const world::Robot& robot, const Vector2& shotTarget) {
     auto ball = world::world->getBall();
     Vector2 preferredShotVector = ball->pos - shotTarget;
-    double distanceBehindBall = 2.0*Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
+    double distanceBehindBall = 1.5*Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
     return ball->pos + preferredShotVector.stretchToLength(distanceBehindBall);
 }
 
