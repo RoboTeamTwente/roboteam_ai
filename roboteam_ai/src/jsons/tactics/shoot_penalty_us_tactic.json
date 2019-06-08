@@ -17,7 +17,9 @@
           },
           "7qagsysv184vyzup": {
             "id": "7qagsysv184vyzup",
-            "properties": {},
+            "properties": {
+              "ROLE": "penaltyShooter"
+            },
             "title": "ShootPenalty"
           },
           "8l3moobwecl7wh0": {
