@@ -6,6 +6,7 @@ Chip
 Dribble,Position,maxTicks,forwardDirection,dribbleOnTerminate,BallPlacement,distance
 RotateToAngle,rotateToBall,Angle,RobotControl
 InterceptBall
+DemoInterceptBall
 InterceptRobot
 GetBall,maxTime
 Attack

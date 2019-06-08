@@ -64,7 +64,10 @@ void GTPSpecial::gtpInitialize() {
         targetPos = world::field->getDefenseArea().centroid();
         break;
     }
-
+    case theirGoalCenter: {
+        targetPos = world::field->get_their_goal_center();
+        break;
+    }
     }
 
 }
@@ -122,6 +125,9 @@ GTPSpecial::Type GTPSpecial::stringToType(const std::string &string) {
     }
     else if (string == "ourGoalCenter") {
         return ourGoalCenter;
+    }
+    else if (string == "theirGoalCenter") {
+        return theirGoalCenter;
     }
     else if (string == "ourDefenseAreaCenter") {
         return ourDefenseAreaCenter;

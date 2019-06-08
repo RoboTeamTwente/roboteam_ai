@@ -1,7 +1,7 @@
 HasBall
 TheyHaveBall
-HasBall
 BallKickedToOurGoal
+BallKickedToTheirGoal
 BallInDefenseAreaAndStill
 IsInDefenseArea,useRobot,ourDefenseArea,outsideField,margin
 IsOnOurSide

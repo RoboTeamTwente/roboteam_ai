@@ -158,8 +158,12 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Harass.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Keeper.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Keeper.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/OpponentKeeper.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/OpponentKeeper.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DemoInterceptBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DemoInterceptBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Attack.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Attack.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleRotate.cpp
@@ -248,6 +252,8 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/WeHaveBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallKickedToOurGoal.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallKickedToOurGoal.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallKickedToTheirGoal.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallKickedToTheirGoal.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallInDefenseAreaAndStill.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBallOnOurSide.cpp

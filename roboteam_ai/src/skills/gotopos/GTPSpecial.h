@@ -26,6 +26,7 @@ class GTPSpecial : public GoToPos {
             freeKick,
             getBackIn,
             ourGoalCenter,
+            theirGoalCenter,
             ourDefenseAreaCenter
         };
         Type type;
