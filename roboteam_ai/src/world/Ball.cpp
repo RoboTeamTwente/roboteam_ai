@@ -177,8 +177,9 @@ void Ball::updateExpectedPositionWhereBallIsStill(const Ball &oldBall, const Wor
 
     double ballStillPositionDifference = (expectedBallStillPosition - previousBallStillPosition).length();
 
-    double b = 8.0;
-    double a = sqrt(ballStillPositionDifference) > b ? 1.0 : sqrt(ballStillPositionDifference)/b;
+    double b = 7.50;
+    double c = 0.75;
+    double a = sqrt(ballStillPositionDifference) > b ? c : sqrt(ballStillPositionDifference)*c/b;
     ballStillPosition = (previousBallStillPosition*(1 - a) + expectedBallStillPosition*a);
 
     interface::Input::drawData(interface::Visual::BALL_DATA, {ballStillPosition}, Constants::BALL_COLOR(), - 1,
