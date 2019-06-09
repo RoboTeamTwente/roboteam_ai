@@ -147,9 +147,13 @@ RobotCommand ShotController::moveStraightToBall(world::Robot robot, const std::p
 
     RobotCommand robotCommand;
 
-    Vector2 vel = (lineToDriveOver.second - lineToDriveOver.first).stretchToLength(0.3); // small constant velocity along the lineToDriveOver
+    double maxDist = 0.05; // distance at which the robot only moves towards the line.
+    double maxForwardVel = 0.3; // maximum velocity to move towards the ball with
+
     Vector2 lineUnitVector = (lineToDriveOver.second - lineToDriveOver.first).normalize(); // unit vector in the direction of the lineToDriveOver
     Vector2 err = lineUnitVector.scale(lineUnitVector.dot(robot.pos - lineToDriveOver.first)) - (robot.pos - lineToDriveOver.first); // vector from the robot position to the lineToDriveOver
+    Vector2 vel = (lineToDriveOver.second - lineToDriveOver.first); // small constant velocity along the lineToDriveOver
+    vel = err.length() >= maxDist ? Vector2() : vel.stretchToLength(maxForwardVel * (maxDist - err.length()));
 
     // check on which side of the line the robot is
     double angle = ((robot.pos - lineToDriveOver.first).toAngle() - lineUnitVector.toAngle());
