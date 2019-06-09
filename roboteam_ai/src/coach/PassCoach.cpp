@@ -144,9 +144,9 @@ bool PassCoach::validReceiver(RobotPtr passer, RobotPtr receiver) {
         return false;
     }
 
-    if(receiver->pos.x - ball->pos.x < 0) {
-        return false;
-    }
+//    if(receiver->pos.x - ball->pos.x < 0) {
+//        return false;
+//    }
 
     return true;
 }

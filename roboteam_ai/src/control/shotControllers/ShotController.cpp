@@ -51,8 +51,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
     bool validAngle = robotAngleIsGood(robot, lineToDriveOver, precision);
 
     RobotCommand shotData;
-    // std::cout<<" Online: "<<isOnLineToBall <<" behind: "<<isBehindBall<<" valid: "<<validAngle<<" isShooting: " <<isShooting<<std::endl;
-    if (isOnLineToBall && isBehindBall && (validAngle || isShooting)) {
+    if (isBehindBall && ((isOnLineToBall && validAngle) || isShooting)) {
         if (!robot.isGenevaReady() && !chip) {
             isShooting = false;
             // just stand still at the right angle
@@ -91,6 +90,10 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
 
     // Make sure the Geneva state is always correct
     shotData.geneva = currentDesiredGeneva;
+//    if(shotData.vel.length() < 0.22) {
+//        shotData.vel = shotData.vel.stretchToLength(0.22);
+//    }
+
     return shotData;
 }
 
@@ -111,7 +114,7 @@ bool ShotController::onLineToBall(const world::Robot &robot, const std::pair<Vec
 Vector2 ShotController::getPlaceBehindBall(const world::Robot &robot, const Vector2 &shotTarget) {
     Vector2 ballPos = world::world->getBall()->pos;
     Vector2 preferredShotVector = ballPos - shotTarget;
-    double distanceBehindBall = 2.5 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
+    double distanceBehindBall = 3.5 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
     return ballPos + preferredShotVector.stretchToLength(distanceBehindBall);
 }
 
@@ -202,11 +205,10 @@ double ShotController::determineKickForce(double distance, BallSpeed desiredBall
     case LAY_STILL_AT_POSITION:velocity = sqrt(distance)*rtt::ai::Constants::MAX_KICK_POWER()/(sqrt(maxPowerDist)*1.5);
         break;
     case PASS:
-        velocity = distance > maxPowerDist ? rtt::ai::Constants::MAX_KICK_POWER() : sqrt(distance)
-                *
-                        rtt::ai::Constants::MAX_KICK_POWER()/
-                sqrt(maxPowerDist)*
-                1.2;
+//        velocity = distance > maxPowerDist ? rtt::ai::Constants::MAX_KICK_POWER() : sqrt(distance)
+//                * rtt::ai::Constants::MAX_KICK_POWER() / sqrt(maxPowerDist) * 0.4;
+        velocity = distance >= maxPowerDist ? rtt::ai::Constants::MAX_KICK_POWER() :
+               pow(distance / maxPowerDist, 2) * rtt::ai::Constants::MAX_KICK_POWER();
         break;
     case MAX_SPEED:velocity = rtt::ai::Constants::MAX_KICK_POWER();
         break;

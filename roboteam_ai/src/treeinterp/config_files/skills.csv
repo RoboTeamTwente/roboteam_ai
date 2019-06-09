@@ -15,6 +15,7 @@ Pass,BallPlacement,failsUntilChip
 Receive,BallPlacement,canMoveInDefenseArea
 Formation
 DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement,distance
+DribbleForward,distance
 AvoidBall,Stop,type
 Keeper
 GoAroundPos,targetPos,targetDir,towardsTheirGoal,ball

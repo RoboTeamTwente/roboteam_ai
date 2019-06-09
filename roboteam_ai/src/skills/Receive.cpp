@@ -47,7 +47,7 @@ Receive::Status Receive::onUpdate() {
         }
     }
 
-    //command.w = (ball->pos - robot->pos).toAngle().getAngle();
+    command.w = (ball->pos - robot->pos).toAngle().getAngle();
     publishRobotCommand();
     return Status::Running;
 
@@ -87,7 +87,9 @@ void Receive::intercept() {
     Vector2 velocities = robot->getBasicPosControl()->getRobotCommand(robot, interceptPoint).vel;
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
+    //command.w = (ball->pos - robot->pos).toAngle();
     command.w = ball->vel.stretchToLength(-1).toAngle();
+    command.dribbler = 25;
 
     interface::Input::drawData(interface::Visual::INTERCEPT, {ballStartPos, ballEndPos}, Qt::darkCyan, robot->id, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::INTERCEPT, {interceptPoint}, Qt::cyan, robot->id, interface::Drawing::DOTS, 5, 5);

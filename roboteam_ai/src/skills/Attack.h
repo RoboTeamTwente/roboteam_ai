@@ -14,7 +14,7 @@ namespace ai {
 
 class Attack : public Skill {
 private:
-    int maxRethink = 3;
+    int maxRethink = 30;
     int rethinks = 0;
     Vector2 aimPoint;
 public:

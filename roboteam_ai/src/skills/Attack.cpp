@@ -35,6 +35,7 @@ bt::Node::Status Attack::onUpdate() {
     }
 
     if(rethinks <= maxRethink) {
+        rethinks++;
         aimPoint = coach::g_offensiveCoach.getShootAtGoalPoint(ball->pos);
     }
 

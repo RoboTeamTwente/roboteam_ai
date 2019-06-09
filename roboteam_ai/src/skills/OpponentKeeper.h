@@ -16,7 +16,7 @@ namespace ai {
 class OpponentKeeper : public Skill {
 
         const double KEEPER_POSDIF = 0.01;
-        const double MIN_ATTACKER_DIST=0.3;
+        const double MIN_ATTACKER_DIST=0.5;
 
     private:
         Arc blockCircle;

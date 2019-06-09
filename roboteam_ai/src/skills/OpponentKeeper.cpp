@@ -33,7 +33,6 @@ OpponentKeeper::Status OpponentKeeper::onUpdate() {
     if (ball->pos.x > 0) {
         auto attacker = world::world->getRobotClosestToPoint(ball->pos, world::OUR_ROBOTS);
         if (attacker && (ball->pos - attacker->pos).length() < MIN_ATTACKER_DIST) {
-            std::cout << "Keeper taking into account attacker" << std::endl;
             setGoalPosWithAttacker(attacker);
         }
     }

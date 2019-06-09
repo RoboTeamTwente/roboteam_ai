@@ -98,7 +98,7 @@ Pass::Status Pass::onUpdate() {
         }
 
         auto shotdata = robot->getShotController()->getRobotCommand(*robot, getKicker(), chip, control::BallSpeed::PASS,
-                true, control::ShotPrecision::MEDIUM);
+                false, control::ShotPrecision::HIGH);
         command = shotdata.makeROSCommand();
         if ((command.kicker == true || command.chipper == true) && ! hasShot) {
             hasShot = true;

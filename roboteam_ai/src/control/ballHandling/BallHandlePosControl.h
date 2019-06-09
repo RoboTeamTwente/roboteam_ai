@@ -34,7 +34,7 @@ class BallHandlePosControl : public NumTreePosControl {
         const double angleErrorMargin = 0.02;
         const double maxBallDistance = Constants::ROBOT_RADIUS()*2.0;
         const double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
-        const double minVelForMovingball = 0.16;
+        const double minVelForMovingball = 0.16 * 2;
         double ballPlacementAccuracy = 0.07;
 
         RobotPtr robot;
