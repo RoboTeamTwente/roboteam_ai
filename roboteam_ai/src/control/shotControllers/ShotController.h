@@ -67,7 +67,7 @@ class ShotController {
     public:
         explicit ShotController() = default;
         RobotCommand getRobotCommand(world::Robot robot, const Vector2 &shotTarget, bool chip = false,
-                BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true, ShotPrecision precision = MEDIUM, int fixedGeneva = -1);
+                BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true, ShotPrecision precision = MEDIUM, int fixedGeneva = 0);
         void setGenevaDelay(int genevaDifference);
 };
 
