@@ -38,9 +38,6 @@ class ShotController {
         bool init = false;
         bool isShooting = false;
         Vector2 aimTarget;
-        bool genevaIsTurning = false;
-        double secondsToTurnGeneva = 0.0;
-        double lastTimeGenevaChanged = 0.0;
 
         // PID variables
         PID pid  = PID(0.0, 0.0, 0.0);
@@ -76,7 +73,6 @@ class ShotController {
         explicit ShotController() = default;
         RobotCommand getRobotCommand(world::Robot robot, const Vector2 &shotTarget, bool chip = false,
                 BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true, ShotPrecision precision = MEDIUM);
-        void setGenevaDelay(int genevaDifference);
 };
 
 } // control
