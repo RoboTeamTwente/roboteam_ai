@@ -29,6 +29,10 @@ ReflectKick::Status ReflectKick::onUpdate() {
     ballStartPos = ball->pos;
 
     if(coach::g_pass.isPassed()) {
+        if(ball->vel.length() < Constants::BALL_STILL_VEL()) {
+            return Status::Failure;
+        }
+
         reflectionPos = getKicker();
         if (!ballReceiveVelSet) {
             ballReceiveVel = ball->vel;
@@ -36,7 +40,7 @@ ReflectKick::Status ReflectKick::onUpdate() {
         }
 
         command.kicker = 1;
-        command.kicker_forced = 0;
+        command.kicker_forced = Constants::GRSIM()? 1 : 0;
         intercept();
     } else {
         command.w = robotAngle;
@@ -67,8 +71,8 @@ void ReflectKick::intercept() {
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
 
     Vector2 velocities = robot->getBasicPosControl()->getRobotCommand(robot, interceptPoint).vel;
-    command.x_vel = static_cast<float>(velocities.x);
-    command.y_vel = static_cast<float>(velocities.y);
+    command.x_vel = velocities.x;
+    command.y_vel = velocities.y;
     command.w = robotAngle;
 }
 
@@ -96,7 +100,12 @@ Vector2 ReflectKick::getKicker() {
 }
 
 double ReflectKick::getAngle() {
-    return (angleToGoalTarget + ((angleToBall - angleToGoalTarget) * (1 - TOWARDS_GOAL_FACTOR))).getAngle();
+    Vector2 robotToGoalVector = (goalTarget - getKicker());
+    Vector2 robotToBallVector = (ball->pos - getKicker());
+    //Angle angle = (angleToGoalTarget + ((angleToBall - angleToGoalTarget) * (1 - TOWARDS_GOAL_FACTOR))).getAngle();
+    Angle angle = ((robotToGoalVector + robotToBallVector) * 0.5).toAngle();
+    return angle;
+
 }
 
 bool ReflectKick::willHaveBall() {
