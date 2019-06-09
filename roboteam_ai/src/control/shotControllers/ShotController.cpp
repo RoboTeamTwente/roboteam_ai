@@ -162,6 +162,7 @@ RobotCommand ShotController::shoot(world::Robot robot, const std::pair<Vector2, 
         shotData.kicker = true;
         shotData.kickerVel = determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
     }
+    shotData.kickerForced = true;
     return shotData;
 }
 

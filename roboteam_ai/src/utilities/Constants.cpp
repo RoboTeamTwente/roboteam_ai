@@ -211,15 +211,15 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
     static std::map<int, bool> workingBallSensorRobots;
     workingBallSensorRobots[0] = false;
     workingBallSensorRobots[1] = true;
-    workingBallSensorRobots[2] = true;
+    workingBallSensorRobots[2] = false;
     workingBallSensorRobots[3] = true;
     workingBallSensorRobots[4] = true;
-    workingBallSensorRobots[5] = true;
+    workingBallSensorRobots[5] = false;
     workingBallSensorRobots[6] = true;
     workingBallSensorRobots[7] = true;
     workingBallSensorRobots[8] = true;
     workingBallSensorRobots[9] = true;
-    workingBallSensorRobots[10] = true;
+    workingBallSensorRobots[10] = false;
     workingBallSensorRobots[11] = true;
     workingBallSensorRobots[12] = true;
     workingBallSensorRobots[13] = true;
