@@ -47,8 +47,8 @@ bool Constants::SHOW_COACH_TIME_TAKEN() { return false; }
 bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
 bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
 
-bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return false; }
-bool Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO() { return false; }
+bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return true; }
+bool Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO() { return true; }
 
 double Constants::MAX_VEL_CMD() { return 8.191; }
 
@@ -102,7 +102,7 @@ double Constants::MAX_BALL_BOUNCE_RANGE() { return GRSIM() ? 0.4 : 0.15; }
 
 double Constants::MAX_BALL_RANGE() { return 0.04; }
 
-double Constants::MAX_KICK_RANGE() { return 0.06; }
+double Constants::MAX_KICK_RANGE() { return 0.04; }
 
 double Constants::HAS_BALL_ANGLE() { return 0.2; }
 
@@ -164,16 +164,16 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
     static std::map<int, bool> workingGenevaRobots;
     workingGenevaRobots[0] = true;
     workingGenevaRobots[1] = true;
-    workingGenevaRobots[2] = false;
-    workingGenevaRobots[3] = false;
+    workingGenevaRobots[2] = true;
+    workingGenevaRobots[3] = true;
     workingGenevaRobots[4] = true;
     workingGenevaRobots[5] = true;
     workingGenevaRobots[6] = true;
     workingGenevaRobots[7] = true;
     workingGenevaRobots[8] = true;
     workingGenevaRobots[9] = true;
-    workingGenevaRobots[10] = true;
-    workingGenevaRobots[11] = true;
+    workingGenevaRobots[10] = false;
+    workingGenevaRobots[11] = false;
     workingGenevaRobots[12] = true;
     workingGenevaRobots[13] = true;
     workingGenevaRobots[14] = true;
@@ -184,9 +184,9 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
 
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER() {
     static std::map<int, bool> workingDribblerRobots;
-    workingDribblerRobots[0] = false;
-    workingDribblerRobots[1] = false;
-    workingDribblerRobots[2] = false;
+    workingDribblerRobots[0] = true;
+    workingDribblerRobots[1] = true;
+    workingDribblerRobots[2] = true;
     workingDribblerRobots[3] = true;
     workingDribblerRobots[4] = true;
     workingDribblerRobots[5] = true;
@@ -209,12 +209,12 @@ bool Constants::ROBOT_HAS_WORKING_GENEVA(int id) {
 
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
     static std::map<int, bool> workingBallSensorRobots;
-    workingBallSensorRobots[0] = false;
+    workingBallSensorRobots[0] = true;
     workingBallSensorRobots[1] = true;
     workingBallSensorRobots[2] = true;
     workingBallSensorRobots[3] = true;
-    workingBallSensorRobots[4] = true;
-    workingBallSensorRobots[5] = true;
+    workingBallSensorRobots[4] = false;
+    workingBallSensorRobots[5] = false;
     workingBallSensorRobots[6] = true;
     workingBallSensorRobots[7] = true;
     workingBallSensorRobots[8] = true;
@@ -267,6 +267,8 @@ pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) 
 pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(5.0, 0.0, 0.4) : pidVals(5.0, 0.0, 0.4); }
 
 pidVals Constants::standardKeeperInterceptPID() { return GRSIM() ? pidVals(6.0, 0.0, 1.2) : pidVals(6.0, 0.0, 1.2); }
+
+pidVals Constants::standardShotControllerPID() { return GRSIM() ? pidVals(2.0, 0.0, 0.0) : pidVals(5.0, 0.5, 0.0); }
 
 std::vector<RuleSet> Constants::ruleSets() {
     return {

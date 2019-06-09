@@ -15,6 +15,8 @@ pidVals Output::numTreePID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::basicPID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::keeperPID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::keeperInterceptPID = pidVals(0.0, 0.0, 0.0);
+pidVals Output::shotControllerPID = pidVals(0.0, 0.0, 0.0);
+
 
 rtt::Vector2 Output::markerPosition = {0, 0}; // initialize on middle of the field
 bool Output::useRefereeCommands = false;
@@ -149,6 +151,12 @@ void Output::setInterfaceGameState(GameState interfaceGameState) {
     // keep the keeper the same
     interfaceGameState.keeperId = Output::interfaceGameState.keeperId;
     Output::interfaceGameState = interfaceGameState;
+}
+const pidVals &Output::getShotControllerPID() {
+    return shotControllerPID;
+}
+void Output::setShotControllerPID(const pidVals &shotControllerPID) {
+    Output::shotControllerPID = shotControllerPID;
 }
 
 const pidVals &Output::getKeeperPid() {

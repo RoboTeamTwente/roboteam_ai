@@ -23,7 +23,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
     auto ball = world::world->getBall();
 
     // only get a new geneva state if we are allowed to get one
-    bool robotAlreadyVeryClose = robot.pos.dist(ball->pos) < 3.0*Constants::ROBOT_RADIUS();
+    bool robotAlreadyVeryClose = (robot.pos - ball->pos).length() < 3.0*Constants::ROBOT_RADIUS();
     int currentDesiredGeneva = robot.getGenevaState();
 
     if (useAutoGeneva && robot.hasWorkingGeneva() && ! genevaIsTurning && ! robotAlreadyVeryClose) {
@@ -34,9 +34,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
         currentDesiredGeneva = 3;
     }
 
-    Vector2 futureBallPos = ball->pos;
-    Vector2 behindBallPosition =
-            futureBallPos + getPlaceBehindBallForGenevaState(robot, aimTarget, currentDesiredGeneva);
+    Vector2 behindBallPosition = ball->pos + getPlaceBehindBallForGenevaState(robot, aimTarget, currentDesiredGeneva);
 
     // make a line, on which we can drive straight to it
 
@@ -60,16 +58,20 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
         else {
             isShooting = true;
 
+            shotData = moveStraightToBall(robot, lineToDriveOver);
+            bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
             if (robot.hasWorkingBallSensor()) {
-                shotData = shoot(robot, lineToDriveOver, aimTarget, chip, ballspeed);
-            } else {
-                shotData = shootWithoutBallSensor(robot, lineToDriveOver, aimTarget, chip, ballspeed);
+                shotData = shoot(shotData, robot, lineToDriveOver, aimTarget, chip, ballspeed);
+            }
+            else if (hasBall) {
+                shotData = shoot(shotData, robot, lineToDriveOver, aimTarget, chip, ballspeed);
+                shotData.vel = shotData.vel.stretchToLength(0.1); // lower speed to kick to ball correctly
             }
         }
     }
     else {
         isShooting = false;
-        shotData = goToPlaceBehindBall(robot, lineToDriveOver.first + ball->vel*0.2, lineToDriveOver, currentDesiredGeneva);
+        shotData = goToPlaceBehindBall(robot, lineToDriveOver.first, lineToDriveOver, currentDesiredGeneva);
     }
 
     interface::Input::drawData(interface::Visual::SHOTLINES, {ball->pos, aimTarget}, Qt::yellow, robot.id,
@@ -77,7 +79,8 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
     interface::Input::drawData(interface::Visual::DEBUG, {lineToDriveOver.first, lineToDriveOver.second}, Qt::red,
             robot.id, interface::Drawing::LINES_CONNECTED);
     // Make sure the Geneva state is always correct
-    shotData.geneva = currentDesiredGeneva;
+//    shotData.geneva = currentDesiredGeneva;
+    shotData.geneva = 1;
     return shotData;
 }
 
@@ -95,7 +98,7 @@ bool ShotController::onLineToBall(const world::Robot &robot, const std::pair<Vec
         ShotPrecision precision) {
     double dist = ControlUtils::distanceToLine(robot.pos, line.first, line.second);
     if (precision == HIGH) {
-        return dist < 0.04;
+        return dist < 0.03;
     }
     else if (precision == MEDIUM) {
         return dist < 0.05;
@@ -104,50 +107,71 @@ bool ShotController::onLineToBall(const world::Robot &robot, const std::pair<Vec
 }
 
 /// return the place behind the ball targeted towards the ball target position
-Vector2 ShotController::getPlaceBehindBall(const world::Robot& robot, const Vector2& shotTarget) {
-    auto ball = world::world->getBall();
-    Vector2 preferredShotVector = ball->pos - shotTarget;
-    double distanceBehindBall = 2.0*Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
-    return ball->pos + preferredShotVector.stretchToLength(distanceBehindBall);
+Vector2 ShotController::getPlaceBehindBall(const world::Robot &robot, const Vector2 &shotTarget) {
+    Vector2 ballPos = world::world->getBall()->pos;
+    Vector2 preferredShotVector = ballPos - shotTarget;
+    double distanceBehindBall = 2.5 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
+    return ballPos + preferredShotVector.stretchToLength(distanceBehindBall);
 }
 
 /// use Numtree GTP to go to a place behind the ball
-RobotCommand ShotController::goToPlaceBehindBall(world::Robot robot, const Vector2& robotTargetPosition,
-        const std::pair<Vector2, Vector2>& line, int geneva) {
+RobotCommand ShotController::goToPlaceBehindBall(const world::Robot &robot, const Vector2 &robotTargetPosition,
+        const std::pair<Vector2, Vector2> &line, int geneva) {
 
-    auto ball = world::world->getBall();
-
-       Vector2 aimAt = updateGenevaAimTarget(geneva);
-    auto shotData = robot.getBallHandlePosControl()->getRobotCommand(std::make_shared<world::Robot>(robot), aimAt, robot.angle, control::BallHandlePosControl::TravelStrategy::FORWARDS);
+    Vector2 genevaAimTarget = updateGenevaAimTarget(geneva);
+    auto shotData = robot.getBallHandlePosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
+            genevaAimTarget, robot.angle, control::BallHandlePosControl::TravelStrategy::FORWARDS);
 
     //TODO: if (rotating to this angle from current angle will hit ball) then pva.angle=angle towards ball
-    if ((robot.pos - robotTargetPosition).length() < 0.3) {
+    if ((robot.pos - robotTargetPosition).length() < 0.2) {
         shotData.angle = (line.second - line.first).toAngle();
     }
+
+    if (shotData.vel.length() < 0.15) {
+        shotData.vel = shotData.vel.stretchToLength(0.15);
+    }
+
     return shotData;
 }
 
 /// At this point we should be behind the ball. now we can move towards the ball to kick it.
 RobotCommand ShotController::moveStraightToBall(world::Robot robot, const std::pair<Vector2, Vector2>& lineToDriveOver) {
-    auto robotCommand = robot.getBasicPosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
-            lineToDriveOver.second);
-    robotCommand.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
-    RobotCommand shotData(robotCommand);
-    return shotData;
+    /*
+     * Moving straight to the ball should be possible by driving forward at a small velocity as soon as you are at the
+     * point behind the ball. That is, under normal circumstances. If one if the wheels resists more than the others,
+     * the robot might drift and miss the ball. To solve that issue, a PID controller is used to pull the robot towards
+     * the line behind the ball.
+     */
+
+    RobotCommand robotCommand;
+
+    Vector2 vel = (lineToDriveOver.second - lineToDriveOver.first).stretchToLength(0.3); // small constant velocity along the lineToDriveOver
+    Vector2 lineUnitVector = (lineToDriveOver.second - lineToDriveOver.first).normalize(); // unit vector in the direction of the lineToDriveOver
+
+    Vector2 projection = robot.pos.project(lineToDriveOver.first, lineToDriveOver.second);
+    Vector2 err = projection - robot.pos;
+
+    // check on which side of the line the robot is
+    double angle = ((robot.pos - lineToDriveOver.first).toAngle() - lineUnitVector.toAngle());
+    double sign = angle == 0 ? 1 : angle/abs(angle);
+
+    // use PID to compensate for the error with respect to the line
+    //auto newPid = interface::Output::getNumTreePid();
+    auto newPidValues = interface::Output::getShotControllerPID();
+    updatePid(newPidValues);
+    double pidOutput = pid.getOutput(err.length() * sign, 0);
+
+    robotCommand.vel = vel + err.stretchToLength(abs(pidOutput));
+//    robotCommand.vel = robotCommand.vel.stretchToLength(robotCommand.vel.length() > 0.3 ? 0.3 : 1);
+    robotCommand.angle = (lineToDriveOver.second - lineToDriveOver.first).toAngle();
+    return robotCommand;
 }
 
 /// Now we should have the ball and kick it.
-RobotCommand ShotController::shoot(world::Robot robot, const std::pair<Vector2, Vector2>& driveLine, const Vector2& shotTarget, bool chip,
+RobotCommand ShotController::shoot(RobotCommand shotData, world::Robot robot, const std::pair<Vector2, Vector2>& driveLine, const Vector2& shotTarget, bool chip,
         BallSpeed desiredBallSpeed) {
 
     auto ball = world::world->getBall();
-
-    // move towards the ball
-    auto robotCommand = robot.getBasicPosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
-            driveLine.second);
-    robotCommand.angle = (driveLine.second - driveLine.first).angle();
-
-    RobotCommand shotData(robotCommand);
 
     // set the kicker and kickforce
     if (chip) {
@@ -155,12 +179,12 @@ RobotCommand ShotController::shoot(world::Robot robot, const std::pair<Vector2, 
         shotData.kicker = false;
 
         // TODO calibrate chip speed
-        shotData.kickerVel = determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
+        shotData.kickerVel = 6;//determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
     }
     else {
         shotData.chipper = false;
         shotData.kicker = true;
-        shotData.kickerVel = determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
+        shotData.kickerVel = 6;//determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
     }
     shotData.kickerForced = !robot.hasWorkingBallSensor();
     return shotData;
@@ -255,34 +279,26 @@ int ShotController::determineOptimalGenevaState(const world::Robot& robot, const
     return 3;
 }
 
-RobotCommand ShotController::shootWithoutBallSensor(const world::Robot& robot, const std::pair<Vector2, Vector2> &driveLine,
-                                       const Vector2 &shotTarget, bool chip, BallSpeed desiredBallSpeed) {
-
-    bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
-    if (hasBall) {
-        return shoot(robot, driveLine, shotTarget, chip, desiredBallSpeed);
-    } else {
-        return moveStraightToBall(robot, driveLine);
-    }
-}
-
-
 Vector2 ShotController::updateGenevaAimTarget(int geneva) {
-    auto ball = world::world->getBall();
-    Vector2 ballToAimTarget = aimTarget - ball->pos;
+    Vector2 ballPos = world::world->getBall()->pos;
+    Vector2 ballToAimTarget = aimTarget - ballPos;
 
     switch (geneva) {
-        case 1: return ball->pos + ballToAimTarget.rotate(toRadians(20));
-        case 2: return ball->pos + ballToAimTarget.rotate(toRadians(10));
-        case 3: return ball->pos + ballToAimTarget;
-        case 4: return ball->pos + ballToAimTarget.rotate(- toRadians(10));
-        case 5: return ball->pos + ballToAimTarget.rotate(- toRadians(20));
-        default:return ball->pos + ballToAimTarget;
+        case 1: return ballPos + ballToAimTarget.rotate(toRadians(20));
+        case 2: return ballPos + ballToAimTarget.rotate(toRadians(10));
+        case 3: return ballPos + ballToAimTarget;
+        case 4: return ballPos + ballToAimTarget.rotate(- toRadians(10));
+        case 5: return ballPos + ballToAimTarget.rotate(- toRadians(20));
+        default:return ballPos + ballToAimTarget;
     }
 }
 
-
-
+void ShotController::updatePid(pidVals pidValues) {
+    if (lastPid != pidValues) {
+        pid.setPID(pidValues);
+        lastPid = pidValues;
+    }
+}
 
 }// control
 } // ai

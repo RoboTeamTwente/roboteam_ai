@@ -35,7 +35,7 @@ class BallHandlePosControl : public NumTreePosControl {
         const double maxBallDistance = Constants::ROBOT_RADIUS()*2.0;
         const double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
         const double minVelForMovingball = 0.16;
-        double ballPlacementAccuracy = 0.04;
+        double ballPlacementAccuracy = 0.07;
 
         RobotPtr robot;
         BallPtr ball;
@@ -43,7 +43,15 @@ class BallHandlePosControl : public NumTreePosControl {
         Angle targetAngle;
         Angle lockedAngle = 0;
 
+        pidfVals pidfBallHandle = std::make_tuple(0.1, 0.0, 0.0, 0.8);
+        pidfVals pidfGoToBall = std::make_tuple(1.0, 0.0, 0.25, 1.0);
+        PID xGoToBallPID = PID(pidfBallHandle);
+        PID yGoToBallPID = PID(pidfBallHandle);
+        PID xBallHandlePID = PID(pidfBallHandle);
+        PID yBallHandlePID = PID(pidfBallHandle);
     public:
+        RobotCommand updatePID(PID &xpid, PID &ypid, const RobotCommand &robotCommand);
+
         enum TravelStrategy : short {
           FORWARDS,
           BACKWARDS,

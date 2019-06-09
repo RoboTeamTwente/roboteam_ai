@@ -170,9 +170,9 @@ void Ball::updateBallPosition(const Ball &oldBall, const WorldData &worldData) {
 void Ball::updateExpectedPositionWhereBallIsStill(const Ball &oldBall, const WorldData &worldData) {
     auto ball = worldData.ball;
     double ballVel = ball->vel.length();
-    const double frictionCoefficient = 1.22;
+    const double frictionCoefficient = Constants::GRSIM() ? 1.22 : 0.61;
 
-    Vector2 expectedBallStillPosition = ball->pos + ball->vel.stretchToLength(ballVel*ballVel / frictionCoefficient);
+    Vector2 expectedBallStillPosition = ball->pos + ball->vel.stretchToLength(ballVel*ballVel/frictionCoefficient);
     const Vector2 &previousBallStillPosition = oldBall.getBallStillPosition();
 
     double ballStillPositionDifference = (expectedBallStillPosition - previousBallStillPosition).length();
@@ -185,7 +185,35 @@ void Ball::updateExpectedPositionWhereBallIsStill(const Ball &oldBall, const Wor
             interface::Drawing::CIRCLES, 8, 8, 6);
 
     interface::Input::drawData(interface::Visual::BALL_DATA, {pos, ballStillPosition}, Constants::BALL_COLOR(), - 1,
-            interface::Drawing::LINES_CONNECTED, 8, 8, 6);
+            interface::Drawing::LINES_CONNECTED);
+
+    //TODO: Add ball-robot collision detection and rebounce direction
+    //      Do not remove the comments, it's a failed attempt but keep it :) tyty <3
+//
+//    LineSegment ballLine = LineSegment(pos, ballStillPosition);
+//    double collisionDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
+//    for (auto &robot : world::world->getAllRobots()) {
+//        Vector2 projection = ballLine.project(robot->pos);
+//        if ((projection - robot->pos).length() < collisionDistance) {
+//            Vector2 collisionPosition = (pos*Constants::ROBOT_RADIUS() + robot->pos*Constants::BALL_RADIUS()) /
+//                            (Constants::BALL_RADIUS() + Constants::ROBOT_RADIUS());
+//
+//            Vector2 returnDirection = vel.x *
+//
+//
+//            double dampeningFactor = 0.6;
+//            double returnLineLength = 1;
+//            Vector2 collisionPoint = robot->pos + collisionAngle.toVector2(collisionDistance);
+//            Line returnLine = Line(collisionPoint,
+//                    collisionPoint + (ballLine.end - ballLine.start).rotate(returnAngle));
+//
+//            interface::Input::drawData(interface::Visual::BALL_DATA, {pos, robot->pos},
+//                    Qt::lightGray, - 1, interface::Drawing::LINES_CONNECTED);
+//            interface::Input::drawData(interface::Visual::BALL_DATA, {returnLine.start, returnLine.end},
+//                    Constants::BALL_COLOR(), - 1, interface::Drawing::LINES_CONNECTED);
+//        }
+//    }
+
 }
 
 const Vector2 &Ball::getBallStillPosition() const {

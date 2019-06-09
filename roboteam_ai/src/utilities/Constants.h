@@ -11,6 +11,7 @@ namespace rtt {
 namespace ai {
 
 typedef std::tuple<double, double, double> pidVals;
+typedef std::tuple<double, double, double, double> pidfVals;
 
 class Constants {
 
@@ -132,6 +133,8 @@ class Constants {
         static pidVals standardBasicPID();
         static pidVals standardKeeperPID();
         static pidVals standardKeeperInterceptPID();
+        static pidVals standardShotControllerPID();
+
     private:
         static bool isInitialized;
         static bool robotOutputTargetGrSim; // Don't use this value. use GRSIM() instead.
