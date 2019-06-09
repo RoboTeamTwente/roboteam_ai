@@ -24,9 +24,11 @@ const int MAXCOMPARISONS = 100;
 
 // constant variance estimates
 //posVar: the distrust in the pos observation
-//StateVar: the distrust in the current state
-//RandVar: the amount of expected random input
-//in the future data about them and us might be different so we made different variances
+//StateVar: the distrust in the initial state, which is the observation
+//RandVar: the distrust in the current state
+//in the future data about them and us might be different so we made different variances.
+// More trust in the model/state (higher Posvar compared to RandVar) leads to a smoother but slower signal
+// More trust in the observation (higher Randvar compared to PosVar) leads to a noiser but faster signal
 const float posVar_us = 2;
 const float stateVar_us = posVar_us;
 const float randVar_us = 1;
