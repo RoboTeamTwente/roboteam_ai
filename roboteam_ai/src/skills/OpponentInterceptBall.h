@@ -2,8 +2,8 @@
 // Created by rolf on 12/12/18.
 //
 
-#ifndef ROBOTEAM_AI_INTERCEPTBALL_H
-#define ROBOTEAM_AI_INTERCEPTBALL_H
+#ifndef ROBOTEAM_AI_OPPONENTINTERCEPTBALL_H
+#define ROBOTEAM_AI_OPPONENTINTERCEPTBALL_H
 
 #include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
 #include <roboteam_ai/src/control/BasicPosControl.h>
@@ -12,7 +12,7 @@
 namespace rtt {
 namespace ai {
 
-class InterceptBall : public Skill {
+class OpponentInterceptBall : public Skill {
 private:
 
     const double BALL_DEFLECTION_ANGLE = 30.0/180.0*M_PI;    // Angle at which a ball is considered 'deflected'
@@ -49,8 +49,10 @@ private:
     bool keeper;
     bool ballToGoal();
     bool ballInGoal();
+
+    Arc createKeeperArc();
 public:
-    explicit InterceptBall(string name, bt::Blackboard::Ptr blackboard);
+    explicit OpponentInterceptBall(string name, bt::Blackboard::Ptr blackboard);
     void sendMoveCommand(Vector2 targetPos);
     Status onUpdate() override;
     void onInitialize() override;
@@ -63,4 +65,4 @@ public:
 }
 }
 
-#endif //ROBOTEAM_AI_INTERCEPTBALL_H
+#endif //ROBOTEAM_AI_OPPONENTINTERCEPTBALL_H

@@ -28,7 +28,7 @@ bt::Node::Status DribbleForward::onUpdate() {
         return Status::Success;
     }
 
-    auto c = ballHandlePosControl.getRobotCommand(robot, targetPos, robot->angle);
+    auto c = ballHandlePosControl.getRobotCommand(robot, targetPos, robot->angle, control::BallHandlePosControl::FORWARDS);
     command = c.makeROSCommand();
 
     publishRobotCommand();

@@ -13,8 +13,13 @@ namespace rtt {
 namespace ai {
 
 class Attack : public Skill {
+private:
+    int maxRethink = 3;
+    int rethinks = 0;
+    Vector2 aimPoint;
 public:
     explicit Attack(string name, bt::Blackboard::Ptr blackboard);
+    void onInitialize() override;
     Status onUpdate() override;
 };
 

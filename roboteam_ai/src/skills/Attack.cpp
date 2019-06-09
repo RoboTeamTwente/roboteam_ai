@@ -20,6 +20,10 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
 }
 
+void Attack::onInitialize() {
+    rethinks = 0;
+}
+
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
@@ -30,7 +34,10 @@ bt::Node::Status Attack::onUpdate() {
         return Status::Running;
     }
 
-    Vector2 aimPoint = coach::g_offensiveCoach.getShootAtGoalPoint(ball->pos);
+    if(rethinks <= maxRethink) {
+        aimPoint = coach::g_offensiveCoach.getShootAtGoalPoint(ball->pos);
+    }
+
     auto shotData = robot->getShotController()->getRobotCommand(
             *robot, aimPoint, false, control::BallSpeed::MAX_SPEED, true, control::ShotPrecision::HIGH);
     command = shotData.makeROSCommand();

@@ -25,6 +25,7 @@
 #include "roboteam_ai/src/skills/RotateToAngle.h"
 #include "roboteam_ai/src/skills/gotopos/GoToPos.h"
 #include "roboteam_ai/src/skills/Keeper.h"
+#include "roboteam_ai/src/skills/OpponentKeeper.h"
 #include "roboteam_ai/src/skills/GetBall.h"
 #include "roboteam_ai/src/skills/Attack.h"
 #include "roboteam_ai/src/skills/SideAttacker.h"
@@ -42,6 +43,7 @@
 #include "roboteam_ai/src/skills/ReflectKick.h"
 #include "roboteam_ai/src/skills/InterceptRobot.hpp"
 #include "roboteam_ai/src/skills/InterceptBall.h"
+#include "roboteam_ai/src/skills/OpponentInterceptBall.h"
 #include "roboteam_ai/src/skills/CoachDefend.h"
 #include "roboteam_ai/src/skills/formations/PenaltyFormation.h"
 #include "roboteam_ai/src/skills/formations/FreeKickFormation.h"
@@ -66,6 +68,7 @@
 #include <roboteam_ai/src/conditions/WeHaveBall.h>
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
+#include <roboteam_ai/src/conditions/BallKickedToTheirGoal.h>
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
 #include <roboteam_ai/src/skills/formations/KickOffUsFormation.h>
 #include <roboteam_ai/src/skills/AvoidBall.h>
@@ -162,6 +165,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
 };
 
 std::vector<std::string> Switches::keeperJsonFiles = {
+        "opponent_keeper_default_tactic",
         "keeper_default_tactic",
         "keeper_halt_tactic",
         "keeper_avoid_tactic",
@@ -224,8 +228,10 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["Halt"] = std::make_shared<rtt::ai::Halt>(name, properties);
     map["Harass"] = std::make_shared<rtt::ai::Harass>(name, properties);
     map["InterceptBall"] = std::make_shared<rtt::ai::InterceptBall>(name, properties);
+    map["OpponentInterceptBall"] = std::make_shared<rtt::ai::OpponentInterceptBall>(name, properties);
     map["InterceptRobot"] = std::make_shared<rtt::ai::InterceptRobot>(name, properties);
     map["Keeper"] = std::make_shared<rtt::ai::Keeper>(name, properties);
+    map["OpponentKeeper"] = std::make_shared<rtt::ai::OpponentKeeper>(name, properties);
     map["Pass"] = std::make_shared<rtt::ai::Pass>(name, properties);
     map["Receive"] = std::make_shared<rtt::ai::Receive>(name, properties);
     map["RotateToAngle"] = std::make_shared<rtt::ai::RotateToAngle>(name, properties);
@@ -254,6 +260,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
 
     // conditions (alphabetic order)
     map["BallKickedToOurGoal"] = std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
+    map["BallKickedToTheirGoal"] = std::make_shared<rtt::ai::BallKickedToTheirGoal>(name, properties);
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
     map["BallNearOurGoalLineAndStill"] = std::make_shared<rtt::ai::BallNearOurGoalLineAndStill>(name, properties);
     map["CanPlay"] = std::make_shared<rtt::ai::CanPlay>(name, properties);
@@ -297,6 +304,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 
             // Keeper tactics
             {"keeper_default_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            {"opponent_keeper_default_tactic", {{"Keeper", robotType::CLOSE_TO_THEIR_GOAL}}},
             {"keeper_avoid_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
             {"keeper_halt_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
             {"keeper_time_out_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
