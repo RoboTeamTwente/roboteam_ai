@@ -47,8 +47,8 @@ bool Constants::SHOW_COACH_TIME_TAKEN() { return false; }
 bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
 bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
 
-bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return false; }
-bool Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO() { return false; }
+bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return true; }
+bool Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO() { return true; }
 
 double Constants::MAX_VEL_CMD() { return 8.191; }
 
@@ -172,8 +172,8 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
     workingGenevaRobots[7] = true;
     workingGenevaRobots[8] = true;
     workingGenevaRobots[9] = true;
-    workingGenevaRobots[10] = true;
-    workingGenevaRobots[11] = true;
+    workingGenevaRobots[10] = false;
+    workingGenevaRobots[11] = false;
     workingGenevaRobots[12] = true;
     workingGenevaRobots[13] = true;
     workingGenevaRobots[14] = true;
@@ -214,13 +214,13 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
     workingBallSensorRobots[2] = true;
     workingBallSensorRobots[3] = true;
     workingBallSensorRobots[4] = false;
-    workingBallSensorRobots[5] = true;
+    workingBallSensorRobots[5] = false;
     workingBallSensorRobots[6] = true;
     workingBallSensorRobots[7] = true;
     workingBallSensorRobots[8] = true;
     workingBallSensorRobots[9] = true;
-    workingBallSensorRobots[10] = false;
-    workingBallSensorRobots[11] = false;
+    workingBallSensorRobots[10] = true;
+    workingBallSensorRobots[11] = true;
     workingBallSensorRobots[12] = true;
     workingBallSensorRobots[13] = true;
     workingBallSensorRobots[14] = true;
