@@ -15,7 +15,7 @@ namespace control {
 
 /// return a ShotData (which contains data for robotcommands) for a specific robot to shoot at a specific target.
 RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &shotTarget, bool chip,
-        BallSpeed ballspeed, bool useAutoGeneva, ShotPrecision precision) {
+        BallSpeed ballspeed, bool useAutoGeneva, ShotPrecision precision, int fixedGeneva) {
     // we only allow the external command to change the target if we are not already shooting. Otherwise we use the previous command sent
     if (! isShooting) {
         aimTarget = shotTarget;
@@ -26,8 +26,13 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
     bool robotAlreadyVeryClose = (robot.pos - ball->pos).length() < 3.0*Constants::ROBOT_RADIUS();
     int currentDesiredGeneva = robot.getGenevaState();
 
-    if (useAutoGeneva && robot.hasWorkingGeneva() && robot.isGenevaReady() && ! robotAlreadyVeryClose) {
-        currentDesiredGeneva = determineOptimalGenevaState(robot, aimTarget);
+    if (robot.hasWorkingGeneva() && robot.isGenevaReady()) {
+        // If using fixed geneva, set it to that
+        if (fixedGeneva >= 1 && fixedGeneva <= 5) {
+            currentDesiredGeneva = fixedGeneva;
+        } else if (useAutoGeneva && !robotAlreadyVeryClose) {
+            currentDesiredGeneva = determineOptimalGenevaState(robot, aimTarget);
+        }
     }
 
     if (chip) {

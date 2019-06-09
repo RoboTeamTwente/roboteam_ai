@@ -95,8 +95,8 @@
           "etbmiha8t5qpc8d": {
             "id": "etbmiha8t5qpc8d",
             "properties": {
-              "type": "penalty",
-              "ROLE": "shooter"
+              "ROLE": "shooter",
+              "type": "penalty"
             },
             "title": "GoBehindBall"
           },
@@ -156,19 +156,9 @@
             },
             "title": "PenaltyFormation"
           },
-          "s82pupg2ogcbplm": {
-            "children": [
-              "etbmiha8t5qpc8d"
-            ],
-            "id": "s82pupg2ogcbplm",
-            "properties": {
-              "ROLE": "shooter"
-            },
-            "title": "MemSequence"
-          },
           "tja9vjm2z3m6ywl8": {
             "children": [
-              "s82pupg2ogcbplm"
+              "etbmiha8t5qpc8d"
             ],
             "id": "tja9vjm2z3m6ywl8",
             "name": "shooter",

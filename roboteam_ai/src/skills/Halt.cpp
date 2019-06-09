@@ -20,6 +20,7 @@ void Halt::onInitialize() {
 Halt::Status Halt::onUpdate() {
 
     // send slowing down command
+    command.geneva_state = 3;
     publishRobotCommand();
 
     // do not send a command
