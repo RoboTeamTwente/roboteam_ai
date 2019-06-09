@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_SLINGSHOT_H
 
 #include "Skill.h"
-#include "../control/positionControllers/BasicPosControl.h"
+#include "roboteam_ai/src/control/BasicPosControl.h"
 namespace rtt{
 namespace ai{
 class SlingShot : public Skill {

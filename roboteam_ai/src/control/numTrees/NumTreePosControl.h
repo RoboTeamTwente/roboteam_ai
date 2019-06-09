@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 
 #include <roboteam_ai/src/interface/api/Output.h>
-#include "roboteam_ai/src/control/positionControllers/BasicPosControl.h"
+#include "roboteam_ai/src/control/BasicPosControl.h"
 #include "PathPoint.h"
 #include "Collision.h"
 
@@ -46,6 +46,7 @@ class NumTreePosControl : public BasicPosControl {
         Collision getBallCollision(const PathPointer &point, const BallPtr &ball);
         Collision getFieldCollision(const PathPointer &point);
         Collision getDefenseAreaCollision(const PathPointer &point);
+        Collision getGoalCollision(const PathPointer &point);
 
         Collision currentCollisionWithRobot;
         Collision currentCollisionWithFinalTarget;

@@ -3,6 +3,14 @@
     "trees": [
       {
         "nodes": {
+          "03so9f4uazn8iha2": {
+            "id": "03so9f4uazn8iha2",
+            "properties": {
+              "ROLE": "c8",
+              "ticks": "120"
+            },
+            "title": "Halt"
+          },
           "0ihp8q8j6umvndmec": {
             "id": "0ihp8q8j6umvndmec",
             "properties": {
@@ -47,6 +55,18 @@
               "targetPos": "{0.6,0.6}"
             },
             "title": "GoToPos"
+          },
+          "7e49djqaiuq5ceo0": {
+            "children": [
+              "03so9f4uazn8iha2"
+            ],
+            "id": "7e49djqaiuq5ceo0",
+            "name": "halt_role",
+            "properties": {
+              "ROLE": "c8"
+            },
+            "role": "halt_role",
+            "title": "Role"
           },
           "87xcbi7is16nd": {
             "id": "87xcbi7is16nd",
@@ -163,7 +183,8 @@
               "bpnvy8zlo52erxh",
               "dl4pbkla30g10ui",
               "ktd3q0pj55lcvdk",
-              "w9gy19il9zrvt"
+              "w9gy19il9zrvt",
+              "7e49djqaiuq5ceo0"
             ],
             "id": "qqhyd6r2z63pcmisl",
             "properties": {
