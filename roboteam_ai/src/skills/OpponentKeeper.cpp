@@ -33,6 +33,7 @@ OpponentKeeper::Status OpponentKeeper::onUpdate() {
     if (ball->pos.x > 0) {
         auto attacker = world::world->getRobotClosestToPoint(ball->pos, world::OUR_ROBOTS);
         if (attacker && (ball->pos - attacker->pos).length() < MIN_ATTACKER_DIST) {
+            std::cout << "Keeper taking into account attacker" << std::endl;
             setGoalPosWithAttacker(attacker);
         }
     }
@@ -126,12 +127,14 @@ void OpponentKeeper::setGoalPosWithAttacker(RobotPtr attacker) {
             goal.second);
     Vector2 i2 = control::ControlUtils::twoLineIntersection(attackerAngleV2 + attacker->pos, attacker->pos, goal.first,
             goal.second);
-    Angle targetAngle = Vector2(attacker->pos - (i1 + i2)*0.5).toAngle();
+
+    Angle targetAngle = Vector2((i1 + i2)*0.5 - attacker->pos).toAngle();
     end = start + (Vector2) {distanceToGoal*1.2, 0}.rotate(targetAngle);
 
     auto field = world::field->get_field();
     Vector2 startGoal = {field.field_length/2, - field.goal_width/2};
     Vector2 endGoal = {field.field_length/2, field.goal_width/2};
+
     if (control::ControlUtils::lineSegmentsIntersect(start, end, startGoal, endGoal)) {
         goalPos = control::ControlUtils::twoLineIntersection(start, end, startGoal, endGoal);
     }
