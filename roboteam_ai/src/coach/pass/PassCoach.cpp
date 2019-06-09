@@ -4,6 +4,7 @@
 
 #include "PassCoach.h"
 #include "roboteam_ai/src/world/Field.h"
+#include "Pass.h"
 
 namespace rtt {
 namespace ai {
@@ -20,28 +21,12 @@ PassCoach::PassCoach() {
 }
 
 void PassCoach::resetPass(int robotID) {
-    if (robotID == robotBeingPassedTo || robotID == robotPassing || robotID == -1) {
-        passed = false;
-        readyToReceivePass = false;
-        robotPassing = - 1;
-        robotBeingPassedTo = - 1;
-
-        passTimerStarted = false;
-        receiveTimerStarted = false;
-    }
+   currentPass = nullptr;
 }
 
 int PassCoach::initiatePass(int passerID) {
-    // Check whether a pass is already in progress that is not taking too long yet
-    if (robotBeingPassedTo != -1) {
-        if(!passTakesTooLong()) {
-            return -1;
-        }
-    }
-    resetPass(-1);
+    Pass newPass;
 
-    passStartTime = std::chrono::steady_clock::now();
-    passTimerStarted = true;
 
     robotBeingPassedTo = determineReceiver(passerID);
     if (robotBeingPassedTo == -1) {
@@ -51,26 +36,6 @@ int PassCoach::initiatePass(int passerID) {
 
     robotPassing = passerID;
     return robotBeingPassedTo;
-}
-
-bool PassCoach::isReadyToReceivePass() {
-    return readyToReceivePass;
-}
-
-void PassCoach::setReadyToReceivePass(bool readyToReceivePass) {
-    this->readyToReceivePass = readyToReceivePass;
-}
-
-int PassCoach::getRobotBeingPassedTo() {
-    return robotBeingPassedTo;
-}
-
-void PassCoach::setRobotBeingPassedTo(int robotBeingPassedTo) {
-    this->robotBeingPassedTo = robotBeingPassedTo;
-}
-
-bool PassCoach::isPassed() {
-    return passed;
 }
 
 int PassCoach::determineReceiver(int passerID) {

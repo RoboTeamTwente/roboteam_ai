@@ -12,6 +12,9 @@
 
 namespace rtt {
 namespace ai {
+
+class Pass;
+
 namespace coach {
 
 class PassCoach {
@@ -20,6 +23,7 @@ public:
     using RobotPtr = std::shared_ptr<Robot>;
 
     PassCoach();
+
     void resetPass(int robotID);
     int initiatePass(int passerID);
     bool isReadyToReceivePass();
@@ -40,6 +44,8 @@ private:
 
     const double SMALLEST_MIN_PASS_DISTANCE = 10 * Constants::ROBOT_RADIUS();
     static double MIN_PASS_DISTANCE;
+
+    std::shared_ptr<Pass> currentPass;
 
     std::chrono::time_point<std::chrono::steady_clock> passStartTime;
     std::chrono::time_point<std::chrono::steady_clock> receiveStartTime;

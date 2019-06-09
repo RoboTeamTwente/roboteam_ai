@@ -10,15 +10,15 @@ namespace ai {
 
 // Pass between two robots, locations don't matter
 Pass::Pass(std::shared_ptr<world::Robot> passer, std::shared_ptr<world::Robot> receiver)
-        : passer(passer), receiver(receiver) {
+        : passer(std::move(passer)), receiver(std::move(receiver)) {
     locationBasedPass = false;
     passInitializedTime = ros::Time::now();
 }
 
 // pass where the ball should be aimed at a specific location
-Pass::Pass(std::shared_ptr<world::Robot> passer, std::shared_ptr<world::Robot> receiver, Vector2 endPos,
+Pass::Pass(std::shared_ptr<world::Robot> passer, std::shared_ptr<world::Robot> receiver, const Vector2& endPos,
            bool ballShouldLayStill)
-        : passer(passer), receiver(receiver), passEnd(endPos), ballShouldLayStill(ballShouldLayStill) {
+        : passer(std::move(passer)), receiver(std::move(receiver)), passEnd(endPos), ballShouldLayStill(ballShouldLayStill) {
     locationBasedPass = true;
     passInitializedTime = ros::Time::now();
 }
@@ -66,6 +66,19 @@ bool Pass::passSucceeded() {
 const Vector2 &Pass::getPassEnd() const {
     if (locationBasedPass) return passEnd;
     return receiver->pos;
+}
+
+bool Pass::isReceiverReady() const {
+    return receiverReady;
+}
+
+void Pass::setReceiverReady(bool receiverReady) {
+    Pass::receiverReady = receiverReady;
+}
+
+double Pass::getScore() {
+    coach::PassScore score;
+    return score.calculatePassScore(passer->pos);
 }
 
 } // ai
