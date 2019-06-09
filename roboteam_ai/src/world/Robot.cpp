@@ -106,29 +106,45 @@ const unsigned long Robot::getLastUpdatedWorldNumber() const {
     return lastUpdatedWorldNumber;
 }
 
-unsigned char Robot::getGenevaState() const {
+int Robot::getGenevaState() const {
     return genevaState;
 }
 
-void Robot::setGenevaState(unsigned char state) {
+void Robot::setGenevaState(int state) {
 
+    // if the state is the same (or with 0 it is specifically said to stay the same) don't do anything.
+    if (state == genevaState || state == 0) {
+        return;
+    }
+
+    // if the state is invalid
     if (state < 0 || state > 5) {
-        std::cout << "setting invalid geneva state (" << (int) state <<
-                  ") for robot with id " << id << std::endl;
+        std::cout << "setting invalid geneva state (" << (int) state << ") for robot with id " << id << std::endl;
+        return;
     }
-    else if (! workingGeneva) {
-        std::cout << "setting geneva state (" << (int) state <<
-                  ") for robot without working geneva with id " << id << std::endl;
+
+    // if the geneva does not work
+    if (! workingGeneva) {
+        std::cout << "setting geneva state (" << (int) state << ") for robot without working geneva with id " << id << std::endl;
+        return;
     }
-    else if (state != 0) {
-        previousGenevaState = genevaState;
-        genevaState = state;
-        timeGenevaChanged = world::world->getTime();
+
+    // if the geneva is turning currently
+    if (! isGenevaReady()) {
+        std::cout << "The geneva is not ready yet. for robot with id " << id << std::endl;
+        std::cout << "still turning for " << world->getTime() - timeGenevaChanged << " s" << std::endl;
+        std::cout << "turning from " << genevaState << " to " << state << std::endl;
+
+        return;
     }
+
+    previousGenevaState = genevaState;
+    genevaState = state;
+    timeGenevaChanged = world::world->getTime();
 }
 
 bool Robot::isGenevaReady() const {
-    return world->getTime() - timeGenevaChanged >
+    return world->getTime() - timeGenevaChanged >=
             abs(genevaState - previousGenevaState)*timeToChangeOneGenevaState;
 }
 
@@ -146,7 +162,7 @@ void Robot::setDribblerState(unsigned char dribbler) {
         std::cout << "setting invalid dribbler state (" << (int) dribbler <<
                   ") for robot with id " << id << std::endl;
     }
-    else if (! workingDribbler) {
+    else if (! workingDribbler && dribbler != 0) {
         std::cout << "setting dribbler state (" << (int) dribbler <<
                   ") for robot without working dribbler with id " << id << std::endl;
     }
@@ -223,6 +239,10 @@ bool Robot::hasWorkingBallSensor() const {
 
 void Robot::setHasWorkingBallSensor(bool hasWorkingBallSensor) {
     workingBallSensor = hasWorkingBallSensor;
+}
+
+void Robot::setTimeToChangeOneGenevaState(double timeToChangeOneGenevaState) {
+    Robot::timeToChangeOneGenevaState = timeToChangeOneGenevaState;
 }
 
 } //world
