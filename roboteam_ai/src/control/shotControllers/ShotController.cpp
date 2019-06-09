@@ -68,7 +68,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
             if (robot.hasWorkingBallSensor()) {
                 shotData = shoot(robot, lineToDriveOver, aimTarget, chip, ballspeed);
             } else {
-                shotData = shoot(robot, lineToDriveOver, aimTarget, chip, ballspeed);
+                shotData = shootWithoutBallSensor(robot, lineToDriveOver, aimTarget, chip, ballspeed);
             }
         }
     }
