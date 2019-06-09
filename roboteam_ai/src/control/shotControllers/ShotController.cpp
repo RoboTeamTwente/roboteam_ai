@@ -98,7 +98,7 @@ bool ShotController::onLineToBall(const world::Robot &robot, const std::pair<Vec
         ShotPrecision precision) {
     double dist = ControlUtils::distanceToLine(robot.pos, line.first, line.second);
     if (precision == HIGH) {
-        return dist < 0.03;
+        return dist < 0.02;
     }
     else if (precision == MEDIUM) {
         return dist < 0.05;
@@ -179,12 +179,12 @@ RobotCommand ShotController::shoot(RobotCommand shotData, world::Robot robot, co
         shotData.kicker = false;
 
         // TODO calibrate chip speed
-        shotData.kickerVel = 6;//determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
+        shotData.kickerVel = determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
     }
     else {
         shotData.chipper = false;
         shotData.kicker = true;
-        shotData.kickerVel = 6;//determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
+        shotData.kickerVel = determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
     }
     shotData.kickerForced = !robot.hasWorkingBallSensor();
     return shotData;
