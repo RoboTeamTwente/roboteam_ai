@@ -79,8 +79,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
     interface::Input::drawData(interface::Visual::DEBUG, {lineToDriveOver.first, lineToDriveOver.second}, Qt::red,
             robot.id, interface::Drawing::LINES_CONNECTED);
     // Make sure the Geneva state is always correct
-//    shotData.geneva = currentDesiredGeneva;
-    shotData.geneva = 1;
+    shotData.geneva = currentDesiredGeneva;
     return shotData;
 }
 
